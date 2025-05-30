@@ -1,68 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51E69219A70;
-	Fri, 30 May 2025 15:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0725E1B85FD
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 16:38:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748617592; cv=none; b=ofCJSHJF8p+2pr4Fi/eH6jvztX9mcBaIwUwVASTjGznOmWKORmdT9FUXPaaTkNyTPsCVltRfsvPwUtgVEyCBcgaTFYt/RXI5+HmJqspBSKYx0AR3pAu7LveqaZZPLDXSSZOfV7SNint+QDwhoFJUsJ3rmc+ePAbDTC18+ZKFSPM=
+	t=1748623122; cv=none; b=jlM/IHfFL6sZ1Ghjmrc/rUqdvgNqKr/XPbUxBgLbzTdVGTVdz9ho06bIolcQ34TnQ0AYfh04OPVortFfERGy9smCOPbZ3sTZSm+GJ2EAXZgREGV26MConjMSCSIaaOoFY5nHhyS8YUuj11xWmiIdrmCWm1eEVCyAra2UaCJ76fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748617592; c=relaxed/simple;
-	bh=ZCvmrxN0r+pSdIzQoEagLM/oBx7scbk+wpbnyKhTWFI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nb65heyEGBuSQKOBm7D9vQ7BIt4p1OZh+wUqPtCsKi1ZFFDr2vzwgbO4eS2QQSwcDWYhnvtrqsE4wkdnQNPUA7xcdXoNAilDQHjOuxwlYha7HriQ22tp5U8bybeA07E19RFO/YgLLEgL2eyQEZ96VbGX+hmMBwpzgsggr3gEUzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DeCLZUuh; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1748623122; c=relaxed/simple;
+	bh=msYl6mgdomYfoH/evHFB4EyDIne6WkmVWyixUYp7sxA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Qedw7pfbh1GPUTJSI6/elSBOT5zZnDp7RZ2jPwVljdWaDGpcFRBOgcKzCTJU4aRIRyM8AYYU99pJEX3UmU3g8U8eg72cXGzuRGZs3XQe6e5LQZHo5Z1ieVCOER2E97jVBQGTHjhngsPcfW+L3CE0eaRp6FyntmjtnllyvV6F248=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gkaWpvxd; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DeCLZUuh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gkaWpvxd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748617592; x=1780153592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZCvmrxN0r+pSdIzQoEagLM/oBx7scbk+wpbnyKhTWFI=;
-  b=DeCLZUuhHLsQHZtJK5owsr+yp/w6c44EjQ5PTzkh5XEnlLNtRaea3COe
-   5uuouwj+q/9/YkT3uwBrirI07Y7Mf7bxW2JgAIwcJLHJ4cNT+S/SHgrj8
-   rm3qTDtapUDFXhQ2HJL9k0GgWXH8RpQkViAFfJpJDSYfFEUDiRhw5Zzz0
-   VhqMqw6Rp3wb1zXVE4B02Gr8qzPsId0NQKyIQ2M1wp0BglYKz1GH9opNL
-   v1ji/KnsTZnq2obNkKjPmsDpU8qRtFk3rxwSIM2O+MCkJvCQsJ/gTf8Ge
-   NMvdcLE77uDriLv2iwJXlfHF4MC+7QeQND46cq5vwlmMMdkdmv3AQluea
-   w==;
-X-CSE-ConnectionGUID: 0p01rt2FRV2yrgaN+5Zfvw==
-X-CSE-MsgGUID: mV/PaNiPQP61BVjNldZ9Cg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="54511351"
+  t=1748623119; x=1780159119;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=msYl6mgdomYfoH/evHFB4EyDIne6WkmVWyixUYp7sxA=;
+  b=gkaWpvxdq0OG5M6YIPRBvsm/tuqJ/QmCGzuOOWKUQrGXCTUI12umWy6r
+   N07VEHntGqLlHT7kUX+a0vC0RYp26+RiMX/VfJFTJtTJ1VtN8S5TqTW7v
+   6N7ccnhDvC4oa6Jw3slPqLGGd+Vrc1MyglIP3SL4lczpooIGbcbZ1tgrv
+   MirBlZXftr4fN7Pg7QZ2/lybwYisrnH9fmZoPMQTj3CAaQYXv3u/RNxE0
+   B9sVkeOtBLFe1Ic0YHEVKZC9k3ze4dSPbR8I6BoL1jiA02nMCna1gJ534
+   g/qThX82K+5A+cwVx3Pc4R1Sx17ZO2anztzvGDgN9odbqkl8HmDqeziAU
+   A==;
+X-CSE-ConnectionGUID: QfHK7mHzS5C+QyOH4bM4IA==
+X-CSE-MsgGUID: VKcUSwFCQeCuqhv13LOOhA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="49842180"
 X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
-   d="scan'208";a="54511351"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 08:06:31 -0700
-X-CSE-ConnectionGUID: hsejwFi4S9+9nDb9Y6uGBw==
-X-CSE-MsgGUID: Qd5osiNhSbaf69bqLl4g8w==
+   d="scan'208";a="49842180"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 09:38:38 -0700
+X-CSE-ConnectionGUID: uff4cpRPRi2ajnle0hBDsQ==
+X-CSE-MsgGUID: njj5tU5+RjGTDseOE7il8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
-   d="scan'208";a="143735986"
+   d="scan'208";a="144892034"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 30 May 2025 08:06:27 -0700
+  by orviesa008.jf.intel.com with ESMTP; 30 May 2025 09:38:36 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uL1JR-000Xic-0p;
-	Fri, 30 May 2025 15:06:25 +0000
-Date: Fri, 30 May 2025 23:06:24 +0800
+	id 1uL2kc-000XoG-19;
+	Fri, 30 May 2025 16:38:34 +0000
+Date: Sat, 31 May 2025 00:38:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Adrian Hunter <adrian.hunter@intel.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Haibo Chen <haibo.chen@nxp.com>,
-	Aubin Constans <aubin.constans@microchip.com>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Karel Balej <balejk@matfyz.cz>, Ben Dooks <ben-linux@fluff.org>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Hu Ziji <huziji@marvell.com>, Judith Mendez <jm@ti.com>,
-	Andrew Davis <afd@ti.com>, linux-mmc@vger.kernel.org
-Subject: Re: [PATCH] mmc: sdhci: Return void from
- sdhci_runtime_suspend_host() and sdhci_runtime_resume_host()
-Message-ID: <202505302212.ZprBxoVy-lkp@intel.com>
-References: <20250530122018.37250-1-adrian.hunter@intel.com>
+To: Julien Massot <julien.massot@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Subject: [linux-next:master 11491/13944]
+ arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@15110000
+ (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' does not match any of the
+ regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202505310032.U32J7l8z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,84 +64,365 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250530122018.37250-1-adrian.hunter@intel.com>
 
-Hi Adrian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on ulf-hansson-mmc-mirror/next v6.15 next-20250530]
-[cannot apply to shawnguo/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Adrian-Hunter/mmc-sdhci-Return-void-from-sdhci_runtime_suspend_host-and-sdhci_runtime_resume_host/20250530-202113
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250530122018.37250-1-adrian.hunter%40intel.com
-patch subject: [PATCH] mmc: sdhci: Return void from sdhci_runtime_suspend_host() and sdhci_runtime_resume_host()
-config: i386-buildonly-randconfig-002-20250530 (https://download.01.org/0day-ci/archive/20250530/202505302212.ZprBxoVy-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250530/202505302212.ZprBxoVy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2a628f951ed54c30a232230b5b58349d2a8dbb11
+commit: cf57ec7b9fc546bd233427df5d8f0c6ab1ea3997 [11491/13944] arm64: dts: mediatek: mt8188: Add missing #reset-cells property
+config: arm64-randconfig-052-20250529 (https://download.01.org/0day-ci/archive/20250531/202505310032.U32J7l8z-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+dtschema version: 2025.3.dev27+g32749b3
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250531/202505310032.U32J7l8z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505302212.ZprBxoVy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505310032.U32J7l8z-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/mmc/host/sdhci-esdhc-imx.c:2103:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    2103 |         if (host->mmc->caps2 & MMC_CAP2_CQE) {
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/sdhci-esdhc-imx.c:2123:9: note: uninitialized use occurs here
-    2123 |         return ret;
-         |                ^~~
-   drivers/mmc/host/sdhci-esdhc-imx.c:2103:2: note: remove the 'if' if its condition is always true
-    2103 |         if (host->mmc->caps2 & MMC_CAP2_CQE) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/sdhci-esdhc-imx.c:2101:9: note: initialize the variable 'ret' to silence this warning
-    2101 |         int ret;
-         |                ^
-         |                 = 0
-   1 warning generated.
-
-
-vim +2103 drivers/mmc/host/sdhci-esdhc-imx.c
-
-04143fbaeb5799 Dong Aisheng      2016-07-12  2094  
-2788ed42cdd755 Ulf Hansson       2016-07-27  2095  #ifdef CONFIG_PM
-89d7e5c131228a Dong Aisheng      2013-11-04  2096  static int sdhci_esdhc_runtime_suspend(struct device *dev)
-89d7e5c131228a Dong Aisheng      2013-11-04  2097  {
-89d7e5c131228a Dong Aisheng      2013-11-04  2098  	struct sdhci_host *host = dev_get_drvdata(dev);
-89d7e5c131228a Dong Aisheng      2013-11-04  2099  	struct sdhci_pltfm_host *pltfm_host = sdhci_priv(host);
-070e6d3ff5a696 Jisheng Zhang     2016-02-16  2100  	struct pltfm_imx_data *imx_data = sdhci_pltfm_priv(pltfm_host);
-89d7e5c131228a Dong Aisheng      2013-11-04  2101  	int ret;
-89d7e5c131228a Dong Aisheng      2013-11-04  2102  
-bb6e358169bf62 BOUGH CHEN        2019-01-07 @2103  	if (host->mmc->caps2 & MMC_CAP2_CQE) {
-bb6e358169bf62 BOUGH CHEN        2019-01-07  2104  		ret = cqhci_suspend(host->mmc);
-bb6e358169bf62 BOUGH CHEN        2019-01-07  2105  		if (ret)
-bb6e358169bf62 BOUGH CHEN        2019-01-07  2106  			return ret;
-bb6e358169bf62 BOUGH CHEN        2019-01-07  2107  	}
-bb6e358169bf62 BOUGH CHEN        2019-01-07  2108  
-5ef4a6a3b9ceac Adrian Hunter     2025-05-30  2109  	sdhci_runtime_suspend_host(host);
-89d7e5c131228a Dong Aisheng      2013-11-04  2110  
-d38dcad4e7b48f Adrian Hunter     2017-03-20  2111  	if (host->tuning_mode != SDHCI_TUNING_MODE_3)
-d38dcad4e7b48f Adrian Hunter     2017-03-20  2112  		mmc_retune_needed(host->mmc);
-d38dcad4e7b48f Adrian Hunter     2017-03-20  2113  
-3602785b341a95 Michael Trimarchi 2018-01-04  2114  	imx_data->actual_clock = host->mmc->actual_clock;
-3602785b341a95 Michael Trimarchi 2018-01-04  2115  	esdhc_pltfm_set_clock(host, 0);
-89d7e5c131228a Dong Aisheng      2013-11-04  2116  	clk_disable_unprepare(imx_data->clk_per);
-89d7e5c131228a Dong Aisheng      2013-11-04  2117  	clk_disable_unprepare(imx_data->clk_ipg);
-89d7e5c131228a Dong Aisheng      2013-11-04  2118  	clk_disable_unprepare(imx_data->clk_ahb);
-89d7e5c131228a Dong Aisheng      2013-11-04  2119  
-1c4989b000aeac BOUGH CHEN        2019-04-29  2120  	if (imx_data->socdata->flags & ESDHC_FLAG_PMQOS)
-d1b98305916bc0 Rafael J. Wysocki 2020-02-12  2121  		cpu_latency_qos_remove_request(&imx_data->pm_qos_req);
-1c4989b000aeac BOUGH CHEN        2019-04-29  2122  
-89d7e5c131228a Dong Aisheng      2013-11-04  2123  	return ret;
-89d7e5c131228a Dong Aisheng      2013-11-04  2124  }
-89d7e5c131228a Dong Aisheng      2013-11-04  2125  
+dtcheck warnings: (new ones prefixed by >>)
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@15620000 (mediatek,mt8188-imgsys-wpe3): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@1604f000 (mediatek,mt8188-camsys-rawa): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@1606f000 (mediatek,mt8188-camsys-yuva): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@1608f000 (mediatek,mt8188-camsys-rawb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@160af000 (mediatek,mt8188-camsys-yuvb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+--
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@15620000 (mediatek,mt8188-imgsys-wpe3): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@1604f000 (mediatek,mt8188-camsys-rawa): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@1606f000 (mediatek,mt8188-camsys-yuva): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@1608f000 (mediatek,mt8188-camsys-rawb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku0.dtb: clock-controller@160af000 (mediatek,mt8188-camsys-yuvb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+--
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@15620000 (mediatek,mt8188-imgsys-wpe3): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@1604f000 (mediatek,mt8188-camsys-rawa): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@1606f000 (mediatek,mt8188-camsys-yuva): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@1608f000 (mediatek,mt8188-camsys-rawb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku1.dtb: clock-controller@160af000 (mediatek,mt8188-camsys-yuvb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+--
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@15620000 (mediatek,mt8188-imgsys-wpe3): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@1604f000 (mediatek,mt8188-camsys-rawa): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@1606f000 (mediatek,mt8188-camsys-yuva): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@1608f000 (mediatek,mt8188-camsys-rawb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku2.dtb: clock-controller@160af000 (mediatek,mt8188-camsys-yuvb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+--
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@15620000 (mediatek,mt8188-imgsys-wpe3): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@1604f000 (mediatek,mt8188-camsys-rawa): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@1606f000 (mediatek,mt8188-camsys-yuva): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@1608f000 (mediatek,mt8188-camsys-rawb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku3.dtb: clock-controller@160af000 (mediatek,mt8188-camsys-yuvb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+--
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@15620000 (mediatek,mt8188-imgsys-wpe3): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@1604f000 (mediatek,mt8188-camsys-rawa): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@1606f000 (mediatek,mt8188-camsys-yuva): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@1608f000 (mediatek,mt8188-camsys-rawb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku4.dtb: clock-controller@160af000 (mediatek,mt8188-camsys-yuvb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+--
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@15620000 (mediatek,mt8188-imgsys-wpe3): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@1604f000 (mediatek,mt8188-camsys-rawa): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@1606f000 (mediatek,mt8188-camsys-yuva): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@1608f000 (mediatek,mt8188-camsys-rawb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku5.dtb: clock-controller@160af000 (mediatek,mt8188-camsys-yuvb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+--
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@15620000 (mediatek,mt8188-imgsys-wpe3): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@1604f000 (mediatek,mt8188-camsys-rawa): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@1606f000 (mediatek,mt8188-camsys-yuva): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@1608f000 (mediatek,mt8188-camsys-rawb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku6.dtb: clock-controller@160af000 (mediatek,mt8188-camsys-yuvb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+--
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@15620000 (mediatek,mt8188-imgsys-wpe3): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@1604f000 (mediatek,mt8188-camsys-rawa): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@1606f000 (mediatek,mt8188-camsys-yuva): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@1608f000 (mediatek,mt8188-camsys-rawb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-geralt-ciri-sku7.dtb: clock-controller@160af000 (mediatek,mt8188-camsys-yuvb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+--
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@15620000 (mediatek,mt8188-imgsys-wpe3): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@1604f000 (mediatek,mt8188-camsys-rawa): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@1606f000 (mediatek,mt8188-camsys-yuva): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@1608f000 (mediatek,mt8188-camsys-rawb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: clock-controller@160af000 (mediatek,mt8188-camsys-yuvb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: /soc/dsi@1c008000/panel@0: failed to match any schema with compatible: ['startek,kd070fhfid078', 'himax,hx8279']
+   arch/arm64/boot/dts/mediatek/mt8370-genio-510-evk.dtb: /soc/dsi@1c008000/panel@0: failed to match any schema with compatible: ['startek,kd070fhfid078', 'himax,hx8279']
+--
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f1e000 (mediatek,mt8188-mdp3-color): 'oneOf' conditional failed, one must be fixed:
+   	'interrupts' is a required property
+   	'interrupts-extended' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,color.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f24000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: display@14f25000 (mediatek,mt8188-mdp3-wrot): '#dma-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/media/mediatek,mdp3-wrot.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@15110000 (mediatek,mt8188-imgsys1-dip-top): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@15130000 (mediatek,mt8188-imgsys1-dip-nr): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@15220000 (mediatek,mt8188-imgsys-wpe1): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@15330000 (mediatek,mt8188-ipesys): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@15520000 (mediatek,mt8188-imgsys-wpe2): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@15620000 (mediatek,mt8188-imgsys-wpe3): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@1604f000 (mediatek,mt8188-camsys-rawa): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@1606f000 (mediatek,mt8188-camsys-yuva): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@1608f000 (mediatek,mt8188-camsys-rawb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@160af000 (mediatek,mt8188-camsys-yuvb): '#reset-cells' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8188-clock.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/dsi@1c008000/panel@0: failed to match any schema with compatible: ['startek,kd070fhfid078', 'himax,hx8279']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/dsi@1c008000/panel@0: failed to match any schema with compatible: ['startek,kd070fhfid078', 'himax,hx8279']
 
 -- 
 0-DAY CI Kernel Test Service
