@@ -1,58 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A3D156F3C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 13:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0454D230BF2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 14:25:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748611988; cv=none; b=ABe38MwvPturXhoT6oxxxTFDomDEfQE3yy/PF83vacEZczrfxkZuJoBMhQ8+bM+05gxc5g2C3zxnFNogvyPfhPe59I3K7RJLskEd6yOqqFakaLARA0Np5616KJ3Uar1QRLH91QBu7YlOH/yII434/RQ9gU2PoaTTkaixkAKYfqg=
+	t=1748615132; cv=none; b=cDI6g/4Kc6xQRK1Z+r1+6Mvc0QRc8HSoz47YNTsmdjNozdZulZgHyretzDbKr3wib9jSOMywRicOtoVnuwOm/+RKzywOM0rKR1BJ7GCaYAyMI5gYGTnVo/UN+B2X26CE9wGTmAsh8ZCT2TfCMRD12BJsHjwVCNnYMPcqQJ2sZik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748611988; c=relaxed/simple;
-	bh=xNGyWtjm8Q9hnyQmRofbh1TXuEumlzZ9M4VGH5XPnZY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=sYNmbAgcnlYB7y+rIfrPBwUOAhun3lE7i/eCgx5Zz5AAqC+x2BLLcev6mRNoKN8IyAIzSExY8Hv7MVP359WTo40Vi5dyGaRWtQb1sxVvbtZbm4mqwFNxX8+0b8V5twpvd7eqQsAEC2PIHiF1ggjupltRl0s4CHWWsL4CW6YCA5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FDawere6; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1748615132; c=relaxed/simple;
+	bh=ebhvap3uGIXeOkgxbWkbzYk5e87c3HNY7AXyqp6Ao+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HkOU64LxwNf4ERo8phny8onLe36E6Ex0Vu6alXBTznTdKjY2xxXrrmh1sxJkZaAUnmT64aN6kV34Yz/2qPSKZKavKM6Ir4v0u76kyufugymH8QEB49mc7jYJZg2rP0Rnsw/WJvV3w2jwEYdj5CDGQhDrG3Fvj1qjfk1KYb677Ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LtQ3nWmW; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FDawere6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LtQ3nWmW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748611987; x=1780147987;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xNGyWtjm8Q9hnyQmRofbh1TXuEumlzZ9M4VGH5XPnZY=;
-  b=FDawere6n684tfpKsfThUwMjH+vEitG/1YqA6RyM+lYNEs0Eox5dDTzz
-   34TCwQ6kUepih0W1CVNzXBtY5dEY4fk3Corq5clSgdyIOG7X6ZRJsu2AE
-   DtGmf/nYMQCBXvfqajcL3L+LLA7tU7jdqhqZ+lVT012l8ofYQ/fKnRy5v
-   8ekBm2Ud6EFPy7Xgr02jqq8pDd0XhBqfcxX6OJIF6GSXkUzcCzyp3ueK5
-   fL79/1E7VaksWh1kLtnc6noZzUozVNS6JLf7nCOc0NG/qVJrC4ghiUt1W
-   sIY49EvA7FHdHcZNS+YNVx9+n6KTntRGGvaUAmWJQ/5l0dqlcPsPCZogT
-   g==;
-X-CSE-ConnectionGUID: HUDzjSiURxWSzJssc4nDhw==
-X-CSE-MsgGUID: 7PXRcNgoRayXOebhNqkfhQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="68129791"
-X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; 
-   d="scan'208";a="68129791"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 06:33:06 -0700
-X-CSE-ConnectionGUID: CT6BtKkVTW+dfnqrVY3MTA==
-X-CSE-MsgGUID: SmNdTIASRfuXQdARVVnMhg==
+  t=1748615131; x=1780151131;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ebhvap3uGIXeOkgxbWkbzYk5e87c3HNY7AXyqp6Ao+U=;
+  b=LtQ3nWmWCSfkemP3ezydgtAzbfGH6wJjwZ4mYhWHfS2dCgMe6ZpTrM9l
+   XhvazVLOKNRtpbsYlSNaQ97Z1nE49+yAOZtoBTq+iJrm596nhtCUWB6fI
+   m0XYVorD44Iju6sIbyIvUnhPxen+9Ce3vYx8NGdJaHYHz9TJUfe3AaHVe
+   JuCMQGenyFWss7zp6qOMM+zRDA4Q7t52xKWjm09LsaYGBAoAmVGKKtTmE
+   mBy40PxwxFFRcqFHoPZ3x+Uz5Cnf/ZH4TZ1xcxKfoy0/y7Ga9mB1XctgI
+   j+hQBg3RxM1VM5UMBq9P9rxNOG210ksdBi8FYQxxmObS18/877uF7BbFN
+   A==;
+X-CSE-ConnectionGUID: YWofSO3cSImk8MiaVDj0KA==
+X-CSE-MsgGUID: Bb59vbVkTjCFHo6P8l8xDw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="61336563"
+X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
+   d="scan'208";a="61336563"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 07:25:30 -0700
+X-CSE-ConnectionGUID: ZKP7FC/5Re2B7jgQnKVX5w==
+X-CSE-MsgGUID: Etq2N76sQ3mlvbSQ+wT7jw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; 
-   d="scan'208";a="148742239"
-Received: from igk-lkp-server01.igk.intel.com (HELO b69e6467d450) ([10.211.3.150])
-  by fmviesa005.fm.intel.com with ESMTP; 30 May 2025 06:33:05 -0700
-Received: from kbuild by b69e6467d450 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
+   d="scan'208";a="143855846"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 30 May 2025 07:25:24 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKzr5-0000ts-1g;
-	Fri, 30 May 2025 13:33:03 +0000
-Date: Fri, 30 May 2025 21:32:51 +0800
+	id 1uL0fh-000XhK-1e;
+	Fri, 30 May 2025 14:25:21 +0000
+Date: Fri, 30 May 2025 22:24:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.10-2025-05 1/1]
- lib/test_kasan_module.c:25:6: warning: variable 'unused' set but not used
-Message-ID: <202505302133.lYndybYp-lkp@intel.com>
+To: wangtao <tao.wangtao@honor.com>, sumit.semwal@linaro.org,
+	christian.koenig@amd.com, kraxel@redhat.com,
+	vivek.kasireddy@intel.com, viro@zeniv.linux.org.uk,
+	brauner@kernel.org, hughd@google.com, akpm@linux-foundation.org,
+	amir73il@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, benjamin.gaignard@collabora.com,
+	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
+	jack@suse.cz, baolin.wang@linux.alibaba.com,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+	bintian.wang@honor.com, yipengxiang@honor.com, liulu.liu@honor.com,
+	feng.han@honor.com, wangtao <tao.wangtao@honor.com>
+Subject: Re: [PATCH v3 3/4] udmabuf: Implement udmabuf rw_file callback
+Message-ID: <202505302235.mDzENMSm-lkp@intel.com>
+References: <20250530103941.11092-4-tao.wangtao@honor.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,81 +73,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250530103941.11092-4-tao.wangtao@honor.com>
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10-2025-05
-head:   b97c62c4e7d1e80fb6a2cb0cb381f03bbcd26a4e
-commit: 916518ead7a5c918acbd0bdb48e8e5dd10e62bd8 [1/1] FROMGIT: kasan: rename CONFIG_TEST_KASAN_MODULE
-config: x86_64-buildonly-randconfig-2003-20250503 (https://download.01.org/0day-ci/archive/20250530/202505302133.lYndybYp-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250530/202505302133.lYndybYp-lkp@intel.com/reproduce)
+Hi wangtao,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on next-20250530]
+[cannot apply to linus/master v6.15]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/wangtao/fs-allow-cross-FS-copy_file_range-for-memory-backed-files/20250530-184146
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250530103941.11092-4-tao.wangtao%40honor.com
+patch subject: [PATCH v3 3/4] udmabuf: Implement udmabuf rw_file callback
+config: sparc64-randconfig-002-20250530 (https://download.01.org/0day-ci/archive/20250530/202505302235.mDzENMSm-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250530/202505302235.mDzENMSm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505302133.lYndybYp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505302235.mDzENMSm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> lib/test_kasan_module.c:25:6: warning: variable 'unused' set but not used [-Wunused-but-set-variable]
-      25 |         int unused;
-         |             ^
-   1 warning generated.
+   drivers/dma-buf/udmabuf.c: In function 'udmabuf_rw_file':
+>> drivers/dma-buf/udmabuf.c:298:25: error: storage size of 'iter' isn't known
+     298 |         struct iov_iter iter;
+         |                         ^~~~
+>> drivers/dma-buf/udmabuf.c:299:45: error: 'ITER_SOURCE' undeclared (first use in this function)
+     299 |         unsigned int direction = is_write ? ITER_SOURCE : ITER_DEST;
+         |                                             ^~~~~~~~~~~
+   drivers/dma-buf/udmabuf.c:299:45: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/dma-buf/udmabuf.c:299:59: error: 'ITER_DEST' undeclared (first use in this function)
+     299 |         unsigned int direction = is_write ? ITER_SOURCE : ITER_DEST;
+         |                                                           ^~~~~~~~~
+>> drivers/dma-buf/udmabuf.c:327:17: error: implicit declaration of function 'iov_iter_bvec'; did you mean 'bvec_iter_bvec'? [-Wimplicit-function-declaration]
+     327 |                 iov_iter_bvec(&iter, direction, bvec, bv_idx, bv_total);
+         |                 ^~~~~~~~~~~~~
+         |                 bvec_iter_bvec
+>> drivers/dma-buf/udmabuf.c:298:25: warning: unused variable 'iter' [-Wunused-variable]
+     298 |         struct iov_iter iter;
+         |                         ^~~~
 
 
-vim +/unused +25 lib/test_kasan_module.c
+vim +298 drivers/dma-buf/udmabuf.c
 
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  19  
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  20  static noinline void __init copy_user_test(void)
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  21  {
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  22  	char *kmem;
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  23  	char __user *usermem;
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  24  	size_t size = 10;
-73228c7ecc5e40c Patricia Alfonso 2020-10-13 @25  	int unused;
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  26  
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  27  	kmem = kmalloc(size, GFP_KERNEL);
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  28  	if (!kmem)
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  29  		return;
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  30  
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  31  	usermem = (char __user *)vm_mmap(NULL, 0, PAGE_SIZE,
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  32  			    PROT_READ | PROT_WRITE | PROT_EXEC,
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  33  			    MAP_ANONYMOUS | MAP_PRIVATE, 0);
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  34  	if (IS_ERR(usermem)) {
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  35  		pr_err("Failed to allocate user memory\n");
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  36  		kfree(kmem);
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  37  		return;
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  38  	}
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  39  
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  40  	pr_info("out-of-bounds in copy_from_user()\n");
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  41  	unused = copy_from_user(kmem, usermem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  42  
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  43  	pr_info("out-of-bounds in copy_to_user()\n");
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  44  	unused = copy_to_user(usermem, kmem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  45  
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  46  	pr_info("out-of-bounds in __copy_from_user()\n");
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  47  	unused = __copy_from_user(kmem, usermem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  48  
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  49  	pr_info("out-of-bounds in __copy_to_user()\n");
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  50  	unused = __copy_to_user(usermem, kmem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  51  
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  52  	pr_info("out-of-bounds in __copy_from_user_inatomic()\n");
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  53  	unused = __copy_from_user_inatomic(kmem, usermem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  54  
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  55  	pr_info("out-of-bounds in __copy_to_user_inatomic()\n");
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  56  	unused = __copy_to_user_inatomic(usermem, kmem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  57  
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  58  	pr_info("out-of-bounds in strncpy_from_user()\n");
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  59  	unused = strncpy_from_user(kmem, usermem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  60  
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  61  	vm_munmap((unsigned long)usermem, PAGE_SIZE);
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  62  	kfree(kmem);
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  63  }
-73228c7ecc5e40c Patricia Alfonso 2020-10-13  64  
-
-:::::: The code at line 25 was first introduced by commit
-:::::: 73228c7ecc5e40c0851c4703c5ec6ed38123e989 KASAN: port KASAN Tests to KUnit
-
-:::::: TO: Patricia Alfonso <trishalfonso@google.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   286	
+   287	static ssize_t udmabuf_rw_file(struct dma_buf *dmabuf, loff_t my_pos,
+   288				struct file *other, loff_t pos,
+   289				size_t count, bool is_write)
+   290	{
+   291		struct udmabuf *ubuf = dmabuf->priv;
+   292		loff_t my_end = my_pos + count, bv_beg, bv_end = 0;
+   293		pgoff_t pg_idx = my_pos / PAGE_SIZE;
+   294		pgoff_t pg_end = DIV_ROUND_UP(my_end, PAGE_SIZE);
+   295		size_t i, bv_off, bv_len, bv_num, bv_idx = 0, bv_total = 0;
+   296		struct bio_vec *bvec;
+   297		struct kiocb kiocb;
+ > 298		struct iov_iter iter;
+ > 299		unsigned int direction = is_write ? ITER_SOURCE : ITER_DEST;
+   300		ssize_t ret = 0, rw_total = 0;
+   301		struct folio *folio;
+   302	
+   303		bv_num = min_t(size_t, pg_end - pg_idx + 1, 1024);
+   304		bvec = kvcalloc(bv_num, sizeof(*bvec), GFP_KERNEL);
+   305		if (!bvec)
+   306			return -ENOMEM;
+   307	
+   308		init_sync_kiocb(&kiocb, other);
+   309		kiocb.ki_pos = pos;
+   310	
+   311		for (i = 0; i < ubuf->nr_pinned && my_pos < my_end; i++) {
+   312			folio = ubuf->pinned_folios[i];
+   313			bv_beg = bv_end;
+   314			bv_end += folio_size(folio);
+   315			if (bv_end <= my_pos)
+   316				continue;
+   317	
+   318			bv_len = min(bv_end, my_end) - my_pos;
+   319			bv_off = my_pos - bv_beg;
+   320			my_pos += bv_len;
+   321			bv_total += bv_len;
+   322			bvec_set_page(&bvec[bv_idx], &folio->page, bv_len, bv_off);
+   323			if (++bv_idx < bv_num && my_pos < my_end)
+   324				continue;
+   325	
+   326			/* start R/W if bvec is full or count reaches zero. */
+ > 327			iov_iter_bvec(&iter, direction, bvec, bv_idx, bv_total);
+   328			if (is_write)
+   329				ret = other->f_op->write_iter(&kiocb, &iter);
+   330			else
+   331				ret = other->f_op->read_iter(&kiocb, &iter);
+   332			if (ret <= 0)
+   333				break;
+   334			rw_total += ret;
+   335			if (ret < bv_total || fatal_signal_pending(current))
+   336				break;
+   337	
+   338			bv_idx = bv_total = 0;
+   339		}
+   340		kvfree(bvec);
+   341	
+   342		return rw_total > 0 ? rw_total : ret;
+   343	}
+   344	
 
 -- 
 0-DAY CI Kernel Test Service
