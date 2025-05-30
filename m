@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7B9212B14
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 11:18:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E28F96FB9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 11:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748603895; cv=none; b=AgGGbUQTfXUbVrcU2GuB5GSOcoezM8S6FldoKtd4w/XBOiMpdeStMYkni7krSTCiWal6NGtAxmbWkDEllNBOSIxgEnTPxLSMQpKPCjhT5DrxVTpXhLgIK22kxpr3WijTCnvZkirsv/MauLIiIW13cNemGvQHSo5bNGp5/sStjYk=
+	t=1748604553; cv=none; b=iKBinQzTRZwGuYvDBuRY+vQhaBgy8xYHnTib0vea4AbhlVLnH9/8F2O3W7irwEJf2nJw1hleicjVoNiSPYOnSY7xn6SsyJQkMdiZSYpFFj0CLp1s0tVUcqn1qDhZBiprhAAGHCLQBRNPl0nUaKc/x6UUafXp/nM0CX2KQLbz5Xk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748603895; c=relaxed/simple;
-	bh=ZZUVdS/Ifwk7iIia2/SU3+4KHAWV/YorCas2i1xzcAU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BtIUwd1/BF4gNhi8Hy3xpoNoq4D+hCS2e+f0YqxwWsCW2DnfdI6mF439Se5FRDoBJOBkLTbPHNbMeLTYZ8FneWAQAmq/IVjD3SelibMC1ynL0znGtMFxNHTE3Pys/PEQ1vZfk42S3CE620BMPNDqNn8hbVoNYGLUWz9sFmhxxsQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cVRE9oID; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1748604553; c=relaxed/simple;
+	bh=wGqEokqBvuqyejZXWHh+ZEF9Mwb2A/RJmLvQeyM1rTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HWUG/yA/N0xKWnVatnQeuUJflj6PjEVDGKHDrLvYKl4mOk/nFQ84Siv3Pbs51ZKVF+HQRf+7ocOnCXEST+RVU2rrRvmI3f8BFezeEyevfVbPjEl6zoZ7hIcbxgPrTFZmZQGP1lTvKmTBP4GTK6WOOwJyQpXYPQZ1rwAsIUbMsr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KCrUrcy4; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cVRE9oID"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KCrUrcy4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748603893; x=1780139893;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZZUVdS/Ifwk7iIia2/SU3+4KHAWV/YorCas2i1xzcAU=;
-  b=cVRE9oID2sb+T6P7mcKnvxMWFeH6TkgSRpAT1uPP1Ib7+nWb41+VYVYo
-   cbABEMa6VQSIbF0VCm1FLdy2Mhc5PtdKXxnYwqlsItCddl19D6nW2pVHU
-   zpYeo7aiuwmEosHC8QYuNrS+Sb69txInacOYl8eLeurZouq2a4ZknXOUa
-   sZakF14+jdGIwflc3Bsc9RPxvI+xcmYFb6AwcBjz0+Qi4WtKhXMw2NhNi
-   oceYuL1dyEvoTLXG9y3OourFzQGcbF7yVIZ8B3Qo4xj3ifTBHJ3xI5BqQ
-   F0MPqtxSwhxOt/TL57tVprG48m09VVJUhrrAy2xsjSrOdPuI/FgflDiIR
-   A==;
-X-CSE-ConnectionGUID: VYQ3QmiVRWerD5VUYMOYBA==
-X-CSE-MsgGUID: HbLM5y7xQbuiyFfx0SROWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11448"; a="54493545"
+  t=1748604552; x=1780140552;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wGqEokqBvuqyejZXWHh+ZEF9Mwb2A/RJmLvQeyM1rTo=;
+  b=KCrUrcy4PJCTlaNeRRj4Ce55Nn/gR1RoM69++een8RP1B1gIKahQlJ5R
+   5ZlxgTOuS9qtlEMZAzTM38cbDyFitPzpJzx2mOkFk3v8NdCk/+Swc1OPX
+   utmQ7rntIqq7Mf+CWbazuTrzkAIsDa47Gh9IpreHdCkylOw1DmFzxQo/X
+   zRJbWNKD14HqWtwEox7G/l867RzJGi7EAMu59vghI1Yrl0vzJN2/Xn3iZ
+   a2ba9gpf0ijV85pa38WO+jtKlhPTR5ZWenxMBAGAm9qE7jLxDoYHUfEag
+   ujU6mYJOqKvjulS56YP/95yfMxpyvvqv58OYrGO8CbDyaQMPkYMJYj2Bw
+   g==;
+X-CSE-ConnectionGUID: u4508+C2QIG0+LxSsM7ZSA==
+X-CSE-MsgGUID: 76nUPtuHRD6Y/qUUYTykcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="73228504"
 X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; 
-   d="scan'208";a="54493545"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 04:18:12 -0700
-X-CSE-ConnectionGUID: MANiozsiQHyVzeRT+DKsHA==
-X-CSE-MsgGUID: Rd9rOmeIQUKMkhZoIUkAbw==
+   d="scan'208";a="73228504"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 04:29:11 -0700
+X-CSE-ConnectionGUID: 23ZGD7QCRHqwtJbIuMdBlw==
+X-CSE-MsgGUID: nhT+MS7fS8W981bTPASKMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,195,1744095600"; 
-   d="scan'208";a="144488988"
+   d="scan'208";a="148883180"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 30 May 2025 04:18:10 -0700
+  by orviesa004.jf.intel.com with ESMTP; 30 May 2025 04:29:10 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uKxkU-000Xaa-3A;
-	Fri, 30 May 2025 11:18:06 +0000
-Date: Fri, 30 May 2025 19:17:32 +0800
+	id 1uKxv9-000Xb2-2e;
+	Fri, 30 May 2025 11:29:07 +0000
+Date: Fri, 30 May 2025 19:29:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harsh Jain <h.jain@amd.com>, herbert@gondor.apana.org.au,
-	davem@davemloft.net, linux-crypto@vger.kernel.org,
-	devicetree@vger.kernel.org, mounika.botcha@amd.com,
-	sarat.chand.savitala@amd.com, mohan.dhanawade@amd.com,
-	michal.simek@amd.com
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Harsh Jain <h.jain@amd.com>
-Subject: Re: [PATCH 3/3] crypto: drbg: Export CTR DRBG DF functions
-Message-ID: <202505301900.Ufegky8f-lkp@intel.com>
-References: <20250529113116.669667-4-h.jain@amd.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 138/138] mtk_dvo.c:undefined reference to
+ `__aeabi_uldivmod'
+Message-ID: <202505301902.6Z1hbS1H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,37 +61,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250529113116.669667-4-h.jain@amd.com>
 
-Hi Harsh,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master v6.15 next-20250530]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Harsh-Jain/dt-bindings-crypto-Add-node-for-True-Random-Number-Generator/20250529-193255
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20250529113116.669667-4-h.jain%40amd.com
-patch subject: [PATCH 3/3] crypto: drbg: Export CTR DRBG DF functions
-config: alpha-kismet-CONFIG_CRYPTO_DRBG_CTR-CONFIG_CRYPTO_DEV_XILINX_TRNG-0-0 (https://download.01.org/0day-ci/archive/20250530/202505301900.Ufegky8f-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250530/202505301900.Ufegky8f-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   c76c68baa3b1801d81033deae4c36dd8dfe350f5
+commit: 7614ce4cc66748a10c0ab90d9cdcb96e158c0f05 [138/138] CHROMIUM: drm/mediatek: eDP: Add dvo golden setting
+config: arm-randconfig-r121-20250529 (https://download.01.org/0day-ci/archive/20250530/202505301902.6Z1hbS1H-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20250530/202505301902.6Z1hbS1H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505301900.Ufegky8f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505301902.6Z1hbS1H-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for CRYPTO_DRBG_CTR when selected by CRYPTO_DEV_XILINX_TRNG
-   WARNING: unmet direct dependencies detected for CRYPTO_DRBG_CTR
-     Depends on [n]: CRYPTO [=y] && CRYPTO_DRBG_MENU [=n]
-     Selected by [y]:
-     - CRYPTO_DEV_XILINX_TRNG [=y] && CRYPTO [=y] && CRYPTO_HW [=y] && (ZYNQMP_FIRMWARE [=n] || COMPILE_TEST [=y])
+All errors (new ones prefixed by >>):
+
+   arm-linux-gnueabi-ld: drivers/soc/mediatek/apusys/apu_mem/apummu/common/apummu_drv.o: in function `apusys_apummu_resume':
+   apummu_drv.c:(.text+0x360): undefined reference to `slbc_request'
+   arm-linux-gnueabi-ld: drivers/soc/mediatek/apusys/apu_mem/apummu/common/apummu_drv.o: in function `apusys_apummu_suspend':
+   apummu_drv.c:(.text+0x3ee): undefined reference to `slbc_release'
+   arm-linux-gnueabi-ld: drivers/soc/mediatek/apusys/apu_mem/apummu/common/apummu_import.o: in function `apummu_alloc_slb':
+   apummu_import.c:(.text+0x54): undefined reference to `slbc_request'
+   arm-linux-gnueabi-ld: drivers/soc/mediatek/apusys/apu_mem/apummu/common/apummu_import.o: in function `apummu_free_slb':
+   apummu_import.c:(.text+0xf8): undefined reference to `slbc_release'
+   arm-linux-gnueabi-ld: drivers/soc/mediatek/apusys/apu_mem/apummu/common/apummu_import.o: in function `apummu_check_slb_status':
+   apummu_import.c:(.text+0x18a): undefined reference to `slbc_status'
+   arm-linux-gnueabi-ld: drivers/gpu/drm/mediatek/mtk_dvo.o: in function `mtk_dvo_sodi_setting':
+>> mtk_dvo.c:(.text+0x860): undefined reference to `__aeabi_uldivmod'
+>> arm-linux-gnueabi-ld: mtk_dvo.c:(.text+0x892): undefined reference to `__aeabi_uldivmod'
+   arm-linux-gnueabi-ld: mtk_dvo.c:(.text+0x8d6): undefined reference to `__aeabi_uldivmod'
+   arm-linux-gnueabi-ld: mtk_dvo.c:(.text+0x90e): undefined reference to `__aeabi_uldivmod'
+   arm-linux-gnueabi-ld: mtk_dvo.c:(.text+0x934): undefined reference to `__aeabi_uldivmod'
+   arm-linux-gnueabi-ld: drivers/gpu/drm/mediatek/mtk_dvo.o:mtk_dvo.c:(.text+0x958): more undefined references to `__aeabi_uldivmod' follow
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for MTK_SCP
+   Depends on [n]: REMOTEPROC [=n] && (ARCH_MEDIATEK [=n] || COMPILE_TEST [=y])
+   Selected by [y]:
+   - MTK_APUSYS_SUPPORT [=y] && (ARCH_MEDIATEK [=n] || COMPILE_TEST [=y]) && (ARM [=y] || ARM64)
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/mediatek/mtk_dvo.c:275:6: sparse: sparse: symbol 'mtk_dvo_mutex_vsync_set' was not declared. Should it be static?
 
 -- 
 0-DAY CI Kernel Test Service
