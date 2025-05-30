@@ -1,149 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E28C23642E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 18:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCC7C27815E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 30 May 2025 19:14:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748629969; cv=none; b=PGUQBoAskNZwJ6Wv1Bt1L+qtoLBZzzibxdIU5HyLCVZKTLTjdqOi6OpRCGiTwBUToYoNoM8cVl2byJITHuaY2fVjonhUJ2s6JE4KEXD9VYaT/7xf/W3jinW3ztfMGLEiZ32OT4ltY351+z4f36176nBoQOpXrLllt03X+Tmhi24=
+	t=1748632494; cv=none; b=TiwJPyQHFKJZTsKMA5b6ThE/1uUDZYUDVBdUslUPt0FNMBlV4SJ9mtrciabKoxtI+lZQuQkpEx2PYJqMJo32ixTCoNK2Pxj2pv4dbUx2Mo6T1RxO9yMhIlvdSZXfg7WcvjAUz8pTmiaZUUV9A7Vy7PKeYVtXkqrgq7eumrR4PN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748629969; c=relaxed/simple;
-	bh=VETUTI/SWs/oyGfjUYQjNesKbGJxQU+nAnoLi9VzL5g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r/2Y5PfDKY4WAd7CeGK5f36040QGmHYpr1RNf93t+B/pcPMmUn6ZKDxjBOK2jsjZ9tS5wsgkPWtuf9mla04ZQfXcqbvUV7M924eWIzVGIwh/bTQNht2QlSwJGRnFHkCfV+/WFiXtW2fgDY8sqecCK+LwsaisOtGwjbUZKQLDXOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=miVJK/lE; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1748632494; c=relaxed/simple;
+	bh=o94uNCWV71Npa/D7DFRsizf1ZwcH4B1mlc/EOztA0Kw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h6LpffOtx/qZ8FWjRQyY+b5trOY51FPuTf0eyDuuxGbyx+hu5vhFJxqNWHjuwh5aL/Pv4bUkmNDgjSUCP1dAiaplwklv/XTDdJUdoVfgOlPZ9iIJn6XmqNXYun0M/viUClDw9ApbaPCbPVfBaI0EYPZ76hIvekcTrReibH1Syd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DIGW7bet; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="miVJK/lE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DIGW7bet"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748629968; x=1780165968;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VETUTI/SWs/oyGfjUYQjNesKbGJxQU+nAnoLi9VzL5g=;
-  b=miVJK/lEG4t/WaynAHrmbY8OYZpa9KJHikiumbMmSNhvuUFxFdnYx5ge
-   ibGewSE2fdHa8zzaSpmcOYnzEkiWTQbsoaPloLQ9ST3y2fmqaSPh4d44l
-   4j3Z+rvBkwImlkF9iqDuCSQ54OgskCIxKVMoLEQt6RkkjdBKKo+E+of/r
-   PKErz7SaEK0OfAsWaYOQwWSJVxISLqsBRL+CMw2eA/vS77oSjuTtB554X
-   pMIWPljOOKIztYVQdUlW6Cz7KGtmCQ6c3HDciYarXyFYSi3SFip8e/B/H
-   jn71tEVMBSLxUHIq98aj4rpiiIU+DO85Jir9CPqJwddltKE1X1fpRej45
+  t=1748632493; x=1780168493;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=o94uNCWV71Npa/D7DFRsizf1ZwcH4B1mlc/EOztA0Kw=;
+  b=DIGW7betdw4A7LfDhL/nZ09cFVNkcL3zzyxQv6c0eaho2zAMwdbjvV41
+   jpWx87BBaIXP4ON9hnj3FPhlNc3jxYDjXCWPLbQyDsrvxe9hL4Ia8eCVn
+   Ao8NKm8zC4ZIv4qwgVUe7f77kKO+VZ2CnUhV+73IrfROMM6o9mzcGutG/
+   nEHndllsdpCIscCl2duuPtU9EdQaEmkFnf7DQUDToYQlLdUsQBwGxq3RM
+   DeF6YI/94uWGLFKmjaIdiOpSjHKFo89H5TB6ZHnSjcU9lPckqWA6YYXIA
+   a7zOVOINoyBCd65xKAZHr52ke4McGizgkTZQaqJhWCbwFrpg+p3hzsVUZ
    g==;
-X-CSE-ConnectionGUID: opHuhTGkRUCykWD6hGGnsQ==
-X-CSE-MsgGUID: mvUPjIzbRPi0RyAclUikzw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="50739023"
+X-CSE-ConnectionGUID: TI034hKERZivTA3i3foYgQ==
+X-CSE-MsgGUID: OG8g+VM0Qo2bzhobCCGy0g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="60991994"
 X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
-   d="scan'208";a="50739023"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 11:32:48 -0700
-X-CSE-ConnectionGUID: nLr9tux1RNegvhQX8iOxpA==
-X-CSE-MsgGUID: 2tffWcglRhOXO/CiciUpkg==
+   d="scan'208";a="60991994"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 May 2025 12:14:53 -0700
+X-CSE-ConnectionGUID: eS2mBj5fQZS6qe3p2T0onQ==
+X-CSE-MsgGUID: y9qpQ4EUTiiGK7G8smW0bg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,196,1744095600"; 
-   d="scan'208";a="144412802"
+   d="scan'208";a="147843228"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 30 May 2025 11:32:46 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 30 May 2025 12:14:50 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uL4X6-000XsW-02;
-	Fri, 30 May 2025 18:32:44 +0000
-Date: Sat, 31 May 2025 02:32:43 +0800
+	id 1uL5Bm-000Xtw-2y;
+	Fri, 30 May 2025 19:14:46 +0000
+Date: Sat, 31 May 2025 03:14:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.15-rc 47/88]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /
- (bananapi,bpi-r4): memory: 'device_type' is a required property
-Message-ID: <202505310207.afJAs7Fb-lkp@intel.com>
+To: =?iso-8859-1?Q?=C1lvaro_Fern=E1ndez?= Rojas <noltari@gmail.com>,
+	jonas.gorski@gmail.com, florian.fainelli@broadcom.com,
+	andrew@lunn.ch, olteanv@gmail.com, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	horms@kernel.org, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dgcbueu@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev,
+	=?iso-8859-1?Q?=C1lvaro_Fern=E1ndez?= Rojas <noltari@gmail.com>
+Subject: Re: [PATCH] net: dsa: b53: support legacy FCS tags
+Message-ID: <202505310308.8veTfz2G-lkp@intel.com>
+References: <20250530155618.273567-4-noltari@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250530155618.273567-4-noltari@gmail.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.15-rc
-head:   cc779b8ab7f799ada320315dd27b87b0ad746227
-commit: 022164675ed58a7ced026a097389c871df94ba99 [47/88] arm64: dts: update bpi-r4.dtsi to actual state
-config: arm64-randconfig-051-20250530 (https://download.01.org/0day-ci/archive/20250531/202505310207.afJAs7Fb-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250531/202505310207.afJAs7Fb-lkp@intel.com/reproduce)
+Hi Álvaro,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+[also build test ERROR on net/main linus/master v6.15 next-20250530]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/lvaro-Fern-ndez-Rojas/net-dsa-b53-support-legacy-FCS-tags/20250530-235844
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250530155618.273567-4-noltari%40gmail.com
+patch subject: [PATCH] net: dsa: b53: support legacy FCS tags
+config: sparc-randconfig-001-20250531 (https://download.01.org/0day-ci/archive/20250531/202505310308.8veTfz2G-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250531/202505310308.8veTfz2G-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505310207.afJAs7Fb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505310308.8veTfz2G-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:685.24-706.5: Warning (unit_address_vs_reg): /soc/t-phy@11c50000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:715.26-737.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi:34.9-36.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:685.24-706.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:715.26-737.5: Warning (simple_bus_reg): /soc/xs-phy@11e10000: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: / (bananapi,bpi-r4): memory: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: / (bananapi,bpi-r4): memory: False schema does not allow {'reg': [[0, 1073741824, 0, 268435456]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/pcs@10080000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/pcs@10081000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: eeprom@57 (atmel,24c02): Unevaluated properties are not allowed ('address-bits', 'page-size' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: partition@200000 (linux,ubi): volumes:ubi-volume-ubootenv:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'fixed-layout' was expected
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: partition@200000 (linux,ubi): volumes:ubi-volume-ubootenv2:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'fixed-layout' was expected
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: partition@200000 (linux,ubi): Unevaluated properties are not allowed ('volumes' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/spi@11007000/flash@0/partitions/partition@200000/volumes/ubi-volume-ubootenv/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/spi@11007000/flash@0/partitions/partition@200000/volumes/ubi-volume-ubootenv2/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: chosen: 'rootdisk-spim-nand' does not match any of the regexes: '^framebuffer', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/chosen.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: gpio-keys (gpio-keys): 'wps' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:685.24-706.5: Warning (unit_address_vs_reg): /soc/t-phy@11c50000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:715.26-737.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi:34.9-36.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:685.24-706.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:715.26-737.5: Warning (simple_bus_reg): /soc/xs-phy@11e10000: missing or empty reg/ranges property
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: / (bananapi,bpi-r4-2g5): memory: 'device_type' is a required property
-   	from schema $id: http://devicetree.org/schemas/memory.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: / (bananapi,bpi-r4-2g5): memory: False schema does not allow {'reg': [[0, 1073741824, 0, 268435456]]}
-   	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/pcs@10080000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/pcs@10081000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: eeprom@57 (atmel,24c02): Unevaluated properties are not allowed ('address-bits', 'page-size' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: partition@200000 (linux,ubi): volumes:ubi-volume-ubootenv:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'fixed-layout' was expected
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: partition@200000 (linux,ubi): volumes:ubi-volume-ubootenv2:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'fixed-layout' was expected
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: partition@200000 (linux,ubi): Unevaluated properties are not allowed ('volumes' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/spi@11007000/flash@0/partitions/partition@200000/volumes/ubi-volume-ubootenv/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/spi@11007000/flash@0/partitions/partition@200000/volumes/ubi-volume-ubootenv2/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: chosen: 'rootdisk-spim-nand' does not match any of the regexes: '^framebuffer', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/chosen.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: gpio-keys (gpio-keys): 'wps' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
+All errors (new ones prefixed by >>):
+
+   drivers/net/dsa/b53/b53_common.c: In function 'b53_get_tag_protocol':
+>> drivers/net/dsa/b53/b53_common.c:2267:23: error: 'DSA_TAG_PROTO_BRCM_LEGACY_FCS' undeclared (first use in this function); did you mean 'DSA_TAG_PROTO_BRCM_LEGACY'?
+      dev->tag_protocol = DSA_TAG_PROTO_BRCM_LEGACY_FCS;
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                          DSA_TAG_PROTO_BRCM_LEGACY
+   drivers/net/dsa/b53/b53_common.c:2267:23: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +2267 drivers/net/dsa/b53/b53_common.c
+
+  2254	
+  2255	enum dsa_tag_protocol b53_get_tag_protocol(struct dsa_switch *ds, int port,
+  2256						   enum dsa_tag_protocol mprot)
+  2257	{
+  2258		struct b53_device *dev = ds->priv;
+  2259	
+  2260		if (!b53_can_enable_brcm_tags(ds, port, mprot)) {
+  2261			dev->tag_protocol = DSA_TAG_PROTO_NONE;
+  2262			goto out;
+  2263		}
+  2264	
+  2265		/* Older models require different 6 byte tags */
+  2266		if (is5325(dev) || is5365(dev)) {
+> 2267			dev->tag_protocol = DSA_TAG_PROTO_BRCM_LEGACY_FCS;
+  2268			goto out;
+  2269		} else if (is63xx(dev)) {
+  2270			dev->tag_protocol = DSA_TAG_PROTO_BRCM_LEGACY;
+  2271			goto out;
+  2272		}
+  2273	
+  2274		/* Broadcom BCM58xx chips have a flow accelerator on Port 8
+  2275		 * which requires us to use the prepended Broadcom tag type
+  2276		 */
+  2277		if (dev->chip_id == BCM58XX_DEVICE_ID && port == B53_CPU_PORT) {
+  2278			dev->tag_protocol = DSA_TAG_PROTO_BRCM_PREPEND;
+  2279			goto out;
+  2280		}
+  2281	
+  2282		dev->tag_protocol = DSA_TAG_PROTO_BRCM;
+  2283	out:
+  2284		return dev->tag_protocol;
+  2285	}
+  2286	EXPORT_SYMBOL(b53_get_tag_protocol);
+  2287	
 
 -- 
 0-DAY CI Kernel Test Service
