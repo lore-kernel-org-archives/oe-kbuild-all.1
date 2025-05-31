@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8BB238144
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 May 2025 12:33:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682F02367A2;
+	Sat, 31 May 2025 12:54:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748694792; cv=none; b=mW2v88/gARIQn/7Pv7zwUHa+lTqNPDxriBOzTiZQwFeeVCGM3xZ2Icf5RSLVYjcptAYO4DZ4IJK/D/IX6H7e5k577EddYj6zYDjaY+CtjMNhaCWjcaa3zTNU0Q4Id4m1b5sDfMu/FI02haur7XSbJtI3fPoVxxauK3Hs6M8IqsY=
+	t=1748696055; cv=none; b=kCXoqvwXPCMHObCVFIo0ZTO8jb4wZ4gPiLQVcRow5DzEwyCizp148FGi8eX3HZEHqrlwQMvL0D8F66VrNLytwjDMCQ0QS1zrZzuO++bu9NiEmmGQ4+z0n3Y1OqpvacP56Uhs09qbwFtMHBWmf/LSyrdMvLeJwBsLyhC3I13lAtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748694792; c=relaxed/simple;
-	bh=h4E1F0pvhXoi3CIgPyuBPiqSRARHwSonYqOdYyoyTvk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VCyvy8WxzlEKAQs21U+aRF8wq6WzBJkWxiBsBcFP6pv9INyt+PgNjvN5GnpnDmOv/0UlMMYJRGKbh4NVmfTQRqkxnXnPtstHe+Eqc7JSz1u+29Js1jPQHIzvUAVr+wK18NbQWNPivwrWTR5ZA1BMz3cbeT33IG2gDAT+RnJb1UQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NAlPIi/F; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1748696055; c=relaxed/simple;
+	bh=+EmJmBR4BbbJOaqh99VTAFfhrshaX7fqFFRRNgGBdFs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AHQcoxz4AGgDMQW6f20b3kI2dq+cW5X+6nlz7h9sAwD4J0l7Z+h7KYqKtEl4nk0uQzsKgqQrJSyXxDtrZCi2ODxe5SjbkAr8fvGURn3hPM6Uqkv93x/DBMFNckHoHWTRnIF+uwyTfIdOvGwDQOdQL/Cq0MRvr5YFKCnp2nubHyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C6E0wcYt; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NAlPIi/F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C6E0wcYt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748694790; x=1780230790;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h4E1F0pvhXoi3CIgPyuBPiqSRARHwSonYqOdYyoyTvk=;
-  b=NAlPIi/Fgh+Rdi9wspNq7pILXUGewgAMJtfe91Z1JP34jqFE4BWkM+Df
-   /oZ2Cn9aZoI8dsyxiS5CpeyALYD+G35N/ysU8C+AZTUEiq8w4/C05DVT1
-   0R5i3alsMeUs076SrFPMZoxk2ll+RM7w4ZKocu/+QYL9pZF+aoyXN9IDA
-   q/08zAVU5AjkATFOdjxW+rDo9JD6NZ7eyMYhsoGvZ6kiVaGyQjSRWSrid
-   NGyoOBPPmM4hL1PypXCkKp/ObTLbSUm9jH+F2YId07hPjF0czPh7CG1tU
-   BLe7k/yLu0pwvmuJygCF2rYSszqUFYXe4JX1da116jILguNAbqTfn4SKc
+  t=1748696053; x=1780232053;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+EmJmBR4BbbJOaqh99VTAFfhrshaX7fqFFRRNgGBdFs=;
+  b=C6E0wcYtyZorg1gtXDrLXta+9pJZkyYOyLSE3B8/+ZadxnVUH2ZUD7Ap
+   UlKEE7k39lOBWatX6ObP1QBf+2I3vOdyBmAlwa9O5U+F0r59CmsaKFvs9
+   izcHpM6PltMu7sN8b164/hSRbXasnYwKf+EerJRj1utpccf+ws1wt5gYQ
+   6K9osRPJmzKSF17HgSS/xBwiVtQheasQogRpdc6ofCc/3+PqWTmqQPMfR
+   uq0ocUs9ChfjrM49fIo2w9c2ALClBIdqDsRhZVI9fiw4WHzeHBCcgPcKF
+   GCAro3Q00eUoYW6JOdeXRw2bpVD59wleY6IMq/Q6zH3tUx301To4YCqaE
    Q==;
-X-CSE-ConnectionGUID: aDw6nSl4Qq2qb8MxTy1lPg==
-X-CSE-MsgGUID: GvmRUzpgQg6YNHsbLo3ftQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="50643029"
+X-CSE-ConnectionGUID: m3MQd3nMRGCd0/7QJ6bc+A==
+X-CSE-MsgGUID: pa1/NAnWSU6XmxOlA1P5Iw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="61398426"
 X-IronPort-AV: E=Sophos;i="6.16,198,1744095600"; 
-   d="scan'208";a="50643029"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2025 05:33:10 -0700
-X-CSE-ConnectionGUID: I+Z5wl02SaOrCLbHspORqQ==
-X-CSE-MsgGUID: 1i0pRrLNQM2diPHp6WS8Zw==
+   d="scan'208";a="61398426"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2025 05:54:13 -0700
+X-CSE-ConnectionGUID: CBk3yu9jQiKyfvTpCjuIcg==
+X-CSE-MsgGUID: ByTmpPphRiSlFVKyMFfvbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,198,1744095600"; 
-   d="scan'208";a="174993884"
+   d="scan'208";a="145093181"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 31 May 2025 05:33:08 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 31 May 2025 05:54:10 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uLLOc-000YOs-0R;
-	Sat, 31 May 2025 12:33:06 +0000
-Date: Sat, 31 May 2025 20:32:43 +0800
+	id 1uLLix-000YPY-2T;
+	Sat, 31 May 2025 12:54:07 +0000
+Date: Sat, 31 May 2025 20:53:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline-rust 2/2]
- arch/arm64/boot/dts/qcom/msm8992-lg-h815.dtb: usb@f92f8800
- (qcom,msm8994-dwc3): 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202505312044.JssJrIoA-lkp@intel.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>, Lee Jones <lee@kernel.org>,
+	Corey Minyard <minyard@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net, jeffbai@aosc.io,
+	kexybiscuit@aosc.io, wangyao@lemote.com,
+	Chong Qiao <qiaochong@loongson.cn>
+Subject: Re: [PATCH v3 2/3] ipmi: Add Loongson-2K BMC support
+Message-ID: <202505312022.QmFmGE1F-lkp@intel.com>
+References: <01805f8d1b9c8e6564a2d6d83964f78ed29b8f1f.1748505446.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,28 +69,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <01805f8d1b9c8e6564a2d6d83964f78ed29b8f1f.1748505446.git.zhoubinbin@loongson.cn>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-rust
-head:   e8191d4b0877b5e3025a126ac1d08756a322d055
-commit: ed3c955cab3a9d5a9bce4756e4bd3390f9c23e1f [2/2] arm64: dts: qcom: msm8992-lg-h815: Initial support for LG G4 (H815)
-config: arm64-randconfig-051-20250529 (https://download.01.org/0day-ci/archive/20250531/202505312044.JssJrIoA-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250531/202505312044.JssJrIoA-lkp@intel.com/reproduce)
+Hi Binbin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 08effa6b77f7dbb4727f811daef0f6085c0d63c8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/mfd-ls2kbmc-Introduce-Loongson-2K-BMC-core-driver/20250529-202628
+base:   08effa6b77f7dbb4727f811daef0f6085c0d63c8
+patch link:    https://lore.kernel.org/r/01805f8d1b9c8e6564a2d6d83964f78ed29b8f1f.1748505446.git.zhoubinbin%40loongson.cn
+patch subject: [PATCH v3 2/3] ipmi: Add Loongson-2K BMC support
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250531/202505312022.QmFmGE1F-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250531/202505312022.QmFmGE1F-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505312044.JssJrIoA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505312022.QmFmGE1F-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/pm8994.dtsi:131.9-150.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@fc4cf000/pmic@1: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/msm8992-lg-h815.dtb: usb@f92f8800 (qcom,msm8994-dwc3): 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
->> arch/arm64/boot/dts/qcom/msm8992-lg-h815.dtb: usb@f92f8800 (qcom,msm8994-dwc3): 'interrupt-names' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+All errors (new ones prefixed by >>):
+
+>> drivers/char/ipmi/ipmi_si_ls2k.c:180:6: error: redefinition of 'ipmi_si_ls2k_init'
+     180 | void ipmi_si_ls2k_init(void)
+         |      ^~~~~~~~~~~~~~~~~
+   In file included from drivers/char/ipmi/ipmi_si_ls2k.c:17:
+   drivers/char/ipmi/ipmi_si.h:108:20: note: previous definition of 'ipmi_si_ls2k_init' with type 'void(void)'
+     108 | static inline void ipmi_si_ls2k_init(void) { }
+         |                    ^~~~~~~~~~~~~~~~~
+>> drivers/char/ipmi/ipmi_si_ls2k.c:186:6: error: redefinition of 'ipmi_si_ls2k_shutdown'
+     186 | void ipmi_si_ls2k_shutdown(void)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_si.h:109:20: note: previous definition of 'ipmi_si_ls2k_shutdown' with type 'void(void)'
+     109 | static inline void ipmi_si_ls2k_shutdown(void) { }
+         |                    ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/ipmi_si_ls2k_init +180 drivers/char/ipmi/ipmi_si_ls2k.c
+
+   179	
+ > 180	void ipmi_si_ls2k_init(void)
+   181	{
+   182		platform_driver_register(&ipmi_ls2k_platform_driver);
+   183		ls2k_registered = true;
+   184	}
+   185	
+ > 186	void ipmi_si_ls2k_shutdown(void)
 
 -- 
 0-DAY CI Kernel Test Service
