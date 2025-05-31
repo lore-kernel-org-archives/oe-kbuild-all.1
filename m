@@ -1,60 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862FC20C480
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 May 2025 08:03:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3997823643F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 May 2025 08:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748678631; cv=none; b=tosXjr6IyTinDgpcaBvAPQgvrQju8gdH7gP+yghmuK9S9sSwvq92EAUnfHrd2fYkByreluUnQoTgFd/TmIiezxWSNDUJPpeaawq+hSp1SLxosKuvFPtsb8663YzmO6siWjCmuc9bXDo0fzvoIJBIpcfSzT5CyfBAvVKtNaLzOiY=
+	t=1748680494; cv=none; b=h8zeArhcNiASGq5SlaqRRmG/gVVnGJ70ZpCobjwPANLDMjH4K4XxnIqeXVTZx6qWhO38iWN/KHE1nUu8tUgZx9YgLj5Qupc0fONEKRqFDKTbgwf5l/Z1l1ocWChj8dDwmG49h84yalgJuLRScWPirFc1uFBt46lnDjnGWwMQjy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748678631; c=relaxed/simple;
-	bh=+OSHIvM7vjrRqEFHX70aF++PhNnu1uaitgh47TkZO7k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jYgNjMwwHtyATTEozcM8L+chKNCmcMP9YER/hXAvoJWulCzMl8N19Vj1ITaM0BzgVmJUOjFof9TnbOxg+kzijrnlj21R12OxLJHEw6X/R5Q6rCECbH1IDvSYYJUtKE131E2LgTgcm9L+2NkV9zImrNBx8Bo6jczV/6wpTbZKMxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CUUUdlZo; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1748680494; c=relaxed/simple;
+	bh=HeN3k91sOApQ7ilb4MDhzjIZN7np++nNu/5P5o+DSy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tOnEFDoD7xfL3S1cY/C3P2/8TvGqky8QW7KyNGqFD3SCY8gjZ3Yyl/1BWgIyEAK770U1r8XHFcGPbXzD1jsxmbpQmYrRtR0bwgGK8z7yxdXtv/T5chcIxz2nXDVFn3k3Css+19Av/tqLx+636nJE6zZlu2VAuZ9smwqb+eAWmZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D7GIhCt6; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CUUUdlZo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D7GIhCt6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748678629; x=1780214629;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+OSHIvM7vjrRqEFHX70aF++PhNnu1uaitgh47TkZO7k=;
-  b=CUUUdlZo0+u+G68+iS31vsiR64/nDYm9SGBudyBZmry1abZINcVBy2hq
-   MUSHBKvLSocAmShm9VcmLOIOm4oIZPggXw5WY8BZIsM8uCrlgvcLcQlSx
-   mJS1lwqbXZWJ7cgBnFuXXiTvQclweu4+FCh5yOu1B+bVQjsMOn0J2m1fm
-   D/twGD3gEI/I6bm2/8VDanMzHtrGa+1CT1USihbRgabx6RFtnXuQVOBgk
-   6gxddhSRCMHbylrYDRXiLDLaqW8U3xoGykO1ocpdWv9xR9f/OhylRqJ5S
-   wyMdzG5tqPnPyWqdKMaEdAUqH6SCLLkDzzC3Q5QWWAofOsm3gNesd6uau
-   w==;
-X-CSE-ConnectionGUID: cS61jfeeSgOWF4hQGKkQEQ==
-X-CSE-MsgGUID: e/qwo6cWSGK3isp7CtfELg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="50915929"
+  t=1748680493; x=1780216493;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HeN3k91sOApQ7ilb4MDhzjIZN7np++nNu/5P5o+DSy0=;
+  b=D7GIhCt6tO2oZ67jQbTOpU8KE5Fzs66T+DOxKTKgnQ9uzUQz0pRHSOcb
+   S+RGBJEwHdSlCM54M1OGN7QzEKp6g5ME+xeYtjIecObx+HW6Y0r1/UdfC
+   ch03It5kdW1eTHyXcQfmTcLhDPaOpQ1tbqaZWgxVUATpB+v0Nsf0vpqR3
+   CBs4qpFW+AF9iOkX2b9LTBRhnCshoTWCvMnaGMdfwUYjBXyG56NdCINpK
+   vrHMeDV89PPckugzFKpmlNntHKo8oLLUCueKg+2M1u8k5iEc7UShI2xTG
+   KKOCXGFsiSP2OIwSFds6Chr57SGVNuIqaE4YWBfHg3hUccJTmokKRJGsC
+   Q==;
+X-CSE-ConnectionGUID: w3tdyv1oSwOmUcmqgUJspg==
+X-CSE-MsgGUID: 9LYB7q28TnSFdBimpJuS/Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11449"; a="62112331"
 X-IronPort-AV: E=Sophos;i="6.16,198,1744095600"; 
-   d="scan'208";a="50915929"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2025 01:03:49 -0700
-X-CSE-ConnectionGUID: lr2XGZ8pRoSDlkR97JCqkA==
-X-CSE-MsgGUID: 9twQd524TnuUtcAbEplYdg==
+   d="scan'208";a="62112331"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2025 01:34:52 -0700
+X-CSE-ConnectionGUID: pexTbHmsRlCFfRVy4HKntA==
+X-CSE-MsgGUID: hi6CG47NTjagHCLkylKQZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,198,1744095600"; 
-   d="scan'208";a="144055189"
+   d="scan'208";a="145057505"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 31 May 2025 01:03:47 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 31 May 2025 01:34:49 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uLHBw-000YHi-2i;
-	Sat, 31 May 2025 08:03:44 +0000
-Date: Sat, 31 May 2025 16:03:36 +0800
+	id 1uLHfz-000YIO-1E;
+	Sat, 31 May 2025 08:34:47 +0000
+Date: Sat, 31 May 2025 16:34:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: dp@fec00000
- (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-Message-ID: <202505311543.03VDPaOD-lkp@intel.com>
+To: Pavel Begunkov <asml.silence@gmail.com>, io-uring@vger.kernel.org,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev, asml.silence@gmail.com,
+	netdev@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemb@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Richard Cochran <richardcochran@gmail.com>
+Subject: Re: [PATCH 5/5] io_uring/netcmd: add tx timestamping cmd support
+Message-ID: <202505311513.4gHg718O-lkp@intel.com>
+References: <2308b0e2574858aeef6837f4f9897560a835e0f7.1748607147.git.asml.silence@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,126 +70,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <2308b0e2574858aeef6837f4f9897560a835e0f7.1748607147.git.asml.silence@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   0f70f5b08a47a3bc1a252e5f451a137cde7c98ce
-commit: 70a299ed2e03e7ef26e5be7889bab1a47960ed25 dt-bindings: display: rockchip: Convert cdn-dp-rockchip.txt to yaml
-date:   9 days ago
-config: arm64-randconfig-052-20250529 (https://download.01.org/0day-ci/archive/20250531/202505311543.03VDPaOD-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250531/202505311543.03VDPaOD-lkp@intel.com/reproduce)
+Hi Pavel,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net/main]
+[also build test WARNING on net-next/main linus/master next-20250530]
+[cannot apply to horms-ipvs/master v6.15]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Begunkov/net-timestamp-add-helper-returning-skb-s-tx-tstamp/20250530-201922
+base:   net/main
+patch link:    https://lore.kernel.org/r/2308b0e2574858aeef6837f4f9897560a835e0f7.1748607147.git.asml.silence%40gmail.com
+patch subject: [PATCH 5/5] io_uring/netcmd: add tx timestamping cmd support
+config: riscv-randconfig-r121-20250531 (https://download.01.org/0day-ci/archive/20250531/202505311513.4gHg718O-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 10.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250531/202505311513.4gHg718O-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505311543.03VDPaOD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505311513.4gHg718O-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2180.20-2182.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: pcie@0,0: wifi@0,0:interrupts:0:0: 8 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: pcie@0,0: wifi@0,0:interrupts:0: [8, 8] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: usb@fe900000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-bob.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2180.20-2182.6: Warning (graph_child_address): /dp@ff970000/ports/port@1: graph node has single child node 'endpoint@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: pcie@0,0: wifi@0,0:interrupts:0:0: 8 is not one of [1, 2, 3, 4]
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: pcie@0,0: wifi@0,0:interrupts:0: [8, 8] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: usb@fe900000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-kevin.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
---
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: pcie@0,0: wifi@0,0:reg: [[0, 0, 0, 0, 0], [50331664, 0, 0, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/pci/pci-bus-common.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: wifi@0,0 (qcom,ath10k): reg: [[0, 0, 0, 0, 0], [50331664, 0, 0, 0, 2097152]] is too long
-   	from schema $id: http://devicetree.org/schemas/net/wireless/qcom,ath10k.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: usb@fe3a0000 (generic-ohci): bluetooth@1:compatible: ['usbcf3,e300', 'usb4ca,301a'] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: usb@fe3a0000 (generic-ohci): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bluetooth@1' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: panel@0 (innolux,p097pfg): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/panel/innolux,p097pfg.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-dumo.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:1947.9-1956.5: Warning (graph_child_address): /isp0@ff910000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: usb@fe3a0000 (generic-ohci): bluetooth@1:compatible: ['usbcf3,e300', 'usb4ca,301a'] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: usb@fe3a0000 (generic-ohci): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bluetooth@1' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: panel@0 (innolux,p097pfg): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/panel/innolux,p097pfg.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-inx.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
---
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:2104.26-2144.4: Warning (avoid_unnecessary_addr_size): /dsi@ff968000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/rockchip/rk3399-base.dtsi:1947.9-1956.5: Warning (graph_child_address): /isp0@ff910000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: usb@fe3a0000 (generic-ohci): bluetooth@1:compatible: ['usbcf3,e300', 'usb4ca,301a'] is too long
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: usb@fe3a0000 (generic-ohci): Unevaluated properties are not allowed ('#address-cells', '#size-cells', 'bluetooth@1' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/usb/generic-ohci.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: usb@fe800000 (rockchip,rk3399-dwc3): 'extcon' does not match any of the regexes: '^pinctrl-[0-9]+$', '^usb@'
-   	from schema $id: http://devicetree.org/schemas/usb/rockchip,rk3399-dwc3.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): ports: 'port@1' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
->> arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: dp@fec00000 (rockchip,rk3399-cdn-dp): Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/rockchip/rockchip,rk3399-cdn-dp.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: /syscon@ff770000/pcie-phy: failed to match any schema with compatible: ['rockchip,rk3399-pcie-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: /phy@ff7c0000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: /phy@ff800000: failed to match any schema with compatible: ['rockchip,rk3399-typec-phy']
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: panel@0 (kingdisplay,kd097d04): 'ports' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/panel/panel-simple-dsi.yaml#
-   arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet-kd.dtb: /sound: failed to match any schema with compatible: ['rockchip,rk3399-gru-sound']
+sparse warnings: (new ones prefixed by >>)
+   io_uring/cmd_net.c:59:32: sparse: sparse: array of flexible structures
+   io_uring/cmd_net.c: note: in included file:
+   io_uring/uring_cmd.h:21:59: sparse: sparse: array of flexible structures
+>> io_uring/cmd_net.c:94:55: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted __poll_t [usertype] mask @@     got int @@
+   io_uring/cmd_net.c:94:55: sparse:     expected restricted __poll_t [usertype] mask
+   io_uring/cmd_net.c:94:55: sparse:     got int
+
+vim +94 io_uring/cmd_net.c
+
+    81	
+    82	static int io_uring_cmd_timestamp(struct socket *sock,
+    83					  struct io_uring_cmd *cmd,
+    84					  unsigned int issue_flags)
+    85	{
+    86		struct sock *sk = sock->sk;
+    87		struct sk_buff_head *q = &sk->sk_error_queue;
+    88		struct sk_buff *skb, *tmp;
+    89		struct sk_buff_head list;
+    90		int ret;
+    91	
+    92		if (!(issue_flags & IO_URING_F_CQE32))
+    93			return -EINVAL;
+  > 94		ret = io_cmd_poll_multishot(cmd, issue_flags, POLLERR);
+    95		if (unlikely(ret))
+    96			return ret;
+    97	
+    98		if (skb_queue_empty_lockless(q))
+    99			return -EAGAIN;
+   100		__skb_queue_head_init(&list);
+   101	
+   102		scoped_guard(spinlock_irq, &q->lock) {
+   103			skb_queue_walk_safe(q, skb, tmp) {
+   104				/* don't support skbs with payload */
+   105				if (!skb_has_tx_timestamp(skb, sk) || skb->len)
+   106					continue;
+   107				__skb_unlink(skb, q);
+   108				__skb_queue_tail(&list, skb);
+   109			}
+   110		}
+   111	
+   112		while (1) {
+   113			skb = skb_peek(&list);
+   114			if (!skb)
+   115				break;
+   116			if (!io_process_timestamp_skb(cmd, sk, skb, issue_flags))
+   117				break;
+   118			__skb_dequeue(&list);
+   119			consume_skb(skb);
+   120		}
+   121	
+   122		if (!unlikely(skb_queue_empty(&list))) {
+   123			scoped_guard(spinlock_irqsave, &q->lock)
+   124				skb_queue_splice(q, &list);
+   125		}
+   126		return -EAGAIN;
+   127	}
+   128	
 
 -- 
 0-DAY CI Kernel Test Service
