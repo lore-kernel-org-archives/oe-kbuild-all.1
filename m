@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA65C18DF89
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 May 2025 22:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D1801F0E49
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 31 May 2025 23:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748729395; cv=none; b=UlfUd04KMImV+5cg+zRkNc4XbIRWADzs7RdsWGBfNjOZrJ6Q/Sn6VJ03AEiRymU7SmPmGUK6bl900f6XVIPZZElYikeIj5Y3H1MjCuxHEgTbo18/kHmueh6BJQjQY6r9sTrE7MZdxrgqbk2h1FS3xp8lcNSwRgB7+qeg4+3fRf8=
+	t=1748734325; cv=none; b=ZUGE2T0/qGsJ97Dj8ba0Z2kGGf6017nSI95LbbkbQdKHmUVD2dcM0gzChzUoAzAaOf90m/tJkQECWusrwo4totCNq/l1et62/jniQCAczUWbCz5knC6WnzaX0Ie5sJ+Cn3pkVrZ1imfyG3B35Q7/3QS1r2q9+xpdzjDMailwJZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748729395; c=relaxed/simple;
-	bh=qD9FC1vyMvm89EJTpfDitWPr5e5+DYZUgCl7MfyLMWU=;
+	s=arc-20240116; t=1748734325; c=relaxed/simple;
+	bh=l/6JWtbuEjpEYr0d5Qx0p0ETOLprUagjTTOYMllVTmM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YsLqKlmS+6G0h2+WfmQnBkx+7wDeV1Ui1J4FMnx7m6tvJ+7Bv0dIpnYzprWKLCcLRAafnSfGZONxBtvqRVwpZL7bfyUtvg5ceDAChfsG6P7G4p0eGHQZnvFyaQ5WchSZ6jcLM7xViKrn2pQ5Adl91cIQl5ALtsUwN+Ku+/2mNsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EWW4WThU; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=dHpt7sHwV85JJVIB97+iocyuah5dbbnTPJmBwTfjXBkN17WJ5vgnmEsMSP3Xs4wBa4yDlSJ7fMvUZjHDyfdN6hL10k1DF/z5V8blUhXA298BjVbs1BROWB3/HNYgNiCWJRVBC6W/KZmDUiNdnlcC61ObWtOHma+0LWBI98tmHd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WG0pu5SV; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EWW4WThU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WG0pu5SV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748729394; x=1780265394;
+  t=1748734324; x=1780270324;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qD9FC1vyMvm89EJTpfDitWPr5e5+DYZUgCl7MfyLMWU=;
-  b=EWW4WThU2SxjUnbrlIRpZXbwrVYm7IgOxQuO3SlYTcIQQZFOLSNG8RZc
-   ourq7WUj8Et6OdcvFMU54eeOn9v4ffwDALy8nTPA/PYZ/FJFzUPVPYqj7
-   qXIjTtDf7ogEEWGZnNt6SVipx1hPIhvTYNiM15ea7wapRMyqxoGGkqkPT
-   IW8WMfDs3Kk33KF9XSXWGxLomb1lvfzys5ESk1kQXh+jM+v8+E1OAHGj3
-   NxKOoUhRYMjUYNB0QSrdMercbXrpDtB/hd0t8pVPkMpwEeNYn5K1Ho21C
-   i319SYQ6m6AVTLl5Imt+iqVVSs4TZSgRKWWurGRht1iDI3UcdRDVjWIUa
-   Q==;
-X-CSE-ConnectionGUID: 20o1WhReQfOCo86vMzG/uA==
-X-CSE-MsgGUID: mBAsrfEATkCvk+FKO0jV8g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="62187626"
+  bh=l/6JWtbuEjpEYr0d5Qx0p0ETOLprUagjTTOYMllVTmM=;
+  b=WG0pu5SVXIEsfpiktm/ZUKu091lGV/PnNbLTnaGe0YB/hggQB+xhMFiv
+   rls5JKWX8h03RCRXjjorjEuXKQv5UnLX+JkOGtZvqIyfQ1J44/MGjmuZw
+   iWRAVMorFSzonDfxqlqvhkMIzH91BxGkIMzFvjycr/MahpzcM/yFyDQrI
+   fdNyE7xoi9JyfV5kUKYVX2fle9MFtmK2xR+eay7iNmTf9AvFfZlov/XMl
+   uEAaLC/+QIn8eKv/fjvSsQGFZjsf4z9rrqq3bJD5YoeM7yY28BhNiTaZ9
+   MtK/K+Je9ySyMe7r0/TdiodxVT8ZMZmHFcaugmrK0tuW1RXhbIlvQTzDJ
+   A==;
+X-CSE-ConnectionGUID: wHxmW9GETxCz+smPByEMwg==
+X-CSE-MsgGUID: pYsFtBOASMuAQT/W4CBhcw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="50711544"
 X-IronPort-AV: E=Sophos;i="6.16,199,1744095600"; 
-   d="scan'208";a="62187626"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2025 15:09:53 -0700
-X-CSE-ConnectionGUID: DR2wqyAZQZGWq35UX2HHTQ==
-X-CSE-MsgGUID: Kjbyv2bSSkWJOLFCgt4FuQ==
+   d="scan'208";a="50711544"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2025 16:31:59 -0700
+X-CSE-ConnectionGUID: /h+kF7heR8C0mmFRf2NNvQ==
+X-CSE-MsgGUID: i8uZgsDoT2aSoq8+NoX0WQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,199,1744095600"; 
-   d="scan'208";a="167378829"
+   d="scan'208";a="144224192"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 31 May 2025 15:09:51 -0700
+  by orviesa009.jf.intel.com with ESMTP; 31 May 2025 16:31:57 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uLUOi-000Yfg-2v;
-	Sat, 31 May 2025 22:09:48 +0000
-Date: Sun, 1 Jun 2025 06:09:24 +0800
+	id 1uLVgA-000YhA-2z;
+	Sat, 31 May 2025 23:31:54 +0000
+Date: Sun, 1 Jun 2025 07:31:07 +0800
 From: kernel test robot <lkp@intel.com>
 To: Christian Lamparter <chunkeey@gmail.com>, linux-spi@vger.kernel.org,
 	linux-kernel@vger.kernel.org
@@ -55,7 +55,7 @@ Cc: Paul Gazzillo <paul@pgazz.com>,
 	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
 	oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>
 Subject: Re: [PATCH v1] spi: push HAS_IOMEM dependency down to the drivers
-Message-ID: <202506010509.Ln1e8D4u-lkp@intel.com>
+Message-ID: <202506010734.yl1PFBaA-lkp@intel.com>
 References: <20250530234941.950431-1-chunkeey@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -82,25 +82,20 @@ url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Lamparter/spi-p
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
 patch link:    https://lore.kernel.org/r/20250530234941.950431-1-chunkeey%40gmail.com
 patch subject: [PATCH v1] spi: push HAS_IOMEM dependency down to the drivers
-config: s390-kismet-CONFIG_MDIO_MSCC_MIIM-CONFIG_NET_DSA_MSCC_OCELOT_EXT-0-0 (https://download.01.org/0day-ci/archive/20250601/202506010509.Ln1e8D4u-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250601/202506010509.Ln1e8D4u-lkp@intel.com/reproduce)
+config: s390-kismet-CONFIG_MFD_CORE-CONFIG_IIO_SSP_SENSORHUB-0-0 (https://download.01.org/0day-ci/archive/20250601/202506010734.yl1PFBaA-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250601/202506010734.yl1PFBaA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506010509.Ln1e8D4u-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506010734.yl1PFBaA-lkp@intel.com/
 
 kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for MDIO_MSCC_MIIM when selected by NET_DSA_MSCC_OCELOT_EXT
-   WARNING: unmet direct dependencies detected for MFD_OCELOT
-     Depends on [n]: HAS_IOMEM [=n] && SPI_MASTER [=y]
+>> kismet: WARNING: unmet direct dependencies detected for MFD_CORE when selected by IIO_SSP_SENSORHUB
+   WARNING: unmet direct dependencies detected for MFD_CORE
+     Depends on [n]: HAS_IOMEM [=n]
      Selected by [y]:
-     - NET_DSA_MSCC_OCELOT_EXT [=y] && NETDEVICES [=y] && NET_DSA [=y] && SPI [=y] && NET_VENDOR_MICROSEMI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
-   
-   WARNING: unmet direct dependencies detected for MDIO_MSCC_MIIM
-     Depends on [n]: NETDEVICES [=y] && MDIO_DEVICE [=y] && MDIO_BUS [=y] && HAS_IOMEM [=n] && REGMAP_MMIO [=y]
-     Selected by [y]:
-     - NET_DSA_MSCC_OCELOT_EXT [=y] && NETDEVICES [=y] && NET_DSA [=y] && SPI [=y] && NET_VENDOR_MICROSEMI [=y] && PTP_1588_CLOCK_OPTIONAL [=y]
+     - IIO_SSP_SENSORHUB [=y] && IIO [=y] && SPI [=y]
 
 -- 
 0-DAY CI Kernel Test Service
