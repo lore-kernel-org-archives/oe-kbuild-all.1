@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069643C38
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Jun 2025 09:19:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21328262BE
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Jun 2025 11:43:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748769584; cv=none; b=BdXS1tTCDs57daoZF0QeNscIJ/yYPYEyeovYoaXgoe1BrXo2tD3EQHtr1fn/XChImIjAGPUCPLTqeNveCYrHjFuwH/bfC8Y2PSJBxlRGTYINdDW+w3Jb48sxe7MKrsGicUxqXjd0YOpY79yaASWyDm9xQGrw3l8c/0aVrIEj+Yc=
+	t=1748778234; cv=none; b=YtzPkn7B9EpHX/LdMmPae56q1pcNgC12OF1nyKaTZS72PvozTlXl7eP0sj2G96Vc+l5ZYder4dpw2uU8Cw26+BegdAiZlXeNVSoavhq4QVY7Q/zADAAnkVyAAVaaVrkjnWjxEljXv7ij3getxPGuUPr3SVz0RCC/nV0SnYcaQIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748769584; c=relaxed/simple;
-	bh=b5N1y/m9Kj02uZmYFS8J+6nzkQrSosO020jsf8DYUmo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sSRA2TOi5BJS+wm0Bm3D+NwvND/zJalfz2eNGAm8rg+vJ49ZtOt7nwVdti2cGJKfNtdnu2IEIFDKqLJBhE9dkIZ1JlNjZb+AdiNwmmnOd3NM7Tv3rL/8b6mIpwm1VSXSsKfNZx+VNuCHawBNBixhYiA7o92oC+G+25yMdHNVAiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hoeVqEND; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1748778234; c=relaxed/simple;
+	bh=V9RYN00bkq5qk/uSwqmyg6gurImTKZNkoaoo36ggFNk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EdjKL9Vk70QlU3Stox7tymL5c1IpFvPoMbd906xNlUoRYlHvmzZ9X4vAzPlLvyuN/52lI+pnddNMiClWOthxb0w29NnoQ2qQHxPFGUEfZ1vqJXQD2vudMgYxE0T/tUCXgIZx1wgmKVjO/2VUfhEqgg/6MqTkTgz3qKSdWKbbwbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=APevHUKU; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hoeVqEND"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="APevHUKU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748769583; x=1780305583;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b5N1y/m9Kj02uZmYFS8J+6nzkQrSosO020jsf8DYUmo=;
-  b=hoeVqEND+/akPbV7n01iC/zul8hW6kxFs8gIpSVQECc3O2mMVn0Myttu
-   ez/f/ZwBu+ptTdQ0RTTv/Z1IiiUDW+pdDYQPUMPzCF6iNJJDR0tqgGC4B
-   k2O2G5F0ErAYy2jXRrLPZo0Po11M24t06fP4fUoFusIH3060wffG9gzNU
-   eCbYq2z6cDDJ1yJ0XlvbvZfLby7zum1AhnFb7J9NOIKjeZJJdbkoWxTQF
-   /5lt1epUjeIizkjZY4lcZ7g8KawK17ThVLhi4XKdRhsA1FZoChrpq2dr1
-   q3I6kSM6fdpwuNeFznpL4ng7CTWmkpz13vjmnVyt1XzorU/+BaYp/f2w/
-   g==;
-X-CSE-ConnectionGUID: zcGJk349SV20w16iAU6Sow==
-X-CSE-MsgGUID: ekEcegALSMW5Kk/Ll4GY2g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="76195006"
-X-IronPort-AV: E=Sophos;i="6.16,200,1744095600"; 
-   d="scan'208";a="76195006"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2025 02:19:42 -0700
-X-CSE-ConnectionGUID: i3Sx3aFOT12D+hxT/eXBUQ==
-X-CSE-MsgGUID: rbKEEwOPRKm6/djWPvCtbw==
+  t=1748778232; x=1780314232;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=V9RYN00bkq5qk/uSwqmyg6gurImTKZNkoaoo36ggFNk=;
+  b=APevHUKU/isUHMHBFTnzPkOVvi9a7cWHir3sovmrDkg4NptLyO6gNFAo
+   zWPipPsmIhtsCfoiqI6zMhP2BHluyuI5/fOwKKFUcYw7d4iZgz7sto7DU
+   I+IH9hkWacYSxmz4CreyX9VBu1A5B/3v4UH9gmzcdsNbRVcUXmLQiSBil
+   Ng8l9KeLW2P9pX92zLtvCEAQ54xWR0haWp6W9yp/Mi7mQCfx5df0+ArYE
+   ky2QTFhYSlZQg6vrjewe7GAMJIkoEu2cgQjIys0sq3lk1dso3ja1IUbnu
+   RoNZDoUTu943xBk/7oX9oa9+rJPvKcHgxSLaQPfgmpGN+J0TuotDakJFx
+   w==;
+X-CSE-ConnectionGUID: eIwUvP6vQImq1p1CDhHi5w==
+X-CSE-MsgGUID: pJ7xRdDgQcuQbVt0ojiFzQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="62160842"
+X-IronPort-AV: E=Sophos;i="6.16,201,1744095600"; 
+   d="scan'208";a="62160842"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2025 04:43:51 -0700
+X-CSE-ConnectionGUID: +H6lA51eQi++yIMVGOSuBA==
+X-CSE-MsgGUID: f2ssX2i0Q5CFqOtBHX5msA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,200,1744095600"; 
-   d="scan'208";a="144254398"
+X-IronPort-AV: E=Sophos;i="6.16,201,1744095600"; 
+   d="scan'208";a="149084138"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 01 Jun 2025 02:19:41 -0700
+  by orviesa003.jf.intel.com with ESMTP; 01 Jun 2025 04:43:51 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uLeqw-000Ysq-20;
-	Sun, 01 Jun 2025 09:19:38 +0000
-Date: Sun, 1 Jun 2025 17:19:22 +0800
+	id 1uLh6R-000Yv6-2X;
+	Sun, 01 Jun 2025 11:43:47 +0000
+Date: Sun, 1 Jun 2025 19:43:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>
-Subject: Re: [PATCH 3/3] scripts/misc-check: check unnecessary #include
- <linux/export.h>
-Message-ID: <202506011712.L8Jfbz6T-lkp@intel.com>
-References: <20250531183217.3844357-3-masahiroy@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline-rust 2/2]
+ arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: pmic (mediatek,mt6359):
+ 'mt6359codec', 'mt6359rtc' do not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <202506011901.cyKKhP1K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,134 +63,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250531183217.3844357-3-masahiroy@kernel.org>
 
-Hi Masahiro,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on masahiroy-kbuild/for-next]
-[also build test WARNING on masahiroy-kbuild/fixes linus/master v6.15 next-20250530]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/scripts-misc-check-check-missing-include-linux-export-h/20250601-023341
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
-patch link:    https://lore.kernel.org/r/20250531183217.3844357-3-masahiroy%40kernel.org
-patch subject: [PATCH 3/3] scripts/misc-check: check unnecessary #include <linux/export.h>
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250601/202506011712.L8Jfbz6T-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250601/202506011712.L8Jfbz6T-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline-rust
+head:   e8191d4b0877b5e3025a126ac1d08756a322d055
+commit: 5bcecfcaa6d1d4ea1b29082ed1fd077ba4cccb55 [2/2] dt-bindings: mfd: mediatek: mt6397: Add ADC, CODEC and Regulators for MT6359
+config: arm64-randconfig-051-20250529 (https://download.01.org/0day-ci/archive/20250601/202506011901.cyKKhP1K-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+dtschema version: 2025.3.dev27+g32749b3
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250601/202506011901.cyKKhP1K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506011712.L8Jfbz6T-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506011901.cyKKhP1K-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   grep: net/wireless/util.c: No such file or directory
-   grep: net/wireless/wext-compat.c: No such file or directory
-   grep: net/wireless/wext-core.c: No such file or directory
-   grep: net/wireless/wext-sme.c: No such file or directory
-   grep: net/x25/x25_proc.c: No such file or directory
-   grep: net/xfrm/xfrm_proc.c: No such file or directory
-   grep: net/xfrm/xfrm_replay.c: No such file or directory
-   grep: rust/exports.c: No such file or directory
-   grep: security/integrity/evm/evm_crypto.c: No such file or directory
-   grep: security/integrity/ima/ima_mok.c: No such file or directory
-   grep: security/integrity/platform_certs/platform_keyring.c: No such file or directory
-   grep: security/keys/encrypted-keys/ecryptfs_format.c: No such file or directory
-   grep: security/keys/key.c: No such file or directory
-   grep: security/keys/keyring.c: No such file or directory
-   grep: security/keys/permission.c: No such file or directory
-   grep: security/keys/request_key.c: No such file or directory
-   grep: security/keys/user_defined.c: No such file or directory
-   grep: security/lockdown/lockdown.c: No such file or directory
-   grep: security/security.c: No such file or directory
-   grep: security/selinux/hooks.c: No such file or directory
-   grep: security/selinux/netlink.c: No such file or directory
-   grep: sound/core/ctljack.c: No such file or directory
-   grep: sound/core/device.c: No such file or directory
-   grep: sound/core/info_oss.c: No such file or directory
-   grep: sound/core/isadma.c: No such file or directory
-   grep: sound/core/memory.c: No such file or directory
-   grep: sound/core/misc.c: No such file or directory
-   grep: sound/core/pcm_drm_eld.c: No such file or directory
-   grep: sound/core/pcm_iec958.c: No such file or directory
-   grep: sound/core/pcm_lib.c: No such file or directory
-   grep: sound/core/pcm_memory.c: No such file or directory
-   grep: sound/core/pcm_misc.c: No such file or directory
-   grep: sound/core/seq/oss/seq_oss_init.c: No such file or directory
-   grep: sound/core/seq/seq_clientmgr.c: No such file or directory
-   grep: sound/core/seq/seq_info.c: No such file or directory
-   grep: sound/core/seq/seq_lock.c: No such file or directory
-   grep: sound/core/seq/seq_memory.c: No such file or directory
-   grep: sound/core/seq/seq_system.c: No such file or directory
-   grep: sound/core/sound_oss.c: No such file or directory
-   grep: sound/core/ump.c: No such file or directory
-   grep: sound/core/ump_convert.c: No such file or directory
-   grep: sound/core/vmaster.c: No such file or directory
-   grep: sound/drivers/opl3/opl3_oss.c: No such file or directory
-   grep: sound/drivers/opl3/opl3_synth.c: No such file or directory
-   grep: sound/drivers/opl4/opl4_proc.c: No such file or directory
-   grep: sound/firewire/iso-resources.c: No such file or directory
-   grep: sound/firewire/packets-buffer.c: No such file or directory
-   grep: sound/hda/hda_bus_type.c: No such file or directory
-   grep: sound/hda/hdac_bus.c: No such file or directory
-   grep: sound/hda/hdac_controller.c: No such file or directory
-   grep: sound/hda/hdac_device.c: No such file or directory
-   grep: sound/hda/hdac_regmap.c: No such file or directory
-   grep: sound/hda/hdac_stream.c: No such file or directory
-   grep: sound/hda/intel-sdw-acpi.c: No such file or directory
-   grep: sound/isa/gus/gus_volume.c: No such file or directory
-   grep: sound/isa/msnd/msnd_midi.c: No such file or directory
-   grep: sound/isa/msnd/msnd_pinnacle_mixer.c: No such file or directory
-   grep: sound/isa/sb/emu8000.c: No such file or directory
-   grep: sound/isa/sb/emu8000_callback.c: No such file or directory
-   grep: sound/pci/ac97/ac97_pcm.c: No such file or directory
-   grep: sound/pci/au88x0/au88x0_game.c: No such file or directory
-   grep: sound/pci/cs46xx/cs46xx_lib.c: No such file or directory
-   grep: sound/pci/emu10k1/emu10k1_callback.c: No such file or directory
-   grep: sound/pci/emu10k1/io.c: No such file or directory
-   grep: sound/pci/emu10k1/memory.c: No such file or directory
-   grep: sound/pci/emu10k1/voice.c: No such file or directory
-   grep: sound/pci/hda/hda_auto_parser.c: No such file or directory
-   grep: sound/pci/hda/hda_beep.c: No such file or directory
-   grep: sound/pci/hda/hda_bind.c: No such file or directory
-   grep: sound/pci/hda/hda_generic.c: No such file or directory
-   grep: sound/pci/hda/hda_jack.c: No such file or directory
-   grep: sound/pci/hda/hda_sysfs.c: No such file or directory
-   grep: sound/pci/oxygen/oxygen_io.c: No such file or directory
-   grep: sound/pci/trident/trident_main.c: No such file or directory
-   grep: sound/soc/amd/acp/acp-legacy-common.c: No such file or directory
-   grep: sound/soc/amd/acp/amd-sdw-acpi.c: No such file or directory
-   grep: sound/soc/amd/ps/ps-common.c: No such file or directory
-   grep: sound/soc/atmel/sam9x5_wm8731.c: No such file or directory
-   grep: sound/soc/codecs/lpass-macro-common.c: No such file or directory
-   grep: sound/soc/codecs/sigmadsp-i2c.c: No such file or directory
-   grep: sound/soc/codecs/sigmadsp-regmap.c: No such file or directory
-   grep: sound/soc/codecs/wm5100.c: No such file or directory
-   grep: sound/soc/qcom/lpass-cdc-dma.c: No such file or directory
-   grep: sound/soc/qcom/lpass-platform.c: No such file or directory
-   grep: sound/soc/soc-ac97.c: No such file or directory
-   grep: sound/soc/soc-acpi.c: No such file or directory
-   grep: sound/soc/soc-jack.c: No such file or directory
-   grep: sound/soc/soc-pcm.c: No such file or directory
-   grep: sound/soc/soc-topology.c: No such file or directory
-   grep: sound/soc/soc-utils.c: No such file or directory
-   grep: sound/soc/sof/intel/icl.c: No such file or directory
-   grep: sound/soc/sof/stream-ipc.c: No such file or directory
-   grep: sound/soc/tegra/tegra_asoc_machine.c: No such file or directory
-   grep: sound/synth/emux/emux_oss.c: No such file or directory
-   grep: sound/synth/emux/emux_synth.c: No such file or directory
-   grep: sound/synth/emux/soundfont.c: No such file or directory
-   grep: sound/usb/line6/driver.c: No such file or directory
-   grep: sound/usb/line6/midi.c: No such file or directory
-   grep: sound/usb/line6/pcm.c: No such file or directory
-   grep: virt/kvm/irqchip.c: No such file or directory
->> : warning: EXPORT_SYMBOL() is not used, but #include <linux/export.h> is present
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: syscon@10006000 (mediatek,mt8188-scpsys): power-controller:power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt8195-scpsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: power-controller (mediatek,mt8188-power-controller): power-domain@15:power-domain@16:power-domain@29:power-domain@30: Unevaluated properties are not allowed ('power-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-controller.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: pmic (mediatek,mt6359): 'mt6359codec', 'mt6359rtc' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10330000 (mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mailbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000 (mediatek,mt8188-vppsys0): $nodename:0: 'clock-controller@14000000' does not match '^syscon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000 (mediatek,mt8188-vppsys0): compatible: 'oneOf' conditional failed, one must be fixed:
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: syscon@10001000 (mediatek,mt8195-infracfg_ao): compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: pmic (mediatek,mt6359): 'mt6359codec', 'mt6359rtc' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realtek,rt5682s): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realtek,rt5682s): 'DBVDD-supply' is a required property
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: syscon@10001000 (mediatek,mt8195-infracfg_ao): compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: pmic (mediatek,mt6359): 'mt6359codec', 'mt6359rtc' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: pmic@34 (mediatek,mt6360): #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: codec@1a (realtek,rt5682s): #sound-dai-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r3.dtb: codec@1a (realtek,rt5682s): 'DBVDD-supply' is a required property
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: syscon@10001000 (mediatek,mt8195-infracfg_ao): compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: pmic (mediatek,mt6359): 'mt6359codec', 'mt6359rtc' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: pmic@34 (mediatek,mt6360): charger:usb-otg-vbus-regulator: Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: charger (mediatek,mt6360-chg): usb-otg-vbus-regulator: Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/supply/mt6360_charger.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-demo.dtb: regulator (mediatek,mt6360-regulator): buck1: Unevaluated properties are not allowed ('regulator-compatible' was unexpected)
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3016.17-3073.5: Warning (simple_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3090.17-3126.5: Warning (simple_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: syscon@10001000 (mediatek,mt8195-infracfg_ao): compatible: ['mediatek,mt8195-infracfg_ao', 'syscon', 'simple-mfd'] is too long
+   	from schema $id: http://devicetree.org/schemas/clock/mediatek,mt8195-sys-clock.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6359): 'mt6359codec', 'mt6359rtc' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: pmic (mediatek,mt6359): regulators: 'compatible' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6397.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: infra-iommu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: eth-phy0@1 (ethernet-phy-id001c.c916): $nodename:0: 'eth-phy0@1' does not match '^ethernet-phy(@[a-f0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: eth-phy0@1 (ethernet-phy-id001c.c916): Unevaluated properties are not allowed ('reg' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/realtek,rtl82xx.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: t-phy@11e30000 (mediatek,mt8195-tphy): 'power-domains' does not match any of the regexes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', '^pinctrl-[0-9]+$'
 
 -- 
 0-DAY CI Kernel Test Service
