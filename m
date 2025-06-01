@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93BC417A2E0
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Jun 2025 05:55:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4344A1885B8
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Jun 2025 07:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748757328; cv=none; b=o5fJJ0Gk74HRtveBZx1papiZgyzs5p6bPcZi0UYZSAwmvV+es+XPs6AMWmygEZXh8FAP6BIHgWHSkz+DwIe3XqfwtAric/j9NNzzvJ1KY5jKdMpLBEdoBUS+KmBN43pcm9wV8AkfW26OlS430U/ln+duu5eAeGI9lKBA2rC5W0Y=
+	t=1748762855; cv=none; b=aXG4gTYpnbxwWnyLHqMP3k28sM8ZIAzFwOREfy2sTb9D/CkKXvYrpJ6kYj1WXef2yCwqtVvouxTWsYg8HyhbeBjl8nRtqRSX2IkmANVkm1OrwbF8BJDPZnhbYsVzLZfapkox2zFvRhlRjMCrUEFcUvoi8EdJnFTETgWb5KPxTaQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748757328; c=relaxed/simple;
-	bh=koKONsiQym17nXDXYMpzkd5ttZP9GhAvQ6kqZX9N9aU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PpfQMLx5P3jJAUnaiccPyhZEQbxWWWFSoVEdrOGja3CEIWhFNZRELK1Q1hLZndJB8EgTkdEfI6KUCbZOO73r5FebzSOPhBL95t+lezoV5AVhoDub76qzka+xo9tzQVkKWApgtNUwg5fbmAGuuwj/0xSX8RIVOwLADrhiYjQkcuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=et3nqQf3; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1748762855; c=relaxed/simple;
+	bh=TSIGAsRYaW85cdl+wamftWOl+ellU2bWsRYBQ2l+1+c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dj9mA6cklUJm/9c99x1otVeD5zPOyw8phDSUE2+jpQio3Jl5KT7aDzToRz1DT27W8yj2WQKhkjwEMgm0Nnjhiaahyt3LRWv2ZEs7tV8vq8P24xpOcRZWGxKgjB3ST08sN8DAiIGUsSnpxaAACs9UTiNrpvQTRRYOKfwtq4SEYCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ass8kz2I; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="et3nqQf3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ass8kz2I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748757327; x=1780293327;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=koKONsiQym17nXDXYMpzkd5ttZP9GhAvQ6kqZX9N9aU=;
-  b=et3nqQf3d8Im1Kq7uIUPszIl4zwTuImmwTx/7o9UfdBm3DHfsCMEMQdh
-   afeod/IMo36PtfNkVxdQ6JhJnECMFhrg54gFIKtMhphJetW8PnTYDbpEI
-   lar0y0/hkYu14nqh3KZ9eD2SBXzGj2/XmlYZ3mUdY3cREgS/XJl+7YUXH
-   evxlEKHdUTCTaScurGvL0R94Pw+fUiNbxSc89hQy1krVe55tFgfJ2zrbZ
-   +w7uj5O5lVzeTBDifK33NcpwCjexeNF2WW7HhWbcGuIXYcajtDE9VLe2q
-   RTF3bFE41w4rrN9nMv0oYbxzR95LhOQY4KlsWObo5/RDx3IaTmBhmMPBN
-   w==;
-X-CSE-ConnectionGUID: LOwm80dCQOuY6tqbe+/vrQ==
-X-CSE-MsgGUID: gLM2K4fTTPeY+uXfRRS2PQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="61058938"
+  t=1748762853; x=1780298853;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=TSIGAsRYaW85cdl+wamftWOl+ellU2bWsRYBQ2l+1+c=;
+  b=Ass8kz2IIx14w6CZ1t3ucdNID2Ko2rVLdBscQ78Vd24c/HSbIkxjDTDH
+   mRJnHPfd0THzpSq6KnQ90Dbk4Wv0LlGty3PArRKdKWxJ2MQ/PFDiuqSg/
+   kfiHypaWh5d3vijTHBpdcQN4Ge2wilXHpLGqjZMne1YyF9m+4YqLMMh92
+   9C6iNHVDjCzbXhb+amhq/gw4HUGcAw/1OLEZrCQ5HKHIqVCgdcWo+utrU
+   4m72nmSbYveRmDl4fEZrB6iZgUupNCRvdpA0zKrol3kLKtZs9croyI5ZY
+   yge/ode41phmQMhuRUHdEXBGG9xnbAgMHwoReeW7BRFYEwPg71DHQGwNU
+   A==;
+X-CSE-ConnectionGUID: rXE+1U/1STmTe62oDiSzRA==
+X-CSE-MsgGUID: 6O0IufUiTlOc43rMSGwiPQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="50672999"
 X-IronPort-AV: E=Sophos;i="6.16,200,1744095600"; 
-   d="scan'208";a="61058938"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2025 22:55:26 -0700
-X-CSE-ConnectionGUID: 4ow33yuvSyCBaYOk7LhMOw==
-X-CSE-MsgGUID: chX8lyW9Tkif9a/BYpqPtA==
+   d="scan'208";a="50672999"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2025 00:27:33 -0700
+X-CSE-ConnectionGUID: 9Ot9ppksRUCULTzU/oFn4w==
+X-CSE-MsgGUID: tFsjKZ0IQYChMml0V9Ujqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,200,1744095600"; 
-   d="scan'208";a="149023604"
+   d="scan'208";a="149296680"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 31 May 2025 22:55:25 -0700
+  by orviesa004.jf.intel.com with ESMTP; 01 Jun 2025 00:27:31 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uLbfG-000YpO-2B;
-	Sun, 01 Jun 2025 05:55:22 +0000
-Date: Sun, 1 Jun 2025 13:55:22 +0800
+	id 1uLd6O-000Yqm-38;
+	Sun, 01 Jun 2025 07:27:28 +0000
+Date: Sun, 1 Jun 2025 15:27:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android-mainline-rust 2/2]
- arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dsi@14014000
- (mediatek,mt8183-dsi): 'oneOf' conditional failed, one must be fixed:
-Message-ID: <202506011335.eVvej0yT-lkp@intel.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: Re: [PATCH 2/3] scripts/misc-check: check missing #include
+ <linux/export.h>
+Message-ID: <202506011554.4QOxHuBb-lkp@intel.com>
+References: <20250531183217.3844357-2-masahiroy@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,41 +64,153 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250531183217.3844357-2-masahiroy@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android-mainline-rust
-head:   e8191d4b0877b5e3025a126ac1d08756a322d055
-commit: 2b6433f30b870c7fbd172f5e1969e1df5e03cad7 [2/2] dt-bindings: display: mediatek: Add OF graph support for board path
-config: arm64-randconfig-052-20250529 (https://download.01.org/0day-ci/archive/20250601/202506011335.eVvej0yT-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250601/202506011335.eVvej0yT-lkp@intel.com/reproduce)
+Hi Masahiro,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on masahiroy-kbuild/for-next]
+[also build test ERROR on masahiroy-kbuild/fixes linus/master v6.15 next-20250530]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Masahiro-Yamada/scripts-misc-check-check-missing-include-linux-export-h/20250601-023341
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git for-next
+patch link:    https://lore.kernel.org/r/20250531183217.3844357-2-masahiroy%40kernel.org
+patch subject: [PATCH 2/3] scripts/misc-check: check missing #include <linux/export.h>
+config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250601/202506011554.4QOxHuBb-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250601/202506011554.4QOxHuBb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506011335.eVvej0yT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506011554.4QOxHuBb-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: pinctrl@10005000 (mediatek,mt8183-pinctrl): 'i2c0', 'i2c1', 'i2c2', 'i2c3', 'i2c4', 'i2c5', 'mmc0', 'mmc0default', 'mmc1', 'mmc1default', 'pwm1', 'spi0', 'spi1', 'spi2', 'spi3', 'spi4', 'spi5' do not match any of the regexes: '-pins(-[a-z]+)?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/pinctrl/mediatek,mt8183-pinctrl.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/pwrap@1000d000/pmic/mt6358codec: failed to match any schema with compatible: ['mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/audio-controller@11220000: failed to match any schema with compatible: ['mediatek,mt8183-audiosys', 'syscon']
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: /soc/audio-controller@11220000/mt8183-afe-pcm: failed to match any schema with compatible: ['mediatek,mt8183-audio']
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: syscon@13000000 (mediatek,mt8183-mfgcfg): 'power-domains' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/clock/mediatek,syscon.yaml#
->> arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dsi@14014000 (mediatek,mt8183-dsi): 'oneOf' conditional failed, one must be fixed:
-   	'port' is a required property
-   	'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dsi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dpi@14015000 (mediatek,mt8183-dpi): power-domains: False schema does not allow [[69, 7]]
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: dpi@14015000 (mediatek,mt8183-dpi): 'oneOf' conditional failed, one must be fixed:
-   	'port' is a required property
-   	'ports' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/mediatek/mediatek,dpi.yaml#
-   arch/arm64/boot/dts/mediatek/mt8183-evb.dtb: thermal-sensor (murata,ncp03wf104): $nodename:0: 'thermal-sensor' does not match '^thermistor(.*)?$'
+All error/warnings (new ones prefixed by >>):
+
+>> grep: arch/alpha/kernel/core_irongate.c: No such file or directory
+>> grep: arch/alpha/kernel/core_marvel.c: No such file or directory
+>> grep: arch/alpha/kernel/core_titan.c: No such file or directory
+>> grep: arch/alpha/kernel/core_tsunami.c: No such file or directory
+>> grep: arch/alpha/kernel/io.c: No such file or directory
+>> grep: arch/alpha/kernel/irq_alpha.c: No such file or directory
+>> grep: arch/alpha/kernel/machvec_impl.h: No such file or directory
+>> grep: arch/alpha/kernel/pci.c: No such file or directory
+>> grep: arch/alpha/kernel/pci_iommu.c: No such file or directory
+>> grep: arch/alpha/kernel/process.c: No such file or directory
+>> grep: arch/alpha/kernel/setup.c: No such file or directory
+>> grep: arch/alpha/kernel/smp.c: No such file or directory
+>> grep: arch/alpha/kernel/time.c: No such file or directory
+>> grep: arch/alpha/kernel/traps.c: No such file or directory
+>> grep: arch/alpha/lib/checksum.c: No such file or directory
+>> grep: arch/alpha/lib/csum_partial_copy.c: No such file or directory
+>> grep: arch/alpha/lib/fls.c: No such file or directory
+>> grep: arch/alpha/lib/fpreg.c: No such file or directory
+>> grep: arch/alpha/lib/memcpy.c: No such file or directory
+>> grep: arch/alpha/lib/udelay.c: No such file or directory
+   grep: arch/arc/kernel/arcksyms.c: No such file or directory
+   grep: arch/arc/kernel/intc-compact.c: No such file or directory
+   grep: arch/arc/kernel/process.c: No such file or directory
+   grep: arch/arc/kernel/reset.c: No such file or directory
+   grep: arch/arc/kernel/smp.c: No such file or directory
+   grep: arch/arc/kernel/stacktrace.c: No such file or directory
+   grep: arch/arc/kernel/unwind.c: No such file or directory
+   grep: arch/arc/mm/cache.c: No such file or directory
+   grep: arch/arc/mm/init.c: No such file or directory
+   grep: arch/arc/mm/ioremap.c: No such file or directory
+   grep: arch/arm/common/bL_switcher.c: No such file or directory
+   grep: arch/arm/common/krait-l2-accessors.c: No such file or directory
+   grep: arch/arm/common/locomo.c: No such file or directory
+   grep: arch/arm/common/mcpm_entry.c: No such file or directory
+   grep: arch/arm/common/sa1111.c: No such file or directory
+   grep: arch/arm/common/scoop.c: No such file or directory
+   grep: arch/arm/common/sharpsl_param.c: No such file or directory
+   grep: arch/arm/crypto/aes-cipher-glue.c: No such file or directory
+   grep: arch/arm/crypto/blake2s-glue.c: No such file or directory
+   grep: arch/arm/crypto/chacha-glue.c: No such file or directory
+   grep: arch/arm/crypto/curve25519-glue.c: No such file or directory
+   grep: arch/arm/crypto/poly1305-glue.c: No such file or directory
+   grep: arch/arm/crypto/sha1_glue.c: No such file or directory
+   grep: arch/arm/crypto/sha256_glue.c: No such file or directory
+   grep: arch/arm/kernel/armksyms.c: No such file or directory
+   grep: arch/arm/kernel/bios32.c: No such file or directory
+   grep: arch/arm/kernel/cacheinfo.c: No such file or directory
+   grep: arch/arm/kernel/dma.c: No such file or directory
+   grep: arch/arm/kernel/elf.c: No such file or directory
+   grep: arch/arm/kernel/fiq.c: No such file or directory
+   grep: arch/arm/kernel/io.c: No such file or directory
+   grep: arch/arm/kernel/opcodes.c: No such file or directory
+   grep: arch/arm/kernel/process.c: No such file or directory
+   grep: arch/arm/kernel/reboot.c: No such file or directory
+   grep: arch/arm/kernel/return_address.c: No such file or directory
+   grep: arch/arm/kernel/setup.c: No such file or directory
+   grep: arch/arm/kernel/stacktrace.c: No such file or directory
+   grep: arch/arm/kernel/tcm.c: No such file or directory
+   grep: arch/arm/kernel/time.c: No such file or directory
+   grep: arch/arm/kernel/traps.c: No such file or directory
+   grep: arch/arm/kernel/unwind.c: No such file or directory
+   grep: arch/arm/lib/crc-t10dif-glue.c: No such file or directory
+   grep: arch/arm/lib/crc32-glue.c: No such file or directory
+   grep: arch/arm/lib/delay.c: No such file or directory
+   grep: arch/arm/lib/xor-neon.c: No such file or directory
+   grep: arch/arm/mach-at91/pm.c: No such file or directory
+   grep: arch/arm/mach-davinci/common.c: No such file or directory
+   grep: arch/arm/mach-davinci/sram.c: No such file or directory
+   grep: arch/arm/mach-footbridge/common.c: No such file or directory
+   grep: arch/arm/mach-footbridge/netwinder-hw.c: No such file or directory
+   grep: arch/arm/mach-imx/cpu-imx25.c: No such file or directory
+   grep: arch/arm/mach-imx/cpu-imx27.c: No such file or directory
+   grep: arch/arm/mach-imx/cpu-imx31.c: No such file or directory
+   grep: arch/arm/mach-imx/cpu-imx35.c: No such file or directory
+   grep: arch/arm/mach-imx/cpu-imx5.c: No such file or directory
+   grep: arch/arm/mach-imx/cpuidle-imx6q.c: No such file or directory
+   grep: arch/arm/mach-imx/irq-common.c: No such file or directory
+   grep: arch/arm/mach-imx/ssi-fiq-ksym.c: No such file or directory
+   grep: arch/arm/mach-lpc32xx/common.c: No such file or directory
+   grep: arch/arm/mach-lpc32xx/serial.c: No such file or directory
+   grep: arch/arm/mach-mmp/common.c: No such file or directory
+   grep: arch/arm/mach-omap1/board-sx1.c: No such file or directory
+   grep: arch/arm/mach-omap1/id.c: No such file or directory
+   grep: arch/arm/mach-omap1/io.c: No such file or directory
+   grep: arch/arm/mach-omap1/mux.c: No such file or directory
+   grep: arch/arm/mach-omap1/ocpi.c: No such file or directory
+   grep: arch/arm/mach-omap1/omap-dma.c: No such file or directory
+   grep: arch/arm/mach-omap2/id.c: No such file or directory
+   grep: arch/arm/mach-pxa/generic.c: No such file or directory
+   grep: arch/arm/mach-pxa/pm.c: No such file or directory
+   grep: arch/arm/mach-pxa/pxa27x.c: No such file or directory
+   grep: arch/arm/mach-rpc/ecard.c: No such file or directory
+   grep: arch/arm/mach-s3c/dev-audio-s3c64xx.c: No such file or directory
+   grep: arch/arm/mach-s3c/gpio-samsung.c: No such file or directory
+   grep: arch/arm/mach-sa1100/assabet.c: No such file or directory
+   grep: arch/arm/mach-sa1100/jornada720_ssp.c: No such file or directory
+   grep: arch/arm/mach-sa1100/neponset.c: No such file or directory
+   grep: arch/arm/mach-sa1100/ssp.c: No such file or directory
+   grep: arch/arm/mach-zynq/platsmp.c: No such file or directory
+   grep: arch/arm/mm/dma-mapping.c: No such file or directory
+   grep: arch/arm/mm/flush.c: No such file or directory
+   grep: arch/arm/mm/init.c: No such file or directory
+   grep: arch/arm/mm/iomap.c: No such file or directory
+   grep: arch/arm/mm/ioremap.c: No such file or directory
+   grep: arch/arm/mm/mmu.c: No such file or directory
+   grep: arch/arm/mm/nommu.c: No such file or directory
+   grep: arch/arm/mm/physaddr.c: No such file or directory
+   grep: arch/arm/mm/proc-syms.c: No such file or directory
+   grep: arch/arm/plat-orion/gpio.c: No such file or directory
+   grep: arch/arm/probes/decode-arm.c: No such file or directory
+   grep: arch/arm/probes/decode-thumb.c: No such file or directory
+   grep: arch/arm/vfp/vfpmodule.c: No such file or directory
+   grep: arch/arm/xen/enlighten.c: No such file or directory
+   grep: arch/arm/xen/p2m.c: No such file or directory
+   grep: arch/arm64/crypto/aes-ce-glue.c: No such file or directory
+   grep: arch/arm64/crypto/aes-glue.c: No such file or directory
+   grep: arch/arm64/crypto/chacha-neon-glue.c: No such file or directory
+   grep: arch/arm64/crypto/poly1305-glue.c: No such file or directory
+   grep: arch/arm64/crypto/sha256-glue.c: No such file or directory
+   grep: arch/arm64/crypto/sha512-glue.c: No such file or directory
 
 -- 
 0-DAY CI Kernel Test Service
