@@ -1,356 +1,251 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D4F286A9;
-	Sat, 31 May 2025 23:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DC1184E
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  1 Jun 2025 00:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748734921; cv=none; b=WgYri7PyG7w2rskIcsmjib6Yl2u0hkipM4wMvprrbq+rMePnEs79Q15xBY3/3zm8yeazhldbCzafjkOEWhqN71Xf2i9uaXXxfK2VJB/gc7kigNi1HUguxbUpAP0cMHdJoxcsXcYj3CG0gN9dQvlLtIVuesOMODFUZMeav2/cOxI=
+	t=1748737985; cv=none; b=BwIGbELfovimHS3HSQsLxitHV5MOua3WqVFkAVGfyHQmS0uln4Lwx/a5seSyVPgNYGhu8pHKJiJ3JM1po2QfsZ39jAF3vzmtZwpCHY44G8BClrVNPCsh+dCszJ8ddo+vaRPTp2NYMdqWX2tkEq407gNT/dC1J6qNDe3yAbAhEII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748734921; c=relaxed/simple;
-	bh=PbVF/lSwZXAZkLl5+CReTMCHc5N4ldXvQrdjuLc82eI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wpx2bE5f6a3SpCGukTIY0KMs1lgKm3A5h9eklkqeCUQzWK7UFuOIq925KIGKssZigvwbfUctA4w1cW1XRVSJglSSGWzo2Zoou7z4aXrAPhaIcZUJoRAWj3I3Dfzqi1upVo58KRmHohRTMJGth/5r69XliKm8/dynuzLJoC/Shw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LHuZikaK; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1748737985; c=relaxed/simple;
+	bh=8holS/4+8ylv0xUqhUg/jxLy8oSl/hdgexVsXC/2qLM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=mtL89G8RRFeeblLm+kePml7OfGAsiuSid0M4SJpzwhm7jCMT6PgiL3g0bvFXgSloiuYXv1+uYztViNqN32QVVTjOHYNc/IO5Ylb9OQWTQNy/KVfn6TAFZ9F9qOJzv4NWsOmrmzuz/iOkL0r9VmI2p9Kryc48+O7XIIgCDDJTBgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l/sJHnQI; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LHuZikaK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l/sJHnQI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748734919; x=1780270919;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=PbVF/lSwZXAZkLl5+CReTMCHc5N4ldXvQrdjuLc82eI=;
-  b=LHuZikaKquOqKes6PO9JeNPapLayVga9ZJtY4b3XWtXWzx/l9a37d3od
-   hIC4gmQ6R4kNxf/xyd8fWUlLlXklfF6ocvEizaflC/9wmaD9mzAhjWBE0
-   oq7r1B3mk8TkT2h38cqWGCiMkP2NeN0PBwTvC8NL0rlPcRPO+BvVIRMnD
-   D0nW+7alVTxc+s7I5g07Qni/wyUwGV2zEOj2wqtbLxV3SttoRTaRWUv3g
-   OPJMjZfTKjerqQKp41AlQh7jQcrKH7G/+tvIbAQaXlT5qTVBF25ofpTQZ
-   W0zcmmZkxPS//gdGqseUZw8uw4gZPgddUWWrBQ8Ah9B7N/9vtBxdJiaYr
+  t=1748737984; x=1780273984;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8holS/4+8ylv0xUqhUg/jxLy8oSl/hdgexVsXC/2qLM=;
+  b=l/sJHnQIn7R9VjONNM6ZY354bb3kgFPeHujwvInVzcRy7FkQkk/Oi/7H
+   Q60qJkGc/L380Ng+o9VTW1tVkbqM/E8lyfN5nZz4hlMxoj8jNuTz/UsIV
+   JmYCUUEiOGhtaPaBwkICi2wKvx1+r/NgkMc3DCoj9FiDbF7TNA3bECLTy
+   MxYU07j0RJeZivgzq60NJbOmlMkJY3j5hquOWU/xPrwdMO/+dHzVPdH8+
+   fVMHIKtav3hxQCdkvxVJVE75P2q8Umc1feY8bUuOqIt07giwJWx3jHfPL
+   +WiHEtGBDNgsBlAOVqjK7Tu6mk/ZkMUXhNdsHMQhTpFBrBdywPRlhRwD7
    A==;
-X-CSE-ConnectionGUID: tjWC6rOESXu2oY1pMxKybg==
-X-CSE-MsgGUID: IkCIwSi0TJacSoc+fYYwZw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="54586694"
-X-IronPort-AV: E=Sophos;i="6.16,199,1744095600"; 
-   d="scan'208";a="54586694"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2025 16:41:59 -0700
-X-CSE-ConnectionGUID: Tj0yFlowS1ORel9HVEMOvA==
-X-CSE-MsgGUID: lIAUJhmXR3mbo+8oTvqLXA==
+X-CSE-ConnectionGUID: wjbylYmsTWi2Hm6BOyG51g==
+X-CSE-MsgGUID: YQj3tDORQHCPk3MgI9Cmww==
+X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="50797165"
+X-IronPort-AV: E=Sophos;i="6.16,200,1744095600"; 
+   d="scan'208";a="50797165"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2025 17:33:03 -0700
+X-CSE-ConnectionGUID: 4/02CD07S4ezMCkK6tKKjg==
+X-CSE-MsgGUID: bkiLbJIDSWu3h6Fd8s5SSQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,199,1744095600"; 
-   d="scan'208";a="167388166"
+X-IronPort-AV: E=Sophos;i="6.16,200,1744095600"; 
+   d="scan'208";a="149363645"
 Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 31 May 2025 16:41:58 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 31 May 2025 17:33:02 -0700
 Received: from kbuild by 1992f890471c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uLVpr-000YhM-2L;
-	Sat, 31 May 2025 23:41:55 +0000
-Date: Sun, 1 Jun 2025 07:41:23 +0800
+	id 1uLWdH-000YiS-1G;
+	Sun, 01 Jun 2025 00:32:59 +0000
+Date: Sun, 1 Jun 2025 08:32:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?=C1lvaro_Fern=E1ndez?= Rojas <noltari@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 01/10] net: dsa: b53: add support for FDB operations
- on 5325/5365
-Message-ID: <202506010756.N5VMksdd-lkp@intel.com>
-References: <20250531101308.155757-2-noltari@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2025-05 49/49] mm/page_alloc.c:327:15:
+ sparse: sparse: symbol 'nr_free_highatomic' was not declared. Should it be
+ static?
+Message-ID: <202506010846.j7PjjJAs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250531101308.155757-2-noltari@gmail.com>
 
-Hi Álvaro,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-[also build test WARNING on net/main linus/master v6.15 next-20250530]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/lvaro-Fern-ndez-Rojas/net-dsa-b53-add-support-for-FDB-operations-on-5325-5365/20250531-181619
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250531101308.155757-2-noltari%40gmail.com
-patch subject: [RFC PATCH 01/10] net: dsa: b53: add support for FDB operations on 5325/5365
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250601/202506010756.N5VMksdd-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250601/202506010756.N5VMksdd-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-05
+head:   7b1f522c80c811c59e056b899b26c684780442fd
+commit: 7b1f522c80c811c59e056b899b26c684780442fd [49/49] ANDROID: GKI: deferred split queue corruption - ABI fixup
+config: i386-randconfig-062-20250531 (https://download.01.org/0day-ci/archive/20250601/202506010846.j7PjjJAs-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250601/202506010846.j7PjjJAs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506010756.N5VMksdd-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506010846.j7PjjJAs-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/page_alloc.c:195:1: sparse: sparse: symbol 'restrict_cma_redirect' was not declared. Should it be static?
+   mm/page_alloc.c:1384:25: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted int flags @@     got restricted fpi_t [usertype] fpi_flags @@
+   mm/page_alloc.c:1384:25: sparse:     expected restricted int flags
+   mm/page_alloc.c:1384:25: sparse:     got restricted fpi_t [usertype] fpi_flags
+   mm/page_alloc.c:1392:25: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected restricted int flags @@     got restricted fpi_t [usertype] fpi_flags @@
+   mm/page_alloc.c:1392:25: sparse:     expected restricted int flags
+   mm/page_alloc.c:1392:25: sparse:     got restricted fpi_t [usertype] fpi_flags
+>> mm/page_alloc.c:327:15: sparse: sparse: symbol 'nr_free_highatomic' was not declared. Should it be static?
+   mm/page_alloc.c:915:31: sparse: sparse: cast from restricted fpi_t
+   mm/page_alloc.c:915:31: sparse: sparse: cast from restricted fpi_t
+   mm/page_alloc.c:2782:9: sparse: sparse: context imbalance in 'free_unref_page' - different lock contexts for basic block
+   mm/page_alloc.c:2835:33: sparse: sparse: context imbalance in 'free_unref_folios' - unexpected unlock
+   mm/page_alloc.c:915:31: sparse: sparse: cast from restricted fpi_t
+   mm/page_alloc.c:3137:20: sparse: sparse: context imbalance in 'rmqueue_pcplist' - different lock contexts for basic block
+   mm/page_alloc.c:4887:9: sparse: sparse: context imbalance in '__alloc_pages_bulk' - different lock contexts for basic block
 
->> drivers/net/dsa/b53/b53_common.c:1764:7: warning: variable 'fwd_entry' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-    1764 |                 if (!is5325(dev) && !is5365(dev))
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/dsa/b53/b53_common.c:1767:39: note: uninitialized use occurs here
-    1767 |                 b53_arl_to_entry(dev, ent, mac_vid, fwd_entry);
-         |                                                     ^~~~~~~~~
-   drivers/net/dsa/b53/b53_common.c:1764:3: note: remove the 'if' if its condition is always true
-    1764 |                 if (!is5325(dev) && !is5365(dev))
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1765 |                         b53_read32(dev, B53_ARLIO_PAGE,
->> drivers/net/dsa/b53/b53_common.c:1764:7: warning: variable 'fwd_entry' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
-    1764 |                 if (!is5325(dev) && !is5365(dev))
-         |                     ^~~~~~~~~~~~
-   drivers/net/dsa/b53/b53_common.c:1767:39: note: uninitialized use occurs here
-    1767 |                 b53_arl_to_entry(dev, ent, mac_vid, fwd_entry);
-         |                                                     ^~~~~~~~~
-   drivers/net/dsa/b53/b53_common.c:1764:7: note: remove the '&&' if its condition is always true
-    1764 |                 if (!is5325(dev) && !is5365(dev))
-         |                     ^~~~~~~~~~~~~~~
-   drivers/net/dsa/b53/b53_common.c:1759:16: note: initialize the variable 'fwd_entry' to silence this warning
-    1759 |                 u32 fwd_entry;
-         |                              ^
-         |                               = 0
->> drivers/net/dsa/b53/b53_common.c:1927:13: warning: variable 'fwd_entry' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    1927 |         } else if (is5365(dev)) {
-         |                    ^~~~~~~~~~~
-   drivers/net/dsa/b53/b53_common.c:1936:38: note: uninitialized use occurs here
-    1936 |         b53_arl_to_entry(dev, ent, mac_vid, fwd_entry);
-         |                                             ^~~~~~~~~
-   drivers/net/dsa/b53/b53_common.c:1927:9: note: remove the 'if' if its condition is always false
-    1927 |         } else if (is5365(dev)) {
-         |                ^~~~~~~~~~~~~~~~~~
-    1928 |                 b53_read64(dev, B53_ARLIO_PAGE, B53_ARL_SRCH_RSTL_0_MACVID_65,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1929 |                            &mac_vid);
-         |                            ~~~~~~~~~~
-    1930 |         } else {
-         |         ~~~~~~
-   drivers/net/dsa/b53/b53_common.c:1924:6: warning: variable 'fwd_entry' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-    1924 |         if (is5325(dev)) {
-         |             ^~~~~~~~~~~
-   drivers/net/dsa/b53/b53_common.c:1936:38: note: uninitialized use occurs here
-    1936 |         b53_arl_to_entry(dev, ent, mac_vid, fwd_entry);
-         |                                             ^~~~~~~~~
-   drivers/net/dsa/b53/b53_common.c:1924:2: note: remove the 'if' if its condition is always false
-    1924 |         if (is5325(dev)) {
-         |         ^~~~~~~~~~~~~~~~~~
-    1925 |                 b53_read64(dev, B53_ARLIO_PAGE, B53_ARL_SRCH_RSTL_0_MACVID_25,
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1926 |                            &mac_vid);
-         |                            ~~~~~~~~~~
-    1927 |         } else if (is5365(dev)) {
-         |         ~~~~~~
-   drivers/net/dsa/b53/b53_common.c:1922:15: note: initialize the variable 'fwd_entry' to silence this warning
-    1922 |         u32 fwd_entry;
-         |                      ^
-         |                       = 0
-   4 warnings generated.
+vim +/nr_free_highatomic +327 mm/page_alloc.c
 
+7281201922a006 Lee Schermerhorn       2010-05-26  183  
+4518085e127dff Kemi Wang              2017-11-15 @184  DEFINE_STATIC_KEY_TRUE(vm_numa_stat_key);
+4518085e127dff Kemi Wang              2017-11-15  185  
+1c8aebe4c072bf Heesub Shin            2024-02-12  186  /*
+ce561872e6fe1c Suren Baghdasaryan     2025-02-28  187   * By default, restrict_cma_redirect is set to true, so only MOVABLE allocations
+ce561872e6fe1c Suren Baghdasaryan     2025-02-28  188   * marked __GFP_CMA are eligible to be redirected to CMA region. These allocations
+ce561872e6fe1c Suren Baghdasaryan     2025-02-28  189   * are redirected if *any* free space is available in the CMA region.
+ce561872e6fe1c Suren Baghdasaryan     2025-02-28  190   * When restrict_cma_redirect is false, all movable allocations
+1c8aebe4c072bf Heesub Shin            2024-02-12  191   * are eligible for redirection to CMA region (i.e movable allocations are
+1c8aebe4c072bf Heesub Shin            2024-02-12  192   * not restricted from CMA region), when there is sufficient space there.
+1c8aebe4c072bf Heesub Shin            2024-02-12  193   * (see __rmqueue()).
+1c8aebe4c072bf Heesub Shin            2024-02-12  194   */
+ce561872e6fe1c Suren Baghdasaryan     2025-02-28  195  DEFINE_STATIC_KEY_TRUE(restrict_cma_redirect);
+1c8aebe4c072bf Heesub Shin            2024-02-12  196  
+1c8aebe4c072bf Heesub Shin            2024-02-12  197  static int __init restrict_cma_redirect_setup(char *str)
+1c8aebe4c072bf Heesub Shin            2024-02-12  198  {
+1c8aebe4c072bf Heesub Shin            2024-02-12  199  #ifdef CONFIG_CMA
+ce561872e6fe1c Suren Baghdasaryan     2025-02-28  200  	bool res;
+ce561872e6fe1c Suren Baghdasaryan     2025-02-28  201  
+ce561872e6fe1c Suren Baghdasaryan     2025-02-28  202  	if (!kstrtobool(str, &res) && !res)
+ce561872e6fe1c Suren Baghdasaryan     2025-02-28  203  		static_branch_disable(&restrict_cma_redirect);
+1c8aebe4c072bf Heesub Shin            2024-02-12  204  #else
+1c8aebe4c072bf Heesub Shin            2024-02-12  205  	pr_warn("CONFIG_CMA not set. Ignoring restrict_cma_redirect option\n");
+1c8aebe4c072bf Heesub Shin            2024-02-12  206  #endif
+1c8aebe4c072bf Heesub Shin            2024-02-12  207  	return 1;
+1c8aebe4c072bf Heesub Shin            2024-02-12  208  }
+ce561872e6fe1c Suren Baghdasaryan     2025-02-28  209  __setup("restrict_cma_redirect=", restrict_cma_redirect_setup);
+1c8aebe4c072bf Heesub Shin            2024-02-12  210  
+1c8aebe4c072bf Heesub Shin            2024-02-12  211  static inline bool cma_redirect_restricted(void)
+1c8aebe4c072bf Heesub Shin            2024-02-12  212  {
+1c8aebe4c072bf Heesub Shin            2024-02-12  213  	return static_key_enabled(&restrict_cma_redirect);
+1c8aebe4c072bf Heesub Shin            2024-02-12  214  }
+1c8aebe4c072bf Heesub Shin            2024-02-12  215  
+634c33ee9d167b Chris Goldsworthy      2024-02-12  216  /*
+634c33ee9d167b Chris Goldsworthy      2024-02-12  217   * Return true if CMA has pcplist. We use the PCP list for CMA only if
+634c33ee9d167b Chris Goldsworthy      2024-02-12  218   * this returns true. For now, rather than define a new flag, reuse the
+634c33ee9d167b Chris Goldsworthy      2024-02-12  219   * restrict_cma_redirect flag itself to select this behavior.
+634c33ee9d167b Chris Goldsworthy      2024-02-12  220   */
+634c33ee9d167b Chris Goldsworthy      2024-02-12  221  static inline bool cma_has_pcplist(void)
+634c33ee9d167b Chris Goldsworthy      2024-02-12  222  {
+634c33ee9d167b Chris Goldsworthy      2024-02-12  223  	return static_key_enabled(&restrict_cma_redirect);
+634c33ee9d167b Chris Goldsworthy      2024-02-12  224  }
+634c33ee9d167b Chris Goldsworthy      2024-02-12  225  
+7aac7898855123 Lee Schermerhorn       2010-05-26  226  #ifdef CONFIG_HAVE_MEMORYLESS_NODES
+7aac7898855123 Lee Schermerhorn       2010-05-26  227  /*
+7aac7898855123 Lee Schermerhorn       2010-05-26  228   * N.B., Do NOT reference the '_numa_mem_' per cpu variable directly.
+7aac7898855123 Lee Schermerhorn       2010-05-26  229   * It will not be defined when CONFIG_HAVE_MEMORYLESS_NODES is not defined.
+7aac7898855123 Lee Schermerhorn       2010-05-26  230   * Use the accessor functions set_numa_mem(), numa_mem_id() and cpu_to_mem()
+7aac7898855123 Lee Schermerhorn       2010-05-26  231   * defined in <linux/topology.h>.
+7aac7898855123 Lee Schermerhorn       2010-05-26  232   */
+7aac7898855123 Lee Schermerhorn       2010-05-26  233  DEFINE_PER_CPU(int, _numa_mem_);		/* Kernel "local memory" node */
+7aac7898855123 Lee Schermerhorn       2010-05-26  234  EXPORT_PER_CPU_SYMBOL(_numa_mem_);
+7aac7898855123 Lee Schermerhorn       2010-05-26  235  #endif
+7aac7898855123 Lee Schermerhorn       2010-05-26  236  
+8b885f53b03e3b Jason Yan              2020-04-10  237  static DEFINE_MUTEX(pcpu_drain_mutex);
+bd233f538d51c2 Mel Gorman             2017-02-24  238  
+38addce8b600ca Emese Revfy            2016-06-20  239  #ifdef CONFIG_GCC_PLUGIN_LATENT_ENTROPY
+58bea4144d235c Kees Cook              2016-10-19  240  volatile unsigned long latent_entropy __latent_entropy;
+38addce8b600ca Emese Revfy            2016-06-20  241  EXPORT_SYMBOL(latent_entropy);
+38addce8b600ca Emese Revfy            2016-06-20  242  #endif
+38addce8b600ca Emese Revfy            2016-06-20  243  
+^1da177e4c3f41 Linus Torvalds         2005-04-16  244  /*
+13808910713a98 Christoph Lameter      2007-10-16  245   * Array of node states.
+^1da177e4c3f41 Linus Torvalds         2005-04-16  246   */
+13808910713a98 Christoph Lameter      2007-10-16  247  nodemask_t node_states[NR_NODE_STATES] __read_mostly = {
+13808910713a98 Christoph Lameter      2007-10-16  248  	[N_POSSIBLE] = NODE_MASK_ALL,
+13808910713a98 Christoph Lameter      2007-10-16  249  	[N_ONLINE] = { { [0] = 1UL } },
+13808910713a98 Christoph Lameter      2007-10-16  250  #ifndef CONFIG_NUMA
+13808910713a98 Christoph Lameter      2007-10-16  251  	[N_NORMAL_MEMORY] = { { [0] = 1UL } },
+13808910713a98 Christoph Lameter      2007-10-16  252  #ifdef CONFIG_HIGHMEM
+13808910713a98 Christoph Lameter      2007-10-16  253  	[N_HIGH_MEMORY] = { { [0] = 1UL } },
+20b2f52b73febc Lai Jiangshan          2012-12-12  254  #endif
+20b2f52b73febc Lai Jiangshan          2012-12-12  255  	[N_MEMORY] = { { [0] = 1UL } },
+13808910713a98 Christoph Lameter      2007-10-16  256  	[N_CPU] = { { [0] = 1UL } },
+13808910713a98 Christoph Lameter      2007-10-16  257  #endif	/* NUMA */
+13808910713a98 Christoph Lameter      2007-10-16  258  };
+13808910713a98 Christoph Lameter      2007-10-16  259  EXPORT_SYMBOL(node_states);
+13808910713a98 Christoph Lameter      2007-10-16  260  
+dcce284a259373 Benjamin Herrenschmidt 2009-06-18  261  gfp_t gfp_allowed_mask __read_mostly = GFP_BOOT_MASK;
+6471384af2a653 Alexander Potapenko    2019-07-11  262  
+d9c2340052278d Mel Gorman             2007-10-16  263  #ifdef CONFIG_HUGETLB_PAGE_SIZE_VARIABLE
+d00181b96eb86c Kirill A. Shutemov     2015-11-06  264  unsigned int pageblock_order __read_mostly;
+d9c2340052278d Mel Gorman             2007-10-16  265  #endif
+d9c2340052278d Mel Gorman             2007-10-16  266  
+7fef431be9c9ac David Hildenbrand      2020-10-15  267  static void __free_pages_ok(struct page *page, unsigned int order,
+7fef431be9c9ac David Hildenbrand      2020-10-15  268  			    fpi_t fpi_flags);
+a226f6c899799f David Howells          2006-01-06  269  
+^1da177e4c3f41 Linus Torvalds         2005-04-16  270  /*
+^1da177e4c3f41 Linus Torvalds         2005-04-16  271   * results with 256, 32 in the lowmem_reserve sysctl:
+^1da177e4c3f41 Linus Torvalds         2005-04-16  272   *	1G machine -> (16M dma, 800M-16M normal, 1G-800M high)
+^1da177e4c3f41 Linus Torvalds         2005-04-16  273   *	1G machine -> (16M dma, 784M normal, 224M high)
+^1da177e4c3f41 Linus Torvalds         2005-04-16  274   *	NORMAL allocation will leave 784M/256 of ram reserved in the ZONE_DMA
+^1da177e4c3f41 Linus Torvalds         2005-04-16  275   *	HIGHMEM allocation will leave 224M/32 of ram reserved in ZONE_NORMAL
+84109e15ddc8fe Yaowei Bai             2015-02-12  276   *	HIGHMEM allocation will leave (224M+784M)/256 of ram reserved in ZONE_DMA
+a2f1b424900715 Andi Kleen             2005-11-05  277   *
+a2f1b424900715 Andi Kleen             2005-11-05  278   * TBD: should special case ZONE_DMA32 machines here - in those we normally
+a2f1b424900715 Andi Kleen             2005-11-05  279   * don't need any ZONE_NORMAL reservation
+^1da177e4c3f41 Linus Torvalds         2005-04-16  280   */
+62069aace14565 Tom Rix                2023-05-18  281  static int sysctl_lowmem_reserve_ratio[MAX_NR_ZONES] = {
+4b51d66989218a Christoph Lameter      2007-02-10  282  #ifdef CONFIG_ZONE_DMA
+d3cda2337bbc9e Joonsoo Kim            2018-04-10  283  	[ZONE_DMA] = 256,
+4b51d66989218a Christoph Lameter      2007-02-10  284  #endif
+fb0e7942bdcbbd Christoph Lameter      2006-09-25  285  #ifdef CONFIG_ZONE_DMA32
+d3cda2337bbc9e Joonsoo Kim            2018-04-10  286  	[ZONE_DMA32] = 256,
+fb0e7942bdcbbd Christoph Lameter      2006-09-25  287  #endif
+d3cda2337bbc9e Joonsoo Kim            2018-04-10  288  	[ZONE_NORMAL] = 32,
+e53ef38d05dd59 Christoph Lameter      2006-09-25  289  #ifdef CONFIG_HIGHMEM
+d3cda2337bbc9e Joonsoo Kim            2018-04-10  290  	[ZONE_HIGHMEM] = 0,
+e53ef38d05dd59 Christoph Lameter      2006-09-25  291  #endif
+d3cda2337bbc9e Joonsoo Kim            2018-04-10  292  	[ZONE_MOVABLE] = 0,
+2f1b6248682f8b Christoph Lameter      2006-09-25  293  };
+^1da177e4c3f41 Linus Torvalds         2005-04-16  294  
+9420f89db2dd61 Mike Rapoport (IBM     2023-03-21  295) char * const zone_names[MAX_NR_ZONES] = {
+4b51d66989218a Christoph Lameter      2007-02-10  296  #ifdef CONFIG_ZONE_DMA
+2f1b6248682f8b Christoph Lameter      2006-09-25  297  	 "DMA",
+4b51d66989218a Christoph Lameter      2007-02-10  298  #endif
+fb0e7942bdcbbd Christoph Lameter      2006-09-25  299  #ifdef CONFIG_ZONE_DMA32
+2f1b6248682f8b Christoph Lameter      2006-09-25  300  	 "DMA32",
+fb0e7942bdcbbd Christoph Lameter      2006-09-25  301  #endif
+2f1b6248682f8b Christoph Lameter      2006-09-25  302  	 "Normal",
+e53ef38d05dd59 Christoph Lameter      2006-09-25  303  #ifdef CONFIG_HIGHMEM
+2a1e274acf0b1c Mel Gorman             2007-07-17  304  	 "HighMem",
+e53ef38d05dd59 Christoph Lameter      2006-09-25  305  #endif
+2a1e274acf0b1c Mel Gorman             2007-07-17  306  	 "Movable",
+c1ff6dcf209e4a Yu Zhao                2024-01-31  307  	 "NoSplit",
+c1ff6dcf209e4a Yu Zhao                2024-01-31  308  	 "NoMerge",
+033fbae988fcb6 Dan Williams           2015-08-09  309  #ifdef CONFIG_ZONE_DEVICE
+033fbae988fcb6 Dan Williams           2015-08-09  310  	 "Device",
+033fbae988fcb6 Dan Williams           2015-08-09  311  #endif
+2f1b6248682f8b Christoph Lameter      2006-09-25  312  };
+2f1b6248682f8b Christoph Lameter      2006-09-25  313  
+c999fbd3dcc653 Alexey Dobriyan        2018-12-28  314  const char * const migratetype_names[MIGRATE_TYPES] = {
+60f30350fd69a3 Vlastimil Babka        2016-03-15  315  	"Unmovable",
+60f30350fd69a3 Vlastimil Babka        2016-03-15  316  	"Movable",
+60f30350fd69a3 Vlastimil Babka        2016-03-15  317  	"Reclaimable",
+60f30350fd69a3 Vlastimil Babka        2016-03-15  318  #ifdef CONFIG_CMA
+60f30350fd69a3 Vlastimil Babka        2016-03-15  319  	"CMA",
+60f30350fd69a3 Vlastimil Babka        2016-03-15  320  #endif
+634c33ee9d167b Chris Goldsworthy      2024-02-12  321  	"HighAtomic",
+60f30350fd69a3 Vlastimil Babka        2016-03-15  322  #ifdef CONFIG_MEMORY_ISOLATION
+60f30350fd69a3 Vlastimil Babka        2016-03-15  323  	"Isolate",
+60f30350fd69a3 Vlastimil Babka        2016-03-15  324  #endif
+60f30350fd69a3 Vlastimil Babka        2016-03-15  325  };
+60f30350fd69a3 Vlastimil Babka        2016-03-15  326  
+d5ace9d4dd020b Kalesh Singh           2025-05-28 @327  unsigned long nr_free_highatomic[MAX_NR_ZONES] = {0};
+d5ace9d4dd020b Kalesh Singh           2025-05-28  328  
 
-vim +1764 drivers/net/dsa/b53/b53_common.c
+:::::: The code at line 327 was first introduced by commit
+:::::: d5ace9d4dd020b31be684cfd095e876fe59ae65f ANDROID: GKI: page_alloc ABI fixup
 
-  1742	
-  1743	static int b53_arl_read(struct b53_device *dev, u64 mac,
-  1744				u16 vid, struct b53_arl_entry *ent, u8 *idx)
-  1745	{
-  1746		DECLARE_BITMAP(free_bins, B53_ARLTBL_MAX_BIN_ENTRIES);
-  1747		unsigned int i;
-  1748		int ret;
-  1749	
-  1750		ret = b53_arl_op_wait(dev);
-  1751		if (ret)
-  1752			return ret;
-  1753	
-  1754		bitmap_zero(free_bins, dev->num_arl_bins);
-  1755	
-  1756		/* Read the bins */
-  1757		for (i = 0; i < dev->num_arl_bins; i++) {
-  1758			u64 mac_vid;
-  1759			u32 fwd_entry;
-  1760	
-  1761			b53_read64(dev, B53_ARLIO_PAGE,
-  1762				   B53_ARLTBL_MAC_VID_ENTRY(i), &mac_vid);
-  1763	
-> 1764			if (!is5325(dev) && !is5365(dev))
-  1765				b53_read32(dev, B53_ARLIO_PAGE,
-  1766					   B53_ARLTBL_DATA_ENTRY(i), &fwd_entry);
-  1767			b53_arl_to_entry(dev, ent, mac_vid, fwd_entry);
-  1768	
-  1769			if (!(fwd_entry & ARLTBL_VALID)) {
-  1770				set_bit(i, free_bins);
-  1771				continue;
-  1772			}
-  1773			if ((mac_vid & ARLTBL_MAC_MASK) != mac)
-  1774				continue;
-  1775			if (dev->vlan_enabled &&
-  1776			    ((mac_vid >> ARLTBL_VID_S) & ARLTBL_VID_MASK) != vid)
-  1777				continue;
-  1778			*idx = i;
-  1779			return 0;
-  1780		}
-  1781	
-  1782		*idx = find_first_bit(free_bins, dev->num_arl_bins);
-  1783		return *idx >= dev->num_arl_bins ? -ENOSPC : -ENOENT;
-  1784	}
-  1785	
-  1786	static int b53_arl_op(struct b53_device *dev, int op, int port,
-  1787			      const unsigned char *addr, u16 vid, bool is_valid)
-  1788	{
-  1789		struct b53_arl_entry ent;
-  1790		u32 fwd_entry;
-  1791		u64 mac, mac_vid = 0;
-  1792		u8 idx = 0;
-  1793		int ret;
-  1794	
-  1795		/* Convert the array into a 64-bit MAC */
-  1796		mac = ether_addr_to_u64(addr);
-  1797	
-  1798		/* Perform a read for the given MAC and VID */
-  1799		b53_write48(dev, B53_ARLIO_PAGE, B53_MAC_ADDR_IDX, mac);
-  1800		if (!is5325(dev))
-  1801			b53_write16(dev, B53_ARLIO_PAGE, B53_VLAN_ID_IDX, vid);
-  1802	
-  1803		/* Issue a read operation for this MAC */
-  1804		ret = b53_arl_rw_op(dev, 1);
-  1805		if (ret)
-  1806			return ret;
-  1807	
-  1808		ret = b53_arl_read(dev, mac, vid, &ent, &idx);
-  1809	
-  1810		/* If this is a read, just finish now */
-  1811		if (op)
-  1812			return ret;
-  1813	
-  1814		switch (ret) {
-  1815		case -ETIMEDOUT:
-  1816			return ret;
-  1817		case -ENOSPC:
-  1818			dev_dbg(dev->dev, "{%pM,%.4d} no space left in ARL\n",
-  1819				addr, vid);
-  1820			return is_valid ? ret : 0;
-  1821		case -ENOENT:
-  1822			/* We could not find a matching MAC, so reset to a new entry */
-  1823			dev_dbg(dev->dev, "{%pM,%.4d} not found, using idx: %d\n",
-  1824				addr, vid, idx);
-  1825			fwd_entry = 0;
-  1826			break;
-  1827		default:
-  1828			dev_dbg(dev->dev, "{%pM,%.4d} found, using idx: %d\n",
-  1829				addr, vid, idx);
-  1830			break;
-  1831		}
-  1832	
-  1833		/* For multicast address, the port is a bitmask and the validity
-  1834		 * is determined by having at least one port being still active
-  1835		 */
-  1836		if (!is_multicast_ether_addr(addr)) {
-  1837			ent.port = port;
-  1838			ent.is_valid = is_valid;
-  1839		} else {
-  1840			if (is_valid)
-  1841				ent.port |= BIT(port);
-  1842			else
-  1843				ent.port &= ~BIT(port);
-  1844	
-  1845			ent.is_valid = !!(ent.port);
-  1846		}
-  1847	
-  1848		ent.vid = vid;
-  1849		ent.is_static = true;
-  1850		ent.is_age = false;
-  1851		memcpy(ent.mac, addr, ETH_ALEN);
-  1852		b53_arl_from_entry(dev, &mac_vid, &fwd_entry, &ent);
-  1853	
-  1854		b53_write64(dev, B53_ARLIO_PAGE,
-  1855			    B53_ARLTBL_MAC_VID_ENTRY(idx), mac_vid);
-  1856	
-  1857		if (!is5325(dev) && !is5365(dev))
-  1858			b53_write32(dev, B53_ARLIO_PAGE,
-  1859				    B53_ARLTBL_DATA_ENTRY(idx), fwd_entry);
-  1860	
-  1861		return b53_arl_rw_op(dev, 0);
-  1862	}
-  1863	
-  1864	int b53_fdb_add(struct dsa_switch *ds, int port,
-  1865			const unsigned char *addr, u16 vid,
-  1866			struct dsa_db db)
-  1867	{
-  1868		struct b53_device *priv = ds->priv;
-  1869		int ret;
-  1870	
-  1871		mutex_lock(&priv->arl_mutex);
-  1872		ret = b53_arl_op(priv, 0, port, addr, vid, true);
-  1873		mutex_unlock(&priv->arl_mutex);
-  1874	
-  1875		return ret;
-  1876	}
-  1877	EXPORT_SYMBOL(b53_fdb_add);
-  1878	
-  1879	int b53_fdb_del(struct dsa_switch *ds, int port,
-  1880			const unsigned char *addr, u16 vid,
-  1881			struct dsa_db db)
-  1882	{
-  1883		struct b53_device *priv = ds->priv;
-  1884		int ret;
-  1885	
-  1886		mutex_lock(&priv->arl_mutex);
-  1887		ret = b53_arl_op(priv, 0, port, addr, vid, false);
-  1888		mutex_unlock(&priv->arl_mutex);
-  1889	
-  1890		return ret;
-  1891	}
-  1892	EXPORT_SYMBOL(b53_fdb_del);
-  1893	
-  1894	static int b53_arl_search_wait(struct b53_device *dev)
-  1895	{
-  1896		unsigned int timeout = 1000;
-  1897		u8 reg, offset;
-  1898	
-  1899		if (is5325(dev) || is5365(dev))
-  1900			offset = B53_ARL_SRCH_CTL_25;
-  1901		else
-  1902			offset = B53_ARL_SRCH_CTL;
-  1903	
-  1904		do {
-  1905			b53_read8(dev, B53_ARLIO_PAGE, offset, &reg);
-  1906			if (!(reg & ARL_SRCH_STDN))
-  1907				return 0;
-  1908	
-  1909			if (reg & ARL_SRCH_VLID)
-  1910				return 0;
-  1911	
-  1912			usleep_range(1000, 2000);
-  1913		} while (timeout--);
-  1914	
-  1915		return -ETIMEDOUT;
-  1916	}
-  1917	
-  1918	static void b53_arl_search_rd(struct b53_device *dev, u8 idx,
-  1919				      struct b53_arl_entry *ent)
-  1920	{
-  1921		u64 mac_vid;
-  1922		u32 fwd_entry;
-  1923	
-  1924		if (is5325(dev)) {
-  1925			b53_read64(dev, B53_ARLIO_PAGE, B53_ARL_SRCH_RSTL_0_MACVID_25,
-  1926				   &mac_vid);
-> 1927		} else if (is5365(dev)) {
-  1928			b53_read64(dev, B53_ARLIO_PAGE, B53_ARL_SRCH_RSTL_0_MACVID_65,
-  1929				   &mac_vid);
-  1930		} else {
-  1931			b53_read64(dev, B53_ARLIO_PAGE, B53_ARL_SRCH_RSTL_MACVID(idx),
-  1932				   &mac_vid);
-  1933			b53_read32(dev, B53_ARLIO_PAGE, B53_ARL_SRCH_RSTL(idx),
-  1934				   &fwd_entry);
-  1935		}
-  1936		b53_arl_to_entry(dev, ent, mac_vid, fwd_entry);
-  1937	}
-  1938	
+:::::: TO: Kalesh Singh <kaleshsingh@google.com>
+:::::: CC: Kalesh Singh <kaleshsingh@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
