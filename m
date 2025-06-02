@@ -1,148 +1,170 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D4F1A2643
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Jun 2025 06:08:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB4129D0E
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Jun 2025 06:19:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748844515; cv=none; b=oG1Hammzyf9h/y4fdIFAPdFMO5sEGz8BHXJ2fMc7C71DHPwpxSF+j+u//bcdVWMHlwKntAupeyeQS8kyFGS0URxbrrGO6PPbIMXEmqHRZ3EkS7xDWe+0wxObFO+ucgrVpFdQoHOnDNhKlzEQ9474VpFs5vzHIZahx+o5smI77ac=
+	t=1748845164; cv=none; b=TzmQmuf9VPJ4IhJvdbu+q2GjZREwX+PI43NMBDg3iCNUVc2MaETOrB0ClSRBgNOiOfiU+V1RPa8WTXDi3yuKeXn6gZNs24FkjaH5FrwuCIaqQduH6gahM3camnPcDlFXZlQjktLVCKMJ0tNGGevzONf0PkpZyk5f7r6SpQhT2gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748844515; c=relaxed/simple;
-	bh=Xh9WnzSfgu+m0GMDti5P07SLsI9o4jWrD0yuJ3eYVjM=;
+	s=arc-20240116; t=1748845164; c=relaxed/simple;
+	bh=QggsHgHkUag4So3rlNz1hcGGCe1PT1E4Sbu/zKURssU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=at3XAcv7j2JouYfbTn4eDr4Kcl5PabsXH6bjKGKUTOZ4+K5zLk4qJwf0ExdEgdZVaqQ0gafyORfWQ+WeeDn5IHmzXjHUr7m/dSr4/G5TeAh31dp81s5r6kqf/07Vpjr7XpwWBrzX/CiNGj3WH8Z5IXhYF2JbhYIGNo6XG1hUD1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xkMseh88; arc=none smtp.client-ip=209.85.221.44
+	 Content-Disposition:In-Reply-To; b=IFbT5j9LD1eTVvsULcDQ6cU84lCTZP3czFvx0eHmiXkRlGcXFM30rCvo8puDQH6l6u1Xigg6NMuz5NqqT4d+HhUZodOCNzmmxmvjwIK19xchfIm+SXKbxYsSHidocZ9sD0dZ9v6dRghKwDwNO6BZLrznWthtGDo7QF4JqNf/5ec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iLLfCXXI; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xkMseh88"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a36748920cso4587775f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 01 Jun 2025 23:08:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iLLfCXXI"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-450cf2291bbso13992405e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 01 Jun 2025 23:19:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748844512; x=1749449312; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nUg394UUqvjb/oidDzwm9pG7XoUFy0Z+jw1O2ucewGg=;
-        b=xkMseh88zSvYoW1uDMsHTTCsxdd0qC1gd5THCJZ/fkI/TVih1kXTaD7fuERfsImWr4
-         2G9CYiYlpq5n7qobYN30SZMcp7tEfMTvsObppLj0ILneFVpIq3CI/F2qt8jIgG4HwEbi
-         1H+nQJxlOtEloBwtNG2fjHTI7b9AMHzFlGttzCvy/xMSqRaqoCpT8/quzgt3G5Zv7dvB
-         GsLznY1g5mqhvHrMBjn4H6sOhwG2l5FZV5Furv4cBQHPGh8DQhXzLn+BePIMdOzIowDG
-         Fx7uJWx69Y/Fes3EYOpDP4trWH5OwjqNzKiMUrXrAMUycwTxZs8Pd66dUFLMRXnH5MKx
-         7McA==
+        d=linaro.org; s=google; t=1748845160; x=1749449960; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=IT5vqvwOspSDiBmBFrL1UB2oNCzpkkPcbBj98IhrcSA=;
+        b=iLLfCXXIQdLjtEQYiMZPd1hLTAJex8ZG4yjRCJSKGD+yPKTnXOIcakGloETzw3xabW
+         fGmxQWErfjnQxS/GIB2xJfhIwAVaeElBXaThzfv1lDCKwxRxOw07mcQkgZ4ZfObWAwH3
+         HxNA62vclg9W3nEzkptDzWoA3MSXj943EO/EOLoBK6nOU8vI9U2jI3GbLLfLhn3ym/3k
+         nsAAeRC214TAk7NEiXUOR2pbyFzY3zfwOg5G9GYuuXgAEiHIWXx6BdYqN4HOHfh87KTA
+         qv/A4mf9NiUGbjjO+y/CM+qYxTHThyF297w7lvPFOS1gk3GBrmWyjoaC2KbkhGQaJXQj
+         RW+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748844512; x=1749449312;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nUg394UUqvjb/oidDzwm9pG7XoUFy0Z+jw1O2ucewGg=;
-        b=kFdGODjBoP7ODFFqUXhavrytQV15gjSttHf1/JdEP/Mhi5wyNOx1zGV3BntOBuhoKW
-         mFIDbZHP8TRtlMyXAI2ogOveWfcoKiYggv1m2siITg/Ocm4xX/Es7hfd15yeTJ9uTgUf
-         ZbHWlRVpWSPXrs0c7EBECahNAbO/bzWlAjLWMBvNE+UKRPCKK6aKSTF5J7FeeTfUkreT
-         KuPloueAunnWlp36NpRjF1n/1Qlr29IqRT4U5PQM8YQYPvkVAeSRBkbEk8l9S15zzcbU
-         676zUBYehqrMbjJYxtAITUoMKYUnKBPG9F7dN/xSXeqmaNETUIAHNol5p6WzMGAviaeW
-         4+Ow==
-X-Forwarded-Encrypted: i=1; AJvYcCURVieSOrU46qntHulokBEMEAgOGE4z1rsku1iALJO8BeCAffzEAJCN/2ofixChnQ7vQmfESWIQ0ztBAke5@lists.linux.dev
-X-Gm-Message-State: AOJu0YzqHn40agyhWjUFX5/uFaVdrb/Nkg6CnNOzgGTlSzb0K/W0YHRm
-	CqC0zm7SdggwikdcShs+rd38dHuUdG8GhZlVHq8E1pm1xa91F0dDC3aL5PBBGO8uSz0=
-X-Gm-Gg: ASbGncsSVy9fWqLU5imJqjxll8TTi9rXQ2SRtFJV+lZWQ98ZdC8O/4+MHFdiKreYsd1
-	qxXUHVSvi9MTLC4QcpUsrZd+vdp3XYxINP6I9WDbyxxY/Bi/WHIdWuJ81HUJpx7rpHkClWptqzz
-	+itH5CPcv/3Ahh+wctXpT6octvW5yCW7zxFwk4vb5mOtqRoXo6wF4txFFbK54/YoSIy4za+s0aW
-	rnYZ2JFDd9f0PzBmsjqEn/Mp8y56Av8HQxTkWFxJPYk03Jfhp5xP09jztAJRVmf4YAGf+G01OTZ
-	m8e+ynsgw/ZaXX0MtG4MGRVP7Qif49Goz4pgziC+XeQNkk0arMD2wqCjMEkeXMAkmw==
-X-Google-Smtp-Source: AGHT+IECaagk3g9nLoafLTcr2Co0rEQWyMHI31p8lTu8Ivf/YK9+vSssiruussNYu28rBIZV/D4I1w==
-X-Received: by 2002:a5d:5f54:0:b0:39c:30cd:352c with SMTP id ffacd0b85a97d-3a4f89a482fmr8521278f8f.8.1748844511667;
-        Sun, 01 Jun 2025 23:08:31 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748845160; x=1749449960;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=IT5vqvwOspSDiBmBFrL1UB2oNCzpkkPcbBj98IhrcSA=;
+        b=Xo4GQGt82cFRymgoZEghRKTcL/5ZtHKzMPUmxdpulMI7fOClcdn/9iJIcljvhm3gG5
+         XmaH5KuJN4iZ1aH547zuz3J3IY25f7pLrVe8HAIBbGhJ8cRaqkC/bLxEB8eUBbbWijl2
+         2GJ1XsgYir/l/VjQirgCsYtXbQNJ+yowH4T8BM0WxURnA5nTaVQM7cKpq7nQBV8il+j5
+         6WQKek4qwMLawLsK/o5VOwWBhsKrgqIGsVZDjNEjLls30RqFySuaEAR67DacFYy7hoMl
+         TndWzow5jn1Z7ANtDajzjNZvYH0KoNFPURSLfAVgArI7bSyHSC7mfgp/HkOEK7nanfwr
+         jq9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVxRAZPPl1nDQJZdoJooC/nFeFYFFUp1Zqp5/2/Bb4N+SkdFaATsb0Cq6erJEy+CaO2TAUGVwLOjKa+iheD@lists.linux.dev
+X-Gm-Message-State: AOJu0YxZdfumufB+K0QI5JdyzXhWMzB9Vb/zTOkJvNjg4jng/V2ZlyNq
+	pZ5xL5h16B1brJfKTidQTUpBsosJshcH02j3L5U8LrabfVF5G0DNrQfnuO6IAta3WcQ=
+X-Gm-Gg: ASbGnctVk8vRhGhLdKKxMt9bLx1WPmLjjR3MhNb7yfvcriXFiC/eBNdxCW+ILVwN3IL
+	xW6g6yLQwviQZ4XsFXEufIm4vBF9Lx8gtm3K9Lm/S7/ALzwBUyDVHXPTTJKANCJB1sXZdYwftTe
+	TVuplGuz39KYJwVXL/V1FiHmcU3PONCvfM6UopjBDdiTa9AEYA1WAdJQMXWq9V1R7bivfnt5XSo
+	EJNSLcuCARiTeyBbf0nku2w1wC8N5hTCc1o9rgBZzXPPj10dFLPvu5694RN5abUT9WgZVTXq67V
+	82gsJLgpjxqqrtYJ87b0oWUOT5BsI3apr+jNm14IgWmQDgxH/npSPis=
+X-Google-Smtp-Source: AGHT+IFUJ26+dlg55xw3hspSgcyX/wWZSVOWg45+KpmdVFhcuhM9vFylL6S1uqLEhcd1ZwyWpfYFCg==
+X-Received: by 2002:a05:600c:4688:b0:44a:ac77:26d5 with SMTP id 5b1f17b1804b1-450d64fedb2mr112371855e9.14.1748845160283;
+        Sun, 01 Jun 2025 23:19:20 -0700 (PDT)
 Received: from localhost ([41.210.143.146])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a4f00a02cdsm13745291f8f.94.2025.06.01.23.08.30
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a4f00972c1sm13837801f8f.68.2025.06.01.23.19.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Jun 2025 23:08:31 -0700 (PDT)
-Date: Mon, 2 Jun 2025 09:08:27 +0300
+        Sun, 01 Jun 2025 23:19:19 -0700 (PDT)
+Date: Mon, 2 Jun 2025 09:19:15 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: oe-kbuild@lists.linux.dev,
-	Samuel Kayode via B4 Relay <devnull+samuel.kayode.savoirfairelinux.com@kernel.org>,
-	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Sebastian Reichel <sre@kernel.org>
+	Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
+	intel-xe@lists.freedesktop.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
-	Samuel Kayode <samuel.kayode@savoirfairelinux.com>,
-	eballetbo@gmail.com, abelvesa@linux.com, b38343@freescale.com,
-	yibin.gong@nxp.com, Abel Vesa <abelvesa@kernel.org>
-Subject: Re: [PATCH v3 2/6] mfd: pf1550: add core mfd driver
-Message-ID: <202505290859.CKZrTkZu-lkp@intel.com>
+	Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
+Subject: Re: [PATCH v3 05/19] drm/xe/vma: Modify new_vma to accept struct
+ xe_vma_mem_attr as parameter
+Message-ID: <202505300251.vkfxetWu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250527-pf1550-v3-2-45f69453cd51@savoirfairelinux.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250527164003.1068118-6-himal.prasad.ghimiray@intel.com>
 
-Hi Samuel,
+Hi Himal,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Kayode-via-B4-Relay/dt-bindings-mfd-add-pf1550/20250528-062840
-base:   0a4b866d08c6adaea2f4592d31edac6deeb4dcbd
-patch link:    https://lore.kernel.org/r/20250527-pf1550-v3-2-45f69453cd51%40savoirfairelinux.com
-patch subject: [PATCH v3 2/6] mfd: pf1550: add core mfd driver
-config: nios2-randconfig-r072-20250529 (https://download.01.org/0day-ci/archive/20250529/202505290859.CKZrTkZu-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 10.5.0
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Himal-Prasad-Ghimiray/Introduce-drm_gpuvm_sm_map_ops_flags-enums-for-sm_map_ops/20250528-041919
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250527164003.1068118-6-himal.prasad.ghimiray%40intel.com
+patch subject: [PATCH v3 05/19] drm/xe/vma: Modify new_vma to accept struct xe_vma_mem_attr as parameter
+config: loongarch-randconfig-r073-20250529 (https://download.01.org/0day-ci/archive/20250530/202505300251.vkfxetWu-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505290859.CKZrTkZu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505300251.vkfxetWu-lkp@intel.com/
 
-smatch warnings:
-drivers/mfd/pf1550.c:162 pf1550_i2c_probe() warn: passing zero to 'dev_err_probe'
+New smatch warnings:
+drivers/gpu/drm/xe/xe_vm.c:2492 new_vma() error: 'vma' dereferencing possible ERR_PTR()
 
-vim +/dev_err_probe +162 drivers/mfd/pf1550.c
+vim +/vma +2492 drivers/gpu/drm/xe/xe_vm.c
 
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  140  static int pf1550_i2c_probe(struct i2c_client *i2c)
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  141  {
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  142  	struct pf1550_dev *pf1550;
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  143  	unsigned int reg_data = 0;
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  144  	int ret = 0;
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  145  
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  146  	pf1550 = devm_kzalloc(&i2c->dev, sizeof(*pf1550), GFP_KERNEL);
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  147  	if (!pf1550)
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  148  		return -ENOMEM;
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  149  
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  150  	i2c_set_clientdata(i2c, pf1550);
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  151  	pf1550->dev = &i2c->dev;
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  152  	pf1550->i2c = i2c;
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  153  	pf1550->irq = i2c->irq;
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  154  
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  155  	pf1550->regmap = devm_regmap_init_i2c(i2c, &pf1550_regmap_config);
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  156  	if (IS_ERR(pf1550->regmap))
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  157  		return dev_err_probe(pf1550->dev, PTR_ERR(pf1550->regmap),
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  158  				     "failed to allocate register map\n");
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  159  
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  160  	ret = regmap_read(pf1550->regmap, PF1550_PMIC_REG_DEVICE_ID, &reg_data);
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  161  	if (ret < 0 || reg_data != PF1550_DEVICE_ID)
-fc62e32ad9eb64 Samuel Kayode 2025-05-27 @162  		return dev_err_probe(pf1550->dev, ret, "device not found!\n");
+b06d47be7c83165 Matthew Brost         2023-07-07  2444  static struct xe_vma *new_vma(struct xe_vm *vm, struct drm_gpuva_op_map *op,
+341ac2942dd2087 Himal Prasad Ghimiray 2025-05-27  2445  			      struct xe_vma_mem_attr attr, unsigned int flags)
+b06d47be7c83165 Matthew Brost         2023-07-07  2446  {
+b06d47be7c83165 Matthew Brost         2023-07-07  2447  	struct xe_bo *bo = op->gem.obj ? gem_to_xe_bo(op->gem.obj) : NULL;
+24f947d58fe554c Thomas Hellström      2023-12-12  2448  	struct drm_exec exec;
+b06d47be7c83165 Matthew Brost         2023-07-07  2449  	struct xe_vma *vma;
+33991ae8f40a824 Matthew Brost         2024-06-17  2450  	int err = 0;
+b06d47be7c83165 Matthew Brost         2023-07-07  2451  
+b06d47be7c83165 Matthew Brost         2023-07-07  2452  	lockdep_assert_held_write(&vm->lock);
+b06d47be7c83165 Matthew Brost         2023-07-07  2453  
+b06d47be7c83165 Matthew Brost         2023-07-07  2454  	if (bo) {
+d2197029026021e Dave Airlie           2023-12-22  2455  		drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
+24f947d58fe554c Thomas Hellström      2023-12-12  2456  		drm_exec_until_all_locked(&exec) {
+24f947d58fe554c Thomas Hellström      2023-12-12  2457  			err = 0;
+24f947d58fe554c Thomas Hellström      2023-12-12  2458  			if (!bo->vm) {
+24f947d58fe554c Thomas Hellström      2023-12-12  2459  				err = drm_exec_lock_obj(&exec, xe_vm_obj(vm));
+24f947d58fe554c Thomas Hellström      2023-12-12  2460  				drm_exec_retry_on_contention(&exec);
+24f947d58fe554c Thomas Hellström      2023-12-12  2461  			}
+24f947d58fe554c Thomas Hellström      2023-12-12  2462  			if (!err) {
+24f947d58fe554c Thomas Hellström      2023-12-12  2463  				err = drm_exec_lock_obj(&exec, &bo->ttm.base);
+24f947d58fe554c Thomas Hellström      2023-12-12  2464  				drm_exec_retry_on_contention(&exec);
+24f947d58fe554c Thomas Hellström      2023-12-12  2465  			}
+24f947d58fe554c Thomas Hellström      2023-12-12  2466  			if (err) {
+24f947d58fe554c Thomas Hellström      2023-12-12  2467  				drm_exec_fini(&exec);
+b06d47be7c83165 Matthew Brost         2023-07-07  2468  				return ERR_PTR(err);
+dd08ebf6c3525a7 Matthew Brost         2023-03-30  2469  			}
+24f947d58fe554c Thomas Hellström      2023-12-12  2470  		}
+24f947d58fe554c Thomas Hellström      2023-12-12  2471  	}
+b06d47be7c83165 Matthew Brost         2023-07-07  2472  	vma = xe_vma_create(vm, bo, op->gem.offset,
+b06d47be7c83165 Matthew Brost         2023-07-07  2473  			    op->va.addr, op->va.addr +
+341ac2942dd2087 Himal Prasad Ghimiray 2025-05-27  2474  			    op->va.range - 1, attr.pat_index, flags);
+33991ae8f40a824 Matthew Brost         2024-06-17  2475  	if (IS_ERR(vma))
+33991ae8f40a824 Matthew Brost         2024-06-17  2476  		goto err_unlock;
 
-return dev_err_probe(pf1550->dev, ret ?: -EINVAL, "device not found!\n");
+Missing "err = PTR_ERR(vma);"
 
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  163  
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  164  	pf1550->type = PF1550;
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  165  
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  166  	ret = devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap,
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  167  				       pf1550->irq,
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  168  				       IRQF_ONESHOT | IRQF_SHARED |
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  169  				       IRQF_TRIGGER_FALLING, 0,
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  170  				       &pf1550_regulator_irq_chip,
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  171  				       &pf1550->irq_data_regulator);
-fc62e32ad9eb64 Samuel Kayode 2025-05-27  172  	if (ret)
+dd08ebf6c3525a7 Matthew Brost         2023-03-30  2477  
+33991ae8f40a824 Matthew Brost         2024-06-17  2478  	if (xe_vma_is_userptr(vma))
+5bd24e78829ad56 Thomas Hellström      2024-01-31  2479  		err = xe_vma_userptr_pin_pages(to_userptr_vma(vma));
+33991ae8f40a824 Matthew Brost         2024-06-17  2480  	else if (!xe_vma_has_no_bo(vma) && !bo->vm)
+b06d47be7c83165 Matthew Brost         2023-07-07  2481  		err = add_preempt_fences(vm, bo);
+33991ae8f40a824 Matthew Brost         2024-06-17  2482  
+33991ae8f40a824 Matthew Brost         2024-06-17  2483  err_unlock:
+33991ae8f40a824 Matthew Brost         2024-06-17  2484  	if (bo)
+33991ae8f40a824 Matthew Brost         2024-06-17  2485  		drm_exec_fini(&exec);
+33991ae8f40a824 Matthew Brost         2024-06-17  2486  
+b06d47be7c83165 Matthew Brost         2023-07-07  2487  	if (err) {
+b06d47be7c83165 Matthew Brost         2023-07-07  2488  		prep_vma_destroy(vm, vma, false);
+b06d47be7c83165 Matthew Brost         2023-07-07  2489  		xe_vma_destroy_unlocked(vma);
+33991ae8f40a824 Matthew Brost         2024-06-17  2490  		vma = ERR_PTR(err);
+341ac2942dd2087 Himal Prasad Ghimiray 2025-05-27  2491  	} else {
+341ac2942dd2087 Himal Prasad Ghimiray 2025-05-27 @2492  		cp_vma_mem_attr(&vma->attr, &attr);
+                                                                                        ^^^^
+leads to error pointer dereference.
+
+dd08ebf6c3525a7 Matthew Brost         2023-03-30  2493  	}
+dd08ebf6c3525a7 Matthew Brost         2023-03-30  2494  
+b06d47be7c83165 Matthew Brost         2023-07-07  2495  	return vma;
+
+I was wondering why Smatch doesn't catch the missing error code but
+actually we return the error code...  #ABitConfusing
+
+b06d47be7c83165 Matthew Brost         2023-07-07  2496  }
 
 -- 
 0-DAY CI Kernel Test Service
