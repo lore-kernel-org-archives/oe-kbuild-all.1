@@ -1,170 +1,150 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FB4129D0E
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Jun 2025 06:19:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296DD1993A3
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Jun 2025 06:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748845164; cv=none; b=TzmQmuf9VPJ4IhJvdbu+q2GjZREwX+PI43NMBDg3iCNUVc2MaETOrB0ClSRBgNOiOfiU+V1RPa8WTXDi3yuKeXn6gZNs24FkjaH5FrwuCIaqQduH6gahM3camnPcDlFXZlQjktLVCKMJ0tNGGevzONf0PkpZyk5f7r6SpQhT2gQ=
+	t=1748845219; cv=none; b=ZzadsT3eDff5NFoxlUVDE/AKTKjtDjg2BIt9zAPodlnbPcHh+fKqGm6FegHNBitxol/cRDgsMrk/AvG+etGaIjf+INw4onYxWuCphRQ1wRX/801T3kjwl/1NN7vPRjUcZHVO3QgnCuguMDlBC9Hc3SjBzsuLbjoj6yrbYus0Fls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748845164; c=relaxed/simple;
-	bh=QggsHgHkUag4So3rlNz1hcGGCe1PT1E4Sbu/zKURssU=;
+	s=arc-20240116; t=1748845219; c=relaxed/simple;
+	bh=uqhiVvUTjJUz12WNnC5vQ4AYx38ysdEHyQ+YwgWYwRo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=IFbT5j9LD1eTVvsULcDQ6cU84lCTZP3czFvx0eHmiXkRlGcXFM30rCvo8puDQH6l6u1Xigg6NMuz5NqqT4d+HhUZodOCNzmmxmvjwIK19xchfIm+SXKbxYsSHidocZ9sD0dZ9v6dRghKwDwNO6BZLrznWthtGDo7QF4JqNf/5ec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iLLfCXXI; arc=none smtp.client-ip=209.85.128.42
+	 Content-Disposition:In-Reply-To; b=Ic5Ghzok8rsRJzIKYlDD1CUIIyB7u0mH57yjOSME2hluaZQ+jhtTiMW65izqqlWuAIIWWZFtx8OGJFRNLmb4JWbSvbpAJFWvDyfUJalAcV1DYLp8ZsI8EMfkRs9DPeUsB/tqHc5OQuW1lY55xzRUEw9VBA9LZwC0zdwsrtoHzYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XEBfCz0L; arc=none smtp.client-ip=209.85.128.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iLLfCXXI"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-450cf2291bbso13992405e9.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 01 Jun 2025 23:19:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XEBfCz0L"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-451dbe494d6so5402245e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 01 Jun 2025 23:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748845160; x=1749449960; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=IT5vqvwOspSDiBmBFrL1UB2oNCzpkkPcbBj98IhrcSA=;
-        b=iLLfCXXIQdLjtEQYiMZPd1hLTAJex8ZG4yjRCJSKGD+yPKTnXOIcakGloETzw3xabW
-         fGmxQWErfjnQxS/GIB2xJfhIwAVaeElBXaThzfv1lDCKwxRxOw07mcQkgZ4ZfObWAwH3
-         HxNA62vclg9W3nEzkptDzWoA3MSXj943EO/EOLoBK6nOU8vI9U2jI3GbLLfLhn3ym/3k
-         nsAAeRC214TAk7NEiXUOR2pbyFzY3zfwOg5G9GYuuXgAEiHIWXx6BdYqN4HOHfh87KTA
-         qv/A4mf9NiUGbjjO+y/CM+qYxTHThyF297w7lvPFOS1gk3GBrmWyjoaC2KbkhGQaJXQj
-         RW+A==
+        d=linaro.org; s=google; t=1748845215; x=1749450015; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=tOEMUoWDeDY5mzeOr4SEl8dbwxhrqozXvwOKEHtHeUk=;
+        b=XEBfCz0LJYhjP/5kOGahvURO7gsEdGdnFSAJnYs91m0xuxqZqFAveKRRP6MMcEIo5N
+         sh69oJf2A/zPpNrPDZKDWH1a6zMWLfIaLYnlYBUhtRwk3rc4gl/UN6V8vwXRSjHK2vOR
+         HmOOK4N0NOzLQIcgGze79Lvn2C+jVVo+MpU7+IlH4fJytiISjes+Dl6gnAzsmIgW+uZm
+         nK9HG/WgWSagtb2DZiFB3sehPKjk/7C1Gsa62XNCI1iwwima/p5/4b2eq+jG+wjvvVVd
+         3O2TI6egMxdTiIzq42Zs9JbXHfn0oqTVTJ7sp/vLbrmpm4zhpzSmZ6bgfNktgxfDz+s4
+         X6/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748845160; x=1749449960;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IT5vqvwOspSDiBmBFrL1UB2oNCzpkkPcbBj98IhrcSA=;
-        b=Xo4GQGt82cFRymgoZEghRKTcL/5ZtHKzMPUmxdpulMI7fOClcdn/9iJIcljvhm3gG5
-         XmaH5KuJN4iZ1aH547zuz3J3IY25f7pLrVe8HAIBbGhJ8cRaqkC/bLxEB8eUBbbWijl2
-         2GJ1XsgYir/l/VjQirgCsYtXbQNJ+yowH4T8BM0WxURnA5nTaVQM7cKpq7nQBV8il+j5
-         6WQKek4qwMLawLsK/o5VOwWBhsKrgqIGsVZDjNEjLls30RqFySuaEAR67DacFYy7hoMl
-         TndWzow5jn1Z7ANtDajzjNZvYH0KoNFPURSLfAVgArI7bSyHSC7mfgp/HkOEK7nanfwr
-         jq9g==
-X-Forwarded-Encrypted: i=1; AJvYcCVxRAZPPl1nDQJZdoJooC/nFeFYFFUp1Zqp5/2/Bb4N+SkdFaATsb0Cq6erJEy+CaO2TAUGVwLOjKa+iheD@lists.linux.dev
-X-Gm-Message-State: AOJu0YxZdfumufB+K0QI5JdyzXhWMzB9Vb/zTOkJvNjg4jng/V2ZlyNq
-	pZ5xL5h16B1brJfKTidQTUpBsosJshcH02j3L5U8LrabfVF5G0DNrQfnuO6IAta3WcQ=
-X-Gm-Gg: ASbGnctVk8vRhGhLdKKxMt9bLx1WPmLjjR3MhNb7yfvcriXFiC/eBNdxCW+ILVwN3IL
-	xW6g6yLQwviQZ4XsFXEufIm4vBF9Lx8gtm3K9Lm/S7/ALzwBUyDVHXPTTJKANCJB1sXZdYwftTe
-	TVuplGuz39KYJwVXL/V1FiHmcU3PONCvfM6UopjBDdiTa9AEYA1WAdJQMXWq9V1R7bivfnt5XSo
-	EJNSLcuCARiTeyBbf0nku2w1wC8N5hTCc1o9rgBZzXPPj10dFLPvu5694RN5abUT9WgZVTXq67V
-	82gsJLgpjxqqrtYJ87b0oWUOT5BsI3apr+jNm14IgWmQDgxH/npSPis=
-X-Google-Smtp-Source: AGHT+IFUJ26+dlg55xw3hspSgcyX/wWZSVOWg45+KpmdVFhcuhM9vFylL6S1uqLEhcd1ZwyWpfYFCg==
-X-Received: by 2002:a05:600c:4688:b0:44a:ac77:26d5 with SMTP id 5b1f17b1804b1-450d64fedb2mr112371855e9.14.1748845160283;
-        Sun, 01 Jun 2025 23:19:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748845215; x=1749450015;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tOEMUoWDeDY5mzeOr4SEl8dbwxhrqozXvwOKEHtHeUk=;
+        b=J0QexNtO2MFHgi/jZt7bqaG/fWOBnTUbdcHqfLgZmFaYCEvm0CALSInq8YiZP5x438
+         HZN5L4WxeBjsqu0pIe6WB6GTGeRlwUEITlZ+qdjtCe4rz2lg6pPgysgomKWFqjhgNw4S
+         pxTK7X8BPvsfAlwF+TvDxHxNGPRBwewwjZS1sXQ3PgqGE9810TpbZIxA+SQDzCRSG4NQ
+         yHD1YfgDMa2TYAPwGj7TwKboGLGi0Ai2i57GEsGulKW9EjdXlElaA63RIyPtASFHUO9P
+         0SSqbp4H+/KP6AgcJpVxMYO3rGFImciL7yqdaIe0SixXUpLSB+tyQCEEiHXReA4nVHaM
+         1ubw==
+X-Forwarded-Encrypted: i=1; AJvYcCWW4bfaqtETIEOp4fy/TZUNs1RfBLjCHrohKnSUsTEjiyiiqfWHQ7qC2E9pVnJcyORjMWAtMDmitn99uAdW@lists.linux.dev
+X-Gm-Message-State: AOJu0YwpCGjEoJUEFHnVpdnvzzWXVjpmXPXu/kdFFEB1y5HtTUuROUuR
+	0Vzqe51nLvQbtD2GrvC+InBlKJjAqg8iEM82mBOboU5mSV/lhk3r0L6Lwc02EzS8PUE=
+X-Gm-Gg: ASbGncuSgWMJSYNvdvaYkEL1eAgT5mAeMFdrCVsESFvnBZpy9HMTalDXwbQtqDmPOrf
+	yRBMgwe3TV/tsD3mWOjMSM8uGmh1PyVejrC/W0N0f5uqnj9zJYdD7GD+UZZdIP5tCqmexUU6jG8
+	+/S5r7UGdMW/ONrno+TYHJzpJpr5J8GZB95Z0fsXqqEJjsuWFVyKdd7K5xmHR3nPym3xmUd2HOx
+	V6Ve0Z1VfQAbwAgd2Gg+kG4kaINVZSj+S4nXCNCMjktpodgweXrKekj67vnGhiA25QePZZDk0v+
+	u9pUjcVL/Ue+79cxwS4c8Ki5t8uxGjBxZ9of+/3lKKlMoznRts9VvgQ=
+X-Google-Smtp-Source: AGHT+IEhg9lSTzexUaVbkdcQrdyWsGg7a4BXZ1AHF91UKUvvwVHEH4xwEI9JAg73XATTsIBgax4M7A==
+X-Received: by 2002:a05:600c:4f05:b0:43c:ea1a:720c with SMTP id 5b1f17b1804b1-4511ee13fb8mr65790875e9.18.1748845215311;
+        Sun, 01 Jun 2025 23:20:15 -0700 (PDT)
 Received: from localhost ([41.210.143.146])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a4f00972c1sm13837801f8f.68.2025.06.01.23.19.18
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-450d7fa24c6sm108973155e9.12.2025.06.01.23.20.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Jun 2025 23:19:19 -0700 (PDT)
-Date: Mon, 2 Jun 2025 09:19:15 +0300
+        Sun, 01 Jun 2025 23:20:14 -0700 (PDT)
+Date: Mon, 2 Jun 2025 09:20:10 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>,
-	intel-xe@lists.freedesktop.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Himal Prasad Ghimiray <himal.prasad.ghimiray@intel.com>
-Subject: Re: [PATCH v3 05/19] drm/xe/vma: Modify new_vma to accept struct
- xe_vma_mem_attr as parameter
-Message-ID: <202505300251.vkfxetWu-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev, Rong Tao <rtoax@foxmail.com>, ast@kernel.org,
+	daniel@iogearbox.net
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, rtoax@foxmail.com,
+	rongtao@cestc.cn, Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Juntong Deng <juntong.deng@outlook.com>,
+	Amery Hung <amery.hung@bytedance.com>,
+	Dave Marchevsky <davemarchevsky@fb.com>,
+	Hou Tao <houtao1@huawei.com>,
+	"(open list:BPF (Safe Dynamic Programs and Tools))" <bpf@vger.kernel.org>,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH bpf-next 1/2] bpf: Add bpf_task_cwd_from_pid() kfunc
+Message-ID: <202505300432.nZC50gOu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250527164003.1068118-6-himal.prasad.ghimiray@intel.com>
+In-Reply-To: <tencent_97F8B56B340F51DB604B482FEBF012460505@qq.com>
 
-Hi Himal,
+Hi Rong,
 
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Himal-Prasad-Ghimiray/Introduce-drm_gpuvm_sm_map_ops_flags-enums-for-sm_map_ops/20250528-041919
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250527164003.1068118-6-himal.prasad.ghimiray%40intel.com
-patch subject: [PATCH v3 05/19] drm/xe/vma: Modify new_vma to accept struct xe_vma_mem_attr as parameter
-config: loongarch-randconfig-r073-20250529 (https://download.01.org/0day-ci/archive/20250530/202505300251.vkfxetWu-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Rong-Tao/selftests-bpf-Add-selftests-for-bpf_task_cwd_from_pid/20250529-113933
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/tencent_97F8B56B340F51DB604B482FEBF012460505%40qq.com
+patch subject: [PATCH bpf-next 1/2] bpf: Add bpf_task_cwd_from_pid() kfunc
+config: x86_64-randconfig-161-20250529 (https://download.01.org/0day-ci/archive/20250530/202505300432.nZC50gOu-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505300251.vkfxetWu-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505300432.nZC50gOu-lkp@intel.com/
 
-New smatch warnings:
-drivers/gpu/drm/xe/xe_vm.c:2492 new_vma() error: 'vma' dereferencing possible ERR_PTR()
+smatch warnings:
+kernel/bpf/helpers.c:2687 bpf_task_cwd_from_pid() warn: inconsistent returns 'rcu_read'.
 
-vim +/vma +2492 drivers/gpu/drm/xe/xe_vm.c
+vim +/rcu_read +2687 kernel/bpf/helpers.c
 
-b06d47be7c83165 Matthew Brost         2023-07-07  2444  static struct xe_vma *new_vma(struct xe_vm *vm, struct drm_gpuva_op_map *op,
-341ac2942dd2087 Himal Prasad Ghimiray 2025-05-27  2445  			      struct xe_vma_mem_attr attr, unsigned int flags)
-b06d47be7c83165 Matthew Brost         2023-07-07  2446  {
-b06d47be7c83165 Matthew Brost         2023-07-07  2447  	struct xe_bo *bo = op->gem.obj ? gem_to_xe_bo(op->gem.obj) : NULL;
-24f947d58fe554c Thomas Hellström      2023-12-12  2448  	struct drm_exec exec;
-b06d47be7c83165 Matthew Brost         2023-07-07  2449  	struct xe_vma *vma;
-33991ae8f40a824 Matthew Brost         2024-06-17  2450  	int err = 0;
-b06d47be7c83165 Matthew Brost         2023-07-07  2451  
-b06d47be7c83165 Matthew Brost         2023-07-07  2452  	lockdep_assert_held_write(&vm->lock);
-b06d47be7c83165 Matthew Brost         2023-07-07  2453  
-b06d47be7c83165 Matthew Brost         2023-07-07  2454  	if (bo) {
-d2197029026021e Dave Airlie           2023-12-22  2455  		drm_exec_init(&exec, DRM_EXEC_INTERRUPTIBLE_WAIT, 0);
-24f947d58fe554c Thomas Hellström      2023-12-12  2456  		drm_exec_until_all_locked(&exec) {
-24f947d58fe554c Thomas Hellström      2023-12-12  2457  			err = 0;
-24f947d58fe554c Thomas Hellström      2023-12-12  2458  			if (!bo->vm) {
-24f947d58fe554c Thomas Hellström      2023-12-12  2459  				err = drm_exec_lock_obj(&exec, xe_vm_obj(vm));
-24f947d58fe554c Thomas Hellström      2023-12-12  2460  				drm_exec_retry_on_contention(&exec);
-24f947d58fe554c Thomas Hellström      2023-12-12  2461  			}
-24f947d58fe554c Thomas Hellström      2023-12-12  2462  			if (!err) {
-24f947d58fe554c Thomas Hellström      2023-12-12  2463  				err = drm_exec_lock_obj(&exec, &bo->ttm.base);
-24f947d58fe554c Thomas Hellström      2023-12-12  2464  				drm_exec_retry_on_contention(&exec);
-24f947d58fe554c Thomas Hellström      2023-12-12  2465  			}
-24f947d58fe554c Thomas Hellström      2023-12-12  2466  			if (err) {
-24f947d58fe554c Thomas Hellström      2023-12-12  2467  				drm_exec_fini(&exec);
-b06d47be7c83165 Matthew Brost         2023-07-07  2468  				return ERR_PTR(err);
-dd08ebf6c3525a7 Matthew Brost         2023-03-30  2469  			}
-24f947d58fe554c Thomas Hellström      2023-12-12  2470  		}
-24f947d58fe554c Thomas Hellström      2023-12-12  2471  	}
-b06d47be7c83165 Matthew Brost         2023-07-07  2472  	vma = xe_vma_create(vm, bo, op->gem.offset,
-b06d47be7c83165 Matthew Brost         2023-07-07  2473  			    op->va.addr, op->va.addr +
-341ac2942dd2087 Himal Prasad Ghimiray 2025-05-27  2474  			    op->va.range - 1, attr.pat_index, flags);
-33991ae8f40a824 Matthew Brost         2024-06-17  2475  	if (IS_ERR(vma))
-33991ae8f40a824 Matthew Brost         2024-06-17  2476  		goto err_unlock;
+b24383bde5a454 Rong Tao     2025-05-29  2657  __bpf_kfunc int bpf_task_cwd_from_pid(s32 pid, char *buf, u32 buf_len)
+b24383bde5a454 Rong Tao     2025-05-29  2658  {
+b24383bde5a454 Rong Tao     2025-05-29  2659  	struct path pwd;
+b24383bde5a454 Rong Tao     2025-05-29  2660  	char kpath[256], *path;
+b24383bde5a454 Rong Tao     2025-05-29  2661  	struct task_struct *task;
+b24383bde5a454 Rong Tao     2025-05-29  2662  
+b24383bde5a454 Rong Tao     2025-05-29  2663  	if (!buf || buf_len == 0)
+b24383bde5a454 Rong Tao     2025-05-29  2664  		return -EINVAL;
+b24383bde5a454 Rong Tao     2025-05-29  2665  
+b24383bde5a454 Rong Tao     2025-05-29  2666  	rcu_read_lock();
+b24383bde5a454 Rong Tao     2025-05-29  2667  	task = pid_task(find_vpid(pid), PIDTYPE_PID);
+b24383bde5a454 Rong Tao     2025-05-29  2668  	if (!task) {
+b24383bde5a454 Rong Tao     2025-05-29  2669  		rcu_read_unlock();
+b24383bde5a454 Rong Tao     2025-05-29  2670  		return -ESRCH;
+b24383bde5a454 Rong Tao     2025-05-29  2671  	}
+b24383bde5a454 Rong Tao     2025-05-29  2672  	task_lock(task);
+b24383bde5a454 Rong Tao     2025-05-29  2673  	if (!task->fs) {
+b24383bde5a454 Rong Tao     2025-05-29  2674  		task_unlock(task);
+b24383bde5a454 Rong Tao     2025-05-29  2675  		return -ENOENT;
 
-Missing "err = PTR_ERR(vma);"
+rcu_read_unlock();
 
-dd08ebf6c3525a7 Matthew Brost         2023-03-30  2477  
-33991ae8f40a824 Matthew Brost         2024-06-17  2478  	if (xe_vma_is_userptr(vma))
-5bd24e78829ad56 Thomas Hellström      2024-01-31  2479  		err = xe_vma_userptr_pin_pages(to_userptr_vma(vma));
-33991ae8f40a824 Matthew Brost         2024-06-17  2480  	else if (!xe_vma_has_no_bo(vma) && !bo->vm)
-b06d47be7c83165 Matthew Brost         2023-07-07  2481  		err = add_preempt_fences(vm, bo);
-33991ae8f40a824 Matthew Brost         2024-06-17  2482  
-33991ae8f40a824 Matthew Brost         2024-06-17  2483  err_unlock:
-33991ae8f40a824 Matthew Brost         2024-06-17  2484  	if (bo)
-33991ae8f40a824 Matthew Brost         2024-06-17  2485  		drm_exec_fini(&exec);
-33991ae8f40a824 Matthew Brost         2024-06-17  2486  
-b06d47be7c83165 Matthew Brost         2023-07-07  2487  	if (err) {
-b06d47be7c83165 Matthew Brost         2023-07-07  2488  		prep_vma_destroy(vm, vma, false);
-b06d47be7c83165 Matthew Brost         2023-07-07  2489  		xe_vma_destroy_unlocked(vma);
-33991ae8f40a824 Matthew Brost         2024-06-17  2490  		vma = ERR_PTR(err);
-341ac2942dd2087 Himal Prasad Ghimiray 2025-05-27  2491  	} else {
-341ac2942dd2087 Himal Prasad Ghimiray 2025-05-27 @2492  		cp_vma_mem_attr(&vma->attr, &attr);
-                                                                                        ^^^^
-leads to error pointer dereference.
-
-dd08ebf6c3525a7 Matthew Brost         2023-03-30  2493  	}
-dd08ebf6c3525a7 Matthew Brost         2023-03-30  2494  
-b06d47be7c83165 Matthew Brost         2023-07-07  2495  	return vma;
-
-I was wondering why Smatch doesn't catch the missing error code but
-actually we return the error code...  #ABitConfusing
-
-b06d47be7c83165 Matthew Brost         2023-07-07  2496  }
+b24383bde5a454 Rong Tao     2025-05-29  2676  	}
+b24383bde5a454 Rong Tao     2025-05-29  2677  	get_fs_pwd(task->fs, &pwd);
+b24383bde5a454 Rong Tao     2025-05-29  2678  	task_unlock(task);
+b24383bde5a454 Rong Tao     2025-05-29  2679  	rcu_read_unlock();
+b24383bde5a454 Rong Tao     2025-05-29  2680  
+b24383bde5a454 Rong Tao     2025-05-29  2681  	path = d_path(&pwd, kpath, sizeof(kpath));
+b24383bde5a454 Rong Tao     2025-05-29  2682  	path_put(&pwd);
+b24383bde5a454 Rong Tao     2025-05-29  2683  	if (IS_ERR(path))
+b24383bde5a454 Rong Tao     2025-05-29  2684  		return PTR_ERR(path);
+b24383bde5a454 Rong Tao     2025-05-29  2685  
+b24383bde5a454 Rong Tao     2025-05-29  2686  	strncpy(buf, path, buf_len);
+b24383bde5a454 Rong Tao     2025-05-29 @2687  	return 0;
+b24383bde5a454 Rong Tao     2025-05-29  2688  }
 
 -- 
 0-DAY CI Kernel Test Service
