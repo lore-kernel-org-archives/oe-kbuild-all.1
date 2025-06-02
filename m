@@ -1,68 +1,80 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D06101EE
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Jun 2025 06:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65D4F1A2643
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Jun 2025 06:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748844450; cv=none; b=mtM8pLUSo9RgRHHvWp3Eoijs/X6UqAw7kX8dYqT7LNEbHDa6ma1v3jK6IWb7ynvLS760kCjLHPodZSVQI0VDYuUshkjp2/gmLpkSJDjXMVe+WECuNe7kOt95NgR6Q10L9ve7bFpbQGpqRMAB/wq/nV8Zi2/E0/75ozNfgzSS4xw=
+	t=1748844515; cv=none; b=oG1Hammzyf9h/y4fdIFAPdFMO5sEGz8BHXJ2fMc7C71DHPwpxSF+j+u//bcdVWMHlwKntAupeyeQS8kyFGS0URxbrrGO6PPbIMXEmqHRZ3EkS7xDWe+0wxObFO+ucgrVpFdQoHOnDNhKlzEQ9474VpFs5vzHIZahx+o5smI77ac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748844450; c=relaxed/simple;
-	bh=eKkxuOAoMqaTN/DTzwoYH+uzPpC/Oh1dq0lX30umzkw=;
+	s=arc-20240116; t=1748844515; c=relaxed/simple;
+	bh=Xh9WnzSfgu+m0GMDti5P07SLsI9o4jWrD0yuJ3eYVjM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iGvg7jABwq+ENWXwc8b7W08TaFf+m/ZGTDz1kUDxdBOaX0RGyPQk/YkV9HWW3MDhwwHJs76nV80GmOhx2nMnXOcQA5aGZ8Bir69evymAk69a2DE2vKgay/eZFZ4SwXQ+K219ouLa2YUptJgx1uIhEP2uhewFHOHaX0uWS5gdxok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fCCAUp+/; arc=none smtp.client-ip=209.85.221.46
+	 Content-Disposition:In-Reply-To; b=at3XAcv7j2JouYfbTn4eDr4Kcl5PabsXH6bjKGKUTOZ4+K5zLk4qJwf0ExdEgdZVaqQ0gafyORfWQ+WeeDn5IHmzXjHUr7m/dSr4/G5TeAh31dp81s5r6kqf/07Vpjr7XpwWBrzX/CiNGj3WH8Z5IXhYF2JbhYIGNo6XG1hUD1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xkMseh88; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fCCAUp+/"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a5058d46ceso455610f8f.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 01 Jun 2025 23:07:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xkMseh88"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a36748920cso4587775f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 01 Jun 2025 23:08:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1748844447; x=1749449247; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TXMWqAZm6FMnPa2V1XlPw9prX2Q3dxL8CbJ/3dj6grw=;
-        b=fCCAUp+/7nFm1iVGh2kcds5CUhfbdzYA05AOzDbYucE3LNwOtFMYjeETAIdDkxe4LU
-         vyme3lgJeDqTi+F0nOpF1RFTz8zvjfqm6/Zs8dxm+AAOBG3unRCJwwH+7PauiutXtaKV
-         ulf5aj0xX2MriDNjR55XZs7es/I+771+MF0oMTXNKI9THRBDKe/nmPGU+b4JHwc5cOwZ
-         unUFD97cpDKHAM4kE+6DtWIJZwzKPQymjNOguIqbnAZQ78cE0FkuSq3xA1v3N2zO1UoA
-         PW7LP/jZnrHdS0fmJ7n44eOZ+4lDB6a7fIOZHWunJ2A4ds31tQqDMoyCILTMSZ5SMKYH
-         /dHw==
+        d=linaro.org; s=google; t=1748844512; x=1749449312; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=nUg394UUqvjb/oidDzwm9pG7XoUFy0Z+jw1O2ucewGg=;
+        b=xkMseh88zSvYoW1uDMsHTTCsxdd0qC1gd5THCJZ/fkI/TVih1kXTaD7fuERfsImWr4
+         2G9CYiYlpq5n7qobYN30SZMcp7tEfMTvsObppLj0ILneFVpIq3CI/F2qt8jIgG4HwEbi
+         1H+nQJxlOtEloBwtNG2fjHTI7b9AMHzFlGttzCvy/xMSqRaqoCpT8/quzgt3G5Zv7dvB
+         GsLznY1g5mqhvHrMBjn4H6sOhwG2l5FZV5Furv4cBQHPGh8DQhXzLn+BePIMdOzIowDG
+         Fx7uJWx69Y/Fes3EYOpDP4trWH5OwjqNzKiMUrXrAMUycwTxZs8Pd66dUFLMRXnH5MKx
+         7McA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1748844447; x=1749449247;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TXMWqAZm6FMnPa2V1XlPw9prX2Q3dxL8CbJ/3dj6grw=;
-        b=NAMTok6qeqr2u/1dT46Qc/Rdc7ADzVCKZYJzsFUnoKEgDpu2wNoYcsLkbDeV/CCS8e
-         ruBsbqXMVLvopWAmI/EmwEoWqyLAKScEg0Ob6M8xJPxhkIhDPXjZ5RwnzpsqIev9aN69
-         o+hU5yNe6wouXUDclos6HT7oIGBb6E16dTruvdYXhPGMqDUDJ2u6QSuAcsOSYXw7oR+n
-         WqUCWkcoUdK0/vlZ1fDvnEQ8p++PuDZHvL83RwOAPz/vxFzMIJotDSL3o7SrYKXVvuth
-         CpVxXOPnCkSaSD3rpTCQ4pmuud4goGAtlOMVhxGaqev1RVSGZP7r//EtNKlpHJ0X77HU
-         5/bw==
-X-Forwarded-Encrypted: i=1; AJvYcCUlFsFnEMfy0UJiMwpFu63W+xixp5meQYydxCnjo4DizoZP0HzUloY7En6zuk5OtPPSrG9GrWKm+L8lvYgE@lists.linux.dev
-X-Gm-Message-State: AOJu0YxHnYrOEWvYAmDN5cjubKo3JUroxYl/9JLYBVZMm2MvEd8YE8BL
-	zhdpvTnRZ0l/CkZeR8BeMGjpz6CpkGZWb3usfC6RL4PM3FXHha8vUUARhW2R2PsCte0RoqT0QBh
-	ExAp7
-X-Gm-Gg: ASbGncuX80cWAuH8THt4/fdTM+8hLUI0VSAJQziJAjwxdhuPCQGNsGjbLYgtb0nYco5
-	Unecasuo/JLQB6Qi/rC60nvNu3LCbt061HwFFJdH8Y3uaoF5tIEONk8ZgHNMF70/VN4LT8Ok7Du
-	lAx7Y+dwabpZAHsyimkohWrJ23CwchyTUijinliydd6cQCYRxgvNP9P6FXbOLP4Cv5u+ACsTR2i
-	51spalCUyhPm68EQU3vc6TqdwnwsoQQEtsj3sgLd97niw2i5amNPCGaTkeLvaUUVIEh9w6H/SeR
-	DvYerxAuabFjbRqWv0xdIiTtekGLNbxrLzP8dmkV2uv0KaUg0S6UgboF0c9kJS+W4g==
-X-Google-Smtp-Source: AGHT+IGM2jDBAjMDfse8HzUmPeYkWTYOa9PQEphSfiSMExO266s5gEuxvs2+0EQcaEeaYxl8JiO5Iw==
-X-Received: by 2002:a05:6000:1a86:b0:3a4:dd02:f565 with SMTP id ffacd0b85a97d-3a4f89a7c39mr8495882f8f.3.1748844447265;
-        Sun, 01 Jun 2025 23:07:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1748844512; x=1749449312;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nUg394UUqvjb/oidDzwm9pG7XoUFy0Z+jw1O2ucewGg=;
+        b=kFdGODjBoP7ODFFqUXhavrytQV15gjSttHf1/JdEP/Mhi5wyNOx1zGV3BntOBuhoKW
+         mFIDbZHP8TRtlMyXAI2ogOveWfcoKiYggv1m2siITg/Ocm4xX/Es7hfd15yeTJ9uTgUf
+         ZbHWlRVpWSPXrs0c7EBECahNAbO/bzWlAjLWMBvNE+UKRPCKK6aKSTF5J7FeeTfUkreT
+         KuPloueAunnWlp36NpRjF1n/1Qlr29IqRT4U5PQM8YQYPvkVAeSRBkbEk8l9S15zzcbU
+         676zUBYehqrMbjJYxtAITUoMKYUnKBPG9F7dN/xSXeqmaNETUIAHNol5p6WzMGAviaeW
+         4+Ow==
+X-Forwarded-Encrypted: i=1; AJvYcCURVieSOrU46qntHulokBEMEAgOGE4z1rsku1iALJO8BeCAffzEAJCN/2ofixChnQ7vQmfESWIQ0ztBAke5@lists.linux.dev
+X-Gm-Message-State: AOJu0YzqHn40agyhWjUFX5/uFaVdrb/Nkg6CnNOzgGTlSzb0K/W0YHRm
+	CqC0zm7SdggwikdcShs+rd38dHuUdG8GhZlVHq8E1pm1xa91F0dDC3aL5PBBGO8uSz0=
+X-Gm-Gg: ASbGncsSVy9fWqLU5imJqjxll8TTi9rXQ2SRtFJV+lZWQ98ZdC8O/4+MHFdiKreYsd1
+	qxXUHVSvi9MTLC4QcpUsrZd+vdp3XYxINP6I9WDbyxxY/Bi/WHIdWuJ81HUJpx7rpHkClWptqzz
+	+itH5CPcv/3Ahh+wctXpT6octvW5yCW7zxFwk4vb5mOtqRoXo6wF4txFFbK54/YoSIy4za+s0aW
+	rnYZ2JFDd9f0PzBmsjqEn/Mp8y56Av8HQxTkWFxJPYk03Jfhp5xP09jztAJRVmf4YAGf+G01OTZ
+	m8e+ynsgw/ZaXX0MtG4MGRVP7Qif49Goz4pgziC+XeQNkk0arMD2wqCjMEkeXMAkmw==
+X-Google-Smtp-Source: AGHT+IECaagk3g9nLoafLTcr2Co0rEQWyMHI31p8lTu8Ivf/YK9+vSssiruussNYu28rBIZV/D4I1w==
+X-Received: by 2002:a5d:5f54:0:b0:39c:30cd:352c with SMTP id ffacd0b85a97d-3a4f89a482fmr8521278f8f.8.1748844511667;
+        Sun, 01 Jun 2025 23:08:31 -0700 (PDT)
 Received: from localhost ([41.210.143.146])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-450d7fb80e9sm106982005e9.27.2025.06.01.23.07.26
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a4f00a02cdsm13745291f8f.94.2025.06.01.23.08.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Jun 2025 23:07:26 -0700 (PDT)
-Date: Mon, 2 Jun 2025 09:07:22 +0300
+        Sun, 01 Jun 2025 23:08:31 -0700 (PDT)
+Date: Mon, 2 Jun 2025 09:08:27 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Roman Gushchin <roman.gushchin@linux.dev>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [rgushchin:bpfoom.1.2 10/17] kernel/sched/bpf_psi.c:130
- bpf_psi_ops_reg() warn: passing zero to 'PTR_ERR'
-Message-ID: <202505290712.WBOvBoOQ-lkp@intel.com>
+To: oe-kbuild@lists.linux.dev,
+	Samuel Kayode via B4 Relay <devnull+samuel.kayode.savoirfairelinux.com@kernel.org>,
+	Lee Jones <lee@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Sebastian Reichel <sre@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-pm@vger.kernel.org,
+	Samuel Kayode <samuel.kayode@savoirfairelinux.com>,
+	eballetbo@gmail.com, abelvesa@linux.com, b38343@freescale.com,
+	yibin.gong@nxp.com, Abel Vesa <abelvesa@kernel.org>
+Subject: Re: [PATCH v3 2/6] mfd: pf1550: add core mfd driver
+Message-ID: <202505290859.CKZrTkZu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,73 +83,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250527-pf1550-v3-2-45f69453cd51@savoirfairelinux.com>
 
-tree:   https://github.com/rgushchin/linux.git bpfoom.1.2
-head:   e3a569772f1fbe667574cb12da7cf500a0c91475
-commit: 343586cf71930a20ccde8c802a02ecdcc5c78a5b [10/17] sched: psi: bpf hook to handle psi events
-config: x86_64-randconfig-161-20250529 (https://download.01.org/0day-ci/archive/20250529/202505290712.WBOvBoOQ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Samuel,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Samuel-Kayode-via-B4-Relay/dt-bindings-mfd-add-pf1550/20250528-062840
+base:   0a4b866d08c6adaea2f4592d31edac6deeb4dcbd
+patch link:    https://lore.kernel.org/r/20250527-pf1550-v3-2-45f69453cd51%40savoirfairelinux.com
+patch subject: [PATCH v3 2/6] mfd: pf1550: add core mfd driver
+config: nios2-randconfig-r072-20250529 (https://download.01.org/0day-ci/archive/20250529/202505290859.CKZrTkZu-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202505290712.WBOvBoOQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202505290859.CKZrTkZu-lkp@intel.com/
 
 smatch warnings:
-kernel/sched/bpf_psi.c:130 bpf_psi_ops_reg() warn: passing zero to 'PTR_ERR'
-kernel/sched/bpf_psi.c:155 bpf_psi_ops_reg() error: uninitialized symbol 'ret'.
+drivers/mfd/pf1550.c:162 pf1550_i2c_probe() warn: passing zero to 'dev_err_probe'
 
-vim +/PTR_ERR +130 kernel/sched/bpf_psi.c
+vim +/dev_err_probe +162 drivers/mfd/pf1550.c
 
-343586cf71930a Roman Gushchin 2025-04-23  118  static int bpf_psi_ops_reg(void *kdata, struct bpf_link *link)
-343586cf71930a Roman Gushchin 2025-04-23  119  {
-343586cf71930a Roman Gushchin 2025-04-23  120  	struct bpf_psi_ops *ops = kdata;
-343586cf71930a Roman Gushchin 2025-04-23  121  	struct cgroup *cgroup = NULL;
-343586cf71930a Roman Gushchin 2025-04-23  122  	struct psi_group *group;
-343586cf71930a Roman Gushchin 2025-04-23  123  	struct bpf_psi *bpf_psi;
-343586cf71930a Roman Gushchin 2025-04-23  124  	struct psi_trigger *t;
-343586cf71930a Roman Gushchin 2025-04-23  125  	int ret;
-343586cf71930a Roman Gushchin 2025-04-23  126  
-343586cf71930a Roman Gushchin 2025-04-23  127  	if (ops->cgroup_id) {
-343586cf71930a Roman Gushchin 2025-04-23  128  		cgroup = cgroup_get_from_id(ops->cgroup_id);
-343586cf71930a Roman Gushchin 2025-04-23  129  		if (IS_ERR_OR_NULL(cgroup))
-343586cf71930a Roman Gushchin 2025-04-23 @130  			return PTR_ERR(cgroup);
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  140  static int pf1550_i2c_probe(struct i2c_client *i2c)
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  141  {
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  142  	struct pf1550_dev *pf1550;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  143  	unsigned int reg_data = 0;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  144  	int ret = 0;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  145  
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  146  	pf1550 = devm_kzalloc(&i2c->dev, sizeof(*pf1550), GFP_KERNEL);
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  147  	if (!pf1550)
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  148  		return -ENOMEM;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  149  
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  150  	i2c_set_clientdata(i2c, pf1550);
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  151  	pf1550->dev = &i2c->dev;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  152  	pf1550->i2c = i2c;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  153  	pf1550->irq = i2c->irq;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  154  
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  155  	pf1550->regmap = devm_regmap_init_i2c(i2c, &pf1550_regmap_config);
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  156  	if (IS_ERR(pf1550->regmap))
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  157  		return dev_err_probe(pf1550->dev, PTR_ERR(pf1550->regmap),
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  158  				     "failed to allocate register map\n");
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  159  
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  160  	ret = regmap_read(pf1550->regmap, PF1550_PMIC_REG_DEVICE_ID, &reg_data);
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  161  	if (ret < 0 || reg_data != PF1550_DEVICE_ID)
+fc62e32ad9eb64 Samuel Kayode 2025-05-27 @162  		return dev_err_probe(pf1550->dev, ret, "device not found!\n");
 
-cgroup_get_from_id() can't return NULL.  But if it did should that be
-a return PTR_ERR(NULL) type success path?
-https://staticthinking.wordpress.com/2022/08/01/mixing-error-pointers-and-null/
+return dev_err_probe(pf1550->dev, ret ?: -EINVAL, "device not found!\n");
 
-343586cf71930a Roman Gushchin 2025-04-23  131  
-343586cf71930a Roman Gushchin 2025-04-23  132  		group = cgroup_psi(cgroup);
-343586cf71930a Roman Gushchin 2025-04-23  133  	} else {
-343586cf71930a Roman Gushchin 2025-04-23  134  		group = &psi_system;
-343586cf71930a Roman Gushchin 2025-04-23  135  	}
-343586cf71930a Roman Gushchin 2025-04-23  136  
-343586cf71930a Roman Gushchin 2025-04-23  137  	bpf_psi = bpf_psi_create(ops, ops->cgroup_id);
-343586cf71930a Roman Gushchin 2025-04-23  138  	if (!bpf_psi) {
-343586cf71930a Roman Gushchin 2025-04-23  139  		ret = -ENOMEM;
-343586cf71930a Roman Gushchin 2025-04-23  140  		goto exit;
-343586cf71930a Roman Gushchin 2025-04-23  141  	}
-343586cf71930a Roman Gushchin 2025-04-23  142  
-343586cf71930a Roman Gushchin 2025-04-23  143  	t = psi_trigger_create(group, "some 100000 1000000",
-343586cf71930a Roman Gushchin 2025-04-23  144  			       PSI_MEM, true, NULL, bpf_psi);
-343586cf71930a Roman Gushchin 2025-04-23  145  	if (IS_ERR_OR_NULL(t)) {
-343586cf71930a Roman Gushchin 2025-04-23  146  		bpf_psi_free(bpf_psi);
-343586cf71930a Roman Gushchin 2025-04-23  147  		ret = PTR_ERR(t);
-343586cf71930a Roman Gushchin 2025-04-23  148  		goto exit;
-343586cf71930a Roman Gushchin 2025-04-23  149  	}
-343586cf71930a Roman Gushchin 2025-04-23  150  
-343586cf71930a Roman Gushchin 2025-04-23  151  	ops->bpf_psi = bpf_psi;
-
-ret is only initialized on failure.
-Best to test with CONFIG_INIT_STACK_ALL_PATTERN=y
-
-343586cf71930a Roman Gushchin 2025-04-23  152  exit:
-343586cf71930a Roman Gushchin 2025-04-23  153  	if (cgroup)
-343586cf71930a Roman Gushchin 2025-04-23  154  		cgroup_put(cgroup);
-343586cf71930a Roman Gushchin 2025-04-23 @155  	return ret;
-343586cf71930a Roman Gushchin 2025-04-23  156  }
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  163  
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  164  	pf1550->type = PF1550;
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  165  
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  166  	ret = devm_regmap_add_irq_chip(pf1550->dev, pf1550->regmap,
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  167  				       pf1550->irq,
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  168  				       IRQF_ONESHOT | IRQF_SHARED |
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  169  				       IRQF_TRIGGER_FALLING, 0,
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  170  				       &pf1550_regulator_irq_chip,
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  171  				       &pf1550->irq_data_regulator);
+fc62e32ad9eb64 Samuel Kayode 2025-05-27  172  	if (ret)
 
 -- 
 0-DAY CI Kernel Test Service
