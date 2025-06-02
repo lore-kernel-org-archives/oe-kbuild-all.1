@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275D925F780;
-	Sun,  1 Jun 2025 23:25:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F66D6FBF
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  2 Jun 2025 01:17:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748820339; cv=none; b=DiHYktBVVN95+cmOahiaTwHAF921TJzM5wY56DemoSr2NDeqIl4xdD6fU6tNGk93SLkVzRGDX1zL3XWk6LUq2pPDOX3rgrrPOaNE1oCY1AI5xFnYFBCSwTnEW7D03jDiQ1YhJjQmVO8t0Z808zoFsnhvcBTmX4RJBE49CMEJ9tY=
+	t=1748827032; cv=none; b=ltDlBfZgWR7njyE+J7q4ijLt4NYbY0m8ulfq/krRAK+ZLxTqHTvEd2veGrH5NDGQIIoPcuj6d0B/EBAhBWsT1x4ixLPBYe2A88SkkWlKkcRuyFX6gObphB0XxhjY1TFBYN1jCEVzNIS4W4m55a+QmUxGMy8DEqXB7o1ify4WTkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748820339; c=relaxed/simple;
-	bh=nyVoVbw6is92ImfXkkazm71ZXz3L54g8SmMWcdgxB0A=;
+	s=arc-20240116; t=1748827032; c=relaxed/simple;
+	bh=cULVw9qDmUn8eegISjfgOdt8WxXBueMBog2bvfMK6No=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bBrOcOolHTc6VE1h/gsJEt/jWb7kpz/O7XvNN0D0Jl5nHR3tyIvkBufPX9qMgAB9DwqwZllU9Cls1/IIWOtNypmNBoy37HX6h9/Rq+rGhWmsvtf1yuLLjaOFaQz/8Wgpf+Cev3bqTP4gif2t959fVR8QEzQMY9N5Glb/q8yLxKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G3xQ5hYo; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=Il6u0kwp4fDZek7S5C8BF8k6o9yp/dDBCB1zWevpcgWCn2PDymn5vN20Duwx36uX+9nFyJyIROylk/oWeRBWf8JX0UB0jTyPEDqYztj0zD0e/+/KCBnNUw4LWnQGJm6m5g++qeP/etKH3DntZUzA1kvjyLUHGotpmThkoSVggXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K77zFRH8; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G3xQ5hYo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K77zFRH8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748820337; x=1780356337;
+  t=1748827030; x=1780363030;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nyVoVbw6is92ImfXkkazm71ZXz3L54g8SmMWcdgxB0A=;
-  b=G3xQ5hYocJSWxSWdLnT9YY/au/fh9aLF7KsGEIBw7AgSwCNA3flcabLK
-   A8H8nReUM1VqL6txLcHOQNyBNz0u2o6hwV+MJ9uCINeNKaNTG78Wr+cnI
-   rKhcy31WpYQqLhFdZHV/uuQ1K/ryxOR9owuOAmKPDgG7kHbVJw0WKncuu
-   owILH+c2GDbfitzumtUJOBnGpLd2Qk0F3vr/sH+V5UllQcaIqswuq/kw+
-   nM8dRZka/jYSx7x59rD6boF1/JP9JksWI6f1QtELVReBzj3ZDqyR3sdX3
-   Tw9UG7pXZFWvHnsJBsft9p8MqAWc9ow+b4wgsHwFl1R3UGVs/0SiKX3CH
-   w==;
-X-CSE-ConnectionGUID: K0hUpQAOS6mQ1AUBxVxPUw==
-X-CSE-MsgGUID: iNfdur2nRj2Pn/RFoOWLEw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="54630819"
+  bh=cULVw9qDmUn8eegISjfgOdt8WxXBueMBog2bvfMK6No=;
+  b=K77zFRH8Lu9i6YE/8UgqTp/+YGPidHW0NwL4qMBpTvkUKZ4EkK7wc0ep
+   FxDMgFkrv/JiONFdQ5q5TXnGD63cuEJnebBTEmEZSvZpg5TR8hpxVBV4n
+   /I2yRKInIQ8O8p/wLHC8GT7fGP7FvpD2AIb4dYpGumPJSuZOqMvMacy0u
+   WuskiwY9gs4isjMcK0gZzh5/eagHMXXkVCG7GyNBE8NvWo0OoEySW5Fsw
+   T8qJBlsXOue4KjkdPNmxgNz2DoUPGXU+rlSXa11tUw7+5zo7Y74vf1PwX
+   25iYzQwEazya115aAbSwaoHInLLhw7vtZHEM89TBuHsNEdZzzZigc+mgG
+   A==;
+X-CSE-ConnectionGUID: 4fzvw9YLQRyWWeVkK0XsRg==
+X-CSE-MsgGUID: 7GGvmI80SNytvu8Pk/wrHg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11450"; a="53470623"
 X-IronPort-AV: E=Sophos;i="6.16,202,1744095600"; 
-   d="scan'208";a="54630819"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2025 16:25:36 -0700
-X-CSE-ConnectionGUID: SkavTO8PRSyKkPdzj4FMAQ==
-X-CSE-MsgGUID: 7tE1ZVqwQCyg5emzdmfHxA==
+   d="scan'208";a="53470623"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2025 18:17:09 -0700
+X-CSE-ConnectionGUID: 8aj/dSscRPGXSio01iF6CQ==
+X-CSE-MsgGUID: EvvbpbJjQ+SBtCyFwaGhHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,202,1744095600"; 
-   d="scan'208";a="144365552"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 01 Jun 2025 16:25:35 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
+   d="scan'208";a="144379161"
+Received: from igk-lkp-server01.igk.intel.com (HELO b69e6467d450) ([10.211.3.150])
+  by fmviesa007.fm.intel.com with ESMTP; 01 Jun 2025 18:17:08 -0700
+Received: from kbuild by b69e6467d450 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uLs3Y-000Z6i-2P;
-	Sun, 01 Jun 2025 23:25:32 +0000
-Date: Mon, 2 Jun 2025 07:25:20 +0800
+	id 1uLtnV-0001EI-2w;
+	Mon, 02 Jun 2025 01:17:05 +0000
+Date: Mon, 2 Jun 2025 09:16:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/bitmap-initializer 3/5]
- lib/tests/foreach_macros_kunit.c:18:39: warning: shift count >= width of
- type
-Message-ID: <202506020750.h5ue0vJG-lkp@intel.com>
+To: Ivan Orlov <ivan.orlov0322@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Takashi Iwai <tiwai@suse.de>
+Subject: include/kunit/test.h:528:17: warning: '%s' directive argument is null
+Message-ID: <202506020940.5grMdmaN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,92 +62,116 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/bitmap-initializer
-head:   a2f50b59c4c10c1b348be838a119c2ba4566c82a
-commit: ad77b763a6de29773ece034131d2ffcc10708629 [3/5] lib/tests: add a KUnit test for linux/foreach_macros.h
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250602/202506020750.h5ue0vJG-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250602/202506020750.h5ue0vJG-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   cd2e103d57e5615f9bb027d772f93b9efd567224
+commit: 3e39acf56ededdebd1033349a16b704839b94b28 ALSA: core: Add sound core KUnit test
+date:   1 year, 4 months ago
+config: i386-buildonly-randconfig-2003-20250503 (https://download.01.org/0day-ci/archive/20250602/202506020940.5grMdmaN-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250602/202506020940.5grMdmaN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506020750.h5ue0vJG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506020940.5grMdmaN-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/tests/foreach_macros_kunit.c:18:39: warning: shift count >= width of type [-Wshift-count-overflow]
-      18 |         static const u64 many_args      = FOREACH(FOREACH_BIT, 1, 2, 3, 15, 30, 63) FOREACH_END(0);
-         |                                           ~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/foreach_macros.h:20:47: note: expanded from macro 'FOREACH'
-      20 |         __VA_OPT__(__FOREACH_EXPAND(__FOREACH_HELPER(MACRO, __VA_ARGS__)))
-         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
-   include/linux/foreach_macros.h:24:47: note: expanded from macro '__FOREACH_HELPER'
-      24 |         __VA_OPT__(__FOREACH_AGAIN __FOREACH_PARENS (MACRO, __VA_ARGS__))
-         |                                                      ^
-   include/linux/foreach_macros.h:13:85: note: expanded from macro '__FOREACH_EXPAND'
-      13 | #define __FOREACH_EXPAND(...) __FOREACH_EXPAND3(__FOREACH_EXPAND3(__FOREACH_EXPAND3(__VA_ARGS__)))
-         |                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
-   note: (skipping 43 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
-   include/linux/foreach_macros.h:16:32: note: expanded from macro '__FOREACH_EXPAND1'
-      16 | #define __FOREACH_EXPAND1(...) __VA_ARGS__
-         |                                ^
-   include/linux/foreach_macros.h:16:32: note: expanded from macro '__FOREACH_EXPAND1'
-   include/linux/foreach_macros.h:16:32: note: expanded from macro '__FOREACH_EXPAND1'
-      16 | #define __FOREACH_EXPAND1(...) __VA_ARGS__
-         |                                ^~~~~~~~~~~
-   lib/tests/foreach_macros_kunit.c:22:82: warning: shift count >= width of type [-Wshift-count-overflow]
-      22 |         KUNIT_EXPECT_EQ(test, many_args, BIT(1) | BIT(2) | BIT(3) | BIT(15) | BIT(30) | BIT(63));
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^
-   include/kunit/test.h:968:34: note: expanded from macro 'KUNIT_EXPECT_EQ'
-     968 |         KUNIT_EXPECT_EQ_MSG(test, left, right, NULL)
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
-   include/kunit/test.h:973:18: note: expanded from macro 'KUNIT_EXPECT_EQ_MSG'
-     971 |         KUNIT_BINARY_INT_ASSERTION(test,                                       \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     972 |                                    KUNIT_EXPECTATION,                          \
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     973 |                                    left, ==, right,                            \
-         |                                    ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     974 |                                    fmt,                                        \
-         |                                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     975 |                                     ##__VA_ARGS__)
-         |                                     ~~~~~~~~~~~~~~
-   include/kunit/test.h:809:19: note: expanded from macro 'KUNIT_BINARY_INT_ASSERTION'
-     805 |         KUNIT_BASE_BINARY_ASSERTION(test,                                      \
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     806 |                                     kunit_binary_assert,                       \
-         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     807 |                                     kunit_binary_assert_format,                \
-         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     808 |                                     assert_type,                               \
-         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     809 |                                     left, op, right,                           \
-         |                                     ~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     810 |                                     fmt,                                       \
-         |                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     811 |                                     ##__VA_ARGS__)
-         |                                     ~~~~~~~~~~~~~~
-   include/kunit/test.h:776:33: note: expanded from macro 'KUNIT_BASE_BINARY_ASSERTION'
-     776 |         const typeof(right) __right = (right);                                 \
-         |                                        ^~~~~
-   2 warnings generated.
+   In file included from include/kunit/assert.h:13,
+                    from include/kunit/test.h:12,
+                    from sound/core/sound_kunit.c:7:
+   sound/core/sound_kunit.c: In function 'test_card_set_id':
+>> include/linux/printk.h:455:44: warning: '%s' directive argument is null [-Wformat-overflow=]
+     455 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                            ^
+   include/linux/printk.h:427:17: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                 ^~~~~~~
+   include/kunit/test.h:527:17: note: in expansion of macro 'printk'
+     527 |                 printk(lvl fmt, ##__VA_ARGS__);                         \
+         |                 ^~~~~~
+   include/kunit/test.h:533:9: note: in expansion of macro 'kunit_log'
+     533 |         kunit_log(lvl, test, KUNIT_SUBTEST_INDENT "# %s: " fmt,         \
+         |         ^~~~~~~~~
+   include/kunit/test.h:546:9: note: in expansion of macro 'kunit_printk'
+     546 |         kunit_printk(KERN_INFO, test, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~
+   sound/core/sound_kunit.c:259:9: note: in expansion of macro 'kunit_info'
+     259 |         kunit_info(test, "%s", card->id);
+         |         ^~~~~~~~~~
+   In file included from sound/core/sound_kunit.c:7:
+>> include/kunit/test.h:528:17: warning: '%s' directive argument is null [-Wformat-overflow=]
+     528 |                 kunit_log_append((test_or_suite)->log,  fmt,            \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     529 |                                  ##__VA_ARGS__);                        \
+         |                                  ~~~~~~~~~~~~~~
+   include/kunit/test.h:533:9: note: in expansion of macro 'kunit_log'
+     533 |         kunit_log(lvl, test, KUNIT_SUBTEST_INDENT "# %s: " fmt,         \
+         |         ^~~~~~~~~
+   include/kunit/test.h:546:9: note: in expansion of macro 'kunit_printk'
+     546 |         kunit_printk(KERN_INFO, test, fmt, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~
+   sound/core/sound_kunit.c:259:9: note: in expansion of macro 'kunit_info'
+     259 |         kunit_info(test, "%s", card->id);
+         |         ^~~~~~~~~~
 
 
-vim +18 lib/tests/foreach_macros_kunit.c
+vim +528 include/kunit/test.h
 
-    15	
-    16		static const u64 empty_args	= FOREACH(FOREACH_BIT) FOREACH_END(0);
-    17		static const u64 one_arg	= FOREACH(FOREACH_BIT, 7) FOREACH_END(0);
-  > 18		static const u64 many_args	= FOREACH(FOREACH_BIT, 1, 2, 3, 15, 30, 63) FOREACH_END(0);
-    19	
-    20		KUNIT_EXPECT_EQ(test, empty_args, 0);
-    21		KUNIT_EXPECT_EQ(test, one_arg, BIT(7));
-    22		KUNIT_EXPECT_EQ(test, many_args, BIT(1) | BIT(2) | BIT(3) | BIT(15) | BIT(30) | BIT(63));
-    23	
+e2219db280e3fe Alan Maguire 2020-03-26  484  
+6d2426b2f258da David Gow    2021-06-24  485  /**
+6d2426b2f258da David Gow    2021-06-24  486   * kunit_mark_skipped() - Marks @test_or_suite as skipped
+6d2426b2f258da David Gow    2021-06-24  487   *
+6d2426b2f258da David Gow    2021-06-24  488   * @test_or_suite: The test context object.
+6d2426b2f258da David Gow    2021-06-24  489   * @fmt:  A printk() style format string.
+6d2426b2f258da David Gow    2021-06-24  490   *
+6d2426b2f258da David Gow    2021-06-24  491   * Marks the test as skipped. @fmt is given output as the test status
+6d2426b2f258da David Gow    2021-06-24  492   * comment, typically the reason the test was skipped.
+6d2426b2f258da David Gow    2021-06-24  493   *
+6d2426b2f258da David Gow    2021-06-24  494   * Test execution continues after kunit_mark_skipped() is called.
+6d2426b2f258da David Gow    2021-06-24  495   */
+6d2426b2f258da David Gow    2021-06-24  496  #define kunit_mark_skipped(test_or_suite, fmt, ...)			\
+6d2426b2f258da David Gow    2021-06-24  497  	do {								\
+6d2426b2f258da David Gow    2021-06-24  498  		WRITE_ONCE((test_or_suite)->status, KUNIT_SKIPPED);	\
+6d2426b2f258da David Gow    2021-06-24  499  		scnprintf((test_or_suite)->status_comment,		\
+6d2426b2f258da David Gow    2021-06-24  500  			  KUNIT_STATUS_COMMENT_SIZE,			\
+6d2426b2f258da David Gow    2021-06-24  501  			  fmt, ##__VA_ARGS__);				\
+6d2426b2f258da David Gow    2021-06-24  502  	} while (0)
+6d2426b2f258da David Gow    2021-06-24  503  
+6d2426b2f258da David Gow    2021-06-24  504  /**
+6d2426b2f258da David Gow    2021-06-24  505   * kunit_skip() - Marks @test_or_suite as skipped
+6d2426b2f258da David Gow    2021-06-24  506   *
+6d2426b2f258da David Gow    2021-06-24  507   * @test_or_suite: The test context object.
+6d2426b2f258da David Gow    2021-06-24  508   * @fmt:  A printk() style format string.
+6d2426b2f258da David Gow    2021-06-24  509   *
+6d2426b2f258da David Gow    2021-06-24  510   * Skips the test. @fmt is given output as the test status
+6d2426b2f258da David Gow    2021-06-24  511   * comment, typically the reason the test was skipped.
+6d2426b2f258da David Gow    2021-06-24  512   *
+6d2426b2f258da David Gow    2021-06-24  513   * Test execution is halted after kunit_skip() is called.
+6d2426b2f258da David Gow    2021-06-24  514   */
+6d2426b2f258da David Gow    2021-06-24  515  #define kunit_skip(test_or_suite, fmt, ...)				\
+6d2426b2f258da David Gow    2021-06-24  516  	do {								\
+6d2426b2f258da David Gow    2021-06-24  517  		kunit_mark_skipped((test_or_suite), fmt, ##__VA_ARGS__);\
+6d2426b2f258da David Gow    2021-06-24  518  		kunit_try_catch_throw(&((test_or_suite)->try_catch));	\
+6d2426b2f258da David Gow    2021-06-24  519  	} while (0)
+e2219db280e3fe Alan Maguire 2020-03-26  520  
+e2219db280e3fe Alan Maguire 2020-03-26  521  /*
+e2219db280e3fe Alan Maguire 2020-03-26  522   * printk and log to per-test or per-suite log buffer.  Logging only done
+e2219db280e3fe Alan Maguire 2020-03-26  523   * if CONFIG_KUNIT_DEBUGFS is 'y'; if it is 'n', no log is allocated/used.
+e2219db280e3fe Alan Maguire 2020-03-26  524   */
+e2219db280e3fe Alan Maguire 2020-03-26  525  #define kunit_log(lvl, test_or_suite, fmt, ...)				\
+e2219db280e3fe Alan Maguire 2020-03-26  526  	do {								\
+e2219db280e3fe Alan Maguire 2020-03-26  527  		printk(lvl fmt, ##__VA_ARGS__);				\
+2c6a96dad5797e Rae Moar     2023-03-08 @528  		kunit_log_append((test_or_suite)->log,	fmt,		\
+e2219db280e3fe Alan Maguire 2020-03-26  529  				 ##__VA_ARGS__);			\
+e2219db280e3fe Alan Maguire 2020-03-26  530  	} while (0)
+e2219db280e3fe Alan Maguire 2020-03-26  531  
+
+:::::: The code at line 528 was first introduced by commit
+:::::: 2c6a96dad5797e57b4cf04101d6c8d5c7a571603 kunit: fix bug of extra newline characters in debugfs logs
+
+:::::: TO: Rae Moar <rmoar@google.com>
+:::::: CC: Shuah Khan <skhan@linuxfoundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
