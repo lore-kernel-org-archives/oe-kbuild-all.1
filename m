@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 690E415F41F
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Jun 2025 03:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27362C3244
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Jun 2025 05:11:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748921004; cv=none; b=rIS5i7rWh4QBZXe1qKtFH1iYIwE1LWBChBcars5iHP7JkpTdzlo0CbBao7M6Ufzeq8PAqz44lvwkc5BhqZ0/ttrWSx4Ub26G0SV9yi6KC2jaT5umUtG4cmhBxoPKlX4G1RZAdEsBztD6J3tv4xDR2IqH3U2IMuoWn6yrSEFeRj4=
+	t=1748927477; cv=none; b=aRbv/TbT0UJVi7kwF6jk4r4U/e6v9RV5fYM1q5+VYygjtta8/W+hOeVJBOQkRcfW2L2/haJdhpYZlYTEJObWzdK9dQw/O11lVvixqEGN/+e2djsG4ASWAsHaeb6I38Uf+4RKd/zbtJEXuD/E1WCSmmGZ3fKMGCP8UFgNV1Pn5xI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748921004; c=relaxed/simple;
-	bh=NUQzJlANHq2SGdaVIfcx7anEua1lj23A5dS+jQshbi0=;
+	s=arc-20240116; t=1748927477; c=relaxed/simple;
+	bh=TG2eyMyvIfYZk9jJgOBypq898ZnUmlREexQqsWV7bDY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jJoP2sEGNOdPDqFrQmJb7TqF1xldlj1ts4lP/1P8VWMoBuKTpR7HOuxfGzOd8lh3MvxG/2YUXbwc/EEka4mgQlAeltmJFXAZbakceaHTiai00G/oJw0FUS95SlyvxxFDIA6HErFw6YQskV5+66oPiNuBduUzU8iSbOFlqaYzur0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CYBNzOmG; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=fcoiH6LAJR0cjzzV6S4SZ1qViG/viYUs1SxYbxvmGwkxrSiZMrXL56C5tkJQ0Ov7Enl5NrLyeaSElY9Nr/82KWpHfUTywBm/gAvJYNsP8FLZY/0f5Nn/ttYjrfpXtQae7tZzmbHvUPXBkKvWoUZzEQfy+igVrh8GgBvDJaiHTqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HkiQiG9B; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CYBNzOmG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HkiQiG9B"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748921002; x=1780457002;
+  t=1748927475; x=1780463475;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NUQzJlANHq2SGdaVIfcx7anEua1lj23A5dS+jQshbi0=;
-  b=CYBNzOmGLvqak0Gos54iYHuTFNrdl3zpVbEjH+7Da32iUM2QqgQl7UEQ
-   /wGYC7o4mBQ1svpt3VpowsKOzSJXFRNoX3OK469MoyC65rCV1XI43Kw8b
-   lMdxg6fa8LbADiIRzjewgElfgYzhcSjh8oH2/DYwDVrbcs1pJWL1GDmNH
-   i0aJii3kfOAUURXn0GXKbamdPLIAfjYBtdM+cJE5inFqd89CteIU507j7
-   Tt0ZnPsmdIAlm40rceKi3k631AbdQJzLuciZx9j4ZNaINYbrx0jyXb/Th
-   Or06WtN2/Az0GgssrQnphNjUqKBuMqTIfG3b49IxDMn9w1onG5KoO+m0l
+  bh=TG2eyMyvIfYZk9jJgOBypq898ZnUmlREexQqsWV7bDY=;
+  b=HkiQiG9BxB8Fm5cZ4nHO+Uf8Qd1y3W8f6z6Gr89DPuREaDJUi8teVa/a
+   zbn5O9116rBeJGzqTzRdw3jXwrdIWilad43ZO8PNVNP2EH3fgCGeUhWPc
+   n2mlvh9///Q73J17loRfzQZeQJLjuuZIi60eIqJQ/SSB+uAe2H/pFQ24X
+   UvqoE77FwdG7PUwiC+jZYC1kL6cspJlviFTXLlM/25Q+P01/JpHPEuXB4
+   8XEO++NANsnzCJZWQImMvQH/xQlgjqmXvS1GwuIDaErkmWN/ojKvTWCBA
+   ac2hYeS1rvIxOXXkceL8e9DY3XtaQhGwTs0mqwGuwTJLX+m6rsuvEBBrW
    Q==;
-X-CSE-ConnectionGUID: WQhppzu1QECNY/yWyCGAJQ==
-X-CSE-MsgGUID: EG9o3ANVT9qtJM3aUFCt8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="51089408"
+X-CSE-ConnectionGUID: Mz/rIy4bQXGt13gCYThCLQ==
+X-CSE-MsgGUID: x+edKbavTEKyISwX4n+SQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="62006976"
 X-IronPort-AV: E=Sophos;i="6.16,205,1744095600"; 
-   d="scan'208";a="51089408"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2025 20:23:20 -0700
-X-CSE-ConnectionGUID: a7UjyrUHR+uU3E/ouycL/g==
-X-CSE-MsgGUID: ApKV2ZiBS7axEcE/GS6k2Q==
+   d="scan'208";a="62006976"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2025 22:07:27 -0700
+X-CSE-ConnectionGUID: O8oMk72tRWubRRmZ/Ff+yg==
+X-CSE-MsgGUID: 6zRTQYjYRcGVmfcIM915PA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,205,1744095600"; 
-   d="scan'208";a="149774303"
+   d="scan'208";a="175595099"
 Received: from igk-lkp-server01.igk.intel.com (HELO b69e6467d450) ([10.211.3.150])
-  by orviesa004.jf.intel.com with ESMTP; 02 Jun 2025 20:23:19 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 02 Jun 2025 22:07:27 -0700
 Received: from kbuild by b69e6467d450 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uMIFB-0001Pa-04;
-	Tue, 03 Jun 2025 03:23:17 +0000
-Date: Tue, 3 Jun 2025 11:22:23 +0800
+	id 1uMJrv-0001QI-1R;
+	Tue, 03 Jun 2025 05:07:23 +0000
+Date: Tue, 3 Jun 2025 13:06:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2195/2195]
- drivers/crypto/ccp/hygon/hct.c:1730:45: error: no member named 'numa_node'
- in 'struct device'
-Message-ID: <202506031108.JuNV3xoC-lkp@intel.com>
+Subject: [android-common:android15-6.6-desktop 0/1]
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:712:38: warning:
+ variable 'plane_fmt' set but not used
+Message-ID: <202506031353.9wOkldEH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,66 +63,58 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   97c2d1a4aa1430a6305c949fa1f72efe454c946d
-commit: c74ae2c5da57becf3f41c596d79b3dd30fa1baa6 [2195/2195] hct: add mediated ccp driver support for hygon crypto technology.
-config: x86_64-buildonly-randconfig-2004-20250502 (https://download.01.org/0day-ci/archive/20250603/202506031108.JuNV3xoC-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250603/202506031108.JuNV3xoC-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-desktop
+head:   21fc2218c3dfde22b522a0352bb0112b85d0fe72
+commit: 748d2650c057ecda791e6b2d3efecc353679fa09 [0/1] CHROMIUM: media: jpeg: fix jpegdec resolution handle flow
+config: i386-buildonly-randconfig-2003-20250502 (https://download.01.org/0day-ci/archive/20250603/202506031353.9wOkldEH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250603/202506031353.9wOkldEH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506031108.JuNV3xoC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506031353.9wOkldEH-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/crypto/ccp/hygon/hct.c:20:
-   In file included from include/linux/vfio.h:12:
-   In file included from include/linux/iommu.h:10:
-   In file included from include/linux/scatterlist.h:8:
-   In file included from include/linux/mm.h:2242:
-   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> drivers/crypto/ccp/hygon/hct.c:1333:15: warning: no previous prototype for function 'hct_pin_memory' [-Wmissing-prototypes]
-    1333 | struct page **hct_pin_memory(struct hct_private *private, unsigned long uaddr,
-         |               ^
-   drivers/crypto/ccp/hygon/hct.c:1333:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1333 | struct page **hct_pin_memory(struct hct_private *private, unsigned long uaddr,
-         | ^
-         | static 
->> drivers/crypto/ccp/hygon/hct.c:1730:45: error: no member named 'numa_node' in 'struct device'
-    1730 |         *node = hct_data.iommu[page_idx].pdev->dev.numa_node;
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
-   2 warnings and 1 error generated.
+   drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c: In function 'mtk_jpeg_buf_prepare':
+>> drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c:712:38: warning: variable 'plane_fmt' set but not used [-Wunused-but-set-variable]
+     712 |         struct v4l2_plane_pix_format plane_fmt = {};
+         |                                      ^~~~~~~~~
 
 
-vim +1730 drivers/crypto/ccp/hygon/hct.c
+vim +/plane_fmt +712 drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
 
-  1713	
-  1714	static struct page *hct_get_page(pgoff_t page_idx)
-  1715	{
-  1716		u64 *node;
-  1717	
-  1718		mutex_lock(&hct_share.lock);
-  1719		if (!hct_share.pages[page_idx]) {
-  1720			hct_share.pages[page_idx] =
-  1721				alloc_pages(GFP_HIGHUSER | __GFP_ZERO, 0);
-  1722			if (!hct_share.pages[page_idx]) {
-  1723				mutex_unlock(&hct_share.lock);
-  1724				return NULL;
-  1725			}
-  1726		}
-  1727		get_page(hct_share.pages[page_idx]);
-  1728	
-  1729		node = page_to_virt(hct_share.pages[page_idx]) + PAGE_SIZE - 8;
-> 1730		*node = hct_data.iommu[page_idx].pdev->dev.numa_node;
-  1731		mutex_unlock(&hct_share.lock);
-  1732	
-  1733		return hct_share.pages[page_idx];
-  1734	}
-  1735	
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  707  
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  708  static int mtk_jpeg_buf_prepare(struct vb2_buffer *vb)
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  709  {
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  710  	struct mtk_jpeg_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  711  	struct mtk_jpeg_q_data *q_data = NULL;
+934e8bccac9542 drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c kyrie wu   2022-09-29 @712  	struct v4l2_plane_pix_format plane_fmt = {};
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  713  	int i;
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  714  
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  715  	q_data = mtk_jpeg_get_q_data(ctx, vb->vb2_queue->type);
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  716  	if (!q_data)
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  717  		return -EINVAL;
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  718  
+45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang  2020-08-14  719  	for (i = 0; i < q_data->fmt->colplanes; i++) {
+45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang  2020-08-14  720  		plane_fmt = q_data->pix_mp.plane_fmt[i];
+45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang  2020-08-14  721  		if (ctx->enable_exif &&
+45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang  2020-08-14  722  		    q_data->fmt->fourcc == V4L2_PIX_FMT_JPEG)
+748d2650c057ec drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c Kyrie Wu   2024-09-30  723  			vb2_set_plane_payload(vb, i, vb2_plane_size(vb, i));
+45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang  2020-08-14  724  		else
+748d2650c057ec drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c Kyrie Wu   2024-09-30  725  			vb2_set_plane_payload(vb, i, vb2_plane_size(vb, i));
+45f13a57d81344 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Xia Jiang  2020-08-14  726  	}
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  727  
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  728  	return 0;
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  729  }
+b2f0d2724ba477 drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c      Rick Chang 2016-12-14  730  
+
+:::::: The code at line 712 was first introduced by commit
+:::::: 934e8bccac9542540493a4e5257d6b0db4162478 mtk-jpegenc: support jpegenc multi-hardware
+
+:::::: TO: kyrie wu <kyrie.wu@mediatek.com>
+:::::: CC: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
 -- 
 0-DAY CI Kernel Test Service
