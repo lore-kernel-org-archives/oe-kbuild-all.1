@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7716BA34
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Jun 2025 18:31:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F9D6128395
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Jun 2025 20:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748975506; cv=none; b=UTAPAtkMvt804THFUyP6Q0C3aR9d98VnXONfSg0DF40uo6ZIDje4YO2Tky0q0Hu3F4RW6qcndIwy/lZno0jNFC12xX8qu6I6CcPCRYNR3RPRo2f6qnazueAeSSjSJqIwMbh62+y/fCV23J3a5nSkAVQ+GKQrCBMY5SXPoyKjK78=
+	t=1748981329; cv=none; b=QDf+9Hj3DGryBiFwUMK2zd5LS4XQyQarn7f04Rl6LwKUQdcqo2iwjBhdOD6Iy5TRnLQkK3xkdXrsCzcwNnayh6pVO54yGC8fFLa2jNxURAsA1N5RhcsxwD9e59MFXAg/UOD5I1INK0lA2hhXzYwgLCcHoAbEcV8v0yyLbtK3fPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748975506; c=relaxed/simple;
-	bh=DRQkd1jcbN2lDPM10CrWphBkbCUHJ1Bx0LtTpf+Fudk=;
+	s=arc-20240116; t=1748981329; c=relaxed/simple;
+	bh=hBA2pxPVtH6C30Z0qiGOsMSKZC0uDtfT8M00YQ0TZrM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ql7yVQnYZ/s7LWCG6xv40unrX9MvSgbAM8y+Hve96VC8GA5LRc1cRnl3GJr/phwURdUbm1fMz8RlaG8TqWBGRU0htSQ8zmZSjvxjOsuS+LYDiBcxsGdhptO7JGr4o1yP51QHLb709mcA3jb+PHzioMZI+R9LwhjGBpWb0lCQ8Uk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B3+eEwwv; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=nXAOMHDytXbIWvbeF0kVqBCD0EL067+iRY2giJpZC52lcfLI7ETwOs5yX0Vtq4h+Maym/jcSoN1t0hoMQKmkpTyQKr/xqpAUQ7uDmzdI/AL8RUDoZn0tQ083fpORGrLTcil9B1/erTZtg445Pcr5XskrVrNUiMKJKKG1RMiWrqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kuicqdxw; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B3+eEwwv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kuicqdxw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1748975505; x=1780511505;
+  t=1748981327; x=1780517327;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DRQkd1jcbN2lDPM10CrWphBkbCUHJ1Bx0LtTpf+Fudk=;
-  b=B3+eEwwv9jn2QHGIBQ4t/Ma7Di9f3s0c4XoC2wtmegZoAuOwHh2Ywa6p
-   dp0X88Jb17DqYdv04d76mwSc/sSm3+fDPJv3octKlb5nCNXj9SzkQch8C
-   BmwHWWZV7yxDRMr1H1NYabhbNPX8OzBsLB5CcaYn1QNARe+cyieZJcIlW
-   Ib2vOQiKQJuNxU2AG2XjP/ATwBgWEJEa/H3tgwO016SkRDGkw/hqdTbUA
-   Gx6zeD+8EZo+Y9iEUVM0wpbvR/YQTeRTMITzpc2Du4kVqX6iCD+aOPYuk
-   vXeo3SwkzJItkvKfgmXNVhFdQYeW62ZSquqHec9ef56ssuJn5AsCt+Czo
+  bh=hBA2pxPVtH6C30Z0qiGOsMSKZC0uDtfT8M00YQ0TZrM=;
+  b=Kuicqdxw12Yv8H8hjnBet3QPLfSeaEuJPIzh6dFqCUOlU9GAg0avzQIW
+   wL1tOzAM2knNqvgxdI9m2axAOVc43AfZgrKXC2J4mC+cULx8oZhRAmqGh
+   nCn1+vKiWGjvbD+bBqJSWiBj8xLrbx3MKqxdJZ/nHJ+UrNpaxMUjw/1vQ
+   HbjQdUbTeTaNcG8XTbKN8ZmGzW7kwV04y9iFm6p9shYYwIYMpFUDZuTYl
+   q7XgtocJwsNTd2zU+AjJbEEg0uYD62qTJtdx+JuhOTKkQ2X434T53gHhg
+   JzJ8RBWVbL+HAZUADabQbuYflqf4NE5zsVy60HY1LBKOa9HqDnHHs877N
    A==;
-X-CSE-ConnectionGUID: 4Blm29ZJTaOQsjJQdZGX3w==
-X-CSE-MsgGUID: Apw91mPtQfy/V5zO0jZYAg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="62088363"
-X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; 
-   d="scan'208";a="62088363"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2025 11:31:44 -0700
-X-CSE-ConnectionGUID: bRcMKK8uRXKcCfznnUW5Lw==
-X-CSE-MsgGUID: jkUHdukSTdu0MYIwfyN7rg==
+X-CSE-ConnectionGUID: 7/kHzVqlTsWj0ig1tGxdJw==
+X-CSE-MsgGUID: b/pFOXkxSo6nlXkxP6u4cg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="50952352"
+X-IronPort-AV: E=Sophos;i="6.16,207,1744095600"; 
+   d="scan'208";a="50952352"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2025 13:08:46 -0700
+X-CSE-ConnectionGUID: 5YDURWzYTaWm1m6jBFBlww==
+X-CSE-MsgGUID: RLevlWXvSzKd4eGwrUCpcQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; 
-   d="scan'208";a="144914283"
+X-IronPort-AV: E=Sophos;i="6.16,207,1744095600"; 
+   d="scan'208";a="144983886"
 Received: from igk-lkp-server01.igk.intel.com (HELO b69e6467d450) ([10.211.3.150])
-  by orviesa010.jf.intel.com with ESMTP; 03 Jun 2025 11:31:41 -0700
+  by orviesa009.jf.intel.com with ESMTP; 03 Jun 2025 13:08:46 -0700
 Received: from kbuild by b69e6467d450 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uMWQC-0001YU-2R;
-	Tue, 03 Jun 2025 18:31:36 +0000
-Date: Wed, 4 Jun 2025 02:31:28 +0800
+	id 1uMXwB-0001Z0-0g;
+	Tue, 03 Jun 2025 20:08:43 +0000
+Date: Wed, 4 Jun 2025 04:08:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2882/2882] kernel/workqueue.c:4821:5: error:
- implicit declaration of function 'printk_safe_enter'
-Message-ID: <202506040213.o6kXHX9l-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2882/2882]
+ drivers/gpu/drm/loongson/lsdc_plane.c:444:7: warning: variable
+ 'format_count' is used uninitialized whenever switch case is taken
+Message-ID: <202506040411.rMDpRs4Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,135 +65,110 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
 head:   b5ec139da1a4916dfc9644ee3d9426dbd6f23c13
-commit: 3d01105a68b1318bdc3cef3bbcfcb544e2da856e [2882/2882] workqueue: fix state-dump console deadlock
-config: x86_64-buildonly-randconfig-2004-20250502 (https://download.01.org/0day-ci/archive/20250604/202506040213.o6kXHX9l-lkp@intel.com/config)
+commit: 80764bc784413eb604c7d472db55b1ca72d4bbc5 [2882/2882] drm/loongson: add kernel modesetting driver support for ls7a1000/ls7a2000
+config: x86_64-buildonly-randconfig-2004-20250502 (https://download.01.org/0day-ci/archive/20250604/202506040411.rMDpRs4Q-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506040213.o6kXHX9l-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506040411.rMDpRs4Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506040213.o6kXHX9l-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506040411.rMDpRs4Q-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/workqueue.c:4821:5: error: implicit declaration of function 'printk_safe_enter' [-Werror,-Wimplicit-function-declaration]
-    4821 |                                 printk_safe_enter();
-         |                                 ^
-   kernel/workqueue.c:4821:5: note: did you mean 'printk_nmi_enter'?
-   include/linux/printk.h:158:20: note: 'printk_nmi_enter' declared here
-     158 | static inline void printk_nmi_enter(void) { }
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:13: warning: variable 'lo32_addr_reg' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      98 |         } else if (index == 1) {
+         |                    ^~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:114:33: note: uninitialized use occurs here
+     114 |         writel(paddr, ldev->reg_base + lo32_addr_reg);
+         |                                        ^~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:9: note: remove the 'if' if its condition is always true
+      98 |         } else if (index == 1) {
+         |                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:77:19: note: initialize the variable 'lo32_addr_reg' to silence this warning
+      77 |         u32 lo32_addr_reg;
+         |                          ^
+         |                           = 0
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:13: warning: variable 'hi32_addr_reg' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      98 |         } else if (index == 1) {
+         |                    ^~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:115:48: note: uninitialized use occurs here
+     115 |         writel((paddr >> 32) & 0xFF, ldev->reg_base + hi32_addr_reg);
+         |                                                       ^~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:9: note: remove the 'if' if its condition is always true
+      98 |         } else if (index == 1) {
+         |                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:78:19: note: initialize the variable 'hi32_addr_reg' to silence this warning
+      78 |         u32 hi32_addr_reg;
+         |                          ^
+         |                           = 0
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:13: warning: variable 'val' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      98 |         } else if (index == 1) {
+         |                    ^~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:120:9: note: uninitialized use occurs here
+     120 |         writel(val | CFG_PAGE_FLIP_BIT, ldev->reg_base + cfg_reg);
+         |                ^~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:9: note: remove the 'if' if its condition is always true
+      98 |         } else if (index == 1) {
+         |                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:80:9: note: initialize the variable 'val' to silence this warning
+      80 |         u32 val;
+         |                ^
+         |                 = 0
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:13: warning: variable 'cfg_reg' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      98 |         } else if (index == 1) {
+         |                    ^~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:120:51: note: uninitialized use occurs here
+     120 |         writel(val | CFG_PAGE_FLIP_BIT, ldev->reg_base + cfg_reg);
+         |                                                          ^~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:98:9: note: remove the 'if' if its condition is always true
+      98 |         } else if (index == 1) {
+         |                ^~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:79:13: note: initialize the variable 'cfg_reg' to silence this warning
+      79 |         u32 cfg_reg;
          |                    ^
->> kernel/workqueue.c:4823:5: error: implicit declaration of function 'printk_safe_exit' [-Werror,-Wimplicit-function-declaration]
-    4823 |                                 printk_safe_exit();
-         |                                 ^
-   kernel/workqueue.c:4847:3: error: implicit declaration of function 'printk_safe_enter' [-Werror,-Wimplicit-function-declaration]
-    4847 |                 printk_safe_enter();
-         |                 ^
-   kernel/workqueue.c:4862:3: error: implicit declaration of function 'printk_safe_exit' [-Werror,-Wimplicit-function-declaration]
-    4862 |                 printk_safe_exit();
-         |                 ^
-   4 errors generated.
+         |                     = 0
+>> drivers/gpu/drm/loongson/lsdc_plane.c:444:7: warning: variable 'format_count' is used uninitialized whenever switch case is taken [-Wsometimes-uninitialized]
+     444 |         case DRM_PLANE_TYPE_OVERLAY:
+         |              ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:451:21: note: uninitialized use occurs here
+     451 |                                        formats, format_count,
+         |                                                 ^~~~~~~~~~~~
+   drivers/gpu/drm/loongson/lsdc_plane.c:428:27: note: initialize the variable 'format_count' to silence this warning
+     428 |         unsigned int format_count;
+         |                                  ^
+         |                                   = 0
+   5 warnings generated.
 
 
-vim +/printk_safe_enter +4821 kernel/workqueue.c
+vim +/format_count +444 drivers/gpu/drm/loongson/lsdc_plane.c
 
-  4780	
-  4781	/**
-  4782	 * show_workqueue_state - dump workqueue state
-  4783	 *
-  4784	 * Called from a sysrq handler or try_to_freeze_tasks() and prints out
-  4785	 * all busy workqueues and pools.
-  4786	 */
-  4787	void show_workqueue_state(void)
-  4788	{
-  4789		struct workqueue_struct *wq;
-  4790		struct worker_pool *pool;
-  4791		unsigned long flags;
-  4792		int pi;
-  4793	
-  4794		rcu_read_lock();
-  4795	
-  4796		pr_info("Showing busy workqueues and worker pools:\n");
-  4797	
-  4798		list_for_each_entry_rcu(wq, &workqueues, list) {
-  4799			struct pool_workqueue *pwq;
-  4800			bool idle = true;
-  4801	
-  4802			for_each_pwq(pwq, wq) {
-  4803				if (pwq->nr_active || !list_empty(&pwq->delayed_works)) {
-  4804					idle = false;
-  4805					break;
-  4806				}
-  4807			}
-  4808			if (idle)
-  4809				continue;
-  4810	
-  4811			pr_info("workqueue %s: flags=0x%x\n", wq->name, wq->flags);
-  4812	
-  4813			for_each_pwq(pwq, wq) {
-  4814				raw_spin_lock_irqsave(&pwq->pool->lock, flags);
-  4815				if (pwq->nr_active || !list_empty(&pwq->delayed_works)) {
-  4816					/*
-  4817					 * Defer printing to avoid deadlocks in console
-  4818					 * drivers that queue work while holding locks
-  4819					 * also taken in their write paths.
-  4820					 */
-> 4821					printk_safe_enter();
-  4822					show_pwq(pwq);
-> 4823					printk_safe_exit();
-  4824				}
-  4825				raw_spin_unlock_irqrestore(&pwq->pool->lock, flags);
-  4826				/*
-  4827				 * We could be printing a lot from atomic context, e.g.
-  4828				 * sysrq-t -> show_workqueue_state(). Avoid triggering
-  4829				 * hard lockup.
-  4830				 */
-  4831				touch_nmi_watchdog();
-  4832			}
-  4833		}
-  4834	
-  4835		for_each_pool(pool, pi) {
-  4836			struct worker *worker;
-  4837			bool first = true;
-  4838	
-  4839			raw_spin_lock_irqsave(&pool->lock, flags);
-  4840			if (pool->nr_workers == pool->nr_idle)
-  4841				goto next_pool;
-  4842			/*
-  4843			 * Defer printing to avoid deadlocks in console drivers that
-  4844			 * queue work while holding locks also taken in their write
-  4845			 * paths.
-  4846			 */
-  4847			printk_safe_enter();
-  4848			pr_info("pool %d:", pool->id);
-  4849			pr_cont_pool_info(pool);
-  4850			pr_cont(" hung=%us workers=%d",
-  4851				jiffies_to_msecs(jiffies - pool->watchdog_ts) / 1000,
-  4852				pool->nr_workers);
-  4853			if (pool->manager)
-  4854				pr_cont(" manager: %d",
-  4855					task_pid_nr(pool->manager->task));
-  4856			list_for_each_entry(worker, &pool->idle_list, entry) {
-  4857				pr_cont(" %s%d", first ? "idle: " : "",
-  4858					task_pid_nr(worker->task));
-  4859				first = false;
-  4860			}
-  4861			pr_cont("\n");
-  4862			printk_safe_exit();
-  4863		next_pool:
-  4864			raw_spin_unlock_irqrestore(&pool->lock, flags);
-  4865			/*
-  4866			 * We could be printing a lot from atomic context, e.g.
-  4867			 * sysrq-t -> show_workqueue_state(). Avoid triggering
-  4868			 * hard lockup.
-  4869			 */
-  4870			touch_nmi_watchdog();
-  4871		}
-  4872	
-  4873		rcu_read_unlock();
-  4874	}
-  4875	
+   420	
+   421	int lsdc_plane_init(struct lsdc_device *ldev,
+   422			    struct drm_plane *plane,
+   423			    enum drm_plane_type type,
+   424			    unsigned int index)
+   425	{
+   426		struct drm_device *ddev = ldev->ddev;
+   427		int zpos = lsdc_plane_get_default_zpos(type);
+   428		unsigned int format_count;
+   429		const u32 *formats;
+   430		const char *name;
+   431		int ret;
+   432	
+   433		switch (type) {
+   434		case DRM_PLANE_TYPE_PRIMARY:
+   435			formats = lsdc_primary_formats;
+   436			format_count = ARRAY_SIZE(lsdc_primary_formats);
+   437			name = "primary-%u";
+   438			break;
+   439		case DRM_PLANE_TYPE_CURSOR:
+   440			formats = lsdc_cursor_formats;
+   441			format_count = ARRAY_SIZE(lsdc_cursor_formats);
+   442			name = "cursor-%u";
+   443			break;
+ > 444		case DRM_PLANE_TYPE_OVERLAY:
 
 -- 
 0-DAY CI Kernel Test Service
