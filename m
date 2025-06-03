@@ -1,91 +1,84 @@
-Received: from mail.cjdns.fr (mail.cjdns.fr [5.135.140.105])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 356332C327E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Jun 2025 09:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.135.140.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D2F1A23B6
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  3 Jun 2025 11:19:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1748942841; cv=none; b=d+o6e9z5Q9bekUX9+KZhGRbIMLbaAmh9xTkJkH20LmnCIEKwwXxdQn5Tjdb9urLs9ucrVz4ROe9Jy+LlKITOyMLTul2eXRBHSGDOI+U5ALE9cffw3yY7Ew9w02w+nAN6S1fh0MsMprHZekgsxGwtDFTv/YGf79KsSRHScs3FHWc=
+	t=1748949542; cv=none; b=fklF+AhVFJ3y9nUNhG5dqocyL4sXd3Zlj6j3YKTSqqimCM0pCVNuYm4LvepGenjF+riaxbwGv87Or+/QuMIdoC79NXD8IwYdSR8Mv8p2dcOCkpMtNrkrnidRL6QQ4jeLcmYLXTD9YGOYVgfsfuhJJz0iA2exiLXokBjcm/O5mqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1748942841; c=relaxed/simple;
-	bh=MroKZKJdSmejGKHKMa7piD9P2JWTv9ja8+WsgjsBK0o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ju3Cnk/vdMXpiRlsc7UHC2ZJkEsz7N5D3OLM7VvPioV/BiJshiZwsEo42dcur7nrtTC5NSO0yML2cnQxAH5QSWbqX0IN4NfIPH2k9llT/D86Cbqj4rVhtdkUSZv/YDb4/U3aEBV9fnrq+BFjfxQshBpxB8UrTw8LRyPIhFp8IuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cjdns.fr; spf=none smtp.mailfrom=cjdns.fr; dkim=pass (2048-bit key) header.d=cjdns.fr header.i=@cjdns.fr header.b=n/BaFwwB; arc=none smtp.client-ip=5.135.140.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cjdns.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cjdns.fr
+	s=arc-20240116; t=1748949542; c=relaxed/simple;
+	bh=PyR99QWDfoGuEFemAEbTXvfQIMCSSxO1rCgcKSYgnIE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=clTZqGJS+X/wgDqwnw+N8U0glgETSuaS+bLNSBncJt7qfngcskCcIC4R0DmVge5kCfs2U9AvJ9Agxn8N/LJLiWzsJi3nE3QFFivc/c5u0Xq9lpS/pzNWb3xEIe8YDLyPBQOARG0fOnBodZEQz6h2O+PpmjKfWkH3xRNZkeGZkWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fEph8XmJ; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cjdns.fr header.i=@cjdns.fr header.b="n/BaFwwB"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9391923DB71;
-	Tue,  3 Jun 2025 11:18:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cjdns.fr; s=dkim;
-	t=1748942289; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=lQMj6aDXiO42WEuC1jm+xaWEBndbBPZBmlHAOdAyQcQ=;
-	b=n/BaFwwBAjvHeMJpR+m/EjI05W+dAxg1fuYQKyyPMUfXvI+K2NHmH/JWSxL+cXGLttt5UX
-	IbAWbzA9KVlTU2h+9i07cqYeG65D9iGe321gHNEgAL6WkwWZDwv52nDnga45EsVByPjjTF
-	hL2UjcJh2H8oK0W3K3ZhxuWFShyvCozyZ8XmZyyhTH7Qh32NIGpqN+lauWKFoJ7p3zAcvD
-	q7LZkiMK3IelmbKAHABD3y6U8h5MAr2epMcS1Qh2kVvana8SpSilNssNoOkcopRyqf6wz/
-	9p115htPtlLeqs7QkdPcx28rkLbgBAsxsMn+iylBya2bCH8503kGBNjHu18ZOg==
-Message-ID: <c106f7f9-a46a-4251-851c-14d657d6f4c2@cjdns.fr>
-Date: Tue, 3 Jun 2025 11:18:05 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fEph8XmJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1748949541; x=1780485541;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=PyR99QWDfoGuEFemAEbTXvfQIMCSSxO1rCgcKSYgnIE=;
+  b=fEph8XmJABLXswfqre4xE1iI/S5Kv+qn/bg97gS90iraGAlojmganwdd
+   aQ+HNIU+l1AjZLPQbgirRaR650oiz1N5VS65QSlREfEc877xTDa094C3P
+   cmM+XQaEA2eGkZ79mla3V+ztRwoaSdGWwp1D+PW7P3a+VBIoSNgGUswpK
+   JptSQNvWrjl21ksyXn9FZqFzDCDMe2eGaiYh2jji2uXdqHCvSOBg9MXlF
+   idcktUsbuq5yTLj4LNuewbIDPQNHumXD6mJy8X3fKb9XYuX1bIqyC09N+
+   4JqrqVnxLAIWCiOA/7Bjs4fJsrGgTFAzTZphtF03DxP3ws9sseuypWxvM
+   w==;
+X-CSE-ConnectionGUID: 7IVoKYV2RQ+0NPvY8b9y/g==
+X-CSE-MsgGUID: 1wMMWQcoRvSrvrmiXV5big==
+X-IronPort-AV: E=McAfee;i="6700,10204,11451"; a="76378330"
+X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; 
+   d="scan'208";a="76378330"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2025 04:19:00 -0700
+X-CSE-ConnectionGUID: Gdhvhi3STaau91cUeDvwQg==
+X-CSE-MsgGUID: CtfOkSM4RbOukFTSX2BZhA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,206,1744095600"; 
+   d="scan'208";a="144712254"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 03 Jun 2025 04:18:59 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uMPfU-0002Ob-2a;
+	Tue, 03 Jun 2025 11:18:56 +0000
+Date: Tue, 3 Jun 2025 19:18:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 3/5] x86/its: move its_pages array to struct
+ mod_arch_specific
+Message-ID: <aD7aIL7ZO6S_QXWI@acd742588394>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [linux-next:master 13411/13629] kismet: WARNING: unmet direct
- dependencies detected for SERIAL_8250 when selected by ECONET
-To: kernel test robot <lkp@intel.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
- Necip Fazil Yildiran <fazilyildiran@gmail.com>,
- oe-kbuild-all@lists.linux.dev,
- Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-References: <202505270309.E7vPrW5P-lkp@intel.com>
-Content-Language: en-US
-From: Caleb James DeLisle <cjd@cjdns.fr>
-In-Reply-To: <202505270309.E7vPrW5P-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250603111446.2609381-4-rppt@kernel.org>
+
+Hi,
+
+Thanks for your patch.
+
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH 3/5] x86/its: move its_pages array to struct mod_arch_specific
+Link: https://lore.kernel.org/stable/20250603111446.2609381-4-rppt%40kernel.org
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
 
-On 26/05/2025 21:42, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   3be1a7a31fbda82f3604b6c31e4f390110de1b46
-> commit: 79ee1d20e37cd553cc961962fca8107e69a0c293 [13411/13629] mips: econet: Fix incorrect Kconfig dependencies
-> config: mips-kismet-CONFIG_SERIAL_8250-CONFIG_ECONET-0-0 (https://download.01.org/0day-ci/archive/20250527/202505270309.E7vPrW5P-lkp@intel.com/config)
-> reproduce: (https://download.01.org/0day-ci/archive/20250527/202505270309.E7vPrW5P-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202505270309.E7vPrW5P-lkp@intel.com/
->
-> kismet warnings: (new ones prefixed by >>)
->>> kismet: WARNING: unmet direct dependencies detected for SERIAL_8250 when selected by ECONET
->     WARNING: unmet direct dependencies detected for SERIAL_8250
->       Depends on [n]: TTY [=n] && HAS_IOMEM [=y] && !S390
->       Selected by [y]:
->       - ECONET [=y]
->     
->     WARNING: unmet direct dependencies detected for SERIAL_OF_PLATFORM
->       Depends on [n]: TTY [=n] && HAS_IOMEM [=y] && SERIAL_8250 [=y] && OF [=y]
->       Selected by [y]:
->       - ECONET [=y]
->
-I think I'm going to leave this alone for now because I see that 
-specifically
-
-selecting things like TTY is not a normal to platforms in /arch/mips.
-
-
-That said, I'm new here and I do always appreciate best practices guidance.
-
-
-Thanks,
-
-Caleb
 
