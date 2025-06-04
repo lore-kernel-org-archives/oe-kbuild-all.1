@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D477225179A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 11:20:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D681E2848
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 11:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749036010; cv=none; b=RJgP+g4+kmQCpz6n1Ux5hP0r8FLaiAzoKXrQZ1atyM5PwlitSY2mMQfJ2cDscl0UApyJvRues5g8ITBl74/P27WmId+rCNByMzdwaqQ2u48YjW0Ewq/V7BxVoKoK7RYaEW/QNZpAdblz4hcD1Cdyw6Y/5cvYlFx7URMDfcRkaCY=
+	t=1749036767; cv=none; b=uVSUIgwCNApN/pUgP+FXiyFZFn1DtcqaWWUT43Kn54ND0r3TiHq5y5fpqsWkZ2/oGlTEmcGIoqZSgPH5P5w4VurDwNGLfrijRCkR+XwIaYdkv9oJ4NYqTDhrHSAjvcCul2/Xb8nLZZpRDV2u5Z1n18TCr/hQGJ1vHgYHArUHDPQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749036010; c=relaxed/simple;
-	bh=YHd4xZcBCdKBN8J++MiZTkfPsgwm7PVknj53DY0Zn6A=;
+	s=arc-20240116; t=1749036767; c=relaxed/simple;
+	bh=ObUQiLpdboBovDujcxVy8VIGTGpUQE8UNhhQo/B8YKE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KwO6BBz5GLIMMZA3RE2QSbcVP3jYpdb1Ik9dFjtP0lMBfhQr0lSCPxt0lbxy3EjaDeo2QRGHedYqzzHMUu59RF6AaZgqkRfqmc2+QGjNx84f40FFfoYb6sqZb20Dz37D79H/85YxzhScJ18zI4Z7NntR+4M9BTTK0eKl461QSO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=awh5mH7K; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=H+4gT8MpZpUAOLPz8Qrt3y6Knnco9HjDGs5fSzvSiCx4Arv5CL6LQRcT5IbBTqFYbKNS++MG7P8MLw8nRyuBjgH2vjNcsBuoBzPaZlASF7H15w6xtijDoZL0fQtndHm+nH1/2En3YyMu5krdlEd57iQdqAbPf8dUWlPq3zqieNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c1XffeDn; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="awh5mH7K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c1XffeDn"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749036009; x=1780572009;
+  t=1749036765; x=1780572765;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YHd4xZcBCdKBN8J++MiZTkfPsgwm7PVknj53DY0Zn6A=;
-  b=awh5mH7KAsRCPlA9PGpZ5RXLMhzx5QQMw9ZthtcOEsWrKJP0RWpZuMSU
-   ePMulO0TUYtAH0OxKDh5VJHq407J4ZDDyP8+ckLFqGfKymMTo+KD6oDnQ
-   QeKMj9UkQqsPyOZD4Itm0GqE69iRSE/BFME8d492PqHAHx50HGaTfiHtS
-   +2vt/7UA+AQUdtFBK2tckSEbp/Hi987BwxtU9TQKszpbGMRyxjv5AizjX
-   E3hsQXw+FQwijIfHkZsnzYhj8yk2FoniFQ2RHK/MpTyKz7KgTwh/W7qqw
-   pKJexur+sAUM0jhWHHcr2dv75cT7fUJbZiPdzrk6PPdNq5qCqslZ1SKML
-   g==;
-X-CSE-ConnectionGUID: B6gD8UTvS7GGQHtZZd/pIQ==
-X-CSE-MsgGUID: fsEhhAPZQlKUS/FOB7MgLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="51255278"
+  bh=ObUQiLpdboBovDujcxVy8VIGTGpUQE8UNhhQo/B8YKE=;
+  b=c1XffeDnnuxeIZ6MI9cie+xPz/9GtVsM/4aM08V51DDkSExC3mNlHRBM
+   OWGGboDclnzWDSEb4S2ace24Sdow73sYM2SGb50cj6sFFbwIZcF9/C3Bh
+   4V0zRYNvJgG6SrAUvtk0nppIUnnsiO/WmuDUk01IMi+axS1OBflr3E8zg
+   fZL2h1VCfJH+iEP9EwhG0YuVZfik1XywYZwzwPm09dUS9lNLVOmi5JUO9
+   Heoml31NrddA7RCJrpIvngJ9G6e4G0FdLYORa286jkPRfx+f7eahWEdrq
+   QDq89qa/cB6j/QFvz7PwsRdQCe8WjqMpN6a5ge2M4IxZFKyWsVau9ntV8
+   w==;
+X-CSE-ConnectionGUID: mT8dnFKNQ0WtNTGRDxi2sQ==
+X-CSE-MsgGUID: DKyfBbqAS2m0arhoaFmjGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11453"; a="73643100"
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="51255278"
+   d="scan'208";a="73643100"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 04:20:08 -0700
-X-CSE-ConnectionGUID: MC94g4S0Th6O+mli522cZA==
-X-CSE-MsgGUID: 8+xvg4u4TM+exkC+Lk/Z8Q==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 04:32:44 -0700
+X-CSE-ConnectionGUID: k1PSbtqASQunr1Iur9kaQQ==
+X-CSE-MsgGUID: 7o6wWCULSY+StRk2RyK9+g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="176110094"
-Received: from igk-lkp-server01.igk.intel.com (HELO b69e6467d450) ([10.211.3.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Jun 2025 04:20:07 -0700
-Received: from kbuild by b69e6467d450 with local (Exim 4.96)
+   d="scan'208";a="176113361"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 04 Jun 2025 04:32:43 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uMmA7-0001g2-2j;
-	Wed, 04 Jun 2025 11:20:03 +0000
-Date: Wed, 4 Jun 2025 19:19:49 +0800
+	id 1uMmMK-00035d-0t;
+	Wed, 04 Jun 2025 11:32:40 +0000
+Date: Wed, 4 Jun 2025 19:32:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shahab Vahedi <shahab@synopsys.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-snps-arc@lists.infradead.org,
-	Alexei Starovoitov <ast@kernel.org>
-Subject: arch/arc/net/bpf_jit_arcv2.c:2236:3: error: label at end of compound
- statement
-Message-ID: <202506041921.lFErMU6Q-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 139/139]
+ arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/interconnect@30000000:
+ failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+Message-ID: <202506041957.M0NWXm8o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,102 +63,397 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5abc7438f1e9d62e91ad775cc83c9594c48d2282
-commit: f122668ddcce450c2585f0be4bf4478d6fd6176b ARC: Add eBPF JIT support
-date:   1 year, 1 month ago
-config: arc-randconfig-2005-20250604 (https://download.01.org/0day-ci/archive/20250604/202506041921.lFErMU6Q-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506041921.lFErMU6Q-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   825de4941cfad330168feb0b41e9235c5a9f0974
+commit: c0fbad54cc02c9ce9ed398a3e4e3b10d5d6b1f56 [139/139] CHROMIUM: arm64: dts: mediatek: mt8196: add mmqos node
+config: arm64-randconfig-051-20250529 (https://download.01.org/0day-ci/archive/20250604/202506041957.M0NWXm8o-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+dtschema version: 2025.3.dev27+g32749b3
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506041957.M0NWXm8o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506041921.lFErMU6Q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506041957.M0NWXm8o-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   arch/arc/net/bpf_jit_arcv2.c: In function 'gen_swap':
->> arch/arc/net/bpf_jit_arcv2.c:2236:3: error: label at end of compound statement
-      default:
-      ^~~~~~~
-   arch/arc/net/bpf_jit_arcv2.c:2254:3: error: label at end of compound statement
-      default:
-      ^~~~~~~
-   arch/arc/net/bpf_jit_arcv2.c: In function 'gen_jmp_64':
-   arch/arc/net/bpf_jit_arcv2.c:2867:2: error: label at end of compound statement
-     default:
-     ^~~~~~~
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183]] is not of type 'object'
+   	[163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[184, 185]] is not of type 'object'
+   	[184, 185] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-evb.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
 --
-   {standard input}: Assembler messages:
->> {standard input}:32583: Error: flag mismatch for instruction 'mpyd'
-
-
-vim +2236 arch/arc/net/bpf_jit_arcv2.c
-
-  2199	
-  2200	u8 gen_swap(u8 *buf, u8 rd, u8 size, u8 endian, bool force, bool do_zext)
-  2201	{
-  2202		u8 len = 0;
-  2203	#ifdef __BIG_ENDIAN
-  2204		const u8 host_endian = BPF_FROM_BE;
-  2205	#else
-  2206		const u8 host_endian = BPF_FROM_LE;
-  2207	#endif
-  2208		if (host_endian != endian || force) {
-  2209			switch (size) {
-  2210			case 16:
-  2211				/*
-  2212				 * r = B4B3_B2B1 << 16 --> r = B2B1_0000
-  2213				 * then, swape(r) would become the desired 0000_B1B2
-  2214				 */
-  2215				len = arc_asli_r(buf, REG_LO(rd), REG_LO(rd), 16);
-  2216				fallthrough;
-  2217			case 32:
-  2218				len += arc_swape_r(BUF(buf, len), REG_LO(rd));
-  2219				if (do_zext)
-  2220					len += zext(BUF(buf, len), rd);
-  2221				break;
-  2222			case 64:
-  2223				/*
-  2224				 * swap "hi" and "lo":
-  2225				 *   hi ^= lo;
-  2226				 *   lo ^= hi;
-  2227				 *   hi ^= lo;
-  2228				 * and then swap the bytes in "hi" and "lo".
-  2229				 */
-  2230				len  = arc_xor_r(buf, REG_HI(rd), REG_LO(rd));
-  2231				len += arc_xor_r(BUF(buf, len), REG_LO(rd), REG_HI(rd));
-  2232				len += arc_xor_r(BUF(buf, len), REG_HI(rd), REG_LO(rd));
-  2233				len += arc_swape_r(BUF(buf, len), REG_LO(rd));
-  2234				len += arc_swape_r(BUF(buf, len), REG_HI(rd));
-  2235				break;
-> 2236			default:
-  2237				/* The caller must have handled this. */
-  2238			}
-  2239		} else {
-  2240			/*
-  2241			 * If the same endianness, there's not much to do other
-  2242			 * than zeroing out the upper bytes based on the "size".
-  2243			 */
-  2244			switch (size) {
-  2245			case 16:
-  2246				len = arc_and_i(buf, REG_LO(rd), 0xffff);
-  2247				fallthrough;
-  2248			case 32:
-  2249				if (do_zext)
-  2250					len += zext(BUF(buf, len), rd);
-  2251				break;
-  2252			case 64:
-  2253				break;
-  2254			default:
-  2255				/* The caller must have handled this. */
-  2256			}
-  2257		}
-  2258	
-  2259		return len;
-  2260	}
-  2261	
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210]] is not of type 'object'
+   	[190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[211, 212]] is not of type 'object'
+   	[211, 212] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-rev0.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219]] is not of type 'object'
+   	[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[220, 221]] is not of type 'object'
+   	[220, 221] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku0.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219]] is not of type 'object'
+   	[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[220, 221]] is not of type 'object'
+   	[220, 221] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku1.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219]] is not of type 'object'
+   	[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[220, 221]] is not of type 'object'
+   	[220, 221] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku2.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219]] is not of type 'object'
+   	[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[220, 221]] is not of type 'object'
+   	[220, 221] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku3.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219]] is not of type 'object'
+   	[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[220, 221]] is not of type 'object'
+   	[220, 221] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku4.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219]] is not of type 'object'
+   	[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[220, 221]] is not of type 'object'
+   	[220, 221] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku5.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219]] is not of type 'object'
+   	[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[220, 221]] is not of type 'object'
+   	[220, 221] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku6.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219]] is not of type 'object'
+   	[199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[220, 221]] is not of type 'object'
+   	[220, 221] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-hylia-sku7.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217]] is not of type 'object'
+   	[197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[218, 219]] is not of type 'object'
+   	[218, 219] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku0.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217]] is not of type 'object'
+   	[197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[218, 219]] is not of type 'object'
+   	[218, 219] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku1.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217]] is not of type 'object'
+   	[197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[218, 219]] is not of type 'object'
+   	[218, 219] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku2.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
+--
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: iommu@30800000 (mediatek,mt8196-mm-smmu): compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3'] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/arm,smmu-v3.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/iommu@30800000: failed to match any schema with compatible: ['mediatek,mt8196-mm-smmu', 'arm,smmu-v3']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/smi-comm@30a30000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/smi-comm@30a31000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/smi-comm@30a32000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/smi-comm@30a33000: failed to match any schema with compatible: ['mediatek,mt8196-smi-common']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/vcp@31800000: failed to match any schema with compatible: ['mediatek,vcp']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/vcp@31800000/vcp@0: failed to match any schema with compatible: ['mediatek,vcp-core']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/vcp@31800000/vcp@31000: failed to match any schema with compatible: ['mediatek,mmup-core']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/interconnect@30000000: failed to match any schema with compatible: ['mediatek,mt8196-mmqos']
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,larbs-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217]] is not of type 'object'
+   	[197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: interconnect@30000000 (mediatek,mt8196-mmqos): mediatek,commons-supply: 'oneOf' conditional failed, one must be fixed:
+   	[[218, 219]] is not of type 'object'
+   	[218, 219] is too long
+   	from schema $id: http://devicetree.org/schemas/dt-core.yaml#
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/syscon@31a80000: failed to match any schema with compatible: ['mediatek,mt8196-mminfra-hwv', 'mediatek,mt8196-mminfra_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/devapc@31ad5000: failed to match any schema with compatible: ['mediatek,mt8196-devapc']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/syscon@31b00000: failed to match any schema with compatible: ['mediatek,mt8196-mm-hwv', 'mediatek,mt8196-mm_hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: /soc/power-controller@31b50000: failed to match any schema with compatible: ['mediatek,mt8196-hfrpsys-hwv', 'syscon']
+   arch/arm64/boot/dts/mediatek/mt8196-rauru-navi-sku5.dtb: syscon@32000000 (mediatek,mt8196-dispsys0): 'async', 'mm-hw-ccf-regmap', 'top' do not match any of the regexes: '^pinctrl-[0-9]+$'
 
 -- 
 0-DAY CI Kernel Test Service
