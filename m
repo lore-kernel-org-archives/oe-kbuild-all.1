@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DDF11EF391
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 17:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616F0143895
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 17:50:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749056960; cv=none; b=pP6xwBf+etVKlnALdTZ7kr6UMs7BrwtWrmr8crPUFFtv834ULtUReD5bB6/3kAht9kshloYk6+FPTcDe9nu/jed8Ujjcw408OdG0Xmdt6rHWgqQ5xKaw7EWtYdkaPDoilU2KIcVQAvsX5eCK2Hn5aC+rmi7On3LV4wTxXq5FogM=
+	t=1749059423; cv=none; b=GoOqkXAnX44vz8G2OcT7n+QJwh6TRBAbXTGNxTml64lovVpSG/Xn62O3v4xPe64HpZU/f1fVUgG4US0HxAFj7+qVLV3ySwbXyevhcxtnNroK0zajvlG7+fMiDuuGX6l48k8V1JyeSpJWzZ1H/+8zT6Hsw/KO+ZVFj0NCRBhLKhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749056960; c=relaxed/simple;
-	bh=5lreYLO9UoS6aPdZJxrEAUEsWxSVfBHOYZ6fh+3KHH0=;
+	s=arc-20240116; t=1749059423; c=relaxed/simple;
+	bh=n1UQngMGaFNTO2e5b49LY3NWRU7yy3/7WnmIVMz1Fu8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eVw6HCW4bCxOJ5++aN6vgu3X2F9PZmw2vj87dHkoBpoAWeO0hVOyErurT7IG/rhMvbmGKG30yDPf0MBIM8rmGWEZmZGFIt/38pto/XPyVssKh6J5Eh9T04GqtyNAEszLY2VM+Wf6E7yJR+rr54bQDV1mPmWiVdIklg7fPgHIX68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LbT5sZho; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=jll8vsX+MTgzYDM4Rj0TJr4xtyNRDTycKB5mJZYY5s9yxSEQLOD69bE7dNIAuFaJKvqtGhWkD2DDe6yFBEexBc8CmltHja59tR9hcTc9KvBEjSwyctrpnaunGem1yosaHP4pZf70SEgI8KKGBadvbrhUDQWbTLEzfWh6/lLv/ws=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n6lPFw5D; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LbT5sZho"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n6lPFw5D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749056959; x=1780592959;
+  t=1749059420; x=1780595420;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5lreYLO9UoS6aPdZJxrEAUEsWxSVfBHOYZ6fh+3KHH0=;
-  b=LbT5sZhoL1xYJmnYXGlGa2OlM2Rt23cClKSguuVv2LOc2EqNtoJ4wGSF
-   6/LnWOE2qVUJXjr1L7hh0MEcsCbccq31gu1vlwGsHPzYjXs+9JxaNbNl9
-   59MOj9VmfqGDM0w40Jhem21NT57E2F9kLIQUCUAtjOOTkKqXDVnelNKwC
-   T4jxxCdhmW8QKxmJgXxHINFfzUge6HhaY8/6MIRYhOIUrzW46YftXdF7n
-   5ehVkC9xXBkcNEwv7y9nrIO10nYnhWmJhBZcbl/T1qnjcnOAzamzleAUL
-   6lbgNuD3XojcCULOikxIYfn9hXelGJhZ/6+f76mTmOpCX5VJikPPyb74g
-   w==;
-X-CSE-ConnectionGUID: Yp+cYEaOR+GO5M0921HBLA==
-X-CSE-MsgGUID: 2qGcU1jDQFyYc2PEcfpqaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="51300475"
+  bh=n1UQngMGaFNTO2e5b49LY3NWRU7yy3/7WnmIVMz1Fu8=;
+  b=n6lPFw5DPZwqoca/EuUUk85lEoXJXDwRFkmeGsOQ9BHuFbVnQ18a8Rq1
+   sddt07i+8un0/YupH/Sc/C6UBlCax0Xa6aLBsaQWIvXXXI06uvGBCEUND
+   8n2QmJvm6cObFJeoz0Ks0C6ByaM/TyS85jsFXZi3ailoxKOI4O40KSKpi
+   YD9MQRbfbkTNSYtUy8nx/UnWKfj3KuI+b7EyiY7zvCP866RvZqAv/vfjn
+   omgMh8bjh+GF6s9cHby5i/qMssZzGmEWgigcqXIGfS/5itjGtyYT9UauY
+   3DyGXejwdPdxEJnwNUhpAq1qD1AWjYsWGCR7KHeL/Rq76UsijZiKIWwlJ
+   g==;
+X-CSE-ConnectionGUID: ZSwpRimGTIqI2O5WRjiv1g==
+X-CSE-MsgGUID: g04ilg20Rjy42h+m17vPkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="51158204"
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="51300475"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 10:09:18 -0700
-X-CSE-ConnectionGUID: E0Ic5LrYQ9ypgtFj9DzgoA==
-X-CSE-MsgGUID: y8pPs1VfRA6iMWHaWN1B4g==
+   d="scan'208";a="51158204"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 10:50:19 -0700
+X-CSE-ConnectionGUID: ye/RWHURSFahtdmaQ8C6wQ==
+X-CSE-MsgGUID: XvOICZb7SMi0fcwAlPBprw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="146232033"
+   d="scan'208";a="145213559"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 04 Jun 2025 10:09:17 -0700
+  by orviesa010.jf.intel.com with ESMTP; 04 Jun 2025 10:50:19 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uMrc1-0003Ln-32;
-	Wed, 04 Jun 2025 17:09:13 +0000
-Date: Thu, 5 Jun 2025 01:08:28 +0800
+	id 1uMsFk-0003Mr-1w;
+	Wed, 04 Jun 2025 17:50:16 +0000
+Date: Thu, 5 Jun 2025 01:49:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2357/2357]
- drivers/scsi/linkdata/ps3stor/ps3_qos.c:3023:6: error: no previous prototype
- for function 'ps3_hba_qos_waitq_poll'
-Message-ID: <202506050103.qcTmWVAw-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.6 150/150] versioncheck:
+ ./drivers/gpu/mediatek/mtk_proprietary/ged/src/ged_base.c: 9 linux/version.h
+ not needed.
+Message-ID: <202506050127.IuUShGUd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,210 +63,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   a9e6ec001662a376522f36604dfec47c30530549
-commit: 663a9a1c191fd26f1d8cb44edb6e0e50dd0536b2 [2357/2357] !14287 [OLK-6.6] SCSI: Support Linkdata HBA/RAID Controllers
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250605/202506050103.qcTmWVAw-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250605/202506050103.qcTmWVAw-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   8df8cc2d3cc80f60a56cd1ad44ed404f4c7ac449
+commit: 8df8cc2d3cc80f60a56cd1ad44ed404f4c7ac449 [150/150] CHROMIUM: gpu/mediatek: move mtk_proprietary out of mali
+reproduce: (https://download.01.org/0day-ci/archive/20250605/202506050127.IuUShGUd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506050103.qcTmWVAw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506050127.IuUShGUd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:211:1: error: no previous prototype for function 'ps3_qos_cmd_waitq_get' [-Werror,-Wmissing-prototypes]
-     211 | ps3_qos_cmd_waitq_get(struct ps3_qos_tg_context *qos_tg_ctx,
-         | ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:210:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     210 | struct qos_wait_queue *
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:15: error: no previous prototype for function 'ps3_qos_vd_cmdword_get' [-Werror,-Wmissing-prototypes]
-     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:335:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     335 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:15: error: no previous prototype for function 'ps3_qos_exclusive_cmdword_get' [-Werror,-Wmissing-prototypes]
-     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:351:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     351 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:15: error: no previous prototype for function 'ps3_qos_tg_decision' [-Werror,-Wmissing-prototypes]
-     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:363:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     363 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:15: error: no previous prototype for function 'ps3_qos_all_pd_rc_get' [-Werror,-Wmissing-prototypes]
-     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:749:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     749 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:6: error: no previous prototype for function 'ps3_pd_quota_waitq_clear_all' [-Werror,-Wmissing-prototypes]
-     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:876:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     876 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:6: error: no previous prototype for function 'ps3_pd_quota_waitq_clean' [-Werror,-Wmissing-prototypes]
-     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:892:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     892 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:6: error: no previous prototype for function 'ps3_qos_pd_waitq_ratio_update' [-Werror,-Wmissing-prototypes]
-    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:1058:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1058 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:15: error: no previous prototype for function 'ps3_hba_qos_decision' [-Werror,-Wmissing-prototypes]
-    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2019:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2019 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:6: error: no previous prototype for function 'ps3_hba_qos_waitq_notify' [-Werror,-Wmissing-prototypes]
-    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2040:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2040 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:6: error: no previous prototype for function 'ps3_cmd_waitq_abort' [-Werror,-Wmissing-prototypes]
-    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2100:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2100 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:6: error: no previous prototype for function 'ps3_hba_qos_waitq_clear_all' [-Werror,-Wmissing-prototypes]
-    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2463:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2463 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:6: error: no previous prototype for function 'ps3_hba_qos_vd_init' [-Werror,-Wmissing-prototypes]
-    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2827:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2827 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
-         | ^
-         | static 
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:6: error: no previous prototype for function 'ps3_hba_qos_vd_reset' [-Werror,-Wmissing-prototypes]
-    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2936:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    2936 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3023:6: error: no previous prototype for function 'ps3_hba_qos_waitq_poll' [-Werror,-Wmissing-prototypes]
-    3023 | void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3023:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3023 | void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3279:15: error: no previous prototype for function 'ps3_raid_qos_decision' [-Werror,-Wmissing-prototypes]
-    3279 | unsigned char ps3_raid_qos_decision(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3279:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3279 | unsigned char ps3_raid_qos_decision(struct ps3_cmd *cmd)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3334:6: error: no previous prototype for function 'ps3_qos_mgrq_resend' [-Werror,-Wmissing-prototypes]
-    3334 | void ps3_qos_mgrq_resend(struct ps3_qos_softq_mgr *softq_mgr)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3334:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3334 | void ps3_qos_mgrq_resend(struct ps3_qos_softq_mgr *softq_mgr)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3478:6: error: no previous prototype for function 'ps3_raid_qos_waitq_notify' [-Werror,-Wmissing-prototypes]
-    3478 | void ps3_raid_qos_waitq_notify(struct ps3_instance *instance)
-         |      ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3478:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3478 | void ps3_raid_qos_waitq_notify(struct ps3_instance *instance)
-         | ^
-         | static 
->> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3821:15: error: no previous prototype for function 'ps3_raid_qos_waitq_abort' [-Werror,-Wmissing-prototypes]
-    3821 | unsigned char ps3_raid_qos_waitq_abort(struct ps3_cmd *cmd)
-         |               ^
-   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3821:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    3821 | unsigned char ps3_raid_qos_waitq_abort(struct ps3_cmd *cmd)
-         | ^
-         | static 
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   20 errors generated.
---
->> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1958:1: error: unused function 'ps3_scsih_dev_id_get' [-Werror,-Wunused-function]
-    1958 | ps3_scsih_dev_id_get(const struct scsi_cmnd *s_cmd)
-         | ^~~~~~~~~~~~~~~~~~~~
-   1 error generated.
---
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:21:27: error: unused variable 'PS3_INTERRUPT_CMD_DISABLE_ALL_MASK' [-Werror,-Wunused-const-variable]
-      21 | static const unsigned int PS3_INTERRUPT_CMD_DISABLE_ALL_MASK = 0x02;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:22:27: error: unused variable 'PS3_INTERRUPT_CMD_ENABLE_MSIX' [-Werror,-Wunused-const-variable]
-      22 | static const unsigned int PS3_INTERRUPT_CMD_ENABLE_MSIX = 0x01;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:23:27: error: unused variable 'PS3_INTERRUPT_MASK_DISABLE' [-Werror,-Wunused-const-variable]
-      23 | static const unsigned int PS3_INTERRUPT_MASK_DISABLE = 0x00000002;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:24:27: error: unused variable 'PS3_INTERRUPT_STATUS_EXIST_IRQ' [-Werror,-Wunused-const-variable]
-      24 | static const unsigned int PS3_INTERRUPT_STATUS_EXIST_IRQ = 0x00000001;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:25:27: error: unused variable 'PS3_INTERRUPT_CLEAR_IRQ' [-Werror,-Wunused-const-variable]
-      25 | static const unsigned int PS3_INTERRUPT_CLEAR_IRQ = 0x00000001;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:27:27: error: unused variable 'PS3_SSD_IOPS_MSIX_VECTORS' [-Werror,-Wunused-const-variable]
-      27 | static const unsigned int PS3_SSD_IOPS_MSIX_VECTORS = 8;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/ps3_irq.c:28:27: error: unused variable 'PS3_HDD_IOPS_MSIX_VECTORS' [-Werror,-Wunused-const-variable]
-      28 | static const unsigned int PS3_HDD_IOPS_MSIX_VECTORS = 8;
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   7 errors generated.
---
->> drivers/scsi/linkdata/ps3stor/./linux/ps3_driver_log.c:41:19: error: unused function 'time_for_log' [-Werror,-Wunused-function]
-      41 | static inline int time_for_log(char *buff, int buf_len)
-         |                   ^~~~~~~~~~~~
->> drivers/scsi/linkdata/ps3stor/./linux/ps3_driver_log.c:65:19: error: unused function 'time_for_file_name' [-Werror,-Wunused-function]
-      65 | static inline int time_for_file_name(char *buff, int buf_len)
-         |                   ^~~~~~~~~~~~~~~~~~
-   2 errors generated.
-
-
-vim +/ps3_hba_qos_waitq_poll +3023 drivers/scsi/linkdata/ps3stor/ps3_qos.c
-
-97a2bb6ece556f liujie_answer 2024-12-24  3022  
-97a2bb6ece556f liujie_answer 2024-12-24 @3023  void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
-97a2bb6ece556f liujie_answer 2024-12-24  3024  {
-97a2bb6ece556f liujie_answer 2024-12-24  3025  	if (!ps3_qos_tg_notify_timeout(instance)) {
-97a2bb6ece556f liujie_answer 2024-12-24  3026  		if (!ps3_qos_vd_notify_timeout(instance))
-97a2bb6ece556f liujie_answer 2024-12-24  3027  			ps3_qos_pd_notify_timeout(instance);
-97a2bb6ece556f liujie_answer 2024-12-24  3028  	}
-97a2bb6ece556f liujie_answer 2024-12-24  3029  }
-97a2bb6ece556f liujie_answer 2024-12-24  3030  
-
-:::::: The code at line 3023 was first introduced by commit
-:::::: 97a2bb6ece556f3882263ee8df2b77f10c511311 SCSI: Linkdata: Supports Linkdata HBA/RAID Controllers
-
-:::::: TO: liujie_answer <liujie5@linkdatatechnology.com>
-:::::: CC: liujie_answer <liujie5@linkdatatechnology.com>
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.73.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/accessibility/speakup/genmap.c: 13 linux/version.h not needed.
+   ./drivers/accessibility/speakup/makemapdata.c: 13 linux/version.h not needed.
+   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_pm_driver.c: 3493: need linux/version.h
+   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_pm_policy.c: 440: need linux/version.h
+   ./drivers/gpu/arm/mali/backend/gpu/mali_kbase_time.c: 362: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_firmware.c: 3256: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_firmware_no_mali.c: 1691: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_kcpu.c: 2986: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_kcpu.h: 423: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_kcpu_fence_debugfs.c: 22 linux/version.h not needed.
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_reset_gpu.c: 640: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_sync_debugfs.c: 878: need linux/version.h
+   ./drivers/gpu/arm/mali/csf/mali_kbase_csf_tiler_heap_reclaim.c: 371: need linux/version.h
+   ./drivers/gpu/arm/mali/include/priority_control_manager.h: 27 linux/version.h not needed.
+   ./drivers/gpu/arm/mali/ipa/mali_kbase_ipa.c: 778: need linux/version.h
+   ./drivers/gpu/arm/mali/jm/mali_kbase_jm_defs.h: 875: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase.h: 869: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_debug_job_fault.c: 573: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_defs.h: 2255: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_dummy_job_wa.c: 459: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_fence.c: 61: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_fence.h: 252: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_fence_ops.c: 111: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_gpuprops.c: 889: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_gwt.c: 275: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_kinstr_jm.h: 69 linux/version.h not needed.
+   ./drivers/gpu/arm/mali/mali_kbase_kinstr_prfcnt.c: 2024: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_mem.h: 2603: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_mem_linux.h: 533: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_mem_migrate.c: 712: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_mem_migrate.h: 118: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_sync.h: 216: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_kbase_vinstr.c: 1136: need linux/version.h
+   ./drivers/gpu/arm/mali/mali_malisw.h: 29 linux/version.h not needed.
+   ./drivers/gpu/arm/mali/platform/mediatek/mt8183_mali_kbase_runtime_pm.c: 84: need linux/version.h
+   ./drivers/gpu/arm/mali/tl/mali_kbase_timeline_io.c: 465: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/backend/gpu/mali_kbase_pm_driver.c: 3668: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/backend/gpu/mali_kbase_pm_policy.c: 459: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/backend/gpu/mali_kbase_time.c: 418: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/csf/mali_kbase_csf_firmware.c: 3437: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/csf/mali_kbase_csf_firmware_no_mali.c: 1563: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/csf/mali_kbase_csf_kcpu.c: 2960: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/csf/mali_kbase_csf_kcpu_fence_debugfs.c: 22 linux/version.h not needed.
+   ./drivers/gpu/mediatek/arm/mali/csf/mali_kbase_csf_reset_gpu.c: 730: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/csf/mali_kbase_csf_tiler_heap_reclaim.c: 399: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/include/linux/priority_control_manager.h: 27 linux/version.h not needed.
+   ./drivers/gpu/mediatek/arm/mali/ipa/mali_kbase_ipa.c: 731: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/mali_kbase.h: 795: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/mali_kbase_debug_job_fault.c: 544: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/mali_kbase_debug_mem_view.c: 391: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/mali_kbase_defs.h: 2145: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/mali_kbase_fence_ops.c: 95: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/mali_kbase_gwt.c: 262: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/mali_kbase_kinstr_jm.h: 69 linux/version.h not needed.
+   ./drivers/gpu/mediatek/arm/mali/mali_kbase_kinstr_prfcnt.c: 2139: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/mali_kbase_mem.h: 2649: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/mali_kbase_mem_linux.h: 514: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/mali_kbase_mem_migrate.c: 720: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/mali_kbase_mem_migrate.h: 127: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/platform/mediatek/mtk_platform_common/mtk_platform_devfreq_thermal.c: 6 linux/version.h not needed.
+   ./drivers/gpu/mediatek/arm/mali/thirdparty/mali_kbase_mmap.c: 495: need linux/version.h
+   ./drivers/gpu/mediatek/arm/mali/tl/mali_kbase_timeline_io.c: 462: need linux/version.h
+>> ./drivers/gpu/mediatek/mtk_proprietary/ged/src/ged_base.c: 9 linux/version.h not needed.
+>> ./drivers/gpu/mediatek/mtk_proprietary/ged/src/ged_eb.c: 12 linux/version.h not needed.
+>> ./drivers/gpu/mediatek/mtk_proprietary/ged/src/ged_hal.c: 6 linux/version.h not needed.
+>> ./drivers/gpu/mediatek/mtk_proprietary/ged/src/ged_kpi.c: 11 linux/version.h not needed.
+>> ./drivers/gpu/mediatek/mtk_proprietary/ged/src/ged_log.c: 6 linux/version.h not needed.
+>> ./drivers/gpu/mediatek/mtk_proprietary/ged/src/ged_monitor_3D_fence.c: 6 linux/version.h not needed.
+>> ./drivers/gpu/mediatek/mtk_proprietary/ged/src/ged_notify_sw_vsync.c: 7 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu6/psys/ipu-psys.c: 16 linux/version.h not needed.
+   ./drivers/media/pci/intel/ipu6/psys/ipu6-psys.c: 12 linux/version.h not needed.
+   ./drivers/net/wireless/iwl7000/hdrs/linux/kernel.h: 4 linux/version.h not needed.
+   ./drivers/staging/media/atomisp/include/linux/atomisp.h: 23 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./samples/trace_events/trace_custom_sched.c: 11 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 402: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
