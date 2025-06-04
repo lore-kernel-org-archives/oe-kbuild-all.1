@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2BD28FA89
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 13:06:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50F041C5D62
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 13:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749042415; cv=none; b=SH9T7DLsEK6ypFvA6IMF4P+OXlic8sLOGh6YWMMPOSIj6Y4aqaWkoSlvZGgsOmDjcYditrmsESJQk34n4VpznpIHh+yP/Rs9n8stRA9mhiFzg/2QLqTQZffzQIg7DvV5I/mvuuxxvnTNBpsqhVqNrH8v7DClklcOVaWI5B5Sieg=
+	t=1749043074; cv=none; b=s9ymAUjizfnHtiHovegureylHnp6SQZTAQM/GVjeySfvtx0cP+BDJ4XJ9U61R5igDgvYhFR2eTsP5hv33YewolfmH1lj9JvHoGFr39kTd9/Kf8IasIWLfbEA+0U6aHuK77BYGThElBC2O0aqv+pLZ8OIP8q7jf/o3okiM1OP4Bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749042415; c=relaxed/simple;
-	bh=7HTOMgy8AxkQCJPwRw6DO9XoPSnFMR7KBiyJx9Ctowo=;
+	s=arc-20240116; t=1749043074; c=relaxed/simple;
+	bh=I0/X15fsPCbB4IC8stqcrtJK0qLeVcj1Ba8WEoCxTUg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JlmJkGG2Zot57AKSSECiuOgdElPpYcSQCbEp/JVHOPkqxTT8f0II4bgbsspyNrRQ+LHllxr73XjrD6jjgDj/auNNVu+PNsHD7Geq9O3qGBJY0+V/okeaaPZul3egF4yO+OQc4Jxh/0gvDsH5m35HBKWOiCzAZxegfBzKUJOEc6U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e59A9uYb; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=p2di8VhYwuhXRK4n1C2nEouIk6BaHsh7u50NNPhmGI6YDHWI2A2boQ8HFSasq8IxHRrpfQvuMexP+txDKUqMzpnClwC2NxMF2P0p3rcPvUHWsBvU+hSSgtFo+WYuDlZ4sTW9I4QGOHiRlKPDWqRbKHouAdSNCEO141tJl/+bu/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EyS/FvEW; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e59A9uYb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EyS/FvEW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749042413; x=1780578413;
+  t=1749043073; x=1780579073;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7HTOMgy8AxkQCJPwRw6DO9XoPSnFMR7KBiyJx9Ctowo=;
-  b=e59A9uYbS7mJ8DVk641qAXnN2SmXhWLQW4zv/wajACu8bTKVJV2x0lxO
-   YusY3rVhPaVvKht8A1eFDQGFAkrYmkBBOJl4VjlG/xfvm/BvEu4o2qV06
-   bWduIy/laXI6/zEyrmmg6LwbP+ncKBfoB3mKyM1xbsW+S/uJ8M9aw//I5
-   WV1mMrayUWeLDhWz3zUtMrz3MP1X7RL2Ztz7hvgYoafkQ6G+7PV2VmgeM
-   jlnNWQXN7OVJkMu2dnZq7gVUATYjFl5DRcbyLkmC8OjCya9ojHrCJelCs
-   6QkqJIzf2iXqhDKL8jasvtGFlvNK7WoPI0FFudoSI5qQvwEAW9ZqvexY4
-   g==;
-X-CSE-ConnectionGUID: p6kT1zDrTQadGyucLV/XsA==
-X-CSE-MsgGUID: mm6kaDKeSaOFw0mG9NRCag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="51038488"
+  bh=I0/X15fsPCbB4IC8stqcrtJK0qLeVcj1Ba8WEoCxTUg=;
+  b=EyS/FvEWaWlbLc10ks6LjlokM5wr7+YBqEK9GYUMFKwavszzHkghhTsw
+   n2FaUrZqPitGml0/j+6dNug+mk7tT+UGZA24CnCyma3shiqTTN9REJ9/x
+   VRHlgSKj91Y57j9y52MqGsLcQ5ic9IrLQdVGKfUM87EQ3N0uKVqqdiTag
+   XErT3/TNOrauSctVj+Wwaa4aJBl7UJDSWfWeUXXwP6zKT04HFMcp31dtW
+   Ofsgfgy6xaopyyiPNuew1ZDx0B1JwEwmrJnjijVGnPq0q0YxH69jHsV3m
+   5UXH52EITCo9X6DnkW1aYXJyfiWN+Hg2A0x3UjDJ93/DDXqTL76DtEJh5
+   A==;
+X-CSE-ConnectionGUID: mSPavyCfQBKLoXfdmuSopw==
+X-CSE-MsgGUID: wwtfzBtJQiin5PIfjp+Nhw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="61388748"
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="51038488"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 06:06:52 -0700
-X-CSE-ConnectionGUID: oncxmDQdTOig5Yo2h8pqDw==
-X-CSE-MsgGUID: 7x6fMuy4TrK962pFf8+gig==
+   d="scan'208";a="61388748"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 06:17:52 -0700
+X-CSE-ConnectionGUID: hJxiEA7GTy2QA9RL9b2s+g==
+X-CSE-MsgGUID: Vq3epDYRSy+9YAq+aMUnAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="145778674"
+   d="scan'208";a="149979534"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 04 Jun 2025 06:06:51 -0700
+  by orviesa003.jf.intel.com with ESMTP; 04 Jun 2025 06:17:51 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uMnpQ-00038r-19;
-	Wed, 04 Jun 2025 13:06:48 +0000
-Date: Wed, 4 Jun 2025 21:06:36 +0800
+	id 1uMo05-00039N-0o;
+	Wed, 04 Jun 2025 13:17:49 +0000
+Date: Wed, 4 Jun 2025 21:16:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zi Yan <ziy@nvidia.com>
+To: Andrew Morton <akpm@linux-foundation.org>
 Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-new 31/59] mm/mm_init.c:1512:30: error:
- 'PAGE_BLOCK_ORDER' undeclared; did you mean 'PAGE_BLOCK_ORDER_CEIL'?
-Message-ID: <202506042058.XgvABCE0-lkp@intel.com>
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Igor Belousov <igor.b@beldev.am>
+Subject: [akpm-mm:mm-new 41/43] mm/zblock.h:24:2: warning: #warning This
+ PAGE_SIZE is not quite supported yet
+Message-ID: <202506042117.iH6LE0pc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,56 +66,38 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
 head:   80bb0b2983e95be26d929303d589276875c8900a
-commit: 2bb7d2079ada079bd9f25c92e6a4618ee1ce22db [31/59] mm: rename CONFIG_PAGE_BLOCK_ORDER to CONFIG_PAGE_BLOCK_ORDER_CEIL.
-config: powerpc64-randconfig-002-20250604 (https://download.01.org/0day-ci/archive/20250604/202506042058.XgvABCE0-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506042058.XgvABCE0-lkp@intel.com/reproduce)
+commit: bffdb7003af983450573b7d818160cf1dc1f0fef [41/43] mm-zblock-avoid-failing-the-build-fix
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250604/202506042117.iH6LE0pc-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506042117.iH6LE0pc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506042058.XgvABCE0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506042117.iH6LE0pc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   mm/mm_init.c: In function 'set_pageblock_order':
->> mm/mm_init.c:1512:30: error: 'PAGE_BLOCK_ORDER' undeclared (first use in this function); did you mean 'PAGE_BLOCK_ORDER_CEIL'?
-    1512 |         unsigned int order = PAGE_BLOCK_ORDER;
-         |                              ^~~~~~~~~~~~~~~~
-         |                              PAGE_BLOCK_ORDER_CEIL
-   mm/mm_init.c:1512:30: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from mm/zblock.c:28:
+>> mm/zblock.h:24:2: warning: #warning This PAGE_SIZE is not quite supported yet [-Wcpp]
+      24 | #warning This PAGE_SIZE is not quite supported yet
+         |  ^~~~~~~
 
 
-vim +1512 mm/mm_init.c
+vim +24 mm/zblock.h
 
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1508) 
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1509) /* Initialise the number of pages represented by NR_PAGEBLOCK_BITS */
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1510) void __init set_pageblock_order(void)
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1511) {
-e13e7922d03439 Juan Yescas         2025-05-21 @1512  	unsigned int order = PAGE_BLOCK_ORDER;
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1513) 
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1514) 	/* Check that pageblock_nr_pages has not already been setup */
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1515) 	if (pageblock_order)
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1516) 		return;
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1517) 
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1518) 	/* Don't let pageblocks exceed the maximum allocation granularity. */
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1519) 	if (HPAGE_SHIFT > PAGE_SHIFT && HUGETLB_PAGE_ORDER < order)
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1520) 		order = HUGETLB_PAGE_ORDER;
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1521) 
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1522) 	/*
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1523) 	 * Assume the largest contiguous order of interest is a huge page.
-e99fb98d478a04 Kefeng Wang         2023-12-22  1524  	 * This value may be variable depending on boot parameters on powerpc.
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1525) 	 */
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1526) 	pageblock_order = order;
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1527) }
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1528) #else /* CONFIG_HUGETLB_PAGE_SIZE_VARIABLE */
-9420f89db2dd61 Mike Rapoport (IBM  2023-03-21  1529) 
-
-:::::: The code at line 1512 was first introduced by commit
-:::::: e13e7922d03439e374c263049af5f740ceae6346 mm: add CONFIG_PAGE_BLOCK_ORDER to select page block order
-
-:::::: TO: Juan Yescas <jyescas@google.com>
-:::::: CC: Andrew Morton <akpm@linux-foundation.org>
+    16	
+    17	#if PAGE_SIZE == 0x1000
+    18	/* max 128 slots per block, max table size 32 */
+    19	#define SLOT_BITS 7
+    20	#elif PAGE_SIZE == 0x4000
+    21	/* max 256 slots per block, max table size 64 */
+    22	#define SLOT_BITS 8
+    23	#else
+  > 24	#warning This PAGE_SIZE is not quite supported yet
+    25	#define SLOT_BITS 8
+    26	#endif
+    27	
 
 -- 
 0-DAY CI Kernel Test Service
