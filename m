@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C5D13AD05
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 20:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1FEA215787
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 20:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749068434; cv=none; b=dPtJQKcpd24HNtFeTVTEHh+KV1krKRpUvXpVRYdTM8klqntxJsnSIAykMiAAODt4/bcneL1h7at/rm+hpLED+dLFcXTe/qZTJlePKe6yXpgFVGIsZdiagP/mG4OF4v/tdJM/6/w+5gwtv2ewqJes6u3WBjZ76i+wkf3+1mIfv+A=
+	t=1749069335; cv=none; b=MOuFnk5nR5qAsQLNpkCV+GJDOWo+QIfuX5YckFHb3bOmQgiQMCKTMnmVdUwHv1tPQwrwX6IqIT+f7RBBj/zHJoO1uKNslXo4XpSYgbbQ+X5SL14WFsccRxROCgMyLZxefxCfCwK8Itfz+cFySKpj+oi4oLqKIQKJBu5XWxN0tio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749068434; c=relaxed/simple;
-	bh=3h4Wo9IfcLVwLZx+6/628c/4ZC/VAYqy7o8Uurk1hiI=;
+	s=arc-20240116; t=1749069335; c=relaxed/simple;
+	bh=f3mgFfqzl62og4UU3MdtoToQ2Lg24PJnTVOhTEFxK+8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=MibR3TgJEphM7kDtN0FzJAA2m25SWhKP097s1Q0/zCCksvRhtuDHLHlpK8tOOeW1EfRv1OGsGaEl0iJ4971uN6jacZwui1+jyYJGdahcZYH3OG1TM9em6PWnpnvh6WhiAJWeUve9gCzUsMUpun3KSkFySQVqakMGbiCe2wnPofE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m3xIbnmN; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=k1ZD60T5aRXpoXJ6cTDGu/ToZvKDVxfPQTaNxlm4JjPpBb+nM/dnpWOLvefxnRXeeLQw+kxOBVNNkQ3efBijxuAaqowqMUAwaiV4fkAqdyE8/avd6THNfEX26zRDIcxNymCTGDpQtauq8zXj0pe0S+YvNZFt9byHS2tXApN+368=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ataNtPkA; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m3xIbnmN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ataNtPkA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749068432; x=1780604432;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=3h4Wo9IfcLVwLZx+6/628c/4ZC/VAYqy7o8Uurk1hiI=;
-  b=m3xIbnmNlg/4CIoOuH0hekmiEBRnpEvL3OVepK//ZOuxSL5GI2FRckiE
-   gEFtVnegwc4uMGuoKz6Fx79CfYrKf43mBnmzE6/T5XhnmwxoyGrTleiz9
-   rkrSwiqZVpQyA2m3lBi2uXBr1N2HQxwTcRhZY3DlqSNqJCISHOw1xgvYr
-   BlHlOCEQS7hKYN4xrh0TdIzMr42ySLVx75Zh4bnV6OPO5vZ90wjkBN/7i
-   c7XLXpat5XKrqg7msbx7XshS/s6BPpyiZGdGNeZAUAgjiBJ4y+OCTUCSj
-   N9DVpY2nU5BBsg2+D9So6Czt+2S8nNxMDRsq6PEo6p3WIIjppVey3WHMq
+  t=1749069334; x=1780605334;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=f3mgFfqzl62og4UU3MdtoToQ2Lg24PJnTVOhTEFxK+8=;
+  b=ataNtPkAcxFh1wrP8WGo5CK/ah4V5AOA8EdTouMycVEhXaVnunx9B2aR
+   9h5RX/II/4ZCxmR9peyLGEDyLESCj6FSADQb+Irz/1oMm4Ok36/MKbPo6
+   3GDTgBexvF22QFGhMs9pblO+f354gGqRmCJRaAo+5YLiToxKBEXxLiONO
+   9aF+/n9LA6apGtKy75T84QMM8emY6NBiaPvh5bMbtgvuU60HfjsFQGtmn
+   C9kmq14goq3o1sre/wBTnZTtowSxVMpmc8/oUiy4p45xzEvHngdDTe0MJ
+   RF9uw7JWG+Iqpoo57qkxndLrDXm+k/NSbt+0fyox6RIivBZzjNlFkcFCe
    g==;
-X-CSE-ConnectionGUID: rTAUXoUGQB2j+chGnXmUTw==
-X-CSE-MsgGUID: XZiAXBFBSy+vMBU0v4GFKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="73703220"
+X-CSE-ConnectionGUID: 0dp0DwbwSe6ZHqRFPCOmmQ==
+X-CSE-MsgGUID: SMqIYnVtQ7iXEh9x/e8vCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="51317850"
 X-IronPort-AV: E=Sophos;i="6.16,210,1744095600"; 
-   d="scan'208";a="73703220"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 13:20:31 -0700
-X-CSE-ConnectionGUID: QpaRov1hSKm7bHYxC+Xxuw==
-X-CSE-MsgGUID: 0FTgKk8KRNaBUQCku91N2Q==
+   d="scan'208";a="51317850"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 13:35:33 -0700
+X-CSE-ConnectionGUID: 525ORdsMTuixOiHXb4rmJw==
+X-CSE-MsgGUID: QrfykUSvTba79d0h2iOoUg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,210,1744095600"; 
-   d="scan'208";a="145331702"
+   d="scan'208";a="145636087"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 04 Jun 2025 13:20:30 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 04 Jun 2025 13:35:32 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uMub6-0003RV-0W;
-	Wed, 04 Jun 2025 20:20:28 +0000
-Date: Thu, 5 Jun 2025 04:20:27 +0800
+	id 1uMupd-0003SP-2h;
+	Wed, 04 Jun 2025 20:35:29 +0000
+Date: Thu, 5 Jun 2025 04:35:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Harshitha Ramamurthy <hramamurthy@google.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net] gve: Fix stuck TX queue for DQ queue format
-Message-ID: <aECqi11CoMBbVAVx@acd742588394>
+To: kernel@openeuler.org, Yu Liao <liaoyu15@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2357/2357] mm/clear_freelist_page.c:133:50:
+ sparse: sparse: incorrect type in argument 3 (different address spaces)
+Message-ID: <202506050455.Zu20ul1z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +61,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250604201938.1409219-1-hramamurthy@google.com>
 
-Hi,
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   a9e6ec001662a376522f36604dfec47c30530549
+commit: beb43b9e2640c0662a78e1417b1861729cf6c729 [2357/2357] mm: Add sysctl to clear free list pages
+config: arm64-randconfig-r123-20250605 (https://download.01.org/0day-ci/archive/20250605/202506050455.Zu20ul1z-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250605/202506050455.Zu20ul1z-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506050455.Zu20ul1z-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+sparse warnings: (new ones prefixed by >>)
+>> mm/clear_freelist_page.c:133:50: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
+   mm/clear_freelist_page.c:133:50: sparse:     expected void *
+   mm/clear_freelist_page.c:133:50: sparse:     got void [noderef] __user *buffer
+>> mm/clear_freelist_page.c:147:36: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
+   mm/clear_freelist_page.c:147:36: sparse:     expected int ( [usertype] *proc_handler )( ... )
+   mm/clear_freelist_page.c:147:36: sparse:     got int ( * )( ... )
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+vim +133 mm/clear_freelist_page.c
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH net] gve: Fix stuck TX queue for DQ queue format
-Link: https://lore.kernel.org/stable/20250604201938.1409219-1-hramamurthy%40google.com
+   125	
+   126	static int sysctl_clear_freelist_handler(struct ctl_table *table, int write,
+   127			void __user *buffer, size_t *lenp, loff_t *ppos)
+   128	{
+   129		int ret;
+   130		int val;
+   131	
+   132		table->data = &val;
+ > 133		ret = proc_dointvec_minmax(table, write, buffer, lenp, ppos);
+   134	
+   135		if (!ret && write)
+   136			clear_freelist_pages();
+   137	
+   138		return ret;
+   139	}
+   140	
+   141	static struct ctl_table clear_freelist_table[] = {
+   142		{
+   143			.procname   = "clear_freelist_pages",
+   144			.data       = NULL,
+   145			.maxlen     = sizeof(int),
+   146			.mode       = 0200,
+ > 147			.proc_handler   = &sysctl_clear_freelist_handler,
+   148			.extra1     = SYSCTL_ONE,
+   149			.extra2     = SYSCTL_ONE,
+   150		}
+   151	};
+   152	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
