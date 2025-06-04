@@ -1,68 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10ABC85C5E
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 15:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27884C7C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 16:09:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749051972; cv=none; b=Dujwd9Ke9AJ2XBloBkxAmN63oQaN55EHgfqImg3uL6b/Xy4nQu+owjDIU5xtVUpLEX67Xlpg2KxwkyLJufS59Ua/uZ7kwmtdPkANSzU5c2U7VT2mYfWHFUEjOfywZgXq4k1SqC6g+v8D92N3bJBpN0OPkTqLTFJIY2MzSAn59g8=
+	t=1749053362; cv=none; b=HGMcCM7DcHUMlEoDL2aTpC8dQUXK6TYgsSwfi0GXme6e9y9Rdh3DGLY64W6bBpNbWrkihygrpbrUEdwSFaZWi3MG3vZgaqdSYrAUWzbVAkCB7wodKpJXdPIY6qD0fo7iKulDpYCjH/0ILtNKr4Ds5ckkF+bVhj9i0veAuhvzRMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749051972; c=relaxed/simple;
-	bh=pr0OVmmeB47DppS0yiNdRfseyj+W6OMs4zzLQfe7lDE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SzrQgRim8dSMY+P4Wi1oTR76MGI/ASubq10MZQOfBPCQNoYCDU+Hpt0BNhwtaWsqmuUwPInb/f5ylSze7UoMluj1kYMeil0eyYrOb3QHkfgWmr/f5h6l9C3GMNMngsAzp6dxzivWpzM4iAla5UqrOcjJgwcp5apmmZFQ7kIBH8U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XJ/e5MTH; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1749053362; c=relaxed/simple;
+	bh=RpZhvkD0dGGVPHgFW7PWWGSaaP+pB72hneiEKmJdDms=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=inC5Y/xWRFvqKcvrToEqnmQ7uvshTOB2cR9AZREk7oTYn+DYdVGQ6R2yxH+hHWjLpfCEURhN4Z7kVkjFsWzR8TbiOX6aoCZy3Ftoen7EDs0oz/9/TfmByzCohOFnzLEt9RGoAGKZ73zS6HJ48owWWHHnR0e9FNtp6lGP+FbGFI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lqU/F4CH; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XJ/e5MTH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lqU/F4CH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749051970; x=1780587970;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pr0OVmmeB47DppS0yiNdRfseyj+W6OMs4zzLQfe7lDE=;
-  b=XJ/e5MTHKzofojqqXvtT32j0KajzKsb61eKiaoI98jZTANRuEfupJ352
-   tknsj/fFZyXYEgr7m0hZTJ+GqvTAbnNAmxKvENSWM/5Ya4GEtPe2jwlYl
-   cgdJyNb8drajWyXden6pHQf0sG/eL/CRRlnDizp+ODrj8y3+h+/4ahsFR
-   U7pO1LoNDwxdRa+QAGqen6W3P1wElWa/zxtFMwX/BrJjYv2L3QFQfdEqt
-   K7TWCbiKd5vKIhA1YqUs4wFAFTJ6W1yHmM1+2nXH4mYFetiCTyNYjKVYm
-   Ay6FOIDARbn7Zfrzj6Jzp+3EAlr9cSFD2aqxcEdMw7p/gAMRcELf/2LJu
-   g==;
-X-CSE-ConnectionGUID: 5pDiQoSlQTevMgzmQDHNbA==
-X-CSE-MsgGUID: F3w0q4duSlqwnrGY0v9Tpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="68693591"
+  t=1749053361; x=1780589361;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RpZhvkD0dGGVPHgFW7PWWGSaaP+pB72hneiEKmJdDms=;
+  b=lqU/F4CHWQ7/gCQhwriEbZXt/9/GKu5+Ll9ZtGcsXr8b2w/+z6lh2LZG
+   T/ST18s4P8KWWelmMmVZBlXM1DRfs+N9QhLXnKL/rjOdwGZrZkHO8jHW2
+   GOcsafurbymHuMtiIa8dI+9QiKMDvpduK3axvdGl9i3W+ehlNFqtsFqeE
+   YtEcuqLgvZBeOdnxwbTBLGUx8nim1dUOFVeKXPmTjkPmVLecI/2Ejjwan
+   EqYLYkh40CIlSt5HvOsjl3JO59XDCTJQjmbVB6jefuEmdj4RjyTK0LHva
+   7/HccTGVOM1ky6BCiq2gmVTzcGSa8/hZ+x1aYGyr396n4eF7Hduxh9D1z
+   w==;
+X-CSE-ConnectionGUID: WDcT8gu0SkSzEkEd5RVB9A==
+X-CSE-MsgGUID: 6MyuBDhVQIiWChviSQ2iqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="68698365"
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="68693591"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 08:46:09 -0700
-X-CSE-ConnectionGUID: gnnxKTmVQtWmDDUzeVNuAw==
-X-CSE-MsgGUID: KykRIhL+SyK9QHBdS+c6Ig==
+   d="scan'208";a="68698365"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 09:06:09 -0700
+X-CSE-ConnectionGUID: 0tCaK24lS620L9DkGmPUiA==
+X-CSE-MsgGUID: IluE2Q+DQ9eFhmN/IJTwPw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="145246506"
+   d="scan'208";a="150111662"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 04 Jun 2025 08:46:06 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 04 Jun 2025 09:06:07 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uMqJX-0003GF-2E;
-	Wed, 04 Jun 2025 15:46:03 +0000
-Date: Wed, 4 Jun 2025 23:45:11 +0800
+	id 1uMqcv-0003HP-35;
+	Wed, 04 Jun 2025 16:06:05 +0000
+Date: Thu, 5 Jun 2025 00:05:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, Matthew Brost <matthew.brost@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
-	apopple@nvidia.com, airlied@gmail.com,
-	Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: Re: [PATCH v2 1/3] drm/gpusvm, drm/pagemap: Move migration
- functionality to drm_pagemap
-Message-ID: <202506042352.xDT1ySBT-lkp@intel.com>
-References: <20250604093536.95982-2-thomas.hellstrom@linux.intel.com>
+To: Alexandre Ghiti <alexghiti@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [alexghiti:alex-fixes_manual 6/6] .github/.MISSING_LINARO_DEP.swp:
+ warning: ignored by one of the .gitignore files
+Message-ID: <202506042314.nxH0APvb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,200 +61,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250604093536.95982-2-thomas.hellstrom@linux.intel.com>
 
-Hi Thomas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on next-20250604]
-[cannot apply to linus/master v6.15]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-gpusvm-drm-pagemap-Move-migration-functionality-to-drm_pagemap/20250604-173757
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250604093536.95982-2-thomas.hellstrom%40linux.intel.com
-patch subject: [PATCH v2 1/3] drm/gpusvm, drm/pagemap: Move migration functionality to drm_pagemap
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250604/202506042352.xDT1ySBT-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506042352.xDT1ySBT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/alexghiti/linux.git alex-fixes_manual
+head:   ed78e03a2fdff0a8ac2ef2c1da5a7957cfdbf2c4
+commit: ed78e03a2fdff0a8ac2ef2c1da5a7957cfdbf2c4 [6/6] Adding CI files
+config: i386-buildonly-randconfig-004-20250604 (https://download.01.org/0day-ci/archive/20250604/202506042314.nxH0APvb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506042314.nxH0APvb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506042352.xDT1ySBT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506042314.nxH0APvb-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   loongarch64-linux-ld: arch/loongarch/kernel/head.o: relocation R_LARCH_B26 overflow 0xffffffffef55fa70
-   arch/loongarch/kernel/head.o: in function `smpboot_entry':
->> (.ref.text+0x160): relocation truncated to fit: R_LARCH_B26 against symbol `start_secondary' defined in .text section in arch/loongarch/kernel/smp.o
-   loongarch64-linux-ld: final link failed: bad value
---
->> drivers/gpu/drm/drm_pagemap.c:314: warning: Function parameter or struct member 'timeslice_ms' not described in 'drm_pagemap_migrate_to_devmem'
-
-
-vim +314 drivers/gpu/drm/drm_pagemap.c
-
-   271	
-   272	
-   273	/**
-   274	 * drm_pagemap_migrate_to_devmem() - Migrate a struct mm_struct range to device memory
-   275	 * @devmem_allocation: The device memory allocation to migrate to.
-   276	 * The caller should hold a reference to the device memory allocation,
-   277	 * and the reference is consumed by this function unless it returns with
-   278	 * an error.
-   279	 * @mm: Pointer to the struct mm_struct.
-   280	 * @start: Start of the virtual address range to migrate.
-   281	 * @end: End of the virtual address range to migrate.
-   282	 * @pgmap_owner: Not used currently, since only system memory is considered.
-   283	 *
-   284	 * This function migrates the specified virtual address range to device memory.
-   285	 * It performs the necessary setup and invokes the driver-specific operations for
-   286	 * migration to device memory. Expected to be called while holding the mmap lock in
-   287	 * at least read mode.
-   288	 *
-   289	 * Return: %0 on success, negative error code on failure.
-   290	 */
-   291	
-   292	/*
-   293	 * @range: Pointer to the GPU SVM range structure
-   294	 * @devmem_allocation: Pointer to the device memory allocation. The caller
-   295	 *                     should hold a reference to the device memory allocation,
-   296	 *                     which should be dropped via ops->devmem_release or upon
-   297	 *                     the failure of this function.
-   298	 * @ctx: GPU SVM context
-   299	 *
-   300	 * This function migrates the specified GPU SVM range to device memory. It
-   301	 * performs the necessary setup and invokes the driver-specific operations for
-   302	 * migration to device memory. Upon successful return, @devmem_allocation can
-   303	 * safely reference @range until ops->devmem_release is called which only upon
-   304	 * successful return. Expected to be called while holding the mmap lock in read
-   305	 * mode.
-   306	 *
-   307	 * Return: 0 on success, negative error code on failure.
-   308	 */
-   309	int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
-   310					  struct mm_struct *mm,
-   311					  unsigned long start, unsigned long end,
-   312					  unsigned long timeslice_ms,
-   313					  void *pgmap_owner)
- > 314	{
-   315		const struct drm_pagemap_devmem_ops *ops = devmem_allocation->ops;
-   316		struct migrate_vma migrate = {
-   317			.start		= start,
-   318			.end		= end,
-   319			.pgmap_owner	= pgmap_owner,
-   320			.flags		= MIGRATE_VMA_SELECT_SYSTEM,
-   321		};
-   322		unsigned long i, npages = npages_in_range(start, end);
-   323		struct vm_area_struct *vas;
-   324		struct drm_pagemap_zdd *zdd = NULL;
-   325		struct page **pages;
-   326		dma_addr_t *dma_addr;
-   327		void *buf;
-   328		int err;
-   329	
-   330		mmap_assert_locked(mm);
-   331	
-   332		if (!ops->populate_devmem_pfn || !ops->copy_to_devmem ||
-   333		    !ops->copy_to_ram)
-   334			return -EOPNOTSUPP;
-   335	
-   336		vas = vma_lookup(mm, start);
-   337		if (!vas) {
-   338			err = -ENOENT;
-   339			goto err_out;
-   340		}
-   341	
-   342		if (end > vas->vm_end || start < vas->vm_start) {
-   343			err = -EINVAL;
-   344			goto err_out;
-   345		}
-   346	
-   347		if (!vma_is_anonymous(vas)) {
-   348			err = -EBUSY;
-   349			goto err_out;
-   350		}
-   351	
-   352		buf = kvcalloc(npages, 2 * sizeof(*migrate.src) + sizeof(*dma_addr) +
-   353			       sizeof(*pages), GFP_KERNEL);
-   354		if (!buf) {
-   355			err = -ENOMEM;
-   356			goto err_out;
-   357		}
-   358		dma_addr = buf + (2 * sizeof(*migrate.src) * npages);
-   359		pages = buf + (2 * sizeof(*migrate.src) + sizeof(*dma_addr)) * npages;
-   360	
-   361		zdd = drm_pagemap_zdd_alloc(pgmap_owner);
-   362		if (!zdd) {
-   363			err = -ENOMEM;
-   364			goto err_free;
-   365		}
-   366	
-   367		migrate.vma = vas;
-   368		migrate.src = buf;
-   369		migrate.dst = migrate.src + npages;
-   370	
-   371		err = migrate_vma_setup(&migrate);
-   372		if (err)
-   373			goto err_free;
-   374	
-   375		if (!migrate.cpages) {
-   376			err = -EFAULT;
-   377			goto err_free;
-   378		}
-   379	
-   380		if (migrate.cpages != npages) {
-   381			err = -EBUSY;
-   382			goto err_finalize;
-   383		}
-   384	
-   385		err = ops->populate_devmem_pfn(devmem_allocation, npages, migrate.dst);
-   386		if (err)
-   387			goto err_finalize;
-   388	
-   389		err = drm_pagemap_migrate_map_pages(devmem_allocation->dev, dma_addr,
-   390						   migrate.src, npages, DMA_TO_DEVICE);
-   391		if (err)
-   392			goto err_finalize;
-   393	
-   394		for (i = 0; i < npages; ++i) {
-   395			struct page *page = pfn_to_page(migrate.dst[i]);
-   396	
-   397			pages[i] = page;
-   398			migrate.dst[i] = migrate_pfn(migrate.dst[i]);
-   399			drm_pagemap_get_devmem_page(page, zdd);
-   400		}
-   401	
-   402		err = ops->copy_to_devmem(pages, dma_addr, npages);
-   403		if (err)
-   404			goto err_finalize;
-   405	
-   406		/* Upon success bind devmem allocation to range and zdd */
-   407		devmem_allocation->timeslice_expiration = get_jiffies_64() +
-   408			msecs_to_jiffies(timeslice_ms);
-   409		zdd->devmem_allocation = devmem_allocation;	/* Owns ref */
-   410	
-   411	err_finalize:
-   412		if (err)
-   413			drm_pagemap_migration_unlock_put_pages(npages, migrate.dst);
-   414		migrate_vma_pages(&migrate);
-   415		migrate_vma_finalize(&migrate);
-   416		drm_pagemap_migrate_unmap_pages(devmem_allocation->dev, dma_addr, npages,
-   417					       DMA_TO_DEVICE);
-   418	err_free:
-   419		if (zdd)
-   420			drm_pagemap_zdd_put(zdd);
-   421		kvfree(buf);
-   422	err_out:
-   423		return err;
-   424	}
-   425	EXPORT_SYMBOL_GPL(drm_pagemap_migrate_to_devmem);
-   426	
+>> .github/.MISSING_LINARO_DEP.swp: warning: ignored by one of the .gitignore files
+>> .github/.swp: warning: ignored by one of the .gitignore files
+>> .github/MISSING_LINARO_DEP: warning: ignored by one of the .gitignore files
+>> .github/scripts/.patches.sh.swp: warning: ignored by one of the .gitignore files
+>> .github/scripts/build_ubuntu_defconfig.sh: warning: ignored by one of the .gitignore files
+>> .github/scripts/ci/__init__.py: warning: ignored by one of the .gitignore files
+>> .github/scripts/ci/base.py: warning: ignored by one of the .gitignore files
+>> .github/scripts/ci/shelltest.py: warning: ignored by one of the .gitignore files
+>> .github/scripts/cleanup_pr.py: warning: ignored by one of the .gitignore files
+>> .github/scripts/config.json: warning: ignored by one of the .gitignore files
+>> .github/scripts/defconfig.sh: warning: ignored by one of the .gitignore files
+>> .github/scripts/isolated_tests.sh: warning: ignored by one of the .gitignore files
+>> .github/scripts/kselftest.sh: warning: ignored by one of the .gitignore files
+>> .github/scripts/libhugetlbfs.sh: warning: ignored by one of the .gitignore files
+>> .github/scripts/libs/__init__.py: warning: ignored by one of the .gitignore files
+>> .github/scripts/libs/context.py: warning: ignored by one of the .gitignore files
+>> .github/scripts/libs/email.py: warning: ignored by one of the .gitignore files
+>> .github/scripts/libs/githubtool.py: warning: ignored by one of the .gitignore files
+>> .github/scripts/libs/patchwork.py: warning: ignored by one of the .gitignore files
+>> .github/scripts/libs/repotool.py: warning: ignored by one of the .gitignore files
+   .github/scripts/libs/utils.py: warning: ignored by one of the .gitignore files
+   .github/scripts/ltp.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/pw_ci.py: warning: ignored by one of the .gitignore files
+   .github/scripts/pw_tests/build_rv32_defconfig.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/pw_tests/build_rv64_clang_allmodconfig.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/pw_tests/build_rv64_gcc_allmodconfig.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/pw_tests/build_rv64_nommu_k210_defconfig.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/pw_tests/build_rv64_nommu_virt_defconfig.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/pw_tests/checkpatch.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/pw_tests/dtb_warn_rv64.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/pw_tests/header_inline.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/pw_tests/kdoc.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/pw_tests/module_param.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/pw_tests/verify_fixes.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/pw_tests/verify_signedoff.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/requirements.txt: warning: ignored by one of the .gitignore files
+   .github/scripts/series.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/build_all.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/build_kernel.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/build_only_defconfig.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/build_only_kselftest.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/build_selftest.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/generate_build_configs.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/generate_kconfigs.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/generate_metadata.py: warning: ignored by one of the .gitignore files
+   .github/scripts/series/generate_qemu_test_configs.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/generate_test_runs.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/github_ci_squad_results.py: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/early_boot_alternative: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/early_boot_alternative_reloc: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/flatmem: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/hardened_usercopy_slub: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/kasan: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/kasan_inline: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/kasan_sparsemem_novmemmmap: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/kasan_sparsemem_vmemmmap: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/kasan_vmalloc: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/kfence: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/legacy_sbi: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/lockdep: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/medany: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/medlow: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/noc: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/nosmp: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/pmu: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/preempt: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/preempt_rt: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/qspinlock: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/randomize_base: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/rseq: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/rseq_debug: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/size: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/sparsemem: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/spinwait: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/strict_rwx: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/svnapot: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/ticket_spinlock: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/defconfig/vmap_stack: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kconfigs/ubuntu_defconfig: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kernel_builder.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kernel_tester.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/kselftest_prep.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0001-selftests-bpf-Add-RISC-V-specific-config.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0002-selftests-bpf-Rename-fallback.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0003-selftests-iommu-Add-RISC-V-specific-config.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0004-selftests-exec-Remove-static-pie.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0005-selftests-hid-Fix-broken-build.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0006-Add-missing-net-lib-kselftest-target.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0007-BPF-kselftest-fix.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0008-BPF-selftest-install.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0009-selftests-clone3-Avoid-fragile-struct-poking.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0010-selftests-clone3-Avoid-fragile-struct-poking.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0011-selftests-bpf-Add-missing-per-arch-include-path.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0012-Missing-iommu-config.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0013-selftests-filesystems-mount-notify.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0014-selftests-mm-page_frag.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0015-selftests-mount_setattr-mount_setattr_test.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0016-selftests-pid_namespace-pid_max.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0017-selftests-proc-proc-pid-vm.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0018-selftests-riscv-abi-pointer_masking.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0019-selftests-ublk.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0020-Add-missing-utility-script-to-install-target.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/patches/0021-ntsync-typo.patch: warning: ignored by one of the .gitignore files
+   .github/scripts/series/post_to_squad.py: warning: ignored by one of the .gitignore files
+   .github/scripts/series/prepare_rootfs.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/qemu_test_utils.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/selftest_builder.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/test_all.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/test_kernel.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/test_only_defconfig.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/test_only_kselftest.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/tuxrun_to_squad_json.py: warning: ignored by one of the .gitignore files
+   .github/scripts/series/unpack_fw.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/series/utils.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/sync.sh: warning: ignored by one of the .gitignore files
+   .github/scripts/sync_patchwork.py: warning: ignored by one of the .gitignore files
+   .github/scripts/xfstests.sh: warning: ignored by one of the .gitignore files
+   .github/workflows/kselftest.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/libhugetlbfs.yml: warning: ignored by one of the .gitignore files
+   .github/workflows/patchwork.yml: warning: ignored by one of the .gitignore files
 
 -- 
 0-DAY CI Kernel Test Service
