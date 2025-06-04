@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5B8224C664
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 11:54:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FC2728E5F4;
+	Wed,  4 Jun 2025 12:35:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749038089; cv=none; b=fZNkbiTIa14fPykKthyznjO7ohRKWnDNufVizhxLrNoTkPLoUpANRUDF1HW3MQeYllpzV9j/JG3Ups1t043QyYfB2SY8ZjJGstHSkiPvjxdIprWB2VL4sEsEnWK14QDg4Vp3ECB54xGv6O9hqiux6HuCP1Cr3dVSqNczDnpakVI=
+	t=1749040560; cv=none; b=gCl7MF3vlftzAERZ+jfh0uU35Rvs/HZlV4sc6mvJMmhz4LwzC/VASdegcW/mPP9mnf556hkXBi9N7D4tfRkOjVugJultq/JlJGa2TqoBdu+2h/OnXEnNb4zaARl0gKMK9+7DyHZCsYIkSxoHZm+x5nDQYt6jHjL6mCixjFG5S9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749038089; c=relaxed/simple;
-	bh=UBajsJMeBhWRs5K/zkbaV6f5CNTRuP+p/rQvJCkLaRY=;
+	s=arc-20240116; t=1749040560; c=relaxed/simple;
+	bh=jJ4ZwWax3vKYqqRhw91Dy/rAfyzNtvRQbgFkhNRfsXA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y6rXOzGOZcmQsiro13Zxswggtls955s2meHf3m7fDEGWjcRP6zFeD4L6TfGizeEQDlvlZjwKYL19T19691sCHrXZlefwdYsp48mSA9wzVSXKHc8ko2ImjkySLCo2KempDFU7VQlxyXsJ2+HNCWaGUecoyTyLPqBTvpKjvtbcPn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=amOIDEb8; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=s7z/xlUNqCidNlDl2CuHrYrQ8RUlsjISk2smRY/jK8QnM08+6Ayx2Ah6ecl5Hah2/mw5O56E/NtNkLCZ1tZOcryO43SbVTDtrAtLQDvbWPw/ekYP2qdyqAvbtSGgkoaaa4TGbGKBt9vTRWR/rNOawLQiOL6aEKLmCanv5tvTXwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OGJxRVpR; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="amOIDEb8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OGJxRVpR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749038086; x=1780574086;
+  t=1749040558; x=1780576558;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UBajsJMeBhWRs5K/zkbaV6f5CNTRuP+p/rQvJCkLaRY=;
-  b=amOIDEb8z4+FGzTOu5hE8A38fkj6H6w8RL5rROZ9TXFCgBBzZU72UhiK
-   ZDbuGwDGk8ttexYCDRi5HywOjEXSqbMoNievaaxPl9G5A0tmWIORPehCV
-   +8R+r/HR/idwrx/qqObfYGw5QlhUMcgaXAkajs5nUalGFd6XIi6OScnZf
-   RanGiv2Ww4gwWK8HMgmwHTyUV4yjoNk3R8e2QwPkYNXRS+Aw4hAhd752B
-   mXMhrY7YMeDosAgOiCR5eRZNn7VZ+pMfVuxI2BiFDyTu8F8vKJFgl15qa
-   koqf77Xx1V6b2xrE8Ywr+WWy/wzM0Rzw+k/jujaLNSQXVRPQ0G2GV+Ebl
+  bh=jJ4ZwWax3vKYqqRhw91Dy/rAfyzNtvRQbgFkhNRfsXA=;
+  b=OGJxRVpRsfMAyNeM0p8YccJQbxjskFRlQNqc12DTjr2/unDjFtXdeMEn
+   ddY6rZWGNKF4ZwPpX+ZIA4oQ9k8rFEXDmMAHb0gfIW5zdUhNbBT/3q4SO
+   D2ljio1OXr9IB5EdmR4YsjyWC+byvvL1L0ZapXh4HuJHw74t5rfOTBX1X
+   gLwL3OLmLAq30Rq+vQqpgSflodGIrihMnMOuGelHJQ8ylmXYLLPsfaPvV
+   zvJx/nFScEw835jzMIEC9dU0Sawwxg1aUfyPuB6rahA8xyIZ7y5VQo+0j
+   uKyMXwI88psM6tN7DX+w+72fvN2EbYqkPcjVOELEPI5d0BQkcDJseVau9
    g==;
-X-CSE-ConnectionGUID: e0B6W9ouTXWOmIEc0ykz0g==
-X-CSE-MsgGUID: fWIYUwrhTTy+CSqAp3g35Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="51116258"
+X-CSE-ConnectionGUID: sUMIs5ElTGa8sqjv4mpSyw==
+X-CSE-MsgGUID: 15Y/oJThTKq6AbC0/lKtPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="50359158"
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="51116258"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 04:54:46 -0700
-X-CSE-ConnectionGUID: lQfh+SBQRgyCUnN/lE614A==
-X-CSE-MsgGUID: 6HstFX7TQ0Cl1qR3+ccVRA==
-X-Ironport-Invalid-End-Of-Message: True
+   d="scan'208";a="50359158"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 05:35:57 -0700
+X-CSE-ConnectionGUID: CBnKa+3ZQz6Yl1GMDtsN+g==
+X-CSE-MsgGUID: fVyPFQqvQheDG5kMssUg3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="150444987"
+   d="scan'208";a="146147627"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Jun 2025 04:54:45 -0700
+  by orviesa008.jf.intel.com with ESMTP; 04 Jun 2025 05:35:52 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uMmhe-00036f-22;
-	Wed, 04 Jun 2025 11:54:42 +0000
-Date: Wed, 4 Jun 2025 19:54:15 +0800
+	id 1uMnLN-00037t-0S;
+	Wed, 04 Jun 2025 12:35:45 +0000
+Date: Wed, 4 Jun 2025 20:35:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrea della Porta <andrea.porta@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Florian Fainelli <florian.fainelli@broadcom.com>
-Subject: [linux-next:master 13996/14339]
- arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: pcie@1000120000
- (brcm,bcm2712-pcie): Unevaluated properties are not allowed ('rp1_nexus' was
- unexpected)
-Message-ID: <202506041952.baJDYBT4-lkp@intel.com>
+To: Oscar Salvador <osalvador@suse.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Harry Yoo <harry.yoo@oracle.com>, Vlastimil Babka <vbabka@suse.cz>
+Subject: [akpm-mm:mm-new 33/59] kernel/cgroup/cpuset.c:4054:undefined
+ reference to `register_node_notifier'
+Message-ID: <202506042006.QuupA03H-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,92 +66,54 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   911483b25612c8bc32a706ba940738cc43299496
-commit: cbaec80bda2eff19682de44bf86363472841df4e [13996/14339] arm64: dts: broadcom: Add board DTS for Rpi5 which includes RP1 node
-config: arm64-randconfig-051-20250604 (https://download.01.org/0day-ci/archive/20250604/202506041952.baJDYBT4-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.3.0
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506041952.baJDYBT4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   80bb0b2983e95be26d929303d589276875c8900a
+commit: 24bc7e1b9a3e0062e4bcde941a76c7dbe5516401 [33/59] mm,memory_hotplug: implement numa node notifier
+config: s390-randconfig-001-20250604 (https://download.01.org/0day-ci/archive/20250604/202506042006.QuupA03H-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506042006.QuupA03H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506041952.baJDYBT4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506042006.QuupA03H-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hdmi@7c706400 (brcm,bcm2712-hdmi1): interrupt-names:4: 'hpd-connected' was expected
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hdmi@7c706400 (brcm,bcm2712-hdmi1): interrupt-names: ['cec-tx', 'cec-rx', 'cec-low', 'hpd-connected', 'hpd-removed'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hdmi@7c706400 (brcm,bcm2712-hdmi1): interrupts: [[11], [12], [13], [14], [15]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: firmware (raspberrypi,bcm2835-firmware): '#address-cells', '#size-cells', 'dma-ranges' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/bcm/raspberrypi,bcm2835-firmware.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: axi (simple-bus): gpu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: pcie@1000120000 (brcm,bcm2712-pcie): Unevaluated properties are not allowed ('rp1_nexus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/brcm,stb-pcie.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hvs@107c580000 (brcm,bcm2712-hvs): 'clock-names', 'interrupt-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hvs@107c580000 (brcm,bcm2712-hvs): clocks: [[18, 4], [18, 16]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b.dtb: hvs@107c580000 (brcm,bcm2712-hvs): interrupts: [[2], [9], [16]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
---
-   arch/arm64/boot/dts/broadcom/bcm2712.dtsi:421.11-576.4: Warning (unit_address_vs_reg): /axi: node has a reg or ranges property, but no unit name
-   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dts:74.21-91.4: Warning (simple_bus_reg): /soc@107c000000/firmware: missing or empty reg/ranges property
-   arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dts:93.15-97.4: Warning (simple_bus_reg): /soc@107c000000/power: missing or empty reg/ranges property
-   arch/arm64/boot/dts/broadcom/bcm2712.dtsi:438.12-440.5: Warning (simple_bus_reg): /axi/gpu: missing or empty reg/ranges property
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: soc@107c000000 (simple-bus): firmware: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: soc@107c000000 (simple-bus): power: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: hdmi@7c701400 (brcm,bcm2712-hdmi0): interrupt-names:3: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: hdmi@7c701400 (brcm,bcm2712-hdmi0): interrupt-names:4: 'hpd-connected' was expected
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: hdmi@7c701400 (brcm,bcm2712-hdmi0): interrupt-names: ['cec-tx', 'cec-rx', 'cec-low', 'hpd-connected', 'hpd-removed'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: hdmi@7c701400 (brcm,bcm2712-hdmi0): interrupts: [[1], [2], [3], [7], [8]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: hdmi@7c706400 (brcm,bcm2712-hdmi1): interrupt-names:3: 'wakeup' was expected
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: hdmi@7c706400 (brcm,bcm2712-hdmi1): interrupt-names:4: 'hpd-connected' was expected
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: hdmi@7c706400 (brcm,bcm2712-hdmi1): interrupt-names: ['cec-tx', 'cec-rx', 'cec-low', 'hpd-connected', 'hpd-removed'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: hdmi@7c706400 (brcm,bcm2712-hdmi1): interrupts: [[11], [12], [13], [14], [15]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: firmware (raspberrypi,bcm2835-firmware): '#address-cells', '#size-cells', 'dma-ranges' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/bcm/raspberrypi,bcm2835-firmware.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: axi (simple-bus): gpu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: hvs@107c580000 (brcm,bcm2712-hvs): 'clock-names', 'interrupt-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: hvs@107c580000 (brcm,bcm2712-hvs): clocks: [[18, 4], [18, 16]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-rpi-5-b-ovl-rp1.dtb: hvs@107c580000 (brcm,bcm2712-hvs): interrupts: [[2], [9], [16]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
---
-   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hdmi@7c706400 (brcm,bcm2712-hdmi1): interrupt-names:4: 'hpd-connected' was expected
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hdmi@7c706400 (brcm,bcm2712-hdmi1): interrupt-names: ['cec-tx', 'cec-rx', 'cec-low', 'hpd-connected', 'hpd-removed'] is too short
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hdmi@7c706400 (brcm,bcm2712-hdmi1): interrupts: [[11], [12], [13], [14], [15]] is too short
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2711-hdmi.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: firmware (raspberrypi,bcm2835-firmware): '#address-cells', '#size-cells', 'dma-ranges' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/arm/bcm/raspberrypi,bcm2835-firmware.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: axi (simple-bus): gpu: 'ranges' is a required property
-   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
->> arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: pcie@1000120000 (brcm,bcm2712-pcie): Unevaluated properties are not allowed ('rp1_nexus' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/pci/brcm,stb-pcie.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hvs@107c580000 (brcm,bcm2712-hvs): 'clock-names', 'interrupt-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hvs@107c580000 (brcm,bcm2712-hvs): clocks: [[18, 4], [18, 16]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
-   arch/arm64/boot/dts/broadcom/bcm2712-d-rpi-5-b.dtb: hvs@107c580000 (brcm,bcm2712-hvs): interrupts: [[2], [9], [16]] is too long
-   	from schema $id: http://devicetree.org/schemas/display/brcm,bcm2835-hvs.yaml#
+All errors (new ones prefixed by >>):
+
+   s390x-linux-ld: kernel/cgroup/cpuset.o: in function `cpuset_init_smp':
+>> kernel/cgroup/cpuset.c:4054:(.init.text+0x402): undefined reference to `register_node_notifier'
+   s390x-linux-ld: mm/memory_hotplug.o: in function `online_pages':
+>> mm/memory_hotplug.c:1243:(.text+0x6928): undefined reference to `node_notify'
+   s390x-linux-ld: mm/slub.o: in function `kmem_cache_init':
+>> mm/slub.c:6300:(.init.text+0x506): undefined reference to `register_node_notifier'
+
+
+vim +4054 kernel/cgroup/cpuset.c
+
+  4036	
+  4037	/**
+  4038	 * cpuset_init_smp - initialize cpus_allowed
+  4039	 *
+  4040	 * Description: Finish top cpuset after cpu, node maps are initialized
+  4041	 */
+  4042	void __init cpuset_init_smp(void)
+  4043	{
+  4044		/*
+  4045		 * cpus_allowd/mems_allowed set to v2 values in the initial
+  4046		 * cpuset_bind() call will be reset to v1 values in another
+  4047		 * cpuset_bind() call when v1 cpuset is mounted.
+  4048		 */
+  4049		top_cpuset.old_mems_allowed = top_cpuset.mems_allowed;
+  4050	
+  4051		cpumask_copy(top_cpuset.effective_cpus, cpu_active_mask);
+  4052		top_cpuset.effective_mems = node_states[N_MEMORY];
+  4053	
+> 4054		hotplug_node_notifier(cpuset_track_online_nodes, CPUSET_CALLBACK_PRI);
+  4055	
+  4056		cpuset_migrate_mm_wq = alloc_ordered_workqueue("cpuset_migrate_mm", 0);
+  4057		BUG_ON(!cpuset_migrate_mm_wq);
+  4058	}
+  4059	
 
 -- 
 0-DAY CI Kernel Test Service
