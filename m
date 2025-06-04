@@ -1,60 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B82A2F56
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 15:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10ABC85C5E
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 15:46:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749050440; cv=none; b=bQev89cXSLI5aUwmIM9W1UJKxdPhHCRQ8K/rQCIfpcKsZChtF2nHB3TEd1mBrWk+JXntl+KOrvZ99qFEv7d3GTHPmoJehb6Wb2La+iNOLMG5xwJACLyjydQFswvcsLcrY12SK4PSP/b4CgUhHJzzJxi/vkCN3hEyxc+GJQjjHdc=
+	t=1749051972; cv=none; b=Dujwd9Ke9AJ2XBloBkxAmN63oQaN55EHgfqImg3uL6b/Xy4nQu+owjDIU5xtVUpLEX67Xlpg2KxwkyLJufS59Ua/uZ7kwmtdPkANSzU5c2U7VT2mYfWHFUEjOfywZgXq4k1SqC6g+v8D92N3bJBpN0OPkTqLTFJIY2MzSAn59g8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749050440; c=relaxed/simple;
-	bh=Sembt8MzKdacvtITukxbklnmmkb0lW/eEeL1CSqVeTg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BDrv2ltTO7HYXmEjyWcE9Yr1UTfatPmviJKTj9RT42/pGnkVVBEL0DBrIIEPYs/CM0ANo/ehUgk2b0RntlWt2MDQDrBFRPkAaor9oqB/wK/0Ecm2CiOAmmif6fWvrD11NIPydGZDTv8mwGLbRqjP8S5wCAiNv4MTnVfu46snHEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZV0qkJax; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1749051972; c=relaxed/simple;
+	bh=pr0OVmmeB47DppS0yiNdRfseyj+W6OMs4zzLQfe7lDE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SzrQgRim8dSMY+P4Wi1oTR76MGI/ASubq10MZQOfBPCQNoYCDU+Hpt0BNhwtaWsqmuUwPInb/f5ylSze7UoMluj1kYMeil0eyYrOb3QHkfgWmr/f5h6l9C3GMNMngsAzp6dxzivWpzM4iAla5UqrOcjJgwcp5apmmZFQ7kIBH8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XJ/e5MTH; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZV0qkJax"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XJ/e5MTH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749050439; x=1780586439;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Sembt8MzKdacvtITukxbklnmmkb0lW/eEeL1CSqVeTg=;
-  b=ZV0qkJax10sReDr1w3p9nZwjHvRGn8E//6XyDY2B96UsSGGLP5N3JdGP
-   FJ3Mu59HC84fG9JtppWDgBmqdmj3wirtZdVPw+rcYnKOdgkDsn7La681M
-   FwMcf6CownZ1Tu/S9n+uH/wN2wkWnTHL7s13ixDhba+Xl7xHUrshx5Pd0
-   QxJMgxXbJK4XPTnlj7otukrBdlEemD5MVUnNZ1DJMF6BXubSHPoKr9dY7
-   3et9Ap7cqenQdj4ZgWmkVJqPniSVlgbOb3uTE0GkVEIX9rlkitINi9u0t
-   H9Iqnp7mqNcxNzwSjpgRPQJPDQ+tclOmVghonq0LGu4bzjNqpSKWj8glq
-   w==;
-X-CSE-ConnectionGUID: bXzzuwvTQMmaSLAQ0xTQ1Q==
-X-CSE-MsgGUID: 0n9s04AFQNyIsom9r2vDCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="54802700"
+  t=1749051970; x=1780587970;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pr0OVmmeB47DppS0yiNdRfseyj+W6OMs4zzLQfe7lDE=;
+  b=XJ/e5MTHKzofojqqXvtT32j0KajzKsb61eKiaoI98jZTANRuEfupJ352
+   tknsj/fFZyXYEgr7m0hZTJ+GqvTAbnNAmxKvENSWM/5Ya4GEtPe2jwlYl
+   cgdJyNb8drajWyXden6pHQf0sG/eL/CRRlnDizp+ODrj8y3+h+/4ahsFR
+   U7pO1LoNDwxdRa+QAGqen6W3P1wElWa/zxtFMwX/BrJjYv2L3QFQfdEqt
+   K7TWCbiKd5vKIhA1YqUs4wFAFTJ6W1yHmM1+2nXH4mYFetiCTyNYjKVYm
+   Ay6FOIDARbn7Zfrzj6Jzp+3EAlr9cSFD2aqxcEdMw7p/gAMRcELf/2LJu
+   g==;
+X-CSE-ConnectionGUID: 5pDiQoSlQTevMgzmQDHNbA==
+X-CSE-MsgGUID: F3w0q4duSlqwnrGY0v9Tpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="68693591"
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="54802700"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 08:20:33 -0700
-X-CSE-ConnectionGUID: DcWO7m3GTvSfcJuoydmyBA==
-X-CSE-MsgGUID: EbYjeYcUS1u7if6oylgdqg==
+   d="scan'208";a="68693591"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 08:46:09 -0700
+X-CSE-ConnectionGUID: gnnxKTmVQtWmDDUzeVNuAw==
+X-CSE-MsgGUID: KykRIhL+SyK9QHBdS+c6Ig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="145550282"
-Received: from igk-lkp-server01.igk.intel.com (HELO b69e6467d450) ([10.211.3.150])
-  by fmviesa008.fm.intel.com with ESMTP; 04 Jun 2025 08:20:32 -0700
-Received: from kbuild by b69e6467d450 with local (Exim 4.96)
+   d="scan'208";a="145246506"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 04 Jun 2025 08:46:06 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uMpun-0001jO-2W;
-	Wed, 04 Jun 2025 15:20:29 +0000
-Date: Wed, 4 Jun 2025 23:19:32 +0800
+	id 1uMqJX-0003GF-2E;
+	Wed, 04 Jun 2025 15:46:03 +0000
+Date: Wed, 4 Jun 2025 23:45:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 17/17]
- arch/x86/include/asm/pci_x86.h:241:9: error: call to undeclared function
- 'pv_pci_mmcfg_readb'; ISO C99 and later do not support implicit function
- declarations
-Message-ID: <202506042345.pvs8RyRn-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
+	apopple@nvidia.com, airlied@gmail.com,
+	Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Subject: Re: [PATCH v2 1/3] drm/gpusvm, drm/pagemap: Move migration
+ functionality to drm_pagemap
+Message-ID: <202506042352.xDT1ySBT-lkp@intel.com>
+References: <20250604093536.95982-2-thomas.hellstrom@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,106 +71,200 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250604093536.95982-2-thomas.hellstrom@linux.intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   7d21e26cc9296ffd8d83440c989eb089f799f75c
-commit: 3b88862f9b7f7434c1456fc15232238fa84e3a42 [17/17] ANDROID: x86/paravirt: Extend pv_mmio_ops to support pci mmcfg read and write
-config: x86_64-randconfig-2003-20250604 (https://download.01.org/0day-ci/archive/20250604/202506042345.pvs8RyRn-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506042345.pvs8RyRn-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-xe/drm-xe-next]
+[also build test ERROR on next-20250604]
+[cannot apply to linus/master v6.15]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-gpusvm-drm-pagemap-Move-migration-functionality-to-drm_pagemap/20250604-173757
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250604093536.95982-2-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH v2 1/3] drm/gpusvm, drm/pagemap: Move migration functionality to drm_pagemap
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250604/202506042352.xDT1ySBT-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506042352.xDT1ySBT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506042345.pvs8RyRn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506042352.xDT1ySBT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/resource.c:5:
->> arch/x86/include/asm/pci_x86.h:241:9: error: call to undeclared function 'pv_pci_mmcfg_readb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     241 |         return pv_pci_mmcfg_readb(pos);
-         |                ^
-   arch/x86/include/asm/pci_x86.h:241:9: note: did you mean 'pci_mmcfg_readb'?
-   arch/x86/include/asm/pci_x86.h:202:29: note: 'pci_mmcfg_readb' declared here
-     202 | static inline unsigned char pci_mmcfg_readb(const volatile void __iomem *pos)
-         |                             ^
->> arch/x86/include/asm/pci_x86.h:246:9: error: call to undeclared function 'pv_pci_mmcfg_readw'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     246 |         return pv_pci_mmcfg_readw(pos);
-         |                ^
-   arch/x86/include/asm/pci_x86.h:246:9: note: did you mean 'pci_mmcfg_readw'?
-   arch/x86/include/asm/pci_x86.h:209:30: note: 'pci_mmcfg_readw' declared here
-     209 | static inline unsigned short pci_mmcfg_readw(const volatile void __iomem *pos)
-         |                              ^
->> arch/x86/include/asm/pci_x86.h:251:9: error: call to undeclared function 'pv_pci_mmcfg_readl'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     251 |         return pv_pci_mmcfg_readl(pos);
-         |                ^
-   arch/x86/include/asm/pci_x86.h:251:9: note: did you mean 'pci_mmcfg_readl'?
-   arch/x86/include/asm/pci_x86.h:216:28: note: 'pci_mmcfg_readl' declared here
-     216 | static inline unsigned int pci_mmcfg_readl(const volatile void __iomem *pos)
-         |                            ^
->> arch/x86/include/asm/pci_x86.h:256:2: error: call to undeclared function 'pv_pci_mmcfg_writeb'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     256 |         pv_pci_mmcfg_writeb(val, pos);
-         |         ^
-   arch/x86/include/asm/pci_x86.h:256:2: note: did you mean 'pci_mmcfg_writeb'?
-   arch/x86/include/asm/pci_x86.h:223:20: note: 'pci_mmcfg_writeb' declared here
-     223 | static inline void pci_mmcfg_writeb(unsigned char val, volatile void __iomem *pos)
-         |                    ^
->> arch/x86/include/asm/pci_x86.h:261:2: error: call to undeclared function 'pv_pci_mmcfg_writew'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     261 |         pv_pci_mmcfg_writew(val, pos);
-         |         ^
-   arch/x86/include/asm/pci_x86.h:261:2: note: did you mean 'pci_mmcfg_writew'?
-   arch/x86/include/asm/pci_x86.h:228:20: note: 'pci_mmcfg_writew' declared here
-     228 | static inline void pci_mmcfg_writew(unsigned short val, volatile void __iomem *pos)
-         |                    ^
->> arch/x86/include/asm/pci_x86.h:266:2: error: call to undeclared function 'pv_pci_mmcfg_writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     266 |         pv_pci_mmcfg_writel(val, pos);
-         |         ^
-   arch/x86/include/asm/pci_x86.h:266:2: note: did you mean 'pci_mmcfg_writel'?
-   arch/x86/include/asm/pci_x86.h:233:20: note: 'pci_mmcfg_writel' declared here
-     233 | static inline void pci_mmcfg_writel(unsigned int val, volatile void __iomem *pos)
-         |                    ^
-   6 errors generated.
+   loongarch64-linux-ld: arch/loongarch/kernel/head.o: relocation R_LARCH_B26 overflow 0xffffffffef55fa70
+   arch/loongarch/kernel/head.o: in function `smpboot_entry':
+>> (.ref.text+0x160): relocation truncated to fit: R_LARCH_B26 against symbol `start_secondary' defined in .text section in arch/loongarch/kernel/smp.o
+   loongarch64-linux-ld: final link failed: bad value
+--
+>> drivers/gpu/drm/drm_pagemap.c:314: warning: Function parameter or struct member 'timeslice_ms' not described in 'drm_pagemap_migrate_to_devmem'
 
 
-vim +/pv_pci_mmcfg_readb +241 arch/x86/include/asm/pci_x86.h
+vim +314 drivers/gpu/drm/drm_pagemap.c
 
-   237	
-   238	#ifdef CONFIG_PARAVIRT
-   239	static inline unsigned char mmio_config_readb(void __iomem *pos)
-   240	{
- > 241		return pv_pci_mmcfg_readb(pos);
-   242	}
-   243	
-   244	static inline unsigned short mmio_config_readw(void __iomem *pos)
-   245	{
- > 246		return pv_pci_mmcfg_readw(pos);
-   247	}
-   248	
-   249	static inline unsigned int mmio_config_readl(void __iomem *pos)
-   250	{
- > 251		return pv_pci_mmcfg_readl(pos);
-   252	}
-   253	
-   254	static inline void mmio_config_writeb(void __iomem *pos, u8 val)
-   255	{
- > 256		pv_pci_mmcfg_writeb(val, pos);
-   257	}
-   258	
-   259	static inline void mmio_config_writew(void __iomem *pos, u16 val)
-   260	{
- > 261		pv_pci_mmcfg_writew(val, pos);
-   262	}
-   263	
-   264	static inline void mmio_config_writel(void __iomem *pos, u32 val)
-   265	{
- > 266		pv_pci_mmcfg_writel(val, pos);
-   267	}
-   268	#else
-   269	static inline unsigned char mmio_config_readb(void __iomem *pos)
-   270	{
-   271		return pci_mmcfg_readb(pos);
-   272	}
-   273	
+   271	
+   272	
+   273	/**
+   274	 * drm_pagemap_migrate_to_devmem() - Migrate a struct mm_struct range to device memory
+   275	 * @devmem_allocation: The device memory allocation to migrate to.
+   276	 * The caller should hold a reference to the device memory allocation,
+   277	 * and the reference is consumed by this function unless it returns with
+   278	 * an error.
+   279	 * @mm: Pointer to the struct mm_struct.
+   280	 * @start: Start of the virtual address range to migrate.
+   281	 * @end: End of the virtual address range to migrate.
+   282	 * @pgmap_owner: Not used currently, since only system memory is considered.
+   283	 *
+   284	 * This function migrates the specified virtual address range to device memory.
+   285	 * It performs the necessary setup and invokes the driver-specific operations for
+   286	 * migration to device memory. Expected to be called while holding the mmap lock in
+   287	 * at least read mode.
+   288	 *
+   289	 * Return: %0 on success, negative error code on failure.
+   290	 */
+   291	
+   292	/*
+   293	 * @range: Pointer to the GPU SVM range structure
+   294	 * @devmem_allocation: Pointer to the device memory allocation. The caller
+   295	 *                     should hold a reference to the device memory allocation,
+   296	 *                     which should be dropped via ops->devmem_release or upon
+   297	 *                     the failure of this function.
+   298	 * @ctx: GPU SVM context
+   299	 *
+   300	 * This function migrates the specified GPU SVM range to device memory. It
+   301	 * performs the necessary setup and invokes the driver-specific operations for
+   302	 * migration to device memory. Upon successful return, @devmem_allocation can
+   303	 * safely reference @range until ops->devmem_release is called which only upon
+   304	 * successful return. Expected to be called while holding the mmap lock in read
+   305	 * mode.
+   306	 *
+   307	 * Return: 0 on success, negative error code on failure.
+   308	 */
+   309	int drm_pagemap_migrate_to_devmem(struct drm_pagemap_devmem *devmem_allocation,
+   310					  struct mm_struct *mm,
+   311					  unsigned long start, unsigned long end,
+   312					  unsigned long timeslice_ms,
+   313					  void *pgmap_owner)
+ > 314	{
+   315		const struct drm_pagemap_devmem_ops *ops = devmem_allocation->ops;
+   316		struct migrate_vma migrate = {
+   317			.start		= start,
+   318			.end		= end,
+   319			.pgmap_owner	= pgmap_owner,
+   320			.flags		= MIGRATE_VMA_SELECT_SYSTEM,
+   321		};
+   322		unsigned long i, npages = npages_in_range(start, end);
+   323		struct vm_area_struct *vas;
+   324		struct drm_pagemap_zdd *zdd = NULL;
+   325		struct page **pages;
+   326		dma_addr_t *dma_addr;
+   327		void *buf;
+   328		int err;
+   329	
+   330		mmap_assert_locked(mm);
+   331	
+   332		if (!ops->populate_devmem_pfn || !ops->copy_to_devmem ||
+   333		    !ops->copy_to_ram)
+   334			return -EOPNOTSUPP;
+   335	
+   336		vas = vma_lookup(mm, start);
+   337		if (!vas) {
+   338			err = -ENOENT;
+   339			goto err_out;
+   340		}
+   341	
+   342		if (end > vas->vm_end || start < vas->vm_start) {
+   343			err = -EINVAL;
+   344			goto err_out;
+   345		}
+   346	
+   347		if (!vma_is_anonymous(vas)) {
+   348			err = -EBUSY;
+   349			goto err_out;
+   350		}
+   351	
+   352		buf = kvcalloc(npages, 2 * sizeof(*migrate.src) + sizeof(*dma_addr) +
+   353			       sizeof(*pages), GFP_KERNEL);
+   354		if (!buf) {
+   355			err = -ENOMEM;
+   356			goto err_out;
+   357		}
+   358		dma_addr = buf + (2 * sizeof(*migrate.src) * npages);
+   359		pages = buf + (2 * sizeof(*migrate.src) + sizeof(*dma_addr)) * npages;
+   360	
+   361		zdd = drm_pagemap_zdd_alloc(pgmap_owner);
+   362		if (!zdd) {
+   363			err = -ENOMEM;
+   364			goto err_free;
+   365		}
+   366	
+   367		migrate.vma = vas;
+   368		migrate.src = buf;
+   369		migrate.dst = migrate.src + npages;
+   370	
+   371		err = migrate_vma_setup(&migrate);
+   372		if (err)
+   373			goto err_free;
+   374	
+   375		if (!migrate.cpages) {
+   376			err = -EFAULT;
+   377			goto err_free;
+   378		}
+   379	
+   380		if (migrate.cpages != npages) {
+   381			err = -EBUSY;
+   382			goto err_finalize;
+   383		}
+   384	
+   385		err = ops->populate_devmem_pfn(devmem_allocation, npages, migrate.dst);
+   386		if (err)
+   387			goto err_finalize;
+   388	
+   389		err = drm_pagemap_migrate_map_pages(devmem_allocation->dev, dma_addr,
+   390						   migrate.src, npages, DMA_TO_DEVICE);
+   391		if (err)
+   392			goto err_finalize;
+   393	
+   394		for (i = 0; i < npages; ++i) {
+   395			struct page *page = pfn_to_page(migrate.dst[i]);
+   396	
+   397			pages[i] = page;
+   398			migrate.dst[i] = migrate_pfn(migrate.dst[i]);
+   399			drm_pagemap_get_devmem_page(page, zdd);
+   400		}
+   401	
+   402		err = ops->copy_to_devmem(pages, dma_addr, npages);
+   403		if (err)
+   404			goto err_finalize;
+   405	
+   406		/* Upon success bind devmem allocation to range and zdd */
+   407		devmem_allocation->timeslice_expiration = get_jiffies_64() +
+   408			msecs_to_jiffies(timeslice_ms);
+   409		zdd->devmem_allocation = devmem_allocation;	/* Owns ref */
+   410	
+   411	err_finalize:
+   412		if (err)
+   413			drm_pagemap_migration_unlock_put_pages(npages, migrate.dst);
+   414		migrate_vma_pages(&migrate);
+   415		migrate_vma_finalize(&migrate);
+   416		drm_pagemap_migrate_unmap_pages(devmem_allocation->dev, dma_addr, npages,
+   417					       DMA_TO_DEVICE);
+   418	err_free:
+   419		if (zdd)
+   420			drm_pagemap_zdd_put(zdd);
+   421		kvfree(buf);
+   422	err_out:
+   423		return err;
+   424	}
+   425	EXPORT_SYMBOL_GPL(drm_pagemap_migrate_to_devmem);
+   426	
 
 -- 
 0-DAY CI Kernel Test Service
