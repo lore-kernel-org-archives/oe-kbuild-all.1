@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D1928D8E6;
-	Wed,  4 Jun 2025 11:01:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D477225179A
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 11:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749034908; cv=none; b=UTpE47bQcFCx5oi8itP/u48LWE8PA3BjPgCxxxTrgtchQUGBK+88eS99NriQzO3EqqERnxRNyKK5nBt1i+kcEIeH0hdXLG3HHHTB4OZcR0K01x7YqxpcbS5UfwMwtWLeEeyGsKCyqu7LbpPDew3FwEfWzwSpKfcx38TOmeDTlgk=
+	t=1749036010; cv=none; b=RJgP+g4+kmQCpz6n1Ux5hP0r8FLaiAzoKXrQZ1atyM5PwlitSY2mMQfJ2cDscl0UApyJvRues5g8ITBl74/P27WmId+rCNByMzdwaqQ2u48YjW0Ewq/V7BxVoKoK7RYaEW/QNZpAdblz4hcD1Cdyw6Y/5cvYlFx7URMDfcRkaCY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749034908; c=relaxed/simple;
-	bh=ubu53MA0qQJpJ9knh2ETXZj1I5JdH8FHWFKt0Vz40l8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o9caJdmafUQIQwq+wIynUxZP+OnY8oTveMzrM7Owvmv0eb8UpqB/nt1E+9vUmf2jgIRq/CRTp1UNFMqLkbJHH9SXeWt62f3arbHWv2yn97np91nJJB0c6cMC056hbhHmJlzoUkViDaraIxgurt433lQZdwU/i0u4/xstw4aD7yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DGk1XH+R; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1749036010; c=relaxed/simple;
+	bh=YHd4xZcBCdKBN8J++MiZTkfPsgwm7PVknj53DY0Zn6A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KwO6BBz5GLIMMZA3RE2QSbcVP3jYpdb1Ik9dFjtP0lMBfhQr0lSCPxt0lbxy3EjaDeo2QRGHedYqzzHMUu59RF6AaZgqkRfqmc2+QGjNx84f40FFfoYb6sqZb20Dz37D79H/85YxzhScJ18zI4Z7NntR+4M9BTTK0eKl461QSO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=awh5mH7K; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DGk1XH+R"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="awh5mH7K"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749034907; x=1780570907;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ubu53MA0qQJpJ9knh2ETXZj1I5JdH8FHWFKt0Vz40l8=;
-  b=DGk1XH+ROq4BRNQwfD531wKCmJs4Z9oMl8Cc8YoU+IavV4dXZiWOtXA/
-   vk/suiWTOJJT8ywstWWa/61eCndHH8kWvl0wePiRY75iuidDrHypqsQsj
-   DRQZYpOFVTD0mRqHyLAzA817K16MQI8BBzHehN8wKWOp/YNhs+vtCuUoh
-   At67IhlG2F2+qPbb/kbp3CfTz42nKvc8ikSQ4czPmvJzZVDMHEFw1Hmhq
-   VonuorpBCbTxGPBlOhmF381WpRhLNrez5o2xH2Qab/Y4pDiMRfo8THeU4
-   SX3+Snu2bviZ+Gc/aHvli4ey7knH/4v+JFX5DVFtc7eA0B34yX38whX9b
+  t=1749036009; x=1780572009;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YHd4xZcBCdKBN8J++MiZTkfPsgwm7PVknj53DY0Zn6A=;
+  b=awh5mH7KAsRCPlA9PGpZ5RXLMhzx5QQMw9ZthtcOEsWrKJP0RWpZuMSU
+   ePMulO0TUYtAH0OxKDh5VJHq407J4ZDDyP8+ckLFqGfKymMTo+KD6oDnQ
+   QeKMj9UkQqsPyOZD4Itm0GqE69iRSE/BFME8d492PqHAHx50HGaTfiHtS
+   +2vt/7UA+AQUdtFBK2tckSEbp/Hi987BwxtU9TQKszpbGMRyxjv5AizjX
+   E3hsQXw+FQwijIfHkZsnzYhj8yk2FoniFQ2RHK/MpTyKz7KgTwh/W7qqw
+   pKJexur+sAUM0jhWHHcr2dv75cT7fUJbZiPdzrk6PPdNq5qCqslZ1SKML
    g==;
-X-CSE-ConnectionGUID: nFfSPmhKRMyIfgM/6Z41ng==
-X-CSE-MsgGUID: 7UWC6uyWQu6Rm6JdBI9wug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="62466525"
+X-CSE-ConnectionGUID: B6gD8UTvS7GGQHtZZd/pIQ==
+X-CSE-MsgGUID: fsEhhAPZQlKUS/FOB7MgLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="51255278"
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="62466525"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 04:01:46 -0700
-X-CSE-ConnectionGUID: j5x+btOfQge2qUoGt1jn6w==
-X-CSE-MsgGUID: 4NJtS36gR6eI1rB7XOf2YA==
+   d="scan'208";a="51255278"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 04:20:08 -0700
+X-CSE-ConnectionGUID: MC94g4S0Th6O+mli522cZA==
+X-CSE-MsgGUID: 8+xvg4u4TM+exkC+Lk/Z8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,209,1744095600"; 
-   d="scan'208";a="148991966"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 04 Jun 2025 04:01:42 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+   d="scan'208";a="176110094"
+Received: from igk-lkp-server01.igk.intel.com (HELO b69e6467d450) ([10.211.3.150])
+  by orviesa002.jf.intel.com with ESMTP; 04 Jun 2025 04:20:07 -0700
+Received: from kbuild by b69e6467d450 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uMlsH-00034P-0g;
-	Wed, 04 Jun 2025 11:01:37 +0000
-Date: Wed, 4 Jun 2025 19:00:53 +0800
+	id 1uMmA7-0001g2-2j;
+	Wed, 04 Jun 2025 11:20:03 +0000
+Date: Wed, 4 Jun 2025 19:19:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Donny Turizo <donnyturizo13@gmail.com>, gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Donny Turizo <donnyturizo13@gmail.com>
-Subject: Re: [PATCH v4] staging: rtl8723bs: Fix camelCase to snake_case style
- in core files
-Message-ID: <202506041853.5ZvDpouT-lkp@intel.com>
-References: <20250525064426.9662-1-donnyturizo13@gmail.com>
+To: Shahab Vahedi <shahab@synopsys.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-snps-arc@lists.infradead.org,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: arch/arc/net/bpf_jit_arcv2.c:2236:3: error: label at end of compound
+ statement
+Message-ID: <202506041921.lFErMU6Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,123 +63,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250525064426.9662-1-donnyturizo13@gmail.com>
 
-Hi Donny,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on staging/staging-testing]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Donny-Turizo/staging-rtl8723bs-Fix-camelCase-to-snake_case-style-in-core-files/20250525-144506
-base:   staging/staging-testing
-patch link:    https://lore.kernel.org/r/20250525064426.9662-1-donnyturizo13%40gmail.com
-patch subject: [PATCH v4] staging: rtl8723bs: Fix camelCase to snake_case style in core files
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250604/202506041853.5ZvDpouT-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506041853.5ZvDpouT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5abc7438f1e9d62e91ad775cc83c9594c48d2282
+commit: f122668ddcce450c2585f0be4bf4478d6fd6176b ARC: Add eBPF JIT support
+date:   1 year, 1 month ago
+config: arc-randconfig-2005-20250604 (https://download.01.org/0day-ci/archive/20250604/202506041921.lFErMU6Q-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506041921.lFErMU6Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506041853.5ZvDpouT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506041921.lFErMU6Q-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/staging/rtl8723bs/include/drv_types.h:29,
-                    from drivers/staging/rtl8723bs/core/rtw_cmd.c:7:
->> drivers/staging/rtl8723bs/core/rtw_cmd.c:12:23: error: '_read_macreg_CMD_' undeclared here (not in a function); did you mean '_Read_MACREG_CMD_'?
-      12 |         {GEN_CMD_CODE(_read_macreg), NULL}, /*0*/
-         |                       ^~~~~~~~~~~~
-   drivers/staging/rtl8723bs/include/rtw_cmd.h:554:33: note: in definition of macro 'GEN_CMD_CODE'
-     554 | #define GEN_CMD_CODE(cmd)       cmd ## _CMD_
-         |                                 ^~~
->> drivers/staging/rtl8723bs/core/rtw_cmd.c:13:23: error: '_write_macreg_CMD_' undeclared here (not in a function); did you mean '_Write_MACREG_CMD_'?
-      13 |         {GEN_CMD_CODE(_write_macreg), NULL},
-         |                       ^~~~~~~~~~~~~
-   drivers/staging/rtl8723bs/include/rtw_cmd.h:554:33: note: in definition of macro 'GEN_CMD_CODE'
-     554 | #define GEN_CMD_CODE(cmd)       cmd ## _CMD_
-         |                                 ^~~
+   arch/arc/net/bpf_jit_arcv2.c: In function 'gen_swap':
+>> arch/arc/net/bpf_jit_arcv2.c:2236:3: error: label at end of compound statement
+      default:
+      ^~~~~~~
+   arch/arc/net/bpf_jit_arcv2.c:2254:3: error: label at end of compound statement
+      default:
+      ^~~~~~~
+   arch/arc/net/bpf_jit_arcv2.c: In function 'gen_jmp_64':
+   arch/arc/net/bpf_jit_arcv2.c:2867:2: error: label at end of compound statement
+     default:
+     ^~~~~~~
+--
+   {standard input}: Assembler messages:
+>> {standard input}:32583: Error: flag mismatch for instruction 'mpyd'
 
 
-vim +12 drivers/staging/rtl8723bs/core/rtw_cmd.c
+vim +2236 arch/arc/net/bpf_jit_arcv2.c
 
-    10	
-    11	static struct _cmd_callback rtw_cmd_callback[] = {
-  > 12		{GEN_CMD_CODE(_read_macreg), NULL}, /*0*/
-  > 13		{GEN_CMD_CODE(_write_macreg), NULL},
-    14		{GEN_CMD_CODE(_Read_BBREG), &rtw_getbbrfreg_cmdrsp_callback},
-    15		{GEN_CMD_CODE(_Write_BBREG), NULL},
-    16		{GEN_CMD_CODE(_Read_RFREG), &rtw_getbbrfreg_cmdrsp_callback},
-    17		{GEN_CMD_CODE(_Write_RFREG), NULL}, /*5*/
-    18		{GEN_CMD_CODE(_Read_EEPROM), NULL},
-    19		{GEN_CMD_CODE(_Write_EEPROM), NULL},
-    20		{GEN_CMD_CODE(_Read_EFUSE), NULL},
-    21		{GEN_CMD_CODE(_Write_EFUSE), NULL},
-    22	
-    23		{GEN_CMD_CODE(_Read_CAM),	NULL},	/*10*/
-    24		{GEN_CMD_CODE(_Write_CAM),	 NULL},
-    25		{GEN_CMD_CODE(_setBCNITV), NULL},
-    26		{GEN_CMD_CODE(_setMBIDCFG), NULL},
-    27		{GEN_CMD_CODE(_JoinBss), &rtw_joinbss_cmd_callback},  /*14*/
-    28		{GEN_CMD_CODE(_DisConnect), &rtw_disassoc_cmd_callback}, /*15*/
-    29		{GEN_CMD_CODE(_CreateBss), &rtw_createbss_cmd_callback},
-    30		{GEN_CMD_CODE(_SetOpMode), NULL},
-    31		{GEN_CMD_CODE(_SiteSurvey), &rtw_survey_cmd_callback}, /*18*/
-    32		{GEN_CMD_CODE(_SetAuth), NULL},
-    33	
-    34		{GEN_CMD_CODE(_SetKey), NULL},	/*20*/
-    35		{GEN_CMD_CODE(_SetStaKey), &rtw_setstaKey_cmdrsp_callback},
-    36		{GEN_CMD_CODE(_SetAssocSta), &rtw_setassocsta_cmdrsp_callback},
-    37		{GEN_CMD_CODE(_DelAssocSta), NULL},
-    38		{GEN_CMD_CODE(_SetStaPwrState), NULL},
-    39		{GEN_CMD_CODE(_SetBasicRate), NULL}, /*25*/
-    40		{GEN_CMD_CODE(_GetBasicRate), NULL},
-    41		{GEN_CMD_CODE(_SetDataRate), NULL},
-    42		{GEN_CMD_CODE(_GetDataRate), NULL},
-    43		{GEN_CMD_CODE(_SetPhyInfo), NULL},
-    44	
-    45		{GEN_CMD_CODE(_GetPhyInfo), NULL}, /*30*/
-    46		{GEN_CMD_CODE(_SetPhy), NULL},
-    47		{GEN_CMD_CODE(_GetPhy), NULL},
-    48		{GEN_CMD_CODE(_readRssi), NULL},
-    49		{GEN_CMD_CODE(_readGain), NULL},
-    50		{GEN_CMD_CODE(_SetAtim), NULL}, /*35*/
-    51		{GEN_CMD_CODE(_SetPwrMode), NULL},
-    52		{GEN_CMD_CODE(_JoinbssRpt), NULL},
-    53		{GEN_CMD_CODE(_SetRaTable), NULL},
-    54		{GEN_CMD_CODE(_GetRaTable), NULL},
-    55	
-    56		{GEN_CMD_CODE(_GetCCXReport), NULL}, /*40*/
-    57		{GEN_CMD_CODE(_GetDTMReport),	NULL},
-    58		{GEN_CMD_CODE(_GetTXRateStatistics), NULL},
-    59		{GEN_CMD_CODE(_SetUsbSuspend), NULL},
-    60		{GEN_CMD_CODE(_SetH2cLbk), NULL},
-    61		{GEN_CMD_CODE(_AddBAReq), NULL}, /*45*/
-    62		{GEN_CMD_CODE(_SetChannel), NULL},		/*46*/
-    63		{GEN_CMD_CODE(_SetTxPower), NULL},
-    64		{GEN_CMD_CODE(_SwitchAntenna), NULL},
-    65		{GEN_CMD_CODE(_SetCrystalCap), NULL},
-    66		{GEN_CMD_CODE(_SetSingleCarrierTx), NULL},	/*50*/
-    67	
-    68		{GEN_CMD_CODE(_SetSingleToneTx), NULL}, /*51*/
-    69		{GEN_CMD_CODE(_SetCarrierSuppressionTx), NULL},
-    70		{GEN_CMD_CODE(_SetContinuousTx), NULL},
-    71		{GEN_CMD_CODE(_SwitchBandwidth), NULL},		/*54*/
-    72		{GEN_CMD_CODE(_TX_Beacon), NULL},/*55*/
-    73	
-    74		{GEN_CMD_CODE(_Set_MLME_EVT), NULL},/*56*/
-    75		{GEN_CMD_CODE(_Set_Drv_Extra), NULL},/*57*/
-    76		{GEN_CMD_CODE(_Set_H2C_MSG), NULL},/*58*/
-    77		{GEN_CMD_CODE(_SetChannelPlan), NULL},/*59*/
-    78	
-    79		{GEN_CMD_CODE(_SetChannelSwitch), NULL},/*60*/
-    80		{GEN_CMD_CODE(_TDLS), NULL},/*61*/
-    81		{GEN_CMD_CODE(_ChkBMCSleepq), NULL}, /*62*/
-    82	
-    83		{GEN_CMD_CODE(_RunInThreadCMD), NULL},/*63*/
-    84	};
-    85	
+  2199	
+  2200	u8 gen_swap(u8 *buf, u8 rd, u8 size, u8 endian, bool force, bool do_zext)
+  2201	{
+  2202		u8 len = 0;
+  2203	#ifdef __BIG_ENDIAN
+  2204		const u8 host_endian = BPF_FROM_BE;
+  2205	#else
+  2206		const u8 host_endian = BPF_FROM_LE;
+  2207	#endif
+  2208		if (host_endian != endian || force) {
+  2209			switch (size) {
+  2210			case 16:
+  2211				/*
+  2212				 * r = B4B3_B2B1 << 16 --> r = B2B1_0000
+  2213				 * then, swape(r) would become the desired 0000_B1B2
+  2214				 */
+  2215				len = arc_asli_r(buf, REG_LO(rd), REG_LO(rd), 16);
+  2216				fallthrough;
+  2217			case 32:
+  2218				len += arc_swape_r(BUF(buf, len), REG_LO(rd));
+  2219				if (do_zext)
+  2220					len += zext(BUF(buf, len), rd);
+  2221				break;
+  2222			case 64:
+  2223				/*
+  2224				 * swap "hi" and "lo":
+  2225				 *   hi ^= lo;
+  2226				 *   lo ^= hi;
+  2227				 *   hi ^= lo;
+  2228				 * and then swap the bytes in "hi" and "lo".
+  2229				 */
+  2230				len  = arc_xor_r(buf, REG_HI(rd), REG_LO(rd));
+  2231				len += arc_xor_r(BUF(buf, len), REG_LO(rd), REG_HI(rd));
+  2232				len += arc_xor_r(BUF(buf, len), REG_HI(rd), REG_LO(rd));
+  2233				len += arc_swape_r(BUF(buf, len), REG_LO(rd));
+  2234				len += arc_swape_r(BUF(buf, len), REG_HI(rd));
+  2235				break;
+> 2236			default:
+  2237				/* The caller must have handled this. */
+  2238			}
+  2239		} else {
+  2240			/*
+  2241			 * If the same endianness, there's not much to do other
+  2242			 * than zeroing out the upper bytes based on the "size".
+  2243			 */
+  2244			switch (size) {
+  2245			case 16:
+  2246				len = arc_and_i(buf, REG_LO(rd), 0xffff);
+  2247				fallthrough;
+  2248			case 32:
+  2249				if (do_zext)
+  2250					len += zext(BUF(buf, len), rd);
+  2251				break;
+  2252			case 64:
+  2253				break;
+  2254			default:
+  2255				/* The caller must have handled this. */
+  2256			}
+  2257		}
+  2258	
+  2259		return len;
+  2260	}
+  2261	
 
 -- 
 0-DAY CI Kernel Test Service
