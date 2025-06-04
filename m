@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA2819C54B
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 08:40:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57781DAC92;
+	Wed,  4 Jun 2025 09:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749026430; cv=none; b=I4wkt8ccr+H59aJGPzyNpHg9l2i49xv9tHBs5DeYOGRuQx2nAqMKYVBW9FyLmTn/WhYyQnKPWFZHPBSZM/HYEezk6EARz4vyQagqVq4Ekjt/Xte2z8/qiaebw5Sj5ZM6amsH4zyKmPi4OkGiJwG1s00JWFr6nb3GTEbhU7RgMzE=
+	t=1749028595; cv=none; b=ESn2B74wp2ID/QnzUUDPoh+07Q2Vd9+sSHNd7Ubw1JR4vGgB7yejHlygtWAzW9kZcXOiDvQdA+omYaWfWz3fBfxYOcX0a2aJ//oEQLl8bFxo/wajLU+pwpdOVkZeGYXSDIltpisD4k13jlV9K8mcz3DUWT5pa27ghMcOtEJZ3ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749026430; c=relaxed/simple;
-	bh=NHKIPyEaUitsfg3AYCpS1mHs3viY7nXDxynPhZrTwRo=;
+	s=arc-20240116; t=1749028595; c=relaxed/simple;
+	bh=096kVDdxg1bt3pvxSu/GiFwko2Wx0gFgiiIeigTZ2P8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BUnu0cltwxON4DKvQunR/Ntpl+Kze5JAwWOA1ldMzxSLR8GZNbHeX4PE5AwhKNOx+2prDJ2RYYPl7HA4WiNBLs5nEUX55zKZcpSgRTm+y29KnF8EoskoQQqjoN4HgOlHnE0dwOg6KtE7EmZkUqEfF5/D6w2Rzfqjp258D7psS7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7LyoE/q; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=tdYxhAuDFUwlFEJ2gdoBaYL+RCnH/TxVsE/Epo7rdbe191h0uQQnFyTkmBns9BBiiLet4+ljTo9a/kG21TUy4m82iRHo/UFlHT7ySXI9JLzNqTteOrnmUrYx8sufDOxvglsY2A9oFVMfVjQOBBpV3nIk9Mn6WzMF5PhFJ0ezC2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JBolSfK2; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7LyoE/q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JBolSfK2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749026429; x=1780562429;
+  t=1749028594; x=1780564594;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NHKIPyEaUitsfg3AYCpS1mHs3viY7nXDxynPhZrTwRo=;
-  b=N7LyoE/qffwnO+cucMHLB/kzNFlYClL1DEMa2Lok41xO1zLvcBaMrfZj
-   hPv0T2vw2+HpPARJua2iaMpDndNdZhZcQsiNWPvmT3ax3jC4CkFnz86sK
-   /g9ccLaXgyzWWmzmG/M4t9ICa2PwDXDf3alCJDvene6Dkrz6LABuaD1N3
-   KpGKuWkig39PsvLvMH5gwcN8pDGUXC9QlXUKGwZb+f+GdB+9l5zGDnVlJ
-   5tRxsxRDs/gIUJNtpJMkbHpkT48Kf+LmdonYy5cT3xuSDb/8KxnoZVYsz
-   5jcOyGJLzoBOeDKtRB3hX4fa0gHn/NxSEMCSicoP97foCU/4bsEuPngxu
+  bh=096kVDdxg1bt3pvxSu/GiFwko2Wx0gFgiiIeigTZ2P8=;
+  b=JBolSfK2vLoJgV+sdh/w/w1gdq9UPsTBTS/kzfyekDLRkOxTTuBGGZ86
+   YeQ/u1XTFraTXbD9KOTlVFlid+TChNhOKsRY1S6P0VScYY/rlPKQN/SKv
+   Lc0fqT2F80xI9NkLeCrVFtRIE2NDbNpKRy8KoRoQrkL1TA4p3P3DvApCM
+   0v6v0YZWQyAM0bMfIixhsSEUWsxZfMIWjgXL8IFlbKbE0leYuh7pXAOwn
+   RXji3lhAiZKAsegc2PfJatUJuNRIl44DPk9dvYvH2CprLbIFgym7xVLnT
+   Ik7q0HfKP+mRUZBDzBYXWd6jZB/JazmbZ/8Oav7YzCCD3QMnsxHEAhZei
    Q==;
-X-CSE-ConnectionGUID: j6mvZkMiQ66DaB0rDMwdCQ==
-X-CSE-MsgGUID: snQJyAPwRHKmlonEr9fy6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="51168692"
+X-CSE-ConnectionGUID: iRiu4kFKQXKt/gxO6nOYCA==
+X-CSE-MsgGUID: kObITDS9Rhq4DN9ZbhCebw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11453"; a="68652928"
 X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; 
-   d="scan'208";a="51168692"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 01:40:28 -0700
-X-CSE-ConnectionGUID: uqN5wJ+PRsmnV9O+IQBAdw==
-X-CSE-MsgGUID: f9mXH6ZXSMSOIbU8GPvgOw==
+   d="scan'208";a="68652928"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 02:16:33 -0700
+X-CSE-ConnectionGUID: ck5TeUIyTcK9LNO3BH9VWg==
+X-CSE-MsgGUID: MIUcF7U2TEyL3Uf9HDe2LA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,208,1744095600"; 
-   d="scan'208";a="150401773"
+   d="scan'208";a="182302295"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 04 Jun 2025 01:40:28 -0700
+  by orviesa001.jf.intel.com with ESMTP; 04 Jun 2025 02:16:32 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uMjfd-0002zR-21;
-	Wed, 04 Jun 2025 08:40:25 +0000
-Date: Wed, 4 Jun 2025 16:39:35 +0800
+	id 1uMkEW-00030f-2k;
+	Wed, 04 Jun 2025 09:16:28 +0000
+Date: Wed, 4 Jun 2025 17:16:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/vdso-ptp 34/35] timekeeping.c:undefined
- reference to `update_vsyscall_aux'
-Message-ID: <202506041615.ziY930EF-lkp@intel.com>
+To: Roman Kisel <romank@linux.microsoft.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Wei Liu <wei.liu@kernel.org>,
+	Michael Kelley <mhklinux@outlook.com>
+Subject: error: <unknown>:0:0: ran out of registers during register
+ allocation in function 'hv_apicid_to_vp_index'
+Message-ID: <202506041747.095KSALN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,22 +64,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-ptp
-head:   ac543b3745ca8bb8a5e860d52ecbb272fc5607e6
-commit: 50335cb2ba9c55319375e3db7020b79989e50a82 [34/35] vdso: Add support for auxiliary clocks
-config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250604/202506041615.ziY930EF-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506041615.ziY930EF-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   5abc7438f1e9d62e91ad775cc83c9594c48d2282
+commit: 86c48271e0d60c82665e9fd61277002391efcef7 x86/hyperv: Fix APIC ID and VP index confusion in hv_snp_boot_ap()
+date:   12 days ago
+config: i386-buildonly-randconfig-001-20250604 (https://download.01.org/0day-ci/archive/20250604/202506041747.095KSALN-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250604/202506041747.095KSALN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506041615.ziY930EF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506041747.095KSALN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   sparc64-linux-ld: kernel/time/timekeeping.o: in function `timekeeping_update_from_shadow':
->> timekeeping.c:(.text+0x10d0): undefined reference to `update_vsyscall_aux'
+>> error: <unknown>:0:0: ran out of registers during register allocation in function 'hv_apicid_to_vp_index'
+   1 error generated.
 
 -- 
 0-DAY CI Kernel Test Service
