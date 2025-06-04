@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4001FECBD
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 21:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E8B517C224
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  4 Jun 2025 22:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749071259; cv=none; b=mPAx6+NO4uueFnyTeC7YsKocWAW3ap7+sEBdwtJ8L8lwPxPy2uvPKuHePh4m2jivCJLwUEkXUIdkhsfCsp2cQrmfsJm0is7MyGE3UGCnoelMYQllEAdqVUJswr70PeSy8iTnG//UNYCfuNaSuygbvBABtkEVBjNnhR39Vz+VLcc=
+	t=1749076183; cv=none; b=nKfDOcEVKejuJ/RDpdBq+xIdN6C47kIrqzx27KO1BWIs5xQVacDTPNkOiK0LGoSsiSTtz+buqhKgr597IKGKog/Y2/PnrLJBdPui6hnOKt+J/duTfsTcLwkUJ8YIc0zR2RllG3jVPsNz9eJBb3sl5th6/VNjPcVk7f0HN+qgTaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749071259; c=relaxed/simple;
-	bh=+aP6EC+eEY6gI1jwkX7gm1sYMGLTGh0R2J82KxeSTFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KeInYW2RXf3d2CnZ8+vmJ3OLhqk1UFDWAFHKN4bVehLVfAfqEYzDGARRy0i78ZF8DoWN68FFiJilomnWF5DEhqLcXhw+ywX21bB8pk4wUt31CS1rJCAJvbOCloZnYUSozR+K8qpVYm8i1xoGN9EgWwSrOjdSDmVLZ5LQqbWqEAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iQWn6HVj; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1749076183; c=relaxed/simple;
+	bh=WF0JE8yj4h2OwfDxMFiYmoB3MnLv2foJVqtpM4qIppI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GD1MXrAAL1sZHLAmkzekpW8PvHfOlDmdni4wjOeWeOOzl/C4vIO3nvcJuGSTf+wttVrwRq6upSKLfpQsu4JQU6pX78FF6iv6GnIFbkgHnesygusl/60/GonV6qGhkpuSPLVV3dGmkzp2SOMgbla+Vf/JZ9BC1+xrjE3EweJWCeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YikV50hw; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iQWn6HVj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YikV50hw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749071258; x=1780607258;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+aP6EC+eEY6gI1jwkX7gm1sYMGLTGh0R2J82KxeSTFA=;
-  b=iQWn6HVjHeQ8XVGTty6Vz3qOFZDZ6irw3zozfgrwNjFPqs9kdJnX9wRn
-   GFPh8iPyy2n8B0so8F5ZPY/02l56cjZhWWOGW9yxiGjYHyYA7CzfsKn9U
-   liOpcNdJPD8Vxgopaqnr8Mpik+Z5Fu+G6Fx4guYR/VLyWHAbaemJCAMwA
-   WbmKKGXslmBoComEJK3YWZ+Bl9hwWPZoRtFlvpq+I/7/OHVViwpQ7VkuE
-   sV2/kevtBAu1o/B67HcLGT7jJzSHXrERZUdY9o61932BSFBVd5zv/VQtN
-   9JP1KhbCwJokDPVXLqBamJKpSDERNzO79Cwgp7C9nITxjlfP4lThkpkcl
+  t=1749076182; x=1780612182;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WF0JE8yj4h2OwfDxMFiYmoB3MnLv2foJVqtpM4qIppI=;
+  b=YikV50hwaYnGR1KNGfI10ZG7y/xcJAzJdARRkOGYFLGjRSA+Q2VGNNkK
+   pzMhh3YOAry/nlj/xVTasRJRAt4YQMk8SC5jcli1D59sxjH4xoWQ2JzJR
+   E/xZBQaxolwIYi/QKT0TThWbedMvj+xDl5ZO+oCcZQzT31fHYaQlJPZpP
+   FFUENina2E72koeKQI/86BFpw2q+A8v6IH7+/PNejVepltshdkYPBEuPH
+   YKJlI0prsMrLy7jjjDDVoTz/Zp1C3Z7td6+9tzQ9anBh3ebg/SS/cDIoE
+   Jp5QRJq6FhcFD+lGH/XdOum/2HTsqJrEX12szyA6fxz7HzB0Oxwi4Aw6R
    A==;
-X-CSE-ConnectionGUID: zlOx62FSRlK9b/C+38vHKA==
-X-CSE-MsgGUID: Uh6VoymdSAOUJjwt5MUFeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="76570947"
+X-CSE-ConnectionGUID: ilVVHePURE62MCdQa4DIaQ==
+X-CSE-MsgGUID: wAlHoKn/Q0+pcEoaE2F3Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="50872414"
 X-IronPort-AV: E=Sophos;i="6.16,210,1744095600"; 
-   d="scan'208";a="76570947"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 14:07:38 -0700
-X-CSE-ConnectionGUID: wCp201vdQNiWO75VYWMwbQ==
-X-CSE-MsgGUID: ltuljgd3Q3qquYusvlTWbw==
+   d="scan'208";a="50872414"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 15:29:42 -0700
+X-CSE-ConnectionGUID: +ER+Imc0SBO0fQBbmsNbcA==
+X-CSE-MsgGUID: uRPsvi5UTsqEhnCKD2g8Nw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,210,1744095600"; 
-   d="scan'208";a="145895723"
+   d="scan'208";a="145802763"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 04 Jun 2025 14:07:35 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 04 Jun 2025 15:29:40 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uMvKe-0003TR-0N;
-	Wed, 04 Jun 2025 21:07:32 +0000
-Date: Thu, 5 Jun 2025 05:06:58 +0800
+	id 1uMwc6-0003Vv-0z;
+	Wed, 04 Jun 2025 22:29:38 +0000
+Date: Thu, 5 Jun 2025 06:29:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	dri-devel@lists.freedesktop.org, himal.prasad.ghimiray@intel.com,
-	apopple@nvidia.com, airlied@gmail.com,
-	Simona Vetter <simona.vetter@ffwll.ch>, felix.kuehling@amd.com,
-	Matthew Brost <matthew.brost@intel.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	dakr@kernel.org, "Mrozek, Michal" <michal.mrozek@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Subject: Re: [PATCH v2 2/3] drm/pagemap: Add a populate_mm op
-Message-ID: <202506050405.9sHdzAlO-lkp@intel.com>
-References: <20250604093536.95982-3-thomas.hellstrom@linux.intel.com>
+To: kernel@openeuler.org, yangxiangkai <yangxiangkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2357/2357]
+ arch/arm64/kernel/virtcca_cvm_guest.c:20:1: sparse: sparse: symbol
+ 'cvm_tsi_present' was not declared. Should it be static?
+Message-ID: <202506050630.B3psnujg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,66 +62,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250604093536.95982-3-thomas.hellstrom@linux.intel.com>
 
-Hi Thomas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-xe/drm-xe-next]
-[also build test ERROR on next-20250604]
-[cannot apply to linus/master v6.15]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-gpusvm-drm-pagemap-Move-migration-functionality-to-drm_pagemap/20250604-173757
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250604093536.95982-3-thomas.hellstrom%40linux.intel.com
-patch subject: [PATCH v2 2/3] drm/pagemap: Add a populate_mm op
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250605/202506050405.9sHdzAlO-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250605/202506050405.9sHdzAlO-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   a9e6ec001662a376522f36604dfec47c30530549
+commit: 721f4ea899ff2ab4e3283767cf125dc5952c1d15 [2357/2357] cvm_tsi: add support virtcca attestation
+config: arm64-randconfig-r123-20250605 (https://download.01.org/0day-ci/archive/20250605/202506050630.B3psnujg-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250605/202506050630.B3psnujg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506050405.9sHdzAlO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506050630.B3psnujg-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
-   drivers/gpu/drm/drm_pagemap.c:315: warning: Function parameter or struct member 'timeslice_ms' not described in 'drm_pagemap_migrate_to_devmem'
->> drivers/gpu/drm/drm_pagemap.c:833: warning: Function parameter or struct member 'timeslice_ms' not described in 'drm_pagemap_populate_mm'
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kernel/virtcca_cvm_guest.c:20:1: sparse: sparse: symbol 'cvm_tsi_present' was not declared. Should it be static?
 --
-   loongarch64-linux-ld: arch/loongarch/kernel/head.o: relocation R_LARCH_B26 overflow 0xffffffffef55fa70
-   arch/loongarch/kernel/head.o: in function `smpboot_entry':
->> (.ref.text+0x160): relocation truncated to fit: R_LARCH_B26 against symbol `start_secondary' defined in .text section in arch/loongarch/kernel/smp.o
-   loongarch64-linux-ld: final link failed: bad value
+>> arch/arm64/kernel/virtcca_cvm_tsi.c:79:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct virtcca_cvm_tsi_version [noderef] __user *arg @@     got struct virtcca_cvm_tsi_version * @@
+   arch/arm64/kernel/virtcca_cvm_tsi.c:79:44: sparse:     expected struct virtcca_cvm_tsi_version [noderef] __user *arg
+   arch/arm64/kernel/virtcca_cvm_tsi.c:79:44: sparse:     got struct virtcca_cvm_tsi_version *
+>> arch/arm64/kernel/virtcca_cvm_tsi.c:82:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct virtcca_cvm_attestation_cmd [noderef] __user *arg @@     got struct virtcca_cvm_attestation_cmd * @@
+   arch/arm64/kernel/virtcca_cvm_tsi.c:82:50: sparse:     expected struct virtcca_cvm_attestation_cmd [noderef] __user *arg
+   arch/arm64/kernel/virtcca_cvm_tsi.c:82:50: sparse:     got struct virtcca_cvm_attestation_cmd *
+>> arch/arm64/kernel/virtcca_cvm_tsi.c:85:44: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct virtcca_device_cert [noderef] __user *arg @@     got struct virtcca_device_cert * @@
+   arch/arm64/kernel/virtcca_cvm_tsi.c:85:44: sparse:     expected struct virtcca_device_cert [noderef] __user *arg
+   arch/arm64/kernel/virtcca_cvm_tsi.c:85:44: sparse:     got struct virtcca_device_cert *
 
+vim +/cvm_tsi_present +20 arch/arm64/kernel/virtcca_cvm_guest.c
 
-vim +833 drivers/gpu/drm/drm_pagemap.c
-
-   813	
-   814	/**
-   815	 * drm_pagemap_populate_mm() - Populate a virtual range with device memory pages
-   816	 * @dpagemap: Pointer to the drm_pagemap managing the device memory
-   817	 * @start: Start of the virtual range to populate.
-   818	 * @end: End of the virtual range to populate.
-   819	 * @mm: Pointer to the virtual address space.
-   820	 *
-   821	 * Attempt to populate a virtual range with device memory pages,
-   822	 * clearing them or migrating data from the existing pages if necessary.
-   823	 * The function is best effort only, and implementations may vary
-   824	 * in how hard they try to satisfy the request.
-   825	 *
-   826	 * Return: 0 on success, negative error code on error. If the hardware
-   827	 * device was removed / unbound the function will return -ENODEV;
-   828	 */
-   829	int drm_pagemap_populate_mm(struct drm_pagemap *dpagemap,
-   830				    unsigned long start, unsigned long end,
-   831				    struct mm_struct *mm,
-   832				    unsigned long timeslice_ms)
- > 833	{
+    18	
+    19	static bool cvm_guest_enable __read_mostly;
+  > 20	DEFINE_STATIC_KEY_FALSE_RO(cvm_tsi_present);
+    21	
 
 -- 
 0-DAY CI Kernel Test Service
