@@ -1,130 +1,129 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F471C6FF5
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Jun 2025 04:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965101C6FF5
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Jun 2025 04:58:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749099140; cv=none; b=Mb0nzs2/X407rgDHpAuOlX8wGoP/6KJEX7YZsoB7Jym52Avgwa2Z4WjknF2H9I0Km3ln4509sgQsZ/DPxET2Unt65ydQY07jtyFCv8CFNJXYTlmeTirtCZYyBtMT1kxjxoF+eUvB/fSvVNBL7tFmD/KsnWn3DHsuFAzvHkEhFGc=
+	t=1749099525; cv=none; b=SKG22MvkUvky1/54PQdh79n5Kqt3fnDI9H+V9xwi1fScusdkMqu5UnaAT2kox16rwDfAcAEZo3z9jRtlgzk6EWwPFdKYIQ1K3puhE8W5zpaNR3TacOsyJ3N+HusvBPM/GsruT82srsLFoVXHqd0mN3y4R7b4Uw8WVrjfz7im0P0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749099140; c=relaxed/simple;
-	bh=MFSK2xAoqx42bHAOTCjrpXBnNyFznmATG9aiyJFU/tA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=E+3lFhKYBk+CXdMIJDt/YfZfWOxiSYuB4DsfwFUstPCWm/28YQvCsj48sH4NAeHLLWC9TUlskasjQV2Bllo/gOYnv9BnCE/HHBTR8Pg7L/bB22Q439uplUo2J9kPW4J0NJoYiu68Ug8mtXuM0xXteqwX5B8kZ67kzcIzBnfhpJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xq7qRI0P; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1749099525; c=relaxed/simple;
+	bh=fj8LN2mnDTFOZh3iwWAWyaW+xepnuETuw152jVEjAs8=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=ah7nPq8tgXEzl92X1WJQNahs/Jw0diAnNr+y9Lo6DJQeBLaQngDo8s1mXOi9cPzYIv1LyXUkHc8ubm5zcEGFZZUrY+SLBANJTPBM3VO3xQdDlu+3yRSYxUO0A6DAY6V4UwzozuyIktnZItkXwjLrfxTMhLOT7TZpgJmSs6zRvDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TyqMyUNE; arc=none smtp.client-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xq7qRI0P"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749099138; x=1780635138;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MFSK2xAoqx42bHAOTCjrpXBnNyFznmATG9aiyJFU/tA=;
-  b=Xq7qRI0PrMdPCXr7YtWCBK7OpcyPQb1QXk7USchzuKP45TtLYOKhrvNM
-   utOYzVq2ZgX64EjcpR/8L+iYE1tc7zzeFfZ3wdxHF4nekQGqUCqFoYwSq
-   2CqC4ROGbrZMPKb96OdFNvD+g2JLa8wTQhU7CmSEtS701VUhMvgOoL2Vo
-   3LluM5NL4UAZTzRnzm3EXJ02RaynZci08GKVKBMJvqCQfhKjF46iGAb1a
-   ptb6aKdQGufuaIaZLTzc4FD+64c+lwYkLJntixdFdjgwON+JLREAg4bRU
-   2yAyl31LtQBQj7clJPXDfdEDm1PnpFWyMlciodvtiPUy04OLybDhiv6qU
-   w==;
-X-CSE-ConnectionGUID: hLj26GDCQKiw0p6dOQVRAQ==
-X-CSE-MsgGUID: OCpjkA/SQuS/mJP5Vxy1Og==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="54864885"
-X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
-   d="scan'208";a="54864885"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 21:52:15 -0700
-X-CSE-ConnectionGUID: 6c1NXbj9SS2Q7+myXYPtzw==
-X-CSE-MsgGUID: wZBD59maQh29jYDlkKffKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
-   d="scan'208";a="176266702"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Jun 2025 21:52:13 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uN2aJ-0003jN-1t;
-	Thu, 05 Jun 2025 04:52:11 +0000
-Date: Thu, 5 Jun 2025 12:51:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Ze Zuo <zuoze1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2357/2357] mm/mem_sampling.c:293:1: sparse:
- sparse: symbol 'mm_damon_mem_sampling' was not declared. Should it be
- static?
-Message-ID: <202506051214.xnjA9eFd-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TyqMyUNE"
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-72c14138668so108930a34.2
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 04 Jun 2025 21:58:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749099522; x=1749704322; darn=lists.linux.dev;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=mgFmUpaLbu3snZc7ueu/9kJ5IZgsr4RcaPHlBaXrARo=;
+        b=TyqMyUNE0d0tzGNqQh3gc4rppQ+zHlT6CXQDwuD0UEVuNco4qhW9nxPQszj0unpQTQ
+         +iO1DJCOJ7v+L9qumV4O8iZWz1F9y+HtcF8pPofe3rx45iXR8mmCQDMlfc4n/jrBlpMg
+         PYErvOMX/5+ugGiOk/d7qSKJ9ThjpghupvGieyWz45G74S+nt9R5ZDV3s4Amgfc5tSgp
+         ++BNMfMfXp2ymsXyThz9oY5dPn3Em5mRRpn2n/vpuo1uoN8dymVvx+/V9K8Ek3YYfAl2
+         qw+QBYTM18HP63yOfKSZajbK+oCp0rMtT6vNc3ajlqB6jRsK9mU4UES/HRod27fXs6DD
+         qXrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749099522; x=1749704322;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=mgFmUpaLbu3snZc7ueu/9kJ5IZgsr4RcaPHlBaXrARo=;
+        b=db0M1ErybPOHxJzOQ05yA25JRDj1S7LCJfoFHrr0m4PLI3mYhve99hZr/O6MunCLFs
+         wJNaVKZqn27hFF49NIjWIcdkU1Jgt0Je6cJKN0NrrWbNYzI/DhVck7v+vgSNT2/Y6aRt
+         2m6UPkTW2eg/58wguNnH3DmzGT/vdVoVIYF+FJ7Io3Vn42DcvqHARakJDEy/h6Yl+Ao/
+         cgS0T7xWXqMqTo/Qa9vYNHhT3EmlZfQEBr9XBcFRSauSjwsyH6E+Q6iOunTbrDkKe/Wy
+         +pZ5WiTyf8zO2x9mPd5kFfmxyA3GW/gUq9iV+BCfjXiM+CCbI+oLkxu6ExFi5J2zicZW
+         K+9w==
+X-Gm-Message-State: AOJu0Yyksbbze4uqx/ezjj1TKgjUGbK31ZjxQN56W7ilJAb70655+Cgh
+	ZGvbS8OsUCO/5QUISjpCynGdWq9moIo+LqwU8fGK7gOyADgBnJwK9B4sMHQBZeOZUIgADO8quc5
+	R6Aj/GtNF4SpUWhwGQdfccLALgAfOsladPXum
+X-Gm-Gg: ASbGncsUKL+BAkKmJSgQBEujd6uNiN6XeeDuk4ka3gb72w9v3ilUav9PAHGfq6S/dzG
+	iF7xkXX22uPnfjlUBqJcseSu+OpkrVUsQazCYZxYZSym55yrSrf/NO8WAiv8DV/ogQNz+ObbfGo
+	XknlO0/pACW0OCmtz6uSSBNaKdTpYeP0T3xl4IVrb+x8w=
+X-Google-Smtp-Source: AGHT+IFEfTXJ5e75ntmfbcYnYYqep4tOS3BwKVJjPSL04zyI02ZPinmGebXlFDrBJDJCkOMXQ5wn/Tibnoa9Ej1WZCo=
+X-Received: by 2002:a05:6871:4084:b0:2e9:b6:2edd with SMTP id
+ 586e51a60fabf-2e9bf5d3407mr3736113fac.32.1749099522204; Wed, 04 Jun 2025
+ 21:58:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: "David F." <df7729@gmail.com>
+Date: Wed, 4 Jun 2025 21:58:31 -0700
+X-Gm-Features: AX0GCFtdUWxKHlgfZOD-biC-DP_LBXDpirH6NdMUHZy7NoOwm5KIHmAK2g1pL5Q
+Message-ID: <CAGRSmLtq_SM-c0LJLafBjdbGb9GEau1_zLiQETpKgTUg=ZAfiQ@mail.gmail.com>
+Subject: Unable to build linux kernel 6.12.32-64 on devuan i636?
+To: oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   3160da23afe10e66040ac00ed17174cb467c79b3
-commit: 2e9ef6c3ea086c85d489898471e527aeb3f7460b [2357/2357] mm/damon/vaddr: Support hardware-assisted memory access sampling
-config: arm64-randconfig-r123-20250605 (https://download.01.org/0day-ci/archive/20250605/202506051214.xnjA9eFd-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250605/202506051214.xnjA9eFd-lkp@intel.com/reproduce)
+I always build both the i686 and x64 kernel on my VM which has changed
+through the years from debian (several distros) to now devuan-chimaera
+(couple years now). Last build was 6.6.x but now jumping to 6.12.x. I
+can build the 686 version however, it won't build the x64 version and
+gives me a dependency issue.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506051214.xnjA9eFd-lkp@intel.com/
+At first it was gcc-x86-64-linux-gnu, libssl-dev
 
-sparse warnings: (new ones prefixed by >>)
-   mm/mem_sampling.c:48:33: sparse: sparse: symbol 'mem_sampling_saved_state' was not declared. Should it be static?
-   mm/mem_sampling.c:61:1: sparse: sparse: symbol 'mem_sampling_record_cb_list' was not declared. Should it be static?
-   mm/mem_sampling.c:69:6: sparse: sparse: symbol 'mem_sampling_record_cb_register' was not declared. Should it be static?
-   mm/mem_sampling.c:86:6: sparse: sparse: symbol 'mem_sampling_record_cb_unregister' was not declared. Should it be static?
->> mm/mem_sampling.c:293:1: sparse: sparse: symbol 'mm_damon_mem_sampling' was not declared. Should it be static?
+I first updated libssl-dev, then the gcc-x86-64-linux-gnu with apt-get install
 
-vim +/mm_damon_mem_sampling +293 mm/mem_sampling.c
+It now just says it doesn't like libssl-dev but it's installed and up to date.
 
-   292	
- > 293	DEFINE_STATIC_KEY_FALSE(mm_damon_mem_sampling);
-   294	#ifdef CONFIG_DAMON_MEM_SAMPLING
-   295	static void damon_mem_sampling_record_cb(struct mem_sampling_record *record)
-   296	{
-   297		struct damon_mem_sampling_fifo *damon_fifo;
-   298		struct damon_mem_sampling_record domon_record;
-   299		struct task_struct *task = NULL;
-   300		struct mm_struct *mm;
-   301	
-   302		/* Discard kernel address accesses */
-   303		if (record->virt_addr & (1UL << 63))
-   304			return;
-   305	
-   306		task = find_get_task_by_vpid((pid_t)record->context_id);
-   307		if (!task)
-   308			return;
-   309	
-   310		mm = get_task_mm(task);
-   311		put_task_struct(task);
-   312		if (!mm)
-   313			return;
-   314	
-   315		damon_fifo = mm->damon_fifo;
-   316		mmput(mm);
-   317	
-   318		domon_record.vaddr = record->virt_addr;
-   319	
-   320		/* only the proc under monitor now has damon_fifo */
-   321		if (damon_fifo) {
-   322			if (kfifo_is_full(&damon_fifo->rx_kfifo))
-   323				return;
-   324	
-   325			kfifo_in_locked(&damon_fifo->rx_kfifo, &domon_record,
-   326					sizeof(struct damon_mem_sampling_record),
-   327					&damon_fifo->rx_kfifo_lock);
-   328			return;
-   329		}
-   330	}
-   331	
+pkg-architecture: warning: specified GNU system type x86_64-linux-gnu
+does not match CC system type i686-linux-gnu, try setting a correct CC
+environment variable
+dpkg-buildpackage --build=binary --no-pre-clean --unsigned-changes
+-R'make -f debian/rules' -j1 -a$(cat debian/arch)
+dpkg-buildpackage: info: source package linux-upstream
+dpkg-buildpackage: info: source version 6.12.32-amd64-1
+dpkg-buildpackage: info: source distribution chimaera
+dpkg-buildpackage: info: source changed by root <root@devuan-chimaera.acme.com>
+dpkg-architecture: warning: specified GNU system type x86_64-linux-gnu
+does not match CC system type i686-linux-gnu, try setting a correct CC
+environment variable
+dpkg-buildpackage: info: host architecture amd64
+ dpkg-source --before-build .
+dpkg-checkbuilddeps: error: Unmet build dependencies: libssl-dev
+dpkg-buildpackage: warning: build dependencies/conflicts unsatisfied; aborting
+dpkg-buildpackage: warning: (Use -d flag to override.)
+make[2]: *** [scripts/Makefile.package:126: bindeb-pkg] Error 3
+make[1]: *** [/usr/src/mydisk/kernel/linux-6.12.32-64/Makefile:1566:
+bindeb-pkg] Error 2
+make: *** [Makefile:224: __sub-make] Error 2
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+root@devuan-chimaera:/usr/src/mydisk/kernel# apt-get install libssl-dev
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+libssl-dev is already the newest version (1.1.1w-0+deb11u3).
+The following packages were automatically installed and are no longer required:
+  libwpe-1.0-1 libwpebackend-fdo-1.0-1 linux-image-5.10.0-16-686
+Use 'apt autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 298 not upgraded.
+
+
+HOWEVER, I got the build to start by doing this:
+
+DPKG_FLAGS="-d" make -j$(nproc) ${extraversion} bindeb-pkg
+
+It built everything, stripped/signed all the modules, look like it was
+going to finish then bam:
+
+dpkg-deb: building package 'linux-image-6.12.32-amd64-mine' in
+'../linux-image-6.12.32-amd64-mine_6.12.32-amd64-1_amd64.deb'.
+dpkg-buildpackage: error: make -f debian/rules binary subprocess
+returned exit status 2
+make[2]: *** [scripts/Makefile.package:126: bindeb-pkg] Error 2
+make[1]: *** [/usr/src/mydisk/kernel/linux-6.12.32-64/Makefile:1566:
+bindeb-pkg] Error 2
+make: *** [Makefile:224: __sub-make] Error 2
+
+So still stuck.  Can someone help with what I need to do for it to
+build the x64 kernel on i686 linux like i've been doing for over a
+decade.
