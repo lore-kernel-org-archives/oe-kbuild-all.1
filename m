@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 652463C465
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Jun 2025 03:49:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E9C136E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Jun 2025 04:10:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749095355; cv=none; b=WXvkFcaBhodlgW3brPtnBXgJKnMvHavHBY8boTfkYtY9DTN6wAv9bdopu9Sx3ejTuExkgF0MBkyEtDq4arUKb5UayvFb7r+WCR6B7V1wr7lFX7lFgKoxjQQiWqUTuqtMXE6dCYZ1Pn/kZ2v07cPpeW00lwwALMoyebpAHN+MGbk=
+	t=1749096618; cv=none; b=iEiukXz/4EFWguEZGZ90MI2p3dMh+OUYBtbeNZlnhbeq2J2tG5a/NZooEJPKEHD4C8NJ4uBNy5E+TldtyYfE9cd0DFccrbxsWjydm810eRY9dvxo6UTy9MLRNqpXSgPj8eIckNEI6yB5GE6XPB0iS/6mnMJw4viURPmsixUzm50=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749095355; c=relaxed/simple;
-	bh=uKpOyFEq0AqPxs9lkCZyj83/tLLKBF8mo2fOq/vG5Eg=;
+	s=arc-20240116; t=1749096618; c=relaxed/simple;
+	bh=S4JQ2yMjKRWNoN2VG4w5PHYQv87CScMT7Ul1pchVNPk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=h4gm1wXe1XtbfNhbJH42t9kDs2ceT9HYoyt8QbA9iu2zKfDZOCFtMcVPBB/N/Kzoj/X3Uc4Pk2S0D7DRDU7xkotO4ihwh/DR3/oYgBL5cVY/dzktmcrpXb7b15WiNTP51cxU+Q2b0rO9pvJeqIiehGlAQ6FEoInbVjBbSSuU0Tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lw/IFWCZ; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=twn4yQ07Pem9RNKPVcvU8CC3Mm9IDJj0fHdBVTK77hXRa3lBnOoYKHA4gC1mc85GBn6ZnF/3ABP6jHRLELtTWmqJ62kxSt/8OWsa/vB9TL1o1+/wNWxkIp2tdH/wbQBn3wHEpe5N3t7VpLDs+mrsQzE0+wSvVfjO7NRHZ6zPEcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H8P4f6GJ; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lw/IFWCZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H8P4f6GJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749095354; x=1780631354;
+  t=1749096617; x=1780632617;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uKpOyFEq0AqPxs9lkCZyj83/tLLKBF8mo2fOq/vG5Eg=;
-  b=Lw/IFWCZ01w3857QxMlvEk8IQtDyKjs4963GWhuCn2hL8MfiVqc7Ks7r
-   XQlXGvdvjSpqkhMueF5p0smaSjOfkPtd0jU7G6aKFeeoIjsYmtJwSGXdX
-   aiiRWSYgcLlvcobXNCaoWC3EaDhpPEOXFGLYxK+e+C8bgBPZ9ZUDymMaY
-   ixIUGASJJ2irLX9U3URp/tbbYmCz+kZwPmp/aednF2eok7HLM63wArqkM
-   gwp9iOclItKMxidtRZTizp/owbJUGCrhYeMXYcnUUk6fJ+dXJ53oNainu
-   amDlH2OB+VcVUI2x4MCvEf8vQs14Q1CQO+nM2qO7CBBqIhU6EQ4846Ohr
-   g==;
-X-CSE-ConnectionGUID: G83PAC6zSF671Yz9m21Muw==
-X-CSE-MsgGUID: jL0WqBnPTRevafvlTxCawQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="68636771"
+  bh=S4JQ2yMjKRWNoN2VG4w5PHYQv87CScMT7Ul1pchVNPk=;
+  b=H8P4f6GJpeHREik6pTrQWl2yhTp4DiID1Sb6YKEKG2uBMllx9G/ZuKGX
+   zoIE6UED5ZCXecsCdGdVsJld/LGUnrkjJkA6OCm8vqU4YAUvXXG5mQhl5
+   SHUP8E88BqU4aIMDZBuJ+imAc/qpDqbH39Nky0gmR7TsiH0+LJ5qTmujL
+   n0X9iPG7ojwxzFu/oZfZtfnLguaR/sBekVYmHbe4Isvm8R7P96qMlwSX6
+   LJu7DJdTtOLh6xzYBPneWk+uq7znj3zpimate4UQ+vsuAz2JEsATk/6Ra
+   zQIMdOrQu4sS1BLNJXc2suQ9CZIos98NW2BplEai9C1ECKzHNLvXdxgJN
+   w==;
+X-CSE-ConnectionGUID: xwfZ80DTQ7akcoUHULHryA==
+X-CSE-MsgGUID: k/dVZ8E0R9OazsOTQSmGgg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="62590244"
 X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
-   d="scan'208";a="68636771"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 20:49:13 -0700
-X-CSE-ConnectionGUID: zw0JSWtcRpaKfpFz3qlJBw==
-X-CSE-MsgGUID: 4ZbJq5DuS8Sg3nZN/Ko/Kw==
+   d="scan'208";a="62590244"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 21:10:12 -0700
+X-CSE-ConnectionGUID: eMSFgtp6QhmS/tT6KzzKKw==
+X-CSE-MsgGUID: o2YtbzMHRuG4t76Hcr08hg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
-   d="scan'208";a="176256181"
+   d="scan'208";a="145727476"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 04 Jun 2025 20:49:09 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 04 Jun 2025 21:10:10 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uN1bG-0003hR-2V;
-	Thu, 05 Jun 2025 03:49:06 +0000
-Date: Thu, 5 Jun 2025 11:48:17 +0800
+	id 1uN1vc-0003iD-18;
+	Thu, 05 Jun 2025 04:10:08 +0000
+Date: Thu, 5 Jun 2025 12:09:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: Yury Norov <yury.norov@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:cpumask_next2 16/24] drivers/net/wireguard/queueing.h:108:24:
- error: 'cpu' undeclared
-Message-ID: <202506051116.VaTGLQlK-lkp@intel.com>
+Subject: [norov:cpumask_next2 24/24] kernel/smp.c:750:24: warning: unused
+ variable 'nodemask'
+Message-ID: <202506051207.5SxwUarX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,44 +64,64 @@ Content-Disposition: inline
 
 tree:   https://github.com/norov/linux cpumask_next2
 head:   75aab1f3dc12efa381f38208ada2336898c5fc89
-commit: e050789716ae9a0daf3968328b49d6410e1e351d [16/24] wireguard/queueing: simplify wg_cpumask_next_online()
-config: i386-buildonly-randconfig-001-20250605 (https://download.01.org/0day-ci/archive/20250605/202506051116.VaTGLQlK-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250605/202506051116.VaTGLQlK-lkp@intel.com/reproduce)
+commit: 75aab1f3dc12efa381f38208ada2336898c5fc89 [24/24] smp: improve locality on smp_call_function_any()
+config: arc-randconfig-001-20250605 (https://download.01.org/0day-ci/archive/20250605/202506051207.5SxwUarX-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250605/202506051207.5SxwUarX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506051116.VaTGLQlK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506051207.5SxwUarX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/wireguard/receive.c:6:
-   drivers/net/wireguard/queueing.h: In function 'wg_cpumask_choose_online':
->> drivers/net/wireguard/queueing.h:108:24: error: 'cpu' undeclared (first use in this function)
-     108 |                 return cpu;
-         |                        ^~~
-   drivers/net/wireguard/queueing.h:108:24: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/smp.c: In function 'smp_call_function_any':
+>> kernel/smp.c:750:24: warning: unused variable 'nodemask' [-Wunused-variable]
+     const struct cpumask *nodemask;
+                           ^~~~~~~~
 
 
-vim +/cpu +108 drivers/net/wireguard/queueing.h
+vim +/nodemask +750 kernel/smp.c
 
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  104  
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  105  static inline int wg_cpumask_choose_online(int *stored_cpu, unsigned int id)
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  106  {
-e050789716ae9a Yury Norov         2025-05-15  107  	if (likely(*stored_cpu <= nr_cpu_ids && cpu_online(*stored_cpu)))
-e7096c131e5161 Jason A. Donenfeld 2019-12-09 @108  		return cpu;
-e050789716ae9a Yury Norov         2025-05-15  109  
-e050789716ae9a Yury Norov         2025-05-15  110  	*stored_cpu = cpumask_nth(id % num_online_cpus(), cpu_online_mask);
-e050789716ae9a Yury Norov         2025-05-15  111  	return *stored_cpu;
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  112  }
-e7096c131e5161 Jason A. Donenfeld 2019-12-09  113  
+d7877c03f1b62d Frederic Weisbecker 2014-02-24  732  
+2ea6dec4a22a6f Rusty Russell       2009-11-17  733  /*
+2ea6dec4a22a6f Rusty Russell       2009-11-17  734   * smp_call_function_any - Run a function on any of the given cpus
+2ea6dec4a22a6f Rusty Russell       2009-11-17  735   * @mask: The mask of cpus it can run on.
+2ea6dec4a22a6f Rusty Russell       2009-11-17  736   * @func: The function to run. This must be fast and non-blocking.
+2ea6dec4a22a6f Rusty Russell       2009-11-17  737   * @info: An arbitrary pointer to pass to the function.
+2ea6dec4a22a6f Rusty Russell       2009-11-17  738   * @wait: If true, wait until function has completed.
+2ea6dec4a22a6f Rusty Russell       2009-11-17  739   *
+2ea6dec4a22a6f Rusty Russell       2009-11-17  740   * Returns 0 on success, else a negative status code (if no cpus were online).
+2ea6dec4a22a6f Rusty Russell       2009-11-17  741   *
+2ea6dec4a22a6f Rusty Russell       2009-11-17  742   * Selection preference:
+2ea6dec4a22a6f Rusty Russell       2009-11-17  743   *	1) current cpu if in @mask
+75aab1f3dc12ef Yury Norov          2025-06-04  744   *	2) nearest cpu in @mask based, on NUMA topology
+2ea6dec4a22a6f Rusty Russell       2009-11-17  745   */
+2ea6dec4a22a6f Rusty Russell       2009-11-17  746  int smp_call_function_any(const struct cpumask *mask,
+3a5f65df5a0fcb David Howells       2010-10-27  747  			  smp_call_func_t func, void *info, int wait)
+2ea6dec4a22a6f Rusty Russell       2009-11-17  748  {
+2ea6dec4a22a6f Rusty Russell       2009-11-17  749  	unsigned int cpu;
+2ea6dec4a22a6f Rusty Russell       2009-11-17 @750  	const struct cpumask *nodemask;
+2ea6dec4a22a6f Rusty Russell       2009-11-17  751  	int ret;
+2ea6dec4a22a6f Rusty Russell       2009-11-17  752  
+2ea6dec4a22a6f Rusty Russell       2009-11-17  753  	/* Try for same CPU (cheapest) */
+2ea6dec4a22a6f Rusty Russell       2009-11-17  754  	cpu = get_cpu();
+75aab1f3dc12ef Yury Norov          2025-06-04  755  	if (!cpumask_test_cpu(cpu, mask))
+75aab1f3dc12ef Yury Norov          2025-06-04  756  		cpu = sched_numa_find_nth_cpu(mask, 0, cpu_to_node(cpu));
+2ea6dec4a22a6f Rusty Russell       2009-11-17  757  
+2ea6dec4a22a6f Rusty Russell       2009-11-17  758  	ret = smp_call_function_single(cpu, func, info, wait);
+2ea6dec4a22a6f Rusty Russell       2009-11-17  759  	put_cpu();
+2ea6dec4a22a6f Rusty Russell       2009-11-17  760  	return ret;
+2ea6dec4a22a6f Rusty Russell       2009-11-17  761  }
+2ea6dec4a22a6f Rusty Russell       2009-11-17  762  EXPORT_SYMBOL_GPL(smp_call_function_any);
+2ea6dec4a22a6f Rusty Russell       2009-11-17  763  
 
-:::::: The code at line 108 was first introduced by commit
-:::::: e7096c131e5161fa3b8e52a650d7719d2857adfd net: WireGuard secure network tunnel
+:::::: The code at line 750 was first introduced by commit
+:::::: 2ea6dec4a22a6f66f6633876212fd4d195cf8277 generic-ipi: Add smp_call_function_any()
 
-:::::: TO: Jason A. Donenfeld <Jason@zx2c4.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+:::::: TO: Rusty Russell <rusty@rustcorp.com.au>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 -- 
 0-DAY CI Kernel Test Service
