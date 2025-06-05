@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F6C5211A11
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Jun 2025 22:52:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4742144D2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Jun 2025 23:03:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749163962; cv=none; b=Y2Gf2dS8QY7y5S593WpTyk3SNvhr1+IzYMgfSN/14yloCXlHmP9jVlwdyzACGprR1PpJLI45ZvdH1Qb+Q3BV7CnCE26CaZpFv73kpdXIGNlp2qtGucUWqmpeYXipNFC6MqHUL6BU41/vVe0bUEXMp7Aj8UuJYXbf/YyYmlBBviI=
+	t=1749164622; cv=none; b=nD4ZsAZ2ow9O4gsXxXs/c7PsAIpytRwDVI8EbRS1szp0qs0Sq9J7GbG6fSTVl0xlKuNdsT7XXdFo4xsyu9koCf7Ddie9Rxtb3WQ/4cL4ICdS7gUgdehtX/iC/vzpKfqFZckZJVp6Sb5zYgDNPQMOkP0aXVQEJMhRi5dzHin76A8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749163962; c=relaxed/simple;
-	bh=hVCG/PNAyR47L2wew1gz+MjkOBF/by+He8JQcUJ+LD8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ofuCPEgUfm9NAStiOKc/wR9jvroddFnRCpbCgRHlfH+XICN1ag72Y3XJW8we9FyKWznkrPPIzHTE/7yb6woIImqNjt/nraDpwVvi4ypq18X0HCmUodh4OvFIVdq+yVZTxjG6Q94Y16db9jXrF5V9Rq4+cQ4nzuil/vzwi3NKAlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LMXFIUDW; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1749164622; c=relaxed/simple;
+	bh=kzkTROdiTQEKkoNuXR9/RDOUfcSsHCsEuM1Uk9kkmLk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ByfmYQXS8c7aZsu94W5NHREbNvDkGcBXe0c2PUKDs365h91q2A8hM5DMGm7XTOPJwWJ4j3+f2ucOkH3aqEaveIHYOwZNQqmHhaImo2BE55qY6nraHsjHN2ZFyq5mvo0l4JdhIOGFfli31NHt6uj9L92IfrGCBoVWazPG1fjibpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oC/PHs5t; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LMXFIUDW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oC/PHs5t"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749163960; x=1780699960;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hVCG/PNAyR47L2wew1gz+MjkOBF/by+He8JQcUJ+LD8=;
-  b=LMXFIUDWcdITc66rUwE3QAKt/1hxCMXCRAW4WcqpLtVdBGJ8DwDRYJSF
-   SeM54tRzKvJeDI1zE/Urvc84/H8fQXbJraE6QCeJWs5X1OTc3IJ3zK/mk
-   BMNOIVH9Lh4sPi0VxFJrH5KRg7Oanqxn3Q2MDfiNs9vWzdPURTO9nwCG1
-   A1pAkTBrhOxaz5Jjt2g3FeorCwfqtbMH1GeJdPdRFMnlEv1RTv/bqiFPw
-   kO1i26rhqT6F/ZXOPGvdo5e+hBcbycrcnaz5WnwBjApupfYe57wp3c73o
-   TwR9W0C8tnU9jc9IXhwoCIC/bmdKGXaFMi5LpIdcG0yyd2RZeIbZBOGK7
-   A==;
-X-CSE-ConnectionGUID: uNIVOG6DQ3emVMcxsdY1HA==
-X-CSE-MsgGUID: S4D1m3Y+TWCe+1/2FulEjQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="51448014"
+  t=1749164620; x=1780700620;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kzkTROdiTQEKkoNuXR9/RDOUfcSsHCsEuM1Uk9kkmLk=;
+  b=oC/PHs5tSMIpae5rXFjvlbuPwEx1E1PgBJbjyU+C8AG/IrYQkkiV9bnC
+   GKgGDWj9csHdFYIYhDNeSjwfVPdGnZnXgcPprKpRPZyLqCSLls1wzeUEe
+   EWn6DQXFvhKvOX3IoYY/BxXBr79nM7Pnt+C7IrZYa5Akff7hYZGOdhc+S
+   rBpXI/dWTUVOr4HWsKKVLzlGORoDVx4OqHJaho8D9GXdWZGHmU5GMyhwW
+   4d16l57eeHeomMyCMaAizdcvSVFJ5DP1CCoxtIaNQYLRQsY8OB+D973SA
+   xmLOxjtDQ4qVN+gr7jfnQDN/mLJPv+Lv7YM7/zgUkWjz7lvhBwzroONoT
+   w==;
+X-CSE-ConnectionGUID: q9079MjkQhexJcgOPvPk6g==
+X-CSE-MsgGUID: RN4ycliFTxmtfH4ubGoT1A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="53933741"
 X-IronPort-AV: E=Sophos;i="6.16,213,1744095600"; 
-   d="scan'208";a="51448014"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 15:52:39 -0700
-X-CSE-ConnectionGUID: R+UqtUdlQsGpSkoUzszFwQ==
-X-CSE-MsgGUID: cxHUHmgBSR6txsQLjuMVaQ==
+   d="scan'208";a="53933741"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 16:03:39 -0700
+X-CSE-ConnectionGUID: Kd+DFLxESySJDuHjdZ00Xg==
+X-CSE-MsgGUID: NodV+vblSQ6uh/7e7O1QYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,213,1744095600"; 
-   d="scan'208";a="150475768"
+   d="scan'208";a="149493369"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 05 Jun 2025 15:52:38 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 05 Jun 2025 16:03:37 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNJRq-0004Wr-2h;
-	Thu, 05 Jun 2025 22:52:34 +0000
-Date: Fri, 6 Jun 2025 06:51:53 +0800
+	id 1uNJcV-0004X3-1f;
+	Thu, 05 Jun 2025 23:03:35 +0000
+Date: Fri, 6 Jun 2025 07:02:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Waiman Long <longman@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	linux-kernel@vger.kernel.org, Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH 2/3] debugobjects: Show the state of debug_objects_enabled
-Message-ID: <202506060634.mQtyT7cN-lkp@intel.com>
-References: <20250604220926.870760-3-longman@redhat.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Johannes Berg <johannes.berg@intel.com>
+Subject: include/asm-generic/io.h:542:14: error: call to '_inb' declared with
+ attribute error: inb()) requires CONFIG_HAS_IOPORT
+Message-ID: <202506060742.XR3HcxWA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,84 +62,458 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250604220926.870760-3-longman@redhat.com>
 
-Hi Waiman,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/timers/core]
-[also build test ERROR on akpm-mm/mm-everything tip/core/debugobjects linus/master v6.15 next-20250605]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Waiman-Long/debugobjects-Add-ODEBUG_FLAG_NO_ALLOC-to-disable-memory-allocation/20250605-061211
-base:   tip/timers/core
-patch link:    https://lore.kernel.org/r/20250604220926.870760-3-longman%40redhat.com
-patch subject: [PATCH 2/3] debugobjects: Show the state of debug_objects_enabled
-config: arm-randconfig-002-20250606 (https://download.01.org/0day-ci/archive/20250606/202506060634.mQtyT7cN-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506060634.mQtyT7cN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e271ed52b344ac02d4581286961d0c40acc54c03
+commit: b8c9c3b822fe8e033b9802516f6466099d915488 um: stop using PCI port I/O
+date:   4 days ago
+config: um-randconfig-001-20250606 (https://download.01.org/0day-ci/archive/20250606/202506060742.XR3HcxWA-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506060742.XR3HcxWA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506060634.mQtyT7cN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506060742.XR3HcxWA-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   lib/debugobjects.c: In function 'check_results':
->> lib/debugobjects.c:1325:17: error: implicit declaration of function 'debug_object_disable'; did you mean 'debug_objects_disable'? [-Werror=implicit-function-declaration]
-    1325 |                 debug_object_disable("selftest");
-         |                 ^~~~~~~~~~~~~~~~~~~~
-         |                 debug_objects_disable
-   cc1: some warnings being treated as errors
+   drivers/char/sonypi.c: In function 'sonypi_call1':
+   drivers/char/sonypi.c:638:12: warning: variable 'v1' set but not used [-Wunused-but-set-variable]
+     638 |         u8 v1, v2;
+         |            ^~
+   In file included from arch/um/include/asm/io.h:24,
+                    from include/linux/io.h:12,
+                    from include/linux/irq.h:20,
+                    from include/asm-generic/hardirq.h:17,
+                    from arch/um/include/asm/hardirq.h:5,
+                    from include/linux/hardirq.h:11,
+                    from include/linux/interrupt.h:11,
+                    from include/linux/pci.h:38,
+                    from drivers/char/sonypi.c:27:
+   In function 'inb_p',
+       inlined from 'sonypi_irq' at drivers/char/sonypi.c:830:7:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'inb_p',
+       inlined from 'sonypi_irq' at drivers/char/sonypi.c:831:7:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'inb_p',
+       inlined from 'sonypi_call1.isra' at drivers/char/sonypi.c:640:2:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   drivers/char/sonypi.c: In function 'sonypi_call1.isra':
+>> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
+     596 | #define _outb _outb
+   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
+     655 | #define outb _outb
+         |              ^~~~~
+   drivers/char/sonypi.c:641:9: note: in expansion of macro 'outb'
+     641 |         outb(dev, sonypi_device.ioport2);
+         |         ^~~~
+   In function 'inb_p',
+       inlined from 'sonypi_call1.isra' at drivers/char/sonypi.c:642:7:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'inb_p',
+       inlined from 'sonypi_call1.isra' at drivers/char/sonypi.c:643:7:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'inb_p',
+       inlined from 'sonypi_call2' at drivers/char/sonypi.c:651:2:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   drivers/char/sonypi.c: In function 'sonypi_call2':
+>> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
+     596 | #define _outb _outb
+   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
+     655 | #define outb _outb
+         |              ^~~~~
+   drivers/char/sonypi.c:652:9: note: in expansion of macro 'outb'
+     652 |         outb(dev, sonypi_device.ioport2);
+         |         ^~~~
+   In function 'inb_p',
+       inlined from 'sonypi_call2' at drivers/char/sonypi.c:653:2:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   drivers/char/sonypi.c: In function 'sonypi_call2':
+>> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
+     596 | #define _outb _outb
+   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
+     655 | #define outb _outb
+         |              ^~~~~
+   drivers/char/sonypi.c:654:9: note: in expansion of macro 'outb'
+     654 |         outb(fn, sonypi_device.ioport1);
+         |         ^~~~
+   In function 'inb_p',
+       inlined from 'sonypi_call2' at drivers/char/sonypi.c:655:7:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'inb_p',
+       inlined from 'sonypi_ec_read' at drivers/char/sonypi.c:533:2:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'outb_p',
+       inlined from 'sonypi_ec_read' at drivers/char/sonypi.c:534:2:
+>> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
+     596 | #define _outb _outb
+         |               ^
+   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
+     655 | #define outb _outb
+         |              ^~~~~
+   include/asm-generic/io.h:694:9: note: in expansion of macro 'outb'
+     694 |         outb(value, addr);
+         |         ^~~~
+   In function 'inb_p',
+       inlined from 'sonypi_ec_read' at drivers/char/sonypi.c:535:2:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'outb_p',
+       inlined from 'sonypi_ec_read' at drivers/char/sonypi.c:536:2:
+>> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
+     596 | #define _outb _outb
+         |               ^
+   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
+     655 | #define outb _outb
+         |              ^~~~~
+   include/asm-generic/io.h:694:9: note: in expansion of macro 'outb'
+     694 |         outb(value, addr);
+         |         ^~~~
+   In function 'inb_p',
+       inlined from 'sonypi_ec_read' at drivers/char/sonypi.c:537:2:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'inb_p',
+       inlined from 'sonypi_ec_read' at drivers/char/sonypi.c:538:11:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'inb_p',
+       inlined from 'sonypi_ec_write' at drivers/char/sonypi.c:517:2:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'outb_p',
+       inlined from 'sonypi_ec_write' at drivers/char/sonypi.c:518:2:
+>> include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
+     596 | #define _outb _outb
+         |               ^
+   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
+     655 | #define outb _outb
+         |              ^~~~~
+   include/asm-generic/io.h:694:9: note: in expansion of macro 'outb'
+     694 |         outb(value, addr);
+         |         ^~~~
+   In function 'inb_p',
+       inlined from 'sonypi_ec_write' at drivers/char/sonypi.c:519:2:
+>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'outb_p',
+       inlined from 'sonypi_ec_write' at drivers/char/sonypi.c:520:2:
+   include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
+     596 | #define _outb _outb
+         |               ^
+   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
+     655 | #define outb _outb
+         |              ^~~~~
+   include/asm-generic/io.h:694:9: note: in expansion of macro 'outb'
+     694 |         outb(value, addr);
+         |         ^~~~
+   In function 'inb_p',
+       inlined from 'sonypi_ec_write' at drivers/char/sonypi.c:521:2:
+   include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'outb_p',
+       inlined from 'sonypi_ec_write' at drivers/char/sonypi.c:522:2:
+   include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
+     596 | #define _outb _outb
+         |               ^
+   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
+     655 | #define outb _outb
+         |              ^~~~~
+   include/asm-generic/io.h:694:9: note: in expansion of macro 'outb'
+     694 |         outb(value, addr);
+         |         ^~~~
+   In function 'inb_p',
+       inlined from 'sonypi_ec_write' at drivers/char/sonypi.c:523:2:
+   include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'inb_p',
+       inlined from 'sonypi_call3' at drivers/char/sonypi.c:663:2,
+       inlined from 'sonypi_set' at drivers/char/sonypi.c:693:2:
+   include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'sonypi_call3',
+       inlined from 'sonypi_set' at drivers/char/sonypi.c:693:2:
+   include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
+     596 | #define _outb _outb
+   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
+     655 | #define outb _outb
+         |              ^~~~~
+   drivers/char/sonypi.c:664:9: note: in expansion of macro 'outb'
+     664 |         outb(dev, sonypi_device.ioport2);
+         |         ^~~~
+   In function 'inb_p',
+       inlined from 'sonypi_call3' at drivers/char/sonypi.c:665:2,
+       inlined from 'sonypi_set' at drivers/char/sonypi.c:693:2:
+   include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+     542 | #define _inb _inb
+         |              ^
+   include/asm-generic/io.h:643:13: note: in expansion of macro '_inb'
+     643 | #define inb _inb
+         |             ^~~~
+   include/asm-generic/io.h:670:16: note: in expansion of macro 'inb'
+     670 |         return inb(addr);
+         |                ^~~
+   In function 'sonypi_call3',
+       inlined from 'sonypi_set' at drivers/char/sonypi.c:693:2:
+   include/asm-generic/io.h:596:15: error: call to '_outb' declared with attribute error: outb() requires CONFIG_HAS_IOPORT
+     596 | #define _outb _outb
+   include/asm-generic/io.h:655:14: note: in expansion of macro '_outb'
+     655 | #define outb _outb
+         |              ^~~~~
+   drivers/char/sonypi.c:666:9: note: in expansion of macro 'outb'
+     666 |         outb(fn, sonypi_device.ioport1);
+         |         ^~~~
+   In function 'inb_p',
+       inlined from 'sonypi_call3' at drivers/char/sonypi.c:667:2,
+       inlined from 'sonypi_set' at drivers/char/sonypi.c:693:2:
+   include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+..
 
 
-vim +1325 lib/debugobjects.c
+vim +/_inb +542 include/asm-generic/io.h
 
-  1288	
-  1289	static int __init
-  1290	check_results(void *addr, enum debug_obj_state state, int fixups, int warnings)
-  1291	{
-  1292		struct debug_bucket *db;
-  1293		struct debug_obj *obj;
-  1294		unsigned long flags;
-  1295		int res = -EINVAL;
-  1296	
-  1297		db = get_bucket((unsigned long) addr);
-  1298	
-  1299		raw_spin_lock_irqsave(&db->lock, flags);
-  1300	
-  1301		obj = lookup_object(addr, db);
-  1302		if (!obj && state != ODEBUG_STATE_NONE) {
-  1303			WARN(1, KERN_ERR "ODEBUG: selftest object not found\n");
-  1304			goto out;
-  1305		}
-  1306		if (obj && obj->state != state) {
-  1307			WARN(1, KERN_ERR "ODEBUG: selftest wrong state: %d != %d\n",
-  1308			       obj->state, state);
-  1309			goto out;
-  1310		}
-  1311		if (fixups != debug_objects_fixups) {
-  1312			WARN(1, KERN_ERR "ODEBUG: selftest fixups failed %d != %d\n",
-  1313			       fixups, debug_objects_fixups);
-  1314			goto out;
-  1315		}
-  1316		if (warnings != debug_objects_warnings) {
-  1317			WARN(1, KERN_ERR "ODEBUG: selftest warnings failed %d != %d\n",
-  1318			       warnings, debug_objects_warnings);
-  1319			goto out;
-  1320		}
-  1321		res = 0;
-  1322	out:
-  1323		raw_spin_unlock_irqrestore(&db->lock, flags);
-  1324		if (res)
-> 1325			debug_object_disable("selftest");
-  1326		return res;
-  1327	}
-  1328	
+3f7e212df82ca0 Arnd Bergmann   2009-05-13  534  
+9216efafc52ff9 Thierry Reding  2014-10-01  535  /*
+9216efafc52ff9 Thierry Reding  2014-10-01  536   * {in,out}{b,w,l}() access little endian I/O. {in,out}{b,w,l}_p() can be
+9216efafc52ff9 Thierry Reding  2014-10-01  537   * implemented on hardware that needs an additional delay for I/O accesses to
+9216efafc52ff9 Thierry Reding  2014-10-01  538   * take effect.
+9216efafc52ff9 Thierry Reding  2014-10-01  539   */
+9216efafc52ff9 Thierry Reding  2014-10-01  540  
+f009c89df79abe John Garry      2020-03-28  541  #if !defined(inb) && !defined(_inb)
+f009c89df79abe John Garry      2020-03-28 @542  #define _inb _inb
+6f043e75744596 Niklas Schnelle 2024-10-24  543  #ifdef CONFIG_HAS_IOPORT
+214ba3584b2e2c Stafford Horne  2020-07-26  544  static inline u8 _inb(unsigned long addr)
+9216efafc52ff9 Thierry Reding  2014-10-01  545  {
+87fe2d543f8173 Sinan Kaya      2018-04-05  546  	u8 val;
+87fe2d543f8173 Sinan Kaya      2018-04-05  547  
+87fe2d543f8173 Sinan Kaya      2018-04-05  548  	__io_pbr();
+87fe2d543f8173 Sinan Kaya      2018-04-05  549  	val = __raw_readb(PCI_IOBASE + addr);
+abbbbc83a210e9 Will Deacon     2019-02-22  550  	__io_par(val);
+87fe2d543f8173 Sinan Kaya      2018-04-05  551  	return val;
+9216efafc52ff9 Thierry Reding  2014-10-01  552  }
+6f043e75744596 Niklas Schnelle 2024-10-24  553  #else
+6f043e75744596 Niklas Schnelle 2024-10-24  554  u8 _inb(unsigned long addr)
+6f043e75744596 Niklas Schnelle 2024-10-24  555  	__compiletime_error("inb()) requires CONFIG_HAS_IOPORT");
+6f043e75744596 Niklas Schnelle 2024-10-24  556  #endif
+9216efafc52ff9 Thierry Reding  2014-10-01  557  #endif
+9216efafc52ff9 Thierry Reding  2014-10-01  558  
+f009c89df79abe John Garry      2020-03-28  559  #if !defined(inw) && !defined(_inw)
+f009c89df79abe John Garry      2020-03-28  560  #define _inw _inw
+6f043e75744596 Niklas Schnelle 2024-10-24  561  #ifdef CONFIG_HAS_IOPORT
+f009c89df79abe John Garry      2020-03-28  562  static inline u16 _inw(unsigned long addr)
+9216efafc52ff9 Thierry Reding  2014-10-01  563  {
+87fe2d543f8173 Sinan Kaya      2018-04-05  564  	u16 val;
+87fe2d543f8173 Sinan Kaya      2018-04-05  565  
+87fe2d543f8173 Sinan Kaya      2018-04-05  566  	__io_pbr();
+c1d55d50139bea Stafford Horne  2020-07-29  567  	val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+abbbbc83a210e9 Will Deacon     2019-02-22  568  	__io_par(val);
+87fe2d543f8173 Sinan Kaya      2018-04-05  569  	return val;
+9216efafc52ff9 Thierry Reding  2014-10-01  570  }
+6f043e75744596 Niklas Schnelle 2024-10-24  571  #else
+6f043e75744596 Niklas Schnelle 2024-10-24  572  u16 _inw(unsigned long addr)
+6f043e75744596 Niklas Schnelle 2024-10-24  573  	__compiletime_error("inw() requires CONFIG_HAS_IOPORT");
+6f043e75744596 Niklas Schnelle 2024-10-24  574  #endif
+9216efafc52ff9 Thierry Reding  2014-10-01  575  #endif
+9216efafc52ff9 Thierry Reding  2014-10-01  576  
+f009c89df79abe John Garry      2020-03-28  577  #if !defined(inl) && !defined(_inl)
+f009c89df79abe John Garry      2020-03-28 @578  #define _inl _inl
+6f043e75744596 Niklas Schnelle 2024-10-24  579  #ifdef CONFIG_HAS_IOPORT
+214ba3584b2e2c Stafford Horne  2020-07-26  580  static inline u32 _inl(unsigned long addr)
+9216efafc52ff9 Thierry Reding  2014-10-01  581  {
+87fe2d543f8173 Sinan Kaya      2018-04-05  582  	u32 val;
+87fe2d543f8173 Sinan Kaya      2018-04-05  583  
+87fe2d543f8173 Sinan Kaya      2018-04-05  584  	__io_pbr();
+c1d55d50139bea Stafford Horne  2020-07-29  585  	val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+abbbbc83a210e9 Will Deacon     2019-02-22  586  	__io_par(val);
+87fe2d543f8173 Sinan Kaya      2018-04-05  587  	return val;
+9216efafc52ff9 Thierry Reding  2014-10-01  588  }
+6f043e75744596 Niklas Schnelle 2024-10-24  589  #else
+6f043e75744596 Niklas Schnelle 2024-10-24  590  u32 _inl(unsigned long addr)
+6f043e75744596 Niklas Schnelle 2024-10-24  591  	__compiletime_error("inl() requires CONFIG_HAS_IOPORT");
+6f043e75744596 Niklas Schnelle 2024-10-24  592  #endif
+9216efafc52ff9 Thierry Reding  2014-10-01  593  #endif
+9216efafc52ff9 Thierry Reding  2014-10-01  594  
+f009c89df79abe John Garry      2020-03-28  595  #if !defined(outb) && !defined(_outb)
+f009c89df79abe John Garry      2020-03-28 @596  #define _outb _outb
+6f043e75744596 Niklas Schnelle 2024-10-24  597  #ifdef CONFIG_HAS_IOPORT
+f009c89df79abe John Garry      2020-03-28  598  static inline void _outb(u8 value, unsigned long addr)
+9216efafc52ff9 Thierry Reding  2014-10-01  599  {
+a7851aa54c0cdd Sinan Kaya      2018-04-05  600  	__io_pbw();
+a7851aa54c0cdd Sinan Kaya      2018-04-05  601  	__raw_writeb(value, PCI_IOBASE + addr);
+a7851aa54c0cdd Sinan Kaya      2018-04-05  602  	__io_paw();
+9216efafc52ff9 Thierry Reding  2014-10-01  603  }
+6f043e75744596 Niklas Schnelle 2024-10-24  604  #else
+6f043e75744596 Niklas Schnelle 2024-10-24  605  void _outb(u8 value, unsigned long addr)
+6f043e75744596 Niklas Schnelle 2024-10-24  606  	__compiletime_error("outb() requires CONFIG_HAS_IOPORT");
+6f043e75744596 Niklas Schnelle 2024-10-24  607  #endif
+9216efafc52ff9 Thierry Reding  2014-10-01  608  #endif
+9216efafc52ff9 Thierry Reding  2014-10-01  609  
+f009c89df79abe John Garry      2020-03-28  610  #if !defined(outw) && !defined(_outw)
+f009c89df79abe John Garry      2020-03-28  611  #define _outw _outw
+6f043e75744596 Niklas Schnelle 2024-10-24  612  #ifdef CONFIG_HAS_IOPORT
+f009c89df79abe John Garry      2020-03-28  613  static inline void _outw(u16 value, unsigned long addr)
+9216efafc52ff9 Thierry Reding  2014-10-01  614  {
+a7851aa54c0cdd Sinan Kaya      2018-04-05  615  	__io_pbw();
+c1d55d50139bea Stafford Horne  2020-07-29  616  	__raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+a7851aa54c0cdd Sinan Kaya      2018-04-05  617  	__io_paw();
+9216efafc52ff9 Thierry Reding  2014-10-01  618  }
+6f043e75744596 Niklas Schnelle 2024-10-24  619  #else
+6f043e75744596 Niklas Schnelle 2024-10-24  620  void _outw(u16 value, unsigned long addr)
+6f043e75744596 Niklas Schnelle 2024-10-24  621  	__compiletime_error("outw() requires CONFIG_HAS_IOPORT");
+6f043e75744596 Niklas Schnelle 2024-10-24  622  #endif
+9216efafc52ff9 Thierry Reding  2014-10-01  623  #endif
+9216efafc52ff9 Thierry Reding  2014-10-01  624  
+f009c89df79abe John Garry      2020-03-28  625  #if !defined(outl) && !defined(_outl)
+f009c89df79abe John Garry      2020-03-28 @626  #define _outl _outl
+6f043e75744596 Niklas Schnelle 2024-10-24  627  #ifdef CONFIG_HAS_IOPORT
+f009c89df79abe John Garry      2020-03-28  628  static inline void _outl(u32 value, unsigned long addr)
+9216efafc52ff9 Thierry Reding  2014-10-01  629  {
+a7851aa54c0cdd Sinan Kaya      2018-04-05  630  	__io_pbw();
+c1d55d50139bea Stafford Horne  2020-07-29  631  	__raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+a7851aa54c0cdd Sinan Kaya      2018-04-05  632  	__io_paw();
+9216efafc52ff9 Thierry Reding  2014-10-01  633  }
+6f043e75744596 Niklas Schnelle 2024-10-24  634  #else
+6f043e75744596 Niklas Schnelle 2024-10-24  635  void _outl(u32 value, unsigned long addr)
+6f043e75744596 Niklas Schnelle 2024-10-24  636  	__compiletime_error("outl() requires CONFIG_HAS_IOPORT");
+6f043e75744596 Niklas Schnelle 2024-10-24  637  #endif
+9216efafc52ff9 Thierry Reding  2014-10-01  638  #endif
+9216efafc52ff9 Thierry Reding  2014-10-01  639  
+
+:::::: The code at line 542 was first introduced by commit
+:::::: f009c89df79abea5f5244b8135a205f7d4352f86 io: Provide _inX() and _outX()
+
+:::::: TO: John Garry <john.garry@huawei.com>
+:::::: CC: Wei Xu <xuwei5@hisilicon.com>
 
 -- 
 0-DAY CI Kernel Test Service
