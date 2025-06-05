@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89F847B3E1
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Jun 2025 01:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4A2222EF5
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Jun 2025 01:54:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749087874; cv=none; b=qSjvk7TPhaWlrYlYQCav8XbOCiTh9t79yXtxvSv//acwA3f+QUrn3emY10YgIDPobWuijdwi59R82OzEhsI6zFwfFvVPYWkGtsfhpHoVnrgkoaeBePgqDFLSIeP1CDF93HfKWxYMEav3G/C7CCMzqzjilhlHoANjg3g9QK+1ZQ8=
+	t=1749088502; cv=none; b=UR9m9BC7Gs5ev+1G6mBr55OxLCZhzvvPRXGq0durdSZVgIcmUdgOsCYV2oGKzGYLWt07vyKBJl8gE8hYFk+0kpDjKl8QgpiqqOMc/TT1BTIdZSjXtFPuOzDOhWxybl/tB0Cf/cJ/umTLXp+Ck+fyIOmbDv63vlVgXf7AWRhP3ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749087874; c=relaxed/simple;
-	bh=98JOeQbdHFLnotA+noW+iaW7ngQU/8uiWvpLuOb+XPU=;
+	s=arc-20240116; t=1749088502; c=relaxed/simple;
+	bh=MeHhNTIHQxykM+s5btp55evNhJvtg+q4i6rFxvBZOCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AlalbHrNNWcOdPV+C0CHf9cJ2qpN36IjHUh81PPrbI8kMLQO9A7+Eo5LEznC+NqHTe8dnINl/0hJuyQNWMaQic0Dk339RUsPSujJ0Nei1A5a/qcczs9evkCPzC0OYCztWGFxovAFAhUr0/dOv0TLu7NAhwn6tCCFo2bKqtNs0FQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MOj6AOTL; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=WJVHebGR/e6A7SyqGpZhJ+frfB1qZwjuinkKrSClwdYg833RLO4WCESCNIj0AgqwzoglmZwy+G4StPWS/ekHYKyJ9XP/c51aGykTTsPDpbM3OmBgDfXHTjU+nrP2mNoJQxmF8zpAaD8fL05cjdrCFW9zehk/o6aLTAwD5O8pUJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bh5rXYRJ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MOj6AOTL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bh5rXYRJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749087873; x=1780623873;
+  t=1749088500; x=1780624500;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=98JOeQbdHFLnotA+noW+iaW7ngQU/8uiWvpLuOb+XPU=;
-  b=MOj6AOTLbEtlzzohiKDYX6HNVyLwUqDNFOmcdhd+CR5Zjb/ghEeQZMg6
-   evNxz6rFTs8OjED94OXXKhRyiA6u93hTbVb67w9batZvDSJPfM28rNBVO
-   A1PJNSBkefSEaA0/RYI49pIYHLtNGeib9HSzUF3s07AFZp3dOE/Q6tF+I
-   D7KbfQ92tot0rbxm4S35u/1/D7F2MtqgO1EcDGP9tYg5WCRpQL747VJdX
-   BD/uR72KduNZ/HF+AdF4gOLmtj4aCx/z9FepZrxJBCY4Ts5UJLwU18g4G
-   qGt1F6VkzJbx5BnJYYjNs8TZnzMm4UOiyYyiBhn04p6AjfdOEtpDs9EBI
-   g==;
-X-CSE-ConnectionGUID: 5nLOXJOET86OU6riFT90eA==
-X-CSE-MsgGUID: M8lkJ1EEShurkt2fJgldGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="50428995"
+  bh=MeHhNTIHQxykM+s5btp55evNhJvtg+q4i6rFxvBZOCc=;
+  b=bh5rXYRJLDHUHbcijy6jGtfQfkIjJy/3DgBbW3o5+tOhfBTbO1D33MMp
+   yX00iAHgQlsFyC2U3cVdtdbOyYrEaTO3QzNV+ol1gl9GmMLjEIvhSPb3q
+   4rZWDwCIpHEL4CdxXSb8YV0mMH7UUTm6n1x491EQ2AeROS7Trtkr+KmuD
+   zJi7evBu+mNHQRjinqk9f21votama+8kzcYox1eao/GtECQNCe6dGTqvz
+   AJD9QxySisu/WyHon62wBrudnfpwD6se5UxpDcXGIMlHgqMRBJLzzJkoQ
+   A/QSaySusdZKJIBL8+OvGWPrkrU3IJkwYirfbXKKoQCzW4LHRHLe+2UB1
+   A==;
+X-CSE-ConnectionGUID: yABOKyrKRrKAfeTpzi8Yqw==
+X-CSE-MsgGUID: pOF/zpg+QFyRCn2e83BvKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="50308591"
 X-IronPort-AV: E=Sophos;i="6.16,210,1744095600"; 
-   d="scan'208";a="50428995"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 18:44:32 -0700
-X-CSE-ConnectionGUID: dEUDQmIrQ66OfnWE4rAZqQ==
-X-CSE-MsgGUID: weT2W26dST+ROmHqbZ/jjw==
+   d="scan'208";a="50308591"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2025 18:54:59 -0700
+X-CSE-ConnectionGUID: YN19013wTxis1qxvP78s/A==
+X-CSE-MsgGUID: cY2PgH7cQyOZAGDzNwYgfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,210,1744095600"; 
-   d="scan'208";a="145317455"
-Received: from igk-lkp-server01.igk.intel.com (HELO b69e6467d450) ([10.211.3.150])
-  by fmviesa007.fm.intel.com with ESMTP; 04 Jun 2025 18:44:30 -0700
-Received: from kbuild by b69e6467d450 with local (Exim 4.96)
+   d="scan'208";a="150156111"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 04 Jun 2025 18:54:58 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uMzee-0001qI-02;
-	Thu, 05 Jun 2025 01:44:28 +0000
-Date: Thu, 5 Jun 2025 09:43:43 +0800
+	id 1uMzol-0003bx-3C;
+	Thu, 05 Jun 2025 01:54:55 +0000
+Date: Thu, 5 Jun 2025 09:54:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: mipi@21dc000
- (fsl,imx6-mipi-csi2): 'port' does not match any of the regexes:
- '^pinctrl-[0-9]+$', '^port@[1-4]$'
-Message-ID: <202506050912.DQmua49D-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 150/150]
+ drivers/gpu/mediatek/mtk_proprietary/gpueb/gpueb.c: gpueb_common.h is
+ included more than once.
+Message-ID: <202506050922.iWDp7qVi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,35 +63,42 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   1af80d00e1e026c317c6ec19b1072f81ba7af64c
-commit: 48dbb76cef65fabaa3ac97461eda90495e954ecd dt-bindings: media: convert imx.txt to yaml format
-date:   4 weeks ago
-config: arm-randconfig-2052-20250514 (https://download.01.org/0day-ci/archive/20250605/202506050912.DQmua49D-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-dtschema version: 2025.3.dev27+g32749b3
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250605/202506050912.DQmua49D-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   8df8cc2d3cc80f60a56cd1ad44ed404f4c7ac449
+commit: 8df8cc2d3cc80f60a56cd1ad44ed404f4c7ac449 [150/150] CHROMIUM: gpu/mediatek: move mtk_proprietary out of mali
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506050912.DQmua49D-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506050922.iWDp7qVi-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/imx/imx6qdl.dtsi:907.28-915.6: Warning (unique_unit_address_if_enabled): /soc/bus@2000000/iomuxc-gpr@20e0000: duplicate unit-address (also used in node /soc/bus@2000000/pinctrl@20e0000)
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /ldb: failed to match any schema with compatible: ['fsl,imx6q-ldb', 'fsl,imx53-ldb']
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /ldb: failed to match any schema with compatible: ['fsl,imx6q-ldb', 'fsl,imx53-ldb']
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: iomuxc-gpr@20e0000 (fsl,imx6q-iomuxc-gpr): 'ipu1_csi0_mux', 'ipu2_csi1_mux' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/soc/imx/fsl,imx-iomuxc-gpr.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: pcf8523@68 (nxp,pcf8523): $nodename:0: 'pcf8523@68' does not match '^rtc(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/rtc/nxp,pcf8523.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /soc/bus@2100000/i2c@21a0000/tc358743@f: failed to match any schema with compatible: ['toshiba,tc358743']
->> arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: mipi@21dc000 (fsl,imx6-mipi-csi2): 'port' does not match any of the regexes: '^pinctrl-[0-9]+$', '^port@[1-4]$'
-   	from schema $id: http://devicetree.org/schemas/media/fsl,imx6-mipi-csi2.yaml#
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /soc/bus@2100000/vdoa@21e4000: failed to match any schema with compatible: ['fsl,imx6q-vdoa']
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /soc/ipu@2400000: failed to match any schema with compatible: ['fsl,imx6q-ipu']
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /soc/ipu@2800000: failed to match any schema with compatible: ['fsl,imx6q-ipu']
-   arch/arm/boot/dts/nxp/imx/imx6q-h100.dtb: /display-subsystem: failed to match any schema with compatible: ['fsl,imx-display-subsystem']
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/gpu/mediatek/mtk_proprietary/gpueb/gpueb.c: gpueb_common.h is included more than once.
+--
+>> drivers/gpu/mediatek/mtk_proprietary/ged/src/ged_notify_sw_vsync.c: ged_log.h is included more than once.
+>> drivers/gpu/mediatek/mtk_proprietary/ged/src/ged_notify_sw_vsync.c: ged_dvfs.h is included more than once.
+--
+>> drivers/gpu/mediatek/mtk_proprietary/ged/src/ged_eb.c: linux/module.h is included more than once.
+--
+>> drivers/gpu/mediatek/mtk_proprietary/gpueb/ghpm_swwa.c: linux/of_address.h is included more than once.
+--
+>> drivers/gpu/mediatek/mtk_proprietary/ged/src/ged_dvfs.c: linux/sched.h is included more than once.
+
+vim +30 drivers/gpu/mediatek/mtk_proprietary/gpueb/gpueb.c
+
+  > 30	#include "gpueb_common.h"
+    31	#include "gpueb_helper.h"
+    32	#include "gpueb_ipi.h"
+    33	#include "gpueb_logger.h"
+    34	#include "gpueb_reserved_mem.h"
+    35	#include "gpueb_plat_service.h"
+    36	#include "gpueb_hwvoter_dbg.h"
+    37	#include "gpueb_debug.h"
+    38	#include "gpueb_timesync.h"
+  > 39	#include "gpueb_common.h"
+    40	#include "ghpm_wrapper.h"
+    41	
 
 -- 
 0-DAY CI Kernel Test Service
