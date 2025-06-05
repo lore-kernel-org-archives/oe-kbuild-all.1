@@ -1,64 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A7B31E1DE2;
-	Thu,  5 Jun 2025 16:00:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E8D27B4F7
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Jun 2025 18:42:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749139204; cv=none; b=mqWu8ovqjwC1uD3zryN8JNgxnGx0+UKQ/1+KKZAa0+vH2I4gbXx3wFDFYYLu0E5SPlBSnKVkcvBCLwdktUzu6cRS9UccX1YaVVOI2PlL6ncw3BhTz4lnU5WMQkquV9HkvN6k2dXHZ5vcITiLGkPV5MGT8EZPw3riHFnoLMZ6rAY=
+	t=1749148942; cv=none; b=kZjKZgRrgkwmGdBS0L4ekwW2viVLR5+vnaDCHobe/5Ca/LlBlULR+aaTZmoAGXJ3dzVqoVP7Urp2QzkALbLh1vs98tAAbMO68S7cP4hQ9N2qN+mWdlmeyfhfg7bR9+xHAFACaDbYQ4CebRpkiY4pMZbksKX2QPICrS85e9wP8hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749139204; c=relaxed/simple;
-	bh=RRz7YiPhyPTQ22ArkvymjhdfeIHClOipkpfMkO35EZM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZcQnrm+fGmmLBz6mEa3ku1ZABMvU+ndh9QYEpbAoK1rGUwwYnIrM3k4Aqb0m4+3NbK0kE9v/bzvhag5SWz5Vu44hYwP5MADZvYayB0ARDrBp9WU2+ZSz1pkcO5Dnnp3W1QalQrabo91/0UJOZLDrmVB7ZM70AU4GqDjHsQFpes8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l6fO/TMU; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1749148942; c=relaxed/simple;
+	bh=L3vL9EEkg+d4ZGeeKcN6VkdBpMpJkSopFuzSj7ILxeY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=PaVXDJtyb5W8WXXg71QaesYRs4Y9pqgMytFiJVv3SmBetCjYLgW7Sy07NkUfE+oE9TwclSYu3xTgJVF/xuIv3Ua7vZWJfGSOlITFqmhTh4kQRlJbTiwjZ799nONOp2ZNPfgj7G3KS3+LV/Hm+KDir6y3Va7o78Pu2Jx/oyF3y0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iEIfrDJz; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l6fO/TMU"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iEIfrDJz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749139201; x=1780675201;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RRz7YiPhyPTQ22ArkvymjhdfeIHClOipkpfMkO35EZM=;
-  b=l6fO/TMU6lF7r4mNoC561ba2FYM0sb7OFmue5z0shRPpAlyIo1CGPhXp
-   SdEkI8VbsFkkU6omV6x9DZJSl2Cpt0E+DVRZBzEJmKmKC97hUFgd+2oe4
-   zavjg3Nn+5cvlSeoawlageYdZVh4ne4Sq+xbjszggyHAGNrFWQDDUJ66h
-   kjv1RsIdcTDcMoQ1/v4O9djEfabCepfzhpZkofNuc38jUuTF9bHGIeaVX
-   f0K+NmHXfxzsQz+WQWzVb+qChxfc/swuJIpDbbZcVvfyeSvX2XvLJCydy
-   w7mrHw1rJYg75jWnlDwYNixbavQxAc7WXMb1yEhkJfRlyGS02ff9lDpUt
-   Q==;
-X-CSE-ConnectionGUID: ueRbVvf6SO2LqBwhkKUXGQ==
-X-CSE-MsgGUID: P00CrEzNSBuYhV2+NayeFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="61886188"
+  t=1749148940; x=1780684940;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=L3vL9EEkg+d4ZGeeKcN6VkdBpMpJkSopFuzSj7ILxeY=;
+  b=iEIfrDJzfCMmLhzEWkvCvukyd91nVrqpJnziI2fWrrCFiFga+IlORnNI
+   1FaIKXcucHqVocM9XZhnDrW9sItqZbV/dHGsRG4ldk4j5DeITJn4Axp7U
+   vJPTjOifVnEpzAHvMcIPO6nX8XCTThI/8bhCaKjEnhKUx5lsZ8xtNHbpv
+   TsZbRGC+BjShZ01T9wZv8bn/kWnAV3HWkj2HSokKSJY1mm3oikmS3klPo
+   dDtQRqeE0y9M3MtGY71GMM7t5hFXmz81IK17eBuD9y0l4AnxOkLf0SlDq
+   d8Qmsr+akLIsNIEwRM08maDdxLc+J2rmn2YIFuZPuSMRhAMoLTqZeABns
+   A==;
+X-CSE-ConnectionGUID: 0aJ8sn/hS3O+4P9Kv0f8Mw==
+X-CSE-MsgGUID: a3L5umouSDW/fR/+i3nEUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="51285984"
 X-IronPort-AV: E=Sophos;i="6.16,212,1744095600"; 
-   d="scan'208";a="61886188"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 09:00:01 -0700
-X-CSE-ConnectionGUID: v0/PGK0lRouERhntos4ZtA==
-X-CSE-MsgGUID: Lvt/OwDyTLSQbKeDu4fzcw==
+   d="scan'208";a="51285984"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 11:42:18 -0700
+X-CSE-ConnectionGUID: AIOSbvLfRrGTTpAnSxexDw==
+X-CSE-MsgGUID: WZGiOjFPQGW+nuu5VDStdQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,212,1744095600"; 
-   d="scan'208";a="145510428"
+   d="scan'208";a="146578428"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 05 Jun 2025 08:59:58 -0700
+  by orviesa008.jf.intel.com with ESMTP; 05 Jun 2025 11:42:15 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uND0V-0004F7-0s;
-	Thu, 05 Jun 2025 15:59:55 +0000
-Date: Thu, 5 Jun 2025 23:59:02 +0800
+	id 1uNFXZ-0004Nz-1a;
+	Thu, 05 Jun 2025 18:42:13 +0000
+Date: Fri, 6 Jun 2025 02:41:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Timmermann <linux@timmermann.space>, lee@kernel.org,
-	pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux@timmermann.space
-Subject: Re: [PATCH v3 1/2] leds: as3668: Driver for the ams Osram 4-channel
- i2c LED driver
-Message-ID: <202506052351.GK29s0TN-lkp@intel.com>
-References: <20250604225838.102910-2-linux@timmermann.space>
+To: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+	Nikolay Borisov <nik.borisov@suse.com>
+Subject: [peterz-queue:x86/urgent 4/5] arch/x86/kernel/alternative.c:264:26:
+ warning: assignment to 'void *' from 'int' makes pointer from integer
+ without a cast
+Message-ID: <202506060243.1ZWBBG8K-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,132 +64,105 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250604225838.102910-2-linux@timmermann.space>
 
-Hi Lukas,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on lee-leds/for-leds-next]
-[also build test ERROR on linus/master v6.15 next-20250605]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Timmermann/leds-as3668-Driver-for-the-ams-Osram-4-channel-i2c-LED-driver/20250605-112204
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20250604225838.102910-2-linux%40timmermann.space
-patch subject: [PATCH v3 1/2] leds: as3668: Driver for the ams Osram 4-channel i2c LED driver
-config: x86_64-kexec (attached as .config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250605/202506052351.GK29s0TN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git x86/urgent
+head:   e87348e4a2daaf44da409991ca751e8844b27ef8
+commit: 01c48b9466bf0ecf95821e3ea1a58b876c4e8aaf [4/5] x86/its: explicitly manage permissions for ITS pages
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250606/202506060243.1ZWBBG8K-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506060243.1ZWBBG8K-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506052351.GK29s0TN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506060243.1ZWBBG8K-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/leds/Kconfig:116: syntax error
-   drivers/leds/Kconfig:116: unknown statement "The"
-   drivers/leds/Kconfig:117:warning: ignoring unsupported character '.'
-   drivers/leds/Kconfig:117: unknown statement "the"
-   drivers/leds/Kconfig:118:warning: ignoring unsupported character ','
-   drivers/leds/Kconfig:118:warning: ignoring unsupported character '.'
-   drivers/leds/Kconfig:118: unknown statement "channel"
-   drivers/leds/Kconfig:121:warning: ignoring unsupported character ','
-   drivers/leds/Kconfig:121:warning: ignoring unsupported character ':'
-   drivers/leds/Kconfig:121: unknown statement "To"
-   drivers/leds/Kconfig:122:warning: ignoring unsupported character '.'
-   drivers/leds/Kconfig:122: unknown statement "will"
-   make[3]: *** [scripts/kconfig/Makefile:85: oldconfig] Error 1
-   make[2]: *** [Makefile:731: oldconfig] Error 2
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'oldconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'oldconfig' not remade because of errors.
---
->> drivers/leds/Kconfig:116: syntax error
-   drivers/leds/Kconfig:116: unknown statement "The"
-   drivers/leds/Kconfig:117:warning: ignoring unsupported character '.'
-   drivers/leds/Kconfig:117: unknown statement "the"
-   drivers/leds/Kconfig:118:warning: ignoring unsupported character ','
-   drivers/leds/Kconfig:118:warning: ignoring unsupported character '.'
-   drivers/leds/Kconfig:118: unknown statement "channel"
-   drivers/leds/Kconfig:121:warning: ignoring unsupported character ','
-   drivers/leds/Kconfig:121:warning: ignoring unsupported character ':'
-   drivers/leds/Kconfig:121: unknown statement "To"
-   drivers/leds/Kconfig:122:warning: ignoring unsupported character '.'
-   drivers/leds/Kconfig:122: unknown statement "will"
-   make[3]: *** [scripts/kconfig/Makefile:85: olddefconfig] Error 1
-   make[2]: *** [Makefile:731: olddefconfig] Error 2
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'olddefconfig' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'olddefconfig' not remade because of errors.
+   arch/x86/kernel/alternative.c: In function 'its_allocate_thunk':
+   arch/x86/kernel/alternative.c:264:28: error: implicit declaration of function 'its_alloc'; did you mean 'ida_alloc'? [-Werror=implicit-function-declaration]
+     264 |                 its_page = its_alloc();
+         |                            ^~~~~~~~~
+         |                            ida_alloc
+>> arch/x86/kernel/alternative.c:264:26: warning: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     264 |                 its_page = its_alloc();
+         |                          ^
+   At top level:
+>> arch/x86/kernel/alternative.c:226:14: warning: 'its_alloc_mod' defined but not used [-Wunused-function]
+     226 | static void *its_alloc_mod(void)
+         |              ^~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +116 drivers/leds/Kconfig
+vim +264 arch/x86/kernel/alternative.c
 
-    66	
-    67	config LEDS_88PM860X
-    68		tristate "LED Support for Marvell 88PM860x PMIC"
-    69		depends on LEDS_CLASS
-    70		depends on MFD_88PM860X
-    71		help
-    72		  This option enables support for on-chip LED drivers found on Marvell
-    73		  Semiconductor 88PM8606 PMIC.
-    74	
-    75	config LEDS_AN30259A
-    76		tristate "LED support for Panasonic AN30259A"
-    77		depends on LEDS_CLASS && I2C && OF
-    78		help
-    79		  This option enables support for the AN30259A 3-channel
-    80		  LED driver.
-    81	
-    82		  To compile this driver as a module, choose M here: the module
-    83		  will be called leds-an30259a.
-    84	
-    85	config LEDS_APU
-    86		tristate "Front panel LED support for PC Engines APU/APU2/APU3 boards"
-    87		depends on LEDS_CLASS
-    88		depends on X86 && DMI
-    89		help
-    90		  This driver makes the PC Engines APU1 front panel LEDs
-    91		  accessible from userspace programs through the LED subsystem.
-    92	
-    93		  If you're looking for APU2/3, use the pcengines-apu2 driver.
-    94		  (symbol CONFIG_PCENGINES_APU2)
-    95	
-    96		  To compile this driver as a module, choose M here: the
-    97		  module will be called leds-apu.
-    98	
-    99	config LEDS_ARIEL
-   100		tristate "Dell Wyse 3020 status LED support"
-   101		depends on LEDS_CLASS
-   102		depends on (MACH_MMP3_DT && MFD_ENE_KB3930) || COMPILE_TEST
-   103		help
-   104		  This driver adds support for controlling the front panel status
-   105		  LEDs on Dell Wyse 3020 (Ariel) board via the KB3930 Embedded
-   106		  Controller.
-   107	
-   108		  Say Y to if your machine is a Dell Wyse 3020 thin client.
-   109	
-   110	config LEDS_AS3668
-   111		tristate "LED support for AMS AS3668"
-   112		depends on LEDS_CLASS
-   113		depends on I2C
-   114		help
-   115			 This option enables support for the AMS AS3668 LED controller.
- > 116			The AS3668 provides up to four LED channels and is controlled via
-   117			the I2C bus. This driver offers basic brightness control for each
-   118			channel, without support for blinking or other advanced features.
-   119	
-   120	
-   121			To compile this driver as a module, choose M here: the module
-   122			will be called leds-as3668.
-   123	
+872df34d7c51a7 Peter Zijlstra         2024-10-14  225  
+01c48b9466bf0e Peter Zijlstra (Intel  2025-06-03 @226) static void *its_alloc_mod(void)
+872df34d7c51a7 Peter Zijlstra         2024-10-14  227  {
+01c48b9466bf0e Peter Zijlstra (Intel  2025-06-03  228) 	struct its_array *pages = &its_pages;
+01c48b9466bf0e Peter Zijlstra (Intel  2025-06-03  229) 	void *page;
+872df34d7c51a7 Peter Zijlstra         2024-10-14  230  
+01c48b9466bf0e Peter Zijlstra (Intel  2025-06-03  231) #ifdef CONFIG_MODULE
+01c48b9466bf0e Peter Zijlstra (Intel  2025-06-03  232) 	if (its_mod)
+01c48b9466bf0e Peter Zijlstra (Intel  2025-06-03  233) 		pages = &its_mod->arch.its_pages;
+01c48b9466bf0e Peter Zijlstra (Intel  2025-06-03  234) #endif
+872df34d7c51a7 Peter Zijlstra         2024-10-14  235  
+01c48b9466bf0e Peter Zijlstra (Intel  2025-06-03  236) 	page = __its_alloc(pages);
+01c48b9466bf0e Peter Zijlstra (Intel  2025-06-03  237) 	if (!page)
+872df34d7c51a7 Peter Zijlstra         2024-10-14  238  		return NULL;
+872df34d7c51a7 Peter Zijlstra         2024-10-14  239  
+872df34d7c51a7 Peter Zijlstra         2024-10-14  240  	execmem_make_temp_rw(page, PAGE_SIZE);
+01c48b9466bf0e Peter Zijlstra (Intel  2025-06-03  241) 	if (pages == &its_pages)
+01c48b9466bf0e Peter Zijlstra (Intel  2025-06-03  242) 		set_memory_x((unsigned long)page, 1);
+872df34d7c51a7 Peter Zijlstra         2024-10-14  243  
+01c48b9466bf0e Peter Zijlstra (Intel  2025-06-03  244) 	return page;
+872df34d7c51a7 Peter Zijlstra         2024-10-14  245  }
+872df34d7c51a7 Peter Zijlstra         2024-10-14  246  
+872df34d7c51a7 Peter Zijlstra         2024-10-14  247  static void *its_allocate_thunk(int reg)
+872df34d7c51a7 Peter Zijlstra         2024-10-14  248  {
+872df34d7c51a7 Peter Zijlstra         2024-10-14  249  	int size = 3 + (reg / 8);
+872df34d7c51a7 Peter Zijlstra         2024-10-14  250  	void *thunk;
+872df34d7c51a7 Peter Zijlstra         2024-10-14  251  
+e52c1dc7455d32 Peter Zijlstra         2025-04-23  252  #ifdef CONFIG_FINEIBT
+e52c1dc7455d32 Peter Zijlstra         2025-04-23  253  	/*
+e52c1dc7455d32 Peter Zijlstra         2025-04-23  254  	 * The ITS thunk contains an indirect jump and an int3 instruction so
+e52c1dc7455d32 Peter Zijlstra         2025-04-23  255  	 * its size is 3 or 4 bytes depending on the register used. If CFI
+e52c1dc7455d32 Peter Zijlstra         2025-04-23  256  	 * paranoid is used then 3 extra bytes are added in the ITS thunk to
+e52c1dc7455d32 Peter Zijlstra         2025-04-23  257  	 * complete the fineibt_paranoid caller sequence.
+e52c1dc7455d32 Peter Zijlstra         2025-04-23  258  	 */
+e52c1dc7455d32 Peter Zijlstra         2025-04-23  259  	if (cfi_paranoid)
+e52c1dc7455d32 Peter Zijlstra         2025-04-23  260  		size += 3;
+e52c1dc7455d32 Peter Zijlstra         2025-04-23  261  #endif
+e52c1dc7455d32 Peter Zijlstra         2025-04-23  262  
+872df34d7c51a7 Peter Zijlstra         2024-10-14  263  	if (!its_page || (its_offset + size - 1) >= PAGE_SIZE) {
+872df34d7c51a7 Peter Zijlstra         2024-10-14 @264  		its_page = its_alloc();
+872df34d7c51a7 Peter Zijlstra         2024-10-14  265  		if (!its_page) {
+872df34d7c51a7 Peter Zijlstra         2024-10-14  266  			pr_err("ITS page allocation failed\n");
+872df34d7c51a7 Peter Zijlstra         2024-10-14  267  			return NULL;
+872df34d7c51a7 Peter Zijlstra         2024-10-14  268  		}
+872df34d7c51a7 Peter Zijlstra         2024-10-14  269  		memset(its_page, INT3_INSN_OPCODE, PAGE_SIZE);
+872df34d7c51a7 Peter Zijlstra         2024-10-14  270  		its_offset = 32;
+872df34d7c51a7 Peter Zijlstra         2024-10-14  271  	}
+872df34d7c51a7 Peter Zijlstra         2024-10-14  272  
+872df34d7c51a7 Peter Zijlstra         2024-10-14  273  	/*
+872df34d7c51a7 Peter Zijlstra         2024-10-14  274  	 * If the indirect branch instruction will be in the lower half
+872df34d7c51a7 Peter Zijlstra         2024-10-14  275  	 * of a cacheline, then update the offset to reach the upper half.
+872df34d7c51a7 Peter Zijlstra         2024-10-14  276  	 */
+872df34d7c51a7 Peter Zijlstra         2024-10-14  277  	if ((its_offset + size - 1) % 64 < 32)
+872df34d7c51a7 Peter Zijlstra         2024-10-14  278  		its_offset = ((its_offset - 1) | 0x3F) + 33;
+872df34d7c51a7 Peter Zijlstra         2024-10-14  279  
+872df34d7c51a7 Peter Zijlstra         2024-10-14  280  	thunk = its_page + its_offset;
+872df34d7c51a7 Peter Zijlstra         2024-10-14  281  	its_offset += size;
+872df34d7c51a7 Peter Zijlstra         2024-10-14  282  
+872df34d7c51a7 Peter Zijlstra         2024-10-14  283  	return its_init_thunk(thunk, reg);
+872df34d7c51a7 Peter Zijlstra         2024-10-14  284  }
+872df34d7c51a7 Peter Zijlstra         2024-10-14  285  
+
+:::::: The code at line 264 was first introduced by commit
+:::::: 872df34d7c51a79523820ea6a14860398c639b87 x86/its: Use dynamic thunks for indirect branches
+
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Dave Hansen <dave.hansen@linux.intel.com>
 
 -- 
 0-DAY CI Kernel Test Service
