@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 295F1566A;
-	Thu,  5 Jun 2025 09:23:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323712114
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  5 Jun 2025 09:33:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749115409; cv=none; b=uc7ltj2iCnk0i3aN26Qwks3WcpsLUpFyaCAWCDC0tM0+PWNzfKJQRSa29AsAqPJ8eWuQ6/7XBopvqfAAABO7DppMjPb7N8unAGw54loScHzjlHDdlRhVB4krd0v9os7Hy5LVDqXXiyZWgw2OHZuYS77X/csW/XqNya5ceIlUxCQ=
+	t=1749116010; cv=none; b=Fc4+dcEqKeq4PrgO/AQi0aJ+q236rDxjnhS4tvRVTjeMBqv9f0hfaJh53tIEIyjR2wiMjAvEC2F+Z0Caj+ib/FAAUkhxnMEnSKSnVWOEo+SQ2poSeDf9w3GVSC8Rifpnc8Z92XM4W7t3FpBeQeOWFFb/zFjik42o2c2pBX6V+CI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749115409; c=relaxed/simple;
-	bh=I+kE3/Px+SSn48ljQajBM6l/xv/Hgd66cC2Mhxzpf4w=;
+	s=arc-20240116; t=1749116010; c=relaxed/simple;
+	bh=pq0/4oGjVaXlQuzXA1LrhkV6m5Wcgc2Vab8bGpMYGW8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j7rTvk/qeupDxBvoheAx9lCo3LG0+1puvrDl28Jgl/HaSYHlVvMTYFBL3mJr695Kh48MPW92mgFUa63CKwSnp3CeqFesv+bi2xQtXX4ZetYI7w5V7LEkcFMWTcIAjFdnqAjclLaZL7OMxtlu5+g68GtpkqxhE7TLv3k5UNGB+cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZuzL8s/7; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=azl/FEtUW3ui7MWHK/8wAnjwyTcetVqcYMijbpk1imXW07A5bswkABpeJKTLz6XP9Gmr781m5P9uQKVpBxsfacqkYgJDHvOgdQJhw1cREX+VGlZn5zjDdnBCyqXkdFy+Ez4Kq5nniOnWiP+KEHSMNtl+0xX/oejoTKiUnEYTzrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PyiTdAln; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZuzL8s/7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PyiTdAln"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749115408; x=1780651408;
+  t=1749116009; x=1780652009;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I+kE3/Px+SSn48ljQajBM6l/xv/Hgd66cC2Mhxzpf4w=;
-  b=ZuzL8s/7U7JXTsELx6XBqvJfmgEIGjyGABIkdYmZ8vGAb91N//kDfGxF
-   cg1nXbCmLbXBmmp0+gK8Mm+9mvPgwmTTsRfqkF0PRoeC0T0XkjirwOqvD
-   dGzz2bnR1kHl4At9QlNdcssHaFCoDfsVp/Le5emJv2DdLZXf6UeTKxi9d
-   oR5Wc/CmfcuDtmf59rqcxWhvt6z+ZKiqiBfTyRd1qlTszDcnKNrKcLd8c
-   0tMqv+dZKTlzAUsFzWLbs0jiDPnRE0sehKxSZ0zyGGq+ec2dPS+rSD/St
-   sX9Vm2LIpyOAc1GvfdHs9O43s1L/ZxEbx4g/iAjIL7O50748fZp4+ZKY6
-   A==;
-X-CSE-ConnectionGUID: YmmSlpXCQVOPUcbF6RDRlQ==
-X-CSE-MsgGUID: U/d5BIacQtSdm63btW4CdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="51141644"
+  bh=pq0/4oGjVaXlQuzXA1LrhkV6m5Wcgc2Vab8bGpMYGW8=;
+  b=PyiTdAlndYt4U1jmPhOrVPpJv1rCUIS0DHVUlkrNukTAjes4HGwzwXyH
+   xctgfvlnPxvquLkM98tu6XKAYhcfUNzPdM74Ml6zd39lD0h71ajMPoci7
+   7xFY+QeMbsKrU1VTGq+q2/S5p2hMrtDuX7UDabIPWR45oNsxI9KH/2ths
+   7UcAKsSyEVM10koDCNwua/zTQME7re0oSfpk2wcq+ulGklMPXt2s1Bw5O
+   6+x/Gj8F/2X7kxk9hvkgHWl1mRNlRZeo5/1ajJGK+J/TMJc7EIDkNG8UE
+   IjPfrXGEAhaR+rOYMtGqZ2W7mdZWq776P5tGKMxmXqe01CsVhHFVqJurF
+   Q==;
+X-CSE-ConnectionGUID: 6cqT9dhoRRSK9vTIsHfbSQ==
+X-CSE-MsgGUID: 7eEVfawxSLieKZrJ5N/4mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11454"; a="54889565"
 X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
-   d="scan'208";a="51141644"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 02:23:27 -0700
-X-CSE-ConnectionGUID: qjPQuT/FQEmGWBhcxBQEcg==
-X-CSE-MsgGUID: 8ecH5uogSQ+pUJx0OQcg4w==
+   d="scan'208";a="54889565"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 02:33:28 -0700
+X-CSE-ConnectionGUID: jnNf57kmQJy9LZF7bRDs2g==
+X-CSE-MsgGUID: gl8q7jIERWGYrzhzC7hWJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,211,1744095600"; 
-   d="scan'208";a="176318504"
+   d="scan'208";a="146048020"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 05 Jun 2025 02:23:26 -0700
+  by orviesa007.jf.intel.com with ESMTP; 05 Jun 2025 02:33:26 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uN6ol-0003xJ-2P;
-	Thu, 05 Jun 2025 09:23:23 +0000
-Date: Thu, 5 Jun 2025 17:22:51 +0800
+	id 1uN6yS-0003xb-1c;
+	Thu, 05 Jun 2025 09:33:24 +0000
+Date: Thu, 5 Jun 2025 17:33:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Igor Belousov <igor.b@beldev.am>
-Subject: [akpm-mm:mm-new 57/59] mm/zblock.h:24:2: warning: This PAGE_SIZE is
- not quite supported yet
-Message-ID: <202506051739.ZMRkokhj-lkp@intel.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rgushchin:bpfoom.1.2 5/17] mm/bpf_memcontrol.c:45:27: sparse:
+ sparse: symbol 'bpf_mem_cgroup_events' was not declared. Should it be
+ static?
+Message-ID: <202506051752.uj7dbLuJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,41 +63,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   574966cc970ddc4ec6fb435bbbca9804d92e4953
-commit: 8666580be1b209caae87288805cda74dc347440a [57/59] mm-zblock-avoid-failing-the-build-fix
-config: powerpc-allyesconfig (https://download.01.org/0day-ci/archive/20250605/202506051739.ZMRkokhj-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250605/202506051739.ZMRkokhj-lkp@intel.com/reproduce)
+tree:   https://github.com/rgushchin/linux.git bpfoom.1.2
+head:   e3a569772f1fbe667574cb12da7cf500a0c91475
+commit: 91f1156004c1e4ba4636fb952d8c076579962d05 [5/17] mm: introduce bpf kfuncs to deal with memcg pointers
+config: hexagon-randconfig-r133-20250605 (https://download.01.org/0day-ci/archive/20250605/202506051752.uj7dbLuJ-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce: (https://download.01.org/0day-ci/archive/20250605/202506051752.uj7dbLuJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506051739.ZMRkokhj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506051752.uj7dbLuJ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/bpf_memcontrol.c:45:27: sparse: sparse: symbol 'bpf_mem_cgroup_events' was not declared. Should it be static?
+>> mm/bpf_memcontrol.c:67:18: sparse: sparse: symbol 'bpf_mem_cgroup_flush_stats' was not declared. Should it be static?
+   mm/bpf_memcontrol.c:37:9: sparse: sparse: context imbalance in 'bpf_get_mem_cgroup' - different lock contexts for basic block
 
-   In file included from mm/zblock.c:28:
->> mm/zblock.h:24:2: warning: This PAGE_SIZE is not quite supported yet [-W#warnings]
-      24 | #warning This PAGE_SIZE is not quite supported yet
-         |  ^
-   1 warning generated.
+vim +/bpf_mem_cgroup_events +45 mm/bpf_memcontrol.c
 
-
-vim +24 mm/zblock.h
-
-    16	
-    17	#if PAGE_SIZE == 0x1000
-    18	/* max 128 slots per block, max table size 32 */
-    19	#define SLOT_BITS 7
-    20	#elif PAGE_SIZE == 0x4000
-    21	/* max 256 slots per block, max table size 64 */
-    22	#define SLOT_BITS 8
-    23	#else
-  > 24	#warning This PAGE_SIZE is not quite supported yet
-    25	#define SLOT_BITS 8
-    26	#endif
-    27	
+    44	
+  > 45	__bpf_kfunc unsigned long bpf_mem_cgroup_events(struct mem_cgroup *memcg, int event)
+    46	{
+    47	
+    48		if (event < 0 || event >= NR_VM_EVENT_ITEMS)
+    49			return (unsigned long)-1;
+    50	
+    51		return memcg_events(memcg, event);
+    52	}
+    53	
+    54	__bpf_kfunc unsigned long bpf_mem_cgroup_usage(struct mem_cgroup *memcg, bool swap)
+    55	{
+    56		return mem_cgroup_usage(memcg, swap);
+    57	}
+    58	
+    59	__bpf_kfunc unsigned long bpf_mem_cgroup_page_state(struct mem_cgroup *memcg, int idx)
+    60	{
+    61		if (idx < 0 || idx >= MEMCG_NR_STAT)
+    62			return (unsigned long)-1;
+    63	
+    64		return memcg_page_state(memcg, idx);
+    65	}
+    66	
+  > 67	__bpf_kfunc void bpf_mem_cgroup_flush_stats(struct mem_cgroup *memcg)
+    68	{
+    69		mem_cgroup_flush_stats(memcg);
+    70	}
+    71	
 
 -- 
 0-DAY CI Kernel Test Service
