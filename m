@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BA0D1DF269
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 03:15:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D50B51E25EB
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 03:15:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749179705; cv=none; b=hQXILwr0W9K29tZ8+5aO+4mM27zSWV1vysRqre9vTze4qzxKO0ZAXVZ+PzyixEieddlsHDIavmpimAYq1jioFcS+2YecOFjgLhZ1qTFMMJw5Wpg6nza3jIcqEtat/XWl4jRt9YkRjpNJjHN6y8QtY3gTEbITDZPanR5w0LVo2Uc=
+	t=1749179707; cv=none; b=cv7kGXJeM8pMZg1fZEetF9ys6J3OJPSScf2Ooz+OUPARYdjBi24gYn+dKylogWAS+aiFYcP6nsKTqrebf25qT+XNPli20GXHH7FZIxP18ODgRwskUzE4brWLF2K1Yy5CL8A6EmAq0OWdtESv66PB5yv1EFDdXcVW8ZNHe5nOzek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749179705; c=relaxed/simple;
-	bh=L1cFSUtxnWAG9M4MTxiraOjhlBRKDXKg4uJvEPwUVnw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u/RI+2uwNyRnRauICFSaLOR/J4qmZIKahx9r6TEldnArzFNO3QYGDCXCHJGIAaTDK55Gyr0Sau2fl9ThMkOoGlFUieGKm0EAAcmg1lH9ty4MUVwKvCK1S76t/+wfAXRu1IIlUe7E1mOhwdMb6qThofaEgkLGLrRZYpsarEfO2PE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JcUIblUv; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1749179707; c=relaxed/simple;
+	bh=uLtPXj1TO+8yvMzR0bpsTw5ttvrIgZKd/a94g6OrWxc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C64hI42C7drcel6t4DkFvTEeMueH6mrp+W9ciEjkho27uAGgxb6G5vbnjK977HByXYcVQLqsq7NVCjzZycrySLD6BOeMKvpf15N7+80+im8YIIQCsnIwPLy1Au4CfB71mbbFFj87Xl2BfYD7eVtWJPolj8h1Y5kCuJSr95SbGsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VzIHUimV; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JcUIblUv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VzIHUimV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749179703; x=1780715703;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=L1cFSUtxnWAG9M4MTxiraOjhlBRKDXKg4uJvEPwUVnw=;
-  b=JcUIblUvKGyKj8niVhCiwspVpc+JR3JvaJldVkprNdOS/iEmFX3Pk+zC
-   f+A7kCL3ONkg1PXA8iCbXmPEaXlAWOWzCwuL50StITNbWN5RVuiSgurEW
-   OJeRIBYMm5+Hbf5Mo53HVG6INY0qKQmwEan03FLPkR1UPid1cryi0CRAX
-   9f+UGTbwzOMArPIuEs0VrK3Eq6j+sApm7P0NxIKS9UKaS9En9pXiCzEzF
-   kuJ3XWKKtjXw/6RNu+/GOhpOAuZtXisWEVFo7G/hncvkN4e5bOO+opObY
-   ZSl32h7hQ/QaFGUOICHD04oDau+Q+lyUIXNxyjfRtxtUBh2BqypgEjqee
-   Q==;
-X-CSE-ConnectionGUID: nfxFrKHWT0WuHgxFaGzT7w==
-X-CSE-MsgGUID: ywkTqNPQTSKZ8KTz83pFSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="73854579"
-X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
-   d="scan'208";a="73854579"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 20:15:02 -0700
-X-CSE-ConnectionGUID: hh0qBrUvTeiPeZjfMXGxJg==
-X-CSE-MsgGUID: SajCl+kDQ4a/Be1i+Lnmeg==
-X-ExtLoop1: 1
+  t=1749179704; x=1780715704;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uLtPXj1TO+8yvMzR0bpsTw5ttvrIgZKd/a94g6OrWxc=;
+  b=VzIHUimVNv4hOPiw6J5uIfm5BonZI8gPMIsFC+tAW/IDUgDI3Fi4o7Is
+   wvTtFXriwkprR/q+XBjZS/6g8++dQ2UPqNp7f1mUGYNBekdyRlEoLBPy5
+   pdWVnvwZlYHvZ/gaXk2Z1ACUelVg6ZGFM0Tk5LM9WhX6xpJApaW/ITRgt
+   GiUVGZh3RDmAd2FmY1mPOk2Odc2ofPOm1zYYle+8tN/hlETXSoXdoC92S
+   LTkUHtn+jCQ3uh+wp8w18WP03qCjViJrsD+2xHb1XuDlRTYSgxCW3G0T+
+   uigqeeZ210LRwXpT5JhiZXVVN/ubVcnbe3fSpyvw8zahsKYNbPStcB12+
+   w==;
+X-CSE-ConnectionGUID: x66RfFylTGiW1fjsSjZivA==
+X-CSE-MsgGUID: TwMLrNkKQ56VwqKQDWL3cA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="38954265"
 X-IronPort-AV: E=Sophos;i="6.16,213,1744095600"; 
-   d="scan'208";a="146664348"
+   d="scan'208";a="38954265"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 20:15:03 -0700
+X-CSE-ConnectionGUID: 02f+2fIzR5ORF7BsnoSD/Q==
+X-CSE-MsgGUID: vebKvckEQ8W4BxE/hhNc6w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
+   d="scan'208";a="176557418"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Jun 2025 20:15:03 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 05 Jun 2025 20:15:02 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNNXn-0004hV-0k;
+	id 1uNNXn-0004hX-0o;
 	Fri, 06 Jun 2025 03:14:59 +0000
-Date: Fri, 6 Jun 2025 11:14:40 +0800
+Date: Fri, 6 Jun 2025 11:14:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Zaid Alali <zaidal@os.amperecomputing.com>
+To: kernel@openeuler.org, Zeng Heng <zengheng4@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v8 5/7] ACPI: APEI: EINJ: Create debugfs files to enter
- device id and syndrome
-Message-ID: <202506061143.AhpoJnGI-lkp@intel.com>
-References: <20250604223804.842501-6-zaidal@os.amperecomputing.com>
+Subject: [openeuler:OLK-6.6 2368/2368] aarch64-linux-ld: monitor.c:undefined
+ reference to `resctrl_arch_mon_resource_init'
+Message-ID: <202506061113.XapyNzuS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,53 +61,133 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250604223804.842501-6-zaidal@os.amperecomputing.com>
 
-Hi Zaid,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge linus/master next-20250605]
-[cannot apply to v6.15]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Zaid-Alali/ACPI-APEI-EINJ-Fix-kernel-test-sparse-warnings/20250605-064102
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20250604223804.842501-6-zaidal%40os.amperecomputing.com
-patch subject: [PATCH v8 5/7] ACPI: APEI: EINJ: Create debugfs files to enter device id and syndrome
-config: x86_64-randconfig-121-20250606 (https://download.01.org/0day-ci/archive/20250606/202506061143.AhpoJnGI-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506061143.AhpoJnGI-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   98afdf0c3d90d25408acc748fef15202f4864b40
+commit: 9d672495f39f9d76efde211b55fb591d6f7df157 [2368/2368] fs/resctrl: Adapt to the hardware topology structures of RDT and MPAM
+config: arm64-randconfig-r054-20250606 (https://download.01.org/0day-ci/archive/20250606/202506061113.XapyNzuS-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506061113.XapyNzuS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506061143.AhpoJnGI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506061113.XapyNzuS-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/acpi/apei/einj-core.c:67:3: sparse: sparse: symbol 'syndrome_data' was not declared. Should it be static?
+All errors (new ones prefixed by >>):
 
-vim +/syndrome_data +67 drivers/acpi/apei/einj-core.c
+   aarch64-linux-ld: rdtgroup.c:(.text+0x4590): undefined reference to `resctrl_sched_in'
+   aarch64-linux-ld: fs/resctrl/rdtgroup.o: in function `rdtgroup_rmdir':
+   rdtgroup.c:(.text+0x4cf8): undefined reference to `resctrl_arch_set_cpu_default_closid_rmid'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x4d48): undefined reference to `resctrl_arch_sync_cpu_defaults'
+   aarch64-linux-ld: fs/resctrl/rdtgroup.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `resctrl_arch_sync_cpu_defaults' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   rdtgroup.c:(.text+0x4d48): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: rdtgroup.c:(.text+0x4d4c): undefined reference to `resctrl_arch_sync_cpu_defaults'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x4dd8): undefined reference to `resctrl_arch_set_cpu_default_closid_rmid'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x4e20): undefined reference to `resctrl_arch_sync_cpu_defaults'
+   aarch64-linux-ld: fs/resctrl/rdtgroup.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `resctrl_arch_sync_cpu_defaults' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   rdtgroup.c:(.text+0x4e20): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: rdtgroup.c:(.text+0x4e24): undefined reference to `resctrl_arch_sync_cpu_defaults'
+   aarch64-linux-ld: fs/resctrl/rdtgroup.o: in function `mkdir_rdt_prepare':
+   rdtgroup.c:(.text+0x4fdc): undefined reference to `resctrl_arch_mon_capable'
+   aarch64-linux-ld: fs/resctrl/rdtgroup.o: in function `rdtgroup_mkdir':
+   rdtgroup.c:(.text+0x50ac): undefined reference to `resctrl_arch_alloc_capable'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x51cc): undefined reference to `resctrl_arch_mon_capable'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x5248): undefined reference to `resctrl_arch_mon_capable'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x52a0): undefined reference to `resctrl_arch_mon_capable'
+   aarch64-linux-ld: fs/resctrl/rdtgroup.o: in function `resctrl_offline_domain':
+   rdtgroup.c:(.text+0x544c): undefined reference to `resctrl_arch_mon_capable'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x54fc): undefined reference to `resctrl_arch_is_llc_occupancy_enabled'
+   aarch64-linux-ld: fs/resctrl/rdtgroup.o: in function `resctrl_online_domain':
+   rdtgroup.c:(.text+0x55c8): undefined reference to `resctrl_arch_get_num_closid'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x567c): undefined reference to `resctrl_arch_system_num_rmid_idx'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x5684): undefined reference to `resctrl_arch_is_llc_occupancy_enabled'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x5690): undefined reference to `resctrl_arch_is_mbm_total_enabled'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x56e0): undefined reference to `resctrl_arch_is_mbm_local_enabled'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x5778): undefined reference to `resctrl_arch_is_llc_occupancy_enabled'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x57e4): undefined reference to `resctrl_arch_mon_capable'
+   aarch64-linux-ld: fs/resctrl/rdtgroup.o: in function `resctrl_offline_cpu':
+   rdtgroup.c:(.text+0x5960): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: rdtgroup.c:(.text+0x5ae0): undefined reference to `resctrl_arch_is_llc_occupancy_enabled'
+   aarch64-linux-ld: fs/resctrl/rdtgroup.o: in function `resctrl_init':
+   rdtgroup.c:(.text+0x5bcc): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: fs/resctrl/ctrlmondata.o: in function `parse_bw':
+   ctrlmondata.c:(.text+0x168): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: ctrlmondata.c:(.text+0x1e8): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: fs/resctrl/ctrlmondata.o: in function `rdtgroup_schemata_write':
+   ctrlmondata.c:(.text+0x888): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: ctrlmondata.c:(.text+0x8a4): undefined reference to `resctrl_arch_update_domains'
+   aarch64-linux-ld: fs/resctrl/ctrlmondata.o: in function `rdtgroup_schemata_show':
+   ctrlmondata.c:(.text+0xb0c): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: ctrlmondata.c:(.text+0xb64): undefined reference to `resctrl_arch_get_config'
+   aarch64-linux-ld: fs/resctrl/ctrlmondata.o: in function `mon_event_read':
+   ctrlmondata.c:(.text+0xc54): undefined reference to `resctrl_arch_mon_ctx_alloc'
+   aarch64-linux-ld: ctrlmondata.c:(.text+0xca0): undefined reference to `resctrl_arch_mon_ctx_free'
+   aarch64-linux-ld: fs/resctrl/ctrlmondata.o: in function `rdtgroup_mondata_show':
+   ctrlmondata.c:(.text+0xd10): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: ctrlmondata.c:(.text+0xd1c): undefined reference to `resctrl_arch_find_domain'
+   aarch64-linux-ld: fs/resctrl/monitor.o: in function `__mon_event_count':
+   monitor.c:(.text+0x54): undefined reference to `resctrl_arch_reset_rmid'
+   aarch64-linux-ld: monitor.c:(.text+0x68): undefined reference to `resctrl_arch_rmid_idx_encode'
+   aarch64-linux-ld: monitor.c:(.text+0xc4): undefined reference to `resctrl_arch_rmid_read'
+   aarch64-linux-ld: fs/resctrl/monitor.o: in function `mbm_update':
+   monitor.c:(.text+0x11c): undefined reference to `resctrl_arch_is_mbm_total_enabled'
+   aarch64-linux-ld: monitor.c:(.text+0x138): undefined reference to `resctrl_arch_mon_ctx_alloc'
+   aarch64-linux-ld: monitor.c:(.text+0x184): undefined reference to `resctrl_arch_mon_ctx_free'
+   aarch64-linux-ld: monitor.c:(.text+0x188): undefined reference to `resctrl_arch_is_mbm_local_enabled'
+   aarch64-linux-ld: monitor.c:(.text+0x1a4): undefined reference to `resctrl_arch_mon_ctx_alloc'
+   aarch64-linux-ld: monitor.c:(.text+0x1f8): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: monitor.c:(.text+0x23c): undefined reference to `resctrl_arch_rmid_idx_encode'
+   aarch64-linux-ld: monitor.c:(.text+0x2bc): undefined reference to `resctrl_arch_mon_ctx_free'
+   aarch64-linux-ld: fs/resctrl/monitor.o: in function `__check_limbo':
+   monitor.c:(.text+0x324): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: monitor.c:(.text+0x32c): undefined reference to `resctrl_arch_system_num_rmid_idx'
+   aarch64-linux-ld: monitor.c:(.text+0x344): undefined reference to `resctrl_arch_mon_ctx_alloc'
+   aarch64-linux-ld: monitor.c:(.text+0x3ec): undefined reference to `resctrl_arch_rmid_idx_decode'
+   aarch64-linux-ld: monitor.c:(.text+0x40c): undefined reference to `resctrl_arch_rmid_read'
+   aarch64-linux-ld: monitor.c:(.text+0x4d8): undefined reference to `resctrl_arch_mon_ctx_free'
+   aarch64-linux-ld: fs/resctrl/monitor.o: in function `has_busy_rmid':
+   monitor.c:(.text+0x510): undefined reference to `resctrl_arch_system_num_rmid_idx'
+   aarch64-linux-ld: fs/resctrl/monitor.o: in function `alloc_rmid':
+   monitor.c:(.text+0x5e4): undefined reference to `resctrl_arch_rmid_idx_encode'
+   aarch64-linux-ld: monitor.c:(.text+0x5f4): undefined reference to `resctrl_arch_rmid_idx_encode'
+   aarch64-linux-ld: fs/resctrl/monitor.o: in function `free_rmid':
+   monitor.c:(.text+0x90c): undefined reference to `resctrl_arch_rmid_idx_encode'
+   aarch64-linux-ld: monitor.c:(.text+0x91c): undefined reference to `resctrl_arch_rmid_idx_encode'
+   aarch64-linux-ld: monitor.c:(.text+0x948): undefined reference to `resctrl_arch_rmid_idx_decode'
+   aarch64-linux-ld: monitor.c:(.text+0x950): undefined reference to `resctrl_arch_is_llc_occupancy_enabled'
+   aarch64-linux-ld: monitor.c:(.text+0x960): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: monitor.c:(.text+0x974): undefined reference to `resctrl_arch_rmid_idx_encode'
+   aarch64-linux-ld: fs/resctrl/monitor.o: in function `mbm_handle_overflow':
+   monitor.c:(.text+0xad4): undefined reference to `resctrl_arch_mon_capable'
+   aarch64-linux-ld: monitor.c:(.text+0xaf0): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: monitor.c:(.text+0xb8c): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: monitor.c:(.text+0xbec): undefined reference to `resctrl_arch_is_mbm_local_enabled'
+   aarch64-linux-ld: monitor.c:(.text+0xbfc): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: monitor.c:(.text+0xc18): undefined reference to `resctrl_arch_rmid_idx_encode'
+   aarch64-linux-ld: monitor.c:(.text+0xce8): undefined reference to `resctrl_arch_get_config'
+   aarch64-linux-ld: monitor.c:(.text+0xd84): undefined reference to `resctrl_arch_update_one'
+   aarch64-linux-ld: fs/resctrl/monitor.o: in function `mbm_setup_overflow_handler':
+   monitor.c:(.text+0xe4c): undefined reference to `resctrl_arch_mon_capable'
+   aarch64-linux-ld: fs/resctrl/monitor.o: in function `resctrl_mon_resource_init':
+   monitor.c:(.text+0xf50): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: monitor.c:(.text+0xf98): undefined reference to `resctrl_arch_system_num_rmid_idx'
+   aarch64-linux-ld: monitor.c:(.text+0xfa8): undefined reference to `resctrl_arch_get_num_closid'
+   aarch64-linux-ld: monitor.c:(.text+0x1028): undefined reference to `resctrl_arch_rmid_idx_decode'
+   aarch64-linux-ld: monitor.c:(.text+0x1074): undefined reference to `resctrl_arch_rmid_idx_encode'
+   aarch64-linux-ld: monitor.c:(.text+0x108c): undefined reference to `resctrl_arch_rmid_idx_decode'
+>> aarch64-linux-ld: monitor.c:(.text+0x10c8): undefined reference to `resctrl_arch_mon_resource_init'
+   aarch64-linux-ld: fs/resctrl/monitor.o: in function `resctrl_mon_resource_exit':
+   monitor.c:(.text+0x1110): undefined reference to `resctrl_arch_get_resource'
+   aarch64-linux-ld: fs/resctrl/psuedo_lock.o: in function `rdtgroup_locksetup_enter':
+   psuedo_lock.c:(.text+0x3ec): undefined reference to `resctrl_arch_get_cdp_enabled'
+   aarch64-linux-ld: psuedo_lock.c:(.text+0x40c): undefined reference to `resctrl_arch_get_cdp_enabled'
 
-    53	
-    54	struct syndrome_array {
-    55		union {
-    56			u8	acpi_id[16];
-    57			u8	device_id[16];
-    58			u8	pcie_sbdf[16];
-    59			u8	vendor_id[16];
-    60		} comp_id;
-    61		union {
-    62			u8	proc_synd[16];
-    63			u8	mem_synd[16];
-    64			u8	pcie_synd[16];
-    65			u8	vendor_synd[16];
-    66		} comp_synd;
-  > 67	} *syndrome_data;
-    68	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for RESCTRL_FS
+   Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
+   Selected by [y]:
+   - ARM64_MPAM [=y]
 
 -- 
 0-DAY CI Kernel Test Service
