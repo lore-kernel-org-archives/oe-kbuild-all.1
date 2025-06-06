@@ -1,170 +1,147 @@
-Received: from fout-a6-smtp.messagingengine.com (fout-a6-smtp.messagingengine.com [103.168.172.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E27924EF6B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 07:46:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BEC284685
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 07:51:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749196022; cv=none; b=dwrev58w+vHR3mrvnimE7pal635zS3AZVw0YjsWC5avStZvXn4wYYV2NhF0etwRCdLDvRJlQDTi99czk1dpQL0/myPqsi/cY1HCvIrmVKDJJV/RD+W1tQinwxAisMgb66VJA4CbqiZo4+zwQOlwkK72q3TbL7o/etK8Oj86dor0=
+	t=1749196304; cv=none; b=Waq06ME2y6Z5306eXSi8/r4Mn7vB0UbF6yAsd3QQWNqRk4RG+p1LzlmTAI8jL44u47fMAqLD08CihbDRPwa+dmK7YBQGfY7Hr1cSodqrXzWyV0FDBp/WlEaJTHDE1Zni8FkiReiUsreJQNmofVmHMBfWk/tb74eLBBr+SPLSv7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749196022; c=relaxed/simple;
-	bh=rmZDF+RlSJHKZ5X5l4BkRPSwPdKF+zBwNj9aPY46WH8=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=lS+E1pYhhIoc0MQg01kHvcjJgAmb4oCoOGvGXAdrzgiCzyGOqFtUqbFmJlf8npX425+erKr/HLiKSoRXOdJWqF6Mu68jQdinj8WPHvSyEBiOzi+yICyKHRX7rSEB7B3DrpbRY0GsYzSoNAcMQhQ+MGfYyLb0lj79E8RBXp5gOgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=CPjw2ksK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=rGu9eUm6; arc=none smtp.client-ip=103.168.172.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1749196304; c=relaxed/simple;
+	bh=aKWaCYwDz1+bVvsuOEtWRHAykIFV2+vyZzfLCF7Fzw8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b3dvAWJtVXXEcdAoNjoYsZi/kHRxSEudvMeictkZ9cZbgqxN7wV0HKsyVwhjU87woMDDTW4pklCZKFmGPgCsje41+Zk2CfomIewCezhtmNh8h19nb/UPWxwflLOhMCJhSE3VeqZT6k+fQ8xkeNknyMq6JHuxI3LslnOnj/gv4+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GkVRhPLr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ixSCkc1r; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jmAAtApL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=beYxy38h; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="CPjw2ksK";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="rGu9eUm6"
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id 5D4231380180;
-	Fri,  6 Jun 2025 03:46:59 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-05.internal (MEProxy); Fri, 06 Jun 2025 03:46:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1749196019;
-	 x=1749282419; bh=oV21dNIWKZDvuhbCJCLXWIsx7sHMrNMlFT3ve8/dK8M=; b=
-	CPjw2ksK74p+JN+7qoA/eq1mdw0TnCGGrvpuZnFpGMhLxgPLu1WWQJL+y5ync9IB
-	YbdPyc8bC/eKoKpp4L31WbNFCtT5EPvAdljwpMu2abM3i21EYfT2BPfKBUccdc1M
-	KafETaVXQ3kLFr57gT9KmeprxJz05dK8EFi653fUA38eJxESIg060NDS9ZmTyfbI
-	fVI1UNv8S+yrL/9BdMmEJCsk4414p4+1l4+cTBywbF5nvQLrfAIU6xTUL/ToFTOy
-	28CqOqd0cXcOq8bAElX8laih2DwQXUhtLNFsys3PStqQca4SrVybcyY/RgzredRu
-	ja7eysjoCGKWVQGdUST9TQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749196019; x=
-	1749282419; bh=oV21dNIWKZDvuhbCJCLXWIsx7sHMrNMlFT3ve8/dK8M=; b=r
-	Gu9eUm6UZrJqdLBM5sJXbJmiM0FNsudR3qT2IV6jiv20keYaaGDRTjrtqOtX+Uov
-	gBxQ38kkZKboT4j5UAYb+vhvy3dLiLFCnVNjyajLb13nmDfnmVkNe/+XZhjiC9n3
-	VtyBwz/prPwncZGmnVFW+AUmkLML3gmDZpa+fJOOhcMX6XqVa1daNoN2moiKFCpT
-	3K0LQX8ipjl2p4iuFEi2EPVo4mgwfOoMGZ1Y7+52Z0iOAyZXpIyJ2fP78LiVg7Fl
-	ZapRC8A4E0Bd/eqx95rPJ9H+UPPbli5nL4ZU5ZaidSeQoUCyML/N0RZ1LG8oZN38
-	kKQkgoWcz4EPvm4KQtF2w==
-X-ME-Sender: <xms:85xCaCYuUCt7sKFFg5JmRUnh_xZXCxgwRDkl1IbW7fkRQQYVZ29l_A>
-    <xme:85xCaFbml0FKesheY2N8Zch09Yu0Z3upBPYZvLpickDx0uWWo3lpur-ak9SC6n818
-    R9aA1v2n36blPLtdv8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdegjeelucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrd
-    guvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefg
-    gfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpe
-    hmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepgedp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepjhhohhgrnhhnvghsrdgsvghrghesih
-    hnthgvlhdrtghomhdprhgtphhtthhopehlkhhpsehinhhtvghlrdgtohhmpdhrtghpthht
-    ohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtph
-    htthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:85xCaM-uRkkbPwK-_NfAlqL6iX0fKdAH-bDRevGeRYgVUjxUcT8DaQ>
-    <xmx:85xCaErU3aH4iuyw9UG6-ZBwYM8OgA6BK4nowk6iTpQluNS6Q45Biw>
-    <xmx:85xCaNqjqVT84R9i6mbYC8DZrbrYxvPVRqYAGUwoyE_oGoldJ9vpTg>
-    <xmx:85xCaCQ8Tw8IQfONTUBuKuJZfmoX4b-Xvh7JKaIDTL0iBv6YbGK8-A>
-    <xmx:85xCaMcJrL5PXr1hw99ti6FJO03UEZjqmjOpInhpqHE0qqxfBi2zrUwz>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 1F3DB700061; Fri,  6 Jun 2025 03:46:59 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GkVRhPLr";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ixSCkc1r";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jmAAtApL";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="beYxy38h"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id B837D1F46E;
+	Fri,  6 Jun 2025 07:51:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749196301; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=p6yHYzHnziYKvQVg+eB8bpqQd4mKjnL/fU2jPtSxu54=;
+	b=GkVRhPLroLdWtsNbA5YzSxfvtZgfblc/YFZJBXOWJY5LOnE4338DeKZajyRixTgQTM7tjK
+	bDpa2pc6LlSGKxJUgSakNLCYB4EklsOXWW115uQH4zVxZX5F63QnlGl0+XuMGviroo1Oy0
+	lPCnuEzbO+nFv1GheNbZbCWaOEdRupE=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749196301;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=p6yHYzHnziYKvQVg+eB8bpqQd4mKjnL/fU2jPtSxu54=;
+	b=ixSCkc1rIc01pV8FMKhPoDbOUGLc1IEd2YNMNbbeokAbTRYdoP/3uWxlrEGKW6KkYnVFN7
+	o7M+7Uoqr6iuQvBw==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jmAAtApL;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=beYxy38h
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1749196300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=p6yHYzHnziYKvQVg+eB8bpqQd4mKjnL/fU2jPtSxu54=;
+	b=jmAAtApLjrC/fAxcLtt7RO5MsLXbgc2J7L/PAfq/Xbei450Zs7BvxUrQR6hwhVYVvQ6afJ
+	41Kb2JJO2s464NrxWXZr+Skj+in9N+h9Kop25K9pJLwjfLcjUb0txCgFXavDhVJ2rzlzzs
+	w/fsDqVDV9MMsDQ428RHnohBc9TXwrI=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1749196300;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=p6yHYzHnziYKvQVg+eB8bpqQd4mKjnL/fU2jPtSxu54=;
+	b=beYxy38hcvWHQOOt+KVnko5USCV08ZrQwf+lj43luZOXqBO66VICAitwjJkW9K921MLCKs
+	/IYcdZ72Qv+QYACg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2115B1336F;
+	Fri,  6 Jun 2025 07:51:40 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id fK1lBQyeQmioeAAAD6G6ig
+	(envelope-from <osalvador@suse.de>); Fri, 06 Jun 2025 07:51:40 +0000
+Date: Fri, 6 Jun 2025 09:51:38 +0200
+From: Oscar Salvador <osalvador@suse.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	David Hildenbrand <david@redhat.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Harry Yoo <harry.yoo@oracle.com>, Rakie Kim <rakie.kim@sk.com>,
+	Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 04/10] mm,slub: Use node-notifier instead of
+ memory-notifier
+Message-ID: <aEKeCg_xyTpZyA-P@localhost.localdomain>
+References: <20250605142305.244465-5-osalvador@suse.de>
+ <202506060918.HDCPogq9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: Tdbfdff65f97bd920
-Date: Fri, 06 Jun 2025 09:46:15 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- "Johannes Berg" <johannes.berg@intel.com>
-Message-Id: <78d0987d-4d8c-4c4e-b0ba-1f731e1f9b95@app.fastmail.com>
-In-Reply-To: <202506060742.XR3HcxWA-lkp@intel.com>
-References: <202506060742.XR3HcxWA-lkp@intel.com>
-Subject: Re: include/asm-generic/io.h:542:14: error: call to '_inb' declared with
- attribute error: inb()) requires CONFIG_HAS_IOPORT
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202506060918.HDCPogq9-lkp@intel.com>
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: B837D1F46E
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-3.01 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	ARC_NA(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[linux-foundation.org,lists.linux.dev,kvack.org,redhat.com,suse.cz,huawei.com,oracle.com,sk.com,gmail.com,vger.kernel.org];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
+X-Spam-Score: -3.01
+X-Spam-Level: 
 
-On Fri, Jun 6, 2025, at 01:02, kernel test robot wrote:
+On Fri, Jun 06, 2025 at 09:50:39AM +0800, kernel test robot wrote:
+> Hi Oscar,
+> 
+> kernel test robot noticed the following build errors:
 
-> commit: b8c9c3b822fe8e033b9802516f6466099d915488 um: stop using PCI 
-> port I/O
+Fixed, see:
 
->    In function 'inb_p',
->        inlined from 'sonypi_irq' at drivers/char/sonypi.c:831:7:
->>> include/asm-generic/io.h:542:14: error: call to '_inb' declared with attribute error: inb()) requires CONFIG_HAS_IOPORT
+https://lore.kernel.org/linux-mm/aEKdvc8IWgSXSF8Q@localhost.localdomain/T/#mb3acf8bc17463f621f2b85d688817acd65cef042
 
-It appears that there are some drivers that are only built when
-targetting i386 but that now fail to build for UM. I'll send
-these three fixups, which should be enough to fix a
-'make ARCH=um SUBARCH=i386 allmodconfig' build.
+Thanks
 
-      Arnd
-
-diff --git a/drivers/char/Kconfig b/drivers/char/Kconfig
-index f2a68a0a8c93..a20b353ffddf 100644
---- a/drivers/char/Kconfig
-+++ b/drivers/char/Kconfig
-@@ -238,6 +238,7 @@ config APPLICOM
- config SONYPI
- 	tristate "Sony Vaio Programmable I/O Control Device support"
- 	depends on X86_32 && PCI && INPUT
-+	depends on HAS_IOPORT
- 	depends on ACPI_EC || !ACPI
- 	help
- 	  This driver enables access to the Sony Programmable I/O Control
-diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-index bec3bffca808..464ed9bf9114 100644
---- a/drivers/i2c/busses/Kconfig
-+++ b/drivers/i2c/busses/Kconfig
-@@ -1531,6 +1531,7 @@ config I2C_XGENE_SLIMPRO
- config SCx200_ACB
- 	tristate "Geode ACCESS.bus support"
- 	depends on X86_32 && PCI
-+	depends on HAS_IOPORT
- 	help
- 	  Enable the use of the ACCESS.bus controllers on the Geode SCx200 and
- 	  SC1100 processors and the CS5535 and CS5536 Geode companion devices.
-diff --git a/drivers/video/fbdev/nvidia/nv_local.h b/drivers/video/fbdev/nvidia/nv_local.h
-index 68e508daa417..93aff35305a9 100644
---- a/drivers/video/fbdev/nvidia/nv_local.h
-+++ b/drivers/video/fbdev/nvidia/nv_local.h
-@@ -80,7 +80,7 @@
-      (par)->dmaFree -= ((size) + 1);          \
- }
- 
--#if defined(__i386__)
-+#if defined(__i386__) && !defined(CONFIG_UML)
- #define _NV_FENCE() outb(0, 0x3D0);
- #else
- #define _NV_FENCE() mb();
-diff --git a/drivers/ata/Kconfig b/drivers/ata/Kconfig
-index e00536b49552..329aa9016553 100644
---- a/drivers/ata/Kconfig
-+++ b/drivers/ata/Kconfig
-@@ -650,6 +650,7 @@ config PATA_CS5535
- config PATA_CS5536
- 	tristate "CS5536 PATA support"
- 	depends on PCI && (X86_32 || MIPS || COMPILE_TEST)
-+	depends on HAS_IOPORT
- 	help
- 	  This option enables support for the AMD CS5536
- 	  companion chip used with the Geode LX processor family.
-diff --git a/drivers/ata/pata_cs5536.c b/drivers/ata/pata_cs5536.c
-index b811efd2cc34..4a9fb4249caf 100644
---- a/drivers/ata/pata_cs5536.c
-+++ b/drivers/ata/pata_cs5536.c
-@@ -27,7 +27,7 @@
- #include <scsi/scsi_host.h>
- #include <linux/dmi.h>
- 
--#ifdef CONFIG_X86_32
-+#if defined(CONFIG_X86_32) && !defined(CONFIG_UML)
- #include <asm/msr.h>
- static int use_msr;
- module_param_named(msr, use_msr, int, 0644);
+-- 
+Oscar Salvador
+SUSE Labs
