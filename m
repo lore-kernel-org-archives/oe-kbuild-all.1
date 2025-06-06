@@ -1,63 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBC7139E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 00:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8C2D225D6
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 01:18:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749168406; cv=none; b=ZwenUhK/cqQlJSlwAnSbbyiZzGtSEGtT9UaIn+iEOzcx8Rh6fVQH41IvqagNXZjSt5NqPkzkHBurw2rC4dR4Q3DX4njXkz3IH+T7hK5q+NnojH64E66uzVfBp0kRgLeQ5n1KFBbhcDAr+N5gx73WG4LTCJ5bCD0UeWy77iGVh0Y=
+	t=1749172736; cv=none; b=fBP3eBXg5lwX9PAr/hNPpvIJZobFVV0TowJINajBq/RHxELT/umbjWczoyvJoshA4iSCENGeHRlwtLTyBThDHxsmWLr14Mi+xgsDgCYVzsNu6Foa3uu933LjNtVxBXxYzCh/koJPKlTrpQtYCZ7E+HVMUI2mgVIKagOoJOy8hZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749168406; c=relaxed/simple;
-	bh=+oWZHG8IeFf4aAbPD5j+JD6IN20IKFmc5z9/9bEZU4k=;
+	s=arc-20240116; t=1749172736; c=relaxed/simple;
+	bh=5ANy1on2fzZ35lbPi1IAXLj13vHKSzD+X1aeMjgxbOU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KNcL2Q2JE7AhONrZDjfSMqCKP1Eq9GIThNIC3FBXXDrikyvbzFZIrVgCm84M6t9W06Qgh59UsqEgVxvKADr6bVmoHiFHpxHKT43orMtuBQ9GAVi2g5d1SKoFe8XDiEC1PRmFTAVo3ip0eSHrFr+PWcvbE3INHjeZde04vcf6sc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PHlolu6A; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=qeTwnE/NNBzP/8doZHxegRq8C3LraRVxKHlrRZHdnrhKaiT5R8v0guoS5BbvB2my+jrVHY1SQsXg6JJhlFRXKyGaMtwyy4LFDaBkPd2d8HDFz8nlb8Y5eFVuU27s/Ja7aMJF3OAEPUJoWkEjp9vtYJMLwBzWVz08rABg70u1ylQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DybYdh9S; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PHlolu6A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DybYdh9S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749168405; x=1780704405;
+  t=1749172735; x=1780708735;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+oWZHG8IeFf4aAbPD5j+JD6IN20IKFmc5z9/9bEZU4k=;
-  b=PHlolu6AcDez26biotL4/8UYW3LJXV/1i9wimqJp2nqiipmO5dwWxyYf
-   sIDryXtLYuuYhUzzNNMTo6ITSJ5QOeBuvI1NtaayNHZj7vbuz9gbAzLss
-   vCTkcAKbY0pCqoXgU77v9OGGg/B8+mBfo2cqiPbesQKIHdYBEx2Mp70RF
-   h52fW6d/1GZwwTYMHSA08ALsh2D/fufkZACR39TjJT4GFzjESot7I+9KK
-   grqZmYVYJBd1rZFdAV/YTj0Xa02G2TqN6G3w0nQe3k+N55JdiQ6l6O7Qt
-   z4R8J0Q4+d3mWqofCtM6vCdsIk6IAOcehsyZq1i+ja92m0pX+2lKgLp6z
+  bh=5ANy1on2fzZ35lbPi1IAXLj13vHKSzD+X1aeMjgxbOU=;
+  b=DybYdh9SiDVWbghBa4NAM3jt3aXdW/Zb6UOWi9q/p68r7h+AyIIHoIJY
+   50AGAu8iWAxeCnuXmHGNpHNM8uwVmHFqS1hywFPL9A8XIfLJ6YbiarXrd
+   fjNwrAvanivFy6bWwtOI2fGldBvMlQZYoGUh/qQOBWwRZUSj14pRYohPq
+   uCBfIwzBjHISL5BwqkmV7n5Zft/AYf/8UoEMKR7SL2sj3UaSMGqfWfA5A
+   ZwBcdaMl9P/TS3iR1jMKetUvNDW+XtiLVgFl0Oh4XPxk9ra4O+VbBWBOG
+   vTke+nCj/6Ef8HSyw2XriFu6ih5g5sgG70R07wPhB6fuy7Ut2jZRKNLRI
    Q==;
-X-CSE-ConnectionGUID: 90AmLWT1TW2YuCciB9CsVQ==
-X-CSE-MsgGUID: 3AR49geRSzOsgqYaFfSa5g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="51219431"
+X-CSE-ConnectionGUID: mbRfuMypRBOSFVKfgYw2ww==
+X-CSE-MsgGUID: sgmdvT6SQRWD25/n/DiMgw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="51393127"
 X-IronPort-AV: E=Sophos;i="6.16,213,1744095600"; 
-   d="scan'208";a="51219431"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 17:06:44 -0700
-X-CSE-ConnectionGUID: Agl6kbLkQ1GD+2ww1e7OOg==
-X-CSE-MsgGUID: NsnOY1afQRuuLieRbuVTXA==
+   d="scan'208";a="51393127"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 18:18:54 -0700
+X-CSE-ConnectionGUID: EryJAv3KT6iDNrLgn8bU7w==
+X-CSE-MsgGUID: pJlUijYkQpaQqO4YjcQajA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,213,1744095600"; 
-   d="scan'208";a="150679351"
+   d="scan'208";a="146183893"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 05 Jun 2025 17:06:42 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 05 Jun 2025 18:18:48 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNKbX-0004Yb-2U;
-	Fri, 06 Jun 2025 00:06:39 +0000
-Date: Fri, 6 Jun 2025 08:06:02 +0800
+	id 1uNLjK-0004bh-0Q;
+	Fri, 06 Jun 2025 01:18:46 +0000
+Date: Fri, 6 Jun 2025 09:17:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Johannes Thumshirn <jth@kernel.org>, linux-btrfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Naohiro Aota <naohiro.aota@wdc.com>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	David Sterba <dsterba@suse.com>, Josef Bacik <josef@toxicpanda.com>,
-	Johannes Thumshirn <johannes.thumshirn@wdc.com>
-Subject: Re: [PATCH v2] btrfs: zoned: fix alloc_offset calculation for partly
- conventional block groups
-Message-ID: <202506060751.KRci5LHx-lkp@intel.com>
-References: <20250605091811.386815-1-jth@kernel.org>
+To: Igor Korotin <igor.korotin.linux@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>, Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-acpi@vger.kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Boqun Feng <boqun.feng@gmail.com>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, Len Brown <lenb@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	Wedson Almeida Filho <wedsonaf@gmail.com>,
+	Alex Hung <alex.hung@amd.com>, Tamir Duberstein <tamird@gmail.com>,
+	FUJITA Tomonori <fujita.tomonori@gmail.com>,
+	Xiangfei Ding <dingxiangfei2009@gmail.com>,
+	Igor Korotin <igor.korotin.linux@gmail.com>
+Subject: Re: [PATCH v2 1/5] rust: acpi: add `acpi::DeviceId` abstraction
+Message-ID: <202506060925.Thw3s9xE-lkp@intel.com>
+References: <20250605162326.3659046-1-igor.korotin.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,94 +81,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250605091811.386815-1-jth@kernel.org>
+In-Reply-To: <20250605162326.3659046-1-igor.korotin.linux@gmail.com>
 
-Hi Johannes,
+Hi Igor,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on kdave/for-next]
-[also build test ERROR on linus/master v6.15 next-20250605]
+[auto build test ERROR on char-misc/char-misc-testing]
+[also build test ERROR on char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.15 next-20250605]
+[cannot apply to rust/rust-next driver-core/driver-core-testing driver-core/driver-core-next driver-core/driver-core-linus]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Thumshirn/btrfs-zoned-fix-alloc_offset-calculation-for-partly-conventional-block-groups/20250605-171925
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250605091811.386815-1-jth%40kernel.org
-patch subject: [PATCH v2] btrfs: zoned: fix alloc_offset calculation for partly conventional block groups
-config: i386-buildonly-randconfig-002-20250606 (https://download.01.org/0day-ci/archive/20250606/202506060751.KRci5LHx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506060751.KRci5LHx-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Igor-Korotin/rust-acpi-add-acpi-DeviceId-abstraction/20250606-042551
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20250605162326.3659046-1-igor.korotin.linux%40gmail.com
+patch subject: [PATCH v2 1/5] rust: acpi: add `acpi::DeviceId` abstraction
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250606/202506060925.Thw3s9xE-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506060925.Thw3s9xE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506060751.KRci5LHx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506060925.Thw3s9xE-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: fs/btrfs/zoned.o: in function `btrfs_load_block_group_raid0':
->> fs/btrfs/zoned.c:1531: undefined reference to `__umoddi3'
-   ld: fs/btrfs/zoned.o: in function `btrfs_load_block_group_raid10':
-   fs/btrfs/zoned.c:1592: undefined reference to `__umoddi3'
-
-
-vim +1531 fs/btrfs/zoned.c
-
-  1504	
-  1505	static int btrfs_load_block_group_raid0(struct btrfs_block_group *bg,
-  1506						struct btrfs_chunk_map *map,
-  1507						struct zone_info *zone_info,
-  1508						unsigned long *active,
-  1509						u64 last_alloc)
-  1510	{
-  1511		struct btrfs_fs_info *fs_info = bg->fs_info;
-  1512	
-  1513		if ((map->type & BTRFS_BLOCK_GROUP_DATA) && !fs_info->stripe_root) {
-  1514			btrfs_err(fs_info, "zoned: data %s needs raid-stripe-tree",
-  1515				  btrfs_bg_type_to_raid_name(map->type));
-  1516			return -EINVAL;
-  1517		}
-  1518	
-  1519		for (int i = 0; i < map->num_stripes; i++) {
-  1520			if (zone_info[i].alloc_offset == WP_MISSING_DEV)
-  1521				continue;
-  1522	
-  1523			if (zone_info[i].alloc_offset == WP_CONVENTIONAL) {
-  1524				u64 stripe_nr, full_stripe_nr;
-  1525				u64 stripe_offset;
-  1526				int stripe_index;
-  1527	
-  1528				stripe_nr = div64_u64(last_alloc, map->stripe_size);
-  1529				stripe_offset = stripe_nr * map->stripe_size;
-  1530				full_stripe_nr = div_u64(stripe_nr, map->num_stripes);
-> 1531				stripe_index = stripe_nr % map->num_stripes;
-  1532	
-  1533				zone_info[i].alloc_offset =
-  1534					full_stripe_nr * map->stripe_size;
-  1535	
-  1536				if (stripe_index > i)
-  1537					zone_info[i].alloc_offset += map->stripe_size;
-  1538				else if (stripe_index == i)
-  1539					zone_info[i].alloc_offset +=
-  1540						(last_alloc - stripe_offset);
-  1541			}
-  1542	
-  1543			if (test_bit(0, active) != test_bit(i, active)) {
-  1544				if (!btrfs_zone_activate(bg))
-  1545					return -EIO;
-  1546			} else {
-  1547				if (test_bit(0, active))
-  1548					set_bit(BLOCK_GROUP_FLAG_ZONE_IS_ACTIVE, &bg->runtime_flags);
-  1549			}
-  1550			bg->zone_capacity += zone_info[i].capacity;
-  1551			bg->alloc_offset += zone_info[i].alloc_offset;
-  1552		}
-  1553	
-  1554		return 0;
-  1555	}
-  1556	
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in rust/kernel/acpi.rs at line 59:
+            $crate::module_device_table!("acpi", $module_table_name, $table_name);
+        };
+    }
+   -
+    
+>> Diff in rust/kernel/acpi.rs at line 59:
+            $crate::module_device_table!("acpi", $module_table_name, $table_name);
+        };
+    }
+   -
+    
+   make[2]: *** [Makefile:1826: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
