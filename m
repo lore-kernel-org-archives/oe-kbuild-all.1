@@ -1,139 +1,97 @@
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879341E501C
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 19:30:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6BABA38
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 19:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749238246; cv=none; b=UrvDorodLQQB5qAnnRrESj+IIy29oVd/uiAnKJFiEvr2TGn3IQ6r84Z6Cjs7gvJWff0bzZrOUE+QPkJQUbp/Z/1UmBODcs4v9Mow0XnHnSVGtcS4cuC9QgtYFjHFhAtffg82IJ4fiPYORV7JjfjZtkXWMjsgwJQxWrKlYPhbdvE=
+	t=1749238645; cv=none; b=g+5Q3hbmJ0DEC6k2ZpWG6lx7BrpUkdVIT1z+ihLACdsXb89uC/iWvTEBLwoD3G3ckwEXWm9U9Y/eF9aymKPn+RevVrXdbyczqsuGPGXxNgPDrX6LHHU7IDJj/yw9DfvytIPmWqcUWTO8QomP9hKECg/lCrhf01VJXslhOCNN2qc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749238246; c=relaxed/simple;
-	bh=mop+KlpuK8X386yUkF6VkytkPGwtEzTMMJxWKOhtygo=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=iw2Qr7jETCB3lQ1f/Xp7/6pngmQe9RFyJHh0ZIhGZL1hkLy01C4MKdjBbH6kumMXyNmywhZPWoctD1iu+suLFrZAiN1UM7p4fj8+Y8Qf3ySvdbwUIRng/vasBriYuZpMLL170llirUtc3K+UZVXyFYrxItXEwshkKYL9++pfmiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=R/CZGEpf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ls3Sm07C; arc=none smtp.client-ip=103.168.172.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+	s=arc-20240116; t=1749238645; c=relaxed/simple;
+	bh=yauKZvBgJgkLXxhOcb4XcPY7cqiucnyOqvsgSihOc5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DuCzh/RYoDyoEYvGdWnL9MsqdYuTHHkMkFGY1Ht5P5+oPhoD5fPnMgXWtPq5zFoKNmWQkmlztjkwET+JgQjeXEOYiOm0CAc11f+jDkuvwX5yDiqZeAGl5vaLLZ5L5e/C4Wmx6B1vybZVSnmWjY8iIaAzkAgsJmWHxuzFKC6+P/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fMJGfjbx; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="R/CZGEpf";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ls3Sm07C"
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 8D1301140193;
-	Fri,  6 Jun 2025 15:30:43 -0400 (EDT)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-12.internal (MEProxy); Fri, 06 Jun 2025 15:30:43 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1749238243;
-	 x=1749324643; bh=lEYf3neoow/7vEvxjuEgRsFKRcKeW6cqpzgTmhNHb2g=; b=
-	R/CZGEpf2uJtX9c5zhVO/wgEY531AM5LvDJrSmDrK3jEQzjTkTMzcjRX187dWR84
-	oIbQD8KXGP6YFK9fYC23LRe49M5teDXkK0Kz7d1KVsrLoPZaXXSuRO5by7URUhJN
-	lDmsEUOkOigp1YI6oTnhyIiVzJO7mPl/eULFOqIHC8v85yCxpCbrOhurSUqR+DaQ
-	jxtJ504ytF76XFsmpCienWJKMYFCl3B3Gy8iBKA6zE9AdW+D1ZxDzxrPKqx5eNWv
-	XMeezlkno9ykDQXuhvmLat4lxi6u0mObQxYc4iVVrgInmEeM2NYXWruCDmoW0umO
-	pP2u54ml6Z1U53fqM8UCzg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1749238243; x=
-	1749324643; bh=lEYf3neoow/7vEvxjuEgRsFKRcKeW6cqpzgTmhNHb2g=; b=l
-	s3Sm07C1nnR2e9ZaUstuOe39LaA4ILuj5i6IH3wzVdHTi2IaLfZElQ5ssZ8WfQqZ
-	KWosRgmzq2hWEZEj/wjD8GGoMZC/LFUF10n+yLMrRoT7YU5SPNlPDei4/GOYszWL
-	5ex4LXel+75mZdZSLX/L2VdWwvZprLGAWd4y0wNBOKXsho5qSDQVbqMvjf0rbjMt
-	4G1QNaZrTS/8hWtQGnRbOv8xbxVeNndzyU43UN1FphT9p9HhnPoHc3A5tGqEnltC
-	3DffjneC9Mql+t6N0uXSou61iqT2fo8S9fDRn1ABSiAVQB5Bd3a+9nxr64it5oJE
-	vNYJmwuMNFA5c6V43yVYg==
-X-ME-Sender: <xms:4kFDaIxR-T4VMUeCvpyO6b0aNY6mc-cKHTNvPCsAcnYXO97MTjv0tQ>
-    <xme:4kFDaMSccayqbSsT7xH9tiE_xNR1r_maZ-9AHpaTrTTfmElVg5ZrkUQtuS-UPF_pO
-    kMZkGg2lr7GnKFSHXA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugdehheduucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnh
-    htshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddt
-    necuhfhrohhmpedfofgrrhhkucfrvggrrhhsohhnfdcuoehmphgvrghrshhonhdqlhgvnh
-    hovhhosehsqhhuvggssgdrtggrqeenucggtffrrghtthgvrhhnpefhuedvheetgeehtdeh
-    tdevheduvdejjefggfeijedvgeekhfefleehkeehvdffheenucevlhhushhtvghrufhiii
-    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdqlhgvnhhovhho
-    sehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopedufedpmhhouggvpehsmhhtphhouh
-    htpdhrtghpthhtohepihhkvghprghnhhgtsehgmhgrihhlrdgtohhmpdhrtghpthhtohep
-    figprghrmhhinhesghhmgidruggvpdhrtghpthhtohephhhmhheshhhmhhdrvghnghdrsg
-    hrpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopegrnhgurhhi
-    hidrshhhvghvtghhvghnkhhosehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoh
-    epihhlphhordhjrghrvhhinhgvnheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphht
-    thhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtg
-    hpthhtohepihgsmhdqrggtphhiqdguvghvvghlsehlihhsthhsrdhsohhurhgtvghfohhr
-    ghgvrdhnvghtpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvght
-X-ME-Proxy: <xmx:4kFDaKUvSPNU1VHVDoLtZsVeoDlZrIuwcqaUW64hDiY5ihLIY22pxw>
-    <xmx:4kFDaGjzibfTxl3_FCUnSXmYzJKrgoIEJNYTi1bBxdOQkl1z75bDjA>
-    <xmx:4kFDaKDXj-b13AJ8C7SQoQBZPyRQEg6wgtjZydwznk16NGjYmI29ug>
-    <xmx:4kFDaHIrX28gXw3p76CQa6l6t2qX-poMA5iFKfHiiFVqfd7undZuOw>
-    <xmx:40FDaAILvoi3Ti-qur14dEFImeIPFodxm3Q5F2ESeqfvgtfgCTm4u-vx>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 2ADB22CE0063; Fri,  6 Jun 2025 15:30:42 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fMJGfjbx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749238643; x=1780774643;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yauKZvBgJgkLXxhOcb4XcPY7cqiucnyOqvsgSihOc5w=;
+  b=fMJGfjbx0JDZk+kqodmf3GpR1DJVj0ajz17c5WdfcHnRsq7yqqFvtF9F
+   jqkEqB2pi6zERKZg5vIcXBXzhyI4KGF9sYkvIT5syBskGcwFgK6t1lXv0
+   Vc8U3c4P8E7pCGI7KS+YsKqtp29/LFQLBF+AYyQpEk2XtGVQj9zg2rEDl
+   YQLrL9qJDhjBAfRtCuLBIbPWBq7/0Jo3pGW8j6a7s/yu+AcQ/wL3HE8zj
+   jJCuE8HWBRjMRXX5H+Pft04ZMR4B91yDNs3TJCd+e5430fXYpACsvKzcl
+   UFK/67v/eKTQQvBICvKZ7B/qdAEoM9sc0k8Cx/fHYXWsUMbqqa4nvsnQ5
+   Q==;
+X-CSE-ConnectionGUID: wJ75u/n7RPS//uHcg/nxlg==
+X-CSE-MsgGUID: Yn5/oGOaSquX0drtwkdttg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="62794189"
+X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
+   d="scan'208";a="62794189"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 12:37:22 -0700
+X-CSE-ConnectionGUID: qomSxd9RQJ2x0B+qhszmmg==
+X-CSE-MsgGUID: aUWKipvwSb2oBZbAWpFSuQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
+   d="scan'208";a="176857294"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 06 Jun 2025 12:37:21 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uNcsQ-0005Ez-2R;
+	Fri, 06 Jun 2025 19:37:18 +0000
+Date: Sat, 7 Jun 2025 03:36:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-acpi@vger.kernel.org,
+	devel@acpica.org, linux-pm@vger.kernel.org
+Subject: [rafael-pm:bleeding-edge 7/9] drivers/acpi/processor_idle.c:63:
+ undefined reference to `arch_cpu_rescan_dead_smt_siblings'
+Message-ID: <202506070341.ACtZRDtC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: T107eb5199b18744c
-Date: Fri, 06 Jun 2025 15:30:21 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Andy Shevchenko" <andriy.shevchenko@linux.intel.com>
-Cc: "kernel test robot" <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- "Hans de Goede" <hdegoede@redhat.com>, "Jonathan Corbet" <corbet@lwn.net>,
- ikepanhc@gmail.com, "Henrique de Moraes Holschuh" <hmh@hmh.eng.br>,
- "Armin Wolf" <W_Armin@gmx.de>, linux-doc@vger.kernel.org,
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- ibm-acpi-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Message-Id: <68f7cbc2-f81b-47ff-9dfb-093c54bec760@app.fastmail.com>
-In-Reply-To: <aEM6PTCql7l1n6e0@smile.fi.intel.com>
-References: <20250604173702.3025074-1-mpearson-lenovo@squebb.ca>
- <202506062319.F0IpDxF6-lkp@intel.com>
- <6d17454f-faac-4616-ac2e-7da80feedf2c@app.fastmail.com>
- <aEM6Da6CZ0DI3x8w@smile.fi.intel.com> <aEM6PTCql7l1n6e0@smile.fi.intel.com>
-Subject: Re: [PATCH v2] platform/x86: Move Lenovo files into lenovo subdir
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Thanks Andy
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git bleeding-edge
+head:   aedfeec2f90dc1553d4e2230c4f5d30c2a6876d4
+commit: 0e0551545a620641d99184afff8b2079cedd11da [7/9] ACPI: processor: Rescan "dead" SMT siblings during initialization
+config: i386-buildonly-randconfig-003-20250607 (https://download.01.org/0day-ci/archive/20250607/202506070341.ACtZRDtC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506070341.ACtZRDtC-lkp@intel.com/reproduce)
 
-On Fri, Jun 6, 2025, at 2:58 PM, Andy Shevchenko wrote:
-> On Fri, Jun 06, 2025 at 09:57:17PM +0300, Andy Shevchenko wrote:
->> On Fri, Jun 06, 2025 at 01:30:25PM -0400, Mark Pearson wrote:
->> > On Fri, Jun 6, 2025, at 11:58 AM, kernel test robot wrote:
->
-> ...
->
->> > I'm unable to reproduce this issue with a W=1 build
->> 
->> Do you have GCC-12?
->
-> To be more precise you need to have a CONFIG_DMI=n.
->
->> > and I think it's a false positive.
->> 
->> I think the problematic line is in certificate_store().
->> You need to check the value of dmi_get_system_info().
->> Or make sure the DMI is always selected (depend on DMI
->> in Kconfig, perhaps).
->> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506070341.ACtZRDtC-lkp@intel.com/
 
-I think this is already in place, but it's a bit of a tangled nest of Kconfig options and could depend on the architecture. I can't disable it in my current build anyway.
+All errors (new ones prefixed by >>):
 
->> > Am I safe to ignore this report?
->> 
->> Please, try to fix it.
+   ld: drivers/acpi/processor_idle.o: in function `acpi_idle_rescan_dead_smt_siblings':
+>> drivers/acpi/processor_idle.c:63: undefined reference to `arch_cpu_rescan_dead_smt_siblings'
 
-Ack. 
-I'll add in a check for the dmi_get_system_info returning NULL, and add a depends on DMI.
 
-Thanks for the pointers.
+vim +63 drivers/acpi/processor_idle.c
 
-Mark
+    58	
+    59	#ifdef CONFIG_ACPI_PROCESSOR_CSTATE
+    60	void acpi_idle_rescan_dead_smt_siblings(void)
+    61	{
+    62		if (cpuidle_get_driver() == &acpi_idle_driver)
+  > 63			arch_cpu_rescan_dead_smt_siblings();
+    64	}
+    65	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
