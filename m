@@ -1,61 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F6C257440;
-	Fri,  6 Jun 2025 06:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6473217E4
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 07:43:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749192147; cv=none; b=trQht3kAeLvslQQVU36w01Gve/fSzdoULc/pktdyVVk98qq9YaSNjyiw3RmrnjH7Kc7Z9HekUGOFrcz1lEndWfBM373uCXBuv3k2T6vYNqU5IfPLlnTgDXJsbG9tVpw9g94zNsV6mJVZ3H8d3Kg9O0t3pDclPmv1qor+JUOyQzQ=
+	t=1749195808; cv=none; b=aFo4W7I5dQ6DMh6QtuZpWNjBLqTmwW3L3TaQ+VrM/oSLhy7ZoWFdJDLELbScfKYjhuMQ4106vdC5T1NzxCPN3tYfjn/oRourcOU6X3ixHioU2p7nBY5TDgxn4zOqBWVqOZbiXCR+USH/hGCClFEQkkxNvMtICRQ9ZkdTXfPTKro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749192147; c=relaxed/simple;
-	bh=zXhzX4woctBm+ZgESQf1WUuKky+7BJcUTCU9fvKwcNU=;
+	s=arc-20240116; t=1749195808; c=relaxed/simple;
+	bh=pL+c8rM/f0Lmikugk0/0+1Z85wAvi81Ttm6NT/gOM2o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ic9x42ydU5zkUn14cQIH/F2Mw/QP1i/D8DOBjIW0/NGoIQYswne5RN9FxIbE5Sx62AcMoj9UAG7cYt19iTq4Z7uBytOw4xtXQZcwxvdWdGGeS2N2sQM240WOIMwifm/7sQkixqSBkBtqmjcACtTDCAT3su4hUFjpoJKajkHZ2e4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kWKceBrr; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=UDTRTKb1XSb5npbjG50CRZw9/L8JmllgtAzyDh36tytTz1ctc6h6KIL05PX5Ufp628GdZFUQeIlC9X8UWYnEsP5EziEiQd4EYyuc42v9YDVSPWKV26ITEDZUDw7izgXw6npywPzUkMS4fT6RHPqWJBj2Dx/PCrZ3CiLJTLhRugk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aoFf50Xs; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kWKceBrr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aoFf50Xs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749192144; x=1780728144;
+  t=1749195806; x=1780731806;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=zXhzX4woctBm+ZgESQf1WUuKky+7BJcUTCU9fvKwcNU=;
-  b=kWKceBrrWFDhkKO5LtWHZ5DBMncw5AnGb2OHt1et2VWnQV9BVM87498o
-   qFHMeeI8OvUC2T2EXxwELwZxC5ua2juJqIjbhV5okFJXtxN9srlYcOu9q
-   UxACRHy+UYCY9dBuFnSBqLHA3HRIlXch/I1v1VvY/hMWM0BstDyTEwoHH
-   nvdRiJWMc/xUPljj75I+JrudLnBsSLq0FPI6vAdmQpqOm+BQgYh5Cxn3V
-   o116sCEEv4sJKhrUOTJrGErcOikRjXwiikYDNJtDy/k/Mzvg/TmUdVLlj
-   wlJO8e0xmHJkQH4JzTaZNmZuwmdu/3LS2lr0W/SDbqmHmSkcTB2OKPfeR
-   Q==;
-X-CSE-ConnectionGUID: n/laEmLkTjOO9iqiE5o33w==
-X-CSE-MsgGUID: gftw3ZCTSqKSaSqI8rZqKg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="62378931"
+  bh=pL+c8rM/f0Lmikugk0/0+1Z85wAvi81Ttm6NT/gOM2o=;
+  b=aoFf50XslGqvB/dRaPY+KIIbAK9Em6OVmcTJZr3xdnMIJux0b4fyeGvA
+   syY+bO25SpHkca1YyDernCexVr+IV3qu28Z77MRe4aKusjfgB/FtNVO52
+   Q06fPUzEOBhCDZy7pparTn9OflVCs3HjrBsrW4kFj/ZssiMuqNxloyG+b
+   Jn8okWkbQoY5+o6n46FaSSLg/KYcLArBk0NN21clFUcvlwlhHvHbfMDEx
+   Km1EJCT1dgrh0qdtFwEdyGPbfF0XRvH3/zEIG6HSNiz3/HmDELyYMebm3
+   cCCA9qESDT4aMNn8rWM/jOS95H0fhp+Vn+QW9UxCIlMwiBj0jMhIizgeq
+   g==;
+X-CSE-ConnectionGUID: papb8wf8SXevm3i3Urv+2w==
+X-CSE-MsgGUID: N14blOGGQEODINT3zQuqDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="54998662"
 X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
-   d="scan'208";a="62378931"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 23:42:19 -0700
-X-CSE-ConnectionGUID: LeL/J/qfR9K80Qg+bnUadQ==
-X-CSE-MsgGUID: LzXa+m9GRUia6SnTcSkSIQ==
+   d="scan'208";a="54998662"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 00:43:24 -0700
+X-CSE-ConnectionGUID: 5e6Dzf6nT42rRraoqgprKg==
+X-CSE-MsgGUID: 24/8OSH8Q6OToOAibQGDZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
-   d="scan'208";a="145692485"
+   d="scan'208";a="146716524"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 05 Jun 2025 23:42:18 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 06 Jun 2025 00:43:22 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNQmN-0004nV-2p;
-	Fri, 06 Jun 2025 06:42:15 +0000
-Date: Fri, 6 Jun 2025 14:41:22 +0800
+	id 1uNRjU-0004p7-0G;
+	Fri, 06 Jun 2025 07:43:20 +0000
+Date: Fri, 6 Jun 2025 15:43:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Harmstone <maharmstone@fb.com>, linux-btrfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mark Harmstone <maharmstone@fb.com>
-Subject: Re: [PATCH 04/12] btrfs: remove remapped block groups from the
- free-space tree
-Message-ID: <202506061455.6kk5l6Ct-lkp@intel.com>
-References: <20250605162345.2561026-5-maharmstone@fb.com>
+To: Gustavo Silva <gustavograzs@gmail.com>,
+	Alex Lanzano <lanzano.alex@gmail.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Gustavo Silva <gustavograzs@gmail.com>
+Subject: Re: [PATCH v2 1/3] iio: imu: bmi270: add channel for step counter
+Message-ID: <202506061501.4kluId3d-lkp@intel.com>
+References: <20250605-bmi270-events-v2-1-8b2c07d0c213@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,180 +69,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250605162345.2561026-5-maharmstone@fb.com>
+In-Reply-To: <20250605-bmi270-events-v2-1-8b2c07d0c213@gmail.com>
 
-Hi Mark,
+Hi Gustavo,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on linus/master next-20250605]
-[cannot apply to v6.15]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on b475195fecc79a1a6e7fb0846aaaab0a1a4cb2e6]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Harmstone/btrfs-add-definitions-and-constants-for-remap-tree/20250606-002804
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250605162345.2561026-5-maharmstone%40fb.com
-patch subject: [PATCH 04/12] btrfs: remove remapped block groups from the free-space tree
-config: i386-randconfig-014-20250606 (https://download.01.org/0day-ci/archive/20250606/202506061455.6kk5l6Ct-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506061455.6kk5l6Ct-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Gustavo-Silva/iio-imu-bmi270-add-channel-for-step-counter/20250606-061020
+base:   b475195fecc79a1a6e7fb0846aaaab0a1a4cb2e6
+patch link:    https://lore.kernel.org/r/20250605-bmi270-events-v2-1-8b2c07d0c213%40gmail.com
+patch subject: [PATCH v2 1/3] iio: imu: bmi270: add channel for step counter
+config: sh-randconfig-002-20250606 (https://download.01.org/0day-ci/archive/20250606/202506061501.4kluId3d-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506061501.4kluId3d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506061455.6kk5l6Ct-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506061501.4kluId3d-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> fs/btrfs/block-group.c:2470:23: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
-    2470 |                             !(cache->flags && BTRFS_BLOCK_GROUP_REMAPPED)) {
-         |                                            ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/block-group.c:2470:23: note: use '&' for a bitwise operation
-    2470 |                             !(cache->flags && BTRFS_BLOCK_GROUP_REMAPPED)) {
-         |                                            ^~
-         |                                            &
-   fs/btrfs/block-group.c:2470:23: note: remove constant to silence this warning
-    2470 |                             !(cache->flags && BTRFS_BLOCK_GROUP_REMAPPED)) {
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> fs/btrfs/block-group.c:2470:26: warning: converting the result of '<<' to a boolean always evaluates to true [-Wtautological-constant-compare]
-    2470 |                             !(cache->flags && BTRFS_BLOCK_GROUP_REMAPPED)) {
-         |                                               ^
-   include/uapi/linux/btrfs_tree.h:1171:47: note: expanded from macro 'BTRFS_BLOCK_GROUP_REMAPPED'
-    1171 | #define BTRFS_BLOCK_GROUP_REMAPPED      (1ULL << 11)
-         |                                               ^
-   2 warnings generated.
-
-
-vim +2470 fs/btrfs/block-group.c
-
-  2361	
-  2362	static int read_one_block_group(struct btrfs_fs_info *info,
-  2363					struct btrfs_block_group_item *bgi,
-  2364					const struct btrfs_key *key,
-  2365					int need_clear)
-  2366	{
-  2367		struct btrfs_block_group *cache;
-  2368		const bool mixed = btrfs_fs_incompat(info, MIXED_GROUPS);
-  2369		int ret;
-  2370	
-  2371		ASSERT(key->type == BTRFS_BLOCK_GROUP_ITEM_KEY);
-  2372	
-  2373		cache = btrfs_create_block_group_cache(info, key->objectid);
-  2374		if (!cache)
-  2375			return -ENOMEM;
-  2376	
-  2377		cache->length = key->offset;
-  2378		cache->used = btrfs_stack_block_group_used(bgi);
-  2379		cache->commit_used = cache->used;
-  2380		cache->flags = btrfs_stack_block_group_flags(bgi);
-  2381		cache->global_root_id = btrfs_stack_block_group_chunk_objectid(bgi);
-  2382		cache->space_info = btrfs_find_space_info(info, cache->flags);
-  2383	
-  2384		set_free_space_tree_thresholds(cache);
-  2385	
-  2386		if (need_clear) {
-  2387			/*
-  2388			 * When we mount with old space cache, we need to
-  2389			 * set BTRFS_DC_CLEAR and set dirty flag.
-  2390			 *
-  2391			 * a) Setting 'BTRFS_DC_CLEAR' makes sure that we
-  2392			 *    truncate the old free space cache inode and
-  2393			 *    setup a new one.
-  2394			 * b) Setting 'dirty flag' makes sure that we flush
-  2395			 *    the new space cache info onto disk.
-  2396			 */
-  2397			if (btrfs_test_opt(info, SPACE_CACHE))
-  2398				cache->disk_cache_state = BTRFS_DC_CLEAR;
-  2399		}
-  2400		if (!mixed && ((cache->flags & BTRFS_BLOCK_GROUP_METADATA) &&
-  2401		    (cache->flags & BTRFS_BLOCK_GROUP_DATA))) {
-  2402				btrfs_err(info,
-  2403	"bg %llu is a mixed block group but filesystem hasn't enabled mixed block groups",
-  2404					  cache->start);
-  2405				ret = -EINVAL;
-  2406				goto error;
-  2407		}
-  2408	
-  2409		ret = btrfs_load_block_group_zone_info(cache, false);
-  2410		if (ret) {
-  2411			btrfs_err(info, "zoned: failed to load zone info of bg %llu",
-  2412				  cache->start);
-  2413			goto error;
-  2414		}
-  2415	
-  2416		/*
-  2417		 * We need to exclude the super stripes now so that the space info has
-  2418		 * super bytes accounted for, otherwise we'll think we have more space
-  2419		 * than we actually do.
-  2420		 */
-  2421		ret = exclude_super_stripes(cache);
-  2422		if (ret) {
-  2423			/* We may have excluded something, so call this just in case. */
-  2424			btrfs_free_excluded_extents(cache);
-  2425			goto error;
-  2426		}
-  2427	
-  2428		/*
-  2429		 * For zoned filesystem, space after the allocation offset is the only
-  2430		 * free space for a block group. So, we don't need any caching work.
-  2431		 * btrfs_calc_zone_unusable() will set the amount of free space and
-  2432		 * zone_unusable space.
-  2433		 *
-  2434		 * For regular filesystem, check for two cases, either we are full, and
-  2435		 * therefore don't need to bother with the caching work since we won't
-  2436		 * find any space, or we are empty, and we can just add all the space
-  2437		 * in and be done with it.  This saves us _a_lot_ of time, particularly
-  2438		 * in the full case.
-  2439		 */
-  2440		if (btrfs_is_zoned(info)) {
-  2441			btrfs_calc_zone_unusable(cache);
-  2442			/* Should not have any excluded extents. Just in case, though. */
-  2443			btrfs_free_excluded_extents(cache);
-  2444		} else if (cache->length == cache->used) {
-  2445			cache->cached = BTRFS_CACHE_FINISHED;
-  2446			btrfs_free_excluded_extents(cache);
-  2447		} else if (cache->used == 0) {
-  2448			cache->cached = BTRFS_CACHE_FINISHED;
-  2449			ret = btrfs_add_new_free_space(cache, cache->start,
-  2450						       cache->start + cache->length, NULL);
-  2451			btrfs_free_excluded_extents(cache);
-  2452			if (ret)
-  2453				goto error;
-  2454		}
-  2455	
-  2456		ret = btrfs_add_block_group_cache(cache);
-  2457		if (ret) {
-  2458			btrfs_remove_free_space_cache(cache);
-  2459			goto error;
-  2460		}
-  2461	
-  2462		trace_btrfs_add_block_group(info, cache, 0);
-  2463		btrfs_add_bg_to_space_info(info, cache);
-  2464	
-  2465		set_avail_alloc_bits(info, cache->flags);
-  2466		if (btrfs_chunk_writeable(info, cache->start)) {
-  2467			if (cache->used == 0) {
-  2468				ASSERT(list_empty(&cache->bg_list));
-  2469				if (btrfs_test_opt(info, DISCARD_ASYNC) &&
-> 2470				    !(cache->flags && BTRFS_BLOCK_GROUP_REMAPPED)) {
-  2471					btrfs_discard_queue_work(&info->discard_ctl, cache);
-  2472				} else {
-  2473					btrfs_mark_bg_unused(cache);
-  2474				}
-  2475			}
-  2476		} else {
-  2477			inc_block_group_ro(cache, 1);
-  2478		}
-  2479	
-  2480		return 0;
-  2481	error:
-  2482		btrfs_put_block_group(cache);
-  2483		return ret;
-  2484	}
-  2485	
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/tests/slub_kunit.o
+>> ERROR: modpost: "__cmpxchg_called_with_bad_pointer" [drivers/iio/imu/bmi270/bmi270_core.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
