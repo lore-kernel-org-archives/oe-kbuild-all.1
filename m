@@ -1,91 +1,58 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17BEC284685
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 07:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0A5824EF6B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 08:25:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749196304; cv=none; b=Waq06ME2y6Z5306eXSi8/r4Mn7vB0UbF6yAsd3QQWNqRk4RG+p1LzlmTAI8jL44u47fMAqLD08CihbDRPwa+dmK7YBQGfY7Hr1cSodqrXzWyV0FDBp/WlEaJTHDE1Zni8FkiReiUsreJQNmofVmHMBfWk/tb74eLBBr+SPLSv7I=
+	t=1749198330; cv=none; b=qJcjCqlkhQSSPSNmkZL+CgY1QMaLZoObz580+fYpxpLNhYXVxTfpO7L9WwTSXGHkXSGFDMPax01fdgIfRNJpe+za8MqxV86iptANN2nDp56E3PcY1ArqEQW5CHHi/GOgWzneIoWOvsKiVzTV8GoO16q031zHzwLqPhAeRl6/raE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749196304; c=relaxed/simple;
-	bh=aKWaCYwDz1+bVvsuOEtWRHAykIFV2+vyZzfLCF7Fzw8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b3dvAWJtVXXEcdAoNjoYsZi/kHRxSEudvMeictkZ9cZbgqxN7wV0HKsyVwhjU87woMDDTW4pklCZKFmGPgCsje41+Zk2CfomIewCezhtmNh8h19nb/UPWxwflLOhMCJhSE3VeqZT6k+fQ8xkeNknyMq6JHuxI3LslnOnj/gv4+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=GkVRhPLr; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ixSCkc1r; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=jmAAtApL; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=beYxy38h; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1749198330; c=relaxed/simple;
+	bh=wxWTSdsebXWUDAD1YGXqD/r0wLYlS3J8r+wiJMp/498=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ht3pUFTCU14rNTRCuTptCwnrKAbaCNAXkDiV982VYRxG0EeE9VixdL3haRhzJojXhDNljWVs1Ki5WBMhO7O+jb0lz2QLJbKePJNHC2BPUfc4XWwBN/16mkQnx5Qr34dj9lzoyNE4wMDi2a6t1u97/oc4ayJEeOpB2khkS44jAdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cZ4+E+Lk; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="GkVRhPLr";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ixSCkc1r";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="jmAAtApL";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="beYxy38h"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B837D1F46E;
-	Fri,  6 Jun 2025 07:51:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749196301; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p6yHYzHnziYKvQVg+eB8bpqQd4mKjnL/fU2jPtSxu54=;
-	b=GkVRhPLroLdWtsNbA5YzSxfvtZgfblc/YFZJBXOWJY5LOnE4338DeKZajyRixTgQTM7tjK
-	bDpa2pc6LlSGKxJUgSakNLCYB4EklsOXWW115uQH4zVxZX5F63QnlGl0+XuMGviroo1Oy0
-	lPCnuEzbO+nFv1GheNbZbCWaOEdRupE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749196301;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p6yHYzHnziYKvQVg+eB8bpqQd4mKjnL/fU2jPtSxu54=;
-	b=ixSCkc1rIc01pV8FMKhPoDbOUGLc1IEd2YNMNbbeokAbTRYdoP/3uWxlrEGKW6KkYnVFN7
-	o7M+7Uoqr6iuQvBw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=jmAAtApL;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=beYxy38h
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1749196300; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p6yHYzHnziYKvQVg+eB8bpqQd4mKjnL/fU2jPtSxu54=;
-	b=jmAAtApLjrC/fAxcLtt7RO5MsLXbgc2J7L/PAfq/Xbei450Zs7BvxUrQR6hwhVYVvQ6afJ
-	41Kb2JJO2s464NrxWXZr+Skj+in9N+h9Kop25K9pJLwjfLcjUb0txCgFXavDhVJ2rzlzzs
-	w/fsDqVDV9MMsDQ428RHnohBc9TXwrI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1749196300;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=p6yHYzHnziYKvQVg+eB8bpqQd4mKjnL/fU2jPtSxu54=;
-	b=beYxy38hcvWHQOOt+KVnko5USCV08ZrQwf+lj43luZOXqBO66VICAitwjJkW9K921MLCKs
-	/IYcdZ72Qv+QYACg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 2115B1336F;
-	Fri,  6 Jun 2025 07:51:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id fK1lBQyeQmioeAAAD6G6ig
-	(envelope-from <osalvador@suse.de>); Fri, 06 Jun 2025 07:51:40 +0000
-Date: Fri, 6 Jun 2025 09:51:38 +0200
-From: Oscar Salvador <osalvador@suse.de>
-To: kernel test robot <lkp@intel.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	David Hildenbrand <david@redhat.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Harry Yoo <harry.yoo@oracle.com>, Rakie Kim <rakie.kim@sk.com>,
-	Hyeonggon Yoo <42.hyeyoo@gmail.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 04/10] mm,slub: Use node-notifier instead of
- memory-notifier
-Message-ID: <aEKeCg_xyTpZyA-P@localhost.localdomain>
-References: <20250605142305.244465-5-osalvador@suse.de>
- <202506060918.HDCPogq9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cZ4+E+Lk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749198328; x=1780734328;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=wxWTSdsebXWUDAD1YGXqD/r0wLYlS3J8r+wiJMp/498=;
+  b=cZ4+E+Lk9GvYVnjNG5k8lJaBVCx1bqOPZwjdxTjc+h+0XQ1G4VQHCPSg
+   6dfY1NLZnGZtShkGNqqc2vmtXT68bHlR1G89vGKAQoQioG6gLvmraotNH
+   Mpp9xo9Xlg6sd4iKbbknejw3Bf5wJRZmDvXYBvklR1E2owGQKkeC0ZzXe
+   q+F5w0t6nEq6APZaYepbf7mY3OP9BmhTOXeaSkvdEVhziDhYPlryhXdy/
+   G2LT7Y4KYb2rIZrHvLiqkIfE7Fep5kJDNYOX14eaJICh+oytO957owIOr
+   UbKm1rymhcSePStI6ZV/PVMxOccm1MFcyGpdBKVsNrrV+OpJF0LFe8eCQ
+   g==;
+X-CSE-ConnectionGUID: xflrF7tYRbS+7xMx4dlruA==
+X-CSE-MsgGUID: 7j5TFuyqSkSvkCM1muslEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="61609541"
+X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
+   d="scan'208";a="61609541"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 01:25:27 -0700
+X-CSE-ConnectionGUID: LVmomkYORUevn/fNDlczYg==
+X-CSE-MsgGUID: 6c0g+ZysSJylwGWFR1SysQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
+   d="scan'208";a="145662292"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 06 Jun 2025 01:25:26 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uNSOB-0004qf-2O;
+	Fri, 06 Jun 2025 08:25:23 +0000
+Date: Fri, 6 Jun 2025 16:24:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1659/1659] mm/vmalloc.c:217:23:
+ warning: variable 'start' set but not used
+Message-ID: <202506061633.Zsp5yfyi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -94,54 +61,159 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202506060918.HDCPogq9-lkp@intel.com>
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: B837D1F46E
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[linux-foundation.org,lists.linux.dev,kvack.org,redhat.com,suse.cz,huawei.com,oracle.com,sk.com,gmail.com,vger.kernel.org];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim]
-X-Spam-Score: -3.01
-X-Spam-Level: 
 
-On Fri, Jun 06, 2025 at 09:50:39AM +0800, kernel test robot wrote:
-> Hi Oscar,
-> 
-> kernel test robot noticed the following build errors:
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   89f3a2595f2e3f14f976811d203bd8f55ff4eada
+commit: 3eb01faed2ebb254019a3bb72ce3bdf4d0a9be74 [1659/1659] mm/vmalloc: add vmap_range_noflush variant
+config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20250606/202506061633.Zsp5yfyi-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506061633.Zsp5yfyi-lkp@intel.com/reproduce)
 
-Fixed, see:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506061633.Zsp5yfyi-lkp@intel.com/
 
-https://lore.kernel.org/linux-mm/aEKdvc8IWgSXSF8Q@localhost.localdomain/T/#mb3acf8bc17463f621f2b85d688817acd65cef042
+All warnings (new ones prefixed by >>):
 
-Thanks
+   mm/vmalloc.c: In function 'vmap_range_noflush':
+>> mm/vmalloc.c:217:23: warning: variable 'start' set but not used [-Wunused-but-set-variable]
+     217 |         unsigned long start;
+         |                       ^~~~~
+   mm/vmalloc.c: At top level:
+   mm/vmalloc.c:1417:6: warning: no previous prototype for 'set_iounmap_nonlazy' [-Wmissing-prototypes]
+    1417 | void set_iounmap_nonlazy(void)
+         |      ^~~~~~~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/atomic.h:36,
+                    from include/linux/atomic.h:7,
+                    from include/asm-generic/bitops/atomic.h:5,
+                    from arch/arm64/include/asm/bitops.h:37,
+                    from include/linux/bitops.h:19,
+                    from include/linux/kernel.h:11,
+                    from include/linux/list.h:9,
+                    from include/linux/preempt.h:11,
+                    from include/linux/spinlock.h:51,
+                    from include/linux/vmalloc.h:5,
+                    from mm/vmalloc.c:11:
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'find_vmap_area' at mm/vmalloc.c:1519:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   In file included from include/linux/spinlock.h:82:
+   mm/vmalloc.c: In function 'find_vmap_area':
+   mm/vmalloc.c:557:24: note: object 'vmap_area_lock' of size 4
+     557 | static DEFINE_SPINLOCK(vmap_area_lock);
+         |                        ^~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'find_vmap_area' at mm/vmalloc.c:1519:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   mm/vmalloc.c: In function 'find_vmap_area':
+   mm/vmalloc.c:557:24: note: object 'vmap_area_lock' of size 4
+     557 | static DEFINE_SPINLOCK(vmap_area_lock);
+         |                        ^~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'setup_vmalloc_vm' at mm/vmalloc.c:2111:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   mm/vmalloc.c: In function 'setup_vmalloc_vm':
+   mm/vmalloc.c:557:24: note: object 'vmap_area_lock' of size 4
+     557 | static DEFINE_SPINLOCK(vmap_area_lock);
+         |                        ^~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
+       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
+       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
+       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
+       inlined from 'setup_vmalloc_vm' at mm/vmalloc.c:2111:2:
+   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
+     259 |         asm volatile(                                                   \
+         |         ^~~
+   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
+     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
+         | ^~~~~~~~~~~~~~
+   mm/vmalloc.c: In function 'setup_vmalloc_vm':
+   mm/vmalloc.c:557:24: note: object 'vmap_area_lock' of size 4
+     557 | static DEFINE_SPINLOCK(vmap_area_lock);
+         |                        ^~~~~~~~~~~~~~
+   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
+      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
+         |                                            ^
+   In function '__cmpxchg_case_acq_4',
+       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
+
+
+vim +/start +217 mm/vmalloc.c
+
+004cface9c1c0b Nicholas Piggin 2021-10-29  211  
+3eb01faed2ebb2 Nicholas Piggin 2021-10-29  212  static int vmap_range_noflush(unsigned long addr, unsigned long end,
+004cface9c1c0b Nicholas Piggin 2021-10-29  213  			phys_addr_t phys_addr, pgprot_t prot,
+004cface9c1c0b Nicholas Piggin 2021-10-29  214  			unsigned int max_page_shift)
+004cface9c1c0b Nicholas Piggin 2021-10-29  215  {
+004cface9c1c0b Nicholas Piggin 2021-10-29  216  	pgd_t *pgd;
+004cface9c1c0b Nicholas Piggin 2021-10-29 @217  	unsigned long start;
+004cface9c1c0b Nicholas Piggin 2021-10-29  218  	unsigned long next;
+004cface9c1c0b Nicholas Piggin 2021-10-29  219  	int err;
+004cface9c1c0b Nicholas Piggin 2021-10-29  220  
+004cface9c1c0b Nicholas Piggin 2021-10-29  221  	might_sleep();
+004cface9c1c0b Nicholas Piggin 2021-10-29  222  	BUG_ON(addr >= end);
+004cface9c1c0b Nicholas Piggin 2021-10-29  223  
+004cface9c1c0b Nicholas Piggin 2021-10-29  224  	start = addr;
+004cface9c1c0b Nicholas Piggin 2021-10-29  225  	pgd = pgd_offset_k(addr);
+004cface9c1c0b Nicholas Piggin 2021-10-29  226  	do {
+004cface9c1c0b Nicholas Piggin 2021-10-29  227  		next = pgd_addr_end(addr, end);
+004cface9c1c0b Nicholas Piggin 2021-10-29  228  		err = vmap_p4d_range(pgd, addr, next, phys_addr, prot, max_page_shift);
+004cface9c1c0b Nicholas Piggin 2021-10-29  229  		if (err)
+004cface9c1c0b Nicholas Piggin 2021-10-29  230  			break;
+004cface9c1c0b Nicholas Piggin 2021-10-29  231  	} while (pgd++, phys_addr += (next - addr), addr = next, addr != end);
+004cface9c1c0b Nicholas Piggin 2021-10-29  232  
+3eb01faed2ebb2 Nicholas Piggin 2021-10-29  233  	return err;
+3eb01faed2ebb2 Nicholas Piggin 2021-10-29  234  }
+3eb01faed2ebb2 Nicholas Piggin 2021-10-29  235  
+
+:::::: The code at line 217 was first introduced by commit
+:::::: 004cface9c1c0b6351473934a4ce452193e05b07 mm: Move vmap_range from mm/ioremap.c to mm/vmalloc.c
+
+:::::: TO: Nicholas Piggin <npiggin@gmail.com>
+:::::: CC: Yang Yingliang <yangyingliang@huawei.com>
 
 -- 
-Oscar Salvador
-SUSE Labs
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
