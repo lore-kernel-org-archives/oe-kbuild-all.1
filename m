@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C647C218AD1;
-	Thu,  5 Jun 2025 23:24:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CBC7139E
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 00:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749165882; cv=none; b=VeGZ5llBajT21ELtLrZb9IYhQOhAWY2CeCY7G+4muRHK4AIcBWD/3z1CNE4P3ZQMo+s05oCN4kJvuy2HJl67jNDwC5zytr+BtkN4jdRdZZjI+0/emgX0rgJ1WVeRJkBSbS+9fNjFIgTvn6KLv02BH2moHTfHzaNfbfnUcNs1KDo=
+	t=1749168406; cv=none; b=ZwenUhK/cqQlJSlwAnSbbyiZzGtSEGtT9UaIn+iEOzcx8Rh6fVQH41IvqagNXZjSt5NqPkzkHBurw2rC4dR4Q3DX4njXkz3IH+T7hK5q+NnojH64E66uzVfBp0kRgLeQ5n1KFBbhcDAr+N5gx73WG4LTCJ5bCD0UeWy77iGVh0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749165882; c=relaxed/simple;
-	bh=0XRp09v0H3JYs138Hm4oCRVEFr5gTyjj0AgWJkl4Kjo=;
+	s=arc-20240116; t=1749168406; c=relaxed/simple;
+	bh=+oWZHG8IeFf4aAbPD5j+JD6IN20IKFmc5z9/9bEZU4k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bIBS9TchaH2V0g6L7pW/TTok1DiIeH/vLbAcaadj8ypy4ilJ8F0oZNkPkJUa5Aik7DAP7+GsjeTNEpxqrHtEJUvtlIq23WTtBt9cG8V87RIcbiHIyMPB8E/CNL2NRjgEKI+Is6odE7sii5z2JMIZLlx72ZyjiM8egPN5Q0NXC+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lTOF0Yj+; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=KNcL2Q2JE7AhONrZDjfSMqCKP1Eq9GIThNIC3FBXXDrikyvbzFZIrVgCm84M6t9W06Qgh59UsqEgVxvKADr6bVmoHiFHpxHKT43orMtuBQ9GAVi2g5d1SKoFe8XDiEC1PRmFTAVo3ip0eSHrFr+PWcvbE3INHjeZde04vcf6sc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PHlolu6A; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lTOF0Yj+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PHlolu6A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749165881; x=1780701881;
+  t=1749168405; x=1780704405;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0XRp09v0H3JYs138Hm4oCRVEFr5gTyjj0AgWJkl4Kjo=;
-  b=lTOF0Yj+uJCdhw2tEjG3KP2Rp8p2+Ruk1PJULGEMXe/hK23ujlSs2YGR
-   H2MWh29lUnZZpaRYcOpmsnpHZNKobHj74KNf/wmeVdDYM5TmcgTDFqLHm
-   ybahj2nHLxqLSy5emF+5s8gnx97bTeRUi3g86+ZIimuUr8COzbIU5Nbob
-   RKRkw9a1vrlwOXi/soWjVesUZtfHPrqPBIOJ2isIjILXG7RILINfDQW5s
-   XXKe5YrByMP+9NCbrCsiMM1Sj9jotQSOsXOOjDcyZe91oZGq2YldujWeg
-   tOeN01ib6xDD25AUeiVDnniPacjA2VWJDuiycMpuS8XqjqV2cJa5X1cEy
+  bh=+oWZHG8IeFf4aAbPD5j+JD6IN20IKFmc5z9/9bEZU4k=;
+  b=PHlolu6AcDez26biotL4/8UYW3LJXV/1i9wimqJp2nqiipmO5dwWxyYf
+   sIDryXtLYuuYhUzzNNMTo6ITSJ5QOeBuvI1NtaayNHZj7vbuz9gbAzLss
+   vCTkcAKbY0pCqoXgU77v9OGGg/B8+mBfo2cqiPbesQKIHdYBEx2Mp70RF
+   h52fW6d/1GZwwTYMHSA08ALsh2D/fufkZACR39TjJT4GFzjESot7I+9KK
+   grqZmYVYJBd1rZFdAV/YTj0Xa02G2TqN6G3w0nQe3k+N55JdiQ6l6O7Qt
+   z4R8J0Q4+d3mWqofCtM6vCdsIk6IAOcehsyZq1i+ja92m0pX+2lKgLp6z
    Q==;
-X-CSE-ConnectionGUID: uG0gLMb4TFGsqlQkCBdomg==
-X-CSE-MsgGUID: jSbDn+aaRDiURbTECEIJJw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="68744757"
+X-CSE-ConnectionGUID: 90AmLWT1TW2YuCciB9CsVQ==
+X-CSE-MsgGUID: 3AR49geRSzOsgqYaFfSa5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="51219431"
 X-IronPort-AV: E=Sophos;i="6.16,213,1744095600"; 
-   d="scan'208";a="68744757"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 16:24:40 -0700
-X-CSE-ConnectionGUID: 35bukaDuQBWuJ+E5WoTq5g==
-X-CSE-MsgGUID: VU0jlhy4R2eeFsrIjARdyQ==
+   d="scan'208";a="51219431"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 17:06:44 -0700
+X-CSE-ConnectionGUID: Agl6kbLkQ1GD+2ww1e7OOg==
+X-CSE-MsgGUID: NsnOY1afQRuuLieRbuVTXA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,213,1744095600"; 
-   d="scan'208";a="182839509"
+   d="scan'208";a="150679351"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 05 Jun 2025 16:24:39 -0700
+  by orviesa004.jf.intel.com with ESMTP; 05 Jun 2025 17:06:42 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNJwq-0004XZ-2i;
-	Thu, 05 Jun 2025 23:24:36 +0000
-Date: Fri, 6 Jun 2025 07:24:32 +0800
+	id 1uNKbX-0004Yb-2U;
+	Fri, 06 Jun 2025 00:06:39 +0000
+Date: Fri, 6 Jun 2025 08:06:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: lizhe.67@bytedance.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC] vfio/type1: optimize vfio_unpin_pages_remote() for large
- folio
-Message-ID: <202506060749.d93rQNLD-lkp@intel.com>
-References: <20250605124923.21896-1-lizhe.67@bytedance.com>
+To: Johannes Thumshirn <jth@kernel.org>, linux-btrfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Naohiro Aota <naohiro.aota@wdc.com>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	David Sterba <dsterba@suse.com>, Josef Bacik <josef@toxicpanda.com>,
+	Johannes Thumshirn <johannes.thumshirn@wdc.com>
+Subject: Re: [PATCH v2] btrfs: zoned: fix alloc_offset calculation for partly
+ conventional block groups
+Message-ID: <202506060751.KRci5LHx-lkp@intel.com>
+References: <20250605091811.386815-1-jth@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,76 +66,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250605124923.21896-1-lizhe.67@bytedance.com>
+In-Reply-To: <20250605091811.386815-1-jth@kernel.org>
 
-Hi,
+Hi Johannes,
 
-[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on awilliam-vfio/next]
-[also build test ERROR on awilliam-vfio/for-linus linus/master v6.15 next-20250605]
+[auto build test ERROR on kdave/for-next]
+[also build test ERROR on linus/master v6.15 next-20250605]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/lizhe-67-bytedance-com/vfio-type1-optimize-vfio_unpin_pages_remote-for-large-folio/20250605-205109
-base:   https://github.com/awilliam/linux-vfio.git next
-patch link:    https://lore.kernel.org/r/20250605124923.21896-1-lizhe.67%40bytedance.com
-patch subject: [RFC] vfio/type1: optimize vfio_unpin_pages_remote() for large folio
-config: s390-randconfig-002-20250606 (https://download.01.org/0day-ci/archive/20250606/202506060749.d93rQNLD-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506060749.d93rQNLD-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Johannes-Thumshirn/btrfs-zoned-fix-alloc_offset-calculation-for-partly-conventional-block-groups/20250605-171925
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250605091811.386815-1-jth%40kernel.org
+patch subject: [PATCH v2] btrfs: zoned: fix alloc_offset calculation for partly conventional block groups
+config: i386-buildonly-randconfig-002-20250606 (https://download.01.org/0day-ci/archive/20250606/202506060751.KRci5LHx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506060751.KRci5LHx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506060749.d93rQNLD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506060751.KRci5LHx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/vfio/vfio_iommu_type1.c:778:14: error: call to undeclared function 'vpfn_pages'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     778 |                         locked += vpfn_pages(dma, iova, step);
-         |                                   ^
-   drivers/vfio/vfio_iommu_type1.c:778:14: note: did you mean 'vma_pages'?
-   include/linux/mm.h:3590:29: note: 'vma_pages' declared here
-    3590 | static inline unsigned long vma_pages(struct vm_area_struct *vma)
-         |                             ^
-   1 error generated.
+   ld: fs/btrfs/zoned.o: in function `btrfs_load_block_group_raid0':
+>> fs/btrfs/zoned.c:1531: undefined reference to `__umoddi3'
+   ld: fs/btrfs/zoned.o: in function `btrfs_load_block_group_raid10':
+   fs/btrfs/zoned.c:1592: undefined reference to `__umoddi3'
 
 
-vim +/vpfn_pages +778 drivers/vfio/vfio_iommu_type1.c
+vim +1531 fs/btrfs/zoned.c
 
-   761	
-   762	static long vfio_unpin_pages_remote(struct vfio_dma *dma, dma_addr_t iova,
-   763					    unsigned long pfn, unsigned long npage,
-   764					    bool do_accounting)
-   765	{
-   766		long unlocked = 0, locked = 0;
-   767	
-   768		while (npage) {
-   769			long step = get_step(pfn, npage);
-   770	
-   771			/*
-   772			 * Although the third parameter of put_pfns() is of type int,
-   773			 * the value of step here will not exceed the range that int
-   774			 * can represent. Therefore, it is safe to pass step.
-   775			 */
-   776			if (put_pfns(pfn, dma->prot, step)) {
-   777				unlocked += step;
- > 778				locked += vpfn_pages(dma, iova, step);
-   779			}
-   780			pfn += step;
-   781			iova += PAGE_SIZE * step;
-   782			npage -= step;
-   783		}
-   784	
-   785		if (do_accounting)
-   786			vfio_lock_acct(dma, locked - unlocked, true);
-   787	
-   788		return unlocked;
-   789	}
-   790	
+  1504	
+  1505	static int btrfs_load_block_group_raid0(struct btrfs_block_group *bg,
+  1506						struct btrfs_chunk_map *map,
+  1507						struct zone_info *zone_info,
+  1508						unsigned long *active,
+  1509						u64 last_alloc)
+  1510	{
+  1511		struct btrfs_fs_info *fs_info = bg->fs_info;
+  1512	
+  1513		if ((map->type & BTRFS_BLOCK_GROUP_DATA) && !fs_info->stripe_root) {
+  1514			btrfs_err(fs_info, "zoned: data %s needs raid-stripe-tree",
+  1515				  btrfs_bg_type_to_raid_name(map->type));
+  1516			return -EINVAL;
+  1517		}
+  1518	
+  1519		for (int i = 0; i < map->num_stripes; i++) {
+  1520			if (zone_info[i].alloc_offset == WP_MISSING_DEV)
+  1521				continue;
+  1522	
+  1523			if (zone_info[i].alloc_offset == WP_CONVENTIONAL) {
+  1524				u64 stripe_nr, full_stripe_nr;
+  1525				u64 stripe_offset;
+  1526				int stripe_index;
+  1527	
+  1528				stripe_nr = div64_u64(last_alloc, map->stripe_size);
+  1529				stripe_offset = stripe_nr * map->stripe_size;
+  1530				full_stripe_nr = div_u64(stripe_nr, map->num_stripes);
+> 1531				stripe_index = stripe_nr % map->num_stripes;
+  1532	
+  1533				zone_info[i].alloc_offset =
+  1534					full_stripe_nr * map->stripe_size;
+  1535	
+  1536				if (stripe_index > i)
+  1537					zone_info[i].alloc_offset += map->stripe_size;
+  1538				else if (stripe_index == i)
+  1539					zone_info[i].alloc_offset +=
+  1540						(last_alloc - stripe_offset);
+  1541			}
+  1542	
+  1543			if (test_bit(0, active) != test_bit(i, active)) {
+  1544				if (!btrfs_zone_activate(bg))
+  1545					return -EIO;
+  1546			} else {
+  1547				if (test_bit(0, active))
+  1548					set_bit(BLOCK_GROUP_FLAG_ZONE_IS_ACTIVE, &bg->runtime_flags);
+  1549			}
+  1550			bg->zone_capacity += zone_info[i].capacity;
+  1551			bg->alloc_offset += zone_info[i].alloc_offset;
+  1552		}
+  1553	
+  1554		return 0;
+  1555	}
+  1556	
 
 -- 
 0-DAY CI Kernel Test Service
