@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA5626FA4E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 06:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F6C257440;
+	Fri,  6 Jun 2025 06:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749191481; cv=none; b=s6jsLfry60qdYLD+X83e3rT6siqXSlKzfQMgwjPEpY2RuzzXgEyxgjEiSMP4+JTMSEJeKFKLw/OJQen7WO3uJgi39++IxIpVn3mMjXRbM6Gxe/ebJmRdTScd48G/H/gYDeiSlO95pv9drOEkNwgiwjWkME23NGX/9NeBvekCcvw=
+	t=1749192147; cv=none; b=trQht3kAeLvslQQVU36w01Gve/fSzdoULc/pktdyVVk98qq9YaSNjyiw3RmrnjH7Kc7Z9HekUGOFrcz1lEndWfBM373uCXBuv3k2T6vYNqU5IfPLlnTgDXJsbG9tVpw9g94zNsV6mJVZ3H8d3Kg9O0t3pDclPmv1qor+JUOyQzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749191481; c=relaxed/simple;
-	bh=ddlnMWOX2Z6O5OiojJBuSQ2zKROBYKQSVYiHprhSSNA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VQis8PMTa52aCZYKWzaqJ1xGiwhrqla+sUedVsH52rcOjHmu7hyMThwqa0DiB9KAqDxMExHnd6I+n4vyo9EALO6i+MPx39UDNOYVPaHW9hIGTKjaHdI/Lr9AduSG5RQ1ieXg0SSZw/lB7TOH+R45C+LWsMjJIlIH2JY7j64tLMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GnAbSs86; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1749192147; c=relaxed/simple;
+	bh=zXhzX4woctBm+ZgESQf1WUuKky+7BJcUTCU9fvKwcNU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ic9x42ydU5zkUn14cQIH/F2Mw/QP1i/D8DOBjIW0/NGoIQYswne5RN9FxIbE5Sx62AcMoj9UAG7cYt19iTq4Z7uBytOw4xtXQZcwxvdWdGGeS2N2sQM240WOIMwifm/7sQkixqSBkBtqmjcACtTDCAT3su4hUFjpoJKajkHZ2e4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kWKceBrr; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GnAbSs86"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kWKceBrr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749191479; x=1780727479;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ddlnMWOX2Z6O5OiojJBuSQ2zKROBYKQSVYiHprhSSNA=;
-  b=GnAbSs86KLIq1KDOkP4M8qyBjvJZaldII5SDLI/L8MrVlGCg/0OqGpzS
-   231Iag8SqN3eUX8W0FNipo4KmqCz8HFmPW/GPwCHHrdncIP4SPcyc7+7o
-   oMi1f7ICyncU9Rl9DiKNWGkLEW4l0bODptrUgNM2THAt6fMHqdHaN7WyE
-   Bm41RnoOtWr7yC3/gp4oQ1c8MkjoxrUPqJOz5VRSlURBHYrnIoHxYuTCd
-   s00XAeNBjuXqczeCDOQqoFe6pot0iBpJuD2ciaiaJWO32Vr7bckYpq8Gd
-   MMtdqnROnPCwVZtxcdm1HSwIjnx5lLs27S3roQn3yGEv1Gu73KGlv2UmF
-   A==;
-X-CSE-ConnectionGUID: USgIUUPYSUKnDIUwDki2Ww==
-X-CSE-MsgGUID: m0mVdJ8pRwCoZGXiPnGjLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="62729283"
+  t=1749192144; x=1780728144;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zXhzX4woctBm+ZgESQf1WUuKky+7BJcUTCU9fvKwcNU=;
+  b=kWKceBrrWFDhkKO5LtWHZ5DBMncw5AnGb2OHt1et2VWnQV9BVM87498o
+   qFHMeeI8OvUC2T2EXxwELwZxC5ua2juJqIjbhV5okFJXtxN9srlYcOu9q
+   UxACRHy+UYCY9dBuFnSBqLHA3HRIlXch/I1v1VvY/hMWM0BstDyTEwoHH
+   nvdRiJWMc/xUPljj75I+JrudLnBsSLq0FPI6vAdmQpqOm+BQgYh5Cxn3V
+   o116sCEEv4sJKhrUOTJrGErcOikRjXwiikYDNJtDy/k/Mzvg/TmUdVLlj
+   wlJO8e0xmHJkQH4JzTaZNmZuwmdu/3LS2lr0W/SDbqmHmSkcTB2OKPfeR
+   Q==;
+X-CSE-ConnectionGUID: n/laEmLkTjOO9iqiE5o33w==
+X-CSE-MsgGUID: gftw3ZCTSqKSaSqI8rZqKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="62378931"
 X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
-   d="scan'208";a="62729283"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 23:31:18 -0700
-X-CSE-ConnectionGUID: Wa/AGC9mRMeP8qYHzvsqBw==
-X-CSE-MsgGUID: 34zu8F4vSn2XzbhRyKaqPQ==
+   d="scan'208";a="62378931"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jun 2025 23:42:19 -0700
+X-CSE-ConnectionGUID: LeL/J/qfR9K80Qg+bnUadQ==
+X-CSE-MsgGUID: LzXa+m9GRUia6SnTcSkSIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,214,1744095600"; 
-   d="scan'208";a="146099958"
+   d="scan'208";a="145692485"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 05 Jun 2025 23:31:17 -0700
+  by orviesa010.jf.intel.com with ESMTP; 05 Jun 2025 23:42:18 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNQbj-0004nF-0D;
-	Fri, 06 Jun 2025 06:31:15 +0000
-Date: Fri, 6 Jun 2025 14:31:11 +0800
+	id 1uNQmN-0004nV-2p;
+	Fri, 06 Jun 2025 06:42:15 +0000
+Date: Fri, 6 Jun 2025 14:41:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1659/1659] mm/page_alloc.c:3005:
- warning: Function parameter or member 'mt' not described in
- '__putback_isolated_page'
-Message-ID: <202506061449.nBm6oAvj-lkp@intel.com>
+To: Mark Harmstone <maharmstone@fb.com>, linux-btrfs@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Mark Harmstone <maharmstone@fb.com>
+Subject: Re: [PATCH 04/12] btrfs: remove remapped block groups from the
+ free-space tree
+Message-ID: <202506061455.6kk5l6Ct-lkp@intel.com>
+References: <20250605162345.2561026-5-maharmstone@fb.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,150 +64,180 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250605162345.2561026-5-maharmstone@fb.com>
 
-Hi Alexander,
+Hi Mark,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   89f3a2595f2e3f14f976811d203bd8f55ff4eada
-commit: 91bac2310ae7eca9d9869222c96fcc3d02851eea [1659/1659] mm: add function __putback_isolated_page
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20250606/202506061449.nBm6oAvj-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506061449.nBm6oAvj-lkp@intel.com/reproduce)
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on linus/master next-20250605]
+[cannot apply to v6.15]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Harmstone/btrfs-add-definitions-and-constants-for-remap-tree/20250606-002804
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250605162345.2561026-5-maharmstone%40fb.com
+patch subject: [PATCH 04/12] btrfs: remove remapped block groups from the free-space tree
+config: i386-randconfig-014-20250606 (https://download.01.org/0day-ci/archive/20250606/202506061455.6kk5l6Ct-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506061455.6kk5l6Ct-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506061449.nBm6oAvj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506061455.6kk5l6Ct-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In function '__cmpxchg_case_acq_4',
-       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
-       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
-       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
-       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
-       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
-       inlined from '__build_all_zonelists' at mm/page_alloc.c:5529:2:
-   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
-     259 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
-     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
-         | ^~~~~~~~~~~~~~
-   mm/page_alloc.c: In function '__build_all_zonelists':
-   mm/page_alloc.c:5527:32: note: object 'lock' of size 4
-    5527 |         static DEFINE_SPINLOCK(lock);
-         |                                ^~~~
-   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
-      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
-         |                                            ^
-   In function '__cmpxchg_case_acq_4',
-       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
-       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
-       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
-       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
-       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
-       inlined from 'adjust_managed_page_count' at mm/page_alloc.c:7188:2:
-   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
-     259 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
-     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
-         | ^~~~~~~~~~~~~~
-   mm/page_alloc.c: In function 'adjust_managed_page_count':
-   mm/page_alloc.c:127:24: note: object 'managed_page_count_lock' of size 4
-     127 | static DEFINE_SPINLOCK(managed_page_count_lock);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
-      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
-         |                                            ^
-   In function '__cmpxchg_case_acq_4',
-       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
-       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
-       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
-       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
-       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
-       inlined from 'adjust_managed_page_count' at mm/page_alloc.c:7188:2:
-   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
-     259 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
-     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
-         | ^~~~~~~~~~~~~~
-   mm/page_alloc.c: In function 'adjust_managed_page_count':
-   mm/page_alloc.c:127:24: note: object 'managed_page_count_lock' of size 4
-     127 | static DEFINE_SPINLOCK(managed_page_count_lock);
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
-      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
-         |                                            ^
-   In function '__cmpxchg_case_acq_4',
-       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
-       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
-       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
-       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
-       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
-       inlined from 'setup_per_zone_wmarks' at mm/page_alloc.c:7504:2:
-   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
-     259 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
-     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
-         | ^~~~~~~~~~~~~~
-   mm/page_alloc.c: In function 'setup_per_zone_wmarks':
-   mm/page_alloc.c:7502:32: note: object 'lock' of size 4
-    7502 |         static DEFINE_SPINLOCK(lock);
-         |                                ^~~~
-   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
-      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
-         |                                            ^
-   In function '__cmpxchg_case_acq_4',
-       inlined from '__cmpxchg_acq' at arch/arm64/include/asm/cmpxchg.h:141:1,
-       inlined from 'queued_spin_lock' at include/asm-generic/qspinlock.h:85:8,
-       inlined from 'do_raw_spin_lock' at include/linux/spinlock.h:180:2,
-       inlined from '__raw_spin_lock' at include/linux/spinlock_api_smp.h:143:2,
-       inlined from 'spin_lock' at include/linux/spinlock.h:329:2,
-       inlined from 'setup_per_zone_wmarks' at mm/page_alloc.c:7504:2:
-   arch/arm64/include/asm/atomic_ll_sc.h:259:9: warning: array subscript 'long unsigned int[0]' is partly outside array bounds of 'spinlock_t[1]' {aka 'struct spinlock[1]'} [-Warray-bounds=]
-     259 |         asm volatile(                                                   \
-         |         ^~~
-   arch/arm64/include/asm/atomic_ll_sc.h:283:1: note: in expansion of macro '__CMPXCHG_CASE'
-     283 | __CMPXCHG_CASE(w,  , acq_4,        , a,  , "memory")
-         | ^~~~~~~~~~~~~~
-   mm/page_alloc.c: In function 'setup_per_zone_wmarks':
-   mm/page_alloc.c:7502:32: note: object 'lock' of size 4
-    7502 |         static DEFINE_SPINLOCK(lock);
-         |                                ^~~~
-   include/linux/spinlock_types.h:81:44: note: in definition of macro 'DEFINE_SPINLOCK'
-      81 | #define DEFINE_SPINLOCK(x)      spinlock_t x = __SPIN_LOCK_UNLOCKED(x)
-         |                                            ^
->> mm/page_alloc.c:3005: warning: Function parameter or member 'mt' not described in '__putback_isolated_page'
+>> fs/btrfs/block-group.c:2470:23: warning: use of logical '&&' with constant operand [-Wconstant-logical-operand]
+    2470 |                             !(cache->flags && BTRFS_BLOCK_GROUP_REMAPPED)) {
+         |                                            ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/block-group.c:2470:23: note: use '&' for a bitwise operation
+    2470 |                             !(cache->flags && BTRFS_BLOCK_GROUP_REMAPPED)) {
+         |                                            ^~
+         |                                            &
+   fs/btrfs/block-group.c:2470:23: note: remove constant to silence this warning
+    2470 |                             !(cache->flags && BTRFS_BLOCK_GROUP_REMAPPED)) {
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> fs/btrfs/block-group.c:2470:26: warning: converting the result of '<<' to a boolean always evaluates to true [-Wtautological-constant-compare]
+    2470 |                             !(cache->flags && BTRFS_BLOCK_GROUP_REMAPPED)) {
+         |                                               ^
+   include/uapi/linux/btrfs_tree.h:1171:47: note: expanded from macro 'BTRFS_BLOCK_GROUP_REMAPPED'
+    1171 | #define BTRFS_BLOCK_GROUP_REMAPPED      (1ULL << 11)
+         |                                               ^
+   2 warnings generated.
 
 
-vim +3005 mm/page_alloc.c
+vim +2470 fs/btrfs/block-group.c
 
-  2995	
-  2996	/**
-  2997	 * __putback_isolated_page - Return a now-isolated page back where we got it
-  2998	 * @page: Page that was isolated
-  2999	 * @order: Order of the isolated page
-  3000	 *
-  3001	 * This function is meant to return a page pulled from the free lists via
-  3002	 * __isolate_free_page back to the free lists they were pulled from.
-  3003	 */
-  3004	void __putback_isolated_page(struct page *page, unsigned int order, int mt)
-> 3005	{
-  3006		struct zone *zone = page_zone(page);
-  3007	
-  3008		/* zone lock should be held when this function is called */
-  3009		lockdep_assert_held(&zone->lock);
-  3010	
-  3011		/* Return isolated page to tail of freelist. */
-  3012		__free_one_page(page, page_to_pfn(page), zone, order, mt);
-  3013	}
-  3014	
+  2361	
+  2362	static int read_one_block_group(struct btrfs_fs_info *info,
+  2363					struct btrfs_block_group_item *bgi,
+  2364					const struct btrfs_key *key,
+  2365					int need_clear)
+  2366	{
+  2367		struct btrfs_block_group *cache;
+  2368		const bool mixed = btrfs_fs_incompat(info, MIXED_GROUPS);
+  2369		int ret;
+  2370	
+  2371		ASSERT(key->type == BTRFS_BLOCK_GROUP_ITEM_KEY);
+  2372	
+  2373		cache = btrfs_create_block_group_cache(info, key->objectid);
+  2374		if (!cache)
+  2375			return -ENOMEM;
+  2376	
+  2377		cache->length = key->offset;
+  2378		cache->used = btrfs_stack_block_group_used(bgi);
+  2379		cache->commit_used = cache->used;
+  2380		cache->flags = btrfs_stack_block_group_flags(bgi);
+  2381		cache->global_root_id = btrfs_stack_block_group_chunk_objectid(bgi);
+  2382		cache->space_info = btrfs_find_space_info(info, cache->flags);
+  2383	
+  2384		set_free_space_tree_thresholds(cache);
+  2385	
+  2386		if (need_clear) {
+  2387			/*
+  2388			 * When we mount with old space cache, we need to
+  2389			 * set BTRFS_DC_CLEAR and set dirty flag.
+  2390			 *
+  2391			 * a) Setting 'BTRFS_DC_CLEAR' makes sure that we
+  2392			 *    truncate the old free space cache inode and
+  2393			 *    setup a new one.
+  2394			 * b) Setting 'dirty flag' makes sure that we flush
+  2395			 *    the new space cache info onto disk.
+  2396			 */
+  2397			if (btrfs_test_opt(info, SPACE_CACHE))
+  2398				cache->disk_cache_state = BTRFS_DC_CLEAR;
+  2399		}
+  2400		if (!mixed && ((cache->flags & BTRFS_BLOCK_GROUP_METADATA) &&
+  2401		    (cache->flags & BTRFS_BLOCK_GROUP_DATA))) {
+  2402				btrfs_err(info,
+  2403	"bg %llu is a mixed block group but filesystem hasn't enabled mixed block groups",
+  2404					  cache->start);
+  2405				ret = -EINVAL;
+  2406				goto error;
+  2407		}
+  2408	
+  2409		ret = btrfs_load_block_group_zone_info(cache, false);
+  2410		if (ret) {
+  2411			btrfs_err(info, "zoned: failed to load zone info of bg %llu",
+  2412				  cache->start);
+  2413			goto error;
+  2414		}
+  2415	
+  2416		/*
+  2417		 * We need to exclude the super stripes now so that the space info has
+  2418		 * super bytes accounted for, otherwise we'll think we have more space
+  2419		 * than we actually do.
+  2420		 */
+  2421		ret = exclude_super_stripes(cache);
+  2422		if (ret) {
+  2423			/* We may have excluded something, so call this just in case. */
+  2424			btrfs_free_excluded_extents(cache);
+  2425			goto error;
+  2426		}
+  2427	
+  2428		/*
+  2429		 * For zoned filesystem, space after the allocation offset is the only
+  2430		 * free space for a block group. So, we don't need any caching work.
+  2431		 * btrfs_calc_zone_unusable() will set the amount of free space and
+  2432		 * zone_unusable space.
+  2433		 *
+  2434		 * For regular filesystem, check for two cases, either we are full, and
+  2435		 * therefore don't need to bother with the caching work since we won't
+  2436		 * find any space, or we are empty, and we can just add all the space
+  2437		 * in and be done with it.  This saves us _a_lot_ of time, particularly
+  2438		 * in the full case.
+  2439		 */
+  2440		if (btrfs_is_zoned(info)) {
+  2441			btrfs_calc_zone_unusable(cache);
+  2442			/* Should not have any excluded extents. Just in case, though. */
+  2443			btrfs_free_excluded_extents(cache);
+  2444		} else if (cache->length == cache->used) {
+  2445			cache->cached = BTRFS_CACHE_FINISHED;
+  2446			btrfs_free_excluded_extents(cache);
+  2447		} else if (cache->used == 0) {
+  2448			cache->cached = BTRFS_CACHE_FINISHED;
+  2449			ret = btrfs_add_new_free_space(cache, cache->start,
+  2450						       cache->start + cache->length, NULL);
+  2451			btrfs_free_excluded_extents(cache);
+  2452			if (ret)
+  2453				goto error;
+  2454		}
+  2455	
+  2456		ret = btrfs_add_block_group_cache(cache);
+  2457		if (ret) {
+  2458			btrfs_remove_free_space_cache(cache);
+  2459			goto error;
+  2460		}
+  2461	
+  2462		trace_btrfs_add_block_group(info, cache, 0);
+  2463		btrfs_add_bg_to_space_info(info, cache);
+  2464	
+  2465		set_avail_alloc_bits(info, cache->flags);
+  2466		if (btrfs_chunk_writeable(info, cache->start)) {
+  2467			if (cache->used == 0) {
+  2468				ASSERT(list_empty(&cache->bg_list));
+  2469				if (btrfs_test_opt(info, DISCARD_ASYNC) &&
+> 2470				    !(cache->flags && BTRFS_BLOCK_GROUP_REMAPPED)) {
+  2471					btrfs_discard_queue_work(&info->discard_ctl, cache);
+  2472				} else {
+  2473					btrfs_mark_bg_unused(cache);
+  2474				}
+  2475			}
+  2476		} else {
+  2477			inc_block_group_ro(cache, 1);
+  2478		}
+  2479	
+  2480		return 0;
+  2481	error:
+  2482		btrfs_put_block_group(cache);
+  2483		return ret;
+  2484	}
+  2485	
 
 -- 
 0-DAY CI Kernel Test Service
