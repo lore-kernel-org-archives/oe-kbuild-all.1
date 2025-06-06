@@ -1,73 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9641A38F9
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 16:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689021DE3C7
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 16:20:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749226209; cv=none; b=ACrP+aRZ5h/OuSMteK6a60Npxcz9XzSGPIl9Hjl3ranCRbN/YidZOfEyxGcl636Qoy6GNL7fRV0zdtrgTbIq3WnNTe+aPAxHIYzKpy56rkl8aGyiP+uSuj5+eDkc6ZWjtuU4w4AQaVZQCsO9jQ3DkZHKLuugw/aJaWxTC6+DpJ0=
+	t=1749226810; cv=none; b=cuL6YtsvUoJDqCQGeMh6xDW8p3uJQenLs+lEjFAUeNJU7hT7SKyVWXFr1roONeMdm8sjNxFtXiX8Eqzz0lobTsrWMOg0btnGmo0oi/IUJ2xT+z+6P5S9mbQR5gtyh/GwbzC6sgu1n7AygJUenJ46+4KIEjITs90xCEqTpMwjJYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749226209; c=relaxed/simple;
-	bh=+IX4WKBZZKukb5l31BrwLrifavSSKeTEFgSJhIO2aPo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ANII8rMjBhf3KN2OVKakR8LP7NLcl61efaffkGz5WskCj1G6e7hT7dMDMYCHYk5c9mAMrEC79aiQo9HP0lOM+EQ+2lqFor+1KEiMyofXxPsquLQny+AIjOT2uAl9l8Es1NfzRSvs+IsLXgMHtcniw9KLXkoh5C4nrStxO49dhjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WUI86Mlg; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1749226810; c=relaxed/simple;
+	bh=nJb/hkSlsUvkwv+XGmEa48MDQAJj17JHWRYvnbFRlSA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pnps5XtVoUvrlB/C8LpM33M8w1FZzpDQr++6+/A1IP6F4nblBTdkF6OkrFg7njBYzLq5iqJaUYYQ6QRk63yJf30IZgLJhDdSzVCGEcwMyKjypejBAh1SmTHKlQOL9N80iKqEINseuu9i+5k8Zd2EWmYFuS6sMas13aXTAjj8P30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QMARXr9o; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WUI86Mlg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QMARXr9o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749226207; x=1780762207;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+IX4WKBZZKukb5l31BrwLrifavSSKeTEFgSJhIO2aPo=;
-  b=WUI86MlgIgMVk1BknhGdq//F+O+VPlhooHMZb6m7EJ6twl1ICg9rLP1H
-   +Jg0VG9zIe6p2Ft9QsJtIBbq6sK2Ws89+9/Ah1ZhWW0dQv06aOjgRth5S
-   k/Pwi+w4OosX1xdVBt8cpCDYCKgTkokik4SivGGN7kRTR2x2Wu1+aFje5
-   GM8Wa6/Z3S0zE6XmS++GcfbTRJWfkYfwC60EpYYWFELGbKI9nOUgUPWbD
-   yAM5+GcgSWwa9BzSnnZPggd/G2Gdc3Er0UCpW46+qmAGVxb8UN9mSs+SC
-   1uwIm9V33D8NZZHsW8jCZPvf3pSBoFlHWj6S4p3ieMyJ0+FbYlKLh7/Dt
-   w==;
-X-CSE-ConnectionGUID: gACAJE8jRcWgqdCMhQ66/w==
-X-CSE-MsgGUID: 1/NGmD9oR4qkrTv8HY5fUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="76777627"
+  t=1749226808; x=1780762808;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nJb/hkSlsUvkwv+XGmEa48MDQAJj17JHWRYvnbFRlSA=;
+  b=QMARXr9oG+K+tW6IqUOs8+HUXmqCZwsCV+J12Y0yKlvYNH4AqNkuMnEZ
+   DktHNBLNmdDjkQfMPFsdAy4wAe9CPuFfSFT1kjDBg3MQJRY1gLbDy63Tx
+   xvctYdxfdTywbux8Wtx3/XRyg7e5w9BnJwCmlmfR93PzfWX+nBiTklBAH
+   +WQezEpHJxuavBXrqjEsF9O8Wdp38m3tSDoMMB4Y3EMZ9ldEQDvmmsHYl
+   SD4DA94YBMrM/IsAumvIwUF0WP42MppuZQk/YHyprvwqkMoOGcLvZSkRW
+   2KRXhGr2elgwxyesNnoCxaVUtoh0kEuLSOSD7QzdGbjucXKvTioSWq7UM
+   Q==;
+X-CSE-ConnectionGUID: 00+ihqMLSNu4ft08nllUMA==
+X-CSE-MsgGUID: GJ4GCCEiQkadxfbpKvhneQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="68937772"
 X-IronPort-AV: E=Sophos;i="6.16,215,1744095600"; 
-   d="scan'208";a="76777627"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 09:10:07 -0700
-X-CSE-ConnectionGUID: nyWXBveVRTC3UmUgbte1Lg==
-X-CSE-MsgGUID: JZH4q7TNQBStGKrcbMx7Sg==
+   d="scan'208";a="68937772"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 09:20:07 -0700
+X-CSE-ConnectionGUID: nlHL2VHfQR+zIa4BbAnmPg==
+X-CSE-MsgGUID: Ohh8K4VnQgqGua8F7za82Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,215,1744095600"; 
-   d="scan'208";a="145798292"
+   d="scan'208";a="151125474"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Jun 2025 09:10:02 -0700
+  by orviesa005.jf.intel.com with ESMTP; 06 Jun 2025 09:20:05 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNZdo-00056d-2U;
-	Fri, 06 Jun 2025 16:10:00 +0000
-Date: Sat, 7 Jun 2025 00:09:04 +0800
+	id 1uNZnW-00057R-21;
+	Fri, 06 Jun 2025 16:20:02 +0000
+Date: Sat, 7 Jun 2025 00:19:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
-	Kees Cook <kees@kernel.org>,
-	Joel Granados <joel.granados@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
+To: Oscar Salvador <osalvador@suse.de>
 Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
 	Linux Memory Management List <linux-mm@kvack.org>,
-	Konstantin Khorenko <khorenko@virtuozzo.com>,
-	Denis Lunev <den@virtuozzo.com>,
-	Aleksandr Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	kernel@openvz.org
-Subject: Re: [PATCH] locking: detect spin_lock_irq() call with disabled
- interrupts
-Message-ID: <202506062318.7g54PAh3-lkp@intel.com>
-References: <20250606095741.46775-1-ptikhomirov@virtuozzo.com>
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Harry Yoo <harry.yoo@oracle.com>, Vlastimil Babka <vbabka@suse.cz>
+Subject: [akpm-mm:mm-new 61/87] drivers/cxl/core/region.c:2437:22: error:
+ invalid use of undefined type 'struct node_notify'
+Message-ID: <202506070030.otNokpsc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,93 +65,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250606095741.46775-1-ptikhomirov@virtuozzo.com>
 
-Hi Pavel,
+Hi Oscar,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test ERROR on tip/locking/core]
-[also build test ERROR on sysctl/sysctl-next akpm-mm/mm-nonmm-unstable tip/master linus/master v6.15 next-20250606]
-[cannot apply to mcgrof/sysctl-next tip/auto-latest]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Tikhomirov/locking-detect-spin_lock_irq-call-with-disabled-interrupts/20250606-175911
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20250606095741.46775-1-ptikhomirov%40virtuozzo.com
-patch subject: [PATCH] locking: detect spin_lock_irq() call with disabled interrupts
-config: riscv-randconfig-002-20250606 (https://download.01.org/0day-ci/archive/20250606/202506062318.7g54PAh3-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506062318.7g54PAh3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   b9f05ab60cb240a64e898221de50a037553840c7
+commit: 7bd79eaa2076cde601d828532a09ea50e20a976f [61/87] drivers,cxl: use node-notifier instead of memory-notifier
+config: loongarch-randconfig-001-20250606 (https://download.01.org/0day-ci/archive/20250607/202506070030.otNokpsc-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506070030.otNokpsc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506062318.7g54PAh3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506070030.otNokpsc-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/riscv/kernel/asm-offsets.c:8:
->> include/linux/spinlock.h:375:1: warning: data definition has no type or storage class
-    DECLARE_STATIC_KEY_MAYBE(CONFIG_DEBUG_SPINLOCK_IRQ_WITH_DISABLED_INTERRUPTS_BY_DEFAULT,
-    ^~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/spinlock.h:375:1: error: type defaults to 'int' in declaration of 'DECLARE_STATIC_KEY_MAYBE' [-Werror=implicit-int]
->> include/linux/spinlock.h:376:5: warning: parameter names (without types) in function declaration
-        debug_spin_lock_irq_with_disabled_interrupts);
-        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h: In function 'spin_lock_irq':
->> include/linux/spinlock.h:382:6: error: implicit declaration of function 'static_branch_unlikely' [-Werror=implicit-function-declaration]
-     if (static_branch_unlikely(&debug_spin_lock_irq_with_disabled_interrupts)) {
-         ^~~~~~~~~~~~~~~~~~~~~~
->> include/linux/spinlock.h:382:30: error: 'debug_spin_lock_irq_with_disabled_interrupts' undeclared (first use in this function)
-     if (static_branch_unlikely(&debug_spin_lock_irq_with_disabled_interrupts)) {
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/spinlock.h:382:30: note: each undeclared identifier is reported only once for each function it appears in
->> include/linux/spinlock.h:384:4: error: implicit declaration of function 'static_branch_disable'; did you mean 'stack_trace_save'? [-Werror=implicit-function-declaration]
-       static_branch_disable(&debug_spin_lock_irq_with_disabled_interrupts);
-       ^~~~~~~~~~~~~~~~~~~~~
-       stack_trace_save
-   include/linux/spinlock.h: In function 'spin_unlock_irq':
-   include/linux/spinlock.h:415:30: error: 'debug_spin_lock_irq_with_disabled_interrupts' undeclared (first use in this function)
-     if (static_branch_unlikely(&debug_spin_lock_irq_with_disabled_interrupts)) {
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:98: arch/riscv/kernel/asm-offsets.s] Error 1 shuffle=2202685202
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1275: prepare0] Error 2 shuffle=2202685202
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2202685202
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2202685202
-   make: Target 'prepare' not remade because of errors.
+   drivers/cxl/core/region.c: In function 'cxl_region_perf_attrs_callback':
+>> drivers/cxl/core/region.c:2437:22: error: invalid use of undefined type 'struct node_notify'
+    2437 |         int nid = mnb->nid;
+         |                      ^~
+   drivers/cxl/core/region.c:2440:46: error: 'NODE_ADDED_FIRST_MEMORY' undeclared (first use in this function)
+    2440 |         if (nid == NUMA_NO_NODE || action != NODE_ADDED_FIRST_MEMORY)
+         |                                              ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/cxl/core/region.c:2440:46: note: each undeclared identifier is reported only once for each function it appears in
+   drivers/cxl/core/region.c: In function 'shutdown_notifiers':
+   drivers/cxl/core/region.c:3487:9: error: implicit declaration of function 'unregister_node_notifier'; did you mean 'unregister_module_notifier'? [-Wimplicit-function-declaration]
+    3487 |         unregister_node_notifier(&cxlr->node_notifier);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         unregister_module_notifier
+   drivers/cxl/core/region.c: In function 'cxl_region_probe':
+   drivers/cxl/core/region.c:3528:9: error: implicit declaration of function 'register_node_notifier'; did you mean 'register_module_notifier'? [-Wimplicit-function-declaration]
+    3528 |         register_node_notifier(&cxlr->node_notifier);
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+         |         register_module_notifier
 
 
-vim +375 include/linux/spinlock.h
+vim +2437 drivers/cxl/core/region.c
 
-   373	
-   374	#ifdef CONFIG_DEBUG_SPINLOCK
- > 375	DECLARE_STATIC_KEY_MAYBE(CONFIG_DEBUG_SPINLOCK_IRQ_WITH_DISABLED_INTERRUPTS_BY_DEFAULT,
- > 376				 debug_spin_lock_irq_with_disabled_interrupts);
-   377	#endif
-   378	
-   379	static __always_inline void spin_lock_irq(spinlock_t *lock)
-   380	{
-   381	#ifdef CONFIG_DEBUG_SPINLOCK
- > 382		if (static_branch_unlikely(&debug_spin_lock_irq_with_disabled_interrupts)) {
-   383			if (raw_irqs_disabled()) {
- > 384				static_branch_disable(&debug_spin_lock_irq_with_disabled_interrupts);
-   385				WARN(1, "spin_lock_irq() called with irqs disabled!\n");
-   386			}
-   387		}
-   388	#endif
-   389		raw_spin_lock_irq(&lock->rlock);
-   390	}
-   391	
+  2430	
+  2431	static int cxl_region_perf_attrs_callback(struct notifier_block *nb,
+  2432						  unsigned long action, void *arg)
+  2433	{
+  2434		struct cxl_region *cxlr = container_of(nb, struct cxl_region,
+  2435						       node_notifier);
+  2436		struct node_notify *mnb = arg;
+> 2437		int nid = mnb->nid;
+  2438		int region_nid;
+  2439	
+  2440		if (nid == NUMA_NO_NODE || action != NODE_ADDED_FIRST_MEMORY)
+  2441			return NOTIFY_DONE;
+  2442	
+  2443		/*
+  2444		 * No need to hold cxl_region_rwsem; region parameters are stable
+  2445		 * within the cxl_region driver.
+  2446		 */
+  2447		region_nid = phys_to_target_node(cxlr->params.res->start);
+  2448		if (nid != region_nid)
+  2449			return NOTIFY_DONE;
+  2450	
+  2451		if (!cxl_region_update_coordinates(cxlr, nid))
+  2452			return NOTIFY_DONE;
+  2453	
+  2454		return NOTIFY_OK;
+  2455	}
+  2456	
 
 -- 
 0-DAY CI Kernel Test Service
