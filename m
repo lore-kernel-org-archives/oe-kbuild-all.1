@@ -1,76 +1,76 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6F324167D
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 06:34:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5773E247283
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 06:34:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750314887; cv=none; b=Qe6O2Dt3y+dV/+PybAVh9bvMWtufueF9Ed1MwhjmL8zMSCbZWndCRiwDfSE8lrQ+wgOjPN4nhe9ixxoHGQbqe40Vv3qMqxqFxpzMRqe5dXzsxlsqP0ohiQ1HI3AwnNFkWXXG2mdgWF7TcktvSKriZtG+QZH8//Dk8/aBBCR0/28=
+	t=1750314895; cv=none; b=SCvCRU+D5/M8S5K2HN0ZGkcCxF65IYK0684ThuXo0GELUszR/Hk7wF+b6AZdEdjQSonCqCOlE+ElGNIs4RLDgLa38v/F0pG5bJd73dhCFYII5ZGdCM3SEpt4AUAkE11Ve8iOfxfP7Fp7YUOmdi/EeMwmmhSjyfaopw+wckES2a0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750314887; c=relaxed/simple;
-	bh=Om7CEKhSsp7knlbuFIp5BJTXuJ9ojB+GQvlVCkIsjhw=;
+	s=arc-20240116; t=1750314895; c=relaxed/simple;
+	bh=q2MM1SD9njZtZCbJJGzm7bXlFfBpLyZmcYmCZeshHGI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZhigTDsuw7vddy9Yyd442BznX1u7FldTAn7SpAzkCrkiG0er+S/hBDwmKopW6ZKe5wIKIhhGTzTGugEoyDtI7xEHngmMI5PIlYgrJLIndJDEUmcKT8/8Oi1oq64lHQmylRUz7CdtnrifG9IL3MY7d2lxCZYBl2qdODAfJSU7ILA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kETKhVTG; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=e8GiXhDUHSvLloP3Nz/zVN6QAA+yPY+npzU7ps7WHVffigOm52PfNNnRp91DFckVqqmRnuvzylOQ0ilZb/870DulwJ7Ijb/rL1dEGVGQOxQeXdYbMqbNkJm0eAFunasYsbfPdWwIxGqWCrWjBq2UVyB47Z11Mo3owfOGeu0YxMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ilfuCoAq; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kETKhVTG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ilfuCoAq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750314879; x=1781850879;
+  t=1750314888; x=1781850888;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Om7CEKhSsp7knlbuFIp5BJTXuJ9ojB+GQvlVCkIsjhw=;
-  b=kETKhVTGyOTq6sLq6TUy7Uv8ijw7xLQCFTXRwtOqJZFYRgIDb3L/3Gx8
-   oQF+Y8UYrrwss7cv80g1JqAKVH8qrHBEmIhxBVRaCuH3pGDDGQ+nSN+pP
-   Y/iih19hsDeR83Qt/JwC3T+06dELrOlWbIsbdTE4unpQTRG9SaSvi9Pu6
-   yiPzPkO/JCYkEXCVwF1jWx7qjXjhCx3EpL0ZZeYJckRml19+Ns68lfUKa
-   1Nsl/wAVFzd4J0OO2ZMuOH9sdRStiuQiy/bqr2L5Xrxfnjg/TgMHylxPE
-   hZIKWX8W3RHCxOJBxrHyd+pt4YWdgzyA0OA3666SjwQ1T1laUfmbavcLu
-   A==;
-X-CSE-ConnectionGUID: WKtJWVXhQni5ObAGdi2p4Q==
-X-CSE-MsgGUID: tOAuqlUdTrOBUWFYAPF/sw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52435842"
+  bh=q2MM1SD9njZtZCbJJGzm7bXlFfBpLyZmcYmCZeshHGI=;
+  b=ilfuCoAqJCoKnP2FoVhyomwhWYENagjsHdDhN1ke++O5GBbhg88+VSF9
+   yniyFoARY8uFsBdD+hSf+SnMZ1BX6utq0WyzYXBNpcmD9nZQJYGaG8udb
+   tdeIYL+t2IvPAdNCC5Oi6U34U1eTBycVCJD8UZ+rQVgYMbE1mSSzOOLVv
+   b2Gm7Cnz4H8f8i8SifJFnZGLsdSIk8Xf7MmmUpdf9/6h9JDeciytblhJX
+   5ieNeMaEGhWl1ckPbO81yVHw9B+t43u2AePk0hamhZLTraOue1+0Axz/q
+   +Qk9OYM5IEhaJCRe/k/6Dfi/jZnVThxjwrWPR079shy4rMP3d5XXkAV3i
+   w==;
+X-CSE-ConnectionGUID: fID3nUSOTme1/INj1lJKww==
+X-CSE-MsgGUID: UGWlW45YRweVH7fx9rfLWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52435859"
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="52435842"
+   d="scan'208";a="52435859"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 23:34:38 -0700
-X-CSE-ConnectionGUID: vd63jtWTSgGqpELltXRkQg==
-X-CSE-MsgGUID: qwgC94qNQ+OrW1fNVWqAjA==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 23:34:46 -0700
+X-CSE-ConnectionGUID: xpIioPHhTTeQAKcw9ix89g==
+X-CSE-MsgGUID: tKHKgUpgQUiPeCg80dBiFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="155112217"
+   d="scan'208";a="155112233"
 Received: from igk-lkp-server01.igk.intel.com (HELO 28ae90bf6994) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 23:34:36 -0700
+  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 23:34:44 -0700
 Received: from kbuild by 28ae90bf6994 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uS8qv-0000yy-1l;
-	Thu, 19 Jun 2025 06:34:25 +0000
-Date: Sat, 7 Jun 2025 02:44:34 +0800
+	id 1uS8r3-0000z2-1t;
+	Thu, 19 Jun 2025 06:34:33 +0000
+Date: Sat, 7 Jun 2025 05:30:48 +0800
 From: kernel test robot <lkp@intel.com>
 To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
 Subject: [anolis-intel-cloud:intel-6.6-intel-idle-gnrd-cwf-ANBZ21533 0/2]
- drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:137:6: warning: variable
- 'value_back' set but not used
-Message-ID: <202506070221.MHIBScxL-lkp@intel.com>
+ drivers/net/ethernet/netronome/nfp/nfp_main.c:1128:6: warning: no previous
+ prototype for function 'nfp_pci_error_reset_prepare'
+Message-ID: <202506070536.y3nLitm1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="prPv2QfwI7z4ygKb"
+Content-Type: multipart/mixed; boundary="vyijsrWCgvgy1boI"
 Content-Disposition: inline
 
 
---prPv2QfwI7z4ygKb
+--vyijsrWCgvgy1boI
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-intel-idle-gnrd-cwf-ANBZ21533
 head:   7f53e3d6dcab5960bc37acd1ce796af94c28107c
-commit: f7a0b026eb41c4fb3548220599172c80151c0958 [0/2] anolis: Add support Zhaoxin GPIO pinctrl
+commit: 24b93510576b1bfe905af1ec32cf7fb97965bcbf [0/2] anolis: nfp: add pci_error_handler callback
 config: x86_64-rhel-9.4-rust
 compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
 rustc: rustc 1.73.0 (cc66ad468 2023-10-03)
@@ -79,268 +79,61 @@ reproduce (this is a W=1 build):
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506070221.MHIBScxL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506070536.y3nLitm1-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:137:6: warning: variable 'value_back' set but not used [-Wunused-but-set-variable]
-     137 |         u16 value_back = 0;
-         |             ^
->> drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:255:6: warning: variable 'pin' set but not used [-Wunused-but-set-variable]
-     255 |         int pin;
-         |             ^
-   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:274:6: warning: variable 'pin' set but not used [-Wunused-but-set-variable]
-     274 |         int pin;
-         |             ^
->> drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:335:6: warning: variable 'base_offset' set but not used [-Wunused-but-set-variable]
-     335 |         int base_offset = 0;
-         |             ^
->> drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:338:6: warning: variable 'value_read' set but not used [-Wunused-but-set-variable]
-     338 |         u16 value_read;
-         |             ^
-   drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c:369:6: warning: variable 'base_offset' set but not used [-Wunused-but-set-variable]
-     369 |         int base_offset = 0;
-         |             ^
-   6 warnings generated.
+>> drivers/net/ethernet/netronome/nfp/nfp_main.c:1128:6: warning: no previous prototype for function 'nfp_pci_error_reset_prepare' [-Wmissing-prototypes]
+    1128 | void nfp_pci_error_reset_prepare(struct pci_dev *dev)
+         |      ^
+   drivers/net/ethernet/netronome/nfp/nfp_main.c:1128:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1128 | void nfp_pci_error_reset_prepare(struct pci_dev *dev)
+         | ^
+         | static 
+>> drivers/net/ethernet/netronome/nfp/nfp_main.c:1144:6: warning: no previous prototype for function 'nfp_pci_error_reset_done' [-Wmissing-prototypes]
+    1144 | void nfp_pci_error_reset_done(struct pci_dev *dev)
+         |      ^
+   drivers/net/ethernet/netronome/nfp/nfp_main.c:1144:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1144 | void nfp_pci_error_reset_done(struct pci_dev *dev)
+         | ^
+         | static 
+   2 warnings generated.
 
 
-vim +/value_back +137 drivers/pinctrl/zhaoxin/pinctrl-zhaoxin.c
+vim +/nfp_pci_error_reset_prepare +1128 drivers/net/ethernet/netronome/nfp/nfp_main.c
 
-   131	
-   132	static void zhaoxin_gpio_set_gpio_mode_and_pull(struct zhaoxin_pinctrl *pctrl, unsigned int pin,
-   133					bool isup)
-   134	{
-   135		u16 tmp = 0;
-   136		u16 value;
- > 137		u16 value_back = 0;
-   138	
-   139		if (isup)
-   140			tmp = ZHAOXIN_PULL_UP_10K|1;
-   141		else
-   142			tmp = ZHAOXIN_PULL_DOWN|1;
-   143		value = zx_pad_read16(pctrl, pin);
-   144	
-   145		/* for gpio */
-   146		if (pin <= 0x32 && pin >= 0x29) {
-   147			if (isup) {
-   148				value &= (~(ZHAOXIN_PULL_DOWN));
-   149				value |= tmp;
-   150			} else {
-   151				value &= (~(ZHAOXIN_PULL_UP));
-   152				value |= tmp;
-   153			}
-   154			value &= ~(0x1);
-   155			zx_pad_write16(pctrl, pin, value);
-   156			value_back = zx_pad_read16(pctrl, pin);
-   157		} else {/* for pgpio */
-   158			if (isup) {
-   159				value &= (~(ZHAOXIN_PULL_DOWN));
-   160				value |= tmp;
-   161			} else {
-   162				value &= (~(ZHAOXIN_PULL_UP));
-   163				value |= tmp;
-   164			}
-   165			value |= 0x1;
-   166			zx_pad_write16(pctrl, pin, value);
-   167			value_back = zx_pad_read16(pctrl, pin);
-   168		}
-   169	}
-   170	
-   171	static int zhaoxin_gpio_request_enable(struct pinctrl_dev *pctldev,
-   172					struct pinctrl_gpio_range *range, unsigned int pin)
-   173	{
-   174		struct zhaoxin_pinctrl *pctrl = pinctrl_dev_get_drvdata(pctldev);
-   175		int hwgpio = pin_to_hwgpio(range, pin);
-   176	
-   177		dev_dbg(pctrl->dev, "%s, hwgpio=%d, pin=%d\n", __func__, hwgpio, pin);
-   178		zhaoxin_gpio_set_gpio_mode_and_pull(pctrl, pin, true);
-   179		return 0;
-   180	}
-   181	
-   182	static const struct pinmux_ops zhaoxin_pinmux_ops = {
-   183		.get_functions_count = zhaoxin_get_functions_count,
-   184		.get_function_name = zhaoxin_get_function_name,
-   185		.get_function_groups = zhaoxin_get_function_groups,
-   186		.set_mux = zhaoxin_pinmux_set_mux,
-   187		.gpio_request_enable = zhaoxin_gpio_request_enable,
-   188	};
-   189	
-   190	static int zhaoxin_config_get(struct pinctrl_dev *pctldev, unsigned int pin, unsigned long *config)
-   191	{
-   192		return 0;
-   193	}
-   194	
-   195	static int zhaoxin_config_set(struct pinctrl_dev *pctldev, unsigned int pin, unsigned long *configs,
-   196					unsigned int nconfigs)
-   197	{
-   198		return 0;
-   199	}
-   200	
-   201	static const struct pinconf_ops zhaoxin_pinconf_ops = {
-   202		.is_generic = true,
-   203		.pin_config_get = zhaoxin_config_get,
-   204		.pin_config_set = zhaoxin_config_set,
-   205	};
-   206	
-   207	static const struct pinctrl_desc zhaoxin_pinctrl_desc = {
-   208		.pctlops = &zhaoxin_pinctrl_ops,
-   209		.pmxops = &zhaoxin_pinmux_ops,
-   210		.confops = &zhaoxin_pinconf_ops,
-   211		.owner = THIS_MODULE,
-   212	};
-   213	
-   214	static int zhaoxin_gpio_to_pin(struct zhaoxin_pinctrl *pctrl, unsigned int offset,
-   215					const struct zhaoxin_pin_topology **community,
-   216					const struct zhaoxin_pin_map2_gpio **padgrp)
-   217	{
-   218		int i;
-   219	
-   220		for (i = 0; i < pctrl->pin_map_size; i++) {
-   221			const struct zhaoxin_pin_map2_gpio *map = &pctrl->pin_maps[i];
-   222	
-   223			if (map->zhaoxin_range_gpio_base == ZHAOXIN_GPIO_BASE_NOMAP)
-   224				continue;
-   225			if (offset >= map->zhaoxin_range_gpio_base &&
-   226				offset < map->zhaoxin_range_gpio_base + map->zhaoxin_range_pin_size) {
-   227				int pin;
-   228	
-   229				pin = map->zhaoxin_range_pin_base + offset - map->zhaoxin_range_gpio_base;
-   230				if (padgrp)
-   231					*padgrp = map;
-   232				return pin;
-   233			}
-   234		}
-   235		return -EINVAL;
-   236	}
-   237	
-   238	static __maybe_unused int zhaoxin_pin_to_gpio(struct zhaoxin_pinctrl *pctrl, int pin)
-   239	{
-   240		const struct zhaoxin_pin_map2_gpio *pin_maps;
-   241	
-   242		pin_maps = pctrl->pin_maps;
-   243		if (!pin_maps)
-   244			return -EINVAL;
-   245	
-   246		return pin - pin_maps->zhaoxin_range_pin_base + pin_maps->zhaoxin_range_gpio_base;
-   247	}
-   248	
-   249	static int zhaoxin_gpio_get(struct gpio_chip *chip, unsigned int offset)
-   250	{
-   251		struct zhaoxin_pinctrl *pctrl = gpiochip_get_data(chip);
-   252		const struct index_cal_array *gpio_in_cal;
-   253		int gap = offset/16;
-   254		int bit = offset%16;
- > 255		int pin;
-   256		int value;
-   257	
-   258		gpio_in_cal = pctrl->pin_topologys->gpio_in_cal;
-   259		pin = zhaoxin_gpio_to_pin(pctrl, offset, NULL, NULL);
-   260		value = zx_pad_read16(pctrl, gpio_in_cal->index+gap);
-   261		value &= (1<<bit);
-   262	
-   263		return !!value;
-   264	}
-   265	
-   266	static void zhaoxin_gpio_set(struct gpio_chip *chip, unsigned int offset, int value)
-   267	{
-   268		struct zhaoxin_pinctrl *pctrl = gpiochip_get_data(chip);
-   269		const struct index_cal_array *gpio_out_cal;
-   270		unsigned long flags;
-   271		int gap = offset / 16;
-   272		int bit = offset % 16;
-   273		u16 org;
-   274		int pin;
-   275	
-   276		gpio_out_cal = pctrl->pin_topologys->gpio_out_cal;
-   277		pin = zhaoxin_gpio_to_pin(pctrl, offset, NULL, NULL);
-   278	
-   279		raw_spin_lock_irqsave(&pctrl->lock, flags);
-   280	
-   281		org = zx_pad_read16(pctrl, gpio_out_cal->index+gap);
-   282		if (value)
-   283			org |= (1<<bit);
-   284		else
-   285			org &= (~(1<<bit));
-   286		zx_pad_write16(pctrl, gpio_out_cal->index+gap, org);
-   287		raw_spin_unlock_irqrestore(&pctrl->lock, flags);
-   288	}
-   289	
-   290	static int zhaoxin_gpio_direction_input(struct gpio_chip *chip, unsigned int offset)
-   291	{
-   292		return pinctrl_gpio_direction_input(chip->base + offset);
-   293	}
-   294	
-   295	static int zhaoxin_gpio_direction_output(struct gpio_chip *chip, unsigned int offset, int value)
-   296	{
-   297		return pinctrl_gpio_direction_output(chip->base + offset);
-   298	}
-   299	
-   300	static int zhaoxin_gpio_request(struct gpio_chip *gc, unsigned int offset)
-   301	{
-   302		return gpiochip_generic_request(gc, offset);
-   303	}
-   304	
-   305	static void zhaoxin_gpio_free(struct gpio_chip *gc, unsigned int offset)
-   306	{
-   307		gpiochip_generic_free(gc, offset);
-   308	}
-   309	
-   310	static int zhaoxin_gpio_config(struct gpio_chip *gc, unsigned int offset, unsigned long config)
-   311	{
-   312		return gpiochip_generic_config(gc, offset, config);
-   313	}
-   314	
-   315	static const struct gpio_chip zhaoxin_gpio_chip = {
-   316		.owner = THIS_MODULE,
-   317		.request = zhaoxin_gpio_request,
-   318		.free = zhaoxin_gpio_free,
-   319		.direction_input = zhaoxin_gpio_direction_input,
-   320		.direction_output = zhaoxin_gpio_direction_output,
-   321		.get = zhaoxin_gpio_get,
-   322		.set = zhaoxin_gpio_set,
-   323		.set_config = zhaoxin_gpio_config,
-   324	};
-   325	
-   326	static void zhaoxin_gpio_irq_ack(struct irq_data *d)
-   327	{
-   328		struct gpio_chip *gc = irq_data_get_irq_chip_data(d);
-   329		struct zhaoxin_pinctrl *pctrl = gpiochip_get_data(gc);
-   330		const struct reg_calibrate *status_cal;
-   331		const struct reg_cal_array *reg_off;
-   332		int gpio = irqd_to_hwirq(d);
-   333		int i, j;
-   334		int offset = 0;
- > 335		int base_offset = 0;
-   336		int bit_off = 0;
-   337		u16 value;
-   338		u16 value_read;
-   339	
-   340		status_cal = pctrl->pin_topologys->status_cal;
-   341		if (gpio >= 0) {
-   342			for (i = 0; i < status_cal->size; i++)
-   343				if (gpio == status_cal->cal_array[i])
-   344					break;
-   345			for (j = 0; j < status_cal->reg_cal_size; j++) {
-   346				if (offset > i)
-   347					break;
-   348				offset += status_cal->reg[j].size;
-   349			}
-   350			reg_off = &status_cal->reg[j-1];
-   351			bit_off = i-(offset-reg_off->size);
-   352			base_offset = reg_off->pmio_offset;
-   353			value = readw(pctrl->pm_pmio_base+reg_off->pmio_offset);
-   354			value_read = value;
-   355			value |= (1<<bit_off);
-   356			writew(value, pctrl->pm_pmio_base+reg_off->pmio_offset);
-   357		}
-   358	}
-   359	
+  1127	
+> 1128	void nfp_pci_error_reset_prepare(struct pci_dev *dev)
+  1129	{
+  1130		struct nfp_pf *pf = pci_get_drvdata(dev);
+  1131	
+  1132		if (pf) {
+  1133			if (pf->multi_pf.en && pf->multi_pf.beat_addr) {
+  1134				/* Pause heartbeat timer so it can't happen during FLR */
+  1135				del_timer_sync(&pf->multi_pf.beat_timer);
+  1136				/* We need to write keepalive to keep firmware alive
+  1137				 * during frequent FLR.
+  1138				 */
+  1139				writeq(jiffies, nfp_get_beat_addr(pf, pf->multi_pf.id));
+  1140			}
+  1141		}
+  1142	}
+  1143	
+> 1144	void nfp_pci_error_reset_done(struct pci_dev *dev)
+  1145	{
+  1146		struct nfp_pf *pf = pci_get_drvdata(dev);
+  1147	
+  1148		if (pf)
+  1149			if (pf->multi_pf.en && pf->multi_pf.beat_addr)
+  1150				add_timer(&pf->multi_pf.beat_timer);
+  1151	}
+  1152	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
---prPv2QfwI7z4ygKb
+--vyijsrWCgvgy1boI
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -4267,6 +4060,7 @@ CONFIG_I2C_VIAPRO=m
 # ACPI drivers
 #
 CONFIG_I2C_SCMI=m
+# CONFIG_I2C_ZHAOXIN_SMBUS is not set
 
 #
 # I2C system bus drivers (mostly embedded / system-on-chip)
@@ -7039,6 +6833,7 @@ CONFIG_NITRO_ENCLAVES=m
 CONFIG_EFI_SECRET=m
 CONFIG_SEV_GUEST=m
 CONFIG_TDX_GUEST_DRIVER=m
+CONFIG_CSV_GUEST=m
 CONFIG_VIRTIO_ANCHOR=y
 CONFIG_VIRTIO=y
 CONFIG_VIRTIO_PCI_LIB=y
@@ -7985,6 +7780,7 @@ CONFIG_IDLE_INJECT=y
 #
 # Performance monitor support
 #
+# CONFIG_DWC_PCIE_PMU is not set
 # end of Performance monitor support
 
 CONFIG_RAS=y
@@ -8607,6 +8403,7 @@ CONFIG_CRYPTO_CAST6=m
 CONFIG_CRYPTO_DES=m
 CONFIG_CRYPTO_FCRYPT=m
 CONFIG_CRYPTO_SERPENT=m
+CONFIG_CRYPTO_SM4=m
 # CONFIG_CRYPTO_SM4_GENERIC is not set
 CONFIG_CRYPTO_TWOFISH=m
 CONFIG_CRYPTO_TWOFISH_COMMON=m
@@ -8735,6 +8532,7 @@ CONFIG_CRYPTO_SERPENT_AVX_X86_64=m
 CONFIG_CRYPTO_SERPENT_AVX2_X86_64=m
 # CONFIG_CRYPTO_SM4_AESNI_AVX_X86_64 is not set
 # CONFIG_CRYPTO_SM4_AESNI_AVX2_X86_64 is not set
+CONFIG_CRYPTO_SM4_ZHAOXIN_GMI=m
 CONFIG_CRYPTO_TWOFISH_X86_64=m
 CONFIG_CRYPTO_TWOFISH_X86_64_3WAY=m
 CONFIG_CRYPTO_TWOFISH_AVX_X86_64=m
@@ -8752,16 +8550,19 @@ CONFIG_CRYPTO_SHA1_SSSE3=y
 CONFIG_CRYPTO_SHA256_SSSE3=y
 CONFIG_CRYPTO_SHA512_SSSE3=y
 # CONFIG_CRYPTO_SM3_AVX_X86_64 is not set
+CONFIG_CRYPTO_SM3_ZHAOXIN_GMI=m
 CONFIG_CRYPTO_GHASH_CLMUL_NI_INTEL=m
 CONFIG_CRYPTO_CRC32C_INTEL=m
 CONFIG_CRYPTO_CRC32_PCLMUL=m
 CONFIG_CRYPTO_CRCT10DIF_PCLMUL=m
+# CONFIG_CRYPTO_SM2_ZHAOXIN_GMI is not set
 # end of Accelerated Cryptographic Algorithms for CPU (x86)
 
 CONFIG_CRYPTO_HW=y
 CONFIG_CRYPTO_DEV_PADLOCK=m
 CONFIG_CRYPTO_DEV_PADLOCK_AES=m
 CONFIG_CRYPTO_DEV_PADLOCK_SHA=m
+# CONFIG_CRYPTO_DEV_ZHAOXIN is not set
 # CONFIG_CRYPTO_DEV_ATMEL_ECC is not set
 # CONFIG_CRYPTO_DEV_ATMEL_SHA204A is not set
 CONFIG_CRYPTO_DEV_CCP=y
@@ -8769,6 +8570,7 @@ CONFIG_CRYPTO_DEV_CCP_DD=m
 CONFIG_CRYPTO_DEV_SP_CCP=y
 CONFIG_CRYPTO_DEV_CCP_CRYPTO=m
 CONFIG_CRYPTO_DEV_SP_PSP=y
+CONFIG_HYGON_GM=y
 # CONFIG_CRYPTO_DEV_CCP_DEBUGFS is not set
 CONFIG_CRYPTO_DEV_NITROX=m
 CONFIG_CRYPTO_DEV_NITROX_CNN55XX=m
@@ -9112,6 +8914,7 @@ CONFIG_LOCKUP_DETECTOR=y
 CONFIG_SOFTLOCKUP_DETECTOR=y
 # CONFIG_BOOTPARAM_SOFTLOCKUP_PANIC is not set
 CONFIG_HAVE_HARDLOCKUP_DETECTOR_BUDDY=y
+# CONFIG_SDEI_WATCHDOG is not set
 CONFIG_HARDLOCKUP_DETECTOR=y
 # CONFIG_HARDLOCKUP_DETECTOR_PREFER_BUDDY is not set
 CONFIG_HARDLOCKUP_DETECTOR_PERF=y
@@ -9134,6 +8937,7 @@ CONFIG_WQ_WATCHDOG=y
 CONFIG_SCHED_DEBUG=y
 CONFIG_SCHED_INFO=y
 CONFIG_SCHEDSTATS=y
+CONFIG_SCHED_ACPU=y
 # end of Scheduler Debugging
 
 # CONFIG_DEBUG_TIMEKEEPING is not set
@@ -9456,7 +9260,7 @@ CONFIG_RUST_KERNEL_DOCTESTS=y
 # end of Rust hacking
 # end of Kernel hacking
 
---prPv2QfwI7z4ygKb
+--vyijsrWCgvgy1boI
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=reproduce
 
@@ -9464,10 +9268,10 @@ reproduce (this is a W=1 build):
         git clone https://github.com/intel/lkp-tests.git ~/lkp-tests
         git remote add anolis-intel-cloud https://gitee.com/anolis/intel-cloud-kernel.git
         git fetch --no-tags anolis-intel-cloud intel-6.6-intel-idle-gnrd-cwf-ANBZ21533
-        git checkout f7a0b026eb41c4fb3548220599172c80151c0958
+        git checkout 24b93510576b1bfe905af1ec32cf7fb97965bcbf
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-18 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=x86_64 olddefconfig
-        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-18 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kernel/ arch/x86/kvm/ drivers/cxl/ drivers/net/ethernet/ drivers/pinctrl/zhaoxin/ drivers/scsi/ fs/ kernel/bpf/ kernel/sched/ mm/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-18 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash arch/x86/kernel/ arch/x86/kvm/ drivers/cxl/ drivers/net/ethernet/ drivers/scsi/ fs/ kernel/bpf/ kernel/sched/ mm/
 
---prPv2QfwI7z4ygKb--
+--vyijsrWCgvgy1boI--
