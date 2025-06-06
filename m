@@ -1,73 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6B51E231D;
-	Fri,  6 Jun 2025 21:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FA4F125DF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 22:52:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749244235; cv=none; b=isQW0tCjCUU2pNg41pQSrTdirv4yeQP7Uie8MBWxuBsOaqHDM45aR1lmMQpYXL+Lqk0w1bVB+cKhgHQcfIjgGxIy5YZr7TjzW9RdR7TCM6uK4tnW+CGyZzFlkepzy0enRBefJUE4VGGZW/dZjGA3IT2ZduIhBjJVNG11uE3iMy0=
+	t=1749250358; cv=none; b=T3PgPFddEUWxt61BeGqSD/u/WuCgQpYM23MZ18bvUmwXFRsLwW+iTgpNnNHseUhXCAlViiERIjqz7lB65YOPfCAbYuKKvHGf3bhTt6TTxj9PAZ0JaMutNaBT2h4/uQV2I+LLLSoAWzasTld5ph+SADdE6YTvSXNYi9q0FassNdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749244235; c=relaxed/simple;
-	bh=y2vtspK8CJxI3MpPLgfdlVOZRYupmnSMVie6NjOCH5A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gnqSOaprkV0tTpgmG8TjJn/qfeoHAiHAdayxvN5AtIIrp1xoOlEWo01C0bptkzf4tSbkdJUATEsbLNFzBqy3m9De63xc3d9S9+8AlaiyHCuHVhNaCC8gmsKlGIwKs23OB51LL2815tMYMDs2HXhSYox2sOoGkhnNbv5EXTMcPTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hB6mPt9c; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1749250358; c=relaxed/simple;
+	bh=KOzEnIna62/K86BWj0kVTvADQVL8XiABVRzHxlkTkVI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YiBmnlahFwwt8SPR7p3Z/5gEe0x8a8Cua9XtiLzpA6XvHBDPIkuTW0yQ1zuzL+mO33xraXMS7jjSA8Oc1TN1YngvaF54NBasA9tX1gyf05cYP3PvT+MoCaKfIDNR+QaDxswY6l3GcWl25eHuoUPzzkEcqOnu92eajWUKSZzu77w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JOr6qonH; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hB6mPt9c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JOr6qonH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749244233; x=1780780233;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=y2vtspK8CJxI3MpPLgfdlVOZRYupmnSMVie6NjOCH5A=;
-  b=hB6mPt9crLaZaLsp9sACufhyIa7Q8xhrnGGq0cuQgGKcLCKvoXgVgUMj
-   TRo31ANDqR0FQZua/yBnVas2l6Azevd3T7K7/OxH3zzkMn5xPCiBBwD3G
-   cEdH0R0zn8WcJ5wS+h9QfCzRYy96n2GUFOm7xeCMcI9uAXH84WCzpYQwp
-   +ui7Q0p8nAJoZxOJc34dXuiDjSGlwLnAFuAW70pKWsSYnm2av0K9jrjKA
-   jeaVo+fUMuUB4k8ZP9CnopfOriJvV1y3FpAFdCcKDFkQ20gI6p65vN4Du
-   CV5nN3HlQTYEbd6YXMiJmqSTKnAo88DIOy1pF6KBCSQZzthwdWNlOB5kp
-   w==;
-X-CSE-ConnectionGUID: ve52BNEuQyiMqt703l0R2g==
-X-CSE-MsgGUID: fXKZVFONThSmJZs7raI6bw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="54033924"
+  t=1749250356; x=1780786356;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KOzEnIna62/K86BWj0kVTvADQVL8XiABVRzHxlkTkVI=;
+  b=JOr6qonH0ESkN3eyuLLNyyCiKScittvXmsC7fNtMJmOoSyU5hMeaD0HQ
+   eLOIObwVU3t9Vina5JyhfjdDDUIbNq4dxNVhWMNlNRIu67G1vvFe7moaW
+   Un2+C2YfrgPDZAWjW2sTmmRCUcCot/PqUp0kJQCB8nvdk6LGWbsKlIzC3
+   OGEnsR3zuSxn5eLv4SbDpcwwwu/HEcKuyiwqvrHni6KpoHU5NdZ0E/KhZ
+   QXU8v1ZEITEBnvg1ghMZMX3XuYRJpN18QBUNglzt2NugcCnzNfP+8gbBW
+   Fyi55q6YD0HDzSpX/JzWmFCjv3wlsQpClRAgm+U8i3ENxbqSKRDG5cJpw
+   g==;
+X-CSE-ConnectionGUID: VixaUrvLTx6p02c6sdHYsQ==
+X-CSE-MsgGUID: pI5F4WNITfm0Zh8sgy31zw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="73939291"
 X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
-   d="scan'208";a="54033924"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 14:10:33 -0700
-X-CSE-ConnectionGUID: RutrD3OaR2ye8qmGShGcXQ==
-X-CSE-MsgGUID: nBgAzcy7TrSK6DM00i/rwQ==
+   d="scan'208";a="73939291"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 15:52:36 -0700
+X-CSE-ConnectionGUID: 0ljc/QBORmWumLl1Ad2HgA==
+X-CSE-MsgGUID: 6CPNK2zUSkqeBPlsBNsjsg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
-   d="scan'208";a="145854439"
+   d="scan'208";a="169138493"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 06 Jun 2025 14:10:27 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 06 Jun 2025 15:52:34 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNeKX-0005HB-23;
-	Fri, 06 Jun 2025 21:10:25 +0000
-Date: Sat, 7 Jun 2025 05:09:53 +0800
+	id 1uNfvM-0005K9-2d;
+	Fri, 06 Jun 2025 22:52:32 +0000
+Date: Sat, 7 Jun 2025 06:51:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
-	Kees Cook <kees@kernel.org>,
-	Joel Granados <joel.granados@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Konstantin Khorenko <khorenko@virtuozzo.com>,
-	Denis Lunev <den@virtuozzo.com>,
-	Aleksandr Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
-	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	kernel@openvz.org
-Subject: Re: [PATCH] locking: detect spin_lock_irq() call with disabled
- interrupts
-Message-ID: <202506070405.MCweX7O0-lkp@intel.com>
-References: <20250606095741.46775-1-ptikhomirov@virtuozzo.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2025-04 1/1]
+ crypto/fips140-module.c:577:8: error: call to undeclared function
+ 'register_trace_android_vh_aes_encrypt'; ISO C99 and later do not support
+ implicit function declarations
+Message-ID: <202506070652.h8OvA7Rm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,95 +63,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250606095741.46775-1-ptikhomirov@virtuozzo.com>
 
-Hi Pavel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/locking/core]
-[also build test WARNING on sysctl/sysctl-next akpm-mm/mm-nonmm-unstable tip/master linus/master v6.15 next-20250606]
-[cannot apply to mcgrof/sysctl-next tip/auto-latest]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Tikhomirov/locking-detect-spin_lock_irq-call-with-disabled-interrupts/20250606-175911
-base:   tip/locking/core
-patch link:    https://lore.kernel.org/r/20250606095741.46775-1-ptikhomirov%40virtuozzo.com
-patch subject: [PATCH] locking: detect spin_lock_irq() call with disabled interrupts
-config: arm-randconfig-003-20250606 (https://download.01.org/0day-ci/archive/20250607/202506070405.MCweX7O0-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-04
+head:   ae950bc89347a3e34598894d6baf7f5656214cc5
+commit: 8a99ad0b72e2f0a56d72221a9a20f4f261dfa3c7 [1/1] ANDROID: fips140: add kernel crypto module
+config: arm64-randconfig-001-20250607 (https://download.01.org/0day-ci/archive/20250607/202506070652.h8OvA7Rm-lkp@intel.com/config)
 compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506070405.MCweX7O0-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506070652.h8OvA7Rm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506070405.MCweX7O0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506070652.h8OvA7Rm-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/arm/plat-orion/irq.c:13:
-   In file included from include/linux/irq.h:14:
-   include/linux/spinlock.h:375:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     375 | DECLARE_STATIC_KEY_MAYBE(CONFIG_DEBUG_SPINLOCK_IRQ_WITH_DISABLED_INTERRUPTS_BY_DEFAULT,
+   In file included from crypto/fips140-module.c:37:
+   In file included from crypto/internal.h:21:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2222:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from crypto/fips140-module.c:37:
+   crypto/internal.h:85:2: error: call to undeclared function 'static_key_enable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      85 |         static_branch_enable(&__crypto_boot_test_finished);
+         |         ^
+   include/linux/jump_label.h:553:35: note: expanded from macro 'static_branch_enable'
+     553 | #define static_branch_enable(x)                 static_key_enable(&(x)->key)
+         |                                                 ^
+   crypto/internal.h:85:2: note: did you mean 'static_key_false'?
+   include/linux/jump_label.h:553:35: note: expanded from macro 'static_branch_enable'
+     553 | #define static_branch_enable(x)                 static_key_enable(&(x)->key)
+         |                                                 ^
+   include/linux/jump_label.h:207:29: note: 'static_key_false' declared here
+     207 | static __always_inline bool static_key_false(struct static_key *key)
+         |                             ^
+   crypto/fips140-module.c:575:8: error: call to undeclared function 'register_trace_android_vh_sha256'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     575 |         ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
+         |               ^
+   crypto/fips140-module.c:575:8: note: did you mean 'trace_android_vh_sha256'?
+   include/trace/hooks/fips140.h:18:1: note: 'trace_android_vh_sha256' declared here
+      18 | DECLARE_HOOK(android_vh_sha256,
          | ^
-         | int
-   include/linux/spinlock.h:375:26: error: a parameter list without types is only allowed in a function definition
-     375 | DECLARE_STATIC_KEY_MAYBE(CONFIG_DEBUG_SPINLOCK_IRQ_WITH_DISABLED_INTERRUPTS_BY_DEFAULT,
-         |                          ^
-   include/linux/spinlock.h:382:6: error: call to undeclared function 'static_branch_unlikely'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     382 |         if (static_branch_unlikely(&debug_spin_lock_irq_with_disabled_interrupts)) {
-         |             ^
-   include/linux/spinlock.h:382:30: error: use of undeclared identifier 'debug_spin_lock_irq_with_disabled_interrupts'
-     382 |         if (static_branch_unlikely(&debug_spin_lock_irq_with_disabled_interrupts)) {
-         |                                     ^
-   include/linux/spinlock.h:384:4: error: call to undeclared function 'static_branch_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     384 |                         static_branch_disable(&debug_spin_lock_irq_with_disabled_interrupts);
-         |                         ^
-   include/linux/spinlock.h:384:27: error: use of undeclared identifier 'debug_spin_lock_irq_with_disabled_interrupts'
-     384 |                         static_branch_disable(&debug_spin_lock_irq_with_disabled_interrupts);
-         |                                                ^
-   include/linux/spinlock.h:415:6: error: call to undeclared function 'static_branch_unlikely'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     415 |         if (static_branch_unlikely(&debug_spin_lock_irq_with_disabled_interrupts)) {
-         |             ^
-   include/linux/spinlock.h:415:30: error: use of undeclared identifier 'debug_spin_lock_irq_with_disabled_interrupts'
-     415 |         if (static_branch_unlikely(&debug_spin_lock_irq_with_disabled_interrupts)) {
-         |                                     ^
-   include/linux/spinlock.h:417:4: error: call to undeclared function 'static_branch_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     417 |                         static_branch_disable(&debug_spin_lock_irq_with_disabled_interrupts);
-         |                         ^
-   include/linux/spinlock.h:417:27: error: use of undeclared identifier 'debug_spin_lock_irq_with_disabled_interrupts'
-     417 |                         static_branch_disable(&debug_spin_lock_irq_with_disabled_interrupts);
-         |                                                ^
->> arch/arm/plat-orion/irq.c:37:29: warning: shift count >= width of type [-Wshift-count-overflow]
-      37 |         irq_setup_generic_chip(gc, IRQ_MSK(32), IRQ_GC_INIT_MASK_CACHE,
-         |                                    ^~~~~~~~~~~
-   include/linux/irq.h:1223:41: note: expanded from macro 'IRQ_MSK'
-    1223 | #define IRQ_MSK(n) (u32)((n) < 32 ? ((1 << (n)) - 1) : UINT_MAX)
-         |                                         ^  ~~~
-   1 warning and 10 errors generated.
+   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
+     119 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:584:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     584 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:134:1: note: expanded from here
+     134 | trace_android_vh_sha256
+         | ^
+   crypto/fips140-module.c:576:8: error: call to undeclared function 'register_trace_android_vh_aes_expandkey'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     576 |               register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
+         |               ^
+   crypto/fips140-module.c:576:8: note: did you mean 'trace_android_vh_aes_expandkey'?
+   include/trace/hooks/fips140.h:25:1: note: 'trace_android_vh_aes_expandkey' declared here
+      25 | DECLARE_HOOK(android_vh_aes_expandkey,
+         | ^
+   include/trace/hooks/vendor_hooks.h:119:22: note: expanded from macro 'DECLARE_HOOK'
+     119 | #define DECLARE_HOOK DECLARE_EVENT_NOP
+         |                      ^
+   include/linux/tracepoint.h:584:21: note: expanded from macro 'DECLARE_EVENT_NOP'
+     584 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:137:1: note: expanded from here
+     137 | trace_android_vh_aes_expandkey
+         | ^
+>> crypto/fips140-module.c:577:8: error: call to undeclared function 'register_trace_android_vh_aes_encrypt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     577 |               register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
+         |               ^
+   crypto/fips140-module.c:578:8: error: call to undeclared function 'register_trace_android_vh_aes_decrypt'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     578 |               register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
+         |               ^
+   1 warning and 5 errors generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for USB_PHY
+   Depends on [n]: USB_SUPPORT [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_USB_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=y] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
 
 
-vim +37 arch/arm/plat-orion/irq.c
+vim +/register_trace_android_vh_aes_encrypt +577 crypto/fips140-module.c
 
-f28d7de6bd4d41 Sebastian Hesselbarth 2014-01-16  21  
-01eb569823792a Lennert Buytenhek     2008-03-27  22  void __init orion_irq_init(unsigned int irq_start, void __iomem *maskaddr)
-01eb569823792a Lennert Buytenhek     2008-03-27  23  {
-e59347a1d15c0b Thomas Gleixner       2011-04-14  24  	struct irq_chip_generic *gc;
-e59347a1d15c0b Thomas Gleixner       2011-04-14  25  	struct irq_chip_type *ct;
-01eb569823792a Lennert Buytenhek     2008-03-27  26  
-01eb569823792a Lennert Buytenhek     2008-03-27  27  	/*
-01eb569823792a Lennert Buytenhek     2008-03-27  28  	 * Mask all interrupts initially.
-01eb569823792a Lennert Buytenhek     2008-03-27  29  	 */
-01eb569823792a Lennert Buytenhek     2008-03-27  30  	writel(0, maskaddr);
-01eb569823792a Lennert Buytenhek     2008-03-27  31  
-e59347a1d15c0b Thomas Gleixner       2011-04-14  32  	gc = irq_alloc_generic_chip("orion_irq", 1, irq_start, maskaddr,
-f38c02f3b33865 Thomas Gleixner       2011-03-24  33  				    handle_level_irq);
-e59347a1d15c0b Thomas Gleixner       2011-04-14  34  	ct = gc->chip_types;
-e59347a1d15c0b Thomas Gleixner       2011-04-14  35  	ct->chip.irq_mask = irq_gc_mask_clr_bit;
-e59347a1d15c0b Thomas Gleixner       2011-04-14  36  	ct->chip.irq_unmask = irq_gc_mask_set_bit;
-e59347a1d15c0b Thomas Gleixner       2011-04-14 @37  	irq_setup_generic_chip(gc, IRQ_MSK(32), IRQ_GC_INIT_MASK_CACHE,
+   570	
+   571	static bool update_fips140_library_routines(void)
+   572	{
+   573		int ret;
+   574	
+   575		ret = register_trace_android_vh_sha256(fips140_sha256, NULL) ?:
+   576		      register_trace_android_vh_aes_expandkey(fips140_aes_expandkey, NULL) ?:
+ > 577		      register_trace_android_vh_aes_encrypt(fips140_aes_encrypt, NULL) ?:
+   578		      register_trace_android_vh_aes_decrypt(fips140_aes_decrypt, NULL);
+   579	
+   580		return ret == 0;
+   581	}
+   582	
 
 -- 
 0-DAY CI Kernel Test Service
