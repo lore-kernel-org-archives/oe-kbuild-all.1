@@ -1,105 +1,126 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2EA01F0E29
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 18:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B52520D4E3
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 19:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749236294; cv=none; b=ZscQiLVrJmsRM1U1Itn9CIO4i4cx6GWpVMTumIaYhqgPYzIivCMk3lzWJynyAdIDUGwyQH1PT71UKhrIn8z9VJrQal5OjtWSovdv68hySfdAYyDvRiqagkG+OJeTx+IJW36NweLSgOcSY78SJf9yZx9qLQx1PddpepsXhQKGQHY=
+	t=1749237830; cv=none; b=pik8gpaD8CnVwr/Ztd0SfK+lQXhaDvXZNRTFcns6Lp1dGsMm7cT79iIe/UPDEvKzO9ONO3RqZs5l3m0Xx/2rnYgsEBUIDOX4++EGEi9tzZBglmIVcd3UTsjyjj0PIZwLgEZv2mMUSAdHZnltcqCt/1Gbmk/uTo8qHNNHr9TVAp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749236294; c=relaxed/simple;
-	bh=h+JweaNJ8/r3ImFh1BQmoSXgPgwr/MU87ypzJO8IqzY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hkq8fRaWZJlgQTyQZlvZ4N4T33a2wIJkx+2uU7vSPlpyXynds3HjpTpPrLPBlsh3scQFqZqb2LySxKShvX7GhHsHAbXdlxVsGrQwZhFovm2uHxEmqugg5wdF2hfrGMDWEPMJnQP7KDAsmn1NiGzl0kE3/sV7k8bDUxEngs6By9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dJS6PmB/; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1749237830; c=relaxed/simple;
+	bh=I5wr2Yi8lLNbdm988OzLtJEX5WfMRVIUhXHX5RYKvEQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Uga1l6rYoCGIrp252pOCGdP3dW+T9Xk0g+Q1lKBkrQvEIjfFM1Z9fH/vHyfNNHGhRlFLUGXbPEKVMBqptHxeTHXqwwcQk+sh6gzWEfqIg9UzOrBsnqESDO7uxGruAHQI4M+jaeMM6LLbeRSi6kObCqoiWs9ZkPSuPj1K0sbizAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LXo6A00C; arc=none smtp.client-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dJS6PmB/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749236292; x=1780772292;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=h+JweaNJ8/r3ImFh1BQmoSXgPgwr/MU87ypzJO8IqzY=;
-  b=dJS6PmB/ttZzAnHsF5fyKaVtmD4ZgUO9OytoaHS6G7e5+R+jjpj4+Mso
-   Q3I6PFRoUXQBAc0J9/24vHZOH9B7e/pgFj38qOSR2G9LA6NOPynftW6kq
-   aeUJlhU9A/vvq0fMhv2PBorZD+4Z+H1eyo5IukuoNxQHlIck7MvSxHKQq
-   Cv2kd6lfNYRJdk3rrWIQhZZa/w/045+5dSxZ3jJ4OO370AmKZWb4tilGy
-   +YSCitFwaJ8YtiRs+YMEtIHT4QURuYRChEkzEzAbNQ+Lr2Kp7lVwCVj4o
-   c2PgsW8nrFMvDdph9fq+idXRrHxBO07oGAkhD4iLimpcvf7qcmS/uAIWH
-   A==;
-X-CSE-ConnectionGUID: i2lTU2JgSO6b3kCd88CyAw==
-X-CSE-MsgGUID: 2is0tXUzTvSHGIC4Nv/Hpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="51303832"
-X-IronPort-AV: E=Sophos;i="6.16,215,1744095600"; 
-   d="scan'208";a="51303832"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 11:58:12 -0700
-X-CSE-ConnectionGUID: PM6PjR8cTDSt7gCu1v3XvA==
-X-CSE-MsgGUID: nvBpNtQmRlGWhkbun1OPAQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,215,1744095600"; 
-   d="scan'208";a="146415947"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 11:58:09 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uNcGU-00000004HtF-18zX;
-	Fri, 06 Jun 2025 21:58:06 +0300
-Date: Fri, 6 Jun 2025 21:58:05 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Mark Pearson <mpearson-lenovo@squebb.ca>
-Cc: kernel test robot <lkp@intel.com>, oe-kbuild-all@lists.linux.dev,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, ikepanhc@gmail.com,
-	Henrique de Moraes Holschuh <hmh@hmh.eng.br>,
-	Armin Wolf <W_Armin@gmx.de>, linux-doc@vger.kernel.org,
-	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
-	ibm-acpi-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] platform/x86: Move Lenovo files into lenovo subdir
-Message-ID: <aEM6PTCql7l1n6e0@smile.fi.intel.com>
-References: <20250604173702.3025074-1-mpearson-lenovo@squebb.ca>
- <202506062319.F0IpDxF6-lkp@intel.com>
- <6d17454f-faac-4616-ac2e-7da80feedf2c@app.fastmail.com>
- <aEM6Da6CZ0DI3x8w@smile.fi.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LXo6A00C"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-70e40e3f316so18467807b3.0
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 06 Jun 2025 12:23:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749237828; x=1749842628; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xqQ/zcvbPdp6A7pyU4L8ztg/UtBL60Hxd9tSiPIjUzU=;
+        b=LXo6A00CDW1X1uJfWqMGMjA2WXgp6aYXZx2T1f2wa3lBTIF3jem7mcefnrM6RAlcbW
+         ubfE1Mq/LYXJErQWkfLYm5hiYr4Bzt1fwX+2fKBYo08hm6pe3MgpNVYy+t5pG4j5AO7w
+         K+FqIfvhgcQYnpFGzb/aAPkw0o2z3HD73qhKo2VvPmCGzZd2RmFx4a/u5jIsGKS9P2DD
+         8fPtb22vttfHlU8mvTU6tR0Vs7rW8tWzGgGEOA2zn6/GO4ONebHVs85w1krEBSPN+vRQ
+         ikAAJ1WB5l86aJ1CTRlsypKKrL+UPuSH7Uk509JeOe4p9FR9U2goWfN7lJZugXIdpKqK
+         BWBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749237828; x=1749842628;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xqQ/zcvbPdp6A7pyU4L8ztg/UtBL60Hxd9tSiPIjUzU=;
+        b=NR2V3tJn5OMsRybsIsDw8Cb4AVhF5uDI9a3PaKTm5oRY5kGxIow5jDG2qzL2BmdVF6
+         aIfLS2GJKke7fNUwJsj/G3yuXGcC44ZLZilQ2NnehrRrarOSNm7lGQe5vZQUiLj/KQsi
+         bBftkkIVzU8mltgK/1bd38CJ4uDRdq8qzqcGMYPqmyyFJh7yS5BdOtttBQHY0ZluF+YD
+         X/bOAL0vJjPVDifX5GXQtDyK34h0OO6R6SZJcnmkocwybc4HrQizbpbvH95j/Im+w0vJ
+         JXatzay4vr/0aK9cfYjs2fSVIUl6XyCkFbZzaxwzn0rvc382miNxBqfOn2LiVepoCYj1
+         0i1w==
+X-Forwarded-Encrypted: i=1; AJvYcCVC5Os3EnMiEnXlVFLSiQPdBm6U77Sh8dww5IEJXCb3vfBtRO8R53sRRGX5QNOVX6g75pix4ojvSKKlkkg5@lists.linux.dev
+X-Gm-Message-State: AOJu0YyJ2Gjaq0QQ+p125XI6jjdc2ELtU7NIQWwrG8JQYoHKN6Xoa2Dk
+	qUtJpcuvu0d9ySqkowx0J1mkABOaBp0d45YLyBb/0wltowwtTy3HdRcw
+X-Gm-Gg: ASbGncsk+xII4/OYY+BpjcGCor8Sab1UOn/CYWSdgL0ZbBlmQYfqDztgDUU/xZbCFxL
+	JmeNH+7sBdHVE7LZ02406NaxLU3ANJUYhD68KfNSUS6sk+ODo3tL2g5GdP8sAt8kKlF/vOQvAEj
+	+HzRMDAxZIZOT42jh+hYiIwgbqmPKe/Jp46zefqjyrOgJBbjhhGAltSAmkecZ3r4HUReTZsMQbx
+	DAszAP1Xp4Z4hXJ7K0awbDd2Q1JDv5K8SuSBi3uFvlH5etM/XG/4wnVBvKkOgEnnQQ3SWGNT1j2
+	ZTJAwoaUgtWKQMsZlKpW0C4EQMAmw8TfrpvpfGh0bO/AjUBtENs/u+RFF7Lfjg==
+X-Google-Smtp-Source: AGHT+IFGb3uDxAv2h38tlgnumCIU/bedcMQ7x8nYpWSiVRUEgMfnHPiE0TBuxyal9rWa7F/gazzaAQ==
+X-Received: by 2002:a05:690c:620e:b0:710:e8a8:771d with SMTP id 00721157ae682-710f770f5e4mr66524407b3.24.1749237828001;
+        Fri, 06 Jun 2025 12:23:48 -0700 (PDT)
+Received: from localhost ([2a03:2880:25ff:4a::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-710f9a0e6efsm3578727b3.89.2025.06.06.12.23.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Jun 2025 12:23:47 -0700 (PDT)
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: kernel test robot <lkp@intel.com>
+Cc: Oscar Salvador <osalvador@suse.de>,
+	oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [akpm-mm:mm-new 61/87] drivers/cxl/core/region.c:2437:22: error: invalid use of undefined type 'struct node_notify'
+Date: Fri,  6 Jun 2025 12:23:45 -0700
+Message-ID: <20250606192345.3440658-1-joshua.hahnjy@gmail.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <202506070030.otNokpsc-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aEM6Da6CZ0DI3x8w@smile.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jun 06, 2025 at 09:57:17PM +0300, Andy Shevchenko wrote:
-> On Fri, Jun 06, 2025 at 01:30:25PM -0400, Mark Pearson wrote:
-> > On Fri, Jun 6, 2025, at 11:58 AM, kernel test robot wrote:
+On Sat, 7 Jun 2025 00:19:17 +0800 kernel test robot <lkp@intel.com> wrote:
 
-...
-
-> > I'm unable to reproduce this issue with a W=1 build
+> Hi Oscar,
 > 
-> Do you have GCC-12?
-
-To be more precise you need to have a CONFIG_DMI=n.
-
-> > and I think it's a false positive.
+> FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 > 
-> I think the problematic line is in certificate_store().
-> You need to check the value of dmi_get_system_info().
-> Or make sure the DMI is always selected (depend on DMI
-> in Kconfig, perhaps).
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+> head:   b9f05ab60cb240a64e898221de50a037553840c7
+> commit: 7bd79eaa2076cde601d828532a09ea50e20a976f [61/87] drivers,cxl: use node-notifier instead of memory-notifier
+> config: loongarch-randconfig-001-20250606 (https://download.01.org/0day-ci/archive/20250607/202506070030.otNokpsc-lkp@intel.com/config)
+> compiler: loongarch64-linux-gcc (GCC) 15.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506070030.otNokpsc-lkp@intel.com/reproduce)
 > 
-> > Am I safe to ignore this report?
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202506070030.otNokpsc-lkp@intel.com/
 > 
-> Please, try to fix it.
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/cxl/core/region.c: In function 'cxl_region_perf_attrs_callback':
+> >> drivers/cxl/core/region.c:2437:22: error: invalid use of undefined type 'struct node_notify'
+>     2437 |         int nid = mnb->nid;
+>          |                      ^~
+>    drivers/cxl/core/region.c:2440:46: error: 'NODE_ADDED_FIRST_MEMORY' undeclared (first use in this function)
+>     2440 |         if (nid == NUMA_NO_NODE || action != NODE_ADDED_FIRST_MEMORY)
+>          |                                              ^~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/cxl/core/region.c:2440:46: note: each undeclared identifier is reported only once for each function it appears in
+>    drivers/cxl/core/region.c: In function 'shutdown_notifiers':
+>    drivers/cxl/core/region.c:3487:9: error: implicit declaration of function 'unregister_node_notifier'; did you mean 'unregister_module_notifier'? [-Wimplicit-function-declaration]
+>     3487 |         unregister_node_notifier(&cxlr->node_notifier);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~~~
+>          |         unregister_module_notifier
+>    drivers/cxl/core/region.c: In function 'cxl_region_probe':
+>    drivers/cxl/core/region.c:3528:9: error: implicit declaration of function 'register_node_notifier'; did you mean 'register_module_notifier'? [-Wimplicit-function-declaration]
+>     3528 |         register_node_notifier(&cxlr->node_notifier);
+>          |         ^~~~~~~~~~~~~~~~~~~~~~
+>          |         register_module_notifier
 
--- 
-With Best Regards,
-Andy Shevchenko
+From what I can see, it seems like struct node_notify is conditionally
+defined under #ifdef CONFIG_MEMORY_HOTPLUG, but the callsite unconditionally
+declares struct node_notify *mnb = arg.
 
-
+Sent using hkml (https://github.com/sjp38/hackermail)
