@@ -1,60 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25EF1E5B95
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 20:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6B51E231D;
+	Fri,  6 Jun 2025 21:10:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749242972; cv=none; b=pBpTu2kx+uJPuQLWh6+h13YA2C3BnzZ3pOGEkZS4wZO7OoIaCzsrTsgtRyWK9LReH3XFUgbYTPo+mNQV13W2n88ZMwV1z64QZRlhWUbJVYIaZmA5M8Ekq872DooNZp4StM8Mv3wP9WAjVbnXMs7tnuiux4mKY+GA2oAuTxpCX/M=
+	t=1749244235; cv=none; b=isQW0tCjCUU2pNg41pQSrTdirv4yeQP7Uie8MBWxuBsOaqHDM45aR1lmMQpYXL+Lqk0w1bVB+cKhgHQcfIjgGxIy5YZr7TjzW9RdR7TCM6uK4tnW+CGyZzFlkepzy0enRBefJUE4VGGZW/dZjGA3IT2ZduIhBjJVNG11uE3iMy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749242972; c=relaxed/simple;
-	bh=k+rgBHT3IKtG9SdxrVm1xh8ublFOIKTabgSn0+Rogmg=;
+	s=arc-20240116; t=1749244235; c=relaxed/simple;
+	bh=y2vtspK8CJxI3MpPLgfdlVOZRYupmnSMVie6NjOCH5A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PvT+qFL1/MociGJiSI/nrJzceL1sKlpko2kyqdLEcScw6Lh+K+A5cEDwBNBq/m52Q4Yz+dma8q0D6CUz750FlMdo4JHxwQlkHZM4udFlSkDackGNDw7P7T15zfyh4wsjOvsJUBVaJORwzmnZLZNf5sPm54P3KmA+UdBuOeSfVP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kxGUwuXq; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=gnqSOaprkV0tTpgmG8TjJn/qfeoHAiHAdayxvN5AtIIrp1xoOlEWo01C0bptkzf4tSbkdJUATEsbLNFzBqy3m9De63xc3d9S9+8AlaiyHCuHVhNaCC8gmsKlGIwKs23OB51LL2815tMYMDs2HXhSYox2sOoGkhnNbv5EXTMcPTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hB6mPt9c; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kxGUwuXq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hB6mPt9c"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749242971; x=1780778971;
+  t=1749244233; x=1780780233;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=k+rgBHT3IKtG9SdxrVm1xh8ublFOIKTabgSn0+Rogmg=;
-  b=kxGUwuXqYky39ae8CH1kXsZiDEV00txpSXAxNQy8nLGb6v3L7YMRc/YS
-   k92L3aoognvcN/d3cOYZvUeHZnIBMHw3wZpgxTJyEsi/Lsr7dubdveiK1
-   k8ibjewmQJwD3lDJWxelZjqRI92HN563xKfZ9hP634eRGvm2HNu/pzqYd
-   sbxoerN388M666506M/A+keeWGKWIZI0LDqXzIsuzCyu+XkYkyQIesYs+
-   PNh+xaz/HwboNRvr04WeEpByaTjJHU520QNUPBBd1AxTP63904eowJ4xV
-   TDOyfAWDhNyRslhMIPtK/VA4LofGv/xV+paQUzrYZQvSDqYvWK3Be7TPh
-   g==;
-X-CSE-ConnectionGUID: EliCPVFcQvSix7d1eVJyYw==
-X-CSE-MsgGUID: TYkAtXM3Sfujsh2qHP5Qog==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="50633294"
+  bh=y2vtspK8CJxI3MpPLgfdlVOZRYupmnSMVie6NjOCH5A=;
+  b=hB6mPt9crLaZaLsp9sACufhyIa7Q8xhrnGGq0cuQgGKcLCKvoXgVgUMj
+   TRo31ANDqR0FQZua/yBnVas2l6Azevd3T7K7/OxH3zzkMn5xPCiBBwD3G
+   cEdH0R0zn8WcJ5wS+h9QfCzRYy96n2GUFOm7xeCMcI9uAXH84WCzpYQwp
+   +ui7Q0p8nAJoZxOJc34dXuiDjSGlwLnAFuAW70pKWsSYnm2av0K9jrjKA
+   jeaVo+fUMuUB4k8ZP9CnopfOriJvV1y3FpAFdCcKDFkQ20gI6p65vN4Du
+   CV5nN3HlQTYEbd6YXMiJmqSTKnAo88DIOy1pF6KBCSQZzthwdWNlOB5kp
+   w==;
+X-CSE-ConnectionGUID: ve52BNEuQyiMqt703l0R2g==
+X-CSE-MsgGUID: fXKZVFONThSmJZs7raI6bw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="54033924"
 X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
-   d="scan'208";a="50633294"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 13:49:27 -0700
-X-CSE-ConnectionGUID: bahPe7NVQderLBi58Mt46Q==
-X-CSE-MsgGUID: QTjW0Q0vRk68XyZrvKbatQ==
+   d="scan'208";a="54033924"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 14:10:33 -0700
+X-CSE-ConnectionGUID: RutrD3OaR2ye8qmGShGcXQ==
+X-CSE-MsgGUID: nBgAzcy7TrSK6DM00i/rwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
-   d="scan'208";a="146892418"
+   d="scan'208";a="145854439"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 06 Jun 2025 13:49:26 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 06 Jun 2025 14:10:27 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNe0B-0005GH-33;
-	Fri, 06 Jun 2025 20:49:23 +0000
-Date: Sat, 7 Jun 2025 04:48:45 +0800
+	id 1uNeKX-0005HB-23;
+	Fri, 06 Jun 2025 21:10:25 +0000
+Date: Sat, 7 Jun 2025 05:09:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] tracing: Fix regression of filter waiting a long time on
- RCU synchronization
-Message-ID: <202506070406.BQGH3VyM-lkp@intel.com>
-References: <20250605161701.35f7989a@gandalf.local.home>
+To: Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+	Boqun Feng <boqun.feng@gmail.com>, Waiman Long <longman@redhat.com>,
+	Kees Cook <kees@kernel.org>,
+	Joel Granados <joel.granados@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Konstantin Khorenko <khorenko@virtuozzo.com>,
+	Denis Lunev <den@virtuozzo.com>,
+	Aleksandr Mikhalitsyn <aleksandr.mikhalitsyn@canonical.com>,
+	Pavel Tikhomirov <ptikhomirov@virtuozzo.com>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	kernel@openvz.org
+Subject: Re: [PATCH] locking: detect spin_lock_irq() call with disabled
+ interrupts
+Message-ID: <202506070405.MCweX7O0-lkp@intel.com>
+References: <20250606095741.46775-1-ptikhomirov@virtuozzo.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,107 +76,95 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250605161701.35f7989a@gandalf.local.home>
+In-Reply-To: <20250606095741.46775-1-ptikhomirov@virtuozzo.com>
 
-Hi Steven,
+Hi Pavel,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on trace/for-next]
-[also build test WARNING on linus/master v6.15 next-20250606]
+[auto build test WARNING on tip/locking/core]
+[also build test WARNING on sysctl/sysctl-next akpm-mm/mm-nonmm-unstable tip/master linus/master v6.15 next-20250606]
+[cannot apply to mcgrof/sysctl-next tip/auto-latest]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Fix-regression-of-filter-waiting-a-long-time-on-RCU-synchronization/20250606-041722
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20250605161701.35f7989a%40gandalf.local.home
-patch subject: [PATCH] tracing: Fix regression of filter waiting a long time on RCU synchronization
-config: i386-randconfig-061-20250606 (https://download.01.org/0day-ci/archive/20250607/202506070406.BQGH3VyM-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506070406.BQGH3VyM-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Pavel-Tikhomirov/locking-detect-spin_lock_irq-call-with-disabled-interrupts/20250606-175911
+base:   tip/locking/core
+patch link:    https://lore.kernel.org/r/20250606095741.46775-1-ptikhomirov%40virtuozzo.com
+patch subject: [PATCH] locking: detect spin_lock_irq() call with disabled interrupts
+config: arm-randconfig-003-20250606 (https://download.01.org/0day-ci/archive/20250607/202506070405.MCweX7O0-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506070405.MCweX7O0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506070406.BQGH3VyM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506070405.MCweX7O0-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/trace/trace_events_filter.c:1441:30: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct event_filter *filter @@     got struct event_filter [noderef] __rcu *filter @@
-   kernel/trace/trace_events_filter.c:1441:30: sparse:     expected struct event_filter *filter
-   kernel/trace/trace_events_filter.c:1441:30: sparse:     got struct event_filter [noderef] __rcu *filter
-   kernel/trace/trace_events_filter.c:1457:35: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct event_filter *filter @@     got struct event_filter [noderef] __rcu *filter @@
-   kernel/trace/trace_events_filter.c:1457:35: sparse:     expected struct event_filter *filter
-   kernel/trace/trace_events_filter.c:1457:35: sparse:     got struct event_filter [noderef] __rcu *filter
-   kernel/trace/trace_events_filter.c:1253:20: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct event_filter * @@     got struct event_filter [noderef] __rcu *filter @@
-   kernel/trace/trace_events_filter.c:1253:20: sparse:     expected struct event_filter *
-   kernel/trace/trace_events_filter.c:1253:20: sparse:     got struct event_filter [noderef] __rcu *filter
-   kernel/trace/trace_events_filter.c:1323:34: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct event_filter *filter @@     got struct event_filter [noderef] __rcu *filter @@
-   kernel/trace/trace_events_filter.c:1323:34: sparse:     expected struct event_filter *filter
-   kernel/trace/trace_events_filter.c:1323:34: sparse:     got struct event_filter [noderef] __rcu *filter
-   kernel/trace/trace_events_filter.c:1253:20: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct event_filter * @@     got struct event_filter [noderef] __rcu *filter @@
-   kernel/trace/trace_events_filter.c:1253:20: sparse:     expected struct event_filter *
-   kernel/trace/trace_events_filter.c:1253:20: sparse:     got struct event_filter [noderef] __rcu *filter
-   kernel/trace/trace_events_filter.c:1253:20: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct event_filter * @@     got struct event_filter [noderef] __rcu *filter @@
-   kernel/trace/trace_events_filter.c:1253:20: sparse:     expected struct event_filter *
-   kernel/trace/trace_events_filter.c:1253:20: sparse:     got struct event_filter [noderef] __rcu *filter
-   kernel/trace/trace_events_filter.c:1253:20: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected struct event_filter * @@     got struct event_filter [noderef] __rcu *filter @@
-   kernel/trace/trace_events_filter.c:1253:20: sparse:     expected struct event_filter *
-   kernel/trace/trace_events_filter.c:1253:20: sparse:     got struct event_filter [noderef] __rcu *filter
+All warnings (new ones prefixed by >>):
 
-vim +1441 kernel/trace/trace_events_filter.c
+   In file included from arch/arm/plat-orion/irq.c:13:
+   In file included from include/linux/irq.h:14:
+   include/linux/spinlock.h:375:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+     375 | DECLARE_STATIC_KEY_MAYBE(CONFIG_DEBUG_SPINLOCK_IRQ_WITH_DISABLED_INTERRUPTS_BY_DEFAULT,
+         | ^
+         | int
+   include/linux/spinlock.h:375:26: error: a parameter list without types is only allowed in a function definition
+     375 | DECLARE_STATIC_KEY_MAYBE(CONFIG_DEBUG_SPINLOCK_IRQ_WITH_DISABLED_INTERRUPTS_BY_DEFAULT,
+         |                          ^
+   include/linux/spinlock.h:382:6: error: call to undeclared function 'static_branch_unlikely'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     382 |         if (static_branch_unlikely(&debug_spin_lock_irq_with_disabled_interrupts)) {
+         |             ^
+   include/linux/spinlock.h:382:30: error: use of undeclared identifier 'debug_spin_lock_irq_with_disabled_interrupts'
+     382 |         if (static_branch_unlikely(&debug_spin_lock_irq_with_disabled_interrupts)) {
+         |                                     ^
+   include/linux/spinlock.h:384:4: error: call to undeclared function 'static_branch_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     384 |                         static_branch_disable(&debug_spin_lock_irq_with_disabled_interrupts);
+         |                         ^
+   include/linux/spinlock.h:384:27: error: use of undeclared identifier 'debug_spin_lock_irq_with_disabled_interrupts'
+     384 |                         static_branch_disable(&debug_spin_lock_irq_with_disabled_interrupts);
+         |                                                ^
+   include/linux/spinlock.h:415:6: error: call to undeclared function 'static_branch_unlikely'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     415 |         if (static_branch_unlikely(&debug_spin_lock_irq_with_disabled_interrupts)) {
+         |             ^
+   include/linux/spinlock.h:415:30: error: use of undeclared identifier 'debug_spin_lock_irq_with_disabled_interrupts'
+     415 |         if (static_branch_unlikely(&debug_spin_lock_irq_with_disabled_interrupts)) {
+         |                                     ^
+   include/linux/spinlock.h:417:4: error: call to undeclared function 'static_branch_disable'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     417 |                         static_branch_disable(&debug_spin_lock_irq_with_disabled_interrupts);
+         |                         ^
+   include/linux/spinlock.h:417:27: error: use of undeclared identifier 'debug_spin_lock_irq_with_disabled_interrupts'
+     417 |                         static_branch_disable(&debug_spin_lock_irq_with_disabled_interrupts);
+         |                                                ^
+>> arch/arm/plat-orion/irq.c:37:29: warning: shift count >= width of type [-Wshift-count-overflow]
+      37 |         irq_setup_generic_chip(gc, IRQ_MSK(32), IRQ_GC_INIT_MASK_CACHE,
+         |                                    ^~~~~~~~~~~
+   include/linux/irq.h:1223:41: note: expanded from macro 'IRQ_MSK'
+    1223 | #define IRQ_MSK(n) (u32)((n) < 32 ? ((1 << (n)) - 1) : UINT_MAX)
+         |                                         ^  ~~~
+   1 warning and 10 errors generated.
 
-  1411	
-  1412	static void filter_free_subsystem_filters(struct trace_subsystem_dir *dir,
-  1413						  struct trace_array *tr,
-  1414						  struct event_filter *filter)
-  1415	{
-  1416		struct trace_event_file *file;
-  1417		struct filter_head *head;
-  1418		struct filter_list *item;
-  1419	
-  1420		head = kmalloc(sizeof(*head), GFP_KERNEL);
-  1421		if (!head)
-  1422			goto free_now;
-  1423	
-  1424		INIT_LIST_HEAD(&head->list);
-  1425	
-  1426		item = kmalloc(sizeof(*item), GFP_KERNEL);
-  1427		if (!item) {
-  1428			kfree(head);
-  1429			goto free_now;
-  1430		}
-  1431	
-  1432		item->filter = filter;
-  1433		list_add_tail(&item->list, &head->list);
-  1434	
-  1435		list_for_each_entry(file, &tr->events, list) {
-  1436			if (file->system != dir)
-  1437				continue;
-  1438			item = kmalloc(sizeof(*item), GFP_KERNEL);
-  1439			if (!item)
-  1440				goto free_now;
-> 1441			item->filter = file->filter;
-  1442			list_add_tail(&item->list, &head->list);
-  1443			file->filter = NULL;
-  1444		}
-  1445	
-  1446		delay_free_filter(head);
-  1447		return;
-  1448	 free_now:
-  1449		tracepoint_synchronize_unregister();
-  1450	
-  1451		if (head)
-  1452			free_filter_list(&head->rcu);
-  1453	
-  1454		list_for_each_entry(file, &tr->events, list) {
-  1455			if (file->system != dir || !file->filter)
-  1456				continue;
-  1457			__free_filter(file->filter);
-  1458		}
-  1459		__free_filter(filter);
-  1460	}
-  1461	
+
+vim +37 arch/arm/plat-orion/irq.c
+
+f28d7de6bd4d41 Sebastian Hesselbarth 2014-01-16  21  
+01eb569823792a Lennert Buytenhek     2008-03-27  22  void __init orion_irq_init(unsigned int irq_start, void __iomem *maskaddr)
+01eb569823792a Lennert Buytenhek     2008-03-27  23  {
+e59347a1d15c0b Thomas Gleixner       2011-04-14  24  	struct irq_chip_generic *gc;
+e59347a1d15c0b Thomas Gleixner       2011-04-14  25  	struct irq_chip_type *ct;
+01eb569823792a Lennert Buytenhek     2008-03-27  26  
+01eb569823792a Lennert Buytenhek     2008-03-27  27  	/*
+01eb569823792a Lennert Buytenhek     2008-03-27  28  	 * Mask all interrupts initially.
+01eb569823792a Lennert Buytenhek     2008-03-27  29  	 */
+01eb569823792a Lennert Buytenhek     2008-03-27  30  	writel(0, maskaddr);
+01eb569823792a Lennert Buytenhek     2008-03-27  31  
+e59347a1d15c0b Thomas Gleixner       2011-04-14  32  	gc = irq_alloc_generic_chip("orion_irq", 1, irq_start, maskaddr,
+f38c02f3b33865 Thomas Gleixner       2011-03-24  33  				    handle_level_irq);
+e59347a1d15c0b Thomas Gleixner       2011-04-14  34  	ct = gc->chip_types;
+e59347a1d15c0b Thomas Gleixner       2011-04-14  35  	ct->chip.irq_mask = irq_gc_mask_clr_bit;
+e59347a1d15c0b Thomas Gleixner       2011-04-14  36  	ct->chip.irq_unmask = irq_gc_mask_set_bit;
+e59347a1d15c0b Thomas Gleixner       2011-04-14 @37  	irq_setup_generic_chip(gc, IRQ_MSK(32), IRQ_GC_INIT_MASK_CACHE,
 
 -- 
 0-DAY CI Kernel Test Service
