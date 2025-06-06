@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF56127F163
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 11:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF396F9EC
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  6 Jun 2025 12:45:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749208908; cv=none; b=qBcktisUVK4TrbqTiwKk4LxSSMxCIAqAlsO8J1MtwCeWxtok5asyWAsqTbAapIAr0mc9CwotjVl7wsncaNkfnXlT/gOzSN2lTqYXX8JiLJh9D4Q8RJ+8SxNzQjyshlOzZ6IJ8OtuZ3eid81pbpd6x1wGbHBTteUptOCV3Chzg+Q=
+	t=1749213907; cv=none; b=o/tyAWtp2AwfzxSUu7A0VbIL9XSFOZBk8Na3O5ijnMSNoiLf+2D4qfsChVyLkt4SO5RGIso1yb4ntKzKbAdbmNTSn6HywabbgubCF2z9bCw1d+XGMYGbV2ubMaIeAnuTnIzPuIchlbu/RUPKOLZ0ZM5phB0egOWyLHZStMXng4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749208908; c=relaxed/simple;
-	bh=WRFxejyU3N8q0Vg9ORaH/lGeIKYH5zrahWgn4qaPWw8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ktdvgcUA47ivQLUKYtX7j9dyRAdI9j6h2gkzC4QJJsiaWUtyr1OsNR9u2YrIyvjZwWoPrc9sB7vm3O/5V5woqUyJ65rQRnmB7OBaKWhuw0oRMu+6mdz7v2TAdLqXNe2efgDIqEL9stQSBw1iCZO0hlKCUjkr8HZUGIber1IqcQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pl0/VHvD; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1749213907; c=relaxed/simple;
+	bh=5SAxP1RAYX8EtdS1e71NVEhW+zfR440t5Q86YJzzxDM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=u4cHFksL0sbDgPVH3uK6BALYrO+cnhTMFZ+QdZvtV+fmRiaLLRSJ9LqSG9hlQHx7M1eWAxUX8JEE9k+vh+fON7Oy8BQMbJv53zCMcrc85vOI6Kzd9MrF1o14aKDDCDx4KHFh7DXdzj/4d7nT54JFUTs6wFyyo3xduhP2CWpZsPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+2bsoZr; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pl0/VHvD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+2bsoZr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749208907; x=1780744907;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WRFxejyU3N8q0Vg9ORaH/lGeIKYH5zrahWgn4qaPWw8=;
-  b=Pl0/VHvDbr7juI8EPRUw2oVSVL4VL6QauOlDOgl+3B8LZWyuywfVld54
-   XjsJrB3ZWfFEND2bkpj8fExdErtCupSWByIHXYYlXYZzuP1LfFwV3OcWN
-   CFkLdplYMy6JJzlaNqLKJVEpbG6yj6y7YIMy5SFFxGt48sD1RgboeSXNe
-   kAwXaQsLeKIhrdT0brSIkLYEqhVV/Fpmcad8axwihUlk3fzA92t5pFzsQ
-   GLW12zEE94Sr+lus0SQ5NxyufxM7/Yl/tNdsr1bfCbYdIaLUP/i0zGANK
-   dNWEvpGEzbNx7lLM11xIen4o16N5bu0MVl34ZV2bbEV9tm7TnmcK4dtKL
-   g==;
-X-CSE-ConnectionGUID: G7vM4KOfTG6D+vJFpsPJwQ==
-X-CSE-MsgGUID: RbglGQlXTD6eoVTi7Daomw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11455"; a="53981721"
+  t=1749213906; x=1780749906;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5SAxP1RAYX8EtdS1e71NVEhW+zfR440t5Q86YJzzxDM=;
+  b=i+2bsoZrk5ldTKQL2BLax69bvID8thXYq5n+zvRMrYvXe79sVNnRYR5W
+   Yl/Zrez6b417wJ33QjUvUW6n6zc6WYGDRIzQDXY8sfQbBlZD5imX0+2Jq
+   J8STjG8bNpz9NE55plcD9BDJIZJFZtBOHxooRCdWBs0528mNSrrF1dtB2
+   yOzidpIz+5wJl/WaKbtr86c78HLxX58J+BoRQnuJxiPfmDo+xsE7tuVJi
+   yR3FIymfxu382JukgH76nIuuskOKTVqrIU3CgVQ/GMxIY+oI5Nw+iqp37
+   wacljSkaYh6TmNsHcP1iNM21Vw42oQ97T5enCNJkfdoLo6LF0W1XzGS5M
+   w==;
+X-CSE-ConnectionGUID: gdHlENlWRcyry7m4HzrUbA==
+X-CSE-MsgGUID: s8UW4CMrQPan8kPBzZnAAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="51065522"
 X-IronPort-AV: E=Sophos;i="6.16,215,1744095600"; 
-   d="scan'208";a="53981721"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 04:21:46 -0700
-X-CSE-ConnectionGUID: ouYuD+YQTP+esAD5Xn8F3w==
-X-CSE-MsgGUID: vyNPZ3YlQ16QvULRhi1YkQ==
+   d="scan'208";a="51065522"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 05:43:47 -0700
+X-CSE-ConnectionGUID: I07NYtm7QcOD96nBzR3esw==
+X-CSE-MsgGUID: be2PqtAWTSuWOlj7LUiS6Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,215,1744095600"; 
-   d="scan'208";a="145676923"
+   d="scan'208";a="149658598"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 06 Jun 2025 04:21:44 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 06 Jun 2025 05:43:45 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNV8j-0004wv-2d;
-	Fri, 06 Jun 2025 11:21:37 +0000
-Date: Fri, 6 Jun 2025 19:20:56 +0800
+	id 1uNWQB-0004yw-1A;
+	Fri, 06 Jun 2025 12:43:43 +0000
+Date: Fri, 6 Jun 2025 20:42:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mark Harmstone <maharmstone@fb.com>, linux-btrfs@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Mark Harmstone <maharmstone@fb.com>
-Subject: Re: [PATCH 11/12] btrfs: move existing remaps before relocating
- block group
-Message-ID: <202506061952.ALl7BezR-lkp@intel.com>
-References: <20250605162345.2561026-12-maharmstone@fb.com>
+To: Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [wsa:renesas/g3s/i3c 5/9] drivers/i3c/master/renesas-i3c.c:1426:25:
+ error: use of undeclared identifier 'renesas_i3c_of_match'; did you mean
+ 'renesas_i3c_of_ids'?
+Message-ID: <202506062024.5NPKNHI2-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,90 +62,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250605162345.2561026-12-maharmstone@fb.com>
 
-Hi Mark,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on linus/master next-20250606]
-[cannot apply to v6.15]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mark-Harmstone/btrfs-add-definitions-and-constants-for-remap-tree/20250606-002804
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250605162345.2561026-12-maharmstone%40fb.com
-patch subject: [PATCH 11/12] btrfs: move existing remaps before relocating block group
-config: csky-randconfig-r133-20250606 (https://download.01.org/0day-ci/archive/20250606/202506061952.ALl7BezR-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20250606/202506061952.ALl7BezR-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/g3s/i3c
+head:   1c4b3673c4a68187f90bebfed23c332d4ce0dcd9
+commit: d4b87fdf2d83f439a5f9a3b4b880419069c11988 [5/9] i3c: renesas: add driver
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250606/202506062024.5NPKNHI2-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250606/202506062024.5NPKNHI2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506061952.ALl7BezR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506062024.5NPKNHI2-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> fs/btrfs/relocation.c:4036:27: sparse: sparse: incorrect type in initializer (different base types) @@     expected int op @@     got restricted blk_opf_t @@
-   fs/btrfs/relocation.c:4036:27: sparse:     expected int op
-   fs/btrfs/relocation.c:4036:27: sparse:     got restricted blk_opf_t
->> fs/btrfs/relocation.c:4042:46: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted blk_opf_t [usertype] opf @@     got int op @@
-   fs/btrfs/relocation.c:4042:46: sparse:     expected restricted blk_opf_t [usertype] opf
-   fs/btrfs/relocation.c:4042:46: sparse:     got int op
-   fs/btrfs/relocation.c:4053:62: sparse: sparse: incorrect type in argument 2 (different base types) @@     expected restricted blk_opf_t [usertype] opf @@     got int op @@
-   fs/btrfs/relocation.c:4053:62: sparse:     expected restricted blk_opf_t [usertype] opf
-   fs/btrfs/relocation.c:4053:62: sparse:     got int op
+All error/warnings (new ones prefixed by >>):
 
-vim +4036 fs/btrfs/relocation.c
+>> drivers/i3c/master/renesas-i3c.c:1417:16: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
+    1417 |         .has_pclkrw = true,
+         |                       ^~~~
+>> drivers/i3c/master/renesas-i3c.c:1426:25: error: use of undeclared identifier 'renesas_i3c_of_match'; did you mean 'renesas_i3c_of_ids'?
+    1426 | MODULE_DEVICE_TABLE(of, renesas_i3c_of_match);
+         |                         ^~~~~~~~~~~~~~~~~~~~
+         |                         renesas_i3c_of_ids
+   include/linux/module.h:252:15: note: expanded from macro 'MODULE_DEVICE_TABLE'
+     252 | extern typeof(name) __mod_device_table__##type##__##name                \
+         |               ^
+   drivers/i3c/master/renesas-i3c.c:1420:34: note: 'renesas_i3c_of_ids' declared here
+    1420 | static const struct of_device_id renesas_i3c_of_ids[] = {
+         |                                  ^
+   1 warning and 1 error generated.
 
-  4028	
-  4029	static int copy_remapped_data_io(struct btrfs_fs_info *fs_info,
-  4030					 struct reloc_io_private *priv,
-  4031					 struct page **pages, u64 addr, u64 length,
-  4032					 bool do_write)
-  4033	{
-  4034		struct btrfs_bio *bbio;
-  4035		unsigned long i = 0;
-> 4036		int op = do_write ? REQ_OP_WRITE : REQ_OP_READ;
-  4037	
-  4038		init_completion(&priv->done);
-  4039		refcount_set(&priv->pending_refs, 1);
-  4040		priv->status = 0;
-  4041	
-> 4042		bbio = btrfs_bio_alloc(BIO_MAX_VECS, op, fs_info, reloc_endio,
-  4043				       priv);
-  4044		bbio->bio.bi_iter.bi_sector = addr >> SECTOR_SHIFT;
-  4045	
-  4046		do {
-  4047			size_t bytes = min_t(u64, length, PAGE_SIZE);
-  4048	
-  4049			if (bio_add_page(&bbio->bio, pages[i], bytes, 0) < bytes) {
-  4050				refcount_inc(&priv->pending_refs);
-  4051				btrfs_submit_bbio(bbio, 0);
-  4052	
-  4053				bbio = btrfs_bio_alloc(BIO_MAX_VECS, op, fs_info,
-  4054						       reloc_endio, priv);
-  4055				bbio->bio.bi_iter.bi_sector = addr >> SECTOR_SHIFT;
-  4056				continue;
-  4057			}
-  4058	
-  4059			i++;
-  4060			addr += bytes;
-  4061			length -= bytes;
-  4062		} while (length);
-  4063	
-  4064		refcount_inc(&priv->pending_refs);
-  4065		btrfs_submit_bbio(bbio, 0);
-  4066	
-  4067		if (!refcount_dec_and_test(&priv->pending_refs))
-  4068			wait_for_completion_io(&priv->done);
-  4069	
-  4070		return blk_status_to_errno(READ_ONCE(priv->status));
-  4071	}
-  4072	
+
+vim +1426 drivers/i3c/master/renesas-i3c.c
+
+  1415	
+  1416	static const struct renesas_i3c_config r9a09g047_i3c_config = {
+> 1417		.has_pclkrw = true,
+  1418	};
+  1419	
+  1420	static const struct of_device_id renesas_i3c_of_ids[] = {
+  1421		{ .compatible = "renesas,r9a08g045-i3c", .data = &empty_i3c_config },
+  1422		{ .compatible = "renesas,r9a09g047-i3c", .data = &r9a09g047_i3c_config },
+  1423		{ .compatible = "renesas,i3c", .data = &empty_i3c_config },
+  1424		{ /* sentinel */ },
+  1425	};
+> 1426	MODULE_DEVICE_TABLE(of, renesas_i3c_of_match);
+  1427	
 
 -- 
 0-DAY CI Kernel Test Service
