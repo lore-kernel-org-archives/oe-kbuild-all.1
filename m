@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD755241680
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Jun 2025 01:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE1534C81
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Jun 2025 03:42:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749261592; cv=none; b=YvJjcArzzmZqyaIidTDmMWRWhwgm4Rhk+yAtcJqdmSRn5g1F167nxFig4rw36dzjbxVosd29jgKEbNO74Wk79Q7dDcWQn+9Uy7r/+J1kuz4cZjseQTtsVqZGY3REw4b+QlFG31jow1nx9pkDLVV2LY7h7KjHOgmL9GI6a29xmik=
+	t=1749267725; cv=none; b=WmVH1KYc6oI5QIVomQvRlwh/vXBvwkVXm32Mrjmk2GbhNhzBpPLaCogJkZ0lxZzqKQhUYucqhzDTnTgHzlsAj3sJM82auY+te2Cq78G9bLvhfp0ovDzf68TwTIw1MdMZfr3J/8pDOOHi29+4U7wLEkSRlYAtHkiT3XSNbnmPpuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749261592; c=relaxed/simple;
-	bh=V+B0Q7AYqYfuVBQ1dmrmPh2y+a5r6BWJhwLd3ttn8F8=;
+	s=arc-20240116; t=1749267725; c=relaxed/simple;
+	bh=jmRCMH3ftvtdMArre/kqRz5Zw2oM2bVIO9WZuLHfcCQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SZDD3i0k9Rm+APYBM6QwlLNaDzT3Rkm8XvMHZd1v3akYroyX4vEqhnx/7PO5pTARn2PotsnqyB18sfszLXGBsm0wKorVyX4pXr/Vb4xemmzpdBnBIavybNytLP3jKewPSYHSAXsUPyPdfqXgCGcOM3QlAMta5G35jCjtd2MdAvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kru0FQh6; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=iPDGeP/dt7JW/95NUCDlNvOhpv6Kre1osj9UJGRlibM6WIULaHE9GRjfiVowvO9Kzpwkz8JCYHJkWbUPZ5tkuWBp93Vxqv0bB2l2aEfY+AD13YiGN6h4ofbKPg44VUROAesDwxYW1XwHJBA1DzSAsJqGakZnr0DN+vN9jlReVV0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kiI4w9DS; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kru0FQh6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kiI4w9DS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749261591; x=1780797591;
+  t=1749267724; x=1780803724;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=V+B0Q7AYqYfuVBQ1dmrmPh2y+a5r6BWJhwLd3ttn8F8=;
-  b=kru0FQh6/ez/VAJvGnh5ls79FMIlFYGzcWUfp6P5iEpw6+Yyl/1UNNTY
-   nKBRfbxDsOA4Zk7EqLl16KOXX4hgAsLEyu8Rsu9c5psmueCMQ2TEeAF0Z
-   EZRN7HsdyuwdhKfXCJDeGKmMnBX/l4IXeCuVp14Fj0fXVkgDYcPTkAmqP
-   oSlCvG6IN2EoqqlLv5dsswt0KeOpdOqdbG50GdbnzGyJkQGVcCP+3JHip
-   5XkwVtg2LO7aY0JaDXG/UUNEXu1UbLFboJ5bylt2Kts6M7ty9+R4QsFcq
-   9I2HvwjuXIpE/P4Sh0NEd7cjzZQRchQWlQfi1zm2gn5dYyuVN1KpeH2LJ
+  bh=jmRCMH3ftvtdMArre/kqRz5Zw2oM2bVIO9WZuLHfcCQ=;
+  b=kiI4w9DSLGTVp2b+dFZ/0eDMEk3RtA9S2U/WmSXmbZoHV93j1pQLm56W
+   lwTXaKTeyTsm4h4RRbVXaczjDvZ73R6YRQcUxw0JniVZ9FLvTRnjoPm6H
+   UmJyEM0asCX1WflBEcMDFt3tX7qtsX9EXd5JdifOUWINxOAYaiA+4d4kc
+   txl7t85ZT32OXRmr8iwgIJL6QujeVmAqYRM4bRCH3CaOMQfMctaAb/kyw
+   OybRflXOkKsW2M1/hajagtSlBCDMFQHggvJVXI3FNpEUneOWnU48bPAYc
+   dHEGUMh+2EXFb3yxIgK1h+/glg4AoEGH1goPqP0zDbssu5AUMTvjKAltU
    A==;
-X-CSE-ConnectionGUID: z0IHzZE1S/iZ3xG3mbqrqg==
-X-CSE-MsgGUID: CL/L6fSfTuuYrOJnv4nEYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="51558564"
-X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
-   d="scan'208";a="51558564"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 18:59:50 -0700
-X-CSE-ConnectionGUID: 6E3HmmnWQaaMXMTFORRs6A==
-X-CSE-MsgGUID: oU8EgnXkRWy97aJieUvznw==
+X-CSE-ConnectionGUID: DB8qR1GtTlyMFZjgs8+cHw==
+X-CSE-MsgGUID: 3CRYWkzDTkO7MKYddbahCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="68867779"
+X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; 
+   d="scan'208";a="68867779"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 20:42:04 -0700
+X-CSE-ConnectionGUID: nq6bUa/6RtC7iJtRYllVtw==
+X-CSE-MsgGUID: TLLHm5Q4SL2hBPOsmHDdhA==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,216,1744095600"; 
-   d="scan'208";a="176863548"
+X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; 
+   d="scan'208";a="149826276"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 06 Jun 2025 18:59:49 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 06 Jun 2025 20:42:02 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNiqZ-0005P1-09;
-	Sat, 07 Jun 2025 01:59:47 +0000
-Date: Sat, 7 Jun 2025 09:59:34 +0800
+	id 1uNkRU-0005S3-0N;
+	Sat, 07 Jun 2025 03:42:00 +0000
+Date: Sat, 7 Jun 2025 11:41:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	"Gustavo A. R. Silva" <gustavo@embeddedor.com>,
-	LKML <linux-kernel@vger.kernel.org>
-Subject: [gustavoars:testing/wfamnae-next20250606 16/16]
- kernel/sched/ext.c:3748:24: error: returning 'struct cgroup_hdr *' from a
- function with incompatible return type 'struct cgroup *'
-Message-ID: <202506070954.D6Eg0juq-lkp@intel.com>
+To: Wolfram Sang <wsa-dev@sang-engineering.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [wsa:renesas/g3s/i3c 5/9] drivers/i3c/master/renesas-i3c.c:280:25:
+ sparse: sparse: dubious one-bit signed bitfield
+Message-ID: <202506071151.G5EwQ1vm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,63 +62,28 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git testing/wfamnae-next20250606
-head:   2aebeb5c325881159c6896f61fa4b16f2af46067
-commit: 2aebeb5c325881159c6896f61fa4b16f2af46067 [16/16] cgroup: Avoid -Wflex-array-member-not-at-end warnings
-config: x86_64-buildonly-randconfig-006-20250607 (https://download.01.org/0day-ci/archive/20250607/202506070954.D6Eg0juq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506070954.D6Eg0juq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/g3s/i3c
+head:   1c4b3673c4a68187f90bebfed23c332d4ce0dcd9
+commit: d4b87fdf2d83f439a5f9a3b4b880419069c11988 [5/9] i3c: renesas: add driver
+config: riscv-randconfig-r133-20250607 (https://download.01.org/0day-ci/archive/20250607/202506071151.G5EwQ1vm-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.4.0
+reproduce: (https://download.01.org/0day-ci/archive/20250607/202506071151.G5EwQ1vm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506070954.D6Eg0juq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506071151.G5EwQ1vm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/i3c/master/renesas-i3c.c:280:25: sparse: sparse: dubious one-bit signed bitfield
 
-   In file included from kernel/sched/build_policy.c:63:
-   kernel/sched/ext.c: In function 'tg_cgrp':
->> kernel/sched/ext.c:3748:24: error: returning 'struct cgroup_hdr *' from a function with incompatible return type 'struct cgroup *' [-Werror=incompatible-pointer-types]
-    3748 |                 return &cgrp_dfl_root.cgrp;
-         |                        ^~~~~~~~~~~~~~~~~~~
-   kernel/sched/ext.c: In function 'scx_vexit':
-   kernel/sched/ext.c:5361:9: warning: function 'scx_vexit' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    5361 |         vscnprintf(ei->msg, SCX_EXIT_MSG_LEN, fmt, args);
-         |         ^~~~~~~~~~
-   kernel/sched/ext.c: In function '__bstr_format':
-   kernel/sched/ext.c:7150:27: warning: function '__bstr_format' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-    7150 |                           bprintf_data.bin_args);
-         |                           ^~~~~~~~~~~~
-   kernel/sched/ext.c: In function 'scx_bpf_task_cgroup':
->> kernel/sched/ext.c:7445:31: error: initialization of 'struct cgroup *' from incompatible pointer type 'struct cgroup_hdr *' [-Werror=incompatible-pointer-types]
-    7445 |         struct cgroup *cgrp = &cgrp_dfl_root.cgrp;
-         |                               ^
-   cc1: some warnings being treated as errors
+vim +280 drivers/i3c/master/renesas-i3c.c
 
-
-vim +3748 kernel/sched/ext.c
-
-f0e1a0643a59bf Tejun Heo 2024-06-18  3736  
-8195136669661f Tejun Heo 2024-09-04  3737  #ifdef CONFIG_EXT_GROUP_SCHED
-8195136669661f Tejun Heo 2024-09-04  3738  static struct cgroup *tg_cgrp(struct task_group *tg)
-8195136669661f Tejun Heo 2024-09-04  3739  {
-8195136669661f Tejun Heo 2024-09-04  3740  	/*
-8195136669661f Tejun Heo 2024-09-04  3741  	 * If CGROUP_SCHED is disabled, @tg is NULL. If @tg is an autogroup,
-8195136669661f Tejun Heo 2024-09-04  3742  	 * @tg->css.cgroup is NULL. In both cases, @tg can be treated as the
-8195136669661f Tejun Heo 2024-09-04  3743  	 * root cgroup.
-8195136669661f Tejun Heo 2024-09-04  3744  	 */
-8195136669661f Tejun Heo 2024-09-04  3745  	if (tg && tg->css.cgroup)
-8195136669661f Tejun Heo 2024-09-04  3746  		return tg->css.cgroup;
-8195136669661f Tejun Heo 2024-09-04  3747  	else
-8195136669661f Tejun Heo 2024-09-04 @3748  		return &cgrp_dfl_root.cgrp;
-8195136669661f Tejun Heo 2024-09-04  3749  }
-8195136669661f Tejun Heo 2024-09-04  3750  
-
-:::::: The code at line 3748 was first introduced by commit
-:::::: 8195136669661fdfe54e9a8923c33b31c92fc1da sched_ext: Add cgroup support
-
-:::::: TO: Tejun Heo <tj@kernel.org>
-:::::: CC: Tejun Heo <tj@kernel.org>
+   278	
+   279	struct renesas_i3c_config {
+ > 280		int has_pclkrw:1;
+   281	};
+   282	
 
 -- 
 0-DAY CI Kernel Test Service
