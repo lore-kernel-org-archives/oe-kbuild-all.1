@@ -1,71 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83330184F
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Jun 2025 05:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D46E223A6;
+	Sat,  7 Jun 2025 06:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749275238; cv=none; b=e7qKOI/e+iXYJXnHX1i/W2sJfUZXOIVhwkvcgwM2hnbUBXqU9Q+kJWMrDYNQJKTktiJ/pFNA7+71ZC+bZ2XGp6m8qrNVfuTEJvEFyxw1zyZe6e+iXpxdCB45w8aYjM3qrPdU50k6RS4dfK8Ay5uXGDsskMoIyo93GOhCGdHUIz8=
+	t=1749277158; cv=none; b=IRznb67Ndh6d7UUHv8iXsTIsDpuYlXO55d4BXvYLSstvrMM6+E1zS2Ub/scFg8kxI8T+y5g3vvYqEZHN0k5nRj4knNBT1nWbDyadrXw7PQdxxj4eX3A9kVbZOmdWncSHjbJl1sDFbNnFko4BvT/rjsBzy2kiMUAswg3tlRY7HOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749275238; c=relaxed/simple;
-	bh=5C3lLj8+AbKhyCtUA5RyohQ8t2Ydl8exCq8AJb7blUs=;
+	s=arc-20240116; t=1749277158; c=relaxed/simple;
+	bh=BuMLIVe9qFv/wTQkRPfHni/qgJRR18bI7Mw6Ylh3vSI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KnPzib/PTAA98khyFu8R5jZtGK0lhoajUNcSelwvYFbCiMUu2S87RK4l6LA44f2/MHdtvAFXIbTPYI0RB12DHCuUJejYRf5sP6ujs/5Mq/tpbLBibc6yvIt5vKSeWlWLHozVjN6DdO9v1sz6hMXufEKdZhCF9Q+1ALmmq90SZOg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jpKLe0YW; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=r3t+MPzXeoHqpzCKxN9FGQ9ziTyutq/ieyD363R978ZdqQaB58IZlaC8QfPo1sxKB+mA9hjziwZaD7KZXUh2abXTzuAycbYPwO/5g8sRz+PL7WmtPqmAThgtvp9ijT7ufcMKAS01eWxuqKM7xU3ivw2iFBNQenashHC4PBwR2IE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=be2kuJVt; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jpKLe0YW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="be2kuJVt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749275236; x=1780811236;
+  t=1749277157; x=1780813157;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5C3lLj8+AbKhyCtUA5RyohQ8t2Ydl8exCq8AJb7blUs=;
-  b=jpKLe0YWsk7j+wCMvboiQoTwyeR0yO908TV8XOTE+PlJpnW83tVQUWQ/
-   ptzhbsBGFzzU+ro/MuUaGpIgMMpyCe/VJG3yQleB3qA7YzY0Oxn1qswDi
-   yws44TD8+DpNIMgGXAJJDYbUc01lyRj+sj9MrMllNpzma/6oSQHn2mcYC
-   FhWzwdbzcxuuxUvI0SZYwoKN9IWygdt5yNhm453UedApkpPYm4z79/M0H
-   sgU+aWojU6MsvML3v97EFpgLppCdn/FY6ilgQNuYVptze1B02GwqHGQee
-   fAwIkLp9xfBFOL755Ff+Drzjor4e3T/l0p/abZdYen/N/YkzI2bFNX0ic
-   A==;
-X-CSE-ConnectionGUID: hy67bA3hRMe52nVrE9g1AA==
-X-CSE-MsgGUID: 3nUnAzgxT5iEkXs0ffUUnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="51420667"
+  bh=BuMLIVe9qFv/wTQkRPfHni/qgJRR18bI7Mw6Ylh3vSI=;
+  b=be2kuJVtFmgtl+6dTnwiTmW1rzi4ajiu3UGHJtJPu6jJ6QCZF4JNB1Im
+   52oO/oP1eHKAgoDGLhk42TW+HzcIGe2BVfzDbE1evCWc3qm//DhqIvvq1
+   SGI3m5e6O97zuFNcKpdLIcHicsC0PTY2aULGY8lDA0JmhZFFOCCqaeet0
+   bQx6qSlyjbjsLozTMoNPzt/qC7++xejxZMlmwusCRf3fohZvAN7KQOOEn
+   L3rS7A9YXDuJbgb9ChtAA/dgu+D6joAbQN/nT6ldsNAXc30XswMhmLcXJ
+   5ulEQMFqlGWK4ukJ4wVvDRDctCJyTacURYBj9SAXeb6BuwcE9jemj8Vwi
+   Q==;
+X-CSE-ConnectionGUID: Zx4xQrzkQ1yjoV08Jrs8Cg==
+X-CSE-MsgGUID: 1cKm9TvHSvSq4+MH8z0KMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="54055833"
 X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; 
-   d="scan'208";a="51420667"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 22:47:15 -0700
-X-CSE-ConnectionGUID: gRFQIGf+THm/L1f2j86avw==
-X-CSE-MsgGUID: 1n4MLOnHQoSB0ABW7+8A9Q==
+   d="scan'208";a="54055833"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 23:19:16 -0700
+X-CSE-ConnectionGUID: 7udyH0jDSAyDJhD4OsMtzw==
+X-CSE-MsgGUID: CDTOdjzAS8O1+g7IidCGeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; 
-   d="scan'208";a="146528813"
+   d="scan'208";a="183203111"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Jun 2025 22:47:11 -0700
+  by orviesa001.jf.intel.com with ESMTP; 06 Jun 2025 23:19:15 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNmOb-0005UP-1w;
-	Sat, 07 Jun 2025 05:47:09 +0000
-Date: Sat, 7 Jun 2025 13:46:39 +0800
+	id 1uNmtc-0005Uz-1R;
+	Sat, 07 Jun 2025 06:19:12 +0000
+Date: Sat, 7 Jun 2025 14:18:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Quentin Schulz <foss+kernel@0leil.net>, Lee Jones <lee@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Lukasz Czechowski <lukasz.czechowski@thaumatec.com>,
-	Daniel Semkowicz <dse@thaumatec.com>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Quentin Schulz <quentin.schulz@cherry.de>
-Subject: Re: [PATCH v2 2/4] mfd: rk8xx-core: allow to customize RK806 reset
- mode
-Message-ID: <202506071321.Ze0gsxC0-lkp@intel.com>
-References: <20250605-rk8xx-rst-fun-v2-2-143d190596dd@cherry.de>
+To: Zack McKevitt <zachary.mckevitt@oss.qualcomm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH] drm: Add support for io_uring's uring_cmd in
+ DRM/accel
+Message-ID: <202506071421.2BsXneKu-lkp@intel.com>
+References: <20250606180806.2193463-1-zachary.mckevitt@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,173 +63,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250605-rk8xx-rst-fun-v2-2-143d190596dd@cherry.de>
+In-Reply-To: <20250606180806.2193463-1-zachary.mckevitt@oss.qualcomm.com>
 
-Hi Quentin,
+Hi Zack,
 
+[This is a private test report for your RFC patch.]
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on ec7714e4947909190ffb3041a03311a975350fe0]
+[auto build test ERROR on drm-exynos/exynos-drm-next]
+[also build test ERROR on linus/master v6.15 next-20250606]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Quentin-Schulz/dt-bindings-mfd-rk806-allow-to-customize-PMIC-reset-mode/20250605-234243
-base:   ec7714e4947909190ffb3041a03311a975350fe0
-patch link:    https://lore.kernel.org/r/20250605-rk8xx-rst-fun-v2-2-143d190596dd%40cherry.de
-patch subject: [PATCH v2 2/4] mfd: rk8xx-core: allow to customize RK806 reset mode
-config: arc-randconfig-001-20250607 (https://download.01.org/0day-ci/archive/20250607/202506071321.Ze0gsxC0-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506071321.Ze0gsxC0-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Zack-McKevitt/drm-Add-support-for-io_uring-s-uring_cmd-in-DRM-accel/20250607-021118
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250606180806.2193463-1-zachary.mckevitt%40oss.qualcomm.com
+patch subject: [RFC PATCH] drm: Add support for io_uring's uring_cmd in DRM/accel
+config: riscv-randconfig-002-20250607 (https://download.01.org/0day-ci/archive/20250607/202506071421.2BsXneKu-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506071421.2BsXneKu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506071321.Ze0gsxC0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506071421.2BsXneKu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/mfd/rk8xx-core.c: In function 'rk8xx_probe':
->> drivers/mfd/rk8xx-core.c:740:42: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     740 |                                          FIELD_PREP(RK806_RST_FUN_MSK, rst_fun));
-         |                                          ^~~~~~~~~~
+>> drivers/gpu/drm/drm_ioctl.c:958:3: error: expected expression
+                   const struct drm_uring_cmd_ioctl *drm_cmd = io_uring_sqe_cmd(cmd->sqe);
+                   ^
+>> drivers/gpu/drm/drm_ioctl.c:959:28: error: use of undeclared identifier 'drm_cmd'
+                   unsigned int ioctl_cmd = drm_cmd->ioctl_cmd;
+                                            ^
+   drivers/gpu/drm/drm_ioctl.c:960:29: error: use of undeclared identifier 'drm_cmd'
+                   unsigned long ioctl_arg = drm_cmd->arg;
+                                             ^
+   3 errors generated.
 
 
-vim +/FIELD_PREP +740 drivers/mfd/rk8xx-core.c
+vim +958 drivers/gpu/drm/drm_ioctl.c
 
-   694	
-   695	int rk8xx_probe(struct device *dev, int variant, unsigned int irq, struct regmap *regmap)
-   696	{
-   697		struct rk808 *rk808;
-   698		const struct rk808_reg_data *pre_init_reg;
-   699		const struct mfd_cell *cells;
-   700		int dual_support = 0;
-   701		int nr_pre_init_regs;
-   702		u32 rst_fun = 0;
-   703		int nr_cells;
-   704		int ret;
-   705		int i;
-   706	
-   707		rk808 = devm_kzalloc(dev, sizeof(*rk808), GFP_KERNEL);
-   708		if (!rk808)
-   709			return -ENOMEM;
-   710		rk808->dev = dev;
-   711		rk808->variant = variant;
-   712		rk808->regmap = regmap;
-   713		dev_set_drvdata(dev, rk808);
-   714	
-   715		switch (rk808->variant) {
-   716		case RK805_ID:
-   717			rk808->regmap_irq_chip = &rk805_irq_chip;
-   718			pre_init_reg = rk805_pre_init_reg;
-   719			nr_pre_init_regs = ARRAY_SIZE(rk805_pre_init_reg);
-   720			cells = rk805s;
-   721			nr_cells = ARRAY_SIZE(rk805s);
-   722			break;
-   723		case RK806_ID:
-   724			rk808->regmap_irq_chip = &rk806_irq_chip;
-   725			pre_init_reg = rk806_pre_init_reg;
-   726			nr_pre_init_regs = ARRAY_SIZE(rk806_pre_init_reg);
-   727			cells = rk806s;
-   728			nr_cells = ARRAY_SIZE(rk806s);
-   729			dual_support = IRQF_SHARED;
-   730	
-   731			ret = device_property_read_u32(dev, "rockchip,reset-mode", &rst_fun);
-   732			if (ret) {
-   733				dev_dbg(dev,
-   734					"rockchip,reset-mode property missing, not setting RST_FUN\n");
-   735				break;
-   736			}
-   737	
-   738			ret = regmap_update_bits(rk808->regmap, RK806_SYS_CFG3,
-   739						 RK806_RST_FUN_MSK,
- > 740						 FIELD_PREP(RK806_RST_FUN_MSK, rst_fun));
-   741			if (ret)
-   742				return dev_err_probe(dev, ret, "RST_FUN write err\n");
-   743			break;
-   744		case RK808_ID:
-   745			rk808->regmap_irq_chip = &rk808_irq_chip;
-   746			pre_init_reg = rk808_pre_init_reg;
-   747			nr_pre_init_regs = ARRAY_SIZE(rk808_pre_init_reg);
-   748			cells = rk808s;
-   749			nr_cells = ARRAY_SIZE(rk808s);
-   750			break;
-   751		case RK816_ID:
-   752			rk808->regmap_irq_chip = &rk816_irq_chip;
-   753			pre_init_reg = rk816_pre_init_reg;
-   754			nr_pre_init_regs = ARRAY_SIZE(rk816_pre_init_reg);
-   755			cells = rk816s;
-   756			nr_cells = ARRAY_SIZE(rk816s);
-   757			break;
-   758		case RK818_ID:
-   759			rk808->regmap_irq_chip = &rk818_irq_chip;
-   760			pre_init_reg = rk818_pre_init_reg;
-   761			nr_pre_init_regs = ARRAY_SIZE(rk818_pre_init_reg);
-   762			cells = rk818s;
-   763			nr_cells = ARRAY_SIZE(rk818s);
-   764			break;
-   765		case RK809_ID:
-   766		case RK817_ID:
-   767			rk808->regmap_irq_chip = &rk817_irq_chip;
-   768			pre_init_reg = rk817_pre_init_reg;
-   769			nr_pre_init_regs = ARRAY_SIZE(rk817_pre_init_reg);
-   770			cells = rk817s;
-   771			nr_cells = ARRAY_SIZE(rk817s);
-   772			break;
-   773		default:
-   774			dev_err(dev, "Unsupported RK8XX ID %lu\n", rk808->variant);
-   775			return -EINVAL;
-   776		}
-   777	
-   778		if (!irq)
-   779			return dev_err_probe(dev, -EINVAL, "No interrupt support, no core IRQ\n");
-   780	
-   781		ret = devm_regmap_add_irq_chip(dev, rk808->regmap, irq,
-   782					       IRQF_ONESHOT | dual_support, -1,
-   783					       rk808->regmap_irq_chip, &rk808->irq_data);
-   784		if (ret)
-   785			return dev_err_probe(dev, ret, "Failed to add irq_chip\n");
-   786	
-   787		for (i = 0; i < nr_pre_init_regs; i++) {
-   788			ret = regmap_update_bits(rk808->regmap,
-   789						pre_init_reg[i].addr,
-   790						pre_init_reg[i].mask,
-   791						pre_init_reg[i].value);
-   792			if (ret)
-   793				return dev_err_probe(dev, ret, "0x%x write err\n",
-   794						     pre_init_reg[i].addr);
-   795		}
-   796	
-   797		ret = devm_mfd_add_devices(dev, PLATFORM_DEVID_AUTO, cells, nr_cells, NULL, 0,
-   798				      regmap_irq_get_domain(rk808->irq_data));
-   799		if (ret)
-   800			return dev_err_probe(dev, ret, "failed to add MFD devices\n");
-   801	
-   802		if (device_property_read_bool(dev, "system-power-controller") ||
-   803		    device_property_read_bool(dev, "rockchip,system-power-controller")) {
-   804			ret = devm_register_sys_off_handler(dev,
-   805					    SYS_OFF_MODE_POWER_OFF_PREPARE, SYS_OFF_PRIO_HIGH,
-   806					    &rk808_power_off, rk808);
-   807			if (ret)
-   808				return dev_err_probe(dev, ret,
-   809						     "failed to register poweroff handler\n");
-   810	
-   811			switch (rk808->variant) {
-   812			case RK809_ID:
-   813			case RK817_ID:
-   814				ret = devm_register_sys_off_handler(dev,
-   815								    SYS_OFF_MODE_RESTART, SYS_OFF_PRIO_HIGH,
-   816								    &rk808_restart, rk808);
-   817				if (ret)
-   818					dev_warn(dev, "failed to register rst handler, %d\n", ret);
-   819				break;
-   820			default:
-   821				dev_dbg(dev, "pmic controlled board reset not supported\n");
-   822				break;
-   823			}
-   824		}
-   825	
-   826		return 0;
-   827	}
-   828	EXPORT_SYMBOL_GPL(rk8xx_probe);
-   829	
+   940	
+   941	/**
+   942	 * drm_uring_cmd - Implement uring_cmd callback for io_uring
+   943	 * @cmd: pointer to io_uring_cmd struct
+   944	 * @issue_flags: flags specified by io_uring's issue implementation
+   945	 *
+   946	 * This function implements the uring_cmd file operation to incorporate
+   947	 * arbitrary io_uring functionality for drm. Currently, it acts as a way
+   948	 * for io_uring to issue ioctls to a drm device, so this function
+   949	 * dispatches ioctls to the standard drm ioctl interface.
+   950	 *
+   951	 * Returns:
+   952	 * Zero on success, negative error code on failure.
+   953	 */
+   954	int drm_uring_cmd(struct io_uring_cmd *cmd, unsigned int issue_flags)
+   955	{
+   956		switch (cmd->cmd_op) {
+   957		case DRM_URING_CMD_IOCTL:
+ > 958			const struct drm_uring_cmd_ioctl *drm_cmd = io_uring_sqe_cmd(cmd->sqe);
+ > 959			unsigned int ioctl_cmd = drm_cmd->ioctl_cmd;
 
 -- 
 0-DAY CI Kernel Test Service
