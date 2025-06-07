@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5CCE4C9D
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Jun 2025 08:35:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 793FA20B801
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Jun 2025 09:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749285330; cv=none; b=LD04l8p2SN2eHn8aKvxtcppJ7JZhOvvzw4uxU6gt4ePG9ddJhg8zn6LQxu+8tlrsWa9kRHfGN8+26uGwQwRHYtjhBiz+hJ2tjl/M8FmyVsKQ31m/LHhx29VK8aTAceyJNEohodUv/Y9P9RIF7wC+Zc/6hulYo37qA5XrYcdLAvk=
+	t=1749287795; cv=none; b=p/pOs8OrSyoi5kKCTOO7FwJEya39vDldKbnraGtd+eKZBBD3je8WXByJNmlcT6PS8Lo4n/QN4oIyjq4BqFI6riv3jBjOJAuQ+WAqg3XrM+haY2o6lvBiUqnDhyh2+FxjuxT/2TbtDph3sfxPow6w6dz7VTqVKfqrmEB7N4JmlMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749285330; c=relaxed/simple;
-	bh=3TnhZ6pr4oXD1e2SQrKa6oQbta2Evg6VWNba32R+Jz4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IymKxiJAyPPuagc7eS1RCfBSOXErCEsNfeGH2JTvb8CuLBy2XJtcPFntn3vQJ6h7XEMEx64loAKpY4ROjTLcHJkCPfzfuN5GxmHLBA4grvnOEcG7yvxnet97fXGnJpvPxwuS5lK9pzWfZ02THOoi0IKpimemrvpZ+WQEwhCzsOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VBuP1DxS; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1749287795; c=relaxed/simple;
+	bh=gWmUoikykXIx3fJ+gHUZhWY+dfFiy2UXjNHyIg+k0BI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=saDBoCAOm+/eAy8nG/8fmZX20E62OiVDryKxLukjl6z01iOuIjuhW5Y/8ynUAJffRx+kGg5kMgMPLKwLiQypNbtIBcGaD6Y4SGrSMf6y08L77DbGduIuxswZNaklnuAfNV4OasH0nwCg4dstzAs8XT76CHtDCgYibsFfJcbOo14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f8OV1/iO; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VBuP1DxS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f8OV1/iO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749285328; x=1780821328;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3TnhZ6pr4oXD1e2SQrKa6oQbta2Evg6VWNba32R+Jz4=;
-  b=VBuP1DxSwhq55YobyghZh7GyLvVKfIylS4DoQkuVpJ6RcdDm8BCI9+qe
-   8ivWBvOLn529EQVxjGlpEoSJALua55yakYbq11AYaB+oFrkTsNgxjprX3
-   HlZZVkDa8G+6y4E2kyhmRvsU9xub23k0rpvK5Midfgt9KOrzG/2/goJQd
-   HP0O6Pwf8pPCGunOTgZp7pB7Yy42DJqwCMgMZdI+i+wxXdlfiWsSTtDf9
-   8POlcTzUeDRXxGSfK3yVRn/miPdlucZIVBpIWOnKQD4ai8t1gcfVnqXXy
-   zAqQt6a5+XfnEWYXE3ZYpMUfG09aTlRKTIV33AC/rqCe8RjF94mVUzoai
-   g==;
-X-CSE-ConnectionGUID: TkpLIY99QSm12w0GBuYSgQ==
-X-CSE-MsgGUID: FaDuvAy0RBq0ICkFR4pnSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="51336606"
+  t=1749287793; x=1780823793;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gWmUoikykXIx3fJ+gHUZhWY+dfFiy2UXjNHyIg+k0BI=;
+  b=f8OV1/iOZCyj9H0+EGZmrTpYZ93um3oof8WZAhmsyMDHo4dpjUjQGFdK
+   12Us1Ob+jDt1H87fRB9iz3Z84AlGemBnqWHfHc491u4O7Nk/hidtRNn0q
+   lbL3uvXQ6abfaFqcYb3Jw80o3ov1zCcKNGt8k+xaqXUfDEXw+xMqo9BDM
+   x+BfvKUPAoIdoN1wQB+KqAn7IyFVlDfY8kj7RVl7x0Lb9Hl8XFXdJtYRz
+   Wm18XyNlHL6+E31yXq2hDc4pnIB1L8eWAz1MY5xB9M6tON1sz4YRpU/LU
+   zk22Yz0w0qvN6YtIuE1eoKRoXIn9fKBDymsDKlz6OHUUUCSeh2MfwVqpe
+   A==;
+X-CSE-ConnectionGUID: Gs0N/B8vRhm551/siZ9Hig==
+X-CSE-MsgGUID: tK4tYpdJTVeonGoDmwV7ew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="51292718"
 X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; 
-   d="scan'208";a="51336606"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2025 01:35:27 -0700
-X-CSE-ConnectionGUID: 5DEZ7K7cRzaeupOVjyPQ9g==
-X-CSE-MsgGUID: pcE84auIT2mvHUS3tQKOZg==
+   d="scan'208";a="51292718"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2025 02:16:33 -0700
+X-CSE-ConnectionGUID: x+aD3VZ9T+unn96obeRHRw==
+X-CSE-MsgGUID: wMXBqMPNTIWojyztPRxQ/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; 
-   d="scan'208";a="150866818"
+   d="scan'208";a="176986310"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 07 Jun 2025 01:35:26 -0700
+  by orviesa002.jf.intel.com with ESMTP; 07 Jun 2025 02:16:30 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNp1P-0005Z3-2G;
-	Sat, 07 Jun 2025 08:35:23 +0000
-Date: Sat, 7 Jun 2025 16:34:27 +0800
+	id 1uNpf9-0005aL-2j;
+	Sat, 07 Jun 2025 09:16:27 +0000
+Date: Sat, 7 Jun 2025 17:16:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:vm_normal_page_pud 15/15] mm/pagewalk.c:878:32:
- error: implicit declaration of function 'vm_normal_page_pud'; did you mean
- 'vm_normal_page_pmd'?
-Message-ID: <202506071618.2J7B6bp4-lkp@intel.com>
+To: KP Singh <kpsingh@kernel.org>, bpf@vger.kernel.org,
+	linux-security-module@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bboscaccy@linux.microsoft.com,
+	paul@paul-moore.com, kys@microsoft.com, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org,
+	KP Singh <kpsingh@kernel.org>
+Subject: Re: [PATCH 05/12] libbpf: Support exclusive map creation
+Message-ID: <202506071746.cWvht6xb-lkp@intel.com>
+References: <20250606232914.317094-6-kpsingh@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,170 +66,231 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250606232914.317094-6-kpsingh@kernel.org>
 
-tree:   https://github.com/davidhildenbrand/linux vm_normal_page_pud
-head:   5e55c4b55694005e4fb9300605ca3723623a61f9
-commit: 5e55c4b55694005e4fb9300605ca3723623a61f9 [15/15] mm: introduce and use vm_normal_page_pud()
-config: x86_64-buildonly-randconfig-004-20250607 (https://download.01.org/0day-ci/archive/20250607/202506071618.2J7B6bp4-lkp@intel.com/config)
+Hi KP,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/net]
+[also build test ERROR on bpf-next/master bpf/master linus/master next-20250606]
+[cannot apply to v6.15]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/KP-Singh/bpf-Implement-an-internal-helper-for-SHA256-hashing/20250607-073052
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/20250606232914.317094-6-kpsingh%40kernel.org
+patch subject: [PATCH 05/12] libbpf: Support exclusive map creation
+config: i386-buildonly-randconfig-003-20250607 (https://download.01.org/0day-ci/archive/20250607/202506071746.cWvht6xb-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506071618.2J7B6bp4-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506071746.cWvht6xb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506071618.2J7B6bp4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506071746.cWvht6xb-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   mm/pagewalk.c: In function 'folio_walk_start':
->> mm/pagewalk.c:878:32: error: implicit declaration of function 'vm_normal_page_pud'; did you mean 'vm_normal_page_pmd'? [-Werror=implicit-function-declaration]
-     878 |                         page = vm_normal_page_pud(vma, pud);
-         |                                ^~~~~~~~~~~~~~~~~~
-         |                                vm_normal_page_pmd
->> mm/pagewalk.c:878:30: warning: assignment to 'struct page *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     878 |                         page = vm_normal_page_pud(vma, pud);
-         |                              ^
-   cc1: some warnings being treated as errors
---
->> mm/memory.c:697:14: warning: no previous prototype for 'vm_normal_page_pud' [-Wmissing-prototypes]
-     697 | struct page *vm_normal_page_pud(struct vm_area_struct *vma, pud_t pud)
-         |              ^~~~~~~~~~~~~~~~~~
-   mm/memory.c: In function 'vm_normal_page_pud':
->> mm/memory.c:701:9: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
-     701 |         if (unlikely(pud_special(pud)))
-         |         ^~
-   mm/memory.c:703:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
-     703 |                 return NULL;
-         |                 ^~~~~~
->> mm/memory.c:699:23: warning: unused variable 'pfn' [-Wunused-variable]
-     699 |         unsigned long pfn = pud_pfn(pud);
-         |                       ^~~
-   mm/memory.c: At top level:
->> mm/memory.c:705:9: error: expected identifier or '(' before 'if'
-     705 |         if (pud_devmap(pud))
-         |         ^~
->> mm/memory.c:707:9: error: expected identifier or '(' before 'return'
-     707 |         return vm_normal_page_pfn(vma, pfn);
-         |         ^~~~~~
->> mm/memory.c:708:1: error: expected identifier or '(' before '}' token
-     708 | }
-         | ^
-   mm/memory.c: In function 'remap_pte_range':
-   mm/memory.c:2726:21: error: implicit declaration of function 'vm_normal_page_in_pfnmap'; did you mean 'vm_normal_page_pfn'? [-Werror=implicit-function-declaration]
-    2726 |                 if (vm_normal_page_in_pfnmap(vma, pfn)) {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~
-         |                     vm_normal_page_pfn
-   cc1: some warnings being treated as errors
-
-
-vim +878 mm/pagewalk.c
-
-   773	
-   774	/**
-   775	 * folio_walk_start - walk the page tables to a folio
-   776	 * @fw: filled with information on success.
-   777	 * @vma: the VMA.
-   778	 * @addr: the virtual address to use for the page table walk.
-   779	 * @flags: flags modifying which folios to walk to.
-   780	 *
-   781	 * Walk the page tables using @addr in a given @vma to a mapped folio and
-   782	 * return the folio, making sure that the page table entry referenced by
-   783	 * @addr cannot change until folio_walk_end() was called.
-   784	 *
-   785	 * As default, this function returns only folios that are not special (e.g., not
-   786	 * the zeropage) and never returns folios that are supposed to be ignored by the
-   787	 * VM as documented by vm_normal_page(). If requested, zeropages will be
-   788	 * returned as well.
-   789	 *
-   790	 * As default, this function only considers present page table entries.
-   791	 * If requested, it will also consider migration entries.
-   792	 *
-   793	 * If this function returns NULL it might either indicate "there is nothing" or
-   794	 * "there is nothing suitable".
-   795	 *
-   796	 * On success, @fw is filled and the function returns the folio while the PTL
-   797	 * is still held and folio_walk_end() must be called to clean up,
-   798	 * releasing any held locks. The returned folio must *not* be used after the
-   799	 * call to folio_walk_end(), unless a short-term folio reference is taken before
-   800	 * that call.
-   801	 *
-   802	 * @fw->page will correspond to the page that is effectively referenced by
-   803	 * @addr. However, for migration entries and shared zeropages @fw->page is
-   804	 * set to NULL. Note that large folios might be mapped by multiple page table
-   805	 * entries, and this function will always only lookup a single entry as
-   806	 * specified by @addr, which might or might not cover more than a single page of
-   807	 * the returned folio.
-   808	 *
-   809	 * This function must *not* be used as a naive replacement for
-   810	 * get_user_pages() / pin_user_pages(), especially not to perform DMA or
-   811	 * to carelessly modify page content. This function may *only* be used to grab
-   812	 * short-term folio references, never to grab long-term folio references.
-   813	 *
-   814	 * Using the page table entry pointers in @fw for reading or modifying the
-   815	 * entry should be avoided where possible: however, there might be valid
-   816	 * use cases.
-   817	 *
-   818	 * WARNING: Modifying page table entries in hugetlb VMAs requires a lot of care.
-   819	 * For example, PMD page table sharing might require prior unsharing. Also,
-   820	 * logical hugetlb entries might span multiple physical page table entries,
-   821	 * which *must* be modified in a single operation (set_huge_pte_at(),
-   822	 * huge_ptep_set_*, ...). Note that the page table entry stored in @fw might
-   823	 * not correspond to the first physical entry of a logical hugetlb entry.
-   824	 *
-   825	 * The mmap lock must be held in read mode.
-   826	 *
-   827	 * Return: folio pointer on success, otherwise NULL.
-   828	 */
-   829	struct folio *folio_walk_start(struct folio_walk *fw,
-   830			struct vm_area_struct *vma, unsigned long addr,
-   831			folio_walk_flags_t flags)
-   832	{
-   833		unsigned long entry_size;
-   834		bool expose_page = true;
-   835		struct page *page;
-   836		pud_t *pudp, pud;
-   837		pmd_t *pmdp, pmd;
-   838		pte_t *ptep, pte;
-   839		spinlock_t *ptl;
-   840		pgd_t *pgdp;
-   841		p4d_t *p4dp;
-   842	
-   843		mmap_assert_locked(vma->vm_mm);
-   844		vma_pgtable_walk_begin(vma);
-   845	
-   846		if (WARN_ON_ONCE(addr < vma->vm_start || addr >= vma->vm_end))
-   847			goto not_found;
-   848	
-   849		pgdp = pgd_offset(vma->vm_mm, addr);
-   850		if (pgd_none_or_clear_bad(pgdp))
-   851			goto not_found;
-   852	
-   853		p4dp = p4d_offset(pgdp, addr);
-   854		if (p4d_none_or_clear_bad(p4dp))
-   855			goto not_found;
-   856	
-   857		pudp = pud_offset(p4dp, addr);
-   858		pud = pudp_get(pudp);
-   859		if (pud_none(pud))
-   860			goto not_found;
-   861		if (IS_ENABLED(CONFIG_PGTABLE_HAS_HUGE_LEAVES) &&
-   862		    (!pud_present(pud) || pud_leaf(pud))) {
-   863			ptl = pud_lock(vma->vm_mm, pudp);
-   864			pud = pudp_get(pudp);
-   865	
-   866			entry_size = PUD_SIZE;
-   867			fw->level = FW_LEVEL_PUD;
-   868			fw->pudp = pudp;
-   869			fw->pud = pud;
-   870	
-   871			if (pud_none(pud)) {
-   872				spin_unlock(ptl);
-   873				goto not_found;
-   874			} else if (pud_present(pud) && !pud_leaf(pud)) {
-   875				spin_unlock(ptl);
-   876				goto pmd_table;
-   877			} else if (pud_present(pud)) {
- > 878				page = vm_normal_page_pud(vma, pud);
+   In file included from libbpf_errno.c:14:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from btf_relocate.c:31:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from libbpf_internal.h:43,
+                    from nlattr.c:14:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from relo_core.c:64:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from linker.c:24:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from libbpf_internal.h:43,
+                    from strset.c:9:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from bpf_prog_linfo.c:8:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from btf_dump.c:22:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from ringbuf.c:21:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from libbpf_internal.h:43,
+                    from elf.c:11:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from netlink.c:18:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from features.c:6:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from usdt.c:19:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from gen_loader.c:11:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from btf.c:22:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from libbpf_internal.h:43,
+                    from zip.c:16:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   In file included from libbpf_probes.c:18:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+   In file included from libbpf_internal.h:43,
+                    from btf_iter.c:13:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/libbpf_errno.o] Error 1 shuffle=3326748311
+   In file included from libbpf.c:53:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+   In file included from bpf.c:36:
+>> libbpf.h:1264:5: error: redundant redeclaration of 'bpf_map__make_exclusive' [-Werror=redundant-decls]
+    1264 | int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/nlattr.o] Error 1 shuffle=3326748311
+   libbpf.h:1262:16: note: previous declaration of 'bpf_map__make_exclusive' with type 'int(struct bpf_map *, struct bpf_program *)'
+    1262 | LIBBPF_API int bpf_map__make_exclusive(struct bpf_map *map, struct bpf_program *prog);
+         |                ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/strset.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/btf_iter.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/bpf_prog_linfo.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/zip.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/libbpf_probes.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/elf.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/btf_relocate.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/features.o] Error 1 shuffle=3326748311
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/ringbuf.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/netlink.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/usdt.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/gen_loader.o] Error 1 shuffle=3326748311
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/relo_core.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/btf_dump.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/bpf.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/linker.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/btf.o] Error 1 shuffle=3326748311
+   cc1: all warnings being treated as errors
+   make[6]: *** [tools/build/Makefile.build:85: tools/bpf/resolve_btfids/libbpf/staticobjs/libbpf.o] Error 1 shuffle=3326748311
+   make[6]: Target '__build' not remade because of errors.
+   make[5]: *** [Makefile:152: tools/bpf/resolve_btfids/libbpf/staticobjs/libbpf-in.o] Error 2 shuffle=3326748311
+   make[5]: Target 'tools/bpf/resolve_btfids/libbpf/libbpf.a' not remade because of errors.
+   make[4]: *** [Makefile:61: tools/bpf/resolve_btfids//libbpf/libbpf.a] Error 2 shuffle=3326748311
+   make[4]: Target 'all' not remade because of errors.
+   make[3]: *** [Makefile:76: bpf/resolve_btfids] Error 2 shuffle=3326748311
+   make[2]: *** [Makefile:1448: tools/bpf/resolve_btfids] Error 2 shuffle=3326748311
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3326748311
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3326748311
+   make: Target 'prepare' not remade because of errors.
 
 -- 
 0-DAY CI Kernel Test Service
