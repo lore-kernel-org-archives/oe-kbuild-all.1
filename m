@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6638833E4
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Jun 2025 14:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B94C71D5CE8
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Jun 2025 18:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749308401; cv=none; b=ApdKGOhIPWWTdsAmxysNFWP/TMcpsxuJw55bGVP7hp9ZWlE6RFXYn3Ukg6JDceZ41Ct6pa8Qq3eiaPHhWXgePObegZVopF1XFUI3vljaJHcccZceyUoxtp/R3Q3oAu/9Ih/HdisK+M51VNFG297cW9Ro5V6yt3Tb4Jo0X61GCtI=
+	t=1749320607; cv=none; b=GI2OGykrIiC+AsDghmoO66uqjR/Pe4nZUhU/yx8Os9ZGNkB0I/NjkbcJk/w7jeK8K+RI3sqCE5j0Sg4R2YmJf5U5IcR56LrEgnDMmcZDLOUVpaMWA20ckSDhoUQxtYJ8hEoZ0w025ZxALKUOvwy2Q5cCrppSI2bCuPk6F0RkXxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749308401; c=relaxed/simple;
-	bh=ICACn0M7Jhu6vERNds9+fR3wtxhCSFR32lgvS3ym6DA=;
+	s=arc-20240116; t=1749320607; c=relaxed/simple;
+	bh=OsnyKiJzbiVVgC3m/F8n5afYqbC/hBaaMkFGxfrT1P0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mwa8lRHV6LrhmS6eZGXkRXjp+6Lu1+AnRKFgXjylLgZHR0q0wOycP4/GLdZ2PTjS4mQxdMY43XQwcBpDga4xT5IzefyAKrGunylfPFgaMUogbkFFkw8vFY4HL69dXcPNP1Yo7CmPMHcocDEcQ+lwQZE7Tc+f+Kojr1RtluufQb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BkvHLzf5; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=GkEUcWryXApaaRSQbmxeXsisP6nSqdT2jJE38auNiO0rHeIlH4B8pIvVx8/mWbFmsqUpd3JALRCgWqf/6XIq7L2Lt2GJZ0413pSz6lW8YoShWRvrrtKFcI9rdiKCLcvAEZIAHjn1z2UBTbH6bvZhMY2C7C62To08/lFFpbd2HVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KaVaYPiE; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BkvHLzf5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KaVaYPiE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749308400; x=1780844400;
+  t=1749320606; x=1780856606;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ICACn0M7Jhu6vERNds9+fR3wtxhCSFR32lgvS3ym6DA=;
-  b=BkvHLzf5Sp/B8lKF6OY3V1P2fRMYgMI0otrM60cq7HZvG6CcZs736be5
-   /SwCuSPlR3zm2Lquyamhzsx8ab2oMNR7/IZSW8jwPT2Onu8LIpKakTAfJ
-   K/C0k8L0gsQiQzSMz69aMBVeFsttsZo2ZDzA6PCpmjiLv28ngS9UKPO+j
-   uriMVAX8UjgknBCWkhzQHt2FqOzHVMPsqilhbj/5sajch8I3SH53TOSV4
-   sinSnvvxnJBiZe59dOO1s5kKRQFvAL8w1XjE7qAsYR5FrPcQlSQFyHAcQ
-   m+Ww8LHpdmGeH0M44FuuKjU3hT6gLOxH0AjFmvSzQST4YZ6lXNGDPo+ns
-   g==;
-X-CSE-ConnectionGUID: SrBLFByzQyO/dFBr/nacBQ==
-X-CSE-MsgGUID: kbRv9ghwSdSbLD5PTSE2SA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11457"; a="62795258"
+  bh=OsnyKiJzbiVVgC3m/F8n5afYqbC/hBaaMkFGxfrT1P0=;
+  b=KaVaYPiE6pZ6dOfTqYJmc1WmH42qF8bI7BQP47TRxnB+zj2rGnYIT2a1
+   7GlKvgdbM415bbUHDWvmpKjDK+aM8ng2EdfucV0lZV50Pibes1KWoIV7c
+   uZf1WoonJuJC3ERf8hOp7Gn/tsj3ApQGy8SKehQJZBy3NEtScuTEZej3I
+   hCBG1LWvGcS12rn5OQUtxOhiycmImDl3jezy+NClE14vSCYaQWWdLoueM
+   m5URL2MUzftLYHD3UjxNWGd4QkHZi9A+tN4h6KpVcLQNWptugSPuLnC5T
+   O02Lcp/HRfIo1BkTfFJAK+e3DjW5WtPTxwWLotko8YnbQtubTVScDQydv
+   Q==;
+X-CSE-ConnectionGUID: yrrhfoNZR8uziixih0hjhQ==
+X-CSE-MsgGUID: 7ai7tijmSF6huB7qG9zPGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11457"; a="50554988"
 X-IronPort-AV: E=Sophos;i="6.16,218,1744095600"; 
-   d="scan'208";a="62795258"
+   d="scan'208";a="50554988"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2025 07:59:59 -0700
-X-CSE-ConnectionGUID: qswjz2ULTf6j9YIH4TD3CQ==
-X-CSE-MsgGUID: y6PiEMwDQeSZZdfWLjXJHg==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2025 11:23:25 -0700
+X-CSE-ConnectionGUID: IUP2DfonTb60C4GfNODcgw==
+X-CSE-MsgGUID: AjzCqhqdTfWQiHLqBQt5SQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,218,1744095600"; 
-   d="scan'208";a="149909673"
+   d="scan'208";a="149935638"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 07 Jun 2025 07:59:58 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 07 Jun 2025 11:23:24 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNv1X-0005qX-37;
-	Sat, 07 Jun 2025 14:59:55 +0000
-Date: Sat, 7 Jun 2025 22:59:36 +0800
+	id 1uNyCQ-0005vx-0Y;
+	Sat, 07 Jun 2025 18:23:22 +0000
+Date: Sun, 8 Jun 2025 02:22:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Xin3 Li <xin3.li@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vsyrjala:flipq_3 15/30] drivers/gpu/drm/i915/display/intel_dmc.c:
- intel_display_types.h is included more than once.
-Message-ID: <202506072244.cuEnJLVe-lkp@intel.com>
+Subject: [xinli-intel-fred-public:intel-lkp 7/21]
+ arch/x86/include/asm/msr-xen.h:31:10: error: invalid input size for
+ constraint 'a'
+Message-ID: <202506080220.CcibyyWi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,35 +63,62 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/vsyrjala/linux.git flipq_3
-head:   c259bcbe1b44f19fb55361ab7c5f53a270af7db8
-commit: bc7611ac212dbbb05fa7ee3c2e94636c56ecaabd [15/30] drm/i915/flipq: Provide the nuts and bolts code for flip queue
+tree:   https://github.com/xinli-intel/linux-fred-public.git intel-lkp
+head:   c51b6cfbe618f75b4ccf351866386968eefcf9dc
+commit: fe551b0cfdbd17501cb584baf185e074fba0395e [7/21] x86/msr: Utilize the alternatives mechanism to write MSR
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250608/202506080220.CcibyyWi-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250608/202506080220.CcibyyWi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506072244.cuEnJLVe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506080220.CcibyyWi-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/i915/display/intel_dmc.c: intel_display_types.h is included more than once.
+All errors (new ones prefixed by >>):
 
-vim +33 drivers/gpu/drm/i915/display/intel_dmc.c
+   In file included from arch/x86/entry/vdso/vdso32/vclock_gettime.c:4:
+   In file included from arch/x86/entry/vdso/vdso32/../vclock_gettime.c:11:
+   In file included from include/linux/time.h:60:
+   In file included from include/linux/time32.h:13:
+   In file included from include/linux/timex.h:67:
+   In file included from arch/x86/include/asm/timex.h:6:
+   In file included from arch/x86/include/asm/tsc.h:11:
+   In file included from arch/x86/include/asm/msr.h:13:
+>> arch/x86/include/asm/msr-xen.h:31:10: error: invalid input size for constraint 'a'
+      31 |                 : "a" (val), "c" (msr), [type] "i" (type)
+         |                        ^
+   1 error generated.
 
-    28	
-    29	#include "i915_drv.h"
-    30	#include "i915_reg.h"
-    31	#include "intel_crtc.h"
-    32	#include "intel_de.h"
-  > 33	#include "intel_display_types.h"
-    34	#include "intel_display_rpm.h"
-    35	#include "intel_display_power_well.h"
-  > 36	#include "intel_display_types.h"
-    37	#include "intel_dmc.h"
-    38	#include "intel_dmc_regs.h"
-    39	#include "intel_flipq.h"
-    40	#include "intel_step.h"
-    41	
+
+vim +/a +31 arch/x86/include/asm/msr-xen.h
+
+    15	
+    16	/* No plan to support immediate form MSR instructions in Xen */
+    17	static __always_inline bool __xenpv_wrmsrq(u32 msr, u64 val, int type)
+    18	{
+    19		BUG_ON(!cpu_feature_enabled(X86_FEATURE_XENPV));
+    20	
+    21		asm_inline volatile goto(
+    22			"call asm_xen_write_msr\n\t"
+    23			"jnz 2f\n\t"
+    24			ALTERNATIVE("1: ds wrmsr",
+    25				    ASM_WRMSRNS,
+    26				    X86_FEATURE_WRMSRNS)
+    27			"2:\n"
+    28			_ASM_EXTABLE_TYPE(1b, %l[badmsr], %c[type])	/* For WRMSR(NS) */
+    29	
+    30			: ASM_CALL_CONSTRAINT
+  > 31			: "a" (val), "c" (msr), [type] "i" (type)
+    32			: "memory", "rdx"
+    33			: badmsr);
+    34	
+    35		return false;
+    36	
+    37	badmsr:
+    38		return true;
+    39	}
+    40	
 
 -- 
 0-DAY CI Kernel Test Service
