@@ -1,59 +1,69 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42C9B1F91E3
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Jun 2025 11:01:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E6DEC4
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Jun 2025 11:01:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749294104; cv=none; b=KclrKLM64TH+HbdLVef3tNDWIocxBLI1Kv2Uyak3HMnsCpleRpy6EY96vKKPSGkO90zcv7QfdBWl2aHjXkGmJ7TgfAIaHH7aSA5Z+n0BiqzWsvs7ygV9rozlDgdxi1ira4dUWvILDRji5T1swY5ehXU1/kc6d9YQ7p7/+zBd6cA=
+	t=1749294106; cv=none; b=pzSBOCk62khUXYYwbihcFRJ+hEuJcJWALMKhNbNH3xaX+4j2Fh4QyRqf4RkSfHD7pVMRGfmiF8nKHNFHn6m9J9R15zjoRgYbqWo5f5AtJVHtUT2n3KrwQGpX9D/+Ju7dle4mV3Lwq4jN6vJqJc+z7T2mnXz2R8yVKA78cg/jrwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749294104; c=relaxed/simple;
-	bh=GlxyQ4nsovTpL2v1ogQObVEDikJcFXWqStV8Z+1l7hc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fwQehH1ow1p77LTVyh+OfX6ShkYr+JC1BlwwZ/KLAco0fKUycndcMWReoXrHK46bvlAByVAkJ9nz8Fbo8BqMNRDF0uvFY68wHIc2/IWJaQFye0yh3Oe1R57+ZfVUEj+nGVFGxpsA5KzyUaSgTKhqG2uSoEtqhXE59JdVoouwvOQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A7fMKHop; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1749294106; c=relaxed/simple;
+	bh=oXRpziViexH8/fIeHAWT0i0ImnFtdOkJs/7hpOj+v+k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fVTj2e5idN3OzuhJHYOnyMqrzAd2sgvJYCB8Y+kADf+C3TCaO7XidCPyMs/8+NNSa0e9xgjt94Qx4WV8X8CUolVB1MFNE+f0oCLfDr74BnsQknb2QAargcOtqGMILJOGk/M7lT7jBYpIaQcEsMtB6GuB7t5yGyvfkYNuTuJsDfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VKKC9cfy; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A7fMKHop"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VKKC9cfy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749294102; x=1780830102;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GlxyQ4nsovTpL2v1ogQObVEDikJcFXWqStV8Z+1l7hc=;
-  b=A7fMKHopcU2pw+nvS9pYnxdLAhtBtCWIFYXSpo/HBJEudiOGoUNa1jQd
-   tGd/cAT8vQ8y1ACU3A2e7R1g2a9ba2YC1dx7QttEqnMgu51dyrTP2s64p
-   rosXjERDEuQAIJStg8DoJK6FjH6FyH+SFETdqaKU6NrdVvgdFEixWzKH+
-   aUERVjUQCW/2BmeefS1nk1aVEFhehYFuvumOHDY+kFjIGToZ/BAYlxKvb
-   fSD5ACu+BN9Xg0rsn9TsHTnDI9m208MuFZTFptwTXpnG+Fqw8fN6+nkZ2
-   JtjqjpJK3GHdrHcbc7kqRznfVgivmsNh5K1cxwXUOS0TySYK4XPwJKwBk
-   w==;
-X-CSE-ConnectionGUID: uZLclOmERj2eyE9LhmwYEA==
-X-CSE-MsgGUID: ZxkxESlPRJaLAM5fMY+57Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="54062152"
+  t=1749294105; x=1780830105;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oXRpziViexH8/fIeHAWT0i0ImnFtdOkJs/7hpOj+v+k=;
+  b=VKKC9cfyKtDpuTnK0cp2kE+NdwTxkM85uACnbnZv2hMuuUBH2xvYxfDv
+   ovtXOYRFnfEiQDWn0+WRWV36y+qtHT2eIubeoDjWjYzoRvssjyMEEMg8U
+   p+XGZdE6WMHVgNvQrdkDXBB7/nx/17CquYq4htlc4V7xiyraJT7Dy2jaF
+   SCm2QS09PCnO7qpBH63tC6dgyLzWzE/efXYJsZ0+ysXT7bKn5JFiVQ3hB
+   KrzAX/jZcF+Ld2JtGH0rfYgpl1Fk0t9lFoZhsS4WuGfmHD7MgRv4vwPYa
+   GUPgpxu/R1kLm28haazfRnNaNDbBprS22SwHtzboxRJjy47jGJ+jrzJnn
+   g==;
+X-CSE-ConnectionGUID: P943EAHoTxa/Bxp9rmjjNw==
+X-CSE-MsgGUID: vKYL8ssXTiqUkRE2vyP0ag==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="54062159"
 X-IronPort-AV: E=Sophos;i="6.16,218,1744095600"; 
-   d="scan'208";a="54062152"
+   d="scan'208";a="54062159"
 Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2025 04:01:41 -0700
-X-CSE-ConnectionGUID: S7zs5Zn+SLiFYJK0TDz4kg==
-X-CSE-MsgGUID: iHn6bjnIRpGjLgH2ODQ4OQ==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jun 2025 04:01:45 -0700
+X-CSE-ConnectionGUID: GadTKGbxQgOwAieMHe6U0A==
+X-CSE-MsgGUID: 9PPzAVzYRGWL7j+VBDs/7w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,218,1744095600"; 
-   d="scan'208";a="176950059"
+   d="scan'208";a="176950060"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by fmviesa001.fm.intel.com with ESMTP; 07 Jun 2025 04:01:42 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNrIw-0005k3-1u;
+	id 1uNrIw-0005k1-1j;
 	Sat, 07 Jun 2025 11:01:38 +0000
-Date: Sat, 7 Jun 2025 19:01:11 +0800
+Date: Sat, 7 Jun 2025 19:01:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1664/1664]
- /kbuild/src/consumer/Makefile:626: include/config/auto.conf.cmd: No such
- file or directory
-Message-ID: <202506071856.LxaA5NHF-lkp@intel.com>
+To: Christian Bruel <christian.bruel@foss.st.com>, bhelgaas@google.com,
+	lpieralisi@kernel.org, kwilczynski@kernel.org,
+	manivannan.sadhasivam@linaro.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com, p.zabel@pengutronix.de,
+	quic_schintav@quicinc.com, shradha.t@samsung.com, cassel@kernel.org,
+	thippeswamy.havalige@amd.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v11 4/9] PCI: stm32: Add PCIe Endpoint support for
+ STM32MP25
+Message-ID: <202506071838.C54p5js2-lkp@intel.com>
+References: <20250606120403.2964857-5-christian.bruel@foss.st.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,38 +72,113 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250606120403.2964857-5-christian.bruel@foss.st.com>
 
-Hi Masahiro,
+Hi Christian,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   31245821cb3d54a27ff007515f57af84d6842846
-commit: 9cd721e370b364f30d97f7b5ea4ec036ce5dd807 [1664/1664] kbuild: turn auto.conf.cmd into a mandatory include file
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce: (https://download.01.org/0day-ci/archive/20250607/202506071856.LxaA5NHF-lkp@intel.com/reproduce)
+[auto build test WARNING on 911483b25612c8bc32a706ba940738cc43299496]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Bruel/dt-bindings-PCI-Add-STM32MP25-PCIe-Root-Complex-bindings/20250606-201204
+base:   911483b25612c8bc32a706ba940738cc43299496
+patch link:    https://lore.kernel.org/r/20250606120403.2964857-5-christian.bruel%40foss.st.com
+patch subject: [PATCH v11 4/9] PCI: stm32: Add PCIe Endpoint support for STM32MP25
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250607/202506071838.C54p5js2-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506071838.C54p5js2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506071856.LxaA5NHF-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506071838.C54p5js2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ***
-   *** Configuration file ".config" not found!
-   ***
-   *** Please run some configurator (e.g. "make oldconfig" or
-   *** "make menuconfig" or "make xconfig").
-   ***
-   make[3]: *** [/kbuild/src/consumer/scripts/kconfig/Makefile:69: syncconfig] Error 1
-   make[2]: *** [/kbuild/src/consumer/Makefile:539: syncconfig] Error 2
->> /kbuild/src/consumer/Makefile:626: include/config/auto.conf.cmd: No such file or directory
-   make[1]: *** [/kbuild/src/consumer/Makefile:638: include/config/auto.conf] Error 2
-   /kbuild/src/consumer/Makefile:595: Failed to remake makefile 'include/config/auto.conf'.
-   /kbuild/src/consumer/Makefile:626: Failed to remake makefile 'include/config/auto.conf.cmd'.
-   make: *** [Makefile:146: sub-make] Error 2
-   make: Target 'headers' not remade because of errors.
+   drivers/pci/controller/dwc/pcie-stm32-ep.c: In function 'stm32_pcie_probe':
+>> drivers/pci/controller/dwc/pcie-stm32-ep.c:339:79: warning: format '%d' expects a matching 'int' argument [-Wformat=]
+     339 |                 return dev_err_probe(dev, ret, "Failed to request PERST IRQ: %d\n");
+         |                                                                              ~^
+         |                                                                               |
+         |                                                                               int
+
+
+vim +339 drivers/pci/controller/dwc/pcie-stm32-ep.c
+
+   275	
+   276	static int stm32_pcie_probe(struct platform_device *pdev)
+   277	{
+   278		struct stm32_pcie *stm32_pcie;
+   279		struct device *dev = &pdev->dev;
+   280		int ret;
+   281	
+   282		stm32_pcie = devm_kzalloc(dev, sizeof(*stm32_pcie), GFP_KERNEL);
+   283		if (!stm32_pcie)
+   284			return -ENOMEM;
+   285	
+   286		stm32_pcie->pci.dev = dev;
+   287		stm32_pcie->pci.ops = &dw_pcie_ops;
+   288	
+   289		stm32_pcie->regmap = syscon_regmap_lookup_by_compatible("st,stm32mp25-syscfg");
+   290		if (IS_ERR(stm32_pcie->regmap))
+   291			return dev_err_probe(dev, PTR_ERR(stm32_pcie->regmap),
+   292					     "No syscfg specified\n");
+   293	
+   294		stm32_pcie->phy = devm_phy_get(dev, NULL);
+   295		if (IS_ERR(stm32_pcie->phy))
+   296			return dev_err_probe(dev, PTR_ERR(stm32_pcie->phy),
+   297					     "failed to get pcie-phy\n");
+   298	
+   299		stm32_pcie->clk = devm_clk_get(dev, NULL);
+   300		if (IS_ERR(stm32_pcie->clk))
+   301			return dev_err_probe(dev, PTR_ERR(stm32_pcie->clk),
+   302					     "Failed to get PCIe clock source\n");
+   303	
+   304		stm32_pcie->rst = devm_reset_control_get_exclusive(dev, NULL);
+   305		if (IS_ERR(stm32_pcie->rst))
+   306			return dev_err_probe(dev, PTR_ERR(stm32_pcie->rst),
+   307					     "Failed to get PCIe reset\n");
+   308	
+   309		stm32_pcie->perst_gpio = devm_gpiod_get(dev, "reset", GPIOD_IN);
+   310		if (IS_ERR(stm32_pcie->perst_gpio))
+   311			return dev_err_probe(dev, PTR_ERR(stm32_pcie->perst_gpio),
+   312					     "Failed to get reset GPIO\n");
+   313	
+   314		ret = phy_set_mode(stm32_pcie->phy, PHY_MODE_PCIE);
+   315		if (ret)
+   316			return ret;
+   317	
+   318		platform_set_drvdata(pdev, stm32_pcie);
+   319	
+   320		pm_runtime_get_noresume(dev);
+   321	
+   322		ret = devm_pm_runtime_enable(dev);
+   323		if (ret < 0) {
+   324			pm_runtime_put_noidle(&pdev->dev);
+   325			return dev_err_probe(dev, ret, "Failed to enable runtime PM\n");
+   326		}
+   327	
+   328		stm32_pcie->perst_irq = gpiod_to_irq(stm32_pcie->perst_gpio);
+   329	
+   330		/* Will be enabled in start_link when device is initialized. */
+   331		irq_set_status_flags(stm32_pcie->perst_irq, IRQ_NOAUTOEN);
+   332	
+   333		ret = devm_request_threaded_irq(dev, stm32_pcie->perst_irq, NULL,
+   334						stm32_pcie_ep_perst_irq_thread,
+   335						IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+   336						"perst_irq", stm32_pcie);
+   337		if (ret) {
+   338			pm_runtime_put_noidle(&pdev->dev);
+ > 339			return dev_err_probe(dev, ret, "Failed to request PERST IRQ: %d\n");
+   340		}
+   341	
+   342		ret = stm32_add_pcie_ep(stm32_pcie, pdev);
+   343		if (ret)
+   344			pm_runtime_put_noidle(&pdev->dev);
+   345	
+   346		return ret;
+   347	}
+   348	
 
 -- 
 0-DAY CI Kernel Test Service
