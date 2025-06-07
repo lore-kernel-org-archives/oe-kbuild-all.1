@@ -1,59 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9E08634A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  7 Jun 2025 06:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D881494D8;
+	Sat,  7 Jun 2025 06:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749277159; cv=none; b=USjTlgSR4bN3UPwFyZ+c5Jw7Mksq7uqUaO8Ncg7RcgSkpVloFmpaZTlVdw2mSqBEkzZ9nylHd+2wkKWC6JFWYB0zlU/9eBLJippxZSTktnNU8mC/wC0QN1sqXdCcGgJHT84igC/G4kGHaUJQ9+V8yTaDvSI2ICYAyzsTD9rBkCg=
+	t=1749277762; cv=none; b=soQ1nLam8xr/j3e/zuKPMgo75gNwRsxYjED1ArvgJO5Y+QiOsu9weUOCWoglfAXGIeljsJ1d2/EQ9hkOwYITXYwWVKSOWXvTiVJkoAhC3EknRV9fSyl6lcmWe++Ko8L9dYVZ4LlDW2PXcbMZrIkjAPP7f93CEdagSROLFTJnzhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749277159; c=relaxed/simple;
-	bh=dDHdiH/wBu3deINA+42K97KLVtoTkhs5wyc4qSRdva4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KQBm5ZadKUerwX9uXcNe5NsNbTDkR/eXmg6MTvncVp3iXb7IqqXAuNO8ZOPvtJefqVWI9LPzTE9wTD0hTRgBoI+nj/iDG08Nnqja3u4fc/wdBeSglSVCW9evEAHFrUdiyDswTGumpjpdPM03xiP5PDpb+SIGpk30ljo2J4TpSs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AKbWuo5s; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1749277762; c=relaxed/simple;
+	bh=KhvKf0Okp3+QNBDD1wYxSwtwa9jnFP0ZRb0MhxFICkI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PeE0O/bIKGHTD/cH4kkgbNPfa0fPRPhp5MSqNOcvYcEMtT67bsbQJGieReXJak63xt9BaKgIoGOdnEB8spfAQFEyAeCPHaFCzfs+9TniE18scxH/m5IeuQ00o7C65oWd/evJcZwxK43+7rr2wdvRMST5TjqrdC3CJ1JAdfuN9hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=no19+9x/; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AKbWuo5s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="no19+9x/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749277157; x=1780813157;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dDHdiH/wBu3deINA+42K97KLVtoTkhs5wyc4qSRdva4=;
-  b=AKbWuo5s467yLZ2ULAk/7yV/rwKo2YkHTuMAVl7KSjzAon6DVDtB4Znu
-   8wnwCZKUS6dFIGs6UuQH/mdlOdHgdnRUesizwFpP6loNVvKt7aYiE/FiG
-   0Q960doevRfu/Ny0RJekVk/HeRrY5d6TRSdXQV7/TanHnT0+qwfYCtrD/
-   iYQeQ0jcAoKEx+5TroT34qvE/X+89qMk5hjLYtVx0pywri8MGSnWhfk4v
-   +tjW0StYT1sQV+qW524Z6Lh7xOZVJQJV45Jr7t+8YG4qioSmH60uGh+hD
-   F2nBxioTSNmwyNOIetiDHZ0TTYZjn6hy5d6WILTu0wi3Xld44I3hDuxeu
-   A==;
-X-CSE-ConnectionGUID: gwbMYlKxQ5+GfU41d22gOQ==
-X-CSE-MsgGUID: UOgg6P+eRg2inCAYhddKsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="51512306"
+  t=1749277761; x=1780813761;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KhvKf0Okp3+QNBDD1wYxSwtwa9jnFP0ZRb0MhxFICkI=;
+  b=no19+9x/smLMeEg9UWKTMN14yOPnm+TohXyjoBGXTHnOZW848Jsz0m/D
+   kUvqmYcA8Au0ExBd+ru30GSsAzhL3kkVSF+CJc23XmKsqq4BGSCYQ9jSX
+   nSm0cZGRrVSQfNYVDJ6V3CsNFTXSeAr2WdHYsWIBhaOeThsU3DKxv1A7I
+   Ot6a5lU0ntRujDaWXPMGYQTaVefwVJM1Yz0dstFXS7gJ9pmSPUSr/3RUv
+   J0XZOurSxw9bGzM5EvctWOHJnpQcWToCIVyPu/Zh2mBjfW2PwR7XvYrtl
+   JS806qox96C/yaevWEnqJYJ/2lmyCNqCpnl34rHA+M5eWDNRPoYFr0HZz
+   g==;
+X-CSE-ConnectionGUID: VtY7XRa5RjWP9cGlaVkz8A==
+X-CSE-MsgGUID: S1FwQAEDRwuG1HP8Q3OCFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11456"; a="62467109"
 X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; 
-   d="scan'208";a="51512306"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 23:19:17 -0700
-X-CSE-ConnectionGUID: pMucErVnRGuYoo/3dE56zQ==
-X-CSE-MsgGUID: DDian7cfTTCvOfGoF5IxwA==
+   d="scan'208";a="62467109"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jun 2025 23:29:21 -0700
+X-CSE-ConnectionGUID: jSw2Kz1UTMKFrurAeGYqiw==
+X-CSE-MsgGUID: fzAZ/6riTQ+nfI23zMxFBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,217,1744095600"; 
-   d="scan'208";a="150894955"
+   d="scan'208";a="146534373"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 06 Jun 2025 23:19:15 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 06 Jun 2025 23:29:16 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uNmtc-0005V1-1V;
-	Sat, 07 Jun 2025 06:19:12 +0000
-Date: Sat, 7 Jun 2025 14:18:22 +0800
+	id 1uNn3J-0005VN-0f;
+	Sat, 07 Jun 2025 06:29:13 +0000
+Date: Sat, 7 Jun 2025 14:28:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Philipp Reisner <philipp.reisner@linbit.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Kees Cook <kees@kernel.org>
-Subject: include/linux/compiler.h:245:77: error: expression in static
- assertion is not an integer
-Message-ID: <202506071446.bj4cB7D2-lkp@intel.com>
+To: Igor Korotin <igor.korotin.linux@gmail.com>, ojeda@kernel.org,
+	alex.gaynor@gmail.com, rafael@kernel.org,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org, linux-acpi@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	boqun.feng@gmail.com, gary@garyguo.net, bjorn3_gh@protonmail.com,
+	benno.lossin@proton.me, a.hindborg@kernel.org, aliceryhl@google.com,
+	tmgross@umich.edu, dakr@kernel.org, lenb@kernel.org,
+	wedsonaf@gmail.com, viresh.kumar@linaro.org, alex.hung@amd.com,
+	dingxiangfei2009@gmail.com
+Subject: Re: [PATCH v3 3/4] rust: platform: Add ACPI match table support to
+ `Driver` trait
+Message-ID: <202506071640.KIUrSBGt-lkp@intel.com>
+References: <20250606170905.3881900-1-igor.korotin.linux@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,349 +71,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250606170905.3881900-1-igor.korotin.linux@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   119b1e61a769aa98e68599f44721661a4d8c55f3
-commit: d7a516c6eeae29144649f1c3f586fa580ec9e040 compiler.h: Fix undefined BUILD_BUG_ON_ZERO()
-date:   7 months ago
-config: loongarch-randconfig-r053-20250607 (https://download.01.org/0day-ci/archive/20250607/202506071446.bj4cB7D2-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506071446.bj4cB7D2-lkp@intel.com/reproduce)
+Hi Igor,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 9857af0fcff385c75433f2162c30c62eb912ef6d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Igor-Korotin/rust-acpi-add-acpi-DeviceId-abstraction/20250607-011123
+base:   9857af0fcff385c75433f2162c30c62eb912ef6d
+patch link:    https://lore.kernel.org/r/20250606170905.3881900-1-igor.korotin.linux%40gmail.com
+patch subject: [PATCH v3 3/4] rust: platform: Add ACPI match table support to `Driver` trait
+config: x86_64-buildonly-randconfig-001-20250607 (https://download.01.org/0day-ci/archive/20250607/202506071640.KIUrSBGt-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250607/202506071640.KIUrSBGt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506071446.bj4cB7D2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506071640.KIUrSBGt-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/lockdep.h:15,
-                    from include/linux/mutex.h:17,
-                    from include/linux/kernfs.h:11,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/pci.h:35,
-                    from sound/pci/ad1889.c:24:
-   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
-      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
-         |    ^~~~~
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/init.h:5,
-                    from sound/pci/ad1889.c:23:
->> include/linux/compiler.h:245:77: error: expression in static assertion is not an integer
-     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                             ^
-   include/linux/compiler.h:249:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
-     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
-     505 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/ad1889.c:48:1: note: in expansion of macro 'module_param_array'
-      48 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
-   sound/pci/ad1889.c:47:12: warning: 'index' defined but not used [-Wunused-variable]
-      47 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
-         |            ^~~~~
---
-   In file included from include/linux/irqflags.h:19,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/sched.h:2140,
-                    from include/linux/delay.h:23,
-                    from sound/pci/cmipci.c:11:
-   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
-      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
-         |    ^~~~~
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/init.h:5,
-                    from include/linux/io.h:11,
-                    from sound/pci/cmipci.c:10:
->> include/linux/compiler.h:245:77: error: expression in static assertion is not an integer
-     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                             ^
-   include/linux/compiler.h:249:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
-     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
-     505 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/cmipci.c:48:1: note: in expansion of macro 'module_param_array'
-      48 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
-   sound/pci/cmipci.c:38:12: warning: 'index' defined but not used [-Wunused-variable]
-      38 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
-         |            ^~~~~
---
-   In file included from include/linux/irqflags.h:19,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/sched.h:2140,
-                    from include/linux/delay.h:23,
-                    from sound/pci/cs4281.c:8:
-   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
-      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
-         |    ^~~~~
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/init.h:5,
-                    from include/linux/io.h:11,
-                    from sound/pci/cs4281.c:7:
->> include/linux/compiler.h:245:77: error: expression in static assertion is not an integer
-     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                             ^
-   include/linux/compiler.h:249:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
-     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
-     505 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/cs4281.c:34:1: note: in expansion of macro 'module_param_array'
-      34 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
-   sound/pci/cs4281.c:29:12: warning: 'index' defined but not used [-Wunused-variable]
-      29 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
-         |            ^~~~~
---
-   In file included from include/linux/irqflags.h:19,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/sched.h:2140,
-                    from include/linux/delay.h:23,
-                    from sound/pci/fm801.c:7:
-   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
-      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
-         |    ^~~~~
-   In file included from include/asm-generic/div64.h:27,
-                    from ./arch/loongarch/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/delay.h:22:
->> include/linux/compiler.h:245:77: error: expression in static assertion is not an integer
-     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                             ^
-   include/linux/compiler.h:249:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
-     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
-     505 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/fm801.c:44:1: note: in expansion of macro 'module_param_array'
-      44 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
-   sound/pci/fm801.c:30:12: warning: 'index' defined but not used [-Wunused-variable]
-      30 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
-         |            ^~~~~
---
-   In file included from include/linux/irqflags.h:19,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/sched.h:2140,
-                    from include/linux/delay.h:23,
-                    from sound/pci/rme32.c:58:
-   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
-      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
-         |    ^~~~~
-   In file included from include/asm-generic/div64.h:27,
-                    from ./arch/loongarch/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/delay.h:22:
->> include/linux/compiler.h:245:77: error: expression in static assertion is not an integer
-     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                             ^
-   include/linux/compiler.h:249:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
-     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
-     505 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/rme32.c:80:1: note: in expansion of macro 'module_param_array'
-      80 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
-   sound/pci/rme32.c:75:12: warning: 'index' defined but not used [-Wunused-variable]
-      75 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
-         |            ^~~~~
---
-   In file included from include/linux/irqflags.h:19,
-                    from include/linux/spinlock.h:59,
-                    from include/linux/sched.h:2140,
-                    from include/linux/delay.h:23,
-                    from sound/pci/rme96.c:12:
-   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
-      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
-         |    ^~~~~
-   In file included from include/asm-generic/div64.h:27,
-                    from ./arch/loongarch/include/generated/asm/div64.h:1,
-                    from include/linux/math.h:6,
-                    from include/linux/delay.h:22:
->> include/linux/compiler.h:245:77: error: expression in static assertion is not an integer
-     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                             ^
-   include/linux/compiler.h:249:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
-     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
-     505 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/rme96.c:39:1: note: in expansion of macro 'module_param_array'
-      39 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
-   sound/pci/rme96.c:35:12: warning: 'index' defined but not used [-Wunused-variable]
-      35 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
-         |            ^~~~~
---
-   In file included from include/linux/lockdep.h:15,
-                    from include/linux/mutex.h:17,
-                    from include/linux/kernfs.h:11,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/pci.h:35,
-                    from sound/pci/au88x0/au88x0.h:8,
-                    from sound/pci/au88x0/au8810.c:3:
-   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
-      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
-         |    ^~~~~
-   In file included from include/linux/array_size.h:5,
-                    from include/linux/string.h:6,
-                    from include/linux/uuid.h:11,
-                    from include/linux/mod_devicetable.h:14,
-                    from include/linux/pci.h:27:
->> include/linux/compiler.h:245:77: error: expression in static assertion is not an integer
-     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                             ^
-   include/linux/compiler.h:249:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
-     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
-     505 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/au88x0/au88x0.c:33:1: note: in expansion of macro 'module_param_array'
-      33 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
-   In file included from sound/pci/au88x0/au8810.c:17:
-   sound/pci/au88x0/au88x0.c:28:12: warning: 'index' defined but not used [-Wunused-variable]
-      28 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
-         |            ^~~~~
---
-   In file included from include/linux/lockdep.h:15,
-                    from include/linux/mutex.h:17,
-                    from include/linux/kernfs.h:11,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/pci.h:35,
-                    from sound/pci/aw2/aw2-alsa.c:11:
-   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
-      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
-         |    ^~~~~
-   In file included from include/linux/build_bug.h:5,
-                    from include/linux/init.h:5,
-                    from sound/pci/aw2/aw2-alsa.c:10:
->> include/linux/compiler.h:245:77: error: expression in static assertion is not an integer
-     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                             ^
-   include/linux/compiler.h:249:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
-     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
-     505 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/aw2/aw2-alsa.c:137:1: note: in expansion of macro 'module_param_array'
-     137 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
-   sound/pci/aw2/aw2-alsa.c:133:12: warning: 'index' defined but not used [-Wunused-variable]
-     133 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;
-         |            ^~~~~
---
-   In file included from include/linux/lockdep.h:15,
-                    from include/linux/mutex.h:17,
-                    from include/linux/kernfs.h:11,
-                    from include/linux/sysfs.h:16,
-                    from include/linux/kobject.h:20,
-                    from include/linux/pci.h:35,
-                    from sound/pci/cs46xx/cs46xx.c:13:
-   arch/loongarch/include/asm/percpu.h:20:4: error: #error compiler support for the model attribute is necessary when a recent assembler is used
-      20 | #  error compiler support for the model attribute is necessary when a recent assembler is used
-         |    ^~~~~
-   In file included from include/linux/array_size.h:5,
-                    from include/linux/string.h:6,
-                    from include/linux/uuid.h:11,
-                    from include/linux/mod_devicetable.h:14,
-                    from include/linux/pci.h:27:
->> include/linux/compiler.h:245:77: error: expression in static assertion is not an integer
-     245 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-         |                                                                             ^
-   include/linux/compiler.h:249:33: note: in expansion of macro '__BUILD_BUG_ON_ZERO_MSG'
-     249 | #define __must_be_array(a)      __BUILD_BUG_ON_ZERO_MSG(__same_type((a), &(a)[0]), "must be array")
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/array_size.h:11:59: note: in expansion of macro '__must_be_array'
-      11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
-         |                                                           ^~~~~~~~~~~~~~~
-   include/linux/moduleparam.h:521:20: note: in expansion of macro 'ARRAY_SIZE'
-     521 |         = { .max = ARRAY_SIZE(array), .num = nump,                      \
-         |                    ^~~~~~~~~~
-   include/linux/moduleparam.h:505:9: note: in expansion of macro 'module_param_array_named'
-     505 |         module_param_array_named(name, name, type, nump, perm)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   sound/pci/cs46xx/cs46xx.c:32:1: note: in expansion of macro 'module_param_array'
-      32 | module_param_array(index, int, NULL, 0444);
-         | ^~~~~~~~~~~~~~~~~~
-   sound/pci/cs46xx/cs46xx.c:25:12: warning: 'index' defined but not used [-Wunused-variable]
-      25 | static int index[SNDRV_CARDS] = SNDRV_DEFAULT_IDX;      /* Index 0-MAX */
-         |            ^~~~~
-..
-
-
-vim +245 include/linux/compiler.h
-
-   241	
-   242	#ifdef __CHECKER__
-   243	#define __BUILD_BUG_ON_ZERO_MSG(e, msg) (0)
-   244	#else /* __CHECKER__ */
- > 245	#define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct {_Static_assert(!(e), msg);}))
-   246	#endif /* __CHECKER__ */
-   247	
+>> error[E0425]: cannot find value `ACPI_TABLE` in this scope
+   --> rust/doctests_kernel_generated.rs:3527:71
+   |
+   3527 |      const ACPI_ID_TABLE: Option<acpi::IdTable<Self::IdInfo>> = Some(&ACPI_TABLE);
+   |                                                                       ^^^^^^^^^^ not found in this scope
 
 -- 
 0-DAY CI Kernel Test Service
