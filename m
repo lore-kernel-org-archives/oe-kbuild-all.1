@@ -1,221 +1,329 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C0D1F4174
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Jun 2025 08:24:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A59013C3CD
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Jun 2025 08:53:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749371086; cv=none; b=nYRP/ouo6+u/bG2aN8xrlLB2O+muu1n8660zIRfIV36ssZEpG3R67Vb7mtuY2LjrvAXyS6986spc6jFKh64Y/C4+PEYsdPbvgllDQSGBHwA5AxHlmOa+PU5h7HaldcGFA69ERlCUvSeLNtGZen1uBlPwE0Q2NvxiL4w7qIvSdGU=
+	t=1749372784; cv=none; b=Bxim7Ueb2JTUiCm4WLC3LhBjSM305ZFTnEOK7nVW2I0EibfrMCDE2EXRYo6dDLsHJNAQnfbYAUmXhqXAMHBfsL22fVRgVWEuJ7lcU3yUVDoNJpXWLlNJkaYC9eU06+VPw5Jr8uvvpyO63+FrEwi7SzCaTUInfHC8nc8Og9CJQXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749371086; c=relaxed/simple;
-	bh=pzcUpgNfL5aXJSUVhcbhvobo76CDYDOSkRzo00jG1kw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MSvPs54NSEDzc9I8tBJWUnSyo0MjYOw29BTtT2dpgpGsKfoCOzYogJJ3XDwKpXEJuS7mb8XF8y5731okHc9V9JUMGmQCYgzTmhmez+FhwwhTYftJjLUrYfxphmFch4qBWQFgj250tuNx5BdX3XtlJpNyth4GmbHjq4zGf8SycYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5ga3o4F; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1749372784; c=relaxed/simple;
+	bh=IURka8PIWHXyzmvJRrOYnPeA8lb/KRRi53oneAZE6Y4=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=TkeTMUKyh/NHUzIIn5DE2tw9DK7TAMahhU+m7QmKT9o1i5v4x5AeLh3ukDzPxPVRPjMUiAPnZzD7iKODOrNfsR/yrTCpbpaGZs4ig1VuMCk075d07Gqu7odX3BgXSB8x7H+eAFL2tyAd8Q+JMfSjcwwg/gd3U7Cs3pYzDH0dtVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W/cDw/CD; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5ga3o4F"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749371085; x=1780907085;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pzcUpgNfL5aXJSUVhcbhvobo76CDYDOSkRzo00jG1kw=;
-  b=g5ga3o4FLfd7fuc9GqUker0/mcwPirrK1b+aQ3x/h1EQjX5u0yNWt9VQ
-   8eiGbuysnC86Smj3R1DPip0f2ZN5rmebQKEsB6ffVDKNC4tLb1tKx/0Bd
-   LKqchi1jA9nsiJeEoJ2owtbZLja6org3KyOCdI8DJZRQuQeWs1nzlVbpJ
-   mDvuheYIrbtcFMXvbtahVpBy94Q3ZQiQCqVO9Ak5O1K2IYFPEVJBId47h
-   j88XfYR3kCrjELTXUL+MJSjUB8NpOB+tHyL7R2hMuiQ/IS0ezs+UNw3Xk
-   SD+NX1EV1QQCfwKW2C8HYi6y9GY4Kac6PkEP0Exidr+vU0HqZUeQyyFMv
-   Q==;
-X-CSE-ConnectionGUID: Xt//SDDWQPq8erf8qcgkxw==
-X-CSE-MsgGUID: RM2jKIjVRC6rMvLCJoAp5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11457"; a="51331095"
-X-IronPort-AV: E=Sophos;i="6.16,220,1744095600"; 
-   d="scan'208";a="51331095"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 01:24:44 -0700
-X-CSE-ConnectionGUID: O4Si8lL5Tb+AY/qsGPs3IA==
-X-CSE-MsgGUID: ap//mOuiTXO32dX0BDJp/Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,220,1744095600"; 
-   d="scan'208";a="146815666"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 08 Jun 2025 01:24:41 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uOBKZ-0006I1-0h;
-	Sun, 08 Jun 2025 08:24:39 +0000
-Date: Sun, 8 Jun 2025 16:24:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lukas Timmermann <linux@timmermann.space>, lee@kernel.org,
-	pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux@timmermann.space
-Subject: Re: [PATCH v4 2/2] leds: as3668: Driver for the ams Osram 4-channel
- i2c LED driver
-Message-ID: <202506081650.eFkFkBP7-lkp@intel.com>
-References: <20250607215049.29259-3-linux@timmermann.space>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W/cDw/CD"
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-313132d1f7aso2596615a91.3
+        for <oe-kbuild-all@lists.linux.dev>; Sun, 08 Jun 2025 01:53:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749372781; x=1749977581; darn=lists.linux.dev;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=avdQMIlThhCh5I5aJXPZj1sqS0yK8djyk+mRbHuq5Ic=;
+        b=W/cDw/CD49yZvK5vQUsrbn6pHX9wV5snHC99lT2ChPFCAxFudMsiiAQ1oa3IE1Hvm3
+         M2TjHnfRaMMJlBaW6Yeii4hyeBLCEcE2lDr1oN7BLRhz+OfUdQKu+jorn4wa7t1lzzbd
+         OxT/ST4DaKoP3JYutC1RveVVoXWkAVmyr/7xNQ8+W4VcO+H5mTVeO0V30JbpFugam4c3
+         0WT8cg7LSzRDWV7RYbIJ5JQTZeyQUH0kCkCeQyqU2mekmGiddH9oAC58bkPUAUgRV/ZF
+         LBnXno/xLs+oh84rWy6GpKk4O6J6ipBjryL+q9msYT0I2fFtQYpUp8PoD2AMMxOgwTMf
+         9y8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749372781; x=1749977581;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=avdQMIlThhCh5I5aJXPZj1sqS0yK8djyk+mRbHuq5Ic=;
+        b=eDmSTe7zBushMibmS85JEaJc5Yg1K4YCialjH8osQ2AJF/ztOlD/jS5QvpXheplieS
+         NFx3u7Zi/Gk14B8L61Hb/2cX/p2GTbtJZ9a8oRaGT9H88ufLpLFuQmUAX6xCT9mPX70r
+         Ggdyjv0GWlFKAPdnPvC6eNciLneCfWPBhZ3Xue722vw3+7/B9r10df/kNa2Iu088IbFb
+         CIqmTcBC4D85u4hGOljIqTEpNkVsQo49pahybYc/08sg2od3NzzCtAwtV24ZHYzlUmWS
+         ILI4o2AyF+PEDIngY0bEKjKyJ6braEVpT7zzJ5oln5UpDAO72633IDWHb8ZCf5gF77Xs
+         jlgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU+Ui46SmYVREaUd5sVHNcz9njS0xFqTRYdyO3idIUtquV8/bpxbF77EvgoRTAM4WyNAYKB33Vd+rB02VYv@lists.linux.dev
+X-Gm-Message-State: AOJu0YzD3lfSwFDqYRNLX6fbc8PmpipeZPHRDCsILj7AqKIPC4AMNrD6
+	Abf63sdR1zsM5W5A/Glg+58sReAwc7bI0ZPuNyqlp0CAGg+Pu0Nl68bO
+X-Gm-Gg: ASbGncttX0S+U6Z7Sb6MYBvkqKOE0s+rx7zsFGE4COhSu6hFn/KimVRXnu2nvBIyn1g
+	EKgQycIv/L205sZYgnJ8aaO+pJvYw7gUWcIqdcEHcvvL5/ZChUVK+62tL1GOvpW/gMEd8A/3D89
+	AXZ1j7jWKPZ67in5xRdkLDT3T3B0Gln7X2Z1vFTH8kHg5lFmK29E5EY8OY4ehNJNLqy0ZDbB+Pl
+	JkTWzM8uWw2/Qz4lhx3O0cl0spabPBojHyuQlnTbEblZsnQgQFupQAzx9UvB4fGHJ225jC8l9nJ
+	a2YA/8LGND1XY6XMaDxyQSl4jnlUWUvR7HRziXlA+vQfBsRD3DmPORhuxn4X8xuR6IzWRo+b
+X-Google-Smtp-Source: AGHT+IH3yukOeEjm/597ooOmzsx1Zyoag4XjUjLJPh3zqnZ/Oo0K5xrOEJtjVGRsrKAgpyrvFKz2jg==
+X-Received: by 2002:a17:90b:4fd2:b0:311:2f5:6b1 with SMTP id 98e67ed59e1d1-31346f5af24mr10914709a91.22.1749372781425;
+        Sun, 08 Jun 2025 01:53:01 -0700 (PDT)
+Received: from smtpclient.apple ([202.8.105.124])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-236034059cbsm36546095ad.165.2025.06.08.01.52.58
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 08 Jun 2025 01:53:00 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250607215049.29259-3-linux@timmermann.space>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
+Subject: Re: [PATCH v1 3/3] cgroup: add lock guard support for others
+From: Jemmy Wong <jemmywong512@gmail.com>
+In-Reply-To: <202506071822.ERv4i34r-lkp@intel.com>
+Date: Sun, 8 Jun 2025 16:52:46 +0800
+Cc: Jemmy <jemmywong512@gmail.com>,
+ =?utf-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ oe-kbuild-all@lists.linux.dev,
+ Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>,
+ Waiman Long <longman@redhat.com>,
+ cgroups@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <722C5824-0381-4E43-B8AE-AE8503CFF51E@gmail.com>
+References: <20250606161841.44354-4-jemmywong512@gmail.com>
+ <202506071822.ERv4i34r-lkp@intel.com>
+To: kernel test robot <lkp@intel.com>,
+ peterz@infradead.org,
+ dan.j.williams@intel.com,
+ mingo@kernel.org
+X-Mailer: Apple Mail (2.3826.600.51.1.1)
 
-Hi Lukas,
+Hi Peter, Dam, Ingo,
 
-kernel test robot noticed the following build warnings:
+Do you have any recommendations to eliminate this false positive, given =
+that sparse recognizes scoped_guard but not guard?
 
-[auto build test WARNING on lee-leds/for-leds-next]
-[also build test WARNING on linus/master v6.15 next-20250606]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Looks like false positives. Some of these warnings were already present=20=
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lukas-Timmermann/dt-bindings-leds-Add-new-as3668-support/20250608-055330
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/leds.git for-leds-next
-patch link:    https://lore.kernel.org/r/20250607215049.29259-3-linux%40timmermann.space
-patch subject: [PATCH v4 2/2] leds: as3668: Driver for the ams Osram 4-channel i2c LED driver
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250608/202506081650.eFkFkBP7-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250608/202506081650.eFkFkBP7-lkp@intel.com/reproduce)
+due to asymmetric lock/unlock behavior in a specific function,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506081650.eFkFkBP7-lkp@intel.com/
+while others were introduced by the use of guard,=20
+which can be resolved by replacing it with scoped_guard,=20
+but I don=E2=80=99t like this solution which could add additional =
+indentation.
 
-All warnings (new ones prefixed by >>):
+=E2=80=94=E2=80=94
 
-   In file included from include/linux/device.h:15,
-                    from include/linux/acpi.h:14,
-                    from include/linux/i2c.h:13,
-                    from drivers/leds/leds-as3668.c:8:
-   drivers/leds/leds-as3668.c: In function 'as3668_write_value':
->> drivers/leds/leds-as3668.c:55:39: warning: format '%tx' expects argument of type 'unsigned ptrdiff_t', but argument 3 has type 'int' [-Wformat=]
-      55 |                 dev_err(&client->dev, "error writing to reg 0x%tx, returned %d", reg, err);
-         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
-     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                        ^~~~~~~
-   drivers/leds/leds-as3668.c:55:17: note: in expansion of macro 'dev_err'
-      55 |                 dev_err(&client->dev, "error writing to reg 0x%tx, returned %d", reg, err);
-         |                 ^~~~~~~
-   drivers/leds/leds-as3668.c:55:65: note: format string is defined here
-      55 |                 dev_err(&client->dev, "error writing to reg 0x%tx, returned %d", reg, err);
-         |                                                               ~~^
-         |                                                                 |
-         |                                                                 long unsigned int
-         |                                                               %x
-   drivers/leds/leds-as3668.c: In function 'as3668_probe':
-   drivers/leds/leds-as3668.c:133:62: warning: format '%tx' expects argument of type 'unsigned ptrdiff_t', but argument 4 has type 'int' [-Wformat=]
-     133 |                                 "chip reported wrong id: 0x%tx\n", chip_id1);
-         |                                                            ~~^     ~~~~~~~~
-         |                                                              |     |
-         |                                                              |     int
-         |                                                              long unsigned int
-         |                                                            %x
-   drivers/leds/leds-as3668.c:137:23: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     137 |         chip_serial = FIELD_GET(AS3668_CHIP_ID2_SERIAL_MASK, chip_id2);
-         |                       ^~~~~~~~~
-   In file included from include/linux/printk.h:616,
-                    from include/asm-generic/bug.h:22,
-                    from arch/alpha/include/asm/bug.h:23,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/alpha/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13:
-   drivers/leds/leds-as3668.c:145:17: warning: format '%tx' expects argument of type 'unsigned ptrdiff_t', but argument 4 has type 'int' [-Wformat=]
-     145 |                 "chip_id: 0x%tx | chip_id2: 0x%tx | chip_serial: 0x%tx | chip_rev: 0x%tx\n",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/leds/leds-as3668.c:144:9: note: in expansion of macro 'dev_dbg'
-     144 |         dev_dbg(&client->dev,
-         |         ^~~~~~~
-   drivers/leds/leds-as3668.c:145:31: note: format string is defined here
-     145 |                 "chip_id: 0x%tx | chip_id2: 0x%tx | chip_serial: 0x%tx | chip_rev: 0x%tx\n",
-         |                             ~~^
-         |                               |
-         |                               long unsigned int
-         |                             %x
-   drivers/leds/leds-as3668.c:145:17: warning: format '%tx' expects argument of type 'unsigned ptrdiff_t', but argument 5 has type 'int' [-Wformat=]
-     145 |                 "chip_id: 0x%tx | chip_id2: 0x%tx | chip_serial: 0x%tx | chip_rev: 0x%tx\n",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/leds/leds-as3668.c:144:9: note: in expansion of macro 'dev_dbg'
-     144 |         dev_dbg(&client->dev,
-         |         ^~~~~~~
-   drivers/leds/leds-as3668.c:145:49: note: format string is defined here
-     145 |                 "chip_id: 0x%tx | chip_id2: 0x%tx | chip_serial: 0x%tx | chip_rev: 0x%tx\n",
-         |                                               ~~^
-         |                                                 |
-         |                                                 long unsigned int
-         |                                               %x
-   drivers/leds/leds-as3668.c:145:17: warning: format '%tx' expects argument of type 'unsigned ptrdiff_t', but argument 6 has type 'int' [-Wformat=]
-     145 |                 "chip_id: 0x%tx | chip_id2: 0x%tx | chip_serial: 0x%tx | chip_rev: 0x%tx\n",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+Previous warnings - caused by asymmetric lock/unlock:
 
+kernel/cgroup/cgroup.c:3161:9: sparse: warning: context imbalance in =
+'cgroup_lock_and_drain_offline' - wrong count at exit
+kernel/cgroup/cgroup.c:6530:12: sparse: warning: context imbalance in =
+'cgroup_css_set_fork' - wrong count at exit
+kernel/cgroup/cgroup.c:6646:9: sparse: warning: context imbalance in =
+'cgroup_css_set_put_fork' - wrong count at exit
+kernel/cgroup/cgroup.c:6666:5: sparse: warning: context imbalance in =
+'cgroup_can_fork' - wrong count at exit
+kernel/cgroup/cgroup.c:6715:9: sparse: warning: context imbalance in =
+'cgroup_cancel_fork' - unexpected unlock
 
-vim +55 drivers/leds/leds-as3668.c
+New warnings - caused by guard:
 
-    49	
-    50	static int as3668_write_value(struct i2c_client *client, u8 reg, u8 value)
-    51	{
-    52		int err = i2c_smbus_write_byte_data(client, reg, value);
-    53	
-    54		if (err)
-  > 55			dev_err(&client->dev, "error writing to reg 0x%tx, returned %d", reg, err);
-    56	
-    57		return err;
-    58	}
-    59	
+kernel/cgroup/cgroup.c:345:13: sparse: sparse: context imbalance in =
+'cgroup_idr_replace' - wrong count at exit
+kernel/cgroup/cgroup.c:351:13: sparse: sparse: context imbalance in =
+'cgroup_idr_remove' - wrong count at exit
+kernel/cgroup/cgroup.c:626:5: sparse: sparse: context imbalance in =
+'cgroup_task_count' - wrong count at exit
+kernel/cgroup/cgroup.c:2225:9: sparse: sparse: context imbalance in =
+'cgroup_do_get_tree' - different lock contexts for basic block
+kernel/cgroup/cgroup.c:2418:5: sparse: sparse: context imbalance in =
+'cgroup_path_ns' - wrong count at exit
+kernel/cgroup/cgroup.c:2734:9: sparse: sparse: context imbalance in =
+'cgroup_migrate_finish' - wrong count at exit
+kernel/cgroup/cgroup.c:4532:9: sparse: sparse: context imbalance in =
+'cgroup_file_notify' - wrong count at exit
+kernel/cgroup/cgroup.c:4994:9: sparse: sparse: context imbalance in =
+'css_task_iter_start' - wrong count at exit
+kernel/cgroup/cgroup.c:5027:9: sparse: sparse: context imbalance in =
+'css_task_iter_next' - wrong count at exit
+kernel/cgroup/cgroup.c:5047:9: sparse: sparse: context imbalance in =
+'css_task_iter_end' - wrong count at exit
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best,
+Jemmy
+
+> On Jun 7, 2025, at 6:50=E2=80=AFPM, kernel test robot <lkp@intel.com> =
+wrote:
+>=20
+> Hi Jemmy,
+>=20
+> kernel test robot noticed the following build warnings:
+>=20
+> [auto build test WARNING on tj-cgroup/for-next]
+> [also build test WARNING on linus/master next-20250606]
+> [cannot apply to v6.15]
+> [If your patch is applied to the wrong git tree, kindly drop us a =
+note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>=20
+> url:    =
+https://github.com/intel-lab-lkp/linux/commits/Jemmy-Wong/cgroup-add-lock-=
+guard-support-for-cgroup_muetx/20250607-002109
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/tj/cgroup.git =
+for-next
+> patch link:    =
+https://lore.kernel.org/r/20250606161841.44354-4-jemmywong512%40gmail.com
+> patch subject: [PATCH v1 3/3] cgroup: add lock guard support for =
+others
+> config: sparc-randconfig-r121-20250607 =
+(https://download.01.org/0day-ci/archive/20250607/202506071822.ERv4i34r-lk=
+p@intel.com/config)
+> compiler: sparc-linux-gcc (GCC) 8.5.0
+> reproduce: =
+(https://download.01.org/0day-ci/archive/20250607/202506071822.ERv4i34r-lk=
+p@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: =
+https://lore.kernel.org/oe-kbuild-all/202506071822.ERv4i34r-lkp@intel.com/=
+
+>=20
+> sparse warnings: (new ones prefixed by >>)
+>>> kernel/cgroup/cgroup.c:6721:33: sparse: sparse: incorrect type in =
+argument 1 (different address spaces) @@     expected struct spinlock =
+[usertype] *l @@     got struct spinlock [noderef] __rcu * @@
+>   kernel/cgroup/cgroup.c:6721:33: sparse:     expected struct spinlock =
+[usertype] *l
+>   kernel/cgroup/cgroup.c:6721:33: sparse:     got struct spinlock =
+[noderef] __rcu *
+>   kernel/cgroup/cgroup.c:345:13: sparse: sparse: context imbalance in =
+'cgroup_idr_replace' - wrong count at exit
+>   kernel/cgroup/cgroup.c:351:13: sparse: sparse: context imbalance in =
+'cgroup_idr_remove' - wrong count at exit
+>   kernel/cgroup/cgroup.c:626:5: sparse: sparse: context imbalance in =
+'cgroup_task_count' - wrong count at exit
+>   kernel/cgroup/cgroup.c:2225:9: sparse: sparse: context imbalance in =
+'cgroup_do_get_tree' - different lock contexts for basic block
+>   kernel/cgroup/cgroup.c:2418:5: sparse: sparse: context imbalance in =
+'cgroup_path_ns' - wrong count at exit
+>   kernel/cgroup/cgroup.c:2734:9: sparse: sparse: context imbalance in =
+'cgroup_migrate_finish' - wrong count at exit
+>   kernel/cgroup/cgroup.c:3131:9: sparse: sparse: context imbalance in =
+'cgroup_lock_and_drain_offline' - wrong count at exit
+>   kernel/cgroup/cgroup.c:4532:9: sparse: sparse: context imbalance in =
+'cgroup_file_notify' - wrong count at exit
+>   kernel/cgroup/cgroup.c:4994:9: sparse: sparse: context imbalance in =
+'css_task_iter_start' - wrong count at exit
+>   kernel/cgroup/cgroup.c:5027:9: sparse: sparse: context imbalance in =
+'css_task_iter_next' - wrong count at exit
+>   kernel/cgroup/cgroup.c:5047:9: sparse: sparse: context imbalance in =
+'css_task_iter_end' - wrong count at exit
+>   kernel/cgroup/cgroup.c:6485:12: sparse: sparse: context imbalance in =
+'cgroup_css_set_fork' - wrong count at exit
+>   kernel/cgroup/cgroup.c:6601:9: sparse: sparse: context imbalance in =
+'cgroup_css_set_put_fork' - wrong count at exit
+>   kernel/cgroup/cgroup.c:6621:5: sparse: sparse: context imbalance in =
+'cgroup_can_fork' - wrong count at exit
+>   kernel/cgroup/cgroup.c:6670:9: sparse: sparse: context imbalance in =
+'cgroup_cancel_fork' - unexpected unlock
+>   kernel/cgroup/cgroup.c:6813:9: sparse: sparse: context imbalance in =
+'cgroup_release' - different lock contexts for basic block
+>=20
+> vim +6721 kernel/cgroup/cgroup.c
+>=20
+>  6672=20
+>  6673 /**
+>  6674 * cgroup_post_fork - finalize cgroup setup for the child process
+>  6675 * @child: the child process
+>  6676 * @kargs: the arguments passed to create the child process
+>  6677 *
+>  6678 * Attach the child process to its css_set calling the subsystem =
+fork()
+>  6679 * callbacks.
+>  6680 */
+>  6681 void cgroup_post_fork(struct task_struct *child,
+>  6682      struct kernel_clone_args *kargs)
+>  6683 __releases(&cgroup_threadgroup_rwsem) __releases(&cgroup_mutex)
+>  6684 {
+>  6685 unsigned int cgrp_kill_seq =3D 0;
+>  6686 unsigned long cgrp_flags =3D 0;
+>  6687 bool kill =3D false;
+>  6688 struct cgroup_subsys *ss;
+>  6689 struct css_set *cset;
+>  6690 int i;
+>  6691=20
+>  6692 cset =3D kargs->cset;
+>  6693 kargs->cset =3D NULL;
+>  6694=20
+>  6695 scoped_guard(spinlock_irq, &css_set_lock) {
+>  6696 /* init tasks are special, only link regular threads */
+>  6697 if (likely(child->pid)) {
+>  6698 if (kargs->cgrp) {
+>  6699 cgrp_flags =3D kargs->cgrp->flags;
+>  6700 cgrp_kill_seq =3D kargs->cgrp->kill_seq;
+>  6701 } else {
+>  6702 cgrp_flags =3D cset->dfl_cgrp->flags;
+>  6703 cgrp_kill_seq =3D cset->dfl_cgrp->kill_seq;
+>  6704 }
+>  6705=20
+>  6706 WARN_ON_ONCE(!list_empty(&child->cg_list));
+>  6707 cset->nr_tasks++;
+>  6708 css_set_move_task(child, NULL, cset, false);
+>  6709 } else {
+>  6710 put_css_set(cset);
+>  6711 cset =3D NULL;
+>  6712 }
+>  6713=20
+>  6714 if (!(child->flags & PF_KTHREAD)) {
+>  6715 if (unlikely(test_bit(CGRP_FREEZE, &cgrp_flags))) {
+>  6716 /*
+>  6717 * If the cgroup has to be frozen, the new task has
+>  6718 * too. Let's set the JOBCTL_TRAP_FREEZE jobctl bit to
+>  6719 * get the task into the frozen state.
+>  6720 */
+>> 6721 scoped_guard(spinlock, &child->sighand->siglock) {
+>  6722 WARN_ON_ONCE(child->frozen);
+>  6723 child->jobctl |=3D JOBCTL_TRAP_FREEZE;
+>  6724 }
+>  6725=20
+>  6726 /*
+>  6727 * Calling cgroup_update_frozen() isn't required here,
+>  6728 * because it will be called anyway a bit later from
+>  6729 * do_freezer_trap(). So we avoid cgroup's transient
+>  6730 * switch from the frozen state and back.
+>  6731 */
+>  6732 }
+>  6733=20
+>  6734 /*
+>  6735 * If the cgroup is to be killed notice it now and take the
+>  6736 * child down right after we finished preparing it for
+>  6737 * userspace.
+>  6738 */
+>  6739 kill =3D kargs->kill_seq !=3D cgrp_kill_seq;
+>  6740 }
+>  6741 }
+>  6742 /*
+>  6743 * Call ss->fork().  This must happen after @child is linked on
+>  6744 * css_set; otherwise, @child might change state between ->fork()
+>  6745 * and addition to css_set.
+>  6746 */
+>  6747 do_each_subsys_mask(ss, i, have_fork_callback) {
+>  6748 ss->fork(child);
+>  6749 } while_each_subsys_mask();
+>  6750=20
+>  6751 /* Make the new cset the root_cset of the new cgroup namespace. =
+*/
+>  6752 if (kargs->flags & CLONE_NEWCGROUP) {
+>  6753 struct css_set *rcset =3D child->nsproxy->cgroup_ns->root_cset;
+>  6754=20
+>  6755 get_css_set(cset);
+>  6756 child->nsproxy->cgroup_ns->root_cset =3D cset;
+>  6757 put_css_set(rcset);
+>  6758 }
+>  6759=20
+>  6760 /* Cgroup has to be killed so take down child immediately. */
+>  6761 if (unlikely(kill))
+>  6762 do_send_sig_info(SIGKILL, SEND_SIG_NOINFO, child, PIDTYPE_TGID);
+>  6763=20
+>  6764 cgroup_css_set_put_fork(kargs);
+>  6765 }
+>  6766=20
+>=20
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+
