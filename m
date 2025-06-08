@@ -1,64 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B99F19EEC2
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Jun 2025 13:12:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466981EA7C9;
+	Sun,  8 Jun 2025 13:23:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749388326; cv=none; b=UEjDtFox47S4FBP4LHt644NxSnmNynYRSHd0GQaDD7KYRhYztBsfQFK6HVBAbWpkwEd8n50en9zIV50lbueqapgiUX/Nzd4jeb5F0Y7md1MovzDlUcTO9ysdendoxnSFQTphWpFTjpAper6wob0tcmGY3TUoMCwJDh3SDiIhocY=
+	t=1749388987; cv=none; b=J3a+QA20TLykYhAiAKQa4pdOqjvAweXH4AxOx+gFi05xteCXzbEofXJKtlnRCBP8HU5CmKxLcRuwQNLZgAkbI8KJqAu/89JXv/P26UWs2Lr7Pi4oi1DatjBMCUyz+ANZ6kizOai4PUHEMJwPgqvwPGUKRriqUQ2zxbYzyVazhLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749388326; c=relaxed/simple;
-	bh=wrO1ESxuRXFSXjf9lc54DVBy2J0N2Jif+td4i4yK6ZU=;
+	s=arc-20240116; t=1749388987; c=relaxed/simple;
+	bh=yNmg/p1a9vGB0yjIGAZ5E0fL6+L4OsSlb2ysVJ580V0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H+4HozuCNwDmTMMjhrAENkja34AWji30OhmfJi/OGnXtE4ij96c5xnyxmlNHOSeowBCm1ZG5dqp1ijvJWT/zXRd+oVLwYpHnBAlgxot5entaJ1lFtcp5TI5+zdbHBLJ7Hy8zOZ4NVreTCHt8cqpj7rKixfT46iB2d2eu4CJhYvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gqQWzJgj; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=G3j/0YR/9GwC54vdDdOU2Lql2TlePWSsD1qYhGdvoHh7TU08y0nPNPATuuyzL7EtuR7xbeCFSgCyoa7NxhsYvfyrWC1Zd2Spho/CoOdl3isFtnQY3HuYoNGZsAaRDHOcc+rOEaoFykwon1Xxs2yQCrtLPInaJToAsqZcEq2X5bk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GTlKkLNR; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gqQWzJgj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GTlKkLNR"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749388323; x=1780924323;
+  t=1749388985; x=1780924985;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=wrO1ESxuRXFSXjf9lc54DVBy2J0N2Jif+td4i4yK6ZU=;
-  b=gqQWzJgj+UCDxX1aBg6Cu4Cq5DabUYUUevRpmBNmZE1kzXnrlgQgbaZK
-   /MwEtcsi/kzgva7DUTRyqyrftwOdGD0OgZX+3skLcuok1MMpb5ao6vb6/
-   KUEnBWxFKGuHypseQqIoEjsSZDkyaL2GfVeMi2qhrmKD/YAIYTlMTjZjT
-   P8DGa7TYgu23baluOTq1C++3l8t2hwG4IRXxwOhHJ/48IkMvTZC8ZlOHB
-   J5szrjUi6zp1+JN3DivDJgZzzIo1zh4SB/7t3gDPHBzPqJdmpzK8stmlE
-   NXqO4JCqpXBM1P6KrdmIOSnc0Z11j4F4smjxqEta3JsYEt0q7yQk7QCzP
-   Q==;
-X-CSE-ConnectionGUID: ijd1fmsLQbCsMeg/7nXSvA==
-X-CSE-MsgGUID: 0Fyz80MHRmC1sU1KuVZZEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="55268877"
+  bh=yNmg/p1a9vGB0yjIGAZ5E0fL6+L4OsSlb2ysVJ580V0=;
+  b=GTlKkLNRJotBRL9IH0PINon5y0FYgXFXWHnZ+32enXsYWlqiUCiW5OwP
+   GVmRiSnHzU6WZNPO6J2VzJ88m3ErbA73BgzGASBgdzckwN8Zv0+FKLU90
+   sVNCfFeFaFEGyNKZdCk0KqqnutyDSvPGu58n25tiSBKhsd+YEwDGzl3TH
+   S4NfvIrby3a6pU/MnEKDJ8xquhzTdkp6+JwzREbwmToedW5JgjWUQROYM
+   Us4u0Eq16VaKahtxhWnm11TRzbwzomPTBR7TmvePaSVhoPzVTMEOjqLmM
+   dk4gv/WcL/Lm2RvtTSq5YhDQbfXmEUIxGhu3zuXLE7mTVCuxtPhZsay36
+   g==;
+X-CSE-ConnectionGUID: rwuTJCE1TNW4S0xnUOP+vw==
+X-CSE-MsgGUID: /survy2kRrya32/oPAG4Tg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="69041833"
 X-IronPort-AV: E=Sophos;i="6.16,220,1744095600"; 
-   d="scan'208";a="55268877"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 06:12:03 -0700
-X-CSE-ConnectionGUID: 3f/w7udRQB64NVW1tHOILA==
-X-CSE-MsgGUID: yg2Q7v47QvKVt6abiJR8dg==
+   d="scan'208";a="69041833"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 06:23:05 -0700
+X-CSE-ConnectionGUID: pyrJDecKQPShiUXUsnlqIw==
+X-CSE-MsgGUID: +KD7iydZSniklF+dBkBPVA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,220,1744095600"; 
-   d="scan'208";a="146788564"
+   d="scan'208";a="151270999"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 08 Jun 2025 06:12:00 -0700
+  by orviesa004.jf.intel.com with ESMTP; 08 Jun 2025 06:23:01 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOFoc-0006M9-12;
-	Sun, 08 Jun 2025 13:11:58 +0000
-Date: Sun, 8 Jun 2025 21:11:34 +0800
+	id 1uOFzH-0006MP-0u;
+	Sun, 08 Jun 2025 13:22:59 +0000
+Date: Sun, 8 Jun 2025 21:22:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: KP Singh <kpsingh@kernel.org>, bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, bboscaccy@linux.microsoft.com,
-	paul@paul-moore.com, kys@microsoft.com, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org,
-	KP Singh <kpsingh@kernel.org>
-Subject: Re: [PATCH 07/12] bpf: Return hashes of maps in
- BPF_OBJ_GET_INFO_BY_FD
-Message-ID: <202506082011.6Tejyd72-lkp@intel.com>
-References: <20250606232914.317094-8-kpsingh@kernel.org>
+To: Khalid Ali <khaliidcaliy@gmail.com>, ardb@kernel.org,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, hpa@zytor.com,
+	x86@kernel.org, linux-efi@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Khalid Ali <khaliidcaliy@gmail.com>
+Subject: Re: [PATCH] x86/efi: error handling on efi memory map
+Message-ID: <202506082104.4eSjYWTe-lkp@intel.com>
+References: <20250608090356.1115-1-khaliidcaliy@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,63 +66,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250606232914.317094-8-kpsingh@kernel.org>
+In-Reply-To: <20250608090356.1115-1-khaliidcaliy@gmail.com>
 
-Hi KP,
+Hi Khalid,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on bpf-next/net]
-[also build test WARNING on bpf-next/master bpf/master linus/master next-20250606]
-[cannot apply to v6.15]
+[auto build test ERROR on efi/next]
+[also build test ERROR on tip/master tip/auto-latest linus/master v6.15 next-20250606]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/KP-Singh/bpf-Implement-an-internal-helper-for-SHA256-hashing/20250607-073052
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
-patch link:    https://lore.kernel.org/r/20250606232914.317094-8-kpsingh%40kernel.org
-patch subject: [PATCH 07/12] bpf: Return hashes of maps in BPF_OBJ_GET_INFO_BY_FD
+url:    https://github.com/intel-lab-lkp/linux/commits/Khalid-Ali/x86-efi-error-handling-on-efi-memory-map/20250608-170711
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
+patch link:    https://lore.kernel.org/r/20250608090356.1115-1-khaliidcaliy%40gmail.com
+patch subject: [PATCH] x86/efi: error handling on efi memory map
+config: i386-buildonly-randconfig-002-20250608 (https://download.01.org/0day-ci/archive/20250608/202506082104.4eSjYWTe-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250608/202506082104.4eSjYWTe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506082011.6Tejyd72-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506082104.4eSjYWTe-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> include/linux/bpf.h: crypto/sha2.h is included more than once.
+All errors (new ones prefixed by >>):
 
-vim +10 include/linux/bpf.h
+>> arch/x86/platform/efi/efi_32.c:90:13: error: conflicting types for 'efi_map_region_fixed'
+      90 | void __init efi_map_region_fixed(efi_memory_desc_t *md) {}
+         |             ^
+   arch/x86/include/asm/efi.h:131:19: note: previous declaration is here
+     131 | extern int __init efi_map_region_fixed(efi_memory_desc_t *md);
+         |                   ^
+   1 error generated.
 
-     9	
-  > 10	#include <crypto/sha2.h>
-    11	#include <linux/workqueue.h>
-    12	#include <linux/file.h>
-    13	#include <linux/percpu.h>
-    14	#include <linux/err.h>
-    15	#include <linux/rbtree_latch.h>
-    16	#include <linux/numa.h>
-    17	#include <linux/mm_types.h>
-    18	#include <linux/wait.h>
-    19	#include <linux/refcount.h>
-    20	#include <linux/mutex.h>
-    21	#include <linux/module.h>
-    22	#include <linux/kallsyms.h>
-    23	#include <linux/capability.h>
-    24	#include <linux/sched/mm.h>
-    25	#include <linux/slab.h>
-    26	#include <linux/percpu-refcount.h>
-    27	#include <linux/stddef.h>
-    28	#include <linux/bpfptr.h>
-    29	#include <linux/btf.h>
-    30	#include <linux/rcupdate_trace.h>
-    31	#include <linux/static_call.h>
-    32	#include <linux/memcontrol.h>
-    33	#include <linux/cfi.h>
-    34	#include <asm/rqspinlock.h>
-  > 35	#include <crypto/sha2.h>
-    36	
+
+vim +/efi_map_region_fixed +90 arch/x86/platform/efi/efi_32.c
+
+d2f7cbe7b26a74 Borislav Petkov 2013-10-31  89  
+3b2664964bc886 Dave Young      2013-12-20 @90  void __init efi_map_region_fixed(efi_memory_desc_t *md) {}
+1fec0533693cd7 Dave Young      2013-12-20  91  void __init parse_efi_setup(u64 phys_addr, u32 data_len) {}
+3b2664964bc886 Dave Young      2013-12-20  92  
 
 -- 
 0-DAY CI Kernel Test Service
