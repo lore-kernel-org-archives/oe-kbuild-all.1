@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4968633F
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Jun 2025 19:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2EB1204F93;
+	Sun,  8 Jun 2025 21:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749411702; cv=none; b=cmAjwqBHbOxkBGgUqLGYgsm7qouwicKC5O8d7VBt89ZBDjVARCyMTXZpR7hLElgLiqeV00loguN/S5JsogdqNYpOk3eLl+1WNGqxU72IvuYsFAendYAJftMG67G96MO8ijAal/bUjwHRQx6YbRJNRk4ifhFmrffCzO/ZANq0Yec=
+	t=1749419110; cv=none; b=sPKeLPggPVuCRUChnEX4No7Tu1JPZTtFAt3a5v7Nvf0hblI7qAnFLKDr0NdIwnh7HfKTf4sB33wQVWrK4rjFeYg+pg/BLOOgyzAS0+aP4FJIpyNW191ktVBLpl0aXZ6QeWsDlLP5Un/3WIwp5sLv0bNlaXMvsD9BiOPZluHnAY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749411702; c=relaxed/simple;
-	bh=KCOZ9q6JVRcqM/xq1NqQ+FFFx1MimruyaZKdiFh8icQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lB6qvD4bfr9KtRl5Lfa98//sDz+VD7yN0FZoh9ZPKzknLR/ULkpn64KQPScGYUR7cRb8qdTdmhMFZSwlajAnpU7KAWO8nmh2//DbXgRTsdGbKv+0R+Hher2G0dwE1RJiXqp/aLR29+4nPcRDjJyUlSnDMssireKcXUzGYEVztWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bd5Oe9fu; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1749419110; c=relaxed/simple;
+	bh=npZfZ2WCHTpliWOXYMmid9BgtGuNxMQTcGwH9McZC+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eKN7EZa1TimyboxHoblPeVpJRar5tAxeqtLtSySzhtuPNnlH+fTHWuIW423JvWTrLBHsp2ljsTlazU1sp6UuHAOjW5qxoUVGysZjttK+17ikmPwseQI6CjWTe2Feez557uXfyXcRXvDGoZtTcqAlIJh6zcH85ROIlf+9zkpWY70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bzxE4DuM; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bd5Oe9fu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bzxE4DuM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749411700; x=1780947700;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KCOZ9q6JVRcqM/xq1NqQ+FFFx1MimruyaZKdiFh8icQ=;
-  b=bd5Oe9fupaxzTBR7ujz7/t5iygTfHoQxElTDfxm/yhGhgKCYgl08nmSq
-   p5H1oZhF5iEU1+D5jyFfiVISCx1X5edLrseAj4qDAlM6+eb+JigUuL6Wh
-   HC/4BIJfbTmsVuwSxfYSQRa5pFYSAW2czl231IsJfAYqEFAe4PGAUvZQT
-   tykTTGTS+exwTHEG4B31h1j8yaifEoy978CHiYh9jzcKSe6p27bRknzZT
-   QGUiaaafE8lydLZaRhBHtq43nVgXBYqyrIwyZ3/l2F4wJZ1KH1zavyOLs
-   xNu8kyX/SKn4MlUQAkjkP54UOaRFlh3nngpgDkqGpMyzJrlgY59Wc+GtT
-   A==;
-X-CSE-ConnectionGUID: 6y1P1R89TkOdazFDXgDIdw==
-X-CSE-MsgGUID: J/R3F1++T5y2/URp7baIQA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="62108688"
+  t=1749419108; x=1780955108;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=npZfZ2WCHTpliWOXYMmid9BgtGuNxMQTcGwH9McZC+o=;
+  b=bzxE4DuMfz+2CI5LS39Lg7HCU+L6THzwgbJ86+ZAanNPUCEFrErTVN5z
+   Ec4z6nZpmLQBPvloic5dfQeVqSfdG900yrpZ3dpkAsvMJZx7zTVNnbj1P
+   oa1ldvQbJrXjQcTqOSD67JFedD/9OYpmtX5+4J6GSwNS+VxKMDbomjzP0
+   K4Jw9NJ/BhyFi8Y2dZdPE+FpHvp3vX/N/euryO2h8bfk6IO46Hg9Q7FTG
+   jvgJ13+yBiT3s9Wa1dqLzkcT2rlstSnyzeLBC6bT5tNzIR/NQaqKrT5sL
+   Ar4Db7i+pr0IkANt7mVS0FQx1r4zkDL4RlEFFbi7cxKvzFnTSoLQUYVnE
+   w==;
+X-CSE-ConnectionGUID: 6v06GvGOR9CDkAax+bh6bg==
+X-CSE-MsgGUID: ir2ChlQvRIKJWdmbwRdZYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="51355909"
 X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
-   d="scan'208";a="62108688"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 12:41:40 -0700
-X-CSE-ConnectionGUID: xwboVmoWRYuGxqUWPSGQ9A==
-X-CSE-MsgGUID: Y4K1yQDORjCL8notBvhkZQ==
+   d="scan'208";a="51355909"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 14:45:08 -0700
+X-CSE-ConnectionGUID: h6gpoV7kQli88U3B5uVOHQ==
+X-CSE-MsgGUID: J09Yft1ISY21ppPiui92ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
-   d="scan'208";a="151194772"
+   d="scan'208";a="150161631"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 08 Jun 2025 12:41:39 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 08 Jun 2025 14:45:04 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOLtg-0006XF-3D;
-	Sun, 08 Jun 2025 19:41:36 +0000
-Date: Mon, 9 Jun 2025 03:41:04 +0800
+	id 1uONp8-0006ZN-0W;
+	Sun, 08 Jun 2025 21:45:02 +0000
+Date: Mon, 9 Jun 2025 05:44:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [cbeznea:for-mainline/SSGRLPCSRC-2694/pm-domain-issue-v3 19/25]
- drivers/pci/controller/pcie-rzg3s-host.c:45:49: error: implicit declaration
- of function 'FIELD_PREP'
-Message-ID: <202506090332.efKZpwIh-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	John Stultz <jstultz@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: Re: [PATCH 1/3] bitmap: generalize node_random()
+Message-ID: <202506090550.y3ypu2EO-lkp@intel.com>
+References: <20250608194536.28130-2-yury.norov@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,158 +68,218 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250608194536.28130-2-yury.norov@gmail.com>
 
-tree:   https://github.com/claudiubeznea/linux.git for-mainline/SSGRLPCSRC-2694/pm-domain-issue-v3
-head:   113f0fb8fac8c74f0a0733efec43494f92fad91b
-commit: bfb9647ecdc32b5364d7e843dbf66afe53364e97 [19/25] PCI: rzg3s-host: Add Initial PCIe Host Driver for Renesas RZ/G3S SoC
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250609/202506090332.efKZpwIh-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506090332.efKZpwIh-lkp@intel.com/reproduce)
+Hi Yury,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
+[also build test ERROR on tip/timers/core akpm-mm/mm-everything linus/master v6.15 next-20250606]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yury-Norov/bitmap-generalize-node_random/20250609-034657
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+patch link:    https://lore.kernel.org/r/20250608194536.28130-2-yury.norov%40gmail.com
+patch subject: [PATCH 1/3] bitmap: generalize node_random()
+config: arm-randconfig-002-20250609 (https://download.01.org/0day-ci/archive/20250609/202506090550.y3ypu2EO-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506090550.y3ypu2EO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506090332.efKZpwIh-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506090550.y3ypu2EO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/pci/controller/pcie-rzg3s-host.c: In function 'rzg3s_pcie_child_read_conf':
->> drivers/pci/controller/pcie-rzg3s-host.c:45:49: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      45 | #define RZG3S_PCI_REQISS_TR_TP0_RD              FIELD_PREP(RZG3S_PCI_REQISS_TR_TYPE, 0x4)
-         |                                                 ^~~~~~~~~~
-   drivers/pci/controller/pcie-rzg3s-host.c:262:16: note: in expansion of macro 'RZG3S_PCI_REQISS_TR_TP0_RD'
-     262 |         writel(RZG3S_PCI_REQISS_TR_TP0_RD, host->axi + RZG3S_PCI_REQISS);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/pci/controller/pcie-rzg3s-host.c:16:
-   drivers/pci/controller/pcie-rzg3s-host.c: In function 'rzg3s_pcie_set_max_link_speed':
->> drivers/pci/controller/pcie-rzg3s-host.c:929:34: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     929 |                                  FIELD_GET(RZG3S_PCI_PCSTAT1_LTSSM_STATE, tmp) == ltssm_state_l0,
-         |                                  ^~~~~~~~~
-   include/linux/iopoll.h:47:21: note: in definition of macro 'read_poll_timeout'
-      47 |                 if (cond) \
-         |                     ^~~~
-   include/linux/iopoll.h:170:9: note: in expansion of macro 'readx_poll_timeout'
-     170 |         readx_poll_timeout(readl, addr, val, cond, delay_us, timeout_us)
-         |         ^~~~~~~~~~~~~~~~~~
-   drivers/pci/controller/pcie-rzg3s-host.c:928:15: note: in expansion of macro 'readl_poll_timeout'
-     928 |         ret = readl_poll_timeout(host->axi + RZG3S_PCI_PCSTAT1, tmp,
-         |               ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/printk.h:616,
-                    from include/asm-generic/bug.h:22,
-                    from arch/openrisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/asm-generic/current.h:6,
-                    from ./arch/openrisc/include/generated/asm/current.h:1,
-                    from include/linux/sched.h:12,
-                    from include/linux/delay.h:13,
-                    from drivers/pci/controller/pcie-rzg3s-host.c:15:
-   drivers/pci/controller/pcie-rzg3s-host.c:933:25: warning: format '%lx' expects argument of type 'long unsigned int', but argument 4 has type 'int' [-Wformat=]
-     933 |                         "Could not set max link speed! LTSSM not in L0, state=%lx\n",
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/pci/controller/pcie-rzg3s-host.c:932:17: note: in expansion of macro 'dev_dbg'
-     932 |                 dev_dbg(host->dev,
-         |                 ^~~~~~~
-   drivers/pci/controller/pcie-rzg3s-host.c:933:81: note: format string is defined here
-     933 |                         "Could not set max link speed! LTSSM not in L0, state=%lx\n",
-         |                                                                               ~~^
-         |                                                                                 |
-         |                                                                                 long unsigned int
-         |                                                                               %x
+   In file included from ./arch/arm/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:27:
+   In file included from include/linux/bitops.h:29:
+   include/asm-generic/bitops/generic-non-atomic.h:140:16: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+     140 |         return 1UL & (smp_load_acquire(p) >> (nr & (BITS_PER_LONG-1)));
+         |                       ^
+   include/asm-generic/barrier.h:204:37: note: expanded from macro 'smp_load_acquire'
+     204 |         __unqual_scalar_typeof(*p) ___p1 = READ_ONCE(*p);               \
+         |                                            ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^
+   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
+     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
+     547 |                         __compiletime_error(msg);                       \
+         |                         ^
+   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
+     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
+         |                                                        ^
+   include/linux/mm.h:2618:9: note: previous attribute is here
+    2618 |         return max(mm->hiwater_rss, get_mm_rss(mm));
+         |                ^
+   include/linux/minmax.h:112:19: note: expanded from macro 'max'
+     112 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^
+   include/linux/minmax.h:98:2: note: expanded from macro '__careful_cmp'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^
+   include/linux/minmax.h:93:2: note: expanded from macro '__careful_cmp_once'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
+     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
+     547 |                         __compiletime_error(msg);                       \
+         |                         ^
+   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
+     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
+         |                                                        ^
+   In file included from crypto/krb5/rfc8009_aes2.c:10:
+   In file included from include/linux/slab.h:16:
+   In file included from include/linux/gfp.h:7:
+   In file included from include/linux/mmzone.h:8:
+   In file included from include/linux/spinlock.h:56:
+   In file included from include/linux/preempt.h:79:
+   In file included from ./arch/arm/include/generated/asm/preempt.h:1:
+   In file included from include/asm-generic/preempt.h:5:
+   In file included from include/linux/thread_info.h:27:
+   In file included from include/linux/bitops.h:29:
+   include/asm-generic/bitops/generic-non-atomic.h:140:16: warning: attribute 'error' is already applied with different arguments [-Wignored-attributes]
+     140 |         return 1UL & (smp_load_acquire(p) >> (nr & (BITS_PER_LONG-1)));
+         |                       ^
+   include/asm-generic/barrier.h:204:37: note: expanded from macro 'smp_load_acquire'
+     204 |         __unqual_scalar_typeof(*p) ___p1 = READ_ONCE(*p);               \
+         |                                            ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletime_assert_rwonce_type'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^
+   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
+     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
+     547 |                         __compiletime_error(msg);                       \
+         |                         ^
+   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
+     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
+         |                                                        ^
+   include/linux/mm.h:2623:9: note: previous attribute is here
+    2623 |         return max(mm->hiwater_vm, mm->total_vm);
+         |                ^
+   include/linux/minmax.h:112:19: note: expanded from macro 'max'
+     112 | #define max(x, y)       __careful_cmp(max, x, y)
+         |                         ^
+   include/linux/minmax.h:98:2: note: expanded from macro '__careful_cmp'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^
+   include/linux/minmax.h:93:2: note: expanded from macro '__careful_cmp_once'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/compiler_types.h:565:2: note: expanded from macro 'compiletime_assert'
+     565 |         __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^
+   include/linux/compiler_types.h:547:4: note: expanded from macro '__compiletime_assert'
+     547 |                         __compiletime_error(msg);                       \
+         |                         ^
+   include/linux/compiler_attributes.h:138:56: note: expanded from macro '__compiletime_error'
+     138 | # define __compiletime_error(msg)       __attribute__((__error__(msg)))
+         |                                                        ^
+>> crypto/krb5/rfc8009_aes2.c:209:3: error: call to undeclared function 'get_random_bytes'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     209 |                 get_random_bytes(buffer, krb5->conf_len);
+         |                 ^
+   27 warnings and 1 error generated.
 
 
-vim +/FIELD_PREP +45 drivers/pci/controller/pcie-rzg3s-host.c
+vim +/get_random_bytes +209 crypto/krb5/rfc8009_aes2.c
 
-    31	
-    32	/* AXI registers */
-    33	#define RZG3S_PCI_REQDATA(id)			(0x80 + (id) * 0x4)
-    34	#define RZG3S_PCI_REQRCVDAT			0x8c
-    35	#define RZG3S_PCI_REQADR1			0x90
-    36	#define RZG3S_PCI_REQADR1_BUS			GENMASK(31, 24)
-    37	#define RZG3S_PCI_REQADR1_DEV			GENMASK(23, 19)
-    38	#define RZG3S_PCI_REQADR1_FUNC			GENMASK(18, 16)
-    39	#define RZG3S_PCI_REQADR1_REG			GENMASK(11, 0)
-    40	#define RZG3S_PCI_REQBE				0x98
-    41	#define RZG3S_PCI_REQBE_BYTE_EN			GENMASK(3, 0)
-    42	#define RZG3S_PCI_REQISS			0x9c
-    43	#define RZG3S_PCI_REQISS_REQ_ISSUE		BIT(0)
-    44	#define RZG3S_PCI_REQISS_TR_TYPE		GENMASK(11, 8)
-  > 45	#define RZG3S_PCI_REQISS_TR_TP0_RD		FIELD_PREP(RZG3S_PCI_REQISS_TR_TYPE, 0x4)
-    46	#define RZG3S_PCI_REQISS_TR_TP0_WR		FIELD_PREP(RZG3S_PCI_REQISS_TR_TYPE, 0x5)
-    47	#define RZG3S_PCI_REQISS_MOR_STATUS		GENMASK(18, 16)
-    48	#define RZG3S_PCI_MSIRCVWADRL			0x100
-    49	#define RZG3S_PCI_MSIRCVWADRL_ENA		BIT(0)
-    50	#define RZG3S_PCI_MSIRCVWADRL_MSG_DATA_ENA	BIT(1)
-    51	#define RZG3S_PCI_MSIRCVWADRU			0x104
-    52	#define RZG3S_PCI_MSIRCVWMSKL			0x108
-    53	#define RZG3S_PCI_MSIRCVWMSKU			0x10c
-    54	#define RZG3S_PCI_PINTRCVIE			0x110
-    55	#define RZG3S_PCI_PINTRCVIE_INTX(i)		BIT(i)
-    56	#define RZG3S_PCI_PINTRCVIE_MSI			BIT(4)
-    57	#define RZG3S_PCI_PINTRCVIS			0x114
-    58	#define RZG3S_PCI_PINTRCVIS_INTX(i)		BIT(i)
-    59	#define RZG3S_PCI_PINTRCVIS_MSI			BIT(4)
-    60	#define RZG3S_PCI_MSGRCVIE			0x120
-    61	#define RZG3S_PCI_MSGRCVIE_MSG_RCV		BIT(24)
-    62	#define RZG3S_PCI_MSGRCVIS			0x124
-    63	#define RZG3S_PCI_MSGRCVIS_MRI			BIT(24)
-    64	#define RZG3S_PCI_PEIE0				0x200
-    65	#define RZG3S_PCI_PEIS0				0x204
-    66	#define RZG3S_PCI_PEIS0_DL_UPDOWN		BIT(9)
-    67	#define RZG3S_PCI_PEIS0_RX_DLLP_PM_ENTER	BIT(12)
-    68	#define RZG3S_PCI_PEIE1				0x208
-    69	#define RZG3S_PCI_PEIS1				0x20c
-    70	#define RZG3S_PCI_AMEIE				0x210
-    71	#define RZG3S_PCI_AMEIS				0x214
-    72	#define RZG3S_PCI_ASEIE1			0x220
-    73	#define RZG3S_PCI_ASEIS1			0x224
-    74	#define RZG3S_PCI_PCSTAT1			0x408
-    75	#define RZG3S_PCI_PCSTAT1_DL_DOWN_STS		BIT(0)
-    76	#define RZG3S_PCI_PCSTAT1_LTSSM_STATE		GENMASK(14, 10)
-    77	#define RZG3S_PCI_PCCTRL2			0x410
-    78	#define RZG3S_PCI_PCCTRL2_LS_CHG_REQ		BIT(0)
-    79	#define RZG3S_PCI_PCCTRL2_LS_CHG		GENMASK(9, 8)
-    80	#define RZG3S_PCI_PCSTAT2			0x414
-    81	#define RZG3S_PCI_PCSTAT2_STATE_RX_DETECT	GENMASK(15, 8)
-    82	#define RZG3S_PCI_PCSTAT2_SDRIRE		GENMASK(7, 0)
-    83	#define RZG3S_PCI_PCSTAT2_LS_CHG_DONE		BIT(28)
-    84	#define RZG3S_PCI_PERM				0x300
-    85	#define RZG3S_PCI_PERM_PIPE_PHY_REG_EN		BIT(1)
-    86	#define RZG3S_PCI_PERM_CFG_HWINIT_EN		BIT(2)
-    87	#define RZG3S_PCI_MSIRE(id)			(0x600 + (id) * 0x10)
-    88	#define RZG3S_PCI_MSIRE_ENA			BIT(0)
-    89	#define RZG3S_PCI_MSIRM(id)			(0x608 + (id) * 0x10)
-    90	#define RZG3S_PCI_MSIRS(id)			(0x60c + (id) * 0x10)
-    91	#define RZG3S_PCI_AWBASEL(id)			(0x1000 + (id) * 0x20)
-    92	#define RZG3S_PCI_AWBASEL_WIN_ENA		BIT(0)
-    93	#define RZG3S_PCI_AWBASEU(id)			(0x1004 + (id) * 0x20)
-    94	#define RZG3S_PCI_AWMASKL(id)			(0x1008 + (id) * 0x20)
-    95	#define RZG3S_PCI_AWMASKU(id)			(0x100c + (id) * 0x20)
-    96	#define RZG3S_PCI_ADESTL(id)			(0x1010 + (id) * 0x20)
-    97	#define RZG3S_PCI_ADESTU(id)			(0x1014 + (id) * 0x20)
-    98	#define RZG3S_PCI_PWBASEL(id)			(0x1100 + (id) * 0x20)
-    99	#define RZG3S_PCI_PWBASEL_ENA			BIT(0)
-   100	#define RZG3S_PCI_PWBASEU(id)			(0x1104 + (id) * 0x20)
-   101	#define RZG3S_PCI_PDESTL(id)			(0x1110 + (id) * 0x20)
-   102	#define RZG3S_PCI_PDESTU(id)			(0x1114 + (id) * 0x20)
-   103	#define RZG3S_PCI_PWMASKL(id)			(0x1108 + (id) * 0x20)
-   104	#define RZG3S_PCI_PWMASKU(id)			(0x110c + (id) * 0x20)
-   105	
+6c3c0e86c2acf5 David Howells 2025-02-03  167  
+6c3c0e86c2acf5 David Howells 2025-02-03  168  /*
+6c3c0e86c2acf5 David Howells 2025-02-03  169   * Apply encryption and checksumming functions to a message.  Unlike for
+6c3c0e86c2acf5 David Howells 2025-02-03  170   * RFC3961, for RFC8009, we have to chuck the starting IV into the hash first.
+6c3c0e86c2acf5 David Howells 2025-02-03  171   */
+6c3c0e86c2acf5 David Howells 2025-02-03  172  static ssize_t rfc8009_encrypt(const struct krb5_enctype *krb5,
+6c3c0e86c2acf5 David Howells 2025-02-03  173  			       struct crypto_aead *aead,
+6c3c0e86c2acf5 David Howells 2025-02-03  174  			       struct scatterlist *sg, unsigned int nr_sg, size_t sg_len,
+6c3c0e86c2acf5 David Howells 2025-02-03  175  			       size_t data_offset, size_t data_len,
+6c3c0e86c2acf5 David Howells 2025-02-03  176  			       bool preconfounded)
+6c3c0e86c2acf5 David Howells 2025-02-03  177  {
+6c3c0e86c2acf5 David Howells 2025-02-03  178  	struct aead_request *req;
+6c3c0e86c2acf5 David Howells 2025-02-03  179  	struct scatterlist bsg[2];
+6c3c0e86c2acf5 David Howells 2025-02-03  180  	ssize_t ret, done;
+6c3c0e86c2acf5 David Howells 2025-02-03  181  	size_t bsize, base_len, secure_offset, secure_len, pad_len, cksum_offset;
+6c3c0e86c2acf5 David Howells 2025-02-03  182  	void *buffer;
+6c3c0e86c2acf5 David Howells 2025-02-03  183  	u8 *iv, *ad;
+6c3c0e86c2acf5 David Howells 2025-02-03  184  
+6c3c0e86c2acf5 David Howells 2025-02-03  185  	if (WARN_ON(data_offset != krb5->conf_len))
+6c3c0e86c2acf5 David Howells 2025-02-03  186  		return -EINVAL; /* Data is in wrong place */
+6c3c0e86c2acf5 David Howells 2025-02-03  187  
+6c3c0e86c2acf5 David Howells 2025-02-03  188  	secure_offset	= 0;
+6c3c0e86c2acf5 David Howells 2025-02-03  189  	base_len	= krb5->conf_len + data_len;
+6c3c0e86c2acf5 David Howells 2025-02-03  190  	pad_len		= 0;
+6c3c0e86c2acf5 David Howells 2025-02-03  191  	secure_len	= base_len + pad_len;
+6c3c0e86c2acf5 David Howells 2025-02-03  192  	cksum_offset	= secure_len;
+6c3c0e86c2acf5 David Howells 2025-02-03  193  	if (WARN_ON(cksum_offset + krb5->cksum_len > sg_len))
+6c3c0e86c2acf5 David Howells 2025-02-03  194  		return -EFAULT;
+6c3c0e86c2acf5 David Howells 2025-02-03  195  
+6c3c0e86c2acf5 David Howells 2025-02-03  196  	bsize = krb5_aead_size(aead) +
+6c3c0e86c2acf5 David Howells 2025-02-03  197  		krb5_aead_ivsize(aead) * 2;
+6c3c0e86c2acf5 David Howells 2025-02-03  198  	buffer = kzalloc(bsize, GFP_NOFS);
+6c3c0e86c2acf5 David Howells 2025-02-03  199  	if (!buffer)
+6c3c0e86c2acf5 David Howells 2025-02-03  200  		return -ENOMEM;
+6c3c0e86c2acf5 David Howells 2025-02-03  201  
+6c3c0e86c2acf5 David Howells 2025-02-03  202  	req = buffer;
+6c3c0e86c2acf5 David Howells 2025-02-03  203  	iv = buffer + krb5_aead_size(aead);
+6c3c0e86c2acf5 David Howells 2025-02-03  204  	ad = buffer + krb5_aead_size(aead) + krb5_aead_ivsize(aead);
+6c3c0e86c2acf5 David Howells 2025-02-03  205  
+6c3c0e86c2acf5 David Howells 2025-02-03  206  	/* Insert the confounder into the buffer */
+6c3c0e86c2acf5 David Howells 2025-02-03  207  	ret = -EFAULT;
+6c3c0e86c2acf5 David Howells 2025-02-03  208  	if (!preconfounded) {
+6c3c0e86c2acf5 David Howells 2025-02-03 @209  		get_random_bytes(buffer, krb5->conf_len);
+6c3c0e86c2acf5 David Howells 2025-02-03  210  		done = sg_pcopy_from_buffer(sg, nr_sg, buffer, krb5->conf_len,
+6c3c0e86c2acf5 David Howells 2025-02-03  211  					    secure_offset);
+6c3c0e86c2acf5 David Howells 2025-02-03  212  		if (done != krb5->conf_len)
+6c3c0e86c2acf5 David Howells 2025-02-03  213  			goto error;
+6c3c0e86c2acf5 David Howells 2025-02-03  214  	}
+6c3c0e86c2acf5 David Howells 2025-02-03  215  
+6c3c0e86c2acf5 David Howells 2025-02-03  216  	/* We may need to pad out to the crypto blocksize. */
+6c3c0e86c2acf5 David Howells 2025-02-03  217  	if (pad_len) {
+6c3c0e86c2acf5 David Howells 2025-02-03  218  		done = sg_zero_buffer(sg, nr_sg, pad_len, data_offset + data_len);
+6c3c0e86c2acf5 David Howells 2025-02-03  219  		if (done != pad_len)
+6c3c0e86c2acf5 David Howells 2025-02-03  220  			goto error;
+6c3c0e86c2acf5 David Howells 2025-02-03  221  	}
+6c3c0e86c2acf5 David Howells 2025-02-03  222  
+6c3c0e86c2acf5 David Howells 2025-02-03  223  	/* We need to include the starting IV in the hash. */
+6c3c0e86c2acf5 David Howells 2025-02-03  224  	sg_init_table(bsg, 2);
+6c3c0e86c2acf5 David Howells 2025-02-03  225  	sg_set_buf(&bsg[0], ad, krb5_aead_ivsize(aead));
+6c3c0e86c2acf5 David Howells 2025-02-03  226  	sg_chain(bsg, 2, sg);
+6c3c0e86c2acf5 David Howells 2025-02-03  227  
+6c3c0e86c2acf5 David Howells 2025-02-03  228  	/* Hash and encrypt the message. */
+6c3c0e86c2acf5 David Howells 2025-02-03  229  	aead_request_set_tfm(req, aead);
+6c3c0e86c2acf5 David Howells 2025-02-03  230  	aead_request_set_callback(req, 0, NULL, NULL);
+6c3c0e86c2acf5 David Howells 2025-02-03  231  	aead_request_set_ad(req, krb5_aead_ivsize(aead));
+6c3c0e86c2acf5 David Howells 2025-02-03  232  	aead_request_set_crypt(req, bsg, bsg, secure_len, iv);
+6c3c0e86c2acf5 David Howells 2025-02-03  233  	ret = crypto_aead_encrypt(req);
+6c3c0e86c2acf5 David Howells 2025-02-03  234  	if (ret < 0)
+6c3c0e86c2acf5 David Howells 2025-02-03  235  		goto error;
+6c3c0e86c2acf5 David Howells 2025-02-03  236  
+6c3c0e86c2acf5 David Howells 2025-02-03  237  	ret = secure_len + krb5->cksum_len;
+6c3c0e86c2acf5 David Howells 2025-02-03  238  
+6c3c0e86c2acf5 David Howells 2025-02-03  239  error:
+6c3c0e86c2acf5 David Howells 2025-02-03  240  	kfree_sensitive(buffer);
+6c3c0e86c2acf5 David Howells 2025-02-03  241  	return ret;
+6c3c0e86c2acf5 David Howells 2025-02-03  242  }
+6c3c0e86c2acf5 David Howells 2025-02-03  243  
 
 -- 
 0-DAY CI Kernel Test Service
