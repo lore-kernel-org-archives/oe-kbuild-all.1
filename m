@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FDE9482EB;
-	Mon,  9 Jun 2025 17:15:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18707482EB
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jun 2025 17:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749489339; cv=none; b=MFeznuCn6oQfLEMp/OGtgRR+6iKV3lUA4MRJWS0QH6606DopKDIuVpfX82S/Hii1jS3HQ4s82RgcV4qgYcxZYf1hs+l7WKHzLppOQR6+vid6uaWUhsSpAHMy/Akerj4wDKRFa05rFTzG8PQ+pGcJP0zBlOCU+SYoE8O8+bEJxww=
+	t=1749491814; cv=none; b=L2BZTHMD+NzKJ2gqes4iNEH9qxmVfBGCvZEaZey1WXez8yhdT00frZ1u1OCc7c5W8UPzqujXzfABKJYLSA0QDLZ7L/eXni5H60klybEihDoqsw7qDDWyXyohvf3Ny/jPJeKCaBS4rDbJ8ZcXs4r71sjd9iwgsHnF9nhOEMrmRuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749489339; c=relaxed/simple;
-	bh=srtf4DKSFKdgJqo4E0tq5HjYbfxogpdqu8Ikos9J2Cs=;
+	s=arc-20240116; t=1749491814; c=relaxed/simple;
+	bh=QMLX7USi3ZT3hX+mBAv46oBwb8mA2xy+q3erSnK4HKU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MSz2bm+qulxTaep5M4UfucGE1dtsgXfEYXTjoo2irWYwGMyoZXSe7o3kgfp3MZisuLoYadVwoc2/MH372Ie1o6MFhTY8h7OHkKXtg+wtqp+pXaP4vk/fjR9c224w5TvttSsEkzOvo63eQSIVDfNPXwLTYOxxVlCoaXwhPcTy8to=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WvZ+5p6N; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=skwFmln9JEYqiFpF0DFnO9K0P+Y6/8jOyFkr8vSBZC2hpnvINjpVVFUPnffsGZpYz1hNtYy7zapOpZQlLPJzHDU0yE0qRqFSYcGw35O017Q5xLVy4iIFmhPCB5cnRAxa207UeWKpYqnSS5hPAH9gQY4fv1/P5R3J+kH6sCwGFPc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fGjz2kOb; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WvZ+5p6N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fGjz2kOb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749489337; x=1781025337;
+  t=1749491811; x=1781027811;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=srtf4DKSFKdgJqo4E0tq5HjYbfxogpdqu8Ikos9J2Cs=;
-  b=WvZ+5p6NNvGivcJHbdHP45mo30XeP6lPo6h5SCd76+bBfNjuHWLkQW6r
-   2/orPxUak1Nw8AY8I+b7aIzmw7B7hKXhqN2ZH9NT9EJJKZWWhaTOTEd3c
-   e2ghxeMbpPl9rGD3QBcRdHCAXAq7phdNLdw4SSoOTEOexpjYklBuMTZ3i
-   2UD16hfe6YbcG09/jJOzovK3YpJlAWrs0+oJGYVMHVilR9/ss73cv4Asn
-   h2ERRJ+cHFIMkbacGYXa0POwhn3+tzEQyzF/XPKntqfONoxjr81bEEkEA
-   w8JEfcqgL1DHfMziK2iiJaBeHltKr9ehqciWSeRFiQQjPzlTSqmTV034z
-   w==;
-X-CSE-ConnectionGUID: GOkI8V2uSUmjRM9R0bw8cg==
-X-CSE-MsgGUID: qv8XmhS6R8SVQhvTyiTz2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="62232258"
+  bh=QMLX7USi3ZT3hX+mBAv46oBwb8mA2xy+q3erSnK4HKU=;
+  b=fGjz2kObXMBeWPxHETLN3iSt5c1eMxcbiUtYNU4ciJwwyQDZNZ11oOfi
+   zyVWcgEDPHlAYTQrDWDg975YHbnSMUwmQ9dbq+Bgk+ppSA0t8joj7rvgj
+   LotQySWb93p+PWdmgROg59PO73z5/VfXoU5SLMCMgUlrqy4shTvdciQyE
+   ESDb4QuVIeiy8HBMst/RhZVX50XFPyrGyMRCTqCj2yv2eXHHC9sIH6s1i
+   l+fGQ+odvwPGrWz21Xg+kE8vCaZBGlGmPfG3O9OhGGUsuCvIjq8BmFjc1
+   TmeAUfnR0FW0p/FmdObjhHTUxiJFSazmtX39S++XEbJ3coS4jSqW5HZGI
+   A==;
+X-CSE-ConnectionGUID: cqM971OvToua7QEDXiHguA==
+X-CSE-MsgGUID: YQ71tMDwSzibfLfR2hNgUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="55244971"
 X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
-   d="scan'208";a="62232258"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 10:15:37 -0700
-X-CSE-ConnectionGUID: vQIdCdXfTt+ec5u6Jx+dGA==
-X-CSE-MsgGUID: GC2QmjfMSW+xgMSXYdFEqg==
+   d="scan'208";a="55244971"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 10:56:50 -0700
+X-CSE-ConnectionGUID: P3OX3CohRlmPIKkNdOgSOw==
+X-CSE-MsgGUID: GjD2x7DgQ4iWer9x7zVLfg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
-   d="scan'208";a="147538619"
+   d="scan'208";a="147101780"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 09 Jun 2025 10:15:33 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 09 Jun 2025 10:56:46 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOg5q-0007G9-0h;
-	Mon, 09 Jun 2025 17:15:30 +0000
-Date: Tue, 10 Jun 2025 01:15:17 +0800
+	id 1uOgjk-0007Ib-0A;
+	Mon, 09 Jun 2025 17:56:44 +0000
+Date: Tue, 10 Jun 2025 01:56:40 +0800
 From: kernel test robot <lkp@intel.com>
 To: Em Sharnoff <sharnoff@neon.tech>, linux-kernel@vger.kernel.org,
 	x86@kernel.org, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Ingo Molnar <mingo@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>,
+Cc: oe-kbuild-all@lists.linux.dev, Ingo Molnar <mingo@kernel.org>,
+	"H. Peter Anvin" <hpa@zytor.com>,
 	Dave Hansen <dave.hansen@linux.intel.com>,
 	Andy Lutomirski <luto@kernel.org>,
 	Peter Zijlstra <peterz@infradead.org>,
@@ -63,7 +63,7 @@ Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
 	Arthur Petukhovsky <arthur@neon.tech>,
 	Stefan Radig <stefan@neon.tech>, Misha Sakhnov <misha@neon.tech>
 Subject: Re: [PATCH v2 1/2] x86/mm: Handle alloc failure in phys_*_init()
-Message-ID: <202506100041.N8Bgx8q0-lkp@intel.com>
+Message-ID: <202506100135.4iTfYLoH-lkp@intel.com>
 References: <25c5e747-107f-4450-8eb0-11b2f0dab14d@neon.tech>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -77,35 +77,46 @@ In-Reply-To: <25c5e747-107f-4450-8eb0-11b2f0dab14d@neon.tech>
 
 Hi Em,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 82f2b0b97b36ee3fcddf0f0780a9a0825d52fec3]
+[auto build test WARNING on 82f2b0b97b36ee3fcddf0f0780a9a0825d52fec3]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Em-Sharnoff/x86-mm-Handle-alloc-failure-in-phys_-_init/20250609-183537
 base:   82f2b0b97b36ee3fcddf0f0780a9a0825d52fec3
 patch link:    https://lore.kernel.org/r/25c5e747-107f-4450-8eb0-11b2f0dab14d%40neon.tech
 patch subject: [PATCH v2 1/2] x86/mm: Handle alloc failure in phys_*_init()
-config: i386-buildonly-randconfig-002-20250609 (https://download.01.org/0day-ci/archive/20250610/202506100041.N8Bgx8q0-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506100041.N8Bgx8q0-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-006-20250609 (https://download.01.org/0day-ci/archive/20250610/202506100135.4iTfYLoH-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506100135.4iTfYLoH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506100041.N8Bgx8q0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506100135.4iTfYLoH-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> arch/x86/mm/init.c:555:14: error: incompatible integer to pointer conversion passing 'unsigned long' to parameter of type 'const void *' [-Wint-conversion]
+   arch/x86/mm/init.c: In function 'init_memory_mapping':
+>> arch/x86/mm/init.c:555:28: warning: passing argument 1 of 'IS_ERR' makes pointer from integer without a cast [-Wint-conversion]
      555 |                 if (IS_ERR(ret))
          |                            ^~~
-   include/linux/err.h:68:60: note: passing argument to parameter 'ptr' here
+         |                            |
+         |                            long unsigned int
+   In file included from include/linux/string.h:11,
+                    from arch/x86/include/asm/page_32.h:18,
+                    from arch/x86/include/asm/page.h:14,
+                    from arch/x86/include/asm/thread_info.h:12,
+                    from include/linux/thread_info.h:60,
+                    from include/linux/spinlock.h:60,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from arch/x86/mm/init.c:1:
+   include/linux/err.h:68:60: note: expected 'const void *' but argument is of type 'long unsigned int'
       68 | static inline bool __must_check IS_ERR(__force const void *ptr)
-         |                                                            ^
-   1 error generated.
+         |                                                ~~~~~~~~~~~~^~~
 
 
-vim +555 arch/x86/mm/init.c
+vim +/IS_ERR +555 arch/x86/mm/init.c
 
    531	
    532	/*
