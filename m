@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 045822517A4
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jun 2025 10:13:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7351E766F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jun 2025 12:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749464031; cv=none; b=GEc71lt1bmIKuiwNhWMkh1SmgiaKMhbLSa4Ugi6kjy90p+V6Tg7UnN1r/ChyaTVRYEUOppQbK7Gjv2VqktKEVYKqf+dnNqrXrQG050gsjqRmQlbyLsNyjL0v2TVwdaBMNL8SuEv1m690nHimqfhXBbiKyMG4WfMxzNlsEeOteUk=
+	t=1749470760; cv=none; b=PkbZs35BY8MR0XqbAOhZg3518LxupLN2TkxNa/cBCIGJmqjsSXLNwhFzEgdiMOctO5nxRg+iWLx+MBG/E3jJiF1lJoABPeG8+AXZ4AOgJu3iv15S0HnAeplFTbGHFwSkNcYGkFh23vETs/6OIz8a2dNJD5DWm8utsWl8meQgEwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749464031; c=relaxed/simple;
-	bh=cHxjFsUS8LL4QHA5PiRliG2F2zhRtTL4xLSY9x7AJmc=;
+	s=arc-20240116; t=1749470760; c=relaxed/simple;
+	bh=5gT0jriGk4MfuoT3RFje+oFF0ecakOXyfzKzuaK3fX4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s0eCIStdCfRHZB5MkzdWSVSF20XH4YSZN90Kzfp4yzCe5Szh7v32/5fIldCA1osYG9t46r1th8dAQF6eJhgmBCC4bJ07yIYpBiv8ymhwPnZN+FRtwcS7DWaF1NtU/3NjBseB66154TaRIraWkbr2jpMWFaMhYcGP81IwPK2KMuk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GthHHlG+; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=T7gGqepoNi/P5RIGBA9a19Xj4AVnOIF6u6NTqaXDXtfJV+v4TlArxTan8g1RmfP40CSDAwPxWb27q+uImcuoJ7t383x5JcFDpmg+T1BzHFAN7Ix/Y4AtkqPP8PJ8vTOF/Q63nHCjOiN9cAoTdNws3jca1fZaMuARcR+ebmaioz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJk/vMHS; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GthHHlG+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJk/vMHS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749464029; x=1781000029;
+  t=1749470758; x=1781006758;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cHxjFsUS8LL4QHA5PiRliG2F2zhRtTL4xLSY9x7AJmc=;
-  b=GthHHlG+mcHiVl9A+Yp5ZfkEudYO7AkPKQWyeIZJlA9C9GBt/waSdxXK
-   SGF0pscjyvCa9HuJ2fly3tz1tJtJeYszjMh+USTEGPhBKd1wyAB+jLHS9
-   x5Th1rh/PwwQ2EOZ41Txhc906aYAXHJspVEQ3VHD6TJpAu4D5oEA7T0Cx
-   TAcmQKegb3V3P2zG/byRqWGX2pJdXvHkgpEK+iTo+Y1NBraxwFo2xnIAv
-   MtW0AcddxgGmQLx5Jx5yjej4Bqj0OdidhBxtO7zQba3xspcN3Hezhx2Ii
-   bub+4kILUfmYNA6g27IyGGRVAnfITuPJY9G34PDuxnmPhW/Ngxjsv/cJZ
-   g==;
-X-CSE-ConnectionGUID: z3Unc2W2T+2/7AVHEY0pQw==
-X-CSE-MsgGUID: fboUm3hDQt2lWtj1ghdqtA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="51394386"
+  bh=5gT0jriGk4MfuoT3RFje+oFF0ecakOXyfzKzuaK3fX4=;
+  b=OJk/vMHSZ2OFMB6HMLxJgKUtCxpRCbiRBcEKn5TaXa9M1trqtLObdS48
+   Zl1WeTLiDlvuZ6MmgdfU9ZXfZsSe2yw3sPqa/3F80nrUwXifYdKjpMOmf
+   y2eYdwclHOZAKeeaKioS/XcAWRVO9Mt5KU/b3PagHfDlbZH9n+88DeRGU
+   iwe9SRvH+63JGZ+qTy31n9AjUsNdncywEAcDILwbva7IVUN+105wECqWy
+   6FL/X/v1Qf2Ld9yjamNBcPxffhXFg/XyWFpWxOtQ7zLaueFrDwuE15l1+
+   vqKTdIDIx0K7YGekmyy3LRe3HRbi6wQYG3dw1fGtOYbtErg1gs8GFA/JN
+   w==;
+X-CSE-ConnectionGUID: RAirNLPNTKKjzn/ZwWlvDg==
+X-CSE-MsgGUID: lbmznccgQrqiu/z/4XD5Cg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="39167495"
 X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
-   d="scan'208";a="51394386"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 03:13:48 -0700
-X-CSE-ConnectionGUID: vJt+yROBSTiQpMXLTL4bLg==
-X-CSE-MsgGUID: M3k+/SSLRzKXL3bClz57zg==
+   d="scan'208";a="39167495"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 05:05:57 -0700
+X-CSE-ConnectionGUID: moofTon8QWqWzpKcRy9U6w==
+X-CSE-MsgGUID: jefjSJ7sQc6f7FNvjCCEkA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
-   d="scan'208";a="146993921"
+   d="scan'208";a="147428173"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Jun 2025 03:13:46 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 09 Jun 2025 05:05:56 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOZVg-0006wT-1V;
-	Mon, 09 Jun 2025 10:13:44 +0000
-Date: Mon, 9 Jun 2025 18:13:30 +0800
+	id 1uObGE-00071D-1I;
+	Mon, 09 Jun 2025 12:05:54 +0000
+Date: Mon, 9 Jun 2025 20:05:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marc Zyngier <maz@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [arm-platforms:arm64/binutils-cleanup 1/2]
- arch/arm64/include/asm/alternative-macros.h:228:2: error: expected absolute
- expression
-Message-ID: <202506091850.ZQDMasOg-lkp@intel.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2953/2953] kernel/locking/lockdep.o: warning:
+ objtool: lockdep_unregister_key()+0x2ff: unreachable instruction
+Message-ID: <202506092002.S7MmpM4X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,181 +62,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git arm64/binutils-cleanup
-head:   61189b46d4cae85952b67f48da9af226155e9dd7
-commit: 08c6df2c373ba216ffc1d0b79c3e028adae5d2c4 [1/2] arm64: Remove .inst workarounds after binutils bump
-config: arm64-randconfig-r053-20250609 (https://download.01.org/0day-ci/archive/20250609/202506091850.ZQDMasOg-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506091850.ZQDMasOg-lkp@intel.com/reproduce)
+Hi Waiman,
+
+First bad commit (maybe != root cause):
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   dd32d51934d00fd319caec8710bd1a438bd69859
+commit: b91170be2b1f1ef673f5e79c7a4beb5673a8f881 [2953/2953] locking/lockdep: Avoid potential access of invalid memory in lock_class
+config: x86_64-randconfig-123-20250609 (https://download.01.org/0day-ci/archive/20250609/202506092002.S7MmpM4X-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506092002.S7MmpM4X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506091850.ZQDMasOg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506092002.S7MmpM4X-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from <built-in>:4:
-   In file included from lib/vdso/getrandom.c:8:
-   In file included from include/vdso/datapage.h:197:
-   In file included from arch/arm64/include/asm/vdso/gettimeofday.h:10:
-   In file included from arch/arm64/include/asm/alternative.h:5:
->> arch/arm64/include/asm/alternative-macros.h:228:2: error: expected absolute expression
-     228 |         ALTERNATIVE("b  %l[l_no]", "nop", %[cpucap])
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:214:2: note: expanded from macro 'ALTERNATIVE'
-     214 |         _ALTERNATIVE_CFG(oldinstr, newinstr, __VA_ARGS__, 1)
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:76:2: note: expanded from macro '_ALTERNATIVE_CFG'
-      76 |         __ALTERNATIVE_CFG(oldinstr, newinstr, cpucap, IS_ENABLED(cfg))
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:56:9: note: expanded from macro '__ALTERNATIVE_CFG'
-      56 |         "664:\n\t"                                                      \
-         |                ^
-   <inline asm>:16:6: note: instantiated into assembly here
-      16 |         .if ((664b-663b) != (662b-661b))
-         |             ^
-   In file included from <built-in>:4:
-   In file included from lib/vdso/getrandom.c:8:
-   In file included from include/vdso/datapage.h:197:
-   In file included from arch/arm64/include/asm/vdso/gettimeofday.h:10:
-   In file included from arch/arm64/include/asm/alternative.h:5:
->> arch/arm64/include/asm/alternative-macros.h:228:2: error: Alternatives instruction length mismatch
-     228 |         ALTERNATIVE("b  %l[l_no]", "nop", %[cpucap])
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:214:2: note: expanded from macro 'ALTERNATIVE'
-     214 |         _ALTERNATIVE_CFG(oldinstr, newinstr, __VA_ARGS__, 1)
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:76:2: note: expanded from macro '_ALTERNATIVE_CFG'
-      76 |         __ALTERNATIVE_CFG(oldinstr, newinstr, cpucap, IS_ENABLED(cfg))
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:58:3: note: expanded from macro '__ALTERNATIVE_CFG'
-      58 |         ".error \"Alternatives instruction length mismatch\"\n"         \
-         |          ^
-   <inline asm>:17:1: note: instantiated into assembly here
-      17 | .error "Alternatives instruction length mismatch"
-         | ^
-   2 errors generated.
-   In file included from <built-in>:4:
-   In file included from lib/vdso/gettimeofday.c:5:
-   In file included from include/vdso/datapage.h:197:
-   In file included from arch/arm64/include/asm/vdso/gettimeofday.h:11:
->> arch/arm64/include/asm/arch_timer.h:204:15: error: expected absolute expression
-     204 |         asm volatile(ALTERNATIVE("isb\n mrs %0, cntvct_el0",
-         |                      ^
-   arch/arm64/include/asm/alternative-macros.h:214:2: note: expanded from macro 'ALTERNATIVE'
-     214 |         _ALTERNATIVE_CFG(oldinstr, newinstr, __VA_ARGS__, 1)
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:76:2: note: expanded from macro '_ALTERNATIVE_CFG'
-      76 |         __ALTERNATIVE_CFG(oldinstr, newinstr, cpucap, IS_ENABLED(cfg))
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:56:9: note: expanded from macro '__ALTERNATIVE_CFG'
-      56 |         "664:\n\t"                                                      \
-         |                ^
-   <inline asm>:29:6: note: instantiated into assembly here
-      29 |         .if ((664b-663b) != (662b-661b))
-         |             ^
-   In file included from <built-in>:4:
-   In file included from lib/vdso/gettimeofday.c:5:
-   In file included from include/vdso/datapage.h:197:
-   In file included from arch/arm64/include/asm/vdso/gettimeofday.h:11:
->> arch/arm64/include/asm/arch_timer.h:204:15: error: Alternatives instruction length mismatch
-     204 |         asm volatile(ALTERNATIVE("isb\n mrs %0, cntvct_el0",
-         |                      ^
-   arch/arm64/include/asm/alternative-macros.h:214:2: note: expanded from macro 'ALTERNATIVE'
-     214 |         _ALTERNATIVE_CFG(oldinstr, newinstr, __VA_ARGS__, 1)
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:76:2: note: expanded from macro '_ALTERNATIVE_CFG'
-      76 |         __ALTERNATIVE_CFG(oldinstr, newinstr, cpucap, IS_ENABLED(cfg))
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:58:3: note: expanded from macro '__ALTERNATIVE_CFG'
-      58 |         ".error \"Alternatives instruction length mismatch\"\n"         \
-         |          ^
-   <inline asm>:30:1: note: instantiated into assembly here
-      30 | .error "Alternatives instruction length mismatch"
-         | ^
-   make[3]: *** [scripts/Makefile.build:203: arch/arm64/kernel/vdso/vgetrandom.o] Error 1
-   In file included from <built-in>:4:
-   In file included from lib/vdso/gettimeofday.c:5:
-   In file included from include/vdso/datapage.h:197:
-   In file included from arch/arm64/include/asm/vdso/gettimeofday.h:11:
->> arch/arm64/include/asm/arch_timer.h:204:15: error: expected absolute expression
-     204 |         asm volatile(ALTERNATIVE("isb\n mrs %0, cntvct_el0",
-         |                      ^
-   arch/arm64/include/asm/alternative-macros.h:214:2: note: expanded from macro 'ALTERNATIVE'
-     214 |         _ALTERNATIVE_CFG(oldinstr, newinstr, __VA_ARGS__, 1)
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:76:2: note: expanded from macro '_ALTERNATIVE_CFG'
-      76 |         __ALTERNATIVE_CFG(oldinstr, newinstr, cpucap, IS_ENABLED(cfg))
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:56:9: note: expanded from macro '__ALTERNATIVE_CFG'
-      56 |         "664:\n\t"                                                      \
-         |                ^
-   <inline asm>:29:6: note: instantiated into assembly here
-      29 |         .if ((664b-663b) != (662b-661b))
-         |             ^
-   In file included from <built-in>:4:
-   In file included from lib/vdso/gettimeofday.c:5:
-   In file included from include/vdso/datapage.h:197:
-   In file included from arch/arm64/include/asm/vdso/gettimeofday.h:11:
->> arch/arm64/include/asm/arch_timer.h:204:15: error: Alternatives instruction length mismatch
-     204 |         asm volatile(ALTERNATIVE("isb\n mrs %0, cntvct_el0",
-         |                      ^
-   arch/arm64/include/asm/alternative-macros.h:214:2: note: expanded from macro 'ALTERNATIVE'
-     214 |         _ALTERNATIVE_CFG(oldinstr, newinstr, __VA_ARGS__, 1)
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:76:2: note: expanded from macro '_ALTERNATIVE_CFG'
-      76 |         __ALTERNATIVE_CFG(oldinstr, newinstr, cpucap, IS_ENABLED(cfg))
-         |         ^
-   arch/arm64/include/asm/alternative-macros.h:58:3: note: expanded from macro '__ALTERNATIVE_CFG'
-      58 |         ".error \"Alternatives instruction length mismatch\"\n"         \
-         |          ^
-   <inline asm>:30:1: note: instantiated into assembly here
-      30 | .error "Alternatives instruction length mismatch"
-         | ^
-   4 errors generated.
-   make[3]: *** [scripts/Makefile.build:203: arch/arm64/kernel/vdso/vgettimeofday.o] Error 1
-   make[3]: Target 'include/generated/vdso-offsets.h' not remade because of errors.
-   make[3]: Target 'arch/arm64/kernel/vdso/vdso.so' not remade because of errors.
-   make[2]: *** [arch/arm64/Makefile:203: vdso_prepare] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
-
-
-vim +228 arch/arm64/include/asm/alternative-macros.h
-
-21fb26bfb01ffe Mark Rutland   2022-09-12  219  
-21fb26bfb01ffe Mark Rutland   2022-09-12  220  static __always_inline bool
-5235c7e2cfccb5 Mark Rutland   2023-06-07  221  alternative_has_cap_likely(const unsigned long cpucap)
-21fb26bfb01ffe Mark Rutland   2022-09-12  222  {
-de66cb37ab6488 Mark Rutland   2023-10-16  223  	if (!cpucap_is_possible(cpucap))
-de66cb37ab6488 Mark Rutland   2023-10-16  224  		return false;
-21fb26bfb01ffe Mark Rutland   2022-09-12  225  
-4356e9f841f7fb Linus Torvalds 2024-02-09  226  	asm goto(
-2c2ca3416b4090 Mark Rutland   2024-09-03  227  #ifdef BUILD_VDSO
-2c2ca3416b4090 Mark Rutland   2024-09-03 @228  	ALTERNATIVE("b	%l[l_no]", "nop", %[cpucap])
-2c2ca3416b4090 Mark Rutland   2024-09-03  229  #else
-5235c7e2cfccb5 Mark Rutland   2023-06-07  230  	ALTERNATIVE_CB("b	%l[l_no]", %[cpucap], alt_cb_patch_nops)
-2c2ca3416b4090 Mark Rutland   2024-09-03  231  #endif
-21fb26bfb01ffe Mark Rutland   2022-09-12  232  	:
-5235c7e2cfccb5 Mark Rutland   2023-06-07  233  	: [cpucap] "i" (cpucap)
-21fb26bfb01ffe Mark Rutland   2022-09-12  234  	:
-21fb26bfb01ffe Mark Rutland   2022-09-12  235  	: l_no);
-21fb26bfb01ffe Mark Rutland   2022-09-12  236  
-21fb26bfb01ffe Mark Rutland   2022-09-12  237  	return true;
-21fb26bfb01ffe Mark Rutland   2022-09-12  238  l_no:
-21fb26bfb01ffe Mark Rutland   2022-09-12  239  	return false;
-21fb26bfb01ffe Mark Rutland   2022-09-12  240  }
-21fb26bfb01ffe Mark Rutland   2022-09-12  241  
-
-:::::: The code at line 228 was first introduced by commit
-:::::: 2c2ca3416b4090aef8c646adccfc3be4b712db8a arm64: alternative: make alternative_has_cap_likely() VDSO compatible
-
-:::::: TO: Mark Rutland <mark.rutland@arm.com>
-:::::: CC: Jason A. Donenfeld <Jason@zx2c4.com>
+>> kernel/locking/lockdep.o: warning: objtool: lockdep_unregister_key()+0x2ff: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
