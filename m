@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27113217737
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jun 2025 20:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E08221D96;
+	Mon,  9 Jun 2025 21:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749501411; cv=none; b=jEUC36KMSYYobJ0QcI8ZyK1gm0W9dFRMwsB0fk4iF6qN9wwWLHKQDFEO45CNj5TpThZNGNdSAS3prqfnfvXYM8ArgDKbYiw4PCgPAnl6/Dc+g8ow/hFfnwOFsHMRXQY00nYbr25ooAiRThqQtS2oEyqXfzQez9OWEF/B1M1eyjY=
+	t=1749504001; cv=none; b=Ml89j+UJrtQC2bRhA0B4Htf03PbFye6OU/U2SOw4I9YnCSb/YH7GWiojUc6vMbapknqmRSHtjZOU6Gr7rnHDQZGedhlPwbbyFCa0FL3hIyuePYaSySQLWN+Z3Si3s+WuD+t+d2trz7VvVqIHwrI+f84neMsjP2FuvgQsYyxbpgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749501411; c=relaxed/simple;
-	bh=rdGOEnPOqgbn+QFF70CT9xF6NscQAy3gtE6VuhBFnAc=;
+	s=arc-20240116; t=1749504001; c=relaxed/simple;
+	bh=3OO1rBaAEpphzjEYCRVOU9Nr33M7bIyVwr0EgDIFx10=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Urnnup6WFFIRXz9DIurJCbhL4zK04kUKc1x2j/UiQDk2mKz1hZxn8h+DzltyWOFZ+zQPsNTd5ei8/+G41XX1szu6oSRwVnNg9yN/GYVrGbd8RuPYOZmXq+w031uEGnCw4eOJbfHLfq/UigeXXwUSjDG+NuE0ahYvF4LLwfHwqDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iEk2qHs4; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=dAA2RLjJrg63voe3EYF2D2jEtebQwWaKbKjtEUqFa4Ew/maQei3kM+Ohmnw1lOIbIYii0gEYoQsI6y3IRqkRqTtBYOLNBva0b0S1u+Jsv1Vn5ONDLPv1UcvX0/CeDKcvoK6Cmn1nVAnVW4V+ZLGFEX2FvtMVKXbBGvYFU2BKY7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FtX/RDXv; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iEk2qHs4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FtX/RDXv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749501410; x=1781037410;
+  t=1749503999; x=1781039999;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rdGOEnPOqgbn+QFF70CT9xF6NscQAy3gtE6VuhBFnAc=;
-  b=iEk2qHs4igtnsthK61T+lpdBv5VGl7XRMb7N1F4aLoisD/C1D9QJzezB
-   30h/opM7xkFp4+6oCHf1i954TVAnLKwm48Q+a8EKOJiWCz8OHzV9rzwby
-   j/Ff58XWKKK9YF6QOfEU4cr0sdd4XeYXDhQzeMmMb1kb2F50tOKa2JjNk
-   2ApYerwBF6sr8w/nQw7OWu62wifcAe/6oJQRGsBuN/eazqHbxuu7RcCQf
-   s+cNKTqpxxW4ULbdTwS5qhT1eW86T64hoTgEAZmIs+0szqGs9LiyGPQM+
-   5ijkOW/ct5A8C/ekHmkQqMmGk6aPWPxK3S24G6E5M5N7VEbi/E8g/Exam
+  bh=3OO1rBaAEpphzjEYCRVOU9Nr33M7bIyVwr0EgDIFx10=;
+  b=FtX/RDXvXQF6owIeyoOKbXQMroGTwQqzYUOHzh1FWKZ38XcZg3ounMFe
+   n29FlKE25bivYfhvqgIbVlzThk/8UKDA8+i7iEkyLIcML+R++UDJSmCcS
+   HUMlDkCNGFQnjuS1cmyr/wlsjfS3K7h0Vuy3jIrgsByY72z6cSIzPhf+n
+   1AzdQy3CmhWkECiPB5LKspGjIoPnyGxPv4oxsHlyEjkxd9rVYbtFoYB72
+   xt0jpbQYtFy5VrQah3uOT7L3kUtbL8n3JJE65Zzvay+XBXoypvXx8rTLD
+   fzfBVU5o4DfvZEuXBbozfNOn/R1j51hKdKaobpd0uqQ1rTCm2qMcf1k2b
    w==;
-X-CSE-ConnectionGUID: u/DxfC1YRjWyTiqHHj5KvQ==
-X-CSE-MsgGUID: sTUsOiGLRtesyZSBXzmTeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="69153886"
+X-CSE-ConnectionGUID: 9SnTzWX+RGG6sG18pkBV9w==
+X-CSE-MsgGUID: YTqNKsM0SuGKayD+pGHI+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="62211119"
 X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
-   d="scan'208";a="69153886"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 13:36:50 -0700
-X-CSE-ConnectionGUID: YtUq971mT92/u0xbxLS13w==
-X-CSE-MsgGUID: fa5JFmC9TpmNSPOsL8mHXQ==
+   d="scan'208";a="62211119"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 14:19:58 -0700
+X-CSE-ConnectionGUID: qVAFcne8QkC7Zlb+Lhtx5A==
+X-CSE-MsgGUID: umQU35o3TNmuaDL+h4UGuw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
-   d="scan'208";a="169796600"
+   d="scan'208";a="151628255"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 09 Jun 2025 13:36:48 -0700
+  by orviesa004.jf.intel.com with ESMTP; 09 Jun 2025 14:19:57 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOjEc-0007OT-2Y;
-	Mon, 09 Jun 2025 20:36:46 +0000
-Date: Tue, 10 Jun 2025 04:36:44 +0800
+	id 1uOjuN-0007Qz-0U;
+	Mon, 09 Jun 2025 21:19:55 +0000
+Date: Tue, 10 Jun 2025 05:19:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 2/2] regulator: rpi-panel-v2: Add regulator for 7"
- Raspberry Pi 720x1280
-Message-ID: <202506100440.fyTGO7CG-lkp@intel.com>
-References: <20250609000748.1665219-2-marek.vasut+renesas@mailbox.org>
+To: Ville Syrjala <ville.syrjala@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4 15/21] drm/i915/flipq: Provide the nuts and bolts code
+ for flip queue
+Message-ID: <202506100537.aqJUNf0d-lkp@intel.com>
+References: <20250609141046.6244-16-ville.syrjala@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,47 +63,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250609000748.1665219-2-marek.vasut+renesas@mailbox.org>
+In-Reply-To: <20250609141046.6244-16-ville.syrjala@linux.intel.com>
 
-Hi Marek,
+Hi Ville,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on broonie-regulator/for-next]
-[also build test WARNING on soc/for-next krzk-dt/for-next linus/master v6.16-rc1 next-20250606]
+[auto build test WARNING on drm-intel/for-linux-next]
+[cannot apply to drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.16-rc1 next-20250606]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/regulator-rpi-panel-v2-Add-regulator-for-7-Raspberry-Pi-720x1280/20250609-081005
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20250609000748.1665219-2-marek.vasut%2Brenesas%40mailbox.org
-patch subject: [PATCH 2/2] regulator: rpi-panel-v2: Add regulator for 7" Raspberry Pi 720x1280
-config: parisc-randconfig-r051-20250609 (https://download.01.org/0day-ci/archive/20250610/202506100440.fyTGO7CG-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506100440.fyTGO7CG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-i915-dsb-Use-intel_dsb_ins_align-in-intel_dsb_align_tail/20250609-223955
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20250609141046.6244-16-ville.syrjala%40linux.intel.com
+patch subject: [PATCH v4 15/21] drm/i915/flipq: Provide the nuts and bolts code for flip queue
+config: x86_64-buildonly-randconfig-005-20250609 (https://download.01.org/0day-ci/archive/20250610/202506100537.aqJUNf0d-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506100537.aqJUNf0d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506100440.fyTGO7CG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506100537.aqJUNf0d-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/regulator/rpi-panel-v2-regulator.c:95:34: warning: 'rpi_panel_v2_dt_ids' defined but not used [-Wunused-const-variable=]
-    static const struct of_device_id rpi_panel_v2_dt_ids[] = {
-                                     ^~~~~~~~~~~~~~~~~~~
-
-
-vim +/rpi_panel_v2_dt_ids +95 drivers/regulator/rpi-panel-v2-regulator.c
-
-    94	
-  > 95	static const struct of_device_id rpi_panel_v2_dt_ids[] = {
-    96		{ .compatible = "raspberrypi,touchscreen-panel-regulator-v2" },
-    97		{ },
-    98	};
-    99	MODULE_DEVICE_TABLE(of, rpi_panel_v2_dt_ids);
-   100	
+>> drivers/gpu/drm/i915/i915.o: warning: objtool: intel_flipq_add(): unexpected end of section .text.intel_flipq_add
 
 -- 
 0-DAY CI Kernel Test Service
