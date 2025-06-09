@@ -1,235 +1,225 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774041D6AA;
-	Mon,  9 Jun 2025 00:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749430287; cv=none; b=YCXN1TjDtJyJDDp5sl3b5mxHNysxFsizsOnafW20nNIicBYEEFt+LXKG9rFjUwOdt9UL2pbUGqpTVSoAVovUAD/WNFO2aSctO9nEqe5y2HuN58zCYLgbkTrIBrKNf0xpaQC3tS+V3lq0yJL3zN4US8oPvqSdXR4xeriote3s0nQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749430287; c=relaxed/simple;
-	bh=8S6HYzYYfdFc2GH1aog83DGprnavF4jGjecrMy7dxN0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C3n8MeQQ8zLpmJ5RPWoym9kCxcOqUDJPd3bZKDNdgTHNXy9AqOc34y8N/z48+XPaGRPu3ZLJjkVVY5YaLtJi96OSor/PtC3X2uZnqMRxZ6dbUJNJrMdAr5fM4DvNBg9C8fcLIp1L+O7JFSXX63nVZRT3jBxRKGygHtB8TK+JvEI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MkORAGaF; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19B52A1B2
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jun 2025 01:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1749431350; cv=fail; b=r57zRrON8ijxbsYe8715PKYAcBhkSU11fRzbWgRsfbxHtEsIuZReZzJ5AdFTEkuFMkt381HkLhIKIqxxhvKxSSVMVUV0hqlMVVF31YXYt/lWI9nRbRVf/omGee5Ca//nhBmIx3yJR5guOJXa7l2s+G1ufkFn/zRcpQ2Wr0bdwQQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1749431350; c=relaxed/simple;
+	bh=F4hs4lXfVEMpeyv/xP+k3I+9ceaIA4//C5qjQd6bnx4=;
+	h=Date:From:To:CC:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=d5qf3BCHzUSnoPY0zveYWcMny21xEe9v7Db0KyXMy8SGwVKmc0hXwL/QV8zDeCFTCSZH4VIh4BMk6svolAFF/PEI+AJ5N1ZiCxi+mYapeFQRVHJRm8+tcCk0uTYX6S6NVje0yjCYKdzXBFc/izWx9bcxU6m81Hd3fz3k/ztJRH0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q2iOn8Ut; arc=fail smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MkORAGaF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q2iOn8Ut"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749430284; x=1780966284;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8S6HYzYYfdFc2GH1aog83DGprnavF4jGjecrMy7dxN0=;
-  b=MkORAGaFpdUSR/t2ltshL+G5FFAuYTPNS4d5NgL2WZrVnu0yWoA+BzEz
-   ZU+MHlr5xyOLrq6nu40+EB3WCyij0yBmR9oTJofdiiJfsLcFUVmT22aZ7
-   yEHjKyHyEA9lO2s+nvbY7QDZ1RHQDUtxruc+4lIedeaamS17o/iqPmLh5
-   sKxsWJygiYjNVgE12Ov2dK+ZgKMLXiNvNXBa/Av4R/BUtOULocBN38h/g
-   AkJu94x/9mxXEd+rTdnihNoqLy2tXzsV4o4+c5XgjYaKReqwAa3UvO6qv
-   zW+U1D0WzFpTCEOUkTWw+we1JBuImFP6iyBOEj33udrBfVLajiFlWe7bh
-   A==;
-X-CSE-ConnectionGUID: +rtO0xbsSSiF8qr2vwMBPw==
-X-CSE-MsgGUID: ErPRUsI8SJKkAYLQpmY7yQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="51497136"
+  t=1749431349; x=1780967349;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=F4hs4lXfVEMpeyv/xP+k3I+9ceaIA4//C5qjQd6bnx4=;
+  b=Q2iOn8UtBnoDkGsoqs8buJda+KApHtITA3JGNYTIXJyPgvcjZs9vmJ8a
+   J+5oqQHOSiSR07mKakFgLddOJ5KQdGzQdYDes4nyohLajZs8IaXGEBV/K
+   5GNSzN3KxYrP6jpjxgEszwxy93xLODU8egZX/GOw0Q18hKHeQdgWiXqn2
+   UPDb8rB6QlbkFBHKcxEByCvCoJizpt6ZxhsdzWARr3ycDeVXRZEoqSTau
+   6aBpjCR/ETH2G2nckHDPBVrRz6m8lpnYsvQUaZaKk/XEvS4DoQOgUt1YA
+   OdVIrt53duJVp1NCPbywL75dySUgX0ETVAkl+3TPo5HBw7dJKbVaPnREt
+   w==;
+X-CSE-ConnectionGUID: vF9gmGZsQxewxp7PbTFB0A==
+X-CSE-MsgGUID: cUkMjoX5TD+4IP8mahd/Cw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="62117252"
 X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
-   d="scan'208";a="51497136"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 17:51:23 -0700
-X-CSE-ConnectionGUID: totC/warQ+CwtLHNkTLCeQ==
-X-CSE-MsgGUID: ZiNGWszkTN26BRDe8LU63A==
+   d="scan'208";a="62117252"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 18:09:08 -0700
+X-CSE-ConnectionGUID: VzWuoFxNSiCqxTp1t0UeLw==
+X-CSE-MsgGUID: CE3QRly1SFKjj1wLlyGd9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
-   d="scan'208";a="151605279"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 08 Jun 2025 17:51:20 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uOQjN-0006fF-0l;
-	Mon, 09 Jun 2025 00:51:17 +0000
-Date: Mon, 9 Jun 2025 08:51:10 +0800
+   d="scan'208";a="146717348"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 18:09:08 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Sun, 8 Jun 2025 18:09:07 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Sun, 8 Jun 2025 18:09:07 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (40.107.243.54)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.55; Sun, 8 Jun 2025 18:09:06 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=apahvs0LV2VIsDHwKGfzKDSgWKthVvN5ZP0peDvodZqOIFuIuStXUPIHjKnURPhJnDAbO8gmljcINQPYUJ1d12sg5dT7NXDpqRTJYV/v/3g6rUNGyCJtm6TpUvKvNlkmMLFMht22CtARup5+0wOQPdFb00Ukypo0/7MZv6+TQkqIZGhK8K6dNg78lkAKc1ePD5AKI87Hb19D3BR3vgejvYOg16VsNUf4fEyHA9bIZ/u2jiasDuDdbBIgsdGILZubCHX6jIgYcYiMHJ9XqDfhRHIrTksB0h0riasumjhpV0BlQk/Vdo0sx4QqTANsYAqKz8a2M5gljhlhk0ata4ikdg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nO4t3DqkU/m/nvU8YcAo6sPc0z1d4YPwsXRvE/poX4Q=;
+ b=iPfVsTCZRTe7+CJp4U2K8gxq0+v3Jphn4gRNQDPNDzJOAOntR+LTyoihYrtt3J1FUGqJxxPEDUxVT5xQIODL+3eJzSvUBPw0bxri3k7iUKon+ZITENf3WYW8hno7VjOI6EWAbrIqXz59nZXsZwPU1J07k+7fCCIR5KFvYdL49HzNvniDsztXVp4bKmOA62za+X2i+egrmlh1H+1yLUT5qbdxTVmura2J0Q7XcPRmV1gSalLTjkmPptWEoXLSgQty/F1VvCpoK/v/JdxMrg40k0I7veLJcFmDf27Z9arn/vwCKqhBMh7259N7zEuNSbE4eugcjOdt+GPOiJL7kYLi8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
+ by SA1PR11MB6711.namprd11.prod.outlook.com (2603:10b6:806:25b::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8813.29; Mon, 9 Jun
+ 2025 01:09:03 +0000
+Received: from PH0PR11MB5674.namprd11.prod.outlook.com
+ ([fe80::77d3:dfb2:3bd:e02a]) by PH0PR11MB5674.namprd11.prod.outlook.com
+ ([fe80::77d3:dfb2:3bd:e02a%4]) with mapi id 15.20.8813.024; Mon, 9 Jun 2025
+ 01:09:03 +0000
+Date: Mon, 9 Jun 2025 09:08:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	dri-devel@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>,
-	David Airlie <airlied@gmail.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
-Message-ID: <202506090832.Vo4IJeD2-lkp@intel.com>
-References: <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
+To: Tal Zussman <tz2294@columbia.edu>
+CC: <oe-kbuild-all@lists.linux.dev>, Andrew Morton
+	<akpm@linux-foundation.org>, Linux Memory Management List
+	<linux-mm@kvack.org>
+Subject: [akpm-mm:mm-nonmm-unstable 29/32]
+ include/linux/compiler_types.h:565:39: error: call to
+ '__compiletime_assert___COUNTER__' declared with attribute error:
+ BUILD_BUG_ON failed: FIX_KMAP_SLOTS > PTRS_PER_PTE
+Message-ID: <aEY0JhnfnoFGlbOm@rli9-mobl>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-ClientProxiedBy: SG2PR04CA0162.apcprd04.prod.outlook.com (2603:1096:4::24)
+ To PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5674:EE_|SA1PR11MB6711:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81ad1a5c-cc08-47e1-c268-08dda6f23939
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?rzqI6JaxlR4SqC8BPcHRHP9Tx5WV6iNFwyLAG0MBIWL3vq8U50iD7wyBE2pJ?=
+ =?us-ascii?Q?pwqIwewWn1hVse85gnQSEZcukqyT9oI7E6E4Yq9I60IkNj1D5A7q5kKMeo1Z?=
+ =?us-ascii?Q?U+qNa/oGpc6FM/yFE8ZCn68M5PaC1kdrTyQOLvOvZXFCfDOic8yTPSeAKAel?=
+ =?us-ascii?Q?SF+fqYgdHR6cftJ3g5DrkO3mN8l/E+D7GVEIjYquKDjQbWtsdfVwYJJBiQxp?=
+ =?us-ascii?Q?bGTOoM9VrM/HpcpvQzQfWdoDBiCK8eIRWNxUmUF6V66cFpsRsL+q6Kg+r0d0?=
+ =?us-ascii?Q?FVWOzihP5Nw/FxU4v3BHZJ9ToFFqmia1+c9cbjpEE0eTjfR5x5AHG8PIUpeE?=
+ =?us-ascii?Q?3pA0kC3b+EgMO17t12yfgu6cPJKZkE7uA0oK1Q7/jitRHl1oU03PLl9MWj22?=
+ =?us-ascii?Q?/+6W3faTXE4/KfHn9oR+dAd65pC3ZxAO6QB1v+qZ6gnruilEBF9raC35JU+J?=
+ =?us-ascii?Q?g6EuIt6tl+twKoQ4qJhFqIaKmH+szvBRvXtWR8GhZrSC7gqwDT+2mrn/W+WD?=
+ =?us-ascii?Q?DZ3U2xIJQU3YDXc6o6GSh3HR1/m3vWt0otTNsGmv/Y6lMAKjqTjlLZEkLVnR?=
+ =?us-ascii?Q?cm0wwq4OsoK0Jbcu9sWcHwtsFXe6K2MtWjNuWe97zRispcV1GbHGGc/CxIt+?=
+ =?us-ascii?Q?kJipfetQSXkMTh1R409ff30FK56Nehme6nzt3RkD0F8Gn67UxMtytpc0l2dG?=
+ =?us-ascii?Q?98S5THAEZ7wm4NmlMBwEnewLUkKaC+3WhCal18uB6fjDn5z4upDdr8PN3ayD?=
+ =?us-ascii?Q?EHw//xeIp2Gdr6uclWwTmoWEfpVPpSqKEaJhLovO20hG1b03MjbqhDt+kwNZ?=
+ =?us-ascii?Q?PjRYYC0eD+H05MWFibSoBBPjCu+uQNr+dWy4V62ISOEbkUnDmDDEAmAJpjql?=
+ =?us-ascii?Q?AuSmcjL8y+HRlHrU6CvtT+x6P99fzRPjoqCr9ViVcEY1Oc723p9iwjzBmqHa?=
+ =?us-ascii?Q?MOaimzisQ3Uzijpx2aCgvChbBJzIq2W/9lUDh27UFacejiO4H8dXG2r0McXh?=
+ =?us-ascii?Q?Doavzcm7erLkZFbi7ggGGhpLjdd5i0QOo/zzpLJ+4zbUMGAWhAWod1HJrt9k?=
+ =?us-ascii?Q?e/OBNIwnnub0WrO9W2B7DRoa6y41o9/z3uSiVG3Wy8AfLYwbp/aY4bw9E2pe?=
+ =?us-ascii?Q?rVDk+o3cTIUIjKTJmUT2O0EvlX/uFMbOhdm19vwxDEK0Xw5O93WHFv/x5ev4?=
+ =?us-ascii?Q?Us0893CTLAjTN2aN7JvPi6+25G4nUeB35tbKMk+D12fLbN8kjQRKVrMaNDxv?=
+ =?us-ascii?Q?Ce+9kkKybF/XvrP9CtXJjxQbbjI2FcVNqyaOFHuduuVKGNZsFlP1wFRLZjoV?=
+ =?us-ascii?Q?IKWjhqwSZDOsakq4zzagkOQbX+NHhmd9RFu/SdwLAf8vJqEAwGBv/Gx3bLLx?=
+ =?us-ascii?Q?f7fQg8WC9x81G3mOPOQtdLuvtPor?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5674.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?7ow2XheCRNo3RFP3gCUWMQNjHoe5tz1fVTha4Ia+gDIDQIJ/h3e/ilQS1wuD?=
+ =?us-ascii?Q?zhzcZk7Lcwxj8qJw9RPjVrNN2sqSYf+yTOk5fPpNYw1R1aQsMufFG0gDZ3r5?=
+ =?us-ascii?Q?bbRwaatr4SZx95JEEHOfUys52vXyKxFhHX5j9G3tQRtPqRB1bnAhQp9nL4h8?=
+ =?us-ascii?Q?g0yIPUbmXF2/6Mle776KmYCLwdfcll5jEY/Rr5Uh9w0AKpMClut5ak6pp1SO?=
+ =?us-ascii?Q?3pnrxMVYBtCAW1aM3EPPt3ZAyVp4ntxAtMGd4SSTnlatkYJZ+c//JIt4B0Rq?=
+ =?us-ascii?Q?byPAJ67iBz3ytXwi9y+7xMI7WfuhVfPd3ty0HfYznlg+WMt85QfQrPvapPPW?=
+ =?us-ascii?Q?ijGvgqrdS5eQqMBgmwO1gSbC+oAoLWt+ts5ur0lhNEKqq0Do21pd6QwoNvYq?=
+ =?us-ascii?Q?SME1nqZI9eh1AFbJ4IHiIsyIIxEsO6R3KMCoUyYzIT6JQdE3rAmBO2mcvF6H?=
+ =?us-ascii?Q?rQnVEtL2mLWBGLkPu2sl6UDPNjaOwWRqgFh7suYm4+R7oVQozRK7a4HZLewT?=
+ =?us-ascii?Q?afOeYa+nDAZmSNwFUZ9wnwsDhqJdip+/RBVTUtt+TlV0CJYzc7qewrzAH7Hk?=
+ =?us-ascii?Q?ufhsS47I777ZPeDOlntXYS9PrK4uRxGBhoVsVqKCG0b8Rl3eHDKvJbbIGJbV?=
+ =?us-ascii?Q?nMZXUC9T/Gq2oD9lTHr2lN/liNtrNcBf3D04jNsbV/ToWHWM+CpGgoLpZPbj?=
+ =?us-ascii?Q?SiBMxq6IqP5jEA9MQFNPu5SEjJjhHi73qp5i4Cpwe230yTkTxH1kjSBJ2C2N?=
+ =?us-ascii?Q?mgyk98WhJR04d0yy3a1juNOo5HBMVRco/484ztErUG8QLPJlzZ2Jq8GBNVhW?=
+ =?us-ascii?Q?PBWTPZozTGFcMAys0AZKuzbGK65p9wG74iX5wi4lruK/8/FfoN6IOlgrZzyx?=
+ =?us-ascii?Q?KtdwIjYEDAq9SrDn3SBoqftDbp9Ht1JMwEUGv5AKvO2Kft835KxcSBpRffNV?=
+ =?us-ascii?Q?uR++cxH3VKQsASFBMsIRiyc2d5uaRnO/IntUGUTpW40kFrWQ8JHiQCmeUfdK?=
+ =?us-ascii?Q?14q+8PFZuZm3PWNUUEFug4w7dYZxJnOcvgP1LZbPncaWkl0a2WgbP2cRW4GS?=
+ =?us-ascii?Q?Ohyskp4NWVOnpIyES3HsWQ03qhuQGzd+MXAL3VByS4iXBaMdRDsSiuMzSB9X?=
+ =?us-ascii?Q?XV/5PB2Nxb+afKwwOEO2soO7vzDLDIqZPuwKIUgUZZ+VJB70UiUYFUFJmHc7?=
+ =?us-ascii?Q?otEVCHRDYyyt5fKv1Empb5NtalcWAHXoKs/MTGwbHEVcTaJ/Fck0JOVimRvD?=
+ =?us-ascii?Q?aiv+WC+O/aIjRWjcq4DT94wgQyFLLunpbexzNm4SZu0KSB0fvmdRMJFx1NWz?=
+ =?us-ascii?Q?zG/XfKk0ekSxG7EXdeJMs8KlbTeI8o0hqakc0oFG7yPU1vofy4oAF6UU9V62?=
+ =?us-ascii?Q?Foa5UWZVlp4r52DXVaCAq50ff6X2vVBvLc8lq0Yl/xgcEvhnj6NPYQDOmQjP?=
+ =?us-ascii?Q?jrY0lcXOPV+UXiYG7nP40X+TqIGdJzLx39Nxe59CoY1IlWiAzi5k+H+zkyfb?=
+ =?us-ascii?Q?vu1fX7/J1Q37+Y+x8bwM2XOBYrRFwN2rOL99yvbX7HiwIM39RiqYp3fuxagI?=
+ =?us-ascii?Q?rMaXbV2HuigpU33dHYg8rF3AQJG7yikU+ExcCkQa?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81ad1a5c-cc08-47e1-c268-08dda6f23939
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5674.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2025 01:09:03.5064
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kL3hjoqaqQSRyh0nPG1yeUSrT0ru4lR+HrB6Kb4xHuNGDCDPGC0GDQkq4U9xztJC0+ZUdXQZ05HQa5NoAFG2eA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB6711
+X-OriginatorOrg: intel.com
 
-Hi Marek,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on geert-renesas-devel/next]
-[also build test WARNING on drm-exynos/exynos-drm-next linus/master v6.16-rc1 next-20250606]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/drm-rcar-du-dsi-Convert-register-bits-to-BIT-macro/20250609-054641
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
-patch link:    https://lore.kernel.org/r/20250608142636.54033-5-marek.vasut%2Brenesas%40mailbox.org
-patch subject: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
-config: i386-buildonly-randconfig-005-20250609 (https://download.01.org/0day-ci/archive/20250609/202506090832.Vo4IJeD2-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506090832.Vo4IJeD2-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
+head:   8172857ac52869c411762ce86802d127b0bb7546
+commit: 54594582aa30a31c2596575729000f0a60b0a648 [29/32] compiler_types: remove unnecessary indirection in compiletime_assert()
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: arc-randconfig-002-20250609 (https://download.01.org/0day-ci/archive/20250609/202506090419.A0G5I2FK-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506090419.A0G5I2FK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506090832.Vo4IJeD2-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506090419.A0G5I2FK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:1064:11: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-    1063 |                                          "Long Packet Response longer than RX buffer (%d), limited to %ld Bytes\n",
-         |                                                                                                       ~~~
-         |                                                                                                       %zu
-    1064 |                                          wc, msg->rx_len);
-         |                                              ^~~~~~~~~~~
-   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                     ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:1090:7: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
-    1089 |                                          "Expected Short Packet Response too long (%ld), limited to 2 Bytes\n",
-         |                                                                                    ~~~
-         |                                                                                    %zu
-    1090 |                                          msg->rx_len);
-         |                                          ^~~~~~~~~~~
-   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
-     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                     ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   2 warnings generated.
+   In file included from <command-line>:
+   arch/arc/mm/highmem.c: In function 'kmap_init':
+>> include/linux/compiler_types.h:565:39: error: call to '__compiletime_assert___COUNTER__' declared with attribute error: BUILD_BUG_ON failed: FIX_KMAP_SLOTS > PTRS_PER_PTE
+     565 |  __compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                       ^
+   include/linux/compiler_types.h:549:4: note: in definition of macro '__compiletime_assert'
+     549 |    prefix ## suffix();    \
+         |    ^~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:2: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |  BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |  ^~~~~~~~~~~~~~~~
+   arch/arc/mm/highmem.c:69:2: note: in expansion of macro 'BUILD_BUG_ON'
+      69 |  BUILD_BUG_ON(FIX_KMAP_SLOTS > PTRS_PER_PTE);
+         |  ^~~~~~~~~~~~
 
 
-vim +1064 drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
+vim +/__compiletime_assert___COUNTER__ +565 include/linux/compiler_types.h
 
-  1020	
-  1021	static ssize_t rcar_mipi_dsi_host_rx_transfer(struct mipi_dsi_host *host,
-  1022						      const struct mipi_dsi_msg *msg)
-  1023	{
-  1024		struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
-  1025		u8 *rx_buf = (u8 *)(msg->rx_buf);
-  1026		u32 reg, data, status, wc;
-  1027		int i, ret;
-  1028	
-  1029		/* RX transfer received data validation and parsing starts here. */
-  1030		reg = rcar_mipi_dsi_read(dsi, TOSR);
-  1031		if (reg & TOSR_TATO) {	/* Turn-Around TimeOut. */
-  1032			/* Clear TATO Turn-Around TimeOut bit. */
-  1033			rcar_mipi_dsi_write(dsi, TOSR, TOSR_TATO);
-  1034			return -ETIMEDOUT;
-  1035		}
-  1036	
-  1037		reg = rcar_mipi_dsi_read(dsi, RXPSR);
-  1038	
-  1039		if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
-  1040			/* Transfer with zero-length RX */
-  1041			if (!(reg & RXPSR_RCVACK)) {
-  1042				/* No ACK on RX response received */
-  1043				return -EINVAL;
-  1044			}
-  1045		} else {
-  1046			/* Transfer with non-zero-length RX */
-  1047			if (!(reg & RXPSR_RCVRESP)) {
-  1048				/* No packet header of RX response received */
-  1049				return -EINVAL;
-  1050			}
-  1051	
-  1052			if (reg & (RXPSR_CRCERR | RXPSR_WCERR | RXPSR_AXIERR | RXPSR_OVRERR)) {
-  1053				/* Incorrect response payload */
-  1054				return -ENODATA;
-  1055			}
-  1056	
-  1057			data = rcar_mipi_dsi_read(dsi, RXPHDR);
-  1058			if (data & RXPHDR_FMT) {	/* Long Packet Response */
-  1059				/* Read Long Packet Response length from packet header. */
-  1060				wc = data & 0xffff;
-  1061				if (wc > msg->rx_len) {
-  1062					dev_warn(dsi->dev,
-  1063						 "Long Packet Response longer than RX buffer (%d), limited to %ld Bytes\n",
-> 1064						 wc, msg->rx_len);
-  1065					wc = msg->rx_len;
-  1066				}
-  1067	
-  1068				if (wc > 16) {
-  1069					dev_warn(dsi->dev,
-  1070						 "Long Packet Response too long (%d), limited to 16 Bytes\n",
-  1071						 wc);
-  1072					wc = 16;
-  1073				}
-  1074	
-  1075				for (i = 0; i < msg->rx_len; i++) {
-  1076					if (!(i % 4))
-  1077						data = rcar_mipi_dsi_read(dsi, RXPPD0R + i);
-  1078	
-  1079					rx_buf[i] = data & 0xff;
-  1080					data >>= 8;
-  1081				}
-  1082			} else {	/* Short Packet Response */
-  1083				if (msg->rx_len >= 1)
-  1084					rx_buf[0] = data & 0xff;
-  1085				if (msg->rx_len >= 2)
-  1086					rx_buf[1] = (data >> 8) & 0xff;
-  1087				if (msg->rx_len >= 3) {
-  1088					dev_warn(dsi->dev,
-  1089						 "Expected Short Packet Response too long (%ld), limited to 2 Bytes\n",
-  1090						 msg->rx_len);
-  1091				}
-  1092			}
-  1093		}
-  1094	
-  1095		if (reg & RXPSR_RCVAKE) {
-  1096			/* Acknowledge and Error report received */
-  1097			return -EFAULT;
-  1098		}
-  1099	
-  1100		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-  1101					!(status & PPIDL0SR_DIR),
-  1102					2000, 10000, false, dsi, PPIDL0SR);
-  1103		if (ret < 0) {
-  1104			dev_err(dsi->dev, "Command RX DIR timeout (0x%08x)\n", status);
-  1105			return ret;
-  1106		}
-  1107	
-  1108		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
-  1109					status & PPIDL0SR_STPST,
-  1110					2000, 10000, false, dsi, PPIDL0SR);
-  1111		if (ret < 0) {
-  1112			dev_err(dsi->dev, "Command RX STPST timeout (0x%08x)\n", status);
-  1113			return ret;
-  1114		}
-  1115	
-  1116		return 0;
-  1117	}
-  1118	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  554  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  555  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  556   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  557   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  559   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  560   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  561   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  562   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  563   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  564  #define compiletime_assert(condition, msg) \
+54594582aa30a3 Tal Zussman 2025-06-07 @565  	__compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  566  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
