@@ -1,60 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63356267B65
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  8 Jun 2025 23:59:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774041D6AA;
+	Mon,  9 Jun 2025 00:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749427160; cv=none; b=fkRCVDhsUIhmJR58xT++EOuaINQktNEp68WV8i99rsmzUlLBzNdulY+CB1GdjHYzIdT2W9a4ZQDQ4E0jwiuozNpe4eNPJC9+7p+B0WXo5BiZ1+V7VusNtMBzuSBPESurFkrkachtVM8d4bXkeHGvfn7Rzf1VedZ0toRDcblP2z0=
+	t=1749430287; cv=none; b=YCXN1TjDtJyJDDp5sl3b5mxHNysxFsizsOnafW20nNIicBYEEFt+LXKG9rFjUwOdt9UL2pbUGqpTVSoAVovUAD/WNFO2aSctO9nEqe5y2HuN58zCYLgbkTrIBrKNf0xpaQC3tS+V3lq0yJL3zN4US8oPvqSdXR4xeriote3s0nQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749427160; c=relaxed/simple;
-	bh=pophgDGQcTCoOGYTvZJPnSg+Dj9iwuitVrCurYQEid8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mlptrk6fAPuUkqeeKLkQRUkqfEETLoVdE4zO5EBVx1uD2KaT7GTw46Sn4/10XH2Ht6BnqMGbmZgG/AIUxXYImYT9oGbyO1N2w8y2iQAnhfaCHB3IbFx5FGSccR70DUJiHkH+BcKK2HPBz7Cg+yTeEyPTv/W+JKda+nVn4KMG+sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UMacrvot; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1749430287; c=relaxed/simple;
+	bh=8S6HYzYYfdFc2GH1aog83DGprnavF4jGjecrMy7dxN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C3n8MeQQ8zLpmJ5RPWoym9kCxcOqUDJPd3bZKDNdgTHNXy9AqOc34y8N/z48+XPaGRPu3ZLJjkVVY5YaLtJi96OSor/PtC3X2uZnqMRxZ6dbUJNJrMdAr5fM4DvNBg9C8fcLIp1L+O7JFSXX63nVZRT3jBxRKGygHtB8TK+JvEI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MkORAGaF; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UMacrvot"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MkORAGaF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749427159; x=1780963159;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pophgDGQcTCoOGYTvZJPnSg+Dj9iwuitVrCurYQEid8=;
-  b=UMacrvotCJNdxdQ+8NASllfRbTDEUQ3jDuUbjIK4F99U8YBz0p+BIrBc
-   GEN4KuqLNcA/w+GD+ANySE8jNcpFra0io/TQSHv1VpJJqUSMNvxDY5q+u
-   WrHtat/BJ7MFfavzI9szGmZ9XkAhMH4C9G5KiLaTZO2ZiEO3q4iUWGK7V
-   EMT7M2nLtq32XG8g2vOgHP6eOAUFLp3oWd5JAAewkD6oyujVpciSB0L/x
-   IaqTQbE/C9oUFDSuQ9ZAa9iDyMKpry+t0Fx4GkgxSk6wZTsbJ/l8IHb0E
-   hPYbAm7LWR37AU/ZJo/ZOLdcrYzVYO0IzozE+b5yOziqHZ8f6IgFqGU3r
-   g==;
-X-CSE-ConnectionGUID: k5Wv4QefRf2wvQPxP22S+Q==
-X-CSE-MsgGUID: 5PLWG4JsR0u4xGG4m6NrCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="62114524"
+  t=1749430284; x=1780966284;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8S6HYzYYfdFc2GH1aog83DGprnavF4jGjecrMy7dxN0=;
+  b=MkORAGaFpdUSR/t2ltshL+G5FFAuYTPNS4d5NgL2WZrVnu0yWoA+BzEz
+   ZU+MHlr5xyOLrq6nu40+EB3WCyij0yBmR9oTJofdiiJfsLcFUVmT22aZ7
+   yEHjKyHyEA9lO2s+nvbY7QDZ1RHQDUtxruc+4lIedeaamS17o/iqPmLh5
+   sKxsWJygiYjNVgE12Ov2dK+ZgKMLXiNvNXBa/Av4R/BUtOULocBN38h/g
+   AkJu94x/9mxXEd+rTdnihNoqLy2tXzsV4o4+c5XgjYaKReqwAa3UvO6qv
+   zW+U1D0WzFpTCEOUkTWw+we1JBuImFP6iyBOEj33udrBfVLajiFlWe7bh
+   A==;
+X-CSE-ConnectionGUID: +rtO0xbsSSiF8qr2vwMBPw==
+X-CSE-MsgGUID: ErPRUsI8SJKkAYLQpmY7yQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="51497136"
 X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
-   d="scan'208";a="62114524"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 16:59:17 -0700
-X-CSE-ConnectionGUID: p4rjQpA4TimTuzCdtaOfqA==
-X-CSE-MsgGUID: 93sC67mCSYK3TZeNpQPr5Q==
+   d="scan'208";a="51497136"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 17:51:23 -0700
+X-CSE-ConnectionGUID: totC/warQ+CwtLHNkTLCeQ==
+X-CSE-MsgGUID: ZiNGWszkTN26BRDe8LU63A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
-   d="scan'208";a="146279352"
+   d="scan'208";a="151605279"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 08 Jun 2025 16:59:16 -0700
+  by orviesa005.jf.intel.com with ESMTP; 08 Jun 2025 17:51:20 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOPuz-0006e5-35;
-	Sun, 08 Jun 2025 23:59:13 +0000
-Date: Mon, 9 Jun 2025 07:58:59 +0800
+	id 1uOQjN-0006fF-0l;
+	Mon, 09 Jun 2025 00:51:17 +0000
+Date: Mon, 9 Jun 2025 08:51:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: arch/mips/txx9/generic/setup.c:837:32: error: assignment to 'ssize_t
- (*)(struct file *, struct kobject *, const struct bin_attribute *, char *,
- loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, const
- struct bin_attribute *, char *, long lon...
-Message-ID: <202506090720.YHNaPWqT-lkp@intel.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	dri-devel@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Marek Vasut <marek.vasut+renesas@mailbox.org>,
+	David Airlie <airlied@gmail.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Maxime Ripard <mripard@kernel.org>, Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
+Message-ID: <202506090832.Vo4IJeD2-lkp@intel.com>
+References: <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,74 +74,161 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250608142636.54033-5-marek.vasut+renesas@mailbox.org>
 
-Hi Thomas,
+Hi Marek,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-commit: 97d06802d10a2827ef46fd31789a26117ce7f3d9 sysfs: constify bin_attribute argument of bin_attribute::read/write()
-date:   8 weeks ago
-config: mips-rbtx49xx_defconfig (https://download.01.org/0day-ci/archive/20250609/202506090720.YHNaPWqT-lkp@intel.com/config)
-compiler: mips-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506090720.YHNaPWqT-lkp@intel.com/reproduce)
+[auto build test WARNING on geert-renesas-devel/next]
+[also build test WARNING on drm-exynos/exynos-drm-next linus/master v6.16-rc1 next-20250606]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/drm-rcar-du-dsi-Convert-register-bits-to-BIT-macro/20250609-054641
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-devel.git next
+patch link:    https://lore.kernel.org/r/20250608142636.54033-5-marek.vasut%2Brenesas%40mailbox.org
+patch subject: [PATCH 4/4] drm/rcar-du: dsi: Implement DSI command support
+config: i386-buildonly-randconfig-005-20250609 (https://download.01.org/0day-ci/archive/20250609/202506090832.Vo4IJeD2-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506090832.Vo4IJeD2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506090720.YHNaPWqT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506090832.Vo4IJeD2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arch/mips/txx9/generic/setup.c: In function 'txx9_sramc_init':
->> arch/mips/txx9/generic/setup.c:837:32: error: assignment to 'ssize_t (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, long long int,  unsigned int)'} from incompatible pointer type 'ssize_t (*)(struct file *, struct kobject *, struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, struct bin_attribute *, char *, long long int,  unsigned int)'} [-Wincompatible-pointer-types]
-     837 |         dev->bindata_attr.read = txx9_sram_read;
-         |                                ^
-   arch/mips/txx9/generic/setup.c:776:16: note: 'txx9_sram_read' declared here
-     776 | static ssize_t txx9_sram_read(struct file *filp, struct kobject *kobj,
-         |                ^~~~~~~~~~~~~~
-   arch/mips/txx9/generic/setup.c:838:33: error: assignment to 'ssize_t (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, const struct bin_attribute *, char *, long long int,  unsigned int)'} from incompatible pointer type 'ssize_t (*)(struct file *, struct kobject *, struct bin_attribute *, char *, loff_t,  size_t)' {aka 'int (*)(struct file *, struct kobject *, struct bin_attribute *, char *, long long int,  unsigned int)'} [-Wincompatible-pointer-types]
-     838 |         dev->bindata_attr.write = txx9_sram_write;
-         |                                 ^
-   arch/mips/txx9/generic/setup.c:791:16: note: 'txx9_sram_write' declared here
-     791 | static ssize_t txx9_sram_write(struct file *filp, struct kobject *kobj,
-         |                ^~~~~~~~~~~~~~~
+>> drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:1064:11: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+    1063 |                                          "Long Packet Response longer than RX buffer (%d), limited to %ld Bytes\n",
+         |                                                                                                       ~~~
+         |                                                                                                       %zu
+    1064 |                                          wc, msg->rx_len);
+         |                                              ^~~~~~~~~~~
+   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c:1090:7: warning: format specifies type 'long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+    1089 |                                          "Expected Short Packet Response too long (%ld), limited to 2 Bytes\n",
+         |                                                                                    ~~~
+         |                                                                                    %zu
+    1090 |                                          msg->rx_len);
+         |                                          ^~~~~~~~~~~
+   include/linux/dev_printk.h:156:70: note: expanded from macro 'dev_warn'
+     156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                     ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +837 arch/mips/txx9/generic/setup.c
+vim +1064 drivers/gpu/drm/renesas/rcar-du/rcar_mipi_dsi.c
 
-1610c8a8f2d3eb Levente Kurusa 2013-12-19  813  
-c3b28ae260d99a Atsushi Nemoto 2009-05-25  814  void __init txx9_sramc_init(struct resource *r)
-c3b28ae260d99a Atsushi Nemoto 2009-05-25  815  {
-269a3eb1bf10a0 Kay Sievers    2011-12-21  816  	struct txx9_sramc_dev *dev;
-c3b28ae260d99a Atsushi Nemoto 2009-05-25  817  	size_t size;
-c3b28ae260d99a Atsushi Nemoto 2009-05-25  818  	int err;
-c3b28ae260d99a Atsushi Nemoto 2009-05-25  819  
-269a3eb1bf10a0 Kay Sievers    2011-12-21  820  	err = subsys_system_register(&txx9_sramc_subsys, NULL);
-269a3eb1bf10a0 Kay Sievers    2011-12-21  821  	if (err)
-c3b28ae260d99a Atsushi Nemoto 2009-05-25  822  		return;
-c3b28ae260d99a Atsushi Nemoto 2009-05-25  823  	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
-c3b28ae260d99a Atsushi Nemoto 2009-05-25  824  	if (!dev)
-c3b28ae260d99a Atsushi Nemoto 2009-05-25  825  		return;
-c3b28ae260d99a Atsushi Nemoto 2009-05-25  826  	size = resource_size(r);
-c3b28ae260d99a Atsushi Nemoto 2009-05-25  827  	dev->base = ioremap(r->start, size);
-1610c8a8f2d3eb Levente Kurusa 2013-12-19  828  	if (!dev->base) {
-1610c8a8f2d3eb Levente Kurusa 2013-12-19  829  		kfree(dev);
-1610c8a8f2d3eb Levente Kurusa 2013-12-19  830  		return;
-1610c8a8f2d3eb Levente Kurusa 2013-12-19  831  	}
-1610c8a8f2d3eb Levente Kurusa 2013-12-19  832  	dev->dev.release = &txx9_device_release;
-269a3eb1bf10a0 Kay Sievers    2011-12-21  833  	dev->dev.bus = &txx9_sramc_subsys;
-f937331b3f92cb Wolfram Sang   2010-03-15  834  	sysfs_bin_attr_init(&dev->bindata_attr);
-c3b28ae260d99a Atsushi Nemoto 2009-05-25  835  	dev->bindata_attr.attr.name = "bindata";
-c3b28ae260d99a Atsushi Nemoto 2009-05-25  836  	dev->bindata_attr.attr.mode = S_IRUSR | S_IWUSR;
-c3b28ae260d99a Atsushi Nemoto 2009-05-25 @837  	dev->bindata_attr.read = txx9_sram_read;
-
-:::::: The code at line 837 was first introduced by commit
-:::::: c3b28ae260d99a5364a31210a36a3246bd9647f7 MIPS: TXx9: Add SRAMC support
-
-:::::: TO: Atsushi Nemoto <anemo@mba.ocn.ne.jp>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+  1020	
+  1021	static ssize_t rcar_mipi_dsi_host_rx_transfer(struct mipi_dsi_host *host,
+  1022						      const struct mipi_dsi_msg *msg)
+  1023	{
+  1024		struct rcar_mipi_dsi *dsi = host_to_rcar_mipi_dsi(host);
+  1025		u8 *rx_buf = (u8 *)(msg->rx_buf);
+  1026		u32 reg, data, status, wc;
+  1027		int i, ret;
+  1028	
+  1029		/* RX transfer received data validation and parsing starts here. */
+  1030		reg = rcar_mipi_dsi_read(dsi, TOSR);
+  1031		if (reg & TOSR_TATO) {	/* Turn-Around TimeOut. */
+  1032			/* Clear TATO Turn-Around TimeOut bit. */
+  1033			rcar_mipi_dsi_write(dsi, TOSR, TOSR_TATO);
+  1034			return -ETIMEDOUT;
+  1035		}
+  1036	
+  1037		reg = rcar_mipi_dsi_read(dsi, RXPSR);
+  1038	
+  1039		if (msg->flags & MIPI_DSI_MSG_REQ_ACK) {
+  1040			/* Transfer with zero-length RX */
+  1041			if (!(reg & RXPSR_RCVACK)) {
+  1042				/* No ACK on RX response received */
+  1043				return -EINVAL;
+  1044			}
+  1045		} else {
+  1046			/* Transfer with non-zero-length RX */
+  1047			if (!(reg & RXPSR_RCVRESP)) {
+  1048				/* No packet header of RX response received */
+  1049				return -EINVAL;
+  1050			}
+  1051	
+  1052			if (reg & (RXPSR_CRCERR | RXPSR_WCERR | RXPSR_AXIERR | RXPSR_OVRERR)) {
+  1053				/* Incorrect response payload */
+  1054				return -ENODATA;
+  1055			}
+  1056	
+  1057			data = rcar_mipi_dsi_read(dsi, RXPHDR);
+  1058			if (data & RXPHDR_FMT) {	/* Long Packet Response */
+  1059				/* Read Long Packet Response length from packet header. */
+  1060				wc = data & 0xffff;
+  1061				if (wc > msg->rx_len) {
+  1062					dev_warn(dsi->dev,
+  1063						 "Long Packet Response longer than RX buffer (%d), limited to %ld Bytes\n",
+> 1064						 wc, msg->rx_len);
+  1065					wc = msg->rx_len;
+  1066				}
+  1067	
+  1068				if (wc > 16) {
+  1069					dev_warn(dsi->dev,
+  1070						 "Long Packet Response too long (%d), limited to 16 Bytes\n",
+  1071						 wc);
+  1072					wc = 16;
+  1073				}
+  1074	
+  1075				for (i = 0; i < msg->rx_len; i++) {
+  1076					if (!(i % 4))
+  1077						data = rcar_mipi_dsi_read(dsi, RXPPD0R + i);
+  1078	
+  1079					rx_buf[i] = data & 0xff;
+  1080					data >>= 8;
+  1081				}
+  1082			} else {	/* Short Packet Response */
+  1083				if (msg->rx_len >= 1)
+  1084					rx_buf[0] = data & 0xff;
+  1085				if (msg->rx_len >= 2)
+  1086					rx_buf[1] = (data >> 8) & 0xff;
+  1087				if (msg->rx_len >= 3) {
+  1088					dev_warn(dsi->dev,
+  1089						 "Expected Short Packet Response too long (%ld), limited to 2 Bytes\n",
+  1090						 msg->rx_len);
+  1091				}
+  1092			}
+  1093		}
+  1094	
+  1095		if (reg & RXPSR_RCVAKE) {
+  1096			/* Acknowledge and Error report received */
+  1097			return -EFAULT;
+  1098		}
+  1099	
+  1100		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+  1101					!(status & PPIDL0SR_DIR),
+  1102					2000, 10000, false, dsi, PPIDL0SR);
+  1103		if (ret < 0) {
+  1104			dev_err(dsi->dev, "Command RX DIR timeout (0x%08x)\n", status);
+  1105			return ret;
+  1106		}
+  1107	
+  1108		ret = read_poll_timeout(rcar_mipi_dsi_read, status,
+  1109					status & PPIDL0SR_STPST,
+  1110					2000, 10000, false, dsi, PPIDL0SR);
+  1111		if (ret < 0) {
+  1112			dev_err(dsi->dev, "Command RX STPST timeout (0x%08x)\n", status);
+  1113			return ret;
+  1114		}
+  1115	
+  1116		return 0;
+  1117	}
+  1118	
 
 -- 
 0-DAY CI Kernel Test Service
