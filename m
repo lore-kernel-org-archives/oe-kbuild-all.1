@@ -1,41 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 637561F4608;
-	Mon,  9 Jun 2025 21:35:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1243D224895
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jun 2025 22:53:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749504909; cv=none; b=R2arfshzECXEzfJrtHboDMXgLiGBKHMFjPc+3vH79pYBEXq3oQeslexBmNN7eVQNN0FRfNRlyVamYm9MZqAXDw65W49Nv8o5ok4g27smKmjE4pXti6iFBW0JRAP6/t7b1+KHr3+qMKJClixf7pQ4j5nD3gBaXk89FFWaSLM2qxk=
+	t=1749509589; cv=none; b=NJgtGtQlKxqGLV0nENWbVAD3gfMqftavsdVhZRymL044Z4+SPBZwfFkXXrTPA17DdowEuY5i7rBCyI9OIMnz3GMO2O/zw3UOELiS5jXzLrJCyJjqscVpEBYk83cRKBxsKP6LrvTAinpHSbzltvu1MC1I2jRur2VDvx6r/ZeljPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749504909; c=relaxed/simple;
-	bh=5G2/1zHpI2UKUztRiHV6T8X/a2coeCiyQkrQjfPAv9o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W0vl3eLrCDcK/xlAtZxox2etkGGviibA8FOiz7GlaDEbUUa7FXfv4VpuQnLhjrG+cB4vjzAEySWM7CyjBqBdhKpzENI1KlPYq7lmjy57MI00toioBl79/1SMVT6cQ0f9sDJY5YDbmNIuWyfqIkQo6R8iRyLWZA8/+Ig95trhjmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HwBjR5QF; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749509589; c=relaxed/simple;
+	bh=dtqVLHodWd2MyMx4kp2rSNOmUMwd734aSgLfp3td8EE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=puoIy29ZF8o+FUPq1A3W8PHpQ9T1E8wMiuUcp7tv335efOETWayb19OebgCLgvkPLsaGHEwU26PfqWTx3oJaSCRfSWnSY/RbOr6Y/rqfvHXh2e7ozV9B05KqpokqqY1OmKa0lCYPwBxsihPEyIu9uS/CIOgdwAe9TSiwPcAJBEs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nv4bAnuM; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HwBjR5QF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7431C4CEEB;
-	Mon,  9 Jun 2025 21:35:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749504909;
-	bh=5G2/1zHpI2UKUztRiHV6T8X/a2coeCiyQkrQjfPAv9o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HwBjR5QF0kRSkAzCbYQm/eI2+bpg+qwqleE+I5PQjdiZwxANgL7GUVGQrpk36FWHo
-	 8oDLKuQg3RjCJEbb4xZVIKBKCtXdQNu2u0NZNSBcPbaSxZbN+QD/93S1UDqq7UUofA
-	 zIbEnPfadNoYWS7440kNY4V07j4R2FkKp3EsHdFIsxDUwmubrBcKVsHd2wrzBlvDzS
-	 +NS4tmxYbOxHR91q901sHbxLl3SbES3ImEdrupEWL2V+LNcWWKhIInr01DGRytGqsH
-	 J2h3LCddOSlHtT04pR3pc3cu+uyXGp5LiWL2vxY7DIpemG+BV7aiwku2Gw6hiytMVp
-	 iQYoVigsHsE6g==
-Date: Mon, 9 Jun 2025 14:35:05 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Ville Syrjala <ville.syrjala@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v4 15/21] drm/i915/flipq: Provide the nuts and bolts code
- for flip queue
-Message-ID: <20250609213505.GA1634981@ax162>
-References: <20250609141046.6244-16-ville.syrjala@linux.intel.com>
- <202506100537.aqJUNf0d-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nv4bAnuM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749509588; x=1781045588;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=dtqVLHodWd2MyMx4kp2rSNOmUMwd734aSgLfp3td8EE=;
+  b=Nv4bAnuMUc0zqWd5UBoH0zJHhyH+OkxJ4ENSKpc5ksjLPEaTtlWLaNHq
+   aOIjV8zAmMw7AHHXkH8ejHdgVIAjRCksGHj+CULJGmmBs8lLGgK2kR5up
+   Sf4B/7f9XBWDDFzF1JBV4xtZVdBEif8D+kf8YPcu+PoGcjvBxYHSC3JjU
+   VRtJqS6vO5z9/v9q6YqSmswwzeqyS/VfWh5y4IVs2EaD1cIpR6am6K/s2
+   h7W3+NjhopenLgA1xwvyjGWyy1d2XoriwE/L8qg8AlL0czigUvCzIKP+6
+   PH1ALF7KjpfPJPqOcltZMcZrurifED7TFNm2m0v/0nWozl7nASRI2T/RN
+   w==;
+X-CSE-ConnectionGUID: 1j0VrLfOQ7KNmZCk5Jy3Ig==
+X-CSE-MsgGUID: 50QRZWLHSoSVINWm16HKyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="51512342"
+X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
+   d="scan'208";a="51512342"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 15:53:07 -0700
+X-CSE-ConnectionGUID: rybRjhzLQZa7KA5ZM+mmUQ==
+X-CSE-MsgGUID: cpc7LG0IQhuQ2P+gdfT87g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
+   d="scan'208";a="146561811"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Jun 2025 15:53:06 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uOlMW-0007U7-00;
+	Mon, 09 Jun 2025 22:53:04 +0000
+Date: Tue, 10 Jun 2025 06:52:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Lucy Thrun <lucy.thrun@digital-rabbithole.de>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
+	Takashi Iwai <tiwai@suse.de>
+Subject: [tiwai-sound:for-next 12/13] sound/pci/hda/patch_ca0132.c:4413:27:
+ warning: '%s' directive writing up to 767 bytes into a region of size 44
+Message-ID: <202506100642.95jpuMY1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,40 +62,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202506100537.aqJUNf0d-lkp@intel.com>
 
-On Tue, Jun 10, 2025 at 05:19:17AM +0800, kernel test robot wrote:
-> Hi Ville,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on drm-intel/for-linux-next]
-> [cannot apply to drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.16-rc1 next-20250606]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ville-Syrjala/drm-i915-dsb-Use-intel_dsb_ins_align-in-intel_dsb_align_tail/20250609-223955
-> base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-> patch link:    https://lore.kernel.org/r/20250609141046.6244-16-ville.syrjala%40linux.intel.com
-> patch subject: [PATCH v4 15/21] drm/i915/flipq: Provide the nuts and bolts code for flip queue
-> config: x86_64-buildonly-randconfig-005-20250609 (https://download.01.org/0day-ci/archive/20250610/202506100537.aqJUNf0d-lkp@intel.com/config)
-> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506100537.aqJUNf0d-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506100537.aqJUNf0d-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/gpu/drm/i915/i915.o: warning: objtool: intel_flipq_add(): unexpected end of section .text.intel_flipq_add
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+head:   92f59aeb13252265c20e7aef1379a8080c57e0a2
+commit: ed57a3d5a3118b9681de607692608fe573c5959d [12/13] ALSA: hda/ca0132: Enable hardware band EQ for Sound Blaster Core3D
+config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20250610/202506100642.95jpuMY1-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506100642.95jpuMY1-lkp@intel.com/reproduce)
 
-Given that this is clang-20, this is likely due to the potential divide
-by zero that happens if intel_flipq_elem_size_dw() returns 0 in the
-intel_flipq_add() -> intel_flipq_size_entries() call path. I suspect
-returning 1 instead of 0 would avoid this.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506100642.95jpuMY1-lkp@intel.com/
 
-Cheers,
-Nathan
+All warnings (new ones prefixed by >>):
+
+   sound/pci/hda/patch_ca0132.c: In function 'ca0132_build_controls':
+>> sound/pci/hda/patch_ca0132.c:4413:27: warning: '%s' directive writing up to 767 bytes into a region of size 44 [-Wformat-overflow=]
+    4413 |         sprintf(namestr, "%s %s Volume", name, dirstr[dir]);
+         |                           ^~
+   In function 'add_tuning_control',
+       inlined from 'add_tuning_ctls' at sound/pci/hda/patch_ca0132.c:4423:9,
+       inlined from 'ca0132_build_controls' at sound/pci/hda/patch_ca0132.c:7195:2:
+   sound/pci/hda/patch_ca0132.c:4413:9: note: 'sprintf' output 9 or more bytes (assuming 776) into a destination of size 44
+    4413 |         sprintf(namestr, "%s %s Volume", name, dirstr[dir]);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +4413 sound/pci/hda/patch_ca0132.c
+
+44f0c9782cc6ab Ian Minett   2012-12-20  4376  
+44f0c9782cc6ab Ian Minett   2012-12-20  4377  static int add_tuning_control(struct hda_codec *codec,
+44f0c9782cc6ab Ian Minett   2012-12-20  4378  				hda_nid_t pnid, hda_nid_t nid,
+44f0c9782cc6ab Ian Minett   2012-12-20  4379  				const char *name, int dir)
+44f0c9782cc6ab Ian Minett   2012-12-20  4380  {
+975cc02a904ae3 Takashi Iwai 2013-06-28  4381  	char namestr[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
+44f0c9782cc6ab Ian Minett   2012-12-20  4382  	int type = dir ? HDA_INPUT : HDA_OUTPUT;
+44f0c9782cc6ab Ian Minett   2012-12-20  4383  	struct snd_kcontrol_new knew =
+44f0c9782cc6ab Ian Minett   2012-12-20  4384  		HDA_CODEC_VOLUME_MONO(namestr, nid, 1, 0, type);
+44f0c9782cc6ab Ian Minett   2012-12-20  4385  
+44f0c9782cc6ab Ian Minett   2012-12-20  4386  	knew.access = SNDRV_CTL_ELEM_ACCESS_READWRITE |
+44f0c9782cc6ab Ian Minett   2012-12-20  4387  			SNDRV_CTL_ELEM_ACCESS_TLV_READ;
+44f0c9782cc6ab Ian Minett   2012-12-20  4388  	knew.tlv.c = 0;
+44f0c9782cc6ab Ian Minett   2012-12-20  4389  	knew.tlv.p = 0;
+44f0c9782cc6ab Ian Minett   2012-12-20  4390  	switch (pnid) {
+44f0c9782cc6ab Ian Minett   2012-12-20  4391  	case VOICE_FOCUS:
+44f0c9782cc6ab Ian Minett   2012-12-20  4392  		knew.info = voice_focus_ctl_info;
+44f0c9782cc6ab Ian Minett   2012-12-20  4393  		knew.get = tuning_ctl_get;
+44f0c9782cc6ab Ian Minett   2012-12-20  4394  		knew.put = voice_focus_ctl_put;
+44f0c9782cc6ab Ian Minett   2012-12-20  4395  		knew.tlv.p = voice_focus_db_scale;
+44f0c9782cc6ab Ian Minett   2012-12-20  4396  		break;
+44f0c9782cc6ab Ian Minett   2012-12-20  4397  	case MIC_SVM:
+44f0c9782cc6ab Ian Minett   2012-12-20  4398  		knew.info = mic_svm_ctl_info;
+44f0c9782cc6ab Ian Minett   2012-12-20  4399  		knew.get = tuning_ctl_get;
+44f0c9782cc6ab Ian Minett   2012-12-20  4400  		knew.put = mic_svm_ctl_put;
+44f0c9782cc6ab Ian Minett   2012-12-20  4401  		break;
+44f0c9782cc6ab Ian Minett   2012-12-20  4402  	case EQUALIZER:
+44f0c9782cc6ab Ian Minett   2012-12-20  4403  		knew.info = equalizer_ctl_info;
+44f0c9782cc6ab Ian Minett   2012-12-20  4404  		knew.get = tuning_ctl_get;
+44f0c9782cc6ab Ian Minett   2012-12-20  4405  		knew.put = equalizer_ctl_put;
+44f0c9782cc6ab Ian Minett   2012-12-20  4406  		knew.tlv.p = eq_db_scale;
+44f0c9782cc6ab Ian Minett   2012-12-20  4407  		break;
+44f0c9782cc6ab Ian Minett   2012-12-20  4408  	default:
+44f0c9782cc6ab Ian Minett   2012-12-20  4409  		return 0;
+44f0c9782cc6ab Ian Minett   2012-12-20  4410  	}
+44f0c9782cc6ab Ian Minett   2012-12-20  4411  	knew.private_value =
+44f0c9782cc6ab Ian Minett   2012-12-20  4412  		HDA_COMPOSE_AMP_VAL(nid, 1, 0, type);
+44f0c9782cc6ab Ian Minett   2012-12-20 @4413  	sprintf(namestr, "%s %s Volume", name, dirstr[dir]);
+44f0c9782cc6ab Ian Minett   2012-12-20  4414  	return snd_hda_ctl_add(codec, nid, snd_ctl_new1(&knew, codec));
+44f0c9782cc6ab Ian Minett   2012-12-20  4415  }
+44f0c9782cc6ab Ian Minett   2012-12-20  4416  
+
+:::::: The code at line 4413 was first introduced by commit
+:::::: 44f0c9782cc6ab71ea947f8f710a46f2078a151c ALSA: hda/ca0132: Add tuning controls
+
+:::::: TO: Ian Minett <ian_minett@creativelabs.com>
+:::::: CC: Takashi Iwai <tiwai@suse.de>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
