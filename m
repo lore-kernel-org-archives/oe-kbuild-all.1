@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E30E9157A67;
-	Mon,  9 Jun 2025 02:35:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A121D185E7F
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jun 2025 07:45:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749436537; cv=none; b=ACwHYYPFY4xfpdX+tzuzRDoWQuBiPnGsnROsMHy45JjiKQKSkWEj3Pk+GPYZNlLMrKUbkcBZXWfUgrtnSZK3Y3UlXvS4G7eS/6Tt0ljkhwMWmdtqrTlK1rktZ/0NV/q/uUWcflDoYy9RhCvHjMnEPnvArQJzlBqWpps/ot30MMk=
+	t=1749455138; cv=none; b=FbpwM/K80APxKvcOdRy1FS2xjO33hAFUXhiMAOQDgpJJCST7hU6ZLC81ZsQtPA/ypYTsMBcy6DiJITMamHUA8cDs58Wwkp9JFsqL2b/vVACvq9HQUormj2r6lU5/1L39+N5dsWV6KcskygMoWJrYjCPEfT6HA1DtEtn2/rGovsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749436537; c=relaxed/simple;
-	bh=xKMYj937iHvtVNeHWyYP3/MrdkI4JHPSk8bThsmDkRY=;
+	s=arc-20240116; t=1749455138; c=relaxed/simple;
+	bh=2j85195SkW93iZ/rCf62ZapKH836hXlL2BvYZexyalk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mCdWGDyPsi2ZFVxPqwVddidRgAjS9MB4BH5gdXFUhPB589sTy0vmw38r/H/vtUybx4+riL5IE8cpUH1CQAml7QZSAW5ckCBWU6hcZ0pb4aBPD5rT1AREZpAT0hawsSagzEJk485C1niqrgc+94K6kzm4f7l6tqO1LFYbI0CsIzs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GiJZWRzp; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition:In-Reply-To; b=D0Ift90xOTEzJchC39jXR6MsW2pfRFI00w3DXpBgSPobdrjxaQH2dphpIMmbGeMCsSGBsLvQb3PBNBXKLzFtWZ+lcdHL+NW3muIVIGWt2jNutjOaW/fz57kogmXq28FanlbuFBdMU0cdWRXTT/FjVjLlwgymZBx2FgJS/TK0xbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lwb4vRxs; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GiJZWRzp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lwb4vRxs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749436535; x=1780972535;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xKMYj937iHvtVNeHWyYP3/MrdkI4JHPSk8bThsmDkRY=;
-  b=GiJZWRzp/Xy3psgqaJ90kUWf1T91Vhk+H/mpAFbsVuYCiGyxEZJ/9GoF
-   3ugApZ1kaGrZjtFy1g4yHaFwyFRbpYw+HF13biMxbZD0I48lKPIjAAZ6F
-   XuoXgjJB2J1nWhlsUimrm7zfmBn/5Sl/YUyW+ekIdMbH0ZJYauZpZsWjj
-   +1doeUDB6HCT859sOJ7uzcJ19ZTAytEwOLVu40d9dfJjlnDVb/qZD/88o
-   7BbDWiwmjTIGRGDZo7Wkhf3Ym66N5vbBkCHBer/6KkoIfNniXazsg1uXu
-   fFghTpqgd8k22pJKnyDYqUxNMtIjbguPjrWRKtswlOFlBPMTbvZt98ZFz
-   w==;
-X-CSE-ConnectionGUID: lHPCsBw7R+uIlXtnZRproQ==
-X-CSE-MsgGUID: 1lXScn0iQOyEMomAIUaRJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="62860831"
-X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
-   d="scan'208";a="62860831"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2025 19:35:33 -0700
-X-CSE-ConnectionGUID: uPhRchAyQQGutS3BUhT+9w==
-X-CSE-MsgGUID: UF33dw+RSBu5v28ODxCs8Q==
+  t=1749455137; x=1780991137;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=2j85195SkW93iZ/rCf62ZapKH836hXlL2BvYZexyalk=;
+  b=lwb4vRxsDPwFFJDIIn7imHZwYibAZQDQHFIMrkm16P2sw9ftsMHjXFMY
+   bz/wcmtjfuQXRSqdM9/Mt1dxAG+IIS8de1RvVEEJl4qA//HxVNQHWvBKm
+   GzjggMcrlJeT+RFVpJ8KH8G8bpyBjf0F03Plzrh/LspNesefb9YkZ+sPK
+   Ib7dP75I+s7/lP+3dIuadC9WVtgpvLWs96xc4YWticfbnHVddxeZCwFuA
+   bC8XEWjhPn/k/8qsUm0hqkf2W3qM62oEMa3h+2y8nwUb1D6vKtB64x10H
+   oXSl/rl1Rs5bA+ZVwsPhZer8018UCkUugHppvKxnH5FdyHqKZbbOfDnD/
+   Q==;
+X-CSE-ConnectionGUID: KxVWi2QERpCQ5ytAo0oxlA==
+X-CSE-MsgGUID: UPE8DqZERJqAnLe/qbkolA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11458"; a="68972604"
+X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
+   d="scan'208";a="68972604"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 00:45:36 -0700
+X-CSE-ConnectionGUID: m69kYEVSQ+OcDemevERvBg==
+X-CSE-MsgGUID: /N9p1xgwTRWvZG1P8WYasw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,221,1744095600"; 
-   d="scan'208";a="151537186"
+X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
+   d="scan'208";a="146322979"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 08 Jun 2025 19:35:32 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 09 Jun 2025 00:45:34 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOSMC-0006jl-1X;
-	Mon, 09 Jun 2025 02:35:28 +0000
-Date: Mon, 9 Jun 2025 10:35:14 +0800
+	id 1uOXCG-0006rd-2q;
+	Mon, 09 Jun 2025 07:45:32 +0000
+Date: Mon, 9 Jun 2025 15:45:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steven Rostedt <rostedt@goodmis.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [trace:sorttable/core 2/3] ld.lld: error: undefined symbol:
- __tracepoint_swiotlb_bounced
-Message-ID: <202506091015.7zd87kI7-lkp@intel.com>
+To: Yunhui Cui <cuiyunhui@bytedance.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v8 2/4] serial: 8250: avoid potential PSLVERR issue
+Message-ID: <aEaQ__Dc5PSA5dQ9@902657ab729a>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,25 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250609074348.54899-2-cuiyunhui@bytedance.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace sorttable/core
-head:   6ff69a9fcc809b9fe23a55e798f1d8fa96cd618c
-commit: 2c3b6203399993766be7756222c812e1b63e84f2 [2/3] tracing: sorttable: Add a tracepoint verification check at build time
-config: i386-randconfig-006-20250609 (https://download.01.org/0day-ci/archive/20250609/202506091015.7zd87kI7-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506091015.7zd87kI7-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506091015.7zd87kI7-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
->> ld.lld: error: undefined symbol: __tracepoint_swiotlb_bounced
-   >>> referenced by dma-iommu.c
-   >>>               drivers/iommu/dma-iommu.o:(__do_trace_swiotlb_bounced.__trace_check) in archive vmlinux.a
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v8 2/4] serial: 8250: avoid potential PSLVERR issue
+Link: https://lore.kernel.org/stable/20250609074348.54899-2-cuiyunhui%40bytedance.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
