@@ -1,71 +1,58 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3FFC2550B3
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jun 2025 12:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6500213C918
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jun 2025 14:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749471032; cv=none; b=qik6QeA+6rgCav7HXUdzTPWE6qjJmvPC08d7abmXKS4rzvmfxK+wK1PppdX/PI8m2jhYBgHx+oF7FJIqpImh3/LRwqLylRCFU4/F2eybABcfZ2wUbJNh9EE34o6/fkYM5sDmP37cl5Z98Euuk5Rixm9dwJl3kLxYymomEqycoOs=
+	t=1749478690; cv=none; b=mrYE4MzfSu7MadRzJ0m1BYwjZV7fOhMZhsmIGqM5L9H2ZPK1MT4HuzqDggqhQgecXnu6eb+77UdfQw7FPin3FH9UVOhFIBvnCj2bqE/UowVOhPfKUZwkFiRJ1oFWEhZ+CLX0YPLMow0Yl3vz2p4RG7+XevJ/dBkXWPwZ5yJHqY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749471032; c=relaxed/simple;
-	bh=TY5zNAutl0m3oIw2/b9oWsgPeIA5NU3jWJazKcUAVDg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=l9VaCCljahMyX7zGRuQhf6MEgViPDd7JWgQV37FV9fX/sAE/gbs0UizhCvp8GoNOwqHu4zJ2zT93Kyw0SfiqirDnH0DTpjy4lLv1hhhgE8+aDOMej1sxyRxtF9pLsE4RJIKpKcLq250f7TMMABltYVm5rT+WxHdIl8gwTXGJ7SE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=HDT8lDri; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1749478690; c=relaxed/simple;
+	bh=ap7qINg1vr4zwBOtAsw1svU6DBMmTbiI2GUIl4c/6N8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cT1rTuP/OMRWTM/iLI645SG7ymJba0y3UZKS+ylRwnfFV+IB6BuHO74LyvSYJPr9eTTCM7q7ME8MSoEVqq+Hdb1YN9n4RXTG/ZP8aftcuwxFP2bdDdhbKKfLvJ6sC33QdTdguUjGb52xcmKjV3qFIOXntJEb/vop4Soy/cGdr8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LIcg9cN/; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="HDT8lDri"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43edecbfb94so50205855e9.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 09 Jun 2025 05:10:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1749471028; x=1750075828; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=y6N5f/+GPbCJ5uQVBP6ORFTMRuOc+3h+Og7u+CemS5s=;
-        b=HDT8lDribtvcP9bUudGKpMn9gjXW/lW0F1xNFqlyFxOOD6FWfdXGyPCYCntWMwfv0N
-         1Fq9TyfcSD1sQF1gxrZDOGHsd9qjxS4sOiPNFMimmXt4tINBfnGHPGUyhCSjD9FsH6JJ
-         kkNYXF2Yzg2CWV3ecZflaoldxpgOl4uOW62LwmWh4pEzAHOjHp0sCsJIU64jA1Fp07S8
-         NmD4PAuJRX5hLYnYciOhjq5MAJm+RleBBcOWuBc+GA49HKM4D4W37FvZK8S35Qtv7Ouu
-         7w2IRCsf8QNfAW4A02DQ+5/lKb4JWMsuJQ3JuOwC4tkTuMfG75bcWbO3RtvaoCcoZ4Mt
-         0Pqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749471028; x=1750075828;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y6N5f/+GPbCJ5uQVBP6ORFTMRuOc+3h+Og7u+CemS5s=;
-        b=vJu6CV881KotIs7HYd0z/mXOjERNJDka/6gWcxbBryvPr67RQgDNuNWUdZ+avpqJr6
-         Jcpp57GSWL3vh8OlIO8mTnTteIu3tIJHL/zd/PLfObMxXiS84UqPSRhbq4JP+CO35pGa
-         5S0ItrhjycW8kXVVLUqfMJuPu46I8AuB/EOI2yLoo1gqMKEliPnBHbmwyvdPYapDB7vM
-         8aojM4kT5tfsuc3CljvScFf9Y3hrxQEeC8z+iVP0qXZNuvFPeUEB8BUM4MfwzTg3iocp
-         xMg1mErEZ1SIvwezCrTjnOaennCRByEj0dgbuKVilwiCZkBVi12dBk74UT1RcWqSJFtp
-         pCqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXBQDXhLYJTNuygz5/OB6A4ew9cT5ixWYcHQ0URWi+SP4OcHMkMXK9BDxXtL2RqtqwKKC9KNyo1ca8DiBqm@lists.linux.dev
-X-Gm-Message-State: AOJu0YwhSNIe22hqLBhLfY8+nBTHSI1H9n0veSQGqP+W7IsmIlfWgLrB
-	trTJ7QjpWYMDNz4uJzUQN7n8qE0AxKDP7UDL+yByMP+zgRF7DkGNMm99hGUESM32kWE=
-X-Gm-Gg: ASbGnctGRzxuJFiUa5MOxdcwIweTo+aCAbXRQER3Y1HIv2DqI7lieXX5AcMcvbp4/qS
-	AUhpbSuCervKYIPtpaaAv77QGz6lNkc8D0w8MRBZM2kBbbjMoCJTxuPqjKCJkJk4XgxentWg/UH
-	3f/1riiNhGvAyggLUMXu2xfDFh1B4qP1MAonh5DGzPNc9dEyDcoBhxr7/pVsaBWNc/MdAhEJCyV
-	9U8yjVG7cHXqQF4jogDwaQdV/0hp/6ZT6sWKb4p0w8s5XRBeaPqWssHmKTDOvAAAcedk8LBBKnG
-	mIxpbMZqQ2X3rQ3XaEQPKEm6AvXLxpDwsEfluMUgvoG/JcKD//OITC4hCjQi/tyS
-X-Google-Smtp-Source: AGHT+IEx4Ye29a424Oycvt0TTSzkDEp16kZB0ZMd8N7KGHi65ZlLyVud1xJwUXJ9t230L/eyg7P9hw==
-X-Received: by 2002:adf:f147:0:b0:3a4:f661:c3e0 with SMTP id ffacd0b85a97d-3a531ce1495mr9228500f8f.45.1749471027883;
-        Mon, 09 Jun 2025 05:10:27 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-23603078941sm53232035ad.7.2025.06.09.05.10.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Jun 2025 05:10:27 -0700 (PDT)
-Date: Mon, 9 Jun 2025 14:10:17 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Raul E Rangel <rrangel@chromium.org>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: init/main.c:753:(.init.text+0x7a): relocation truncated to fit:
- R_ARC_S25W_PCREL against symbol `__st_r13_to_r16' defined in .text section
- in ../lib/gcc/arc-linux/8.5.0/libgcc.a(_millicodethunk_st.o)
-Message-ID: <aEbPKan7PwHZfZvk@pathway.suse.cz>
-References: <202506080718.Q9VUfXsm-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIcg9cN/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749478689; x=1781014689;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ap7qINg1vr4zwBOtAsw1svU6DBMmTbiI2GUIl4c/6N8=;
+  b=LIcg9cN/Vp6p/mn1XHVx6/6YitEApmAuGEIAKbKmu2aGWhClVQz9pNLY
+   8kCeiNgm0USoW4JOZAzTUhOTVi0gLHo7ZVBz3cJJoPpGmMJ9Df0GhnnGl
+   gqgwRv7/HSLSPAsqiiW3996Zq4WCTkJd8L/K4eMyFOMbZs1hg/xy6eCLQ
+   HxHkDruTV8lups/JZ9Xy/jAvnSHLsgdd1GT41ee2owLa3HlIPUSdsp76Y
+   WRK61YY8CjOUGm9X+F6pO6JyR84phD8fOEX6son8WTGLH5TeIxNYsgoeb
+   riOjWLvmUWPPBjdGML2bJ5nHKkIrWkOBQymvHHJ7YdXiZATN76H3Rfhal
+   w==;
+X-CSE-ConnectionGUID: ozRohwlMTmOVDpccVOv1+w==
+X-CSE-MsgGUID: 2d1CQeqyQ9OULkPIfcb/GA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="55362378"
+X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
+   d="scan'208";a="55362378"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 07:18:08 -0700
+X-CSE-ConnectionGUID: BmGLVbrjQDGzj2uYyBXmeg==
+X-CSE-MsgGUID: aD5/l7HzQGy0oCKxXYIGvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
+   d="scan'208";a="147107133"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 09 Jun 2025 07:18:07 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uOdK8-00075J-1I;
+	Mon, 09 Jun 2025 14:18:04 +0000
+Date: Mon, 9 Jun 2025 22:17:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 0/1] ERROR: modpost:
+ "__i915_to_display" [drivers/gpu/drm/i915/kvmgt.ko] undefined!
+Message-ID: <202506092253.QrTv4XLJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,79 +61,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202506080718.Q9VUfXsm-lkp@intel.com>
 
-On Sun 2025-06-08 08:01:08, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   8630c59e99363c4b655788fd01134aef9bcd9264
-> commit: 17b655759e83fd5e28931a0ece96fa9c2ab718e7 init: Don't proxy `console=` to earlycon
-> date:   8 months ago
-> config: arc-randconfig-r113-20250607 (https://download.01.org/0day-ci/archive/20250608/202506080718.Q9VUfXsm-lkp@intel.com/config)
-> compiler: arc-linux-gcc (GCC) 8.5.0
-> reproduce: (https://download.01.org/0day-ci/archive/20250608/202506080718.Q9VUfXsm-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506080718.Q9VUfXsm-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    init/main.o: in function `do_early_param':
-> >> init/main.c:753:(.init.text+0x7a): relocation truncated to fit: R_ARC_S25W_PCREL against symbol `__st_r13_to_r16' defined in .text section in ../lib/gcc/arc-linux/8.5.0/libgcc.a(_millicodethunk_st.o)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   8c54d26d6e5d3a3812a721f86ed7fa74594355e4
+commit: dedf061dd416a65a919b221ce2b895506866c8f7 [0/1] UPSTREAM: drm/i915/display: add intel_display_conversion.c to hide stuff better
+config: x86_64-buildonly-randconfig-005-20250609 (https://download.01.org/0day-ci/archive/20250609/202506092253.QrTv4XLJ-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506092253.QrTv4XLJ-lkp@intel.com/reproduce)
 
-It might help to add -mmodel=medium or -mmodel=large into CFLAGS.
-Something like:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506092253.QrTv4XLJ-lkp@intel.com/
 
-diff --git a/init/Makefile b/init/Makefile
-index d6f75d8907e0..83966686dcd3 100644
---- a/init/Makefile
-+++ b/init/Makefile
-@@ -6,6 +6,10 @@
- ccflags-y := -fno-function-sections -fno-data-sections
- 
- obj-y                          := main.o version.o mounts.o
-+ifeq ($(CONFIG_ARC),y)
-+CFLAGS_main.o                  := -mmodel=large
-+endif
-+
- ifneq ($(CONFIG_BLK_DEV_INITRD),y)
- obj-y                          += noinitramfs.o
- else
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
+WARNING: modpost: vmlinux: memblock_end_of_DRAM: EXPORT_SYMBOL used for init symbol. Remove __init or EXPORT_SYMBOL.
+WARNING: modpost: vmlinux: section mismatch in reference: mc_debug_data+0x0 (section: .data) -> mc_debug_data_early (section: .init.data)
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/zlib_inflate/zlib_inflate.o
+WARNING: modpost: module ext4 uses symbol dget_parent from namespace ANDROID_GKI_VFS_EXPORT_ONLY, but does not import it.
+WARNING: modpost: module ext4 uses symbol d_drop from namespace ANDROID_GKI_VFS_EXPORT_ONLY, but does not import it.
+WARNING: modpost: module exfat uses symbol d_drop from namespace ANDROID_GKI_VFS_EXPORT_ONLY, but does not import it.
+WARNING: modpost: module exfat uses symbol d_rehash from namespace ANDROID_GKI_VFS_EXPORT_ONLY, but does not import it.
+WARNING: modpost: module autofs4 uses symbol d_drop from namespace ANDROID_GKI_VFS_EXPORT_ONLY, but does not import it.
+WARNING: modpost: module autofs4 uses symbol path_get from namespace ANDROID_GKI_VFS_EXPORT_ONLY, but does not import it.
+WARNING: modpost: module autofs4 uses symbol dentry_open from namespace ANDROID_GKI_VFS_EXPORT_ONLY, but does not import it.
+WARNING: modpost: module orangefs uses symbol dget_parent from namespace ANDROID_GKI_VFS_EXPORT_ONLY, but does not import it.
+WARNING: modpost: module btrfs uses symbol dget_parent from namespace ANDROID_GKI_VFS_EXPORT_ONLY, but does not import it.
+WARNING: modpost: module gfs2 uses symbol dget_parent from namespace ANDROID_GKI_VFS_EXPORT_ONLY, but does not import it.
+ERROR: modpost: "of_regulator_bulk_get_all" [drivers/pci/pwrctrl/pci-pwrctl-slot.ko] undefined!
+WARNING: modpost: module drm uses symbol dentry_open from namespace ANDROID_GKI_VFS_EXPORT_ONLY, but does not import it.
+>> ERROR: modpost: "__i915_to_display" [drivers/gpu/drm/i915/kvmgt.ko] undefined!
 
-Unfortunately, I can't test the compilation for ARC architecture easily...
-
-Best Regards,
-Petr
-
-
-> vim +753 init/main.c
-> 
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  749  
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  750  /* Check for early params. */
-> ecc8617053e0a9 Luis R. Rodriguez 2015-03-30  751  static int __init do_early_param(char *param, char *val,
-> ecc8617053e0a9 Luis R. Rodriguez 2015-03-30  752  				 const char *unused, void *arg)
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16 @753  {
-> 914dcaa84c53f2 Rusty Russell     2010-08-11  754  	const struct obs_kernel_param *p;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  755  
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  756  	for (p = __setup_start; p < __setup_end; p++) {
-> 17b655759e83fd Raul E Rangel     2024-09-11  757  		if (p->early && parameq(param, p->str)) {
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  758  			if (p->setup_func(val) != 0)
-> ea676e846a8171 Andrew Morton     2013-04-29  759  				pr_warn("Malformed early option '%s'\n", param);
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  760  		}
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  761  	}
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  762  	/* We accept everything at this stage. */
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  763  	return 0;
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  764  }
-> ^1da177e4c3f41 Linus Torvalds    2005-04-16  765  
-> 
-> :::::: The code at line 753 was first introduced by commit
-> :::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-> 
-> :::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-> :::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
