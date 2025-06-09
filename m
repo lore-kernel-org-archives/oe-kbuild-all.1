@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5847A1624CE
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jun 2025 15:52:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70913D544
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jun 2025 16:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749484340; cv=none; b=A68h2CEy0Yx2DcLMpfW6+0Vs74jZH/FyE00yr1v4CNdwez6e6Vw+aeiJ06HMI5wPEZUYaDB/4bvHn5iOxWGa3j7ccceHkIiGI0PEb1C7KPmzGFT6DX95i0D8+JvJwpAtzAG44lLDXQJdMqs4j0D9j7Hlg9nFUhSusresRJnJgys=
+	t=1749485630; cv=none; b=JPzMMskKlUm1Fjdmz6a3/1UCAF2VRia0iTA/u8BSnJ3lGfgVaxsBo8SPy0dt4d13tphVNG0D6KZRNOw9RGmYrXTKTYULhXqQX/cnJIQxFBkteOb6LcmkAQ2EWbMse02g6n2fOkdZJGG0zioWp91LMDn72tCi2q77qRwye/KwbKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749484340; c=relaxed/simple;
-	bh=F8DFn0yzQKyJ7yNSBDpmdOIgj/9ZvqMfcRlLxKfL+kM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ulo/4DGUkbHPces/gkoDv2wUM9YlXOfFC0svTgplWsTvweiuPV0SBxA2zwcK/WjSgPCp1HT/JhwYt6BesETO3vJV6/qsnS9Fu/4a6cR+X+Apw/4whYUumW3wG8BUZiHpLGd+bWcKx9YuwBUpBr9ng40BrNZfksgQWXh9u0AOisE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nTTbAuhw; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1749485630; c=relaxed/simple;
+	bh=sajTCtoRUjFyHEHhaSjGl5vAsvXrCyHCEF/bA8WuMc4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DFUWH+I1nGF6byqOyw1XuBXmPLa71e3S/JJeUp777wB9T3BRnA3gR+nJ6zTTIahlvHRQVHORplapSed/kL4rC384xa18J65P4I13kofN6XeP1Re322zR1UTMfeWtoL0UzeyeZdSmOUtGxHXCpyCgPAi4dPXir/SjHf4cZvfXlNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhJmyVcl; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nTTbAuhw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhJmyVcl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749484338; x=1781020338;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F8DFn0yzQKyJ7yNSBDpmdOIgj/9ZvqMfcRlLxKfL+kM=;
-  b=nTTbAuhwv8y0JctqWVSWNhLd+nnOvCjVG/McHnAy4M1DWhwEHu+HKbIS
-   /bWA4b3TiCQqrpTqTQnENOjbC0W8w/N8P4+om+ee2V+tUdOgoRwJQOrdw
-   qo/04NGzzDibKr82bBquK0U+CIEGbqCPULs7mcFvtfzBTchOM5G9vpKxs
-   CIe/jMmvW/A3IJGb2bWLd+E5a+CPxUkc6j37udRhiMYSeiUh6iefU+TT3
-   c+ZqRrQU16To/Y3ymv6148qP8dDpLbwCpdwrTGAQ5t/wdfSPFD58XHo+A
-   Zm6qSYFMEk3anVxmrVgEdDGCvKB66cgwepLrgfvZqcEBIcQ8fPS4eN51k
-   A==;
-X-CSE-ConnectionGUID: 6k+/i8maTbilCWx2xOH7WQ==
-X-CSE-MsgGUID: eTdvvXweTLO2YGMVst/jDg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="62183702"
+  t=1749485629; x=1781021629;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sajTCtoRUjFyHEHhaSjGl5vAsvXrCyHCEF/bA8WuMc4=;
+  b=OhJmyVclL0bC9PbauCbc/kRPcK3SZMI8/T9IV2baWwlmU0DChHYeCp68
+   AAKVnTwkHZhSOUybWqL4f7j2XMEGPPFiqP6Wz/FPiAFmcIZix/Sr0G8+E
+   l5x4LYdEY8RhORVyegZuAPsWL08LwPmM0F83bRcSeDfQjs3SkXagPWVIq
+   WzyfekXvev91cmZmI0rf1Clfq5S3wAgJ0lIRynRxafmrgHFJxjxTzaDLu
+   UPtsT18ziJ9AUpt4Ayy7wRg3xQzmeTJyO4RfLC4nHRfC/evRnDmF2Sl5O
+   zaBpmyv1JBlOls/8dEMpkw4byrfX485o4Tr9kdYUz4cUL/QWbNEozPZ4N
+   w==;
+X-CSE-ConnectionGUID: nurQUpXBQe+jhDi479r3rw==
+X-CSE-MsgGUID: p4wWty3ORkad+5gq1O1mYA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="69016318"
 X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
-   d="scan'208";a="62183702"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 08:52:18 -0700
-X-CSE-ConnectionGUID: oJZimUo9RT+Z6kaVnqwuPA==
-X-CSE-MsgGUID: woP223faRsyt+z4PFQXAaQ==
+   d="scan'208";a="69016318"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 09:13:19 -0700
+X-CSE-ConnectionGUID: dwNAzUeOSqiQIhc8Gnfqag==
+X-CSE-MsgGUID: Rg9V7msMTnelEI6h66ju5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,222,1744095600"; 
-   d="scan'208";a="151550911"
+   d="scan'208";a="147519128"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Jun 2025 08:52:17 -0700
+  by orviesa008.jf.intel.com with ESMTP; 09 Jun 2025 09:13:18 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOenF-00079o-2p;
-	Mon, 09 Jun 2025 15:52:13 +0000
-Date: Mon, 9 Jun 2025 23:51:59 +0800
+	id 1uOf7b-0007BF-2Z;
+	Mon, 09 Jun 2025 16:13:15 +0000
+Date: Tue, 10 Jun 2025 00:13:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Tong Tiangen <tongtiangen@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2380/2380] shadow.c:(.text+0x5ec): relocation
- truncated to fit: R_AARCH64_CALL26 against undefined symbol `__memcpy_mc'
-Message-ID: <202506092333.YJ52Pu6f-lkp@intel.com>
+To: Marek Vasut <marek.vasut+renesas@mailbox.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/2] regulator: rpi-panel-v2: Add regulator for 7"
+ Raspberry Pi 720x1280
+Message-ID: <202506092341.enbNKMOR-lkp@intel.com>
+References: <20250609000748.1665219-2-marek.vasut+renesas@mailbox.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,24 +65,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250609000748.1665219-2-marek.vasut+renesas@mailbox.org>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   a7f4bf73c34996ee6cdda292e8f906a9c30879de
-commit: b991780c836ceb9a479c6c6e385e914b487e353a [2380/2380] arm64: introduce copy_mc_to_kernel() implementation
-config: arm64-randconfig-003-20250609 (https://download.01.org/0day-ci/archive/20250609/202506092333.YJ52Pu6f-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250609/202506092333.YJ52Pu6f-lkp@intel.com/reproduce)
+Hi Marek,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on broonie-regulator/for-next]
+[also build test WARNING on soc/for-next krzk-dt/for-next linus/master v6.16-rc1 next-20250606]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Marek-Vasut/regulator-rpi-panel-v2-Add-regulator-for-7-Raspberry-Pi-720x1280/20250609-081005
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20250609000748.1665219-2-marek.vasut%2Brenesas%40mailbox.org
+patch subject: [PATCH 2/2] regulator: rpi-panel-v2: Add regulator for 7" Raspberry Pi 720x1280
+config: arc-kismet-CONFIG_GPIO_REGMAP-CONFIG_REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2-0-0 (https://download.01.org/0day-ci/archive/20250609/202506092341.enbNKMOR-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250609/202506092341.enbNKMOR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506092333.YJ52Pu6f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506092341.enbNKMOR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   aarch64-linux-ld: mm/kasan/shadow.o: in function `memcpy_mc':
-   shadow.c:(.text+0x5ec): undefined reference to `__memcpy_mc'
->> shadow.c:(.text+0x5ec): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `__memcpy_mc'
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for GPIO_REGMAP when selected by REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2
+   WARNING: unmet direct dependencies detected for GPIO_REGMAP
+     Depends on [n]: GPIOLIB [=n]
+     Selected by [y]:
+     - REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2 [=y] && REGULATOR [=y] && I2C [=y]
 
 -- 
 0-DAY CI Kernel Test Service
