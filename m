@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1243D224895
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jun 2025 22:53:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17E9621E0AA
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  9 Jun 2025 23:13:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749509589; cv=none; b=NJgtGtQlKxqGLV0nENWbVAD3gfMqftavsdVhZRymL044Z4+SPBZwfFkXXrTPA17DdowEuY5i7rBCyI9OIMnz3GMO2O/zw3UOELiS5jXzLrJCyJjqscVpEBYk83cRKBxsKP6LrvTAinpHSbzltvu1MC1I2jRur2VDvx6r/ZeljPc=
+	t=1749510795; cv=none; b=Vf4dlSxWEwSBBMMcMUsTTSFQi5lfUtsKK8x74cyB5dSU4XngSmGblDWoFItJs9tmPRoR8PuLedjmUwOP7yECFHAEWLniwAqnmbVMaO7c/IA1hee5WQ65OpbGt2BdCi/HvkmSRs3NbDF1FHH8holu8hXFoi1K2b69fnvSr4QgFTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749509589; c=relaxed/simple;
-	bh=dtqVLHodWd2MyMx4kp2rSNOmUMwd734aSgLfp3td8EE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=puoIy29ZF8o+FUPq1A3W8PHpQ9T1E8wMiuUcp7tv335efOETWayb19OebgCLgvkPLsaGHEwU26PfqWTx3oJaSCRfSWnSY/RbOr6Y/rqfvHXh2e7ozV9B05KqpokqqY1OmKa0lCYPwBxsihPEyIu9uS/CIOgdwAe9TSiwPcAJBEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nv4bAnuM; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1749510795; c=relaxed/simple;
+	bh=LJomR0DzWGegAJfsI920xhyjmDqAiAFaWiWA0HJyYQ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ahIoAHhIvVe0dnXgO1l4Z8XfuZh6jTaNbro80EnNYYfhSu1ssGWD/J1FOo4Tq2jFEg/bRbLLChMISnJLPfYpuFTyJ7SQKrtyQqHi92Ag+UhGxSYsqpK3dYpIgzgrnmO8u/W1RAmJsKEq4hdh21//66u9UAf9Zr4ltciS6/2TUuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ll4l/jxS; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nv4bAnuM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ll4l/jxS"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749509588; x=1781045588;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dtqVLHodWd2MyMx4kp2rSNOmUMwd734aSgLfp3td8EE=;
-  b=Nv4bAnuMUc0zqWd5UBoH0zJHhyH+OkxJ4ENSKpc5ksjLPEaTtlWLaNHq
-   aOIjV8zAmMw7AHHXkH8ejHdgVIAjRCksGHj+CULJGmmBs8lLGgK2kR5up
-   Sf4B/7f9XBWDDFzF1JBV4xtZVdBEif8D+kf8YPcu+PoGcjvBxYHSC3JjU
-   VRtJqS6vO5z9/v9q6YqSmswwzeqyS/VfWh5y4IVs2EaD1cIpR6am6K/s2
-   h7W3+NjhopenLgA1xwvyjGWyy1d2XoriwE/L8qg8AlL0czigUvCzIKP+6
-   PH1ALF7KjpfPJPqOcltZMcZrurifED7TFNm2m0v/0nWozl7nASRI2T/RN
-   w==;
-X-CSE-ConnectionGUID: 1j0VrLfOQ7KNmZCk5Jy3Ig==
-X-CSE-MsgGUID: 50QRZWLHSoSVINWm16HKyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="51512342"
+  t=1749510794; x=1781046794;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LJomR0DzWGegAJfsI920xhyjmDqAiAFaWiWA0HJyYQ0=;
+  b=Ll4l/jxStJkxSu7jwZHIc7fpQFYsE+6TMnIF6Xw4s8qtD0DuIQJ2Ny+l
+   7yzjgc4w3pnv0ikebhwHsqMoyjJ7gmazrqu9bLPknLQJ3YybUvr1mJe0+
+   E0jQztjGh4GuDLFKBm+GLeocSp1LftyK8y1MN0b3YCTrUMXP2IA6xr22/
+   b+mWfwawk2eA/ayR1MikbSMFlQy8YaTDB1VV0G0OIITxFBvji3//D1e9M
+   H3fkM2ZG87RDInI4BAWX6GqWKrpTsuBYj52YuNifawdrF9MMpIAq9vbD8
+   ToyqzWs0j/EAiWndM7JOCAUnTgG3IhLdL8Fh/Q9X6TTBRgED0PXp9YC+G
+   Q==;
+X-CSE-ConnectionGUID: mD3vJ7rdRLSYu5MBTfqn+Q==
+X-CSE-MsgGUID: AYdBAZQjRIG3WQE6DgfESg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="51593608"
 X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
-   d="scan'208";a="51512342"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 15:53:07 -0700
-X-CSE-ConnectionGUID: rybRjhzLQZa7KA5ZM+mmUQ==
-X-CSE-MsgGUID: cpc7LG0IQhuQ2P+gdfT87g==
+   d="scan'208";a="51593608"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 16:13:14 -0700
+X-CSE-ConnectionGUID: DMR3dSWAQA2AKACU/nLUQg==
+X-CSE-MsgGUID: dheRHgf4SgS2i9nS/xMH7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,223,1744095600"; 
-   d="scan'208";a="146561811"
+   d="scan'208";a="151651381"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 09 Jun 2025 15:53:06 -0700
+  by orviesa004.jf.intel.com with ESMTP; 09 Jun 2025 16:13:11 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOlMW-0007U7-00;
-	Mon, 09 Jun 2025 22:53:04 +0000
-Date: Tue, 10 Jun 2025 06:52:14 +0800
+	id 1uOlfx-0007Ut-0Y;
+	Mon, 09 Jun 2025 23:13:09 +0000
+Date: Tue, 10 Jun 2025 07:12:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lucy Thrun <lucy.thrun@digital-rabbithole.de>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [tiwai-sound:for-next 12/13] sound/pci/hda/patch_ca0132.c:4413:27:
- warning: '%s' directive writing up to 767 bytes into a region of size 44
-Message-ID: <202506100642.95jpuMY1-lkp@intel.com>
+To: Hilda Wu <hildawu@realtek.com>, marcel@holtmann.org
+Cc: oe-kbuild-all@lists.linux.dev, luiz.dentz@gmail.com,
+	linux-bluetooth@vger.kernel.org, linux-kernel@vger.kernel.org,
+	max.chou@realtek.com, alex_lu@realsil.com.cn
+Subject: Re: [PATCH v2 1/2] Bluetooth: btrtl: Firmware format v3 support
+Message-ID: <202506100621.JeEJ7e7X-lkp@intel.com>
+References: <20250606090559.896242-2-hildawu@realtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,82 +64,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250606090559.896242-2-hildawu@realtek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-head:   92f59aeb13252265c20e7aef1379a8080c57e0a2
-commit: ed57a3d5a3118b9681de607692608fe573c5959d [12/13] ALSA: hda/ca0132: Enable hardware band EQ for Sound Blaster Core3D
-config: parisc-allyesconfig (https://download.01.org/0day-ci/archive/20250610/202506100642.95jpuMY1-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506100642.95jpuMY1-lkp@intel.com/reproduce)
+Hi Hilda,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on bluetooth/master]
+[also build test WARNING on bluetooth-next/master linus/master v6.16-rc1 next-20250606]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hilda-Wu/Bluetooth-btrtl-Firmware-format-v3-support/20250606-170957
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth.git master
+patch link:    https://lore.kernel.org/r/20250606090559.896242-2-hildawu%40realtek.com
+patch subject: [PATCH v2 1/2] Bluetooth: btrtl: Firmware format v3 support
+config: arm-randconfig-r061-20250609 (https://download.01.org/0day-ci/archive/20250610/202506100621.JeEJ7e7X-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506100642.95jpuMY1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506100621.JeEJ7e7X-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/bluetooth/btrtl.c:1676:3-9: WARNING: NULL check before some freeing functions is not needed.
+   drivers/bluetooth/btrtl.c:1678:3-9: WARNING: NULL check before some freeing functions is not needed.
 
-   sound/pci/hda/patch_ca0132.c: In function 'ca0132_build_controls':
->> sound/pci/hda/patch_ca0132.c:4413:27: warning: '%s' directive writing up to 767 bytes into a region of size 44 [-Wformat-overflow=]
-    4413 |         sprintf(namestr, "%s %s Volume", name, dirstr[dir]);
-         |                           ^~
-   In function 'add_tuning_control',
-       inlined from 'add_tuning_ctls' at sound/pci/hda/patch_ca0132.c:4423:9,
-       inlined from 'ca0132_build_controls' at sound/pci/hda/patch_ca0132.c:7195:2:
-   sound/pci/hda/patch_ca0132.c:4413:9: note: 'sprintf' output 9 or more bytes (assuming 776) into a destination of size 44
-    4413 |         sprintf(namestr, "%s %s Volume", name, dirstr[dir]);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +1676 drivers/bluetooth/btrtl.c
 
-
-vim +4413 sound/pci/hda/patch_ca0132.c
-
-44f0c9782cc6ab Ian Minett   2012-12-20  4376  
-44f0c9782cc6ab Ian Minett   2012-12-20  4377  static int add_tuning_control(struct hda_codec *codec,
-44f0c9782cc6ab Ian Minett   2012-12-20  4378  				hda_nid_t pnid, hda_nid_t nid,
-44f0c9782cc6ab Ian Minett   2012-12-20  4379  				const char *name, int dir)
-44f0c9782cc6ab Ian Minett   2012-12-20  4380  {
-975cc02a904ae3 Takashi Iwai 2013-06-28  4381  	char namestr[SNDRV_CTL_ELEM_ID_NAME_MAXLEN];
-44f0c9782cc6ab Ian Minett   2012-12-20  4382  	int type = dir ? HDA_INPUT : HDA_OUTPUT;
-44f0c9782cc6ab Ian Minett   2012-12-20  4383  	struct snd_kcontrol_new knew =
-44f0c9782cc6ab Ian Minett   2012-12-20  4384  		HDA_CODEC_VOLUME_MONO(namestr, nid, 1, 0, type);
-44f0c9782cc6ab Ian Minett   2012-12-20  4385  
-44f0c9782cc6ab Ian Minett   2012-12-20  4386  	knew.access = SNDRV_CTL_ELEM_ACCESS_READWRITE |
-44f0c9782cc6ab Ian Minett   2012-12-20  4387  			SNDRV_CTL_ELEM_ACCESS_TLV_READ;
-44f0c9782cc6ab Ian Minett   2012-12-20  4388  	knew.tlv.c = 0;
-44f0c9782cc6ab Ian Minett   2012-12-20  4389  	knew.tlv.p = 0;
-44f0c9782cc6ab Ian Minett   2012-12-20  4390  	switch (pnid) {
-44f0c9782cc6ab Ian Minett   2012-12-20  4391  	case VOICE_FOCUS:
-44f0c9782cc6ab Ian Minett   2012-12-20  4392  		knew.info = voice_focus_ctl_info;
-44f0c9782cc6ab Ian Minett   2012-12-20  4393  		knew.get = tuning_ctl_get;
-44f0c9782cc6ab Ian Minett   2012-12-20  4394  		knew.put = voice_focus_ctl_put;
-44f0c9782cc6ab Ian Minett   2012-12-20  4395  		knew.tlv.p = voice_focus_db_scale;
-44f0c9782cc6ab Ian Minett   2012-12-20  4396  		break;
-44f0c9782cc6ab Ian Minett   2012-12-20  4397  	case MIC_SVM:
-44f0c9782cc6ab Ian Minett   2012-12-20  4398  		knew.info = mic_svm_ctl_info;
-44f0c9782cc6ab Ian Minett   2012-12-20  4399  		knew.get = tuning_ctl_get;
-44f0c9782cc6ab Ian Minett   2012-12-20  4400  		knew.put = mic_svm_ctl_put;
-44f0c9782cc6ab Ian Minett   2012-12-20  4401  		break;
-44f0c9782cc6ab Ian Minett   2012-12-20  4402  	case EQUALIZER:
-44f0c9782cc6ab Ian Minett   2012-12-20  4403  		knew.info = equalizer_ctl_info;
-44f0c9782cc6ab Ian Minett   2012-12-20  4404  		knew.get = tuning_ctl_get;
-44f0c9782cc6ab Ian Minett   2012-12-20  4405  		knew.put = equalizer_ctl_put;
-44f0c9782cc6ab Ian Minett   2012-12-20  4406  		knew.tlv.p = eq_db_scale;
-44f0c9782cc6ab Ian Minett   2012-12-20  4407  		break;
-44f0c9782cc6ab Ian Minett   2012-12-20  4408  	default:
-44f0c9782cc6ab Ian Minett   2012-12-20  4409  		return 0;
-44f0c9782cc6ab Ian Minett   2012-12-20  4410  	}
-44f0c9782cc6ab Ian Minett   2012-12-20  4411  	knew.private_value =
-44f0c9782cc6ab Ian Minett   2012-12-20  4412  		HDA_COMPOSE_AMP_VAL(nid, 1, 0, type);
-44f0c9782cc6ab Ian Minett   2012-12-20 @4413  	sprintf(namestr, "%s %s Volume", name, dirstr[dir]);
-44f0c9782cc6ab Ian Minett   2012-12-20  4414  	return snd_hda_ctl_add(codec, nid, snd_ctl_new1(&knew, codec));
-44f0c9782cc6ab Ian Minett   2012-12-20  4415  }
-44f0c9782cc6ab Ian Minett   2012-12-20  4416  
-
-:::::: The code at line 4413 was first introduced by commit
-:::::: 44f0c9782cc6ab71ea947f8f710a46f2078a151c ALSA: hda/ca0132: Add tuning controls
-
-:::::: TO: Ian Minett <ian_minett@creativelabs.com>
-:::::: CC: Takashi Iwai <tiwai@suse.de>
+  1659	
+  1660	void btrtl_free(struct btrtl_device_info *btrtl_dev)
+  1661	{
+  1662		struct rtl_subsection *entry, *tmp;
+  1663		struct rtl_section_patch_image *image, *next;
+  1664	
+  1665		kvfree(btrtl_dev->fw_data);
+  1666		kvfree(btrtl_dev->cfg_data);
+  1667	
+  1668		list_for_each_entry_safe(entry, tmp, &btrtl_dev->patch_subsecs, list) {
+  1669			list_del(&entry->list);
+  1670			kfree(entry);
+  1671		}
+  1672	
+  1673		list_for_each_entry_safe(image, next, &btrtl_dev->patch_images, list) {
+  1674			list_del(&image->list);
+  1675			if (image->image_data)
+> 1676				kvfree(image->image_data);
+  1677			if (image->cfg_buf)
+  1678				kvfree(image->cfg_buf);
+  1679			kfree(image);
+  1680		}
+  1681	
+  1682		kfree(btrtl_dev);
+  1683	}
+  1684	EXPORT_SYMBOL_GPL(btrtl_free);
+  1685	
 
 -- 
 0-DAY CI Kernel Test Service
