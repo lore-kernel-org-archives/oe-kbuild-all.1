@@ -1,70 +1,58 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852B9481CD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Jun 2025 09:31:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B137928B7C3;
+	Tue, 10 Jun 2025 09:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749547901; cv=none; b=rp8BxNwnCmSpB0he47aRSMNseuPnEniGBT3WRhkaLW/MkGUmEHPomn7n5nYGCJVdWCxdoFnyioLh+RKlizCcYL6HRNWPNEuVkjF0V7psDmcCt3DxFupXHbUigXD5i2JR8E7hG28YmDwbczmKvbzYRy4iSyHcdGsmZ6p9e1bMLgs=
+	t=1749549117; cv=none; b=hxSH5Hu0wjG60+2PIdoGadTZG633FPEdmTxjhZsO9j6pMweyh48h+7kcpfCwhjlsDdSbWLHNvgNc0RD4sIhuan0S7Cs2k6aRcJkps3oILocXvmDcoL43PCpCJVo0n2WqjTtAvYufI5Clhl1u/GvzimXWyqUwb92a+9HaDgY94Yc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749547901; c=relaxed/simple;
-	bh=JjbHD2phY8KlGPS0WX77CAnJphdtY5wlrsTzFvbYvVk=;
+	s=arc-20240116; t=1749549117; c=relaxed/simple;
+	bh=f6gWw1H3YdJDzbM/ucy/WZCIlkiYQWHEKItuGu0xJfM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=uQ2QVyOv8m/sxM89CZleFxY+9GWRRhg+2dcOimDw1A6prEOL7hcK7DCzPV23v16kq3Fci3TujjTCTBZGrtgjDE42ZDoBI6BB81CyBJ3W5M2uAeiaSps9FttO3p55hX9NFC1NP7iwI2JsbJZEGoC84B6XKc8eknsd/KM087sBNTc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xiTqe10N; arc=none smtp.client-ip=209.85.208.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=Ppc3yemHjE2iGY0ZckeelAC0fmROwaP+b2cjIBx14by+pfG+XaXskQ3rDzYyZl8lTBpUn3xQfAxytGcLaEOufwFA3h+Iv0H+KD7Vt6mG4Ae8NL5S6tWgClVB8EZoje7NBI+JHgUmJrNOrbPv4qE7ij73IslGN15fEAJd/iTGSBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RSaCXDN/; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xiTqe10N"
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-607fbc13725so2489157a12.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Jun 2025 02:31:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749547897; x=1750152697; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BDc/79+RuAdlSY4uZ7KWYfQD+mg4JnBPNq2hVHtFBD4=;
-        b=xiTqe10NER2uCOQcerBEqOpdnvfBHzUQTMfv8nlXXX4IrJUcIrsQELde/fc3rcZHWv
-         1r8ky+2zK7FcPGUa6e5ml1OL78wGUV0wwQuMkXIcsaVZaf55ZbNgyYhCo6YqXmKKdeYF
-         kcxh1Q9/OSnwmm1vhHkXGdqh7zG7HqroK0Buyht40RkkCZCX22ELE12ySNs5jkdpNpBf
-         /sJJiC9YPLOw5AzJgZFzkXRsNz4niXpj2jnkZTX74ZZM2xeplOOzdEjiJFI/ye6D/WNq
-         UlOQtUctAyVwpFHgiIE5SDt3pT3al6k9T39+89oHR6yyn1CZL/807w/q2sWHikJ4OrRh
-         2qdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749547897; x=1750152697;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BDc/79+RuAdlSY4uZ7KWYfQD+mg4JnBPNq2hVHtFBD4=;
-        b=G37MnmF/TmI5qIGETnEi57DI7j60AqA9mH7+Hy3lCfX0ATnD2uEMxNDZU9NZzPS3lR
-         JR+sFbUaDMSxX6nHvw35dl9Nr815LIpD+oDwfSjajtg9hzw3l9e6i+zJSLo/Qxgqj7Ik
-         d7o3qRzQ4mSimd+A7OxF4ZM4ot69Jpgd49k2DWr/kT94lQ/4ho7hUGp2OBYkRSa7VEdm
-         pOIbz31hdivpp4lYcUdaiHG1l3qwft6p10DSXF3GSS692EUQgnnyMjpIYbTTWiSEhX92
-         M+RHbzw23yv/1b+bfrG46B+47Qfwev9bjuFjk8O+AqlkE+sEPil/Y/tnbvUmFezyL1ij
-         1sYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUqC1xSCJINyAPWdpZOKnt4+9kdidsvhlcVWXdt0PsW8Qm7g3dl80AWlM0Pc1doidYmFBKhfUHeTuux7xM9@lists.linux.dev
-X-Gm-Message-State: AOJu0YwdJMIJEQt+fV0mezXQ+9Wfvw6BF43u1YA/KCUDSxnj1gFCMhzM
-	K09vjZIkaATE0k/KuD8Pc/fFktsK8I2AEQlbIvcR3tOxxj5z2oWFOClyVIeDeP282QQSQ7KBEsM
-	H5vB3
-X-Gm-Gg: ASbGnct3C6ZoTAnRmYRGlZIYBDm5Bh09Rgn21U+N6K/QOir2bQqmjNyN4uv2mKqOOGy
-	fDs3FpiuM6ZKwFkxy9wAqcBNxt5395XkawHcoKdpGmSLmBBLngh57YBfFQpCbl7E8AkYc36vfvZ
-	AnEwJA31PaG8BRvd3cKeeMmExWBKQFTbJ3rZukKoPvPH4V8Kc/Bkgu9m+TK8ukkqYPIM+0Jgr/t
-	xZFjpe1ACPf/oaRa8FsreMM8Rf8ygjARbqttC9SqOUZ3ZJInmOrm5kb+73Vv4Kuepznxk6hn+MF
-	Pyf73A2OaY+QZUoYFAWv0Wuvaxa/8vO0CSi7AZVrmYDlrODSfgbkdjVLUto2x6ehup8n9zSwvCN
-	eWA==
-X-Google-Smtp-Source: AGHT+IGzuWpLJuvNNJ5G9B9m8QYKEPNmPDW9ChoxRm2mznTfjw5Y68DUVnNnmXJLDm0ZXKwRPdzcYw==
-X-Received: by 2002:a05:600c:64c3:b0:43c:ec4c:25b4 with SMTP id 5b1f17b1804b1-4520143721amr196461635e9.10.1749547479396;
-        Tue, 10 Jun 2025 02:24:39 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4530f7ed8cfsm63035915e9.11.2025.06.10.02.24.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Jun 2025 02:24:38 -0700 (PDT)
-Date: Tue, 10 Jun 2025 12:24:34 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Steven Rostedt <rostedt@goodmis.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] tracing: Fix regression of filter waiting a long time on
- RCU synchronization
-Message-ID: <202506070424.lCiNreTI-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RSaCXDN/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749549116; x=1781085116;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=f6gWw1H3YdJDzbM/ucy/WZCIlkiYQWHEKItuGu0xJfM=;
+  b=RSaCXDN/LvhL5UrORJvbdFW4oc6Q8Tnb4LYntJy/GsX6D/MfJR7Q4p2u
+   h/mr/9Rt1beHgdnuIVwvdVAlpB+tnnzB2spwhrr4YLtMTVnb3KoYqVXkG
+   bYNJeAcv/dmEYa1KCuRZSs+vJZ/LQo/H0wxwnoBr1+mNviuvLIIQeLoOf
+   GypKq5In2K/JxGegTvp81VbRhoy1n6O2I3MfFBDVsVnI+sl6SXHLB/IHP
+   I8+e6Ta2b7ABxDHIJDssZdxPm6lrjy7875wduMykjvF5eawsAt9v74QGr
+   NHK74/683viYjPIuNfm32K/5KKNSFIVCuAyVR+wpYKsuqeYBmgut7SJ0X
+   g==;
+X-CSE-ConnectionGUID: rAfuj8z+RliD0QwDRmcnMg==
+X-CSE-MsgGUID: 7MRJXAxKTwehc3JaUVcAdA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="63002066"
+X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
+   d="scan'208";a="63002066"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 02:51:55 -0700
+X-CSE-ConnectionGUID: 9VFHSgsrT5+avGYNJhd9ZA==
+X-CSE-MsgGUID: tUp7FB70SqKGMPCrTnB7og==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
+   d="scan'208";a="147149673"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 10 Jun 2025 02:51:53 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uOve3-00084f-23;
+	Tue, 10 Jun 2025 09:51:51 +0000
+Date: Tue, 10 Jun 2025 17:51:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [robh:imx93-ethos 2/2] drivers/accel/ethos/ethos_drv.c:196:1:
+ warning: unused label 'err_put_mod'
+Message-ID: <202506101725.xvNUZtPD-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,92 +61,365 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250605161701.35f7989a@gandalf.local.home>
 
-Hi Steven,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Fix-regression-of-filter-waiting-a-long-time-on-RCU-synchronization/20250606-041722
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20250605161701.35f7989a%40gandalf.local.home
-patch subject: [PATCH] tracing: Fix regression of filter waiting a long time on RCU synchronization
-config: riscv-randconfig-r072-20250606 (https://download.01.org/0day-ci/archive/20250607/202506070424.lCiNreTI-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git imx93-ethos
+head:   701683c5d514adf30a2a48ccd7c17124be2461b6
+commit: 701683c5d514adf30a2a48ccd7c17124be2461b6 [2/2] accel: Add Arm Ethos stub driver
+config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250610/202506101725.xvNUZtPD-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506101725.xvNUZtPD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506070424.lCiNreTI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506101725.xvNUZtPD-lkp@intel.com/
 
-smatch warnings:
-kernel/trace/trace_events_filter.c:1452 filter_free_subsystem_filters() warn: 'head' double freed
+All warnings (new ones prefixed by >>):
 
-vim +/head +1452 kernel/trace/trace_events_filter.c
+>> drivers/accel/ethos/ethos_drv.c:196:1: warning: unused label 'err_put_mod' [-Wunused-label]
+     196 | err_put_mod:
+         | ^~~~~~~~~~~~
+   drivers/accel/ethos/ethos_drv.c:212:2: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     212 |         ETHOS_IOCTL(DEV_QUERY, bo_create, 0),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/accel/ethos/ethos_drv.c:209:2: note: expanded from macro 'ETHOS_IOCTL'
+     209 |         DRM_IOCTL_DEF_DRV(ETHOS_##n, ethos_ioctl_##func, flags)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_ioctl.h:152:57: note: expanded from macro 'DRM_IOCTL_DEF_DRV'
+     152 |         [DRM_IOCTL_NR(DRM_IOCTL_##ioctl) - DRM_COMMAND_BASE] = {        \
+         |                                                                ^~~~~~~~~~
+     153 |                 .cmd = DRM_IOCTL_##ioctl,                               \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     154 |                 .func = _func,                                          \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     155 |                 .flags = _flags,                                        \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     156 |                 .name = #ioctl                                          \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     157 |         }
+         |         ~
+   drivers/accel/ethos/ethos_drv.c:211:2: note: previous initialization is here
+     211 |         ETHOS_IOCTL(DEV_QUERY, dev_query, 0),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/accel/ethos/ethos_drv.c:209:2: note: expanded from macro 'ETHOS_IOCTL'
+     209 |         DRM_IOCTL_DEF_DRV(ETHOS_##n, ethos_ioctl_##func, flags)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_ioctl.h:152:57: note: expanded from macro 'DRM_IOCTL_DEF_DRV'
+     152 |         [DRM_IOCTL_NR(DRM_IOCTL_##ioctl) - DRM_COMMAND_BASE] = {        \
+         |                                                                ^~~~~~~~~~
+     153 |                 .cmd = DRM_IOCTL_##ioctl,                               \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     154 |                 .func = _func,                                          \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     155 |                 .flags = _flags,                                        \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     156 |                 .name = #ioctl                                          \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     157 |         }
+         |         ~
+   drivers/accel/ethos/ethos_drv.c:213:2: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
+     213 |         ETHOS_IOCTL(DEV_QUERY, bo_mmap_offset, 0),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/accel/ethos/ethos_drv.c:209:2: note: expanded from macro 'ETHOS_IOCTL'
+     209 |         DRM_IOCTL_DEF_DRV(ETHOS_##n, ethos_ioctl_##func, flags)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_ioctl.h:152:57: note: expanded from macro 'DRM_IOCTL_DEF_DRV'
+     152 |         [DRM_IOCTL_NR(DRM_IOCTL_##ioctl) - DRM_COMMAND_BASE] = {        \
+         |                                                                ^~~~~~~~~~
+     153 |                 .cmd = DRM_IOCTL_##ioctl,                               \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     154 |                 .func = _func,                                          \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     155 |                 .flags = _flags,                                        \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     156 |                 .name = #ioctl                                          \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     157 |         }
+         |         ~
+   drivers/accel/ethos/ethos_drv.c:212:2: note: previous initialization is here
+     212 |         ETHOS_IOCTL(DEV_QUERY, bo_create, 0),
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/accel/ethos/ethos_drv.c:209:2: note: expanded from macro 'ETHOS_IOCTL'
+     209 |         DRM_IOCTL_DEF_DRV(ETHOS_##n, ethos_ioctl_##func, flags)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/drm/drm_ioctl.h:152:57: note: expanded from macro 'DRM_IOCTL_DEF_DRV'
+     152 |         [DRM_IOCTL_NR(DRM_IOCTL_##ioctl) - DRM_COMMAND_BASE] = {        \
+         |                                                                ^~~~~~~~~~
+     153 |                 .cmd = DRM_IOCTL_##ioctl,                               \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     154 |                 .func = _func,                                          \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     155 |                 .flags = _flags,                                        \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     156 |                 .name = #ioctl                                          \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     157 |         }
+         |         ~
+   drivers/accel/ethos/ethos_drv.c:341:3: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
+         |                 ^
+>> drivers/accel/ethos/ethos_drv.c:341:3: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
+     340 |                 "Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
+         |                                         ~~~
+         |                                         %d
+     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/accel/ethos/ethos_drv.c:342:3: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
+     340 |                 "Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
+         |                                             ~~~
+         |                                             %d
+     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
+     342 |                 FIELD_GET(ID_ARCH_MINOR_MASK, id),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/accel/ethos/ethos_drv.c:343:3: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
+     340 |                 "Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
+         |                                                 ~~~
+         |                                                 %d
+     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
+     342 |                 FIELD_GET(ID_ARCH_MINOR_MASK, id),
+     343 |                 FIELD_GET(ID_ARCH_PATCH_MASK, id),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/accel/ethos/ethos_drv.c:344:3: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
+     340 |                 "Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
+         |                                                           ~~~
+         |                                                           %d
+     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
+     342 |                 FIELD_GET(ID_ARCH_MINOR_MASK, id),
+     343 |                 FIELD_GET(ID_ARCH_PATCH_MASK, id),
+     344 |                 FIELD_GET(ID_VER_MAJOR_MASK, id),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/accel/ethos/ethos_drv.c:345:3: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
+     340 |                 "Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
+         |                                                               ~~~
+         |                                                               %d
+     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
+     342 |                 FIELD_GET(ID_ARCH_MINOR_MASK, id),
+     343 |                 FIELD_GET(ID_ARCH_PATCH_MASK, id),
+     344 |                 FIELD_GET(ID_VER_MAJOR_MASK, id),
+     345 |                 FIELD_GET(ID_VER_MINOR_MASK, id),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   drivers/accel/ethos/ethos_drv.c:346:3: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
+     340 |                 "Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
+         |                                                                                  ~~~
+         |                                                                                  %d
+     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
+     342 |                 FIELD_GET(ID_ARCH_MINOR_MASK, id),
+     343 |                 FIELD_GET(ID_ARCH_PATCH_MASK, id),
+     344 |                 FIELD_GET(ID_VER_MAJOR_MASK, id),
+     345 |                 FIELD_GET(ID_VER_MINOR_MASK, id),
+     346 |                 FIELD_GET(CONFIG_CMD_STREAM_VER_MASK, config),
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   9 warnings and 1 error generated.
 
-7967b3e0c40ff7 Steven Rostedt (Red Hat  2015-05-13  1412) static void filter_free_subsystem_filters(struct trace_subsystem_dir *dir,
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1413  					  struct trace_array *tr,
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1414  					  struct event_filter *filter)
-f306cc82a93d6b Tom Zanussi              2013-10-24  1415  {
-7f1d2f8210195c Steven Rostedt (Red Hat  2015-05-05  1416) 	struct trace_event_file *file;
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1417  	struct filter_head *head;
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1418  	struct filter_list *item;
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1419  
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1420  	head = kmalloc(sizeof(*head), GFP_KERNEL);
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1421  	if (!head)
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1422  		goto free_now;
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1423  
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1424  	INIT_LIST_HEAD(&head->list);
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1425  
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1426  	item = kmalloc(sizeof(*item), GFP_KERNEL);
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1427  	if (!item) {
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1428  		kfree(head);
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1429  		goto free_now;
 
+vim +/err_put_mod +196 drivers/accel/ethos/ethos_drv.c
 
-head is freed.
-
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1430  	}
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1431  
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1432  	item->filter = filter;
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1433  	list_add_tail(&item->list, &head->list);
-cfb180f3e71b2a Tom Zanussi              2009-03-22  1434  
-f306cc82a93d6b Tom Zanussi              2013-10-24  1435  	list_for_each_entry(file, &tr->events, list) {
-bb9ef1cb7d8668 Oleg Nesterov            2014-07-15  1436  		if (file->system != dir)
-8e254c1d183f02 Li Zefan                 2009-08-31  1437  			continue;
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1438  		item = kmalloc(sizeof(*item), GFP_KERNEL);
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1439  		if (!item)
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1440  			goto free_now;
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1441  		item->filter = file->filter;
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1442  		list_add_tail(&item->list, &head->list);
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1443  		file->filter = NULL;
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1444  	}
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1445  
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1446  	delay_free_filter(head);
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1447  	return;
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1448   free_now:
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1449  	tracepoint_synchronize_unregister();
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1450  
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1451  	if (head)
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05 @1452  		free_filter_list(&head->rcu);
-
-This is a use after free.  Smatch calls is a "double free" because
-free_filter_list() has "free" in the name, but Smatch is wrong.
-However, still a bug.
-
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1453  
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1454  	list_for_each_entry(file, &tr->events, list) {
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1455  		if (file->system != dir || !file->filter)
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1456  			continue;
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1457  		__free_filter(file->filter);
-cfb180f3e71b2a Tom Zanussi              2009-03-22  1458  	}
-b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1459  	__free_filter(filter);
-cfb180f3e71b2a Tom Zanussi              2009-03-22  1460  }
+   185	
+   186	static int
+   187	ethos_open(struct drm_device *ddev, struct drm_file *file)
+   188	{
+   189		int ret = 0;
+   190	
+   191		if (!try_module_get(THIS_MODULE))
+   192			return -EINVAL;
+   193	
+   194		return 0;
+   195	
+ > 196	err_put_mod:
+   197		module_put(THIS_MODULE);
+   198		return ret;
+   199	}
+   200	
+   201	static void
+   202	ethos_postclose(struct drm_device *ddev, struct drm_file *file)
+   203	{
+   204		module_put(THIS_MODULE);
+   205	}
+   206	
+   207	static const struct drm_ioctl_desc ethos_drm_driver_ioctls[] = {
+   208	#define ETHOS_IOCTL(n, func, flags) \
+   209		DRM_IOCTL_DEF_DRV(ETHOS_##n, ethos_ioctl_##func, flags)
+   210	
+   211		ETHOS_IOCTL(DEV_QUERY, dev_query, 0),
+   212		ETHOS_IOCTL(DEV_QUERY, bo_create, 0),
+   213		ETHOS_IOCTL(DEV_QUERY, bo_mmap_offset, 0),
+   214	};
+   215	
+   216	DEFINE_DRM_ACCEL_FOPS(ethos_drm_driver_fops);
+   217	
+   218	/*
+   219	 * Ethos driver version:
+   220	 * - 1.0 - initial interface
+   221	 */
+   222	static const struct drm_driver ethos_drm_driver = {
+   223		.driver_features = DRIVER_COMPUTE_ACCEL | DRIVER_GEM,
+   224		.open = ethos_open,
+   225		.postclose = ethos_postclose,
+   226		.ioctls = ethos_drm_driver_ioctls,
+   227		.num_ioctls = ARRAY_SIZE(ethos_drm_driver_ioctls),
+   228		.fops = &ethos_drm_driver_fops,
+   229		.name = "ethos",
+   230		.desc = "Arm Ethos Accel driver",
+   231		.major = 1,
+   232		.minor = 0,
+   233	
+   234		.gem_create_object = ethos_gem_create_object,
+   235	};
+   236	
+   237	static int ethos_device_resume(struct device *dev)
+   238	{
+   239		struct ethos_device *ethosdev = dev_get_drvdata(dev);
+   240		int ret;
+   241	
+   242		ret = clk_prepare_enable(ethosdev->core_clk);
+   243		if (ret)
+   244			return ret;
+   245	
+   246		ret = clk_prepare_enable(ethosdev->apb_clk);
+   247		if (ret)
+   248			goto err_disable_core_clk;
+   249	
+   250		return 0;
+   251	
+   252	err_disable_core_clk:
+   253		clk_disable_unprepare(ethosdev->core_clk);
+   254		return ret;
+   255	}
+   256	
+   257	static int ethos_device_suspend(struct device *dev)
+   258	{
+   259		struct ethos_device *ethosdev = dev_get_drvdata(dev);
+   260	
+   261		clk_disable_unprepare(ethosdev->apb_clk);
+   262		clk_disable_unprepare(ethosdev->core_clk);
+   263		return 0;
+   264	}
+   265	
+   266	static int ethos_reset(struct ethos_device *ethosdev)
+   267	{
+   268		int ret;
+   269		u32 reg;
+   270	
+   271		writel_relaxed(0x3, ethosdev->regs + NPU_REG_RESET);
+   272	
+   273		ret = readl_poll_timeout(ethosdev->regs + NPU_REG_STATUS, reg, !(reg & 0x4),
+   274					 USEC_PER_MSEC, USEC_PER_SEC);
+   275		if (ret)
+   276			return ret;
+   277	
+   278		if ((readl_relaxed(ethosdev->regs + NPU_REG_PROT) & 0x3) != 0x3)
+   279			return -EINVAL;
+   280	
+   281		// TODO AXI port config, defaults might work
+   282	
+   283		writel_relaxed(0x0, ethosdev->regs + NPU_BASEP(0));			// DRAM
+   284		writel_relaxed(ethosdev->sramphys, ethosdev->regs + NPU_BASEP(1));	// SRAM
+   285	
+   286		memset(ethosdev->sram, 0, ethosdev->npu_info.sram_size);
+   287	
+   288		return 0;
+   289	}
+   290	
+   291	static int ethos_sram_init(struct ethos_device *ethosdev)
+   292	{
+   293		ethosdev->npu_info.sram_size = 0;
+   294	
+   295		ethosdev->srampool = of_gen_pool_get(ethosdev->base.dev->of_node, "sram", 0);
+   296		if (!ethosdev->srampool) {
+   297			dev_err(ethosdev->base.dev, "sram pool not found\n");
+   298			return -EPROBE_DEFER;
+   299		}
+   300		ethosdev->npu_info.sram_size = gen_pool_size(ethosdev->srampool);
+   301	
+   302		ethosdev->sram = (void __iomem *)gen_pool_dma_alloc(ethosdev->srampool,
+   303								    ethosdev->npu_info.sram_size,
+   304								    &ethosdev->sramphys);
+   305		if (!ethosdev->sram) {
+   306			dev_err(ethosdev->base.dev, "failed to allocate from TX pool\n");
+   307			return -ENOMEM;
+   308		}
+   309	
+   310		return 0;
+   311	}
+   312	
+   313	static int ethos_init(struct ethos_device *ethosdev)
+   314	{
+   315		int ret;
+   316		u32 id, config;
+   317	
+   318		ret = devm_pm_runtime_enable(ethosdev->base.dev);
+   319		if (ret)
+   320			return ret;
+   321	
+   322		ret = pm_runtime_resume_and_get(ethosdev->base.dev);
+   323		if (ret)
+   324			return ret;
+   325	
+   326		pm_runtime_set_autosuspend_delay(ethosdev->base.dev, 50);
+   327		pm_runtime_use_autosuspend(ethosdev->base.dev);
+   328	
+   329		/* If PM is disabled, we need to call ethos_device_resume() manually. */
+   330		if (!IS_ENABLED(CONFIG_PM)) {
+   331			ret = ethos_device_resume(ethosdev->base.dev);
+   332			if (ret)
+   333				return ret;
+   334		}
+   335	
+   336		ethosdev->npu_info.id = id = readl_relaxed(ethosdev->regs + NPU_REG_ID);
+   337		ethosdev->npu_info.config = config = readl_relaxed(ethosdev->regs + NPU_REG_CONFIG);
+   338	
+   339		dev_info(ethosdev->base.dev,
+   340			"Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
+ > 341			FIELD_GET(ID_ARCH_MAJOR_MASK, id),
+   342			FIELD_GET(ID_ARCH_MINOR_MASK, id),
+   343			FIELD_GET(ID_ARCH_PATCH_MASK, id),
+   344			FIELD_GET(ID_VER_MAJOR_MASK, id),
+   345			FIELD_GET(ID_VER_MINOR_MASK, id),
+   346			FIELD_GET(CONFIG_CMD_STREAM_VER_MASK, config),
+   347			1 << FIELD_GET(CONFIG_MACS_PER_CC_MASK, config));
+   348	
+   349		ethos_sram_init(ethosdev);
+   350	
+   351		return ethos_reset(ethosdev);
+   352	}
+   353	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
