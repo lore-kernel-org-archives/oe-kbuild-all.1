@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C7D25B312;
-	Tue, 10 Jun 2025 13:41:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17A529B78B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Jun 2025 14:12:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749562877; cv=none; b=m0JsGQW01KDZ2yoH2PfVxiMrJ9l2WUWdlWiOykFz3awj0ZujgKaaMp1CsBfhakPJ7bntaHAZNWcSH8B4oLbRWbj8eh6MYDrE2+BN2W0G0E8hWkQEyuyboDth5gCJoFpV9cGIIi6MCe7sfmqaZiO3MFFdKWj9b7dH8+fU49zvY70=
+	t=1749564741; cv=none; b=c0CzD23aezuNRvV8xQxaAL2ZoyRv3XadBno9bGa0/n7M0WMxOWEc3LeuZalTmYlWMQ9Ez2DfuDHY1Qluhnm53W14WDVwS4vAkDvdD6JIiocRoBnUId+aYIOFGOEnCusNW1hcReB6+2KK3UGwaoOJX5KGOXZyaPABFCXju3XhJhI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749562877; c=relaxed/simple;
-	bh=iyAVdnka31hmqeUEKmgduM023sQRYvdBTymmKMrYcw4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pNCwDRO3//tE/XcMhTc+sRMWAgH97GOnsre9j8lU7/7z/h+neWT23ME8uFA+2Vd+wyc90umgYZ5gJnHu91sdX/RhQ8qZAp8Qb0Yn1E+5gWTSn11T/m7x33sintPvfIYO9GxZPJgOpOWi9L1ounGIwjYM5rYxToR1X/l3TLsVsuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gQiy4s59; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1749564741; c=relaxed/simple;
+	bh=0xDWz6BS61zO0acJLmxRTJIzULpVZThwsUJJWP+IKro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WvrlmdQXQR2P0UwsJc0Z2RfQcMD0RbS3cARuPY+fO8Ipo/Wrjv3iNzNeYNo21xphcpyfOSYEzpAleGz9klUxObu2JGXUhupz1PUiT3NoSz4hH7DD6kKmmdM/ZpXXTTrSvQPYjNleH67gdwnVgbtc0vUdI7+MuwrQjQ8BVG9jaVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTrWZXQ2; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gQiy4s59"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTrWZXQ2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749562876; x=1781098876;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=iyAVdnka31hmqeUEKmgduM023sQRYvdBTymmKMrYcw4=;
-  b=gQiy4s59XPAeomhqMDZUFyReiZwjgvjCn9Ty9X2yT97uHr1/u5SoL8S5
-   VD1j4y2NCvXCn9RSY48lI6gLOyRswhUTzau6Uhzq+u0NRMPzRVQcqrI7R
-   UzzOBgmKt5j0phZqfo+HL1D4VRWmJkJc3FiRg9lRJwICov8U80NDCkPX7
-   hhTptEh0RWQTPtnuhREmH8nMd3vjUhW12c2r37hhHQ4bypWVQJHVMdPC1
-   +lpODJxqASZHDmCmf6bHmdhKoGelC158VlGdsc2EkhXmwYnX2if2rux+O
-   vNl4iKxXOwRQvfCzNFQSJJj/n192irrwOkKqT14ZW/ZZDkhq2/lJRqvBM
-   Q==;
-X-CSE-ConnectionGUID: XWqLTCUNTx+qMki/jSOM2A==
-X-CSE-MsgGUID: jVc49nQPS/K7sTaZbc0ibw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="62328455"
+  t=1749564740; x=1781100740;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0xDWz6BS61zO0acJLmxRTJIzULpVZThwsUJJWP+IKro=;
+  b=XTrWZXQ2GGSFIGMMVdVL6v0jT/EGVgpkdYThJoP1fvyDmmwx7EkO3fMb
+   LGo2dXafOmwZqB+J8vQTr5iW6EQ7WvchuDDYPZcOPeQxlmfrwfGPqClKf
+   uC/I1KwlpK7M6o8eVKX+WdavUBR+wfo2gsyAbvOsb8vSAh8grH3+U9DAK
+   Fqjd2ekKSYUCyJJ3Ygx3WbdqUKS46cMt8O9JcN0RIyGw5rhJAcTZywDpW
+   a3KafB+wTlTwZkWZa3XqG2NEbwaFS3HyXnJJCf4zW/kslc7aPQvxP4pMQ
+   kwwRNciTHrQwcmQmz2DQxsCRkuXli3F0wEw23OUoYWx418Zo+/xqYqdM0
+   g==;
+X-CSE-ConnectionGUID: kH4eD9d+SRmvMSw422p2uA==
+X-CSE-MsgGUID: /fAvoYFeSkmThegSpBHcWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="50785520"
 X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
-   d="scan'208";a="62328455"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 06:41:15 -0700
-X-CSE-ConnectionGUID: ChgbwVTjRgGHvDGnfX97/A==
-X-CSE-MsgGUID: pDy5jALAQpiVn3ZmJyc4tw==
+   d="scan'208";a="50785520"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 07:12:19 -0700
+X-CSE-ConnectionGUID: kZxW7cYYSVSINC/iVpU36Q==
+X-CSE-MsgGUID: ei5h4Pa6Q0GJYGhfRJoE3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
-   d="scan'208";a="152089428"
+   d="scan'208";a="150697388"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 10 Jun 2025 06:41:14 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 10 Jun 2025 07:12:19 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOzDy-0008Ha-2e;
-	Tue, 10 Jun 2025 13:41:10 +0000
-Date: Tue, 10 Jun 2025 21:40:55 +0800
+	id 1uOzi4-0008KH-03;
+	Tue, 10 Jun 2025 14:12:16 +0000
+Date: Tue, 10 Jun 2025 22:11:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [robh:imx93-ethos 2/2] drivers/accel/ethos/ethos_drv.c:341:3: error:
- call to undeclared function 'FIELD_GET'; ISO C99 and later do not support
- implicit function declarations
-Message-ID: <202506102120.Te26gGUr-lkp@intel.com>
+To: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Ping-Ke Shih <pkshih@realtek.com>
+Subject: Re: [PATCH rtw-next v2 09/14] wifi: rtw89: 8851b: Modify
+ rtw8851b_pwr_{on,off}_func() for USB
+Message-ID: <202506102119.fyp9p96Z-lkp@intel.com>
+References: <c1ff2155-ef01-466e-9c34-4437ee57656c@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,237 +64,110 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <c1ff2155-ef01-466e-9c34-4437ee57656c@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git imx93-ethos
-head:   701683c5d514adf30a2a48ccd7c17124be2461b6
-commit: 701683c5d514adf30a2a48ccd7c17124be2461b6 [2/2] accel: Add Arm Ethos stub driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250610/202506102120.Te26gGUr-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506102120.Te26gGUr-lkp@intel.com/reproduce)
+Hi Bitterblue,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on wireless-next/main]
+[also build test ERROR on wireless/main linus/master v6.16-rc1 next-20250610]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Bitterblue-Smith/wifi-rtw89-8851b-Accept-USB-devices-and-load-their-MAC-address/20250610-033543
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/c1ff2155-ef01-466e-9c34-4437ee57656c%40gmail.com
+patch subject: [PATCH rtw-next v2 09/14] wifi: rtw89: 8851b: Modify rtw8851b_pwr_{on,off}_func() for USB
+config: loongarch-loongson3_defconfig (https://download.01.org/0day-ci/archive/20250610/202506102119.fyp9p96Z-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506102119.fyp9p96Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506102120.Te26gGUr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506102119.fyp9p96Z-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/accel/ethos/ethos_drv.c:196:1: warning: unused label 'err_put_mod' [-Wunused-label]
-     196 | err_put_mod:
-         | ^~~~~~~~~~~~
-   drivers/accel/ethos/ethos_drv.c:212:2: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     212 |         ETHOS_IOCTL(DEV_QUERY, bo_create, 0),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/accel/ethos/ethos_drv.c:209:2: note: expanded from macro 'ETHOS_IOCTL'
-     209 |         DRM_IOCTL_DEF_DRV(ETHOS_##n, ethos_ioctl_##func, flags)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_ioctl.h:152:57: note: expanded from macro 'DRM_IOCTL_DEF_DRV'
-     152 |         [DRM_IOCTL_NR(DRM_IOCTL_##ioctl) - DRM_COMMAND_BASE] = {        \
-         |                                                                ^~~~~~~~~~
-     153 |                 .cmd = DRM_IOCTL_##ioctl,                               \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     154 |                 .func = _func,                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     155 |                 .flags = _flags,                                        \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     156 |                 .name = #ioctl                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     157 |         }
-         |         ~
-   drivers/accel/ethos/ethos_drv.c:211:2: note: previous initialization is here
-     211 |         ETHOS_IOCTL(DEV_QUERY, dev_query, 0),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/accel/ethos/ethos_drv.c:209:2: note: expanded from macro 'ETHOS_IOCTL'
-     209 |         DRM_IOCTL_DEF_DRV(ETHOS_##n, ethos_ioctl_##func, flags)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_ioctl.h:152:57: note: expanded from macro 'DRM_IOCTL_DEF_DRV'
-     152 |         [DRM_IOCTL_NR(DRM_IOCTL_##ioctl) - DRM_COMMAND_BASE] = {        \
-         |                                                                ^~~~~~~~~~
-     153 |                 .cmd = DRM_IOCTL_##ioctl,                               \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     154 |                 .func = _func,                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     155 |                 .flags = _flags,                                        \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     156 |                 .name = #ioctl                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     157 |         }
-         |         ~
-   drivers/accel/ethos/ethos_drv.c:213:2: warning: initializer overrides prior initialization of this subobject [-Winitializer-overrides]
-     213 |         ETHOS_IOCTL(DEV_QUERY, bo_mmap_offset, 0),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/accel/ethos/ethos_drv.c:209:2: note: expanded from macro 'ETHOS_IOCTL'
-     209 |         DRM_IOCTL_DEF_DRV(ETHOS_##n, ethos_ioctl_##func, flags)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_ioctl.h:152:57: note: expanded from macro 'DRM_IOCTL_DEF_DRV'
-     152 |         [DRM_IOCTL_NR(DRM_IOCTL_##ioctl) - DRM_COMMAND_BASE] = {        \
-         |                                                                ^~~~~~~~~~
-     153 |                 .cmd = DRM_IOCTL_##ioctl,                               \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     154 |                 .func = _func,                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     155 |                 .flags = _flags,                                        \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     156 |                 .name = #ioctl                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     157 |         }
-         |         ~
-   drivers/accel/ethos/ethos_drv.c:212:2: note: previous initialization is here
-     212 |         ETHOS_IOCTL(DEV_QUERY, bo_create, 0),
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/accel/ethos/ethos_drv.c:209:2: note: expanded from macro 'ETHOS_IOCTL'
-     209 |         DRM_IOCTL_DEF_DRV(ETHOS_##n, ethos_ioctl_##func, flags)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_ioctl.h:152:57: note: expanded from macro 'DRM_IOCTL_DEF_DRV'
-     152 |         [DRM_IOCTL_NR(DRM_IOCTL_##ioctl) - DRM_COMMAND_BASE] = {        \
-         |                                                                ^~~~~~~~~~
-     153 |                 .cmd = DRM_IOCTL_##ioctl,                               \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     154 |                 .func = _func,                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     155 |                 .flags = _flags,                                        \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     156 |                 .name = #ioctl                                          \
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     157 |         }
-         |         ~
->> drivers/accel/ethos/ethos_drv.c:341:3: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
-         |                 ^
-   drivers/accel/ethos/ethos_drv.c:341:3: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     340 |                 "Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
-         |                                         ~~~
-         |                                         %d
-     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
-     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                  ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/accel/ethos/ethos_drv.c:342:3: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     340 |                 "Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
-         |                                             ~~~
-         |                                             %d
-     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
-     342 |                 FIELD_GET(ID_ARCH_MINOR_MASK, id),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
-     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                  ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/accel/ethos/ethos_drv.c:343:3: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     340 |                 "Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
-         |                                                 ~~~
-         |                                                 %d
-     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
-     342 |                 FIELD_GET(ID_ARCH_MINOR_MASK, id),
-     343 |                 FIELD_GET(ID_ARCH_PATCH_MASK, id),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
-     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                  ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/accel/ethos/ethos_drv.c:344:3: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     340 |                 "Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
-         |                                                           ~~~
-         |                                                           %d
-     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
-     342 |                 FIELD_GET(ID_ARCH_MINOR_MASK, id),
-     343 |                 FIELD_GET(ID_ARCH_PATCH_MASK, id),
-     344 |                 FIELD_GET(ID_VER_MAJOR_MASK, id),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
-     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                  ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/accel/ethos/ethos_drv.c:345:3: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     340 |                 "Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
-         |                                                               ~~~
-         |                                                               %d
-     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
-     342 |                 FIELD_GET(ID_ARCH_MINOR_MASK, id),
-     343 |                 FIELD_GET(ID_ARCH_PATCH_MASK, id),
-     344 |                 FIELD_GET(ID_VER_MAJOR_MASK, id),
-     345 |                 FIELD_GET(ID_VER_MINOR_MASK, id),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
-     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                  ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   drivers/accel/ethos/ethos_drv.c:346:3: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     340 |                 "Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
-         |                                                                                  ~~~
-         |                                                                                  %d
-     341 |                 FIELD_GET(ID_ARCH_MAJOR_MASK, id),
-     342 |                 FIELD_GET(ID_ARCH_MINOR_MASK, id),
-     343 |                 FIELD_GET(ID_ARCH_PATCH_MASK, id),
-     344 |                 FIELD_GET(ID_VER_MAJOR_MASK, id),
-     345 |                 FIELD_GET(ID_VER_MINOR_MASK, id),
-     346 |                 FIELD_GET(CONFIG_CMD_STREAM_VER_MASK, config),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
-     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                                  ~~~     ^~~~~~~~~~~
-   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ~~~    ^~~~~~~~~~~
-   9 warnings and 1 error generated.
+   drivers/net/wireless/realtek/rtw89/rtw8851b.c: In function 'rtw8851b_pwr_off_func':
+>> drivers/net/wireless/realtek/rtw89/rtw8851b.c:523:61: error: 'B_AX_SOP_EDSWR' undeclared (first use in this function); did you mean 'B_BE_SOP_EDSWR'?
+     523 |                 rtw89_write32_clr(rtwdev, R_AX_SYS_PW_CTRL, B_AX_SOP_EDSWR);
+         |                                                             ^~~~~~~~~~~~~~
+         |                                                             B_BE_SOP_EDSWR
+   drivers/net/wireless/realtek/rtw89/rtw8851b.c:523:61: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +/FIELD_GET +341 drivers/accel/ethos/ethos_drv.c
+vim +523 drivers/net/wireless/realtek/rtw89/rtw8851b.c
 
-   312	
-   313	static int ethos_init(struct ethos_device *ethosdev)
-   314	{
-   315		int ret;
-   316		u32 id, config;
-   317	
-   318		ret = devm_pm_runtime_enable(ethosdev->base.dev);
-   319		if (ret)
-   320			return ret;
-   321	
-   322		ret = pm_runtime_resume_and_get(ethosdev->base.dev);
-   323		if (ret)
-   324			return ret;
-   325	
-   326		pm_runtime_set_autosuspend_delay(ethosdev->base.dev, 50);
-   327		pm_runtime_use_autosuspend(ethosdev->base.dev);
-   328	
-   329		/* If PM is disabled, we need to call ethos_device_resume() manually. */
-   330		if (!IS_ENABLED(CONFIG_PM)) {
-   331			ret = ethos_device_resume(ethosdev->base.dev);
-   332			if (ret)
-   333				return ret;
-   334		}
-   335	
-   336		ethosdev->npu_info.id = id = readl_relaxed(ethosdev->regs + NPU_REG_ID);
-   337		ethosdev->npu_info.config = config = readl_relaxed(ethosdev->regs + NPU_REG_CONFIG);
-   338	
-   339		dev_info(ethosdev->base.dev,
-   340			"Found Ethos NPU, arch v%ld.%ld.%ld, rev r%ldp%ld, cmd stream ver%ld, %d MACs\n",
- > 341			FIELD_GET(ID_ARCH_MAJOR_MASK, id),
-   342			FIELD_GET(ID_ARCH_MINOR_MASK, id),
-   343			FIELD_GET(ID_ARCH_PATCH_MASK, id),
-   344			FIELD_GET(ID_VER_MAJOR_MASK, id),
-   345			FIELD_GET(ID_VER_MINOR_MASK, id),
-   346			FIELD_GET(CONFIG_CMD_STREAM_VER_MASK, config),
-   347			1 << FIELD_GET(CONFIG_MACS_PER_CC_MASK, config));
-   348	
-   349		ethos_sram_init(ethosdev);
-   350	
-   351		return ethos_reset(ethosdev);
-   352	}
-   353	
+   477	
+   478	static int rtw8851b_pwr_off_func(struct rtw89_dev *rtwdev)
+   479	{
+   480		u32 val32;
+   481		int ret;
+   482	
+   483		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_ANAPAR_WL, XTAL_SI_RFC2RF,
+   484					      XTAL_SI_RFC2RF);
+   485		if (ret)
+   486			return ret;
+   487		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_ANAPAR_WL, 0, XTAL_SI_OFF_EI);
+   488		if (ret)
+   489			return ret;
+   490		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_ANAPAR_WL, 0, XTAL_SI_OFF_WEI);
+   491		if (ret)
+   492			return ret;
+   493		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_WL_RFC_S0, 0, XTAL_SI_RF00);
+   494		if (ret)
+   495			return ret;
+   496		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_ANAPAR_WL, XTAL_SI_SRAM2RFC,
+   497					      XTAL_SI_SRAM2RFC);
+   498		if (ret)
+   499			return ret;
+   500		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_ANAPAR_WL, 0, XTAL_SI_PON_EI);
+   501		if (ret)
+   502			return ret;
+   503		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_ANAPAR_WL, 0, XTAL_SI_PON_WEI);
+   504		if (ret)
+   505			return ret;
+   506	
+   507		rtw89_write32_set(rtwdev, R_AX_WLAN_XTAL_SI_CONFIG,
+   508				  B_AX_XTAL_SI_ADDR_NOT_CHK);
+   509		rtw89_write32_set(rtwdev, R_AX_SYS_PW_CTRL, B_AX_EN_WLON);
+   510		rtw89_write32_clr(rtwdev, R_AX_WLRF_CTRL, B_AX_AFC_AFEDIG);
+   511		rtw89_write8_clr(rtwdev, R_AX_SYS_FUNC_EN, B_AX_FEN_BB_GLB_RSTN | B_AX_FEN_BBRSTB);
+   512	
+   513		rtw89_write32_set(rtwdev, R_AX_SYS_PW_CTRL, B_AX_APFM_OFFMAC);
+   514	
+   515		ret = read_poll_timeout(rtw89_read32, val32, !(val32 & B_AX_APFM_OFFMAC),
+   516					1000, 20000, false, rtwdev, R_AX_SYS_PW_CTRL);
+   517		if (ret)
+   518			return ret;
+   519	
+   520		if (rtwdev->hci.type == RTW89_HCI_TYPE_PCIE)
+   521			rtw89_write32(rtwdev, R_AX_WLLPS_CTRL, SW_LPS_OPTION);
+   522		else if (rtwdev->hci.type == RTW89_HCI_TYPE_USB)
+ > 523			rtw89_write32_clr(rtwdev, R_AX_SYS_PW_CTRL, B_AX_SOP_EDSWR);
+   524	
+   525		if (rtwdev->hal.cv == CHIP_CAV) {
+   526			rtw8851b_patch_swr_pfm2pwm(rtwdev);
+   527		} else {
+   528			rtw89_write32_set(rtwdev, R_AX_SPSLDO_ON_CTRL1, B_AX_FPWMDELAY);
+   529			rtw89_write32_set(rtwdev, R_AX_SPSANA_ON_CTRL1, B_AX_FPWMDELAY);
+   530		}
+   531	
+   532		if (rtwdev->hci.type == RTW89_HCI_TYPE_PCIE) {
+   533			rtw89_write32_set(rtwdev, R_AX_SYS_PW_CTRL, B_AX_APFM_SWLPS);
+   534		} else if (rtwdev->hci.type == RTW89_HCI_TYPE_USB) {
+   535			val32 = rtw89_read32(rtwdev, R_AX_SYS_PW_CTRL);
+   536			val32 &= ~B_AX_AFSM_PCIE_SUS_EN;
+   537			val32 |= B_AX_AFSM_WLSUS_EN;
+   538			rtw89_write32(rtwdev, R_AX_SYS_PW_CTRL, val32);
+   539		}
+   540	
+   541		return 0;
+   542	}
+   543	
 
 -- 
 0-DAY CI Kernel Test Service
