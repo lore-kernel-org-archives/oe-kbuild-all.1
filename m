@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8F30194080;
-	Tue, 10 Jun 2025 06:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B31827AC34
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Jun 2025 07:04:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749537101; cv=none; b=loHPPaD8XydiXDtu8eAA2ionSBsC3dnYv6IyPvs5Sqw9sahbiVJRLSmK1MewY8AcggCw2nhB4jOmsElV2Y72eg1tBgfxL0eQi/CApAydSgR2cMI21WPZphmvB7Tr4pViA0jLU/59B9lU1vMsKbAChYevFnF9f70+8qwq/K5I69A=
+	t=1749539081; cv=none; b=KsVw15KMgkKPTX3FGOIcZdRfLEHntPNL6dp1oTWGx6hq8kvhH44hgXNj0Sv9M+xNFsl/HSQ0vyqUgJnXee2w4PbszwfFqJoEP54Fw8K2OzcvpSE4wT1Z/xvS8ycrRJzJUPk26mm3PqrvjQr3k49wjsXoD0lJUG3RkeMVLEEXtgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749537101; c=relaxed/simple;
-	bh=u+lXOC4z3TPeQ1aU2Py9PX3L7O16f89fVuC1nGPhaUM=;
+	s=arc-20240116; t=1749539081; c=relaxed/simple;
+	bh=jd61kX+KRNakrslYpRMksDzpvxPPKRScG9zL/DMbkrU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZulJTsaJxnKlSf9ST56NTheG6sQRNbKwtejMKagKNca8bKScOx/bH7gnV4nwK4HaNzTypJZoJnbw/wrKf2pBrr0NdfSs8F+/EnjrM/g+5J7BOiRGwObYEtdKbOIJDr2/Iat3Cf5bxKcIKt71D53btqzuXUMuVRY4+qe4jkcOk7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vb1mULUz; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=AsQPiuSOvrqwZXEGZqzoBJDM0Ve6wSgT3hEjOuadMsy6vCRr5jI6D5zb8ZPxNJZQka9ILp5icaAv/8mKeLO+6XAnYPkfdvRy1AGDErJ0gz9F9AIDisvG3oMfWPklIuyT7V0PA2IGftat8igc3gCpY5U0akN7Vj8zQ5jh1R0mjR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBAKDlzq; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vb1mULUz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBAKDlzq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749537099; x=1781073099;
+  t=1749539079; x=1781075079;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u+lXOC4z3TPeQ1aU2Py9PX3L7O16f89fVuC1nGPhaUM=;
-  b=Vb1mULUzOYjZHjMR5dFCOm0h9MToyV/0ygeuKS1p35yuvMvGhG/4xdGY
-   nqLmyX50xcKmiefVujuSKLHB9PYGmNOMigRdlRMFenTs7JzizU5ggmDwr
-   aM8z846Kk1ECewzAiYKkR0pSShJhofNw6UgOaAjSrzNHUymsdLQHtdLFp
-   mBri35iWoHwyIt4uleU74VnWUMG4ti6PDdC8vaHZeKarpaaT7giumwnwP
-   H3hiullgol2GcI4BZbPxWMMUIMBcyEcCmIqOafnFO2oqZUF+p3B04RpCB
-   cXjCynwrFJFFlypvQZQSdU/9W1FqNFBJvpM12wkrH5cPZHjli1I0AlHkh
-   g==;
-X-CSE-ConnectionGUID: fBHbOpC3QlK4r0KrOoHvgQ==
-X-CSE-MsgGUID: wh9v3sXzS8mNY0dGYpjYdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="55423722"
+  bh=jd61kX+KRNakrslYpRMksDzpvxPPKRScG9zL/DMbkrU=;
+  b=XBAKDlzqphgfrXhD05BxHqqudzn3gHVFNrXcc6Td6+fnoWmwmVi/cz1c
+   pXqr8U+vBFXH7xmySNVHjka9Qr0lyEqbv/HzG5dUWBKWKOmxjG1hMwn+V
+   5N83ETlOT0ziwLDj3WNYtY2Tt9X9R42A1qWfHBSqabcy7IRyw7Y2e4kXu
+   bHkxxREKfBjAzMS17p8nLMLf1HflJZT8L5ZeVwuXrpO2XPoc9InF10gkV
+   k13WYl67zfajp5w4j0WPx/y2rWJ8qkoRGseWn9ioeBjJelMbbtX8j421k
+   JTlWFN/hHmfpd5EuZrwSDypc8aeuUwO0Pa0Lt/QaYbkvDaD/0U9gc7iwq
+   A==;
+X-CSE-ConnectionGUID: EZ3LgYtBTx6ka7rG3KBLDw==
+X-CSE-MsgGUID: Xi+1KzQfSPyizRi9q8KBcQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="50860227"
 X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
-   d="scan'208";a="55423722"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 23:31:36 -0700
-X-CSE-ConnectionGUID: O7wFsnSTQp+79qgOJ8KNcg==
-X-CSE-MsgGUID: zOg7wEHBTOenMKSZwUp1UA==
+   d="scan'208";a="50860227"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 00:04:38 -0700
+X-CSE-ConnectionGUID: AKxqpntmS7KpGd2d1b5gcQ==
+X-CSE-MsgGUID: cu//+GwVRFqC5jXkPny6KQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
-   d="scan'208";a="151545884"
+   d="scan'208";a="146672030"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 09 Jun 2025 23:31:35 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 10 Jun 2025 00:04:38 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOsWC-0007sv-0v;
-	Tue, 10 Jun 2025 06:31:32 +0000
-Date: Tue, 10 Jun 2025 14:30:43 +0800
+	id 1uOt2A-0007uL-2f;
+	Tue, 10 Jun 2025 07:04:34 +0000
+Date: Tue, 10 Jun 2025 15:04:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_pt_vtd 1/40] drivers/iommu/intel/pasid.c:415:5:
- error: conflicting types for 'intel_pasid_replace_first_level'
-Message-ID: <202506101446.9WrayqVm-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:iommu_pt_vtd 33/40]
+ drivers/iommu/generic_pt/fmt/../pt_common.h:345:20: warning:
+ 'pt_test_sw_bit_acuire' declared 'static' but never defined
+Message-ID: <202506101405.GuSwtNYA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,80 +65,38 @@ Content-Disposition: inline
 
 tree:   https://github.com/jgunthorpe/linux iommu_pt_vtd
 head:   282698ed3a69e2f70fd682b369cf39c972c0bb2b
-commit: 15e2836383d140dd2d0f316de73239d1c7cffadb [1/40] iommu/vtd: Lift the __pa to domain_setup_first_level/intel_svm_set_dev_pasid()
-config: i386-buildonly-randconfig-003-20250610 (https://download.01.org/0day-ci/archive/20250610/202506101446.9WrayqVm-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506101446.9WrayqVm-lkp@intel.com/reproduce)
+commit: 7ed632ebae4de991a280472e711b204da244ba74 [33/40] iommupt: Add basic support for SW bits in the page table
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250610/202506101405.GuSwtNYA-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506101405.GuSwtNYA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506101446.9WrayqVm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506101405.GuSwtNYA-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/iommu/intel/pasid.c:415:5: error: conflicting types for 'intel_pasid_replace_first_level'
-     415 | int intel_pasid_replace_first_level(struct intel_iommu *iommu,
-         |     ^
-   drivers/iommu/intel/pasid.h:304:5: note: previous declaration is here
-     304 | int intel_pasid_replace_first_level(struct intel_iommu *iommu,
-         |     ^
-   1 error generated.
+   In file included from drivers/iommu/generic_pt/fmt/iommu_template.h:37,
+                    from drivers/iommu/generic_pt/fmt/iommu_amdv1.c:15:
+>> drivers/iommu/generic_pt/fmt/../pt_common.h:345:20: warning: 'pt_test_sw_bit_acuire' declared 'static' but never defined [-Wunused-function]
+     345 | static inline bool pt_test_sw_bit_acuire(struct pt_state *pts,
+         |                    ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +/intel_pasid_replace_first_level +415 drivers/iommu/intel/pasid.c
+vim +345 drivers/iommu/generic_pt/fmt/../pt_common.h
 
-437f35e1cd4c8d0 drivers/iommu/intel-pasid.c Lu Baolu        2018-12-10  414  
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08 @415  int intel_pasid_replace_first_level(struct intel_iommu *iommu,
-15e2836383d140d drivers/iommu/intel/pasid.c Jason Gunthorpe 2025-05-12  416  				    struct device *dev, u64 fsptptr,
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  417  				    u32 pasid, u16 did, u16 old_did,
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  418  				    int flags)
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  419  {
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  420  	struct pasid_entry *pte, new_pte;
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  421  
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  422  	if (!ecap_flts(iommu->ecap)) {
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  423  		pr_err("No first level translation support on %s\n",
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  424  		       iommu->name);
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  425  		return -EINVAL;
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  426  	}
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  427  
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  428  	if ((flags & PASID_FLAG_FL5LP) && !cap_fl5lp_support(iommu->cap)) {
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  429  		pr_err("No 5-level paging support for first-level on %s\n",
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  430  		       iommu->name);
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  431  		return -EINVAL;
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  432  	}
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  433  
-15e2836383d140d drivers/iommu/intel/pasid.c Jason Gunthorpe 2025-05-12  434  	pasid_pte_config_first_level(iommu, &new_pte, fsptptr, did, flags);
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  435  
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  436  	spin_lock(&iommu->lock);
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  437  	pte = intel_pasid_get_entry(dev, pasid);
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  438  	if (!pte) {
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  439  		spin_unlock(&iommu->lock);
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  440  		return -ENODEV;
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  441  	}
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  442  
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  443  	if (!pasid_pte_is_present(pte)) {
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  444  		spin_unlock(&iommu->lock);
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  445  		return -EINVAL;
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  446  	}
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  447  
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  448  	WARN_ON(old_did != pasid_get_domain_id(pte));
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  449  
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  450  	*pte = new_pte;
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  451  	spin_unlock(&iommu->lock);
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  452  
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  453  	intel_pasid_flush_present(iommu, dev, pasid, old_did, pte);
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  454  	intel_iommu_drain_pasid_prq(dev, pasid);
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  455  
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  456  	return 0;
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  457  }
-7543ee63e8113aa drivers/iommu/intel/pasid.c Yi Liu          2024-11-08  458  
-
-:::::: The code at line 415 was first introduced by commit
-:::::: 7543ee63e8113aa34b07df3b16b3b9d2c5f73939 iommu/vt-d: Add pasid replace helpers
-
-:::::: TO: Yi Liu <yi.l.liu@intel.com>
-:::::: CC: Joerg Roedel <jroedel@suse.de>
+   337	
+   338	/**
+   339	 * pt_test_sw_bit_acquire() - Read a software bit in an item
+   340	 * @pts: Entry to set
+   341	 *
+   342	 * Software bits are ignored by HW and can be used for any purpose by the
+   343	 * software. This does a test bit and acquire operation.
+   344	 */
+ > 345	static inline bool pt_test_sw_bit_acuire(struct pt_state *pts,
+   346						 unsigned int bitnr);
+   347	
 
 -- 
 0-DAY CI Kernel Test Service
