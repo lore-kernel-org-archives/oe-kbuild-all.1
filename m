@@ -1,73 +1,57 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AEE19CC3C;
-	Tue, 10 Jun 2025 05:15:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 936107083C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Jun 2025 05:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749532528; cv=none; b=TfZjFueI284oJiSHmnvQ4WtwD6CZhD7ok0xzgFsTb6i189FlpyhCe2+HpkINFrt7y7MtWqusr0mlo+8owk4+OVBdVCgVH9y5NpXtpLLpKkq8dL3siYK3OBjm4j6Ryplgb/pHXDTu60ytUE9i+4Wfq1Q7p1LkaYtwT8wA9PCUR78=
+	t=1749534572; cv=none; b=QyL2hFgBhlaU8W3d3WGim1a8dIxw3zr/GuCWYVhmtRSL0TLMocnzd+2fyNgBIqyWYpJsVXonVl/VozbPT46xgZJcFxcKdfmM3mEtwnTGSB7V90ogbUO9z7LrRFs7AVZjBDcus/rlWXdsVW1pxjR2YNbWU0A54fgI6+OkDaYJhqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749532528; c=relaxed/simple;
-	bh=wwx1RGlswAft6HtyBTWGHwM1xvSwaWadQVlRSN2NE4k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B2OBIgpHQD3daaAu5N600VZGfzh7lOs6ksfzdKe/7XouyV6KpBw//cSQAjxoZpLtcgv7oVhHmnGv1Q0GQdeQu/l3I6f0jK/ySQJFJJqgL/g/ssMHp90InrGS/PZ9IlA2Odxto5R/AF2gkNBopJa8Z1CFcEkwEjVlmT6dSyYDxDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UDAKVw0M; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1749534572; c=relaxed/simple;
+	bh=GMSEzQVdmINehZ5oo8/B0cg57ZE96FCdiq3N4OJOBuE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z+KULk+M/p1jUOS+VjVQaI8Y1fM7LTAowDbluvHpSRyl4Wm0QCddqLuMAo+E4SJPybQ+qXuaHfU3RZb4NExWe3ZNtAzkX4GkQ3n+3uLwb/Cu3BW1tT4bfd39tIFwGZaZcWDQ8WbPqYmfbW2GT/Ns9xHnzr35fjZl8IInMKhCVt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FY82Ijvy; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UDAKVw0M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FY82Ijvy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749532526; x=1781068526;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wwx1RGlswAft6HtyBTWGHwM1xvSwaWadQVlRSN2NE4k=;
-  b=UDAKVw0MteH4xz1yfvGIkdJ99nSh5wPfb1NJKgQYxASFj2CLleV1GGUs
-   /yF0MlKTw+hBoLgUFKBdZNFnpJ4ImjuCaPlrz4Xt92s9tRheiQie2fD3I
-   YuaRLm/Mxw+vXYJEPsOY7M9A3Pfybnv7nM4sd5QMOybdtbYPwtrBNlChm
-   CU78oRSbVtb05SLYwnnHha28Xk59OO5/Q/0iiyHSxLVdJLn902s0E9Zmz
-   entzeR9eqjy3NlzhoXlCa5IXYUwgUvLPYYSqbo/YfrW2xQ3+usnVEpaMj
-   2kyZJnR1r6Ipd7B3Awvy01YQYJxmpCHP9UIBx9ttfDmYxavIo9fOolhh4
+  t=1749534571; x=1781070571;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GMSEzQVdmINehZ5oo8/B0cg57ZE96FCdiq3N4OJOBuE=;
+  b=FY82IjvyMrHQH53tBNfgWKXer7+XgNIRUfHjEKcFoyoACZYJRNobv343
+   BhSOoFjrvEyjADv4kJIqX4FUM4OKt9C756bX4beocBZske0wkTXomDMAO
+   e4c9JQHHJthyx1RFaG67UW5zot6BwP18JgWkP9e8KmA1NR9vj7Mr9Jb3Y
+   5DtqvGCCZH87MhdYkQ8VbW5fWJvSgcVYSnOgScRO5tD5lzn85Dtekq2T/
+   hGVaTXKTmfUXLneIv8TLf20fzvF5VNheAyBfcO5lqmpJerQUf47yXZvrc
+   avjsOOz+4FX+Ao4sX0LZsqvPJZWpRS/jxWMxqIa5jM3rkvjcJpuZrHX5n
    A==;
-X-CSE-ConnectionGUID: i866br8mSxuzUxn+149bzg==
-X-CSE-MsgGUID: d22dOqElRcSfGSyC0qEb8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="55431722"
+X-CSE-ConnectionGUID: ETf0TS15TeSD29UlcQR0Ew==
+X-CSE-MsgGUID: jyDunKLDT3CzxHrW/F1h5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11459"; a="50735130"
 X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
-   d="scan'208";a="55431722"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 22:15:26 -0700
-X-CSE-ConnectionGUID: GoXFIom2SbCGSvZIugHs+A==
-X-CSE-MsgGUID: 3dgGJazITluB05ndUhbYHw==
+   d="scan'208";a="50735130"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2025 22:49:30 -0700
+X-CSE-ConnectionGUID: leOEfOWQQ6WSTzeKMyBUCg==
+X-CSE-MsgGUID: Rvc/mpViRYKKkWIoQty5LA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,224,1744095600"; 
-   d="scan'208";a="147076646"
+   d="scan'208";a="151606184"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 09 Jun 2025 22:15:21 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 09 Jun 2025 22:49:29 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOrKQ-0007nV-2j;
-	Tue, 10 Jun 2025 05:15:18 +0000
-Date: Tue, 10 Jun 2025 13:15:10 +0800
+	id 1uOrrT-0007pt-0a;
+	Tue, 10 Jun 2025 05:49:27 +0000
+Date: Tue, 10 Jun 2025 13:49:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Junhui Liu <junhui.liu@pigmoral.tech>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Chen Wang <unicorn_wang@outlook.com>,
-	Inochi Amaoto <inochiama@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
-Cc: oe-kbuild-all@lists.linux.dev, linux-remoteproc@vger.kernel.org,
-	devicetree@vger.kernel.org, sophgo@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH 2/2] drivers: remoteproc: Add C906L controller for Sophgo
- CV1800B SoC
-Message-ID: <202506101252.4HRoLbL7-lkp@intel.com>
-References: <20250608-cv1800-rproc-v1-2-57cf66cdf6a3@pigmoral.tech>
+To: Benno Lossin <lossin@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Miguel Ojeda <ojeda@kernel.org>
+Subject: [rust:pin-init-next 6/14] error[E0282]: type annotations needed
+Message-ID: <202506101355.7j9nPNCz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,61 +60,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250608-cv1800-rproc-v1-2-57cf66cdf6a3@pigmoral.tech>
 
-Hi Junhui,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8630c59e99363c4b655788fd01134aef9bcd9264]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Junhui-Liu/dt-bindings-remoteproc-Add-C906L-rproc-for-Sophgo-CV1800B-SoC/20250608-104249
-base:   8630c59e99363c4b655788fd01134aef9bcd9264
-patch link:    https://lore.kernel.org/r/20250608-cv1800-rproc-v1-2-57cf66cdf6a3%40pigmoral.tech
-patch subject: [PATCH 2/2] drivers: remoteproc: Add C906L controller for Sophgo CV1800B SoC
-config: nios2-randconfig-r132-20250610 (https://download.01.org/0day-ci/archive/20250610/202506101252.4HRoLbL7-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250610/202506101252.4HRoLbL7-lkp@intel.com/reproduce)
+tree:   https://github.com/Rust-for-Linux/linux pin-init-next
+head:   1c9e8afcd50d7f46d1d0a749a49d9ebd8bee924e
+commit: 5aa80dace60a02b7c78702a62ca138c630a71a0a [6/14] rust: pin-init: add `zeroed()` & `Zeroable::zeroed()` functions
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250610/202506101355.7j9nPNCz-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506101355.7j9nPNCz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506101252.4HRoLbL7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506101355.7j9nPNCz-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/remoteproc/sophgo_cv1800b_c906l.c:41:12: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *va @@     got void [noderef] __iomem * @@
-   drivers/remoteproc/sophgo_cv1800b_c906l.c:41:12: sparse:     expected void *va
-   drivers/remoteproc/sophgo_cv1800b_c906l.c:41:12: sparse:     got void [noderef] __iomem *
->> drivers/remoteproc/sophgo_cv1800b_c906l.c:54:20: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __iomem *addr @@     got void *va @@
-   drivers/remoteproc/sophgo_cv1800b_c906l.c:54:20: sparse:     expected void [noderef] __iomem *addr
-   drivers/remoteproc/sophgo_cv1800b_c906l.c:54:20: sparse:     got void *va
+All errors (new ones prefixed by >>):
 
-vim +41 drivers/remoteproc/sophgo_cv1800b_c906l.c
-
-    35	
-    36	static int cv1800b_c906l_mem_alloc(struct rproc *rproc,
-    37					   struct rproc_mem_entry *mem)
-    38	{
-    39		void *va;
-    40	
-  > 41		va = ioremap_wc(mem->dma, mem->len);
-    42		if (IS_ERR_OR_NULL(va))
-    43			return -ENOMEM;
-    44	
-    45		/* Update memory entry va */
-    46		mem->va = va;
-    47	
-    48		return 0;
-    49	}
-    50	
-    51	static int cv1800b_c906l_mem_release(struct rproc *rproc,
-    52					     struct rproc_mem_entry *mem)
-    53	{
-  > 54		iounmap(mem->va);
-    55	
-    56		return 0;
-    57	}
-    58	
+>> error[E0282]: type annotations needed
+   --> rust/kernel/configfs.rs:154:26
+   |
+   154 |             subsystem <- pin_init::zeroed().chain(
+   |                          ^^^^^^^^^^^^^^^^ cannot infer type of the type parameter `T` declared on the function `zeroed`
+   |
+   help: consider specifying the generic argument
+   |
+   154 |             subsystem <- pin_init::zeroed::<T>().chain(
+   |                                          +++++
+--
+>> error[E0282]: type annotations needed
+   --> rust/kernel/configfs.rs:264:22
+   |
+   264 |             group <- pin_init::zeroed().chain(|v: &mut Opaque<bindings::config_group>| {
+   |                      ^^^^^^^^^^^^^^^^ cannot infer type of the type parameter `T` declared on the function `zeroed`
+   |
+   help: consider specifying the generic argument
+   |
+   264 |             group <- pin_init::zeroed::<T>().chain(|v: &mut Opaque<bindings::config_group>| {
+   |                                      +++++
 
 -- 
 0-DAY CI Kernel Test Service
