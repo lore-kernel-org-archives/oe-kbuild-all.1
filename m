@@ -1,61 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17A529B78B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Jun 2025 14:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F0B3221F0E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Jun 2025 15:05:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749564741; cv=none; b=c0CzD23aezuNRvV8xQxaAL2ZoyRv3XadBno9bGa0/n7M0WMxOWEc3LeuZalTmYlWMQ9Ez2DfuDHY1Qluhnm53W14WDVwS4vAkDvdD6JIiocRoBnUId+aYIOFGOEnCusNW1hcReB6+2KK3UGwaoOJX5KGOXZyaPABFCXju3XhJhI=
+	t=1749567927; cv=none; b=lLO0f3rqTAtz3w5bWPomWuWQjLFvnbFNIb7FDORs8dJvbNXdhfbbW0mSfv/sZwTvdVvkil6ghkdML+ojdqCaNJ/ZtoLMY+W2wwYqlPXyvKr3HkguglxJhaqdlQcHiM7INH5C0AfhU8PltViQ+LwZWIfopAj/8wxCBEJP5YB6oqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749564741; c=relaxed/simple;
-	bh=0xDWz6BS61zO0acJLmxRTJIzULpVZThwsUJJWP+IKro=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WvrlmdQXQR2P0UwsJc0Z2RfQcMD0RbS3cARuPY+fO8Ipo/Wrjv3iNzNeYNo21xphcpyfOSYEzpAleGz9klUxObu2JGXUhupz1PUiT3NoSz4hH7DD6kKmmdM/ZpXXTTrSvQPYjNleH67gdwnVgbtc0vUdI7+MuwrQjQ8BVG9jaVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XTrWZXQ2; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1749567927; c=relaxed/simple;
+	bh=njxByE+IBJtYYpjF0D0YGgtFyj7awC2eF8EPiUEWGqs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Hye+LT1a0T23ke4e5hCe4TpeRw6peOWay246kUvuoub+Iuo9llVEQIB89C7M4cwfd/F8kb3HPeB0jvah/yKpKfxcHfkZ5p2X/NJ5hBiYycfCq3XBpXGqZmVBHIKLO/ZlA1HT9nHdufA2JhOyKY4E8Qmj1Rep1COAfhGUs119ntA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ecjaHnOM; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XTrWZXQ2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ecjaHnOM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749564740; x=1781100740;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0xDWz6BS61zO0acJLmxRTJIzULpVZThwsUJJWP+IKro=;
-  b=XTrWZXQ2GGSFIGMMVdVL6v0jT/EGVgpkdYThJoP1fvyDmmwx7EkO3fMb
-   LGo2dXafOmwZqB+J8vQTr5iW6EQ7WvchuDDYPZcOPeQxlmfrwfGPqClKf
-   uC/I1KwlpK7M6o8eVKX+WdavUBR+wfo2gsyAbvOsb8vSAh8grH3+U9DAK
-   Fqjd2ekKSYUCyJJ3Ygx3WbdqUKS46cMt8O9JcN0RIyGw5rhJAcTZywDpW
-   a3KafB+wTlTwZkWZa3XqG2NEbwaFS3HyXnJJCf4zW/kslc7aPQvxP4pMQ
-   kwwRNciTHrQwcmQmz2DQxsCRkuXli3F0wEw23OUoYWx418Zo+/xqYqdM0
-   g==;
-X-CSE-ConnectionGUID: kH4eD9d+SRmvMSw422p2uA==
-X-CSE-MsgGUID: /fAvoYFeSkmThegSpBHcWA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="50785520"
+  t=1749567926; x=1781103926;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=njxByE+IBJtYYpjF0D0YGgtFyj7awC2eF8EPiUEWGqs=;
+  b=ecjaHnOM2q+qrweE5Ywqg0jUtUR8HOz9d76Pd5S5rWNaM79osw+2dfoY
+   1te66LklqB5WpZ+jkBe5rU9LQg8JfJFsYD3cPN2Ag8lzPSmhz4RoKVvvK
+   KJ6g7ng37FDsC7aPP6CaC00HTawLA6Xb49NmDftIlBPp6ODvi7DzT3x9h
+   ik2oMT00wA+r4W984SHBioh8bdGD6nIHSCb7EbNrR077x3QKgnELJyWgN
+   PAenJqWxqQNg/xJMRiU3k/R6UTX9cIDjCVXbKLJ0M6oOfDWtcmhSkLHuu
+   h/PfTuCsP7JBB5Z09t+eB84noNSXLVdEm9zDczhcumKHvQcpPWkxu7Py5
+   A==;
+X-CSE-ConnectionGUID: FNHnZ+BMSJuLAVg6tl6iXg==
+X-CSE-MsgGUID: AR6JHB14SXqKK9QfHUInMQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="77087505"
 X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
-   d="scan'208";a="50785520"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 07:12:19 -0700
-X-CSE-ConnectionGUID: kZxW7cYYSVSINC/iVpU36Q==
-X-CSE-MsgGUID: ei5h4Pa6Q0GJYGhfRJoE3w==
+   d="scan'208";a="77087505"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 08:05:25 -0700
+X-CSE-ConnectionGUID: 2bO0S9tcRZuac0ai5ES5vQ==
+X-CSE-MsgGUID: fTNG/fZOQvKYGuTh1S8mHg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
-   d="scan'208";a="150697388"
+   d="scan'208";a="147799197"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 10 Jun 2025 07:12:19 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 10 Jun 2025 08:05:24 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uOzi4-0008KH-03;
-	Tue, 10 Jun 2025 14:12:16 +0000
-Date: Tue, 10 Jun 2025 22:11:57 +0800
+	id 1uP0XR-0008NC-2J;
+	Tue, 10 Jun 2025 15:05:21 +0000
+Date: Tue, 10 Jun 2025 23:04:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
-	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ping-Ke Shih <pkshih@realtek.com>
-Subject: Re: [PATCH rtw-next v2 09/14] wifi: rtw89: 8851b: Modify
- rtw8851b_pwr_{on,off}_func() for USB
-Message-ID: <202506102119.fyp9p96Z-lkp@intel.com>
-References: <c1ff2155-ef01-466e-9c34-4437ee57656c@gmail.com>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Leo Yan <leo.yan@arm.com>
+Subject: drivers/hwtracing/coresight/coresight-syscfg.c:398
+ cscfg_remove_owned_csdev_configs() warn: inconsistent indenting
+Message-ID: <202506102238.XQfScl5x-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,110 +63,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c1ff2155-ef01-466e-9c34-4437ee57656c@gmail.com>
 
-Hi Bitterblue,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on wireless-next/main]
-[also build test ERROR on wireless/main linus/master v6.16-rc1 next-20250610]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bitterblue-Smith/wifi-rtw89-8851b-Accept-USB-devices-and-load-their-MAC-address/20250610-033543
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/c1ff2155-ef01-466e-9c34-4437ee57656c%40gmail.com
-patch subject: [PATCH rtw-next v2 09/14] wifi: rtw89: 8851b: Modify rtw8851b_pwr_{on,off}_func() for USB
-config: loongarch-loongson3_defconfig (https://download.01.org/0day-ci/archive/20250610/202506102119.fyp9p96Z-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506102119.fyp9p96Z-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   f09079bd04a924c72d555cd97942d5f8d7eca98c
+commit: 53b9e2659719b04f5ba7593f2af0f2335f75e94a coresight: holding cscfg_csdev_lock while removing cscfg from csdev
+date:   3 weeks ago
+config: arm-randconfig-r073-20250610 (https://download.01.org/0day-ci/archive/20250610/202506102238.XQfScl5x-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506102119.fyp9p96Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506102238.XQfScl5x-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/hwtracing/coresight/coresight-syscfg.c:398 cscfg_remove_owned_csdev_configs() warn: inconsistent indenting
 
-   drivers/net/wireless/realtek/rtw89/rtw8851b.c: In function 'rtw8851b_pwr_off_func':
->> drivers/net/wireless/realtek/rtw89/rtw8851b.c:523:61: error: 'B_AX_SOP_EDSWR' undeclared (first use in this function); did you mean 'B_BE_SOP_EDSWR'?
-     523 |                 rtw89_write32_clr(rtwdev, R_AX_SYS_PW_CTRL, B_AX_SOP_EDSWR);
-         |                                                             ^~~~~~~~~~~~~~
-         |                                                             B_BE_SOP_EDSWR
-   drivers/net/wireless/realtek/rtw89/rtw8851b.c:523:61: note: each undeclared identifier is reported only once for each function it appears in
+vim +398 drivers/hwtracing/coresight/coresight-syscfg.c
 
-
-vim +523 drivers/net/wireless/realtek/rtw89/rtw8851b.c
-
-   477	
-   478	static int rtw8851b_pwr_off_func(struct rtw89_dev *rtwdev)
-   479	{
-   480		u32 val32;
-   481		int ret;
-   482	
-   483		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_ANAPAR_WL, XTAL_SI_RFC2RF,
-   484					      XTAL_SI_RFC2RF);
-   485		if (ret)
-   486			return ret;
-   487		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_ANAPAR_WL, 0, XTAL_SI_OFF_EI);
-   488		if (ret)
-   489			return ret;
-   490		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_ANAPAR_WL, 0, XTAL_SI_OFF_WEI);
-   491		if (ret)
-   492			return ret;
-   493		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_WL_RFC_S0, 0, XTAL_SI_RF00);
-   494		if (ret)
-   495			return ret;
-   496		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_ANAPAR_WL, XTAL_SI_SRAM2RFC,
-   497					      XTAL_SI_SRAM2RFC);
-   498		if (ret)
-   499			return ret;
-   500		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_ANAPAR_WL, 0, XTAL_SI_PON_EI);
-   501		if (ret)
-   502			return ret;
-   503		ret = rtw89_mac_write_xtal_si(rtwdev, XTAL_SI_ANAPAR_WL, 0, XTAL_SI_PON_WEI);
-   504		if (ret)
-   505			return ret;
-   506	
-   507		rtw89_write32_set(rtwdev, R_AX_WLAN_XTAL_SI_CONFIG,
-   508				  B_AX_XTAL_SI_ADDR_NOT_CHK);
-   509		rtw89_write32_set(rtwdev, R_AX_SYS_PW_CTRL, B_AX_EN_WLON);
-   510		rtw89_write32_clr(rtwdev, R_AX_WLRF_CTRL, B_AX_AFC_AFEDIG);
-   511		rtw89_write8_clr(rtwdev, R_AX_SYS_FUNC_EN, B_AX_FEN_BB_GLB_RSTN | B_AX_FEN_BBRSTB);
-   512	
-   513		rtw89_write32_set(rtwdev, R_AX_SYS_PW_CTRL, B_AX_APFM_OFFMAC);
-   514	
-   515		ret = read_poll_timeout(rtw89_read32, val32, !(val32 & B_AX_APFM_OFFMAC),
-   516					1000, 20000, false, rtwdev, R_AX_SYS_PW_CTRL);
-   517		if (ret)
-   518			return ret;
-   519	
-   520		if (rtwdev->hci.type == RTW89_HCI_TYPE_PCIE)
-   521			rtw89_write32(rtwdev, R_AX_WLLPS_CTRL, SW_LPS_OPTION);
-   522		else if (rtwdev->hci.type == RTW89_HCI_TYPE_USB)
- > 523			rtw89_write32_clr(rtwdev, R_AX_SYS_PW_CTRL, B_AX_SOP_EDSWR);
-   524	
-   525		if (rtwdev->hal.cv == CHIP_CAV) {
-   526			rtw8851b_patch_swr_pfm2pwm(rtwdev);
-   527		} else {
-   528			rtw89_write32_set(rtwdev, R_AX_SPSLDO_ON_CTRL1, B_AX_FPWMDELAY);
-   529			rtw89_write32_set(rtwdev, R_AX_SPSANA_ON_CTRL1, B_AX_FPWMDELAY);
-   530		}
-   531	
-   532		if (rtwdev->hci.type == RTW89_HCI_TYPE_PCIE) {
-   533			rtw89_write32_set(rtwdev, R_AX_SYS_PW_CTRL, B_AX_APFM_SWLPS);
-   534		} else if (rtwdev->hci.type == RTW89_HCI_TYPE_USB) {
-   535			val32 = rtw89_read32(rtwdev, R_AX_SYS_PW_CTRL);
-   536			val32 &= ~B_AX_AFSM_PCIE_SUS_EN;
-   537			val32 |= B_AX_AFSM_WLSUS_EN;
-   538			rtw89_write32(rtwdev, R_AX_SYS_PW_CTRL, val32);
-   539		}
-   540	
-   541		return 0;
-   542	}
-   543	
+   390	
+   391	static void cscfg_remove_owned_csdev_configs(struct coresight_device *csdev, void *load_owner)
+   392	{
+   393		struct cscfg_config_csdev *config_csdev, *tmp;
+   394	
+   395		if (list_empty(&csdev->config_csdev_list))
+   396			return;
+   397	
+ > 398	  guard(raw_spinlock_irqsave)(&csdev->cscfg_csdev_lock);
+   399	
+   400		list_for_each_entry_safe(config_csdev, tmp, &csdev->config_csdev_list, node) {
+   401			if (config_csdev->config_desc->load_owner == load_owner)
+   402				list_del(&config_csdev->node);
+   403		}
+   404	}
+   405	
 
 -- 
 0-DAY CI Kernel Test Service
