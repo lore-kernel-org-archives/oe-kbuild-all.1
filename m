@@ -1,108 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31216246BBD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Jun 2025 13:09:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E263246BCA;
+	Tue, 10 Jun 2025 13:26:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749560957; cv=none; b=tSkFWiu0WvqZV5Q1+MFfbcHd7ngNL/TQNlNY0SgpnFTgTipaS2s2tsKRVJ4VorqCVUCnOcWb2aUx9AyhH9mu8eP6X+3LlWH6OJHSlRk7nnNDumc14o739GW2Zk0HYLKeU5mHIzVYb/4JOe1AA2mqSgfb0yGSmsnXi3hcalVgIr4=
+	t=1749562020; cv=none; b=m4RdAmap5UP+M06SzvpD8/E+MlbZPBxPWW0jcJEry6jY6580oz7h3VfoHrdhzYtdcJ+0VSJ7cKFlWu+84b1g/hs0CC6HFnLnlE/uiTWlNItaHyAvNkAtfWs+2NRi6DmMo57/26CUJkJiOyyKmIDfQTHjdr3upFc8Bmqsq2CACsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749560957; c=relaxed/simple;
-	bh=QVcowiiZvR1tuHwHb4npYHPPA4GQXkCXQ/JxSsXnLF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D4QrrSowZIhzG04iqgobdmNdC/er80VIp3Q87+PFYcXnCCEYT5SZCgf8NdkPa9paYELqJnJi1ULljdfpfkb68aCspjSaX+CQSn9/nb4qS/jNwUmkWMBAnbMXjnZkVYTVfB85opVNERqiFMLxOg5T7fMO3Oj67lhfc6dXAxrtBJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F4XECDXi; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F4XECDXi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749560956; x=1781096956;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QVcowiiZvR1tuHwHb4npYHPPA4GQXkCXQ/JxSsXnLF4=;
-  b=F4XECDXigF9TKrsusRTxXdnb54bUm6TqqKwVq8hBCqbc4/P6qhUyro1p
-   LqF2Y0fGUu0sgwjYEn7rCvD8/c7nMHXyPaRyhLeSVsy46/9aiakfrxBAJ
-   2KxtkK1F6LoDeL5ROP2CwzjcP3PIqqM99l3L2qqJbNdwgE61X6Ci0Iy2F
-   reYlf35+3yRgADcYP/XqtazlFbUAe8DhnD52iblH0iTv9LecsDOq3dOgs
-   RPAW+dvITho4lp9QMltXH3ZK07Km0uwZXVKb8f1VMa5qg7Lum8jntNN8I
-   aPclfoansMNjYarLWg6LjioxEChJUB8zutqB/qou4CFUeqvo2t6TGUVkQ
-   Q==;
-X-CSE-ConnectionGUID: GUjtnHmpSEOfCKMbSZ2TpQ==
-X-CSE-MsgGUID: Kjzm19KwROubhnebNMZJew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="61942162"
-X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
-   d="scan'208";a="61942162"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 06:09:15 -0700
-X-CSE-ConnectionGUID: MObmwqf1RdeHU+C3YrV9+A==
-X-CSE-MsgGUID: mV60+oiHTW2bpEBgRblg7w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,225,1744095600"; 
-   d="scan'208";a="151835217"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 10 Jun 2025 06:09:10 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uOyiy-0008FJ-0B;
-	Tue, 10 Jun 2025 13:09:08 +0000
-Date: Tue, 10 Jun 2025 21:09:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Michal Wilczynski <m.wilczynski@samsung.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	Michal Wilczynski <m.wilczynski@samsung.com>
-Subject: Re: [PATCH] rust: math: Add KernelMathExt trait with a mul_div helper
-Message-ID: <202506102043.Tvsj0sXM-lkp@intel.com>
-References: <20250609-math-rust-v1-v1-1-285fac00031f@samsung.com>
+	s=arc-20240116; t=1749562020; c=relaxed/simple;
+	bh=ZiBRei9QtSJonoTiFP0Ix9DJIL9tJYAGg1B2FI2nmME=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EJNrEYmaKGnsH569N2xNLQe/bPjk/30fXimZ+su1s/qOOMaNx4UiaDM1qHdcXCE3jqBtP6IXNDz4XfRWZnlY8NE+EfFICBjTxtNdNhWDs9bCw3MfLLxdj4NHi3UBxc8R7/rGJ0Gl5LJ7bU4qAcrstVv1MTmCIon+va0m4RsugcM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay04.hostedemail.com (Postfix) with ESMTP id 995FF1A034A;
+	Tue, 10 Jun 2025 13:26:56 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf09.hostedemail.com (Postfix) with ESMTPA id 0952120025;
+	Tue, 10 Jun 2025 13:26:54 +0000 (UTC)
+Date: Tue, 10 Jun 2025 09:28:25 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] tracing: Fix regression of filter waiting a long time
+ on RCU synchronization
+Message-ID: <20250610092825.7f137dbf@gandalf.local.home>
+In-Reply-To: <202506070424.lCiNreTI-lkp@intel.com>
+References: <20250605161701.35f7989a@gandalf.local.home>
+	<202506070424.lCiNreTI-lkp@intel.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250609-math-rust-v1-v1-1-285fac00031f@samsung.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 0952120025
+X-Stat-Signature: 8ugho4eib47ka73bycg4p35c3ezmtkjg
+X-Rspamd-Server: rspamout07
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18RJbmtto4WBz1eke5ZyyCwgvDyA3ZLCdA=
+X-HE-Tag: 1749562014-440800
+X-HE-Meta: U2FsdGVkX1/Sg0qVsnVtxfiofVwNECkgeDjrQG9r6ug8u26pw6hs/mJAAISILaVVpRKkOXn9wsOJF5t3GTrj1jJ+blOrRvYRp4g2hIiuDEWEqOyeVWdrIWYLha6IuykrMDQ01SDuwUpmhjvYjCdYy8NDFnNbq6GT7HPBU2+23V6/mPUrMKkZ//XpsMqwhVvp9V43EDY+n2h15lR4nedO7NyLS3IrGF5UzI/zH6v/ExdXde254UY3v3GCRpk97u1PtElJiSig8bKy0NMhArbAbo+WafMbKcL2ucEQfoGQeaezLj2Iqobgk/ml+2sjfNyg+LPv6EDXa1F7FwJWiUR7YH8SWaXtlzHcJqrBaHQHOh1GcnWrRI6PVfS/g2x2guzr
 
-Hi Michal,
+On Tue, 10 Jun 2025 12:24:34 +0300
+Dan Carpenter <dan.carpenter@linaro.org> wrote:
 
-kernel test robot noticed the following build errors:
+> 7967b3e0c40ff7 Steven Rostedt (Red Hat  2015-05-13  1412) static void filter_free_subsystem_filters(struct trace_subsystem_dir *dir,
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1413  					  struct trace_array *tr,
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1414  					  struct event_filter *filter)
+> f306cc82a93d6b Tom Zanussi              2013-10-24  1415  {
+> 7f1d2f8210195c Steven Rostedt (Red Hat  2015-05-05  1416) 	struct trace_event_file *file;
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1417  	struct filter_head *head;
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1418  	struct filter_list *item;
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1419  
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1420  	head = kmalloc(sizeof(*head), GFP_KERNEL);
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1421  	if (!head)
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1422  		goto free_now;
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1423  
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1424  	INIT_LIST_HEAD(&head->list);
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1425  
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1426  	item = kmalloc(sizeof(*item), GFP_KERNEL);
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1427  	if (!item) {
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1428  		kfree(head);
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1429  		goto free_now;
+> 
+> 
+> head is freed.
 
-[auto build test ERROR on 19272b37aa4f83ca52bdf9c16d5d81bdd1354494]
+Ah, that's a mistake. It shouldn't be freed.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wilczynski/rust-math-Add-KernelMathExt-trait-with-a-mul_div-helper/20250610-055722
-base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-patch link:    https://lore.kernel.org/r/20250609-math-rust-v1-v1-1-285fac00031f%40samsung.com
-patch subject: [PATCH] rust: math: Add KernelMathExt trait with a mul_div helper
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250610/202506102043.Tvsj0sXM-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250610/202506102043.Tvsj0sXM-lkp@intel.com/reproduce)
+> 
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1430  	}
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1431  
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1432  	item->filter = filter;
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1433  	list_add_tail(&item->list, &head->list);
+> cfb180f3e71b2a Tom Zanussi              2009-03-22  1434  
+> f306cc82a93d6b Tom Zanussi              2013-10-24  1435  	list_for_each_entry(file, &tr->events, list) {
+> bb9ef1cb7d8668 Oleg Nesterov            2014-07-15  1436  		if (file->system != dir)
+> 8e254c1d183f02 Li Zefan                 2009-08-31  1437  			continue;
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1438  		item = kmalloc(sizeof(*item), GFP_KERNEL);
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1439  		if (!item)
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1440  			goto free_now;
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1441  		item->filter = file->filter;
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1442  		list_add_tail(&item->list, &head->list);
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1443  		file->filter = NULL;
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1444  	}
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1445  
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1446  	delay_free_filter(head);
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1447  	return;
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1448   free_now:
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1449  	tracepoint_synchronize_unregister();
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1450  
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1451  	if (head)
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05 @1452  		free_filter_list(&head->rcu);
+> 
+> This is a use after free.  Smatch calls is a "double free" because
+> free_filter_list() has "free" in the name, but Smatch is wrong.
+> However, still a bug.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506102043.Tvsj0sXM-lkp@intel.com/
+Right. I'll remove the freeing of head.
 
-All errors (new ones prefixed by >>):
+Thanks,
 
->> error[E0425]: cannot find function `mul_u64_u64_div_u64` in crate `bindings`
-   --> rust/kernel/math.rs:32:33
-   |
-   32 |         Some(unsafe { bindings::mul_u64_u64_div_u64(self, multiplier, divisor) })
-   |                                 ^^^^^^^^^^^^^^^^^^^ not found in `bindings`
+-- Steve
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1453  
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1454  	list_for_each_entry(file, &tr->events, list) {
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1455  		if (file->system != dir || !file->filter)
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1456  			continue;
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1457  		__free_filter(file->filter);
+> cfb180f3e71b2a Tom Zanussi              2009-03-22  1458  	}
+> b9c3a0aeabb4e5 Steven Rostedt           2025-06-05  1459  	__free_filter(filter);
+> cfb180f3e71b2a Tom Zanussi              2009-03-22  1460  }
