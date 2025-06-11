@@ -1,64 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86B31E2838
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 19:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF308226533
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 20:36:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749671132; cv=none; b=qSXmoFU9KHXYkou6tP7LeruhoV7cJ+Q5SuBw7aHDjhcZxYFGFvLQEwqPGKTJcWxMeQtQWKZYBKcV8G26JHNgWZUHBUX1hnecCVJVjD35npWjNNbjs8UEv7h24m59Onx/3VJpcQl57VNQaH1wmYnBDeKXFkapPOoI+t5aY3cQF5Y=
+	t=1749674200; cv=none; b=Kf/U2qbon6qLDP1hCzsA/R/ZHpDQW4p6WZaqVO1KMux4O/IM2XaOqxJ7piLS39GAh2lqbCFvVYnARxkqF6duIu8Y2sj1oGH08ffJFu8PDyRwFXx7db+MRyiaWXyy60xlb1dPEJg7W0inWw1AISlO5UfL6srS+PwSMKQFbnc5ddI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749671132; c=relaxed/simple;
-	bh=6SBDGabYmWn9zhAMs+gfdPdeovDIlBUs303yghmly2w=;
+	s=arc-20240116; t=1749674200; c=relaxed/simple;
+	bh=y76NLskFRIrizU7TSbTpqEk/5kmZ7xfX8m1ZrBG+ip4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kUI/CxKLTj1f+osCoVN1TcI4wzyrFvh+GsZP/zcL8ZMHXpuNZ8I7djtj3DuAl0TPxMoozZNBCmazlorI6IK01oc3MYApKkgzQfdX+ox1a2MeQjRmpDmTnRfyMNRdHSO4QiczBh8d+DnEEhlmZ05fX69xwcMQoQrdCwZqvjRltro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RBh46jyM; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=qc3afumhTVq7v9ovFV/ZGxGa1PWFlo6rtmKeXQh3U6RlVxSpuicxewZf6XCJrEum6Sh6ZSVfh7/XpImIG/Y/BmnvCpAlm7zdVe3zS1+xon7Pi9O5ZsrmZNHGyTzekOP05O4t7aV+U/2Eg3B3Ta8cka3EIeHojgQ6bVf2LDw7ZQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aVUrlvRg; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RBh46jyM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aVUrlvRg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749671131; x=1781207131;
+  t=1749674199; x=1781210199;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6SBDGabYmWn9zhAMs+gfdPdeovDIlBUs303yghmly2w=;
-  b=RBh46jyMb1+na/CuLdqlaI0TbeqHLjGIQGQZ2Onub85kT8SAogWyscSd
-   FGK0GL/iJK/s0Yf8cAuJbgrv4wp3OZKSjOe8to8bDuWaPehL5XcEHw7Jc
-   9qpvieg449sNFbXDkNR90pMSajkmssdBrpnRsonnWHgeC1GuoirVT2AME
-   jQ8208qwPfXB5afPMQ42MI5ScPDlfnNjauUCRdaRAgSqvxCE+kxzFFIua
-   QN1VUCNTbN6lpE/g0ZjfbVJ9/WtCKGnHZy10b0tZyW1ye4L7RU7ciQUSj
-   Nf1Fy1RzCvABLuedgggoc6bDAEkNLYcZft7kRnfgvi5srhjcTAMfmpUpt
-   Q==;
-X-CSE-ConnectionGUID: G2CmCIPxQIm+eAUfiayUTA==
-X-CSE-MsgGUID: 6xWPAApRT7a43aXuiwmCBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="74363497"
-X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
-   d="scan'208";a="74363497"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 12:45:31 -0700
-X-CSE-ConnectionGUID: muKEUgxdS0yf6dAi2XQFew==
-X-CSE-MsgGUID: Mhei7Q4ZQPGdriMYbifGCA==
+  bh=y76NLskFRIrizU7TSbTpqEk/5kmZ7xfX8m1ZrBG+ip4=;
+  b=aVUrlvRgMATdwzhA35oVTh120DscPjy9JEPIXDN2D4Nfe3RYV7OcTZGT
+   S01x1T+cystG//EEhdHpjwpuA9p+TuOwXrJQlJj4Yz5o7B94/Y7pTZHTn
+   U61dJrivfvD/TUSO1SQ98MCMbAokp9IVzEz+lqKjgYqHgQdsjsoWQgz//
+   9ain96KH6H7AbnEfKdCubrqFD+/FTxNP9TUDv/xL7hHlLIGXzzJdcthp4
+   duS0kAIvflZfb2mgaFZvauArlWPKut4dsQjZA0+vbV6RzwD/RCi0ttYhS
+   r5COBY15Nj3nAT5pGHU5W7pEwpfHj5tgweIXnPzS9ulwb5ua2zznP/IZA
+   g==;
+X-CSE-ConnectionGUID: Dixno4v1Q5yzrM47eusQKg==
+X-CSE-MsgGUID: ep2i3lprT+iqUCP03nty1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="51698673"
+X-IronPort-AV: E=Sophos;i="6.16,229,1744095600"; 
+   d="scan'208";a="51698673"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 13:36:38 -0700
+X-CSE-ConnectionGUID: /J6E4BKXT3mpYupSRDDuTQ==
+X-CSE-MsgGUID: x7KDSdLJSly47VFDFhw0mg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
-   d="scan'208";a="152067541"
+X-IronPort-AV: E=Sophos;i="6.16,229,1744095600"; 
+   d="scan'208";a="184510866"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Jun 2025 12:45:27 -0700
+  by orviesa001.jf.intel.com with ESMTP; 11 Jun 2025 13:36:31 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPRO0-000Aow-0e;
-	Wed, 11 Jun 2025 19:45:24 +0000
-Date: Thu, 12 Jun 2025 03:44:25 +0800
+	id 1uPSBQ-000Aqs-3B;
+	Wed, 11 Jun 2025 20:36:28 +0000
+Date: Thu, 12 Jun 2025 04:36:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Billy Tsai <billy_tsai@aspeedtech.com>, jk@codeconstruct.com.au,
-	alexandre.belloni@bootlin.com, Frank.Li@nxp.com,
-	aniketmaurya@google.com, jarkko.nikula@linux.intel.com,
-	Shyam-sundar.S-k@amd.com, wsa+renesas@sang-engineering.com,
-	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
-	BMC-SW@aspeedtech.com, elbadrym@google.com, romlem@google.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] i3c: ast2600: Generate T-bits to terminate IBI storm
-Message-ID: <202506120357.1kFiVfmV-lkp@intel.com>
-References: <20250611040203.487734-1-billy_tsai@aspeedtech.com>
+To: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>, x86@kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Reinette Chatre <reinette.chatre@intel.com>,
+	James Morse <james.morse@arm.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	Dave Martin <dave.martin@arm.com>, fenghuay@nvidia.com,
+	peternewman@google.com, Babu Moger <Babu.Moger@amd.com>,
+	Borislav Petkov <bp@alien8.de>,
+	shameerali.kolothum.thodi@huawei.com, bobo.shaobowang@huawei.com,
+	D Scott Phillips OS <scott@os.amperecomputing.com>,
+	carl@os.amperecomputing.com, Koba Ko <kobak@nvidia.com>,
+	Shanker Donthineni <sdonthineni@nvidia.com>,
+	Xin Hao <xhao@linux.alibaba.com>, baolin.wang@linux.alibaba.com,
+	lcherian@marvell.com, amitsinght@marvell.com,
+	Ingo Molnar <mingo@redhat.com>,
+	David Hildenbrand <david@redhat.com>, H Peter Anvin <hpa@zytor.com>,
+	Rex Nie <rex.nie@jaguarmicro.com>,
+	Jamie Iles <quic_jiles@quicinc.com>, dfustini@baylibre.com,
+	Thomas Gleixner <tglx@linutronix.de>
+Subject: Re: [PATCH 2/2] x86/resctrl: Optimize code in rdt_get_tree()
+Message-ID: <202506120440.lz9OAoXE-lkp@intel.com>
+References: <20250611021547.2766889-3-tan.shaopeng@jp.fujitsu.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,101 +80,154 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250611040203.487734-1-billy_tsai@aspeedtech.com>
+In-Reply-To: <20250611021547.2766889-3-tan.shaopeng@jp.fujitsu.com>
 
-Hi Billy,
+Hi Shaopeng,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.16-rc1 next-20250611]
+[auto build test WARNING on tip/master]
+[also build test WARNING on brauner-vfs/vfs.all linus/master v6.16-rc1 next-20250611]
+[cannot apply to tip/auto-latest bp/for-next]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/i3c-ast2600-Generate-T-bits-to-terminate-IBI-storm/20250611-120300
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250611040203.487734-1-billy_tsai%40aspeedtech.com
-patch subject: [PATCH] i3c: ast2600: Generate T-bits to terminate IBI storm
-config: powerpc64-randconfig-r072-20250612 (https://download.01.org/0day-ci/archive/20250612/202506120357.1kFiVfmV-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250612/202506120357.1kFiVfmV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Shaopeng-Tan/x86-resctrl-Remove-unnecessary-cpumask_nth_andnot/20250611-104547
+base:   tip/master
+patch link:    https://lore.kernel.org/r/20250611021547.2766889-3-tan.shaopeng%40jp.fujitsu.com
+patch subject: [PATCH 2/2] x86/resctrl: Optimize code in rdt_get_tree()
+config: x86_64-randconfig-002-20250612 (https://download.01.org/0day-ci/archive/20250612/202506120440.lz9OAoXE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250612/202506120440.lz9OAoXE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506120357.1kFiVfmV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506120440.lz9OAoXE-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/i3c/master/ast2600-i3c-master.c: In function 'ast2600_i3c_fsm_exit_serv_ibi':
->> drivers/i3c/master/ast2600-i3c-master.c:146:10: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     state = FIELD_GET(CM_TFR_STS, readl(dw->regs + PRESENT_STATE));
-             ^~~~~~~~~
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/i3c/master/ast2600-i3c-master.c:11:
-   drivers/i3c/master/ast2600-i3c-master.c: In function 'ast2600_i3c_gen_tbits_in':
->> drivers/i3c/master/ast2600-i3c-master.c:174:4: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'int' [-Wformat=]
-       "Failed to exit the I3C fsm from %lx(MASTER_SERV_IBI): %d",
-       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:16: note: in definition of macro 'dev_printk_index_wrap'
-      _p_func(dev, fmt, ##__VA_ARGS__);   \
-                   ^~~
-   include/linux/dev_printk.h:154:49: note: in expansion of macro 'dev_fmt'
-     dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
-                                                    ^~~~~~~
-   drivers/i3c/master/ast2600-i3c-master.c:173:3: note: in expansion of macro 'dev_err'
-      dev_err(&dw->base.dev,
-      ^~~~~~~
-   cc1: some warnings being treated as errors
+   fs/resctrl/rdtgroup.c: In function 'rdt_get_tree':
+>> fs/resctrl/rdtgroup.c:2684:1: warning: label 'out_ctx' defined but not used [-Wunused-label]
+    2684 | out_ctx:
+         | ^~~~~~~
 
 
-vim +/FIELD_GET +146 drivers/i3c/master/ast2600-i3c-master.c
+vim +/out_ctx +2684 fs/resctrl/rdtgroup.c
 
-   136	
-   137	static bool ast2600_i3c_fsm_exit_serv_ibi(struct dw_i3c_master *dw)
-   138	{
-   139		u32 state;
-   140	
-   141		/*
-   142		 * Clear the IBI queue to enable the hardware to generate SCL and
-   143		 * begin detecting the T-bit low to stop reading IBI data.
-   144		 */
-   145		readl(dw->regs + IBI_QUEUE_STATUS);
- > 146		state = FIELD_GET(CM_TFR_STS, readl(dw->regs + PRESENT_STATE));
-   147		if (state == CM_TFR_STS_MASTER_SERV_IBI)
-   148			return false;
-   149	
-   150		return true;
-   151	}
-   152	
-   153	static void ast2600_i3c_gen_tbits_in(struct dw_i3c_master *dw)
-   154	{
-   155		struct ast2600_i3c *i3c = to_ast2600_i3c(dw);
-   156		bool is_idle;
-   157		int ret;
-   158	
-   159		regmap_write_bits(i3c->global_regs, AST2600_I3CG_REG1(i3c->global_idx),
-   160				  AST2600_I3CG_REG1_SDA_IN_SW_MODE_VAL,
-   161				  AST2600_I3CG_REG1_SDA_IN_SW_MODE_VAL);
-   162		regmap_write_bits(i3c->global_regs, AST2600_I3CG_REG1(i3c->global_idx),
-   163				  AST2600_I3CG_REG1_SDA_IN_SW_MODE_EN,
-   164				  AST2600_I3CG_REG1_SDA_IN_SW_MODE_EN);
-   165	
-   166		regmap_write_bits(i3c->global_regs, AST2600_I3CG_REG1(i3c->global_idx),
-   167				  AST2600_I3CG_REG1_SDA_IN_SW_MODE_VAL, 0);
-   168		ret = readx_poll_timeout_atomic(ast2600_i3c_fsm_exit_serv_ibi, dw,
-   169						is_idle, is_idle, 0, 2000000);
-   170		regmap_write_bits(i3c->global_regs, AST2600_I3CG_REG1(i3c->global_idx),
-   171				  AST2600_I3CG_REG1_SDA_IN_SW_MODE_EN, 0);
-   172		if (ret)
-   173			dev_err(&dw->base.dev,
- > 174				"Failed to exit the I3C fsm from %lx(MASTER_SERV_IBI): %d",
-   175				FIELD_GET(CM_TFR_STS, readl(dw->regs + PRESENT_STATE)),
-   176				ret);
-   177	}
-   178	
+7168ae330e8105 James Morse  2025-05-15  2583  
+7168ae330e8105 James Morse  2025-05-15  2584  static int rdt_get_tree(struct fs_context *fc)
+7168ae330e8105 James Morse  2025-05-15  2585  {
+7168ae330e8105 James Morse  2025-05-15  2586  	struct rdt_fs_context *ctx = rdt_fc2context(fc);
+7168ae330e8105 James Morse  2025-05-15  2587  	unsigned long flags = RFTYPE_CTRL_BASE;
+7168ae330e8105 James Morse  2025-05-15  2588  	struct rdt_mon_domain *dom;
+7168ae330e8105 James Morse  2025-05-15  2589  	struct rdt_resource *r;
+7168ae330e8105 James Morse  2025-05-15  2590  	int ret;
+7168ae330e8105 James Morse  2025-05-15  2591  
+7168ae330e8105 James Morse  2025-05-15  2592  	cpus_read_lock();
+7168ae330e8105 James Morse  2025-05-15  2593  	mutex_lock(&rdtgroup_mutex);
+7168ae330e8105 James Morse  2025-05-15  2594  	/*
+7168ae330e8105 James Morse  2025-05-15  2595  	 * resctrl file system can only be mounted once.
+7168ae330e8105 James Morse  2025-05-15  2596  	 */
+7168ae330e8105 James Morse  2025-05-15  2597  	if (resctrl_mounted) {
+7168ae330e8105 James Morse  2025-05-15  2598  		ret = -EBUSY;
+7168ae330e8105 James Morse  2025-05-15  2599  		goto out;
+7168ae330e8105 James Morse  2025-05-15  2600  	}
+7168ae330e8105 James Morse  2025-05-15  2601  
+7168ae330e8105 James Morse  2025-05-15  2602  	ret = rdtgroup_setup_root(ctx);
+7168ae330e8105 James Morse  2025-05-15  2603  	if (ret)
+7168ae330e8105 James Morse  2025-05-15  2604  		goto out;
+7168ae330e8105 James Morse  2025-05-15  2605  
+7168ae330e8105 James Morse  2025-05-15  2606  	ret = rdt_enable_ctx(ctx);
+7168ae330e8105 James Morse  2025-05-15  2607  	if (ret)
+7168ae330e8105 James Morse  2025-05-15  2608  		goto out_root;
+7168ae330e8105 James Morse  2025-05-15  2609  
+7168ae330e8105 James Morse  2025-05-15  2610  	ret = schemata_list_create();
+b67b139e5b652e Shaopeng Tan 2025-06-11  2611  	if (ret)
+b67b139e5b652e Shaopeng Tan 2025-06-11  2612  		goto out_schemata_free;
+7168ae330e8105 James Morse  2025-05-15  2613  
+7168ae330e8105 James Morse  2025-05-15  2614  	ret = closid_init();
+7168ae330e8105 James Morse  2025-05-15  2615  	if (ret)
+7168ae330e8105 James Morse  2025-05-15  2616  		goto out_schemata_free;
+7168ae330e8105 James Morse  2025-05-15  2617  
+7168ae330e8105 James Morse  2025-05-15  2618  	if (resctrl_arch_mon_capable())
+7168ae330e8105 James Morse  2025-05-15  2619  		flags |= RFTYPE_MON;
+7168ae330e8105 James Morse  2025-05-15  2620  
+7168ae330e8105 James Morse  2025-05-15  2621  	ret = rdtgroup_add_files(rdtgroup_default.kn, flags);
+7168ae330e8105 James Morse  2025-05-15  2622  	if (ret)
+7168ae330e8105 James Morse  2025-05-15  2623  		goto out_closid_exit;
+7168ae330e8105 James Morse  2025-05-15  2624  
+7168ae330e8105 James Morse  2025-05-15  2625  	kernfs_activate(rdtgroup_default.kn);
+7168ae330e8105 James Morse  2025-05-15  2626  
+7168ae330e8105 James Morse  2025-05-15  2627  	ret = rdtgroup_create_info_dir(rdtgroup_default.kn);
+7168ae330e8105 James Morse  2025-05-15  2628  	if (ret < 0)
+7168ae330e8105 James Morse  2025-05-15  2629  		goto out_closid_exit;
+7168ae330e8105 James Morse  2025-05-15  2630  
+7168ae330e8105 James Morse  2025-05-15  2631  	if (resctrl_arch_mon_capable()) {
+7168ae330e8105 James Morse  2025-05-15  2632  		ret = mongroup_create_dir(rdtgroup_default.kn,
+7168ae330e8105 James Morse  2025-05-15  2633  					  &rdtgroup_default, "mon_groups",
+7168ae330e8105 James Morse  2025-05-15  2634  					  &kn_mongrp);
+7168ae330e8105 James Morse  2025-05-15  2635  		if (ret < 0)
+7168ae330e8105 James Morse  2025-05-15  2636  			goto out_info;
+7168ae330e8105 James Morse  2025-05-15  2637  
+7168ae330e8105 James Morse  2025-05-15  2638  		ret = mkdir_mondata_all(rdtgroup_default.kn,
+7168ae330e8105 James Morse  2025-05-15  2639  					&rdtgroup_default, &kn_mondata);
+7168ae330e8105 James Morse  2025-05-15  2640  		if (ret < 0)
+7168ae330e8105 James Morse  2025-05-15  2641  			goto out_mongrp;
+7168ae330e8105 James Morse  2025-05-15  2642  		rdtgroup_default.mon.mon_data_kn = kn_mondata;
+7168ae330e8105 James Morse  2025-05-15  2643  	}
+7168ae330e8105 James Morse  2025-05-15  2644  
+7168ae330e8105 James Morse  2025-05-15  2645  	ret = rdt_pseudo_lock_init();
+7168ae330e8105 James Morse  2025-05-15  2646  	if (ret)
+7168ae330e8105 James Morse  2025-05-15  2647  		goto out_mondata;
+7168ae330e8105 James Morse  2025-05-15  2648  
+7168ae330e8105 James Morse  2025-05-15  2649  	ret = kernfs_get_tree(fc);
+7168ae330e8105 James Morse  2025-05-15  2650  	if (ret < 0)
+7168ae330e8105 James Morse  2025-05-15  2651  		goto out_psl;
+7168ae330e8105 James Morse  2025-05-15  2652  
+7168ae330e8105 James Morse  2025-05-15  2653  	if (resctrl_arch_alloc_capable())
+7168ae330e8105 James Morse  2025-05-15  2654  		resctrl_arch_enable_alloc();
+7168ae330e8105 James Morse  2025-05-15  2655  	if (resctrl_arch_mon_capable())
+7168ae330e8105 James Morse  2025-05-15  2656  		resctrl_arch_enable_mon();
+7168ae330e8105 James Morse  2025-05-15  2657  
+7168ae330e8105 James Morse  2025-05-15  2658  	if (resctrl_arch_alloc_capable() || resctrl_arch_mon_capable())
+7168ae330e8105 James Morse  2025-05-15  2659  		resctrl_mounted = true;
+7168ae330e8105 James Morse  2025-05-15  2660  
+7168ae330e8105 James Morse  2025-05-15  2661  	if (resctrl_is_mbm_enabled()) {
+7168ae330e8105 James Morse  2025-05-15  2662  		r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
+7168ae330e8105 James Morse  2025-05-15  2663  		list_for_each_entry(dom, &r->mon_domains, hdr.list)
+7168ae330e8105 James Morse  2025-05-15  2664  			mbm_setup_overflow_handler(dom, MBM_OVERFLOW_INTERVAL,
+7168ae330e8105 James Morse  2025-05-15  2665  						   RESCTRL_PICK_ANY_CPU);
+7168ae330e8105 James Morse  2025-05-15  2666  	}
+7168ae330e8105 James Morse  2025-05-15  2667  
+7168ae330e8105 James Morse  2025-05-15  2668  	goto out;
+7168ae330e8105 James Morse  2025-05-15  2669  
+7168ae330e8105 James Morse  2025-05-15  2670  out_psl:
+7168ae330e8105 James Morse  2025-05-15  2671  	rdt_pseudo_lock_release();
+7168ae330e8105 James Morse  2025-05-15  2672  out_mondata:
+7168ae330e8105 James Morse  2025-05-15  2673  	if (resctrl_arch_mon_capable())
+7168ae330e8105 James Morse  2025-05-15  2674  		kernfs_remove(kn_mondata);
+7168ae330e8105 James Morse  2025-05-15  2675  out_mongrp:
+7168ae330e8105 James Morse  2025-05-15  2676  	if (resctrl_arch_mon_capable())
+7168ae330e8105 James Morse  2025-05-15  2677  		kernfs_remove(kn_mongrp);
+7168ae330e8105 James Morse  2025-05-15  2678  out_info:
+7168ae330e8105 James Morse  2025-05-15  2679  	kernfs_remove(kn_info);
+7168ae330e8105 James Morse  2025-05-15  2680  out_closid_exit:
+7168ae330e8105 James Morse  2025-05-15  2681  	closid_exit();
+7168ae330e8105 James Morse  2025-05-15  2682  out_schemata_free:
+7168ae330e8105 James Morse  2025-05-15  2683  	schemata_list_destroy();
+7168ae330e8105 James Morse  2025-05-15 @2684  out_ctx:
+7168ae330e8105 James Morse  2025-05-15  2685  	rdt_disable_ctx();
+7168ae330e8105 James Morse  2025-05-15  2686  out_root:
+7168ae330e8105 James Morse  2025-05-15  2687  	rdtgroup_destroy_root();
+7168ae330e8105 James Morse  2025-05-15  2688  out:
+7168ae330e8105 James Morse  2025-05-15  2689  	rdt_last_cmd_clear();
+7168ae330e8105 James Morse  2025-05-15  2690  	mutex_unlock(&rdtgroup_mutex);
+7168ae330e8105 James Morse  2025-05-15  2691  	cpus_read_unlock();
+7168ae330e8105 James Morse  2025-05-15  2692  	return ret;
+7168ae330e8105 James Morse  2025-05-15  2693  }
+7168ae330e8105 James Morse  2025-05-15  2694  
 
 -- 
 0-DAY CI Kernel Test Service
