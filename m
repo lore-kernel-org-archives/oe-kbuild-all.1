@@ -1,155 +1,105 @@
-Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E98A2EAE3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 05:16:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A5EC8F5B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 05:18:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749618979; cv=none; b=fcrAOLx9xuRiRkBQfk9a8146TKEEq2DcruLveBIxej3YtflxkgAoftdB4dPxfbUIoOvNKro3wh8zf4UWDn1mD5VUTU3K6IgAR8ZyBjl4R6BW7/LJE0eZCDmtGhEz0wGd4zRfNINNl3Glvpt5W+F8dtS8vsfgEa7/MJb6Q2FRB0M=
+	t=1749619135; cv=none; b=Po2+0zZWGW8DCYiL8msyIkmNSdbZBQ+NwXFdJdjMFCNAnemXDLt77Xn7Y4OqWkStwo3OYfPbHdbYOKQanWyTc5yCKG1i5KJm/LBaWYMaKsy7EPSVuqGeXrGWbYaNoRWwS2B6PHSDABw2UVVw4x82HBSeNcGT1bKB/0DBrpajWL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749618979; c=relaxed/simple;
-	bh=wlCPxC6nysb+Pxhesmb97fuUGPr/QfECgPqmZ3FlWjs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pwIQwDJWug/8SzqK871jTkH20Ep8nq7FgLpjOlot10/3W/+rp8Pn4x9xfDGKLp5NgysDxgVz+WPJpwgWu0MxNikID0faTWd/Ww6EL1Ygms3J26VUTBM+Ao7rHUMtKTFUx/HDKZDy4aY5P85JgRGpRcZAwpa+u5iYQZ3Lr+k/Nw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mXV+rK+t; arc=none smtp.client-ip=209.85.166.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749619135; c=relaxed/simple;
+	bh=AqaL1h9y/qyGnA1A6/TzeDjv7QbJgaYaJVRifAJqXQk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XTcdx6FiHd7yG0nsl7/Wva+WvpQ9J32A/8UYkflEvVaoLpy5x54lh0A5R75xnjoZ7nYIhrGJdWPpMa/S8HZI2eh6Yxc0IgoBfxC8xZagmGnOCt+jXYeG3rgfp7EH7K/TF2RabHXzfHYmzDKtoF6qQxGF2CSHwItOJ4KCvcPEBSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TShBO0I3; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXV+rK+t"
-Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3ddda14b56cso12094555ab.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Jun 2025 22:16:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749618977; x=1750223777; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NZesgBl46zE6tXS+j7KyjhCxsxKgNitfmh/eZ0BBEw4=;
-        b=mXV+rK+t6icuFXJ+d60llTr6M3fXXi+pZLvqfjTUos522mCY88OJOEdK4/pMIbT3aa
-         eahA3btIp9fi6JQphNSvGDTylydoT1/81BOJ3j6MgGFMnlHBkWxrTkwr1hzbA2G8s3Vo
-         98wLSBNahwmtdeJW1EQ+h9ITCPAjf72EXFgCT+q3AGHEK9UKTvY8w3RGpZhMRnzCzYA1
-         uSnnqHjUyfXNrpPUDPia26X6AlpNUqWOkvUTJInQ7pxJ06ccwsDdUwef9lXgrkQqcH03
-         5Fal2L2MzmudkqiQy8HedAlb32P92u4Rw2qwqhLOjhNalVVwGyfyBgzlUM6HlL4jZ6e/
-         JyAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749618977; x=1750223777;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NZesgBl46zE6tXS+j7KyjhCxsxKgNitfmh/eZ0BBEw4=;
-        b=g95mdQwj3Jv1mEbr9sf6nEe2Kads/4iiM3N7CdlaKK5TxgY0snxWsUbxxYzMpiywDZ
-         aOngXPBPMkzv2cpffneR0MdXpx80RpwFHHsrQp/bjrpJEIfSVvueSwjoYl+VtnOUEAV/
-         q4NID2D0TIR9DUmKftxkYQg1fo6m/31JOfEwPasHsHyprfimzHjrmmJOuGBrfVoHi8G3
-         z8UwAa+Oz1+yCA0SeOOWexfpn8KfNylBgNCvllr1luj8Dqz7cTBDSQCzUzA7WY28eYE7
-         NQaSa2uanLzptAFN7VMn7VWELEVMic9Y4VkQlnzmFS+ThJ0dqV5D0ffhbAA6RRs0E7/H
-         6urA==
-X-Forwarded-Encrypted: i=1; AJvYcCU5LZRdjdfrRc8zNcjdbHQsALX18HwllubJbg5S0yjvcGmOVdY+CUwQjDVtxzj5jyFt8uWS4hYEZck7Gifm@lists.linux.dev
-X-Gm-Message-State: AOJu0YyY7x+/dnQG3ks4bAGFtZhxdGyr+XVuyMAXtsdz3y8QTKGwKM4a
-	wnwgByRt9eu3XAAl//FhBlItepJyByNdMh3tK876DFJcgrw0oOGBmWHzyC553VXIE0GCkRsJ9uO
-	rIrTeN+7uWwVs57tgL1S1sgTa2xjZT2s=
-X-Gm-Gg: ASbGncs94kh+AWC4JutWK4UT7qKuGibsdkSDn3/dDbcvAC5lqrwfM9S9AT9AfMwFcUI
-	mEL71S1fOJ5oeL2rMPWM5VQtRKiPLdhaKx07oOEunGK9+YNtag1FLhQIw5XUE6P1JNNcss2ryr3
-	77uvseudLqs1dBJ8iWG576dSBEnT9MpXTzX6cdT2Kj6qA=
-X-Google-Smtp-Source: AGHT+IHQ182d3wwKSf9DtAyyoa6zoQyiigAylXfIEGJY0yChHhYFf6EZGcBQKjg3qJXH0CODyAvyDT8qQD7k3JAMoRA=
-X-Received: by 2002:a05:6e02:3b07:b0:3db:86fc:d328 with SMTP id
- e9e14a558f8ab-3ddf4224b37mr23369385ab.5.1749618977137; Tue, 10 Jun 2025
- 22:16:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TShBO0I3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749619133; x=1781155133;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=AqaL1h9y/qyGnA1A6/TzeDjv7QbJgaYaJVRifAJqXQk=;
+  b=TShBO0I3nP+qYT/3wi5ckT9S62X7ZboPcdkA9VuosNPgVxBKYW/UXJbY
+   gPD+qh+JcF2fRHN/+asOFzOSy1P2aw6fMHNBMe6E+ikqKOS4kBnFP2RtH
+   zcQCNfjTtu1zKILCMZoLVC7d1WZbWNgg7ZgwOB23OfBXELrt0FqTfJ5d9
+   Q3ZMZNO1yE7UJZ9w2yaTrl49XCSAKCfoZwQn0ypTCfC2wo1ysjRGJr+EA
+   AcqHmC/EoBE3HMoNxDPo68KRIS0IRaOKqDHz45W2xLl/v9pgQfTCnPfLr
+   7YABgS2jOyAJH0d7yYalycG2Z9+Sy0mqBm+luERluBp6RotVOsnXQvXtY
+   Q==;
+X-CSE-ConnectionGUID: YBdZuhWxSQmzJEk6LLSEaw==
+X-CSE-MsgGUID: JfDaGk2nSTWOHh6FZQNTiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="51850465"
+X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
+   d="scan'208";a="51850465"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 22:18:52 -0700
+X-CSE-ConnectionGUID: e20++YDgRvO5gGWJeNFxIw==
+X-CSE-MsgGUID: VBgmK77TTIackvnzp3gs0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
+   d="scan'208";a="170240720"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 10 Jun 2025 22:18:51 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uPDrN-000A1a-0k;
+	Wed, 11 Jun 2025 05:18:49 +0000
+Date: Wed, 11 Jun 2025 13:18:10 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Wupeng Ma <mawupeng1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2954/2954] fs/proc/base.c:1454:6: sparse:
+ sparse: symbol 'pbha_bit0_hide_file' was not declared. Should it be static?
+Message-ID: <202506111322.Edx0vIZW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250610004844.66688-5-kerneljasonxing@gmail.com> <202506102340.uo7QDaVk-lkp@intel.com>
-In-Reply-To: <202506102340.uo7QDaVk-lkp@intel.com>
-From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Wed, 11 Jun 2025 13:15:40 +0800
-X-Gm-Features: AX0GCFvLGUUBleBgjthzU8tNmG3C8w7G2enscnE2vmODxHCKzCz7BeEkbxQED_o
-Message-ID: <CAL+tcoARvQVgd68HGoXXiK=+RSH12WQ_rc47B4rgtt2Eb05c0w@mail.gmail.com>
-Subject: Re: [PATCH v4 4/5] blktrace: use rbuf->stats.full as a drop indicator
- in relayfs
-To: kernel test robot <lkp@intel.com>
-Cc: axboe@kernel.dk, rostedt@goodmis.org, mhiramat@kernel.org, 
-	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, 
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-block@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	Jason Xing <kernelxing@tencent.com>, Yushan Zhou <katrinzhou@tencent.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Jun 11, 2025 at 9:42=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Jason,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on axboe-block/for-next]
-> [also build test WARNING on drm-i915/for-linux-next drm-i915/for-linux-ne=
-xt-fixes akpm-mm/mm-everything linus/master v6.16-rc1 next-20250610]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/relayfs=
--abolish-prev_padding/20250610-085150
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block=
-.git for-next
-> patch link:    https://lore.kernel.org/r/20250610004844.66688-5-kerneljas=
-onxing%40gmail.com
-> patch subject: [PATCH v4 4/5] blktrace: use rbuf->stats.full as a drop in=
-dicator in relayfs
-> config: arc-randconfig-001-20250610
-> compiler: arc-linux-gcc (GCC) 12.4.0
-> reproduce (this is a W=3D1 build):
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506102340.uo7QDaVk-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    kernel/trace/blktrace.c: In function 'blk_dropped_read':
-> >> kernel/trace/blktrace.c:421:39: warning: format '%lu' expects argument=
- of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsign=
-ed int'} [-Wformat=3D]
->      421 |         snprintf(buf, sizeof(buf), "%lu\n", dropped);
->          |                                     ~~^     ~~~~~~~
->          |                                       |     |
->          |                                       |     size_t {aka unsign=
-ed int}
->          |                                       long unsigned int
->          |                                     %u
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   90ff3e07cc268a8e40bd578dcc4907a3db419c52
+commit: bea38841945a52bd03004240eb0da6a5115bae21 [2954/2954] arm64: mm: Hide pbha_bit0 in procfs if pbha is not enabled
+config: arm64-randconfig-r133-20250610 (https://download.01.org/0day-ci/archive/20250611/202506111322.Edx0vIZW-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20250611/202506111322.Edx0vIZW-lkp@intel.com/reproduce)
 
-Well, I suppose I will fix it in the re-spin after receiving more
-comments so that I don't need to quickly respond to this minor issue.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506111322.Edx0vIZW-lkp@intel.com/
 
-Thanks,
-Jason
+sparse warnings: (new ones prefixed by >>)
+>> fs/proc/base.c:1454:6: sparse: sparse: symbol 'pbha_bit0_hide_file' was not declared. Should it be static?
+   fs/proc/base.c:2471:25: sparse: sparse: cast to restricted fmode_t
+   fs/proc/base.c:2528:42: sparse: sparse: cast from restricted fmode_t
+   fs/proc/base.c:2625:48: sparse: sparse: cast from restricted fmode_t
+   fs/proc/base.c: note: in included file (through include/linux/rcuwait.h, include/linux/percpu-rwsem.h, include/linux/fs.h, ...):
+   include/linux/sched/signal.h:719:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct spinlock [usertype] *lock @@     got struct spinlock [noderef] __rcu * @@
+   include/linux/sched/signal.h:719:37: sparse:     expected struct spinlock [usertype] *lock
+   include/linux/sched/signal.h:719:37: sparse:     got struct spinlock [noderef] __rcu *
+   fs/proc/base.c:1126:36: sparse: sparse: context imbalance in '__set_oom_adj' - unexpected unlock
 
->
->
-> vim +421 kernel/trace/blktrace.c
->
->    413
->    414  static ssize_t blk_dropped_read(struct file *filp, char __user *b=
-uffer,
->    415                                  size_t count, loff_t *ppos)
->    416  {
->    417          struct blk_trace *bt =3D filp->private_data;
->    418          size_t dropped =3D relay_stats(bt->rchan, RELAY_STATS_BUF=
-_FULL);
->    419          char buf[16];
->    420
->  > 421          snprintf(buf, sizeof(buf), "%lu\n", dropped);
->    422
->    423          return simple_read_from_buffer(buffer, count, ppos, buf, =
-strlen(buf));
->    424  }
->    425
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+vim +/pbha_bit0_hide_file +1454 fs/proc/base.c
+
+  1453	
+> 1454	bool pbha_bit0_hide_file(const char *name)
+  1455	{
+  1456		if (!system_support_pbha_bit0() && !strncmp("pbha_bit0", name, 9))
+  1457			return true;
+  1458	
+  1459		return false;
+  1460	}
+  1461	#else
+  1462	static bool pbha_bit0_hide_file(const char *name) { return false; }
+  1463	#endif
+  1464	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
