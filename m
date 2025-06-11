@@ -1,121 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5AC122069F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 05:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E98A2EAE3
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 05:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749618538; cv=none; b=ouadHEX3djAiYfb6nozYW0SG62NKlDcyjKRU76tLuYsti1culSgJi8S0BRHsWOmtkvlI3c1ANspKMuuuGi39V+1DLs9xw2L5VqBZ7ckFpkwL5j5Fd+VWPVID3gps8ZqNuwQ3vS6Slj/5UyvcWmhucmrlRWdHlC52B2PmGJhkQIU=
+	t=1749618979; cv=none; b=fcrAOLx9xuRiRkBQfk9a8146TKEEq2DcruLveBIxej3YtflxkgAoftdB4dPxfbUIoOvNKro3wh8zf4UWDn1mD5VUTU3K6IgAR8ZyBjl4R6BW7/LJE0eZCDmtGhEz0wGd4zRfNINNl3Glvpt5W+F8dtS8vsfgEa7/MJb6Q2FRB0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749618538; c=relaxed/simple;
-	bh=6nuA4xEX7lOYOpAa4aR6XpGyHElF5bswh33ac9+B1OI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=phNLL6c2HyjEb7lvIb/LV207ohNdDw3f+GqjiIpHCJFjU4mAd2SewFgTSHTWxcgbJozXL5Wxw33qRAuV4BW7u6IQubMgkQfV4tMVJ0bH0PzWiykvce0yr0N7i+w3T8BPvgXyJaB5mEiSN6az1McXt9u54YoE7dSpX+yKKuuB2SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GHO4NxvC; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1749618979; c=relaxed/simple;
+	bh=wlCPxC6nysb+Pxhesmb97fuUGPr/QfECgPqmZ3FlWjs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pwIQwDJWug/8SzqK871jTkH20Ep8nq7FgLpjOlot10/3W/+rp8Pn4x9xfDGKLp5NgysDxgVz+WPJpwgWu0MxNikID0faTWd/Ww6EL1Ygms3J26VUTBM+Ao7rHUMtKTFUx/HDKZDy4aY5P85JgRGpRcZAwpa+u5iYQZ3Lr+k/Nw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mXV+rK+t; arc=none smtp.client-ip=209.85.166.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GHO4NxvC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749618537; x=1781154537;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6nuA4xEX7lOYOpAa4aR6XpGyHElF5bswh33ac9+B1OI=;
-  b=GHO4NxvCmQ7a0U4TT1OjNP/eZX5mSprTYTD204AA/HjKRyoRsb44BVut
-   eF2bJtZPwwRaR+OA1O2tmQfLw/aFWE7WK/fs8LEXy6UvcrvEkSCWMW9lW
-   kslJfrQNi6TWOkYO+v318tjOTtBqUBPgr9e5LEbIREvY3/9jfr001ujwS
-   iY5Owf/HTYLxoW0rSn6DwrAV3FzArnSry9gwDFbNyTh/Sc+xXwyliOd/P
-   y3hczmk8fIexQJzRAgEuVltjmhTC2akw4vSYuxPbUccSCD/iLALYPE/Sx
-   4lMY0vUVFHd57XEVdbqoaM4bCFGMpc2WU44SGe1tuB7BwZT/vQhwI8sRC
-   w==;
-X-CSE-ConnectionGUID: mCqxollbQJqct+0pmULDyg==
-X-CSE-MsgGUID: 2lPxSZP9SIOLJxlfKV0H/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="51459313"
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="51459313"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jun 2025 22:08:55 -0700
-X-CSE-ConnectionGUID: 5KUD7XQaS7+3OlBQTv1j5Q==
-X-CSE-MsgGUID: AcDGY8xxS9i5baqZmzg1dA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="151943277"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 10 Jun 2025 22:08:51 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uPDhg-000A1E-1l;
-	Wed, 11 Jun 2025 05:08:48 +0000
-Date: Wed, 11 Jun 2025 13:07:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, platform-driver-x86@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH] platform/x86: silicom: remove unnecessary GPIO line
- direction check
-Message-ID: <202506111214.mbG7aOVD-lkp@intel.com>
-References: <20250610144935.84375-1-brgl@bgdev.pl>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXV+rK+t"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3ddda14b56cso12094555ab.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 10 Jun 2025 22:16:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749618977; x=1750223777; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NZesgBl46zE6tXS+j7KyjhCxsxKgNitfmh/eZ0BBEw4=;
+        b=mXV+rK+t6icuFXJ+d60llTr6M3fXXi+pZLvqfjTUos522mCY88OJOEdK4/pMIbT3aa
+         eahA3btIp9fi6JQphNSvGDTylydoT1/81BOJ3j6MgGFMnlHBkWxrTkwr1hzbA2G8s3Vo
+         98wLSBNahwmtdeJW1EQ+h9ITCPAjf72EXFgCT+q3AGHEK9UKTvY8w3RGpZhMRnzCzYA1
+         uSnnqHjUyfXNrpPUDPia26X6AlpNUqWOkvUTJInQ7pxJ06ccwsDdUwef9lXgrkQqcH03
+         5Fal2L2MzmudkqiQy8HedAlb32P92u4Rw2qwqhLOjhNalVVwGyfyBgzlUM6HlL4jZ6e/
+         JyAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749618977; x=1750223777;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NZesgBl46zE6tXS+j7KyjhCxsxKgNitfmh/eZ0BBEw4=;
+        b=g95mdQwj3Jv1mEbr9sf6nEe2Kads/4iiM3N7CdlaKK5TxgY0snxWsUbxxYzMpiywDZ
+         aOngXPBPMkzv2cpffneR0MdXpx80RpwFHHsrQp/bjrpJEIfSVvueSwjoYl+VtnOUEAV/
+         q4NID2D0TIR9DUmKftxkYQg1fo6m/31JOfEwPasHsHyprfimzHjrmmJOuGBrfVoHi8G3
+         z8UwAa+Oz1+yCA0SeOOWexfpn8KfNylBgNCvllr1luj8Dqz7cTBDSQCzUzA7WY28eYE7
+         NQaSa2uanLzptAFN7VMn7VWELEVMic9Y4VkQlnzmFS+ThJ0dqV5D0ffhbAA6RRs0E7/H
+         6urA==
+X-Forwarded-Encrypted: i=1; AJvYcCU5LZRdjdfrRc8zNcjdbHQsALX18HwllubJbg5S0yjvcGmOVdY+CUwQjDVtxzj5jyFt8uWS4hYEZck7Gifm@lists.linux.dev
+X-Gm-Message-State: AOJu0YyY7x+/dnQG3ks4bAGFtZhxdGyr+XVuyMAXtsdz3y8QTKGwKM4a
+	wnwgByRt9eu3XAAl//FhBlItepJyByNdMh3tK876DFJcgrw0oOGBmWHzyC553VXIE0GCkRsJ9uO
+	rIrTeN+7uWwVs57tgL1S1sgTa2xjZT2s=
+X-Gm-Gg: ASbGncs94kh+AWC4JutWK4UT7qKuGibsdkSDn3/dDbcvAC5lqrwfM9S9AT9AfMwFcUI
+	mEL71S1fOJ5oeL2rMPWM5VQtRKiPLdhaKx07oOEunGK9+YNtag1FLhQIw5XUE6P1JNNcss2ryr3
+	77uvseudLqs1dBJ8iWG576dSBEnT9MpXTzX6cdT2Kj6qA=
+X-Google-Smtp-Source: AGHT+IHQ182d3wwKSf9DtAyyoa6zoQyiigAylXfIEGJY0yChHhYFf6EZGcBQKjg3qJXH0CODyAvyDT8qQD7k3JAMoRA=
+X-Received: by 2002:a05:6e02:3b07:b0:3db:86fc:d328 with SMTP id
+ e9e14a558f8ab-3ddf4224b37mr23369385ab.5.1749618977137; Tue, 10 Jun 2025
+ 22:16:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250610144935.84375-1-brgl@bgdev.pl>
+References: <20250610004844.66688-5-kerneljasonxing@gmail.com> <202506102340.uo7QDaVk-lkp@intel.com>
+In-Reply-To: <202506102340.uo7QDaVk-lkp@intel.com>
+From: Jason Xing <kerneljasonxing@gmail.com>
+Date: Wed, 11 Jun 2025 13:15:40 +0800
+X-Gm-Features: AX0GCFvLGUUBleBgjthzU8tNmG3C8w7G2enscnE2vmODxHCKzCz7BeEkbxQED_o
+Message-ID: <CAL+tcoARvQVgd68HGoXXiK=+RSH12WQ_rc47B4rgtt2Eb05c0w@mail.gmail.com>
+Subject: Re: [PATCH v4 4/5] blktrace: use rbuf->stats.full as a drop indicator
+ in relayfs
+To: kernel test robot <lkp@intel.com>
+Cc: axboe@kernel.dk, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	Jason Xing <kernelxing@tencent.com>, Yushan Zhou <katrinzhou@tencent.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bartosz,
+On Wed, Jun 11, 2025 at 9:42=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Jason,
+>
+> kernel test robot noticed the following build warnings:
+>
+> [auto build test WARNING on axboe-block/for-next]
+> [also build test WARNING on drm-i915/for-linux-next drm-i915/for-linux-ne=
+xt-fixes akpm-mm/mm-everything linus/master v6.16-rc1 next-20250610]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/relayfs=
+-abolish-prev_padding/20250610-085150
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block=
+.git for-next
+> patch link:    https://lore.kernel.org/r/20250610004844.66688-5-kerneljas=
+onxing%40gmail.com
+> patch subject: [PATCH v4 4/5] blktrace: use rbuf->stats.full as a drop in=
+dicator in relayfs
+> config: arc-randconfig-001-20250610
+> compiler: arc-linux-gcc (GCC) 12.4.0
+> reproduce (this is a W=3D1 build):
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202506102340.uo7QDaVk-lkp=
+@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    kernel/trace/blktrace.c: In function 'blk_dropped_read':
+> >> kernel/trace/blktrace.c:421:39: warning: format '%lu' expects argument=
+ of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'unsign=
+ed int'} [-Wformat=3D]
+>      421 |         snprintf(buf, sizeof(buf), "%lu\n", dropped);
+>          |                                     ~~^     ~~~~~~~
+>          |                                       |     |
+>          |                                       |     size_t {aka unsign=
+ed int}
+>          |                                       long unsigned int
+>          |                                     %u
 
-kernel test robot noticed the following build warnings:
+Well, I suppose I will fix it in the re-spin after receiving more
+comments so that I don't need to quickly respond to this minor issue.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16-rc1 next-20250610]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks,
+Jason
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/platform-x86-silicom-remove-unnecessary-GPIO-line-direction-check/20250610-225049
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250610144935.84375-1-brgl%40bgdev.pl
-patch subject: [PATCH] platform/x86: silicom: remove unnecessary GPIO line direction check
-config: x86_64-buildonly-randconfig-001-20250611 (https://download.01.org/0day-ci/archive/20250611/202506111214.mbG7aOVD-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506111214.mbG7aOVD-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506111214.mbG7aOVD-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/platform/x86/silicom-platform.c: In function 'silicom_gpio_set':
->> drivers/platform/x86/silicom-platform.c:251:13: warning: unused variable 'direction' [-Wunused-variable]
-     251 |         int direction = silicom_gpio_get_direction(gc, offset);
-         |             ^~~~~~~~~
-
-
-vim +/direction +251 drivers/platform/x86/silicom-platform.c
-
-d9cd21d441c8c7 Henry Shi           2023-11-24  247  
-88f67f2a99f061 Bartosz Golaszewski 2025-04-08  248  static int silicom_gpio_set(struct gpio_chip *gc, unsigned int offset,
-d9cd21d441c8c7 Henry Shi           2023-11-24  249  			    int value)
-d9cd21d441c8c7 Henry Shi           2023-11-24  250  {
-d9cd21d441c8c7 Henry Shi           2023-11-24 @251  	int direction = silicom_gpio_get_direction(gc, offset);
-d9cd21d441c8c7 Henry Shi           2023-11-24  252  	u8 *channels = gpiochip_get_data(gc);
-d9cd21d441c8c7 Henry Shi           2023-11-24  253  	int channel = channels[offset];
-d9cd21d441c8c7 Henry Shi           2023-11-24  254  
-890a48ca7b0540 Dan Carpenter       2024-01-12  255  	silicom_mec_port_set(channel, !value);
-88f67f2a99f061 Bartosz Golaszewski 2025-04-08  256  
-88f67f2a99f061 Bartosz Golaszewski 2025-04-08  257  	return 0;
-d9cd21d441c8c7 Henry Shi           2023-11-24  258  }
-d9cd21d441c8c7 Henry Shi           2023-11-24  259  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+>
+> vim +421 kernel/trace/blktrace.c
+>
+>    413
+>    414  static ssize_t blk_dropped_read(struct file *filp, char __user *b=
+uffer,
+>    415                                  size_t count, loff_t *ppos)
+>    416  {
+>    417          struct blk_trace *bt =3D filp->private_data;
+>    418          size_t dropped =3D relay_stats(bt->rchan, RELAY_STATS_BUF=
+_FULL);
+>    419          char buf[16];
+>    420
+>  > 421          snprintf(buf, sizeof(buf), "%lu\n", dropped);
+>    422
+>    423          return simple_read_from_buffer(buffer, count, ppos, buf, =
+strlen(buf));
+>    424  }
+>    425
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
