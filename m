@@ -1,159 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E13C29ACE5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 14:23:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3E21925AB;
+	Wed, 11 Jun 2025 15:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749651783; cv=none; b=lKHwpZvhVbJhTsfPnp0/xqhqG1eMSjPubKKQ7D9v9BHhmti9Ucmv0bKWetDszMT3U3I5SuhqIhbcFYOV9fAmFi9FW8AKlZAhAzqHmXKRQW+VTzYSjCpWw3vGK5jphF/rtMf0Oiv8vyWIOfJTLZk9+1Q/r+A1EIxqX/rpKq9Ezwc=
+	t=1749654302; cv=none; b=jxMBPPxhAcZzw9JBxQ3jGuEPUIlTqdRa60klLArQ5wiZetOdXqRuNqmfYDVBTSmIxngMy+K09CxAFwFVlwRJbK6PXjs5hQojyqfjA7vhNiPNpQzoa9uDXXq9jQHXR4zGabNT4dpkFHgi3mpa4TZafUOltZHiGofxoDS9XKBaU7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749651783; c=relaxed/simple;
-	bh=23ZiHQ1YGdQ2GxpBT4mjPpRAra6Bfr4xKOjZt5xAzC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sKaQq9/itWp82XXp4juo6I24AJih+J6/v6sC9qwy9SFu0sazSie9T6Y/FSzHG4nBiy2y26iLh8tEs95wqF88qsD4Ui5MHIFQM2+/YBYgOQ2uivVMoqsTsraKy52xO2NgWihHQlwvB+BfRrw3Emk1wh+eI/Zm7iGciazup3PF4XE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n2wBbIkL; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1749654302; c=relaxed/simple;
+	bh=WlS93W6OWyRwYU1kN0ggywH96AnoQ3/ha9CariWZAso=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GSUT/f5p/Devhkx1W9MW8xkMp2df+UNBMU/jRmxNY5/x0UA67EMQ7K+crauy2nMuHykfmknuRYLOA0HmuTkqRbdoEJ500CIESU26r4iyp+5RiS9PljcFeKa+mbhSAcvUOkLerbGzEGIoQpO2KDgPtSHchwWiItWkCrNWfunxuK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AduYZDtq; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n2wBbIkL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AduYZDtq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749651780; x=1781187780;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=23ZiHQ1YGdQ2GxpBT4mjPpRAra6Bfr4xKOjZt5xAzC0=;
-  b=n2wBbIkL607OHdDHQS6+R+0UFSKgBxyacXfXL53wq4aqWrVlEy2Xoxbl
-   1BRaoUXtcXPTnELxqrsNGImOUxOX1lqHumIa2+Ws5VfWmOhgasnm7J3Fg
-   f222LR08/qyl43qUYnyJ7Jfv2VojCs79TMjZ63JguzBOCRI55T3O3MtSG
-   OfUYy8hNmzVeMy0aBJSqKYy3vx6C23wgpVYObClLfAr+UdyrBdTEGkQTT
-   wXaXjmU0jbuW8nwKv9xzc5dORVr8h+1MIpwITsq/V0FySh2CUbRA6UeIf
-   hZmvMLHGUo5yyV46BHIO/4jf3pvfzBVNY2UMpFOsF2egvDvRFSoRW1DT7
-   Q==;
-X-CSE-ConnectionGUID: AnqPmx4dR0ifXCjW12OdGw==
-X-CSE-MsgGUID: mJ0GB33dRlSFxTVlxScOQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="63144493"
+  t=1749654301; x=1781190301;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WlS93W6OWyRwYU1kN0ggywH96AnoQ3/ha9CariWZAso=;
+  b=AduYZDtqVTFCYvC+lMJwh/Ln7DZrnkzuVH7BA19OY0ApYjTO47bCn/kA
+   awxAtMNPzv1TNizVfvt6wR6+UsoLky7d0/Wx2gPXdRyiCN78UKzIRKbDz
+   4y/pnhwRrrZVTDUo5Xb7PizexSDonUGeZ/QHbnunMco5G52l81M4+oYDK
+   aCye6fWShBGotnsUWmqWuq3BHQLqtnSK3N5Jvg8uqJlKIr8FGkHkDEVgo
+   SEerQqaD/EnWizr6gKrbsmelHKzgWjDgmTXYWl0c7tcEZA50Y/iRNMu63
+   cP7sji/z09VTh93LBgbWy6mtELnDWRj0U+armMWFWtByxYHdmLEE/0fz+
+   w==;
+X-CSE-ConnectionGUID: 2A1qHldWRP6m++8w6C5Jjw==
+X-CSE-MsgGUID: vMbR6HRxQuuThjSYJOe9tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="55471718"
 X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
-   d="scan'208";a="63144493"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 07:22:58 -0700
-X-CSE-ConnectionGUID: Y6hkqo0IQem+GRa+je0Ncg==
-X-CSE-MsgGUID: 9k1LO/yWTva4JNmXQX/Lbg==
+   d="scan'208";a="55471718"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 08:05:01 -0700
+X-CSE-ConnectionGUID: +RFbbpFsSrmYn7nltE/9Pg==
+X-CSE-MsgGUID: vrCAwakmQ82p4zgoGtgdxw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
-   d="scan'208";a="147117140"
+   d="scan'208";a="148128744"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Jun 2025 07:22:56 -0700
+  by orviesa008.jf.intel.com with ESMTP; 11 Jun 2025 08:05:00 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPMLt-000AYk-0L;
-	Wed, 11 Jun 2025 14:22:53 +0000
-Date: Wed, 11 Jun 2025 22:22:39 +0800
+	id 1uPN0b-000AbS-0Z;
+	Wed, 11 Jun 2025 15:04:57 +0000
+Date: Wed, 11 Jun 2025 23:04:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?utf-8?B?VG9tw6HFoSBKdcWZZW5h?= <jurenatomas@gmail.com>,
-	dmitry.torokhov@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, linux-input@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Tomas Jurena <jurenatomas@gmail.com>
-Subject: Re: [PATCH] Input: tca6416-keypad - Add OF support for driver
- instantiation
-Message-ID: <202506112236.gn3kTosZ-lkp@intel.com>
-References: <20250610154609.1382818-1-jurenatomas@gmail.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:klp-build 44/62] ld.lld: error:
+ vmlinux.a(lib/siphash.o):(__ex_table): SHF_MERGE section size (24) must be a
+ multiple of sh_entsize (16)
+Message-ID: <202506112238.9WWwaUKe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250610154609.1382818-1-jurenatomas@gmail.com>
 
-Hi Tomáš,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on dtor-input/next]
-[also build test WARNING on dtor-input/for-linus linus/master v6.16-rc1 next-20250611]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tom-Ju-ena/Input-tca6416-keypad-Add-OF-support-for-driver-instantiation/20250611-094643
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
-patch link:    https://lore.kernel.org/r/20250610154609.1382818-1-jurenatomas%40gmail.com
-patch subject: [PATCH] Input: tca6416-keypad - Add OF support for driver instantiation
-config: arm-randconfig-001-20250611 (https://download.01.org/0day-ci/archive/20250611/202506112236.gn3kTosZ-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506112236.gn3kTosZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git klp-build
+head:   c66d830416562a4215c64db8dae6b94bc2c31de7
+commit: da5e44b23c0df6c867dac0c30c6bf8bc61099bd7 [44/62] x86/extable: Define ELF section entry size for exception table
+config: um-randconfig-002-20250611 (https://download.01.org/0day-ci/archive/20250611/202506112238.9WWwaUKe-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506112238.9WWwaUKe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506112236.gn3kTosZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506112238.9WWwaUKe-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/input/keyboard/tca6416-keypad.c: In function 'tca6416_parse_properties':
->> drivers/input/keyboard/tca6416-keypad.c:194:12: warning: unused variable 'pin' [-Wunused-variable]
-     194 |         u8 pin;
-         |            ^~~
-
-
-vim +/pin +194 drivers/input/keyboard/tca6416-keypad.c
-
-   185	
-   186	static struct tca6416_keys_platform_data *
-   187	tca6416_parse_properties(struct device *dev, uint8_t io_size)
-   188	{
-   189		static const char keymap_property[] = "linux,gpio-keymap";
-   190		struct tca6416_keys_platform_data *pdata;
-   191		u32 keymap[TCA6416_MAX_IO_SIZE];
-   192		struct tca6416_button *buttons;
-   193		int ret, i;
- > 194		u8 pin;
-   195	
-   196		pdata = devm_kzalloc(dev, sizeof(*pdata), GFP_KERNEL);
-   197		if (!pdata)
-   198			return NULL;
-   199	
-   200		ret = device_property_count_u32(dev, keymap_property);
-   201		if (ret <= 0)
-   202			return NULL;
-   203	
-   204		pdata->nbuttons = ret;
-   205		if (pdata->nbuttons > io_size)
-   206			pdata->nbuttons = io_size;
-   207	
-   208		ret = device_property_read_u32_array(dev, keymap_property, keymap,
-   209						     pdata->nbuttons);
-   210		if (ret)
-   211			return NULL;
-   212	
-   213		buttons = devm_kcalloc(dev, pdata->nbuttons, sizeof(*buttons),
-   214				       GFP_KERNEL);
-   215		if (!buttons)
-   216			return NULL;
-   217	
-   218		for (i = 0; i < pdata->nbuttons; i++) {
-   219			buttons[i].code = FIELD_GET(CFG_CODE, keymap[i]);
-   220			buttons[i].type = FIELD_GET(CFG_TYPE, keymap[i]);
-   221			buttons[i].active_low = FIELD_GET(CFG_ACTIVE_LOW, keymap[i]);
-   222			/* enable all inputs by default */
-   223			pdata->pinmask |= BIT(i);
-   224		}
-   225	
-   226		pdata->buttons = buttons;
-   227	
-   228		pdata->rep = device_property_read_bool(dev, "autorepeat");
-   229		/* we can ignore the result as by default all inputs are enabled */
-   230		device_property_read_u16(dev, "pinmask", &pdata->pinmask);
-   231		pdata->use_polling = device_property_read_bool(dev, "polling");
-   232	
-   233		return pdata;
-   234	}
-   235	
+>> ld.lld: error: vmlinux.a(lib/siphash.o):(__ex_table): SHF_MERGE section size (24) must be a multiple of sh_entsize (16)
 
 -- 
 0-DAY CI Kernel Test Service
