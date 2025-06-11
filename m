@@ -1,59 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9C73380
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 18:43:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A86B31E2838
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 19:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749667404; cv=none; b=cv34k1rfKpdyuCc8XxRDwnjgnNWjmp4DTGZAZ6DP2dgTDqKDKu/ejMzF8s5CwFOXnSwv7vRxmne9lJtK9xXSD5Qwk6J6TLM0T9y1J5O2fkQGpWX7ZMrjHLyT0DM6+sPdksfpiKOFL0PsjzHQn0/UzcSqAeQx4gX7H8tsQe7mffY=
+	t=1749671132; cv=none; b=qSXmoFU9KHXYkou6tP7LeruhoV7cJ+Q5SuBw7aHDjhcZxYFGFvLQEwqPGKTJcWxMeQtQWKZYBKcV8G26JHNgWZUHBUX1hnecCVJVjD35npWjNNbjs8UEv7h24m59Onx/3VJpcQl57VNQaH1wmYnBDeKXFkapPOoI+t5aY3cQF5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749667404; c=relaxed/simple;
-	bh=B/wDvvGitaN9+naebXqOSiUYGPYs1o+I/+MozyOnT08=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SGjV7PW9rdZqAK2s9JhQ41U1Qqu4Wf9cCjHeegSnmKPq1xnmlyJpVQdpfKCgq5oz/ADTk863OeUQCc5fy0CQzyTloldGVWp/UpERcZevaYwfMKGCM3XeyRdMA/tC7s9lRboSom/CEiMN3681YNDdHa8tbPIdnLbEBbBANWRGpJU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FyzXK7Ba; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1749671132; c=relaxed/simple;
+	bh=6SBDGabYmWn9zhAMs+gfdPdeovDIlBUs303yghmly2w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kUI/CxKLTj1f+osCoVN1TcI4wzyrFvh+GsZP/zcL8ZMHXpuNZ8I7djtj3DuAl0TPxMoozZNBCmazlorI6IK01oc3MYApKkgzQfdX+ox1a2MeQjRmpDmTnRfyMNRdHSO4QiczBh8d+DnEEhlmZ05fX69xwcMQoQrdCwZqvjRltro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RBh46jyM; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FyzXK7Ba"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RBh46jyM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749667403; x=1781203403;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B/wDvvGitaN9+naebXqOSiUYGPYs1o+I/+MozyOnT08=;
-  b=FyzXK7BaEJFo79MMU64wimRU/JTC7lhX3KFUUE8eUyqo/q5mCaTZ5Iep
-   OFJ6fDFbVGJfu9Bp2ZUI5yK+JWFb4OsAP8CqqzKU/MbWrdMfKveEw81l8
-   vYMqizV33lNsLj1vcrVF/S94oSAxGnd++QvA9OPigSpmTU2aC6QaZQwDu
-   10ix4Fc7tM63P9agJO+POJGzzbLE3TGhXlfkPaWFOgiDkE9UR/z9/KG1y
-   couLd2TXHK6cM/36Q7vRmZg0GgGOZ0t2td/b3y/81e9Wuah9VGoS9TPtI
-   lpRGdHKQeK1UOrGycyDsMFz6g3jgxccwxSvyhqqxMAdFc+/649y36ihqH
+  t=1749671131; x=1781207131;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6SBDGabYmWn9zhAMs+gfdPdeovDIlBUs303yghmly2w=;
+  b=RBh46jyMb1+na/CuLdqlaI0TbeqHLjGIQGQZ2Onub85kT8SAogWyscSd
+   FGK0GL/iJK/s0Yf8cAuJbgrv4wp3OZKSjOe8to8bDuWaPehL5XcEHw7Jc
+   9qpvieg449sNFbXDkNR90pMSajkmssdBrpnRsonnWHgeC1GuoirVT2AME
+   jQ8208qwPfXB5afPMQ42MI5ScPDlfnNjauUCRdaRAgSqvxCE+kxzFFIua
+   QN1VUCNTbN6lpE/g0ZjfbVJ9/WtCKGnHZy10b0tZyW1ye4L7RU7ciQUSj
+   Nf1Fy1RzCvABLuedgggoc6bDAEkNLYcZft7kRnfgvi5srhjcTAMfmpUpt
    Q==;
-X-CSE-ConnectionGUID: 4zzi7XexQxykVZfx4jgJ0Q==
-X-CSE-MsgGUID: wuHgnWrJQVC6QJCBkGTaBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="62476386"
+X-CSE-ConnectionGUID: G2CmCIPxQIm+eAUfiayUTA==
+X-CSE-MsgGUID: 6xWPAApRT7a43aXuiwmCBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="74363497"
 X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
-   d="scan'208";a="62476386"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 11:43:22 -0700
-X-CSE-ConnectionGUID: sXSfhEaNQ0ivmPOaQtcZxg==
-X-CSE-MsgGUID: MfsPFCV2T/CYK5w4XViOkg==
+   d="scan'208";a="74363497"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 12:45:31 -0700
+X-CSE-ConnectionGUID: muKEUgxdS0yf6dAi2XQFew==
+X-CSE-MsgGUID: Mhei7Q4ZQPGdriMYbifGCA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
-   d="scan'208";a="147271543"
+   d="scan'208";a="152067541"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 11 Jun 2025 11:43:19 -0700
+  by orviesa003.jf.intel.com with ESMTP; 11 Jun 2025 12:45:27 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPQPt-000AmU-1a;
-	Wed, 11 Jun 2025 18:43:17 +0000
-Date: Thu, 12 Jun 2025 02:42:23 +0800
+	id 1uPRO0-000Aow-0e;
+	Wed, 11 Jun 2025 19:45:24 +0000
+Date: Thu, 12 Jun 2025 03:44:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Penglei Jiang <superman.xpt@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
-Subject: [linux-next:master 1510/1841] io_uring/sqpoll.c:273:17: sparse:
- sparse: incompatible types in comparison expression (different address
- spaces):
-Message-ID: <202506120243.xcdLAjHE-lkp@intel.com>
+To: Billy Tsai <billy_tsai@aspeedtech.com>, jk@codeconstruct.com.au,
+	alexandre.belloni@bootlin.com, Frank.Li@nxp.com,
+	aniketmaurya@google.com, jarkko.nikula@linux.intel.com,
+	Shyam-sundar.S-k@amd.com, wsa+renesas@sang-engineering.com,
+	linux-i3c@lists.infradead.org, linux-kernel@vger.kernel.org,
+	BMC-SW@aspeedtech.com, elbadrym@google.com, romlem@google.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] i3c: ast2600: Generate T-bits to terminate IBI storm
+Message-ID: <202506120357.1kFiVfmV-lkp@intel.com>
+References: <20250611040203.487734-1-billy_tsai@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,172 +67,101 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250611040203.487734-1-billy_tsai@aspeedtech.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   19a60293b9925080d97f22f122aca3fc46dadaf9
-commit: ac0b8b327a5677dc6fecdf353d808161525b1ff0 [1510/1841] io_uring: fix use-after-free of sq->thread in __io_uring_show_fdinfo()
-config: x86_64-randconfig-122-20250611 (https://download.01.org/0day-ci/archive/20250612/202506120243.xcdLAjHE-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250612/202506120243.xcdLAjHE-lkp@intel.com/reproduce)
+Hi Billy,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.16-rc1 next-20250611]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Billy-Tsai/i3c-ast2600-Generate-T-bits-to-terminate-IBI-storm/20250611-120300
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250611040203.487734-1-billy_tsai%40aspeedtech.com
+patch subject: [PATCH] i3c: ast2600: Generate T-bits to terminate IBI storm
+config: powerpc64-randconfig-r072-20250612 (https://download.01.org/0day-ci/archive/20250612/202506120357.1kFiVfmV-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250612/202506120357.1kFiVfmV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506120243.xcdLAjHE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506120357.1kFiVfmV-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> io_uring/sqpoll.c:273:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   io_uring/sqpoll.c:273:17: sparse:    struct task_struct [noderef] __rcu *
-   io_uring/sqpoll.c:273:17: sparse:    struct task_struct *
-   io_uring/sqpoll.c:383:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   io_uring/sqpoll.c:383:9: sparse:    struct task_struct [noderef] __rcu *
-   io_uring/sqpoll.c:383:9: sparse:    struct task_struct *
-   io_uring/sqpoll.c:42:9: sparse: sparse: context imbalance in 'io_sq_thread_unpark' - wrong count at exit
-   io_uring/sqpoll.c:54:9: sparse: sparse: context imbalance in 'io_sq_thread_park' - wrong count at exit
---
-   io_uring/fdinfo.c: note: in included file (through io_uring/io_uring.h):
-   include/linux/io_uring_types.h:199:37: sparse: sparse: array of flexible structures
->> io_uring/fdinfo.c:147:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   io_uring/fdinfo.c:147:23: sparse:    struct task_struct [noderef] __rcu *
-   io_uring/fdinfo.c:147:23: sparse:    struct task_struct *
+All error/warnings (new ones prefixed by >>):
 
-vim +273 io_uring/sqpoll.c
+   drivers/i3c/master/ast2600-i3c-master.c: In function 'ast2600_i3c_fsm_exit_serv_ibi':
+>> drivers/i3c/master/ast2600-i3c-master.c:146:10: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     state = FIELD_GET(CM_TFR_STS, readl(dw->regs + PRESENT_STATE));
+             ^~~~~~~~~
+   In file included from include/linux/device.h:15,
+                    from include/linux/platform_device.h:13,
+                    from drivers/i3c/master/ast2600-i3c-master.c:11:
+   drivers/i3c/master/ast2600-i3c-master.c: In function 'ast2600_i3c_gen_tbits_in':
+>> drivers/i3c/master/ast2600-i3c-master.c:174:4: warning: format '%lx' expects argument of type 'long unsigned int', but argument 3 has type 'int' [-Wformat=]
+       "Failed to exit the I3C fsm from %lx(MASTER_SERV_IBI): %d",
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:16: note: in definition of macro 'dev_printk_index_wrap'
+      _p_func(dev, fmt, ##__VA_ARGS__);   \
+                   ^~~
+   include/linux/dev_printk.h:154:49: note: in expansion of macro 'dev_fmt'
+     dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                    ^~~~~~~
+   drivers/i3c/master/ast2600-i3c-master.c:173:3: note: in expansion of macro 'dev_err'
+      dev_err(&dw->base.dev,
+      ^~~~~~~
+   cc1: some warnings being treated as errors
 
-   259	
-   260	static int io_sq_thread(void *data)
-   261	{
-   262		struct llist_node *retry_list = NULL;
-   263		struct io_sq_data *sqd = data;
-   264		struct io_ring_ctx *ctx;
-   265		struct rusage start;
-   266		unsigned long timeout = 0;
-   267		char buf[TASK_COMM_LEN] = {};
-   268		DEFINE_WAIT(wait);
-   269	
-   270		/* offload context creation failed, just exit */
-   271		if (!current->io_uring) {
-   272			mutex_lock(&sqd->lock);
- > 273			rcu_assign_pointer(sqd->thread, NULL);
-   274			put_task_struct(current);
-   275			mutex_unlock(&sqd->lock);
-   276			goto err_out;
-   277		}
-   278	
-   279		snprintf(buf, sizeof(buf), "iou-sqp-%d", sqd->task_pid);
-   280		set_task_comm(current, buf);
-   281	
-   282		/* reset to our pid after we've set task_comm, for fdinfo */
-   283		sqd->task_pid = current->pid;
-   284	
-   285		if (sqd->sq_cpu != -1) {
-   286			set_cpus_allowed_ptr(current, cpumask_of(sqd->sq_cpu));
-   287		} else {
-   288			set_cpus_allowed_ptr(current, cpu_online_mask);
-   289			sqd->sq_cpu = raw_smp_processor_id();
-   290		}
-   291	
-   292		/*
-   293		 * Force audit context to get setup, in case we do prep side async
-   294		 * operations that would trigger an audit call before any issue side
-   295		 * audit has been done.
-   296		 */
-   297		audit_uring_entry(IORING_OP_NOP);
-   298		audit_uring_exit(true, 0);
-   299	
-   300		mutex_lock(&sqd->lock);
-   301		while (1) {
-   302			bool cap_entries, sqt_spin = false;
-   303	
-   304			if (io_sqd_events_pending(sqd) || signal_pending(current)) {
-   305				if (io_sqd_handle_event(sqd))
-   306					break;
-   307				timeout = jiffies + sqd->sq_thread_idle;
-   308			}
-   309	
-   310			cap_entries = !list_is_singular(&sqd->ctx_list);
-   311			getrusage(current, RUSAGE_SELF, &start);
-   312			list_for_each_entry(ctx, &sqd->ctx_list, sqd_list) {
-   313				int ret = __io_sq_thread(ctx, cap_entries);
-   314	
-   315				if (!sqt_spin && (ret > 0 || !wq_list_empty(&ctx->iopoll_list)))
-   316					sqt_spin = true;
-   317			}
-   318			if (io_sq_tw(&retry_list, IORING_TW_CAP_ENTRIES_VALUE))
-   319				sqt_spin = true;
-   320	
-   321			list_for_each_entry(ctx, &sqd->ctx_list, sqd_list)
-   322				if (io_napi(ctx))
-   323					io_napi_sqpoll_busy_poll(ctx);
-   324	
-   325			if (sqt_spin || !time_after(jiffies, timeout)) {
-   326				if (sqt_spin) {
-   327					io_sq_update_worktime(sqd, &start);
-   328					timeout = jiffies + sqd->sq_thread_idle;
-   329				}
-   330				if (unlikely(need_resched())) {
-   331					mutex_unlock(&sqd->lock);
-   332					cond_resched();
-   333					mutex_lock(&sqd->lock);
-   334					sqd->sq_cpu = raw_smp_processor_id();
-   335				}
-   336				continue;
-   337			}
-   338	
-   339			prepare_to_wait(&sqd->wait, &wait, TASK_INTERRUPTIBLE);
-   340			if (!io_sqd_events_pending(sqd) && !io_sq_tw_pending(retry_list)) {
-   341				bool needs_sched = true;
-   342	
-   343				list_for_each_entry(ctx, &sqd->ctx_list, sqd_list) {
-   344					atomic_or(IORING_SQ_NEED_WAKEUP,
-   345							&ctx->rings->sq_flags);
-   346					if ((ctx->flags & IORING_SETUP_IOPOLL) &&
-   347					    !wq_list_empty(&ctx->iopoll_list)) {
-   348						needs_sched = false;
-   349						break;
-   350					}
-   351	
-   352					/*
-   353					 * Ensure the store of the wakeup flag is not
-   354					 * reordered with the load of the SQ tail
-   355					 */
-   356					smp_mb__after_atomic();
-   357	
-   358					if (io_sqring_entries(ctx)) {
-   359						needs_sched = false;
-   360						break;
-   361					}
-   362				}
-   363	
-   364				if (needs_sched) {
-   365					mutex_unlock(&sqd->lock);
-   366					schedule();
-   367					mutex_lock(&sqd->lock);
-   368					sqd->sq_cpu = raw_smp_processor_id();
-   369				}
-   370				list_for_each_entry(ctx, &sqd->ctx_list, sqd_list)
-   371					atomic_andnot(IORING_SQ_NEED_WAKEUP,
-   372							&ctx->rings->sq_flags);
-   373			}
-   374	
-   375			finish_wait(&sqd->wait, &wait);
-   376			timeout = jiffies + sqd->sq_thread_idle;
-   377		}
-   378	
-   379		if (retry_list)
-   380			io_sq_tw(&retry_list, UINT_MAX);
-   381	
-   382		io_uring_cancel_generic(true, sqd);
-   383		rcu_assign_pointer(sqd->thread, NULL);
-   384		put_task_struct(current);
-   385		list_for_each_entry(ctx, &sqd->ctx_list, sqd_list)
-   386			atomic_or(IORING_SQ_NEED_WAKEUP, &ctx->rings->sq_flags);
-   387		io_run_task_work();
-   388		mutex_unlock(&sqd->lock);
-   389	err_out:
-   390		complete(&sqd->exited);
-   391		do_exit(0);
-   392	}
-   393	
+
+vim +/FIELD_GET +146 drivers/i3c/master/ast2600-i3c-master.c
+
+   136	
+   137	static bool ast2600_i3c_fsm_exit_serv_ibi(struct dw_i3c_master *dw)
+   138	{
+   139		u32 state;
+   140	
+   141		/*
+   142		 * Clear the IBI queue to enable the hardware to generate SCL and
+   143		 * begin detecting the T-bit low to stop reading IBI data.
+   144		 */
+   145		readl(dw->regs + IBI_QUEUE_STATUS);
+ > 146		state = FIELD_GET(CM_TFR_STS, readl(dw->regs + PRESENT_STATE));
+   147		if (state == CM_TFR_STS_MASTER_SERV_IBI)
+   148			return false;
+   149	
+   150		return true;
+   151	}
+   152	
+   153	static void ast2600_i3c_gen_tbits_in(struct dw_i3c_master *dw)
+   154	{
+   155		struct ast2600_i3c *i3c = to_ast2600_i3c(dw);
+   156		bool is_idle;
+   157		int ret;
+   158	
+   159		regmap_write_bits(i3c->global_regs, AST2600_I3CG_REG1(i3c->global_idx),
+   160				  AST2600_I3CG_REG1_SDA_IN_SW_MODE_VAL,
+   161				  AST2600_I3CG_REG1_SDA_IN_SW_MODE_VAL);
+   162		regmap_write_bits(i3c->global_regs, AST2600_I3CG_REG1(i3c->global_idx),
+   163				  AST2600_I3CG_REG1_SDA_IN_SW_MODE_EN,
+   164				  AST2600_I3CG_REG1_SDA_IN_SW_MODE_EN);
+   165	
+   166		regmap_write_bits(i3c->global_regs, AST2600_I3CG_REG1(i3c->global_idx),
+   167				  AST2600_I3CG_REG1_SDA_IN_SW_MODE_VAL, 0);
+   168		ret = readx_poll_timeout_atomic(ast2600_i3c_fsm_exit_serv_ibi, dw,
+   169						is_idle, is_idle, 0, 2000000);
+   170		regmap_write_bits(i3c->global_regs, AST2600_I3CG_REG1(i3c->global_idx),
+   171				  AST2600_I3CG_REG1_SDA_IN_SW_MODE_EN, 0);
+   172		if (ret)
+   173			dev_err(&dw->base.dev,
+ > 174				"Failed to exit the I3C fsm from %lx(MASTER_SERV_IBI): %d",
+   175				FIELD_GET(CM_TFR_STS, readl(dw->regs + PRESENT_STATE)),
+   176				ret);
+   177	}
+   178	
 
 -- 
 0-DAY CI Kernel Test Service
