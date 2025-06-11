@@ -1,282 +1,266 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715FD28D8D5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 13:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3405E283146;
+	Wed, 11 Jun 2025 14:22:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749649315; cv=none; b=JOp1S+cyLqYSuLxOpm0vcsLRaTBaAvRSepZ9z4Ux8Vaea+OMxVjWkyc3p5VW5IOxWfI8AkLbGrRaxsPfy++zLbKHoisHduVP+OEcuD+uST8g04PoUEeChY4Bhz9O1JxdceullFhOtMvTXCKPYj56s2OWUoUwHAENT2SKFJh1ms8=
+	t=1749651780; cv=none; b=DhMMQ2uuAwl1rJme4boR+bS+csmyh87044el60XS3KwZo68KAdBKZNUTMVGjJbtN+ypFo/pcEDuL61foKzlb2XKvKeDYVn6zVFmJvIKMolLdaq0QHWCHcA2ZRKjrWXfbLy5skBYw+wvPfYtTQcgoBL8kt5AToFtEge8YDnbrlo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749649315; c=relaxed/simple;
-	bh=0eNgMxx659WtGw9ZtFa3u9cYNDgG+0PH1ydiZ0OABwY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Dqc9mkppyOXBmT7S2mxRiSofRn2jQqZsPEjbiEAfTvG91KTQpWGpQxeKfVe8zwt3kjTfy7AntjPG/Q0PA7bcB/t+LWCHgupmOyFEz2gudM24bIgs6Js4VoS33xSFTyZV8T4Uj+CY0nRu1C30qH/RWn+D/iJ3Itx9dD0jTr0ECQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FHmJL7Kj; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1749651780; c=relaxed/simple;
+	bh=54n87psqwi/QsWV0+r7fFxSEc6o7Xgx7p78LXXsVciU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JBlrGgwfTbN6lmh8Qpd0OyuQIOIeyh/sHl6Et+GRRYblAlhCrtSo9O4a/+Z43Eq87GxLMXjq/PcWJNSrO17SFry4Ov9kn1gaBl05n06RxjJKyzeNoQhY2VOuTyqYpnGEHwXSC+fG8IW9YM9FP1O2wViz0HM41NLahwykV38xvWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7LbIZkM; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FHmJL7Kj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7LbIZkM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749649312; x=1781185312;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=0eNgMxx659WtGw9ZtFa3u9cYNDgG+0PH1ydiZ0OABwY=;
-  b=FHmJL7KjbMBJlZmL8nKQ3AIjpVWbB45Eg6fVrBHgcZ42S5TADkUig/qL
-   1lhU2VmL5jllGtK+iz3UJVXomT7HDH4x4s9J10vJf933AbDZQ3RCXcr/d
-   SrYUu+jJINCk852qTHwcsTEiiAr1uPo6xjtN1hZwybfzLfRJximeqFh5P
-   ToT8tEqfsau98mKcJ94loAjXxGSUUbGLCYpHgsiAjDyEc/WwzzxuOTfmB
-   R6Z/uJffVxpGervamMC6MpL1rnaOSb9Hg6RXxPA7QuvA9FazhVzvGhVX7
-   q1mUqTTVhG+x5ze/j/9GIbocpwxnB3F48DQx2HFYzwJpVAc/fZELIRmvl
-   w==;
-X-CSE-ConnectionGUID: rqmnVPVeRAe7bwSlIGf2cA==
-X-CSE-MsgGUID: 9BwaKXy+R8WBIvWuFvJwIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="51878750"
+  t=1749651778; x=1781187778;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=54n87psqwi/QsWV0+r7fFxSEc6o7Xgx7p78LXXsVciU=;
+  b=N7LbIZkM79kYi3F4cNHF3CJt86RxK6mrPJCD3fKZ/8rhlqyCH2XfcY5N
+   sz3ByBFseb76l7mkPI13xWD1LFya5s3NoUtjfmv+uCbbLIODbXFXywERG
+   lukdMm6djYquN6CCEbN1A8uKvG49bG75kI6+DFXwm2uMAxyvne2NvgPzo
+   MrIg8Rg+w7B3+Ys8iiNZDO/FaW03NYKQPZkjeryY+awxsQi3DDdEDHThC
+   9oCQsj10jAZCu0AXc9w8U6jTrFRkfyCZ2U6i+DsFbdDl9jDXtK9JNFlxK
+   9/Ng7aAIuUB++4wr97dh0mp5+R/K3OSNqekR7dA+6pPaRTrrCSLE+WoKn
+   g==;
+X-CSE-ConnectionGUID: gB/Gptt1SryRzXM15jRWxQ==
+X-CSE-MsgGUID: 35qbtsUjQGqk3zLMgk3KoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="62408163"
 X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
-   d="scan'208";a="51878750"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 06:41:52 -0700
-X-CSE-ConnectionGUID: 7pE03hRsSZWFEf3fErmMqA==
-X-CSE-MsgGUID: BA+lJ0xoTu6YjvTbs8xxsQ==
+   d="scan'208";a="62408163"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 07:22:57 -0700
+X-CSE-ConnectionGUID: 9oD2sayVSIqf+G86v5qcfA==
+X-CSE-MsgGUID: xDsuGgtvRl6af+ztHgeKIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
-   d="scan'208";a="147109405"
+   d="scan'208";a="170389979"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 11 Jun 2025 06:41:51 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 11 Jun 2025 07:22:55 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPLi7-000AW6-2z;
-	Wed, 11 Jun 2025 13:41:47 +0000
-Date: Wed, 11 Jun 2025 21:41:04 +0800
+	id 1uPMLt-000AYm-0S;
+	Wed, 11 Jun 2025 14:22:53 +0000
+Date: Wed, 11 Jun 2025 22:22:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Biggers <ebiggers@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [ebiggers:libcrypto-pending 2/16] lib/crypto/sha512.c: warning:
- EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-Message-ID: <202506112129.Al2xp4AC-lkp@intel.com>
+To: Krzysztof Karas <krzysztof.karas@intel.com>,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Matthew Auld <matthew.auld@intel.com>,
+	Andi Shyti <andi.shyti@linux.intel.com>,
+	Krzysztof Niemiec <krzysztof.niemiec@intel.com>,
+	Sebastian Brzezinka <sebastian.brzezinka@intel.com>
+Subject: Re: [PATCH] drm/i915/selftests: Keep mock file open during
+ unfaultable migrate with fill
+Message-ID: <202506112213.gLkM0b3U-lkp@intel.com>
+References: <rkhynu6kvc66vebupjvz6wah4qlxcbbxpnesjx2njqsfhxtk2n@rotnqdv2ori4>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <rkhynu6kvc66vebupjvz6wah4qlxcbbxpnesjx2njqsfhxtk2n@rotnqdv2ori4>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git libcrypto-pending
-head:   0586083fb1c568bec833e783baaca2af96546965
-commit: 6eecba60cf9a91a96a3e342357ec1124ae490ddc [2/16] lib/crypto/sha512: add support for SHA-384 and SHA-512
-config: arc-randconfig-002-20250611 (https://download.01.org/0day-ci/archive/20250611/202506112129.Al2xp4AC-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506112129.Al2xp4AC-lkp@intel.com/reproduce)
+Hi Krzysztof,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on drm-intel/for-linux-next-fixes drm-tip/drm-tip linus/master v6.16-rc1 next-20250611]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Krzysztof-Karas/drm-i915-selftests-Keep-mock-file-open-during-unfaultable-migrate-with-fill/20250610-182359
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/rkhynu6kvc66vebupjvz6wah4qlxcbbxpnesjx2njqsfhxtk2n%40rotnqdv2ori4
+patch subject: [PATCH] drm/i915/selftests: Keep mock file open during unfaultable migrate with fill
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250611/202506112213.gLkM0b3U-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506112213.gLkM0b3U-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506112129.Al2xp4AC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506112213.gLkM0b3U-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/rcu/tree_stall.h: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/autogroup.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/clock.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/completion.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/cpufreq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/cputime.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/fair.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/idle.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/isolation.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/loadavg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/psi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/swait.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/syscalls.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/topology.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/wait.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sched/wait_bit.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/stackleak.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/static_call.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/static_call_inline.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/sysctl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/time/alarmtimer.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/time/clockevents.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/time/clocksource.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/time/jiffies.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/time/sleep_timeout.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/time/tick-broadcast.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/time/tick-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/time/tick-sched.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/time/timeconv.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/time/timekeeping.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/torture.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/bpf_trace.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/fprobe.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/ftrace.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/ring_buffer.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_branch.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_clock.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_dynevent.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_event_perf.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_events.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_events_filter.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_events_synth.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_events_trigger.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_irqsoff.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_kprobe.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_output.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_preemptirq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_printk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_recursion_record.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/trace/trace_seq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/tracepoint.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/umh.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/usermode_driver.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/vhost_task.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/vmcore_info.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/watch_queue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   kernel/watchdog.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/842/842_compress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/842/842_decompress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/alloc_tag.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/asn1_encoder.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/bch.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/bitrev.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/btree.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crc-ccitt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crc-itu-t.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crc-t10dif.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crc16.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crc32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crc4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crc64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crc7.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crc8.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/aes.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/aescfb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/aesgcm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/arc4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/blake2s-generic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/blake2s.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/chacha20poly1305.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/curve25519-generic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/des.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/gf128mul.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/memneq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/mpi/mpi-add.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/mpi/mpi-bit.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/mpi/mpi-cmp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/mpi/mpi-mul.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/mpi/mpi-pow.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/mpi/mpi-sub-ui.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/mpi/mpicoder.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/mpi/mpiutil.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/poly1305-donna32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/poly1305-donna64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/poly1305-generic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/poly1305.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/sha256-generic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/sha256.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
->> lib/crypto/sha512.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/sm3.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/crypto/utils.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/debugobjects.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/digsig.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/dim/dim.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/dim/net_dim.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/dim/rdma_dim.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/dynamic_debug.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/errname.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/errseq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/fault-inject-usercopy.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/fonts/font_8x16.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/fonts/fonts.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/glob.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/group_cpus.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/irq_poll.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/kunit/assert.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/kunit/device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/kunit/hooks.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/kunit/platform.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/kunit/resource.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/kunit/static_stub.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/kunit/test.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/kunit/try-catch.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/kunit/user_alloc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/logic_iomem.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/logic_pio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/lru_cache.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/lshrdi3.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/lwq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/lz4/lz4_compress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/lz4/lz4_decompress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/lz4/lz4hc_compress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/lzo/lzo1x_compress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/lzo/lzo1x_decompress_safe.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/math/cordic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/math/prime_numbers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/memcat_p.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/memregion.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/notifier-error-inject.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/objagg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/objpool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/once.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/packing.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/percpu-refcount.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/percpu_counter.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/pldmfw/pldmfw.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/polynomial.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/raid6/algos.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/reed_solomon/reed_solomon.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/refcount.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/sbitmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/sg_pool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/sg_split.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/siphash.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/stackdepot.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/string.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/test_static_key_base.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/textsearch.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/trace_readwrite.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/ubsan.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/ucmpdi2.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/ucs2_string.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/vsprintf.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/win_minmax.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/xxhash.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/xz/xz_dec_syms.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/zlib_deflate/deflate_syms.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/zlib_inflate/inflate_syms.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/zstd/zstd_common_module.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/zstd/zstd_compress_module.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   lib/zstd/zstd_decompress_module.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/backing-dev.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/compaction.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/debug.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/debug_page_alloc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/debug_page_ref.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/fadvise.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/folio-compat.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/gup.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/hmm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/huge_memory.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/hugetlb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/hugetlb_vmemmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/io-mapping.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/kasan/hw_tags.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/kasan/report_generic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/kasan/shadow.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/kfence/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/kmsan/hooks.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/kmsan/instrumentation.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/kmsan/report.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/kmsan/shadow.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/ksm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/list_lru.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/mapping_dirty_helpers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/memblock.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/memory-tiers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/memremap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   mm/mmap_lock.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   In file included from drivers/gpu/drm/i915/gem/i915_gem_mman.c:1155:
+>> drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c:1195:6: warning: variable 'mock_file' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    1195 |         if (err)
+         |             ^~~
+   drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c:1303:7: note: uninitialized use occurs here
+    1303 |         fput(mock_file);
+         |              ^~~~~~~~~
+   drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c:1195:2: note: remove the 'if' if its condition is always false
+    1195 |         if (err)
+         |         ^~~~~~~~
+    1196 |                 goto out_put;
+         |                 ~~~~~~~~~~~~
+   drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c:1179:24: note: initialize the variable 'mock_file' to silence this warning
+    1179 |         struct file *mock_file;
+         |                               ^
+         |                                = NULL
+   1 warning generated.
+
+
+vim +1195 drivers/gpu/drm/i915/gem/selftests/i915_gem_mman.c
+
+fb87550d251787 Matthew Auld    2022-02-28  1165  
+fb87550d251787 Matthew Auld    2022-02-28  1166  #define IGT_MMAP_MIGRATE_TOPDOWN     (1 << 0)
+fb87550d251787 Matthew Auld    2022-02-28  1167  #define IGT_MMAP_MIGRATE_FILL        (1 << 1)
+fb87550d251787 Matthew Auld    2022-02-28  1168  #define IGT_MMAP_MIGRATE_EVICTABLE   (1 << 2)
+fb87550d251787 Matthew Auld    2022-02-28  1169  #define IGT_MMAP_MIGRATE_UNFAULTABLE (1 << 3)
+bfe53be268afd2 Matthew Auld    2022-06-29  1170  #define IGT_MMAP_MIGRATE_FAIL_GPU    (1 << 4)
+fb87550d251787 Matthew Auld    2022-02-28  1171  static int __igt_mmap_migrate(struct intel_memory_region **placements,
+fb87550d251787 Matthew Auld    2022-02-28  1172  			      int n_placements,
+fb87550d251787 Matthew Auld    2022-02-28  1173  			      struct intel_memory_region *expected_mr,
+fb87550d251787 Matthew Auld    2022-02-28  1174  			      unsigned int flags)
+fb87550d251787 Matthew Auld    2022-02-28  1175  {
+fb87550d251787 Matthew Auld    2022-02-28  1176  	struct drm_i915_private *i915 = placements[0]->i915;
+fb87550d251787 Matthew Auld    2022-02-28  1177  	struct drm_i915_gem_object *obj;
+fb87550d251787 Matthew Auld    2022-02-28  1178  	struct i915_request *rq = NULL;
+e63a0050b65f8d Krzysztof Karas 2025-06-10  1179  	struct file *mock_file;
+fb87550d251787 Matthew Auld    2022-02-28  1180  	unsigned long addr;
+fb87550d251787 Matthew Auld    2022-02-28  1181  	LIST_HEAD(objects);
+fb87550d251787 Matthew Auld    2022-02-28  1182  	u64 offset;
+fb87550d251787 Matthew Auld    2022-02-28  1183  	int err;
+fb87550d251787 Matthew Auld    2022-02-28  1184  
+fb87550d251787 Matthew Auld    2022-02-28  1185  	obj = __i915_gem_object_create_user(i915, PAGE_SIZE,
+fb87550d251787 Matthew Auld    2022-02-28  1186  					    placements,
+fb87550d251787 Matthew Auld    2022-02-28  1187  					    n_placements);
+fb87550d251787 Matthew Auld    2022-02-28  1188  	if (IS_ERR(obj))
+fb87550d251787 Matthew Auld    2022-02-28  1189  		return PTR_ERR(obj);
+fb87550d251787 Matthew Auld    2022-02-28  1190  
+fb87550d251787 Matthew Auld    2022-02-28  1191  	if (flags & IGT_MMAP_MIGRATE_TOPDOWN)
+fb87550d251787 Matthew Auld    2022-02-28  1192  		obj->flags |= I915_BO_ALLOC_GPU_ONLY;
+fb87550d251787 Matthew Auld    2022-02-28  1193  
+fb87550d251787 Matthew Auld    2022-02-28  1194  	err = __assign_mmap_offset(obj, I915_MMAP_TYPE_FIXED, &offset, NULL);
+fb87550d251787 Matthew Auld    2022-02-28 @1195  	if (err)
+fb87550d251787 Matthew Auld    2022-02-28  1196  		goto out_put;
+fb87550d251787 Matthew Auld    2022-02-28  1197  
+fb87550d251787 Matthew Auld    2022-02-28  1198  	/*
+fb87550d251787 Matthew Auld    2022-02-28  1199  	 * This will eventually create a GEM context, due to opening dummy drm
+fb87550d251787 Matthew Auld    2022-02-28  1200  	 * file, which needs a tiny amount of mappable device memory for the top
+fb87550d251787 Matthew Auld    2022-02-28  1201  	 * level paging structures(and perhaps scratch), so make sure we
+fb87550d251787 Matthew Auld    2022-02-28  1202  	 * allocate early, to avoid tears.
+fb87550d251787 Matthew Auld    2022-02-28  1203  	 */
+e63a0050b65f8d Krzysztof Karas 2025-06-10  1204  	addr = igt_mmap_offset_get_file(i915, offset, obj->base.size,
+e63a0050b65f8d Krzysztof Karas 2025-06-10  1205  					PROT_WRITE, MAP_SHARED, &mock_file);
+fb87550d251787 Matthew Auld    2022-02-28  1206  	if (IS_ERR_VALUE(addr)) {
+fb87550d251787 Matthew Auld    2022-02-28  1207  		err = addr;
+fb87550d251787 Matthew Auld    2022-02-28  1208  		goto out_put;
+fb87550d251787 Matthew Auld    2022-02-28  1209  	}
+fb87550d251787 Matthew Auld    2022-02-28  1210  
+fb87550d251787 Matthew Auld    2022-02-28  1211  	if (flags & IGT_MMAP_MIGRATE_FILL) {
+fb87550d251787 Matthew Auld    2022-02-28  1212  		err = igt_fill_mappable(placements[0], &objects);
+fb87550d251787 Matthew Auld    2022-02-28  1213  		if (err)
+fb87550d251787 Matthew Auld    2022-02-28  1214  			goto out_put;
+fb87550d251787 Matthew Auld    2022-02-28  1215  	}
+fb87550d251787 Matthew Auld    2022-02-28  1216  
+fb87550d251787 Matthew Auld    2022-02-28  1217  	err = i915_gem_object_lock(obj, NULL);
+fb87550d251787 Matthew Auld    2022-02-28  1218  	if (err)
+fb87550d251787 Matthew Auld    2022-02-28  1219  		goto out_put;
+fb87550d251787 Matthew Auld    2022-02-28  1220  
+fb87550d251787 Matthew Auld    2022-02-28  1221  	err = i915_gem_object_pin_pages(obj);
+fb87550d251787 Matthew Auld    2022-02-28  1222  	if (err) {
+fb87550d251787 Matthew Auld    2022-02-28  1223  		i915_gem_object_unlock(obj);
+fb87550d251787 Matthew Auld    2022-02-28  1224  		goto out_put;
+fb87550d251787 Matthew Auld    2022-02-28  1225  	}
+fb87550d251787 Matthew Auld    2022-02-28  1226  
+fb87550d251787 Matthew Auld    2022-02-28  1227  	err = intel_context_migrate_clear(to_gt(i915)->migrate.context, NULL,
+9275277d53248d Fei Yang        2023-05-09  1228  					  obj->mm.pages->sgl, obj->pat_index,
+fb87550d251787 Matthew Auld    2022-02-28  1229  					  i915_gem_object_is_lmem(obj),
+fb87550d251787 Matthew Auld    2022-02-28  1230  					  expand32(POISON_INUSE), &rq);
+fb87550d251787 Matthew Auld    2022-02-28  1231  	i915_gem_object_unpin_pages(obj);
+fb87550d251787 Matthew Auld    2022-02-28  1232  	if (rq) {
+11f01dcf3b32d0 Matthew Auld    2022-06-29  1233  		err = dma_resv_reserve_fences(obj->base.resv, 1);
+11f01dcf3b32d0 Matthew Auld    2022-06-29  1234  		if (!err)
+73511edf8b196e Christian König 2021-11-09  1235  			dma_resv_add_fence(obj->base.resv, &rq->fence,
+1d7f5e6c5240c3 Christian König 2021-12-22  1236  					   DMA_RESV_USAGE_KERNEL);
+fb87550d251787 Matthew Auld    2022-02-28  1237  		i915_request_put(rq);
+fb87550d251787 Matthew Auld    2022-02-28  1238  	}
+fb87550d251787 Matthew Auld    2022-02-28  1239  	i915_gem_object_unlock(obj);
+fb87550d251787 Matthew Auld    2022-02-28  1240  	if (err)
+fb87550d251787 Matthew Auld    2022-02-28  1241  		goto out_put;
+fb87550d251787 Matthew Auld    2022-02-28  1242  
+fb87550d251787 Matthew Auld    2022-02-28  1243  	if (flags & IGT_MMAP_MIGRATE_EVICTABLE)
+fb87550d251787 Matthew Auld    2022-02-28  1244  		igt_make_evictable(&objects);
+fb87550d251787 Matthew Auld    2022-02-28  1245  
+bfe53be268afd2 Matthew Auld    2022-06-29  1246  	if (flags & IGT_MMAP_MIGRATE_FAIL_GPU) {
+bfe53be268afd2 Matthew Auld    2022-06-29  1247  		err = i915_gem_object_lock(obj, NULL);
+bfe53be268afd2 Matthew Auld    2022-06-29  1248  		if (err)
+bfe53be268afd2 Matthew Auld    2022-06-29  1249  			goto out_put;
+bfe53be268afd2 Matthew Auld    2022-06-29  1250  
+bfe53be268afd2 Matthew Auld    2022-06-29  1251  		/*
+bfe53be268afd2 Matthew Auld    2022-06-29  1252  		 * Ensure we only simulate the gpu failuire when faulting the
+bfe53be268afd2 Matthew Auld    2022-06-29  1253  		 * pages.
+bfe53be268afd2 Matthew Auld    2022-06-29  1254  		 */
+bfe53be268afd2 Matthew Auld    2022-06-29  1255  		err = i915_gem_object_wait_moving_fence(obj, true);
+bfe53be268afd2 Matthew Auld    2022-06-29  1256  		i915_gem_object_unlock(obj);
+bfe53be268afd2 Matthew Auld    2022-06-29  1257  		if (err)
+bfe53be268afd2 Matthew Auld    2022-06-29  1258  			goto out_put;
+bfe53be268afd2 Matthew Auld    2022-06-29  1259  		i915_ttm_migrate_set_failure_modes(true, false);
+bfe53be268afd2 Matthew Auld    2022-06-29  1260  	}
+bfe53be268afd2 Matthew Auld    2022-06-29  1261  
+fb87550d251787 Matthew Auld    2022-02-28  1262  	err = ___igt_mmap_migrate(i915, obj, addr,
+fb87550d251787 Matthew Auld    2022-02-28  1263  				  flags & IGT_MMAP_MIGRATE_UNFAULTABLE);
+bfe53be268afd2 Matthew Auld    2022-06-29  1264  
+fb87550d251787 Matthew Auld    2022-02-28  1265  	if (!err && obj->mm.region != expected_mr) {
+fb87550d251787 Matthew Auld    2022-02-28  1266  		pr_err("%s region mismatch %s\n", __func__, expected_mr->name);
+fb87550d251787 Matthew Auld    2022-02-28  1267  		err = -EINVAL;
+fb87550d251787 Matthew Auld    2022-02-28  1268  	}
+fb87550d251787 Matthew Auld    2022-02-28  1269  
+bfe53be268afd2 Matthew Auld    2022-06-29  1270  	if (flags & IGT_MMAP_MIGRATE_FAIL_GPU) {
+bfe53be268afd2 Matthew Auld    2022-06-29  1271  		struct intel_gt *gt;
+bfe53be268afd2 Matthew Auld    2022-06-29  1272  		unsigned int id;
+bfe53be268afd2 Matthew Auld    2022-06-29  1273  
+bfe53be268afd2 Matthew Auld    2022-06-29  1274  		i915_ttm_migrate_set_failure_modes(false, false);
+bfe53be268afd2 Matthew Auld    2022-06-29  1275  
+bfe53be268afd2 Matthew Auld    2022-06-29  1276  		for_each_gt(gt, i915, id) {
+bfe53be268afd2 Matthew Auld    2022-06-29  1277  			intel_wakeref_t wakeref;
+bfe53be268afd2 Matthew Auld    2022-06-29  1278  			bool wedged;
+bfe53be268afd2 Matthew Auld    2022-06-29  1279  
+bfe53be268afd2 Matthew Auld    2022-06-29  1280  			mutex_lock(&gt->reset.mutex);
+bfe53be268afd2 Matthew Auld    2022-06-29  1281  			wedged = test_bit(I915_WEDGED, &gt->reset.flags);
+bfe53be268afd2 Matthew Auld    2022-06-29  1282  			mutex_unlock(&gt->reset.mutex);
+bfe53be268afd2 Matthew Auld    2022-06-29  1283  			if (!wedged) {
+bfe53be268afd2 Matthew Auld    2022-06-29  1284  				pr_err("gt(%u) not wedged\n", id);
+bfe53be268afd2 Matthew Auld    2022-06-29  1285  				err = -EINVAL;
+bfe53be268afd2 Matthew Auld    2022-06-29  1286  				continue;
+bfe53be268afd2 Matthew Auld    2022-06-29  1287  			}
+bfe53be268afd2 Matthew Auld    2022-06-29  1288  
+bfe53be268afd2 Matthew Auld    2022-06-29  1289  			wakeref = intel_runtime_pm_get(gt->uncore->rpm);
+bfe53be268afd2 Matthew Auld    2022-06-29  1290  			igt_global_reset_lock(gt);
+bfe53be268afd2 Matthew Auld    2022-06-29  1291  			intel_gt_reset(gt, ALL_ENGINES, NULL);
+bfe53be268afd2 Matthew Auld    2022-06-29  1292  			igt_global_reset_unlock(gt);
+bfe53be268afd2 Matthew Auld    2022-06-29  1293  			intel_runtime_pm_put(gt->uncore->rpm, wakeref);
+bfe53be268afd2 Matthew Auld    2022-06-29  1294  		}
+bfe53be268afd2 Matthew Auld    2022-06-29  1295  
+bfe53be268afd2 Matthew Auld    2022-06-29  1296  		if (!i915_gem_object_has_unknown_state(obj)) {
+bfe53be268afd2 Matthew Auld    2022-06-29  1297  			pr_err("object missing unknown_state\n");
+bfe53be268afd2 Matthew Auld    2022-06-29  1298  			err = -EINVAL;
+bfe53be268afd2 Matthew Auld    2022-06-29  1299  		}
+bfe53be268afd2 Matthew Auld    2022-06-29  1300  	}
+bfe53be268afd2 Matthew Auld    2022-06-29  1301  
+fb87550d251787 Matthew Auld    2022-02-28  1302  out_put:
+e63a0050b65f8d Krzysztof Karas 2025-06-10  1303  	fput(mock_file);
+fb87550d251787 Matthew Auld    2022-02-28  1304  	i915_gem_object_put(obj);
+fb87550d251787 Matthew Auld    2022-02-28  1305  	igt_close_objects(i915, &objects);
+fb87550d251787 Matthew Auld    2022-02-28  1306  	return err;
+fb87550d251787 Matthew Auld    2022-02-28  1307  }
+fb87550d251787 Matthew Auld    2022-02-28  1308  
 
 -- 
 0-DAY CI Kernel Test Service
