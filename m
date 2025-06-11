@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB272BD033
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 13:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715FD28D8D5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 13:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749648730; cv=none; b=Hhv95/eXF/A9SUx/MnhrwJPEUCNQdiuA9X8HbdBKh517ld/fT0aHbOeMlDmtKgrCV1nWD5vLMCBOl98wBwFumiS3D5sfoep93VFpBffa0kw0R2E4v9EO3DN6W1CNp8vRFYuKPaJXUGO69hFEkStVIcq+KDUNytM6AwUpnL9MQGE=
+	t=1749649315; cv=none; b=JOp1S+cyLqYSuLxOpm0vcsLRaTBaAvRSepZ9z4Ux8Vaea+OMxVjWkyc3p5VW5IOxWfI8AkLbGrRaxsPfy++zLbKHoisHduVP+OEcuD+uST8g04PoUEeChY4Bhz9O1JxdceullFhOtMvTXCKPYj56s2OWUoUwHAENT2SKFJh1ms8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749648730; c=relaxed/simple;
-	bh=eSDv28MuTdwZ6xTMeqLdugHcHec2hDq5By/9GkUZe3g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jaZqkdvDpGQw6y797nt9Yzi3RM0m8FMw/zWTxz8+Ln0rJ7tGpwLPWz3/POz1IIb7+ZmYcsObAqxs2MpriHIvIvFfz4Bj6WirP7aRl5blQe8RozZY8Q6iOg+Zye133ADN5nJkSgEDZOQa1f7So4JMDqq2UvDm2GtiqgnCL2kp7Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j82pf381; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1749649315; c=relaxed/simple;
+	bh=0eNgMxx659WtGw9ZtFa3u9cYNDgG+0PH1ydiZ0OABwY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Dqc9mkppyOXBmT7S2mxRiSofRn2jQqZsPEjbiEAfTvG91KTQpWGpQxeKfVe8zwt3kjTfy7AntjPG/Q0PA7bcB/t+LWCHgupmOyFEz2gudM24bIgs6Js4VoS33xSFTyZV8T4Uj+CY0nRu1C30qH/RWn+D/iJ3Itx9dD0jTr0ECQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FHmJL7Kj; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j82pf381"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FHmJL7Kj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749648729; x=1781184729;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eSDv28MuTdwZ6xTMeqLdugHcHec2hDq5By/9GkUZe3g=;
-  b=j82pf3812PnnESkwJj9ifMm7vpzhIGaOammCq0koJRM4Jn2icMsLaF/I
-   BJEb8gfn8Q4o8xANDg+DmQ2ggrmR1azIbI6/66ATLeUbHA0Ffb1uPgmU7
-   2uEc4XsuUGkANYVPPjR4oywIu1n3GwbrPuNhBafzq4XW5d6sRsHkIIsai
-   hCOmNd2ux8ewkIgMgBUKftYaNypgDZpnD3pporl5brXhltF3nVdLG2LJ8
-   cL5eK2hPhg+Dp25PaO+PIUM+RwJv0swfWe2Yp/j5xNyvKdeLnuFFrca4l
-   qo0F/9q46Eb0pw6p3p8ARpe6AlObdPSd9jF/SbQmUwt+ye/Pn5DpIMd/q
+  t=1749649312; x=1781185312;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0eNgMxx659WtGw9ZtFa3u9cYNDgG+0PH1ydiZ0OABwY=;
+  b=FHmJL7KjbMBJlZmL8nKQ3AIjpVWbB45Eg6fVrBHgcZ42S5TADkUig/qL
+   1lhU2VmL5jllGtK+iz3UJVXomT7HDH4x4s9J10vJf933AbDZQ3RCXcr/d
+   SrYUu+jJINCk852qTHwcsTEiiAr1uPo6xjtN1hZwybfzLfRJximeqFh5P
+   ToT8tEqfsau98mKcJ94loAjXxGSUUbGLCYpHgsiAjDyEc/WwzzxuOTfmB
+   R6Z/uJffVxpGervamMC6MpL1rnaOSb9Hg6RXxPA7QuvA9FazhVzvGhVX7
+   q1mUqTTVhG+x5ze/j/9GIbocpwxnB3F48DQx2HFYzwJpVAc/fZELIRmvl
    w==;
-X-CSE-ConnectionGUID: T3YtTKYwQiSm/Zi02Gz7Lg==
-X-CSE-MsgGUID: qSEKEpxyQtGI47HCI6o5nw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="51014385"
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="51014385"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 06:32:08 -0700
-X-CSE-ConnectionGUID: 071oI+h3Qji4k13VB1TsaA==
-X-CSE-MsgGUID: Q8gjurnuS2eCKUnDRZRfiA==
+X-CSE-ConnectionGUID: rqmnVPVeRAe7bwSlIGf2cA==
+X-CSE-MsgGUID: 9BwaKXy+R8WBIvWuFvJwIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="51878750"
+X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
+   d="scan'208";a="51878750"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 06:41:52 -0700
+X-CSE-ConnectionGUID: 7pE03hRsSZWFEf3fErmMqA==
+X-CSE-MsgGUID: BA+lJ0xoTu6YjvTbs8xxsQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="184407810"
+X-IronPort-AV: E=Sophos;i="6.16,228,1744095600"; 
+   d="scan'208";a="147109405"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 11 Jun 2025 06:31:49 -0700
+  by orviesa010.jf.intel.com with ESMTP; 11 Jun 2025 06:41:51 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPLYQ-000AVO-28;
-	Wed, 11 Jun 2025 13:31:46 +0000
-Date: Wed, 11 Jun 2025 21:30:51 +0800
+	id 1uPLi7-000AW6-2z;
+	Wed, 11 Jun 2025 13:41:47 +0000
+Date: Wed, 11 Jun 2025 21:41:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, kernel-dev@igalia.com,
-	amd-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	Michel =?iso-8859-1?Q?D=E4nzer?= <michel.daenzer@mailbox.org>,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Subject: Re: [PATCH v4 2/6] drm/syncobj: Do not allocate an array to store
- zeros when waiting
-Message-ID: <202506112101.YHxD1SCt-lkp@intel.com>
-References: <20250610083001.4120-3-tvrtko.ursulin@igalia.com>
+To: Eric Biggers <ebiggers@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ebiggers:libcrypto-pending 2/16] lib/crypto/sha512.c: warning:
+ EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+Message-ID: <202506112129.Al2xp4AC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,191 +61,222 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250610083001.4120-3-tvrtko.ursulin@igalia.com>
 
-Hi Tvrtko,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-exynos/exynos-drm-next]
-[also build test WARNING on linus/master v6.16-rc1 next-20250611]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-syncobj-Remove-unhelpful-helper/20250610-163819
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
-patch link:    https://lore.kernel.org/r/20250610083001.4120-3-tvrtko.ursulin%40igalia.com
-patch subject: [PATCH v4 2/6] drm/syncobj: Do not allocate an array to store zeros when waiting
-config: x86_64-randconfig-121-20250611 (https://download.01.org/0day-ci/archive/20250611/202506112101.YHxD1SCt-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506112101.YHxD1SCt-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ebiggers/linux.git libcrypto-pending
+head:   0586083fb1c568bec833e783baaca2af96546965
+commit: 6eecba60cf9a91a96a3e342357ec1124ae490ddc [2/16] lib/crypto/sha512: add support for SHA-384 and SHA-512
+config: arc-randconfig-002-20250611 (https://download.01.org/0day-ci/archive/20250611/202506112129.Al2xp4AC-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506112129.Al2xp4AC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506112101.YHxD1SCt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506112129.Al2xp4AC-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/gpu/drm/drm_syncobj.c:1090:47: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *to @@     got unsigned long long [noderef] [usertype] __user * @@
-   drivers/gpu/drm/drm_syncobj.c:1090:47: sparse:     expected void *to
-   drivers/gpu/drm/drm_syncobj.c:1090:47: sparse:     got unsigned long long [noderef] [usertype] __user *
->> drivers/gpu/drm/drm_syncobj.c:1090:59: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned long long * @@
-   drivers/gpu/drm/drm_syncobj.c:1090:59: sparse:     expected void const [noderef] __user *from
-   drivers/gpu/drm/drm_syncobj.c:1090:59: sparse:     got unsigned long long *
+All warnings (new ones prefixed by >>):
 
-vim +1090 drivers/gpu/drm/drm_syncobj.c
-
-  1056	
-  1057	static signed long drm_syncobj_array_wait_timeout(struct drm_syncobj **syncobjs,
-  1058							  u64 __user *user_points,
-  1059							  uint32_t count,
-  1060							  uint32_t flags,
-  1061							  signed long timeout,
-  1062							  uint32_t *idx,
-  1063							  ktime_t *deadline)
-  1064	{
-  1065		struct syncobj_wait_entry *entries;
-  1066		uint32_t signaled_count, i;
-  1067		struct dma_fence *fence;
-  1068	
-  1069		if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
-  1070			     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
-  1071			might_sleep();
-  1072			lockdep_assert_none_held_once();
-  1073		}
-  1074	
-  1075		entries = kcalloc(count, sizeof(*entries), GFP_KERNEL);
-  1076		if (!entries)
-  1077			return -ENOMEM;
-  1078	
-  1079		/* Walk the list of sync objects and initialize entries.  We do
-  1080		 * this up-front so that we can properly return -EINVAL if there is
-  1081		 * a syncobj with a missing fence and then never have the chance of
-  1082		 * returning -EINVAL again.
-  1083		 */
-  1084		signaled_count = 0;
-  1085		for (i = 0; i < count; ++i) {
-  1086			struct dma_fence *fence;
-  1087	
-  1088			entries[i].task = current;
-  1089			if (user_points &&
-> 1090			    copy_from_user(user_points++, &entries[i].point,
-  1091					   sizeof(*user_points))) {
-  1092				timeout = -EFAULT;
-  1093				goto cleanup_entries;
-  1094			}
-  1095			fence = drm_syncobj_fence_get(syncobjs[i]);
-  1096			if (!fence ||
-  1097			    dma_fence_chain_find_seqno(&fence, entries[i].point)) {
-  1098				dma_fence_put(fence);
-  1099				if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
-  1100					     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
-  1101					continue;
-  1102				} else {
-  1103					timeout = -EINVAL;
-  1104					goto cleanup_entries;
-  1105				}
-  1106			}
-  1107	
-  1108			if (fence)
-  1109				entries[i].fence = fence;
-  1110			else
-  1111				entries[i].fence = dma_fence_get_stub();
-  1112	
-  1113			if ((flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE) ||
-  1114			    dma_fence_is_signaled(entries[i].fence)) {
-  1115				if (signaled_count == 0 && idx)
-  1116					*idx = i;
-  1117				signaled_count++;
-  1118			}
-  1119		}
-  1120	
-  1121		if (signaled_count == count ||
-  1122		    (signaled_count > 0 &&
-  1123		     !(flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL)))
-  1124			goto cleanup_entries;
-  1125	
-  1126		/* There's a very annoying laxness in the dma_fence API here, in
-  1127		 * that backends are not required to automatically report when a
-  1128		 * fence is signaled prior to fence->ops->enable_signaling() being
-  1129		 * called.  So here if we fail to match signaled_count, we need to
-  1130		 * fallthough and try a 0 timeout wait!
-  1131		 */
-  1132	
-  1133		if (flags & (DRM_SYNCOBJ_WAIT_FLAGS_WAIT_FOR_SUBMIT |
-  1134			     DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE)) {
-  1135			for (i = 0; i < count; ++i)
-  1136				drm_syncobj_fence_add_wait(syncobjs[i], &entries[i]);
-  1137		}
-  1138	
-  1139		if (deadline) {
-  1140			for (i = 0; i < count; ++i) {
-  1141				fence = entries[i].fence;
-  1142				if (!fence)
-  1143					continue;
-  1144				dma_fence_set_deadline(fence, *deadline);
-  1145			}
-  1146		}
-  1147	
-  1148		do {
-  1149			set_current_state(TASK_INTERRUPTIBLE);
-  1150	
-  1151			signaled_count = 0;
-  1152			for (i = 0; i < count; ++i) {
-  1153				fence = entries[i].fence;
-  1154				if (!fence)
-  1155					continue;
-  1156	
-  1157				if ((flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_AVAILABLE) ||
-  1158				    dma_fence_is_signaled(fence) ||
-  1159				    (!entries[i].fence_cb.func &&
-  1160				     dma_fence_add_callback(fence,
-  1161							    &entries[i].fence_cb,
-  1162							    syncobj_wait_fence_func))) {
-  1163					/* The fence has been signaled */
-  1164					if (flags & DRM_SYNCOBJ_WAIT_FLAGS_WAIT_ALL) {
-  1165						signaled_count++;
-  1166					} else {
-  1167						if (idx)
-  1168							*idx = i;
-  1169						goto done_waiting;
-  1170					}
-  1171				}
-  1172			}
-  1173	
-  1174			if (signaled_count == count)
-  1175				goto done_waiting;
-  1176	
-  1177			if (timeout == 0) {
-  1178				timeout = -ETIME;
-  1179				goto done_waiting;
-  1180			}
-  1181	
-  1182			if (signal_pending(current)) {
-  1183				timeout = -ERESTARTSYS;
-  1184				goto done_waiting;
-  1185			}
-  1186	
-  1187			timeout = schedule_timeout(timeout);
-  1188		} while (1);
-  1189	
-  1190	done_waiting:
-  1191		__set_current_state(TASK_RUNNING);
-  1192	
-  1193	cleanup_entries:
-  1194		for (i = 0; i < count; ++i) {
-  1195			drm_syncobj_remove_wait(syncobjs[i], &entries[i]);
-  1196			if (entries[i].fence_cb.func)
-  1197				dma_fence_remove_callback(entries[i].fence,
-  1198							  &entries[i].fence_cb);
-  1199			dma_fence_put(entries[i].fence);
-  1200		}
-  1201		kfree(entries);
-  1202	
-  1203		return timeout;
-  1204	}
-  1205	
+   kernel/rcu/tree_stall.h: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/autogroup.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/clock.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/completion.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/cpufreq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/cputime.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/fair.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/idle.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/isolation.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/loadavg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/psi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/swait.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/syscalls.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/topology.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/wait.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sched/wait_bit.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/stackleak.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/static_call.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/static_call_inline.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/sysctl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/time/alarmtimer.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/time/clockevents.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/time/clocksource.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/time/jiffies.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/time/sleep_timeout.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/time/tick-broadcast.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/time/tick-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/time/tick-sched.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/time/timeconv.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/time/timekeeping.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/torture.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/bpf_trace.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/fprobe.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/ftrace.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/ring_buffer.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_branch.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_clock.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_dynevent.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_event_perf.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_events.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_events_filter.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_events_synth.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_events_trigger.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_irqsoff.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_kprobe.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_output.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_preemptirq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_printk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_recursion_record.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/trace/trace_seq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/tracepoint.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/umh.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/usermode_driver.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/vhost_task.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/vmcore_info.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/watch_queue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   kernel/watchdog.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/842/842_compress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/842/842_decompress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/alloc_tag.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/asn1_encoder.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/bch.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/bitrev.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/btree.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crc-ccitt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crc-itu-t.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crc-t10dif.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crc16.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crc32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crc4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crc64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crc7.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crc8.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/aes.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/aescfb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/aesgcm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/arc4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/blake2s-generic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/blake2s.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/chacha20poly1305.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/curve25519-generic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/des.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/gf128mul.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/memneq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/mpi/mpi-add.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/mpi/mpi-bit.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/mpi/mpi-cmp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/mpi/mpi-mul.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/mpi/mpi-pow.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/mpi/mpi-sub-ui.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/mpi/mpicoder.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/mpi/mpiutil.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/poly1305-donna32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/poly1305-donna64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/poly1305-generic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/poly1305.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/sha256-generic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/sha256.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+>> lib/crypto/sha512.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/sm3.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/crypto/utils.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/debugobjects.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/digsig.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/dim/dim.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/dim/net_dim.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/dim/rdma_dim.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/dynamic_debug.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/errname.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/errseq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/fault-inject-usercopy.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/fonts/font_8x16.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/fonts/fonts.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/glob.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/group_cpus.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/irq_poll.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/kunit/assert.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/kunit/device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/kunit/hooks.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/kunit/platform.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/kunit/resource.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/kunit/static_stub.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/kunit/test.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/kunit/try-catch.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/kunit/user_alloc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/logic_iomem.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/logic_pio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/lru_cache.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/lshrdi3.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/lwq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/lz4/lz4_compress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/lz4/lz4_decompress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/lz4/lz4hc_compress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/lzo/lzo1x_compress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/lzo/lzo1x_decompress_safe.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/math/cordic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/math/prime_numbers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/memcat_p.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/memregion.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/notifier-error-inject.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/objagg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/objpool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/once.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/packing.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/percpu-refcount.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/percpu_counter.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/pldmfw/pldmfw.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/polynomial.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/raid6/algos.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/reed_solomon/reed_solomon.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/refcount.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/sbitmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/sg_pool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/sg_split.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/siphash.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/stackdepot.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/string.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/test_static_key_base.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/textsearch.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/trace_readwrite.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/ubsan.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/ucmpdi2.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/ucs2_string.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/vsprintf.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/win_minmax.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/xxhash.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/xz/xz_dec_syms.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/zlib_deflate/deflate_syms.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/zlib_inflate/inflate_syms.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/zstd/zstd_common_module.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/zstd/zstd_compress_module.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   lib/zstd/zstd_decompress_module.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/backing-dev.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/compaction.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/debug.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/debug_page_alloc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/debug_page_ref.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/fadvise.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/folio-compat.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/gup.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/hmm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/huge_memory.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/hugetlb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/hugetlb_vmemmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/io-mapping.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/kasan/hw_tags.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/kasan/report_generic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/kasan/shadow.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/kfence/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/kmsan/hooks.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/kmsan/instrumentation.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/kmsan/report.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/kmsan/shadow.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/ksm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/list_lru.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/mapping_dirty_helpers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/memblock.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/memory-tiers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/memremap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   mm/mmap_lock.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
 
 -- 
 0-DAY CI Kernel Test Service
