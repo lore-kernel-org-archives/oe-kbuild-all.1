@@ -1,85 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B557627B4F2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 10:46:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B466927A12B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 12:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749638794; cv=none; b=LsYUNTP+ke2MIqKQiU5RT0SsONKpfvXnssdJ0bgVE6BW7DNszXFJz+OXUcLLXWWnisTrZTom1gNC871EWYs+FfpMB4e+J0icYXsTaliSgdpdZH5RphuohJI79wPD+oa/0ILOlg5iqixv7fkNU1uhLoG+j+dcaaG5okWl8M1xP7c=
+	t=1749644449; cv=none; b=WIETwCpPvIa2rVTbhGrV61vBeKR2mHIotR35/+zlNvgDa7BABCmfgBW9m+7RZd06EScT0l1lNcKe4O3Si6bc35jLoMvqD/hyKzXfBwFljfGn7fV/AWn50KWM6hY+yEBKPshxcE03nod/KxQ4tcP7+m2dD3vMFTVjF4/J4pCMPKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749638794; c=relaxed/simple;
-	bh=AdavQ1KrEiGB1m01imZA4IoQpPWQC0FZlOqzIXofoKA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ku5jvoHpI1totTLqfBm84opI7cI8PMQ0Nr46WkAbLejVvPhBREFBD1IINWYABTlskKCH/eWSaAxB88puHkMgGws7si+gpFM4aUDL7D0mUoE0ITxwrWCjT/EkKGc/CyrT8qsLBnJUzHdrfdwGNH8Aiy66nbZWPwjUwhKWq9ynD18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kyMPp+oH; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1749644449; c=relaxed/simple;
+	bh=IHppgvzI4syY64UndWNyNk/lcgm8Qzoj/IK3X0IV+MA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ogd9hLs9WIHrECdjcDY+YXBicax3nSMXPJP7dYBK/0iRBAw0GxiaAY+CrhOq24kje481nvptl+28SWe8V/lGnCIWecqCiBFVpFmGqo6VkIeimHvUEPpSSC5mAt8JyhOn9WQPWusbL28Nf269KhI7s+Aoj1NIqBQQNuWqYy0WuVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AOzWo640; arc=none smtp.client-ip=209.85.166.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kyMPp+oH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749638792; x=1781174792;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AdavQ1KrEiGB1m01imZA4IoQpPWQC0FZlOqzIXofoKA=;
-  b=kyMPp+oHZJHwnn6uYxeU1wV74DcpSns2/YGrDfAEQx9zPOPhOKSSEGs1
-   7t/b5NXN3c0WVWFqOHdFW5wIphyXziBwmORQMt+qRJ1+WyJq3ri71oHAo
-   MIM0VqmOQtep6pp2rtxDShAUUtZCwoJn6DrTJBVl3fKBVBgJp98s+h6IH
-   Zjp9aIz1HSd3MQXNCg8Qli34JxyF2w/ZIYB5is1EIrLxWBTvpnA8rjFpu
-   jyaIlkV+auYd9LL6EYkS2Bj5RX7LVatp3CaeqzsXe933dozRSCzX80kDG
-   /00FefbagilBnoCmK+VOprBwqaMt1APpMSpY5uVy4okuOF4BdsnGuWFQr
-   g==;
-X-CSE-ConnectionGUID: WEmMCO9TRWaj6fo11JGWfA==
-X-CSE-MsgGUID: 2gdJbJv8Tf+xbSxkZ3KUsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="62813550"
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="62813550"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 03:46:32 -0700
-X-CSE-ConnectionGUID: W9+qYwsGTJ6QS83/bKaCDw==
-X-CSE-MsgGUID: 00Xj08O8QaO1u9H6t71aHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="147040596"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 11 Jun 2025 03:46:31 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uPIyS-000AJD-32;
-	Wed, 11 Jun 2025 10:46:28 +0000
-Date: Wed, 11 Jun 2025 18:46:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: Xin3 Li <xin3.li@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [xinli-intel-fred-public:log_dr6_changes 2/2] vmlinux.o: warning:
- objtool: exc_debug_user+0x1e: call to _printk() leaves .noinstr.text section
-Message-ID: <202506111843.hofKgoly-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AOzWo640"
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3ddf2993103so4101105ab.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 05:20:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749644447; x=1750249247; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dBvjnZ90Dp0F8XMlzbkh5jxvl8CN8DeTIwQ3MbTjXNw=;
+        b=AOzWo640hiS4agMDuFZcqYHgXesW1qE/SwhCYbLDIn2YkAcGvuRGqKjqOyLScBAenq
+         wKqt4EKubOl2SdE95kC5v1zZG450FR7Yni2nvQS1EiCYhhMLi7lye6+tJ/TL0BhXbYl4
+         NXZw6wuOwvhLrffhE0s26g56yBmLX8L+wa6En4JSaQESAhV9ujfOhePXKBOgdpli5U6W
+         ltr9ITjXftx/yeKl8DPSjRz0pqxzhilCrNenDy4/PtvS/OTqUE/STDbAHFg58q/TT4H/
+         xEohXpV7sFVZWH9F+O0nB5A+Og2mV5HR45Si7r/eDSRHDcJrHSfPwqISYSquSJ390pOJ
+         YQ+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749644447; x=1750249247;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dBvjnZ90Dp0F8XMlzbkh5jxvl8CN8DeTIwQ3MbTjXNw=;
+        b=Vy/Jny84F4IVwxudJM9fIvHjSloP6mbYd9X4qFEY4zAiY1lp59Lisp1HDj6WTvdwZu
+         A9n3jL7zuNFbigb4IRIAfsv3hDoVmKV02JmQUzWj4VWJyn6qPhy7MKLiVf5RvyZhhYTO
+         +hidFPVgno3oDjG2vuh2nGeVi1IflS22oJbYhKWFbdrlccvm9b7iPClvpaEgihY0kq+C
+         m4YnqW9O4TLjY/1wSRytyBu5tm1DHGh41Zjg1eFrtU+XEditLk/nrOQi37nD2RGab01v
+         sL4BXniAn+ShCQkOeL6F4BzVbMH4EqS+l1m3DtDpPV4R3uDIE+FKR0fxNUJaEExK0bD+
+         ndCg==
+X-Forwarded-Encrypted: i=1; AJvYcCXBUa21NRLb7xp6g2RLJAwzUr8iYYOtMpgg3jvOX2MNULnZMtO79QoQEYsfC+PA3tQm+RiKJSt4r8e2FCxe@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx/4DZvZS86pxHtYGnIViFLLiCUE4jOwSYLhCo8tQavtWveufwh
+	Ug1ltXCRTbmTEAUfAI40/AanrFl8+Ua6eBJn+EqZyOsm4Bw/XYMIhnuCmId0l9PgI7OmVXqlqRG
+	dkmrzDz2vQo/PcoWnr62BVbVCd3T/tcE=
+X-Gm-Gg: ASbGnctMujeqQM8SMls5SAhQKKLAS0XHR1wFtP5rv22/HeB0V3yX9QmRNIs45sxmzob
+	YFKi8ao5nN212CH9XsVpT5ntAq9UQav8HFyiVzrl4HC9foHvPmKyt3UmgCBvuXQEef0BQDCplXh
+	Fb/eoqMj7N16mvQY/6L8uAQoCLhkoMRglZyPmpAwfFMUY=
+X-Google-Smtp-Source: AGHT+IE4k8M34kH1+0to98qZha6YDCpF10uoPuQmWlF7JjAoPYaJi/BRbveOdyY4jpVv3FoTiXKBp/TgaddM4ZbrpUk=
+X-Received: by 2002:a05:6e02:1a6a:b0:3dd:f1bb:da0b with SMTP id
+ e9e14a558f8ab-3ddf423ed49mr34966435ab.7.1749644446692; Wed, 11 Jun 2025
+ 05:20:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250610004844.66688-5-kerneljasonxing@gmail.com>
+ <202506102340.uo7QDaVk-lkp@intel.com> <CAL+tcoARvQVgd68HGoXXiK=+RSH12WQ_rc47B4rgtt2Eb05c0w@mail.gmail.com>
+ <20250611170845.8f88347e3cba51cf15a01b21@kernel.org>
+In-Reply-To: <20250611170845.8f88347e3cba51cf15a01b21@kernel.org>
+From: Jason Xing <kerneljasonxing@gmail.com>
+Date: Wed, 11 Jun 2025 20:20:10 +0800
+X-Gm-Features: AX0GCFt9o6cS486F4_y9iaF71LRoSu0_FvAk5vs2fQpwxofQ65dX1xlkNYbdtGU
+Message-ID: <CAL+tcoBDJty6o_-c4__P=BES_uP6emO3TcuUTrFCJ92j2wNWPg@mail.gmail.com>
+Subject: Re: [PATCH v4 4/5] blktrace: use rbuf->stats.full as a drop indicator
+ in relayfs
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, axboe@kernel.dk, rostedt@goodmis.org, 
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	Jason Xing <kernelxing@tencent.com>, Yushan Zhou <katrinzhou@tencent.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/xinli-intel/linux-fred-public.git log_dr6_changes
-head:   fa4845cf524d2905493e299e4650dc943be4dfe4
-commit: fa4845cf524d2905493e299e4650dc943be4dfe4 [2/2] x86/traps: Log DR6 changes
-config: x86_64-buildonly-randconfig-001-20250611 (https://download.01.org/0day-ci/archive/20250611/202506111843.hofKgoly-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506111843.hofKgoly-lkp@intel.com/reproduce)
+On Wed, Jun 11, 2025 at 4:08=E2=80=AFPM Masami Hiramatsu <mhiramat@kernel.o=
+rg> wrote:
+>
+> On Wed, 11 Jun 2025 13:15:40 +0800
+> Jason Xing <kerneljasonxing@gmail.com> wrote:
+>
+> > On Wed, Jun 11, 2025 at 9:42=E2=80=AFAM kernel test robot <lkp@intel.co=
+m> wrote:
+> > >
+> > > Hi Jason,
+> > >
+> > > kernel test robot noticed the following build warnings:
+> > >
+> > > [auto build test WARNING on axboe-block/for-next]
+> > > [also build test WARNING on drm-i915/for-linux-next drm-i915/for-linu=
+x-next-fixes akpm-mm/mm-everything linus/master v6.16-rc1 next-20250610]
+> > > [If your patch is applied to the wrong git tree, kindly drop us a not=
+e.
+> > > And when submitting patch, we suggest to use '--base' as documented i=
+n
+> > > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > >
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/rel=
+ayfs-abolish-prev_padding/20250610-085150
+> > > base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-b=
+lock.git for-next
+> > > patch link:    https://lore.kernel.org/r/20250610004844.66688-5-kerne=
+ljasonxing%40gmail.com
+> > > patch subject: [PATCH v4 4/5] blktrace: use rbuf->stats.full as a dro=
+p indicator in relayfs
+> > > config: arc-randconfig-001-20250610
+> > > compiler: arc-linux-gcc (GCC) 12.4.0
+> > > reproduce (this is a W=3D1 build):
+> > >
+> > > If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> > > the same patch/commit), kindly add following tags
+> > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > | Closes: https://lore.kernel.org/oe-kbuild-all/202506102340.uo7QDaVk=
+-lkp@intel.com/
+> > >
+> > > All warnings (new ones prefixed by >>):
+> > >
+> > >    kernel/trace/blktrace.c: In function 'blk_dropped_read':
+> > > >> kernel/trace/blktrace.c:421:39: warning: format '%lu' expects argu=
+ment of type 'long unsigned int', but argument 4 has type 'size_t' {aka 'un=
+signed int'} [-Wformat=3D]
+> > >      421 |         snprintf(buf, sizeof(buf), "%lu\n", dropped);
+> > >          |                                     ~~^     ~~~~~~~
+> > >          |                                       |     |
+> > >          |                                       |     size_t {aka un=
+signed int}
+> > >          |                                       long unsigned int
+> > >          |                                     %u
+> >
+> > Well, I suppose I will fix it in the re-spin after receiving more
+> > comments so that I don't need to quickly respond to this minor issue.
+>
+> Please update the patch and send series with my reviewed-by on 1/5.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506111843.hofKgoly-lkp@intel.com/
+Sure, thanks for the review.
 
-All warnings (new ones prefixed by >>):
+> BTW, size_t should use %zu.
+> Please check Documentation/core-api/printk-formats.rst
 
->> vmlinux.o: warning: objtool: exc_debug_user+0x1e: call to _printk() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: exc_debug+0x21: call to _printk() leaves .noinstr.text section
->> vmlinux.o: warning: objtool: noist_exc_debug+0x21: call to _printk() leaves .noinstr.text section
+Thanks for the pointer :)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Jason
+>
+> Thank you,
+>
+> >
+> > Thanks,
+> > Jason
+> >
+> > >
+> > >
+> > > vim +421 kernel/trace/blktrace.c
+> > >
+> > >    413
+> > >    414  static ssize_t blk_dropped_read(struct file *filp, char __use=
+r *buffer,
+> > >    415                                  size_t count, loff_t *ppos)
+> > >    416  {
+> > >    417          struct blk_trace *bt =3D filp->private_data;
+> > >    418          size_t dropped =3D relay_stats(bt->rchan, RELAY_STATS=
+_BUF_FULL);
+> > >    419          char buf[16];
+> > >    420
+> > >  > 421          snprintf(buf, sizeof(buf), "%lu\n", dropped);
+> > >    422
+> > >    423          return simple_read_from_buffer(buffer, count, ppos, b=
+uf, strlen(buf));
+> > >    424  }
+> > >    425
+> > >
+> > > --
+> > > 0-DAY CI Kernel Test Service
+> > > https://github.com/intel/lkp-tests/wiki
+>
+>
+> --
+> Masami Hiramatsu (Google) <mhiramat@kernel.org>
