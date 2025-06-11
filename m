@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 272E4221708
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 09:22:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B9925C834
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 11 Jun 2025 09:22:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749633746; cv=none; b=hi9TKWnn03h0MWr+XAqQlUUxeYqArKT6+cOsa4BkJ2aNZjqL9TvQ50xvH24T1mB5DMO7DV72OfX/gYF4DVbWgb6/VAysp2Xa1UqQT2FF67oIqmUlVnf7vx3HRVZbl91lfeq5CM3akC4MdPQeu9+ykRZSlwrXIbJ8A5w2KFJ5hCw=
+	t=1749633748; cv=none; b=aXWZ5Ymi/KbOjwogSgiwXUFiDG+OYjn1xuEikn7dcwDKYv75cR516QVoJEGmn3vgPP74my/wDFEbgeAhFuUumBDvzvBlY/DTo0ijuhrMiJZLt9baKGI5zCFbBlTeo/T5uI5pQ0bOooOeR9M2tsYTa39i0KSol+y+/i10Vk/c32k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749633746; c=relaxed/simple;
-	bh=63ausTIawwj/GGNYovQJ3yRbCqMIhbnIpxl6JuKMg04=;
+	s=arc-20240116; t=1749633748; c=relaxed/simple;
+	bh=5MsDCiP/U1zJS5EaBHsMv10aY74N3gorG7SYEbs8wX0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pZgakZAlQ1ZQSurL5oNqb6P+wln1fvVxsGHgnre9chIZt1UIwOVIoe7v/VQVp2FoCRdtNKUamjTd9cbZyfDZpkDJdYNUWQuPDzXHFNT3DEa1CRaG5TrUtk2qQpb+BI4NTjOp04WYxjhf1Hj9DSjs1ffpTXiFE9897ls/3wVj4SI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d+4ej0V0; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=s1w7B5sS+IT0WoS3MyUKtT3lQGaTdx78w0DvbjjQwI9ccR5W3mCCP0nQ9SDwgVBP3Dk5hcQjJ/XMrcc3Fue4+S6GuzFfxlYYeMB3imt+UIv60WtW2rkTe1JN0aIgbDhzDCts/GyZX8S4Yl0wB2OOUqDuGwXqAhNC1s82YJY15Gk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FfjEgdE9; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d+4ej0V0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FfjEgdE9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749633744; x=1781169744;
+  t=1749633747; x=1781169747;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=63ausTIawwj/GGNYovQJ3yRbCqMIhbnIpxl6JuKMg04=;
-  b=d+4ej0V0FfojXE9chWZ4oew4sIk+y2SD6vfifxALN1OzTw8vHQURD0Nl
-   lO60hisOde1oSgiWYxuGJ46sxppSyLDZ0/6NB5/AAjME04wq8ZZToobA1
-   L749UoaEFuSny26YN2hupfIbbdU7k/KxbwVAieKRbr02bE7qRE6P2szpl
-   9mhBbeO33R6sHxBOWJPWi5O2Yll2UgvUUB9moJc5X1HEoS+gRIsHCSX7d
-   PgkUbbm60gt5yNOR8ZTppuR/v12CPIk8CR9rJ3JoxdriVhmdQVAxg7clB
-   hj4fnE8tiUKXiLymEctsrUMAG3G/rKzz+hf9NvdPAu1jLX6PSlxzyFj1B
-   A==;
-X-CSE-ConnectionGUID: q+YBZ/o6TFOlu7cMK76F8g==
-X-CSE-MsgGUID: /LV6QcxVT5uzmOanxU5cAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="51906988"
+  bh=5MsDCiP/U1zJS5EaBHsMv10aY74N3gorG7SYEbs8wX0=;
+  b=FfjEgdE9c7mwxCBjXVgKfc4D0eTY1u/PNiSHxNIH2HOjLXEAdH+P0MDT
+   fnDrt2H7nSoVtEuCkcHfx2S4DcALKOqgL8Tl5AsjadJ8HucgaD1ATe/qk
+   96O2cOuUY9eq9i9ALuDH54gf0a3s8CxuK4xmKnPFWR18qRU8ygfzXpK7b
+   x/4MsC9UBVDNR1b7s6VNk63PWq/ZHezeOZqqog+OTtvkTEEIAfg9kZ6e6
+   7C1ufZep0bI8pLoQSJy00XWPjvVkB8o3cKajYudYs7A4xKgzR6iu/B43Z
+   YFuIxXB9VidZK9NszhmCW2wCxFd6qqqwpg65TafQfmk+Vh6Rg6TZwX/K2
+   w==;
+X-CSE-ConnectionGUID: OcPz19FORaqZzyfwGgCWzQ==
+X-CSE-MsgGUID: pYwXdeboQuG/9WNolWK5Bw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11460"; a="51906990"
 X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="51906988"
+   d="scan'208";a="51906990"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 02:22:24 -0700
-X-CSE-ConnectionGUID: S712/HdXQ5eX6KHrhoF0zA==
-X-CSE-MsgGUID: H1Lp0XLHT2aOtkzU6Y/DEQ==
+X-CSE-ConnectionGUID: 6KELI+FqRJqdwqqPo1QYgg==
+X-CSE-MsgGUID: GLzjtzYPQ6iFSXmkaoSiqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,227,1744095600"; 
-   d="scan'208";a="178050948"
+   d="scan'208";a="178050959"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by orviesa002.jf.intel.com with ESMTP; 11 Jun 2025 02:22:23 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPHf2-000ADO-0x;
+	id 1uPHf2-000ADa-1U;
 	Wed, 11 Jun 2025 09:22:20 +0000
-Date: Wed, 11 Jun 2025 17:21:50 +0800
+Date: Wed, 11 Jun 2025 17:21:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Pu Lehui <pulehui@huawei.com>
+To: Xin3 Li <xin3.li@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2954/2954]
- arch/arm64/net/bpf_jit_comp.c:1514:29: sparse: sparse: incorrect type in
- assignment (different base types)
-Message-ID: <202506111719.ynqhjFZY-lkp@intel.com>
+Subject: [xinli-intel-fred-public:log_dr6_changes 2/2]
+ arch/x86/kernel/smpboot.c:236:9: error: implicit declaration of function
+ 'get_debugreg'
+Message-ID: <202506111700.jTve5D8X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,50 +63,131 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   90ff3e07cc268a8e40bd578dcc4907a3db419c52
-commit: 2a5ab77af7f94dc99ac894566927f4f934ed675b [2954/2954] bpf, arm64: Add bpf trampoline for arm64
-config: arm64-randconfig-r133-20250610 (https://download.01.org/0day-ci/archive/20250611/202506111719.ynqhjFZY-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20250611/202506111719.ynqhjFZY-lkp@intel.com/reproduce)
+tree:   https://github.com/xinli-intel/linux-fred-public.git log_dr6_changes
+head:   fa4845cf524d2905493e299e4650dc943be4dfe4
+commit: fa4845cf524d2905493e299e4650dc943be4dfe4 [2/2] x86/traps: Log DR6 changes
+config: x86_64-buildonly-randconfig-004-20250611 (https://download.01.org/0day-ci/archive/20250611/202506111700.jTve5D8X-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250611/202506111700.jTve5D8X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506111719.ynqhjFZY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506111700.jTve5D8X-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> arch/arm64/net/bpf_jit_comp.c:1514:29: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] * @@     got restricted __le32 [usertype] * @@
-   arch/arm64/net/bpf_jit_comp.c:1514:29: sparse:     expected unsigned int [usertype] *
-   arch/arm64/net/bpf_jit_comp.c:1514:29: sparse:     got restricted __le32 [usertype] *
-   arch/arm64/net/bpf_jit_comp.c:1663:52: sparse: sparse: subtraction of different types can't work (different base types)
+All error/warnings (new ones prefixed by >>):
 
-vim +1514 arch/arm64/net/bpf_jit_comp.c
+   arch/x86/kernel/smpboot.c: In function 'start_secondary':
+>> arch/x86/kernel/smpboot.c:236:9: error: implicit declaration of function 'get_debugreg' [-Werror=implicit-function-declaration]
+     236 |         get_debugreg(dr6, 6);
+         |         ^~~~~~~~~~~~
+>> arch/x86/kernel/smpboot.c:236:9: warning: 'dr6' is used uninitialized [-Wuninitialized]
+     236 |         get_debugreg(dr6, 6);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/smpboot.c:234:23: note: 'dr6' was declared here
+     234 |         unsigned long dr6;
+         |                       ^~~
+   cc1: some warnings being treated as errors
 
-  1495	
-  1496	static void invoke_bpf_mod_ret(struct jit_ctx *ctx, struct bpf_tramp_progs *tp,
-  1497				       int args_off, int retval_off, u32 **branches)
-  1498	{
-  1499		int i;
-  1500	
-  1501		/* The first fmod_ret program will receive a garbage return value.
-  1502		 * Set this to 0 to avoid confusing the program.
-  1503		 */
-  1504		emit(A64_STR64I(A64_ZR, A64_SP, retval_off), ctx);
-  1505		for (i = 0; i < tp->nr_progs; i++) {
-  1506			invoke_bpf_prog(ctx, tp->progs[i], args_off, retval_off, true);
-  1507			/* if (*(u64 *)(sp + retval_off) !=  0)
-  1508			 *	goto do_fexit;
-  1509			 */
-  1510			emit(A64_LDR64I(A64_R(10), A64_SP, retval_off), ctx);
-  1511			/* Save the location of branch, and generate a nop.
-  1512			 * This nop will be replaced with a cbnz later.
-  1513			 */
-> 1514			branches[i] = ctx->image + ctx->idx;
-  1515			emit(A64_NOP, ctx);
-  1516		}
-  1517	}
-  1518	
+
+vim +/get_debugreg +236 arch/x86/kernel/smpboot.c
+
+   228	
+   229	/*
+   230	 * Activate a secondary processor.
+   231	 */
+   232	static void notrace __noendbr start_secondary(void *unused)
+   233	{
+   234		unsigned long dr6;
+   235	
+ > 236		get_debugreg(dr6, 6);
+   237		printk("CPU%d: Initial DR6: %016lx\n", smp_processor_id(), dr6);
+   238	
+   239		/*
+   240		 * Don't put *anything* except direct CPU state initialization
+   241		 * before cpu_init(), SMP booting is too fragile that we want to
+   242		 * limit the things done here to the most necessary things.
+   243		 */
+   244		cr4_init();
+   245	
+   246		/*
+   247		 * 32-bit specific. 64-bit reaches this code with the correct page
+   248		 * table established. Yet another historical divergence.
+   249		 */
+   250		if (IS_ENABLED(CONFIG_X86_32)) {
+   251			/* switch away from the initial page table */
+   252			load_cr3(swapper_pg_dir);
+   253			__flush_tlb_all();
+   254		}
+   255	
+   256		cpu_init_exception_handling(false);
+   257	
+   258		/*
+   259		 * Load the microcode before reaching the AP alive synchronization
+   260		 * point below so it is not part of the full per CPU serialized
+   261		 * bringup part when "parallel" bringup is enabled.
+   262		 *
+   263		 * That's even safe when hyperthreading is enabled in the CPU as
+   264		 * the core code starts the primary threads first and leaves the
+   265		 * secondary threads waiting for SIPI. Loading microcode on
+   266		 * physical cores concurrently is a safe operation.
+   267		 *
+   268		 * This covers both the Intel specific issue that concurrent
+   269		 * microcode loading on SMT siblings must be prohibited and the
+   270		 * vendor independent issue`that microcode loading which changes
+   271		 * CPUID, MSRs etc. must be strictly serialized to maintain
+   272		 * software state correctness.
+   273		 */
+   274		load_ucode_ap();
+   275	
+   276		/*
+   277		 * Synchronization point with the hotplug core. Sets this CPUs
+   278		 * synchronization state to ALIVE and spin-waits for the control CPU to
+   279		 * release this CPU for further bringup.
+   280		 */
+   281		cpuhp_ap_sync_alive();
+   282	
+   283		cpu_init();
+   284		fpu__init_cpu();
+   285		rcutree_report_cpu_starting(raw_smp_processor_id());
+   286		x86_cpuinit.early_percpu_clock_init();
+   287	
+   288		ap_starting();
+   289	
+   290		/* Check TSC synchronization with the control CPU. */
+   291		check_tsc_sync_target();
+   292	
+   293		/*
+   294		 * Calibrate the delay loop after the TSC synchronization check.
+   295		 * This allows to skip the calibration when TSC is synchronized
+   296		 * across sockets.
+   297		 */
+   298		ap_calibrate_delay();
+   299	
+   300		speculative_store_bypass_ht_init();
+   301	
+   302		/*
+   303		 * Lock vector_lock, set CPU online and bring the vector
+   304		 * allocator online. Online must be set with vector_lock held
+   305		 * to prevent a concurrent irq setup/teardown from seeing a
+   306		 * half valid vector space.
+   307		 */
+   308		lock_vector_lock();
+   309		set_cpu_online(smp_processor_id(), true);
+   310		lapic_online();
+   311		unlock_vector_lock();
+   312		x86_platform.nmi_init();
+   313	
+   314		/* enable local interrupts */
+   315		local_irq_enable();
+   316	
+   317		x86_cpuinit.setup_percpu_clockev();
+   318	
+   319		wmb();
+   320		cpu_startup_entry(CPUHP_AP_ONLINE_IDLE);
+   321	}
+   322	ANNOTATE_NOENDBR_SYM(start_secondary);
+   323	
 
 -- 
 0-DAY CI Kernel Test Service
