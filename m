@@ -1,78 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9592F23AE83;
-	Tue, 10 Jun 2025 19:26:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5590623CE;
+	Wed, 11 Jun 2025 00:32:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749583611; cv=none; b=DnRtdQi6fG37qjdpDbB1aXGMf2yDdjlpYite+mJ65AWFM/PKQj06hC2DiN3Xibx7SAZa8oeYz/wwi9jB4hbbUryVSfp4UsDLDkZYj0zbvbtwq/h5Wqc8w4P3YCVE24CmVrUEi7Rjf9Lb3lBLmT9Sa1hrXAfjF5FxvYmW2NFnIkE=
+	t=1749601948; cv=none; b=O325YO4mLKDueSsKT6KwCLVWTQfKejO5FkBH6Tnpd91U46DgSWXLHMwytnr/dRolps6fp6SQaZVlsl022CrSCl84wv1tQSi6OvBh+eCK94oLTBHHOYPIrjNMgm1ewBbrjFhSZv85SwsPng7RneTpVGputlMFjnHsML3vuJ9mZLE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749583611; c=relaxed/simple;
-	bh=B1731WGlq5ZYQEHLJSCoY+viCqv8V/qH6BFMdj/tGyM=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=s9SOhb9ExeDBbP/dCvhMN6lwSF8ON4InAAqE2PADcZRxY5/KE3e+xRBRbXlaQ4t3KG/4cIXhzyvGoVtfROVH4EvNbAcWpQhcE9fpKOCr0pvd9+/xRvmqBoSYmE2tPgqtJre/+6xlwFBb1VsX9EsM6T6i6vJkgT+t7uguMZHWJy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ffsNmdUA; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1749601948; c=relaxed/simple;
+	bh=NhHIAPnTaLGJh8uoGOn99qrVxLppk0NZa9mQDuaKMvw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=e4++UtZMAqAUBsVb2Op/N/2AsgkAFqxwlkcEBShFhYKI+n7RVZfy+6N/By3tZ3xTPbnaVCFXIm6f4Tef/FYzFcGAwXiIlVDEFAT174v600AA6wigs3AOrfwZCahsMNvhwDvnz8jPgWMjg9CaTQQ1DAxmEK9b5a8OKHfze/5eH88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=jrEGrHxf; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ffsNmdUA"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBBD6C4CEED;
-	Tue, 10 Jun 2025 19:26:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1749583611;
-	bh=B1731WGlq5ZYQEHLJSCoY+viCqv8V/qH6BFMdj/tGyM=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References:From;
-	b=ffsNmdUAFmDLNU/j9JbHyeu9SCLw9KDih+rj6b6ylCdCiH019CQr22Xjxb2uRTobz
-	 YpbJijch0YiONR4okgobPpwh97ytzEN4/NgkXB2efVWCD9DTM1M+Bq5AQk1qG+Gq0p
-	 /LCDzx4I/HxEbVIQFt6wPQUcyhdyYbfADOVgEgxEPn1BymUhbdbAXOszeB8MCTsFYe
-	 rFvb76V5ZATtulcCf1VpBqNCgJC+Lx5tWdyPfcs6tK7MGt8zOraKYwxFR/cP5e0F2q
-	 bXyzEiryREVLFEXgCljwSN246yMw4/eTLFYItKuvuacHp5OKGIKVk38OeGZbEEzjB5
-	 rmTgIEQNDAY+Q==
-Date: Tue, 10 Jun 2025 21:26:48 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: kernel test robot <lkp@intel.com>
-cc: Even Xu <even.xu@intel.com>, bentiss@kernel.org, 
-    oe-kbuild-all@lists.linux.dev, srinivas.pandruvada@linux.intel.com, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    linux-doc@vger.kernel.org, Chong Han <chong.han@intel.com>
-Subject: [PATCH] HID: intel-thc: make ptl_ddata static
-In-Reply-To: <202505171535.Yrj5T8jh-lkp@intel.com>
-Message-ID: <r55n2p5s-1rno-n14q-8n6s-7737pr4655p4@xreary.bet>
-References: <20250514061944.125857-8-even.xu@intel.com> <202505171535.Yrj5T8jh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="jrEGrHxf"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 55B0WAHq83864311, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1749601930; bh=NhHIAPnTaLGJh8uoGOn99qrVxLppk0NZa9mQDuaKMvw=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=jrEGrHxfPAH6VYW9q5iuwAGXafSiKRIctTnGADha3y+/DD1/si2ynqF+2DEbZFg0r
+	 mQrJDc6pvoKR5yfwEQuiz89W26whoJ3S+449eSVAM3FjDeCvgp0X8NVTwNkpDdMURi
+	 ETjXAjzk5URvBlM3zmSOtgwWGy+XdZOEGykwP/0BSrkgBSXWwww6RkasJhpc4LZxrc
+	 OykHusY3q1LyIl8a/+sblcc3iPHkBnmu/reOpxXBOfGmQF7kzGe+ImSsnuFxrBvU4h
+	 qLc3n/oSL2QfmEGBS4rLVZtVMjeQ3u/fRyVs+OK3NGxfDQHTYiaPlBlcyd6NNx3Sqj
+	 p1vLLEAo3PWYA==
+Received: from mail.realtek.com (rtexh36506.realtek.com.tw[172.21.6.27])
+	by rtits2.realtek.com.tw (8.15.2/3.13/5.93) with ESMTPS id 55B0WAHq83864311
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 11 Jun 2025 08:32:10 +0800
+Received: from RTEXMBS06.realtek.com.tw (172.21.6.99) by
+ RTEXH36506.realtek.com.tw (172.21.6.27) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 11 Jun 2025 08:32:10 +0800
+Received: from RTEXMBS04.realtek.com.tw (172.21.6.97) by
+ RTEXMBS06.realtek.com.tw (172.21.6.99) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.35; Wed, 11 Jun 2025 08:32:10 +0800
+Received: from RTEXMBS04.realtek.com.tw ([fe80::4c19:b586:6e71:3622]) by
+ RTEXMBS04.realtek.com.tw ([fe80::4c19:b586:6e71:3622%5]) with mapi id
+ 15.01.2507.035; Wed, 11 Jun 2025 08:32:10 +0800
+From: Ping-Ke Shih <pkshih@realtek.com>
+To: Bitterblue Smith <rtl8821cerfe2@gmail.com>,
+        kernel test robot
+	<lkp@intel.com>,
+        "linux-wireless@vger.kernel.org"
+	<linux-wireless@vger.kernel.org>
+CC: "llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+        "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
+Subject: RE: [PATCH rtw-next v2 14/14] wifi: rtw89: Enable the new USB modules
+Thread-Topic: [PATCH rtw-next v2 14/14] wifi: rtw89: Enable the new USB
+ modules
+Thread-Index: AQHb2XV4UvlgvG5pOESwpZNcSugO9rP7xDMAgAAbN4CAATzvcA==
+Date: Wed, 11 Jun 2025 00:32:10 +0000
+Message-ID: <01eb10716bdb4241a012d378d1f7b67d@realtek.com>
+References: <663044d3-0816-4b1b-874d-776835e774e9@gmail.com>
+ <202506101956.cNXM2Qvb-lkp@intel.com>
+ <b8690413-059d-4330-992b-36a7af10aa30@gmail.com>
+In-Reply-To: <b8690413-059d-4330-992b-36a7af10aa30@gmail.com>
+Accept-Language: en-US, zh-TW
+Content-Language: zh-TW
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
-From: Jiri Kosina <jkosina@suse.com>
-
-ptl_ddata is local to pci-quicki2c.c, so it'd better be static.
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202505171535.Yrj5T8jh-lkp@intel.com/
-Signed-off-by: Jiri Kosina <jkosina@suse.com>
----
-
-This is now in hid.git#for-6.17/intel-thc
-
- drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-index 208e933e23d8..e944a6ccb776 100644
---- a/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-+++ b/drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-@@ -21,7 +21,7 @@
- #include "quicki2c-hid.h"
- #include "quicki2c-protocol.h"
- 
--struct quicki2c_ddata ptl_ddata = {
-+static struct quicki2c_ddata ptl_ddata = {
- 	.max_detect_size = MAX_RX_DETECT_SIZE_PTL,
- };
- 
--- 
-Jiri Kosina
-SUSE Labs
-
+PiA+DQo+ID4+PiBkcml2ZXJzL25ldC93aXJlbGVzcy9yZWFsdGVrL3J0dzg5L3J0dzg4NTFiLmM6
+NTIzOjQ3OiBlcnJvcjogdXNlIG9mIHVuZGVjbGFyZWQgaWRlbnRpZmllcg0KPiAnQl9BWF9TT1Bf
+RURTV1InDQo+ID4gICAgICA1MjMgfCAgICAgICAgICAgICAgICAgcnR3ODlfd3JpdGUzMl9jbHIo
+cnR3ZGV2LCBSX0FYX1NZU19QV19DVFJMLCBCX0FYX1NPUF9FRFNXUik7DQo+ID4gICAgICAgICAg
+fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICBeDQo+ID4gICAgMSBlcnJvciBnZW5lcmF0ZWQuDQo+ID4NCj4gT29wcywgSSdsbCBhZGQg
+dGhhdCB0byByZWcuaCBpbiB2My4NCg0KVGhlIE5BUEkgYWxzbyByZXBvcnRlZCB0aGUgc2FtZSB0
+aGluZ3MgWzFdIFsyXS4NCg0KTm90IHN1cmUgaWYgeW91IHdpbGwgc2VuZCB2MyByaWdodCBhd2F5
+LiBJZiBzbywgSSB3aWxsIGlnbm9yZSB2Mi4gDQoNClsxXSBodHRwOi8vd2lmaWJvdC5zaXBzb2x1
+dGlvbnMubmV0L3Jlc3VsdHMvOTY5OTgwLzE0MTExMTg3L2J1aWxkXzMyYml0L3N0ZGVycg0KWzJd
+IGh0dHBzOi8vcGF0Y2h3b3JrLmtlcm5lbC5vcmcvcHJvamVjdC9saW51eC13aXJlbGVzcy9saXN0
+Lz9zZXJpZXM9OTY5OTgwDQoNCg==
