@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BA3A225771
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 23:06:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 932F12E1723
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 23:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749769573; cv=none; b=U/X+MWg50ebah5vjfAgnd5dWCkAcHKlQCfJst0GQffpjePAN+kWyD6iUPWzEfCURXJh2kL6GLrSzs/Q2T2JaioBfZgOaBZryl3PGlET9yYnEk2LOFZ2okmWSGeLey5gorvizl4EuvAqpWtXopEk6G0VIFsCzprZS9ybjypC0uls=
+	t=1749772095; cv=none; b=MHr2cyWyr+3nhH3BBIW0CU3XHtkMaLcZw0cpfKhEc4wae4JnIb/bctJ0O+yLoz/a3x2KxeJ7+RfHc3N6QrKSz73TRvwMvTYI/NcHuhQOxEHPQhFk7MaxWaT01+2+qHarlJnW6Khm+cWhn0MkewpxSOevx43nil/mFLjldmVvUQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749769573; c=relaxed/simple;
-	bh=42DxeMH18pStU8d+i4uYd8J1GvuEtr28iSqW77gs9R0=;
+	s=arc-20240116; t=1749772095; c=relaxed/simple;
+	bh=KUX9l8VWrXjmpPz/FwupoI5o6Lant+Mgykmp40HBbpE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=QnHAY7swCiu4qIlnyWAcuF2W/i/uVz+pY9LKAKmD7wPJlUfb0iBhTH7C6tTDzbf2V2EpZvkP2qOQ/xLV8hWosMj8A+5Ekfn5hFjJl3t85neQaIFEVjExlEdxIBq/Km9r5pMP9rmOTUiy67AD61DXish9+b95r1VVXVCYsdxrIyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A1mc/uKm; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=QuPzq5mB8a224DrNSDLo3YLb+GUy9KOIxe+m16O9tqTEk4jhfMAVVWUDETfzrL0368Yvy5kYrgHe9cWe3gFotqb0wHiZb2alufwYKKKe+PbnepsoYG1JaDewp2sl/0n9itHmVfAjsB7XFHjW8a5Qx9PY38NEh8JW4S2y9aKLxiU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JvJUgdd/; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A1mc/uKm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JvJUgdd/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749769572; x=1781305572;
+  t=1749772094; x=1781308094;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=42DxeMH18pStU8d+i4uYd8J1GvuEtr28iSqW77gs9R0=;
-  b=A1mc/uKmzfMT3K34X9FTFb+Uum0OHT2qCQIfSvXAWBHrLPR1M43hz8xb
-   uzWPBmn8jvOmOAOq8a4OQb2R05AKdPA4HAWfuFI3P1i5OGaWcoHZCanHe
-   I850HM+kVfQX+XPMrGm52G9lt/7DkLrmWwkrUF0AILYFg9PXtxsV6Z9SW
-   NfOl9nD4Yd9yPceNlcKNmznpVVmrPwHBPaSGyqpWHx61bUllg9dPBs1tb
-   lylUfnyKW3Xf8gh8C2ehf/LKeTSroTfSHwHKb/lVzUJmPTOlTB9SzDlWb
-   ZKKfjIrOG+xAt/6/hBmswEOfP9nyI87AELoqpXhOqIGL0jVS6ENQZxkZG
-   Q==;
-X-CSE-ConnectionGUID: lgrSdx1xQYWvfwSsdYt4ng==
-X-CSE-MsgGUID: wyU2ebdBSqWHHxt7IRxfYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="69543024"
+  bh=KUX9l8VWrXjmpPz/FwupoI5o6Lant+Mgykmp40HBbpE=;
+  b=JvJUgdd/2dr3cwPagacL6kW5QOZFfJoY31EC4YX7eoxpNNnaPy9jj21R
+   Cc9y3uRs2QhNme2y5x1xHp3260BWUaxnaDehSaFGCV5cEFvHL6sns5oQB
+   qEJb8gLouijh3QehQ+A59BGyu8yLxT6Ggh7pBjD2X9w+dvvKRCCRsFabV
+   J8op+geuYdInsOLoj/140idIybds+wrr7Tu1m7xnGYB9+uGo8k6FzrBLf
+   NywzA3fcB2/cn90nhZMXtBLSJudvy/gKotnmDCphfLvE2ker9mCD3xzLf
+   Z3aj/T07itd+fk/vk30DSovY0JCQ8E1O39b1SQt8ogqqjahK80qslOZSi
+   A==;
+X-CSE-ConnectionGUID: tyQpnryPSFqwhhofEpl+ag==
+X-CSE-MsgGUID: tbF2y6VCQLyGmriBEk4KIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="51691297"
 X-IronPort-AV: E=Sophos;i="6.16,232,1744095600"; 
-   d="scan'208";a="69543024"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 16:06:11 -0700
-X-CSE-ConnectionGUID: qKQJ8m/FTP+l3e1RF3Re7A==
-X-CSE-MsgGUID: fvmexS/ERFSOi2NMLBK/3Q==
+   d="scan'208";a="51691297"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 16:48:14 -0700
+X-CSE-ConnectionGUID: ZudGs++7TQOTvWHMcGUi9Q==
+X-CSE-MsgGUID: 4Hcmdhw/RKGPUeyjMtLBew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,232,1744095600"; 
-   d="scan'208";a="152946596"
+   d="scan'208";a="170848381"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 12 Jun 2025 16:06:10 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 12 Jun 2025 16:48:12 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPqzm-000C16-2G;
-	Thu, 12 Jun 2025 23:06:06 +0000
-Date: Fri, 13 Jun 2025 07:05:39 +0800
+	id 1uPreT-000C2Q-2U;
+	Thu, 12 Jun 2025 23:48:09 +0000
+Date: Fri, 13 Jun 2025 07:47:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org,
-	Takashi Iwai <tiwai@suse.de>
-Subject: [tiwai-sound:for-next 10/18] mixer_quirks.c:undefined reference to
- `input_close_device'
-Message-ID: <202506130733.gnPKw2l3-lkp@intel.com>
+To: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [daveh-devel:testme 7/9] arch/x86/mm/tlb.c:311:53: error:
+ 'MAX_GLOBAL_ASID' undeclared; did you mean 'NR_GLOBAL_ASIDS'?
+Message-ID: <202506130715.wK1WG6vG-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,38 +62,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-head:   30f85eddbdebba7665f9b7b772821e588547ca9e
-commit: 79d561c4ec0497669f19a9550cfb74812f60938b [10/18] ALSA: usb-audio: Add mixer quirk for Sony DualSense PS5
-config: nios2-randconfig-001-20250613 (https://download.01.org/0day-ci/archive/20250613/202506130733.gnPKw2l3-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250613/202506130733.gnPKw2l3-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daveh/devel.git testme
+head:   733c4f3de1b68afd5fad839dbcd1806a3d29e1e0
+commit: bb1b4a810e5639c9d98aabc03375eeb1d8a88b57 [7/9] NR_GLOBAL_ASIDS
+config: x86_64-buildonly-randconfig-004-20250613 (https://download.01.org/0day-ci/archive/20250613/202506130715.wK1WG6vG-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250613/202506130715.wK1WG6vG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506130733.gnPKw2l3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506130715.wK1WG6vG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   nios2-linux-ld: sound/usb/mixer_quirks.o: in function `snd_dualsense_ih_disconnect':
->> mixer_quirks.c:(.text+0x25d8): undefined reference to `input_close_device'
->> mixer_quirks.c:(.text+0x25d8): relocation truncated to fit: R_NIOS2_CALL26 against `input_close_device'
->> nios2-linux-ld: mixer_quirks.c:(.text+0x25e0): undefined reference to `input_unregister_handle'
->> mixer_quirks.c:(.text+0x25e0): relocation truncated to fit: R_NIOS2_CALL26 against `input_unregister_handle'
-   nios2-linux-ld: sound/usb/mixer_quirks.o: in function `snd_dualsense_mixer_elem_free':
->> mixer_quirks.c:(.text+0x26f0): undefined reference to `input_unregister_handler'
->> mixer_quirks.c:(.text+0x26f0): relocation truncated to fit: R_NIOS2_CALL26 against `input_unregister_handler'
-   nios2-linux-ld: sound/usb/mixer_quirks.o: in function `snd_dualsense_ih_connect':
->> mixer_quirks.c:(.text+0x2d8c): undefined reference to `input_register_handle'
->> mixer_quirks.c:(.text+0x2d8c): relocation truncated to fit: R_NIOS2_CALL26 against `input_register_handle'
->> nios2-linux-ld: mixer_quirks.c:(.text+0x2d9c): undefined reference to `input_open_device'
->> mixer_quirks.c:(.text+0x2d9c): relocation truncated to fit: R_NIOS2_CALL26 against `input_open_device'
-   nios2-linux-ld: mixer_quirks.c:(.text+0x2dac): undefined reference to `input_unregister_handle'
-   mixer_quirks.c:(.text+0x2dac): relocation truncated to fit: R_NIOS2_CALL26 against `input_unregister_handle'
-   nios2-linux-ld: sound/usb/mixer_quirks.o: in function `snd_dualsense_jack_create':
->> mixer_quirks.c:(.text+0x2f30): undefined reference to `input_register_handler'
->> mixer_quirks.c:(.text+0x2f30): relocation truncated to fit: R_NIOS2_CALL26 against `input_register_handler'
+   arch/x86/mm/tlb.c: In function 'allocate_global_asid':
+>> arch/x86/mm/tlb.c:311:53: error: 'MAX_GLOBAL_ASID' undeclared (first use in this function); did you mean 'NR_GLOBAL_ASIDS'?
+     311 |         asid = find_next_zero_bit(global_asid_used, MAX_GLOBAL_ASID, last_global_asid);
+         |                                                     ^~~~~~~~~~~~~~~
+         |                                                     NR_GLOBAL_ASIDS
+   arch/x86/mm/tlb.c:311:53: note: each undeclared identifier is reported only once for each function it appears in
+
+
+vim +311 arch/x86/mm/tlb.c
+
+   300	
+   301	static u16 allocate_global_asid(void)
+   302	{
+   303		u16 asid;
+   304	
+   305		lockdep_assert_held(&global_asid_lock);
+   306	
+   307		/* The previous allocation hit the edge of available address space */
+   308		if (last_global_asid >= HIGHEST_GLOBAL_ASID)
+   309			reset_global_asid_space();
+   310	
+ > 311		asid = find_next_zero_bit(global_asid_used, MAX_GLOBAL_ASID, last_global_asid);
+   312	
+   313		if (asid >= MAX_GLOBAL_ASID & !global_asid_available) {
+   314			/* This should never happen. */
+   315			VM_WARN_ONCE(1, "Unable to allocate global ASID despite %d available\n",
+   316					global_asid_available);
+   317			return 0;
+   318		}
+   319	
+   320		/* Claim this global ASID. */
+   321		__set_bit(asid, global_asid_used);
+   322		last_global_asid = asid;
+   323		global_asid_available--;
+   324		return asid;
+   325	}
+   326	
 
 -- 
 0-DAY CI Kernel Test Service
