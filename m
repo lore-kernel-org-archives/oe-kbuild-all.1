@@ -1,152 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mout.web.de (mout.web.de [212.227.15.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BFB529A327
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 18:15:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EDB624678F;
+	Thu, 12 Jun 2025 20:25:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749752149; cv=none; b=XRSyaJerWimisSXeMTQ7FVkaw9P84bo7K9tMH2kDtRk63QCLezkkAltrmAxeAuhmByQZ5Arts6e/sfHVyIt+vf/ujwwjjE6HnqafRWvFc7sOKybnAcxQINIDueqBSm8oNNPk9yk7ukjtvYjNAup3eBPep2vPeTklY4HmMEjUpV0=
+	t=1749759918; cv=none; b=eeO2swt1vI9rZuSwtC2CgVM9t/cB3bOckcfx/UL77+SMpJGRCfHJNALvEtu8Kuc0L/wSmxlTIpS+M3/nlsF3sngHRLk5NlnD4s7uFccs9KV8u88iHtVQPCgsDTwl33oLdcg9KBgCC2TgN1/QtsWFhS1XiRKPXp0gzQf9cxderfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749752149; c=relaxed/simple;
-	bh=4OofUxrS1VHn2NikWkMKBtNsbAo1AC+xDhX2JTKKUZU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d79wF9Igm9frZZibc3/+iUhmP/QF3rGrQoFyeLnheFQe8uLA9ilieYHm2YDtfr7RA/dq9+aEuMkAoUgH7EyVEaRTz/6+62MBwC9ID4CHO3GcnqJVfAHZvsT2ijr/9PsVIiUkbjj6GmDV1mHxIqVo2PWE3DfnpAA+jtja1+M2Nqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QD3mk8JJ; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1749759918; c=relaxed/simple;
+	bh=l//TA/wIxUleMp15iIiBD/Mnz0+P2PcGzVXJQCu7cgo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IJH9nMXzmKR0LJpK3loEVfXiUzfmwMfUEVZeew/96zCw4PSDvB8tBwZoZWiBGEZ9DBOGEz+a4i/bBNkc72Wve2iTG1UWROo5T0C+MkdICqHrSGaLj+jeZ+41ZSymbwFX/AycXY4XwknCazHztUYen0YEKMN/e7O+1pp75WujCMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=JtxOZU0B; arc=none smtp.client-ip=212.227.15.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QD3mk8JJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749752148; x=1781288148;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4OofUxrS1VHn2NikWkMKBtNsbAo1AC+xDhX2JTKKUZU=;
-  b=QD3mk8JJIFzzkgnZdWtI/u612YZzpHaK2oMQA3cqPe/QzxshiXE2pF+9
-   8di4GBJxMvrCGNOF6R0KnBhymCclbnU692LYJVSUCHFQg5qc1Dcw3f+db
-   4i3cMIVstIZQk4Ua84c34bpllfexHE8FB49ITmk6Wn1CPbgCk3G892mlk
-   k/qc/1Vyz25lz1lTLMV0BzO0ZLU0d37a2/EsMGD4NZF1ODGbedXUfPch5
-   w/5CWMfT7D5PpZ6x4TkUk67gs+NwybepHhRxCtJundu2vHrBC7PCsU48E
-   dYdxCtWumMmdeXhXtv8cPfSxHL0yXO5Gj5tZzxGkskx7JYff6F67Mm16R
-   A==;
-X-CSE-ConnectionGUID: W8FvlaK2TdeDMu4FoKtPGA==
-X-CSE-MsgGUID: MtqNxn/tR+CAMOkt334Tag==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="62228331"
-X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; 
-   d="scan'208";a="62228331"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 11:15:47 -0700
-X-CSE-ConnectionGUID: jdO72gOWSsyQQXv8GZky7Q==
-X-CSE-MsgGUID: dZNBe+geS7+6msjZDxxpBw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; 
-   d="scan'208";a="147511276"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 12 Jun 2025 11:15:43 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uPmSi-000BrG-2m;
-	Thu, 12 Jun 2025 18:15:40 +0000
-Date: Fri, 13 Jun 2025 02:15:14 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chiang Brian <chiang.brian@inventec.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
-Cc: oe-kbuild-all@lists.linux.dev, Chiang Brian <chiang.brian@inventec.com>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org
-Subject: Re: [PATCH v9 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
-Message-ID: <202506130217.6OQ8zSf5-lkp@intel.com>
-References: <20250610102556.236300-3-chiang.brian@inventec.com>
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="JtxOZU0B"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1749759910; x=1750364710; i=markus.elfring@web.de;
+	bh=l//TA/wIxUleMp15iIiBD/Mnz0+P2PcGzVXJQCu7cgo=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=JtxOZU0Bb0KCjL9undv45j90FKoU0oXbT5ZXeDKxESLRRyeH27izkwlNfCqD/xB1
+	 eupaVVNcSWV/pQ5BhiRZHjMWjCixqahN1FpSa7sIWJVYdr8G52EoSJWxsZ0mooDr9
+	 lpGPPzZDW4LhS8yYosXle0boqUmhmoZ8PmflJebw70C/P0VomAnJT16DrUIbnuvMj
+	 G49qSrG0iDoIxjo50WIbu+EX2ynnadglzcglZnAqpSrx2ZqnT11na3mp5MxPrSDrr
+	 2jt7p3m7HwjbOw8lbp4pTKyUz8uEwFwZKuqcGGvHQRTHB3TxKaf1sL34EmOamX5RR
+	 8ZOVnylZ05HUdBQA+w==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.213]) by smtp.web.de (mrweb006
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MK574-1u6dTM0xYc-00YXDn; Thu, 12
+ Jun 2025 22:25:10 +0200
+Message-ID: <a0f391bd-4bea-41c9-8c4c-cc1237261e0c@web.de>
+Date: Thu, 12 Jun 2025 22:25:08 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250610102556.236300-3-chiang.brian@inventec.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v3] drm/amd/display: Fix exception handling in
+ dm_validate_stream_and_context()
+To: Melissa Wen <mwen@igalia.com>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org
+Cc: Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>,
+ Aurabindo Pillai <aurabindo.pillai@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+ Dominik Kaszewski <dominik.kaszewski@amd.com>,
+ Fangzhi Zuo <Jerry.Zuo@amd.com>, Harry Wentland <harry.wentland@amd.com>,
+ Leo Li <sunpeng.li@amd.com>, Mario Limonciello <mario.limonciello@amd.com>,
+ Roman Li <roman.li@amd.com>, Simona Vetter <simona@ffwll.ch>,
+ Tom Chung <chiahsuan.chung@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
+ LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org,
+ lkp@intel.com, oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev,
+ cocci@inria.fr
+References: <f9303bdc-b1a7-be5e-56c6-dfa8232b8b55@web.de>
+ <e6656c83-ee7a-a253-2028-109138779c94@web.de>
+ <ea0ff67b-3665-db82-9792-67a633ba07f5@web.de>
+ <32674bac-92c2-8fc7-0977-6d2d81b3257f@amd.com>
+ <da489521-7786-4716-8fb8-d79b3c08d93c@web.de>
+ <8684e2ba-b644-44c8-adf7-9f1423a1251d@web.de>
+ <5ebybqjohsoz7qhsenufkpkkw52w6tgikkbrzpegwotmefhnpn@m2cnzvsfai7v>
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <5ebybqjohsoz7qhsenufkpkkw52w6tgikkbrzpegwotmefhnpn@m2cnzvsfai7v>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:CwmAqMJtLC/WOX/lrln3aBeTTfzPJqj7veTvO0d7RPoT+Y3/0x2
+ AUU2rmDO2pYs/7lyefDrbNyuFHKGmp7+SKOtv9CFLhYt8x5gCete32jmT96nsZqLwM9BCAM
+ JoihQ6ARUa6+c1VrSTcPQNxBSw3tiwIhWuMvjzIJk8oXZLyWr6ahx/ai4C4md4+8I8EVlKw
+ sBja6Xq/hztnkH89OaHjw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:ktVqxSortBc=;8nMd/P9Mkb4oM6NrEJRSTJVAxNq
+ 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
+ 1j8v78ikg+0Dj83zdoN+HSdtzmCmn4nvu+NpSA==
 
-Hi Chiang,
+>> Reported-by: kernel test robot <lkp@intel.com>
+>> Closes: https://lore.kernel.org/oe-kbuild-all/202506100312.Ms4XgAzW-lkp=
+@intel.com/
+>=20
+> As the patch wasn't merged yet, don't add these two kernel-bot-related l=
+ines.
 
-kernel test robot noticed the following build warnings:
+Can such information eventually be omitted also by a final committer (main=
+tainer)?
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on groeck-staging/hwmon-next krzk-dt/for-next linus/master v6.16-rc1 next-20250612]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chiang-Brian/hwmon-pmbus-tps53679-Add-support-for-TPS53685/20250610-192612
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250610102556.236300-3-chiang.brian%40inventec.com
-patch subject: [PATCH v9 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
-config: s390-randconfig-r073-20250611 (https://download.01.org/0day-ci/archive/20250613/202506130217.6OQ8zSf5-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506130217.6OQ8zSf5-lkp@intel.com/
-
-smatch warnings:
-drivers/hwmon/pmbus/tps53679.c:288 tps53679_probe() warn: inconsistent indenting
-
-vim +288 drivers/hwmon/pmbus/tps53679.c
-
-   249	
-   250	static int tps53679_probe(struct i2c_client *client)
-   251	{
-   252		struct device *dev = &client->dev;
-   253		struct pmbus_driver_info *info;
-   254		enum chips chip_id;
-   255	
-   256		if (dev->of_node)
-   257			chip_id = (uintptr_t)of_device_get_match_data(dev);
-   258		else
-   259			chip_id = i2c_match_id(tps53679_id, client)->driver_data;
-   260	
-   261		info = devm_kmemdup(dev, &tps53679_info, sizeof(*info), GFP_KERNEL);
-   262		if (!info)
-   263			return -ENOMEM;
-   264	
-   265		switch (chip_id) {
-   266		case tps53647:
-   267		case tps53667:
-   268			info->pages = TPS53647_PAGE_NUM;
-   269			info->identify = tps53679_identify;
-   270			break;
-   271		case tps53676:
-   272			info->identify = tps53676_identify;
-   273			break;
-   274		case tps53679:
-   275		case tps53688:
-   276			info->pages = TPS53679_PAGE_NUM;
-   277			info->identify = tps53679_identify;
-   278			break;
-   279		case tps53681:
-   280			info->pages = TPS53679_PAGE_NUM;
-   281			info->phases[0] = 6;
-   282			info->identify = tps53681_identify;
-   283			info->read_word_data = tps53681_read_word_data;
-   284			break;
-   285		case tps53685:
-   286		    info->pages = TPS53679_PAGE_NUM;
-   287		    info->identify = tps53685_identify;
- > 288			break;
-   289		default:
-   290			return -ENODEV;
-   291		}
-   292	
-   293		return pmbus_do_probe(client, info);
-   294	}
-   295	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+Markus
