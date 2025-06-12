@@ -1,79 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16820A47
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 00:14:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354D6BA34
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 00:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749687294; cv=none; b=Ck7vQe+yFS/qJUvFRLNr/YMqq6e2AtF6WOuTG3RWT/TGdKMMLcIMLlGcX2v8YAw3/AE0mAX2IIiva9ij7v+FGhGNJ0de8h8s1kV1H3YUos1IWT32sAA0mDsKNW8yLrHFy2PU7Qak7lqqPR3khhtwHfQFIDbBmefLuj5SdXCqrhY=
+	t=1749687831; cv=none; b=dH7twMN7pqP4W9xp5DcE5WoLSFthvKeMHLkaTC6KkYj30G8NxTOfTyK7F7axb5dq9Fb0/FuBfQYg1S+5ytnHXNQ9s1GHpuDivR1lTGXhxWbRJl8xZqSCsHQFmxZc4Oc6D6nthKyy3RVxuGG8B07nMGUGoZwZPGubZK9XRnCI4LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749687294; c=relaxed/simple;
-	bh=3+i/qQYgvBYTLJ9rk46HeDginwQWUDS8zT4mmWEEUrE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bxvk/LsnwRTwl6zKU+pd2EQOtBNFXqtLXnp3kDDJ7Z1cp33NwRqXbTvaC1nGPfWxqYZsyVcxEUlmivVxtSEsPRdica/RuoRLurVj2ty7cTw/9rGlef0rPf+B3NWWqOYf1BG3HprW02Xz/muSPSK+cc/AvhD+2d0CfHdwOG+JOBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XncBIGu1; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1749687831; c=relaxed/simple;
+	bh=zzyT5Gcb0oGSG/QbZlaf7uMoiLkoSuSWyXN9FeI7puk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=jt4BKPDGXXQ1aSlHd7IKXzyAa+gcTaPHuzmcOZjBb7QoypXHbfL/R5IE+Vf3SHmwkSM/UEIzKoQF9+UtQrcGf63maF9NNBfYsJFbRLNrxXON3E6q4Ox5ZrWOvoV5rr5kXehJNL8Kw7DNkj+Q9Ubrl14BzDgDPJHgPLQIAzvyQhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lb3oGvzk; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XncBIGu1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lb3oGvzk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749687293; x=1781223293;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3+i/qQYgvBYTLJ9rk46HeDginwQWUDS8zT4mmWEEUrE=;
-  b=XncBIGu1SREir3faycrrnQsT4ZjGpxzPRFdmSwRKqFmPWKl9SOg6EGq2
-   zupDldq756YW5ol87VGNm2/fIn/dV1s8h63tNh2wNfPTDUK0sJhsub86O
-   f/qn5IET3c8+/CxxWc3AqJ9simrY+Tw4ISofZ+Fi0ZPnSSR3oZccgqVpG
-   7+BtpjBdtajkf32XZl3+4pI32oNhKsPNrlJH1z6FadI55UHuckoYeS6a8
-   7qCem+QPxgMq+qrtUBnUv1z+diYkScGMF3ncnCzkBn7tHU8WsKC4OxCVH
-   OQjEoeTum0OPWXJxZqGn1oKeIDCt8qd1sSKGiU/sjAhKTFwn25X5MKNwN
-   g==;
-X-CSE-ConnectionGUID: zByZEiZ2T/6DBEC6sUXwWg==
-X-CSE-MsgGUID: fuHys6YfRKGQhYWeHLJQPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="51727353"
+  t=1749687830; x=1781223830;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=zzyT5Gcb0oGSG/QbZlaf7uMoiLkoSuSWyXN9FeI7puk=;
+  b=Lb3oGvzkFXpjeUf7pgDvPNdNDf2syaWJgUp/9xHcYhAy/qKgkibOIMXU
+   3FeojnSOk3kyDmFqTix4sItT+AHqijMHPzWgd8kE6ly45sFn8rb8Q5NIW
+   4NEAC3ZWIpEU/isV92tkPCrVyxiKWLZKaK5QAmfONoQYeKH+96ux1VY66
+   yBACj42EVolvLe+4gx4plCDj4qb0P7z2PDAwwjY7KGSYBXq3hERabptew
+   k0CQqEk6Ce1baFoS8ipyFNXF9LR/7aab9IgR8ofBRqM0kBdNwbZaOMUnf
+   DaEc8l7ULWCS/+czn+u5i6Tg94n/Jkhpi9VBlyuC918cDnscEA/1jg92m
+   w==;
+X-CSE-ConnectionGUID: lE3RkUkZSlO+Fvai7+Bskw==
+X-CSE-MsgGUID: 3aH9T+JeQgq6gK0gjylzlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="51993335"
 X-IronPort-AV: E=Sophos;i="6.16,229,1744095600"; 
-   d="scan'208";a="51727353"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 17:14:52 -0700
-X-CSE-ConnectionGUID: 1f0u85CwQt2U7n5U0sxH2w==
-X-CSE-MsgGUID: +x7J175lRBSblLkppAz+cg==
+   d="scan'208";a="51993335"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 17:23:49 -0700
+X-CSE-ConnectionGUID: db44clUqSCqwkTRgf4kaGg==
+X-CSE-MsgGUID: qdJNRhGURxm/Jo4jQU9wdA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,229,1744095600"; 
-   d="scan'208";a="147842871"
+   d="scan'208";a="170523377"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 11 Jun 2025 17:14:47 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 11 Jun 2025 17:23:48 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPVae-000Ax0-2r;
-	Thu, 12 Jun 2025 00:14:44 +0000
-Date: Thu, 12 Jun 2025 08:14:40 +0800
+	id 1uPVjN-000AxC-1b;
+	Thu, 12 Jun 2025 00:23:45 +0000
+Date: Thu, 12 Jun 2025 08:23:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Anderson <sean.anderson@linux.dev>, netdev@vger.kernel.org,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Vineeth Karumanchi <vineeth.karumanchi@amd.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Daniel Golle <daniel@makrotopia.org>,
-	Simon Horman <horms@kernel.org>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Lei Wei <quic_leiwei@quicinc.com>,
-	Sean Anderson <sean.anderson@linux.dev>,
-	Michal Simek <monstr@monstr.eu>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	Robert Hancock <robert.hancock@calian.com>,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [net-next PATCH v6 06/10] net: pcs: Add Xilinx PCS driver
-Message-ID: <202506120722.o7HB1e60-lkp@intel.com>
-References: <20250610233134.3588011-7-sean.anderson@linux.dev>
+To: Karan Tilak Kumar <kartilak@cisco.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 1/5] scsi: fnic: Set appropriate logging level for log
+ message
+Message-ID: <aEoeCY0rgX79K2Cr@fa745dba57a8>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,33 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250610233134.3588011-7-sean.anderson@linux.dev>
+In-Reply-To: <20250612002212.4144-1-kartilak@cisco.com>
 
-Hi Sean,
+Hi,
 
-kernel test robot noticed the following build warnings:
+Thanks for your patch.
 
-[auto build test WARNING on net-next/main]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/dt-bindings-net-Add-Xilinx-PCS/20250611-143544
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250610233134.3588011-7-sean.anderson%40linux.dev
-patch subject: [net-next PATCH v6 06/10] net: pcs: Add Xilinx PCS driver
-config: sh-kismet-CONFIG_COMMON_CLK-CONFIG_PCS_XILINX-0-0 (https://download.01.org/0day-ci/archive/20250612/202506120722.o7HB1e60-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250612/202506120722.o7HB1e60-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506120722.o7HB1e60-lkp@intel.com/
-
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for COMMON_CLK when selected by PCS_XILINX
-   WARNING: unmet direct dependencies detected for COMMON_CLK
-     Depends on [n]: !HAVE_LEGACY_CLK [=y]
-     Selected by [y]:
-     - PCS_XILINX [=y] && NETDEVICES [=y]
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2 1/5] scsi: fnic: Set appropriate logging level for log message
+Link: https://lore.kernel.org/stable/20250612002212.4144-1-kartilak%40cisco.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
