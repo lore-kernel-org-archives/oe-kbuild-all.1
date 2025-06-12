@@ -1,339 +1,173 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BF441DDC07
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 06:16:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF55414A8B;
+	Thu, 12 Jun 2025 06:16:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749708985; cv=none; b=KaJHZrB621VWeTuBPJ1MKZcneHeuvPagCdYDf576DTxDX6p4kfxErnNN9TRHrPZrcKKBw0vOWApbjszdmNitXFo/Jo6q3xt/4DEMxuAx3QkW13bQA1I60R4eYFh9/3tPPIWfynVWHdc8FGUcblqqHeXqRauHuv/fhry8z3MLoio=
+	t=1749708985; cv=none; b=S7XjtA8RMbFAC07umjrXptrZFKOMFV9T5CjmujCMM6lw0avoq0JeMJKgAbJ1Mwv7LWRyu/Gq7EVHI3d5/5B8gbETpnD7Qkt+oeMZMlkjmlVLjJ/lvCCy7PAv9hSieZErSpeJm3qBXbhIMQEYSFnbOe1rXVhWpZuNNrbfL6YpvTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1749708985; c=relaxed/simple;
-	bh=pNxMwyjxGg+w/EbXpJNfKxMClpP6cWdjEKO7p4RzZbo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SDGp3U+awHSCO0Rp6KsmVMrZ+7SgkkJX/lflpcCqf2GY3x+/AATbrSgIhEnGAPmELWgrtKiCcBkEKLVmWkiqjKBfcpgS+I3bFpkYGniQaPR4MUrUeZdDzl3epkRWPEUCfSbJz/Fr3eMteF+gunkr9PW2faR8OY7bQdQIVahrIf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VvO44smL; arc=none smtp.client-ip=198.175.65.21
+	bh=X/61lWTuUq6sXz6ih75vVOSfAxpdgkAoSrIQ5x3rmDw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fDr1o73cyldfDQhW38v7/FAJZhWPY7oFMGqHwA5hEBAcN5oSaurbEA9n38/gcF8p1axo7FPUlhFT27V3gn7xXQSIa+xXtR98CK1EsNwo2xXpFXwUc2tQJVTLLopf5BmVwxf/buQ2wYXJxnqDSK/Nxqi6zBuf3uc5wKJ7xQvgFoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fWz465Cd; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VvO44smL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWz465Cd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749708983; x=1781244983;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pNxMwyjxGg+w/EbXpJNfKxMClpP6cWdjEKO7p4RzZbo=;
-  b=VvO44smLYqAiV89B+d6bn+E4GLyX5HLjAu5tcqXXCZu55jOe1dRheG3H
-   XPUGUbuXFLgdnDr9LIaB75JLzrJ7eZfmASI4q2Nghy/MiEQ3J58j8VeaK
-   N+4HJlc5bElf+7phKY9ncBSv7WAu9tqVdtsEpspUCmPMMml9Ijduo6WCU
-   OBhiwCe5ZM++C16FTpdIPIz7AcApAq5TBuVMFeLHJVp7JIXFrN6UTakRb
-   m6zWRFLR/tW4o4E5HWe6zKs/fSxWpo402oatOpRTPCLP9jUYb2fcQX6B5
-   FYBvMwlot2Lxc7AzWQ/hDQBFsiEY3sAZQ5Rp3qHkvjtOLN69ix1hsqjAQ
-   Q==;
-X-CSE-ConnectionGUID: 2H3b2er3SzCynbfQSNy7WA==
-X-CSE-MsgGUID: 2dz3t80kRLmIUqwO8X8q3A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="51740935"
+  t=1749708984; x=1781244984;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=X/61lWTuUq6sXz6ih75vVOSfAxpdgkAoSrIQ5x3rmDw=;
+  b=fWz465CdyDJn50+mAzWF3TvFZP5lgvXz+RWahS32Csinfz8pwkHUdwez
+   Gxtr/9U4eUIiro3Aixb+Lj44GUb0Wdphqq1YjA0ijGz+Bd5ldaYwG8cbW
+   47y5+x7h+h65QedvMt3ZYyyRlHpSEWjsNsWdPjSkccFXWLOZiOXCcZOad
+   i6Cz9IvKgi5hhN1kCe+Zs+t3vL/j+mcwKGDwTNxTHfp1qEVwralfyKOt+
+   DyNdPFopCHClU05MZ28pamI+GuKwQUwUuCmEdOUzF92qN5cWFjA9dkL+I
+   GJeatWzFKe3sqhqGZEblkvS6RiJKL63NyKoFsL+ZLRbg7GniBlcaBEO1e
+   w==;
+X-CSE-ConnectionGUID: ERUORYBXRNWNls8B+WQtWA==
+X-CSE-MsgGUID: r+2bX2NzRmSLbZvZDVapVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="51740938"
 X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; 
-   d="scan'208";a="51740935"
+   d="scan'208";a="51740938"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
   by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2025 23:16:21 -0700
-X-CSE-ConnectionGUID: VhNSBeOtTg+9ypVWIxW3Iw==
-X-CSE-MsgGUID: VD2XRT/KTOurlFXlykXPQg==
+X-CSE-ConnectionGUID: vXvrm4AnQseEzJjhQsQxvQ==
+X-CSE-MsgGUID: utpPMpXiRiauBNSfxWtEbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; 
-   d="scan'208";a="151227578"
+   d="scan'208";a="151227580"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 11 Jun 2025 23:16:19 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPbEX-000BC6-1f;
+	id 1uPbEX-000BC4-1a;
 	Thu, 12 Jun 2025 06:16:17 +0000
-Date: Thu, 12 Jun 2025 14:15:43 +0800
+Date: Thu, 12 Jun 2025 14:15:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 0/141] mm/swapfile.c:775:5:
- warning: no previous prototype for function 'scan_swap_map_slots'
-Message-ID: <202506121439.PID1gWc4-lkp@intel.com>
+To: Da Xue <da@libre.computer>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC] spi: expand bits_per_word_mask to 64 bits
+Message-ID: <202506121333.aBBVT88v-lkp@intel.com>
+References: <20250611000516.1383268-1-da@libre.computer>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250611000516.1383268-1-da@libre.computer>
 
-Hi Bing,
+Hi Da,
 
-FYI, the error/warning still remains.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   b185a6ede2f07a9c35a68b13b3ba9d3abf114a5d
-commit: 06c2766cbc9923d67d45fc191c467b5e2685175d [0/141] ANDROID: mm: export symbols used in vendor hook android_vh_get_swap_page()
-config: x86_64-buildonly-randconfig-002-20250612 (https://download.01.org/0day-ci/archive/20250612/202506121439.PID1gWc4-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250612/202506121439.PID1gWc4-lkp@intel.com/reproduce)
+[auto build test WARNING on broonie-spi/for-next]
+[also build test WARNING on jic23-iio/togreg staging/staging-testing staging/staging-next staging/staging-linus linus/master v6.16-rc1 next-20250611]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Da-Xue/spi-expand-bits_per_word_mask-to-64-bits/20250611-104431
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20250611000516.1383268-1-da%40libre.computer
+patch subject: [RFC] spi: expand bits_per_word_mask to 64 bits
+config: arm-randconfig-004-20250612 (https://download.01.org/0day-ci/archive/20250612/202506121333.aBBVT88v-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250612/202506121333.aBBVT88v-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506121439.PID1gWc4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506121333.aBBVT88v-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/swapfile.c:102:26: warning: no previous prototype for function 'swap_type_to_swap_info' [-Wmissing-prototypes]
-     102 | struct swap_info_struct *swap_type_to_swap_info(int type)
-         |                          ^
-   mm/swapfile.c:102:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     102 | struct swap_info_struct *swap_type_to_swap_info(int type)
-         | ^
-         | static 
->> mm/swapfile.c:775:5: warning: no previous prototype for function 'scan_swap_map_slots' [-Wmissing-prototypes]
-     775 | int scan_swap_map_slots(struct swap_info_struct *si,
-         |     ^
-   mm/swapfile.c:775:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     775 | int scan_swap_map_slots(struct swap_info_struct *si,
-         | ^
-         | static 
->> mm/swapfile.c:993:5: warning: no previous prototype for function 'swap_alloc_cluster' [-Wmissing-prototypes]
-     993 | int swap_alloc_cluster(struct swap_info_struct *si, swp_entry_t *slot)
-         |     ^
-   mm/swapfile.c:993:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     993 | int swap_alloc_cluster(struct swap_info_struct *si, swp_entry_t *slot)
-         | ^
-         | static 
-   3 warnings generated.
---
->> mm/swap_slots.c:93:6: warning: no previous prototype for function 'check_cache_active' [-Wmissing-prototypes]
-      93 | bool check_cache_active(void)
-         |      ^
-   mm/swap_slots.c:93:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      93 | bool check_cache_active(void)
-         | ^
-         | static 
+>> drivers/spi/spi-altera-dfl.c:150:25: warning: format specifies type 'unsigned int' but the argument has type 'u64' (aka 'unsigned long long') [-Wformat]
+     149 |         dev_dbg(dev, "%s cs %u bpm 0x%x mode 0x%x\n", __func__,
+         |                                      ~~
+         |                                      %llx
+     150 |                 host->num_chipselect, host->bits_per_word_mask,
+         |                                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:171:49: note: expanded from macro 'dev_dbg'
+     171 |         dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:139:35: note: expanded from macro 'dev_no_printk'
+     139 |                         _dev_printk(level, dev, fmt, ##__VA_ARGS__);    \
+         |                                                 ~~~    ^~~~~~~~~~~
    1 warning generated.
 
 
-vim +/scan_swap_map_slots +775 mm/swapfile.c
+vim +150 drivers/spi/spi-altera-dfl.c
 
-   774	
- > 775	int scan_swap_map_slots(struct swap_info_struct *si,
-   776				       unsigned char usage, int nr,
-   777				       swp_entry_t slots[])
-   778	{
-   779		struct swap_cluster_info *ci;
-   780		unsigned long offset;
-   781		unsigned long scan_base;
-   782		unsigned long last_in_cluster = 0;
-   783		int latency_ration = LATENCY_LIMIT;
-   784		int n_ret = 0;
-   785		bool scanned_many = false;
-   786	
-   787		/*
-   788		 * We try to cluster swap pages by allocating them sequentially
-   789		 * in swap.  Once we've allocated SWAPFILE_CLUSTER pages this
-   790		 * way, however, we resort to first-free allocation, starting
-   791		 * a new cluster.  This prevents us from scattering swap pages
-   792		 * all over the entire swap partition, so that we reduce
-   793		 * overall disk seek times between swap pages.  -- sct
-   794		 * But we do now try to find an empty cluster.  -Andrea
-   795		 * And we let swap pages go all over an SSD partition.  Hugh
-   796		 */
-   797	
-   798		si->flags += SWP_SCANNING;
-   799		/*
-   800		 * Use percpu scan base for SSD to reduce lock contention on
-   801		 * cluster and swap cache.  For HDD, sequential access is more
-   802		 * important.
-   803		 */
-   804		if (si->flags & SWP_SOLIDSTATE)
-   805			scan_base = this_cpu_read(*si->cluster_next_cpu);
-   806		else
-   807			scan_base = si->cluster_next;
-   808		offset = scan_base;
-   809	
-   810		/* SSD algorithm */
-   811		if (si->cluster_info) {
-   812			if (!scan_swap_map_try_ssd_cluster(si, &offset, &scan_base))
-   813				goto scan;
-   814		} else if (unlikely(!si->cluster_nr--)) {
-   815			if (si->pages - si->inuse_pages < SWAPFILE_CLUSTER) {
-   816				si->cluster_nr = SWAPFILE_CLUSTER - 1;
-   817				goto checks;
-   818			}
-   819	
-   820			spin_unlock(&si->lock);
-   821	
-   822			/*
-   823			 * If seek is expensive, start searching for new cluster from
-   824			 * start of partition, to minimize the span of allocated swap.
-   825			 * If seek is cheap, that is the SWP_SOLIDSTATE si->cluster_info
-   826			 * case, just handled by scan_swap_map_try_ssd_cluster() above.
-   827			 */
-   828			scan_base = offset = si->lowest_bit;
-   829			last_in_cluster = offset + SWAPFILE_CLUSTER - 1;
-   830	
-   831			/* Locate the first empty (unaligned) cluster */
-   832			for (; last_in_cluster <= si->highest_bit; offset++) {
-   833				if (si->swap_map[offset])
-   834					last_in_cluster = offset + SWAPFILE_CLUSTER;
-   835				else if (offset == last_in_cluster) {
-   836					spin_lock(&si->lock);
-   837					offset -= SWAPFILE_CLUSTER - 1;
-   838					si->cluster_next = offset;
-   839					si->cluster_nr = SWAPFILE_CLUSTER - 1;
-   840					goto checks;
-   841				}
-   842				if (unlikely(--latency_ration < 0)) {
-   843					cond_resched();
-   844					latency_ration = LATENCY_LIMIT;
-   845				}
-   846			}
-   847	
-   848			offset = scan_base;
-   849			spin_lock(&si->lock);
-   850			si->cluster_nr = SWAPFILE_CLUSTER - 1;
-   851		}
-   852	
-   853	checks:
-   854		if (si->cluster_info) {
-   855			while (scan_swap_map_ssd_cluster_conflict(si, offset)) {
-   856			/* take a break if we already got some slots */
-   857				if (n_ret)
-   858					goto done;
-   859				if (!scan_swap_map_try_ssd_cluster(si, &offset,
-   860								&scan_base))
-   861					goto scan;
-   862			}
-   863		}
-   864		if (!(si->flags & SWP_WRITEOK))
-   865			goto no_page;
-   866		if (!si->highest_bit)
-   867			goto no_page;
-   868		if (offset > si->highest_bit)
-   869			scan_base = offset = si->lowest_bit;
-   870	
-   871		ci = lock_cluster(si, offset);
-   872		/* reuse swap entry of cache-only swap if not busy. */
-   873		if (vm_swap_full() && si->swap_map[offset] == SWAP_HAS_CACHE) {
-   874			int swap_was_freed;
-   875			unlock_cluster(ci);
-   876			spin_unlock(&si->lock);
-   877			swap_was_freed = __try_to_reclaim_swap(si, offset, TTRS_ANYWAY);
-   878			spin_lock(&si->lock);
-   879			/* entry was freed successfully, try to use this again */
-   880			if (swap_was_freed)
-   881				goto checks;
-   882			goto scan; /* check next one */
-   883		}
-   884	
-   885		if (si->swap_map[offset]) {
-   886			unlock_cluster(ci);
-   887			if (!n_ret)
-   888				goto scan;
-   889			else
-   890				goto done;
-   891		}
-   892		WRITE_ONCE(si->swap_map[offset], usage);
-   893		inc_cluster_info_page(si, si->cluster_info, offset);
-   894		unlock_cluster(ci);
-   895	
-   896		swap_range_alloc(si, offset, 1);
-   897		slots[n_ret++] = swp_entry(si->type, offset);
-   898	
-   899		/* got enough slots or reach max slots? */
-   900		if ((n_ret == nr) || (offset >= si->highest_bit))
-   901			goto done;
-   902	
-   903		/* search for next available slot */
-   904	
-   905		/* time to take a break? */
-   906		if (unlikely(--latency_ration < 0)) {
-   907			if (n_ret)
-   908				goto done;
-   909			spin_unlock(&si->lock);
-   910			cond_resched();
-   911			spin_lock(&si->lock);
-   912			latency_ration = LATENCY_LIMIT;
-   913		}
-   914	
-   915		/* try to get more slots in cluster */
-   916		if (si->cluster_info) {
-   917			if (scan_swap_map_try_ssd_cluster(si, &offset, &scan_base))
-   918				goto checks;
-   919		} else if (si->cluster_nr && !si->swap_map[++offset]) {
-   920			/* non-ssd case, still more slots in cluster? */
-   921			--si->cluster_nr;
-   922			goto checks;
-   923		}
-   924	
-   925		/*
-   926		 * Even if there's no free clusters available (fragmented),
-   927		 * try to scan a little more quickly with lock held unless we
-   928		 * have scanned too many slots already.
-   929		 */
-   930		if (!scanned_many) {
-   931			unsigned long scan_limit;
-   932	
-   933			if (offset < scan_base)
-   934				scan_limit = scan_base;
-   935			else
-   936				scan_limit = si->highest_bit;
-   937			for (; offset <= scan_limit && --latency_ration > 0;
-   938			     offset++) {
-   939				if (!si->swap_map[offset])
-   940					goto checks;
-   941			}
-   942		}
-   943	
-   944	done:
-   945		set_cluster_next(si, offset + 1);
-   946		si->flags -= SWP_SCANNING;
-   947		return n_ret;
-   948	
-   949	scan:
-   950		spin_unlock(&si->lock);
-   951		while (++offset <= READ_ONCE(si->highest_bit)) {
-   952			if (data_race(!si->swap_map[offset])) {
-   953				spin_lock(&si->lock);
-   954				goto checks;
-   955			}
-   956			if (vm_swap_full() &&
-   957			    READ_ONCE(si->swap_map[offset]) == SWAP_HAS_CACHE) {
-   958				spin_lock(&si->lock);
-   959				goto checks;
-   960			}
-   961			if (unlikely(--latency_ration < 0)) {
-   962				cond_resched();
-   963				latency_ration = LATENCY_LIMIT;
-   964				scanned_many = true;
-   965			}
-   966		}
-   967		offset = si->lowest_bit;
-   968		while (offset < scan_base) {
-   969			if (data_race(!si->swap_map[offset])) {
-   970				spin_lock(&si->lock);
-   971				goto checks;
-   972			}
-   973			if (vm_swap_full() &&
-   974			    READ_ONCE(si->swap_map[offset]) == SWAP_HAS_CACHE) {
-   975				spin_lock(&si->lock);
-   976				goto checks;
-   977			}
-   978			if (unlikely(--latency_ration < 0)) {
-   979				cond_resched();
-   980				latency_ration = LATENCY_LIMIT;
-   981				scanned_many = true;
-   982			}
-   983			offset++;
-   984		}
-   985		spin_lock(&si->lock);
-   986	
-   987	no_page:
-   988		si->flags -= SWP_SCANNING;
-   989		return n_ret;
-   990	}
-   991	EXPORT_SYMBOL_GPL(scan_swap_map_slots);
-   992	
+ba2fc167e94475 Matthew Gerlach    2021-04-16  123  
+ba2fc167e94475 Matthew Gerlach    2021-04-16  124  static int dfl_spi_altera_probe(struct dfl_device *dfl_dev)
+ba2fc167e94475 Matthew Gerlach    2021-04-16  125  {
+4f45f340496010 Martin Hundebøll   2021-07-16  126  	struct spi_board_info board_info = { 0 };
+ba2fc167e94475 Matthew Gerlach    2021-04-16  127  	struct device *dev = &dfl_dev->dev;
+ec168190c1cace Yang Yingliang     2022-12-29  128  	struct spi_controller *host;
+ba2fc167e94475 Matthew Gerlach    2021-04-16  129  	struct altera_spi *hw;
+ba2fc167e94475 Matthew Gerlach    2021-04-16  130  	void __iomem *base;
+8e3ca32f46994e Christophe JAILLET 2022-05-29  131  	int err;
+ba2fc167e94475 Matthew Gerlach    2021-04-16  132  
+ec168190c1cace Yang Yingliang     2022-12-29  133  	host = devm_spi_alloc_host(dev, sizeof(struct altera_spi));
+ec168190c1cace Yang Yingliang     2022-12-29  134  	if (!host)
+ba2fc167e94475 Matthew Gerlach    2021-04-16  135  		return -ENOMEM;
+ba2fc167e94475 Matthew Gerlach    2021-04-16  136  
+ec168190c1cace Yang Yingliang     2022-12-29  137  	host->bus_num = -1;
+ba2fc167e94475 Matthew Gerlach    2021-04-16  138  
+ec168190c1cace Yang Yingliang     2022-12-29  139  	hw = spi_controller_get_devdata(host);
+ba2fc167e94475 Matthew Gerlach    2021-04-16  140  
+ba2fc167e94475 Matthew Gerlach    2021-04-16  141  	hw->dev = dev;
+ba2fc167e94475 Matthew Gerlach    2021-04-16  142  
+ba2fc167e94475 Matthew Gerlach    2021-04-16  143  	base = devm_ioremap_resource(dev, &dfl_dev->mmio_res);
+ba2fc167e94475 Matthew Gerlach    2021-04-16  144  
+532259bfd1c12d Zou Wei            2021-05-11  145  	if (IS_ERR(base))
+ba2fc167e94475 Matthew Gerlach    2021-04-16  146  		return PTR_ERR(base);
+ba2fc167e94475 Matthew Gerlach    2021-04-16  147  
+ec168190c1cace Yang Yingliang     2022-12-29  148  	config_spi_host(base, host);
+ba2fc167e94475 Matthew Gerlach    2021-04-16  149  	dev_dbg(dev, "%s cs %u bpm 0x%x mode 0x%x\n", __func__,
+ec168190c1cace Yang Yingliang     2022-12-29 @150  		host->num_chipselect, host->bits_per_word_mask,
+ec168190c1cace Yang Yingliang     2022-12-29  151  		host->mode_bits);
+ba2fc167e94475 Matthew Gerlach    2021-04-16  152  
+ba2fc167e94475 Matthew Gerlach    2021-04-16  153  	hw->regmap = devm_regmap_init(dev, NULL, base, &indirect_regbus_cfg);
+ba2fc167e94475 Matthew Gerlach    2021-04-16  154  	if (IS_ERR(hw->regmap))
+ba2fc167e94475 Matthew Gerlach    2021-04-16  155  		return PTR_ERR(hw->regmap);
+ba2fc167e94475 Matthew Gerlach    2021-04-16  156  
+ba2fc167e94475 Matthew Gerlach    2021-04-16  157  	hw->irq = -EINVAL;
+ba2fc167e94475 Matthew Gerlach    2021-04-16  158  
+ec168190c1cace Yang Yingliang     2022-12-29  159  	altera_spi_init_host(host);
+ba2fc167e94475 Matthew Gerlach    2021-04-16  160  
+ec168190c1cace Yang Yingliang     2022-12-29  161  	err = devm_spi_register_controller(dev, host);
+8e3ca32f46994e Christophe JAILLET 2022-05-29  162  	if (err)
+ec168190c1cace Yang Yingliang     2022-12-29  163  		return dev_err_probe(dev, err, "%s failed to register spi host\n",
+8e3ca32f46994e Christophe JAILLET 2022-05-29  164  				     __func__);
+ba2fc167e94475 Matthew Gerlach    2021-04-16  165  
+4f45f340496010 Martin Hundebøll   2021-07-16  166  	if (dfl_dev->revision == FME_FEATURE_REV_MAX10_SPI_N5010)
+4f45f340496010 Martin Hundebøll   2021-07-16  167  		strscpy(board_info.modalias, "m10-n5010", SPI_NAME_SIZE);
+4f45f340496010 Martin Hundebøll   2021-07-16  168  	else
+4f45f340496010 Martin Hundebøll   2021-07-16  169  		strscpy(board_info.modalias, "m10-d5005", SPI_NAME_SIZE);
+4f45f340496010 Martin Hundebøll   2021-07-16  170  
+4f45f340496010 Martin Hundebøll   2021-07-16  171  	board_info.max_speed_hz = 12500000;
+4f45f340496010 Martin Hundebøll   2021-07-16  172  	board_info.bus_num = 0;
+4f45f340496010 Martin Hundebøll   2021-07-16  173  	board_info.chip_select = 0;
+4f45f340496010 Martin Hundebøll   2021-07-16  174  
+ec168190c1cace Yang Yingliang     2022-12-29  175  	if (!spi_new_device(host, &board_info)) {
+ba2fc167e94475 Matthew Gerlach    2021-04-16  176  		dev_err(dev, "%s failed to create SPI device: %s\n",
+4f45f340496010 Martin Hundebøll   2021-07-16  177  			__func__, board_info.modalias);
+ba2fc167e94475 Matthew Gerlach    2021-04-16  178  	}
+ba2fc167e94475 Matthew Gerlach    2021-04-16  179  
+ba2fc167e94475 Matthew Gerlach    2021-04-16  180  	return 0;
+ba2fc167e94475 Matthew Gerlach    2021-04-16  181  }
+ba2fc167e94475 Matthew Gerlach    2021-04-16  182  
 
 -- 
 0-DAY CI Kernel Test Service
