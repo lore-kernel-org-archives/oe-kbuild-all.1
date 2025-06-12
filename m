@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81A1C2F432A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 12:13:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F042F430C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 12:34:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749730391; cv=none; b=JysZw68e3JqIfZ8Bs9b249QXwAQUHrOBts2PUScDSYUB8+9sb/NWnl+bBR7P1ldGJ67DlP9nX/hJI8jNzQWq0Pk/HLXhV/TcALDCO0Le/C7iFXxOWLmyEk32oZYVwdDP3qtWCnLV0K/NaWWTnv0cegb0PTO1GOPSjleA6cD/NUI=
+	t=1749731655; cv=none; b=D+zxWwm9OZ8iu0onLhEltTzolayywalMOa4Kz3n4Fp8EHGAq+t7EIeAdFkaJSMUDCfacb1CZVsKNDoMrwOaqLVkLBDnnHPBQ1C7qIIrfTXKoCFCXI9533sI0/mUdbUTe7g0HX9sQJe4lGHEYzVNccVfwuTnpIn85mjc886bFmf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749730391; c=relaxed/simple;
-	bh=Goq3cNVmhR/MmFsLuyxJXUeXoB2HoN64j1uq5vEFM/g=;
+	s=arc-20240116; t=1749731655; c=relaxed/simple;
+	bh=LALLm9QsVMLo+Pojglru6wC/yIPu379w61KXNcQG3DA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RKitYx6pMOoWwyVvEecg++R9388TR5KC/rjsHOjzIzeeyA4IVNkjifElEwmSR7lD/PKUPE+8/z1H+pJzT42JoBMECoDpxO8FVLTKViEXBxw2a98minOU8ChuWRc57+XmbwGkiA64QoBcXe+UFuRzMHNGtlZtnOnJ/ho3fum7IYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gO2qm6YT; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=Mn7GCx7ln75IBT7fgx9HytSRwrAq5syTFoUvKSpsLdfA4SyETdHHz1WJcylkz1LztOJcCVN9p9LafnsAfz26/5F7UR2v/vwPqGNfUTmP8usuL5PAq252mvdCLvIK3eYNfm5KYUU9pWunmTy+cif/v4x+/gpj887f1/edoGJPRGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Okx+BELJ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gO2qm6YT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Okx+BELJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749730390; x=1781266390;
+  t=1749731653; x=1781267653;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Goq3cNVmhR/MmFsLuyxJXUeXoB2HoN64j1uq5vEFM/g=;
-  b=gO2qm6YTgqCIUP1vtd639665iSbJS4dUfM4k2RtiiYX1cU8CkJKI3BL8
-   0JjWLi2+Dk90ds1rsZAl6QY+OmpOAQGBp7ZevkC63RRenJti4W4AfjCoX
-   feqc50DzUPyFwl4ynUfwtS8NonVf//YBS0Ik5XjAiANx77ikPGlYD9vs2
-   R6SzvgVfq3jGAlRsRYQZ9YkjUH5gPxbEMVd76ptIM/rjECpsgQK0JTb5S
-   Dpv4TQ51r9/LOJtvq7sJbujyL7UBRNiBZugx826AyRV8HnC6yJ60yZwgZ
-   pHqbL25JqIt0YP7yXvBAF0lD8Y0B1ugEVYzIBA5RpYP+XtyFh7JUDgO0Y
-   g==;
-X-CSE-ConnectionGUID: bRUAzjLtTXSABdghrf4J0g==
-X-CSE-MsgGUID: bhI4dSk/QrC1BmJNynVq3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="77308519"
+  bh=LALLm9QsVMLo+Pojglru6wC/yIPu379w61KXNcQG3DA=;
+  b=Okx+BELJKgEfcZ/FVdGXSw93HIcEUVww46QT1vpw/FJTEHgvh/PhG/Lz
+   X41mZ65JvJYZ+lFsjNMLR5Atofo/AZH7jc3EbIVI/qk/wTraHZtcHAEGQ
+   8eQleaRjUZsyBbl3SUZubujg1cPdGDDsnZE1EjSQuTJ2KLUGeUhHxlAqS
+   VGyeKvKY4+wK2vyeHF5b/VllmgFtWCf3HyZP9yRLZKlmhPkAhPGviNpTG
+   tsJ+QXndDBn7SI/F1DRklLraQGv3ePBbNmoheQUVeyABABOIbookfxIGN
+   hFBMQUSgImgQW5hm9MQhjJTHXwdBRbHlRkyKfqiQdHmgBOYR5iKz43V/F
+   A==;
+X-CSE-ConnectionGUID: I0Nq8xYJTJO8xzcxlT6Pew==
+X-CSE-MsgGUID: rUruqSYeSj6nWj2+FInRmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="51782172"
 X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; 
-   d="scan'208";a="77308519"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 05:13:09 -0700
-X-CSE-ConnectionGUID: GqDyUO7KRjCxuvp9jFdK2Q==
-X-CSE-MsgGUID: 3x8q3PQARD22o/j8MrCBVg==
+   d="scan'208";a="51782172"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 05:34:12 -0700
+X-CSE-ConnectionGUID: o7hwTGWWQRazloHRcAD6jg==
+X-CSE-MsgGUID: Sbuun0+6TDyFVz/Ep7cc8g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; 
-   d="scan'208";a="148059108"
+   d="scan'208";a="152272760"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 12 Jun 2025 05:13:08 -0700
+  by orviesa003.jf.intel.com with ESMTP; 12 Jun 2025 05:34:11 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPgnp-000BVa-0X;
-	Thu, 12 Jun 2025 12:13:05 +0000
-Date: Thu, 12 Jun 2025 20:12:43 +0800
+	id 1uPh8B-000BXG-27;
+	Thu, 12 Jun 2025 12:34:07 +0000
+Date: Thu, 12 Jun 2025 20:33:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
-Subject: [linux-next:master 2024/2199] io_uring/register.c:286:43: sparse:
- sparse: dereference of noderef expression
-Message-ID: <202506122000.OFjeoUSA-lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.16-rsslro 56/58]
+ drivers/net/ethernet/mediatek/mtk_eth_dbg.c: warning: EXPORT_SYMBOL() is
+ used, but #include <linux/export.h> is missing
+Message-ID: <202506122031.Jo9Q3fyE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,118 +63,221 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   0bb71d301869446810a0b13d3da290bd455d7c78
-commit: 89f607e88c9f885187a0144d0b540fb257b912ea [2024/2199] io_uring: consistently use rcu semantics with sqpoll thread
-config: arm64-randconfig-r113-20250612 (https://download.01.org/0day-ci/archive/20250612/202506122000.OFjeoUSA-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20250612/202506122000.OFjeoUSA-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.16-rsslro
+head:   f7319e5a07fb0c4d46de5eebb52b346cf457c3d9
+commit: f242cb5a57020b9fa1d21792f7a785be9d372853 [56/58] net: mediatek: add proprietary debugfs
+config: x86_64-buildonly-randconfig-001-20250612 (https://download.01.org/0day-ci/archive/20250612/202506122031.Jo9Q3fyE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250612/202506122031.Jo9Q3fyE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506122000.OFjeoUSA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506122031.Jo9Q3fyE-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   io_uring/register.c: note: in included file:
-   include/linux/io_uring_types.h:199:37: sparse: sparse: array of flexible structures
->> io_uring/register.c:286:43: sparse: sparse: dereference of noderef expression
+All warnings (new ones prefixed by >>):
 
-vim +286 io_uring/register.c
-
-c43203154d8ac5 Jens Axboe   2023-12-19  256  
-c43203154d8ac5 Jens Axboe   2023-12-19  257  static __cold int io_register_iowq_max_workers(struct io_ring_ctx *ctx,
-c43203154d8ac5 Jens Axboe   2023-12-19  258  					       void __user *arg)
-c43203154d8ac5 Jens Axboe   2023-12-19  259  	__must_hold(&ctx->uring_lock)
-c43203154d8ac5 Jens Axboe   2023-12-19  260  {
-c43203154d8ac5 Jens Axboe   2023-12-19  261  	struct io_tctx_node *node;
-c43203154d8ac5 Jens Axboe   2023-12-19  262  	struct io_uring_task *tctx = NULL;
-c43203154d8ac5 Jens Axboe   2023-12-19  263  	struct io_sq_data *sqd = NULL;
-c43203154d8ac5 Jens Axboe   2023-12-19  264  	__u32 new_count[2];
-c43203154d8ac5 Jens Axboe   2023-12-19  265  	int i, ret;
-c43203154d8ac5 Jens Axboe   2023-12-19  266  
-c43203154d8ac5 Jens Axboe   2023-12-19  267  	if (copy_from_user(new_count, arg, sizeof(new_count)))
-c43203154d8ac5 Jens Axboe   2023-12-19  268  		return -EFAULT;
-c43203154d8ac5 Jens Axboe   2023-12-19  269  	for (i = 0; i < ARRAY_SIZE(new_count); i++)
-c43203154d8ac5 Jens Axboe   2023-12-19  270  		if (new_count[i] > INT_MAX)
-c43203154d8ac5 Jens Axboe   2023-12-19  271  			return -EINVAL;
-c43203154d8ac5 Jens Axboe   2023-12-19  272  
-c43203154d8ac5 Jens Axboe   2023-12-19  273  	if (ctx->flags & IORING_SETUP_SQPOLL) {
-c43203154d8ac5 Jens Axboe   2023-12-19  274  		sqd = ctx->sq_data;
-c43203154d8ac5 Jens Axboe   2023-12-19  275  		if (sqd) {
-c43203154d8ac5 Jens Axboe   2023-12-19  276  			/*
-c43203154d8ac5 Jens Axboe   2023-12-19  277  			 * Observe the correct sqd->lock -> ctx->uring_lock
-c43203154d8ac5 Jens Axboe   2023-12-19  278  			 * ordering. Fine to drop uring_lock here, we hold
-c43203154d8ac5 Jens Axboe   2023-12-19  279  			 * a ref to the ctx.
-c43203154d8ac5 Jens Axboe   2023-12-19  280  			 */
-c43203154d8ac5 Jens Axboe   2023-12-19  281  			refcount_inc(&sqd->refs);
-c43203154d8ac5 Jens Axboe   2023-12-19  282  			mutex_unlock(&ctx->uring_lock);
-c43203154d8ac5 Jens Axboe   2023-12-19  283  			mutex_lock(&sqd->lock);
-c43203154d8ac5 Jens Axboe   2023-12-19  284  			mutex_lock(&ctx->uring_lock);
-c43203154d8ac5 Jens Axboe   2023-12-19  285  			if (sqd->thread)
-c43203154d8ac5 Jens Axboe   2023-12-19 @286  				tctx = sqd->thread->io_uring;
-c43203154d8ac5 Jens Axboe   2023-12-19  287  		}
-c43203154d8ac5 Jens Axboe   2023-12-19  288  	} else {
-c43203154d8ac5 Jens Axboe   2023-12-19  289  		tctx = current->io_uring;
-c43203154d8ac5 Jens Axboe   2023-12-19  290  	}
-c43203154d8ac5 Jens Axboe   2023-12-19  291  
-c43203154d8ac5 Jens Axboe   2023-12-19  292  	BUILD_BUG_ON(sizeof(new_count) != sizeof(ctx->iowq_limits));
-c43203154d8ac5 Jens Axboe   2023-12-19  293  
-c43203154d8ac5 Jens Axboe   2023-12-19  294  	for (i = 0; i < ARRAY_SIZE(new_count); i++)
-c43203154d8ac5 Jens Axboe   2023-12-19  295  		if (new_count[i])
-c43203154d8ac5 Jens Axboe   2023-12-19  296  			ctx->iowq_limits[i] = new_count[i];
-c43203154d8ac5 Jens Axboe   2023-12-19  297  	ctx->iowq_limits_set = true;
-c43203154d8ac5 Jens Axboe   2023-12-19  298  
-c43203154d8ac5 Jens Axboe   2023-12-19  299  	if (tctx && tctx->io_wq) {
-c43203154d8ac5 Jens Axboe   2023-12-19  300  		ret = io_wq_max_workers(tctx->io_wq, new_count);
-c43203154d8ac5 Jens Axboe   2023-12-19  301  		if (ret)
-c43203154d8ac5 Jens Axboe   2023-12-19  302  			goto err;
-c43203154d8ac5 Jens Axboe   2023-12-19  303  	} else {
-c43203154d8ac5 Jens Axboe   2023-12-19  304  		memset(new_count, 0, sizeof(new_count));
-c43203154d8ac5 Jens Axboe   2023-12-19  305  	}
-c43203154d8ac5 Jens Axboe   2023-12-19  306  
-c43203154d8ac5 Jens Axboe   2023-12-19  307  	if (sqd) {
-73254a297c2dd0 Hagar Hemdan 2024-06-04  308  		mutex_unlock(&ctx->uring_lock);
-c43203154d8ac5 Jens Axboe   2023-12-19  309  		mutex_unlock(&sqd->lock);
-c43203154d8ac5 Jens Axboe   2023-12-19  310  		io_put_sq_data(sqd);
-73254a297c2dd0 Hagar Hemdan 2024-06-04  311  		mutex_lock(&ctx->uring_lock);
-c43203154d8ac5 Jens Axboe   2023-12-19  312  	}
-c43203154d8ac5 Jens Axboe   2023-12-19  313  
-c43203154d8ac5 Jens Axboe   2023-12-19  314  	if (copy_to_user(arg, new_count, sizeof(new_count)))
-c43203154d8ac5 Jens Axboe   2023-12-19  315  		return -EFAULT;
-c43203154d8ac5 Jens Axboe   2023-12-19  316  
-c43203154d8ac5 Jens Axboe   2023-12-19  317  	/* that's it for SQPOLL, only the SQPOLL task creates requests */
-c43203154d8ac5 Jens Axboe   2023-12-19  318  	if (sqd)
-c43203154d8ac5 Jens Axboe   2023-12-19  319  		return 0;
-c43203154d8ac5 Jens Axboe   2023-12-19  320  
-c43203154d8ac5 Jens Axboe   2023-12-19  321  	/* now propagate the restriction to all registered users */
-c43203154d8ac5 Jens Axboe   2023-12-19  322  	list_for_each_entry(node, &ctx->tctx_list, ctx_node) {
-1da2f311ba53a1 Jens Axboe   2024-03-29  323  		tctx = node->task->io_uring;
-c43203154d8ac5 Jens Axboe   2023-12-19  324  		if (WARN_ON_ONCE(!tctx->io_wq))
-c43203154d8ac5 Jens Axboe   2023-12-19  325  			continue;
-c43203154d8ac5 Jens Axboe   2023-12-19  326  
-c43203154d8ac5 Jens Axboe   2023-12-19  327  		for (i = 0; i < ARRAY_SIZE(new_count); i++)
-c43203154d8ac5 Jens Axboe   2023-12-19  328  			new_count[i] = ctx->iowq_limits[i];
-c43203154d8ac5 Jens Axboe   2023-12-19  329  		/* ignore errors, it always returns zero anyway */
-c43203154d8ac5 Jens Axboe   2023-12-19  330  		(void)io_wq_max_workers(tctx->io_wq, new_count);
-c43203154d8ac5 Jens Axboe   2023-12-19  331  	}
-c43203154d8ac5 Jens Axboe   2023-12-19  332  	return 0;
-c43203154d8ac5 Jens Axboe   2023-12-19  333  err:
-c43203154d8ac5 Jens Axboe   2023-12-19  334  	if (sqd) {
-73254a297c2dd0 Hagar Hemdan 2024-06-04  335  		mutex_unlock(&ctx->uring_lock);
-c43203154d8ac5 Jens Axboe   2023-12-19  336  		mutex_unlock(&sqd->lock);
-c43203154d8ac5 Jens Axboe   2023-12-19  337  		io_put_sq_data(sqd);
-73254a297c2dd0 Hagar Hemdan 2024-06-04  338  		mutex_lock(&ctx->uring_lock);
-c43203154d8ac5 Jens Axboe   2023-12-19  339  	}
-c43203154d8ac5 Jens Axboe   2023-12-19  340  	return ret;
-c43203154d8ac5 Jens Axboe   2023-12-19  341  }
-c43203154d8ac5 Jens Axboe   2023-12-19  342  
-
-:::::: The code at line 286 was first introduced by commit
-:::::: c43203154d8ac579537aa0c7802b77d463b1f53a io_uring/register: move io_uring_register(2) related code to register.c
-
-:::::: TO: Jens Axboe <axboe@kernel.dk>
-:::::: CC: Jens Axboe <axboe@kernel.dk>
+   drivers/net/can/ctucanfd/ctucanfd_base.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/can/dev/dev.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/can/dev/length.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/can/dev/rx-offload.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/can/dev/skb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/can/m_can/m_can.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/can/sja1000/sja1000.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/dsa/b53/b53_serdes.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/dsa/lan9303-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/dsa/mt7530.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/dsa/ocelot/felix.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/dsa/realtek/realtek-mdio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/dsa/realtek/realtek-smi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/dsa/realtek/rtl8366-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/dsa/realtek/rtl83xx.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/dsa/vitesse-vsc73xx-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/dsa/xrs700x/xrs700x.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/8390/8390.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/8390/8390p.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/8390/ax88796.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/airoha/airoha_npu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/amd/7990.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/amd/pds_core/adminq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/amd/pds_core/auxbus.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/amd/pds_core/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/amd/pds_core/main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/aquantia/atlantic/aq_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/arc/emac_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/broadcom/asp2/bcmasp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/broadcom/bgmac-bcma-mdio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/broadcom/bgmac.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/broadcom/bnxt/bnxt_ulp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/broadcom/cnic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/common/cavium_ptp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/liquidio/cn23xx_pf_device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/liquidio/cn23xx_vf_device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/liquidio/cn66xx_device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/liquidio/cn68xx_device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/liquidio/lio_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/liquidio/lio_ethtool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/liquidio/octeon_device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/liquidio/octeon_droq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/liquidio/octeon_mem_ops.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/liquidio/octeon_nic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/liquidio/request_manager.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/liquidio/response_manager.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/thunder/thunder_bgx.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cavium/thunder/thunder_xcv.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/chelsio/cxgb4/clip_tbl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/chelsio/cxgb4/l2t.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/chelsio/cxgb4/smt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/chelsio/libcxgb/libcxgb_cm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cisco/enic/enic_api.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/cisco/enic/vnic_dev.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/emulex/benet/be_cmds.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/emulex/benet/be_roce.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/dpaa2/dpaa2-ethtool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/enetc/enetc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/enetc/enetc_cbdr.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/enetc/enetc_ethtool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/enetc/enetc_ierb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/enetc/enetc_mdio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/enetc/enetc_pci_mdio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/enetc/enetc_pf_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/enetc/enetc_ptp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/enetc/ntmp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/fec_mpc52xx_phy.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/fman/fman.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/fman/fman_keygen.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/fman/fman_port.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/freescale/fman/fman_sp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/fungible/funcore/fun_dev.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/fungible/funcore/fun_queue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/hisilicon/hns/hnae.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/hisilicon/hns3/hnae3.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_cmd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_rss.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/hisilicon/hns3/hns3_common/hclge_comm_tqp_stats.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/intel/i40e/i40e_client.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/intel/ice/ice_idc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/intel/ice/ice_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/intel/ixgbe/ixgbe_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/intel/libeth/rx.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/intel/libie/rx.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/mvneta_bm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/octeontx2/af/mbox.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/octeontx2/nic/cn10k.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/octeontx2/nic/cn10k_ipsec.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_dcbnl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_devlink.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_ethtool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_flows.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_pf.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_ptp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_tc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/octeontx2/nic/otx2_txrx.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/marvell/prestera/prestera_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mediatek/mtk_wed_ops.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx4/fw.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx4/main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/cmd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/cq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/debugfs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/diag/rsc_dump.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/en_accel/ipsec_offload.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/eq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/eswitch.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/eswitch_offloads.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/events.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/fpga/sdk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/fs_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/fs_counters.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/fw.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/ipoib/ipoib.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/lag/lag.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/lag/mpesw.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/lib/dm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/lib/gid.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/lib/macsec_fs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/lib/mpfs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/mcg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/mr.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/pd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/port.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/rl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/sriov.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/transobj.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/uar.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlx5/core/wc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlxfw/mlxfw_fsm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlxsw/core_acl_flex_actions.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlxsw/core_acl_flex_keys.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlxsw/core_env.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlxsw/core_linecards.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mellanox/mlxsw/i2c.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/micrel/ks8851_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/microchip/encx24j600-regmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/microchip/fdma/fdma_api.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/microchip/vcap/vcap_api.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/microchip/vcap/vcap_api_debugfs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/microchip/vcap/vcap_tc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/microsoft/mana/gdma_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/microsoft/mana/mana_en.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mscc/ocelot.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mscc/ocelot_devlink.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mscc/ocelot_flower.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mscc/ocelot_io.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mscc/ocelot_mm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mscc/ocelot_mrp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mscc/ocelot_police.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mscc/ocelot_ptp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mscc/ocelot_stats.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mscc/ocelot_vcap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/mscc/vsc7514_regs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/oa_tc6.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/qlogic/qed/qed_fcoe.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/qlogic/qed/qed_iscsi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/qlogic/qed/qed_l2.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/qlogic/qed/qed_nvmetcp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/qlogic/qed/qed_rdma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/qlogic/qede/qede_rdma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/qualcomm/qca_7k_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/renesas/rcar_gen4_ptp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/stmicro/stmmac/dwmac1000_dma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/stmicro/stmmac/dwmac_lib.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/stmicro/stmmac/stmmac_platform.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/sun/sunvnet_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/am65-cpts.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/cpsw-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/cpsw-phy-sel.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/cpts.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/icssg/icss_iep.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/icssg/icssg_classifier.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/icssg/icssg_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/icssg/icssg_config.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/icssg/icssg_ethtool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/icssg/icssg_mii_cfg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/icssg/icssg_queues.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/icssg/icssg_stats.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/k3-cppi-desc-pool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/ti/netcp_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/wangxun/libwx/wx_ethtool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/wangxun/libwx/wx_hw.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/wangxun/libwx/wx_lib.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/wangxun/libwx/wx_ptp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/wangxun/libwx/wx_sriov.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/wiznet/w5100.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ethernet/xscale/ptp_ixp46x.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/geneve.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/hamradio/hdlcdrv.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ipvlan/ipvlan_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/ipvlan/ipvlan_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/loopback.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/macsec.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/net/macvlan.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
 
 -- 
 0-DAY CI Kernel Test Service
