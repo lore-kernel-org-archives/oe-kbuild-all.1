@@ -1,183 +1,139 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FFFE19066D;
-	Thu, 12 Jun 2025 14:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94828134CF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 14:48:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749737366; cv=none; b=WXxMoGgAqcaJTkvGiOSRpAGKjp+6giINapr8CrlE3rzFtgIXxS444NpRXduraYJT69Y6r134DNQ8xITp1HOjJYnLylhlll1Xm1teBeRZvu//NlHnbGgyLNedV9esZQhBcmkaenC+scE1wbOyVdapBIHRh6v0tLxgms3Sa36kF/M=
+	t=1749739708; cv=none; b=EWMRxpHhTQ9IZzFvquAAlb1i/PZXnX/oM2sHLvuntF8vJ8cFu3LhCEotH2xryV4XLywA4fyFDHmKj6OaIcCpGU/nyYms4ABkF3bIBEthv1CkUIIwwBfmULXUZIaZNhAVoYbRvQUvNLZ8Qevded36bfekn/2SdmQwWY43caI1UaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749737366; c=relaxed/simple;
-	bh=kGaKNVsxpFzIz+WCZZnJXn4hE7TGZUw5e0te86QWm/k=;
+	s=arc-20240116; t=1749739708; c=relaxed/simple;
+	bh=/e5p9osxkx51XqE1aDEoQ2Zc1sIKmHJxGFwG2HbrwZc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IQXP+U+CA+B9yjihG+exa06dT2zn4Nb8nnAHpgsJyDJEYD4b9B2i9caJa0K51Utu3DLC+mjLiq0QKCMRH2Wbggavdc8mv7mYQ3bQICEtj9/Aw0/TCNt4ondL4QQ5t+TUF+6yhoqVn9H561gm86cn0/T2WbSMnfrS0h+UA6wO+JI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=VePziA9h; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=iD6Q8IRLTlNFulN6vk4/3vp3owcsQMzsHYjFcgpSMxfngctrGlE7/LBmALUtkFHIZvIfl6FEmQU/b0IhKVyvZCLwNa5ctLM0XX4U9fl7HSJwLEtXhfgKXROh6yBd7k+wkVpNNQamn/c3y9mjnZdHVsg666sjBTqPPzfoD4q7M78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HJG3ne7l; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="VePziA9h"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=In-Reply-To:Content-Transfer-Encoding:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=GzirIYRqhqmK+GV4aZFnktzJiM51rywbvs1UUJO0Zhw=; b=VePziA9h3ZV+DLfm8PoHZoEqN7
-	CL5dTgj6W/pRgO5Mhs9mT7fstYxJhOUV16CfriLwI4r6zR0KLs+3r8hERv70HEjRQHWC/JiVBvnJy
-	AaaSwz83O7RQ3qbsBYDPIfUTW5ASyQRWZYjIQdABTaAWh68sm5P0u8/lgE5SxHW7Gs54EgGl53r0k
-	7IOBtdiOV2WoV6DpuqYDfjvWXYy0dTZN35WQDyAX3hQW3+dYTJUN4FH9uSWI1L6hlv722e0a244Wr
-	D3VXvw9jc045NmumDEFMpWh2DArXPm1y+1dRNf/Xaj1S/vhi26TWK39pKz2vGUv5b7QllDCeuNuwQ
-	pCmjMcDQ==;
-Received: from [189.6.13.79] (helo=mail.igalia.com)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1uPicF-002f9i-AE; Thu, 12 Jun 2025 16:09:15 +0200
-Date: Thu, 12 Jun 2025 11:08:10 -0300
-From: Melissa Wen <mwen@igalia.com>
-To: Markus Elfring <Markus.Elfring@web.de>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	Alex Deucher <alexander.deucher@amd.com>, Alex Hung <alex.hung@amd.com>, 
-	Aurabindo Pillai <aurabindo.pillai@amd.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>, 
-	Dominik Kaszewski <dominik.kaszewski@amd.com>, Fangzhi Zuo <Jerry.Zuo@amd.com>, 
-	Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
-	Mario Limonciello <mario.limonciello@amd.com>, Roman Li <roman.li@amd.com>, Simona Vetter <simona@ffwll.ch>, 
-	Tom Chung <chiahsuan.chung@amd.com>, Wayne Lin <Wayne.Lin@amd.com>, 
-	LKML <linux-kernel@vger.kernel.org>, kernel-janitors@vger.kernel.org, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev, cocci@inria.fr
-Subject: Re: [PATCH v3] drm/amd/display: Fix exception handling in
- dm_validate_stream_and_context()
-Message-ID: <5ebybqjohsoz7qhsenufkpkkw52w6tgikkbrzpegwotmefhnpn@m2cnzvsfai7v>
-References: <f9303bdc-b1a7-be5e-56c6-dfa8232b8b55@web.de>
- <e6656c83-ee7a-a253-2028-109138779c94@web.de>
- <ea0ff67b-3665-db82-9792-67a633ba07f5@web.de>
- <32674bac-92c2-8fc7-0977-6d2d81b3257f@amd.com>
- <da489521-7786-4716-8fb8-d79b3c08d93c@web.de>
- <8684e2ba-b644-44c8-adf7-9f1423a1251d@web.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HJG3ne7l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749739707; x=1781275707;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/e5p9osxkx51XqE1aDEoQ2Zc1sIKmHJxGFwG2HbrwZc=;
+  b=HJG3ne7l1yPdaVoVGhE2izVKE6pBT7+j9O1mEKdjZBuv5i4xSGJ7O+mn
+   4gCKgRjt5EEjOR8Kp9XUY/qm4J5bFzomU6sDLdGd/FuUwDWXmAi23e8Gv
+   VCgqDvVFWFAqWMVrJg82ZIztNAT0saWfDlokNGm46yh/bmg8CqPdeyhYo
+   DrcpZgJdg8ODxGhwlBq0v1/tP5ak0BxvH3VQ6LkoQMAtqKnVRdaGvtaXH
+   Cwaf1gqkGoTtLyOR3NE71vrWGu7gTcvPpEtnclYXYa38cMk86NR9CX+Ak
+   1idyT0OZIxUJHHx/ax02LO3cm+6PwIcaG1eypI+3oJ1bi6fSba7f8IR2c
+   g==;
+X-CSE-ConnectionGUID: 4lujTFkFTXW/ZU8NRYLHGg==
+X-CSE-MsgGUID: V0/CSbfTRyatuQVsgHMWqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="62575561"
+X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; 
+   d="scan'208";a="62575561"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 07:48:26 -0700
+X-CSE-ConnectionGUID: Vhjg/c83SbmrpWICjHaNsw==
+X-CSE-MsgGUID: 8nxIzQ8OTQGh19CZGtxRng==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; 
+   d="scan'208";a="170720366"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 12 Jun 2025 07:48:23 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uPjE5-000BfW-12;
+	Thu, 12 Jun 2025 14:48:21 +0000
+Date: Thu, 12 Jun 2025 22:48:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Ijano <andrew.ijano@gmail.com>, jic23@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, andrew.lopes@alumni.usp.br,
+	gustavobastos@usp.br, dlechner@baylibre.com, nuno.sa@analog.com,
+	andy@kernel.org, jstephan@baylibre.com, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] iio: accel: sca3000: use guard(mutex)() for
+ handling mutex lock
+Message-ID: <202506122259.4MrANF8h-lkp@intel.com>
+References: <20250611194648.18133-4-andrew.lopes@alumni.usp.br>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8684e2ba-b644-44c8-adf7-9f1423a1251d@web.de>
+In-Reply-To: <20250611194648.18133-4-andrew.lopes@alumni.usp.br>
 
-On 06/10, Markus Elfring wrote:
-> From: Markus Elfring <elfring@users.sourceforge.net>
-> Date: Tue, 10 Jun 2025 07:42:40 +0200
-> 
-> The label “cleanup” was used to jump to another pointer check despite of
-> the detail in the implementation of the function “dm_validate_stream_and_context”
-> that it was determined already that corresponding variables contained
-> still null pointers.
-> 
-> 1. Thus return directly if
->    * a null pointer was passed for the function parameter “stream”
->      or
->    * a call of the function “dc_create_plane_state” failed.
-> 
-> 2. Use a more appropriate label instead.
-> 
-> 3. Delete two questionable checks.
-> 
-> 4. Omit extra initialisations (for the variables “dc_state” and “dc_plane_state”)
->    which became unnecessary with this refactoring.
-> 
-> 
-> This issue was detected by using the Coccinelle software.
-> 
+Hi Andrew,
 
-Hi Markus,
+kernel test robot noticed the following build warnings:
 
-Thanks for working on this improvement.
-Overall, LGTM. Some nits below.
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.16-rc1 next-20250612]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202506100312.Ms4XgAzW-lkp@intel.com/
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Ijano/iio-accel-sca3000-replace-error_ret-labels-by-simple-returns/20250612-034940
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250611194648.18133-4-andrew.lopes%40alumni.usp.br
+patch subject: [PATCH v5 3/3] iio: accel: sca3000: use guard(mutex)() for handling mutex lock
+config: x86_64-randconfig-001-20250612 (https://download.01.org/0day-ci/archive/20250612/202506122259.4MrANF8h-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250612/202506122259.4MrANF8h-lkp@intel.com/reproduce)
 
-As the patch wasn't merged yet, don't add these two kernel-bot-related lines.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506122259.4MrANF8h-lkp@intel.com/
 
-You only need to add these lines "If you fix the issue in a separate
-patch/commit (i.e. not just a new version of the same patch/commit)"
+All warnings (new ones prefixed by >>):
 
-> Fixes: 5468c36d6285 ("drm/amd/display: Filter Invalid 420 Modes for HDMI TMDS")
-> Signed-off-by: Markus Elfring <elfring@users.sourceforge.net>
-> ---
-> 
-> V3:
-> * Another function call was renamed.
-> 
-> * Recipient lists were adjusted once more.
-> 
-> V2:
-> * The change suggestion was rebased on source files of
->   the software “Linux next-20250606”.
-> 
-> * Recipient lists were adjusted accordingly.
-> 
-> 
->  .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 20 ++++++++-----------
->  1 file changed, 8 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index 78816712afbb..7dc80b2fbd30 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -7473,19 +7473,19 @@ static enum dc_status dm_validate_stream_and_context(struct dc *dc,
->  						struct dc_stream_state *stream)
->  {
->  	enum dc_status dc_result = DC_ERROR_UNEXPECTED;
-> -	struct dc_plane_state *dc_plane_state = NULL;
-> -	struct dc_state *dc_state = NULL;
-> +	struct dc_plane_state *dc_plane_state;
-> +	struct dc_state *dc_state;
->  
->  	if (!stream)
-> -		goto cleanup;
-> +		return dc_result;
->  
->  	dc_plane_state = dc_create_plane_state(dc);
->  	if (!dc_plane_state)
-> -		goto cleanup;
-> +		return dc_result;
->  
->  	dc_state = dc_state_create(dc, NULL);
->  	if (!dc_state)
-> -		goto cleanup;
-> +		goto release_plane_state;
->  
->  	/* populate stream to plane */
->  	dc_plane_state->src_rect.height  = stream->src.height;
-> @@ -7522,13 +7522,9 @@ static enum dc_status dm_validate_stream_and_context(struct dc *dc,
->  	if (dc_result == DC_OK)
->  		dc_result = dc_validate_global_state(dc, dc_state, DC_VALIDATE_MODE_ONLY);
->  
-> -cleanup:
-> -	if (dc_state)
-> -		dc_state_release(dc_state);
-> -
-> -	if (dc_plane_state)
-> -		dc_plane_state_release(dc_plane_state);
-> -
-> +	dc_state_release(dc_state);
+   drivers/iio/accel/sca3000.c: In function 'sca3000_write_raw':
+>> drivers/iio/accel/sca3000.c:748:13: warning: unused variable 'ret' [-Wunused-variable]
+     748 |         int ret;
+         |             ^~~
+   drivers/iio/accel/sca3000.c: In function 'sca3000_write_event_value':
+   drivers/iio/accel/sca3000.c:881:13: warning: unused variable 'ret' [-Wunused-variable]
+     881 |         int ret;
+         |             ^~~
+   drivers/iio/accel/sca3000.c: In function 'sca3000_write_event_config':
+   drivers/iio/accel/sca3000.c:1188:13: warning: unused variable 'ret' [-Wunused-variable]
+    1188 |         int ret;
+         |             ^~~
 
-For readability, I would add an extra line here...
 
-> +release_plane_state:
-> +	dc_plane_state_release(dc_plane_state);
+vim +/ret +748 drivers/iio/accel/sca3000.c
 
-and here.
+e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  742  
+e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  743  static int sca3000_write_raw(struct iio_dev *indio_dev,
+e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  744  			     struct iio_chan_spec const *chan,
+e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  745  			     int val, int val2, long mask)
+e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  746  {
+e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  747  	struct sca3000_state *st = iio_priv(indio_dev);
+e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13 @748  	int ret;
+e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  749  
+e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  750  	switch (mask) {
+e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  751  	case IIO_CHAN_INFO_SAMP_FREQ:
+e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  752  		if (val2)
+e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  753  			return -EINVAL;
+926150211ef327 drivers/iio/accel/sca3000.c              Andrew Ijano     2025-06-11  754  		guard(mutex)(&st->lock);
+926150211ef327 drivers/iio/accel/sca3000.c              Andrew Ijano     2025-06-11  755  		return sca3000_write_raw_samp_freq(st, val);
+626f971b5b0729 drivers/staging/iio/accel/sca3000.c      Jonathan Cameron 2016-10-08  756  	case IIO_CHAN_INFO_LOW_PASS_FILTER_3DB_FREQUENCY:
+626f971b5b0729 drivers/staging/iio/accel/sca3000.c      Jonathan Cameron 2016-10-08  757  		if (val2)
+626f971b5b0729 drivers/staging/iio/accel/sca3000.c      Jonathan Cameron 2016-10-08  758  			return -EINVAL;
+926150211ef327 drivers/iio/accel/sca3000.c              Andrew Ijano     2025-06-11  759  		guard(mutex)(&st->lock);
+926150211ef327 drivers/iio/accel/sca3000.c              Andrew Ijano     2025-06-11  760  		return sca3000_write_3db_freq(st, val);
+25888dc51163a5 drivers/staging/iio/accel/sca3000_core.c Jonathan Cameron 2011-05-18  761  	default:
+25888dc51163a5 drivers/staging/iio/accel/sca3000_core.c Jonathan Cameron 2011-05-18  762  		return -EINVAL;
+25888dc51163a5 drivers/staging/iio/accel/sca3000_core.c Jonathan Cameron 2011-05-18  763  	}
+25888dc51163a5 drivers/staging/iio/accel/sca3000_core.c Jonathan Cameron 2011-05-18  764  }
+574fb258d63658 drivers/staging/iio/accel/sca3000_core.c Jonathan Cameron 2009-08-18  765  
 
-With that, you can add my
-
-Reviewed-by: Melissa Wen <mwen@igalia.com>
-
->  	return dc_result;
->  }
->  
-> -- 
-> 2.49.0
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
