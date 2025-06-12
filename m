@@ -1,69 +1,58 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0369079E1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 07:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6623020B7EA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 08:56:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749713382; cv=none; b=gosaXlWkerpNRkHRpW1XWDlnG9E5lupYbPRVr6q7/PYCqH6CV9oajcNUrJ//4lLF0F12WnWqrK3MEHrqFTQQgxJn+PLZJJcA2umsslz/3llFDiGZCvYSKJbSqxi4HJJVzl5jNRp2FTmsDEy4OFmOKUKarMhXFQkCgbmTvpzlzjg=
+	t=1749718610; cv=none; b=kQFJxMhDqNDeiFPPnL0T1Bhgc0WGLX3jOTzs2tATUvvrqemF0bOhsmPzK+m+CTjmIMn9qaemA0bQHLkabNHj79/URNPU+W8BEMPkTOaUfG0lOSni/7jz2SrgULI0wc5sp9MLtbfVlspnrIAgvbU2Vt/eO40H0ZgvbqN6EstYORc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749713382; c=relaxed/simple;
-	bh=zSlIbjxaW75NdtQMB+5uCdNGmRLfncsyMDDu8q/6d+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SU5f6Sn4JATugI/ceRIBnzyV7B8/pYnI6kn51YCMCIPUwEBeZzBvkIjyPbjDw62Rv75VAx/1+cTb9ZHjc9xI1wSov9a3+ZpTpAM3yucAeWxsXdUaFIMI48p/9v2QDtpIst/Jseo8iA/wU+l3xEQPQ/nLModmtL7xcSmMhfwxAbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C8xpovNc; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1749718610; c=relaxed/simple;
+	bh=fLsGwco/0BOJN0vZsAWM8kRKhfqMh0+CPCphJH0BF0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=P8jSedPxYJZJYVBIlHOUOvvlVznhNuy42TXFKFqrr9PPppi0v76Jrtpzg4ptHHaWNfYC/AmJ1BvxXlPvHezxNl+f7OBPRbWcZJ57ywmogrQ62xvegJ84cyfmG8G8mzNsUn5dg5w/6wuuHjfUW0YB64IZO1XpyC1MG9tqa6XaVuY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a88eB9OD; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C8xpovNc"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-23508d30142so8079895ad.0
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 00:29:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1749713380; x=1750318180; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=OY0OK186Eiy+kb3OI3njLLfZm61nlKnH95xfL7qAiAQ=;
-        b=C8xpovNcq2gkiebTkYUIvj46SLmk9RCLuJOBSwF20tRqZZg5OnLEW7sb5qHssLLTEj
-         9kYtnVQqI4xuHYUm3Er5/YAnNhfm8CnjOv1mv4VffRczn1BzyOJq2J1JqN6MIutqi1Ee
-         Mkn8WnXSHr2B0UGMH4xJsDJFyM964UZxaWgqFc9mjGxqoT2EPMQMQVHMouLOf1A76UQI
-         LZ8tD+NyBZCsRhG1wshzhd1ZdEixBtFzf3N55kYXsj3AaK/KEAAt51YRoi1THtgSuTfm
-         D6W/iNTLStg1WB0stF0vErZpbfEI33t456DBqJNguO5CEDQXU6Z9OM7mgBtMnQV7cUYw
-         asPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749713380; x=1750318180;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OY0OK186Eiy+kb3OI3njLLfZm61nlKnH95xfL7qAiAQ=;
-        b=MNrLgS0F5e80hQogCl5aUEqGlc6v1BiORkBGOmO8tHW9SWyCDHxgEXdQc079gxLtPS
-         /ltC9kShjcYKl8fBzlauXYDii3fZYvMzdpaavpGoAw9BT4ANyOV+uHD93bZSeZ5OP3jl
-         C/OCIJYXwZbneplmKVbYccnHxFHiCJKeTXADLiSM9D8dCOdnb471IAXJBfPhjL/3f+t5
-         yMdNODCeCdsH560Gz6pPy8QwMJhxNu6Ww9Lz+qmKZiijqxpUEP3Cq3JN4WOA7M4cewsQ
-         zYhxGxvjgYjo/8n7zWFVIcPBA/2JMeXn1kff/QmH7e2yz97o1aiGpyCer28MA6k4VdBf
-         A+kw==
-X-Gm-Message-State: AOJu0Yw1P/rEnMIQObU89Fj843JwdVScRfrVr3b1XvhBF79PRwV9+IR4
-	N7RNLjY54szfP44tD6PT1V4fMX0G1nFHOn51ncLVYitvQQBxdnIcQInFOKSc2lHv1mY=
-X-Gm-Gg: ASbGncuTRZN50E0Ko7fk6Gl4GK5gx8qbp/FZDr1iirYmUY8L7UD+iUaAOcs/YAhhJeu
-	9GHumYM+t5RIgWzqEJoMOib/nroxuQC2X+UbyewaVpSxbx9o6kXDVz9NHTXYatgdRNn7XlAiXp4
-	pODZLaOcmOGH7uwu6YOtGYgmRSJZPyU7jgXR4o96r62Opvwo2HBWvua5+tagYIdl31EJC2DhWaX
-	8mjKzJRGbtZ7bsiuDFIbaJfBC11jd9Hn3rymdXR0D3ZxdXErdRruxhBkgRCAmE5VKSSaoNiar6U
-	tq7syyfv2z/r5617Sxn2axuh1o4FHAyG+f0m8IRcWENmpBY7lcWP7WcNwjHvhfc=
-X-Google-Smtp-Source: AGHT+IHSsq98Gwdk5JzoPA1cqT+FsUUn7tYinnnuONXeJ94UIXplKK2bd7jvRP2tu3UYegqm9ju+WQ==
-X-Received: by 2002:a17:902:f943:b0:234:ef42:5d5b with SMTP id d9443c01a7336-2364c8d0c0bmr28410245ad.16.1749713380188;
-        Thu, 12 Jun 2025 00:29:40 -0700 (PDT)
-Received: from localhost ([122.172.81.72])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2364e61b614sm7499335ad.13.2025.06.12.00.29.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Jun 2025 00:29:39 -0700 (PDT)
-Date: Thu, 12 Jun 2025 12:59:37 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: drivers/opp/of.o: warning: objtool:
- _opp_table_alloc_required_tables+0x3b0: stack state mismatch: reg1[22]=-1+0
- reg2[22]=-2-16
-Message-ID: <20250612072937.gb3n2mh34aivabt4@vireshk-i7>
-References: <202506110656.WF6sPKbe-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a88eB9OD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749718608; x=1781254608;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fLsGwco/0BOJN0vZsAWM8kRKhfqMh0+CPCphJH0BF0Y=;
+  b=a88eB9OD6UkyNzkISEzLcyLg1pqwFV1HWYOzjjLshaJZJjo0MTGQRA9x
+   fO0coo04e1AM9r/j+pqGsK9Za3fLuVkNqoKTDWr4qPxfeJx8bYaAmTDC9
+   ETqMVPiCJpHSSIZL1oFoz74LayPEG8slM7NmUnIuz/q5sRokkDuyulO/s
+   VsgLZJEA+OUGmTbUeGNaxHqrN3z361dExjFbZZY92hytF1MjA71gBRoG8
+   Eqpk5PqOViXXWHYfq4xLNMKkM7vKt7aFjaa2YTRXc3ckOiKx4v3mJwjrH
+   SaOy96tQub+NuuuPPYX4504/Vi5mY7UwcAmI7B5sot67VdgJhDihk70fV
+   w==;
+X-CSE-ConnectionGUID: 051OVrRvSg6FjUNvSI2laA==
+X-CSE-MsgGUID: 4fI1TMDqRRykB4vyKgdufg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11461"; a="50996344"
+X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; 
+   d="scan'208";a="50996344"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 01:56:47 -0700
+X-CSE-ConnectionGUID: ULBVp4UQQAyF9E58tw8vIQ==
+X-CSE-MsgGUID: Ial4qxqJSwCaJd+vq41cbQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,230,1744095600"; 
+   d="scan'208";a="147442928"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 12 Jun 2025 01:56:46 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uPdjn-000BLM-23;
+	Thu, 12 Jun 2025 08:56:43 +0000
+Date: Thu, 12 Jun 2025 16:56:15 +0800
+From: kernel test robot <lkp@intel.com>
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [avpatel:riscv_sbi_sse_v3 45/62] arch/riscv/kvm/vm.c: warning:
+ EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+Message-ID: <202506121649.v47ICp96-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,42 +61,223 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202506110656.WF6sPKbe-lkp@intel.com>
 
-On 11-06-25, 06:19, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   f09079bd04a924c72d555cd97942d5f8d7eca98c
-> commit: ff9c512041f2b405536640374ae3a3fe10efaf8b OPP: Use mutex locking guards
-> date:   6 weeks ago
-> config: loongarch-randconfig-002-20250611
-> compiler: loongarch64-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build):
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506110656.WF6sPKbe-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/opp/of.o: warning: objtool: _opp_table_alloc_required_tables+0x3b0: stack state mismatch: reg1[22]=-1+0 reg2[22]=-2-16
+tree:   https://github.com/avpatel/linux.git riscv_sbi_sse_v3
+head:   734e8651f598d3b6b6f4bc2493a47993a03ac695
+commit: ee885a84ae4f4a851d254e4e524586a3327f00a4 [45/62] RISC-V: KVM: Add irqbypass skeleton
+config: i386-buildonly-randconfig-002-20250612 (https://download.01.org/0day-ci/archive/20250612/202506121649.v47ICp96-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250612/202506121649.v47ICp96-lkp@intel.com/reproduce)
 
-Hi,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506121649.v47ICp96-lkp@intel.com/
 
-I am not really sure what's really wrong with the change here:
+All warnings (new ones prefixed by >>):
 
-@@ -201,9 +191,8 @@ static void _opp_table_alloc_required_tables(struct opp_table *opp_table,
-                 * The OPP table is not held while allocating the table, take it
-                 * now to avoid corruption to the lazy_opp_tables list.
-                 */
--               mutex_lock(&opp_table_lock);
-+               guard(mutex)(&opp_table_lock);
-                list_add(&opp_table->lazy, &lazy_opp_tables);
--               mutex_unlock(&opp_table_lock);
-        }
- }
-
-Can someone help ?
+   arch/parisc/lib/checksum.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/parisc/lib/delay.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/parisc/lib/io.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/parisc/lib/memcpy.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/parisc/mm/init.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/parisc/mm/ioremap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/parisc/video/video-sti.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/crypto/curve25519-ppc64le-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/include/asm/kasan.h: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kernel/crash_dump.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kernel/idle.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kernel/iommu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kernel/rtasd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kernel/security.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kernel/static_call.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kernel/traps.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kvm/book3s_64_vio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kvm/book3s_hv_nestedv2.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kvm/book3s_hv_p9_entry.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kvm/book3s_hv_p9_perf.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kvm/book3s_hv_ras.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kvm/book3s_hv_rm_mmu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kvm/book3s_hv_rm_xics.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kvm/book3s_rtas.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kvm/book3s_xics.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kvm/book3s_xive.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kvm/emulate.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kvm/guest-state-buffer.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/kvm/powerpc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/lib/crc-t10dif.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/lib/crc32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/lib/crypto/chacha-p10-glue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/lib/crypto/poly1305-p10-glue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/lib/crypto/sha256.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/lib/feature-fixups.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/lib/sstep.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/book3s64/hash_pgtable.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/book3s64/hugetlbpage.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/book3s64/iommu_api.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/book3s64/pgtable.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/book3s64/pkeys.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/book3s64/radix_tlb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/cacheflush.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/init-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/init_32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/init_64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/ioremap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/ioremap_32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/ioremap_64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/mem.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/mm/pgtable.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/512x/mpc512x_lpbfifo.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/512x/mpc512x_shared.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/52xx/mpc52xx_gpt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/8xx/cpm1.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/cell/spu_base.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/cell/spu_syscalls.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/cell/spufs/inode.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/chrp/setup.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/powermac/pfunc_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/powernv/idle.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/powernv/ocxl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/powernv/opal-async.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/powernv/opal-irqchip.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/powernv/opal-sensor-groups.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/powernv/opal-sensor.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/powernv/opal.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/powernv/pci-ioda.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/powernv/pci.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/powernv/rng.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/powernv/vas-window.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/ps3/exports.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/ps3/gelic_udbg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/pseries/hvcserver.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/platforms/pseries/of_helpers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/sysdev/cpm2.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/sysdev/fsl_rio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/sysdev/mpic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/sysdev/mpic_timer.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/sysdev/msi_bitmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/sysdev/xics/icp-native.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/sysdev/xive/common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/powerpc/sysdev/xive/native.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/acpi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/cacheinfo.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/cpu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/cpufeature.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/hibernate.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/irq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/kernel_mode_vector.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/process.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/reset.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/sbi-ipi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/sbi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/sbi_ecall.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/setup.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/smp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/time.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/traps_misaligned.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/kernel/vendor_extensions.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+>> arch/riscv/kvm/vm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/lib/crc-t10dif.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/lib/crc32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/lib/crc64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/lib/crypto/chacha-riscv64-glue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/lib/crypto/sha256.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/lib/csum.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/mm/cache-ops.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/mm/cacheflush.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/mm/dma-noncoherent.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/mm/init.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/mm/pgtable.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/riscv/mm/physaddr.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/appldata/appldata_base.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/crypto/arch_random.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/crypto/sha_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/include/asm/nospec-insn.h: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/kernel/cpufeature.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/kernel/crash_dump.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/kernel/ctlreg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/kernel/facility.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/kernel/fpu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/kernel/sthyi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/kernel/unwind_bc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/kernel/uv.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/kvm/interrupt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/kvm/kvm-s390.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/kvm/pv.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/lib/crc32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/lib/crypto/chacha-glue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/lib/crypto/sha256.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/lib/delay.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/mm/gmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/mm/gmap_helpers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/mm/pgtable.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/net/pnet.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/s390/pci/pci_kvm_hook.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/boards/mach-x3proto/ilsel.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/drivers/dma/dma-api.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/drivers/dma/dmabrg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/cpu/adc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/cpu/irq/ipr.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/cpu/proc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/cpu/sh4/sq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/io.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/io_trapped.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/ioport.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/irq_32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/kdebugfs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/process_32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/reboot.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/return_address.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/setup.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/sh_bios.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/sh_ksyms_32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/stacktrace.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/unwinder.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/kernel/vsyscall/vsyscall.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/lib/io.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/mm/cache.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/mm/ioremap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/mm/mmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sh/mm/uncached.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/kernel/adi_64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/kernel/auxio_64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/kernel/ioport.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/kernel/process_32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/kernel/setup_64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/kernel/time_32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/kernel/traps_64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/lib/PeeCeeI.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/lib/atomic32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/lib/crc32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/lib/crypto/sha256.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/lib/iomap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/mm/init_32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/mm/init_64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/prom/init_32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/prom/misc_32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/prom/misc_64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/prom/ranges.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/prom/tree_32.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/prom/tree_64.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/sparc/video/video-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/drivers/mconsole_kern.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/kernel/exec.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/kernel/gprof_syms.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/kernel/irq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/kernel/ksyms.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/kernel/mem.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/kernel/physmem.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/kernel/process.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/kernel/reboot.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/kernel/signal.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/kernel/skas/uaccess.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/kernel/stacktrace.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/kernel/time.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/kernel/um_arch.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/um/os-Linux/user_syms.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/x86/coco/sev/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   arch/x86/crypto/aria_aesni_avx2_glue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
 
 -- 
-viresh
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
