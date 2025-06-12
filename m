@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94828134CF
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 14:48:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D482BD013;
+	Thu, 12 Jun 2025 15:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749739708; cv=none; b=EWMRxpHhTQ9IZzFvquAAlb1i/PZXnX/oM2sHLvuntF8vJ8cFu3LhCEotH2xryV4XLywA4fyFDHmKj6OaIcCpGU/nyYms4ABkF3bIBEthv1CkUIIwwBfmULXUZIaZNhAVoYbRvQUvNLZ8Qevded36bfekn/2SdmQwWY43caI1UaI=
+	t=1749741690; cv=none; b=IaQIR/P9T7vX/RhL8wyjEaekP6Fv+w7hq7csPuNoc0NKFac21tglBbTy1v14StUZLp3IuyzldQIzWDcvc6mceuKYGGbN7UBGUQNgAKweb5Ct5BfYZIVhA1F41FfkdENChxnCJBaYH6vMdkguElp3bNmw4T9Yi9gyhiVlkqIfc1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749739708; c=relaxed/simple;
-	bh=/e5p9osxkx51XqE1aDEoQ2Zc1sIKmHJxGFwG2HbrwZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iD6Q8IRLTlNFulN6vk4/3vp3owcsQMzsHYjFcgpSMxfngctrGlE7/LBmALUtkFHIZvIfl6FEmQU/b0IhKVyvZCLwNa5ctLM0XX4U9fl7HSJwLEtXhfgKXROh6yBd7k+wkVpNNQamn/c3y9mjnZdHVsg666sjBTqPPzfoD4q7M78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HJG3ne7l; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1749741690; c=relaxed/simple;
+	bh=Djn8nhsFH8EBoL6/rpUpNkoXQl7/TmUbu+/DzUeyPy0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=VYQRx27P5LZIPFD0JMMTpK6F2EWv7jbZgwuu1tGN+GSwepmF5KorVWLswHcEzv9M9EddUuVojtzTZmL8lAK1NfaBCcORQ9WheQvBZEEgjKESrLlqzoOm0nPAdq8wfZy4/sBCVtxWXGOi+lN7jPoDBJPCib97wy0lA6L32XBrVUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N8Qo2jll; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HJG3ne7l"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N8Qo2jll"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749739707; x=1781275707;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/e5p9osxkx51XqE1aDEoQ2Zc1sIKmHJxGFwG2HbrwZc=;
-  b=HJG3ne7l1yPdaVoVGhE2izVKE6pBT7+j9O1mEKdjZBuv5i4xSGJ7O+mn
-   4gCKgRjt5EEjOR8Kp9XUY/qm4J5bFzomU6sDLdGd/FuUwDWXmAi23e8Gv
-   VCgqDvVFWFAqWMVrJg82ZIztNAT0saWfDlokNGm46yh/bmg8CqPdeyhYo
-   DrcpZgJdg8ODxGhwlBq0v1/tP5ak0BxvH3VQ6LkoQMAtqKnVRdaGvtaXH
-   Cwaf1gqkGoTtLyOR3NE71vrWGu7gTcvPpEtnclYXYa38cMk86NR9CX+Ak
-   1idyT0OZIxUJHHx/ax02LO3cm+6PwIcaG1eypI+3oJ1bi6fSba7f8IR2c
-   g==;
-X-CSE-ConnectionGUID: 4lujTFkFTXW/ZU8NRYLHGg==
-X-CSE-MsgGUID: V0/CSbfTRyatuQVsgHMWqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="62575561"
+  t=1749741689; x=1781277689;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Djn8nhsFH8EBoL6/rpUpNkoXQl7/TmUbu+/DzUeyPy0=;
+  b=N8Qo2jllGKC9JBIW8SwU0BYNT0NkaTAz3Bsz34EILV5QFUVT7jA6uDdH
+   ef77bc7NJi+95qexx467I9z59LgKkRbrC0wnvTx80G0zbbGrwIXX9d5hG
+   2z+tkoArdzh5ipIsiigWUN9chVMZrApi8eFqCQyiNQFaD2h6wyuptr25t
+   DjwsHBB0zi5xqW0AmGIQaQgknL4YNIyQmlb3CESGUjXxelR3JcLQuZQnG
+   8DF2Pdox/JcVzE4Z8aVfeecuFGs9IeybA5pyurkuHh1Hb2rlVfCNNqyD4
+   Iw6wUMeoTgOxV1j8i3l5N4KaTOdiQKgBVTqB/Ej0w9b+sxwP93RJlIi45
+   A==;
+X-CSE-ConnectionGUID: imbiJRrySpu89rspDVYMIA==
+X-CSE-MsgGUID: CgOEtVY+RzaT+Uf8beh4bg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="69366525"
 X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; 
-   d="scan'208";a="62575561"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 07:48:26 -0700
-X-CSE-ConnectionGUID: Vhjg/c83SbmrpWICjHaNsw==
-X-CSE-MsgGUID: 8nxIzQ8OTQGh19CZGtxRng==
+   d="scan'208";a="69366525"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 08:21:28 -0700
+X-CSE-ConnectionGUID: 2VJ/05PfRxmJ0J1NDyfOPg==
+X-CSE-MsgGUID: ECvaRSvCTDiRXSQAflo9cw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,231,1744095600"; 
-   d="scan'208";a="170720366"
+   d="scan'208";a="152317193"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 12 Jun 2025 07:48:23 -0700
+  by orviesa003.jf.intel.com with ESMTP; 12 Jun 2025 08:21:27 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPjE5-000BfW-12;
-	Thu, 12 Jun 2025 14:48:21 +0000
-Date: Thu, 12 Jun 2025 22:48:00 +0800
+	id 1uPjk4-000Bhe-1R;
+	Thu, 12 Jun 2025 15:21:24 +0000
+Date: Thu, 12 Jun 2025 23:20:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Andrew Ijano <andrew.ijano@gmail.com>, jic23@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, andrew.lopes@alumni.usp.br,
-	gustavobastos@usp.br, dlechner@baylibre.com, nuno.sa@analog.com,
-	andy@kernel.org, jstephan@baylibre.com, linux-iio@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/3] iio: accel: sca3000: use guard(mutex)() for
- handling mutex lock
-Message-ID: <202506122259.4MrANF8h-lkp@intel.com>
-References: <20250611194648.18133-4-andrew.lopes@alumni.usp.br>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [robh:dt/memory-region 2/17]
+ drivers/remoteproc/ti_k3_common.c:523:13: warning: variable 'rmem' is
+ uninitialized when used here
+Message-ID: <202506122318.qkhIU3u8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,73 +62,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250611194648.18133-4-andrew.lopes@alumni.usp.br>
 
-Hi Andrew,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.16-rc1 next-20250612]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Ijano/iio-accel-sca3000-replace-error_ret-labels-by-simple-returns/20250612-034940
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250611194648.18133-4-andrew.lopes%40alumni.usp.br
-patch subject: [PATCH v5 3/3] iio: accel: sca3000: use guard(mutex)() for handling mutex lock
-config: x86_64-randconfig-001-20250612 (https://download.01.org/0day-ci/archive/20250612/202506122259.4MrANF8h-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250612/202506122259.4MrANF8h-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt/memory-region
+head:   acb6a336a64dc26032171de30a4d43a25aa88284
+commit: ad8112ef27e513573350ff33dfc28c2796c294ec [2/17] remoteproc: Use of_reserved_mem_region_* functions for "memory-region"
+config: hexagon-randconfig-001-20250612 (https://download.01.org/0day-ci/archive/20250612/202506122318.qkhIU3u8-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250612/202506122318.qkhIU3u8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506122259.4MrANF8h-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506122318.qkhIU3u8-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iio/accel/sca3000.c: In function 'sca3000_write_raw':
->> drivers/iio/accel/sca3000.c:748:13: warning: unused variable 'ret' [-Wunused-variable]
-     748 |         int ret;
-         |             ^~~
-   drivers/iio/accel/sca3000.c: In function 'sca3000_write_event_value':
-   drivers/iio/accel/sca3000.c:881:13: warning: unused variable 'ret' [-Wunused-variable]
-     881 |         int ret;
-         |             ^~~
-   drivers/iio/accel/sca3000.c: In function 'sca3000_write_event_config':
-   drivers/iio/accel/sca3000.c:1188:13: warning: unused variable 'ret' [-Wunused-variable]
-    1188 |         int ret;
-         |             ^~~
+   drivers/remoteproc/ti_k3_common.c:476:22: warning: unused variable 'rmem_np' [-Wunused-variable]
+     476 |         struct device_node *rmem_np;
+         |                             ^~~~~~~
+>> drivers/remoteproc/ti_k3_common.c:523:13: warning: variable 'rmem' is uninitialized when used here [-Wuninitialized]
+     523 |                                 i + 1, &rmem->base, &rmem->size);
+         |                                         ^~~~
+   include/linux/dev_printk.h:154:65: note: expanded from macro 'dev_err'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/remoteproc/ti_k3_common.c:477:27: note: initialize the variable 'rmem' to silence this warning
+     477 |         struct reserved_mem *rmem;
+         |                                  ^
+         |                                   = NULL
+   2 warnings generated.
 
 
-vim +/ret +748 drivers/iio/accel/sca3000.c
+vim +/rmem +523 drivers/remoteproc/ti_k3_common.c
 
-e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  742  
-e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  743  static int sca3000_write_raw(struct iio_dev *indio_dev,
-e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  744  			     struct iio_chan_spec const *chan,
-e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  745  			     int val, int val2, long mask)
-e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  746  {
-e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  747  	struct sca3000_state *st = iio_priv(indio_dev);
-e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13 @748  	int ret;
-e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  749  
-e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  750  	switch (mask) {
-e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  751  	case IIO_CHAN_INFO_SAMP_FREQ:
-e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  752  		if (val2)
-e0f3fc9b47e61b drivers/staging/iio/accel/sca3000_core.c Ico Doornekamp   2016-09-13  753  			return -EINVAL;
-926150211ef327 drivers/iio/accel/sca3000.c              Andrew Ijano     2025-06-11  754  		guard(mutex)(&st->lock);
-926150211ef327 drivers/iio/accel/sca3000.c              Andrew Ijano     2025-06-11  755  		return sca3000_write_raw_samp_freq(st, val);
-626f971b5b0729 drivers/staging/iio/accel/sca3000.c      Jonathan Cameron 2016-10-08  756  	case IIO_CHAN_INFO_LOW_PASS_FILTER_3DB_FREQUENCY:
-626f971b5b0729 drivers/staging/iio/accel/sca3000.c      Jonathan Cameron 2016-10-08  757  		if (val2)
-626f971b5b0729 drivers/staging/iio/accel/sca3000.c      Jonathan Cameron 2016-10-08  758  			return -EINVAL;
-926150211ef327 drivers/iio/accel/sca3000.c              Andrew Ijano     2025-06-11  759  		guard(mutex)(&st->lock);
-926150211ef327 drivers/iio/accel/sca3000.c              Andrew Ijano     2025-06-11  760  		return sca3000_write_3db_freq(st, val);
-25888dc51163a5 drivers/staging/iio/accel/sca3000_core.c Jonathan Cameron 2011-05-18  761  	default:
-25888dc51163a5 drivers/staging/iio/accel/sca3000_core.c Jonathan Cameron 2011-05-18  762  		return -EINVAL;
-25888dc51163a5 drivers/staging/iio/accel/sca3000_core.c Jonathan Cameron 2011-05-18  763  	}
-25888dc51163a5 drivers/staging/iio/accel/sca3000_core.c Jonathan Cameron 2011-05-18  764  }
-574fb258d63658 drivers/staging/iio/accel/sca3000_core.c Jonathan Cameron 2009-08-18  765  
+744270b336c70b Beleswar Padhi    2025-05-13  471  
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  472  int k3_reserved_mem_init(struct k3_rproc *kproc)
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  473  {
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  474  	struct device *dev = kproc->dev;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  475  	struct device_node *np = dev->of_node;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  476  	struct device_node *rmem_np;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  477  	struct reserved_mem *rmem;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  478  	int num_rmems;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  479  	int ret, i;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  480  
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  481) 	num_rmems = of_reserved_mem_region_count(np);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  482  	if (num_rmems < 0) {
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  483  		dev_err(dev, "device does not reserved memory regions (%d)\n",
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  484  			num_rmems);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  485  		return -EINVAL;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  486  	}
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  487  	if (num_rmems < 2) {
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  488  		dev_err(dev, "device needs at least two memory regions to be defined, num = %d\n",
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  489  			num_rmems);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  490  		return -EINVAL;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  491  	}
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  492  
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  493  	/* use reserved memory region 0 for vring DMA allocations */
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  494  	ret = of_reserved_mem_device_init_by_idx(dev, np, 0);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  495  	if (ret) {
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  496  		dev_err(dev, "device cannot initialize DMA pool (%d)\n", ret);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  497  		return ret;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  498  	}
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  499  	ret = devm_add_action_or_reset(dev, k3_mem_release, dev);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  500  	if (ret)
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  501  		return ret;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  502  
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  503  	num_rmems--;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  504  	kproc->rmem = devm_kcalloc(dev, num_rmems, sizeof(*kproc->rmem), GFP_KERNEL);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  505  	if (!kproc->rmem)
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  506  		return -ENOMEM;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  507  
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  508  	/* use remaining reserved memory regions for static carveouts */
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  509  	for (i = 0; i < num_rmems; i++) {
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  510) 		struct resource res;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  511  
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  512) 		ret = of_reserved_mem_region_to_resource(np, i + 1, &res);
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  513) 		if (ret)
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  514) 			return ret;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  515  
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  516) 		kproc->rmem[i].bus_addr = res.start;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  517  		/* 64-bit address regions currently not supported */
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  518) 		kproc->rmem[i].dev_addr = (u32)res.start;
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  519) 		kproc->rmem[i].size = resource_size(&res);
+ad8112ef27e513 Rob Herring (Arm  2025-03-13  520) 		kproc->rmem[i].cpu_addr = devm_ioremap_resource_wc(dev, &res);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  521  		if (!kproc->rmem[i].cpu_addr) {
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  522  			dev_err(dev, "failed to map reserved memory#%d at %pa of size %pa\n",
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13 @523  				i + 1, &rmem->base, &rmem->size);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  524  			return -ENOMEM;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  525  		}
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  526  
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  527  		dev_dbg(dev, "reserved memory%d: bus addr %pa size 0x%zx va %pK da 0x%x\n",
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  528  			i + 1, &kproc->rmem[i].bus_addr,
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  529  			kproc->rmem[i].size, kproc->rmem[i].cpu_addr,
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  530  			kproc->rmem[i].dev_addr);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  531  	}
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  532  	kproc->num_rmems = num_rmems;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  533  
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  534  	return 0;
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  535  }
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  536  EXPORT_SYMBOL_GPL(k3_reserved_mem_init);
+c52d5f1d2aaca1 Beleswar Padhi    2025-05-13  537  
+
+:::::: The code at line 523 was first introduced by commit
+:::::: c52d5f1d2aaca18b57b71d1c146e03fd08bbd91a remoteproc: k3: Refactor reserved_mem_init() functions into common driver
+
+:::::: TO: Beleswar Padhi <b-padhi@ti.com>
+:::::: CC: Mathieu Poirier <mathieu.poirier@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
