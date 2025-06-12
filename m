@@ -1,121 +1,113 @@
-Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E75F0142E73
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 07:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.68
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0369079E1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 07:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749711868; cv=none; b=mGHqMoE5Op9fyThOnAaGPKO45FYBCRnAZPUePtb6ZfmFJ3/NEexjZ18PT1XQpd/kA81/oPrazMPbgs9ZODfExYstXRKK9Jvrjh7V7Y2j4e4dy0sQKJPERagU6MO0fovL1YK09R8j4sTh/chbTiINbyoSe3JvdLSjd2MHK5ekhTE=
+	t=1749713382; cv=none; b=gosaXlWkerpNRkHRpW1XWDlnG9E5lupYbPRVr6q7/PYCqH6CV9oajcNUrJ//4lLF0F12WnWqrK3MEHrqFTQQgxJn+PLZJJcA2umsslz/3llFDiGZCvYSKJbSqxi4HJJVzl5jNRp2FTmsDEy4OFmOKUKarMhXFQkCgbmTvpzlzjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749711868; c=relaxed/simple;
-	bh=q7FkDLSlzI+CdYFOAOxgI9KLHLVJdHDdF7mg/0rgET4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=JTqeEpl7oBkdAZdPu3LRAYzzl8wFt5n0ZZi8C++bk6iqZQxFJ7AGsG1CFnNgzMkO93XCUI8mcKlYhMbhqz8Qy4b/5Q7gSojCCfwJK7ZYzKGDvBO/AyUyKMYG0vZg/+FhyLu9JlwCesfYaPYYD/nyGrGnYCLu4mq5aseCyARfHVE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=nvDQlIuv; arc=none smtp.client-ip=209.85.218.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+	s=arc-20240116; t=1749713382; c=relaxed/simple;
+	bh=zSlIbjxaW75NdtQMB+5uCdNGmRLfncsyMDDu8q/6d+c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SU5f6Sn4JATugI/ceRIBnzyV7B8/pYnI6kn51YCMCIPUwEBeZzBvkIjyPbjDw62Rv75VAx/1+cTb9ZHjc9xI1wSov9a3+ZpTpAM3yucAeWxsXdUaFIMI48p/9v2QDtpIst/Jseo8iA/wU+l3xEQPQ/nLModmtL7xcSmMhfwxAbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C8xpovNc; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="nvDQlIuv"
-Received: by mail-ej1-f68.google.com with SMTP id a640c23a62f3a-ade4679fba7so119246866b.2
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 00:04:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C8xpovNc"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-23508d30142so8079895ad.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 12 Jun 2025 00:29:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1749711865; x=1750316665; darn=lists.linux.dev;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cw3L/WGzJkrxS3GghkKjCyC48doik3t7MN0Q+k7a2Qg=;
-        b=nvDQlIuvFV/IpbWY+Jv+ae0fls8fh+JA9qJ3vUGtJ2Ve6fHFY2Vqe5vd+IqmGN0Qcb
-         a9MUQhZZUB4FhBLTkrHwuTuI7LrBzoFEAWUKN6DLfx/jd+fiyIoWRRaF4NzuMN4kseSj
-         CMWLThyuNAAj//TGuhIAOCSjJ4B/zXVjFnnUwILj9p22D8s7dnMqyO5AoqH40I9Sk/kC
-         6sDq/+6EOMuR4kJvYz7p7ExJAzdz9OH3j9ZbmEDYr4PC3MqZhlV7+JCRYsmcV/9brShl
-         Hgc8gp/Vx6Lw2Q+kNAqFPkEKIlCi11kEAYexZZk2iKaYMoLCOFGatknSdLZIzLMNilFg
-         PJpw==
+        d=linaro.org; s=google; t=1749713380; x=1750318180; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=OY0OK186Eiy+kb3OI3njLLfZm61nlKnH95xfL7qAiAQ=;
+        b=C8xpovNcq2gkiebTkYUIvj46SLmk9RCLuJOBSwF20tRqZZg5OnLEW7sb5qHssLLTEj
+         9kYtnVQqI4xuHYUm3Er5/YAnNhfm8CnjOv1mv4VffRczn1BzyOJq2J1JqN6MIutqi1Ee
+         Mkn8WnXSHr2B0UGMH4xJsDJFyM964UZxaWgqFc9mjGxqoT2EPMQMQVHMouLOf1A76UQI
+         LZ8tD+NyBZCsRhG1wshzhd1ZdEixBtFzf3N55kYXsj3AaK/KEAAt51YRoi1THtgSuTfm
+         D6W/iNTLStg1WB0stF0vErZpbfEI33t456DBqJNguO5CEDQXU6Z9OM7mgBtMnQV7cUYw
+         asPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749711865; x=1750316665;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=cw3L/WGzJkrxS3GghkKjCyC48doik3t7MN0Q+k7a2Qg=;
-        b=RhqiZZmHY97f6cUsfiIWWf62dWrEjDtNzWLO2ZCgfOt2cXWRJBDGBw20uSk034n118
-         6JkbJaAqc1P7Vsb8eCNk+RwoGTVHvrQ1ou6IB9hvSvoiWu0snfe9m3Op4csczR8/6s40
-         O2lJP4sKzj4jEcjaa1uqDN8QeNn686pBjnOApAfGOCYXtUortBsSqe0EnWlRMzAwKCj8
-         VtpoYnOuT0umxTGRAM7X8HCM5yXQ4Z1Obo/c0pDkNa4wsSFue6jWj67PtwP5zIRcFfot
-         kX/PCD/L/FQ2sSPgESswwogWy2TIB4Uv2vXzov9NopgMudooMp4JY1zgJk2qD6xL6aU9
-         ZUAA==
-X-Forwarded-Encrypted: i=1; AJvYcCWPC/Y32xJQ4JsyTCPJssEjv6U5zx99bjxV3fyGmoVOeGOMo4h5b1qRLR2tY+2iIxiHA1iTnV4whbO/sHXj@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyyx8l7z311fteXnwjb6EofCOuKVKT1jyH+aItnQU1uEeWG+RSg
-	krAb63IKQlvcGU5+0wjrrRM7oq9GCQcqs11P0/0cgTAJjV4XnpzJDwk9KBLEC5fWOxs=
-X-Gm-Gg: ASbGncsTMq+R+QBc6+agTmN3aRN0V12UQwXAdGmtVY9WJAc373Exj2jijxN4Of8fqGa
-	zsuxQVkEll9GE2CB19KwQ+sBRZKqu9lP8K15VsR04wSlx+tGp6xZnB35QD7N3dXAhqtTthCZOdF
-	x+1qi9cHVSSRacsYYVljhWzxO00pui3volLl96FahM8SO2YG674i5rHjLtQMbLGF46rVDLAtRxT
-	EryyZURjPPPuI+GcQjw02NLOTct37UbywuFF82V1msu1mW50fyj9VrKe9XrS8mEqlVsniZLUram
-	E86Y7lpk96yJt0nAfcvFJwYZsLQPMYZ+ij0LtbwKXunTtV5wqq+KCqLTNMGQ4SzONNd1Nauji3A
-	IbNE5Yb6YI36SsDNcwIaBW9kvPwIn/wU=
-X-Google-Smtp-Source: AGHT+IF+KDNKiObIpCIqlmOnoWcQdBtZSIbFbYbHlxE64f3Gbx2DmHfFPwsIDOzOarYvJsykGULdwQ==
-X-Received: by 2002:a17:907:962a:b0:adb:2f9c:34bb with SMTP id a640c23a62f3a-ade8977bfe6mr621920566b.49.1749711865071;
-        Thu, 12 Jun 2025 00:04:25 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-adeadb8e7d8sm83029966b.120.2025.06.12.00.04.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Jun 2025 00:04:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1749713380; x=1750318180;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OY0OK186Eiy+kb3OI3njLLfZm61nlKnH95xfL7qAiAQ=;
+        b=MNrLgS0F5e80hQogCl5aUEqGlc6v1BiORkBGOmO8tHW9SWyCDHxgEXdQc079gxLtPS
+         /ltC9kShjcYKl8fBzlauXYDii3fZYvMzdpaavpGoAw9BT4ANyOV+uHD93bZSeZ5OP3jl
+         C/OCIJYXwZbneplmKVbYccnHxFHiCJKeTXADLiSM9D8dCOdnb471IAXJBfPhjL/3f+t5
+         yMdNODCeCdsH560Gz6pPy8QwMJhxNu6Ww9Lz+qmKZiijqxpUEP3Cq3JN4WOA7M4cewsQ
+         zYhxGxvjgYjo/8n7zWFVIcPBA/2JMeXn1kff/QmH7e2yz97o1aiGpyCer28MA6k4VdBf
+         A+kw==
+X-Gm-Message-State: AOJu0Yw1P/rEnMIQObU89Fj843JwdVScRfrVr3b1XvhBF79PRwV9+IR4
+	N7RNLjY54szfP44tD6PT1V4fMX0G1nFHOn51ncLVYitvQQBxdnIcQInFOKSc2lHv1mY=
+X-Gm-Gg: ASbGncuTRZN50E0Ko7fk6Gl4GK5gx8qbp/FZDr1iirYmUY8L7UD+iUaAOcs/YAhhJeu
+	9GHumYM+t5RIgWzqEJoMOib/nroxuQC2X+UbyewaVpSxbx9o6kXDVz9NHTXYatgdRNn7XlAiXp4
+	pODZLaOcmOGH7uwu6YOtGYgmRSJZPyU7jgXR4o96r62Opvwo2HBWvua5+tagYIdl31EJC2DhWaX
+	8mjKzJRGbtZ7bsiuDFIbaJfBC11jd9Hn3rymdXR0D3ZxdXErdRruxhBkgRCAmE5VKSSaoNiar6U
+	tq7syyfv2z/r5617Sxn2axuh1o4FHAyG+f0m8IRcWENmpBY7lcWP7WcNwjHvhfc=
+X-Google-Smtp-Source: AGHT+IHSsq98Gwdk5JzoPA1cqT+FsUUn7tYinnnuONXeJ94UIXplKK2bd7jvRP2tu3UYegqm9ju+WQ==
+X-Received: by 2002:a17:902:f943:b0:234:ef42:5d5b with SMTP id d9443c01a7336-2364c8d0c0bmr28410245ad.16.1749713380188;
+        Thu, 12 Jun 2025 00:29:40 -0700 (PDT)
+Received: from localhost ([122.172.81.72])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2364e61b614sm7499335ad.13.2025.06.12.00.29.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Jun 2025 00:29:39 -0700 (PDT)
+Date: Thu, 12 Jun 2025 12:59:37 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: drivers/opp/of.o: warning: objtool:
+ _opp_table_alloc_required_tables+0x3b0: stack state mismatch: reg1[22]=-1+0
+ reg2[22]=-2-16
+Message-ID: <20250612072937.gb3n2mh34aivabt4@vireshk-i7>
+References: <202506110656.WF6sPKbe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Jun 2025 09:04:24 +0200
-Message-Id: <DAKD39PGNS5N.3AJ2BF7LUY4IN@fairphone.com>
-Cc: "Paul Gazzillo" <paul@pgazz.com>, "Necip Fazil Yildiran"
- <fazilyildiran@gmail.com>, <oe-kbuild-all@lists.linux.dev>, "Bjorn
- Andersson" <andersson@kernel.org>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [qcom:clk-for-6.17 13/18] kismet: WARNING: unmet direct
- dependencies detected for SM_GCC_6350 when selected by SM_VIDEOCC_6350
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "kernel test robot" <lkp@intel.com>, "Konrad Dybcio"
- <konradybcio@kernel.org>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <202506120742.31WDlRHF-lkp@intel.com>
-In-Reply-To: <202506120742.31WDlRHF-lkp@intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202506110656.WF6sPKbe-lkp@intel.com>
 
-On Thu Jun 12, 2025 at 1:21 AM CEST, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/qcom/linux clk-fo=
-r-6.17
-> head:   691f3413baa4bcaedbb40cd64be0f5e676423830
-> commit: 720b1e8f20047e072b98a0931fc3e9a545fda18f [13/18] clk: qcom: Add v=
-ideo clock controller driver for SM6350
-> config: arm-kismet-CONFIG_SM_GCC_6350-CONFIG_SM_VIDEOCC_6350-0-0 (https:/=
-/download.01.org/0day-ci/archive/20250612/202506120742.31WDlRHF-lkp@intel.c=
-om/config)
-> reproduce: (https://download.01.org/0day-ci/archive/20250612/202506120742=
-.31WDlRHF-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
+On 11-06-25, 06:19, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> head:   f09079bd04a924c72d555cd97942d5f8d7eca98c
+> commit: ff9c512041f2b405536640374ae3a3fe10efaf8b OPP: Use mutex locking guards
+> date:   6 weeks ago
+> config: loongarch-randconfig-002-20250611
+> compiler: loongarch64-linux-gcc (GCC) 15.1.0
+> reproduce (this is a W=1 build):
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
 > the same patch/commit), kindly add following tags
 > | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506120742.31WDlRHF-lkp=
-@intel.com/
->
-> kismet warnings: (new ones prefixed by >>)
->>> kismet: WARNING: unmet direct dependencies detected for SM_GCC_6350 whe=
-n selected by SM_VIDEOCC_6350
->    WARNING: unmet direct dependencies detected for SM_GCC_6350
->      Depends on [n]: COMMON_CLK [=3Dy] && COMMON_CLK_QCOM [=3Dy] && (ARM6=
-4 || COMPILE_TEST [=3Dn])
->      Selected by [y]:
->      - SM_VIDEOCC_6350 [=3Dy] && COMMON_CLK [=3Dy] && COMMON_CLK_QCOM [=
-=3Dy]
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202506110656.WF6sPKbe-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> drivers/opp/of.o: warning: objtool: _opp_table_alloc_required_tables+0x3b0: stack state mismatch: reg1[22]=-1+0 reg2[22]=-2-16
 
-I imagine this happens also for most other videocc drivers upstream?
+Hi,
 
-Most have "select SM_GCC_XXXX", only SM_VIDEOCC_8550 uses "depends on"
-instead. Should all videocc drivers use that?
+I am not really sure what's really wrong with the change here:
 
-(also applies to camcc, gpucc and lpasscc kconfig symbols)
+@@ -201,9 +191,8 @@ static void _opp_table_alloc_required_tables(struct opp_table *opp_table,
+                 * The OPP table is not held while allocating the table, take it
+                 * now to avoid corruption to the lazy_opp_tables list.
+                 */
+-               mutex_lock(&opp_table_lock);
++               guard(mutex)(&opp_table_lock);
+                list_add(&opp_table->lazy, &lazy_opp_tables);
+-               mutex_unlock(&opp_table_lock);
+        }
+ }
 
-Regards
-Luca
+Can someone help ?
+
+-- 
+viresh
