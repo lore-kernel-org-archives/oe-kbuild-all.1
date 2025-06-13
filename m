@@ -1,70 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4D021EE7C6
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jun 2025 07:04:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D51218E9F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jun 2025 07:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749798300; cv=none; b=RPNGfu9B75QXfox20Ih9rdbGnBeINqtJPlyNEEQM9ox4jwEraxg2mT7crZJCJ2dj0zUo6HU7HFLcAxmwYyacMYN4JATu4wrdkqgJx/B8+R40xeweO36CTqG4spu0S9oaMAe9ng0qJkPh9kqvQKGn67vtHBqTfkaL19iFDJUCLYk=
+	t=1749798307; cv=none; b=KcunoDYB/zqjcka2o23V9xncy+n9+WDDBpoO9g1siqXm6FyJom42yCt9pSNuV9qHAqFfI6TUz94fE/184c0gLgUjzWJoErKp1V8Y9iXwDLoSGWCMqY2DP8qv2hTnZVsHGhtY8y/tghH+oabDWiTaDHQtGe/Bi1O34uvOzIOn9IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749798300; c=relaxed/simple;
-	bh=RnD4RXYZ1OabAK5F7+0tdUL8PgTqBaO1wI8/PcHVGkM=;
+	s=arc-20240116; t=1749798307; c=relaxed/simple;
+	bh=YPhirRC/fqgXNZyCmveCpTKVmiZA7ueG5zIrOKWu6sI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FPA7UhxhWyP6g/OTHmF+rAezf20pFv3APsaeBPHekRfy8KJuxSEhSlEeeYP71wWpoPAgt+6R+6Zc04u8oFDE4dJ3dpLdohlLxmnJmdpf2qDzhN+1x/m1lL/lvcV8O+oVbjeMiEhY+FLQF68kpMF6/C+dMnpqSnbkgE+0Y5S4rYs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Asm+fM/o; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=b6wQxLDmYgQoh2ByCg0HdTu9h5r/h94ieFntzTemsfBktlNsvCX2RbVbpX+4zI4fsyZwVaDx1f75mBvRAQFHdNF9gXbD0WZK2oMjHtxQhgAxYI8oOg2sXO9HORZPMYESNXBhAOv89oEgBWhTanwriEwTH9/KnOfsmKuvTUgnO54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LLGSEuhO; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Asm+fM/o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LLGSEuhO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749798299; x=1781334299;
+  t=1749798306; x=1781334306;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RnD4RXYZ1OabAK5F7+0tdUL8PgTqBaO1wI8/PcHVGkM=;
-  b=Asm+fM/oLAO15DHLBAZemG0MsCJ6Dc6R4LeobBl85yFc8tYUjrzJDxCL
-   pu01bfy6F2b36T/O1ffXsR05LE3spSi2oHA7pKepN+6GwD7vSVlYhqP8c
-   93LJARdrKSy73qeBmv3xj7s1z7jZPafImH3Xe1UVsfnlrds9DCuoq1dZ/
-   wx5+8Yg+ypIpnVEQrPOz5Pk1kk3KlzESWxCgBVXtiQdFhWrUcinYeFkCp
-   PNL38uPd4SkdjK1uw4rWRA3iqo+p8fYg4vytx0zDy35LcfIsdop8bJowt
-   tzl2BaPalnbJiIcJlVA53xPxGdgjE7hyb4XukALgWg3PSCnxvYg1vDiAd
+  bh=YPhirRC/fqgXNZyCmveCpTKVmiZA7ueG5zIrOKWu6sI=;
+  b=LLGSEuhOZQkOb9loS/sqDV6u+2gsn9+KmQEloOyHyYkrFCNwtYRpwemm
+   k2NisS9UWEX7DCiE7BlduUa70ZPdLaBY4glT31f+S3Xn9ToEbde5osfmn
+   qNwjyFxcM3ePrEj9pdbR4KKwBAnpOc6hgwxrkUapiViHLC9tixCLjNaQX
+   +EGTrdL5SS6sQ6vAXMMpZrPEL8/w6JCj94RwCB93P+da6AwZZULR2cz3h
+   fY8FecLQby5njqLNkrbCAEZsQksNqU9wKWIVdvuliKJPYjwj05AFHlVfA
+   50wOwJm57gUHYaU0zQVYpBPCGsStPYhwkDuXFH94pwYCPcIp0Jl4Hqs2t
    Q==;
-X-CSE-ConnectionGUID: bBUAm8MkSx2/Utub6QTJ5w==
-X-CSE-MsgGUID: lBKV8/abQZW/lOdrjv2mfQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="52143403"
+X-CSE-ConnectionGUID: 9YS+YUc6RhiS19N1IiJ5fA==
+X-CSE-MsgGUID: u/Rbl8goQUuEJQLBMqx/CQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="51878651"
 X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="52143403"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 00:04:58 -0700
-X-CSE-ConnectionGUID: zOKh1O1fSo6T+TbG1cK2MQ==
-X-CSE-MsgGUID: YLGaVpnVSR2gP2U6A4DmRA==
+   d="scan'208";a="51878651"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 00:04:53 -0700
+X-CSE-ConnectionGUID: S+YzazeVS0qcM0G9gtFmGQ==
+X-CSE-MsgGUID: ZaxUnIRhSNWmOJKg/4rtLg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="147656377"
+   d="scan'208";a="170929459"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 13 Jun 2025 00:04:49 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 13 Jun 2025 00:04:50 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPyT2-000CJ6-0a;
+	id 1uPyT2-000CJ4-0W;
 	Fri, 13 Jun 2025 07:04:48 +0000
-Date: Fri, 13 Jun 2025 15:04:03 +0800
+Date: Fri, 13 Jun 2025 15:04:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
-	reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, hpa@zytor.com,
-	akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
-	thuth@redhat.com, ardb@kernel.org, gregkh@linuxfoundation.org,
-	seanjc@google.com, thomas.lendacky@amd.com,
-	pawan.kumar.gupta@linux.intel.com, perry.yuan@amd.com,
-	yosry.ahmed@linux.dev, kai.huang@intel.com, xiaoyao.li@intel.com,
-	peterz@infradead.org, kan.liang@linux.intel.com,
-	mario.limonciello@amd.com, xin3.li@intel.com, sohil.mehta@intel.com
-Subject: Re: [PATCH v6 8/8] fs/resctrl: Introduce interface to modify
- io_alloc Capacity Bit Masks
-Message-ID: <202506131403.MWHHLsxB-lkp@intel.com>
-References: <6f8158ba0eebf41c9ec59e82dcdc28d4d3151c3b.1749677012.git.babu.moger@amd.com>
+To: Thomas Fourier <fourier.thomas@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Thomas Fourier <fourier.thomas@gmail.com>,
+	Chris Snook <chris.snook@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Ingo Molnar <mingo@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] (drivers/ethernet/atheros/atl1) test DMA mapping for
+ error code
+Message-ID: <202506131458.MnU50xNO-lkp@intel.com>
+References: <20250612150542.85239-2-fourier.thomas@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,97 +71,177 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6f8158ba0eebf41c9ec59e82dcdc28d4d3151c3b.1749677012.git.babu.moger@amd.com>
+In-Reply-To: <20250612150542.85239-2-fourier.thomas@gmail.com>
 
-Hi Babu,
+Hi Thomas,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.16-rc1 next-20250612]
-[cannot apply to tip/x86/core aegl/next]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.16-rc1 next-20250612]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-cpufeatures-Add-support-for-L3-Smart-Data-Cache-Injection-Allocation-Enforcement/20250612-053050
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/6f8158ba0eebf41c9ec59e82dcdc28d4d3151c3b.1749677012.git.babu.moger%40amd.com
-patch subject: [PATCH v6 8/8] fs/resctrl: Introduce interface to modify io_alloc Capacity Bit Masks
-config: x86_64-randconfig-r071-20250612 (https://download.01.org/0day-ci/archive/20250613/202506131403.MWHHLsxB-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Fourier/drivers-ethernet-atheros-atl1-test-DMA-mapping-for-error-code/20250612-231733
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250612150542.85239-2-fourier.thomas%40gmail.com
+patch subject: [PATCH] (drivers/ethernet/atheros/atl1) test DMA mapping for error code
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250613/202506131458.MnU50xNO-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250613/202506131458.MnU50xNO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506131403.MWHHLsxB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506131458.MnU50xNO-lkp@intel.com/
 
-New smatch warnings:
-fs/resctrl/rdtgroup.c:2105 resctrl_io_alloc_cbm_write() warn: unsigned 'io_alloc_closid' is never less than zero.
-fs/resctrl/rdtgroup.c:2105 resctrl_io_alloc_cbm_write() warn: error code type promoted to positive: 'io_alloc_closid'
+All error/warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-fs/resctrl/rdtgroup.c:1961 resctrl_io_alloc_write() warn: unsigned 'io_alloc_closid' is never less than zero.
-fs/resctrl/rdtgroup.c:1961 resctrl_io_alloc_write() warn: error code type promoted to positive: 'io_alloc_closid'
-fs/resctrl/rdtgroup.c:2026 resctrl_io_alloc_cbm_show() warn: unsigned 'io_alloc_closid' is never less than zero.
-fs/resctrl/rdtgroup.c:2026 resctrl_io_alloc_cbm_show() warn: error code type promoted to positive: 'io_alloc_closid'
+   drivers/net/ethernet/atheros/atlx/atl1.c: In function 'atl1_tx_map':
+>> drivers/net/ethernet/atheros/atlx/atl1.c:2315:34: warning: assignment to 'dma_addr_t' {aka 'long long unsigned int'} from 'void *' makes integer from pointer without a cast [-Wint-conversion]
+    2315 |                 buffer_info->dma = NULL;
+         |                                  ^
+>> drivers/net/ethernet/atheros/atlx/atl1.c:2317:39: error: 'tdp_ring' undeclared (first use in this function); did you mean 'tpd_ring'?
+    2317 |                 if (++first_mapped == tdp_ring->count)
+         |                                       ^~~~~~~~
+         |                                       tpd_ring
+   drivers/net/ethernet/atheros/atlx/atl1.c:2317:39: note: each undeclared identifier is reported only once for each function it appears in
 
-vim +/io_alloc_closid +2105 fs/resctrl/rdtgroup.c
 
-  2072	
-  2073	static ssize_t resctrl_io_alloc_cbm_write(struct kernfs_open_file *of,
-  2074						  char *buf, size_t nbytes, loff_t off)
-  2075	{
-  2076		struct resctrl_schema *s = rdt_kn_parent_priv(of->kn);
-  2077		struct rdt_resource *r = s->res;
-  2078		u32 io_alloc_closid;
-  2079		int ret = 0;
-  2080	
-  2081		/* Valid input requires a trailing newline */
-  2082		if (nbytes == 0 || buf[nbytes - 1] != '\n')
-  2083			return -EINVAL;
-  2084	
-  2085		buf[nbytes - 1] = '\0';
-  2086	
-  2087		if (!r->cache.io_alloc_capable) {
-  2088			rdt_last_cmd_puts("io_alloc feature is not supported on the resource\n");
-  2089			return -EINVAL;
-  2090		}
-  2091	
-  2092		cpus_read_lock();
-  2093		mutex_lock(&rdtgroup_mutex);
-  2094	
-  2095		rdt_last_cmd_clear();
-  2096		rdt_staged_configs_clear();
-  2097	
-  2098		if (!resctrl_arch_get_io_alloc_enabled(r)) {
-  2099			rdt_last_cmd_puts("io_alloc feature is not enabled\n");
-  2100			ret = -EINVAL;
-  2101			goto cbm_write_out;
-  2102		}
-  2103	
-  2104		io_alloc_closid = resctrl_io_alloc_closid_get(r);
-> 2105		if (io_alloc_closid < 0) {
-  2106			rdt_last_cmd_puts("Max CLOSID to support io_alloc is not available\n");
-  2107			ret = -EINVAL;
-  2108			goto cbm_write_out;
-  2109		}
-  2110	
-  2111		ret = resctrl_io_alloc_parse_line(buf, r, resctrl_schema_io_alloc(s),
-  2112						  io_alloc_closid);
-  2113		if (ret)
-  2114			goto cbm_write_out;
-  2115	
-  2116		ret = resctrl_arch_update_domains(r, io_alloc_closid);
-  2117	
-  2118	cbm_write_out:
-  2119		rdt_staged_configs_clear();
-  2120		mutex_unlock(&rdtgroup_mutex);
-  2121		cpus_read_unlock();
-  2122	
-  2123		return ret ?: nbytes;
-  2124	}
-  2125	
+vim +2317 drivers/net/ethernet/atheros/atlx/atl1.c
+
+  2192	
+  2193	static int atl1_tx_map(struct atl1_adapter *adapter, struct sk_buff *skb,
+  2194		struct tx_packet_desc *ptpd)
+  2195	{
+  2196		struct atl1_tpd_ring *tpd_ring = &adapter->tpd_ring;
+  2197		struct atl1_buffer *buffer_info;
+  2198		u16 buf_len = skb->len;
+  2199		struct page *page;
+  2200		unsigned long offset;
+  2201		unsigned int nr_frags;
+  2202		unsigned int f;
+  2203		int retval;
+  2204		u16 next_to_use;
+  2205		u16 first_mapped;
+  2206		u16 data_len;
+  2207		u8 hdr_len;
+  2208	
+  2209		buf_len -= skb->data_len;
+  2210		nr_frags = skb_shinfo(skb)->nr_frags;
+  2211		next_to_use = atomic_read(&tpd_ring->next_to_use);
+  2212		first_mapped = next_to_use;
+  2213		buffer_info = &tpd_ring->buffer_info[next_to_use];
+  2214		BUG_ON(buffer_info->skb);
+  2215		/* put skb in last TPD */
+  2216		buffer_info->skb = NULL;
+  2217	
+  2218		retval = (ptpd->word3 >> TPD_SEGMENT_EN_SHIFT) & TPD_SEGMENT_EN_MASK;
+  2219		if (retval) {
+  2220			/* TSO */
+  2221			hdr_len = skb_tcp_all_headers(skb);
+  2222			buffer_info->length = hdr_len;
+  2223			page = virt_to_page(skb->data);
+  2224			offset = offset_in_page(skb->data);
+  2225			buffer_info->dma = dma_map_page(&adapter->pdev->dev, page,
+  2226							offset, hdr_len,
+  2227							DMA_TO_DEVICE);
+  2228			if (dma_mapping_error(&adapter->pdev->dev, buffer_info->dma))
+  2229				goto dma_err;
+  2230	
+  2231			if (++next_to_use == tpd_ring->count)
+  2232				next_to_use = 0;
+  2233	
+  2234			if (buf_len > hdr_len) {
+  2235				int i, nseg;
+  2236	
+  2237				data_len = buf_len - hdr_len;
+  2238				nseg = (data_len + ATL1_MAX_TX_BUF_LEN - 1) /
+  2239					ATL1_MAX_TX_BUF_LEN;
+  2240				for (i = 0; i < nseg; i++) {
+  2241					buffer_info =
+  2242					    &tpd_ring->buffer_info[next_to_use];
+  2243					buffer_info->skb = NULL;
+  2244					buffer_info->length =
+  2245					    (ATL1_MAX_TX_BUF_LEN >=
+  2246					     data_len) ? ATL1_MAX_TX_BUF_LEN : data_len;
+  2247					data_len -= buffer_info->length;
+  2248					page = virt_to_page(skb->data +
+  2249						(hdr_len + i * ATL1_MAX_TX_BUF_LEN));
+  2250					offset = offset_in_page(skb->data +
+  2251						(hdr_len + i * ATL1_MAX_TX_BUF_LEN));
+  2252					buffer_info->dma = dma_map_page(&adapter->pdev->dev,
+  2253									page, offset,
+  2254									buffer_info->length,
+  2255									DMA_TO_DEVICE);
+  2256					if (dma_mapping_error(&adapter->pdev->dev, buffer_info->dma))
+  2257						goto dma_err;
+  2258					if (++next_to_use == tpd_ring->count)
+  2259						next_to_use = 0;
+  2260				}
+  2261			}
+  2262		} else {
+  2263			/* not TSO */
+  2264			buffer_info->length = buf_len;
+  2265			page = virt_to_page(skb->data);
+  2266			offset = offset_in_page(skb->data);
+  2267			buffer_info->dma = dma_map_page(&adapter->pdev->dev, page,
+  2268							offset, buf_len,
+  2269							DMA_TO_DEVICE);
+  2270			if (dma_mapping_error(&adapter->pdev->dev, buffer_info->dma))
+  2271				goto dma_err;
+  2272			if (++next_to_use == tpd_ring->count)
+  2273				next_to_use = 0;
+  2274		}
+  2275	
+  2276		for (f = 0; f < nr_frags; f++) {
+  2277			const skb_frag_t *frag = &skb_shinfo(skb)->frags[f];
+  2278			u16 i, nseg;
+  2279	
+  2280			buf_len = skb_frag_size(frag);
+  2281	
+  2282			nseg = (buf_len + ATL1_MAX_TX_BUF_LEN - 1) /
+  2283				ATL1_MAX_TX_BUF_LEN;
+  2284			for (i = 0; i < nseg; i++) {
+  2285				buffer_info = &tpd_ring->buffer_info[next_to_use];
+  2286				BUG_ON(buffer_info->skb);
+  2287	
+  2288				buffer_info->skb = NULL;
+  2289				buffer_info->length = (buf_len > ATL1_MAX_TX_BUF_LEN) ?
+  2290					ATL1_MAX_TX_BUF_LEN : buf_len;
+  2291				buf_len -= buffer_info->length;
+  2292				buffer_info->dma = skb_frag_dma_map(&adapter->pdev->dev,
+  2293					frag, i * ATL1_MAX_TX_BUF_LEN,
+  2294					buffer_info->length, DMA_TO_DEVICE);
+  2295				if (dma_mapping_error(&adapter->pdev->dev, buffer_info->dma))
+  2296					goto dma_err;
+  2297	
+  2298				if (++next_to_use == tpd_ring->count)
+  2299					next_to_use = 0;
+  2300			}
+  2301		}
+  2302	
+  2303		/* last tpd's buffer-info */
+  2304		buffer_info->skb = skb;
+  2305	
+  2306		return 0;
+  2307	
+  2308	 dma_err:
+  2309		while (first_mapped != next_to_use) {
+  2310			buffer_info = &tpd_ring->buffer_info[first_mapped];
+  2311			dma_unmap_page(&adapter->pdev->dev,
+  2312				       buffer_info->dma,
+  2313				       buffer_info->length,
+  2314				       DMA_TO_DEVICE);
+> 2315			buffer_info->dma = NULL;
+  2316	
+> 2317			if (++first_mapped == tdp_ring->count)
+  2318				first_mapped = 0;
+  2319		}
+  2320		return -ENOMEM;
+  2321	}
+  2322	
 
 -- 
 0-DAY CI Kernel Test Service
