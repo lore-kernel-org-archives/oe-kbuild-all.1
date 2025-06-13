@@ -1,66 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3946C22F76C;
-	Fri, 13 Jun 2025 18:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B4523A990;
+	Fri, 13 Jun 2025 19:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749840011; cv=none; b=gQ4pGBDeC63JDrZs4CKHhIzSsbTCrake2RbYf/iBiiPexXUI/Vr2sneBXz0MfuiVq58G9rlXHWaUr/eCkt0AkuqX4c+yjn8xLDOfvKYcQIS+0sOSdWN63+H7ax0i9vZyUQxgi9q4iB3zzyb75P1tGYY3oajAIvo9DTXGkj7+0ds=
+	t=1749844335; cv=none; b=DPWP5ZRFBEIP1JlbSmLc/ADRsLjnvGLW/7BwnbcA6woxO5LbPCgCkJvTRv+uYXeZsKSa4M2y3vvsPx0nGed5vU2rJpsVosu+bCm8Y8ju4EahrwwXh5KbiChaeSNEvH/2shTJU+r3EcGDGj9BuwAXRR7UoYekZSDXYT974VRVe6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749840011; c=relaxed/simple;
-	bh=qUp7OWoLLHjLEb+MSAH2UyjVIUcUUSZsadGYuLFKVdE=;
+	s=arc-20240116; t=1749844335; c=relaxed/simple;
+	bh=08CHcx7SGTe5PPGRhbl976RyFmVQu6WMI6cWqEnDC98=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bJFZc1hQWs+ErPgSYGJa4Uqqf7yqyhYyHD4ie3o9em+t4o94PtpTFmjzJIbnWwsttEwu/+ha1A62wwZIlK8BItTw9bOiLNyV6xxGs0TZoxL4gStWnelupHL3kfaVDJ8xNXXpylj5BU2+SneNw+o2LdsTHIjcCVgPGZq7mE2Gve8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UbGbWDPJ; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=NDbIcW1Kn9hEwad8UhuoSvjjiDsCKNrDIqs3eRoJqIq+RJEJDb44LgERbZg22o22Yd9Hvon7zJWKW2T6YKlsWZLWRd9s8yxlT91ldMpNu1Z6j0bjC1BU/cO3aXBC0JgcjwBA6KuHcj3CoPvdopzMJymR0c4+RKWDYwlorY58cBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UYraGh4N; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbGbWDPJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UYraGh4N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749840009; x=1781376009;
+  t=1749844334; x=1781380334;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qUp7OWoLLHjLEb+MSAH2UyjVIUcUUSZsadGYuLFKVdE=;
-  b=UbGbWDPJ2DRCWebK/bU/iIZN17FTnTyepWUlP/u39EiLnIGyo14dYJ/R
-   W4ci4zblZ/d1iSi9eAmmizl0o7CY38AZhI9fpiJhX2upU3SbOxp57HTIm
-   MDxowb11pwsZ6/HQxlB+zRhKw7wGHP+nhdpIZ5OnBnxDCAB60hCluJZlN
-   QLlVJeKbeOIE0h2fPtVWD0GUJIn/NyDXHAiozWM4dQXVKL8HVdfCS9MHk
-   ZA1wW/Und+A1vIkjuqWe4tS16leS360d9IEJFHRXe33g5j/fAM6rzWyOh
-   R5zl1E8jHJgs4f86YZYIxkj9ok+Bd9al3PSGZXSTSunCJE1h+2QWxTUyM
-   g==;
-X-CSE-ConnectionGUID: JDCXzR1TSyiDZQVH5LZdVg==
-X-CSE-MsgGUID: +p4KFdPFSu+8Osi4+2kfEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="69642110"
+  bh=08CHcx7SGTe5PPGRhbl976RyFmVQu6WMI6cWqEnDC98=;
+  b=UYraGh4NnXuYHi33/ol8k5vCtIloviw48+1P9Vb/OFujITGKytRUAUHC
+   Qv/nGpV/fLL5Fup0+cRjMzgfDauw7nx2ZnSzZm8zN0kEsGXEIxcu3tXo5
+   /d5fqCFFaSa+zAtn0ALcsYv/AkIlVMRdOSRG+r2Z226hHwVYwAa5yxIdR
+   UQv9Q99KCHINPMIw7hvKnH42YOY/TC90cjeJQPnxoUDarV1YCHho+JigN
+   dF7offUC+DYWSSptafg1LCQ5cHttnwKvN22oQDvR9b2d3IKQEVokwIpuB
+   lLxE6eGcbMaztT5KyL76bK+747Leik2rysuFCdbTq+JL9dzjvrQRWewCe
+   Q==;
+X-CSE-ConnectionGUID: G0//SPzdTGy2pIUj5CjSAA==
+X-CSE-MsgGUID: EmBs8TJoSdqv5HRdRpUczg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="77462398"
 X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; 
-   d="scan'208";a="69642110"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 11:40:08 -0700
-X-CSE-ConnectionGUID: ZJCfA9P+TLqsa4q7weCvbg==
-X-CSE-MsgGUID: UR7j5CDPQIGe7bZestR+Qw==
+   d="scan'208";a="77462398"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 12:52:13 -0700
+X-CSE-ConnectionGUID: hQlxaq1MSIGdhKHtI0jOpQ==
+X-CSE-MsgGUID: FWCOuF0USwCWd3fhkdxb3Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; 
-   d="scan'208";a="153182580"
+   d="scan'208";a="148379688"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 13 Jun 2025 11:40:06 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 13 Jun 2025 12:52:11 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQ9Jr-000CuA-19;
-	Fri, 13 Jun 2025 18:40:03 +0000
-Date: Sat, 14 Jun 2025 02:39:38 +0800
+	id 1uQARd-000Cxm-0t;
+	Fri, 13 Jun 2025 19:52:09 +0000
+Date: Sat, 14 Jun 2025 03:51:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	dri-devel@lists.freedesktop.org, airlied@gmail.com,
-	Matthew Brost <matthew.brost@intel.com>,
-	Matthew Auld <matthew.auld@intel.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Subject: Re: [PATCH 3/3] drm/ttm, drm_xe, Implement ttm_lru_walk_for_evict()
- using the guarded LRU iteration
-Message-ID: <202506140238.KCnSVmrU-lkp@intel.com>
-References: <20250613151824.178650-4-thomas.hellstrom@linux.intel.com>
+To: lirongqing <lirongqing@baidu.com>, vgoyal@redhat.com,
+	stefanha@redhat.com, miklos@szeredi.hu, eperezma@redhat.com,
+	virtualization@lists.linux.dev, linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Li RongQing <lirongqing@baidu.com>
+Subject: Re: [PATCH] virtio_fs: Remove redundant spinlock in
+ virtio_fs_request_complete()
+Message-ID: <202506140329.g0oJMDcD-lkp@intel.com>
+References: <20250613055051.1873-1-lirongqing@baidu.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,115 +66,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250613151824.178650-4-thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20250613055051.1873-1-lirongqing@baidu.com>
 
-Hi Thomas,
+Hi lirongqing,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on drm-xe/drm-xe-next]
+[auto build test WARNING on mszeredi-fuse/for-next]
 [also build test WARNING on linus/master v6.16-rc1 next-20250613]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Use-a-struct-for-the-common-part-of-struct-ttm_lru_walk-and-struct-ttm_bo_lru_cursor/20250613-232106
-base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
-patch link:    https://lore.kernel.org/r/20250613151824.178650-4-thomas.hellstrom%40linux.intel.com
-patch subject: [PATCH 3/3] drm/ttm, drm_xe, Implement ttm_lru_walk_for_evict() using the guarded LRU iteration
-config: i386-buildonly-randconfig-005-20250613 (https://download.01.org/0day-ci/archive/20250614/202506140238.KCnSVmrU-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250614/202506140238.KCnSVmrU-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/lirongqing/virtio_fs-Remove-redundant-spinlock-in-virtio_fs_request_complete/20250613-135306
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git for-next
+patch link:    https://lore.kernel.org/r/20250613055051.1873-1-lirongqing%40baidu.com
+patch subject: [PATCH] virtio_fs: Remove redundant spinlock in virtio_fs_request_complete()
+config: i386-randconfig-003-20250614 (https://download.01.org/0day-ci/archive/20250614/202506140329.g0oJMDcD-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250614/202506140329.g0oJMDcD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506140238.KCnSVmrU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506140329.g0oJMDcD-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/ttm/ttm_bo_util.c:965:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
-     965 |                 if (!bo_locked)
-         |                     ^~~~~~~~~~
-   drivers/gpu/drm/ttm/ttm_bo_util.c:975:8: note: uninitialized use occurs here
-     975 |                 if (!ret && bo->resource && bo->resource->mem_type == mem_type)
-         |                      ^~~
-   drivers/gpu/drm/ttm/ttm_bo_util.c:965:3: note: remove the 'if' if its condition is always true
-     965 |                 if (!bo_locked)
-         |                 ^~~~~~~~~~~~~~~
-     966 |                         ret = ttm_lru_walk_ticketlock(arg, bo, &curs->needs_unlock);
-   drivers/gpu/drm/ttm/ttm_bo_util.c:939:20: note: initialize the variable 'ret' to silence this warning
-     939 |                 int mem_type, ret;
-         |                                  ^
-         |                                   = 0
-   1 warning generated.
+   fs/fuse/virtio_fs.c: In function 'virtio_fs_request_complete':
+>> fs/fuse/virtio_fs.c:765:29: warning: unused variable 'fpq' [-Wunused-variable]
+     765 |         struct fuse_pqueue *fpq = &fsvq->fud->pq;
+         |                             ^~~
 
 
-vim +965 drivers/gpu/drm/ttm/ttm_bo_util.c
+vim +/fpq +765 fs/fuse/virtio_fs.c
 
-   926	
-   927	static struct ttm_buffer_object *
-   928	__ttm_bo_lru_cursor_next(struct ttm_bo_lru_cursor *curs, bool first)
-   929	{
-   930		spinlock_t *lru_lock = &curs->res_curs.man->bdev->lru_lock;
-   931		struct ttm_resource *res = NULL;
-   932		struct ttm_buffer_object *bo;
-   933		struct ttm_lru_walk_arg *arg = curs->arg;
-   934	
-   935		ttm_bo_lru_cursor_cleanup_bo(curs);
-   936	
-   937		spin_lock(lru_lock);
-   938		for (;;) {
-   939			int mem_type, ret;
-   940			bool bo_locked = false;
-   941	
-   942			if (first) {
-   943				res = ttm_resource_manager_first(&curs->res_curs);
-   944				first = false;
-   945			} else {
-   946				res = ttm_resource_manager_next(&curs->res_curs);
-   947			}
-   948			if (!res)
-   949				break;
-   950	
-   951			bo = res->bo;
-   952			if (ttm_lru_walk_trylock(arg, bo, &curs->needs_unlock))
-   953				bo_locked = true;
-   954			else if (!arg->ticket || arg->ctx->no_wait_gpu || arg->trylock_only)
-   955				continue;
-   956	
-   957			if (!ttm_bo_get_unless_zero(bo)) {
-   958				if (curs->needs_unlock)
-   959					dma_resv_unlock(bo->base.resv);
-   960				continue;
-   961			}
-   962	
-   963			mem_type = res->mem_type;
-   964			spin_unlock(lru_lock);
- > 965			if (!bo_locked)
-   966				ret = ttm_lru_walk_ticketlock(arg, bo, &curs->needs_unlock);
-   967			/*
-   968			 * Note that in between the release of the lru lock and the
-   969			 * ticketlock, the bo may have switched resource,
-   970			 * and also memory type, since the resource may have been
-   971			 * freed and allocated again with a different memory type.
-   972			 * In that case, just skip it.
-   973			 */
-   974			curs->bo = bo;
-   975			if (!ret && bo->resource && bo->resource->mem_type == mem_type)
-   976				return bo;
-   977	
-   978			ttm_bo_lru_cursor_cleanup_bo(curs);
-   979			if (ret)
-   980				return ERR_PTR(ret);
-   981	
-   982			spin_lock(lru_lock);
-   983		}
-   984	
-   985		spin_unlock(lru_lock);
-   986		return res ? bo : NULL;
-   987	}
-   988	
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  760  
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  761  /* Work function for request completion */
+bb737bbe48bea9 Vivek Goyal     2020-04-20  762  static void virtio_fs_request_complete(struct fuse_req *req,
+bb737bbe48bea9 Vivek Goyal     2020-04-20  763  				       struct virtio_fs_vq *fsvq)
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  764  {
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12 @765  	struct fuse_pqueue *fpq = &fsvq->fud->pq;
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  766  	struct fuse_args *args;
+bb737bbe48bea9 Vivek Goyal     2020-04-20  767  	struct fuse_args_pages *ap;
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  768  	unsigned int len, i, thislen;
+29279e1d4284a2 Joanne Koong    2024-10-24  769  	struct folio *folio;
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  770  
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  771  	/*
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  772  	 * TODO verify that server properly follows FUSE protocol
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  773  	 * (oh.uniq, oh.len)
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  774  	 */
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  775  	args = req->args;
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  776  	copy_args_from_argbuf(args, req);
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  777  
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  778  	if (args->out_pages && args->page_zeroing) {
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  779  		len = args->out_args[args->out_numargs - 1].size;
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  780  		ap = container_of(args, typeof(*ap), args);
+29279e1d4284a2 Joanne Koong    2024-10-24  781  		for (i = 0; i < ap->num_folios; i++) {
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  782  			thislen = ap->descs[i].length;
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  783  			if (len < thislen) {
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  784  				WARN_ON(ap->descs[i].offset);
+68bfb7eb7f7de3 Joanne Koong    2024-10-24  785  				folio = ap->folios[i];
+68bfb7eb7f7de3 Joanne Koong    2024-10-24  786  				folio_zero_segment(folio, len, thislen);
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  787  				len = 0;
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  788  			} else {
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  789  				len -= thislen;
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  790  			}
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  791  		}
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  792  	}
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  793  
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  794  	clear_bit(FR_SENT, &req->flags);
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  795  
+8f622e9497bbbd Max Reitz       2020-04-20  796  	fuse_request_end(req);
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  797  	spin_lock(&fsvq->lock);
+c17ea009610366 Vivek Goyal     2019-10-15  798  	dec_in_flight_req(fsvq);
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  799  	spin_unlock(&fsvq->lock);
+a62a8ef9d97da2 Stefan Hajnoczi 2018-06-12  800  }
+bb737bbe48bea9 Vivek Goyal     2020-04-20  801  
 
 -- 
 0-DAY CI Kernel Test Service
