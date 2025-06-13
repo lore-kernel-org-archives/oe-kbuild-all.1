@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF44F2236FB
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jun 2025 17:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3946C22F76C;
+	Fri, 13 Jun 2025 18:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749835684; cv=none; b=u4YKQj2Wf2E+UaZz6DByrZL+1awkDL1MyBVjYoTy9Mywq9xIi6Acn799hARk3wfVCBj5pMZGVvQN0PBVzbIkjVmnr0XvH0j0pu08ZJAYNCWExZl8RKQMNs875OjCZJk9jshwGdvfobmiLincSckiNrZdea9z3r7cIqP4FmLl8h0=
+	t=1749840011; cv=none; b=gQ4pGBDeC63JDrZs4CKHhIzSsbTCrake2RbYf/iBiiPexXUI/Vr2sneBXz0MfuiVq58G9rlXHWaUr/eCkt0AkuqX4c+yjn8xLDOfvKYcQIS+0sOSdWN63+H7ax0i9vZyUQxgi9q4iB3zzyb75P1tGYY3oajAIvo9DTXGkj7+0ds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749835684; c=relaxed/simple;
-	bh=bqp3HEzNIq9VvoOQLKLP+ASTiObmDgXRTq/OTPhg3Gg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LL+gw7FsoC6Gu0JuekiGeocXKidtECP379jdq3fLdQq7yiWUbtCBS+a6U5FJLhQQCD20n7FRO9UoJBObbmxEMppOtfmb9FSuLvgDYh6rwxMRN7RWipIN4WGPoAIimFF5c7SQatSYApBj9aHMuisMA6iUJEW7FJq2C6/clUKPJQQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XghT12zb; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1749840011; c=relaxed/simple;
+	bh=qUp7OWoLLHjLEb+MSAH2UyjVIUcUUSZsadGYuLFKVdE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bJFZc1hQWs+ErPgSYGJa4Uqqf7yqyhYyHD4ie3o9em+t4o94PtpTFmjzJIbnWwsttEwu/+ha1A62wwZIlK8BItTw9bOiLNyV6xxGs0TZoxL4gStWnelupHL3kfaVDJ8xNXXpylj5BU2+SneNw+o2LdsTHIjcCVgPGZq7mE2Gve8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UbGbWDPJ; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XghT12zb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UbGbWDPJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749835683; x=1781371683;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bqp3HEzNIq9VvoOQLKLP+ASTiObmDgXRTq/OTPhg3Gg=;
-  b=XghT12zbugqruSLmIP9G64NLidvQ5eiyktulPzqGYUUWORaKtluju/z+
-   8y6epeslqXmXrjU8JY/AaEE9CPPC7KqlByMc3Vri2dO4MKGBbrN2/JzZw
-   45h7111Kh+CuVtE0OTMtpV+iJw00EmKKUPycCW8z9qHGLDoiDPOkcEQ3S
-   bghIy9vQfhPDjoxuxJu4osQM+RM35Bu00kCYn4V6XOpVoh3C0y87Aa9SW
-   z9A8TpEqGQtB2GqS4CWhGH5G6Exia+S3b9TQ/NpL0yhg2R6q/pwL1dwOU
-   4Irbfng6zmA7+tANT7Ejwj7zhce07JQeccmZXh8O3FpNZxtMLZSAVhhqt
-   Q==;
-X-CSE-ConnectionGUID: BkxpACXiR3u7YallDzBGXg==
-X-CSE-MsgGUID: b8G81mv4TaWj5LHSIEEuYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="63094383"
+  t=1749840009; x=1781376009;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qUp7OWoLLHjLEb+MSAH2UyjVIUcUUSZsadGYuLFKVdE=;
+  b=UbGbWDPJ2DRCWebK/bU/iIZN17FTnTyepWUlP/u39EiLnIGyo14dYJ/R
+   W4ci4zblZ/d1iSi9eAmmizl0o7CY38AZhI9fpiJhX2upU3SbOxp57HTIm
+   MDxowb11pwsZ6/HQxlB+zRhKw7wGHP+nhdpIZ5OnBnxDCAB60hCluJZlN
+   QLlVJeKbeOIE0h2fPtVWD0GUJIn/NyDXHAiozWM4dQXVKL8HVdfCS9MHk
+   ZA1wW/Und+A1vIkjuqWe4tS16leS360d9IEJFHRXe33g5j/fAM6rzWyOh
+   R5zl1E8jHJgs4f86YZYIxkj9ok+Bd9al3PSGZXSTSunCJE1h+2QWxTUyM
+   g==;
+X-CSE-ConnectionGUID: JDCXzR1TSyiDZQVH5LZdVg==
+X-CSE-MsgGUID: +p4KFdPFSu+8Osi4+2kfEg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="69642110"
 X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; 
-   d="scan'208";a="63094383"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 10:28:01 -0700
-X-CSE-ConnectionGUID: TIrBppvORAerClXxEXhcjA==
-X-CSE-MsgGUID: Fa+uwmBLSOaB/JIKON2orQ==
+   d="scan'208";a="69642110"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 11:40:08 -0700
+X-CSE-ConnectionGUID: ZJCfA9P+TLqsa4q7weCvbg==
+X-CSE-MsgGUID: UR7j5CDPQIGe7bZestR+Qw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; 
-   d="scan'208";a="185124460"
+   d="scan'208";a="153182580"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 13 Jun 2025 10:28:00 -0700
+  by orviesa005.jf.intel.com with ESMTP; 13 Jun 2025 11:40:06 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQ8C5-000CrE-0e;
-	Fri, 13 Jun 2025 17:27:57 +0000
-Date: Sat, 14 Jun 2025 01:27:27 +0800
+	id 1uQ9Jr-000CuA-19;
+	Fri, 13 Jun 2025 18:40:03 +0000
+Date: Sat, 14 Jun 2025 02:39:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexey Charkov <alchark@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [linux-next:master 2236/2468]
- arch/arm/boot/dts/vt8500/vt8500-bv07.dtb: /soc/lcd-controller@d800e400:
- failed to match any schema with compatible: ['via,vt8500-fb']
-Message-ID: <202506140157.52eLZFNo-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	dri-devel@lists.freedesktop.org, airlied@gmail.com,
+	Matthew Brost <matthew.brost@intel.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 3/3] drm/ttm, drm_xe, Implement ttm_lru_walk_for_evict()
+ using the guarded LRU iteration
+Message-ID: <202506140238.KCnSVmrU-lkp@intel.com>
+References: <20250613151824.178650-4-thomas.hellstrom@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,31 +69,115 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250613151824.178650-4-thomas.hellstrom@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   bc6e0ba6c9bafa6241b05524b9829808056ac4ad
-commit: 1918e51321c0c34341397644512568ac3451e416 [2236/2468] ARM: dts: vt8500: Fix the unit address of the VT8500 LCD controller
-config: arm-randconfig-052-20250613 (https://download.01.org/0day-ci/archive/20250614/202506140157.52eLZFNo-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-dtschema version: 2025.3.dev28+g49451a5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250614/202506140157.52eLZFNo-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm-xe/drm-xe-next]
+[also build test WARNING on linus/master v6.16-rc1 next-20250613]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Use-a-struct-for-the-common-part-of-struct-ttm_lru_walk-and-struct-ttm_bo_lru_cursor/20250613-232106
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250613151824.178650-4-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH 3/3] drm/ttm, drm_xe, Implement ttm_lru_walk_for_evict() using the guarded LRU iteration
+config: i386-buildonly-randconfig-005-20250613 (https://download.01.org/0day-ci/archive/20250614/202506140238.KCnSVmrU-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250614/202506140238.KCnSVmrU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506140157.52eLZFNo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506140238.KCnSVmrU-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/vt8500/vt8500.dtsi:63.11-104.6: Warning (avoid_unnecessary_addr_size): /soc/pmc@d8130000/clocks: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm/boot/dts/vt8500/vt8500-bv07.dtb: /soc/pinctrl@d8110000: failed to match any schema with compatible: ['via,vt8500-pinctrl']
-   arch/arm/boot/dts/vt8500/vt8500-bv07.dtb: /soc/pmc@d8130000: failed to match any schema with compatible: ['via,vt8500-pmc']
-   arch/arm/boot/dts/vt8500/vt8500-bv07.dtb: /soc/pmc@d8130000/clocks/uart0: failed to match any schema with compatible: ['via,vt8500-device-clock']
-   arch/arm/boot/dts/vt8500/vt8500-bv07.dtb: /soc/pmc@d8130000/clocks/uart1: failed to match any schema with compatible: ['via,vt8500-device-clock']
-   arch/arm/boot/dts/vt8500/vt8500-bv07.dtb: /soc/pmc@d8130000/clocks/uart2: failed to match any schema with compatible: ['via,vt8500-device-clock']
-   arch/arm/boot/dts/vt8500/vt8500-bv07.dtb: /soc/pmc@d8130000/clocks/uart3: failed to match any schema with compatible: ['via,vt8500-device-clock']
-   arch/arm/boot/dts/vt8500/vt8500-bv07.dtb: /soc/timer@d8130100: failed to match any schema with compatible: ['via,vt8500-timer']
->> arch/arm/boot/dts/vt8500/vt8500-bv07.dtb: /soc/lcd-controller@d800e400: failed to match any schema with compatible: ['via,vt8500-fb']
-   arch/arm/boot/dts/vt8500/vt8500-bv07.dtb: /soc/ge_rops@d8050400: failed to match any schema with compatible: ['wm,prizm-ge-rops']
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/ttm/ttm_bo_util.c:965:7: warning: variable 'ret' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     965 |                 if (!bo_locked)
+         |                     ^~~~~~~~~~
+   drivers/gpu/drm/ttm/ttm_bo_util.c:975:8: note: uninitialized use occurs here
+     975 |                 if (!ret && bo->resource && bo->resource->mem_type == mem_type)
+         |                      ^~~
+   drivers/gpu/drm/ttm/ttm_bo_util.c:965:3: note: remove the 'if' if its condition is always true
+     965 |                 if (!bo_locked)
+         |                 ^~~~~~~~~~~~~~~
+     966 |                         ret = ttm_lru_walk_ticketlock(arg, bo, &curs->needs_unlock);
+   drivers/gpu/drm/ttm/ttm_bo_util.c:939:20: note: initialize the variable 'ret' to silence this warning
+     939 |                 int mem_type, ret;
+         |                                  ^
+         |                                   = 0
+   1 warning generated.
+
+
+vim +965 drivers/gpu/drm/ttm/ttm_bo_util.c
+
+   926	
+   927	static struct ttm_buffer_object *
+   928	__ttm_bo_lru_cursor_next(struct ttm_bo_lru_cursor *curs, bool first)
+   929	{
+   930		spinlock_t *lru_lock = &curs->res_curs.man->bdev->lru_lock;
+   931		struct ttm_resource *res = NULL;
+   932		struct ttm_buffer_object *bo;
+   933		struct ttm_lru_walk_arg *arg = curs->arg;
+   934	
+   935		ttm_bo_lru_cursor_cleanup_bo(curs);
+   936	
+   937		spin_lock(lru_lock);
+   938		for (;;) {
+   939			int mem_type, ret;
+   940			bool bo_locked = false;
+   941	
+   942			if (first) {
+   943				res = ttm_resource_manager_first(&curs->res_curs);
+   944				first = false;
+   945			} else {
+   946				res = ttm_resource_manager_next(&curs->res_curs);
+   947			}
+   948			if (!res)
+   949				break;
+   950	
+   951			bo = res->bo;
+   952			if (ttm_lru_walk_trylock(arg, bo, &curs->needs_unlock))
+   953				bo_locked = true;
+   954			else if (!arg->ticket || arg->ctx->no_wait_gpu || arg->trylock_only)
+   955				continue;
+   956	
+   957			if (!ttm_bo_get_unless_zero(bo)) {
+   958				if (curs->needs_unlock)
+   959					dma_resv_unlock(bo->base.resv);
+   960				continue;
+   961			}
+   962	
+   963			mem_type = res->mem_type;
+   964			spin_unlock(lru_lock);
+ > 965			if (!bo_locked)
+   966				ret = ttm_lru_walk_ticketlock(arg, bo, &curs->needs_unlock);
+   967			/*
+   968			 * Note that in between the release of the lru lock and the
+   969			 * ticketlock, the bo may have switched resource,
+   970			 * and also memory type, since the resource may have been
+   971			 * freed and allocated again with a different memory type.
+   972			 * In that case, just skip it.
+   973			 */
+   974			curs->bo = bo;
+   975			if (!ret && bo->resource && bo->resource->mem_type == mem_type)
+   976				return bo;
+   977	
+   978			ttm_bo_lru_cursor_cleanup_bo(curs);
+   979			if (ret)
+   980				return ERR_PTR(ret);
+   981	
+   982			spin_lock(lru_lock);
+   983		}
+   984	
+   985		spin_unlock(lru_lock);
+   986		return res ? bo : NULL;
+   987	}
+   988	
 
 -- 
 0-DAY CI Kernel Test Service
