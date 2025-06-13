@@ -1,137 +1,189 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from relay.hostedemail.com (smtprelay0016.hostedemail.com [216.40.44.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6B919D08F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jun 2025 14:51:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AD9C1E1E1F;
+	Fri, 13 Jun 2025 14:59:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749826313; cv=none; b=TWhxXlkG0lXTWzcLtbT2TlyiAi2qY9sH0DDH2hYII1gbNPqCLyvZHxn3Nm8KQ0BYgEjKs+ygFA4Px1gVrWEpGrPfWdxFjIzNtFV6jdU/XOB6ILS2cGUj8+u4LR2xUjD8K40cHQkYzoRKUeM4Mow3VGE8fk4kYNl90jVBpaC0nMQ=
+	t=1749826801; cv=none; b=WKKeQu3XcBguLd/3DsIPxmAUx91BtU84qvmkbMe+reDrrs7nEctQfxVthG4RFvlC5Fp+2IRPLOlAWrmEmmmWCHN7hxjgBoHwz974VEOeVgzau2n5KocS90BPMgQZcNi/R3B4Cdm0QAhMc8WhtASjPHi1XwCBmZobIns/LqNlhNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749826313; c=relaxed/simple;
-	bh=uE0ZDwVkukg/QxjYkXVtj4KHDh7Mopm+MTwTfQzQK6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kshckPI/FkHLebbBHxNqPNgTBc9u6g7+bJuGUDa3m3s8IKoOWboE4Y4AE3d1e5mcz8t7uFBAzKSnnljue0QtKfj9EBFkq4iJ4QdUlImm4e1q8PjwLqf+bIDdkMjk8ytlcN7WLolUWypBt2c9KW9Mtx166bzmGkbSar2a5Ygz69Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YwNcV7t+; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YwNcV7t+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749826312; x=1781362312;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uE0ZDwVkukg/QxjYkXVtj4KHDh7Mopm+MTwTfQzQK6E=;
-  b=YwNcV7t+4+xXTBD4C3W2lwybXYuOLyPkmHfbwUIQORrVEgvbfiX8wUqe
-   3LOAiuLbsGlkGEv1mlG65+AjNlUc6/cyABpM2h5e6b6sCohPvVds+tHXD
-   qxJBGE+Gw86eyuHfhbk8O0HYxbWBL5VIWs/U+IIEVN/IsiSZ14pXHeaHL
-   m/CXeQp/1x3W4HZhvZ+ABoAqe2C0NHXcWRN3DKp4UQ8S4c6hl2YUox0Ij
-   VZ1o+xUE2DU5tUD//zfvNCwVn8bNv3DT+Y++gUislFdxv98SbPJSw4qD2
-   Q40dhHaPiLa1pD48620aMgaTiFjbEUjwrhgBruA0RPZbTEBbH/FwcoVR6
-   g==;
-X-CSE-ConnectionGUID: FArCkG0PSF+oL+mC/964lQ==
-X-CSE-MsgGUID: +4jJcgKSSP6L4ZcrXEJO3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="52192235"
-X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; 
-   d="scan'208";a="52192235"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 07:51:50 -0700
-X-CSE-ConnectionGUID: kh3lcKhgT6KCXynKXf8Keg==
-X-CSE-MsgGUID: FiP3cSsoQ5CGmvHLgaAtiQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; 
-   d="scan'208";a="148392187"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 13 Jun 2025 07:51:46 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uQ5kt-000Cic-1d;
-	Fri, 13 Jun 2025 14:51:43 +0000
-Date: Fri, 13 Jun 2025 22:50:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sean Anderson <sean.anderson@linux.dev>, netdev@vger.kernel.org,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Golle <daniel@makrotopia.org>,
-	Simon Horman <horms@kernel.org>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Lei Wei <quic_leiwei@quicinc.com>,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	Vineeth Karumanchi <vineeth.karumanchi@amd.com>,
-	Sean Anderson <sean.anderson@linux.dev>,
-	Claudiu Beznea <claudiu.beznea@microchip.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>
-Subject: Re: [net-next PATCH v6 09/10] net: macb: Support external PCSs
-Message-ID: <202506132226.hNuGyG9l-lkp@intel.com>
-References: <20250610233642.3588414-1-sean.anderson@linux.dev>
+	s=arc-20240116; t=1749826801; c=relaxed/simple;
+	bh=O7y2sLzDnmhlXUTNDk76iKCJpXYhQERAHF6YUKOWvOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fPaLWlo/pEJZ8MwENXJs3tKfn1Xkaa4Fiy9I53y+s2lUHs/AmiX6KuojlwDNvY9FRW2GdbsGoxJmxkfusj65LmBsqtMW8q80lXxS7t5WnOGrXzIVc0I6c7FTYramE/wOUnQWrxJvrbsPHEXLZeFWE4ZvKmFsAAgRzcmmryW7tEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id 64A78140714;
+	Fri, 13 Jun 2025 14:59:44 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf06.hostedemail.com (Postfix) with ESMTPA id D0E0320012;
+	Fri, 13 Jun 2025 14:59:42 +0000 (UTC)
+Date: Fri, 13 Jun 2025 10:59:41 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: kernel test robot <lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/5] tracing: sorttable: Add a tracepoint
+ verification check at build time
+Message-ID: <20250613105941.214bb5ac@batman.local.home>
+In-Reply-To: <202506132216.L4D2C3vJ-lkp@intel.com>
+References: <20250613000328.791312828@goodmis.org>
+	<202506132216.L4D2C3vJ-lkp@intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250610233642.3588414-1-sean.anderson@linux.dev>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: D0E0320012
+X-Stat-Signature: ybpriq4r4h4tiu8irnat7mi8obd47yu3
+X-Rspamd-Server: rspamout05
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19wSSAPWyojh5eBXsF32hw58TJuxhpV87w=
+X-HE-Tag: 1749826782-801453
+X-HE-Meta: U2FsdGVkX19OMMUXkUbjKVL2Fj4ZSgRhQF/SPUI+THlx2xxK7ZvScc2cn55XnzNaA7lGj24uXknH/cFdVlI5Bpn5nSdrLmaMmgAkTcaJIKJiLq+6iYUVH03y1jseghSDribDdYqbUBdkgJP63h4NN22yfirvvt2MVkbxCcrQ6B2b74vNC9fo6uIY3XF2avLbMLjTOxqeX42Nj9yrZr3tIwoXp5NO+pK0U69U8AS89S/9c202U6AvJ/3p/j7jAlce3KAb+cmt629QZhrC5NHFmSBbclUtwA5f8ggnZlTbINmORkFLtEdJIlKfCrQJ7wOjBC3N7P6rRFj4LWwtXBuK1vLB+Q+7pNeBo/2gG92CfENAq28YWFJJU3b94vJJzpXUGtHjsx0UYADfxk+o8is/TOomnkbmA3q3dfVlVrAdk1r6EqhQAS+0kPCY37pzimF4ExBVHgDiDM2g4y8LBgI5aOCAAoHF4vj0lc0tQ4aSVD7rWbiy+u5F5ffziX18N0Zkz5M0X2qqLkRMACFBymzK9g==
 
-Hi Sean,
+On Fri, 13 Jun 2025 22:50:49 +0800
+kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> Hi Steven,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on trace/for-next]
+> [also build test WARNING on arnd-asm-generic/master masahiroy-kbuild/for-next masahiroy-kbuild/fixes linus/master v6.16-rc1 next-20250613]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracepoints-Add-verifier-that-makes-sure-all-defined-tracepoints-are-used/20250613-080344
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+> patch link:    https://lore.kernel.org/r/20250613000328.791312828%40goodmis.org
+> patch subject: [PATCH v2 2/5] tracing: sorttable: Add a tracepoint verification check at build time
+> config: x86_64-buildonly-randconfig-001-20250613 (https://download.01.org/0day-ci/archive/20250613/202506132216.L4D2C3vJ-lkp@intel.com/config)
+> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250613/202506132216.L4D2C3vJ-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202506132216.L4D2C3vJ-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> warning: tracepoint 'xen_mc_batch' is unused.
+> >> warning: tracepoint 'xen_mc_issue' is unused.
+> >> warning: tracepoint 'xen_mc_entry' is unused.
+> >> warning: tracepoint 'xen_mc_entry_alloc' is unused.
+> >> warning: tracepoint 'xen_mc_callback' is unused.
+> >> warning: tracepoint 'xen_mc_flush_reason' is unused.
+> >> warning: tracepoint 'xen_mc_flush' is unused.
+> >> warning: tracepoint 'xen_mc_extend_args' is unused.
+> >> warning: tracepoint 'xen_mmu_set_pte' is unused.
+> >> warning: tracepoint 'xen_mmu_set_pmd' is unused.
+> >> warning: tracepoint 'xen_mmu_set_pud' is unused.
+> >> warning: tracepoint 'xen_mmu_set_p4d' is unused.
+> >> warning: tracepoint 'xen_mmu_ptep_modify_prot_start' is unused.
+> >> warning: tracepoint 'xen_mmu_ptep_modify_prot_commit' is unused.
+> >> warning: tracepoint 'xen_mmu_alloc_ptpage' is unused.
+> >> warning: tracepoint 'xen_mmu_release_ptpage' is unused.
+> >> warning: tracepoint 'xen_mmu_pgd_pin' is unused.
+> >> warning: tracepoint 'xen_mmu_pgd_unpin' is unused.
+> >> warning: tracepoint 'xen_mmu_flush_tlb_one_user' is unused.
+> >> warning: tracepoint 'xen_mmu_flush_tlb_multi' is unused.  
 
-[auto build test WARNING on net-next/main]
+As the patch set adds these warnings, this shows that it works! ;-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/dt-bindings-net-Add-Xilinx-PCS/20250611-143544
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250610233642.3588414-1-sean.anderson%40linux.dev
-patch subject: [net-next PATCH v6 09/10] net: macb: Support external PCSs
-config: xtensa-randconfig-r062-20250613 (https://download.01.org/0day-ci/archive/20250613/202506132226.hNuGyG9l-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250613/202506132226.hNuGyG9l-lkp@intel.com/reproduce)
+-- Steve
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506132226.hNuGyG9l-lkp@intel.com/
+>    warning: tracepoint 'xen_mmu_write_cr3' is unused.
+>    warning: tracepoint 'xen_cpu_write_ldt_entry' is unused.
+>    warning: tracepoint 'xen_cpu_write_idt_entry' is unused.
+>    warning: tracepoint 'xen_cpu_load_idt' is unused.
+>    warning: tracepoint 'xen_cpu_write_gdt_entry' is unused.
+>    warning: tracepoint 'xen_cpu_set_ldt' is unused.
+>    warning: tracepoint 'vector_free_moved' is unused.
+>    warning: tracepoint 'x86_fpu_before_restore' is unused.
+>    warning: tracepoint 'x86_fpu_after_restore' is unused.
+>    warning: tracepoint 'x86_fpu_init_state' is unused.
+>    warning: tracepoint 'sched_migrate_task' is unused.
+>    warning: tracepoint 'sched_move_numa' is unused.
+>    warning: tracepoint 'sched_stick_numa' is unused.
+>    warning: tracepoint 'sched_swap_numa' is unused.
+>    warning: tracepoint 'pelt_cfs_tp' is unused.
+>    warning: tracepoint 'pelt_rt_tp' is unused.
+>    warning: tracepoint 'pelt_dl_tp' is unused.
+>    warning: tracepoint 'pelt_hw_tp' is unused.
+>    warning: tracepoint 'pelt_irq_tp' is unused.
+>    warning: tracepoint 'pelt_se_tp' is unused.
+>    warning: tracepoint 'sched_cpu_capacity_tp' is unused.
+>    warning: tracepoint 'sched_overutilized_tp' is unused.
+>    warning: tracepoint 'sched_util_est_cfs_tp' is unused.
+>    warning: tracepoint 'sched_util_est_se_tp' is unused.
+>    warning: tracepoint 'sched_compute_energy_tp' is unused.
+>    warning: tracepoint 'ipi_raise' is unused.
+>    warning: tracepoint 'ipi_send_cpumask' is unused.
+>    warning: tracepoint 'ipi_entry' is unused.
+>    warning: tracepoint 'ipi_exit' is unused.
+>    warning: tracepoint 'console' is unused.
+>    warning: tracepoint 'irq_matrix_alloc_reserved' is unused.
+>    warning: tracepoint 'timer_base_idle' is unused.
+>    warning: tracepoint 'alarmtimer_suspend' is unused.
+>    warning: tracepoint 'ftrace_test_filter' is unused.
+>    warning: tracepoint 'psci_domain_idle_enter' is unused.
+>    warning: tracepoint 'psci_domain_idle_exit' is unused.
+>    warning: tracepoint 'powernv_throttle' is unused.
+>    warning: tracepoint 'clock_enable' is unused.
+>    warning: tracepoint 'clock_disable' is unused.
+>    warning: tracepoint 'clock_set_rate' is unused.
+>    warning: tracepoint 'power_domain_target' is unused.
+>    warning: tracepoint 'guest_halt_poll_ns' is unused.
+>    warning: tracepoint 'xdp_exception' is unused.
+>    warning: tracepoint 'xdp_bulk_tx' is unused.
+>    warning: tracepoint 'xdp_redirect' is unused.
+>    warning: tracepoint 'xdp_redirect_err' is unused.
+>    warning: tracepoint 'xdp_redirect_map' is unused.
+>    warning: tracepoint 'xdp_redirect_map_err' is unused.
+>    warning: tracepoint 'xdp_cpumap_kthread' is unused.
+>    warning: tracepoint 'xdp_cpumap_enqueue' is unused.
+>    warning: tracepoint 'xdp_devmap_xmit' is unused.
+>    warning: tracepoint 'mem_disconnect' is unused.
+>    warning: tracepoint 'mem_connect' is unused.
+>    warning: tracepoint 'mem_return_failed' is unused.
+>    warning: tracepoint 'bpf_xdp_link_attach_failed' is unused.
+>    warning: tracepoint 'oom_score_adj_update' is unused.
+>    warning: tracepoint 'mm_vmscan_node_reclaim_begin' is unused.
+>    warning: tracepoint 'mm_vmscan_node_reclaim_end' is unused.
+>    warning: tracepoint 'vma_mas_szero' is unused.
+>    warning: tracepoint 'vma_store' is unused.
+>    warning: tracepoint 'edma_readw' is unused.
+>    warning: tracepoint 'edma_readb' is unused.
+>    warning: tracepoint 'dma_fence_emit' is unused.
+>    warning: tracepoint 'xhci_dbc_handle_event' is unused.
+>    warning: tracepoint 'xhci_dbc_handle_transfer' is unused.
+>    warning: tracepoint 'xhci_dbc_gadget_ep_queue' is unused.
+>    warning: tracepoint 'xhci_dbc_alloc_request' is unused.
+>    warning: tracepoint 'xhci_dbc_free_request' is unused.
+>    warning: tracepoint 'xhci_dbc_queue_request' is unused.
+>    warning: tracepoint 'xhci_dbc_giveback_request' is unused.
+>    warning: tracepoint 'musb_req_gb' is unused.
+>    warning: tracepoint 'musb_req_tx' is unused.
+>    warning: tracepoint 'musb_req_rx' is unused.
+>    warning: tracepoint 'musb_req_alloc' is unused.
+>    warning: tracepoint 'musb_req_free' is unused.
+>    warning: tracepoint 'musb_req_start' is unused.
+>    warning: tracepoint 'musb_req_enq' is unused.
+>    warning: tracepoint 'musb_req_deq' is unused.
+>    warning: tracepoint 'ucsi_run_command' is unused.
+>    warning: tracepoint 'ucsi_reset_ppm' is unused.
+>    warning: tracepoint 'vb2_v4l2_buf_done' is unused.
+>    warning: tracepoint 'vb2_v4l2_buf_queue' is unused.
+>    warning: tracepoint 'vb2_v4l2_dqbuf' is unused.
+>    warning: tracepoint 'vb2_v4l2_qbuf' is unused.
+>    warning: tracepoint 'mc_event' is unused.
+>    warning: tracepoint 'aer_event' is unused.
+> 
 
-All warnings (new ones prefixed by >>):
-
-   In file included from drivers/net/ethernet/cadence/macb_main.c:24:
-   include/linux/pcs.h: In function 'pcs_get_by_fwnode_compat':
-   include/linux/pcs.h:201:16: error: implicit declaration of function '_pcs_get_tail' [-Werror=implicit-function-declaration]
-     201 |         return _pcs_get_tail(dev, fwnode, NULL);
-         |                ^~~~~~~~~~~~~
->> include/linux/pcs.h:201:16: warning: returning 'int' from a function with return type 'struct phylink_pcs *' makes pointer from integer without a cast [-Wint-conversion]
-     201 |         return _pcs_get_tail(dev, fwnode, NULL);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +201 include/linux/pcs.h
-
-56201bc1ac71fc Sean Anderson 2025-06-10  187  
-56201bc1ac71fc Sean Anderson 2025-06-10  188  #ifdef CONFIG_OF_DYNAMIC
-56201bc1ac71fc Sean Anderson 2025-06-10  189  struct phylink_pcs *
-56201bc1ac71fc Sean Anderson 2025-06-10  190  pcs_get_by_fwnode_compat(struct device *dev, struct fwnode_handle *fwnode,
-56201bc1ac71fc Sean Anderson 2025-06-10  191  			 int (*fixup)(struct of_changeset *ocs,
-56201bc1ac71fc Sean Anderson 2025-06-10  192  				      struct device_node *np, void *data),
-56201bc1ac71fc Sean Anderson 2025-06-10  193  			 void *data);
-56201bc1ac71fc Sean Anderson 2025-06-10  194  #else
-56201bc1ac71fc Sean Anderson 2025-06-10  195  static inline struct phylink_pcs *
-56201bc1ac71fc Sean Anderson 2025-06-10  196  pcs_get_by_fwnode_compat(struct device *dev, struct fwnode_handle *fwnode,
-56201bc1ac71fc Sean Anderson 2025-06-10  197  			 int (*fixup)(struct of_changeset *ocs,
-56201bc1ac71fc Sean Anderson 2025-06-10  198  				      struct device_node *np, void *data),
-56201bc1ac71fc Sean Anderson 2025-06-10  199  			 void *data)
-56201bc1ac71fc Sean Anderson 2025-06-10  200  {
-56201bc1ac71fc Sean Anderson 2025-06-10 @201  	return _pcs_get_tail(dev, fwnode, NULL);
-56201bc1ac71fc Sean Anderson 2025-06-10  202  }
-56201bc1ac71fc Sean Anderson 2025-06-10  203  #endif
-56201bc1ac71fc Sean Anderson 2025-06-10  204  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
