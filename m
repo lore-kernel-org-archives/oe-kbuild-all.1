@@ -1,64 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4282397A4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jun 2025 23:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31E7E231826
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jun 2025 23:53:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749858755; cv=none; b=m1yGjW3Oi75ZCJrgO9PATk5FdHFxerqLQYnLUnTiJd6a9/nqqGAo4I3Ynsqt5sEexrOnP/0LZfYKplZuRq5H8qvI1FRM7rsAoJFF61WczaEl+MtMp51SM2cUwsteGs1sqaQ22ucZclSDeN5yvpavZHhaszQnx+SckZTOJFYAbJk=
+	t=1749858818; cv=none; b=LawDgcTp7LyXlCQ1OqyBufIeBZ5+e687UUuR6wqqnCQDPB0R3OVt/IuLnY05dPgaD5HqUvDkjesa2L3KBjEFftiTWTj7saNdgPwStguDTlf0sK0CknUFcT6DNx/k+Tx3K8Q8QFyb7zosuW2Hb9KHnsVNOwGdjQ9nxmgvd7QRcGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749858755; c=relaxed/simple;
-	bh=OWvPD1dU5IDAtkf7IDNh5cbjqWSHEExPWJK4KF5Wdzc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tzwvpMz7fMoCPnUSEn7PmN74NsPeI6PLgZXgMEHFonaiTtVtRu0j7G9Jw4g8OSPyJoDLocBOKSRgW+D0ePM+NCpT8QayT3GZ3y9OtH8Itk9fZbEntS1y/C1VNuZxPvQPXCpyZ1ySQIM2gnwGgECwMhCCkJq38RHcmsJQIJp3kpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9r1nWtR; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1749858818; c=relaxed/simple;
+	bh=B+6kzccr+wLacaAhProqN6kMTvtAE7WAi//m7TysVN0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WplfZrSmnSJQH6Uxkkx5vs1Hda6L/aqChQc1XhesSF5/0ziWgdFqpfKSDqWC64RkYUEHJ7hZgOg73S7Cai1rP56e0/yqtvQ7xsoPpY2vt3U4QrdJTTM2nqFlbkKLSavZ6jAViHitetA/yg+uHSJPHjPBFZYn/5iGGQrsw3ePNPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qw3piyd9; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9r1nWtR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qw3piyd9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749858753; x=1781394753;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OWvPD1dU5IDAtkf7IDNh5cbjqWSHEExPWJK4KF5Wdzc=;
-  b=f9r1nWtR4i4e3oAprf63P+fZaRq5J3/YlJgzGCw5lV5/hqZw91GRkArE
-   DWWXIZlEqkE+9qep5ivqPh75YDHMIf6t50s2zezugMuIzyFs6oC4zmiha
-   94F3ehEbuSJNIW9AcBNrGiuUzrd5mvDAbyESyXbCf2OPpCPj+3A3oEInq
-   ev/OF7XZjxs6BPmcxdBPShfIabHRyPvM+VKp6sYrz3ecJT9fOX7wtA2Wb
-   /UkUausOx1MVJkZpXcWYValuNixePEPqkk0HTWjqSctmHFe51Dp90fpso
-   n9JNv3kXNR/YmEafAbjkuMs+vk9Ahs/H3oEAroHYc1BdetSE2rid1wV9+
-   w==;
-X-CSE-ConnectionGUID: NF0ocfZfRBOOjAQozsbkfA==
-X-CSE-MsgGUID: uepQjipASQOUz5JS7Oqnig==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="51800769"
+  t=1749858816; x=1781394816;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=B+6kzccr+wLacaAhProqN6kMTvtAE7WAi//m7TysVN0=;
+  b=Qw3piyd97yAVqGDSkNipZCPYx3bEY3V3DKX7GLZ8bHZ9utlWlc/83V7S
+   cJX8Il9zc3WsKtL/SQ0jCp14QsNNfWFS4jnwGLKHedaToxLW/kW45aoln
+   a9MNrGbniCC4UILyDJj+uqxrLPC0p0e02+zpUcgthuF5cQ0nOVprGYBuO
+   aqW0sGUSchGxsRdq9cR+2ggtFX/SxbLh73Fev3MOSGtIyYK4qBzK5tqyf
+   EdADnOv5J4PeEIhaXG/+Fsuj5TgDHl0wP8iqPdwjCYPUkVwYUi5TQkYth
+   /qfo7VZsBk1kd7DzvAenrMIvqKhqQonNBbPo1EwQh+BOxoSm9eDyikQI8
+   g==;
+X-CSE-ConnectionGUID: 7X1u9nm5T2ih1GCqvrwWrQ==
+X-CSE-MsgGUID: akK9mS5FQxiecDWZkTihPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="51953414"
 X-IronPort-AV: E=Sophos;i="6.16,235,1744095600"; 
-   d="scan'208";a="51800769"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 16:52:33 -0700
-X-CSE-ConnectionGUID: a4TULeShSUeQ5ietSM4G3g==
-X-CSE-MsgGUID: mUSpDBIjTnmdE6++JpLItw==
+   d="scan'208";a="51953414"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 16:53:34 -0700
+X-CSE-ConnectionGUID: MMF4g+PiTt6z7x4g0XHOJQ==
+X-CSE-MsgGUID: 30F/ZyKVS+yxq3xAfQRgQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,235,1744095600"; 
-   d="scan'208";a="171146347"
+   d="scan'208";a="147850582"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 13 Jun 2025 16:52:31 -0700
+  by orviesa010.jf.intel.com with ESMTP; 13 Jun 2025 16:53:31 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQECC-000D66-1j;
-	Fri, 13 Jun 2025 23:52:28 +0000
-Date: Sat, 14 Jun 2025 07:52:24 +0800
+	id 1uQEDA-000D6A-2d;
+	Fri, 13 Jun 2025 23:53:28 +0000
+Date: Sat, 14 Jun 2025 07:52:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fuad Tabba <tabba@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	Farrah Chen <farrah.chen@intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Ira Weiny <ira.weiny@intel.com>, Gavin Shan <gshan@redhat.com>,
-	Shivank Garg <shivankg@amd.com>, Vlastimil Babka <vbabka@suse.cz>,
-	David Hildenbrand <david@redhat.com>
-Subject: [kvm:queue 14/30] arch/x86/kvm/vmx/tdx.c:3167:28: error: implicit
- declaration of function 'kvm_gmem_populate'; did you mean
- 'vmemmap_populate'?
-Message-ID: <202506140732.sMHshe1f-lkp@intel.com>
+To: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Carlos Maiolino <cem@kernel.org>, Christoph Hellwig <hch@lst.de>,
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [PATCH 01/14] xfs: tracing; Remove unused event
+ xfs_reflink_cow_found
+Message-ID: <202506140710.bDy6wh4J-lkp@intel.com>
+References: <20250612212634.746367055@goodmis.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,111 +69,238 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250612212634.746367055@goodmis.org>
 
-Hi Fuad,
+Hi Steven,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-head:   79150772457f4d45e38b842d786240c36bb1f97f
-commit: ec772b9375ae2bb6b4bd0442c0b396f9f5440882 [14/30] KVM: Rename CONFIG_KVM_GENERIC_PRIVATE_MEM to CONFIG_KVM_GENERIC_GMEM_POPULATE
-config: x86_64-buildonly-randconfig-003-20250614 (https://download.01.org/0day-ci/archive/20250614/202506140732.sMHshe1f-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250614/202506140732.sMHshe1f-lkp@intel.com/reproduce)
+[auto build test ERROR on xfs-linux/for-next]
+[also build test ERROR on linus/master v6.16-rc1 next-20250613]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/xfs-tracing-Remove-unused-event-xfs_reflink_cow_found/20250613-052758
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+patch link:    https://lore.kernel.org/r/20250612212634.746367055%40goodmis.org
+patch subject: [PATCH 01/14] xfs: tracing; Remove unused event xfs_reflink_cow_found
+config: s390-randconfig-r073-20250614 (https://download.01.org/0day-ci/archive/20250614/202506140710.bDy6wh4J-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250614/202506140710.bDy6wh4J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506140732.sMHshe1f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506140710.bDy6wh4J-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/x86/kvm/vmx/tdx.c: In function 'tdx_vcpu_init_mem_region':
->> arch/x86/kvm/vmx/tdx.c:3167:28: error: implicit declaration of function 'kvm_gmem_populate'; did you mean 'vmemmap_populate'? [-Werror=implicit-function-declaration]
-    3167 |                 gmem_ret = kvm_gmem_populate(kvm, gpa_to_gfn(region.gpa),
-         |                            ^~~~~~~~~~~~~~~~~
-         |                            vmemmap_populate
-   cc1: some warnings being treated as errors
+>> fs/xfs/xfs_iomap.c:1614:3: error: call to undeclared function 'trace_xfs_reflink_cow_found'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1614 |                 trace_xfs_reflink_cow_found(ip, &got);
+         |                 ^
+   fs/xfs/xfs_iomap.c:1614:3: note: did you mean 'trace_xfs_reflink_cow_enospc'?
+   fs/xfs/xfs_trace.h:4245:1: note: 'trace_xfs_reflink_cow_enospc' declared here
+    4245 | DEFINE_INODE_IREC_EVENT(xfs_reflink_cow_enospc);
+         | ^
+   fs/xfs/xfs_trace.h:4073:39: note: expanded from macro 'DEFINE_INODE_IREC_EVENT'
+    4073 | #define DEFINE_INODE_IREC_EVENT(name) \
+         |                                       ^
+   include/linux/tracepoint.h:594:2: note: expanded from macro '\
+   DEFINE_EVENT'
+     594 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+         |         ^
+   include/linux/tracepoint.h:467:2: note: expanded from macro 'DECLARE_TRACE'
+     467 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+         |         ^
+   include/linux/tracepoint.h:409:2: note: expanded from macro '__DECLARE_TRACE'
+     409 |         __DECLARE_TRACE_COMMON(name, PARAMS(proto), PARAMS(args), PARAMS(data_proto))
+         |         ^
+   include/linux/tracepoint.h:385:21: note: expanded from macro '__DECLARE_TRACE_COMMON'
+     385 |         static inline void trace_##name(proto)                          \
+         |                            ^
+   <scratch space>:36:1: note: expanded from here
+      36 | trace_xfs_reflink_cow_enospc
+         | ^
+   fs/xfs/xfs_iomap.c:1792:4: error: call to undeclared function 'trace_xfs_reflink_cow_found'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1792 |                         trace_xfs_reflink_cow_found(ip, &cmap);
+         |                         ^
+   2 errors generated.
 
 
-vim +3167 arch/x86/kvm/vmx/tdx.c
+vim +/trace_xfs_reflink_cow_found +1614 fs/xfs/xfs_iomap.c
 
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3122  
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3123  static int tdx_vcpu_init_mem_region(struct kvm_vcpu *vcpu, struct kvm_tdx_cmd *cmd)
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3124  {
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3125  	struct vcpu_tdx *tdx = to_tdx(vcpu);
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3126  	struct kvm *kvm = vcpu->kvm;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3127  	struct kvm_tdx *kvm_tdx = to_kvm_tdx(kvm);
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3128  	struct kvm_tdx_init_mem_region region;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3129  	struct tdx_gmem_post_populate_arg arg;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3130  	long gmem_ret;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3131  	int ret;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3132  
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3133  	if (tdx->state != VCPU_TD_STATE_INITIALIZED)
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3134  		return -EINVAL;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3135  
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3136  	guard(mutex)(&kvm->slots_lock);
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3137  
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3138  	/* Once TD is finalized, the initial guest memory is fixed. */
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3139  	if (kvm_tdx->state == TD_STATE_RUNNABLE)
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3140  		return -EINVAL;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3141  
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3142  	if (cmd->flags & ~KVM_TDX_MEASURE_MEMORY_REGION)
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3143  		return -EINVAL;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3144  
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3145  	if (copy_from_user(&region, u64_to_user_ptr(cmd->data), sizeof(region)))
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3146  		return -EFAULT;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3147  
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3148  	if (!PAGE_ALIGNED(region.source_addr) || !PAGE_ALIGNED(region.gpa) ||
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3149  	    !region.nr_pages ||
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3150  	    region.gpa + (region.nr_pages << PAGE_SHIFT) <= region.gpa ||
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3151  	    !vt_is_tdx_private_gpa(kvm, region.gpa) ||
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3152  	    !vt_is_tdx_private_gpa(kvm, region.gpa + (region.nr_pages << PAGE_SHIFT) - 1))
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3153  		return -EINVAL;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3154  
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3155  	kvm_mmu_reload(vcpu);
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3156  	ret = 0;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3157  	while (region.nr_pages) {
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3158  		if (signal_pending(current)) {
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3159  			ret = -EINTR;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3160  			break;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3161  		}
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3162  
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3163  		arg = (struct tdx_gmem_post_populate_arg) {
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3164  			.vcpu = vcpu,
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3165  			.flags = cmd->flags,
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3166  		};
-c846b451d3c5d4b Isaku Yamahata 2024-11-12 @3167  		gmem_ret = kvm_gmem_populate(kvm, gpa_to_gfn(region.gpa),
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3168  					     u64_to_user_ptr(region.source_addr),
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3169  					     1, tdx_gmem_post_populate, &arg);
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3170  		if (gmem_ret < 0) {
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3171  			ret = gmem_ret;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3172  			break;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3173  		}
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3174  
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3175  		if (gmem_ret != 1) {
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3176  			ret = -EIO;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3177  			break;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3178  		}
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3179  
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3180  		region.source_addr += PAGE_SIZE;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3181  		region.gpa += PAGE_SIZE;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3182  		region.nr_pages--;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3183  
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3184  		cond_resched();
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3185  	}
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3186  
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3187  	if (copy_to_user(u64_to_user_ptr(cmd->data), &region, sizeof(region)))
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3188  		ret = -EFAULT;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3189  	return ret;
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3190  }
-c846b451d3c5d4b Isaku Yamahata 2024-11-12  3191  
-
-:::::: The code at line 3167 was first introduced by commit
-:::::: c846b451d3c5d4ba304bbeeaf7aa9a04bb432408 KVM: TDX: Add an ioctl to create initial guest memory
-
-:::::: TO: Isaku Yamahata <isaku.yamahata@intel.com>
-:::::: CC: Paolo Bonzini <pbonzini@redhat.com>
+7c879c8275c0505 Christoph Hellwig 2024-11-17  1514  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1515  static int
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1516  xfs_zoned_buffered_write_iomap_begin(
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1517  	struct inode		*inode,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1518  	loff_t			offset,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1519  	loff_t			count,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1520  	unsigned		flags,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1521  	struct iomap		*iomap,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1522  	struct iomap		*srcmap)
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1523  {
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1524  	struct iomap_iter	*iter =
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1525  		container_of(iomap, struct iomap_iter, iomap);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1526  	struct xfs_zone_alloc_ctx *ac = iter->private;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1527  	struct xfs_inode	*ip = XFS_I(inode);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1528  	struct xfs_mount	*mp = ip->i_mount;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1529  	xfs_fileoff_t		offset_fsb = XFS_B_TO_FSBT(mp, offset);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1530  	xfs_fileoff_t		end_fsb = xfs_iomap_end_fsb(mp, offset, count);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1531  	u16			iomap_flags = IOMAP_F_SHARED;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1532  	unsigned int		lockmode = XFS_ILOCK_EXCL;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1533  	xfs_filblks_t		count_fsb;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1534  	xfs_extlen_t		indlen;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1535  	struct xfs_bmbt_irec	got;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1536  	struct xfs_iext_cursor	icur;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1537  	int			error = 0;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1538  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1539  	ASSERT(!xfs_get_extsz_hint(ip));
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1540  	ASSERT(!(flags & IOMAP_UNSHARE));
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1541  	ASSERT(ac);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1542  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1543  	if (xfs_is_shutdown(mp))
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1544  		return -EIO;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1545  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1546  	error = xfs_qm_dqattach(ip);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1547  	if (error)
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1548  		return error;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1549  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1550  	error = xfs_ilock_for_iomap(ip, flags, &lockmode);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1551  	if (error)
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1552  		return error;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1553  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1554  	if (XFS_IS_CORRUPT(mp, !xfs_ifork_has_extents(&ip->i_df)) ||
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1555  	    XFS_TEST_ERROR(false, mp, XFS_ERRTAG_BMAPIFORMAT)) {
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1556  		xfs_bmap_mark_sick(ip, XFS_DATA_FORK);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1557  		error = -EFSCORRUPTED;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1558  		goto out_unlock;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1559  	}
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1560  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1561  	XFS_STATS_INC(mp, xs_blk_mapw);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1562  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1563  	error = xfs_iread_extents(NULL, ip, XFS_DATA_FORK);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1564  	if (error)
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1565  		goto out_unlock;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1566  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1567  	/*
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1568  	 * For zeroing operations check if there is any data to zero first.
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1569  	 *
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1570  	 * For regular writes we always need to allocate new blocks, but need to
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1571  	 * provide the source mapping when the range is unaligned to support
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1572  	 * read-modify-write of the whole block in the page cache.
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1573  	 *
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1574  	 * In either case we need to limit the reported range to the boundaries
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1575  	 * of the source map in the data fork.
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1576  	 */
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1577  	if (!IS_ALIGNED(offset, mp->m_sb.sb_blocksize) ||
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1578  	    !IS_ALIGNED(offset + count, mp->m_sb.sb_blocksize) ||
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1579  	    (flags & IOMAP_ZERO)) {
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1580  		struct xfs_bmbt_irec	smap;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1581  		struct xfs_iext_cursor	scur;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1582  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1583  		if (!xfs_iext_lookup_extent(ip, &ip->i_df, offset_fsb, &scur,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1584  				&smap))
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1585  			smap.br_startoff = end_fsb; /* fake hole until EOF */
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1586  		if (smap.br_startoff > offset_fsb) {
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1587  			/*
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1588  			 * We never need to allocate blocks for zeroing a hole.
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1589  			 */
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1590  			if (flags & IOMAP_ZERO) {
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1591  				xfs_hole_to_iomap(ip, iomap, offset_fsb,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1592  						smap.br_startoff);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1593  				goto out_unlock;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1594  			}
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1595  			end_fsb = min(end_fsb, smap.br_startoff);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1596  		} else {
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1597  			end_fsb = min(end_fsb,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1598  				smap.br_startoff + smap.br_blockcount);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1599  			xfs_trim_extent(&smap, offset_fsb,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1600  					end_fsb - offset_fsb);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1601  			error = xfs_bmbt_to_iomap(ip, srcmap, &smap, flags, 0,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1602  					xfs_iomap_inode_sequence(ip, 0));
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1603  			if (error)
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1604  				goto out_unlock;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1605  		}
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1606  	}
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1607  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1608  	if (!ip->i_cowfp)
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1609  		xfs_ifork_init_cow(ip);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1610  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1611  	if (!xfs_iext_lookup_extent(ip, ip->i_cowfp, offset_fsb, &icur, &got))
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1612  		got.br_startoff = end_fsb;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1613  	if (got.br_startoff <= offset_fsb) {
+058dd70c65ab736 Christoph Hellwig 2025-02-13 @1614  		trace_xfs_reflink_cow_found(ip, &got);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1615  		goto done;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1616  	}
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1617  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1618  	/*
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1619  	 * Cap the maximum length to keep the chunks of work done here somewhat
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1620  	 * symmetric with the work writeback does.
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1621  	 */
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1622  	end_fsb = min(end_fsb, got.br_startoff);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1623  	count_fsb = min3(end_fsb - offset_fsb, XFS_MAX_BMBT_EXTLEN,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1624  			 XFS_B_TO_FSB(mp, 1024 * PAGE_SIZE));
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1625  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1626  	/*
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1627  	 * The block reservation is supposed to cover all blocks that the
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1628  	 * operation could possible write, but there is a nasty corner case
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1629  	 * where blocks could be stolen from underneath us:
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1630  	 *
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1631  	 *  1) while this thread iterates over a larger buffered write,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1632  	 *  2) another thread is causing a write fault that calls into
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1633  	 *     ->page_mkwrite in range this thread writes to, using up the
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1634  	 *     delalloc reservation created by a previous call to this function.
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1635  	 *  3) another thread does direct I/O on the range that the write fault
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1636  	 *     happened on, which causes writeback of the dirty data.
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1637  	 *  4) this then set the stale flag, which cuts the current iomap
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1638  	 *     iteration short, causing the new call to ->iomap_begin that gets
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1639  	 *     us here again, but now without a sufficient reservation.
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1640  	 *
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1641  	 * This is a very unusual I/O pattern, and nothing but generic/095 is
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1642  	 * known to hit it. There's not really much we can do here, so turn this
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1643  	 * into a short write.
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1644  	 */
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1645  	if (count_fsb > ac->reserved_blocks) {
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1646  		xfs_warn_ratelimited(mp,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1647  "Short write on ino 0x%llx comm %.20s due to three-way race with write fault and direct I/O",
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1648  			ip->i_ino, current->comm);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1649  		count_fsb = ac->reserved_blocks;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1650  		if (!count_fsb) {
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1651  			error = -EIO;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1652  			goto out_unlock;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1653  		}
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1654  	}
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1655  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1656  	error = xfs_quota_reserve_blkres(ip, count_fsb);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1657  	if (error)
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1658  		goto out_unlock;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1659  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1660  	indlen = xfs_bmap_worst_indlen(ip, count_fsb);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1661  	error = xfs_dec_fdblocks(mp, indlen, false);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1662  	if (error)
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1663  		goto out_unlock;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1664  	ip->i_delayed_blks += count_fsb;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1665  	xfs_mod_delalloc(ip, count_fsb, indlen);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1666  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1667  	got.br_startoff = offset_fsb;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1668  	got.br_startblock = nullstartblock(indlen);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1669  	got.br_blockcount = count_fsb;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1670  	got.br_state = XFS_EXT_NORM;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1671  	xfs_bmap_add_extent_hole_delay(ip, XFS_COW_FORK, &icur, &got);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1672  	ac->reserved_blocks -= count_fsb;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1673  	iomap_flags |= IOMAP_F_NEW;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1674  
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1675  	trace_xfs_iomap_alloc(ip, offset, XFS_FSB_TO_B(mp, count_fsb),
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1676  			XFS_COW_FORK, &got);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1677  done:
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1678  	error = xfs_bmbt_to_iomap(ip, iomap, &got, flags, iomap_flags,
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1679  			xfs_iomap_inode_sequence(ip, IOMAP_F_SHARED));
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1680  out_unlock:
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1681  	xfs_iunlock(ip, lockmode);
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1682  	return error;
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1683  }
+058dd70c65ab736 Christoph Hellwig 2025-02-13  1684  
 
 -- 
 0-DAY CI Kernel Test Service
