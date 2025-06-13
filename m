@@ -1,60 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7AF155C87
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jun 2025 02:45:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BA372605
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jun 2025 04:19:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749782731; cv=none; b=kVjvJBtnZ0549pOHXb7tQxV9flekMejr2m5HlSrBiW4CXoJ+N8ekInKNUCc6FESV2QomHvOD5mGGh+Si5yuUJTCmfI24Lk9sEEO8sUOqPpDvAbWsfLxIj2zr2uorHd3ycCBTB/kDGEYLmr5i1TPCyO2hm2obQhZ0aOdOXup9RC4=
+	t=1749788386; cv=none; b=FWQklVdVOguzaYGltgZZ7zW8uvSr155+sawS4ygEcKhYXgi0PkT7gi5A+hLAyh57RqKkAnEF4PGzX0IhUuJdekv+dfQpkfeEZSEeC/PhhsRoPWIhxB7oSbfe64+WZ0fIy8F+RhB+r7zcgvpgTr2dDrVNTBm7OPBVLf64hsUhxWw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749782731; c=relaxed/simple;
-	bh=miblcId/NPyA5kzsTz5DnjwS4MVBoOnovkz4wtECiY0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GgpldWFS8GFqD4FkAj7UtFg0rWgciKi9ONHWMpR5qlWre7TxCjfN3/PCrc6m2pNHRjYTCOGPsj6DOZ95ciAPh6vbZQlnPq7Wbg27hpgDuyhSEFETockvTw7giznflvVr++c5JdGE3Y0AChZVs1Apd0T/h1a8q8XR90CUfhYzTyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OuZUZzlH; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1749788386; c=relaxed/simple;
+	bh=annr5287KVQy3aX+3oqINn+98t2bIxY2DpLxsg1KcN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Lplv/H1G/4tOSXXGjwtbeFBEdWH/cFhF50YXq0EhCi92LTjeWILFR4eAosZW0BcXcKBJlKxQqf6CyMZiJJ3OVEtzubZcIZ/akXf5RLg6m6uBcT1F+1XtXu4qEw+qy2uHGonkOYZxaXV+gy49IZBANyQKnhf4qv8aM+AZCZs3gXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UQouWto5; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OuZUZzlH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UQouWto5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749782731; x=1781318731;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=miblcId/NPyA5kzsTz5DnjwS4MVBoOnovkz4wtECiY0=;
-  b=OuZUZzlH6HtIIEj/XFM0e3vZWtR3szNm8f0FN0+ekdVr8hUomkG3EZG/
-   pVATkdNrFiVDQUWM2E7uyxNLG//rkNMSNr+sWW8eCggYAjStI3tu5TR3i
-   ygIkYYvL6plold1TRQgfp9iZiIRPds0LOVu5IOzxDhbmzEkUvQSAmCsR7
-   ICJrPI3dgoCC3g3OBzaAX8+Ef42hOe75WY4NZTyzKuclnaU+chZhEtzSZ
-   goNF33w1MSCSSb3UZlB4SECWdNUR7OO3j9jubU6JrhBX8XIza5pRrRVJf
-   NBUQOCOC+R8cTZJd80hByqemltGnL0bdldow5hyUyXpYO8CzFhC4wb8vi
-   g==;
-X-CSE-ConnectionGUID: +o/khPkBTWiYe7TdxGYI6Q==
-X-CSE-MsgGUID: GbwiG0q5TOWNy+0tV0gbKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="51859787"
+  t=1749788385; x=1781324385;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=annr5287KVQy3aX+3oqINn+98t2bIxY2DpLxsg1KcN4=;
+  b=UQouWto5y/KAcZupahP+lcaupT1udUZwiZ2zFAS9YAfZtDteZMvVgj4k
+   vNKiQxCUKRgrYqtml/zWku6bmrZgzJXKFqTWX9EuJK9MlUJ2VoK/26y3v
+   TnCNxVgsWQv8/bpqCH0NebusxA4KRKNZZrm2kH281730jmnEWHw6jbTcv
+   f6pB0ZoG2pJ4OR5tuo4DxGuKLqOGkItTrtDw36vUrY7FUS9RDpIIt5GLA
+   tDWcZKnY5TW3EzpvPFjU7laUooFGLsoAoaQP96ZJA/TMlFfabOOhrfO29
+   jI04pVp40oJAPmjFEzz+MLemw3Cw1JvSn7xRNcYpUbAgacjVZFAh4n0N/
+   A==;
+X-CSE-ConnectionGUID: ocZToYZdTOuAREP9K6tI2Q==
+X-CSE-MsgGUID: wDtSRK5jR+OSVYF20z4z4A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="74523573"
 X-IronPort-AV: E=Sophos;i="6.16,232,1744095600"; 
-   d="scan'208";a="51859787"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 19:45:30 -0700
-X-CSE-ConnectionGUID: QC/tXVs6TqWMXWuhV8oWsQ==
-X-CSE-MsgGUID: ZrzBduPESXiPmRHyk9Z7CA==
+   d="scan'208";a="74523573"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 21:19:44 -0700
+X-CSE-ConnectionGUID: MSjaM6+rQPqsH8DUv+NFXA==
+X-CSE-MsgGUID: e5kCg890SoyuQ3e83DZWLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,232,1744095600"; 
-   d="scan'208";a="152603888"
+   d="scan'208";a="147594808"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 12 Jun 2025 19:45:28 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 12 Jun 2025 21:19:37 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPuQ1-000CA0-2x;
-	Fri, 13 Jun 2025 02:45:25 +0000
-Date: Fri, 13 Jun 2025 10:44:51 +0800
+	id 1uPvt9-000CEI-0g;
+	Fri, 13 Jun 2025 04:19:35 +0000
+Date: Fri, 13 Jun 2025 12:18:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pohsun Su <pohsuns@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Robert Lin <robelin@nvidia.com>
-Subject: arch/xtensa/include/uapi/asm/swab.h:24: undefined reference to
- `__udivdi3'
-Message-ID: <202506131034.JEmrFDve-lkp@intel.com>
+To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
+	reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, hpa@zytor.com,
+	akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
+	thuth@redhat.com, ardb@kernel.org, gregkh@linuxfoundation.org,
+	seanjc@google.com, thomas.lendacky@amd.com,
+	pawan.kumar.gupta@linux.intel.com, perry.yuan@amd.com,
+	yosry.ahmed@linux.dev, kai.huang@intel.com, xiaoyao.li@intel.com,
+	peterz@infradead.org, kan.liang@linux.intel.com,
+	mario.limonciello@amd.com, xin3.li@intel.com, sohil.mehta@intel.com
+Subject: Re: [PATCH v6 5/8] fs/resctrl: Add user interface to enable/disable
+ io_alloc feature
+Message-ID: <202506131104.d1oo8NWe-lkp@intel.com>
+References: <b3d8e2ccd23b295f3735fc9f5420458cfc18a896.1749677012.git.babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,53 +73,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <b3d8e2ccd23b295f3735fc9f5420458cfc18a896.1749677012.git.babu.moger@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   27605c8c0f69e319df156b471974e4e223035378
-commit: b42d781e0350c969ef8155b800e33400f5f8b8a6 clocksource/drivers/timer-tegra186: Fix watchdog self-pinging
-date:   4 weeks ago
-config: xtensa-randconfig-r052-20250613 (https://download.01.org/0day-ci/archive/20250613/202506131034.JEmrFDve-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250613/202506131034.JEmrFDve-lkp@intel.com/reproduce)
+Hi Babu,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v6.16-rc1 next-20250612]
+[cannot apply to tip/x86/core aegl/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-cpufeatures-Add-support-for-L3-Smart-Data-Cache-Injection-Allocation-Enforcement/20250612-053050
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/b3d8e2ccd23b295f3735fc9f5420458cfc18a896.1749677012.git.babu.moger%40amd.com
+patch subject: [PATCH v6 5/8] fs/resctrl: Add user interface to enable/disable io_alloc feature
+config: i386-randconfig-061-20250613 (https://download.01.org/0day-ci/archive/20250613/202506131104.d1oo8NWe-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250613/202506131104.d1oo8NWe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506131034.JEmrFDve-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506131104.d1oo8NWe-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/resctrl/rdtgroup.c: note: in included file:
+>> include/linux/resctrl.h:553:46: sparse: sparse: marked inline, but without a definition
+>> include/linux/resctrl.h:553:46: sparse: sparse: marked inline, but without a definition
+>> include/linux/resctrl.h:553:46: sparse: sparse: marked inline, but without a definition
+>> include/linux/resctrl.h:553:46: sparse: sparse: marked inline, but without a definition
 
-   xtensa-linux-ld: drivers/clocksource/timer-tegra186.o: in function `readl_relaxed':
->> arch/xtensa/include/uapi/asm/swab.h:24: undefined reference to `__udivdi3'
-   xtensa-linux-ld: drivers/clocksource/timer-tegra186.o: in function `readl_relaxed':
-   drivers/clocksource/timer-tegra186.c:240: undefined reference to `__udivdi3'
+vim +553 include/linux/resctrl.h
 
-
-vim +24 arch/xtensa/include/uapi/asm/swab.h
-
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  19  
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  20  static inline __attribute_const__ __u32 __arch_swab32(__u32 x)
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  21  {
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  22      __u32 res;
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  23      /* instruction sequence from Xtensa ISA release 2/2000 */
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07 @24      __asm__("ssai     8           \n\t"
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  25  	    "srli     %0, %1, 16  \n\t"
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  26  	    "src      %0, %0, %1  \n\t"
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  27  	    "src      %0, %0, %0  \n\t"
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  28  	    "src      %0, %1, %0  \n"
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  29  	    : "=&a" (res)
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  30  	    : "a" (x)
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  31  	    );
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  32      return res;
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  33  }
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  34  #define __arch_swab32 __arch_swab32
-8903709b054a8d arch/xtensa/include/asm/swab.h Harvey Harrison 2009-01-07  35  
-
-:::::: The code at line 24 was first introduced by commit
-:::::: 8903709b054a8dafe4e8c6d9a6444034d7aba36f xtensa: introduce swab.h
-
-:::::: TO: Harvey Harrison <harvey.harrison@gmail.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+48e63934badb71 Babu Moger 2025-06-11  545  
+48e63934badb71 Babu Moger 2025-06-11  546  /**
+48e63934badb71 Babu Moger 2025-06-11  547   * resctrl_arch_get_io_alloc_enabled() - Get io_alloc feature state.
+48e63934badb71 Babu Moger 2025-06-11  548   * @r:		The resctrl resource.
+48e63934badb71 Babu Moger 2025-06-11  549   *
+48e63934badb71 Babu Moger 2025-06-11  550   * Return:
+48e63934badb71 Babu Moger 2025-06-11  551   * true if io_alloc is enabled or false if disabled.
+48e63934badb71 Babu Moger 2025-06-11  552   */
+48e63934badb71 Babu Moger 2025-06-11 @553  inline bool resctrl_arch_get_io_alloc_enabled(struct rdt_resource *r);
+48e63934badb71 Babu Moger 2025-06-11  554  
 
 -- 
 0-DAY CI Kernel Test Service
