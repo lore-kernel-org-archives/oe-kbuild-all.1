@@ -1,65 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D20B02DECB2;
-	Fri, 13 Jun 2025 12:12:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0318717996;
+	Fri, 13 Jun 2025 12:47:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749816760; cv=none; b=FfsSPEOzJzTEEdozruz0vWEjJqmxRDkRaqKYLIS9og4avDJEP41zhLlFHJYyJSMmZ/SnaXTGgjavDN7TfW3r/8D05YyOUNp/nhc7tTawTVwMzYW6PcNJvjrBkAJFpO3q/puqWzkHJO4JjAySqxBSuxErjxHMkzGyBC46vGG+nJQ=
+	t=1749818860; cv=none; b=OrcLgsM0OOMxuJyihrXaadL7ydNcAz5i135qfZRIWna1kIqM+TyX6OklzF2PFiK+KCc6ZwTSWsB3eTJlaMC4XGAwtPw/Va1nr9pHHPQEdOgYTOt1R1U/gFezsgik/j82tQQXUuDcYuN/6PtHv7wNNX9yc0oXEvTVwszls6Otqek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749816760; c=relaxed/simple;
-	bh=4knsc7FbAH7Q5O0jXH0nJt0AVmU/rcq+p8uTWlA4IDk=;
+	s=arc-20240116; t=1749818860; c=relaxed/simple;
+	bh=+SiE5qYo2rwclNu+ZxJIlHHqot1iDNTAW/egCzsPp6c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iHinykSUmmund7cpXUBykHzZbALgQ/+QbL86gCIbCe5QRiKgPGgv1lxKF0Fy/QI0u5mG4zmi+yabvYgCH5OQd+o2iDI7n62SJqdVV6koelmzv2agooEmXz9LTnuuODKo8fnlmbbdkpzRrtMsrLuyNTlfZx7gGiaxgOXHwEZLA7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HMZMN8Xg; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=soBZF3Ieq0MZlkstTy3JVKub4s1aHkGf72jAt7mZk2f9J6FPFL60VXUW2qmkixmi1quyMuIJhkrU0EW6MH/nIqzsWt6YAiNHmUnqnnE5Onv6hT737JY8vAA2uqmR7kFj644TfA9m+SeSX+oC0ZhqSY4ivH6TVm2WOZMB2wrRJZQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ApeBbIq7; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HMZMN8Xg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ApeBbIq7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749816758; x=1781352758;
+  t=1749818859; x=1781354859;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4knsc7FbAH7Q5O0jXH0nJt0AVmU/rcq+p8uTWlA4IDk=;
-  b=HMZMN8Xg0lpfUPQjlTCXhnKyEPJyxTaLnQk0OFYoYssekh0/Y3N3HoKw
-   oMf6W2IZFu6BG4jbpyniyjsvIcU6pifgyPYSGF4GR4B09Pb1cyNYj/W+n
-   yVfvvj0QvfUWQLjpnHlrkBWiKgSpVDhgTg8e9k/uIWLv31glV0ECcMq2i
-   m1jFM0W7w6hn835NGc02QRjglECyO453nvTQdhIp131uJnkLbrTQgpoNV
-   0lLJ9Jg0dvwT+ahbSBhbvcZ0D/rmdp2gPfGHmN6m9eZ+nNDODNKzFqEbf
-   Xk8QEkGzmycTzvv60IOLwYANctxK7cgr+PjQjWupAlMQZuZUrwDcKLy/U
-   A==;
-X-CSE-ConnectionGUID: NOVXBSpGR7WTIQj1b6mkgw==
-X-CSE-MsgGUID: OcFf8HBTRVeHrrmV/v/lMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="63383149"
+  bh=+SiE5qYo2rwclNu+ZxJIlHHqot1iDNTAW/egCzsPp6c=;
+  b=ApeBbIq7i/funC43jVIrHf2vja2/gapqudFPVdtWnUXEoeNFROqbSc0o
+   6T9HYPRNKHL8qMk4wPdoyN6WvCidR8gbffiEgFk0WoYHbdNeGxYH+auEr
+   RQmn4/eiOAv1G8uoB2E/mVADig9JNF/bNMiR0cKNoUxV/1Ozwz69mRxMD
+   jOFYAEDgrapFht7wKVnsRYzmrtN9Z27tOVxgaGL0GlzoZow6HyCtRNrH8
+   WpXeH7Tsn3xyP2oxfD35FI60/eemOSRDcMjSSvtYv6xqfhJZACpopMlvY
+   od0y1HNUCqHfPG3ycGzgnmo0Fw+nx8Y1VRXbwJG1TA6f6LiDzI6UCFwjC
+   w==;
+X-CSE-ConnectionGUID: hfukwG9cRxCWH+yMzP2nlA==
+X-CSE-MsgGUID: GCWgpvXjSXuxlkay1spw+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="54653891"
 X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="63383149"
+   d="scan'208";a="54653891"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 05:12:32 -0700
-X-CSE-ConnectionGUID: zPaqIg7gTWW8AEgSuaJUUw==
-X-CSE-MsgGUID: 1qLkft/DSV+tezTu08XGoQ==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 05:47:38 -0700
+X-CSE-ConnectionGUID: lMG2YNQHSEaYooYR+Mh+1A==
+X-CSE-MsgGUID: MQntdoYaQa6nq49vHo7YFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,233,1744095600"; 
-   d="scan'208";a="148184525"
+   d="scan'208";a="148192013"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 13 Jun 2025 05:12:31 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 13 Jun 2025 05:47:34 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQ3Gm-000CZq-2q;
-	Fri, 13 Jun 2025 12:12:28 +0000
-Date: Fri, 13 Jun 2025 20:11:50 +0800
+	id 1uQ3oi-000Cc6-1p;
+	Fri, 13 Jun 2025 12:47:32 +0000
+Date: Fri, 13 Jun 2025 20:46:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Gorlas <michal.gorlas@9elements.com>,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Brian Norris <briannorris@chromium.org>,
-	Julius Werner <jwerner@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, marcello.bauer@9elements.com,
-	Michal Gorlas <michal.gorlas@9elements.com>,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 3/3] firmware: coreboot: Linux-owned SMI handler to be
- loaded by coreboot
-Message-ID: <202506132239.FTTwSHeX-lkp@intel.com>
-References: <410d4d62b031d0e751e1933cf746540d5cb1682c.1749734094.git.michal.gorlas@9elements.com>
+To: "Ahmed S. Darwish" <darwi@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Sohil Mehta <sohil.mehta@intel.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	John Ogness <john.ogness@linutronix.de>, x86@kernel.org,
+	x86-cpuid@lists.linux.dev, LKML <linux-kernel@vger.kernel.org>,
+	"Ahmed S. Darwish" <darwi@linutronix.de>
+Subject: Re: [PATCH v3 41/44] x86/cpu: <asm/processor.h>: Do not include
+ CPUID API header
+Message-ID: <202506132039.imS2Pflx-lkp@intel.com>
+References: <20250612234010.572636-42-darwi@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,47 +74,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <410d4d62b031d0e751e1933cf746540d5cb1682c.1749734094.git.michal.gorlas@9elements.com>
+In-Reply-To: <20250612234010.572636-42-darwi@linutronix.de>
 
-Hi Michal,
+Hi Ahmed,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on chrome-platform/for-next]
-[also build test ERROR on chrome-platform/for-firmware-next linus/master v6.16-rc1 next-20250613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 19272b37aa4f83ca52bdf9c16d5d81bdd1354494]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Gorlas/firmware-coreboot-support-for-parsing-SMM-related-informations-from-coreboot-tables/20250612-221612
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/chrome-platform/linux.git for-next
-patch link:    https://lore.kernel.org/r/410d4d62b031d0e751e1933cf746540d5cb1682c.1749734094.git.michal.gorlas%409elements.com
-patch subject: [PATCH v1 3/3] firmware: coreboot: Linux-owned SMI handler to be loaded by coreboot
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250613/202506132239.FTTwSHeX-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250613/202506132239.FTTwSHeX-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ahmed-S-Darwish/x86-cpuid-Remove-transitional-asm-cpuid-h-header/20250613-075051
+base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
+patch link:    https://lore.kernel.org/r/20250612234010.572636-42-darwi%40linutronix.de
+patch subject: [PATCH v3 41/44] x86/cpu: <asm/processor.h>: Do not include CPUID API header
+config: i386-randconfig-004-20250613 (https://download.01.org/0day-ci/archive/20250613/202506132039.imS2Pflx-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250613/202506132039.imS2Pflx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506132239.FTTwSHeX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506132039.imS2Pflx-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/firmware/google/mm_handler/mm_header.S:7:10: fatal error: asm/page_types.h: No such file or directory
-       7 | #include <asm/page_types.h>
-         |          ^~~~~~~~~~~~~~~~~~
-   compilation terminated.
---
->> drivers/firmware/google/mm_handler/mm_handler.S:11:10: fatal error: asm/pgtable_types.h: No such file or directory
-      11 | #include <asm/pgtable_types.h>
-         |          ^~~~~~~~~~~~~~~~~~~~~
-   compilation terminated.
+   drivers/cpufreq/longrun.c: In function 'longrun_get':
+>> drivers/cpufreq/longrun.c:143:9: error: implicit declaration of function 'cpuid' [-Werror=implicit-function-declaration]
+     143 |         cpuid(0x80860007, &eax, &ebx, &ecx, &edx);
+         |         ^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +7 drivers/firmware/google/mm_handler/mm_header.S
+vim +/cpuid +143 drivers/cpufreq/longrun.c
 
-   > 7	#include <asm/page_types.h>
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds    2005-04-16  135  
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds    2005-04-16  136  static unsigned int longrun_get(unsigned int cpu)
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds    2005-04-16  137  {
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds    2005-04-16  138  	u32 eax, ebx, ecx, edx;
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds    2005-04-16  139  
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds    2005-04-16  140  	if (cpu)
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds    2005-04-16  141  		return 0;
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds    2005-04-16  142  
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds    2005-04-16 @143  	cpuid(0x80860007, &eax, &ebx, &ecx, &edx);
+2d06d8c49afdcc arch/x86/kernel/cpu/cpufreq/longrun.c  Dominik Brodowski 2011-03-27  144  	pr_debug("cpuid eax is %u\n", eax);
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds    2005-04-16  145  
+48ee923a666d4c arch/x86/kernel/cpu/cpufreq/longrun.c  Dave Jones        2009-01-17  146  	return eax * 1000;
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds    2005-04-16  147  }
+^1da177e4c3f41 arch/i386/kernel/cpu/cpufreq/longrun.c Linus Torvalds    2005-04-16  148  
 
 -- 
 0-DAY CI Kernel Test Service
