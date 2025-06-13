@@ -1,70 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1BA372605
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jun 2025 04:19:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FA1D23D294
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jun 2025 04:29:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749788386; cv=none; b=FWQklVdVOguzaYGltgZZ7zW8uvSr155+sawS4ygEcKhYXgi0PkT7gi5A+hLAyh57RqKkAnEF4PGzX0IhUuJdekv+dfQpkfeEZSEeC/PhhsRoPWIhxB7oSbfe64+WZ0fIy8F+RhB+r7zcgvpgTr2dDrVNTBm7OPBVLf64hsUhxWw=
+	t=1749788982; cv=none; b=a2NlGkzh4IVc49oE5JeSVrKB6QmJR7AAkZokN2eIjM7+/FAS+vfxbCjgFsTdgRIipRFO4U5QataAM1I9DAduNUGk3S5bmrbEZibQ+M+vwtu0hxBbVmE4ciaIFsqusssxiN0SwAmDpEnvy0wPuXKOzpq28EZmbafiR/d+45RqadQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749788386; c=relaxed/simple;
-	bh=annr5287KVQy3aX+3oqINn+98t2bIxY2DpLxsg1KcN4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lplv/H1G/4tOSXXGjwtbeFBEdWH/cFhF50YXq0EhCi92LTjeWILFR4eAosZW0BcXcKBJlKxQqf6CyMZiJJ3OVEtzubZcIZ/akXf5RLg6m6uBcT1F+1XtXu4qEw+qy2uHGonkOYZxaXV+gy49IZBANyQKnhf4qv8aM+AZCZs3gXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UQouWto5; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1749788982; c=relaxed/simple;
+	bh=llE0OrBnNtQ9J35OC7hmOem6I6fmSwOWN7r2oGmbwZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Fy7orsmFIsowroaNieQ00wLpAhkKyLUUWWyd6yVc8mwCEnUj9K7jzzi2F3Ka1x/fgJ3z00Zhf6vKPWLDsCh1tooUk/0fh/K+SDRQXM6bNEkajqA6ekkAGOR7B2TG0hB013ypGwHfEJRIZGR6k/99hDZbAwaa7pJhcVNj0Cus9ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VWy6zKIy; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UQouWto5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VWy6zKIy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749788385; x=1781324385;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=annr5287KVQy3aX+3oqINn+98t2bIxY2DpLxsg1KcN4=;
-  b=UQouWto5y/KAcZupahP+lcaupT1udUZwiZ2zFAS9YAfZtDteZMvVgj4k
-   vNKiQxCUKRgrYqtml/zWku6bmrZgzJXKFqTWX9EuJK9MlUJ2VoK/26y3v
-   TnCNxVgsWQv8/bpqCH0NebusxA4KRKNZZrm2kH281730jmnEWHw6jbTcv
-   f6pB0ZoG2pJ4OR5tuo4DxGuKLqOGkItTrtDw36vUrY7FUS9RDpIIt5GLA
-   tDWcZKnY5TW3EzpvPFjU7laUooFGLsoAoaQP96ZJA/TMlFfabOOhrfO29
-   jI04pVp40oJAPmjFEzz+MLemw3Cw1JvSn7xRNcYpUbAgacjVZFAh4n0N/
-   A==;
-X-CSE-ConnectionGUID: ocZToYZdTOuAREP9K6tI2Q==
-X-CSE-MsgGUID: wDtSRK5jR+OSVYF20z4z4A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="74523573"
+  t=1749788981; x=1781324981;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=llE0OrBnNtQ9J35OC7hmOem6I6fmSwOWN7r2oGmbwZY=;
+  b=VWy6zKIyZx/rddMyy5R0AxreePvV7I0tczsUtCsu2ZZ8uMtm/RA+G1Xr
+   FLMFFQ2ErypZYE7j0jFWaFC/cyxTgubq+JLkAZt5AcBNQDzKsje1regE0
+   R/VZ51VmLArrD/c2LlAS9N4qwo3UAH2W8c/MN41vSahghIzE14fj1B7BQ
+   dUMj3LhW3csD7PgNf7RQM6qY9JtmdtP/ImpwCT2b6VpCkjVD3WkuLJTI5
+   4etDmB5zFXXyv4bWnOlI9B/yrWd8zWHsiZ/Uh0wDeW2uFPDQjQVg6u8MG
+   bAejnAa9R6HQaacBpsGc5Xqbo3wtU2VTR8PM0bw7AR4t2BJpJ0ySClkbn
+   w==;
+X-CSE-ConnectionGUID: Sj2oPUhzSMiYBavZPaaFTw==
+X-CSE-MsgGUID: Geio972iR2iMRDEtHP4kwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11462"; a="51859808"
 X-IronPort-AV: E=Sophos;i="6.16,232,1744095600"; 
-   d="scan'208";a="74523573"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 21:19:44 -0700
-X-CSE-ConnectionGUID: MSjaM6+rQPqsH8DUv+NFXA==
-X-CSE-MsgGUID: e5kCg890SoyuQ3e83DZWLQ==
+   d="scan'208";a="51859808"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2025 21:29:40 -0700
+X-CSE-ConnectionGUID: XcMR6UCSRTymTelRIoCo0w==
+X-CSE-MsgGUID: OcB8TXSgSL+s/7LsFrBvhw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,232,1744095600"; 
-   d="scan'208";a="147594808"
+   d="scan'208";a="148083620"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 12 Jun 2025 21:19:37 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 12 Jun 2025 21:29:38 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uPvt9-000CEI-0g;
-	Fri, 13 Jun 2025 04:19:35 +0000
-Date: Fri, 13 Jun 2025 12:18:35 +0800
+	id 1uPw2p-000CEa-39;
+	Fri, 13 Jun 2025 04:29:35 +0000
+Date: Fri, 13 Jun 2025 12:28:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
-	reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, hpa@zytor.com,
-	akpm@linux-foundation.org, paulmck@kernel.org, rostedt@goodmis.org,
-	thuth@redhat.com, ardb@kernel.org, gregkh@linuxfoundation.org,
-	seanjc@google.com, thomas.lendacky@amd.com,
-	pawan.kumar.gupta@linux.intel.com, perry.yuan@amd.com,
-	yosry.ahmed@linux.dev, kai.huang@intel.com, xiaoyao.li@intel.com,
-	peterz@infradead.org, kan.liang@linux.intel.com,
-	mario.limonciello@amd.com, xin3.li@intel.com, sohil.mehta@intel.com
-Subject: Re: [PATCH v6 5/8] fs/resctrl: Add user interface to enable/disable
- io_alloc feature
-Message-ID: <202506131104.d1oo8NWe-lkp@intel.com>
-References: <b3d8e2ccd23b295f3735fc9f5420458cfc18a896.1749677012.git.babu.moger@amd.com>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Alexander Potapenko <glider@google.com>
+Subject: mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space
+ '__user' of expression
+Message-ID: <202506131242.qB8fUSlP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,51 +64,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b3d8e2ccd23b295f3735fc9f5420458cfc18a896.1749677012.git.babu.moger@amd.com>
 
-Hi Babu,
+Hi Ilya,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.16-rc1 next-20250612]
-[cannot apply to tip/x86/core aegl/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-cpufeatures-Add-support-for-L3-Smart-Data-Cache-Injection-Allocation-Enforcement/20250612-053050
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/b3d8e2ccd23b295f3735fc9f5420458cfc18a896.1749677012.git.babu.moger%40amd.com
-patch subject: [PATCH v6 5/8] fs/resctrl: Add user interface to enable/disable io_alloc feature
-config: i386-randconfig-061-20250613 (https://download.01.org/0day-ci/archive/20250613/202506131104.d1oo8NWe-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250613/202506131104.d1oo8NWe-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   27605c8c0f69e319df156b471974e4e223035378
+commit: 3a8f6f3b469b4075919a3613e182f9a70df92d46 kmsan: enable on s390
+date:   11 months ago
+config: s390-randconfig-r132-20250613 (https://download.01.org/0day-ci/archive/20250613/202506131242.qB8fUSlP-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce: (https://download.01.org/0day-ci/archive/20250613/202506131242.qB8fUSlP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506131104.d1oo8NWe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506131242.qB8fUSlP-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   fs/resctrl/rdtgroup.c: note: in included file:
->> include/linux/resctrl.h:553:46: sparse: sparse: marked inline, but without a definition
->> include/linux/resctrl.h:553:46: sparse: sparse: marked inline, but without a definition
->> include/linux/resctrl.h:553:46: sparse: sparse: marked inline, but without a definition
->> include/linux/resctrl.h:553:46: sparse: sparse: marked inline, but without a definition
+>> mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address space '__user' of expression
+   mm/kmsan/hooks.c:271:75: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void const *user_addr @@     got void [noderef] __user *to @@
+   mm/kmsan/hooks.c:271:75: sparse:     expected void const *user_addr
+   mm/kmsan/hooks.c:271:75: sparse:     got void [noderef] __user *to
+   mm/kmsan/hooks.c:280:50: sparse: sparse: cast removes address space '__user' of expression
+   mm/kmsan/hooks.c:306:59: sparse: sparse: Using plain integer as NULL pointer
+   mm/kmsan/hooks.c:319:79: sparse: sparse: Using plain integer as NULL pointer
+   mm/kmsan/hooks.c:325:79: sparse: sparse: Using plain integer as NULL pointer
+   mm/kmsan/hooks.c:421:78: sparse: sparse: Using plain integer as NULL pointer
 
-vim +553 include/linux/resctrl.h
+vim +/__user +269 mm/kmsan/hooks.c
 
-48e63934badb71 Babu Moger 2025-06-11  545  
-48e63934badb71 Babu Moger 2025-06-11  546  /**
-48e63934badb71 Babu Moger 2025-06-11  547   * resctrl_arch_get_io_alloc_enabled() - Get io_alloc feature state.
-48e63934badb71 Babu Moger 2025-06-11  548   * @r:		The resctrl resource.
-48e63934badb71 Babu Moger 2025-06-11  549   *
-48e63934badb71 Babu Moger 2025-06-11  550   * Return:
-48e63934badb71 Babu Moger 2025-06-11  551   * true if io_alloc is enabled or false if disabled.
-48e63934badb71 Babu Moger 2025-06-11  552   */
-48e63934badb71 Babu Moger 2025-06-11 @553  inline bool resctrl_arch_get_io_alloc_enabled(struct rdt_resource *r);
-48e63934badb71 Babu Moger 2025-06-11  554  
+b073d7f8aee4eb Alexander Potapenko 2022-09-15  247  
+75cf0290271bf6 Alexander Potapenko 2022-09-15  248  void kmsan_copy_to_user(void __user *to, const void *from, size_t to_copy,
+75cf0290271bf6 Alexander Potapenko 2022-09-15  249  			size_t left)
+75cf0290271bf6 Alexander Potapenko 2022-09-15  250  {
+75cf0290271bf6 Alexander Potapenko 2022-09-15  251  	unsigned long ua_flags;
+75cf0290271bf6 Alexander Potapenko 2022-09-15  252  
+75cf0290271bf6 Alexander Potapenko 2022-09-15  253  	if (!kmsan_enabled || kmsan_in_runtime())
+75cf0290271bf6 Alexander Potapenko 2022-09-15  254  		return;
+75cf0290271bf6 Alexander Potapenko 2022-09-15  255  	/*
+75cf0290271bf6 Alexander Potapenko 2022-09-15  256  	 * At this point we've copied the memory already. It's hard to check it
+75cf0290271bf6 Alexander Potapenko 2022-09-15  257  	 * before copying, as the size of actually copied buffer is unknown.
+75cf0290271bf6 Alexander Potapenko 2022-09-15  258  	 */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  259  
+75cf0290271bf6 Alexander Potapenko 2022-09-15  260  	/* copy_to_user() may copy zero bytes. No need to check. */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  261  	if (!to_copy)
+75cf0290271bf6 Alexander Potapenko 2022-09-15  262  		return;
+75cf0290271bf6 Alexander Potapenko 2022-09-15  263  	/* Or maybe copy_to_user() failed to copy anything. */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  264  	if (to_copy <= left)
+75cf0290271bf6 Alexander Potapenko 2022-09-15  265  		return;
+75cf0290271bf6 Alexander Potapenko 2022-09-15  266  
+75cf0290271bf6 Alexander Potapenko 2022-09-15  267  	ua_flags = user_access_save();
+f926e9326f3a79 Ilya Leoshkevich    2024-06-21  268  	if (!IS_ENABLED(CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE) ||
+f926e9326f3a79 Ilya Leoshkevich    2024-06-21 @269  	    (u64)to < TASK_SIZE) {
+75cf0290271bf6 Alexander Potapenko 2022-09-15  270  		/* This is a user memory access, check it. */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  271  		kmsan_internal_check_memory((void *)from, to_copy - left, to,
+75cf0290271bf6 Alexander Potapenko 2022-09-15  272  					    REASON_COPY_TO_USER);
+75cf0290271bf6 Alexander Potapenko 2022-09-15  273  	} else {
+75cf0290271bf6 Alexander Potapenko 2022-09-15  274  		/* Otherwise this is a kernel memory access. This happens when a
+75cf0290271bf6 Alexander Potapenko 2022-09-15  275  		 * compat syscall passes an argument allocated on the kernel
+75cf0290271bf6 Alexander Potapenko 2022-09-15  276  		 * stack to a real syscall.
+75cf0290271bf6 Alexander Potapenko 2022-09-15  277  		 * Don't check anything, just copy the shadow of the copied
+75cf0290271bf6 Alexander Potapenko 2022-09-15  278  		 * bytes.
+75cf0290271bf6 Alexander Potapenko 2022-09-15  279  		 */
+75cf0290271bf6 Alexander Potapenko 2022-09-15  280  		kmsan_internal_memmove_metadata((void *)to, (void *)from,
+75cf0290271bf6 Alexander Potapenko 2022-09-15  281  						to_copy - left);
+75cf0290271bf6 Alexander Potapenko 2022-09-15  282  	}
+75cf0290271bf6 Alexander Potapenko 2022-09-15  283  	user_access_restore(ua_flags);
+75cf0290271bf6 Alexander Potapenko 2022-09-15  284  }
+75cf0290271bf6 Alexander Potapenko 2022-09-15  285  EXPORT_SYMBOL(kmsan_copy_to_user);
+75cf0290271bf6 Alexander Potapenko 2022-09-15  286  
+
+:::::: The code at line 269 was first introduced by commit
+:::::: f926e9326f3a79f7e01ac790e2361f44d8ca8320 kmsan: fix kmsan_copy_to_user() on arches with overlapping address spaces
+
+:::::: TO: Ilya Leoshkevich <iii@linux.ibm.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
