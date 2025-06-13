@@ -1,59 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB7D271458
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jun 2025 21:05:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A71B28DB55
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 13 Jun 2025 21:47:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749848722; cv=none; b=G8xum5wyO7HBp1Q0EwLD3W1fYN8Y+cI2jWMi3/GOFVejQjQPYRnZenhdIeI2vZXitlwaa8NpCQ8vvKAPTXgzeQtaOz6qPrdff2n9KDCi2tvXzOGDHKT2csAZH4kGmLITxsWylPK1ca2cy+2QPlRCkdpJ7eOogrcSwLLlol88yoY=
+	t=1749851255; cv=none; b=C9fYF6Gp7HXbTkU2B/MmuJnRTJYcPk1C9rbMUZG/fRl4fPpNy3Hn8TDXQ+Vg9sszG9ZRYtKljo+M5XTN4v8R2JDeUBdRVMsrC9WeLsZtW3FAT2nfJ63jNdNCt0BYi1kkSU33e7zzQI+bbwzQdtfzyLg+VCFbdy5FLtwL3J6Nw1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749848722; c=relaxed/simple;
-	bh=UchUYbKtPjMBkWE759fC+D1YSlozadrWK0NQLYpg01A=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hSl8/5hs/zbGaNNl1qriw2bzpz/DESQ9Darexs739pYW131t4/Ym8+YA0XeCudu9+eq3yoHgSwk1rMecY9lA9M8lSkwCl+Wkc1nofIFP+cBReDu4YLu1WFAGy3nOKb359hWpdYuF3xMMTHTte8MAPetPiT/ySzwViwxmFZTGa90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T75WgjTT; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1749851255; c=relaxed/simple;
+	bh=UFBnmAmV5GfUyOf6hdq8Wup9xKMJWhcUGzPNLBHK/MU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SdP5C6a2LXyl3jkYaQyfKox2Nnzy2pk3cKBFhX+VpdEY7/HujUMObvr+RlL8F5RFOCUUPZKv0Hqm9Dn9HNkYN532W6GPLpjdAzK/GjsoqoJwg0QFysu4FBIRpwy+WalFt1CFuHQHuDBz64sAgCEhvDh4U7ukyW5Y+tNUd7aP7w8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LMJ4zwNt; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T75WgjTT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LMJ4zwNt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749848720; x=1781384720;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UchUYbKtPjMBkWE759fC+D1YSlozadrWK0NQLYpg01A=;
-  b=T75WgjTTL+ukkTVWEoO2TeMAwsk7vyNcI3l+3xS8RcCg7QzqvbtFElqm
-   JQ1sggIyVN2OUHbfF81Hdr/Szb9NJdzM8O921iw4SGMdhpMYIXbgqqWfI
-   04u86EODNFpD6a8mvj64Nex+hkU+n/sT61zTW9mebwSydEji7PBCV8dEq
-   EzKxxGBMS4jdItl4c+ilzMX/ICKEFHRjLLmYr2l6A/75upGomHLjOLJ78
-   7Ut5Jxp/Uf0dl3MfqDboG1Fbb9L+9oRrQBxuYg7shgfaRGhu7CKaZNg7J
-   r5krdy3UkDRLEs6n1UoQdZUsfQk/X4JdmI78roRuqDbc98a0GsxFCamfc
+  t=1749851253; x=1781387253;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UFBnmAmV5GfUyOf6hdq8Wup9xKMJWhcUGzPNLBHK/MU=;
+  b=LMJ4zwNtnLrrdgFZnC4YZxjBeYfKJA1uerqOrtJK2H9Y8ljHR5f2ZyFE
+   1NTP3LYdJeLQuP5PChRJ/rzpO9cj+QK/GtUXZnquxyxg9AwFfvomziYpx
+   T4bSZgGFS/JJieYg+K1hhd4j3OeYr7cJlvA1usCnrVhpIep0gpIXeV5Wr
+   mIrin2GlOvVfRWRc9gUsRjBmumflG+jjF7d+kT385umu1FxluYQuBCZ5y
+   Do5mrj5BNX96ALolK8ia3rQN1ERAYssOuOjEQI3qPWZH9OnKepS2YYIaP
+   ZxdTY+unpzTf0TDVXCVqJkL8hJXZb0ncD8+D8u3GHXPYKkQgFRU58nVEd
    g==;
-X-CSE-ConnectionGUID: Vc4gFLsQTvSak063dDcjgA==
-X-CSE-MsgGUID: IjHtu6mgQ2OJeH/0VSy+tg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="63109324"
+X-CSE-ConnectionGUID: unXxib7SRlu71QU6YP/gOQ==
+X-CSE-MsgGUID: VOZPdXooRAeKU4ojMXx4Xw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="63429306"
 X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; 
-   d="scan'208";a="63109324"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 14:05:19 -0700
-X-CSE-ConnectionGUID: ng1lrZEQSEKxuZ0Kb8SOLA==
-X-CSE-MsgGUID: 2sBpqIuJTOKYqi1PtF7KrQ==
+   d="scan'208";a="63429306"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2025 14:47:27 -0700
+X-CSE-ConnectionGUID: Ne47g+8qQlWTLEFFvFGPSg==
+X-CSE-MsgGUID: g1lRJdUiSHaVHxPkS/C/3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,234,1744095600"; 
-   d="scan'208";a="147761977"
+   d="scan'208";a="148472745"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 13 Jun 2025 14:05:18 -0700
+  by orviesa007.jf.intel.com with ESMTP; 13 Jun 2025 14:47:21 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQBaN-000D0A-17;
-	Fri, 13 Jun 2025 21:05:15 +0000
-Date: Sat, 14 Jun 2025 05:05:04 +0800
+	id 1uQCF4-000D1W-2p;
+	Fri, 13 Jun 2025 21:47:18 +0000
+Date: Sat, 14 Jun 2025 05:46:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <darrick.wong@oracle.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [djwong-xfs:fuse-iomap-cache 40/45] fs/fuse/inode.c:201:6: error:
- call to undeclared function 'fuse_has_iomap_cache'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202506140504.QOpDxwh9-lkp@intel.com>
+To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Shannon Nelson <shannon.nelson@amd.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Michal Schmidt <mschmidt@redhat.com>,
+	Petr Oros <poros@redhat.com>
+Subject: Re: [PATCH net-next v9 06/14] dpll: zl3073x: Fetch invariants during
+ probe
+Message-ID: <202506140541.KcP4ErN5-lkp@intel.com>
+References: <20250612200145.774195-7-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,155 +79,218 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250612200145.774195-7-ivecera@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git fuse-iomap-cache
-head:   62857bad704590b8ed2cc579b4a859b953b93d5f
-commit: b3c191b67dbecf84bcb097be892a0f854acdf050 [40/45] fuse: cache iomaps
-config: i386-buildonly-randconfig-005-20250614 (https://download.01.org/0day-ci/archive/20250614/202506140504.QOpDxwh9-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250614/202506140504.QOpDxwh9-lkp@intel.com/reproduce)
+Hi Ivan,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dt-bindings-dpll-Add-DPLL-device-and-pin/20250613-041005
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250612200145.774195-7-ivecera%40redhat.com
+patch subject: [PATCH net-next v9 06/14] dpll: zl3073x: Fetch invariants during probe
+config: alpha-randconfig-r061-20250614 (https://download.01.org/0day-ci/archive/20250614/202506140541.KcP4ErN5-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506140504.QOpDxwh9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506140541.KcP4ErN5-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/dpll/zl3073x/core.c:552:2-16: opportunity for str_enabled_disabled(input -> enabled)
+>> drivers/dpll/zl3073x/core.c:587:2-14: opportunity for str_enabled_disabled(out -> enabled)
+>> drivers/dpll/zl3073x/core.c:643:2-16: opportunity for str_enabled_disabled(synth -> enabled)
 
->> fs/fuse/inode.c:201:6: error: call to undeclared function 'fuse_has_iomap_cache'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     201 |         if (fuse_has_iomap_cache(inode))
-         |             ^
-   1 error generated.
---
-   In file included from fs/fuse/dev.c:12:
->> fs/fuse/iomap_cache.h:40:51: warning: declaration of 'struct fuse_iomap_cache' will not be visible outside of this function [-Wvisibility]
-      40 | struct fuse_ifork *fuse_iext_state_to_fork(struct fuse_iomap_cache *ip,
-         |                                                   ^
-   fs/fuse/iomap_cache.h:44:35: warning: declaration of 'struct fuse_iomap_cache' will not be visible outside of this function [-Wvisibility]
-      44 | void            fuse_iext_insert_raw(struct fuse_iomap_cache *ip,
-         |                                             ^
->> fs/fuse/iomap_cache.h:47:17: warning: declaration of 'struct fuse_iomap' will not be visible outside of this function [-Wvisibility]
-      47 |                         const struct fuse_iomap *irec);
-         |                                      ^
-   fs/fuse/iomap_cache.h:48:31: warning: declaration of 'struct fuse_iomap_cache' will not be visible outside of this function [-Wvisibility]
-      48 | void            fuse_iext_insert(struct fuse_iomap_cache *,
-         |                                         ^
-   fs/fuse/iomap_cache.h:50:17: warning: declaration of 'struct fuse_iomap' will not be visible outside of this function [-Wvisibility]
-      50 |                         const struct fuse_iomap *, int);
-         |                                      ^
-   fs/fuse/iomap_cache.h:51:31: warning: declaration of 'struct fuse_iomap_cache' will not be visible outside of this function [-Wvisibility]
-      51 | void            fuse_iext_remove(struct fuse_iomap_cache *,
-         |                                         ^
-   fs/fuse/iomap_cache.h:56:38: warning: declaration of 'struct fuse_iomap_cache' will not be visible outside of this function [-Wvisibility]
-      56 | bool            fuse_iext_lookup_extent(struct fuse_iomap_cache *ip,
-         |                                                ^
-   fs/fuse/iomap_cache.h:59:11: warning: declaration of 'struct fuse_iomap' will not be visible outside of this function [-Wvisibility]
-      59 |                         struct fuse_iomap *gotp);
-         |                                ^
-   fs/fuse/iomap_cache.h:60:45: warning: declaration of 'struct fuse_iomap_cache' will not be visible outside of this function [-Wvisibility]
-      60 | bool            fuse_iext_lookup_extent_before(struct fuse_iomap_cache *ip,
-         |                                                       ^
-   fs/fuse/iomap_cache.h:63:11: warning: declaration of 'struct fuse_iomap' will not be visible outside of this function [-Wvisibility]
-      63 |                         struct fuse_iomap *gotp);
-         |                                ^
-   fs/fuse/iomap_cache.h:66:11: warning: declaration of 'struct fuse_iomap' will not be visible outside of this function [-Wvisibility]
-      66 |                         struct fuse_iomap *gotp);
-         |                                ^
-   fs/fuse/iomap_cache.h:67:38: warning: declaration of 'struct fuse_iomap_cache' will not be visible outside of this function [-Wvisibility]
-      67 | void            fuse_iext_update_extent(struct fuse_iomap_cache *ip, int state,
-         |                                                ^
-   fs/fuse/iomap_cache.h:69:11: warning: declaration of 'struct fuse_iomap' will not be visible outside of this function [-Wvisibility]
-      69 |                         struct fuse_iomap *gotp);
-         |                                ^
-   fs/fuse/iomap_cache.h:77:40: warning: declaration of 'struct fuse_iomap' will not be visible outside of this function [-Wvisibility]
-      77 |                 struct fuse_iext_cursor *cur, struct fuse_iomap *gotp)
-         |                                                      ^
->> fs/fuse/iomap_cache.h:80:40: error: incompatible pointer types passing 'struct fuse_iomap *' to parameter of type 'struct fuse_iomap *' [-Werror,-Wincompatible-pointer-types]
-      80 |         return fuse_iext_get_extent(ifp, cur, gotp);
-         |                                               ^~~~
-   fs/fuse/iomap_cache.h:66:23: note: passing argument to parameter 'gotp' here
-      66 |                         struct fuse_iomap *gotp);
-         |                                            ^
-   fs/fuse/iomap_cache.h:84:40: warning: declaration of 'struct fuse_iomap' will not be visible outside of this function [-Wvisibility]
-      84 |                 struct fuse_iext_cursor *cur, struct fuse_iomap *gotp)
-         |                                                      ^
-   fs/fuse/iomap_cache.h:87:40: error: incompatible pointer types passing 'struct fuse_iomap *' to parameter of type 'struct fuse_iomap *' [-Werror,-Wincompatible-pointer-types]
-      87 |         return fuse_iext_get_extent(ifp, cur, gotp);
-         |                                               ^~~~
-   fs/fuse/iomap_cache.h:66:23: note: passing argument to parameter 'gotp' here
-      66 |                         struct fuse_iomap *gotp);
-         |                                            ^
-   fs/fuse/iomap_cache.h:94:40: warning: declaration of 'struct fuse_iomap' will not be visible outside of this function [-Wvisibility]
-      94 |                 struct fuse_iext_cursor *cur, struct fuse_iomap *gotp)
-         |                                                      ^
-   fs/fuse/iomap_cache.h:99:42: error: incompatible pointer types passing 'struct fuse_iomap *' to parameter of type 'struct fuse_iomap *' [-Werror,-Wincompatible-pointer-types]
-      99 |         return fuse_iext_get_extent(ifp, &ncur, gotp);
-         |                                                 ^~~~
-   fs/fuse/iomap_cache.h:66:23: note: passing argument to parameter 'gotp' here
-      66 |                         struct fuse_iomap *gotp);
-         |                                            ^
-   fs/fuse/iomap_cache.h:106:40: warning: declaration of 'struct fuse_iomap' will not be visible outside of this function [-Wvisibility]
-     106 |                 struct fuse_iext_cursor *cur, struct fuse_iomap *gotp)
-         |                                                      ^
-   fs/fuse/iomap_cache.h:111:42: error: incompatible pointer types passing 'struct fuse_iomap *' to parameter of type 'struct fuse_iomap *' [-Werror,-Wincompatible-pointer-types]
-     111 |         return fuse_iext_get_extent(ifp, &ncur, gotp);
-         |                                                 ^~~~
-   fs/fuse/iomap_cache.h:66:23: note: passing argument to parameter 'gotp' here
-      66 |                         struct fuse_iomap *gotp);
-         |                                            ^
-   17 warnings and 4 errors generated.
+vim +552 drivers/dpll/zl3073x/core.c
 
-
-vim +/fuse_has_iomap_cache +201 fs/fuse/inode.c
-
-   157	
-   158	static void fuse_evict_inode(struct inode *inode)
-   159	{
-   160		struct fuse_inode *fi = get_fuse_inode(inode);
-   161	
-   162		/* Will write inode on close/munmap and in all other dirtiers */
-   163		WARN_ON(inode->i_state & I_DIRTY_INODE);
-   164	
-   165		truncate_inode_pages_final(&inode->i_data);
-   166		clear_inode(inode);
-   167		if (inode->i_sb->s_flags & SB_ACTIVE) {
-   168			struct fuse_conn *fc = get_fuse_conn(inode);
-   169	
-   170			if (FUSE_IS_DAX(inode))
-   171				fuse_dax_inode_cleanup(inode);
-   172			if (fi->nlookup) {
-   173				fuse_queue_forget(fc, fi->forget, fi->nodeid,
-   174						  fi->nlookup);
-   175				fi->forget = NULL;
-   176			}
-   177	
-   178			if (fi->submount_lookup) {
-   179				fuse_cleanup_submount_lookup(fc, fi->submount_lookup);
-   180				fi->submount_lookup = NULL;
-   181			}
-   182			/*
-   183			 * Evict of non-deleted inode may race with outstanding
-   184			 * LOOKUP/READDIRPLUS requests and result in inconsistency when
-   185			 * the request finishes.  Deal with that here by bumping a
-   186			 * counter that can be compared to the starting value.
-   187			 */
-   188			if (inode->i_nlink > 0)
-   189				atomic64_inc(&fc->evict_ctr);
-   190		}
-   191		if (S_ISREG(inode->i_mode) && !fuse_is_bad(inode)) {
-   192			WARN_ON(fi->iocachectr != 0);
-   193			WARN_ON(!list_empty(&fi->write_files));
-   194			WARN_ON(!list_empty(&fi->queued_writes));
-   195		}
-   196	
-   197		if (fuse_has_iomap_directio(inode))
-   198			fuse_iomap_destroy_directio(inode);
-   199		if (fuse_has_iomap_pagecache(inode))
-   200			fuse_iomap_destroy_pagecache(inode);
- > 201		if (fuse_has_iomap_cache(inode))
-   202			fuse_iomap_destroy_cache(inode);
-   203	}
-   204	
+   506	
+   507	/**
+   508	 * zl3073x_ref_state_fetch - get input reference state
+   509	 * @zldev: pointer to zl3073x_dev structure
+   510	 * @index: input reference index to fetch state for
+   511	 *
+   512	 * Function fetches information for the given input reference that are
+   513	 * invariant and stores them for later use.
+   514	 *
+   515	 * Return: 0 on success, <0 on error
+   516	 */
+   517	static int
+   518	zl3073x_ref_state_fetch(struct zl3073x_dev *zldev, u8 index)
+   519	{
+   520		struct zl3073x_ref *input = &zldev->ref[index];
+   521		u8 ref_config;
+   522		int rc;
+   523	
+   524		/* If the input is differential then the configuration for N-pin
+   525		 * reference is ignored and P-pin config is used for both.
+   526		 */
+   527		if (zl3073x_is_n_pin(index) &&
+   528		    zl3073x_ref_is_diff(zldev, index - 1)) {
+   529			input->enabled = zl3073x_ref_is_enabled(zldev, index - 1);
+   530			input->diff = true;
+   531	
+   532			return 0;
+   533		}
+   534	
+   535		guard(mutex)(&zldev->multiop_lock);
+   536	
+   537		/* Read reference configuration */
+   538		rc = zl3073x_mb_op(zldev, ZL_REG_REF_MB_SEM, ZL_REF_MB_SEM_RD,
+   539				   ZL_REG_REF_MB_MASK, BIT(index));
+   540		if (rc)
+   541			return rc;
+   542	
+   543		/* Read ref_config register */
+   544		rc = zl3073x_read_u8(zldev, ZL_REG_REF_CONFIG, &ref_config);
+   545		if (rc)
+   546			return rc;
+   547	
+   548		input->enabled = FIELD_GET(ZL_REF_CONFIG_ENABLE, ref_config);
+   549		input->diff = FIELD_GET(ZL_REF_CONFIG_DIFF_EN, ref_config);
+   550	
+   551		dev_dbg(zldev->dev, "REF%u is %s and configured as %s\n", index,
+ > 552			input->enabled ? "enabled" : "disabled",
+   553			input->diff ? "differential" : "single-ended");
+   554	
+   555		return rc;
+   556	}
+   557	
+   558	/**
+   559	 * zl3073x_out_state_fetch - get output state
+   560	 * @zldev: pointer to zl3073x_dev structure
+   561	 * @index: output index to fetch state for
+   562	 *
+   563	 * Function fetches information for the given output (not output pin)
+   564	 * that are invariant and stores them for later use.
+   565	 *
+   566	 * Return: 0 on success, <0 on error
+   567	 */
+   568	static int
+   569	zl3073x_out_state_fetch(struct zl3073x_dev *zldev, u8 index)
+   570	{
+   571		struct zl3073x_out *out = &zldev->out[index];
+   572		u8 output_ctrl, output_mode;
+   573		int rc;
+   574	
+   575		/* Read output configuration */
+   576		rc = zl3073x_read_u8(zldev, ZL_REG_OUTPUT_CTRL(index), &output_ctrl);
+   577		if (rc)
+   578			return rc;
+   579	
+   580		/* Store info about output enablement and synthesizer the output
+   581		 * is connected to.
+   582		 */
+   583		out->enabled = FIELD_GET(ZL_OUTPUT_CTRL_EN, output_ctrl);
+   584		out->synth = FIELD_GET(ZL_OUTPUT_CTRL_SYNTH_SEL, output_ctrl);
+   585	
+   586		dev_dbg(zldev->dev, "OUT%u is %s and connected to SYNTH%u\n", index,
+ > 587			out->enabled ? "enabled" : "disabled", out->synth);
+   588	
+   589		guard(mutex)(&zldev->multiop_lock);
+   590	
+   591		/* Read output configuration */
+   592		rc = zl3073x_mb_op(zldev, ZL_REG_OUTPUT_MB_SEM, ZL_OUTPUT_MB_SEM_RD,
+   593				   ZL_REG_OUTPUT_MB_MASK, BIT(index));
+   594		if (rc)
+   595			return rc;
+   596	
+   597		/* Read output_mode */
+   598		rc = zl3073x_read_u8(zldev, ZL_REG_OUTPUT_MODE, &output_mode);
+   599		if (rc)
+   600			return rc;
+   601	
+   602		/* Extract and store output signal format */
+   603		out->signal_format = FIELD_GET(ZL_OUTPUT_MODE_SIGNAL_FORMAT,
+   604					       output_mode);
+   605	
+   606		dev_dbg(zldev->dev, "OUT%u has signal format 0x%02x\n", index,
+   607			out->signal_format);
+   608	
+   609		return rc;
+   610	}
+   611	
+   612	/**
+   613	 * zl3073x_synth_state_fetch - get synth state
+   614	 * @zldev: pointer to zl3073x_dev structure
+   615	 * @index: synth index to fetch state for
+   616	 *
+   617	 * Function fetches information for the given synthesizer that are
+   618	 * invariant and stores them for later use.
+   619	 *
+   620	 * Return: 0 on success, <0 on error
+   621	 */
+   622	static int
+   623	zl3073x_synth_state_fetch(struct zl3073x_dev *zldev, u8 index)
+   624	{
+   625		struct zl3073x_synth *synth = &zldev->synth[index];
+   626		u16 base, m, n;
+   627		u8 synth_ctrl;
+   628		u32 mult;
+   629		int rc;
+   630	
+   631		/* Read synth control register */
+   632		rc = zl3073x_read_u8(zldev, ZL_REG_SYNTH_CTRL(index), &synth_ctrl);
+   633		if (rc)
+   634			return rc;
+   635	
+   636		/* Store info about synth enablement and DPLL channel the synth is
+   637		 * driven by.
+   638		 */
+   639		synth->enabled = FIELD_GET(ZL_SYNTH_CTRL_EN, synth_ctrl);
+   640		synth->dpll = FIELD_GET(ZL_SYNTH_CTRL_DPLL_SEL, synth_ctrl);
+   641	
+   642		dev_dbg(zldev->dev, "SYNTH%u is %s and driven by DPLL%u\n", index,
+ > 643			synth->enabled ? "enabled" : "disabled", synth->dpll);
+   644	
+   645		guard(mutex)(&zldev->multiop_lock);
+   646	
+   647		/* Read synth configuration */
+   648		rc = zl3073x_mb_op(zldev, ZL_REG_SYNTH_MB_SEM, ZL_SYNTH_MB_SEM_RD,
+   649				   ZL_REG_SYNTH_MB_MASK, BIT(index));
+   650		if (rc)
+   651			return rc;
+   652	
+   653		/* The output frequency is determined by the following formula:
+   654		 * base * multiplier * numerator / denominator
+   655		 *
+   656		 * Read registers with these values
+   657		 */
+   658		rc = zl3073x_read_u16(zldev, ZL_REG_SYNTH_FREQ_BASE, &base);
+   659		if (rc)
+   660			return rc;
+   661	
+   662		rc = zl3073x_read_u32(zldev, ZL_REG_SYNTH_FREQ_MULT, &mult);
+   663		if (rc)
+   664			return rc;
+   665	
+   666		rc = zl3073x_read_u16(zldev, ZL_REG_SYNTH_FREQ_M, &m);
+   667		if (rc)
+   668			return rc;
+   669	
+   670		rc = zl3073x_read_u16(zldev, ZL_REG_SYNTH_FREQ_N, &n);
+   671		if (rc)
+   672			return rc;
+   673	
+   674		/* Check denominator for zero to avoid div by 0 */
+   675		if (!n) {
+   676			dev_err(zldev->dev,
+   677				"Zero divisor for SYNTH%u retrieved from device\n",
+   678				index);
+   679			return -EINVAL;
+   680		}
+   681	
+   682		/* Compute and store synth frequency */
+   683		zldev->synth[index].freq = div_u64(mul_u32_u32(base * m, mult), n);
+   684	
+   685		dev_dbg(zldev->dev, "SYNTH%u frequency: %u Hz\n", index,
+   686			zldev->synth[index].freq);
+   687	
+   688		return rc;
+   689	}
+   690	
 
 -- 
 0-DAY CI Kernel Test Service
