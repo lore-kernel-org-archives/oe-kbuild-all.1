@@ -1,138 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 461B278F2B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Jun 2025 20:40:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D991E1DF0
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Jun 2025 21:21:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749933634; cv=none; b=Akl9eNBAuFD61f9wTt+cqFvuSdBLwlEPp2ehzfmhEgIoEOBhh3AbY5e606BIyNE/L7HYgIapVeDhZfCBx4v61jWtiZrTfiY0MjCNYQYO9RthmoV6jv9JaISIKbwqcai8iymwLYn0Xs7EiLe9aECHkwrgRQZJKEOQg7bswgtcvDw=
+	t=1749936107; cv=none; b=mrscXHPLXgnmdH9O4ZZ+ZfIsVB6QpM7xj7V/6eqq+KO8Nev8NOraThKbSFjUnjq4I91ScZaggxTOVIqPiCV8Vi79Go3vClYV71ybUZjPxCsF9KifxsFj2mI0UP+xUVq+X0x7z0ArINrCr2ztXlI5ULHLYLaMBtNv6DHIa73IOaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749933634; c=relaxed/simple;
-	bh=PhY9fh1rLIMi0iDctndauiZtCxr/Qomuuc0as6bF/So=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=s9AeBy/w7RkbLaLjW44vAOzl4buVGtFeQMRLEQmunI7B1AbexPJH9cSXjwtysPqHlbGDZH8YickuKKBIEVy5eHpvHy706cm97gspmPIzpM3wV7854mS9jvAEJXGgLk3HUuqPTp6fnSsFb3b8OP2u/CZGR4MCDCX+Ia4bTkiHIWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nDkZ222N; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1749936107; c=relaxed/simple;
+	bh=95m61qIV6ZpSVPIOwauck0utYq1p5pnDlxVw9fZPoUM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GcjL6r3yc/F0/33dP4HXeNezeZYftcvFLtMRJ0yjfskU6NAq6FMIWEjspx8+GvnnTmGzWyfk5zh7gkVbFQzHr4dGdaF2+ct04V/j3XbQzDANrTAnbzlor1wHT3VBE82HW6511JmfK3MeV4gkUXEe3OpRg1UU2IOYRw0wZqHwZAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mxAGwqgy; arc=none smtp.client-ip=209.85.217.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nDkZ222N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749933632; x=1781469632;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PhY9fh1rLIMi0iDctndauiZtCxr/Qomuuc0as6bF/So=;
-  b=nDkZ222N7saVaDAslUwhhoKcTZu7P4GhcO+6tbQBuvt4N5QvNWXFCFSm
-   VziCgsyvIDWGAXJuZjvzlwX8q619IP72zF3UVy7DFp3M33nP/sIeztZar
-   7p7Ee9SUc4rq/sdEjg6kCCQTHG+0e16L3fgXD7kSSegmJJI7UFINYSQcM
-   KdTulr19x0raQXRIAtUoEgHv+zmDImGXDNoNzhz0Kogu1triahtm7CN2E
-   yvJxdWyjAYirGYgpVIydff6BUnA9BsT96n253C4nJp+81/zpRpfdkj8Gc
-   rEFRJmIKR9n2XVY8KaybrsiHVPh/7rb+nEzukk+o7QFmb0bWL8qixwJWc
-   A==;
-X-CSE-ConnectionGUID: HXkr+q/sTCml7lL1KHz8+A==
-X-CSE-MsgGUID: 4nJ/F8FLQn6g8CPALqi4tA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11464"; a="55924283"
-X-IronPort-AV: E=Sophos;i="6.16,237,1744095600"; 
-   d="scan'208";a="55924283"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2025 13:40:31 -0700
-X-CSE-ConnectionGUID: +aIewZgcRDOk0klIhSBJ4w==
-X-CSE-MsgGUID: 29pHs4MrRV2xxuiL+/MtuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,237,1744095600"; 
-   d="scan'208";a="153264726"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Jun 2025 13:40:30 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uQXfw-000DrU-1M;
-	Sat, 14 Jun 2025 20:40:28 +0000
-Date: Sun, 15 Jun 2025 04:39:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2818/2818]
- ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21:
- warning: invalid suffix on literal; C++11 requires a space between literal
- and string macro
-Message-ID: <202506150431.zSbZGyvK-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mxAGwqgy"
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-4e7ade16082so950164137.1
+        for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Jun 2025 14:21:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1749936105; x=1750540905; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MK467agQBl7b1tY2wypHrza4wnliO7LxjWcV6PEgN6o=;
+        b=mxAGwqgyT8P0mvLjojsSdBMSYMrKxfpB0RggejXISu4XTM9PjYSYQ+i+sO9BG4xt5e
+         Zrm3t5zRRERPnKkyGqAnJUe0s1D8QHFcrwBG1t93WZi7a8FcLFP1RAVDDvopvjP7cYT8
+         /4bhzU6TEagSGuK/uuZ0nbPONvOUO6p4xpSlAWMaAgI4bUpyLaIeLrtUv+l6lpJRJYFs
+         3RrViBVtjt/KLNNUp38ATEyLUaWugvcN2iFXO0k351++qYifKNX5TNhgd3b0+oXayoRD
+         zokDO6A7jINwVOQ2Dypv8S4y7A37MNKWkbuC4Jnhf9xupR5LUORvj213dZY6H2dELWXX
+         TEuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1749936105; x=1750540905;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MK467agQBl7b1tY2wypHrza4wnliO7LxjWcV6PEgN6o=;
+        b=GpW/sigPkADMUpZp2YpmhV1xW6uDVQod1HFGBk7tupk0hzixlS061B0R8bhvlC20QL
+         BbECVxT03YKhvaLr2sP201H+bjc/jOcXYDPc0TD8U7reaBUpkF3Utry1pBJ7ZLyoEscm
+         sHU3j6B6yxcY3XF82FS9Ug09A4Y0hbFYecO0JxaNwixZvbISZuDu9JHJRiamQejKq4xS
+         bELfr5aEe5T17Kg9GAS+8DZ7Af7QdRgSTOab9NBd5OQmU1/sj/JIPSMhDqX5mznY8mLu
+         A7swGgdfbW/UyCpg3LSlQ5XsMc+ybbPGvcOtBq6Q3kwfnyILjaK3HKsXFhWPdxeuqv13
+         WvHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXZihl88sH52OMBrWV/e1x6eXRsLYhC+dJ4o9J8q+wcIkxLHb99hGuo/hsRbL89kBZ2q/UlAOf/XUukEhK2@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbW1nryepamTA2u7ETHccaMPkSJefdmJ4TfDvaGeijLq3I72oZ
+	Rn4OIQlaViPO8LI3dm8bsc4oyeRvZ9bC9yavb3Wi5f06vk3IId8vMHiDl4PJrB+Fv8rFt0y3EZj
+	kAoDVAAmzGnzM5eCFDskSSd41q2pRyYc=
+X-Gm-Gg: ASbGncvC26umA0ORR7/Ymxl/H7tf0b7uUDCshqknXNwjmlYA32t4M5teBmrFksOUhwL
+	uUYmO9wLtZOC8MQGrzXLHan7eBNI50W8IviLi7d4zT6bndwZ+1mnowXhCUCHnd20DL9rNpU0RyO
+	7ehJbdAtJGZqde6t6SOUtHtUei+XIDtmwFPXSvuVtfFgmQs+j4IDV+Arlrpw==
+X-Google-Smtp-Source: AGHT+IH0tdFLXLY6jlKXLxCkkQ5OlCmVQ9/IMNkj5MVlcXZf4aDR7L/tSB4T3vCPQaU9jj/rvROsVYOur+PnsJBnBII=
+X-Received: by 2002:a05:6102:d8f:b0:4e7:bf04:413f with SMTP id
+ ada2fe7eead31-4e7f648cd19mr3019968137.18.1749936105288; Sat, 14 Jun 2025
+ 14:21:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250611194648.18133-4-andrew.lopes@alumni.usp.br>
+ <202506122309.FvJPaMhh-lkp@intel.com> <1c1c2888-be50-4578-8afd-bfbe4bd9cbae@baylibre.com>
+In-Reply-To: <1c1c2888-be50-4578-8afd-bfbe4bd9cbae@baylibre.com>
+From: Andrew Ijano <andrew.ijano@gmail.com>
+Date: Sat, 14 Jun 2025 18:21:34 -0300
+X-Gm-Features: AX0GCFskZ6scvwqCQ_LUPZh8XidRkwo3cx6PRXx9bYPaQ-64eMfzIP8pKcRdwss
+Message-ID: <CANZih_TWMx2d=8FGRLdHdvQDRQxoYar0v+YpeiogdQOWTnLHpQ@mail.gmail.com>
+Subject: Re: [PATCH v5 3/3] iio: accel: sca3000: use guard(mutex)() for
+ handling mutex lock
+To: David Lechner <dlechner@baylibre.com>
+Cc: kernel test robot <lkp@intel.com>, jic23@kernel.org, oe-kbuild-all@lists.linux.dev, 
+	andrew.lopes@alumni.usp.br, gustavobastos@usp.br, nuno.sa@analog.com, 
+	andy@kernel.org, jstephan@baylibre.com, linux-iio@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   bc09ecf9f11065377a74188caeca6254830ca706
-commit: 0908fe0570df658beb3866ddcb7bc55b0fb834b0 [2818/2818] gcc-plugins: fix gcc 11 indigestion with plugins...
-config: arm64-randconfig-002-20250321 (https://download.01.org/0day-ci/archive/20250615/202506150431.zSbZGyvK-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 5.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250615/202506150431.zSbZGyvK-lkp@intel.com/reproduce)
+On Thu, Jun 12, 2025 at 1:06=E2=80=AFPM David Lechner <dlechner@baylibre.co=
+m> wrote:
+>
+> On 6/12/25 10:52 AM, kernel test robot wrote:
+> > Hi Andrew,
+...
+>
+> These error messages aren't particularity helpful, but what I think
+> this is try to say is that you have to be careful with guard() in
+> switch statements.
+>
+> The guard() macro is declaring a new local variable, which shouldn't
+> be done in a case: statement without enclosing it in a separate scope.
+> Some compilers complain and some don't so even if it worked for you
+> locally, we need to make it work for all supported compilers.
+>
+> So the code needs to looks something like this:
+>
+>         case IIO_CHAN_INFO_SAMP_FREQ: {
+>                 guard(mutex)(&st->lock);
+>                 ret =3D sca3000_read_raw_samp_freq(st, val);
+>                 return ret ? ret : IIO_VAL_INT;
+>         }
+Hi, David! Thanks a lot for the explanation. I'll make this change right aw=
+ay.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506150431.zSbZGyvK-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/randomize_layout_plugin.c:19:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/stackleak_plugin.c:30:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:24,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/gcc-plugin.h:31,
-                    from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/plugin.h:23,
-                    from scripts/gcc-plugins/gcc-common.h:9,
-                    from scripts/gcc-plugins/sancov_plugin.c:22:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:102:21: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     102 |    fprintf ((FILE), "%s"HOST_WIDE_INT_PRINT_UNSIGNED"\n",\
-         |                     ^
-   ../lib/gcc/aarch64-linux/5.5.0/plugin/include/config/elfos.h:170:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     170 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   In file included from ../lib/gcc/aarch64-linux/5.5.0/plugin/include/tm.h:41:
->> ../lib/gcc/aarch64-linux/5.5.0/plugin/include/defaults.h:126:24: warning: invalid suffix on literal; C++11 requires a space between literal and string macro [-Wliteral-suffix]
-     126 |       fprintf ((FILE), ","HOST_WIDE_INT_PRINT_UNSIGNED",%u\n",          \
-         |                        ^
-   ../libexec/gcc/aarch64-linux/5.5.0/cc1: error while loading shared libraries: libmpfr.so.4: cannot open shared object file: No such file or directory
-   make[2]: *** [scripts/Makefile.build:280: scripts/mod/empty.o] Error 1 shuffle=1096673560
-   ../libexec/gcc/aarch64-linux/5.5.0/cc1: error while loading shared libraries: libmpfr.so.4: cannot open shared object file: No such file or directory
-   make[2]: *** [scripts/Makefile.build:117: scripts/mod/devicetable-offsets.s] Error 1 shuffle=1096673560
-   make[2]: Target '__build' not remade because of errors.
-   make[1]: *** [Makefile:1214: prepare0] Error 2 shuffle=1096673560
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:185: __sub-make] Error 2 shuffle=1096673560
-   make: Target 'prepare' not remade because of errors.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Andrew
