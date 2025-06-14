@@ -1,113 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761CB34CDD
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Jun 2025 17:33:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0F62E6100;
+	Sat, 14 Jun 2025 17:45:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749922399; cv=none; b=qHy4a/GlyvzigH7TLPW1qa7hyD9nBpphrJedvSHD/1X04Wui0z+iB/PA+cLuPXsfDM+JQSbMc2EeUa1wJaXSRVMgx+9gb70Na0FbzskxVFTCkIlOOy9w+LtnfgcG8AIJ6Gsx0GWS71aaNvNfvsh0cCbMttdCHgQW9ZzWXCi+UZI=
+	t=1749923102; cv=none; b=atAvSqzKOLXZ+PbkUW3FbF3u75GdhsqOmP7h4SFY39oCXVOV0FWuQJJ2HNcI65zBXtEBC1MdD2UCkMpZbl1BwmHKETRgwolQXVKUnXigBn6138MKNyfyLrVjwZRPA6FT6mUq1Oj6JmVOUfN2yjtMZa5Kg2ch6ZpSg7c4UTgm6zE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749922399; c=relaxed/simple;
-	bh=sYzhyuOMJlxaNLvwtjvQFPSqgL1EZJfEM0k8Hyk2zmE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=exsEr6/pYGR2cFuJZkSx5f0sxX2UDtSFBDqepWUW+If8lDOMznAd1mLr471y7O+FAXY6C5DvofyXrLRzs9LJ9rsHwcwefyhWTA61nMxAZh9xaGMHxxKscqGGC74fSCw3CDf3NNLH2Zk0BkkpN9MLZrBiEHBDb93W6OpBlUftFnU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T56lVF9S; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1749923102; c=relaxed/simple;
+	bh=ob6J8ah842UQUR2Ib9MQThUSNdQz5fBho16ro9ePGaM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i566Ze53hODIlK0QMV/nFxlK2fkwOBT1aNTwTts373PuFMIlfVea0eQc7TQWwCoAD0/jhIdkfbRu1rn4rfyJrWwRzWIpsF+wHoWpJGhhtw5XQ5U/9sR/btVWRb647YE3/MEsYF70DH4cepX6pZ575akQW4L0pChGiLpLLrCR3h4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CiN9nziZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T56lVF9S"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749922398; x=1781458398;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sYzhyuOMJlxaNLvwtjvQFPSqgL1EZJfEM0k8Hyk2zmE=;
-  b=T56lVF9S9iaMerQBcSlex+Cfj4syesCVt/mNnfP+VuZJJ7fgC3LY9dWB
-   yBwscbUNkki8pJz+vMAfMV9FqRGudXaL+OX5XvhBY1iRRQnpsciUj+354
-   HJ+8kjQOUKkr6CLvDFjz0/5qsiUvMctjZ3/qr2aVPABBMXEAYjsUneVtd
-   6Q23ZCIgOqDdXigqS5T3kG0mbZgb1nxG7rhigZC2aUe9vaSnQ/3SkKeFE
-   Q/MjjFE3+2wP6zAA5HZH3+6OeQrNWXZ3K/RqPDJ2d8iXfcQOMmETbXUMV
-   /d0U9kB3OEdZtZElYginuEDA+X6rD0ZScYVE0mjHjHeujwdss95WgQHaf
-   Q==;
-X-CSE-ConnectionGUID: pSq4mlErQquYM2vAEPsMcg==
-X-CSE-MsgGUID: umXQFmepRbuOV6qx+wljIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11464"; a="77510500"
-X-IronPort-AV: E=Sophos;i="6.16,237,1744095600"; 
-   d="scan'208";a="77510500"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2025 10:33:18 -0700
-X-CSE-ConnectionGUID: nRDaa7ccShCXOkP3q+4CNw==
-X-CSE-MsgGUID: nIM2ZCBoSemDGezcKbJKPg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,237,1744095600"; 
-   d="scan'208";a="147953425"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 14 Jun 2025 10:33:12 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uQUkg-000Dj2-1v;
-	Sat, 14 Jun 2025 17:33:10 +0000
-Date: Sun, 15 Jun 2025 01:32:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuni1840@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Andrii Nakryiko <andrii@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Eduard Zingerman <eddyz87@gmail.com>,
-	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Stephen Smalley <stephen.smalley.work@gmail.com>,
-	Ondrej Mosnacek <omosnace@redhat.com>,
-	Casey Schaufler <casey@schaufler-ca.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>, bpf@vger.kernel.org,
-	linux-security-module@vger.kernel.org, selinux@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH v2 bpf-next 1/4] af_unix: Don't pass struct socket to
- security_unix_may_send().
-Message-ID: <202506150111.BYSccpdo-lkp@intel.com>
-References: <20250613222411.1216170-2-kuni1840@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CiN9nziZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A36F5C4CEEB;
+	Sat, 14 Jun 2025 17:45:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1749923101;
+	bh=ob6J8ah842UQUR2Ib9MQThUSNdQz5fBho16ro9ePGaM=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=CiN9nziZccbRfQZKUBjIxIkHkt8dvgrIAe3WbNiWaoIVNBMLUiLIwTp+iuQBDF50q
+	 WP7CoIsyq51p+45w5raZHYDqtoykfNHBiiVyMT727v19vtt3lPD138mTFoOHxxivsX
+	 j7SQHI0bujBAKzmgXyzA3eDH2uneKWBmA0sw1bngR8Z0KWVoWi/DmJDXP0vDeHwOfB
+	 1Nj+z1LmYhjF/s+hwxhyoKGma1BYUJ9yNeE5MHe8j2f5IsfBWv6VHWzpVKBj4IzX71
+	 hY68hJeqpLz14OTHyw2rsTDDBJr9X0ryudWbvtctvteNdnA3U7EphRXyCAPWjpWsJY
+	 PJBUf8ih65VtQ==
+Date: Sat, 14 Jun 2025 10:44:54 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Ivan Vecera <ivecera@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jiri Pirko
+ <jiri@resnulli.us>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Prathosh Satish
+ <Prathosh.Satish@microchip.com>, Eric Dumazet <edumazet@google.com>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>, Shannon Nelson
+ <shannon.nelson@amd.com>, Dave Jiang <dave.jiang@intel.com>, Jonathan
+ Cameron <Jonathan.Cameron@huawei.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Michal Schmidt
+ <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>
+Subject: Re: [PATCH net-next v9 06/14] dpll: zl3073x: Fetch invariants
+ during probe
+Message-ID: <20250614104454.444672fc@kernel.org>
+In-Reply-To: <00780331-37cb-48ae-bb87-06d21a9ec4d1@redhat.com>
+References: <20250612200145.774195-7-ivecera@redhat.com>
+	<202506140541.KcP4ErN5-lkp@intel.com>
+	<00780331-37cb-48ae-bb87-06d21a9ec4d1@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250613222411.1216170-2-kuni1840@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Kuniyuki,
+On Sat, 14 Jun 2025 12:39:08 +0200 Ivan Vecera wrote:
+> should I fix this in v10 or in a follow-up in the part 2?
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/af_unix-Don-t-pass-struct-socket-to-security_unix_may_send/20250614-062956
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250613222411.1216170-2-kuni1840%40gmail.com
-patch subject: [PATCH v2 bpf-next 1/4] af_unix: Don't pass struct socket to security_unix_may_send().
-config: arm-randconfig-001-20250614 (https://download.01.org/0day-ci/archive/20250615/202506150111.BYSccpdo-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250615/202506150111.BYSccpdo-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506150111.BYSccpdo-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: security/smack/smack_lsm.c:3892 function parameter 'sk' not described in 'smack_unix_may_send'
->> Warning: security/smack/smack_lsm.c:3892 Excess function parameter 'sock' description in 'smack_unix_may_send'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I don't love this but yes, please fix and respin. We auto-discard
+series that get a build bot reply.
