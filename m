@@ -1,107 +1,107 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 595901EF0B0
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Jun 2025 10:39:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC426154457
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Jun 2025 10:44:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749897569; cv=none; b=FZspQMLfoh/gp6AUD83NC1G5p826jNolQhYBqxXpdF8pjvqsE2V19/LRE9aqAABxe8bTp3lp4zMtrt5khdkbAhCdxoK9TbWi6yaMME183J+7MrFxJBvKpDu+XSTK1hXmvkua5QH/A5AYTYA/m7KeeuQH4I0Ly/4UstYU1bmshrQ=
+	t=1749897868; cv=none; b=BXtHeckp0MZDJ6SAN14mGkYgb48tLIjgM379ThM3e6oDFObSE5JOlUfhAleLrSzMduJ0YlVGj584lJ9lF+gKQ6ypZroNvL9/rMS62+Y7KqvtaFoBhDG34UWnS3wOSZekxMtn9cRDIEjgz0YZC4Ci9hPrVui4QSkF3/bjFvC8ZrQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749897569; c=relaxed/simple;
-	bh=ljuppTqyX9qOD/vtLwotTaA9fqBjfssPGpbLtG8Pjsk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IODflpJHWRkV1VBmonl1ogV2tITN4asJfh/G6RiGrjSfDOlh8whAqESFru+mib+nclQhhUlSJI2bT40dTSfrVaMCA4jlfBCvK7ApOCGZTxMmvq/S+Ls9+SxkXmA7S6kHNmFY0Y3N6gDxt7huiHFGHiy8HfEIxsJW8bY1IIXN+jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZLUChVXM; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1749897868; c=relaxed/simple;
+	bh=j3O+DDae8ILo4jmvNigqBbtK79Ejksa7HmS3Ijb0k0k=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=am0QURJdOazwPzMgxV9pZVPskHoiVc7qDREFplvz4GwBIFwlQt8njKmv7TJKOcMMo+DUAehasK+XPaOmek6RLVo4offvEJXYOxQWe68Sg1v+odPcomGqErWmYQkX/lo47z3dnByVAhk80oUlHKKr7UsFqtMzHpRrSjVINvBdbEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nyQOhW60; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZLUChVXM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1749897565;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mfJRAujRjuGi7KQbNecOBzzOmJkqRWWoAoZaJP2IUfQ=;
-	b=ZLUChVXMiqWrkCyec8HRcmdi1gkuickRh6CJ+TXGSq1pnoPBApe7fg2UCelHdjCkrlKSkg
-	qlPcfwT4nPBPLk/xJNS8N5Lxl9MxvArpj6OqbGanicgN7E+YJB9/zDJ98SlV4ulukxdXLU
-	fDI3jBC/YzoQ+LTDWV+nZO7nXRGPtL8=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-161-G2aoBe6gMUuwFE-f18DMzQ-1; Sat,
- 14 Jun 2025 06:39:22 -0400
-X-MC-Unique: G2aoBe6gMUuwFE-f18DMzQ-1
-X-Mimecast-MFC-AGG-ID: G2aoBe6gMUuwFE-f18DMzQ_1749897560
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4BA721800289;
-	Sat, 14 Jun 2025 10:39:19 +0000 (UTC)
-Received: from [10.45.224.53] (unknown [10.45.224.53])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 51270180045B;
-	Sat, 14 Jun 2025 10:39:10 +0000 (UTC)
-Message-ID: <00780331-37cb-48ae-bb87-06d21a9ec4d1@redhat.com>
-Date: Sat, 14 Jun 2025 12:39:08 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nyQOhW60"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749897867; x=1781433867;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=j3O+DDae8ILo4jmvNigqBbtK79Ejksa7HmS3Ijb0k0k=;
+  b=nyQOhW60cFaGRsfNK6mqqo6rmALEABZbSE0LTBmhBs6AbOD+fUd+zR4Q
+   coYBD6lH3dPWb+jG/rky+Q1Ht771OLovG78dnttM+wpRKNOXzX9gy3HpV
+   Tr1v0sfj7/rPTJRVsoR0Oy9d9PaVuWCx/8Bw36swJc5c8v2/j1yBoMxFY
+   xZWzz8nmPft4jk3OOmpO3QrWQhXipchvfyUxwWkoSvwOGWuKd7ctf4th3
+   kuEuqrr1X1ZC7RGxt5TpS6aFlwvoTV+LMO/sbmF/wQTOeR4q5qBACeSB4
+   rvSsaGcAr8JBibG+0E2cp08plEzKL2p4AJIsyUB3Jsc1qg/OqQwSH2rBq
+   w==;
+X-CSE-ConnectionGUID: Q19Rx0TLQhq40Mh+scvwZw==
+X-CSE-MsgGUID: LenrMyiGT3K8RfyAvVEf3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="55904566"
+X-IronPort-AV: E=Sophos;i="6.16,236,1744095600"; 
+   d="scan'208";a="55904566"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2025 03:44:26 -0700
+X-CSE-ConnectionGUID: o+MJz9v3R8iy+6BbqcV6yw==
+X-CSE-MsgGUID: ETDdU5NXRSSwSb1vD0jUZA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,236,1744095600"; 
+   d="scan'208";a="148945105"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 14 Jun 2025 03:44:25 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uQON5-000DSU-1y;
+	Sat, 14 Jun 2025 10:44:23 +0000
+Date: Sat, 14 Jun 2025 18:43:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 101/101] mm/memory.c:95:2: warning:
+ Unfortunate NUMA and NUMA Balancing config, growing page-frame for
+ last_cpupid.
+Message-ID: <202506141820.D4T9qEe7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v9 06/14] dpll: zl3073x: Fetch invariants during
- probe
-To: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Vadim Fedorenko
- <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Prathosh Satish <Prathosh.Satish@microchip.com>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
- Shannon Nelson <shannon.nelson@amd.com>, Dave Jiang <dave.jiang@intel.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Michal Schmidt <mschmidt@redhat.com>, Petr Oros <poros@redhat.com>
-References: <20250612200145.774195-7-ivecera@redhat.com>
- <202506140541.KcP4ErN5-lkp@intel.com>
-Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <202506140541.KcP4ErN5-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Quan,
+
+First bad commit (maybe != root cause):
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   fb985e3d6ffe60670777a329eb5ac36f2ed9f5a0
+commit: 2b334ebbac08c6e8ed4121b5336b59856b396294 [101/101] anolis: mm: introduce a new page flag PG_inited
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250614/202506141820.D4T9qEe7-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250614/202506141820.D4T9qEe7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506141820.D4T9qEe7-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> mm/memory.c:95:2: warning: Unfortunate NUMA and NUMA Balancing config, growing page-frame for last_cpupid. [-W#warnings]
+      95 | #warning Unfortunate NUMA and NUMA Balancing config, growing page-frame for last_cpupid.
+         |  ^
+   1 warning generated.
 
 
+vim +95 mm/memory.c
 
-On 13. 06. 25 11:46 odp., kernel test robot wrote:
-> Hi Ivan,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on net-next/main]
-> 
-> url:https://github.com/intel-lab-lkp/linux/commits/Ivan-Vecera/dt-bindings- 
-> dpll-Add-DPLL-device-and-pin/20250613-041005
-> base:   net-next/main
-> patch link:https://lore.kernel.org/r/20250612200145.774195-7-ivecera%40redhat.com
-> patch subject: [PATCH net-next v9 06/14] dpll: zl3073x: Fetch invariants during probe
-> config: alpha-randconfig-r061-20250614 (https://download.01.org/0day-ci/archive/20250614/202506140541.KcP4ErN5- 
-> lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 10.5.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot<lkp@intel.com>
-> | Closes:https://lore.kernel.org/oe-kbuild-all/202506140541.KcP4ErN5-lkp@intel.com/
+42b7772812d15b Jan Beulich    2008-07-23  93  
+af27d9403f5b80 Arnd Bergmann  2018-02-16  94  #if defined(LAST_CPUPID_NOT_IN_PAGE_FLAGS) && !defined(CONFIG_COMPILE_TEST)
+90572890d20252 Peter Zijlstra 2013-10-07 @95  #warning Unfortunate NUMA and NUMA Balancing config, growing page-frame for last_cpupid.
+75980e97daccfc Peter Zijlstra 2013-02-22  96  #endif
+75980e97daccfc Peter Zijlstra 2013-02-22  97  
 
-Jakub, Dave, Paolo,
-should I fix this in v10 or in a follow-up in the part 2?
+:::::: The code at line 95 was first introduced by commit
+:::::: 90572890d202527c366aa9489b32404e88a7c020 mm: numa: Change page last {nid,pid} into {cpu,pid}
 
-Thanks,
-Ivan
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
