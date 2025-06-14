@@ -1,71 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83DE02D1925
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Jun 2025 13:54:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C8B2D0281
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Jun 2025 14:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749909242; cv=none; b=J0QifcDCubWjw6/00vjxDJHYE6nLQlmqsxeWjJ59vtUMuRJ3ZMzyMI2GXUgWE1yFLD2aob0ixYxNJiv9G+TeI1T/O0X/aJLY3gu4W+nhwhgfbFIwp+3irFx0o3+zW0L2TCv7NnkcGkqs5ykGo7g9PajIJHUDUiSOdOJz0SS1f/Q=
+	t=1749909842; cv=none; b=Ho8WNnPPtT/nlL6XV2tmj/who/SfbCB+Pkwq0kaca4CTLz7COAyaUInkc7ngx+D3Fabl+rmRySYUbJxDIRjABRxHIiQL8NH7B8KD90Ldn1XSHiRcb5CQqlQeXqPqV5OMLTZE/g5FGOEO5JklBiVz8FRXX0dM6se09WB8FzWF2jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749909242; c=relaxed/simple;
-	bh=ZnRdgltemHlAKja8j5RiYAwmic0u+k/SjK6QYxNVXWw=;
+	s=arc-20240116; t=1749909842; c=relaxed/simple;
+	bh=Fi81CSRlkWepJqnNVO5qINgjPScf4yeYt7CwcLuEmJ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HYEN7LNj7iC1CwLuqUze+vsBqI1sBBxv4/8Hqq9RNrsn+EA4J0c91WhAG8XqE5FMkkI4GThCGoAuBNBDljUDnyz7NOZZ7bIEREGD0yBZ6vMeC4nVbutdLFaZfa8ZCHi5PpR0LEfFNTg+IiT67jGZhpKj2ji81hoJXDkvKTzYo+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fXWnkEzK; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=g6B2VHhF9BgWL3dkySh/tX19p9R9V5LFb3nq3GUWMK5hU68TK6BCXjQODP9qeEjz7yhN4RIpmWyfTPDqdVE9JqcQtHsRluzAoW1Yo11IOdBPDN5F3bX4oo7vbwhsIygxHr3vDqyfGuRIhukrTwr76vUz0u0Cf1cFbdNPYoLaIxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nmGJnB0A; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fXWnkEzK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nmGJnB0A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749909241; x=1781445241;
+  t=1749909839; x=1781445839;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZnRdgltemHlAKja8j5RiYAwmic0u+k/SjK6QYxNVXWw=;
-  b=fXWnkEzKKMDhK2AjkI7RixqvFF5lp7jmYbLBI9wsAlvbkrlQMCnQYWnd
-   1IwWG/NLy21mVlzc1uP9EudVMpu9gfZWK1N0I32Sn2MARv3qXvq8i4VxE
-   uA7GOzZdsdQSPSIUkdl+EB+a1f2MDNX6KLOtYBaV/12aJgGvQWqNGllsG
-   yNMKOYAe1LP97HM8ms3HGTZ9R/ClUg+LGRnGLb459zpxVxaI6gbYn+ZEp
-   wmqSKKrNSkF1+Y1c1MKY8y1Ii5dVp4lFa5o4FKPTssUp9OYjRUTW5tngA
-   s53Ub2Oe7h9zwnkmgxzt1cDglAjP6L1ZUEIUfJQRWYwhQfIRxCAPiQoUa
+  bh=Fi81CSRlkWepJqnNVO5qINgjPScf4yeYt7CwcLuEmJ0=;
+  b=nmGJnB0Anp9Yvgqgr9ggdGDsuALS4ASOgvBqvtEYd3B/bLElioZWZEU5
+   dLJqGoujjiwiasLyIzFWsirpXFwoWhhyppHk2Q6V8Xk66Se/rut0DvEPM
+   2nXxsmU+8oyp6bQgeh35SCKnhvTpdaSBrOnC3n76IOwt+9/EgtFkpocIS
+   ilmPu2bTsO1R1+YyHMqtqtsZX8bJZtIu0dojf5cyAADFnzPBdU2CXzNBf
+   q9fCqdnNsY992+3rsL9EbBzHF/u6mggAWxSngbXt8tufaDjymV267kdec
+   yX1mos0JD1Y1q2/67f9o/+vs6DsK4Ob4jlDwR8Ldp/TP5c2VYNr6I+qfW
    w==;
-X-CSE-ConnectionGUID: rY6oJu92R/yuZJYTOu2MhQ==
-X-CSE-MsgGUID: 9D2SCLCcRJGQQ+j4Jf5q5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11464"; a="63521712"
+X-CSE-ConnectionGUID: lrTGukx/RPeCjelw4ECQHQ==
+X-CSE-MsgGUID: FmbCGKCCQ8i+mh6KZg7O5g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11464"; a="55913037"
 X-IronPort-AV: E=Sophos;i="6.16,236,1744095600"; 
-   d="scan'208";a="63521712"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2025 06:54:00 -0700
-X-CSE-ConnectionGUID: 697mMPSpTdCE2B6dGNnlPA==
-X-CSE-MsgGUID: wP22LGRdTTSSaroFP6W5OQ==
+   d="scan'208";a="55913037"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2025 07:03:59 -0700
+X-CSE-ConnectionGUID: f8x+VdHoTISIQB0lZOW10Q==
+X-CSE-MsgGUID: rvag/gqYSuGKVPQDKhktVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,236,1744095600"; 
-   d="scan'208";a="148968667"
+   d="scan'208";a="153221007"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 14 Jun 2025 06:53:53 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 14 Jun 2025 07:03:54 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQRKR-000DXq-03;
-	Sat, 14 Jun 2025 13:53:51 +0000
-Date: Sat, 14 Jun 2025 21:53:28 +0800
+	id 1uQRU7-000DYQ-33;
+	Sat, 14 Jun 2025 14:03:51 +0000
+Date: Sat, 14 Jun 2025 22:03:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
-	reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, hpa@zytor.com,
-	akpm@linux-foundation.org, rostedt@goodmis.org, paulmck@kernel.org,
-	thuth@redhat.com, ardb@kernel.org, gregkh@linuxfoundation.org,
-	seanjc@google.com, thomas.lendacky@amd.com,
-	pawan.kumar.gupta@linux.intel.com, manali.shukla@amd.com,
-	perry.yuan@amd.com, kai.huang@intel.com, peterz@infradead.org,
-	xiaoyao.li@intel.com, kan.liang@linux.intel.com,
-	mario.limonciello@amd.com, xin3.li@intel.com,
-	gautham.shenoy@amd.com
-Subject: Re: [PATCH v14 19/32] fs/resctrl: Add the functionality to unassign
- MBM events
-Message-ID: <202506142152.umez5Ekn-lkp@intel.com>
-References: <83d54b00cc873d7d4dec433b7f528da10963d025.1749848715.git.babu.moger@amd.com>
+To: Steve Siwinski <stevensiwinski@gmail.com>,
+	mpi3mr-linuxdrv.pdl@broadcom.com
+Cc: oe-kbuild-all@lists.linux.dev, gustavoars@kernel.org,
+	James.Bottomley@hansenpartnership.com, kashyap.desai@broadcom.com,
+	kees@kernel.org, linux-kernel@vger.kernel.org,
+	linux-scsi@vger.kernel.org, martin.petersen@oracle.com,
+	prayas.patel@broadcom.com, ranjan.kumar@broadcom.com,
+	sathya.prakash@broadcom.com, sreekanth.reddy@broadcom.com,
+	ssiwinski@atto.com, sumit.saxena@broadcom.com, bgrove@atto.com,
+	tdoedline@atto.com
+Subject: Re: [PATCH 2/2] scsi: mpi3mr: Add initialization for ATTO 24Gb SAS
+ HBAs
+Message-ID: <202506142133.g9g2Gp1d-lkp@intel.com>
+References: <20250613202941.62114-2-ssiwinski@atto.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,67 +71,214 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <83d54b00cc873d7d4dec433b7f528da10963d025.1749848715.git.babu.moger@amd.com>
+In-Reply-To: <20250613202941.62114-2-ssiwinski@atto.com>
 
-Hi Babu,
+Hi Steve,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.16-rc1 next-20250613]
-[cannot apply to tip/x86/core]
+[auto build test WARNING on jejb-scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next linus/master v6.16-rc1 next-20250613]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-fs-resctrl-Remove-unappropriate-references-to-cacheinfo-in-the-resctrl-subsystem/20250614-051344
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/83d54b00cc873d7d4dec433b7f528da10963d025.1749848715.git.babu.moger%40amd.com
-patch subject: [PATCH v14 19/32] fs/resctrl: Add the functionality to unassign MBM events
-config: x86_64-buildonly-randconfig-003-20250614 (https://download.01.org/0day-ci/archive/20250614/202506142152.umez5Ekn-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250614/202506142152.umez5Ekn-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Steve-Siwinski/scsi-mpi3mr-Add-initialization-for-ATTO-24Gb-SAS-HBAs/20250614-043438
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
+patch link:    https://lore.kernel.org/r/20250613202941.62114-2-ssiwinski%40atto.com
+patch subject: [PATCH 2/2] scsi: mpi3mr: Add initialization for ATTO 24Gb SAS HBAs
+config: microblaze-randconfig-r112-20250614 (https://download.01.org/0day-ci/archive/20250614/202506142133.g9g2Gp1d-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 12.4.0
+reproduce: (https://download.01.org/0day-ci/archive/20250614/202506142133.g9g2Gp1d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506142152.umez5Ekn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506142133.g9g2Gp1d-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:4248:54: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:4248:54: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:4248:54: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:4248:54: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:4248:54: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:4248:54: sparse: sparse: cast to restricted __le32
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:4286:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned long long [usertype] q @@     got restricted __le64 [usertype] @@
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:4286:24: sparse:     expected unsigned long long [usertype] q
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:4286:24: sparse:     got restricted __le64 [usertype]
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:4347:45: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [usertype] device_name @@     got unsigned long long [addressable] [assigned] [usertype] q @@
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:4347:45: sparse:     expected restricted __le64 [usertype] device_name
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:4347:45: sparse:     got unsigned long long [addressable] [assigned] [usertype] q
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:4348:42: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [usertype] ioc_wwid @@     got unsigned long long [addressable] [assigned] [usertype] q @@
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:4348:42: sparse:     expected restricted __le64 [usertype] ioc_wwid
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:4348:42: sparse:     got unsigned long long [addressable] [assigned] [usertype] q
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:4349:43: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le64 [usertype] sata_wwid @@     got unsigned long long [addressable] [assigned] [usertype] q @@
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:4349:43: sparse:     expected restricted __le64 [usertype] sata_wwid
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:4349:43: sparse:     got unsigned long long [addressable] [assigned] [usertype] q
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:5256:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned char [addressable] [assigned] [usertype] class @@     got restricted __le16 [usertype] @@
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:5256:24: sparse:     expected unsigned char [addressable] [assigned] [usertype] class
+   drivers/scsi/mpi3mr/mpi3mr_fw.c:5256:24: sparse:     got restricted __le16 [usertype]
+>> drivers/scsi/mpi3mr/mpi3mr_fw.c:6720:23: sparse: sparse: restricted __le16 degrades to integer
 
-   Warning: fs/resctrl/monitor.c:963 function parameter 'r' not described in 'resctrl_config_cntr'
-   Warning: fs/resctrl/monitor.c:963 function parameter 'd' not described in 'resctrl_config_cntr'
-   Warning: fs/resctrl/monitor.c:963 function parameter 'evtid' not described in 'resctrl_config_cntr'
-   Warning: fs/resctrl/monitor.c:963 function parameter 'rmid' not described in 'resctrl_config_cntr'
-   Warning: fs/resctrl/monitor.c:963 function parameter 'closid' not described in 'resctrl_config_cntr'
-   Warning: fs/resctrl/monitor.c:963 function parameter 'cntr_id' not described in 'resctrl_config_cntr'
-   Warning: fs/resctrl/monitor.c:963 function parameter 'assign' not described in 'resctrl_config_cntr'
-   Warning: fs/resctrl/monitor.c:981 function parameter 'r' not described in 'mbm_cntr_get'
-   Warning: fs/resctrl/monitor.c:981 function parameter 'd' not described in 'mbm_cntr_get'
-   Warning: fs/resctrl/monitor.c:981 function parameter 'rdtgrp' not described in 'mbm_cntr_get'
-   Warning: fs/resctrl/monitor.c:981 function parameter 'evtid' not described in 'mbm_cntr_get'
-   Warning: fs/resctrl/monitor.c:1004 function parameter 'r' not described in 'mbm_cntr_alloc'
-   Warning: fs/resctrl/monitor.c:1004 function parameter 'd' not described in 'mbm_cntr_alloc'
-   Warning: fs/resctrl/monitor.c:1004 function parameter 'rdtgrp' not described in 'mbm_cntr_alloc'
-   Warning: fs/resctrl/monitor.c:1004 function parameter 'evtid' not described in 'mbm_cntr_alloc'
->> Warning: fs/resctrl/monitor.c:1022 function parameter 'd' not described in 'mbm_cntr_free'
->> Warning: fs/resctrl/monitor.c:1022 function parameter 'cntr_id' not described in 'mbm_cntr_free'
-   Warning: fs/resctrl/monitor.c:1035 function parameter 'r' not described in 'resctrl_alloc_config_cntr'
-   Warning: fs/resctrl/monitor.c:1035 function parameter 'd' not described in 'resctrl_alloc_config_cntr'
-   Warning: fs/resctrl/monitor.c:1035 function parameter 'rdtgrp' not described in 'resctrl_alloc_config_cntr'
-   Warning: fs/resctrl/monitor.c:1035 function parameter 'mevt' not described in 'resctrl_alloc_config_cntr'
-   Warning: fs/resctrl/monitor.c:1079 function parameter 'r' not described in 'resctrl_assign_cntr_event'
-   Warning: fs/resctrl/monitor.c:1079 function parameter 'd' not described in 'resctrl_assign_cntr_event'
-   Warning: fs/resctrl/monitor.c:1079 function parameter 'rdtgrp' not described in 'resctrl_assign_cntr_event'
-   Warning: fs/resctrl/monitor.c:1079 function parameter 'mevt' not described in 'resctrl_assign_cntr_event'
->> Warning: fs/resctrl/monitor.c:1101 function parameter 'r' not described in 'resctrl_free_config_cntr'
->> Warning: fs/resctrl/monitor.c:1101 function parameter 'd' not described in 'resctrl_free_config_cntr'
->> Warning: fs/resctrl/monitor.c:1101 function parameter 'rdtgrp' not described in 'resctrl_free_config_cntr'
->> Warning: fs/resctrl/monitor.c:1101 function parameter 'mevt' not described in 'resctrl_free_config_cntr'
->> Warning: fs/resctrl/monitor.c:1125 function parameter 'r' not described in 'resctrl_unassign_cntr_event'
->> Warning: fs/resctrl/monitor.c:1125 function parameter 'd' not described in 'resctrl_unassign_cntr_event'
->> Warning: fs/resctrl/monitor.c:1125 function parameter 'rdtgrp' not described in 'resctrl_unassign_cntr_event'
->> Warning: fs/resctrl/monitor.c:1125 function parameter 'mevt' not described in 'resctrl_unassign_cntr_event'
+vim +4248 drivers/scsi/mpi3mr/mpi3mr_fw.c
+
+  4205	
+  4206	/**
+  4207	 * mpi3mr_atto_validate_nvram - validate the ATTO nvram
+  4208	 *
+  4209	 * @mrioc:  Adapter instance reference
+  4210	 * @nvram: ptr to the ATTO nvram structure
+  4211	 * Return: 0 for success, non-zero for failure.
+  4212	 */
+  4213	static int mpi3mr_atto_validate_nvram(struct mpi3mr_ioc *mrioc, struct ATTO_SAS_NVRAM *nvram)
+  4214	{
+  4215		int r = -EINVAL;
+  4216		union ATTO_SAS_ADDRESS *sasaddr;
+  4217		u32 len;
+  4218		u8 *pb;
+  4219		u8 cksum;
+  4220	
+  4221		/* validate nvram checksum */
+  4222		pb = (u8 *) nvram;
+  4223		cksum = ATTO_SASNVR_CKSUM_SEED;
+  4224		len = sizeof(struct ATTO_SAS_NVRAM);
+  4225	
+  4226		while (len--)
+  4227			cksum = cksum + pb[len];
+  4228	
+  4229		if (cksum) {
+  4230			ioc_err(mrioc, "Invalid ATTO NVRAM checksum\n");
+  4231			return r;
+  4232		}
+  4233	
+  4234		sasaddr = (union ATTO_SAS_ADDRESS *) nvram->sasaddr;
+  4235	
+  4236		if (nvram->signature[0] != 'E'
+  4237		|| nvram->signature[1] != 'S'
+  4238		|| nvram->signature[2] != 'A'
+  4239		|| nvram->signature[3] != 'S')
+  4240			ioc_err(mrioc, "Invalid ATTO NVRAM signature\n");
+  4241		else if (nvram->version > ATTO_SASNVR_VERSION)
+  4242			ioc_info(mrioc, "Invalid ATTO NVRAM version");
+  4243		else if ((nvram->sasaddr[7] & (ATTO_SAS_ADDR_ALIGN - 1))
+  4244				|| sasaddr->b[0] != 0x50
+  4245				|| sasaddr->b[1] != 0x01
+  4246				|| sasaddr->b[2] != 0x08
+  4247				|| (sasaddr->b[3] & 0xF0) != 0x60
+> 4248				|| ((sasaddr->b[3] & 0x0F) | le32_to_cpu(sasaddr->d[1])) == 0) {
+  4249			ioc_err(mrioc, "Invalid ATTO SAS address\n");
+  4250		} else
+  4251			r = 0;
+  4252		return r;
+  4253	}
+  4254	
+  4255	/**
+  4256	 * mpi3mr_atto_get_sas_addr - get the ATTO SAS address from driver page 2
+  4257	 *
+  4258	 * @mrioc: Adapter instance reference
+  4259	 * @*sas_address: return sas address
+  4260	 * Return: 0 for success, non-zero for failure.
+  4261	 */
+  4262	static int mpi3mr_atto_get_sas_addr(struct mpi3mr_ioc *mrioc, union ATTO_SAS_ADDRESS *sas_address)
+  4263	{
+  4264		struct mpi3_driver_page2 *driver_pg2 = NULL;
+  4265		struct ATTO_SAS_NVRAM *nvram;
+  4266		u16 sz;
+  4267		int r;
+  4268		__be64 addr;
+  4269	
+  4270		sz = mpi3mr_cfg_get_page_size(mrioc, MPI3_CONFIG_PAGETYPE_DRIVER, 2);
+  4271		driver_pg2 = kzalloc(sz, GFP_KERNEL);
+  4272		if (!driver_pg2)
+  4273			goto out;
+  4274	
+  4275		r = mpi3mr_cfg_get_driver_pg2(mrioc, driver_pg2, sz, MPI3_CONFIG_ACTION_READ_PERSISTENT);
+  4276		if (r)
+  4277			goto out;
+  4278	
+  4279		nvram = (struct ATTO_SAS_NVRAM *) &driver_pg2->trigger;
+  4280	
+  4281		r = mpi3mr_atto_validate_nvram(mrioc, nvram);
+  4282		if (r)
+  4283			goto out;
+  4284	
+  4285		addr = *((__be64 *) nvram->sasaddr);
+> 4286		sas_address->q = cpu_to_le64(be64_to_cpu(addr));
+  4287	
+  4288	out:
+  4289		kfree(driver_pg2);
+  4290		return r;
+  4291	}
+  4292	
+  4293	/**
+  4294	 * mpi3mr_atto_init - Initialize the controller
+  4295	 * @mrioc: Adapter instance reference
+  4296	 *
+  4297	 * This the ATTO controller initialization routine
+  4298	 *
+  4299	 * Return: 0 on success and non-zero on failure.
+  4300	 */
+  4301	static int mpi3mr_atto_init(struct mpi3mr_ioc *mrioc)
+  4302	{
+  4303		int i, bias = 0;
+  4304		u16 sz;
+  4305		struct mpi3_sas_io_unit_page0 *sas_io_unit_pg0 = NULL;
+  4306		struct mpi3_man_page5 *man_pg5 = NULL;
+  4307		union ATTO_SAS_ADDRESS base_address;
+  4308		union ATTO_SAS_ADDRESS dev_address;
+  4309		union ATTO_SAS_ADDRESS sas_address;
+  4310	
+  4311		sz = mpi3mr_cfg_get_page_size(mrioc, MPI3_CONFIG_PAGETYPE_SAS_IO_UNIT, 0);
+  4312		sas_io_unit_pg0 = kzalloc(sz, GFP_KERNEL);
+  4313		if (!sas_io_unit_pg0)
+  4314			goto out;
+  4315	
+  4316		if (mpi3mr_cfg_get_sas_io_unit_pg0(mrioc, sas_io_unit_pg0, sz)) {
+  4317			ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+  4318			    __FILE__, __LINE__, __func__);
+  4319			goto out;
+  4320		}
+  4321	
+  4322		sz = mpi3mr_cfg_get_page_size(mrioc, MPI3_CONFIG_PAGETYPE_MANUFACTURING, 5);
+  4323		man_pg5 = kzalloc(sz, GFP_KERNEL);
+  4324		if (!man_pg5)
+  4325			goto out;
+  4326	
+  4327		if (mpi3mr_cfg_get_man_pg5(mrioc, man_pg5, sz)) {
+  4328			ioc_err(mrioc, "failure at %s:%d/%s()!\n",
+  4329			    __FILE__, __LINE__, __func__);
+  4330			goto out;
+  4331		}
+  4332	
+  4333		mpi3mr_atto_get_sas_addr(mrioc, &base_address);
+  4334	
+  4335		dev_address.q = base_address.q;
+  4336		dev_address.b[0] += ATTO_SAS_ADDR_DEVNAME_BIAS;
+  4337	
+  4338		for (i = 0; i < man_pg5->num_phys; i++) {
+  4339			if (sas_io_unit_pg0->phy_data[i].phy_flags &
+  4340				(MPI3_SASIOUNIT0_PHYFLAGS_HOST_PHY |
+  4341				MPI3_SASIOUNIT0_PHYFLAGS_VIRTUAL_PHY))
+  4342				continue;
+  4343	
+  4344			sas_address.q = base_address.q;
+  4345			sas_address.b[0] += bias++;
+  4346	
+> 4347			man_pg5->phy[i].device_name = dev_address.q;
+> 4348			man_pg5->phy[i].ioc_wwid = sas_address.q;
+> 4349			man_pg5->phy[i].sata_wwid = sas_address.q;
+  4350		}
+  4351	
+  4352		if (mpi3mr_cfg_set_man_pg5(mrioc, man_pg5, sz))
+  4353			ioc_info(mrioc, "ATTO set manufacuring page 5 failed\n");
+  4354	
+  4355	out:
+  4356		kfree(sas_io_unit_pg0);
+  4357		kfree(man_pg5);
+  4358	
+  4359		return 0;
+  4360	}
+  4361	
 
 -- 
 0-DAY CI Kernel Test Service
