@@ -1,70 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773C719CC02
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Jun 2025 10:44:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1FE14A4C7
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 14 Jun 2025 11:47:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749897874; cv=none; b=uSKke2sahxLFWdIAd8WN3VusJ8DDhtVOtAEvmjSrx1HsSoIbfic6UqEl7+uMmYamUJkWl5CiOoDLqYPqA/9wk44TWD8x5QJVc28mBA+S6vaEME0438TbwJDiK/axun9plOEpzIt1of/5BU7RoFrzXRAv/cASnHP5uVI4F9pbfwY=
+	t=1749901666; cv=none; b=r0ekhpo+XDdkFG0Ov71pX10vEOqbwU8qOOQ5oABIPuz7tjCbO5Vcor/MWFTHTFcBabuIz/fJrXhiDl2W4VTEQp0jaHS2eOC5GhGRqvwvmpCdIHxwvWgsb/YONA4SFphcG+5rlwhilB1BNoC2TaDPsen0lMGVWJj3zVF1CVnv904=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749897874; c=relaxed/simple;
-	bh=xeIs7XHD5JO+zs4tJNJpqL3nFDdUzb/RuvGcgio0oHw=;
+	s=arc-20240116; t=1749901666; c=relaxed/simple;
+	bh=fbPPGkDiZpEuIwXWh5ekqMfmQTvM/LLY+Mpvxcj5+BI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NZzNyL0yEP8scX7P6gcO1uO5CYmMrVVr6PLACUT3B1z/xaCkpp9fC9v0hJN7VTGeM2ifV5sAqWEr5UU+edzGrrHAzg1EQh+jWOqpmmaB2PTDNenw22YgQBY+G4jYTLzivPHpt9vRPITMZ6c6D9x1Uw9XLTTwXdM8cF19kZ4yAtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EvDu8mUl; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=MGxUc0c7nNV+kZk6KtZQUEitM9SiqgIJhbGDNhAEda3dML8FedoykFxFw/ynOmCfXxBEyrSFjazEVtJ0CMv+8x0FsQnM+0p2RTdFUV9hIoIJId1M3AWhoCdlpzmWwkZpfaA6a+/xA4LEWDBxmaz8tfJBhjgATw0mtZUVvyTijtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JbVsFqjA; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EvDu8mUl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JbVsFqjA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749897872; x=1781433872;
+  t=1749901665; x=1781437665;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xeIs7XHD5JO+zs4tJNJpqL3nFDdUzb/RuvGcgio0oHw=;
-  b=EvDu8mUlvrnhga8+ZVmTyR4cJYhSbvA8iCI7+8oG5o6s5bfKd0dLna7Q
-   0aZ4A6xusbyWm2FhSHPuI9Al66XWMAIueo/5pyELriNDdm0hcTPmCxvmx
-   Dfzat2x3+nu3ivcWAdl9NB1uTeiwt33IXBeW5hSubwh0D1IYOHSDSihfT
-   z4NpYmi6qkmSO9J36x5GkzkpCSOVN59FDT9DuSix5+iJYjk9LtMXnS+Qy
-   lkYYBr06OnWMxwecFth49OAhPQ34u+wHB3AClqugZ8v0STv6E0WCgIBIZ
-   4N6wrlOow1dH2xewbcvjp6jpJoiRErbjyPoCXjw+ZeWSjdHQsSY2WmtGa
+  bh=fbPPGkDiZpEuIwXWh5ekqMfmQTvM/LLY+Mpvxcj5+BI=;
+  b=JbVsFqjAdXE7Y+pPzwdXQxHooFnAdkrKQwsQbLCMjxm1T4oHghGHyUrW
+   zAw4cGf4t4qWO3PgtLOAVOVhUlDH8c4e3wOP5FWIjHOlu1OytbghnTHJQ
+   sQIf1kDjlK+CVpsnKSTFi06bGH/x/p0HDIGGyeDlgQk63a46aJCfuHCzo
+   cEd8HmrEzCWpPLC1n9kwXUx6txORww+hMNAgdI2wYPjUjNXZjdxoPZX7P
+   MfeRd+q8C1/kqc+FnQ69VWYZI2W77LvHKHMNPBj7M43g5lU2Z1OG91f/N
+   dw24K4cEUAa4iHruPYE/ypNKL100BGQriqVJ6ekmJRTSgmnZNbcnnPPPA
    Q==;
-X-CSE-ConnectionGUID: /s7h380jQaeN6f242uaDVA==
-X-CSE-MsgGUID: M8sgDtnhReOQjJc+e2E/8A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11463"; a="62755771"
+X-CSE-ConnectionGUID: aiNLssDlRSiDqkDY3sjd3g==
+X-CSE-MsgGUID: TxRd9d1KRm+aSzyz2NjIMA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11464"; a="55908643"
 X-IronPort-AV: E=Sophos;i="6.16,236,1744095600"; 
-   d="scan'208";a="62755771"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2025 03:44:32 -0700
-X-CSE-ConnectionGUID: 5XooLxEFRSCG+h28fYmEGw==
-X-CSE-MsgGUID: DF9SiP9gQeSVatZystItVw==
+   d="scan'208";a="55908643"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jun 2025 04:47:44 -0700
+X-CSE-ConnectionGUID: tY1VzwJzT/uuwta0IcP79Q==
+X-CSE-MsgGUID: ZHunXiBbQSaXzAMXTlmX/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,236,1744095600"; 
-   d="scan'208";a="148418494"
+   d="scan'208";a="148035261"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 14 Jun 2025 03:44:25 -0700
+  by orviesa009.jf.intel.com with ESMTP; 14 Jun 2025 04:47:37 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQON5-000DSQ-1r;
-	Sat, 14 Jun 2025 10:44:23 +0000
-Date: Sat, 14 Jun 2025 18:43:54 +0800
+	id 1uQPME-000DUE-27;
+	Sat, 14 Jun 2025 11:47:34 +0000
+Date: Sat, 14 Jun 2025 19:46:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Stanislav Fomichev <stfomichev@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, skalluru@marvell.com,
-	manishc@marvell.com, andrew+netdev@lunn.ch,
-	michael.chan@broadcom.com, pavan.chebbi@broadcom.com,
-	ajit.khaparde@broadcom.com, sriharsha.basavapatna@broadcom.com,
-	somnath.kotur@broadcom.com, anthony.l.nguyen@intel.com,
-	przemyslaw.kitszel@intel.com, tariqt@nvidia.com, saeedm@nvidia.com,
-	louis.peens@corigine.com, shshaikh@marvell.com,
-	GR-Linux-NIC-Dev@marvell.com, ecree.xilinx@gmail.com,
-	horms@kernel.org, dsahern@kernel.org, shuah@kernel.org,
-	tglx@linutronix.de, mingo@kernel.org, ruanjinjie@huawei.com,
-	idosch@nvidia.com, razor@blackwall.org, petrm@nvidia.com
-Subject: Re: [Intel-wired-lan] [PATCH net-next v4 2/6] vxlan: drop sock_lock
-Message-ID: <202506141822.kFKjPah5-lkp@intel.com>
-References: <20250613203325.1127217-3-stfomichev@gmail.com>
+To: Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
+	reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev, x86@kernel.org, hpa@zytor.com,
+	akpm@linux-foundation.org, rostedt@goodmis.org, paulmck@kernel.org,
+	thuth@redhat.com, ardb@kernel.org, gregkh@linuxfoundation.org,
+	seanjc@google.com, thomas.lendacky@amd.com,
+	pawan.kumar.gupta@linux.intel.com, manali.shukla@amd.com,
+	perry.yuan@amd.com, kai.huang@intel.com, peterz@infradead.org,
+	xiaoyao.li@intel.com, kan.liang@linux.intel.com,
+	mario.limonciello@amd.com, xin3.li@intel.com,
+	gautham.shenoy@amd.com
+Subject: Re: [PATCH v14 18/32] fs/resctrl: Add the functionality to assign
+ MBM events
+Message-ID: <202506141914.e8wkbP3Z-lkp@intel.com>
+References: <eea2cfb5b6231b322ab2194abfcd1ce335e2bdf5.1749848715.git.babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,59 +74,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250613203325.1127217-3-stfomichev@gmail.com>
+In-Reply-To: <eea2cfb5b6231b322ab2194abfcd1ce335e2bdf5.1749848715.git.babu.moger@amd.com>
 
-Hi Stanislav,
+Hi Babu,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v6.16-rc1 next-20250613]
+[cannot apply to tip/x86/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/geneve-rely-on-rtnl-lock-in-geneve_offload_rx_ports/20250614-043457
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250613203325.1127217-3-stfomichev%40gmail.com
-patch subject: [Intel-wired-lan] [PATCH net-next v4 2/6] vxlan: drop sock_lock
-config: m68k-atari_defconfig (https://download.01.org/0day-ci/archive/20250614/202506141822.kFKjPah5-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250614/202506141822.kFKjPah5-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Babu-Moger/x86-fs-resctrl-Remove-unappropriate-references-to-cacheinfo-in-the-resctrl-subsystem/20250614-051344
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/eea2cfb5b6231b322ab2194abfcd1ce335e2bdf5.1749848715.git.babu.moger%40amd.com
+patch subject: [PATCH v14 18/32] fs/resctrl: Add the functionality to assign MBM events
+config: x86_64-buildonly-randconfig-003-20250614 (https://download.01.org/0day-ci/archive/20250614/202506141914.e8wkbP3Z-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250614/202506141914.e8wkbP3Z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506141822.kFKjPah5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506141914.e8wkbP3Z-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/vxlan/vxlan_core.c: In function '__vxlan_sock_release_prep':
->> drivers/net/vxlan/vxlan_core.c:1488:27: warning: variable 'vn' set but not used [-Wunused-but-set-variable]
-    1488 |         struct vxlan_net *vn;
-         |                           ^~
-
-
-vim +/vn +1488 drivers/net/vxlan/vxlan_core.c
-
-d342894c5d2f8c drivers/net/vxlan.c            stephen hemminger    2012-10-01  1485  
-544a773a01828e drivers/net/vxlan.c            Hannes Frederic Sowa 2016-04-09  1486  static bool __vxlan_sock_release_prep(struct vxlan_sock *vs)
-7c47cedf43a8b3 drivers/net/vxlan.c            Stephen Hemminger    2013-06-17  1487  {
-b1be00a6c39fda drivers/net/vxlan.c            Jiri Benc            2015-09-24 @1488  	struct vxlan_net *vn;
-012a5729ff933e drivers/net/vxlan.c            Pravin B Shelar      2013-08-19  1489  
-dc248376cdc061 drivers/net/vxlan/vxlan_core.c Stanislav Fomichev   2025-06-13  1490  	ASSERT_RTNL();
-dc248376cdc061 drivers/net/vxlan/vxlan_core.c Stanislav Fomichev   2025-06-13  1491  
-b1be00a6c39fda drivers/net/vxlan.c            Jiri Benc            2015-09-24  1492  	if (!vs)
-544a773a01828e drivers/net/vxlan.c            Hannes Frederic Sowa 2016-04-09  1493  		return false;
-66af846fe54b78 drivers/net/vxlan.c            Reshetova, Elena     2017-07-04  1494  	if (!refcount_dec_and_test(&vs->refcnt))
-544a773a01828e drivers/net/vxlan.c            Hannes Frederic Sowa 2016-04-09  1495  		return false;
-d342894c5d2f8c drivers/net/vxlan.c            stephen hemminger    2012-10-01  1496  
-b1be00a6c39fda drivers/net/vxlan.c            Jiri Benc            2015-09-24  1497  	vn = net_generic(sock_net(vs->sock->sk), vxlan_net_id);
-7c47cedf43a8b3 drivers/net/vxlan.c            Stephen Hemminger    2013-06-17  1498  	hlist_del_rcu(&vs->hlist);
-e7b3db5e60e8f4 drivers/net/vxlan.c            Alexander Duyck      2016-06-16  1499  	udp_tunnel_notify_del_rx_port(vs->sock,
-b9adcd69bd7b41 drivers/net/vxlan.c            Alexander Duyck      2016-06-16  1500  				      (vs->flags & VXLAN_F_GPE) ?
-b9adcd69bd7b41 drivers/net/vxlan.c            Alexander Duyck      2016-06-16  1501  				      UDP_TUNNEL_TYPE_VXLAN_GPE :
-e7b3db5e60e8f4 drivers/net/vxlan.c            Alexander Duyck      2016-06-16  1502  				      UDP_TUNNEL_TYPE_VXLAN);
-1c51a9159ddefa drivers/net/vxlan.c            Stephen Hemminger    2013-06-17  1503  
-544a773a01828e drivers/net/vxlan.c            Hannes Frederic Sowa 2016-04-09  1504  	return true;
-d342894c5d2f8c drivers/net/vxlan.c            stephen hemminger    2012-10-01  1505  }
-d342894c5d2f8c drivers/net/vxlan.c            stephen hemminger    2012-10-01  1506  
+>> Warning: fs/resctrl/monitor.c:963 function parameter 'r' not described in 'resctrl_config_cntr'
+>> Warning: fs/resctrl/monitor.c:963 function parameter 'd' not described in 'resctrl_config_cntr'
+>> Warning: fs/resctrl/monitor.c:963 function parameter 'evtid' not described in 'resctrl_config_cntr'
+>> Warning: fs/resctrl/monitor.c:963 function parameter 'rmid' not described in 'resctrl_config_cntr'
+>> Warning: fs/resctrl/monitor.c:963 function parameter 'closid' not described in 'resctrl_config_cntr'
+>> Warning: fs/resctrl/monitor.c:963 function parameter 'cntr_id' not described in 'resctrl_config_cntr'
+>> Warning: fs/resctrl/monitor.c:963 function parameter 'assign' not described in 'resctrl_config_cntr'
+>> Warning: fs/resctrl/monitor.c:981 function parameter 'r' not described in 'mbm_cntr_get'
+>> Warning: fs/resctrl/monitor.c:981 function parameter 'd' not described in 'mbm_cntr_get'
+>> Warning: fs/resctrl/monitor.c:981 function parameter 'rdtgrp' not described in 'mbm_cntr_get'
+>> Warning: fs/resctrl/monitor.c:981 function parameter 'evtid' not described in 'mbm_cntr_get'
+>> Warning: fs/resctrl/monitor.c:1004 function parameter 'r' not described in 'mbm_cntr_alloc'
+>> Warning: fs/resctrl/monitor.c:1004 function parameter 'd' not described in 'mbm_cntr_alloc'
+>> Warning: fs/resctrl/monitor.c:1004 function parameter 'rdtgrp' not described in 'mbm_cntr_alloc'
+>> Warning: fs/resctrl/monitor.c:1004 function parameter 'evtid' not described in 'mbm_cntr_alloc'
+>> Warning: fs/resctrl/monitor.c:1027 function parameter 'r' not described in 'resctrl_alloc_config_cntr'
+>> Warning: fs/resctrl/monitor.c:1027 function parameter 'd' not described in 'resctrl_alloc_config_cntr'
+>> Warning: fs/resctrl/monitor.c:1027 function parameter 'rdtgrp' not described in 'resctrl_alloc_config_cntr'
+>> Warning: fs/resctrl/monitor.c:1027 function parameter 'mevt' not described in 'resctrl_alloc_config_cntr'
+>> Warning: fs/resctrl/monitor.c:1071 function parameter 'r' not described in 'resctrl_assign_cntr_event'
+   Warning: fs/resctrl/monitor.c:1071 function parameter 'd' not described in 'resctrl_assign_cntr_event'
+   Warning: fs/resctrl/monitor.c:1071 function parameter 'rdtgrp' not described in 'resctrl_assign_cntr_event'
+   Warning: fs/resctrl/monitor.c:1071 function parameter 'mevt' not described in 'resctrl_assign_cntr_event'
 
 -- 
 0-DAY CI Kernel Test Service
