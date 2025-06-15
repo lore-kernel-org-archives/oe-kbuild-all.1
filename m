@@ -1,66 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1871E104E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Jun 2025 08:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87A332F22
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Jun 2025 08:58:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749977921; cv=none; b=uTE+YQBvkHOiJ/GbdyfYwysN4k1kq2sreadsHviajoioyTCThn2X9aK/HR1chNGGN8BdpeXZ0TC5oaYz0p2eF6wqPiem3a4qfIOMk5ooqt6l/brU8dWx+JDrHqOcK7l+won0ux4+sQdZCB0LsSGzaMONgR6ga7baJzLZ3i+re3w=
+	t=1749977921; cv=none; b=c0qmNFxDqjFoRwdoe9TLAIi4q8sY2g2h/6ZRXTkZ6NidTJEAYJCP4pNjZl1z3YWmJbp1kYyq/gsBoZA/yaQ50q4o6hMcoqFpDwnaFmmOnHrk5kF4Ws5OV4CincX/jc7/I+o0Qe5dfxX9zUNLGelDkszPDyoMprjpUdZ2PPR/Cq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1749977921; c=relaxed/simple;
-	bh=vd9EWcG9WB3a/aRk95MO6cgl/oduG7IEefBMkFtrx/U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z3q0NBlid2f7aNsDi8aMPuEJ1um8lHqFS4283SBlsK599on9aNlEOTZbhcMluaEWXcGakXGmf5UexrfgsPwidYyCDtUVXxdDq3ShlmpizKggI2arwrA94gRSrX0wPrDoLHKrbvw6FA5iIBo58ImUwNWlQz+SXyIwipMDiE/JFl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IYgoVdMb; arc=none smtp.client-ip=192.198.163.11
+	bh=c68KLyYJemDejYOliUEPRTea8qwJG/HYSJLQICFWMfY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=udFMERtaeMaoYDqTPAaVFWY/beYi6obYNmCZk3O2OIFZHNmeCRx2uIeisa5azN/TSp772hSsy9U/L2U3YHkuLJdI+irfjn9241EEIgbaCsXLcwKvDw/tYPUD6vB8nJEyLkeReub1+kxTkvSJWTGRdtkSglxz2OxS3ab3ee9Ecbg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gUNrnJNZ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IYgoVdMb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gUNrnJNZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1749977920; x=1781513920;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vd9EWcG9WB3a/aRk95MO6cgl/oduG7IEefBMkFtrx/U=;
-  b=IYgoVdMb7R7Ow0Uw2tV4O/hUX+grfsc7Zf7rL1AaqN+bihJ4gCW9/DGP
-   Rqvwq6XFnj3efJflNH9LbeTC8TuuKNAdHGF1CV9zDZJ+0tgpOpcC3l4AT
-   SrARM2hxR7rkNB6WrlqyuJ6JOVmMSlHhttbaqy5wsSGdlK+wR+dlxLz8H
-   sg5qEa2yD2hHYsOU9lhBaxA7KFUUqfivt7A/omQk+HVx0QlmtI76Ez8n0
-   dyAd0uAxldYJ/GfW62TPO95THIgeOqInCONL98QDYv+khmX0SS3cg7STn
-   XOPOWKLPG79c/MfMo6cyyqeW9JGIEghoY/23eKKZhyYc+Av6WZe8ATOQQ
-   w==;
-X-CSE-ConnectionGUID: /bnQe/PBSOqIPx0DH4+zWQ==
-X-CSE-MsgGUID: NGq/OXKUSOG83IVgG5ekGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11464"; a="62748804"
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=c68KLyYJemDejYOliUEPRTea8qwJG/HYSJLQICFWMfY=;
+  b=gUNrnJNZoUWajZuJphJq6RRScdUWryIxeyp0qHw660f+5usLMIUdKv3j
+   0JhI154EgUTKf2d/d1HS/ByEv/FClHkuitoa/mfqA8M+LSnFsvMD+u+Fi
+   LdRM6rxz43u1W7xRHxr2v4ch9g93C0mHUZwTwogjeoX/IBaBMyOdlnDBK
+   mqzunwLpLbs6dQ5G/hj7Gof9/65NhWPLmw+hCeqRD7BytOq2jjveh7+mb
+   aHf7TN9MsgB9PYMpeEiLrmQLMIWFqmZpTO569C9JonV5K72ZBybn7SkOG
+   aiLnRXBwgIi6ca3JpjadUq9mElZX06msVWtMTP1Fk6nDjLLuKBjVHhcvj
+   A==;
+X-CSE-ConnectionGUID: i+0lvakXSpmeLVsYuK4czA==
+X-CSE-MsgGUID: SUFsCS6aTnKIVnlDdh2q/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11464"; a="62748803"
 X-IronPort-AV: E=Sophos;i="6.16,238,1744095600"; 
-   d="scan'208";a="62748804"
+   d="scan'208";a="62748803"
 Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 01:58:39 -0700
-X-CSE-ConnectionGUID: xFOJF83dRSGTCkUmbw1xtw==
-X-CSE-MsgGUID: m6FSb+f4TFWUuajt+B8hTQ==
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 01:58:38 -0700
+X-CSE-ConnectionGUID: OCcAC3X1RsWhcI/ZnnnnAg==
+X-CSE-MsgGUID: 8njl9ahuQ7uXzYPtq/3MZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,238,1744095600"; 
-   d="scan'208";a="148094278"
+   d="scan'208";a="148094277"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by orviesa010.jf.intel.com with ESMTP; 15 Jun 2025 01:58:36 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQjCE-000EDo-0E;
+	id 1uQjCE-000EDq-0I;
 	Sun, 15 Jun 2025 08:58:34 +0000
-Date: Sun, 15 Jun 2025 16:57:56 +0800
+Date: Sun, 15 Jun 2025 16:57:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	linux-sound@vger.kernel.org,
-	Herve Codina <herve.codina@bootlin.com>,
-	Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH] ALSA: pcm: Convert snd_pcm_ioctl_sync_ptr_{compat/x32}
- to user_access_begin/user_access_end()
-Message-ID: <202506151632.jvLtNHPb-lkp@intel.com>
-References: <8df11af98033e4cb4d9b0f16d6e9d5b69110b036.1749724057.git.christophe.leroy@csgroup.eu>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1 0/1]
+ include/trace/hooks/gic_v3.h:20:1: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202506151654.Te1ihSMC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,145 +62,134 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8df11af98033e4cb4d9b0f16d6e9d5b69110b036.1749724057.git.christophe.leroy@csgroup.eu>
 
-Hi Christophe,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tiwai-sound/for-next]
-[also build test ERROR on tiwai-sound/for-linus linus/master v6.16-rc1 next-20250613]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/ALSA-pcm-Convert-snd_pcm_ioctl_sync_ptr_-compat-x32-to-user_access_begin-user_access_end/20250612-185240
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
-patch link:    https://lore.kernel.org/r/8df11af98033e4cb4d9b0f16d6e9d5b69110b036.1749724057.git.christophe.leroy%40csgroup.eu
-patch subject: [PATCH] ALSA: pcm: Convert snd_pcm_ioctl_sync_ptr_{compat/x32} to user_access_begin/user_access_end()
-config: x86_64-randconfig-008-20250615 (https://download.01.org/0day-ci/archive/20250615/202506151632.jvLtNHPb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250615/202506151632.jvLtNHPb-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-6.1
+head:   6246d345f5505e8706cee3b1dfddc39f6079b4ea
+commit: b2487c5b2bdbac887caa086038f90c88f31f30af [0/1] ANDROID: gic: Add affinity-setting vendor hooks to gic-v3
+config: i386-randconfig-061-20250614 (https://download.01.org/0day-ci/archive/20250615/202506151654.Te1ihSMC-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250615/202506151654.Te1ihSMC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506151632.jvLtNHPb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506151654.Te1ihSMC-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cpufreq.h):
+   include/trace/hooks/cpufreq.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cpufreq.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cpufreq.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/cpufreq.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cpufreq.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cpufreq.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/preemptirq.h):
+   include/trace/hooks/preemptirq.h:13:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:13:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:13:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:17:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:17:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:17:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:21:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:21:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:21:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/preemptirq.h:25:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/preemptirq.h:25:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/preemptirq.h:25:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/cgroup.h):
+   include/trace/hooks/cgroup.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cgroup.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/cgroup.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cgroup.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/cgroup.h:31:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/cgroup.h:31:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/cgroup.h:31:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/iommu.h):
+   include/trace/hooks/iommu.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/iommu.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/iommu.h:34:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:34:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:34:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/iommu.h:38:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/iommu.h:38:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/iommu.h:38:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/vmscan.h):
+   include/trace/hooks/vmscan.h:12:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/vmscan.h:12:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/vmscan.h:12:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/avc.h):
+   include/trace/hooks/avc.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/avc.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/avc.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/avc.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/creds.h):
+   include/trace/hooks/creds.h:15:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:15:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:15:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:19:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:19:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:19:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:23:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:23:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:23:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/creds.h:27:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/creds.h:27:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/creds.h:27:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/module.h):
+   include/trace/hooks/module.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:18:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:18:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:22:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:22:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:22:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   include/trace/hooks/module.h:26:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/module.h:26:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/module.h:26:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/selinux.h):
+   include/trace/hooks/selinux.h:14:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/selinux.h:14:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/selinux.h:14:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
+   drivers/android/vendor_hooks.c: note: in included file (through include/trace/define_trace.h, include/trace/hooks/gic_v3.h):
+>> include/trace/hooks/gic_v3.h:20:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   include/trace/hooks/gic_v3.h:20:1: sparse:     expected struct tracepoint_func *it_func_ptr
+   include/trace/hooks/gic_v3.h:20:1: sparse:     got struct tracepoint_func [noderef] __rcu *funcs
 
-   In file included from sound/core/pcm_native.c:4033:
-   sound/core/pcm_compat.c: In function 'snd_pcm_ioctl_sync_ptr_x32':
->> sound/core/pcm_compat.c:473:70: error: macro "unsafe_put_user" requires 3 arguments, but only 2 given
-     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
-         |                                                                      ^
-   In file included from include/linux/uaccess.h:12,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:34,
-                    from include/linux/compat.h:17,
-                    from sound/core/pcm_native.c:7:
-   arch/x86/include/asm/uaccess.h:532: note: macro "unsafe_put_user" defined here
-     532 | #define unsafe_put_user(x, ptr, label)  \
-         | 
->> sound/core/pcm_compat.c:473:9: error: 'unsafe_put_user' undeclared (first use in this function)
-     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
-         |         ^~~~~~~~~~~~~~~
-   sound/core/pcm_compat.c:473:9: note: each undeclared identifier is reported only once for each function it appears in
->> sound/core/pcm_compat.c:473:73: error: 'Efault_wr' undeclared (first use in this function)
-     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
-         |                                                                         ^~~~~~~~~
-   sound/core/pcm_compat.c:473:71: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
-         |                                                                       ^
->> sound/core/pcm_compat.c:473:82: error: expected ';' before ')' token
-     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
-         |                                                                                  ^
-         |                                                                                  ;
->> sound/core/pcm_compat.c:473:82: error: expected statement before ')' token
+vim +20 include/trace/hooks/gic_v3.h
 
-
-vim +/unsafe_put_user +473 sound/core/pcm_compat.c
-
-   405	
-   406	static int snd_pcm_ioctl_sync_ptr_x32(struct snd_pcm_substream *substream,
-   407					      struct snd_pcm_sync_ptr_x32 __user *src)
-   408	{
-   409		struct snd_pcm_runtime *runtime = substream->runtime;
-   410		volatile struct snd_pcm_mmap_status *status;
-   411		volatile struct snd_pcm_mmap_control *control;
-   412		u32 sflags;
-   413		struct snd_pcm_mmap_control scontrol;
-   414		struct snd_pcm_mmap_status sstatus;
-   415		snd_pcm_uframes_t boundary;
-   416		int err;
-   417	
-   418		if (snd_BUG_ON(!runtime))
-   419			return -EINVAL;
-   420	
-   421		if (!user_read_access_begin(src, sizeof(*src)))
-   422			return -EFAULT;
-   423		err = -EFAULT;
-   424		unsafe_get_user(sflags, &src->flags, Efault_rd);
-   425		unsafe_get_user(scontrol.appl_ptr, &src->c.control.appl_ptr, Efault_rd);
-   426		unsafe_get_user(scontrol.avail_min, &src->c.control.avail_min, Efault_rd);
-   427		err = 0;
-   428	Efault_rd:
-   429		user_read_access_end();
-   430		if (err)
-   431			return err;
-   432	
-   433		if (sflags & SNDRV_PCM_SYNC_PTR_HWSYNC) {
-   434			err = snd_pcm_hwsync(substream);
-   435			if (err < 0)
-   436				return err;
-   437		}
-   438		status = runtime->status;
-   439		control = runtime->control;
-   440		boundary = recalculate_boundary(runtime);
-   441		if (!boundary)
-   442			boundary = 0x7fffffff;
-   443		scoped_guard(pcm_stream_lock_irq, substream) {
-   444			/* FIXME: we should consider the boundary for the sync from app */
-   445			if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL))
-   446				control->appl_ptr = scontrol.appl_ptr;
-   447			else
-   448				scontrol.appl_ptr = control->appl_ptr % boundary;
-   449			if (!(sflags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
-   450				control->avail_min = scontrol.avail_min;
-   451			else
-   452				scontrol.avail_min = control->avail_min;
-   453			sstatus.state = status->state;
-   454			sstatus.hw_ptr = status->hw_ptr % boundary;
-   455			sstatus.tstamp = status->tstamp;
-   456			sstatus.suspended_state = status->suspended_state;
-   457			sstatus.audio_tstamp = status->audio_tstamp;
-   458		}
-   459		if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL))
-   460			snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
-   461	
-   462		if (!user_write_access_begin(src, sizeof(*src)))
-   463			return -EFAULT;
-   464		err = -EFAULT;
-   465		unsafe_put_user(sstatus.state, &src->s.status.state, Efault_wr);
-   466		unsafe_put_user(sstatus.hw_ptr, &src->s.status.hw_ptr, Efault_wr);
-   467		unsafe_put_user(sstatus.tstamp.tv_sec, &src->s.status.tstamp_sec, Efault_wr);
-   468		unsafe_put_user(sstatus.tstamp.tv_nsec, &src->s.status.tstamp_nsec, Efault_wr);
-   469		unsafe_put_user(sstatus.suspended_state, &src->s.status.suspended_state, Efault_wr);
-   470		unsafe_put_user(sstatus.audio_tstamp.tv_sec, &src->s.status.audio_tstamp_sec, Efault_wr);
-   471		unsafe_put_user(sstatus.audio_tstamp.tv_nsec, &src->s.status.audio_tstamp_nsec, Efault_wr);
-   472		unsafe_put_user(scontrol.appl_ptr, &src->c.control.appl_ptr, Efault_wr);
- > 473		unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
-   474		err = 0;
-   475	Efault_wr:
-   476		user_write_access_end();
-   477	
-   478		return err;
-   479	}
-   480	#endif /* CONFIG_X86_X32_ABI */
-   481	
+    10	
+    11	/*
+    12	 * Following tracepoints are not exported in tracefs and provide a
+    13	 * mechanism for vendor modules to hook and extend functionality
+    14	 */
+    15	struct irq_data;
+    16	struct cpumask;
+    17	DECLARE_HOOK(android_vh_gic_v3_affinity_init,
+    18		TP_PROTO(int irq, u32 offset, u64 *affinity),
+    19		TP_ARGS(irq, offset, affinity));
+  > 20	DECLARE_RESTRICTED_HOOK(android_rvh_gic_v3_set_affinity,
+    21		TP_PROTO(struct irq_data *d, const struct cpumask *mask_val,
+    22			 u64 *affinity, bool force, void __iomem *base,
+    23			 void __iomem *rbase, u64 redist_stride),
+    24		TP_ARGS(d, mask_val, affinity, force, base, rbase, redist_stride),
+    25		1);
+    26	
 
 -- 
 0-DAY CI Kernel Test Service
