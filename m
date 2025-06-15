@@ -1,80 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3826C2E11CB
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Jun 2025 10:52:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74031EF0BE
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Jun 2025 11:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749984772; cv=none; b=UBNPHiNFxPNMQYva+O39EfBLwMAn13fuvvlcgBzR1Yp5cXurhocuhAZd+Joh+cAghqQ+Td2gE2ZeQQAebA7d2nYRuHtSN2hwF9Ko6g0uNrpR2S2pkIx7AeBw6+Bz28UZMUCX3TPWmQVQsa1znlIAVJqtrvDzsL3hSbp6M9qPeNM=
+	t=1749985970; cv=none; b=lrxB7KrlmpkQeOABBE9PdAwWn4/hpynsSRyDCRRsQSEuFQPgHugA5L9EYIaMJixE+cQIDAo3JtYVmOtDUL9uG94ZMJje4vtS8UXGw01O4wEJ/1koPQFuJYG00ZGcOxgD5TYCg6ccDQSrKX6U5Ng1ur7K3aYoCfNZsPeMgktjrs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749984772; c=relaxed/simple;
-	bh=ejtojejYEkKUTk6N+o9TY6ArccN85B9ukz5YklvHMeQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZWRe86yBx/1lre0YF8u1oBSVhp+TEUlQ0E1gZa4NNRWQ8rdCyuV9llXBv0Z3no57JlBVahY8tol560WR55YG8ShFbQBn58nrVz5MSCYhiECBOuCEKi/pieCQ9bcYq3poZluWh1F4IeP+PJPLy2MNn2UGsFe67D3nAH+bpAZmApQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mYifg02c; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1749985970; c=relaxed/simple;
+	bh=3pc/POokBIOiTj5DB4WcAE2iTYAqdJXZQilLg8O0fAE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e8pC5RKftgxp8o2wv7l7wdNBfmFUsLJ+INibOCjwUSEFLTC29R16dLu4oAkJBjFEluID6DnAfCAuhT2wHr1WzWDrzO0lb8N95Y4YykpADT9QHM1vL0YTMJ02hMm548PY7CnUwJ5UFZ4bQqEbyHWf7FmcdiCE5cgMrOGDsvQ2H8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ej6d9HDi; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mYifg02c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ej6d9HDi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1749984771; x=1781520771;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ejtojejYEkKUTk6N+o9TY6ArccN85B9ukz5YklvHMeQ=;
-  b=mYifg02cFkKBD54QkypMJSZIQgEYmvZAJqJz0LHjLzarQQaRyUwN8o6P
-   XzfRaEOxUBZN9E9uelfoJQ3O9+GCR7CWXusaUDW4gD7N3gdLuhHpCZzIg
-   L+fc0yOx/GxB94o1Lebt42Swxhke6aJJs0f6iIs1296X+vkkb8UGCEbvT
-   UYxhukaMMAtV1+Esv0IYTs1EI9cwy7PXV+QjkHi+jl6DaiAksNd8UpqmJ
-   1P9HlBMsGBRo4it8amm24hVyD4Rj079FhfTFxd9OM+aDD5CRYiqLQVtYq
-   vqTlKALvYJsnrJpqSmdnmISz0RtV8ec6fHs9nGU5T73yt8zeoGfd2SdrY
-   Q==;
-X-CSE-ConnectionGUID: IGwlh8k3Q1Oo9dJvIiYZEA==
-X-CSE-MsgGUID: tAvMilZ4TvOUCb0IW3J9fQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11464"; a="52285347"
+  t=1749985968; x=1781521968;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3pc/POokBIOiTj5DB4WcAE2iTYAqdJXZQilLg8O0fAE=;
+  b=ej6d9HDiED/vzR7S1Whs71tfPTLqZpVOqmiBG7GjD7YHSncY4J2ff9mM
+   A0BTOYbv82j04pILRKXV7qquPr+GgNl9nxl1qEKrnV4KUAN9DzfS2Lm0E
+   awqED9s4KyLXiSKuQu18CpUvIjsHg5bbnT+8Rftwx+BAN6BjN1s0SUFu2
+   fZmX9DJ7n9v5IpqXti3fyZgHoMGgRjlTNXTNEXdo+BylPr17KEGeFDiHi
+   NMOUshv17bbZcVzeRRyaG6rUpo3icOwozivflhQqz58NsRfLG4QnpYYOe
+   0VKjUEq5n+xamN6eLPGGFnBW8WCCUZ5mVXm68hkPH8PjuQXN9yHmVZmbV
+   g==;
+X-CSE-ConnectionGUID: sn7iiyV/Sjy6civheV7N3Q==
+X-CSE-MsgGUID: zA+Bm+aTSqabg23Byenlvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11464"; a="63558202"
 X-IronPort-AV: E=Sophos;i="6.16,239,1744095600"; 
-   d="scan'208";a="52285347"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 03:52:50 -0700
-X-CSE-ConnectionGUID: iPnqe7lDTyWwtmi51DmowQ==
-X-CSE-MsgGUID: KOTMKZ52R2ij4S+CeEoraw==
+   d="scan'208";a="63558202"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 04:12:47 -0700
+X-CSE-ConnectionGUID: YJwD0Tw8R46hzn39260sIA==
+X-CSE-MsgGUID: tfVIrTfJQxaERGvha2EtvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,239,1744095600"; 
-   d="scan'208";a="149129847"
+   d="scan'208";a="149096810"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 15 Jun 2025 03:52:45 -0700
+  by orviesa008.jf.intel.com with ESMTP; 15 Jun 2025 04:12:45 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uQkyg-000EFw-0j;
-	Sun, 15 Jun 2025 10:52:42 +0000
-Date: Sun, 15 Jun 2025 18:51:47 +0800
+	id 1uQlI2-000EIS-0U;
+	Sun, 15 Jun 2025 11:12:42 +0000
+Date: Sun, 15 Jun 2025 19:12:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Michal Wilczynski <m.wilczynski@samsung.com>,
-	Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>,
-	Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>,
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
 	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Frank Binns <frank.binns@imgtec.com>,
-	Matt Coster <matt.coster@imgtec.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH v4 8/8] drm/imagination: Enable PowerVR driver for RISC-V
-Message-ID: <202506151839.IKkZs0Z0-lkp@intel.com>
-References: <20250614-apr_14_for_sending-v4-8-8e3945c819cd@samsung.com>
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Jagadeesh Kona <quic_jkona@quicinc.com>
+Subject: [linux-next:master 1625/2468]
+ arch/arm64/boot/dts/qcom/qcs8550-aim300-aiot.dtb: clock-controller@ade0000
+ (qcom,sm8550-camcc): power-domains: [[56, 6]] is too short
+Message-ID: <202506151907.LcLf1RIB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,32 +65,200 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250614-apr_14_for_sending-v4-8-8e3945c819cd@samsung.com>
 
-Hi Michal,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 4774cfe3543abb8ee98089f535e28ebfd45b975a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Wilczynski/power-sequencing-Add-T-HEAD-TH1520-GPU-power-sequencer-driver/20250615-021142
-base:   4774cfe3543abb8ee98089f535e28ebfd45b975a
-patch link:    https://lore.kernel.org/r/20250614-apr_14_for_sending-v4-8-8e3945c819cd%40samsung.com
-patch subject: [PATCH v4 8/8] drm/imagination: Enable PowerVR driver for RISC-V
-config: riscv-kismet-CONFIG_DRM_GEM_SHMEM_HELPER-CONFIG_DRM_POWERVR-0-0 (https://download.01.org/0day-ci/archive/20250615/202506151839.IKkZs0Z0-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250615/202506151839.IKkZs0Z0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bc6e0ba6c9bafa6241b05524b9829808056ac4ad
+commit: a02a8f8cb7f6f54b077a6f9eb74ccd840b472416 [1625/2468] dt-bindings: clock: qcom,sm8450-camcc: Allow to specify two power domains
+config: arm64-randconfig-052-20250612 (https://download.01.org/0day-ci/archive/20250615/202506151907.LcLf1RIB-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+dtschema version: 2025.3.dev28+g49451a5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250615/202506151907.LcLf1RIB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506151839.IKkZs0Z0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506151907.LcLf1RIB-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER when selected by DRM_POWERVR
-   WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
-     Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
-     Selected by [y]:
-     - DRM_POWERVR [=y] && HAS_IOMEM [=y] && (ARM64 || RISCV [=y]) && DRM [=y] && PM [=y]
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:3709.27-3764.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/qcs8550-aim300-aiot.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): power-domains: [[56, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/qcs8550-aim300-aiot.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): required-opps: [[33]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/qcs8550-aim300-aiot.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/qcs8550-aim300-aiot.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): power-domains: [[56, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/qcs8550-aim300-aiot.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): required-opps: [[33]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/qcs8550-aim300-aiot.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3501.27-3574.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3595.27-3649.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: clock-controller@aaf0000 (qcom,sm8450-videocc): power-domains: [[106, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: clock-controller@aaf0000 (qcom,sm8450-videocc): required-opps: [[55]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: clock-controller@aaf0000 (qcom,sm8450-videocc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: clock-controller@ade0000 (qcom,sm8450-camcc): power-domains: [[106, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-hdk.dtb: clock-controller@ade0000 (qcom,sm8450-camcc): required-opps: [[55]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3501.27-3574.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3595.27-3649.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: clock-controller@aaf0000 (qcom,sm8450-videocc): power-domains: [[98, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: clock-controller@aaf0000 (qcom,sm8450-videocc): required-opps: [[55]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: clock-controller@aaf0000 (qcom,sm8450-videocc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: clock-controller@ade0000 (qcom,sm8450-camcc): power-domains: [[98, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-qrd.dtb: clock-controller@ade0000 (qcom,sm8450-camcc): required-opps: [[55]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3501.27-3574.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3595.27-3649.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx223.dtb: clock-controller@aaf0000 (qcom,sm8450-videocc): power-domains: [[98, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx223.dtb: clock-controller@aaf0000 (qcom,sm8450-videocc): required-opps: [[55]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx223.dtb: clock-controller@aaf0000 (qcom,sm8450-videocc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx223.dtb: clock-controller@ade0000 (qcom,sm8450-camcc): power-domains: [[98, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx223.dtb: clock-controller@ade0000 (qcom,sm8450-camcc): required-opps: [[55]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3501.27-3574.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450.dtsi:3595.27-3649.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx224.dtb: clock-controller@aaf0000 (qcom,sm8450-videocc): power-domains: [[98, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx224.dtb: clock-controller@aaf0000 (qcom,sm8450-videocc): required-opps: [[55]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx224.dtb: clock-controller@aaf0000 (qcom,sm8450-videocc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx224.dtb: clock-controller@ade0000 (qcom,sm8450-camcc): power-domains: [[98, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8450-sony-xperia-nagara-pdx224.dtb: clock-controller@ade0000 (qcom,sm8450-camcc): required-opps: [[55]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:3614.27-3688.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:3709.27-3764.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): power-domains: [[56, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): required-opps: [[33]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): power-domains: [[56, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): required-opps: [[33]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-hdk.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:3709.27-3764.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): power-domains: [[56, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): required-opps: [[33]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): power-domains: [[56, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): required-opps: [[33]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-mtp.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:3709.27-3764.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): power-domains: [[56, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): required-opps: [[33]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): power-domains: [[56, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): required-opps: [[33]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-qrd.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:3614.27-3688.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:3709.27-3764.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550-samsung-q5q.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): power-domains: [[56, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-samsung-q5q.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): required-opps: [[33]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-samsung-q5q.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-samsung-q5q.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): power-domains: [[56, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-samsung-q5q.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): required-opps: [[33]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-samsung-q5q.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:3614.27-3688.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550.dtsi:3709.27-3764.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): power-domains: [[56, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): required-opps: [[33]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: clock-controller@aaf0000 (qcom,sm8550-videocc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): power-domains: [[56, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): required-opps: [[33]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8550-sony-xperia-yodo-pdx234.dtb: clock-controller@ade0000 (qcom,sm8550-camcc): Unevaluated properties are not allowed ('power-domains', 'required-opps' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:5202.27-5277.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:5299.27-5355.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8650-hdk.dts:834.9-845.5: Warning (graph_child_address): /soc@0/geniqup@ac0000/i2c@a8c000/typec-mux@e/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): power-domains: [[79, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): power-domains: [[79, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-hdk.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:5299.27-5355.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): power-domains: [[79, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): power-domains: [[79, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8650.dtsi:5299.27-5355.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): power-domains: [[79, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): power-domains: [[79, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+--
+   arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): power-domains: [[79, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+   arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): power-domains: [[79, 6]] is too short
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
+>> arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): Unevaluated properties are not allowed ('power-domains' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
