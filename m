@@ -1,131 +1,214 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD56C1DE2CF
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Jun 2025 08:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1871E104E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Jun 2025 08:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1749975107; cv=none; b=Tti11JCSaO9ADRRrYmpCuB6SMg3ueTzV6w8spHaKNfMj9EZMu1Fu7xxrc85eIfvuM4ZoUFPEWpj6kLQKYoIFhjCDz18Cm6ZFrTYbSz9Ex1f+Gm0CSqJRPy8Du4C1SOhTlUEaXdL12dfxKZOkzGx9s6zPIlAKwfDstAcfuJeG8as=
+	t=1749977921; cv=none; b=uTE+YQBvkHOiJ/GbdyfYwysN4k1kq2sreadsHviajoioyTCThn2X9aK/HR1chNGGN8BdpeXZ0TC5oaYz0p2eF6wqPiem3a4qfIOMk5ooqt6l/brU8dWx+JDrHqOcK7l+won0ux4+sQdZCB0LsSGzaMONgR6ga7baJzLZ3i+re3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1749975107; c=relaxed/simple;
-	bh=9CazTd5wS+HK0yBoeUMtHxJDFiS9hWu7YYvjO0MyWcM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aBBEXALnSVpfPzzowQaybxGo2Ryo/+drhmqzccgPKw0JiiQ/Jxt/p+iLe4KLtvxHlUfCuRbL031MsBsXrwDFeyTFzwO68bojJv53HAxbeYSgSVCTUztpuSKMu1JghfgS+3ky6scbaxJHjtStsuwJ9KdUkg/RsLQfBw/qHXc0fbc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cu98QRSG; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1749977921; c=relaxed/simple;
+	bh=vd9EWcG9WB3a/aRk95MO6cgl/oduG7IEefBMkFtrx/U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Z3q0NBlid2f7aNsDi8aMPuEJ1um8lHqFS4283SBlsK599on9aNlEOTZbhcMluaEWXcGakXGmf5UexrfgsPwidYyCDtUVXxdDq3ShlmpizKggI2arwrA94gRSrX0wPrDoLHKrbvw6FA5iIBo58ImUwNWlQz+SXyIwipMDiE/JFl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IYgoVdMb; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cu98QRSG"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3a53ee6fcd5so2171305f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Jun 2025 01:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1749975104; x=1750579904; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xQC1l4hed+jDjvcuzyYn26zmXocSEaoHbFMpdpPVTZE=;
-        b=cu98QRSGC2hspRXgdwa2tKD2r/LcrWHeYQ+vXiNKwavOzVlR2jbuZwe/XPuNcIBOiR
-         LjGDOy/Htk3YQBK2Tcj1rdR+UuJCpOKEN19a37UI2C8seTakQicA267roiuR1hmdk1u/
-         sV/uqSPhctrn6qO7aPaj5ZhAKg+2zOWRs4KFmxYmcLdEn4ajECfoIRGN32KWAsp9gGmp
-         vhCIPIbogI8rb4qeP5/11dJJnO9k4jRdFU/a1K0eniUev9PP05nGvAVhija776NbkBbB
-         gk0tIqlEgfLkhs9NL5rup63mshSFUesry4U2/oNPn9/3ekD7a7BwEZ0tZI8UOeYcO8ag
-         sTGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1749975104; x=1750579904;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xQC1l4hed+jDjvcuzyYn26zmXocSEaoHbFMpdpPVTZE=;
-        b=Q8UuR+r6w7IqBruDC5+91bJysztli0t5QwnPwZ47KWSGw5gZU0rQqPhg2+X8cLPpEi
-         QmcMpKpUMizQLz+FbJqIkGplZ3W1AhHHyjb1DVm303iJ+u1V4HuCz1iBuFXv6FHimcEr
-         sGZrRczCA3LkQXaGVpgr0M+hvKZ2iXrsd5M/bH/wnw5YTnmdPdg9e9IF0raoHGmawFJP
-         3YVRQSKZKapV7kNJKGxyfNwuSdXJUt1BDn6K0z6PQGEfOxbwy0AERlalAnpjaixkeQFB
-         lEXVfAtJR01V9E93QXkUaEuj8Pn3+RW4JjdjkYhi9gyjm22ZsRsjOqLVOfCnBQlnZ11h
-         WpAA==
-X-Forwarded-Encrypted: i=1; AJvYcCWdfF2DufkML/qFO5AITHpyB85VTGpS81PMR9trJW54gBrFUwXWkMQ/hvZIpv9HYhELbIVBU2DCNvV+u1Vo@lists.linux.dev
-X-Gm-Message-State: AOJu0YwvqO1aWkSJcd9xzUwPOWf2KxVs6JlHDVMGzSG/Tvz9lBIC9KoS
-	3SsBf1H31W+s3HvrtpBzy9o4lpQR6hiNJMc+hRED7JfsmA3BNeriSYVe
-X-Gm-Gg: ASbGncvNHjZ0xVNBueV/Z/BZ1uSSoiLTBd3GZTXY8DUclMgn6Q5TwSqWFmw8hJ7fwv4
-	XINeZZoFvxiaQesO4Uj/D683e4oh8eGxWj7Y0FIaPzblBvDDXaLZ8zEC6hiQZq64lY6EdD6ia0T
-	6je7HDzMRKI8Ma6H8gq4crMgw5h6ncSDFpaR1qqiI2USdMANdUvJMBAZ5GbP/X9RompMKawwyWC
-	DPs8XqcxoKtYv13FcTeAjVXWcCwzPVaHRCG7ePgIyW6QBQGCue6NO2zellbrtTTDZL6YoUtXchz
-	lgCs8rCGPZwtvC6SPE1MHpNxFRfRAjM148HmtirLkrcTAWYc/nLfT86h8QrkZ7Kr1/Q0rwFhrbG
-	+X8VbIQD6R4p7e9vz/EmaONiZDKEDl1EL8Es=
-X-Google-Smtp-Source: AGHT+IEt4MLx5qWRx8zxKdVal8i4gp60/oEWaofVvMwCZilpflG+8Y3YcJjDCPeWX2cDAdi54HxY8A==
-X-Received: by 2002:a05:6000:188b:b0:3a4:ef0d:e614 with SMTP id ffacd0b85a97d-3a572e79d24mr4433375f8f.33.1749975103785;
-        Sun, 15 Jun 2025 01:11:43 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a72cd3sm7231201f8f.32.2025.06.15.01.11.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Jun 2025 01:11:43 -0700 (PDT)
-Date: Sun, 15 Jun 2025 09:11:42 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Ilya Leoshkevich <iii@linux.ibm.com>, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Linux Memory Management List <linux-mm@kvack.org>, Alexander Potapenko
- <glider@google.com>
-Subject: Re: mm/kmsan/hooks.c:269:14: sparse: sparse: cast removes address
- space '__user' of expression
-Message-ID: <20250615091142.3c9520d9@pumpkin>
-In-Reply-To: <202506131242.qB8fUSlP-lkp@intel.com>
-References: <202506131242.qB8fUSlP-lkp@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IYgoVdMb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1749977920; x=1781513920;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vd9EWcG9WB3a/aRk95MO6cgl/oduG7IEefBMkFtrx/U=;
+  b=IYgoVdMb7R7Ow0Uw2tV4O/hUX+grfsc7Zf7rL1AaqN+bihJ4gCW9/DGP
+   Rqvwq6XFnj3efJflNH9LbeTC8TuuKNAdHGF1CV9zDZJ+0tgpOpcC3l4AT
+   SrARM2hxR7rkNB6WrlqyuJ6JOVmMSlHhttbaqy5wsSGdlK+wR+dlxLz8H
+   sg5qEa2yD2hHYsOU9lhBaxA7KFUUqfivt7A/omQk+HVx0QlmtI76Ez8n0
+   dyAd0uAxldYJ/GfW62TPO95THIgeOqInCONL98QDYv+khmX0SS3cg7STn
+   XOPOWKLPG79c/MfMo6cyyqeW9JGIEghoY/23eKKZhyYc+Av6WZe8ATOQQ
+   w==;
+X-CSE-ConnectionGUID: /bnQe/PBSOqIPx0DH4+zWQ==
+X-CSE-MsgGUID: NGq/OXKUSOG83IVgG5ekGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11464"; a="62748804"
+X-IronPort-AV: E=Sophos;i="6.16,238,1744095600"; 
+   d="scan'208";a="62748804"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 01:58:39 -0700
+X-CSE-ConnectionGUID: xFOJF83dRSGTCkUmbw1xtw==
+X-CSE-MsgGUID: m6FSb+f4TFWUuajt+B8hTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,238,1744095600"; 
+   d="scan'208";a="148094278"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 15 Jun 2025 01:58:36 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uQjCE-000EDo-0E;
+	Sun, 15 Jun 2025 08:58:34 +0000
+Date: Sun, 15 Jun 2025 16:57:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-sound@vger.kernel.org,
+	Herve Codina <herve.codina@bootlin.com>,
+	Mark Brown <broonie@kernel.org>
+Subject: Re: [PATCH] ALSA: pcm: Convert snd_pcm_ioctl_sync_ptr_{compat/x32}
+ to user_access_begin/user_access_end()
+Message-ID: <202506151632.jvLtNHPb-lkp@intel.com>
+References: <8df11af98033e4cb4d9b0f16d6e9d5b69110b036.1749724057.git.christophe.leroy@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8df11af98033e4cb4d9b0f16d6e9d5b69110b036.1749724057.git.christophe.leroy@csgroup.eu>
 
-On Fri, 13 Jun 2025 12:28:55 +0800
+Hi Christophe,
 
-Not directly related but...
+kernel test robot noticed the following build errors:
 
-....
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  267  	ua_flags = user_access_save();
-> f926e9326f3a79 Ilya Leoshkevich    2024-06-21  268  	if (!IS_ENABLED(CONFIG_ARCH_HAS_NON_OVERLAPPING_ADDRESS_SPACE) ||
-> f926e9326f3a79 Ilya Leoshkevich    2024-06-21 @269  	    (u64)to < TASK_SIZE) {
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  270  		/* This is a user memory access, check it. */
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  271  		kmsan_internal_check_memory((void *)from, to_copy - left, to,
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  272  					    REASON_COPY_TO_USER);
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  273  	} else {
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  274  		/* Otherwise this is a kernel memory access. This happens when a
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  275  		 * compat syscall passes an argument allocated on the kernel
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  276  		 * stack to a real syscall.
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  277  		 * Don't check anything, just copy the shadow of the copied
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  278  		 * bytes.
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  279  		 */
+[auto build test ERROR on tiwai-sound/for-next]
+[also build test ERROR on tiwai-sound/for-linus linus/master v6.16-rc1 next-20250613]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Isn't that comment just wrong?
-Compat syscalls just don't do that any more.
-They might have done it in the past before setfs(KERNEL_DS) got nuked.
-So the 'else' clause can never happen and the test nuked.
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/ALSA-pcm-Convert-snd_pcm_ioctl_sync_ptr_-compat-x32-to-user_access_begin-user_access_end/20250612-185240
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/8df11af98033e4cb4d9b0f16d6e9d5b69110b036.1749724057.git.christophe.leroy%40csgroup.eu
+patch subject: [PATCH] ALSA: pcm: Convert snd_pcm_ioctl_sync_ptr_{compat/x32} to user_access_begin/user_access_end()
+config: x86_64-randconfig-008-20250615 (https://download.01.org/0day-ci/archive/20250615/202506151632.jvLtNHPb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250615/202506151632.jvLtNHPb-lkp@intel.com/reproduce)
 
-So anything here is always 'user' (or will have failed access_ok()).
-I think that also means the test can be done before the copy_to_user() itself
-since, contrary to the earlier comment (trimmed) all of the kernel memory
-that might be copied needs to have valid data.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506151632.jvLtNHPb-lkp@intel.com/
 
-(Unlike copy_from_user() when only the written part need to be marked
-as containing valid data.)
+All errors (new ones prefixed by >>):
 
-	David
+   In file included from sound/core/pcm_native.c:4033:
+   sound/core/pcm_compat.c: In function 'snd_pcm_ioctl_sync_ptr_x32':
+>> sound/core/pcm_compat.c:473:70: error: macro "unsafe_put_user" requires 3 arguments, but only 2 given
+     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
+         |                                                                      ^
+   In file included from include/linux/uaccess.h:12,
+                    from include/linux/sched/task.h:13,
+                    from include/linux/sched/signal.h:9,
+                    from include/linux/rcuwait.h:6,
+                    from include/linux/percpu-rwsem.h:7,
+                    from include/linux/fs.h:34,
+                    from include/linux/compat.h:17,
+                    from sound/core/pcm_native.c:7:
+   arch/x86/include/asm/uaccess.h:532: note: macro "unsafe_put_user" defined here
+     532 | #define unsafe_put_user(x, ptr, label)  \
+         | 
+>> sound/core/pcm_compat.c:473:9: error: 'unsafe_put_user' undeclared (first use in this function)
+     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
+         |         ^~~~~~~~~~~~~~~
+   sound/core/pcm_compat.c:473:9: note: each undeclared identifier is reported only once for each function it appears in
+>> sound/core/pcm_compat.c:473:73: error: 'Efault_wr' undeclared (first use in this function)
+     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
+         |                                                                         ^~~~~~~~~
+   sound/core/pcm_compat.c:473:71: warning: left-hand operand of comma expression has no effect [-Wunused-value]
+     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
+         |                                                                       ^
+>> sound/core/pcm_compat.c:473:82: error: expected ';' before ')' token
+     473 |         unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
+         |                                                                                  ^
+         |                                                                                  ;
+>> sound/core/pcm_compat.c:473:82: error: expected statement before ')' token
 
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  280  		kmsan_internal_memmove_metadata((void *)to, (void *)from,
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  281  						to_copy - left);
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  282  	}
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  283  	user_access_restore(ua_flags);
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  284  }
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  285  EXPORT_SYMBOL(kmsan_copy_to_user);
-> 75cf0290271bf6 Alexander Potapenko 2022-09-15  286  
-> 
-> :::::: The code at line 269 was first introduced by commit
-> :::::: f926e9326f3a79f7e01ac790e2361f44d8ca8320 kmsan: fix kmsan_copy_to_user() on arches with overlapping address spaces
-> 
-> :::::: TO: Ilya Leoshkevich <iii@linux.ibm.com>
-> :::::: CC: Andrew Morton <akpm@linux-foundation.org>
-> 
 
+vim +/unsafe_put_user +473 sound/core/pcm_compat.c
+
+   405	
+   406	static int snd_pcm_ioctl_sync_ptr_x32(struct snd_pcm_substream *substream,
+   407					      struct snd_pcm_sync_ptr_x32 __user *src)
+   408	{
+   409		struct snd_pcm_runtime *runtime = substream->runtime;
+   410		volatile struct snd_pcm_mmap_status *status;
+   411		volatile struct snd_pcm_mmap_control *control;
+   412		u32 sflags;
+   413		struct snd_pcm_mmap_control scontrol;
+   414		struct snd_pcm_mmap_status sstatus;
+   415		snd_pcm_uframes_t boundary;
+   416		int err;
+   417	
+   418		if (snd_BUG_ON(!runtime))
+   419			return -EINVAL;
+   420	
+   421		if (!user_read_access_begin(src, sizeof(*src)))
+   422			return -EFAULT;
+   423		err = -EFAULT;
+   424		unsafe_get_user(sflags, &src->flags, Efault_rd);
+   425		unsafe_get_user(scontrol.appl_ptr, &src->c.control.appl_ptr, Efault_rd);
+   426		unsafe_get_user(scontrol.avail_min, &src->c.control.avail_min, Efault_rd);
+   427		err = 0;
+   428	Efault_rd:
+   429		user_read_access_end();
+   430		if (err)
+   431			return err;
+   432	
+   433		if (sflags & SNDRV_PCM_SYNC_PTR_HWSYNC) {
+   434			err = snd_pcm_hwsync(substream);
+   435			if (err < 0)
+   436				return err;
+   437		}
+   438		status = runtime->status;
+   439		control = runtime->control;
+   440		boundary = recalculate_boundary(runtime);
+   441		if (!boundary)
+   442			boundary = 0x7fffffff;
+   443		scoped_guard(pcm_stream_lock_irq, substream) {
+   444			/* FIXME: we should consider the boundary for the sync from app */
+   445			if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL))
+   446				control->appl_ptr = scontrol.appl_ptr;
+   447			else
+   448				scontrol.appl_ptr = control->appl_ptr % boundary;
+   449			if (!(sflags & SNDRV_PCM_SYNC_PTR_AVAIL_MIN))
+   450				control->avail_min = scontrol.avail_min;
+   451			else
+   452				scontrol.avail_min = control->avail_min;
+   453			sstatus.state = status->state;
+   454			sstatus.hw_ptr = status->hw_ptr % boundary;
+   455			sstatus.tstamp = status->tstamp;
+   456			sstatus.suspended_state = status->suspended_state;
+   457			sstatus.audio_tstamp = status->audio_tstamp;
+   458		}
+   459		if (!(sflags & SNDRV_PCM_SYNC_PTR_APPL))
+   460			snd_pcm_dma_buffer_sync(substream, SNDRV_DMA_SYNC_DEVICE);
+   461	
+   462		if (!user_write_access_begin(src, sizeof(*src)))
+   463			return -EFAULT;
+   464		err = -EFAULT;
+   465		unsafe_put_user(sstatus.state, &src->s.status.state, Efault_wr);
+   466		unsafe_put_user(sstatus.hw_ptr, &src->s.status.hw_ptr, Efault_wr);
+   467		unsafe_put_user(sstatus.tstamp.tv_sec, &src->s.status.tstamp_sec, Efault_wr);
+   468		unsafe_put_user(sstatus.tstamp.tv_nsec, &src->s.status.tstamp_nsec, Efault_wr);
+   469		unsafe_put_user(sstatus.suspended_state, &src->s.status.suspended_state, Efault_wr);
+   470		unsafe_put_user(sstatus.audio_tstamp.tv_sec, &src->s.status.audio_tstamp_sec, Efault_wr);
+   471		unsafe_put_user(sstatus.audio_tstamp.tv_nsec, &src->s.status.audio_tstamp_nsec, Efault_wr);
+   472		unsafe_put_user(scontrol.appl_ptr, &src->c.control.appl_ptr, Efault_wr);
+ > 473		unsafe_put_user(scontrol.avail_min, &src->c.control.avail_min), Efault_wr);
+   474		err = 0;
+   475	Efault_wr:
+   476		user_write_access_end();
+   477	
+   478		return err;
+   479	}
+   480	#endif /* CONFIG_X86_X32_ABI */
+   481	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
