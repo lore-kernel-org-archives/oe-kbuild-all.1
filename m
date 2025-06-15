@@ -1,107 +1,140 @@
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0571A2E11C1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Jun 2025 21:18:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317D31805E
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Jun 2025 23:19:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750022292; cv=none; b=EZ6IZNjj0UCqfjGMSJoNHMXynLO3IloGl7Zr3gEo1bW3Ve6QoaO6LvuP1nd3I+y0AGA2pFD3nKs7/5Scm6/WqSsWQyQMA/5ItGyuqFoKPy7TtO+3CBBhz3kK1IROUafWDCA0EZzyor2z/XGnQCGMlhig7GOBt4c7soqBWGjo69Y=
+	t=1750029595; cv=none; b=SGELrsrG9RC9UVb9gY2aUY6RiO+bUaFFCev42Q4jSGkDFVKryH2JDsrk3WlIe57KHXyKOWI6LbTxvIc9urIcGCcpdInkyrmozO96l8hZExcPA8ad/IEctaOCyk7ldQDicngaKUIAg+SQfDbE5AXe4k4VAFlY4LALNK1lqe9VWCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750022292; c=relaxed/simple;
-	bh=Ky35e52EIfbhV8BPsYNhSX7ybhbD4Ajlg+RXV253gFs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OBQ9clxPRXwrVtrlfgdTTkwKvTzMQ0mEDCXNi3VqYohpu3hrIzb06IL1gGbj1Q2mRLckhrKcsGEaQjQiCvhCis/mGyl8e2S8Wk5A1gZJDtnOGkvdU8Q/Y6CdAJmAsLDcrff3br8/1wgVY2YBQrq5X2swJmr3rwsnhxNHxBDAPBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ygctcaP/; arc=none smtp.client-ip=209.85.160.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1750029595; c=relaxed/simple;
+	bh=qJ2UdVavWp8eEL14LL0LaRKu/bEJFdrYTc5l0jlclQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aszI+y40/CB5KQ8R841ZPw5IAFbf9315v25/XZSFHPRDjQCER9lq7CvwmeKgHLG4nSEdElR4wLPHI8OWWsA8JojvgMiqEUwL86j4reVhTTFdbhYy1VZqwJKMyBLq/wMF4fXP/Mo2W8n03YSR0yUU04QjKrk3JO8RId1PXu0Qua8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CVWZt4kE; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ygctcaP/"
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4a58ef58a38so239091cf.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 15 Jun 2025 14:18:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750022290; x=1750627090; darn=lists.linux.dev;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=kbXAdW4yCyx3+5ff6ebsyeCYa7wKjRonHdL8V4+kCCc=;
-        b=ygctcaP/GILSYGaPTNnnoZ3P+g3JyYHSsHjHGOSInL3rCe157O3CjJVXyoKWYjN9/v
-         j+Zp6dZDlnRXD9Lq4L4nlv9KagsJGvo36Jpvyjm8rWFLlFTZJzOLQn8tZ1/wBAGnrys3
-         qc4GoObcwBP1/GJOexCUX9FqQaXoU7i9E/mLKQBS+hI3wG+Mz0OGqmkrw/z+4xC1xBb6
-         cszK6I3cGRypbepnO0FwtSazaVPots1eVQIHUB+N8p5MuWGo0cUCzOfyaAZ2sCDioBVN
-         7Fk1LJ7tJoH8Hmu+cQVIpa7kb9yVN8Bg+rbX4Z8JfGKAedWVlK22bRycjYIF9OATdW4n
-         WnPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750022290; x=1750627090;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kbXAdW4yCyx3+5ff6ebsyeCYa7wKjRonHdL8V4+kCCc=;
-        b=juQOCnFavf4vEkEuJutOo1kNJ0ajXiGkx0SpWwi0zz8YgaZaNccLpHnewbXUuuGXV/
-         hR6k8ZZJP1VWKXg57JFLS6YCVNst1nXdgeLQdLMp1J6I4opP76uJsCObjZQXUgYx/zzf
-         WCD9Uv1eLLidGx6Uo7fHwZCv/V7arjFaTZQF2UQmjLAH5PdIQyooWID0BMfXZEscS6Gz
-         Aa3idmCcx7L0d6wMMIZQpehsWjhyTWv+tKjbrFseH2zKHxUlYHLkqpkfQO9CZsGMZlTH
-         WT5/HT1D9YhJwIR3cLd0ajZfzEVAxHV2GqeNf/kbQplbIHTIFHkEAwSgT+YfOehC/aMS
-         U5mQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXr7+kRhJCR87ypkXNUNmLa44jKwebbTNXfHjo2JUF/kmn+IfE02bG+4qFTj5OPdXqpEtA6QBrYzLYm+UKB@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+Z347e4Md0X+3xzPJDzIqdhtKu0L7rJeRbm+zR/EYvwtCOeFq
-	M67ZYVO2YLC60dXAQ5pjMKyW4qi75hGjxhfU5Zkwyhctri5e2+c+0cbXwQK4gJqm4E7X/IuvxLS
-	xjyLIdJiMXnxCvzOcLuYhJBay9x9i12DCbSDZvieT
-X-Gm-Gg: ASbGncu+/zHFROVeNgFelXq0Aybopzk5LB7DJuIwm6LZ6kSYukccpNA/mxzZOTFOP20
-	6b7wO8sqSbREiYzyBRrl30BeG5senwPRTTlda/3Os6E6YauWjVbV+KeUtoHP9qf+P5rlsvXEnO9
-	rUttOAarn8gsDIOqh+NNOaorJLYd1Ub4ugeqARfYWMM/ZXgXfA+hY/
-X-Google-Smtp-Source: AGHT+IHyI/giLHDVc/7oPe4Y25Gt2jV0dsA6547ZDZPHEOCQg32XugU1twVIDGD6RTN+indIRIvFdvKPkx2AFVBIUl4=
-X-Received: by 2002:a05:622a:14:b0:4a5:9af6:8f84 with SMTP id
- d75a77b69052e-4a73d63d94bmr3695771cf.14.1750022289596; Sun, 15 Jun 2025
- 14:18:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CVWZt4kE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750029593; x=1781565593;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qJ2UdVavWp8eEL14LL0LaRKu/bEJFdrYTc5l0jlclQY=;
+  b=CVWZt4kELsiipGR0tHVk1x5SnutWRBDLcTC/A1qMVjQIQBi0SJBzZGKI
+   Ga2r9w6/ZLnf30GF190jVyzvS+zPVcHyApTW1sGSq6AHQjtzrv3LiA5Ni
+   TnUL3Q5p8odxy6BuDY5/3SmFtXYfoY0ezQqj+j03vc1KbKVxVnQc7iyfm
+   ZYuPxxLdDYj4j0veQ0rUfkhVNrf+n0LfookJR5z6jGKE7hZch2atH1q9a
+   7q3lXX7l2LbGIQ84kOamvtmacC47vMJQdm8+gF7Dp3jtdPDKePBYzWWIs
+   ABVlGNNq88v31ApDzd+qUa5305geaVtmM5fhybjgfwkq/ZNJAgbU8Z2tS
+   A==;
+X-CSE-ConnectionGUID: /qeqk5rHRZqnP69SXwO6KQ==
+X-CSE-MsgGUID: 3Irfv1SqTWyTnsJFwh1Spg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="63578993"
+X-IronPort-AV: E=Sophos;i="6.16,239,1744095600"; 
+   d="scan'208";a="63578993"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2025 16:19:52 -0700
+X-CSE-ConnectionGUID: WpANvP7QRWKlEmSwszDXMA==
+X-CSE-MsgGUID: LyCMBwIsRfeUYxuQu7xJzQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,239,1744095600"; 
+   d="scan'208";a="179210635"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 15 Jun 2025 16:19:51 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uQwdg-000EaS-1v;
+	Sun, 15 Jun 2025 23:19:48 +0000
+Date: Mon, 16 Jun 2025 07:18:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>,
+	Kishon <kishon@ti.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Melody Olvera <melody.olvera@oss.qualcomm.com>
+Subject: [phy:next 40/47] drivers/phy/qualcomm/phy-qcom-m31-eusb2.c:210:37:
+ error: implicit declaration of function 'FIELD_PREP'
+Message-ID: <202506160720.RgPhvBEb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250614003601.1600784-1-pmalani@google.com> <202506152245.BJAubGbp-lkp@intel.com>
-In-Reply-To: <202506152245.BJAubGbp-lkp@intel.com>
-From: Prashant Malani <pmalani@google.com>
-Date: Sun, 15 Jun 2025 14:17:57 -0700
-X-Gm-Features: AX0GCFuTWLHc2ZNlsl7lAd0ZY_hlZfWYDoaHvW8UG6RUWnh-8TbmHsZbKEHTaNY
-Message-ID: <CAFivqmL4BPX3seUykFiSpehME13OdwKBoefnxw=owJyvggw30Q@mail.gmail.com>
-Subject: Re: [PATCH] cpufreq: CPPC: Dont read counters for idle CPUs
-To: kernel test robot <lkp@intel.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	"open list:CPU FREQUENCY SCALING FRAMEWORK" <linux-pm@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 15 Jun 2025 at 07:28, kernel test robot <lkp@intel.com> wrote:
->
-> Hi Prashant,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on rafael-pm/linux-next]
-> [also build test ERROR on rafael-pm/bleeding-edge linus/master v6.16-rc1 next-20250613]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Prashant-Malani/cpufreq-CPPC-Dont-read-counters-for-idle-CPUs/20250614-083659
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-> patch link:    https://lore.kernel.org/r/20250614003601.1600784-1-pmalani%40google.com
-> patch subject: [PATCH] cpufreq: CPPC: Dont read counters for idle CPUs
-> config: riscv-defconfig (https://download.01.org/0day-ci/archive/20250615/202506152245.BJAubGbp-lkp@intel.com/config)
-> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250615/202506152245.BJAubGbp-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506152245.BJAubGbp-lkp@intel.com/
->
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
->
-> >> ERROR: modpost: "idle_cpu" [drivers/cpufreq/cppc_cpufreq.ko] undefined!
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/phy/linux-phy.git next
+head:   47311eaa0a3be575f7835d99e3767f5ee5940b45
+commit: 9c8504861cc4102463f31fe1f5e120a6deb15c15 [40/47] phy: qcom: Add M31 based eUSB2 PHY driver
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250616/202506160720.RgPhvBEb-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250616/202506160720.RgPhvBEb-lkp@intel.com/reproduce)
 
-Looks like my compilation .config included the header implicitly, but
-it got missed here.
-I'll add it in v2, once there is consensus on this change.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506160720.RgPhvBEb-lkp@intel.com/
 
-Best regards,
+All errors (new ones prefixed by >>):
+
+   drivers/phy/qualcomm/phy-qcom-m31-eusb2.c: In function 'm31eusb2_phy_init':
+>> drivers/phy/qualcomm/phy-qcom-m31-eusb2.c:210:37: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     210 |                                     FIELD_PREP(FSEL, data->fsel));
+         |                                     ^~~~~~~~~~
+
+
+vim +/FIELD_PREP +210 drivers/phy/qualcomm/phy-qcom-m31-eusb2.c
+
+   177	
+   178	static int m31eusb2_phy_init(struct phy *uphy)
+   179	{
+   180		struct m31eusb2_phy *phy = phy_get_drvdata(uphy);
+   181		const struct m31_eusb2_priv_data *data = phy->data;
+   182		int ret;
+   183	
+   184		ret = regulator_bulk_enable(M31_EUSB_NUM_VREGS, phy->vregs);
+   185		if (ret) {
+   186			dev_err(&uphy->dev, "failed to enable regulator, %d\n", ret);
+   187			return ret;
+   188		}
+   189	
+   190		ret = phy_init(phy->repeater);
+   191		if (ret) {
+   192			dev_err(&uphy->dev, "repeater init failed. %d\n", ret);
+   193			goto disable_vreg;
+   194		}
+   195	
+   196		ret = clk_prepare_enable(phy->clk);
+   197		if (ret) {
+   198			dev_err(&uphy->dev, "failed to enable cfg ahb clock, %d\n", ret);
+   199			goto disable_repeater;
+   200		}
+   201	
+   202		/* Perform phy reset */
+   203		reset_control_assert(phy->reset);
+   204		udelay(5);
+   205		reset_control_deassert(phy->reset);
+   206	
+   207		m31eusb2_phy_write_sequence(phy, data->setup_seq, data->setup_seq_nregs);
+   208		m31eusb2_phy_write_readback(phy->base,
+   209					    USB_PHY_HS_PHY_CTRL_COMMON0, FSEL,
+ > 210					    FIELD_PREP(FSEL, data->fsel));
+   211		m31eusb2_phy_write_sequence(phy, data->override_seq, data->override_seq_nregs);
+   212		m31eusb2_phy_write_sequence(phy, data->reset_seq, data->reset_seq_nregs);
+   213	
+   214		return 0;
+   215	
+   216	disable_repeater:
+   217		phy_exit(phy->repeater);
+   218	disable_vreg:
+   219		regulator_bulk_disable(M31_EUSB_NUM_VREGS, phy->vregs);
+   220	
+   221		return 0;
+   222	}
+   223	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
