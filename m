@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10F1B289803
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 18:37:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0AE1289E3C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 18:59:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750099070; cv=none; b=igrP1VreqMU7JGyfek/c16Duad3+0HKOUoH/6Rf+sZOV0ZBoKFqZPywm8rgVHt9VKuS5wv61MjPfjzmaEfNRFoilxSigvqdABDIt2EAOQXWcArfkqduLyJvYgKoCy4HsjGppyThkM8lNg0qEOENjdMjLNayKI0ZEOIFQv3sgbiY=
+	t=1750100389; cv=none; b=iizOJo4OkrTGqjBuskRE8/6babI8FZju/N2ctw5/owKBRYUS7T0a1LUWj5FITwVJLkUeXh7pLGb+Zi3q5cFZliTCuhvEFl+PDPznNua2gGCf8dBDuicE98QouTAjEvU7lRRHEH0962CkfyIUCqijuHxHZhkjkiyOL3RQdT/qbTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750099070; c=relaxed/simple;
-	bh=8A2beXL8j8YQfoz2s4KHAo2M+g98Dcra7JcIdezlX9U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BIt0nyQsDfzFJC9zvf07sjlN+x3yIxaQTznSR5fJVi/2B2Cp/cxqypcHphGS7cvt38nFRtg8qnIFV7jQbEhDxzqOsNITNWUcmDAQCH5+1wIhYhtGJJ39XuiYSj/ptQuDt8CqHqlQ0oYASxDZROSk+eLcX4nztcTuPsC8bWXlhso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TzXkPhF/; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1750100389; c=relaxed/simple;
+	bh=uKYOpAI2jXyCu6urtiQtvFq09DW7VkuHlno1YUhsrLg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=b77Ur2g0xuayo4/rrqamxMG6NdQ/FhFYto3nmwXcvk/Db5mNzePssRuKwer4O+0LuKMWu31Mm7RZW95Vmxx8ZSW/kqaS7iaCPMcz6oeJaxZv1EDJ0qveLI2hE6qQWvxsuy6YdEpfHdpVmeVpAbvaCgLtaBT9v2tAqEzcI9wwhl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J6b0hu15; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TzXkPhF/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J6b0hu15"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750099069; x=1781635069;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8A2beXL8j8YQfoz2s4KHAo2M+g98Dcra7JcIdezlX9U=;
-  b=TzXkPhF/w4QxPtTvA9fhVBfMQxkZ3SYONFCIXmGMNozTe+AG98eyjAGn
-   cxnPmGsn7PeP+0msghiHIPYXPzlm/U8WcRG6K8r4sryTx/LxFm+9exuzJ
-   i8oFKEBr/0VPZHWuuZw7oGKUdQn4eGOijXlxIj3yFZhzM91hIjzp+iuKi
-   Ys3hx04xYeAalLwtYiPmxmOBYUs8NlDcZjt6L9jlV0TG3vGUNULd74dvC
-   zYLOm3YuglbuiZOuGyFhj56BKDXof8Y/MBVeDCB+x3nNFiMw58KDnfRfI
-   kDgaC9v3EsZ60wvb0nzXOSawlrYWmn56ZKkjxahZj+vu3wTqhUx74ViOv
-   w==;
-X-CSE-ConnectionGUID: 2gQyy4oPTV2/cvHrLhk6CA==
-X-CSE-MsgGUID: 7fnBFFl3QOOjwHcODJY1mA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="69833199"
+  t=1750100388; x=1781636388;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uKYOpAI2jXyCu6urtiQtvFq09DW7VkuHlno1YUhsrLg=;
+  b=J6b0hu15WsdrdgqRAfoa1d8zkn1tMV+shlXqgoVa1KlJ4JZ1J8w21dsm
+   8sKg5kv7rGlIn8g1kaS1VZOf59VLlszApuyTyOYTG0aKwgfwWSBUcSupa
+   kiCtBSuVQ2j3+hsxgFJ8kQrJ6CD/fN/tCvT8jTx+GJ0ngVVIRmr6as3Fg
+   K2fsgQtPkalTFvuIGomDcFEWgyWb+Fsm9m9RRNexWcCqnyQip4Vc34J+4
+   Q/V4rHG5p9OfU7Qwg/X0dHgwURrwXb/6nH2LXfx6cGSoWWrutDC4rXJbg
+   t/D8ePfnpN2yBjdokzsF0SuUIUPeFNZiUyMe6IehZ0pI2jFIwekwmkEmV
+   g==;
+X-CSE-ConnectionGUID: NcscBIu4Rc2urbL7uhktIw==
+X-CSE-MsgGUID: 2XuGMbGCQciyBMNgKxYlxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="52122229"
 X-IronPort-AV: E=Sophos;i="6.16,241,1744095600"; 
-   d="scan'208";a="69833199"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 11:37:47 -0700
-X-CSE-ConnectionGUID: HZw3yzM3SmuTKkSqv5kS6g==
-X-CSE-MsgGUID: o+AmPQ9MSGiOGnnu5L7ZHA==
+   d="scan'208";a="52122229"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 11:59:46 -0700
+X-CSE-ConnectionGUID: pXVtbCAFRvy/DD4NKHSapQ==
+X-CSE-MsgGUID: js9yODG6TTSClpQ31csS2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,241,1744095600"; 
-   d="scan'208";a="148442887"
+   d="scan'208";a="152388797"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 16 Jun 2025 11:37:44 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 16 Jun 2025 11:59:45 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uREiD-000FGO-38;
-	Mon, 16 Jun 2025 18:37:41 +0000
-Date: Tue, 17 Jun 2025 02:37:37 +0800
+	id 1uRF3X-000FHA-1i;
+	Mon, 16 Jun 2025 18:59:43 +0000
+Date: Tue, 17 Jun 2025 02:58:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nam Tran <trannamatk@gmail.com>, lee@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, pavel@kernel.org, krzk+dt@kernel.org,
-	robh@kernel.org, conor+dt@kernel.org, corbet@lwn.net,
-	linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	Nam Tran <trannamatk@gmail.com>
-Subject: Re: [PATCH v9 2/4] leds: add TI/National Semiconductor LP5812 LED
- Driver
-Message-ID: <202506170238.VtqmOKaK-lkp@intel.com>
-References: <20250610174319.183375-4-trannamatk@gmail.com>
+To: stephen.smalley.work@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [ssmalley-selinuxns:working-selinuxns 44/46]
+ include/linux/rcupdate.h:532:9: error: dereferencing pointer to incomplete
+ type 'struct selinux_policy'
+Message-ID: <202506170231.XPJ4jn89-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,119 +62,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250610174319.183375-4-trannamatk@gmail.com>
 
-Hi Nam,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on f09079bd04a924c72d555cd97942d5f8d7eca98c]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Tran/dt-bindings-leds-add-TI-National-Semiconductor-LP5812-LED-Driver/20250611-100314
-base:   f09079bd04a924c72d555cd97942d5f8d7eca98c
-patch link:    https://lore.kernel.org/r/20250610174319.183375-4-trannamatk%40gmail.com
-patch subject: [PATCH v9 2/4] leds: add TI/National Semiconductor LP5812 LED Driver
-config: x86_64-randconfig-002-20250617 (https://download.01.org/0day-ci/archive/20250617/202506170238.VtqmOKaK-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250617/202506170238.VtqmOKaK-lkp@intel.com/reproduce)
+tree:   https://github.com/stephensmalley/selinux-kernel working-selinuxns
+head:   32bf472b1e62da0bd0ca392a257430db55e75f70
+commit: 66c448df995fb8d6c5c9a4875efc0ab56a5dd21d [44/46] selinux: fix incorrect __rcu annotation for selinux_policy_free()
+config: xtensa-randconfig-002-20250616 (https://download.01.org/0day-ci/archive/20250617/202506170231.XPJ4jn89-lkp@intel.com/config)
+compiler: xtensa-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250617/202506170231.XPJ4jn89-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506170238.VtqmOKaK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506170231.XPJ4jn89-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/leds/rgb/leds-lp5812.c: In function 'lp5812_init_led.isra':
->> drivers/leds/rgb/leds-lp5812.c:1585:57: warning: '%d' directive output may be truncated writing between 1 and 10 bytes into a region of size between 5 and 24 [-Wformat-truncation=]
-    1585 |                 snprintf(name, sizeof(name), "%s:channel%d",
-         |                                                         ^~
-   drivers/leds/rgb/leds-lp5812.c:1585:46: note: directive argument in the range [0, 2147483647]
-    1585 |                 snprintf(name, sizeof(name), "%s:channel%d",
-         |                                              ^~~~~~~~~~~~~~
-   drivers/leds/rgb/leds-lp5812.c:1585:17: note: 'snprintf' output between 10 and 38 bytes into a destination of size 32
-    1585 |                 snprintf(name, sizeof(name), "%s:channel%d",
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1586 |                          pdata->label ? : chip->i2c_cl->name, chan);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   In file included from include/linux/rculist.h:11,
+                    from include/linux/sched/signal.h:5,
+                    from security/selinux/hooks.c:29:
+   security/selinux/hooks.c: In function 'selinux_state_free':
+>> include/linux/rcupdate.h:532:9: error: dereferencing pointer to incomplete type 'struct selinux_policy'
+     typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+            ^
+   include/linux/rcupdate.h:680:2: note: in expansion of macro '__rcu_dereference_check'
+     __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+     ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:752:28: note: in expansion of macro 'rcu_dereference_check'
+    #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                               ^~~~~~~~~~~~~~~~~~~~~
+   security/selinux/hooks.c:7888:23: note: in expansion of macro 'rcu_dereference'
+      selinux_policy_free(rcu_dereference(state->policy));
+                          ^~~~~~~~~~~~~~~
 
 
-vim +1585 drivers/leds/rgb/leds-lp5812.c
+vim +532 include/linux/rcupdate.h
 
-  1572	
-  1573	static int lp5812_init_led(struct lp5812_led *led, struct lp5812_chip *chip, int chan)
-  1574	{
-  1575		struct lp5812_data *pdata = chip->pdata;
-  1576		struct device *dev = &chip->i2c_cl->dev;
-  1577		struct mc_subled *mc_led_info;
-  1578		struct led_classdev *led_cdev;
-  1579		char name[32];
-  1580		int i, ret = 0;
-  1581	
-  1582		if (pdata->led_config[chan].name) {
-  1583			led->cdev.name = pdata->led_config[chan].name;
-  1584		} else {
-> 1585			snprintf(name, sizeof(name), "%s:channel%d",
-  1586				 pdata->label ? : chip->i2c_cl->name, chan);
-  1587			led->cdev.name = name;
-  1588		}
-  1589	
-  1590		if (pdata->led_config[chan].is_sc_led == 0) {
-  1591			mc_led_info = devm_kcalloc(dev,
-  1592						   pdata->led_config[chan].num_colors,
-  1593						   sizeof(*mc_led_info), GFP_KERNEL);
-  1594			if (!mc_led_info)
-  1595				return -ENOMEM;
-  1596	
-  1597			led_cdev = &led->mc_cdev.led_cdev;
-  1598			led_cdev->name = led->cdev.name;
-  1599			led_cdev->brightness_set_blocking = lp5812_set_mc_brightness;
-  1600			led->mc_cdev.num_colors = pdata->led_config[chan].num_colors;
-  1601			for (i = 0; i < led->mc_cdev.num_colors; i++) {
-  1602				mc_led_info[i].color_index =
-  1603					pdata->led_config[chan].color_id[i];
-  1604				mc_led_info[i].channel =
-  1605						pdata->led_config[chan].led_id[i];
-  1606			}
-  1607	
-  1608			led->mc_cdev.subled_info = mc_led_info;
-  1609		} else {
-  1610			led->cdev.brightness_set_blocking = lp5812_set_brightness;
-  1611		}
-  1612	
-  1613		led->cdev.groups = lp5812_led_groups;
-  1614		led->chan_nr = chan;
-  1615	
-  1616		if (pdata->led_config[chan].is_sc_led) {
-  1617			ret = devm_led_classdev_register(dev, &led->cdev);
-  1618			if (ret == 0) {
-  1619				led->cdev.dev->platform_data = devm_kstrdup(dev, LP5812_SC_LED, GFP_KERNEL);
-  1620				if (!led->cdev.dev->platform_data)
-  1621					return -ENOMEM;
-  1622			}
-  1623		} else {
-  1624			ret = devm_led_classdev_multicolor_register(dev, &led->mc_cdev);
-  1625			if (ret == 0) {
-  1626				led->mc_cdev.led_cdev.dev->platform_data =
-  1627					devm_kstrdup(dev, LP5812_MC_LED, GFP_KERNEL);
-  1628				if (!led->mc_cdev.led_cdev.dev->platform_data)
-  1629					return -ENOMEM;
-  1630	
-  1631				ret = sysfs_create_groups(&led->mc_cdev.led_cdev.dev->kobj,
-  1632							  lp5812_led_groups);
-  1633				if (ret)
-  1634					dev_err(dev, "sysfs_create_groups failed\n");
-  1635			}
-  1636		}
-  1637	
-  1638		if (ret) {
-  1639			dev_err(dev, "led register err: %d\n", ret);
-  1640			return ret;
-  1641		}
-  1642	
-  1643		return 0;
-  1644	}
-  1645	
+76c8eaafe4f061 Paul E. McKenney        2021-04-21  522  
+24ba53017e188e Chun-Hung Tseng         2021-09-15  523  #define __rcu_access_pointer(p, local, space) \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  524  ({ \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  525  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+423a86a610cad1 Joel Fernandes (Google  2018-12-12  526) 	rcu_check_sparse(p, space); \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  527  	((typeof(*p) __force __kernel *)(local)); \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  528  })
+24ba53017e188e Chun-Hung Tseng         2021-09-15  529  #define __rcu_dereference_check(p, local, c, space) \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  530  ({ \
+ac59853c06993a Pranith Kumar           2014-11-13  531  	/* Dependency order vs. p above. */ \
+24ba53017e188e Chun-Hung Tseng         2021-09-15 @532  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+f78f5b90c4ffa5 Paul E. McKenney        2015-06-18  533  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage"); \
+423a86a610cad1 Joel Fernandes (Google  2018-12-12  534) 	rcu_check_sparse(p, space); \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  535  	((typeof(*p) __force __kernel *)(local)); \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  536  })
+24ba53017e188e Chun-Hung Tseng         2021-09-15  537  #define __rcu_dereference_protected(p, local, c, space) \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  538  ({ \
+f78f5b90c4ffa5 Paul E. McKenney        2015-06-18  539  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
+423a86a610cad1 Joel Fernandes (Google  2018-12-12  540) 	rcu_check_sparse(p, space); \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  541  	((typeof(*p) __force __kernel *)(p)); \
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  542  })
+24ba53017e188e Chun-Hung Tseng         2021-09-15  543  #define __rcu_dereference_raw(p, local) \
+995f1405610bd8 Paul E. McKenney        2016-07-01  544  ({ \
+995f1405610bd8 Paul E. McKenney        2016-07-01  545  	/* Dependency order vs. p above. */ \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  546  	typeof(p) local = READ_ONCE(p); \
+24ba53017e188e Chun-Hung Tseng         2021-09-15  547  	((typeof(*p) __force __kernel *)(local)); \
+995f1405610bd8 Paul E. McKenney        2016-07-01  548  })
+24ba53017e188e Chun-Hung Tseng         2021-09-15  549  #define rcu_dereference_raw(p) __rcu_dereference_raw(p, __UNIQUE_ID(rcu))
+ca5ecddfa8fcbd Paul E. McKenney        2010-04-28  550  
+
+:::::: The code at line 532 was first introduced by commit
+:::::: 24ba53017e188e031f9cb8b290286fad52d2af00 rcu: Replace ________p1 and _________p1 with __UNIQUE_ID(rcu)
+
+:::::: TO: Chun-Hung Tseng <henrybear327@gmail.com>
+:::::: CC: Paul E. McKenney <paulmck@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
