@@ -1,99 +1,188 @@
-Received: from mail-qk1-f201.google.com (mail-qk1-f201.google.com [209.85.222.201])
+Received: from mail-vk1-f202.google.com (mail-vk1-f202.google.com [209.85.221.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81CDE155C82
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 18:04:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1236286425
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 18:11:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750097068; cv=none; b=YuNKj2lsL3squ6xmCJkwJW/tc82AD6FcQF3EntmQT7wsHYmxRHR3q1qb+RI9q6JXJ/mrS/gO+9SW6iQv1/sQE/jolsbRnNsPkndVoD1qZq4VaFC4jT6N3xXt4fFDAqBNU4Vvj9hmxUqz+ABnWMg5Bhk9RtqgFthzc0x4CCttSUU=
+	t=1750097508; cv=none; b=cUrLd11sQQzWyru+aUXSGcoxc//KDw7n+Zz6mXjRPkcfgtWw1uDEL/ACEMDQ3OTKRUbjSpvn1Havza74GQjKkJl+u/VwQPqPjW3RViAazbmIGWKPc3kh3kLPb0umUGS0nzA5o4TdDNQFC2+2yxN3hAJPRz/wBwpI/niazEdW23o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750097068; c=relaxed/simple;
-	bh=ieUrBpxnhAcHZVPIDjWg8YrjgXlXZRU0bnijma7YrcQ=;
+	s=arc-20240116; t=1750097508; c=relaxed/simple;
+	bh=GcubAK2X5FhvX3lKn31wF5WScXm/MYVsYGhQM9zkOGI=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=FKK9mxTxLBQgvnFP/HuCDwnd4oRrucayx5nn3m5paBzoT5xPCbbXyvB6bYviaWRjIXGcpNDqJhBboVvGYboBYCFHuuXMDDHJtWdQ5mdaGNNEG2iFEcIkRz+jmRsMHTQ/9zdpXMHfovojs+tSk9IwunWs+6dde5j1sY1Sjrnz0zY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rybmyrCk; arc=none smtp.client-ip=209.85.222.201
+	 To:Cc:Content-Type; b=PzK4vyKHqwCCfuuf8sWGWOli84tsgfgUvoQHALo4t7cUu+NtTV4hZgD6py5ZskKuuqYcazGnUEszn6PvXk8QG5ZtGR7h8w0VJz1y28iGSdFYzVYQAMrkH1PwInPQoqv9OG8QRL7zrUptE8LWejVOYbWyX5q+1n1vzQUfE3Y5S90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BzLFJSgc; arc=none smtp.client-ip=209.85.221.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthoughton.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rybmyrCk"
-Received: by mail-qk1-f201.google.com with SMTP id af79cd13be357-7c790dc38b4so819250985a.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 11:04:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BzLFJSgc"
+Received: by mail-vk1-f202.google.com with SMTP id 71dfb90a1353d-5314cb7972dso436577e0c.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 11:11:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750097064; x=1750701864; darn=lists.linux.dev;
+        d=google.com; s=20230601; t=1750097505; x=1750702305; darn=lists.linux.dev;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6s05CdLcRzyi2nsOTKC32FfCxvZXUgETWtMCfMXqdTs=;
-        b=rybmyrCkiX7lx9GQUqGOqYTcewfpJd5dZvWA0MNTAY5ceCc1SGezz63n+kq1bt4H+e
-         T3/wKFgHwAmqjxPXBvdzsOFyWkicurRg45wvHvRXYmlFhWSteOjkZNGD58Zyw4tq+kKz
-         E7v7+epmP2IvpcxpRey8tYOYkHQh7HmL03pGaWxU7Du11bGWjtlwf4WA18bkZpCVqJbm
-         4OvbkF8s2jzpuwiGnflbYtkOUJKTmhf7feUyTdh1VvKBqUhw/SrzDIIry9t9A934o31r
-         1z4ByUvONZuqZsCfBkmVY8gZBuwZ1lcgHeCGMZ2/9vQAnf5D93LmkvaLl7CXJMgq2HjK
-         fqWw==
+        bh=pigkyW7BcI5mVhb+n24BJs2W1x6DRYe3DJp6TE42oBU=;
+        b=BzLFJSgcSBkQJwS2o87HIgsOPvK+BKEt4B27SJ2hkIjBWzmw47InX4/CG71YS8FB/c
+         2gnYfPmw3WDPog7REHve7DPC79A/SCjmShhqtlVr7yBl9uyyO1glDh+BZkRFtc51RbHn
+         G3kZcjCTyKYUAtlYDur88y31zsEyZSXpCQOhSllNjvEaSITCkNKZhQ+e2ONahecmMcWq
+         PiLsyveEt5IiWA3aZs5ZdvyfB5PqzrTm9o2dccjP+N1NlQMTQqBIHOjrBf7/NcOnTYM6
+         no1dKb1qw8g4DRAiZXWCx+o2Biz+rmS0+uvhGm+QawZ+T6byTdE/luF6iLbfjlUj/Nvp
+         IVRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750097064; x=1750701864;
+        d=1e100.net; s=20230601; t=1750097505; x=1750702305;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6s05CdLcRzyi2nsOTKC32FfCxvZXUgETWtMCfMXqdTs=;
-        b=U6sQC+OfclVVW+s0ykiHMHLAQPGURh6+WkEdnWrrb6rHWoG3g2HPervpD3LokBNH3j
-         SIWxXJackbHN7J3lgEk993XAAaAbKtpNV49Airw6nMr0808bp9srKsPXpIzjQEkMjUgk
-         e8bNrkmtrQzskszekk2CnGJdzTwxAJiRy5B8tlpKhZxatGZB+qYwZNUPY1V2lLC/NyMe
-         4YLBbVW1KFQSWTKqtTHwePYIbFTQ0F5otd+EASQcmqAEDYBSYnYMk8GDyopKeMGeJSqC
-         rqWS/aFNk+Sac3sXkRKXJBvURiDCM6+pBFM0brMcBIIwkGCRAf4jj83ZbQ39epG7MjeL
-         6V6Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVZ1gRC9UDa5dlemDPhvq8GTojx72tLmvm3N71R3vyOfGY/M4uoeHc8qKZVN3Y1k3QkWKL6FCLA5AVH/CWt@lists.linux.dev
-X-Gm-Message-State: AOJu0YwTWKceUcpM4I7DuumczD812JyNTn0OqT3klcErNlxVQH4ZamCB
-	F8BlSygxY/P3/oItEUnaVL5NgpnLESMz7E2EBvTJoFSCp4OPTCFWwTmJ3UhurlqYz7zH01kVkuI
-	WEn+Dt9TFvdiFUdhYhSKXPA==
-X-Google-Smtp-Source: AGHT+IE18+eJ2mJb0IiEY7AbbpEu86bBMFRR0dra4DbsFH8VnDPOgkInNK1ZU3CtXj87hevrPmaWTiBTb6wKlYzP
-X-Received: from uabch3.prod.google.com ([2002:a05:6130:c83:b0:87e:c20a:bcb1])
+        bh=pigkyW7BcI5mVhb+n24BJs2W1x6DRYe3DJp6TE42oBU=;
+        b=B2aGAELVslhNjMAXpxGbt01cMKt4a/vdr6srC1beTWwTbnByQ8/LuwVBS2QkIQojr3
+         WabvIF7qckW5sWRTfoJH5AHycXKzyI6Sd1uT5V8g9ddIeKAQHB7WppRBEm7KlANM/e4l
+         SGfgGSXmzXQCogChsMIbp8Vj7WeQF+37tnvNseWuaW+RLtjs0r7Asg6ZPa2mQHd6VC06
+         LWyS9p3kcmLe4CQppu+sqkjuaPDl5UKFyGG/Z+4nb+KTHJ5i2qdtrRmXy+RE4B1bbV9+
+         NXetEnbj/CF+CqOIDBPK0ogjuBGWB2oEcnENhPzJb9kdx/KlUdH+NPo+dS3xdDUMZu4t
+         +CPw==
+X-Forwarded-Encrypted: i=1; AJvYcCUEuVq+H6g9fAzPYv+sHQnxqHGFxF7PX4JAYVLvdTj1BFYNepBdu3aALcr3yAYr9Eqey/Z4JbksGyqFe/i0@lists.linux.dev
+X-Gm-Message-State: AOJu0Yz9gdlyk+rDEPYz4UKPhOHX6j6PTgmRrwkKiuwh3wJFG6parctF
+	YSVgeqTSPaP7X6z/ulxqaDxMaFaNpWlgYE1Dh7iaQtImydAt2rnNInl8RcGQp44CBl+YXYSoF0v
+	9Xw7SyaEDeoz4bIPF/SlYug==
+X-Google-Smtp-Source: AGHT+IFZXqypOEwxBtiFkSoL0Ikspp8t9OtsymhRtCWrWcv9rJUKo8igKv++c/FKV95j2ID8qgoztEyOhECx1j5T
+X-Received: from vkbej10.prod.google.com ([2002:a05:6122:270a:b0:530:2c3a:a725])
  (user=jthoughton job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:620a:2714:b0:7ce:fc0b:d39d with SMTP id af79cd13be357-7d3c5125037mr1849533285a.6.1750097064527;
- Mon, 16 Jun 2025 11:04:24 -0700 (PDT)
-Date: Mon, 16 Jun 2025 18:04:23 +0000
-In-Reply-To: <202506142050.kfDUdARX-lkp@intel.com>
+ 2002:a05:6122:1b06:b0:531:172b:afe9 with SMTP id 71dfb90a1353d-53149927135mr7044462e0c.2.1750097504989;
+ Mon, 16 Jun 2025 11:11:44 -0700 (PDT)
+Date: Mon, 16 Jun 2025 18:11:44 +0000
+In-Reply-To: <202506142129.ClBlxdtW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 Mime-Version: 1.0
-References: <202506142050.kfDUdARX-lkp@intel.com>
+References: <202506142129.ClBlxdtW-lkp@intel.com>
 X-Mailer: git-send-email 2.50.0.rc2.692.g299adb8693-goog
-Message-ID: <20250616180423.2859920-1-jthoughton@google.com>
-Subject: Re: [PATCH v4 1/7] KVM: x86/mmu: Track TDP MMU NX huge pages separately
+Message-ID: <20250616181144.2874709-1-jthoughton@google.com>
+Subject: Re: [PATCH v4 3/7] KVM: x86/mmu: Recover TDP MMU NX huge pages using
+ MMU read lock
 From: James Houghton <jthoughton@google.com>
-To: lkp@intel.com
+To: lkp@intel.com, pbonzini@redhat.com, seanjc@google.com
 Cc: dmatlack@google.com, jthoughton@google.com, kvm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
-	pbonzini@redhat.com, seanjc@google.com, vipinsh@google.com
+	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, vipinsh@google.com
 Content-Type: text/plain; charset="UTF-8"
 
 > All errors (new ones prefixed by >>):
 > 
->    arch/x86/kvm/mmu/mmu.c: In function 'kvm_recover_nx_huge_pages':
-> >> arch/x86/kvm/mmu/mmu.c:7609:38: error: 'KVM_TDP_MMU' undeclared (first use in this function)
->     7609 |                 else if (mmu_type == KVM_TDP_MMU)
->          |                                      ^~~~~~~~~~~
->    arch/x86/kvm/mmu/mmu.c:7609:38: note: each undeclared identifier is reported only once for each function it appears in
+>    arch/x86/kvm/mmu/mmu.c:7570:28: error: use of undeclared identifier 'KVM_TDP_MMU'
+>     7570 |         bool is_tdp = mmu_type == KVM_TDP_MMU;
+>          |                                   ^
+> >> arch/x86/kvm/mmu/mmu.c:7594:25: error: no member named 'tdp_mmu_pages_lock' in 'struct kvm_arch'
+>     7594 |                         spin_lock(&kvm->arch.tdp_mmu_pages_lock);
+>          |                                    ~~~~~~~~~ ^
+>    arch/x86/kvm/mmu/mmu.c:7597:28: error: no member named 'tdp_mmu_pages_lock' in 'struct kvm_arch'
+>     7597 |                                 spin_unlock(&kvm->arch.tdp_mmu_pages_lock);
+>          |                                              ~~~~~~~~~ ^
+>    arch/x86/kvm/mmu/mmu.c:7617:27: error: no member named 'tdp_mmu_pages_lock' in 'struct kvm_arch'
+>     7617 |                         spin_unlock(&kvm->arch.tdp_mmu_pages_lock);
+>          |                                      ~~~~~~~~~ ^
+>    4 errors generated.
 
-Sorry for not trying to build on i386. :(
+Fixup for this below.
 
-Fixup for this, as Sean originally had[1]:
+I also realized that the variable name `is_tdp` is bad/misleading, so I've
+changed it to `is_tdp_mmu` as part of this fixup too. Sean/Paolo, let me know
+if I should just go ahead and post the fixed series, given the size of this
+fixup.
 
-[1]: https://lore.kernel.org/kvm/ZyJCjJx2lxnEnDwa@google.com/
+I don't really like having to #ifdef all the places where we take
+tdp_mmu_pages_lock, but I couldn't find a way to avoid that. Even doing
 
-diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
-index 9df15c9717771..d544a269c1920 100644
---- a/arch/x86/include/asm/kvm_host.h
-+++ b/arch/x86/include/asm/kvm_host.h
-@@ -1358,6 +1358,10 @@ enum kvm_mmu_type {
- 	KVM_NR_MMU_TYPES,
- };
+  #ifndef CONFIG_X86_64
+  #define is_tdp_mmu false
+  #endif
+
+didn't work. :(
+
+Anyway, here's the fixup:
+
+diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
+index 10ba328b664d7..7df1b4ead705b 100644
+--- a/arch/x86/kvm/mmu/mmu.c
++++ b/arch/x86/kvm/mmu/mmu.c
+@@ -7564,10 +7564,10 @@ static bool kvm_mmu_sp_dirty_logging_enabled(struct kvm *kvm,
+ }
  
-+#ifndef CONFIG_X86_64
-+#define KVM_TDP_MMU -1
+ static void kvm_recover_nx_huge_pages(struct kvm *kvm,
+-				      enum kvm_mmu_type mmu_type)
++				      const enum kvm_mmu_type mmu_type)
+ {
+ 	unsigned long to_zap = nx_huge_pages_to_zap(kvm, mmu_type);
+-	bool is_tdp = mmu_type == KVM_TDP_MMU;
++	bool is_tdp_mmu = mmu_type == KVM_TDP_MMU;
+ 	struct list_head *nx_huge_pages;
+ 	struct kvm_mmu_page *sp;
+ 	LIST_HEAD(invalid_list);
+@@ -7577,7 +7577,7 @@ static void kvm_recover_nx_huge_pages(struct kvm *kvm,
+ 	nx_huge_pages = &kvm->arch.possible_nx_huge_pages[mmu_type].pages;
+ 
+ 	rcu_idx = srcu_read_lock(&kvm->srcu);
+-	if (is_tdp)
++	if (is_tdp_mmu)
+ 		read_lock(&kvm->mmu_lock);
+ 	else
+ 		write_lock(&kvm->mmu_lock);
+@@ -7590,11 +7590,15 @@ static void kvm_recover_nx_huge_pages(struct kvm *kvm,
+ 	rcu_read_lock();
+ 
+ 	for ( ; to_zap; --to_zap) {
+-		if (is_tdp)
++#ifdef CONFIG_X86_64
++		if (is_tdp_mmu)
+ 			spin_lock(&kvm->arch.tdp_mmu_pages_lock);
 +#endif
-+
- struct kvm_arch {
- 	unsigned long n_used_mmu_pages;
- 	unsigned long n_requested_mmu_pages;
+ 		if (list_empty(nx_huge_pages)) {
+-			if (is_tdp)
++#ifdef CONFIG_X86_64
++			if (is_tdp_mmu)
+ 				spin_unlock(&kvm->arch.tdp_mmu_pages_lock);
++#endif
+ 			break;
+ 		}
+ 
+@@ -7613,8 +7617,10 @@ static void kvm_recover_nx_huge_pages(struct kvm *kvm,
+ 
+ 		unaccount_nx_huge_page(kvm, sp);
+ 
+-		if (is_tdp)
++#ifdef CONFIG_X86_64
++		if (is_tdp_mmu)
+ 			spin_unlock(&kvm->arch.tdp_mmu_pages_lock);
++#endif
+ 
+ 		/*
+ 		 * Do not attempt to recover any NX Huge Pages that are being
+@@ -7624,7 +7630,7 @@ static void kvm_recover_nx_huge_pages(struct kvm *kvm,
+ 		 * logging is disabled.
+ 		 */
+ 		if (!kvm_mmu_sp_dirty_logging_enabled(kvm, sp)) {
+-			if (is_tdp)
++			if (is_tdp_mmu)
+ 				flush |= kvm_tdp_mmu_zap_possible_nx_huge_page(kvm, sp);
+ 			else
+ 				kvm_mmu_prepare_zap_page(kvm, sp, &invalid_list);
+@@ -7637,7 +7643,7 @@ static void kvm_recover_nx_huge_pages(struct kvm *kvm,
+ 			kvm_mmu_remote_flush_or_zap(kvm, &invalid_list, flush);
+ 			rcu_read_unlock();
+ 
+-			if (is_tdp)
++			if (is_tdp_mmu)
+ 				cond_resched_rwlock_read(&kvm->mmu_lock);
+ 			else
+ 				cond_resched_rwlock_write(&kvm->mmu_lock);
+@@ -7650,7 +7656,7 @@ static void kvm_recover_nx_huge_pages(struct kvm *kvm,
+ 
+ 	rcu_read_unlock();
+ 
+-	if (is_tdp)
++	if (is_tdp_mmu)
+ 		read_unlock(&kvm->mmu_lock);
+ 	else
+ 		write_unlock(&kvm->mmu_lock);
