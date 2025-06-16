@@ -1,144 +1,202 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1CC54BC6
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 07:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60620211A15
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 08:49:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750059281; cv=none; b=e69YJcsuXbz/8GRQ2Wah0DTxnl9Be0yviyu7+4tEDXHVwOhQxyzMjUMg22eM/l+npZltxcxInwc2E45+1SLnLu80jkcTuSmPFq8pNp01oD4p7497d0VAgJiTl20+4v1lI+rZPTTz7aycSzW4w0l7VacGPO/YFSbK2WJ3bIzmSqI=
+	t=1750063755; cv=none; b=AxT8SWqmnqaVoNtaeqgp9MFgA5bQgDnXfzFrZyl/8DT4h5lGx4vUr4DclLsqLzFcrkxh95QiQvvdJtHKST088rccOjjOWU+9nZ9u1PW1JvAysFD8MKCp9IYi3QLS4/uZaLHPfuPTQOxH0LkCxSNFzvcJBtwxhynTjAbkNyBw14M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750059281; c=relaxed/simple;
-	bh=djzcma3tCsbyWM3OBsA76GyXgCeHr0XEhbO9sqlvzVo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HOpo5rThrIfyAZz73LhvaQOvGl5HyaF/DIZS2qkXO4nYvM9r+4xEbGRxHCHQkoxZKrYw56MifiIsTDE5aOoTratFeRpByiefz04MSi6kKCWdHsu9RecJu80h9KE5uP8Pi7lg4cZSh2D1xgE4gMYghMRcR2XjZe6uGkY8KLGaKXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KYbc2GW3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750063755; c=relaxed/simple;
+	bh=Wu3cM/QclpjJdTGyPMWlxQjpBBu+2WRVZaFqExxDSPA=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type; b=bWQn0MhPxnAbJm62XlvGcCFFam88BAItqW/0gFliPqGfCd5M/GSgPRzvRshC50kjLhq3+/1iSZHfwW7LUCTW8gvyab5pk5ybzTtIHscFVdt1dMTgnGDWNYITPjUXBxC28SjCEk+H7B67RE546N+Ury6V5z0Zasp6lvLsI3GhL50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=uwyEbQqf; arc=none smtp.client-ip=192.134.164.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KYbc2GW3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C16EC4CEEA;
-	Mon, 16 Jun 2025 07:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750059280;
-	bh=djzcma3tCsbyWM3OBsA76GyXgCeHr0XEhbO9sqlvzVo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KYbc2GW3XlB1TrpLFUsar80G4R9zhuOYkHnSmq1tCOriF6bEmjtudDa666lp+GYqN
-	 rQ3hE3jGjzPiduXTmfkbYdU9PPCl2SpgWCKSKCgy+7UkW8EffEhUdoq405TmadMGsq
-	 1A2px+Y/ylyRd4GiVSPAjKqEAslziQvbjGeS7a+9QKzsUIo56EFaIevOpst7cvom//
-	 OxLsGAKIPviM3geeTuIDR7EUd9cvDRTYqezfY4QKsRqq0QT+vQ7TCmz9fw2/tgmGRR
-	 93gANWrll6D+8tYq/6pSCN1NwwhugYBJaPsDevKU6sFvbEoxyNWvoI1KrR7tqpVQVm
-	 E1u8eP2Ips0mw==
-Message-ID: <dd18b287-0c01-480e-86f2-1723a545e845@kernel.org>
-Date: Mon, 16 Jun 2025 09:34:36 +0200
+	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="uwyEbQqf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=inria.fr; s=dc;
+  h=date:from:to:subject:message-id:mime-version;
+  bh=KZDN4Bgff2aTY1+TvqcmhuWCDl/OGItdWvDYWwO1fZc=;
+  b=uwyEbQqfjOkFLbwTuk5JJMiHsoEBNoiLjAIxISz7M2fNq0prM0S5ar43
+   vio5BvbQ56w2QqSpyk34Z5H+4+QQjwuVx0CxtK4KgE+MeuB04AzqbXY9V
+   8Pd4HaF8nxNKMcEEvTXVBMppdd4dFN+gtJifCQvpSxgRMHiOBVvAGv6lB
+   g=;
+Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
+X-IronPort-AV: E=Sophos;i="6.16,240,1744063200"; 
+   d="scan'208";a="227328357"
+Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 10:49:08 +0200
+Date: Mon, 16 Jun 2025 10:49:08 +0200 (CEST)
+From: Julia Lawall <julia.lawall@inria.fr>
+To: Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
+    oe-kbuild-all@lists.linux.dev
+Subject: [iwlwifi-next:next 11/45] drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans-gen2.c:550:2-8:
+ preceding lock on line 496 (fwd)
+Message-ID: <dd0725c-ba77-a426-7971-3d7afe5e98c@inria.fr>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 1625/2468]
- arch/arm64/boot/dts/qcom/qcs8550-aim300-aiot.dtb: clock-controller@ade0000
- (qcom,sm8550-camcc): power-domains: [[56, 6]] is too short
-To: Jagadeesh Kona <quic_jkona@quicinc.com>, kernel test robot
- <lkp@intel.com>, Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Bjorn Andersson <andersson@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Taniya Das <quic_tdas@quicinc.com>, Ajit Pandey <quic_ajipan@quicinc.com>,
- Imran Shaik <quic_imrashai@quicinc.com>
-References: <202506151907.LcLf1RIB-lkp@intel.com>
- <a13c8ffd-87ed-4821-8647-710c792f3466@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <a13c8ffd-87ed-4821-8647-710c792f3466@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
-On 16/06/2025 09:27, Jagadeesh Kona wrote:
->>    arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): power-domains: [[79, 6]] is too short
->>    	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
->>    arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): Unevaluated properties are not allowed ('power-domains' was unexpected)
->>    	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
->>>> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): power-domains: [[79, 6]] is too short
->>    	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
->>>> arch/arm64/boot/dts/qcom/sm8650-mtp.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): Unevaluated properties are not allowed ('power-domains' was unexpected)
->>    	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
->> --
->>    arch/arm64/boot/dts/qcom/sm8650.dtsi:5299.27-5355.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@ae00000/dsi@ae96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->>    arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): power-domains: [[79, 6]] is too short
->>    	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
->>    arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): Unevaluated properties are not allowed ('power-domains' was unexpected)
->>    	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
->>>> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): power-domains: [[79, 6]] is too short
->>    	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
->>>> arch/arm64/boot/dts/qcom/sm8650-qrd.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): Unevaluated properties are not allowed ('power-domains' was unexpected)
->>    	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
->> --
->>    arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): power-domains: [[79, 6]] is too short
->>    	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
->>    arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: clock-controller@aaf0000 (qcom,sm8650-videocc): Unevaluated properties are not allowed ('power-domains' was unexpected)
->>    	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-videocc.yaml#
->>>> arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): power-domains: [[79, 6]] is too short
->>    	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
->>>> arch/arm64/boot/dts/qcom/sm8650-hdk-display-card.dtb: clock-controller@ade0000 (qcom,sm8650-camcc): Unevaluated properties are not allowed ('power-domains' was unexpected)
->>    	from schema $id: http://devicetree.org/schemas/clock/qcom,sm8450-camcc.yaml#
->>
-> 
-> Hi Bjorn,
-> 
-> This and the below kernel test robot warning[1] is due to dt-bindings changes (patches 1-3) being applied to linux-next tree and
-> the corresponding DTS changes(patches 13-18) are not yet applied to linux-next in the PLL multi PD voting series[2].
-> 
-> I apologise for not mentioning this dependency detail in cover letter. Can you please help to pick DTS patches also from below series[2]?
+It looks like there is a missing unlock on line 550.  If the lock is held
+for the entire scope of the function, then maybe guard would be
+appropriate.
 
+julia
 
-DTS is independent and goes to different tree/different branch, thus
-bisectability is anyway affected.
+---------- Forwarded message ----------
+Date: Mon, 16 Jun 2025 15:00:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
+Subject: [iwlwifi-next:next 11/45]
+    drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans-gen2.c:550:2-8:
+    preceding lock on line 496
 
-Your DT bindings patch just documents breaking the ABI, and that's the
-another issue here. Broken DTS check is just upstream visible issue.
+BCC: lkp@intel.com
+CC: oe-kbuild-all@lists.linux.dev
+TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
 
-Best regards,
-Krzysztof
+Hi Miri,
+
+First bad commit (maybe != root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git next
+head:   445241ba367ab74aa5eaa61fdf43551c451c2fe4
+commit: aeee73e27f2d2eb8c389e13e99d16618fae55285 [11/45] wifi: iwlwifi: pcie: move generation specific files to a folder
+:::::: branch date: 18 hours ago
+:::::: commit date: 5 days ago
+config: x86_64-randconfig-103-20250616 (https://download.01.org/0day-ci/archive/20250616/202506161436.H7OcUVvl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Julia Lawall <julia.lawall@inria.fr>
+| Closes: https://lore.kernel.org/r/202506161436.H7OcUVvl-lkp@intel.com/
+
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans-gen2.c:550:2-8: preceding lock on line 496
+
+vim +550 drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans-gen2.c
+
+25628bc08d4526d drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-03-26  485
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  486  int iwl_trans_pcie_gen2_start_fw(struct iwl_trans *trans,
+a94d0189961c4e5 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-03  487  				 const struct iwl_fw *fw,
+a94d0189961c4e5 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-03  488  				 const struct fw_img *img,
+a94d0189961c4e5 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-03  489  				 bool run_in_rfkill)
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  490  {
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  491  	struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
+70582b826365d27 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2023-04-13  492  	bool hw_rfkill, keep_ram_busy;
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  493  	bool top_reset_done = false;
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  494  	int ret;
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  495
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30 @496  	mutex_lock(&trans_pcie->mutex);
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  497  again:
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  498  	/* This may fail if AMT took ownership of the device */
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  499  	if (iwl_pcie_prepare_card_hw(trans)) {
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  500  		IWL_WARN(trans, "Exit HW not ready\n");
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  501  		ret = -EIO;
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  502  		goto out;
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  503  	}
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  504
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  505  	iwl_enable_rfkill_int(trans);
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  506
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  507  	iwl_write32(trans, CSR_INT, 0xFFFFFFFF);
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  508
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  509  	/*
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  510  	 * We enabled the RF-Kill interrupt and the handler may very
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  511  	 * well be running. Disable the interrupts to make sure no other
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  512  	 * interrupt can be fired.
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  513  	 */
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  514  	iwl_disable_interrupts(trans);
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  515
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  516  	/* Make sure it finished running */
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  517  	iwl_pcie_synchronize_irqs(trans);
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  518
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  519  	/* If platform's RF_KILL switch is NOT set to KILL */
+9ad8fd0b4a24e64 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2017-06-20  520  	hw_rfkill = iwl_pcie_check_hw_rf_kill(trans);
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  521  	if (hw_rfkill && !run_in_rfkill) {
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  522  		ret = -ERFKILL;
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  523  		goto out;
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  524  	}
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  525
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  526  	/* Someone called stop_device, don't try to start_fw */
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  527  	if (trans_pcie->is_down) {
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  528  		IWL_WARN(trans,
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  529  			 "Can't start_fw since the HW hasn't been started\n");
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  530  		ret = -EIO;
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  531  		goto out;
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  532  	}
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  533
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  534  	/* make sure rfkill handshake bits are cleared */
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  535  	iwl_write32(trans, CSR_UCODE_DRV_GP1_CLR, CSR_UCODE_SW_BIT_RFKILL);
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  536  	iwl_write32(trans, CSR_UCODE_DRV_GP1_CLR,
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  537  		    CSR_UCODE_DRV_GP1_BIT_CMD_BLOCKED);
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  538
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  539  	/* clear (again), then enable host interrupts */
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  540  	iwl_write32(trans, CSR_INT, 0xFFFFFFFF);
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  541
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  542  	ret = iwl_pcie_gen2_nic_init(trans);
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  543  	if (ret) {
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  544  		IWL_ERR(trans, "Unable to init nic\n");
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  545  		goto out;
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  546  	}
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  547
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  548  	if (WARN_ON(trans->do_top_reset &&
+c96a36491003d7a drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-08  549  		    trans->mac_cfg->device_family < IWL_DEVICE_FAMILY_SC))
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30 @550  		return -EINVAL;
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  551
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  552  	/* we need to wait later - set state */
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  553  	if (trans->do_top_reset)
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  554  		trans_pcie->fw_reset_state = FW_RESET_TOP_REQUESTED;
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  555
+c96a36491003d7a drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-08  556  	if (trans->mac_cfg->device_family >= IWL_DEVICE_FAMILY_AX210) {
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  557  		if (!top_reset_done) {
+22a67414f4bae22 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Miri Korenblit 2025-05-11  558  			ret = iwl_pcie_ctxt_info_v2_alloc(trans, fw, img);
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  559  			if (ret)
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  560  				goto out;
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  561  		}
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  562
+22a67414f4bae22 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Miri Korenblit 2025-05-11  563  		iwl_pcie_ctxt_info_v2_kick(trans);
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  564  	} else {
+a94d0189961c4e5 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-03  565  		ret = iwl_pcie_ctxt_info_init(trans, img);
+97b00d877bb8c2e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2017-04-19  566  		if (ret)
+97b00d877bb8c2e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2017-04-19  567  			goto out;
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  568  	}
+eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  569
+70582b826365d27 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2023-04-13  570  	keep_ram_busy = !iwl_pcie_set_ltr(trans);
+25628bc08d4526d drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-03-26  571
+c96a36491003d7a drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-08  572  	if (trans->mac_cfg->device_family >= IWL_DEVICE_FAMILY_BZ) {
+70d400ba7fa71d1 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2024-07-29  573  		IWL_DEBUG_POWER(trans, "function scratch register value is 0x%08x\n",
+70d400ba7fa71d1 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2024-07-29  574  				iwl_read32(trans, CSR_FUNC_SCRATCH));
+595c230b95130b2 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Matti Gottlieb 2021-08-26  575  		iwl_write32(trans, CSR_FUNC_SCRATCH, CSR_FUNC_SCRATCH_INIT_VALUE);
+9ce041f5966fd07 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-08-02  576  		iwl_set_bit(trans, CSR_GP_CNTRL,
+9ce041f5966fd07 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-08-02  577  			    CSR_GP_CNTRL_REG_FLAG_ROM_START);
+c96a36491003d7a drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-08  578  	} else if (trans->mac_cfg->device_family >= IWL_DEVICE_FAMILY_AX210) {
+25628bc08d4526d drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-03-26  579  		iwl_write_umac_prph(trans, UREG_CPU_INIT_RUN, 1);
+595c230b95130b2 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Matti Gottlieb 2021-08-26  580  	} else {
+25628bc08d4526d drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-03-26  581  		iwl_write_prph(trans, UREG_CPU_INIT_RUN, 1);
+595c230b95130b2 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Matti Gottlieb 2021-08-26  582  	}
+25628bc08d4526d drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-03-26  583
+70582b826365d27 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2023-04-13  584  	if (keep_ram_busy)
+70582b826365d27 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2023-04-13  585  		iwl_pcie_spin_for_iml(trans);
+70582b826365d27 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2023-04-13  586
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  587  	if (trans->do_top_reset) {
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  588  		trans->do_top_reset = 0;
+909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  589
+
+:::::: The code at line 550 was first introduced by commit
+:::::: 909e1be6546258efb45993851d51d86862e2e5ee wifi: iwlwifi: implement TOP reset
+
+:::::: TO: Johannes Berg <johannes.berg@intel.com>
+:::::: CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
