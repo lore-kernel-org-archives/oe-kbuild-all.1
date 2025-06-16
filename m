@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122492BEFF0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 17:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB5F2820AC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 17:40:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750095043; cv=none; b=EAzdQxPdV9zoqmhlvvvQlGI8zmnsnKeW9s+ebf6uhzO877yW4P8nm4/kxxCag40f0WYHBVJsLToVmFW69hoSW4iuIkO7n730uVtB/5IPNj8MjdAjT0IP6b+CXodiaj34l6eU037PQKmgIs83F6RXybz0o1njWv2egHS4ETa69WI=
+	t=1750095642; cv=none; b=j69yqe4KgtB7yN9W1mtQH+Fcl1TuEFrVJAaR1d0fF5zYCSvJZD9kytAlzQo/damwwT4MYZx1ha1ZnUR025VTWj7cg6E7ln4CQ/JxHlgcJPXdIS1EFRmynax53x1yXwHhJxcmju+GDxcgfMe6sBXQAv31zH/LGy7wZ6Kw763ELvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750095043; c=relaxed/simple;
-	bh=bYKMIqZ4G5K3z1FUvr+FUVYy85Ipmual7nV7ti934oQ=;
+	s=arc-20240116; t=1750095642; c=relaxed/simple;
+	bh=LbkfP5Bd/5UM8IUxg/VZj9uOY/6cK5iEjqviX1HJq2E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ge+mkrfP+KtNwrr6zZ6NKc9Wa1WIor8SzzpiL0DTnEunFGRiV+SaMNj9WGOcumGGygbgND/Vp6BixSznxxBbBofmrBmr9adCJqANfH8rXwQvU/QffvVWjkotojYNASg6sDWYUCMdqm8QcH9O9f85yAgNEAYCZrqsNhoN/Bx7Zp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rn3B270Z; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=E/dE1EbW2RfjsF6kPF82zaihbmReu/KVTwA8BcgQYqf+jzTaMT8IBCA5ak5Cx6DgzJhUy+9M2NpU/wMuzbTkij04CllMH9DN46ZYl96KFr3tTp8Qt3NISPa99aFgLTMf2rll4sb0ecIZaRCewYNY/q8skefoC6v4bDdZZ9Twkrs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UYXAAyta; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rn3B270Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UYXAAyta"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750095040; x=1781631040;
+  t=1750095641; x=1781631641;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bYKMIqZ4G5K3z1FUvr+FUVYy85Ipmual7nV7ti934oQ=;
-  b=Rn3B270ZCbu4MmVXqE0QOdMeSV9qPmAD407tvHJaCGdsHOnMmS7Dk/XY
-   ffcDCBz0jaDR3YUzT0AR7BufVxGmQLaH2yOb5pTmIUTpQfEdplqziuswP
-   OxTCguXbwvqF1i4pBy/89vlPLEuxFQw3YHVXXrZWzbZyK0SRG7iZqEKlb
-   1FG2LpHDHDx9NSh9jXlN5ocY2R8sGcel+nleLZAjC4Vf1wXI9l3yA4ilR
-   yBU9ySMbYF1uP2+L10GCqs0L0Y6hgr94JYJyXRuakf5f4IVRLc7t8wN2p
-   Gxxw9NpgAJsUpRVLfySwQKUiDNxgPQvHZw8qQ/2oKbSr9lcrHXmmQO/55
-   w==;
-X-CSE-ConnectionGUID: S8VObVCKTpyojiXBwGUtbg==
-X-CSE-MsgGUID: mwNULgYiQ0mku3vWIWM/+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="56047857"
+  bh=LbkfP5Bd/5UM8IUxg/VZj9uOY/6cK5iEjqviX1HJq2E=;
+  b=UYXAAyta1vPJLihLkO+YHroqHTQW34xK9xBIg1yztwsQbfn9oYR/ypVA
+   Nqgw0oZv0BLh4eeDw58cKS8G/zqFLusaPC4twxF2pgBZ8vT9YMprcF601
+   za+LXs1wuKgPJbF2GnQBRvu0qj/KEKaIi7/kWJTVa/uUOh7m1wuBHvf1m
+   ZwF6rfv/d9wLT43a5RRUbJhggRt9dKL2VVFT3d9h3nuCBS9hL5dKRfjZW
+   2sGJ9t8CHPq8trYi4frfE96EwbHOmk2YR1OUQiqppXL1BFpzMTJ6J9KdB
+   dUKCUekBGRxejUSOigASDB65mqX/8Y4tEfBO9fW5igrhDumRrr9OZ3eRT
+   A==;
+X-CSE-ConnectionGUID: kMPxqLZkS02CfJRYVlEw9g==
+X-CSE-MsgGUID: M+NXEUPpQwSDBWVhyf8pbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="62520758"
 X-IronPort-AV: E=Sophos;i="6.16,241,1744095600"; 
-   d="scan'208";a="56047857"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 10:30:39 -0700
-X-CSE-ConnectionGUID: IXfrSgsrRgqShH26chXsgQ==
-X-CSE-MsgGUID: c567pjN0Rk2Lgc6OSvlnAA==
+   d="scan'208";a="62520758"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 10:40:40 -0700
+X-CSE-ConnectionGUID: XJJGtaZeTnWwEszJU3qxeA==
+X-CSE-MsgGUID: 2mN1K21qReOom9H6vT/TYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,241,1744095600"; 
-   d="scan'208";a="149429496"
+   d="scan'208";a="149072348"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 16 Jun 2025 10:30:38 -0700
+  by orviesa007.jf.intel.com with ESMTP; 16 Jun 2025 10:40:39 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRDfI-000FDM-0X;
-	Mon, 16 Jun 2025 17:30:36 +0000
-Date: Tue, 17 Jun 2025 01:30:18 +0800
+	id 1uRDoy-000FDo-39;
+	Mon, 16 Jun 2025 17:40:36 +0000
+Date: Tue, 17 Jun 2025 01:40:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jinjie Ruan <ruanjinjie@huawei.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2392/2392] <instantiation>:1:5: error: expected
- absolute expression
-Message-ID: <202506170139.5RMGvcYK-lkp@intel.com>
+Subject: [linux-next:master 1866/2828]
+ arch/nios2/boot/dts/10m50_devboard.dtb: serial@18001530 (altr,juart-1.0):
+ 'interrupt-parent', 'interrupts', 'reg' do not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <202506170136.TT6okg6z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,558 +64,55 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Yipeng,
-
-FYI, the error/warning still remains.
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   852df0842f6ca5e0b4808eb4b1368aed4b492917
-commit: cf5f2d9ff017873c792298693e593dc358db6035 [2392/2392] arm64: Faster SVC exception handler with xcall
-config: arm64-randconfig-003-20250616 (https://download.01.org/0day-ci/archive/20250617/202506170139.5RMGvcYK-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250617/202506170139.5RMGvcYK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   050f8ad7b58d9079455af171ac279c4b9b828c11
+commit: ed2a6ff0234e21cd5e56b63d8bff80120bbe5f15 [1866/2828] dt-bindings: serial: Convert altr,juart-1.0 to DT schema
+config: nios2-randconfig-052-20250617 (https://download.01.org/0day-ci/archive/20250617/202506170136.TT6okg6z-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 10.5.0
+dtschema version: 2025.3.dev28+g49451a5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250617/202506170136.TT6okg6z-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506170139.5RMGvcYK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506170136.TT6okg6z-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> <instantiation>:1:5: error: expected absolute expression
-   .if 1 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 1, 64
-    ^
-   arch/arm64/kernel/entry.S:686:2: note: while in macro instantiation
-    entry_handler 1, t, 64, sync
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 1 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 1, 64
-    ^
-   arch/arm64/kernel/entry.S:687:2: note: while in macro instantiation
-    entry_handler 1, t, 64, irq
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 1 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 1, 64
-    ^
-   arch/arm64/kernel/entry.S:688:2: note: while in macro instantiation
-    entry_handler 1, t, 64, fiq
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 1 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 1, 64
-    ^
-   arch/arm64/kernel/entry.S:689:2: note: while in macro instantiation
-    entry_handler 1, t, 64, error
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 1 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 1, 64
-    ^
-   arch/arm64/kernel/entry.S:691:2: note: while in macro instantiation
-    entry_handler 1, h, 64, sync
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 1 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 1, 64
-    ^
-   arch/arm64/kernel/entry.S:692:2: note: while in macro instantiation
-    entry_handler 1, h, 64, irq
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 1 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 1, 64
-    ^
-   arch/arm64/kernel/entry.S:693:2: note: while in macro instantiation
-    entry_handler 1, h, 64, fiq
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 1 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 1, 64
-    ^
-   arch/arm64/kernel/entry.S:694:2: note: while in macro instantiation
-    entry_handler 1, h, 64, error
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 0 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:696:2: note: while in macro instantiation
-    entry_handler 0, t, 64, sync
-    ^
-   <instantiation>:33:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:696:2: note: while in macro instantiation
-    entry_handler 0, t, 64, sync
-    ^
-   <instantiation>:39:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:696:2: note: while in macro instantiation
-    entry_handler 0, t, 64, sync
-    ^
-   <instantiation>:44:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:696:2: note: while in macro instantiation
-    entry_handler 0, t, 64, sync
-    ^
-   <instantiation>:48:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:696:2: note: while in macro instantiation
-    entry_handler 0, t, 64, sync
-    ^
-   <instantiation>:56:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:696:2: note: while in macro instantiation
-    entry_handler 0, t, 64, sync
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 0 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:697:2: note: while in macro instantiation
-    entry_handler 0, t, 64, irq
-    ^
-   <instantiation>:33:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:697:2: note: while in macro instantiation
-    entry_handler 0, t, 64, irq
-    ^
-   <instantiation>:39:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:697:2: note: while in macro instantiation
-    entry_handler 0, t, 64, irq
-    ^
-   <instantiation>:44:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:697:2: note: while in macro instantiation
-    entry_handler 0, t, 64, irq
-    ^
-   <instantiation>:48:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:697:2: note: while in macro instantiation
-    entry_handler 0, t, 64, irq
-    ^
-   <instantiation>:56:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:697:2: note: while in macro instantiation
-    entry_handler 0, t, 64, irq
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 0 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:698:2: note: while in macro instantiation
-    entry_handler 0, t, 64, fiq
-    ^
-   <instantiation>:33:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:698:2: note: while in macro instantiation
-    entry_handler 0, t, 64, fiq
-    ^
-   <instantiation>:39:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:698:2: note: while in macro instantiation
-    entry_handler 0, t, 64, fiq
-    ^
-   <instantiation>:44:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:698:2: note: while in macro instantiation
-    entry_handler 0, t, 64, fiq
-    ^
-   <instantiation>:48:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:698:2: note: while in macro instantiation
-    entry_handler 0, t, 64, fiq
-    ^
-   <instantiation>:56:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:698:2: note: while in macro instantiation
-    entry_handler 0, t, 64, fiq
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 0 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:699:2: note: while in macro instantiation
-    entry_handler 0, t, 64, error
-    ^
-   <instantiation>:33:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:699:2: note: while in macro instantiation
-    entry_handler 0, t, 64, error
-    ^
-   <instantiation>:39:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:699:2: note: while in macro instantiation
-    entry_handler 0, t, 64, error
-    ^
-   <instantiation>:44:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:699:2: note: while in macro instantiation
-    entry_handler 0, t, 64, error
-    ^
-   <instantiation>:48:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:699:2: note: while in macro instantiation
-    entry_handler 0, t, 64, error
-    ^
-   <instantiation>:56:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 64
-    ^
-   arch/arm64/kernel/entry.S:699:2: note: while in macro instantiation
-    entry_handler 0, t, 64, error
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 0 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:701:2: note: while in macro instantiation
-    entry_handler 0, t, 32, sync
-    ^
-   <instantiation>:33:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:701:2: note: while in macro instantiation
-    entry_handler 0, t, 32, sync
-    ^
-   <instantiation>:39:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:701:2: note: while in macro instantiation
-    entry_handler 0, t, 32, sync
-    ^
-   <instantiation>:44:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:701:2: note: while in macro instantiation
-    entry_handler 0, t, 32, sync
-    ^
-   <instantiation>:48:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:701:2: note: while in macro instantiation
-    entry_handler 0, t, 32, sync
-    ^
-   <instantiation>:56:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:701:2: note: while in macro instantiation
-    entry_handler 0, t, 32, sync
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 0 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:702:2: note: while in macro instantiation
-    entry_handler 0, t, 32, irq
-    ^
-   <instantiation>:33:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:702:2: note: while in macro instantiation
-    entry_handler 0, t, 32, irq
-    ^
-   <instantiation>:39:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:702:2: note: while in macro instantiation
-    entry_handler 0, t, 32, irq
-    ^
-   <instantiation>:44:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:702:2: note: while in macro instantiation
-    entry_handler 0, t, 32, irq
-    ^
-   <instantiation>:48:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:702:2: note: while in macro instantiation
-    entry_handler 0, t, 32, irq
-    ^
-   <instantiation>:56:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:702:2: note: while in macro instantiation
-    entry_handler 0, t, 32, irq
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 0 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:703:2: note: while in macro instantiation
-    entry_handler 0, t, 32, fiq
-    ^
-   <instantiation>:33:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:703:2: note: while in macro instantiation
-    entry_handler 0, t, 32, fiq
-    ^
-   <instantiation>:39:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:703:2: note: while in macro instantiation
-    entry_handler 0, t, 32, fiq
-    ^
-   <instantiation>:44:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:703:2: note: while in macro instantiation
-    entry_handler 0, t, 32, fiq
-    ^
-   <instantiation>:48:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:703:2: note: while in macro instantiation
-    entry_handler 0, t, 32, fiq
-    ^
-   <instantiation>:56:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:703:2: note: while in macro instantiation
-    entry_handler 0, t, 32, fiq
-    ^
->> <instantiation>:1:5: error: expected absolute expression
-   .if 0 == 0 && std == std
-       ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:704:2: note: while in macro instantiation
-    entry_handler 0, t, 32, error
-    ^
-   <instantiation>:33:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:704:2: note: while in macro instantiation
-    entry_handler 0, t, 32, error
-    ^
-   <instantiation>:39:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:704:2: note: while in macro instantiation
-    entry_handler 0, t, 32, error
-    ^
-   <instantiation>:44:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:704:2: note: while in macro instantiation
-    entry_handler 0, t, 32, error
-    ^
-   <instantiation>:48:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:704:2: note: while in macro instantiation
-    entry_handler 0, t, 32, error
-    ^
-   <instantiation>:56:6: error: expected absolute expression
-    .if std == std
-        ^
-   <instantiation>:3:2: note: while in macro instantiation
-    kernel_entry 0, 32
-    ^
-   arch/arm64/kernel/entry.S:704:2: note: while in macro instantiation
-    entry_handler 0, t, 32, error
-    ^
-   <instantiation>:27:6: error: expected absolute expression
-    .if std == std
-        ^
-   arch/arm64/kernel/entry.S:716:2: note: while in macro instantiation
-    kernel_exit 0
-    ^
-   <instantiation>:37:6: error: expected absolute expression
-    .if std == std
-        ^
-   arch/arm64/kernel/entry.S:716:2: note: while in macro instantiation
-    kernel_exit 0
-    ^
-   <instantiation>:42:6: error: expected absolute expression
-    .if std == std
-        ^
-   arch/arm64/kernel/entry.S:716:2: note: while in macro instantiation
-    kernel_exit 0
-    ^
-   <instantiation>:46:6: error: expected absolute expression
-    .if std == std
-        ^
-   arch/arm64/kernel/entry.S:716:2: note: while in macro instantiation
-    kernel_exit 0
-    ^
-   <instantiation>:75:6: error: expected absolute expression
-    .if std == std
-        ^
-   arch/arm64/kernel/entry.S:716:2: note: while in macro instantiation
-    kernel_exit 0
-    ^
+dtcheck warnings: (new ones prefixed by >>)
+   	'reg' is a required property
+   	'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/nios2/boot/dts/10m50_devboard.dtb: sopc@0 (altr,avalon): clock@1: 'anyOf' conditional failed, one must be fixed:
+   	'reg' is a required property
+   	'ranges' is a required property
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/nios2/boot/dts/10m50_devboard.dtb: sopc@0 (altr,avalon): $nodename:0: 'sopc@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/nios2/boot/dts/10m50_devboard.dtb: /sopc@0: failed to match any schema with compatible: ['altr,avalon', 'simple-bus']
+>> arch/nios2/boot/dts/10m50_devboard.dtb: serial@18001530 (altr,juart-1.0): 'interrupt-parent', 'interrupts', 'reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/serial/altr,juart-1.0.yaml#
+   arch/nios2/boot/dts/10m50_devboard.dtb: serial@18001600 (altr,16550-FIFO32): auto-flow-control: 1 is not of type 'boolean'
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/nios2/boot/dts/10m50_devboard.dtb: serial@18001600 (altr,16550-FIFO32): Unevaluated properties are not allowed ('auto-flow-control' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
+   arch/nios2/boot/dts/10m50_devboard.dtb: /sopc@0/sysid@18001528: failed to match any schema with compatible: ['altr,sysid-1.0']
+   arch/nios2/boot/dts/10m50_devboard.dtb: ethernet@400 (altr,tse-msgdma-1.0): reg-names:2: 'tx_csr' was expected
+   	from schema $id: http://devicetree.org/schemas/net/altr,tse.yaml#
+   arch/nios2/boot/dts/10m50_devboard.dtb: ethernet@400 (altr,tse-msgdma-1.0): reg-names:3: 's1' was expected
+   	from schema $id: http://devicetree.org/schemas/net/altr,tse.yaml#
+--
+   arch/nios2/boot/dts/3c120_devboard.dts:46.11-50.4: Warning (unique_unit_address_if_enabled): /memory@0: duplicate unit-address (also used in node /sopc@0)
+   arch/nios2/boot/dts/3c120_devboard.dtb: /: failed to match any schema with compatible: ['altr,qsys_ghrd_3c120']
+   arch/nios2/boot/dts/3c120_devboard.dtb: /cpus/cpu@0: failed to match any schema with compatible: ['altr,nios2-1.0']
+   arch/nios2/boot/dts/3c120_devboard.dtb: sopc@0 (altr,avalon): $nodename:0: 'sopc@0' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/nios2/boot/dts/3c120_devboard.dtb: /sopc@0: failed to match any schema with compatible: ['altr,avalon', 'simple-bus']
+   arch/nios2/boot/dts/3c120_devboard.dtb: bridge@8000000 (simple-bus): $nodename:0: 'bridge@8000000' does not match '^([a-z][a-z0-9\\-]+-bus|bus|localbus|soc|axi|ahb|apb)(@.+)?$'
+   	from schema $id: http://devicetree.org/schemas/simple-bus.yaml#
+   arch/nios2/boot/dts/3c120_devboard.dtb: /sopc@0/bridge@8000000/timer@400000: failed to match any schema with compatible: ['altr,timer-1.0']
+   arch/nios2/boot/dts/3c120_devboard.dtb: /sopc@0/bridge@8000000/timer@8000: failed to match any schema with compatible: ['altr,timer-1.0']
+>> arch/nios2/boot/dts/3c120_devboard.dtb: serial@4d50 (altr,juart-1.0): 'interrupt-parent', 'interrupts', 'reg' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/serial/altr,juart-1.0.yaml#
+   arch/nios2/boot/dts/3c120_devboard.dtb: /sopc@0/bridge@8000000/serial@4c80: failed to match any schema with compatible: ['altr,uart-1.0']
 
 -- 
 0-DAY CI Kernel Test Service
