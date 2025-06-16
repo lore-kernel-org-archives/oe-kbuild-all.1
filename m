@@ -1,91 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F18112BF013;
-	Mon, 16 Jun 2025 13:44:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84DA42BF000;
+	Mon, 16 Jun 2025 13:49:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750081499; cv=none; b=Uvz6ZDwa6cFMjP5gL9e1o7xwX23Nvmy9mDbxCo7ZFTHAs9LKI+lYQqwTP+cnJPCeUBFJ8DJPDA1vhZ0SKzAoyPDmEqgEkAPigwXNMzmKMfYIgSJvl9CxgWm9K3LzFLjz+x3vpmxK4WyCase8n+fElEQt+QYk42Rwu3iUXtrB+uA=
+	t=1750081754; cv=none; b=gFY89z+fjpDNDMH2pg3UFCKT1cNVQ5WaqNyxvPhjOvNMJ/zyvAw4DlnwmzET9xCqwxg0lOpYy4hT17rq1Gl96mYIVKeJnhxiqhuVb04PC16y/ar8q3PvD4KGdDhwFcXjuSvVlPbtF3YMiJyejqtiE2+RKdVqZ6s/mxXiBi60c0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750081499; c=relaxed/simple;
-	bh=1xgboebGlal25X+TwAIYlHFbAqB7xNLLW9NyvUYl28E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z6X0pPU/hRmI/SvTc+NBjND9MQ+64q0j5wpby+pZZ8KsM9TcbtAxGN9gELJBehQr0oKtoMHQ5kHXFWlALTO6Gyv7ZPQFuLZysl06C1EfVBwvrDhPNrxA3kwBCfAsu2iH6cyNCxBWsf4pcX+8xJRceDKfIG8uvf+QDoW4xRoyfOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LeFgSnAK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750081754; c=relaxed/simple;
+	bh=lIoE9gcdwJ3ykhVZ65gPKl4QqyXImX16Y6imO4XoKpo=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=Yoc5cCUJwq6t05M7abjWfF9HD2/o6jk2JfM+SpF/Zn9mvhnXpwNXD6BbxpiACspV9T3FOzE9LHOIth/L4DSQexIncUYAtAsSvqszopc5AbkU2TsNdYDmwNWlbQLoyfMmUXiL1BBCbE6eNFUmAbNXRYRSYYVICZ/dauN5y0TG2b8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Z4uIJC/a; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SWV475mM; arc=none smtp.client-ip=103.168.172.158
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LeFgSnAK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56140C4CEF0;
-	Mon, 16 Jun 2025 13:44:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750081498;
-	bh=1xgboebGlal25X+TwAIYlHFbAqB7xNLLW9NyvUYl28E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LeFgSnAKqRIFvzW2IMzj9z72x12kiwSHRTf4f5YbGCBdI35baEv+AW343N3LvoBBM
-	 tuDbAk/W19WqqHx3fuwP/PLmBEuQpkVsmCoiYbYK9DFPok04bGwNXsiN/l3/njmecJ
-	 DqgPM9c7uWGpwdtpDJzXt0iNNuP3RJ9IgGgmV1HKFHYGN0yOXLWuxAo8hPTf7lXfXX
-	 6jwwPtxInK08VrBvA+sqRqwhPJMb8zCFxTbafvwCxwnEhcQNfjf7WtVbXbIkoZuVx4
-	 lhYPVqzUzzktlKjf4XiiwZg+Nz2f3ZRYBtpV92zvq9EDCoM33QWbdRYN4R53DY2qtY
-	 PD6j0ZVHhuzdQ==
-Date: Mon, 16 Jun 2025 19:14:50 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Lukas Wunner <lukas@wunner.de>, kernel test robot <lkp@intel.com>, 
-	bhelgaas@google.com, oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Jim Quinlan <james.quinlan@broadcom.com>, 
-	Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH v3] PCI/pwrctrl: Move pci_pwrctrl_create_device()
- definition to drivers/pci/pwrctrl/
-Message-ID: <pwb4g7worzsnryimt3ymdfsxu7bxvhlr74rqodmiof5auolhrc@vpi7wzrp7osh>
-References: <20250616053209.13045-1-mani@kernel.org>
- <202506162013.go7YyNYL-lkp@intel.com>
- <ji3pexgvdkfho6mnby5jumkeaxdbzom574kbiyfy4dcqumtgz2@h4nmwjvox7nl>
- <aFAZL1GgEH9l-zj9@wunner.de>
- <CAMRc=Mf=Z+d3UKdwEXkw1Xm9G=qVwh6=fXsfgS6JiOM6Z7H50w@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Z4uIJC/a";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SWV475mM"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id A7B9211402B7;
+	Mon, 16 Jun 2025 09:49:11 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-05.internal (MEProxy); Mon, 16 Jun 2025 09:49:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1750081751;
+	 x=1750168151; bh=8qsrTRHcvOAd2c9i2pGiJI5TDC5V+Z/Uoi8ty2RR4eU=; b=
+	Z4uIJC/aCJl5TCM7IJcxdppiQeF9UinlgJ2FAyHxVkhcbrEisiiFz6bUlWGEeZXd
+	/d5wIDHzl+uT+3Zn1PimRM7erbMWjE0B6lgEglmMpgNW8BJ/CrLM1wrixtFzEVmN
+	kcUbY5GkddT9ORS9T5vTVBNefyf1Hm8cgrk5ClP8fXWtCkwghqO95Cc5kW+iCGzD
+	taBqRXfX2aCqKTT4gmrm6ZaJOugD/3+yABMtAjV9GHv9PDH3nAbdhnDVnwOvCk1M
+	1it0uzJGhC1lKG9AO5hF0CXdRZUbA6pw7zcdtsEqaKApoS0U+JAILj41qfCidCMe
+	PKvPm2ujwVvhL71oKEM3Kw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1750081751; x=
+	1750168151; bh=8qsrTRHcvOAd2c9i2pGiJI5TDC5V+Z/Uoi8ty2RR4eU=; b=S
+	WV475mMLO7x4A5sZtbebmxvM8OcaNLnVCtokq8g6gTNSCzQBy4s025IKdGXzlnfc
+	T7N0xGe8eeZpfQCa3gK1yt3CpZgatrJ+Y/VqbkpCn4BF/ZHybXzF0SiP3tm9j3zC
+	9TYsF5kvNUfT4YDBhPxJsGkJ2qDt91JmaJ1FzBEH6yY6hN6a/YilWxajwkf7ONEC
+	cKXnkQj2sqK5bjPm9qyRx7tTdrawXLK5kgcz5J9zsytUuN6C8eaNAKkzFtvbge+3
+	7+YpUYa0T+fwb1mYR2yyK/0q2BBunr595MFRJPDqzGYJX4PiPzjkOTtY8hvfYOg6
+	YdWcjeLIrBV/zATgtPzpg==
+X-ME-Sender: <xms:1iBQaJovrZfMAJmFVtahyuzCOC3jdKDplIkMzJtu7T1-Vridmdy1CA>
+    <xme:1iBQaLq8b-MxDM4GeGqxtFEGrppMWOXAax4vZH-AGalSjHJp3JJFDCtDSBYVGAhyP
+    seZ43u0GUSxV_1ttno>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddvieejgecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
+    druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
+    gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopedu
+    gedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprhhosghinhdrmhhurhhphhihse
+    grrhhmrdgtohhmpdhrtghpthhtohepohhlthgvrghnvhesghhmrghilhdrtghomhdprhgt
+    phhtthhopehlkhhpsehinhhtvghlrdgtohhmpdhrtghpthhtohepsghrohhonhhivgeskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtohepjhgrmhgvshdrtghlrghrkheslhhinhgrrhho
+    rdhorhhgpdhrtghpthhtohepihhmgieslhhishhtshdrlhhinhhugidruggvvhdprhgtph
+    htthhopehiohhmmhhusehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepohgv
+    qdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhope
+    hhtghhsehlshhtrdguvg
+X-ME-Proxy: <xmx:1iBQaGPP-njiVQWYcMzKqfN8lWKt9KF-S1wtG_wm6kPw_gxZUfGVFg>
+    <xmx:1iBQaE6rRCeVI14O_0cd-8ltlcUvcT-2wBWXWvZmHREULi8sUN979w>
+    <xmx:1iBQaI7IUDY9acNm7MIkvYwTI1PPa3BRqYfGOWPARWICCfoy8ytxkw>
+    <xmx:1iBQaMiUYzyNEksn2mo2FifTqnPgZNYfQAh_z6slzGqt4lIDho2R7A>
+    <xmx:1yBQaCJ-8dPrB2ejqDv-iCGGYbucZDq8lQpAyVmE_WAP8eNfUxFTF9Ap>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id CFC38700062; Mon, 16 Jun 2025 09:49:10 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMRc=Mf=Z+d3UKdwEXkw1Xm9G=qVwh6=fXsfgS6JiOM6Z7H50w@mail.gmail.com>
+X-ThreadId: T4808b90e09d8ad4f
+Date: Mon, 16 Jun 2025 15:48:50 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "James Clark" <james.clark@linaro.org>, "Christoph Hellwig" <hch@lst.de>
+Cc: "Mark Brown" <broonie@kernel.org>, "Vladimir Oltean" <olteanv@gmail.com>,
+ oe-kbuild-all@lists.linux.dev, "Larisa Grigore" <larisa.grigore@nxp.com>,
+ "Frank Li" <Frank.li@nxp.com>, linux-spi@vger.kernel.org,
+ imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "kernel test robot" <lkp@intel.com>,
+ "Marek Szyprowski" <m.szyprowski@samsung.com>,
+ "Robin Murphy" <robin.murphy@arm.com>, iommu@lists.linux.dev
+Message-Id: <9788991a-ac37-4fde-81db-c55035d00f27@app.fastmail.com>
+In-Reply-To: <f723d490-c228-42d5-9f9f-158df54a092d@linaro.org>
+References: <20250616111749.316413-1-james.clark@linaro.org>
+ <20250616112927.GA21689@lst.de>
+ <5f1ca0ac-b66c-4b92-8f69-027c2468b117@sirena.org.uk>
+ <20250616120832.GA24959@lst.de>
+ <2d62254e-5cbe-4174-95d8-e80cae4f4543@sirena.org.uk>
+ <20250616121444.GA25443@lst.de>
+ <7cfcf919-3c7d-4f0c-911f-697ea3141080@linaro.org>
+ <20250616131346.GB29838@lst.de>
+ <83855c1a-c128-4762-9d6b-e17f2c4c8820@linaro.org>
+ <d16bdc40-20d6-49db-bf41-18bb9b8e01fd@linaro.org>
+ <20250616131944.GA30260@lst.de>
+ <f723d490-c228-42d5-9f9f-158df54a092d@linaro.org>
+Subject: Re: [PATCH] dma-mapping: Stub out dma_{alloc,free,map}_pages() API
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 16, 2025 at 03:30:27PM +0200, Bartosz Golaszewski wrote:
-> On Mon, Jun 16, 2025 at 3:16 PM Lukas Wunner <lukas@wunner.de> wrote:
-> >
-> > On Mon, Jun 16, 2025 at 06:07:48PM +0530, Manivannan Sadhasivam wrote:
-> > > On Mon, Jun 16, 2025 at 08:21:20PM +0800, kernel test robot wrote:
-> > > >    ld: drivers/pci/probe.o: in function `pci_scan_single_device':
-> > > > >> probe.c:(.text+0x2400): undefined reference to `pci_pwrctrl_create_device'
-> > >
-> > > Hmm, so we cannot have a built-in driver depend on a module...
-> > >
-> > > Bartosz, should we make CONFIG_PCI_PWRCTRL bool then? We can still allow the
-> > > individual pwrctrl drivers be tristate.
-> >
-> > I guess the alternative is to just leave it in probe.c.  The function is
-> > optimized away in the CONFIG_OF=n case because of_pci_find_child_device()
-> > returns NULL.  It's unpleasant that it lives outside of pwrctrl/core.c,
-> > but it doesn't occupy any space in the compiled kernel at least on non-OF
-> > (e.g. ACPI) platforms.
-> >
-> 
-> And there's a third option of having this function live in a separate
-> .c file under drivers/pci/pwrctl/ that would be always built-in even
-> if PWRCTL itself is a module. The best/worst of two worlds? :)
-> 
+On Mon, Jun 16, 2025, at 15:23, James Clark wrote:
+> On 16/06/2025 2:19 pm, Christoph Hellwig wrote:
+>> On Mon, Jun 16, 2025 at 02:15:56PM +0100, James Clark wrote:
+>>>> Yes it does, it has a few modes that don't require it. Presumably we can't
+>>>> just add a depends into the kconfig for all devices because they might not
+>>>> be using DMA.
+>>>
+>>> *for all the different variants of spi-fsl-dpsi devices I mean
+>> 
+>> This is drivers/spi/spi-fsl-dspi.c?
+>> 
+>> Yes, looks like it is one of those rare devices supporting a DMA and
+>> non-DMA mode.  But everything seems nicely guarded off using
+>> "dspi->devtype_data->trans_mode == DSPI_DMA_MODE" checks there.  So
+>> wrap them into a little helper using IS_ENABLED(CONFIG_HAS_DMA) and
+>> everything should be sorted out.
+>
+> Sure, I don't mind doing it.
+>
+> But separately to that, I still think making the stubs consistent would 
+> save people a lot of time diagnosing build failures if they switch 
+> existing code to any of those 3 functions. Principle of Least 
+> Astonishment and all that.
 
-I would try to avoid the third option at any cost ;) Because the pwrctrl/core.c
-would no longer be the 'core' and the code structure would look distorted.
+As far as I can tell, the difference here is that the
+dma_alloc_coherent()/dma_free_coherent() calls all get stubbed
+out, so the 827 drivers using those can all build cleanly on
+mk68knommu, shnommu and UML, while dma_alloc_noncoherent()/
+dma_free_noncoherent() are only used on 15 files that are all
+guarded by some other Kconfig dependency at the moment and won't
+build on the those platforms.
 
-Let's see what Bjorn thinks about option 1 and 2. I did not account for the
-built-in vs modular dependency when Bjorn asked me if the move was possible. And
-I now vaguely remember that I kept it in probe.c initially because of this
-dependency.
- 
-- Mani
+I agree that it would be best to treat the coherent/noncoherent
+cases the same, and I also think the existing stubs are a bit
+silly, but just removing them would likely require fixing
+hundreds of drivers with added Kconfig or IS_ENABLED() checks.
 
--- 
-மணிவண்ணன் சதாசிவம்
+Maybe we can actually remove CONFIG_NO_DMA/CONFIG_HAS_DMA
+entirely and remove all the checks for CONFIG_HAS_DMA? 
+My guess is that this would only lead to a small code size
+increase on the affected targets, but since they are not
+actually trying to do DMA, and they all have a very limited
+set of drivers they actually use, it won't break existing
+code.
+
+    Arnd
