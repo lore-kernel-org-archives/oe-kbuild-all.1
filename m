@@ -1,130 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3080B274659;
-	Mon, 16 Jun 2025 10:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910E72C1798
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 11:18:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750069727; cv=none; b=Paqc8tPN0rBQOVi+Ho+tHvh/m70j3dti9ci5Jv0z+wwaE5U/LRufTTpZ0jv50As6WGM9l1XXeRz88f6z2ffcmaoCWCe6Brp+rv2xGwHJEFNqmKBTE57/tKTtSIVTagKzMXKLUA+cXHr9s5HDkYflwk/CDhDwAPDzeqwm6JT1f24=
+	t=1750072722; cv=none; b=faqY3n5Kyyh2Z/UOgxfubGK59ecSim7uUfxiV1vOOnJIv0oWTDRxNF9LkOEqxHWparPWuXIlWirx5cQBtu87uywB6KXaWK/m1q5G8CHpDTpGnz4Ghq2qoC4e1OvePx7q6yNX1cQVMGILz+vssX8H80gOXyu/X8F9QFnVoALcOYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750069727; c=relaxed/simple;
-	bh=KHEAU5O0QP+O/8j4Bf5vQY32xESSw3TMzoN1cnMZl+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gXuErdwTRmwNaoc24GY7I4mCeTZlFC+C168Wg9Zv5FpYh3tV6HpDmVd0ElONWW/p15Xhw6uw6ZKJ0bM81YLLVLg9Q29BNG9jhLA9UpdSmF3KpYqPnpbNi645QWY1zcGtOja71KLvnAcnHLIc2EeNnSiOwO7jv2UoeFkWT/6esAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WO13c9K1; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750072722; c=relaxed/simple;
+	bh=hrasx9LpaBhIfwmbsVUucBku/W+eFelK4E1GYnytmA4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=aRXiSDQc57hsIkNq1ujY1z1bMbttRkKlo+Bj7XmxnqHvXkgDawTQB4fbxy/Rk4OUmzYvnUMavwR83jD7q7MbFkw1RXQT9A4vgeA9BgcXqpDynx4BZf+FvcV2mE17EpR1T6/4hnooC2NY9OOWGGyNYRYbcCLf3Jl9H9A2OJ1eI+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iUwoHhao; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WO13c9K1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750069725; x=1781605725;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KHEAU5O0QP+O/8j4Bf5vQY32xESSw3TMzoN1cnMZl+w=;
-  b=WO13c9K1aCh3TcN41euRZK7jLQpAWVfbv8tQuu4f/ttUjCexeg9em0Pv
-   DCsSOC0pUQ5B5SeX4gUREZgrO033yaZ7jHhty3xNirX4mUP9Ufxeoi7bx
-   AxoP60DXhBw/vW5ljfgQqSdM13gnFSSZNG7RgWtpc0z1BpVaJFEOhagp6
-   RxTFq2pyBWTMdI9iVKQuf5EGcZfeHqIDnAPAA11zDm605DV2gXqcepJ07
-   Q+CIILZNrjNT92kb4XhOhZGRsR7qoxdZ/xalfE2w2zwHhuj8tsd/yDr/v
-   mpL7Sq/4gAa4xg5a2BjOTM5haWDYi5WbOlTGdju0FWgmWr7JyYP8oq4Us
-   Q==;
-X-CSE-ConnectionGUID: znzGDs1dQ1WIOTFyVV65Xg==
-X-CSE-MsgGUID: kbrkvKimTbiZyZn+RbdIbg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="62816607"
-X-IronPort-AV: E=Sophos;i="6.16,240,1744095600"; 
-   d="scan'208";a="62816607"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 03:28:44 -0700
-X-CSE-ConnectionGUID: kaesmaPMSBS8x615fJR+6A==
-X-CSE-MsgGUID: BK8iHcJFSr+O+izsDFqTSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,240,1744095600"; 
-   d="scan'208";a="149312179"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 16 Jun 2025 03:28:42 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uR74y-000Evs-2G;
-	Mon, 16 Jun 2025 10:28:40 +0000
-Date: Mon, 16 Jun 2025 18:27:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Leon Romanovsky <leonro@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [leon-rdma:dma-direct-pfn-type 2/5]
- include/linux/dma-mapping.h:318:30: error: too many arguments to function
- call, expected 5, have 6
-Message-ID: <202506161804.JCPHPIaZ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iUwoHhao"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43ea40a6e98so54095585e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 04:18:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750072718; x=1750677518; darn=lists.linux.dev;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vFRRbT8s9vGTGk+mkini82Ing/hSasgp2YN4IKINJ8I=;
+        b=iUwoHhaoX3vfP+L9DqQTh896JKx/j2IgDVQxS2aEpBJDs2el3p9P63TEGSgJxVnhN5
+         b4T4DOYex2xovuEDhxDCJXtg9SNlwcSc0kUhH1suXRVhqhKxxZkoeiVuYeKGzxfoGaUS
+         gDn4t9jYPGStUVvEB3iMyW3+xVI3tnXAdRxZrXRB3Sf2V5DCByL+4QyGCrm1CCeNrp2D
+         M/R5qMvLASF9AewDfHT/2d3bBVMVePO3zZMkvD6AekSdIeT0YgaMOWTJTQ1DFbAYDhz4
+         Lq42S/UNwGb8eSykPjgeghV3lRskk83wxzIudrpGe5QpoQmz0/AsXFO4ZZB5K6gYAttN
+         bpkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750072718; x=1750677518;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vFRRbT8s9vGTGk+mkini82Ing/hSasgp2YN4IKINJ8I=;
+        b=MVTE3iBWyumfJxmalnErKXfsaqxj/lByi8aw+ssosVnbi77MIYa7ZjhwOwRfmfNFCP
+         AD/0HCrhk3bAwD/dj/hVS9N015jeM1ez56dlcI0ybtBuAug4PWGKWqpvtFOcSA2GcYtr
+         A9brP1b+jnTyr8wiD66eHBmf9t2ClKIEXNuBBibQcrkxdgN/byNpTnM5eFMbtB0pod77
+         NLMzhiCG/9+Vu7zz9UjalNUNlxGZNWHhQ0Mryp23WzZPy+O/eCAUEAv340SWK2t4uyVg
+         N6za34fk0EaD1PreIcB2nGI8N8c8ytC7mOWzYrkwaRohUUQRj3iOkJp10LgJZYa+olVH
+         EoHw==
+X-Forwarded-Encrypted: i=1; AJvYcCVZF2qEptxhGKQ9U1KgRLPuxhB8GyQkhe92MeBk0BDLb6ZezhdQaq3pU5KGyFqZqRce7VD7jN9yyosg2NmE@lists.linux.dev
+X-Gm-Message-State: AOJu0Yww0RtIkF8AQEzfei1dpY0O4D7XGMIf+V8h7B17ZzqqtCCrVjXT
+	o/wkJsYwIxiOby0WLrEU4X0A3U8NRfzeBKckrYayzCoaq7OTMzZEb2Zu+StDa4mT65E=
+X-Gm-Gg: ASbGncu93sv9B/YbY5t4IwEx21hqdmDJo7WD6SYLvX8Wv9xdWddvsNx/T7sGeDk5Gh4
+	gO+5kwmVjHmmoBh9v262A1OBMQrBnJGjjqB3b4mh3usaHsuAP6ApLOlJ3eP9CFMfh4wVCQqQ1rB
+	wSCgHbxR3j2mKA9DmADhBHLI8ivNxJfqzTerRDYARtc+9cITl6pyHP6MvSFudqmNGWK0CCD17GK
+	iM07DUFchxfn5GGA1X4WogXV3hR4cCq0LBsoGokhXL+p1+sqs+6VQz6GLL9U+nnjBDrg1Cr+0w4
+	O6xzo+Z4x2Zw3PU6A02msqRz6kEWTsN25bFHgUAFHFqdyZBYtoBa6DUiM813cXJUR1cPpAKT83Y
+	DIA==
+X-Google-Smtp-Source: AGHT+IF204pDh3GMb9mprc3RWx877M/hSlys4cJP5Klv0u7H3rkiPLZ3mCZ6j16z/jbKHnJ8e4e+kw==
+X-Received: by 2002:a05:600c:3e18:b0:450:cfa7:5ea1 with SMTP id 5b1f17b1804b1-4533caa629amr84883665e9.16.1750072717932;
+        Mon, 16 Jun 2025 04:18:37 -0700 (PDT)
+Received: from localhost.localdomain ([37.18.136.128])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a54a36sm10931250f8f.15.2025.06.16.04.18.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Jun 2025 04:18:37 -0700 (PDT)
+From: James Clark <james.clark@linaro.org>
+To: hch@lst.de
+Cc: olteanv@gmail.com,
+	broonie@kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	arnd@arndb.de,
+	larisa.grigore@nxp.com,
+	Frank.li@nxp.com,
+	linux-spi@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	James Clark <james.clark@linaro.org>,
+	kernel test robot <lkp@intel.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	iommu@lists.linux.dev
+Subject: [PATCH] dma-mapping: Stub out dma_{alloc,free,map}_pages() API
+Date: Mon, 16 Jun 2025 12:17:49 +0100
+Message-Id: <20250616111749.316413-1-james.clark@linaro.org>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <202506160036.t9VDxF6p-lkp@intel.com>
+References: <202506160036.t9VDxF6p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dma-direct-pfn-type
-head:   87481a3ed31857c530009e3a934f3b0a5e069f9e
-commit: c04b832c0cfbddf0ed0f7c4409d190b85a976ddb [2/5] dma-mapping: Refactor dma_map_page() to rely on physical address
-config: um-allnoconfig (https://download.01.org/0day-ci/archive/20250616/202506161804.JCPHPIaZ-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250616/202506161804.JCPHPIaZ-lkp@intel.com/reproduce)
+The implementations are in mapping.c which requires HAS_DMA so stub them
+out if not present. This is required for some drivers to pass randconfig
+builds.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506161804.JCPHPIaZ-lkp@intel.com/
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202506160036.t9VDxF6p-lkp@intel.com/
+Signed-off-by: James Clark <james.clark@linaro.org>
+---
+ include/linux/dma-mapping.h | 28 +++++++++++++++++++++-------
+ 1 file changed, 21 insertions(+), 7 deletions(-)
 
-All errors (new ones prefixed by >>):
-
-   In file included from kernel/sched/core.c:45:
-   In file included from include/linux/init_task.h:18:
-   In file included from include/net/net_namespace.h:43:
-   In file included from include/linux/skbuff.h:28:
->> include/linux/dma-mapping.h:318:30: error: too many arguments to function call, expected 5, have 6
-     317 |         return dma_map_phys(dev, page_to_phys(page) + offset, size, dir,
-         |                ~~~~~~~~~~~~
-     318 |                             DMA_MAPPING_CPU_HOST, attrs);
-         |                                                   ^~~~~
-   include/linux/dma-mapping.h:183:26: note: 'dma_map_phys' declared here
-     183 | static inline dma_addr_t dma_map_phys(struct device *dev, phys_addr_t paddr,
-         |                          ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     184 |                 size_t size, enum dma_data_direction dir, unsigned long attrs)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dma-mapping.h:323:61: error: too many arguments to function call, expected 5, have 6
-     323 |         dma_unmap_phys(dev, addr, size, dir, DMA_MAPPING_CPU_HOST, attrs);
-         |         ~~~~~~~~~~~~~~                                             ^~~~~
-   include/linux/dma-mapping.h:188:20: note: 'dma_unmap_phys' declared here
-     188 | static inline void dma_unmap_phys(struct device *dev, dma_addr_t addr,
-         |                    ^              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     189 |                 size_t size, enum dma_data_direction dir, unsigned long attrs)
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:7667:12: warning: array index -1 is before the beginning of the array [-Warray-bounds]
-    7667 |                                        preempt_modes[preempt_dynamic_mode] : "undef",
-         |                                        ^             ~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:7642:1: note: array 'preempt_modes' declared here
-    7642 | const char *preempt_modes[] = {
-         | ^
-   1 warning and 2 errors generated.
-
-
-vim +318 include/linux/dma-mapping.h
-
-   312	
-   313	static inline dma_addr_t dma_map_page_attrs(struct device *dev,
-   314			struct page *page, size_t offset, size_t size,
-   315			enum dma_data_direction dir, unsigned long attrs)
-   316	{
-   317		return dma_map_phys(dev, page_to_phys(page) + offset, size, dir,
- > 318				    DMA_MAPPING_CPU_HOST, attrs);
-   319	}
-   320	static inline void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr,
-   321			size_t size, enum dma_data_direction dir, unsigned long attrs)
-   322	{
-   323		dma_unmap_phys(dev, addr, size, dir, DMA_MAPPING_CPU_HOST, attrs);
-   324	}
-   325	
-
+diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+index 55c03e5fe8cb..766f28a0e11f 100644
+--- a/include/linux/dma-mapping.h
++++ b/include/linux/dma-mapping.h
+@@ -161,6 +161,12 @@ void *dma_vmap_noncontiguous(struct device *dev, size_t size,
+ void dma_vunmap_noncontiguous(struct device *dev, void *vaddr);
+ int dma_mmap_noncontiguous(struct device *dev, struct vm_area_struct *vma,
+ 		size_t size, struct sg_table *sgt);
++struct page *dma_alloc_pages(struct device *dev, size_t size,
++		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
++void dma_free_pages(struct device *dev, size_t size, struct page *page,
++		dma_addr_t dma_handle, enum dma_data_direction dir);
++int dma_mmap_pages(struct device *dev, struct vm_area_struct *vma,
++		size_t size, struct page *page);
+ #else /* CONFIG_HAS_DMA */
+ static inline dma_addr_t dma_map_page_attrs(struct device *dev,
+ 		struct page *page, size_t offset, size_t size,
+@@ -291,6 +297,21 @@ static inline int dma_mmap_noncontiguous(struct device *dev,
+ {
+ 	return -EINVAL;
+ }
++static inline struct page *dma_alloc_pages(struct device *dev, size_t size,
++		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
++{
++	return NULL;
++}
++static inline void dma_free_pages(struct device *dev, size_t size,
++		struct page *page, dma_addr_t dma_handle,
++		enum dma_data_direction dir)
++{
++}
++static inline int dma_mmap_pages(struct device *dev, struct vm_area_struct *vma,
++				 size_t size, struct page *page)
++{
++	return -EINVAL;
++}
+ #endif /* CONFIG_HAS_DMA */
+ 
+ #ifdef CONFIG_IOMMU_DMA
+@@ -438,13 +459,6 @@ static inline bool dma_need_unmap(struct device *dev)
+ }
+ #endif /* !CONFIG_HAS_DMA || !CONFIG_DMA_NEED_SYNC */
+ 
+-struct page *dma_alloc_pages(struct device *dev, size_t size,
+-		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
+-void dma_free_pages(struct device *dev, size_t size, struct page *page,
+-		dma_addr_t dma_handle, enum dma_data_direction dir);
+-int dma_mmap_pages(struct device *dev, struct vm_area_struct *vma,
+-		size_t size, struct page *page);
+-
+ static inline void *dma_alloc_noncoherent(struct device *dev, size_t size,
+ 		dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp)
+ {
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
