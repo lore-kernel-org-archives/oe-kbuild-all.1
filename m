@@ -1,61 +1,117 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6FD5285CBF;
-	Mon, 16 Jun 2025 13:13:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAC8C2D9EEC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 13:14:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750079632; cv=none; b=EZ9d8j+mnp+zFkMjyNZCjZ25oSRLOhJXCDmms4zOS4V7x4522Mw+oahmvaWQXk9RC8Id2YfhqvQb3Iccn0KbexdO5U9Qp7x1wBXJI1mqMdR1XlB93CMHCx6WuZ/pUxfnVZzvD9mnAJuM9eYLHU4JLHoH4tFnbCjzHWYfYLWrxw0=
+	t=1750079699; cv=none; b=Uykj2qa+KrsZ+Ww+oG/XmMDub8IsFbI9AoJN72wH9svWcHYocF4o9AUeyspL4mcoe8hPL+2bLRlOriaG6pu1mVoxGI+VSYsye3dHdTAHqw+GsKUSA8MgLxv60KjbM4RIJEe4WbYfvLDdqo0211xrFCQCTOB5qmbpuZ3xJBQoFq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750079632; c=relaxed/simple;
-	bh=mp54NSMRdSJL90KDT/VTaJlJsxoe7g25q4DBqprk7Pk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DEA3kHuv43jArOY+GfDjyFCaBe7qxw+aeDfIGUqUx9emKbHZfHPBC0i4Q61HC8WZg/RnSEPjsgYK+NI0ivueha8w0Z+VCcSjsZo2QKI+a6Qykh+L+II3FHFLmqJ7oOkJ0y2EoeKj1ypU41T10Glw/t/6PRYrqfiiH+VcQklvq3g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 0B7F868D05; Mon, 16 Jun 2025 15:13:47 +0200 (CEST)
-Date: Mon, 16 Jun 2025 15:13:46 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: James Clark <james.clark@linaro.org>
-Cc: Christoph Hellwig <hch@lst.de>, Mark Brown <broonie@kernel.org>,
-	olteanv@gmail.com, oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
-	larisa.grigore@nxp.com, Frank.li@nxp.com, linux-spi@vger.kernel.org,
-	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
-	kernel test robot <lkp@intel.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux.dev
-Subject: Re: [PATCH] dma-mapping: Stub out dma_{alloc,free,map}_pages() API
-Message-ID: <20250616131346.GB29838@lst.de>
-References: <202506160036.t9VDxF6p-lkp@intel.com> <20250616111749.316413-1-james.clark@linaro.org> <20250616112927.GA21689@lst.de> <5f1ca0ac-b66c-4b92-8f69-027c2468b117@sirena.org.uk> <20250616120832.GA24959@lst.de> <2d62254e-5cbe-4174-95d8-e80cae4f4543@sirena.org.uk> <20250616121444.GA25443@lst.de> <7cfcf919-3c7d-4f0c-911f-697ea3141080@linaro.org>
+	s=arc-20240116; t=1750079699; c=relaxed/simple;
+	bh=h+AoZLWnrd8a6Oc4wKT40DhZiludtEsDa24LLYFfTC8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jgYeQsBEGeFdGB+HMSyfKJxS3ZdcUgtnvhDuRHnpynteMre3tFurj9U9O4Two7fjd8VjK731dHUfl4ZD1C4PmSn7C9XX0oVT3mWjiCh2QmlSB/Nn1jo0Ib/xv6jw5zOi0sHSZczEC5PqZbiOOSMlqzNFKFvXB5DMrXa/G7LThBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TQqiIiyY; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TQqiIiyY"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3a5123c1533so2569682f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 06:14:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750079696; x=1750684496; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TJ++7qElBXjbLPKEg859pJbPfq8le05HNKkEpAhCAPU=;
+        b=TQqiIiyYE8VbUjnBdHNjpoZBto2xoqMV483Wd1puAm3DHlE6B5iIyuMc/yKL+PXLP5
+         24Nrz7Au529NAaUAOsHjkmNJZqWX2LEC0Ibn3IfGKqWe4R+cVSYaNTSKyoIglCGEaHQK
+         O3PVrLixDNSRp+YfxL414L7qty5Fnxfj2b159Pw8pQQYUEG1TFxa81MuuVvD9OL2UNhn
+         ZDqryJdrR+4mk8aErAdK51lO32NG9NiC3yD1N4v9XDIEklVL/aqSgpugcV1RbslyzB54
+         IaRyBMMpvHfwaUaaBWvgq6wAmPO+z5JAw7Mz42aWIS1J1+X4eSwGinM/33wQfnP+gmFd
+         qIsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750079696; x=1750684496;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TJ++7qElBXjbLPKEg859pJbPfq8le05HNKkEpAhCAPU=;
+        b=B1ws2if7ABlQfVSRh1uNDFU4oFXNoIpPJJeIrKhHiFJq+CLIHv+pNBgv7+pjWlqha6
+         EjykH6bF31GjXUjAjZ3Hl0gnjwcWey9hsoY0ItYfEEbI8uq30sX6pZqWAXQcMf945rxm
+         FhuXea3rNXLkYYyhbEY24hAszmtd6pOMwZGg4L2S7qTHlNJeJm4P8zwhnt29vDc7KeX0
+         Tm4bnuGvzi39kLFWd+JICVvbKNZBJHmxUkjkVkAvwxD7BQV5GsCgWXXfjU5cHdS5GvO+
+         vw2MyNRtLduFE4iPBu2Dg3MGqAk9WP3XRP/7n+7zU7zuxD6A9sE5qh52nuZZTflwPmIN
+         enSg==
+X-Forwarded-Encrypted: i=1; AJvYcCXmes0WTGJiqpPKWHFVW6tXRRM01v4E4S6Dbrj1xT7eYbobJG1V/D/yNLx77IV6Vssoc4CR5Bt9JI6QtM/M@lists.linux.dev
+X-Gm-Message-State: AOJu0YyeBi3YS/3M9yl6QAKweiEL+AicuzqsxOuoanzFIENxmvz5aYpR
+	IpkWcAilp8vFCnqAiKkOt+iTIiI1JBTM1yLEINqJg+7o2/bjJE+MAwt/huKTRxLcefo=
+X-Gm-Gg: ASbGnctFM61VjPU2KAXH3E5lIe8btP4rykODw2z95yqbxd3m0hSIAlAWo0EMWVcR4xa
+	vOVLDQOXNTCU0F6ik/3bdEitw8Msavd2HGSQheUi4MH/Tn8TIwXgaaUebGoR4xloFHBR6LnAovA
+	3nas/W1XUfuOrncsYF5sjmewjOSk2ykUud8WzEb7vsSVOypg8fBybbBPHsqqisEG8OPhxKNOiL5
+	1KkCRfBt974SCl8CbaiSYBGcvk7dfTjzS4WDK4xOs+uEF1kFDnVu6HRi7Yn1YhYkjUfoaVM3OuY
+	lldb3ZLGT3X1lLiJbukRTUVqX/Bho2+2l6Q20LeYbdqMNGA9+6F+4UCvue8F5DcowTk=
+X-Google-Smtp-Source: AGHT+IHos6U7nxGDoiXdGjhAs3Whyn47rcft9em19E32YJ5Q6QPRqLvwdbpp0G+JbOnleSw237UOPg==
+X-Received: by 2002:a05:6000:2908:b0:3a0:b84d:60cc with SMTP id ffacd0b85a97d-3a572399156mr7832327f8f.2.1750079696270;
+        Mon, 16 Jun 2025 06:14:56 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.136.128])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a568a6ee12sm11079775f8f.31.2025.06.16.06.14.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Jun 2025 06:14:55 -0700 (PDT)
+Message-ID: <83855c1a-c128-4762-9d6b-e17f2c4c8820@linaro.org>
+Date: Mon, 16 Jun 2025 14:14:54 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7cfcf919-3c7d-4f0c-911f-697ea3141080@linaro.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-mapping: Stub out dma_{alloc,free,map}_pages() API
+To: Christoph Hellwig <hch@lst.de>
+Cc: Mark Brown <broonie@kernel.org>, olteanv@gmail.com,
+ oe-kbuild-all@lists.linux.dev, arnd@arndb.de, larisa.grigore@nxp.com,
+ Frank.li@nxp.com, linux-spi@vger.kernel.org, imx@lists.linux.dev,
+ linux-kernel@vger.kernel.org, kernel test robot <lkp@intel.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux.dev
+References: <202506160036.t9VDxF6p-lkp@intel.com>
+ <20250616111749.316413-1-james.clark@linaro.org>
+ <20250616112927.GA21689@lst.de>
+ <5f1ca0ac-b66c-4b92-8f69-027c2468b117@sirena.org.uk>
+ <20250616120832.GA24959@lst.de>
+ <2d62254e-5cbe-4174-95d8-e80cae4f4543@sirena.org.uk>
+ <20250616121444.GA25443@lst.de>
+ <7cfcf919-3c7d-4f0c-911f-697ea3141080@linaro.org>
+ <20250616131346.GB29838@lst.de>
+Content-Language: en-US
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20250616131346.GB29838@lst.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jun 16, 2025 at 02:10:40PM +0100, James Clark wrote:
-> The change introduces consistency with the existing declarations in 
-> dma-mapping.h. Surely there is value in consistency and it doesn't do any 
-> harm to define new ones with stubs the same as the other ones. That way 
-> when you change an existing device that has DMA stuff to use a new part of 
-> the API you don't have to predict that it will behave differently to 
-> another part of the API.
 
-Well, redoing the rest would definitively be nice, but so far no one
-has signed up to that.
 
-> I suppose it is possible to #ifdef out the DMA stuff in this driver, but 
-> IMO it would be quite messy, and I don't think randomly not stubbing out 
-> some functions is the right way to move towards fixing all the dependencies 
-> in all drivers. We should continue with the stubs for now and fix whole 
-> drivers one by one as a proper effort.
+On 16/06/2025 2:13 pm, Christoph Hellwig wrote:
+> On Mon, Jun 16, 2025 at 02:10:40PM +0100, James Clark wrote:
+>> The change introduces consistency with the existing declarations in
+>> dma-mapping.h. Surely there is value in consistency and it doesn't do any
+>> harm to define new ones with stubs the same as the other ones. That way
+>> when you change an existing device that has DMA stuff to use a new part of
+>> the API you don't have to predict that it will behave differently to
+>> another part of the API.
+> 
+> Well, redoing the rest would definitively be nice, but so far no one
+> has signed up to that.
+> 
+>> I suppose it is possible to #ifdef out the DMA stuff in this driver, but
+>> IMO it would be quite messy, and I don't think randomly not stubbing out
+>> some functions is the right way to move towards fixing all the dependencies
+>> in all drivers. We should continue with the stubs for now and fix whole
+>> drivers one by one as a proper effort.
+> 
+> Does the driver even work at all without DMA support?
+> 
 
-Does the driver even work at all without DMA support?
-
+Yes it does, it has a few modes that don't require it. Presumably we 
+can't just add a depends into the kconfig for all devices because they 
+might not be using DMA.
