@@ -1,61 +1,92 @@
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [83.223.95.100])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6073292B2C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 12:52:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 707C5285CB8;
+	Mon, 16 Jun 2025 13:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750078334; cv=none; b=QVia7qIzCyTugIVOQ+f+ubpVHOVR6uVfoofgrG0I7sGAmCJBhTKFveLTZnKwtBD13ClOO+geGcY+i10ZgL6x190RwkLG7AYvjO9a3Yt+DTo/LMNvVn8gCGMwyDcW7lp9KH8RMTILJsNFKRfSlyRSTLo+bq28H8XMNbu/wv+1lB0=
+	t=1750079128; cv=none; b=mRMeqe/nEqaYKhkJtvCV75CiCYY/v84hz5uCIskPOMwwzmglmKoJ+xcHZgG6L9W3FQ9MxKDFRV5DLOGCOnkEQl9XaRS+BFuUtfX0ECP6TsqJqKMOfqPJ3K1FIktpGMQjJceeSwKb7iWKLBfcNXj1noMXwlyQonB8OJ3DNqxJ+E8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750078334; c=relaxed/simple;
-	bh=6xuUaOxVjIGGdUPU2zBAW95dgaz27lfobqcLbo33+48=;
+	s=arc-20240116; t=1750079128; c=relaxed/simple;
+	bh=hlXoLqIubEHuZDtkWfEeyo3ISIxZabXewxqNrV7WhWE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rbQQvJIBWfGVb0snrReKu0t42jGtaFyHx+jkgWZjKCoNd6UAxrear0ODggFyDomKiLnu1lM+rmR7cuYAVBYCsG+Dt/+lpLqGPu0LzeDaJLqCmeQa/M95ZIZp6gW77+RJQ0i55LA/lwCC6cuvxiWGvIUmfM+UyLMEsywQvvdiSqc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=83.223.95.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
-Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by bmailout1.hostsharing.net (Postfix) with ESMTPS id D10012C06842;
-	Mon, 16 Jun 2025 14:52:03 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id C953E71D00; Mon, 16 Jun 2025 14:52:03 +0200 (CEST)
-Date: Mon, 16 Jun 2025 14:52:03 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: brgl@bgdev.pl, kernel test robot <lkp@intel.com>, bhelgaas@google.com,
-	oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jim Quinlan <james.quinlan@broadcom.com>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Subject: Re: [PATCH v3] PCI/pwrctrl: Move pci_pwrctrl_create_device()
- definition to drivers/pci/pwrctrl/
-Message-ID: <aFATcxj0ulo1RKxU@wunner.de>
-References: <20250616053209.13045-1-mani@kernel.org>
- <202506162013.go7YyNYL-lkp@intel.com>
- <ji3pexgvdkfho6mnby5jumkeaxdbzom574kbiyfy4dcqumtgz2@h4nmwjvox7nl>
+	 Content-Type:Content-Disposition:In-Reply-To; b=aPlXOCyUE2EJ8Q7f3ZqldiebZ/8eCQrIyBduC1J8HzPgs5KSnL6zQpr/LinqL4JGtX6n9sYKeq5dCYJZSaewGUxMffMqkxtXoY1sm3e5C4/TY+xEKqORE1pDEHikqZU+4cJDqkzyhuudJaA+OTow9GLbQ5w4dO9/G9v4VEITo1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fOL6S8Ou; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fOL6S8Ou"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AC56C4CEEA;
+	Mon, 16 Jun 2025 13:05:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750079128;
+	bh=hlXoLqIubEHuZDtkWfEeyo3ISIxZabXewxqNrV7WhWE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fOL6S8OunfMzUd2zYLxAwgeta518GX7IkolJTcswwYEOb5AzVx3O5OYAn5YtG30kU
+	 1mOov0QUE5f+L5zsOnevBC9SItzNoPQb3xiVJiTR/mtroR9RQNMl1PHJ5VlWEBpKai
+	 YZcdcgKPn2KzwcO3hO9Ur/5fH4oXzKtwHO0oLukEeSvZbSyh2/w4Pt3WiLEol2Ff85
+	 2e4qBQ0MLZgvNTHFCxxHv3x01gKU2M6N7lPWredcXNtS6k4v2pOZC+AahMeuiMQP7L
+	 uxD/GYrdhXdxv4Oa2NQfPE8a1lrSse68kf3DJpReOEuqzW3HRCBPwnPJQ7uc7Vh+Kg
+	 sD4/84xmnRndA==
+Date: Mon, 16 Jun 2025 14:05:22 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: James Clark <james.clark@linaro.org>, olteanv@gmail.com,
+	oe-kbuild-all@lists.linux.dev, arnd@arndb.de,
+	larisa.grigore@nxp.com, Frank.li@nxp.com, linux-spi@vger.kernel.org,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel test robot <lkp@intel.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux.dev
+Subject: Re: [PATCH] dma-mapping: Stub out dma_{alloc,free,map}_pages() API
+Message-ID: <e4aa4d6d-0e84-42a8-bf63-f8d132619432@sirena.org.uk>
+References: <202506160036.t9VDxF6p-lkp@intel.com>
+ <20250616111749.316413-1-james.clark@linaro.org>
+ <20250616112927.GA21689@lst.de>
+ <5f1ca0ac-b66c-4b92-8f69-027c2468b117@sirena.org.uk>
+ <20250616120832.GA24959@lst.de>
+ <2d62254e-5cbe-4174-95d8-e80cae4f4543@sirena.org.uk>
+ <20250616121444.GA25443@lst.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="HzW9hrF3tGvJKQdx"
+Content-Disposition: inline
+In-Reply-To: <20250616121444.GA25443@lst.de>
+X-Cookie: Keep out of the sunlight.
+
+
+--HzW9hrF3tGvJKQdx
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ji3pexgvdkfho6mnby5jumkeaxdbzom574kbiyfy4dcqumtgz2@h4nmwjvox7nl>
 
-On Mon, Jun 16, 2025 at 06:07:48PM +0530, Manivannan Sadhasivam wrote:
-> On Mon, Jun 16, 2025 at 08:21:20PM +0800, kernel test robot wrote:
-> >    ld: drivers/pci/probe.o: in function `pci_scan_single_device':
-> > >> probe.c:(.text+0x2400): undefined reference to `pci_pwrctrl_create_device'
-> 
-> Hmm, so we cannot have a built-in driver depend on a module...
+On Mon, Jun 16, 2025 at 02:14:44PM +0200, Christoph Hellwig wrote:
+> On Mon, Jun 16, 2025 at 01:11:49PM +0100, Mark Brown wrote:
+> > already tied to a platform that needs DMA needing to add the dependency
+> > which nobody is going to notice without doing build testing for
+> > randconfigs or similar non-useful configs - it's not a productive use of
+> > time.
 
-Does it work if you export pci_pwrctrl_create_device()?
+> Stop your unproductive whining and just fix your dependencies.
 
-Thanks,
+That is not a constructive way to talk to people, especially not when
+misdirected.
 
-Lukas
+--HzW9hrF3tGvJKQdx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmhQFpIACgkQJNaLcl1U
+h9CF1gf/aUf6tghdUHlSErF6ZxtSN/tICNpSXbRPkh89hWQnclV5NEy1MYNlIBrs
+W8uJO5scYd79vCrwfH6Fl74v8nlCBCsVw9zfWl+aOG4SeofRFdOfzZeVVN/tk7bJ
+VhnXnqorAEMTVvBHf1ByLhstPFbON0o0XcWXSU/kIqN5NAUjVOOOVC7dLoBZo2ps
+kAL8jV4pC11dD47Zwz89Ke/7rUqlT0bTSKwb0uDgCoEbWwFq4JHU+7Ju/z2lPd/S
+lBZQryv/5QuRzE67BlUjzTh6VwOSci9yJHocjJGjFeFUdtJjPgln1wOjOxNEbIV3
+G5chNOTNrNth/XOvrg0ARyC63M58AA==
+=GOim
+-----END PGP SIGNATURE-----
+
+--HzW9hrF3tGvJKQdx--
