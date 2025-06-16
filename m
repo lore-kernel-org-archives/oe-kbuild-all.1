@@ -1,202 +1,120 @@
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60620211A15
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 08:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.134.164.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82EC202C50
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 09:09:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750063755; cv=none; b=AxT8SWqmnqaVoNtaeqgp9MFgA5bQgDnXfzFrZyl/8DT4h5lGx4vUr4DclLsqLzFcrkxh95QiQvvdJtHKST088rccOjjOWU+9nZ9u1PW1JvAysFD8MKCp9IYi3QLS4/uZaLHPfuPTQOxH0LkCxSNFzvcJBtwxhynTjAbkNyBw14M=
+	t=1750064995; cv=none; b=lD8tiUprtqp4J4vV5pi1JHOcy/EEGoY9TtlmpMQ2oFrn7GOR4bvwal3rFQaD7v5SwCspS2rW4q9vjWDmnsIFSuHRGI7T7bT27d5CRhbIDpYOI6lsXsn/qUncCtjr5xzJqkb9m+EMUyuyZCpF/QJf84k8k4gIbt2GsxY2v+9p3pA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750063755; c=relaxed/simple;
-	bh=Wu3cM/QclpjJdTGyPMWlxQjpBBu+2WRVZaFqExxDSPA=;
-	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type; b=bWQn0MhPxnAbJm62XlvGcCFFam88BAItqW/0gFliPqGfCd5M/GSgPRzvRshC50kjLhq3+/1iSZHfwW7LUCTW8gvyab5pk5ybzTtIHscFVdt1dMTgnGDWNYITPjUXBxC28SjCEk+H7B67RE546N+Ury6V5z0Zasp6lvLsI3GhL50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr; spf=pass smtp.mailfrom=inria.fr; dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b=uwyEbQqf; arc=none smtp.client-ip=192.134.164.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=inria.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inria.fr
+	s=arc-20240116; t=1750064995; c=relaxed/simple;
+	bh=3rrLsFGRkgwqakiZkwY9lo4QrXlqLwVthtdYujqyOVA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=VvheefZfMxnMJuNlcf8N+X76HbLimR2u3TWSCkc26inGUmi9oP+hSRYdpfF9B1mxeKszuh8rsqcak9kqxCC7ytwXcoG6IpIPyoZvLsTa1ISHvV3W0tEK0Pg1+GERDEt+Rpt4WIMZbZigll72sGJnS5W3d93t28PSycO2HGBeG6E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=NJjjWtui; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=inria.fr header.i=@inria.fr header.b="uwyEbQqf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:subject:message-id:mime-version;
-  bh=KZDN4Bgff2aTY1+TvqcmhuWCDl/OGItdWvDYWwO1fZc=;
-  b=uwyEbQqfjOkFLbwTuk5JJMiHsoEBNoiLjAIxISz7M2fNq0prM0S5ar43
-   vio5BvbQ56w2QqSpyk34Z5H+4+QQjwuVx0CxtK4KgE+MeuB04AzqbXY9V
-   8Pd4HaF8nxNKMcEEvTXVBMppdd4dFN+gtJifCQvpSxgRMHiOBVvAGv6lB
-   g=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.16,240,1744063200"; 
-   d="scan'208";a="227328357"
-Received: from dt-lawall.paris.inria.fr ([128.93.67.65])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 10:49:08 +0200
-Date: Mon, 16 Jun 2025 10:49:08 +0200 (CEST)
-From: Julia Lawall <julia.lawall@inria.fr>
-To: Miri Korenblit <miriam.rachel.korenblit@intel.com>, 
-    oe-kbuild-all@lists.linux.dev
-Subject: [iwlwifi-next:next 11/45] drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans-gen2.c:550:2-8:
- preceding lock on line 496 (fwd)
-Message-ID: <dd0725c-ba77-a426-7971-3d7afe5e98c@inria.fr>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="NJjjWtui"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250616090945euoutp02b69aa7f37cd8baf8c2a99c3d975d310e~JetToJTxn1989619896euoutp02d
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 09:09:45 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250616090945euoutp02b69aa7f37cd8baf8c2a99c3d975d310e~JetToJTxn1989619896euoutp02d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1750064985;
+	bh=Z0yVDNlBuUeI2U5G9pnG88sUo+3LU8vld6YvrIkhECY=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=NJjjWtuiH8rQP1rLO+Qn29ldm7aH/ChlGrzo5voO7FGEzkE4eRwYtrAghrMJ1qEdP
+	 pYXMDPXEvc2SPnERO/SvJoRqMWNMp9pPt5+Fk5/14cuWB2tFCkCnyX/0IA0ziX3vRw
+	 E3glhShhovdXx4zJ4e/ZUFX1+Bhtz2spsF/SNLmQ=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250616090944eucas1p1ffc6fcf91024df239946d55f78cd73ab~JetTDE54A2755827558eucas1p16;
+	Mon, 16 Jun 2025 09:09:44 +0000 (GMT)
+Received: from [192.168.1.44] (unknown [106.210.136.40]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20250616090943eusmtip1582353473f82f3f625b89a1041e9e149~JetR4HUmp2738727387eusmtip1M;
+	Mon, 16 Jun 2025 09:09:43 +0000 (GMT)
+Message-ID: <9765c970-55cc-4413-9fd0-5e0cdfa900fa@samsung.com>
+Date: Mon, 16 Jun 2025 11:09:42 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 8/8] drm/imagination: Enable PowerVR driver for
+ RISC-V
+To: kernel test robot <lkp@intel.com>, Drew Fustini <drew@pdp7.com>, Guo Ren
+	<guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, Matt Coster
+	<matt.coster@imgtec.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>, Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>, Marek
+	Szyprowski <m.szyprowski@samsung.com>
+Cc: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran
+	<fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev,
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Content-Language: en-US
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+In-Reply-To: <202506151839.IKkZs0Z0-lkp@intel.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20250616090944eucas1p1ffc6fcf91024df239946d55f78cd73ab
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250615105256eucas1p21dba29a1450757d9201b2a9c7f0e34e8
+X-EPHeader: CA
+X-CMS-RootMailID: 20250615105256eucas1p21dba29a1450757d9201b2a9c7f0e34e8
+References: <20250614-apr_14_for_sending-v4-8-8e3945c819cd@samsung.com>
+	<CGME20250615105256eucas1p21dba29a1450757d9201b2a9c7f0e34e8@eucas1p2.samsung.com>
+	<202506151839.IKkZs0Z0-lkp@intel.com>
 
-It looks like there is a missing unlock on line 550.  If the lock is held
-for the entire scope of the function, then maybe guard would be
-appropriate.
 
-julia
 
----------- Forwarded message ----------
-Date: Mon, 16 Jun 2025 15:00:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, Julia Lawall <julia.lawall@inria.fr>
-Subject: [iwlwifi-next:next 11/45]
-    drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans-gen2.c:550:2-8:
-    preceding lock on line 496
+On 6/15/25 12:51, kernel test robot wrote:
+> Hi Michal,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 4774cfe3543abb8ee98089f535e28ebfd45b975a]
+> 
+> url:    https://protect2.fireeye.com/v1/url?k=6c3bc994-0cd954c9-6c3a42db-000babd9f1ba-30c2378fa012fc4a&q=1&e=c39c960c-4d5f-44d7-aed7-0097394dfc81&u=https%3A%2F%2Fgithub.com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FMichal-Wilczynski%2Fpower-sequencing-Add-T-HEAD-TH1520-GPU-power-sequencer-driver%2F20250615-021142
+> base:   4774cfe3543abb8ee98089f535e28ebfd45b975a
+> patch link:    https://lore.kernel.org/r/20250614-apr_14_for_sending-v4-8-8e3945c819cd%40samsung.com
+> patch subject: [PATCH v4 8/8] drm/imagination: Enable PowerVR driver for RISC-V
+> config: riscv-kismet-CONFIG_DRM_GEM_SHMEM_HELPER-CONFIG_DRM_POWERVR-0-0 (https://download.01.org/0day-ci/archive/20250615/202506151839.IKkZs0Z0-lkp@intel.com/config)
+> reproduce: (https://download.01.org/0day-ci/archive/20250615/202506151839.IKkZs0Z0-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202506151839.IKkZs0Z0-lkp@intel.com/
+> 
+> kismet warnings: (new ones prefixed by >>)
+>>> kismet: WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER when selected by DRM_POWERVR
+>    WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
+>      Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
 
-BCC: lkp@intel.com
-CC: oe-kbuild-all@lists.linux.dev
-TO: Miri Korenblit <miriam.rachel.korenblit@intel.com>
+I believe this is triggered because RISC-V can be compiled without MMU
+support, while MMU support is mandatory for ARM64.
 
-Hi Miri,
+Would an acceptable fix be to require an explicit dependency on the MMU,
+like so?
 
-First bad commit (maybe != root cause):
+depends on (ARM64 || RISCV) && MMU
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/iwlwifi/iwlwifi-next.git next
-head:   445241ba367ab74aa5eaa61fdf43551c451c2fe4
-commit: aeee73e27f2d2eb8c389e13e99d16618fae55285 [11/45] wifi: iwlwifi: pcie: move generation specific files to a folder
-:::::: branch date: 18 hours ago
-:::::: commit date: 5 days ago
-config: x86_64-randconfig-103-20250616 (https://download.01.org/0day-ci/archive/20250616/202506161436.H7OcUVvl-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>      Selected by [y]:
+>      - DRM_POWERVR [=y] && HAS_IOMEM [=y] && (ARM64 || RISCV [=y]) && DRM [=y] && PM [=y]
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Julia Lawall <julia.lawall@inria.fr>
-| Closes: https://lore.kernel.org/r/202506161436.H7OcUVvl-lkp@intel.com/
-
-cocci warnings: (new ones prefixed by >>)
->> drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans-gen2.c:550:2-8: preceding lock on line 496
-
-vim +550 drivers/net/wireless/intel/iwlwifi/pcie/gen1_2/trans-gen2.c
-
-25628bc08d4526d drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-03-26  485
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  486  int iwl_trans_pcie_gen2_start_fw(struct iwl_trans *trans,
-a94d0189961c4e5 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-03  487  				 const struct iwl_fw *fw,
-a94d0189961c4e5 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-03  488  				 const struct fw_img *img,
-a94d0189961c4e5 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-03  489  				 bool run_in_rfkill)
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  490  {
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  491  	struct iwl_trans_pcie *trans_pcie = IWL_TRANS_GET_PCIE_TRANS(trans);
-70582b826365d27 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2023-04-13  492  	bool hw_rfkill, keep_ram_busy;
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  493  	bool top_reset_done = false;
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  494  	int ret;
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  495
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30 @496  	mutex_lock(&trans_pcie->mutex);
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  497  again:
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  498  	/* This may fail if AMT took ownership of the device */
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  499  	if (iwl_pcie_prepare_card_hw(trans)) {
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  500  		IWL_WARN(trans, "Exit HW not ready\n");
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  501  		ret = -EIO;
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  502  		goto out;
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  503  	}
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  504
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  505  	iwl_enable_rfkill_int(trans);
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  506
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  507  	iwl_write32(trans, CSR_INT, 0xFFFFFFFF);
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  508
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  509  	/*
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  510  	 * We enabled the RF-Kill interrupt and the handler may very
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  511  	 * well be running. Disable the interrupts to make sure no other
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  512  	 * interrupt can be fired.
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  513  	 */
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  514  	iwl_disable_interrupts(trans);
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  515
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  516  	/* Make sure it finished running */
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  517  	iwl_pcie_synchronize_irqs(trans);
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  518
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  519  	/* If platform's RF_KILL switch is NOT set to KILL */
-9ad8fd0b4a24e64 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2017-06-20  520  	hw_rfkill = iwl_pcie_check_hw_rf_kill(trans);
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  521  	if (hw_rfkill && !run_in_rfkill) {
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  522  		ret = -ERFKILL;
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  523  		goto out;
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  524  	}
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  525
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  526  	/* Someone called stop_device, don't try to start_fw */
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  527  	if (trans_pcie->is_down) {
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  528  		IWL_WARN(trans,
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  529  			 "Can't start_fw since the HW hasn't been started\n");
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  530  		ret = -EIO;
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  531  		goto out;
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  532  	}
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  533
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  534  	/* make sure rfkill handshake bits are cleared */
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  535  	iwl_write32(trans, CSR_UCODE_DRV_GP1_CLR, CSR_UCODE_SW_BIT_RFKILL);
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  536  	iwl_write32(trans, CSR_UCODE_DRV_GP1_CLR,
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  537  		    CSR_UCODE_DRV_GP1_BIT_CMD_BLOCKED);
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  538
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  539  	/* clear (again), then enable host interrupts */
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  540  	iwl_write32(trans, CSR_INT, 0xFFFFFFFF);
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  541
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  542  	ret = iwl_pcie_gen2_nic_init(trans);
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  543  	if (ret) {
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  544  		IWL_ERR(trans, "Unable to init nic\n");
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  545  		goto out;
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  546  	}
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  547
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  548  	if (WARN_ON(trans->do_top_reset &&
-c96a36491003d7a drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-08  549  		    trans->mac_cfg->device_family < IWL_DEVICE_FAMILY_SC))
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30 @550  		return -EINVAL;
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  551
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  552  	/* we need to wait later - set state */
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  553  	if (trans->do_top_reset)
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  554  		trans_pcie->fw_reset_state = FW_RESET_TOP_REQUESTED;
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  555
-c96a36491003d7a drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-08  556  	if (trans->mac_cfg->device_family >= IWL_DEVICE_FAMILY_AX210) {
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  557  		if (!top_reset_done) {
-22a67414f4bae22 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Miri Korenblit 2025-05-11  558  			ret = iwl_pcie_ctxt_info_v2_alloc(trans, fw, img);
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  559  			if (ret)
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  560  				goto out;
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  561  		}
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  562
-22a67414f4bae22 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Miri Korenblit 2025-05-11  563  		iwl_pcie_ctxt_info_v2_kick(trans);
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  564  	} else {
-a94d0189961c4e5 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-03  565  		ret = iwl_pcie_ctxt_info_init(trans, img);
-97b00d877bb8c2e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2017-04-19  566  		if (ret)
-97b00d877bb8c2e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2017-04-19  567  			goto out;
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  568  	}
-eda50cde58de736 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Sara Sharon    2016-09-28  569
-70582b826365d27 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2023-04-13  570  	keep_ram_busy = !iwl_pcie_set_ltr(trans);
-25628bc08d4526d drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-03-26  571
-c96a36491003d7a drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-08  572  	if (trans->mac_cfg->device_family >= IWL_DEVICE_FAMILY_BZ) {
-70d400ba7fa71d1 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2024-07-29  573  		IWL_DEBUG_POWER(trans, "function scratch register value is 0x%08x\n",
-70d400ba7fa71d1 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2024-07-29  574  				iwl_read32(trans, CSR_FUNC_SCRATCH));
-595c230b95130b2 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Matti Gottlieb 2021-08-26  575  		iwl_write32(trans, CSR_FUNC_SCRATCH, CSR_FUNC_SCRATCH_INIT_VALUE);
-9ce041f5966fd07 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-08-02  576  		iwl_set_bit(trans, CSR_GP_CNTRL,
-9ce041f5966fd07 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-08-02  577  			    CSR_GP_CNTRL_REG_FLAG_ROM_START);
-c96a36491003d7a drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-05-08  578  	} else if (trans->mac_cfg->device_family >= IWL_DEVICE_FAMILY_AX210) {
-25628bc08d4526d drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-03-26  579  		iwl_write_umac_prph(trans, UREG_CPU_INIT_RUN, 1);
-595c230b95130b2 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Matti Gottlieb 2021-08-26  580  	} else {
-25628bc08d4526d drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-03-26  581  		iwl_write_prph(trans, UREG_CPU_INIT_RUN, 1);
-595c230b95130b2 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Matti Gottlieb 2021-08-26  582  	}
-25628bc08d4526d drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2021-03-26  583
-70582b826365d27 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2023-04-13  584  	if (keep_ram_busy)
-70582b826365d27 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2023-04-13  585  		iwl_pcie_spin_for_iml(trans);
-70582b826365d27 drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2023-04-13  586
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  587  	if (trans->do_top_reset) {
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  588  		trans->do_top_reset = 0;
-909e1be6546258e drivers/net/wireless/intel/iwlwifi/pcie/trans-gen2.c Johannes Berg  2025-04-30  589
-
-:::::: The code at line 550 was first introduced by commit
-:::::: 909e1be6546258efb45993851d51d86862e2e5ee wifi: iwlwifi: implement TOP reset
-
-:::::: TO: Johannes Berg <johannes.berg@intel.com>
-:::::: CC: Miri Korenblit <miriam.rachel.korenblit@intel.com>
-
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Michal Wilczynski <m.wilczynski@samsung.com>
