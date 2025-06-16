@@ -1,120 +1,151 @@
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C82EC202C50
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 09:09:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BC84A33
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 09:22:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750064995; cv=none; b=lD8tiUprtqp4J4vV5pi1JHOcy/EEGoY9TtlmpMQ2oFrn7GOR4bvwal3rFQaD7v5SwCspS2rW4q9vjWDmnsIFSuHRGI7T7bT27d5CRhbIDpYOI6lsXsn/qUncCtjr5xzJqkb9m+EMUyuyZCpF/QJf84k8k4gIbt2GsxY2v+9p3pA=
+	t=1750065767; cv=none; b=NKCFvB76Ob6/deTnfaF4qsN/FrJ22NfdouZAQ/mLZ7QkxtyfJt/bZnmYYW7Zg6I78+eFSFHL9hS8KFBN94xdaL7VjyDXSIjPxwFKgzCLHZ1jI/V4bJQ9m4ti/Ew0irk7JJWq0XmF5UiB10cRBumyjo/eKJf51DcwwSRBLm6LYjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750064995; c=relaxed/simple;
-	bh=3rrLsFGRkgwqakiZkwY9lo4QrXlqLwVthtdYujqyOVA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=VvheefZfMxnMJuNlcf8N+X76HbLimR2u3TWSCkc26inGUmi9oP+hSRYdpfF9B1mxeKszuh8rsqcak9kqxCC7ytwXcoG6IpIPyoZvLsTa1ISHvV3W0tEK0Pg1+GERDEt+Rpt4WIMZbZigll72sGJnS5W3d93t28PSycO2HGBeG6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=NJjjWtui; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1750065767; c=relaxed/simple;
+	bh=boaYqs6W2Ch9MV7MIDV7tFHWVXlXvSTuE+SZQidgsAU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rtro8roM/CAnm7SHlRvGlmsixPhkT4MuFkpXGFpXYXXC7hE8Ft32r5LHWs3/tWFOcUoL/iPw/ktmn76pm1GHX3yRGuwiUoEF1Lg7YkkVUtI794WSh9Q9LfxXBaHZJtc1e4f5Yz/Dv1aAy4Oq4HEydg2NtYhqWL+wLu2T46D+3sQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=k4gAKZKC; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="NJjjWtui"
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250616090945euoutp02b69aa7f37cd8baf8c2a99c3d975d310e~JetToJTxn1989619896euoutp02d
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 09:09:45 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250616090945euoutp02b69aa7f37cd8baf8c2a99c3d975d310e~JetToJTxn1989619896euoutp02d
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1750064985;
-	bh=Z0yVDNlBuUeI2U5G9pnG88sUo+3LU8vld6YvrIkhECY=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=NJjjWtuiH8rQP1rLO+Qn29ldm7aH/ChlGrzo5voO7FGEzkE4eRwYtrAghrMJ1qEdP
-	 pYXMDPXEvc2SPnERO/SvJoRqMWNMp9pPt5+Fk5/14cuWB2tFCkCnyX/0IA0ziX3vRw
-	 E3glhShhovdXx4zJ4e/ZUFX1+Bhtz2spsF/SNLmQ=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20250616090944eucas1p1ffc6fcf91024df239946d55f78cd73ab~JetTDE54A2755827558eucas1p16;
-	Mon, 16 Jun 2025 09:09:44 +0000 (GMT)
-Received: from [192.168.1.44] (unknown [106.210.136.40]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250616090943eusmtip1582353473f82f3f625b89a1041e9e149~JetR4HUmp2738727387eusmtip1M;
-	Mon, 16 Jun 2025 09:09:43 +0000 (GMT)
-Message-ID: <9765c970-55cc-4413-9fd0-5e0cdfa900fa@samsung.com>
-Date: Mon, 16 Jun 2025 11:09:42 +0200
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="k4gAKZKC"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-553b544e7b4so2798573e87.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 16 Jun 2025 02:22:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1750065764; x=1750670564; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=L4clW0hfNM59uFuEpnawSRjVBJDyxSvonnhwsOilymQ=;
+        b=k4gAKZKC4Wn22xDaCx2AfMj+st3xb+tPdK9K2Ki40VZsXmuhRn5yh8urejP+or6UvA
+         gaZxLM7aA5WAdRA6clAGuaCuWm7xaLr/5Wl9iG+5Wb/S1w0ehwEP5oOVGfsgj5XV+3lA
+         AU6bFYM9So0rd6Z6kmRfj6fHdd8WMfdoDIKcE9EbzRJ0VD6BHJ7NqwbP1cAFkQ1ObeXL
+         Gb4cpYcWaSN7QZ/1NYIJqsi+QD+xPM+rIk2eeE2q9iLn85MtXsdgjfvAtU3DcH9a3mq0
+         R6p1hcCakzLKil/8cPmCpalkNy1jUxKGnQLngbXKkYfiUJJeq5IWX4qKF8qKmEDsjtcT
+         tLbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750065764; x=1750670564;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=L4clW0hfNM59uFuEpnawSRjVBJDyxSvonnhwsOilymQ=;
+        b=PffN9OYzlL9LJYgoNv92AvF5F2j7x5TlJzmTuzqAoFXDUIO7WqMX32CqnEDhyRE+NM
+         /lkGDZMC/P0tNVZRuJqWzHDs3E+jR6WfFp5CMHkMJm3D27u+Kx5jzms9xNtU+JiF6H+S
+         lSLCDfmNKAO3Y94ZDfg2uWuFCPpI6s91YUDLk66veewey2bF2kPn2pPv3vgsecDo9xlP
+         1wDcHEQOCdIaKejp2TCcnV6ATQ33iYmw6UtWBO5MuSHHEAq5Qa0zSAvuaW5F4X0Q+cwr
+         j/V4iw9whx4PatEQ/F+sWi2DRLjFaUU0sy7AgtNYeI9fnP50PpzkdaVaeI/XMk1G2mOm
+         zt7A==
+X-Forwarded-Encrypted: i=1; AJvYcCVCz+RT/wbKM+ikmMGyy33fwWip2LtsR0YbPBut+vylaBSm56as0xNCmavvY4iPZmQEa+D3i595RZokLgKM@lists.linux.dev
+X-Gm-Message-State: AOJu0Yybq4BnoEuNtfkqHZviNRndfoEWVXULsoLM5PDoblppEtUmo/Ki
+	N+/iRubPg2o4hKnIefEsb7GIOHRtcwVXTwtxNZZ/9pc/ZO1F0zwpfjbGC1mP/zHSmprpKusFjtJ
+	KRRTz+2xXRBYy6ArhOmc9cof+mzbDidc5pdGIJaDIUQ==
+X-Gm-Gg: ASbGncumxwr+f+qkExwBwIMR3wN3gWj8nJujrXaLHjEI031Agnkjwyf0vfqOgAbsws2
+	PgIPI1LSkWjX48lC/GkDAYUKxUJ65I10e22tnHfhraYU4XXMffzLCy5Zyo2eY4DItVfK7bjClf6
+	o4eRxm7gIv2vSppWJTD3GvyW9pNm7JCGUmN5aimO9WX5xIvglE9qp7nDSaCSudflQGX6Ekei/kz
+	xI=
+X-Google-Smtp-Source: AGHT+IEsBvyH0Zky97WuBrKbbjvEScgzySvzxn3rYYtDfdyw86suCq566xBi9HBUjAShIE2Mm9O+XZUWm2PEcQ1RjmQ=
+X-Received: by 2002:a05:6512:12ca:b0:553:2ed2:15b4 with SMTP id
+ 2adb3069b0e04-553b6f4d916mr2068254e87.57.1750065764330; Mon, 16 Jun 2025
+ 02:22:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 8/8] drm/imagination: Enable PowerVR driver for
- RISC-V
-To: kernel test robot <lkp@intel.com>, Drew Fustini <drew@pdp7.com>, Guo Ren
-	<guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel
-	<p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, Matt Coster
-	<matt.coster@imgtec.com>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>, Marek
-	Szyprowski <m.szyprowski@samsung.com>
-Cc: Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran
-	<fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Content-Language: en-US
-From: Michal Wilczynski <m.wilczynski@samsung.com>
-In-Reply-To: <202506151839.IKkZs0Z0-lkp@intel.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20250616090944eucas1p1ffc6fcf91024df239946d55f78cd73ab
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20250615105256eucas1p21dba29a1450757d9201b2a9c7f0e34e8
-X-EPHeader: CA
-X-CMS-RootMailID: 20250615105256eucas1p21dba29a1450757d9201b2a9c7f0e34e8
 References: <20250614-apr_14_for_sending-v4-8-8e3945c819cd@samsung.com>
-	<CGME20250615105256eucas1p21dba29a1450757d9201b2a9c7f0e34e8@eucas1p2.samsung.com>
-	<202506151839.IKkZs0Z0-lkp@intel.com>
+ <CGME20250615105256eucas1p21dba29a1450757d9201b2a9c7f0e34e8@eucas1p2.samsung.com>
+ <202506151839.IKkZs0Z0-lkp@intel.com> <9765c970-55cc-4413-9fd0-5e0cdfa900fa@samsung.com>
+In-Reply-To: <9765c970-55cc-4413-9fd0-5e0cdfa900fa@samsung.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Mon, 16 Jun 2025 11:22:32 +0200
+X-Gm-Features: AX0GCFvGdfEg2CPyKVWjNTkacG-9vOyaV6LbrgzY6YJIQBzVINyrlmiwiBnsQKI
+Message-ID: <CAMRc=MeG40TxMj3ezeC0iUBBo8w99RXQWOQBsfG4ZAJdbA+dYg@mail.gmail.com>
+Subject: Re: [PATCH v4 8/8] drm/imagination: Enable PowerVR driver for RISC-V
+To: Michal Wilczynski <m.wilczynski@samsung.com>
+Cc: kernel test robot <lkp@intel.com>, Drew Fustini <drew@pdp7.com>, Guo Ren <guoren@kernel.org>, 
+	Fu Wei <wefu@redhat.com>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Frank Binns <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>, 
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+	Ulf Hansson <ulf.hansson@linaro.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
+	Paul Gazzillo <paul@pgazz.com>, Necip Fazil Yildiran <fazilyildiran@gmail.com>, oe-kbuild-all@lists.linux.dev, 
+	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Jun 16, 2025 at 11:09=E2=80=AFAM Michal Wilczynski
+<m.wilczynski@samsung.com> wrote:
+>
+>
+>
+> On 6/15/25 12:51, kernel test robot wrote:
+> > Hi Michal,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+> > [auto build test WARNING on 4774cfe3543abb8ee98089f535e28ebfd45b975a]
+> >
+> > url:    https://protect2.fireeye.com/v1/url?k=3D6c3bc994-0cd954c9-6c3a4=
+2db-000babd9f1ba-30c2378fa012fc4a&q=3D1&e=3Dc39c960c-4d5f-44d7-aed7-0097394=
+dfc81&u=3Dhttps%3A%2F%2Fgithub.com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FMich=
+al-Wilczynski%2Fpower-sequencing-Add-T-HEAD-TH1520-GPU-power-sequencer-driv=
+er%2F20250615-021142
+> > base:   4774cfe3543abb8ee98089f535e28ebfd45b975a
+> > patch link:    https://lore.kernel.org/r/20250614-apr_14_for_sending-v4=
+-8-8e3945c819cd%40samsung.com
+> > patch subject: [PATCH v4 8/8] drm/imagination: Enable PowerVR driver fo=
+r RISC-V
+> > config: riscv-kismet-CONFIG_DRM_GEM_SHMEM_HELPER-CONFIG_DRM_POWERVR-0-0=
+ (https://download.01.org/0day-ci/archive/20250615/202506151839.IKkZs0Z0-lk=
+p@intel.com/config)
+> > reproduce: (https://download.01.org/0day-ci/archive/20250615/2025061518=
+39.IKkZs0Z0-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202506151839.IKkZs0Z0-l=
+kp@intel.com/
+> >
+> > kismet warnings: (new ones prefixed by >>)
+> >>> kismet: WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM=
+_HELPER when selected by DRM_POWERVR
+> >    WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
+> >      Depends on [n]: HAS_IOMEM [=3Dy] && DRM [=3Dy] && MMU [=3Dn]
+>
+> I believe this is triggered because RISC-V can be compiled without MMU
+> support, while MMU support is mandatory for ARM64.
+>
+> Would an acceptable fix be to require an explicit dependency on the MMU,
+> like so?
+>
+> depends on (ARM64 || RISCV) && MMU
+>
 
+I'd put them on separate lines. While at it: how about enabling build
+with COMPILE_TEST to extend build coverage too?
 
-On 6/15/25 12:51, kernel test robot wrote:
-> Hi Michal,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 4774cfe3543abb8ee98089f535e28ebfd45b975a]
-> 
-> url:    https://protect2.fireeye.com/v1/url?k=6c3bc994-0cd954c9-6c3a42db-000babd9f1ba-30c2378fa012fc4a&q=1&e=c39c960c-4d5f-44d7-aed7-0097394dfc81&u=https%3A%2F%2Fgithub.com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FMichal-Wilczynski%2Fpower-sequencing-Add-T-HEAD-TH1520-GPU-power-sequencer-driver%2F20250615-021142
-> base:   4774cfe3543abb8ee98089f535e28ebfd45b975a
-> patch link:    https://lore.kernel.org/r/20250614-apr_14_for_sending-v4-8-8e3945c819cd%40samsung.com
-> patch subject: [PATCH v4 8/8] drm/imagination: Enable PowerVR driver for RISC-V
-> config: riscv-kismet-CONFIG_DRM_GEM_SHMEM_HELPER-CONFIG_DRM_POWERVR-0-0 (https://download.01.org/0day-ci/archive/20250615/202506151839.IKkZs0Z0-lkp@intel.com/config)
-> reproduce: (https://download.01.org/0day-ci/archive/20250615/202506151839.IKkZs0Z0-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506151839.IKkZs0Z0-lkp@intel.com/
-> 
-> kismet warnings: (new ones prefixed by >>)
->>> kismet: WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER when selected by DRM_POWERVR
->    WARNING: unmet direct dependencies detected for DRM_GEM_SHMEM_HELPER
->      Depends on [n]: HAS_IOMEM [=y] && DRM [=y] && MMU [=n]
+Bart
 
-I believe this is triggered because RISC-V can be compiled without MMU
-support, while MMU support is mandatory for ARM64.
-
-Would an acceptable fix be to require an explicit dependency on the MMU,
-like so?
-
-depends on (ARM64 || RISCV) && MMU
-
->      Selected by [y]:
->      - DRM_POWERVR [=y] && HAS_IOMEM [=y] && (ARM64 || RISCV [=y]) && DRM [=y] && PM [=y]
-> 
-
-Best regards,
--- 
-Michal Wilczynski <m.wilczynski@samsung.com>
+> >      Selected by [y]:
+> >      - DRM_POWERVR [=3Dy] && HAS_IOMEM [=3Dy] && (ARM64 || RISCV [=3Dy]=
+) && DRM [=3Dy] && PM [=3Dy]
+> >
+>
+> Best regards,
+> --
+> Michal Wilczynski <m.wilczynski@samsung.com>
