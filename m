@@ -1,203 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6265F15539A
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 04:28:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB7A14A09C;
+	Tue, 17 Jun 2025 04:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750134528; cv=none; b=pjcp3jw26hLnf42gG6HMgfyn/YxANvSyNUx1aZVltDeum8iCyFZrlZsZuntDauKbfKL3dng2wCpbgDxNUvhi8m/NsgocqdAxa7jrXEyEkwm9aCOQu4HJTwyaseaQzyA0oX31WVtgmfocW7R9TYMcvjGYQuESIYcix0L6B/Xh36U=
+	t=1750135719; cv=none; b=P7cfLJvcwl6QKZq6eQIMsa1LiShzefhkyTEl07egar7niaox5myBKNMAMdNOlAGw56wSwdIdnUBpn8YlqY7WQY23YEd10TPyKuvfhvcgTMTLPGsmzAyB1cjHxbg7/p2/9lsFTnc1hqi84e14GG9ANInYXsDED/bd4GZ/bvcRfPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750134528; c=relaxed/simple;
-	bh=r+JlwcSVkr+3dCSAPh82FbMT/WtwIWWYDyDV7nZ6rqc=;
+	s=arc-20240116; t=1750135719; c=relaxed/simple;
+	bh=HpbsjtUF8/0yEJq1r9APjd7aYWNq9AD83e/U0S1OeDk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KEwzFfJmArSobujoRa0fcWUD+ixb1kFMYZI3E/5f8SjG7c7HB6WzFDMFJ3Tmfnn+l5p1XpDT1OOIUKefHyy0FIW07XkxYYD2mlyMNHhO9czPq4pYO88t436TLWhaWN10oLa1x0HLxzW69gilI7lix2BKOq0teKY+T2pUxYARekg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gCecL61i; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gCecL61i"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750134527; x=1781670527;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=r+JlwcSVkr+3dCSAPh82FbMT/WtwIWWYDyDV7nZ6rqc=;
-  b=gCecL61ikPeLcvbXHKWe0V49TZK8816mUWcWPeJjt2neTEcSP+O/hFSp
-   MoUxuntYIDo4Jn44Prd4ZYUzhzzyFw2ae6udUuvSiJtGx+kmZwGE0GDVi
-   N/ez1HcqxI0mUbyoB9QZIRiRolXZd/ost+hh9IijyPec6ZA7WT7gDYFRx
-   Wlzv+I2oyne59rFFoSch3o63x2Gfvwcn37qe0g4H4LHe3/NNQbbEQxK0b
-   zKrFY8mlntCWS8die2vmtWOvraNrS88ahmqUopSF/BHM/8js8hXXpVsaI
-   L12DWoZIVXg8ZWWqzTvDD4YBZqKImFRjW6RpIh6jrLliZ7qg4C4QHkrHD
-   g==;
-X-CSE-ConnectionGUID: EZJPjbQNSxGe+Yol8jyXiA==
-X-CSE-MsgGUID: A07OFo1MROWhbFReFGfhBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="52386680"
-X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
-   d="scan'208";a="52386680"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 21:28:46 -0700
-X-CSE-ConnectionGUID: l7Cy+F8MRUS3XxF327Kqsg==
-X-CSE-MsgGUID: LtY74Y6DQcuJ1/NV4lX+zQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
-   d="scan'208";a="185915972"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 16 Jun 2025 21:28:44 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uRNw8-000FaG-2C;
-	Tue, 17 Jun 2025 04:28:40 +0000
-Date: Tue, 17 Jun 2025 12:27:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	thomas.hellstrom@linux.intel.com, intel-xe@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, matthew.brost@intel.com,
-	matthew.auld@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 6/6] drm/ttm: replace TTMs refcount with the DRM refcount
-Message-ID: <202506171254.EsodeP9U-lkp@intel.com>
-References: <20250616130726.22863-6-christian.koenig@amd.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=AJGti8Fo+ntIbUYtMh2mOP5Kv5Np7xYl7WRrRYRQTkCiL2y39USkCwMMh7ax9A8mzjoDboTDg9L1ZyS5mXzUTqHEO328kfXBSwN804kPKGLeM3MNBUE6f1aKmpzr0yZARVZWPNJCMxyhIczAtj7iHq5mO70tqpkLp1xGco0SuVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id B627868D0E; Tue, 17 Jun 2025 06:48:33 +0200 (CEST)
+Date: Tue, 17 Jun 2025 06:48:33 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: James Clark <james.clark@linaro.org>, Christoph Hellwig <hch@lst.de>,
+	Mark Brown <broonie@kernel.org>,
+	Vladimir Oltean <olteanv@gmail.com>, oe-kbuild-all@lists.linux.dev,
+	Larisa Grigore <larisa.grigore@nxp.com>,
+	Frank Li <Frank.li@nxp.com>, linux-spi@vger.kernel.org,
+	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+	kernel test robot <lkp@intel.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>, iommu@lists.linux.dev
+Subject: Re: [PATCH] dma-mapping: Stub out dma_{alloc,free,map}_pages() API
+Message-ID: <20250617044833.GE1824@lst.de>
+References: <20250616120832.GA24959@lst.de> <2d62254e-5cbe-4174-95d8-e80cae4f4543@sirena.org.uk> <20250616121444.GA25443@lst.de> <7cfcf919-3c7d-4f0c-911f-697ea3141080@linaro.org> <20250616131346.GB29838@lst.de> <83855c1a-c128-4762-9d6b-e17f2c4c8820@linaro.org> <d16bdc40-20d6-49db-bf41-18bb9b8e01fd@linaro.org> <20250616131944.GA30260@lst.de> <f723d490-c228-42d5-9f9f-158df54a092d@linaro.org> <9788991a-ac37-4fde-81db-c55035d00f27@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250616130726.22863-6-christian.koenig@amd.com>
+In-Reply-To: <9788991a-ac37-4fde-81db-c55035d00f27@app.fastmail.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Hi Christian,
+On Mon, Jun 16, 2025 at 03:48:50PM +0200, Arnd Bergmann wrote:
+> As far as I can tell, the difference here is that the
+> dma_alloc_coherent()/dma_free_coherent() calls all get stubbed
+> out, so the 827 drivers using those can all build cleanly on
+> mk68knommu, shnommu and UML, while dma_alloc_noncoherent()/
+> dma_free_noncoherent() are only used on 15 files that are all
+> guarded by some other Kconfig dependency at the moment and won't
+> build on the those platforms.
 
-kernel test robot noticed the following build errors:
+Yes, dma_alloc_coherent is from a time where stubbing out was
+still very common.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on next-20250616]
-[cannot apply to drm-xe/drm-xe-next drm-exynos/exynos-drm-next linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip v6.16-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> I agree that it would be best to treat the coherent/noncoherent
+> cases the same, and I also think the existing stubs are a bit
+> silly, but just removing them would likely require fixing
+> hundreds of drivers with added Kconfig or IS_ENABLED() checks.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-K-nig/drm-xe-stop-asserting-on-the-TTM-refcount/20250616-210818
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20250616130726.22863-6-christian.koenig%40amd.com
-patch subject: [PATCH 6/6] drm/ttm: replace TTMs refcount with the DRM refcount
-config: x86_64-buildonly-randconfig-006-20250617 (https://download.01.org/0day-ci/archive/20250617/202506171254.EsodeP9U-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250617/202506171254.EsodeP9U-lkp@intel.com/reproduce)
+I doubt it's that many, as most drivers and even subsystems simply
+depend on DMA.  There's probably at most a few dozen drivers
+supporting DMA but not requiring it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506171254.EsodeP9U-lkp@intel.com/
+> Maybe we can actually remove CONFIG_NO_DMA/CONFIG_HAS_DMA
+> entirely and remove all the checks for CONFIG_HAS_DMA? 
+> My guess is that this would only lead to a small code size
+> increase on the affected targets, but since they are not
+> actually trying to do DMA, and they all have a very limited
+> set of drivers they actually use, it won't break existing
+> code.
 
-All errors (new ones prefixed by >>):
+Except for uml, the CONFIG_NO_DMA configs are usually very resource
+constraint, so I don't think that's a good idea.
 
-   drivers/gpu/drm/i915/gem/i915_gem_ttm.c: In function 'i915_ttm_adjust_lru':
->> drivers/gpu/drm/i915/gem/i915_gem_ttm.c:935:27: error: 'struct ttm_buffer_object' has no member named 'kref'
-     935 |         if (!kref_read(&bo->kref))
-         |                           ^~
-
-
-vim +935 drivers/gpu/drm/i915/gem/i915_gem_ttm.c
-
-213d5092776345 Thomas Hellström 2021-06-10   918  
-3589fdbd3b2085 Thomas Hellström 2021-11-04   919  /**
-3589fdbd3b2085 Thomas Hellström 2021-11-04   920   * i915_ttm_adjust_lru - Adjust an object's position on relevant LRU lists.
-3589fdbd3b2085 Thomas Hellström 2021-11-04   921   * @obj: The object
-3589fdbd3b2085 Thomas Hellström 2021-11-04   922   */
-3589fdbd3b2085 Thomas Hellström 2021-11-04   923  void i915_ttm_adjust_lru(struct drm_i915_gem_object *obj)
-213d5092776345 Thomas Hellström 2021-06-10   924  {
-213d5092776345 Thomas Hellström 2021-06-10   925  	struct ttm_buffer_object *bo = i915_gem_to_ttm(obj);
-7ae034590ceaef Matthew Auld     2021-10-18   926  	struct i915_ttm_tt *i915_tt =
-7ae034590ceaef Matthew Auld     2021-10-18   927  		container_of(bo->ttm, typeof(*i915_tt), ttm);
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   928  	bool shrinkable =
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   929  		bo->ttm && i915_tt->filp && ttm_tt_is_populated(bo->ttm);
-213d5092776345 Thomas Hellström 2021-06-10   930  
-213d5092776345 Thomas Hellström 2021-06-10   931  	/*
-213d5092776345 Thomas Hellström 2021-06-10   932  	 * Don't manipulate the TTM LRUs while in TTM bo destruction.
-213d5092776345 Thomas Hellström 2021-06-10   933  	 * We're called through i915_ttm_delete_mem_notify().
-213d5092776345 Thomas Hellström 2021-06-10   934  	 */
-213d5092776345 Thomas Hellström 2021-06-10  @935  	if (!kref_read(&bo->kref))
-213d5092776345 Thomas Hellström 2021-06-10   936  		return;
-213d5092776345 Thomas Hellström 2021-06-10   937  
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   938  	/*
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   939  	 * We skip managing the shrinker LRU in set_pages() and just manage
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   940  	 * everything here. This does at least solve the issue with having
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   941  	 * temporary shmem mappings(like with evicted lmem) not being visible to
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   942  	 * the shrinker. Only our shmem objects are shrinkable, everything else
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   943  	 * we keep as unshrinkable.
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   944  	 *
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   945  	 * To make sure everything plays nice we keep an extra shrink pin in TTM
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   946  	 * if the underlying pages are not currently shrinkable. Once we release
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   947  	 * our pin, like when the pages are moved to shmem, the pages will then
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   948  	 * be added to the shrinker LRU, assuming the caller isn't also holding
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   949  	 * a pin.
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   950  	 *
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   951  	 * TODO: consider maybe also bumping the shrinker list here when we have
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   952  	 * already unpinned it, which should give us something more like an LRU.
-d3cb30f8dcbcb7 Thomas Hellström 2021-11-10   953  	 *
-d3cb30f8dcbcb7 Thomas Hellström 2021-11-10   954  	 * TODO: There is a small window of opportunity for this function to
-d3cb30f8dcbcb7 Thomas Hellström 2021-11-10   955  	 * get called from eviction after we've dropped the last GEM refcount,
-d3cb30f8dcbcb7 Thomas Hellström 2021-11-10   956  	 * but before the TTM deleted flag is set on the object. Avoid
-d3cb30f8dcbcb7 Thomas Hellström 2021-11-10   957  	 * adjusting the shrinker list in such cases, since the object is
-d3cb30f8dcbcb7 Thomas Hellström 2021-11-10   958  	 * not available to the shrinker anyway due to its zero refcount.
-d3cb30f8dcbcb7 Thomas Hellström 2021-11-10   959  	 * To fix this properly we should move to a TTM shrinker LRU list for
-d3cb30f8dcbcb7 Thomas Hellström 2021-11-10   960  	 * these objects.
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   961  	 */
-d3cb30f8dcbcb7 Thomas Hellström 2021-11-10   962  	if (kref_get_unless_zero(&obj->base.refcount)) {
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   963  		if (shrinkable != obj->mm.ttm_shrinkable) {
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   964  			if (shrinkable) {
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   965  				if (obj->mm.madv == I915_MADV_WILLNEED)
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   966  					__i915_gem_object_make_shrinkable(obj);
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   967  				else
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   968  					__i915_gem_object_make_purgeable(obj);
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   969  			} else {
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   970  				i915_gem_object_make_unshrinkable(obj);
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   971  			}
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   972  
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   973  			obj->mm.ttm_shrinkable = shrinkable;
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   974  		}
-d3cb30f8dcbcb7 Thomas Hellström 2021-11-10   975  		i915_gem_object_put(obj);
-d3cb30f8dcbcb7 Thomas Hellström 2021-11-10   976  	}
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   977  
-213d5092776345 Thomas Hellström 2021-06-10   978  	/*
-213d5092776345 Thomas Hellström 2021-06-10   979  	 * Put on the correct LRU list depending on the MADV status
-213d5092776345 Thomas Hellström 2021-06-10   980  	 */
-213d5092776345 Thomas Hellström 2021-06-10   981  	spin_lock(&bo->bdev->lru_lock);
-ebd4a8ec7799b1 Matthew Auld     2021-10-18   982  	if (shrinkable) {
-7ae034590ceaef Matthew Auld     2021-10-18   983  		/* Try to keep shmem_tt from being considered for shrinking. */
-7ae034590ceaef Matthew Auld     2021-10-18   984  		bo->priority = TTM_MAX_BO_PRIORITY - 1;
-7ae034590ceaef Matthew Auld     2021-10-18   985  	} else if (obj->mm.madv != I915_MADV_WILLNEED) {
-213d5092776345 Thomas Hellström 2021-06-10   986  		bo->priority = I915_TTM_PRIO_PURGE;
-213d5092776345 Thomas Hellström 2021-06-10   987  	} else if (!i915_gem_object_has_pages(obj)) {
-213d5092776345 Thomas Hellström 2021-06-10   988  		bo->priority = I915_TTM_PRIO_NO_PAGES;
-ba2c5d15022a56 Matthew Auld     2022-02-09   989  	} else {
-9373505967ffc1 Matthew Auld     2022-02-28   990  		struct ttm_resource_manager *man =
-9373505967ffc1 Matthew Auld     2022-02-28   991  			ttm_manager_type(bo->bdev, bo->resource->mem_type);
-9373505967ffc1 Matthew Auld     2022-02-28   992  
-9373505967ffc1 Matthew Auld     2022-02-28   993  		/*
-9373505967ffc1 Matthew Auld     2022-02-28   994  		 * If we need to place an LMEM resource which doesn't need CPU
-9373505967ffc1 Matthew Auld     2022-02-28   995  		 * access then we should try not to victimize mappable objects
-9373505967ffc1 Matthew Auld     2022-02-28   996  		 * first, since we likely end up stealing more of the mappable
-54296aa4cfe718 Nitin Gote       2025-01-20   997  		 * portion. And likewise when we try to find space for a mappable
-9373505967ffc1 Matthew Auld     2022-02-28   998  		 * object, we know not to ever victimize objects that don't
-9373505967ffc1 Matthew Auld     2022-02-28   999  		 * occupy any mappable pages.
-9373505967ffc1 Matthew Auld     2022-02-28  1000  		 */
-9373505967ffc1 Matthew Auld     2022-02-28  1001  		if (i915_ttm_cpu_maps_iomem(bo->resource) &&
-9373505967ffc1 Matthew Auld     2022-02-28  1002  		    i915_ttm_buddy_man_visible_size(man) < man->size &&
-9373505967ffc1 Matthew Auld     2022-02-28  1003  		    !(obj->flags & I915_BO_ALLOC_GPU_ONLY))
-9373505967ffc1 Matthew Auld     2022-02-28  1004  			bo->priority = I915_TTM_PRIO_NEEDS_CPU_ACCESS;
-9373505967ffc1 Matthew Auld     2022-02-28  1005  		else
-ba2c5d15022a56 Matthew Auld     2022-02-09  1006  			bo->priority = I915_TTM_PRIO_HAS_PAGES;
-213d5092776345 Thomas Hellström 2021-06-10  1007  	}
-213d5092776345 Thomas Hellström 2021-06-10  1008  
-fee2ede155423b Christian König  2022-01-24  1009  	ttm_bo_move_to_lru_tail(bo);
-213d5092776345 Thomas Hellström 2021-06-10  1010  	spin_unlock(&bo->bdev->lru_lock);
-213d5092776345 Thomas Hellström 2021-06-10  1011  }
-213d5092776345 Thomas Hellström 2021-06-10  1012  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
