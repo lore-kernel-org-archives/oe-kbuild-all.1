@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4255423A563
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 06:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9E328DB6D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 07:03:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750143241; cv=none; b=o1FLKyfxitbkCrIy0grZAuoTQu1op6mr4EqBRuVUtANONM/9MikEhzZo7uR8aIQiki5pXW9YpYMJ0n6HtYeMQw2dLlTEnkfUh8Nphd0JWh6WFPYAfpR5rR8uCjsPb5VbqCwB/X48hlOBpq4pxMR3EEY2utsyPMXGIhhDuZqh28s=
+	t=1750143840; cv=none; b=FrAIwZbDNfEwG+xtUKLWv+LVuwYVvt00N5wJ7suhsLraTQctq46hEf5N979rCQAO/dkyemX4SEpOMhuxMlRNTq9WzGPLi+nrosiqXBxWt/ZOjNSkQBoDNCroqUlIklqDfsY4cLozE6YSP5aTi5iaw8MhI3x0CuktusciteLCkr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750143241; c=relaxed/simple;
-	bh=FnatwT6ED23n6DpmItCJZqHim7D0569k5cZHekSjaQY=;
+	s=arc-20240116; t=1750143840; c=relaxed/simple;
+	bh=M9KL7WsxEaCejGVO2tzDQt65Uc5CgH57uTc3PnytO4Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dn8mDEd1Kuz2VPZL42vmb+eGZYRCGbLFeLs8XNGaG44AiYJbA1HxQiR9musyss0vpkcTaZaxrnEg5XhM88OgO5ifJD+AXawKBja4eHM3QeKj/CIcwmugWqzU6+xe5wvP+YkIOaatzDHefyF1F3+ArD/tN9oQ7IYAfJlN7YHxWro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QNCCfZW8; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=UOfypaKzNMRfo2Gk6CCSNCkFaL3lAOMTa6mbMZwXmCS70LhODuTYcZRf81c5jQViFTgzl/slsoHJ3JAFDOlqLn8Ok64ioh8umaxQlm1TAjP5alhCyA7XCNBXYGXMrwWpHGQhItRx3Bjbmkt4puhcFTZgGVAr/4WsYdqaY0y6v2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YEvdjjz2; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QNCCfZW8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEvdjjz2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750143237; x=1781679237;
+  t=1750143838; x=1781679838;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FnatwT6ED23n6DpmItCJZqHim7D0569k5cZHekSjaQY=;
-  b=QNCCfZW8/a9EASOV4s+A+IeDe/8+WEwUcG2MP2RvcnvZ9NEvdfrdibeQ
-   LPskqcQvzdkVXcKdsW0LxC6U/y54PyWJ/nkFWSq+Aui87AJ7/cr74jjlz
-   jyqBHQEo6mP5MzUG/mbX3/Q7ptNHxO+Uu2B1PzKkmMfskIU9hiq+MZnrR
-   TF8csZOuqYEx4cHCVbkEiYnfG0RcENHcrsosDnJKAG7E87J3k0HDxX9N/
-   0b+9Ly0ChFGAOFFnkcA/cjWvpA0WLx4ViR0TsYKyKJko1fIWx+WgLAVgq
-   L+CsD1aD+PelVW6W8ry6yvIlBXtVXiTDsC59nrvg15LlJQ+hTJAclKgKY
-   Q==;
-X-CSE-ConnectionGUID: wqVm+DiUR06q2yaxBzQdBw==
-X-CSE-MsgGUID: q7mJB6FDS0CaKs4NzkTdmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="62957230"
+  bh=M9KL7WsxEaCejGVO2tzDQt65Uc5CgH57uTc3PnytO4Q=;
+  b=YEvdjjz2t9fUF88S3DKVc3ekTM5XPG6iBNuNSNf5TWOfrWP4CU/nmL8K
+   Ctty+I1mHJHfUBqzGMZDZXdgtiRxrSh4uXvMLDJwsQpnCACnanF+iQ+u4
+   9xKo1rE4HFrhA+1IZqvT8lzeCcjjc9seWjc0MG7ovTAO66s6Yg9Skvh4W
+   pUdHrtBzalJaIrE5bh4ad6WdNgJ82t9/nLXSYiIsnxofBtWWIBai2BV5S
+   TGD7Ucf4SvcMwZ4mYyDIZ3hcJVWEIUpfVLPohyPZBXIybLrD/jro6YeJ8
+   VIk/tmXi+XKRKAv/Toswk5E+S+8qlocdZFHxZawclIScAKD0V1mlzvv4s
+   w==;
+X-CSE-ConnectionGUID: mUsskVi3SUy3R4Y1eob6Sw==
+X-CSE-MsgGUID: +dWOz/c/SCq4eNTk46MojQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="74838589"
 X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
-   d="scan'208";a="62957230"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2025 23:53:57 -0700
-X-CSE-ConnectionGUID: a/j7EXzRS+CXczddvRjq+A==
-X-CSE-MsgGUID: qcVXvJo3Q2ec573+VYgJxA==
+   d="scan'208";a="74838589"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 00:03:58 -0700
+X-CSE-ConnectionGUID: Ir1EFhZ7SeawP5vg4J4OHQ==
+X-CSE-MsgGUID: T4WEMgcvRsizvaI8lzynHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
-   d="scan'208";a="152540074"
+   d="scan'208";a="185945978"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Jun 2025 23:53:55 -0700
+  by orviesa001.jf.intel.com with ESMTP; 17 Jun 2025 00:03:57 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRQCf-000Fh2-1k;
-	Tue, 17 Jun 2025 06:53:53 +0000
-Date: Tue, 17 Jun 2025 14:53:15 +0800
+	id 1uRQMM-000FhV-0a;
+	Tue, 17 Jun 2025 07:03:54 +0000
+Date: Tue, 17 Jun 2025 15:03:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2402/2402]
- drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid
- bitfield specifier for type restricted __le64.
-Message-ID: <202506171436.GvQa5C6x-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-5.10 102/102] mm/migrate.c:1539:5:
+ warning: no previous prototype for function 'migrate_pages_batch'
+Message-ID: <202506171443.aCrKndSe-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,205 +62,195 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   852df0842f6ca5e0b4808eb4b1368aed4b492917
-commit: 6da1ac3422090c928e2aa5ea5538884a316d3d4e [2402/2402] drivers: fix compiling problem in bzwx N5/N6 series NIC drivers
-config: arm64-randconfig-r133-20250617 (https://download.01.org/0day-ci/archive/20250617/202506171436.GvQa5C6x-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce: (https://download.01.org/0day-ci/archive/20250617/202506171436.GvQa5C6x-lkp@intel.com/reproduce)
+Hi Huang,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   8cbb260f5584b8ea3d3941593c23a2ddc27fe701
+commit: ac79f033ce6b175a45cdce5a554f1fc1719602a3 [102/102] migrate_pages: restrict number of pages to migrate in batch
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250617/202506171443.aCrKndSe-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250617/202506171443.aCrKndSe-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506171436.GvQa5C6x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506171443.aCrKndSe-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_arfs.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf_txrx.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf_debugfs.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_procfs.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_netlink.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf_virtchnl.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_ethtool.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_txrx.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_interrupt.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf_ethtool.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_reg.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_dev.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/comm/txrx.c: note: in included file:
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_debugfs.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x/ne6x_main.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x/ne6x.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
---
-   drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf_main.c: note: in included file (through drivers/net/ethernet/bzwx/nce/ne6x_vf/ne6xvf.h):
->> drivers/net/ethernet/bzwx/nce/comm/txrx.h:122:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:123:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:124:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:125:24: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:144:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:145:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
-   drivers/net/ethernet/bzwx/nce/comm/txrx.h:146:28: sparse: sparse: invalid bitfield specifier for type restricted __le64.
+All warnings (new ones prefixed by >>):
 
-vim +122 drivers/net/ethernet/bzwx/nce/comm/txrx.h
+>> mm/migrate.c:1539:5: warning: no previous prototype for function 'migrate_pages_batch' [-Wmissing-prototypes]
+    1539 | int migrate_pages_batch(struct list_head *from, new_page_t get_new_page,
+         |     ^
+   mm/migrate.c:1539:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1539 | int migrate_pages_batch(struct list_head *from, new_page_t get_new_page,
+         | ^
+         | static 
+   mm/migrate.c:2956:16: warning: variable 'addr' set but not used [-Wunused-but-set-variable]
+    2956 |         unsigned long addr, i, restore = 0;
+         |                       ^
+   2 warnings generated.
 
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11   96  
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11   97  struct ne6x_tx_desc {
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11   98  	union {
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11   99  		/* Hardware write back*/
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  100  		struct ne6x_tx_desc_status flags;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  101  		u8                        val;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  102  	} u;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  103  
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  104  	u8 rsv0          : 1;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  105  	u8 vp            : 7;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  106  	u8 event_trigger : 1;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  107  	u8 chain         : 1;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  108  	u8 transmit_type : 2;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  109  	u8 sop_valid     : 1;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  110  	u8 eop_valid     : 1;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  111  	u8 tso           : 1;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  112  	u8 rsv1          : 1;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  113  	u8 rsv2;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  114  	u8 rsv3;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  115  
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  116  	u8 l3_csum : 1;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  117  	u8 l3_ofst : 7;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  118  	u8 l4_csum : 1;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  119  	u8 l4_ofst : 7;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  120  	u8 pld_ofst;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  121  
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11 @122  	__le64 mop_cnt : 24;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  123  	__le64 sop_cnt : 16;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  124  	__le64 rsv4    : 8;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  125  	__le64 mss     : 16;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  126  	__le64 buffer_mop_addr;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  127  	__le64 buffer_sop_addr;
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  128  };
-08f4280700700f xiaohuihui-bzwx-kj 2024-04-11  129  
 
-:::::: The code at line 122 was first introduced by commit
-:::::: 08f4280700700faaa2393cbf9a402d4f51d3a8a8 drivers: add Chengdu BeiZhongWangXin Technology N5/N6 Series Network Card Driver
+vim +/migrate_pages_batch +1539 mm/migrate.c
 
-:::::: TO: xiaohuihui-bzwx-kj <xiaohuihui@bzwx-kj.com>
-:::::: CC: xiaohuihui-bzwx-kj <xiaohuihui@bzwx-kj.com>
+  1538	
+> 1539	int migrate_pages_batch(struct list_head *from, new_page_t get_new_page,
+  1540			free_page_t put_new_page, unsigned long private,
+  1541			enum migrate_mode mode, int reason, struct list_head *ret_pages,
+  1542			struct migrate_pages_stats *stats)
+  1543	{
+  1544		int retry = 1;
+  1545		int thp_retry = 1;
+  1546		int nr_failed = 0;
+  1547		int nr_retry_pages = 0;
+  1548		int pass = 0;
+  1549		bool is_thp = false;
+  1550		struct page *page, *page2;
+  1551		int rc, nr_pages;
+  1552		LIST_HEAD(thp_split_pages);
+  1553		bool nosplit = (reason == MR_NUMA_MISPLACED);
+  1554		bool no_subpage_counting = false;
+  1555	
+  1556	thp_subpage_migration:
+  1557		for (pass = 0;
+  1558		     pass < NR_MAX_MIGRATE_PAGES_RETRY && (retry || thp_retry);
+  1559		     pass++) {
+  1560			retry = 0;
+  1561			thp_retry = 0;
+  1562			nr_retry_pages = 0;
+  1563	
+  1564			list_for_each_entry_safe(page, page2, from, lru) {
+  1565				/*
+  1566				 * THP statistics is based on the source huge page.
+  1567				 * Capture required information that might get lost
+  1568				 * during migration.
+  1569				 */
+  1570				is_thp = PageTransHuge(page) && !PageHuge(page);
+  1571				nr_pages = compound_nr(page);
+  1572				cond_resched();
+  1573	
+  1574				rc = unmap_and_move(get_new_page, put_new_page,
+  1575						    private, page, pass > 2, mode,
+  1576						    reason, ret_pages);
+  1577				/*
+  1578				 * The rules are:
+  1579				 *	Success: page will be freed
+  1580				 *	-EAGAIN: stay on the from list
+  1581				 *	-ENOMEM: stay on the from list
+  1582				 *	-ENOSYS: stay on the from list
+  1583				 *	Other errno: put on ret_pages list
+  1584				 */
+  1585				switch(rc) {
+  1586				/*
+  1587				 * THP migration might be unsupported or the
+  1588				 * allocation could've failed so we should
+  1589				 * retry on the same page with the THP split
+  1590				 * to base pages.
+  1591				 *
+  1592				 * Sub-pages are put in thp_split_pages, and
+  1593				 * we will migrate them after the rest of the
+  1594				 * list is processed.
+  1595				 */
+  1596				case -ENOSYS:
+  1597					/* THP migration is unsupported */
+  1598					if (is_thp) {
+  1599						stats->nr_thp_failed++;
+  1600						if (!try_split_thp(page, &thp_split_pages)) {
+  1601							stats->nr_thp_split++;
+  1602							break;
+  1603						}
+  1604					/* Hugetlb migration is unsupported */
+  1605					} else if (!no_subpage_counting) {
+  1606						nr_failed++;
+  1607					}
+  1608	
+  1609					stats->nr_failed_pages += nr_pages;
+  1610					list_move_tail(&page->lru, ret_pages);
+  1611					break;
+  1612				case -ENOMEM:
+  1613					/*
+  1614					 * When memory is low, don't bother to try to migrate
+  1615					 * other pages, just exit.
+  1616					 */
+  1617					if (is_thp) {
+  1618						stats->nr_thp_failed++;
+  1619						/* THP NUMA faulting doesn't split THP to retry. */
+  1620						if (!nosplit && !try_split_thp(page, &thp_split_pages)) {
+  1621							stats->nr_thp_split++;
+  1622							break;
+  1623						}
+  1624					} else if (!no_subpage_counting) {
+  1625						nr_failed++;
+  1626					}
+  1627	
+  1628					stats->nr_failed_pages += nr_pages + nr_retry_pages;
+  1629					/*
+  1630					 * There might be some subpages of fail-to-migrate THPs
+  1631					 * left in thp_split_pages list. Move them back to migration
+  1632					 * list so that they could be put back to the right list by
+  1633					 * the caller otherwise the page refcnt will be leaked.
+  1634					 */
+  1635					list_splice_init(&thp_split_pages, ret_pages);
+  1636					/* nr_failed isn't updated for not used */
+  1637					stats->nr_thp_failed += thp_retry;
+  1638					goto out;
+  1639				case -EAGAIN:
+  1640					if (is_thp)
+  1641						thp_retry++;
+  1642					else if (!no_subpage_counting)
+  1643						retry++;
+  1644					nr_retry_pages += nr_pages;
+  1645					break;
+  1646				case MIGRATEPAGE_SUCCESS:
+  1647					stats->nr_succeeded += nr_pages;
+  1648					if (is_thp)
+  1649						stats->nr_thp_succeeded++;
+  1650					break;
+  1651				default:
+  1652					/*
+  1653					 * Permanent failure (-EBUSY, etc.):
+  1654					 * unlike -EAGAIN case, the failed page is
+  1655					 * removed from migration page list and not
+  1656					 * retried in the next outer loop.
+  1657					 */
+  1658					if (is_thp)
+  1659						stats->nr_thp_failed++;
+  1660					else if (!no_subpage_counting)
+  1661						nr_failed++;
+  1662	
+  1663					stats->nr_failed_pages += nr_pages;
+  1664					break;
+  1665				}
+  1666			}
+  1667		}
+  1668		nr_failed += retry;
+  1669		stats->nr_thp_failed += thp_retry;
+  1670		stats->nr_failed_pages += nr_retry_pages;
+  1671		/*
+  1672		 * Try to migrate subpages of fail-to-migrate THPs, no nr_failed
+  1673		 * counting in this round, since all subpages of a THP is counted
+  1674		 * as 1 failure in the first round.
+  1675		 */
+  1676		if (!list_empty(&thp_split_pages)) {
+  1677			/*
+  1678			 * Move non-migrated pages (after NR_MAX_MIGRATE_PAGES_RETRY
+  1679			 * retries) to ret_pages to avoid migrating them again.
+  1680			 */
+  1681			list_splice_init(from, ret_pages);
+  1682			list_splice_init(&thp_split_pages, from);
+  1683			no_subpage_counting = true;
+  1684			retry = 1;
+  1685			goto thp_subpage_migration;
+  1686		}
+  1687	
+  1688		rc = nr_failed + stats->nr_thp_failed;
+  1689	out:
+  1690		return rc;
+  1691	}
+  1692	
 
 -- 
 0-DAY CI Kernel Test Service
