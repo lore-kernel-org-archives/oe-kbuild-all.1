@@ -1,58 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9E328DB6D
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 07:03:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B13D628DEE7;
+	Tue, 17 Jun 2025 07:04:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750143840; cv=none; b=FrAIwZbDNfEwG+xtUKLWv+LVuwYVvt00N5wJ7suhsLraTQctq46hEf5N979rCQAO/dkyemX4SEpOMhuxMlRNTq9WzGPLi+nrosiqXBxWt/ZOjNSkQBoDNCroqUlIklqDfsY4cLozE6YSP5aTi5iaw8MhI3x0CuktusciteLCkr4=
+	t=1750143842; cv=none; b=tCCZ2ZhjT0cQS+3Y5CL08KZiXDdasXHh4I1LptkCZx14Kc21JURFk+L582t23bAoTryfttT2TlOMo9aN3wfVogmXnzgNtLmi3Rq2mHjuXWo/AUHfDvJ8OHyc1bN+iF/uQT+QGfC31sMNL2RPLH3F6nQ6Xv0hN2tK8jCoVHBl2ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750143840; c=relaxed/simple;
-	bh=M9KL7WsxEaCejGVO2tzDQt65Uc5CgH57uTc3PnytO4Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UOfypaKzNMRfo2Gk6CCSNCkFaL3lAOMTa6mbMZwXmCS70LhODuTYcZRf81c5jQViFTgzl/slsoHJ3JAFDOlqLn8Ok64ioh8umaxQlm1TAjP5alhCyA7XCNBXYGXMrwWpHGQhItRx3Bjbmkt4puhcFTZgGVAr/4WsYdqaY0y6v2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YEvdjjz2; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1750143842; c=relaxed/simple;
+	bh=HQ8YwPXH3tjWKjgG77C8MtR06NMh+4CK2/PrreWPfkg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kbYdx/8ls8uusVWd4PMg0RMSgg0s+ZaABA4Emj8p3ApjF+DXlJJkXJ6Gk0c+NaB/zPz6KkwcREZwk6qcFWmmTxY9EuEnrihJ2ULI7CuyZvZEQxXXE+zU7kaR4BhhFfeNwI5SYiGGoNNgJbQBBjrD0xxEPU/5p0Awmv+vyx1O6Us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aCkszgX3; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YEvdjjz2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCkszgX3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750143838; x=1781679838;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=M9KL7WsxEaCejGVO2tzDQt65Uc5CgH57uTc3PnytO4Q=;
-  b=YEvdjjz2t9fUF88S3DKVc3ekTM5XPG6iBNuNSNf5TWOfrWP4CU/nmL8K
-   Ctty+I1mHJHfUBqzGMZDZXdgtiRxrSh4uXvMLDJwsQpnCACnanF+iQ+u4
-   9xKo1rE4HFrhA+1IZqvT8lzeCcjjc9seWjc0MG7ovTAO66s6Yg9Skvh4W
-   pUdHrtBzalJaIrE5bh4ad6WdNgJ82t9/nLXSYiIsnxofBtWWIBai2BV5S
-   TGD7Ucf4SvcMwZ4mYyDIZ3hcJVWEIUpfVLPohyPZBXIybLrD/jro6YeJ8
-   VIk/tmXi+XKRKAv/Toswk5E+S+8qlocdZFHxZawclIScAKD0V1mlzvv4s
+  t=1750143841; x=1781679841;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=HQ8YwPXH3tjWKjgG77C8MtR06NMh+4CK2/PrreWPfkg=;
+  b=aCkszgX3OMmejUrsUayQHEaRiRfCUhKuUZYBz5tuc24Hd06xjYZ+xjXg
+   TTfKZ8NDAws7LKbHwAbD7v1pjdAj8hZs6sF1LYAAvLnR49u2BNSly7Sat
+   2gIFq9VF2yA8EztPyO7HF30fk2kmWTuD/ZsXhjoHMB97TPQ/0gd9/9fWu
+   POS3tL4JbIGyepR9z+Iy3eIPy9gbBpg8PbUG63kS5c5A52cEdB/40VGlt
+   Bibs97ANLtan6Sd33DQhpuqWF3AtFUAtnlyxwBg4ATZIRoNnQyH26adcm
+   negAbnDdyEP4exGHtjEVXMsEDEDevdhcF8Un37IpUxrBu6PuRZJeMkKno
    w==;
-X-CSE-ConnectionGUID: mUsskVi3SUy3R4Y1eob6Sw==
-X-CSE-MsgGUID: +dWOz/c/SCq4eNTk46MojQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="74838589"
+X-CSE-ConnectionGUID: SDU9VkUWRKOyjjesk2wHRA==
+X-CSE-MsgGUID: JH+AkwANSbKqtwbn+4rOIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="74838591"
 X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
-   d="scan'208";a="74838589"
+   d="scan'208";a="74838591"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
   by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 00:03:58 -0700
-X-CSE-ConnectionGUID: Ir1EFhZ7SeawP5vg4J4OHQ==
-X-CSE-MsgGUID: T4WEMgcvRsizvaI8lzynHA==
+X-CSE-ConnectionGUID: tKCvDGCtRgy6dUU/aEpmzQ==
+X-CSE-MsgGUID: wktvsOXqSDOYdlPPEud21Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
-   d="scan'208";a="185945978"
+   d="scan'208";a="185945975"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 17 Jun 2025 00:03:57 -0700
+  by orviesa001.jf.intel.com with ESMTP; 17 Jun 2025 00:03:56 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRQMM-000FhV-0a;
+	id 1uRQMM-000FhQ-0M;
 	Tue, 17 Jun 2025 07:03:54 +0000
-Date: Tue, 17 Jun 2025 15:03:32 +0800
+Date: Tue, 17 Jun 2025 15:03:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 102/102] mm/migrate.c:1539:5:
- warning: no previous prototype for function 'migrate_pages_batch'
-Message-ID: <202506171443.aCrKndSe-lkp@intel.com>
+To: onur-ozkan <work@onurozkan.dev>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	boqun.feng@gmail.com, onur-ozkan <work@onurozkan.dev>,
+	thatslyude@gmail.com
+Subject: Re: [PATCH] Add `ww_mutex` support & abstraction for Rust tree
+Message-ID: <202506171422.JVA1Gpbc-lkp@intel.com>
+References: <20250616162448.31641-1-work@onurozkan.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,196 +64,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250616162448.31641-1-work@onurozkan.dev>
 
-Hi Huang,
+Hi onur-ozkan,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   8cbb260f5584b8ea3d3941593c23a2ddc27fe701
-commit: ac79f033ce6b175a45cdce5a554f1fc1719602a3 [102/102] migrate_pages: restrict number of pages to migrate in batch
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250617/202506171443.aCrKndSe-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250617/202506171443.aCrKndSe-lkp@intel.com/reproduce)
+[auto build test ERROR on rust/rust-next]
+[also build test ERROR on linus/master v6.16-rc2 next-20250616]
+[cannot apply to tip/locking/core]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/onur-ozkan/Add-ww_mutex-support-abstraction-for-Rust-tree/20250617-003523
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/20250616162448.31641-1-work%40onurozkan.dev
+patch subject: [PATCH] Add `ww_mutex` support & abstraction for Rust tree
+config: x86_64-randconfig-074-20250617 (https://download.01.org/0day-ci/archive/20250617/202506171422.JVA1Gpbc-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250617/202506171422.JVA1Gpbc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506171443.aCrKndSe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506171422.JVA1Gpbc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> mm/migrate.c:1539:5: warning: no previous prototype for function 'migrate_pages_batch' [-Wmissing-prototypes]
-    1539 | int migrate_pages_batch(struct list_head *from, new_page_t get_new_page,
-         |     ^
-   mm/migrate.c:1539:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1539 | int migrate_pages_batch(struct list_head *from, new_page_t get_new_page,
-         | ^
-         | static 
-   mm/migrate.c:2956:16: warning: variable 'addr' set but not used [-Wunused-but-set-variable]
-    2956 |         unsigned long addr, i, restore = 0;
-         |                       ^
-   2 warnings generated.
-
-
-vim +/migrate_pages_batch +1539 mm/migrate.c
-
-  1538	
-> 1539	int migrate_pages_batch(struct list_head *from, new_page_t get_new_page,
-  1540			free_page_t put_new_page, unsigned long private,
-  1541			enum migrate_mode mode, int reason, struct list_head *ret_pages,
-  1542			struct migrate_pages_stats *stats)
-  1543	{
-  1544		int retry = 1;
-  1545		int thp_retry = 1;
-  1546		int nr_failed = 0;
-  1547		int nr_retry_pages = 0;
-  1548		int pass = 0;
-  1549		bool is_thp = false;
-  1550		struct page *page, *page2;
-  1551		int rc, nr_pages;
-  1552		LIST_HEAD(thp_split_pages);
-  1553		bool nosplit = (reason == MR_NUMA_MISPLACED);
-  1554		bool no_subpage_counting = false;
-  1555	
-  1556	thp_subpage_migration:
-  1557		for (pass = 0;
-  1558		     pass < NR_MAX_MIGRATE_PAGES_RETRY && (retry || thp_retry);
-  1559		     pass++) {
-  1560			retry = 0;
-  1561			thp_retry = 0;
-  1562			nr_retry_pages = 0;
-  1563	
-  1564			list_for_each_entry_safe(page, page2, from, lru) {
-  1565				/*
-  1566				 * THP statistics is based on the source huge page.
-  1567				 * Capture required information that might get lost
-  1568				 * during migration.
-  1569				 */
-  1570				is_thp = PageTransHuge(page) && !PageHuge(page);
-  1571				nr_pages = compound_nr(page);
-  1572				cond_resched();
-  1573	
-  1574				rc = unmap_and_move(get_new_page, put_new_page,
-  1575						    private, page, pass > 2, mode,
-  1576						    reason, ret_pages);
-  1577				/*
-  1578				 * The rules are:
-  1579				 *	Success: page will be freed
-  1580				 *	-EAGAIN: stay on the from list
-  1581				 *	-ENOMEM: stay on the from list
-  1582				 *	-ENOSYS: stay on the from list
-  1583				 *	Other errno: put on ret_pages list
-  1584				 */
-  1585				switch(rc) {
-  1586				/*
-  1587				 * THP migration might be unsupported or the
-  1588				 * allocation could've failed so we should
-  1589				 * retry on the same page with the THP split
-  1590				 * to base pages.
-  1591				 *
-  1592				 * Sub-pages are put in thp_split_pages, and
-  1593				 * we will migrate them after the rest of the
-  1594				 * list is processed.
-  1595				 */
-  1596				case -ENOSYS:
-  1597					/* THP migration is unsupported */
-  1598					if (is_thp) {
-  1599						stats->nr_thp_failed++;
-  1600						if (!try_split_thp(page, &thp_split_pages)) {
-  1601							stats->nr_thp_split++;
-  1602							break;
-  1603						}
-  1604					/* Hugetlb migration is unsupported */
-  1605					} else if (!no_subpage_counting) {
-  1606						nr_failed++;
-  1607					}
-  1608	
-  1609					stats->nr_failed_pages += nr_pages;
-  1610					list_move_tail(&page->lru, ret_pages);
-  1611					break;
-  1612				case -ENOMEM:
-  1613					/*
-  1614					 * When memory is low, don't bother to try to migrate
-  1615					 * other pages, just exit.
-  1616					 */
-  1617					if (is_thp) {
-  1618						stats->nr_thp_failed++;
-  1619						/* THP NUMA faulting doesn't split THP to retry. */
-  1620						if (!nosplit && !try_split_thp(page, &thp_split_pages)) {
-  1621							stats->nr_thp_split++;
-  1622							break;
-  1623						}
-  1624					} else if (!no_subpage_counting) {
-  1625						nr_failed++;
-  1626					}
-  1627	
-  1628					stats->nr_failed_pages += nr_pages + nr_retry_pages;
-  1629					/*
-  1630					 * There might be some subpages of fail-to-migrate THPs
-  1631					 * left in thp_split_pages list. Move them back to migration
-  1632					 * list so that they could be put back to the right list by
-  1633					 * the caller otherwise the page refcnt will be leaked.
-  1634					 */
-  1635					list_splice_init(&thp_split_pages, ret_pages);
-  1636					/* nr_failed isn't updated for not used */
-  1637					stats->nr_thp_failed += thp_retry;
-  1638					goto out;
-  1639				case -EAGAIN:
-  1640					if (is_thp)
-  1641						thp_retry++;
-  1642					else if (!no_subpage_counting)
-  1643						retry++;
-  1644					nr_retry_pages += nr_pages;
-  1645					break;
-  1646				case MIGRATEPAGE_SUCCESS:
-  1647					stats->nr_succeeded += nr_pages;
-  1648					if (is_thp)
-  1649						stats->nr_thp_succeeded++;
-  1650					break;
-  1651				default:
-  1652					/*
-  1653					 * Permanent failure (-EBUSY, etc.):
-  1654					 * unlike -EAGAIN case, the failed page is
-  1655					 * removed from migration page list and not
-  1656					 * retried in the next outer loop.
-  1657					 */
-  1658					if (is_thp)
-  1659						stats->nr_thp_failed++;
-  1660					else if (!no_subpage_counting)
-  1661						nr_failed++;
-  1662	
-  1663					stats->nr_failed_pages += nr_pages;
-  1664					break;
-  1665				}
-  1666			}
-  1667		}
-  1668		nr_failed += retry;
-  1669		stats->nr_thp_failed += thp_retry;
-  1670		stats->nr_failed_pages += nr_retry_pages;
-  1671		/*
-  1672		 * Try to migrate subpages of fail-to-migrate THPs, no nr_failed
-  1673		 * counting in this round, since all subpages of a THP is counted
-  1674		 * as 1 failure in the first round.
-  1675		 */
-  1676		if (!list_empty(&thp_split_pages)) {
-  1677			/*
-  1678			 * Move non-migrated pages (after NR_MAX_MIGRATE_PAGES_RETRY
-  1679			 * retries) to ret_pages to avoid migrating them again.
-  1680			 */
-  1681			list_splice_init(from, ret_pages);
-  1682			list_splice_init(&thp_split_pages, from);
-  1683			no_subpage_counting = true;
-  1684			retry = 1;
-  1685			goto thp_subpage_migration;
-  1686		}
-  1687	
-  1688		rc = nr_failed + stats->nr_thp_failed;
-  1689	out:
-  1690		return rc;
-  1691	}
-  1692	
+   ***
+   *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang >= 19.1
+   *** may not work due to a bug (https://github.com/rust-lang/rust-bindgen/pull/2824),
+   *** unless patched (like Debian's).
+   ***   Your bindgen version:  0.65.1
+   ***   Your libclang version: 20.1.2
+   ***
+   ***
+   *** Please see Documentation/rust/quick-start.rst for details
+   *** on how to set up the Rust support.
+   ***
+>> error[E0063]: missing field `__bindgen_anon_1` in initializer of `bindings::lock_class_key`
+   --> rust/kernel/sync/lock/ww_mutex.rs:52:26
+   |
+   52 |             acquire_key: bindings::lock_class_key {},
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^ missing `__bindgen_anon_1`
+--
+>> error[E0063]: missing field `__bindgen_anon_1` in initializer of `bindings::lock_class_key`
+   --> rust/kernel/sync/lock/ww_mutex.rs:53:24
+   |
+   53 |             mutex_key: bindings::lock_class_key {},
+   |                        ^^^^^^^^^^^^^^^^^^^^^^^^ missing `__bindgen_anon_1`
 
 -- 
 0-DAY CI Kernel Test Service
