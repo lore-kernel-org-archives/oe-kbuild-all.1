@@ -1,86 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7883C01
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 10:33:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FDC02DBF60;
+	Tue, 17 Jun 2025 10:55:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750156406; cv=none; b=peVNyOVDYnaS4UCL/a3M5G3tkbHoUGpUio1tNGdKnzoed6+x9DHOqvY7XJitw8bSx5DM1oNQ62yEkEdRSSXkBFngTuF7ZE6tcB6rxj1jNUAW3QQovyyBUHLJb+jAnBClR8fhbC3pt4tRiJ0ZVJ2cZPGgpirpA2WOYkyKw8PnYrs=
+	t=1750157727; cv=none; b=ObDYFrB7ypnRElSno7cixwTb4CHk0PwPPvYzFgPJI6l9kDTipzmuEg6F0zuqWAoqDsuPo46xmn7imyPyBShaGrl9eHa01PLs/EU1r4iLBQysgf7/W2U47KbXaqSXfE4Q4IVyBzvM7KPWXDPGUDRIWOZxL1W1SXqmy5ujUNmmf34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750156406; c=relaxed/simple;
-	bh=WsA1pcPyl3CyLxsXc8aBLN/G/mSkAPdRu5xXeb+nmuA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FPVbQineB5LJ6yeK+NEiyPLn7q5jGiKbQQEE/qapCjQD/kawsyCWZ5rJRi0hbLmJsWQUVJVuIPf7LhvKAhanLagI9sd2RBTDx2QtovhFZQO2NLuLIACzTjTJQCLGoeHc02NgE+LkPt3q7ZQ4LT07t/vWsI1ihOos66paCTvslfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKGCRKSo; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1750157727; c=relaxed/simple;
+	bh=DcGs6xIsMTM66l3iSmYomInS4AfCgNyt+tl2U8Y1BRU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=oc5Lcnb5SowK4ESZoUvpzOe3uzYAVAgbjZAOyFb7c44Kqyj9d7JV22whhQKOZ3xMeOPGm/zJiVre3Bv3HZdGk52Z0Yi1pqolMNpRigpfHcDkPXPLcgq9ggqpzqLlX9rbXMTXyzSmvRwyKfxDGk2tGkx46SP5tS9SF46SiWdmco8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eqCAfpCj; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKGCRKSo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eqCAfpCj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750156405; x=1781692405;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WsA1pcPyl3CyLxsXc8aBLN/G/mSkAPdRu5xXeb+nmuA=;
-  b=OKGCRKSobKC5oX0tspzlV51mjFKSxDemEXSqfXGMYq9PFmHBGgQkdnXV
-   DTDfTDrWS8u7OrPE3WdK79YbnARebBwW9GGWy7V3smbSbGpZZyWKUomgP
-   NYWh79oE9dd4D0agO3nd6GWkndJ37x3s9OQGAdZboOjzYTCffSjtRjdBm
-   8IhIAY4/2hQHg+mNy5OKY2KABRRDs8HIQMPSB4oC3odx+hBSlt/r+woYT
-   edgvujNVF6pJmx4WHz8ZM9L8AdofVPfw+9nnZWwqXyP17aBG157W6pC7e
-   bqQuqJ6OAEkqpqNkdsXgeFn7fXeFao+KQIq2VdNbj0opl6nEqr7RdDSVF
-   g==;
-X-CSE-ConnectionGUID: S1z6qaoNSNqJNmQf9fmimg==
-X-CSE-MsgGUID: IZlImzVEQimpX9d5MoOL2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="39932623"
+  t=1750157725; x=1781693725;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DcGs6xIsMTM66l3iSmYomInS4AfCgNyt+tl2U8Y1BRU=;
+  b=eqCAfpCjdVNe08a7ZVhScCxuEPPlUlxkHl2vCmlYvjRKqVCxqBchlrwm
+   AX9rDM4n79saJy8R8tQg6UuYsLldohCFFYCPB11mcdWHxF4yCtzqd3Omb
+   CDeRE6yd4Iy8iSKv2/KI3IIf9Mnky+ueo6B7j4vRmy0jzi+cxYbl6VJqr
+   38/MPjCmWeJsWI/p70HIZMZH9PAHcwCor+i1J/9MJw8BQ7ApJuGPmYqAo
+   eY9oK5q/AVVc330gHhe8nReON0+5D5FNFXtuA+yqLKbf30NBZKw33MSiq
+   P49odr9Ka7xJPeLcMfpi5HQYLU1/uS8+FNAUo2L8U3T0M23NhbtQ9oz5t
+   Q==;
+X-CSE-ConnectionGUID: baqVd1P6QSqpgMHM/gUHYQ==
+X-CSE-MsgGUID: fLVIKMthTCWLKNr0peGQbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="54943299"
 X-IronPort-AV: E=Sophos;i="6.16,243,1744095600"; 
-   d="scan'208";a="39932623"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 03:33:25 -0700
-X-CSE-ConnectionGUID: TRED8RPnRTCLmLfR7kSwvA==
-X-CSE-MsgGUID: Mu+pwlVtRCqC1B+PxwbUMA==
+   d="scan'208";a="54943299"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 03:55:21 -0700
+X-CSE-ConnectionGUID: 3jnRWxteQ8KNM03RtZyX0g==
+X-CSE-MsgGUID: 2pHAXw8tQAuSrhhICp+hKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,243,1744095600"; 
-   d="scan'208";a="149627521"
+   d="scan'208";a="149109949"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 17 Jun 2025 03:33:16 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 17 Jun 2025 03:55:19 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRTcw-000Ft6-08;
-	Tue, 17 Jun 2025 10:33:14 +0000
-Date: Tue, 17 Jun 2025 18:32:24 +0800
+	id 1uRTyG-000FuA-2s;
+	Tue, 17 Jun 2025 10:55:16 +0000
+Date: Tue, 17 Jun 2025 18:54:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alexander Kochetkov <al.kochet@gmail.com>,
-	Vinod Koul <vkoul@kernel.org>, dmaengine@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Nishad Saraf <nishads@amd.com>,
-	Lizhi Hou <lizhi.hou@amd.com>, Jacky Huang <ychuang3@nuvoton.com>,
-	Shan-Chun Hung <schung@nuvoton.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Paul Cercueil <paul@crapouillou.net>,
-	Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Frank Li <Frank.Li@nxp.com>, Zhou Wang <wangzhou1@hisilicon.com>,
-	Longfang Liu <liulongfang@huawei.com>,
-	Andy Shevchenko <andy@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Keguang Zhang <keguang.zhang@gmail.com>,
-	Sean Wang <sean.wang@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Andreas =?iso-8859-1?Q?F=E4rber?= <afaerber@suse.de>,
-	Daniel Mack <daniel@zonque.org>,
-	Haojian Zhuang <haojian.zhuang@gmail.com>,
-	Robert Jarzmik <robert.jarzmik@free.fr>
-Subject: Re: [PATCH v2 2/2] !!! TESTING ONLY !!! Allow compile virt-dma users
- on ARM64 platform
-Message-ID: <202506171823.CHs69U2q-lkp@intel.com>
-References: <20250616124934.141782-3-al.kochet@gmail.com>
+To: Harish Kasiviswanathan <Harish.Kasiviswanathan@amd.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Stephen Bates <sbates@raithlin.com>
+Subject: [sbates130272-p2pmem:dev/amd-dma-buf 4/4]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c:402:5: warning: format specifies
+ type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int')
+Message-ID: <202506171832.9tEmIvR1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -89,37 +63,137 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250616124934.141782-3-al.kochet@gmail.com>
 
-Hi Alexander,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on vkoul-dmaengine/next]
-[also build test WARNING on shawnguo/for-next sunxi/sunxi/for-next lee-mfd/for-mfd-next linus/master v6.16-rc2 next-20250617]
-[cannot apply to atorgue-stm32/stm32-next lee-mfd/for-mfd-fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Kochetkov/dmaengine-virt-dma-convert-tasklet-to-BH-workqueue-for-callback-invocation/20250616-205118
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vkoul/dmaengine.git next
-patch link:    https://lore.kernel.org/r/20250616124934.141782-3-al.kochet%40gmail.com
-patch subject: [PATCH v2 2/2] !!! TESTING ONLY !!! Allow compile virt-dma users on ARM64 platform
-config: arm64-kismet-CONFIG_TI_K3_RINGACC-CONFIG_TI_K3_UDMA-0-0 (https://download.01.org/0day-ci/archive/20250617/202506171823.CHs69U2q-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250617/202506171823.CHs69U2q-lkp@intel.com/reproduce)
+tree:   https://github.com/sbates130272/linux-p2pmem.git dev/amd-dma-buf
+head:   9dd4127ada3f673941734289f7a8a949e16332d8
+commit: 9dd4127ada3f673941734289f7a8a949e16332d8 [4/4] drm/amdgpu: Use MEMORY_DEVICE_PCI_P2PDMA pages
+config: arm-randconfig-004-20250617 (https://download.01.org/0day-ci/archive/20250617/202506171832.9tEmIvR1-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250617/202506171832.9tEmIvR1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506171823.CHs69U2q-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506171832.9tEmIvR1-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for TI_K3_RINGACC when selected by TI_K3_UDMA
-   WARNING: unmet direct dependencies detected for TI_K3_RINGACC
-     Depends on [n]: SOC_TI [=n] && (ARCH_K3 [=n] || COMPILE_TEST [=y]) && TI_SCI_INTA_IRQCHIP [=y]
-     Selected by [y]:
-     - TI_K3_UDMA [=y] && DMADEVICES [=y] && (ARCH_K3 [=n] || COMPILE_TEST [=y]) && TI_SCI_PROTOCOL [=y] && TI_SCI_INTA_IRQCHIP [=y]
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c:402:5: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     401 |                 dev_info(amdgpu_ttm_adev(bo->tbo.bdev)->dev, "DMA-BUF bo->tbo.base.size:%lx\n",
+         |                                                                                         ~~~
+         |                                                                                         %zx
+     402 |                          bo->tbo.base.size);
+         |                          ^~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:160:67: note: expanded from macro 'dev_info'
+     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                                  ~~~     ^~~~~~~~~~~
+   include/linux/dev_printk.h:110:23: note: expanded from macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ~~~    ^~~~~~~~~~~
+   1 warning generated.
+
+
+vim +402 drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+
+   345	
+   346	static int amdgpu_rw_file(struct dma_buf *dmabuf, bool is_read,
+   347	                          bool direct_io, struct file *filp, loff_t file_offset,
+   348	                          size_t buf_offset, size_t len)
+   349	{
+   350		struct sg_table *sgt;
+   351		struct dma_buf_attachment attach;
+   352		struct dma_buf_attach_ops ops;
+   353		struct amdgpu_bo *bo;
+   354	
+   355		struct bio_vec *bvec;
+   356		int nr_segs = 0;
+   357		struct iov_iter iter;
+   358		struct kiocb kiocb;
+   359		int ret = 0;
+   360		struct pci_dev *pdev;
+   361	
+   362		printk(KERN_INFO "is_read = %d!\n", is_read);
+   363		printk(KERN_INFO "file_offset = %lld!\n", file_offset);
+   364		printk(KERN_INFO "buf_offset = %zd!\n", buf_offset);
+   365		printk(KERN_INFO "len = %zd!\n", len);
+   366	
+   367		if (direct_io) {
+   368			if (!(filp->f_mode & FMODE_CAN_ODIRECT))
+   369				return -EINVAL;
+   370		}
+   371	
+   372		memset(&attach, 0, sizeof(attach));
+   373		ops.allow_peer2peer = true;
+   374		attach.dmabuf = dmabuf;
+   375		attach.peer2peer = true;
+   376		attach.importer_ops = &ops;
+   377		/*
+   378		 * SUPER HACK. Need to find the correct way to locate the
+   379		 * DMA-capable parent of file based on either struct file or the
+   380		 * file descriptor.
+   381		*/
+   382		attach.dev = filp->f_path.mnt->mnt_sb->s_bdev->bd_device.parent->parent;
+   383		if (!attach.dev->dma_mask) {
+   384			/* The above hack didn't work. So hard code it for now */
+   385			pdev = pci_get_domain_bus_and_slot(0, 0x41, PCI_DEVFN(0, 0));
+   386			attach.dev = &pdev->dev;
+   387		}
+   388	
+   389		sgt = dma_buf_map_attachment_unlocked(&attach, DMA_BIDIRECTIONAL);
+   390		if (IS_ERR(sgt)) {
+   391			ret = PTR_ERR(sgt);
+   392			goto out;
+   393		}
+   394	
+   395		bo = gem_to_amdgpu_bo(dmabuf->priv);
+   396		if (!bo) {
+   397			ret = -EINVAL;
+   398			goto out;
+   399		} else {
+   400			/* Show BO domain to cross-check if it is in VRAM */
+   401			dev_info(amdgpu_ttm_adev(bo->tbo.bdev)->dev, "DMA-BUF bo->tbo.base.size:%lx\n",
+ > 402				 bo->tbo.base.size);
+   403			dev_info(amdgpu_ttm_adev(bo->tbo.bdev)->dev, "mem_type:%x start:%lx size:%zx placement:%x\n",
+   404				 bo->tbo.resource->mem_type, bo->tbo.resource->start,
+   405				 bo->tbo.resource->size, bo->tbo.resource->placement);
+   406		}
+   407	
+   408		if (pci_p2pdma_distance(pdev, amdgpu_ttm_adev(bo->tbo.bdev)->dev, false) < 0) {
+   409			dev_info(amdgpu_ttm_adev(bo->tbo.bdev)->dev,
+   410				 "DMA-BUF p2p not accessible!\n");
+   411			ret = -ENODEV;
+   412			goto out;
+   413		}
+   414	
+   415		bvec = amdgpu_init_bvec(sgt, buf_offset, len, &nr_segs);
+   416		if (!bvec) {
+   417			ret = -ENOMEM;
+   418			goto out;
+   419		}
+   420	
+   421		iov_iter_bvec(&iter, is_read ? ITER_DEST : ITER_SOURCE, bvec, nr_segs, len);
+   422		init_sync_kiocb(&kiocb, filp);
+   423		kiocb.ki_pos = file_offset;
+   424		if (direct_io)
+   425			kiocb.ki_flags |= IOCB_DIRECT;
+   426	
+   427		while (kiocb.ki_pos < file_offset + len) {
+   428	
+   429			if (is_read)
+   430				ret = vfs_iocb_iter_read(filp, &kiocb, &iter);
+   431			else
+   432				ret = vfs_iocb_iter_write(filp, &kiocb, &iter);
+   433			if (ret <= 0)
+   434				break;
+   435		}
+   436	
+   437		kvfree(bvec);
+   438		dma_buf_unmap_attachment_unlocked(&attach, sgt,
+   439					 DMA_BIDIRECTIONAL);
+   440	out:
+   441		return ret < 0 ? ret : 0;
+   442	}
+   443	
 
 -- 
 0-DAY CI Kernel Test Service
