@@ -1,191 +1,155 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2063.outbound.protection.outlook.com [40.107.92.63])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F00F82F532F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 23:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750201238; cv=fail; b=I0kP1UnuK+oI6m3PdZsdH7fS3Z9r0oc4lRH37f6YFVFwwchIJdmnQKlwDXVn57qLxeV7ztIAGlpJ73SAv/iphCAeDqYFq2FhWyPeV4jgntJ80t8lW3UU5phHvyOXTWEjRZf0WwzRQpR0vd2Yh9iuWMY41ruKw2BJ30enxxG+X0M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750201238; c=relaxed/simple;
-	bh=rc5kAbBDy6+2YqtiWIO4AgFKx/k9WKBZZkt4yYRkVkc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=uyOuQtIJZOvzXvqg1VSAGiqgvgmap/ike3gXBRxFHNW8eUASrPZEvYkRP56UPFKSHsMrNwHmEhJggMB/RT/PGBYeUvqP9VT7CYxLUokmWpuNCiH9CuXWn6sPQc/nQ/cuyRXmZfwq7DEqbw2emz+DxqQjv6ja5ly9HKpB0hOvLj0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=i9e6Hwkr; arc=fail smtp.client-ip=40.107.92.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCF3B2F532C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 23:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750201652; cv=none; b=Cke+KvvUGngUTYOggSCVyFNoe7Pm2QCItqpEG5EFPIQWECK4Js5aZsPFtYGLxUADLzXrZnmvvUiCl2Y/EN8IxCbqzeUMP/w+JJRNm3A6/7Rj/S1hEoUnRzkbLbpq9o1fODj/Ca2RMNZOitse9pNLDr4jpuO3MtlK59b1bpu5jjA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750201652; c=relaxed/simple;
+	bh=R55hPXEgCzAYmnjRnfA3eQw568xIhzzjhq7iPLbxx/Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aaEP1jmmeKsBaMK7p377i2bTXPG51hks0mDWz7VEn4MAnXqZtjUrRz0DFyq2rr+HqVCJF4LJPUEZVrj7DRSUtLagq+GNTtmPcJbuuhJrsR80VYII0Rf+9aQxgPZg6z1xbgjAl1krTJwTOD5mKYhcE8GiA79kHBLfqCk7t2sgoAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NU4c8f+R; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="i9e6Hwkr"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r81iyxEUf9F+/KnbPkPzDe1T2t1vAIZMy89FoWThTBPzZZ6GrE4rc59S3ZvXUc8GBlnoPAlUOM9pUVLPDqo3ZWqUx3u7vpZD1uAFKbJfs2sWRK2x7Tn6tsy6IcRd85f6jTaWbZ4LuY32czhF5JuK0XOg28jsvh5SAbPHN50I2hTm6pWFJ8bPJmrgu+SjWdeDc+O2EtLZprXKRwwJFg/vhME50/QV1bKssPiea4FMsUMN/QhuItvJFqtc3B0QAqddZ40t7/XlCJta/eU/0UgBj2B4UlDmLZ/+AazOBNy3tbFKU+BOH49A5HBEhkMg3BzbuEfLGpOaqS7i3xmRyv2RkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ht4AuKaIgdFSVW7tipFQLlmV/Fyh3enNKqP0dEytqUc=;
- b=Jb3JLGYIdfBwinYGsQ7BXMpG768W3z1iytkvNCgVMu2TZ2F08CW4CMXu3sVnAf6W87NkCLg/yOS4qfVjQNh/DN4YsGDtgzEZBwJGhPWPot7opAMYNGcmtip+/H/dfLtXgX6m7q3osfo7B/0tA8hrlmGmIarDpW45zFkjCcEUvMnGFuJmlyWufsts3MBGtW+dq0g3zHHZ6b3vquoV8rJAnvufflmfu5gQTISge7nlhMEZdwnDLBc6nHojmar3NUK70smDnzkmcxGfn/WP0bq1dkJKcAeV9o7gB3LoHBp8G9QB8jqZ3AsDNgY5dDr6qXXliHFvJsulhSdldAoky8HT4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ht4AuKaIgdFSVW7tipFQLlmV/Fyh3enNKqP0dEytqUc=;
- b=i9e6Hwkrmn/FbIQnAgJP2dc+1SoasEZ5upPTEk/wHtwZxXP6qa2+1BHJORAZSltNNa5zzvQZAg4mYvATu8e7W0mDeKMmQA0tV5neMPCRKQUr3VigEYGlJHpo4XOA9EPEeZZgDvbC/oRs5570nEsqmEfGAhd8L4DbJBCdmW+IZ7hVwJpP27Cn5+SKH6vdV8zHUFRVHGbGyunc++Oks6MXLTid+UOftrsx6XNSJ6mgcMRMOKmxOTDTRUmDMse5gXyjaO/AyoJezSyTvFO0EPyZdz5/iqWyO7tvA6wh5vt4vq5G2boiM/Khq/aD8io7FQu69ZerH8aHCGd5Al1+uFD+WQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by LV3PR12MB9141.namprd12.prod.outlook.com (2603:10b6:408:1a7::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8835.30; Tue, 17 Jun
- 2025 23:00:32 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%7]) with mapi id 15.20.8835.023; Tue, 17 Jun 2025
- 23:00:32 +0000
-Date: Tue, 17 Jun 2025 20:00:30 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, kvm@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Zi Yan <ziy@nvidia.com>, Alex Mastro <amastro@fb.com>,
-	David Hildenbrand <david@redhat.com>,
-	Nico Pache <npache@redhat.com>
-Subject: Re: [PATCH 4/5] vfio: Introduce vfio_device_ops.get_unmapped_area
- hook
-Message-ID: <20250617230030.GB1575786@nvidia.com>
-References: <20250613134111.469884-5-peterx@redhat.com>
- <202506142215.koMEU2rT-lkp@intel.com>
- <aFGMG3763eSv9l8b@x1.local>
- <20250617154157.GY1174925@nvidia.com>
- <aFGcJ-mjhZ1yT7Je@x1.local>
- <aFHEZw1ag6o0BkrS@x1.local>
- <20250617194621.GA1575786@nvidia.com>
- <aFHJh7sKO9CBaLHV@x1.local>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aFHJh7sKO9CBaLHV@x1.local>
-X-ClientProxiedBy: YT4PR01CA0014.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:d1::6) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NU4c8f+R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750201650; x=1781737650;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=R55hPXEgCzAYmnjRnfA3eQw568xIhzzjhq7iPLbxx/Y=;
+  b=NU4c8f+R97jlppVzprM2VDVlczOq4YFTqhXetkDcnCbI83Gxc96YmAe8
+   dmbezQIruu7UhLl3uL/P98t8feA/x5dAo/pmE8247kiJmDtlhLSP+jrla
+   FObORhdaRlPKDuWBLlnkSucm1Kz10N3qOgyEw2eb8ilGtjFxG1j7GrHFl
+   WuC0AWV44yNtPdKfmrM6KLRq1/EG/Viam5KiZzvUvBKNnWg6+P9A8xd/U
+   kFZ1+MhqKs6UY2tws5jJY675LxTGuz1uVSY2gboUNBv4HOxcHtKSS7B0l
+   GxtE1Yanloy5qzQMtnpKITH+1EsoIsBDCFG65ct5v/XqPNd5yTyrPomKF
+   g==;
+X-CSE-ConnectionGUID: haxvbXAeR7uhy16xhbpXeQ==
+X-CSE-MsgGUID: Hdu7IoyCTqq0nDA+7L/ccQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="69851684"
+X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
+   d="scan'208";a="69851684"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 16:07:29 -0700
+X-CSE-ConnectionGUID: v0CkDStXTmSO+mHHVxC2yw==
+X-CSE-MsgGUID: uG0YLWJTRAe75ezg5tv9+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
+   d="scan'208";a="186295119"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 17 Jun 2025 16:07:28 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uRfOo-000JCk-0T;
+	Tue, 17 Jun 2025 23:07:26 +0000
+Date: Wed, 18 Jun 2025 07:07:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10-2025-06 1/1]
+ include/trace/trace_events.h:27:23: warning:
+ 'str__binder__trace_system_name' defined but not used
+Message-ID: <202506180616.3cPBI74y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|LV3PR12MB9141:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6cdcc11-9406-4619-649e-08ddadf2c2ef
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?C1VR3Njr0mW6VL1NhOw3NIPxobof2bE5wNXzAIz+a1CmTxkVB5cLFsq/JqhA?=
- =?us-ascii?Q?0B2w1AHgsL9O1rPWPOMmBOGRVuvyB4557M3hs/C/TexAbQ84bnDVEYv2eH1T?=
- =?us-ascii?Q?EuHrmS2LekfTZt1psSot+3Xd3qqBu1GbWK5DyfjyfAlw67D9bK6SH2uGrE/w?=
- =?us-ascii?Q?L0hwUeVDuUDn1/1VFOQz7WbF1bVa5c76bAdvlHViDwVfqRT2eLn2uMrTfRv5?=
- =?us-ascii?Q?qAr0mcuYPh/Ncb+aGSAdAwPwhAB0Cnc/IoK0+Wof1wntkz6FcoNPPiJXGn/9?=
- =?us-ascii?Q?eOlPEZ3TyVhm3XnbQD5QW2KZtRT97uZNrfOw4tvB4WXwKZrekCn6nxPyGFw5?=
- =?us-ascii?Q?6pJTJgIRX56EjcFCsh9uSPrQMPJHM+N+xkTx7Inkbd0R+7nA/aVmNplc8gQ8?=
- =?us-ascii?Q?CNhxyKkaKtF83dRXhtFZr6zOhiBr3jNI6AT+Px+FWMYXSqekkr5cunbDP+y+?=
- =?us-ascii?Q?qFxEuLetYPWoUc1ijXQz1BN8EoFLe38fX860NoG9O8bUH9B5N/wojsuudOPl?=
- =?us-ascii?Q?MjJ8qUVafqdZ1+x8LMce2IQuTnFTfAFUKGB00NOotxn5avdaiHG5VWNbIuis?=
- =?us-ascii?Q?+piqiyClpZ8KcZVyXOBaPGZO061q0sEGSx4MppbwGmYCsmGzGjK1bVI42iA6?=
- =?us-ascii?Q?prMmOAHPAbuzMQJG4ybsGxY4Bf9T3Tm5/OwCl454qnLNwydLQyZLvmMRrcof?=
- =?us-ascii?Q?qia91fiyRsfCt6jXHYC7ofnqGbOsacy2PjEq/xi1NyQTQVKN4cP5phf8aTJa?=
- =?us-ascii?Q?CQb8SC+HnABPZH92wJ+2HQ4Td2WKktSoUZR1cz0F+MsinbVHLObyNTOnPkKc?=
- =?us-ascii?Q?TU8H5LNNLoxzQ2ZAXV8AKdZ0CXL7eHm61DYXj/HmRV01dKp27ELNQI3ymsnv?=
- =?us-ascii?Q?athu36j0JcnKVy6aottR8rFwU6IrLwg/OxDEzlll5q9MRyygX/ktKrgLNctn?=
- =?us-ascii?Q?qJ3TMiWdqsq4rOb37+ZPSt1QW7KZlQvhiTrd7I9vsElOIkWIjKXLWf3q3de5?=
- =?us-ascii?Q?O4lQTFMId5w8vfvZDfWz/r4J8kcyo9+4JrlhE9tV2z00cG/rKI/J2poxQDIZ?=
- =?us-ascii?Q?iz+HboCZqePCsHugpfdrjKd6YtsniugXU/TH0UczFhinFOF0eHTObNROrBCo?=
- =?us-ascii?Q?Vbk8NJBtmZDxbWEOzo3PdlBHl4EB4s1fiAf6LsTH9oYNmrP2eW9reEaJ6QA4?=
- =?us-ascii?Q?GcsXXNReXLJ1azv8CSsJdfY2HgEK1do0jA1o0Ib0PRuuZcFkObnw3psCGFav?=
- =?us-ascii?Q?w5IDwiCVv3X0f+Z/WFJVaXa9qau9bo1+JSe8mvXyI+kRJlghyzAAswdTlCYy?=
- =?us-ascii?Q?HMqBJ6ORTatIQnQ6i6pvDEbcHzTiHVnnoDRCqd8PTZ3XZM6gBvO+BzFsGD1B?=
- =?us-ascii?Q?a4JjaXCDqGUnvapdeji2P31nz/S6ZREzUopZNWjnCX23LWlEiIGjs5r3LtHR?=
- =?us-ascii?Q?q62sB5hcG44=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?DV0vGqnLzUNeYbi9OjlbE2oaxkFxT9UjR3jYn6ExKfsC/Tis1Io9IMMWl5Bu?=
- =?us-ascii?Q?zP87SYuq3+qcuKf4znGOCaYXgoL8gyC0YcXq7pintJVk85NzfDFGYh8FeHvi?=
- =?us-ascii?Q?VZKuFzSTx3G14usvDD64Gr9OuMKRzo8IyNO9smSK02MfC9O6Mh+66Sxr+xHr?=
- =?us-ascii?Q?qMOv6nDOTnc4lslGTLv/2XQedNgcs/vtEz6+CX/qDzv8S5Iy7Nq/g2P2caNa?=
- =?us-ascii?Q?o69SM+HjxTiNHALvpgIgDO2ieos10XOJoqU1pM3TZCwtSUCe6WkimcVM7xwu?=
- =?us-ascii?Q?M/fV+V/KglUS2Iuhf681b+UDLCu7CrmJvBMEIKKx0m9x1/wFiIO5ktZvaqKc?=
- =?us-ascii?Q?dIlMWOKGCzmP4FE7rFiTpWuUs3TLqkHkBHmFLLQC+7sBLhIJJtbAmxMJ5P5J?=
- =?us-ascii?Q?s9o8vGYLPlJB3POljbvwhYrIPmEY+pfBUzMBulu9PJoeQW1G5xesRZIGGg0i?=
- =?us-ascii?Q?hsOc6AlwAXqMlIj/jUZ/BdXoX1KMiowGoHaLQh/I/CWVl/5g/RNeMRH55QbM?=
- =?us-ascii?Q?zAPp1IRi8Z2BYuag2LSofnJzwxKTEkFqHI861n4O6DHAeM5kAtgHlTfarM6v?=
- =?us-ascii?Q?8Jl4OQeh/vYZ5oVsK7Nop7rGUB/2+PP4T70ethJxAmmTOrx4pN7ohNQQ4uWJ?=
- =?us-ascii?Q?hlTnv3JiHHODyyuBXXltKK8D+RSSLQhHjN1DnxCrfogI7jawFhKpqPIkVkbJ?=
- =?us-ascii?Q?Dq20mN81d97E20y0injXBWMvqbDi8YzQ19jo/j+lXYpfC/h2Lxj/IxnbN+cp?=
- =?us-ascii?Q?XndGnpXVDC2gF0awP+J0eBQeYIJdX/atHhLRmuW8BPzoNuhnd99vgdKpB0NT?=
- =?us-ascii?Q?A1zyab4YDCp3cCjWdxu7cwDT7P5i5CqHcE91o/tqomU/FozjQgT2aOCp8Ij2?=
- =?us-ascii?Q?oEvSS9QHH5WX24SSacabsgKXC0/9V2ngS9GH7qwMx6UHMEdiWiBNm/wAoKyz?=
- =?us-ascii?Q?GYYeXWanShcL5W3zd1g1vOf8gVonltA8KcEOkPctr3a5DrpLGdFBn71ObxcV?=
- =?us-ascii?Q?ttivzQxNyR59PvH1hsL0ixXNfhjex0TbZupuZndwT8OzUijPtB/DZdu192pW?=
- =?us-ascii?Q?4ewD24V2lxRCPOieoDg0ESdWI/QU8QuYuFyN9eR53PwUMJD5rcaS3Y+4zcQT?=
- =?us-ascii?Q?QldV9d7gYtZnkB5n6qla9jvcD+SMFFqO44EmsWkBqzr4MT3Cp30Lr6UsN+6E?=
- =?us-ascii?Q?mZvxZA53BmWXUpAw9x+fv6Oi8/EZZJ3MmeQ0BGeYAaRv3fa7HCtcR38spG9F?=
- =?us-ascii?Q?t+nxHdg8bsfs3a7REuHhDZ57fDW+WMJjm0VjU90mbW7AUsMI6ymorC6GCCTS?=
- =?us-ascii?Q?VaUMOPzbpCaHKm7B4PrXR5qVIybUDMIbcMUoW3cfvA84QFCOmG5Hl8uQievf?=
- =?us-ascii?Q?wezcZmpeL9d5DsZ6/GdoCdLQUkZ9lHHYsEUfB8owlZEZi8EIW6XD5bE6Cs3v?=
- =?us-ascii?Q?Ik0N2Hnv34l7Ue4UEFGTrHvA2BVlvKisR2X8M4iFrwefA8H3t/EkJBrBrgGW?=
- =?us-ascii?Q?YQmsxXuce41cf5e7wfNjhm5o66bUFF08se21MagKHMithumDFSqIr8BDl4YH?=
- =?us-ascii?Q?wbvSy4EtTw5SQH13oBu13Da318eZ9qxM3dDp724I?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6cdcc11-9406-4619-649e-08ddadf2c2ef
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2025 23:00:32.5218
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kETUP2y0nRf7zJfOZ2CLePnCon65hwkSklraZXutB1OiQVmVeiKWIS8otbF3n+qE
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9141
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Jun 17, 2025 at 04:01:11PM -0400, Peter Xu wrote:
+Hi JianMin,
 
-> > So what is VFIO doing that requires CONFIG_ARCH_SUPPORTS_HUGE_PFNMAP?
-> 
-> It's the fallback part for vfio device, not vfio_pci device.  vfio_pci
-> device doesn't need this special treatment after moving to the new helper
-> because that hides everything.  vfio_device still needs it.
-> 
-> So, we have two ops that need to be touched to support this:
-> 
->         vfio_device_fops
->         vfio_pci_ops 
-> 
-> For the 1st one's vfio_device_fops.get_unmapped_area(), it'll need its own
-> fallback which must be mm_get_unmapped_area() to keep the old behavior, and
-> that was defined only if CONFIG_MMU.
+FYI, the error/warning still remains.
 
-OK, CONFIG_MMU makes a little bit of sense
+tree:   https://android.googlesource.com/kernel/common android12-5.10-2025-06
+head:   484c3d56a37435198fa13276c8c97acda5ac28f4
+commit: 3fc5e942554eb435a2afd5113778eefd2a97f19b [1/1] ANDROID: binder: Add vendor hook to the binder
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250618/202506180616.3cPBI74y-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506180616.3cPBI74y-lkp@intel.com/reproduce)
 
-> IOW, if one day file_operations.get_unmapped_area() would allow some other
-> retval to be able to fallback to the default (mm_get_unmapped_area()), then
-> we don't need this special ifdef.  But now it's not ready for that..
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506180616.3cPBI74y-lkp@intel.com/
 
-That can't be fixed with a config, the logic in vfio_device_fops has
-to be 
+All warnings (new ones prefixed by >>):
 
-if (!device->ops->get_unmapped_area()
-   return .. do_default thing..
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/binder.h:33,
+                    from drivers/android/vendor_hooks.c:13:
+>> include/trace/trace_events.h:27:23: warning: 'str__binder__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/fpsimd.h:26,
+                    from drivers/android/vendor_hooks.c:12:
+   include/trace/trace_events.h:27:23: warning: 'str__fpsimd__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sched.h:60,
+                    from drivers/android/vendor_hooks.c:11:
+   include/trace/trace_events.h:27:23: warning: 'str__sched__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
 
-return device->ops->get_unmapped()
 
-Has nothing to do with CONFIG_ARCH_SUPPORTS_HUGE_PFNMAP, there are
-more device->ops that just PCI.
+vim +/str__binder__trace_system_name +27 include/trace/trace_events.h
 
-If you do the API with an align/order argument then the default
-behavior should happen when passing PAGE_SIZE.
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
 
-Jason
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
