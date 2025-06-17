@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB4928C5D2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 07:14:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA9BCA6F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 07:36:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750144502; cv=none; b=SApTvxR1WBNBKVYNl2KsdqimWLVwiNXLKqnJ+oqQw6PtO+xMD8MOZTi9QHRt+U0OdzlVZ1PrMTumgImvuGVuqTVmPr4hsItk8/yCC2rlF65pOqajmFz5G2bwsHuNglUwCTkQzvJ/AtHfrSIzhjaggjfqBCxyOc+8wsRzg+tZMpY=
+	t=1750145764; cv=none; b=u047uFc0rDjZvHTEy+vKRv2nlLYV5k0ByYTR9S7fRNkJ7d3NgjR4hKQC6GjGt986YmjvPz+HAnhcEd4tLHS07zgThvXa4woO0fY3d/8fKSZZo+381ptGca+KQJ1kaCvpsIkuq1aW54fwBdbudvGQUo/XWkESDz3jzyg+70e0JeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750144502; c=relaxed/simple;
-	bh=UKi3qftovoB+vcoIEPVWOZhRZGcG+y/SwYhvS9VP9Y8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UzOL8T1ou5PkeLtvMCvcI5KjdgGPUpNs7XKp/c+cmRUuXH5h7yhjbQXco3AiL74MOdPEqbt9DdyEpiPq3TyOY2hntfr3FdPDPQ2CtwzsZ9Xbh6K+Ge5YvBnTbCjQGViKo+CvXt9y2XJ7Do7EvRCrQ7xruGiOngo5AVxw3TTTWWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HA2N3I8n; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1750145764; c=relaxed/simple;
+	bh=Mqkt5CmFTcJHKhcXxsGJvciVc6jghZKyPLw/h4q/RZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iCa/OdNL0/rvpdPdNDh4G0eaeks7Q25Q4PL+dnpY7jQ/6F1kf4gNVmQNOUNt5QYALQy8xCmiZXXDLrZVD9670eooK5HdfMx+uYPVPivIs3BFI3r8KhbIj0w+psezpFzLf+l2UcB4lkGQ70IDKQaSsAeu247BEHSTp5NiJwk6ptM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kwellpUr; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HA2N3I8n"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kwellpUr"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750144501; x=1781680501;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UKi3qftovoB+vcoIEPVWOZhRZGcG+y/SwYhvS9VP9Y8=;
-  b=HA2N3I8nfdktZ3Dza0VIE2vWWG8uIsv77mnaicOdf/r1yB3OuKaWAPbk
-   bZhUnUiJeF3FPFVoNQAhUq9Vj/0+X24CUzjvDTrnrfbh0nxB8goV0eDgU
-   usSCkdxFFvjBIjWagO1GVDr3liw3ejW7hSFJ6kaihce08GwKIISO+8GIQ
-   5nrA6XpwSphJYtgsj+6zOBGALnTMXIF8H8Tr0u8yzskN1LWIeSYm+SF8a
-   LlIrfRzf4q891Ex/BwEYEM1eMpSSzHZjkoqsukVVujuNBcbHNmYkiLXQJ
-   3fu85OVI+7SXHHN2hsM9Einzc6E8KjrEtoxKXfsCB0Cd9OCWfc6wzrAMi
-   A==;
-X-CSE-ConnectionGUID: 38PlPSMoTbeDuXzM3NN6lg==
-X-CSE-MsgGUID: wwAVz8DtQX6ze9wa706ZNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="74840963"
+  t=1750145761; x=1781681761;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Mqkt5CmFTcJHKhcXxsGJvciVc6jghZKyPLw/h4q/RZ8=;
+  b=kwellpUrv9NbR3CwFLAFB7flR/r9dq9OD+sHTr7gBNvM/GHCo7M2ZIzh
+   kKLtUOqdMIxrwuyhHyl5Y3f9tFJi+FAs3ohI+w5uDLWf2qJGJG40bFxWb
+   xdN+tp0fEHij8eb6IvkWEP0NqmoTFPNVRLGNYz5f6VhSlHtD3J2EjwLso
+   IrlOumO/zwEgrNQbPufoM3bD9xYbwK9DmFctjvqQSWyxTvCZnecEFCeNF
+   hx0uH36YMDHBEWYd4hsGmX31J9kCJzG+gPGC+ehykjrGF792JpNNnCd8O
+   8qqxmFLH2skh0Yc5qktUSV8ShGah2UTTwWl3NCq26VdFUo/Zd7ZLs8T/X
+   w==;
+X-CSE-ConnectionGUID: srZ+P9wLQemlq1T2czqMcQ==
+X-CSE-MsgGUID: a+bCNvCpRkaQiv/DH+sq7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="52392898"
 X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
-   d="scan'208";a="74840963"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 00:14:59 -0700
-X-CSE-ConnectionGUID: jarNe3CKSOm4QDJy9x2LcA==
-X-CSE-MsgGUID: vp/g5Nr9TpeA05S0BdfMUA==
+   d="scan'208";a="52392898"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 00:36:00 -0700
+X-CSE-ConnectionGUID: xs3R5rVJTNSLNeWU5XW5zw==
+X-CSE-MsgGUID: tl4Y7DQyQaOHMcONCLZDWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
-   d="scan'208";a="148536906"
+   d="scan'208";a="148597259"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 17 Jun 2025 00:14:58 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 17 Jun 2025 00:36:00 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRQX1-000FiC-2w;
-	Tue, 17 Jun 2025 07:14:55 +0000
-Date: Tue, 17 Jun 2025 15:14:43 +0800
+	id 1uRQrN-000FjE-2I;
+	Tue, 17 Jun 2025 07:35:57 +0000
+Date: Tue, 17 Jun 2025 15:35:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 09/10] fs: convert most other generic_file_*mmap() users
- to .mmap_prepare()
-Message-ID: <202506171549.9dcTuFoR-lkp@intel.com>
-References: <08db85970d89b17a995d2cffae96fb4cc462377f.1750099179.git.lorenzo.stoakes@oracle.com>
+Subject: [anolis-intel-cloud:devel-5.10 102/102] kismet: WARNING: unmet
+ direct dependencies detected for SPI_PHYTIUM when selected by
+ SPI_PHYTIUM_PCI
+Message-ID: <202506171541.qTK2MWRo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,60 +62,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <08db85970d89b17a995d2cffae96fb4cc462377f.1750099179.git.lorenzo.stoakes@oracle.com>
 
-Hi Lorenzo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on cifs/for-next linus/master v6.16-rc2 next-20250616]
-[cannot apply to brauner-vfs/vfs.all trondmy-nfs/linux-next ceph-client/testing ceph-client/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-rename-call_mmap-mmap_prepare-to-vfs_mmap-mmap_prepare/20250617-033629
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/08db85970d89b17a995d2cffae96fb4cc462377f.1750099179.git.lorenzo.stoakes%40oracle.com
-patch subject: [PATCH 09/10] fs: convert most other generic_file_*mmap() users to .mmap_prepare()
-config: i386-buildonly-randconfig-004-20250617 (https://download.01.org/0day-ci/archive/20250617/202506171549.9dcTuFoR-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250617/202506171549.9dcTuFoR-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   8cbb260f5584b8ea3d3941593c23a2ddc27fe701
+commit: 3aecfb5d583a915dc68f9fb5b5bc7dd643d5016d [102/102] anolis: spi: add support for Phytium SPI
+config: x86_64-kismet-CONFIG_SPI_PHYTIUM-CONFIG_SPI_PHYTIUM_PCI-0-0 (https://download.01.org/0day-ci/archive/20250617/202506171541.qTK2MWRo-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250617/202506171541.qTK2MWRo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506171549.9dcTuFoR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506171541.qTK2MWRo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   fs/ubifs/file.c: In function 'ubifs_file_mmap_prepare':
->> fs/ubifs/file.c:1589:9: error: 'vma' undeclared (first use in this function); did you mean 'vmap'?
-    1589 |         vma->vm_ops = &ubifs_file_vm_ops;
-         |         ^~~
-         |         vmap
-   fs/ubifs/file.c:1589:9: note: each undeclared identifier is reported only once for each function it appears in
-
-
-vim +1589 fs/ubifs/file.c
-
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  1581  
-de03a8cfdadf57d Lorenzo Stoakes  2025-06-16  1582  static int ubifs_file_mmap_prepare(struct vm_area_desc *desc)
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  1583  {
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  1584  	int err;
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  1585  
-de03a8cfdadf57d Lorenzo Stoakes  2025-06-16  1586  	err = generic_file_mmap_prepare(desc);
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  1587  	if (err)
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  1588  		return err;
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14 @1589  	vma->vm_ops = &ubifs_file_vm_ops;
-e3d73dead4988f3 Sascha Hauer     2019-03-26  1590  
-e3d73dead4988f3 Sascha Hauer     2019-03-26  1591  	if (IS_ENABLED(CONFIG_UBIFS_ATIME_SUPPORT))
-de03a8cfdadf57d Lorenzo Stoakes  2025-06-16  1592  		file_accessed(desc->file);
-e3d73dead4988f3 Sascha Hauer     2019-03-26  1593  
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  1594  	return 0;
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  1595  }
-1e51764a3c2ac05 Artem Bityutskiy 2008-07-14  1596  
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for SPI_PHYTIUM when selected by SPI_PHYTIUM_PCI
+   WARNING: unmet direct dependencies detected for SPI_PHYTIUM
+     Depends on [n]: SPI [=y] && SPI_MASTER [=y] && (ARCH_PHYTIUM || COMPILE_TEST [=n])
+     Selected by [y]:
+     - SPI_PHYTIUM_PCI [=y] && SPI [=y] && SPI_MASTER [=y] && PCI [=y]
 
 -- 
 0-DAY CI Kernel Test Service
