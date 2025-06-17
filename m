@@ -1,77 +1,77 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4E523A564
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 05:17:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 687F323A564
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 05:17:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750310268; cv=none; b=uTAa0pV6mmbnmltrwL7sZE/Deq5ODT8c29TrJTO+1Kj6bSBi2HBeVb6x/i8D9sICbOwmZ3b0om8Yt0D9MVABUOPDX6IQ9V/qAvkx8EltDeqb9FWFYUUZ0hW0slzr+HnNzCjJcYWpyc+QVXb3AmkxU2GSezA6qff9uSqKdyu2Z0c=
+	t=1750310276; cv=none; b=Gv1C0EZbrkLIOjm53m8SJbJgVRXM5XduR8yMr8pNjpd/7SVno1SCkB6ZVMiZHZkh9WZfnNLNqnNVoNRhPgXMg0Z8vuHIYKvackeaqEXgpr/QnejUAX7M9My4NsTrJgFstHF9NUKT9S5f6X9gFwvbfNAs75ub6JweHKPL96Xe6Fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750310268; c=relaxed/simple;
-	bh=KPTpkwaWusS/qoPiOy9BmNe5UB9pJQBLJougRp+YNIE=;
+	s=arc-20240116; t=1750310276; c=relaxed/simple;
+	bh=jbOvyjCc+WCwfsrYgK2XhQVOyXscDUzKldLJe3WFr40=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CsUVFTwLw4WVQXVzdGLynpceaMfEwGZY49zf9uax+Dya7XFPeFNr9akSAzh7tiKIZ2BDUa72wcmwRu1Xcz9zr9u28Zkik2/C5F6xDcKh/I9Wqdk9/uP6rXiJThDPWiIFZ5TMGQMe8O3A7XM3IP+D70ye/PmX8oXnQuyEUOJ4Vls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m8s3qEKY; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=l3eoVi3SJoiwEcCNnFeKOGphqgZiaMKv/Ips/lrKb7d9uTz7O1pdxow6fmv5W0wtzlUZYGibwV44cqaEjUEwdKRtnGPO4LZQ2YZpRA/dzMOXT5h9gUQHS/IwkDtQab9+THQ9vJ7MQCc8J3Li4i9jQhV+UQwrAXYj0UzZlP/LG1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ca+stke1; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m8s3qEKY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ca+stke1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750310260; x=1781846260;
+  t=1750310268; x=1781846268;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KPTpkwaWusS/qoPiOy9BmNe5UB9pJQBLJougRp+YNIE=;
-  b=m8s3qEKYOv6c3dEQ0IIfybxQoYFuHKn7ISLK58qdVi3oIueWwElusDsl
-   7q5wTua8AByllSkfbmjyQuoWFJPn5K9x/sWNh5wM+YpVqpBv32WRHBpMi
-   2fwP42BO7es/CjQlYLFVG6ueaiyId8LPl/aGpcnzdgzs7kgSqa8z2xy0l
-   BoGccBH0rymUXKs8QRXs+GLVEd2v+m2EuvO/QeWfBu+ng0DC5rNmsCgsK
-   j5FAIk9opCGl9E1zzZAbgRux3f5IAdyw8+P45PvUhd3dN3Zd1eb2XmDnY
-   WP8GBu3eV3KpE/ZNY/1v1F5BHHdU4WrmY0WBQScM8CscJBIbBcnmoz8A1
-   g==;
-X-CSE-ConnectionGUID: xVZbdOMeQOOr6vZF7JWd1g==
-X-CSE-MsgGUID: TyWSL31cQrytPJ49hujjvg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="75079560"
+  bh=jbOvyjCc+WCwfsrYgK2XhQVOyXscDUzKldLJe3WFr40=;
+  b=Ca+stke1XIdh7PnDiWKxGt2OWjuvmC+CZJ/uYD6sR+fBjzc0Xmn/uVot
+   MOmt87a24gN3LIXUAGaKh2Ad89VIENdTaTLQczFs4VfXzNZNdiwVcB5+R
+   cxXDjGV0ax+a2isHm1OE/ZJvPV3+VOcdDLmmlahHvUPjnfDo2cfNIhZ5v
+   KOJirP18+QnyTzQVIzbdVIwj43JuXSvbu6h3qQw88v4RaC5BmVQoxerKi
+   5f1Pe+H6Q+VmWxRRFygkc7fDEjU9vj5Afz11mG6ED/wweR+dVQjD4RoSa
+   BjRFCtBE5cQAVg8M/BW0cf53+DM8s8H2HhYSlJ7ZyXQXWtqs08zQJNbrb
+   Q==;
+X-CSE-ConnectionGUID: 2rlcE+UQShKOyojPFsLMEA==
+X-CSE-MsgGUID: JHMgTf9UQwadYJNY0un6iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="75079568"
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="75079560"
+   d="scan'208";a="75079568"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 22:17:40 -0700
-X-CSE-ConnectionGUID: rZet6fwSSSKML9+dW2AVWQ==
-X-CSE-MsgGUID: 76q1cvRnS2Gd0On4KZqxNg==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 22:17:48 -0700
+X-CSE-ConnectionGUID: YxUlHMqYRM2nPnWdLjMw6w==
+X-CSE-MsgGUID: QGSJQm8dSpiiQI7ScYNpPA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="155091132"
+   d="scan'208";a="155091143"
 Received: from igk-lkp-server01.igk.intel.com (HELO 28ae90bf6994) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 22:17:37 -0700
+  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 22:17:46 -0700
 Received: from kbuild by 28ae90bf6994 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uS7eR-0000OO-20;
-	Thu, 19 Jun 2025 05:17:27 +0000
-Date: Tue, 17 Jun 2025 07:19:15 +0800
+	id 1uS7eZ-0000OS-28;
+	Thu, 19 Jun 2025 05:17:35 +0000
+Date: Tue, 17 Jun 2025 09:53:11 +0800
 From: kernel test robot <lkp@intel.com>
 To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.15-main 56/83]
- arch/arm64/boot/dts/mediatek/mt7988a.dtsi:477.31-481.5: Warning
- (simple_bus_reg): /soc/phy-firmware@f000000: simple-bus unit address format
- error, expected "f100000"
-Message-ID: <202506170700.smz1MdZe-lkp@intel.com>
+Subject: [frank-w-bpi-r2-4.14:6.15-main 70/83]
+ arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pcs@10080000
+ (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the
+ regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202506170957.ZSp8Slb0-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="m0nLFBMjWCanBrGQ"
+Content-Type: multipart/mixed; boundary="24OIDaWAb1fdQNhk"
 Content-Disposition: inline
 
 
---m0nLFBMjWCanBrGQ
+--24OIDaWAb1fdQNhk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://github.com/frank-w/BPI-R2-4.14 6.15-main
 head:   d55145fa1914e66e5c20bbb64f43c1fe1a0057ac
-commit: a463c2ee14ffbdb79862f7801e5e67709d419b27 [56/83] dts: mt7988a: Add built-in ethernet phy firmware node
+commit: fa3869533ad4238f4518ccba90a380f9ed3c4f08 [70/83] dt-bindings: net: pcs: add bindings for MediaTek USXGMII PCS
 config: arm64-randconfig-2052-20250605
 compiler: aarch64-linux-gcc (GCC) 8.5.0
 dtschema version: 2025.7.dev4+g4dbacd6
@@ -80,545 +80,54 @@ reproduce (this is a W=1 build):
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506170700.smz1MdZe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506170957.ZSp8Slb0-lkp@intel.com/
 
 dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:691.24-712.5: Warning (unit_address_vs_reg): /soc/t-phy@11c50000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:721.26-743.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
    arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi:34.9-36.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/mediatek/mt7988a.dtsi:477.31-481.5: Warning (simple_bus_reg): /soc/phy-firmware@f000000: simple-bus unit address format error, expected "f100000"
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:477.31-481.5: Warning (simple_bus_reg): /soc/phy-firmware@f000000: simple-bus unit address format error, expected "f100000"
    arch/arm64/boot/dts/mediatek/mt7988a.dtsi:691.24-712.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
    arch/arm64/boot/dts/mediatek/mt7988a.dtsi:721.26-743.5: Warning (simple_bus_reg): /soc/xs-phy@11e10000: missing or empty reg/ranges property
    arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: / (bananapi,bpi-r4): memory: 'device_type' is a required property
    	from schema $id: http://devicetree.org/schemas/memory.yaml#
    arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: / (bananapi,bpi-r4): memory: False schema does not allow {'reg': [[0, 1073741824, 0, 268435456]]}
    	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/pcs@10080000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/pcs@10081000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: partition@200000 (linux,ubi): volumes:ubi-volume-ubootenv2:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: eeprom@57 (atmel,24c02): Unevaluated properties are not allowed ('address-bits', 'page-size' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: partition@200000 (linux,ubi): volumes:ubi-volume-ubootenv:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
    	'fixed-layout' was expected
    	'kontron,sl28-vpd' was expected
    	'onie,tlv-layout' was expected
    	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: partition@200000 (linux,ubi): Unevaluated properties are not allowed ('volumes' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/spi@11007000/flash@0/partitions/partition@200000/volumes/ubi-volume-ubootenv/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/spi@11007000/flash@0/partitions/partition@200000/volumes/ubi-volume-ubootenv2/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/phy-firmware@f000000: failed to match any schema with compatible: ['mediatek,2p5gphy-fw']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: chosen: 'rootdisk-spim-nand' does not match any of the regexes: '^framebuffer', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/chosen.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: gpio-keys (gpio-keys): 'wps' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
 --
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:691.24-712.5: Warning (unit_address_vs_reg): /soc/t-phy@11c50000: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:721.26-743.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
    arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtsi:34.9-36.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
->> arch/arm64/boot/dts/mediatek/mt7988a.dtsi:477.31-481.5: Warning (simple_bus_reg): /soc/phy-firmware@f000000: simple-bus unit address format error, expected "f100000"
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:477.31-481.5: Warning (simple_bus_reg): /soc/phy-firmware@f000000: simple-bus unit address format error, expected "f100000"
    arch/arm64/boot/dts/mediatek/mt7988a.dtsi:691.24-712.5: Warning (simple_bus_reg): /soc/t-phy@11c50000: missing or empty reg/ranges property
    arch/arm64/boot/dts/mediatek/mt7988a.dtsi:721.26-743.5: Warning (simple_bus_reg): /soc/xs-phy@11e10000: missing or empty reg/ranges property
    arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: / (bananapi,bpi-r4-2g5): memory: 'device_type' is a required property
    	from schema $id: http://devicetree.org/schemas/memory.yaml#
    arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: / (bananapi,bpi-r4-2g5): memory: False schema does not allow {'reg': [[0, 1073741824, 0, 268435456]]}
    	from schema $id: http://devicetree.org/schemas/root-node.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/pcs@10080000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/pcs@10081000: failed to match any schema with compatible: ['mediatek,mt7988-usxgmiisys']
---
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: partition@200000 (linux,ubi): volumes:ubi-volume-ubootenv2:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: pcs@10080000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: pcs@10081000 (mediatek,mt7988-usxgmiisys): '#pcs-cells', 'phys' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/net/pcs/mediatek,usxgmii.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: eeprom@57 (atmel,24c02): Unevaluated properties are not allowed ('address-bits', 'page-size' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/eeprom/at24.yaml#
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: partition@200000 (linux,ubi): volumes:ubi-volume-ubootenv:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
    	'fixed-layout' was expected
    	'kontron,sl28-vpd' was expected
    	'onie,tlv-layout' was expected
    	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: partition@200000 (linux,ubi): Unevaluated properties are not allowed ('volumes' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/spi@11007000/flash@0/partitions/partition@200000/volumes/ubi-volume-ubootenv/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/spi@11007000/flash@0/partitions/partition@200000/volumes/ubi-volume-ubootenv2/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/phy-firmware@f000000: failed to match any schema with compatible: ['mediatek,2p5gphy-fw']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: chosen: 'rootdisk-spim-nand' does not match any of the regexes: '^framebuffer', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/chosen.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: gpio-keys (gpio-keys): 'wps' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
-
-vim +/f100000 +477 arch/arm64/boot/dts/mediatek/mt7988a.dtsi
-
-     8	
-     9	/ {
-    10		compatible = "mediatek,mt7988a";
-    11		interrupt-parent = <&gic>;
-    12		#address-cells = <2>;
-    13		#size-cells = <2>;
-    14	
-    15		cci: cci {
-    16			compatible = "mediatek,mt7988-cci", "mediatek,mt8183-cci";
-    17			clocks = <&mcusys CLK_MCU_BUS_DIV_SEL>,
-    18				 <&topckgen CLK_TOP_XTAL>;
-    19			clock-names = "cci", "intermediate";
-    20			operating-points-v2 = <&cci_opp>;
-    21		};
-    22	
-    23		cci_opp: opp-table-cci {
-    24			compatible = "operating-points-v2";
-    25			opp-shared;
-    26			opp-480000000 {
-    27				opp-hz = /bits/ 64 <480000000>;
-    28				opp-microvolt = <850000>;
-    29			};
-    30			opp-660000000 {
-    31				opp-hz = /bits/ 64 <660000000>;
-    32				opp-microvolt = <850000>;
-    33			};
-    34			opp-900000000 {
-    35				opp-hz = /bits/ 64 <900000000>;
-    36				opp-microvolt = <850000>;
-    37			};
-    38			opp-1080000000 {
-    39				opp-hz = /bits/ 64 <1080000000>;
-    40				opp-microvolt = <900000>;
-    41			};
-    42		};
-    43	
-    44		cpus {
-    45			#address-cells = <1>;
-    46			#size-cells = <0>;
-    47	
-    48			cpu0: cpu@0 {
-    49				compatible = "arm,cortex-a73";
-    50				reg = <0x0>;
-    51				device_type = "cpu";
-    52				enable-method = "psci";
-    53				clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
-    54					 <&topckgen CLK_TOP_XTAL>;
-    55				clock-names = "cpu", "intermediate";
-    56				operating-points-v2 = <&cluster0_opp>;
-    57				mediatek,cci = <&cci>;
-    58			};
-    59	
-    60			cpu1: cpu@1 {
-    61				compatible = "arm,cortex-a73";
-    62				reg = <0x1>;
-    63				device_type = "cpu";
-    64				enable-method = "psci";
-    65				clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
-    66					 <&topckgen CLK_TOP_XTAL>;
-    67				clock-names = "cpu", "intermediate";
-    68				operating-points-v2 = <&cluster0_opp>;
-    69				mediatek,cci = <&cci>;
-    70			};
-    71	
-    72			cpu2: cpu@2 {
-    73				compatible = "arm,cortex-a73";
-    74				reg = <0x2>;
-    75				device_type = "cpu";
-    76				enable-method = "psci";
-    77				clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
-    78					 <&topckgen CLK_TOP_XTAL>;
-    79				clock-names = "cpu", "intermediate";
-    80				operating-points-v2 = <&cluster0_opp>;
-    81				mediatek,cci = <&cci>;
-    82			};
-    83	
-    84			cpu3: cpu@3 {
-    85				compatible = "arm,cortex-a73";
-    86				reg = <0x3>;
-    87				device_type = "cpu";
-    88				enable-method = "psci";
-    89				clocks = <&mcusys CLK_MCU_ARM_DIV_SEL>,
-    90					 <&topckgen CLK_TOP_XTAL>;
-    91				clock-names = "cpu", "intermediate";
-    92				operating-points-v2 = <&cluster0_opp>;
-    93				mediatek,cci = <&cci>;
-    94			};
-    95	
-    96			cluster0_opp: opp-table-0 {
-    97				compatible = "operating-points-v2";
-    98				opp-shared;
-    99	
-   100				opp-800000000 {
-   101					opp-hz = /bits/ 64 <800000000>;
-   102					opp-microvolt = <850000>;
-   103				};
-   104				opp-1100000000 {
-   105					opp-hz = /bits/ 64 <1100000000>;
-   106					opp-microvolt = <850000>;
-   107				};
-   108				opp-1500000000 {
-   109					opp-hz = /bits/ 64 <1500000000>;
-   110					opp-microvolt = <850000>;
-   111				};
-   112				opp-1800000000 {
-   113					opp-hz = /bits/ 64 <1800000000>;
-   114					opp-microvolt = <900000>;
-   115				};
-   116			};
-   117		};
-   118	
-   119		oscillator-40m {
-   120			compatible = "fixed-clock";
-   121			clock-frequency = <40000000>;
-   122			#clock-cells = <0>;
-   123			clock-output-names = "clkxtal";
-   124		};
-   125	
-   126		pmu {
-   127			compatible = "arm,cortex-a73-pmu";
-   128			interrupt-parent = <&gic>;
-   129			interrupts = <GIC_PPI 7 IRQ_TYPE_LEVEL_LOW>;
-   130		};
-   131	
-   132		psci {
-   133			compatible = "arm,psci-0.2";
-   134			method = "smc";
-   135		};
-   136	
-   137		reserved-memory {
-   138			#address-cells = <2>;
-   139			#size-cells = <2>;
-   140			ranges;
-   141	
-   142			/* 320 KiB reserved for ARM Trusted Firmware (BL31 and BL32) */
-   143			secmon@43000000 {
-   144				reg = <0 0x43000000 0 0x50000>;
-   145				no-map;
-   146			};
-   147		};
-   148	
-   149		soc {
-   150			compatible = "simple-bus";
-   151			ranges;
-   152			#address-cells = <2>;
-   153			#size-cells = <2>;
-   154	
-   155			gic: interrupt-controller@c000000 {
-   156				compatible = "arm,gic-v3";
-   157				reg = <0 0x0c000000 0 0x40000>,  /* GICD */
-   158				      <0 0x0c080000 0 0x200000>, /* GICR */
-   159				      <0 0x0c400000 0 0x2000>,   /* GICC */
-   160				      <0 0x0c410000 0 0x1000>,   /* GICH */
-   161				      <0 0x0c420000 0 0x2000>;   /* GICV */
-   162				interrupt-parent = <&gic>;
-   163				interrupts = <GIC_PPI 9 IRQ_TYPE_LEVEL_HIGH>;
-   164				interrupt-controller;
-   165				#interrupt-cells = <3>;
-   166			};
-   167	
-   168			infracfg: clock-controller@10001000 {
-   169				compatible = "mediatek,mt7988-infracfg", "syscon";
-   170				reg = <0 0x10001000 0 0x1000>;
-   171				#clock-cells = <1>;
-   172				#reset-cells = <1>;
-   173			};
-   174	
-   175			topckgen: clock-controller@1001b000 {
-   176				compatible = "mediatek,mt7988-topckgen", "syscon";
-   177				reg = <0 0x1001b000 0 0x1000>;
-   178				#clock-cells = <1>;
-   179			};
-   180	
-   181			watchdog: watchdog@1001c000 {
-   182				compatible = "mediatek,mt7988-wdt";
-   183				reg = <0 0x1001c000 0 0x1000>;
-   184				interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH>;
-   185				#reset-cells = <1>;
-   186			};
-   187	
-   188			apmixedsys: clock-controller@1001e000 {
-   189				compatible = "mediatek,mt7988-apmixedsys";
-   190				reg = <0 0x1001e000 0 0x1000>;
-   191				#clock-cells = <1>;
-   192			};
-   193	
-   194			pio: pinctrl@1001f000 {
-   195				compatible = "mediatek,mt7988-pinctrl";
-   196				reg = <0 0x1001f000 0 0x1000>,
-   197				      <0 0x11c10000 0 0x1000>,
-   198				      <0 0x11d00000 0 0x1000>,
-   199				      <0 0x11d20000 0 0x1000>,
-   200				      <0 0x11e00000 0 0x1000>,
-   201				      <0 0x11f00000 0 0x1000>,
-   202				      <0 0x1000b000 0 0x1000>;
-   203				reg-names = "gpio", "iocfg_tr",
-   204					    "iocfg_br", "iocfg_rb",
-   205					    "iocfg_lb", "iocfg_tl", "eint";
-   206				gpio-controller;
-   207				#gpio-cells = <2>;
-   208				gpio-ranges = <&pio 0 0 84>;
-   209				interrupt-controller;
-   210				interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_HIGH>;
-   211				interrupt-parent = <&gic>;
-   212				#interrupt-cells = <2>;
-   213	
-   214				pcie0_pins: pcie0-pins {
-   215					mux {
-   216						function = "pcie";
-   217						groups = "pcie_2l_0_pereset", "pcie_clk_req_n0_0",
-   218							 "pcie_wake_n0_0";
-   219					};
-   220				};
-   221	
-   222				pcie1_pins: pcie1-pins {
-   223					mux {
-   224						function = "pcie";
-   225						groups = "pcie_2l_1_pereset", "pcie_clk_req_n1",
-   226							 "pcie_wake_n1_0";
-   227					};
-   228				};
-   229	
-   230				pcie2_pins: pcie2-pins {
-   231					mux {
-   232						function = "pcie";
-   233						groups = "pcie_1l_0_pereset", "pcie_clk_req_n2_0",
-   234							 "pcie_wake_n2_0";
-   235					};
-   236				};
-   237	
-   238				pcie3_pins: pcie3-pins {
-   239					mux {
-   240						function = "pcie";
-   241						groups = "pcie_1l_1_pereset", "pcie_clk_req_n3",
-   242							 "pcie_wake_n3_0";
-   243					};
-   244				};
-   245	
-   246				spi1_pins: spi1-pins {
-   247					mux {
-   248						function = "spi";
-   249						groups = "spi1";
-   250					};
-   251				};
-   252	
-   253				uart0_pins: uart0-pins {
-   254					mux {
-   255						function = "uart";
-   256						groups =  "uart0";
-   257					};
-   258				};
-   259			};
-   260	
-   261			pwm: pwm@10048000 {
-   262				compatible = "mediatek,mt7988-pwm";
-   263				reg = <0 0x10048000 0 0x1000>;
-   264				clocks = <&infracfg CLK_INFRA_66M_PWM_BCK>,
-   265					 <&infracfg CLK_INFRA_66M_PWM_HCK>,
-   266					 <&infracfg CLK_INFRA_66M_PWM_CK1>,
-   267					 <&infracfg CLK_INFRA_66M_PWM_CK2>,
-   268					 <&infracfg CLK_INFRA_66M_PWM_CK3>,
-   269					 <&infracfg CLK_INFRA_66M_PWM_CK4>,
-   270					 <&infracfg CLK_INFRA_66M_PWM_CK5>,
-   271					 <&infracfg CLK_INFRA_66M_PWM_CK6>,
-   272					 <&infracfg CLK_INFRA_66M_PWM_CK7>,
-   273					 <&infracfg CLK_INFRA_66M_PWM_CK8>;
-   274				clock-names = "top", "main", "pwm1", "pwm2", "pwm3",
-   275					      "pwm4", "pwm5", "pwm6", "pwm7", "pwm8";
-   276				#pwm-cells = <2>;
-   277				status = "disabled";
-   278			};
-   279	
-   280			sgmiisys0: syscon@10060000 {
-   281				compatible = "mediatek,mt7988-sgmiisys0",
-   282					     "simple-mfd",
-   283					     "syscon";
-   284				reg = <0 0x10060000 0 0x1000>;
-   285				resets = <&watchdog 1>;
-   286				#clock-cells = <1>;
-   287	
-   288				sgmiipcs0: pcs {
-   289					compatible = "mediatek,mt7988-sgmii";
-   290					clocks = <&topckgen CLK_TOP_SGM_0_SEL>,
-   291						 <&sgmiisys0 CLK_SGM0_TX_EN>,
-   292						 <&sgmiisys0 CLK_SGM0_RX_EN>;
-   293					clock-names = "sgmii_sel", "sgmii_tx", "sgmii_rx";
-   294					phys = <&xfi_tphy0>;
-   295					#pcs-cells = <0>;
-   296				};
-   297			};
-   298	
-   299			sgmiisys1: syscon@10070000 {
-   300				compatible = "mediatek,mt7988-sgmiisys1",
-   301					     "simple-mfd",
-   302					     "syscon";
-   303				reg = <0 0x10070000 0 0x1000>;
-   304				resets = <&watchdog 2>;
-   305				#clock-cells = <1>;
-   306	
-   307				sgmiipcs1: pcs {
-   308					compatible = "mediatek,mt7988-sgmii";
-   309					clocks = <&topckgen CLK_TOP_SGM_1_SEL>,
-   310						 <&sgmiisys1 CLK_SGM1_TX_EN>,
-   311						 <&sgmiisys1 CLK_SGM1_RX_EN>;
-   312					clock-names = "sgmii_sel", "sgmii_tx", "sgmii_rx";
-   313					phys = <&xfi_tphy1>;
-   314					#pcs-cells = <0>;
-   315				};
-   316			};
-   317	
-   318			usxgmiisys0: pcs@10080000 {
-   319				compatible = "mediatek,mt7988-usxgmiisys";
-   320				reg = <0 0x10080000 0 0x1000>;
-   321				resets = <&watchdog 12>;
-   322				clocks = <&topckgen CLK_TOP_USXGMII_SBUS_0_SEL>;
-   323				phys = <&xfi_tphy0>;
-   324				#pcs-cells = <0>;
-   325			};
-   326	
-   327			usxgmiisys1: pcs@10081000 {
-   328				compatible = "mediatek,mt7988-usxgmiisys";
-   329				reg = <0 0x10081000 0 0x1000>;
-   330				resets = <&watchdog 13>;
-   331				clocks = <&topckgen CLK_TOP_USXGMII_SBUS_1_SEL>;
-   332				phys = <&xfi_tphy1>;
-   333				#pcs-cells = <0>;
-   334			};
-   335	
-   336			mcusys: mcusys@100e0000 {
-   337				compatible = "mediatek,mt7988-mcusys", "syscon";
-   338				reg = <0 0x100e0000 0 0x1000>;
-   339				#clock-cells = <1>;
-   340			};
-   341	
-   342			serial0: serial@11000000 {
-   343				compatible = "mediatek,mt7988-uart", "mediatek,mt6577-uart";
-   344				reg = <0 0x11000000 0 0x100>;
-   345				interrupts = <GIC_SPI 123 IRQ_TYPE_LEVEL_HIGH>;
-   346				interrupt-names = "uart", "wakeup";
-   347				clocks = <&topckgen CLK_TOP_UART_SEL>,
-   348					 <&infracfg CLK_INFRA_52M_UART0_CK>;
-   349				clock-names = "baud", "bus";
-   350				pinctrl-names = "default";
-   351				pinctrl-0 = <&uart0_pins>;
-   352				status = "disabled";
-   353			};
-   354	
-   355			serial1: serial@11000100 {
-   356				compatible = "mediatek,mt7988-uart", "mediatek,mt6577-uart";
-   357				reg = <0 0x11000100 0 0x100>;
-   358				interrupts = <GIC_SPI 124 IRQ_TYPE_LEVEL_HIGH>;
-   359				interrupt-names = "uart", "wakeup";
-   360				clocks = <&topckgen CLK_TOP_UART_SEL>,
-   361					 <&infracfg CLK_INFRA_52M_UART1_CK>;
-   362				clock-names = "baud", "bus";
-   363				status = "disabled";
-   364			};
-   365	
-   366			serial2: serial@11000200 {
-   367				compatible = "mediatek,mt7988-uart", "mediatek,mt6577-uart";
-   368				reg = <0 0x11000200 0 0x100>;
-   369				interrupts = <GIC_SPI 125 IRQ_TYPE_LEVEL_HIGH>;
-   370				interrupt-names = "uart", "wakeup";
-   371				clocks = <&topckgen CLK_TOP_UART_SEL>,
-   372					 <&infracfg CLK_INFRA_52M_UART2_CK>;
-   373				clock-names = "baud", "bus";
-   374				status = "disabled";
-   375			};
-   376	
-   377			i2c0: i2c@11003000 {
-   378				compatible = "mediatek,mt7981-i2c";
-   379				reg = <0 0x11003000 0 0x1000>,
-   380				      <0 0x10217080 0 0x80>;
-   381				interrupts = <GIC_SPI 136 IRQ_TYPE_LEVEL_HIGH>;
-   382				clock-div = <1>;
-   383				clocks = <&infracfg CLK_INFRA_I2C_BCK>,
-   384					 <&infracfg CLK_INFRA_66M_AP_DMA_BCK>;
-   385				clock-names = "main", "dma";
-   386				#address-cells = <1>;
-   387				#size-cells = <0>;
-   388				status = "disabled";
-   389			};
-   390	
-   391			i2c1: i2c@11004000 {
-   392				compatible = "mediatek,mt7981-i2c";
-   393				reg = <0 0x11004000 0 0x1000>,
-   394				      <0 0x10217100 0 0x80>;
-   395				interrupts = <GIC_SPI 144 IRQ_TYPE_LEVEL_HIGH>;
-   396				clock-div = <1>;
-   397				clocks = <&infracfg CLK_INFRA_I2C_BCK>,
-   398					 <&infracfg CLK_INFRA_66M_AP_DMA_BCK>;
-   399				clock-names = "main", "dma";
-   400				#address-cells = <1>;
-   401				#size-cells = <0>;
-   402				status = "disabled";
-   403			};
-   404	
-   405			i2c2: i2c@11005000 {
-   406				compatible = "mediatek,mt7981-i2c";
-   407				reg = <0 0x11005000 0 0x1000>,
-   408				      <0 0x10217180 0 0x80>;
-   409				interrupts = <GIC_SPI 145 IRQ_TYPE_LEVEL_HIGH>;
-   410				clock-div = <1>;
-   411				clocks = <&infracfg CLK_INFRA_I2C_BCK>,
-   412					 <&infracfg CLK_INFRA_66M_AP_DMA_BCK>;
-   413				clock-names = "main", "dma";
-   414				#address-cells = <1>;
-   415				#size-cells = <0>;
-   416				status = "disabled";
-   417			};
-   418	
-   419			spi0: spi@11007000 {
-   420				compatible = "mediatek,mt7988-spi-quad", "mediatek,spi-ipm";
-   421				reg = <0 0x11007000 0 0x100>;
-   422				interrupts = <GIC_SPI 140 IRQ_TYPE_LEVEL_HIGH>;
-   423				clocks = <&topckgen CLK_TOP_MPLL_D2>,
-   424					 <&topckgen CLK_TOP_SPI_SEL>,
-   425					 <&infracfg CLK_INFRA_104M_SPI0>,
-   426					 <&infracfg CLK_INFRA_66M_SPI0_HCK>;
-   427				clock-names = "parent-clk", "sel-clk", "spi-clk",
-   428					      "hclk";
-   429				#address-cells = <1>;
-   430				#size-cells = <0>;
-   431				status = "disabled";
-   432			};
-   433	
-   434			spi1: spi@11008000 {
-   435				compatible = "mediatek,mt7988-spi-single", "mediatek,spi-ipm";
-   436				reg = <0 0x11008000 0 0x100>;
-   437				interrupts = <GIC_SPI 141 IRQ_TYPE_LEVEL_HIGH>;
-   438				clocks = <&topckgen CLK_TOP_MPLL_D2>,
-   439					 <&topckgen CLK_TOP_SPIM_MST_SEL>,
-   440					 <&infracfg CLK_INFRA_104M_SPI1>,
-   441					 <&infracfg CLK_INFRA_66M_SPI1_HCK>;
-   442				clock-names = "parent-clk", "sel-clk", "spi-clk",
-   443					      "hclk";
-   444				#address-cells = <1>;
-   445				#size-cells = <0>;
-   446				pinctrl-names = "default";
-   447				pinctrl-0 = <&spi1_pins>;
-   448				status = "disabled";
-   449			};
-   450	
-   451			spi2: spi@11009000 {
-   452				compatible = "mediatek,mt7988-spi-quad", "mediatek,spi-ipm";
-   453				reg = <0 0x11009000 0 0x100>;
-   454				interrupts = <GIC_SPI 142 IRQ_TYPE_LEVEL_HIGH>;
-   455				clocks = <&topckgen CLK_TOP_MPLL_D2>,
-   456					 <&topckgen CLK_TOP_SPI_SEL>,
-   457					 <&infracfg CLK_INFRA_104M_SPI2_BCK>,
-   458					 <&infracfg CLK_INFRA_66M_SPI2_HCK>;
-   459				clock-names = "parent-clk", "sel-clk", "spi-clk",
-   460					      "hclk";
-   461				#address-cells = <1>;
-   462				#size-cells = <0>;
-   463				status = "disabled";
-   464			};
-   465	
-   466			lvts: lvts@1100a000 {
-   467				compatible = "mediatek,mt7988-lvts-ap";
-   468				#thermal-sensor-cells = <1>;
-   469				reg = <0 0x1100a000 0 0x1000>;
-   470				clocks = <&infracfg CLK_INFRA_26M_THERM_SYSTEM>;
-   471				interrupts = <GIC_SPI 138 IRQ_TYPE_LEVEL_HIGH>;
-   472				resets = <&infracfg MT7988_INFRA_RST1_THERM_CTRL_SWRST>;
-   473				nvmem-cells = <&lvts_calibration>;
-   474				nvmem-cell-names = "lvts-calib-data-1";
-   475			};
-   476	
- > 477			phyfw: phy-firmware@f000000 {
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
---m0nLFBMjWCanBrGQ
+--24OIDaWAb1fdQNhk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -8568,19 +8077,19 @@ CONFIG_MEMTEST=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Documentation
 
---m0nLFBMjWCanBrGQ
+--24OIDaWAb1fdQNhk
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=reproduce
 
 reproduce (this is a W=1 build):
         git clone https://github.com/intel/lkp-tests.git ~/lkp-tests
-        # https://github.com/frank-w/BPI-R2-4.14/commit/a463c2ee14ffbdb79862f7801e5e67709d419b27
+        # https://github.com/frank-w/BPI-R2-4.14/commit/fa3869533ad4238f4518ccba90a380f9ed3c4f08
         git remote add frank-w-bpi-r2-4.14 https://github.com/frank-w/BPI-R2-4.14
         git fetch --no-tags frank-w-bpi-r2-4.14 6.15-main
-        git checkout a463c2ee14ffbdb79862f7801e5e67709d419b27
+        git checkout fa3869533ad4238f4518ccba90a380f9ed3c4f08
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-8.5.0 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=arm64 olddefconfig
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-8.5.0 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=arm64 SHELL=/bin/bash dtbs_check
 
---m0nLFBMjWCanBrGQ--
+--24OIDaWAb1fdQNhk--
