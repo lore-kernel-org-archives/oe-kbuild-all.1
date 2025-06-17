@@ -1,118 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7212EFD8C;
-	Tue, 17 Jun 2025 20:44:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7CD82EF9AE;
+	Tue, 17 Jun 2025 21:02:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750193048; cv=none; b=ezkt3OncxtGCC8CpqB0WW/mK3oU5VtjkMADf3NgBP3MUVTAXYb+7rZfUj0YpUF/jdwjz0PT7hczPtWGSTooI+CaSaMDPacjdBpOPVRapLOshnpXZvefBIEfLyw/0x4jFXksD+mjfZucIGCmLqkTHRzlr/2zE1UUkpp7jOd1T/Mc=
+	t=1750194154; cv=none; b=FVopShaktmzJNPzvrgs4Ke3+6HKud6yRJdeF08HVqNH2G3E+n+Z0i8SKOOVinihMylPny5Ghenb1+8e9PF4vmvM4NRHh3IJlSZd4vfsASG+CkIHR/iVewub1LNLfQbr5Ws6MwAtcZYIAXVqh8Qr/0PxOqEZAV0IdRd/qt+T41WQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750193048; c=relaxed/simple;
-	bh=jFnXARC9BJC9TFd8zA3OkHO9qYcWjJfhhh7sAhe7/oE=;
+	s=arc-20240116; t=1750194154; c=relaxed/simple;
+	bh=5RPYnG9xpdhEMO/Ay444O5+IorN3tv2dw/ehK4e1K5Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=J2OaM5RohvVKWZUpKY5DLiMYIp/Qyv6PLR7mqELL4PaINROpaOAEaXr98AfaVYCfBQrdSa0kvNtXSIuZQbnzLEShI2DURgyGDliiI6jQmxnaT8B6UHNCdMYydVnU9IKib0VUhJUxpzqHKlTTf+Fspaq4OKHmFTITOds2VRocPmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=juijGfqS; arc=none smtp.client-ip=10.30.226.201
+	 Content-Disposition; b=W5e/oPNylHgQqqh6ww69rWPBQ0ALaYLXgOd6HEy+wUSLgpnKFIsug7blUdZLSp53WtnKsaWAe8X1qZ+jNob9I/vX1Ufbv0ebgKx7K4ii69lfilnRtUy5DnKFQ/rcCONx2MfTcCBzC5Shyo/I6Zt9w8gzJhyeW71FeRkz2M3DRb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jxuvn1CD; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="juijGfqS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C41B6C4CEE3;
-	Tue, 17 Jun 2025 20:44:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750193048;
-	bh=jFnXARC9BJC9TFd8zA3OkHO9qYcWjJfhhh7sAhe7/oE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:From;
-	b=juijGfqSThiZkVyVg0Y1zzpbjeFASpdI1Jfglif68aWizzSiJcb+WwC2oHOyxpAPX
-	 QaDW0Eg5VaLvkZbm0+4A9d/7jyne58Jcdov45SyUfds5dq/1b3ddHx+PZb58jVXBMq
-	 PciqjKtLn4dCvFUtYxuMhl/HV6Vr1VPmcnuh6OKzqD/I9oGYPd0fy5XzDxK11Glf8j
-	 nduWjH/drTuzoWT5XxUCX/NZOeAp1fFgZBdAczMyf7y9dfb07XSpwJ6jkcUTts3O9B
-	 iKMRqr1vfsBGakcJpDdf+xISo7E5dz7js9W5YvVEMOqU0U/PjrBYSCFb5mwwuS2NxH
-	 fTADFWiFpF4nA==
-Date: Tue, 17 Jun 2025 15:44:06 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Manivannan Sadhasivam <mani@kernel.org>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Lukas Wunner <lukas@wunner.de>,
-	kernel test robot <lkp@intel.com>, bhelgaas@google.com,
-	oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jim Quinlan <james.quinlan@broadcom.com>
-Subject: Re: [PATCH v3] PCI/pwrctrl: Move pci_pwrctrl_create_device()
- definition to drivers/pci/pwrctrl/
-Message-ID: <20250617204406.GA1151053@bhelgaas>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jxuvn1CD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750194153; x=1781730153;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5RPYnG9xpdhEMO/Ay444O5+IorN3tv2dw/ehK4e1K5Q=;
+  b=Jxuvn1CD1/VQjYenFRcVaMOADehSQtKkbZxQOwSEmJAo3Iy2OVwm3y+3
+   NmJ3RDSuaiT20SgUhupxILIYXPJskBYWHpbHR3b4NFO9XiJLlrbztSe+x
+   934FBvgiwovQYAclulyVnOHJidocLvTh+0RBpl/Jguf+3QnVITfU2yi6z
+   xMxZ7QU2Go9QBehcj91UK8BrxRB5a5NEQWMsfl+i17Dl6dYuAy72pekeJ
+   FYzMU6jqx3HJuJ/wJZWNkYWAmDbI8Ix3C9zy5H0J6DsO4c60/HPLoaIIQ
+   E9CQhgQqNzUWXe0T2QkrVeIlBUTgEDfkrodBGIw8zZkHyRUGL4pJpTOcB
+   A==;
+X-CSE-ConnectionGUID: frRGPccVSOieum3JFebQtQ==
+X-CSE-MsgGUID: qPhK5EwiSKy7IXXeVafWDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="39998279"
+X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
+   d="scan'208";a="39998279"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 14:02:32 -0700
+X-CSE-ConnectionGUID: 7GWlfxaxRM6GZFynHIt25w==
+X-CSE-MsgGUID: re4EOEXLTZSYnqYBi0Brmg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
+   d="scan'208";a="148771391"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 17 Jun 2025 14:02:31 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uRdRs-000I66-0a;
+	Tue, 17 Jun 2025 21:02:28 +0000
+Date: Wed, 18 Jun 2025 05:02:08 +0800
+From: kernel test robot <lkp@intel.com>
+To: Luis Gerhorst <luis.gerhorst@fau.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alexei Starovoitov <ast@kernel.org>
+Subject: [linux-next:master 1327/3035]
+ arch/powerpc/net/bpf_jit_comp64.c:417:21: warning: variable 'ori31_emitted'
+ set but not used
+Message-ID: <202506180402.uUXwVoSH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <pwb4g7worzsnryimt3ymdfsxu7bxvhlr74rqodmiof5auolhrc@vpi7wzrp7osh>
 
-On Mon, Jun 16, 2025 at 07:14:50PM +0530, Manivannan Sadhasivam wrote:
-> On Mon, Jun 16, 2025 at 03:30:27PM +0200, Bartosz Golaszewski wrote:
-> > On Mon, Jun 16, 2025 at 3:16 PM Lukas Wunner <lukas@wunner.de> wrote:
-> > >
-> > > On Mon, Jun 16, 2025 at 06:07:48PM +0530, Manivannan Sadhasivam wrote:
-> > > > On Mon, Jun 16, 2025 at 08:21:20PM +0800, kernel test robot wrote:
-> > > > >    ld: drivers/pci/probe.o: in function `pci_scan_single_device':
-> > > > > >> probe.c:(.text+0x2400): undefined reference to `pci_pwrctrl_create_device'
-> > > >
-> > > > Hmm, so we cannot have a built-in driver depend on a module...
-> > > >
-> > > > Bartosz, should we make CONFIG_PCI_PWRCTRL bool then? We can
-> > > > still allow the individual pwrctrl drivers be tristate.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   4325743c7e209ae7845293679a4de94b969f2bef
+commit: dff883d9e93a7f2f2fa4e38a9444b2c79d6da91a [1327/3035] bpf, arm64, powerpc: Change nospec to include v1 barrier
+config: powerpc64-randconfig-002-20250618 (https://download.01.org/0day-ci/archive/20250618/202506180402.uUXwVoSH-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 875b36a8742437b95f623bab1e0332562c7b4b3f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506180402.uUXwVoSH-lkp@intel.com/reproduce)
 
-I think I'm OK with making CONFIG_PCI_PWRCTRL bool.  What is the
-argument for making it a module?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506180402.uUXwVoSH-lkp@intel.com/
 
-When pwrctrl is a module, it seems like we have no way to even
-indicate to the user that "there might be PCI devices here that could
-be powered on and enumerated."  That feels like information users
-ought to be able to get.
+All warnings (new ones prefixed by >>):
 
-I do wonder if we're building a structure parallel to ACPI
-functionality and whether there could/should be some approach that
-unifies both.  But that's a tangent to this current issue.
+>> arch/powerpc/net/bpf_jit_comp64.c:417:21: warning: variable 'ori31_emitted' set but not used [-Wunused-but-set-variable]
+     417 |         bool sync_emitted, ori31_emitted;
+         |                            ^
+   1 warning generated.
 
-> > > I guess the alternative is to just leave it in probe.c.  The
-> > > function is optimized away in the CONFIG_OF=n case because
-> > > of_pci_find_child_device() returns NULL.  It's unpleasant that
-> > > it lives outside of pwrctrl/core.c, but it doesn't occupy any
-> > > space in the compiled kernel at least on non-OF (e.g. ACPI)
-> > > platforms.
 
-I don't like having pci_pwrctrl_create_device() in drivers/pci/probe.c
-and relying on the compiler to optimize it out when
-of_pci_find_child_device() returns NULL.  This is in the fundamental
-device enumeration path, and I think it's unnecessary confusion for
-every non-OF reader.
+vim +/ori31_emitted +417 arch/powerpc/net/bpf_jit_comp64.c
 
-> > And there's a third option of having this function live in a
-> > separate .c file under drivers/pci/pwrctl/ that would be always
-> > built-in even if PWRCTL itself is a module. The best/worst of two
-> > worlds? :)
-> 
-> I would try to avoid the third option at any cost ;) Because the
-> pwrctrl/core.c would no longer be the 'core' and the code structure
-> would look distorted.
+   411	
+   412	/* Assemble the body code between the prologue & epilogue */
+   413	int bpf_jit_build_body(struct bpf_prog *fp, u32 *image, u32 *fimage, struct codegen_context *ctx,
+   414			       u32 *addrs, int pass, bool extra_pass)
+   415	{
+   416		enum stf_barrier_type stf_barrier = stf_barrier_type_get();
+ > 417		bool sync_emitted, ori31_emitted;
 
-I don't really see adding problem with a file in drivers/pci/pwrctrl/.
-
-Whether it should be "core.c" or not, I dunno.  I think "core.c" could
-make sense for things that must be present always, e.g.,
-pci_pwrctrl_create_device(), and the driver itself could be
-"pwrctrl.c"
-
-If pwrctrl is built as a module, what is the module name?  I assume it
-must be "pwrctrl", though Kconfig doesn't mention it and I don't grok
-enough Makefile to figure it out.  "core" would be useless in the
-print_modules() output.
-
-> Let's see what Bjorn thinks about option 1 and 2. I did not account
-> for the built-in vs modular dependency when Bjorn asked me if the
-> move was possible. And I now vaguely remember that I kept it in
-> probe.c initially because of this dependency.
->  
-> - Mani
-> 
-> -- மணிவண்ணன் சதாசிவம்
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
