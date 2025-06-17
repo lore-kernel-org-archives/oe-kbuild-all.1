@@ -1,143 +1,119 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F404628CF7B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 19:39:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D2E25178C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 19:40:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750189170; cv=none; b=CzmWzYN6q5fJ8VFRVoFyaV17MfUkJxiKlwYahg3AuPuSAPQgG+65SVqgd1l4c5SeGi+oFH/Mp8tm7f6owbA2EQaDxyhEl6ajy1nMt3Wt7vf5bD0BrmABiJ6cJwCo2CRFEAr4pZSrET1m/C0dX33pk/njZstulj+aAJIvMB5V5J4=
+	t=1750189224; cv=none; b=PPZCB5+4UqaMnFRz4JW1ffLUtMOmNK2vdy0lqB8kwG3StT0CDlRzI8cWEfXt1ca4JrvJsLPIEHdYJskAAS4R77rNw/AAbPsuAjdHaXXxD4eL00wtJr7x5DdkXsFSmbIqtCUec/HcNwXN051Kql2GB7XA/Q2Ttf5D/1z9kBFhlBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750189170; c=relaxed/simple;
-	bh=F8sGT+/sgtF0uvYnPIHZZx0Lfe8FrbZyk0U6/gz6wZI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=dv32sfHi467Z3CnHo+DJk6KsdgYPlt8xLKQZ/dj3Tbpn5FN4bzqD6VZJR5/SrzBTk64Id6r3HUm8OI+UbvUcsJpOmAZ1jmws9e/I+xNmTbZbRywF5XIx7thGJxCFdavOKGpDhu3VWsf10Hz8DVNFsRep8KGvJtauy9ObY1XDLRA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F/M7kWMH; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1750189224; c=relaxed/simple;
+	bh=garWadXQGNzXogZ8JH0geZWqMso0Aj5jMcsa/kV/C64=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qaWfXrHJpJ3PAlpIHopO0CZNzatiL4er5hYfh6xUObU2oVJXiIDmOcsWA+cewDQNcHkLjyQbpN1r55rRrVVUpmdJ0j1JjTfP4H7HJ9UShv08oLi3bzbWkruTd3+bYvXXs3cJLD0cffNsp0ypG95HQkbkLcWsQFuMOqKAciBNv/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZuARKkoh; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F/M7kWMH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750189166;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XJl3ISS5vZpEM73Zu2QnVbFcIkeedrpFNBWR+QK1Ynw=;
-	b=F/M7kWMH0fl1vn9+RJhJemn6xfmoUQ5uCE21v7Z0o8GckW5JFB1W1hJxH0K+6o3N7pN92F
-	OARk7nORjs0JCOWzfMqTiI0O0oIQeiXoAkbWbPDH4MYtRR4rzjw0LCrebP6zXZfbLkYnwM
-	2zil/npKKFpnXKHOEyoyR+dkls8L8O0=
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
- [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-19-N4BaMfb-MYeX_tIK45AaIw-1; Tue, 17 Jun 2025 15:39:25 -0400
-X-MC-Unique: N4BaMfb-MYeX_tIK45AaIw-1
-X-Mimecast-MFC-AGG-ID: N4BaMfb-MYeX_tIK45AaIw_1750189165
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-74834bc5d37so8957534b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 12:39:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750189165; x=1750793965;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XJl3ISS5vZpEM73Zu2QnVbFcIkeedrpFNBWR+QK1Ynw=;
-        b=n5jtBT1HJbm93FALZvCS573iOfb7+bG8pgz6saBYDqSoChAQ+ttE4czAHJbmny0GTr
-         pjAhePiMgipsvZHFjxTQayvxhV7bnLP4WKWKo7SFYgs5esT8bLGtmWM2xVF89vQsvH2Z
-         VduyWu/I0ZDWGsUrHBwImRqqn1QTcUmAGq//NpHpWyo3NgpYu/NYWpaKDe4M6Y8HHxUG
-         Rvj/d/aIPzwOzdQb9vsKbzME+bFPWTv1N9fbR7aqhLQ7BqsLCJr4phSNo88j50/lFlSl
-         i/7X7N/EuH6G0hwq80OzDgp3iGgn4wd57RK2DEn7g3OTwWCj5iv7aXMcgU240Oj+YHLN
-         wYZg==
-X-Forwarded-Encrypted: i=1; AJvYcCWHWX7vu9TL0Y4kUM1E4VHaT5dipEcCqxeo+bMdU2jk8kUMrCf82V+303C1ZNh91ALTHaXxjF0Y+IAWGW+O@lists.linux.dev
-X-Gm-Message-State: AOJu0YxbZHqZt2Ro623l5J9OLzG/LO25SKSs3TEuSfmbcshipSKLMRyd
-	8yzm/lzy151H3t6W0CslbT0M9pl/8Jh5k1yH4AWH1gdfliZv/otixbvSPaK0mS0rvlkQRKT4nZG
-	RaP5wwSU1XRp3mEAQ6TH1qIQCTKukpfXPBRiG9oKwuNLZVmA4vdmYpeeGWdJk+Ye7YDQ=
-X-Gm-Gg: ASbGncvw5M0lc6m5fvZIxyCIbiHurCXqOI5LzoT8Wh6VY+W36vJ5aKDkwi+xY1WYPrL
-	ePupSqrx2cpjE99lEDv+ML6BitAB/hKQ87OgZzTgl7WJ3jn61k1NQgGT9S8j2qfpzJ2jile/KpM
-	6lHX85OlHkkXrlNiIQJCrGIjSu94Ji2CEn0/MareRrfvMtoain4r1CC02wiZvOFIFjaVWoCUoV1
-	UXYjOGlSruC2W/4BhF5BmkFkvLFunfPzY+GfewLVKymgldBiONRw6f7VOyjvgklZxMNm2ULgaQf
-	jnEtJVL7KlKNgQ==
-X-Received: by 2002:a05:6a00:3a19:b0:746:2ae9:fc3d with SMTP id d2e1a72fcca58-7489cffb6bbmr18361934b3a.23.1750189164733;
-        Tue, 17 Jun 2025 12:39:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE0d0QqjyrjopZorTKaCRFU/Z21FT70P9cxE4DFi+E6/jbvdkezfloKB99Q5wHRPPT6YtfIBg==
-X-Received: by 2002:a05:6a00:3a19:b0:746:2ae9:fc3d with SMTP id d2e1a72fcca58-7489cffb6bbmr18361911b3a.23.1750189164376;
-        Tue, 17 Jun 2025 12:39:24 -0700 (PDT)
-Received: from x1.local ([85.131.185.92])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-748d8093c63sm1700538b3a.57.2025.06.17.12.39.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 12:39:23 -0700 (PDT)
-Date: Tue, 17 Jun 2025 15:39:19 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, kvm@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Zi Yan <ziy@nvidia.com>, Alex Mastro <amastro@fb.com>,
-	David Hildenbrand <david@redhat.com>,
-	Nico Pache <npache@redhat.com>
-Subject: Re: [PATCH 4/5] vfio: Introduce vfio_device_ops.get_unmapped_area
- hook
-Message-ID: <aFHEZw1ag6o0BkrS@x1.local>
-References: <20250613134111.469884-5-peterx@redhat.com>
- <202506142215.koMEU2rT-lkp@intel.com>
- <aFGMG3763eSv9l8b@x1.local>
- <20250617154157.GY1174925@nvidia.com>
- <aFGcJ-mjhZ1yT7Je@x1.local>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZuARKkoh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750189223; x=1781725223;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=garWadXQGNzXogZ8JH0geZWqMso0Aj5jMcsa/kV/C64=;
+  b=ZuARKkohhTuYnJqIbH/9AahVAfX0tMkOOCi4HdtO6f/eXJeAOTriiJti
+   mWnRVweMo9znH3p87+tzC9AsQPhLjMemVayHSEm9ypH5vglpsf4Bc+WhQ
+   ZwwYbzMJ7pQOWyv/f/lMZIm2gmkqZDlYQsf/eXFEu+wpLfXG9YZwNdEP3
+   oC7kQEHm/f3h+w5e8CvupXoehjJ/x16679AaUR4W14Ly6/6TD+edwhwWj
+   1NzexxtFiY7iznDRwGpHnsuZ3NwERGBf+vobbzjZ04GPDaCjMus/ML+sk
+   fL/HjlAsulSkPsC204LSLTfDMunevrktTNyEWjLCa5Nl+Cud+ODYN/UNu
+   Q==;
+X-CSE-ConnectionGUID: zWG3wWbkR62waokIIbUNYQ==
+X-CSE-MsgGUID: iGkEEOrNT4WpWZENE2rEIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52524924"
+X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
+   d="scan'208";a="52524924"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 12:40:22 -0700
+X-CSE-ConnectionGUID: UeKCX4gaSsKOblUnf7+J1g==
+X-CSE-MsgGUID: WzdDVWABTvuG1817ikZIiw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
+   d="scan'208";a="179798326"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 17 Jun 2025 12:40:20 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uRcAM-000I1m-0y;
+	Tue, 17 Jun 2025 19:40:18 +0000
+Date: Wed, 18 Jun 2025 03:39:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.10-2025-06 1/1]
+ include/trace/trace_events.h:27:23: warning: 'str__sched__trace_system_name'
+ defined but not used
+Message-ID: <202506180307.eS7hjYqf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <aFGcJ-mjhZ1yT7Je@x1.local>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: Q2FV0dPWxxHHRh4qP_MS4WZBiqGP1ec0D1xUYl3H2rA_1750189165
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Jun 17, 2025 at 12:47:35PM -0400, Peter Xu wrote:
-> On Tue, Jun 17, 2025 at 12:41:57PM -0300, Jason Gunthorpe wrote:
-> > On Tue, Jun 17, 2025 at 11:39:07AM -0400, Peter Xu wrote:
-> > >  
-> > > +#ifdef CONFIG_ARCH_SUPPORTS_HUGE_PFNMAP
-> > >  static unsigned long vfio_device_get_unmapped_area(struct file *file,
-> > >                                                    unsigned long addr,
-> > >                                                    unsigned long len,
-> > > @@ -1370,6 +1371,7 @@ static unsigned long vfio_device_get_unmapped_area(struct file *file,
-> > >         return device->ops->get_unmapped_area(device, file, addr, len,
-> > >                                               pgoff, flags);
-> > >  }
-> > > +#endif
-> > >  
-> > >  const struct file_operations vfio_device_fops = {
-> > >         .owner          = THIS_MODULE,
-> > > @@ -1380,7 +1382,9 @@ const struct file_operations vfio_device_fops = {
-> > >         .unlocked_ioctl = vfio_device_fops_unl_ioctl,
-> > >         .compat_ioctl   = compat_ptr_ioctl,
-> > >         .mmap           = vfio_device_fops_mmap,
-> > > +#ifdef CONFIG_ARCH_SUPPORTS_HUGE_PFNMAP
-> > >         .get_unmapped_area = vfio_device_get_unmapped_area,
-> > > +#endif
-> > >  };
-> > 
-> > IMHO this also seems like something the core code should be dealing
-> > with and not putting weird ifdefs in drivers.
-> 
-> It may depend on whether we want to still do the fallbacks to
-> mm_get_unmapped_area().  I get your point in the other email but not yet
-> get a chance to reply.  I'll try that out to see how it looks and reply
-> there.
+Hi Yun,
 
-I just noticed this is unfortunate and special; I yet don't see a way to
-avoid the fallback here.
+FYI, the error/warning still remains.
 
-Note that this is the vfio_device's fallback, even if the new helper
-(whatever we name it..) could do fallback internally, vfio_device still
-would need to be accessible to mm_get_unmapped_area() to make this config
-build pass.
+tree:   https://android.googlesource.com/kernel/common android12-5.10-2025-06
+head:   484c3d56a37435198fa13276c8c97acda5ac28f4
+commit: a1fc1fba460be48dff2484b438888ede557930d4 [1/1] ANDROID: sched: add restrict vendor hook to modify task placement policy in EAS
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250618/202506180307.eS7hjYqf-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506180307.eS7hjYqf-lkp@intel.com/reproduce)
 
-So I think I'll need my fixup here..
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506180307.eS7hjYqf-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sched.h:23,
+                    from drivers/android/vendor_hooks.c:11:
+>> include/trace/trace_events.h:27:23: warning: 'str__sched__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/str__sched__trace_system_name +27 include/trace/trace_events.h
+
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
-Peter Xu
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
