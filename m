@@ -1,140 +1,416 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 798292EF9DD
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 20:01:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9D22EFD95
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 20:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750190483; cv=none; b=QNR6L4u0HEcEhHD7Sj6WG/NeSE3+xrZVxnViFPDO6yxAC4a+PD6rThN1qUYw5x55VfSIaMJ7b+jQGXU21lshjvbAMTJjPY+b1aJ4dO313XUssJHhPc21BmVHJUT6wlcNQlfyK3xH61PoUtJPTjN8x3EmVK2KphFZgheb7F+f4c8=
+	t=1750191030; cv=none; b=MhtsmwnPtK9/5VZodqHHtLcnTYq+MyE3r5nxtjGwW8atviz4AU20ZdDs7fCp+JhrtfgoYzTRaTlYj8kEXJOWYcO+1Lf9mVF1ejdd6N1sTF5V0fCA9/jUyUjJMAGM3QZxeOMsdCFNNre9JgCaTfKn3VQQ1vNFUSB1kNhtsaCzchw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750190483; c=relaxed/simple;
-	bh=9qlryhIHS0Cc2X2BC+ex+dW7dnay/Akl42iZ5dW4L3c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 In-Reply-To:Content-Type:Content-Disposition; b=oVwRnQy2KvDRsdPd3RsdahZrt6TD5xcToJdq5wgl4/4GcNFEQQsYVTHheK8U0+MKqJQveq8xxQhCOFCRgnOtyjOsMPH6VZyDDURI3KQvboOVHwuywKTPFto4mLaCLNvWtslGUn9Mzy/VltSVoxOX+Xe7z/Z7cPpGoZFPw5CBkac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M48bd1k2; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1750191030; c=relaxed/simple;
+	bh=7H0Ew+0/BeZLA7acrjIYArF6oLVQ5hoFfQd9bPvV5uA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MzVax9kEE2JEBJ1XViunVwZVPobusV6oYnmLw4GADTtsWZbJ3P86pDprUYsiIFJhz9+zCtIR2SA+ppfSXQmMLLf6pS137r95EA8wUifEKk8WBen4hvcktAhrCCDgV6QYkdmZm+lKceciPLfXpePL/VwTVzdxFmwVEV3xCyqC46I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jHZy4Z7u; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M48bd1k2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750190480;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0Dm/YTY2gnD+c/gsISARFM2WYB8H4Eho9ZAM8VM6ubM=;
-	b=M48bd1k2d7gqfSNZ0dcClnpM/ZHvdIrRWS3NzQY4m4QgFXPw+aH5o6Kwmus2SSY7pFqF0K
-	fsMRyuJBP8tAIRzDGT3uwv0VWI7Igf2fcz/ZYwCkzrl/qwLaR+Zt3J6S6eXAwgNOTRmiEW
-	OOuqpuj9jZd6oRl6Bc9N5gwBI6Cy7hU=
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com
- [209.85.216.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-515-jSw907hsP5GJ4MJBU73aJw-1; Tue, 17 Jun 2025 16:01:18 -0400
-X-MC-Unique: jSw907hsP5GJ4MJBU73aJw-1
-X-Mimecast-MFC-AGG-ID: jSw907hsP5GJ4MJBU73aJw_1750190478
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-31327b2f8e4so6191802a91.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 13:01:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750190477; x=1750795277;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0Dm/YTY2gnD+c/gsISARFM2WYB8H4Eho9ZAM8VM6ubM=;
-        b=hqQfkm+njEpv5F6w4N0pDIyLHJpDibzLuFVTs0DypJfclc1SY0uy6tu1WtkWRW6LAH
-         wVjRdKfXXQ1nD/aNJn5+K8A41osi8VvxeIDGJVysP0O2lW5cXfWB7hPtvKT1QKGk+nYq
-         JQQEXPwAPnGVEsGhT67VCMgxvj4latnoEusNcPM+mRy1gz2/zWe+r9fwV9lf3pv2f06j
-         ubJENbe8vfOsfz3C7b1ZfWMp5/TVLFp0Z8TRaEVH746M/DFkznLSg24uVu5OnNpXQK/n
-         4VlehmrPA5rpHIDD+1Mq5zPv7yI/HeF/+re43bdCYkMYiVotXi6vZInZn1hrOV1Tw4AS
-         MO0g==
-X-Forwarded-Encrypted: i=1; AJvYcCUbk9Og/Sj3YHnmyxev5H5lhYlu4QoQ9T3z6HB4CNZ3/kVrSD5mXgvo5vn6JfMSacixZErenKpigPauWeMs@lists.linux.dev
-X-Gm-Message-State: AOJu0YyE2czvtp+MJmpocZ10LmY0p0shtZN99eGGI3wR/wV3IEuwaDZa
-	bdblBIPIQttb+KXA8VXlh/0nENgRoYSJ3Aw9oX4GX7OpoXd0xPrA8mSsQZ8C4pXQA8TcRv3ofH4
-	aVVPlpRSJ9tU0K1mOpZ4/NPsXVvDkn/IT5+kOykc8osA06531ml4Jt6teRE8/BvjGEyQ=
-X-Gm-Gg: ASbGnctESsIitl60wTdrZBRPB/L3wj04TySCRjWE3tl0ezaofQnbfis64McHm2i+OE9
-	9jjniLvCKEpI6SC3CUxW7cr75s4ikO0yXUSBWV0pOzaR7fRzJIcSpRIdQk4lMC4kMFbNCuhQ3tR
-	ZbwjtRdzUfcazUqcAxYA8JmVGFy41qxaQrvt3//upVc2Nb1o6XI/LfA3wwyOzkrum0iDz2F2Teg
-	gEc0w7cy1b9rUfr5+CB+OrxNdWxAI2UVzXTw83PwIMjdJeLlF0J2Bc8dhDU9Hn2Q3N82GHlnEX9
-	UBSaEVGEv8iDig==
-X-Received: by 2002:a17:90b:39cb:b0:312:ec:412f with SMTP id 98e67ed59e1d1-313f1cc6475mr24162729a91.14.1750190477475;
-        Tue, 17 Jun 2025 13:01:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE9mPY0K5+r6ESf4SrogrsmJ9SaqRUqc0sTfpN2AxqMlGxDMB0nD5J8Sn7aF0/Lb+05TfOe/g==
-X-Received: by 2002:a17:90b:39cb:b0:312:ec:412f with SMTP id 98e67ed59e1d1-313f1cc6475mr24162674a91.14.1750190477030;
-        Tue, 17 Jun 2025 13:01:17 -0700 (PDT)
-Received: from x1.local ([85.131.185.92])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3142874a4f3sm2156795a91.22.2025.06.17.13.01.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Jun 2025 13:01:16 -0700 (PDT)
-Date: Tue, 17 Jun 2025 16:01:11 -0400
-From: Peter Xu <peterx@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, kvm@vger.kernel.org,
-	oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Zi Yan <ziy@nvidia.com>, Alex Mastro <amastro@fb.com>,
-	David Hildenbrand <david@redhat.com>,
-	Nico Pache <npache@redhat.com>
-Subject: Re: [PATCH 4/5] vfio: Introduce vfio_device_ops.get_unmapped_area
- hook
-Message-ID: <aFHJh7sKO9CBaLHV@x1.local>
-References: <20250613134111.469884-5-peterx@redhat.com>
- <202506142215.koMEU2rT-lkp@intel.com>
- <aFGMG3763eSv9l8b@x1.local>
- <20250617154157.GY1174925@nvidia.com>
- <aFGcJ-mjhZ1yT7Je@x1.local>
- <aFHEZw1ag6o0BkrS@x1.local>
- <20250617194621.GA1575786@nvidia.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jHZy4Z7u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750191027; x=1781727027;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7H0Ew+0/BeZLA7acrjIYArF6oLVQ5hoFfQd9bPvV5uA=;
+  b=jHZy4Z7u62H2zgYTSRC+pV+P9eFrlBw6g+Z1ZE8rMqkbzcB/CDkwOT8I
+   gFP/OPwf0Qxo+k4MWitmONZDt0XHKmypHKIbQWGzXwmiDnaRQ2HIkZ8lm
+   6B2Ze6yhvRMHTSSbYp/Rx3Y5LZo2EZ3ACpo35bHWGGbZ9xHCwc+CJb5tc
+   Jlh5amxFunZoTRG1uCieKDwup2NJRe4fS8to+/03Oi8yuNW7SdN2PXnBO
+   dgN6v6M5HinjNWR4m3FZk4jiLKvzduqMVoQVnWmq/d+8xGoVeRRrG+2Wv
+   F1+8lDT5iGcbGhPRwmS2/bnPyVAfC4DHK3ETccFXPufUmNUHLtdSS3bVt
+   g==;
+X-CSE-ConnectionGUID: OQM2OBp+SCaSNenQN6JseA==
+X-CSE-MsgGUID: CcaAcpAkRPG394XNt9Ye9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="56189305"
+X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
+   d="scan'208";a="56189305"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 13:10:27 -0700
+X-CSE-ConnectionGUID: NTSXyoITTb6aJ0XANjH0Nw==
+X-CSE-MsgGUID: XwWURqFNTn6cO0NFYZb+XA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
+   d="scan'208";a="149304163"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 17 Jun 2025 13:10:25 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uRcdS-000I3q-3B;
+	Tue, 17 Jun 2025 20:10:22 +0000
+Date: Wed, 18 Jun 2025 04:10:17 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.16-r4pro 53/53]
+ arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:569.4-27:
+ Warning (reg_format): /soc/pcie@11300000/pcie@0,0/mt7996@0,0:reg: property
+ has invalid length (20 bytes) (#address-cells == 2, #size-cells == 1)
+Message-ID: <202506180456.kP8ovF8I-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-In-Reply-To: <20250617194621.GA1575786@nvidia.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: zy1Nat0Nqn4vPlbJyJhu78cnSwAsppTtXFQompXzXnc_1750190478
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, Jun 17, 2025 at 04:46:21PM -0300, Jason Gunthorpe wrote:
-> > I just noticed this is unfortunate and special; I yet don't see a way to
-> > avoid the fallback here.
-> > 
-> > Note that this is the vfio_device's fallback, even if the new helper
-> > (whatever we name it..) could do fallback internally, vfio_device still
-> > would need to be accessible to mm_get_unmapped_area() to make this config
-> > build pass.
-> 
-> I don't understand this remark?
-> 
-> get_unmapped_area is not conditional on CONFIG_ARCH_SUPPORTS_HUGE_PFNMAP?
-> 
-> Some new mm_get_unmapped_area_aligned() should not be conditional on
-> CONFIG_ARCH_SUPPORTS_HUGE_PFNMAP? (This is Lorenzo's and Liam's remark)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.16-r4pro
+head:   de2eef5af7055f0bc1f2c29e4025169aa41126ae
+commit: abfdfd2323f75f5893aeb593f5164a4a05558d9d [53/53] dts64: r4pro: fix build-errors (take fan from r4) but still warnings (reg_format/default_addr_size)
+config: arm64-randconfig-r121-20250617 (https://download.01.org/0day-ci/archive/20250618/202506180456.kP8ovF8I-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250618/202506180456.kP8ovF8I-lkp@intel.com/reproduce)
 
-Yes, this will be addressed.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506180456.kP8ovF8I-lkp@intel.com/
 
-> 
-> So what is VFIO doing that requires CONFIG_ARCH_SUPPORTS_HUGE_PFNMAP?
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:569.4-27: Warning (reg_format): /soc/pcie@11300000/pcie@0,0/mt7996@0,0:reg: property has invalid length (20 bytes) (#address-cells == 2, #size-cells == 1)
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:249.5-15: Warning (reg_format): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@0:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:256.5-15: Warning (reg_format): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@1:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:263.5-15: Warning (reg_format): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@2:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:270.5-15: Warning (reg_format): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@3:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:277.5-15: Warning (reg_format): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@4:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:284.5-16: Warning (reg_format): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@12:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:290.5-15: Warning (reg_format): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@8:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:303.5-14: Warning (reg_format): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@0:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:306.5-14: Warning (reg_format): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@1:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:309.5-14: Warning (reg_format): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@2:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:312.5-14: Warning (reg_format): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@3:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:315.5-14: Warning (reg_format): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@4:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:123.4-14: Warning (reg_format): /soc/ethernet@15100000/mux-bus/ethernet-mux@1:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:128.5-15: Warning (reg_format): /soc/ethernet@15100000/mux-bus/ethernet-mux@1/channel@0:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:134.5-15: Warning (reg_format): /soc/ethernet@15100000/mux-bus/ethernet-mux@1/channel@1:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:143.4-14: Warning (reg_format): /soc/ethernet@15100000/mux-bus/ethernet-mux@2:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:148.5-15: Warning (reg_format): /soc/ethernet@15100000/mux-bus/ethernet-mux@2/channel@0:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:155.5-15: Warning (reg_format): /soc/ethernet@15100000/mux-bus/ethernet-mux@2/channel@1:reg: property has invalid length (4 bytes) (#address-cells == 2, #size-cells == 1)
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:685.24-706.5: Warning (unit_address_vs_reg): /soc/t-phy@11c50000: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt7988a.dtsi:715.26-737.5: Warning (unit_address_vs_reg): /soc/xs-phy@11e10000: node has a unit name, but no reg or ranges property
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:94.9-96.4: Warning (unit_address_vs_reg): /memory: node has a reg or ranges property, but no unit name
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:567.14-572.5: Warning (pci_bridge): /soc/pcie@11300000/pcie@0,0/mt7996@0,0: node name is not "pci" or "pcie"
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:567.14-572.5: Warning (pci_bridge): /soc/pcie@11300000/pcie@0,0/mt7996@0,0: missing ranges for PCI bridge (or not a bridge)
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:567.14-572.5: Warning (pci_bridge): /soc/pcie@11300000/pcie@0,0/mt7996@0,0: incorrect #address-cells for PCI bridge
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:567.14-572.5: Warning (pci_bridge): /soc/pcie@11300000/pcie@0,0/mt7996@0,0: incorrect #size-cells for PCI bridge
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: Warning (unit_address_format): Failed prerequisite 'pci_bridge'
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: Warning (pci_device_reg): Failed prerequisite 'reg_format'
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: Warning (pci_device_reg): Failed prerequisite 'pci_bridge'
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: Warning (pci_device_bus_num): Failed prerequisite 'reg_format'
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: Warning (pci_device_bus_num): Failed prerequisite 'pci_bridge'
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: Warning (simple_bus_reg): Failed prerequisite 'reg_format'
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: Warning (i2c_bus_reg): Failed prerequisite 'reg_format'
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: Warning (spi_bus_reg): Failed prerequisite 'reg_format'
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:567.14-572.5: Warning (avoid_default_addr_size): /soc/pcie@11300000/pcie@0,0/mt7996@0,0: Relying on default #address-cells value
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:567.14-572.5: Warning (avoid_default_addr_size): /soc/pcie@11300000/pcie@0,0/mt7996@0,0: Relying on default #size-cells value
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:248.18-254.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@0: Relying on default #address-cells value
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:248.18-254.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@0: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:255.18-261.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@1: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:255.18-261.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@1: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:262.18-268.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@2: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:262.18-268.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@2: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:269.18-275.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@3: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:269.18-275.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@3: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:276.18-282.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@4: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:276.18-282.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@4: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:283.20-288.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@12: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:283.20-288.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@12: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:289.18-299.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@8: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:289.18-299.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/ports/port@8: Relying on default #size-cells value
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:302.27-304.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@0: Relying on default #address-cells value
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:302.27-304.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@0: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:305.27-307.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@1: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:305.27-307.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@1: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:308.27-310.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@2: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:308.27-310.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@2: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:311.27-313.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@3: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:311.27-313.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@3: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:314.27-316.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@4: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:314.27-316.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mdio-bus/switch@16/mdio/switchphy@4: Relying on default #size-cells value
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:121.24-140.5: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mux-bus/ethernet-mux@1: Relying on default #address-cells value
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:121.24-140.5: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mux-bus/ethernet-mux@1: Relying on default #size-cells value
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:127.26-132.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mux-bus/ethernet-mux@1/channel@0: Relying on default #address-cells value
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:127.26-132.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mux-bus/ethernet-mux@1/channel@0: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:133.26-139.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mux-bus/ethernet-mux@1/channel@1: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:133.26-139.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mux-bus/ethernet-mux@1/channel@1: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:141.24-160.5: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mux-bus/ethernet-mux@2: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:141.24-160.5: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mux-bus/ethernet-mux@2: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:147.26-153.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mux-bus/ethernet-mux@2/channel@0: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:147.26-153.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mux-bus/ethernet-mux@2/channel@0: Relying on default #size-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:154.26-159.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mux-bus/ethernet-mux@2/channel@1: Relying on default #address-cells value
+   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts:154.26-159.6: Warning (avoid_default_addr_size): /soc/ethernet@15100000/mux-bus/ethernet-mux@2/channel@1: Relying on default #size-cells value
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: Warning (avoid_unnecessary_addr_size): Failed prerequisite 'avoid_default_addr_size'
+>> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dtb: Warning (unique_unit_address_if_enabled): Failed prerequisite 'avoid_default_addr_size'
 
-It's the fallback part for vfio device, not vfio_pci device.  vfio_pci
-device doesn't need this special treatment after moving to the new helper
-because that hides everything.  vfio_device still needs it.
+vim +569 arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-pro.dts
 
-So, we have two ops that need to be touched to support this:
+abfdfd2323f75f Frank Wunderlich 2025-06-16  320  
+abfdfd2323f75f Frank Wunderlich 2025-06-16  321  &pio {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  322  	i2c0_pins: i2c0-g0-pins {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  323  		mux {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  324  			function = "i2c";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  325  			groups = "i2c0_1";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  326  		};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  327  	};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  328  
+abfdfd2323f75f Frank Wunderlich 2025-06-16  329  	i2c1_pins: i2c1-g0-pins {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  330  		mux {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  331  			function = "i2c";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  332  			groups = "i2c1_0";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  333  		};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  334  	};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  335  
+abfdfd2323f75f Frank Wunderlich 2025-06-16  336  	i2c2_1_pins: i2c2-g1-pins {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  337  		mux {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  338  			function = "i2c";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  339  			groups = "i2c2_1";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  340  		};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  341  	};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  342  
+abfdfd2323f75f Frank Wunderlich 2025-06-16  343  	gbe0_led0_pins: gbe0-led0-pins {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  344  		mux {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  345  			function = "led";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  346  			groups = "gbe0_led0";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  347  		};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  348  	};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  349  
+abfdfd2323f75f Frank Wunderlich 2025-06-16  350  	gbe1_led0_pins: gbe1-led0-pins {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  351  		mux {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  352  			function = "led";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  353  			groups = "gbe1_led0";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  354  		};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  355  	};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  356  
+abfdfd2323f75f Frank Wunderlich 2025-06-16  357  	gbe2_led0_pins: gbe2-led0-pins {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  358  		mux {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  359  			function = "led";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  360  			groups = "gbe2_led0";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  361  		};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  362  	};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  363  
+abfdfd2323f75f Frank Wunderlich 2025-06-16  364  	gbe3_led0_pins: gbe3-led0-pins {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  365  		mux {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  366  			function = "led";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  367  			groups = "gbe3_led0";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  368  		};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  369  	};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  370  
+abfdfd2323f75f Frank Wunderlich 2025-06-16  371  	mdio0_pins: mdio0-pins {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  372  		mux {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  373  			function = "eth";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  374  			groups = "mdc_mdio0";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  375  		};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  376  
+abfdfd2323f75f Frank Wunderlich 2025-06-16  377  		conf {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  378  			pins = "SMI_0_MDC", "SMI_0_MDIO";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  379  			drive-strength = <8>;
+abfdfd2323f75f Frank Wunderlich 2025-06-16  380  		};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  381  	};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  382  
+abfdfd2323f75f Frank Wunderlich 2025-06-16  383  	spi0_flash_pins: spi0-flash-pins {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  384  		mux {
+abfdfd2323f75f Frank Wunderlich 2025-06-16  385  			function = "spi";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  386  			groups = "spi0", "spi0_wp_hold";
+abfdfd2323f75f Frank Wunderlich 2025-06-16  387  		};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  388  	};
+abfdfd2323f75f Frank Wunderlich 2025-06-16  389  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  390  &switch {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  391  	dsa,member = <1 0>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  392  	status = "okay";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  393  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  394  &gsw_phy0 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  395  	pinctrl-names = "gbe-led";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  396  	pinctrl-0 = <&gbe0_led0_pins>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  397  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  398  &gsw_port0 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  399  	label = "wan";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  400  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  401  &gsw_phy0_led0 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  402  	status = "okay";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  403  	color = <LED_COLOR_ID_GREEN>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  404  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  405  &gsw_phy1 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  406  	pinctrl-names = "gbe-led";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  407  	pinctrl-0 = <&gbe1_led0_pins>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  408  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  409  &gsw_phy1_led0 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  410  	status = "okay";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  411  	color = <LED_COLOR_ID_GREEN>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  412  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  413  &gsw_phy2 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  414  	pinctrl-names = "gbe-led";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  415  	pinctrl-0 = <&gbe2_led0_pins>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  416  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  417  &gsw_phy2_led0 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  418  	status = "okay";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  419  	color = <LED_COLOR_ID_GREEN>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  420  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  421  &gsw_phy3 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  422  	pinctrl-names = "gbe-led";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  423  	pinctrl-0 = <&gbe3_led0_pins>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  424  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  425  &gsw_phy3_led0 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  426  	status = "okay";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  427  	color = <LED_COLOR_ID_GREEN>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  428  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  429  &cpu0 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  430  	proc-supply = <&rt5190_buck3>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  431  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  432  &cpu1 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  433  	proc-supply = <&rt5190_buck3>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  434  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  435  &cpu2 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  436  	proc-supply = <&rt5190_buck3>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  437  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  438  &cpu3 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  439  	proc-supply = <&rt5190_buck3>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  440  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  441  &cci {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  442  	proc-supply = <&rt5190_buck3>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  443  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  444  &i2c0 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  445  	pinctrl-names = "default";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  446  	pinctrl-0 = <&i2c0_pins>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  447  	status = "okay";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  448  	rt5190a_64: rt5190a@64 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  449  		compatible = "richtek,rt5190a";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  450  		reg = <0x64>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  451  		vin2-supply = <&rt5190_buck1>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  452  		vin3-supply = <&rt5190_buck1>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  453  		vin4-supply = <&rt5190_buck1>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  454  		regulators {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  455  			rt5190_buck1: buck1 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  456  				regulator-name = "rt5190a-buck1";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  457  				regulator-min-microvolt = <5090000>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  458  				regulator-max-microvolt = <5090000>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  459  				regulator-allowed-modes =
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  460  				<RT5190A_OPMODE_AUTO RT5190A_OPMODE_FPWM>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  461  				regulator-boot-on;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  462  				regulator-always-on;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  463  			};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  464  			buck2 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  465  				regulator-name = "vcore";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  466  				regulator-min-microvolt = <600000>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  467  				regulator-max-microvolt = <1400000>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  468  				regulator-boot-on;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  469  				regulator-always-on;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  470  			};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  471  			rt5190_buck3: buck3 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  472  				regulator-name = "vproc";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  473  				regulator-min-microvolt = <600000>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  474  				regulator-max-microvolt = <1400000>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  475  				regulator-boot-on;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  476  			};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  477  			buck4 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  478  				regulator-name = "rt5190a-buck4";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  479  				regulator-min-microvolt = <850000>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  480  				regulator-max-microvolt = <850000>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  481  				regulator-allowed-modes =
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  482  				<RT5190A_OPMODE_AUTO RT5190A_OPMODE_FPWM>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  483  				regulator-boot-on;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  484  				regulator-always-on;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  485  			};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  486  			ldo {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  487  				regulator-name = "rt5190a-ldo";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  488  				regulator-min-microvolt = <1200000>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  489  				regulator-max-microvolt = <1200000>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  490  				regulator-boot-on;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  491  				regulator-always-on;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  492  			};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  493  		};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  494  	};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  495  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  496  &i2c1 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  497  	pinctrl-names = "default";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  498  	pinctrl-0 = <&i2c1_pins>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  499  	status = "okay";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  500  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  501  &i2c2 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  502  	pinctrl-names = "default";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  503  	pinctrl-0 = <&i2c2_1_pins>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  504  	status = "okay";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  505  	pca9545: i2c-switch@70 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  506  		reg = <0x70>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  507  		compatible = "nxp,pca9545";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  508  		#address-cells = <1>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  509  		#size-cells = <0>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  510  		imux0: i2c@0 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  511  			#address-cells = <1>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  512  			#size-cells = <0>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  513  			reg = <0>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  514  			ina226: adc@40 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  515  				compatible = "ti,ina226";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  516  				reg = <0x40>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  517  			};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  518  			pcf8563: rtc@51 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  519  				compatible = "nxp,pcf8563";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  520  				reg = <0x51>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  521  			};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  522  			p24c02: eeprom@57 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  523  				compatible = "atmel,24c02";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  524  				reg = <0x57>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  525  				address-bits = <8>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  526  				page-size = <8>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  527  				size = <256>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  528  			};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  529  		};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  530  		imux1_gpio: i2c@1 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  531  			#address-cells = <1>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  532  			#size-cells = <0>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  533  			reg = <1>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  534  			pca9555: i2c-gpio-expander@20 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  535  				compatible = "nxp,pca9555";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  536  				gpio-controller;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  537  				#gpio-cells = <2>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  538  				reg = <0x20>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  539  			};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  540  		};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  541  		imux2_sfp2: i2c@2 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  542  			#address-cells = <1>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  543  			#size-cells = <0>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  544  			reg = <2>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  545  		};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  546  		imux3_wifi: i2c@3 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  547  			#address-cells = <1>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  548  			#size-cells = <0>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  549  			reg = <3>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  550  			wifi_eeprom: eeprom@51 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  551  				compatible = "atmel,24c02";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  552  				reg = <0x51>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  553  				address-bits = <8>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  554  				page-size = <8>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  555  				size = <256>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  556  			};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  557  		};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  558  	};
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  559  };
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  560  /* mPCIe SIM2 */
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  561  &pcie0 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  562  	pinctrl-names = "default";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  563  	pinctrl-0 = <&pcie0_pins>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  564  	status = "okay";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  565  	slot0: pcie@0,0 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  566  		reg = <0x0000 0 0 0 0>;
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16 @567  		mt7996@0,0 {
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16  568  			compatible = "mediatek,mt76";
+8c558ce9ba5bf0 Frank Wunderlich 2025-06-16 @569  			reg = <0x0000 0 0 0 0>;
 
-        vfio_device_fops
-        vfio_pci_ops 
+:::::: The code at line 569 was first introduced by commit
+:::::: 8c558ce9ba5bf064b9237a9e7eed001df2f9a5d4 arm64: dts: mt7988: add R4-Pro dts from MTK SDK
 
-For the 1st one's vfio_device_fops.get_unmapped_area(), it'll need its own
-fallback which must be mm_get_unmapped_area() to keep the old behavior, and
-that was defined only if CONFIG_MMU.
-
-IOW, if one day file_operations.get_unmapped_area() would allow some other
-retval to be able to fallback to the default (mm_get_unmapped_area()), then
-we don't need this special ifdef.  But now it's not ready for that..
+:::::: TO: Frank Wunderlich <frank-w@public-files.de>
+:::::: CC: Frank Wunderlich <frank-w@public-files.de>
 
 -- 
-Peter Xu
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
