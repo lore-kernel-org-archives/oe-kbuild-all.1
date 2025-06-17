@@ -1,75 +1,75 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0233954764
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 05:12:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BF2254764
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 05:12:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750309953; cv=none; b=hqrN1dJSC4ryfDPgZl22xH/C6bZlyzZyp/qjpGsRmmz8Aore8ss8YVCM7A4NADWJdyjP9DVj5hNXPKb2beXUsO6/0XD6/s2uPUmp/7xDfs6hHklagxrvh87qwM571xHDsP3gYMzrLwBTfX3+4T8BIlzk7wkVjzsFZXfOZ+9HHeU=
+	t=1750309960; cv=none; b=ZAEMkvEoWQbrEQ+A09NZFpCi0PxM4CJoYcV9SoePolDeymLg4Auehf1FwNQp/Mpi+PXQfvgthEJ4ZKzj4QgZwX1mxU3Fd3bXOuP77Y9PizGq/3koiDNayTgYV62mTxuzr+ZipRxBlp0QK8UXPvaJAehZeIb6C/SZIDi2ac3OEVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750309953; c=relaxed/simple;
-	bh=IkwZHtHbwUrcksDGbeaiBib9RM+bXCgy7GLdx9UVspg=;
+	s=arc-20240116; t=1750309960; c=relaxed/simple;
+	bh=QjMOWU+tikE5M7Ias0TUeWx9peGtmcUl7q1puAgE594=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HK6a9HTDgZh8OfTpAL9YNJ/7TFDQpMv63Ai8AIuei0GZKESb1kpn88OBp/Tp88kOBnUwW0uw8+p4oMzKmzZSBBasgHbYARCKrW46yQXl6xodNx1kiaaXQL6+MC2v3Txz1JSX0FsQAhMiPCWin8RuyLeGC3IAQe4Rc4GGKSov55c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IgTQCeJB; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=lCIAscyaQNgCzLXvmmpsGHZm2OMbOrOY+fpE5lOPEsp7CwSsWW/WIZhx6tcHjgjTXc77DmbFjq3JrTuJ2B4tYr9LytmvSNlNAfveW0ucmXp4PHfJsj/3LYMBMa5d8Kke3F0TAiUsUN+5Sfadx1j8t5GBLU5lomgzta0Uk/i5URI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kWWIsXoG; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IgTQCeJB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kWWIsXoG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750309947; x=1781845947;
+  t=1750309954; x=1781845954;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IkwZHtHbwUrcksDGbeaiBib9RM+bXCgy7GLdx9UVspg=;
-  b=IgTQCeJBB6yjIE7TqS6ikEhsGmserTsHf8hApyrnyVObgj8nZBDMTr86
-   LwJfBwUADjJ0wndXCHjZi1jAVRBvj8Ew0WeEuGYwQwd9k6HGfy94SzOVY
-   twffpHIkdcjd9Ljwq6/qmwZ/yTBBjD5ySr2hWvGDuwSFsxW/7zjn4vZfg
-   tHvUFdBJmVlxGTs7ACKiUQvoHiwXUbDjxgZN543Jil1p/s8JyP6gXNQLv
-   DcUPvpXM6VVHgbaUUudO0xFzbITipJrMjRk6lWPRHkMEw9tUN6QL8d2GE
-   e7a/Cw2if4B+GD3unTA1qeApQW1hl/+Vtrd6phnqYrnuSrBAbmbFgqP0m
-   A==;
-X-CSE-ConnectionGUID: hhCFES8/Q5SVvWj/Tv7rAA==
-X-CSE-MsgGUID: eYwGSN8ERIiG/2P5iPWciw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="75079282"
+  bh=QjMOWU+tikE5M7Ias0TUeWx9peGtmcUl7q1puAgE594=;
+  b=kWWIsXoGVcTpj5fFF/vtEkHSEnNrxfEkLSCk05kMcafKmOMfU3ONIE6b
+   T7f/j7YxQW8b3fd56DEqzxlX3mwF3CDRCVsuBRX8KYJF83V4JpD0DWNKp
+   jUQvUqX1i/fSfGTzzBbi/yuinBiPltb3GWp6vzOpCDE3qVO1TDBEowKl2
+   PTcM6/H3ZP04EEsr3QnyGgXsCVnDQ4KLUM0exK5mwCIWPXHpprNpcP3/M
+   I28axXwHHtAngGCHbnvMW7aWLasvFR06A/ehP5Cx3dgKn7pBFDYVUxKq/
+   REATNZQ7qclq4FnK+Wk0Y96Uoob+BJ4rhKRGbv6WhrrAM+OEapc+24MaF
+   g==;
+X-CSE-ConnectionGUID: /igtbuizSa2zz9R0DXE5eg==
+X-CSE-MsgGUID: q6lUgUz8SEKyiC0kkgosZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="75079292"
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="75079282"
+   d="scan'208";a="75079292"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 22:12:26 -0700
-X-CSE-ConnectionGUID: pbs72+gPRIKFJiwVw0Ej2g==
-X-CSE-MsgGUID: ETmHx8jCQi+dFqrdFyN+Jw==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 22:12:34 -0700
+X-CSE-ConnectionGUID: UQdxzazZQD6nEZDpPy8hZg==
+X-CSE-MsgGUID: 0KmgYfxSQ22lqLaaXMNiwg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="155090182"
+   d="scan'208";a="155090204"
 Received: from igk-lkp-server01.igk.intel.com (HELO 28ae90bf6994) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 22:12:24 -0700
+  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 22:12:32 -0700
 Received: from kbuild by 28ae90bf6994 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uS7ZO-0000Ls-03;
-	Thu, 19 Jun 2025 05:12:14 +0000
-Date: Wed, 18 Jun 2025 03:34:41 +0800
+	id 1uS7ZW-0000Lw-0A;
+	Thu, 19 Jun 2025 05:12:22 +0000
+Date: Wed, 18 Jun 2025 06:08:13 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 2/2] fs/ksmbd/auth.c:219: warning:
- Function parameter or member 'cryptkey' not described in 'ksmbd_auth_ntlmv2'
-Message-ID: <202506180327.skLW2Fus-lkp@intel.com>
+Subject: [android-common:android13-5.15 2/2] fs/ksmbd/auth.c:220: warning:
+ Function parameter or member 'conn' not described in 'ksmbd_auth_ntlmv2'
+Message-ID: <202506180600.OsI3FOQT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="bMvQ0CoxvJSPbxKX"
+Content-Type: multipart/mixed; boundary="EBOVDsBMEEdNzSKJ"
 Content-Disposition: inline
 
 
---bMvQ0CoxvJSPbxKX
+--EBOVDsBMEEdNzSKJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://android.googlesource.com/kernel/common android13-5.15
 head:   b3af89c2f912864f5e5372e93d5e663fc517af47
-commit: f86a1a74d9a7f6ecad21c4ba3c1ebc045d90c888 [2/2] ksmbd: fix multi session connection failure
+commit: bc77a6e933060e40a3f1efc564f6f6f1d11e93c1 [2/2] ksmbd: fix racy issue while destroying session on multichannel
 config: i386-randconfig-2006-20250605
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 reproduce (this is a W=1 build):
@@ -77,290 +77,110 @@ reproduce (this is a W=1 build):
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506180327.skLW2Fus-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506180600.OsI3FOQT-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/ksmbd/auth.c:219: warning: Function parameter or member 'cryptkey' not described in 'ksmbd_auth_ntlmv2'
-   fs/ksmbd/auth.c:300: warning: Function parameter or member 'blob_len' not described in 'ksmbd_decode_ntlmssp_auth_blob'
->> fs/ksmbd/auth.c:300: warning: Function parameter or member 'conn' not described in 'ksmbd_decode_ntlmssp_auth_blob'
-   fs/ksmbd/auth.c:300: warning: Excess function parameter 'usr' description in 'ksmbd_decode_ntlmssp_auth_blob'
-   fs/ksmbd/auth.c:353: warning: Function parameter or member 'blob_len' not described in 'ksmbd_decode_ntlmssp_neg_blob'
->> fs/ksmbd/auth.c:353: warning: Function parameter or member 'conn' not described in 'ksmbd_decode_ntlmssp_neg_blob'
-   fs/ksmbd/auth.c:353: warning: Excess function parameter 'rsp' description in 'ksmbd_decode_ntlmssp_neg_blob'
->> fs/ksmbd/auth.c:353: warning: Excess function parameter 'sess' description in 'ksmbd_decode_ntlmssp_neg_blob'
->> fs/ksmbd/auth.c:381: warning: Function parameter or member 'conn' not described in 'ksmbd_build_ntlmssp_challenge_blob'
-   fs/ksmbd/auth.c:381: warning: Excess function parameter 'rsp' description in 'ksmbd_build_ntlmssp_challenge_blob'
->> fs/ksmbd/auth.c:381: warning: Excess function parameter 'sess' description in 'ksmbd_build_ntlmssp_challenge_blob'
+>> fs/ksmbd/auth.c:220: warning: Function parameter or member 'conn' not described in 'ksmbd_auth_ntlmv2'
+   fs/ksmbd/auth.c:220: warning: Function parameter or member 'cryptkey' not described in 'ksmbd_auth_ntlmv2'
+   fs/ksmbd/auth.c:301: warning: Function parameter or member 'blob_len' not described in 'ksmbd_decode_ntlmssp_auth_blob'
+   fs/ksmbd/auth.c:301: warning: Function parameter or member 'conn' not described in 'ksmbd_decode_ntlmssp_auth_blob'
+   fs/ksmbd/auth.c:301: warning: Excess function parameter 'usr' description in 'ksmbd_decode_ntlmssp_auth_blob'
+   fs/ksmbd/auth.c:355: warning: Function parameter or member 'blob_len' not described in 'ksmbd_decode_ntlmssp_neg_blob'
+   fs/ksmbd/auth.c:355: warning: Function parameter or member 'conn' not described in 'ksmbd_decode_ntlmssp_neg_blob'
+   fs/ksmbd/auth.c:355: warning: Excess function parameter 'rsp' description in 'ksmbd_decode_ntlmssp_neg_blob'
+   fs/ksmbd/auth.c:355: warning: Excess function parameter 'sess' description in 'ksmbd_decode_ntlmssp_neg_blob'
+   fs/ksmbd/auth.c:383: warning: Function parameter or member 'conn' not described in 'ksmbd_build_ntlmssp_challenge_blob'
+   fs/ksmbd/auth.c:383: warning: Excess function parameter 'rsp' description in 'ksmbd_build_ntlmssp_challenge_blob'
+   fs/ksmbd/auth.c:383: warning: Excess function parameter 'sess' description in 'ksmbd_build_ntlmssp_challenge_blob'
 
 
-vim +219 fs/ksmbd/auth.c
+vim +220 fs/ksmbd/auth.c
 
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  207  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  208  /**
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  209   * ksmbd_auth_ntlmv2() - NTLMv2 authentication handler
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  210   * @sess:	session of connection
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  211   * @ntlmv2:		NTLMv2 challenge response
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  212   * @blen:		NTLMv2 blob length
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  213   * @domain_name:	domain name
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  214   *
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  215   * Return:	0 on success, error number on error
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  216   */
-64b39f4a2fd293 fs/cifsd/auth.c Namjae Jeon       2021-03-30  217  int ksmbd_auth_ntlmv2(struct ksmbd_session *sess, struct ntlmv2_resp *ntlmv2,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  218  		      int blen, char *domain_name, char *cryptkey)
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16 @219  {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  220  	char ntlmv2_hash[CIFS_ENCPWD_SIZE];
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  221  	char ntlmv2_rsp[CIFS_HMAC_MD5_HASH_SIZE];
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  222  	struct ksmbd_crypto_ctx *ctx;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  223  	char *construct = NULL;
-0e579cd17f8e9c fs/cifsd/auth.c Namjae Jeon       2021-05-26  224  	int rc, len;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  225  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  226  	ctx = ksmbd_crypto_ctx_find_hmacmd5();
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  227  	if (!ctx) {
-0e579cd17f8e9c fs/cifsd/auth.c Namjae Jeon       2021-05-26  228  		ksmbd_debug(AUTH, "could not crypto alloc hmacmd5\n");
-0e579cd17f8e9c fs/cifsd/auth.c Namjae Jeon       2021-05-26  229  		return -ENOMEM;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  230  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  231  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  232  	rc = calc_ntlmv2_hash(sess, ntlmv2_hash, domain_name);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  233  	if (rc) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  234  		ksmbd_debug(AUTH, "could not get v2 hash rc %d\n", rc);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  235  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  236  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  237  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  238  	rc = crypto_shash_setkey(CRYPTO_HMACMD5_TFM(ctx),
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  239  				 ntlmv2_hash,
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  240  				 CIFS_HMAC_MD5_HASH_SIZE);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  241  	if (rc) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  242  		ksmbd_debug(AUTH, "Could not set NTLMV2 Hash as a key\n");
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  243  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  244  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  245  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  246  	rc = crypto_shash_init(CRYPTO_HMACMD5(ctx));
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  247  	if (rc) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  248  		ksmbd_debug(AUTH, "Could not init hmacmd5\n");
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  249  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  250  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  251  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  252  	len = CIFS_CRYPTO_KEY_SIZE + blen;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  253  	construct = kzalloc(len, GFP_KERNEL);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  254  	if (!construct) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  255  		rc = -ENOMEM;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  256  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  257  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  258  
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  259  	memcpy(construct, cryptkey, CIFS_CRYPTO_KEY_SIZE);
-192cc732c65a7c fs/cifsd/auth.c Namjae Jeon       2021-05-26  260  	memcpy(construct + CIFS_CRYPTO_KEY_SIZE, &ntlmv2->blob_signature, blen);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  261  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  262  	rc = crypto_shash_update(CRYPTO_HMACMD5(ctx), construct, len);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  263  	if (rc) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  264  		ksmbd_debug(AUTH, "Could not update with response\n");
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  265  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  266  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  267  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  268  	rc = crypto_shash_final(CRYPTO_HMACMD5(ctx), ntlmv2_rsp);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  269  	if (rc) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  270  		ksmbd_debug(AUTH, "Could not generate md5 hash\n");
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  271  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  272  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  273  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  274  	rc = ksmbd_gen_sess_key(sess, ntlmv2_hash, ntlmv2_rsp);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  275  	if (rc) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  276  		ksmbd_debug(AUTH, "Could not generate sess key\n");
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  277  		goto out;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  278  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  279  
-b72802aa77dc27 fs/cifsd/auth.c Namjae Jeon       2021-05-26  280  	if (memcmp(ntlmv2->ntlmv2_hash, ntlmv2_rsp, CIFS_HMAC_MD5_HASH_SIZE) != 0)
-b72802aa77dc27 fs/cifsd/auth.c Namjae Jeon       2021-05-26  281  		rc = -EINVAL;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  282  out:
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  283  	ksmbd_release_crypto_ctx(ctx);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  284  	kfree(construct);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  285  	return rc;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  286  }
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  287  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  288  /**
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  289   * ksmbd_decode_ntlmssp_auth_blob() - helper function to construct
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  290   * authenticate blob
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  291   * @authblob:	authenticate blob source pointer
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  292   * @usr:	user details
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  293   * @sess:	session of connection
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  294   *
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  295   * Return:	0 on success, error number on error
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  296   */
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  297  int ksmbd_decode_ntlmssp_auth_blob(struct authenticate_message *authblob,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  298  				   int blob_len, struct ksmbd_conn *conn,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  299  				   struct ksmbd_session *sess)
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16 @300  {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  301  	char *domain_name;
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  302  	unsigned int nt_off, dn_off;
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  303  	unsigned short nt_len, dn_len;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  304  	int ret;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  305  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  306  	if (blob_len < sizeof(struct authenticate_message)) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  307  		ksmbd_debug(AUTH, "negotiate blob len %d too small\n",
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  308  			    blob_len);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  309  		return -EINVAL;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  310  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  311  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  312  	if (memcmp(authblob->Signature, "NTLMSSP", 8)) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  313  		ksmbd_debug(AUTH, "blob signature incorrect %s\n",
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  314  			    authblob->Signature);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  315  		return -EINVAL;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  316  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  317  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  318  	nt_off = le32_to_cpu(authblob->NtChallengeResponse.BufferOffset);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  319  	nt_len = le16_to_cpu(authblob->NtChallengeResponse.Length);
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  320  	dn_off = le32_to_cpu(authblob->DomainName.BufferOffset);
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  321  	dn_len = le16_to_cpu(authblob->DomainName.Length);
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  322  
-e32f867b37da79 fs/ksmbd/auth.c William Liu       2022-12-30  323  	if (blob_len < (u64)dn_off + dn_len || blob_len < (u64)nt_off + nt_len ||
-e32f867b37da79 fs/ksmbd/auth.c William Liu       2022-12-30  324  	    nt_len < CIFS_ENCPWD_SIZE)
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  325  		return -EINVAL;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  326  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  327  	/* TODO : use domain name that imported from configuration file */
-0d994cd482ee4e fs/ksmbd/auth.c Marios Makassikis 2021-10-19  328  	domain_name = smb_strndup_from_utf16((const char *)authblob + dn_off,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  329  					     dn_len, true, conn->local_nls);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  330  	if (IS_ERR(domain_name))
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  331  		return PTR_ERR(domain_name);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  332  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  333  	/* process NTLMv2 authentication */
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  334  	ksmbd_debug(AUTH, "decode_ntlmssp_authenticate_blob dname%s\n",
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  335  		    domain_name);
-070fb21e5912b6 fs/cifsd/auth.c Namjae Jeon       2021-05-26  336  	ret = ksmbd_auth_ntlmv2(sess, (struct ntlmv2_resp *)((char *)authblob + nt_off),
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  337  				nt_len - CIFS_ENCPWD_SIZE,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  338  				domain_name, conn->ntlmssp.cryptkey);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  339  	kfree(domain_name);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  340  	return ret;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  341  }
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  342  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  343  /**
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  344   * ksmbd_decode_ntlmssp_neg_blob() - helper function to construct
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  345   * negotiate blob
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  346   * @negblob: negotiate blob source pointer
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  347   * @rsp:     response header pointer to be updated
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  348   * @sess:    session of connection
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  349   *
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  350   */
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  351  int ksmbd_decode_ntlmssp_neg_blob(struct negotiate_message *negblob,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  352  				  int blob_len, struct ksmbd_conn *conn)
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16 @353  {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  354  	if (blob_len < sizeof(struct negotiate_message)) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  355  		ksmbd_debug(AUTH, "negotiate blob len %d too small\n",
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  356  			    blob_len);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  357  		return -EINVAL;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  358  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  359  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  360  	if (memcmp(negblob->Signature, "NTLMSSP", 8)) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  361  		ksmbd_debug(AUTH, "blob signature incorrect %s\n",
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  362  			    negblob->Signature);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  363  		return -EINVAL;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  364  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  365  
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  366  	conn->ntlmssp.client_flags = le32_to_cpu(negblob->NegotiateFlags);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  367  	return 0;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  368  }
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  369  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  370  /**
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  371   * ksmbd_build_ntlmssp_challenge_blob() - helper function to construct
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  372   * challenge blob
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  373   * @chgblob: challenge blob source pointer to initialize
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  374   * @rsp:     response header pointer to be updated
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  375   * @sess:    session of connection
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  376   *
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  377   */
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  378  unsigned int
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  379  ksmbd_build_ntlmssp_challenge_blob(struct challenge_message *chgblob,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  380  				   struct ksmbd_conn *conn)
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16 @381  {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  382  	struct target_info *tinfo;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  383  	wchar_t *name;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  384  	__u8 *target_name;
-152de8c68d1384 fs/cifsd/auth.c Namjae Jeon       2021-05-29  385  	unsigned int flags, blob_off, blob_len, type, target_info_len = 0;
-152de8c68d1384 fs/cifsd/auth.c Namjae Jeon       2021-05-29  386  	int len, uni_len, conv_len;
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  387  	int cflags = conn->ntlmssp.client_flags;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  388  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  389  	memcpy(chgblob->Signature, NTLMSSP_SIGNATURE, 8);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  390  	chgblob->MessageType = NtLmChallenge;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  391  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  392  	flags = NTLMSSP_NEGOTIATE_UNICODE |
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  393  		NTLMSSP_NEGOTIATE_NTLM | NTLMSSP_TARGET_TYPE_SERVER |
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  394  		NTLMSSP_NEGOTIATE_TARGET_INFO;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  395  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  396  	if (cflags & NTLMSSP_NEGOTIATE_SIGN) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  397  		flags |= NTLMSSP_NEGOTIATE_SIGN;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  398  		flags |= cflags & (NTLMSSP_NEGOTIATE_128 |
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  399  				   NTLMSSP_NEGOTIATE_56);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  400  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  401  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  402  	if (cflags & NTLMSSP_NEGOTIATE_ALWAYS_SIGN)
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  403  		flags |= NTLMSSP_NEGOTIATE_ALWAYS_SIGN;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  404  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  405  	if (cflags & NTLMSSP_REQUEST_TARGET)
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  406  		flags |= NTLMSSP_REQUEST_TARGET;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  407  
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  408  	if (conn->use_spnego &&
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  409  	    (cflags & NTLMSSP_NEGOTIATE_EXTENDED_SEC))
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  410  		flags |= NTLMSSP_NEGOTIATE_EXTENDED_SEC;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  411  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  412  	chgblob->NegotiateFlags = cpu_to_le32(flags);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  413  	len = strlen(ksmbd_netbios_name());
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  414  	name = kmalloc(2 + UNICODE_LEN(len), GFP_KERNEL);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  415  	if (!name)
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  416  		return -ENOMEM;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  417  
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  418  	conv_len = smb_strtoUTF16((__le16 *)name, ksmbd_netbios_name(), len,
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  419  				  conn->local_nls);
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  420  	if (conv_len < 0 || conv_len > len) {
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  421  		kfree(name);
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  422  		return -EINVAL;
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  423  	}
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  424  
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  425  	uni_len = UNICODE_LEN(conv_len);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  426  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  427  	blob_off = sizeof(struct challenge_message);
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  428  	blob_len = blob_off + uni_len;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  429  
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  430  	chgblob->TargetName.Length = cpu_to_le16(uni_len);
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  431  	chgblob->TargetName.MaximumLength = cpu_to_le16(uni_len);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  432  	chgblob->TargetName.BufferOffset = cpu_to_le32(blob_off);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  433  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  434  	/* Initialize random conn challenge */
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  435  	get_random_bytes(conn->ntlmssp.cryptkey, sizeof(__u64));
-f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon       2021-12-15  436  	memcpy(chgblob->Challenge, conn->ntlmssp.cryptkey,
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  437  	       CIFS_CRYPTO_KEY_SIZE);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  438  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  439  	/* Add Target Information to security buffer */
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  440  	chgblob->TargetInfoArray.BufferOffset = cpu_to_le32(blob_len);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  441  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  442  	target_name = (__u8 *)chgblob + blob_off;
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  443  	memcpy(target_name, name, uni_len);
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  444  	tinfo = (struct target_info *)(target_name + uni_len);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  445  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  446  	chgblob->TargetInfoArray.Length = 0;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  447  	/* Add target info list for NetBIOS/DNS settings */
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  448  	for (type = NTLMSSP_AV_NB_COMPUTER_NAME;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  449  	     type <= NTLMSSP_AV_DNS_DOMAIN_NAME; type++) {
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  450  		tinfo->Type = cpu_to_le16(type);
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  451  		tinfo->Length = cpu_to_le16(uni_len);
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  452  		memcpy(tinfo->Content, name, uni_len);
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  453  		tinfo = (struct target_info *)((char *)tinfo + 4 + uni_len);
-a2d0b5034a5fff fs/cifsd/auth.c Namjae Jeon       2021-05-26  454  		target_info_len += 4 + uni_len;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  455  	}
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  456  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  457  	/* Add terminator subblock */
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  458  	tinfo->Type = 0;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  459  	tinfo->Length = 0;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  460  	target_info_len += 4;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  461  
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  462  	chgblob->TargetInfoArray.Length = cpu_to_le16(target_info_len);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  463  	chgblob->TargetInfoArray.MaximumLength = cpu_to_le16(target_info_len);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  464  	blob_len += target_info_len;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  465  	kfree(name);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  466  	ksmbd_debug(AUTH, "NTLMSSP SecurityBufferLength %d\n", blob_len);
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  467  	return blob_len;
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  468  }
-e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  469  
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  207  
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  208  /**
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  209   * ksmbd_auth_ntlmv2() - NTLMv2 authentication handler
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  210   * @sess:	session of connection
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  211   * @ntlmv2:		NTLMv2 challenge response
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  212   * @blen:		NTLMv2 blob length
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  213   * @domain_name:	domain name
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  214   *
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  215   * Return:	0 on success, error number on error
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  216   */
+bc77a6e933060e fs/ksmbd/auth.c Namjae Jeon 2022-07-25  217  int ksmbd_auth_ntlmv2(struct ksmbd_conn *conn, struct ksmbd_session *sess,
+bc77a6e933060e fs/ksmbd/auth.c Namjae Jeon 2022-07-25  218  		      struct ntlmv2_resp *ntlmv2, int blen, char *domain_name,
+bc77a6e933060e fs/ksmbd/auth.c Namjae Jeon 2022-07-25  219  		      char *cryptkey)
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16 @220  {
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  221  	char ntlmv2_hash[CIFS_ENCPWD_SIZE];
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  222  	char ntlmv2_rsp[CIFS_HMAC_MD5_HASH_SIZE];
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  223  	struct ksmbd_crypto_ctx *ctx;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  224  	char *construct = NULL;
+0e579cd17f8e9c fs/cifsd/auth.c Namjae Jeon 2021-05-26  225  	int rc, len;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  226  
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  227  	ctx = ksmbd_crypto_ctx_find_hmacmd5();
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  228  	if (!ctx) {
+0e579cd17f8e9c fs/cifsd/auth.c Namjae Jeon 2021-05-26  229  		ksmbd_debug(AUTH, "could not crypto alloc hmacmd5\n");
+0e579cd17f8e9c fs/cifsd/auth.c Namjae Jeon 2021-05-26  230  		return -ENOMEM;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  231  	}
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  232  
+bc77a6e933060e fs/ksmbd/auth.c Namjae Jeon 2022-07-25  233  	rc = calc_ntlmv2_hash(conn, sess, ntlmv2_hash, domain_name);
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  234  	if (rc) {
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  235  		ksmbd_debug(AUTH, "could not get v2 hash rc %d\n", rc);
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  236  		goto out;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  237  	}
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  238  
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  239  	rc = crypto_shash_setkey(CRYPTO_HMACMD5_TFM(ctx),
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  240  				 ntlmv2_hash,
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  241  				 CIFS_HMAC_MD5_HASH_SIZE);
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  242  	if (rc) {
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  243  		ksmbd_debug(AUTH, "Could not set NTLMV2 Hash as a key\n");
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  244  		goto out;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  245  	}
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  246  
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  247  	rc = crypto_shash_init(CRYPTO_HMACMD5(ctx));
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  248  	if (rc) {
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  249  		ksmbd_debug(AUTH, "Could not init hmacmd5\n");
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  250  		goto out;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  251  	}
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  252  
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  253  	len = CIFS_CRYPTO_KEY_SIZE + blen;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  254  	construct = kzalloc(len, GFP_KERNEL);
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  255  	if (!construct) {
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  256  		rc = -ENOMEM;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  257  		goto out;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  258  	}
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  259  
+f86a1a74d9a7f6 fs/ksmbd/auth.c Namjae Jeon 2021-12-15  260  	memcpy(construct, cryptkey, CIFS_CRYPTO_KEY_SIZE);
+192cc732c65a7c fs/cifsd/auth.c Namjae Jeon 2021-05-26  261  	memcpy(construct + CIFS_CRYPTO_KEY_SIZE, &ntlmv2->blob_signature, blen);
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  262  
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  263  	rc = crypto_shash_update(CRYPTO_HMACMD5(ctx), construct, len);
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  264  	if (rc) {
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  265  		ksmbd_debug(AUTH, "Could not update with response\n");
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  266  		goto out;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  267  	}
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  268  
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  269  	rc = crypto_shash_final(CRYPTO_HMACMD5(ctx), ntlmv2_rsp);
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  270  	if (rc) {
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  271  		ksmbd_debug(AUTH, "Could not generate md5 hash\n");
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  272  		goto out;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  273  	}
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  274  
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  275  	rc = ksmbd_gen_sess_key(sess, ntlmv2_hash, ntlmv2_rsp);
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  276  	if (rc) {
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  277  		ksmbd_debug(AUTH, "Could not generate sess key\n");
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  278  		goto out;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  279  	}
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  280  
+b72802aa77dc27 fs/cifsd/auth.c Namjae Jeon 2021-05-26  281  	if (memcmp(ntlmv2->ntlmv2_hash, ntlmv2_rsp, CIFS_HMAC_MD5_HASH_SIZE) != 0)
+b72802aa77dc27 fs/cifsd/auth.c Namjae Jeon 2021-05-26  282  		rc = -EINVAL;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  283  out:
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  284  	ksmbd_release_crypto_ctx(ctx);
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  285  	kfree(construct);
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  286  	return rc;
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  287  }
+e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon 2021-03-16  288  
 
-:::::: The code at line 219 was first introduced by commit
+:::::: The code at line 220 was first introduced by commit
 :::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side procedures for SMB3
 
 :::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
@@ -370,7 +190,7 @@ e2f34481b24db2 fs/cifsd/auth.c Namjae Jeon       2021-03-16  469
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
---bMvQ0CoxvJSPbxKX
+--EBOVDsBMEEdNzSKJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -6496,7 +6316,7 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Kernel Testing and Coverage
 # end of Kernel hacking
 
---bMvQ0CoxvJSPbxKX
+--EBOVDsBMEEdNzSKJ
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=reproduce
 
@@ -6504,10 +6324,10 @@ reproduce (this is a W=1 build):
         git clone https://github.com/intel/lkp-tests.git ~/lkp-tests
         git remote add android-common https://android.googlesource.com/kernel/common
         git fetch --no-tags android-common android13-5.15
-        git checkout f86a1a74d9a7f6ecad21c4ba3c1ebc045d90c888
+        git checkout bc77a6e933060e40a3f1efc564f6f6f1d11e93c1
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-20 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-20 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/ksmbd/
 
---bMvQ0CoxvJSPbxKX--
+--EBOVDsBMEEdNzSKJ--
