@@ -1,86 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA9BCA6F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 17 Jun 2025 07:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ED1328C2A3;
+	Tue, 17 Jun 2025 07:53:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750145764; cv=none; b=u047uFc0rDjZvHTEy+vKRv2nlLYV5k0ByYTR9S7fRNkJ7d3NgjR4hKQC6GjGt986YmjvPz+HAnhcEd4tLHS07zgThvXa4woO0fY3d/8fKSZZo+381ptGca+KQJ1kaCvpsIkuq1aW54fwBdbudvGQUo/XWkESDz3jzyg+70e0JeA=
+	t=1750146835; cv=none; b=S3Tj9N/J3ZiRxm7+JUTy/6VLpY2+C9/W/oOA8dfwndJf7fZt+VhQiFsQ82t94ZdrCRfr+V5GK2m1SpDf7jt86Jo1vSjGsYCSx77IJ3P8A6Fk9jl6tCVBgfyB3KT8U6FGL4XOloWxr9n/gEtx3c6Ov7cPjPPZaXa7yinTZF1ESag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750145764; c=relaxed/simple;
-	bh=Mqkt5CmFTcJHKhcXxsGJvciVc6jghZKyPLw/h4q/RZ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iCa/OdNL0/rvpdPdNDh4G0eaeks7Q25Q4PL+dnpY7jQ/6F1kf4gNVmQNOUNt5QYALQy8xCmiZXXDLrZVD9670eooK5HdfMx+uYPVPivIs3BFI3r8KhbIj0w+psezpFzLf+l2UcB4lkGQ70IDKQaSsAeu247BEHSTp5NiJwk6ptM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kwellpUr; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750146835; c=relaxed/simple;
+	bh=OqthscKnASx0MYwBa87Rhel76+HHnEy30Q7AuBEmizk=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=AAOvwiWBQyUQDYeJzdy39c4D0xvSi3sY4qhPEmksbfdKPMayzJXMg6qkMmP/tABnJmPl0Z8IJpQD/99LBRuFWDGbQKbqJTU7WR4avheUPKXV1u62qmOx90cFyoj1hVbrjJsZ6Lt8JKJdGMxQAzHeKN5QOk8SbeGxxmIePyCLST4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=TIrRR1Rf; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nyfchuHC; arc=none smtp.client-ip=103.168.172.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kwellpUr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750145761; x=1781681761;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Mqkt5CmFTcJHKhcXxsGJvciVc6jghZKyPLw/h4q/RZ8=;
-  b=kwellpUrv9NbR3CwFLAFB7flR/r9dq9OD+sHTr7gBNvM/GHCo7M2ZIzh
-   kKLtUOqdMIxrwuyhHyl5Y3f9tFJi+FAs3ohI+w5uDLWf2qJGJG40bFxWb
-   xdN+tp0fEHij8eb6IvkWEP0NqmoTFPNVRLGNYz5f6VhSlHtD3J2EjwLso
-   IrlOumO/zwEgrNQbPufoM3bD9xYbwK9DmFctjvqQSWyxTvCZnecEFCeNF
-   hx0uH36YMDHBEWYd4hsGmX31J9kCJzG+gPGC+ehykjrGF792JpNNnCd8O
-   8qqxmFLH2skh0Yc5qktUSV8ShGah2UTTwWl3NCq26VdFUo/Zd7ZLs8T/X
-   w==;
-X-CSE-ConnectionGUID: srZ+P9wLQemlq1T2czqMcQ==
-X-CSE-MsgGUID: a+bCNvCpRkaQiv/DH+sq7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11465"; a="52392898"
-X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
-   d="scan'208";a="52392898"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 00:36:00 -0700
-X-CSE-ConnectionGUID: xs3R5rVJTNSLNeWU5XW5zw==
-X-CSE-MsgGUID: tl4Y7DQyQaOHMcONCLZDWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,242,1744095600"; 
-   d="scan'208";a="148597259"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Jun 2025 00:36:00 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uRQrN-000FjE-2I;
-	Tue, 17 Jun 2025 07:35:57 +0000
-Date: Tue, 17 Jun 2025 15:35:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 102/102] kismet: WARNING: unmet
- direct dependencies detected for SPI_PHYTIUM when selected by
- SPI_PHYTIUM_PCI
-Message-ID: <202506171541.qTK2MWRo-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="TIrRR1Rf";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nyfchuHC"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 5D90D1380373;
+	Tue, 17 Jun 2025 03:53:52 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-05.internal (MEProxy); Tue, 17 Jun 2025 03:53:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1750146832;
+	 x=1750233232; bh=N/gVmKjkroaVRvbIjFt+q9mrEuWIbF/Y3kVfpO1Se9g=; b=
+	TIrRR1Rf+lh8N6KUpnEMeoAf5nmqR19q1dPgtLddv+3d++6Zkl2OaVUtoHfVnC95
+	njpNkJ5G9FRiHJ1O6IlymETlfHo0FCNLI3rALHcYifc1/YhM/cX/SnVsDXNB2YS+
+	5sPmQdbM31lfqVY4iacsaUr1xYOr4PStOs/wSeay9WPeDIq7U/nfd8DYe67iNM5K
+	BFBYCt9Bk0fhxPIqK1RpS31UB2M91p/28GEI9LM0fqPfrI9bTlf9Oze6PKjYkJmW
+	EFHJOuMRj2VY25qZ7WOElEvUydRuonaJ0ENu7wvBPRdWVlBSEnJ/GkoIZD5EWufv
+	EdQh3dvim9ZUsD/Zs5cVPA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1750146832; x=
+	1750233232; bh=N/gVmKjkroaVRvbIjFt+q9mrEuWIbF/Y3kVfpO1Se9g=; b=n
+	yfchuHChhwk5xqx5dxSqe0nD3BGS++35HsbZpQonzuGUQytrh89pKLVpcoKHSLDe
+	7VwfnzMVI48ZeYMq/ICoRR3LKCSwYjJ5sx6YujNNWmCMOENLC+9TqhlrDDR+4uvh
+	MD9pf8+lTYjNkMxaJkZ7Gp6tdUCn49uHICEePjtdgcryHT4Nq+CVz0BNXZxiIwqu
+	9ak9iuyZn5PN7N0CR3FAETsA50gTLzylo09LoN77kwP91FukiqUNlQO30WA00IB7
+	cT2suWkM8c2k9YYrrMxlrgUAMWrIogP2Zl/rnJLcSfEKfSFsSVb4LStzzMPwCbg0
+	CApThddOm5cgo3BJ4Irow==
+X-ME-Sender: <xms:Dx9RaLiFYiW4kdhv9J5fhwzdxpuXkj55FXgvbvlsz5LFyY2PFHgLOA>
+    <xme:Dx9RaIBbrIzpPEiZlDN0pEMbPUt_K5hlRE887MJau9botaxAQDz-HKfBPzc7K8af9
+    mc-ln5JnZ71ZGZB3DA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddugddvkeekfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
+    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
+    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
+    druggvqeenucggtffrrghtthgvrhhnpeehjeejhfeftdfgieehleefleehgedugfevieei
+    veeivedvudegheehudefkefhfeenucffohhmrghinhepphgrshhtvggsihhnrdgtohhmne
+    cuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgu
+    segrrhhnuggsrdguvgdpnhgspghrtghpthhtohepudegpdhmohguvgepshhmthhpohhuth
+    dprhgtphhtthhopehrohgsihhnrdhmuhhrphhhhiesrghrmhdrtghomhdprhgtphhtthho
+    peholhhtvggrnhhvsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhkphesihhnthgvlh
+    drtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehjrghmvghsrdgtlhgrrhhksehlihhnrghrohdrohhrghdprhgtphhtthhopehimh
+    igsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepihhomhhmuheslhhishht
+    shdrlhhinhhugidruggvvhdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlsehlih
+    hsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohephhgthheslhhsthdruggv
+X-ME-Proxy: <xmx:Dx9RaLFN-BDF7HlEnZmoG3h2MWfQtBwN0hEg2LqmPxJOBQH61u9mTQ>
+    <xmx:Dx9RaISGlbGoQBTDdDAu4eCxm4KVvLeMTUcQ94U9E0MvMOCNlXeRlQ>
+    <xmx:Dx9RaIyieKngvGlAlYEjkdIq7Rftt-f01NPrGMNX74Lt06v6oktVbQ>
+    <xmx:Dx9RaO6ZXUy5vZq_o8DTkzT9MUkMvB-lWT-nMH69GPhby5l22aQ_QQ>
+    <xmx:EB9RaFjLe8GzAum3dkhpQU2-pcdJYSDXSQFoI6gh02h0xGoLujEGqrlB>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 3C946700065; Tue, 17 Jun 2025 03:53:51 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-ThreadId: T4808b90e09d8ad4f
+Date: Tue, 17 Jun 2025 09:53:22 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Christoph Hellwig" <hch@lst.de>
+Cc: "James Clark" <james.clark@linaro.org>, "Mark Brown" <broonie@kernel.org>,
+ "Vladimir Oltean" <olteanv@gmail.com>, oe-kbuild-all@lists.linux.dev,
+ "Larisa Grigore" <larisa.grigore@nxp.com>, "Frank Li" <Frank.li@nxp.com>,
+ linux-spi@vger.kernel.org, imx@lists.linux.dev, linux-kernel@vger.kernel.org,
+ "kernel test robot" <lkp@intel.com>,
+ "Marek Szyprowski" <m.szyprowski@samsung.com>,
+ "Robin Murphy" <robin.murphy@arm.com>, iommu@lists.linux.dev
+Message-Id: <5de445aa-048b-4f60-9045-df5d45341436@app.fastmail.com>
+In-Reply-To: <20250617044833.GE1824@lst.de>
+References: <20250616120832.GA24959@lst.de>
+ <2d62254e-5cbe-4174-95d8-e80cae4f4543@sirena.org.uk>
+ <20250616121444.GA25443@lst.de>
+ <7cfcf919-3c7d-4f0c-911f-697ea3141080@linaro.org>
+ <20250616131346.GB29838@lst.de>
+ <83855c1a-c128-4762-9d6b-e17f2c4c8820@linaro.org>
+ <d16bdc40-20d6-49db-bf41-18bb9b8e01fd@linaro.org>
+ <20250616131944.GA30260@lst.de>
+ <f723d490-c228-42d5-9f9f-158df54a092d@linaro.org>
+ <9788991a-ac37-4fde-81db-c55035d00f27@app.fastmail.com>
+ <20250617044833.GE1824@lst.de>
+Subject: Re: [PATCH] dma-mapping: Stub out dma_{alloc,free,map}_pages() API
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   8cbb260f5584b8ea3d3941593c23a2ddc27fe701
-commit: 3aecfb5d583a915dc68f9fb5b5bc7dd643d5016d [102/102] anolis: spi: add support for Phytium SPI
-config: x86_64-kismet-CONFIG_SPI_PHYTIUM-CONFIG_SPI_PHYTIUM_PCI-0-0 (https://download.01.org/0day-ci/archive/20250617/202506171541.qTK2MWRo-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250617/202506171541.qTK2MWRo-lkp@intel.com/reproduce)
+On Tue, Jun 17, 2025, at 06:48, Christoph Hellwig wrote:
+> On Mon, Jun 16, 2025 at 03:48:50PM +0200, Arnd Bergmann wrote:
+>> As far as I can tell, the difference here is that the
+>> dma_alloc_coherent()/dma_free_coherent() calls all get stubbed
+>> out, so the 827 drivers using those can all build cleanly on
+>> mk68knommu, shnommu and UML, while dma_alloc_noncoherent()/
+>> dma_free_noncoherent() are only used on 15 files that are all
+>> guarded by some other Kconfig dependency at the moment and won't
+>> build on the those platforms.
+>
+> Yes, dma_alloc_coherent is from a time where stubbing out was
+> still very common.
+>
+>> I agree that it would be best to treat the coherent/noncoherent
+>> cases the same, and I also think the existing stubs are a bit
+>> silly, but just removing them would likely require fixing
+>> hundreds of drivers with added Kconfig or IS_ENABLED() checks.
+>
+> I doubt it's that many, as most drivers and even subsystems simply
+> depend on DMA.  There's probably at most a few dozen drivers
+> supporting DMA but not requiring it.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506171541.qTK2MWRo-lkp@intel.com/
+I checked again, and the actual number is 263 modules for a j2
+allmodconfig with the DMA stubs removed, see
+https://pastebin.com/raw/4PFcEe04
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SPI_PHYTIUM when selected by SPI_PHYTIUM_PCI
-   WARNING: unmet direct dependencies detected for SPI_PHYTIUM
-     Depends on [n]: SPI [=y] && SPI_MASTER [=y] && (ARCH_PHYTIUM || COMPILE_TEST [=n])
-     Selected by [y]:
-     - SPI_PHYTIUM_PCI [=y] && SPI [=y] && SPI_MASTER [=y] && PCI [=y]
+This is helped a lot by PCI being unavailable on all four
+targets without DMA. If I force-enable PCI, I see 610 modules
+in allmodconfig that link to one of the dma-mapping helper
+functions but are missing a dependency on CONFIG_HAS_DMA.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>> Maybe we can actually remove CONFIG_NO_DMA/CONFIG_HAS_DMA
+>> entirely and remove all the checks for CONFIG_HAS_DMA? 
+>> My guess is that this would only lead to a small code size
+>> increase on the affected targets, but since they are not
+>> actually trying to do DMA, and they all have a very limited
+>> set of drivers they actually use, it won't break existing
+>> code.
+>
+> Except for uml, the CONFIG_NO_DMA configs are usually very resource
+> constraint, so I don't think that's a good idea.
+
+The J2 Turtleboard has 256MB of RAM, which is not too
+constrained either.
+
+Between SH72xx/SH76xx, SUN3 and M68328, I believe the
+supported machines are all limited to between 1MB and 32MB in
+the maximum configuration, which is obviously extremely
+tight. On the other hand, I really don't think anyone cares
+any more: all three platforms are between 25 and 40 years
+old, kernel support is very minimal and nobody has really
+spent time improving them in at least 15 years. It also
+appears that all three do support DMA in some form, so if
+anyone was serious about using them, they would probably
+want to use the dma-mapping interface for it as well,
+like we do for similarly constrained nommu platforms
+(coldfire, cortex-m3, xtensa)
+
+      Arnd
