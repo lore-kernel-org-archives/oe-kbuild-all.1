@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FF3B1922C0
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 05:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10BFA93D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 05:51:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750223769; cv=none; b=b3J5AEMd/79AcaOcS2wnjfde1KfdxCc1JfZUorfmLdm+tgRuM/RSkkqyCleNP5ix7b0OQFCZKKPBai7F5wR+vwdbB/SkQ4w+0h0MuPhPd4pqPY/q2Rauwb2M4B8l3ErbqiiTS5QnP10IECKT6WTL7v+n2wTmbpreXS3mS/PCbm8=
+	t=1750225867; cv=none; b=Au0/9Spg8reSrC8NV3cYGy3ijSNCujzLoc5B5kxReVDqo5480Esc5hbXu/GtEv2tmfoqVJWR5MXGo65DLQ80wbQ1AOoKb/lmTO+HNOj+mWWE8l5/++hrwN7zAWJA/pOK/aWSDjusmxVQL228LG0F3rBQZLFowH+IV5PGXaQr1nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750223769; c=relaxed/simple;
-	bh=cuqTtJ5y0H9S2EGfUcDskfm/X7wxUUFoRriaFWn19JQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OqEFSknAj3DLaTxCKV+sE/NFJa/E2NQEdDK8zwBftg+YniwRA10nNVnYYEWlw7qIZn7w0aAXYdAHmYIVigKqsj2/S+N/Alb0feZGxbOZP+Ba+pGs4hG1EI+4RBn+JuenmRH6WP5awe8zp/+fjSf1m2onn2k145wWOgjQJCE1XRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n0J1tdSa; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1750225867; c=relaxed/simple;
+	bh=Tdgx2liwsIplwezdt/eFKC4vMNxOqHp4aQ+BcUH8kBQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BDEswYDmp6hwkFznYS2ZltM+W0HZDe62Q7m/w0fREYwFYijC7+xjpF/SKGk92iUa582YiuTm3xfkaFmX3B1Dgq+yy/EomcHgLx0cVoGPhSG/qrjFvQUFsxDdCNUMm1kaUHYIlGtwmnsVV+p9MwK3EtFPv8iMEoNCPGHZYzJqWvg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=juhs/ZzI; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n0J1tdSa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="juhs/ZzI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750223767; x=1781759767;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cuqTtJ5y0H9S2EGfUcDskfm/X7wxUUFoRriaFWn19JQ=;
-  b=n0J1tdSa4VBXYAyVFA9aEqEFh1JQ2s3dWT2QIod0agQwUFCS3ivUQKaB
-   qnCqtb+BZcriOOLNY8g/zI4MtrNJ3owrVaBQNMadrpSmQzwGP4mprCN4j
-   7+CzPCXBsJ0yIOwnUWHCGj+aA7swV+I0cexvRMPeWdiGFunxmyThxSR/O
-   j0ns2gUcyKgeAFYqjHrcZLt32pGI9fZrkyMjTs2XWRJ0K+e1NI7+60b0e
-   1JrpCgGGETBUnvVi1w8StS6X514PJA69LokHszGeI32usgVBxwu2qHNgU
-   TfUNWz3v8Ocyuq3rIaUbXGFDnYiS75NaCbZB95ZG+FKmBr1Oo/+VeDbm5
-   g==;
-X-CSE-ConnectionGUID: GxPdkmTPSN+6PQjahEx84g==
-X-CSE-MsgGUID: 17146JzHQ++5QzKpTj1Dxg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52404034"
+  t=1750225865; x=1781761865;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Tdgx2liwsIplwezdt/eFKC4vMNxOqHp4aQ+BcUH8kBQ=;
+  b=juhs/ZzI6BKbAIj5jkdRhNNc3+zU2jJcjqKOVaAz1lvvQ5zvPrLnRipj
+   YVkK/x0wrOQjPezVNNXK403LClM2PswchZBuwbcur677Cvsd3fyPRETf7
+   /bmuPUgBH66JlFTGOXAgjo+k88GtBlwr3cstKOzhTS/4Nf7xWAtZ0aO9R
+   ISwcGJwbw/Hc7zsmOQtW1D3MXTVCqOtpXE7mCBY1Rz4ZDp7rf5d2nFJBY
+   fEMrCgAsaU8Jywwr0q4HX2dFGaf7R1SQyiHOC8Tn6YleNFzyu2qUGd28D
+   otDfew0UQf0vMny9eCYPvMFFy3aZAwFXE+2g7i2QcKbuwjkqYK6qU77xG
+   Q==;
+X-CSE-ConnectionGUID: szt9WDXjQDuTL7LvQP1uSQ==
+X-CSE-MsgGUID: bFX+6Kw9RlGF88qKs1HjHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52129816"
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="52404034"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 22:16:02 -0700
-X-CSE-ConnectionGUID: 0lI6FISDQxySkgpmXv4UuQ==
-X-CSE-MsgGUID: fPTaV2sEStaIJGhTKo26Gg==
+   d="scan'208";a="52129816"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 22:51:05 -0700
+X-CSE-ConnectionGUID: y++iQIilS0CcpPuztu0urw==
+X-CSE-MsgGUID: A71+k8qsTsWnOtKAkWParg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="153886881"
+   d="scan'208";a="149202854"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Jun 2025 22:16:00 -0700
+  by orviesa009.jf.intel.com with ESMTP; 17 Jun 2025 22:51:04 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRl9R-000JQY-2j;
-	Wed, 18 Jun 2025 05:15:57 +0000
-Date: Wed, 18 Jun 2025 13:15:29 +0800
+	id 1uRlhM-000JRS-26;
+	Wed, 18 Jun 2025 05:51:00 +0000
+Date: Wed, 18 Jun 2025 13:50:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Ingo Molnar <mingo@kernel.org>
-Subject: [tip:core/bugs 11/16] include/linux/compiler_types.h:497:20: error:
- impossible constraint in 'asm'
-Message-ID: <202506181535.fUTgXhab-lkp@intel.com>
+To: Guillaume Gomez <guillaume1.gomez@gmail.com>,
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	ojeda@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 1/1] Use new `--output-format=doctest` rustdoc command
+ line flag to improve doctest handling
+Message-ID: <202506181334.f0STx6ta-lkp@intel.com>
+References: <20250617140032.1133337-2-guillaume1.gomez@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,372 +65,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250617140032.1133337-2-guillaume1.gomez@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git core/bugs
-head:   d298bb98d65f964288bb87feef014da1baafedda
-commit: 45c79ca947c936085c94b716be92eaf9a1bdc8bb [11/16] bugs/s390: Use 'cond_str' in __EMIT_BUG()
-config: s390-randconfig-r072-20250618 (https://download.01.org/0day-ci/archive/20250618/202506181535.fUTgXhab-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181535.fUTgXhab-lkp@intel.com/reproduce)
+Hi Guillaume,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on rust/rust-next]
+[also build test ERROR on shuah-kselftest/kunit shuah-kselftest/kunit-fixes linus/master v6.16-rc2 next-20250617]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Guillaume-Gomez/Use-new-output-format-doctest-rustdoc-command-line-flag-to-improve-doctest-handling/20250617-220502
+base:   https://github.com/Rust-for-Linux/linux rust-next
+patch link:    https://lore.kernel.org/r/20250617140032.1133337-2-guillaume1.gomez%40gmail.com
+patch subject: [PATCH 1/1] Use new `--output-format=doctest` rustdoc command line flag to improve doctest handling
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250618/202506181334.f0STx6ta-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181334.f0STx6ta-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506181535.fUTgXhab-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506181334.f0STx6ta-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   crypto/api.c: In function '__crypto_alloc_tfmgfp':
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:43:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG("", 0);    \
-     ^~~~~~~~~~
-   crypto/api.c:389:3: note: in expansion of macro 'BUG'
-      BUG();
-      ^~~
->> include/linux/compiler_types.h:497:20: error: impossible constraint in 'asm'
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:43:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG("", 0);    \
-     ^~~~~~~~~~
-   crypto/api.c:389:3: note: in expansion of macro 'BUG'
-      BUG();
-      ^~~
-   crypto/api.c: In function 'crypto_schedule_test':
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:48:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(cond_str, BUGFLAG_WARNING|(flags)); \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:119:3: note: in expansion of macro '__WARN_FLAGS'
-      __WARN_FLAGS("["#condition"] ",   \
-      ^~~~~~~~~~~~
-   crypto/api.c:176:2: note: in expansion of macro 'WARN_ON_ONCE'
-     WARN_ON_ONCE(err != NOTIFY_STOP);
-     ^~~~~~~~~~~~
-   crypto/api.c: In function 'crypto_larval_destroy':
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:43:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG("", 0);    \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:77:57: note: in expansion of macro 'BUG'
-    #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                                            ^~~
-   crypto/api.c:97:2: note: in expansion of macro 'BUG_ON'
-     BUG_ON(!crypto_is_larval(alg));
-     ^~~~~~
---
-   In file included from <command-line>:
-   crypto/algapi.c: In function 'crypto_grab_spawn':
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:48:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(cond_str, BUGFLAG_WARNING|(flags)); \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:119:3: note: in expansion of macro '__WARN_FLAGS'
-      __WARN_FLAGS("["#condition"] ",   \
-      ^~~~~~~~~~~~
-   crypto/algapi.c:729:6: note: in expansion of macro 'WARN_ON_ONCE'
-     if (WARN_ON_ONCE(inst == NULL))
-         ^~~~~~~~~~~~
->> include/linux/compiler_types.h:497:20: error: impossible constraint in 'asm'
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:48:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(cond_str, BUGFLAG_WARNING|(flags)); \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:119:3: note: in expansion of macro '__WARN_FLAGS'
-      __WARN_FLAGS("["#condition"] ",   \
-      ^~~~~~~~~~~~
-   crypto/algapi.c:729:6: note: in expansion of macro 'WARN_ON_ONCE'
-     if (WARN_ON_ONCE(inst == NULL))
-         ^~~~~~~~~~~~
-   crypto/algapi.c: In function 'crypto_remove_instance.isra.13':
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:43:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG("", 0);    \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:77:57: note: in expansion of macro 'BUG'
-    #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                                            ^~~
-   crypto/algapi.c:154:2: note: in expansion of macro 'BUG_ON'
-     BUG_ON(!list_empty(&inst->alg.cra_users));
-     ^~~~~~
-   crypto/algapi.c: In function 'crypto_remove_spawns':
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:43:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG("", 0);    \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:77:57: note: in expansion of macro 'BUG'
-    #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                                            ^~~
-   crypto/algapi.c:203:4: note: in expansion of macro 'BUG_ON'
-       BUG_ON(&inst->alg == alg);
-       ^~~~~~
-   crypto/algapi.c: In function 'crypto_unregister_alg':
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:48:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(cond_str, BUGFLAG_WARNING|(flags)); \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:113:3: note: in expansion of macro '__WARN_FLAGS'
-      __WARN_FLAGS("", BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint));\
-      ^~~~~~~~~~~~
-   include/asm-generic/bug.h:141:3: note: in expansion of macro '__WARN_printf'
-      __WARN_printf(TAINT_WARN, format);   \
-      ^~~~~~~~~~~~~
-   crypto/algapi.c:498:6: note: in expansion of macro 'WARN'
-     if (WARN(ret, "Algorithm %s is not registered", alg->cra_driver_name))
-         ^~~~
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:48:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(cond_str, BUGFLAG_WARNING|(flags)); \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:109:19: note: in expansion of macro '__WARN_FLAGS'
-    #define __WARN()  __WARN_FLAGS("", BUGFLAG_TAINT(TAINT_WARN))
-                      ^~~~~~~~~~~~
-   arch/s390/include/asm/bug.h:58:4: note: in expansion of macro '__WARN'
-       __WARN();   \
-       ^~~~~~
-   crypto/algapi.c:501:2: note: in expansion of macro 'WARN_ON'
-     WARN_ON(!alg->cra_destroy && refcount_read(&alg->cra_refcnt) != 1);
-     ^~~~~~~
-   crypto/algapi.c: In function 'crypto_unregister_template':
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:43:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG("", 0);    \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:77:57: note: in expansion of macro 'BUG'
-    #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                                            ^~~
-   crypto/algapi.c:588:2: note: in expansion of macro 'BUG_ON'
-     BUG_ON(list_empty(&tmpl->list));
-     ^~~~~~
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:43:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG("", 0);    \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:77:57: note: in expansion of macro 'BUG'
-    #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                                            ^~~
-   crypto/algapi.c:595:3: note: in expansion of macro 'BUG_ON'
-      BUG_ON(err);
-      ^~~~~~
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:43:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG("", 0);    \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:77:57: note: in expansion of macro 'BUG'
-    #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
-                                                            ^~~
-   crypto/algapi.c:601:3: note: in expansion of macro 'BUG_ON'
-      BUG_ON(refcount_read(&inst->alg.cra_refcnt) != 1);
-      ^~~~~~
-   crypto/algapi.c: In function 'crypto_register_alg':
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:48:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(cond_str, BUGFLAG_WARNING|(flags)); \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:119:3: note: in expansion of macro '__WARN_FLAGS'
-      __WARN_FLAGS("["#condition"] ",   \
-      ^~~~~~~~~~~~
-   crypto/algapi.c:442:7: note: in expansion of macro 'WARN_ON_ONCE'
-         !WARN_ON_ONCE(alg->cra_destroy)) {
-          ^~~~~~~~~~~~
---
-   In file included from <command-line>:
-   crypto/scatterwalk.c: In function 'skcipher_walk_first':
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:48:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(cond_str, BUGFLAG_WARNING|(flags)); \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:119:3: note: in expansion of macro '__WARN_FLAGS'
-      __WARN_FLAGS("["#condition"] ",   \
-      ^~~~~~~~~~~~
-   crypto/scatterwalk.c:275:6: note: in expansion of macro 'WARN_ON_ONCE'
-     if (WARN_ON_ONCE(in_hardirq()))
-         ^~~~~~~~~~~~
->> include/linux/compiler_types.h:497:20: error: impossible constraint in 'asm'
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:48:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(cond_str, BUGFLAG_WARNING|(flags)); \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:119:3: note: in expansion of macro '__WARN_FLAGS'
-      __WARN_FLAGS("["#condition"] ",   \
-      ^~~~~~~~~~~~
-   crypto/scatterwalk.c:275:6: note: in expansion of macro 'WARN_ON_ONCE'
-     if (WARN_ON_ONCE(in_hardirq()))
-         ^~~~~~~~~~~~
---
-   In file included from <command-line>:
-   crypto/aead.c: In function 'aead_register_instance':
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:48:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(cond_str, BUGFLAG_WARNING|(flags)); \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:109:19: note: in expansion of macro '__WARN_FLAGS'
-    #define __WARN()  __WARN_FLAGS("", BUGFLAG_TAINT(TAINT_WARN))
-                      ^~~~~~~~~~~~
-   arch/s390/include/asm/bug.h:58:4: note: in expansion of macro '__WARN'
-       __WARN();   \
-       ^~~~~~
-   crypto/aead.c:284:6: note: in expansion of macro 'WARN_ON'
-     if (WARN_ON(!inst->free))
-         ^~~~~~~
->> include/linux/compiler_types.h:497:20: error: impossible constraint in 'asm'
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:48:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(cond_str, BUGFLAG_WARNING|(flags)); \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:109:19: note: in expansion of macro '__WARN_FLAGS'
-    #define __WARN()  __WARN_FLAGS("", BUGFLAG_TAINT(TAINT_WARN))
-                      ^~~~~~~~~~~~
-   arch/s390/include/asm/bug.h:58:4: note: in expansion of macro '__WARN'
-       __WARN();   \
-       ^~~~~~
-   crypto/aead.c:284:6: note: in expansion of macro 'WARN_ON'
-     if (WARN_ON(!inst->free))
-         ^~~~~~~
---
-   In file included from <command-line>:
-   crypto/lskcipher.c: In function 'lskcipher_register_instance':
->> include/linux/compiler_types.h:497:20: warning: asm operand 0 probably doesn't match constraints
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:48:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(cond_str, BUGFLAG_WARNING|(flags)); \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:109:19: note: in expansion of macro '__WARN_FLAGS'
-    #define __WARN()  __WARN_FLAGS("", BUGFLAG_TAINT(TAINT_WARN))
-                      ^~~~~~~~~~~~
-   arch/s390/include/asm/bug.h:58:4: note: in expansion of macro '__WARN'
-       __WARN();   \
-       ^~~~~~
-   crypto/lskcipher.c:415:6: note: in expansion of macro 'WARN_ON'
-     if (WARN_ON(!inst->free))
-         ^~~~~~~
->> include/linux/compiler_types.h:497:20: error: impossible constraint in 'asm'
-    #define asm_inline asm __inline
-                       ^~~
-   arch/s390/include/asm/bug.h:12:2: note: in expansion of macro 'asm_inline'
-     asm_inline volatile(     \
-     ^~~~~~~~~~
-   arch/s390/include/asm/bug.h:48:2: note: in expansion of macro '__EMIT_BUG'
-     __EMIT_BUG(cond_str, BUGFLAG_WARNING|(flags)); \
-     ^~~~~~~~~~
-   include/asm-generic/bug.h:109:19: note: in expansion of macro '__WARN_FLAGS'
-    #define __WARN()  __WARN_FLAGS("", BUGFLAG_TAINT(TAINT_WARN))
-                      ^~~~~~~~~~~~
-   arch/s390/include/asm/bug.h:58:4: note: in expansion of macro '__WARN'
-       __WARN();   \
-       ^~~~~~
-   crypto/lskcipher.c:415:6: note: in expansion of macro 'WARN_ON'
-     if (WARN_ON(!inst->free))
-         ^~~~~~~
-..
-
-
-vim +/asm +497 include/linux/compiler_types.h
-
-dbaaabd60e1662 Linus Torvalds   2024-04-08  495  
-eb111869301e15 Rasmus Villemoes 2019-09-13  496  #ifdef CONFIG_CC_HAS_ASM_INLINE
-eb111869301e15 Rasmus Villemoes 2019-09-13 @497  #define asm_inline asm __inline
-eb111869301e15 Rasmus Villemoes 2019-09-13  498  #else
-eb111869301e15 Rasmus Villemoes 2019-09-13  499  #define asm_inline asm
-eb111869301e15 Rasmus Villemoes 2019-09-13  500  #endif
-eb111869301e15 Rasmus Villemoes 2019-09-13  501  
-
-:::::: The code at line 497 was first introduced by commit
-:::::: eb111869301e15b737315a46c913ae82bd19eb9d compiler-types.h: add asm_inline definition
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in scripts/rustdoc_test_builder.rs at line 16:
+    //! the `gen` script (done there since we need to be aware of all the tests in a given file).
+    
+    use std::collections::HashMap;
+   -use std::io::Read;
+    use std::fs::create_dir_all;
+   +use std::io::Read;
+    
+    use json::JsonValue;
+    
+   Diff in scripts/rustdoc_test_builder.rs at line 25:
+    
+    fn generate_doctest(file: &str, line: i32, doctest_code: &HashMap<String, JsonValue>) -> bool {
+        // FIXME: Once let chain feature is stable, please use it instead.
+   -    let Some(JsonValue::Object(wrapper)) = doctest_code.get("wrapper") else { return false };
+   -    let Some(JsonValue::String(before)) = wrapper.get("before") else { return false };
+   -    let Some(JsonValue::String(after)) = wrapper.get("after") else { return false };
+   -    let Some(JsonValue::String(code)) = doctest_code.get("code") else { return false };
+   -    let Some(JsonValue::String(crate_level_code)) = doctest_code.get("crate_level") else { return false };
+   +    let Some(JsonValue::Object(wrapper)) = doctest_code.get("wrapper") else {
+   +        return false;
+   +    };
+   +    let Some(JsonValue::String(before)) = wrapper.get("before") else {
+   +        return false;
+   +    };
+   +    let Some(JsonValue::String(after)) = wrapper.get("after") else {
+   +        return false;
+   +    };
+   +    let Some(JsonValue::String(code)) = doctest_code.get("code") else {
+   +        return false;
+   +    };
+   +    let Some(JsonValue::String(crate_level_code)) = doctest_code.get("crate_level") else {
+   +        return false;
+   +    };
+    
+        // For tests that get generated with `Result`, `rustdoc` generates an `unwrap()` on
+        // the return value to check there were no returned errors. Instead, we use our assert macro
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[2]: *** [Makefile:1825: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
