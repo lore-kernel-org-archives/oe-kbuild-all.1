@@ -1,68 +1,72 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B14D3085C9;
-	Wed, 18 Jun 2025 17:59:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62A792F546E;
+	Wed, 18 Jun 2025 18:00:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750269568; cv=none; b=Pil1+dpMX0rQeyl18p3J/ZuM6LFpCft8pMd6Ban3vVmAu+uYIZGYZeHdzj8QqcCMI8PotVWTVRPeQt57RlMv8DI40l/vgBSMd5pVPkFWO/lI+GQoqxqQ1eGdaLrGFkFhD5MWsxxug9dRfvhOTuFscJVdfgwWxaXKRrQqFv6s/HU=
+	t=1750269623; cv=none; b=CdMfR1yTSqgi0C28lniA1Ca7s2U3dD+9X8xR5hC3AgjqCbS57shAnSSh+jWzugYuyXHekXgH1ymj3/V/AdK8+z8Xm+miemQORSJfLLrAgqY6wU7mKaUvot0j1UeuBgt/1omtcumQ3DDdReFcwUWAkhxVwHetZKmjYEPeqes99XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750269568; c=relaxed/simple;
-	bh=VsQ9mjiyc4dnTIlr6g4DfKjP8V0Y85rIOMAAUGcigOs=;
+	s=arc-20240116; t=1750269623; c=relaxed/simple;
+	bh=AY51LktMBALPiD923VjW1Ue6ct2aMtypau/sy83niBU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XwTGFm82xCQ5prPUI4UdUCVmD6u97Sg8IArm4IHwLKexhqO+jwQ7yVArfnC58U0hg+EcWbbC1cw9DdhbnHHNEMHyOKyQf/FrpvCgM2DLmoPPz6IHa8eJl/Im429IPOF3y68Dz7CIkbJhL9WRWGFxlk3xxLkKaAyiRpKD3tD0Mww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JQ/X910X; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=MvyaOdTzR2RfmOH2Y1xg+GbN9ycP7gtGHp1O1XDk6rno/cRa0+jZgpLuRAxiVS/pR68cvnkiwUzLETS7QUqAsBwWowkzNDXz1+c0OegjzsFKsJ2/sc67ov5OVFXi5oGKg5s3sjPmmxZY76E3sYCJ9/ZcvMjeexXEfqwR88MUgqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DqjQfMT7; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JQ/X910X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DqjQfMT7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750269565; x=1781805565;
+  t=1750269621; x=1781805621;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=VsQ9mjiyc4dnTIlr6g4DfKjP8V0Y85rIOMAAUGcigOs=;
-  b=JQ/X910XcsAL1KSJ3KZQSO/u4W+jTqWZ30TXsI+zoEQZcxr6hkh+N5jy
-   7Soi5lgb494Ea5AY7jeEu+wWyXZQHLWO2ZlpKNXR88+wj1x/KCwZT60nF
-   5hndzq1pCMv50sPdr8yOdPKHPT3Ux3HDzYhKrcwG31JUzv8PcA7AOSFlb
-   9u5OwvgixAP1wv/jdVMB13cN2FiR31FwQLYFTcney4yMqWXB11i9xLQX3
-   lvY/SzdJ2jWoCs8zAj12EYbegIwisSfLdSmS/ZVoA5o7o/Nw6gJDZ3gjA
-   unPwJi7L1bSYyFJ1ovDM9eRL21tabH7BA+t3BN6kgb5G2yswbkTFyf/IC
-   w==;
-X-CSE-ConnectionGUID: fIs0P0zISpuQ1N22YyIYdw==
-X-CSE-MsgGUID: k+dN1HGkQhKfoa/wCzs2JQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="51734705"
+  bh=AY51LktMBALPiD923VjW1Ue6ct2aMtypau/sy83niBU=;
+  b=DqjQfMT7vOusTOD+zdkSjFdrizagXQIu5m+ulAlyw7YRwekuu59APX+D
+   rR8mIs65hKqpvLglahz4ZaQfPW2+6GOmTS5Uh68pWAownI6W+tYW2R7/o
+   7T1od48gIKAz5rGW1DYZpAkklIe2L3B70RxQKR9EZEhpP9uCIrhgyLq0t
+   cV162gM6XJmKWJSyqfJM7uydKafWDCZRT9l+RWsZva44e2zbyr11WuiPl
+   1EMwaR7RQyoUHcfvKlhgxabun0Y8ug35XqSiDIZD00dtf4KNuD7UctAAa
+   Psksj8+K9vTY79uLJB5ZByaVG8vXi3MOZx7M6TLL8IR249L5sRixAplt9
+   g==;
+X-CSE-ConnectionGUID: VkVM5wauRGCb3jZsk5BQRQ==
+X-CSE-MsgGUID: hm5mP43qSfyGkj2sgggNxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="51734831"
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="51734705"
+   d="scan'208";a="51734831"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 10:59:25 -0700
-X-CSE-ConnectionGUID: ulQXaGOQTyCSlh6Kla1M5w==
-X-CSE-MsgGUID: 4AskfPP0Rc6Mp7Knk70Z+g==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 11:00:20 -0700
+X-CSE-ConnectionGUID: kAiU2hH7TT2yv5Q4l9b6SA==
+X-CSE-MsgGUID: +jFpxS40T4azDAtAI3NIMg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="150654595"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 10:59:20 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1uRx48-00000007okJ-279d;
-	Wed, 18 Jun 2025 20:59:16 +0300
-Date: Wed, 18 Jun 2025 20:59:16 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, Marcelo Schmitt <marcelo.schmitt@analog.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-	lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Ana-Maria Cusco <ana-maria.cusco@analog.com>, jic23@kernel.org,
-	lars@metafoo.de, Michael.Hennerich@analog.com,
-	dlechner@baylibre.com, nuno.sa@analog.com, andy@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	linus.walleij@linaro.org, brgl@bgdev.pl, marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v5 02/11] iio: adc: Add basic support for AD4170
-Message-ID: <aFL-dLs5EQsde8Cq@smile.fi.intel.com>
-References: <48598c0753cccf515addbe85acba3f883ff8f036.1749582679.git.marcelo.schmitt@analog.com>
- <d6ae8122-ff38-4fca-8e02-f27c7ac2ccd8@suswa.mountain>
+   d="scan'208";a="150655742"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 18 Jun 2025 11:00:13 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uRx50-000K1m-2p;
+	Wed, 18 Jun 2025 18:00:10 +0000
+Date: Thu, 19 Jun 2025 01:59:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alex Hung <alex.hung@amd.com>, dri-devel@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	wayland-devel@lists.freedesktop.org, harry.wentland@amd.com,
+	alex.hung@amd.com, leo.liu@amd.com, ville.syrjala@linux.intel.com,
+	pekka.paalanen@collabora.com, contact@emersion.fr, mwen@igalia.com,
+	jadahl@redhat.com, sebastian.wick@redhat.com,
+	shashank.sharma@amd.com, agoins@nvidia.com, joshua@froggi.es,
+	mdaenzer@redhat.com, aleixpol@kde.org, xaver.hugl@gmail.com,
+	victoria@system76.com, daniel@ffwll.ch, uma.shankar@intel.com,
+	quic_naseer@quicinc.com, quic_cbraga@quicinc.com,
+	quic_abhinavk@quicinc.com, marcan@marcan.st, Liviu.Dudau@arm.com,
+	sashamcintosh@google.com, chaitanya.kumar.borah@intel.com,
+	louis.chauvet@bootlin.com, arthurgrillo@riseup.net
+Subject: Re: [PATCH V10 15/46] drm/vkms: Add kunit tests for linear and sRGB
+ LUTs
+Message-ID: <202506190132.r51ujYGM-lkp@intel.com>
+References: <20250617041746.2884343-16-alex.hung@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,77 +75,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <d6ae8122-ff38-4fca-8e02-f27c7ac2ccd8@suswa.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20250617041746.2884343-16-alex.hung@amd.com>
 
-On Wed, Jun 18, 2025 at 08:37:53PM +0300, Dan Carpenter wrote:
-> Hi Marcelo,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/dt-bindings-iio-adc-Add-AD4170/20250611-101842
-> base:   4c6073fec2fee4827fa0dd8a4ab4e6f7bbc05ee6
-> patch link:    https://lore.kernel.org/r/48598c0753cccf515addbe85acba3f883ff8f036.1749582679.git.marcelo.schmitt%40analog.com
-> patch subject: [PATCH v5 02/11] iio: adc: Add basic support for AD4170
-> config: powerpc-randconfig-r072-20250613 (https://download.01.org/0day-ci/archive/20250614/202506140009.GdV0BtKr-lkp@intel.com/config)
-> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202506140009.GdV0BtKr-lkp@intel.com/
-> 
-> smatch warnings:
-> drivers/iio/adc/ad4170.c:1181 ad4170_parse_adc_channel_type() warn: passing zero to 'dev_err_probe'
-> 
-> vim +/dev_err_probe +1181 drivers/iio/adc/ad4170.c
-> 
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1170  static int ad4170_parse_adc_channel_type(struct device *dev,
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1171  					 struct fwnode_handle *child,
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1172  					 struct iio_chan_spec *chan)
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1173  {
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1174  	int ret, ret2;
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1175  	u32 pins[2];
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1176  
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1177  	/* Parse pseudo-differential channel configuration */
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1178  	ret = fwnode_property_read_u32(child, "single-channel", &pins[0]);
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1179  	ret2 = fwnode_property_read_u32(child, "common-mode-channel", &pins[1]);
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1180  	if (!ret && ret2)
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10 @1181  		return dev_err_probe(dev, ret,
->                                                                                           ^^^
-> ret is zero, so this returns success.  s/ret/ret2/.
-> 
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1182  			"single-ended channels must define common-mode-channel\n");
+Hi Alex,
 
-Instead of ret and ret2 this code should be refactored to use
-_preperty_present() beforehands and return an error to the caller if it's
-present but failed to be read or not optional at all.
+kernel test robot noticed the following build errors:
 
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1184  	if (!ret && !ret2) {
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1185  		chan->differential = false;
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1186  		chan->channel = pins[0];
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1187  		chan->channel2 = pins[1];
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1188  		return 0;
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1189  	}
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1190  	/* Failed to parse pseudo-diff chan props so try diff chan */
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1191  
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1192  	/* Parse differential channel configuration */
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1193  	ret = fwnode_property_read_u32_array(child, "diff-channels", pins,
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1194  					     ARRAY_SIZE(pins));
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1195  	if (!ret) {
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1196  		chan->differential = true;
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1197  		chan->channel = pins[0];
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1198  		chan->channel2 = pins[1];
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1199  		return 0;
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1200  	}
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1201  	return dev_err_probe(dev, ret,
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1202  		"Channel must define one of diff-channels or single-channel.\n");
-> dfefd2b2405829 Ana-Maria Cusco 2025-06-10  1203  }
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.16-rc2]
+[cannot apply to drm-exynos/exynos-drm-next drm/drm-next drm-misc/drm-misc-next next-20250618]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Hung/drm-Add-helper-for-conversion-from-signed-magnitude/20250617-123027
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250617041746.2884343-16-alex.hung%40amd.com
+patch subject: [PATCH V10 15/46] drm/vkms: Add kunit tests for linear and sRGB LUTs
+config: riscv-randconfig-001-20250618 (https://download.01.org/0day-ci/archive/20250619/202506190132.r51ujYGM-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506190132.r51ujYGM-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506190132.r51ujYGM-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: "srgb_eotf" [drivers/gpu/drm/vkms/tests/vkms_color_test.ko] undefined!
+>> ERROR: modpost: "srgb_inv_eotf" [drivers/gpu/drm/vkms/tests/vkms_color_test.ko] undefined!
+>> ERROR: modpost: "linear_eotf" [drivers/gpu/drm/vkms/tests/vkms_color_test.ko] undefined!
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
