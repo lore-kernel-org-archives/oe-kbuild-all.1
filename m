@@ -1,121 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343D74C9D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 13:04:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8022BD5AF
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 13:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750251890; cv=none; b=KlgbeGSc62AE0IXjvm6+CgGqicwjqIng0Il2wRqP4sp/iujTL5M3fiWavBDWquA46Ryiq04NB3haOPm9Hmbtx3TPcWwCn77xTKif5UyGeru2NmiaYioIFvcfBjxhmS3o3ogUH63XWJOMMg4bQYcsYss9OouwcW3geJ+wP/HGPY0=
+	t=1750252549; cv=none; b=ABN8Ad9mmd5cVL0SHJZz1h6cXuXtAZ9Yz7KNFzcXNhrDAQ1yL/vuFUdPFIQseC1cubN4mlkEuMOcpOH4+8T6HKdQuYqRHDSYQJKe9NCMpNU1DpBRzLF0kL/EqUx4+eBJtItexriY6a0D5FePqgKWSGl2Nenhxxl4UeImUqfAmco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750251890; c=relaxed/simple;
-	bh=/tCzdXt+ockM6LlaMEgh7Zi7SPYptgyb1ZQQMfoYVN4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GYGPOFCKTCBZ7+2jFthNzhkoiyj/lKbKZVfBLZ/yM/tq69wHpF5uay3z4V7OQXXLuCkjP+NAIwZ0ollrfVCEzfSP+X1I5DRcrYmzsVskzUOuylYYhWdEilyW7+sXDtncvUEYG4H7gCyRrHWC5ow/BfP2kyPL65wiZjjlNTgl88E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Md8qN3R1; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1750252549; c=relaxed/simple;
+	bh=WJdOCijhkvkx4oHVHT1e3LlSb3z3MSzF3vjg5pxUkYQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ttKcl+zTOrFQgRPseS+Eorvo4gCekWTdevk1mDZxD/5KXT5xqTQMj8/L+BPvWKbCdiZRMvOOEHISJ/QNdm2NM8y/rGwaRrmDIBM40Al9UWoASIrZdCoayjk5ehCQ9HSV/MR0NEJw1NveXPow+M/kBe08ayC3VyYLbrdYDGK2t1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ijMTFb/I; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Md8qN3R1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ijMTFb/I"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750251889; x=1781787889;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=/tCzdXt+ockM6LlaMEgh7Zi7SPYptgyb1ZQQMfoYVN4=;
-  b=Md8qN3R1Nsf6Ubr9WHEmKHZNZw8QgpE5uVRxWzrHQv0V62/sGJ7m4QZ1
-   2NyHvMFQCMwhdfl3Al2uGSYo0iFTuU5Z1Jy/oKCVR7GC0GvZYKrsPDSDY
-   drxG4semjO626yFPbzH5hP4gKgEmQ63TaKKs6agz8L60v2o/I+3AGFmyh
-   Ztas5lsufYOlJR1YkE+KpGe/h+cZ9+rZdtOiujoXHkxk99TrjHDxi/wgM
-   gjUiKaceWiszSz4cJLEjggfjqBuoTm2M9QPwF00w2/G3AmsPo07I6YzI1
-   bFruV9oaHWRSSStWDZc5FSRqclNEWh+IhY/BO2C3sLywMZWWLgNjXNz8V
+  t=1750252548; x=1781788548;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WJdOCijhkvkx4oHVHT1e3LlSb3z3MSzF3vjg5pxUkYQ=;
+  b=ijMTFb/IoFa2ijtowN4uEYH7v5VDRcJ4H7IFyWLn3YupFlB0cfCYmbJS
+   a+k290PxM9rs/pmqppLLBb5CoFGhlH9nuZoYJb0pxhGdBsO2dsr7bRRvW
+   ZbkB4uFkuLG3Ve2iavjTWd5q4Rba/+IPvGagmCzxOArTAexAsyNFtVKji
+   OqvsfnFaAPlXWIUOBHe8se006bMWe+sisoF4+2v0bxZAsBrEtz5o251Fx
+   TD//6QDS8vvto8H0gJzWlE5tBX+cQlA+9ym+Z78/ag6Ete9bAwX2r74jO
+   nu5Csc3yZktlNBi0bq2hVTfuLM9HylQjdnGNhjVy1cSzeICTq62rWM2l9
    Q==;
-X-CSE-ConnectionGUID: HyxN4gZhR3G3NEX8CYZQYg==
-X-CSE-MsgGUID: WJNtilYmR2mYBYr6ZuMJDQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52554862"
+X-CSE-ConnectionGUID: 4JjNgq04QmWi+bYUKmItow==
+X-CSE-MsgGUID: 6qRieXOySHOXpfLDgm+FTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52388883"
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="52554862"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 06:04:48 -0700
-X-CSE-ConnectionGUID: kxWTrLjFSFierB10b+exMQ==
-X-CSE-MsgGUID: DRv0dJ4vTUipwe25GWQOqw==
+   d="scan'208";a="52388883"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 06:15:47 -0700
+X-CSE-ConnectionGUID: Xm4NsnH1RjO+E5djp+/fFA==
+X-CSE-MsgGUID: DAfmhsGlTzCb2Qwsy/T1uA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="173094405"
+   d="scan'208";a="149357176"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 18 Jun 2025 06:04:44 -0700
+  by orviesa006.jf.intel.com with ESMTP; 18 Jun 2025 06:15:46 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRsT4-000Jna-28;
-	Wed, 18 Jun 2025 13:04:42 +0000
-Date: Wed, 18 Jun 2025 21:04:26 +0800
+	id 1uRsdj-000Jo0-2E;
+	Wed, 18 Jun 2025 13:15:43 +0000
+Date: Wed, 18 Jun 2025 21:14:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Richard Leitner <richard.leitner@linux.dev>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org,
-	Richard Leitner <richard.leitner@linux.dev>
-Subject: Re: [PATCH v5 09/10] media: i2c: ov9282: implement try_ctrl for
- strobe_duration
-Message-ID: <202506182043.reVJKofN-lkp@intel.com>
-References: <20250617-ov9282-flash-strobe-v5-9-9762da74d065@linux.dev>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 4/4]
+ arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:24:1: sparse: sparse: symbol
+ '__pcpu_scope___cur_context' was not declared. Should it be static?
+Message-ID: <202506182117.vWC49e3E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250617-ov9282-flash-strobe-v5-9-9762da74d065@linux.dev>
 
-Hi Richard,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on d9946fe286439c2aeaa7953b8c316efe5b83d515]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Richard-Leitner/media-v4l-ctrls-add-a-control-for-flash-strobe-duration/20250617-153657
-base:   d9946fe286439c2aeaa7953b8c316efe5b83d515
-patch link:    https://lore.kernel.org/r/20250617-ov9282-flash-strobe-v5-9-9762da74d065%40linux.dev
-patch subject: [PATCH v5 09/10] media: i2c: ov9282: implement try_ctrl for strobe_duration
-config: i386-randconfig-051-20250618 (https://download.01.org/0day-ci/archive/20250618/202506182043.reVJKofN-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506182043.reVJKofN-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   de302629fac9207afcc2ab5feecc614c8badd5e5
+commit: 76e0641e684e84368e03c2176e5844feb95f3abf [4/4] ANDROID: KVM: arm64: iommu: Add context for guest teardown
+config: arm64-randconfig-r122-20250618 (https://download.01.org/0day-ci/archive/20250618/202506182117.vWC49e3E-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250618/202506182117.vWC49e3E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506182043.reVJKofN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506182117.vWC49e3E-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:24:1: sparse: sparse: symbol '__pcpu_scope___cur_context' was not declared. Should it be static?
+   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:81:22: sparse: sparse: symbol '__get_vcpu' was not declared. Should it be static?
+   arch/arm64/kvm/hyp/nvhe/iommu/iommu.c:209:21: sparse: sparse: Using plain integer as NULL pointer
 
-   ld: drivers/media/i2c/ov9282.o: in function `ov9282_flash_duration_to_us':
->> drivers/media/i2c/ov9282.c:722: undefined reference to `__udivdi3'
->> ld: drivers/media/i2c/ov9282.c:722: undefined reference to `__udivdi3'
+vim +/__pcpu_scope___cur_context +24 arch/arm64/kvm/hyp/nvhe/iommu/iommu.c
 
-
-vim +722 drivers/media/i2c/ov9282.c
-
-   711	
-   712	static u32 ov9282_flash_duration_to_us(struct ov9282 *ov9282, u32 value)
-   713	{
-   714		/*
-   715		 * As the calculation in ov9282_us_to_flash_duration uses an integer
-   716		 * divison calculate in ns here to get more precision. Then check if
-   717		 * we need to compensate that divison by incrementing the µs result.
-   718		 */
-   719		u32 frame_width = ov9282->cur_mode->width + ov9282->hblank_ctrl->val;
-   720		u64 ns = value * 1000 * frame_width / OV9282_STROBE_SPAN_FACTOR;
-   721	
- > 722		return DIV_ROUND_UP(ns, 1000);
-   723	}
-   724	
+    18	
+    19	/* Only one set of ops supported, similary to the kernel */
+  > 20	struct kvm_iommu_ops *kvm_iommu_ops;
+    21	void **kvm_hyp_iommu_domains;
+    22	
+    23	/* Hypervisor is non-preemptable, so cur_context can be per cpu. */
+  > 24	DEFINE_PER_CPU(struct pkvm_hyp_vcpu *, __cur_context);
+    25	#define cur_context (*this_cpu_ptr(&__cur_context))
+    26	
 
 -- 
 0-DAY CI Kernel Test Service
