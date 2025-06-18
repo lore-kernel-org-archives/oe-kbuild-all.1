@@ -1,178 +1,178 @@
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+Received: from mail-oo1-f46.google.com (mail-oo1-f46.google.com [209.85.161.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40BCA2FE36B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 17:42:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37582F49E5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 17:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750268542; cv=none; b=jeuhwb0GTAgaSghYi5I+xiHI4JUk6OtO6XpxVu7gw0eiKu6orPsKBL0PYnhc5IQLXurRGaZgHpmA2C3n9Lga+FRaepC+ZX1PNRKVidReSYasZ4iMlmzaaf8PxdwrhperietUulEG7m+QAUVEf08qwtQdZLbOZZFalw8+gvLIl0E=
+	t=1750268610; cv=none; b=qNKULiL49MDP8RwH8L1sBIdKvqYh8fYrJugyGAeuJXUO5K+jHdLsM9S+A2D47zOhaSZdvOFGDExXkt9fS0LpMvQEiLtOdYGGAkq0pKYYMj39vS3BPoigINvFRYyd+HLGe6dihZlo80yGTNkiUEuxwrxgmzpOJh7nBsBH2iwDRpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750268542; c=relaxed/simple;
-	bh=k+WSJqnoiVN0IJh+lIlYBCAtA1ykxdGAezbG8ofc+08=;
+	s=arc-20240116; t=1750268610; c=relaxed/simple;
+	bh=iR0oVXfz7Iow4fJX6WtwuDZi5nG3RYfFBpjZGL9zp5w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MTMeutjO53krYPLR39wkhmMoC0IJDcL73kjADveBXx99xsyzF0ZvI3VhDbuArphTQ38k8kosXijqL4OjQ9Q861MXi5c4HYPWZUqAkrdRGRIB0WxB6+1se4tMeNU8lUAPJ8yR7TbqEwA/i8jONRE/Ogf9MyPP9/DLyi3JM7C7hRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=hQ/Rz70D; arc=none smtp.client-ip=209.85.210.48
+	 Content-Disposition:In-Reply-To; b=UNihqG1mph4xrk74mjW9QYwC0vmFl1dbry6Di5hJEYJWDG44SNNWCqa9VkDyD2OUtkjuOJKBenx5EX3ItuM5QzaylM4iwFsKfEpNH2WlHQsIM67SpxJKDNBp0xCaEb9s+XAgtiNeHIL01A9f8qDt//gOO5u1757PH1lx+wi8fsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=W0cq1U6E; arc=none smtp.client-ip=209.85.161.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="hQ/Rz70D"
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-72c172f1de1so4916729a34.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 10:42:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="W0cq1U6E"
+Received: by mail-oo1-f46.google.com with SMTP id 006d021491bc7-60efc773b5fso3886101eaf.3
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 10:43:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750268539; x=1750873339; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ALQlJ1RqfpncfV715L7OdUSgYhmYfcG/SeD8Mhl1jzk=;
-        b=hQ/Rz70D3Xivntqbx4hspcH21RFgj/yLOuMimptp/en2XkzYwVz/19QSaA2mW0CBla
-         9IFEFqzB+WHIwPlvCvgsr9lX/TpVMGOttxL8wB3+SHpIPvzXJL3vKxQPjtARnVAq8p2X
-         4D1FUOWHI/AipWReTd5jtNQH5ZDJ1+L2iYX+Ur7Oox8/zWtc+uPIj8HWcsnGOZQ3WS+0
-         W06hpd6HnV2EEygjd037fPChMyk2CJjvObpSFCL0XmqIcoHs8Gwh4sQkC524LN84QJS6
-         6bSYZMzQrvgiMSYJ4xK9EYkhINNRPKJSPdSKs+YNfdkc5/4GfNTc6HsaI5mDpykYpJxW
-         NMWQ==
+        d=linaro.org; s=google; t=1750268608; x=1750873408; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=vNQd+s4c7fZ/c1u+NR4VFA1VDON+kx4gKdQrhwnx4oE=;
+        b=W0cq1U6ENFhfXCesYMABCegB0Q9rhSnFNMXTtKm3Hn+eB2knbtT5ppzYUWEr8TJ3tM
+         pT2vWjifoPcimUGC9Xi66HrfQ6MsYBzonm3Bw+3NI/Kk1XiCuZz0M1qbgC7DKDKJDWuZ
+         6cgOc4c61sN6ZPcxT3FtgcGq2JcXqZVr9MW+nhlFoF/kOiSdtvqR0OGNo5F3AaRtixt6
+         xfaXD90wP0XJAEi0W8Vc6DlcFIK4T0Mbaln+oGOqvJFLAncSSOMUBI2UWa5qyrcB+tTL
+         l27OUbDEPH8Otn72ECW9R42xV3pcE1k56/NC+eTNwEQb57sSpZbJm9YGlm0dAto7EG9O
+         zY5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750268539; x=1750873339;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ALQlJ1RqfpncfV715L7OdUSgYhmYfcG/SeD8Mhl1jzk=;
-        b=hDzWlwr7OGfOht+mzd59kO+Ok2EBvjBoBBXdJJbQBZ/0nRpJy92dWdAQ8TMVqlyXRx
-         BB/lA06GEpkEWAJ61kVDoqnm3y1t3zUFElNMrsP3x61kxun8CktbXTHmd00ngG703uWo
-         BhFObyGTitzcrFnJHXRA846mLzxJK8P79k96y8I5KENjfhKg4mUTLDbPeDK3tXxAsoV+
-         Bgo5K3F626kQ3MkQjNNVcAtuA2rHafWV4ABlKFBRnquH3tV9iZa8dEf3n2ObMm22wDEk
-         jBRgi+I/irwLhuT9Ym4l8gyKdt4IpB+3oIDkDHj1kpFck0caJy7PNBQ1FoU4JNuZxwbq
-         AmDg==
-X-Forwarded-Encrypted: i=1; AJvYcCWX+gLgyNNC0Gcc8rKV5+Nk9uL0/lQ8nhSt7+kOz/ynOq4iYcju8TQOLYs7He8mTsrl5zduhLBBUC32x6Mk@lists.linux.dev
-X-Gm-Message-State: AOJu0Yypl9ekmC8pnaG8mZ2LWrasBI629pQ4mnFO2E2DI+BDc4cvulw8
-	2a/7uY5y+egx6CbzgsJnErCCnn7sb8+YBC2i5o3JsQIwbYDVruj5J4WQLWXym7zvzp2SWAnBWF0
-	uwrXW
-X-Gm-Gg: ASbGncvOxE0ad5U6L3aSi9cS0OINSJ5zuMUpVZA9Kk9jP4Fh2uHPK0FqeTblInxeib4
-	NGqlba/kmcD8SLOoIRFwO6G+tybURuF5bRjFohLLAnj6iEQgI6aaMhNogSt3l8Z0ghkkt4Qwg+b
-	cYDtn+r3DLx6SKzIdlWRq3/CrfglTx1vUWLQcC/f2tbu5UGurObFEfYdJC6YFnkdJVjf4YV02Pf
-	9JdBcAk5chXXyUc7AVPSNken+fSm5Qa5eyjjhn3AMfLdc99CX3NzcQutoL4Ud/kyQgx0X7nD0zd
-	gdduK5vWJOzYRq5bxJ9vCydHnDzrrhiljFjUVFmbSh/wbQITuR6ixIqobOGY3oJPpd7aQQ==
-X-Google-Smtp-Source: AGHT+IFFFmB4u98R4eAo2rUrAWhzhlCaoI+JO8SWCcz50Wh9AA3SCYViXrulit3sJ5S4KHyxDHKWTw==
-X-Received: by 2002:a05:6830:8218:b0:72c:10d5:783e with SMTP id 46e09a7af769-73a3627941cmr9790083a34.10.1750268539221;
-        Wed, 18 Jun 2025 10:42:19 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750268608; x=1750873408;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vNQd+s4c7fZ/c1u+NR4VFA1VDON+kx4gKdQrhwnx4oE=;
+        b=URDhGZJH29GWksOAZCCIZPrYu7+/2Zdq/zR3xLpfIxBLj/xfVlAGxKogj8+OrOY9EC
+         hFZayegqTD82W/nswlI8yO9KFBQ/Rrzgk10nvowIZC71OGrGFPi+Pedo9gWYPJ08lI+U
+         quqkmnsAHu23Hb3LHcaGpYDGECww1mqG6Ae6iRfCMIsTYWegPfoUzP+ApgDAKx7vHYfM
+         if5iOVRIW6fcJe6Zk4Lir4pZWbqz33v+71PqZ2HnKiYMel8hyh9HiowrQ0Qy454bpr0a
+         dUolNMAPqVhvjHi+TaM5wBYyt4sHGWQQSQACcpLMG117R8Bl+X4XRRD08rIh5so3hB6+
+         uSVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUnOKjyeaEnbszCSQ/m51D/V4wdOyMAS0OOV3hF5xMOkJOJw0XqoYc8aYU3ZNDc5Spj2iZz+lTPHkLQWhAc@lists.linux.dev
+X-Gm-Message-State: AOJu0YwgZeRk+l5NjbqtDTsrCOKYHAM/iUu89z2xVJ4HgyY3XCTEcNtO
+	567uyhqjIndICoiKt7zyWYqZiY5XgV+9g41HIJ40Bt/MVoqcUMc9oCjQHVxG9nAP0ho=
+X-Gm-Gg: ASbGncv+1TNNrI0LVtgsjeFPfx/6MCU9i0UEZG3J6kpp0C3VLZGgXVl/y6+uvI3fTsH
+	2Cfb4Leifw9jUfldfip1f0OJPdNkdjCY6dLxzUp0C1d8BSGZ01JmoAo0sCrkJD2dTd29HaMrcQ2
+	39JiisW0Pa9nO0ZEzr7N06ep9HJ6mf/sXtMQ2yvW+xCa6S7a6dmpGOCVX/d9yqRWsjs4xFFgy5A
+	scNtAvRflkfOvmcale+69/PifLrCd0vNMNvhf9FgBLJhnr4mv4lxDiLQ2j1PT4BkMsMRFVo3YsP
+	st2/S1fufytiPyP4kwOv+R9xVzNd394YWldoaGC4GVlofIOoB1hNanXH/l6Yj0WLItAtvQ==
+X-Google-Smtp-Source: AGHT+IGs9y4YrLtKzq6Kz0kcquCWy6Yh0zVB81lvYnZESWbuJcIsS2VOc4LPbw1BHhsB9ZG3W8MT8A==
+X-Received: by 2002:a05:6820:627:b0:60b:cd81:9079 with SMTP id 006d021491bc7-61110f10f38mr10142367eaf.5.1750268607871;
+        Wed, 18 Jun 2025 10:43:27 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:1b3b:c162:aefa:da1b])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a284febb6sm2055391a34.37.2025.06.18.10.42.18
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-61108ebd993sm1496207eaf.21.2025.06.18.10.43.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 10:42:18 -0700 (PDT)
-Date: Wed, 18 Jun 2025 20:42:17 +0300
+        Wed, 18 Jun 2025 10:43:27 -0700 (PDT)
+Date: Wed, 18 Jun 2025 20:43:25 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Zi Yan <ziy@nvidia.com>
+To: oe-kbuild@lists.linux.dev,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>
-Subject: mm/shmem.c:2223 shmem_split_large_entry() error: uninitialized
- symbol 'entry_order'.
-Message-ID: <428fa0fe-8960-4566-9054-5bfd967c18c8@suswa.mountain>
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	dri-devel@lists.freedesktop.org, airlied@gmail.com,
+	Matthew Brost <matthew.brost@intel.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Subject: Re: [PATCH 3/3] drm/ttm, drm_xe, Implement ttm_lru_walk_for_evict()
+ using the guarded LRU iteration
+Message-ID: <4c7a6891-3925-428d-8df8-6576abd63eb3@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250613151824.178650-4-thomas.hellstrom@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4774cfe3543abb8ee98089f535e28ebfd45b975a
-commit: d53c78fffe7ad364397c693522ceb4d152c2aacd mm/shmem: use xas_try_split() in shmem_split_large_entry()
-config: x86_64-randconfig-161-20250614 (https://download.01.org/0day-ci/archive/20250614/202506141535.tjdnCMqW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+Hi Thomas,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Hellstr-m/drm-ttm-Use-a-struct-for-the-common-part-of-struct-ttm_lru_walk-and-struct-ttm_bo_lru_cursor/20250613-232106
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250613151824.178650-4-thomas.hellstrom%40linux.intel.com
+patch subject: [PATCH 3/3] drm/ttm, drm_xe, Implement ttm_lru_walk_for_evict() using the guarded LRU iteration
+config: i386-randconfig-141-20250614 (https://download.01.org/0day-ci/archive/20250614/202506141727.FtEuY8xN-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506141535.tjdnCMqW-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202506141727.FtEuY8xN-lkp@intel.com/
 
 smatch warnings:
-mm/shmem.c:2223 shmem_split_large_entry() error: uninitialized symbol 'entry_order'.
+drivers/gpu/drm/ttm/ttm_bo_util.c:975 __ttm_bo_lru_cursor_next() error: uninitialized symbol 'ret'.
 
-vim +/entry_order +2223 mm/shmem.c
+vim +/ret +975 drivers/gpu/drm/ttm/ttm_bo_util.c
 
-12885cbe88ddf6 Baolin Wang 2024-08-12  2151  static int shmem_split_large_entry(struct inode *inode, pgoff_t index,
-12885cbe88ddf6 Baolin Wang 2024-08-12  2152  				   swp_entry_t swap, gfp_t gfp)
-12885cbe88ddf6 Baolin Wang 2024-08-12  2153  {
-12885cbe88ddf6 Baolin Wang 2024-08-12  2154  	struct address_space *mapping = inode->i_mapping;
-12885cbe88ddf6 Baolin Wang 2024-08-12  2155  	XA_STATE_ORDER(xas, &mapping->i_pages, index, 0);
-d53c78fffe7ad3 Zi Yan      2025-03-14  2156  	int split_order = 0, entry_order;
-d53c78fffe7ad3 Zi Yan      2025-03-14  2157  	int i;
-12885cbe88ddf6 Baolin Wang 2024-08-12  2158  
-12885cbe88ddf6 Baolin Wang 2024-08-12  2159  	/* Convert user data gfp flags to xarray node gfp flags */
-12885cbe88ddf6 Baolin Wang 2024-08-12  2160  	gfp &= GFP_RECLAIM_MASK;
-12885cbe88ddf6 Baolin Wang 2024-08-12  2161  
-12885cbe88ddf6 Baolin Wang 2024-08-12  2162  	for (;;) {
-12885cbe88ddf6 Baolin Wang 2024-08-12  2163  		void *old = NULL;
-d53c78fffe7ad3 Zi Yan      2025-03-14  2164  		int cur_order;
-d53c78fffe7ad3 Zi Yan      2025-03-14  2165  		pgoff_t swap_index;
-12885cbe88ddf6 Baolin Wang 2024-08-12  2166  
-12885cbe88ddf6 Baolin Wang 2024-08-12  2167  		xas_lock_irq(&xas);
-12885cbe88ddf6 Baolin Wang 2024-08-12  2168  		old = xas_load(&xas);
-12885cbe88ddf6 Baolin Wang 2024-08-12  2169  		if (!xa_is_value(old) || swp_to_radix_entry(swap) != old) {
-12885cbe88ddf6 Baolin Wang 2024-08-12  2170  			xas_set_err(&xas, -EEXIST);
-12885cbe88ddf6 Baolin Wang 2024-08-12  2171  			goto unlock;
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  927  static struct ttm_buffer_object *
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  928  __ttm_bo_lru_cursor_next(struct ttm_bo_lru_cursor *curs, bool first)
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  929  {
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  930  	spinlock_t *lru_lock = &curs->res_curs.man->bdev->lru_lock;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  931  	struct ttm_resource *res = NULL;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  932  	struct ttm_buffer_object *bo;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  933  	struct ttm_lru_walk_arg *arg = curs->arg;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  934  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  935  	ttm_bo_lru_cursor_cleanup_bo(curs);
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  936  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  937  	spin_lock(lru_lock);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  938  	for (;;) {
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  939  		int mem_type, ret;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  940  		bool bo_locked = false;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  941  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  942  		if (first) {
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  943  			res = ttm_resource_manager_first(&curs->res_curs);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  944  			first = false;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  945  		} else {
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  946  			res = ttm_resource_manager_next(&curs->res_curs);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  947  		}
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  948  		if (!res)
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  949  			break;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  950  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  951  		bo = res->bo;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  952  		if (ttm_lru_walk_trylock(arg, bo, &curs->needs_unlock))
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  953  			bo_locked = true;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  954  		else if (!arg->ticket || arg->ctx->no_wait_gpu || arg->trylock_only)
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  955  			continue;
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  956  
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  957  		if (!ttm_bo_get_unless_zero(bo)) {
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  958  			if (curs->needs_unlock)
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  959  				dma_resv_unlock(bo->base.resv);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  960  			continue;
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  961  		}
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  962  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  963  		mem_type = res->mem_type;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  964  		spin_unlock(lru_lock);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  965  		if (!bo_locked)
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  966  			ret = ttm_lru_walk_ticketlock(arg, bo, &curs->needs_unlock);
 
-Imagine we hit this goto on the first iteration
+ret is uninitialized on else path
 
-12885cbe88ddf6 Baolin Wang 2024-08-12  2172  		}
-12885cbe88ddf6 Baolin Wang 2024-08-12  2173  
-d53c78fffe7ad3 Zi Yan      2025-03-14  2174  		entry_order = xas_get_order(&xas);
-12885cbe88ddf6 Baolin Wang 2024-08-12  2175  
-d53c78fffe7ad3 Zi Yan      2025-03-14  2176  		if (!entry_order)
-d53c78fffe7ad3 Zi Yan      2025-03-14  2177  			goto unlock;
-12885cbe88ddf6 Baolin Wang 2024-08-12  2178  
-12885cbe88ddf6 Baolin Wang 2024-08-12  2179  		/* Try to split large swap entry in pagecache */
-d53c78fffe7ad3 Zi Yan      2025-03-14  2180  		cur_order = entry_order;
-d53c78fffe7ad3 Zi Yan      2025-03-14  2181  		swap_index = round_down(index, 1 << entry_order);
-d53c78fffe7ad3 Zi Yan      2025-03-14  2182  
-d53c78fffe7ad3 Zi Yan      2025-03-14  2183  		split_order = xas_try_split_min_order(cur_order);
-d53c78fffe7ad3 Zi Yan      2025-03-14  2184  
-d53c78fffe7ad3 Zi Yan      2025-03-14  2185  		while (cur_order > 0) {
-d53c78fffe7ad3 Zi Yan      2025-03-14  2186  			pgoff_t aligned_index =
-d53c78fffe7ad3 Zi Yan      2025-03-14  2187  				round_down(index, 1 << cur_order);
-d53c78fffe7ad3 Zi Yan      2025-03-14  2188  			pgoff_t swap_offset = aligned_index - swap_index;
-d53c78fffe7ad3 Zi Yan      2025-03-14  2189  
-d53c78fffe7ad3 Zi Yan      2025-03-14  2190  			xas_set_order(&xas, index, split_order);
-d53c78fffe7ad3 Zi Yan      2025-03-14  2191  			xas_try_split(&xas, old, cur_order);
-d53c78fffe7ad3 Zi Yan      2025-03-14  2192  			if (xas_error(&xas))
-12885cbe88ddf6 Baolin Wang 2024-08-12  2193  				goto unlock;
-12885cbe88ddf6 Baolin Wang 2024-08-12  2194  
-12885cbe88ddf6 Baolin Wang 2024-08-12  2195  			/*
-12885cbe88ddf6 Baolin Wang 2024-08-12  2196  			 * Re-set the swap entry after splitting, and the swap
-12885cbe88ddf6 Baolin Wang 2024-08-12  2197  			 * offset of the original large entry must be continuous.
-12885cbe88ddf6 Baolin Wang 2024-08-12  2198  			 */
-d53c78fffe7ad3 Zi Yan      2025-03-14  2199  			for (i = 0; i < 1 << cur_order;
-d53c78fffe7ad3 Zi Yan      2025-03-14  2200  			     i += (1 << split_order)) {
-12885cbe88ddf6 Baolin Wang 2024-08-12  2201  				swp_entry_t tmp;
-12885cbe88ddf6 Baolin Wang 2024-08-12  2202  
-d53c78fffe7ad3 Zi Yan      2025-03-14  2203  				tmp = swp_entry(swp_type(swap),
-d53c78fffe7ad3 Zi Yan      2025-03-14  2204  						swp_offset(swap) + swap_offset +
-d53c78fffe7ad3 Zi Yan      2025-03-14  2205  							i);
-12885cbe88ddf6 Baolin Wang 2024-08-12  2206  				__xa_store(&mapping->i_pages, aligned_index + i,
-12885cbe88ddf6 Baolin Wang 2024-08-12  2207  					   swp_to_radix_entry(tmp), 0);
-12885cbe88ddf6 Baolin Wang 2024-08-12  2208  			}
-d53c78fffe7ad3 Zi Yan      2025-03-14  2209  			cur_order = split_order;
-d53c78fffe7ad3 Zi Yan      2025-03-14  2210  			split_order = xas_try_split_min_order(split_order);
-12885cbe88ddf6 Baolin Wang 2024-08-12  2211  		}
-12885cbe88ddf6 Baolin Wang 2024-08-12  2212  
-12885cbe88ddf6 Baolin Wang 2024-08-12  2213  unlock:
-12885cbe88ddf6 Baolin Wang 2024-08-12  2214  		xas_unlock_irq(&xas);
-12885cbe88ddf6 Baolin Wang 2024-08-12  2215  
-12885cbe88ddf6 Baolin Wang 2024-08-12  2216  		if (!xas_nomem(&xas, gfp))
-12885cbe88ddf6 Baolin Wang 2024-08-12  2217  			break;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  967  		/*
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  968  		 * Note that in between the release of the lru lock and the
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  969  		 * ticketlock, the bo may have switched resource,
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  970  		 * and also memory type, since the resource may have been
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  971  		 * freed and allocated again with a different memory type.
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  972  		 * In that case, just skip it.
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  973  		 */
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  974  		curs->bo = bo;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13 @975  		if (!ret && bo->resource && bo->resource->mem_type == mem_type)
+                                                                    ^^^^
+warning
 
-And we hit this break.
-
-12885cbe88ddf6 Baolin Wang 2024-08-12  2218  	}
-12885cbe88ddf6 Baolin Wang 2024-08-12  2219  
-12885cbe88ddf6 Baolin Wang 2024-08-12  2220  	if (xas_error(&xas))
-12885cbe88ddf6 Baolin Wang 2024-08-12  2221  		return xas_error(&xas);
-12885cbe88ddf6 Baolin Wang 2024-08-12  2222  
-d53c78fffe7ad3 Zi Yan      2025-03-14 @2223  	return entry_order;
-6cec2b95dadf77 Miaohe Lin  2022-05-19  2224  }
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  976  			return bo;
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  977  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  978  		ttm_bo_lru_cursor_cleanup_bo(curs);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  979  		if (ret)
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  980  			return ERR_PTR(ret);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  981  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  982  		spin_lock(lru_lock);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  983  	}
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  984  
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  985  	spin_unlock(lru_lock);
+a9654c8f32d9f4 Thomas Hellström 2025-06-13  986  	return res ? bo : NULL;
+f3bcfd04a52fb1 Thomas Hellström 2025-03-05  987  }
 
 -- 
 0-DAY CI Kernel Test Service
