@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A14181AA1F4;
-	Wed, 18 Jun 2025 04:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35301D7E31
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 04:31:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750220522; cv=none; b=Sbxc5DowDpA1SLD3fbnyFb3e03u9PZwVFjnlOCDAfF2uIZUZJAzTArKQtKPndYpaRTVcnF9x8lK+xQZQys2eeXQ9BP/BX2TXgoSfu22xT8zQHpqV/8rAKQBrffml83T5EqnjHrXVxIQTZbkngNKx6pgFfx7HmW7gOaK6CO7+VMs=
+	t=1750221120; cv=none; b=MvZ3bcAnc9z6QpXY/Grb86jK/x408HT5ooopoUFmBfi1AOaA/LAMB40USdrwi+vyJ3sr7RInF8B/w/ugmiEAo3GgsFYvfG8cdBA5ZxELnKHQ4WE6UZpsv6vlKBfpgddn8JP45Bx/OUAM1nFbtVTLLh3K2c+leEOYAiloE9gHybw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750220522; c=relaxed/simple;
-	bh=R2c+9apKgvZGYvXoA0VEtTmN9lHTbPOTL+kLmwGezA0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ig+FjFiY5puG6DHULIzGnAFIAUfxDctP7/Jdd4GlpXI+kUoo6Aa3Q5PpFFRSIueRYrYybYDBfYS+hoSibDg7Y3rgZK+j5FUkE+m8eFbv619QbXnuuI7FK6VR7gZI8GJkIBJtX8Wu5SU8pd+UYrPqiXhBcDdc5lVNpvhaZqGf9L4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ji/1c4IQ; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1750221120; c=relaxed/simple;
+	bh=eGdGqUlXSy1wIjHUtFe8r747Z1SeaKKVzoYr0hfFGKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ULr5frbHjk6xjFRMsBwmIDnX9heREs9Q4ZcfNM3aDFG9ZYZxv6qZPvdx0IU4nF7wgAKuQr43JvAOmAEBviWiUJKKA+CMR/RWXvzgm51BVx/aiIxiSleMYy0DspDkRRNA+b7YKXOtFAHyXcgM1NKlrLUApZBLdMTv8e8yUtr2Whw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IlZ5BN1y; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ji/1c4IQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IlZ5BN1y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750220520; x=1781756520;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=R2c+9apKgvZGYvXoA0VEtTmN9lHTbPOTL+kLmwGezA0=;
-  b=Ji/1c4IQ93IdtP+4kS3l+dRvP8Z9vyQi1WsKnvtLRRnSaQkKLEt7PsyC
-   FnxfEq0xH4f22tELU/KTjOuDhkk1XNnqN0xD5y2T4sQ3ydetzTlqDBP5y
-   yrwyoTrNxVK6hURvaupdXgfvajyAaoNFZxsCSLDRFsP3iwUYCnoEUoyOg
-   zKhM2WFpeR4g1qgcbn5SYti6k2PtBFasJ4ax4zR3zfdIeo7yi0PBfudtq
-   WROdlXluNfZQJ/bO1/cHXzgGEtirvyb4ikO2UGj7ipo1tepVrqDFkqU87
-   qqiRM+0nuNUQBisd36BrOG6Io20buoYTdpTChjtAWhaFBLgZxL/3DjeoE
-   Q==;
-X-CSE-ConnectionGUID: S76GCUVvRlScZy1GfOzkaQ==
-X-CSE-MsgGUID: oODnXpPJR4m43u/eGB4gnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="40027712"
+  t=1750221119; x=1781757119;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eGdGqUlXSy1wIjHUtFe8r747Z1SeaKKVzoYr0hfFGKQ=;
+  b=IlZ5BN1yqAp6Bf1AOJOy1v+tZHvvZgigawcqlDWg6AhHTVCCqMOhYAVG
+   VHT/n77V677C1379XrjVBPrp2c88Oir7q6jtoY+k2ZdCvRNwc4QCieu+l
+   I0lnlSwbIdOjOA2pxGFwjIzMy65owX3yDsGrvgZbb9b3gjpYKupNgsK9k
+   8uvSIEWTXrbWmH8LqgvbcH9DH2o0VVao8LeXbfERulbg/ttDSqZS5nRI2
+   d0mQB0SlCEBtKAHN6P2H5ZifKvwe+FcavTVqJdwZs35lTbrKhKOTr2MUp
+   BNWLArnFTWd7s7j6qyJACqKS/fC83QFz8HY3I1AhW4je2TCPFr0/m/Eoz
+   g==;
+X-CSE-ConnectionGUID: qLgyOGuGSiOEqULZhDfHEA==
+X-CSE-MsgGUID: 5z4/gynERpaFgUxQQPndCw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="51530299"
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="40027712"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 21:21:59 -0700
-X-CSE-ConnectionGUID: aOMg6EiyRhOMvSXpDmrsOg==
-X-CSE-MsgGUID: TAMcggMSRw+2pqPGXG4Dyw==
+   d="scan'208";a="51530299"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 21:31:57 -0700
+X-CSE-ConnectionGUID: dYbJNHn9RbGhrECVUI6Wbw==
+X-CSE-MsgGUID: 2Zmg4CPsSxyHzB8BqDEwsw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="153851262"
+   d="scan'208";a="180181908"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 17 Jun 2025 21:21:55 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 17 Jun 2025 21:31:55 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRkJ6-000JO2-2W;
-	Wed, 18 Jun 2025 04:21:52 +0000
-Date: Wed, 18 Jun 2025 12:21:20 +0800
+	id 1uRkSn-000JOd-1u;
+	Wed, 18 Jun 2025 04:31:53 +0000
+Date: Wed, 18 Jun 2025 12:31:42 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joy Zou <joy.zou@nxp.com>, lgirdwood@gmail.com, broonie@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev, frank.li@nxp.com,
-	ye.li@nxp.com, ping.bai@nxp.com, aisheng.dong@nxp.com
-Subject: Re: [PATCH v1 2/2] regulator: pf0900: Add PMIC PF0900 support
-Message-ID: <202506181134.0Hkvy7CK-lkp@intel.com>
-References: <20250617102025.3455544-3-joy.zou@nxp.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.6 168/168] <command-line>:0:0: warning:
+ "MALI_PLATFORM_DIR" redefined
+Message-ID: <202506181245.ZTgcAZDd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,73 +61,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250617102025.3455544-3-joy.zou@nxp.com>
 
-Hi Joy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on broonie-regulator/for-next]
-[also build test WARNING on linus/master v6.16-rc2 next-20250617]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joy-Zou/dt-bindings-regulator-add-PF0900-regulator-yaml/20250617-182500
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20250617102025.3455544-3-joy.zou%40nxp.com
-patch subject: [PATCH v1 2/2] regulator: pf0900: Add PMIC PF0900 support
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250618/202506181134.0Hkvy7CK-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181134.0Hkvy7CK-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   8c8d45c74c6eb0fbee342707b1091713192236cc
+commit: 8df8cc2d3cc80f60a56cd1ad44ed404f4c7ac449 [168/168] CHROMIUM: gpu/mediatek: move mtk_proprietary out of mali
+config: arm64-randconfig-r053-20250618 (https://download.01.org/0day-ci/archive/20250618/202506181245.ZTgcAZDd-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181245.ZTgcAZDd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506181134.0Hkvy7CK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506181245.ZTgcAZDd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/regulator/pf0900-regulator.c:20:
->> include/linux/regulator/pf0900.h:235:9: warning: 'IRQ_MODE' redefined
-     235 | #define IRQ_MODE                        0x04
-         |         ^~~~~~~~
-   In file included from arch/arm/include/asm/ptrace.h:10,
-                    from arch/arm/include/asm/irqflags.h:7,
-                    from include/linux/irqflags.h:18,
-                    from arch/arm/include/asm/bitops.h:28,
-                    from include/linux/bitops.h:67,
-                    from include/linux/thread_info.h:27,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/arm/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:13,
-                    from include/linux/i2c.h:13,
-                    from drivers/regulator/pf0900-regulator.c:10:
-   arch/arm/include/uapi/asm/ptrace.h:60:9: note: this is the location of the previous definition
-      60 | #define IRQ_MODE        0x00000012
-         |         ^~~~~~~~
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../base: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/platform/devicetree/mtk_platform_common: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/misc/mediatek/trusted_mem/public: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../base: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/misc/mediatek/trusted_mem/public: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../base: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/misc/mediatek/trusted_mem/public: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../include: No such file or directory [-Wmissing-include-dirs]
+   cc1: warning: kbuild/src/consumer/drivers/gpu/mediatek/arm/mali: No such file or directory [-Wmissing-include-dirs]
+>> <command-line>:0:0: warning: "MALI_PLATFORM_DIR" redefined
+   <command-line>:0:0: note: this is the location of the previous definition
+--
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../base: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/platform/devicetree/mtk_platform_common: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/misc/mediatek/trusted_mem/public: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../base: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/misc/mediatek/trusted_mem/public: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../base: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/misc/mediatek/trusted_mem/public: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../include: No such file or directory [-Wmissing-include-dirs]
+   cc1: warning: kbuild/src/consumer/drivers/gpu/mediatek/arm/mali: No such file or directory [-Wmissing-include-dirs]
+>> <command-line>:0:0: warning: "MALI_PLATFORM_DIR" redefined
+   <command-line>:0:0: note: this is the location of the previous definition
+   In file included from drivers/gpu/mediatek/arm/mali/mali_kbase_core_linux.c:126:0:
+   drivers/gpu/mediatek/mtk_proprietary/gpufreq/mtk_gpufreq.h:12:10: fatal error: v1/include/mtk_gpufreq_v1.h: No such file or directory
+    #include <v1/include/mtk_gpufreq_v1.h>
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+--
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../base: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/platform/devicetree/mtk_platform_common: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/misc/mediatek/trusted_mem/public: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../base: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/misc/mediatek/trusted_mem/public: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../base: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/misc/mediatek/trusted_mem/public: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../include: No such file or directory [-Wmissing-include-dirs]
+>> <command-line>:0:0: warning: "MALI_PLATFORM_DIR" redefined
+   <command-line>:0:0: note: this is the location of the previous definition
+--
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../base: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/platform/devicetree/mtk_platform_common: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/misc/mediatek/trusted_mem/public: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../base: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/misc/mediatek/trusted_mem/public: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../base: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../../include: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/misc/mediatek/trusted_mem/public: No such file or directory [-Wmissing-include-dirs]
+>> cc1: warning: drivers/gpu/mediatek/arm/mali/../../../include: No such file or directory [-Wmissing-include-dirs]
+>> <command-line>:0:0: warning: "MALI_PLATFORM_DIR" redefined
+   <command-line>:0:0: note: this is the location of the previous definition
+   In file included from drivers/gpu/mediatek/arm/mali/mali_kbase_core_linux.c:126:0:
+   drivers/gpu/mediatek/mtk_proprietary/gpufreq/mtk_gpufreq.h:12:10: fatal error: v1/include/mtk_gpufreq_v1.h: No such file or directory
+    #include <v1/include/mtk_gpufreq_v1.h>
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
 
-
-vim +/IRQ_MODE +235 include/linux/regulator/pf0900.h
-
-   227	
-   228	
-   229	/* PF0900_REG_STSTEM_INT bits */
-   230	#define IRQ_EWARN			0x80
-   231	#define IRQ_GPIO			0x40
-   232	#define IRQ_OV				0x20
-   233	#define IRQ_UV				0x10
-   234	#define IRQ_ILIM			0x08
- > 235	#define IRQ_MODE			0x04
-   236	#define IRQ_STATUS2			0x02
-   237	#define IRQ_STATUS1			0x01
-   238	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for DEVFREQ_THERMAL
+   Depends on [n]: THERMAL [=n] && PM_DEVFREQ [=y] && PM_OPP [=y]
+   Selected by [m]:
+   - MALI_MTK [=m] && HAS_IOMEM [=y] && ARM64 [=y] && !MALI [=n] && MALI [=n]!=m [=m] && MTK_GPU_SUPPORT [=m]
 
 -- 
 0-DAY CI Kernel Test Service
