@@ -1,147 +1,157 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912E628DB62
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 18:19:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5F5C2F546E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 18:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750270746; cv=none; b=RO8T6gi98KmPa69u2XFRH/bHXpSRdrQ6U5Flh3xQvvlSRwxKO0o2ufWuB56BnKkylvt8aDiQBa3WIDnH7x/ZTNr+PZNXUVojdRWF75gB8+eZSo2pa0amhwgMK2p19i5RVBqGW5xC/4/SxeQrKtZsSv5VjnXXlWCoeEO1Y+jomno=
+	t=1750271539; cv=none; b=dtapOrzghmJRVQM+Yp/2vGJ1U3PgtU2NsUAt86YdDcCTSTONyH1RtJ/ejd7jrRdV1mYu344GACrU+cT+B8arQMo0T26Q2j4aWgi1BcVcM+V2abxRimPpdA0omjDV/xwG3fKitbDhnTjL5RanxlXBii1E6I7ZO0tUg27ETBFmQSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750270746; c=relaxed/simple;
-	bh=fAGFVqJ0ijjjkq/JMmoWe7JDhHbAH4lR76XoIgUmddE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hkF+YUzylaULRDY+zhFHZmJhFyi5rwItSStub27nYdGReOesIdIUVzzTjE1NeWSBbuaijyOXR4pgEQoIyVyoQIcER4+EyQ8DnQzUP5BqT4xXTYmQATIGhQ5T2poQRilNUfJyy/Bhc8qTZDOSb8JMZg2IgAYVa0jE5tvaBzpXGCw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aa/PpOpG; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1750271539; c=relaxed/simple;
+	bh=LrLaJ2szQ+mufL9HqAbm2CC4A6ES8YtFwNISIKJ8Icc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eDXCIyiZ/HA20if348WBUF4akEoKKra4M0dsfFMkIBXVXbzNz5GSCp0vPVa018k7Htv7jCnWfCnliSNcIBl+UOIPwemlSrzye4XUvVOTV5t0RxlN22nZgGexkgY205shvCupJxfshdrgdLppceSzB2/kWW1947+ZM3om2DngjsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GsX+JlOJ; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aa/PpOpG"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-73a01a7bee7so2212591a34.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 11:19:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750270743; x=1750875543; darn=lists.linux.dev;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Vep4PV2pZ+9tPEurvQr9lDJXe4H1SpULEo3WQUGiLXg=;
-        b=aa/PpOpGr48iHHtTVy3LV+x5H3kUFRrSYbkixjpaEzBbTTIxHVEr5AzNetqOBRTVh+
-         Gd1T+08x8lKHeTkp9D9Y2h2s4iOddzUVqIfE5NbxMKYO8YWB4zXeefIgACEp7wPOMTc5
-         vZAUe2LH06RtCaXFr7VN/9WbJm/WMqPdbdlVfnyi19gLhp3gwNqZoAOxQIR9xva0Agiw
-         x3ixSGKDBxI1Wa0uuTCeP6NEY7FP0dfjzbSa39nRm1EGseTqIslTKqM9qc0DiJEjkeg2
-         axgiXrMkRruXY0vW9G7IBtyM1pWk01332pThIql0LzB28MwajFEA1vwTXeh2j/3SW7A1
-         6IRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750270743; x=1750875543;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vep4PV2pZ+9tPEurvQr9lDJXe4H1SpULEo3WQUGiLXg=;
-        b=q7/RGE9XV7OTSxD8DszvtrZT0uzNo3jckH8QIPPwmU4oM40SxJmBn9UzQjM8jJc/YB
-         4ZqBwNTZefxlDUfN+s+9GKtSxUE2Db0oFtYV3g0HLvEWMhoYxAcPyZ6Eq0xk5L/4qmmy
-         1UR1pCQX+CMMrywY5cwskLeG6zvVsbMV5ewdE+5s73Q7fjnLKT3mSmEabl3Dg9fUOkAz
-         H16B55kOXwpmJbKSetiAA/IGba3K9YFCFH2DR6zWjY4Ev9ChdQh3t8SHoo+ebj1UV0V6
-         dve1PhsnZzqkI+CsnonrVDOBi9MAq15aF1d6GuZzRiq6ZQpdSdeMwHEfeYZVrbf/8c7u
-         QCxg==
-X-Forwarded-Encrypted: i=1; AJvYcCUnuqd+VHHsQGOkaUifHR5EdHjvaOXQL4cx1E9IZkftzN+QqbqAr29pRZ/ENLCIu47chV05jGzIzfhfucdw@lists.linux.dev
-X-Gm-Message-State: AOJu0YxqFYfyNP99RotbZUKRzQyTIxRGYoiYoMjQZupsRrmUMoHAsi3O
-	kLYzr5/2WZByMCQs9Q2Xk7med2wEBrSXZyvDpu6bi3NpgTt6jUaj/AfG8ZY4asAb1Gg=
-X-Gm-Gg: ASbGncsUt3CzRuxNBCfmLQWh6ufVJXV3XrpYfbZohK0e8VdWL2WdH6esW5fUythtlAu
-	6tsPRBdEudioREmEfbeYSMNLVHOKh53wstBEoMgYkuRTcOqE+jADRhEw0sJkPauEunwjo3ttQe+
-	3kw8G22G0sK9A8rVHxkcVWX0mvhtIQXaGLKoyhJ9/A1O0kIrYgyc7WWeHo0bg+kdwya3/LXPbxw
-	V7W2M9VgoaDokUlDN7/lCKM3WT+8AwogGumWD+mvLs9+PF792YweTigAHWHRC5WwuwtJlV4PGAw
-	5CGpnIJLLTA5tx9L2LdjLDIbKrpPsruElAxx9PTKoz7tpclhDsatgMpuaWTGPZCj+jNgzA==
-X-Google-Smtp-Source: AGHT+IFKnX0nztNeiuWkt0W77J0j5V4cIVncVTmr2DaNrpLni49egH0ASp6YufKpwNA2PVb7YBrY6Q==
-X-Received: by 2002:a05:6830:6f42:b0:72c:320b:f827 with SMTP id 46e09a7af769-73a3626800cmr11319258a34.6.1750270743621;
-        Wed, 18 Jun 2025 11:19:03 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:1b3b:c162:aefa:da1b])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a28403dc8sm2055669a34.27.2025.06.18.11.19.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 11:19:02 -0700 (PDT)
-Date: Wed, 18 Jun 2025 21:19:01 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Melissa Wen <mwen@igalia.com>
-Cc: Markus Elfring <Markus.Elfring@web.de>, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Aurabindo Pillai <aurabindo.pillai@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
-	Dominik Kaszewski <dominik.kaszewski@amd.com>,
-	Fangzhi Zuo <Jerry.Zuo@amd.com>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Leo Li <sunpeng.li@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Roman Li <roman.li@amd.com>, Simona Vetter <simona@ffwll.ch>,
-	Tom Chung <chiahsuan.chung@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
-	LKML <linux-kernel@vger.kernel.org>,
-	kernel-janitors@vger.kernel.org, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev, cocci@inria.fr
-Subject: Re: [PATCH v3] drm/amd/display: Fix exception handling in
- dm_validate_stream_and_context()
-Message-ID: <7ae66816-f682-45f1-b848-eeb5a57a68d9@suswa.mountain>
-References: <f9303bdc-b1a7-be5e-56c6-dfa8232b8b55@web.de>
- <e6656c83-ee7a-a253-2028-109138779c94@web.de>
- <ea0ff67b-3665-db82-9792-67a633ba07f5@web.de>
- <32674bac-92c2-8fc7-0977-6d2d81b3257f@amd.com>
- <da489521-7786-4716-8fb8-d79b3c08d93c@web.de>
- <8684e2ba-b644-44c8-adf7-9f1423a1251d@web.de>
- <5ebybqjohsoz7qhsenufkpkkw52w6tgikkbrzpegwotmefhnpn@m2cnzvsfai7v>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GsX+JlOJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750271538; x=1781807538;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LrLaJ2szQ+mufL9HqAbm2CC4A6ES8YtFwNISIKJ8Icc=;
+  b=GsX+JlOJ6A5ylgbzcPDC1HT25DdHBxu3gl3PiWX1MkwpqwB4DeofWLn0
+   zkBiUjpRbCwqFu93J/DvaHjUWxIG4YD62xo+OwKL3N5JhqAbGckJWYXrT
+   lBLT6JKSBYAB9Tl9Osap3HCsHO/D8xXeLyqca9+asogmlrSGAoD0hgFDZ
+   U93r4AG1NrsbuF6B5iDUxHPgV5F4QmsVROp/veVqc1WMVikz/THtx22Cf
+   B80dJLSDb6SRFPSNk2tkkLYo9865riJJOGrsZ2MRjzbqDyqEnZ1upZy3T
+   BiNXa+0dn5DuWO7p/isO/8VitcBjTzZ0b9jlZSmjSGSNIX6tto9htiSNj
+   g==;
+X-CSE-ConnectionGUID: 6DRFnfrPQZqLhhREiO2NgQ==
+X-CSE-MsgGUID: +gPbKDK/QoqCP/JSHXvZUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="51737389"
+X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
+   d="scan'208";a="51737389"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 11:32:17 -0700
+X-CSE-ConnectionGUID: aA4ojjEyTxmKDDugmHPQGQ==
+X-CSE-MsgGUID: 4wloR2NzRPiWKn/mLunQkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
+   d="scan'208";a="150697091"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 18 Jun 2025 11:32:15 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uRxa1-000K35-1x;
+	Wed, 18 Jun 2025 18:32:13 +0000
+Date: Thu, 19 Jun 2025 02:31:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:virtio/msg-upstream-xen 5/22]
+ drivers/virtio/virtio_msg_user.c:29:27: warning: format '%ld' expects
+ argument of type 'long int', but argument 3 has type 'size_t {aka unsigned
+ int}'
+Message-ID: <202506190246.TzyIStDC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <5ebybqjohsoz7qhsenufkpkkw52w6tgikkbrzpegwotmefhnpn@m2cnzvsfai7v>
 
-On Thu, Jun 12, 2025 at 11:08:10AM -0300, Melissa Wen wrote:
-> On 06/10, Markus Elfring wrote:
-> > From: Markus Elfring <elfring@users.sourceforge.net>
-> > Date: Tue, 10 Jun 2025 07:42:40 +0200
-> > 
-> > The label “cleanup” was used to jump to another pointer check despite of
-> > the detail in the implementation of the function “dm_validate_stream_and_context”
-> > that it was determined already that corresponding variables contained
-> > still null pointers.
-> > 
-> > 1. Thus return directly if
-> >    * a null pointer was passed for the function parameter “stream”
-> >      or
-> >    * a call of the function “dc_create_plane_state” failed.
-> > 
-> > 2. Use a more appropriate label instead.
-> > 
-> > 3. Delete two questionable checks.
-> > 
-> > 4. Omit extra initialisations (for the variables “dc_state” and “dc_plane_state”)
-> >    which became unnecessary with this refactoring.
-> > 
-> > 
-> > This issue was detected by using the Coccinelle software.
-> > 
-> 
-> Hi Markus,
-> 
-> Thanks for working on this improvement.
-> Overall, LGTM. Some nits below.
-> 
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Closes: https://lore.kernel.org/oe-kbuild-all/202506100312.Ms4XgAzW-lkp@intel.com/
-> 
-> As the patch wasn't merged yet, don't add these two kernel-bot-related lines.
-> 
-> You only need to add these lines "If you fix the issue in a separate
-> patch/commit (i.e. not just a new version of the same patch/commit)"
-> 
+Hi Viresh,
 
-If you're going to fold the fix into the original commit then it
-doesn't matter what the commit message says since it will be gone
-in the end either way.
+First bad commit (maybe != root cause):
 
-regards,
-dan carpenter
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-upstream-xen
+head:   23c322bc5695bdc33cb8fec142609fddd9a07994
+commit: 017f0ae6be5ed18dc44fb4973817b4ffa23dea8d [5/22] virtio-msg: Add support for loopback bus
+config: arm-randconfig-003-20250619 (https://download.01.org/0day-ci/archive/20250619/202506190246.TzyIStDC-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506190246.TzyIStDC-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506190246.TzyIStDC-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:15:0,
+                    from include/linux/miscdevice.h:7,
+                    from drivers/virtio/virtio_msg_user.c:13:
+   drivers/virtio/virtio_msg_user.c: In function 'vmsg_miscdev_read':
+>> drivers/virtio/virtio_msg_user.c:29:27: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+      dev_err(vmudev->parent, "Trying to read message of incorrect size: %ld\n",
+                              ^
+   include/linux/dev_printk.h:110:16: note: in definition of macro 'dev_printk_index_wrap'
+      _p_func(dev, fmt, ##__VA_ARGS__);   \
+                   ^~~
+   include/linux/dev_printk.h:154:49: note: in expansion of macro 'dev_fmt'
+     dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                    ^~~~~~~
+   drivers/virtio/virtio_msg_user.c:29:3: note: in expansion of macro 'dev_err'
+      dev_err(vmudev->parent, "Trying to read message of incorrect size: %ld\n",
+      ^~~~~~~
+   drivers/virtio/virtio_msg_user.c: In function 'vmsg_miscdev_write':
+   drivers/virtio/virtio_msg_user.c:58:27: warning: format '%ld' expects argument of type 'long int', but argument 3 has type 'size_t {aka unsigned int}' [-Wformat=]
+      dev_err(vmudev->parent, "Trying to write message of incorrect size: %ld\n",
+                              ^
+   include/linux/dev_printk.h:110:16: note: in definition of macro 'dev_printk_index_wrap'
+      _p_func(dev, fmt, ##__VA_ARGS__);   \
+                   ^~~
+   include/linux/dev_printk.h:154:49: note: in expansion of macro 'dev_fmt'
+     dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                                    ^~~~~~~
+   drivers/virtio/virtio_msg_user.c:58:3: note: in expansion of macro 'dev_err'
+      dev_err(vmudev->parent, "Trying to write message of incorrect size: %ld\n",
+      ^~~~~~~
+
+
+vim +29 drivers/virtio/virtio_msg_user.c
+
+b590c30586a047 Viresh Kumar 2024-11-26  20  
+b590c30586a047 Viresh Kumar 2024-11-26  21  static ssize_t vmsg_miscdev_read(struct file *file, char __user *buf,
+b590c30586a047 Viresh Kumar 2024-11-26  22  				 size_t count, loff_t *pos)
+b590c30586a047 Viresh Kumar 2024-11-26  23  {
+b590c30586a047 Viresh Kumar 2024-11-26  24  	struct miscdevice *misc = file->private_data;
+b590c30586a047 Viresh Kumar 2024-11-26  25  	struct virtio_msg_user_device *vmudev = to_virtio_msg_user_device(misc);
+b590c30586a047 Viresh Kumar 2024-11-26  26  	int ret;
+b590c30586a047 Viresh Kumar 2024-11-26  27  
+b590c30586a047 Viresh Kumar 2024-11-26  28  	if (count < VIRTIO_MSG_MIN_SIZE) {
+b590c30586a047 Viresh Kumar 2024-11-26 @29  		dev_err(vmudev->parent, "Trying to read message of incorrect size: %ld\n",
+b590c30586a047 Viresh Kumar 2024-11-26  30  			count);
+b590c30586a047 Viresh Kumar 2024-11-26  31  		return 0;
+b590c30586a047 Viresh Kumar 2024-11-26  32  	}
+b590c30586a047 Viresh Kumar 2024-11-26  33  
+b590c30586a047 Viresh Kumar 2024-11-26  34  	/* Wait to receive a message from the guest */
+b590c30586a047 Viresh Kumar 2024-11-26  35  	ret = virtio_msg_async_wait(&vmudev->r_async, vmudev->parent, 0);
+b590c30586a047 Viresh Kumar 2024-11-26  36  	if (ret < 0)
+b590c30586a047 Viresh Kumar 2024-11-26  37  		return 0;
+b590c30586a047 Viresh Kumar 2024-11-26  38  
+b590c30586a047 Viresh Kumar 2024-11-26  39  	BUG_ON(!vmudev->msg);
+b590c30586a047 Viresh Kumar 2024-11-26  40  
+b590c30586a047 Viresh Kumar 2024-11-26  41  	/* The "msg" pointer is filled by the bus driver before waking up */
+b590c30586a047 Viresh Kumar 2024-11-26  42  	if (copy_to_user(buf, vmudev->msg, count) != 0)
+b590c30586a047 Viresh Kumar 2024-11-26  43  		return 0;
+b590c30586a047 Viresh Kumar 2024-11-26  44  
+b590c30586a047 Viresh Kumar 2024-11-26  45  	vmudev->msg = NULL;
+b590c30586a047 Viresh Kumar 2024-11-26  46  
+b590c30586a047 Viresh Kumar 2024-11-26  47  	return count;
+b590c30586a047 Viresh Kumar 2024-11-26  48  }
+b590c30586a047 Viresh Kumar 2024-11-26  49  
+
+:::::: The code at line 29 was first introduced by commit
+:::::: b590c30586a04766121b3588e67baa3470771aea virtio-msg: Add userspace interface to read/write messages
+
+:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
+:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
