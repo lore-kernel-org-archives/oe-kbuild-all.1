@@ -1,174 +1,147 @@
-Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com [209.85.167.171])
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1018204F93
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 18:03:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912E628DB62
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 18:19:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750269811; cv=none; b=NgnubGVgbc2sDLFJpSZNMyh55MWSkotfCyJLb7SdQdVPeq1XLbfRP3jdCRfbOeyWDn/kOemIhvzN0nNcQi7ywMuL30jec0fZ9giHihrxodU7maSN3o2snJLQAcZoblhVQFVzLOwLHiKpfsxg4U3NrBKTR3Qnv/4vGe87jrNX6jg=
+	t=1750270746; cv=none; b=RO8T6gi98KmPa69u2XFRH/bHXpSRdrQ6U5Flh3xQvvlSRwxKO0o2ufWuB56BnKkylvt8aDiQBa3WIDnH7x/ZTNr+PZNXUVojdRWF75gB8+eZSo2pa0amhwgMK2p19i5RVBqGW5xC/4/SxeQrKtZsSv5VjnXXlWCoeEO1Y+jomno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750269811; c=relaxed/simple;
-	bh=pAbJ7M1877vZfGZ68nK/DKRy3GkSzGzqsW4mkD46Pk8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XiPoBSlldRm51x1HFmiX9QJLPPVNWGx6r64O7sOg1UXk4Y1QNfOpQHJzjZfx0H3Vsti7CTYfsaLbIvcm4rvUI6Shh7GcYPsEBAYwvv9M5vGvy5610yafftGQSi/jRVaKQ5ViUpEKy79V2jmLggdLZFs449BcPMgNNFJ24TbmfZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lP6GQV0i; arc=none smtp.client-ip=209.85.167.171
+	s=arc-20240116; t=1750270746; c=relaxed/simple;
+	bh=fAGFVqJ0ijjjkq/JMmoWe7JDhHbAH4lR76XoIgUmddE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hkF+YUzylaULRDY+zhFHZmJhFyi5rwItSStub27nYdGReOesIdIUVzzTjE1NeWSBbuaijyOXR4pgEQoIyVyoQIcER4+EyQ8DnQzUP5BqT4xXTYmQATIGhQ5T2poQRilNUfJyy/Bhc8qTZDOSb8JMZg2IgAYVa0jE5tvaBzpXGCw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aa/PpOpG; arc=none smtp.client-ip=209.85.210.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lP6GQV0i"
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-40a4bf1eb0dso3752934b6e.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 11:03:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aa/PpOpG"
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-73a01a7bee7so2212591a34.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 11:19:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750269808; x=1750874608; darn=lists.linux.dev;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rTpTmgLG5/e26K7MBHBfdXBXL9DqRtjXMEgvCtnC8zM=;
-        b=lP6GQV0iHoTsH3+hd3DjrukS8w5ZAyLA63R7FE2zlNL4wf6+KqnokBQITDeaUdsfos
-         +H9j6W+vZ/NijJk4dfxpiLLE3QTJKdnlIdbaTDfZKkfmX5dFfWiE8ta/fzXv+JRlX91h
-         hbeGREidnucCq6Zevc5XcRbRu66vYpGCn3MUTXayNtz5zu4f6c5bB7hvkvS9b4Y0plXe
-         7L5pBZNbPVYpw0h1V0GXcfIyzXbSUbdt21DzyjBO/ajyTpYWz2DapLI8uKKU+Z9In50u
-         QRi/IsiAK4xDyFhs9yFeC6UaU8ywkAaB5V+wz65X2FQqSUa3tWFY1xMR8zmQughJZwi/
-         W7ww==
+        d=linaro.org; s=google; t=1750270743; x=1750875543; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Vep4PV2pZ+9tPEurvQr9lDJXe4H1SpULEo3WQUGiLXg=;
+        b=aa/PpOpGr48iHHtTVy3LV+x5H3kUFRrSYbkixjpaEzBbTTIxHVEr5AzNetqOBRTVh+
+         Gd1T+08x8lKHeTkp9D9Y2h2s4iOddzUVqIfE5NbxMKYO8YWB4zXeefIgACEp7wPOMTc5
+         vZAUe2LH06RtCaXFr7VN/9WbJm/WMqPdbdlVfnyi19gLhp3gwNqZoAOxQIR9xva0Agiw
+         x3ixSGKDBxI1Wa0uuTCeP6NEY7FP0dfjzbSa39nRm1EGseTqIslTKqM9qc0DiJEjkeg2
+         axgiXrMkRruXY0vW9G7IBtyM1pWk01332pThIql0LzB28MwajFEA1vwTXeh2j/3SW7A1
+         6IRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750269808; x=1750874608;
-        h=content-transfer-encoding:content-disposition:mime-version
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rTpTmgLG5/e26K7MBHBfdXBXL9DqRtjXMEgvCtnC8zM=;
-        b=JAHGSUNxLh4JVs67Dj96Q1Sjl9BHGRuKp1/5cB3NXXiUYd9sf5cerDa3oEKFG6LRbG
-         kXifvbVsckOLo2E0kwq7ol4c8kfvOzU+kk1VHuCv/noYjT9DFUB9Ra3TlzicOfRlLpFZ
-         SNADfXSC9s7QtjNXyX1D/8RL2ZjkTfHP9ROSkxsIPViwpR9lTebgkylKAKRSwX2wEhtW
-         O7efn7hbo5Lozfi7DB6lY+FC/JEOMCBZ8A1XuzPu8GNkkmcyHjHO0OvxaQ+jwU7DaHUj
-         TVHkCFuUGBKRIH0JMUdfh7wjpt/ztI4AGKzivS3UABd3Yq5YyroR6dKD7KmF/2pdODfG
-         ZIOg==
-X-Forwarded-Encrypted: i=1; AJvYcCXpglSgI4QyfnfK1Zh+vz1j8imiPE1I97t/pvyDHzEoGjUWE4XCI32KZXB+Hl8jxOQWsLXAmhU7D1WMK1JZ@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw5B+uc8P6NaRzueeysVfdMLk3lxcp3c0r1If0mrKupVErWfJ5A
-	mOMgjO6XwQM6AHqUwIE2gMflwMQurVPwXQ1Ew6CqUeBh2I1WnRF7WNrDtoZvY0qdGu8y0gft0uB
-	sgv1B
-X-Gm-Gg: ASbGncv9Uj1uCMl9BZoh1xYWCmHX9pEK0d7LncIcXGGRNafp4IFGNMviUT3fYn4s1/W
-	1zpTC9GgJk+CrMy0QsluwTYpQh0LuFD9+cAtYhHWC+KGSjz2vHdY5bLTAdGA9QGu2SqPddIpSkZ
-	oTwBB0xa27LkMO81R+yplqxx7Pwy3iBEJ4MTaZbF5TyqSBDCI/fLdLcnMvEtZU1A5CXXximhk2w
-	dRLAmBYBvk3YfinxBRWn66uC4ByrLQma3352lL7JgO0qdC3H4qZkdtZpEdyVWDIl1demYBMW9EI
-	muVLeq9ozZdFR7Jzrv/a/SiDN5Ws+x/Bv4sukfyV2cDEW1bbvvBwuKZoTu4mf5KU1avP2wWqB4m
-	8O5IX
-X-Google-Smtp-Source: AGHT+IHZNM4m8yoBhstlHet5pYstAujG+A8ZI1+4b+gBMe+0NKvrwf6Cv7U9t/jYRBuEV3lJ/L9wPw==
-X-Received: by 2002:a05:6808:d4c:b0:40a:561a:9e8c with SMTP id 5614622812f47-40a7c0f751dmr11031616b6e.3.1750269807614;
-        Wed, 18 Jun 2025 11:03:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1750270743; x=1750875543;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vep4PV2pZ+9tPEurvQr9lDJXe4H1SpULEo3WQUGiLXg=;
+        b=q7/RGE9XV7OTSxD8DszvtrZT0uzNo3jckH8QIPPwmU4oM40SxJmBn9UzQjM8jJc/YB
+         4ZqBwNTZefxlDUfN+s+9GKtSxUE2Db0oFtYV3g0HLvEWMhoYxAcPyZ6Eq0xk5L/4qmmy
+         1UR1pCQX+CMMrywY5cwskLeG6zvVsbMV5ewdE+5s73Q7fjnLKT3mSmEabl3Dg9fUOkAz
+         H16B55kOXwpmJbKSetiAA/IGba3K9YFCFH2DR6zWjY4Ev9ChdQh3t8SHoo+ebj1UV0V6
+         dve1PhsnZzqkI+CsnonrVDOBi9MAq15aF1d6GuZzRiq6ZQpdSdeMwHEfeYZVrbf/8c7u
+         QCxg==
+X-Forwarded-Encrypted: i=1; AJvYcCUnuqd+VHHsQGOkaUifHR5EdHjvaOXQL4cx1E9IZkftzN+QqbqAr29pRZ/ENLCIu47chV05jGzIzfhfucdw@lists.linux.dev
+X-Gm-Message-State: AOJu0YxqFYfyNP99RotbZUKRzQyTIxRGYoiYoMjQZupsRrmUMoHAsi3O
+	kLYzr5/2WZByMCQs9Q2Xk7med2wEBrSXZyvDpu6bi3NpgTt6jUaj/AfG8ZY4asAb1Gg=
+X-Gm-Gg: ASbGncsUt3CzRuxNBCfmLQWh6ufVJXV3XrpYfbZohK0e8VdWL2WdH6esW5fUythtlAu
+	6tsPRBdEudioREmEfbeYSMNLVHOKh53wstBEoMgYkuRTcOqE+jADRhEw0sJkPauEunwjo3ttQe+
+	3kw8G22G0sK9A8rVHxkcVWX0mvhtIQXaGLKoyhJ9/A1O0kIrYgyc7WWeHo0bg+kdwya3/LXPbxw
+	V7W2M9VgoaDokUlDN7/lCKM3WT+8AwogGumWD+mvLs9+PF792YweTigAHWHRC5WwuwtJlV4PGAw
+	5CGpnIJLLTA5tx9L2LdjLDIbKrpPsruElAxx9PTKoz7tpclhDsatgMpuaWTGPZCj+jNgzA==
+X-Google-Smtp-Source: AGHT+IFKnX0nztNeiuWkt0W77J0j5V4cIVncVTmr2DaNrpLni49egH0ASp6YufKpwNA2PVb7YBrY6Q==
+X-Received: by 2002:a05:6830:6f42:b0:72c:320b:f827 with SMTP id 46e09a7af769-73a3626800cmr11319258a34.6.1750270743621;
+        Wed, 18 Jun 2025 11:19:03 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:1b3b:c162:aefa:da1b])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-40a740b2808sm2425519b6e.6.2025.06.18.11.03.26
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a28403dc8sm2055669a34.27.2025.06.18.11.19.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Jun 2025 11:03:27 -0700 (PDT)
-Date: Wed, 18 Jun 2025 21:03:25 +0300
+        Wed, 18 Jun 2025 11:19:02 -0700 (PDT)
+Date: Wed, 18 Jun 2025 21:19:01 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	=?iso-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Lucas Stach <l.stach@pengutronix.de>,
-	Philipp Stanner <phasta@kernel.org>
-Subject: [linux-next:master 2699/3311]
- drivers/gpu/drm/etnaviv/etnaviv_sched.c:80 etnaviv_sched_timedout_job()
- warn: variable dereferenced before check 'sched_job' (see line 38)
-Message-ID: <2997b152-291a-4c18-ad29-a820fb50acee@suswa.mountain>
+To: Melissa Wen <mwen@igalia.com>
+Cc: Markus Elfring <Markus.Elfring@web.de>, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Alex Hung <alex.hung@amd.com>,
+	Aurabindo Pillai <aurabindo.pillai@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Daniel Vetter <daniel@ffwll.ch>, David Airlie <airlied@gmail.com>,
+	Dominik Kaszewski <dominik.kaszewski@amd.com>,
+	Fangzhi Zuo <Jerry.Zuo@amd.com>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Roman Li <roman.li@amd.com>, Simona Vetter <simona@ffwll.ch>,
+	Tom Chung <chiahsuan.chung@amd.com>, Wayne Lin <Wayne.Lin@amd.com>,
+	LKML <linux-kernel@vger.kernel.org>,
+	kernel-janitors@vger.kernel.org, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev, cocci@inria.fr
+Subject: Re: [PATCH v3] drm/amd/display: Fix exception handling in
+ dm_validate_stream_and_context()
+Message-ID: <7ae66816-f682-45f1-b848-eeb5a57a68d9@suswa.mountain>
+References: <f9303bdc-b1a7-be5e-56c6-dfa8232b8b55@web.de>
+ <e6656c83-ee7a-a253-2028-109138779c94@web.de>
+ <ea0ff67b-3665-db82-9792-67a633ba07f5@web.de>
+ <32674bac-92c2-8fc7-0977-6d2d81b3257f@amd.com>
+ <da489521-7786-4716-8fb8-d79b3c08d93c@web.de>
+ <8684e2ba-b644-44c8-adf7-9f1423a1251d@web.de>
+ <5ebybqjohsoz7qhsenufkpkkw52w6tgikkbrzpegwotmefhnpn@m2cnzvsfai7v>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <5ebybqjohsoz7qhsenufkpkkw52w6tgikkbrzpegwotmefhnpn@m2cnzvsfai7v>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   6e5ab6fee68df8c40b338baeae6e269fa25a7e25
-commit: 61ee19dedb8d753249e20308782bf4e9e2fb7344 [2699/3311] drm/etnaviv: Protect the scheduler's pending list with its lock
-config: i386-randconfig-141-20250618 (https://download.01.org/0day-ci/archive/20250618/202506182125.Qa0wM9xy-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+On Thu, Jun 12, 2025 at 11:08:10AM -0300, Melissa Wen wrote:
+> On 06/10, Markus Elfring wrote:
+> > From: Markus Elfring <elfring@users.sourceforge.net>
+> > Date: Tue, 10 Jun 2025 07:42:40 +0200
+> > 
+> > The label “cleanup” was used to jump to another pointer check despite of
+> > the detail in the implementation of the function “dm_validate_stream_and_context”
+> > that it was determined already that corresponding variables contained
+> > still null pointers.
+> > 
+> > 1. Thus return directly if
+> >    * a null pointer was passed for the function parameter “stream”
+> >      or
+> >    * a call of the function “dc_create_plane_state” failed.
+> > 
+> > 2. Use a more appropriate label instead.
+> > 
+> > 3. Delete two questionable checks.
+> > 
+> > 4. Omit extra initialisations (for the variables “dc_state” and “dc_plane_state”)
+> >    which became unnecessary with this refactoring.
+> > 
+> > 
+> > This issue was detected by using the Coccinelle software.
+> > 
+> 
+> Hi Markus,
+> 
+> Thanks for working on this improvement.
+> Overall, LGTM. Some nits below.
+> 
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202506100312.Ms4XgAzW-lkp@intel.com/
+> 
+> As the patch wasn't merged yet, don't add these two kernel-bot-related lines.
+> 
+> You only need to add these lines "If you fix the issue in a separate
+> patch/commit (i.e. not just a new version of the same patch/commit)"
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506182125.Qa0wM9xy-lkp@intel.com/
+If you're going to fold the fix into the original commit then it
+doesn't matter what the commit message says since it will be gone
+in the end either way.
 
-smatch warnings:
-drivers/gpu/drm/etnaviv/etnaviv_sched.c:80 etnaviv_sched_timedout_job() warn: variable dereferenced before check 'sched_job' (see line 38)
-
-vim +/sched_job +80 drivers/gpu/drm/etnaviv/etnaviv_sched.c
-
-a6a1f036c74e3d Luben Tuikov      2021-01-20  34  static enum drm_gpu_sched_stat etnaviv_sched_timedout_job(struct drm_sched_job
-a6a1f036c74e3d Luben Tuikov      2021-01-20  35  							  *sched_job)
-e93b6deeb45a78 Lucas Stach       2017-12-04  36  {
-6d7a20c0776036 Lucas Stach       2017-12-06  37  	struct etnaviv_gem_submit *submit = to_etnaviv_submit(sched_job);
-61ee19dedb8d75 Ma�ra Canal       2025-06-02 @38  	struct drm_gpu_scheduler *sched = sched_job->sched;
-                                                                                          ^^^^^^^^^^^^^^^^^
-Dereference
-
-6d7a20c0776036 Lucas Stach       2017-12-06  39  	struct etnaviv_gpu *gpu = submit->gpu;
-e1f3220b957a55 Lucas Stach       2024-07-05  40  	u32 dma_addr, primid = 0;
-2c83a726d6fbb5 Lucas Stach       2018-06-27  41  	int change;
-2c83a726d6fbb5 Lucas Stach       2018-06-27  42  
-2c83a726d6fbb5 Lucas Stach       2018-06-27  43  	/*
-2c83a726d6fbb5 Lucas Stach       2018-06-27  44  	 * If the GPU managed to complete this jobs fence, the timout is
-2c83a726d6fbb5 Lucas Stach       2018-06-27  45  	 * spurious. Bail out.
-2c83a726d6fbb5 Lucas Stach       2018-06-27  46  	 */
-6fce3a406108ee Lucas Stach       2018-10-04  47  	if (dma_fence_is_signaled(submit->out_fence))
-50248a3ec0f5e5 Lucas Stach       2020-08-24  48  		goto out_no_timeout;
-2c83a726d6fbb5 Lucas Stach       2018-06-27  49  
-2c83a726d6fbb5 Lucas Stach       2018-06-27  50  	/*
-2c83a726d6fbb5 Lucas Stach       2018-06-27  51  	 * If the GPU is still making forward progress on the front-end (which
-2c83a726d6fbb5 Lucas Stach       2018-06-27  52  	 * should never loop) we shift out the timeout to give it a chance to
-2c83a726d6fbb5 Lucas Stach       2018-06-27  53  	 * finish the job.
-2c83a726d6fbb5 Lucas Stach       2018-06-27  54  	 */
-2c83a726d6fbb5 Lucas Stach       2018-06-27  55  	dma_addr = gpu_read(gpu, VIVS_FE_DMA_ADDRESS);
-2c83a726d6fbb5 Lucas Stach       2018-06-27  56  	change = dma_addr - gpu->hangcheck_dma_addr;
-e1f3220b957a55 Lucas Stach       2024-07-05  57  	if (submit->exec_state == ETNA_PIPE_3D) {
-e1f3220b957a55 Lucas Stach       2024-07-05  58  		/* guard against concurrent usage from perfmon_sample */
-e1f3220b957a55 Lucas Stach       2024-07-05  59  		mutex_lock(&gpu->lock);
-e1f3220b957a55 Lucas Stach       2024-07-05  60  		gpu_write(gpu, VIVS_MC_PROFILE_CONFIG0,
-e1f3220b957a55 Lucas Stach       2024-07-05  61  			  VIVS_MC_PROFILE_CONFIG0_FE_CURRENT_PRIM <<
-e1f3220b957a55 Lucas Stach       2024-07-05  62  			  VIVS_MC_PROFILE_CONFIG0_FE__SHIFT);
-e1f3220b957a55 Lucas Stach       2024-07-05  63  		primid = gpu_read(gpu, VIVS_MC_PROFILE_FE_READ);
-e1f3220b957a55 Lucas Stach       2024-07-05  64  		mutex_unlock(&gpu->lock);
-e1f3220b957a55 Lucas Stach       2024-07-05  65  	}
-9ec2afde83c18e Lucas Stach       2023-06-07  66  	if (gpu->state == ETNA_GPU_STATE_RUNNING &&
-9ec2afde83c18e Lucas Stach       2023-06-07  67  	    (gpu->completed_fence != gpu->hangcheck_fence ||
-e1f3220b957a55 Lucas Stach       2024-07-05  68  	     change < 0 || change > 16 ||
-e1f3220b957a55 Lucas Stach       2024-07-05  69  	     (submit->exec_state == ETNA_PIPE_3D &&
-e1f3220b957a55 Lucas Stach       2024-07-05  70  	      gpu->hangcheck_primid != primid))) {
-2c83a726d6fbb5 Lucas Stach       2018-06-27  71  		gpu->hangcheck_dma_addr = dma_addr;
-e1f3220b957a55 Lucas Stach       2024-07-05  72  		gpu->hangcheck_primid = primid;
-cdd156955f946b Lucas Stach       2021-12-22  73  		gpu->hangcheck_fence = gpu->completed_fence;
-50248a3ec0f5e5 Lucas Stach       2020-08-24  74  		goto out_no_timeout;
-2c83a726d6fbb5 Lucas Stach       2018-06-27  75  	}
-6d7a20c0776036 Lucas Stach       2017-12-06  76  
-704d3d60fec451 Lucas Stach       2024-06-21  77  	/* block scheduler */
-704d3d60fec451 Lucas Stach       2024-06-21  78  	drm_sched_stop(&gpu->sched, sched_job);
-704d3d60fec451 Lucas Stach       2024-06-21  79  
-222b5f04415987 Andrey Grodzovsky 2018-12-04 @80  	if(sched_job)
-                                                        ^^^^^^^^^^^^^
-Check for NULL
-
-222b5f04415987 Andrey Grodzovsky 2018-12-04  81  		drm_sched_increase_karma(sched_job);
-6d7a20c0776036 Lucas Stach       2017-12-06  82  
-6d7a20c0776036 Lucas Stach       2017-12-06  83  	/* get the GPU back into the init state */
-9a1fdae5876016 Lucas Stach       2019-08-09  84  	etnaviv_core_dump(submit);
-f51d753f81c086 Christian Gmeiner 2022-06-03  85  	etnaviv_gpu_recover_hang(submit);
-6d7a20c0776036 Lucas Stach       2017-12-06  86  
-222b5f04415987 Andrey Grodzovsky 2018-12-04  87  	drm_sched_resubmit_jobs(&gpu->sched);
-222b5f04415987 Andrey Grodzovsky 2018-12-04  88  
-b2ef808786d93d Christian K�nig   2024-08-26  89  	drm_sched_start(&gpu->sched, 0);
-a6a1f036c74e3d Luben Tuikov      2021-01-20  90  	return DRM_GPU_SCHED_STAT_NOMINAL;
-a6a1f036c74e3d Luben Tuikov      2021-01-20  91  
-50248a3ec0f5e5 Lucas Stach       2020-08-24  92  out_no_timeout:
-61ee19dedb8d75 Ma�ra Canal       2025-06-02  93  	spin_lock(&sched->job_list_lock);
-61ee19dedb8d75 Ma�ra Canal       2025-06-02  94  	list_add(&sched_job->list, &sched->pending_list);
-61ee19dedb8d75 Ma�ra Canal       2025-06-02  95  	spin_unlock(&sched->job_list_lock);
-a6a1f036c74e3d Luben Tuikov      2021-01-20  96  	return DRM_GPU_SCHED_STAT_NOMINAL;
-e93b6deeb45a78 Lucas Stach       2017-12-04  97  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards,
+dan carpenter
 
