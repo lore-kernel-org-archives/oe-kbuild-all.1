@@ -1,148 +1,120 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10BFA93D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 05:51:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855A11EB195
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 05:51:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750225867; cv=none; b=Au0/9Spg8reSrC8NV3cYGy3ijSNCujzLoc5B5kxReVDqo5480Esc5hbXu/GtEv2tmfoqVJWR5MXGo65DLQ80wbQ1AOoKb/lmTO+HNOj+mWWE8l5/++hrwN7zAWJA/pOK/aWSDjusmxVQL228LG0F3rBQZLFowH+IV5PGXaQr1nc=
+	t=1750225869; cv=none; b=INZdhUnDvzJwldbIBiyYNXwgYJZT4RVG/NiuFxLHxNNQRT4YiEHGMI3w7IL0euqKry4hwqQCBjkxNuboGLPCqn6BGk/H9H+FkA+o8jTnMFgbKlPjy4Qf1pzmvKvglrJQVCXBkiqTUKqn9sfY5LgJ7STqsJfOGFssSUrFs5lmEdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750225867; c=relaxed/simple;
-	bh=Tdgx2liwsIplwezdt/eFKC4vMNxOqHp4aQ+BcUH8kBQ=;
+	s=arc-20240116; t=1750225869; c=relaxed/simple;
+	bh=Ix9bi/fX1Gwx5BysY/tiJbZOcKkeZxk/l1KDBs0K1Ek=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BDEswYDmp6hwkFznYS2ZltM+W0HZDe62Q7m/w0fREYwFYijC7+xjpF/SKGk92iUa582YiuTm3xfkaFmX3B1Dgq+yy/EomcHgLx0cVoGPhSG/qrjFvQUFsxDdCNUMm1kaUHYIlGtwmnsVV+p9MwK3EtFPv8iMEoNCPGHZYzJqWvg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=juhs/ZzI; arc=none smtp.client-ip=198.175.65.20
+	 Content-Type:Content-Disposition:In-Reply-To; b=rJZb0Je3GBfay0MRaXIXlxni+fsgjmgkPgxkXo4S36yt8248KaO3At2BWX0Ppxbj6cghnYWzkONuDqUCaSpD+Eg7JUaK38OiP5uFcOmnX2VJl8c/hZ/PA/KReTWUzeW9ESSnlwgxAyqxmZgrboFnSvbNMC/gweoOonw2AXRohyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JzsAtc5n; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="juhs/ZzI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JzsAtc5n"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750225865; x=1781761865;
+  t=1750225867; x=1781761867;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Tdgx2liwsIplwezdt/eFKC4vMNxOqHp4aQ+BcUH8kBQ=;
-  b=juhs/ZzI6BKbAIj5jkdRhNNc3+zU2jJcjqKOVaAz1lvvQ5zvPrLnRipj
-   YVkK/x0wrOQjPezVNNXK403LClM2PswchZBuwbcur677Cvsd3fyPRETf7
-   /bmuPUgBH66JlFTGOXAgjo+k88GtBlwr3cstKOzhTS/4Nf7xWAtZ0aO9R
-   ISwcGJwbw/Hc7zsmOQtW1D3MXTVCqOtpXE7mCBY1Rz4ZDp7rf5d2nFJBY
-   fEMrCgAsaU8Jywwr0q4HX2dFGaf7R1SQyiHOC8Tn6YleNFzyu2qUGd28D
-   otDfew0UQf0vMny9eCYPvMFFy3aZAwFXE+2g7i2QcKbuwjkqYK6qU77xG
-   Q==;
-X-CSE-ConnectionGUID: szt9WDXjQDuTL7LvQP1uSQ==
-X-CSE-MsgGUID: bFX+6Kw9RlGF88qKs1HjHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52129816"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Ix9bi/fX1Gwx5BysY/tiJbZOcKkeZxk/l1KDBs0K1Ek=;
+  b=JzsAtc5nC6jekLQuMOiPasSdeiSkJI2JjF+uKT25jOoD4vG3459NKIdR
+   EoI4fYDS6qFJgFTxRbkBkIoGDM3Jau62d2aso0Js9AhH30kCRYdVqr0L+
+   ltfRDLqGwQgsjFeQD0DaSsTeUG0zHfAqDZ66IV8oOPJ14siVy7l0zv4rC
+   t6umC8Mpt7pQB3e3VXfbfZXz/UavW6ilAbktFleW7+yUDNVNZ0U7+5k0u
+   pE+9XDQaOpntv/Qkwgj4lwyeZ77wzixd1IFqVTMi0iM+TP90Pghz7g6Tw
+   hx3hZc45Olvo19+9Yvg5OCUepVTwn+8lBP7hRLxCYBeMDieOieBT8XobX
+   A==;
+X-CSE-ConnectionGUID: 8tXNk5gwQUSuI6uhqq3hFw==
+X-CSE-MsgGUID: AI1Zg1mGRkWi+hKI7s3fVA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52129820"
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="52129816"
+   d="scan'208";a="52129820"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 22:51:05 -0700
-X-CSE-ConnectionGUID: y++iQIilS0CcpPuztu0urw==
-X-CSE-MsgGUID: A71+k8qsTsWnOtKAkWParg==
+X-CSE-ConnectionGUID: /xobBj0uSjSpdsNqEZHD3g==
+X-CSE-MsgGUID: /ZiOOu0qQ5qQbIq3slAqyw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="149202854"
+   d="scan'208";a="149202862"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 17 Jun 2025 22:51:04 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRlhM-000JRS-26;
+	id 1uRlhM-000JRU-2A;
 	Wed, 18 Jun 2025 05:51:00 +0000
-Date: Wed, 18 Jun 2025 13:50:26 +0800
+Date: Wed, 18 Jun 2025 13:50:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Guillaume Gomez <guillaume1.gomez@gmail.com>,
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	ojeda@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 1/1] Use new `--output-format=doctest` rustdoc command
- line flag to improve doctest handling
-Message-ID: <202506181334.f0STx6ta-lkp@intel.com>
-References: <20250617140032.1133337-2-guillaume1.gomez@gmail.com>
+To: Takashi Iwai <tiwai@suse.de>, Gabriel Somlo <somlo@cmu.edu>,
+	"Michael S . Tsirkin" <mst@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, Fabian Vogt <fvogt@suse.de>,
+	linux-kernel@vger.kernel.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH RESEND] firmware: qemu_fw_cfg: Do not hard depend on
+ CONFIG_HAS_IOPORT_MAP
+Message-ID: <202506181300.OUXh1Amh-lkp@intel.com>
+References: <20250616161408.26748-1-tiwai@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250617140032.1133337-2-guillaume1.gomez@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250616161408.26748-1-tiwai@suse.de>
 
-Hi Guillaume,
+Hi Takashi,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on rust/rust-next]
-[also build test ERROR on shuah-kselftest/kunit shuah-kselftest/kunit-fixes linus/master v6.16-rc2 next-20250617]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.16-rc2 next-20250617]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Guillaume-Gomez/Use-new-output-format-doctest-rustdoc-command-line-flag-to-improve-doctest-handling/20250617-220502
-base:   https://github.com/Rust-for-Linux/linux rust-next
-patch link:    https://lore.kernel.org/r/20250617140032.1133337-2-guillaume1.gomez%40gmail.com
-patch subject: [PATCH 1/1] Use new `--output-format=doctest` rustdoc command line flag to improve doctest handling
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250618/202506181334.f0STx6ta-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181334.f0STx6ta-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Takashi-Iwai/firmware-qemu_fw_cfg-Do-not-hard-depend-on-CONFIG_HAS_IOPORT_MAP/20250617-001546
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250616161408.26748-1-tiwai%40suse.de
+patch subject: [PATCH RESEND] firmware: qemu_fw_cfg: Do not hard depend on CONFIG_HAS_IOPORT_MAP
+config: arm64-randconfig-r073-20250618 (https://download.01.org/0day-ci/archive/20250618/202506181300.OUXh1Amh-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181300.OUXh1Amh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506181334.f0STx6ta-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506181300.OUXh1Amh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in scripts/rustdoc_test_builder.rs at line 16:
-    //! the `gen` script (done there since we need to be aware of all the tests in a given file).
-    
-    use std::collections::HashMap;
-   -use std::io::Read;
-    use std::fs::create_dir_all;
-   +use std::io::Read;
-    
-    use json::JsonValue;
-    
-   Diff in scripts/rustdoc_test_builder.rs at line 25:
-    
-    fn generate_doctest(file: &str, line: i32, doctest_code: &HashMap<String, JsonValue>) -> bool {
-        // FIXME: Once let chain feature is stable, please use it instead.
-   -    let Some(JsonValue::Object(wrapper)) = doctest_code.get("wrapper") else { return false };
-   -    let Some(JsonValue::String(before)) = wrapper.get("before") else { return false };
-   -    let Some(JsonValue::String(after)) = wrapper.get("after") else { return false };
-   -    let Some(JsonValue::String(code)) = doctest_code.get("code") else { return false };
-   -    let Some(JsonValue::String(crate_level_code)) = doctest_code.get("crate_level") else { return false };
-   +    let Some(JsonValue::Object(wrapper)) = doctest_code.get("wrapper") else {
-   +        return false;
-   +    };
-   +    let Some(JsonValue::String(before)) = wrapper.get("before") else {
-   +        return false;
-   +    };
-   +    let Some(JsonValue::String(after)) = wrapper.get("after") else {
-   +        return false;
-   +    };
-   +    let Some(JsonValue::String(code)) = doctest_code.get("code") else {
-   +        return false;
-   +    };
-   +    let Some(JsonValue::String(crate_level_code)) = doctest_code.get("crate_level") else {
-   +        return false;
-   +    };
-    
-        // For tests that get generated with `Result`, `rustdoc` generates an `unwrap()` on
-        // the return value to check there were no returned errors. Instead, we use our assert macro
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[2]: *** [Makefile:1825: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
+   drivers/firmware/qemu_fw_cfg.c: In function 'fw_cfg_io_cleanup':
+>> drivers/firmware/qemu_fw_cfg.c:207:3: error: implicit declaration of function 'ioport_unmap' [-Werror=implicit-function-declaration]
+     207 |   ioport_unmap(fw_cfg_dev_base);
+         |   ^~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/ioport_unmap +207 drivers/firmware/qemu_fw_cfg.c
+
+2d6d60a3d3eca5 Marc-André Lureau 2018-02-28  199  
+75f3e8e47f3810 Gabriel Somlo     2016-01-28  200  /* clean up fw_cfg device i/o */
+75f3e8e47f3810 Gabriel Somlo     2016-01-28  201  static void fw_cfg_io_cleanup(void)
+75f3e8e47f3810 Gabriel Somlo     2016-01-28  202  {
+75f3e8e47f3810 Gabriel Somlo     2016-01-28  203  	if (fw_cfg_is_mmio) {
+75f3e8e47f3810 Gabriel Somlo     2016-01-28  204  		iounmap(fw_cfg_dev_base);
+75f3e8e47f3810 Gabriel Somlo     2016-01-28  205  		release_mem_region(fw_cfg_p_base, fw_cfg_p_size);
+75f3e8e47f3810 Gabriel Somlo     2016-01-28  206  	} else {
+75f3e8e47f3810 Gabriel Somlo     2016-01-28 @207  		ioport_unmap(fw_cfg_dev_base);
+75f3e8e47f3810 Gabriel Somlo     2016-01-28  208  		release_region(fw_cfg_p_base, fw_cfg_p_size);
+75f3e8e47f3810 Gabriel Somlo     2016-01-28  209  	}
+75f3e8e47f3810 Gabriel Somlo     2016-01-28  210  }
+75f3e8e47f3810 Gabriel Somlo     2016-01-28  211  
 
 -- 
 0-DAY CI Kernel Test Service
