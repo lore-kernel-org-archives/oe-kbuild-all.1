@@ -1,76 +1,78 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5702B54764
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 05:12:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F4854764
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 05:13:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750309976; cv=none; b=u8lwkqTC/xZ8qhXCzfleKlWoS5Ma/itLvEbOqc6K01Vnvm/A7onNECx0QLohxAVp+YWsbbmVpkokjeO0FPGJcx5Ji+2Wqv14N9ur4oxsEybGMOIlcyfV+dr1sFSYsxRcI461PdBOWsmcIDZjM8JC2ltP8d1lSzUioRoHRYuP7y0=
+	t=1750309994; cv=none; b=vB2DbkvubTtc8Be89yy8QYkZsjonPRQXURJTt2+wiwKnrJSOMSxoUoSBAJ/fgA2fpDXEue0DQv8aV+xRTcSOCAv982+jauEBY25/cscB9AEtUAsGEsb9hxCFHXrkAtqDwHrnTcceYt4fJ2I0+/WCD2ZQt54oStSxNTyQjtggIsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750309976; c=relaxed/simple;
-	bh=OYK+7pG7zn+9HUFvW+n/t5zuta/HVg/w0cBj9G+JylM=;
+	s=arc-20240116; t=1750309994; c=relaxed/simple;
+	bh=zzV/T4ezeVzmAIwo1HdhYv5JxwlbL8ly9nxSwjRetT4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LOp6L53VxX5cHGPbudQ+T+n2uBEtxiQ0AKBQkYrSlOk6b4cqu4KfJfW5qUHxf4IzzydmY8ahB3Zb3AFzezLKeNNYeCwJxp6ftdfCYRz7Y9dytwHwoDOyAopuIJLQ+JxQIcidx+6b0/2tkw4+17cNbq7aXbZn+d4K4YUXaF3gBek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F8rVj/d9; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=ZESBVduucnSsz0ts8gD0PUmvhcYVXePDSSxfeSil+M+/cn2zdECHi/s2N18fLY96mUXKNw4SbFZ36HKY1bwTMVlLfrK8IX2QOySaWid2h7pZkAJ0Kel2ubGKhooSrVUcuVx7onNcb6aA28KdraW0Ia5Cxb6kM9n28GHxX0WqAbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HCqAwFtm; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F8rVj/d9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HCqAwFtm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750309970; x=1781845970;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OYK+7pG7zn+9HUFvW+n/t5zuta/HVg/w0cBj9G+JylM=;
-  b=F8rVj/d9OgVq1DI2P9/nEJikQzwObNytqaqvtatQF3YNdM+k2/TI02do
-   ihAKNBDvJo773fg7YJ1PYIwrJFTTDOxelxV6gdGD/FPOM1tu3mfY4bnhj
-   tg3iSPUbWVUwIXGoPQNPhe3Sn30H866WKukwhIX61vGzpOryWQkM1sBeU
-   9JdMWR3d3PsKvYpY8VwgcWtWI1hisr+NfvMshzXV+JXJorgXEd8e4kYNS
-   2qMCVfVTASVkhHyZMfzMRYhCKewTmhuBY9irc1M87t9/21XnXeGuXF4HE
-   xxj1WEyeVcrzR2DhPV8UX4mOV2jnhFUoq0xAb/behGQalrj/DgChpQzKE
-   Q==;
-X-CSE-ConnectionGUID: BnLmvHRLSomTGhXk44YS5w==
-X-CSE-MsgGUID: 4T/kDxpFQl6V+P4l60mOIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="75079321"
+  t=1750309988; x=1781845988;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zzV/T4ezeVzmAIwo1HdhYv5JxwlbL8ly9nxSwjRetT4=;
+  b=HCqAwFtmarV09HFVOMIebHmsgNRtQD6mYoq2qO2/7Heam9a92P+quG8V
+   g6F4hwleyuwrM2wgF9eX3/Anoq/phzguwehZURCCsMBug0zMTav5G58xH
+   cICtxScdVfU+cG8OdpBMzMgiD0B9LN0h55VND78wayvmxrVxfGcQvoGoQ
+   cnNK73Cokwxs38iiE6648xj/C9gLdNQuHCyHqlVkmnWwL+cBHxnngStg8
+   pCN8az+RpsK7hNFoo0ngh5/v79BKpg+4oy9XwSAUfdeywF22Ridi7K+wC
+   4GBKiUwkrVkf8fJOmRPDWELo24sMw2o7yzEvS908dAdmlesXcXGSYjmFm
+   w==;
+X-CSE-ConnectionGUID: +nY4AvjWR/+7muLxcjv2Cg==
+X-CSE-MsgGUID: oKnXolylRjy4l5KrO2d8Ow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="75079361"
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="75079321"
+   d="scan'208";a="75079361"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 22:12:50 -0700
-X-CSE-ConnectionGUID: HArulJjWQK2Qt7/v4PyBMg==
-X-CSE-MsgGUID: 4Viw5lWVSPKJWst6GYELgQ==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 22:13:06 -0700
+X-CSE-ConnectionGUID: Lq8VBNp3Q7Gwj07REXE5xw==
+X-CSE-MsgGUID: 13CgeadTSU2SV33IL3MXlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="155090252"
+   d="scan'208";a="155090370"
 Received: from igk-lkp-server01.igk.intel.com (HELO 28ae90bf6994) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 22:12:48 -0700
+  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 22:13:04 -0700
 Received: from kbuild by 28ae90bf6994 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uS7Zm-0000M4-0P;
-	Thu, 19 Jun 2025 05:12:38 +0000
-Date: Wed, 18 Jun 2025 01:39:51 +0800
+	id 1uS7a2-0000MC-0d;
+	Thu, 19 Jun 2025 05:12:54 +0000
+Date: Wed, 18 Jun 2025 09:44:32 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android13-5.15 2/2] fs/ksmbd/transport_tcp.c:373:
- warning: Function parameter or member 'max_retries' not described in
- 'ksmbd_tcp_read'
-Message-ID: <202506180134.TKiFXuaM-lkp@intel.com>
+Subject: [android-common:android13-5.15 2/2] fs/ksmbd/vfs.c:1181: warning:
+ Function parameter or member 'um' not described in 'ksmbd_vfs_lookup_in_dir'
+Message-ID: <202506180917.iNRB5VQa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="4//RLSV82aSA2Isu"
+Content-Type: multipart/mixed; boundary="w05i1tD2kL0edi8x"
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 
---4//RLSV82aSA2Isu
-Content-Type: text/plain; charset=us-ascii
+--w05i1tD2kL0edi8x
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
 tree:   https://android.googlesource.com/kernel/common android13-5.15
 head:   b3af89c2f912864f5e5372e93d5e663fc517af47
-commit: 07987422023e11ff0125f2fac98dcca4e4c5ef8b [2/2] ksmbd: don't terminate inactive sessions after a few seconds
+commit: b3e852bea8a7440af69c577545cbc602aa8539d5 [2/2] ksmbd: make utf-8 file name comparison work in __caseless_lookup()
 config: i386-randconfig-2006-20250605
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
 reproduce (this is a W=1 build):
@@ -78,40 +80,79 @@ reproduce (this is a W=1 build):
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506180134.TKiFXuaM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506180917.iNRB5VQa-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/ksmbd/transport_tcp.c:373: warning: Function parameter or member 'max_retries' not described in 'ksmbd_tcp_read'
-   fs/ksmbd/transport_tcp.c:422: warning: Function parameter or member 'iface' not described in 'create_socket'
+   fs/ksmbd/vfs.c:73: warning: Function parameter or member 'user_ns' not described in 'ksmbd_vfs_lock_parent'
+   fs/ksmbd/vfs.c:73: warning: Function parameter or member 'parent' not described in 'ksmbd_vfs_lock_parent'
+   fs/ksmbd/vfs.c:73: warning: Function parameter or member 'child' not described in 'ksmbd_vfs_lock_parent'
+   fs/ksmbd/vfs.c:365: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_read'
+   fs/ksmbd/vfs.c:365: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_read'
+   fs/ksmbd/vfs.c:481: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_write'
+   fs/ksmbd/vfs.c:481: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_write'
+   fs/ksmbd/vfs.c:544: warning: Function parameter or member 'path' not described in 'ksmbd_vfs_getattr'
+   fs/ksmbd/vfs.c:544: warning: Function parameter or member 'stat' not described in 'ksmbd_vfs_getattr'
+   fs/ksmbd/vfs.c:544: warning: Excess function parameter 'work' description in 'ksmbd_vfs_getattr'
+   fs/ksmbd/vfs.c:544: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_getattr'
+   fs/ksmbd/vfs.c:544: warning: Excess function parameter 'attrs' description in 'ksmbd_vfs_getattr'
+   fs/ksmbd/vfs.c:561: warning: Function parameter or member 'p_id' not described in 'ksmbd_vfs_fsync'
+   fs/ksmbd/vfs.c:584: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_remove_file'
+   fs/ksmbd/vfs.c:644: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_link'
+   fs/ksmbd/vfs.c:845: warning: Function parameter or member 'fp' not described in 'ksmbd_vfs_truncate'
+   fs/ksmbd/vfs.c:845: warning: Excess function parameter 'fid' description in 'ksmbd_vfs_truncate'
+   fs/ksmbd/vfs.c:886: warning: Excess function parameter 'size' description in 'ksmbd_vfs_listxattr'
+   fs/ksmbd/vfs.c:963: warning: Function parameter or member 'attr_name' not described in 'ksmbd_vfs_setxattr'
+   fs/ksmbd/vfs.c:963: warning: Function parameter or member 'attr_value' not described in 'ksmbd_vfs_setxattr'
+   fs/ksmbd/vfs.c:963: warning: Function parameter or member 'attr_size' not described in 'ksmbd_vfs_setxattr'
+   fs/ksmbd/vfs.c:963: warning: Excess function parameter 'name' description in 'ksmbd_vfs_setxattr'
+   fs/ksmbd/vfs.c:963: warning: Excess function parameter 'value' description in 'ksmbd_vfs_setxattr'
+   fs/ksmbd/vfs.c:963: warning: Excess function parameter 'size' description in 'ksmbd_vfs_setxattr'
+   fs/ksmbd/vfs.c:983: warning: Function parameter or member 'option' not described in 'ksmbd_vfs_set_fadvise'
+   fs/ksmbd/vfs.c:983: warning: Excess function parameter 'options' description in 'ksmbd_vfs_set_fadvise'
+>> fs/ksmbd/vfs.c:1181: warning: Function parameter or member 'um' not described in 'ksmbd_vfs_lookup_in_dir'
+   fs/ksmbd/vfs.c:1215: warning: Function parameter or member 'work' not described in 'ksmbd_vfs_kern_path'
 
 
-vim +373 fs/ksmbd/transport_tcp.c
+vim +1181 fs/ksmbd/vfs.c
 
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  361  
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  362  /**
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  363   * ksmbd_tcp_read() - read data from socket in given buffer
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  364   * @t:		TCP transport instance
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  365   * @buf:	buffer to store read data from socket
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  366   * @to_read:	number of bytes to read from socket
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  367   *
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  368   * Return:	on success return number of bytes read from socket,
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  369   *		otherwise return error number
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  370   */
-07987422023e11 fs/ksmbd/transport_tcp.c Namjae Jeon 2023-03-21  371  static int ksmbd_tcp_read(struct ksmbd_transport *t, char *buf,
-07987422023e11 fs/ksmbd/transport_tcp.c Namjae Jeon 2023-03-21  372  			  unsigned int to_read, int max_retries)
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16 @373  {
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  374  	struct kvec iov;
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  375  
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  376  	iov.iov_base = buf;
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  377  	iov.iov_len = to_read;
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  378  
-07987422023e11 fs/ksmbd/transport_tcp.c Namjae Jeon 2023-03-21  379  	return ksmbd_tcp_readv(TCP_TRANS(t), &iov, 1, to_read, max_retries);
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  380  }
-0626e6641f6b46 fs/cifsd/transport_tcp.c Namjae Jeon 2021-03-16  381  
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1170  
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1171  /**
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1172   * ksmbd_vfs_lookup_in_dir() - lookup a file in a directory
+3c20378325c710 fs/cifsd/vfs.c Hyunchul Lee  2021-04-13  1173   * @dir:	path info
+3c20378325c710 fs/cifsd/vfs.c Hyunchul Lee  2021-04-13  1174   * @name:	filename to lookup
+3c20378325c710 fs/cifsd/vfs.c Hyunchul Lee  2021-04-13  1175   * @namelen:	filename length
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1176   *
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1177   * Return:	0 on success, otherwise error
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1178   */
+b3e852bea8a744 fs/ksmbd/vfs.c Atte Heikkilä 2023-12-19  1179  static int ksmbd_vfs_lookup_in_dir(const struct path *dir, char *name,
+b3e852bea8a744 fs/ksmbd/vfs.c Atte Heikkilä 2023-12-19  1180  				   size_t namelen, struct unicode_map *um)
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16 @1181  {
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1182  	int ret;
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1183  	struct file *dfilp;
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1184  	int flags = O_RDONLY | O_LARGEFILE;
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1185  	struct ksmbd_readdir_data readdir_data = {
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1186  		.ctx.actor	= __caseless_lookup,
+3c20378325c710 fs/cifsd/vfs.c Hyunchul Lee  2021-04-13  1187  		.private	= name,
+3c20378325c710 fs/cifsd/vfs.c Hyunchul Lee  2021-04-13  1188  		.used		= namelen,
+3c20378325c710 fs/cifsd/vfs.c Hyunchul Lee  2021-04-13  1189  		.dirent_count	= 0,
+b3e852bea8a744 fs/ksmbd/vfs.c Atte Heikkilä 2023-12-19  1190  		.um		= um,
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1191  	};
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1192  
+3c20378325c710 fs/cifsd/vfs.c Hyunchul Lee  2021-04-13  1193  	dfilp = dentry_open(dir, flags, current_cred());
+3c20378325c710 fs/cifsd/vfs.c Hyunchul Lee  2021-04-13  1194  	if (IS_ERR(dfilp))
+3c20378325c710 fs/cifsd/vfs.c Hyunchul Lee  2021-04-13  1195  		return PTR_ERR(dfilp);
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1196  
+e8c061917133dd fs/cifsd/vfs.c Namjae Jeon   2021-06-22  1197  	ret = iterate_dir(dfilp, &readdir_data.ctx);
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1198  	if (readdir_data.dirent_count > 0)
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1199  		ret = 0;
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1200  	fput(dfilp);
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1201  	return ret;
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1202  }
+f44158485826c0 fs/cifsd/vfs.c Namjae Jeon   2021-03-16  1203  
 
-:::::: The code at line 373 was first introduced by commit
-:::::: 0626e6641f6b467447c81dd7678a69c66f7746cf cifsd: add server handler for central processing and tranport layers
+:::::: The code at line 1181 was first introduced by commit
+:::::: f44158485826c076335d6860d35872271a83791d cifsd: add file operations
 
 :::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
 :::::: CC: Steve French <stfrench@microsoft.com>
@@ -120,13 +161,13 @@ vim +373 fs/ksmbd/transport_tcp.c
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
---4//RLSV82aSA2Isu
+--w05i1tD2kL0edi8x
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/i386 5.15.105 Kernel Configuration
+# Linux/i386 5.15.144 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="clang version 20.1.2 (git://gitmirror/llvm_project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)"
 CONFIG_GCC_VERSION=0
@@ -558,6 +599,7 @@ CONFIG_CC_HAS_RETURN_THUNK=y
 CONFIG_SPECULATION_MITIGATIONS=y
 CONFIG_RETPOLINE=y
 # CONFIG_RETHUNK is not set
+# CONFIG_GDS_FORCE_MITIGATION is not set
 CONFIG_ARCH_MHP_MEMMAP_ON_MEMORY_ENABLE=y
 
 #
@@ -710,6 +752,7 @@ CONFIG_GENERIC_SMP_IDLE_THREAD=y
 CONFIG_ARCH_HAS_FORTIFY_SOURCE=y
 CONFIG_ARCH_HAS_SET_MEMORY=y
 CONFIG_ARCH_HAS_SET_DIRECT_MAP=y
+CONFIG_ARCH_HAS_CPU_FINALIZE_INIT=y
 CONFIG_HAVE_ARCH_THREAD_STRUCT_WHITELIST=y
 CONFIG_ARCH_WANTS_DYNAMIC_TASK_STRUCT=y
 CONFIG_ARCH_WANTS_NO_INSTR=y
@@ -1377,7 +1420,6 @@ CONFIG_NET_DSA_TAG_LAN9303=y
 CONFIG_NET_DSA_TAG_TRAILER=y
 CONFIG_NET_DSA_TAG_XRS700X=y
 # CONFIG_VLAN_8021Q is not set
-# CONFIG_DECNET is not set
 CONFIG_LLC=y
 # CONFIG_LLC2 is not set
 # CONFIG_ATALK is not set
@@ -1815,7 +1857,6 @@ CONFIG_BLK_DEV=y
 # CONFIG_BLK_DEV_LOOP is not set
 # CONFIG_BLK_DEV_DRBD is not set
 # CONFIG_BLK_DEV_NBD is not set
-# CONFIG_BLK_DEV_SX8 is not set
 # CONFIG_BLK_DEV_RAM is not set
 # CONFIG_CDROM_PKTCDVD is not set
 # CONFIG_ATA_OVER_ETH is not set
@@ -4802,6 +4843,11 @@ CONFIG_XILINX_XADC=y
 # end of Analog to digital converters
 
 #
+# Analog to digital and digital to analog converters
+#
+# end of Analog to digital and digital to analog converters
+
+#
 # Analog Front Ends
 #
 CONFIG_IIO_RESCALE=y
@@ -5170,6 +5216,7 @@ CONFIG_PHY_PXA_28NM_USB2=y
 # end of PHY Subsystem
 
 CONFIG_POWERCAP=y
+# CONFIG_INTEL_RAPL is not set
 CONFIG_IDLE_INJECT=y
 # CONFIG_DTPM is not set
 CONFIG_MCB=y
@@ -5718,7 +5765,7 @@ CONFIG_CRYPTO_BLAKE2B=y
 CONFIG_CRYPTO_CRCT10DIF=y
 CONFIG_CRYPTO_GHASH=y
 # CONFIG_CRYPTO_POLY1305 is not set
-CONFIG_CRYPTO_MD4=y
+# CONFIG_CRYPTO_MD4 is not set
 CONFIG_CRYPTO_MD5=y
 CONFIG_CRYPTO_MICHAEL_MIC=y
 CONFIG_CRYPTO_RMD160=y
@@ -6246,7 +6293,7 @@ CONFIG_ARCH_USE_MEMTEST=y
 # end of Kernel Testing and Coverage
 # end of Kernel hacking
 
---4//RLSV82aSA2Isu
+--w05i1tD2kL0edi8x
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=reproduce
 
@@ -6254,10 +6301,10 @@ reproduce (this is a W=1 build):
         git clone https://github.com/intel/lkp-tests.git ~/lkp-tests
         git remote add android-common https://android.googlesource.com/kernel/common
         git fetch --no-tags android-common android13-5.15
-        git checkout 07987422023e11ff0125f2fac98dcca4e4c5ef8b
+        git checkout b3e852bea8a7440af69c577545cbc602aa8539d5
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-20 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=i386 olddefconfig
         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang-20 ~/lkp-tests/kbuild/make.cross W=1 O=build_dir ARCH=i386 SHELL=/bin/bash fs/ksmbd/
 
---4//RLSV82aSA2Isu--
+--w05i1tD2kL0edi8x--
