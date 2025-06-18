@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6DA2EFDB4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 18:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE15D207A0B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 19:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750272801; cv=none; b=kUYgFZ+9p2FGJ95e1fa1hN7IpNnQQ8W3n8SxCdY5NivS3RJXEZLEPPjr2ZEnM/rFE+8SjiLX9qcV4JhsIZA+92KgIxaDs6xbIOtGx10rKjUWwZ/+ZTVJwbhJ2FtrPrnzRQmBPdse7/5t/IxcaNfmvVwqEXMiB8tV9IOunzHMpyI=
+	t=1750275271; cv=none; b=BDXeX/4KeS7OESEcgzJ76XYgKFusoUhFgfL1BNYISM2uJmplkqmTzJWcb8oYJ5yCUpxBRCLwqaxGX3t4E2qH9iPA2p9tjyf8HqTxXPsbRFTDKEcR6Z2boeY60VyUV9UEOIWzygxZpD4wFNEo6pWaMPn+wisUHwn5dTHY5CScK2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750272801; c=relaxed/simple;
-	bh=DwagitZbYUH/0dD6SqMQI0LR/EEiO82L42CiXGnjO2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UXJrzwTTsu6Ohi3pU1RX5xUkQrgJMwVqan4xkoEDL8lmc3Zd/HvCgK2WPW+XeQ2hBxfM+3i3GzBYlJwSis+ZCEbT1/qSjbn3e4Z+acgbZStqngo8KjfszoktcfAbLvBZrADoRUZ3KAEBABrbYPSTL1CG8QjY2g6aWf2xPbM2+e0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JoNlIeix; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1750275271; c=relaxed/simple;
+	bh=Z4B3YfZLGJWG0aXMKL7hGeK0JHTGPALHeIVsS+selyM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jCBg2fvC84r0TiGeGaPR1CSm+5QSCpnJ3MRGJ56RGBKLT4QFw8n+RoxC/oAQNGQf9ufJprvn8H3Qeu7T2KcGu2NUpSB7BJHopAK30iap1h7fp9NMPBFlHLiZMKlvr6NJ/QmxhGggTILT3yMNRLEndVC7G2K48CyTTbG6ismRXP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j7SB2tuL; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JoNlIeix"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j7SB2tuL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750272799; x=1781808799;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=DwagitZbYUH/0dD6SqMQI0LR/EEiO82L42CiXGnjO2w=;
-  b=JoNlIeixiPxqnzWNhBK9xHnk1zMk05mUYFpJA7yovHZp8Aq9715Ii9uz
-   r17tDXVXvW0ltB3Y+5f6nddjXKv7HZeqrYXHadBe9AH1ZrfMA5WHYw3d5
-   wZ8ZLXMcplkVywBK0mM8SqAGXwCHyfxZQXMKDkHSZZzx38X6A/KWTB74J
-   NvCtqwzpefZlK/9IZYRGWvmkfxhheuMYgQ6gULZf0y4fXL9FBAKGmitkA
-   PVTWUcZJ6eeHGblnfkEfReKIM6aYexteKFmxkg6HuVJHbmLXVL78+nUzF
-   qiZ7FF+m9xG6XS48ZHBcyEt4FUqeAv3F6zb/iGS1cI8SzG6UN+TKgzqcJ
+  t=1750275271; x=1781811271;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Z4B3YfZLGJWG0aXMKL7hGeK0JHTGPALHeIVsS+selyM=;
+  b=j7SB2tuLmwlJql0ATjNFN4iwBy3TTCEBFdzjgfpV7qs6Oqwjg/EAb1pB
+   vAc3U6IOR6xJTmBdGqIn0AIYKuMWEODJkKsERtLWhugf2EulanJE5X0Sx
+   CZImaAiUEvJQtQoX99hViPvmK3nJP8+bvHmnmV/ML0IbvsMPDhQhJjAqn
+   0GZrdqLFYxC8R+46GqtI0VCPLcsGNQyZgLhJjfuwf5L5GYbX1NEkJFt8V
+   GQxTnLtkb0IncNufIxnWAZdv1SiaTFB9PwbAN/m1gVPWd+UTxR5MJqIaZ
+   KWpF0Th+QMBaHukR18tmKOnzu16zWE5zi4j1q5FI+xHATS9VWfQ4s7S8p
    Q==;
-X-CSE-ConnectionGUID: B674ty0OTNyfOQwMZYHR+Q==
-X-CSE-MsgGUID: pOJw/tIoQQqJFiUE1rvl9w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52374318"
+X-CSE-ConnectionGUID: a/Pn0l1LRuW7FiHVid/tuA==
+X-CSE-MsgGUID: Ddwh7jZETlaLpxSwHSe1Mg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="56193911"
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="52374318"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 11:53:18 -0700
-X-CSE-ConnectionGUID: 5mykL+AcRlGlROFzOtPugA==
-X-CSE-MsgGUID: tMgTnHqJQLyeC0KVvSQMfg==
+   d="scan'208";a="56193911"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 12:34:30 -0700
+X-CSE-ConnectionGUID: QC+06Ua8QX25jRNxeobu7Q==
+X-CSE-MsgGUID: Of1+HyOXSCCTweqLapI5Hw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="150148673"
+   d="scan'208";a="154833296"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Jun 2025 11:53:17 -0700
+  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 12:34:27 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRxuN-000K3x-2H;
-	Wed, 18 Jun 2025 18:53:15 +0000
-Date: Thu, 19 Jun 2025 02:52:33 +0800
+	id 1uRyYC-000K6I-0W;
+	Wed, 18 Jun 2025 19:34:24 +0000
+Date: Thu, 19 Jun 2025 03:34:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Viresh Kumar <viresh.kumar@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [vireshk:virtio/msg-upstream-xen 5/22]
- ./usr/include/linux/virtio_msg_lb.h:13:2: error: unknown type name 'u32'
-Message-ID: <202506190259.vLAc7Nxa-lkp@intel.com>
+To: Khalid Ali <khaliidcaliy@gmail.com>, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, ardb@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, hpa@zytor.com,
+	linux-kernel@vger.kernel.org, Khalid Ali <khaliidcaliy@gmail.com>
+Subject: Re: [PATCH v3] x86/boot: Don't return encryption mask from
+ __startup_64()
+Message-ID: <202506190255.i7td2YOj-lkp@intel.com>
+References: <20250617084705.619-1-khaliidcaliy@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,26 +66,176 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250617084705.619-1-khaliidcaliy@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-upstream-xen
-head:   23c322bc5695bdc33cb8fec142609fddd9a07994
-commit: 017f0ae6be5ed18dc44fb4973817b4ffa23dea8d [5/22] virtio-msg: Add support for loopback bus
-config: x86_64-buildonly-randconfig-004-20250618 (https://download.01.org/0day-ci/archive/20250619/202506190259.vLAc7Nxa-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506190259.vLAc7Nxa-lkp@intel.com/reproduce)
+Hi Khalid,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/x86/core]
+[also build test WARNING on tip/master linus/master v6.16-rc2 next-20250618]
+[cannot apply to tip/auto-latest]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Khalid-Ali/x86-boot-Don-t-return-encryption-mask-from-__startup_64/20250617-164938
+base:   tip/x86/core
+patch link:    https://lore.kernel.org/r/20250617084705.619-1-khaliidcaliy%40gmail.com
+patch subject: [PATCH v3] x86/boot: Don't return encryption mask from __startup_64()
+config: x86_64-randconfig-161-20250618 (https://download.01.org/0day-ci/archive/20250619/202506190255.i7td2YOj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506190259.vLAc7Nxa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506190255.i7td2YOj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+arch/x86/boot/startup/map_kernel.c:211 __startup_64() warn: inconsistent indenting
 
-   In file included from <built-in>:1:
->> ./usr/include/linux/virtio_msg_lb.h:13:2: error: unknown type name 'u32'
-      13 |         u32 dev_id;
-         |         ^
-   1 error generated.
+vim +211 arch/x86/boot/startup/map_kernel.c
+
+    72	
+    73	/*
+    74	 * This code is compiled using PIC codegen because it will execute from the
+    75	 * early 1:1 mapping of memory, which deviates from the mapping expected by the
+    76	 * linker. Due to this deviation, taking the address of a global variable will
+    77	 * produce an ambiguous result when using the plain & operator.  Instead,
+    78	 * rip_rel_ptr() must be used, which will return the RIP-relative address in
+    79	 * the 1:1 mapping of memory. Kernel virtual addresses can be determined by
+    80	 * subtracting p2v_offset from the RIP-relative address.
+    81	 */
+    82	void __head __startup_64(unsigned long p2v_offset,
+    83					  struct boot_params *bp)
+    84	{
+    85		pmd_t (*early_pgts)[PTRS_PER_PMD] = rip_rel_ptr(early_dynamic_pgts);
+    86		unsigned long physaddr = (unsigned long)rip_rel_ptr(_text);
+    87		unsigned long va_text, va_end;
+    88		unsigned long pgtable_flags;
+    89		unsigned long load_delta;
+    90		pgdval_t *pgd;
+    91		p4dval_t *p4d;
+    92		pudval_t *pud;
+    93		pmdval_t *pmd, pmd_entry;
+    94		bool la57;
+    95		int i;
+    96	
+    97		la57 = check_la57_support();
+    98	
+    99		/* Is the address too large? */
+   100		if (physaddr >> MAX_PHYSMEM_BITS)
+   101			for (;;);
+   102	
+   103		/*
+   104		 * Compute the delta between the address I am compiled to run at
+   105		 * and the address I am actually running at.
+   106		 */
+   107		phys_base = load_delta = __START_KERNEL_map + p2v_offset;
+   108	
+   109		/* Is the address not 2M aligned? */
+   110		if (load_delta & ~PMD_MASK)
+   111			for (;;);
+   112	
+   113		va_text = physaddr - p2v_offset;
+   114		va_end  = (unsigned long)rip_rel_ptr(_end) - p2v_offset;
+   115	
+   116		/* Include the SME encryption mask in the fixup value */
+   117		load_delta += sme_get_me_mask();
+   118	
+   119		/* Fixup the physical addresses in the page table */
+   120	
+   121		pgd = rip_rel_ptr(early_top_pgt);
+   122		pgd[pgd_index(__START_KERNEL_map)] += load_delta;
+   123	
+   124		if (la57) {
+   125			p4d = (p4dval_t *)rip_rel_ptr(level4_kernel_pgt);
+   126			p4d[MAX_PTRS_PER_P4D - 1] += load_delta;
+   127	
+   128			pgd[pgd_index(__START_KERNEL_map)] = (pgdval_t)p4d | _PAGE_TABLE;
+   129		}
+   130	
+   131		level3_kernel_pgt[PTRS_PER_PUD - 2].pud += load_delta;
+   132		level3_kernel_pgt[PTRS_PER_PUD - 1].pud += load_delta;
+   133	
+   134		for (i = FIXMAP_PMD_TOP; i > FIXMAP_PMD_TOP - FIXMAP_PMD_NUM; i--)
+   135			level2_fixmap_pgt[i].pmd += load_delta;
+   136	
+   137		/*
+   138		 * Set up the identity mapping for the switchover.  These
+   139		 * entries should *NOT* have the global bit set!  This also
+   140		 * creates a bunch of nonsense entries but that is fine --
+   141		 * it avoids problems around wraparound.
+   142		 */
+   143	
+   144		pud = &early_pgts[0]->pmd;
+   145		pmd = &early_pgts[1]->pmd;
+   146		next_early_pgt = 2;
+   147	
+   148		pgtable_flags = _KERNPG_TABLE_NOENC + sme_get_me_mask();
+   149	
+   150		if (la57) {
+   151			p4d = &early_pgts[next_early_pgt++]->pmd;
+   152	
+   153			i = (physaddr >> PGDIR_SHIFT) % PTRS_PER_PGD;
+   154			pgd[i + 0] = (pgdval_t)p4d + pgtable_flags;
+   155			pgd[i + 1] = (pgdval_t)p4d + pgtable_flags;
+   156	
+   157			i = physaddr >> P4D_SHIFT;
+   158			p4d[(i + 0) % PTRS_PER_P4D] = (pgdval_t)pud + pgtable_flags;
+   159			p4d[(i + 1) % PTRS_PER_P4D] = (pgdval_t)pud + pgtable_flags;
+   160		} else {
+   161			i = (physaddr >> PGDIR_SHIFT) % PTRS_PER_PGD;
+   162			pgd[i + 0] = (pgdval_t)pud + pgtable_flags;
+   163			pgd[i + 1] = (pgdval_t)pud + pgtable_flags;
+   164		}
+   165	
+   166		i = physaddr >> PUD_SHIFT;
+   167		pud[(i + 0) % PTRS_PER_PUD] = (pudval_t)pmd + pgtable_flags;
+   168		pud[(i + 1) % PTRS_PER_PUD] = (pudval_t)pmd + pgtable_flags;
+   169	
+   170		pmd_entry = __PAGE_KERNEL_LARGE_EXEC & ~_PAGE_GLOBAL;
+   171		pmd_entry += sme_get_me_mask();
+   172		pmd_entry +=  physaddr;
+   173	
+   174		for (i = 0; i < DIV_ROUND_UP(va_end - va_text, PMD_SIZE); i++) {
+   175			int idx = i + (physaddr >> PMD_SHIFT);
+   176	
+   177			pmd[idx % PTRS_PER_PMD] = pmd_entry + i * PMD_SIZE;
+   178		}
+   179	
+   180		/*
+   181		 * Fixup the kernel text+data virtual addresses. Note that
+   182		 * we might write invalid pmds, when the kernel is relocated
+   183		 * cleanup_highmap() fixes this up along with the mappings
+   184		 * beyond _end.
+   185		 *
+   186		 * Only the region occupied by the kernel image has so far
+   187		 * been checked against the table of usable memory regions
+   188		 * provided by the firmware, so invalidate pages outside that
+   189		 * region. A page table entry that maps to a reserved area of
+   190		 * memory would allow processor speculation into that area,
+   191		 * and on some hardware (particularly the UV platform) even
+   192		 * speculative access to some reserved areas is caught as an
+   193		 * error, causing the BIOS to halt the system.
+   194		 */
+   195	
+   196		pmd = rip_rel_ptr(level2_kernel_pgt);
+   197	
+   198		/* invalidate pages before the kernel image */
+   199		for (i = 0; i < pmd_index(va_text); i++)
+   200			pmd[i] &= ~_PAGE_PRESENT;
+   201	
+   202		/* fixup pages that are part of the kernel image */
+   203		for (; i <= pmd_index(va_end); i++)
+   204			if (pmd[i] & _PAGE_PRESENT)
+   205				pmd[i] += load_delta;
+   206	
+   207		/* invalidate pages after the kernel image */
+   208		for (; i < PTRS_PER_PMD; i++)
+   209			pmd[i] &= ~_PAGE_PRESENT;
+   210	
+ > 211		 sme_postprocess_startup(bp, pmd, p2v_offset);
 
 -- 
 0-DAY CI Kernel Test Service
