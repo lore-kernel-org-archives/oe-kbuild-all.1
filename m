@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C26B129B221
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 11:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60BAD1C8FBA;
+	Wed, 18 Jun 2025 11:21:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750245706; cv=none; b=p0I1AiiJ3Rglfd36POad1es9sbOfsatnBfqZFLssA5YmvVtADI0aZWNd82D7LYMukWw6VmMxWmTDp8pFy9iejRk1xobWVjJxrI+gqJHGzVdFsrFI6y8XuCJT1FLNvWMOMdm40vbHRJWIO//15IdSV4FEytXDhWaPFLPC0ptXLOI=
+	t=1750245707; cv=none; b=g8O7h5i0J/ZgIyM7FgF5Nvkl4cThISxkWEr4wJKWoBtRfI8YfINkScPYyi1pRwo9fgGjKO/igsunyzY9U+YoHRM6Ev4IOiTbqcSDTxDJ4UKYjZ9dpf6HUxgEBIv/J6/BepqfzSVkVNWnCE4gLRzUeKZtX2v6dnxyTrUUvK8H0Mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750245706; c=relaxed/simple;
-	bh=Nc331Pv/IxZnv4dUsd3MXAGQYJGWIEv6JlzAg/kxjJ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pvfPJxr+fGrNxiSnIQNXGVWqX44OMN5PliIxUcyrnMl+vVhl0Dt3n4YZgVHezSoP3qaszktmCsQxukXCh68AHNED6tppX+IxMDbL+JynxMoNV4LyU+2U6S/5ZqmBHQHhDWolwWYPGVOC5o9zHfQJ119J/19pH/bnheL1DWwxb1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ROaiAcD9; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1750245707; c=relaxed/simple;
+	bh=md4pBp3+yvPSIRW+B9VI6Ty3LcXwqFQVUKPPV8B75KE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ux3cW2czbCosyjB05KTQ8FLai8JUzFotbeaS/RFHbdoSMgR7LG8pD8SMxp1A4c477l+6y0peDWW8T6RDywYQ2FFUtMnjqPnVT6wC2QA02A1Iuzxvvw2kdGm3RpKOJTwCsyZ4YugoWlDopJfLqdlBy31N1AIIX60kx8DgI4iXt+U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BY2FaFLT; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ROaiAcD9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BY2FaFLT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1750245705; x=1781781705;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Nc331Pv/IxZnv4dUsd3MXAGQYJGWIEv6JlzAg/kxjJ8=;
-  b=ROaiAcD9Jymbj5mFFSt3nuZr3u+M+ITGc8kOY4bjz3gGF4qO5Ps4jjum
-   azoRvCNzFmy9PSmlMB8nNVg5rjnaIYjlRvur9OLSxQLIdZ1HFOnYzhmnN
-   jGDjrkzqv7WsY1sz8Q/vDRInQ2nh7/rf7zQSjrZXvz0Xd/VDZi3pYyIaX
-   GNxw3eNNjgGaI5Gm+i0tIGVriPAjZyBv9gYk/YjYCV/IF12xcIHbojnyW
-   JfcNiJSjpxyS9dmgTWTWJGittyRrPxM2uvDrufvGkiQHTQS/KRoIDlnns
-   OgeAQJqZrK8Qk+pWVXrXHG/Sn2qqIvu5/dX/s3YUv6MlVSJYZdq4dVUSq
-   A==;
-X-CSE-ConnectionGUID: 20k5YXErTVykUZbvnhRZGg==
-X-CSE-MsgGUID: PU5O62g2TAOobsssxMZ6yg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="51566870"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=md4pBp3+yvPSIRW+B9VI6Ty3LcXwqFQVUKPPV8B75KE=;
+  b=BY2FaFLTi+eSuD9Z1G6bkMfUtDIQBgp3wzcHp0d+bknGIU73nrOalGMj
+   elJdeu/cMYeMG06EUAQKtSNd4Cc9JtxYma/3qgQhF68eOu1Jpr8rzC8k0
+   axRb81pEA4+0kWP1H1vEO8bre02njBdx2CIAweWuW2y0EqnExnlEV4p41
+   x87b/TMvn3ypZPhkJNTtG+mS5rrLVZj0/kl8+dRM3S7JymqB/TAuSrjJg
+   IpujasVy9jrZeEPIpFqwBWUHBh9W7hsEniBLukM4zobvYW7esLBZHlWyP
+   hxW+VxDwJkHZFDWbat9CAVk+3zzkLFBPFLCe1l9KSYhEKRgKikYz8aNEV
+   w==;
+X-CSE-ConnectionGUID: 9Jm4ott1QN+IWK7LOPKWlQ==
+X-CSE-MsgGUID: jw12eyUATBqZdwL4oIx8Iw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="62735026"
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="51566870"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 04:20:36 -0700
-X-CSE-ConnectionGUID: QdR+yZYBSUGwIiQwCxpzpQ==
-X-CSE-MsgGUID: Cu9Tquq8RQSfNjccWPVwmg==
+   d="scan'208";a="62735026"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 04:20:37 -0700
+X-CSE-ConnectionGUID: E4bP0IW1Sd+aixw2hRpBnQ==
+X-CSE-MsgGUID: fMi03lhaTuS8TeTat2AzAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="149871567"
+   d="scan'208";a="149306455"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Jun 2025 04:20:35 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 18 Jun 2025 04:20:35 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRqqH-000Jhw-0U;
+	id 1uRqqH-000Jhu-0Q;
 	Wed, 18 Jun 2025 11:20:33 +0000
-Date: Wed, 18 Jun 2025 19:20:31 +0800
+Date: Wed, 18 Jun 2025 19:20:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Jinqian Yang <yangjinqian1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2411/2411] drivers/irqchip/irq-gic-v3.c:1541:6:
- warning: no previous prototype for function 'gic_get_ipiv_status'
-Message-ID: <202506181950.B2Y9buyH-lkp@intel.com>
+To: Timur Tabi <ttabi@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Benno Lossin <lossin@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v4] rust: introduce sfile macro for succinct code tracing
+Message-ID: <202506181849.TxpYI9gO-lkp@intel.com>
+References: <20250616193433.2643407-1-ttabi@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,54 +64,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250616193433.2643407-1-ttabi@nvidia.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   c02455c4cce8052f74fc11c09e9073c01c7f33a4
-commit: 4c1b2c9b61b21a0183f345eb7076db7ac054ae6c [2411/2411] KVM: arm64: check if IPIV is enabled in BIOS
-config: arm64-randconfig-004-20250618 (https://download.01.org/0day-ci/archive/20250618/202506181950.B2Y9buyH-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181950.B2Y9buyH-lkp@intel.com/reproduce)
+Hi Timur,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 27605c8c0f69e319df156b471974e4e223035378]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Timur-Tabi/rust-introduce-sfile-macro-for-succinct-code-tracing/20250617-034332
+base:   27605c8c0f69e319df156b471974e4e223035378
+patch link:    https://lore.kernel.org/r/20250616193433.2643407-1-ttabi%40nvidia.com
+patch subject: [PATCH v4] rust: introduce sfile macro for succinct code tracing
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250618/202506181849.TxpYI9gO-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181849.TxpYI9gO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506181950.B2Y9buyH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506181849.TxpYI9gO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/irqchip/irq-gic-v3.c:1524:6: warning: no previous prototype for function 'gic_dist_enable_ipiv' [-Wmissing-prototypes]
-   void gic_dist_enable_ipiv(void)
-        ^
-   drivers/irqchip/irq-gic-v3.c:1524:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   void gic_dist_enable_ipiv(void)
-   ^
-   static 
->> drivers/irqchip/irq-gic-v3.c:1541:6: warning: no previous prototype for function 'gic_get_ipiv_status' [-Wmissing-prototypes]
-   bool gic_get_ipiv_status(void)
-        ^
-   drivers/irqchip/irq-gic-v3.c:1541:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-   bool gic_get_ipiv_status(void)
-   ^
-   static 
-   2 warnings generated.
-
-
-vim +/gic_get_ipiv_status +1541 drivers/irqchip/irq-gic-v3.c
-
-  1540	
-> 1541	bool gic_get_ipiv_status(void)
-  1542	{
-  1543		u32 val;
-  1544	
-  1545		val = readl_relaxed(gic_data.dist_base + GICD_MISC_CTRL);
-  1546		if (val & GICD_MISC_CTRL_CFG_IPIV_EN)
-  1547			return true;
-  1548	
-  1549		return false;
-  1550	}
-  1551	EXPORT_SYMBOL(gic_get_ipiv_status);
-  1552	#endif /* CONFIG_ARM64_HISI_IPIV */
-  1553	
+>> error[E0432]: unresolved import `kernel::print::rfind_const`
+   --> rust/doctests_kernel_generated.rs:7755:5
+   |
+   7755 | use kernel::print::rfind_const;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^ no `rfind_const` in `print`
+--
+>> error[E0308]: mismatched types
+   --> rust/doctests_kernel_generated.rs:5834:29
+   |
+   5834 | const SFILE: &'static str = sfile!();
+   |                             ^^^^^^^^
+   |                             |
+   |                             expected `&str`, found `&CStr`
+   |                             arguments to this function are incorrect
+   |
+   = note: expected reference `&str`
+   found reference `&'static rust_doctest_kernel_alloc_kbox_rs_7::kernel::prelude::CStr`
+   note: method defined here
+   --> /opt/cross/rustc-1.78.0-bindgen-0.65.1/rustup/toolchains/1.78.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/str/mod.rs:2446:18
+   |
+   2446 |     pub const fn is_ascii(&self) -> bool {
+   |                  ^^^^^^^^
+   = note: this error originates in the macro `sfile` (in Nightly builds, run with -Z macro-backtrace for more info)
+--
+>> error[E0308]: mismatched types
+   --> rust/doctests_kernel_generated.rs:5833:20
+   |
+   5833 | pr_err!("{}:{}n", sfile!(), line!());
+   |                    ^^^^^^^^
+   |                    |
+   |                    expected `&str`, found `&CStr`
+   |                    arguments to this function are incorrect
+   |
+   = note: expected reference `&str`
+   found reference `&'static rust_doctest_kernel_alloc_kbox_rs_7::kernel::prelude::CStr`
+   note: method defined here
+   --> /opt/cross/rustc-1.78.0-bindgen-0.65.1/rustup/toolchains/1.78.0-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/library/core/src/str/mod.rs:2446:18
+   |
+   2446 |     pub const fn is_ascii(&self) -> bool {
+   |                  ^^^^^^^^
+   = note: this error originates in the macro `sfile` (in Nightly builds, run with -Z macro-backtrace for more info)
 
 -- 
 0-DAY CI Kernel Test Service
