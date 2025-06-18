@@ -1,67 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CC871A704B;
-	Wed, 18 Jun 2025 20:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09139188006
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 20:38:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750277877; cv=none; b=Blo/Xh5iswudDX0FtoBM7pgPnMRcJeAIDU2Cv41iI1avSlML9VwlOYkr1ImvZpnZMPFUb+aTrQaZDivSU170NwnqCE1dWqH37Crjj4VY1NyDfqkhagnzj9WNQc8oVOKDvXHbkyWj7eUGJKshixJKWtHNgrzRA9scLcvcKiylq2o=
+	t=1750279118; cv=none; b=Hp/I4ESDXqcaIxcS6D28dyhMgDWTcBTrB3fTP71u7Ockh5TtpF0I6S3ZvGiHdLhKVaolcSLgmMTcP7BQWqX6xtEFKqlzscTbyb6MfOQheHd0e5TIwsEPypHMVtKW6x9lU0pDe0cvMtFi+5J7DL10av9tqo9KePsjxO1JqJa/W4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750277877; c=relaxed/simple;
-	bh=eIm31ulfxb/iodvSgzs4HeeUc/QBLhrVAgBlSL3l1Y0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KSNGo5b3f0ONSmliDfszpTTSwxix9vQAulKcEbcGcj4fHwV25vjQ+RgM0gz8A9gxjIM2tUM/EF4SNgCEdd36qgXJJjK6AyuiQHEMnUP1hQYfwtWqz6YK2oWSxZEfSYz0Er2kolHSO/DCrN10dDnCE/sXa1jr6qyU0vMTRyz6cwg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UpGzZsth; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1750279118; c=relaxed/simple;
+	bh=rYryCrQBPWPrJqOrSHuSXpZazy1Zt1QVc2qVW5QBb8U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=eljVDDnRvVcitbzfDUxu7j2YkZOd3eBDj0HHvWSfyNmizuQBf8wiGDb0GajaSuw4V4sn1oHlnnoIMG3fcoAGIPjlmMKG3Otq2dpzS8a+h6Cad0hoOUuG84df02vJbmObT25KyMLibNUFHOGqsSZXJVCwbyEqSpq+cdSKNUEQ/mw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IYJzpyAG; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UpGzZsth"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IYJzpyAG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750277875; x=1781813875;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eIm31ulfxb/iodvSgzs4HeeUc/QBLhrVAgBlSL3l1Y0=;
-  b=UpGzZsthUAbEk9MoRLwFFoTl8nRhmiO/sFNSWo1mihYTkIrT/0wrEZe0
-   XKJyghv6ODd4XlHN8r9T4y5KyKAeROlKY2SMz3suwBdBv9bZ8AgNvlsnL
-   lMZdvxKxPdEaz3FiPiDZlPtT5uXSOEMgGXv8yducYXWCnEn2830i2m3v4
-   VfrtyWWTvPEyumeO2IdzIYLnCUX71VU1YeSVrgerxNaN3zhEPQmk2biZ9
-   zzbMY0uQsHZLFqp1jvmWtjOtnvX3MnitUMXpXTqOZuP7xGHahDB8++jeZ
-   HZ+F00dkvvsKLb2rSbkTSstIZEptxbEY3JMjghuJJs+3XzUy2ZHFkyuN+
-   Q==;
-X-CSE-ConnectionGUID: YZm9SaJXTc2WAgNGSIJ1Ew==
-X-CSE-MsgGUID: alyK2DYpTw6yCXY7r8UQMg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52663561"
+  t=1750279116; x=1781815116;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rYryCrQBPWPrJqOrSHuSXpZazy1Zt1QVc2qVW5QBb8U=;
+  b=IYJzpyAGkePd/cEksopDlD2jbDTJyDQw7iVyA0cYCaFrEmgSK4Vl+UtO
+   pZPpN1yIuvUZMKuMI8UaSAsgD8Bu8ExO/kE3GCfSLNk6E0qS7lbgIodKh
+   jiqOnmNSzj6qLtAEOLkppqrAANgrjRbnhUg+Wd5scUrjA3WxE/UKBlS+m
+   mG6O6ESF4/Qz4/+g8WcEPSjwg126y6H4hxYwnf/FeaEvj8qiRR8Meocbf
+   uVaiA9NyfYU/AxhUpJPQ1UgA+8cpx/WuU96m7afVQ3kvhQh6905ldLSwF
+   N7Y1uVnieAJn0KBba35fr9Cz6r1FPWtp91fVcNXKvgxP2qvM8kCBhrpuA
+   A==;
+X-CSE-ConnectionGUID: nh1rvWkpTgSvnFeMikM5cA==
+X-CSE-MsgGUID: ME3tFJFaQqane86Mm1wLyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52387192"
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="52663561"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 13:17:37 -0700
-X-CSE-ConnectionGUID: vVtGXGxpSoiWUDzCKCU8FQ==
-X-CSE-MsgGUID: w55BZNQfQ8WmNHo73rQ5gw==
+   d="scan'208";a="52387192"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 13:38:36 -0700
+X-CSE-ConnectionGUID: sg6dxJutTEukJ/h/PkzH8A==
+X-CSE-MsgGUID: GM7t7wikQaqy3GMivCm50Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="154888280"
+   d="scan'208";a="187440537"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 13:17:32 -0700
+  by orviesa001.jf.intel.com with ESMTP; 18 Jun 2025 13:38:33 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRzDt-000K8U-0T;
-	Wed, 18 Jun 2025 20:17:29 +0000
-Date: Thu, 19 Jun 2025 04:16:33 +0800
+	id 1uRzYF-000K9y-1I;
+	Wed, 18 Jun 2025 20:38:31 +0000
+Date: Thu, 19 Jun 2025 04:37:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vikas Gupta <vikas.gupta@broadcom.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	andrew+netdev@lunn.ch, horms@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	michael.chan@broadcom.com, pavan.chebbi@broadcom.com,
-	vsrama-krishna.nemani@broadcom.com,
-	Vikas Gupta <vikas.gupta@broadcom.com>,
-	Bhargava Chenna Marreddy <bhargava.marreddy@broadcom.com>,
-	Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>
-Subject: Re: [net-next, 09/10] bng_en: Initialize default configuration
-Message-ID: <202506190321.0HgmyniP-lkp@intel.com>
-References: <20250618144743.843815-10-vikas.gupta@broadcom.com>
+To: Luca Weiss <luca@lucaweiss.eu>
+Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [linux-next:master 3083/3311]
+ arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dtb:
+ /soc@0/i2c@7af6000/audio-amplifier@34: failed to match any schema with
+ compatible: ['awinic,aw8898']
+Message-ID: <202506190424.C9rentWK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,88 +65,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618144743.843815-10-vikas.gupta@broadcom.com>
 
-Hi Vikas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16-rc2 next-20250618]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vikas-Gupta/bng_en-Add-PCI-interface/20250618-173130
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250618144743.843815-10-vikas.gupta%40broadcom.com
-patch subject: [net-next, 09/10] bng_en: Initialize default configuration
-config: i386-randconfig-012-20250619 (https://download.01.org/0day-ci/archive/20250619/202506190321.0HgmyniP-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506190321.0HgmyniP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   6e5ab6fee68df8c40b338baeae6e269fa25a7e25
+commit: 87ab84799a90bb73f3f42ae636b213ac4564e237 [3083/3311] arm64: dts: qcom: sdm632-fairphone-fp3: Add AW8898 amplifier
+config: arm64-randconfig-051-20250618 (https://download.01.org/0day-ci/archive/20250619/202506190424.C9rentWK-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.3.0
+dtschema version: 2025.3.dev28+g49451a5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506190424.C9rentWK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506190321.0HgmyniP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506190424.C9rentWK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> drivers/net/ethernet/broadcom/bnge/bnge_resc.c:533:15: warning: result of comparison of constant -19 with expression of type 'u16' (aka 'unsigned short') is always true [-Wtautological-constant-out-of-range-compare]
-     533 |         if (rc && rc != -ENODEV)
-         |                   ~~ ^  ~~~~~~~
-   drivers/net/ethernet/broadcom/bnge/bnge_resc.c:542:16: warning: result of comparison of constant -19 with expression of type 'u16' (aka 'unsigned short') is always true [-Wtautological-constant-out-of-range-compare]
-     542 |                 if (rc && rc != -ENODEV)
-         |                           ~~ ^  ~~~~~~~
-   2 warnings generated.
-
-
-vim +533 drivers/net/ethernet/broadcom/bnge/bnge_resc.c
-
-   511	
-   512	static int bnge_net_init_dflt_rings(struct bnge_dev *bd, bool sh)
-   513	{
-   514		u16 dflt_rings, max_rx_rings, max_tx_rings, rc;
-   515	
-   516		if (sh)
-   517			bd->flags |= BNGE_EN_SHARED_CHNL;
-   518	
-   519		dflt_rings = netif_get_num_default_rss_queues();
-   520	
-   521		rc = bnge_get_dflt_rings(bd, &max_rx_rings, &max_tx_rings, sh);
-   522		if (rc)
-   523			return rc;
-   524		bd->rx_nr_rings = min_t(u16, dflt_rings, max_rx_rings);
-   525		bd->tx_nr_rings_per_tc = min_t(u16, dflt_rings, max_tx_rings);
-   526		if (sh)
-   527			bnge_trim_dflt_sh_rings(bd);
-   528		else
-   529			bd->nq_nr_rings = bd->tx_nr_rings_per_tc + bd->rx_nr_rings;
-   530		bd->tx_nr_rings = bd->tx_nr_rings_per_tc;
-   531	
-   532		rc = bnge_reserve_rings(bd);
- > 533		if (rc && rc != -ENODEV)
-   534			dev_warn(bd->dev, "Unable to reserve tx rings\n");
-   535		bd->tx_nr_rings_per_tc = bd->tx_nr_rings;
-   536		if (sh)
-   537			bnge_trim_dflt_sh_rings(bd);
-   538	
-   539		/* Rings may have been reduced, re-reserve them again */
-   540		if (bnge_need_reserve_rings(bd)) {
-   541			rc = bnge_reserve_rings(bd);
-   542			if (rc && rc != -ENODEV)
-   543				dev_warn(bd->dev, "Fewer rings reservation failed\n");
-   544			bd->tx_nr_rings_per_tc = bd->tx_nr_rings;
-   545		}
-   546		if (rc) {
-   547			bd->tx_nr_rings = 0;
-   548			bd->rx_nr_rings = 0;
-   549		}
-   550	
-   551		return rc;
-   552	}
-   553	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:980.27-1030.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pmi632.dtsi:189.19-201.5: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@3/pwm: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8953.dtsi:1410.11-1420.7: Warning (graph_child_address): /soc@0/usb@70f8800/usb@7000000/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dtb: gpu@1c00000 (qcom,adreno-506.0): clock-names:5: 'alwayson' is not one of ['core', 'iface', 'mem', 'mem_iface', 'alt_mem_iface', 'gfx3d', 'rbbmtimer', 'rbcpr']
+   	from schema $id: http://devicetree.org/schemas/display/msm/gpu.yaml#
+>> arch/arm64/boot/dts/qcom/sdm632-fairphone-fp3.dtb: /soc@0/i2c@7af6000/audio-amplifier@34: failed to match any schema with compatible: ['awinic,aw8898']
 
 -- 
 0-DAY CI Kernel Test Service
