@@ -1,109 +1,137 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6759C19D880;
-	Wed, 18 Jun 2025 04:54:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32D0A1DD9AD;
+	Wed, 18 Jun 2025 05:05:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750222443; cv=none; b=S0SEGGzSjF4TWN2xwhr9OeZytiafn+x+VD6qu40yIQtFFQcMfgd2jpMjGe0JhHhjkQcExBLiU+JhPXf+gh80ou+68k7fHL1YXJkinMBQRO+3Qz0Gz1phKZtq4BcuPK6RRBBwhWRhi9nqAdk5/3IgmELjxRe2NjRmHQK2dBi+8xQ=
+	t=1750223149; cv=none; b=g7lVN7+YGpH0xLkVCGRJvIMLRXjTGfd2v4Nwv5/TW1v9TKLPsFb3r9V/eCNxtMVpxC4xCJ6DgWmjtRXW4nhtMRV+PgBWZOCpIYI9TVBLEneNyGhd/KAYaZvV9Fxi7IkNcT+nYNC7qD2WKsREhYQZzoIhMt7cHZL2iWB9vhuTghQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750222443; c=relaxed/simple;
-	bh=DEKlm+ejo/0mzszOUsL53ctVVQ1j4m3qewxhIFLcv0M=;
+	s=arc-20240116; t=1750223149; c=relaxed/simple;
+	bh=pEYlweHTyd1FF6qYfyKbLz6rjLTrLgq8nUDmZK7/uEU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bLHbfGUo5xUWsK+obR0jTu9LzaVhRer8xUTjsnQPIWp8zreMJyysMT0TEERC53S5J92bZtpptOVk3bdIu2jaYfj89mMvYNSPUFVkNbj1fHuegPPi+TykYiJIQXVTFj7OgiPZ71LrmdSXCk9dkcYZuTQsiVWFxSPGzcAC/+wIW/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aBmDeLa5; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=CBXFnQZ8zHNvwJkqHVSNJ/qrDqVeXUNaDyuGAYG8ISVQYbNZ1eXDmJG5CDwif4jz7HXTz0Pg6f4TDXj8BWUiU6bn9dz7sbpu/aJvh8/aK1BetMm84fdp6cv6RRy5p4XS2KYjBFyRkVjHeK4cHaI4srvofsHZuT86612DwGlIvGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rr0RUQVX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aBmDeLa5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750222441; x=1781758441;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DEKlm+ejo/0mzszOUsL53ctVVQ1j4m3qewxhIFLcv0M=;
-  b=aBmDeLa52izon3Pw2x1Sg9K9GJsDE8F0Ta/cPwgethzmwYQ5ZkiJmtHP
-   1v0hz+npA9+kH3Aqkl7J0z3yTCzWlJxdR5oHDsXWWJeQen8LhM23wUZ4T
-   3jL6paYgCv+RAFOnZYVEoWEuA+DXbPu0GXRaiOhDYWHKw6M7Q+C7BKkWb
-   rVkG7MUMQZ7d+uAgLuM0UflEUaLrswCpxWWs/iC9g9p2MiAw111FU2z+h
-   Xg9ZsjUhRhemA1l29QkA/hOGRrRJ9MLeEmzhLqCQdn1Frgwm6nzVhQh/9
-   SQ3UColpFyv3vrbSlCyHvKeXArPcTdSKztItwoIocNYjyv6UnT7KSiA/7
-   Q==;
-X-CSE-ConnectionGUID: hIFTR1n+SQ2cpCzGnBwS/Q==
-X-CSE-MsgGUID: EymeTMhZSaail8WpXmJX3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="63460454"
-X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="63460454"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 21:54:01 -0700
-X-CSE-ConnectionGUID: IlMBVbuZTBeIdVORDtt5FA==
-X-CSE-MsgGUID: fyNBzSTZSCeodXZuqA5+kw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="149026086"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Jun 2025 21:53:57 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uRko7-000JPW-1J;
-	Wed, 18 Jun 2025 04:53:55 +0000
-Date: Wed, 18 Jun 2025 12:53:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, joro@8bytes.org,
-	will@kernel.org, robin.murphy@arm.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, heiko@sntech.de,
-	nicolas.dufresne@collabora.com, p.zabel@pengutronix.de,
-	mchehab@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH 3/5] iommu: Add verisilicon IOMMU driver
-Message-ID: <202506181230.D53QwmdL-lkp@intel.com>
-References: <20250616145607.116639-4-benjamin.gaignard@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rr0RUQVX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88BD7C4CEE7;
+	Wed, 18 Jun 2025 05:05:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1750223148;
+	bh=pEYlweHTyd1FF6qYfyKbLz6rjLTrLgq8nUDmZK7/uEU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rr0RUQVXs/qqfleg+3zkvpDQnGf8lbTC58heGkjSx2oNZMfE0YFI2OoRiMTpcWzU7
+	 ZGuJggGNLEItjr8mDRmfafGebv5CkT4txl3jqjxemO/aO/eE8c90LToSrFtXpd9OOH
+	 4/c2dcs5Xz0SZR+ezFLD+Nu6DRAZ4+GlF03D/CDBLnqmUn3mmIrq2UiW3ZqTBQl9Yj
+	 uRaw0H6SvXoyKPbneCJ03Lq7KBS+n1k5fpYOM3Oaei60znCA9z8yEbk4b2wijdmhCi
+	 LocVgBS4zA3O8axwy32I3RzoPPU2kCtjtTb6KCVOlmPpDIFwXcoqq/TDoXjwuHNS5c
+	 1v8RvVbJ58S2g==
+Date: Wed, 18 Jun 2025 10:35:41 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Lukas Wunner <lukas@wunner.de>, 
+	kernel test robot <lkp@intel.com>, bhelgaas@google.com, oe-kbuild-all@lists.linux.dev, 
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jim Quinlan <james.quinlan@broadcom.com>
+Subject: Re: [PATCH v3] PCI/pwrctrl: Move pci_pwrctrl_create_device()
+ definition to drivers/pci/pwrctrl/
+Message-ID: <f5qfkb543al3ihonj7n7fi4pcd3kopavweyo5ixdgv7o3lct4u@r73fkstrcl62>
+References: <pwb4g7worzsnryimt3ymdfsxu7bxvhlr74rqodmiof5auolhrc@vpi7wzrp7osh>
+ <20250617204406.GA1151053@bhelgaas>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250616145607.116639-4-benjamin.gaignard@collabora.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250617204406.GA1151053@bhelgaas>
 
-Hi Benjamin,
+On Tue, Jun 17, 2025 at 03:44:06PM -0500, Bjorn Helgaas wrote:
+> On Mon, Jun 16, 2025 at 07:14:50PM +0530, Manivannan Sadhasivam wrote:
+> > On Mon, Jun 16, 2025 at 03:30:27PM +0200, Bartosz Golaszewski wrote:
+> > > On Mon, Jun 16, 2025 at 3:16 PM Lukas Wunner <lukas@wunner.de> wrote:
+> > > >
+> > > > On Mon, Jun 16, 2025 at 06:07:48PM +0530, Manivannan Sadhasivam wrote:
+> > > > > On Mon, Jun 16, 2025 at 08:21:20PM +0800, kernel test robot wrote:
+> > > > > >    ld: drivers/pci/probe.o: in function `pci_scan_single_device':
+> > > > > > >> probe.c:(.text+0x2400): undefined reference to `pci_pwrctrl_create_device'
+> > > > >
+> > > > > Hmm, so we cannot have a built-in driver depend on a module...
+> > > > >
+> > > > > Bartosz, should we make CONFIG_PCI_PWRCTRL bool then? We can
+> > > > > still allow the individual pwrctrl drivers be tristate.
+> 
+> I think I'm OK with making CONFIG_PCI_PWRCTRL bool.  What is the
+> argument for making it a module?
+> 
 
-kernel test robot noticed the following build warnings:
+Only to avoid making the kernel image bigger.
 
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on rockchip/for-next linus/master v6.16-rc2 next-20250617]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> When pwrctrl is a module, it seems like we have no way to even
+> indicate to the user that "there might be PCI devices here that could
+> be powered on and enumerated."  That feels like information users
+> ought to be able to get.
+> 
+> I do wonder if we're building a structure parallel to ACPI
+> functionality and whether there could/should be some approach that
+> unifies both.  But that's a tangent to this current issue.
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/dt-bindings-vendor-prefixes-Add-Verisilicon/20250616-225842
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250616145607.116639-4-benjamin.gaignard%40collabora.com
-patch subject: [PATCH 3/5] iommu: Add verisilicon IOMMU driver
-config: arm64-randconfig-r111-20250618 (https://download.01.org/0day-ci/archive/20250618/202506181230.D53QwmdL-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20250618/202506181230.D53QwmdL-lkp@intel.com/reproduce)
+Well, pwrctrl is for non-ACPI platforms (mostly OF) and yes, it is parallel to
+ACPI in some form, but that is inevitable since OF is just a hardware
+description and ACPI is much more than that.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506181230.D53QwmdL-lkp@intel.com/
+> > > > I guess the alternative is to just leave it in probe.c.  The
+> > > > function is optimized away in the CONFIG_OF=n case because
+> > > > of_pci_find_child_device() returns NULL.  It's unpleasant that
+> > > > it lives outside of pwrctrl/core.c, but it doesn't occupy any
+> > > > space in the compiled kernel at least on non-OF (e.g. ACPI)
+> > > > platforms.
+> 
+> I don't like having pci_pwrctrl_create_device() in drivers/pci/probe.c
+> and relying on the compiler to optimize it out when
+> of_pci_find_child_device() returns NULL.  This is in the fundamental
+> device enumeration path, and I think it's unnecessary confusion for
+> every non-OF reader.
+> 
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/iommu/vsi-iommu.c:890:24: sparse: sparse: symbol 'rockchip_vsi_iommu_driver' was not declared. Should it be static?
+Okay.
 
-vim +/rockchip_vsi_iommu_driver +890 drivers/iommu/vsi-iommu.c
+> > > And there's a third option of having this function live in a
+> > > separate .c file under drivers/pci/pwrctl/ that would be always
+> > > built-in even if PWRCTL itself is a module. The best/worst of two
+> > > worlds? :)
+> > 
+> > I would try to avoid the third option at any cost ;) Because the
+> > pwrctrl/core.c would no longer be the 'core' and the code structure
+> > would look distorted.
+> 
+> I don't really see adding problem with a file in drivers/pci/pwrctrl/.
+> 
+> Whether it should be "core.c" or not, I dunno.  I think "core.c" could
+> make sense for things that must be present always, e.g.,
+> pci_pwrctrl_create_device(), and the driver itself could be
+> "pwrctrl.c"
+> 
 
-   889	
- > 890	struct platform_driver rockchip_vsi_iommu_driver = {
+Then it will always end up in confusion of where to place the functions and
+such. For sure the Kconfig can define what each file stands for, but IMO it
+feels weird to have 2 files for the same purpose.
+
+But if you insist, I can go for it.
+
+> If pwrctrl is built as a module, what is the module name?  I assume it
+> must be "pwrctrl", though Kconfig doesn't mention it and I don't grok
+> enough Makefile to figure it out.  "core" would be useless in the
+> print_modules() output.
+> 
+
+It is 'pci-pwrctrl-core.ko'.
+
+- Mani
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+மணிவண்ணன் சதாசிவம்
