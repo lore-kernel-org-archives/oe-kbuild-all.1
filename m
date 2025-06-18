@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8C127E7EF
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 08:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93B8286437
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 09:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750234287; cv=none; b=tfI/4naD7hR9qxRkBeQf/ZV3HIXjH431AKQpnqJdIkXS0mTdW9OU9ItDF3r/DiQ1ZaFs9E9ukGycUyREztNx3SnHh+OpbcFBt/G0c85YKkNVmr6r/p7sPt+cdIXh4z1qcCf3uduSrZq0pVUFAGWjFtloZvX06Ls0CmXIaffox2o=
+	t=1750238675; cv=none; b=FsnTFwbl8Xh0LRP9TuRooWocvOxS5dOv4Fju44Od9Jdf8Kbr1VB/UpZfNW2BGy/vxnN53SPD2bpc7FqdkFtic6660HhyVbxeHtKZ5kl+tKuPONNtQibqldht9IXpAxV/RP5b8+Jnz9J2EaJ27vXMsDGGhbh3rRzGPi1tUfhOZNo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750234287; c=relaxed/simple;
-	bh=KPTZ/BGuf4fH9UlDTIRdd1EtetR7fmSdmmWrUG0sDj8=;
+	s=arc-20240116; t=1750238675; c=relaxed/simple;
+	bh=PWNvdSaziAup4RWfy12KJGjLQI2CMDroOzbq5Mgk024=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WPamqvwBS7evSxlBo8CeQ9K9ifV9jdymNn8rqWuTWWi7Tj5gjWduQB7fXqX7qaZjXfiJnSWk2Y5C24K4hCtHKZVXIMkDiaVOD6jtXyuC8Vx8OWq0bZ8LbAtY9sPS99Esjw2Z/27y9NQhQhvKIRJIHvWcfH7wZU1db+vYGAxqDrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OXR3WyYp; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=tOw+0k9qO7FwXUBwYRiEp/8aPMx5r8PhNY32fSSw2qn3deAjza4vHiv2f1N978VeTWlEb7F4ve1AhRuOIbmswvbrW9UVQHCRo0IzWztVkiVWLHKsHOE1I55CttvC6OKes63oyfdTnvEFm8KLimwN/gaWg/LNt7wikUtmc1oxpkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Az6Xg2hm; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OXR3WyYp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Az6Xg2hm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750234285; x=1781770285;
+  t=1750238674; x=1781774674;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KPTZ/BGuf4fH9UlDTIRdd1EtetR7fmSdmmWrUG0sDj8=;
-  b=OXR3WyYpXjinI8jkm/9WFYnPdeTJpJbdxMW7ipGSzhFFHpoR++99/XOM
-   G2bc3sN7ih2ChFUtJ+aed4XcKQUYN+IOt7FmbdsYXxR/sJaqq6LLtv+Sl
-   hzPCeBDbdK6SMCGlwklioaOaaTsa3r0w2Qe5SUbNNv4P5rjy7d0MHG2jC
-   uvIiOiLRlmEY+VApdgttbQMTKWSGLXggwerUo9JNezlX8G7LGkhSZIt9T
-   +YYO5ZIMuusvT8JlzbEzy/AcOsYyBrAcDeK+79Q+juDnyq9QY7iAncJkT
-   u+hVBeWwUyOtSOr21GjuVd/MxjwAyRGsNIR68mOn6mLalS/3JKm1tObjo
-   w==;
-X-CSE-ConnectionGUID: KOONLoJHTkyY5WE+hHdGmw==
-X-CSE-MsgGUID: 5SRQMOKUQaaqFtZGyT6rjg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52361422"
+  bh=PWNvdSaziAup4RWfy12KJGjLQI2CMDroOzbq5Mgk024=;
+  b=Az6Xg2hmwJ7w9D9tm2+UzAjBMc4vlaYOXA0pjzkkT80Jl9sozqiRtFYE
+   EiuT4XCzZrAvPH3Lz7IlHIokbCpSSMC2Bn15Fbajxv8Q+7UunUCoMveby
+   FPSZi1DvGrciD5tEnG3u95BIDuolU9Mhw+9sMe40oKJNfLPKg0Kmjpgd9
+   38agd9p1grkdabMAhqNT1POmAQuZ2qUQlRAJGe0iD+R+FmI2jPr8aaD3T
+   conhjJtqMJt3tm31QuDt9hMHq3HvH9oN6nmWvAur4xcWgxK0YYqwu3Gi2
+   8q0apyZuNzbHtWGP7sz40dlyH6/fJObi/aelzDi/hPoMSGtnpo+xbsAdZ
+   A==;
+X-CSE-ConnectionGUID: 5LRZj5+zQ56Mr8bd/y1tXA==
+X-CSE-MsgGUID: LazqNu8/ScG50wQFORizgA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="51671189"
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="52361422"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 01:10:17 -0700
-X-CSE-ConnectionGUID: r7Nvih67QCOt5UTSuOGoWA==
-X-CSE-MsgGUID: t9PdvtO3TBqXlrK9ZovaPA==
+   d="scan'208";a="51671189"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 02:23:24 -0700
+X-CSE-ConnectionGUID: 3QHtJ84aTrmimsVTdFpWdQ==
+X-CSE-MsgGUID: jLUaDcu4Tf+BvtKRBO/PGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,245,1744095600"; 
-   d="scan'208";a="149966703"
+   d="scan'208";a="150187662"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Jun 2025 01:10:15 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 18 Jun 2025 02:23:23 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRns5-000JXu-1h;
-	Wed, 18 Jun 2025 08:10:13 +0000
-Date: Wed, 18 Jun 2025 16:09:20 +0800
+	id 1uRp0r-000Jas-0T;
+	Wed, 18 Jun 2025 09:23:21 +0000
+Date: Wed, 18 Jun 2025 17:22:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>, Carlos Maiolino <cem@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, John Garry <john.g.garry@oracle.com>,
-	"Darrick J. Wong" <djwong@kernel.org>, linux-xfs@vger.kernel.org
-Subject: Re: [PATCH 7/7] xfs: remove the bt_meta_sectorsize field in struct
- buftarg
-Message-ID: <202506181720.cz0T8fSK-lkp@intel.com>
-References: <20250617105238.3393499-8-hch@lst.de>
+To: Luiz Capitulino <luizcap@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 1/3] mm: introduce snapshot_page()
+Message-ID: <202506181657.pEAayfYp-lkp@intel.com>
+References: <48d49e3371c35a2da6f4c42d5d9f14b6476ff734.1750170418.git.luizcap@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,69 +62,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250617105238.3393499-8-hch@lst.de>
+In-Reply-To: <48d49e3371c35a2da6f4c42d5d9f14b6476ff734.1750170418.git.luizcap@redhat.com>
 
-Hi Christoph,
+Hi Luiz,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on xfs-linux/for-next]
-[also build test WARNING on linus/master v6.16-rc2 next-20250617]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/xfs-remove-the-call-to-sync_blockdev-in-xfs_configure_buftarg/20250617-195226
-base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
-patch link:    https://lore.kernel.org/r/20250617105238.3393499-8-hch%40lst.de
-patch subject: [PATCH 7/7] xfs: remove the bt_meta_sectorsize field in struct buftarg
-config: s390-randconfig-r072-20250618 (https://download.01.org/0day-ci/archive/20250618/202506181720.cz0T8fSK-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181720.cz0T8fSK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Capitulino/mm-introduce-snapshot_page/20250617-222946
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/48d49e3371c35a2da6f4c42d5d9f14b6476ff734.1750170418.git.luizcap%40redhat.com
+patch subject: [RFC 1/3] mm: introduce snapshot_page()
+config: sh-randconfig-002-20250618 (https://download.01.org/0day-ci/archive/20250618/202506181657.pEAayfYp-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506181657.pEAayfYp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506181720.cz0T8fSK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506181657.pEAayfYp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/xfs/xfs_buf.c: In function 'xfs_buf_map_verify':
->> fs/xfs/xfs_buf.c:390:16: warning: unused variable 'sectsize' [-Wunused-variable]
-     unsigned int  sectsize = btp->bt_mount->m_sb.sb_sectsize;
-                   ^~~~~~~~
+   mm/util.c: In function 'set_flags':
+>> mm/util.c:1182:13: error: implicit declaration of function 'folio_test_idle'; did you mean 'folio_test_slab'? [-Wimplicit-function-declaration]
+    1182 |         if (folio_test_idle(folio))
+         |             ^~~~~~~~~~~~~~~
+         |             folio_test_slab
 
 
-vim +/sectsize +390 fs/xfs/xfs_buf.c
+vim +1182 mm/util.c
 
-   384	
-   385	static int
-   386	xfs_buf_map_verify(
-   387		struct xfs_buftarg	*btp,
-   388		struct xfs_buf_map	*map)
-   389	{
- > 390		unsigned int		sectsize = btp->bt_mount->m_sb.sb_sectsize;
-   391		xfs_daddr_t		eofs;
-   392	
-   393		/* Check for IOs smaller than the sector size / not sector aligned */
-   394		ASSERT(!(BBTOB(map->bm_len) < sectsize));
-   395		ASSERT(!(BBTOB(map->bm_bn) & (xfs_off_t)(sectsize - 1)));
-   396	
-   397		/*
-   398		 * Corrupted block numbers can get through to here, unfortunately, so we
-   399		 * have to check that the buffer falls within the filesystem bounds.
-   400		 */
-   401		eofs = XFS_FSB_TO_BB(btp->bt_mount, btp->bt_mount->m_sb.sb_dblocks);
-   402		if (map->bm_bn < 0 || map->bm_bn >= eofs) {
-   403			xfs_alert(btp->bt_mount,
-   404				  "%s: daddr 0x%llx out of range, EOFS 0x%llx",
-   405				  __func__, map->bm_bn, eofs);
-   406			WARN_ON(1);
-   407			return -EFSCORRUPTED;
-   408		}
-   409		return 0;
-   410	}
-   411	
+  1174	
+  1175	static void set_flags(struct page_snapshot *ps, const struct folio *folio,
+  1176			      const struct page *page)
+  1177	{
+  1178		if (is_huge_zero_folio(folio))
+  1179			ps->flags |= PAGE_SNAPSHOT_PG_HUGE_ZERO;
+  1180		if (folio_ref_count(folio) == 0 && is_free_buddy_page(page))
+  1181			ps->flags |= PAGE_SNAPSHOT_PG_FREE;
+> 1182		if (folio_test_idle(folio))
+  1183			ps->flags |= PAGE_SNAPSHOT_PG_IDLE;
+  1184	}
+  1185	
 
 -- 
 0-DAY CI Kernel Test Service
