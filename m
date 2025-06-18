@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5179821D5A9
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 20:58:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2701A35963
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 21:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750280319; cv=none; b=NtFVy1ax3LiKc2PMoJwjpaYx42vWBvEct3HTjdktzw0gIp9c0zFWSFvzbzC6XkPLOHEwrE0LfLp5+c6WvT5+OtFtxZI8NsrGBDFRwtDFvZqrfscd1HESLCbSFbajSROSlCKNXKQuG5Z++/kgzeY/wLLjJZ/eeB4ZDDCrqNOPxME=
+	t=1750282782; cv=none; b=flXsjyTYX3HqyjqnVi7YMOj0Q0BZ9JJBt5ucqgmLBYSKOxP+cVZyaerIs6dx8wY1yf88jW+qpG6oEOO8593+d/8AJ752XYYV6Z9kJgxRBqaEaQL5paddazFTvG4OoxlIlFShhuosYTOIVw9BWwfcR8hp3BsKp80K7v+sXWn2vqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750280319; c=relaxed/simple;
-	bh=idIGyuWN/Z0SuiHlkIMMWeYeQfulkuge0YNfgzu2D+4=;
+	s=arc-20240116; t=1750282782; c=relaxed/simple;
+	bh=xZGI7P6zl1K2zgqEQB7dAaBp21443Z+GNJTh07RHTsQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BOpBt3ULPg+6tbbjhSU4JwjgM3Uv0eqQdXWVlyZmyG3fVPhGPyjLnJLmTQakhQN9Gr8IVRnyPAvLegNjxv2lrKz070OrQ/zoG6MORLMK3HkQcXnMZUOzHKn2nIUZHMt5aRqoYfJV0rep0egbILV6HXai8+/D3mlW+ukn2qJCp+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T7gcw2VP; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=BSBVBJeRjXXlLubTOn+Ftx7GGFnh1uaBkIv7FFG/Mw6/g7OtDYmGWewYkMdZyKvOtm9EfIdEEZIUTUo81pFuseLaLDRJUGCal7v8GUgC+pLRm0ODJWzHSR3fxsp0NKmD5ZA9y/HCYQOhDzplMjJjQjVRffepDSIiMWZHpJt1pkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cK/tmu7q; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T7gcw2VP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cK/tmu7q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750280317; x=1781816317;
+  t=1750282781; x=1781818781;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=idIGyuWN/Z0SuiHlkIMMWeYeQfulkuge0YNfgzu2D+4=;
-  b=T7gcw2VPdK+aEXyPYtWuregVQRxmDG1i7A5gZ7qYB3Ps9kJPUgFkY+KU
-   TCiHNHUYKp+PHxzURlPHfrHndVjk/e6IDSb7h/NDq3/t3turdesIOsbAi
-   MQK3k1SVjF3JKuUvv5FIjkd4lHGn4t7e1L0aoRhfZcMgdBTeIVvFv5sa2
-   wdryAZVQJc35c7l8TMnGOsrP1rlgw2Pd7N9QWbNiU4dRUQmed5x4NRLBq
-   tRCpeSoqGvt8eD/Gtq1aRjfcdeW7QIAxKAp6WYZiHHnSjVe9dbDlbfwZf
-   9VBRXN83Z7DcVZm8XYDXAqu/UhJ1JpJs+5KomH8Vdmcbt+T0VzNh+Mpab
-   A==;
-X-CSE-ConnectionGUID: IZFeHkCtRyCjktGy/OCwdw==
-X-CSE-MsgGUID: Wozth7qhSeK+bFowKEnRyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="55147201"
+  bh=xZGI7P6zl1K2zgqEQB7dAaBp21443Z+GNJTh07RHTsQ=;
+  b=cK/tmu7qXHo3eEFDhYnR9CvEjRocGPO47p7lEnY6WjLQTjTLElkqOtkV
+   2p02QSKFlBbfCswju+vpozsO0HPoKMJ8OKzJ15x5vCqo0uccsMludv7c0
+   Yah7GFzXlDxlP3yOlr8srtvqq/h81iYQqsTT5BeHoAXwM8gxVkF7G0eSV
+   giXISKPWwMzEkgfU9wD3kUMbFR3xbsxdPHml7Nlazfz3ijz+iLZsU0POh
+   /9bBUou1V4O9EMUGdwemBppv3cchkGr4RgXf4qhZAIHwBZ6KhgUabFheY
+   wY0uubIDudgPdGZZc+aK75m3+fXgZpYt8KFQrLk1ARAwa/unylV51gMoc
+   g==;
+X-CSE-ConnectionGUID: aT+DY32WQY6Slgfc33gKoA==
+X-CSE-MsgGUID: TDSUKeppTXuNrVpkNS3JSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52224843"
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="55147201"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 13:58:36 -0700
-X-CSE-ConnectionGUID: Cqkat9cTQPu1fmQfCRVFcA==
-X-CSE-MsgGUID: j/9dMiNbQjO5e0Mq8yCOrw==
+   d="scan'208";a="52224843"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 14:39:40 -0700
+X-CSE-ConnectionGUID: +02UuRviRZaNnRKruG7HEg==
+X-CSE-MsgGUID: YHkg7b1QRRi5Ave/aFG0CA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,246,1744095600"; 
-   d="scan'208";a="150020052"
+   d="scan'208";a="187500343"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 18 Jun 2025 13:58:36 -0700
+  by orviesa001.jf.intel.com with ESMTP; 18 Jun 2025 14:39:38 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRzrd-000KAs-03;
-	Wed, 18 Jun 2025 20:58:33 +0000
-Date: Thu, 19 Jun 2025 04:58:09 +0800
+	id 1uS0VM-000KCM-1A;
+	Wed, 18 Jun 2025 21:39:36 +0000
+Date: Thu, 19 Jun 2025 05:39:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: Leon Romanovsky <leonro@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 0/1] mm/khugepaged.c:152: warning:
- Function parameter or member 'evict_timestamp' not described in 'mm_slot'
-Message-ID: <202506190441.cUEMizgq-lkp@intel.com>
+Subject: [leon-rdma:dma-direct-pfn 4/13] kernel/dma/mapping.c:190:13: error:
+ implicit declaration of function 'arch_dma_unmap_phys_direct'; did you mean
+ 'arch_dma_unmap_physdirect'?
+Message-ID: <202506190525.UMXBJMEr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,85 +63,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Rongwei,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   182e47fd81e1f2341328ae1ae465ff25a83ca7a4
-commit: bf2c1d13d55c0fdac556938a3cde016341d985ec [0/1] anolis: mm: hugetext: Update adaptive entries
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250619/202506190441.cUEMizgq-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506190441.cUEMizgq-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dma-direct-pfn
+head:   a7679860d78d4379f88e33c3f5cf972a17180db0
+commit: 023d9f0376459ba6bc5e05cccdacbd2cc0b9fa6e [4/13] dma-mapping: convert dma_direct_*map_page to be phys_addr_t based
+config: powerpc64-randconfig-001-20250619 (https://download.01.org/0day-ci/archive/20250619/202506190525.UMXBJMEr-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506190525.UMXBJMEr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506190441.cUEMizgq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506190525.UMXBJMEr-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   mm/khugepaged.c:152: warning: Function parameter or member 'nr_pte_mapped_thp' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'pte_mapped_thp' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'exec_vma' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'nr_adapt_vma' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'adapt_vmas' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'adaptive_regions' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'work' not described in 'mm_slot'
->> mm/khugepaged.c:152: warning: Function parameter or member 'evict_timestamp' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'state' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'nr_hugetext' not described in 'mm_slot'
-   mm/khugepaged.c:1855: warning: Function parameter or member 'mm' not described in 'collapse_pte_mapped_thp'
-   mm/khugepaged.c:1855: warning: Function parameter or member 'addr' not described in 'collapse_pte_mapped_thp'
-   mm/khugepaged.c:2057: warning: Function parameter or member 'mm' not described in 'collapse_file'
-   mm/khugepaged.c:2057: warning: Function parameter or member 'file' not described in 'collapse_file'
-   mm/khugepaged.c:2057: warning: Function parameter or member 'start' not described in 'collapse_file'
-   mm/khugepaged.c:2057: warning: Function parameter or member 'hpage' not described in 'collapse_file'
-   mm/khugepaged.c:2057: warning: Function parameter or member 'node' not described in 'collapse_file'
+>> arch/powerpc/kernel/dma-iommu.c:27:6: warning: no previous prototype for 'arch_dma_unmap_phys_direct' [-Wmissing-prototypes]
+      27 | bool arch_dma_unmap_phys_direct(struct device *dev, dma_addr_t dma_handle)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+   kernel/dma/mapping.c: In function 'dma_unmap_page_attrs':
+>> kernel/dma/mapping.c:190:13: error: implicit declaration of function 'arch_dma_unmap_phys_direct'; did you mean 'arch_dma_unmap_physdirect'? [-Werror=implicit-function-declaration]
+     190 |             arch_dma_unmap_phys_direct(dev, addr + size))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |             arch_dma_unmap_physdirect
+   cc1: some warnings being treated as errors
 
 
-vim +152 mm/khugepaged.c
+vim +190 kernel/dma/mapping.c
 
-b188234c53aafe Rongwei Wang       2022-11-26  122  
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  123  /**
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  124   * struct mm_slot - hash lookup from mm to mm_slot
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  125   * @hash: hash collision list
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  126   * @mm_node: khugepaged scan list headed in khugepaged_scan.mm_head
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  127   * @mm: the mm that this information is valid for
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  128   */
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  129  struct mm_slot {
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  130  	struct hlist_node hash;
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  131  	struct list_head mm_node;
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  132  	struct mm_struct *mm;
-27e1f8273113ad Song Liu           2019-09-23  133  
-27e1f8273113ad Song Liu           2019-09-23  134  	/* pte-mapped THP in this mm */
-27e1f8273113ad Song Liu           2019-09-23  135  	int nr_pte_mapped_thp;
-27e1f8273113ad Song Liu           2019-09-23  136  	unsigned long pte_mapped_thp[MAX_PTE_MAPPED_THP];
-5c3c3afed0fd68 Xu Yu              2021-08-19  137  
-5c3c3afed0fd68 Xu Yu              2021-08-19  138  #ifdef CONFIG_HUGETEXT
-5c3c3afed0fd68 Xu Yu              2021-08-19  139  #define MAX_EXEC_VMA       8
-5c3c3afed0fd68 Xu Yu              2021-08-19  140  	/* exec vma vm_start in this mm */
-5c3c3afed0fd68 Xu Yu              2021-08-19  141  	int nr_exec_vma;
-5c3c3afed0fd68 Xu Yu              2021-08-19  142  	unsigned long exec_vma[MAX_EXEC_VMA];
-b188234c53aafe Rongwei Wang       2022-11-26  143  	int nr_adapt_vma;
-b188234c53aafe Rongwei Wang       2022-11-26  144  	struct adapt_vma_t adapt_vmas[MAX_EXEC_VMA];
-b188234c53aafe Rongwei Wang       2022-11-26  145  	struct xarray adaptive_regions;
-b188234c53aafe Rongwei Wang       2022-11-26  146  	struct delayed_work work;
-bf2c1d13d55c0f Rongwei Wang       2022-11-26  147  	unsigned long evict_timestamp;
-b188234c53aafe Rongwei Wang       2022-11-26  148  	/* Current state of adapt vma */
-b188234c53aafe Rongwei Wang       2022-11-26  149  	atomic_t state;
-b188234c53aafe Rongwei Wang       2022-11-26  150  	int nr_hugetext;
-5c3c3afed0fd68 Xu Yu              2021-08-19  151  #endif
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26 @152  };
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  153  
-
-:::::: The code at line 152 was first introduced by commit
-:::::: b46e756f5e47031c67658ff036e5ffe27062fa43 thp: extract khugepaged from mm/huge_memory.c
-
-:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   182	
+   183	void dma_unmap_page_attrs(struct device *dev, dma_addr_t addr, size_t size,
+   184			enum dma_data_direction dir, unsigned long attrs)
+   185	{
+   186		const struct dma_map_ops *ops = get_dma_ops(dev);
+   187	
+   188		BUG_ON(!valid_dma_direction(dir));
+   189		if (dma_map_direct(dev, ops) ||
+ > 190		    arch_dma_unmap_phys_direct(dev, addr + size))
+   191			dma_direct_unmap_phys(dev, addr, size, dir, attrs);
+   192		else if (use_dma_iommu(dev))
+   193			iommu_dma_unmap_phys(dev, addr, size, dir, attrs);
+   194		else
+   195			ops->unmap_page(dev, addr, size, dir, attrs);
+   196		trace_dma_unmap_phys(dev, addr, size, dir, attrs);
+   197		debug_dma_unmap_phys(dev, addr, size, dir);
+   198	}
+   199	EXPORT_SYMBOL(dma_unmap_page_attrs);
+   200	
 
 -- 
 0-DAY CI Kernel Test Service
