@@ -1,57 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C17DCA6F;
-	Wed, 18 Jun 2025 00:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC9592F5311
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 01:02:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750206637; cv=none; b=jCZZv1UU3TG+AqoMn6sfSG0xoFspJU7d1B/VoadCC0fH6enJb0OMVX2BMig1TXlnxBtQrD/Gx9wb2eJfF2GFiHbRy3hM1QMbWyBc9mxjlidUrzfD/5KZzFJNHM4apnDt048Ju46kriKBFcXqhbqc01TH6sXnLYdu58LsG3KVqmw=
+	t=1750208560; cv=none; b=AUJb2OEiu26TZplz5ujzjnSMNbpI8B7qeXc9iFlOskNATAApD+Xcyo1i/KEaaAE5cS0eVJqa4RQtGDNSd9eyJaX8xMLLTJPkTd2KQhkv0ieG8B0ZVauKLiKHC62QRVRuzIQ2VRvGJVApaEGZhWpZmRq2xpm3gB7UYic2YL0VBzk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750206637; c=relaxed/simple;
-	bh=CxumDiABUzrnXC11v0GiG+38lkWawLs8vLhulVzojiw=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KVsjQ2T8bkfYaRSPEY7ZvO+HtUU8LgT7p+vNK8+i6BJaZqtUnVteoLGqi4aGMUBe8mEgIW8bpcXLwA1ltWcmyEbN9JrvR9v8NWdIianCjC3cnTPeNDGigG3s0QXkYabkpQStZAvPuxv54pKE5KUcFrus7nT2bzKSNHlrGmY2SUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=G00OAWL+; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1750208560; c=relaxed/simple;
+	bh=+iBhewKxw6qplHpqULN+ImD5snFP0XkL4TYedjG3nSg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rXQ6y1a++BK7qU02pLOaZaLibgOBwzm3wR5HJV++9N7G6MfD/cs/YBP85PIp+lumugeGqD26YlERh/uF3lREbhczbq3d1XTIduzP9+E8qFNX0wa9pBKLJLY7Iyb38lanrVyDPni5gDIfp9JhKJFY8/VpduggsHxNO+3HhrOLl0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CwqD2+Wi; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="G00OAWL+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CwqD2+Wi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750206636; x=1781742636;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=CxumDiABUzrnXC11v0GiG+38lkWawLs8vLhulVzojiw=;
-  b=G00OAWL+e0fUi4D2HhlUf3GDtoIkLaWna2PACTVtK73i7VoiS60EqgPO
-   Dohb+g9+2GkmcJuyWTyxIn9VMNCGDhKuawM9g6QRVmafVNWYadm2QfnNN
-   4GtQ0hgsz3hqW343n2TnDdAU8+0k5RjtIQMFDXHniibKq7J2TRqb4Ygdy
-   VfmuyT7kFcw9Hsxwt+dhx4J4Tam/bBXflO1LVynswBh8i/r3tLNbpZUab
-   BxbCIfnTxZkFpRYPwJde8sr2AhwZwZ0WUPh1FIHseO3zkqBgL+9tC+gGA
-   H+TWccwIma+QOlPwU6mHxWnY8RYZ/+R3YTAnhUmpNAPEUX1ttfeF1G+CW
-   Q==;
-X-CSE-ConnectionGUID: gNuBtHHiTI6ciSqpg658xA==
-X-CSE-MsgGUID: i//Jw7VPSGKf19WOMTeFrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52270902"
+  t=1750208559; x=1781744559;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+iBhewKxw6qplHpqULN+ImD5snFP0XkL4TYedjG3nSg=;
+  b=CwqD2+WiW5jiQzStciWeZh8X6TcrbG2HYD5aVcspgVbeJP/Czc8De6OB
+   ZblKBtB2qc67M0VBL2db3KcxR2QaROquGdlGAWdeiNC8DOPCbct6CBDM5
+   DUQDkYWm05EXw7/P37O4PM0dnR2h1bIXK87HYK/RJUzlvlJd4yX/9AZDD
+   dvJSjkojAaDZNjMQKcHz8J7ZxSkUUeKEtn57i1/x7thsh//BnOQzw41aR
+   46S4fEZtougnwhnnj9WSGCChjdebsAc2+I09zjOHz+8pR3ehN6/HkgYxv
+   aIBlgLdKY0orENrkAuKFm6CuGsK3GxjKI3IOe2lcZeqAzLKxk5s37/QOE
+   A==;
+X-CSE-ConnectionGUID: mUvEWF5VToWMXGdo71SZhA==
+X-CSE-MsgGUID: It7yqcMQSQewav+5AYdRug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11467"; a="52547550"
 X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
-   d="scan'208";a="52270902"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 17:30:36 -0700
-X-CSE-ConnectionGUID: en+T2zfpSJm2bbmLCrTX/Q==
-X-CSE-MsgGUID: shAAM/WARi6pKALpFuBRpw==
+   d="scan'208";a="52547550"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2025 18:02:38 -0700
+X-CSE-ConnectionGUID: tJwnTueJTnWIVbyK4Vrddw==
+X-CSE-MsgGUID: QK4LX+8YTFinDs5ce3sWfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,244,1744095600"; 
-   d="scan'208";a="149571676"
+   d="scan'208";a="149047544"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 17 Jun 2025 17:30:32 -0700
+  by orviesa009.jf.intel.com with ESMTP; 17 Jun 2025 18:02:38 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uRghE-000JFC-0o;
-	Wed, 18 Jun 2025 00:30:32 +0000
-Date: Wed, 18 Jun 2025 08:30:25 +0800
+	id 1uRhCF-000JGW-01;
+	Wed, 18 Jun 2025 01:02:35 +0000
+Date: Wed, 18 Jun 2025 09:02:06 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
-Subject: Re: [PATCH v2 2/3] firmware: coreboot: loader for Linux-owned SMI
- handler
-Message-ID: <202506180813.XldQ0K9E-lkp@intel.com>
+To: Lorenzo Pieralisi <lpieralisi@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [lpieralisi:dev/gicv5-v5 28/28]
+ drivers/irqchip/irq-gic-v5-its.c:941:30: warning: variable 'its' set but not
+ used
+Message-ID: <202506180844.cc0B5lTd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,163 +63,102 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-In-Reply-To: <20250616-coreboot-payload-mm-v2-2-5d679b682e13@9elements.com>
-References: <20250616-coreboot-payload-mm-v2-2-5d679b682e13@9elements.com>
-TO: Michal Gorlas <michal.gorlas@9elements.com>
-TO: "Tzung-Bi Shih" <tzungbi@kernel.org>
-TO: Brian Norris <briannorris@chromium.org>
-TO: Julius Werner <jwerner@chromium.org>
-CC: linux-kernel@vger.kernel.org
-CC: chrome-platform@lists.linux.dev
-CC: Marcello Sylvester Bauer <marcello.bauer@9elements.com>
-CC: Michal Gorlas <michal.gorlas@9elements.com>
+Hi Lorenzo,
 
-Hi Michal,
+First bad commit (maybe != root cause):
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 19272b37aa4f83ca52bdf9c16d5d81bdd1354494]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Michal-Gorlas/firmware-coreboot-support-for-parsing-SMM-related-informations-from-coreboot-tables/20250616-220336
-base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-patch link:    https://lore.kernel.org/r/20250616-coreboot-payload-mm-v2-2-5d679b682e13%409elements.com
-patch subject: [PATCH v2 2/3] firmware: coreboot: loader for Linux-owned SMI handler
-config: i386-randconfig-012-20250618 (https://download.01.org/0day-ci/archive/20250618/202506180813.XldQ0K9E-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506180813.XldQ0K9E-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lpieralisi/linux.git dev/gicv5-v5
+head:   93e6020b4a68410920bb2759fdd64639b59857db
+commit: 93e6020b4a68410920bb2759fdd64639b59857db [28/28] arm64: Kconfig: Enable GICv5
+config: arm64-randconfig-002-20250618 (https://download.01.org/0day-ci/archive/20250618/202506180844.cc0B5lTd-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 875b36a8742437b95f623bab1e0332562c7b4b3f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250618/202506180844.cc0B5lTd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506180813.XldQ0K9E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506180844.cc0B5lTd-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/firmware/google/mm_loader.c:38:15: error: inline assembly requires more registers than available
-      38 |         asm volatile("movq      %[cmd], %%rax\n\t"
-         |                      ^
->> drivers/firmware/google/mm_loader.c:38:15: error: register %rax is only available in 64-bit mode
-   <inline asm>:1:13: note: instantiated into assembly here
-       1 |         movq    %eax, %rax
-         |                       ^~~~
-   drivers/firmware/google/mm_loader.c:38:36: error: register %rax is only available in 64-bit mode
-      38 |         asm volatile("movq      %[cmd], %%rax\n\t"
-         |                                                ^
-   <inline asm>:2:7: note: instantiated into assembly here
-       2 |         movq    %rax, %rcx
-         |                 ^~~~~
->> drivers/firmware/google/mm_loader.c:39:28: error: register %rbx is only available in 64-bit mode
-      39 |                      "movq      %%rax, %%rcx\n\t"
-         |                                               ^
-   <inline asm>:3:13: note: instantiated into assembly here
-       3 |         movq    %eax, %rbx
-         |                       ^~~~
->> drivers/firmware/google/mm_loader.c:40:29: error: register %r8 is only available in 64-bit mode
-      40 |                      "movq      %[arg], %%rbx\n\t"
-         |                                                ^
-   <inline asm>:4:13: note: instantiated into assembly here
-       4 |         movq    %ecx, %r8
-         |                       ^~~
->> drivers/firmware/google/mm_loader.c:44:26: error: register %rcx is only available in 64-bit mode
-      44 |                      "outb      %%al, %%dx\n\t"
-         |                                             ^
-   <inline asm>:8:7: note: instantiated into assembly here
-       8 |         cmpq    %rcx, %rax
-         |                 ^~~~~
-   drivers/firmware/google/mm_loader.c:46:30: error: register %rcx is only available in 64-bit mode
-      46 |                      "jne       .return_changed\n\t"
-         |                                                  ^
-   <inline asm>:10:8: note: instantiated into assembly here
-      10 |         pushq   %rcx
-         |                 ^~~~
-   drivers/firmware/google/mm_loader.c:47:22: error: register %rcx is only available in 64-bit mode
-      47 |                      "pushq     %%rcx\n\t"
-         |                                        ^
-   <inline asm>:11:15: note: instantiated into assembly here
-      11 |         movq    $10000, %rcx
-         |                         ^~~~
-   drivers/firmware/google/mm_loader.c:49:18: error: register %rcx is only available in 64-bit mode
-      49 |                      "rep       nop\n\t"
-         |                                      ^
-   <inline asm>:13:7: note: instantiated into assembly here
-      13 |         popq    %rcx
-         |                 ^~~~
-   drivers/firmware/google/mm_loader.c:50:21: error: register %r8 is only available in 64-bit mode
-      50 |                      "popq      %%rcx\n\t"
-         |                                        ^
-   <inline asm>:14:11: note: instantiated into assembly here
-      14 |         cmpq    $0, %r8
-         |                     ^~~
-   drivers/firmware/google/mm_loader.c:52:33: error: register %r8 is only available in 64-bit mode
-      52 |                      "je        .return_not_changed\n\t"
-         |                                                      ^
-   <inline asm>:16:7: note: instantiated into assembly here
-      16 |         decq    %r8
-         |                 ^~~
-   drivers/firmware/google/mm_loader.c:55:27: error: register %rax is only available in 64-bit mode
-      55 |                      ".return_changed:\n\t"
-         |                                         ^
-   <inline asm>:19:7: note: instantiated into assembly here
-      19 |         movq    %rax, %eax
-         |                 ^~~~~
-   drivers/firmware/google/mm_loader.c:58:31: error: register %rcx is only available in 64-bit mode
-      58 |                      ".return_not_changed:\n\t"
-         |                                             ^
-   <inline asm>:22:7: note: instantiated into assembly here
-      22 |         movq    %rcx, %eax
-         |                 ^~~~~
-   13 errors generated.
+>> drivers/irqchip/irq-gic-v5-its.c:941:30: warning: variable 'its' set but not used [-Wunused-but-set-variable]
+     941 |         struct gicv5_its_chip_data *its;
+         |                                     ^
+   1 warning generated.
 
 
-vim +38 drivers/firmware/google/mm_loader.c
+vim +/its +941 drivers/irqchip/irq-gic-v5-its.c
 
-    27	
-    28	/*
-    29	 * This is x86_64 specific, assuming that we want this to also work on i386,
-    30	 * we either need to have "trigger_smi32" bounded by preprocessor guards(?)
-    31	 * or mm_loader32 and then mm_loader$(BITS) in Makefile(?).
-    32	 */
-    33	static int trigger_smi(u64 cmd, u64 arg, u64 retry)
-    34	{
-    35		u64 status;
-    36		u16 apmc_port = 0xb2;
-    37	
-  > 38		asm volatile("movq	%[cmd], %%rax\n\t"
-  > 39			     "movq	%%rax, %%rcx\n\t"
-  > 40			     "movq	%[arg], %%rbx\n\t"
-    41			     "movq	%[retry], %%r8\n\t"
-    42			     ".trigger:\n\t"
-    43			     "mov	%[apmc_port], %%dx\n\t"
-  > 44			     "outb	%%al, %%dx\n\t"
-    45			     "cmpq	%%rcx, %%rax\n\t"
-    46			     "jne	.return_changed\n\t"
-    47			     "pushq	%%rcx\n\t"
-    48			     "movq	$10000, %%rcx\n\t"
-    49			     "rep	nop\n\t"
-    50			     "popq	%%rcx\n\t"
-    51			     "cmpq	$0, %%r8\n\t"
-    52			     "je	.return_not_changed\n\t"
-    53			     "decq	%%r8\n\t"
-    54			     "jmp	.trigger\n\t"
-    55			     ".return_changed:\n\t"
-    56			     "movq	%%rax, %[status]\n\t"
-    57			     "jmp	.end\n\t"
-    58			     ".return_not_changed:\n\t"
-    59			     "movq	%%rcx, %[status]\n\t"
-    60			     ".end:\n\t"
-    61			     : [status] "=r"(status)
-    62			     : [cmd] "r"(cmd), [arg] "r"(arg), [retry] "r"(retry),
-    63			       [apmc_port] "r"(apmc_port)
-    64			     : "%rax", "%rbx", "%rdx", "%rcx", "%r8");
-    65	
-    66		if (status == cmd || status == PAYLOAD_MM_RET_FAILURE)
-    67			status = PAYLOAD_MM_RET_FAILURE;
-    68		else
-    69			status = PAYLOAD_MM_RET_SUCCESS;
-    70	
-    71		return status;
-    72	}
-    73	
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  935  
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  936  static int gicv5_its_irq_domain_alloc(struct irq_domain *domain, unsigned int virq,
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  937  				      unsigned int nr_irqs, void *arg)
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  938  {
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  939  	u32 device_id, event_id_base, lpi;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  940  	struct msi_domain_info *msi_info;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03 @941  	struct gicv5_its_chip_data *its;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  942  	struct gicv5_its_dev *its_dev;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  943  	msi_alloc_info_t *info = arg;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  944  	irq_hw_number_t hwirq;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  945  	struct irq_data *irqd;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  946  	int ret, i;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  947  
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  948  	its_dev = info->scratchpad[0].ptr;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  949  	device_id = its_dev->device_id;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  950  
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  951  	msi_info = msi_get_domain_info(domain);
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  952  	its = msi_info->data;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  953  
+ffca573d670e39 Lorenzo Pieralisi 2024-10-08  954  	ret = gicv5_its_alloc_eventid(its_dev, info, nr_irqs, &event_id_base);
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  955  	if (ret)
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  956  		return ret;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  957  
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  958  	ret = iommu_dma_prepare_msi(info->desc, its_dev->its_trans_phys_base);
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  959  	if (ret)
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  960  		goto out_eventid;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  961  
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  962  	for (i = 0; i < nr_irqs; i++) {
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  963  		lpi = gicv5_alloc_lpi();
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  964  		if (ret < 0) {
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  965  			pr_debug("Failed to find free LPI!\n");
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  966  			goto out_eventid;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  967  		}
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  968  
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  969  		ret = irq_domain_alloc_irqs_parent(domain, virq + i, 1, &lpi);
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  970  		if (ret)
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  971  			goto out_free_lpi;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  972  
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  973  		/*
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  974  		 * Store eventid and deviceid into the hwirq for later use.
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  975  		 *
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  976  		 *	hwirq  = event_id << 32 | device_id
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  977  		 */
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  978  		hwirq = FIELD_PREP(GICV5_ITS_HWIRQ_DEVICE_ID, device_id) |
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  979  			FIELD_PREP(GICV5_ITS_HWIRQ_EVENT_ID, (u64)event_id_base + i);
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  980  		irq_domain_set_info(domain, virq + i, hwirq,
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  981  				    &gicv5_its_irq_chip, its_dev,
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  982  				    handle_fasteoi_irq, NULL, NULL);
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  983  
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  984  		irqd = irq_get_irq_data(virq + i);
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  985  		irqd_set_single_target(irqd);
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  986  		irqd_set_affinity_on_activate(irqd);
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  987  		irqd_set_resend_when_in_progress(irqd);
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  988  	}
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  989  
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  990  	return 0;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  991  out_free_lpi:
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  992  	gicv5_free_lpi(lpi);
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  993  out_eventid:
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  994  	gicv5_its_free_eventid(its_dev, event_id_base, nr_irqs);
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  995  
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  996  	return ret;
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  997  }
+dac392cbeba5af Lorenzo Pieralisi 2024-10-03  998  
+
+:::::: The code at line 941 was first introduced by commit
+:::::: dac392cbeba5af44e834c5ab4d1cbec318654fd5 irqchip/gic-v5: Add GICv5 ITS support
+
+:::::: TO: Lorenzo Pieralisi <lpieralisi@kernel.org>
+:::::: CC: Lorenzo Pieralisi <lpieralisi@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
