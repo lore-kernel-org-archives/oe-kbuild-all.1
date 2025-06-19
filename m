@@ -1,60 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40333152DE7;
-	Thu, 19 Jun 2025 19:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496BC209F2E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 20:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750360839; cv=none; b=pE++5S6tMGJ3OpLpu9k/JmGl+E1SeJyCVKRyuxkcj9hxjK3CAU4bn6eUKLKHpM+44qYQizlwgIibeteGqgZxp0syQ+KzAXkq7yKANkDEJ/ddDeNUBSmBHmcv1fNEJMFYbL/ud6pam78yGEP9X96Mn98pIFYDwxUyiqsxSwdt7C4=
+	t=1750364568; cv=none; b=azdwvoCVjE7X10k68Artf7ODpdqvFq5QxHx5Rf3OwP8plY5GY1QXn3XE+cUBhv1bQtefe44OvYD4Dsr/vLwuHNekXv7W1xVEDpjQEgE7qlNUidxsmBPN6Fo7We6k8kG6bswqw8Db4ghECbOLAz79DZgQilqW54M64dQigB1nnmw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750360839; c=relaxed/simple;
-	bh=pot+ohnN0ZO3Fh+TEFIfLl2YCGEG4usCNHjE1LGOsRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ba+MMbZ3NiUSITwtRFH8XClHrXnqRjgu3Jb+f6A3UulW2XYsA7wW8pExGuevEpVjPNdiy0EwrBTSRwhBS3PGsEz5xg0IXBHOAQn17say75zfUyDWWpDtWwJ8yrVkZ50iwdAeRdi/Y4kQ/z1JOZ4KtopVuSnMIWhKoBBnZtQaR1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kFOq/gED; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1750364568; c=relaxed/simple;
+	bh=1306ugvPqvYx0GNhUobnRO2BRmD0tvRO5GZ6dyr69A0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D33PJxQ9Z+tuoO//AkG6dXN8bYaNIBu2TRPyMqWkIcXrFqE9DH+g1TRws/UV0UNFTCAWHIk7/umZrYp46QjH4LwSpZtprge8ziehwzyYlNcSIKvt/VFml8zApWtSwYwMA7vXtSW8JZD0UGgx6npAS0K6+t8E5x+LwphLZP+hZcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h+tgCKKi; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kFOq/gED"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h+tgCKKi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750360837; x=1781896837;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pot+ohnN0ZO3Fh+TEFIfLl2YCGEG4usCNHjE1LGOsRc=;
-  b=kFOq/gED0bkHeMUikOskpcmIqTKX35d1YCF89YF+a5IPxvdHqVaCWSTE
-   6IOAB/pXa9XA07vXpgl6+SaKNL3/oCdAzzPMDYwPh1CN/jS1a5c6BbLIq
-   nL9nqVW/oQ3oHj6PE6cyvu40BQvhNH+weLu68kHSYbGTC6zUPJOiUSXH2
-   OYFT/wHY2O1uRIv9S70cqCzzr02gJuPbWV6ds8ip8mrsIkQpakrNgt2iH
-   lQs1n87As/TCmQDU3uJxeC+ZjokIXkU38AH84gSWWZQkXa+8hcjBHrZam
-   ApQq62ifP24aCUH0LTpQ7H6hUyApp65NRPd4ysLcikuK2vTF6HxYIIWnF
+  t=1750364567; x=1781900567;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1306ugvPqvYx0GNhUobnRO2BRmD0tvRO5GZ6dyr69A0=;
+  b=h+tgCKKinRvHLtC60qB7dF2+bk2mybbl33reQHvAUpU3nrlK+zJ2j/p+
+   Rv4x5zfdy0lAIZI/QHdagMNY79SSl63sWXA2/vUVg6WrQlUs1dEw+M1RC
+   YsyXATkQltzEn0USuIVSnA6fvZzzQxY42TNBANOqWHj5GoD8NB9Qndm5d
+   1gvaxMsd1ugxGmTeNK96KIZZbV/rsk1+iY2dZaxX9XTRZ9YmZ+zSNxjpq
+   gL/Wei/JfW0s6rU2l0EM/DdgtQB+oIuz0fT9s3rM4aH0T8XUj5WCWDcJZ
+   G8/TGD3NPbuSjmpJxhtO/V3wB7bs4AL74OI17ing8alPxHDsykeRHfr+T
    w==;
-X-CSE-ConnectionGUID: L32fq3hJTKChajUJo+mo7w==
-X-CSE-MsgGUID: igs2571ETTyEu189gB+Akg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52701104"
+X-CSE-ConnectionGUID: fMHsAsKzS4elzWbT/OmEAQ==
+X-CSE-MsgGUID: 2aioLAyOTS2d3yhPFMrbZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="51852703"
 X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="52701104"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 12:20:37 -0700
-X-CSE-ConnectionGUID: ilE3VY5YR8ehCGUtpyrHRQ==
-X-CSE-MsgGUID: fzEG4tzlSxePRFDZz5niFQ==
+   d="scan'208";a="51852703"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 13:22:47 -0700
+X-CSE-ConnectionGUID: HbfmO9QBTz2wrgvuPHbqPA==
+X-CSE-MsgGUID: fjTzpWQ/Sxa+NwOTsif4Aw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="150216905"
+   d="scan'208";a="155290205"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 19 Jun 2025 12:20:35 -0700
+  by orviesa004.jf.intel.com with ESMTP; 19 Jun 2025 13:22:41 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSKoK-000L3G-1e;
-	Thu, 19 Jun 2025 19:20:32 +0000
-Date: Fri, 20 Jun 2025 03:20:02 +0800
+	id 1uSLmQ-000L5G-2H;
+	Thu, 19 Jun 2025 20:22:38 +0000
+Date: Fri, 20 Jun 2025 04:22:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: [net-next:main 35/47] drivers/net/pse-pd/pse_core.c:676:23: error:
- incompatible pointer types passing 'struct net_device *' to parameter of
- type 'struct phy_device *'
-Message-ID: <202506200355.TqFiYUbN-lkp@intel.com>
+To: Will McVicker <willmcvicker@google.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@linaro.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Rob Herring <robh@kernel.org>,
+	Saravana Kannan <saravanak@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Will McVicker <willmcvicker@google.com>,
+	Donghoon Yu <hoony.yu@samsung.com>,
+	Hosung Kim <hosung0.kim@samsung.com>, kernel-team@android.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	John Stultz <jstultz@google.com>,
+	Youngmin Nam <youngmin.nam@samsung.com>,
+	Peter Griffin <peter.griffin@linaro.org>,
+	Tudor Ambarus <tudor.ambarus@linaro.org>,
+	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [PATCH 5/6] clocksource/drivers/exynos_mct: Add module support
+Message-ID: <202506200445.1vdWU11a-lkp@intel.com>
+References: <20250618210851.661527-6-willmcvicker@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,88 +80,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250618210851.661527-6-willmcvicker@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
-head:   afc783fa0aab9cc093fbb04871bfda406480cf8d
-commit: fc0e6db30941a66e284b8516b82356f97f31061d [35/47] net: pse-pd: Add support for reporting events
-config: i386-randconfig-012-20250619 (https://download.01.org/0day-ci/archive/20250620/202506200355.TqFiYUbN-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506200355.TqFiYUbN-lkp@intel.com/reproduce)
+Hi Will,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on tip/timers/core]
+[also build test WARNING on arm64/for-next/core robh/for-next linus/master v6.16-rc2 next-20250619]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Will-McVicker/of-irq-Export-of_irq_count-for-modules/20250619-051424
+base:   tip/timers/core
+patch link:    https://lore.kernel.org/r/20250618210851.661527-6-willmcvicker%40google.com
+patch subject: [PATCH 5/6] clocksource/drivers/exynos_mct: Add module support
+config: arm-multi_v7_defconfig (https://download.01.org/0day-ci/archive/20250620/202506200445.1vdWU11a-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506200445.1vdWU11a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506200355.TqFiYUbN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506200445.1vdWU11a-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> drivers/net/pse-pd/pse_core.c:676:23: error: incompatible pointer types passing 'struct net_device *' to parameter of type 'struct phy_device *' [-Werror,-Wincompatible-pointer-types]
-     676 |                         ethnl_pse_send_ntf(netdev, notifs);
-         |                                            ^~~~~~
-   include/linux/ethtool_netlink.h:125:58: note: passing argument to parameter 'phydev' here
-     125 | static inline void ethnl_pse_send_ntf(struct phy_device *phydev,
-         |                                                          ^
-   1 error generated.
-
-
-vim +676 drivers/net/pse-pd/pse_core.c
-
-   632	
-   633	/**
-   634	 * pse_isr - IRQ handler for PSE
-   635	 * @irq: irq number
-   636	 * @data: pointer to user interrupt structure
-   637	 *
-   638	 * Return: irqreturn_t - status of IRQ
-   639	 */
-   640	static irqreturn_t pse_isr(int irq, void *data)
-   641	{
-   642		struct pse_controller_dev *pcdev;
-   643		unsigned long notifs_mask = 0;
-   644		struct pse_irq_desc *desc;
-   645		struct pse_irq *h = data;
-   646		int ret, i;
-   647	
-   648		desc = &h->desc;
-   649		pcdev = h->pcdev;
-   650	
-   651		/* Clear notifs mask */
-   652		memset(h->notifs, 0, pcdev->nr_lines * sizeof(*h->notifs));
-   653		mutex_lock(&pcdev->lock);
-   654		ret = desc->map_event(irq, pcdev, h->notifs, &notifs_mask);
-   655		mutex_unlock(&pcdev->lock);
-   656		if (ret || !notifs_mask)
-   657			return IRQ_NONE;
-   658	
-   659		for_each_set_bit(i, &notifs_mask, pcdev->nr_lines) {
-   660			unsigned long notifs, rnotifs;
-   661			struct net_device *netdev;
-   662			struct pse_control *psec;
-   663	
-   664			/* Do nothing PI not described */
-   665			if (!pcdev->pi[i].rdev)
-   666				continue;
-   667	
-   668			notifs = h->notifs[i];
-   669			dev_dbg(h->pcdev->dev,
-   670				"Sending PSE notification EVT 0x%lx\n", notifs);
-   671	
-   672			psec = pse_control_find_by_id(pcdev, i);
-   673			rtnl_lock();
-   674			netdev = pse_control_get_netdev(psec);
-   675			if (netdev)
- > 676				ethnl_pse_send_ntf(netdev, notifs);
-   677			rtnl_unlock();
-   678			pse_control_put(psec);
-   679	
-   680			rnotifs = pse_to_regulator_notifs(notifs);
-   681			regulator_notifier_call_chain(pcdev->pi[i].rdev, rnotifs,
-   682						      NULL);
-   683		}
-   684	
-   685		return IRQ_HANDLED;
-   686	}
-   687	
+>> WARNING: modpost: vmlinux: section mismatch in reference: mct_init_dt+0x164 (section: .text) -> register_current_timer_delay (section: .init.text)
+>> WARNING: modpost: vmlinux: section mismatch in reference: mct_init_dt+0x178 (section: .text) -> sched_clock_register (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mct_init_dt+0x20c (section: .text) -> register_current_timer_delay (section: .init.text)
+WARNING: modpost: vmlinux: section mismatch in reference: mct_init_dt+0x220 (section: .text) -> sched_clock_register (section: .init.text)
 
 -- 
 0-DAY CI Kernel Test Service
