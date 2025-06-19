@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F5121FF3B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 21:25:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 048107E118
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 22:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750368353; cv=none; b=Jq5Ngz9VhErFGpF+naJ9aWuYaWx1EwSisWpzPu5AOEkA5keminAG1lbfsuY6gzQjZ4BmHamFACkwJ0POpcTrucVOH9gPhzUat5yF1bJEXnaBZors2esKcs089MgaMrBH28xwn3CtSH8c3TRLz9fbguDXKRejb/lRHSNQvAvGaYk=
+	t=1750370813; cv=none; b=UbBMWdgzuI8Nq2m2/s7xYibJZdXzWcXOhw2AVcIWWsB8tU9/aW/PfRdNaJkpjPIrf8z9wkneSaiKnf322PhD4syYs2jxaah02Bqqpe7BDmpJVQwBVuBK6n9c9gd/k50vh7QJ6ZfpPKASug/ITW5KKqQx16Kk0KC1vhzUvRNz8SI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750368353; c=relaxed/simple;
-	bh=A8Dz1kV8B/vKnxifg5brF8+6N+EQZvca4FFY51ivExQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A5YgcmzJs70OVLl7K7mUxLzArzVL1JuUgG83NkVSHGmvi4hN7phHisG2meQi56XG8SSzEnZ723rtjXXgsjv9rAW59GkSWwXY1xysek63TsOMnhv6SscOi2d7CJlmvLmgJu6xB4qFTwoh3evfN7YzMYuMPCFH5uoNV53e8VDKV5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eLn4/fEN; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1750370813; c=relaxed/simple;
+	bh=clLlpRwGzyTESLAJ6s3mDfFRNB7ykUbkTgd9WxuQ1+w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ok/Y96+TPl+8eNXItqpeW4iNw1ClEuBRNWzN2wqzA8hsBF02rgczqXkmYVboZ5+V40vJA3+8pk9C5bj27kBsag3gmXgRjySSGAVnvUULZEhAoUmVmhmROUu9DJixps6M3yAqKPbY89YfIfBJgjtOBqOTG6VYfDG2XRmOofi80kE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OIvSjO1o; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLn4/fEN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OIvSjO1o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750368352; x=1781904352;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A8Dz1kV8B/vKnxifg5brF8+6N+EQZvca4FFY51ivExQ=;
-  b=eLn4/fEN6Oldy4OWJD9FOHGAfQMZZdezJpb52BRUMWcU0SaR7loiYqvi
-   rOI8jthd6JKy23PO6k3FajjPbBgmbRIsjLv55xhSRt3ht83uA+TcuZPmp
-   2IwB85auNoaBY3w68nXUR1VcJlcQ5ArSVZSPO3yC49g9eHHIB21VcMmRx
-   8bt0kMBlbHe9g8CqgT1Dv68gEOjxBokC1Tis96Bodt+A4xPGfEKh/M3zp
-   FoAd0nWovFz7nbNbPE56BKsPkQNRcd3PiwFpjZgNmxcGXqKkZ0WVsGD6Y
-   fdpyEcLjvWuc8NAQgxV4SM+cSOvl7Ev/2zSvzt5GaacvIO5+nNDtq3brL
-   w==;
-X-CSE-ConnectionGUID: d7H76onNQcCVjDPDbANmkg==
-X-CSE-MsgGUID: eh3GFkM5Tia1fkZcoYSYeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52706629"
+  t=1750370811; x=1781906811;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=clLlpRwGzyTESLAJ6s3mDfFRNB7ykUbkTgd9WxuQ1+w=;
+  b=OIvSjO1oHtXrK9vxnUKMtakSNiqrwFxOTqS86gevIb5xl18kfbL/oYM4
+   zcZ8Yf8/UHCNd/R73AkRiT7EzHvhXmO+De2pNkl1+/w3wXA2PJaxJXc23
+   sboL70488R0zWiMAN6LFx3fmR8fieyoUXXmDoB/ItLJqrEmXPN+uyPXNH
+   Ibe5+MZFFDDvrfQ2JUehj1mubvDDlJP+mfSMY1Vbw7pr9s2ociLMWuK/N
+   +fqip6TwIMyE7gS2BCAbAj/kNp0pVujq+B9aDqXVX+7hAtspE6KrQoFf0
+   Wm7A0WYicBdQQCr9Hq3DHelTL3JM3DlBcsYMCGfGwiCGJXJAj8JqTVAuv
+   A==;
+X-CSE-ConnectionGUID: 3u8yt3KbT0mYeaaeEamfig==
+X-CSE-MsgGUID: kmcZxY2eT/afaQxq28DyCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="78039199"
 X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="52706629"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 14:25:51 -0700
-X-CSE-ConnectionGUID: Kq4gUjf9S5GnDsjAJUnoCA==
-X-CSE-MsgGUID: Ya1tim+nS/iTRF9s2RnD6A==
+   d="scan'208";a="78039199"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 15:06:50 -0700
+X-CSE-ConnectionGUID: GZrb+4TVS0+aVUhqY6nKWQ==
+X-CSE-MsgGUID: /RZG/fJuRQCUkEWKNvcasw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="155298484"
+   d="scan'208";a="174365574"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 19 Jun 2025 14:25:47 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 19 Jun 2025 15:06:49 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSMlU-000L7a-2Y;
-	Thu, 19 Jun 2025 21:25:44 +0000
-Date: Fri, 20 Jun 2025 05:25:03 +0800
+	id 1uSNPD-000L88-16;
+	Thu, 19 Jun 2025 22:06:47 +0000
+Date: Fri, 20 Jun 2025 06:06:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vikas Gupta <vikas.gupta@broadcom.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	andrew+netdev@lunn.ch, horms@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, michael.chan@broadcom.com,
-	pavan.chebbi@broadcom.com, vsrama-krishna.nemani@broadcom.com,
-	Vikas Gupta <vikas.gupta@broadcom.com>,
-	Bhargava Chenna Marreddy <bhargava.marreddy@broadcom.com>,
-	Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>
-Subject: Re: [net-next, 08/10] bng_en: Add irq allocation support
-Message-ID: <202506200530.jiD9Txum-lkp@intel.com>
-References: <20250618144743.843815-9-vikas.gupta@broadcom.com>
+To: kernel@openeuler.org, Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2974/2974] kernel/softirq.c:352:6: warning: no
+ previous prototype for 'xint_enter_rcu'
+Message-ID: <202506200615.qzMJJNny-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,99 +61,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618144743.843815-9-vikas.gupta@broadcom.com>
 
-Hi Vikas,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16-rc2 next-20250619]
-[cannot apply to horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Vikas-Gupta/bng_en-Add-PCI-interface/20250618-173130
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250618144743.843815-9-vikas.gupta%40broadcom.com
-patch subject: [net-next, 08/10] bng_en: Add irq allocation support
-config: parisc-randconfig-r073-20250619 (https://download.01.org/0day-ci/archive/20250620/202506200530.jiD9Txum-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   0bb9efd4883938dec34f710bce07ec3ecf5a04bd
+commit: a05426a568e457640f58698c8ebd636fcde4d202 [2974/2974] arm64: Introduce Xint software solution
+config: arm64-randconfig-001-20250620 (https://download.01.org/0day-ci/archive/20250620/202506200615.qzMJJNny-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506200615.qzMJJNny-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506200530.jiD9Txum-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506200615.qzMJJNny-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/broadcom/bnge/bnge_resc.c:347 bnge_alloc_irqs() warn: unsigned 'irqs_demand' is never less than zero.
+All warnings (new ones prefixed by >>):
 
-vim +/irqs_demand +347 drivers/net/ethernet/broadcom/bnge/bnge_resc.c
+>> kernel/softirq.c:352:6: warning: no previous prototype for 'xint_enter_rcu' [-Wmissing-prototypes]
+     352 | void xint_enter_rcu(void)
+         |      ^~~~~~~~~~~~~~
 
-   329	
-   330	int bnge_alloc_irqs(struct bnge_dev *bd)
-   331	{
-   332		u16 aux_msix, tx_cp, num_entries;
-   333		u16 irqs_demand, max, min = 1;
-   334		int i, rc = 0;
-   335	
-   336		irqs_demand = bnge_nqs_demand(bd);
-   337		max = bnge_get_max_func_irqs(bd);
-   338		if (irqs_demand > max)
-   339			irqs_demand = max;
-   340	
-   341		if (!(bd->flags & BNGE_EN_SHARED_CHNL))
-   342			min = 2;
-   343	
-   344		irqs_demand = pci_alloc_irq_vectors(bd->pdev, min, irqs_demand,
-   345						    PCI_IRQ_MSIX);
-   346		aux_msix = bnge_aux_get_msix(bd);
- > 347		if (irqs_demand < 0 || irqs_demand < aux_msix) {
-   348			rc = -ENODEV;
-   349			goto err_free_irqs;
-   350		}
-   351	
-   352		num_entries = irqs_demand;
-   353		if (pci_msix_can_alloc_dyn(bd->pdev))
-   354			num_entries = max;
-   355		bd->irq_tbl = kcalloc(num_entries, sizeof(*bd->irq_tbl), GFP_KERNEL);
-   356		if (!bd->irq_tbl) {
-   357			rc = -ENOMEM;
-   358			goto err_free_irqs;
-   359		}
-   360	
-   361		for (i = 0; i < irqs_demand; i++)
-   362			bd->irq_tbl[i].vector = pci_irq_vector(bd->pdev, i);
-   363	
-   364		bd->irqs_acquired = irqs_demand;
-   365		/* Reduce rings based upon num of vectors allocated.
-   366		 * We dont need to consider NQs as they have been calculated
-   367		 * and must be more than irqs_demand.
-   368		 */
-   369		rc = bnge_adjust_rings(bd, &bd->rx_nr_rings,
-   370				       &bd->tx_nr_rings,
-   371				       irqs_demand - aux_msix, min == 1);
-   372		if (rc)
-   373			goto err_free_irqs;
-   374	
-   375		tx_cp = bnge_num_tx_to_cp(bd, bd->tx_nr_rings);
-   376		bd->nq_nr_rings = (min == 1) ?
-   377			max_t(u16, tx_cp, bd->rx_nr_rings) :
-   378			tx_cp + bd->rx_nr_rings;
-   379	
-   380		/* Readjust tx_nr_rings_per_tc */
-   381		if (!bd->num_tc)
-   382			bd->tx_nr_rings_per_tc = bd->tx_nr_rings;
-   383	
-   384		return 0;
-   385	
-   386	err_free_irqs:
-   387		dev_err(bd->dev, "Failed to allocate IRQs err = %d\n", rc);
-   388		bnge_free_irqs(bd);
-   389		return rc;
-   390	}
-   391	
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CPPC_CPUFREQ_SYSFS_INTERFACE
+   Depends on [n]: CPU_FREQ [=y] && (ARM || ARM64 [=y]) && ACPI_CPPC_CPUFREQ [=n]
+   Selected by [m]:
+   - CPU_FREQ_GOV_SEEP [=m] && CPU_FREQ [=y] && (ACPI_CPPC_CPUFREQ [=n] || ARM64 [=y])
+
+
+vim +/xint_enter_rcu +352 kernel/softirq.c
+
+   347	
+   348	#ifdef CONFIG_FAST_IRQ
+   349	/**
+   350	 * xint_enter_rcu - Copy from irq_enter_rcu
+   351	 */
+ > 352	void xint_enter_rcu(void)
+   353	{
+   354		if (tick_nohz_full_cpu(smp_processor_id()) ||
+   355		    (is_idle_task(current) && !in_interrupt())) {
+   356			/*
+   357			 * Prevent raise_softirq from needlessly waking up ksoftirqd
+   358			 * here, as softirq will be serviced on return from interrupt.
+   359			 */
+   360			local_bh_disable();
+   361			tick_irq_enter();
+   362			_local_bh_enable();
+   363		}
+   364	
 
 -- 
 0-DAY CI Kernel Test Service
