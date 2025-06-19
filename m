@@ -1,60 +1,70 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B5354764;
-	Thu, 19 Jun 2025 05:13:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24EA554764;
+	Thu, 19 Jun 2025 05:13:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750309996; cv=none; b=F905zmCcZQbXGw+Cks+eB+mbVDni2OjOC+xC6DB5U8bWrxseKWHChcbyiAJqje3ZlVkKfzRq6OwAA9uM0gFv6JShHRCnPdusDJcHkPkM6ECT83bn4/5l/QLV6+TJ95dD2g2s+AnhslmyYjajLZTGRgM1BRvRU6oUFTZZYecbQXM=
+	t=1750310000; cv=none; b=pfbcNnokWrCaWQI8HAcpKMeOawdZ0K72z1BRLrXz3kLFcV45WpAILnn4RPTp9ibYJGWy6BMf04qTJxxqowaSefJcv9I/dbsmSrmrfdqy6DKMB6sj01RKdaJMHNoYO+ueTXBRbV31w1wERLbsUoou2H2vR4SLoKyX7w15d080pqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750309996; c=relaxed/simple;
-	bh=qQl/KjRXFDkhKxcXV4UJBgo5FGPgSB8os3yphU9+x/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KHIy1FsCyPLeakDWYAvvut+0EqeTr27bbBS28ST1OZ2rkmewTc6G0bw+nfPkFSNaLTZsj9AnUXb9pr+JBmy9r3rG+6gxntyjgp0pIh7k+osQjESsh8C1NmSGy7dhq7EAktoEcWwipRAFuQNZ05Aa3xLxwaNAFOEstiQdSVfFvdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kkX64QCB; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1750310000; c=relaxed/simple;
+	bh=DaAeSgOKa5+ihHQK/CsgUn/s98z+5cTpCLLRShbyFBw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EfWCzeuDjTM/gYvbdK2ynz2dyznm+cEoD3C1VTagcJRyzmkptNJlMOyo9Hpq4/hCKAAy2SVCG9/BdgPPIO9ykKhWsExiB0s/d/7rOi7d10evhNe4oVSC+sV6MkE9SQAKqFqYaT60e0LwYxK9pPL2ZvjUobaPj3sbIWcXFdV7Biw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ISNCg5O0; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kkX64QCB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ISNCg5O0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750309995; x=1781845995;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qQl/KjRXFDkhKxcXV4UJBgo5FGPgSB8os3yphU9+x/4=;
-  b=kkX64QCBzemqpkhkXh297Fa+Lv4Qjc/6l+7eTmVvtRY6kVTvjrqtNp9C
-   8fH0ypDLg09lSTmalxG5qHhOZwhsrrrv0odr0EApVyzb4322qdIF9pRQe
-   8MLqAR405XP/RT2iVpQnOhGxmMjpAhWVhucRYASWHznahZtB2w6Ix4gBd
-   4TB6LRG2YRS8cSG9L+7tmVr0tbBdOrpx21LEVjCMxddtOD3WkZhWk8dDV
-   xpDk7QsYxe+ObQR12DAIcUnft/taL9Hb1umGkK2eH7y8q6txMKXTTTSv6
-   jJ5hrnUDi1uQxlzcvJYm7JPEEeziSREq+8x2j/lLrun8es1YNlRKeSH/b
+  t=1750309999; x=1781845999;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DaAeSgOKa5+ihHQK/CsgUn/s98z+5cTpCLLRShbyFBw=;
+  b=ISNCg5O03WbNijWXAXHru8LyRZJZGTPxW6o//sqEu2B+RDYRP2wprO5f
+   M7Fw9/eB6Lw7cLMDn8JkPngeN6CHY/olUVg5dWkU/42gAIdI+l3I44AQB
+   UiRzZFCoeU94RWiXr6xlGiAWqvtG0Ahxiw883NcYchj4WT6F+VEa1IVIZ
+   rivcHjPlsEAheLGb0ix4h3RdReuQN7d+kJN6wSk+k/RhpuhBcY8VfmQ0B
+   wEouITdyUO7NnCj41Ut8ou+8d8OxGooNi0Q++XTrHE53QLuCVHG917zlB
+   E0jneZrhI3iPx9qjUDndTbYD23g0Oggx+V/TDwSsoo81kqxSWiWk5KNAA
    g==;
-X-CSE-ConnectionGUID: bKzXOvDMSAeo0f8flHxD4Q==
-X-CSE-MsgGUID: vDcA/6EZRpuA/tMOXiD3wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="51784178"
+X-CSE-ConnectionGUID: nLn1RzIgR0e6jIWxYRV9LQ==
+X-CSE-MsgGUID: Qj6s0sV5QMS3DtPUNMcwKw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="51784190"
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="51784178"
+   d="scan'208";a="51784190"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 22:13:14 -0700
-X-CSE-ConnectionGUID: WENs+vSzTZ2EmgKFFsmOUQ==
-X-CSE-MsgGUID: S3AwLiP6SJa4E+q7/NivTw==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 22:13:19 -0700
+X-CSE-ConnectionGUID: Iy8XfeYmQ6aW1bvPafNrJw==
+X-CSE-MsgGUID: cOabNmcPQp+yFRjQVpbmpg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="151106258"
+   d="scan'208";a="151106260"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 18 Jun 2025 22:13:13 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uS7aJ-000KQG-1J;
+	id 1uS7aJ-000KQE-1E;
 	Thu, 19 Jun 2025 05:13:11 +0000
-Date: Thu, 19 Jun 2025 13:12:36 +0800
+Date: Thu, 19 Jun 2025 13:12:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:iommu_pt_vtd 17/42]
- drivers/iommu/generic_pt/fmt/iommu_amdv1.o: warning: objtool:
- amdv1pt_install_leaf_entry(): unexpected end of section
- .text.amdv1pt_install_leaf_entry
-Message-ID: <202506191325.5O9Z8kp1-lkp@intel.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>, lee@kernel.org,
+	danielt@kernel.org, jingoohan1@gmail.com, neil.armstrong@linaro.org,
+	jessica.zhang@oss.qualcomm.com, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, airlied@gmail.com, simona@ffwll.ch,
+	fnkl.kernel@gmail.com, j@jannau.net, hdegoede@redhat.com,
+	ilpo.jarvinen@linux.intel.com, sven@kernel.org,
+	alyssa@rosenzweig.io, neal@gompa.dev, deller@gmx.de,
+	support.opensource@diasemi.com, duje.mihanovic@skole.hr
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	asahi@lists.linux.dev, platform-driver-x86@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org,
+	Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH 12/12] backlight: Do not include <linux/fb.h> in header
+ file
+Message-ID: <202506191230.WMfb29QM-lkp@intel.com>
+References: <20250618122436.379013-13-tzimmermann@suse.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,22 +73,48 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250618122436.379013-13-tzimmermann@suse.de>
 
-tree:   https://github.com/jgunthorpe/linux iommu_pt_vtd
-head:   4245120afe2501de333527c4d900356914995527
-commit: 63d11a6c1a177f9385c914898554a1a56ebaf6b0 [17/42] iommupt: Add map_pages op
-config: x86_64-randconfig-077-20250619 (https://download.01.org/0day-ci/archive/20250619/202506191325.5O9Z8kp1-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506191325.5O9Z8kp1-lkp@intel.com/reproduce)
+Hi Thomas,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on v6.16-rc2 next-20250618]
+[cannot apply to lee-backlight/for-backlight-next lee-leds/for-leds-next drm-exynos/exynos-drm-next linus/master lee-backlight/for-backlight-fixes drm-intel/for-linux-next drm-intel/for-linux-next-fixes]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Thomas-Zimmermann/platform-x86-dell-uart-backlight-Use-blacklight-power-constant/20250618-203011
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20250618122436.379013-13-tzimmermann%40suse.de
+patch subject: [PATCH 12/12] backlight: Do not include <linux/fb.h> in header file
+config: riscv-randconfig-001-20250619 (https://download.01.org/0day-ci/archive/20250619/202506191230.WMfb29QM-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506191230.WMfb29QM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506191325.5O9Z8kp1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506191230.WMfb29QM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/iommu/generic_pt/fmt/iommu_amdv1.o: warning: objtool: amdv1pt_install_leaf_entry(): unexpected end of section .text.amdv1pt_install_leaf_entry
+>> drivers/video/backlight/rt4831-backlight.c:215:49: error: array type has incomplete element type 'struct of_device_id'
+     215 | static const struct of_device_id __maybe_unused rt4831_bl_of_match[] = {
+         |                                                 ^~~~~~~~~~~~~~~~~~
+
+
+vim +215 drivers/video/backlight/rt4831-backlight.c
+
+190ccab3185eee ChiYuan Huang 2021-05-17  214  
+190ccab3185eee ChiYuan Huang 2021-05-17 @215  static const struct of_device_id __maybe_unused rt4831_bl_of_match[] = {
+190ccab3185eee ChiYuan Huang 2021-05-17  216  	{ .compatible = "richtek,rt4831-backlight", },
+190ccab3185eee ChiYuan Huang 2021-05-17  217  	{}
+190ccab3185eee ChiYuan Huang 2021-05-17  218  };
+190ccab3185eee ChiYuan Huang 2021-05-17  219  MODULE_DEVICE_TABLE(of, rt4831_bl_of_match);
+190ccab3185eee ChiYuan Huang 2021-05-17  220  
 
 -- 
 0-DAY CI Kernel Test Service
