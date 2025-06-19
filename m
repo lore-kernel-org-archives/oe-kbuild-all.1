@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 635941B3923
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 14:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F8D3220F4C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 14:38:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750343887; cv=none; b=rWtjP1/JyqEhxdjf2U0CrAbAGnbWulGEKG6ZtqUGmId6DmFTHM3IV+ReMvdBD552SRmAEO4uc5o2HgEqEuZFMdfJHLsExWT596qb6AUKGATCD9+xMPlRNLcd036/NODAIz6hB7QsEtqRPeUQFHMlmDWh5B9HcZR/3103a3D4jLw=
+	t=1750343889; cv=none; b=esdbbZ6gs6yn/G2PA7Z2PLQ3HhZ9CcBHLdtbUkNe6Mixqbz2qa54ym8FXJvP1bwRqxpvVqOPf3XCbSEIa4G7PaLpDDvcIoB7WGdGKSM90Rmx+T5lhzjMMa+20YN+G+H72Mg/mgtjopMAz0O+XpSfsWikShT7HjlMQeVCjojqMg0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750343887; c=relaxed/simple;
-	bh=YbSINaNLSN4oLhRlAx2pKC6RIoJGvXgbQntv4OaEdzk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=adCeHIXY2qyr5i0D1NXFdYvL67F1o6s+HjV/iR9mNp+KuuBIT/8AHrZ49YHdkjlbGcPG8AUYb9yUMq9SkVj7htOZIn/YhTDbZlPRzWx472/88BMlALh3BRkM78sDqfr/iRT6Yfx/PSMlfOIxNYXlR06T/D8e+QCjfOtQoEhhjDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ExnmoKdq; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1750343889; c=relaxed/simple;
+	bh=X9vVkMtiXPrn4Hu8FElJ+z6PvCWbhe9Vge+jEseQxMc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g8FdMTtRvkRr00lCR4J6P2cZiitc5KW0pgVoup+QFUXep6fVRzMDkM/e3/t+HYg4Co+QVh+ZCK9zunY4bg21T4B/uyib9KCGe5UY1WIp9Beeyw6cdkX0YQqBZUocTh3hB4nrkFAjmRJb+IoobK5GEypCXZEbV/EIEPWHwa87ybY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IJxZtbfH; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ExnmoKdq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IJxZtbfH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750343885; x=1781879885;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YbSINaNLSN4oLhRlAx2pKC6RIoJGvXgbQntv4OaEdzk=;
-  b=ExnmoKdq5oV+R6bJJSKvPrwXb5C1GLOU5RX+X6IKKfS8l+R2xqt079T5
-   JJ02Nn291w+l9TqKtctNdu3Kh0AxyQmL8+My+aNH84KilOhfx+RgBXu6r
-   7CWF0guSx0Zm05ZMTti0dp5NcEtJdmGTtHVdsEb7EAPqbnAPYwJSJoKr1
-   zKrmvsiE1CEA+C1JaRxseh4Rn4EHsxe+0czix9O2Mp86JOQDcpnIEU0Sm
-   crVu4OBu42lb5veJFuVo7+zJSXRZktVsz/Z+P9S4fcdJKx1umZpdrXC0i
-   mIsRhhZnENn+KsrSssK0BjvR7rUAOm6py43OrH5Aa5aPSko7DCMiCBH+7
-   A==;
-X-CSE-ConnectionGUID: aUWXxLaeTlSFiV7ECKw3uw==
-X-CSE-MsgGUID: WfA3Tlr+Tzah9Hd6dvNGkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="40205747"
+  t=1750343887; x=1781879887;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=X9vVkMtiXPrn4Hu8FElJ+z6PvCWbhe9Vge+jEseQxMc=;
+  b=IJxZtbfHT56eeMUgroPPxhtvgGrwThsALVu8qeU3SDs97lBnk3infR85
+   992qt87X1tRsnqVJek8evzt6sZLyjWFslnXOnPzJzyWgtOZnrxQEdv35r
+   pBMGh4PuQiEvqP/pR1ZUHiQtismWNjOJUG1TXnyLmS0fShYf1xUAsmzhC
+   BtvuBhFajBuGzlRxBFN0xAu+C3L8MupNFry1EmvKino0B2+gjGuX+C8nq
+   t6MDns7x3B2qNYKIycAp+v0ECFHFRZyMV9FfNvBkh7XrMKmQIKzQC9459
+   ozKd/IPWwF3+N70JDVbDsHGYi7XLPKFRGSTpzWrSaGJEdA8+rGGwwGn3M
+   w==;
+X-CSE-ConnectionGUID: CswU9iHrS+azqyLLfGAYyA==
+X-CSE-MsgGUID: 47pCa93IRGWZyWvO/cRDtA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="56399111"
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="40205747"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 07:38:04 -0700
-X-CSE-ConnectionGUID: 1cAJ+bQAQ7y1DW559/irQA==
-X-CSE-MsgGUID: 4VRsu1ZBRUuODEC++dheCQ==
+   d="scan'208";a="56399111"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 07:38:07 -0700
+X-CSE-ConnectionGUID: AGQuVQKNQg6CKFX5oshRpA==
+X-CSE-MsgGUID: dObaJX+/QkiD7AJ4llXM6g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="156165976"
+   d="scan'208";a="150886370"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Jun 2025 07:38:04 -0700
+  by orviesa007.jf.intel.com with ESMTP; 19 Jun 2025 07:38:04 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSGOv-000KpY-39;
+	id 1uSGOv-000KpW-35;
 	Thu, 19 Jun 2025 14:38:01 +0000
-Date: Thu, 19 Jun 2025 22:38:00 +0800
+Date: Thu, 19 Jun 2025 22:37:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-5.15 2/2]
- include/trace/trace_events.h:27:23: warning:
- 'str__syscall_check__trace_system_name' defined but not used
-Message-ID: <202506192201.QHNxhDOH-lkp@intel.com>
+To: Tanmay Jagdale <tanmay@marvell.com>, davem@davemloft.net,
+	leon@kernel.org, horms@kernel.org, sgoutham@marvell.com,
+	bbhushan2@marvell.com, herbert@gondor.apana.org.au
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	netdev@vger.kernel.org, Kiran Kumar K <kirankumark@marvell.com>,
+	Nithin Dabilpuram <ndabilpuram@marvell.com>,
+	Tanmay Jagdale <tanmay@marvell.com>
+Subject: Re: [PATCH net-next v2 06/14] octeontx2-af: Add support for SPI to
+ SA index translation
+Message-ID: <202506192219.aw9iy7xb-lkp@intel.com>
+References: <20250618113020.130888-7-tanmay@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,139 +68,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250618113020.130888-7-tanmay@marvell.com>
 
-tree:   https://android.googlesource.com/kernel/common android14-5.15
-head:   0b7dd216fd72bce714bc1d8833ea7bced625a12a
-commit: e13e55eae1fb2dfdb1ac9f30554cb064caae94a6 [2/2] ANDROID: syscall_check: add vendor hook for mmap syscall
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250619/202506192201.QHNxhDOH-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506192201.QHNxhDOH-lkp@intel.com/reproduce)
+Hi Tanmay,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tanmay-Jagdale/crypto-octeontx2-Share-engine-group-info-with-AF-driver/20250618-193646
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250618113020.130888-7-tanmay%40marvell.com
+patch subject: [PATCH net-next v2 06/14] octeontx2-af: Add support for SPI to SA index translation
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250619/202506192219.aw9iy7xb-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506192219.aw9iy7xb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506192201.QHNxhDOH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506192219.aw9iy7xb-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/syscall_check.h:22,
-                    from drivers/android/vendor_hooks.c:45:
->> include/trace/trace_events.h:27:23: warning: 'str__syscall_check__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/selinux.h:21,
-                    from drivers/android/vendor_hooks.c:44:
-   include/trace/trace_events.h:27:23: warning: 'str__selinux__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/module.h:25,
-                    from drivers/android/vendor_hooks.c:43:
-   include/trace/trace_events.h:27:23: warning: 'str__module__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/memory.h:24,
-                    from drivers/android/vendor_hooks.c:42:
-   include/trace/trace_events.h:27:23: warning: 'str__memory__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/creds.h:34,
-                    from drivers/android/vendor_hooks.c:41:
-   include/trace/trace_events.h:27:23: warning: 'str__creds__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
-         |                           ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
-      36 | TRACE_MAKE_SYSTEM_STR();
-         | ^~~~~~~~~~~~~~~~~~~~~
-   In file included from include/trace/define_trace.h:102,
-                    from include/trace/hooks/avc.h:33,
-                    from drivers/android/vendor_hooks.c:40:
-   include/trace/trace_events.h:27:23: warning: 'str__avc__trace_system_name' defined but not used [-Wunused-const-variable=]
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
-      27 | #define __app__(x, y) str__##x##y
-         |                       ^~~~~
-   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
-      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
-         |                             ^~~~~
-   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
-      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_nix_spi.c: In function 'nix_spi_to_sa_index_check_duplicate':
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_nix_spi.c:25:21: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+      25 |         spi_index = FIELD_GET(NIX_AF_SPI_TO_SA_SPI_INDEX_MASK, wkey);
+         |                     ^~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_nix_spi.c: In function 'nix_spi_to_sa_index_table_update':
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_nix_spi.c:53:16: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+      53 |         wkey = FIELD_PREP(NIX_AF_SPI_TO_SA_SPI_INDEX_MASK, req->spi_index);
+         |                ^~~~~~~~~~
 
 
-vim +/str__syscall_check__trace_system_name +27 include/trace/trace_events.h
+vim +/FIELD_GET +25 drivers/net/ethernet/marvell/octeontx2/af/rvu_nix_spi.c
 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
-acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
-
-:::::: The code at line 27 was first introduced by commit
-:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
-
-:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt <rostedt@goodmis.org>
+     9	
+    10	static bool
+    11	nix_spi_to_sa_index_check_duplicate(struct rvu *rvu,
+    12					    struct nix_spi_to_sa_add_req *req,
+    13					    struct nix_spi_to_sa_add_rsp *rsp,
+    14					    int blkaddr, int16_t index, u8 way,
+    15					    bool *is_valid, int lfidx)
+    16	{
+    17		u32 spi_index;
+    18		u16 match_id;
+    19		bool valid;
+    20		u64 wkey;
+    21		u8 lfid;
+    22	
+    23		wkey = rvu_read64(rvu, blkaddr, NIX_AF_SPI_TO_SA_KEYX_WAYX(index, way));
+    24	
+  > 25		spi_index = FIELD_GET(NIX_AF_SPI_TO_SA_SPI_INDEX_MASK, wkey);
+    26		match_id = FIELD_GET(NIX_AF_SPI_TO_SA_MATCH_ID_MASK, wkey);
+    27		lfid = FIELD_GET(NIX_AF_SPI_TO_SA_LFID_MASK, wkey);
+    28		valid = FIELD_GET(NIX_AF_SPI_TO_SA_KEYX_WAYX_VALID, wkey);
+    29	
+    30		*is_valid = valid;
+    31		if (!valid)
+    32			return 0;
+    33	
+    34		if (req->spi_index == spi_index && req->match_id == match_id &&
+    35		    lfidx == lfid) {
+    36			rsp->hash_index = index;
+    37			rsp->way = way;
+    38			rsp->is_duplicate = true;
+    39			return 1;
+    40		}
+    41		return 0;
+    42	}
+    43	
+    44	static void  nix_spi_to_sa_index_table_update(struct rvu *rvu,
+    45						      struct nix_spi_to_sa_add_req *req,
+    46						      struct nix_spi_to_sa_add_rsp *rsp,
+    47						      int blkaddr, int16_t index,
+    48						      u8 way, int lfidx)
+    49	{
+    50		u64 wvalue;
+    51		u64 wkey;
+    52	
+  > 53		wkey = FIELD_PREP(NIX_AF_SPI_TO_SA_SPI_INDEX_MASK, req->spi_index);
+    54		wkey |= FIELD_PREP(NIX_AF_SPI_TO_SA_MATCH_ID_MASK, req->match_id);
+    55		wkey |= FIELD_PREP(NIX_AF_SPI_TO_SA_LFID_MASK, lfidx);
+    56		wkey |= FIELD_PREP(NIX_AF_SPI_TO_SA_KEYX_WAYX_VALID, req->valid);
+    57	
+    58		rvu_write64(rvu, blkaddr, NIX_AF_SPI_TO_SA_KEYX_WAYX(index, way),
+    59			    wkey);
+    60		wvalue = (req->sa_index & 0xFFFFFFFF);
+    61		rvu_write64(rvu, blkaddr, NIX_AF_SPI_TO_SA_VALUEX_WAYX(index, way),
+    62			    wvalue);
+    63		rsp->hash_index = index;
+    64		rsp->way = way;
+    65		rsp->is_duplicate = false;
+    66	}
+    67	
 
 -- 
 0-DAY CI Kernel Test Service
