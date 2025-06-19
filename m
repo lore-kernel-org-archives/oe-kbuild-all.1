@@ -1,75 +1,75 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BD3D18D643
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 05:03:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2289C18D643
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 05:04:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750309443; cv=none; b=goea9oyNZaTFgB1wpR6SaXEk/ad0/+eAPz6Cv6CsG6zplerQEOK26N/3OZ7udPj56iHuNjlg9OipAUxcSBQz9N9Raxm+bI1OnriePEahXXBrfkRcKm2BGfqd6eOi82F6+NsUF1yMIXaLOysSDtMzjRqTudmN1Gark7FLsO8QqlI=
+	t=1750309447; cv=none; b=FLSkLEdTNbaP0PraJGBMgdpu/Bu0QKG6DoWUA8mHhn3i2BoU9rK6462qeuokvAq6boNokgnXpS3+0MocSbfs+M01xFAKdr+lQeh8zettXgcsamgJD90M2Emk+2FIUuH+XNtRIALu2Rz3c0nj9aUlFx9MOHaZghPeKWWdxGv5d7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750309443; c=relaxed/simple;
-	bh=nB8pjlrPgunqfEpEO873EJTzr1tT9AxvV1+fR7dTNC8=;
+	s=arc-20240116; t=1750309447; c=relaxed/simple;
+	bh=fjVJvKVsJj75PtfuNowCP0vDPjoft64xQhEVIuAoIkM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UfIo73CY7u7tzMnfQgQAN+Q47y0aXtQNG0Q3Gg/9rLcDyipBkyDID+o998b+ASWqrpWroNqZ78uSBG7HFC0QXIacOgLW/hyEqFDrC/nQe147w2AGW9OBTGDcHn8W7l1H8nLadNjZEE7CKviBvjDZI7DYRglN+L5B7ARIvisvPSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LWtDgRF7; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=eInIsibxaTKB+ToPJXB4YImJ5B0HX8y/G0yo+IMbqTTwSBQPaZQLGSxv3Lz9Z3A66ePCLumSYRKP++l0Bqar85ygjmkscExAPRIrM+da1eJ4iSkHoqoqe+wk4vzSN8Yeg2I8qbFkFkM59Vsxmg4NWW+o90wUgIDtsegJbrTz/AU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fqR3nF3C; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LWtDgRF7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fqR3nF3C"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750309440; x=1781845440;
+  t=1750309444; x=1781845444;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nB8pjlrPgunqfEpEO873EJTzr1tT9AxvV1+fR7dTNC8=;
-  b=LWtDgRF7oqSouY02Vzy/aiKR+0gM7YAOcs+cshrrAODacPy8+5Yr5IbX
-   V9Dh2xE+Qd0Fw6SZHnw8iHZIhDNMJzvOk4lIUgLM4F0NmmSe6YkLBNFs7
-   fM2Sjssv87q1uPqLGhBCCS7JJ413RNFBeY5JrkmNDCZ23Vj1Z1dxfQ4/K
-   gYpvXOdq/+m7QbKZ08CDIXvIWSYtneO4C4T0sNkHvSKO3bxlgAF69eqEI
-   8UD8v3S/VaixDNPuRs+BqanEM9B8DhlI8Rj/oSKUoOvr6VomJOsmwt7iF
-   1XKEcZDkbBvfOKEnUdIBNAfV2QwLjbLU/IwtgLBY8t1SbCXNuaBJT1ok/
-   w==;
-X-CSE-ConnectionGUID: 0ItOlJS2QISaz555kVK4hA==
-X-CSE-MsgGUID: 4q6YUr4ySHWyfK+dlKCJhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="63911235"
+  bh=fjVJvKVsJj75PtfuNowCP0vDPjoft64xQhEVIuAoIkM=;
+  b=fqR3nF3Cwohro6uCA2ylEH9m3QDdyc/rAWnvzq6Zmv5alM5pAaYTSHF6
+   lE51Qeez3xHeQOwHM0qaVSNVQiqlqE2uJ29ws6mL5RzVxPU8dMqBFFn2I
+   bE6YKfNgFpkz0PPRtDP++I0UA597Wd9/k0lQPicKfSHZNUEHiX8TM/WKw
+   3/Fr/AUBZ09R9dHISJBpjcwgOqxnQAkerCfuP0zdHV10Ku/7N0By5IYdT
+   eLsrwNf6MZAu3x+CUlpkdGS/UrIBMJaPG7S993+5z05TsZYi+dNXBhIbb
+   XjgbTcLK6af6bfaz92EAuOpO38QfgstdW85OcBZftc5C9tlVM4OncMVt3
+   g==;
+X-CSE-ConnectionGUID: F8jMgS9CTCS+X36pJpdhYw==
+X-CSE-MsgGUID: 3rkWu/xLQZ6m/BkOxRCXdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="63911267"
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="63911235"
+   d="scan'208";a="63911267"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 22:03:56 -0700
-X-CSE-ConnectionGUID: v/BAMstgSd+y6mpQq8nJbA==
-X-CSE-MsgGUID: yIm4DLbqSJqmCvdFHuHtZA==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 22:04:04 -0700
+X-CSE-ConnectionGUID: HqovVG1iQISmA9iIiE9TYg==
+X-CSE-MsgGUID: qyIm79TZTDamBh0l0G3Kiw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="155088581"
+   d="scan'208";a="155088596"
 Received: from igk-lkp-server01.igk.intel.com (HELO 28ae90bf6994) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 22:03:54 -0700
+  by orviesa004.jf.intel.com with ESMTP; 18 Jun 2025 22:04:02 -0700
 Received: from kbuild by 28ae90bf6994 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uS7R9-0000IG-2e;
-	Thu, 19 Jun 2025 05:03:43 +0000
-Date: Thu, 19 Jun 2025 10:23:26 +0800
+	id 1uS7RH-0000IK-2l;
+	Thu, 19 Jun 2025 05:03:51 +0000
+Date: Thu, 19 Jun 2025 10:23:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: Benjamin Berg <benjamin@sipsolutions.net>
 Cc: oe-kbuild-all@lists.linux.dev, Johannes Berg <johannes.berg@intel.com>
-Subject: [uml:next 22/27] arch/x86/um/ptrace.c:153:40: warning: variable
- 'from' set but not used
-Message-ID: <202506182220.dG5MVpvZ-lkp@intel.com>
+Subject: [uml:next 24/27] arch/x86/um/tls_32.c:28:13: warning: variable 'cpu'
+ set but not used
+Message-ID: <202506190039.pg0EGWOv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="Ep5i4SZsjyfsKG9A"
+Content-Type: multipart/mixed; boundary="eyfVzViUmguZTMB5"
 Content-Disposition: inline
 
 
---Ep5i4SZsjyfsKG9A
+--eyfVzViUmguZTMB5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux next
 head:   942349413a49670e8bed246e2185fd3a053227be
-commit: b1e1bd2e69430445021394536740352be1b41cd0 [22/27] um: Add helper functions to get/set state for SECCOMP
+commit: 406d17c6c370a33cfb54067d9e205305293d4604 [24/27] um: Implement kernel side of SECCOMP based process handling
 config: um-randconfig-2002-20250604
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
@@ -77,54 +77,61 @@ reproduce (this is a W=1 build):
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506182220.dG5MVpvZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506190039.pg0EGWOv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   arch/x86/um/ptrace.c: In function 'fpregs_legacy_set':
->> arch/x86/um/ptrace.c:153:40: warning: variable 'from' set but not used [-Wunused-but-set-variable]
-     153 |         const struct user_i387_struct *from;
-         |                                        ^~~~
---
-   arch/x86/um/os-Linux/mcontext.c: In function 'set_stub_state':
->> arch/x86/um/os-Linux/mcontext.c:209:22: warning: variable 'xstate_size' set but not used [-Wunused-but-set-variable]
-     209 |         int fp_size, xstate_size;
-         |                      ^~~~~~~~~~~
->> arch/x86/um/os-Linux/mcontext.c:208:28: warning: variable 'xstate_stub' set but not used [-Wunused-but-set-variable]
-     208 |         struct _xstate_64 *xstate_stub;
-         |                            ^~~~~~~~~~~
+   arch/x86/um/tls_32.c: In function 'do_set_thread_area':
+>> arch/x86/um/tls_32.c:28:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
+      28 |         u32 cpu;
+         |             ^~~
 
 
-vim +/from +153 arch/x86/um/ptrace.c
+vim +/cpu +28 arch/x86/um/tls_32.c
 
-   146	
-   147	static int fpregs_legacy_set(struct task_struct *target,
-   148				     const struct user_regset *regset,
-   149				     unsigned int pos, unsigned int count,
-   150				     const void *kbuf, const void __user *ubuf)
-   151	{
-   152		struct user_fxsr_struct *fxsave = (void *)target->thread.regs.regs.fp;
- > 153		const struct user_i387_struct *from;
-   154		struct user_i387_struct buf;
-   155	
-   156		if (ubuf) {
-   157			if (copy_from_user(&buf, ubuf, sizeof(buf)))
-   158				return -EFAULT;
-   159			from = &buf;
-   160		} else {
-   161			from = kbuf;
-   162		}
-   163	
-   164		return um_fxsr_from_i387(fxsave, &buf);
-   165	}
-   166	#endif
-   167	
+3feb88562d149f arch/um/sys-i386/tls.c Paolo 'Blaisorblade' Giarrusso 2006-03-31  24  
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  25  static int do_set_thread_area(struct task_struct* task, struct user_desc *info)
+aa6758d4867cd0 arch/um/sys-i386/tls.c Paolo 'Blaisorblade' Giarrusso 2006-03-31  26  {
+aa6758d4867cd0 arch/um/sys-i386/tls.c Paolo 'Blaisorblade' Giarrusso 2006-03-31  27  	int ret;
+aa6758d4867cd0 arch/um/sys-i386/tls.c Paolo 'Blaisorblade' Giarrusso 2006-03-31 @28  	u32 cpu;
+aa6758d4867cd0 arch/um/sys-i386/tls.c Paolo 'Blaisorblade' Giarrusso 2006-03-31  29  
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  30  	if (info->entry_number < host_gdt_entry_tls_min ||
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  31  	    info->entry_number >= host_gdt_entry_tls_min + GDT_ENTRY_TLS_ENTRIES)
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  32  		return -EINVAL;
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  33  
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  34  	if (using_seccomp) {
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  35  		int idx = info->entry_number - host_gdt_entry_tls_min;
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  36  		struct stub_data *data = (void *)task->mm->context.id.stack;
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  37  
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  38  		data->arch_data.tls[idx] = *info;
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  39  		data->arch_data.sync |= BIT(idx);
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  40  
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  41  		return 0;
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  42  	}
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  43  
+aa6758d4867cd0 arch/um/sys-i386/tls.c Paolo 'Blaisorblade' Giarrusso 2006-03-31  44  	cpu = get_cpu();
+406d17c6c370a3 arch/x86/um/tls_32.c   Benjamin Berg                  2025-06-02  45  	ret = os_set_thread_area(info, task->mm->context.id.pid);
+aa6758d4867cd0 arch/um/sys-i386/tls.c Paolo 'Blaisorblade' Giarrusso 2006-03-31  46  	put_cpu();
+b8bec829c90d45 arch/um/sys-i386/tls.c Jeff Dike                      2008-02-04  47  
+b8bec829c90d45 arch/um/sys-i386/tls.c Jeff Dike                      2008-02-04  48  	if (ret)
+b8bec829c90d45 arch/um/sys-i386/tls.c Jeff Dike                      2008-02-04  49  		printk(KERN_ERR "PTRACE_SET_THREAD_AREA failed, err = %d, "
+b8bec829c90d45 arch/um/sys-i386/tls.c Jeff Dike                      2008-02-04  50  		       "index = %d\n", ret, info->entry_number);
+b8bec829c90d45 arch/um/sys-i386/tls.c Jeff Dike                      2008-02-04  51  
+aa6758d4867cd0 arch/um/sys-i386/tls.c Paolo 'Blaisorblade' Giarrusso 2006-03-31  52  	return ret;
+aa6758d4867cd0 arch/um/sys-i386/tls.c Paolo 'Blaisorblade' Giarrusso 2006-03-31  53  }
+aa6758d4867cd0 arch/um/sys-i386/tls.c Paolo 'Blaisorblade' Giarrusso 2006-03-31  54  
+
+:::::: The code at line 28 was first introduced by commit
+:::::: aa6758d4867cd07bd76105ade6177fe6148e559a [PATCH] uml: implement {get,set}_thread_area for i386
+
+:::::: TO: Paolo 'Blaisorblade' Giarrusso <blaisorblade@yahoo.it>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
---Ep5i4SZsjyfsKG9A
+--eyfVzViUmguZTMB5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
@@ -3257,18 +3264,18 @@ CONFIG_PRIME_NUMBERS_KUNIT_TEST=m
 # end of Rust hacking
 # end of Kernel hacking
 
---Ep5i4SZsjyfsKG9A
+--eyfVzViUmguZTMB5
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=reproduce
 
 reproduce (this is a W=1 build):
-        # https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux.git/commit/?id=b1e1bd2e69430445021394536740352be1b41cd0
+        # https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux.git/commit/?id=406d17c6c370a33cfb54067d9e205305293d4604
         git remote add uml https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux
         git fetch --no-tags uml next
-        git checkout b1e1bd2e69430445021394536740352be1b41cd0
+        git checkout 406d17c6c370a33cfb54067d9e205305293d4604
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=um olddefconfig
         make W=1 O=build_dir ARCH=um SHELL=/bin/bash
 
---Ep5i4SZsjyfsKG9A--
+--eyfVzViUmguZTMB5--
