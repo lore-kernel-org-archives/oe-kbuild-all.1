@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EE427E052
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 18 Jun 2025 22:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 129AD19CC3C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 01:11:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750287469; cv=none; b=iw2vmUTFE3l2intB3K9+DKWqwFkWjpl9f+uSFIcvzAYdvgbjw/Ytv4VpX+hBsmlIQYxFUkzhpoaFwBknBn5S+9bwt8gzeXlpwEHDZtGpveyZCgZDVdyrXPpolVYfu3oeL3Jd4780P1S1QBM6AWsqaB+amdHSZuK+vBU95NDRVhg=
+	t=1750295519; cv=none; b=VuWr5g1pozbZRopb+dmcolcU9LSHat+tLuPsGNsOZLG7a0yCySdNdR3sJWQl6k2vz6IPlLLjxzJFG1Qbimak8MuLA2misNzat464Krr9oaEUhbVtLOU0hJArX39xtAraTxs4HfNzrxrufq+84xz+M7ntgGVhxLz9o07++vKmG+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750287469; c=relaxed/simple;
-	bh=AvGpVTLf/Nps6fggDmlQaYoS0Bt6Sp4YEnD2790teCE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fpTbpj8riZXeNV4J4IrSNUy4peWlTn8U9C3560SudOrMO5F3CSHOcQO9xIa3Wd+hcfA+dqoL+0Td//TmIhXVh2IDdfkawliaWzvMcUIdym//M730jBiSgdem0qlce6RZ7N9HV0UxaKe7KK8hVqXbiTveB02hTDhNzW+81JXG6nQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hc5XCZbE; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1750295519; c=relaxed/simple;
+	bh=BzOXZwRZxgzV7xVqQZORpiZycgtFFrShOgeYvpoHBVQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=u5mljrzdytSO6u2XJnCLx1eDC0GD8pULtFvMA0viSho6l5Hh5eGjT8rl5/69wvorFWtATuyT6E/V2uAq90XKzKEigZI5B1J95+4clg3DOOgzxKghtyjwwCw+dMpleXxMlv6wbFO87pFBQIcxipgSHT4nZTi/i9dhrHtrN638ROM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0iDjLo7; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hc5XCZbE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0iDjLo7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750287468; x=1781823468;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AvGpVTLf/Nps6fggDmlQaYoS0Bt6Sp4YEnD2790teCE=;
-  b=hc5XCZbED3fgfpxA3MkTN86va1pDrzHl1zh+wjmVXUXxlNk2vvwKnJ9S
-   RDhVfBrPwDKUiaZrcxOFCYaOPw+YHzwAkz9oCmPilObk6LWF91vFo8vJp
-   Sfm3Y3OvbwVgqAEG1+KH9xY+dxt7VNcsB2PF0ZH+Z1qqSLSci0LENVAQ6
-   7qXFKcoU/I4P0WRTPkMeBXGyTWuwcSCuLsBBKaQgD+Yqb2oqT9WLqzgGO
-   Z1txuXiUks+E8K3OyeKLUS00D9GtpdB9JP+e5Cyll5M7cvLb79UzaVeQ5
-   OtY43rYMH6bdlZJlJHGyI0rSTTk6ptV2rmOHDqzCQSmots7A/hPqF06VA
-   Q==;
-X-CSE-ConnectionGUID: 3S1i3zExRUush3kMQGNzDQ==
-X-CSE-MsgGUID: 8nPGsBkbQlyzB4pSKWegSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="40138284"
+  t=1750295518; x=1781831518;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BzOXZwRZxgzV7xVqQZORpiZycgtFFrShOgeYvpoHBVQ=;
+  b=b0iDjLo7Us8PpAGIGAfZ4EprOBTNDADRFa0phhKq/mM6BK4BG1DnJH1y
+   3bttO6OulEE4cQp/LXcKKJv28GH96LT+Ss6UdhN7oI8CHcl27kcufCru/
+   Xra9bT4U4QiOLJEEZk4NrFPAlUfBcz9YHA0YkIVfcanAr5jRILQeeI8fR
+   vR4iPqsp4HG2mNIpviOz98EeLB/uNgcw53/KJqOOBS++y+KBOGDWmTBuW
+   Xz7Xrg0xE2e2k6SH7m4OA/wwIOSjrBmuXiYECaNvyBaEa036dEa2su0LN
+   3RMZKwKE5W7YQbXvuDI0j+Li2XjmpkGTZZtuB88ee/BTZkNUrwDFn6LaU
+   w==;
+X-CSE-ConnectionGUID: yEqYBJGWRL2mKI+XR7Oz1Q==
+X-CSE-MsgGUID: WJUcr+DTTS67jkY4rPwNmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="63145559"
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="40138284"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 15:57:45 -0700
-X-CSE-ConnectionGUID: iz9Xj95/Svy9HxO6uINWRQ==
-X-CSE-MsgGUID: 3O6zep4eTI6xQXsvqaZKOw==
+   d="scan'208";a="63145559"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 18:11:58 -0700
+X-CSE-ConnectionGUID: Voe26QhkR/eFtwzo+bZimg==
+X-CSE-MsgGUID: 5+TIkr5lQIa8N8iUZhgafw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="150779489"
+   d="scan'208";a="181293695"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 18 Jun 2025 15:57:44 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 18 Jun 2025 18:11:54 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uS1iw-000KEp-1E;
-	Wed, 18 Jun 2025 22:57:42 +0000
-Date: Thu, 19 Jun 2025 06:56:43 +0800
+	id 1uS3om-000KIw-1s;
+	Thu, 19 Jun 2025 01:11:52 +0000
+Date: Thu, 19 Jun 2025 09:11:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kumar Kartikeya Dwivedi <memxor@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kkdwivedi:stream 2/12] include/linux/bpf.h: linux/mutex.h is
- included more than once.
-Message-ID: <202506190630.OXXtSSfj-lkp@intel.com>
+To: Sascha Hauer <s.hauer@pengutronix.de>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	kernel@pengutronix.de,
+	Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
+	Sascha Hauer <s.hauer@pengutronix.de>
+Subject: Re: [PATCH v5 2/4] clk: add TI CDCE6214 clock driver
+Message-ID: <202506190816.R10xrC8n-lkp@intel.com>
+References: <20250618-clk-cdce6214-v5-2-9938b8ed0b94@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,49 +70,119 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250618-clk-cdce6214-v5-2-9938b8ed0b94@pengutronix.de>
 
-tree:   https://github.com/kkdwivedi/linux stream
-head:   c1d2a174989543fbad6b85fd49c9363227edb616
-commit: 389e61f669f07d04ed1cab60c714ee4ac0bda052 [2/12] bpf: Introduce BPF standard streams
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+Hi Sascha,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on e04c78d86a9699d136910cfc0bdcf01087e3267e]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sascha-Hauer/dt-bindings-clock-add-TI-CDCE6214-binding/20250618-172505
+base:   e04c78d86a9699d136910cfc0bdcf01087e3267e
+patch link:    https://lore.kernel.org/r/20250618-clk-cdce6214-v5-2-9938b8ed0b94%40pengutronix.de
+patch subject: [PATCH v5 2/4] clk: add TI CDCE6214 clock driver
+config: alpha-randconfig-r054-20250619 (https://download.01.org/0day-ci/archive/20250619/202506190816.R10xrC8n-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506190630.OXXtSSfj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506190816.R10xrC8n-lkp@intel.com/
 
-includecheck warnings: (new ones prefixed by >>)
->> include/linux/bpf.h: linux/mutex.h is included more than once.
+cocci warnings: (new ones prefixed by >>)
+>> drivers/clk/clk-cdce6214.c:682:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
+--
+>> drivers/clk/clk-cdce6214.c:631:2-3: Unneeded semicolon
+   drivers/clk/clk-cdce6214.c:547:2-3: Unneeded semicolon
+   drivers/clk/clk-cdce6214.c:654:2-3: Unneeded semicolon
+   drivers/clk/clk-cdce6214.c:603:2-3: Unneeded semicolon
+   drivers/clk/clk-cdce6214.c:908:2-3: Unneeded semicolon
+   drivers/clk/clk-cdce6214.c:946:2-3: Unneeded semicolon
 
-vim +19 include/linux/bpf.h
+vim +682 drivers/clk/clk-cdce6214.c
 
-     9	
-    10	#include <linux/workqueue.h>
-    11	#include <linux/file.h>
-    12	#include <linux/percpu.h>
-    13	#include <linux/err.h>
-    14	#include <linux/rbtree_latch.h>
-    15	#include <linux/numa.h>
-    16	#include <linux/mm_types.h>
-    17	#include <linux/wait.h>
-    18	#include <linux/refcount.h>
-  > 19	#include <linux/mutex.h>
-    20	#include <linux/module.h>
-    21	#include <linux/kallsyms.h>
-    22	#include <linux/capability.h>
-    23	#include <linux/sched/mm.h>
-    24	#include <linux/slab.h>
-    25	#include <linux/percpu-refcount.h>
-    26	#include <linux/stddef.h>
-    27	#include <linux/bpfptr.h>
-    28	#include <linux/btf.h>
-    29	#include <linux/rcupdate_trace.h>
-    30	#include <linux/static_call.h>
-    31	#include <linux/memcontrol.h>
-    32	#include <linux/cfi.h>
-    33	#include <asm/rqspinlock.h>
-  > 34	#include <linux/mutex.h>
-    35	
+   607	
+   608	static u8 cdce6214_clk_out_get_parent(struct clk_hw *hw)
+   609	{
+   610		struct cdce6214_clock *clock = hw_to_cdce6214_clk(hw);
+   611		struct cdce6214 *priv = clock->priv;
+   612		unsigned int val, idx;
+   613	
+   614		switch (clock->index) {
+   615		case CDCE6214_CLK_OUT1:
+   616			regmap_read(priv->regmap, R56, &val);
+   617			idx = FIELD_GET(R56_CH1_MUX, val);
+   618			break;
+   619		case CDCE6214_CLK_OUT2:
+   620			regmap_read(priv->regmap, R62, &val);
+   621			idx = FIELD_GET(R62_CH2_MUX, val);
+   622			break;
+   623		case CDCE6214_CLK_OUT3:
+   624			regmap_read(priv->regmap, R67, &val);
+   625			idx = FIELD_GET(R67_CH3_MUX, val);
+   626			break;
+   627		case CDCE6214_CLK_OUT4:
+   628			regmap_read(priv->regmap, R72, &val);
+   629			idx = FIELD_GET(R72_CH4_MUX, val);
+   630			break;
+ > 631		};
+   632	
+   633		return idx;
+   634	}
+   635	
+   636	static int cdce6214_clk_out_set_parent(struct clk_hw *hw, u8 index)
+   637	{
+   638		struct cdce6214_clock *clock = hw_to_cdce6214_clk(hw);
+   639		struct cdce6214 *priv = clock->priv;
+   640	
+   641		switch (clock->index) {
+   642		case CDCE6214_CLK_OUT1:
+   643			regmap_update_bits(priv->regmap, R56, R56_CH1_MUX, FIELD_PREP(R56_CH1_MUX, index));
+   644			break;
+   645		case CDCE6214_CLK_OUT2:
+   646			regmap_update_bits(priv->regmap, R62, R62_CH2_MUX, FIELD_PREP(R62_CH2_MUX, index));
+   647			break;
+   648		case CDCE6214_CLK_OUT3:
+   649			regmap_update_bits(priv->regmap, R67, R67_CH3_MUX, FIELD_PREP(R67_CH3_MUX, index));
+   650			break;
+   651		case CDCE6214_CLK_OUT4:
+   652			regmap_update_bits(priv->regmap, R72, R72_CH4_MUX, FIELD_PREP(R72_CH4_MUX, index));
+   653			break;
+   654		};
+   655	
+   656		return 0;
+   657	}
+   658	
+   659	static const struct clk_ops cdce6214_clk_out_ops = {
+   660		.prepare = cdce6214_clk_out_prepare,
+   661		.unprepare = cdce6214_clk_out_unprepare,
+   662		.is_prepared = cdce6214_clk_out_is_prepared,
+   663		.recalc_rate = cdce6214_clk_out_recalc_rate,
+   664		.determine_rate = cdce6214_clk_out_determine_rate,
+   665		.set_rate = cdce6214_clk_out_set_rate,
+   666		.get_parent = cdce6214_clk_out_get_parent,
+   667		.set_parent = cdce6214_clk_out_set_parent,
+   668	};
+   669	
+   670	static int pll_calc_values(unsigned long parent_rate, unsigned long out,
+   671				   unsigned long *ndiv, unsigned long *num, unsigned long *den)
+   672	{
+   673		u64 a;
+   674	
+   675		if (out < CDCE6214_VCO_MIN || out > CDCE6214_VCO_MAX)
+   676			return -EINVAL;
+   677	
+   678		*den = 10000000;
+   679		*ndiv = out / parent_rate;
+   680		a = out % parent_rate;
+   681		a *= *den;
+ > 682		do_div(a, parent_rate);
+   683		*num = a;
+   684	
+   685		return 0;
+   686	}
+   687	
 
 -- 
 0-DAY CI Kernel Test Service
