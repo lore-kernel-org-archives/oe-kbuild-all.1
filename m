@@ -1,67 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54043238C2F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 03:16:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C3F3085A6
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 04:52:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750302972; cv=none; b=gb50gIAqJ4TfE6M+tMLUH4vqkdZw+8VzefZvqSUknzwXtI3MlkWGf4PDg5tbZEhMxFxIpTyDMwyKj3xOkC/VSaFoAg4O95/SsYGDGg8EKGoimQY+dpUFWHQyEMYITnQd9226CQDSqZsrlawz+bpQg1IBGzAuZwFEwWVCK2Akofg=
+	t=1750308736; cv=none; b=NECO3X869JJzJMFXvt+tFwBVrnYtKPj3s6ga2jDTXHEYOBGzF3o4H5ZlvH2YL+oBouOW1tcGrec7kb0mEOepajxmy4DSZ+308fXyAcaX7IFFpcjt2DU5PYRwRk22NjWPPbyU5i/try85jXzBk+n4llO183+xo1C631RioFh5N/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750302972; c=relaxed/simple;
-	bh=+qKbg3X99aXwFswPHKFL5fUn+HrMm8W2484ukQ9POlc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dOlTXjUEWe6nookfnVSjSU+xqrozxnP80pdcEu9lsqjY1XH9RFjj2sF6aPVr/PbG7ZmK+BS3RcxArtKv6IiOMWqD3cuWCorBnzfCV+Q9ls6z2/pZuIhNxG2z73+mvbdoJNy+tKVUM2Ob6NdRbEPMzZAZKBi1Oq3R3t9pKgMGt+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dxWqeshx; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1750308736; c=relaxed/simple;
+	bh=cxJebAXyuAnusSTEyB/Utvhy02RU6r7V3KT2pZtAdh8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=By3nmMIPjefq52l5vUAzOUQNHjAKW3dsd3my5SzMY+9LwpZeeRHBOgFnijwHpW12O7HdOj+wu+Ghwr+ScpFdVzSVD9BPLtPYqJYoT0y8DCSrIGveCFnzCbChcqo9tApwWBcOJFC65IeXB9AOpyQGBA6CTPkurmYx7jrWoBEj6sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DH0lBKc/; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dxWqeshx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DH0lBKc/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750302970; x=1781838970;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+qKbg3X99aXwFswPHKFL5fUn+HrMm8W2484ukQ9POlc=;
-  b=dxWqeshxS0abEyqpehpn9q0YTr6VKLMJDZ1XnMG78WGagD/lxrMEpVp0
-   actnZFw606suTsPFx1duSvApil9JiIeOYVd0VNESHKTkOfeCOLyB6D7N+
-   Af5A1Te5a8lZO7sqMxGlQHlhyEJG6yNsXRkBNoKmtwPX4GNuwU0ctjS0e
-   Pb3CcJsmK9jEaetxOnWTQf7EKTBMQngVnTRUSmfeIIv1U529C8e+J7fYA
-   JLGNflg3PHnQSBJeh8i3PYVfnaeuNFJvS4zgzNAy6DEkiINCDyTfUH+0D
-   Mrj8U2VBzcoQizVmJI1RhLP3tavKB2kSiXVqe+jguHKSMbYIiAeyHfVzs
+  t=1750308733; x=1781844733;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=cxJebAXyuAnusSTEyB/Utvhy02RU6r7V3KT2pZtAdh8=;
+  b=DH0lBKc/LeBRQ5dprEhhnOVVynnNnsPa9NJBBKlvz32dECXJX+9uy9GS
+   9xyNVsj12WCCbDqCNMhpdMswd9A0UawnZf8tQDDg7PXfWssjKM9Lf+zkL
+   AQiRXSzYXEL9NMBrxVrMAWt5GqoW7h3XIFjDTDteVfWC2XSW0wEZRDh+p
+   572ogi0tykJdEf1I1G4pGMFB9smW6CXFzJjhhXPuAc6l1xuKSDKR787wV
+   wha8nwhKIg1wd5f2+BRJXBkqYs7QpnDBxnCNyIFqdIxW7mQjsZObmdsQS
+   8E1PGpQv4SkHxxSr07w55hG1cLB7aDkSyOMROswEQULxyKWHOT58uNBHM
    w==;
-X-CSE-ConnectionGUID: uGLFQjrHQEOd+6xG8TbtnQ==
-X-CSE-MsgGUID: NuQsVGgFQ4SAPUNOF+loUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52411227"
+X-CSE-ConnectionGUID: dCKa/0RaR7mv6okiTW5AlA==
+X-CSE-MsgGUID: TFpRrL8fQiqmPK4aAemhiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="40161200"
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="52411227"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 20:16:07 -0700
-X-CSE-ConnectionGUID: 5Y2Rv39FSX6mr218PWMtYQ==
-X-CSE-MsgGUID: gXYm6CJrSJycghKffG51bg==
+   d="scan'208";a="40161200"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 21:52:12 -0700
+X-CSE-ConnectionGUID: BJ5pC40CTuqRakAEWL30UQ==
+X-CSE-MsgGUID: 2ypYWwDLTfOv/xCIDZDdBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="154345808"
+   d="scan'208";a="155978370"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 18 Jun 2025 20:16:04 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 18 Jun 2025 21:52:12 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uS5kw-000KMi-0a;
-	Thu, 19 Jun 2025 03:16:02 +0000
-Date: Thu, 19 Jun 2025 11:15:37 +0800
+	id 1uS7Fx-000KPa-2y;
+	Thu, 19 Jun 2025 04:52:09 +0000
+Date: Thu, 19 Jun 2025 12:51:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oliver Mangold <oliver.mangold@pm.me>, Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Benno Lossin <lossin@kernel.org>,
-	Asahi Lina <lina+kernel@asahilina.net>
-Cc: oe-kbuild-all@lists.linux.dev, rust-for-linux@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Oliver Mangold <oliver.mangold@pm.me>
-Subject: Re: [PATCH v11 2/4] rust: Split `AlwaysRefCounted` into two traits
-Message-ID: <202506191023.smOZ1Mpy-lkp@intel.com>
-References: <20250618-unique-ref-v11-2-49eadcdc0aa6@pm.me>
+To: David Hildenbrand <david@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:migration 9/29] Warning: mm/migrate.c:188 function
+ parameter 'dst' not described in 'migrate_movable_ops_page'
+Message-ID: <202506191215.qBGYTyjc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,173 +61,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618-unique-ref-v11-2-49eadcdc0aa6@pm.me>
 
-Hi Oliver,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on e04c78d86a9699d136910cfc0bdcf01087e3267e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Oliver-Mangold/rust-types-Add-Ownable-Owned-types/20250618-203524
-base:   e04c78d86a9699d136910cfc0bdcf01087e3267e
-patch link:    https://lore.kernel.org/r/20250618-unique-ref-v11-2-49eadcdc0aa6%40pm.me
-patch subject: [PATCH v11 2/4] rust: Split `AlwaysRefCounted` into two traits
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250619/202506191023.smOZ1Mpy-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506191023.smOZ1Mpy-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux migration
+head:   f1b6c20fba7773fa03f2b0a965ae80f8ac718891
+commit: 70af46886ac15e788bfd4ed331d5b19bf13fd73e [9/29] mm/migrate: factor out movable_ops page handling into migrate_movable_ops_page()
+config: parisc-randconfig-r072-20250619 (https://download.01.org/0day-ci/archive/20250619/202506191215.qBGYTyjc-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506191215.qBGYTyjc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506191023.smOZ1Mpy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506191215.qBGYTyjc-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
-   make: Entering directory '/kbuild/src/consumer'
-   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
->> Diff in rust/kernel/mm/mmput_async.rs at line 48:
-        }
-    }
-    
-   -
-    // SAFETY: We do not implement `Ownable`, thus it is okay to can obtain an `ARef<MmWithUserAsync>`
-    // from a `&MmWithUserAsync`.
-    unsafe impl AlwaysRefCounted for MmWithUserAsync {}
->> Diff in rust/kernel/mm/mmput_async.rs at line 48:
-        }
-    }
-    
-   -
-    // SAFETY: We do not implement `Ownable`, thus it is okay to can obtain an `ARef<MmWithUserAsync>`
-    // from a `&MmWithUserAsync`.
-    unsafe impl AlwaysRefCounted for MmWithUserAsync {}
->> Diff in rust/kernel/mm/mmput_async.rs at line 48:
-        }
-    }
-    
-   -
-    // SAFETY: We do not implement `Ownable`, thus it is okay to can obtain an `ARef<MmWithUserAsync>`
-    // from a `&MmWithUserAsync`.
-    unsafe impl AlwaysRefCounted for MmWithUserAsync {}
-   make[2]: *** [Makefile:1825: rustfmt] Error 123
-   make[2]: Target 'rustfmtcheck' not remade because of errors.
-   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'rustfmtcheck' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'rustfmtcheck' not remade because of errors.
-   make: Leaving directory '/kbuild/src/consumer'
---
->> error[E0277]: the trait bound `auxiliary::Device: types::RefCounted` is not satisfied
-   --> rust/kernel/device.rs:329:56
-   |
-   329 |         impl ::core::convert::From<&$device<$src>> for $crate::types::ARef<$device> {
-   |                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ the trait `types::RefCounted` is not implemented for `auxiliary::Device`
-   |
-   ::: rust/kernel/auxiliary.rs:250:1
-   |
-   250 | kernel::impl_device_context_into_aref!(Device);
-   | ---------------------------------------------- in this macro invocation
-   |
-   = help: the following other types implement trait `types::RefCounted`:
-   block::mq::request::Request<T>
-   cred::Credential
-   device::Device
-   fs::file::File
-   fs::file::LocalFile
-   mm::mmput_async::MmWithUserAsync
-   mm::Mm
-   mm::MmWithUser
-   and 4 others
-   note: required by a bound in `types::ARef`
-   --> rust/kernel/types.rs:478:20
-   |
-   478 | pub struct ARef<T: RefCounted> {
-   |                    ^^^^^^^^^^ required by this bound in `ARef`
-   = note: this error originates in the macro `::kernel::__impl_device_context_into_aref` which comes from the expansion of the macro `kernel::impl_device_context_into_aref` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0277]: the trait bound `auxiliary::Device: types::RefCounted` is not satisfied
-   --> rust/kernel/auxiliary.rs:253:48
-   |
-   253 | unsafe impl crate::types::AlwaysRefCounted for Device {
-   |                                                ^^^^^^ the trait `types::RefCounted` is not implemented for `auxiliary::Device`
-   |
-   = help: the following other types implement trait `types::RefCounted`:
-   block::mq::request::Request<T>
-   cred::Credential
-   device::Device
-   fs::file::File
-   fs::file::LocalFile
-   mm::mmput_async::MmWithUserAsync
-   mm::Mm
-   mm::MmWithUser
-   and 4 others
-   note: required by a bound in `types::AlwaysRefCounted`
-   --> rust/kernel/types.rs:466:36
-   |
-   466 | pub unsafe trait AlwaysRefCounted: RefCounted {}
-   |                                    ^^^^^^^^^^ required by this bound in `AlwaysRefCounted`
---
->> error[E0277]: the trait bound `auxiliary::Device: types::RefCounted` is not satisfied
-   --> rust/kernel/device.rs:330:45
-   |
-   330 |             fn from(dev: &$device<$src>) -> Self {
-   |                                             ^^^^ the trait `types::RefCounted` is not implemented for `auxiliary::Device`
-   |
-   ::: rust/kernel/auxiliary.rs:250:1
-   |
-   250 | kernel::impl_device_context_into_aref!(Device);
-   | ---------------------------------------------- in this macro invocation
-   |
-   = help: the following other types implement trait `types::RefCounted`:
-   block::mq::request::Request<T>
-   cred::Credential
-   device::Device
-   fs::file::File
-   fs::file::LocalFile
-   mm::mmput_async::MmWithUserAsync
-   mm::Mm
-   mm::MmWithUser
-   and 4 others
-   note: required by a bound in `types::ARef`
-   --> rust/kernel/types.rs:478:20
-   |
-   478 | pub struct ARef<T: RefCounted> {
-   |                    ^^^^^^^^^^ required by this bound in `ARef`
-   = note: this error originates in the macro `::kernel::__impl_device_context_into_aref` which comes from the expansion of the macro `kernel::impl_device_context_into_aref` (in Nightly builds, run with -Z macro-backtrace for more info)
---
->> error[E0277]: the trait bound `auxiliary::Device: types::RefCounted` is not satisfied
-   --> rust/kernel/device.rs:331:17
-   |
-   331 |                 (&**dev).into()
-   |                 ^^^^^^^^^^^^^^^ the trait `types::RefCounted` is not implemented for `auxiliary::Device`
-   |
-   ::: rust/kernel/auxiliary.rs:250:1
-   |
-   250 | kernel::impl_device_context_into_aref!(Device);
-   | ---------------------------------------------- in this macro invocation
-   |
-   = help: the following other types implement trait `types::RefCounted`:
-   block::mq::request::Request<T>
-   cred::Credential
-   device::Device
-   fs::file::File
-   fs::file::LocalFile
-   mm::mmput_async::MmWithUserAsync
-   mm::Mm
-   mm::MmWithUser
-   and 4 others
-   note: required by a bound in `types::ARef`
-   --> rust/kernel/types.rs:478:20
-   |
-   478 | pub struct ARef<T: RefCounted> {
-   |                    ^^^^^^^^^^ required by this bound in `ARef`
-   = note: this error originates in the macro `::kernel::__impl_device_context_into_aref` which comes from the expansion of the macro `kernel::impl_device_context_into_aref` (in Nightly builds, run with -Z macro-backtrace for more info)
+>> Warning: mm/migrate.c:188 function parameter 'dst' not described in 'migrate_movable_ops_page'
+>> Warning: mm/migrate.c:188 function parameter 'src' not described in 'migrate_movable_ops_page'
+>> Warning: mm/migrate.c:188 function parameter 'mode' not described in 'migrate_movable_ops_page'
+>> Warning: mm/migrate.c:188 Excess function parameter 'page' description in 'migrate_movable_ops_page'
 
 -- 
 0-DAY CI Kernel Test Service
