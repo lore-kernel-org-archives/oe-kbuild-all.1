@@ -1,67 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C328F24467A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 07:32:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACEB12472A4
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 08:03:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750318352; cv=none; b=amdR73yM12mDsPEOoAnFqXjBBPdUHH7SMk0Wl1exOaYm8t77pc+tY3cEGJhJPERMSuRrAOFS/rj/LKQE7OPw7l97qGQfSfqfc6PVYCdJBB0YfU0pCQy3UYDsy3c9pHzGwhiwW1a0gRkVa9tUkrMyHjc4dS2TnOvh95Aizequ15o=
+	t=1750320231; cv=none; b=sTHipYOJt9Ffqg+tAqmf4mIVypAZThAY17Hwx50ogaYy2hoxQuIGhkna8rRo8QSxwICysIC5OOeueTFCRZkN7JEGcsamLnxBW4NLkXUtS/WEv3WNItYJxMY6ySEjzs07ViYjXqpe6BFOUrm1fcbBMB+dXScN/BuHOkTFRRFMbE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750318352; c=relaxed/simple;
-	bh=WZ8Q9CTvAF6JKTjlu5YiVffQn1T/qF7Cg1ysDQSQEFg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K7K+RH05GmsWgExdWm9TZ0qDR7a+Ua6pCU6+rkcOtL6rckk0hPPPXI/KcHswGTLnmGluKljr5SqvIFxRmdu69JPrKIial1Ns0UqVtI2+QrHIqzo5TFb5ndyhlokTQGPeNvG3/OkpCmGn/R/hnkTVObe5360wb/ZvNDdUXDaX3Gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZpobqMAz; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1750320231; c=relaxed/simple;
+	bh=XgL1Zg1n9YmtzmUVbJdw4xHwQyAlDF54z92Xhh2Zl9o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ouDFqB6MiDyRiKzRoP48CdMNLtq/SLNoE0DnjBUoJ0iz8SuYGiCB91sAOe/G7PHZC0C0fpvSMJlPmmE18ka9wJ7yktcPC6MHMxuEJ8xQ2y2oEqUaWxwfXXVxaRl6CQTy/s23QboJ6fgClN01amvR7FwxEFhGMjHmkvj+ugcoLl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OHFWLvw/; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZpobqMAz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OHFWLvw/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750318351; x=1781854351;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WZ8Q9CTvAF6JKTjlu5YiVffQn1T/qF7Cg1ysDQSQEFg=;
-  b=ZpobqMAzpgGOtpo0aiUlI7peujIkIHRs4LXIeulqSauW86XZHUurX6pi
-   KkIBJM/3YhjPR037Hu7Uf6SSNnmrkZzZObJBNybCIqyGu3m3sJQk3x/76
-   Cc0xxaTZ/L3dCOTHFlQo4I/nqfqvPm3MGppqkHr45mreSewTQfPjX0f6A
-   tNBHxfVScegICZ5e+Rnea7mQCz4ns3aaUeTNiILbHtxcQaVHd+9lwtAp1
-   +qKa7QAJYxNKwcXM0QKRgRuBs2eINFw8b2HFX1FOLqCoMXOMlxkh9J64J
-   A4t9t5yFxYABYIX86a/1t4+73pvjriD4byqm+Y/JEg2hl3gDd7JmRtjd3
-   g==;
-X-CSE-ConnectionGUID: +lWucshOQrShRFzfLWRFFw==
-X-CSE-MsgGUID: 6YiKxMiyTrSHurQS9CH6kQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="62835954"
-X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="62835954"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 00:32:30 -0700
-X-CSE-ConnectionGUID: bDyEDibwQGad/pPW24J89g==
-X-CSE-MsgGUID: IHl+3z3tSFCseFzbY5Dl2Q==
+  t=1750320229; x=1781856229;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=XgL1Zg1n9YmtzmUVbJdw4xHwQyAlDF54z92Xhh2Zl9o=;
+  b=OHFWLvw/ITk45qd2R5IHW2HCVQPWlEmRbGqiyGhH4rjjN9+oEhfJR/IU
+   H/eNg4IKeC9kCZQz/3ZyTxDiFHNARmfSlN+UriXaFlOqGTf3unRfSOEti
+   Egm+q32sZK8ykC676Zog7ZGz0c8nEHHvnPISCcmm+0IKVMpbOUaR8piuW
+   Xfd625sTodFfGA/V254iWDelWrROW3dRnq8q/HUXhksMHPSdV4SUDm9m/
+   D17kxwT1w/W/hk5MIMFqkbP9tFS44EetkTaQC4DyNy8KQoaFwnHPl92XD
+   7s4yx3ogxKH+Qp3XMbSm+ww+hVD/qlEzTUY2MTgb9/teAbFfyIdXBNUCQ
+   A==;
+X-CSE-ConnectionGUID: GWS5ZIsaRS6vyiXMak5lqQ==
+X-CSE-MsgGUID: ZU/IJJvZQHO5vBw89bGqwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52444739"
+X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
+   d="scan'208";a="52444739"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 01:03:32 -0700
+X-CSE-ConnectionGUID: mlIMrFtTSU+8Ya+f/7ldkQ==
+X-CSE-MsgGUID: GcqOnlkbRoGcPGroDcJ05A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="150041569"
+X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
+   d="scan'208";a="187741072"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 19 Jun 2025 00:32:27 -0700
+  by orviesa001.jf.intel.com with ESMTP; 19 Jun 2025 01:03:30 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uS9l2-000KWI-3B;
-	Thu, 19 Jun 2025 07:32:24 +0000
-Date: Thu, 19 Jun 2025 15:32:03 +0800
+	id 1uSAF5-000KYA-1q;
+	Thu, 19 Jun 2025 08:03:27 +0000
+Date: Thu, 19 Jun 2025 16:03:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sascha Hauer <s.hauer@pengutronix.de>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	kernel@pengutronix.de,
-	Alvin =?utf-8?Q?=C5=A0ipraga?= <alsi@bang-olufsen.dk>,
-	Sascha Hauer <s.hauer@pengutronix.de>
-Subject: Re: [PATCH v5 2/4] clk: add TI CDCE6214 clock driver
-Message-ID: <202506191559.R9E9baqn-lkp@intel.com>
-References: <20250618-clk-cdce6214-v5-2-9938b8ed0b94@pengutronix.de>
+To: Alistair Popple <apopple@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@rivosinc.com>,
+	Jason Gunthorpe <jgg@nvidia.com>
+Subject: [akpm-mm:mm-new 158/177] arch/riscv/include/asm/pgtable.h:934:24:
+ error: implicit declaration of function 'pte_mkdevmap'; did you mean
+ 'pud_mkdevmap'?
+Message-ID: <202506191536.2hMhapuP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,119 +66,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618-clk-cdce6214-v5-2-9938b8ed0b94@pengutronix.de>
 
-Hi Sascha,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on e04c78d86a9699d136910cfc0bdcf01087e3267e]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sascha-Hauer/dt-bindings-clock-add-TI-CDCE6214-binding/20250618-172505
-base:   e04c78d86a9699d136910cfc0bdcf01087e3267e
-patch link:    https://lore.kernel.org/r/20250618-clk-cdce6214-v5-2-9938b8ed0b94%40pengutronix.de
-patch subject: [PATCH v5 2/4] clk: add TI CDCE6214 clock driver
-config: alpha-randconfig-r054-20250619 (https://download.01.org/0day-ci/archive/20250619/202506191559.R9E9baqn-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+head:   98743cca1551b038cdec987961c609f2fb0beb83
+commit: 8aed601c58980f1f7cd45d5373e739f87d22d028 [158/177] mm: remove devmap related functions and page table bits
+config: riscv-randconfig-r132-20250619 (https://download.01.org/0day-ci/archive/20250619/202506191536.2hMhapuP-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20250619/202506191536.2hMhapuP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506191559.R9E9baqn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506191536.2hMhapuP-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/clk/clk-cdce6214.c:682:1-7: WARNING: do_div() does a 64-by-32 division, please consider using div64_ul instead.
---
->> drivers/clk/clk-cdce6214.c:631:2-3: Unneeded semicolon
-   drivers/clk/clk-cdce6214.c:547:2-3: Unneeded semicolon
-   drivers/clk/clk-cdce6214.c:654:2-3: Unneeded semicolon
-   drivers/clk/clk-cdce6214.c:603:2-3: Unneeded semicolon
-   drivers/clk/clk-cdce6214.c:908:2-3: Unneeded semicolon
-   drivers/clk/clk-cdce6214.c:946:2-3: Unneeded semicolon
+All errors (new ones prefixed by >>):
 
-vim +682 drivers/clk/clk-cdce6214.c
+   In file included from include/linux/pgtable.h:6,
+                    from include/linux/mm.h:31,
+                    from arch/riscv/kernel/asm-offsets.c:8:
+   arch/riscv/include/asm/pgtable.h: In function 'pud_mkdevmap':
+>> arch/riscv/include/asm/pgtable.h:934:24: error: implicit declaration of function 'pte_mkdevmap'; did you mean 'pud_mkdevmap'? [-Wimplicit-function-declaration]
+     934 |         return pte_pud(pte_mkdevmap(pud_pte(pud)));
+         |                        ^~~~~~~~~~~~
+         |                        pud_mkdevmap
+>> arch/riscv/include/asm/pgtable.h:934:24: error: incompatible type for argument 1 of 'pte_pud'
+     934 |         return pte_pud(pte_mkdevmap(pud_pte(pud)));
+         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                        |
+         |                        int
+   arch/riscv/include/asm/pgtable.h:675:35: note: expected 'pte_t' but argument is of type 'int'
+     675 | static inline pud_t pte_pud(pte_t pte)
+         |                             ~~~~~~^~~
+   make[3]: *** [scripts/Makefile.build:182: arch/riscv/kernel/asm-offsets.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1274: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
-   607	
-   608	static u8 cdce6214_clk_out_get_parent(struct clk_hw *hw)
-   609	{
-   610		struct cdce6214_clock *clock = hw_to_cdce6214_clk(hw);
-   611		struct cdce6214 *priv = clock->priv;
-   612		unsigned int val, idx;
-   613	
-   614		switch (clock->index) {
-   615		case CDCE6214_CLK_OUT1:
-   616			regmap_read(priv->regmap, R56, &val);
-   617			idx = FIELD_GET(R56_CH1_MUX, val);
-   618			break;
-   619		case CDCE6214_CLK_OUT2:
-   620			regmap_read(priv->regmap, R62, &val);
-   621			idx = FIELD_GET(R62_CH2_MUX, val);
-   622			break;
-   623		case CDCE6214_CLK_OUT3:
-   624			regmap_read(priv->regmap, R67, &val);
-   625			idx = FIELD_GET(R67_CH3_MUX, val);
-   626			break;
-   627		case CDCE6214_CLK_OUT4:
-   628			regmap_read(priv->regmap, R72, &val);
-   629			idx = FIELD_GET(R72_CH4_MUX, val);
-   630			break;
- > 631		};
-   632	
-   633		return idx;
-   634	}
-   635	
-   636	static int cdce6214_clk_out_set_parent(struct clk_hw *hw, u8 index)
-   637	{
-   638		struct cdce6214_clock *clock = hw_to_cdce6214_clk(hw);
-   639		struct cdce6214 *priv = clock->priv;
-   640	
-   641		switch (clock->index) {
-   642		case CDCE6214_CLK_OUT1:
-   643			regmap_update_bits(priv->regmap, R56, R56_CH1_MUX, FIELD_PREP(R56_CH1_MUX, index));
-   644			break;
-   645		case CDCE6214_CLK_OUT2:
-   646			regmap_update_bits(priv->regmap, R62, R62_CH2_MUX, FIELD_PREP(R62_CH2_MUX, index));
-   647			break;
-   648		case CDCE6214_CLK_OUT3:
-   649			regmap_update_bits(priv->regmap, R67, R67_CH3_MUX, FIELD_PREP(R67_CH3_MUX, index));
-   650			break;
-   651		case CDCE6214_CLK_OUT4:
-   652			regmap_update_bits(priv->regmap, R72, R72_CH4_MUX, FIELD_PREP(R72_CH4_MUX, index));
-   653			break;
-   654		};
-   655	
-   656		return 0;
-   657	}
-   658	
-   659	static const struct clk_ops cdce6214_clk_out_ops = {
-   660		.prepare = cdce6214_clk_out_prepare,
-   661		.unprepare = cdce6214_clk_out_unprepare,
-   662		.is_prepared = cdce6214_clk_out_is_prepared,
-   663		.recalc_rate = cdce6214_clk_out_recalc_rate,
-   664		.determine_rate = cdce6214_clk_out_determine_rate,
-   665		.set_rate = cdce6214_clk_out_set_rate,
-   666		.get_parent = cdce6214_clk_out_get_parent,
-   667		.set_parent = cdce6214_clk_out_set_parent,
-   668	};
-   669	
-   670	static int pll_calc_values(unsigned long parent_rate, unsigned long out,
-   671				   unsigned long *ndiv, unsigned long *num, unsigned long *den)
-   672	{
-   673		u64 a;
-   674	
-   675		if (out < CDCE6214_VCO_MIN || out > CDCE6214_VCO_MAX)
-   676			return -EINVAL;
-   677	
-   678		*den = 10000000;
-   679		*ndiv = out / parent_rate;
-   680		a = out % parent_rate;
-   681		a *= *den;
- > 682		do_div(a, parent_rate);
-   683		*num = a;
-   684	
-   685		return 0;
-   686	}
-   687	
+
+vim +934 arch/riscv/include/asm/pgtable.h
+
+c3cc2a4a3a23fa Alexandre Ghiti 2025-03-21  931  
+c3cc2a4a3a23fa Alexandre Ghiti 2025-03-21  932  static inline pud_t pud_mkdevmap(pud_t pud)
+c3cc2a4a3a23fa Alexandre Ghiti 2025-03-21  933  {
+c3cc2a4a3a23fa Alexandre Ghiti 2025-03-21 @934  	return pte_pud(pte_mkdevmap(pud_pte(pud)));
+c3cc2a4a3a23fa Alexandre Ghiti 2025-03-21  935  }
+c3cc2a4a3a23fa Alexandre Ghiti 2025-03-21  936  
+
+:::::: The code at line 934 was first introduced by commit
+:::::: c3cc2a4a3a23faf6b88459471c1c16ab3837cc2f riscv: Add support for PUD THP
+
+:::::: TO: Alexandre Ghiti <alexghiti@rivosinc.com>
+:::::: CC: Palmer Dabbelt <palmer@dabbelt.com>
 
 -- 
 0-DAY CI Kernel Test Service
