@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C53B2459FA;
-	Thu, 19 Jun 2025 20:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3962130E844
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 21:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750366432; cv=none; b=Oo6PePIkFNi8Qk4Ha/kR1Dg8BJqGHyXm4oqYHw/B+KqeklbmNPYgbe9ojZtFQH9n3UxJppdB7Fbcju/eAhdoKEZpAz5uQz938V3TW5nZvrUqaaO4CweXvIz5ew2kyt3tCHbFkkfiMcDovk7os8YnGspYX+wMMjvtn/hD8liqVtU=
+	t=1750367750; cv=none; b=BYiqSkzq1ZNLxjkQqKYWrn71uTecthEgvaZn1YsemPp2GfOJQbNTNe0J0p22hgp7qqML7E635xaodF0HnQZ7VO396hS1lQ+MPMuO0p+7qGF7olPUrRfFZEMhsPy8HNARvUw7LsBnKuQZhkwHOkvGOCX/3TuuYpVN7McgYzr7Wog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750366432; c=relaxed/simple;
-	bh=ybKBBbrvjmL01p8FtzTcnNdCgyhQhALzZsU71BczNpk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DPHnUHyzuTIA7kbzVJdb422/RbZQPBLGu89AL/cJD65t6Ddb7M5vG5nP/2akHXEid6FRxcb/QK6ytbUZT3mGlzvHLq3DhSfiT5Ngkt43+7bIxaGNgyGWR4E5ynngRBu7NHfRvqUXIv+pquzr8z0n0buSc14dFXpat4gwLcUW13U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B6Ebg3WE; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1750367750; c=relaxed/simple;
+	bh=RaL2tbUT+Y6B7FMTwDYqyL/P50gsvpbuiyXwe+8hId0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RHFGXvpX7Sjvyw2uTwnxwYNjsmlv4LdO1uHnN21VgSlw00bSLj/SIc92iOdVPPEw6NrWNM9WMQb/pokmr2/c97lF7DdbziCEse2wyo0qKc8gmBfd9VlpM89kzOTFDypMPaCk1MzU1gSekblgXmIsZ5byFzv4OkmLI2FZLuyWEpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ehEWHCfx; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B6Ebg3WE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ehEWHCfx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750366428; x=1781902428;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ybKBBbrvjmL01p8FtzTcnNdCgyhQhALzZsU71BczNpk=;
-  b=B6Ebg3WEQgiYBytWS2/I66jUKMplCkZGvJ9+OnTO2j1AyZhO2/venLku
-   C9wqNwbQNnPZ8qzwyzH7eGbqzgA+/v8lDyytM4Vq2Yox1OpbuDQElABQB
-   L1ls+zMqHgC/fInOf1R0+CVZbv62Htn9aEqdw5cJY6CPLeffNa+yVi4WB
-   IR/BxA6Dbi7KpIFGm/D5W/jLvh3BRuGxRBwMUbZLDeGVEPrWOWlp6uTnA
-   n8y05oV2IJw5NuxE37HBp3Ydk/C/hrPcYQQNzHHG3qb2lJ8Xjk17sDbZg
-   vPRVeFZBNEBU/StJFxZr1k8abaXKlRyQLs6WDPNDnnKWenpbpY4+cwYIu
+  t=1750367749; x=1781903749;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RaL2tbUT+Y6B7FMTwDYqyL/P50gsvpbuiyXwe+8hId0=;
+  b=ehEWHCfx14rNCpLEuT7+cvzHCGYd8v6PGYd19864SLiZKvYhGZM5GDvP
+   7gEuKcwJ1oV74QmkWUSv6xRtM1s9PGZLAYpAAtOx/US1US/8rJ5cbUWej
+   Pj+J22rdfluejZIikQiEh/l8veSy+DaTzIvpwSBajqLdO4H8tWX7XHq6N
+   PpxFsjyLr2xa8lu2/mX2gyxZOSiz/tqu5dsBu5TuzITzI21hvKTgY9pRm
+   OEk1JBN4EH/aLAEB92EyIbCFljIiyDO+Ee3M7C9uYhXurk6RVc77OKzVn
+   /2VWKXXoGqaJ9rmEXlgUujghslXLj2GTgJPlIfCVMFp1O/XSaFKy0Txbf
    A==;
-X-CSE-ConnectionGUID: 5LVcySW1TvCxSZVt+g+DRA==
-X-CSE-MsgGUID: 4+pSScTEQyianGlT9GJ2cw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52550784"
+X-CSE-ConnectionGUID: STPKZWCPT/S6LQowXhgxWw==
+X-CSE-MsgGUID: r4jNw2BRTAqkjNIxrGwUlQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="62889986"
 X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="52550784"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 13:53:47 -0700
-X-CSE-ConnectionGUID: CsHVsW6uQrOgHPs7GKcYtA==
-X-CSE-MsgGUID: /5cZjRSSROeMCHWjvlDFlw==
+   d="scan'208";a="62889986"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 14:15:48 -0700
+X-CSE-ConnectionGUID: 8ARj+dHdTaaknM1iR0g0/A==
+X-CSE-MsgGUID: qXVQd4l2Ty+6mruT9ZhDbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="150871999"
+   d="scan'208";a="150233276"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Jun 2025 13:53:43 -0700
+  by orviesa006.jf.intel.com with ESMTP; 19 Jun 2025 14:15:46 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSMGT-000L6c-27;
-	Thu, 19 Jun 2025 20:53:41 +0000
-Date: Fri, 20 Jun 2025 04:53:36 +0800
+	id 1uSMbn-000L7I-37;
+	Thu, 19 Jun 2025 21:15:43 +0000
+Date: Fri, 20 Jun 2025 05:14:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chancel Liu <chancel.liu@nxp.com>, shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-	tiwai@suse.com, shawnguo@kernel.org, linux-kernel@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-sound@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] ASoC: imx-card: Add WM8524 support
-Message-ID: <202506200415.ATjQ5KCu-lkp@intel.com>
-References: <20250619062413.3946142-1-chancel.liu@nxp.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:nova/irq 22/23] Diff in drivers/gpu/nova-core/irq.rs at line
+ 2:
+Message-ID: <202506200459.GibGwWHx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,210 +61,412 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250619062413.3946142-1-chancel.liu@nxp.com>
 
-Hi Chancel,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on shawnguo/for-next]
-[also build test WARNING on linus/master v6.16-rc2 next-20250619]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chancel-Liu/ASoC-imx-card-Add-WM8524-support/20250619-142646
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250619062413.3946142-1-chancel.liu%40nxp.com
-patch subject: [PATCH] ASoC: imx-card: Add WM8524 support
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250620/202506200415.ATjQ5KCu-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506200415.ATjQ5KCu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/irq
+head:   a4365b5800b5e1ffc954628d80dbffea234d3513
+commit: 3161e2ad3c1c4feab39307b71d803f4d294db3d6 [22/23] [WIP] nova-core: Implement IRQ table retrieval from GSP
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250620/202506200459.GibGwWHx-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506200459.GibGwWHx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506200415.ATjQ5KCu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506200459.GibGwWHx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> sound/soc/fsl/imx-card.c:884:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     884 |                 default:
-         |                 ^
-   sound/soc/fsl/imx-card.c:884:3: note: insert 'break;' to avoid fall-through
-     884 |                 default:
-         |                 ^
-         |                 break; 
-   1 warning generated.
-
-
-vim +884 sound/soc/fsl/imx-card.c
-
-aa736700f42fa0 Shengjiu Wang     2021-05-17  747  
-aa736700f42fa0 Shengjiu Wang     2021-05-17  748  static int imx_card_probe(struct platform_device *pdev)
-aa736700f42fa0 Shengjiu Wang     2021-05-17  749  {
-aa736700f42fa0 Shengjiu Wang     2021-05-17  750  	struct snd_soc_dai_link *link_be = NULL, *link;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  751  	struct imx_card_plat_data *plat_data;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  752  	struct imx_card_data *data;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  753  	int ret, i;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  754  
-aa736700f42fa0 Shengjiu Wang     2021-05-17  755  	data = devm_kzalloc(&pdev->dev, sizeof(*data), GFP_KERNEL);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  756  	if (!data)
-aa736700f42fa0 Shengjiu Wang     2021-05-17  757  		return -ENOMEM;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  758  
-aa736700f42fa0 Shengjiu Wang     2021-05-17  759  	plat_data = devm_kzalloc(&pdev->dev, sizeof(*plat_data), GFP_KERNEL);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  760  	if (!plat_data)
-aa736700f42fa0 Shengjiu Wang     2021-05-17  761  		return -ENOMEM;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  762  
-aa736700f42fa0 Shengjiu Wang     2021-05-17  763  	data->plat_data = plat_data;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  764  	data->card.dev = &pdev->dev;
-47d7d3fd72afc7 Hui Wang          2024-10-02  765  	data->card.owner = THIS_MODULE;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  766  
-aa736700f42fa0 Shengjiu Wang     2021-05-17  767  	dev_set_drvdata(&pdev->dev, &data->card);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  768  	snd_soc_card_set_drvdata(&data->card, data);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  769  	ret = imx_card_parse_of(data);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  770  	if (ret)
-aa736700f42fa0 Shengjiu Wang     2021-05-17  771  		return ret;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  772  
-aa736700f42fa0 Shengjiu Wang     2021-05-17  773  	data->num_dapm_routes = plat_data->num_codecs + 1;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  774  	data->dapm_routes = devm_kcalloc(&pdev->dev, data->num_dapm_routes,
-aa736700f42fa0 Shengjiu Wang     2021-05-17  775  					 sizeof(struct snd_soc_dapm_route),
-aa736700f42fa0 Shengjiu Wang     2021-05-17  776  					 GFP_KERNEL);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  777  	if (!data->dapm_routes)
-aa736700f42fa0 Shengjiu Wang     2021-05-17  778  		return -ENOMEM;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  779  
-aa736700f42fa0 Shengjiu Wang     2021-05-17  780  	/* configure the dapm routes */
-aa736700f42fa0 Shengjiu Wang     2021-05-17  781  	switch (plat_data->type) {
-aa736700f42fa0 Shengjiu Wang     2021-05-17  782  	case CODEC_AK4458:
-aa736700f42fa0 Shengjiu Wang     2021-05-17  783  	case CODEC_AK4497:
-aa736700f42fa0 Shengjiu Wang     2021-05-17  784  		if (plat_data->num_codecs == 1) {
-aa736700f42fa0 Shengjiu Wang     2021-05-17  785  			data->dapm_routes[0].sink = "Playback";
-aa736700f42fa0 Shengjiu Wang     2021-05-17  786  			data->dapm_routes[0].source = "CPU-Playback";
-aa736700f42fa0 Shengjiu Wang     2021-05-17  787  			i = 1;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  788  		} else {
-aa736700f42fa0 Shengjiu Wang     2021-05-17  789  			for (i = 0; i < plat_data->num_codecs; i++) {
-aa736700f42fa0 Shengjiu Wang     2021-05-17  790  				data->dapm_routes[i].sink =
-aa736700f42fa0 Shengjiu Wang     2021-05-17  791  					devm_kasprintf(&pdev->dev, GFP_KERNEL, "%d %s",
-aa736700f42fa0 Shengjiu Wang     2021-05-17  792  						       i + 1, "Playback");
-93d34608fd162f Henry Martin      2025-04-01  793  				if (!data->dapm_routes[i].sink)
-93d34608fd162f Henry Martin      2025-04-01  794  					return -ENOMEM;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  795  				data->dapm_routes[i].source = "CPU-Playback";
-aa736700f42fa0 Shengjiu Wang     2021-05-17  796  			}
-aa736700f42fa0 Shengjiu Wang     2021-05-17  797  		}
-aa736700f42fa0 Shengjiu Wang     2021-05-17  798  		data->dapm_routes[i].sink = "CPU-Playback";
-aa736700f42fa0 Shengjiu Wang     2021-05-17  799  		data->dapm_routes[i].source = "ASRC-Playback";
-aa736700f42fa0 Shengjiu Wang     2021-05-17  800  		break;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  801  	case CODEC_AK5558:
-aa736700f42fa0 Shengjiu Wang     2021-05-17  802  	case CODEC_AK5552:
-aa736700f42fa0 Shengjiu Wang     2021-05-17  803  		if (plat_data->num_codecs == 1) {
-aa736700f42fa0 Shengjiu Wang     2021-05-17  804  			data->dapm_routes[0].sink = "CPU-Capture";
-aa736700f42fa0 Shengjiu Wang     2021-05-17  805  			data->dapm_routes[0].source = "Capture";
-aa736700f42fa0 Shengjiu Wang     2021-05-17  806  			i = 1;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  807  		} else {
-aa736700f42fa0 Shengjiu Wang     2021-05-17  808  			for (i = 0; i < plat_data->num_codecs; i++) {
-aa736700f42fa0 Shengjiu Wang     2021-05-17  809  				data->dapm_routes[i].source =
-aa736700f42fa0 Shengjiu Wang     2021-05-17  810  					devm_kasprintf(&pdev->dev, GFP_KERNEL, "%d %s",
-aa736700f42fa0 Shengjiu Wang     2021-05-17  811  						       i + 1, "Capture");
-93d34608fd162f Henry Martin      2025-04-01  812  				if (!data->dapm_routes[i].source)
-93d34608fd162f Henry Martin      2025-04-01  813  					return -ENOMEM;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  814  				data->dapm_routes[i].sink = "CPU-Capture";
-aa736700f42fa0 Shengjiu Wang     2021-05-17  815  			}
-aa736700f42fa0 Shengjiu Wang     2021-05-17  816  		}
-aa736700f42fa0 Shengjiu Wang     2021-05-17  817  		data->dapm_routes[i].sink = "ASRC-Capture";
-aa736700f42fa0 Shengjiu Wang     2021-05-17  818  		data->dapm_routes[i].source = "CPU-Capture";
-aa736700f42fa0 Shengjiu Wang     2021-05-17  819  		break;
-b39eec95b84d5d Chancel Liu       2024-10-09  820  	case CODEC_CS42888:
-b39eec95b84d5d Chancel Liu       2024-10-09  821  		data->dapm_routes[0].sink = "Playback";
-b39eec95b84d5d Chancel Liu       2024-10-09  822  		data->dapm_routes[0].source = "CPU-Playback";
-b39eec95b84d5d Chancel Liu       2024-10-09  823  		data->dapm_routes[1].sink = "CPU-Capture";
-b39eec95b84d5d Chancel Liu       2024-10-09  824  		data->dapm_routes[1].source = "Capture";
-b39eec95b84d5d Chancel Liu       2024-10-09  825  		break;
-52377234f3ed64 Chancel Liu       2025-06-19  826  	case CODEC_WM8524:
-52377234f3ed64 Chancel Liu       2025-06-19  827  		data->dapm_routes[0].sink = "Playback";
-52377234f3ed64 Chancel Liu       2025-06-19  828  		data->dapm_routes[0].source = "CPU-Playback";
-52377234f3ed64 Chancel Liu       2025-06-19  829  		break;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  830  	default:
-aa736700f42fa0 Shengjiu Wang     2021-05-17  831  		break;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  832  	}
-aa736700f42fa0 Shengjiu Wang     2021-05-17  833  
-aa736700f42fa0 Shengjiu Wang     2021-05-17  834  	/* default platform data for akcodecs */
-aa736700f42fa0 Shengjiu Wang     2021-05-17  835  	if (codec_is_akcodec(plat_data->type)) {
-aa736700f42fa0 Shengjiu Wang     2021-05-17  836  		plat_data->support_rates = akcodec_rates;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  837  		plat_data->num_rates = ARRAY_SIZE(akcodec_rates);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  838  		plat_data->support_tdm_rates = akcodec_tdm_rates;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  839  		plat_data->num_tdm_rates = ARRAY_SIZE(akcodec_tdm_rates);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  840  
-aa736700f42fa0 Shengjiu Wang     2021-05-17  841  		switch (plat_data->type) {
-aa736700f42fa0 Shengjiu Wang     2021-05-17  842  		case CODEC_AK4458:
-aa736700f42fa0 Shengjiu Wang     2021-05-17  843  			plat_data->fs_mul = ak4458_fs_mul;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  844  			plat_data->num_fs_mul = ARRAY_SIZE(ak4458_fs_mul);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  845  			plat_data->tdm_fs_mul = ak4458_tdm_fs_mul;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  846  			plat_data->num_tdm_fs_mul = ARRAY_SIZE(ak4458_tdm_fs_mul);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  847  			plat_data->support_channels = ak4458_channels;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  848  			plat_data->num_channels = ARRAY_SIZE(ak4458_channels);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  849  			plat_data->support_tdm_channels = ak4458_tdm_channels;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  850  			plat_data->num_tdm_channels = ARRAY_SIZE(ak4458_tdm_channels);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  851  			break;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  852  		case CODEC_AK4497:
-aa736700f42fa0 Shengjiu Wang     2021-05-17  853  			plat_data->fs_mul = ak4497_fs_mul;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  854  			plat_data->num_fs_mul = ARRAY_SIZE(ak4497_fs_mul);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  855  			plat_data->support_channels = ak4458_channels;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  856  			plat_data->num_channels = ARRAY_SIZE(ak4458_channels);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  857  			break;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  858  		case CODEC_AK5558:
-aa736700f42fa0 Shengjiu Wang     2021-05-17  859  		case CODEC_AK5552:
-aa736700f42fa0 Shengjiu Wang     2021-05-17  860  			plat_data->fs_mul = ak5558_fs_mul;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  861  			plat_data->num_fs_mul = ARRAY_SIZE(ak5558_fs_mul);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  862  			plat_data->tdm_fs_mul = ak5558_tdm_fs_mul;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  863  			plat_data->num_tdm_fs_mul = ARRAY_SIZE(ak5558_tdm_fs_mul);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  864  			plat_data->support_channels = ak5558_channels;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  865  			plat_data->num_channels = ARRAY_SIZE(ak5558_channels);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  866  			plat_data->support_tdm_channels = ak5558_tdm_channels;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  867  			plat_data->num_tdm_channels = ARRAY_SIZE(ak5558_tdm_channels);
-aa736700f42fa0 Shengjiu Wang     2021-05-17  868  			break;
-b39eec95b84d5d Chancel Liu       2024-10-09  869  		case CODEC_CS42888:
-b39eec95b84d5d Chancel Liu       2024-10-09  870  			plat_data->fs_mul = cs42888_fs_mul;
-b39eec95b84d5d Chancel Liu       2024-10-09  871  			plat_data->num_fs_mul = ARRAY_SIZE(cs42888_fs_mul);
-b39eec95b84d5d Chancel Liu       2024-10-09  872  			plat_data->tdm_fs_mul = cs42888_tdm_fs_mul;
-b39eec95b84d5d Chancel Liu       2024-10-09  873  			plat_data->num_tdm_fs_mul = ARRAY_SIZE(cs42888_tdm_fs_mul);
-b39eec95b84d5d Chancel Liu       2024-10-09  874  			plat_data->support_channels = cs42888_channels;
-b39eec95b84d5d Chancel Liu       2024-10-09  875  			plat_data->num_channels = ARRAY_SIZE(cs42888_channels);
-b39eec95b84d5d Chancel Liu       2024-10-09  876  			plat_data->support_tdm_channels = cs42888_tdm_channels;
-b39eec95b84d5d Chancel Liu       2024-10-09  877  			plat_data->num_tdm_channels = ARRAY_SIZE(cs42888_tdm_channels);
-b39eec95b84d5d Chancel Liu       2024-10-09  878  			break;
-52377234f3ed64 Chancel Liu       2025-06-19  879  		case CODEC_WM8524:
-52377234f3ed64 Chancel Liu       2025-06-19  880  			plat_data->fs_mul = wm8524_fs_mul;
-52377234f3ed64 Chancel Liu       2025-06-19  881  			plat_data->num_fs_mul = ARRAY_SIZE(wm8524_fs_mul);
-52377234f3ed64 Chancel Liu       2025-06-19  882  			plat_data->support_channels = wm8524_channels;
-52377234f3ed64 Chancel Liu       2025-06-19  883  			plat_data->num_channels = ARRAY_SIZE(wm8524_channels);
-aa736700f42fa0 Shengjiu Wang     2021-05-17 @884  		default:
-aa736700f42fa0 Shengjiu Wang     2021-05-17  885  			break;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  886  		}
-aa736700f42fa0 Shengjiu Wang     2021-05-17  887  	}
-aa736700f42fa0 Shengjiu Wang     2021-05-17  888  
-aa736700f42fa0 Shengjiu Wang     2021-05-17  889  	/* with asrc as front end */
-aa736700f42fa0 Shengjiu Wang     2021-05-17  890  	if (data->card.num_links == 3) {
-aa736700f42fa0 Shengjiu Wang     2021-05-17  891  		data->card.dapm_routes = data->dapm_routes;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  892  		data->card.num_dapm_routes = data->num_dapm_routes;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  893  		for_each_card_prelinks(&data->card, i, link) {
-aa736700f42fa0 Shengjiu Wang     2021-05-17  894  			if (link->no_pcm == 1)
-aa736700f42fa0 Shengjiu Wang     2021-05-17  895  				link_be = link;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  896  		}
-aa736700f42fa0 Shengjiu Wang     2021-05-17  897  		for_each_card_prelinks(&data->card, i, link) {
-aa736700f42fa0 Shengjiu Wang     2021-05-17  898  			if (link->dynamic == 1 && link_be) {
-efa527f984a110 Kuninori Morimoto 2024-10-20  899  				link->playback_only = link_be->playback_only;
-efa527f984a110 Kuninori Morimoto 2024-10-20  900  				link->capture_only  = link_be->capture_only;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  901  			}
-aa736700f42fa0 Shengjiu Wang     2021-05-17  902  		}
-aa736700f42fa0 Shengjiu Wang     2021-05-17  903  	}
-aa736700f42fa0 Shengjiu Wang     2021-05-17  904  
-aa736700f42fa0 Shengjiu Wang     2021-05-17  905  	ret = devm_snd_soc_register_card(&pdev->dev, &data->card);
-2e6f557ca35aa3 Kuninori Morimoto 2021-12-14  906  	if (ret)
-2e6f557ca35aa3 Kuninori Morimoto 2021-12-14  907  		return dev_err_probe(&pdev->dev, ret, "snd_soc_register_card failed\n");
-aa736700f42fa0 Shengjiu Wang     2021-05-17  908  
-aa736700f42fa0 Shengjiu Wang     2021-05-17  909  	return 0;
-aa736700f42fa0 Shengjiu Wang     2021-05-17  910  }
-aa736700f42fa0 Shengjiu Wang     2021-05-17  911  
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   Diff in drivers/gpu/nova-core/gpu.rs at line 1:
+    // SPDX-License-Identifier: GPL-2.0
+    
+    use kernel::dma::CoherentAllocation;
+   -use kernel::{device, devres::Devres, error::code::*, pci, prelude::*, c_str};
+   +use kernel::{c_str, device, devres::Devres, error::code::*, pci, prelude::*};
+    
+    use core::time::Duration;
+    
+   Diff in drivers/gpu/nova-core/gpu.rs at line 8:
+   +use crate::debugfs::NovaDebugfs;
+    use crate::driver::Bar0;
+    use crate::falcon::{gsp::Gsp, sec2::Sec2, Falcon};
+    use crate::fb::FbLayout;
+   Diff in drivers/gpu/nova-core/gpu.rs at line 18:
+    use crate::util;
+    use crate::vbios::Vbios;
+    use core::fmt;
+   -use crate::debugfs::NovaDebugfs;
+    use kernel::sync::{Arc, Mutex};
+    
+    static mut NOVA_DEBUGFS: Option<Arc<Mutex<NovaDebugfs>>> = None;
+   Diff in drivers/gpu/nova-core/gpu.rs at line 318:
+            dev_dbg!(pdev.as_ref(), "WPR2: {:#x}-{:#x}\n", wpr2_lo, wpr2_hi);
+    
+            let wpr_meta = gsp::build_wpr_meta(pdev.as_ref(), &fw, &fb_layout)?;
+   -        let mut libos = crate::gsp::GspSharedMemObjects::new(pdev, &devres_bar, &gsp_falcon, &sec2_falcon, &fw)?;
+   +        let mut libos = crate::gsp::GspSharedMemObjects::new(
+   +            pdev,
+   +            &devres_bar,
+   +            &gsp_falcon,
+   +            &sec2_falcon,
+   +            &fw,
+   +        )?;
+            let libos_handle = libos.libos.dma_handle();
+            let wpr_handle = wpr_meta.dma_handle();
+    
+   Diff in drivers/gpu/nova-core/gpu.rs at line 352:
+            pr_info!("Waiting for INIT_DONE...\n");
+            if let Err(e) = libos.cmdq.receive_until(
+                fw::NV_VGPU_MSG_EVENT_GSP_INIT_DONE as u32,
+   -            Duration::from_secs(2)
+   +            Duration::from_secs(2),
+            ) {
+                pr_err!("Error receiving INIT_DONE: {:?}\n", e);
+            } else {
+   Diff in drivers/gpu/nova-core/gpu.rs at line 359:
+                pr_info!("INIT_DONE received. GSP is running.\n");
+   -            
+   +
+                // debugfs files for GSP log
+                unsafe {
+                    if NOVA_DEBUGFS.is_none() {
+   Diff in drivers/gpu/nova-core/gpu.rs at line 364:
+                        match NovaDebugfs::new("nova") {
+                            Ok(debugfs) => {
+                                match Arc::pin_init(
+   -                                Mutex::new(debugfs, c_str!("nova_debugfs"), kernel::static_lock_class!()),
+   -                                GFP_KERNEL
+   +                                Mutex::new(
+   +                                    debugfs,
+   +                                    c_str!("nova_debugfs"),
+   +                                    kernel::static_lock_class!(),
+   +                                ),
+   +                                GFP_KERNEL,
+                                ) {
+                                    Ok(arc) => {
+                                        NOVA_DEBUGFS = Some(arc);
+   Diff in drivers/gpu/nova-core/gpu.rs at line 394:
+                pr_info!("Testing interrupt table retrieval...\n");
+                match crate::irq::Irq::get_interrupt_table(&gsp_falcon, &mut libos.cmdq) {
+                    Ok(table) => {
+   -                    pr_info!("Successfully retrieved interrupt table with {} entries\n", table.len());
+   -                },
+   +                    pr_info!(
+   +                        "Successfully retrieved interrupt table with {} entries\n",
+   +                        table.len()
+   +                    );
+   +                }
+                    Err(e) => {
+                        pr_err!("Failed to retrieve interrupt table: {:?}\n", e);
+                    }
+>> Diff in drivers/gpu/nova-core/irq.rs at line 2:
+    
+    //! Nova Core IRQ (Interrupt) Module
+    
+   -use kernel::{
+   -    prelude::*,
+   -    error::Result,
+   -};
+   +use kernel::{error::Result, prelude::*};
+    
+    use core::mem::size_of;
+    
+   Diff in drivers/gpu/nova-core/irq.rs at line 12:
+   -use crate::gsp::{GspCmdq, ControlResponse, GspMessageElement};
+    use crate::falcon::{gsp::Gsp, Falcon};
+   +use crate::gsp::{ControlResponse, GspCmdq, GspMessageElement};
+    use crate::nvfw::r570_144 as fw;
+    
+    /// Control command, need to get from fw.
+   Diff in drivers/gpu/nova-core/irq.rs at line 94:
+        fn as_any(&self) -> &dyn core::any::Any {
+            self
+        }
+   -    
+   +
+        fn size(&self) -> usize {
+            size_of::<RpcGspRmControl>() + size_of::<NV2080CtrlInternalIntrGetKernelTableParams>()
+        }
+   Diff in drivers/gpu/nova-core/irq.rs at line 101:
+   -    
+   +
+        fn byte_slice(&self) -> &[u8] {
+   -        unsafe {
+   -            core::slice::from_raw_parts(
+   -                self as *const Self as *const u8,
+   -                self.size(),
+   -            )
+   -        }
+   +        unsafe { core::slice::from_raw_parts(self as *const Self as *const u8, self.size()) }
+        }
+    }
+    
+   Diff in drivers/gpu/nova-core/irq.rs at line 125:
+            pr_info!("  hClient: {:#x}", GSP_INTERNAL_CLIENT_HANDLE);
+            pr_info!("  hObject: {:#x}", GSP_INTERNAL_SUBDEVICE_HANDLE);
+            pr_info!("  cmd: {:#x}", cmd);
+   -        pr_info!("  paramsSize: {} bytes", size_of::<NV2080CtrlInternalIntrGetKernelTableParams>());
+   -        
+   +        pr_info!(
+   +            "  paramsSize: {} bytes",
+   +            size_of::<NV2080CtrlInternalIntrGetKernelTableParams>()
+   +        );
+   +
+            // Allocate control message on heap to avoid stack overflow
+   -        let msg = kernel::alloc::KBox::new(ControlMessage {
+   -            control: RpcGspRmControl {
+   -                hClient: GSP_INTERNAL_CLIENT_HANDLE,
+   -                hObject: GSP_INTERNAL_SUBDEVICE_HANDLE,
+   -                cmd,
+   -                status: 0,
+   -                paramsSize: size_of::<NV2080CtrlInternalIntrGetKernelTableParams>() as u32,
+   -                flags: 0,
+   +        let msg = kernel::alloc::KBox::new(
+   +            ControlMessage {
+   +                control: RpcGspRmControl {
+   +                    hClient: GSP_INTERNAL_CLIENT_HANDLE,
+   +                    hObject: GSP_INTERNAL_SUBDEVICE_HANDLE,
+   +                    cmd,
+   +                    status: 0,
+   +                    paramsSize: size_of::<NV2080CtrlInternalIntrGetKernelTableParams>() as u32,
+   +                    flags: 0,
+   +                },
+   +                params: params.clone(),
+                },
+   -            params: params.clone(),
+   -        }, kernel::alloc::flags::GFP_KERNEL)?;
+   -        
+   +            kernel::alloc::flags::GFP_KERNEL,
+   +        )?;
+   +
+            pr_info!("Nova IRQ: Sending control message, size = {}", msg.size());
+   -        
+   +
+            // Send RM control RPC - KBox implements Deref, so we can use it directly
+            match cmdq.send(fw::NV_VGPU_MSG_FUNCTION_GSP_RM_CONTROL, &*msg) {
+                Ok(_) => {
+   Diff in drivers/gpu/nova-core/irq.rs at line 148:
+                    pr_info!("Nova IRQ: rm_control - send completed, waiting for response");
+   -                
+   +
+                    // Receive response from GSP
+                    let (response_fn, response_data) = cmdq.receive()?;
+   -                pr_info!("Nova IRQ: Received response for function {:#x}", response_fn);
+   -                
+   +                pr_info!(
+   +                    "Nova IRQ: Received response for function {:#x}",
+   +                    response_fn
+   +                );
+   +
+                    // response should contain control message response
+                    if response_fn == fw::NV_VGPU_MSG_FUNCTION_GSP_RM_CONTROL {
+--
+            kernel::delay::sleep(Duration::from_secs(1));
+   -        
+   +
+            // Return a dummy GspSystemInfo for now
+            // This simulates successful RPC communication
+            let dummy_info = fw::GspSystemInfo {
+   Diff in drivers/gpu/nova-core/gsp.rs at line 659:
+    
+            let result = match rpc.function {
+                fw::NV_VGPU_MSG_EVENT_GSP_RUN_CPU_SEQUENCER => {
+   -                let args_vec: &[u8] = unsafe { core::slice::from_raw_parts(args_ptr as *mut u8, rpc.length as usize) };
+   +                let args_vec: &[u8] = unsafe {
+   +                    core::slice::from_raw_parts(args_ptr as *mut u8, rpc.length as usize)
+   +                };
+    
+                    // Create and run the GSP sequencer
+                    self.bar.try_access_with(|bar| {
+   Diff in drivers/gpu/nova-core/gsp.rs at line 666:
+   -                    match sequencer::GspSequencer::new(args_vec, bar, self.sec2_falcon,
+   -                                                       self.gsp_falcon, self.libos_dma_handle,
+   -                                                       self.fw) {
+   +                    match sequencer::GspSequencer::new(
+   +                        args_vec,
+   +                        bar,
+   +                        self.sec2_falcon,
+   +                        self.gsp_falcon,
+   +                        self.libos_dma_handle,
+   +                        self.fw,
+   +                    ) {
+                            Ok(sequencer) => {
+                                if let Err(e) = sequencer.run() {
+                                    pr_info!("Error running CPU sequencer: {:?}\n", e);
+   Diff in drivers/gpu/nova-core/gsp.rs at line 672:
+                                }
+   -                        },
+   +                        }
+                            Err(e) => {
+                                pr_info!("Error creating CPU sequencer: {:?}\n", e);
+                            }
+   Diff in drivers/gpu/nova-core/gsp.rs at line 815:
+                    pr_info!("Received GSP_RM_CONTROL response\n");
+                    // For control responses, we need to return the raw data
+                    // The caller will parse it based on the specific control command
+   -                let response_bytes = unsafe { 
+   -                    core::slice::from_raw_parts(args_ptr as *const u8, rpc.length as usize) 
+   +                let response_bytes = unsafe {
+   +                    core::slice::from_raw_parts(args_ptr as *const u8, rpc.length as usize)
+                    };
+                    pr_info!("Control response size: {} bytes\n", response_bytes.len());
+   -                
+   +
+                    // Allocate ControlResponse directly on heap
+                    let mut result = KBox::<ControlResponse>::new_uninit(GFP_KERNEL)?;
+                    unsafe {
+   Diff in drivers/gpu/nova-core/gsp.rs at line 826:
+                        let response_ptr = result.as_mut_ptr();
+                        (*response_ptr).data = [0; 4096];
+   -                    
+   +
+                        // Copy the response data from GSP
+                        let copy_size = core::cmp::min(rpc.length as usize, 4096);
+                        core::ptr::copy_nonoverlapping(
+   Diff in drivers/gpu/nova-core/gsp.rs at line 861:
+    
+        #[allow(dead_code)]
+        pub(crate) fn receive_until(&mut self, rpc_function: u32, timeout: Duration) -> Result {
+   -        wait_on(timeout, || {
+   -            match self.receive() {
+   -                Ok((function, _)) if function == rpc_function => Some(()),
+   -                Ok(_) => None,
+   -                Err(_) => None,
+   -            }
+   +        wait_on(timeout, || match self.receive() {
+   +            Ok((function, _)) if function == rpc_function => Some(()),
+   +            Ok(_) => None,
+   +            Err(_) => None,
+            })
+        }
+    }
+   Diff in drivers/gpu/nova-core/gsp.rs at line 1113:
+        fn as_any(&self) -> &dyn core::any::Any {
+            self
+        }
+   -    
+   +
+        fn copy_to_slice(
+            &self,
+            sub_index: usize,
+   Diff in drivers/gpu/nova-core/gsp.rs at line 1245:
+        }
+    }
+    
+   -fn set_system_info<'a>(
+   -    dev: &pci::Device<device::Bound>,
+   -    cmdq: &mut GspCmdq<'a>,
+   -) -> Result {
+   +fn set_system_info<'a>(dev: &pci::Device<device::Bound>, cmdq: &mut GspCmdq<'a>) -> Result {
+        let mut info = unsafe { MaybeUninit::<fw::GspSystemInfo>::zeroed().assume_init() };
+    
+        info.gpuPhysAddr = dev.resource_start(0)?;
+>> Diff in drivers/gpu/nova-core/irq.rs at line 2:
+    
+    //! Nova Core IRQ (Interrupt) Module
+    
+   -use kernel::{
+   -    prelude::*,
+   -    error::Result,
+   -};
+   +use kernel::{error::Result, prelude::*};
+    
+    use core::mem::size_of;
+    
+   Diff in drivers/gpu/nova-core/irq.rs at line 12:
+   -use crate::gsp::{GspCmdq, ControlResponse, GspMessageElement};
+    use crate::falcon::{gsp::Gsp, Falcon};
+   +use crate::gsp::{ControlResponse, GspCmdq, GspMessageElement};
+    use crate::nvfw::r570_144 as fw;
+    
+    /// Control command, need to get from fw.
+   Diff in drivers/gpu/nova-core/irq.rs at line 94:
+        fn as_any(&self) -> &dyn core::any::Any {
+            self
+        }
+   -    
+   +
+        fn size(&self) -> usize {
+            size_of::<RpcGspRmControl>() + size_of::<NV2080CtrlInternalIntrGetKernelTableParams>()
+        }
+   Diff in drivers/gpu/nova-core/irq.rs at line 101:
+   -    
+   +
+        fn byte_slice(&self) -> &[u8] {
+   -        unsafe {
+   -            core::slice::from_raw_parts(
+   -                self as *const Self as *const u8,
+   -                self.size(),
+   -            )
+   -        }
+   +        unsafe { core::slice::from_raw_parts(self as *const Self as *const u8, self.size()) }
+        }
+    }
+    
+   Diff in drivers/gpu/nova-core/irq.rs at line 125:
+            pr_info!("  hClient: {:#x}", GSP_INTERNAL_CLIENT_HANDLE);
+            pr_info!("  hObject: {:#x}", GSP_INTERNAL_SUBDEVICE_HANDLE);
+            pr_info!("  cmd: {:#x}", cmd);
+   -        pr_info!("  paramsSize: {} bytes", size_of::<NV2080CtrlInternalIntrGetKernelTableParams>());
+   -        
+   +        pr_info!(
+   +            "  paramsSize: {} bytes",
+   +            size_of::<NV2080CtrlInternalIntrGetKernelTableParams>()
+   +        );
+   +
+            // Allocate control message on heap to avoid stack overflow
+   -        let msg = kernel::alloc::KBox::new(ControlMessage {
+   -            control: RpcGspRmControl {
+   -                hClient: GSP_INTERNAL_CLIENT_HANDLE,
+   -                hObject: GSP_INTERNAL_SUBDEVICE_HANDLE,
+   -                cmd,
+   -                status: 0,
+   -                paramsSize: size_of::<NV2080CtrlInternalIntrGetKernelTableParams>() as u32,
+   -                flags: 0,
+   +        let msg = kernel::alloc::KBox::new(
+   +            ControlMessage {
+   +                control: RpcGspRmControl {
+   +                    hClient: GSP_INTERNAL_CLIENT_HANDLE,
+   +                    hObject: GSP_INTERNAL_SUBDEVICE_HANDLE,
+   +                    cmd,
+   +                    status: 0,
+   +                    paramsSize: size_of::<NV2080CtrlInternalIntrGetKernelTableParams>() as u32,
+   +                    flags: 0,
+   +                },
+   +                params: params.clone(),
+                },
+   -            params: params.clone(),
+   -        }, kernel::alloc::flags::GFP_KERNEL)?;
+   -        
+   +            kernel::alloc::flags::GFP_KERNEL,
+   +        )?;
+   +
+            pr_info!("Nova IRQ: Sending control message, size = {}", msg.size());
+   -        
+   +
+            // Send RM control RPC - KBox implements Deref, so we can use it directly
+            match cmdq.send(fw::NV_VGPU_MSG_FUNCTION_GSP_RM_CONTROL, &*msg) {
+                Ok(_) => {
+   Diff in drivers/gpu/nova-core/irq.rs at line 148:
+                    pr_info!("Nova IRQ: rm_control - send completed, waiting for response");
+   -                
+   +
+                    // Receive response from GSP
+                    let (response_fn, response_data) = cmdq.receive()?;
+   -                pr_info!("Nova IRQ: Received response for function {:#x}", response_fn);
+   -                
+   +                pr_info!(
+   +                    "Nova IRQ: Received response for function {:#x}",
+   +                    response_fn
+   +                );
+   +
+                    // response should contain control message response
+                    if response_fn == fw::NV_VGPU_MSG_FUNCTION_GSP_RM_CONTROL {
 
 -- 
 0-DAY CI Kernel Test Service
