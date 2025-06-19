@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292F814A4E0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 02:03:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB0D19D07B
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 02:25:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750298643; cv=none; b=sAkOYoI48JX81V/NiJX/hhhvQyjlAjbpOm1Kw86oYVs93MVI3gZ5g28fq5AyLVPAbhRSIHyiZ/2O8KF9QFkW1pe0pl4RRTEYU30wESUA8fY6Xmnhay2OHBU+YXE8SPLHmDZULsVpSIYIqYt7EZiEhgPeMKblSop6KvlDgKkODGw=
+	t=1750299912; cv=none; b=F2/YgtCBzGUNufE/KiNCP301yMN0CrPqpPqS0zGl5kjnr1FSvhtX/0f5hknPeCVJCaswcd2dvdoFXTUKXUtU4Gcn9DcXlbB6nlNpXdb9tfq0Kl0sAYOrU4Ggz0dY4ILtH4PrLju/DoFuLtxDD5Bmq7vHoplYMYjm1lgXp5oBTUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750298643; c=relaxed/simple;
-	bh=einD8Xw+KN0TKLsJOKxdouLLbIZTXPMNkpo2ft/nl8w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=swY/vl26jssmdj4qWgEvWsK6+S8hOincH5G/B1yu8a8D2zP1DGP/Bna5pFuzkChsorMhNMICi0/AJj2nFP4mplZa21LKVTc5WIW4RQ72GkfOFfG/UewGhIdv8iG3tNjp3NPyYP+EBxDfwG6a/n3l7jAqjB4LZ9qIzyvXl4CiOWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QsfPTE5d; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1750299912; c=relaxed/simple;
+	bh=wQwxwmvKs0ZeOs8UI/GMK2sjFEbNRZpQGnHvoK4cVhE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZDOCxrW5uRiDLzg0OKOfvL/vC1qAMiU8qbYYitlRIrmsBGdzYU6Z6WdTQC2q06u1iIhmniatiXZ4icl7dGKjLu1DUQ8AZ9RtzlrHRgVJQEYTV2NNuPWORYGo0H9YAjbesgIwv5C/TvPQ+daBy9zjL7jhpXFSteKVKUSscXLTJ9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HUDPFoTF; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QsfPTE5d"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HUDPFoTF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750298640; x=1781834640;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=einD8Xw+KN0TKLsJOKxdouLLbIZTXPMNkpo2ft/nl8w=;
-  b=QsfPTE5dcKlEgqbsU21dt6O27vXbpvOMzeUiDVVyIjsY4PTwiU7a8rqW
-   J85e35hXZ87MKZgrDGHF+MLsHbaOyHMZC1tSzMCbTy2oWnf6Zor+cPGas
-   FmztIH7MNMXyZ5BqqMIDCAM6m4gckPdYGZk6vqmreBQgbhv8fQzoM2Mts
-   ddMwsB/K4NglIrhdLY9ufgcmAjXQTWY+LcWQVtHo0iwlXrDJtI8A+MlfW
-   aHP4hQRbDSJ0ZIPlPQFYKKlQb9yCHbyVeuh9BDMlo3JtqnKQK8J8uVoU4
-   9P02ELXhB9ArTkCSQEhEok3Seb3UYBGyA3uVdEXg5V/jg4yh9dM4m/EIo
-   w==;
-X-CSE-ConnectionGUID: txv3eEXiT2OeuhjxTaJuYQ==
-X-CSE-MsgGUID: NCcTPWDMTbmjwh9qfDkx8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="69977920"
+  t=1750299910; x=1781835910;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=wQwxwmvKs0ZeOs8UI/GMK2sjFEbNRZpQGnHvoK4cVhE=;
+  b=HUDPFoTFILV25RK6V+dIcWKfa3e923royVVPa4FpkFZPCd74yS9ds63X
+   Rf8axMwWHX6sxlS8iX8k5IZOWhWCs5H82Vj/t3d1KVAkbJhSDm3EZUJup
+   teayph8/8uAZY5tHoQ5yaf8QHlGZy4xutnH+kEpAlHz+03ohKPj+2GHWE
+   mW/DWku937h/v3CPU6DGhm/kQ2ox6n/ID0jpHMIdHOjxnHEBzQqYw1YKb
+   TPmcJWd8ptIwuhITA7PY4tP4YrfmrdjqLH5Yykl89FtWtWd+pXKN+dIIp
+   zuNBZiP/9khx9NJPJkQgEdKTEpdoEhnUmmpAtKL4z3RZFr5ToDVMdiZir
+   Q==;
+X-CSE-ConnectionGUID: lrAhAizfRImtIE4VptKxDA==
+X-CSE-MsgGUID: wSjWTffIQpKgjgXFMD5Otw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11468"; a="52635753"
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="69977920"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 19:03:59 -0700
-X-CSE-ConnectionGUID: aSKilCszSqes0c5uXh+fXA==
-X-CSE-MsgGUID: Q1iUyCjKQfK1Qc0SRn1VFA==
+   d="scan'208";a="52635753"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2025 19:25:02 -0700
+X-CSE-ConnectionGUID: OAZuNevNToCgmdIBm2wwxA==
+X-CSE-MsgGUID: DT6DxRT9QEef3rSTSoOEoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,247,1744095600"; 
-   d="scan'208";a="150164310"
+   d="scan'208";a="149907645"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 18 Jun 2025 19:03:59 -0700
+  by orviesa006.jf.intel.com with ESMTP; 18 Jun 2025 19:25:00 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uS4dA-000KKU-1i;
-	Thu, 19 Jun 2025 02:03:56 +0000
-Date: Thu, 19 Jun 2025 10:03:37 +0800
+	id 1uS4xW-000KKs-0o;
+	Thu, 19 Jun 2025 02:24:58 +0000
+Date: Thu, 19 Jun 2025 10:23:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: Yunhui Cui <cuiyunhui@bytedance.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 0/1] mm/khugepaged.c:153: warning:
- Function parameter or member 'recheck_hugetext' not described in 'mm_slot'
-Message-ID: <202506190942.VEIgcOdz-lkp@intel.com>
+Subject: Re: [PATCH RFC 2/2] riscv: introduce percpu.h into include/asm
+Message-ID: <202506191007.08uYnHT5-lkp@intel.com>
+References: <20250618034328.21904-2-cuiyunhui@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,88 +62,416 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250618034328.21904-2-cuiyunhui@bytedance.com>
 
-Hi Rongwei,
+Hi Yunhui,
 
-First bad commit (maybe != root cause):
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   72ad9fd00b32380d70b2ad46ae6dfbf606f42a02
-commit: f835999265e7e2bab5dcadbe2347c28d35e52c94 [0/1] anolis: mm: hugetext: Split cold adaptive thp
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250619/202506190942.VEIgcOdz-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506190942.VEIgcOdz-lkp@intel.com/reproduce)
+[auto build test ERROR on linus/master]
+[also build test ERROR on dennis-percpu/for-next v6.16-rc2 next-20250618]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yunhui-Cui/riscv-introduce-percpu-h-into-include-asm/20250618-114735
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250618034328.21904-2-cuiyunhui%40bytedance.com
+patch subject: [PATCH RFC 2/2] riscv: introduce percpu.h into include/asm
+config: riscv-randconfig-001-20250619 (https://download.01.org/0day-ci/archive/20250619/202506191007.08uYnHT5-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506191007.08uYnHT5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506190942.VEIgcOdz-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506191007.08uYnHT5-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   mm/khugepaged.c:153: warning: Function parameter or member 'nr_pte_mapped_thp' not described in 'mm_slot'
-   mm/khugepaged.c:153: warning: Function parameter or member 'pte_mapped_thp' not described in 'mm_slot'
-   mm/khugepaged.c:153: warning: Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
-   mm/khugepaged.c:153: warning: Function parameter or member 'exec_vma' not described in 'mm_slot'
-   mm/khugepaged.c:153: warning: Function parameter or member 'nr_adapt_vma' not described in 'mm_slot'
-   mm/khugepaged.c:153: warning: Function parameter or member 'adapt_vmas' not described in 'mm_slot'
-   mm/khugepaged.c:153: warning: Function parameter or member 'adaptive_regions' not described in 'mm_slot'
-   mm/khugepaged.c:153: warning: Function parameter or member 'work' not described in 'mm_slot'
-   mm/khugepaged.c:153: warning: Function parameter or member 'evict_timestamp' not described in 'mm_slot'
-   mm/khugepaged.c:153: warning: Function parameter or member 'state' not described in 'mm_slot'
->> mm/khugepaged.c:153: warning: Function parameter or member 'recheck_hugetext' not described in 'mm_slot'
-   mm/khugepaged.c:153: warning: Function parameter or member 'nr_hugetext' not described in 'mm_slot'
-   mm/khugepaged.c:1856: warning: Function parameter or member 'mm' not described in 'collapse_pte_mapped_thp'
-   mm/khugepaged.c:1856: warning: Function parameter or member 'addr' not described in 'collapse_pte_mapped_thp'
-   mm/khugepaged.c:2058: warning: Function parameter or member 'mm' not described in 'collapse_file'
-   mm/khugepaged.c:2058: warning: Function parameter or member 'file' not described in 'collapse_file'
-   mm/khugepaged.c:2058: warning: Function parameter or member 'start' not described in 'collapse_file'
-   mm/khugepaged.c:2058: warning: Function parameter or member 'hpage' not described in 'collapse_file'
-   mm/khugepaged.c:2058: warning: Function parameter or member 'node' not described in 'collapse_file'
+   arch/riscv/include/asm/percpu.h: Assembler messages:
+>> arch/riscv/include/asm/percpu.h:62: Error: unrecognized opcode `amoadd.d zero,a2,0(a5)'
+>> arch/riscv/include/asm/percpu.h:62: Error: unrecognized opcode `amoadd.d zero,a2,0(a5)'
+>> arch/riscv/include/asm/percpu.h:62: Error: unrecognized opcode `amoadd.d zero,a2,0(a5)'
+--
+   arch/riscv/include/asm/percpu.h: Assembler messages:
+>> arch/riscv/include/asm/percpu.h:62: Error: unrecognized opcode `amoadd.d zero,s6,0(a5)'
+>> arch/riscv/include/asm/percpu.h:62: Error: unrecognized opcode `amoadd.d zero,a2,0(a5)'
+--
+   arch/riscv/include/asm/percpu.h: Assembler messages:
+>> arch/riscv/include/asm/percpu.h:62: Error: unrecognized opcode `amoadd.d zero,a2,0(a5)'
+>> arch/riscv/include/asm/percpu.h:62: Error: unrecognized opcode `amoadd.d zero,a0,0(a5)'
+--
+   arch/riscv/include/asm/percpu.h: Assembler messages:
+>> arch/riscv/include/asm/percpu.h:62: Error: unrecognized opcode `amoadd.d zero,a2,0(a5)'
+>> arch/riscv/include/asm/percpu.h:62: Error: unrecognized opcode `amoadd.d zero,a2,0(a5)'
+--
+   In file included from include/linux/bits.h:7,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/riscv/include/asm/bug.h:83,
+                    from include/linux/bug.h:5,
+                    from arch/riscv/include/asm/cmpxchg.h:9,
+                    from arch/riscv/include/asm/barrier.h:14,
+                    from include/linux/list.h:11,
+                    from include/linux/backing-dev-defs.h:5,
+                    from fs/bcachefs/bcachefs.h:196,
+                    from fs/bcachefs/disk_accounting.c:3:
+   fs/bcachefs/buckets.h: In function 'bch2_disk_reservation_add':
+>> include/uapi/linux/bits.h:7:56: warning: right shift count >= width of type [-Wshift-count-overflow]
+       7 | #define __GENMASK(h, l) (((~_UL(0)) << (l)) & (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                                                        ^~
+   include/linux/bits.h:87:38: note: in expansion of macro '__GENMASK'
+      87 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:150:32: note: in expansion of macro 'GENMASK'
+     150 |                 ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)   \
+         |                                ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:221:17: note: in expansion of macro '__arch_cmpxchg_masked'
+     221 |                 __arch_cmpxchg_masked(sc_sfx, ".b" cas_sfx,             \
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:262:9: note: in expansion of macro '_arch_cmpxchg'
+     262 |         _arch_cmpxchg((ptr), (o), (n),                                  \
+         |         ^~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:89:29: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      89 | #define raw_cmpxchg_relaxed arch_cmpxchg_relaxed
+         |                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4810:9: note: in expansion of macro 'raw_cmpxchg_relaxed'
+    4810 |         raw_cmpxchg_relaxed(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/percpu.h:84:33: note: in expansion of macro 'cmpxchg_relaxed'
+      84 |         __retval = (typeof(pcp))op(raw_cpu_ptr(&(pcp)), ##args);        \
+         |                                 ^~
+   arch/riscv/include/asm/percpu.h:131:41: note: in expansion of macro '_pcp_protect_return'
+     131 | #define this_cpu_cmpxchg_1(pcp, o, n)   _pcp_protect_return(cmpxchg_relaxed, pcp, o, n)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:108:17: note: in expansion of macro 'this_cpu_cmpxchg_1'
+     108 |         __val = _cmpxchg(pcp, __old, nval);                             \
+         |                 ^~~~~~~~
+   include/asm-generic/percpu.h:481:9: note: in expansion of macro '__cpu_fallback_try_cmpxchg'
+     481 |         __cpu_fallback_try_cmpxchg(pcp, ovalp, nval, this_cpu_cmpxchg_1)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:354:31: note: in expansion of macro 'this_cpu_try_cmpxchg_1'
+     354 |         case 1: pscr2_ret__ = stem##1(variable, __VA_ARGS__); break;    \
+         |                               ^~~~
+   include/linux/percpu-defs.h:508:9: note: in expansion of macro '__pcpu_size_call_return2bool'
+     508 |         __pcpu_size_call_return2bool(this_cpu_try_cmpxchg_, pcp, ovalp, nval)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/buckets.h:322:19: note: in expansion of macro 'this_cpu_try_cmpxchg'
+     322 |         } while (!this_cpu_try_cmpxchg(c->pcpu->sectors_available, &old, new));
+         |                   ^~~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/bits.h:7:56: warning: right shift count >= width of type [-Wshift-count-overflow]
+       7 | #define __GENMASK(h, l) (((~_UL(0)) << (l)) & (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                                                        ^~
+   include/linux/bits.h:87:38: note: in expansion of macro '__GENMASK'
+      87 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:150:32: note: in expansion of macro 'GENMASK'
+     150 |                 ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)   \
+         |                                ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:227:17: note: in expansion of macro '__arch_cmpxchg_masked'
+     227 |                 __arch_cmpxchg_masked(sc_sfx, ".h" cas_sfx,             \
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:262:9: note: in expansion of macro '_arch_cmpxchg'
+     262 |         _arch_cmpxchg((ptr), (o), (n),                                  \
+         |         ^~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:89:29: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      89 | #define raw_cmpxchg_relaxed arch_cmpxchg_relaxed
+         |                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4810:9: note: in expansion of macro 'raw_cmpxchg_relaxed'
+    4810 |         raw_cmpxchg_relaxed(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/percpu.h:84:33: note: in expansion of macro 'cmpxchg_relaxed'
+      84 |         __retval = (typeof(pcp))op(raw_cpu_ptr(&(pcp)), ##args);        \
+         |                                 ^~
+   arch/riscv/include/asm/percpu.h:131:41: note: in expansion of macro '_pcp_protect_return'
+     131 | #define this_cpu_cmpxchg_1(pcp, o, n)   _pcp_protect_return(cmpxchg_relaxed, pcp, o, n)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:108:17: note: in expansion of macro 'this_cpu_cmpxchg_1'
+     108 |         __val = _cmpxchg(pcp, __old, nval);                             \
+         |                 ^~~~~~~~
+   include/asm-generic/percpu.h:481:9: note: in expansion of macro '__cpu_fallback_try_cmpxchg'
+     481 |         __cpu_fallback_try_cmpxchg(pcp, ovalp, nval, this_cpu_cmpxchg_1)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:354:31: note: in expansion of macro 'this_cpu_try_cmpxchg_1'
+     354 |         case 1: pscr2_ret__ = stem##1(variable, __VA_ARGS__); break;    \
+         |                               ^~~~
+   include/linux/percpu-defs.h:508:9: note: in expansion of macro '__pcpu_size_call_return2bool'
+     508 |         __pcpu_size_call_return2bool(this_cpu_try_cmpxchg_, pcp, ovalp, nval)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/buckets.h:322:19: note: in expansion of macro 'this_cpu_try_cmpxchg'
+     322 |         } while (!this_cpu_try_cmpxchg(c->pcpu->sectors_available, &old, new));
+         |                   ^~~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/bits.h:7:56: warning: right shift count >= width of type [-Wshift-count-overflow]
+       7 | #define __GENMASK(h, l) (((~_UL(0)) << (l)) & (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                                                        ^~
+   include/linux/bits.h:87:38: note: in expansion of macro '__GENMASK'
+      87 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:150:32: note: in expansion of macro 'GENMASK'
+     150 |                 ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)   \
+         |                                ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:221:17: note: in expansion of macro '__arch_cmpxchg_masked'
+     221 |                 __arch_cmpxchg_masked(sc_sfx, ".b" cas_sfx,             \
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:262:9: note: in expansion of macro '_arch_cmpxchg'
+     262 |         _arch_cmpxchg((ptr), (o), (n),                                  \
+         |         ^~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:89:29: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      89 | #define raw_cmpxchg_relaxed arch_cmpxchg_relaxed
+         |                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4810:9: note: in expansion of macro 'raw_cmpxchg_relaxed'
+    4810 |         raw_cmpxchg_relaxed(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/percpu.h:84:33: note: in expansion of macro 'cmpxchg_relaxed'
+      84 |         __retval = (typeof(pcp))op(raw_cpu_ptr(&(pcp)), ##args);        \
+         |                                 ^~
+   arch/riscv/include/asm/percpu.h:132:41: note: in expansion of macro '_pcp_protect_return'
+     132 | #define this_cpu_cmpxchg_2(pcp, o, n)   _pcp_protect_return(cmpxchg_relaxed, pcp, o, n)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:108:17: note: in expansion of macro 'this_cpu_cmpxchg_2'
+     108 |         __val = _cmpxchg(pcp, __old, nval);                             \
+         |                 ^~~~~~~~
+   include/asm-generic/percpu.h:490:9: note: in expansion of macro '__cpu_fallback_try_cmpxchg'
+     490 |         __cpu_fallback_try_cmpxchg(pcp, ovalp, nval, this_cpu_cmpxchg_2)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:355:31: note: in expansion of macro 'this_cpu_try_cmpxchg_2'
+     355 |         case 2: pscr2_ret__ = stem##2(variable, __VA_ARGS__); break;    \
+         |                               ^~~~
+   include/linux/percpu-defs.h:508:9: note: in expansion of macro '__pcpu_size_call_return2bool'
+     508 |         __pcpu_size_call_return2bool(this_cpu_try_cmpxchg_, pcp, ovalp, nval)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/buckets.h:322:19: note: in expansion of macro 'this_cpu_try_cmpxchg'
+     322 |         } while (!this_cpu_try_cmpxchg(c->pcpu->sectors_available, &old, new));
+         |                   ^~~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/bits.h:7:56: warning: right shift count >= width of type [-Wshift-count-overflow]
+       7 | #define __GENMASK(h, l) (((~_UL(0)) << (l)) & (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                                                        ^~
+   include/linux/bits.h:87:38: note: in expansion of macro '__GENMASK'
+      87 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:150:32: note: in expansion of macro 'GENMASK'
+     150 |                 ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)   \
+         |                                ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:227:17: note: in expansion of macro '__arch_cmpxchg_masked'
+     227 |                 __arch_cmpxchg_masked(sc_sfx, ".h" cas_sfx,             \
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:262:9: note: in expansion of macro '_arch_cmpxchg'
+     262 |         _arch_cmpxchg((ptr), (o), (n),                                  \
+         |         ^~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:89:29: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      89 | #define raw_cmpxchg_relaxed arch_cmpxchg_relaxed
+         |                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4810:9: note: in expansion of macro 'raw_cmpxchg_relaxed'
+    4810 |         raw_cmpxchg_relaxed(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/percpu.h:84:33: note: in expansion of macro 'cmpxchg_relaxed'
+      84 |         __retval = (typeof(pcp))op(raw_cpu_ptr(&(pcp)), ##args);        \
+         |                                 ^~
+   arch/riscv/include/asm/percpu.h:132:41: note: in expansion of macro '_pcp_protect_return'
+     132 | #define this_cpu_cmpxchg_2(pcp, o, n)   _pcp_protect_return(cmpxchg_relaxed, pcp, o, n)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:108:17: note: in expansion of macro 'this_cpu_cmpxchg_2'
+     108 |         __val = _cmpxchg(pcp, __old, nval);                             \
+         |                 ^~~~~~~~
+   include/asm-generic/percpu.h:490:9: note: in expansion of macro '__cpu_fallback_try_cmpxchg'
+     490 |         __cpu_fallback_try_cmpxchg(pcp, ovalp, nval, this_cpu_cmpxchg_2)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:355:31: note: in expansion of macro 'this_cpu_try_cmpxchg_2'
+     355 |         case 2: pscr2_ret__ = stem##2(variable, __VA_ARGS__); break;    \
+         |                               ^~~~
+   include/linux/percpu-defs.h:508:9: note: in expansion of macro '__pcpu_size_call_return2bool'
+     508 |         __pcpu_size_call_return2bool(this_cpu_try_cmpxchg_, pcp, ovalp, nval)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/buckets.h:322:19: note: in expansion of macro 'this_cpu_try_cmpxchg'
+     322 |         } while (!this_cpu_try_cmpxchg(c->pcpu->sectors_available, &old, new));
+         |                   ^~~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/bits.h:7:56: warning: right shift count >= width of type [-Wshift-count-overflow]
+       7 | #define __GENMASK(h, l) (((~_UL(0)) << (l)) & (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                                                        ^~
+   include/linux/bits.h:87:38: note: in expansion of macro '__GENMASK'
+      87 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:150:32: note: in expansion of macro 'GENMASK'
+     150 |                 ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)   \
+         |                                ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:221:17: note: in expansion of macro '__arch_cmpxchg_masked'
+     221 |                 __arch_cmpxchg_masked(sc_sfx, ".b" cas_sfx,             \
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:262:9: note: in expansion of macro '_arch_cmpxchg'
+     262 |         _arch_cmpxchg((ptr), (o), (n),                                  \
+         |         ^~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:89:29: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      89 | #define raw_cmpxchg_relaxed arch_cmpxchg_relaxed
+         |                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4810:9: note: in expansion of macro 'raw_cmpxchg_relaxed'
+    4810 |         raw_cmpxchg_relaxed(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/percpu.h:84:33: note: in expansion of macro 'cmpxchg_relaxed'
+      84 |         __retval = (typeof(pcp))op(raw_cpu_ptr(&(pcp)), ##args);        \
+         |                                 ^~
+   arch/riscv/include/asm/percpu.h:133:41: note: in expansion of macro '_pcp_protect_return'
+     133 | #define this_cpu_cmpxchg_4(pcp, o, n)   _pcp_protect_return(cmpxchg_relaxed, pcp, o, n)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:108:17: note: in expansion of macro 'this_cpu_cmpxchg_4'
+     108 |         __val = _cmpxchg(pcp, __old, nval);                             \
+         |                 ^~~~~~~~
+   include/asm-generic/percpu.h:499:9: note: in expansion of macro '__cpu_fallback_try_cmpxchg'
+     499 |         __cpu_fallback_try_cmpxchg(pcp, ovalp, nval, this_cpu_cmpxchg_4)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:356:31: note: in expansion of macro 'this_cpu_try_cmpxchg_4'
+     356 |         case 4: pscr2_ret__ = stem##4(variable, __VA_ARGS__); break;    \
+         |                               ^~~~
+   include/linux/percpu-defs.h:508:9: note: in expansion of macro '__pcpu_size_call_return2bool'
+     508 |         __pcpu_size_call_return2bool(this_cpu_try_cmpxchg_, pcp, ovalp, nval)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/buckets.h:322:19: note: in expansion of macro 'this_cpu_try_cmpxchg'
+     322 |         } while (!this_cpu_try_cmpxchg(c->pcpu->sectors_available, &old, new));
+         |                   ^~~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/bits.h:7:56: warning: right shift count >= width of type [-Wshift-count-overflow]
+       7 | #define __GENMASK(h, l) (((~_UL(0)) << (l)) & (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                                                        ^~
+   include/linux/bits.h:87:38: note: in expansion of macro '__GENMASK'
+      87 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:150:32: note: in expansion of macro 'GENMASK'
+     150 |                 ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)   \
+         |                                ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:227:17: note: in expansion of macro '__arch_cmpxchg_masked'
+     227 |                 __arch_cmpxchg_masked(sc_sfx, ".h" cas_sfx,             \
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:262:9: note: in expansion of macro '_arch_cmpxchg'
+     262 |         _arch_cmpxchg((ptr), (o), (n),                                  \
+         |         ^~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:89:29: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      89 | #define raw_cmpxchg_relaxed arch_cmpxchg_relaxed
+         |                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4810:9: note: in expansion of macro 'raw_cmpxchg_relaxed'
+    4810 |         raw_cmpxchg_relaxed(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/percpu.h:84:33: note: in expansion of macro 'cmpxchg_relaxed'
+      84 |         __retval = (typeof(pcp))op(raw_cpu_ptr(&(pcp)), ##args);        \
+         |                                 ^~
+   arch/riscv/include/asm/percpu.h:133:41: note: in expansion of macro '_pcp_protect_return'
+     133 | #define this_cpu_cmpxchg_4(pcp, o, n)   _pcp_protect_return(cmpxchg_relaxed, pcp, o, n)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:108:17: note: in expansion of macro 'this_cpu_cmpxchg_4'
+     108 |         __val = _cmpxchg(pcp, __old, nval);                             \
+         |                 ^~~~~~~~
+   include/asm-generic/percpu.h:499:9: note: in expansion of macro '__cpu_fallback_try_cmpxchg'
+     499 |         __cpu_fallback_try_cmpxchg(pcp, ovalp, nval, this_cpu_cmpxchg_4)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:356:31: note: in expansion of macro 'this_cpu_try_cmpxchg_4'
+     356 |         case 4: pscr2_ret__ = stem##4(variable, __VA_ARGS__); break;    \
+         |                               ^~~~
+   include/linux/percpu-defs.h:508:9: note: in expansion of macro '__pcpu_size_call_return2bool'
+     508 |         __pcpu_size_call_return2bool(this_cpu_try_cmpxchg_, pcp, ovalp, nval)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/buckets.h:322:19: note: in expansion of macro 'this_cpu_try_cmpxchg'
+     322 |         } while (!this_cpu_try_cmpxchg(c->pcpu->sectors_available, &old, new));
+         |                   ^~~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/bits.h:7:56: warning: right shift count >= width of type [-Wshift-count-overflow]
+       7 | #define __GENMASK(h, l) (((~_UL(0)) << (l)) & (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                                                        ^~
+   include/linux/bits.h:87:38: note: in expansion of macro '__GENMASK'
+      87 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:150:32: note: in expansion of macro 'GENMASK'
+     150 |                 ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)   \
+         |                                ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:221:17: note: in expansion of macro '__arch_cmpxchg_masked'
+     221 |                 __arch_cmpxchg_masked(sc_sfx, ".b" cas_sfx,             \
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:262:9: note: in expansion of macro '_arch_cmpxchg'
+     262 |         _arch_cmpxchg((ptr), (o), (n),                                  \
+         |         ^~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:89:29: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      89 | #define raw_cmpxchg_relaxed arch_cmpxchg_relaxed
+         |                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4810:9: note: in expansion of macro 'raw_cmpxchg_relaxed'
+    4810 |         raw_cmpxchg_relaxed(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/percpu.h:84:33: note: in expansion of macro 'cmpxchg_relaxed'
+      84 |         __retval = (typeof(pcp))op(raw_cpu_ptr(&(pcp)), ##args);        \
+         |                                 ^~
+   arch/riscv/include/asm/percpu.h:134:41: note: in expansion of macro '_pcp_protect_return'
+     134 | #define this_cpu_cmpxchg_8(pcp, o, n)   _pcp_protect_return(cmpxchg_relaxed, pcp, o, n)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:108:17: note: in expansion of macro 'this_cpu_cmpxchg_8'
+     108 |         __val = _cmpxchg(pcp, __old, nval);                             \
+         |                 ^~~~~~~~
+   include/asm-generic/percpu.h:508:9: note: in expansion of macro '__cpu_fallback_try_cmpxchg'
+     508 |         __cpu_fallback_try_cmpxchg(pcp, ovalp, nval, this_cpu_cmpxchg_8)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:357:31: note: in expansion of macro 'this_cpu_try_cmpxchg_8'
+     357 |         case 8: pscr2_ret__ = stem##8(variable, __VA_ARGS__); break;    \
+         |                               ^~~~
+   include/linux/percpu-defs.h:508:9: note: in expansion of macro '__pcpu_size_call_return2bool'
+     508 |         __pcpu_size_call_return2bool(this_cpu_try_cmpxchg_, pcp, ovalp, nval)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/buckets.h:322:19: note: in expansion of macro 'this_cpu_try_cmpxchg'
+     322 |         } while (!this_cpu_try_cmpxchg(c->pcpu->sectors_available, &old, new));
+         |                   ^~~~~~~~~~~~~~~~~~~~
+>> include/uapi/linux/bits.h:7:56: warning: right shift count >= width of type [-Wshift-count-overflow]
+       7 | #define __GENMASK(h, l) (((~_UL(0)) << (l)) & (~_UL(0) >> (__BITS_PER_LONG - 1 - (h))))
+         |                                                        ^~
+   include/linux/bits.h:87:38: note: in expansion of macro '__GENMASK'
+      87 |         (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+         |                                      ^~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:150:32: note: in expansion of macro 'GENMASK'
+     150 |                 ulong __mask = GENMASK(((sizeof(*p)) * BITS_PER_BYTE) - 1, 0)   \
+         |                                ^~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:227:17: note: in expansion of macro '__arch_cmpxchg_masked'
+     227 |                 __arch_cmpxchg_masked(sc_sfx, ".h" cas_sfx,             \
+         |                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/cmpxchg.h:262:9: note: in expansion of macro '_arch_cmpxchg'
+     262 |         _arch_cmpxchg((ptr), (o), (n),                                  \
+         |         ^~~~~~~~~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:89:29: note: in expansion of macro 'arch_cmpxchg_relaxed'
+      89 | #define raw_cmpxchg_relaxed arch_cmpxchg_relaxed
+         |                             ^~~~~~~~~~~~~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4810:9: note: in expansion of macro 'raw_cmpxchg_relaxed'
+    4810 |         raw_cmpxchg_relaxed(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/percpu.h:84:33: note: in expansion of macro 'cmpxchg_relaxed'
+      84 |         __retval = (typeof(pcp))op(raw_cpu_ptr(&(pcp)), ##args);        \
+         |                                 ^~
+   arch/riscv/include/asm/percpu.h:134:41: note: in expansion of macro '_pcp_protect_return'
+     134 | #define this_cpu_cmpxchg_8(pcp, o, n)   _pcp_protect_return(cmpxchg_relaxed, pcp, o, n)
+         |                                         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/percpu.h:108:17: note: in expansion of macro 'this_cpu_cmpxchg_8'
+     108 |         __val = _cmpxchg(pcp, __old, nval);                             \
+         |                 ^~~~~~~~
+   include/asm-generic/percpu.h:508:9: note: in expansion of macro '__cpu_fallback_try_cmpxchg'
+     508 |         __cpu_fallback_try_cmpxchg(pcp, ovalp, nval, this_cpu_cmpxchg_8)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/percpu-defs.h:357:31: note: in expansion of macro 'this_cpu_try_cmpxchg_8'
+     357 |         case 8: pscr2_ret__ = stem##8(variable, __VA_ARGS__); break;    \
+         |                               ^~~~
+   include/linux/percpu-defs.h:508:9: note: in expansion of macro '__pcpu_size_call_return2bool'
+     508 |         __pcpu_size_call_return2bool(this_cpu_try_cmpxchg_, pcp, ovalp, nval)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/buckets.h:322:19: note: in expansion of macro 'this_cpu_try_cmpxchg'
+     322 |         } while (!this_cpu_try_cmpxchg(c->pcpu->sectors_available, &old, new));
+         |                   ^~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/percpu.h: Assembler messages:
+>> arch/riscv/include/asm/percpu.h:62: Error: unrecognized opcode `amoadd.d zero,s2,0(a5)'
+>> arch/riscv/include/asm/percpu.h:62: Error: unrecognized opcode `amoadd.d zero,a2,0(a5)'
+>> arch/riscv/include/asm/percpu.h:62: Error: unrecognized opcode `amoadd.d zero,a2,0(a5)'
+>> arch/riscv/include/asm/percpu.h:62: Error: unrecognized opcode `amoadd.d zero,a2,0(a5)'
+..
 
 
-vim +153 mm/khugepaged.c
+vim +62 arch/riscv/include/asm/percpu.h
 
-b188234c53aafe Rongwei Wang       2022-11-26  122  
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  123  /**
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  124   * struct mm_slot - hash lookup from mm to mm_slot
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  125   * @hash: hash collision list
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  126   * @mm_node: khugepaged scan list headed in khugepaged_scan.mm_head
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  127   * @mm: the mm that this information is valid for
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  128   */
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  129  struct mm_slot {
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  130  	struct hlist_node hash;
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  131  	struct list_head mm_node;
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  132  	struct mm_struct *mm;
-27e1f8273113ad Song Liu           2019-09-23  133  
-27e1f8273113ad Song Liu           2019-09-23  134  	/* pte-mapped THP in this mm */
-27e1f8273113ad Song Liu           2019-09-23  135  	int nr_pte_mapped_thp;
-27e1f8273113ad Song Liu           2019-09-23  136  	unsigned long pte_mapped_thp[MAX_PTE_MAPPED_THP];
-5c3c3afed0fd68 Xu Yu              2021-08-19  137  
-5c3c3afed0fd68 Xu Yu              2021-08-19  138  #ifdef CONFIG_HUGETEXT
-5c3c3afed0fd68 Xu Yu              2021-08-19  139  #define MAX_EXEC_VMA       8
-5c3c3afed0fd68 Xu Yu              2021-08-19  140  	/* exec vma vm_start in this mm */
-5c3c3afed0fd68 Xu Yu              2021-08-19  141  	int nr_exec_vma;
-5c3c3afed0fd68 Xu Yu              2021-08-19  142  	unsigned long exec_vma[MAX_EXEC_VMA];
-b188234c53aafe Rongwei Wang       2022-11-26  143  	int nr_adapt_vma;
-b188234c53aafe Rongwei Wang       2022-11-26  144  	struct adapt_vma_t adapt_vmas[MAX_EXEC_VMA];
-b188234c53aafe Rongwei Wang       2022-11-26  145  	struct xarray adaptive_regions;
-b188234c53aafe Rongwei Wang       2022-11-26  146  	struct delayed_work work;
-bf2c1d13d55c0f Rongwei Wang       2022-11-26  147  	unsigned long evict_timestamp;
-b188234c53aafe Rongwei Wang       2022-11-26  148  	/* Current state of adapt vma */
-b188234c53aafe Rongwei Wang       2022-11-26  149  	atomic_t state;
-f835999265e7e2 Rongwei Wang       2022-11-26  150  	int recheck_hugetext;
-b188234c53aafe Rongwei Wang       2022-11-26  151  	int nr_hugetext;
-5c3c3afed0fd68 Xu Yu              2021-08-19  152  #endif
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26 @153  };
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  154  
-
-:::::: The code at line 153 was first introduced by commit
-:::::: b46e756f5e47031c67658ff036e5ffe27062fa43 thp: extract khugepaged from mm/huge_memory.c
-
-:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+    61	
+  > 62	PERCPU_OP(add, add)
+    63	PERCPU_OP(andnot, and)
+    64	PERCPU_OP(or, or)
+  > 65	PERCPU_RET_OP(add, add)
+    66	
 
 -- 
 0-DAY CI Kernel Test Service
