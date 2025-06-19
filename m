@@ -1,64 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BDFE229B02;
-	Thu, 19 Jun 2025 12:33:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7054522A4FA
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 12:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750336438; cv=none; b=WpKNu0jZrVn6H8kPZlG1rWucZW+/HOTrY1212BISMavkEfezeAcCr60ISW/ftDWwdZblKUfQ7gnebm6tJbOR0wKGYBR/v9u5wBb6tdLlOF6oYLq8/7/WjJF5DlJoyvqqWDvUOEi4fY0u1R1zZHU08Od1W1m/ER0WVrst4LgjZ/w=
+	t=1750337099; cv=none; b=Ct2V6ldcXf8OIMo94ndrC1Rz18GDT8pblioQeUc+pIspoHUEvhndVcTXqiIzouLdBvzVhqIm0pyeeOT1Z4VVvF4KbQamjl8rOefSMBGICk2xHaTVfk9SPDPuwRH6NSxwQoFtDggUOC+5R561tzM31PQhW9fIw4BF0LUbTs9JgaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750336438; c=relaxed/simple;
-	bh=NRGKABP8PYE5W+gDt/rlo6MJFKCxz/Agwa923Xcep/0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dkPLyzsJECkxRSGQvMxvLZhEoadFohK/XctpqPa96A0bTOhVwNhxlmb7NV5+NHNZLHdCYkVP9EacDb5LDHJHBMNR7ElGqXA5/YD0i/hnd0JWc+jzeXtaLXWQdV9oLyj+k0H69FUBLjeoTvZZfk8vhXXnhjX59K/kEmKJYbICyxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKavyMzr; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1750337099; c=relaxed/simple;
+	bh=7wvuUlVMYqepj5WZ0wDCrDfUvd733fG4az1iR37BY+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C+j1bl3tBntFqIuLWGH3a+sauP70urWfhsVEFFWqX/ZG3fF+o8J7WLpu3J0t+LYNo9Sd0+9C4J0ZrUDxh3h8JgNV5qqsdKt9y8J1I5GT+Rdj2NEwUgNnRYLuR5PmVxGxKL1e+G5AfVsMjl8cJVQynsmCRJ8jpZxP2BL4fuoIZk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KVyk/bW+; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKavyMzr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KVyk/bW+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750336437; x=1781872437;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NRGKABP8PYE5W+gDt/rlo6MJFKCxz/Agwa923Xcep/0=;
-  b=OKavyMzrkBVPcrp1LgT/k0xX4o6vIuonG3j7wyJzRPdkMHTOx+RTeY+8
-   mTZAZAWRdzglRFDfJK4AhfcMaQQmIeVvOinAgxaT0Bn/0qmxhruxZ5dDp
-   vrZaSvqvrSODY0+NHNaNZzGx3uAmHJf1eHO/vxETSFG6J5EEv9w8HpvoH
-   i1t2BbJrfv7Mv6P/EmSe091YXLKO4af6PIVSbnfzEp5svxFa4CWK8+u6C
-   aLcsIbxjLY5j1IYJjEF3UMF17lUwK6076Yh6my4RxZAGuLMjvERZDVXfX
-   UfwQ+UzGXIRPNDAmCRpoFdwlUIJHsIYMPbmBkGgsC0Y0g1p/qLQeQ/qhS
-   g==;
-X-CSE-ConnectionGUID: tEja7zEFT+2WvuWLOEm+bA==
-X-CSE-MsgGUID: ToUY45htQ0Olthqeu7BGRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52290403"
+  t=1750337097; x=1781873097;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7wvuUlVMYqepj5WZ0wDCrDfUvd733fG4az1iR37BY+E=;
+  b=KVyk/bW+9hkOxzB/e+JxZvjSzEAb8PxBjVGex9MZPnhjAFNilFxV5+uF
+   ycAAZFWimqjOJzplzWgxNFNMRrL9ekZJZVvV6Fg1x1qTVIC3amxCSphbr
+   +1FEmgCPXFaCtucYkD7zeDFefTftA1gdJufwGT1VsThmJoIioKcUavG07
+   73OEuwkGb+fTV5oB3jUzJlc7UyPK3p/NGCHbXcGzKjys2pGukajW0Se7u
+   A+Ov39UQXv18mMfqXZj5DvuC/smaFEI55Q8ZTaYj4hC8MRxw1aG1Uu0an
+   Bki3P2U5bzeVCsP4W2Su5rbYNG+TbugWnycwmRHd6YaNdPgWTRPPI9W69
+   w==;
+X-CSE-ConnectionGUID: TcyDbNjbSkiefe4XxqaF+g==
+X-CSE-MsgGUID: GOHt5rhuTniZR01Awv/xQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="70154390"
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="52290403"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 05:33:56 -0700
-X-CSE-ConnectionGUID: phIflv5VSOmAOqJLXuoShg==
-X-CSE-MsgGUID: hl4fN0GETZe1LcQyXGFCdg==
+   d="scan'208";a="70154390"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 05:44:55 -0700
+X-CSE-ConnectionGUID: ZNSVtoSnR7SdMgo7c+0Gcw==
+X-CSE-MsgGUID: MjwSGRrrR0SDZyiWxnW7sQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="150077947"
+   d="scan'208";a="150868273"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 19 Jun 2025 05:33:53 -0700
+  by orviesa007.jf.intel.com with ESMTP; 19 Jun 2025 05:44:54 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSESk-000Kkg-2O;
-	Thu, 19 Jun 2025 12:33:50 +0000
-Date: Thu, 19 Jun 2025 20:33:49 +0800
+	id 1uSEdP-000Kkw-1h;
+	Thu, 19 Jun 2025 12:44:51 +0000
+Date: Thu, 19 Jun 2025 20:44:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neil@brown.name>, Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-nfs@vger.kernel.org, Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Li Lingfeng <lilingfeng3@huawei.com>
-Subject: Re: [PATCH 3/3] nfsd: split nfsd_mutex into one mutex per
- net-namespace.
-Message-ID: <202506192052.L9tj28RJ-lkp@intel.com>
-References: <20250618213347.425503-4-neil@brown.name>
+To: Peichen Huang <PeiChen.Huang@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
+	Cruise Hung <cruise.hung@amd.com>, Alex Hung <alex.hung@amd.com>
+Subject: [agd5f:drm-fixes-6.16 2/20] Warning:
+ drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:6396 function parameter
+ 'link' not described in 'dc_get_host_router_index'
+Message-ID: <202506192034.GFOJJ6PH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,126 +63,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618213347.425503-4-neil@brown.name>
 
-Hi NeilBrown,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on trondmy-nfs/linux-next linus/master v6.16-rc2 next-20250619]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/nfsd-provide-proper-locking-for-all-write_-function/20250619-053514
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250618213347.425503-4-neil%40brown.name
-patch subject: [PATCH 3/3] nfsd: split nfsd_mutex into one mutex per net-namespace.
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250619/202506192052.L9tj28RJ-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506192052.L9tj28RJ-lkp@intel.com/reproduce)
+tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-fixes-6.16
+head:   fe79ef3530d3c681ef2d5644a9d1d1a67b21426a
+commit: 3251b69b7efb82eba24c9e168a6142a3078de72f [2/20] drm/amd/display: Add dc cap for dp tunneling
+config: csky-randconfig-001-20250619 (https://download.01.org/0day-ci/archive/20250619/202506192034.GFOJJ6PH-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506192034.GFOJJ6PH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506192052.L9tj28RJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506192034.GFOJJ6PH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/nfsd/nfsctl.c:1891:14: warning: variable 'nn' is uninitialized when used here [-Wuninitialized]
-    1891 |         mutex_lock(&nn->nfsd_info.mutex);
-         |                     ^~
-   fs/nfsd/nfsctl.c:1877:21: note: initialize the variable 'nn' to silence this warning
-    1877 |         struct nfsd_net *nn;
-         |                            ^
-         |                             = NULL
-   1 warning generated.
-
-
-vim +/nn +1891 fs/nfsd/nfsctl.c
-
-  1867	
-  1868	/**
-  1869	 * nfsd_nl_version_get_doit - get the enabled status for all supported nfs versions
-  1870	 * @skb: reply buffer
-  1871	 * @info: netlink metadata and command arguments
-  1872	 *
-  1873	 * Return 0 on success or a negative errno.
-  1874	 */
-  1875	int nfsd_nl_version_get_doit(struct sk_buff *skb, struct genl_info *info)
-  1876	{
-  1877		struct nfsd_net *nn;
-  1878		int i, err;
-  1879		void *hdr;
-  1880	
-  1881		skb = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
-  1882		if (!skb)
-  1883			return -ENOMEM;
-  1884	
-  1885		hdr = genlmsg_iput(skb, info);
-  1886		if (!hdr) {
-  1887			err = -EMSGSIZE;
-  1888			goto err_free_msg;
-  1889		}
-  1890	
-> 1891		mutex_lock(&nn->nfsd_info.mutex);
-  1892		nn = net_generic(genl_info_net(info), nfsd_net_id);
-  1893	
-  1894		for (i = 2; i <= 4; i++) {
-  1895			int j;
-  1896	
-  1897			for (j = 0; j <= NFSD_SUPPORTED_MINOR_VERSION; j++) {
-  1898				struct nlattr *attr;
-  1899	
-  1900				/* Don't record any versions the kernel doesn't have
-  1901				 * compiled in
-  1902				 */
-  1903				if (!nfsd_support_version(i))
-  1904					continue;
-  1905	
-  1906				/* NFSv{2,3} does not support minor numbers */
-  1907				if (i < 4 && j)
-  1908					continue;
-  1909	
-  1910				attr = nla_nest_start(skb,
-  1911						      NFSD_A_SERVER_PROTO_VERSION);
-  1912				if (!attr) {
-  1913					err = -EINVAL;
-  1914					goto err_nfsd_unlock;
-  1915				}
-  1916	
-  1917				if (nla_put_u32(skb, NFSD_A_VERSION_MAJOR, i) ||
-  1918				    nla_put_u32(skb, NFSD_A_VERSION_MINOR, j)) {
-  1919					err = -EINVAL;
-  1920					goto err_nfsd_unlock;
-  1921				}
-  1922	
-  1923				/* Set the enabled flag if the version is enabled */
-  1924				if (nfsd_vers(nn, i, NFSD_TEST) &&
-  1925				    (i < 4 || nfsd_minorversion(nn, j, NFSD_TEST)) &&
-  1926				    nla_put_flag(skb, NFSD_A_VERSION_ENABLED)) {
-  1927					err = -EINVAL;
-  1928					goto err_nfsd_unlock;
-  1929				}
-  1930	
-  1931				nla_nest_end(skb, attr);
-  1932			}
-  1933		}
-  1934	
-  1935		mutex_unlock(&nn->nfsd_info.mutex);
-  1936		genlmsg_end(skb, hdr);
-  1937	
-  1938		return genlmsg_reply(skb, info);
-  1939	
-  1940	err_nfsd_unlock:
-  1941		mutex_unlock(&nn->nfsd_info.mutex);
-  1942	err_free_msg:
-  1943		nlmsg_free(skb);
-  1944	
-  1945		return err;
-  1946	}
-  1947	
+>> Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:6383 Cannot find identifier on line:
+    ***********************************************************************************************
+>> Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:6396 function parameter 'link' not described in 'dc_get_host_router_index'
+>> Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:6396 function parameter 'host_router_index' not described in 'dc_get_host_router_index'
 
 -- 
 0-DAY CI Kernel Test Service
