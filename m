@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7054522A4FA
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 12:44:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5026523C514
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 13:05:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750337099; cv=none; b=Ct2V6ldcXf8OIMo94ndrC1Rz18GDT8pblioQeUc+pIspoHUEvhndVcTXqiIzouLdBvzVhqIm0pyeeOT1Z4VVvF4KbQamjl8rOefSMBGICk2xHaTVfk9SPDPuwRH6NSxwQoFtDggUOC+5R561tzM31PQhW9fIw4BF0LUbTs9JgaY=
+	t=1750338358; cv=none; b=pmwhKDqYMbH9pRKlN0gCfHdUMBKZRGzHUQEMZ4Nf+5iid8IutenxyxxtE2tdYYrEqkVTOry5K5JFBsTJHxNM6iNcgw/U3ERxnp/E3wFl+ujeqeUUpjtE0GyMpxqlNdHi5jzQBJkQ8CGA6Kzx7SkfaqNEmBTRTVUksOzOt7N+RN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750337099; c=relaxed/simple;
-	bh=7wvuUlVMYqepj5WZ0wDCrDfUvd733fG4az1iR37BY+E=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C+j1bl3tBntFqIuLWGH3a+sauP70urWfhsVEFFWqX/ZG3fF+o8J7WLpu3J0t+LYNo9Sd0+9C4J0ZrUDxh3h8JgNV5qqsdKt9y8J1I5GT+Rdj2NEwUgNnRYLuR5PmVxGxKL1e+G5AfVsMjl8cJVQynsmCRJ8jpZxP2BL4fuoIZk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KVyk/bW+; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1750338358; c=relaxed/simple;
+	bh=3sLwub0kCxpt7FgCUch4YpkTuMlye/WYe1eo3ve+GI4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ImW0y0uZ1/rmsJy8BsGbPjNA7Ejm3bjAqoshl23oAEm6/V0dqwPB2FUjvi/TJ+m271+xo41/I6ntXmOEimc0/UJIEJLShypCJWHLSKHt0Ts7LCDYIMsXTHulWpFjVTCAZJf8Mkus1XXtjritIGkLNCv9XBDIxlbStpw3CL7lfDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jQ1D82t1; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KVyk/bW+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jQ1D82t1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750337097; x=1781873097;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7wvuUlVMYqepj5WZ0wDCrDfUvd733fG4az1iR37BY+E=;
-  b=KVyk/bW+9hkOxzB/e+JxZvjSzEAb8PxBjVGex9MZPnhjAFNilFxV5+uF
-   ycAAZFWimqjOJzplzWgxNFNMRrL9ekZJZVvV6Fg1x1qTVIC3amxCSphbr
-   +1FEmgCPXFaCtucYkD7zeDFefTftA1gdJufwGT1VsThmJoIioKcUavG07
-   73OEuwkGb+fTV5oB3jUzJlc7UyPK3p/NGCHbXcGzKjys2pGukajW0Se7u
-   A+Ov39UQXv18mMfqXZj5DvuC/smaFEI55Q8ZTaYj4hC8MRxw1aG1Uu0an
-   Bki3P2U5bzeVCsP4W2Su5rbYNG+TbugWnycwmRHd6YaNdPgWTRPPI9W69
-   w==;
-X-CSE-ConnectionGUID: TcyDbNjbSkiefe4XxqaF+g==
-X-CSE-MsgGUID: GOHt5rhuTniZR01Awv/xQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="70154390"
+  t=1750338357; x=1781874357;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3sLwub0kCxpt7FgCUch4YpkTuMlye/WYe1eo3ve+GI4=;
+  b=jQ1D82t1TMPYWrq5ys2R3cmjMBsr7Ukce0cu2pEEgoFMrk5Oyw6rYgyv
+   i1FeZJZ3bIsM61cwT7Rf8/ZMUom/CrG2mT6DMrz9p3/VCMtEnJlpBGXt/
+   wgIa8zsjgXEtoe5WV9BbFPVhfKvajum/ZuZy57ITQym4hsQ6/f73AtLyH
+   0RinNBWXolzUrG4RSkmvRMoV5EVFkv9idIhQWkcjXeG3T74aJsl2/3BVE
+   Jv8RjVqTvjvYqkxTiuKERkVOS+72uRjnGiJVxAH/ykNW+zuhYN/WC9Q2T
+   /nrry1MC+lX0fHAvEWw0t67d6xWvuNRS448Yp/ExUkU8Pd8EGcnstz7QK
+   g==;
+X-CSE-ConnectionGUID: QR8wSgLTTSujRCk1pau3ZQ==
+X-CSE-MsgGUID: gHQHvfLARzSq1AQoh45SoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63195147"
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="70154390"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 05:44:55 -0700
-X-CSE-ConnectionGUID: ZNSVtoSnR7SdMgo7c+0Gcw==
-X-CSE-MsgGUID: MjwSGRrrR0SDZyiWxnW7sQ==
+   d="scan'208";a="63195147"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 06:05:57 -0700
+X-CSE-ConnectionGUID: uJDRLRxTRIiBRYIt22KQNg==
+X-CSE-MsgGUID: ENBedoJ/ToyxydofWZvOtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="150868273"
+   d="scan'208";a="150964727"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 19 Jun 2025 05:44:54 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 19 Jun 2025 06:05:55 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSEdP-000Kkw-1h;
-	Thu, 19 Jun 2025 12:44:51 +0000
-Date: Thu, 19 Jun 2025 20:44:08 +0800
+	id 1uSExl-000KlW-08;
+	Thu, 19 Jun 2025 13:05:53 +0000
+Date: Thu, 19 Jun 2025 21:05:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peichen Huang <PeiChen.Huang@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Cruise Hung <cruise.hung@amd.com>, Alex Hung <alex.hung@amd.com>
-Subject: [agd5f:drm-fixes-6.16 2/20] Warning:
- drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:6396 function parameter
- 'link' not described in 'dc_get_host_router_index'
-Message-ID: <202506192034.GFOJJ6PH-lkp@intel.com>
+To: Benjamin Coddington <bcodding@redhat.com>, trondmy@kernel.org,
+	anna@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH] NFSv4/pNFS: Fix a race to wake on NFS_LAYOUT_DRAIN
+Message-ID: <202506192044.sMgMZpkZ-lkp@intel.com>
+References: <43be0de9ff48ea68dec20d07cb235e164e634588.1750271744.git.bcodding@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,25 +63,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <43be0de9ff48ea68dec20d07cb235e164e634588.1750271744.git.bcodding@redhat.com>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git drm-fixes-6.16
-head:   fe79ef3530d3c681ef2d5644a9d1d1a67b21426a
-commit: 3251b69b7efb82eba24c9e168a6142a3078de72f [2/20] drm/amd/display: Add dc cap for dp tunneling
-config: csky-randconfig-001-20250619 (https://download.01.org/0day-ci/archive/20250619/202506192034.GFOJJ6PH-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506192034.GFOJJ6PH-lkp@intel.com/reproduce)
+Hi Benjamin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on trondmy-nfs/linux-next]
+[also build test WARNING on linus/master v6.16-rc2 next-20250618]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Coddington/NFSv4-pNFS-Fix-a-race-to-wake-on-NFS_LAYOUT_DRAIN/20250619-023749
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/43be0de9ff48ea68dec20d07cb235e164e634588.1750271744.git.bcodding%40redhat.com
+patch subject: [PATCH] NFSv4/pNFS: Fix a race to wake on NFS_LAYOUT_DRAIN
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250619/202506192044.sMgMZpkZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506192044.sMgMZpkZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506192034.GFOJJ6PH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506192044.sMgMZpkZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:6383 Cannot find identifier on line:
-    ***********************************************************************************************
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:6396 function parameter 'link' not described in 'dc_get_host_router_index'
->> Warning: drivers/gpu/drm/amd/amdgpu/../display/dc/core/dc.c:6396 function parameter 'host_router_index' not described in 'dc_get_host_router_index'
+   fs/nfs/pnfs.c: In function 'nfs_layoutget_end':
+>> fs/nfs/pnfs.c:2061:9: warning: this 'if' clause does not guard... [-Wmisleading-indentation]
+    2061 |         if (atomic_dec_and_test(&lo->plh_outstanding) &&
+         |         ^~
+   fs/nfs/pnfs.c:2064:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'
+    2064 |                 wake_up_bit(&lo->plh_flags, NFS_LAYOUT_DRAIN);
+         |                 ^~~~~~~~~~~
+
+
+vim +/if +2061 fs/nfs/pnfs.c
+
+411ae722d10a6d Trond Myklebust     2018-06-23  2058  
+411ae722d10a6d Trond Myklebust     2018-06-23  2059  static void nfs_layoutget_end(struct pnfs_layout_hdr *lo)
+411ae722d10a6d Trond Myklebust     2018-06-23  2060  {
+880265c77ac415 Trond Myklebust     2022-05-31 @2061  	if (atomic_dec_and_test(&lo->plh_outstanding) &&
+880265c77ac415 Trond Myklebust     2022-05-31  2062  	    test_and_clear_bit(NFS_LAYOUT_DRAIN, &lo->plh_flags))
+b844d0ad43d3ba Benjamin Coddington 2025-06-18  2063  		smp_mb__after_atomic();
+880265c77ac415 Trond Myklebust     2022-05-31  2064  		wake_up_bit(&lo->plh_flags, NFS_LAYOUT_DRAIN);
+411ae722d10a6d Trond Myklebust     2018-06-23  2065  }
+411ae722d10a6d Trond Myklebust     2018-06-23  2066  
 
 -- 
 0-DAY CI Kernel Test Service
