@@ -1,116 +1,101 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6534A2874E0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 15:00:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11E21EB5FD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 15:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750345245; cv=none; b=YNkeSlOpH+I3b955DCPeGGGPT1vYWWUSB3cD2kne4dY/odZSh3X36R9Oowb+eWmR7zySO0WdT32h8SFp5ShEDx5Zm27gNuaI+W9mZWkq7Zpnzn21AXLpgCb50xk9K3Ff6IxXlQHHa9NWefIjLjXQ5dA/oPaky2k9mVVuPnT2Jbw=
+	t=1750345810; cv=none; b=rOboU2LvZJcCg7lmq1zvFcK81tykH6Z6VhVv4QT7ZPC/EO0nK+Ko3NvQD9Pk7qoSfo09QSQGa0a+BmGK+qVUS0+TtYJunzUM5DKFbjbXNQdsZiqg3FDWDd04KALrRhLTlZ8lHYzHTgAYYoVEHvIqeADw94kiSqq3fTHWCYJ923k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750345245; c=relaxed/simple;
-	bh=pxwPEEFGC4JgHzmwUH6kOJePf9rIVXtnpWryVwoQflk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QROP6oj+rA2NENs4A1mV/bvB3aERKAR+IfmMVVpaJ9th9bd2NLgMcBJMZEeht9TxkoMN7fyNagCl5+JmdZs2fkgSLX7vkcLDwbtLYbvy3CIiGYcisiM9qZQOwYdvPR2R3yCXP4iYOC4S4P0TT+kJoET+H/8mO8bYBKsAdogFQsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GbyxsNdf; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1750345810; c=relaxed/simple;
+	bh=bgWzL2egDTSe0NfI/L0xX4GESUKBNWbhNQAx3MCQhI8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hjjSj09KL+5+6DC7hDA8HT5Fgoci6MlmrMgnSprS7IbcmTYhRY/GOxivQppd80RH8daU9Rx8iOQgZFakD6grjQ11qVq2mArlQgTtFTO1p8DR5O2VzkODSmwJ/sYCFI92uDV+gD1ofDB11yFBFEsFI4Exb6Ea/dFCOC9Xwr6qilw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C78eNINm; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GbyxsNdf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1750345242;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GcfDdxTjBO5uztZW5izEldQPY3a3xrlr7c21c3VE6pM=;
-	b=GbyxsNdf2lWJcI1vXbdat9xueQAzzvmofi/V2Ur3IXZWi0UnIadUYPZg41BQpO3AbEpnu1
-	6e6atRGNQoFEK3zzLdqRTsolq+f8OW/Mx1QGWx6NkerBFrSeaJHjD8D1fXJjGcEpoT2IsJ
-	NZ5D2hoIO3ETz8lqdxU9eASaGfHCXRM=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-9-DcWN8ePJOumf6BP4yEKHfw-1; Thu,
- 19 Jun 2025 11:00:29 -0400
-X-MC-Unique: DcWN8ePJOumf6BP4yEKHfw-1
-X-Mimecast-MFC-AGG-ID: DcWN8ePJOumf6BP4yEKHfw_1750345227
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 50C9E1800297;
-	Thu, 19 Jun 2025 15:00:27 +0000 (UTC)
-Received: from [192.168.37.1] (unknown [10.22.58.9])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D8D96195E344;
-	Thu, 19 Jun 2025 15:00:25 +0000 (UTC)
-From: Benjamin Coddington <bcodding@redhat.com>
-To: kernel test robot <lkp@intel.com>
-Cc: trondmy@kernel.org, anna@kernel.org, oe-kbuild-all@lists.linux.dev,
- linux-nfs@vger.kernel.org
-Subject: Re: [PATCH] NFSv4/pNFS: Fix a race to wake on NFS_LAYOUT_DRAIN
-Date: Thu, 19 Jun 2025 11:00:23 -0400
-Message-ID: <A97BF2F5-146B-49AD-A3EE-7141F26DF521@redhat.com>
-In-Reply-To: <202506192044.sMgMZpkZ-lkp@intel.com>
-References: <43be0de9ff48ea68dec20d07cb235e164e634588.1750271744.git.bcodding@redhat.com>
- <202506192044.sMgMZpkZ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C78eNINm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750345809; x=1781881809;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bgWzL2egDTSe0NfI/L0xX4GESUKBNWbhNQAx3MCQhI8=;
+  b=C78eNINmC49AckZIyGIcVRVxNc+YG8nPQF1Te0BL9bdYKTknQrLSgztU
+   KmruU4wBgjlY5i79xTnKDrmrDSafmpX+3ngUwXLqiwyR+l+rx76lvwBZr
+   kGyJG9Rh1ztUHrCtboxlf2sMYj4h1VgxjcsIHThTkJgyT1ZKHOVxEtnUW
+   cpA6LBZwLuHwdGGPVNVgdEqJKYcwu2w8Zx5ACKgwQRc4bdiE5rpvQnvDw
+   Ql0NnMEPd/cpFdjuUrRIOxRo6RM1cwLb9hnBd2QucS7ior7arMcoDbNGF
+   5LJ9QX351VrtEaaBYmXAvuFv4M1zKYhV/494t2ssSagfVExRzGCV7P9/b
+   Q==;
+X-CSE-ConnectionGUID: QXMMGzDgRiCwbGWjCpAaDg==
+X-CSE-MsgGUID: xFyCCeaRRq+27LnqtVnI1Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52527386"
+X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
+   d="scan'208";a="52527386"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 08:10:08 -0700
+X-CSE-ConnectionGUID: XBLiC6d1TIm1JSVNUDfHNw==
+X-CSE-MsgGUID: ptX2qYbzREaDVDKh/+KbXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
+   d="scan'208";a="156172074"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 19 Jun 2025 08:10:07 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uSGtx-000KrO-17;
+	Thu, 19 Jun 2025 15:10:05 +0000
+Date: Thu, 19 Jun 2025 23:09:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:rev/userfault 3/16]
+ arch/x86/include/asm/kvm_host.h:2329:21: error: invalid use of undefined
+ type 'struct kvm_vcpu'
+Message-ID: <202506192352.r55LpKzv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 19 Jun 2025, at 9:05, kernel test robot wrote:
+tree:   https://github.com/sean-jc/linux rev/userfault
+head:   eeac6c6f0380f0667fa04086daffd96954028bed
+commit: 47fe4aa211567e1d3f16e8c121162e46e3515acc [3/16] KVM: Fill memory_fault.flags in arch, i.e. in x86
+config: x86_64-buildonly-randconfig-004-20250619 (https://download.01.org/0day-ci/archive/20250619/202506192352.r55LpKzv-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506192352.r55LpKzv-lkp@intel.com/reproduce)
 
-> Hi Benjamin,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on trondmy-nfs/linux-next]
-> [also build test WARNING on linus/master v6.16-rc2 next-20250618]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.=
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506192352.r55LpKzv-lkp@intel.com/
 
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Codding=
-ton/NFSv4-pNFS-Fix-a-race-to-wake-on-NFS_LAYOUT_DRAIN/20250619-023749
-> base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-ne=
-xt
-> patch link:    https://lore.kernel.org/r/43be0de9ff48ea68dec20d07cb235e=
-164e634588.1750271744.git.bcodding%40redhat.com
-> patch subject: [PATCH] NFSv4/pNFS: Fix a race to wake on NFS_LAYOUT_DRA=
-IN
-> config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/202506=
-19/202506192044.sMgMZpkZ-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20250619/202506192044.sMgMZpkZ-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506192044.sMgMZpkZ-l=
-kp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    fs/nfs/pnfs.c: In function 'nfs_layoutget_end':
->>> fs/nfs/pnfs.c:2061:9: warning: this 'if' clause does not guard... [-W=
-misleading-indentation]
->     2061 |         if (atomic_dec_and_test(&lo->plh_outstanding) &&
->          |         ^~
->    fs/nfs/pnfs.c:2064:17: note: ...this statement, but the latter is mi=
-sleadingly indented as if it were guarded by the 'if'
->     2064 |                 wake_up_bit(&lo->plh_flags, NFS_LAYOUT_DRAIN=
-);
->          |                 ^~~~~~~~~~~
->
+All errors (new ones prefixed by >>):
 
-Oh what shame, thanks robot. v2 incoming.
+   In file included from include/linux/kvm_host.h:45,
+                    from arch/x86/events/intel/core.c:17:
+   arch/x86/include/asm/kvm_host.h: In function 'kvm_arch_prepare_memory_fault_exit':
+>> arch/x86/include/asm/kvm_host.h:2329:21: error: invalid use of undefined type 'struct kvm_vcpu'
+    2329 |                 vcpu->run->memory_fault.flags |= KVM_MEMORY_EXIT_FLAG_PRIVATE;
+         |                     ^~
 
-Ben
 
+vim +2329 arch/x86/include/asm/kvm_host.h
+
+  2324	
+  2325	static inline void kvm_arch_prepare_memory_fault_exit(struct kvm_vcpu *vcpu,
+  2326							      struct kvm_page_fault *fault)
+  2327	{
+  2328		if (fault->is_private)
+> 2329			vcpu->run->memory_fault.flags |= KVM_MEMORY_EXIT_FLAG_PRIVATE;
+  2330	}
+  2331	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
