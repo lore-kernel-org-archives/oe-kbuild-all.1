@@ -1,77 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 496BC209F2E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 20:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB721581F8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 20:32:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750364568; cv=none; b=azdwvoCVjE7X10k68Artf7ODpdqvFq5QxHx5Rf3OwP8plY5GY1QXn3XE+cUBhv1bQtefe44OvYD4Dsr/vLwuHNekXv7W1xVEDpjQEgE7qlNUidxsmBPN6Fo7We6k8kG6bswqw8Db4ghECbOLAz79DZgQilqW54M64dQigB1nnmw=
+	t=1750365165; cv=none; b=BGr2CtxTyOI/epRfk3Cr220kRhBeD9994aESzH5wH2YXnYc2DYziqm63n2dxwEVhT2G+oqAaSJoUgxHrjkHNugbhO1lQwpZfCdq1i9962R7ZPCdb1qUVU7Ku4XdVxBEQGTGxuz0+gt3A37B+dWB3+ijwavOlpRkLaKEIpGTrbus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750364568; c=relaxed/simple;
-	bh=1306ugvPqvYx0GNhUobnRO2BRmD0tvRO5GZ6dyr69A0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D33PJxQ9Z+tuoO//AkG6dXN8bYaNIBu2TRPyMqWkIcXrFqE9DH+g1TRws/UV0UNFTCAWHIk7/umZrYp46QjH4LwSpZtprge8ziehwzyYlNcSIKvt/VFml8zApWtSwYwMA7vXtSW8JZD0UGgx6npAS0K6+t8E5x+LwphLZP+hZcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h+tgCKKi; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1750365165; c=relaxed/simple;
+	bh=+B3ZPBab3ajgpa+4/galRtOXaPYDYayjqTN/eo8n7hk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=J13DJvpIuSrbKuU7tF3W7GaPtVZLimSs4M3g46L9GSGrppezDiRYZsVuYthtFtX658H0/wBMju4bKbC8jRLg31DKS/38AwU0sdT8jDL4MLh7ThRT+o9T792MieOxYaZmC8/cO2KYKh+WI6pxut2yR4fZ7+iyOgg1qlu4ngJPPk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hma0lGCI; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h+tgCKKi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hma0lGCI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750364567; x=1781900567;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1306ugvPqvYx0GNhUobnRO2BRmD0tvRO5GZ6dyr69A0=;
-  b=h+tgCKKinRvHLtC60qB7dF2+bk2mybbl33reQHvAUpU3nrlK+zJ2j/p+
-   Rv4x5zfdy0lAIZI/QHdagMNY79SSl63sWXA2/vUVg6WrQlUs1dEw+M1RC
-   YsyXATkQltzEn0USuIVSnA6fvZzzQxY42TNBANOqWHj5GoD8NB9Qndm5d
-   1gvaxMsd1ugxGmTeNK96KIZZbV/rsk1+iY2dZaxX9XTRZ9YmZ+zSNxjpq
-   gL/Wei/JfW0s6rU2l0EM/DdgtQB+oIuz0fT9s3rM4aH0T8XUj5WCWDcJZ
-   G8/TGD3NPbuSjmpJxhtO/V3wB7bs4AL74OI17ing8alPxHDsykeRHfr+T
+  t=1750365164; x=1781901164;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+B3ZPBab3ajgpa+4/galRtOXaPYDYayjqTN/eo8n7hk=;
+  b=Hma0lGCI5MLzrJ96IPvpY7ga2CulIhjS1KJaThIYpQvcz4KsU5vhH7Oj
+   gKOI4AEZhkRfvH2uErlQon96dxmnURYCIQ9rQGkclYTvHItNsUksrCSnW
+   grc2wn12BwUSpyNuzxNLL+P6c1dJBNVP/7+d+xfwpNc+JzJR1kjzngEbl
+   Hk8BbCLsPQ7RfuvzEacYgpcn5v+KmECf2WRPKArbk+vEfRbGvujb2rAa3
+   0q1c9ab9WanYQY+e6cDvDbsS9zRNgvf1XajKNgRALGWZzoCpHDNGsE7Dq
+   Vet//qwDU/q1IG83Lz7ZZechLu7xX6n3Hxyp2zTqdUyIpdmprSedVczCK
    w==;
-X-CSE-ConnectionGUID: fMHsAsKzS4elzWbT/OmEAQ==
-X-CSE-MsgGUID: 2aioLAyOTS2d3yhPFMrbZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="51852703"
+X-CSE-ConnectionGUID: D+ju6bN2R9aBGyW4gOtnUg==
+X-CSE-MsgGUID: ghRkQizcSJm6C0GzOJzGaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52492919"
 X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="51852703"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 13:22:47 -0700
-X-CSE-ConnectionGUID: HbfmO9QBTz2wrgvuPHbqPA==
-X-CSE-MsgGUID: fjTzpWQ/Sxa+NwOTsif4Aw==
+   d="scan'208";a="52492919"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 13:32:44 -0700
+X-CSE-ConnectionGUID: BgvhtpHnTqutvf5SfgLksw==
+X-CSE-MsgGUID: qviqbRbAQjGwd6hJLK3Z/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="155290205"
+   d="scan'208";a="150537932"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 19 Jun 2025 13:22:41 -0700
+  by orviesa009.jf.intel.com with ESMTP; 19 Jun 2025 13:32:42 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSLmQ-000L5G-2H;
-	Thu, 19 Jun 2025 20:22:38 +0000
-Date: Fri, 20 Jun 2025 04:22:00 +0800
+	id 1uSLw7-000L5l-2g;
+	Thu, 19 Jun 2025 20:32:39 +0000
+Date: Fri, 20 Jun 2025 04:32:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Will McVicker <willmcvicker@google.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Rob Herring <robh@kernel.org>,
-	Saravana Kannan <saravanak@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Will McVicker <willmcvicker@google.com>,
-	Donghoon Yu <hoony.yu@samsung.com>,
-	Hosung Kim <hosung0.kim@samsung.com>, kernel-team@android.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	John Stultz <jstultz@google.com>,
-	Youngmin Nam <youngmin.nam@samsung.com>,
-	Peter Griffin <peter.griffin@linaro.org>,
-	Tudor Ambarus <tudor.ambarus@linaro.org>,
-	=?iso-8859-1?Q?Andr=E9?= Draszik <andre.draszik@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-samsung-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 5/6] clocksource/drivers/exynos_mct: Add module support
-Message-ID: <202506200445.1vdWU11a-lkp@intel.com>
-References: <20250618210851.661527-6-willmcvicker@google.com>
+To: Viresh Kumar <viresh.kumar@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vireshk:virtio/msg-upstream-xen 5/22]
+ drivers/virtio/virtio_msg.c:418:23: sparse: sparse: incorrect type in
+ assignment (different base types)
+Message-ID: <202506200409.ESNsGUkZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,37 +62,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618210851.661527-6-willmcvicker@google.com>
 
-Hi Will,
+Hi Viresh,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on tip/timers/core]
-[also build test WARNING on arm64/for-next/core robh/for-next linus/master v6.16-rc2 next-20250619]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Will-McVicker/of-irq-Export-of_irq_count-for-modules/20250619-051424
-base:   tip/timers/core
-patch link:    https://lore.kernel.org/r/20250618210851.661527-6-willmcvicker%40google.com
-patch subject: [PATCH 5/6] clocksource/drivers/exynos_mct: Add module support
-config: arm-multi_v7_defconfig (https://download.01.org/0day-ci/archive/20250620/202506200445.1vdWU11a-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506200445.1vdWU11a-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/linux.git virtio/msg-upstream-xen
+head:   144cb011a0ee7a93a82e3cc6c47d5a01d76b4c6e
+commit: 93956f0dea686d819b42ce4a8fd37cc25f0056da [5/22] virtio-msg: Add support for loopback bus
+config: x86_64-randconfig-122-20250620 (https://download.01.org/0day-ci/archive/20250620/202506200409.ESNsGUkZ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506200409.ESNsGUkZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506200445.1vdWU11a-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506200409.ESNsGUkZ-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/virtio/virtio_msg.c:418:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] size @@     got restricted __le64 [usertype] @@
+   drivers/virtio/virtio_msg.c:418:23: sparse:     expected restricted __le32 [usertype] size
+   drivers/virtio/virtio_msg.c:418:23: sparse:     got restricted __le64 [usertype]
 
->> WARNING: modpost: vmlinux: section mismatch in reference: mct_init_dt+0x164 (section: .text) -> register_current_timer_delay (section: .init.text)
->> WARNING: modpost: vmlinux: section mismatch in reference: mct_init_dt+0x178 (section: .text) -> sched_clock_register (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: mct_init_dt+0x20c (section: .text) -> register_current_timer_delay (section: .init.text)
-WARNING: modpost: vmlinux: section mismatch in reference: mct_init_dt+0x220 (section: .text) -> sched_clock_register (section: .init.text)
+vim +418 drivers/virtio/virtio_msg.c
+
+db5bb09ef745b4 Viresh Kumar 2024-08-16  410  
+db5bb09ef745b4 Viresh Kumar 2024-08-16  411  static int virtio_msg_vq_set(struct virtio_msg_device *vmdev,
+db5bb09ef745b4 Viresh Kumar 2024-08-16  412  			     struct virtqueue *vq, unsigned int index)
+db5bb09ef745b4 Viresh Kumar 2024-08-16  413  {
+db5bb09ef745b4 Viresh Kumar 2024-08-16  414  	struct set_vqueue *payload = virtio_msg_payload(vmdev->request);
+db5bb09ef745b4 Viresh Kumar 2024-08-16  415  
+db5bb09ef745b4 Viresh Kumar 2024-08-16  416  	transport_msg_prepare(vmdev, VIRTIO_MSG_SET_VQUEUE, sizeof(*payload));
+db5bb09ef745b4 Viresh Kumar 2024-08-16  417  	payload->index = cpu_to_le32(index);
+db5bb09ef745b4 Viresh Kumar 2024-08-16 @418  	payload->size = cpu_to_le64(virtqueue_get_vring_size(vq));
+db5bb09ef745b4 Viresh Kumar 2024-08-16  419  	payload->descriptor_addr = cpu_to_le64(virtqueue_get_desc_addr(vq));
+db5bb09ef745b4 Viresh Kumar 2024-08-16  420  	payload->driver_addr = cpu_to_le64(virtqueue_get_avail_addr(vq));
+db5bb09ef745b4 Viresh Kumar 2024-08-16  421  	payload->device_addr = cpu_to_le64(virtqueue_get_used_addr(vq));
+db5bb09ef745b4 Viresh Kumar 2024-08-16  422  
+db5bb09ef745b4 Viresh Kumar 2024-08-16  423  	return virtio_msg_xfer(vmdev);
+db5bb09ef745b4 Viresh Kumar 2024-08-16  424  }
+db5bb09ef745b4 Viresh Kumar 2024-08-16  425  
+
+:::::: The code at line 418 was first introduced by commit
+:::::: db5bb09ef745b4ef1b2e2f258cc295362c87be1b virtio: Add support for virtio-msg transport
+
+:::::: TO: Viresh Kumar <viresh.kumar@linaro.org>
+:::::: CC: Viresh Kumar <viresh.kumar@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
