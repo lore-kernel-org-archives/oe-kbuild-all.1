@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11E21EB5FD
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 15:10:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682D422D4DD
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 16:12:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750345810; cv=none; b=rOboU2LvZJcCg7lmq1zvFcK81tykH6Z6VhVv4QT7ZPC/EO0nK+Ko3NvQD9Pk7qoSfo09QSQGa0a+BmGK+qVUS0+TtYJunzUM5DKFbjbXNQdsZiqg3FDWDd04KALrRhLTlZ8lHYzHTgAYYoVEHvIqeADw94kiSqq3fTHWCYJ923k=
+	t=1750349538; cv=none; b=tAhz7+TKX/mskpZ/Qeat/JaLfee5cSryHMY8SBzYXDQmIvuVcNkrJbzutcXBSmYDfbLoObCPsf+puTdYEQVF3RJgsubm29Q39MGHbJCOPb64Pt8GYKwPPEXav2h8dwoTbq+GWJlVjwiQlT4YxYMcOfCTaWOqiCcrPSilwAdBtSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750345810; c=relaxed/simple;
-	bh=bgWzL2egDTSe0NfI/L0xX4GESUKBNWbhNQAx3MCQhI8=;
+	s=arc-20240116; t=1750349538; c=relaxed/simple;
+	bh=eZeFMyXoXrPa0H3PUfdNacEX4YaUbbno9icAQHEzUrs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hjjSj09KL+5+6DC7hDA8HT5Fgoci6MlmrMgnSprS7IbcmTYhRY/GOxivQppd80RH8daU9Rx8iOQgZFakD6grjQ11qVq2mArlQgTtFTO1p8DR5O2VzkODSmwJ/sYCFI92uDV+gD1ofDB11yFBFEsFI4Exb6Ea/dFCOC9Xwr6qilw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C78eNINm; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=RTGTF4xHrNzaW3cpObipVQm5SBMgezYXdlv22PSIWSO3nEIXAsQb1AzZG1Weq3CPs+hZ5POuP2Bmdz4MajAhppYI22+JPFJJS1qBQMyKFDnHXDn2rahST4NKuA6KORWqkWAVrT7jCFccliFY9nkkLA3C8kcVTWWeySlxfDZW7eQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bw8ssvfh; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C78eNINm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bw8ssvfh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750345809; x=1781881809;
+  t=1750349537; x=1781885537;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bgWzL2egDTSe0NfI/L0xX4GESUKBNWbhNQAx3MCQhI8=;
-  b=C78eNINmC49AckZIyGIcVRVxNc+YG8nPQF1Te0BL9bdYKTknQrLSgztU
-   KmruU4wBgjlY5i79xTnKDrmrDSafmpX+3ngUwXLqiwyR+l+rx76lvwBZr
-   kGyJG9Rh1ztUHrCtboxlf2sMYj4h1VgxjcsIHThTkJgyT1ZKHOVxEtnUW
-   cpA6LBZwLuHwdGGPVNVgdEqJKYcwu2w8Zx5ACKgwQRc4bdiE5rpvQnvDw
-   Ql0NnMEPd/cpFdjuUrRIOxRo6RM1cwLb9hnBd2QucS7ior7arMcoDbNGF
-   5LJ9QX351VrtEaaBYmXAvuFv4M1zKYhV/494t2ssSagfVExRzGCV7P9/b
-   Q==;
-X-CSE-ConnectionGUID: QXMMGzDgRiCwbGWjCpAaDg==
-X-CSE-MsgGUID: xFyCCeaRRq+27LnqtVnI1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52527386"
-X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="52527386"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 08:10:08 -0700
-X-CSE-ConnectionGUID: XBLiC6d1TIm1JSVNUDfHNw==
-X-CSE-MsgGUID: ptX2qYbzREaDVDKh/+KbXg==
+  bh=eZeFMyXoXrPa0H3PUfdNacEX4YaUbbno9icAQHEzUrs=;
+  b=bw8ssvfhpmu38Eqp8T1cw8hZmILEVl6Eue2CAi0RgALoLc7cVsgkP7+3
+   /MMVtASD93LqcOs/fBv5EzqWsPENCkn2AXtjBydsWZGvVXmBTucrihBpK
+   L3aDFM3iMouYtX65x0WRJec6xTn7eX8JajcTEzS7ZsRsitFYzX9fzM+1S
+   AlO6mM9f2dJqQ8WZ3F4/Wa39G/Gj7rSLUmKAq8bbryCEmTgfd/a3FWByv
+   FLCHSSy+vGVn/RF0WhOjoSKPeocple9Lm8BAz6GfJjQ7p6XXZ+WvzM9Yh
+   kTpb/8wonTCoC8PVSwuJTZ0+tIprBEwZMljjPDF8X+7XdcI3B1jlcBhTk
+   g==;
+X-CSE-ConnectionGUID: SmLqW6SbSd2J7ASre8KZPA==
+X-CSE-MsgGUID: 9WcAJNebQBCU5K9FKyFdAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="62873265"
+X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
+   d="scan'208";a="62873265"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 09:12:16 -0700
+X-CSE-ConnectionGUID: JzBnOImMSdmcABF+XTTyXg==
+X-CSE-MsgGUID: 651QLFacSUS41TAeeL/YMg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,248,1744095600"; 
-   d="scan'208";a="156172074"
+X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
+   d="scan'208";a="150492953"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Jun 2025 08:10:07 -0700
+  by orviesa009.jf.intel.com with ESMTP; 19 Jun 2025 09:12:14 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSGtx-000KrO-17;
-	Thu, 19 Jun 2025 15:10:05 +0000
-Date: Thu, 19 Jun 2025 23:09:36 +0800
+	id 1uSHs4-000KvM-0j;
+	Thu, 19 Jun 2025 16:12:12 +0000
+Date: Fri, 20 Jun 2025 00:11:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [sean-jc:rev/userfault 3/16]
- arch/x86/include/asm/kvm_host.h:2329:21: error: invalid use of undefined
- type 'struct kvm_vcpu'
-Message-ID: <202506192352.r55LpKzv-lkp@intel.com>
+To: "Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: [net-next:main 35/47] net/ethtool/pse-pd.c: warning: EXPORT_SYMBOL()
+ is used, but #include <linux/export.h> is missing
+Message-ID: <202506200024.T3O0FWeR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,38 +63,221 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/sean-jc/linux rev/userfault
-head:   eeac6c6f0380f0667fa04086daffd96954028bed
-commit: 47fe4aa211567e1d3f16e8c121162e46e3515acc [3/16] KVM: Fill memory_fault.flags in arch, i.e. in x86
-config: x86_64-buildonly-randconfig-004-20250619 (https://download.01.org/0day-ci/archive/20250619/202506192352.r55LpKzv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250619/202506192352.r55LpKzv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git main
+head:   68d019aa14d97f8d57b0f8d203fd3b44db2ba0c7
+commit: fc0e6db30941a66e284b8516b82356f97f31061d [35/47] net: pse-pd: Add support for reporting events
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250620/202506200024.T3O0FWeR-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506200024.T3O0FWeR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506192352.r55LpKzv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506200024.T3O0FWeR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/kvm_host.h:45,
-                    from arch/x86/events/intel/core.c:17:
-   arch/x86/include/asm/kvm_host.h: In function 'kvm_arch_prepare_memory_fault_exit':
->> arch/x86/include/asm/kvm_host.h:2329:21: error: invalid use of undefined type 'struct kvm_vcpu'
-    2329 |                 vcpu->run->memory_fault.flags |= KVM_MEMORY_EXIT_FLAG_PRIVATE;
-         |                     ^~
-
-
-vim +2329 arch/x86/include/asm/kvm_host.h
-
-  2324	
-  2325	static inline void kvm_arch_prepare_memory_fault_exit(struct kvm_vcpu *vcpu,
-  2326							      struct kvm_page_fault *fault)
-  2327	{
-  2328		if (fault->is_private)
-> 2329			vcpu->run->memory_fault.flags |= KVM_MEMORY_EXIT_FLAG_PRIVATE;
-  2330	}
-  2331	
+   net/bpf/test_run.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/bridge/br_device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/bridge/br_fdb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/bridge/br_forward.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/bridge/br_if.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/bridge/br_mst.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/bridge/br_stp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/bridge/br_vlan.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/bridge/netfilter/ebtables.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/caif/caif_dev.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/caif/cfcnfg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/caif/cfsrvl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/can/af_can.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/auth.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/buffer.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/ceph_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/ceph_hash.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/ceph_strings.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/cls_lock_client.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/decode.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/mon_client.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/osd_client.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/osdmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/pagelist.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/pagevec.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/string_table.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ceph/striper.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/bpf_sk_storage.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/datagram.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/dev.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/dev_api.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/dev_ioctl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/devmem.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/dst.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/dst_cache.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/failover.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/fib_notifier.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/fib_rules.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/filter.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/flow_offload.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/gen_estimator.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/gen_stats.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/gro.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/gro_cells.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/gso.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/hotdata.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/hwbm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/ieee8021q_helpers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/link_watch.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/lock_debug.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/lwtunnel.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/neighbour.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/netclassid_cgroup.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/netdev-genl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/netdev_rx_queue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/page_pool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/ptp_classifier.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/rtnetlink.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/scm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/secure_seq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/selftests.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/skb_fault_injection.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/skbuff.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/skmsg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/sock.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/sock_diag.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/sock_map.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/sock_reuseport.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/stream.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/sysctl_net_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/utils.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/core/xdp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/dcb/dcbnl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/devlink/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/devlink/dev.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/devlink/dpipe.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/devlink/health.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/devlink/linecard.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/devlink/param.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/devlink/port.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/devlink/rate.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/devlink/region.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/devlink/resource.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/devlink/sb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/devlink/trap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/devres.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/dns_resolver/dns_query.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/dsa/devlink.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/dsa/dsa.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/dsa/port.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/dsa/stubs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/dsa/tag.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/dsa/tag_8021q.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/dsa/user.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ethernet/eth.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ethtool/cabletest.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ethtool/common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ethtool/ioctl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ethtool/mm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ethtool/netlink.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+>> net/ethtool/pse-pd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ethtool/stats.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/handshake/alert.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/handshake/netlink.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/handshake/request.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/handshake/tlshd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/hsr/hsr_device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/hsr/hsr_framereg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/hsr/hsr_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ieee802154/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ieee802154/header_ops.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ieee802154/nl802154.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ieee802154/pan.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ife/ife.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/af_inet.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/arp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/datagram.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/devinet.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/esp4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/fib_frontend.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/fib_semantics.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/fou_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/gre_demux.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/icmp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/igmp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/inet_connection_sock.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/inet_diag.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/inet_fragment.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/inet_hashtables.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/inet_timewait_sock.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/ip_fragment.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/ip_gre.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/ip_input.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/ip_options.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/ip_output.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/ip_sockglue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/ip_tunnel.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/ip_tunnel_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/ipmr_base.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/metrics.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/netfilter/arp_tables.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/netfilter/ip_tables.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/netfilter/nf_defrag_ipv4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/netfilter/nf_dup_ipv4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/netfilter/nf_reject_ipv4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/netfilter/nf_socket_ipv4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/netfilter/nf_tproxy_ipv4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/netfilter/nft_fib_ipv4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/netlink.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/nexthop.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/protocol.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/route.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tcp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tcp_bpf.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tcp_cong.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tcp_input.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tcp_ipv4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tcp_minisocks.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tcp_offload.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tcp_output.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tcp_plb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tcp_rate.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tcp_sigpool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tcp_ulp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tcp_vegas.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/tunnel4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/udp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/udp_bpf.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/udp_offload.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/udp_tunnel_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/udp_tunnel_stub.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/xfrm4_input.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv4/xfrm4_protocol.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/af_inet6.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/esp6.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/icmp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/inet6_connection_sock.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/inet6_hashtables.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/ip6_checksum.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/ip6_fib.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/ip6_input.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/ip6_output.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/ip6_tunnel.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/ip6_udp_tunnel.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/ipv6_sockglue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/mcast.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/mcast_snoop.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/ndisc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/netfilter/ip6_tables.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/netfilter/nf_conntrack_reasm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/netfilter/nf_defrag_ipv6_hooks.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/netfilter/nf_dup_ipv6.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/netfilter/nf_reject_ipv6.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/netfilter/nf_socket_ipv6.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/netfilter/nf_tproxy_ipv6.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/netfilter/nft_fib_ipv6.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/ping.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/protocol.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/seg6_hmac.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/seg6_iptunnel.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   net/ipv6/syncookies.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
 
 -- 
 0-DAY CI Kernel Test Service
