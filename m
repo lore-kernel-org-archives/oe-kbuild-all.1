@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722B0EBE;
-	Fri, 20 Jun 2025 00:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D54D463CF
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 01:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750379528; cv=none; b=rrTEkCFtxa6OGKMcyX26SQ7dtTtDzizHGH3flEfQpOZdf2kGMEiFvKIiaDxCQUxH+zmr0QkrndNrzPnw353pJv59zwf1+VJTN/XNKBh4avnbQCPlBGmFaNHUPJw6xcvmCXrZS2cEjwNpr6lEbrg6vGUepqBMnzcyplsVpDIr2kU=
+	t=1750381451; cv=none; b=dPqBrehv6ktRUS29pxGXJiQGjHyqNfHRb6cELv+mFyL6uJo8IZT7+4PMB6/6TRVKsyrj/Dm0KB2UUc2GZaznsnG98iGtrqcS4PA1HN4jo29cxKHEZ1l53xsDC1casG+Rsv5OhzMK61HtiiC2MyUJR9y3J73LyUBzVpshMx5BgHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750379528; c=relaxed/simple;
-	bh=FgUZqLhBinIxTSOO1MaZQL3Cq2Zox65AGxkmO8q8SEo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Rp/sZsbPGbSYFBTKzWPUmZKfMqjmTpx5Q9Uxh4981i8SQZmy8vMVloYSI1APt56hS1ipPVae5gXh8vSu8l03FJ5He2GP++/e070CTVHIPxx6Bkc3Rnkla4rnIrUhRWX2RD/db3NOVPZ2J3wvsTVbaBVxB2f4WU0JmSNiJ88vawc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LIjYTgZs; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1750381451; c=relaxed/simple;
+	bh=kmdm6mk3TFNj4zb7AKCkRuSXwITo9jDnrXLuFiMdoyE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DoWrDzQeEtC9Py7qd/XK42rF1wD6VqfX/plTZqkEum23iiUAoAqGOVoKhQOFURAI8CxK5wHpdi7lyZJE8yk/ev6YDC12AtWUUG8oU6psXeSf5kTy+c2mEd4n/8xTECDl8L5w5fByD1ATa7MqikU3/074qK9BJngWB+PRNtz8Pw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iQv6zsef; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LIjYTgZs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iQv6zsef"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750379526; x=1781915526;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FgUZqLhBinIxTSOO1MaZQL3Cq2Zox65AGxkmO8q8SEo=;
-  b=LIjYTgZsfrmH0pjFYW+0JNtfi8izyKJswvSOTXjeogyduyll4wRuddQ6
-   iNzp9HI56Bv5lx6M/VWe4l+7fYbw7zFSYbt+9/8yyB2ouQ8o3HeyJyBfv
-   IqB3M72aSuOROvOihqlkZ1FayK8gz6caoFSr746fWBmr/caXf0RARUiYd
-   Cdie6PD4w4ucXHG36CPXvrMcUS+4h+OO5ILlhuxTbaWFTaYuHvBVRLSWH
-   Urh7D8X489P4YbpBPsCZiJN4d+3xx8nb06hDn0LRgIcPAVFt/kMtIVMzB
-   sJkg/mgM8PVxqtNTTOQfrpWNqQL2r5MgSRC8eD0PiVbR+vL1P+vlTvbBT
+  t=1750381448; x=1781917448;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kmdm6mk3TFNj4zb7AKCkRuSXwITo9jDnrXLuFiMdoyE=;
+  b=iQv6zsefw6Cc9IltiDNxxmMMv2mYTKhtd5di9y39HEBhqLOsff4FdJJ0
+   d+RZdAFX+3MSSvfm2ESg4+SAoiK4bhMHtIJE9ZiUgmJBF4Q2XVhjoZtNx
+   CKq9Sfau1S0WkZVaGgikUp8IHmEAVCSpDuManzbW7A7QvU4o8W/k8CHtr
+   XUCyWtRq7/oiL+z5efkE/dfCC8mEw23VSpm1Rul25xR88BTfoyebXVpHv
+   WFN1wOsb7mQIVgTCQqJWz6BgIjcDpxaiZv4uzDDo9g/h4IsJVjz+G1Ebv
+   Ny223gMdy7cgcH62D0uJ2tN1eNYvLqITGQ0bxxABngCjd11ALoaupUmB6
    Q==;
-X-CSE-ConnectionGUID: WePLwdPwQ8y/7YpK/jIL+g==
-X-CSE-MsgGUID: 8C1ZFP2rSiqF6I+cObqF8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63241042"
-X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="63241042"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 17:32:05 -0700
-X-CSE-ConnectionGUID: KQeovqlBS7mR32FVxqNGVA==
-X-CSE-MsgGUID: P/C5lmYgRZCNCT8r7SeHCA==
+X-CSE-ConnectionGUID: Xw8CXBdhQti3eW/QxIOjUw==
+X-CSE-MsgGUID: 4T+Unv1pQe6r9Nucm1yO7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="70202811"
+X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
+   d="scan'208";a="70202811"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 18:04:08 -0700
+X-CSE-ConnectionGUID: KSj2M76GR0eofUIcdAdsNA==
+X-CSE-MsgGUID: itbOam2KQ6Sz08FoBNt3Iw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,249,1744095600"; 
-   d="scan'208";a="151316679"
+X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
+   d="scan'208";a="150979298"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 19 Jun 2025 17:32:04 -0700
+  by orviesa007.jf.intel.com with ESMTP; 19 Jun 2025 18:04:07 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSPfl-000LDO-2D;
-	Fri, 20 Jun 2025 00:32:01 +0000
-Date: Fri, 20 Jun 2025 08:32:00 +0800
+	id 1uSQAm-000LEo-2J;
+	Fri, 20 Jun 2025 01:04:04 +0000
+Date: Fri, 20 Jun 2025 09:03:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Brauner <brauner@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>
-Subject: [brauner-vfs:work.pidfs.setns 8/9] fs/pidfs.c:38:8: error: assigning
- to 'struct path' from incompatible type 'void (struct path *)'
-Message-ID: <202506200845.lMHN9g7G-lkp@intel.com>
+To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net-next v3 2/4] net: mana: Add support for net_shaper_ops
+Message-ID: <202506200821.PCKoFC9H-lkp@intel.com>
+References: <1750144656-2021-3-git-send-email-ernis@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,54 +62,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1750144656-2021-3-git-send-email-ernis@linux.microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git work.pidfs.setns
-head:   80432e84dc3a17336efd11282d8c5db368ed827b
-commit: f7b88122fa711d730ad163427e8da56adee73e33 [8/9] fhandle, pidfs: support open_by_handle_at() purely based on file handle
-config: x86_64-buildonly-randconfig-006-20250620 (https://download.01.org/0day-ci/archive/20250620/202506200845.lMHN9g7G-lkp@intel.com/config)
+Hi Erni,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Erni-Sri-Satya-Vennela/net-mana-Fix-potential-deadlocks-in-mana-napi-ops/20250617-152001
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/1750144656-2021-3-git-send-email-ernis%40linux.microsoft.com
+patch subject: [PATCH net-next v3 2/4] net: mana: Add support for net_shaper_ops
+config: x86_64-randconfig-104-20250620 (https://download.01.org/0day-ci/archive/20250620/202506200821.PCKoFC9H-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506200845.lMHN9g7G-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506200821.PCKoFC9H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506200845.lMHN9g7G-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506200821.PCKoFC9H-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   fs/pidfs.c:34:20: error: redefinition of 'pidfs_root_path' as different kind of symbol
-      34 | static struct path pidfs_root_path = {};
-         |                    ^
-   fs/internal.h:356:6: note: previous definition is here
-     356 | void pidfs_root_path(struct path *path);
-         |      ^
->> fs/pidfs.c:38:8: error: assigning to 'struct path' from incompatible type 'void (struct path *)'
-      38 |         *path = pidfs_root_path;
-         |               ^ ~~~~~~~~~~~~~~~
->> fs/pidfs.c:1077:17: error: member reference base type 'void (struct path *)' is not a structure or union
-    1077 |         pidfs_root_path.mnt = pidfs_mnt;
-         |         ~~~~~~~~~~~~~~~^~~~
-   fs/pidfs.c:1078:17: error: member reference base type 'void (struct path *)' is not a structure or union
-    1078 |         pidfs_root_path.dentry = pidfs_mnt->mnt_root;
-         |         ~~~~~~~~~~~~~~~^~~~~~~
-   4 errors generated.
+>> drivers/net/ethernet/microsoft/mana/mana_en.c:804:3: error: field designator 'net_shaper_ops' does not refer to any field in type 'const struct net_device_ops'
+     804 |         .net_shaper_ops         = &mana_shaper_ops,
+         |         ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +38 fs/pidfs.c
+vim +804 drivers/net/ethernet/microsoft/mana/mana_en.c
 
-90c48e2619324e Christian Brauner 2025-06-19  35  
-90c48e2619324e Christian Brauner 2025-06-19  36  void pidfs_root_path(struct path *path)
-90c48e2619324e Christian Brauner 2025-06-19  37  {
-90c48e2619324e Christian Brauner 2025-06-19 @38  	*path = pidfs_root_path;
-90c48e2619324e Christian Brauner 2025-06-19  39  	path_get(path);
-90c48e2619324e Christian Brauner 2025-06-19  40  }
-90c48e2619324e Christian Brauner 2025-06-19  41  
-
-:::::: The code at line 38 was first introduced by commit
-:::::: 90c48e2619324e40223af34ff8aed6480b9d19c1 pidfs: add pidfs_root_path() helper
-
-:::::: TO: Christian Brauner <brauner@kernel.org>
-:::::: CC: Christian Brauner <brauner@kernel.org>
+   793	
+   794	static const struct net_device_ops mana_devops = {
+   795		.ndo_open		= mana_open,
+   796		.ndo_stop		= mana_close,
+   797		.ndo_select_queue	= mana_select_queue,
+   798		.ndo_start_xmit		= mana_start_xmit,
+   799		.ndo_validate_addr	= eth_validate_addr,
+   800		.ndo_get_stats64	= mana_get_stats64,
+   801		.ndo_bpf		= mana_bpf,
+   802		.ndo_xdp_xmit		= mana_xdp_xmit,
+   803		.ndo_change_mtu		= mana_change_mtu,
+ > 804		.net_shaper_ops         = &mana_shaper_ops,
+   805	};
+   806	
 
 -- 
 0-DAY CI Kernel Test Service
