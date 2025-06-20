@@ -1,64 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03068EEA9;
-	Fri, 20 Jun 2025 03:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FA6E17B402;
+	Fri, 20 Jun 2025 03:33:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750388482; cv=none; b=CWP7IDGKYuGTl95n/XaXCC9mF+4dkLHcTZDAZ6tzEXRRClc8SqPZKod1ZDuAzqwNDmz9K3JXtsm8IfbOQ0tO+WLxRy004pd7GiSj2VQiBWRkP7zPYb6dvWT73iO0lZugEsKihDV1j9Dn2W3tyGGEGxct8EIAEEEHjKfHempL58w=
+	t=1750390405; cv=none; b=k4bMSt3L4QPwxuF8EYTB9nML1XeCLjrNZmkrvNMuF3eno82NMOqhX+PfQ9GssyVZNxaDtRikH94xVZyQPiYAzS3mWPpHucl6eD6yc16jineEkx2qC9yGs74hOwkqyKzC+aLNTOw5axThGhK5JaZsLylLvXVXGOtTdF2llKYBtkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750388482; c=relaxed/simple;
-	bh=f7V5rYWc1EwjcgrxpnoH3ziozc2NpXhZC+YcuAXFxeE=;
+	s=arc-20240116; t=1750390405; c=relaxed/simple;
+	bh=6+/5o6kmcWKk3e2NbFhat/dx9eXksyOA9L6fkZ/p9uU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pJJqgGJVibP7XMKwp3nRZRE6FnDGLhiEWrTczavCDs1PVQKmNn4KYjRZ2+3mmWMfc3wAEosIsraTDyiLVJapJTb8Z1eaCz9lfzTlM3szpSdzlg0XNrkq3DHcvhYa5BzqV1OIc6abRi2HNYeKzHXamP9ndopP7rj50SW4sSoCPU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ecMWs2IE; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=pYVHqZOKbtgjSN36b2eX+MFseO6874TwY0Jy5NNQt8Rjd2ygWp+hdhCvsuL/eBS3zAZclbWvrpnvxQe5w4loL0BFo8AxhATjGa7GqN2DJmSB/7sICIY/NA5Bgbz+lAl47m3dTUrQ36OBYjY8lmZlhwCvQFU2i8JP80+BFB+rNcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gUBaWCiJ; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ecMWs2IE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gUBaWCiJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750388481; x=1781924481;
+  t=1750390404; x=1781926404;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=f7V5rYWc1EwjcgrxpnoH3ziozc2NpXhZC+YcuAXFxeE=;
-  b=ecMWs2IEvV9YE7XE7ZHHPOkzvHFd4oJPHx4eakVSUTkCgtcQFY0jSBVy
-   OXfOQphJVULkLXIJoWQxrL8uGVyBxnGFO2V47z19jmxRoCUhwz24XbXwC
-   j3gTg36Fd9zRhQW/j8CsLlBGPChwLUKLJS5u89TfJhGZGhI8QWmf3fPm9
-   ci7UJSrL10kel2QIMCF0VPmoekFUzPKUuXTzNNUtPL/vRnzsAemn3b8ll
-   zB0YsU9fEswWaYSIyRWxWTXCHpJ+R4lVCZMCInRj65lmlOlkDOFuftO6s
-   3asugS5qFMEiCdM302xvx6i9t7W86OrqYf1qJkcnGx6VG3vrdaznos0W8
-   w==;
-X-CSE-ConnectionGUID: KlmYRZl6Qq+czc7eEdQR6Q==
-X-CSE-MsgGUID: TbMwsbshRE+RENXQo/JuEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="51871291"
+  bh=6+/5o6kmcWKk3e2NbFhat/dx9eXksyOA9L6fkZ/p9uU=;
+  b=gUBaWCiJGuywIjJtog9di/kCyviKcdjpS6ru+SaVCLKQ1dYqTjP+9lr9
+   WRrrc2I5XWCjyNTFJ+ERFVrBcHisSh9jS4yefgaz38P6o/R0AfVvpoUVy
+   BOsFrj6DeaW7gyQi9/0muR2eYluh9MP5ZlIXllTNVX+ubnBTMPDMF6B5Q
+   2474hvuy0l925Z24OciP3BWCV+gJGb1OkE2nCf5cKP2mSrGUq4/Mnriy+
+   jFPS563Y45BxpomSgEm4GE6t4yBK/7WzldqNp62sZh34t6tWgfSu5/vwg
+   +FMS+iNFruh19kZ00R9Wf40KthlRljOwVfNn+cpAFOYC0qYqAdgOHjs1t
+   g==;
+X-CSE-ConnectionGUID: Av2YBEzRSoGvGmFjnDmkyA==
+X-CSE-MsgGUID: zuBOWfXLTKWH8lKCiRcuAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63691999"
 X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
-   d="scan'208";a="51871291"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 20:01:20 -0700
-X-CSE-ConnectionGUID: AscknAMsTSqjYgMPwfOSEw==
-X-CSE-MsgGUID: zF1ixVj+S4iOTJcojkyKRw==
+   d="scan'208";a="63691999"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 20:33:24 -0700
+X-CSE-ConnectionGUID: VUdPqhjeRb2L7mMeCgCrCw==
+X-CSE-MsgGUID: 7ZdBpbZbRx6UeBW6+OSrbA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
-   d="scan'208";a="181664045"
+   d="scan'208";a="151105038"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 19 Jun 2025 20:01:17 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 19 Jun 2025 20:33:20 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSS0B-000LJu-1o;
-	Fri, 20 Jun 2025 03:01:15 +0000
-Date: Fri, 20 Jun 2025 11:00:18 +0800
+	id 1uSSVB-000LL8-2s;
+	Fri, 20 Jun 2025 03:33:17 +0000
+Date: Fri, 20 Jun 2025 11:32:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ovidiu Panait <ovidiu.panait.oss@gmail.com>, clabbe.montjoie@gmail.com,
-	herbert@gondor.apana.org.au, davem@davemloft.net,
-	linux-crypto@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, wens@csie.org, jernej.skrabec@gmail.com,
-	samuel@sholland.org, linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ovidiu Panait <ovidiu.panait.oss@gmail.com>
-Subject: Re: [PATCH 10/10] crypto: sun8i-ce - implement request batching
-Message-ID: <202506201006.eQ2P1PuC-lkp@intel.com>
-References: <20250619122316.2587236-11-ovidiu.panait.oss@gmail.com>
+To: Casey Connolly <casey.connolly@linaro.org>,
+	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	Casey Connolly <casey.connolly@linaro.org>
+Subject: Re: [PATCH 09/11] power: supply: qcom_smbx: add smb5 support
+Message-ID: <202506201101.9HMIR1fb-lkp@intel.com>
+References: <20250619-smb2-smb5-support-v1-9-ac5dec51b6e1@linaro.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,61 +72,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250619122316.2587236-11-ovidiu.panait.oss@gmail.com>
+In-Reply-To: <20250619-smb2-smb5-support-v1-9-ac5dec51b6e1@linaro.org>
 
-Hi Ovidiu,
+Hi Casey,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on next-20250619]
-[cannot apply to sunxi/sunxi/for-next herbert-crypto-2.6/master linus/master v6.16-rc2]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on bc6e0ba6c9bafa6241b05524b9829808056ac4ad]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ovidiu-Panait/crypto-sun8i-ce-remove-channel-timeout-field/20250619-202957
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20250619122316.2587236-11-ovidiu.panait.oss%40gmail.com
-patch subject: [PATCH 10/10] crypto: sun8i-ce - implement request batching
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250620/202506201006.eQ2P1PuC-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201006.eQ2P1PuC-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Casey-Connolly/dt-bindings-power-supply-qcom-pmi89980-charger-add-pm8150b-and-7250b/20250619-230137
+base:   bc6e0ba6c9bafa6241b05524b9829808056ac4ad
+patch link:    https://lore.kernel.org/r/20250619-smb2-smb5-support-v1-9-ac5dec51b6e1%40linaro.org
+patch subject: [PATCH 09/11] power: supply: qcom_smbx: add smb5 support
+config: x86_64-buildonly-randconfig-006-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201101.9HMIR1fb-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201101.9HMIR1fb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506201006.eQ2P1PuC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506201101.9HMIR1fb-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c: In function 'sun8i_ce_dump_task_descriptors':
->> drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:178:52: warning: '%d' directive output may be truncated writing between 1 and 11 bytes into a region of size 7 [-Wformat-truncation=]
-     178 |                 snprintf(task, sizeof(task), "TASK %d:", i);
-         |                                                    ^~
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:178:46: note: directive argument in the range [-2147483641, 2147483646]
-     178 |                 snprintf(task, sizeof(task), "TASK %d:", i);
-         |                                              ^~~~~~~~~~
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:178:17: note: 'snprintf' output between 8 and 18 bytes into a destination of size 12
-     178 |                 snprintf(task, sizeof(task), "TASK %d:", i);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +178 drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
-
-   171	
-   172	static void sun8i_ce_dump_task_descriptors(struct sun8i_ce_flow *chan)
-   173	{
-   174		for (int i = 0; i < chan->reqs_no; ++i) {
-   175			struct ce_task *cet = &chan->tl[i];
-   176			char task[CE_MAX_TASK_DESCR_DUMP_MSG_SIZE];
-   177	
- > 178			snprintf(task, sizeof(task), "TASK %d:", i);
-   179			print_hex_dump(KERN_INFO, task, DUMP_PREFIX_NONE, 16, 4,
-   180				       cet, sizeof(struct ce_task), false);
-   181		}
-   182	}
-   183	
+>> Warning: drivers/power/supply/qcom_smbx.c:250 struct member 'gen' not described in 'smb_chip'
 
 -- 
 0-DAY CI Kernel Test Service
