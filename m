@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F4C219301
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 08:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A3F277C99;
+	Fri, 20 Jun 2025 08:47:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750408611; cv=none; b=NMqcd77fPFZZEnZV7t8VeUGfL2ObTnECJbK9tZklPQ+kwqdFfbNDq+UwpCYxEAaDJeIIahzfjFG9P95KoBLshA1gjw57S38Iy7QiYqOnQx8jkpiIeO50NvPNSqjuqUiAK3OIlNthABjW4aBMehS14hLK49gmj+rzAU27Z/oOQdg=
+	t=1750409273; cv=none; b=Aw6iy84JF1RlaH6bFlgRKj0R8svdaTYDYfhRHiO+Kv2rHyWo8aMu2c02PuwcIe8SKN7FNoGnBaZquHyMF0nDU3J1R/4NcYj53D3YCpqpYhayU6ZY6paJZCcUux9k9uyGZsuvk8a2uIBc4HJMuqeaaQunD8LQ1g3zpyr1G/NBX+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750408611; c=relaxed/simple;
-	bh=KxCw0Mx85ieyEKgV0ks67W9daGVfYa3YzL6PNyDhqxY=;
+	s=arc-20240116; t=1750409273; c=relaxed/simple;
+	bh=+gEywTXdSm8gwSh8w+Wn9om1FK5igRNpIq6M2oOY3to=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U+g+uWx5ifWgOIScVNOClwTudgSqsZFT7EFLZNqhstkkEtnjIDAnuJLUMyMxyJDamGVS31zSoIRK4H7+t1ZL7II4IXFfV3vCJpax7rAngFDu1HboT3urGiVGWWdA2aTjb2g0B1l5Mvn/zolrrX3YZY+2MMj6JK34ycQbor7Ci18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TfPOlh1z; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=NLyRjTz8W3ZmJpNiXK9cEhpqX2WEcZAD83j/WlqyfY1YAqpItaDC0bPrHTwktLd42OSPkUl0J+OiL4B2+oerIni1rLSnv2DKM2ekYuXZhrKLayLCq9pq70gS0og7CSc0Hj1izDxIp0+KmJ0W/MYIwFOaZVn2o5ogffapHtW/ctc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZbEWiQzk; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TfPOlh1z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZbEWiQzk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750408610; x=1781944610;
+  t=1750409271; x=1781945271;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KxCw0Mx85ieyEKgV0ks67W9daGVfYa3YzL6PNyDhqxY=;
-  b=TfPOlh1zmB9VUrmJU5HduknG2QSOWoBPGzNdSh6oENrFNBYyzqcixacD
-   +3y2Eks/CSUe3oT9Q8Yq0/hWHsetHq7Xm8NohYOhXkRWhjGK3YUWaSXqA
-   JIDpoYlPb7dVYBGwkINq5L5GoL1fMCeIaLQRvJyejOEKjtHnGaGyIo1i4
-   0OrTtoxqvtvyXzP+ygovyMi5owqCavRAeZWnNz8LPSxskNNeDZ/4mScIZ
-   tCRytJ0QyrtEpkej08/B0CC0iJNdWilUBeNa7fzHqknwGgwlEouX2hfvT
-   RVbmvLLJ3SrQKslKHUkWvRUuXe7e7r2n/mhKU7Gw0SphKqk6GjxU9hKvk
+  bh=+gEywTXdSm8gwSh8w+Wn9om1FK5igRNpIq6M2oOY3to=;
+  b=ZbEWiQzki0ZZxKCfMzLwdWadG26oVK2bQgSRWK9JsuNc+OIUoE7Cg5om
+   ehxMGIgv693wjbiG8cZU2fp6dtzJ3EwS74uUg7BdM0199LJUc6kijy5rC
+   IdepVe5/WB141hvqg+BXw8+sjWawK7p2b9E7RUPNjzWCvTlfPgmljIhQL
+   xoMhqOSUQjfpusXsv7oMBgBFJacUztwvoCoIpUVPN5oj0MW3BL3I7j0DA
+   K3xNylTCM8mp1+6VWwj7PqsgVoyZkjpr/TJFszAwThAp/qekti7pu9pdt
+   1Sk1V5XpZWjzVVcyxYwgkR/INuo0vzA1idOuFNlxJZ5E8oe5Qaj0Nr7Wa
    w==;
-X-CSE-ConnectionGUID: QBVCLQsHS+WvPBIVJJQn+w==
-X-CSE-MsgGUID: Oj/YdFboS5GxsX5UHfWdkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="40277622"
+X-CSE-ConnectionGUID: YE+tp4wfQ5KMBwbkyWHn1w==
+X-CSE-MsgGUID: uhwiVJPtQvaYZBdb5uhMiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="55297116"
 X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="40277622"
+   d="scan'208";a="55297116"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 01:36:49 -0700
-X-CSE-ConnectionGUID: 0gmheVlASjuINvY5pgwsGg==
-X-CSE-MsgGUID: tDrZaxuBSQisDmCkwgY6EA==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 01:47:50 -0700
+X-CSE-ConnectionGUID: hHEWFIDzQpWuO+y6e+ZotQ==
+X-CSE-MsgGUID: gWvTserKSZ+OCROv7bl83Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="156356454"
+   d="scan'208";a="156357529"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 20 Jun 2025 01:36:47 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 20 Jun 2025 01:47:49 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSXEr-000LWI-2s;
-	Fri, 20 Jun 2025 08:36:45 +0000
-Date: Fri, 20 Jun 2025 16:36:17 +0800
+	id 1uSXPX-000LWy-1I;
+	Fri, 20 Jun 2025 08:47:47 +0000
+Date: Fri, 20 Jun 2025 16:47:25 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi_5 2/10] include/linux/ftrace.h:558:
- multiple definition of `register_ftrace_direct_hash';
- drivers/gpu/drm/ttm/ttm_tt.o:include/linux/ftrace.h:558: first defined here
-Message-ID: <202506201610.uDWqFcKx-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_5 5/10] kernel/trace/trace.h:907:24:
+ error: incomplete definition of type 'struct ftrace_hash'
+Message-ID: <202506201650.V96wIO7r-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,86 +64,71 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
 head:   b288c6b15d20122d59ddf3bce2fb86afe6ed56c3
-commit: c9910285c9bbb6b3afad3d1048ef11abf71bcdeb [2/10] ftrace: Add register_ftrace_direct_hash function
-config: x86_64-buildonly-randconfig-001-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201610.uDWqFcKx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201610.uDWqFcKx-lkp@intel.com/reproduce)
+commit: ff2779fb5dbd0d7cdfcdbdaa689bb88eba65e911 [5/10] ftrace: Export some of hash related functions
+config: x86_64-buildonly-randconfig-003-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201650.V96wIO7r-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201650.V96wIO7r-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506201610.uDWqFcKx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506201650.V96wIO7r-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: drivers/gpu/drm/ttm/ttm_resource.o: in function `register_ftrace_direct_hash':
->> include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/ttm/ttm_tt.o:include/linux/ftrace.h:558: first defined here
---
-   ld: drivers/gpu/drm/vkms/vkms_plane.o: in function `register_ftrace_direct_hash':
->> include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
-   ld: drivers/gpu/drm/vkms/vkms_output.o: in function `register_ftrace_direct_hash':
-   vkms_output.c:(.text+0x0): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
-   ld: drivers/gpu/drm/vkms/vkms_formats.o: in function `register_ftrace_direct_hash':
-   vkms_formats.c:(.text+0x3540): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
-   ld: drivers/gpu/drm/vkms/vkms_crtc.o: in function `register_ftrace_direct_hash':
-   vkms_crtc.c:(.text+0x1740): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
-   ld: drivers/gpu/drm/vkms/vkms_composer.o: in function `register_ftrace_direct_hash':
->> include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
-   ld: drivers/gpu/drm/vkms/vkms_writeback.o: in function `register_ftrace_direct_hash':
-   vkms_writeback.c:(.text+0xe80): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
-   ld: drivers/gpu/drm/vkms/vkms_connector.o: in function `register_ftrace_direct_hash':
-   vkms_connector.c:(.text+0x240): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
-   ld: drivers/gpu/drm/vkms/vkms_config.o: in function `register_ftrace_direct_hash':
->> include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
---
-   ld: drivers/gpu/drm/v3d/v3d_drv.o: in function `register_ftrace_direct_hash':
->> v3d_drv.c:(.text+0x17c0): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:558: first defined here
-   ld: drivers/gpu/drm/v3d/v3d_fence.o: in function `register_ftrace_direct_hash':
-   include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:558: first defined here
-   ld: drivers/gpu/drm/v3d/v3d_gem.o: in function `register_ftrace_direct_hash':
-   include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:558: first defined here
-   ld: drivers/gpu/drm/v3d/v3d_irq.o: in function `register_ftrace_direct_hash':
-   v3d_irq.c:(.text+0x10c0): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:558: first defined here
-   ld: drivers/gpu/drm/v3d/v3d_mmu.o: in function `register_ftrace_direct_hash':
-   drivers/gpu/drm/v3d/v3d_mmu.c:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:558: first defined here
-   ld: drivers/gpu/drm/v3d/v3d_perfmon.o: in function `register_ftrace_direct_hash':
-   v3d_perfmon.c:(.text+0x300): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:558: first defined here
-   ld: drivers/gpu/drm/v3d/v3d_trace_points.o: in function `register_ftrace_direct_hash':
-   include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:558: first defined here
-   ld: drivers/gpu/drm/v3d/v3d_sched.o: in function `register_ftrace_direct_hash':
-   include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:558: first defined here
-   ld: drivers/gpu/drm/v3d/v3d_sysfs.o: in function `register_ftrace_direct_hash':
-   include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:558: first defined here
-   ld: drivers/gpu/drm/v3d/v3d_submit.o: in function `register_ftrace_direct_hash':
-   include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:558: first defined here
-   ld: drivers/gpu/drm/v3d/v3d_gemfs.o: in function `register_ftrace_direct_hash':
-   drivers/gpu/drm/v3d/v3d_gemfs.c:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:558: first defined here
-   ld: drivers/gpu/drm/v3d/v3d_debugfs.o: in function `register_ftrace_direct_hash':
-   include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:558: first defined here
---
-   ld: drivers/gpu/drm/pl111/pl111_versatile.o: in function `register_ftrace_direct_hash':
->> include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/pl111/pl111_display.o:pl111_display.c:(.text+0x23c0): first defined here
-   ld: drivers/gpu/drm/pl111/pl111_drv.o: in function `register_ftrace_direct_hash':
-   drivers/gpu/drm/pl111/pl111_drv.c:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/pl111/pl111_display.o:pl111_display.c:(.text+0x23c0): first defined here
-   ld: drivers/gpu/drm/pl111/pl111_debugfs.o: in function `register_ftrace_direct_hash':
->> include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/pl111/pl111_display.o:pl111_display.c:(.text+0x23c0): first defined here
---
-   ld: arch/x86/kvm/svm/pmu.o: in function `register_ftrace_direct_hash':
->> include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; arch/x86/kvm/svm/svm.o:svm.c:(.text+0x13140): first defined here
-   ld: arch/x86/kvm/svm/nested.o: in function `register_ftrace_direct_hash':
-   nested.c:(.text+0x8680): multiple definition of `register_ftrace_direct_hash'; arch/x86/kvm/svm/svm.o:svm.c:(.text+0x13140): first defined here
-   ld: arch/x86/kvm/svm/avic.o: in function `register_ftrace_direct_hash':
->> include/linux/ftrace.h:558: multiple definition of `register_ftrace_direct_hash'; arch/x86/kvm/svm/svm.o:svm.c:(.text+0x13140): first defined here
+   In file included from kernel/trace/trace_printk.c:12:
+   include/linux/ftrace.h:575:5: warning: no previous prototype for function 'register_ftrace_direct_hash' [-Wmissing-prototypes]
+     575 | int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
+         |     ^
+   include/linux/ftrace.h:575:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     575 | int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
+         | ^
+         | static 
+   include/linux/ftrace.h:580:5: warning: no previous prototype for function 'unregister_ftrace_direct_hash' [-Wmissing-prototypes]
+     580 | int unregister_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
+         |     ^
+   include/linux/ftrace.h:580:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     580 | int unregister_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
+         | ^
+         | static 
+   include/linux/ftrace.h:585:5: warning: no previous prototype for function 'modify_ftrace_direct_hash' [-Wmissing-prototypes]
+     585 | int modify_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash, bool do_direct_lock)
+         |     ^
+   include/linux/ftrace.h:585:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     585 | int modify_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash, bool do_direct_lock)
+         | ^
+         | static 
+   In file included from kernel/trace/trace_printk.c:20:
+>> kernel/trace/trace.h:907:24: error: incomplete definition of type 'struct ftrace_hash'
+     907 |         return !hash || !(hash->count || (hash->flags & FTRACE_HASH_FL_MOD));
+         |                           ~~~~^
+   include/linux/ftrace.h:84:8: note: forward declaration of 'struct ftrace_hash'
+      84 | struct ftrace_hash;
+         |        ^
+   In file included from kernel/trace/trace_printk.c:20:
+   kernel/trace/trace.h:907:40: error: incomplete definition of type 'struct ftrace_hash'
+     907 |         return !hash || !(hash->count || (hash->flags & FTRACE_HASH_FL_MOD));
+         |                                           ~~~~^
+   include/linux/ftrace.h:84:8: note: forward declaration of 'struct ftrace_hash'
+      84 | struct ftrace_hash;
+         |        ^
+   3 warnings and 2 errors generated.
 
 
-vim +558 include/linux/ftrace.h
+vim +907 kernel/trace/trace.h
 
-   556	
-   557	int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
- > 558	{
-   559		return -ENODEV;
-   560	}
-   561	
+4046bf023b0647 Namhyung Kim            2017-01-20  904  
+eb583cd484f9a7 Arnd Bergmann           2017-01-23  905  static __always_inline bool ftrace_hash_empty(struct ftrace_hash *hash)
+4046bf023b0647 Namhyung Kim            2017-01-20  906  {
+8c08f0d5c6fb10 Steven Rostedt (VMware  2017-06-26 @907) 	return !hash || !(hash->count || (hash->flags & FTRACE_HASH_FL_MOD));
+4046bf023b0647 Namhyung Kim            2017-01-20  908  }
+4046bf023b0647 Namhyung Kim            2017-01-20  909  
+
+:::::: The code at line 907 was first introduced by commit
+:::::: 8c08f0d5c6fb10ff93ffb1cbf416f4f1c3a52a80 ftrace: Have cached module filters be an active filter
+
+:::::: TO: Steven Rostedt (VMware) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
