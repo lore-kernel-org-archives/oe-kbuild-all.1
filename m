@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C99E30E830
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 18:02:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F062EA737;
+	Fri, 20 Jun 2025 18:33:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750442571; cv=none; b=uJ/zQPMYyER5G49bLQZ8oBEO8CkW1jXL0xt6Q1CjaodiOv++4Hlxbwz/5kQKEi4un8ZzKGWxlVJtJtxMHutgMGPCvW3DxU+S74QtcDvBnzTXPlh+Kq3FLGxo2DEdiESdR6prNOD2mcnj9CHAxJYny5s6e1VsTb0Nkh+Lh9hsl5k=
+	t=1750444441; cv=none; b=Xa2PA3HA3Z1Qo8bU9fcglgplIjMCKu+nFpo8f/weCTenP3lvqn+jRoRBnz1tSFS9G/0heNCHY0Wq4j5VoHQvMLsivrxtU7MeYGE8FndZHvgq8lEpo2cH/0F3dzZqCORU5myNp41XbVZJkyYUbMSaiKzxWblkthLWKwd9GCpC3VY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750442571; c=relaxed/simple;
-	bh=6s8h4vDW+zSf/3YP1upoqeyXxDO3uz1GLgk7Qf2/5vw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Cm0eM6xfBtb3zKeF26Uwk7kpgsrM/VtlGgxoEu+OhcFA1hrzh0G/BgXFkAK/tR1DpGKL9ZiH+2PPbXkY/9JjRJ+iO24AsF4BhgT2SrJAXXpV++HMQbKsVOSvbuAV9Kmht86MmhxuqkuWkyzdggpNmhzR5bvfFd3J3gC42hXghtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O0F6FNfL; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1750444441; c=relaxed/simple;
+	bh=9iYNcVBaPb4Hwav7FShaIAw0RUnIu6JSzpcwtAcLNMM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pQU9kwUSM4g8mLe6GFfEqbiSPfWZopk7+yodlViLGog+lksQ6sgrK1oz4i/HAhgZZdCEP5l6ydCOYz5qyllAXOXPLNIP+KAGALSpAAp4jER1PI0CqjcSUHOsuIndWNISd5DjdlcCgzluWvQXYyDmmvZBp9WxThYpu7/VIika2/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bON0PG+W; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0F6FNfL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bON0PG+W"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750442570; x=1781978570;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6s8h4vDW+zSf/3YP1upoqeyXxDO3uz1GLgk7Qf2/5vw=;
-  b=O0F6FNfLiCKWjTzidACe7DAqfs8aNsJ1IkOaNQrhWi/4f8jgSTgYW67V
-   toCLT7mM39HOeeTfxI0g77RMqGo/Cn0x+a3GqKP9bqgXDtKDEPvxLy66P
-   qHpwgSykLxa8/buphM+bPA0OO+95/IbEo37eQPlnB8jLGdBwFmMLIK583
-   4518zBvrtMldeswJx8Q8A0FVZ8rDDxtuwnEO5P0PgADiTJnlZbwPhgJeI
-   QaVpTkwsTMfw8qzn7uXDCfJj9HZF27JOy7sE+QCRE+N0lrWzdtxnzIRBY
-   QEpcCFukoO5jrlj0LvOUWbkd7wPZUQNZ1+mYcU8ZTi6zyEvC5Qz53iz5h
-   A==;
-X-CSE-ConnectionGUID: 9oQmfvGXTT+8eCYdbtuiNw==
-X-CSE-MsgGUID: dZB8o40uRwaPG237mS6ATQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="56392085"
+  t=1750444440; x=1781980440;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9iYNcVBaPb4Hwav7FShaIAw0RUnIu6JSzpcwtAcLNMM=;
+  b=bON0PG+WCm0K1xEj5MItQQMJKO0HpI7c/IU24RIB17Gv5Rbagsuc7gHL
+   hm9FEqMFnBxZAzCS+BL2o1y/0fRny0qUF4iOT/EnCghQau/8aoLKhQMEW
+   ZxG0T7JW1Q+bfbYBrP5aDT2Mu1DLKAuRi+pkHv8vA164Nld5M+v3Ku1S0
+   JQ2bKWH44y5vegR7Nz1PHKFAUOrjviCKWKvESDm2JJDRZxbQHK3DrlWaz
+   3qtrSFkVVS3ZBpngh8n1BnVBTVQPfyVi0pG9Juso+0oWj43hBi3YvO3x+
+   1zdhJHGpzCkk9ThXv+a9lf71etYt5ibzJjRG4ked6FWRuAy1/gfdM1LQo
+   g==;
+X-CSE-ConnectionGUID: NnIi/T+qTtCeInvDG4T9aw==
+X-CSE-MsgGUID: L+HSGqx5Se+LC2QrpFvy9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52418276"
 X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
-   d="scan'208";a="56392085"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 11:02:49 -0700
-X-CSE-ConnectionGUID: yjm12czVTPOMfwqOjr141g==
-X-CSE-MsgGUID: Ge5QO8OvQFe6gG4rbUcmZQ==
+   d="scan'208";a="52418276"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 11:33:59 -0700
+X-CSE-ConnectionGUID: KE/vH0clTAqEFqMxLdv6Nw==
+X-CSE-MsgGUID: xzV2Q7uAQQeGURIg7qUp5A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,252,1744095600"; 
-   d="scan'208";a="151658981"
+   d="scan'208";a="150779283"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 20 Jun 2025 11:02:48 -0700
+  by orviesa009.jf.intel.com with ESMTP; 20 Jun 2025 11:33:56 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSg4c-000M2c-09;
-	Fri, 20 Jun 2025 18:02:46 +0000
-Date: Sat, 21 Jun 2025 02:01:51 +0800
+	id 1uSgYj-000M42-1D;
+	Fri, 20 Jun 2025 18:33:53 +0000
+Date: Sat, 21 Jun 2025 02:33:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi_5 9/10] include/linux/stddef.h:16:32:
- error: 'struct ftrace_ops' has no member named 'direct_call'
-Message-ID: <202506210103.YQAlm8Tu-lkp@intel.com>
+To: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>, Lee Jones <lee@kernel.org>,
+	Corey Minyard <minyard@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev, Xuerui Wang <kernel@xen0n.name>,
+	loongarch@lists.linux.dev, linux-kernel@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net, jeffbai@aosc.io,
+	kexybiscuit@aosc.io, wangyao@lemote.com,
+	Chong Qiao <qiaochong@loongson.cn>
+Subject: Re: [PATCH v5 1/3] mfd: ls2kbmc: Introduce Loongson-2K BMC core
+ driver
+Message-ID: <202506210204.LVZc2VG2-lkp@intel.com>
+References: <82cbc8558f15981e0953ab229d2afcc5501f982c.1750301674.git.zhoubinbin@loongson.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,54 +70,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <82cbc8558f15981e0953ab229d2afcc5501f982c.1750301674.git.zhoubinbin@loongson.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
-head:   b288c6b15d20122d59ddf3bce2fb86afe6ed56c3
-commit: d114e5a0a91dffac5b78182db09911de242dcd55 [9/10] Revert "ftrace: Store direct called addresses in their ops"
-config: arm64-randconfig-001-20250620 (https://download.01.org/0day-ci/archive/20250621/202506210103.YQAlm8Tu-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250621/202506210103.YQAlm8Tu-lkp@intel.com/reproduce)
+Hi Binbin,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 8ffcb7560b4a15faf821df95e3ab532b2b020f8c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/mfd-ls2kbmc-Introduce-Loongson-2K-BMC-core-driver/20250620-100856
+base:   8ffcb7560b4a15faf821df95e3ab532b2b020f8c
+patch link:    https://lore.kernel.org/r/82cbc8558f15981e0953ab229d2afcc5501f982c.1750301674.git.zhoubinbin%40loongson.cn
+patch subject: [PATCH v5 1/3] mfd: ls2kbmc: Introduce Loongson-2K BMC core driver
+config: m68k-allyesconfig (https://download.01.org/0day-ci/archive/20250621/202506210204.LVZc2VG2-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250621/202506210204.LVZc2VG2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506210103.YQAlm8Tu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506210204.LVZc2VG2-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from arch/arm64/kernel/asm-offsets.c:23:
-   arch/arm64/kernel/asm-offsets.c: In function 'main':
->> include/linux/stddef.h:16:32: error: 'struct ftrace_ops' has no member named 'direct_call'
-      16 | #define offsetof(TYPE, MEMBER) __builtin_offsetof(TYPE, MEMBER)
-         |                                ^~~~~~~~~~~~~~~~~~
-   include/linux/kbuild.h:6:62: note: in definition of macro 'DEFINE'
-       6 |  asm volatile("\n.ascii \"->" #sym " %0 " #val "\"" : : "i" (val))
-         |                                                              ^~~
-   arch/arm64/kernel/asm-offsets.c:183:34: note: in expansion of macro 'offsetof'
-     183 |   DEFINE(FTRACE_OPS_DIRECT_CALL, offsetof(struct ftrace_ops, direct_call));
-         |                                  ^~~~~~~~
-   make[3]: *** [scripts/Makefile.build:98: arch/arm64/kernel/asm-offsets.s] Error 1 shuffle=560432283
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1279: prepare0] Error 2 shuffle=560432283
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=560432283
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=560432283
-   make: Target 'prepare' not remade because of errors.
+>> drivers/mfd/ls2k-bmc-core.c:152:1: warning: data definition has no type or storage class
+     152 | module_pci_driver(ls2k_bmc_driver);
+         | ^~~~~~~~~~~~~~~~~
+>> drivers/mfd/ls2k-bmc-core.c:152:1: error: type defaults to 'int' in declaration of 'module_pci_driver' [-Wimplicit-int]
+>> drivers/mfd/ls2k-bmc-core.c:152:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
+>> drivers/mfd/ls2k-bmc-core.c:146:26: warning: 'ls2k_bmc_driver' defined but not used [-Wunused-variable]
+     146 | static struct pci_driver ls2k_bmc_driver = {
+         |                          ^~~~~~~~~~~~~~~
 
 
-vim +16 include/linux/stddef.h
+vim +152 drivers/mfd/ls2k-bmc-core.c
 
-6e218287432472 Richard Knutsson 2006-09-30  14  
-^1da177e4c3f41 Linus Torvalds   2005-04-16  15  #undef offsetof
-14e83077d55ff4 Rasmus Villemoes 2022-03-23 @16  #define offsetof(TYPE, MEMBER)	__builtin_offsetof(TYPE, MEMBER)
-3876488444e712 Denys Vlasenko   2015-03-09  17  
-
-:::::: The code at line 16 was first introduced by commit
-:::::: 14e83077d55ff4b88fe39f5e98fb8230c2ccb4fb include: drop pointless __compiler_offsetof indirection
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   145	
+ > 146	static struct pci_driver ls2k_bmc_driver = {
+   147		.name = "ls2k-bmc",
+   148		.id_table = ls2k_bmc_devices,
+   149		.probe = ls2k_bmc_probe,
+   150		.remove = ls2k_bmc_remove,
+   151	};
+ > 152	module_pci_driver(ls2k_bmc_driver);
+   153	
 
 -- 
 0-DAY CI Kernel Test Service
