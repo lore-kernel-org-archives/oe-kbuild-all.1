@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A5E8828
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 02:06:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3996D3987D
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 02:18:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750385177; cv=none; b=iR0Bw26HqlV65FtiyWwRZYARcAxO9A0Gbw7bu/Ij//7GpjJEsESlNRQ250tx+GZJLEJBMWjQYMJCdMKdWEEThBAI6aa5qY1OaNGwo04ScKEJ3a4kGXe4FwHNz3NXp4er4lHAPot0Kcpbo2t7Rdp8ztOavKApkonZEwkU2i1yeXQ=
+	t=1750385897; cv=none; b=EGrZy/Yv9fq1upU5C0Yh7KkNmQJX4O4FZarbzzppXkHvkov2cd9csICq+RjUl1qGm10xe51kHHLPOu8jXWcy20iS+JG/fGJVrf0AgmiQ/HILBYAVzJGRPiyntvbh84tGv9tC2qWh4p/zyHok0CM4rPDko3aoFxy4oEAPjHNc7Do=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750385177; c=relaxed/simple;
-	bh=F+pRpzFVa3E4uRtdLwc0qoOfE1+TJgu2t8xdJsbC7+s=;
+	s=arc-20240116; t=1750385897; c=relaxed/simple;
+	bh=krpBn5PZF88W9XMR62Rois5iMEVRDpprwab8ExXXzrs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gf7216DJ7g+2STt50JiLPdEiFIUhB27URqqMSc20gBh87I+MvD6zo4d/yQnxuAKeQ+jJpp8yvu+dA+woNx9wQ7vsINdU+rdPIw+wzdrJs7ZQ9x32Pq8y8DCtO/HeHkew1yjNW/Vgg999IwabjNAu/rSDdBtzafbnLK4uFKAP7Kk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FJOrdV2o; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=i6WD7eXt6xvRDNjpDwbORpft1tVUfmOg3tLs2xt+IFQnvEbjqRdC2iAsWsK+UQPuTGAbNrUzlo3GDrHVZbuipv7xcUeAVNPm3SdVmfsXRRX/jgREvUnwSz57hVMUYJAy2xM+FWTzEFGH4LNTxXFtX39yHBjBabxaFkiqgsEu6/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UTorr2Rp; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FJOrdV2o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UTorr2Rp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750385175; x=1781921175;
+  t=1750385894; x=1781921894;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F+pRpzFVa3E4uRtdLwc0qoOfE1+TJgu2t8xdJsbC7+s=;
-  b=FJOrdV2oA1F5plGKH7/Croi0DnmnbM/A9UUYPr3I1UEXY+mDkg8BTYQ6
-   tCMco2VbNTsOEwo14KE+A3P8JNnuxqRdKRzrfmRit3T49d+mOCIaI12l4
-   ZHjpnMrQaI83CMNKCXszzBFcO20+euoVopRFPKPEvnRPioBzhzNhcTn1R
-   PwDvRkwlhhu5niWcL4AIgl3yYInfJdLYj47KT8Q2+jkUG8D+++hqAfyGQ
-   Eb2pb6AiU8X4NHLBBAI8wzdpfzgeFoqT3wTqBpagqVkP1w22Ma0dxyiea
-   qj19OWv+8QN2VkZlTj+ztCPMMMTjeU5H9jkKG9MC9Y6Z61x+l/8avu3aY
-   A==;
-X-CSE-ConnectionGUID: j4zAZF2lSZ2Qt761Vk7fSg==
-X-CSE-MsgGUID: 4pKJRh7LR8edJrvHoUBYOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="56313344"
+  bh=krpBn5PZF88W9XMR62Rois5iMEVRDpprwab8ExXXzrs=;
+  b=UTorr2RpcQpjf4vL4j4vmcHTjr5iiwVRslIePG+LJZqlDdfYldqXG/9F
+   DzwcChpVo9M+1thLzLYqIKuCdVKW1XdG6Uf8P3lZeZHaPu9Rtq1OCxpZj
+   BXzJb6BburWZNgdh0J64u9+jcXPdU3fsLanLWNj1ZT2J9kRLLEzExmUOp
+   kv/M3/hY5VnA9iPwBAaPxCa2xolC1mvLbzcQTxNs9yBC06Pj6LmQ38Zbx
+   LNDiRmvte9MauS7rorZ7D1TQUGQrFlSEyU+Mc5XfqkNMLnOu5yy/oaFu3
+   jpJbZGiflc1ShO9LoEz1FsMwzcAbbuErpSnn7EjB1ghlvWboG+uxlmfGG
+   g==;
+X-CSE-ConnectionGUID: R6+45m/CQtq9tipuIvYfKA==
+X-CSE-MsgGUID: HXvWiLhdRRuMPBgmvkVdoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63331294"
 X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
-   d="scan'208";a="56313344"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 19:06:14 -0700
-X-CSE-ConnectionGUID: bDMW/AcqTUONbCa/Fx5k1A==
-X-CSE-MsgGUID: VktqwX7/RU2jfThWxegLgQ==
+   d="scan'208";a="63331294"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 19:18:14 -0700
+X-CSE-ConnectionGUID: y4j7ceREToqMsrUESlCwgQ==
+X-CSE-MsgGUID: JaRzhj/2S8iXQKUJ9OwJcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
-   d="scan'208";a="150916719"
+   d="scan'208";a="151094703"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 19 Jun 2025 19:06:12 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 19 Jun 2025 19:18:13 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSR8s-000LHy-2Z;
-	Fri, 20 Jun 2025 02:06:10 +0000
-Date: Fri, 20 Jun 2025 10:06:04 +0800
+	id 1uSRKV-000LIO-2B;
+	Fri, 20 Jun 2025 02:18:11 +0000
+Date: Fri, 20 Jun 2025 10:18:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Roman Gushchin <roman.gushchin@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.12 42/42]
- arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: dp-bridge@5c
- (ite,it6505): switches:switch@0: 'port' is a required property
-Message-ID: <202506200957.noBW1nee-lkp@intel.com>
+Subject: [rgushchin:bpfoom.1.3 16/16] kernel/sched/bpf_psi.c:126:10: warning:
+ assignment makes pointer from integer without a cast
+Message-ID: <202506201042.HMpLuzD9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,96 +62,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
-head:   f6966f9200cc04e9bbb539be3cceecc66c21dc21
-commit: 171c3e495ce7a6c2cba213c5738772621a412031 [42/42] BACKPORT: arm64: dts: mediatek: mt8186: Add Starmie device
-config: arm64-randconfig-051-20250620 (https://download.01.org/0day-ci/archive/20250620/202506200957.noBW1nee-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 875b36a8742437b95f623bab1e0332562c7b4b3f)
-dtschema version: 2025.3.dev28+g49451a5
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506200957.noBW1nee-lkp@intel.com/reproduce)
+tree:   https://github.com/rgushchin/linux.git bpfoom.1.3
+head:   2ad0d39d05d59bc3930ed54991a90d397fd498a8
+commit: 2ad0d39d05d59bc3930ed54991a90d397fd498a8 [16/16] sched: psi: introduce BPF_PSI struct ops
+config: sparc64-randconfig-002-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201042.HMpLuzD9-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201042.HMpLuzD9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506200957.noBW1nee-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506201042.HMpLuzD9-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:390.16-396.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:398.16-401.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:484.11-493.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:501.11-510.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: dp-bridge@5c (ite,it6505): switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: dp-bridge@5c (ite,it6505): switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: dp-bridge@5c (ite,it6505): switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: dp-bridge@5c (ite,it6505): switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: dp-bridge@5c (ite,it6505): Unevaluated properties are not allowed ('switches' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: switch@0 (typec-switch): 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: switch@1 (typec-switch): 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: ec@0 (google,cros-ec-spi): typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: ec@0 (google,cros-ec-spi): typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: ec@0 (google,cros-ec-spi): typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: typec (google,cros-ec-typec): connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: typec (google,cros-ec-typec): connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: typec (google,cros-ec-typec): connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: connector@0 (usb-c-connector): ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: connector@0 (usb-c-connector): Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: gpu@13040000 (mediatek,mt8186-mali): 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: sound (mediatek,mt8186-mt6366-rt1019-rt5682s-sound): 'model' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:484.11-493.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:501.11-510.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: dp-bridge@5c (ite,it6505): switches:switch@0: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: dp-bridge@5c (ite,it6505): switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: dp-bridge@5c (ite,it6505): switches:switch@1: 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: dp-bridge@5c (ite,it6505): switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: dp-bridge@5c (ite,it6505): Unevaluated properties are not allowed ('switches' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
->> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: switch@0 (typec-switch): 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: switch@1 (typec-switch): 'port' is a required property
-   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: ec@0 (google,cros-ec-spi): typec:connector@0:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: ec@0 (google,cros-ec-spi): typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: ec@0 (google,cros-ec-spi): typec:connector@1:ports: 'port@0' is a required property
-   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
-   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: typec (google,cros-ec-typec): connector@0:ports: 'port@0' is a required property
+All warnings (new ones prefixed by >>):
+
+   In file included from kernel/sched/build_utility.c:97:0:
+   kernel/sched/bpf_psi.c: In function 'bpf_psi_ops_reg':
+   kernel/sched/bpf_psi.c:126:12: error: implicit declaration of function 'cgroup_get_from_id'; did you mean 'cgroup_id_from_mm'? [-Werror=implicit-function-declaration]
+      cgroup = cgroup_get_from_id(ops->cgroup_id);
+               ^~~~~~~~~~~~~~~~~~
+               cgroup_id_from_mm
+>> kernel/sched/bpf_psi.c:126:10: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+      cgroup = cgroup_get_from_id(ops->cgroup_id);
+             ^
+   kernel/sched/bpf_psi.c:130:11: error: implicit declaration of function 'cgroup_psi'; did you mean 'cgroup_init'? [-Werror=implicit-function-declaration]
+      group = cgroup_psi(cgroup);
+              ^~~~~~~~~~
+              cgroup_init
+   kernel/sched/bpf_psi.c:130:9: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+      group = cgroup_psi(cgroup);
+            ^
+   kernel/sched/bpf_psi.c:158:3: error: implicit declaration of function 'cgroup_put'; did you mean 'cgroup_init'? [-Werror=implicit-function-declaration]
+      cgroup_put(cgroup);
+      ^~~~~~~~~~
+      cgroup_init
+   kernel/sched/build_utility.c: At top level:
+   cc1: warning: unrecognized command line option '-Wno-unterminated-string-initialization'
+   cc1: some warnings being treated as errors
+
+
+vim +126 kernel/sched/bpf_psi.c
+
+   114	
+   115	static int bpf_psi_ops_reg(void *kdata, struct bpf_link *link)
+   116	{
+   117		struct bpf_psi_ops *ops = kdata;
+   118		struct cgroup *cgroup = NULL;
+   119		struct psi_group *group;
+   120		struct bpf_psi *bpf_psi;
+   121		struct psi_trigger *t;
+   122		struct psi_trigger_params params;
+   123		int ret;
+   124	
+   125		if (ops->cgroup_id) {
+ > 126			cgroup = cgroup_get_from_id(ops->cgroup_id);
+   127			if (IS_ERR_OR_NULL(cgroup))
+   128				return PTR_ERR(cgroup);
+   129	
+   130			group = cgroup_psi(cgroup);
+   131		} else {
+   132			group = &psi_system;
+   133		}
+   134	
+   135		bpf_psi = bpf_psi_create(ops, ops->cgroup_id);
+   136		if (!bpf_psi) {
+   137			ret = -ENOMEM;
+   138			goto exit;
+   139		}
+   140	
+   141		params.type = PSI_BPF;
+   142		params.res = PSI_MEM;
+   143		params.privileged = true;
+   144		params.bpf_psi = bpf_psi;
+   145		params.threshold_us = 100000;
+   146		params.window_us = 1000000;
+   147	
+   148		t = psi_trigger_create(group, &params);
+   149		if (IS_ERR_OR_NULL(t)) {
+   150			bpf_psi_free(bpf_psi);
+   151			ret = PTR_ERR(t);
+   152			goto exit;
+   153		}
+   154	
+   155		ops->bpf_psi = bpf_psi;
+   156	exit:
+   157		if (cgroup)
+   158			cgroup_put(cgroup);
+   159		return ret;
+   160	}
+   161	
 
 -- 
 0-DAY CI Kernel Test Service
