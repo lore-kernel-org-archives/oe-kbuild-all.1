@@ -1,72 +1,67 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C351C5499
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 02:36:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A166E1AF0CE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 02:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750387010; cv=none; b=BTU40uNLuMPgsKNtWIEr3ZrBpML+qi7kqEjzt8t2UXmg53YoGAQ+DxSVq9LhVJz8yjS6Yxob2b9ste6jDlCBbYzFVWTOyZAmoazUS3Nu7PJGRnxnvcj636N9lqNiYIw9vwKy5TXxlK4zBu1qMhaP73AyU+u3maFVVMa3UEuPfB0=
+	t=1750387162; cv=none; b=c/RgNmflDzoMW+iF27E8dwa4jAKd3KrhKzGCnRJOzQ8OqiK6ug4QFzkaoRkwESVwi2KmprDLblpOlbiFR4bXxolnxi5BqFl/pqwNUCTSTbJbOPzE0Mf4HCI87990bkW32ePPFdF/ut4OH7OW/bn4fkgPxiMlp0ZxPrs5xyAqgjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750387010; c=relaxed/simple;
-	bh=hG1ZdXViD6AbAyDwakvGzzsX8OTenI6ot8PMxV7TY9k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Bm/8ZhOjGsfsohl97cG00jMLEZFw0sul1rt/6G0t7ydPQVF7weUpFbzILPd7Pkkv4rmT2TqUzg9wcQtuyY/T1jVqqW+YSD7OsKy0THgRKssVgp+H0TCNNxlQZnLHryuXnX5qYryLOlMk6QbE6s41/7atHmO3eWZg0AzNt7vqfZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YAaN5Wz2; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1750387162; c=relaxed/simple;
+	bh=3drL4oHsjY/dEdUwunUtmzdGsZY1x4KQYqNZRtpHoVg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KaNCNP8wdCwzcdh6XJZ7wlKp8QY62uif2zK8w2eI8HPxTooviyj7If3qWdl72b5nOwfGlsRcLZtuMVPK0bPsYLi2JiqNhPvdB3ZMmf6otiW1WAwrOKjjnVD5y6PshcSIX671FMoCJJjqIDmCEx3Zl22eF9kA9maV2AG9479rFfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hjsweRWm; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YAaN5Wz2"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-72c13802133so415264a34.3
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 19 Jun 2025 19:36:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1750387008; x=1750991808; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=JzM92pnb5kciFT5sFfWWCwGdEyggW8xJbiGstXoCan0=;
-        b=YAaN5Wz2+2zc+XqWmGsw1BaPRPNRyua+ThPs/faQzwQ0NnD6CNXoaD5ARNMwoRua69
-         6Xhy15WM513twaRfrfan+arb0pCipt2FIguQONut/R64R8Szpz87HI+K/PnbIAiqISzk
-         KGoMTA5ctXyMUkIMQQ82dFWd5jVTIEnnI0kk9fl8ugvezD5IyYYz9g2hvb6gEjkBA2gE
-         1ZCZtaFPpEfutLMCWyk25ANldeXH6D5I7PWB8pj6B5A1+OswDLlkK6duU6cC2aYYbV8Z
-         UnMvOIv7qDbALmyRI8SrVDK/dA7c8h8QHgaU32EC7PhdxwRq/goj3+QOeh8Djuu7uWSQ
-         v0Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750387008; x=1750991808;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JzM92pnb5kciFT5sFfWWCwGdEyggW8xJbiGstXoCan0=;
-        b=PhWgHksi5pOSiHOprstY/rFIfv7eJSTmT9CD4kKMfekER66UNX1Xl7CQqiKe2hJ4Q1
-         I/Zz2Ogepc2RCE3jUuwdUUzB7iuZIUsPcxGYV7cqgeRTa9vnI4gBIEBIC+OGBiJRMfL9
-         VJ+HJ5Vf97Ish953RWFgySpbt6NFuYw8OI8oKpS+jXcJE+sNY0QtvXtByOUgQ4OiwesC
-         03allpRxORKQqmS4ULqYgkmQkhNcmHVrDqZ031LVALXgrSea8ARSJpHhLL0iSMlpGrY/
-         Uo6qwDKk0K/YuUfkmrvmUpKV+46FAOjeqN07xOeFklppMlsjUeh/JI5PFsV5ZfrwMvYX
-         +tCg==
-X-Forwarded-Encrypted: i=1; AJvYcCV2XzIJqpXofvmYUb7lHIQTFJrABOUl2t2YSbiGSfyPcXsVzcS2Aq1bnnQucEAEySioXSExkHlzemycMbvI@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw7XB02PYuSzuFt2X/Rv0aGFFTK2nFmrqNJ85r9Y9HPUDX6k3Sp
-	EQusHpWlmbJBdb7HTWh36HiMyuXUkU74esHHBAe+JS9cQ/4epQgUZkH8JC09qW3xasM=
-X-Gm-Gg: ASbGncu2X2R2Xojid4K9iPanXWOeFYsuACLy1MKmTv5qdifF2+FrtW12ZtcNuz3PQHi
-	dPBX/auzCAC7bQFwaY8RkEXSvt5btXqjaumvrfXMZ1g6t+4F00BkNCW1M7luX5+FCZTMRpXTIPH
-	bqWkDbaRC1IV8CrX7TtI3km5iMLYYc12/Qt4JIpBTI8VysO+feUTyVgUfitEghGqgK/9yaIWq5X
-	aBKcCqKmAUsBeXXq4ffAb6rw3foRu3AuHfDkS4jdDcoD8YXnxTJph7ooN0ZpPp1Q393fZAjGn0y
-	U4rpAhjs2fw7EaNlnLWxNUO1cShPKVPzRa8p1a77WyakPBO4pQxhQ+vumv8l6LsRx4y23560TRR
-	1CHAx
-X-Google-Smtp-Source: AGHT+IHC5MEthcpCCp8n0W5HVZ30ICKD25Cgr7vOwziWL9tEqFSbHlhXS1cd+FIagwiDa2O+PavoSQ==
-X-Received: by 2002:a05:6870:40c7:b0:2d5:cb5:2193 with SMTP id 586e51a60fabf-2eeee655a28mr1041121fac.35.1750387007762;
-        Thu, 19 Jun 2025 19:36:47 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:67e2:ece8:b2f5:738f])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2ee664c0dcesm197478fac.9.2025.06.19.19.36.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Jun 2025 19:36:47 -0700 (PDT)
-Date: Fri, 20 Jun 2025 05:36:44 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v2 2/3] media: v4l2-ctrls: Return the handler's error in
- v4l2_ctrl_handler_free()
-Message-ID: <5a78e918-b44c-40f5-a6c7-b53828e27450@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hjsweRWm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750387160; x=1781923160;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3drL4oHsjY/dEdUwunUtmzdGsZY1x4KQYqNZRtpHoVg=;
+  b=hjsweRWmDD1S9Ueu0CI5EUhE98IQqTLiBrHC1/A8edOjMQ0/zKm3kaLP
+   bOPxqZt4j4hnK1wjtaALXkhTPiIsMlIfY++/5bGxaAhKIB86ZkpqxiRM0
+   iFH95vFE32C2+lvNvlg9DWvjeX+cBEo1NaaORDIcw8Xo50u8zcJ8rIa6G
+   Xekm4jkW3VckZ5meFmOFweNLfBXCxdtYQBC0XKaSrhhM0yk82pewVTJtw
+   BZzucNLrCCUEOao7CMXT6BouUl7jEnrgHOGnYltatkzAnQUd38AjNUbb+
+   fB2/myQT7yD+oY2x0t9SCDM7PNS6EUaAxGqBiX9Nn65qgS1XngNhlU43Y
+   Q==;
+X-CSE-ConnectionGUID: C55HedYQSyWGy2lEC0sPng==
+X-CSE-MsgGUID: izx+nY/HTBesALQ10DYUHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52724090"
+X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
+   d="scan'208";a="52724090"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 19:39:20 -0700
+X-CSE-ConnectionGUID: aBfS2HT9QGyt9Ikt559Z1g==
+X-CSE-MsgGUID: yo3FoJHNQ0aGo0Aoeyp8NA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
+   d="scan'208";a="181810233"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 19 Jun 2025 19:39:15 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uSRer-000LJ4-0S;
+	Fri, 20 Jun 2025 02:39:13 +0000
+Date: Fri, 20 Jun 2025 10:38:58 +0800
+From: kernel test robot <lkp@intel.com>
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jic23@kernel.org, lars@metafoo.de,
+	Michael.Hennerich@analog.com, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, linus.walleij@linaro.org,
+	brgl@bgdev.pl, broonie@kernel.org, lgirdwood@gmail.com,
+	marcelo.schmitt1@gmail.com
+Subject: Re: [PATCH v6 06/12] iio: adc: ad4170: Add digital filter and sample
+ frequency config support
+Message-ID: <202506201000.WjqDvyXl-lkp@intel.com>
+References: <bc0261373936511a6ae5b25082e36ac5f112f6db.1750258776.git.marcelo.schmitt@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,54 +70,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250619095227.1939114-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <bc0261373936511a6ae5b25082e36ac5f112f6db.1750258776.git.marcelo.schmitt@analog.com>
 
-Hi Sakari,
+Hi Marcelo,
 
 kernel test robot noticed the following build warnings:
 
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 4c6073fec2fee4827fa0dd8a4ab4e6f7bbc05ee6]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l2-ctrls-Don-t-reset-handler-s-error-in-v4l2_ctrl_handler_free/20250619-175457
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20250619095227.1939114-3-sakari.ailus%40linux.intel.com
-patch subject: [PATCH v2 2/3] media: v4l2-ctrls: Return the handler's error in v4l2_ctrl_handler_free()
-config: i386-randconfig-141-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201045.80WKwL22-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/dt-bindings-iio-adc-Add-AD4170/20250619-014200
+base:   4c6073fec2fee4827fa0dd8a4ab4e6f7bbc05ee6
+patch link:    https://lore.kernel.org/r/bc0261373936511a6ae5b25082e36ac5f112f6db.1750258776.git.marcelo.schmitt%40analog.com
+patch subject: [PATCH v6 06/12] iio: adc: ad4170: Add digital filter and sample frequency config support
+config: microblaze-randconfig-r133-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201000.WjqDvyXl-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250620/202506201000.WjqDvyXl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506201045.80WKwL22-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506201000.WjqDvyXl-lkp@intel.com/
 
-smatch warnings:
-drivers/media/v4l2-core/v4l2-ctrls-core.c:1641 v4l2_ctrl_handler_free() error: we previously assumed 'hdl' could be null (see line 1640)
+All warnings (new ones prefixed by >>):
 
-vim +/hdl +1641 drivers/media/v4l2-core/v4l2-ctrls-core.c
+   drivers/iio/adc/ad4170.c: In function 'ad4170_read_avail':
+>> drivers/iio/adc/ad4170.c:1237:18: warning: array subscript 4294967274 is above array bounds of 'int[3][18][2]' [-Warray-bounds]
+      *vals = (int *)st->sps_tbl[f_type];
+                     ^~
 
-b56f94c6d2dfdd Sakari Ailus 2025-06-19  1634  int v4l2_ctrl_handler_free(struct v4l2_ctrl_handler *hdl)
-71c689dc2e732d Hans Verkuil 2021-04-27  1635  {
-71c689dc2e732d Hans Verkuil 2021-04-27  1636  	struct v4l2_ctrl_ref *ref, *next_ref;
-71c689dc2e732d Hans Verkuil 2021-04-27  1637  	struct v4l2_ctrl *ctrl, *next_ctrl;
-71c689dc2e732d Hans Verkuil 2021-04-27  1638  	struct v4l2_subscribed_event *sev, *next_sev;
-71c689dc2e732d Hans Verkuil 2021-04-27  1639  
-71c689dc2e732d Hans Verkuil 2021-04-27 @1640  	if (hdl == NULL || hdl->buckets == NULL)
-                                                    ^^^^^^^^^^^
-hdl is NULL
 
-b56f94c6d2dfdd Sakari Ailus 2025-06-19 @1641  		return hdl->error;
-                                                               ^^^^^^^^^^
-Dereferenced.
+vim +1237 drivers/iio/adc/ad4170.c
 
-71c689dc2e732d Hans Verkuil 2021-04-27  1642  
-71c689dc2e732d Hans Verkuil 2021-04-27  1643  	v4l2_ctrl_handler_free_request(hdl);
-71c689dc2e732d Hans Verkuil 2021-04-27  1644  
-71c689dc2e732d Hans Verkuil 2021-04-27  1645  	mutex_lock(hdl->lock);
-71c689dc2e732d Hans Verkuil 2021-04-27  1646  	/* Free all nodes */
-71c689dc2e732d Hans Verkuil 2021-04-27  1647  	list_for_each_entry_safe(ref, next_ref, &hdl->ctrl_refs, node) {
+  1219	
+  1220	static int ad4170_read_avail(struct iio_dev *indio_dev,
+  1221				     struct iio_chan_spec const *chan,
+  1222				     const int **vals, int *type, int *length,
+  1223				     long info)
+  1224	{
+  1225		struct ad4170_state *st = iio_priv(indio_dev);
+  1226		struct ad4170_chan_info *chan_info = &st->chan_infos[chan->address];
+  1227		enum ad4170_filter_type f_type;
+  1228	
+  1229		switch (info) {
+  1230		case IIO_CHAN_INFO_SCALE:
+  1231			*vals = (int *)chan_info->scale_tbl;
+  1232			*length = ARRAY_SIZE(chan_info->scale_tbl) * 2;
+  1233			*type = IIO_VAL_INT_PLUS_NANO;
+  1234			return IIO_AVAIL_LIST;
+  1235		case IIO_CHAN_INFO_SAMP_FREQ:
+  1236			f_type = ad4170_get_filter_type(indio_dev, chan);
+> 1237			*vals = (int *)st->sps_tbl[f_type];
+  1238			*type = IIO_VAL_INT_PLUS_MICRO;
+  1239			switch (f_type) {
+  1240			case AD4170_SINC5_AVG:
+  1241			case AD4170_SINC3:
+  1242				*length = ARRAY_SIZE(ad4170_sinc3_filt_fs_tbl) * 2;
+  1243				return IIO_AVAIL_LIST;
+  1244			case AD4170_SINC5:
+  1245				*length = ARRAY_SIZE(ad4170_sinc5_filt_fs_tbl) * 2;
+  1246				return IIO_AVAIL_LIST;
+  1247			default:
+  1248				return -EINVAL;
+  1249			}
+  1250		default:
+  1251			return -EINVAL;
+  1252		}
+  1253	}
+  1254	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
