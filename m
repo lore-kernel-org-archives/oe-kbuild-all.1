@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F21A0283689;
-	Fri, 20 Jun 2025 10:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026951FBEB9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 10:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750413783; cv=none; b=ZjQ7leaAZ46d+I6PoT6Z6U60WKfxlMEnK2H2mIPzR5F/5h2GUnGzkFk08gJLv5k0uTlqYmZf6VD6r3DmMX99xJ738WwTs1a8BJmuyWN1JchcRUdbc8Ul+gmhwE/dyx0uRL9tNiLukCAQym1k2XufC8t8IpFSQLb40eRi/RyyOXA=
+	t=1750414470; cv=none; b=kr8M1x0R7ivEDWsE/7lba1yI0xSiBKAMZx5PCspelBGmmsJXwpS6vOE3t1+US1PiS1Y9oaDu6ghfyQAQyHQUDabIWrDcpR4h4vhhZwulnKF7FxhboQ2pt923qUlRcihaufoo5BDMDN4WOfF15U+K9Wu3At4Ss9+eqF5seajlceA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750413783; c=relaxed/simple;
-	bh=yuGYBq5P7T9uK5hiNxqj8ozObL4626Y0Njl5hIt8vS4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EkfSRnsQRsukecgL63K7wK48qw+4e2h2v4iFwbGy/2vAHnDkd4o73haqJCJ70y6ePKKcVYFR53DFhRliuaShyYyzhmK9QmTJqEtS+iPECfO1w4J5SfqgsnHhxITQ+rysofViokD1ReEbcYrQy1nbZaHo2TcnRVg/qcLZgeYw4vY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gLULznh3; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1750414470; c=relaxed/simple;
+	bh=MElZw/3dHppY/fMevpPh+3THiW1Vh5VGmFiTjnlqaK4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tdT7US3+uheVxipuizbFpr14RHXASouXUb6/3CbT1IPkq6GJiAWo8lVyxV7wrhahXERrkHYT0dNXZH/RRm//q8gxbbb9w5HcBzt/d1v6QAPqQlUUPFBoCxZGDfA1NxdvNWAje8/ZI+Mks88pZKs4EeS38As8cM4CtrwlEbliyBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X5dUBvmQ; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gLULznh3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X5dUBvmQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750413782; x=1781949782;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yuGYBq5P7T9uK5hiNxqj8ozObL4626Y0Njl5hIt8vS4=;
-  b=gLULznh3zxCcu10Dt6hoyVOrYkOLX+RluUmWBb6F5wBW7jtT7aNxOuR7
-   VT1lgFxEieouwhGUqrTp8WwDzGO4L32w7STOtuFTwkZ1VHX41v1QIeheS
-   sPM/mLaTNDCDWSeYtxav702Q2bqsJ7SQJTCImC3DG0dbbZEKgoWidLUQ3
-   wEnqvcZ54ABm7JOTNEOb430UwL667MokrY9m6Ha6nDlomeJVn65+gIbT8
-   iH/Nxl/+G3liz+2cvWcgwbfiqorI0mZrwoIfukHej7WWE8nqLPGDLTSz1
-   GdKOaQkThSMK7jepnRQa8ApokmF7VCtjflo2FGJa3HcGdOQRDCRxph64J
-   Q==;
-X-CSE-ConnectionGUID: mFTByQifSWmZ6uajR04yHg==
-X-CSE-MsgGUID: hp9wNXbERne/+uIw2nohLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63277722"
+  t=1750414468; x=1781950468;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MElZw/3dHppY/fMevpPh+3THiW1Vh5VGmFiTjnlqaK4=;
+  b=X5dUBvmQsmQAJ4cskO6gHIDpVdY6w19TRUMk9rfWRryiIwM8RQxijAgx
+   auwD5EsRv1GCUnEKIx0kKuBO+XJTX51e8eeFL1ZHoGemsMWHfja79kw77
+   2Rw9jyS3i2dgaFUGxqDWqdKe0QHFPnTxkdA9U4A5umJZhAASIwfQBEvhM
+   cE/zDYL+D6TaWJPMHb8D1rOYv0G6bNmTiv5cZRdBxzqw/PBwWWlepaZ0h
+   oWw6AfWf2ZECaHRtk4UHG6JPCN3u1aFXX+yIQDySzAUWWB3yDzecEtt+L
+   F2Qo9CigFadXE6UN+JXOifS1DjrhEFS5QGmifpPGKwJ8RJiSSMSiqILFt
+   w==;
+X-CSE-ConnectionGUID: 4z7gLvUlTiuA4qavSnrjpw==
+X-CSE-MsgGUID: SN+QQ7D2Sfa+6L2wcXTeYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="56474460"
 X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="63277722"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 03:03:01 -0700
-X-CSE-ConnectionGUID: 5ZZa8p2ESG+dSjMp+x/O8g==
-X-CSE-MsgGUID: hecw/N26Swu8ocsSBftMpw==
+   d="scan'208";a="56474460"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 03:14:01 -0700
+X-CSE-ConnectionGUID: KcIldmp0R5mp/4666yU3fw==
+X-CSE-MsgGUID: v5wAu5vrQXyRsyEuAYVjBw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="151081615"
+   d="scan'208";a="188091426"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 20 Jun 2025 03:02:58 -0700
+  by orviesa001.jf.intel.com with ESMTP; 20 Jun 2025 03:14:00 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSYaF-000Lb4-0K;
-	Fri, 20 Jun 2025 10:02:55 +0000
-Date: Fri, 20 Jun 2025 18:02:52 +0800
+	id 1uSYkv-000Lc6-0x;
+	Fri, 20 Jun 2025 10:13:57 +0000
+Date: Fri, 20 Jun 2025 18:13:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dominique Martinet via B4 Relay <devnull+asmadeus.codewreck.org@kernel.org>,
-	Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	stable@vger.kernel.org, Yuhao Jiang <danisjiang@gmail.com>,
-	v9fs@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Dominique Martinet <asmadeus@codewreck.org>
-Subject: Re: [PATCH v2] net/9p: Fix buffer overflow in USB transport layer
-Message-ID: <202506201706.IUsC9LOI-lkp@intel.com>
-References: <20250620-9p-usb_overflow-v2-1-026c6109c7a1@codewreck.org>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_5 4/10] include/linux/ftrace.h:570:
+ multiple definition of `modify_ftrace_direct_hash';
+ arch/x86/kvm/svm/svm.o:svm.c:(.text+0x131c0): first defined here
+Message-ID: <202506201809.kSfdijvc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,78 +62,197 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250620-9p-usb_overflow-v2-1-026c6109c7a1@codewreck.org>
 
-Hi Dominique,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 74b4cc9b8780bfe8a3992c9ac0033bf22ac01f19]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dominique-Martinet-via-B4-Relay/net-9p-Fix-buffer-overflow-in-USB-transport-layer/20250620-052411
-base:   74b4cc9b8780bfe8a3992c9ac0033bf22ac01f19
-patch link:    https://lore.kernel.org/r/20250620-9p-usb_overflow-v2-1-026c6109c7a1%40codewreck.org
-patch subject: [PATCH v2] net/9p: Fix buffer overflow in USB transport layer
-config: i386-randconfig-004-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201706.IUsC9LOI-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201706.IUsC9LOI-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
+head:   b288c6b15d20122d59ddf3bce2fb86afe6ed56c3
+commit: 2f2d7e228b3f129edb4cefbc6c20dff3ea5b8d87 [4/10] ftrace: Add modify_ftrace_direct_hash function
+config: x86_64-buildonly-randconfig-001-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201809.kSfdijvc-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201809.kSfdijvc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506201706.IUsC9LOI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506201809.kSfdijvc-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> net/9p/trans_usbg.c:257:23: error: use of undeclared identifier 'req_sizel'; did you mean 'req_size'?
-     257 |         p9_rx_req->rc.size = req_sizel;
-         |                              ^~~~~~~~~
-         |                              req_size
-   net/9p/trans_usbg.c:234:15: note: 'req_size' declared here
-     234 |         unsigned int req_size = req->actual;
-         |                      ^
-   1 error generated.
+   ld: arch/x86/kvm/svm/pmu.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; arch/x86/kvm/svm/svm.o:svm.c:(.text+0x13140): first defined here
+   ld: arch/x86/kvm/svm/pmu.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; arch/x86/kvm/svm/svm.o:svm.c:(.text+0x13180): first defined here
+   ld: arch/x86/kvm/svm/pmu.o: in function `modify_ftrace_direct_hash':
+>> include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; arch/x86/kvm/svm/svm.o:svm.c:(.text+0x131c0): first defined here
+   ld: arch/x86/kvm/svm/nested.o: in function `register_ftrace_direct_hash':
+   nested.c:(.text+0x8680): multiple definition of `register_ftrace_direct_hash'; arch/x86/kvm/svm/svm.o:svm.c:(.text+0x13140): first defined here
+   ld: arch/x86/kvm/svm/nested.o: in function `unregister_ftrace_direct_hash':
+   nested.c:(.text+0x86c0): multiple definition of `unregister_ftrace_direct_hash'; arch/x86/kvm/svm/svm.o:svm.c:(.text+0x13180): first defined here
+   ld: arch/x86/kvm/svm/nested.o: in function `modify_ftrace_direct_hash':
+   nested.c:(.text+0x8700): multiple definition of `modify_ftrace_direct_hash'; arch/x86/kvm/svm/svm.o:svm.c:(.text+0x131c0): first defined here
+   ld: arch/x86/kvm/svm/avic.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; arch/x86/kvm/svm/svm.o:svm.c:(.text+0x13140): first defined here
+   ld: arch/x86/kvm/svm/avic.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; arch/x86/kvm/svm/svm.o:svm.c:(.text+0x13180): first defined here
+   ld: arch/x86/kvm/svm/avic.o: in function `modify_ftrace_direct_hash':
+>> include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; arch/x86/kvm/svm/svm.o:svm.c:(.text+0x131c0): first defined here
+--
+   ld: drivers/gpu/drm/ttm/ttm_resource.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/ttm/ttm_tt.o:include/linux/ftrace.h:560: first defined here
+   ld: drivers/gpu/drm/ttm/ttm_resource.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/ttm/ttm_tt.o:include/linux/ftrace.h:564: first defined here
+   ld: drivers/gpu/drm/ttm/ttm_resource.o: in function `modify_ftrace_direct_hash':
+>> include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/ttm/ttm_tt.o:include/linux/ftrace.h:570: first defined here
+--
+   ld: drivers/gpu/drm/vkms/vkms_plane.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_plane.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb00): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_plane.o: in function `modify_ftrace_direct_hash':
+>> include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb40): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_output.o: in function `register_ftrace_direct_hash':
+   vkms_output.c:(.text+0x0): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_output.o: in function `unregister_ftrace_direct_hash':
+   vkms_output.c:(.text+0x40): multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb00): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_output.o: in function `modify_ftrace_direct_hash':
+   vkms_output.c:(.text+0x80): multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb40): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_formats.o: in function `register_ftrace_direct_hash':
+   vkms_formats.c:(.text+0x3540): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_formats.o: in function `unregister_ftrace_direct_hash':
+   vkms_formats.c:(.text+0x3580): multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb00): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_formats.o: in function `modify_ftrace_direct_hash':
+   vkms_formats.c:(.text+0x35c0): multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb40): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_crtc.o: in function `register_ftrace_direct_hash':
+   vkms_crtc.c:(.text+0x1740): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_crtc.o: in function `unregister_ftrace_direct_hash':
+   vkms_crtc.c:(.text+0x1780): multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb00): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_crtc.o: in function `modify_ftrace_direct_hash':
+   vkms_crtc.c:(.text+0x17c0): multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb40): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_composer.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_composer.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb00): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_composer.o: in function `modify_ftrace_direct_hash':
+>> include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb40): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_writeback.o: in function `register_ftrace_direct_hash':
+   vkms_writeback.c:(.text+0xe80): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_writeback.o: in function `unregister_ftrace_direct_hash':
+   vkms_writeback.c:(.text+0xec0): multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb00): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_writeback.o: in function `modify_ftrace_direct_hash':
+   vkms_writeback.c:(.text+0xf00): multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb40): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_connector.o: in function `register_ftrace_direct_hash':
+   vkms_connector.c:(.text+0x240): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_connector.o: in function `unregister_ftrace_direct_hash':
+   vkms_connector.c:(.text+0x280): multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb00): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_connector.o: in function `modify_ftrace_direct_hash':
+   vkms_connector.c:(.text+0x2c0): multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb40): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_config.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xac0): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_config.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb00): first defined here
+   ld: drivers/gpu/drm/vkms/vkms_config.o: in function `modify_ftrace_direct_hash':
+>> include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/vkms/vkms_drv.o:vkms_drv.c:(.text+0xb40): first defined here
+--
+   ld: drivers/gpu/drm/v3d/v3d_drv.o: in function `register_ftrace_direct_hash':
+   v3d_drv.c:(.text+0x17c0): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:560: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_drv.o: in function `unregister_ftrace_direct_hash':
+   v3d_drv.c:(.text+0x1800): multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:564: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_drv.o: in function `modify_ftrace_direct_hash':
+>> v3d_drv.c:(.text+0x1840): multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:570: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_fence.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:560: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_fence.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:564: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_fence.o: in function `modify_ftrace_direct_hash':
+   include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:570: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_gem.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:560: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_gem.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:564: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_gem.o: in function `modify_ftrace_direct_hash':
+   include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:570: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_irq.o: in function `register_ftrace_direct_hash':
+   v3d_irq.c:(.text+0x10c0): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:560: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_irq.o: in function `unregister_ftrace_direct_hash':
+   v3d_irq.c:(.text+0x1100): multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:564: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_irq.o: in function `modify_ftrace_direct_hash':
+   v3d_irq.c:(.text+0x1140): multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:570: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_mmu.o: in function `register_ftrace_direct_hash':
+   drivers/gpu/drm/v3d/v3d_mmu.c:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:560: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_mmu.o: in function `unregister_ftrace_direct_hash':
+   drivers/gpu/drm/v3d/v3d_mmu.c:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:564: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_mmu.o: in function `modify_ftrace_direct_hash':
+   drivers/gpu/drm/v3d/v3d_mmu.c:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:570: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_perfmon.o: in function `register_ftrace_direct_hash':
+   v3d_perfmon.c:(.text+0x300): multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:560: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_perfmon.o: in function `unregister_ftrace_direct_hash':
+   v3d_perfmon.c:(.text+0x340): multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:564: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_perfmon.o: in function `modify_ftrace_direct_hash':
+   v3d_perfmon.c:(.text+0x380): multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:570: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_trace_points.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:560: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_trace_points.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:564: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_trace_points.o: in function `modify_ftrace_direct_hash':
+   include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:570: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_sched.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:560: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_sched.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:564: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_sched.o: in function `modify_ftrace_direct_hash':
+   include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:570: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_sysfs.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:560: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_sysfs.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:564: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_sysfs.o: in function `modify_ftrace_direct_hash':
+   include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:570: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_submit.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:560: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_submit.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:564: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_submit.o: in function `modify_ftrace_direct_hash':
+   include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:570: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_gemfs.o: in function `register_ftrace_direct_hash':
+   drivers/gpu/drm/v3d/v3d_gemfs.c:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:560: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_gemfs.o: in function `unregister_ftrace_direct_hash':
+   drivers/gpu/drm/v3d/v3d_gemfs.c:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:564: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_gemfs.o: in function `modify_ftrace_direct_hash':
+   drivers/gpu/drm/v3d/v3d_gemfs.c:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:570: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_debugfs.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:560: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_debugfs.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:564: first defined here
+   ld: drivers/gpu/drm/v3d/v3d_debugfs.o: in function `modify_ftrace_direct_hash':
+   include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/v3d/v3d_bo.o:include/linux/ftrace.h:570: first defined here
+--
+   ld: drivers/gpu/drm/pl111/pl111_versatile.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/pl111/pl111_display.o:pl111_display.c:(.text+0x23c0): first defined here
+   ld: drivers/gpu/drm/pl111/pl111_versatile.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/pl111/pl111_display.o:pl111_display.c:(.text+0x2400): first defined here
+   ld: drivers/gpu/drm/pl111/pl111_versatile.o: in function `modify_ftrace_direct_hash':
+>> include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/pl111/pl111_display.o:pl111_display.c:(.text+0x2440): first defined here
+   ld: drivers/gpu/drm/pl111/pl111_drv.o: in function `register_ftrace_direct_hash':
+   drivers/gpu/drm/pl111/pl111_drv.c:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/pl111/pl111_display.o:pl111_display.c:(.text+0x23c0): first defined here
+   ld: drivers/gpu/drm/pl111/pl111_drv.o: in function `unregister_ftrace_direct_hash':
+   drivers/gpu/drm/pl111/pl111_drv.c:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/pl111/pl111_display.o:pl111_display.c:(.text+0x2400): first defined here
+   ld: drivers/gpu/drm/pl111/pl111_drv.o: in function `modify_ftrace_direct_hash':
+   drivers/gpu/drm/pl111/pl111_drv.c:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/pl111/pl111_display.o:pl111_display.c:(.text+0x2440): first defined here
+   ld: drivers/gpu/drm/pl111/pl111_debugfs.o: in function `register_ftrace_direct_hash':
+   include/linux/ftrace.h:560: multiple definition of `register_ftrace_direct_hash'; drivers/gpu/drm/pl111/pl111_display.o:pl111_display.c:(.text+0x23c0): first defined here
+   ld: drivers/gpu/drm/pl111/pl111_debugfs.o: in function `unregister_ftrace_direct_hash':
+   include/linux/ftrace.h:564: multiple definition of `unregister_ftrace_direct_hash'; drivers/gpu/drm/pl111/pl111_display.o:pl111_display.c:(.text+0x2400): first defined here
+   ld: drivers/gpu/drm/pl111/pl111_debugfs.o: in function `modify_ftrace_direct_hash':
+>> include/linux/ftrace.h:570: multiple definition of `modify_ftrace_direct_hash'; drivers/gpu/drm/pl111/pl111_display.o:pl111_display.c:(.text+0x2440): first defined here
 
 
-vim +257 net/9p/trans_usbg.c
+vim +570 include/linux/ftrace.h
 
-   228	
-   229	static void usb9pfs_rx_complete(struct usb_ep *ep, struct usb_request *req)
-   230	{
-   231		struct f_usb9pfs *usb9pfs = ep->driver_data;
-   232		struct usb_composite_dev *cdev = usb9pfs->function.config->cdev;
-   233		struct p9_req_t *p9_rx_req;
-   234		unsigned int req_size = req->actual;
-   235		int status = REQ_STATUS_RCVD;
-   236	
-   237		if (req->status) {
-   238			dev_err(&cdev->gadget->dev, "%s usb9pfs complete --> %d, %d/%d\n",
-   239				ep->name, req->status, req->actual, req->length);
-   240			return;
-   241		}
-   242	
-   243		p9_rx_req = usb9pfs_rx_header(usb9pfs, req->buf);
-   244		if (!p9_rx_req)
-   245			return;
-   246	
-   247		if (req_size > p9_rx_req->rc.capacity) {
-   248			dev_err(&cdev->gadget->dev,
-   249				"%s received data size %u exceeds buffer capacity %zu\n",
-   250				ep->name, req_size, p9_rx_req->rc.capacity);
-   251			req_size = 0;
-   252			status = REQ_STATUS_ERROR;
-   253		}
-   254	
-   255		memcpy(p9_rx_req->rc.sdata, req->buf, req_size);
-   256	
- > 257		p9_rx_req->rc.size = req_sizel;
-   258	
-   259		p9_client_cb(usb9pfs->client, p9_rx_req, status);
-   260		p9_req_put(usb9pfs->client, p9_rx_req);
-   261	
-   262		complete(&usb9pfs->received);
-   263	}
-   264	
+   568	
+   569	int modify_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash, bool do_direct_lock)
+ > 570	{
+   571		return -ENODEV;
+   572	}
+   573	
 
 -- 
 0-DAY CI Kernel Test Service
