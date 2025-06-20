@@ -1,145 +1,184 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A09B227E87
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 07:02:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE87227E87
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 07:02:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750402926; cv=none; b=fB1eNuBijKeDaVDJYeNMEk0TkrBDXjggkQXgYrb+ps0QzYORnk5sGBqgV8HvXCr/GCkRJHwr/Fjp+YkKslpu7MA0ZV6RGJj0R8GFvv8habMM2HdoqdBUWbnab7W2aIA+zpapra3rf+Ho8t2DyVzkJUB7iQ85vLeN1iwbr+EyxKc=
+	t=1750402928; cv=none; b=amRVuJT6fFkP5iroLVdIdgo3xoU0QB3lQs6ESsT41cuGXYXfhV9dTjvUtb/wPLhmu6B+CVyXhHnjYYKU6F+M73u2/pHd1szhZ3havCohMroYxtBS8mBJfsHUYytUnxY/UqcdBK1BUahfnFDmsBPJ2M9fL0Som/986orUJXb97GM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750402926; c=relaxed/simple;
-	bh=B8GoHqqJPdSTR0JjHz+8XE9/72C0C57y+XfAzIQXD7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AKDJXFJgnLy7bLJUoUQ/ga/bQzZ/HwUthtn5KvyUXgKklRGjf2+ekdOukLcujnOAT88+N/yJ1WpHQF2Yj14N7Oc6RkVs/PY8yBJx/E1BmTJVaqhsDdGfF/uB8Cok6Qew7cFjqKLnmxaYSl2YJmErtVEX8TD+1LJh/DVBn+LjxDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KCQgQa4M; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1750402928; c=relaxed/simple;
+	bh=cguC+18B3LYpEpOYQWIX0LufCfRWMzRtUkx7BVhr8Vw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LeqMOTjxYxqQRGY6J003We6CBxVY0q5c/e76NZTCL1zcpzmE9wdDBNqdQWxh7YxUC6h72McwKhs0u29i3cd5CRKXLVLYP8Bzz/g6rNact2l9DNHV9fShdxgXQImYAKQbbAOQM7avkVMSDGENYHD0RKXeY06/VkPxrs6+GQkmPIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FkPW97F8; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KCQgQa4M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FkPW97F8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750402924; x=1781938924;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=B8GoHqqJPdSTR0JjHz+8XE9/72C0C57y+XfAzIQXD7s=;
-  b=KCQgQa4MqB2fwz/vz9RnxL4CJBzGRMHOqmi9nPcRMEf4Kz+juqV4h4W+
-   RRCLW99N2dMs49dBd8HxYCRw8VXy+A5qnXRJw/ZvRzRfGkxFocOSpu/Il
-   bUFHUeoacdtJXHO3eWJ94RkJLNVI9V8RuilowtjwFZOJlxqkCCiW7dHiV
-   9IiT2wQso43oRziFhT65JvlyJJIkdKxIUmmxCLSRI7wmeiVfiG9iL+Fxt
-   sCdj99AZvEdr4ASp8K4BitABzY5Xk2bN+vRljdSmdKHuSLuB7M0ZBoRKC
-   dNNMlPFJjn6ygMU8r4r9e7K6RZbqpNva7pKHvf2IQYMd/Xx3qJv89EeDF
-   Q==;
-X-CSE-ConnectionGUID: 7+ppnTjeRBuC5RXislOMoA==
-X-CSE-MsgGUID: l0NmnjMBTRmI8SAS11iibA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52582108"
+  t=1750402926; x=1781938926;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=cguC+18B3LYpEpOYQWIX0LufCfRWMzRtUkx7BVhr8Vw=;
+  b=FkPW97F8uU5+Kev2edYMXQ+r4YHuwPz91K36SQjd9t0JUahk20JT/2Xy
+   uUo4cNjAf1aRYHFuh4pk6iTkBSdxSkBActtsEhadpo/CRpB1dkqquccJ3
+   KX6cI5Mha9UZu/aTvUMgudyRedLik6ivo2tFvJjv63RBN7jUQi0D8cSYY
+   /7nE4cndLx1W505+qR75hBeJyQJQvbdpbehLAiIfmDy2wABZ1oYCA2Pay
+   NbISXZIBmUchWw9tkBRlSvkVw/uHwDtnPuzWHO4TE9JmpDqNM1rK1iP1p
+   UkNoUNQ8Sm+xtCff6DVthm5vumJ6xOXtajIRBVH7NjbSSmvvczwUM7DZ5
+   g==;
+X-CSE-ConnectionGUID: WJvsjLakQgap+I9Iv/3POA==
+X-CSE-MsgGUID: IahLAUtuQ2uX0Vu1GKY1jg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52582112"
 X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
-   d="scan'208";a="52582108"
+   d="scan'208";a="52582112"
 Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 00:01:41 -0700
-X-CSE-ConnectionGUID: b+0iv9LYTn+GNGFQh6pPDw==
-X-CSE-MsgGUID: qQt2QkI/Sj+JCAtQBJBHnA==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 00:01:42 -0700
+X-CSE-ConnectionGUID: l3W9HF2kRq2LarNB3nWG4g==
+X-CSE-MsgGUID: aLT0l/gnTpSJsS3dx47Oow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
-   d="scan'208";a="155116976"
+   d="scan'208";a="155116975"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by fmviesa005.fm.intel.com with ESMTP; 20 Jun 2025 00:01:40 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSVko-000LSu-1o;
+	id 1uSVko-000LSs-1h;
 	Fri, 20 Jun 2025 07:01:38 +0000
-Date: Fri, 20 Jun 2025 15:01:05 +0800
+Date: Fri, 20 Jun 2025 15:01:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [chrome-os:chromeos-6.6 173/173]
- include/linux/fortify-string.h:70:33: warning: '__builtin_memcpy' writing 1
- byte into a region of size 0 overflows the destination
-Message-ID: <202506201444.fVDEZyug-lkp@intel.com>
+To: Eric Biggers <ebiggers@kernel.org>, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>,
+	linux-crypto@vger.kernel.org
+Subject: Re: [PATCH 2/3] lib/crc/crc32: change crc32() from macro to inline
+ function and remove cast
+Message-ID: <202506201401.OhkkTlo0-lkp@intel.com>
+References: <20250619183414.100082-3-ebiggers@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250619183414.100082-3-ebiggers@kernel.org>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
-head:   2f3b34fb365020c9c916f0e0c4f2bd82f7cfd1c6
-commit: beb260292232956605c97414369a880d90cf9f56 [173/173] CHROMIUM: fortify: Downgrade to FORTIFY=2
-config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20250620/202506201444.fVDEZyug-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201444.fVDEZyug-lkp@intel.com/reproduce)
+Hi Eric,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on ee925097a5a76eaf9c4954cdd7288a070d57a8d4]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Biggers/lib-crc-crc32-document-crc32_le-crc32_be-and-crc32c/20250620-023634
+base:   ee925097a5a76eaf9c4954cdd7288a070d57a8d4
+patch link:    https://lore.kernel.org/r/20250619183414.100082-3-ebiggers%40kernel.org
+patch subject: [PATCH 2/3] lib/crc/crc32: change crc32() from macro to inline function and remove cast
+config: x86_64-buildonly-randconfig-004-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201401.OhkkTlo0-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201401.OhkkTlo0-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506201444.fVDEZyug-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506201401.OhkkTlo0-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/string.h:295,
-                    from include/linux/bitmap.h:12,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/rcupdate.h:29,
-                    from include/linux/rculist.h:11,
-                    from include/linux/pid.h:5,
-                    from include/linux/sched.h:14,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from drivers/pinctrl/aspeed/pinctrl-aspeed.c:7:
-   In function 'strlcat',
-       inlined from 'strcat' at include/linux/fortify-string.h:447:6,
-       inlined from 'get_defined_attribute' at drivers/pinctrl/aspeed/pinctrl-aspeed.c:186:4:
-   include/linux/fortify-string.h:421:19: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
-     421 |         p[actual] = '\0';
-         |         ~~~~~~~~~~^~~~~~
-   drivers/pinctrl/aspeed/pinctrl-aspeed.c: In function 'get_defined_attribute':
-   drivers/pinctrl/aspeed/pinctrl-aspeed.c:175:36: note: at offset -2 into destination object of size [0, 2147483647] allocated by 'krealloc'
-     175 |                         expanded = krealloc(found, len + delta + 1, GFP_KERNEL);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In function 'strlcat',
-       inlined from 'strcat' at include/linux/fortify-string.h:447:6,
-       inlined from 'get_defined_attribute' at drivers/pinctrl/aspeed/pinctrl-aspeed.c:186:4:
->> include/linux/fortify-string.h:70:33: warning: '__builtin_memcpy' writing 1 byte into a region of size 0 overflows the destination [-Wstringop-overflow=]
-      70 | #define __underlying_memcpy     __builtin_memcpy
-         |                                 ^
-   include/linux/fortify-string.h:420:9: note: in expansion of macro '__underlying_memcpy'
-     420 |         __underlying_memcpy(p + p_len, q, copy_len);
-         |         ^~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/aspeed/pinctrl-aspeed.c: In function 'get_defined_attribute':
-   drivers/pinctrl/aspeed/pinctrl-aspeed.c:175:36: note: at offset -3 into destination object of size [0, 2147483647] allocated by 'krealloc'
-     175 |                         expanded = krealloc(found, len + delta + 1, GFP_KERNEL);
-         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvmem/layouts/u-boot-env.c: In function 'u_boot_env_parse':
+>> drivers/nvmem/layouts/u-boot-env.c:151:16: error: called object 'crc32' is not a function or function pointer
+     151 |         calc = crc32(~0, buf + crc32_data_offset, crc32_data_len) ^ ~0L;
+         |                ^~~~~
+   drivers/nvmem/layouts/u-boot-env.c:99:18: note: declared here
+      99 |         uint32_t crc32;
+         |                  ^~~~~
 
 
-vim +/__builtin_memcpy +70 include/linux/fortify-string.h
+vim +/crc32 +151 drivers/nvmem/layouts/u-boot-env.c
 
-78a498c3a227f2 Alexander Potapenko 2022-10-24  59  
-78a498c3a227f2 Alexander Potapenko 2022-10-24  60  #if defined(__SANITIZE_MEMORY__)
-78a498c3a227f2 Alexander Potapenko 2022-10-24  61  /*
-78a498c3a227f2 Alexander Potapenko 2022-10-24  62   * For KMSAN builds all memcpy/memset/memmove calls should be replaced by the
-78a498c3a227f2 Alexander Potapenko 2022-10-24  63   * corresponding __msan_XXX functions.
-78a498c3a227f2 Alexander Potapenko 2022-10-24  64   */
-78a498c3a227f2 Alexander Potapenko 2022-10-24  65  #include <linux/kmsan_string.h>
-78a498c3a227f2 Alexander Potapenko 2022-10-24  66  #define __underlying_memcpy	__msan_memcpy
-78a498c3a227f2 Alexander Potapenko 2022-10-24  67  #define __underlying_memmove	__msan_memmove
-78a498c3a227f2 Alexander Potapenko 2022-10-24  68  #define __underlying_memset	__msan_memset
-78a498c3a227f2 Alexander Potapenko 2022-10-24  69  #else
-a28a6e860c6cf2 Francis Laniel      2021-02-25 @70  #define __underlying_memcpy	__builtin_memcpy
-a28a6e860c6cf2 Francis Laniel      2021-02-25  71  #define __underlying_memmove	__builtin_memmove
-a28a6e860c6cf2 Francis Laniel      2021-02-25  72  #define __underlying_memset	__builtin_memset
-78a498c3a227f2 Alexander Potapenko 2022-10-24  73  #endif
-78a498c3a227f2 Alexander Potapenko 2022-10-24  74  
-
-:::::: The code at line 70 was first introduced by commit
-:::::: a28a6e860c6cf231cf3c5171c75c342adcd00406 string.h: move fortified functions definitions in a dedicated header.
-
-:::::: TO: Francis Laniel <laniel_francis@privacyrequired.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+5f15811286aff4 Rafał Miłecki 2024-09-02   88  
+5f15811286aff4 Rafał Miłecki 2024-09-02   89  int u_boot_env_parse(struct device *dev, struct nvmem_device *nvmem,
+5f15811286aff4 Rafał Miłecki 2024-09-02   90  		     enum u_boot_env_format format)
+5f15811286aff4 Rafał Miłecki 2024-09-02   91  {
+5f15811286aff4 Rafał Miłecki 2024-09-02   92  	size_t crc32_data_offset;
+5f15811286aff4 Rafał Miłecki 2024-09-02   93  	size_t crc32_data_len;
+5f15811286aff4 Rafał Miłecki 2024-09-02   94  	size_t crc32_offset;
+5f15811286aff4 Rafał Miłecki 2024-09-02   95  	__le32 *crc32_addr;
+5f15811286aff4 Rafał Miłecki 2024-09-02   96  	size_t data_offset;
+5f15811286aff4 Rafał Miłecki 2024-09-02   97  	size_t data_len;
+5f15811286aff4 Rafał Miłecki 2024-09-02   98  	size_t dev_size;
+5f15811286aff4 Rafał Miłecki 2024-09-02   99  	uint32_t crc32;
+5f15811286aff4 Rafał Miłecki 2024-09-02  100  	uint32_t calc;
+5f15811286aff4 Rafał Miłecki 2024-09-02  101  	uint8_t *buf;
+5f15811286aff4 Rafał Miłecki 2024-09-02  102  	int bytes;
+5f15811286aff4 Rafał Miłecki 2024-09-02  103  	int err;
+5f15811286aff4 Rafał Miłecki 2024-09-02  104  
+5f15811286aff4 Rafał Miłecki 2024-09-02  105  	dev_size = nvmem_dev_size(nvmem);
+5f15811286aff4 Rafał Miłecki 2024-09-02  106  
+5f15811286aff4 Rafał Miłecki 2024-09-02  107  	buf = kzalloc(dev_size, GFP_KERNEL);
+5f15811286aff4 Rafał Miłecki 2024-09-02  108  	if (!buf) {
+5f15811286aff4 Rafał Miłecki 2024-09-02  109  		err = -ENOMEM;
+5f15811286aff4 Rafał Miłecki 2024-09-02  110  		goto err_out;
+5f15811286aff4 Rafał Miłecki 2024-09-02  111  	}
+5f15811286aff4 Rafał Miłecki 2024-09-02  112  
+5f15811286aff4 Rafał Miłecki 2024-09-02  113  	bytes = nvmem_device_read(nvmem, 0, dev_size, buf);
+5f15811286aff4 Rafał Miłecki 2024-09-02  114  	if (bytes < 0) {
+5f15811286aff4 Rafał Miłecki 2024-09-02  115  		err = bytes;
+5f15811286aff4 Rafał Miłecki 2024-09-02  116  		goto err_kfree;
+5f15811286aff4 Rafał Miłecki 2024-09-02  117  	} else if (bytes != dev_size) {
+5f15811286aff4 Rafał Miłecki 2024-09-02  118  		err = -EIO;
+5f15811286aff4 Rafał Miłecki 2024-09-02  119  		goto err_kfree;
+5f15811286aff4 Rafał Miłecki 2024-09-02  120  	}
+5f15811286aff4 Rafał Miłecki 2024-09-02  121  
+5f15811286aff4 Rafał Miłecki 2024-09-02  122  	switch (format) {
+5f15811286aff4 Rafał Miłecki 2024-09-02  123  	case U_BOOT_FORMAT_SINGLE:
+5f15811286aff4 Rafał Miłecki 2024-09-02  124  		crc32_offset = offsetof(struct u_boot_env_image_single, crc32);
+5f15811286aff4 Rafał Miłecki 2024-09-02  125  		crc32_data_offset = offsetof(struct u_boot_env_image_single, data);
+5f15811286aff4 Rafał Miłecki 2024-09-02  126  		data_offset = offsetof(struct u_boot_env_image_single, data);
+5f15811286aff4 Rafał Miłecki 2024-09-02  127  		break;
+5f15811286aff4 Rafał Miłecki 2024-09-02  128  	case U_BOOT_FORMAT_REDUNDANT:
+5f15811286aff4 Rafał Miłecki 2024-09-02  129  		crc32_offset = offsetof(struct u_boot_env_image_redundant, crc32);
+5f15811286aff4 Rafał Miłecki 2024-09-02  130  		crc32_data_offset = offsetof(struct u_boot_env_image_redundant, data);
+5f15811286aff4 Rafał Miłecki 2024-09-02  131  		data_offset = offsetof(struct u_boot_env_image_redundant, data);
+5f15811286aff4 Rafał Miłecki 2024-09-02  132  		break;
+5f15811286aff4 Rafał Miłecki 2024-09-02  133  	case U_BOOT_FORMAT_BROADCOM:
+5f15811286aff4 Rafał Miłecki 2024-09-02  134  		crc32_offset = offsetof(struct u_boot_env_image_broadcom, crc32);
+5f15811286aff4 Rafał Miłecki 2024-09-02  135  		crc32_data_offset = offsetof(struct u_boot_env_image_broadcom, data);
+5f15811286aff4 Rafał Miłecki 2024-09-02  136  		data_offset = offsetof(struct u_boot_env_image_broadcom, data);
+5f15811286aff4 Rafał Miłecki 2024-09-02  137  		break;
+5f15811286aff4 Rafał Miłecki 2024-09-02  138  	}
+5f15811286aff4 Rafał Miłecki 2024-09-02  139  
+5f15811286aff4 Rafał Miłecki 2024-09-02  140  	if (dev_size < data_offset) {
+5f15811286aff4 Rafał Miłecki 2024-09-02  141  		dev_err(dev, "Device too small for u-boot-env\n");
+5f15811286aff4 Rafał Miłecki 2024-09-02  142  		err = -EIO;
+5f15811286aff4 Rafał Miłecki 2024-09-02  143  		goto err_kfree;
+5f15811286aff4 Rafał Miłecki 2024-09-02  144  	}
+5f15811286aff4 Rafał Miłecki 2024-09-02  145  
+5f15811286aff4 Rafał Miłecki 2024-09-02  146  	crc32_addr = (__le32 *)(buf + crc32_offset);
+5f15811286aff4 Rafał Miłecki 2024-09-02  147  	crc32 = le32_to_cpu(*crc32_addr);
+5f15811286aff4 Rafał Miłecki 2024-09-02  148  	crc32_data_len = dev_size - crc32_data_offset;
+5f15811286aff4 Rafał Miłecki 2024-09-02  149  	data_len = dev_size - data_offset;
+5f15811286aff4 Rafał Miłecki 2024-09-02  150  
+5f15811286aff4 Rafał Miłecki 2024-09-02 @151  	calc = crc32(~0, buf + crc32_data_offset, crc32_data_len) ^ ~0L;
+5f15811286aff4 Rafał Miłecki 2024-09-02  152  	if (calc != crc32) {
+5f15811286aff4 Rafał Miłecki 2024-09-02  153  		dev_err(dev, "Invalid calculated CRC32: 0x%08x (expected: 0x%08x)\n", calc, crc32);
+5f15811286aff4 Rafał Miłecki 2024-09-02  154  		err = -EINVAL;
+5f15811286aff4 Rafał Miłecki 2024-09-02  155  		goto err_kfree;
+5f15811286aff4 Rafał Miłecki 2024-09-02  156  	}
+5f15811286aff4 Rafał Miłecki 2024-09-02  157  
+5f15811286aff4 Rafał Miłecki 2024-09-02  158  	buf[dev_size - 1] = '\0';
+5f15811286aff4 Rafał Miłecki 2024-09-02  159  	err = u_boot_env_parse_cells(dev, nvmem, buf, data_offset, data_len);
+5f15811286aff4 Rafał Miłecki 2024-09-02  160  
+5f15811286aff4 Rafał Miłecki 2024-09-02  161  err_kfree:
+5f15811286aff4 Rafał Miłecki 2024-09-02  162  	kfree(buf);
+5f15811286aff4 Rafał Miłecki 2024-09-02  163  err_out:
+5f15811286aff4 Rafał Miłecki 2024-09-02  164  	return err;
+5f15811286aff4 Rafał Miłecki 2024-09-02  165  }
+5f15811286aff4 Rafał Miłecki 2024-09-02  166  EXPORT_SYMBOL_GPL(u_boot_env_parse);
+5f15811286aff4 Rafał Miłecki 2024-09-02  167  
 
 -- 
 0-DAY CI Kernel Test Service
