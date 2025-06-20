@@ -1,382 +1,159 @@
-Received: from esa8.fujitsucc.c3s2.iphmx.com (esa8.fujitsucc.c3s2.iphmx.com [68.232.159.88])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE648828
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 02:06:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=68.232.159.88
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750385164; cv=fail; b=bj65onFGMT4MT6uj8HqpKRUdplKmyPvGTQZ0fc1fus0D8TCcopu4/9m+K6AGlkmeQEutTO8UTJLuxzAc66+tSEL1C/23lAvDIrRfhCZPyTe4eOgovRI5SiLgvjoZ9VuLsv7mBx9VJqzx9pfGq03tg9ERFkdd2b0/omXSOlEUOT4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750385164; c=relaxed/simple;
-	bh=aG7s+dJqgMRUbWBoMRNUz+JU6DM/jgvBSpsYWePBi9k=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=C9kVzdwUaTkPf3YobzgSlKtWRB9qzVTkG3/yQO+0ZtgW/h9M+IWzZYqzFym+LnBSlMF4NbKMO3UQE4sldKJMEkl5x/n11omwfzjDo5klYyQrp7ReQEikPhyDIcDA8M7oz4TeEQX89odOAO4BEzT0nIduh1WjVHAMvM8ZoZMoZro=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=Kd6vcMHC; arc=fail smtp.client-ip=68.232.159.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A5E8828
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 02:06:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750385177; cv=none; b=iR0Bw26HqlV65FtiyWwRZYARcAxO9A0Gbw7bu/Ij//7GpjJEsESlNRQ250tx+GZJLEJBMWjQYMJCdMKdWEEThBAI6aa5qY1OaNGwo04ScKEJ3a4kGXe4FwHNz3NXp4er4lHAPot0Kcpbo2t7Rdp8ztOavKApkonZEwkU2i1yeXQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750385177; c=relaxed/simple;
+	bh=F+pRpzFVa3E4uRtdLwc0qoOfE1+TJgu2t8xdJsbC7+s=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gf7216DJ7g+2STt50JiLPdEiFIUhB27URqqMSc20gBh87I+MvD6zo4d/yQnxuAKeQ+jJpp8yvu+dA+woNx9wQ7vsINdU+rdPIw+wzdrJs7ZQ9x32Pq8y8DCtO/HeHkew1yjNW/Vgg999IwabjNAu/rSDdBtzafbnLK4uFKAP7Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FJOrdV2o; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="Kd6vcMHC"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj1;
-  t=1750385161; x=1781921161;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=aG7s+dJqgMRUbWBoMRNUz+JU6DM/jgvBSpsYWePBi9k=;
-  b=Kd6vcMHCKvR52aDTGuWl5X+ZH1evwdN+j+9eylIkcpcA1Cs4QuNVND9N
-   gcqIn7f4I8RogweUjzMmzNndRDyu1BaUVak+Nf5vyAokUEbCTIwkk0rT4
-   BH1OWtDG+EorcfWIinz5KKreEcJVtHo5ui7FRS5/rHF9Jupq/cNAeOZzw
-   LsPbrJhRYSLoUN6Mblu1JMRPQXahdcKzQ/5Uuu5ncStkgFvdDRjAXz9UV
-   4xMXRaWS/oMr16lL1VXMeHbePzIuJcPct9xpFE/vR6xxDRJ2XJllS6qro
-   w7IhJELG4E8x7XnUi4CBjrhfnn8IYY5Yo3AZcyMbaxIIAXNn+ZW4VwhHE
-   g==;
-X-CSE-ConnectionGUID: oEqmOJ+xQUOmdiuxbfUrCA==
-X-CSE-MsgGUID: hk/XEzNmRnyOSLwwM9y+1Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="159184786"
-X-IronPort-AV: E=Sophos;i="6.16,250,1744038000"; 
-   d="scan'208";a="159184786"
-Received: from mail-japaneastazon11010057.outbound.protection.outlook.com (HELO TY3P286CU002.outbound.protection.outlook.com) ([52.101.229.57])
-  by ob1.fujitsucc.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 11:04:49 +0900
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VkN5QGJ41TGY7W6oxFPg6DwEWl0V3Pgfnlb3BKSxd69MZ/qSvWzr132U6AUP9hivIUFTT5R8/dL1xtvh38GZ6pomGOuyixoRmWCIm32l2EaH/l8ohWM68WdcM/+nqhrfAiDAPG0dNk6JURc0Xw7YyJ3bJhuN6KGaHhPxd8Qc2BuQ1twR+cekwWynFrt4OUN/fGdiJtSLsfvWAwY9ghs9chwh8GSWT3e+dwdNErZKTQBQTbVejGQrZq4nviZAy3Vpn11lRtQtkvaDp4N0ZerjaaXS6lFv6zmghZJr5Dw2Hp3ZjB8smxv6nv9mCM/Xp8i2FIsXxG9Xh/+OabtWqrmcBQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aG7s+dJqgMRUbWBoMRNUz+JU6DM/jgvBSpsYWePBi9k=;
- b=mjZZ1Z5NS3i0QdoJ8kAEZMft5bkVRMHAespIZLh8N56LXGZVbaGoh/7cJRBbhNMDwFk3dNlc8XoCo9GA95yRQkM0BEfh8CjKj22NiVi7os7gfzkYAJBbt0o/IgYpYCUZh6T7cImyhgt0bqKgrLb3GPCN7576FE51s9/40lExLEfabaZaJDAhgD168wOq7MKbnnOZVH1J2/6BfXyxTTdMaey+0X3xyaQ15jEp/Y7saS9AlYJW2kPfREb0Dk5xcQswcFpTDLPeH0VF/j3RcLR26qOsHGoq7Kkjtp6/kEz6zMgxEkrT+2telsY18vnVDiAhAF4yWhLApPdOMswrySzktA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fujitsu.com; dmarc=pass action=none header.from=fujitsu.com;
- dkim=pass header.d=fujitsu.com; arc=none
-Received: from OSCPR01MB14468.jpnprd01.prod.outlook.com (2603:1096:604:3a3::6)
- by TYAPR01MB5755.jpnprd01.prod.outlook.com (2603:1096:404:8054::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8857.25; Fri, 20 Jun
- 2025 02:04:47 +0000
-Received: from OSCPR01MB14468.jpnprd01.prod.outlook.com
- ([fe80::5078:96dc:305b:80e0]) by OSCPR01MB14468.jpnprd01.prod.outlook.com
- ([fe80::5078:96dc:305b:80e0%6]) with mapi id 15.20.8857.022; Fri, 20 Jun 2025
- 02:04:47 +0000
-From: "Zhijian Li (Fujitsu)" <lizhijian@fujitsu.com>
-To: kernel test robot <lkp@intel.com>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>
-Subject: Re: [PATCH RFC] mm: memory-tiering: Fix PGPROMOTE_CANDIDATE
- accounting
-Thread-Topic: [PATCH RFC] mm: memory-tiering: Fix PGPROMOTE_CANDIDATE
- accounting
-Thread-Index: AQHb4O8+3JAmQi4CJkOTrFR9Vb84LrQLCwWAgABCf4A=
-Date: Fri, 20 Jun 2025 02:04:46 +0000
-Message-ID: <2fd61ee3-2028-4a15-a574-f5f480f00bd9@fujitsu.com>
-References: <20250619075245.3272384-1-lizhijian@fujitsu.com>
- <202506200524.r3rTtqLQ-lkp@intel.com>
-In-Reply-To: <202506200524.r3rTtqLQ-lkp@intel.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Mozilla Thunderbird
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fujitsu.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: OSCPR01MB14468:EE_|TYAPR01MB5755:EE_
-x-ms-office365-filtering-correlation-id: 61913042-c1f2-46eb-a1e3-08ddaf9ed502
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|376014|1800799024|7053199007|38070700018|1580799027;
-x-microsoft-antispam-message-info:
- =?utf-8?B?Wk1vM0psdnFsc3pwS1B5am9BUmdrQkNPUVJlSjJFS0QrVXhMUHlnVm5waDVy?=
- =?utf-8?B?dkhmWTk0R092U0JBbEVPSlpFTE50dW82MEprcDd0UkhkRTZnVzJUZzc4UHp3?=
- =?utf-8?B?eGpkRnpNWWtNYTdCcVM3SE5QSnNCa05SaVZqREJYNmEvakFhdFRXU3pXelFC?=
- =?utf-8?B?UXdYQU5ZbENzNEtqWlRnS3ZNMWJlTUdYV1hhaWxRME8zeEhyMEVqNmM4bzZK?=
- =?utf-8?B?TEcwTzVSaU4rM3JReFpQaDdTcjZId2Q1b01LamcxM0dQdFh1VXBFQlBxemJJ?=
- =?utf-8?B?UUs5U1NiT2tDYjVjaFZNUmFoNit6bmtIcG03ai93M09ld2ZOTDNuWmZidktz?=
- =?utf-8?B?eFlPM0FCSnVoVmJuWEhMckNoVk96dEgybW05aG9GTDZZZzlDZXB2SFgxV2RU?=
- =?utf-8?B?Z01DMjdLTVBmMXdoZnNaK3IxY1d3Y2RaZW16dEl5akZHQS9YUTdQMUlhQ0J4?=
- =?utf-8?B?R1UvSkd3MUVjQ21qZHRabTRuT1VLeHcyemllZmpKZGNFdWFRU1pIQWxhdCtt?=
- =?utf-8?B?Qlk0ZGxZRzJsSk5oeTNqbEUxUXdNSWRPQ2RBWlBGanBoMVVCa3hhZ2YrVzF0?=
- =?utf-8?B?ZWozUWd4b0dKNU5XNklaajBWWDhjZFdUaFJGZ0RySWdNR1hwcm9SZGpRNFQ2?=
- =?utf-8?B?QzdkSFl4ZDE0WlJyYnQxbTcxSW9OcWNqelg0WkdkTGxmNE1ZY2NzSWUweFVC?=
- =?utf-8?B?MUw0M3lNaFl1dkV2dnJxbmYvRGZsNGo5S0htcWdTSmxTODFreXlHTGNlaE54?=
- =?utf-8?B?cHhxMlRiRUc2V0FOTVBWZkphUzJrT3BqaWM2TXY4YzNZMVVRd0IrRlYvTkNV?=
- =?utf-8?B?c3hPRU02b0ZYaGFNU1B0M0Y1cDBXTlZDQ3hQS0g3YlhkNk1jV0VFbTZmaUZy?=
- =?utf-8?B?LzltK1paMXYwdDlDNFprTkVUUG1WUWtuMDdaRlBMek8wTVRQbFhET1RMSnRm?=
- =?utf-8?B?RUdvNUVxRU0xbDNUS0s5UzQ0eEhGQWNKUExrcWh5TDQ0dUtuZm1laDRNaDNz?=
- =?utf-8?B?VzhnQUI3SmdSY1BXWlM2T3VjM2h2OGxsbmZlWVlCc1p6clNNNFV6TlkrZUdO?=
- =?utf-8?B?eFJ4c0NRcWVWT0R1VGMxNmRUOERUM1ZvNHA5Zm9SdUJXQ2VlTExZVlYrOTlB?=
- =?utf-8?B?RUh2eTVvTURHOU5kZHJQaGYxOEdhVEJXdDBsYzc0SUZEYlNqNlBuRmp6WjMr?=
- =?utf-8?B?KzJIRW9jd2tack5VOW5QUkFOVU1RYkJXUEFSclpSY2FaeFlCSzBBcnJJUjBJ?=
- =?utf-8?B?WDgxNk1kRU8zVlg5eEdJZEI5RTV6bitMVFZWeWM5RkFGWEozRjA1VG1uaFhU?=
- =?utf-8?B?VWxkWDB4QkVFMitlNWM3S25vd2svTGlUUklEM2x4eFBNZjlWTkJqdjdnaEYv?=
- =?utf-8?B?dlVocGFNa2NBUkZreGtLVDJKL1FTWnRJL2ZLSTdmZUdEcEtZL256RExPY3By?=
- =?utf-8?B?aXRPVzcwNTlyVmlOQUV3UmlwUERGeXl5ck91OVIyT29EeCtybldzOUdKOXhv?=
- =?utf-8?B?cmZRbGVQK2F2dVhhSkNIV2hLMUZGMTQ0T3hpUENFRkpXZmJFbzlxc1ZGeU5N?=
- =?utf-8?B?eTE3UGpTaElTSFFKdVI4cUs0aUFXamdWS2RQbVVxUTFFRFN3NUg1MGN6SCt0?=
- =?utf-8?B?MVdoVnJxWDFUV3hQdWdaQTN0c2FPbzNFYnltZDcrZVBZT2VacXN6ZDUxamZR?=
- =?utf-8?B?dVNKdDZIL25RZ0dnaVRCZFRoRDQyc28ycTJsZWdlaWZzQ0trcy9HalNmN2lJ?=
- =?utf-8?B?V2EyZ0hLUS9ieDFnUHBXbWx1cWpRamZSUndhd29WemJxN1ZOcXhza1Z2T0JX?=
- =?utf-8?B?V1N5aGxpYmtPeHRYcVpvZS93bVpLY1k5RndVTXgwcE5VZFZJS0hRZnQ5WUdL?=
- =?utf-8?B?cEd4cXhEeWJRSS9SSXZjK2o5RzA2Q0hZUHVTOWtuYThuL3k2SEhQUE1TckRM?=
- =?utf-8?B?Z3NPWllSblBMUW1LRWNkdkVwOFZ3akFYWk83NytwWHlZU01maWpFQ1QxdlUz?=
- =?utf-8?B?d3JIUFJ2YUVBPT0=?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSCPR01MB14468.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7053199007)(38070700018)(1580799027);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?OGNJbnRTeDk1QktLVTZJQ0VKc2t6cUoySzU1T2NKSFg2MFhJamJWNGl2WHhm?=
- =?utf-8?B?S2J4ako2K0VieExKWG5PNlVaS3hkcWRaSlAyMmJVMVdWRmExQzROcndPUHpa?=
- =?utf-8?B?M1J2VkFvYitRanZFZVhPcVMrM2Y3WjdKeHIyMlUwMFJyOVIyS1MzYk9iM2tl?=
- =?utf-8?B?Mzc4dTF4V1U1Y2tncjJMTGFiQXJMeG02Q0tmaEJ4SW82alZlOCtLMTdRNkFt?=
- =?utf-8?B?dVAzc0lRVkQ5MTYvL2t3bllpUmord3pwa3lncTNPK3lMZTl5emV1cXJvZmVw?=
- =?utf-8?B?R2hCZVo5WWtycnB2ejMwSDNjS1F1YVdxS3VJU2FhSjc3Vm9DYkRkenJyeXZC?=
- =?utf-8?B?TmF6SWptcnM1V0RBelFsWWgrOVZOUkdQSmV1TjFTTUFqaWFqZ09vYk95Ujc4?=
- =?utf-8?B?bHdTZnFUL3ZFdmlET0wvaGpkSy9SS3UzNHFxK0hmVU5YZDB6NjZiSVY0cVBh?=
- =?utf-8?B?YXgzbmdmZDlHSEhScmtzUnFJbjJ0SUY0TFpZV3luRHNxZk5CdWM5aVViZTh3?=
- =?utf-8?B?OHpSeGFCVDBoSXk4cFhOeS9yM0JoSklFQ3FlRmRmdUtTNWZza3dIZGhTT2Ir?=
- =?utf-8?B?eTIrQXBFNUN5MEh0b1NOQ2FMVDgzV3pPTkMzMXNJSnZlY0ZLOG93M1RJdUxX?=
- =?utf-8?B?ckZmSDdZVkFNK1JITDJuTklIbEk4cE9zalA3anlzaWdpMElORE5tdUtGaDlm?=
- =?utf-8?B?Skc1em5pQStHckxSdkxpMzJkRUtzNEtEVlBaVHp0bUcyNGhNNmY3U2JPVzgr?=
- =?utf-8?B?RVExVnlqZ3Z6UTV0YUNxOEJVc0llb08zL3RJY3lhUVErcXMyK1pWV0JMbGNI?=
- =?utf-8?B?WUE1Tkg2NFJPczRzckhLTjBYODRidml4Ky9XL2JXSXI0cGd4M0d1azZiM3Iw?=
- =?utf-8?B?TFpQVzlzTFgxelZnNGRNZHVXV1VhQTRXQ1RBZGM2TkV1NjZLUGhjOS9McXZU?=
- =?utf-8?B?SVRyUC94V0oyYWN0SE90WTBNdGtObzJVeVlhVVNmWUFYeHBWUEFtbDBRRmRj?=
- =?utf-8?B?U0dHWTVGajBWbTJKM2tnOTROQnBTRGkyUDN5bGQrekdsOWxZL3ZJUDBnQlhK?=
- =?utf-8?B?b3ZXOElzc0wyamVFZWxranRleGhKZEpkNi96WStQOUdqNFYvRW5ITW5YbWRK?=
- =?utf-8?B?QUFPOE5KZEpiQTdRem1ZbFJTUFNya1l6Mm1RZnQ4TWtHQndEOG4waURGYWRB?=
- =?utf-8?B?aHk2Zy9rL1ZhWGYyZzVzY1R4UWRUSlpTbXFZOVhwc01jakd2ZWxSR1ppN2RD?=
- =?utf-8?B?enAxOTNocE5pV1BqQnpwYzBwbk9ESERhWnRKbzFqOHNTalE2a3R3N0Y4WE82?=
- =?utf-8?B?MFRaOTNFM2QrbnFYNUlKSFZYb0xCS2UzZExsK2tlMnpQQ25aRHNhTUJOdnpG?=
- =?utf-8?B?cnBsTWhFV0EralcxMm9MS2ZaVjFtekhJWDVWNkZKeGFjMEV6RU5wUlliTWE4?=
- =?utf-8?B?V0lhR0xoZmUxR3hDOWl0V2pxejJNSHEzc0ZtR3NnT1FNMEFqZW9mZGlhZzZn?=
- =?utf-8?B?cXVMU3dUN3J0THVKUVMvRmRucC9lMEM4TDFQRFQySGlNWHFaa3pYMWlEZEUx?=
- =?utf-8?B?M01mR2w3eU1mNUFBeDcvOVNGY0sxVzZNcnZXRFFEWDk3TDg4bFp6QjFjRHRY?=
- =?utf-8?B?RkZyYVI5djNuUlNJbXg1TVUweTlyMjhJLzQ5aStwZUhYWTRqV1BDcGlXbmFL?=
- =?utf-8?B?NHdhVlFmT0dOYWRoTStoa2JRcVNGT0RRTExiTnR5bCtENWJFUEVMY2lhUThN?=
- =?utf-8?B?UUxsckJMQTg2UlQyYnIzeFB4bDhBZHBXNVpDZG8wa1B6c2l0QzNPT2NVWHc2?=
- =?utf-8?B?Q2NxMkpuZlZHczJleTlUQnJzYkVDL1NMMnRnL1FOWHFnOHdCT0xiSlVUdjVm?=
- =?utf-8?B?ZlZsUlRhZnNUampmUjRpYks2dEI1dkI3ZHRQT050Tkp5dUtXNDc1WGhCaHNo?=
- =?utf-8?B?bXVSenN0L0xQS1ljMHJCcnhieDAyOW1KdnNqc0JmamJkRWgzcWpPZWduWHFN?=
- =?utf-8?B?UUNpbDI3L0t0M1diY0hiUEJMRHFxWnF3NE51b2l2NU1UbWx6YklicWxWTEN5?=
- =?utf-8?B?VU15a1NBb2ZJOEtOajBqSWFjYk1mSUczODR3eFY4Q1ZPWkE4dVVySFpjcHl1?=
- =?utf-8?B?NytGbUd1MXN1aExlZ0R5U0ppOTlvejk4Z3Y4a0I4U3BDY2lTS0NMZ0NjQ01W?=
- =?utf-8?B?YlE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <554F546115B89647882BADB27A77A7AC@jpnprd01.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FJOrdV2o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750385175; x=1781921175;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=F+pRpzFVa3E4uRtdLwc0qoOfE1+TJgu2t8xdJsbC7+s=;
+  b=FJOrdV2oA1F5plGKH7/Croi0DnmnbM/A9UUYPr3I1UEXY+mDkg8BTYQ6
+   tCMco2VbNTsOEwo14KE+A3P8JNnuxqRdKRzrfmRit3T49d+mOCIaI12l4
+   ZHjpnMrQaI83CMNKCXszzBFcO20+euoVopRFPKPEvnRPioBzhzNhcTn1R
+   PwDvRkwlhhu5niWcL4AIgl3yYInfJdLYj47KT8Q2+jkUG8D+++hqAfyGQ
+   Eb2pb6AiU8X4NHLBBAI8wzdpfzgeFoqT3wTqBpagqVkP1w22Ma0dxyiea
+   qj19OWv+8QN2VkZlTj+ztCPMMMTjeU5H9jkKG9MC9Y6Z61x+l/8avu3aY
+   A==;
+X-CSE-ConnectionGUID: j4zAZF2lSZ2Qt761Vk7fSg==
+X-CSE-MsgGUID: 4pKJRh7LR8edJrvHoUBYOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="56313344"
+X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
+   d="scan'208";a="56313344"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 19:06:14 -0700
+X-CSE-ConnectionGUID: bDMW/AcqTUONbCa/Fx5k1A==
+X-CSE-MsgGUID: VktqwX7/RU2jfThWxegLgQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
+   d="scan'208";a="150916719"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 19 Jun 2025 19:06:12 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uSR8s-000LHy-2Z;
+	Fri, 20 Jun 2025 02:06:10 +0000
+Date: Fri, 20 Jun 2025 10:06:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.12 42/42]
+ arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: dp-bridge@5c
+ (ite,it6505): switches:switch@0: 'port' is a required property
+Message-ID: <202506200957.noBW1nee-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	HC+pgEqIPbx0vlCm3Hc5y62rsw/LcMCTYSri+t1zTJg+zSQPhv8kCKnfFRyCiFaX11WANgxwTmKruPpwDGhTn2MMqLiuqzwAoHWGQ7jx05B2eb34mheVJU9dNI5mTqRpC37Be5U3zNgy+45cZExeGN5d83VQ9hrX2olWb2o2TI/c67jtZLgoQxaQ98HH/YZAHV57Ky8+c92KphnL6IXyrIy1Z5O0/2laRewEEkklMac8GzT5Alwvf5AQEsx1GHWojh45qwiQ1f3LJp6hv+rQ4Bu1joJ73q+m3kcIGqrDv6dZN6PVMXbesa189RInk2sCEATgmeGtaPa7/naJEtnBBGV0QYRnwWKk+QEjxFjR7Sztne0I7nisJsnJX4HXHuQamecLXoL7/2TzDAODcg/3IpqpO9720tS5ixjIS63lSXh4ALD4ZLiD10Diz7mnS1n5XO2Mw6DrWcGhTovLKRseIviDeuNM0Heszru4cPL4EFHaWr9UM+b/vMVTdUH8gLNKxzAoOjD/7mJO+J7ZC5EftlCPup8CyQunAcFsaTi0jh/37zgrakARNO2Oyf+SO8FruQHi6ti7JAUOQw1bqbwCPi71RUe7rkr5/5TSvaRXNLL7XJBmkTaXDLNxnxuDL5GB
-X-OriginatorOrg: fujitsu.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: OSCPR01MB14468.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61913042-c1f2-46eb-a1e3-08ddaf9ed502
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jun 2025 02:04:46.9673
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a19f121d-81e1-4858-a9d8-736e267fd4c7
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: lYmYNk9E3Amu5bKzeqsnkhpItZXwybfol4F1mfFIap/LiWIaRO/crJ4IzgW06ORLgkZgYR60Ew2FJKP7A9TC7Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB5755
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-VGhhbmtzIGZvciB0aGUgcmVwb3J0LiBJIHdpbGwgdXBkYXRlIGl0Lg0KDQoNCg0KT24gMjAvMDYv
-MjAyNSAwNjowNiwga2VybmVsIHRlc3Qgcm9ib3Qgd3JvdGU6DQo+IEhpIExpLA0KPiANCj4gW1Ro
-aXMgaXMgYSBwcml2YXRlIHRlc3QgcmVwb3J0IGZvciB5b3VyIFJGQyBwYXRjaC5dDQo+IGtlcm5l
-bCB0ZXN0IHJvYm90IG5vdGljZWQgdGhlIGZvbGxvd2luZyBidWlsZCBlcnJvcnM6DQo+IA0KPiBb
-YXV0byBidWlsZCB0ZXN0IEVSUk9SIG9uIGFrcG0tbW0vbW0tZXZlcnl0aGluZ10NCj4gDQo+IHVy
-bDogICAgaHR0cHM6Ly9naXRodWIuY29tL2ludGVsLWxhYi1sa3AvbGludXgvY29tbWl0cy9MaS1a
-aGlqaWFuL21tLW1lbW9yeS10aWVyaW5nLUZpeC1QR1BST01PVEVfQ0FORElEQVRFLWFjY291bnRp
-bmcvMjAyNTA2MTktMTU1MzUxDQo+IGJhc2U6ICAgaHR0cHM6Ly9naXQua2VybmVsLm9yZy9wdWIv
-c2NtL2xpbnV4L2tlcm5lbC9naXQvYWtwbS9tbS5naXQgbW0tZXZlcnl0aGluZw0KPiBwYXRjaCBs
-aW5rOiAgICBodHRwczovL2xvcmUua2VybmVsLm9yZy9yLzIwMjUwNjE5MDc1MjQ1LjMyNzIzODQt
-MS1saXpoaWppYW4lNDBmdWppdHN1LmNvbQ0KPiBwYXRjaCBzdWJqZWN0OiBbUEFUQ0ggUkZDXSBt
-bTogbWVtb3J5LXRpZXJpbmc6IEZpeCBQR1BST01PVEVfQ0FORElEQVRFIGFjY291bnRpbmcNCj4g
-Y29uZmlnOiB4ODZfNjQtYnVpbGRvbmx5LXJhbmRjb25maWctMDA1LTIwMjUwNjIwIChodHRwczov
-L2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNpL2FyY2hpdmUvMjAyNTA2MjAvMjAyNTA2MjAwNTI0LnIz
-clR0cUxRLWxrcEBpbnRlbC5jb20vY29uZmlnKQ0KPiBjb21waWxlcjogZ2NjLTEyIChEZWJpYW4g
-MTIuMi4wLTE0KSAxMi4yLjANCj4gcmVwcm9kdWNlICh0aGlzIGlzIGEgVz0xIGJ1aWxkKTogKGh0
-dHBzOi8vZG93bmxvYWQuMDEub3JnLzBkYXktY2kvYXJjaGl2ZS8yMDI1MDYyMC8yMDI1MDYyMDA1
-MjQucjNyVHRxTFEtbGtwQGludGVsLmNvbS9yZXByb2R1Y2UpDQo+IA0KPiBJZiB5b3UgZml4IHRo
-ZSBpc3N1ZSBpbiBhIHNlcGFyYXRlIHBhdGNoL2NvbW1pdCAoaS5lLiBub3QganVzdCBhIG5ldyB2
-ZXJzaW9uIG9mDQo+IHRoZSBzYW1lIHBhdGNoL2NvbW1pdCksIGtpbmRseSBhZGQgZm9sbG93aW5n
-IHRhZ3MNCj4gfCBSZXBvcnRlZC1ieToga2VybmVsIHRlc3Qgcm9ib3QgPGxrcEBpbnRlbC5jb20+
-DQo+IHwgQ2xvc2VzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9vZS1rYnVpbGQtYWxsLzIwMjUw
-NjIwMDUyNC5yM3JUdHFMUS1sa3BAaW50ZWwuY29tLw0KPiANCj4gQWxsIGVycm9ycyAobmV3IG9u
-ZXMgcHJlZml4ZWQgYnkgPj4pOg0KPiANCj4gICAgIGtlcm5lbC9zY2hlZC9mYWlyLmM6IEluIGZ1
-bmN0aW9uICdzaG91bGRfbnVtYV9taWdyYXRlX21lbW9yeSc6DQo+Pj4ga2VybmVsL3NjaGVkL2Zh
-aXIuYzoxOTQ1OjE3OiBlcnJvcjogZXhwZWN0ZWQgJywnIG9yICc7JyBiZWZvcmUgJ3BnZGF0Jw0K
-PiAgICAgIDE5NDUgfCAgICAgICAgICAgICAgICAgcGdkYXQgPSBOT0RFX0RBVEEoZHN0X25pZCk7
-DQo+ICAgICAgICAgICB8ICAgICAgICAgICAgICAgICBefn5+fg0KPiANCj4gDQo+IHZpbSArMTk0
-NSBrZXJuZWwvc2NoZWQvZmFpci5jDQo+IA0KPiBjOTU5OTI0YjBkYzUzYiBZaW5nIEh1YW5nICAg
-ICAgICAyMDIyLTA3LTEzICAxOTIxDQo+IDhjOWFlNTZkYzczYjVhIEtlZmVuZyBXYW5nICAgICAg
-IDIwMjMtMDktMjEgIDE5MjIgIGJvb2wgc2hvdWxkX251bWFfbWlncmF0ZV9tZW1vcnkoc3RydWN0
-IHRhc2tfc3RydWN0ICpwLCBzdHJ1Y3QgZm9saW8gKmZvbGlvLA0KPiAxMGYzOTA0MjcxMWJhMiBS
-aWsgdmFuIFJpZWwgICAgICAyMDE0LTAxLTI3ICAxOTIzICAJCQkJaW50IHNyY19uaWQsIGludCBk
-c3RfY3B1KQ0KPiAxMGYzOTA0MjcxMWJhMiBSaWsgdmFuIFJpZWwgICAgICAyMDE0LTAxLTI3ICAx
-OTI0ICB7DQo+IGNiMzYxZDhjZGVmNjk5IEphbm4gSG9ybiAgICAgICAgIDIwMTktMDctMTYgIDE5
-MjUgIAlzdHJ1Y3QgbnVtYV9ncm91cCAqbmcgPSBkZXJlZl9jdXJyX251bWFfZ3JvdXAocCk7DQo+
-IDEwZjM5MDQyNzExYmEyIFJpayB2YW4gUmllbCAgICAgIDIwMTQtMDEtMjcgIDE5MjYgIAlpbnQg
-ZHN0X25pZCA9IGNwdV90b19ub2RlKGRzdF9jcHUpOw0KPiAxMGYzOTA0MjcxMWJhMiBSaWsgdmFu
-IFJpZWwgICAgICAyMDE0LTAxLTI3ICAxOTI3ICAJaW50IGxhc3RfY3B1cGlkLCB0aGlzX2NwdXBp
-ZDsNCj4gMTBmMzkwNDI3MTFiYTIgUmlrIHZhbiBSaWVsICAgICAgMjAxNC0wMS0yNyAgMTkyOA0K
-PiAzZmI0MzYzNjg3NmQ5OCBCeXVuZ2NodWwgUGFyayAgICAyMDI0LTAyLTE5ICAxOTI5ICAJLyoN
-Cj4gM2ZiNDM2MzY4NzZkOTggQnl1bmdjaHVsIFBhcmsgICAgMjAyNC0wMi0xOSAgMTkzMCAgCSAq
-IENhbm5vdCBtaWdyYXRlIHRvIG1lbW9yeWxlc3Mgbm9kZXMuDQo+IDNmYjQzNjM2ODc2ZDk4IEJ5
-dW5nY2h1bCBQYXJrICAgIDIwMjQtMDItMTkgIDE5MzEgIAkgKi8NCj4gM2ZiNDM2MzY4NzZkOTgg
-Qnl1bmdjaHVsIFBhcmsgICAgMjAyNC0wMi0xOSAgMTkzMiAgCWlmICghbm9kZV9zdGF0ZShkc3Rf
-bmlkLCBOX01FTU9SWSkpDQo+IDNmYjQzNjM2ODc2ZDk4IEJ5dW5nY2h1bCBQYXJrICAgIDIwMjQt
-MDItMTkgIDE5MzMgIAkJcmV0dXJuIGZhbHNlOw0KPiAzZmI0MzYzNjg3NmQ5OCBCeXVuZ2NodWwg
-UGFyayAgICAyMDI0LTAyLTE5ICAxOTM0DQo+IDMzMDI0NTM2YmFmZDkxIFlpbmcgSHVhbmcgICAg
-ICAgIDIwMjItMDctMTMgIDE5MzUgIAkvKg0KPiAzMzAyNDUzNmJhZmQ5MSBZaW5nIEh1YW5nICAg
-ICAgICAyMDIyLTA3LTEzICAxOTM2ICAJICogVGhlIHBhZ2VzIGluIHNsb3cgbWVtb3J5IG5vZGUg
-c2hvdWxkIGJlIG1pZ3JhdGVkIGFjY29yZGluZw0KPiAzMzAyNDUzNmJhZmQ5MSBZaW5nIEh1YW5n
-ICAgICAgICAyMDIyLTA3LTEzICAxOTM3ICAJICogdG8gaG90L2NvbGQgaW5zdGVhZCBvZiBwcml2
-YXRlL3NoYXJlZC4NCj4gMzMwMjQ1MzZiYWZkOTEgWWluZyBIdWFuZyAgICAgICAgMjAyMi0wNy0x
-MyAgMTkzOCAgCSAqLw0KPiAyYTI4NzEzYTY3ZmQyOCBaaSBZYW4gICAgICAgICAgICAyMDI0LTA3
-LTI0ICAxOTM5ICAJaWYgKGZvbGlvX3VzZV9hY2Nlc3NfdGltZShmb2xpbykpIHsNCj4gMzMwMjQ1
-MzZiYWZkOTEgWWluZyBIdWFuZyAgICAgICAgMjAyMi0wNy0xMyAgMTk0MCAgCQlzdHJ1Y3QgcGds
-aXN0X2RhdGEgKnBnZGF0Ow0KPiBjOTU5OTI0YjBkYzUzYiBZaW5nIEh1YW5nICAgICAgICAyMDIy
-LTA3LTEzICAxOTQxICAJCXVuc2lnbmVkIGxvbmcgcmF0ZV9saW1pdDsNCj4gYzk1OTkyNGIwZGM1
-M2IgWWluZyBIdWFuZyAgICAgICAgMjAyMi0wNy0xMyAgMTk0MiAgCQl1bnNpZ25lZCBpbnQgbGF0
-ZW5jeSwgdGgsIGRlZl90aDsNCj4gNjc1ZTIyZmY1YjM5MGUgTGkgWmhpamlhbiAgICAgICAgMjAy
-NS0wNi0xOSAgMTk0MyAgCQlsb25nIG5yID0gZm9saW9fbnJfcGFnZXMoZm9saW8pDQo+IDMzMDI0
-NTM2YmFmZDkxIFlpbmcgSHVhbmcgICAgICAgIDIwMjItMDctMTMgIDE5NDQNCj4gMzMwMjQ1MzZi
-YWZkOTEgWWluZyBIdWFuZyAgICAgICAgMjAyMi0wNy0xMyBAMTk0NSAgCQlwZ2RhdCA9IE5PREVf
-REFUQShkc3RfbmlkKTsNCj4gYzk1OTkyNGIwZGM1M2IgWWluZyBIdWFuZyAgICAgICAgMjAyMi0w
-Ny0xMyAgMTk0NiAgCQlpZiAocGdkYXRfZnJlZV9zcGFjZV9lbm91Z2gocGdkYXQpKSB7DQo+IGM5
-NTk5MjRiMGRjNTNiIFlpbmcgSHVhbmcgICAgICAgIDIwMjItMDctMTMgIDE5NDcgIAkJCS8qIHdv
-cmtsb2FkIGNoYW5nZWQsIHJlc2V0IGhvdCB0aHJlc2hvbGQgKi8NCj4gYzk1OTkyNGIwZGM1M2Ig
-WWluZyBIdWFuZyAgICAgICAgMjAyMi0wNy0xMyAgMTk0OCAgCQkJcGdkYXQtPm5icF90aHJlc2hv
-bGQgPSAwOw0KPiA2NzVlMjJmZjViMzkwZSBMaSBaaGlqaWFuICAgICAgICAyMDI1LTA2LTE5ICAx
-OTQ5ICAJCQltb2Rfbm9kZV9wYWdlX3N0YXRlKHBnZGF0LCBQR1BST01PVEVfQ0FORElEQVRFLCBu
-cik7DQo+IDMzMDI0NTM2YmFmZDkxIFlpbmcgSHVhbmcgICAgICAgIDIwMjItMDctMTMgIDE5NTAg
-IAkJCXJldHVybiB0cnVlOw0KPiBjOTU5OTI0YjBkYzUzYiBZaW5nIEh1YW5nICAgICAgICAyMDIy
-LTA3LTEzICAxOTUxICAJCX0NCj4gMzMwMjQ1MzZiYWZkOTEgWWluZyBIdWFuZyAgICAgICAgMjAy
-Mi0wNy0xMyAgMTk1Mg0KPiBjOTU5OTI0YjBkYzUzYiBZaW5nIEh1YW5nICAgICAgICAyMDIyLTA3
-LTEzICAxOTUzICAJCWRlZl90aCA9IHN5c2N0bF9udW1hX2JhbGFuY2luZ19ob3RfdGhyZXNob2xk
-Ow0KPiBjOTU5OTI0YjBkYzUzYiBZaW5nIEh1YW5nICAgICAgICAyMDIyLTA3LTEzICAxOTU0ICAJ
-CXJhdGVfbGltaXQgPSBzeXNjdGxfbnVtYV9iYWxhbmNpbmdfcHJvbW90ZV9yYXRlX2xpbWl0IDw8
-IFwNCj4gYzk1OTkyNGIwZGM1M2IgWWluZyBIdWFuZyAgICAgICAgMjAyMi0wNy0xMyAgMTk1NSAg
-CQkJKDIwIC0gUEFHRV9TSElGVCk7DQo+IGM5NTk5MjRiMGRjNTNiIFlpbmcgSHVhbmcgICAgICAg
-IDIwMjItMDctMTMgIDE5NTYgIAkJbnVtYV9wcm9tb3Rpb25fYWRqdXN0X3RocmVzaG9sZChwZ2Rh
-dCwgcmF0ZV9saW1pdCwgZGVmX3RoKTsNCj4gYzk1OTkyNGIwZGM1M2IgWWluZyBIdWFuZyAgICAg
-ICAgMjAyMi0wNy0xMyAgMTk1Nw0KPiBjOTU5OTI0YjBkYzUzYiBZaW5nIEh1YW5nICAgICAgICAy
-MDIyLTA3LTEzICAxOTU4ICAJCXRoID0gcGdkYXQtPm5icF90aHJlc2hvbGQgPyA6IGRlZl90aDsN
-Cj4gOGM5YWU1NmRjNzNiNWEgS2VmZW5nIFdhbmcgICAgICAgMjAyMy0wOS0yMSAgMTk1OSAgCQls
-YXRlbmN5ID0gbnVtYV9oaW50X2ZhdWx0X2xhdGVuY3koZm9saW8pOw0KPiAzMzAyNDUzNmJhZmQ5
-MSBZaW5nIEh1YW5nICAgICAgICAyMDIyLTA3LTEzICAxOTYwICAJCWlmIChsYXRlbmN5ID49IHRo
-KQ0KPiAzMzAyNDUzNmJhZmQ5MSBZaW5nIEh1YW5nICAgICAgICAyMDIyLTA3LTEzICAxOTYxICAJ
-CQlyZXR1cm4gZmFsc2U7DQo+IDMzMDI0NTM2YmFmZDkxIFlpbmcgSHVhbmcgICAgICAgIDIwMjIt
-MDctMTMgIDE5NjINCj4gNjc1ZTIyZmY1YjM5MGUgTGkgWmhpamlhbiAgICAgICAgMjAyNS0wNi0x
-OSAgMTk2MyAgCQlyZXR1cm4gIW51bWFfcHJvbW90aW9uX3JhdGVfbGltaXQocGdkYXQsIHJhdGVf
-bGltaXQsIG5yKTsNCj4gMzMwMjQ1MzZiYWZkOTEgWWluZyBIdWFuZyAgICAgICAgMjAyMi0wNy0x
-MyAgMTk2NCAgCX0NCj4gMzMwMjQ1MzZiYWZkOTEgWWluZyBIdWFuZyAgICAgICAgMjAyMi0wNy0x
-MyAgMTk2NQ0KPiAxMGYzOTA0MjcxMWJhMiBSaWsgdmFuIFJpZWwgICAgICAyMDE0LTAxLTI3ICAx
-OTY2ICAJdGhpc19jcHVwaWQgPSBjcHVfcGlkX3RvX2NwdXBpZChkc3RfY3B1LCBjdXJyZW50LT5w
-aWQpOw0KPiAxYjE0M2NjNzdmMjA3NCBLZWZlbmcgV2FuZyAgICAgICAyMDIzLTEwLTE4ICAxOTY3
-ICAJbGFzdF9jcHVwaWQgPSBmb2xpb194Y2hnX2xhc3RfY3B1cGlkKGZvbGlvLCB0aGlzX2NwdXBp
-ZCk7DQo+IDM3MzU1YmRjNWExMjk4IE1lbCBHb3JtYW4gICAgICAgIDIwMTgtMTAtMDEgIDE5NjgN
-Cj4gMzMwMjQ1MzZiYWZkOTEgWWluZyBIdWFuZyAgICAgICAgMjAyMi0wNy0xMyAgMTk2OSAgCWlm
-ICghKHN5c2N0bF9udW1hX2JhbGFuY2luZ19tb2RlICYgTlVNQV9CQUxBTkNJTkdfTUVNT1JZX1RJ
-RVJJTkcpICYmDQo+IDMzMDI0NTM2YmFmZDkxIFlpbmcgSHVhbmcgICAgICAgIDIwMjItMDctMTMg
-IDE5NzAgIAkgICAgIW5vZGVfaXNfdG9wdGllcihzcmNfbmlkKSAmJiAhY3B1cGlkX3ZhbGlkKGxh
-c3RfY3B1cGlkKSkNCj4gMzMwMjQ1MzZiYWZkOTEgWWluZyBIdWFuZyAgICAgICAgMjAyMi0wNy0x
-MyAgMTk3MSAgCQlyZXR1cm4gZmFsc2U7DQo+IDMzMDI0NTM2YmFmZDkxIFlpbmcgSHVhbmcgICAg
-ICAgIDIwMjItMDctMTMgIDE5NzINCj4gMzczNTViZGM1YTEyOTggTWVsIEdvcm1hbiAgICAgICAg
-MjAxOC0xMC0wMSAgMTk3MyAgCS8qDQo+IDM3MzU1YmRjNWExMjk4IE1lbCBHb3JtYW4gICAgICAg
-IDIwMTgtMTAtMDEgIDE5NzQgIAkgKiBBbGxvdyBmaXJzdCBmYXVsdHMgb3IgcHJpdmF0ZSBmYXVs
-dHMgdG8gbWlncmF0ZSBpbW1lZGlhdGVseSBlYXJseSBpbg0KPiAzNzM1NWJkYzVhMTI5OCBNZWwg
-R29ybWFuICAgICAgICAyMDE4LTEwLTAxICAxOTc1ICAJICogdGhlIGxpZmV0aW1lIG9mIGEgdGFz
-ay4gVGhlIG1hZ2ljIG51bWJlciA0IGlzIGJhc2VkIG9uIHdhaXRpbmcgZm9yDQo+IDM3MzU1YmRj
-NWExMjk4IE1lbCBHb3JtYW4gICAgICAgIDIwMTgtMTAtMDEgIDE5NzYgIAkgKiB0d28gZnVsbCBw
-YXNzZXMgb2YgdGhlICJtdWx0aS1zdGFnZSBub2RlIHNlbGVjdGlvbiIgdGVzdCB0aGF0IGlzDQo+
-IDM3MzU1YmRjNWExMjk4IE1lbCBHb3JtYW4gICAgICAgIDIwMTgtMTAtMDEgIDE5NzcgIAkgKiBl
-eGVjdXRlZCBiZWxvdy4NCj4gMzczNTViZGM1YTEyOTggTWVsIEdvcm1hbiAgICAgICAgMjAxOC0x
-MC0wMSAgMTk3OCAgCSAqLw0KPiA5OGZhMTVmMzRjYjM3OSBBbnNodW1hbiBLaGFuZHVhbCAyMDE5
-LTAzLTA1ICAxOTc5ICAJaWYgKChwLT5udW1hX3ByZWZlcnJlZF9uaWQgPT0gTlVNQV9OT19OT0RF
-IHx8IHAtPm51bWFfc2Nhbl9zZXEgPD0gNCkgJiYNCj4gMzczNTViZGM1YTEyOTggTWVsIEdvcm1h
-biAgICAgICAgMjAxOC0xMC0wMSAgMTk4MCAgCSAgICAoY3B1cGlkX3BpZF91bnNldChsYXN0X2Nw
-dXBpZCkgfHwgY3B1cGlkX21hdGNoX3BpZChwLCBsYXN0X2NwdXBpZCkpKQ0KPiAzNzM1NWJkYzVh
-MTI5OCBNZWwgR29ybWFuICAgICAgICAyMDE4LTEwLTAxICAxOTgxICAJCXJldHVybiB0cnVlOw0K
-PiAxMGYzOTA0MjcxMWJhMiBSaWsgdmFuIFJpZWwgICAgICAyMDE0LTAxLTI3ICAxOTgyDQo+IDEw
-ZjM5MDQyNzExYmEyIFJpayB2YW4gUmllbCAgICAgIDIwMTQtMDEtMjcgIDE5ODMgIAkvKg0KPiAx
-MGYzOTA0MjcxMWJhMiBSaWsgdmFuIFJpZWwgICAgICAyMDE0LTAxLTI3ICAxOTg0ICAJICogTXVs
-dGktc3RhZ2Ugbm9kZSBzZWxlY3Rpb24gaXMgdXNlZCBpbiBjb25qdW5jdGlvbiB3aXRoIGEgcGVy
-aW9kaWMNCj4gMTBmMzkwNDI3MTFiYTIgUmlrIHZhbiBSaWVsICAgICAgMjAxNC0wMS0yNyAgMTk4
-NSAgCSAqIG1pZ3JhdGlvbiBmYXVsdCB0byBidWlsZCBhIHRlbXBvcmFsIHRhc2s8LT5wYWdlIHJl
-bGF0aW9uLiBCeSB1c2luZw0KPiAxMGYzOTA0MjcxMWJhMiBSaWsgdmFuIFJpZWwgICAgICAyMDE0
-LTAxLTI3ICAxOTg2ICAJICogYSB0d28tc3RhZ2UgZmlsdGVyIHdlIHJlbW92ZSBzaG9ydC91bmxp
-a2VseSByZWxhdGlvbnMuDQo+IDEwZjM5MDQyNzExYmEyIFJpayB2YW4gUmllbCAgICAgIDIwMTQt
-MDEtMjcgIDE5ODcgIAkgKg0KPiAxMGYzOTA0MjcxMWJhMiBSaWsgdmFuIFJpZWwgICAgICAyMDE0
-LTAxLTI3ICAxOTg4ICAJICogVXNpbmcgUChwKSB+IG5fcCAvIG5fdCBhcyBwZXIgZnJlcXVlbnRp
-c3QgcHJvYmFiaWxpdHksIHdlIGNhbiBlcXVhdGUNCj4gMTBmMzkwNDI3MTFiYTIgUmlrIHZhbiBS
-aWVsICAgICAgMjAxNC0wMS0yNyAgMTk4OSAgCSAqIGEgdGFzaydzIHVzYWdlIG9mIGEgcGFydGlj
-dWxhciBwYWdlIChuX3ApIHBlciB0b3RhbCB1c2FnZSBvZiB0aGlzDQo+IDEwZjM5MDQyNzExYmEy
-IFJpayB2YW4gUmllbCAgICAgIDIwMTQtMDEtMjcgIDE5OTAgIAkgKiBwYWdlIChuX3QpIChpbiBh
-IGdpdmVuIHRpbWUtc3BhbikgdG8gYSBwcm9iYWJpbGl0eS4NCj4gMTBmMzkwNDI3MTFiYTIgUmlr
-IHZhbiBSaWVsICAgICAgMjAxNC0wMS0yNyAgMTk5MSAgCSAqDQo+IDEwZjM5MDQyNzExYmEyIFJp
-ayB2YW4gUmllbCAgICAgIDIwMTQtMDEtMjcgIDE5OTIgIAkgKiBPdXIgcGVyaW9kaWMgZmF1bHRz
-IHdpbGwgc2FtcGxlIHRoaXMgcHJvYmFiaWxpdHkgYW5kIGdldHRpbmcgdGhlDQo+IDEwZjM5MDQy
-NzExYmEyIFJpayB2YW4gUmllbCAgICAgIDIwMTQtMDEtMjcgIDE5OTMgIAkgKiBzYW1lIHJlc3Vs
-dCB0d2ljZSBpbiBhIHJvdywgZ2l2ZW4gdGhlc2Ugc2FtcGxlcyBhcmUgZnVsbHkNCj4gMTBmMzkw
-NDI3MTFiYTIgUmlrIHZhbiBSaWVsICAgICAgMjAxNC0wMS0yNyAgMTk5NCAgCSAqIGluZGVwZW5k
-ZW50LCBpcyB0aGVuIGdpdmVuIGJ5IFAobileMiwgcHJvdmlkZWQgb3VyIHNhbXBsZSBwZXJpb2QN
-Cj4gMTBmMzkwNDI3MTFiYTIgUmlrIHZhbiBSaWVsICAgICAgMjAxNC0wMS0yNyAgMTk5NSAgCSAq
-IGlzIHN1ZmZpY2llbnRseSBzaG9ydCBjb21wYXJlZCB0byB0aGUgdXNhZ2UgcGF0dGVybi4NCj4g
-MTBmMzkwNDI3MTFiYTIgUmlrIHZhbiBSaWVsICAgICAgMjAxNC0wMS0yNyAgMTk5NiAgCSAqDQo+
-IDEwZjM5MDQyNzExYmEyIFJpayB2YW4gUmllbCAgICAgIDIwMTQtMDEtMjcgIDE5OTcgIAkgKiBU
-aGlzIHF1YWRyaWMgc3F1aXNoZXMgc21hbGwgcHJvYmFiaWxpdGllcywgbWFraW5nIGl0IGxlc3Mg
-bGlrZWx5IHdlDQo+IDEwZjM5MDQyNzExYmEyIFJpayB2YW4gUmllbCAgICAgIDIwMTQtMDEtMjcg
-IDE5OTggIAkgKiBhY3Qgb24gYW4gdW5saWtlbHkgdGFzazwtPnBhZ2UgcmVsYXRpb24uDQo+IDEw
-ZjM5MDQyNzExYmEyIFJpayB2YW4gUmllbCAgICAgIDIwMTQtMDEtMjcgIDE5OTkgIAkgKi8NCj4g
-MTBmMzkwNDI3MTFiYTIgUmlrIHZhbiBSaWVsICAgICAgMjAxNC0wMS0yNyAgMjAwMCAgCWlmICgh
-Y3B1cGlkX3BpZF91bnNldChsYXN0X2NwdXBpZCkgJiYNCj4gMTBmMzkwNDI3MTFiYTIgUmlrIHZh
-biBSaWVsICAgICAgMjAxNC0wMS0yNyAgMjAwMSAgCQkJCWNwdXBpZF90b19uaWQobGFzdF9jcHVw
-aWQpICE9IGRzdF9uaWQpDQo+IDEwZjM5MDQyNzExYmEyIFJpayB2YW4gUmllbCAgICAgIDIwMTQt
-MDEtMjcgIDIwMDIgIAkJcmV0dXJuIGZhbHNlOw0KPiAxMGYzOTA0MjcxMWJhMiBSaWsgdmFuIFJp
-ZWwgICAgICAyMDE0LTAxLTI3ICAyMDAzDQo+IDEwZjM5MDQyNzExYmEyIFJpayB2YW4gUmllbCAg
-ICAgIDIwMTQtMDEtMjcgIDIwMDQgIAkvKiBBbHdheXMgYWxsb3cgbWlncmF0ZSBvbiBwcml2YXRl
-IGZhdWx0cyAqLw0KPiAxMGYzOTA0MjcxMWJhMiBSaWsgdmFuIFJpZWwgICAgICAyMDE0LTAxLTI3
-ICAyMDA1ICAJaWYgKGNwdXBpZF9tYXRjaF9waWQocCwgbGFzdF9jcHVwaWQpKQ0KPiAxMGYzOTA0
-MjcxMWJhMiBSaWsgdmFuIFJpZWwgICAgICAyMDE0LTAxLTI3ICAyMDA2ICAJCXJldHVybiB0cnVl
-Ow0KPiAxMGYzOTA0MjcxMWJhMiBSaWsgdmFuIFJpZWwgICAgICAyMDE0LTAxLTI3ICAyMDA3DQo+
-IDEwZjM5MDQyNzExYmEyIFJpayB2YW4gUmllbCAgICAgIDIwMTQtMDEtMjcgIDIwMDggIAkvKiBB
-IHNoYXJlZCBmYXVsdCwgYnV0IHAtPm51bWFfZ3JvdXAgaGFzIG5vdCBiZWVuIHNldCB1cCB5ZXQu
-ICovDQo+IDEwZjM5MDQyNzExYmEyIFJpayB2YW4gUmllbCAgICAgIDIwMTQtMDEtMjcgIDIwMDkg
-IAlpZiAoIW5nKQ0KPiAxMGYzOTA0MjcxMWJhMiBSaWsgdmFuIFJpZWwgICAgICAyMDE0LTAxLTI3
-ICAyMDEwICAJCXJldHVybiB0cnVlOw0KPiAxMGYzOTA0MjcxMWJhMiBSaWsgdmFuIFJpZWwgICAg
-ICAyMDE0LTAxLTI3ICAyMDExDQo+IDEwZjM5MDQyNzExYmEyIFJpayB2YW4gUmllbCAgICAgIDIw
-MTQtMDEtMjcgIDIwMTIgIAkvKg0KPiA0MTQyYzNlYmI2ODViYiBSaWsgdmFuIFJpZWwgICAgICAy
-MDE2LTAxLTI1ICAyMDEzICAJICogRGVzdGluYXRpb24gbm9kZSBpcyBtdWNoIG1vcmUgaGVhdmls
-eSB1c2VkIHRoYW4gdGhlIHNvdXJjZQ0KPiA0MTQyYzNlYmI2ODViYiBSaWsgdmFuIFJpZWwgICAg
-ICAyMDE2LTAxLTI1ICAyMDE0ICAJICogbm9kZT8gQWxsb3cgbWlncmF0aW9uLg0KPiAxMGYzOTA0
-MjcxMWJhMiBSaWsgdmFuIFJpZWwgICAgICAyMDE0LTAxLTI3ICAyMDE1ICAJICovDQo+IDQxNDJj
-M2ViYjY4NWJiIFJpayB2YW4gUmllbCAgICAgIDIwMTYtMDEtMjUgIDIwMTYgIAlpZiAoZ3JvdXBf
-ZmF1bHRzX2NwdShuZywgZHN0X25pZCkgPiBncm91cF9mYXVsdHNfY3B1KG5nLCBzcmNfbmlkKSAq
-DQo+IDQxNDJjM2ViYjY4NWJiIFJpayB2YW4gUmllbCAgICAgIDIwMTYtMDEtMjUgIDIwMTcgIAkJ
-CQkJQUNUSVZFX05PREVfRlJBQ1RJT04pDQo+IDEwZjM5MDQyNzExYmEyIFJpayB2YW4gUmllbCAg
-ICAgIDIwMTQtMDEtMjcgIDIwMTggIAkJcmV0dXJuIHRydWU7DQo+IDEwZjM5MDQyNzExYmEyIFJp
-ayB2YW4gUmllbCAgICAgIDIwMTQtMDEtMjcgIDIwMTkNCj4gMTBmMzkwNDI3MTFiYTIgUmlrIHZh
-biBSaWVsICAgICAgMjAxNC0wMS0yNyAgMjAyMCAgCS8qDQo+IDQxNDJjM2ViYjY4NWJiIFJpayB2
-YW4gUmllbCAgICAgIDIwMTYtMDEtMjUgIDIwMjEgIAkgKiBEaXN0cmlidXRlIG1lbW9yeSBhY2Nv
-cmRpbmcgdG8gQ1BVICYgbWVtb3J5IHVzZSBvbiBlYWNoIG5vZGUsDQo+IDQxNDJjM2ViYjY4NWJi
-IFJpayB2YW4gUmllbCAgICAgIDIwMTYtMDEtMjUgIDIwMjIgIAkgKiB3aXRoIDMvNCBoeXN0ZXJl
-c2lzIHRvIGF2b2lkIHVubmVjZXNzYXJ5IG1lbW9yeSBtaWdyYXRpb25zOg0KPiA0MTQyYzNlYmI2
-ODViYiBSaWsgdmFuIFJpZWwgICAgICAyMDE2LTAxLTI1ICAyMDIzICAJICoNCj4gNDE0MmMzZWJi
-Njg1YmIgUmlrIHZhbiBSaWVsICAgICAgMjAxNi0wMS0yNSAgMjAyNCAgCSAqIGZhdWx0c19jcHUo
-ZHN0KSAgIDMgICBmYXVsdHNfY3B1KHNyYykNCj4gNDE0MmMzZWJiNjg1YmIgUmlrIHZhbiBSaWVs
-ICAgICAgMjAxNi0wMS0yNSAgMjAyNSAgCSAqIC0tLS0tLS0tLS0tLS0tLSAqIC0gPiAtLS0tLS0t
-LS0tLS0tLS0NCj4gNDE0MmMzZWJiNjg1YmIgUmlrIHZhbiBSaWVsICAgICAgMjAxNi0wMS0yNSAg
-MjAyNiAgCSAqIGZhdWx0c19tZW0oZHN0KSAgIDQgICBmYXVsdHNfbWVtKHNyYykNCj4gMTBmMzkw
-NDI3MTFiYTIgUmlrIHZhbiBSaWVsICAgICAgMjAxNC0wMS0yNyAgMjAyNyAgCSAqLw0KPiA0MTQy
-YzNlYmI2ODViYiBSaWsgdmFuIFJpZWwgICAgICAyMDE2LTAxLTI1ICAyMDI4ICAJcmV0dXJuIGdy
-b3VwX2ZhdWx0c19jcHUobmcsIGRzdF9uaWQpICogZ3JvdXBfZmF1bHRzKHAsIHNyY19uaWQpICog
-MyA+DQo+IDQxNDJjM2ViYjY4NWJiIFJpayB2YW4gUmllbCAgICAgIDIwMTYtMDEtMjUgIDIwMjkg
-IAkgICAgICAgZ3JvdXBfZmF1bHRzX2NwdShuZywgc3JjX25pZCkgKiBncm91cF9mYXVsdHMocCwg
-ZHN0X25pZCkgKiA0Ow0KPiAxMGYzOTA0MjcxMWJhMiBSaWsgdmFuIFJpZWwgICAgICAyMDE0LTAx
-LTI3ICAyMDMwICB9DQo+IDEwZjM5MDQyNzExYmEyIFJpayB2YW4gUmllbCAgICAgIDIwMTQtMDEt
-MjcgIDIwMzENCj4g
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
+head:   f6966f9200cc04e9bbb539be3cceecc66c21dc21
+commit: 171c3e495ce7a6c2cba213c5738772621a412031 [42/42] BACKPORT: arm64: dts: mediatek: mt8186: Add Starmie device
+config: arm64-randconfig-051-20250620 (https://download.01.org/0day-ci/archive/20250620/202506200957.noBW1nee-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 875b36a8742437b95f623bab1e0332562c7b4b3f)
+dtschema version: 2025.3.dev28+g49451a5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506200957.noBW1nee-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506200957.noBW1nee-lkp@intel.com/
+
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:390.16-396.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@0: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:398.16-401.4: Warning (unit_address_vs_reg): /soc/gpu@13040000/power_model@1: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:484.11-493.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:501.11-510.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: dp-bridge@5c (ite,it6505): switches:switch@0: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: dp-bridge@5c (ite,it6505): switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: dp-bridge@5c (ite,it6505): switches:switch@1: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: dp-bridge@5c (ite,it6505): switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: dp-bridge@5c (ite,it6505): Unevaluated properties are not allowed ('switches' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: switch@0 (typec-switch): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: switch@1 (typec-switch): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: ec@0 (google,cros-ec-spi): typec:connector@0:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: ec@0 (google,cros-ec-spi): typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: ec@0 (google,cros-ec-spi): typec:connector@1:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: typec (google,cros-ec-typec): connector@0:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: typec (google,cros-ec-typec): connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: typec (google,cros-ec-typec): connector@1:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: connector@0 (usb-c-connector): ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: connector@0 (usb-c-connector): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: gpu@13040000 (mediatek,mt8186-mali): 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku0.dtb: sound (mediatek,mt8186-mt6366-rt1019-rt5682s-sound): 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:484.11-493.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@0/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8186-corsola.dtsi:501.11-510.7: Warning (graph_child_address): /soc/i2c@1100f000/dp-bridge@5c/switches/switch@1/ports: graph node has single child node 'port@0', #address-cells/#size-cells are not necessary
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic: failed to match any schema with compatible: ['mediatek,mt6366', 'mediatek,mt6358']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/codec: failed to match any schema with compatible: ['mediatek,mt6366-sound', 'mediatek,mt6358-sound']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: /soc/pwrap@1000d000/pmic/rtc: failed to match any schema with compatible: ['mediatek,mt6366-rtc', 'mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: dp-bridge@5c (ite,it6505): switches:switch@0: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: dp-bridge@5c (ite,it6505): switches:switch@0: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: dp-bridge@5c (ite,it6505): switches:switch@1: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: dp-bridge@5c (ite,it6505): switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: dp-bridge@5c (ite,it6505): Unevaluated properties are not allowed ('switches' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: switch@0 (typec-switch): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: switch@1 (typec-switch): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: ec@0 (google,cros-ec-spi): typec:connector@0:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: ec@0 (google,cros-ec-spi): typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: ec@0 (google,cros-ec-spi): typec:connector@1:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-starmie-sku1.dtb: typec (google,cros-ec-typec): connector@0:ports: 'port@0' is a required property
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
