@@ -1,184 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE87227E87
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 07:02:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F75C17583
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 07:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750402928; cv=none; b=amRVuJT6fFkP5iroLVdIdgo3xoU0QB3lQs6ESsT41cuGXYXfhV9dTjvUtb/wPLhmu6B+CVyXhHnjYYKU6F+M73u2/pHd1szhZ3havCohMroYxtBS8mBJfsHUYytUnxY/UqcdBK1BUahfnFDmsBPJ2M9fL0Som/986orUJXb97GM=
+	t=1750405427; cv=none; b=GF77bXHh/ZNdntabG5tVJNcZ1FxPg9HowLUllhfjUF5q1wlt1Ur2B87OSZKuxn2JwtQlbI3aPVwbCfPWhqqoLjFCM4qNg8JUEvT4tkE6MvNFMWmHNB8FbluYOSkiOlPZcp36m9f5Z5Lm9/hlSPh+r7Qsx6qA6ycIBqXG4nM+uMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750402928; c=relaxed/simple;
-	bh=cguC+18B3LYpEpOYQWIX0LufCfRWMzRtUkx7BVhr8Vw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LeqMOTjxYxqQRGY6J003We6CBxVY0q5c/e76NZTCL1zcpzmE9wdDBNqdQWxh7YxUC6h72McwKhs0u29i3cd5CRKXLVLYP8Bzz/g6rNact2l9DNHV9fShdxgXQImYAKQbbAOQM7avkVMSDGENYHD0RKXeY06/VkPxrs6+GQkmPIU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FkPW97F8; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1750405427; c=relaxed/simple;
+	bh=h9Fc/0hO/vYDyYSsdzV+JZB8M/H27zf1rmUzKPtS7Uw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lNeDX2d6XtJyUnNxgNBuKOPsJRfxHAAtR0sEnoX01qLfHGQHyUAk5jAeC4TQddXuCyxSZ+3Xd4ndaYhU31lDZdJES9JNrW/IqHMyv477v7JxBCIaJPecWv6OP2/hx75/lyAMBEsRZ1YGp21WuqBRkj3IfZRTmaLW7GsiUsV0Ji8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h+saCTel; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FkPW97F8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h+saCTel"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750402926; x=1781938926;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=cguC+18B3LYpEpOYQWIX0LufCfRWMzRtUkx7BVhr8Vw=;
-  b=FkPW97F8uU5+Kev2edYMXQ+r4YHuwPz91K36SQjd9t0JUahk20JT/2Xy
-   uUo4cNjAf1aRYHFuh4pk6iTkBSdxSkBActtsEhadpo/CRpB1dkqquccJ3
-   KX6cI5Mha9UZu/aTvUMgudyRedLik6ivo2tFvJjv63RBN7jUQi0D8cSYY
-   /7nE4cndLx1W505+qR75hBeJyQJQvbdpbehLAiIfmDy2wABZ1oYCA2Pay
-   NbISXZIBmUchWw9tkBRlSvkVw/uHwDtnPuzWHO4TE9JmpDqNM1rK1iP1p
-   UkNoUNQ8Sm+xtCff6DVthm5vumJ6xOXtajIRBVH7NjbSSmvvczwUM7DZ5
-   g==;
-X-CSE-ConnectionGUID: WJvsjLakQgap+I9Iv/3POA==
-X-CSE-MsgGUID: IahLAUtuQ2uX0Vu1GKY1jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52582112"
+  t=1750405426; x=1781941426;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=h9Fc/0hO/vYDyYSsdzV+JZB8M/H27zf1rmUzKPtS7Uw=;
+  b=h+saCTelncM5tetL26mJPyZ3ie2SMuzdGqBjiVRsE5KrnKkpasKZwRcv
+   9r+Xl7/plSizfldgmDPaAiZK5p8Jrk0t9VWOqQxbuQXy6uQ0Yja/3uPLX
+   41X/+qfKmcmBPRbQhf0Y9cmkiDM0ovslYwIrSeAFEqLO/w1frUCkJtnO3
+   HVI+qLfIgesVpH7meKq8DJHjXd6YA8zSIYWcCQGwwUVdC8zBYj9bf3aor
+   07gKEr9HcJRJK9Chq3iXHSpo/W4w+6r8UAvXaN1wAQKDb0JhYrbrdastl
+   YvCkAK5Nt9K0njoe1vLoIBndj/m5pMzUEo8lB/Rw6tWJMo0HzTE35u+V3
+   Q==;
+X-CSE-ConnectionGUID: Eib4M73vTseF354O5W7V3g==
+X-CSE-MsgGUID: ugBko/hgR1CC5G+6Kz8rVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="51888627"
 X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
-   d="scan'208";a="52582112"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 00:01:42 -0700
-X-CSE-ConnectionGUID: l3W9HF2kRq2LarNB3nWG4g==
-X-CSE-MsgGUID: aLT0l/gnTpSJsS3dx47Oow==
+   d="scan'208";a="51888627"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 00:43:45 -0700
+X-CSE-ConnectionGUID: 5IBImiuiRFaRHaQHz+Gf6g==
+X-CSE-MsgGUID: irPWb9/8RHisHhXOE+WlRw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
-   d="scan'208";a="155116975"
+   d="scan'208";a="156653720"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 20 Jun 2025 00:01:40 -0700
+  by orviesa005.jf.intel.com with ESMTP; 20 Jun 2025 00:43:44 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSVko-000LSs-1h;
-	Fri, 20 Jun 2025 07:01:38 +0000
-Date: Fri, 20 Jun 2025 15:01:04 +0800
+	id 1uSWPW-000LU2-02;
+	Fri, 20 Jun 2025 07:43:42 +0000
+Date: Fri, 20 Jun 2025 15:43:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Biggers <ebiggers@kernel.org>, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ard Biesheuvel <ardb@kernel.org>,
-	linux-crypto@vger.kernel.org
-Subject: Re: [PATCH 2/3] lib/crc/crc32: change crc32() from macro to inline
- function and remove cast
-Message-ID: <202506201401.OhkkTlo0-lkp@intel.com>
-References: <20250619183414.100082-3-ebiggers@kernel.org>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [chrome-os:chromeos-6.12 42/42]
+ arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: ec@0
+ (google,cros-ec-spi): typec:connector@0:ports: 'port@0' is a required
+ property
+Message-ID: <202506201528.uTiyfZRS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250619183414.100082-3-ebiggers@kernel.org>
 
-Hi Eric,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on ee925097a5a76eaf9c4954cdd7288a070d57a8d4]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Biggers/lib-crc-crc32-document-crc32_le-crc32_be-and-crc32c/20250620-023634
-base:   ee925097a5a76eaf9c4954cdd7288a070d57a8d4
-patch link:    https://lore.kernel.org/r/20250619183414.100082-3-ebiggers%40kernel.org
-patch subject: [PATCH 2/3] lib/crc/crc32: change crc32() from macro to inline function and remove cast
-config: x86_64-buildonly-randconfig-004-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201401.OhkkTlo0-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201401.OhkkTlo0-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.12
+head:   f6966f9200cc04e9bbb539be3cceecc66c21dc21
+commit: 87a319545efed464f22b355caec02d2e0e210e3d [42/42] BACKPORT: FROMGIT: arm64: dts: mediatek: mt8186: Merge Voltorb device trees
+config: arm64-randconfig-051-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201528.uTiyfZRS-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 875b36a8742437b95f623bab1e0332562c7b4b3f)
+dtschema version: 2025.3.dev28+g49451a5
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201528.uTiyfZRS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506201401.OhkkTlo0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506201528.uTiyfZRS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   drivers/nvmem/layouts/u-boot-env.c: In function 'u_boot_env_parse':
->> drivers/nvmem/layouts/u-boot-env.c:151:16: error: called object 'crc32' is not a function or function pointer
-     151 |         calc = crc32(~0, buf + crc32_data_offset, crc32_data_len) ^ ~0L;
-         |                ^~~~~
-   drivers/nvmem/layouts/u-boot-env.c:99:18: note: declared here
-      99 |         uint32_t crc32;
-         |                  ^~~~~
-
-
-vim +/crc32 +151 drivers/nvmem/layouts/u-boot-env.c
-
-5f15811286aff4 Rafał Miłecki 2024-09-02   88  
-5f15811286aff4 Rafał Miłecki 2024-09-02   89  int u_boot_env_parse(struct device *dev, struct nvmem_device *nvmem,
-5f15811286aff4 Rafał Miłecki 2024-09-02   90  		     enum u_boot_env_format format)
-5f15811286aff4 Rafał Miłecki 2024-09-02   91  {
-5f15811286aff4 Rafał Miłecki 2024-09-02   92  	size_t crc32_data_offset;
-5f15811286aff4 Rafał Miłecki 2024-09-02   93  	size_t crc32_data_len;
-5f15811286aff4 Rafał Miłecki 2024-09-02   94  	size_t crc32_offset;
-5f15811286aff4 Rafał Miłecki 2024-09-02   95  	__le32 *crc32_addr;
-5f15811286aff4 Rafał Miłecki 2024-09-02   96  	size_t data_offset;
-5f15811286aff4 Rafał Miłecki 2024-09-02   97  	size_t data_len;
-5f15811286aff4 Rafał Miłecki 2024-09-02   98  	size_t dev_size;
-5f15811286aff4 Rafał Miłecki 2024-09-02   99  	uint32_t crc32;
-5f15811286aff4 Rafał Miłecki 2024-09-02  100  	uint32_t calc;
-5f15811286aff4 Rafał Miłecki 2024-09-02  101  	uint8_t *buf;
-5f15811286aff4 Rafał Miłecki 2024-09-02  102  	int bytes;
-5f15811286aff4 Rafał Miłecki 2024-09-02  103  	int err;
-5f15811286aff4 Rafał Miłecki 2024-09-02  104  
-5f15811286aff4 Rafał Miłecki 2024-09-02  105  	dev_size = nvmem_dev_size(nvmem);
-5f15811286aff4 Rafał Miłecki 2024-09-02  106  
-5f15811286aff4 Rafał Miłecki 2024-09-02  107  	buf = kzalloc(dev_size, GFP_KERNEL);
-5f15811286aff4 Rafał Miłecki 2024-09-02  108  	if (!buf) {
-5f15811286aff4 Rafał Miłecki 2024-09-02  109  		err = -ENOMEM;
-5f15811286aff4 Rafał Miłecki 2024-09-02  110  		goto err_out;
-5f15811286aff4 Rafał Miłecki 2024-09-02  111  	}
-5f15811286aff4 Rafał Miłecki 2024-09-02  112  
-5f15811286aff4 Rafał Miłecki 2024-09-02  113  	bytes = nvmem_device_read(nvmem, 0, dev_size, buf);
-5f15811286aff4 Rafał Miłecki 2024-09-02  114  	if (bytes < 0) {
-5f15811286aff4 Rafał Miłecki 2024-09-02  115  		err = bytes;
-5f15811286aff4 Rafał Miłecki 2024-09-02  116  		goto err_kfree;
-5f15811286aff4 Rafał Miłecki 2024-09-02  117  	} else if (bytes != dev_size) {
-5f15811286aff4 Rafał Miłecki 2024-09-02  118  		err = -EIO;
-5f15811286aff4 Rafał Miłecki 2024-09-02  119  		goto err_kfree;
-5f15811286aff4 Rafał Miłecki 2024-09-02  120  	}
-5f15811286aff4 Rafał Miłecki 2024-09-02  121  
-5f15811286aff4 Rafał Miłecki 2024-09-02  122  	switch (format) {
-5f15811286aff4 Rafał Miłecki 2024-09-02  123  	case U_BOOT_FORMAT_SINGLE:
-5f15811286aff4 Rafał Miłecki 2024-09-02  124  		crc32_offset = offsetof(struct u_boot_env_image_single, crc32);
-5f15811286aff4 Rafał Miłecki 2024-09-02  125  		crc32_data_offset = offsetof(struct u_boot_env_image_single, data);
-5f15811286aff4 Rafał Miłecki 2024-09-02  126  		data_offset = offsetof(struct u_boot_env_image_single, data);
-5f15811286aff4 Rafał Miłecki 2024-09-02  127  		break;
-5f15811286aff4 Rafał Miłecki 2024-09-02  128  	case U_BOOT_FORMAT_REDUNDANT:
-5f15811286aff4 Rafał Miłecki 2024-09-02  129  		crc32_offset = offsetof(struct u_boot_env_image_redundant, crc32);
-5f15811286aff4 Rafał Miłecki 2024-09-02  130  		crc32_data_offset = offsetof(struct u_boot_env_image_redundant, data);
-5f15811286aff4 Rafał Miłecki 2024-09-02  131  		data_offset = offsetof(struct u_boot_env_image_redundant, data);
-5f15811286aff4 Rafał Miłecki 2024-09-02  132  		break;
-5f15811286aff4 Rafał Miłecki 2024-09-02  133  	case U_BOOT_FORMAT_BROADCOM:
-5f15811286aff4 Rafał Miłecki 2024-09-02  134  		crc32_offset = offsetof(struct u_boot_env_image_broadcom, crc32);
-5f15811286aff4 Rafał Miłecki 2024-09-02  135  		crc32_data_offset = offsetof(struct u_boot_env_image_broadcom, data);
-5f15811286aff4 Rafał Miłecki 2024-09-02  136  		data_offset = offsetof(struct u_boot_env_image_broadcom, data);
-5f15811286aff4 Rafał Miłecki 2024-09-02  137  		break;
-5f15811286aff4 Rafał Miłecki 2024-09-02  138  	}
-5f15811286aff4 Rafał Miłecki 2024-09-02  139  
-5f15811286aff4 Rafał Miłecki 2024-09-02  140  	if (dev_size < data_offset) {
-5f15811286aff4 Rafał Miłecki 2024-09-02  141  		dev_err(dev, "Device too small for u-boot-env\n");
-5f15811286aff4 Rafał Miłecki 2024-09-02  142  		err = -EIO;
-5f15811286aff4 Rafał Miłecki 2024-09-02  143  		goto err_kfree;
-5f15811286aff4 Rafał Miłecki 2024-09-02  144  	}
-5f15811286aff4 Rafał Miłecki 2024-09-02  145  
-5f15811286aff4 Rafał Miłecki 2024-09-02  146  	crc32_addr = (__le32 *)(buf + crc32_offset);
-5f15811286aff4 Rafał Miłecki 2024-09-02  147  	crc32 = le32_to_cpu(*crc32_addr);
-5f15811286aff4 Rafał Miłecki 2024-09-02  148  	crc32_data_len = dev_size - crc32_data_offset;
-5f15811286aff4 Rafał Miłecki 2024-09-02  149  	data_len = dev_size - data_offset;
-5f15811286aff4 Rafał Miłecki 2024-09-02  150  
-5f15811286aff4 Rafał Miłecki 2024-09-02 @151  	calc = crc32(~0, buf + crc32_data_offset, crc32_data_len) ^ ~0L;
-5f15811286aff4 Rafał Miłecki 2024-09-02  152  	if (calc != crc32) {
-5f15811286aff4 Rafał Miłecki 2024-09-02  153  		dev_err(dev, "Invalid calculated CRC32: 0x%08x (expected: 0x%08x)\n", calc, crc32);
-5f15811286aff4 Rafał Miłecki 2024-09-02  154  		err = -EINVAL;
-5f15811286aff4 Rafał Miłecki 2024-09-02  155  		goto err_kfree;
-5f15811286aff4 Rafał Miłecki 2024-09-02  156  	}
-5f15811286aff4 Rafał Miłecki 2024-09-02  157  
-5f15811286aff4 Rafał Miłecki 2024-09-02  158  	buf[dev_size - 1] = '\0';
-5f15811286aff4 Rafał Miłecki 2024-09-02  159  	err = u_boot_env_parse_cells(dev, nvmem, buf, data_offset, data_len);
-5f15811286aff4 Rafał Miłecki 2024-09-02  160  
-5f15811286aff4 Rafał Miłecki 2024-09-02  161  err_kfree:
-5f15811286aff4 Rafał Miłecki 2024-09-02  162  	kfree(buf);
-5f15811286aff4 Rafał Miłecki 2024-09-02  163  err_out:
-5f15811286aff4 Rafał Miłecki 2024-09-02  164  	return err;
-5f15811286aff4 Rafał Miłecki 2024-09-02  165  }
-5f15811286aff4 Rafał Miłecki 2024-09-02  166  EXPORT_SYMBOL_GPL(u_boot_env_parse);
-5f15811286aff4 Rafał Miłecki 2024-09-02  167  
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: dp-bridge@5c (ite,it6505): switches:switch@1: 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: dp-bridge@5c (ite,it6505): switches:switch@1: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: dp-bridge@5c (ite,it6505): Unevaluated properties are not allowed ('switches' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/display/bridge/ite,it6505.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: switch@0 (typec-switch): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: switch@1 (typec-switch): 'port' is a required property
+   	from schema $id: http://devicetree.org/schemas/usb/typec-switch.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: ec@0 (google,cros-ec-spi): typec:connector@0:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: ec@0 (google,cros-ec-spi): typec:connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: ec@0 (google,cros-ec-spi): typec:connector@1:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: ec@0 (google,cros-ec-spi): typec:connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/google,cros-ec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: typec (google,cros-ec-typec): connector@0:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: typec (google,cros-ec-typec): connector@0: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: typec (google,cros-ec-typec): connector@1:ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: typec (google,cros-ec-typec): connector@1: Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/chrome/google,cros-ec-typec.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: connector@0 (usb-c-connector): ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: connector@0 (usb-c-connector): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: connector@1 (usb-c-connector): ports: 'port@0' is a required property
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: connector@1 (usb-c-connector): Unevaluated properties are not allowed ('ports' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/connector/usb-connector.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: gpu@13040000 (mediatek,mt8186-mali): 'power_model@0', 'power_model@1', 'supply-names' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/gpu/arm,mali-bifrost.yaml#
+>> arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: /soc/gpu@13040000/power_model@0: failed to match any schema with compatible: ['arm,mali-simple-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: /soc/gpu@13040000/power_model@1: failed to match any schema with compatible: ['arm,mali-g52_r1-power-model']
+   arch/arm64/boot/dts/mediatek/mt8186-corsola-voltorb.dtb: sound (mediatek,mt8186-mt6366-rt5682s-max98360-sound): 'model' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/mt8186-mt6366-rt1019-rt5682s.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
