@@ -1,68 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68F0520766E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 06:29:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A366220F31;
+	Fri, 20 Jun 2025 06:29:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750400985; cv=none; b=PFgzkgAHIlZ99zPrfKjVFcyuqLLU6cHUK6rVD8lrT3kE62rGVMYp7/Sy7RaJD6cSGYKPh94igR1lRGsNRDYScqIeciGU+KABoZ07FmPOh7oJPLFvsaVea1ntB2Mxn8+XwCILjs4orG6iI9puith8SQ9/D+Dz5FHZhhkC0Ebmd2g=
+	t=1750400987; cv=none; b=qMwcI+fEvqSBP7zqduVm5RDHjveBfMBt0Xx6yonQiz18LdQRvQOah5sXd/wNmOw2cfYkZcw8TJjGunZBmsstQzQ0u6nBqpuDhm9ceilcgDAv5K9iq0VugCY2KCXga8DDYlW9tOqigI86TXJw+BU6Hbjrd6tOpKSJwaoon8zbnjw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750400985; c=relaxed/simple;
-	bh=hD7ZFg2oUF1zO6JNaxETcxrUQ675xpCMaUgDOQcTzEY=;
+	s=arc-20240116; t=1750400987; c=relaxed/simple;
+	bh=iUugU0beBkguA+V8gL0p/ImULSe9RWyQ1obwjtE8WFk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=odXwkf1MOTQ0jdwe3PjeQY7lsj6Za52V3rtaCHZYv/WSWIsdvy8C5i8liIJlWw55xsFJsqnfNKWcFTOqifoDs0UCTSwX6TXPMShkw1nfoPsP+51itg9gwoG7RG7Mu9YT8okc23FAJ7H0dfQrARxaaOG2Z7gHHoQba9EBS/5MF+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cLEcSBzQ; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kAoIig4L5CGyHw6py/3TX0Fnedqts3Ef2tf77tTPTPvj67tPZACYhLO++W1IVME+HaBLEvg7vb5TrbnmqpCSNztoSSuO18ZKcjJDXQ6vTL8p4fYDL0kRpjCS9d2oEHLuu0tZzpXRjiUQ4vYbv+F1WqAK0JcqKtsLCwEJQkdkhD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hF8p/DDC; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cLEcSBzQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hF8p/DDC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750400984; x=1781936984;
+  t=1750400986; x=1781936986;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hD7ZFg2oUF1zO6JNaxETcxrUQ675xpCMaUgDOQcTzEY=;
-  b=cLEcSBzQfqfTbS7qWOGZWREAIZfpqzvzDCMZzf+0+pK8+O2nThdgoMqr
-   Jcrk16N8O+Gc3yR7Sp5eNCFiBztQq5Z8UjV7hrjNM+BkhtfSr/R2CT33/
-   Q/M+bLGkEEDEorf2Hih1VDno9OD8HFAZ47npXZsGVnvEH0mxO7Ln43U/a
-   gg1P0ZZ/ErbgJWt9UxN8cl6C6TI0PXA7xJDCO/h9QreMn3yRe3tROrtyt
-   cTQjSv5wDGbDjK/u4dpWI6UUKuwJqNWKdyFyIvFmtI0xxh5qZGpHkC6B6
-   njhq81AjnkBkxUYVdljleWQXyFibPuX+YiauKXg93BUxEceX5nmDuhsjk
-   Q==;
-X-CSE-ConnectionGUID: ljDtx9NpTEqRbcF2XFKC0Q==
-X-CSE-MsgGUID: USAvmukUQgWZvWjvo6UzNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52799574"
+  bh=iUugU0beBkguA+V8gL0p/ImULSe9RWyQ1obwjtE8WFk=;
+  b=hF8p/DDCcnmKFdLEuq2+9HDN4m6FvKf90gCwer3vHMA76W2sFO4Edk9o
+   SXiAaw81O3NAkej4aiJiRxyYHMCEM9Jkw3PP+2ysfUyZ2xTCj2HPO+Rb1
+   eDvmpSnWROvddnvmq9Xpbn2LBR4mczaC6LbVDDFSEMT3WEtdVq7qqb+IX
+   +7NcUAvl4l27yfkb0rLq9KgolNlMYSHyvQzPNoQuvdX96aOUjR4tWI74v
+   aNsN8/l7sd3EF+vuWveMp7/FtoCIMM4BvPesnnPF0dx9ztEFJMIGtTlh6
+   6asA3cqqBwq3L+3ONbb0YCq8pAUAQUJQrblUOPNlrPg8TZVVUJB6asndc
+   A==;
+X-CSE-ConnectionGUID: jeUTYvI+QbqAG/MENc9RcA==
+X-CSE-MsgGUID: BPFxQjWoR5Ke4N91bqrSPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52799560"
 X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
-   d="scan'208";a="52799574"
+   d="scan'208";a="52799560"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
   by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jun 2025 23:29:43 -0700
-X-CSE-ConnectionGUID: 6/qi+xb+SXS8ZP7Y8EHbmg==
-X-CSE-MsgGUID: kCKCdyveR5aVl7otqVCwdA==
+X-CSE-ConnectionGUID: HyJO1NXySR6iHuubhhWGag==
+X-CSE-MsgGUID: 00rE7B2WR9WdVeFR74EtcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,250,1744095600"; 
-   d="scan'208";a="151370535"
+   d="scan'208";a="151370534"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by orviesa008.jf.intel.com with ESMTP; 19 Jun 2025 23:29:38 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSVFn-000LR1-28;
+	id 1uSVFn-000LQy-1v;
 	Fri, 20 Jun 2025 06:29:35 +0000
-Date: Fri, 20 Jun 2025 14:28:49 +0800
+Date: Fri, 20 Jun 2025 14:28:53 +0800
 From: kernel test robot <lkp@intel.com>
 To: Maxime =?iso-8859-1?Q?B=E9lair?= <maxime.belair@canonical.com>,
 	linux-security-module@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, john.johansen@canonical.com,
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-	mic@digikod.net, kees@kernel.org, stephen.smalley.work@gmail.com,
-	casey@schaufler-ca.com, takedakn@nttdata.co.jp,
-	penguin-kernel@i-love.sakura.ne.jp, song@kernel.org,
-	linux-api@vger.kernel.org, apparmor@lists.ubuntu.com,
-	linux-kernel@vger.kernel.org,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	john.johansen@canonical.com, paul@paul-moore.com, jmorris@namei.org,
+	serge@hallyn.com, mic@digikod.net, kees@kernel.org,
+	stephen.smalley.work@gmail.com, casey@schaufler-ca.com,
+	takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp,
+	song@kernel.org, linux-api@vger.kernel.org,
+	apparmor@lists.ubuntu.com, linux-kernel@vger.kernel.org,
 	Maxime =?iso-8859-1?Q?B=E9lair?= <maxime.belair@canonical.com>
-Subject: Re: [PATCH v2 3/3] AppArmor: add support for lsm_config_self_policy
- and lsm_config_system_policy
-Message-ID: <202506201414.tHOEthTb-lkp@intel.com>
-References: <20250619181600.478038-4-maxime.belair@canonical.com>
+Subject: Re: [PATCH v2 2/3] lsm: introduce security_lsm_config_*_policy hooks
+Message-ID: <202506201415.KiEs36AG-lkp@intel.com>
+References: <20250619181600.478038-3-maxime.belair@canonical.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,77 +70,197 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250619181600.478038-4-maxime.belair@canonical.com>
+In-Reply-To: <20250619181600.478038-3-maxime.belair@canonical.com>
 
 Hi Maxime,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 9c32cda43eb78f78c73aee4aa344b777714e259b]
+[auto build test ERROR on 9c32cda43eb78f78c73aee4aa344b777714e259b]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-B-lair/Wire-up-lsm_config_self_policy-and-lsm_config_system_policy-syscalls/20250620-022714
 base:   9c32cda43eb78f78c73aee4aa344b777714e259b
-patch link:    https://lore.kernel.org/r/20250619181600.478038-4-maxime.belair%40canonical.com
-patch subject: [PATCH v2 3/3] AppArmor: add support for lsm_config_self_policy and lsm_config_system_policy
-config: x86_64-buildonly-randconfig-002-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201414.tHOEthTb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201414.tHOEthTb-lkp@intel.com/reproduce)
+patch link:    https://lore.kernel.org/r/20250619181600.478038-3-maxime.belair%40canonical.com
+patch subject: [PATCH v2 2/3] lsm: introduce security_lsm_config_*_policy hooks
+config: x86_64-buildonly-randconfig-003-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201415.KiEs36AG-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506201415.KiEs36AG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506201414.tHOEthTb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506201415.KiEs36AG-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> security/apparmor/apparmorfs.c:454: warning: Function parameter or struct member 'name' not described in 'aa_profile_load_ns_name'
->> security/apparmor/apparmorfs.c:454: warning: Function parameter or struct member 'name_size' not described in 'aa_profile_load_ns_name'
->> security/apparmor/apparmorfs.c:454: warning: Function parameter or struct member 'buf' not described in 'aa_profile_load_ns_name'
->> security/apparmor/apparmorfs.c:454: warning: Function parameter or struct member 'size' not described in 'aa_profile_load_ns_name'
->> security/apparmor/apparmorfs.c:454: warning: Function parameter or struct member 'ppos' not described in 'aa_profile_load_ns_name'
+   In file included from kernel/fork.c:52:
+>> include/linux/security.h:1614:2: error: expected function body after function declarator
+    1614 |         return -EOPNOTSUPP;
+         |         ^
+>> include/linux/security.h:1615:1: error: extraneous closing brace ('}')
+    1615 | }
+         | ^
+   include/linux/security.h:1620:2: error: expected function body after function declarator
+    1620 |         return -EOPNOTSUPP;
+         |         ^
+   include/linux/security.h:1621:1: error: extraneous closing brace ('}')
+    1621 | }
+         | ^
+   4 errors generated.
 --
->> security/apparmor/lsm.c:1287: warning: Function parameter or struct member 'lsm_id' not described in 'apparmor_lsm_config_self_policy'
->> security/apparmor/lsm.c:1287: warning: Function parameter or struct member 'op' not described in 'apparmor_lsm_config_self_policy'
->> security/apparmor/lsm.c:1287: warning: Function parameter or struct member 'flags' not described in 'apparmor_lsm_config_self_policy'
->> security/apparmor/lsm.c:1318: warning: Function parameter or struct member 'lsm_id' not described in 'apparmor_lsm_config_system_policy'
->> security/apparmor/lsm.c:1318: warning: Function parameter or struct member 'op' not described in 'apparmor_lsm_config_system_policy'
->> security/apparmor/lsm.c:1318: warning: Function parameter or struct member 'flags' not described in 'apparmor_lsm_config_system_policy'
+   In file included from kernel/sysctl.c:29:
+>> include/linux/security.h:1614:2: error: expected function body after function declarator
+    1614 |         return -EOPNOTSUPP;
+         |         ^
+>> include/linux/security.h:1615:1: error: extraneous closing brace ('}')
+    1615 | }
+         | ^
+   include/linux/security.h:1620:2: error: expected function body after function declarator
+    1620 |         return -EOPNOTSUPP;
+         |         ^
+   include/linux/security.h:1621:1: error: extraneous closing brace ('}')
+    1621 | }
+         | ^
+   In file included from kernel/sysctl.c:46:
+   In file included from include/linux/nfs_fs.h:31:
+   In file included from include/linux/sunrpc/auth.h:13:
+   In file included from include/linux/sunrpc/sched.h:19:
+   include/linux/sunrpc/xdr.h:803:46: warning: result of comparison of constant 4611686018427387903 with expression of type '__u32' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+     803 |         if (U32_MAX >= SIZE_MAX / sizeof(*p) && len > SIZE_MAX / sizeof(*p))
+         |                                                 ~~~ ^ ~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 4 errors generated.
+--
+   In file included from kernel/signal.c:30:
+>> include/linux/security.h:1614:2: error: expected function body after function declarator
+    1614 |         return -EOPNOTSUPP;
+         |         ^
+>> include/linux/security.h:1615:1: error: extraneous closing brace ('}')
+    1615 | }
+         | ^
+   include/linux/security.h:1620:2: error: expected function body after function declarator
+    1620 |         return -EOPNOTSUPP;
+         |         ^
+   include/linux/security.h:1621:1: error: extraneous closing brace ('}')
+    1621 | }
+         | ^
+   kernel/signal.c:142:37: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     142 |         case 4: ready  = signal->sig[3] &~ blocked->sig[3];
+         |                                            ^            ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   kernel/signal.c:142:19: warning: array index 3 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     142 |         case 4: ready  = signal->sig[3] &~ blocked->sig[3];
+         |                          ^           ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   kernel/signal.c:143:30: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     143 |                 ready |= signal->sig[2] &~ blocked->sig[2];
+         |                                            ^            ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   kernel/signal.c:143:12: warning: array index 2 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     143 |                 ready |= signal->sig[2] &~ blocked->sig[2];
+         |                          ^           ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   kernel/signal.c:144:30: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     144 |                 ready |= signal->sig[1] &~ blocked->sig[1];
+         |                                            ^            ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   kernel/signal.c:144:12: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     144 |                 ready |= signal->sig[1] &~ blocked->sig[1];
+         |                          ^           ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   kernel/signal.c:148:37: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     148 |         case 2: ready  = signal->sig[1] &~ blocked->sig[1];
+         |                                            ^            ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   kernel/signal.c:148:19: warning: array index 1 is past the end of the array (that has type 'unsigned long[1]') [-Warray-bounds]
+     148 |         case 2: ready  = signal->sig[1] &~ blocked->sig[1];
+         |                          ^           ~
+   arch/x86/include/asm/signal.h:24:2: note: array 'sig' declared here
+      24 |         unsigned long sig[_NSIG_WORDS];
+         |         ^
+   8 warnings and 4 errors generated.
+--
+   In file included from kernel/dma/swiotlb.c:53:
+   In file included from include/trace/events/swiotlb.h:41:
+   In file included from include/trace/define_trace.h:119:
+   In file included from include/trace/trace_events.h:21:
+   In file included from include/linux/trace_events.h:10:
+   In file included from include/linux/perf_event.h:62:
+>> include/linux/security.h:1614:2: error: expected function body after function declarator
+    1614 |         return -EOPNOTSUPP;
+         |         ^
+>> include/linux/security.h:1615:1: error: extraneous closing brace ('}')
+    1615 | }
+         | ^
+   include/linux/security.h:1620:2: error: expected function body after function declarator
+    1620 |         return -EOPNOTSUPP;
+         |         ^
+   include/linux/security.h:1621:1: error: extraneous closing brace ('}')
+    1621 | }
+         | ^
+   kernel/dma/swiotlb.c:639:20: warning: shift count >= width of type [-Wshift-count-overflow]
+     639 |                     phys_limit < DMA_BIT_MASK(64) &&
+         |                                  ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:73:54: note: expanded from macro 'DMA_BIT_MASK'
+      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                                      ^ ~~~
+   1 warning and 4 errors generated.
+--
+   In file included from kernel/events/core.c:34:
+   In file included from include/linux/syscalls.h:94:
+   In file included from include/trace/syscall.h:7:
+   In file included from include/linux/trace_events.h:10:
+   In file included from include/linux/perf_event.h:62:
+>> include/linux/security.h:1614:2: error: expected function body after function declarator
+    1614 |         return -EOPNOTSUPP;
+         |         ^
+>> include/linux/security.h:1615:1: error: extraneous closing brace ('}')
+    1615 | }
+         | ^
+   include/linux/security.h:1620:2: error: expected function body after function declarator
+    1620 |         return -EOPNOTSUPP;
+         |         ^
+   include/linux/security.h:1621:1: error: extraneous closing brace ('}')
+    1621 | }
+         | ^
+   In file included from kernel/events/core.c:43:
+   include/linux/mman.h:157:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     157 |                _calc_vm_trans(flags, MAP_SYNC,       VM_SYNC      ) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:135:21: note: expanded from macro '_calc_vm_trans'
+     135 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:158:9: warning: division by zero is undefined [-Wdivision-by-zero]
+     158 |                _calc_vm_trans(flags, MAP_STACK,      VM_NOHUGEPAGE) |
+         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/mman.h:135:21: note: expanded from macro '_calc_vm_trans'
+     135 |    : ((x) & (bit1)) / ((bit1) / (bit2))))
+         |                     ^ ~~~~~~~~~~~~~~~~~
+   2 warnings and 4 errors generated.
 
 
-vim +454 security/apparmor/apparmorfs.c
+vim +1614 include/linux/security.h
 
-   441	
-   442	/**
-   443	 * aa_profile_load_ns_name - load a profile into the current namespace identified by name
-   444	 * @name The name of the namesapce to load the policy in. "" for root_ns
-   445	 * @name_size size of @name. 0 For root ns
-   446	 * @buf buffer containing the user-provided policy
-   447	 * @size size of @buf
-   448	 * @ppos position pointer in the file
-   449	 *
-   450	 * Returns: 0 on success, negative value on error
-   451	 */
-   452	ssize_t aa_profile_load_ns_name(char *name, size_t name_size, const void __user *buf,
-   453					size_t size, loff_t *ppos)
- > 454	{
-   455		struct aa_ns *ns;
-   456	
-   457		if (name_size == 0)
-   458			ns = aa_get_ns(root_ns);
-   459		else
-   460			ns = aa_lookupn_ns(root_ns, name, name_size);
-   461	
-   462		if (!ns)
-   463			return -EINVAL;
-   464	
-   465		int error = policy_update(AA_MAY_LOAD_POLICY | AA_MAY_REPLACE_POLICY,
-   466					  buf, size, ppos, ns);
-   467	
-   468		aa_put_ns(ns);
-   469	
-   470		return error >= 0 ? 0 : error;
-   471	}
-   472	
+  1610	
+  1611	static int security_lsm_config_self_policy(u32 lsm_id, u32 op, void __user *buf,
+  1612						   size_t size, u32 flags)
+  1613	
+> 1614		return -EOPNOTSUPP;
+> 1615	}
+  1616	
 
 -- 
 0-DAY CI Kernel Test Service
