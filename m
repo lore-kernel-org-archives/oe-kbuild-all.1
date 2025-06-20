@@ -1,58 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468E828A415
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 20 Jun 2025 13:42:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FDA290DA1;
+	Fri, 20 Jun 2025 14:03:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750426945; cv=none; b=fqACOJYhqK2q6T8IIY3MB3GGntAFJiML7rSSN30ErSA5YmRvoki4brlPLN9JV5Eml2Gt2YtqWl1rg44Cq1MFofEvdHTARyxt3nTcYMb7nUt3W13hEK4ZVW2vyYQKVn1zH3zwQVsgED8iTwnaF9Get8DAp3AfhwI8CsWNT7qu020=
+	t=1750428220; cv=none; b=bfIH1Z/rB82pxJKjmztnVZ9RYmlPne0UUaekPN9HeyBYtEnWwb1e/DrwwOCRj/QKXUZXLUQ0gp3JMMzwkScVK/zQpfWWUFNNaK0Aitxs0pLQlqXD588avXhJ1rWKNXQGqLS4vMl3Mu+DEd3OJnB9Y78AmqGQPAnHu7ri05ShY2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750426945; c=relaxed/simple;
-	bh=yZW+QU92x26ZmitH72h1FAkMqsKL9gwfSG6PJ7lIVj4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F1LwrTXPVL3LXOfrcfldoHFLnIUvXTihuNElgMH5b0z3elX34AzwybBjj37XcptsZLFLd+Dh2+odR5AGoYhDnRgjBY2w61W0VwsqhmR8wzo8YasuBnBQZWs2y+rBpRg16GTfdAMW/I5EPTrOz9MxqqKNSIm9n/5TTKeCJVi4UF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dKBbM9XJ; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1750428220; c=relaxed/simple;
+	bh=p9nC1h8R9HgKVWcy4BLKg7nHMZViNKOTBn/WYNwJk18=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QEF0bS7kT4l0Do97ZKmNhY+pJ5vrh8U9ieBwFnouu475CBJAeejHhlDct7CqUpoeRhAxlsnAynpqpAGHpEX9pruk/36HbVxqd7ka4VCEtpjowohYGlnUfh9WfIMibgJ1i4whm0CwxSicJiQMlCGxK5YMuy0SpTY5NFXyANzdZOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AO3JtqI6; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dKBbM9XJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AO3JtqI6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750426943; x=1781962943;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=yZW+QU92x26ZmitH72h1FAkMqsKL9gwfSG6PJ7lIVj4=;
-  b=dKBbM9XJiXIpOUkPnRq82BozneqEQWkNoTn98amuuE1vFMSi/RyEeaIX
-   hDMiL3J00BbuEAZOa7+wwRWEOcGGIHi32KYCAO4aNT0moVMFwN9pf+Bgo
-   PkFVZJrwW1AF3u44uIvjolW/wWr2AUyY1Zdfw/Xe9LvQ/MvimJwhgn93p
-   47RaT/E0IiEnZxocXo+ukRryoalln+yAiCMgU9ZjizmHEayuWSAYJ7nwx
-   b7IlaicTs6eP/DpkYzdSmV928Vghh/bRukpo77gFvDdWu0ehow+FOHQ/v
-   zHwn89PnWBqDdMzsZUycBuxZWg0QcrQS7+7VW9uA4+MOhapDjvjvJZi4C
-   Q==;
-X-CSE-ConnectionGUID: cblCFqXWQ4useTo8F+EboQ==
-X-CSE-MsgGUID: +ehn5ebsT4+8ZWogrLfHgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="40300051"
+  t=1750428218; x=1781964218;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=p9nC1h8R9HgKVWcy4BLKg7nHMZViNKOTBn/WYNwJk18=;
+  b=AO3JtqI6U7B8VnLSN/xrF5WawEy8uI0hBx0mp3GbH+LnINY4D+05b2ic
+   rxfCw0tX+9WZx8Mhu4Ud2oz5i1Vn7K0OdDUNW2cPxZL1idzeyfKRdFep8
+   avGlvVvVLxyfRqulmIEet9Xsf4gFT3mSx/JSIbAKLSWQrgyNF5rSpEj48
+   BoY7AKP1K8yEUp2Cl2OVZHl3c/7G6KSEd/XolCydB7V4YV6X1/VZZxDDJ
+   EJWSUgzWya/uC8zrpVdmyo7hZuldT34/wViqKQ+XCWKmZT/isDvk9iGXW
+   FT2I/Rz5jtHIGLm/wvuNvWw512Tr3InQSDSSIArDL4oMNzlyLyFqEGlgH
+   w==;
+X-CSE-ConnectionGUID: Z2N/xp2bQvmQPhWZnkEZgA==
+X-CSE-MsgGUID: HYQ0HTtMTI2Vudj+X/dbAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63744875"
 X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="40300051"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 06:42:22 -0700
-X-CSE-ConnectionGUID: 0+Lo1EOEROON6leNIeUcMw==
-X-CSE-MsgGUID: wta5cQeXQm6RNxU3kpo+rQ==
+   d="scan'208";a="63744875"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 07:03:27 -0700
+X-CSE-ConnectionGUID: RuhpVMTJTUCTIYqFQpaKbw==
+X-CSE-MsgGUID: yd7fuzCsTgmcfEDgpRruHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="156725421"
+   d="scan'208";a="151471639"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 20 Jun 2025 06:42:21 -0700
+  by orviesa008.jf.intel.com with ESMTP; 20 Jun 2025 07:03:23 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSc0Y-000LoA-2w;
-	Fri, 20 Jun 2025 13:42:18 +0000
-Date: Fri, 20 Jun 2025 21:41:42 +0800
+	id 1uScKu-000LpW-2I;
+	Fri, 20 Jun 2025 14:03:20 +0000
+Date: Fri, 20 Jun 2025 22:03:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Conor Dooley <conor+lkp@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [conor:syscon-rework-4 8/9] drivers/clk/clk-divider-regmap.c:
- warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-Message-ID: <202506202159.X355TV3x-lkp@intel.com>
+To: Sean Anderson <sean.anderson@linux.dev>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Michal Simek <monstr@monstr.eu>,
+	Saravana Kannan <saravanak@google.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Dave Ertman <david.m.ertman@intel.com>,
+	linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Sean Anderson <sean.anderson@linux.dev>
+Subject: Re: [PATCH net 4/4] net: axienet: Split into MAC and MDIO drivers
+Message-ID: <202506202126.EmqQsj0w-lkp@intel.com>
+References: <20250619200537.260017-5-sean.anderson@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,227 +76,141 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250619200537.260017-5-sean.anderson@linux.dev>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/conor/linux.git syscon-rework-4
-head:   c92ed84a7a047f91e6c0f0cc90cea59f7b91727b
-commit: b77274a05640212e8e658373601240e2df4ad02d [8/9] clk: divider, gate: create regmap-backed copies of gate and divider clocks
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20250620/202506202159.X355TV3x-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506202159.X355TV3x-lkp@intel.com/reproduce)
+Hi Sean,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/auxiliary-Allow-empty-id/20250620-040839
+base:   net/main
+patch link:    https://lore.kernel.org/r/20250619200537.260017-5-sean.anderson%40linux.dev
+patch subject: [PATCH net 4/4] net: axienet: Split into MAC and MDIO drivers
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250620/202506202126.EmqQsj0w-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506202126.EmqQsj0w-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506202159.X355TV3x-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506202126.EmqQsj0w-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/base/faux.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/firmware.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/firmware_loader/builtin/main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/firmware_loader/main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/firmware_loader/sysfs_upload.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/isa.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/memory.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/node.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/platform-msi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/platform.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/power/clock_ops.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/power/wakeirq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-ac97.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-fsi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-i2c.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-i3c.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-mdio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-mmio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-ram.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-raw-ram.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-sccb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-sdw-mbq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-sdw.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-slimbus.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-spi-avmm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-spi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-spmi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/regmap/regmap-w1.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/soc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/base/syscore.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bcma/driver_mips.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bcma/host_pci.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bcma/main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/block/drbd/drbd_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bluetooth/btbcm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bluetooth/btintel.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bluetooth/btmrvl_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bluetooth/btmtk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bluetooth/btqca.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bluetooth/btrsi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bluetooth/btrtl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bluetooth/hci_h4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bluetooth/hci_ldisc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bluetooth/hci_serdev.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/arm-cci.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/fsl-mc/dpbp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/fsl-mc/dpcon.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/fsl-mc/dprc-driver.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/fsl-mc/dprc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/fsl-mc/fsl-mc-allocator.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/fsl-mc/fsl-mc-bus.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/fsl-mc/mc-io.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/fsl-mc/mc-sys.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/fsl-mc/obj-api.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/mhi/ep/main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/mhi/host/boot.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/mhi/host/init.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/mhi/host/main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/mhi/host/pm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/mips_cdmm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/moxtet.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/mvebu-mbus.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/stm32_firewall.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/sunxi-rsb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/ts-nbus.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/bus/vexpress-config.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/cache/sifive_ccache.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/cdrom/cdrom.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/cdx/cdx.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/cdx/cdx_msi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/agp/backend.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/agp/generic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/agp/intel-gtt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/apm-emulation.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/hw_random/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/ipmi/ipmi_dmi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/ipmi/ipmi_msghandler.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/ipmi/ipmi_plat_data.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/ipmi/kcs_bmc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/misc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/nsc_gpio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/nvram.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/random.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/scx200_gpio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/toshiba.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/tpm/st33zp24/st33zp24.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/tpm/tpm-buf.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/tpm/tpm-chip.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/tpm/tpm-interface.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/tpm/tpm1-cmd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/tpm/tpm2-cmd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/tpm/tpm2-sessions.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/tpm/tpm_crb_ffa.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/tpm/tpm_tis_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/xillybus/xillybus_class.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/char/xillybus/xillybus_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/analogbits/wrpll-cln28hpc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/at91/pmc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/clk-composite.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/clk-conf.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
->> drivers/clk/clk-divider-regmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/clk-divider.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/clk-fixed-factor.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/clk-fixed-rate.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/clk-fractional-divider.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
->> drivers/clk/clk-gate-regmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/clk-gate.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/clk-mux.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/clk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/clk_kunit_helpers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/clkdev.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/hisilicon/clk-hisi-phase.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/hisilicon/clk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/hisilicon/reset.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/imx/clk-composite-7ulp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/imx/clk-pfdv2.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/imx/clk-pllv4.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/imx/clk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/mediatek/clk-apmixed.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/mediatek/clk-cpumux.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/mediatek/clk-gate.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/mediatek/clk-mtk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/mediatek/clk-mux.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/mediatek/clk-pll.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/mediatek/clk-pllfh.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/mediatek/reset.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/meson/clk-cpu-dyndiv.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/meson/clk-dualdiv.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/meson/clk-mpll.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/meson/clk-phase.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/meson/clk-pll.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/meson/clk-regmap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/meson/meson-aoclk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/meson/meson-clkc-utils.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/meson/meson-eeclk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/meson/sclk-div.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/meson/vclk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/meson/vid-pll-div.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/mxs/clk-ssp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/nuvoton/clk-ma35d1-divider.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/nuvoton/clk-ma35d1-pll.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/qcom/clk-krait.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/qcom/clk-regmap-mux-div.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/renesas/r9a06g032-clocks.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/rockchip/clk-ddr.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/rockchip/clk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/rockchip/softrst.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sprd/common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sprd/composite.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sprd/div.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sprd/gate.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sprd/mux.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sprd/pll.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/starfive/clk-starfive-jh7110-sys.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/starfive/clk-starfive-jh71x0.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_div.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_frac.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_gate.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_mmc_timing.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_mp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_mult.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_mux.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_nk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_nkm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_nkmp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_nm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_phase.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_reset.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/sunxi-ng/ccu_sdm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/tegra/clk-dfll.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/tegra/clk-tegra210-emc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/ti/clkctrl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clk/versatile/icst.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clocksource/acpi_pm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clocksource/arm_arch_timer.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clocksource/hyperv_timer.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clocksource/i8253.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clocksource/samsung_pwm_timer.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clocksource/timer-clint.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/clocksource/timer-riscv.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/comedi_buf.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/comedi_fops.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/comedi_pci.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/comedi_pcmcia.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/comedi_usb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers/addi_watchdog.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers/amplc_dio200_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers/amplc_pc236_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers/comedi_8254.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers/comedi_8255.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers/comedi_isadma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers/das08.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers/mite.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers/ni_labpc_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers/ni_labpc_isadma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers/ni_routes.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers/ni_tio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/drivers/ni_tiocmd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/kcomedilib/kcomedilib_main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/comedi/range.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/connector/connector.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/cpufreq/amd-pstate.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/cpufreq/cpufreq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
-   drivers/cpufreq/cpufreq_governor_attr_set.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+>> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:3225:1: error: redefinition of '__inittest'
+    3225 | module_platform_driver(axienet_driver);
+         | ^
+   include/linux/platform_device.h:292:2: note: expanded from macro 'module_platform_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^
+   include/linux/device/driver.h:261:3: note: expanded from macro 'module_driver'
+     261 | } \
+         |   ^
+   include/linux/module.h:131:42: note: expanded from macro '\
+   module_init'
+     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
+         |                                                 ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2900:1: note: previous definition is here
+    2900 | module_auxiliary_driver(xilinx_axienet_mac)
+         | ^
+   include/linux/auxiliary_bus.h:289:2: note: expanded from macro 'module_auxiliary_driver'
+     289 |         module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+         |         ^
+   include/linux/device/driver.h:261:3: note: expanded from macro 'module_driver'
+     261 | } \
+         |   ^
+   include/linux/module.h:131:42: note: expanded from macro '\
+   module_init'
+     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
+         |                                                 ^
+>> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:3225:1: error: redefinition of 'init_module'
+    3225 | module_platform_driver(axienet_driver);
+         | ^
+   include/linux/platform_device.h:292:2: note: expanded from macro 'module_platform_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^
+   include/linux/device/driver.h:261:3: note: expanded from macro 'module_driver'
+     261 | } \
+         |   ^
+   include/linux/module.h:133:6: note: expanded from macro '\
+   module_init'
+     133 |         int init_module(void) __copy(initfn)                    \
+         |             ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2900:1: note: previous definition is here
+    2900 | module_auxiliary_driver(xilinx_axienet_mac)
+         | ^
+   include/linux/auxiliary_bus.h:289:2: note: expanded from macro 'module_auxiliary_driver'
+     289 |         module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+         |         ^
+   include/linux/device/driver.h:261:3: note: expanded from macro 'module_driver'
+     261 | } \
+         |   ^
+   include/linux/module.h:133:6: note: expanded from macro '\
+   module_init'
+     133 |         int init_module(void) __copy(initfn)                    \
+         |             ^
+>> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:3225:1: error: redefinition of '__exittest'
+    3225 | module_platform_driver(axienet_driver);
+         | ^
+   include/linux/platform_device.h:292:2: note: expanded from macro 'module_platform_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^
+   include/linux/device/driver.h:266:3: note: expanded from macro 'module_driver'
+     266 | } \
+         |   ^
+   include/linux/module.h:139:42: note: expanded from macro '\
+   module_exit'
+     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
+         |                                                 ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2900:1: note: previous definition is here
+    2900 | module_auxiliary_driver(xilinx_axienet_mac)
+         | ^
+   include/linux/auxiliary_bus.h:289:2: note: expanded from macro 'module_auxiliary_driver'
+     289 |         module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+         |         ^
+   include/linux/device/driver.h:266:3: note: expanded from macro 'module_driver'
+     266 | } \
+         |   ^
+   include/linux/module.h:139:42: note: expanded from macro '\
+   module_exit'
+     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
+         |                                                 ^
+>> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:3225:1: error: redefinition of 'cleanup_module'
+    3225 | module_platform_driver(axienet_driver);
+         | ^
+   include/linux/platform_device.h:292:2: note: expanded from macro 'module_platform_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^
+   include/linux/device/driver.h:266:3: note: expanded from macro 'module_driver'
+     266 | } \
+         |   ^
+   include/linux/module.h:141:7: note: expanded from macro '\
+   module_exit'
+     141 |         void cleanup_module(void) __copy(exitfn)                \
+         |              ^
+   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2900:1: note: previous definition is here
+    2900 | module_auxiliary_driver(xilinx_axienet_mac)
+         | ^
+   include/linux/auxiliary_bus.h:289:2: note: expanded from macro 'module_auxiliary_driver'
+     289 |         module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
+         |         ^
+   include/linux/device/driver.h:266:3: note: expanded from macro 'module_driver'
+     266 | } \
+         |   ^
+   include/linux/module.h:141:7: note: expanded from macro '\
+   module_exit'
+     141 |         void cleanup_module(void) __copy(exitfn)                \
+         |              ^
+   4 errors generated.
+
+
+vim +/__inittest +3225 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+
+8a3b7a252dca9f Daniel Borkmann  2012-01-19  3224  
+2be586205ca2b8 Srikanth Thokala 2015-05-05 @3225  module_platform_driver(axienet_driver);
+8a3b7a252dca9f Daniel Borkmann  2012-01-19  3226  
 
 -- 
 0-DAY CI Kernel Test Service
