@@ -1,73 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42FDA290DA1;
-	Fri, 20 Jun 2025 14:03:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 028372522A7;
+	Fri, 20 Jun 2025 14:45:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750428220; cv=none; b=bfIH1Z/rB82pxJKjmztnVZ9RYmlPne0UUaekPN9HeyBYtEnWwb1e/DrwwOCRj/QKXUZXLUQ0gp3JMMzwkScVK/zQpfWWUFNNaK0Aitxs0pLQlqXD588avXhJ1rWKNXQGqLS4vMl3Mu+DEd3OJnB9Y78AmqGQPAnHu7ri05ShY2I=
+	t=1750430731; cv=none; b=gL+hPQP5rvQI/fUfRYNollr1xg/oW9URy3oGP8YsDVC0MGALyxdLAD3skLR/djfaMTu2ELhd/R1nwOQJzVUIhxMXbzFkm5gfOfSZioNEF9uo4W3KrbIwM9PStLkmEq6vnLF28hdngljH0oM3rKgkS8BsUhAQbgseV5/0xFrJcKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750428220; c=relaxed/simple;
-	bh=p9nC1h8R9HgKVWcy4BLKg7nHMZViNKOTBn/WYNwJk18=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QEF0bS7kT4l0Do97ZKmNhY+pJ5vrh8U9ieBwFnouu475CBJAeejHhlDct7CqUpoeRhAxlsnAynpqpAGHpEX9pruk/36HbVxqd7ka4VCEtpjowohYGlnUfh9WfIMibgJ1i4whm0CwxSicJiQMlCGxK5YMuy0SpTY5NFXyANzdZOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AO3JtqI6; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1750430731; c=relaxed/simple;
+	bh=tmYILQMyswj4/c1RXNvxqk5R6MLTLM6z2i7/gxVuVcQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=W/TSrUeZPqisgyXMC1PnTc8rn70pVaDHgeiI3nw35OYkQ7Iksj7IK0wHeiqGNmZbsAXHj8R6zfFHVlS5TmQiQcPNejIkR4f33u+MORH1KSGm35Y0Cp8LaQtBZI0DRzW3tf2vYVqsSA6m5pZxNZQewCUazRjDvli4IOQ/ifRZFBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CG8Ttn9P; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AO3JtqI6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CG8Ttn9P"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750428218; x=1781964218;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=p9nC1h8R9HgKVWcy4BLKg7nHMZViNKOTBn/WYNwJk18=;
-  b=AO3JtqI6U7B8VnLSN/xrF5WawEy8uI0hBx0mp3GbH+LnINY4D+05b2ic
-   rxfCw0tX+9WZx8Mhu4Ud2oz5i1Vn7K0OdDUNW2cPxZL1idzeyfKRdFep8
-   avGlvVvVLxyfRqulmIEet9Xsf4gFT3mSx/JSIbAKLSWQrgyNF5rSpEj48
-   BoY7AKP1K8yEUp2Cl2OVZHl3c/7G6KSEd/XolCydB7V4YV6X1/VZZxDDJ
-   EJWSUgzWya/uC8zrpVdmyo7hZuldT34/wViqKQ+XCWKmZT/isDvk9iGXW
-   FT2I/Rz5jtHIGLm/wvuNvWw512Tr3InQSDSSIArDL4oMNzlyLyFqEGlgH
-   w==;
-X-CSE-ConnectionGUID: Z2N/xp2bQvmQPhWZnkEZgA==
-X-CSE-MsgGUID: HYQ0HTtMTI2Vudj+X/dbAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="63744875"
+  t=1750430730; x=1781966730;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tmYILQMyswj4/c1RXNvxqk5R6MLTLM6z2i7/gxVuVcQ=;
+  b=CG8Ttn9PiykDteSrcSGoVQFZDkh6k8s0JqOKc6PdwfphTEg015LVvSxB
+   H2YvoYNLhAznqdSHWWRDmikPjAQfYGeJTA0e1KRArrXjfcaWVtAnu1EQS
+   aD3yT/URM/sIJKhy30W5VxukTODLfKzdj8gkfZ44oGv/tPdf++jwTJ93G
+   xVoym5m6HmHQowwTVi2vpteZpP/Mae4xEoDjXwJUXE2lPeBl+FgTLYd3O
+   /HNXegfGumKgEsAJ+Rl/0ida3B1CSBbn7bID/A3sxElURlMKPX2Razs5I
+   kZ0huW89BmGMc1+sxPWXBwHGfKgXgTw6QlifKgmK4KqQlXW+fjDb7hMi1
+   Q==;
+X-CSE-ConnectionGUID: VAhF4gmiQ4qfDjnDSYZxgA==
+X-CSE-MsgGUID: dtcBfrbdQBCZWN+VAU4zbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="52786484"
 X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="63744875"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 07:03:27 -0700
-X-CSE-ConnectionGUID: RuhpVMTJTUCTIYqFQpaKbw==
-X-CSE-MsgGUID: yd7fuzCsTgmcfEDgpRruHw==
+   d="scan'208";a="52786484"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 07:45:29 -0700
+X-CSE-ConnectionGUID: xPfI23MvSNW5Q5vVSnkFUw==
+X-CSE-MsgGUID: Ycr6TMT5SXuM0gXrm6Ci3A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,251,1744095600"; 
-   d="scan'208";a="151471639"
+   d="scan'208";a="150421309"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 20 Jun 2025 07:03:23 -0700
+  by orviesa006.jf.intel.com with ESMTP; 20 Jun 2025 07:45:28 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uScKu-000LpW-2I;
-	Fri, 20 Jun 2025 14:03:20 +0000
-Date: Fri, 20 Jun 2025 22:03:12 +0800
+	id 1uSczd-000Lr0-0P;
+	Fri, 20 Jun 2025 14:45:25 +0000
+Date: Fri, 20 Jun 2025 22:44:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Anderson <sean.anderson@linux.dev>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Michal Simek <monstr@monstr.eu>,
-	Saravana Kannan <saravanak@google.com>,
-	Leon Romanovsky <leon@kernel.org>,
-	Dave Ertman <david.m.ertman@intel.com>,
-	linux-kernel@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Sean Anderson <sean.anderson@linux.dev>
-Subject: Re: [PATCH net 4/4] net: axienet: Split into MAC and MDIO drivers
-Message-ID: <202506202126.EmqQsj0w-lkp@intel.com>
-References: <20250619200537.260017-5-sean.anderson@linux.dev>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_5 10/10]
+ kernel/bpf/trampoline.c:195:19: error: variable has incomplete type 'struct
+ ftrace_ops'
+Message-ID: <202506202232.4jCtsKLX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -76,141 +62,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250619200537.260017-5-sean.anderson@linux.dev>
 
-Hi Sean,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on net/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sean-Anderson/auxiliary-Allow-empty-id/20250620-040839
-base:   net/main
-patch link:    https://lore.kernel.org/r/20250619200537.260017-5-sean.anderson%40linux.dev
-patch subject: [PATCH net 4/4] net: axienet: Split into MAC and MDIO drivers
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250620/202506202126.EmqQsj0w-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506202126.EmqQsj0w-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
+head:   b288c6b15d20122d59ddf3bce2fb86afe6ed56c3
+commit: b288c6b15d20122d59ddf3bce2fb86afe6ed56c3 [10/10] bpf: Remove ftrace_ops from bpf_trampoline object
+config: x86_64-buildonly-randconfig-003-20250620 (https://download.01.org/0day-ci/archive/20250620/202506202232.4jCtsKLX-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250620/202506202232.4jCtsKLX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506202126.EmqQsj0w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506202232.4jCtsKLX-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:3225:1: error: redefinition of '__inittest'
-    3225 | module_platform_driver(axienet_driver);
+   In file included from kernel/bpf/trampoline.c:6:
+   include/linux/ftrace.h:567:5: warning: no previous prototype for function 'register_ftrace_direct_hash' [-Wmissing-prototypes]
+     567 | int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
+         |     ^
+   include/linux/ftrace.h:567:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     567 | int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
          | ^
-   include/linux/platform_device.h:292:2: note: expanded from macro 'module_platform_driver'
-     292 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^
-   include/linux/device/driver.h:261:3: note: expanded from macro 'module_driver'
-     261 | } \
-         |   ^
-   include/linux/module.h:131:42: note: expanded from macro '\
-   module_init'
-     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2900:1: note: previous definition is here
-    2900 | module_auxiliary_driver(xilinx_axienet_mac)
+         | static 
+   include/linux/ftrace.h:572:5: warning: no previous prototype for function 'unregister_ftrace_direct_hash' [-Wmissing-prototypes]
+     572 | int unregister_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
+         |     ^
+   include/linux/ftrace.h:572:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     572 | int unregister_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
          | ^
-   include/linux/auxiliary_bus.h:289:2: note: expanded from macro 'module_auxiliary_driver'
-     289 |         module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
-         |         ^
-   include/linux/device/driver.h:261:3: note: expanded from macro 'module_driver'
-     261 | } \
-         |   ^
-   include/linux/module.h:131:42: note: expanded from macro '\
-   module_init'
-     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
-         |                                                 ^
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:3225:1: error: redefinition of 'init_module'
-    3225 | module_platform_driver(axienet_driver);
+         | static 
+   include/linux/ftrace.h:577:5: warning: no previous prototype for function 'modify_ftrace_direct_hash' [-Wmissing-prototypes]
+     577 | int modify_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash, bool do_direct_lock)
+         |     ^
+   include/linux/ftrace.h:577:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     577 | int modify_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash, bool do_direct_lock)
          | ^
-   include/linux/platform_device.h:292:2: note: expanded from macro 'module_platform_driver'
-     292 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^
-   include/linux/device/driver.h:261:3: note: expanded from macro 'module_driver'
-     261 | } \
-         |   ^
-   include/linux/module.h:133:6: note: expanded from macro '\
-   module_init'
-     133 |         int init_module(void) __copy(initfn)                    \
-         |             ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2900:1: note: previous definition is here
-    2900 | module_auxiliary_driver(xilinx_axienet_mac)
-         | ^
-   include/linux/auxiliary_bus.h:289:2: note: expanded from macro 'module_auxiliary_driver'
-     289 |         module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
-         |         ^
-   include/linux/device/driver.h:261:3: note: expanded from macro 'module_driver'
-     261 | } \
-         |   ^
-   include/linux/module.h:133:6: note: expanded from macro '\
-   module_init'
-     133 |         int init_module(void) __copy(initfn)                    \
-         |             ^
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:3225:1: error: redefinition of '__exittest'
-    3225 | module_platform_driver(axienet_driver);
-         | ^
-   include/linux/platform_device.h:292:2: note: expanded from macro 'module_platform_driver'
-     292 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^
-   include/linux/device/driver.h:266:3: note: expanded from macro 'module_driver'
-     266 | } \
-         |   ^
-   include/linux/module.h:139:42: note: expanded from macro '\
-   module_exit'
-     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
-         |                                                 ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2900:1: note: previous definition is here
-    2900 | module_auxiliary_driver(xilinx_axienet_mac)
-         | ^
-   include/linux/auxiliary_bus.h:289:2: note: expanded from macro 'module_auxiliary_driver'
-     289 |         module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
-         |         ^
-   include/linux/device/driver.h:266:3: note: expanded from macro 'module_driver'
-     266 | } \
-         |   ^
-   include/linux/module.h:139:42: note: expanded from macro '\
-   module_exit'
-     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
-         |                                                 ^
->> drivers/net/ethernet/xilinx/xilinx_axienet_main.c:3225:1: error: redefinition of 'cleanup_module'
-    3225 | module_platform_driver(axienet_driver);
-         | ^
-   include/linux/platform_device.h:292:2: note: expanded from macro 'module_platform_driver'
-     292 |         module_driver(__platform_driver, platform_driver_register, \
-         |         ^
-   include/linux/device/driver.h:266:3: note: expanded from macro 'module_driver'
-     266 | } \
-         |   ^
-   include/linux/module.h:141:7: note: expanded from macro '\
-   module_exit'
-     141 |         void cleanup_module(void) __copy(exitfn)                \
-         |              ^
-   drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2900:1: note: previous definition is here
-    2900 | module_auxiliary_driver(xilinx_axienet_mac)
-         | ^
-   include/linux/auxiliary_bus.h:289:2: note: expanded from macro 'module_auxiliary_driver'
-     289 |         module_driver(__auxiliary_driver, auxiliary_driver_register, auxiliary_driver_unregister)
-         |         ^
-   include/linux/device/driver.h:266:3: note: expanded from macro 'module_driver'
-     266 | } \
-         |   ^
-   include/linux/module.h:141:7: note: expanded from macro '\
-   module_exit'
-     141 |         void cleanup_module(void) __copy(exitfn)                \
-         |              ^
-   4 errors generated.
+         | static 
+>> kernel/bpf/trampoline.c:195:19: error: variable has incomplete type 'struct ftrace_ops'
+     195 | struct ftrace_ops direct_ops = {
+         |                   ^
+   include/linux/bpf.h:55:8: note: forward declaration of 'struct ftrace_ops'
+      55 | struct ftrace_ops;
+         |        ^
+   3 warnings and 1 error generated.
 
 
-vim +/__inittest +3225 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+vim +195 kernel/bpf/trampoline.c
 
-8a3b7a252dca9f Daniel Borkmann  2012-01-19  3224  
-2be586205ca2b8 Srikanth Thokala 2015-05-05 @3225  module_platform_driver(axienet_driver);
-8a3b7a252dca9f Daniel Borkmann  2012-01-19  3226  
+   194	
+ > 195	struct ftrace_ops direct_ops = {
+   196	#ifdef CONFIG_DYNAMIC_FTRACE_WITH_DIRECT_CALLS
+   197	       .ops_func = bpf_tramp_ftrace_ops_func,
+   198	#endif
+   199	};
+   200	
 
 -- 
 0-DAY CI Kernel Test Service
