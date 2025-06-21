@@ -1,75 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B3517BD3
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jun 2025 01:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2442F2E
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 21 Jun 2025 03:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750471169; cv=none; b=NpRXa5NpWy7jgU8Vs6EdlN5P3eKr5uyqqoYylcvXmpchHUAFWyTpuNaipdlhYYw6slJViPhix08ywunh+sBFf3n5+oWEEgsu2ZwqL3zcSpqPX242dyQiSLQnO6n0HuHcjv3Z0WEmnk47vV44+2Wj0wkTYwW78OUvBZw2Lwemexs=
+	t=1750475977; cv=none; b=AGeawddW37Por/mSmCtrLYbfsOvwOWMXe/ZeLDb0hy/MKglhvOUTbwarSw6WIqfH5ZpBPr+41jTJZe6XilFc//YbbLmPYHdU1rpXGACUo6JxH7gesQN/K5uze3M5dnble7FBu2HQB5LrqvWFbIPsKkT1MkcTAdmqWB69ptiOWs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750471169; c=relaxed/simple;
-	bh=F/vJB7pJMhoqK5Sn/zUcJbIQjXTvpfrryUuB8nYTD9g=;
+	s=arc-20240116; t=1750475977; c=relaxed/simple;
+	bh=uHpePYePN72JYfRaKa6nfvE8SZ48fAc1bOAYv28nlGk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fnIjSQ2XQ6/hQ3rCVL2YPgKTnG3EdhT1mXtkGsXTVWqFbvMgyRWp0lbbN1+CGbgVtvGPkuqsPcQA6zks+23nng6javrzf4JB6vgH7MAFOUdkbsV0NJrJA7CulLBCQTPxMXJp91lD/Y4X+DU6A/v83oN31egQFGORx7aDRu7g21E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nhy2/oiZ; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=uY0G3eZJ6422eU3Zx74Xhy/157a9akEW1shT1r1Q8wYyAB8fjXQJTMQSyWI8B12A8GLQnLMMYyH8aG2nCGhaMYTASsFqrpqCdeHunRVhq6tOQWqfi5fjdKoUWVOXuZ5twnulMHn8D4IwsZUXMZJrjCIdG9rsBcUopJJquaPy1Z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EK5ErLAi; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nhy2/oiZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EK5ErLAi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750471163; x=1782007163;
+  t=1750475971; x=1782011971;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=F/vJB7pJMhoqK5Sn/zUcJbIQjXTvpfrryUuB8nYTD9g=;
-  b=nhy2/oiZN91ilmfkpR9+5AbZ/StZmHSogyfbvEE1AbXU+6h7M21FG7Ef
-   DI42+yAkwv+JX2rqtqwvrMqTi4bvXRjUU5UylC3QPQzbsDkAD7Yyv8l8d
-   N0zmHuuDXIP9fuHmzyExEm92ivujY4Pi+ozAo0i8yZGtexCB59wvxLXus
-   SXJVrJWfeig6fvUWdl6GAXWM4JmYyu7mMz47a7g6sye8yMWq6COkpr+gz
-   TV6douZ0R2glss4IdEEPLfj2i6CAGlXq1LviP1+LVOPuUNNuGQ4ogVYsG
-   E+u1Qe+9siCmVNljzLXnkFmMdf6o0l+TydijhH1tQf8J3DGpsay8jBP88
-   g==;
-X-CSE-ConnectionGUID: 6mf/xcgpSRKOPw35l5tTxQ==
-X-CSE-MsgGUID: h8HvZ+qiQluyZsuTIAMShg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="40349502"
+  bh=uHpePYePN72JYfRaKa6nfvE8SZ48fAc1bOAYv28nlGk=;
+  b=EK5ErLAiJZ7mm0+a3mfRxKMbc+es+cvOBSpO4vmhGuN5RyUCJFSAUzwj
+   Rh+Ds2MrDW6pfXn5xa33t8qZMk8nBhKUCUDwdWiOqSy3PWgSckddZd671
+   4mw+PB04JEXUkJ7C4Df+bX9lTgawXqVh+Ms6bbImKg9jI6JUutbH3goOP
+   VzC2pJcvjV+WTmS0BGwxoy0RTOU1OVyRSDfCR1fq4mVIV3ZJoA4pzGr1l
+   QTJ+mX2IcGPMupAkDXjDryJCVw9lel1MO0TRBWrZp0s8iog/Dkh8JfWtb
+   D5QFYdgMqPCV8vP+SRvH6IL02LvC2vyqdUZVpQ5/2FZy34vbeVW1JoXuM
+   A==;
+X-CSE-ConnectionGUID: EJmQTkc3TC6eDNYVG8Q0JA==
+X-CSE-MsgGUID: SmTglicrQ6aEAz6709VqXg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11469"; a="75275967"
 X-IronPort-AV: E=Sophos;i="6.16,253,1744095600"; 
-   d="scan'208";a="40349502"
+   d="scan'208";a="75275967"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 18:59:21 -0700
-X-CSE-ConnectionGUID: dS9xu3A9QrWStNTUl3h7xw==
-X-CSE-MsgGUID: EVpbeGyZTUmEBbzZya257A==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2025 20:19:29 -0700
+X-CSE-ConnectionGUID: kQQOPmNBR3ia9wq9y7KFCg==
+X-CSE-MsgGUID: 4PAFex1GSbinalupetg5ig==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,253,1744095600"; 
-   d="scan'208";a="155613392"
+   d="scan'208";a="155628670"
 Received: from igk-lkp-server01.igk.intel.com (HELO 28ae90bf6994) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 20 Jun 2025 18:59:20 -0700
+  by orviesa004.jf.intel.com with ESMTP; 20 Jun 2025 20:19:27 -0700
 Received: from kbuild by 28ae90bf6994 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSnVc-0001QB-1M;
-	Sat, 21 Jun 2025 01:59:08 +0000
-Date: Sat, 21 Jun 2025 09:58:46 +0800
+	id 1uSolA-0001Qh-3C;
+	Sat, 21 Jun 2025 03:19:17 +0000
+Date: Sat, 21 Jun 2025 11:19:06 +0800
 From: kernel test robot <lkp@intel.com>
 To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 0/131] kernel/cpu.c:1098:5:
- warning: no previous prototype for '__pause_drain_rq'
-Message-ID: <202506210930.Ey8WawWa-lkp@intel.com>
+Subject: [android-common:android12-kiwi-5.10 0/131]
+ drivers/md/dm-user.c:539:5: warning: no previous prototype for 'target_poll'
+Message-ID: <202506211151.LPEsntOM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="cdiaF8DnoZvse7tj"
+Content-Type: multipart/mixed; boundary="4KID2MB44nuOzg9z"
 Content-Disposition: inline
 
 
---cdiaF8DnoZvse7tj
+--4KID2MB44nuOzg9z
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
 head:   9203085d68e4793796a32d611222a6e9e5b9b9d3
-commit: e19b8ce907a4ccc2f9dbeba218c50d1ff07fd321 [0/131] ANDROID: cpu/hotplug: add migration to paused_cpus
+commit: 83bf345abc0bc06b98e906bfbb120a52446e1c43 [0/131] ANDROID: dm: dm-user: New target that proxies BIOs to userspace
 config: i386-buildonly-randconfig-2004-20250502
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
 reproduce (this is a W=1 build):
@@ -77,13 +77,18 @@ reproduce (this is a W=1 build):
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506210930.Ey8WawWa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506211151.LPEsntOM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
    In file included from include/linux/gfp.h:6,
-                    from include/linux/sched/mm.h:9,
-                    from kernel/cpu.c:6:
+                    from include/linux/xarray.h:14,
+                    from include/linux/radix-tree.h:19,
+                    from include/linux/fs.h:15,
+                    from include/linux/highmem.h:5,
+                    from include/linux/bio.h:8,
+                    from include/linux/device-mapper.h:11,
+                    from drivers/md/dm-user.c:7:
    include/linux/mmzone.h: In function '__nr_to_section':
    include/linux/mmzone.h:1270:13: warning: the comparison will always evaluate as 'true' for the address of 'mem_section' will never be NULL [-Waddress]
     1270 |         if (!mem_section[SECTION_NR_TO_ROOT(nr)])
@@ -91,64 +96,146 @@ All warnings (new ones prefixed by >>):
    include/linux/mmzone.h:1256:27: note: 'mem_section' declared here
     1256 | extern struct mem_section mem_section[NR_SECTION_ROOTS][SECTIONS_PER_ROOT];
          |                           ^~~~~~~~~~~
-   kernel/cpu.c: At top level:
->> kernel/cpu.c:1098:5: warning: no previous prototype for '__pause_drain_rq' [-Wmissing-prototypes]
-    1098 | int __pause_drain_rq(struct cpumask *cpus)
-         |     ^~~~~~~~~~~~~~~~
->> kernel/cpu.c:1118:6: warning: no previous prototype for '__wait_drain_rq' [-Wmissing-prototypes]
-    1118 | void __wait_drain_rq(struct cpumask *cpus)
-         |      ^~~~~~~~~~~~~~~
+   drivers/md/dm-user.c: At top level:
+   drivers/md/dm-user.c:525:6: warning: no previous prototype for 'message_kill' [-Wmissing-prototypes]
+     525 | void message_kill(struct message *m, mempool_t *pool)
+         |      ^~~~~~~~~~~~
+>> drivers/md/dm-user.c:539:5: warning: no previous prototype for 'target_poll' [-Wmissing-prototypes]
+     539 | int target_poll(struct target *t)
+         |     ^~~~~~~~~~~
+>> drivers/md/dm-user.c:544:6: warning: no previous prototype for 'target_release' [-Wmissing-prototypes]
+     544 | void target_release(struct kref *ref)
+         |      ^~~~~~~~~~~~~~
+>> drivers/md/dm-user.c:565:6: warning: no previous prototype for 'target_put' [-Wmissing-prototypes]
+     565 | void target_put(struct target *t)
+         |      ^~~~~~~~~~
+   drivers/md/dm-user.c:578:17: warning: no previous prototype for 'channel_alloc' [-Wmissing-prototypes]
+     578 | struct channel *channel_alloc(struct target *t)
+         |                 ^~~~~~~~~~~~~
+>> drivers/md/dm-user.c:596:6: warning: no previous prototype for 'channel_free' [-Wmissing-prototypes]
+     596 | void channel_free(struct channel *c)
+         |      ^~~~~~~~~~~~
 
 
-vim +/__pause_drain_rq +1098 kernel/cpu.c
+vim +/target_poll +539 drivers/md/dm-user.c
 
-  1097	
-> 1098	int __pause_drain_rq(struct cpumask *cpus)
-  1099	{
-  1100		unsigned int cpu;
-  1101		int err = 0;
-  1102	
-  1103		/*
-  1104		 * Disabling preemption avoids that one of the stopper, started from
-  1105		 * sched_cpu_drain_rq(), blocks firing draining for the whole cpumask.
-  1106		 */
-  1107		preempt_disable();
-  1108		for_each_cpu(cpu, cpus) {
-  1109			err = sched_cpu_drain_rq(cpu);
-  1110			if (err)
-  1111				break;
-  1112		}
-  1113		preempt_enable();
-  1114	
-  1115		return err;
-  1116	}
-  1117	
-> 1118	void __wait_drain_rq(struct cpumask *cpus)
-  1119	{
-  1120		unsigned int cpu;
-  1121	
-  1122		for_each_cpu(cpu, cpus)
-  1123			sched_cpu_drain_rq_wait(cpu);
-  1124	}
-  1125	
+   532	
+   533	/*
+   534	 * Returns 0 when there is no work left to do.  This must be callable without
+   535	 * holding the target lock, as it is part of the waitqueue's check expression.
+   536	 * When called without the lock it may spuriously indicate there is remaining
+   537	 * work, but when called with the lock it must be accurate.
+   538	 */
+ > 539	int target_poll(struct target *t)
+   540	{
+   541		return !list_empty(&t->to_user) || t->dm_destroyed;
+   542	}
+   543	
+ > 544	void target_release(struct kref *ref)
+   545	{
+   546		struct target *t = container_of(ref, struct target, references);
+   547		struct list_head *cur;
+   548	
+   549		/*
+   550		 * There may be outstanding BIOs that have not yet been given to
+   551		 * userspace.  At this point there's nothing we can do about them, as
+   552		 * there are and will never be any channels.
+   553		 */
+   554		list_for_each (cur, &t->to_user) {
+   555			message_kill(list_entry(cur, struct message, to_user),
+   556				     &t->message_pool);
+   557		}
+   558	
+   559		mempool_exit(&t->message_pool);
+   560		mutex_unlock(&t->lock);
+   561		mutex_destroy(&t->lock);
+   562		kfree(t);
+   563	}
+   564	
+ > 565	void target_put(struct target *t)
+   566	{
+   567		/*
+   568		 * This both releases a reference to the target and the lock.  We leave
+   569		 * it up to the caller to hold the lock, as they probably needed it for
+   570		 * something else.
+   571		 */
+   572		lockdep_assert_held(&t->lock);
+   573	
+   574		if (!kref_put(&t->references, target_release))
+   575			mutex_unlock(&t->lock);
+   576	}
+   577	
+   578	struct channel *channel_alloc(struct target *t)
+   579	{
+   580		struct channel *c;
+   581	
+   582		lockdep_assert_held(&t->lock);
+   583	
+   584		c = kzalloc(sizeof(*c), GFP_KERNEL);
+   585		if (c == NULL)
+   586			return NULL;
+   587	
+   588		kref_get(&t->references);
+   589		c->target = t;
+   590		c->cur_from_user = &c->scratch_message_from_user;
+   591		mutex_init(&c->lock);
+   592		INIT_LIST_HEAD(&c->from_user);
+   593		return c;
+   594	}
+   595	
+ > 596	void channel_free(struct channel *c)
+   597	{
+   598		struct list_head *cur;
+   599	
+   600		lockdep_assert_held(&c->lock);
+   601	
+   602		/*
+   603		 * There may be outstanding BIOs that have been given to userspace but
+   604		 * have not yet been completed.  The channel has been shut down so
+   605		 * there's no way to process the rest of those messages, so we just go
+   606		 * ahead and error out the BIOs.  Hopefully whatever's on the other end
+   607		 * can handle the errors.  One could imagine splitting the BIOs and
+   608		 * completing as much as we got, but that seems like overkill here.
+   609		 *
+   610		 * Our only other options would be to let the BIO hang around (which
+   611		 * seems way worse) or to resubmit it to userspace in the hope there's
+   612		 * another channel.  I don't really like the idea of submitting a
+   613		 * message twice.
+   614		 */
+   615		if (c->cur_to_user != NULL)
+   616			message_kill(c->cur_to_user, &c->target->message_pool);
+   617		if (c->cur_from_user != &c->scratch_message_from_user)
+   618			message_kill(c->cur_from_user, &c->target->message_pool);
+   619		list_for_each (cur, &c->from_user)
+   620			message_kill(list_entry(cur, struct message, to_user),
+   621				     &c->target->message_pool);
+   622	
+   623		mutex_lock(&c->target->lock);
+   624		target_put(c->target);
+   625		mutex_unlock(&c->lock);
+   626		mutex_destroy(&c->lock);
+   627		kfree(c);
+   628	}
+   629	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
---cdiaF8DnoZvse7tj
+--4KID2MB44nuOzg9z
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=config
 
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/i386 5.10.0-rc6 Kernel Configuration
+# Linux/i386 5.10.0-rc7 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc-12 (Debian 12.2.0-14) 12.2.0"
 CONFIG_CC_IS_GCC=y
 CONFIG_GCC_VERSION=120200
 CONFIG_LD_VERSION=240000000
 CONFIG_CLANG_VERSION=0
+CONFIG_LLD_VERSION=0
 CONFIG_CC_CAN_LINK=y
 CONFIG_CC_CAN_LINK_STATIC=y
 CONFIG_CC_HAS_ASM_GOTO=y
@@ -322,6 +409,7 @@ CONFIG_RD_XZ=y
 CONFIG_BOOT_CONFIG=y
 CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE=y
 # CONFIG_CC_OPTIMIZE_FOR_SIZE is not set
+CONFIG_LD_ORPHAN_WARN=y
 CONFIG_SYSCTL=y
 CONFIG_HAVE_UID16=y
 CONFIG_SYSCTL_EXCEPTION_TRACE=y
@@ -809,6 +897,7 @@ CONFIG_HAVE_ARCH_PREL32_RELOCATIONS=y
 CONFIG_LOCK_EVENT_COUNTS=y
 CONFIG_ARCH_HAS_MEM_ENCRYPT=y
 CONFIG_HAVE_STATIC_CALL=y
+CONFIG_ARCH_WANT_LD_ORPHAN_WARN=y
 
 #
 # GCOV-based kernel profiling
@@ -965,7 +1054,6 @@ CONFIG_ZPOOL=y
 # CONFIG_ZBUD is not set
 # CONFIG_Z3FOLD is not set
 CONFIG_ZSMALLOC=y
-# CONFIG_ZSMALLOC_PGTABLE_MAPPING is not set
 # CONFIG_ZSMALLOC_STAT is not set
 CONFIG_GENERIC_EARLY_IOREMAP=y
 # CONFIG_IDLE_PAGE_TRACKING is not set
@@ -1612,6 +1700,7 @@ CONFIG_DM_LOG_WRITES=y
 # CONFIG_DM_INTEGRITY is not set
 CONFIG_DM_ZONED=y
 # CONFIG_DM_BOW is not set
+CONFIG_DM_USER=y
 CONFIG_TARGET_CORE=y
 CONFIG_TCM_IBLOCK=y
 CONFIG_TCM_FILEIO=y
@@ -5604,17 +5693,17 @@ CONFIG_MEMTEST=y
 # CONFIG_WARN_ABI_ERRORS is not set
 # end of Kernel hacking
 
---cdiaF8DnoZvse7tj
+--4KID2MB44nuOzg9z
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: attachment; filename=reproduce
 
 reproduce (this is a W=1 build):
         git remote add android-common https://android.googlesource.com/kernel/common
         git fetch --no-tags android-common android12-kiwi-5.10
-        git checkout e19b8ce907a4ccc2f9dbeba218c50d1ff07fd321
+        git checkout 83bf345abc0bc06b98e906bfbb120a52446e1c43
         # save the config file
         mkdir build_dir && cp config build_dir/.config
         make W=1 O=build_dir ARCH=i386 olddefconfig
-        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/md/ drivers/mtd/nand/raw/ kernel/
+        make W=1 O=build_dir ARCH=i386 SHELL=/bin/bash drivers/md/ drivers/mtd/nand/raw/ kernel/sched/
 
---cdiaF8DnoZvse7tj--
+--4KID2MB44nuOzg9z--
