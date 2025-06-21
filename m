@@ -1,64 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F7C15C158;
-	Sat, 21 Jun 2025 13:02:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76EC8E56A;
+	Sat, 21 Jun 2025 14:57:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750510977; cv=none; b=KxN87wM5/+q9ogA7gmAe0e7cMpG0JmxFT/k/Uf4iOZF8/r981SAlpXj9gBM3Hw0A7AjyReokyH4zHA1X6lyjFaQlIswlid+6GH1Hz682VDak/N3ZlhrUT/K1A2vTj+vADxBbhWqD4dcSzqAtEmAyc/1FMiWCJq9AKzl372+uSf4=
+	t=1750517830; cv=none; b=ag+ihMK5Rq+YnhpvzECQDjq4zloz4xEau1O+y5sArOPn4GBqGg3BP7N8PIVEZD6Uu/ZJOunxVW4fJ0StXVlEd6kG0PzwoybqXZSL0nvtAUNEI+gjYIBEEwjk5JUxJXVg8KxZS9V1GH6AMW3SUyUXMbKHLaN/6w/wCq/+ISclZx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750510977; c=relaxed/simple;
-	bh=bIAbaa1hcrbXGdLOCG9bBGbCTsWp6a8ZVSPoaIhtwHI=;
+	s=arc-20240116; t=1750517830; c=relaxed/simple;
+	bh=X3vV+eJu0dvr53qzXk4iuxmihuUGtVvgs8eqeDhJh9o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E+/p3iRLPd+r7gO4djGZisE33h1XjelDAKKwLsA+79hNmK+rJO2p8US+j9f/JsJe4nMGK6ZaoTveCYL0D5agbqnVX1ThkbTpQvNlTMhKbzBClT/PUul3sjTC07ZG9iXp0x91slaGYZZ4cq3Fmk89hjYMk4UICQEuc7Ut6YzthRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mCWhDjqk; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=F248+gEPQKpGiV2L+DqW9i9KD+yZvmi3h+UfpsApBM3kX+TE9MqwjMdxJ2QDp9GSeb5mkJmZBJMzAmOfkDw3dm/ECc54lN98+MmvbaVJLZiJNyJyxx3bgsUdx52Tq0fosXyrrEBq9+cbng7c1Bj1abcavE+7ZosMmO2EjQ0FTgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=avEzWE8R; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mCWhDjqk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="avEzWE8R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750510976; x=1782046976;
+  t=1750517828; x=1782053828;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=bIAbaa1hcrbXGdLOCG9bBGbCTsWp6a8ZVSPoaIhtwHI=;
-  b=mCWhDjqkPMqua8+aBAiTauLBs5ANQZ7MVbsSYF37JIiJdbXyNE2M9FnT
-   AfvS1PmEHyc1tvKCz1vMs0kYRjkvR40r6H+sCxBkWAmA5jBHn0pPMzNz5
-   YKeMm3iqVG3H/dTOpaUgcIyrxD+VuXtsVAmF1SW++dgMRniF+vXKBVaay
-   niDHCERYOFfN/0r/fURoC/B1WD5SGLG69BJogRWcmmqguWharHDg9J53J
-   QV92Rw/rATnh/lWGAZSauKjLKE3+pygzuhPpESSHHEZ6ZLAPSdcu75yCC
-   d4jojkSO92UUzfztu4x6NSMOU6eziHmDaSYNeE+4qWdlfUJkgYVJ6gXOi
-   w==;
-X-CSE-ConnectionGUID: CJedEempReSLPEEsnRVvyw==
-X-CSE-MsgGUID: rLEyo1fdReuO+qlezi8uqQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="63029290"
+  bh=X3vV+eJu0dvr53qzXk4iuxmihuUGtVvgs8eqeDhJh9o=;
+  b=avEzWE8RhpejSpMIpCWpVkjD0JbKnxovumBr1tjd7BYDDjfU6RmyNo9m
+   PdBlIjpJit0BF+IHGVFTiOs9aOq+kXPK7v+XIBILwrP7QZ+NDIPtoiOJ8
+   CQWLUjPFQFoyRfTd3bn1Wmet87vdy1Q2Ui5UrQa0C9s454ADmpJ41a0vl
+   N5+/ig3kiI6PzHXZgZQCPkZy0JNV0EuA8xr77dPS5HbMQhRmYIQbfn/zn
+   u2jU11k/MJiIDPCx2UHGE+RwccqIIXY611uyidrP9twzDZL8N0qeeSE+h
+   cs2+B2KdivzR24zElJKdR7Ax8q60ugvvZ5r92X8g6kv5NvY0MiTobU7rh
+   g==;
+X-CSE-ConnectionGUID: 07mroo0WRkONjRsyyH1k2g==
+X-CSE-MsgGUID: yLE7bNvhQCaKI4d74BguFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="52697043"
 X-IronPort-AV: E=Sophos;i="6.16,254,1744095600"; 
-   d="scan'208";a="63029290"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2025 06:02:55 -0700
-X-CSE-ConnectionGUID: kMJ85cQVToG3OAaSrU6XOg==
-X-CSE-MsgGUID: E/NRupenT76+Cy7GDXRLXg==
+   d="scan'208";a="52697043"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2025 07:57:07 -0700
+X-CSE-ConnectionGUID: /ElNxIjAQAOkdsx+BhBW4w==
+X-CSE-MsgGUID: YjlOm5efQmS2CH7jY5cacw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,254,1744095600"; 
-   d="scan'208";a="150741998"
+   d="scan'208";a="155720770"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Jun 2025 06:02:52 -0700
+  by orviesa004.jf.intel.com with ESMTP; 21 Jun 2025 07:57:03 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uSxru-000Md0-14;
-	Sat, 21 Jun 2025 13:02:50 +0000
-Date: Sat, 21 Jun 2025 21:02:10 +0800
+	id 1uSzeN-000MgQ-2S;
+	Sat, 21 Jun 2025 14:56:59 +0000
+Date: Sat, 21 Jun 2025 22:56:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: NeilBrown <neil@brown.name>, Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-nfs@vger.kernel.org, Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Li Lingfeng <lilingfeng3@huawei.com>
-Subject: Re: [PATCH 3/3] nfsd: split nfsd_mutex into one mutex per
- net-namespace.
-Message-ID: <202506212005.LpUsPRa3-lkp@intel.com>
-References: <20250620233802.1453016-4-neil@brown.name>
+To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Colton Lewis <coltonlewis@google.com>
+Subject: Re: [PATCH v2 05/23] KVM: arm64: Cleanup PMU includes
+Message-ID: <202506212205.NmAR3sAH-lkp@intel.com>
+References: <20250620221326.1261128-6-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,164 +76,234 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250620233802.1453016-4-neil@brown.name>
+In-Reply-To: <20250620221326.1261128-6-coltonlewis@google.com>
 
-Hi NeilBrown,
+Hi Colton,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on trondmy-nfs/linux-next linus/master v6.16-rc2 next-20250620]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 79150772457f4d45e38b842d786240c36bb1f97f]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/NeilBrown/nfsd-provide-proper-locking-for-all-write_-function/20250621-073955
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250620233802.1453016-4-neil%40brown.name
-patch subject: [PATCH 3/3] nfsd: split nfsd_mutex into one mutex per net-namespace.
-config: i386-buildonly-randconfig-003-20250621 (https://download.01.org/0day-ci/archive/20250621/202506212005.LpUsPRa3-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250621/202506212005.LpUsPRa3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Colton-Lewis/arm64-cpufeature-Add-cpucap-for-HPMN0/20250621-102220
+base:   79150772457f4d45e38b842d786240c36bb1f97f
+patch link:    https://lore.kernel.org/r/20250620221326.1261128-6-coltonlewis%40google.com
+patch subject: [PATCH v2 05/23] KVM: arm64: Cleanup PMU includes
+config: arm64-randconfig-004-20250621 (https://download.01.org/0day-ci/archive/20250621/202506212205.NmAR3sAH-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250621/202506212205.NmAR3sAH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506212005.LpUsPRa3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506212205.NmAR3sAH-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/nfsd/nfsctl.c:1699:3: error: cannot jump from this goto statement to its label
-    1699 |                 goto err_free_msg;
-         |                 ^
-   fs/nfsd/nfsctl.c:1702:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1702 |         guard(mutex)(&nn->config_mutex);
-         |         ^
-   include/linux/cleanup.h:338:15: note: expanded from macro 'guard'
-     338 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:45:1: note: expanded from here
-      45 | __UNIQUE_ID_guard1097
-         | ^
-   fs/nfsd/nfsctl.c:1825:3: error: cannot jump from this goto statement to its label
-    1825 |                 goto err_free_msg;
-         |                 ^
-   fs/nfsd/nfsctl.c:1829:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    1829 |         guard(mutex)(&nn->config_mutex);
-         |         ^
-   include/linux/cleanup.h:338:15: note: expanded from macro 'guard'
-     338 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:68:1: note: expanded from here
-      68 | __UNIQUE_ID_guard1099
-         | ^
-   fs/nfsd/nfsctl.c:2044:3: error: cannot jump from this goto statement to its label
-    2044 |                 goto err_free_msg;
-         |                 ^
-   fs/nfsd/nfsctl.c:2048:2: note: jump bypasses initialization of variable with __attribute__((cleanup))
-    2048 |         guard(mutex)(&nn->config_mutex);
-         |         ^
-   include/linux/cleanup.h:338:15: note: expanded from macro 'guard'
-     338 |         CLASS(_name, __UNIQUE_ID(guard))
-         |                      ^
-   include/linux/compiler.h:166:29: note: expanded from macro '__UNIQUE_ID'
-     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
-         |                             ^
-   include/linux/compiler_types.h:84:22: note: expanded from macro '__PASTE'
-      84 | #define __PASTE(a,b) ___PASTE(a,b)
-         |                      ^
-   include/linux/compiler_types.h:83:23: note: expanded from macro '___PASTE'
-      83 | #define ___PASTE(a,b) a##b
-         |                       ^
-   <scratch space>:118:1: note: expanded from here
-     118 | __UNIQUE_ID_guard1101
-         | ^
-   3 errors generated.
+   drivers/perf/arm_pmuv3.c:143:41: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_RD'
+     143 |  [C(L1D)][C(OP_READ)][C(RESULT_MISS)] = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_RD,
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:123:45: warning: initialized field overwritten [-Woverride-init]
+     123 | #define ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR   0x0041
+         |                                             ^~~~~~
+   drivers/perf/arm_pmuv3.c:144:44: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR'
+     144 |  [C(L1D)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR,
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:123:45: note: (near initialization for 'armv8_vulcan_perf_cache_map[0][1][0]')
+     123 | #define ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR   0x0041
+         |                                             ^~~~~~
+   drivers/perf/arm_pmuv3.c:144:44: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR'
+     144 |  [C(L1D)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_WR,
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:125:51: warning: initialized field overwritten [-Woverride-init]
+     125 | #define ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR  0x0043
+         |                                                   ^~~~~~
+   drivers/perf/arm_pmuv3.c:145:42: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR'
+     145 |  [C(L1D)][C(OP_WRITE)][C(RESULT_MISS)] = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR,
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:125:51: note: (near initialization for 'armv8_vulcan_perf_cache_map[0][1][1]')
+     125 | #define ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR  0x0043
+         |                                                   ^~~~~~
+   drivers/perf/arm_pmuv3.c:145:42: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR'
+     145 |  [C(L1D)][C(OP_WRITE)][C(RESULT_MISS)] = ARMV8_IMPDEF_PERFCTR_L1D_CACHE_REFILL_WR,
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:134:44: warning: initialized field overwritten [-Woverride-init]
+     134 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD    0x004E
+         |                                            ^~~~~~
+   drivers/perf/arm_pmuv3.c:147:44: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD'
+     147 |  [C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD,
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:134:44: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][0][0]')
+     134 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD    0x004E
+         |                                            ^~~~~~
+   drivers/perf/arm_pmuv3.c:147:44: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD'
+     147 |  [C(DTLB)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_RD,
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:135:44: warning: initialized field overwritten [-Woverride-init]
+     135 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR    0x004F
+         |                                            ^~~~~~
+   drivers/perf/arm_pmuv3.c:148:45: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR'
+     148 |  [C(DTLB)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR,
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:135:44: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][1][0]')
+     135 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR    0x004F
+         |                                            ^~~~~~
+   drivers/perf/arm_pmuv3.c:148:45: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR'
+     148 |  [C(DTLB)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_WR,
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:132:50: warning: initialized field overwritten [-Woverride-init]
+     132 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD   0x004C
+         |                                                  ^~~~~~
+   drivers/perf/arm_pmuv3.c:149:42: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD'
+     149 |  [C(DTLB)][C(OP_READ)][C(RESULT_MISS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD,
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:132:50: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][0][1]')
+     132 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD   0x004C
+         |                                                  ^~~~~~
+   drivers/perf/arm_pmuv3.c:149:42: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD'
+     149 |  [C(DTLB)][C(OP_READ)][C(RESULT_MISS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_RD,
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:133:50: warning: initialized field overwritten [-Woverride-init]
+     133 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR   0x004D
+         |                                                  ^~~~~~
+   drivers/perf/arm_pmuv3.c:150:43: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR'
+     150 |  [C(DTLB)][C(OP_WRITE)][C(RESULT_MISS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:133:50: note: (near initialization for 'armv8_vulcan_perf_cache_map[3][1][1]')
+     133 | #define ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR   0x004D
+         |                                                  ^~~~~~
+   drivers/perf/arm_pmuv3.c:150:43: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR'
+     150 |  [C(DTLB)][C(OP_WRITE)][C(RESULT_MISS)] = ARMV8_IMPDEF_PERFCTR_L1D_TLB_REFILL_WR,
+         |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:149:46: warning: initialized field overwritten [-Woverride-init]
+     149 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD   0x0060
+         |                                              ^~~~~~
+   drivers/perf/arm_pmuv3.c:152:44: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD'
+     152 |  [C(NODE)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD,
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:149:46: note: (near initialization for 'armv8_vulcan_perf_cache_map[6][0][0]')
+     149 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD   0x0060
+         |                                              ^~~~~~
+   drivers/perf/arm_pmuv3.c:152:44: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD'
+     152 |  [C(NODE)][C(OP_READ)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_RD,
+         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:150:46: warning: initialized field overwritten [-Woverride-init]
+     150 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR   0x0061
+         |                                              ^~~~~~
+   drivers/perf/arm_pmuv3.c:153:45: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR'
+     153 |  [C(NODE)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR,
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/perf/arm_pmuv3.h:150:46: note: (near initialization for 'armv8_vulcan_perf_cache_map[6][1][0]')
+     150 | #define ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR   0x0061
+         |                                              ^~~~~~
+   drivers/perf/arm_pmuv3.c:153:45: note: in expansion of macro 'ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR'
+     153 |  [C(NODE)][C(OP_WRITE)][C(RESULT_ACCESS)] = ARMV8_IMPDEF_PERFCTR_BUS_ACCESS_WR,
+         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/perf/arm_pmuv3.c: In function 'armv8pmu_enable_event_counter':
+>> drivers/perf/arm_pmuv3.c:680:2: error: implicit declaration of function 'kvm_set_pmu_events' [-Werror=implicit-function-declaration]
+     680 |  kvm_set_pmu_events(mask, attr);
+         |  ^~~~~~~~~~~~~~~~~~
+   drivers/perf/arm_pmuv3.c: In function 'armv8pmu_disable_event_counter':
+>> drivers/perf/arm_pmuv3.c:702:2: error: implicit declaration of function 'kvm_clr_pmu_events' [-Werror=implicit-function-declaration]
+     702 |  kvm_clr_pmu_events(mask);
+         |  ^~~~~~~~~~~~~~~~~~
+   drivers/perf/arm_pmuv3.c: In function 'update_pmuserenr':
+>> drivers/perf/arm_pmuv3.c:757:6: error: implicit declaration of function 'kvm_set_pmuserenr' [-Werror=implicit-function-declaration]
+     757 |  if (kvm_set_pmuserenr(val))
+         |      ^~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +1699 fs/nfsd/nfsctl.c
+vim +/kvm_set_pmu_events +680 drivers/perf/arm_pmuv3.c
 
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1677  
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1678  /**
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1679   * nfsd_nl_threads_get_doit - get the number of running threads
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1680   * @skb: reply buffer
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1681   * @info: netlink metadata and command arguments
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1682   *
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1683   * Return 0 on success or a negative errno.
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1684   */
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1685  int nfsd_nl_threads_get_doit(struct sk_buff *skb, struct genl_info *info)
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1686  {
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1687  	struct net *net = genl_info_net(info);
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1688  	struct nfsd_net *nn = net_generic(net, nfsd_net_id);
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1689  	void *hdr;
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1690  	int err;
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1691  
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1692  	skb = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1693  	if (!skb)
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1694  		return -ENOMEM;
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1695  
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1696  	hdr = genlmsg_iput(skb, info);
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1697  	if (!hdr) {
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1698  		err = -EMSGSIZE;
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23 @1699  		goto err_free_msg;
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1700  	}
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1701  
-40677c06f2c6a4 NeilBrown        2025-06-21  1702  	guard(mutex)(&nn->config_mutex);
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1703  
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1704  	err = nla_put_u32(skb, NFSD_A_SERVER_GRACETIME,
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1705  			  nn->nfsd4_grace) ||
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1706  	      nla_put_u32(skb, NFSD_A_SERVER_LEASETIME,
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1707  			  nn->nfsd4_lease) ||
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1708  	      nla_put_string(skb, NFSD_A_SERVER_SCOPE,
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1709  			  nn->nfsd_name);
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1710  	if (err)
-40677c06f2c6a4 NeilBrown        2025-06-21  1711  		goto err_free_msg;
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1712  
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1713  	if (nn->nfsd_serv) {
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1714  		int i;
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1715  
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1716  		for (i = 0; i < nfsd_nrpools(net); ++i) {
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1717  			struct svc_pool *sp = &nn->nfsd_serv->sv_pools[i];
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1718  
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1719  			err = nla_put_u32(skb, NFSD_A_SERVER_THREADS,
-60749cbe3d8ae5 NeilBrown        2024-07-15  1720  					  sp->sp_nrthreads);
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1721  			if (err)
-40677c06f2c6a4 NeilBrown        2025-06-21  1722  				goto err_free_msg;
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1723  		}
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1724  	} else {
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1725  		err = nla_put_u32(skb, NFSD_A_SERVER_THREADS, 0);
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1726  		if (err)
-40677c06f2c6a4 NeilBrown        2025-06-21  1727  			goto err_free_msg;
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1728  	}
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1729  
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1730  	genlmsg_end(skb, hdr);
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1731  
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1732  	return genlmsg_reply(skb, info);
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1733  
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1734  err_free_msg:
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1735  	nlmsg_free(skb);
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1736  
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1737  	return err;
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1738  }
-924f4fb003ba11 Lorenzo Bianconi 2024-04-23  1739  
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  674  
+9343c790e6de7e drivers/perf/arm_pmuv3.c       James Clark       2023-12-11  675  static void armv8pmu_enable_event_counter(struct perf_event *event)
+c13207905340d8 arch/arm64/kernel/perf_event.c Suzuki K Poulose  2018-07-10  676  {
+d1947bc4bc63e5 arch/arm64/kernel/perf_event.c Andrew Murray     2019-04-09  677  	struct perf_event_attr *attr = &event->attr;
+a4a6e2078d85a9 drivers/perf/arm_pmuv3.c       Rob Herring (Arm  2024-07-31  678) 	u64 mask = armv8pmu_event_cnten_mask(event);
+d1947bc4bc63e5 arch/arm64/kernel/perf_event.c Andrew Murray     2019-04-09  679  
+29227d6ea1572b arch/arm64/kernel/perf_event.c Robin Murphy      2020-03-17 @680  	kvm_set_pmu_events(mask, attr);
+d1947bc4bc63e5 arch/arm64/kernel/perf_event.c Andrew Murray     2019-04-09  681  
+d1947bc4bc63e5 arch/arm64/kernel/perf_event.c Andrew Murray     2019-04-09  682  	/* We rely on the hypervisor switch code to enable guest counters */
+29227d6ea1572b arch/arm64/kernel/perf_event.c Robin Murphy      2020-03-17  683  	if (!kvm_pmu_counter_deferred(attr))
+29227d6ea1572b arch/arm64/kernel/perf_event.c Robin Murphy      2020-03-17  684  		armv8pmu_enable_counter(mask);
+c13207905340d8 arch/arm64/kernel/perf_event.c Suzuki K Poulose  2018-07-10  685  }
+c13207905340d8 arch/arm64/kernel/perf_event.c Suzuki K Poulose  2018-07-10  686  
+a4a6e2078d85a9 drivers/perf/arm_pmuv3.c       Rob Herring (Arm  2024-07-31  687) static void armv8pmu_disable_counter(u64 mask)
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  688  {
+df29ddf4f04b00 drivers/perf/arm_pmuv3.c       Marc Zyngier      2023-03-17  689  	write_pmcntenclr(mask);
+0fdf1bb75953a6 arch/arm64/kernel/perf_event.c Mark Rutland      2020-09-24  690  	/*
+0fdf1bb75953a6 arch/arm64/kernel/perf_event.c Mark Rutland      2020-09-24  691  	 * Make sure the effects of disabling the counter are visible before we
+0fdf1bb75953a6 arch/arm64/kernel/perf_event.c Mark Rutland      2020-09-24  692  	 * start configuring the event.
+0fdf1bb75953a6 arch/arm64/kernel/perf_event.c Mark Rutland      2020-09-24  693  	 */
+0fdf1bb75953a6 arch/arm64/kernel/perf_event.c Mark Rutland      2020-09-24  694  	isb();
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  695  }
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  696  
+9343c790e6de7e drivers/perf/arm_pmuv3.c       James Clark       2023-12-11  697  static void armv8pmu_disable_event_counter(struct perf_event *event)
+c13207905340d8 arch/arm64/kernel/perf_event.c Suzuki K Poulose  2018-07-10  698  {
+d1947bc4bc63e5 arch/arm64/kernel/perf_event.c Andrew Murray     2019-04-09  699  	struct perf_event_attr *attr = &event->attr;
+a4a6e2078d85a9 drivers/perf/arm_pmuv3.c       Rob Herring (Arm  2024-07-31  700) 	u64 mask = armv8pmu_event_cnten_mask(event);
+d1947bc4bc63e5 arch/arm64/kernel/perf_event.c Andrew Murray     2019-04-09  701  
+29227d6ea1572b arch/arm64/kernel/perf_event.c Robin Murphy      2020-03-17 @702  	kvm_clr_pmu_events(mask);
+d1947bc4bc63e5 arch/arm64/kernel/perf_event.c Andrew Murray     2019-04-09  703  
+d1947bc4bc63e5 arch/arm64/kernel/perf_event.c Andrew Murray     2019-04-09  704  	/* We rely on the hypervisor switch code to disable guest counters */
+29227d6ea1572b arch/arm64/kernel/perf_event.c Robin Murphy      2020-03-17  705  	if (!kvm_pmu_counter_deferred(attr))
+29227d6ea1572b arch/arm64/kernel/perf_event.c Robin Murphy      2020-03-17  706  		armv8pmu_disable_counter(mask);
+d1947bc4bc63e5 arch/arm64/kernel/perf_event.c Andrew Murray     2019-04-09  707  }
+c13207905340d8 arch/arm64/kernel/perf_event.c Suzuki K Poulose  2018-07-10  708  
+a4a6e2078d85a9 drivers/perf/arm_pmuv3.c       Rob Herring (Arm  2024-07-31  709) static void armv8pmu_enable_intens(u64 mask)
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  710  {
+df29ddf4f04b00 drivers/perf/arm_pmuv3.c       Marc Zyngier      2023-03-17  711  	write_pmintenset(mask);
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  712  }
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  713  
+9343c790e6de7e drivers/perf/arm_pmuv3.c       James Clark       2023-12-11  714  static void armv8pmu_enable_event_irq(struct perf_event *event)
+c13207905340d8 arch/arm64/kernel/perf_event.c Suzuki K Poulose  2018-07-10  715  {
+bf5ffc8c80e0cf drivers/perf/arm_pmuv3.c       Rob Herring (Arm  2024-07-31  716) 	armv8pmu_enable_intens(BIT(event->hw.idx));
+c13207905340d8 arch/arm64/kernel/perf_event.c Suzuki K Poulose  2018-07-10  717  }
+c13207905340d8 arch/arm64/kernel/perf_event.c Suzuki K Poulose  2018-07-10  718  
+a4a6e2078d85a9 drivers/perf/arm_pmuv3.c       Rob Herring (Arm  2024-07-31  719) static void armv8pmu_disable_intens(u64 mask)
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  720  {
+df29ddf4f04b00 drivers/perf/arm_pmuv3.c       Marc Zyngier      2023-03-17  721  	write_pmintenclr(mask);
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  722  	isb();
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  723  	/* Clear the overflow flag in case an interrupt is pending. */
+df29ddf4f04b00 drivers/perf/arm_pmuv3.c       Marc Zyngier      2023-03-17  724  	write_pmovsclr(mask);
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  725  	isb();
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  726  }
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  727  
+9343c790e6de7e drivers/perf/arm_pmuv3.c       James Clark       2023-12-11  728  static void armv8pmu_disable_event_irq(struct perf_event *event)
+c13207905340d8 arch/arm64/kernel/perf_event.c Suzuki K Poulose  2018-07-10  729  {
+bf5ffc8c80e0cf drivers/perf/arm_pmuv3.c       Rob Herring (Arm  2024-07-31  730) 	armv8pmu_disable_intens(BIT(event->hw.idx));
+c13207905340d8 arch/arm64/kernel/perf_event.c Suzuki K Poulose  2018-07-10  731  }
+c13207905340d8 arch/arm64/kernel/perf_event.c Suzuki K Poulose  2018-07-10  732  
+a4a6e2078d85a9 drivers/perf/arm_pmuv3.c       Rob Herring (Arm  2024-07-31  733) static u64 armv8pmu_getreset_flags(void)
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  734  {
+a4a6e2078d85a9 drivers/perf/arm_pmuv3.c       Rob Herring (Arm  2024-07-31  735) 	u64 value;
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  736  
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  737  	/* Read */
+df29ddf4f04b00 drivers/perf/arm_pmuv3.c       Marc Zyngier      2023-03-17  738  	value = read_pmovsclr();
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  739  
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  740  	/* Write to clear flags */
+d30f09b6d7de5d drivers/perf/arm_pmuv3.c       James Clark       2023-12-11  741  	value &= ARMV8_PMU_OVERFLOWED_MASK;
+df29ddf4f04b00 drivers/perf/arm_pmuv3.c       Marc Zyngier      2023-03-17  742  	write_pmovsclr(value);
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  743  
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  744  	return value;
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  745  }
+030896885ade0a arch/arm64/kernel/perf_event.c Will Deacon       2012-03-05  746  
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  747  static void update_pmuserenr(u64 val)
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  748  {
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  749  	lockdep_assert_irqs_disabled();
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  750  
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  751  	/*
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  752  	 * The current PMUSERENR_EL0 value might be the value for the guest.
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  753  	 * If that's the case, have KVM keep tracking of the register value
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  754  	 * for the host EL0 so that KVM can restore it before returning to
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  755  	 * the host EL0. Otherwise, update the register now.
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  756  	 */
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02 @757  	if (kvm_set_pmuserenr(val))
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  758  		return;
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  759  
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  760  	write_pmuserenr(val);
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  761  }
+0c2f9acf6ae741 drivers/perf/arm_pmuv3.c       Reiji Watanabe    2023-06-02  762  
 
 -- 
 0-DAY CI Kernel Test Service
