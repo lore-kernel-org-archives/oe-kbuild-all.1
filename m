@@ -1,66 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A45FA937
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jun 2025 12:39:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA9A1B808
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jun 2025 13:00:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750595988; cv=none; b=XNQLnsTOlUx6FPAJ0gpaBHvE40CBpUXkk5miUn5Q++VP7iE8LvjspYbY4zaum0xV14fAEpZSJKMnTS5ks2E8fwVHkAPum5LcAYbgL5zvtIjvBQe1iX1a4bny49HqwUSYzeHWxJn9rcGql5zV/9x5yNnqlxGwWbw41loX/QUnyPw=
+	t=1750597250; cv=none; b=Tv3nfaGERhwq8vAlz5tRXHyLwGW2qFnbBw+1Y0iXAn3oURAmBh7iBC4xrz/bwlNkSKlrVVWPqCdqpYCenkRb4/YEuWqFhtsj4fIZCZHGgjVQO0uNAJn28FZpqXOiAyXlOxak1HeVC81uNvod2CGyeksJTzZpDOCUJXjXWdK2SHg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750595988; c=relaxed/simple;
-	bh=+tGeE4TYJbzGe6jjsVcsSnRnbjEOtu2V64nnqedjAmE=;
+	s=arc-20240116; t=1750597250; c=relaxed/simple;
+	bh=zNPOMtqGCx67vztEqPzV5AkEy4ztrcs70oBFsyO1dzc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GvnnvzkT59lQnDV9NpknU206xVsDrNmeTJx7vDBsU8PCjCmvqgILTClxRyY67NrxOxm5cX9nJLHvKw42+Pw5EkZQRZppN66vXCUd6ba/tB8oV1d/pny9l9a12OytEQhv0ZW5lJPMqgK2LvyQ7cS/hwhmba55Sj61PuF6u2ho9Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nrkzJc+W; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=KNQAYIsirkcUW/QAwBwXWQJf0SvSjuTSS51VIbpVHYnZ96xpxEAhcB2aMnZ/tsq3Y2CsqxiGBJd0CYkGGl7rVNw7/mDoKRFExQ8NWO9FEqOHlHNroP/5mRR5bQwX7e94wQCYppX7Z7v87yDsGAKCvynGcm0pWvp/4s3wApD3snA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=emD1FToN; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nrkzJc+W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="emD1FToN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750595986; x=1782131986;
+  t=1750597248; x=1782133248;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=+tGeE4TYJbzGe6jjsVcsSnRnbjEOtu2V64nnqedjAmE=;
-  b=nrkzJc+WxS/+cUSbfich7onzhT0xC2NR90Rkb9SIa+e5K1KLccamnNDp
-   I20+L62qTeG5sKx7loYmjyo0jDw8QM44NszzGHaa8RcdrpCVC6eILB4mo
-   t45+aSToyOsvZilCyFd/UFN0ISSqdLxUIsUQOs5WNCMGhruyKhapFxIoh
-   3qCFCaWmkbnupraJXZvdbEm6yBoRvDziiarwptolOQv+K+5Y+5fF/z1h/
-   O2sY40o0NZRwLsPHmGHuBGB0FfNn+CDpe/j0d5RG9C4yj1WLNb5rdK7e5
-   4y8V/ec1NcvnEajQVjIrClMkZclhRLjfn+0GxWlvFZNlJ4ItDa5IryKNg
-   g==;
-X-CSE-ConnectionGUID: Usiog1YhSUu3ryFtGCCwUg==
-X-CSE-MsgGUID: L2PNzQNiQOqUoO+V+uJaBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52952454"
+  bh=zNPOMtqGCx67vztEqPzV5AkEy4ztrcs70oBFsyO1dzc=;
+  b=emD1FToNOAtRd0i0WZ8dRZHHZ6R/RjPF2f/Tohfq3VorykadcCRntN3l
+   9+tn2LY3cmcXHU1CPFdczn/3ho8Se12obpm8d2vMukldpQTVsHq0KOdaz
+   b9Kw35VK7LtLM0IqxylZibH0BpUL3vLwl2JoxkiOFygieJjqL2v6uKFoX
+   rSsGxpNEi1Hv5/v/Shcr55oMeVWNQ5/W1+Pbg9uHcrGjSV5uMqoJJltn+
+   xcZH+eZ2NexqUeA5lKcJVlyVORECP+Hzv4vTSDf46KujJjm32Y4IB9wh6
+   obQJy/8/wqwjvojs79jIgE+lnn26JycnFgoD53P/OwROvVQ1NfL1Wzktx
+   A==;
+X-CSE-ConnectionGUID: 131qqhyGQBefECUl5kMPkQ==
+X-CSE-MsgGUID: fYu1TWxERgGr1rVG9A21OA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52953265"
 X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
-   d="scan'208";a="52952454"
+   d="scan'208";a="52953265"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 05:39:45 -0700
-X-CSE-ConnectionGUID: 7jOf0LiDSGuYL0Bb0yoIUA==
-X-CSE-MsgGUID: g/0aXbFsRLKPkVKeS/u9lg==
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 06:00:47 -0700
+X-CSE-ConnectionGUID: oMyt4YPqRLeA3T1qvwZGfg==
+X-CSE-MsgGUID: qEZK4XatTrS/qFyA3rmx9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
-   d="scan'208";a="182371961"
+   d="scan'208";a="182374667"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 22 Jun 2025 05:39:42 -0700
+  by orviesa002.jf.intel.com with ESMTP; 22 Jun 2025 06:00:44 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTJz1-000NGw-2y;
-	Sun, 22 Jun 2025 12:39:39 +0000
-Date: Sun, 22 Jun 2025 20:39:04 +0800
+	id 1uTKJN-000NHW-2y;
+	Sun, 22 Jun 2025 13:00:41 +0000
+Date: Sun, 22 Jun 2025 20:59:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vikas Gupta <vikas.gupta@broadcom.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	andrew+netdev@lunn.ch, horms@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, michael.chan@broadcom.com,
-	pavan.chebbi@broadcom.com, vsrama-krishna.nemani@broadcom.com,
-	Vikas Gupta <vikas.gupta@broadcom.com>,
-	Bhargava Chenna Marreddy <bhargava.marreddy@broadcom.com>,
-	Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>
-Subject: Re: [net-next, 09/10] bng_en: Initialize default configuration
-Message-ID: <202506222025.zd9UxyF7-lkp@intel.com>
-References: <20250618144743.843815-10-vikas.gupta@broadcom.com>
+To: Chris Morgan <macroalpha82@gmail.com>, linux-pm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org, broonie@kernel.org, lgirdwood@gmail.com,
+	sre@kernel.org, heiko@sntech.de, conor+dt@kernel.org,
+	krzk+dt@kernel.org, robh@kernel.org, lee@kernel.org,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: [PATCH V2 3/5] power: supply: bq257xx: Add support for BQ257XX
+ charger manager
+Message-ID: <202506222057.1Q77TY6Y-lkp@intel.com>
+References: <20250621180119.163423-4-macroalpha82@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,83 +67,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618144743.843815-10-vikas.gupta@broadcom.com>
+In-Reply-To: <20250621180119.163423-4-macroalpha82@gmail.com>
 
-Hi Vikas,
+Hi Chris,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16-rc2 next-20250620]
-[cannot apply to horms-ipvs/master]
+[auto build test WARNING on lee-mfd/for-mfd-next]
+[also build test WARNING on lee-mfd/for-mfd-fixes broonie-regulator/for-next sre-power-supply/for-next linus/master v6.16-rc2 next-20250620]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vikas-Gupta/bng_en-Add-PCI-interface/20250618-173130
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250618144743.843815-10-vikas.gupta%40broadcom.com
-patch subject: [net-next, 09/10] bng_en: Initialize default configuration
-config: parisc-randconfig-r073-20250619 (https://download.01.org/0day-ci/archive/20250622/202506222025.zd9UxyF7-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Morgan/dt-bindings-mfd-ti-bq25703a-Add-TI-BQ25703A-Charger/20250622-020443
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20250621180119.163423-4-macroalpha82%40gmail.com
+patch subject: [PATCH V2 3/5] power: supply: bq257xx: Add support for BQ257XX charger manager
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250622/202506222057.1Q77TY6Y-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506222057.1Q77TY6Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506222025.zd9UxyF7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506222057.1Q77TY6Y-lkp@intel.com/
 
-New smatch warnings:
-drivers/net/ethernet/broadcom/bnge/bnge_resc.c:533 bnge_net_init_dflt_rings() warn: always true condition '(rc != -19) => (0-u16max != (-19))'
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/net/ethernet/broadcom/bnge/bnge_resc.c:372 bnge_alloc_irqs() warn: unsigned 'irqs_demand' is never less than zero.
-drivers/net/ethernet/broadcom/bnge/bnge_resc.c:542 bnge_net_init_dflt_rings() warn: always true condition '(rc != -19) => (0-u16max != (-19))'
-
-vim +533 drivers/net/ethernet/broadcom/bnge/bnge_resc.c
-
-   511	
-   512	static int bnge_net_init_dflt_rings(struct bnge_dev *bd, bool sh)
-   513	{
-   514		u16 dflt_rings, max_rx_rings, max_tx_rings, rc;
-   515	
-   516		if (sh)
-   517			bd->flags |= BNGE_EN_SHARED_CHNL;
-   518	
-   519		dflt_rings = netif_get_num_default_rss_queues();
-   520	
-   521		rc = bnge_get_dflt_rings(bd, &max_rx_rings, &max_tx_rings, sh);
-   522		if (rc)
-   523			return rc;
-   524		bd->rx_nr_rings = min_t(u16, dflt_rings, max_rx_rings);
-   525		bd->tx_nr_rings_per_tc = min_t(u16, dflt_rings, max_tx_rings);
-   526		if (sh)
-   527			bnge_trim_dflt_sh_rings(bd);
-   528		else
-   529			bd->nq_nr_rings = bd->tx_nr_rings_per_tc + bd->rx_nr_rings;
-   530		bd->tx_nr_rings = bd->tx_nr_rings_per_tc;
-   531	
-   532		rc = bnge_reserve_rings(bd);
- > 533		if (rc && rc != -ENODEV)
-   534			dev_warn(bd->dev, "Unable to reserve tx rings\n");
-   535		bd->tx_nr_rings_per_tc = bd->tx_nr_rings;
-   536		if (sh)
-   537			bnge_trim_dflt_sh_rings(bd);
-   538	
-   539		/* Rings may have been reduced, re-reserve them again */
-   540		if (bnge_need_reserve_rings(bd)) {
-   541			rc = bnge_reserve_rings(bd);
-   542			if (rc && rc != -ENODEV)
-   543				dev_warn(bd->dev, "Fewer rings reservation failed\n");
-   544			bd->tx_nr_rings_per_tc = bd->tx_nr_rings;
-   545		}
-   546		if (rc) {
-   547			bd->tx_nr_rings = 0;
-   548			bd->rx_nr_rings = 0;
-   549		}
-   550	
-   551		return rc;
-   552	}
-   553	
+>> Warning: drivers/power/supply/bq257xx_charger.c:72 struct member 'chip' not described in 'bq257xx_chg'
+>> Warning: drivers/power/supply/bq257xx_charger.c:72 struct member 'bq' not described in 'bq257xx_chg'
+>> Warning: drivers/power/supply/bq257xx_charger.c:72 Excess struct member 'bq257xx_chip_info' description in 'bq257xx_chg'
+>> Warning: drivers/power/supply/bq257xx_charger.c:72 Excess struct member 'bq257xx_device' description in 'bq257xx_chg'
+>> Warning: drivers/power/supply/bq257xx_charger.c:139 function parameter 'vsys' not described in 'bq25703_set_min_vsys'
+>> Warning: drivers/power/supply/bq257xx_charger.c:139 Excess function parameter 'ichg' description in 'bq25703_set_min_vsys'
 
 -- 
 0-DAY CI Kernel Test Service
