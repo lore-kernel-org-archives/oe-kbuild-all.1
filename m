@@ -1,74 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D77261A3161;
-	Sun, 22 Jun 2025 09:33:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939E0157E6B
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jun 2025 10:25:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750584814; cv=none; b=N6uK/royVV1Eu1EFXw1Dwz2gWR1ZsWktH3Msr+wXeBQbuhlmngeAtQ1ayNRMadhDPNTNAvrp9QOdchpQ5Ec5+5iP1N8+OJ1AnY2ozK+f+3JbPU0FvxrAD9xezGumH6tzhT+vKUmqoX9lzb1Ofvy3Py/EmnhCuK6ZcAKS0+OD4DE=
+	t=1750587935; cv=none; b=RxsWw1jOmKGi1F4WglBarzCgcsNMDZeIqnwqct2XHxfzL5CHydhk1UD8tXpP2oUeU2tPpTGSyW75B7NVuEFWbvky/i8bHcIEA8IrSRD1WowRYQpsoLvSmFAqvxrEr+oprvE4U7aYOxcSd9NNZ02ECTeU1I10cKGENauzV24DMAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750584814; c=relaxed/simple;
-	bh=3Z08jdlIHcA4c+ovnj3MepowoUSoFcvbFQogJV3s/Wk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HH0gh+R/M8PuZhN9voKRzElXHxZVVqgtqi+E71bX0DzYQL1ap8zuYbPxbbGnqLGbNgwjJcXXdKBiHBTCq5EMT35W2ojuB6a+L6ZT9zpySFhlqS/emDf3J/Ye7DBfCcr2IunQZlmGc3fouNOPSGeStq2PNRaWI+Jgg8Cnb7XTDRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AkMnSn8Y; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1750587935; c=relaxed/simple;
+	bh=TCPv6Ti1ftUrTRsBhy60VHOFbAQnuh6cgOVaKw3tQso=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EBREMkxKYprGpGa6eob7f7YuXO28Dn6uHlydvx5CYkqd8zhiJ8ih+qJ3dtSUx6BbIMDswKggFL1vUj5beULUDoZZ3E/59l6CGg9gcZWOhvq9VX2nlQMq7lP5VtqFdhFihv48HqEKVHP0fWNS7d6DzwRaN7Unig3YY4bMcRrVVVM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pks8zNdb; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AkMnSn8Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pks8zNdb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750584813; x=1782120813;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3Z08jdlIHcA4c+ovnj3MepowoUSoFcvbFQogJV3s/Wk=;
-  b=AkMnSn8YYV6BJnnydZ5Kehktdf7p2EDUIdEmAy7bmp3E44peM1Sk0j+f
-   ice2/U9gsg4SEiR8z1Wcq0uSLhQPMYiDM/YYbSYlrAhDNZswqYVdeTLIQ
-   AIaDFFY1LzzSZbpXa3E8zVYz334fKlLsnXatNROurSFXxOS6xzKglKpB2
-   gOl/C1xAvj4V9aCJF1Icexf7hlOH8aNsZ1nwSoEaLfHI57MSszg3Fe/oh
-   0jW7uBfN6aTb6xMFs4m+QbExlt8DVEWemAWFmhZYVfr62HkE5exX4WmU2
-   Jyglo3vEODF9FyW6rSsJIB1e9CLc5CZrEl50ZrI4Qok3exGILBrkjdrJ+
+  t=1750587933; x=1782123933;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=TCPv6Ti1ftUrTRsBhy60VHOFbAQnuh6cgOVaKw3tQso=;
+  b=Pks8zNdbja/Q5l7ksixUd8Ef9izaMSrkzxu/FAZAaZdmrEjnkgev9+20
+   sxSeQosal8fulJ84WvyWdGRJ8LZE6rX6JQWaI+8wwQ32d9nYYj0owgqLw
+   dV/NolQ3LhY85a4C1CrGZ4sJH5YEZ4bIG/VeN4RFoJDaBuQvjcgvcHItA
+   6dKuNiyYdTpteGhlQX+lZuunfuM5lVdZ552R1yNvwW4nepDmnG7KxOyqz
+   F84b0AidBrM6CcmHAIaBOSRLDloouQbJcKets3CnPz9/wHzXSs+s6SkSE
+   HwfIKwiHu7MJiRzJ1aCflT8U8uMdB8qROQa2WwGusoNWvno2i09LTGFXd
    w==;
-X-CSE-ConnectionGUID: pWWDJLqpT8+DyauGLBH63Q==
-X-CSE-MsgGUID: CpWd2r7YScm9Kk+PxgDFNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="52671238"
+X-CSE-ConnectionGUID: WXKfYTlATIy8msa9P6TcJw==
+X-CSE-MsgGUID: IE7gHTBxRr6S5FHWhuplVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="52947609"
 X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
-   d="scan'208";a="52671238"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 02:33:32 -0700
-X-CSE-ConnectionGUID: 36sjy7DyT/ewbISEKvtofg==
-X-CSE-MsgGUID: MBzS2UecQH6f7owpkj2ZqQ==
+   d="scan'208";a="52947609"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 03:25:32 -0700
+X-CSE-ConnectionGUID: CvNtXvQgQj6yZe2/CA0cTA==
+X-CSE-MsgGUID: LSDquZ7oTnCe7U2KOFbn/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
-   d="scan'208";a="156810984"
+   d="scan'208";a="155632265"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Jun 2025 02:33:27 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 22 Jun 2025 03:25:31 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTH4n-000NBI-0H;
-	Sun, 22 Jun 2025 09:33:25 +0000
-Date: Sun, 22 Jun 2025 17:32:31 +0800
+	id 1uTHtB-000NCk-0S;
+	Sun, 22 Jun 2025 10:25:29 +0000
+Date: Sun, 22 Jun 2025 18:25:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Russell King <linux@armlinux.org.uk>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Colton Lewis <coltonlewis@google.com>
-Subject: Re: [PATCH v2 17/23] KVM: arm64: Account for partitioning in
- PMCR_EL0 access
-Message-ID: <202506221711.tFNGpzj4-lkp@intel.com>
-References: <20250620221326.1261128-19-coltonlewis@google.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 74/78] drivers/media/i2c/imx219.c:898:3:
+ error: a label can only be part of a statement and a declaration is not a
+ statement
+Message-ID: <202506221817.CDFFIVk9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,102 +62,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250620221326.1261128-19-coltonlewis@google.com>
 
-Hi Colton,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 79150772457f4d45e38b842d786240c36bb1f97f]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Colton-Lewis/arm64-cpufeature-Add-cpucap-for-HPMN0/20250621-102220
-base:   79150772457f4d45e38b842d786240c36bb1f97f
-patch link:    https://lore.kernel.org/r/20250620221326.1261128-19-coltonlewis%40google.com
-patch subject: [PATCH v2 17/23] KVM: arm64: Account for partitioning in PMCR_EL0 access
-config: arm64-randconfig-r073-20250622 (https://download.01.org/0day-ci/archive/20250622/202506221711.tFNGpzj4-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506221711.tFNGpzj4-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   2eb7b0a1567fd0da91e70f762d8cf94af1ffd7f9
+commit: 65722cd911646712bb021c04b233c1f79f788067 [74/78] media: imx219: Add support for generic raw formats
+config: sparc64-randconfig-001-20250622 (https://download.01.org/0day-ci/archive/20250622/202506221817.CDFFIVk9-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506221817.CDFFIVk9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506221711.tFNGpzj4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506221817.CDFFIVk9-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/arm64/include/asm/kvm_host.h:32,
-                    from include/linux/kvm_host.h:45,
-                    from arch/arm64/kvm/sys_regs.c:16:
-   arch/arm64/include/asm/kvm_pmu.h:236:50: warning: 'struct arm_pmu' declared inside parameter list will not be visible outside of this definition or declaration
-    static inline bool kvm_pmu_is_partitioned(struct arm_pmu *pmu)
-                                                     ^~~~~~~
-   arch/arm64/include/asm/kvm_pmu.h:241:52: warning: 'struct arm_pmu' declared inside parameter list will not be visible outside of this definition or declaration
-    static inline u64 kvm_pmu_host_counter_mask(struct arm_pmu *pmu)
-                                                       ^~~~~~~
-   arch/arm64/include/asm/kvm_pmu.h:246:53: warning: 'struct arm_pmu' declared inside parameter list will not be visible outside of this definition or declaration
-    static inline u64 kvm_pmu_guest_counter_mask(struct arm_pmu *pmu)
-                                                        ^~~~~~~
-   arch/arm64/kvm/sys_regs.c:856:6: warning: no previous prototype for 'pmu_access_el0_disabled' [-Wmissing-prototypes]
-    bool pmu_access_el0_disabled(struct kvm_vcpu *vcpu)
-         ^~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm64/kvm/sys_regs.c: In function 'access_pmu_evtyper':
-   arch/arm64/kvm/sys_regs.c:1076:7: error: implicit declaration of function 'kvm_vcpu_pmu_is_partitioned'; did you mean 'kvm_pmu_is_partitioned'? [-Werror=implicit-function-declaration]
-      if (kvm_vcpu_pmu_is_partitioned(vcpu))
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-          kvm_pmu_is_partitioned
-   arch/arm64/kvm/sys_regs.c: In function 'set_pmcr':
->> arch/arm64/kvm/sys_regs.c:1271:33: error: dereferencing pointer to incomplete type 'struct arm_pmu'
-          new_n <= kvm->arch.arm_pmu->hpmn_max))
-                                    ^~
-   cc1: some warnings being treated as errors
+   drivers/media/i2c/imx219.c: In function 'imx219_enum_mbus_code':
+>> drivers/media/i2c/imx219.c:898:3: error: a label can only be part of a statement and a declaration is not a statement
+      const u32 img_codes[] = {
+      ^~~~~
 
 
-vim +1271 arch/arm64/kvm/sys_regs.c
+vim +898 drivers/media/i2c/imx219.c
 
-  1253	
-  1254	static int set_pmcr(struct kvm_vcpu *vcpu, const struct sys_reg_desc *r,
-  1255			    u64 val)
-  1256	{
-  1257		u8 new_n = FIELD_GET(ARMV8_PMU_PMCR_N, val);
-  1258		struct kvm *kvm = vcpu->kvm;
-  1259	
-  1260		mutex_lock(&kvm->arch.config_lock);
-  1261	
-  1262		/*
-  1263		 * The vCPU can't have more counters than the PMU hardware
-  1264		 * implements. Ignore this error to maintain compatibility
-  1265		 * with the existing KVM behavior.
-  1266		 */
-  1267		if (!kvm_vm_has_ran_once(kvm) &&
-  1268		    !vcpu_has_nv(vcpu)	      &&
-  1269		    new_n <= kvm_arm_pmu_get_max_counters(kvm) &&
-  1270		    (!kvm_vcpu_pmu_is_partitioned(vcpu) ||
-> 1271		     new_n <= kvm->arch.arm_pmu->hpmn_max))
-  1272			kvm->arch.nr_pmu_counters = new_n;
-  1273	
-  1274		mutex_unlock(&kvm->arch.config_lock);
-  1275	
-  1276		/*
-  1277		 * Ignore writes to RES0 bits, read only bits that are cleared on
-  1278		 * vCPU reset, and writable bits that KVM doesn't support yet.
-  1279		 * (i.e. only PMCR.N and bits [7:0] are mutable from userspace)
-  1280		 * The LP bit is RES0 when FEAT_PMUv3p5 is not supported on the vCPU.
-  1281		 * But, we leave the bit as it is here, as the vCPU's PMUver might
-  1282		 * be changed later (NOTE: the bit will be cleared on first vCPU run
-  1283		 * if necessary).
-  1284		 */
-  1285		val &= ARMV8_PMU_PMCR_MASK;
-  1286	
-  1287		/* The LC bit is RES1 when AArch32 is not supported */
-  1288		if (!kvm_supports_32bit_el0())
-  1289			val |= ARMV8_PMU_PMCR_LC;
-  1290	
-  1291		__vcpu_assign_sys_reg(vcpu, r->reg, val);
-  1292		kvm_make_request(KVM_REQ_RELOAD_PMU, vcpu);
-  1293	
-  1294		return 0;
-  1295	}
-  1296	
+   889	
+   890	static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+   891					 struct v4l2_subdev_state *state,
+   892					 struct v4l2_subdev_mbus_code_enum *code)
+   893	{
+   894		struct imx219 *imx219 = to_imx219(sd);
+   895	
+   896		switch (code->pad) {
+   897		case IMX219_PAD_IMAGE:
+ > 898			const u32 img_codes[] = {
+   899				IMX219_NATIVE_FORMAT,
+   900				MEDIA_BUS_FMT_RAW_10,
+   901			};
+   902	
+   903			/* The internal image pad is hardwired to the native format. */
+   904			if (code->index > ARRAY_SIZE(img_codes))
+   905				return -EINVAL;
+   906	
+   907			code->code = img_codes[code->index];
+   908			return 0;
+   909	
+   910		case IMX219_PAD_EDATA:
+   911			if (code->index > 0)
+   912				return -EINVAL;
+   913	
+   914			code->code = MEDIA_BUS_FMT_META_8;
+   915			return 0;
+   916	
+   917		case IMX219_PAD_SOURCE:
+   918		default:
+   919			break;
+   920		}
+   921	
+   922		/*
+   923		 * On the source pad, the sensor supports multiple image raw formats
+   924		 * with different bit depths. The embedded data format bit depth
+   925		 * follows the image stream.
+   926		 */
+   927		if (code->stream == IMX219_STREAM_IMAGE) {
+   928			u32 format;
+   929	
+   930			if (code->index >= ARRAY_SIZE(imx219_mbus_formats) / 4) {
+   931				u32 idx = code->index - ARRAY_SIZE(imx219_mbus_formats);
+   932				if (idx >= ARRAY_SIZE(imx219_mbus_formats_raw))
+   933					return -EINVAL;
+   934	
+   935				format = imx219_mbus_formats_raw[idx];
+   936			} else {
+   937				format = imx219_mbus_formats[code->index * 4];
+   938			}
+   939			code->code = imx219_get_format_code(imx219, format);
+   940		} else {
+   941			struct v4l2_mbus_framefmt *fmt;
+   942	
+   943			if (code->index > 0)
+   944				return -EINVAL;
+   945	
+   946			fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
+   947							   IMX219_STREAM_EDATA);
+   948			code->code = fmt->code;
+   949		}
+   950	
+   951		return 0;
+   952	}
+   953	
 
 -- 
 0-DAY CI Kernel Test Service
