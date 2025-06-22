@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939E0157E6B
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jun 2025 10:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 890771A4F12
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jun 2025 11:06:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750587935; cv=none; b=RxsWw1jOmKGi1F4WglBarzCgcsNMDZeIqnwqct2XHxfzL5CHydhk1UD8tXpP2oUeU2tPpTGSyW75B7NVuEFWbvky/i8bHcIEA8IrSRD1WowRYQpsoLvSmFAqvxrEr+oprvE4U7aYOxcSd9NNZ02ECTeU1I10cKGENauzV24DMAc=
+	t=1750590399; cv=none; b=XPBG0ejF2ol4FKga5WAwWg+mcUE4dYq3d2WYbdM4TRXn465O5BkTlj9/cnIE58k1M1COeoS919n6stAlyujApcZtJ+Isgrx9DKo04lwY0Vp/mX0svIV3DvQ+xVJHVpNVCuQUP8wXvDo5k+oznRJC7oMsZN9wKbLy9gyWQTjI1mc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750587935; c=relaxed/simple;
-	bh=TCPv6Ti1ftUrTRsBhy60VHOFbAQnuh6cgOVaKw3tQso=;
+	s=arc-20240116; t=1750590399; c=relaxed/simple;
+	bh=ZguUQlcHJeOhpgqC/rCem5MsfqgbtNOtYqXX67c/h5E=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EBREMkxKYprGpGa6eob7f7YuXO28Dn6uHlydvx5CYkqd8zhiJ8ih+qJ3dtSUx6BbIMDswKggFL1vUj5beULUDoZZ3E/59l6CGg9gcZWOhvq9VX2nlQMq7lP5VtqFdhFihv48HqEKVHP0fWNS7d6DzwRaN7Unig3YY4bMcRrVVVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pks8zNdb; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition:In-Reply-To; b=QbJuLgpRPen/brWVABtDdOg+rjjakHU9bZ4NSoXzSH9O1i3rJYp9/eC0pVxeU/LDvtPT9Fdw+41OMtNcvVx6Y9jDEuQeQq09TYdIPb37U88a0WQororMC7eESrfzLBBTIS4duvyxlTg5B74/C+C6nzQGCimX3B+7p1vo/buJQcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M93VTtGP; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pks8zNdb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M93VTtGP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750587933; x=1782123933;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TCPv6Ti1ftUrTRsBhy60VHOFbAQnuh6cgOVaKw3tQso=;
-  b=Pks8zNdbja/Q5l7ksixUd8Ef9izaMSrkzxu/FAZAaZdmrEjnkgev9+20
-   sxSeQosal8fulJ84WvyWdGRJ8LZE6rX6JQWaI+8wwQ32d9nYYj0owgqLw
-   dV/NolQ3LhY85a4C1CrGZ4sJH5YEZ4bIG/VeN4RFoJDaBuQvjcgvcHItA
-   6dKuNiyYdTpteGhlQX+lZuunfuM5lVdZ552R1yNvwW4nepDmnG7KxOyqz
-   F84b0AidBrM6CcmHAIaBOSRLDloouQbJcKets3CnPz9/wHzXSs+s6SkSE
-   HwfIKwiHu7MJiRzJ1aCflT8U8uMdB8qROQa2WwGusoNWvno2i09LTGFXd
+  t=1750590398; x=1782126398;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=ZguUQlcHJeOhpgqC/rCem5MsfqgbtNOtYqXX67c/h5E=;
+  b=M93VTtGP1ev8Cxy4w+C/RlbCQA07U7Z/UtaT0pDYx62HjXo/TsDp/INh
+   kfZsRt5y1esk99bgty+nmpvf1HLCoNjFfohiYTvR23FbOgDENp75t4WHw
+   auXyOfMeS+ofa2WdzyTo78N0FKxnY2dUDofXoKsc7rXBsxHB1c+4QkutV
+   B9JBjMtR0Cz5RMtpe0TCbMCMgVeyUFP3lDCuYC35Tuz7a0Mnr0PvvEA+/
+   bU+YBuLMp1TmEH/owMS10ryq2cn05QCou9VstV1G02y+l6Hane9j2qTA9
+   TF/7/h4TWByUDeejvyL3Ykjt9dp9IIpwg1o43wfyxAd8ISduPAlcZvrJn
    w==;
-X-CSE-ConnectionGUID: WXKfYTlATIy8msa9P6TcJw==
-X-CSE-MsgGUID: IE7gHTBxRr6S5FHWhuplVQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="52947609"
+X-CSE-ConnectionGUID: UaRakRkEQpuYtnjuatdl6g==
+X-CSE-MsgGUID: czA6VdFcQ0KAiCtJamDt6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="64160517"
 X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
-   d="scan'208";a="52947609"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 03:25:32 -0700
-X-CSE-ConnectionGUID: CvNtXvQgQj6yZe2/CA0cTA==
-X-CSE-MsgGUID: LSDquZ7oTnCe7U2KOFbn/w==
+   d="scan'208";a="64160517"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 04:06:36 -0700
+X-CSE-ConnectionGUID: bnERbSTGSzekP0UaF7G1Bw==
+X-CSE-MsgGUID: xMUSROiPTM+nHoTrFJZZKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
-   d="scan'208";a="155632265"
+   d="scan'208";a="150809079"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Jun 2025 03:25:31 -0700
+  by orviesa006.jf.intel.com with ESMTP; 22 Jun 2025 04:06:35 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTHtB-000NCk-0S;
-	Sun, 22 Jun 2025 10:25:29 +0000
-Date: Sun, 22 Jun 2025 18:25:11 +0800
+	id 1uTIWu-000NE6-1M;
+	Sun, 22 Jun 2025 11:06:32 +0000
+Date: Sun, 22 Jun 2025 19:05:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 74/78] drivers/media/i2c/imx219.c:898:3:
- error: a label can only be part of a statement and a declaration is not a
- statement
-Message-ID: <202506221817.CDFFIVk9-lkp@intel.com>
+To: Huacai Chen <chenhuacai@loongson.cn>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH for 6.1/6.6] platform/loongarch: laptop: Fix build error
+ due to backport
+Message-ID: <aFfjhXBxxb8udIQq@125ed1b33153>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,95 +62,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250622110148.3108758-1-chenhuacai@loongson.cn>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   2eb7b0a1567fd0da91e70f762d8cf94af1ffd7f9
-commit: 65722cd911646712bb021c04b233c1f79f788067 [74/78] media: imx219: Add support for generic raw formats
-config: sparc64-randconfig-001-20250622 (https://download.01.org/0day-ci/archive/20250622/202506221817.CDFFIVk9-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506221817.CDFFIVk9-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506221817.CDFFIVk9-lkp@intel.com/
+Thanks for your patch.
 
-All errors (new ones prefixed by >>):
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-   drivers/media/i2c/imx219.c: In function 'imx219_enum_mbus_code':
->> drivers/media/i2c/imx219.c:898:3: error: a label can only be part of a statement and a declaration is not a statement
-      const u32 img_codes[] = {
-      ^~~~~
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
 
+Rule: The upstream commit ID must be specified with a separate line above the commit text.
+Subject: [PATCH for 6.1/6.6] platform/loongarch: laptop: Fix build error due to backport
+Link: https://lore.kernel.org/stable/20250622110148.3108758-1-chenhuacai%40loongson.cn
 
-vim +898 drivers/media/i2c/imx219.c
-
-   889	
-   890	static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
-   891					 struct v4l2_subdev_state *state,
-   892					 struct v4l2_subdev_mbus_code_enum *code)
-   893	{
-   894		struct imx219 *imx219 = to_imx219(sd);
-   895	
-   896		switch (code->pad) {
-   897		case IMX219_PAD_IMAGE:
- > 898			const u32 img_codes[] = {
-   899				IMX219_NATIVE_FORMAT,
-   900				MEDIA_BUS_FMT_RAW_10,
-   901			};
-   902	
-   903			/* The internal image pad is hardwired to the native format. */
-   904			if (code->index > ARRAY_SIZE(img_codes))
-   905				return -EINVAL;
-   906	
-   907			code->code = img_codes[code->index];
-   908			return 0;
-   909	
-   910		case IMX219_PAD_EDATA:
-   911			if (code->index > 0)
-   912				return -EINVAL;
-   913	
-   914			code->code = MEDIA_BUS_FMT_META_8;
-   915			return 0;
-   916	
-   917		case IMX219_PAD_SOURCE:
-   918		default:
-   919			break;
-   920		}
-   921	
-   922		/*
-   923		 * On the source pad, the sensor supports multiple image raw formats
-   924		 * with different bit depths. The embedded data format bit depth
-   925		 * follows the image stream.
-   926		 */
-   927		if (code->stream == IMX219_STREAM_IMAGE) {
-   928			u32 format;
-   929	
-   930			if (code->index >= ARRAY_SIZE(imx219_mbus_formats) / 4) {
-   931				u32 idx = code->index - ARRAY_SIZE(imx219_mbus_formats);
-   932				if (idx >= ARRAY_SIZE(imx219_mbus_formats_raw))
-   933					return -EINVAL;
-   934	
-   935				format = imx219_mbus_formats_raw[idx];
-   936			} else {
-   937				format = imx219_mbus_formats[code->index * 4];
-   938			}
-   939			code->code = imx219_get_format_code(imx219, format);
-   940		} else {
-   941			struct v4l2_mbus_framefmt *fmt;
-   942	
-   943			if (code->index > 0)
-   944				return -EINVAL;
-   945	
-   946			fmt = v4l2_subdev_state_get_format(state, IMX219_PAD_SOURCE,
-   947							   IMX219_STREAM_EDATA);
-   948			code->code = fmt->code;
-   949		}
-   950	
-   951		return 0;
-   952	}
-   953	
+Please ignore this mail if the patch is not relevant for upstream.
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
