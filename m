@@ -1,63 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8CD7262D;
-	Sun, 22 Jun 2025 03:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA842158DD4
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jun 2025 05:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750564740; cv=none; b=rNX1ggtfkh8WY5o2VAxrgwPE/Rc5mmdMO2HqGOFqUnbQstJ1aFcYSpnkyq53PTihWG3iFp0EIHVRJwiLVdMzdUX4NFNicLtxngqdoT8YTV5EyiIlN6EF/HQ/IkQd40NtGhP49iwFejtCUbdizjfV2xQQK1stIGxR/BBoNBy8+fs=
+	t=1750569732; cv=none; b=lGdygOBZwatF2xG/VDdn0NXgVc2YsP2SJqbbvWasJ7o16/NO3ZPNEafM4/VisCMuQ9nRWls9HAw2HAxF6VF+zyyin6HYHPXThVAbSjRMAT7whV6RBqSV399zwJNXyr8opDtL7MB9IaGLBhqcUh9BM1TgBF2dsD94AVEML34TCPE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750564740; c=relaxed/simple;
-	bh=i3Hqyl3yk7xPW9bAXn+Uy8H+vf+lYt7fD+tsFFDmjgc=;
+	s=arc-20240116; t=1750569732; c=relaxed/simple;
+	bh=UBLrFt7v6rwi8efRCPk1D6EtbCWUH8sLO9gY/AVK1Eg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=icMPEoYTJDV9ptZgidVgYOGKzmFVRdPo55f/nVGjaX6p/PTPR+vj0lYkbQdCSqanbmAlVK3DFSDPaGVbb5UoLOZE472v0BmdcewDkBB6vTk13w9GNLAZ+5/O5f+3x1JlE49rXcX0XnxmMLKCEprT+tAAAQFrOA3vDaizsC1OXuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T6JZAeCZ; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=tdNncn+IP+4SXpmiRgEhUq6MQq2uK87ATxfPnjp+DfWowP2H/uAsz5nXCc4g9LuDBRi7UUS92VnQ4j0k4/EQkz9eri1/36IhHOv1NzFecZUJ2ert82Ig8qm/hDbmUpGi8dmEnp0Vs4dimAe0PSPRCws+8sqvcTeM/EVhH3zEaAI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hxZfvoDs; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T6JZAeCZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hxZfvoDs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750564737; x=1782100737;
+  t=1750569730; x=1782105730;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=i3Hqyl3yk7xPW9bAXn+Uy8H+vf+lYt7fD+tsFFDmjgc=;
-  b=T6JZAeCZ+PGt7Zr7Cny8FzQ0PU3Nk7wtKMuO48O0OXciUWgo97QTl7jl
-   ixEjWhW7ffqAfIutdUmbHFtCuSZTCIfPVZbXBywiuM+9iosJO/glmJakU
-   IAB447ya1nfTcgMyC7GDJnvGmIPiASMODr0QD1epS8wR4sIL6MB1H6MLz
-   CWlKQIXJEB3tBMWTHrsi3ztcdygLNB2FasOke1qisanHpsf3tjkLAK+D/
-   S/ev2PDtoUwXTHUkhRMg2Jr1vNw+Iw0l6SyUIA1KIBhK8AW/jwfCb7ggZ
-   lWoas0r+fcooWNPqqf7r5FdVZKHADqUzI2FrlhjzFpfKwBXZ6I0l7PUc3
-   Q==;
-X-CSE-ConnectionGUID: CAmFTsX9RGmxpdGJZrzHNA==
-X-CSE-MsgGUID: w5axnfF5QGq5yNzAIt1gLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="52935541"
+  bh=UBLrFt7v6rwi8efRCPk1D6EtbCWUH8sLO9gY/AVK1Eg=;
+  b=hxZfvoDsFHQduAOxkBg6GMG7d2g3/GpjnF8n2WmtLs2aC2yX606F9Nkv
+   lR8IprvEVQKulr7fN+GVsfGfa2GPmsEkY8r9mH0BqEv2SgE2oj1scPB5f
+   KL63qVg99KAgBOSseT0SJVX8zmSaN78YmBwRJEueRtIY+BDyhai2W9unJ
+   P0wSVxnoL318BJP2fvAFdhrUyI50GfFR3udJeXh5Uj4k1mM49ymLfZ0bc
+   c8qU4M8UvKEWVICGS8uL5UhTicn0rZvW3LZ3xiLaS2sQN708t80/NYCXX
+   rbfyDL8toyPjriTFl2vECVNyayS8Q588rxNaX39IFsvfbVVgOkQpFlCA/
+   A==;
+X-CSE-ConnectionGUID: PlYwbR1bQImb5BtIntgiRA==
+X-CSE-MsgGUID: /Mn+1T3HTVOBzFQl2AZGdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="56594004"
 X-IronPort-AV: E=Sophos;i="6.16,255,1744095600"; 
-   d="scan'208";a="52935541"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2025 20:58:57 -0700
-X-CSE-ConnectionGUID: 3ce5oppVTwqvZV4/ascxpQ==
-X-CSE-MsgGUID: DEizkX+sTpyysIWCTN590Q==
+   d="scan'208";a="56594004"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2025 22:22:10 -0700
+X-CSE-ConnectionGUID: h6O+MLvKRnKLdddP+O4p0g==
+X-CSE-MsgGUID: uZbDNinNQZ641LBmvKwqeQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,255,1744095600"; 
-   d="scan'208";a="157067337"
+   d="scan'208";a="155291212"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 21 Jun 2025 20:58:55 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 21 Jun 2025 22:22:07 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTBr2-000N2A-1I;
-	Sun, 22 Jun 2025 03:58:52 +0000
-Date: Sun, 22 Jun 2025 11:58:30 +0800
+	id 1uTD9Z-000N4Y-0s;
+	Sun, 22 Jun 2025 05:22:05 +0000
+Date: Sun, 22 Jun 2025 13:21:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rouven Czerwinski <rouven@czerwinskis.de>,
-	Arend van Spriel <arend.vanspriel@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, kernel@pengutronix.de,
-	Rouven Czerwinski <rouven@czerwinskis.de>,
-	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] brcmfmac: remove always true variable and code
-Message-ID: <202506221133.9JH31DNw-lkp@intel.com>
-References: <20250621112912.180436-2-rouven@czerwinskis.de>
+To: Vikas Gupta <vikas.gupta@broadcom.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	andrew+netdev@lunn.ch, horms@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, michael.chan@broadcom.com,
+	pavan.chebbi@broadcom.com, vsrama-krishna.nemani@broadcom.com,
+	Vikas Gupta <vikas.gupta@broadcom.com>,
+	Bhargava Chenna Marreddy <bhargava.marreddy@broadcom.com>,
+	Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>
+Subject: Re: [net-next, 08/10] bng_en: Add irq allocation support
+Message-ID: <202506221311.dmMiJyFp-lkp@intel.com>
+References: <20250618144743.843815-9-vikas.gupta@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,90 +69,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250621112912.180436-2-rouven@czerwinskis.de>
+In-Reply-To: <20250618144743.843815-9-vikas.gupta@broadcom.com>
 
-Hi Rouven,
+Hi Vikas,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.16-rc2 next-20250620]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.16-rc2 next-20250620]
+[cannot apply to horms-ipvs/master]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rouven-Czerwinski/brcmfmac-remove-always-true-variable-and-code/20250621-193706
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20250621112912.180436-2-rouven%40czerwinskis.de
-patch subject: [PATCH 2/2] brcmfmac: remove always true variable and code
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250622/202506221133.9JH31DNw-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506221133.9JH31DNw-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Vikas-Gupta/bng_en-Add-PCI-interface/20250618-173130
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250618144743.843815-9-vikas.gupta%40broadcom.com
+patch subject: [net-next, 08/10] bng_en: Add irq allocation support
+config: parisc-randconfig-r073-20250619 (https://download.01.org/0day-ci/archive/20250622/202506221311.dmMiJyFp-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506221133.9JH31DNw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506221311.dmMiJyFp-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/net/ethernet/broadcom/bnge/bnge_resc.c:347 bnge_alloc_irqs() warn: unsigned 'irqs_demand' is never less than zero.
 
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c: In function 'brcmf_sdio_sendfromq':
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c:2329:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-    2329 |         int ret = 0, prec_out, i;
-         |             ^~~
+vim +/irqs_demand +347 drivers/net/ethernet/broadcom/bnge/bnge_resc.c
 
-
-vim +/ret +2329 drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c
-
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2324  
-82d7f3c10cf41c drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2013-12-12  2325  static uint brcmf_sdio_sendfromq(struct brcmf_sdio *bus, uint maxframes)
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2326  {
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2327  	struct sk_buff *pkt;
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2328  	struct sk_buff_head pktq;
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29 @2329  	int ret = 0, prec_out, i;
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2330  	uint cnt = 0;
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2331  	u8 tx_prec_map, pkt_num;
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2332  
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2333  	brcmf_dbg(TRACE, "Enter\n");
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2334  
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2335  	tx_prec_map = ~bus->flowcontrol;
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2336  
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2337  	/* Send frames until the limit or some other event */
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2338  	for (cnt = 0; (cnt < maxframes) && data_ok(bus);) {
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2339  		pkt_num = 1;
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2340  		if (bus->txglom)
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2341  			pkt_num = min_t(u8, bus->tx_max - bus->tx_seq,
-af1fa210f4fc6e drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2014-02-27  2342  					bus->sdiodev->txglomsz);
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2343  		pkt_num = min_t(u32, pkt_num,
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2344  				brcmu_pktq_mlen(&bus->txq, ~bus->flowcontrol));
-fed7ec44e7ef64 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Hante Meuleman   2014-03-15  2345  		__skb_queue_head_init(&pktq);
-fed7ec44e7ef64 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Hante Meuleman   2014-03-15  2346  		spin_lock_bh(&bus->txq_lock);
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2347  		for (i = 0; i < pkt_num; i++) {
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2348  			pkt = brcmu_pktq_mdeq(&bus->txq, tx_prec_map,
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2349  					      &prec_out);
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2350  			if (pkt == NULL)
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2351  				break;
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2352  			__skb_queue_tail(&pktq, pkt);
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2353  		}
-fed7ec44e7ef64 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Hante Meuleman   2014-03-15  2354  		spin_unlock_bh(&bus->txq_lock);
-4dd8b26a40acf8 drivers/net/wireless/brcm80211/brcmfmac/sdio.c          Hante Meuleman   2015-01-25  2355  		if (i == 0)
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2356  			break;
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2357  
-82d7f3c10cf41c drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2013-12-12  2358  		ret = brcmf_sdio_txpkt(bus, &pktq, SDPCM_DATA_CHANNEL);
-fed7ec44e7ef64 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Hante Meuleman   2014-03-15  2359  
-8da9d2c8688825 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2013-11-29  2360  		cnt += i;
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2361  	}
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2362  
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2363  	/* Deflow-control stack if needed */
-a1ce7a0d6a4f1e drivers/net/wireless/brcm80211/brcmfmac/sdio.c          Arend van Spriel 2015-02-06  2364  	if ((bus->sdiodev->state == BRCMF_SDIOD_DATA) &&
-c8bf34849f92c5 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2011-12-16  2365  	    bus->txoff && (pktq_len(&bus->txq) < TXLOW)) {
-90d03ff71b52ba drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Hante Meuleman   2012-09-11  2366  		bus->txoff = false;
-20ec4f57498f87 drivers/net/wireless/broadcom/brcm80211/brcmfmac/sdio.c Franky Lin       2017-03-10  2367  		brcmf_proto_bcdc_txflowblock(bus->sdiodev->dev, false);
-c8bf34849f92c5 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Franky Lin       2011-12-16  2368  	}
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2369  
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2370  	return cnt;
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2371  }
-5b435de0d78686 drivers/net/wireless/brcm80211/brcmfmac/dhd_sdio.c      Arend van Spriel 2011-10-05  2372  
+   329	
+   330	int bnge_alloc_irqs(struct bnge_dev *bd)
+   331	{
+   332		u16 aux_msix, tx_cp, num_entries;
+   333		u16 irqs_demand, max, min = 1;
+   334		int i, rc = 0;
+   335	
+   336		irqs_demand = bnge_nqs_demand(bd);
+   337		max = bnge_get_max_func_irqs(bd);
+   338		if (irqs_demand > max)
+   339			irqs_demand = max;
+   340	
+   341		if (!(bd->flags & BNGE_EN_SHARED_CHNL))
+   342			min = 2;
+   343	
+   344		irqs_demand = pci_alloc_irq_vectors(bd->pdev, min, irqs_demand,
+   345						    PCI_IRQ_MSIX);
+   346		aux_msix = bnge_aux_get_msix(bd);
+ > 347		if (irqs_demand < 0 || irqs_demand < aux_msix) {
+   348			rc = -ENODEV;
+   349			goto err_free_irqs;
+   350		}
+   351	
+   352		num_entries = irqs_demand;
+   353		if (pci_msix_can_alloc_dyn(bd->pdev))
+   354			num_entries = max;
+   355		bd->irq_tbl = kcalloc(num_entries, sizeof(*bd->irq_tbl), GFP_KERNEL);
+   356		if (!bd->irq_tbl) {
+   357			rc = -ENOMEM;
+   358			goto err_free_irqs;
+   359		}
+   360	
+   361		for (i = 0; i < irqs_demand; i++)
+   362			bd->irq_tbl[i].vector = pci_irq_vector(bd->pdev, i);
+   363	
+   364		bd->irqs_acquired = irqs_demand;
+   365		/* Reduce rings based upon num of vectors allocated.
+   366		 * We dont need to consider NQs as they have been calculated
+   367		 * and must be more than irqs_demand.
+   368		 */
+   369		rc = bnge_adjust_rings(bd, &bd->rx_nr_rings,
+   370				       &bd->tx_nr_rings,
+   371				       irqs_demand - aux_msix, min == 1);
+   372		if (rc)
+   373			goto err_free_irqs;
+   374	
+   375		tx_cp = bnge_num_tx_to_cp(bd, bd->tx_nr_rings);
+   376		bd->nq_nr_rings = (min == 1) ?
+   377			max_t(u16, tx_cp, bd->rx_nr_rings) :
+   378			tx_cp + bd->rx_nr_rings;
+   379	
+   380		/* Readjust tx_nr_rings_per_tc */
+   381		if (!bd->num_tc)
+   382			bd->tx_nr_rings_per_tc = bd->tx_nr_rings;
+   383	
+   384		return 0;
+   385	
+   386	err_free_irqs:
+   387		dev_err(bd->dev, "Failed to allocate IRQs err = %d\n", rc);
+   388		bnge_free_irqs(bd);
+   389		return rc;
+   390	}
+   391	
 
 -- 
 0-DAY CI Kernel Test Service
