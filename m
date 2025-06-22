@@ -1,127 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3319F1A29A;
-	Sun, 22 Jun 2025 14:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63121DE3C8;
+	Sun, 22 Jun 2025 14:12:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750601562; cv=none; b=pTXtwsXOmfytKuVVNidzYsxmU/jBSOM2YfnYOPegY3W7RFMfQgXSHTs3LTkHzxP79GLtEssX/kqQXOZkhA0bhUfrz+vEL2r/euvOxcE4K1hOlMdQ/qyQSuWF+uBCt+3IJanbGWc9JZUEF4lxXR9MQxXuTaESEpxxEMccpJkIE3Q=
+	t=1750601578; cv=none; b=SvnyxL6CDBMpyL4ZLV9SRXyOwaOKpIpLzjl7benozvYtanxqvsNy8/kShEaXfBuw2kJUmuobluOLtF7H1rmUtPpNRd8f4e1dhjg4s2cl5n8whvXmbcGI9bdT4y42WYyOv7vBrDZmmJ9KgdyPwCOeFGom47JsMRL2EjBP+Kzmx+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750601562; c=relaxed/simple;
-	bh=9VDxcEDeTXSz1b5+DV5HGAIX25Kp6FJniTBdDExX7gY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WrY2PWJ8EPC+8TslmPpAboiEIf8MHG8Dp1tNPanvR+aDLbOD/Qgbqm5DNd4fc2kEHQmKDzJGpFkT7GEfUujSDL6YaGVVuWc5j2u4k+MtTfh1LjkFvKIZFDdbCZbai8T+zl1aSZ1t3TtxcsW6BGn+rvtUIcM5Y0c0zX+K7tYfhX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fxmkVWeM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1750601578; c=relaxed/simple;
+	bh=f1LVrqYHd5nJ9/e8djtzbBcTtvAXQDxzr8Z+AcN5gZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iNcE9jP9B6Ysu+L8Zdw3yaiMYbl4wQZN0bEiotIMfIM+0cuVIeS8udpAyo4Te2NLV+vVA2TbxTkhjZooqHo9/1Xm1y0iej63z4Clvt9Hl4v24eHSF7/pSIS8X6ZMUdhAyc1o8SgjlAO19BYl7L/BNmyOOXDTAr+39NvfU4uBhYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HRqJVIHx; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fxmkVWeM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47874C4CEF0;
-	Sun, 22 Jun 2025 14:12:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1750601561;
-	bh=9VDxcEDeTXSz1b5+DV5HGAIX25Kp6FJniTBdDExX7gY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=fxmkVWeMSIIOOfC+VevmCSdp6/dYJtwapGDfSAmKhXcEDvO0d19Y6DxfXFvzYBDBK
-	 otsZw1LZdOMeTbXIjBOLt4eMFWgFz3TV0U2IwfbvXyExeui+H/AFRHmYy5BZmhR/eN
-	 8bEzddXTJLlw6JDhbV24OBKHZO/JjJ1n4UbRb7/e/zwCQPfkQcXFrIS6ReC9rTP+y3
-	 vr51nZ3XyHWQU0rFvAUE+Rgihn4g8Ok/TQWbmFcHFuTgtbWiCka/weJpCP/P7fHu0F
-	 idJY95TfK7+xzcLqXk0wSC84LZ0BVKP6+bl//Uea2hZq9JTkt9ytEtlcRsOf9MTzfm
-	 4lj5meFjmdVIg==
-Date: Sun, 22 Jun 2025 15:12:29 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-kernel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- lars@metafoo.de, Michael.Hennerich@analog.com, dlechner@baylibre.com,
- nuno.sa@analog.com, andy@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, linus.walleij@linaro.org, brgl@bgdev.pl,
- broonie@kernel.org, lgirdwood@gmail.com, marcelo.schmitt1@gmail.com
-Subject: Re: [PATCH v6 06/12] iio: adc: ad4170: Add digital filter and
- sample frequency config support
-Message-ID: <20250622151229.4e56e8ae@jic23-huawei>
-In-Reply-To: <202506201000.WjqDvyXl-lkp@intel.com>
-References: <bc0261373936511a6ae5b25082e36ac5f112f6db.1750258776.git.marcelo.schmitt@analog.com>
-	<202506201000.WjqDvyXl-lkp@intel.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HRqJVIHx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750601576; x=1782137576;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=f1LVrqYHd5nJ9/e8djtzbBcTtvAXQDxzr8Z+AcN5gZ8=;
+  b=HRqJVIHxT/ikaizhYoQqBZYN66IIrp67P0HEtQiQGDe4Jvfv73K/Afzi
+   ByE6jsCM/xrMJWlTk5NE1wtkPk/kFz0zQ8fNww8qWYEw7RS4lW2Qoe6db
+   pA3Vk9JyLkYcBaApTaPr46y31I8pSm5HkQ0byUyVd9SmYz+p2cyWTYfNd
+   c8m/fXijf+4sX/zj9Mpvq2B/5gKlp9cPZOBNaeZyP0wAg8TMb07vKycC2
+   AgiREEdgghgjpE5J0IY2haGzi38WwnQqFS+44HubFY9tjlOjGQzgAR1iM
+   jPYXyYVyng/8clRwGnMETl/aEhA2i//imUrOScE6otYGIG3y20+XYLrkr
+   A==;
+X-CSE-ConnectionGUID: Cuoqht+hR3aPtNEZxJXt3A==
+X-CSE-MsgGUID: TewQGBCaQdyjMLxx2OFDFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52741712"
+X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
+   d="scan'208";a="52741712"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 07:12:55 -0700
+X-CSE-ConnectionGUID: YGjot7OcTFqAfGQ6z1gKTA==
+X-CSE-MsgGUID: Vh/3X8VvQICY00j/oPMgbw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
+   d="scan'208";a="157153885"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 22 Jun 2025 07:12:52 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uTLRB-000NKg-0y;
+	Sun, 22 Jun 2025 14:12:49 +0000
+Date: Sun, 22 Jun 2025 22:11:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chris Morgan <macroalpha82@gmail.com>, linux-pm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+	broonie@kernel.org, lgirdwood@gmail.com, sre@kernel.org,
+	heiko@sntech.de, conor+dt@kernel.org, krzk+dt@kernel.org,
+	robh@kernel.org, lee@kernel.org,
+	Chris Morgan <macromorgan@hotmail.com>
+Subject: Re: [PATCH V2 4/5] regulator: bq257xx: Add bq257xx boost regulator
+ driver
+Message-ID: <202506222132.hzKC0iLG-lkp@intel.com>
+References: <20250621180119.163423-5-macroalpha82@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250621180119.163423-5-macroalpha82@gmail.com>
 
-On Fri, 20 Jun 2025 10:38:58 +0800
-kernel test robot <lkp@intel.com> wrote:
+Hi Chris,
 
-> Hi Marcelo,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on 4c6073fec2fee4827fa0dd8a4ab4e6f7bbc05ee6]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Marcelo-Schmitt/dt-bindings-iio-adc-Add-AD4170/20250619-014200
-> base:   4c6073fec2fee4827fa0dd8a4ab4e6f7bbc05ee6
-> patch link:    https://lore.kernel.org/r/bc0261373936511a6ae5b25082e36ac5f112f6db.1750258776.git.marcelo.schmitt%40analog.com
-> patch subject: [PATCH v6 06/12] iio: adc: ad4170: Add digital filter and sample frequency config support
-> config: microblaze-randconfig-r133-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201000.WjqDvyXl-lkp@intel.com/config)
-> compiler: microblaze-linux-gcc (GCC) 8.5.0
-> reproduce: (https://download.01.org/0day-ci/archive/20250620/202506201000.WjqDvyXl-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506201000.WjqDvyXl-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    drivers/iio/adc/ad4170.c: In function 'ad4170_read_avail':
-> >> drivers/iio/adc/ad4170.c:1237:18: warning: array subscript 4294967274 is above array bounds of 'int[3][18][2]' [-Warray-bounds]  
->       *vals = (int *)st->sps_tbl[f_type];
->                      ^~
-> 
-> 
-> vim +1237 drivers/iio/adc/ad4170.c
-> 
->   1219	
->   1220	static int ad4170_read_avail(struct iio_dev *indio_dev,
->   1221				     struct iio_chan_spec const *chan,
->   1222				     const int **vals, int *type, int *length,
->   1223				     long info)
->   1224	{
->   1225		struct ad4170_state *st = iio_priv(indio_dev);
->   1226		struct ad4170_chan_info *chan_info = &st->chan_infos[chan->address];
->   1227		enum ad4170_filter_type f_type;
->   1228	
->   1229		switch (info) {
->   1230		case IIO_CHAN_INFO_SCALE:
->   1231			*vals = (int *)chan_info->scale_tbl;
->   1232			*length = ARRAY_SIZE(chan_info->scale_tbl) * 2;
->   1233			*type = IIO_VAL_INT_PLUS_NANO;
->   1234			return IIO_AVAIL_LIST;
->   1235		case IIO_CHAN_INFO_SAMP_FREQ:
->   1236			f_type = ad4170_get_filter_type(indio_dev, chan);
-> > 1237			*vals = (int *)st->sps_tbl[f_type];  
+kernel test robot noticed the following build errors:
 
-I think this needs an error check as the function can return -EINVAL ?
+[auto build test ERROR on lee-mfd/for-mfd-next]
+[also build test ERROR on lee-mfd/for-mfd-fixes broonie-regulator/for-next sre-power-supply/for-next linus/master v6.16-rc2 next-20250620]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->   1238			*type = IIO_VAL_INT_PLUS_MICRO;
->   1239			switch (f_type) {
->   1240			case AD4170_SINC5_AVG:
->   1241			case AD4170_SINC3:
->   1242				*length = ARRAY_SIZE(ad4170_sinc3_filt_fs_tbl) * 2;
->   1243				return IIO_AVAIL_LIST;
->   1244			case AD4170_SINC5:
->   1245				*length = ARRAY_SIZE(ad4170_sinc5_filt_fs_tbl) * 2;
->   1246				return IIO_AVAIL_LIST;
->   1247			default:
->   1248				return -EINVAL;
->   1249			}
->   1250		default:
->   1251			return -EINVAL;
->   1252		}
->   1253	}
->   1254	
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Morgan/dt-bindings-mfd-ti-bq25703a-Add-TI-BQ25703A-Charger/20250622-020443
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
+patch link:    https://lore.kernel.org/r/20250621180119.163423-5-macroalpha82%40gmail.com
+patch subject: [PATCH V2 4/5] regulator: bq257xx: Add bq257xx boost regulator driver
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250622/202506222132.hzKC0iLG-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506222132.hzKC0iLG-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506222132.hzKC0iLG-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/regulator/bq257xx-regulator.c:33:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      33 |         return FIELD_GET(BQ25703_OTG_CUR_MASK, reg) * BQ25703_OTG_CUR_STEP_UA;
+         |                ^
+>> drivers/regulator/bq257xx-regulator.c:56:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+      56 |                             FIELD_PREP(BQ25703_OTG_CUR_MASK, reg));
+         |                             ^
+   2 errors generated.
+
+
+vim +/FIELD_GET +33 drivers/regulator/bq257xx-regulator.c
+
+    23	
+    24	static int bq25703_vbus_get_cur_limit(struct regulator_dev *rdev)
+    25	{
+    26		struct bq257xx_reg_data *pdata = rdev_get_drvdata(rdev);
+    27		int ret;
+    28		unsigned int reg;
+    29	
+    30		ret = regmap_read(pdata->bq->regmap, BQ25703_OTG_CURRENT, &reg);
+    31		if (ret)
+    32			return ret;
+  > 33		return FIELD_GET(BQ25703_OTG_CUR_MASK, reg) * BQ25703_OTG_CUR_STEP_UA;
+    34	}
+    35	
+    36	/*
+    37	 * Check if the minimum current and maximum current requested are
+    38	 * sane values, then set the register accordingly.
+    39	 */
+    40	static int bq25703_vbus_set_cur_limit(struct regulator_dev *rdev,
+    41					      int min_uA, int max_uA)
+    42	{
+    43		struct bq257xx_reg_data *pdata = rdev_get_drvdata(rdev);
+    44		unsigned int reg;
+    45	
+    46		if ((min_uA > BQ25703_OTG_CUR_MAX_UA) || (max_uA < 0))
+    47			return -EINVAL;
+    48	
+    49		reg = (max_uA / BQ25703_OTG_CUR_STEP_UA);
+    50	
+    51		/* Catch rounding errors since our step is 50000uA. */
+    52		if ((reg * BQ25703_OTG_CUR_STEP_UA) < min_uA)
+    53			return -EINVAL;
+    54	
+    55		return regmap_write(pdata->bq->regmap, BQ25703_OTG_CURRENT,
+  > 56				    FIELD_PREP(BQ25703_OTG_CUR_MASK, reg));
+    57	}
+    58	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
