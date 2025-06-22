@@ -1,77 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C65D19007D;
-	Sun, 22 Jun 2025 06:03:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03661537A7;
+	Sun, 22 Jun 2025 06:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750572199; cv=none; b=E0AF23Qc6a3gZptuyIyHUpIFhRpy5wbYQP3NThSmgzeYx9RKPy/Y+VWkS9RKB9TD7GPT+CBbWl82BJVVzc+duPEn/qR50Q8UzuM5pP9a0kgHxJWNkVRcB6EO0yCEU94g4angV861Bhi9q45Cb3R7oEb7am1RBglPOCpPw30rstg=
+	t=1750574118; cv=none; b=n22bQppuKke0IqJfWSPzp5Yoy6qpAhnKsfBwme6GI0LKN9KKusNuY3Ch1Jbx9tasTO1iFwEeB2bYBX3FHsj+Vv6dNrf3GvjrOT5gjxNtiyt7CbAQGY48OC6R6qWOfbR7QzjkWSAQ2hN3Fxgk3l30K09xMWag9nzoweyP3lQNNDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750572199; c=relaxed/simple;
-	bh=6Q8FrnkdsmldV9GcNFIT4wN8l3RVnI5WN8GsaLdbscs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=me5mqr3/V+CAB+juQqhgHdAzjDYHNUzj+PdKxMaJWW0XvDQ+pZGEhGJIiRb7a1Saz82uuWPA05jfhAnWwCTp8Bs3OLA1IJuluOQuII/FfevNHhtxbzEM9XVFGzh+ONhhWUTVasTv6v5S0u8zvoXFYJddSdqprfgs6XX3r1OAl3Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L8wdi/Dj; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1750574118; c=relaxed/simple;
+	bh=X+4NonwxQ7FSI4oPird4/yYjeLxkAh01ISjyqZ/lXF8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=c4+P0xjCFL02lPcNLQdxVnBYh3CjS/AIyE8Ja375sg4w4E1BxWLOIDCUwbQX+rhzTOrcEELB4NmUh1hBT/365RNKpG73N75whrKX8EzGap6VDZ8TQHVA9YLSP6DDk/mRwQz+gNzJYfoR7hJs8QLSuXTnJ8874dZuc0niNivXo9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PkquhiWo; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L8wdi/Dj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PkquhiWo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750572198; x=1782108198;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6Q8FrnkdsmldV9GcNFIT4wN8l3RVnI5WN8GsaLdbscs=;
-  b=L8wdi/DjgBkqsUn6VOoMUpREt3Ueq5Xaa97I4q9kIfo7H6zgy5qFsRVF
-   3A80sxjmBVgAAkY4ZzV2Wx11uqohPQANJ5StaRXfXGqZX7ycGLTE2nTVr
-   wb7/usA9SAJKMxQZ0cbtLfkOwfmnpqEAlQaIQvZc56H5kTzxrYSt+n7gv
-   N6fuV59hOiM12mdQUcz7rXyd6sZiDlST0oiSyQ13UVPQsD5fsgSytpuiX
-   ZEPvIuTsU9unMTEhtmSrlEcdhqOZXxUoz3v8pJAFx1+febSv93NrzmFXU
-   WOxkhA2lrU2ZETnX0blqkjNBSWjJlLXriPvqoDd7RVgAfN8s9DmYfokld
-   Q==;
-X-CSE-ConnectionGUID: eZUDpb8FQb+0NnUMOAcr2w==
-X-CSE-MsgGUID: +aOQCAhWTS+RzBgL3ExPcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="63473346"
+  t=1750574117; x=1782110117;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=X+4NonwxQ7FSI4oPird4/yYjeLxkAh01ISjyqZ/lXF8=;
+  b=PkquhiWoEKm+1JkqrU3nQzPsd42r+iN0HE5YItDlzP0FZQdND5slnEK5
+   iLH84vQ2G85+Jr6Rv3Xu3e2103Zvv9b5h9QSoopKU8rRBBrK5K5f//9Ig
+   7FQq24vIuIEzls8vjqVEhFdcrlZ8CwTfmt/Smj/S1mhuLrdKCxi9e+c+Y
+   HvqDQ9ONRpo1nlBFzcAbhGKi0NBNLRji7JkdgN7nVKGVBA3uoeLmQNOE4
+   ifyPvLhqLyKPwB26phoOJXwImVVOTITLQZni4/P1RnUWsB4nmPi5ERYIs
+   hpv7KEHBRCyRtqX7ww63v4kVm7fEtSTHV8tJpUhc097BUEyw/R4d8B1ny
+   w==;
+X-CSE-ConnectionGUID: Nyu83T1QT1GUP5KrVLT4Hw==
+X-CSE-MsgGUID: cn5aAh4KQz62l5DesuSvhw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="52666132"
 X-IronPort-AV: E=Sophos;i="6.16,255,1744095600"; 
-   d="scan'208";a="63473346"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2025 23:03:16 -0700
-X-CSE-ConnectionGUID: YCSARsZ5RWG/zST+8dcpBQ==
-X-CSE-MsgGUID: 3MdxRylsSUqbPeP8nS9RvA==
+   d="scan'208";a="52666132"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2025 23:35:15 -0700
+X-CSE-ConnectionGUID: a0phMcSET++o6bwKQU6xlg==
+X-CSE-MsgGUID: M1Ht4aAzRxi041/0AlSdZQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,255,1744095600"; 
-   d="scan'208";a="150871451"
+   d="scan'208";a="155840607"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 21 Jun 2025 23:03:10 -0700
+  by orviesa004.jf.intel.com with ESMTP; 21 Jun 2025 23:35:14 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTDnI-000N5q-1P;
-	Sun, 22 Jun 2025 06:03:08 +0000
-Date: Sun, 22 Jun 2025 14:02:35 +0800
+	id 1uTEIJ-000N6g-1k;
+	Sun, 22 Jun 2025 06:35:11 +0000
+Date: Sun, 22 Jun 2025 14:34:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Lukas Wunner <lukas@wunner.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	"(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-	linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v3 6/7] PCI/VGA: Move check for firmware default out of
- VGA arbiter
-Message-ID: <202506221312.49Fy1aNA-lkp@intel.com>
-References: <20250620024943.3415685-7-superm1@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/kvm_exports_for_kvm 3/3] ERROR: modpost: module
+ ptp_vmclock uses symbol check_tsc_unstable from namespace
+ module:kvm,kvm-amd,kvm-intel, but does not import it.
+Message-ID: <202506221447.EJhKcLH9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,36 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250620024943.3415685-7-superm1@kernel.org>
 
-Hi Mario,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus awilliam-vfio/next awilliam-vfio/for-linus tip/x86/core linus/master v6.16-rc2 next-20250620]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250620-105220
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250620024943.3415685-7-superm1%40kernel.org
-patch subject: [PATCH v3 6/7] PCI/VGA: Move check for firmware default out of VGA arbiter
-config: sparc-defconfig (https://download.01.org/0day-ci/archive/20250622/202506221312.49Fy1aNA-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506221312.49Fy1aNA-lkp@intel.com/reproduce)
+tree:   https://github.com/sean-jc/linux x86/kvm_exports_for_kvm
+head:   66216b2b147f76a917fa9ae28d99d81454d96a59
+commit: 66216b2b147f76a917fa9ae28d99d81454d96a59 [3/3] x86: Restrict KVM-induced symbol exports to KVM modules where obvious/possible
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250622/202506221447.EJhKcLH9-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506221447.EJhKcLH9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506221312.49Fy1aNA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506221447.EJhKcLH9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   sparc-linux-ld: drivers/pci/vgaarb.o: in function `vga_arbiter_add_pci_device':
->> vgaarb.c:(.text+0x14ec): undefined reference to `video_is_primary_device'
->> sparc-linux-ld: vgaarb.c:(.text+0x174c): undefined reference to `video_is_primary_device'
+>> ERROR: modpost: module ptp_vmclock uses symbol check_tsc_unstable from namespace module:kvm,kvm-amd,kvm-intel, but does not import it.
 
 -- 
 0-DAY CI Kernel Test Service
