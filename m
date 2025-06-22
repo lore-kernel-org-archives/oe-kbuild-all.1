@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4948F2EAE5
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jun 2025 21:12:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C569FC2FA
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jun 2025 22:03:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750626763; cv=none; b=VOt8zAdC+abnoBHEq1FS3KNb+ExGAn2X6Euuf1UOc4sJWnlPSIoz8cn8Q1pKbMuqzj+ieKQuHnarFx7ZOLisYlqaKgFemCUcIXX0M5cQhjq4Ci4g6hVv1UWIr/xf+RhLE1tYYF5skd52aN9uT6+cB8hSPSiVX6pBek4bAmLZ3E8=
+	t=1750629828; cv=none; b=rHTVHDhzTx+ic48S4oRrVc4o3MhegowvuNENAycjxXKV3yXxfikNL70yvpguD1yEqm+/W4QruZ/wqvnY04NRc8H87b+v7cQWstyEJOtFM+4nqmlnl3PsOdcr00UxSv3Am2X1A1sOahOtm4MYhNdKJksss5VatFmBDXVWEQ3cmaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750626763; c=relaxed/simple;
-	bh=uTCK2j2FfWeizA1h3pk3AP4hXpQBXDHyFFE+eEb2qBs=;
+	s=arc-20240116; t=1750629828; c=relaxed/simple;
+	bh=ANGU0DCspdY1g9fhEkU+ry8W/3n0SlbC5mWq78aX78M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=No1ToQe32bTrl7ozx4yn/ytnHamJ+1XQqSSqKtEkD89/hctk3OL+kanzR9Y36EpHXlzwVfp59ugztVfiYa/H8RZ6tTDuiqj7VutMDISpYsVaWv4vdT8jIXx0+aQJOpx3DTvibogN0l2Is/8ttVbRywDYYQhuR8MlqzjWBk0a2rI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X2DiOXMg; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=BlEukrnSchJdwmnhy0PM2nqPJlVbxbRV23Dqk14MQJmbrWJYv5oKLszvq8XbNidHK6qLzJ/QVhC41MO5CUvlDxZeWrRHmrblBJjN+N4b7792IMirlAdvRv3lqVY6R2arzDhOeP4wxDuEsQA5x0Vtzp/78LkBg6PyIL9wdXA59N8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IvJI3RLE; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X2DiOXMg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IvJI3RLE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750626762; x=1782162762;
+  t=1750629827; x=1782165827;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=uTCK2j2FfWeizA1h3pk3AP4hXpQBXDHyFFE+eEb2qBs=;
-  b=X2DiOXMgb0uf7Gp5B4ianAWeXqCr1hfWaGRDLlhsn19YGwbJrqceiGAn
-   RUD/uT5jaTzMcFmAKlgyy4FyxoipMZuAbDbMvX7nEidnIg5ISM3iyEOlV
-   IWgbR0fclGEuwi2ejT3Hza+DdLyZjquT9zXVlDxloq49ESITqiXfPIX4h
-   LOx86fVf4rHLW43B0M2jYCoe8F8sXMHGynsQIg9M/XtB8D3pdpyzV/rUn
-   zHQZp4/l/NZWZ2B/9BkphpnQJsM2cRFGaDstEe/fnVz4aNNZwdbf/mKtc
-   PH3SNK1WheAyuDUgA6PDSdlhq6kBe1RcEA+r0WFn7cbTmHJfpYCjAleG/
-   A==;
-X-CSE-ConnectionGUID: 9WnvUx5vQLSziFvHUWA2hw==
-X-CSE-MsgGUID: b/tZfbYbT5OMjWfxNOFXcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="63096830"
+  bh=ANGU0DCspdY1g9fhEkU+ry8W/3n0SlbC5mWq78aX78M=;
+  b=IvJI3RLEhJtAj1pUtaetkvb9Sg7S9P7s6uPbpPtj9uqIwa4q8f/cNotv
+   PC7TIffXzbYtmSnMT7259UPv5STvT+PeQ3C9/+B+mgLZuBIQF95rhBZYj
+   QvcOEZXrqIrhL/QJ8CKjPZ8bInZzGDTllYNAKXWTga+8c5qI93kdyBraX
+   0RtFFmPVmSaiV/vnUZ6jLGq6W+r89AajPVaEGRCPecZs8WYSnXYuCCDOd
+   3/USrJde0alserVfR3K5gEAs8B4m8kKNBDbApvCJWelmrd2etAuje5z3j
+   loq4MKziNnsw6OYz0hb3xPHbcpXJun95twkS4rNMttz9AW/PL2CfPfkSO
+   Q==;
+X-CSE-ConnectionGUID: BXQ6Cc9pTLGFFIPKnWZOng==
+X-CSE-MsgGUID: H5hk3jBPR+K62DFjXIYTzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52545054"
 X-IronPort-AV: E=Sophos;i="6.16,257,1744095600"; 
-   d="scan'208";a="63096830"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 14:12:41 -0700
-X-CSE-ConnectionGUID: ygqZE9d0S4ida83f6xXU4g==
-X-CSE-MsgGUID: mMx6OBDESm+vJw5MJFYhiA==
+   d="scan'208";a="52545054"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 15:03:46 -0700
+X-CSE-ConnectionGUID: SEszzUScRT6VUn3GywKB6Q==
+X-CSE-MsgGUID: uMfBKESFQJeacNYDtplzNA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,257,1744095600"; 
-   d="scan'208";a="151002978"
+   d="scan'208";a="156913550"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 22 Jun 2025 14:12:40 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 22 Jun 2025 15:03:44 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTRzR-000NWc-1v;
-	Sun, 22 Jun 2025 21:12:37 +0000
-Date: Mon, 23 Jun 2025 05:11:41 +0800
+	id 1uTSms-000NXk-0W;
+	Sun, 22 Jun 2025 22:03:42 +0000
+Date: Mon, 23 Jun 2025 06:03:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [kas:x86/lass 2/16] arch/x86/include/asm/uaccess_64.h:177:31:
- sparse: sparse: incorrect type in argument 1 (different address spaces)
-Message-ID: <202506230504.2GhnbhRq-lkp@intel.com>
+To: Erni Sri Satya Vennela <ernis@linux.microsoft.com>
+Cc: oe-kbuild-all@lists.linux.dev, Paolo Abeni <pabeni@redhat.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Shradha Gupta <shradhagupta@linux.microsoft.com>,
+	Saurabh Singh Sengar <ssengar@linux.microsoft.com>,
+	Long Li <longli@microsoft.com>
+Subject: [linux-next:master 3909/4336]
+ drivers/net/ethernet/microsoft/mana/mana_en.c:804:10: error: 'const struct
+ net_device_ops' has no member named 'net_shaper_ops'
+Message-ID: <202506230625.bfUlqb8o-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,40 +67,46 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git x86/lass
-head:   59822d1bcbc8a26ad84fffa7ff4e6840ef526285
-commit: e408c89255c56175bcbed7e6b5ea5efd4074251d [2/16] x86/asm: Introduce inline memcpy and memset
-config: x86_64-randconfig-122-20250622 (https://download.01.org/0day-ci/archive/20250623/202506230504.2GhnbhRq-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   5d4809e25903ab8e74034c1f23c787fd26d52934
+commit: 75cabb46935b6de8e2bdfde563e460ac41cfff12 [3909/4336] net: mana: Add support for net_shaper_ops
+config: x86_64-randconfig-161-20250614 (https://download.01.org/0day-ci/archive/20250623/202506230625.bfUlqb8o-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250623/202506230504.2GhnbhRq-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250623/202506230625.bfUlqb8o-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506230504.2GhnbhRq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506230625.bfUlqb8o-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   net/netfilter/x_tables.c: note: in included file (through arch/x86/include/asm/uaccess.h, include/linux/uaccess.h, include/linux/sched/task.h, ...):
->> arch/x86/include/asm/uaccess_64.h:177:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void *addr @@     got void [noderef] __user *addr @@
-   arch/x86/include/asm/uaccess_64.h:177:31: sparse:     expected void *addr
-   arch/x86/include/asm/uaccess_64.h:177:31: sparse:     got void [noderef] __user *addr
->> arch/x86/include/asm/uaccess_64.h:180:20: sparse: sparse: subtraction of different types can't work (different address spaces)
+All errors (new ones prefixed by >>):
 
-vim +177 arch/x86/include/asm/uaccess_64.h
+>> drivers/net/ethernet/microsoft/mana/mana_en.c:804:10: error: 'const struct net_device_ops' has no member named 'net_shaper_ops'
+     804 |         .net_shaper_ops         = &mana_shaper_ops,
+         |          ^~~~~~~~~~~~~~
+>> drivers/net/ethernet/microsoft/mana/mana_en.c:804:35: error: initialization of 'int (*)(struct net_device *, struct neigh_parms *)' from incompatible pointer type 'const struct net_shaper_ops *' [-Werror=incompatible-pointer-types]
+     804 |         .net_shaper_ops         = &mana_shaper_ops,
+         |                                   ^
+   drivers/net/ethernet/microsoft/mana/mana_en.c:804:35: note: (near initialization for 'mana_devops.ndo_neigh_setup')
+   cc1: some warnings being treated as errors
 
-   170	
-   171	static __always_inline __must_check unsigned long __clear_user(void __user *addr, unsigned long size)
-   172	{
-   173		void *ret;
-   174	
-   175		might_fault();
-   176		stac();
- > 177		ret = __inline_memset(addr, 0, size);
-   178		clac();
-   179	
- > 180		return ret - addr;
-   181	}
-   182	
+
+vim +804 drivers/net/ethernet/microsoft/mana/mana_en.c
+
+   793	
+   794	static const struct net_device_ops mana_devops = {
+   795		.ndo_open		= mana_open,
+   796		.ndo_stop		= mana_close,
+   797		.ndo_select_queue	= mana_select_queue,
+   798		.ndo_start_xmit		= mana_start_xmit,
+   799		.ndo_validate_addr	= eth_validate_addr,
+   800		.ndo_get_stats64	= mana_get_stats64,
+   801		.ndo_bpf		= mana_bpf,
+   802		.ndo_xdp_xmit		= mana_xdp_xmit,
+   803		.ndo_change_mtu		= mana_change_mtu,
+ > 804		.net_shaper_ops         = &mana_shaper_ops,
+   805	};
+   806	
 
 -- 
 0-DAY CI Kernel Test Service
