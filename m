@@ -1,66 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA842158DD4
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jun 2025 05:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C65D19007D;
+	Sun, 22 Jun 2025 06:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750569732; cv=none; b=lGdygOBZwatF2xG/VDdn0NXgVc2YsP2SJqbbvWasJ7o16/NO3ZPNEafM4/VisCMuQ9nRWls9HAw2HAxF6VF+zyyin6HYHPXThVAbSjRMAT7whV6RBqSV399zwJNXyr8opDtL7MB9IaGLBhqcUh9BM1TgBF2dsD94AVEML34TCPE=
+	t=1750572199; cv=none; b=E0AF23Qc6a3gZptuyIyHUpIFhRpy5wbYQP3NThSmgzeYx9RKPy/Y+VWkS9RKB9TD7GPT+CBbWl82BJVVzc+duPEn/qR50Q8UzuM5pP9a0kgHxJWNkVRcB6EO0yCEU94g4angV861Bhi9q45Cb3R7oEb7am1RBglPOCpPw30rstg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750569732; c=relaxed/simple;
-	bh=UBLrFt7v6rwi8efRCPk1D6EtbCWUH8sLO9gY/AVK1Eg=;
+	s=arc-20240116; t=1750572199; c=relaxed/simple;
+	bh=6Q8FrnkdsmldV9GcNFIT4wN8l3RVnI5WN8GsaLdbscs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tdNncn+IP+4SXpmiRgEhUq6MQq2uK87ATxfPnjp+DfWowP2H/uAsz5nXCc4g9LuDBRi7UUS92VnQ4j0k4/EQkz9eri1/36IhHOv1NzFecZUJ2ert82Ig8qm/hDbmUpGi8dmEnp0Vs4dimAe0PSPRCws+8sqvcTeM/EVhH3zEaAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hxZfvoDs; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=me5mqr3/V+CAB+juQqhgHdAzjDYHNUzj+PdKxMaJWW0XvDQ+pZGEhGJIiRb7a1Saz82uuWPA05jfhAnWwCTp8Bs3OLA1IJuluOQuII/FfevNHhtxbzEM9XVFGzh+ONhhWUTVasTv6v5S0u8zvoXFYJddSdqprfgs6XX3r1OAl3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L8wdi/Dj; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hxZfvoDs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L8wdi/Dj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750569730; x=1782105730;
+  t=1750572198; x=1782108198;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UBLrFt7v6rwi8efRCPk1D6EtbCWUH8sLO9gY/AVK1Eg=;
-  b=hxZfvoDsFHQduAOxkBg6GMG7d2g3/GpjnF8n2WmtLs2aC2yX606F9Nkv
-   lR8IprvEVQKulr7fN+GVsfGfa2GPmsEkY8r9mH0BqEv2SgE2oj1scPB5f
-   KL63qVg99KAgBOSseT0SJVX8zmSaN78YmBwRJEueRtIY+BDyhai2W9unJ
-   P0wSVxnoL318BJP2fvAFdhrUyI50GfFR3udJeXh5Uj4k1mM49ymLfZ0bc
-   c8qU4M8UvKEWVICGS8uL5UhTicn0rZvW3LZ3xiLaS2sQN708t80/NYCXX
-   rbfyDL8toyPjriTFl2vECVNyayS8Q588rxNaX39IFsvfbVVgOkQpFlCA/
-   A==;
-X-CSE-ConnectionGUID: PlYwbR1bQImb5BtIntgiRA==
-X-CSE-MsgGUID: /Mn+1T3HTVOBzFQl2AZGdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="56594004"
+  bh=6Q8FrnkdsmldV9GcNFIT4wN8l3RVnI5WN8GsaLdbscs=;
+  b=L8wdi/DjgBkqsUn6VOoMUpREt3Ueq5Xaa97I4q9kIfo7H6zgy5qFsRVF
+   3A80sxjmBVgAAkY4ZzV2Wx11uqohPQANJ5StaRXfXGqZX7ycGLTE2nTVr
+   wb7/usA9SAJKMxQZ0cbtLfkOwfmnpqEAlQaIQvZc56H5kTzxrYSt+n7gv
+   N6fuV59hOiM12mdQUcz7rXyd6sZiDlST0oiSyQ13UVPQsD5fsgSytpuiX
+   ZEPvIuTsU9unMTEhtmSrlEcdhqOZXxUoz3v8pJAFx1+febSv93NrzmFXU
+   WOxkhA2lrU2ZETnX0blqkjNBSWjJlLXriPvqoDd7RVgAfN8s9DmYfokld
+   Q==;
+X-CSE-ConnectionGUID: eZUDpb8FQb+0NnUMOAcr2w==
+X-CSE-MsgGUID: +aOQCAhWTS+RzBgL3ExPcw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11470"; a="63473346"
 X-IronPort-AV: E=Sophos;i="6.16,255,1744095600"; 
-   d="scan'208";a="56594004"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2025 22:22:10 -0700
-X-CSE-ConnectionGUID: h6O+MLvKRnKLdddP+O4p0g==
-X-CSE-MsgGUID: uZbDNinNQZ641LBmvKwqeQ==
+   d="scan'208";a="63473346"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jun 2025 23:03:16 -0700
+X-CSE-ConnectionGUID: YCSARsZ5RWG/zST+8dcpBQ==
+X-CSE-MsgGUID: 3MdxRylsSUqbPeP8nS9RvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,255,1744095600"; 
-   d="scan'208";a="155291212"
+   d="scan'208";a="150871451"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 21 Jun 2025 22:22:07 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 21 Jun 2025 23:03:10 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTD9Z-000N4Y-0s;
-	Sun, 22 Jun 2025 05:22:05 +0000
-Date: Sun, 22 Jun 2025 13:21:07 +0800
+	id 1uTDnI-000N5q-1P;
+	Sun, 22 Jun 2025 06:03:08 +0000
+Date: Sun, 22 Jun 2025 14:02:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vikas Gupta <vikas.gupta@broadcom.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	andrew+netdev@lunn.ch, horms@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, michael.chan@broadcom.com,
-	pavan.chebbi@broadcom.com, vsrama-krishna.nemani@broadcom.com,
-	Vikas Gupta <vikas.gupta@broadcom.com>,
-	Bhargava Chenna Marreddy <bhargava.marreddy@broadcom.com>,
-	Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>
-Subject: Re: [net-next, 08/10] bng_en: Add irq allocation support
-Message-ID: <202506221311.dmMiJyFp-lkp@intel.com>
-References: <20250618144743.843815-9-vikas.gupta@broadcom.com>
+To: Mario Limonciello <superm1@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Lukas Wunner <lukas@wunner.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	"(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
+	linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v3 6/7] PCI/VGA: Move check for firmware default out of
+ VGA arbiter
+Message-ID: <202506221312.49Fy1aNA-lkp@intel.com>
+References: <20250620024943.3415685-7-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,99 +80,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618144743.843815-9-vikas.gupta@broadcom.com>
+In-Reply-To: <20250620024943.3415685-7-superm1@kernel.org>
 
-Hi Vikas,
+Hi Mario,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16-rc2 next-20250620]
-[cannot apply to horms-ipvs/master]
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus awilliam-vfio/next awilliam-vfio/for-linus tip/x86/core linus/master v6.16-rc2 next-20250620]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vikas-Gupta/bng_en-Add-PCI-interface/20250618-173130
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250618144743.843815-9-vikas.gupta%40broadcom.com
-patch subject: [net-next, 08/10] bng_en: Add irq allocation support
-config: parisc-randconfig-r073-20250619 (https://download.01.org/0day-ci/archive/20250622/202506221311.dmMiJyFp-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250620-105220
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250620024943.3415685-7-superm1%40kernel.org
+patch subject: [PATCH v3 6/7] PCI/VGA: Move check for firmware default out of VGA arbiter
+config: sparc-defconfig (https://download.01.org/0day-ci/archive/20250622/202506221312.49Fy1aNA-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506221312.49Fy1aNA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506221311.dmMiJyFp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506221312.49Fy1aNA-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/broadcom/bnge/bnge_resc.c:347 bnge_alloc_irqs() warn: unsigned 'irqs_demand' is never less than zero.
+All errors (new ones prefixed by >>):
 
-vim +/irqs_demand +347 drivers/net/ethernet/broadcom/bnge/bnge_resc.c
-
-   329	
-   330	int bnge_alloc_irqs(struct bnge_dev *bd)
-   331	{
-   332		u16 aux_msix, tx_cp, num_entries;
-   333		u16 irqs_demand, max, min = 1;
-   334		int i, rc = 0;
-   335	
-   336		irqs_demand = bnge_nqs_demand(bd);
-   337		max = bnge_get_max_func_irqs(bd);
-   338		if (irqs_demand > max)
-   339			irqs_demand = max;
-   340	
-   341		if (!(bd->flags & BNGE_EN_SHARED_CHNL))
-   342			min = 2;
-   343	
-   344		irqs_demand = pci_alloc_irq_vectors(bd->pdev, min, irqs_demand,
-   345						    PCI_IRQ_MSIX);
-   346		aux_msix = bnge_aux_get_msix(bd);
- > 347		if (irqs_demand < 0 || irqs_demand < aux_msix) {
-   348			rc = -ENODEV;
-   349			goto err_free_irqs;
-   350		}
-   351	
-   352		num_entries = irqs_demand;
-   353		if (pci_msix_can_alloc_dyn(bd->pdev))
-   354			num_entries = max;
-   355		bd->irq_tbl = kcalloc(num_entries, sizeof(*bd->irq_tbl), GFP_KERNEL);
-   356		if (!bd->irq_tbl) {
-   357			rc = -ENOMEM;
-   358			goto err_free_irqs;
-   359		}
-   360	
-   361		for (i = 0; i < irqs_demand; i++)
-   362			bd->irq_tbl[i].vector = pci_irq_vector(bd->pdev, i);
-   363	
-   364		bd->irqs_acquired = irqs_demand;
-   365		/* Reduce rings based upon num of vectors allocated.
-   366		 * We dont need to consider NQs as they have been calculated
-   367		 * and must be more than irqs_demand.
-   368		 */
-   369		rc = bnge_adjust_rings(bd, &bd->rx_nr_rings,
-   370				       &bd->tx_nr_rings,
-   371				       irqs_demand - aux_msix, min == 1);
-   372		if (rc)
-   373			goto err_free_irqs;
-   374	
-   375		tx_cp = bnge_num_tx_to_cp(bd, bd->tx_nr_rings);
-   376		bd->nq_nr_rings = (min == 1) ?
-   377			max_t(u16, tx_cp, bd->rx_nr_rings) :
-   378			tx_cp + bd->rx_nr_rings;
-   379	
-   380		/* Readjust tx_nr_rings_per_tc */
-   381		if (!bd->num_tc)
-   382			bd->tx_nr_rings_per_tc = bd->tx_nr_rings;
-   383	
-   384		return 0;
-   385	
-   386	err_free_irqs:
-   387		dev_err(bd->dev, "Failed to allocate IRQs err = %d\n", rc);
-   388		bnge_free_irqs(bd);
-   389		return rc;
-   390	}
-   391	
+   sparc-linux-ld: drivers/pci/vgaarb.o: in function `vga_arbiter_add_pci_device':
+>> vgaarb.c:(.text+0x14ec): undefined reference to `video_is_primary_device'
+>> sparc-linux-ld: vgaarb.c:(.text+0x174c): undefined reference to `video_is_primary_device'
 
 -- 
 0-DAY CI Kernel Test Service
