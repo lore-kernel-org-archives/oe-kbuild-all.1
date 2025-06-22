@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E63121DE3C8;
-	Sun, 22 Jun 2025 14:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F491F2361
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jun 2025 16:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750601578; cv=none; b=SvnyxL6CDBMpyL4ZLV9SRXyOwaOKpIpLzjl7benozvYtanxqvsNy8/kShEaXfBuw2kJUmuobluOLtF7H1rmUtPpNRd8f4e1dhjg4s2cl5n8whvXmbcGI9bdT4y42WYyOv7vBrDZmmJ9KgdyPwCOeFGom47JsMRL2EjBP+Kzmx+w=
+	t=1750610536; cv=none; b=i3bghvOWG3mDyR8vMBCcRfSDbRhauh0zyuTPBSAwJxZVnswjSf1B8N0XE7a8Ocz1m7b0dc5GHMPdBVlSbx8aB7c2x6VyE2GtMqRpvFlfTp2IjYNXTGDxbKuaewXLhoEUFalKYVz96xliJPKhMsDyLXrt/v7RYZ5KyJsaetqZDew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750601578; c=relaxed/simple;
-	bh=f1LVrqYHd5nJ9/e8djtzbBcTtvAXQDxzr8Z+AcN5gZ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iNcE9jP9B6Ysu+L8Zdw3yaiMYbl4wQZN0bEiotIMfIM+0cuVIeS8udpAyo4Te2NLV+vVA2TbxTkhjZooqHo9/1Xm1y0iej63z4Clvt9Hl4v24eHSF7/pSIS8X6ZMUdhAyc1o8SgjlAO19BYl7L/BNmyOOXDTAr+39NvfU4uBhYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HRqJVIHx; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1750610536; c=relaxed/simple;
+	bh=KNVOrboJY81I1Jqt15rRemn3yOEn5mCFDqIR4bZZqCg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=sgPE2WTvHfgVXu4GU+uXxSiK4n3dy7NY15kyCrOBKwNGhB+FawQKXja2NTA2ZOz6kShmZgRssf97jEadpigyp2UqIJmN8W49yArG7iNg0bgf7jilnokHTDU2CAm2vfbCjUXQx2rmPyICuqVf6/SeSvd1C6ZsHltk9bXi+EG7goY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QNbz9qFz; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HRqJVIHx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QNbz9qFz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750601576; x=1782137576;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=f1LVrqYHd5nJ9/e8djtzbBcTtvAXQDxzr8Z+AcN5gZ8=;
-  b=HRqJVIHxT/ikaizhYoQqBZYN66IIrp67P0HEtQiQGDe4Jvfv73K/Afzi
-   ByE6jsCM/xrMJWlTk5NE1wtkPk/kFz0zQ8fNww8qWYEw7RS4lW2Qoe6db
-   pA3Vk9JyLkYcBaApTaPr46y31I8pSm5HkQ0byUyVd9SmYz+p2cyWTYfNd
-   c8m/fXijf+4sX/zj9Mpvq2B/5gKlp9cPZOBNaeZyP0wAg8TMb07vKycC2
-   AgiREEdgghgjpE5J0IY2haGzi38WwnQqFS+44HubFY9tjlOjGQzgAR1iM
-   jPYXyYVyng/8clRwGnMETl/aEhA2i//imUrOScE6otYGIG3y20+XYLrkr
-   A==;
-X-CSE-ConnectionGUID: Cuoqht+hR3aPtNEZxJXt3A==
-X-CSE-MsgGUID: TewQGBCaQdyjMLxx2OFDFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52741712"
+  t=1750610534; x=1782146534;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KNVOrboJY81I1Jqt15rRemn3yOEn5mCFDqIR4bZZqCg=;
+  b=QNbz9qFzViqrp5Yx+iolPotmfWA45uqDirbf/V4vO4tz5Qc+5fZmt6Em
+   1pi92AaJ2aZPVhzixlItq0C5ngX1ssG8R7x4s7Pmnthucq8PeeRWOpTvW
+   gcYzZwjOne85zOUyvmQ/ApQDjvQpOcRIkssnhR6hdhL/h+HKqYfRtqdWG
+   sUYiY8leAD7gVlm5FE8aN12XRCV5WBwVqfP0olz07d7GfcerL47pqETa4
+   dPo7O+tLiEB7LnnVyFsAv7LHwFT2KZ9w4O/orKeaJKChg3LHeJNzzlt0s
+   Yjsrx2q6knMOttB+q/dSSIKDJAmkWdILPRZ+gb+bTMfi2snp4L/tq3m7t
+   g==;
+X-CSE-ConnectionGUID: LpUWrOspSN6i/a2c76LFpQ==
+X-CSE-MsgGUID: zsEfCn22Q1mFeD59KS7PJA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="55452696"
 X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
-   d="scan'208";a="52741712"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 07:12:55 -0700
-X-CSE-ConnectionGUID: YGjot7OcTFqAfGQ6z1gKTA==
-X-CSE-MsgGUID: Vh/3X8VvQICY00j/oPMgbw==
+   d="scan'208";a="55452696"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 09:42:13 -0700
+X-CSE-ConnectionGUID: HfoZvBaGSqGmmxDQDyzAmw==
+X-CSE-MsgGUID: f7ctL0yLS023BaQmToeBIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,256,1744095600"; 
-   d="scan'208";a="157153885"
+   d="scan'208";a="156870651"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 22 Jun 2025 07:12:52 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 22 Jun 2025 09:42:13 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTLRB-000NKg-0y;
-	Sun, 22 Jun 2025 14:12:49 +0000
-Date: Sun, 22 Jun 2025 22:11:55 +0800
+	id 1uTNli-000NPa-2N;
+	Sun, 22 Jun 2025 16:42:10 +0000
+Date: Mon, 23 Jun 2025 00:41:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chris Morgan <macroalpha82@gmail.com>, linux-pm@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-	broonie@kernel.org, lgirdwood@gmail.com, sre@kernel.org,
-	heiko@sntech.de, conor+dt@kernel.org, krzk+dt@kernel.org,
-	robh@kernel.org, lee@kernel.org,
-	Chris Morgan <macromorgan@hotmail.com>
-Subject: Re: [PATCH V2 4/5] regulator: bq257xx: Add bq257xx boost regulator
- driver
-Message-ID: <202506222132.hzKC0iLG-lkp@intel.com>
-References: <20250621180119.163423-5-macroalpha82@gmail.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.16-rsslro 36/72]
+ drivers/net/ethernet/mediatek/mtk_eth_path.c:225:2-3: Unneeded semicolon
+Message-ID: <202506230008.c63UGFL9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,80 +61,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250621180119.163423-5-macroalpha82@gmail.com>
 
-Hi Chris,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on lee-mfd/for-mfd-next]
-[also build test ERROR on lee-mfd/for-mfd-fixes broonie-regulator/for-next sre-power-supply/for-next linus/master v6.16-rc2 next-20250620]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chris-Morgan/dt-bindings-mfd-ti-bq25703a-Add-TI-BQ25703A-Charger/20250622-020443
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git for-mfd-next
-patch link:    https://lore.kernel.org/r/20250621180119.163423-5-macroalpha82%40gmail.com
-patch subject: [PATCH V2 4/5] regulator: bq257xx: Add bq257xx boost regulator driver
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250622/202506222132.hzKC0iLG-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250622/202506222132.hzKC0iLG-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.16-rsslro
+head:   14bf550b65cbf5b2fc136cfa4f48a3475b597d25
+commit: 2bc47ff7ea2ace3310b449c338064e7700ffd323 [36/72] net: ethernet: mtk_eth_soc: add paths and SerDes modes for MT7988
+config: arm64-randconfig-r051-20250622 (https://download.01.org/0day-ci/archive/20250623/202506230008.c63UGFL9-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506222132.hzKC0iLG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506230008.c63UGFL9-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/mediatek/mtk_eth_path.c:225:2-3: Unneeded semicolon
 
->> drivers/regulator/bq257xx-regulator.c:33:9: error: call to undeclared function 'FIELD_GET'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      33 |         return FIELD_GET(BQ25703_OTG_CUR_MASK, reg) * BQ25703_OTG_CUR_STEP_UA;
-         |                ^
->> drivers/regulator/bq257xx-regulator.c:56:8: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      56 |                             FIELD_PREP(BQ25703_OTG_CUR_MASK, reg));
-         |                             ^
-   2 errors generated.
+vim +225 drivers/net/ethernet/mediatek/mtk_eth_path.c
 
-
-vim +/FIELD_GET +33 drivers/regulator/bq257xx-regulator.c
-
-    23	
-    24	static int bq25703_vbus_get_cur_limit(struct regulator_dev *rdev)
-    25	{
-    26		struct bq257xx_reg_data *pdata = rdev_get_drvdata(rdev);
-    27		int ret;
-    28		unsigned int reg;
-    29	
-    30		ret = regmap_read(pdata->bq->regmap, BQ25703_OTG_CURRENT, &reg);
-    31		if (ret)
-    32			return ret;
-  > 33		return FIELD_GET(BQ25703_OTG_CUR_MASK, reg) * BQ25703_OTG_CUR_STEP_UA;
-    34	}
-    35	
-    36	/*
-    37	 * Check if the minimum current and maximum current requested are
-    38	 * sane values, then set the register accordingly.
-    39	 */
-    40	static int bq25703_vbus_set_cur_limit(struct regulator_dev *rdev,
-    41					      int min_uA, int max_uA)
-    42	{
-    43		struct bq257xx_reg_data *pdata = rdev_get_drvdata(rdev);
-    44		unsigned int reg;
-    45	
-    46		if ((min_uA > BQ25703_OTG_CUR_MAX_UA) || (max_uA < 0))
-    47			return -EINVAL;
-    48	
-    49		reg = (max_uA / BQ25703_OTG_CUR_STEP_UA);
-    50	
-    51		/* Catch rounding errors since our step is 50000uA. */
-    52		if ((reg * BQ25703_OTG_CUR_STEP_UA) < min_uA)
-    53			return -EINVAL;
-    54	
-    55		return regmap_write(pdata->bq->regmap, BQ25703_OTG_CURRENT,
-  > 56				    FIELD_PREP(BQ25703_OTG_CUR_MASK, reg));
-    57	}
-    58	
+   200	
+   201	static int set_mux_gmac123_to_usxgmii(struct mtk_eth *eth, u64 path)
+   202	{
+   203		unsigned int val = 0;
+   204		bool updated = true;
+   205		int mac_id = 0;
+   206	
+   207		/* Disable SYSCFG1 SGMII */
+   208		regmap_read(eth->ethsys, ETHSYS_SYSCFG0, &val);
+   209	
+   210		switch (path) {
+   211		case MTK_ETH_PATH_GMAC1_USXGMII:
+   212			val &= ~(u32)SYSCFG0_SGMII_GMAC1_V2;
+   213			mac_id = MTK_GMAC1_ID;
+   214			break;
+   215		case MTK_ETH_PATH_GMAC2_USXGMII:
+   216			val &= ~(u32)SYSCFG0_SGMII_GMAC2_V2;
+   217			mac_id = MTK_GMAC2_ID;
+   218			break;
+   219		case MTK_ETH_PATH_GMAC3_USXGMII:
+   220			val &= ~(u32)SYSCFG0_SGMII_GMAC3_V2;
+   221			mac_id = MTK_GMAC3_ID;
+   222			break;
+   223		default:
+   224			updated = false;
+ > 225		};
+   226	
+   227		if (updated) {
+   228			regmap_update_bits(eth->ethsys, ETHSYS_SYSCFG0,
+   229					   SYSCFG0_SGMII_MASK, val);
+   230	
+   231			if (mac_id == MTK_GMAC2_ID)
+   232				regmap_set_bits(eth->infra, TOP_MISC_NETSYS_PCS_MUX,
+   233						MUX_G2_USXGMII_SEL);
+   234		}
+   235	
+   236		dev_dbg(eth->dev, "path %s in %s updated = %d\n",
+   237			mtk_eth_path_name(path), __func__, updated);
+   238	
+   239		return 0;
+   240	}
+   241	
 
 -- 
 0-DAY CI Kernel Test Service
