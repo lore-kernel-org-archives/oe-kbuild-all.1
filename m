@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C68A6136
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 22 Jun 2025 23:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F1FA95C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jun 2025 01:13:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750633554; cv=none; b=PWpz9yckTHV6fy/y4FES26wGSG9eB4ZOzLPh22GmVUdH9tb7dOyvCJqgJUPqJtBXTNlPo0h6+XtIQMSyHtcTDGkt38wv4sBMIVjkRRSK/ld5q65cJ5cIQKif2UxYu3+7ALDtOlD50LuqHUfP6L6AgJn6pk+dv8GujzYx2bfJJtI=
+	t=1750641182; cv=none; b=JEmAY1tJGMZZniQMkG4AAEpr607jQAw31a+Yer7gKy30EYTYJrD7Cm1+BtY8Q6QCw15He6Kr9fysOAgQ+lTi5yVqHKzzCYQwWk6pKo1pE/+8grCFVmY60JDyVRmXBc3MAL4Jgpd8rpOwaucDrxlK6VaFVmdGtBpl71R89SgVJqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750633554; c=relaxed/simple;
-	bh=PseveSieBkz6aK3pTCE1wpNXkrVYYBVptg5kuZ6+eEU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vCJIzTtH3x1bf3j3r/II3GQJOATuhyUooioAgMgahdHwjIsTe1GLGeacc6CevvY0eIVyVJeV0/JFzyd+sVTgHAzjnVC57wPUgGaowIpQ7X3R4CewBFyt5hZ1kVrWM2AXS1Vqckb1/ALbEAJd+I3/GF6x1ucLWKi7aKE0vJE0aB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I0YFAydG; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1750641182; c=relaxed/simple;
+	bh=C7sFeVQPcHhNAm4C+yucZSdrwMkLdpe6waABIOaF5uw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=bQXmJiHnyoFTrTofMhkW3Wl3h3zdlU7zYNJLUZyMrRV88TqqVUEdsb+caEUIPmcAZd1IBDfh46z+xhlAQ9Gnt9//PPxY++NI0ZVDStemoSx98o4W3GYCp0crQgzOgxpuxebmSGFZWLP1daaVgYlL6aheyX5GeCtVzGJ5H7eenRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZosGyPtb; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I0YFAydG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZosGyPtb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750633552; x=1782169552;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=PseveSieBkz6aK3pTCE1wpNXkrVYYBVptg5kuZ6+eEU=;
-  b=I0YFAydGOVCAYUl825p/0UdWUGtRc+Dr8bu1cu7DiOeRgZ2P2ECyPBfI
-   e3Uhk6zp4nSGSrBbkILP11XL8Zutf7ytMpnExZhtVkZefifYql6F44v3r
-   SjZC9KwcbC8wfxyKz35yCyWdrhjgiPnjye+Nn0FwGMlXWNNrj6FDz9uaq
-   f7YZX6I6Fe8tUesVJMd4NGgFQFIp7cEeuIcLU7EjpbCummXzvFPXKZrLD
-   ya70GEbXtqb5DIWcX7li2SfeToiGetf5GB7+vTRX88ZF0z3txX3LwqjtW
-   NRNjCNq9m32yWEknFJdYc+8gPJs91ySX1o3llZCe3hmGvlUlSGhkynDWM
-   A==;
-X-CSE-ConnectionGUID: KlhPInRTRqiWE7W3cH1h8A==
-X-CSE-MsgGUID: 8iCTRwhdS0qpJlShP1d8ZA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="56496756"
+  t=1750641180; x=1782177180;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=C7sFeVQPcHhNAm4C+yucZSdrwMkLdpe6waABIOaF5uw=;
+  b=ZosGyPtbmqouWARQYGO66Lxf7l/8yncMmoCAA+mbFa4zU+8DnUCDArcG
+   XNMGAYfIb3bH+YZvItyv/VLsvz+T0RlKMq9kRET12BYHScj677hOIi0Yw
+   QZiXZkxqtOQ6SgBlBKFgWjQ6Uq/n+zMU4RhXf/cEA2YAe90a4fRSj+3jY
+   d77ayubLpR582Af3nGrfcqvAy+G3Xl7bP5xqJiW+iMHbnrxHba9er6CDC
+   WBjObTvABFFYgAR4pa3jnW0nsQmllapzDuENvZcpYMG761aRvTGWJ77zt
+   ZXuAfI3vnQU1v63EDKQCaI/Mbv2CVYo6eanLHV1WqDfUewwPxSMAUI786
+   g==;
+X-CSE-ConnectionGUID: +WVic5dqS0mQ5LqdYO3Z0Q==
+X-CSE-MsgGUID: olRRMxNDSoutmnNblE78Wg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52062132"
 X-IronPort-AV: E=Sophos;i="6.16,257,1744095600"; 
-   d="scan'208";a="56496756"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 16:05:51 -0700
-X-CSE-ConnectionGUID: L2Sd27kZS5C0EmD94BmUIg==
-X-CSE-MsgGUID: fa9dnmWJTvqs+4ig8zOW8A==
+   d="scan'208";a="52062132"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2025 18:13:00 -0700
+X-CSE-ConnectionGUID: 734vf1XaSCSD3RKCqQHR6g==
+X-CSE-MsgGUID: nR7yXi61SzuHcfrNgvgzWQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,257,1744095600"; 
-   d="scan'208";a="150909124"
+   d="scan'208";a="156946049"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 22 Jun 2025 16:05:49 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 22 Jun 2025 18:12:59 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTTkw-000NZG-1h;
-	Sun, 22 Jun 2025 23:05:46 +0000
-Date: Mon, 23 Jun 2025 07:05:25 +0800
+	id 1uTVk0-000Nbu-2q;
+	Mon, 23 Jun 2025 01:12:56 +0000
+Date: Mon, 23 Jun 2025 09:12:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Benjamin Larsson <benjamin.larsson@genexis.eu>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Christian Marangi <ansuelsmth@gmail.com>
-Subject: Re: [PATCH v14] pwm: airoha: Add support for EN7581 SoC
-Message-ID: <202506230615.9m8ZE43C-lkp@intel.com>
-References: <20250616201532.29047-1-ansuelsmth@gmail.com>
+To: Simon Xue <xxm@rock-chips.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] iommu/rockchip: prevent iommus dead loop when two
+ masters share one IOMMU
+Message-ID: <aFip9aoMII64R2zZ@a8873d419552>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,36 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250616201532.29047-1-ansuelsmth@gmail.com>
+In-Reply-To: <20250623010532.584409-1-xxm@rock-chips.com>
 
-Hi Christian,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.16-rc3 next-20250620]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/pwm-airoha-Add-support-for-EN7581-SoC/20250617-042042
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250616201532.29047-1-ansuelsmth%40gmail.com
-patch subject: [PATCH v14] pwm: airoha: Add support for EN7581 SoC
-config: m68k-randconfig-r072-20250623 (https://download.01.org/0day-ci/archive/20250623/202506230615.9m8ZE43C-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250623/202506230615.9m8ZE43C-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506230615.9m8ZE43C-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   m68k-linux-ld: drivers/pwm/pwm-airoha.o: in function `airoha_pwm_apply':
->> pwm-airoha.c:(.text+0x8f8): undefined reference to `__umoddi3'
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH v2] iommu/rockchip: prevent iommus dead loop when two masters share one IOMMU
+Link: https://lore.kernel.org/stable/20250623010532.584409-1-xxm%40rock-chips.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
