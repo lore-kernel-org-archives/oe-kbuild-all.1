@@ -1,58 +1,94 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7EFC26E6E8
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jun 2025 14:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C74291C09
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jun 2025 15:15:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750690234; cv=none; b=kokyO1xjKF4enRZDMZ37XRWf/QiZ7VBZilS5eRmb0cdTPsw2aPU63fZAj4FeiC8N3wE4rU7nmvU08GDY1xXAAUF75UdwBZffUySbeuK5SbR/JWodBDcKojaKmwBNYV1GJWJEPQKeivqDZTPpVP9rPoptDruj8fDgEJFptr5TRVc=
+	t=1750691737; cv=none; b=TdapRQfskTn4B4WtpuRjpjA66KLypDjNxa8OUNgRxpmphreR7kRSFNOcb4Gf56pJ5aORut+iZ/IoT/kixYmHh9RRlkjQG8VZFNLJKXITfnEElq+oXX/s2earw0LCz1AK8DPo2PqLgcEujPCaC6RcwPTJuC56PJaVvOs/2ApVzkg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750690234; c=relaxed/simple;
-	bh=toZCzbK9U75e+9/9O6mkuIEVVG92U2rTtHTCl7wsUiY=;
+	s=arc-20240116; t=1750691737; c=relaxed/simple;
+	bh=q7sSNzk+8LCHnagqmsvgJBrzj6qoB7yCu0hjujvAPWU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qYRePLB2ChyrgqfBar9WP+pvIJU9SWYvV/0ApQ1Mrs1iVrdQN++3tMXHfoxrkWjLICfB5MMIk9xN8UqnuGjJIEOmPBC2bo6pz0kee8Zzhr4P67I7eDCbJ+cfvwdhMdp0D2i9y/2l5ZmdzqbMvN54thYn1SWl6np5+g0NZ+B1WKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WlZW3FEy; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=qLxYBLc/VbA18OvIqwLdtGXIwV/UZbtNdLmnTJb8K/RCdFpB7zz9jcjpAYSUleMfV+7cUer+lm38yZWWSavfYX5ZPWuDbnb8uFm6LadZxK2a6gkKrH8rn2kgDIpBBGWV6B2sMSnOKEkiyWm1SEESqIuMpFlwaKh4mSnEwnFvOsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fawF5Aa3; arc=none smtp.client-ip=209.85.210.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WlZW3FEy"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750690232; x=1782226232;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=toZCzbK9U75e+9/9O6mkuIEVVG92U2rTtHTCl7wsUiY=;
-  b=WlZW3FEyAiyW31lYrtKbIUGTK1fw2LL/VnvOJ/79SIxnVVyepWFxGRcs
-   FDUIQOKwgm2+0iWX8R9ntTLUr8yI9VJSN4tkiFZf9LFTFy5RRSNXbj/GW
-   ppZpp5kGpXTnw8UuXr/ZhxDSjgJpJG+4PI5Cdo0v5QbS4h485Ez5sfAUy
-   8HhTEwuUBoSH2fxYnk8bkOT+hxMiGy+kpZFlcM7UCSLq3I69wI3AHdCm3
-   Vi0dUadfrfypZU8VBgGyBD1X562posGZl+FfrlqZPLyS9/cyUwqa/lUSP
-   uwJ0W0QjMrGDo2ZE1C9yXjcb9BO8aGAnqfVBDVWP5P7SVDrhqciRn+DoO
-   g==;
-X-CSE-ConnectionGUID: qTOV3VP8QQ++kNNig4JJoA==
-X-CSE-MsgGUID: DjjsU7tRQA+yADDwi58g3w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="56573038"
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="56573038"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 07:50:32 -0700
-X-CSE-ConnectionGUID: itGFDgx5QJ2HaUVd7e4LEQ==
-X-CSE-MsgGUID: QW7IIK2XRlSAyDLEf/lwxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="151920441"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Jun 2025 07:50:31 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uTiVA-000P0w-2g;
-	Mon, 23 Jun 2025 14:50:28 +0000
-Date: Mon, 23 Jun 2025 22:49:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi_3 9/9] kernel/bpf/trampoline.c:35:12:
- warning: 'bpf_tramp_ftrace_ops_func' defined but not used
-Message-ID: <202506232234.W7j9JUxn-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fawF5Aa3"
+Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-73a5c41a71aso2773885a34.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jun 2025 08:15:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750691734; x=1751296534; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hTfj4nts57jcFtJZ+F9J6L0zMoCmBvm/T2xwE+cda6U=;
+        b=fawF5Aa3HKh27pa7joKo1FaXysIaWKqXN18F0fUW9V1D+LnuDuQvPzj3ZubKFlPSru
+         ekNreAjawoSfDIHcZvYGXEyNdqYZKM/5KbNiS5orBWoV6Y7xeRcxUNDFaEGFNKWlZ06/
+         cOvA/2OjzBbNFTUKU2gcy07X2vggzHX1V+WX8bA04KgKZQ9iR8qjLiWW3m/5pnKwMZK9
+         lTlewS5GKKOstxc4H9006UbU4ySuvLc8iTo1bFdWSmN5yD5n9xUm4Ta59LYGMFvc7YMR
+         yWZR7U9+kGyIukwf5TjejAAP7ec47sSagfeQ0aMlLfIZI2IKN2f0HEtdHp4r5iNg8Tfe
+         o+kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750691734; x=1751296534;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hTfj4nts57jcFtJZ+F9J6L0zMoCmBvm/T2xwE+cda6U=;
+        b=GJJwSuC1Y2MTggRHkyKcuaiflnUe8TnlxZ1JFWRTrxqR4jlnu5YbGBNi5GkcQ48A65
+         e4z8ZhWh0ci0SmHMN8hFx8zrnr9loDKDS9JXHyxtZl2QAU63bRFnNMzagR/Gx6l5TxCP
+         oB4sIWR7v9iwmsiDVY5Khf0przSBgp/qRRrGKLrTHFI6boy+7BAiYRf/7vHC7QQ7HK94
+         PgwgP9+FlqJ4BK7AgajJzmhamm+p9TBUfH49/BzHsLz/11UAnJb5p3lqZJloHncpjEET
+         Zda/MP1Tmyat5DklQoTCjrcseosCRmO+dr4v5SvOjYiteaCWr6bdRfiAORVWLRKOF1wO
+         GtBA==
+X-Forwarded-Encrypted: i=1; AJvYcCVF7vPoIF2/0x3zERpEO1++WIHoSIoCZQCeyrIwdHBlDtYd17hOFqfKKS2vCu/xB9UvwHS2e98PrybUya7c@lists.linux.dev
+X-Gm-Message-State: AOJu0YyG0TJySt8B3OuEzAaGxS3Jv+haCdESV6NScLowaBTliAQ5Vri5
+	yj6HIQDTDNvXf8y0r2z4pZDvCaftCBPrr6QrpzZbjGH/IZLxGjk2Mz67Zu7yPmq0OtI=
+X-Gm-Gg: ASbGncsEiOjqM1WpGE0ZTxxTmF11uDlJyA/GuZDjWKQZXhpeL2amW7IpWzXhQL1jhcg
+	gHGoib7/ebj066E/UvMiW5/EW8aN9L1EimMzyscdbWm0IHR9FxKBD8qmWezsDcPUw5CjpEUcUrg
+	xKbc9NvK4M6XXBJoVifb99/YuGSGT/ZxaYJiE3i6Z83YVAtVTYa2O9j0fJ0eLUWi9jvzjVneVQH
+	FCysmA0FloTBOk5hZ4x+d6YBdqwNh6ewUJBU8Kg36WoCdQMwqLfJsz1TQwEJT8K6/Arb50AHpfa
+	Gt3PClSfgqJOiVY5ahcFSIbPIlwmDul0Ct91gukkk7zuwm4m6NBEJjSfTLGn/XYpjta9YQ==
+X-Google-Smtp-Source: AGHT+IFGOPmtqg7Lp4Kn7CgrXA9DtIsCo3jYjnY5DNjx5Ly5+LKVsGIHILNSrXEzujvikHfdjfdH3Q==
+X-Received: by 2002:a05:6830:8208:b0:73a:8a8a:5159 with SMTP id 46e09a7af769-73a91c05183mr8709264a34.5.1750691734010;
+        Mon, 23 Jun 2025 08:15:34 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:8c3f:8b5f:5c74:76a9])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a90b1b7b0sm1485988a34.21.2025.06.23.08.15.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Jun 2025 08:15:33 -0700 (PDT)
+Date: Mon, 23 Jun 2025 18:15:31 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Anusha Srivatsa <asrivats@redhat.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Inki Dae <inki.dae@samsung.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Chen-Yu Tsai <wens@csie.org>, Samuel Holland <samuel@sholland.org>,
+	Seung-Woo Kim <sw0312.kim@samsung.com>,
+	Kyungmin Park <kyungmin.park@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Raphael Gallais-Pou <rgallaispou@gmail.com>,
+	Stefan Agner <stefan@agner.ch>, Alison Wang <alison.wang@nxp.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 12/16] drm/drm_of: Keep up with refcounting
+Message-ID: <adc32694-69f9-487e-a83f-e1f284a54904@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,121 +97,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250619-b4-of_drm_find_panel_part1-v2-12-0df94aecc43d@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_3
-head:   35d06af545c69978148f7e43479a888892de1ed1
-commit: 35d06af545c69978148f7e43479a888892de1ed1 [9/9] bpf: Remove ftrace_ops from bpf_trampoline object
-config: i386-buildonly-randconfig-002-20250621 (https://download.01.org/0day-ci/archive/20250623/202506232234.W7j9JUxn-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250623/202506232234.W7j9JUxn-lkp@intel.com/reproduce)
+Hi Anusha,
+
+kernel test robot noticed the following build warnings:
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Anusha-Srivatsa/drm-panel-get-put-panel-reference-in-drm_panel_add-remove/20250620-032045
+base:   60ba94338047bb5410a3626ced3380afe9285ed8
+patch link:    https://lore.kernel.org/r/20250619-b4-of_drm_find_panel_part1-v2-12-0df94aecc43d%40redhat.com
+patch subject: [PATCH v2 12/16] drm/drm_of: Keep up with refcounting
+config: arm-randconfig-r073-20250623 (https://download.01.org/0day-ci/archive/20250623/202506232158.z2O78kPL-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506232234.W7j9JUxn-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202506232158.z2O78kPL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/gpu/drm/drm_of.c:283 drm_of_find_panel_or_bridge() error: we previously assumed 'panel' could be null (see line 263)
 
-   kernel/bpf/trampoline.c: In function 'unregister_fentry':
-   kernel/bpf/trampoline.c:174:50: error: 'struct bpf_trampoline' has no member named 'fops'
-     174 |                 ret = unregister_ftrace_direct(tr->fops, (unsigned long) ip, (long)old_addr, false);
-         |                                                  ^~
-   kernel/bpf/trampoline.c: In function 'modify_fentry':
-   kernel/bpf/trampoline.c:188:46: error: 'struct bpf_trampoline' has no member named 'fops'
-     188 |                 ret = modify_ftrace_direct(tr->fops, (unsigned long) ip, (long)new_addr, lock_direct_mutex);
-         |                                              ^~
-   kernel/bpf/trampoline.c: In function 'register_fentry':
-   kernel/bpf/trampoline.c:207:48: error: 'struct bpf_trampoline' has no member named 'fops'
-     207 |                 ret = register_ftrace_direct(tr->fops, (unsigned long)ip, (long)new_addr);
-         |                                                ^~
-   kernel/bpf/trampoline.c: At top level:
->> kernel/bpf/trampoline.c:35:12: warning: 'bpf_tramp_ftrace_ops_func' defined but not used [-Wunused-function]
-      35 | static int bpf_tramp_ftrace_ops_func(struct ftrace_ops *ops, enum ftrace_ops_cmd cmd)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/panel +283 drivers/gpu/drm/drm_of.c
 
+3fbdfe99f7523a Simona Vetter     2019-01-11  220  /**
+1f2db3034c9f16 Rob Herring       2017-03-22  221   * drm_of_find_panel_or_bridge - return connected panel or bridge device
+1f2db3034c9f16 Rob Herring       2017-03-22  222   * @np: device tree node containing encoder output ports
+3fbdfe99f7523a Simona Vetter     2019-01-11  223   * @port: port in the device tree node
+3fbdfe99f7523a Simona Vetter     2019-01-11  224   * @endpoint: endpoint in the device tree node
+1f2db3034c9f16 Rob Herring       2017-03-22  225   * @panel: pointer to hold returned drm_panel
+1f2db3034c9f16 Rob Herring       2017-03-22  226   * @bridge: pointer to hold returned drm_bridge
+1f2db3034c9f16 Rob Herring       2017-03-22  227   *
+1f2db3034c9f16 Rob Herring       2017-03-22  228   * Given a DT node's port and endpoint number, find the connected node and
+1f2db3034c9f16 Rob Herring       2017-03-22  229   * return either the associated struct drm_panel or drm_bridge device. Either
+1f2db3034c9f16 Rob Herring       2017-03-22  230   * @panel or @bridge must not be NULL.
 
-vim +/bpf_tramp_ftrace_ops_func +35 kernel/bpf/trampoline.c
+panel can be NULL.
 
-00963a2e75a872 Song Liu       2022-07-19   34  
-00963a2e75a872 Song Liu       2022-07-19  @35  static int bpf_tramp_ftrace_ops_func(struct ftrace_ops *ops, enum ftrace_ops_cmd cmd)
-00963a2e75a872 Song Liu       2022-07-19   36  {
-00963a2e75a872 Song Liu       2022-07-19   37  	struct bpf_trampoline *tr = ops->private;
-00963a2e75a872 Song Liu       2022-07-19   38  	int ret = 0;
-00963a2e75a872 Song Liu       2022-07-19   39  
-00963a2e75a872 Song Liu       2022-07-19   40  	if (cmd == FTRACE_OPS_CMD_ENABLE_SHARE_IPMODIFY_SELF) {
-00963a2e75a872 Song Liu       2022-07-19   41  		/* This is called inside register_ftrace_direct_multi(), so
-00963a2e75a872 Song Liu       2022-07-19   42  		 * tr->mutex is already locked.
-00963a2e75a872 Song Liu       2022-07-19   43  		 */
-00963a2e75a872 Song Liu       2022-07-19   44  		lockdep_assert_held_once(&tr->mutex);
-00963a2e75a872 Song Liu       2022-07-19   45  
-00963a2e75a872 Song Liu       2022-07-19   46  		/* Instead of updating the trampoline here, we propagate
-da8bdfbd422333 Florent Revest 2023-03-21   47  		 * -EAGAIN to register_ftrace_direct(). Then we can
-da8bdfbd422333 Florent Revest 2023-03-21   48  		 * retry register_ftrace_direct() after updating the
-00963a2e75a872 Song Liu       2022-07-19   49  		 * trampoline.
-00963a2e75a872 Song Liu       2022-07-19   50  		 */
-00963a2e75a872 Song Liu       2022-07-19   51  		if ((tr->flags & BPF_TRAMP_F_CALL_ORIG) &&
-00963a2e75a872 Song Liu       2022-07-19   52  		    !(tr->flags & BPF_TRAMP_F_ORIG_STACK)) {
-00963a2e75a872 Song Liu       2022-07-19   53  			if (WARN_ON_ONCE(tr->flags & BPF_TRAMP_F_SHARE_IPMODIFY))
-00963a2e75a872 Song Liu       2022-07-19   54  				return -EBUSY;
-00963a2e75a872 Song Liu       2022-07-19   55  
-00963a2e75a872 Song Liu       2022-07-19   56  			tr->flags |= BPF_TRAMP_F_SHARE_IPMODIFY;
-00963a2e75a872 Song Liu       2022-07-19   57  			return -EAGAIN;
-00963a2e75a872 Song Liu       2022-07-19   58  		}
-00963a2e75a872 Song Liu       2022-07-19   59  
-00963a2e75a872 Song Liu       2022-07-19   60  		return 0;
-00963a2e75a872 Song Liu       2022-07-19   61  	}
-00963a2e75a872 Song Liu       2022-07-19   62  
-00963a2e75a872 Song Liu       2022-07-19   63  	/* The normal locking order is
-00963a2e75a872 Song Liu       2022-07-19   64  	 *    tr->mutex => direct_mutex (ftrace.c) => ftrace_lock (ftrace.c)
-00963a2e75a872 Song Liu       2022-07-19   65  	 *
-00963a2e75a872 Song Liu       2022-07-19   66  	 * The following two commands are called from
-00963a2e75a872 Song Liu       2022-07-19   67  	 *
-00963a2e75a872 Song Liu       2022-07-19   68  	 *   prepare_direct_functions_for_ipmodify
-00963a2e75a872 Song Liu       2022-07-19   69  	 *   cleanup_direct_functions_after_ipmodify
-00963a2e75a872 Song Liu       2022-07-19   70  	 *
-00963a2e75a872 Song Liu       2022-07-19   71  	 * In both cases, direct_mutex is already locked. Use
-00963a2e75a872 Song Liu       2022-07-19   72  	 * mutex_trylock(&tr->mutex) to avoid deadlock in race condition
-00963a2e75a872 Song Liu       2022-07-19   73  	 * (something else is making changes to this same trampoline).
-00963a2e75a872 Song Liu       2022-07-19   74  	 */
-00963a2e75a872 Song Liu       2022-07-19   75  	if (!mutex_trylock(&tr->mutex)) {
-00963a2e75a872 Song Liu       2022-07-19   76  		/* sleep 1 ms to make sure whatever holding tr->mutex makes
-00963a2e75a872 Song Liu       2022-07-19   77  		 * some progress.
-00963a2e75a872 Song Liu       2022-07-19   78  		 */
-00963a2e75a872 Song Liu       2022-07-19   79  		msleep(1);
-00963a2e75a872 Song Liu       2022-07-19   80  		return -EAGAIN;
-00963a2e75a872 Song Liu       2022-07-19   81  	}
-00963a2e75a872 Song Liu       2022-07-19   82  
-00963a2e75a872 Song Liu       2022-07-19   83  	switch (cmd) {
-00963a2e75a872 Song Liu       2022-07-19   84  	case FTRACE_OPS_CMD_ENABLE_SHARE_IPMODIFY_PEER:
-00963a2e75a872 Song Liu       2022-07-19   85  		tr->flags |= BPF_TRAMP_F_SHARE_IPMODIFY;
-00963a2e75a872 Song Liu       2022-07-19   86  
-00963a2e75a872 Song Liu       2022-07-19   87  		if ((tr->flags & BPF_TRAMP_F_CALL_ORIG) &&
-00963a2e75a872 Song Liu       2022-07-19   88  		    !(tr->flags & BPF_TRAMP_F_ORIG_STACK))
-00963a2e75a872 Song Liu       2022-07-19   89  			ret = bpf_trampoline_update(tr, false /* lock_direct_mutex */);
-00963a2e75a872 Song Liu       2022-07-19   90  		break;
-00963a2e75a872 Song Liu       2022-07-19   91  	case FTRACE_OPS_CMD_DISABLE_SHARE_IPMODIFY_PEER:
-00963a2e75a872 Song Liu       2022-07-19   92  		tr->flags &= ~BPF_TRAMP_F_SHARE_IPMODIFY;
-00963a2e75a872 Song Liu       2022-07-19   93  
-00963a2e75a872 Song Liu       2022-07-19   94  		if (tr->flags & BPF_TRAMP_F_ORIG_STACK)
-00963a2e75a872 Song Liu       2022-07-19   95  			ret = bpf_trampoline_update(tr, false /* lock_direct_mutex */);
-00963a2e75a872 Song Liu       2022-07-19   96  		break;
-00963a2e75a872 Song Liu       2022-07-19   97  	default:
-00963a2e75a872 Song Liu       2022-07-19   98  		ret = -EINVAL;
-00963a2e75a872 Song Liu       2022-07-19   99  		break;
-14250fa4839b3a Yang Li        2022-07-26  100  	}
-00963a2e75a872 Song Liu       2022-07-19  101  
-00963a2e75a872 Song Liu       2022-07-19  102  	mutex_unlock(&tr->mutex);
-00963a2e75a872 Song Liu       2022-07-19  103  	return ret;
-00963a2e75a872 Song Liu       2022-07-19  104  }
-00963a2e75a872 Song Liu       2022-07-19  105  #endif
-00963a2e75a872 Song Liu       2022-07-19  106  
+1f2db3034c9f16 Rob Herring       2017-03-22  231   *
+87ea95808d53e5 Maxime Ripard     2021-09-10  232   * This function is deprecated and should not be used in new drivers. Use
+87ea95808d53e5 Maxime Ripard     2021-09-10  233   * devm_drm_of_get_bridge() instead.
+87ea95808d53e5 Maxime Ripard     2021-09-10  234   *
+1f2db3034c9f16 Rob Herring       2017-03-22  235   * Returns zero if successful, or one of the standard error codes if it fails.
+1f2db3034c9f16 Rob Herring       2017-03-22  236   */
+1f2db3034c9f16 Rob Herring       2017-03-22  237  int drm_of_find_panel_or_bridge(const struct device_node *np,
+1f2db3034c9f16 Rob Herring       2017-03-22  238  				int port, int endpoint,
+1f2db3034c9f16 Rob Herring       2017-03-22  239  				struct drm_panel **panel,
+1f2db3034c9f16 Rob Herring       2017-03-22  240  				struct drm_bridge **bridge)
+1f2db3034c9f16 Rob Herring       2017-03-22  241  {
+169466d4e59ca2 Bjorn Andersson   2022-04-20  242  	int ret = -EPROBE_DEFER;
+169466d4e59ca2 Bjorn Andersson   2022-04-20  243  	struct device_node *remote;
+1f2db3034c9f16 Rob Herring       2017-03-22  244  
+1f2db3034c9f16 Rob Herring       2017-03-22  245  	if (!panel && !bridge)
+1f2db3034c9f16 Rob Herring       2017-03-22  246  		return -EINVAL;
+320e421ea303b1 Dan Carpenter     2017-09-25  247  	if (panel)
+320e421ea303b1 Dan Carpenter     2017-09-25  248  		*panel = NULL;
+1f2db3034c9f16 Rob Herring       2017-03-22  249  
+169466d4e59ca2 Bjorn Andersson   2022-04-20  250  	/*
+169466d4e59ca2 Bjorn Andersson   2022-04-20  251  	 * of_graph_get_remote_node() produces a noisy error message if port
+169466d4e59ca2 Bjorn Andersson   2022-04-20  252  	 * node isn't found and the absence of the port is a legit case here,
+169466d4e59ca2 Bjorn Andersson   2022-04-20  253  	 * so at first we silently check whether graph presents in the
+169466d4e59ca2 Bjorn Andersson   2022-04-20  254  	 * device-tree node.
+169466d4e59ca2 Bjorn Andersson   2022-04-20  255  	 */
+169466d4e59ca2 Bjorn Andersson   2022-04-20  256  	if (!of_graph_is_present(np))
+169466d4e59ca2 Bjorn Andersson   2022-04-20  257  		return -ENODEV;
+67bae5f28c895f Paul Kocialkowski 2022-03-29  258  
+169466d4e59ca2 Bjorn Andersson   2022-04-20  259  	remote = of_graph_get_remote_node(np, port, endpoint);
+169466d4e59ca2 Bjorn Andersson   2022-04-20  260  	if (!remote)
+169466d4e59ca2 Bjorn Andersson   2022-04-20  261  		return -ENODEV;
+169466d4e59ca2 Bjorn Andersson   2022-04-20  262  
+169466d4e59ca2 Bjorn Andersson   2022-04-20 @263  	if (panel) {
+                                                            ^^^^^
+This code assumes panel can be NULL.
 
-:::::: The code at line 35 was first introduced by commit
-:::::: 00963a2e75a872e5fce4d0115ac2786ec86b57a6 bpf: Support bpf_trampoline on functions with IPMODIFY (e.g. livepatch)
+169466d4e59ca2 Bjorn Andersson   2022-04-20  264  		*panel = of_drm_find_panel(remote);
+169466d4e59ca2 Bjorn Andersson   2022-04-20  265  		if (!IS_ERR(*panel))
+169466d4e59ca2 Bjorn Andersson   2022-04-20  266  			ret = 0;
+169466d4e59ca2 Bjorn Andersson   2022-04-20  267  		else
+169466d4e59ca2 Bjorn Andersson   2022-04-20  268  			*panel = NULL;
+1f2db3034c9f16 Rob Herring       2017-03-22  269  	}
+1f2db3034c9f16 Rob Herring       2017-03-22  270  
+169466d4e59ca2 Bjorn Andersson   2022-04-20  271  	if (bridge) {
+169466d4e59ca2 Bjorn Andersson   2022-04-20  272  		if (ret) {
+9d60cf4e8cf7c4 Luca Ceresoli     2025-02-14  273  			/* No panel found yet, check for a bridge next. */
+169466d4e59ca2 Bjorn Andersson   2022-04-20  274  			*bridge = of_drm_find_bridge(remote);
+169466d4e59ca2 Bjorn Andersson   2022-04-20  275  			if (*bridge)
+169466d4e59ca2 Bjorn Andersson   2022-04-20  276  				ret = 0;
+169466d4e59ca2 Bjorn Andersson   2022-04-20  277  		} else {
+169466d4e59ca2 Bjorn Andersson   2022-04-20  278  			*bridge = NULL;
+169466d4e59ca2 Bjorn Andersson   2022-04-20  279  		}
+169466d4e59ca2 Bjorn Andersson   2022-04-20  280  
+169466d4e59ca2 Bjorn Andersson   2022-04-20  281  	}
+169466d4e59ca2 Bjorn Andersson   2022-04-20  282  
+28d4456c6f3538 Anusha Srivatsa   2025-06-19 @283  	drm_panel_put(*panel);
+                                                                      ^^^^^^
+Unchecked dereference.
 
-:::::: TO: Song Liu <song@kernel.org>
-:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
+28d4456c6f3538 Anusha Srivatsa   2025-06-19  284  
+169466d4e59ca2 Bjorn Andersson   2022-04-20  285  	of_node_put(remote);
+169466d4e59ca2 Bjorn Andersson   2022-04-20  286  	return ret;
+1f2db3034c9f16 Rob Herring       2017-03-22  287  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
