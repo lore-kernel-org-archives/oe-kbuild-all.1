@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C722823185C
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jun 2025 09:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF34F205AB8;
+	Mon, 23 Jun 2025 09:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750669646; cv=none; b=cCdW+z1QZkCzY419JJxQ9xrSglWw81Gf/6W8prby2IkvRzIgzxYUegZ06b/qKa1fIHnowfTbvii/rd2saq1sNVUjZRwsp4R8/OQA2uSaTkYUYMMv1COBsjCLazs+N6nnBlJXqBXZSP/+1gp13s8h1tMynq3Cm2m1v+wBMFwt/Xg=
+	t=1750670912; cv=none; b=SfVA3vFjS2ptfHNGdV4QxL8qqHVPN5lqg3wFO2yu5dYXqp25UVixiSvd7ldEMOpQt5AZbs/cDHfarZHTNHYkqT1eZNNv4yYm3FjQ0+3CHPZnR/jMMOdweIEBltNfAWXIDOVj6EXu9Om3v4jw04ko89VtzswUK1Vg9W3IYWoitR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750669646; c=relaxed/simple;
-	bh=IGPp2bKXRoaWnEPoUDG9KsWHF4GAv/c1NluHQj9Bg5I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RYhL2HIx3uD0sR4VquPMLK7zyHhvf6mMC+uNA3dBBdV5IvtZ/BN4bWq10cOzyXEqbDqfHXgkStC0J0KNP3Ek6s036iTv44SwTvDG98QWcnt3QuJVP55OHRPvH1hNweE55JkeYdfaJmsZDY9k91kL6gcqttFNL+ADnyECoK8zhq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R1MPPSmP; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1750670912; c=relaxed/simple;
+	bh=K6sxdbPsaBzoFez5ISOCdOemAgkkBYrEapOkzYmhgxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HPgsMge3/W1bTS1PphHCfW9b8AppxT/0eiRije3HeA+C12Fk6MWQ2Xk2P8/60CkZQJIsJcC86OaW6+6n/+h7C5x5Hc0Lv9kWpWSeXHK3vU7F0ym+9NJyTE/pmLEy383KqxjoB3t5PtKvbZCUEwPbPeetm66l3RsEaAVg1LLyRxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C+dQDshx; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R1MPPSmP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C+dQDshx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750669645; x=1782205645;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IGPp2bKXRoaWnEPoUDG9KsWHF4GAv/c1NluHQj9Bg5I=;
-  b=R1MPPSmPgXEs9VYq2q7GTDTr64Pj+aqiKZSvciEYIH5SkFHmQEgBaTR5
-   cFdZWAsn6F5WSXyx6DhN2f4uHXOUZi9up0JxLfl4QXnzlbtTQ7vFKFBYv
-   8ko7Iqf3c7zfEcJUUI9jRzwDqO/rl+/FXNJyAZZ/YYCChzPVyR0t0tkDt
-   JEiUQBr4SdYmmyrj5OCFBTieLFP0jJp7Zq8AJjvWRzZWKkdR5kFJFbLJ1
-   /i/JarmBo3JHaa+JFQgsBvXshng8ElUKb3j9O8OFbkqGsVP6MesxRAwOc
-   UWW2woHD5zKyD1MNWV65kDzX1SKFnymtwK43jJBV38MDfBx89925B0TMQ
-   g==;
-X-CSE-ConnectionGUID: GcOMRnprQh+/c4K80oa+MQ==
-X-CSE-MsgGUID: NXg0xy4nRk6UHQl3r6vmEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52837333"
+  t=1750670910; x=1782206910;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=K6sxdbPsaBzoFez5ISOCdOemAgkkBYrEapOkzYmhgxI=;
+  b=C+dQDshxLJKvcTGkQd8QN6mSAPYLRZMNR0VdQdH3e2VRF5Ha8MrCqX5K
+   QMVe5SjAqcSNgzAdJH/we/mUjs9uYE1nixDRgI3ZLVfFrjPNE4HrJZGh4
+   z4PSFVgcJOy/DE6ULbMnCdzddo0WAlTzdhpOwhzroM4QblUBHZ14815VB
+   wxvPjfNIyugbpeSGfnLVDUDKAb41UNAavWJkUnm2EWeguVjBYas7wS/L3
+   gnGbBzbwKHeaZIdrSvIbGF/gxCuE2skQoO7z+M/Z4BSnWg6EMBwHMzS8G
+   HEaZ568jBuCBB8o3G25hm/7KYYTl/u/kwdehEJ9Y0YqwCUj5brovmzwhB
+   Q==;
+X-CSE-ConnectionGUID: d/Eb6IaJTlqwXUHeYwddOw==
+X-CSE-MsgGUID: He/voPO/QdCwzfGMJMV3kg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52800669"
 X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="52837333"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 02:07:24 -0700
-X-CSE-ConnectionGUID: nuhK4yn8QACD2CVPCcPB8A==
-X-CSE-MsgGUID: mQQ8fiRyRi6XXM1yInn1Gw==
+   d="scan'208";a="52800669"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 02:28:29 -0700
+X-CSE-ConnectionGUID: UEJTWx8LQ32N8WnP5WWtdg==
+X-CSE-MsgGUID: hHpqbDnuR5WMUIvaVf9lCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="152215265"
+   d="scan'208";a="155556678"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Jun 2025 02:07:23 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 23 Jun 2025 02:28:28 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTd97-000Nt6-0a;
-	Mon, 23 Jun 2025 09:07:21 +0000
-Date: Mon, 23 Jun 2025 17:06:50 +0800
+	id 1uTdTW-000Nu2-06;
+	Mon, 23 Jun 2025 09:28:26 +0000
+Date: Mon, 23 Jun 2025 17:27:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-6.6-QAT-Fix-V6.16-ANBZ21972 44/44]
- drivers/crypto/caam/caamalg_qi2.c:5148:22: warning: format '%s' expects
- argument of type 'char *', but argument 4 has type 'int'
-Message-ID: <202506231713.UH1vabNI-lkp@intel.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 5/7] firmware: arm_scmi: Add System Telemetry
+ chardev/ioctls API
+Message-ID: <202506231727.3ZUlxZQr-lkp@intel.com>
+References: <20250620192813.2463367-6-cristian.marussi@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,107 +63,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250620192813.2463367-6-cristian.marussi@arm.com>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-6.6-QAT-Fix-V6.16-ANBZ21972
-head:   a055f3851351a131fa5739cb2bdb282c44191105
-commit: fe75824cb8322bd2a9b3002ef184150caac30cc1 [44/44] crypto: drivers - Use str_enable_disable-like helpers
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250623/202506231713.UH1vabNI-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250623/202506231713.UH1vabNI-lkp@intel.com/reproduce)
+Hi Cristian,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on soc/for-next]
+[also build test WARNING on trace/for-next linus/master v6.16-rc3 next-20250623]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Define-a-common-SCMI_MAX_PROTOCOLS-value/20250621-033227
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
+patch link:    https://lore.kernel.org/r/20250620192813.2463367-6-cristian.marussi%40arm.com
+patch subject: [RFC PATCH 5/7] firmware: arm_scmi: Add System Telemetry chardev/ioctls API
+config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250623/202506231727.3ZUlxZQr-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250623/202506231727.3ZUlxZQr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506231713.UH1vabNI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506231727.3ZUlxZQr-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/printk.h:564,
-                    from include/linux/kernel.h:30,
-                    from drivers/crypto/caam/compat.h:9,
-                    from drivers/crypto/caam/caamalg_qi2.c:7:
-   drivers/crypto/caam/caamalg_qi2.c: In function 'dpaa2_dpseci_disable':
-   drivers/crypto/caam/caamalg_qi2.c:5148:39: error: implicit declaration of function 'str_false_true' [-Werror=implicit-function-declaration]
-    5148 |         dev_dbg(dev, "disable: %s\n", str_false_true(enabled));
-         |                                       ^~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   drivers/crypto/caam/caamalg_qi2.c:5148:9: note: in expansion of macro 'dev_dbg'
-    5148 |         dev_dbg(dev, "disable: %s\n", str_false_true(enabled));
-         |         ^~~~~~~
->> drivers/crypto/caam/caamalg_qi2.c:5148:22: warning: format '%s' expects argument of type 'char *', but argument 4 has type 'int' [-Wformat=]
-    5148 |         dev_dbg(dev, "disable: %s\n", str_false_true(enabled));
-         |                      ^~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                              ^~~~~~~
-   drivers/crypto/caam/caamalg_qi2.c:5148:9: note: in expansion of macro 'dev_dbg'
-    5148 |         dev_dbg(dev, "disable: %s\n", str_false_true(enabled));
-         |         ^~~~~~~
-   drivers/crypto/caam/caamalg_qi2.c:5148:33: note: format string is defined here
-    5148 |         dev_dbg(dev, "disable: %s\n", str_false_true(enabled));
-         |                                ~^
-         |                                 |
-         |                                 char *
-         |                                %d
-   cc1: some warnings being treated as errors
+>> drivers/firmware/arm_scmi/scmi_system_telemetry.c:921:44: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+     921 | static __poll_t scmi_tlm_poll(struct file *, struct poll_table_struct *)
+         |                                            ^
+   drivers/firmware/arm_scmi/scmi_system_telemetry.c:921:72: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+     921 | static __poll_t scmi_tlm_poll(struct file *, struct poll_table_struct *)
+         |                                                                        ^
+   drivers/firmware/arm_scmi/scmi_system_telemetry.c:1180:48: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+    1180 | static long scmi_tlm_compat_ioctl(struct file *, unsigned int, unsigned long)
+         |                                                ^
+   drivers/firmware/arm_scmi/scmi_system_telemetry.c:1180:62: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+    1180 | static long scmi_tlm_compat_ioctl(struct file *, unsigned int, unsigned long)
+         |                                                              ^
+   drivers/firmware/arm_scmi/scmi_system_telemetry.c:1180:77: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+    1180 | static long scmi_tlm_compat_ioctl(struct file *, unsigned int, unsigned long)
+         |                                                                             ^
+   drivers/firmware/arm_scmi/scmi_system_telemetry.c:1185:39: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+    1185 | static int scmi_tlm_mmap(struct file *, struct vm_area_struct *)
+         |                                       ^
+   drivers/firmware/arm_scmi/scmi_system_telemetry.c:1185:64: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
+    1185 | static int scmi_tlm_mmap(struct file *, struct vm_area_struct *)
+         |                                                                ^
+   drivers/firmware/arm_scmi/scmi_system_telemetry.c:361:16: warning: stack frame size (1064) exceeds limit (1024) in 'available_update_intervals_ms_show' [-Wframe-larger-than]
+     361 | static ssize_t available_update_intervals_ms_show(struct device *dev,
+         |                ^
+   drivers/firmware/arm_scmi/scmi_system_telemetry.c:681:16: warning: stack frame size (1064) exceeds limit (1024) in 'grp_available_intervals_show' [-Wframe-larger-than]
+     681 | static ssize_t grp_available_intervals_show(struct device *dev,
+         |                ^
+   9 warnings generated.
 
 
-vim +5148 drivers/crypto/caam/caamalg_qi2.c
+vim +921 drivers/firmware/arm_scmi/scmi_system_telemetry.c
 
-  5128	
-  5129	static int __cold dpaa2_dpseci_disable(struct dpaa2_caam_priv *priv)
-  5130	{
-  5131		struct device *dev = priv->dev;
-  5132		struct dpaa2_caam_priv_per_cpu *ppriv;
-  5133		struct fsl_mc_device *ls_dev = to_fsl_mc_device(dev);
-  5134		int i, err = 0, enabled;
-  5135	
-  5136		err = dpseci_disable(priv->mc_io, 0, ls_dev->mc_handle);
-  5137		if (err) {
-  5138			dev_err(dev, "dpseci_disable() failed\n");
-  5139			return err;
-  5140		}
-  5141	
-  5142		err = dpseci_is_enabled(priv->mc_io, 0, ls_dev->mc_handle, &enabled);
-  5143		if (err) {
-  5144			dev_err(dev, "dpseci_is_enabled() failed\n");
-  5145			return err;
-  5146		}
-  5147	
-> 5148		dev_dbg(dev, "disable: %s\n", str_false_true(enabled));
-  5149	
-  5150		for (i = 0; i < priv->num_pairs; i++) {
-  5151			ppriv = per_cpu_ptr(priv->ppriv, i);
-  5152			napi_disable(&ppriv->napi);
-  5153			netif_napi_del(&ppriv->napi);
-  5154		}
-  5155	
-  5156		return 0;
-  5157	}
-  5158	
+   920	
+ > 921	static __poll_t scmi_tlm_poll(struct file *, struct poll_table_struct *)
+   922	{
+   923		return 0;
+   924	}
+   925	
 
 -- 
 0-DAY CI Kernel Test Service
