@@ -1,46 +1,58 @@
-Received: from abb.hmeau.com (abb.hmeau.com [144.6.53.87])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A7823E32B;
-	Mon, 23 Jun 2025 11:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=144.6.53.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2579A1DE8B4;
+	Mon, 23 Jun 2025 11:27:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750677455; cv=none; b=h96OqlW/L10ZP+efTorkFIIihjKaq7zvXPAdzMG9PoDaYvOWonWfd48sA3NxPgM4Y4c8OXOiAlC2xCJaJLy3cBNj96kYJT8J6szK5AxNImPfSmcNxbrvFcV2lxfA7y1uddVsBRTN0KA5HeV39OvkHjBgdB2STDFV9ccivz0Jhj4=
+	t=1750678065; cv=none; b=TTnsEaO8MYiee9q32tYoQeV+4CUOQ1BSDZcT8BB+h+RX2bP7Q6eIO2VRZL/+yZ83xZl+UxwpMYDTvOV5neP29nYrX4Jt9q7DfGPLreSsC+S5gSrk/mDLzvneAhYGYvrGofjepa3R6m2Y58AvLl75SzzHMOj430DXr94X4HRT9WM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750677455; c=relaxed/simple;
-	bh=ufc3sxYuQVw75EfKq9TWDqId2MpamTjbLTFe1uynnKY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vt9qM3a9VHScAfq1T+lOx2DAOl4I0KlnyzJ9DPl2Cq4m/AeeoOHvnxvAZO1QiJMrsbTxNhYFmJYGYYTR0Kzy7hV/QPxvaPnbIn/zkDv+bq0QSH45luDlc6f6F0mSquSvZaD4vw1/Rr620Pj25Xxj5DL3kHv+VO2OH+6WuEOe3rM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au; spf=pass smtp.mailfrom=gondor.apana.org.au; dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b=QVG7oDQV; arc=none smtp.client-ip=144.6.53.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gondor.apana.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gondor.apana.org.au
+	s=arc-20240116; t=1750678065; c=relaxed/simple;
+	bh=s8Ecc5s+QafLpFkrVXrrXSU9DZvSL/5s9UMnAaJKnX0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Re8SssiF5KQisL82H+q52piBm08DHLXUAN52xtCLCY+c9HIrKB2W3aOs18RgFim3Pr06YKtt1qtnhNdNNxOxLLH+F1CW6MNHufu6SNBK4yX0fkYx8qZSQalML1bMTDtb7IR2UfAfWLf0xdeIccnhQgcsELHTKwdhdhtJwIum4Gg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NMzKnapj; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hmeau.com header.i=@hmeau.com header.b="QVG7oDQV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=hmeau.com;
-	s=formenos; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=YL0iS2C1lAYFI6vC1Bkn7fzloy0KkjArmZh1Ah0LQ8w=; b=QVG7oDQVksA/CfJt7X6T10H1vy
-	XacIGMrJx4LfN8oUm00IhOJ6app3KS0MD3lTWZsT6VayUwVGzLFW8pxTovT3iSpOfQ14ZbPrsDp5R
-	2IieICpVet7wre/gR8GeqMrMKvsFVgsqFTTVRoX/37hjDJAT3hwRgMWpIfp/pEpDRKp4fTJ/VRTMV
-	YYyuu87pVcHMuQvscRBPnwVy+UlEWUDH8naiS+acr3U4jO+hHKhi4MuJOzcOoj+znG+wtQY9Fvf6C
-	RuOQrvm+QVJuRfUfqCQz2Qxh4Qd2HN+aASi7n0HZLj5OnCNt2oS/7ja+SZmihzbt/MzvPRjsIVlcL
-	LQPeIj1g==;
-Received: from loth.rohan.me.apana.org.au ([192.168.167.2])
-	by formenos.hmeau.com with smtp (Exim 4.96 #2 (Debian))
-	id 1uTevb-000HdS-02;
-	Mon, 23 Jun 2025 19:17:28 +0800
-Received: by loth.rohan.me.apana.org.au (sSMTP sendmail emulation); Mon, 23 Jun 2025 19:17:27 +0800
-Date: Mon, 23 Jun 2025 19:17:27 +0800
-From: Herbert Xu <herbert@gondor.apana.org.au>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
-	Neal Liu <neal_liu@aspeedtech.com>
-Subject: [PATCH] crypto: aspeed - Fix hash fallback path typo
-Message-ID: <aFk3xzko6sFEOWQO@gondor.apana.org.au>
-References: <202506231830.us4hiwlZ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NMzKnapj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750678065; x=1782214065;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=s8Ecc5s+QafLpFkrVXrrXSU9DZvSL/5s9UMnAaJKnX0=;
+  b=NMzKnapj49lCqcrwmex0+VPNpF+dHxWjSc/evIVasewHlMxM7Guf5Mpo
+   PgUzDxnXcStWzZfyf2PCr2RuuSM9wDoIeBuTik72AF3wONXpCXvFCfk3C
+   ymuXkmTCQZfmOFocNuWIQ8zW50fHI9/BMgTbhkxlWKdy3MDEbFQRiIZet
+   OW6NcbRBVnJrDxhATm5zdjqCYhg2qaKV7t4KcsfJiYq+mFRnfydok+wym
+   YmMATsigj4wX1K4Gy/noSzvoxBSjwwD5rdZmv/aI1WklQLXhe057qj2kG
+   ukkcnwyty2n3/OjpMELBNm9u6XacsnnUxXHfbBpoypbo1FhZWYYjl4cb+
+   g==;
+X-CSE-ConnectionGUID: llBL6pSaQ+OC/9gS3IhpUQ==
+X-CSE-MsgGUID: RFJb08dgSayNUp7AJDWZNQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="56553234"
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
+   d="scan'208";a="56553234"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 04:27:44 -0700
+X-CSE-ConnectionGUID: 5DGDbiV3T3uYbtzYYWz+GQ==
+X-CSE-MsgGUID: iO4Q3w3aSOKcjaQr1K7xrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
+   d="scan'208";a="151047850"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 23 Jun 2025 04:27:43 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uTfKu-000O0G-1m;
+	Mon, 23 Jun 2025 11:27:40 +0000
+Date: Mon, 23 Jun 2025 19:27:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/kvm_exports_for_kvm 1/3] ERROR: modpost: "kvm_put_kvm"
+ [drivers/s390/crypto/vfio_ap.ko] undefined!
+Message-ID: <202506231920.Q5c3V3ZF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -49,40 +61,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202506231830.us4hiwlZ-lkp@intel.com>
 
-On Mon, Jun 23, 2025 at 06:55:06PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-> head:   82a0302e7167d0b7c6cde56613db3748f8dd806d
-> commit: 508712228696eaddc4efc706e6a8dd679654f339 [11/61] crypto: aspeed/hash - Add fallback
-> config: arm-randconfig-r073-20250623 (https://download.01.org/0day-ci/archive/20250623/202506231830.us4hiwlZ-lkp@intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+tree:   https://github.com/sean-jc/linux x86/kvm_exports_for_kvm
+head:   66216b2b147f76a917fa9ae28d99d81454d96a59
+commit: fc9444e0a8a70e7e6077dbb82cd416a8848acacd [1/3] KVM: Export KVM-internal symbols for sub-modules only
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250623/202506231920.Q5c3V3ZF-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250623/202506231920.Q5c3V3ZF-lkp@intel.com/reproduce)
 
-Thanks for the report!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506231920.Q5c3V3ZF-lkp@intel.com/
 
----8<---
-Fix typo in the fallback code path.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202506231830.us4hiwlZ-lkp@intel.com/
-Signed-off-by: Herbert Xu <herbert@gondor.apana.org.au>
+>> ERROR: modpost: "kvm_put_kvm" [drivers/s390/crypto/vfio_ap.ko] undefined!
+>> ERROR: modpost: "gfn_to_hva" [drivers/s390/crypto/vfio_ap.ko] undefined!
+>> ERROR: modpost: "kvm_get_kvm" [drivers/s390/crypto/vfio_ap.ko] undefined!
 
-diff --git a/drivers/crypto/aspeed/aspeed-hace-hash.c b/drivers/crypto/aspeed/aspeed-hace-hash.c
-index e54b7dd03be3..f8f37c9d5f3c 100644
---- a/drivers/crypto/aspeed/aspeed-hace-hash.c
-+++ b/drivers/crypto/aspeed/aspeed-hace-hash.c
-@@ -449,7 +449,7 @@ static noinline int aspeed_ahash_fallback(struct ahash_request *req)
- 	if (rctx->flags & SHA_FLAGS_FINUP)
- 		ret = ret ?: crypto_ahash_finup(fbreq);
- 	else
--		ret = ret ?: crypto_ahash_update(fbreq);
-+		ret = ret ?: crypto_ahash_update(fbreq) ?:
- 			     crypto_ahash_export_core(fbreq, state) ?:
- 			     aspeed_sham_import(req, state);
- 	HASH_REQUEST_ZERO(fbreq);
 -- 
-Email: Herbert Xu <herbert@gondor.apana.org.au>
-Home Page: http://gondor.apana.org.au/~herbert/
-PGP Key: http://gondor.apana.org.au/~herbert/pubkey.txt
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
