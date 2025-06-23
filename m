@@ -1,135 +1,169 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF34F205AB8;
-	Mon, 23 Jun 2025 09:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA563238171
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jun 2025 09:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750670912; cv=none; b=SfVA3vFjS2ptfHNGdV4QxL8qqHVPN5lqg3wFO2yu5dYXqp25UVixiSvd7ldEMOpQt5AZbs/cDHfarZHTNHYkqT1eZNNv4yYm3FjQ0+3CHPZnR/jMMOdweIEBltNfAWXIDOVj6EXu9Om3v4jw04ko89VtzswUK1Vg9W3IYWoitR0=
+	t=1750671459; cv=none; b=WOTwvNNzCMMge/9BYvG24FUrNxnmWlJNnJQvK/2WqAVGfDqhh54kRTDq7zqvylIz3f1UIhBMqIMlVPyziW7SbJkPOjR6VBQakC3sgYv6EXKUy2qN0zo9m0nnc3LyYT61gb4VANH9ipaT4f562aJkpMNx+4m0gSK25npcFbBLqog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750670912; c=relaxed/simple;
-	bh=K6sxdbPsaBzoFez5ISOCdOemAgkkBYrEapOkzYmhgxI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HPgsMge3/W1bTS1PphHCfW9b8AppxT/0eiRije3HeA+C12Fk6MWQ2Xk2P8/60CkZQJIsJcC86OaW6+6n/+h7C5x5Hc0Lv9kWpWSeXHK3vU7F0ym+9NJyTE/pmLEy383KqxjoB3t5PtKvbZCUEwPbPeetm66l3RsEaAVg1LLyRxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C+dQDshx; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750671459; c=relaxed/simple;
+	bh=ddEAH4GqI8AV5OOFMXUJFW/kDXymbCVLNkhdxfZZ+Iw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=fckrHOQJTsl8DUXI91XjVjCGK5M83X5DXVGsnyS74sr/NIp8blVpmPiXYVIDUb4VUzZW5AAXotSEncytYi23WzDrngtHGY3UJrxiNn1f+hhZc/iAhABHJC7Q/SNgJNHyXJyWqrAbeMxAl2ORWpy5fM00Vq3JYDhTutU9Rn9N0TQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=fVouHzBo; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C+dQDshx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750670910; x=1782206910;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K6sxdbPsaBzoFez5ISOCdOemAgkkBYrEapOkzYmhgxI=;
-  b=C+dQDshxLJKvcTGkQd8QN6mSAPYLRZMNR0VdQdH3e2VRF5Ha8MrCqX5K
-   QMVe5SjAqcSNgzAdJH/we/mUjs9uYE1nixDRgI3ZLVfFrjPNE4HrJZGh4
-   z4PSFVgcJOy/DE6ULbMnCdzddo0WAlTzdhpOwhzroM4QblUBHZ14815VB
-   wxvPjfNIyugbpeSGfnLVDUDKAb41UNAavWJkUnm2EWeguVjBYas7wS/L3
-   gnGbBzbwKHeaZIdrSvIbGF/gxCuE2skQoO7z+M/Z4BSnWg6EMBwHMzS8G
-   HEaZ568jBuCBB8o3G25hm/7KYYTl/u/kwdehEJ9Y0YqwCUj5brovmzwhB
-   Q==;
-X-CSE-ConnectionGUID: d/Eb6IaJTlqwXUHeYwddOw==
-X-CSE-MsgGUID: He/voPO/QdCwzfGMJMV3kg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11472"; a="52800669"
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="52800669"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 02:28:29 -0700
-X-CSE-ConnectionGUID: UEJTWx8LQ32N8WnP5WWtdg==
-X-CSE-MsgGUID: hHpqbDnuR5WMUIvaVf9lCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="155556678"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Jun 2025 02:28:28 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uTdTW-000Nu2-06;
-	Mon, 23 Jun 2025 09:28:26 +0000
-Date: Mon, 23 Jun 2025 17:27:52 +0800
-From: kernel test robot <lkp@intel.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH 5/7] firmware: arm_scmi: Add System Telemetry
- chardev/ioctls API
-Message-ID: <202506231727.3ZUlxZQr-lkp@intel.com>
-References: <20250620192813.2463367-6-cristian.marussi@arm.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="fVouHzBo"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250623093736euoutp0247b2ecc1660849084615cb4646e128ca~Lomn0V8ev3085030850euoutp022
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jun 2025 09:37:36 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250623093736euoutp0247b2ecc1660849084615cb4646e128ca~Lomn0V8ev3085030850euoutp022
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1750671456;
+	bh=A+5IcRjSNl6qTqtwlarHYbjTthP/DIVVwhUwdFuoGjY=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=fVouHzBovKz06ZjCSTUzzVtvq1/bXcnO6R8VuQS7xqwdD09innDB78O3m+FPkHLQT
+	 jCR+MZVCrVaSRAkIqbLUqSBVCpUJaxGHhomvvJVspNLeVVsHSvszjhylVLw61sbF5I
+	 ZYoEU7YplN+4hRjKmoHlscC77y4zVCqcTlzmneLE=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20250623093735eucas1p2843b624612475c22eb8e1c677b03d9cc~Lomm81wST1776817768eucas1p2q;
+	Mon, 23 Jun 2025 09:37:35 +0000 (GMT)
+Received: from [192.168.1.44] (unknown [106.210.136.40]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250623093734eusmtip2411fe770a0df6b19f0942a2c666da528~Loml5U_gb0224702247eusmtip2N;
+	Mon, 23 Jun 2025 09:37:34 +0000 (GMT)
+Message-ID: <c7f8523e-a139-4438-9987-466f415099f8@samsung.com>
+Date: Mon, 23 Jun 2025 11:37:33 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250620192813.2463367-6-cristian.marussi@arm.com>
-
-Hi Cristian,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on soc/for-next]
-[also build test WARNING on trace/for-next linus/master v6.16-rc3 next-20250623]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Cristian-Marussi/firmware-arm_scmi-Define-a-common-SCMI_MAX_PROTOCOLS-value/20250621-033227
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/soc/soc.git for-next
-patch link:    https://lore.kernel.org/r/20250620192813.2463367-6-cristian.marussi%40arm.com
-patch subject: [RFC PATCH 5/7] firmware: arm_scmi: Add System Telemetry chardev/ioctls API
-config: hexagon-allmodconfig (https://download.01.org/0day-ci/archive/20250623/202506231727.3ZUlxZQr-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250623/202506231727.3ZUlxZQr-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506231727.3ZUlxZQr-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/firmware/arm_scmi/scmi_system_telemetry.c:921:44: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-     921 | static __poll_t scmi_tlm_poll(struct file *, struct poll_table_struct *)
-         |                                            ^
-   drivers/firmware/arm_scmi/scmi_system_telemetry.c:921:72: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-     921 | static __poll_t scmi_tlm_poll(struct file *, struct poll_table_struct *)
-         |                                                                        ^
-   drivers/firmware/arm_scmi/scmi_system_telemetry.c:1180:48: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-    1180 | static long scmi_tlm_compat_ioctl(struct file *, unsigned int, unsigned long)
-         |                                                ^
-   drivers/firmware/arm_scmi/scmi_system_telemetry.c:1180:62: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-    1180 | static long scmi_tlm_compat_ioctl(struct file *, unsigned int, unsigned long)
-         |                                                              ^
-   drivers/firmware/arm_scmi/scmi_system_telemetry.c:1180:77: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-    1180 | static long scmi_tlm_compat_ioctl(struct file *, unsigned int, unsigned long)
-         |                                                                             ^
-   drivers/firmware/arm_scmi/scmi_system_telemetry.c:1185:39: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-    1185 | static int scmi_tlm_mmap(struct file *, struct vm_area_struct *)
-         |                                       ^
-   drivers/firmware/arm_scmi/scmi_system_telemetry.c:1185:64: warning: omitting the parameter name in a function definition is a C2x extension [-Wc2x-extensions]
-    1185 | static int scmi_tlm_mmap(struct file *, struct vm_area_struct *)
-         |                                                                ^
-   drivers/firmware/arm_scmi/scmi_system_telemetry.c:361:16: warning: stack frame size (1064) exceeds limit (1024) in 'available_update_intervals_ms_show' [-Wframe-larger-than]
-     361 | static ssize_t available_update_intervals_ms_show(struct device *dev,
-         |                ^
-   drivers/firmware/arm_scmi/scmi_system_telemetry.c:681:16: warning: stack frame size (1064) exceeds limit (1024) in 'grp_available_intervals_show' [-Wframe-larger-than]
-     681 | static ssize_t grp_available_intervals_show(struct device *dev,
-         |                ^
-   9 warnings generated.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 8/8] drm/imagination: Enable PowerVR driver for
+ RISC-V
+To: kernel test robot <lkp@intel.com>, Drew Fustini <drew@pdp7.com>, Guo Ren
+	<guoren@kernel.org>, Fu Wei <wefu@redhat.com>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, Bartosz Golaszewski <brgl@bgdev.pl>, Philipp Zabel
+	<p.zabel@pengutronix.de>, Frank Binns <frank.binns@imgtec.com>, Matt Coster
+	<matt.coster@imgtec.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>, Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>, Ulf Hansson <ulf.hansson@linaro.org>, Marek
+	Szyprowski <m.szyprowski@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org, dri-devel@lists.freedesktop.org
+Content-Language: en-US
+From: Michal Wilczynski <m.wilczynski@samsung.com>
+In-Reply-To: <202506201103.GX6DA9Gx-lkp@intel.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20250623093735eucas1p2843b624612475c22eb8e1c677b03d9cc
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250620033331eucas1p22011774fc3a362b04e2bb98db2424299
+X-EPHeader: CA
+X-CMS-RootMailID: 20250620033331eucas1p22011774fc3a362b04e2bb98db2424299
+References: <20250618-apr_14_for_sending-v5-8-27ed33ea5c6f@samsung.com>
+	<CGME20250620033331eucas1p22011774fc3a362b04e2bb98db2424299@eucas1p2.samsung.com>
+	<202506201103.GX6DA9Gx-lkp@intel.com>
 
 
-vim +921 drivers/firmware/arm_scmi/scmi_system_telemetry.c
 
-   920	
- > 921	static __poll_t scmi_tlm_poll(struct file *, struct poll_table_struct *)
-   922	{
-   923		return 0;
-   924	}
-   925	
+On 6/20/25 05:32, kernel test robot wrote:
+> Hi Michal,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 4774cfe3543abb8ee98089f535e28ebfd45b975a]
+> 
+> url:    https://protect2.fireeye.com/v1/url?k=459f4078-1a047974-459ecb37-000babff3563-f67f8714258a7e91&q=1&e=0474f2bc-b688-4260-ae67-33e26f33bf90&u=https%3A%2F%2Fgithub.com%2Fintel-lab-lkp%2Flinux%2Fcommits%2FMichal-Wilczynski%2Fpower-sequencing-Add-T-HEAD-TH1520-GPU-power-sequencer-driver%2F20250618-182429
+> base:   4774cfe3543abb8ee98089f535e28ebfd45b975a
+> patch link:    https://lore.kernel.org/r/20250618-apr_14_for_sending-v5-8-27ed33ea5c6f%40samsung.com
+> patch subject: [PATCH v5 8/8] drm/imagination: Enable PowerVR driver for RISC-V
+> config: sparc64-randconfig-r121-20250620 (https://download.01.org/0day-ci/archive/20250620/202506201103.GX6DA9Gx-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 8.5.0
+> reproduce: (https://download.01.org/0day-ci/archive/20250620/202506201103.GX6DA9Gx-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202506201103.GX6DA9Gx-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    drivers/gpu/drm/imagination/pvr_mmu.c:57:3: error: #error Unsupported device page size PVR_DEVICE_PAGE_SIZE
+>     # error Unsupported device page size PVR_DEVICE_PAGE_SIZE
+>       ^~~~~
+>    In file included from ./arch/sparc/include/generated/asm/rwonce.h:1,
+>                     from include/linux/compiler.h:390,
+>                     from include/linux/dev_printk.h:14,
+>                     from include/linux/device.h:15,
+>                     from include/linux/node.h:18,
+>                     from include/linux/memory.h:19,
+>                     from drivers/gpu/drm/imagination/pvr_mmu.h:7,
+>                     from drivers/gpu/drm/imagination/pvr_mmu.c:4:
+>    drivers/gpu/drm/imagination/pvr_mmu.c: In function 'pvr_page_table_l1_entry_raw_set':
+>    drivers/gpu/drm/imagination/pvr_mmu.c:577:50: error: 'ROGUE_MMUCTRL_PAGE_SIZE_X' undeclared (first use in this function); did you mean 'ROGUE_MMUCTRL_PAGE_SIZE_1MB'?
+>          PVR_PAGE_TABLE_FIELD_PREP(1, PD, PAGE_SIZE, ROGUE_MMUCTRL_PAGE_SIZE_X) |
+>                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/asm-generic/rwonce.h:55:33: note: in definition of macro '__WRITE_ONCE'
+>      *(volatile typeof(x) *)&(x) = (val);    \
+>                                     ^~~
+>    drivers/gpu/drm/imagination/pvr_mmu.c:574:2: note: in expansion of macro 'WRITE_ONCE'
+>      WRITE_ONCE(entry->val,
+>      ^~~~~~~~~~
+>    drivers/gpu/drm/imagination/pvr_mmu.c:577:6: note: in expansion of macro 'PVR_PAGE_TABLE_FIELD_PREP'
+>          PVR_PAGE_TABLE_FIELD_PREP(1, PD, PAGE_SIZE, ROGUE_MMUCTRL_PAGE_SIZE_X) |
+>          ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/gpu/drm/imagination/pvr_mmu.c:577:50: note: each undeclared identifier is reported only once for each function it appears in
+>          PVR_PAGE_TABLE_FIELD_PREP(1, PD, PAGE_SIZE, ROGUE_MMUCTRL_PAGE_SIZE_X) |
+>                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/asm-generic/rwonce.h:55:33: note: in definition of macro '__WRITE_ONCE'
+>      *(volatile typeof(x) *)&(x) = (val);    \
+>                                     ^~~
+>    drivers/gpu/drm/imagination/pvr_mmu.c:574:2: note: in expansion of macro 'WRITE_ONCE'
+>      WRITE_ONCE(entry->val,
+>      ^~~~~~~~~~
+>    drivers/gpu/drm/imagination/pvr_mmu.c:577:6: note: in expansion of macro 'PVR_PAGE_TABLE_FIELD_PREP'
+>          PVR_PAGE_TABLE_FIELD_PREP(1, PD, PAGE_SIZE, ROGUE_MMUCTRL_PAGE_SIZE_X) |
+>          ^~~~~~~~~~~~~~~~~~~~~~~~~
+>    drivers/gpu/drm/imagination/pvr_mmu.c: In function 'pvr_page_table_l0_entry_raw_set':
+>    drivers/gpu/drm/imagination/pvr_mmu.c:741:24: error: 'ROGUE_MMUCTRL_PAGE_X_RANGE_CLRMSK' undeclared (first use in this function); did you mean 'ROGUE_MMUCTRL_PAGE_1MB_RANGE_CLRMSK'?
+>               (dma_addr & ~ROGUE_MMUCTRL_PAGE_X_RANGE_CLRMSK) |
+>                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>    include/asm-generic/rwonce.h:55:33: note: in definition of macro '__WRITE_ONCE'
+>      *(volatile typeof(x) *)&(x) = (val);    \
+>                                     ^~~
+>    drivers/gpu/drm/imagination/pvr_mmu.c:739:2: note: in expansion of macro 'WRITE_ONCE'
+>      WRITE_ONCE(entry->val, PVR_PAGE_TABLE_FIELD_PREP(0, PT, VALID, true) |
+>      ^~~~~~~~~~
+>    drivers/gpu/drm/imagination/pvr_mmu.c: In function 'pvr_page_table_l0_idx':
+>    drivers/gpu/drm/imagination/pvr_mmu.c:1713:9: error: 'ROGUE_MMUCTRL_PAGE_X_RANGE_SHIFT' undeclared (first use in this function); did you mean 'ROGUE_MMUCTRL_PAGE_4KB_RANGE_SHIFT'?
+>             ROGUE_MMUCTRL_PAGE_X_RANGE_SHIFT;
+>             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>             ROGUE_MMUCTRL_PAGE_4KB_RANGE_SHIFT
+>>> drivers/gpu/drm/imagination/pvr_mmu.c:1714:1: warning: control reaches end of non-void function [-Wreturn-type]
+>     }
 
+It's clear from the build log that enabling COMPILE_TEST has exposed
+some pre existing portability issues in pvr_mmu.c.
+
+Fixing these underlying MMU issues seem to be outside the scope
+of this patch series, which is focused on enabling the TH1520 SoC GPU.
+To keep this work focused on its original goal, I will remove the
+COMPILE_TEST addition for now.
+
+The addition of COMPILE_TEST support can be revisited in a separate,
+dedicated series.
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Michal Wilczynski <m.wilczynski@samsung.com>
