@@ -1,172 +1,127 @@
-Received: from mail-io1-f73.google.com (mail-io1-f73.google.com [209.85.166.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6140C2288CB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jun 2025 22:11:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1094223DE5;
+	Mon, 23 Jun 2025 22:28:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750716680; cv=none; b=F4T7oA7ElmetPsAdvF8MYQUL1deNEPxwzn7abp9rJ2gffPiIWbZRrqRNY4VcJrf+lbcqA1h3tPVZMObcrdx6HjMUZmc7KTg03U8Y+Xy+0szEDguf7bv21imhremDT1q63Y1nzivkvhzxinyIUOHy9/Mlyv9F7fe0/8zyQns5aKU=
+	t=1750717720; cv=none; b=Hhuh2nXHy3qPU22l7TxwKaLlM/jNY2vUjc9htjbBkCARed32rIn8f8QVrqkHrA+ZeLazUefv5+Mmo2ukeyk68AMiT53GswX6L73LWUrlnKj/sH1lPJ1k2ikITl+jjRL3cqfdsdZDEa8hyw7SF5Prd8LW5/T5kz89uav81GyWXtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750716680; c=relaxed/simple;
-	bh=D7atcKrsikBtKn+dkIVbHfHd96Aa/xzh+Jcn54xGazo=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=ugkIT3/ExJKnazI0KwqsG/dSqpHvOTUu6FXm/mufW4POciEW6OaN210KiMjTiQxuSOgJp9cOqIkH3NewDTa8AvfHOoXRdcao2OC1xCpmn0Rr/N/W1aHy/8TF/j5LzQnQqEq5VDNi/2woQjFMEePVYnbS9+Q3l4fJlT5M5ExWSAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4q9bdfI4; arc=none smtp.client-ip=209.85.166.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1750717720; c=relaxed/simple;
+	bh=IDscL//YK13cEbpe8hOp7s0v96Vb0LFr4CLJ3x2bcg4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DyLIZCAHCpHYTggcxY0gcCf9m8Y1ul9Q3AYvcFU1fo2sTWIkt4lP2O/btN+b7UJDsm4w+c+TjzWWQrA9zGmaIn6xuu5azEakeLXu0JZxruQOpwF/QshiMpaaQkv0ixfpOICltr/8XlQn+8hZVldtLm9gY4T8p5XXTHdDIQ+d6+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PQrlsLCl; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4q9bdfI4"
-Received: by mail-io1-f73.google.com with SMTP id ca18e2360f4ac-86cf9bad8e9so440320339f.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jun 2025 15:11:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1750716676; x=1751321476; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=tGQz+pPj9rguv78Mk1DG88zZ+C5YYmZS8y1NwOe8IHE=;
-        b=4q9bdfI4uV+f9BV0/PGBuK1EgE95Coxt/dCUmW8Qq6/9pTOKrQgXEX9t9uKZC4tNp/
-         qDXHcb6+Rt7erA/vv8LC4/zhMggqZUm51aXrx16GnRuS32JgwNHbSZKgWtJbOsi+7kxn
-         1y7zs0mVeYvszcW/RnnwK0LPJzahlDfkLqcuOroO8HBbT23awLiCWqgnDcrOZvJUtiEU
-         hFf5WP7ktaNNI9R11YZh74MqFdwFlsm+6+TrziPFmEbDUIYqp6fcpOlwN313E25YCD89
-         0iwvtjibt0Z2XHqGdStYb96bblvPdJONgxoFfCcbvpXxkpsZgAWv3KOM9WkwcymsV5BV
-         kVyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750716676; x=1751321476;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tGQz+pPj9rguv78Mk1DG88zZ+C5YYmZS8y1NwOe8IHE=;
-        b=oKMwnHpjMzZ5IVi2WX4RTZJQy6aCM2HOgn9yOplLzUxKecPvgjf2EhOQBA6kXzY/vV
-         JjDne0l8VRFhMoqGwkUtEmSUxf17BDusk6BhGvdI4eGaQ74KnfEZXO2kUoIt03frUVLh
-         mHkCF9RXmEcufZICS5lpo8M3vL0UE4V1fzInBmQ2T8a1k0K8T7+a517v4KHhbt4eyI/R
-         xQMorWUoP7tqbD6WVQDoof5yiDNn3FUesKgvlZp+MDHkOuKk+Qu2il5b+FqQ5yLYi+Y2
-         SGvS6yqbfVnaigFJISibpHslssaE9dtDQ0TWPFLP7pIoI85eJBbQWQErVGo84gATCqWs
-         yQRA==
-X-Forwarded-Encrypted: i=1; AJvYcCUMW2qMoOZ8muxgzPdNJUY1LpdKQgSflP+JWErWgZfO9lYwgyIe80XLS33vBynITtp+YI1ci35v/f/I1wMd@lists.linux.dev
-X-Gm-Message-State: AOJu0YzQhCWQmiD1ieh+mv+7vuwZ/gLkASNq2nd7/Ts6WwtGTtlZfcOg
-	Uk6esKjksSTEBWpHp7IHi0pC+Y0jMd4DSiXm67p0BxetqQHKlGVku95e4L9uswOyWruBp4LfVTc
-	Uf8A2TtskyAa6QW22NO2FY5OV3g==
-X-Google-Smtp-Source: AGHT+IFROh/q8Un43k3KAN6/Y7TN0oBqMJ1o65GnORb3dUVRyme5Qfos+kVCSSkafOZNJv6Ve5iTj9GtWD2hqiOqYQ==
-X-Received: from ilbdr12.prod.google.com ([2002:a05:6e02:3f0c:b0:3dd:b580:4100])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6e02:3499:b0:3de:119f:5261 with SMTP id e9e14a558f8ab-3de38c1c019mr212245545ab.3.1750716676655;
- Mon, 23 Jun 2025 15:11:16 -0700 (PDT)
-Date: Mon, 23 Jun 2025 22:11:15 +0000
-In-Reply-To: <202506221711.tFNGpzj4-lkp@intel.com> (message from kernel test
- robot on Sun, 22 Jun 2025 17:32:31 +0800)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PQrlsLCl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750717719; x=1782253719;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=IDscL//YK13cEbpe8hOp7s0v96Vb0LFr4CLJ3x2bcg4=;
+  b=PQrlsLCl2H0tf3ZBTMjix0zXcV8FYUMD5DbxvWwSgqxpzoi0+KyxHp0n
+   q8QWjK0aTA1C0Zk60m0o69EzY43r4CJxpyZayH3nTjgzNXT7RIqV+PweT
+   A68TwbiYMkuwrag99KhRQFJPjCbfwCqsoQVjX/SKvAAkvQ0L1DcfS05p1
+   UPZiw+ItmYV9XxqZxuwNg+IC2JmkUw1xRZFM++RPNptiDtOLpPeLy+4j1
+   wMLuaiolU8kQMKk8+JIpxfruvvadQnHts85K6ug/1oYtC2g9B48kr8lXx
+   UlLYRepIFI63w0/Oi+Trn1smupnNYdGSZmWavSYHPeTTxkLO9nD/vHYBz
+   A==;
+X-CSE-ConnectionGUID: pYL7wU5mQ/WkjxjLKQXykA==
+X-CSE-MsgGUID: 3w9er+YzTeG/Rh6Y5LfIVw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="52057565"
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
+   d="scan'208";a="52057565"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 15:28:36 -0700
+X-CSE-ConnectionGUID: yL4ap/FOQ6ukJUZThptdJA==
+X-CSE-MsgGUID: Th11nDHDRuS5IbAWar/8qg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
+   d="scan'208";a="182763922"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 23 Jun 2025 15:28:35 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uTpeS-000RKl-0Y;
+	Mon, 23 Jun 2025 22:28:32 +0000
+Date: Tue, 24 Jun 2025 06:27:40 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chen Yu <yu.c.chen@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: drivers/virtio/virtio_balloon.c:401:21: warning: stack frame size
+ (1040) exceeds limit (1024) in 'update_balloon_stats'
+Message-ID: <202506240611.WIZwT0sn-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-ID: <gsntikkm9kho.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v2 17/23] KVM: arm64: Account for partitioning in PMCR_EL0 access
-From: Colton Lewis <coltonlewis@google.com>
-To: kernel test robot <lkp@intel.com>
-Cc: kvm@vger.kernel.org, oe-kbuild-all@lists.linux.dev, pbonzini@redhat.com, 
-	corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, 
-	will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, 
-	suzuki.poulose@arm.com, yuzenghui@huawei.com, mark.rutland@arm.com, 
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-kernel test robot <lkp@intel.com> writes:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   86731a2a651e58953fc949573895f2fa6d456841
+commit: ad6b26b6a0a79166b53209df2ca1cf8636296382 sched/numa: add statistics of numa balance task
+date:   3 weeks ago
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20250624/202506240611.WIZwT0sn-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 875b36a8742437b95f623bab1e0332562c7b4b3f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506240611.WIZwT0sn-lkp@intel.com/reproduce)
 
->     In file included from arch/arm64/include/asm/kvm_host.h:32,
->                      from include/linux/kvm_host.h:45,
->                      from arch/arm64/kvm/sys_regs.c:16:
->     arch/arm64/include/asm/kvm_pmu.h:236:50: warning: 'struct arm_pmu'  
-> declared inside parameter list will not be visible outside of this  
-> definition or declaration
->      static inline bool kvm_pmu_is_partitioned(struct arm_pmu *pmu)
->                                                       ^~~~~~~
->     arch/arm64/include/asm/kvm_pmu.h:241:52: warning: 'struct arm_pmu'  
-> declared inside parameter list will not be visible outside of this  
-> definition or declaration
->      static inline u64 kvm_pmu_host_counter_mask(struct arm_pmu *pmu)
->                                                         ^~~~~~~
->     arch/arm64/include/asm/kvm_pmu.h:246:53: warning: 'struct arm_pmu'  
-> declared inside parameter list will not be visible outside of this  
-> definition or declaration
->      static inline u64 kvm_pmu_guest_counter_mask(struct arm_pmu *pmu)
->                                                          ^~~~~~~
->     arch/arm64/kvm/sys_regs.c:856:6: warning: no previous prototype  
-> for 'pmu_access_el0_disabled' [-Wmissing-prototypes]
->      bool pmu_access_el0_disabled(struct kvm_vcpu *vcpu)
->           ^~~~~~~~~~~~~~~~~~~~~~~
->     arch/arm64/kvm/sys_regs.c: In function 'access_pmu_evtyper':
->     arch/arm64/kvm/sys_regs.c:1076:7: error: implicit declaration of  
-> function 'kvm_vcpu_pmu_is_partitioned'; did you  
-> mean 'kvm_pmu_is_partitioned'? [-Werror=implicit-function-declaration]
->        if (kvm_vcpu_pmu_is_partitioned(vcpu))
->            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->            kvm_pmu_is_partitioned
->     arch/arm64/kvm/sys_regs.c: In function 'set_pmcr':
->>> arch/arm64/kvm/sys_regs.c:1271:33: error: dereferencing pointer to  
->>> incomplete type 'struct arm_pmu'
->            new_n <= kvm->arch.arm_pmu->hpmn_max))
->                                      ^~
->     cc1: some warnings being treated as errors
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506240611.WIZwT0sn-lkp@intel.com/
 
-Looks like the main problem here is struct arm_pmu is not defined if we
-don't have CONFIG_ARM_PMU. I'll provide a dummy definition for that case
-and swap out the field reference for a function call.
+All warnings (new ones prefixed by >>):
 
-Secondary problem is making sure there is a prototype for
-pmu_access_el0_disabled in that instance.
+>> drivers/virtio/virtio_balloon.c:401:21: warning: stack frame size (1040) exceeds limit (1024) in 'update_balloon_stats' [-Wframe-larger-than]
+     401 | static unsigned int update_balloon_stats(struct virtio_balloon *vb)
+         |                     ^
+   1 warning generated.
 
-> vim +1271 arch/arm64/kvm/sys_regs.c
 
->    1253
->    1254	static int set_pmcr(struct kvm_vcpu *vcpu, const struct  
-> sys_reg_desc *r,
->    1255			    u64 val)
->    1256	{
->    1257		u8 new_n = FIELD_GET(ARMV8_PMU_PMCR_N, val);
->    1258		struct kvm *kvm = vcpu->kvm;
->    1259
->    1260		mutex_lock(&kvm->arch.config_lock);
->    1261
->    1262		/*
->    1263		 * The vCPU can't have more counters than the PMU hardware
->    1264		 * implements. Ignore this error to maintain compatibility
->    1265		 * with the existing KVM behavior.
->    1266		 */
->    1267		if (!kvm_vm_has_ran_once(kvm) &&
->    1268		    !vcpu_has_nv(vcpu)	      &&
->    1269		    new_n <= kvm_arm_pmu_get_max_counters(kvm) &&
->    1270		    (!kvm_vcpu_pmu_is_partitioned(vcpu) ||
->> 1271		     new_n <= kvm->arch.arm_pmu->hpmn_max))
->    1272			kvm->arch.nr_pmu_counters = new_n;
->    1273
->    1274		mutex_unlock(&kvm->arch.config_lock);
->    1275
->    1276		/*
->    1277		 * Ignore writes to RES0 bits, read only bits that are cleared on
->    1278		 * vCPU reset, and writable bits that KVM doesn't support yet.
->    1279		 * (i.e. only PMCR.N and bits [7:0] are mutable from userspace)
->    1280		 * The LP bit is RES0 when FEAT_PMUv3p5 is not supported on the  
-> vCPU.
->    1281		 * But, we leave the bit as it is here, as the vCPU's PMUver might
->    1282		 * be changed later (NOTE: the bit will be cleared on first vCPU  
-> run
->    1283		 * if necessary).
->    1284		 */
->    1285		val &= ARMV8_PMU_PMCR_MASK;
->    1286
->    1287		/* The LC bit is RES1 when AArch32 is not supported */
->    1288		if (!kvm_supports_32bit_el0())
->    1289			val |= ARMV8_PMU_PMCR_LC;
->    1290
->    1291		__vcpu_assign_sys_reg(vcpu, r->reg, val);
->    1292		kvm_make_request(KVM_REQ_RELOAD_PMU, vcpu);
->    1293
->    1294		return 0;
->    1295	}
->    1296
+vim +/update_balloon_stats +401 drivers/virtio/virtio_balloon.c
 
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+fdba68d2adf8d9 zhenwei pi         2024-04-23  400  
+fdba68d2adf8d9 zhenwei pi         2024-04-23 @401  static unsigned int update_balloon_stats(struct virtio_balloon *vb)
+fdba68d2adf8d9 zhenwei pi         2024-04-23  402  {
+fdba68d2adf8d9 zhenwei pi         2024-04-23  403  	struct sysinfo i;
+fdba68d2adf8d9 zhenwei pi         2024-04-23  404  	unsigned int idx;
+fdba68d2adf8d9 zhenwei pi         2024-04-23  405  	long available;
+fdba68d2adf8d9 zhenwei pi         2024-04-23  406  	unsigned long caches;
+fdba68d2adf8d9 zhenwei pi         2024-04-23  407  
+fdba68d2adf8d9 zhenwei pi         2024-04-23  408  	idx = update_balloon_vm_stats(vb);
+fdba68d2adf8d9 zhenwei pi         2024-04-23  409  
+fdba68d2adf8d9 zhenwei pi         2024-04-23  410  	si_meminfo(&i);
+fdba68d2adf8d9 zhenwei pi         2024-04-23  411  	available = si_mem_available();
+fdba68d2adf8d9 zhenwei pi         2024-04-23  412  	caches = global_node_page_state(NR_FILE_PAGES);
+9564e138b1f6eb Adam Litke         2009-11-30  413  	update_stat(vb, idx++, VIRTIO_BALLOON_S_MEMFREE,
+9564e138b1f6eb Adam Litke         2009-11-30  414  				pages_to_bytes(i.freeram));
+9564e138b1f6eb Adam Litke         2009-11-30  415  	update_stat(vb, idx++, VIRTIO_BALLOON_S_MEMTOT,
+9564e138b1f6eb Adam Litke         2009-11-30  416  				pages_to_bytes(i.totalram));
+5057dcd0f1aaad Igor Redko         2016-03-17  417  	update_stat(vb, idx++, VIRTIO_BALLOON_S_AVAIL,
+5057dcd0f1aaad Igor Redko         2016-03-17  418  				pages_to_bytes(available));
+4d32029b8ddb7b Tomáš Golembiovský 2017-11-12  419  	update_stat(vb, idx++, VIRTIO_BALLOON_S_CACHES,
+4d32029b8ddb7b Tomáš Golembiovský 2017-11-12  420  				pages_to_bytes(caches));
+9646b26e85896e Ladi Prosek        2017-03-28  421  
+9646b26e85896e Ladi Prosek        2017-03-28  422  	return idx;
+9564e138b1f6eb Adam Litke         2009-11-30  423  }
+9564e138b1f6eb Adam Litke         2009-11-30  424  
+
+:::::: The code at line 401 was first introduced by commit
+:::::: fdba68d2adf8d9ae680e23e8b8ba79330baa45bc virtio_balloon: separate vm events into a function
+
+:::::: TO: zhenwei pi <pizhenwei@bytedance.com>
+:::::: CC: Michael S. Tsirkin <mst@redhat.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
