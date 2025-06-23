@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167FB76C61
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jun 2025 14:07:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AFF913D24D;
+	Mon, 23 Jun 2025 14:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750687655; cv=none; b=cujt9ghU7SWUcbgLTDetUy2xek704vRfeAuupT4/kotD+hZAfGGq+K0Ib+CMlotiNvJGFwHY7LOQLY0K9NtRuD1qwMi9/dzbkJIN1ARQke3n+CMEyBxMaU48F5gbjEDXqjF/AE53B5rskdtNReO2Lp4+Gmsp9gRS1Oi+PBlBFk0=
+	t=1750688312; cv=none; b=KY5ZfvWqLwxHce5HYKiU2W0fKk1sMKS2XdLDWNwfAbvqrrtEiyTcogSMrJuvNj4j3Yy9fMkpuhM8T431i9LMldfgyAtGB2bj3trKa4tYgm1uE1IXmLu8DPGFWcoxU3N9ruhY2uyi7UICC3fDJcWPEokgTgOp1HxVMmXzFOhYGyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750687655; c=relaxed/simple;
-	bh=SuqG7YAh50qOmBXG6MpcsS5zegSxfeuGUOR9Dc6iads=;
+	s=arc-20240116; t=1750688312; c=relaxed/simple;
+	bh=iGpVZjmUMX0RfaMUsfu3n4YNfr73p2VaBaGKXJgmVWI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AzwnbOh+gav/qyv9nWtWg2qh3blvrAbKsUSM4PEfqxcKuhn3ByyB63EO26bLdG9IqajUmGCTrzqdNg1SZc1N8eRHu1J5KMFmc3+oOuZHZ6pNN4JPmZ8tVY5FA/KUNho8P3oX23XMs1yAmsyFQMUd7l7h0tLlOzyIk2ptnBNMuXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MjxWbeQ6; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=VyicHnViNd5+eoTTRmpX2mDcq/3fi+4+LUNLY3HaBhej6pieNrAWd91C7aV60mRHK+vWD9WrHSoXI+GfZP9cEtSCOXD690wehmAyaVKkv9Ls96qzXQ2EtABAvYS4+VeXKinMDl3RgvgKE/ZK6FvVzj6Lm5UiO3k9wPCXux4P8zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BP+uuzVd; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MjxWbeQ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BP+uuzVd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750687652; x=1782223652;
+  t=1750688311; x=1782224311;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=SuqG7YAh50qOmBXG6MpcsS5zegSxfeuGUOR9Dc6iads=;
-  b=MjxWbeQ6B7TVkRNdY1K8WP/2VdfsxtBS9wkdQ+BBdWZIeATQxQtBZ49i
-   J3NByIKIdvEUkSb/NUJxF6tvVIb9kSG+RiNGv5Do9bXgJQpvYVO6ovPh5
-   vAvnSdnCXygUWrRAa6A11ZTpivLorTeZ3KqyPWmOdVAvbUpDAO24oUJbD
-   UeSBLGcOAR5TiYbGpblrxXHrXRw4bKhWuWUf0SCahiXMBL1g/i1VcXfV2
-   ubo0Fjnw1vb6MhzkZyYpjKFwU78xrx5jeF8k3nApQ1n8MM9vbq1Za8sie
-   +Lh7VwlhJ92jMboR+wEYL9/3y1EhUOHzerH94I9x0J1cS1jaer9cqYLhk
-   g==;
-X-CSE-ConnectionGUID: 8ZjmLhQoR5mbCvvYtq3Mng==
-X-CSE-MsgGUID: Vwpv8TL5Sya7WsfnHsdHdA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="64252600"
+  bh=iGpVZjmUMX0RfaMUsfu3n4YNfr73p2VaBaGKXJgmVWI=;
+  b=BP+uuzVdC7hZ00A9KmCDuq44WlA/jd2fqkVIDg7W5p92rZXRbUa9CTzW
+   v80LrbtzsVqgTMDjlYG/4PDeEW6PUwB7LvA+oZzBfdUa+4AAwrMlBxuES
+   b9ly1P1kEYIvNF7i+jIVKP3MxE8pdzx2aS0pd703yNwT1xT4iUIri+IbW
+   EH65egDSZj1gdfVG9JS/Qey7hpNAv93NxynyrFnKpS5zgr/WOMkQucQ1w
+   jXWszk1gr/uyFqHsTAVL/fqFc3zh+A/MCXpQdDRiFtAclk/ygqGcvSWzT
+   wlKCN6ScF/fwTXEi0JZFwVcrXs0ODrxLr7Tv9RSE+D7N6Jz16wkzxiR2P
+   A==;
+X-CSE-ConnectionGUID: pqlYX307RqepQg9eI7depw==
+X-CSE-MsgGUID: GEatPt9vTBewwGenZBFTUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="75430597"
 X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="64252600"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 07:07:27 -0700
-X-CSE-ConnectionGUID: IX6RYqDgRN+ngEpkrVI78g==
-X-CSE-MsgGUID: U0iGk2GuTdGW3rAQcvYKqQ==
+   d="scan'208";a="75430597"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 07:18:30 -0700
+X-CSE-ConnectionGUID: MEJxLyWcTdefusaIHYJYDw==
+X-CSE-MsgGUID: u/EE1Aa/S42Bd1d2lddT5Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,258,1744095600"; 
-   d="scan'208";a="152124642"
+   d="scan'208";a="152132332"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 23 Jun 2025 07:07:26 -0700
+  by orviesa008.jf.intel.com with ESMTP; 23 Jun 2025 07:18:29 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uThpU-000OzB-1l;
-	Mon, 23 Jun 2025 14:07:24 +0000
-Date: Mon, 23 Jun 2025 22:07:14 +0800
+	id 1uTi0A-000Ozm-0E;
+	Mon, 23 Jun 2025 14:18:26 +0000
+Date: Mon, 23 Jun 2025 22:17:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Shi Jing <shijing34@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2978/2978]
- drivers/net/ethernet/huawei/hinic3/cqm/cqm_bitmap_table.c:331:68: warning:
- suggest braces around empty body in an 'if' statement
-Message-ID: <202506232147.n7w5pLY6-lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Will Deacon <will@kernel.org>,
+	Nicolin Chen <nicolinc@nvidia.com>
+Subject: drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:2048:12: warning: stack
+ frame size (1184) exceeds limit (1024) in 'arm_smmu_atc_inv_master'
+Message-ID: <202506232202.d7l6AowE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,147 +64,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   5e8b5c945557e13053f64d08e9859d56c789362f
-commit: 79871cd2cd720225eb582c9ed49fb4a96a270b3b [2978/2978] net/hinic3: Synchronize new NIC features and bug fixes
-config: x86_64-buildonly-randconfig-002-20250623 (https://download.01.org/0day-ci/archive/20250623/202506232147.n7w5pLY6-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250623/202506232147.n7w5pLY6-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   86731a2a651e58953fc949573895f2fa6d456841
+commit: 6de80d619203c672e5c011e8715bd965d27b69cf iommu/arm-smmu-v3: Add struct arm_smmu_impl_ops
+date:   10 months ago
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250623/202506232202.d7l6AowE-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250623/202506232202.d7l6AowE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506232147.n7w5pLY6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506232202.d7l6AowE-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:103:6: warning: no previous prototype for 'hinic3_uld_lock_init' [-Wmissing-prototypes]
-     103 | void hinic3_uld_lock_init(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:525:5: warning: no previous prototype for 'hinic3_pdev_is_virtfn' [-Wmissing-prototypes]
-     525 | u32 hinic3_pdev_is_virtfn(struct pci_dev *pdev)
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:785:5: warning: no previous prototype for '__set_vroce_func_state' [-Wmissing-prototypes]
-     785 | int __set_vroce_func_state(struct hinic3_pcidev *pci_adapter)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:826:6: warning: no previous prototype for 'slave_host_mgmt_vroce_work' [-Wmissing-prototypes]
-     826 | void slave_host_mgmt_vroce_work(struct work_struct *work)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:834:7: warning: no previous prototype for 'hinic3_get_roce_uld_by_pdev' [-Wmissing-prototypes]
-     834 | void *hinic3_get_roce_uld_by_pdev(struct pci_dev *pdev)
-         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:1796:6: warning: no previous prototype for 'hinic3_set_func_state' [-Wmissing-prototypes]
-    1796 | void hinic3_set_func_state(struct hinic3_pcidev *pci_adapter)
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:1822:6: warning: no previous prototype for 'slave_host_mgmt_work' [-Wmissing-prototypes]
-    1822 | void slave_host_mgmt_work(struct work_struct *work)
-         |      ^~~~~~~~~~~~~~~~~~~~
---
->> drivers/net/ethernet/huawei/hinic3/hw/hinic3_dev_mgmt.c:618:6: warning: no previous prototype for 'hinic3_write_oshr_info' [-Wmissing-prototypes]
-     618 | void hinic3_write_oshr_info(struct os_hot_replace_info *out_oshr_info,
-         |      ^~~~~~~~~~~~~~~~~~~~~~
---
->> drivers/net/ethernet/huawei/hinic3/hw/hinic3_hwif.c:865:5: warning: no previous prototype for 'hinic3_global_func_id_hw' [-Wmissing-prototypes]
-     865 | u16 hinic3_global_func_id_hw(void *hwdev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
---
-   drivers/net/ethernet/huawei/hinic3/cqm/cqm_bitmap_table.c: In function 'cqm_buf_vram_free':
->> drivers/net/ethernet/huawei/hinic3/cqm/cqm_bitmap_table.c:331:68: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
-     331 |                               (u64)buf->buf_size * buf->buf_number);
-         |                                                                    ^
---
->> drivers/net/ethernet/huawei/hinic3/hinic3_ethtool_stats.c:342:5: warning: no previous prototype for 'hinic3_rx_queue_stat_pack' [-Wmissing-prototypes]
-     342 | int hinic3_rx_queue_stat_pack(struct hinic3_show_item *item,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/hinic3_ethtool_stats.c:357:5: warning: no previous prototype for 'hinic3_tx_queue_stat_pack' [-Wmissing-prototypes]
-     357 | int hinic3_tx_queue_stat_pack(struct hinic3_show_item *item,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
---
->> drivers/net/ethernet/huawei/hinic3/hw/hinic3_hw_comm.c:1671:6: warning: no previous prototype for 'hinic3_is_optical_module_mode' [-Wmissing-prototypes]
-    1671 | bool hinic3_is_optical_module_mode(void *hwdev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
->> drivers/net/ethernet/huawei/hinic3/hinic3_mag_cfg.c:623:6: warning: no previous prototype for 'print_port_info' [-Wmissing-prototypes]
-     623 | void print_port_info(struct hinic3_nic_io *nic_io,
-         |      ^~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/hinic3_mag_cfg.c:802:6: warning: no previous prototype for 'hinic3_notify_vf_bond_status' [-Wmissing-prototypes]
-     802 | void hinic3_notify_vf_bond_status(struct hinic3_nic_io *nic_io,
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/hinic3_mag_cfg.c:832:6: warning: no previous prototype for 'hinic3_notify_all_vfs_bond_changed' [-Wmissing-prototypes]
-     832 | void hinic3_notify_all_vfs_bond_changed(void *hwdev, u8 bond_status)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/hinic3_mag_cfg.c:1678:5: warning: no previous prototype for 'set_fecparam' [-Wmissing-prototypes]
-    1678 | int set_fecparam(void *hwdev, u8 fecparam)
-         |     ^~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/hinic3_mag_cfg.c:1706:5: warning: no previous prototype for 'get_fecparam' [-Wmissing-prototypes]
-    1706 | int get_fecparam(void *hwdev, u8 *advertised_fec, u8 *supported_fec)
-         |     ^~~~~~~~~~~~
---
->> drivers/net/ethernet/huawei/hinic3/hinic3_main.c:1211:6: warning: no previous prototype for 'hinic3_need_proc_link_event' [-Wmissing-prototypes]
-    1211 | bool hinic3_need_proc_link_event(struct hinic3_lld_dev *lld_dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/hinic3_main.c:1258:6: warning: no previous prototype for 'hinic3_need_proc_bond_event' [-Wmissing-prototypes]
-    1258 | bool hinic3_need_proc_bond_event(struct hinic3_lld_dev *lld_dev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/net/ethernet/huawei/hinic3/cqm/cqm_object.h:7,
-                    from drivers/net/ethernet/huawei/hinic3/cqm/cqm_bitmap_table.h:11,
-                    from drivers/net/ethernet/huawei/hinic3/cqm/cqm_cmd.c:15:
->> drivers/net/ethernet/huawei/hinic3/cqm/cqm_define.h:13:44: warning: no previous prototype for 'cqm3_cmd_alloc' [-Wmissing-prototypes]
-      13 | #define cqm_cmd_alloc                      cqm3_cmd_alloc
-         |                                            ^~~~~~~~~~~~~~
-   drivers/net/ethernet/huawei/hinic3/cqm/cqm_cmd.c:24:25: note: in expansion of macro 'cqm_cmd_alloc'
-      24 | struct tag_cqm_cmd_buf *cqm_cmd_alloc(void *ex_handle)
-         |                         ^~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/cqm/cqm_define.h:14:44: warning: no previous prototype for 'cqm3_cmd_free' [-Wmissing-prototypes]
-      14 | #define cqm_cmd_free                       cqm3_cmd_free
-         |                                            ^~~~~~~~~~~~~
-   drivers/net/ethernet/huawei/hinic3/cqm/cqm_cmd.c:44:6: note: in expansion of macro 'cqm_cmd_free'
-      44 | void cqm_cmd_free(void *ex_handle, struct tag_cqm_cmd_buf *cmd_buf)
-         |      ^~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/cqm/cqm_define.h:15:44: warning: no previous prototype for 'cqm3_send_cmd_box' [-Wmissing-prototypes]
-      15 | #define cqm_send_cmd_box                   cqm3_send_cmd_box
-         |                                            ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/huawei/hinic3/cqm/cqm_cmd.c:79:5: note: in expansion of macro 'cqm_send_cmd_box'
-      79 | s32 cqm_send_cmd_box(void *ex_handle, u8 mod, u8 cmd, struct tag_cqm_cmd_buf *buf_in,
-         |     ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/cqm/cqm_define.h:16:44: warning: no previous prototype for 'cqm3_lb_send_cmd_box' [-Wmissing-prototypes]
-      16 | #define cqm_lb_send_cmd_box                cqm3_lb_send_cmd_box
-         |                                            ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/huawei/hinic3/cqm/cqm_cmd.c:120:5: note: in expansion of macro 'cqm_lb_send_cmd_box'
-     120 | s32 cqm_lb_send_cmd_box(void *ex_handle, u8 mod, u8 cmd, u8 cos_id,
-         |     ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/huawei/hinic3/cqm/cqm_define.h:17:44: warning: no previous prototype for 'cqm3_lb_send_cmd_box_async' [-Wmissing-prototypes]
-      17 | #define cqm_lb_send_cmd_box_async          cqm3_lb_send_cmd_box_async
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/huawei/hinic3/cqm/cqm_cmd.c:158:5: note: in expansion of macro 'cqm_lb_send_cmd_box_async'
-     158 | s32 cqm_lb_send_cmd_box_async(void *ex_handle, u8 mod, u8 cmd,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
---
->> drivers/net/ethernet/huawei/hinic3/hw/hinic3_sriov.c:176:5: warning: no previous prototype for 'hinic3_pci_sriov_check' [-Wmissing-prototypes]
-     176 | int hinic3_pci_sriov_check(struct hinic3_sriov_info *sriov_info, struct pci_dev *dev, int num_vfs)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
+   In file included from drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:12:
+   In file included from include/linux/acpi.h:39:
+   In file included from include/acpi/acpi_io.h:7:
+   In file included from arch/arm64/include/asm/acpi.h:14:
+   In file included from include/linux/memblock.h:12:
+   In file included from include/linux/mm.h:2228:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:2066:5: warning: stack frame size (1232) exceeds limit (1024) in 'arm_smmu_atc_inv_domain' [-Wframe-larger-than]
+    2066 | int arm_smmu_atc_inv_domain(struct arm_smmu_domain *smmu_domain,
+         |     ^
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:2141:13: warning: stack frame size (1216) exceeds limit (1024) in '__arm_smmu_tlb_inv_range' [-Wframe-larger-than]
+    2141 | static void __arm_smmu_tlb_inv_range(struct arm_smmu_cmdq_ent *cmd,
+         |             ^
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1259:28: warning: stack frame size (1232) exceeds limit (1024) in 'arm_smmu_alloc_cd_ptr' [-Wframe-larger-than]
+    1259 | static struct arm_smmu_cd *arm_smmu_alloc_cd_ptr(struct arm_smmu_master *master,
+         |                            ^
+   drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:1320:13: warning: stack frame size (1184) exceeds limit (1024) in 'arm_smmu_cd_writer_sync_entry' [-Wframe-larger-than]
+    1320 | static void arm_smmu_cd_writer_sync_entry(struct arm_smmu_entry_writer *writer)
+         |             ^
+>> drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c:2048:12: warning: stack frame size (1184) exceeds limit (1024) in 'arm_smmu_atc_inv_master' [-Wframe-larger-than]
+    2048 | static int arm_smmu_atc_inv_master(struct arm_smmu_master *master,
+         |            ^
+   10 warnings generated.
 
 
-vim +/if +331 drivers/net/ethernet/huawei/hinic3/cqm/cqm_bitmap_table.c
+vim +/arm_smmu_atc_inv_master +2048 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c
 
-   320	
-   321	static void cqm_buf_vram_free(struct tag_cqm_buf *buf)
-   322	{
-   323		s32 i;
-   324	
-   325		if (buf->buf_list == NULL) {
-   326			return;
-   327		}
-   328	
-   329		if (buf->buf_list[0].va)
-   330			hi_vram_kfree(buf->buf_list[0].va, buf->buf_info.buf_vram_name,
- > 331				      (u64)buf->buf_size * buf->buf_number);
-   332	
-   333		for (i = 0; i < (s32)buf->buf_number; i++)
-   334			buf->buf_list[i].va = NULL;
-   335	}
-   336	
+9ce27afc0830fc drivers/iommu/arm-smmu-v3.c                 Jean-Philippe Brucker 2019-04-17  2047  
+1d5f34f0002f9f drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c Jason Gunthorpe       2024-06-25 @2048  static int arm_smmu_atc_inv_master(struct arm_smmu_master *master,
+1d5f34f0002f9f drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c Jason Gunthorpe       2024-06-25  2049  				   ioasid_t ssid)
+9ce27afc0830fc drivers/iommu/arm-smmu-v3.c                 Jean-Philippe Brucker 2019-04-17  2050  {
+9ce27afc0830fc drivers/iommu/arm-smmu-v3.c                 Jean-Philippe Brucker 2019-04-17  2051  	int i;
+9e773aee8c3e1b drivers/iommu/arm-smmu-v3.c                 Rob Herring           2020-02-24  2052  	struct arm_smmu_cmdq_ent cmd;
+93f9f7958f12a1 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c Zhen Lei              2021-08-17  2053  	struct arm_smmu_cmdq_batch cmds;
+9ce27afc0830fc drivers/iommu/arm-smmu-v3.c                 Jean-Philippe Brucker 2019-04-17  2054  
+1d5f34f0002f9f drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c Jason Gunthorpe       2024-06-25  2055  	arm_smmu_atc_inv_to_cmd(ssid, 0, 0, &cmd);
+9ce27afc0830fc drivers/iommu/arm-smmu-v3.c                 Jean-Philippe Brucker 2019-04-17  2056  
+56ae8866f3b408 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c Nicolin Chen          2024-08-29  2057  	arm_smmu_cmdq_batch_init(master->smmu, &cmds);
+cdf315f907d46a drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c Jean-Philippe Brucker 2021-04-01  2058  	for (i = 0; i < master->num_streams; i++) {
+cdf315f907d46a drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c Jean-Philippe Brucker 2021-04-01  2059  		cmd.atc.sid = master->streams[i].id;
+eff19474b1bd60 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c Zhen Lei              2021-08-11  2060  		arm_smmu_cmdq_batch_add(master->smmu, &cmds, &cmd);
+9ce27afc0830fc drivers/iommu/arm-smmu-v3.c                 Jean-Philippe Brucker 2019-04-17  2061  	}
+9ce27afc0830fc drivers/iommu/arm-smmu-v3.c                 Jean-Philippe Brucker 2019-04-17  2062  
+eff19474b1bd60 drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c Zhen Lei              2021-08-11  2063  	return arm_smmu_cmdq_batch_submit(master->smmu, &cmds);
+9ce27afc0830fc drivers/iommu/arm-smmu-v3.c                 Jean-Philippe Brucker 2019-04-17  2064  }
+9ce27afc0830fc drivers/iommu/arm-smmu-v3.c                 Jean-Philippe Brucker 2019-04-17  2065  
+
+:::::: The code at line 2048 was first introduced by commit
+:::::: 1d5f34f0002f9f56d0ca153022cfdead07d45dc6 iommu/arm-smmu-v3: Thread SSID through the arm_smmu_attach_*() interface
+
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
