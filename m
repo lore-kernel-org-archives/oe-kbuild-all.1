@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882A52D3A80;
-	Mon, 23 Jun 2025 18:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 606E71B0402
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 23 Jun 2025 18:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750702981; cv=none; b=s56R+z2qSXS4tMnm7fu4eKw4IvICV038u2wu7GO+N4muyOat1G7TBgDkDR4MOr3gfoM+H7VsmKmhqTD12Cg/TivZrq/DbABFQlVutouulzDMjC7MZXs3+xhM9lb5PW6AlbMvLsCQVGAtlLDP8YLLEHALFPv56fXk171zBE1RdDQ=
+	t=1750703582; cv=none; b=DX2YyQBacFLTW4CpByoz4fI0g5FgZtL2vAFEL6KSJklQYmhKt+xZtIUpe3yXli1/oYTYtmYiYkiFWkgNIqa8lUW4ovht0RsTwj69Jzhoj8mtjwVk1RPT2YYaFJKIBHqQf0MzQuQY1fdvIG4KribpgfCLqlwPbdq+ECdkUOwjyiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750702981; c=relaxed/simple;
-	bh=06uLO9m3FXDtmilEMngPa29Gp666mPTIdb/WLw1ueiU=;
+	s=arc-20240116; t=1750703582; c=relaxed/simple;
+	bh=goSoYqAPR9x32i29LXRjDbvie7iSfciQ3uaSeVRcYZU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Rt2bik1LsKb1PewHviSvY9sSjy9yvVOhHAbprwgvUQyFusfYp5kWtfsEHtCBiTUXkb40VWRcxADAJgBGsDhkRDQfE5sFWAHOdndatt8dqxt5J6BBlBRRn401E3R8k9Fhbm58t4e99vPAxfYqRQX8kx4GK2Czeptt29KxHF5G01Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UhU/7PQj; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=DUUfCvqSwpii4IH/pfjDizKz6nvYuHDxN/wJx00ZAjv/whdQyO8DDw5NxPO7dhUlEFKZYx0Gqm2VXfmU1+wkql3Pxc5xxqUs97J8fDQ/oYBT5f2R5QvxOuW/NFuuy/V8Zw19dYmR8KUTOaQPswCbqMoZQmB8F8CsDJqc7kr1iVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XnW+tEe9; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UhU/7PQj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XnW+tEe9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750702980; x=1782238980;
+  t=1750703580; x=1782239580;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=06uLO9m3FXDtmilEMngPa29Gp666mPTIdb/WLw1ueiU=;
-  b=UhU/7PQj6SjWgelEsZwxvoUmR+7oUnfW91SYMSZaIxq6ktK37EtrYFtF
-   MbC12GeMVDwJ5uF39HmyO29v0INg3Gc9BYM799TrGe12lOB9UKTW6EIGY
-   AQ1CA45orM5QCnGL4YsEtHa/Y5Oshe66hk9triMWOqMMA4N2iFDBy5E9E
-   9LJArx0Wf6/oXZZDHUTIAAjTz9AOLzkyK1cDAy08fV0BcY0LIPIBqALn7
-   PfTGy3/VYiKQ3CaimoUxXySM1fPEiI7pfETt+fOddf7BiVkufkk0yu0MN
-   tzc2YqtTN9DhQJlk4BmWcpY49rW64RiTHvaQc2nQAVJWWFgXa1xLCVYhG
-   w==;
-X-CSE-ConnectionGUID: STE/DThuSQGrrmKiaONFTA==
-X-CSE-MsgGUID: jHfcD0XIS3KiXNNN9pHLhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="52894580"
+  bh=goSoYqAPR9x32i29LXRjDbvie7iSfciQ3uaSeVRcYZU=;
+  b=XnW+tEe9K3DB1GJWvtZK72lSn29z9zqiG7J8pDKWdAPsnezXtXV+4eKh
+   YomLJRJYvcCtIccPlTv21zFvnPBi0SiXTEfVnSlHwtZ53diHlbt6SGpaw
+   wF5iDbvL6xV3O4R/TojRgkeGsXqLxJjRN4LIeNK+3wW+U5VmC1ExFWXpv
+   5dX6QRvJbSiIDfMU8xx1GJp/lkn5wDvPly7U98Mth/CZU3ZG3yBlzu3JO
+   OBPrXu32q/M5nbXZFFTv5J6myHWHUp6zA2uoht+tV0Ai9sYpk6rmGllMF
+   xUZx7qwU1xaUU/0hSQvu+oxjm6c4YU3tZpQlfLmX75TuqRpdOAIXezLeU
+   Q==;
+X-CSE-ConnectionGUID: dyRX/NnvQN2rKW+tJqtWGA==
+X-CSE-MsgGUID: qELoPMP7Tpaq9IIW4s8DdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="56729105"
 X-IronPort-AV: E=Sophos;i="6.16,259,1744095600"; 
-   d="scan'208";a="52894580"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 11:22:59 -0700
-X-CSE-ConnectionGUID: BNv50jDpTBy8uGa+EN9kMQ==
-X-CSE-MsgGUID: dQGcEc3MQUiciiglCdSD/w==
+   d="scan'208";a="56729105"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 11:32:59 -0700
+X-CSE-ConnectionGUID: +RgnUZ8DT7SQr2C7ow953w==
+X-CSE-MsgGUID: viIhjy1xRgiMIBi4PEimSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,259,1744095600"; 
-   d="scan'208";a="155687683"
+   d="scan'208";a="182722555"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 23 Jun 2025 11:22:57 -0700
+  by orviesa002.jf.intel.com with ESMTP; 23 Jun 2025 11:32:59 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTlol-000PCY-18;
-	Mon, 23 Jun 2025 18:22:55 +0000
-Date: Tue, 24 Jun 2025 02:22:17 +0800
+	id 1uTlyS-000PCk-0P;
+	Mon, 23 Jun 2025 18:32:56 +0000
+Date: Tue, 24 Jun 2025 02:32:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hongbo Li <lihongbo22@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: fs/bcachefs/fs.c:867:12: warning: stack frame size (1056) exceeds
- limit (1024) in 'bch2_rename2'
-Message-ID: <202506240200.Fsm6BEST-lkp@intel.com>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [arnd-playground:to_build 46/57]
+ arch/powerpc/kvm/test-guest-state-buffer.c:116:41: error: macro
+ 'KUNIT_ASSERT_NOT_ERR_OR_NULL' requires 2 arguments, but only 1 given
+Message-ID: <202506240247.3ZRFfztH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,204 +63,272 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   86731a2a651e58953fc949573895f2fa6d456841
-commit: e614a6c52d32c9c7ff545ca842eb2de4aeb1d2d9 bcachefs: make directory i_size meaningful
-date:   5 months ago
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20250624/202506240200.Fsm6BEST-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 875b36a8742437b95f623bab1e0332562c7b4b3f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506240200.Fsm6BEST-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git to_build
+head:   45965d80ee21635e7f04e6d7fd6caa929820b219
+commit: aa1641c09eda005dbeabb56ebb283492c336309a [46/57] powerpc: kvm: allocate kvmppc_gs_parser off stack
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20250624/202506240247.3ZRFfztH-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506240247.3ZRFfztH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506240200.Fsm6BEST-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506240247.3ZRFfztH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from fs/bcachefs/fs.c:4:
-   In file included from fs/bcachefs/bcachefs.h:188:
-   In file included from include/linux/bio.h:10:
-   In file included from include/linux/blk_types.h:10:
-   In file included from include/linux/bvec.h:10:
-   In file included from include/linux/highmem.h:10:
-   In file included from include/linux/mm.h:2223:
-   include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     505 |                            item];
-         |                            ~~~~
-   include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     512 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
-   include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
-     524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
-     525 |                            NR_VM_NUMA_EVENT_ITEMS +
-         |                            ~~~~~~~~~~~~~~~~~~~~~~
->> fs/bcachefs/fs.c:867:12: warning: stack frame size (1056) exceeds limit (1024) in 'bch2_rename2' [-Wframe-larger-than]
-     867 | static int bch2_rename2(struct mnt_idmap *idmap,
+   arch/powerpc/kvm/test-guest-state-buffer.c: In function 'test_gs_parsing':
+>> arch/powerpc/kvm/test-guest-state-buffer.c:116:41: error: macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL' requires 2 arguments, but only 1 given
+     116 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(gsp);
+         |                                         ^
+   In file included from arch/powerpc/kvm/test-guest-state-buffer.c:5:
+   include/kunit/test.h:1646:9: note: macro 'KUNIT_ASSERT_NOT_ERR_OR_NULL' defined here
+    1646 | #define KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr) \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> arch/powerpc/kvm/test-guest-state-buffer.c:116:9: error: 'KUNIT_ASSERT_NOT_ERR_OR_NULL' undeclared (first use in this function)
+     116 |         KUNIT_ASSERT_NOT_ERR_OR_NULL(gsp);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/powerpc/kvm/test-guest-state-buffer.c:116:9: note: each undeclared identifier is reported only once for each function it appears in
+   arch/powerpc/kvm/test-guest-state-buffer.c: In function 'test1_refresh_info':
+>> arch/powerpc/kvm/test-guest-state-buffer.c:279:33: error: passing argument 1 of 'kvmppc_gsp_lookup' from incompatible pointer type [-Wincompatible-pointer-types]
+     279 |         gse = kvmppc_gsp_lookup(&gsp, KVMPPC_GSID_CR);
+         |                                 ^~~~
+         |                                 |
+         |                                 struct kvmppc_gs_parser **
+   In file included from arch/powerpc/kvm/test-guest-state-buffer.c:7:
+   arch/powerpc/include/asm/guest-state-buffer.h:846:67: note: expected 'struct kvmppc_gs_parser *' but argument is of type 'struct kvmppc_gs_parser **'
+     846 | struct kvmppc_gs_elem *kvmppc_gsp_lookup(struct kvmppc_gs_parser *gsp,
+         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+>> arch/powerpc/kvm/test-guest-state-buffer.c:269:13: warning: unused variable 'rc' [-Wunused-variable]
+     269 |         int rc;
+         |             ^~
+   arch/powerpc/kvm/test-guest-state-buffer.c: In function 'test_hostwide_refresh_info':
+>> arch/powerpc/kvm/test-guest-state-buffer.c:384:31: error: passing argument 1 of 'kvmppc_gse_parse' from incompatible pointer type [-Wincompatible-pointer-types]
+     384 |         rc = kvmppc_gse_parse(&gsp, gsb);
+         |                               ^~~~
+         |                               |
+         |                               struct kvmppc_gs_parser *
+   arch/powerpc/include/asm/guest-state-buffer.h:562:66: note: expected 'struct kvmppc_gs_buff *' but argument is of type 'struct kvmppc_gs_parser *'
+     562 | struct kvmppc_gs_parser *kvmppc_gse_parse(struct kvmppc_gs_buff *gsb);
+         |                                           ~~~~~~~~~~~~~~~~~~~~~~~^~~
+>> arch/powerpc/kvm/test-guest-state-buffer.c:384:14: error: too many arguments to function 'kvmppc_gse_parse'; expected 1, have 2
+     384 |         rc = kvmppc_gse_parse(&gsp, gsb);
+         |              ^~~~~~~~~~~~~~~~       ~~~
+   arch/powerpc/include/asm/guest-state-buffer.h:562:26: note: declared here
+     562 | struct kvmppc_gs_parser *kvmppc_gse_parse(struct kvmppc_gs_buff *gsb);
+         |                          ^~~~~~~~~~~~~~~~
+>> arch/powerpc/kvm/test-guest-state-buffer.c:384:12: error: assignment to 'int' from 'struct kvmppc_gs_parser *' makes integer from pointer without a cast [-Wint-conversion]
+     384 |         rc = kvmppc_gse_parse(&gsp, gsb);
          |            ^
-   5 warnings generated.
+   arch/powerpc/kvm/test-guest-state-buffer.c: In function 'test_gs_hostwide_counters':
+   arch/powerpc/kvm/test-guest-state-buffer.c:494:31: error: passing argument 1 of 'kvmppc_gse_parse' from incompatible pointer type [-Wincompatible-pointer-types]
+     494 |         rc = kvmppc_gse_parse(&gsp, gsb);
+         |                               ^~~~
+         |                               |
+         |                               struct kvmppc_gs_parser *
+   arch/powerpc/include/asm/guest-state-buffer.h:562:66: note: expected 'struct kvmppc_gs_buff *' but argument is of type 'struct kvmppc_gs_parser *'
+     562 | struct kvmppc_gs_parser *kvmppc_gse_parse(struct kvmppc_gs_buff *gsb);
+         |                                           ~~~~~~~~~~~~~~~~~~~~~~~^~~
+   arch/powerpc/kvm/test-guest-state-buffer.c:494:14: error: too many arguments to function 'kvmppc_gse_parse'; expected 1, have 2
+     494 |         rc = kvmppc_gse_parse(&gsp, gsb);
+         |              ^~~~~~~~~~~~~~~~       ~~~
+   arch/powerpc/include/asm/guest-state-buffer.h:562:26: note: declared here
+     562 | struct kvmppc_gs_parser *kvmppc_gse_parse(struct kvmppc_gs_buff *gsb);
+         |                          ^~~~~~~~~~~~~~~~
+   arch/powerpc/kvm/test-guest-state-buffer.c:494:12: error: assignment to 'int' from 'struct kvmppc_gs_parser *' makes integer from pointer without a cast [-Wint-conversion]
+     494 |         rc = kvmppc_gse_parse(&gsp, gsb);
+         |            ^
 
 
-vim +/bch2_rename2 +867 fs/bcachefs/fs.c
+vim +/KUNIT_ASSERT_NOT_ERR_OR_NULL +116 arch/powerpc/kvm/test-guest-state-buffer.c
 
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   866  
-1c6fdbd8f2465d Kent Overstreet   2017-03-16  @867  static int bch2_rename2(struct mnt_idmap *idmap,
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   868  			struct inode *src_vdir, struct dentry *src_dentry,
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   869  			struct inode *dst_vdir, struct dentry *dst_dentry,
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   870  			unsigned flags)
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   871  {
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   872  	struct bch_fs *c = src_vdir->i_sb->s_fs_info;
-9638574229e3ae Kent Overstreet   2019-10-02   873  	struct bch_inode_info *src_dir = to_bch_ei(src_vdir);
-9638574229e3ae Kent Overstreet   2019-10-02   874  	struct bch_inode_info *dst_dir = to_bch_ei(dst_vdir);
-9638574229e3ae Kent Overstreet   2019-10-02   875  	struct bch_inode_info *src_inode = to_bch_ei(src_dentry->d_inode);
-9638574229e3ae Kent Overstreet   2019-10-02   876  	struct bch_inode_info *dst_inode = to_bch_ei(dst_dentry->d_inode);
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   877  	struct bch_inode_unpacked dst_dir_u, src_dir_u;
-4645855df01eda Sasha Finkelstein 2024-08-18   878  	struct bch_inode_unpacked src_inode_u, dst_inode_u, *whiteout_inode_u;
-6bd68ec266ad71 Kent Overstreet   2023-09-12   879  	struct btree_trans *trans;
-9638574229e3ae Kent Overstreet   2019-10-02   880  	enum bch_rename_mode mode = flags & RENAME_EXCHANGE
-9638574229e3ae Kent Overstreet   2019-10-02   881  		? BCH_RENAME_EXCHANGE
-9638574229e3ae Kent Overstreet   2019-10-02   882  		: dst_dentry->d_inode
-9638574229e3ae Kent Overstreet   2019-10-02   883  		? BCH_RENAME_OVERWRITE : BCH_RENAME;
-4645855df01eda Sasha Finkelstein 2024-08-18   884  	bool whiteout = !!(flags & RENAME_WHITEOUT);
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   885  	int ret;
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   886  
-4645855df01eda Sasha Finkelstein 2024-08-18   887  	if (flags & ~(RENAME_NOREPLACE|RENAME_EXCHANGE|RENAME_WHITEOUT))
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   888  		return -EINVAL;
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   889  
-9638574229e3ae Kent Overstreet   2019-10-02   890  	if (mode == BCH_RENAME_OVERWRITE) {
-9638574229e3ae Kent Overstreet   2019-10-02   891  		ret = filemap_write_and_wait_range(src_inode->v.i_mapping,
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   892  						   0, LLONG_MAX);
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   893  		if (ret)
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   894  			return ret;
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   895  	}
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   896  
-168f4c5fb37513 Kent Overstreet   2019-06-24   897  	bch2_lock_inodes(INODE_UPDATE_LOCK,
-9638574229e3ae Kent Overstreet   2019-10-02   898  			 src_dir,
-9638574229e3ae Kent Overstreet   2019-10-02   899  			 dst_dir,
-9638574229e3ae Kent Overstreet   2019-10-02   900  			 src_inode,
-9638574229e3ae Kent Overstreet   2019-10-02   901  			 dst_inode);
-9638574229e3ae Kent Overstreet   2019-10-02   902  
-f369de82679f4f Kent Overstreet   2024-07-04   903  	trans = bch2_trans_get(c);
-f369de82679f4f Kent Overstreet   2024-07-04   904  
-112d21fd1a122f Kent Overstreet   2024-06-08   905  	ret   = bch2_subvol_is_ro_trans(trans, src_dir->ei_inum.subvol) ?:
-112d21fd1a122f Kent Overstreet   2024-06-08   906  		bch2_subvol_is_ro_trans(trans, dst_dir->ei_inum.subvol);
-0d72ab35a925d6 Kent Overstreet   2023-12-29   907  	if (ret)
-74ec2f302402c4 Kent Overstreet   2024-10-14   908  		goto err_tx_restart;
-0d72ab35a925d6 Kent Overstreet   2023-12-29   909  
-9638574229e3ae Kent Overstreet   2019-10-02   910  	if (inode_attr_changing(dst_dir, src_inode, Inode_opt_project)) {
-9638574229e3ae Kent Overstreet   2019-10-02   911  		ret = bch2_fs_quota_transfer(c, src_inode,
-9638574229e3ae Kent Overstreet   2019-10-02   912  					     dst_dir->ei_qid,
-96012e143e699d Kent Overstreet   2018-12-17   913  					     1 << QTYP_PRJ,
-96012e143e699d Kent Overstreet   2018-12-17   914  					     KEY_TYPE_QUOTA_PREALLOC);
-96012e143e699d Kent Overstreet   2018-12-17   915  		if (ret)
-96012e143e699d Kent Overstreet   2018-12-17   916  			goto err;
-96012e143e699d Kent Overstreet   2018-12-17   917  	}
-96012e143e699d Kent Overstreet   2018-12-17   918  
-9638574229e3ae Kent Overstreet   2019-10-02   919  	if (mode == BCH_RENAME_EXCHANGE &&
-9638574229e3ae Kent Overstreet   2019-10-02   920  	    inode_attr_changing(src_dir, dst_inode, Inode_opt_project)) {
-9638574229e3ae Kent Overstreet   2019-10-02   921  		ret = bch2_fs_quota_transfer(c, dst_inode,
-9638574229e3ae Kent Overstreet   2019-10-02   922  					     src_dir->ei_qid,
-96012e143e699d Kent Overstreet   2018-12-17   923  					     1 << QTYP_PRJ,
-96012e143e699d Kent Overstreet   2018-12-17   924  					     KEY_TYPE_QUOTA_PREALLOC);
-96012e143e699d Kent Overstreet   2018-12-17   925  		if (ret)
-96012e143e699d Kent Overstreet   2018-12-17   926  			goto err;
-96012e143e699d Kent Overstreet   2018-12-17   927  	}
-4645855df01eda Sasha Finkelstein 2024-08-18   928  retry:
-4645855df01eda Sasha Finkelstein 2024-08-18   929  	bch2_trans_begin(trans);
-96012e143e699d Kent Overstreet   2018-12-17   930  
-4645855df01eda Sasha Finkelstein 2024-08-18   931  	ret = bch2_rename_trans(trans,
-6fed42bb7750e2 Kent Overstreet   2021-03-16   932  				inode_inum(src_dir), &src_dir_u,
-6fed42bb7750e2 Kent Overstreet   2021-03-16   933  				inode_inum(dst_dir), &dst_dir_u,
-9638574229e3ae Kent Overstreet   2019-10-02   934  				&src_inode_u,
-9638574229e3ae Kent Overstreet   2019-10-02   935  				&dst_inode_u,
-9638574229e3ae Kent Overstreet   2019-10-02   936  				&src_dentry->d_name,
-9638574229e3ae Kent Overstreet   2019-10-02   937  				&dst_dentry->d_name,
-4645855df01eda Sasha Finkelstein 2024-08-18   938  				mode);
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   939  	if (unlikely(ret))
-4645855df01eda Sasha Finkelstein 2024-08-18   940  		goto err_tx_restart;
-4645855df01eda Sasha Finkelstein 2024-08-18   941  
-4645855df01eda Sasha Finkelstein 2024-08-18   942  	if (whiteout) {
-4645855df01eda Sasha Finkelstein 2024-08-18   943  		whiteout_inode_u = bch2_trans_kmalloc_nomemzero(trans, sizeof(*whiteout_inode_u));
-4645855df01eda Sasha Finkelstein 2024-08-18   944  		ret = PTR_ERR_OR_ZERO(whiteout_inode_u);
-4645855df01eda Sasha Finkelstein 2024-08-18   945  		if (unlikely(ret))
-4645855df01eda Sasha Finkelstein 2024-08-18   946  			goto err_tx_restart;
-4645855df01eda Sasha Finkelstein 2024-08-18   947  		bch2_inode_init_early(c, whiteout_inode_u);
-4645855df01eda Sasha Finkelstein 2024-08-18   948  
-4645855df01eda Sasha Finkelstein 2024-08-18   949  		ret = bch2_create_trans(trans,
-4645855df01eda Sasha Finkelstein 2024-08-18   950  					inode_inum(src_dir), &src_dir_u,
-4645855df01eda Sasha Finkelstein 2024-08-18   951  					whiteout_inode_u,
-4645855df01eda Sasha Finkelstein 2024-08-18   952  					&src_dentry->d_name,
-4645855df01eda Sasha Finkelstein 2024-08-18   953  					from_kuid(i_user_ns(&src_dir->v), current_fsuid()),
-4645855df01eda Sasha Finkelstein 2024-08-18   954  					from_kgid(i_user_ns(&src_dir->v), current_fsgid()),
-4645855df01eda Sasha Finkelstein 2024-08-18   955  					S_IFCHR|WHITEOUT_MODE, 0,
-4645855df01eda Sasha Finkelstein 2024-08-18   956  					NULL, NULL, (subvol_inum) { 0 }, 0) ?:
-4645855df01eda Sasha Finkelstein 2024-08-18   957  		      bch2_quota_acct(c, bch_qid(whiteout_inode_u), Q_INO, 1,
-4645855df01eda Sasha Finkelstein 2024-08-18   958  				      KEY_TYPE_QUOTA_PREALLOC);
-4645855df01eda Sasha Finkelstein 2024-08-18   959  		if (unlikely(ret))
-4645855df01eda Sasha Finkelstein 2024-08-18   960  			goto err_tx_restart;
-4645855df01eda Sasha Finkelstein 2024-08-18   961  	}
-4645855df01eda Sasha Finkelstein 2024-08-18   962  
-4645855df01eda Sasha Finkelstein 2024-08-18   963  	ret = bch2_trans_commit(trans, NULL, NULL, 0);
-4645855df01eda Sasha Finkelstein 2024-08-18   964  	if (unlikely(ret)) {
-4645855df01eda Sasha Finkelstein 2024-08-18   965  err_tx_restart:
-4645855df01eda Sasha Finkelstein 2024-08-18   966  		if (bch2_err_matches(ret, BCH_ERR_transaction_restart))
-4645855df01eda Sasha Finkelstein 2024-08-18   967  			goto retry;
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   968  		goto err;
-4645855df01eda Sasha Finkelstein 2024-08-18   969  	}
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   970  
-9638574229e3ae Kent Overstreet   2019-10-02   971  	BUG_ON(src_inode->v.i_ino != src_inode_u.bi_inum);
-9638574229e3ae Kent Overstreet   2019-10-02   972  	BUG_ON(dst_inode &&
-9638574229e3ae Kent Overstreet   2019-10-02   973  	       dst_inode->v.i_ino != dst_inode_u.bi_inum);
-9638574229e3ae Kent Overstreet   2019-10-02   974  
-6bd68ec266ad71 Kent Overstreet   2023-09-12   975  	bch2_inode_update_after_write(trans, src_dir, &src_dir_u,
-e614a6c52d32c9 Hongbo Li         2025-01-07   976  				      ATTR_MTIME|ATTR_CTIME|ATTR_SIZE);
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   977  
-68a2054d88f7cd Kent Overstreet   2021-11-05   978  	if (src_dir != dst_dir)
-6bd68ec266ad71 Kent Overstreet   2023-09-12   979  		bch2_inode_update_after_write(trans, dst_dir, &dst_dir_u,
-e614a6c52d32c9 Hongbo Li         2025-01-07   980  					      ATTR_MTIME|ATTR_CTIME|ATTR_SIZE);
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   981  
-6bd68ec266ad71 Kent Overstreet   2023-09-12   982  	bch2_inode_update_after_write(trans, src_inode, &src_inode_u,
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   983  				      ATTR_CTIME);
-9638574229e3ae Kent Overstreet   2019-10-02   984  
-68a2054d88f7cd Kent Overstreet   2021-11-05   985  	if (dst_inode)
-6bd68ec266ad71 Kent Overstreet   2023-09-12   986  		bch2_inode_update_after_write(trans, dst_inode, &dst_inode_u,
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   987  					      ATTR_CTIME);
-1c6fdbd8f2465d Kent Overstreet   2017-03-16   988  err:
-6bd68ec266ad71 Kent Overstreet   2023-09-12   989  	bch2_trans_put(trans);
-96012e143e699d Kent Overstreet   2018-12-17   990  
-9638574229e3ae Kent Overstreet   2019-10-02   991  	bch2_fs_quota_transfer(c, src_inode,
-9638574229e3ae Kent Overstreet   2019-10-02   992  			       bch_qid(&src_inode->ei_inode),
-96012e143e699d Kent Overstreet   2018-12-17   993  			       1 << QTYP_PRJ,
-96012e143e699d Kent Overstreet   2018-12-17   994  			       KEY_TYPE_QUOTA_NOCHECK);
-9638574229e3ae Kent Overstreet   2019-10-02   995  	if (dst_inode)
-9638574229e3ae Kent Overstreet   2019-10-02   996  		bch2_fs_quota_transfer(c, dst_inode,
-9638574229e3ae Kent Overstreet   2019-10-02   997  				       bch_qid(&dst_inode->ei_inode),
-96012e143e699d Kent Overstreet   2018-12-17   998  				       1 << QTYP_PRJ,
-96012e143e699d Kent Overstreet   2018-12-17   999  				       KEY_TYPE_QUOTA_NOCHECK);
-96012e143e699d Kent Overstreet   2018-12-17  1000  
-168f4c5fb37513 Kent Overstreet   2019-06-24  1001  	bch2_unlock_inodes(INODE_UPDATE_LOCK,
-9638574229e3ae Kent Overstreet   2019-10-02  1002  			   src_dir,
-9638574229e3ae Kent Overstreet   2019-10-02  1003  			   dst_dir,
-9638574229e3ae Kent Overstreet   2019-10-02  1004  			   src_inode,
-9638574229e3ae Kent Overstreet   2019-10-02  1005  			   dst_inode);
-1c6fdbd8f2465d Kent Overstreet   2017-03-16  1006  
-1a1c93e7f81417 Kent Overstreet   2024-02-09  1007  	return bch2_err_class(ret);
-1c6fdbd8f2465d Kent Overstreet   2017-03-16  1008  }
-1c6fdbd8f2465d Kent Overstreet   2017-03-16  1009  
-
-:::::: The code at line 867 was first introduced by commit
-:::::: 1c6fdbd8f2465ddfb73a01ec620cbf3d14044e1a bcachefs: Initial commit
-
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+   100	
+   101	static void test_gs_parsing(struct kunit *test)
+   102	{
+   103		struct kvmppc_gs_elem *gse;
+   104		struct kvmppc_gs_parser *gsp;
+   105		struct kvmppc_gs_buff *gsb;
+   106		size_t size = 0x1000;
+   107		u64 tmp1, tmp2;
+   108	
+   109		gsb = kvmppc_gsb_new(size, 0, 0, GFP_KERNEL);
+   110		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gsb);
+   111	
+   112		tmp1 = 0xdeadbeefull;
+   113		kvmppc_gse_put_u64(gsb, KVMPPC_GSID_GPR(0), tmp1);
+   114	
+   115		gsp = kvmppc_gse_parse(gsb);
+ > 116		KUNIT_ASSERT_NOT_ERR_OR_NULL(gsp);
+   117	
+   118		gse = kvmppc_gsp_lookup(gsp, KVMPPC_GSID_GPR(0));
+   119		KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gse);
+   120	
+   121		tmp2 = kvmppc_gse_get_u64(gse);
+   122		KUNIT_EXPECT_EQ(test, tmp2, 0xdeadbeefull);
+   123	
+   124		kfree(gsp);
+   125		kvmppc_gsb_free(gsb);
+   126	}
+   127	
+   128	static void test_gs_bitmap(struct kunit *test)
+   129	{
+   130		struct kvmppc_gs_bitmap gsbm = { 0 };
+   131		struct kvmppc_gs_bitmap gsbm1 = { 0 };
+   132		struct kvmppc_gs_bitmap gsbm2 = { 0 };
+   133		u16 iden;
+   134		int i, j;
+   135	
+   136		i = 0;
+   137		for (u16 iden = KVMPPC_GSID_HOST_STATE_SIZE;
+   138		     iden <= KVMPPC_GSID_PROCESS_TABLE; iden++) {
+   139			kvmppc_gsbm_set(&gsbm, iden);
+   140			kvmppc_gsbm_set(&gsbm1, iden);
+   141			KUNIT_EXPECT_TRUE(test, kvmppc_gsbm_test(&gsbm, iden));
+   142			kvmppc_gsbm_clear(&gsbm, iden);
+   143			KUNIT_EXPECT_FALSE(test, kvmppc_gsbm_test(&gsbm, iden));
+   144			i++;
+   145		}
+   146	
+   147		for (u16 iden = KVMPPC_GSID_L0_GUEST_HEAP;
+   148		     iden <= KVMPPC_GSID_L0_GUEST_PGTABLE_RECLAIM; iden++) {
+   149			kvmppc_gsbm_set(&gsbm, iden);
+   150			kvmppc_gsbm_set(&gsbm1, iden);
+   151			KUNIT_EXPECT_TRUE(test, kvmppc_gsbm_test(&gsbm, iden));
+   152			kvmppc_gsbm_clear(&gsbm, iden);
+   153			KUNIT_EXPECT_FALSE(test, kvmppc_gsbm_test(&gsbm, iden));
+   154			i++;
+   155		}
+   156	
+   157		for (u16 iden = KVMPPC_GSID_RUN_INPUT; iden <= KVMPPC_GSID_VPA;
+   158		     iden++) {
+   159			kvmppc_gsbm_set(&gsbm, iden);
+   160			kvmppc_gsbm_set(&gsbm1, iden);
+   161			KUNIT_EXPECT_TRUE(test, kvmppc_gsbm_test(&gsbm, iden));
+   162			kvmppc_gsbm_clear(&gsbm, iden);
+   163			KUNIT_EXPECT_FALSE(test, kvmppc_gsbm_test(&gsbm, iden));
+   164			i++;
+   165		}
+   166	
+   167		for (u16 iden = KVMPPC_GSID_GPR(0); iden <= KVMPPC_GSE_DW_REGS_END; iden++) {
+   168			kvmppc_gsbm_set(&gsbm, iden);
+   169			kvmppc_gsbm_set(&gsbm1, iden);
+   170			KUNIT_EXPECT_TRUE(test, kvmppc_gsbm_test(&gsbm, iden));
+   171			kvmppc_gsbm_clear(&gsbm, iden);
+   172			KUNIT_EXPECT_FALSE(test, kvmppc_gsbm_test(&gsbm, iden));
+   173			i++;
+   174		}
+   175	
+   176		for (u16 iden = KVMPPC_GSID_CR; iden <= KVMPPC_GSID_PSPB; iden++) {
+   177			kvmppc_gsbm_set(&gsbm, iden);
+   178			kvmppc_gsbm_set(&gsbm1, iden);
+   179			KUNIT_EXPECT_TRUE(test, kvmppc_gsbm_test(&gsbm, iden));
+   180			kvmppc_gsbm_clear(&gsbm, iden);
+   181			KUNIT_EXPECT_FALSE(test, kvmppc_gsbm_test(&gsbm, iden));
+   182			i++;
+   183		}
+   184	
+   185		for (u16 iden = KVMPPC_GSID_VSRS(0); iden <= KVMPPC_GSID_VSRS(63);
+   186		     iden++) {
+   187			kvmppc_gsbm_set(&gsbm, iden);
+   188			kvmppc_gsbm_set(&gsbm1, iden);
+   189			KUNIT_EXPECT_TRUE(test, kvmppc_gsbm_test(&gsbm, iden));
+   190			kvmppc_gsbm_clear(&gsbm, iden);
+   191			KUNIT_EXPECT_FALSE(test, kvmppc_gsbm_test(&gsbm, iden));
+   192			i++;
+   193		}
+   194	
+   195		for (u16 iden = KVMPPC_GSID_HDAR; iden <= KVMPPC_GSID_ASDR; iden++) {
+   196			kvmppc_gsbm_set(&gsbm, iden);
+   197			kvmppc_gsbm_set(&gsbm1, iden);
+   198			KUNIT_EXPECT_TRUE(test, kvmppc_gsbm_test(&gsbm, iden));
+   199			kvmppc_gsbm_clear(&gsbm, iden);
+   200			KUNIT_EXPECT_FALSE(test, kvmppc_gsbm_test(&gsbm, iden));
+   201			i++;
+   202		}
+   203	
+   204		j = 0;
+   205		kvmppc_gsbm_for_each(&gsbm1, iden)
+   206		{
+   207			kvmppc_gsbm_set(&gsbm2, iden);
+   208			j++;
+   209		}
+   210		KUNIT_EXPECT_EQ(test, i, j);
+   211		KUNIT_EXPECT_MEMEQ(test, &gsbm1, &gsbm2, sizeof(gsbm1));
+   212	}
+   213	
+   214	struct kvmppc_gs_msg_test1_data {
+   215		u64 a;
+   216		u32 b;
+   217		struct kvmppc_gs_part_table c;
+   218		struct kvmppc_gs_proc_table d;
+   219		struct kvmppc_gs_buff_info e;
+   220	};
+   221	
+   222	static size_t test1_get_size(struct kvmppc_gs_msg *gsm)
+   223	{
+   224		size_t size = 0;
+   225		u16 ids[] = {
+   226			KVMPPC_GSID_PARTITION_TABLE,
+   227			KVMPPC_GSID_PROCESS_TABLE,
+   228			KVMPPC_GSID_RUN_INPUT,
+   229			KVMPPC_GSID_GPR(0),
+   230			KVMPPC_GSID_CR,
+   231		};
+   232	
+   233		for (int i = 0; i < ARRAY_SIZE(ids); i++)
+   234			size += kvmppc_gse_total_size(kvmppc_gsid_size(ids[i]));
+   235		return size;
+   236	}
+   237	
+   238	static int test1_fill_info(struct kvmppc_gs_buff *gsb,
+   239				   struct kvmppc_gs_msg *gsm)
+   240	{
+   241		struct kvmppc_gs_msg_test1_data *data = gsm->data;
+   242	
+   243		if (kvmppc_gsm_includes(gsm, KVMPPC_GSID_GPR(0)))
+   244			kvmppc_gse_put_u64(gsb, KVMPPC_GSID_GPR(0), data->a);
+   245	
+   246		if (kvmppc_gsm_includes(gsm, KVMPPC_GSID_CR))
+   247			kvmppc_gse_put_u32(gsb, KVMPPC_GSID_CR, data->b);
+   248	
+   249		if (kvmppc_gsm_includes(gsm, KVMPPC_GSID_PARTITION_TABLE))
+   250			kvmppc_gse_put_part_table(gsb, KVMPPC_GSID_PARTITION_TABLE,
+   251						  data->c);
+   252	
+   253		if (kvmppc_gsm_includes(gsm, KVMPPC_GSID_PROCESS_TABLE))
+   254			kvmppc_gse_put_proc_table(gsb, KVMPPC_GSID_PARTITION_TABLE,
+   255						  data->d);
+   256	
+   257		if (kvmppc_gsm_includes(gsm, KVMPPC_GSID_RUN_INPUT))
+   258			kvmppc_gse_put_buff_info(gsb, KVMPPC_GSID_RUN_INPUT, data->e);
+   259	
+   260		return 0;
+   261	}
+   262	
+   263	static int test1_refresh_info(struct kvmppc_gs_msg *gsm,
+   264				      struct kvmppc_gs_buff *gsb)
+   265	{
+   266		struct kvmppc_gs_parser *gsp;
+   267		struct kvmppc_gs_msg_test1_data *data = gsm->data;
+   268		struct kvmppc_gs_elem *gse;
+ > 269		int rc;
+   270	
+   271		gsp = kvmppc_gse_parse(gsb);
+   272		if (IS_ERR(gsp))
+   273			return PTR_ERR(gsp);
+   274	
+   275		gse = kvmppc_gsp_lookup(gsp, KVMPPC_GSID_GPR(0));
+   276		if (gse)
+   277			data->a = kvmppc_gse_get_u64(gse);
+   278	
+ > 279		gse = kvmppc_gsp_lookup(&gsp, KVMPPC_GSID_CR);
+   280		if (gse)
+   281			data->b = kvmppc_gse_get_u32(gse);
+   282	
+   283		kfree(gsp);
+   284		return 0;
+   285	}
+   286	
 
 -- 
 0-DAY CI Kernel Test Service
