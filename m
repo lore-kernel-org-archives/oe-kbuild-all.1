@@ -1,67 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47248145355
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 15:51:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62F002DAFB9
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 16:23:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750780302; cv=none; b=kdCq/hROKBGqlQDwPf1I+KZGYiL9q0kYKxlrpYzR/QjaX6C8Zcc+2Onef0OSeniwT/Sz1CcNwuDqMn0+X7/qIAvNkpnnpUjaAJf3zt4800XZxXdRq4JwOIFOkpTAHY8+tXPuwE2krPDYZ3J/43jLDMar/2WP1vTczWtFgxJssNA=
+	t=1750782226; cv=none; b=rW/C4oYlTSR5wNatRsee9u18KTohrpSzGqXmbaJC0lsh6dpuTlytMLg8VDvAP5vfSZReJooNhPmSKESbCqSA8adfDBb0EiDD/9wYw2r7gFIrjxuPJDfGdOB2gHq7NJx023bCrmAQ0dRR+fUHhOYoKJUT8njDCtPjUNd0JKEkYWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750780302; c=relaxed/simple;
-	bh=qKs1GOhh/uabY3+/WUpvB3P/Z8lQE4COMzZX2GDKdHM=;
+	s=arc-20240116; t=1750782226; c=relaxed/simple;
+	bh=6CwxraP4Nk21dQLMx1bzCYs58zAEvS3CQxOQvMnWGEM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S52Rgqh3wHaFX306QLbYLPv65ePxa0ChI65ruT0byHKkkRYgIBGU2TngVK4Yp/0jBtESvedOmxaXAiOrXvEg23OQjG62g5j949w3K8RSSmAI/b4FLONd4FKIpKQe88bYYOXpcvv18RejuC3ChzdMrXAd/BLhBPZMl5wwqq9WQL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WTUglLsl; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=U0DGKspf33QVPZL870a92e2ssvkcfoGgJrcukXAYlM5r2s6niLK0Mvh42tz6PaQz6YsrCOWAGTkre9C4sKHjOVC7Si4GYaVA5sBAqGzCjKiBqHrBq1ZWbHmZTc5msTYXaHwbv4qpn+1+Oh3CfkkaZJAqkrYVadPUqAR/Cm0G7h4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cTtD2Dfp; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WTUglLsl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cTtD2Dfp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750780300; x=1782316300;
+  t=1750782224; x=1782318224;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=qKs1GOhh/uabY3+/WUpvB3P/Z8lQE4COMzZX2GDKdHM=;
-  b=WTUglLsl9LM0TGn4L02mQVuQwfiM0JINnmO3NrXKJnAo8D8mW8QvFtrl
-   NyRwobivcRkxdPN2OV6MAyuPYB2Zo5ew+PODCCsNUBdyY9/8QVWg2WXQh
-   5uguACczp0FhCX8VQ15q3wyxiGdFjN4kGpbg+0XEGdswGENZCt4eHUO4P
-   rhBiLRK/FtmkRV8GJxv8mFtZ2sXZDeHU4ipThSg57EZJXX/5WlYOA+4OK
-   ADNGqGaIohDgA/hxDQS2nQLxFCk1IQAd7/OF1VjQZJZPTb3hPh0xHLfUM
-   2zjWhZpmehkBFNVnQqoAy1YYFVTwM+fmgBtHfGCSnoEjayG17I0vGmdxj
-   w==;
-X-CSE-ConnectionGUID: MXT3GlKFQY2BxV35lRlLnw==
-X-CSE-MsgGUID: 2G5k+kP7TkmSnqAcwUy0rA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="53162926"
+  bh=6CwxraP4Nk21dQLMx1bzCYs58zAEvS3CQxOQvMnWGEM=;
+  b=cTtD2DfpAbz0JlIJLi9ogwmok9K1R31D5BkLUuuOx89rPWJbt7QFZhd1
+   gyEM+XR6l9Cpqe9z/NpsDVxoEVcl+AR5DfAjH9QJiYT3UxsOH2JSCkAiR
+   6CRjzuAfMvvsKUc5M+s9R0XcVS4oq7ixGsV+d80vsBfL3WC0iaQeq/MSC
+   pWVAYnxm8/Z0JIJgi5Quh/nQZSn09dzK6AIHowbyITRyQ93pbwfPvyuiz
+   xKOLqN6KT+LdRL8I3Y5wuKsf5S8/h1pne1Cxl7tiEpMG9124+SOtdRVYZ
+   A0oIrnkCJMvCNjSL5gK7Q5lEUxKS3hKlF2YJoTIoUKQTyR/WBKcG4/1wY
+   Q==;
+X-CSE-ConnectionGUID: Wi2EM9NISYCjUNzTfAxaJA==
+X-CSE-MsgGUID: uLXJq5ziT1mA/fYWP1d3iQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="52262299"
 X-IronPort-AV: E=Sophos;i="6.16,262,1744095600"; 
-   d="scan'208";a="53162926"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 08:51:39 -0700
-X-CSE-ConnectionGUID: JYf779btRRexXcIZhi4pVA==
-X-CSE-MsgGUID: 9LfSLyXLTbGHQ6ih9SEUAA==
+   d="scan'208";a="52262299"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 09:23:44 -0700
+X-CSE-ConnectionGUID: tXzXY+Q7SPS5urIU6iDK+A==
+X-CSE-MsgGUID: DMhHuhEOS2uHageWFbJ6dg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,262,1744095600"; 
-   d="scan'208";a="152476394"
+   d="scan'208";a="189142723"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 24 Jun 2025 08:51:37 -0700
+  by orviesa001.jf.intel.com with ESMTP; 24 Jun 2025 09:23:42 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uU5vq-000SHi-3B;
-	Tue, 24 Jun 2025 15:51:34 +0000
-Date: Tue, 24 Jun 2025 23:51:26 +0800
+	id 1uU6Qs-000SJq-2L;
+	Tue, 24 Jun 2025 16:23:38 +0000
+Date: Wed, 25 Jun 2025 00:23:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Markus Schneider-Pargmann <msp@baylibre.com>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, Vishal Mahaveer <vishalm@ti.com>,
-	Kevin Hilman <khilman@baylibre.com>, Dhruva Gole <d-gole@ti.com>,
-	Sebin Francis <sebin.francis@ti.com>,
-	Kendall Willis <k-willis@ti.com>, Akashdeep Kaur <a-kaur@ti.com>,
-	linux-kernel@vger.kernel.org,
-	Markus Schneider-Pargmann <msp@baylibre.com>
-Subject: Re: [PATCH 2/3] clocksource/drivers/timer-ti-dm: Add clocksource
- support
-Message-ID: <202506242304.M75bDdRW-lkp@intel.com>
-References: <20250623-topic-ti-dm-clkevt-v6-16-v1-2-b00086761ee1@baylibre.com>
+To: lizhe.67@bytedance.com, alex.williamson@redhat.com, jgg@ziepe.ca,
+	david@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, peterx@redhat.com, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, lizhe.67@bytedance.com
+Subject: Re: [PATCH v5 1/3] vfio/type1: batch vfio_find_vpfn() in function
+ vfio_unpin_pages_remote()
+Message-ID: <202506250037.VfdBAPP3-lkp@intel.com>
+References: <20250620032344.13382-2-lizhe.67@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,30 +65,61 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250623-topic-ti-dm-clkevt-v6-16-v1-2-b00086761ee1@baylibre.com>
+In-Reply-To: <20250620032344.13382-2-lizhe.67@bytedance.com>
 
-Hi Markus,
+Hi,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 19272b37aa4f83ca52bdf9c16d5d81bdd1354494]
+[auto build test ERROR on awilliam-vfio/next]
+[also build test ERROR on awilliam-vfio/for-linus linus/master v6.16-rc3 next-20250624]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Markus-Schneider-Pargmann/clocksource-drivers-timer-ti-dm-Fix-property-name-in-comment/20250624-032923
-base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-patch link:    https://lore.kernel.org/r/20250623-topic-ti-dm-clkevt-v6-16-v1-2-b00086761ee1%40baylibre.com
-patch subject: [PATCH 2/3] clocksource/drivers/timer-ti-dm: Add clocksource support
-config: arm64-randconfig-002-20250624 (https://download.01.org/0day-ci/archive/20250624/202506242304.M75bDdRW-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506242304.M75bDdRW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/lizhe-67-bytedance-com/vfio-type1-batch-vfio_find_vpfn-in-function-vfio_unpin_pages_remote/20250620-112605
+base:   https://github.com/awilliam/linux-vfio.git next
+patch link:    https://lore.kernel.org/r/20250620032344.13382-2-lizhe.67%40bytedance.com
+patch subject: [PATCH v5 1/3] vfio/type1: batch vfio_find_vpfn() in function vfio_unpin_pages_remote()
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250625/202506250037.VfdBAPP3-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506250037.VfdBAPP3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506242304.M75bDdRW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506250037.VfdBAPP3-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All errors (new ones prefixed by >>):
 
->> WARNING: modpost: vmlinux: section mismatch in reference: omap_dm_timer_setup_clocksource+0x634 (section: .text) -> sched_clock_register (section: .init.text)
+   drivers/vfio/vfio_iommu_type1.c: In function 'vfio_unpin_pages_remote':
+>> drivers/vfio/vfio_iommu_type1.c:738:37: error: implicit declaration of function 'vpfn_pages'; did you mean 'vma_pages'? [-Werror=implicit-function-declaration]
+     738 |         long unlocked = 0, locked = vpfn_pages(dma, iova, npage);
+         |                                     ^~~~~~~~~~
+         |                                     vma_pages
+   cc1: some warnings being treated as errors
+
+
+vim +738 drivers/vfio/vfio_iommu_type1.c
+
+   733	
+   734	static long vfio_unpin_pages_remote(struct vfio_dma *dma, dma_addr_t iova,
+   735					    unsigned long pfn, unsigned long npage,
+   736					    bool do_accounting)
+   737	{
+ > 738		long unlocked = 0, locked = vpfn_pages(dma, iova, npage);
+   739		long i;
+   740	
+   741		for (i = 0; i < npage; i++)
+   742			if (put_pfn(pfn++, dma->prot))
+   743				unlocked++;
+   744	
+   745		if (do_accounting)
+   746			vfio_lock_acct(dma, locked - unlocked, true);
+   747	
+   748		return unlocked;
+   749	}
+   750	
 
 -- 
 0-DAY CI Kernel Test Service
