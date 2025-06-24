@@ -1,111 +1,109 @@
-Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D33C11ACEC7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 03:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.252
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DAD18462
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 03:30:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750735203; cv=none; b=rjdfDFavFBjGrAgUIOHGO20aSLI3mInlC6EGbYWbLCp4szaqf6M2wd01wSZbN2hWDd1xbdkH6kopUJLVK94hsPMcYCmRpvhYOqgYDkohWtvikwRpSSV+cnH7mEpmT/R4WwRLuzJilQ/dWGK383wJ6iIOiLP9xAl7UEcSFR5dUvU=
+	t=1750735830; cv=none; b=FXV7knu+hgFKVNmKpPuTreYrY9yqUnEebNtGpk27vIgsm50MkXuYwRZ4bTMjB3/NLOZOOiCSNauCh08rfiNSReTSn0GaeYIKdCYVzOg0BxPvbT/dvuyEe3XmumobxQ8lP1BxFpvgRmQGqdnB2N8xUcLdIfynxLKsQe2O7xTcOIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750735203; c=relaxed/simple;
-	bh=RLEIRSjrgC2GMjEJKM5fjLmfrTS5grac6NjsH/mjjro=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=sTQQ5RVhoO528OKHW9G2W5Mgz7MP31VCudGUvD/Kr8y/iYE8342qZKLMDZ71nj1/89Hn2lbDJ1HNlVcXyYVx/u44TS5Xmm3z9zbBLGJhE7zcppjDWxxvniC9+nJ33T38JZjt23dQZADiWDyByoXJA/8llki5oy/AHUfzlfyJCns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Zc+itj/O; arc=none smtp.client-ip=162.62.57.252
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	s=arc-20240116; t=1750735830; c=relaxed/simple;
+	bh=XpqRNizCBON4rIR5fIVyri8Dc/rmmbCpOn5VeKq4fg8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N8n07eFSbkF2s7R+m6pB6AgrjPChFMvEJTyElSbGW9XaUyh7bUfc3lUbyUmpvKlDIZeswBpck3hiaVGdIZ98s6HnWnU1ZiE51H+R/H9z9w5gEW5E8kJmnccJQnCx++Q51W927Hq5MVunZkUOjq+7zF9kgdKFBGPG3ill4NZJ3k0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=fpgHZNkO; arc=none smtp.client-ip=95.215.58.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Zc+itj/O"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1750735188; bh=nmo+J8zIdQuvgWJj2E1ulnfVG/wxLiRfXsCfFWon/8k=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Zc+itj/Ot4LsyDZiuJ4SOSV/Ac6KvuTzcM3SutYBvPvdT84Phrozq/6riIpObvrQf
-	 SAudw3KDeLzs4lYJoH0a8JlTQhzvemn8eOKIO1xhCZ43RKMwn3JDrfJm8msRAg2EPH
-	 0QvtUzA1M4z1CNu5loAadPTlrwBzLOIZH3cVouQE=
-Received: from VM-222-126-tencentos.localdomain ([14.22.11.162])
-	by newxmesmtplogicsvrszc16-0.qq.com (NewEsmtp) with SMTP
-	id 4DA38C3D; Tue, 24 Jun 2025 11:19:26 +0800
-X-QQ-mid: xmsmtpt1750735166tvilzjywo
-Message-ID: <tencent_DB9950A0D2FA71F96EE7FDDF92F6DE959A09@qq.com>
-X-QQ-XMAILINFO: NxPU7wltX8BLEPcb7EL3STuoaK9zZ8SLjiZxpVXaoqfSsYP5NNnfj5d7L6+5EP
-	 0JAlui+cWm8bjdODdrO4lC6DEylgK7uH1t+GJfICnGSfcGbg3DQgyKpGhZHrhPG45qGg4gfwdfaC
-	 9Efd+JgZ2/6P/5yQl3Fpl+okax/Pf7EwKsr9Wh7FbaGSKWBrBtoqGuqI5X3q0p79NYqh9pnWyHOG
-	 ITf7pXjZirDCBdMFuR6WX2IKIK2Irs2dEYsnMZaG5sh0uCEhfAUB01HN/GHhfN6l5iO+Y4bQgkiY
-	 GLAFoTF/4xHUjoQ0jnVtvgAd2yXS17zScsFoOj7PPJC6yczEvTqcm1H+GEu3FUbmBxLDgCiNLQkV
-	 C5KTG+fpmSKfPfscB++MuwITDC/JUVuktOefuiLupBhE+8BIJ0hl2xFZRMmlSz4XiqO8CipksgU7
-	 tIxA+m/e2oh5aYgkIXgADERU9qJxenIB29gzgZfGqcPb9Z21i+4VxgyxmnWf5Aaxp0yZopwPveWd
-	 4yDZC/dh9yPbV8/vdujxpB3la924zKXslpOx/BeHPg7PVHwNbt2Ca5mF7XdlNsl/KKPpwzCRFguF
-	 oWsC+yXeXZqZ9jj+VyLWY7/nLT1d/KWA56Y4FowNwO4j3la9Ozi5iMHyVDUsBGAamXtEO/I+/G3p
-	 hk3S2KWghlKTvMxG52u/DwGDnaIuPFVHlbD6jrCSwop/vBx9rLRHW+eqjrrUL4xvEfa+jhcfglQo
-	 U8rq9FXhvZUG8aa0U0Sauq1uYJGkDbl6XFIaHFQ8Hz5m/31ogpHQ293cF1XUJwmMnh7fnv5TS3DF
-	 GAlZ4zo5TAGrlvqipm7WNB6jNIhBz8S1Y+qoItoN61eBg4YFRsPDH+PqwjVFqQMZmkaFGEFQ2ym8
-	 bwLLX9PPVCCN/i2TvqNCo8HABcbr8WmDv4tWuknQLtYpgfK37wymOhJn7NxZNoO9yDSd6Xty3k65
-	 0esN+oGR5WxP9xCyz1sacHhJefWFGmi43g1kgnB5Lmm9yuO5Zu3bdpnTZgSwleifBjz1MB7Pl7n0
-	 jmSaWxNPMLTr30bUlP9IGsHXBWJ24=
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
-From: jackysliu <1972843537@qq.com>
-To: lkp@intel.com
-Cc: 1972843537@qq.com,
-	GR-QLogic-Storage-Upstream@marvell.com,
-	James.Bottomley@hansenpartnership.com,
-	jhasan@marvell.com,
-	linux-kernel@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	martin.petersen@oracle.com,
-	oe-kbuild-all@lists.linux.dev,
-	skashyap@marvell.com
-Subject: [PATCH] scsi: qedf: fix inconsistent indenting warning 
-Date: Tue, 24 Jun 2025 11:19:19 +0800
-X-OQ-MSGID: <20250624031919.2207851-1-1972843537@qq.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <202506240340.fv6cXpyc-lkp@intel.com>
-References: <202506240340.fv6cXpyc-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="fpgHZNkO"
+Date: Mon, 23 Jun 2025 23:30:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1750735826;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=QzyfTvY77/Jkd4+F0eh5qovwK+V3HCOnxHF3r7CT20c=;
+	b=fpgHZNkOQgjqXB1UsbI+d1GOwAHltNpCpJtdtASiaDk1a6Lu2dL37y7MQN59ME4maY+O03
+	kr8dwaXUppJzt8TTV748JZeXTF4IaOBdVYL6NLJESpy3PAdUhRM98JeaHfffqGo47Hprve
+	8FQKNuWSlCAI/B18Sjv8+5rCj//j32k=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: Hongbo Li <lihongbo22@huawei.com>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: fs/bcachefs/fs.c:867:12: warning: stack frame size (1056)
+ exceeds limit (1024) in 'bch2_rename2'
+Message-ID: <7f7ckuqso5tg634u5462vhn2er2itref3xeggrm7yukotoc7l2@shh2y4sskhtg>
+References: <202506240200.Fsm6BEST-lkp@intel.com>
+ <70cef6b1-7e2b-45ca-a94e-55521ab34840@huawei.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <70cef6b1-7e2b-45ca-a94e-55521ab34840@huawei.com>
+X-Migadu-Flow: FLOW_OUT
 
-Fix below inconsistent indenting smatch warning.
+On Tue, Jun 24, 2025 at 09:49:58AM +0800, Hongbo Li wrote:
+> 
+> 
+> On 2025/6/24 2:22, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   86731a2a651e58953fc949573895f2fa6d456841
+> > commit: e614a6c52d32c9c7ff545ca842eb2de4aeb1d2d9 bcachefs: make directory i_size meaningful
+> > date:   5 months ago
+> > config: s390-defconfig (https://download.01.org/0day-ci/archive/20250624/202506240200.Fsm6BEST-lkp@intel.com/config)
+> > compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 875b36a8742437b95f623bab1e0332562c7b4b3f)
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506240200.Fsm6BEST-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202506240200.Fsm6BEST-lkp@intel.com/
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> >     In file included from fs/bcachefs/fs.c:4:
+> >     In file included from fs/bcachefs/bcachefs.h:188:
+> >     In file included from include/linux/bio.h:10:
+> >     In file included from include/linux/blk_types.h:10:
+> >     In file included from include/linux/bvec.h:10:
+> >     In file included from include/linux/highmem.h:10:
+> >     In file included from include/linux/mm.h:2223:
+> >     include/linux/vmstat.h:504:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+> >       504 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+> >           |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+> >       505 |                            item];
+> >           |                            ~~~~
+> >     include/linux/vmstat.h:511:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+> >       511 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+> >           |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+> >       512 |                            NR_VM_NUMA_EVENT_ITEMS +
+> >           |                            ~~~~~~~~~~~~~~~~~~~~~~
+> >     include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+> >       518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+> >           |                               ~~~~~~~~~~~ ^ ~~~
+> >     include/linux/vmstat.h:524:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+> >       524 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+> >           |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+> >       525 |                            NR_VM_NUMA_EVENT_ITEMS +
+> >           |                            ~~~~~~~~~~~~~~~~~~~~~~
+> > > > fs/bcachefs/fs.c:867:12: warning: stack frame size (1056) exceeds limit (1024) in 'bch2_rename2' [-Wframe-larger-than]
+> >       867 | static int bch2_rename2(struct mnt_idmap *idmap,
+> >           |            ^
+> >     5 warnings generated.
+> > 
+> > 
+> > vim +/bch2_rename2 +867 fs/bcachefs/fs.c
+> 
+> It is very common for bcachefs functions with high stack usage, but it seems
+> a non issue. The same disscussion in [1], what about use a larger stack?
+> 
+> [1] https://lkml.org/lkml/2025/5/22/1058
 
-New smatch warnings:
-drivers/scsi/qedf/qedf_main.c:2814 qedf_prepare_sb() warn: inconsistent
-indenting
+No, we don't really want to increase the warning just for bcachefs.
 
-Old smatch warnings:
-drivers/scsi/qedf/qedf_main.c:2816 qedf_prepare_sb() warn: inconsistent indenting
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202506240340.fv6cXpyc-lkp@intel.com/
-
-Signed-off-by: jackysliu <1972843537@qq.com>
----
- drivers/scsi/qedf/qedf_main.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/scsi/qedf/qedf_main.c b/drivers/scsi/qedf/qedf_main.c
-index 8767d9de819f..b46fc510557b 100644
---- a/drivers/scsi/qedf/qedf_main.c
-+++ b/drivers/scsi/qedf/qedf_main.c
-@@ -2810,11 +2810,11 @@ static int qedf_prepare_sb(struct qedf_ctx *qedf)
- 	}
- err:
- for (int i = 0; i < id; i++) {
--fp = &qedf->fp_array[i];
--if (fp->sb_info) {
--qedf_free_sb(qedf, fp->sb_info);
--kfree(fp->sb_info);
--fp->sb_info = NULL;
-+	fp = &qedf->fp_array[i];
-+	if (fp->sb_info) {
-+		qedf_free_sb(qedf, fp->sb_info);
-+		kfree(fp->sb_info);
-+	fp->sb_info = NULL;
- }
- }
- kfree(qedf->fp_array);
--- 
-2.43.5
-
+It is annoying, but we do need to fix it.
