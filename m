@@ -1,216 +1,216 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C93DF4FA
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 03:36:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA9A1D63C0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 03:57:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750736206; cv=none; b=DaD5qb3c85DAZZ/fMTD8iwQdD/a5vSkJx433/4VKheczYkrjVYggQsrWQldSGswwjNDfz7WVC0XlrL/A077q/7jLtjY8ZykP/0H2UsBfg8f5wKnd5AAapJvRsu+vGFRwSsuqUr2f25mnL0BLgxA3/zHAGUUvPfTSUTsWOuE4b3M=
+	t=1750737451; cv=none; b=VWuGsM4L20td35jrm7Pfn4oj5n7Yp6eUqo41lzFABeQagVSOlDK01f/+b7vqsit3xIewGojycOVVdVtfC4gDtvKUrljIN4KNkyMQ2+0vyiK0r67DcXzCsPcdxYQi/xo5XSvvt+bSeJoFs2Pn6pumdiKzPCf3dysYlLF76fYwSBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750736206; c=relaxed/simple;
-	bh=UY3IojpQyUv3Jn73EeeZbckeMVWQd6o5JPpktixAIbM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eTJiT39GE1Gj612phqIVNQqpyV5XkEdKuJuC7MGuz0ymTGWYRvN2BQg9wyncRmmf5UZm/u8tqewUkKEAi6d6C5Yo4fLoWepxFq92pnoLrtJc50kgAmrQSprRf0Wlfavq8HjNyu9WgvDISKUF4MTz8VVpTki2n1QIk/R25Hioc8I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de; spf=pass smtp.mailfrom=nurfuerspam.de; dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b=j1rxCX3u; arc=none smtp.client-ip=212.227.15.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nurfuerspam.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nurfuerspam.de
+	s=arc-20240116; t=1750737451; c=relaxed/simple;
+	bh=Fs8LraFZdQA097dY2HjMryOtBWhp6iCJS/GhuYtPJ+8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j6nPqtXCn0co4/zGwd2qIHXNitFEcy/+rSHz7l0BNYkJHVxw17ocqVHas6BJXn9kTQLCpnNZads5Wi8PDiAuacIegwu0tWrGmJ1BFYm9ra8vhgLCVEiJ3b/v82juiSbIF+G61DepmDR8WOQMuJ1JbmJCNp6ePwtSVtsT45U3aWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAFlVedn; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nurfuerspam.de header.i=herdler@nurfuerspam.de header.b="j1rxCX3u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nurfuerspam.de;
-	s=s31663417; t=1750736191; x=1751340991; i=herdler@nurfuerspam.de;
-	bh=PGLOeTg9ZpmQ29tpAZ09HP3dQ0wMbgdjO5Ud0pWiU9A=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=j1rxCX3ueew1cJ9Cb8Qzur5QlRIEeCgthUHXzwdkCvPTYUFkf/ZwdxtftwZE62hC
-	 rzUkfISMbMCnsi4NYc+rK6uSxziWMpzysNLv1ntRlNogbtf+CCRUxQW1Y4LncTd0F
-	 X8RwBt1AxNJguiTI0dHZC494F+TZ/qXnq9o3J8vd2rNHxLmluvjvxwViE+lnT/HWG
-	 yTSicfZsnZf47e/9PY773Gn70qJojoEZin6KzrD+QJc1sgfpeo5wzAsbkCR/+fdCi
-	 thNxnFVsYzjie0HEc7Dxy3KE8lez6emESKDpVGHtVa/P7XVEnFH0k649YF7x/3do8
-	 zar/CT8bOdvV66iR2w==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [127.0.0.1] ([86.62.8.215]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MI5Q5-1uZ9Ev3fi3-00GyAZ; Tue, 24
- Jun 2025 05:36:30 +0200
-Message-ID: <4cfd2806-e461-4aa8-bae3-516b309bf260@nurfuerspam.de>
-Date: Tue, 24 Jun 2025 05:36:11 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAFlVedn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750737449; x=1782273449;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Fs8LraFZdQA097dY2HjMryOtBWhp6iCJS/GhuYtPJ+8=;
+  b=nAFlVedn+rWSEteTg6gHgITx1AJdVVe2QMVIJzV71MlHpQZ/soIhmfX7
+   /O42w6cwNT9O3PrAV2V4Rxztd52iQEpH4z/GOMM/px/F4MEwItRFtNuxR
+   5ssIBu98rMzViJosSS1YHm2KGFZ6JLFhkG0++NUp3VdP2EpKZ/gUCUrLE
+   wpBv/V57XFtyIwOzslPgoBqrbcVo0IIItMyeS9eCRy1PSmU/zyCiPQUdz
+   txCc0PUuyzYPdxoa9NGxe26MVN289FcktIfVgQ6lsoOOq0PVAyilM6o/C
+   vTpHHMevV6xA2VdCnMf4EgFjRyH7m/3hXlk8QdJzzs3cMOl9tf1qhUtIC
+   g==;
+X-CSE-ConnectionGUID: dVwJMu8CRcWErPEkql68gA==
+X-CSE-MsgGUID: rIV3sQapRm+2GAl6RLbbIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="52899994"
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
+   d="scan'208";a="52899994"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 20:57:25 -0700
+X-CSE-ConnectionGUID: dpjbzf3XS4m7jqMoABnBPw==
+X-CSE-MsgGUID: LdtBh5cOTfmlG0yc4B4xVw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
+   d="scan'208";a="157282859"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 23 Jun 2025 20:57:22 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uTume-000RhP-2T;
+	Tue, 24 Jun 2025 03:57:20 +0000
+Date: Tue, 24 Jun 2025 11:56:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeremy Kerr <jk@codeconstruct.com.au>,
+	Matt Johnston <matt@codeconstruct.com.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
+Subject: Re: [PATCH net-next v2 02/13] net: mctp: separate routing database
+ from routing operations
+Message-ID: <202506241117.wd6sbUKA-lkp@intel.com>
+References: <20250619-dev-forwarding-v2-2-3f81801b06c2@codeconstruct.com.au>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: av7110: Workaround a compiler warning
-To: Hans Verkuil <hans@jjverkuil.nl>, lkp@intel.com
-Cc: hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev
-References: <202504262127.FkkWHzfs-lkp@intel.com>
- <20250426215409.36852-1-herdler@nurfuerspam.de>
- <dc177375-5e28-40da-bab1-d0627c70bd85@jjverkuil.nl>
-Content-Language: de-DE, en-US
-From: Stefan Herdler <herdler@nurfuerspam.de>
-In-Reply-To: <dc177375-5e28-40da-bab1-d0627c70bd85@jjverkuil.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:o/AmFKJLRFFsibUEwbGCr0tlej3extVrXOcIttXTxPgKPlTAQAR
- VAoXaOAOGb4yYCpwxRNhDwxScnSqD32nV5EFFa166HDZKw0eLLT8xDjcXRfeGMjE0+xCSI6
- nmaQPyspDW8gxOCiq4+HUUzqm8aZWEsUQwIB7lr739xIx6zdIfSU1hPW3n70qo6s5ZsDV1g
- P4p3KUyVPNkIoF17NxTRw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:DLLT1zA8Wis=;PLzIyK3HSZ7CkzQEFcjLqfj9E1l
- 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
- eX4/W+dKiuxIrmbG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250619-dev-forwarding-v2-2-3f81801b06c2@codeconstruct.com.au>
 
-Hi Hans,
+Hi Jeremy,
 
-On 20/06/25 15:33 Hans Verkuil wrote:
-> Hi Stefan,
->=20
-> On 26/04/2025 23:54, Stefan Herdler wrote:
->> Avoid compiler warning caused by an empty block statement.
->>
->> Signed-off-by: Stefan Herdler <herdler@nurfuerspam.de>
->> Reported-by: kernel test robot <lkp@intel.com>
->> Closes: https://lore.kernel.org/oe-kbuild-all/202504262127.FkkWHzfs-lkp=
-@intel.com/
->> ---
->>
->> I could not reproduce this warning with gcc10 here, but I already had s=
-imilar
->> warnings with gcc12 on other projects.
->> I think it has most probably been triggered by the empty block statemen=
-t.
->>
->> I'm pretty confident this patch will fix the warning, but not 100% sure=
-.
->>
->> The kernel test robot will pick this patch and test is anyway, if I'm c=
-orrect.
->> Let's wait, if it complains again.
->> That's the best I can do right now.
->=20
-> Is this patch still needed? I noticed that it wasn't CC-ed to the linux-=
-media
-> mailinglist, so it never appeared in patchwork, and was never picked up.
+kernel test robot noticed the following build warnings:
 
-Thanks for the hint, next time I CC the media-list too.
+[auto build test WARNING on 0097c4195b1d0ca57d15979626c769c74747b5a0]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-mctp-don-t-use-source-cb-data-when-forwarding-ensure-pkt_type-is-set/20250619-160339
+base:   0097c4195b1d0ca57d15979626c769c74747b5a0
+patch link:    https://lore.kernel.org/r/20250619-dev-forwarding-v2-2-3f81801b06c2%40codeconstruct.com.au
+patch subject: [PATCH net-next v2 02/13] net: mctp: separate routing database from routing operations
+config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250624/202506241117.wd6sbUKA-lkp@intel.com/config)
+compiler: s390-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506241117.wd6sbUKA-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506241117.wd6sbUKA-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from net/mctp/route.c:1554:
+   net/mctp/test/route-test.c: In function 'mctp_test_route_input_cloned_frag':
+>> net/mctp/test/route-test.c:1091:1: warning: the frame size of 1152 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+    1091 | }
+         | ^
 
 
-Meanwhile I think the patch isn't necessary.
-In haven't found any other evidence that there is something wrong.
-- I wasn't able to reproduce this warning.
-- Debian has recent builds of kernel 6.15.3 with gcc 14.
-    The kernel-package contains the "dvb-ttpci.ko" file[1] and there are n=
-o
-    warnings (for this module) in the build log[2].
+vim +1091 net/mctp/test/route-test.c
 
-The warning still doesn't make sense to me -there is no function statement=
--
-and the code looks o.k. to me too.
-The only debatable thing is the empty function block, which is generally
-suggested to avoid.
-Meanwhile I think a null statement ";" is maybe a more elegant solution he=
-re.
+ce1219c3f76bb1 Jeremy Kerr   2024-12-18   983  
+f5d83cf0eeb90f Matt Johnston 2025-03-06   984  /* Input route to socket, using a fragmented message created from clones.
+f5d83cf0eeb90f Matt Johnston 2025-03-06   985   */
+f5d83cf0eeb90f Matt Johnston 2025-03-06   986  static void mctp_test_route_input_cloned_frag(struct kunit *test)
+f5d83cf0eeb90f Matt Johnston 2025-03-06   987  {
+f5d83cf0eeb90f Matt Johnston 2025-03-06   988  	/* 5 packet fragments, forming 2 complete messages */
+f5d83cf0eeb90f Matt Johnston 2025-03-06   989  	const struct mctp_hdr hdrs[5] = {
+f5d83cf0eeb90f Matt Johnston 2025-03-06   990  		RX_FRAG(FL_S, 0),
+f5d83cf0eeb90f Matt Johnston 2025-03-06   991  		RX_FRAG(0, 1),
+f5d83cf0eeb90f Matt Johnston 2025-03-06   992  		RX_FRAG(FL_E, 2),
+f5d83cf0eeb90f Matt Johnston 2025-03-06   993  		RX_FRAG(FL_S, 0),
+f5d83cf0eeb90f Matt Johnston 2025-03-06   994  		RX_FRAG(FL_E, 1),
+f5d83cf0eeb90f Matt Johnston 2025-03-06   995  	};
+fb025ae64bd1f2 Jeremy Kerr   2025-06-19   996  	struct mctp_test_pktqueue tpq;
+f5d83cf0eeb90f Matt Johnston 2025-03-06   997  	struct mctp_test_dev *dev;
+f5d83cf0eeb90f Matt Johnston 2025-03-06   998  	struct sk_buff *skb[5];
+f5d83cf0eeb90f Matt Johnston 2025-03-06   999  	struct sk_buff *rx_skb;
+fb025ae64bd1f2 Jeremy Kerr   2025-06-19  1000  	struct mctp_dst dst;
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1001  	struct socket *sock;
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1002  	size_t data_len;
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1003  	u8 compare[100];
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1004  	u8 flat[100];
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1005  	size_t total;
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1006  	void *p;
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1007  	int rc;
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1008  
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1009  	/* Arbitrary length */
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1010  	data_len = 3;
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1011  	total = data_len + sizeof(struct mctp_hdr);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1012  
+fb025ae64bd1f2 Jeremy Kerr   2025-06-19  1013  	__mctp_route_test_init(test, &dev, &dst, &tpq, &sock, MCTP_NET_ANY);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1014  
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1015  	/* Create a single skb initially with concatenated packets */
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1016  	skb[0] = mctp_test_create_skb(&hdrs[0], 5 * total);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1017  	mctp_test_skb_set_dev(skb[0], dev);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1018  	memset(skb[0]->data, 0 * 0x11, skb[0]->len);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1019  	memcpy(skb[0]->data, &hdrs[0], sizeof(struct mctp_hdr));
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1020  
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1021  	/* Extract and populate packets */
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1022  	for (int i = 1; i < 5; i++) {
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1023  		skb[i] = skb_clone(skb[i - 1], GFP_ATOMIC);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1024  		KUNIT_ASSERT_TRUE(test, skb[i]);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1025  		p = skb_pull(skb[i], total);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1026  		KUNIT_ASSERT_TRUE(test, p);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1027  		skb_reset_network_header(skb[i]);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1028  		memcpy(skb[i]->data, &hdrs[i], sizeof(struct mctp_hdr));
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1029  		memset(&skb[i]->data[sizeof(struct mctp_hdr)], i * 0x11, data_len);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1030  	}
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1031  	for (int i = 0; i < 5; i++)
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1032  		skb_trim(skb[i], total);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1033  
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1034  	/* SOM packets have a type byte to match the socket */
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1035  	skb[0]->data[4] = 0;
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1036  	skb[3]->data[4] = 0;
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1037  
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1038  	skb_dump("pkt1 ", skb[0], false);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1039  	skb_dump("pkt2 ", skb[1], false);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1040  	skb_dump("pkt3 ", skb[2], false);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1041  	skb_dump("pkt4 ", skb[3], false);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1042  	skb_dump("pkt5 ", skb[4], false);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1043  
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1044  	for (int i = 0; i < 5; i++) {
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1045  		KUNIT_EXPECT_EQ(test, refcount_read(&skb[i]->users), 1);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1046  		/* Take a reference so we can check refcounts at the end */
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1047  		skb_get(skb[i]);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1048  	}
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1049  
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1050  	/* Feed the fragments into MCTP core */
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1051  	for (int i = 0; i < 5; i++) {
+fb025ae64bd1f2 Jeremy Kerr   2025-06-19  1052  		rc = mctp_dst_input(&dst, skb[i]);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1053  		KUNIT_EXPECT_EQ(test, rc, 0);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1054  	}
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1055  
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1056  	/* Receive first reassembled message */
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1057  	rx_skb = skb_recv_datagram(sock->sk, MSG_DONTWAIT, &rc);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1058  	KUNIT_EXPECT_EQ(test, rc, 0);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1059  	KUNIT_EXPECT_EQ(test, rx_skb->len, 3 * data_len);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1060  	rc = skb_copy_bits(rx_skb, 0, flat, rx_skb->len);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1061  	for (int i = 0; i < rx_skb->len; i++)
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1062  		compare[i] = (i / data_len) * 0x11;
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1063  	/* Set type byte */
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1064  	compare[0] = 0;
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1065  
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1066  	KUNIT_EXPECT_MEMEQ(test, flat, compare, rx_skb->len);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1067  	KUNIT_EXPECT_EQ(test, refcount_read(&rx_skb->users), 1);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1068  	kfree_skb(rx_skb);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1069  
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1070  	/* Receive second reassembled message */
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1071  	rx_skb = skb_recv_datagram(sock->sk, MSG_DONTWAIT, &rc);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1072  	KUNIT_EXPECT_EQ(test, rc, 0);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1073  	KUNIT_EXPECT_EQ(test, rx_skb->len, 2 * data_len);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1074  	rc = skb_copy_bits(rx_skb, 0, flat, rx_skb->len);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1075  	for (int i = 0; i < rx_skb->len; i++)
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1076  		compare[i] = (i / data_len + 3) * 0x11;
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1077  	/* Set type byte */
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1078  	compare[0] = 0;
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1079  
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1080  	KUNIT_EXPECT_MEMEQ(test, flat, compare, rx_skb->len);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1081  	KUNIT_EXPECT_EQ(test, refcount_read(&rx_skb->users), 1);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1082  	kfree_skb(rx_skb);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1083  
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1084  	/* Check input skb refcounts */
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1085  	for (int i = 0; i < 5; i++) {
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1086  		KUNIT_EXPECT_EQ(test, refcount_read(&skb[i]->users), 1);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1087  		kfree_skb(skb[i]);
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1088  	}
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1089  
+fb025ae64bd1f2 Jeremy Kerr   2025-06-19  1090  	__mctp_route_test_fini(test, dev, &dst, &tpq, sock);
+f5d83cf0eeb90f Matt Johnston 2025-03-06 @1091  }
+f5d83cf0eeb90f Matt Johnston 2025-03-06  1092  
 
-Is there a recommend practice for this? I haven't found anything in the
-documentation so far.
-
-
-Regards
-Stefan
-
-[1]: https://packages.debian.org/search?searchon=3Dcontents&keywords=3Ddvb=
--ttpci.ko&mode=3Dpath&suite=3Dexperimental&arch=3Dany
-[2]: https://buildd.debian.org/status/logs.php?pkg=3Dlinux&ver=3D6.15.3-1%=
-7Eexp1&arch=3Damd64&suite=3Dexperimental
-
->=20
-> If it is still needed, then please post it to linux-media and it will be
-> picked up for v6.17.
->=20
-> Regards,
->=20
-> 	Hans
->=20
->>
->> Regards
->> Stefan
->>
->>
->>  drivers/staging/media/av7110/av7110.c | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/me=
-dia/av7110/av7110.c
->> index bc9a2a40a..962536ed7 100644
->> --- a/drivers/staging/media/av7110/av7110.c
->> +++ b/drivers/staging/media/av7110/av7110.c
->> @@ -159,7 +159,7 @@ static void init_av7110_av(struct av7110 *av7110)
->>  		 * some special handling for the Siemens DVB-C cards...
->>  		 */
->>  	} else if (av7110_init_analog_module(av7110) =3D=3D 0) {
->> -		/* done. */
->> +		goto init_skip_analog_module;
->>  	} else if (dev->pci->subsystem_vendor =3D=3D 0x110a) {
->>  		pr_info("DVB-C w/o analog module @ card %d detected\n", av7110->dvb_=
-adapter.num);
->>  		av7110->adac_type =3D DVB_ADAC_NONE;
->> @@ -168,6 +168,7 @@ static void init_av7110_av(struct av7110 *av7110)
->>  		pr_info("adac type set to %d @ card %d\n", av7110->adac_type, av7110=
-->dvb_adapter.num);
->>  	}
->> =20
->> +init_skip_analog_module:
->>  	if (av7110->adac_type =3D=3D DVB_ADAC_NONE || av7110->adac_type =3D=
-=3D DVB_ADAC_MSP34x0) {
->>  		// switch DVB SCART on
->>  		ret =3D av7110_fw_cmd(av7110, COMTYPE_AUDIODAC, MainSwitch, 1, 0);
->=20
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
