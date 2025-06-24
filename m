@@ -1,65 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA9A1D63C0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 03:57:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F39B11E5219
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 03:57:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750737451; cv=none; b=VWuGsM4L20td35jrm7Pfn4oj5n7Yp6eUqo41lzFABeQagVSOlDK01f/+b7vqsit3xIewGojycOVVdVtfC4gDtvKUrljIN4KNkyMQ2+0vyiK0r67DcXzCsPcdxYQi/xo5XSvvt+bSeJoFs2Pn6pumdiKzPCf3dysYlLF76fYwSBM=
+	t=1750737453; cv=none; b=pZnFEmzZBmFR4qzmistB7DqgBY+5Ggz6EdqYlh0McH3QZcvlk+b1vL1o1PBC7NCUxEVhcjs8vhfSCzoygM7hRYU9MRzvNVVHcmUjoLcyKg0IA8/0LC2bE1sF0+eVU0SUqJrQhqX5tFb8sWgxF4WcMCgF8hCP+K36qnUstq0D9TY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750737451; c=relaxed/simple;
-	bh=Fs8LraFZdQA097dY2HjMryOtBWhp6iCJS/GhuYtPJ+8=;
+	s=arc-20240116; t=1750737453; c=relaxed/simple;
+	bh=eDRLwb46ZJNkUBRm5BBOB9MU9TVVS4hMshWk6nSG+fM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j6nPqtXCn0co4/zGwd2qIHXNitFEcy/+rSHz7l0BNYkJHVxw17ocqVHas6BJXn9kTQLCpnNZads5Wi8PDiAuacIegwu0tWrGmJ1BFYm9ra8vhgLCVEiJ3b/v82juiSbIF+G61DepmDR8WOQMuJ1JbmJCNp6ePwtSVtsT45U3aWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nAFlVedn; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=T5n9WSkVhRhcqvfl+YYwaqt2HAS7bG1weIY4OW8K0EqywnbcKdlLJl0wxMrf5ZEt4/XwJteEbvjN49YGwYZoskc0c7fihJ9HoDmOpkN/BZVd/4jUCMH3P6co59Px27rNuHdkqhVxK0LEn5Jqfhk23Va2OQwdPvyNS1reGEMie2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l4WmuYVp; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nAFlVedn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l4WmuYVp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750737449; x=1782273449;
+  t=1750737452; x=1782273452;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Fs8LraFZdQA097dY2HjMryOtBWhp6iCJS/GhuYtPJ+8=;
-  b=nAFlVedn+rWSEteTg6gHgITx1AJdVVe2QMVIJzV71MlHpQZ/soIhmfX7
-   /O42w6cwNT9O3PrAV2V4Rxztd52iQEpH4z/GOMM/px/F4MEwItRFtNuxR
-   5ssIBu98rMzViJosSS1YHm2KGFZ6JLFhkG0++NUp3VdP2EpKZ/gUCUrLE
-   wpBv/V57XFtyIwOzslPgoBqrbcVo0IIItMyeS9eCRy1PSmU/zyCiPQUdz
-   txCc0PUuyzYPdxoa9NGxe26MVN289FcktIfVgQ6lsoOOq0PVAyilM6o/C
-   vTpHHMevV6xA2VdCnMf4EgFjRyH7m/3hXlk8QdJzzs3cMOl9tf1qhUtIC
-   g==;
-X-CSE-ConnectionGUID: dVwJMu8CRcWErPEkql68gA==
-X-CSE-MsgGUID: rIV3sQapRm+2GAl6RLbbIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="52899994"
+  bh=eDRLwb46ZJNkUBRm5BBOB9MU9TVVS4hMshWk6nSG+fM=;
+  b=l4WmuYVpxtnv6Ecyftqk43S8eHrSg+3SGQdZJ94f+Ce2bO/8Hw0gNbAx
+   qwTstuBSqjvTZmbwH9efPQncXY2n7mx/P8nFvt9mdxH7qzwEklnD0IfA/
+   7yB8pbC7/KvnjG8O4QXmMFRzE3veq9zqFaTKececXY5i8SmyZdqOXspSg
+   YWzT0joq1kq5e0wE59N/ZZAtpmpSKwMYvi8NwoFpmKUexJr/m3+csrFIG
+   1OIDovyZEYtZ5Zs4vRXfRE8xXcrue2BQ7U9zGdFQYXMFtlsgypkTiItjw
+   6dgNnoBEChfUdCXcN50XFa76ES8qZ++VhOS3PcrFR2UTOSURViTkhvU40
+   w==;
+X-CSE-ConnectionGUID: ohiAd9bPS22uBSnTLTCOJA==
+X-CSE-MsgGUID: OkO9fm5xShahQKfAXABRTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="52899988"
 X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
-   d="scan'208";a="52899994"
+   d="scan'208";a="52899988"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 20:57:25 -0700
-X-CSE-ConnectionGUID: dpjbzf3XS4m7jqMoABnBPw==
-X-CSE-MsgGUID: LdtBh5cOTfmlG0yc4B4xVw==
+X-CSE-ConnectionGUID: hTpeXAEMS8WjON5jEVhW+g==
+X-CSE-MsgGUID: 6lr16b0fSsKfY8hjpPXPag==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
-   d="scan'208";a="157282859"
+   d="scan'208";a="157282861"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 23 Jun 2025 20:57:22 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uTume-000RhP-2T;
+	id 1uTume-000RhN-2P;
 	Tue, 24 Jun 2025 03:57:20 +0000
-Date: Tue, 24 Jun 2025 11:56:59 +0800
+Date: Tue, 24 Jun 2025 11:56:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeremy Kerr <jk@codeconstruct.com.au>,
-	Matt Johnston <matt@codeconstruct.com.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v2 02/13] net: mctp: separate routing database
- from routing operations
-Message-ID: <202506241117.wd6sbUKA-lkp@intel.com>
-References: <20250619-dev-forwarding-v2-2-3f81801b06c2@codeconstruct.com.au>
+To: GalaxySnail <me@glxys.nl>, linux-sound@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	patches@opensource.cirrus.com,
+	David Rhodes <david.rhodes@cirrus.com>,
+	Richard Fitzgerald <rf@opensource.cirrus.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	GalaxySnail <me@glxys.nl>
+Subject: Re: [PATCH] ALSA: hda: add MODULE_FIRMWARE for cs35l41/cs35l56
+Message-ID: <202506241158.kxrazQoo-lkp@intel.com>
+References: <20250623140030.1539477-2-me@glxys.nl>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,148 +67,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250619-dev-forwarding-v2-2-3f81801b06c2@codeconstruct.com.au>
+In-Reply-To: <20250623140030.1539477-2-me@glxys.nl>
 
-Hi Jeremy,
+Hi GalaxySnail,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on 0097c4195b1d0ca57d15979626c769c74747b5a0]
+[auto build test ERROR on tiwai-sound/for-next]
+[also build test ERROR on tiwai-sound/for-linus linus/master v6.16-rc3 next-20250623]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-mctp-don-t-use-source-cb-data-when-forwarding-ensure-pkt_type-is-set/20250619-160339
-base:   0097c4195b1d0ca57d15979626c769c74747b5a0
-patch link:    https://lore.kernel.org/r/20250619-dev-forwarding-v2-2-3f81801b06c2%40codeconstruct.com.au
-patch subject: [PATCH net-next v2 02/13] net: mctp: separate routing database from routing operations
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250624/202506241117.wd6sbUKA-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506241117.wd6sbUKA-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/GalaxySnail/ALSA-hda-add-MODULE_FIRMWARE-for-cs35l41-cs35l56/20250623-220657
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git for-next
+patch link:    https://lore.kernel.org/r/20250623140030.1539477-2-me%40glxys.nl
+patch subject: [PATCH] ALSA: hda: add MODULE_FIRMWARE for cs35l41/cs35l56
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250624/202506241158.kxrazQoo-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506241158.kxrazQoo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506241117.wd6sbUKA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506241158.kxrazQoo-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from net/mctp/route.c:1554:
-   net/mctp/test/route-test.c: In function 'mctp_test_route_input_cloned_frag':
->> net/mctp/test/route-test.c:1091:1: warning: the frame size of 1152 bytes is larger than 1024 bytes [-Wframe-larger-than=]
-    1091 | }
-         | ^
+   In file included from include/linux/module.h:22,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/acpi.h:14,
+                    from sound/pci/hda/cs35l41_hda.c:9:
+>> include/linux/moduleparam.h:24:9: error: expected ',' or ';' before 'static'
+      24 |         static const char __UNIQUE_ID(name)[]                             \
+         |         ^~~~~~
+   include/linux/module.h:168:32: note: in expansion of macro '__MODULE_INFO'
+     168 | #define MODULE_INFO(tag, info) __MODULE_INFO(tag, tag, info)
+         |                                ^~~~~~~~~~~~~
+   include/linux/module.h:299:36: note: in expansion of macro 'MODULE_INFO'
+     299 | #define MODULE_FIRMWARE(_firmware) MODULE_INFO(firmware, _firmware)
+         |                                    ^~~~~~~~~~~
+   sound/pci/hda/cs35l41_hda.c:2116:1: note: in expansion of macro 'MODULE_FIRMWARE'
+    2116 | MODULE_FIRMWARE("cirrus/cs35l41-*.bin")
+         | ^~~~~~~~~~~~~~~
+--
+   In file included from include/linux/module.h:22,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/acpi.h:14,
+                    from sound/pci/hda/cs35l56_hda.c:9:
+>> include/linux/moduleparam.h:24:9: error: expected ',' or ';' before 'static'
+      24 |         static const char __UNIQUE_ID(name)[]                             \
+         |         ^~~~~~
+   include/linux/module.h:168:32: note: in expansion of macro '__MODULE_INFO'
+     168 | #define MODULE_INFO(tag, info) __MODULE_INFO(tag, tag, info)
+         |                                ^~~~~~~~~~~~~
+   include/linux/module.h:299:36: note: in expansion of macro 'MODULE_INFO'
+     299 | #define MODULE_FIRMWARE(_firmware) MODULE_INFO(firmware, _firmware)
+         |                                    ^~~~~~~~~~~
+   sound/pci/hda/cs35l56_hda.c:1126:1: note: in expansion of macro 'MODULE_FIRMWARE'
+    1126 | MODULE_FIRMWARE("cirrus/cs35l54-*.bin")
+         | ^~~~~~~~~~~~~~~
+--
+   In file included from include/linux/module.h:22,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/acpi.h:14,
+                    from cs35l41_hda.c:9:
+>> include/linux/moduleparam.h:24:9: error: expected ',' or ';' before 'static'
+      24 |         static const char __UNIQUE_ID(name)[]                             \
+         |         ^~~~~~
+   include/linux/module.h:168:32: note: in expansion of macro '__MODULE_INFO'
+     168 | #define MODULE_INFO(tag, info) __MODULE_INFO(tag, tag, info)
+         |                                ^~~~~~~~~~~~~
+   include/linux/module.h:299:36: note: in expansion of macro 'MODULE_INFO'
+     299 | #define MODULE_FIRMWARE(_firmware) MODULE_INFO(firmware, _firmware)
+         |                                    ^~~~~~~~~~~
+   cs35l41_hda.c:2116:1: note: in expansion of macro 'MODULE_FIRMWARE'
+    2116 | MODULE_FIRMWARE("cirrus/cs35l41-*.bin")
+         | ^~~~~~~~~~~~~~~
+--
+   In file included from include/linux/module.h:22,
+                    from include/linux/device/driver.h:21,
+                    from include/linux/device.h:32,
+                    from include/linux/acpi.h:14,
+                    from cs35l56_hda.c:9:
+>> include/linux/moduleparam.h:24:9: error: expected ',' or ';' before 'static'
+      24 |         static const char __UNIQUE_ID(name)[]                             \
+         |         ^~~~~~
+   include/linux/module.h:168:32: note: in expansion of macro '__MODULE_INFO'
+     168 | #define MODULE_INFO(tag, info) __MODULE_INFO(tag, tag, info)
+         |                                ^~~~~~~~~~~~~
+   include/linux/module.h:299:36: note: in expansion of macro 'MODULE_INFO'
+     299 | #define MODULE_FIRMWARE(_firmware) MODULE_INFO(firmware, _firmware)
+         |                                    ^~~~~~~~~~~
+   cs35l56_hda.c:1126:1: note: in expansion of macro 'MODULE_FIRMWARE'
+    1126 | MODULE_FIRMWARE("cirrus/cs35l54-*.bin")
+         | ^~~~~~~~~~~~~~~
 
 
-vim +1091 net/mctp/test/route-test.c
+vim +24 include/linux/moduleparam.h
 
-ce1219c3f76bb1 Jeremy Kerr   2024-12-18   983  
-f5d83cf0eeb90f Matt Johnston 2025-03-06   984  /* Input route to socket, using a fragmented message created from clones.
-f5d83cf0eeb90f Matt Johnston 2025-03-06   985   */
-f5d83cf0eeb90f Matt Johnston 2025-03-06   986  static void mctp_test_route_input_cloned_frag(struct kunit *test)
-f5d83cf0eeb90f Matt Johnston 2025-03-06   987  {
-f5d83cf0eeb90f Matt Johnston 2025-03-06   988  	/* 5 packet fragments, forming 2 complete messages */
-f5d83cf0eeb90f Matt Johnston 2025-03-06   989  	const struct mctp_hdr hdrs[5] = {
-f5d83cf0eeb90f Matt Johnston 2025-03-06   990  		RX_FRAG(FL_S, 0),
-f5d83cf0eeb90f Matt Johnston 2025-03-06   991  		RX_FRAG(0, 1),
-f5d83cf0eeb90f Matt Johnston 2025-03-06   992  		RX_FRAG(FL_E, 2),
-f5d83cf0eeb90f Matt Johnston 2025-03-06   993  		RX_FRAG(FL_S, 0),
-f5d83cf0eeb90f Matt Johnston 2025-03-06   994  		RX_FRAG(FL_E, 1),
-f5d83cf0eeb90f Matt Johnston 2025-03-06   995  	};
-fb025ae64bd1f2 Jeremy Kerr   2025-06-19   996  	struct mctp_test_pktqueue tpq;
-f5d83cf0eeb90f Matt Johnston 2025-03-06   997  	struct mctp_test_dev *dev;
-f5d83cf0eeb90f Matt Johnston 2025-03-06   998  	struct sk_buff *skb[5];
-f5d83cf0eeb90f Matt Johnston 2025-03-06   999  	struct sk_buff *rx_skb;
-fb025ae64bd1f2 Jeremy Kerr   2025-06-19  1000  	struct mctp_dst dst;
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1001  	struct socket *sock;
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1002  	size_t data_len;
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1003  	u8 compare[100];
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1004  	u8 flat[100];
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1005  	size_t total;
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1006  	void *p;
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1007  	int rc;
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1008  
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1009  	/* Arbitrary length */
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1010  	data_len = 3;
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1011  	total = data_len + sizeof(struct mctp_hdr);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1012  
-fb025ae64bd1f2 Jeremy Kerr   2025-06-19  1013  	__mctp_route_test_init(test, &dev, &dst, &tpq, &sock, MCTP_NET_ANY);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1014  
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1015  	/* Create a single skb initially with concatenated packets */
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1016  	skb[0] = mctp_test_create_skb(&hdrs[0], 5 * total);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1017  	mctp_test_skb_set_dev(skb[0], dev);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1018  	memset(skb[0]->data, 0 * 0x11, skb[0]->len);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1019  	memcpy(skb[0]->data, &hdrs[0], sizeof(struct mctp_hdr));
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1020  
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1021  	/* Extract and populate packets */
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1022  	for (int i = 1; i < 5; i++) {
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1023  		skb[i] = skb_clone(skb[i - 1], GFP_ATOMIC);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1024  		KUNIT_ASSERT_TRUE(test, skb[i]);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1025  		p = skb_pull(skb[i], total);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1026  		KUNIT_ASSERT_TRUE(test, p);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1027  		skb_reset_network_header(skb[i]);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1028  		memcpy(skb[i]->data, &hdrs[i], sizeof(struct mctp_hdr));
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1029  		memset(&skb[i]->data[sizeof(struct mctp_hdr)], i * 0x11, data_len);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1030  	}
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1031  	for (int i = 0; i < 5; i++)
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1032  		skb_trim(skb[i], total);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1033  
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1034  	/* SOM packets have a type byte to match the socket */
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1035  	skb[0]->data[4] = 0;
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1036  	skb[3]->data[4] = 0;
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1037  
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1038  	skb_dump("pkt1 ", skb[0], false);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1039  	skb_dump("pkt2 ", skb[1], false);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1040  	skb_dump("pkt3 ", skb[2], false);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1041  	skb_dump("pkt4 ", skb[3], false);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1042  	skb_dump("pkt5 ", skb[4], false);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1043  
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1044  	for (int i = 0; i < 5; i++) {
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1045  		KUNIT_EXPECT_EQ(test, refcount_read(&skb[i]->users), 1);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1046  		/* Take a reference so we can check refcounts at the end */
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1047  		skb_get(skb[i]);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1048  	}
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1049  
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1050  	/* Feed the fragments into MCTP core */
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1051  	for (int i = 0; i < 5; i++) {
-fb025ae64bd1f2 Jeremy Kerr   2025-06-19  1052  		rc = mctp_dst_input(&dst, skb[i]);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1053  		KUNIT_EXPECT_EQ(test, rc, 0);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1054  	}
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1055  
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1056  	/* Receive first reassembled message */
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1057  	rx_skb = skb_recv_datagram(sock->sk, MSG_DONTWAIT, &rc);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1058  	KUNIT_EXPECT_EQ(test, rc, 0);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1059  	KUNIT_EXPECT_EQ(test, rx_skb->len, 3 * data_len);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1060  	rc = skb_copy_bits(rx_skb, 0, flat, rx_skb->len);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1061  	for (int i = 0; i < rx_skb->len; i++)
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1062  		compare[i] = (i / data_len) * 0x11;
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1063  	/* Set type byte */
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1064  	compare[0] = 0;
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1065  
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1066  	KUNIT_EXPECT_MEMEQ(test, flat, compare, rx_skb->len);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1067  	KUNIT_EXPECT_EQ(test, refcount_read(&rx_skb->users), 1);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1068  	kfree_skb(rx_skb);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1069  
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1070  	/* Receive second reassembled message */
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1071  	rx_skb = skb_recv_datagram(sock->sk, MSG_DONTWAIT, &rc);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1072  	KUNIT_EXPECT_EQ(test, rc, 0);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1073  	KUNIT_EXPECT_EQ(test, rx_skb->len, 2 * data_len);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1074  	rc = skb_copy_bits(rx_skb, 0, flat, rx_skb->len);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1075  	for (int i = 0; i < rx_skb->len; i++)
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1076  		compare[i] = (i / data_len + 3) * 0x11;
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1077  	/* Set type byte */
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1078  	compare[0] = 0;
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1079  
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1080  	KUNIT_EXPECT_MEMEQ(test, flat, compare, rx_skb->len);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1081  	KUNIT_EXPECT_EQ(test, refcount_read(&rx_skb->users), 1);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1082  	kfree_skb(rx_skb);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1083  
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1084  	/* Check input skb refcounts */
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1085  	for (int i = 0; i < 5; i++) {
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1086  		KUNIT_EXPECT_EQ(test, refcount_read(&skb[i]->users), 1);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1087  		kfree_skb(skb[i]);
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1088  	}
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1089  
-fb025ae64bd1f2 Jeremy Kerr   2025-06-19  1090  	__mctp_route_test_fini(test, dev, &dst, &tpq, sock);
-f5d83cf0eeb90f Matt Johnston 2025-03-06 @1091  }
-f5d83cf0eeb90f Matt Johnston 2025-03-06  1092  
+730b69d2252595 Rusty Russell  2008-10-22  22  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  23  #define __MODULE_INFO(tag, name, info)					  \
+34182eea36fc1d Rusty Russell  2012-11-22 @24  	static const char __UNIQUE_ID(name)[]				  \
+2aec389e19150e Johan Hovold   2020-11-23  25  		__used __section(".modinfo") __aligned(1)		  \
+898490c010b5d2 Alexey Gladkov 2019-04-29  26  		= __MODULE_INFO_PREFIX __stringify(tag) "=" info
+898490c010b5d2 Alexey Gladkov 2019-04-29  27  
 
 -- 
 0-DAY CI Kernel Test Service
