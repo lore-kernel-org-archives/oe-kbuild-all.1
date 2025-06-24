@@ -1,61 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191D656B81
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 12:46:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409982BEC24
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 13:37:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750769181; cv=none; b=EsT7vfEZqOy6/hPGwgHLj3hkw4j9wrND6fwe9Br16z8Rv/XHo9pl6grdTNO3SrTcv/RTUXn482XKy8Nig8V8t+cMBcO3rpSQuNcbDYTJhKV0Yh1w1+7xV92KBiz3qmC9jiObHHk8xxARbImW9lNGfw1AJt4boeTd3OjX4JBLF88=
+	t=1750772265; cv=none; b=Y+Uh6oU9DZJ+7s8EPMXbDXyG9Yns+LpH0vvecWSIctVPbxGhPzcmx36f0Dy0CH0ilGcnXkqdrLAr7lPu9NJEaoFKE+SIIqGIsp1TdT3+DOpt6pGEQ1w5r7FYNl0SZzCEvgI4hSm9UGXGG8JX1w9vqcJiB0UayeFUdXEPCfdW7Is=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750769181; c=relaxed/simple;
-	bh=BDYGa+m6K+LmXDWazJkL10WSFSQVLqwK6TRasS5lWhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZiLYzXIOCzIyDQAb3z0FZchaBn8ls4yYt9wkXd/sqfuSU2d9zOi7PTu9Tcdje+7r6qCZnuPEhWgANkxR2eD4l3iJwx7DzpdQH2hOTiZdySJqlJDtbVehTykKSbAO4cPHyIGTPUzupAVlmTQZ/MFARGmfgR5PKDosuTz0Jw56MrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nXUpl1bp; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750772265; c=relaxed/simple;
+	bh=zOB5AlMqj9KmwU0E0756V4dbbBGTNkAVB/Tcxft+kGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=DtUnYacF07bpC1jxZTSv8QYl3rY3Gouv5yhZqLeqQiWmCVKhKF81verlmAeCY3Z6A5uALWSschcPsdvnjcaFJMoVoxWkZi+ymjtZ9FSB14KTlhN15yvkpZwlXmQBdhU9Q8SOeccLsS+82bnxom9nxRZmcHm+VL69bUGGD5fAfUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mKZESJPk; arc=none smtp.client-ip=209.85.210.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nXUpl1bp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750769179; x=1782305179;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BDYGa+m6K+LmXDWazJkL10WSFSQVLqwK6TRasS5lWhk=;
-  b=nXUpl1bpc81w76eQq13qsXkuZmx4rOtocMq4sWd49Q8ZuCfC33KjSzSO
-   jmK++ptYYC2WvaWjDZKRW35sYyd48yCMI52OMFlsZxYtYFMWYi7TKRZ/c
-   v+cDRSyd+TjnQ4L8A5nVUmxtulkRKkaJoRE5k/zu/ldQfdZWwIBvqQIrd
-   Mnw0aiG3K0dL2nFO7zatKFuzhrcvm6Cq291yh9qOR/ncQa0r9tCYxVuus
-   ZJaPFJZ+rPa0/udLQA+Ro62oWadEmypzRyGLq9zp41rcJC1GX3rx6MybO
-   u/DFCJ9WB2zV99yGLQVSaqTgCpCpZNSAaZoqwKwmQTZnmOmNUdDwPuMmI
-   Q==;
-X-CSE-ConnectionGUID: tJx3QQAOSTKcMB//HVXXeg==
-X-CSE-MsgGUID: Bit/snriTjGGHPaNsN/eLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="64433882"
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="64433882"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 05:46:19 -0700
-X-CSE-ConnectionGUID: bXEP/w2kRyu/GbGwa/F6Zg==
-X-CSE-MsgGUID: JYeL8FHPR5KD2ghtfKWQSw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="157402348"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 24 Jun 2025 05:46:17 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uU32U-000S7u-34;
-	Tue, 24 Jun 2025 12:46:14 +0000
-Date: Tue, 24 Jun 2025 20:45:56 +0800
-From: kernel test robot <lkp@intel.com>
-To: Benjamin Berg <benjamin@sipsolutions.net>, linux-pm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Zhang Rui <rui.zhang@intel.com>,
-	Benjamin Berg <benjamin.berg@intel.com>,
-	Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH] thermal: use a custom lock class for intel x86_pkg_temp
-Message-ID: <202506242034.nhZNCW5t-lkp@intel.com>
-References: <20250624093001.1359961-1-benjamin@sipsolutions.net>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mKZESJPk"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-72c14138668so109210a34.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 06:37:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1750772261; x=1751377061; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=wpNGwNorSJRHHGcPXLQ8fs2LYNu4R8xKyEQ7qynXL3M=;
+        b=mKZESJPkd+imfI9PY1tn/4NlEjMolNLbD4xavPnUCkuq752JZDfVUMi4EbX5aJUpNO
+         qGRBtGFFR87dU0wZHVsVqYgGwd8YHUATtvjEuXkdvbYlaNxlQmX+J+AMmRG1ujkiSVur
+         251r48E7wJfJ/eIDq6lC/6eb7TmUDb2ti3N8LrdgchnjD93CqDZ0OFEHKUEtn0fuWMrW
+         3PMNaeYLVVLP34eD24+aU8Shl+v9B2ZrUaCb2huJkGboRtaxRUWfUU3X3xlHJFgan2Z5
+         hp3MRNL9uRwQUg8f1CC0+rVbkD0WgWnTK2/lsHw9HCt8Wbm+7WiuVVE5x33DCmGMOFAx
+         YFwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750772261; x=1751377061;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wpNGwNorSJRHHGcPXLQ8fs2LYNu4R8xKyEQ7qynXL3M=;
+        b=e/boE/JpQB0SG2bNJ6ggYhr3AnPwzdTqj4XokY/nt9sSiV2en8KJASS4WRzW95WpPX
+         cqbFRDH3l2+YiILuOuLe9ruw/Kiwf9yJWlGm+ANc68QXaUrdMmBbXfEz1xXGZL3Tp/Ua
+         l5MQIF3PNmGsQplftaV2Ut4DVwiXpN+sOzhrt51thaXk/fJdHbA2bfbGbOZGiXHpiYrt
+         uWLgTrRYszTtN97myunAQeQ26W/fztRGb7D59O4DD077rw+V/n9p4YEsvLcslEwQpj9d
+         l1gdSgqOzOjvWyvMxA7DiJAsQ7i9kBKTttrTQ/vSmGNYAYhZom9TaklWWBUvgD+cDH+F
+         FT7A==
+X-Forwarded-Encrypted: i=1; AJvYcCWEjSIw5O9SNz8++JHanMb+NRyr/XLY7ifXQc7fFpm4Oa7apu0ZhjWh4ZyTQJFeFCGNChx6kxd8HGYmNkVG@lists.linux.dev
+X-Gm-Message-State: AOJu0Yw4pLYIV3E6/WW08fCFlgz/SrEGQx5bZwBc69FuuXDbK8jIMfXr
+	9MNmT8seLVjirbkBNUlJv+lZ7kGV3BtwJCUD4gDvurdUBa6BLfgZ9i+QEIVDeT5+nZ8=
+X-Gm-Gg: ASbGncsupY1xPZov07UmozEXyOr3rHrAIRSyU71ZfH9nVJ7cPsTD6Y0X2YCs7JZPn99
+	yop+exokr1/5V3LpNdQN4fmYG0I3g6p0mfNTI3PR8UyB1poLFQO+eWCsiAMM2f8g6MF3iGJhRSw
+	J0nCgQmW7B+gcfn+J54pKR/Wi75hWVzOO+RIygev1IASW24UezXcGFTVQItbNbkvm8m9r7VtOFT
+	CQXd86wrXg+G65l/W/tDp4HlG1TVIoPybWkWJL0B7jhgqBfZfdR5GiCnMTU4KB2xFxt214QZvhD
+	XcCwPS94llAueSJxHGcSB4D/FFeo7SsMStLF6MRm5oGNKxzNZLBengBI+CGxXpCXnv1gyA==
+X-Google-Smtp-Source: AGHT+IGP56xPtHiCZXhQKN8Uu2rZMFi/qagY8sczFmEtrJpJ17nQfRRSLKweF5R/GISgkaBHUgpwwg==
+X-Received: by 2002:a05:6830:840d:b0:734:f5e2:8cbc with SMTP id 46e09a7af769-73a91d24190mr7043470a34.18.1750772261285;
+        Tue, 24 Jun 2025 06:37:41 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:8c3f:8b5f:5c74:76a9])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73a908bc982sm1849930a34.0.2025.06.24.06.37.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Jun 2025 06:37:40 -0700 (PDT)
+Date: Tue, 24 Jun 2025 16:37:38 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Badal Nilawar <badal.nilawar@intel.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 02/10] mei: late_bind: add late binding component
+ driver
+Message-ID: <b92f6d9d-974f-4309-8d83-e6d737e1c41b@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,109 +71,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624093001.1359961-1-benjamin@sipsolutions.net>
+In-Reply-To: <20250618190007.2932322-3-badal.nilawar@intel.com>
 
-Hi Benjamin,
+Hi Badal,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on rafael-pm/thermal]
-[also build test ERROR on amd-pstate/linux-next amd-pstate/bleeding-edge linus/master v6.16-rc3 next-20250623]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Berg/thermal-use-a-custom-lock-class-for-intel-x86_pkg_temp/20250624-173220
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git thermal
-patch link:    https://lore.kernel.org/r/20250624093001.1359961-1-benjamin%40sipsolutions.net
-patch subject: [PATCH] thermal: use a custom lock class for intel x86_pkg_temp
-config: i386-buildonly-randconfig-006-20250624 (https://download.01.org/0day-ci/archive/20250624/202506242034.nhZNCW5t-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Badal-Nilawar/mei-bus-add-mei_cldev_mtu-interface/20250619-025825
+base:   https://gitlab.freedesktop.org/drm/xe/kernel.git drm-xe-next
+patch link:    https://lore.kernel.org/r/20250618190007.2932322-3-badal.nilawar%40intel.com
+patch subject: [PATCH v3 02/10] mei: late_bind: add late binding component driver
+config: i386-randconfig-141-20250623 (https://download.01.org/0day-ci/archive/20250624/202506241103.XiG3WA7g-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506242034.nhZNCW5t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506242034.nhZNCW5t-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202506241103.XiG3WA7g-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/misc/mei/late_bind/mei_late_bind.c:203 mei_late_bind_component_match() warn: was && intended here instead of ||?
 
-   drivers/thermal/intel/x86_pkg_temp_thermal.c: In function 'pkg_temp_thermal_device_add':
->> drivers/thermal/intel/x86_pkg_temp_thermal.c:351:9: error: implicit declaration of function 'thermal_zone_device_set_lock_class'; did you mean 'thermal_zone_set_lock_class'? [-Werror=implicit-function-declaration]
-     351 |         thermal_zone_device_set_lock_class(zonedev->tzone, &x86_pkg_temp_class);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |         thermal_zone_set_lock_class
-   cc1: some warnings being treated as errors
+vim +203 drivers/misc/mei/late_bind/mei_late_bind.c
 
+b4fe758cb831cd Alexander Usyskin 2025-06-19  186  static int mei_late_bind_component_match(struct device *dev, int subcomponent,
+b4fe758cb831cd Alexander Usyskin 2025-06-19  187  					 void *data)
+b4fe758cb831cd Alexander Usyskin 2025-06-19  188  {
+b4fe758cb831cd Alexander Usyskin 2025-06-19  189  	struct device *base = data;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  190  	struct pci_dev *pdev;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  191  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  192  	if (!dev)
+b4fe758cb831cd Alexander Usyskin 2025-06-19  193  		return 0;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  194  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  195  	if (!dev_is_pci(dev))
+b4fe758cb831cd Alexander Usyskin 2025-06-19  196  		return 0;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  197  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  198  	pdev = to_pci_dev(dev);
+b4fe758cb831cd Alexander Usyskin 2025-06-19  199  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  200  	if (pdev->vendor != PCI_VENDOR_ID_INTEL)
+b4fe758cb831cd Alexander Usyskin 2025-06-19  201  		return 0;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  202  
+b4fe758cb831cd Alexander Usyskin 2025-06-19 @203  	if (pdev->class != (PCI_CLASS_DISPLAY_VGA << 8) ||
 
-vim +351 drivers/thermal/intel/x86_pkg_temp_thermal.c
+This || should be &&.  Currently the function will always return 0.
 
-   309	
-   310	static int pkg_temp_thermal_device_add(unsigned int cpu)
-   311	{
-   312		struct lock_class_key x86_pkg_temp_class;
-   313		struct thermal_trip trips[MAX_NUMBER_OF_TRIPS] = { 0 };
-   314		int id = topology_logical_die_id(cpu);
-   315		u32 eax, ebx, ecx, edx;
-   316		struct zone_device *zonedev;
-   317		int thres_count, err;
-   318		int tj_max;
-   319	
-   320		if (id >= max_id)
-   321			return -ENOMEM;
-   322	
-   323		cpuid(6, &eax, &ebx, &ecx, &edx);
-   324		thres_count = ebx & 0x07;
-   325		if (!thres_count)
-   326			return -ENODEV;
-   327	
-   328		thres_count = clamp_val(thres_count, 0, MAX_NUMBER_OF_TRIPS);
-   329	
-   330		tj_max = intel_tcc_get_tjmax(cpu);
-   331		if (tj_max < 0)
-   332			return tj_max;
-   333	
-   334		zonedev = kzalloc(sizeof(*zonedev), GFP_KERNEL);
-   335		if (!zonedev)
-   336			return -ENOMEM;
-   337	
-   338		err = pkg_temp_thermal_trips_init(cpu, tj_max, trips, thres_count);
-   339		if (err)
-   340			goto out_kfree_zonedev;
-   341	
-   342		INIT_DELAYED_WORK(&zonedev->work, pkg_temp_thermal_threshold_work_fn);
-   343		zonedev->cpu = cpu;
-   344		zonedev->tzone = thermal_zone_device_register_with_trips("x86_pkg_temp",
-   345				trips, thres_count,
-   346				zonedev, &tzone_ops, &pkg_temp_tz_params, 0, 0);
-   347		if (IS_ERR(zonedev->tzone)) {
-   348			err = PTR_ERR(zonedev->tzone);
-   349			goto out_kfree_zonedev;
-   350		}
- > 351		thermal_zone_device_set_lock_class(zonedev->tzone, &x86_pkg_temp_class);
-   352		err = thermal_zone_device_enable(zonedev->tzone);
-   353		if (err)
-   354			goto out_unregister_tz;
-   355	
-   356		/* Store MSR value for package thermal interrupt, to restore at exit */
-   357		rdmsr(MSR_IA32_PACKAGE_THERM_INTERRUPT, zonedev->msr_pkg_therm_low,
-   358		      zonedev->msr_pkg_therm_high);
-   359	
-   360		cpumask_set_cpu(cpu, &zonedev->cpumask);
-   361		raw_spin_lock_irq(&pkg_temp_lock);
-   362		zones[id] = zonedev;
-   363		raw_spin_unlock_irq(&pkg_temp_lock);
-   364	
-   365		return 0;
-   366	
-   367	out_unregister_tz:
-   368		thermal_zone_device_unregister(zonedev->tzone);
-   369	out_kfree_zonedev:
-   370		kfree(zonedev);
-   371		return err;
-   372	}
-   373	
+b4fe758cb831cd Alexander Usyskin 2025-06-19  204  	    pdev->class != (PCI_CLASS_DISPLAY_OTHER << 8))
+b4fe758cb831cd Alexander Usyskin 2025-06-19  205  		return 0;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  206  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  207  	if (subcomponent != I915_COMPONENT_LATE_BIND)
+b4fe758cb831cd Alexander Usyskin 2025-06-19  208  		return 0;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  209  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  210  	base = base->parent;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  211  	if (!base) /* mei device */
+b4fe758cb831cd Alexander Usyskin 2025-06-19  212  		return 0;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  213  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  214  	base = base->parent; /* pci device */
+b4fe758cb831cd Alexander Usyskin 2025-06-19  215  
+b4fe758cb831cd Alexander Usyskin 2025-06-19  216  	return !!base && dev == base;
+b4fe758cb831cd Alexander Usyskin 2025-06-19  217  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
