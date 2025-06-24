@@ -1,198 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mail.postale.io (mail.postale.io [3.136.239.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5944925CC50
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 11:23:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99459289E1B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 11:26:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=3.136.239.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750764194; cv=none; b=adFid9BlAPwH0pK5w/Gq6xlmyRfaRMD6rvj4N/igHvooNsD8tXd9oEsn8rtRbfuyi0G+YXGmEbe0V6Abghy1Hh1t1dsNOIONjj1SSb+E+zSJhx8GjtfDM8vtznCpyM5sl7rW/gV2+jlXk2PxTs78N/R7tq/UNrDM7K+LVDQh4GA=
+	t=1750764386; cv=none; b=fDhWRhIXgUSIgCTp34fWIQ8Chn0n6QaKpWQalaYuvo3XywieKWfuIjMYYYWFfptstrYSn+j1brKoAn8BNNMnXekEIPnY0ed5NjdwxzcYEThy0wCXo5aSYgCw/O60ifhEfAPF4FrYLp1K/5qf1LGvcTVWWCc00dUzy2DSCKFJQI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750764194; c=relaxed/simple;
-	bh=jiKUfZqjG7qOZGQfCaAa2+Vnx3BVrYF0VLfPGeJuxmY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y3qE146WQyXL3sC8lxSzlHe1wL0ebIB/4als17BVrDPplJ5ddGFeE2dt2wu5R+kBgn61chrFdqql+WxRsnYVAniuufufGrHPXrnIaeTwcVlWinl1p2ahtyA2zxIBu9Ig0CwZkQRuJLGYNY5LTSv8a/J9MUB/gXbPdcG1qpzRKpA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BiDMVUz4; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750764386; c=relaxed/simple;
+	bh=OiyPzE5YteeFr9c/E1WyDFT3/gY3tdhgCQousmGSZ98=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Jo0UNG8eJoWsXGauKAGQkXr0Ot6uEx8Y65y46caTlZsz96FscuuviSax/lkGh+RtuaKRbdjyRONupDm6KHHIJxX2tVj3juZRuHUevIuRXAXkNHRHcYd1d0XX/VFQqoQKmgdnnMCcNds3lCRuf8MBRzVoJJ8yi/u4avW6HX+kUs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=glxys.nl; spf=pass smtp.mailfrom=glxys.nl; dkim=pass (1024-bit key) header.d=glxys.nl header.i=@glxys.nl header.b=gtTUdhzb; arc=none smtp.client-ip=3.136.239.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=glxys.nl
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=glxys.nl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BiDMVUz4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750764192; x=1782300192;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jiKUfZqjG7qOZGQfCaAa2+Vnx3BVrYF0VLfPGeJuxmY=;
-  b=BiDMVUz4xqO8QVq0xyTJgJIdmBJgnfsoUA1iAc5t218lO0XUnytqijnb
-   itqlNaQ+M16473+P6tCPlvghKS5gsJe9JxwtH2kD0ywfRDt+z8xRNbxo0
-   fFJpkweSAgBUs0JC6ZHlhLSVIgoWyNshX7QYQ/LTIJFo0IMir4kYtk5e6
-   s4WxwZidsweCHsBZTJqfsiZlBpINFzP15LM/9QqqOwPWtGl90shDtI4TV
-   Xg4k4AJbLNK6COttcgWX26gmaQQmOy25DDkysYWzANmlwkBP0YN5iXJoQ
-   082G4xyHLDgAjzlkr1W+s9ECfozEqyO+QuYUO3Xu/NgFvdh3yTkT4DvOg
-   g==;
-X-CSE-ConnectionGUID: pw2f9O0HQdmOBFDtUlqoXA==
-X-CSE-MsgGUID: LNopIhEfRuiQbPou+fMNJQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="52721280"
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="52721280"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 04:23:12 -0700
-X-CSE-ConnectionGUID: kxUeEGS9Qhe2/bO/DnAVLw==
-X-CSE-MsgGUID: 3f3kdLdqTwuaN2cQTp+PAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,261,1744095600"; 
-   d="scan'208";a="151373519"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 24 Jun 2025 04:23:09 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uU1k2-000S3W-2D;
-	Tue, 24 Jun 2025 11:23:06 +0000
-Date: Tue, 24 Jun 2025 19:22:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	jassisinghbrar@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v1 2/2] mailbox: Add MediaTek TinySYS MHU-like Mailbox
-Message-ID: <202506241946.HEKwafHB-lkp@intel.com>
-References: <20250623120127.109237-3-angelogioacchino.delregno@collabora.com>
+	dkim=pass (1024-bit key) header.d=glxys.nl header.i=@glxys.nl header.b="gtTUdhzb"
+Authentication-Results: mail.postale.io;
+	auth=pass (plain)
+Message-ID: <cec23f4a-6d97-499e-3f28-18d44fde00f2@glxys.nl>
+Date: Tue, 24 Jun 2025 19:25:59 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250623120127.109237-3-angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v3] ALSA: hda: add MODULE_FIRMWARE for cs35l41/cs35l56
+Content-Language: en-US
+To: Takashi Iwai <tiwai@suse.de>
+Cc: simont@opensource.cirrus.com, david.rhodes@cirrus.com,
+ linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, lkp@intel.com,
+ oe-kbuild-all@lists.linux.dev, patches@opensource.cirrus.com,
+ perex@perex.cz, rf@opensource.cirrus.com, tiwai@suse.com, me@glxys.nl
+References: <002901dbe4ef$57d0cce0$077266a0$@opensource.cirrus.com>
+ <20250624101716.2365302-2-me@glxys.nl> <87cyatl8q3.wl-tiwai@suse.de>
+From: GalaxySnail <me@glxys.nl>
+In-Reply-To: <87cyatl8q3.wl-tiwai@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received: from localhost (Unknown [127.0.0.1])
+	by mail.postale.io  with ESMTPSA id B9A404E8-8EB8-49D7-8565-CCE15A8B9C73.1
+	envelope-from <me@glxys.nl>
+	tls TLS_AES_128_GCM_SHA256 (authenticated bits=0);
+	Tue, 24 Jun 2025 11:26:23 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=glxys.nl; s=s20221125375;
+	h=from:subject:date:message-id:to:cc:mime-version;
+	bh=OiyPzE5YteeFr9c/E1WyDFT3/gY3tdhgCQousmGSZ98=;
+	b=gtTUdhzbZtoUCWsgQr0rTsfC0J+iMFAM3ihuu+nDiRW5Ea1zoZlgi93LXYZLJ+43MYrKe7H/+3
+	kajSb/j7gbacJu7LMOHriT0yfiv85J7pdkpQSqH/DgaKtNlE33hBpOEONT+0KvSFDw2hJcaNOzWU
+	k3X6OKeSV/F1m/RiF/x0U=
 
-Hi AngeloGioacchino,
+On 2025/6/24 18:44, Takashi Iwai wrote:
+> On Tue, 24 Jun 2025 12:17:17 +0200,
+> GalaxySnail wrote:
+>>
+>> add firmware information in the .modinfo section, so that userspace
+>> tools can find out firmware required by cs35l41/cs35l56 kernel module
+>>
+>> Signed-off-by: GalaxySnail <me@glxys.nl>
+> 
+> Signed-off-by is a legal requirement, and it must be a known identity,
+> no anonymity.  Could you resubmit with a proper name?
 
-kernel test robot noticed the following build errors:
+GalaxySnail is not an anonymous identity, it's the consistent name I
+use for all my open-source contributions.
 
-[auto build test ERROR on jassibrar-mailbox/for-next]
-[also build test ERROR on robh/for-next soc/for-next linus/master v6.16-rc3 next-20250623]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Here's my GitHub account: https://github.com/GalaxySnail
+and here's my AUR account: https://aur.archlinux.org/account/GalaxySnail
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-mailbox-Add-MediaTek-TinySYS-MHU-mailbox/20250623-201139
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jassibrar/mailbox.git for-next
-patch link:    https://lore.kernel.org/r/20250623120127.109237-3-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v1 2/2] mailbox: Add MediaTek TinySYS MHU-like Mailbox
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250624/202506241946.HEKwafHB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506241946.HEKwafHB-lkp@intel.com/reproduce)
+> thanks,
+> 
+> Takashi
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506241946.HEKwafHB-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/mailbox/mtk-tinysys-mailbox.c: In function 'mtk_tinysys_mhu_mbox_startup':
->> drivers/mailbox/mtk-tinysys-mailbox.c:95:9: error: implicit declaration of function 'irq_clear_status_flags' [-Werror=implicit-function-declaration]
-      95 |         irq_clear_status_flags(priv->irq, IRQ_NOAUTOEN);
-         |         ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/mailbox/mtk-tinysys-mailbox.c:95:43: error: 'IRQ_NOAUTOEN' undeclared (first use in this function); did you mean 'IRQF_NO_AUTOEN'?
-      95 |         irq_clear_status_flags(priv->irq, IRQ_NOAUTOEN);
-         |                                           ^~~~~~~~~~~~
-         |                                           IRQF_NO_AUTOEN
-   drivers/mailbox/mtk-tinysys-mailbox.c:95:43: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/mailbox/mtk-tinysys-mailbox.c: In function 'mtk_tinysys_mhu_mbox_probe':
->> drivers/mailbox/mtk-tinysys-mailbox.c:152:9: error: implicit declaration of function 'irq_set_status_flags' [-Werror=implicit-function-declaration]
-     152 |         irq_set_status_flags(priv->irq, IRQ_NOAUTOEN);
-         |         ^~~~~~~~~~~~~~~~~~~~
-   drivers/mailbox/mtk-tinysys-mailbox.c:152:41: error: 'IRQ_NOAUTOEN' undeclared (first use in this function); did you mean 'IRQF_NO_AUTOEN'?
-     152 |         irq_set_status_flags(priv->irq, IRQ_NOAUTOEN);
-         |                                         ^~~~~~~~~~~~
-         |                                         IRQF_NO_AUTOEN
-   cc1: some warnings being treated as errors
-
-
-vim +/irq_clear_status_flags +95 drivers/mailbox/mtk-tinysys-mailbox.c
-
-    90	
-    91	static int mtk_tinysys_mhu_mbox_startup(struct mbox_chan *chan)
-    92	{
-    93		struct mtk_tinysys_mhu_mbox *priv = to_mtk_tinysys_mhu_mbox(chan->mbox);
-    94	
-  > 95		irq_clear_status_flags(priv->irq, IRQ_NOAUTOEN);
-    96		enable_irq(priv->irq);
-    97	
-    98		return 0;
-    99	}
-   100	
-   101	static void mtk_tinysys_mhu_mbox_shutdown(struct mbox_chan *chan)
-   102	{
-   103		struct mtk_tinysys_mhu_mbox *priv = to_mtk_tinysys_mhu_mbox(chan->mbox);
-   104	
-   105		disable_irq(priv->irq);
-   106	}
-   107	
-   108	static const struct mbox_chan_ops tinysys_mbox_chan_ops = {
-   109		.send_data = mtk_tinysys_mhu_mbox_send_data,
-   110		.startup = mtk_tinysys_mhu_mbox_startup,
-   111		.shutdown = mtk_tinysys_mhu_mbox_shutdown,
-   112		.last_tx_done = mtk_tinysys_mhu_mbox_last_tx_done,
-   113	};
-   114	
-   115	static int mtk_tinysys_mhu_mbox_probe(struct platform_device *pdev)
-   116	{
-   117		struct device *dev = &pdev->dev;
-   118		struct mtk_tinysys_mhu_mbox *priv;
-   119		struct mbox_controller *mbox;
-   120		int ret;
-   121	
-   122		/* Allocate memory for device */
-   123		priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-   124		if (!priv)
-   125			return -ENOMEM;
-   126	
-   127		priv->base = devm_platform_ioremap_resource(pdev, 0);
-   128		if (IS_ERR(priv->base))
-   129			return PTR_ERR(priv->base);
-   130	
-   131		priv->irq = platform_get_irq(pdev, 0);
-   132		if (priv->irq < 0)
-   133			return priv->irq;
-   134	
-   135		priv->pdata = device_get_match_data(dev);
-   136		if (!priv->pdata)
-   137			return -EINVAL;
-   138	
-   139		mbox = &priv->mbox;
-   140		mbox->dev = dev;
-   141		mbox->ops = &tinysys_mbox_chan_ops;
-   142		mbox->txdone_irq = false;
-   143		mbox->txdone_poll = true;
-   144		mbox->txpoll_period = 1;
-   145		mbox->num_chans = 1;
-   146		mbox->chans = devm_kzalloc(dev, sizeof(*mbox->chans), GFP_KERNEL);
-   147		if (!mbox->chans)
-   148			return -ENOMEM;
-   149	
-   150		platform_set_drvdata(pdev, priv);
-   151	
- > 152		irq_set_status_flags(priv->irq, IRQ_NOAUTOEN);
-   153		ret = devm_request_irq(dev, priv->irq, mtk_tinysys_mhu_mbox_irq,
-   154				       IRQF_TRIGGER_NONE, dev_name(dev), mbox->chans);
-   155		if (ret < 0)
-   156			return ret;
-   157	
-   158		ret = devm_mbox_controller_register(dev, &priv->mbox);
-   159		if (ret)
-   160			return dev_err_probe(dev, ret, "Failed to register mailbox\n");
-   161	
-   162		return 0;
-   163	}
-   164	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
