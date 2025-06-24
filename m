@@ -1,103 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from out162-62-57-49.mail.qq.com (out162-62-57-49.mail.qq.com [162.62.57.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D69C139CE3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 02:29:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE716136
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 03:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750732160; cv=none; b=ZG5QVOBCyr8QS5/FIL/8/n7BAvcYgDWS5nEqz6ttVzZT8UnATxB3T6ybbmZHh+UKExWwVdwXVArAzmW5mtfxWfPMqr4VcAdpSGWHqBanm6zG6w9MVaoGqZ7MyyAi8R7fn/yp4hAi9cjkUki8YB+PSEiDC13ixak5djM6Jvg5kLs=
+	t=1750735048; cv=none; b=an5IbaXFd46XjBI78qpFikZn7JsVzxtcU6607Sp0RWzwBGfRDMK5+e6H/az3ENmMWZe0PdD8gNjSFtctWhb8bMbA2GMoOA8WWBAkWm3HERLbMY7oQfzJaSeax2uMGNxsFUcwtLYtu02eSCmXN+lNmd/68k5jOoXrzziBT+BHieE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750732160; c=relaxed/simple;
-	bh=aCq7pU8kNb4mHcl6rtEIZfZyJWT3bMbgZHNQ3Cyafh4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a1Qtj2bUWbg+VRZV5JnmvyY3zA3g1E3o6WFdVNUCkia0OxLr35bMqu6GMj5Q6+ykkc0IKNNHubdDzJH9TWscdNi6wYcK+ENfD4LykCbBA8h7UqaOPia9vzdGBZwUReiQUFzGzz9RfgKm94ZV6LFuB2RAKW7M2E6Js2RecvsGr5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DN9qdWgY; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750735048; c=relaxed/simple;
+	bh=2lgsSiSDVhVvn8xEry5TEui0answQ0NLBijzCjYH/hg=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=m8vEMnOjgdQHlRgci5uqqsgHD5Be95oavms/es8L2nraiebGaylBsQtVXiYPYYqSi9Xnib0SsT4mh+dCXjkUjPlR7aZJFAj0Cj6rzo6mirnQhqgVIFBJ0fd+bD41OwB0y+AyqEEAUVtk7LTEvoKA2HMbV5rz9cfLBtOqKOxJZjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=mV3FB3gZ; arc=none smtp.client-ip=162.62.57.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DN9qdWgY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750732158; x=1782268158;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aCq7pU8kNb4mHcl6rtEIZfZyJWT3bMbgZHNQ3Cyafh4=;
-  b=DN9qdWgYVaPlRxSQCVP/G9AzezzZR+CeW7E3r1ZaHdjOLzac4ffSuPib
-   V4eWZGQeIPQTjmCi2imaWksKmaZPmjUPfIBev93YGe5raA/usuN5delcM
-   MBOcxRAaQljl1NIE3akWaLv03bEO5Mw7Edt1CE9NIw1DKIU9besEanR7U
-   6M12+Fypr4S20ZWCBa4HgAIEAeObyXNTkkbq7ceVE9ycZl9UFOefhoO3T
-   X9GOT71mCsTSFqeWnBvmjawAYLf7f+9RnTUPP14sFBSHSRTwK70098fkP
-   4bxAHlQA8jVYUyx4hcipo0504aI9k7yAX7mIBy97zm6/VXHc7EmM/RBm0
-   g==;
-X-CSE-ConnectionGUID: 7vTOAtbOSWqow+54sSFujA==
-X-CSE-MsgGUID: beTNsPiHS1CSTY1Rk+MJRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11473"; a="56629119"
-X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
-   d="scan'208";a="56629119"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2025 19:29:17 -0700
-X-CSE-ConnectionGUID: yMfGDS/9QleenYCj1nIOxw==
-X-CSE-MsgGUID: KnB9MCWvQ7y/CioVZQ06Rg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,260,1744095600"; 
-   d="scan'208";a="182808464"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 23 Jun 2025 19:29:14 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uTtPK-000Rdi-1a;
-	Tue, 24 Jun 2025 02:29:10 +0000
-Date: Tue, 24 Jun 2025 10:29:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sai Krishna Musham <sai.krishna.musham@amd.com>, bhelgaas@google.com,
-	lpieralisi@kernel.org, kw@linux.com, mani@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	cassel@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	michal.simek@amd.com, bharat.kumar.gogada@amd.com,
-	thippeswamy.havalige@amd.com, sai.krishna.musham@amd.com
-Subject: Re: [PATCH v3 2/2] PCI: amd-mdb: Add support for PCIe RP PERST#
- signal handling
-Message-ID: <202506241020.rPD1a2Vr-lkp@intel.com>
-References: <20250618080931.2472366-3-sai.krishna.musham@amd.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="mV3FB3gZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1750735033; bh=e5CddSXqWu8idh7jLesbAOAwyCS96hBKVBtYhIbCOis=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=mV3FB3gZ/ujL5FgQioCWmPfOasilRC57743cOyjhqtpPPF9rV31tTkOO9aWURgouW
+	 LnjqV1otMkMk8mIgPG1BGPICUPdoBj+U2FxWPHn0WRcu2wkdePPrBwIJgTuW2gBgx8
+	 A3NKjP6MFVep4PhInT2KIfu4usKKCz2UCrJqo/x8=
+Received: from VM-222-126-tencentos.localdomain ([14.22.11.165])
+	by newxmesmtplogicsvrszc13-0.qq.com (NewEsmtp) with SMTP
+	id 4333CCA0; Tue, 24 Jun 2025 11:16:51 +0800
+X-QQ-mid: xmsmtpt1750735011tvra48o7l
+Message-ID: <tencent_FACDDA286D6964B8EFB784FE3C4966EFDA08@qq.com>
+X-QQ-XMAILINFO: NyTsQ4JOu2J2sYoc6GuRSGi/RPtT58ss+s1XHr5nfWLCHIxKyly4svic0kOksH
+	 7zwcIW37+MpR+3wzQtAIANDUukiaOHjmoBh4GDWsbAPaHJYlO+xx9TIgPZ0on+vnq/aGjejOMJG6
+	 0gb8oc5F6MNWngAIQu+G4BItbqf+/5wbUiIsJaj0H5l4Z99NV8anfIBTyngabT79+9v8ITDgTSRr
+	 /YW61SOabi9MaGwz+Jjkensj3KWLKqSDoe3hhl6/5EjWUHK5bnfdrI3MieryVgElo77Mim+H7oUv
+	 H0kHuZmHOyXFzM3NhrUwQpe7StGdjg+YckF3SViWdgR+j54wgb48EA5A9jxwN5KRvRacs29HtU/v
+	 rFZ85eHZH1LXJ0YHNTfg88HWG8PDzNeFGRfrtfkIKFAzDlJb3kK5tLOrP1/UfVHsTYh+qk1c91Qt
+	 1d5yssHNwAfT2qSpVIq4a12EkslIPIw72mmHeGsqCsOFZD3qzmPCUSBIIU6nVKjjtzEP/ymj3wS3
+	 Ua4UrRbVBO8+HrjDOSVXnEX4XidrBcruqy85q16oGrLUjKLu0cFFm/bplXnzSR+EIP3BWdUiHRdo
+	 wMHnoByIzaeR672eOofJ7GdQ7jKXhcFb4I4yHdVxAbduZP7LaYuzthfD23Xl+oV85b44apnTfSp0
+	 DYTt0K2dGM+jDbwawuro90tYaMojOqD4v5DqSfr/I2OhTrDYFFssElKpjNe+HBEISE8A6Umf2LAg
+	 TAURUfIA/TgfxhZ8mAw/Zn1Is+KUJBx7Wdvd7oF8g0YbsJgcPDn0F8/zqo2TxeKzgAI2HXhVj0ZW
+	 MAQ6txox0Zh8TFJNsQ2LxvmxaNQK6RlHmCF9Fzmf8TMU+PLJ79GHA/qafOATPV1mNUWhi9UsWB3y
+	 e3JngoevZxkM6KkFdrYUKj/rGujKniwonhi8N7BDoZowI+rfFvTez0CrwzherPvZ0LJ58SuKcCau
+	 9JXqOZ+iUMFGvO195htvkNPI2fKlpPh5yt+riZJdbcfv30Uj/v4qv1ZgYWPR8f
+X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
+From: jackysliu <1972843537@qq.com>
+To: lkp@intel.com
+Cc: 1972843537@qq.com,
+	GR-QLogic-Storage-Upstream@marvell.com,
+	James.Bottomley@hansenpartnership.com,
+	jhasan@marvell.com,
+	linux-kernel@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	martin.petersen@oracle.com,
+	oe-kbuild-all@lists.linux.dev,
+	skashyap@marvell.com
+Subject: [PATCH] [PATCH] scsi: qedf: fix inconsistent indenting warning Fix below inconsistent indenting smatch warning. New smatch warnings: drivers/scsi/qedf/qedf_main.c:2814 qedf_prepare_sb() warn: inconsistent indenting
+Date: Tue, 24 Jun 2025 11:16:43 +0800
+X-OQ-MSGID: <20250624031643.2205842-1-1972843537@qq.com>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <202506240340.fv6cXpyc-lkp@intel.com>
+References: <202506240340.fv6cXpyc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250618080931.2472366-3-sai.krishna.musham@amd.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Sai,
+Old smatch warnings:
+drivers/scsi/qedf/qedf_main.c:2816 qedf_prepare_sb() warn: inconsistent indenting
 
-kernel test robot noticed the following build warnings:
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202506240340.fv6cXpyc-lkp@intel.com/
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus linus/master v6.16-rc3 next-20250623]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: jackysliu <1972843537@qq.com>
+---
+ drivers/scsi/qedf/qedf_main.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sai-Krishna-Musham/dt-bindings-PCI-amd-mdb-Add-reset-gpios-property-for-PCIe-RP-PERST-handling/20250618-161100
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250618080931.2472366-3-sai.krishna.musham%40amd.com
-patch subject: [PATCH v3 2/2] PCI: amd-mdb: Add support for PCIe RP PERST# signal handling
-config: csky-randconfig-002-20250621 (https://download.01.org/0day-ci/archive/20250624/202506241020.rPD1a2Vr-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250624/202506241020.rPD1a2Vr-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506241020.rPD1a2Vr-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/pci/controller/dwc/pcie-amd-mdb.c:68 struct member 'perst_gpio' not described in 'amd_mdb_pcie'
-
+diff --git a/drivers/scsi/qedf/qedf_main.c b/drivers/scsi/qedf/qedf_main.c
+index 8767d9de819f..b46fc510557b 100644
+--- a/drivers/scsi/qedf/qedf_main.c
++++ b/drivers/scsi/qedf/qedf_main.c
+@@ -2810,11 +2810,11 @@ static int qedf_prepare_sb(struct qedf_ctx *qedf)
+ 	}
+ err:
+ for (int i = 0; i < id; i++) {
+-fp = &qedf->fp_array[i];
+-if (fp->sb_info) {
+-qedf_free_sb(qedf, fp->sb_info);
+-kfree(fp->sb_info);
+-fp->sb_info = NULL;
++	fp = &qedf->fp_array[i];
++	if (fp->sb_info) {
++		qedf_free_sb(qedf, fp->sb_info);
++		kfree(fp->sb_info);
++	fp->sb_info = NULL;
+ }
+ }
+ kfree(qedf->fp_array);
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.5
+
