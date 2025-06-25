@@ -1,134 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB82F1E5B6D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 16:22:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3335B285C92;
+	Wed, 25 Jun 2025 16:48:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750868528; cv=none; b=M7JT5CetrP7oNfms+vuQqhlFG727IWonKHOxM+BL3ov6QiT8wxA5FbWueczFIfETbn96Qig03I7YooF47QPPu25o+akW/ZIftXLHYdcfKLacTKnOEYOJJzFjhrRuroXy/emys2eHEcKFkkIHlpDFsYU9SoqOGL8B+XMmD1Pkl68=
+	t=1750870109; cv=none; b=REJDOP3h47yZA+bS6GygNCsLZiXPGluEOcz0KbqzvaBAnPwHmOMjZTy0pE/VDtnuLILfZJyg+xkQ8tXIv2v+yAud3/smVKKslHEuo75KXVcW37bhWFgl3F6BuwpHJHP7H3OSVSl50s0l/CRsYjzhgMcwkU8TLk6SMyEM3SOVogE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750868528; c=relaxed/simple;
-	bh=Ou8QHMFdgetDzK5dLd56qGIJObazJQu5Eap283Iz/b8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DUxkoQgUMSWdZRtd/wZfZ3ivMiwvLj2IKcw0xQbol+RyuuwleYcn2EayY8oPdjAW8Cub6qRLd11ba+PV1mH7FGNu8k37y17H+E2XVDZcsP/xC6x1XhJymMBvuO/RGaLuRriUtTHJOYm0Yu3CkPJuhTOjnQqRaQHHy1V/oEstS7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HiVDlhRT; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750870109; c=relaxed/simple;
+	bh=cag+c+glbVM6ZrhblGmUpscg8NGo2h1Nshc6TntvkuA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S2oVeVuQNDlaX0nW+kVJ/OEi8+ipCn5FKajVMU+8wF0JIgXKVcrdvz9zRhAVJcpir/O/ryvIiRVdI5wxkE6GjRcIwPWsx7ge9FEOs3SehYiKGsYfQlQFxy8399JvNdA1MIHA6a3uXejCgkHuQXNcid+DR50NvaxYNOJ69zllFak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bvKps39S; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HiVDlhRT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750868526; x=1782404526;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ou8QHMFdgetDzK5dLd56qGIJObazJQu5Eap283Iz/b8=;
-  b=HiVDlhRTsEfeReLW4sNU9Lf8PYPIlsoq1/YKf+hGdfUEDYrTz6jhbnqm
-   RnszxQhiDKKNpHeuIGWcRIlaDqddMGNI05L1kPAORok4A1Q+yteErSZnn
-   6hWxCRLwcCXtxG5YKU8/P0pbr74Y64mxjw0TRlGgLGU8TsPbfE070a7it
-   UT6pIjJZoqnWag5lVtsmi2hAvsUKOCvdmWg8to0VRZKwTrmmrRotc5L0M
-   4blJvQ49ZgEJ3QrSYf4YqL3sOmoIffOZTvsPcwj26vLlra6+Gql3fnPvW
-   8pZfMrX+dy2G33qjkFQv4N9oZT+0rWJ88Liqe1hEJYinzddW3VYr8lIjm
-   A==;
-X-CSE-ConnectionGUID: /Ckh+MrRTROzp7UCCVh0yA==
-X-CSE-MsgGUID: mN238qpHQPSA+uL3/Lo4Uw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53013158"
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="53013158"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 09:22:05 -0700
-X-CSE-ConnectionGUID: HE36SdgBRouSxKN5A3ZuUA==
-X-CSE-MsgGUID: VNv6kMPsT8Gfurry55xSsg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="175913297"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Jun 2025 09:21:59 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uUSsm-000TIU-3C;
-	Wed, 25 Jun 2025 16:21:56 +0000
-Date: Thu, 26 Jun 2025 00:21:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>, james.morse@arm.com,
-	linux-cxl@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-acpi@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-mm@kvack.org, gregkh@linuxfoundation.org,
-	Will Deacon <will@kernel.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Davidlohr Bueso <dave@stgolabs.net>
-Cc: oe-kbuild-all@lists.linux.dev, Yicong Yang <yangyicong@huawei.com>,
-	linuxarm@huawei.com, Yushan Wang <wangyushan12@huawei.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	x86@kernel.org, H Peter Anvin <hpa@zytor.com>,
-	Andy Lutomirski <luto@kernel.org>
-Subject: Re: [PATCH v2 5/8] arm64: Select
- GENERIC_CPU_CACHE_INVALIDATE_MEMREGION
-Message-ID: <202506260055.YivRG9iE-lkp@intel.com>
-References: <20250624154805.66985-6-Jonathan.Cameron@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bvKps39S"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4a58ba6c945so1986661cf.2;
+        Wed, 25 Jun 2025 09:48:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1750870107; x=1751474907; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BfZQtxZ5A/V3eeXnba2r1tOxiy9yY9dau/NzMZf1604=;
+        b=bvKps39SwQRfw86rnWxlvQ9AJaYLMrpAV43K56TQtquwg7nYmnT6aESjTXz93kykDJ
+         dOfKSBTuFtWy6nMmgjCUCDUlUKUN5BFfuQqNBxxfBQx7yOePTTthxg0fJk2h5pp4jhoi
+         uvpyGOCyKUOuiSMGZCNBHlh4PXgdwZo9C3cUImL+nRxqOaLpxbvy+Sc/fdUdmXL9Hdpp
+         OZK2ZRQ3wmRRqSNbqd2ehZH7uKHJgSpkHX/zfE3lF6piucqAjq1vj9C9bKT1c4G5rwpa
+         mPt53/h++7AG3nTSnh6Yloq2R1IZCiONtVPyuPxti51l936N1lhcgoPMWxggAnqSTU3/
+         8Iww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750870107; x=1751474907;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BfZQtxZ5A/V3eeXnba2r1tOxiy9yY9dau/NzMZf1604=;
+        b=wXcnhWF+lA1BK3yrEihE+M3AAv/ZpzMoGPZZ+bblJgGYDa/I00FVH7gx7/alM7i1aZ
+         hgUDGwsRy4poxlAe2O3ib1wMRdeB5X5tWtiyrUCMhVJZTOFRIE2Q3E4T+7a/ZSU5ISoP
+         dNpZZY8Lb0eHFKuGvRPLsgM3Y35bon1WclrSMkFvLe9fZLIOsmcNEUZAn3FNuKfliW+c
+         ML5SlEogJB4bW+cNAO5/dZ1cb0jiYRcKLyW6JCDFKgJSatKN/TKdKNY0k8qiuyLjK6mG
+         IbRUvI2He2UbbH+EdoLEbxVV74YrxgMuVfTpdaJKA5y+GMZjQdALcEL8ERggYPULgK1y
+         uCGw==
+X-Forwarded-Encrypted: i=1; AJvYcCVYC4ebCpUsqFU+HY5lD0sEk8P9kY8Wm8Nlf/wWVOCfanM5EGgnfr91Qi1wvu5dtXL0ahXW6qDLT3uzK8q9TQ==@lists.linux.dev, AJvYcCWH5oemSKOxQbEGkqSK5qFokoV928vvL62UNZpCegSnsItEWAZtErIMIcAuyHz99aVS1zYJ@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywm11381w8loSGEA0i4K7o4fQJ+teTU9Z86hc1FkeahLhQrkgsu
+	5uxlOE6cXe4hcBeo19f5t4n61Zo3qjpe+WWjaZc5x/LcNk12BhrHz/MDvkUsnwxEo95E3hssucV
+	x8Hr7M9scdOWw6oeWQxJklhVYlWMKBZY=
+X-Gm-Gg: ASbGncsQIAHct4wrgyltZXqvLjeFXXyp48XdCASpu/imkiJ/3PqYas5/O950noMCn8d
+	NF2v7qjM/Oujoyc9bYo7/siGLVVI8DV9lzkJK/DRrhg4Q9gDO5geRkv6ivC0+Gj0Q/jr1wjLxbb
+	BPRTFPdb8YZ9ERt47rZTaWeFVBcU/zIM3M4F24tAZUxKkx1jwP/AzZdhtWUhY=
+X-Google-Smtp-Source: AGHT+IHnGZf+fu9SeiyuF9kQmAOEZke0m2LllwCuXdhfFxesY+uAABRJJM6WKD41IneEOxIBlU5CuC7+Lj6KgvDsH4g=
+X-Received: by 2002:ac8:5fce:0:b0:476:74de:81e2 with SMTP id
+ d75a77b69052e-4a7c08b05f0mr65981621cf.43.1750870106629; Wed, 25 Jun 2025
+ 09:48:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250624154805.66985-6-Jonathan.Cameron@huawei.com>
+References: <20250624022135.832899-14-joannelkoong@gmail.com> <202506252117.9V3HTO0i-lkp@intel.com>
+In-Reply-To: <202506252117.9V3HTO0i-lkp@intel.com>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Wed, 25 Jun 2025 09:48:15 -0700
+X-Gm-Features: AX0GCFu4lcNCxXc2Rv_TbdgF3DX477vRtHysoV5-7omwd5WacfSbp3GjvkDuyaU
+Message-ID: <CAJnrk1Z5NZ0_f=OMMam9hf0xJwM=SsmgFpyfbnKE7MT_i_kZMQ@mail.gmail.com>
+Subject: Re: [PATCH v3 13/16] fuse: use iomap for writeback
+To: kernel test robot <lkp@intel.com>
+Cc: linux-fsdevel@vger.kernel.org, oe-kbuild-all@lists.linux.dev, hch@lst.de, 
+	miklos@szeredi.hu, brauner@kernel.org, djwong@kernel.org, 
+	anuj20.g@samsung.com, linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jonathan,
+On Wed, Jun 25, 2025 at 7:18=E2=80=AFAM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Joanne,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on brauner-vfs/vfs.all]
+> [also build test ERROR on xfs-linux/for-next linus/master v6.16-rc3 next-=
+20250625]
+> [cannot apply to gfs2/for-next mszeredi-fuse/for-next]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/iomap=
+-pass-more-arguments-using-struct-iomap_writepage_ctx/20250624-102709
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.a=
+ll
+> patch link:    https://lore.kernel.org/r/20250624022135.832899-14-joannel=
+koong%40gmail.com
+> patch subject: [PATCH v3 13/16] fuse: use iomap for writeback
+> config: arm64-randconfig-003-20250625 (https://download.01.org/0day-ci/ar=
+chive/20250625/202506252117.9V3HTO0i-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 12.3.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250625/202506252117.9V3HTO0i-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202506252117.9V3HTO0i-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+>    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepages':
+> >> file.c:(.text+0xa30): undefined reference to `iomap_writepages'
+> >> file.c:(.text+0xa30): relocation truncated to fit: R_AARCH64_CALL26 ag=
+ainst undefined symbol `iomap_writepages'
+>    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepage_finish':
+> >> file.c:(.text+0x1fd8): undefined reference to `iomap_finish_folio_writ=
+e'
+> >> file.c:(.text+0x1fd8): relocation truncated to fit: R_AARCH64_CALL26 a=
+gainst undefined symbol `iomap_finish_folio_write'
+>    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_cache_write_iter':
+>    file.c:(.text+0x888c): undefined reference to `iomap_file_buffered_wri=
+te'
+>    file.c:(.text+0x888c): relocation truncated to fit: R_AARCH64_CALL26 a=
+gainst undefined symbol `iomap_file_buffered_write'
+>    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_iomap_writeback_ra=
+nge':
+> >> file.c:(.text+0x9258): undefined reference to `iomap_start_folio_write=
+'
+> >> file.c:(.text+0x9258): relocation truncated to fit: R_AARCH64_CALL26 a=
+gainst undefined symbol `iomap_start_folio_write'
+> >> aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x370): undefined reference =
+to `iomap_dirty_folio'
+>    aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x3a0): undefined reference =
+to `iomap_release_folio'
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-kernel test robot noticed the following build warnings:
+As noted in the cover letter [1]
 
-[auto build test WARNING on driver-core/driver-core-testing]
-[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus arm64/for-next/core linus/master nvdimm/libnvdimm-for-next v6.16-rc3]
-[cannot apply to nvdimm/dax-misc next-20250625]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Cameron/memregion-Support-fine-grained-invalidate-by-cpu_cache_invalidate_memregion/20250624-235402
-base:   driver-core/driver-core-testing
-patch link:    https://lore.kernel.org/r/20250624154805.66985-6-Jonathan.Cameron%40huawei.com
-patch subject: [PATCH v2 5/8] arm64: Select GENERIC_CPU_CACHE_INVALIDATE_MEMREGION
-config: arm64-allnoconfig (https://download.01.org/0day-ci/archive/20250626/202506260055.YivRG9iE-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506260055.YivRG9iE-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506260055.YivRG9iE-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/base/cache.c:31:5: warning: no previous prototype for 'cpu_cache_invalidate_memregion' [-Wmissing-prototypes]
-      31 | int cpu_cache_invalidate_memregion(int res_desc, phys_addr_t start, size_t len)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/base/cache.c:41:6: warning: no previous prototype for 'cpu_cache_has_invalidate_memregion' [-Wmissing-prototypes]
-      41 | bool cpu_cache_has_invalidate_memregion(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Please note the following:
+   * this patchset version temporarily drops the CONFIG_BLOCK iomap refacto=
+ring
+     patches that will be needed to merge in the series. As of now, this br=
+eaks
+     compilation for environments where CONFIG_BLOCK is not set, but the
+     CONFIG_BLOCK iomap changes will be re-added back in once the core chan=
+ges
+     in this patchset are ready to go.
 
 
-vim +/cpu_cache_invalidate_memregion +31 drivers/base/cache.c
+These errors will be fixed in later versions when the CONFIG_BLOCK
+patches get added in.
 
-b51d47491c68ae Yicong Yang 2025-06-24  30  
-b51d47491c68ae Yicong Yang 2025-06-24 @31  int cpu_cache_invalidate_memregion(int res_desc, phys_addr_t start, size_t len)
-b51d47491c68ae Yicong Yang 2025-06-24  32  {
-b51d47491c68ae Yicong Yang 2025-06-24  33  	guard(spinlock_irqsave)(&scfm_lock);
-b51d47491c68ae Yicong Yang 2025-06-24  34  	if (!scfm_data)
-b51d47491c68ae Yicong Yang 2025-06-24  35  		return -EOPNOTSUPP;
-b51d47491c68ae Yicong Yang 2025-06-24  36  
-b51d47491c68ae Yicong Yang 2025-06-24  37  	return scfm_data->invalidate_memregion(res_desc, start, len);
-b51d47491c68ae Yicong Yang 2025-06-24  38  }
-b51d47491c68ae Yicong Yang 2025-06-24  39  EXPORT_SYMBOL_NS_GPL(cpu_cache_invalidate_memregion, "DEVMEM");
-b51d47491c68ae Yicong Yang 2025-06-24  40  
-b51d47491c68ae Yicong Yang 2025-06-24 @41  bool cpu_cache_has_invalidate_memregion(void)
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Joanne
+
+[1] https://lore.kernel.org/linux-fsdevel/20250624022135.832899-1-joannelko=
+ong@gmail.com/
