@@ -1,66 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C87225C6F7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 11:32:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6600433086
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 12:14:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750851156; cv=none; b=Er5/nY4uVT/GelXAMRiZu+H2p4Cj152W0br9i18MCettuYFnxaZUjGPOnsM0CD+xQqouJ0BctPFgvprSlCDQQZH6VIl0k1vDLQEsjUmyVdW3/66OQw0l/uA5mPbgOFDbIhYXjoKyIOcCM/1bfpwX2/sbuMYjbDFI8EmV5K6xlD4=
+	t=1750853677; cv=none; b=ul+ihqmaMurXmixrv2zueHlpYFvSO3XgxBgZmR5Ohn8d1btvTXqrx4AyTa0SCXzUPgpsSZprXEzxMMTEfVCuYLkeEUuW0QuoA1lp0uuVB8h6ePNmFhNsLuvtHWi1CH0Rw4JLHLtUlFkWp8VQwRgLZ5kaRTzsRrCwY0LrXMIPesg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750851156; c=relaxed/simple;
-	bh=b8HExZsm4GZZYkcq+Be3f1cAN7tYaXlR5706Bb4d3ZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WEt1R85px0U74fw0dyHw+u3ElcyQrNnGXIShUcpshrrOc0TcFiDCXHRrh12+C2CWFCc/hw5TK8hPB+gUWF5/NTS7CRMLTrnM+y3Ukz1KnzU9QmnkpwAQ1NSg63wCiKW9Y1AK0CeKjjhGHMEZAwlIZ2SpMfcrSvHjZPjxjACcV+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aKcoe7zn; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1750853677; c=relaxed/simple;
+	bh=Ribr0gr5a13fZ9MYAzQNKOFOehjGVRNklAGuAn0+YaQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rReGZwrVpWum+N+ssKOQa/YY9BwatKnwc1XnJRzhbTtCZO1CDp+vQmC0452awC2KASbr4+/ZECIGzRpjKo7fQahbjKLQUDzLVrg+nm1u+/KwlsSLPTIZ08D4T/RnJFC/2Tk8EnKUjjYqm0oZOV0YVd07enX+BQRKKD85y8KkJMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NO/Kri+i; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aKcoe7zn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NO/Kri+i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750851154; x=1782387154;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b8HExZsm4GZZYkcq+Be3f1cAN7tYaXlR5706Bb4d3ZE=;
-  b=aKcoe7zn2lgBZlyrxIjzb/6RI0aS6zQf0onLWPfW++uKtb5F4fdQfbeZ
-   TPQde0CzVd/O/+JRd81VFB4r6syhfYFLF9VRglOaKyLpyMDJrigvarA1B
-   ZX/nZccfG+jVz0PFC1VAOnGP08jALJld86zXrcEFxHAWvVj1VdP2N8aP3
-   ZXQ9MZ6Wp+K0U4F/8uZ3EaPU2GrH9Dk9Qmstrys6OJVfigycGpTXsta+v
-   3ApiHhz1RSmA443bDlsHzMm2/yy4HF3VFy/+eT2HdThIC/elSPUDS0/OH
-   7MqCrDP0x8ABoiKUPzmdttqXkAvdFtRuQWk2opN6wOjF5fW7C5gObFjim
-   w==;
-X-CSE-ConnectionGUID: Y759w3WfRPe7byaRHvnYrg==
-X-CSE-MsgGUID: xXCccAeFR02RveiZoALPNw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="52232757"
+  t=1750853676; x=1782389676;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Ribr0gr5a13fZ9MYAzQNKOFOehjGVRNklAGuAn0+YaQ=;
+  b=NO/Kri+i2IbFpm+xKMHiuISPB3rpFNZscxKKwu27S/PE+z4UJgk9h7Y9
+   WjW+9IZS3othx0cpOKv/qqZvQjSFK4BmUHQDfXivMNtCJc35zvZYWvdQ3
+   9oIRMGNchk06xNqGYbUrk0GfoRCVRf2ro3dI5BmIKVOD5hFl9QpAItbjN
+   VsrhDbrBBSh7WGkyiSNmEfG97BrKVJgQ9Cructn9QZt9jtQrpULcS1seE
+   45t1+vO36EcLHWFoQgFN575Uxx/OXMXjtt+NrA2KOp88cxmt+MenEXMre
+   ipiuqqq4n7D6We9dV4tU6o7+2UXLw6Psjl2V34/Mdq93dfaRBUXq4ZtlH
+   A==;
+X-CSE-ConnectionGUID: fvvWwGdWS2+xzYKjo7bJEA==
+X-CSE-MsgGUID: NE/ujTgsSGiAa+/4IpZHug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="52839942"
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="52232757"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 04:32:33 -0700
-X-CSE-ConnectionGUID: Pe3OIX3TS0GODZpYIBAnfg==
-X-CSE-MsgGUID: +AIkFjC4RvKbHxfHQa8CQg==
+   d="scan'208";a="52839942"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 05:14:35 -0700
+X-CSE-ConnectionGUID: UzLJfONzSxKdQyLaajiNzw==
+X-CSE-MsgGUID: k1v+9eqERFW8VN5jdghhlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="157964784"
+   d="scan'208";a="157700648"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 25 Jun 2025 04:32:30 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 25 Jun 2025 05:14:34 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUOMd-000T3u-2f;
-	Wed, 25 Jun 2025 11:32:27 +0000
-Date: Wed, 25 Jun 2025 19:32:02 +0800
+	id 1uUP1M-000T5O-05;
+	Wed, 25 Jun 2025 12:14:32 +0000
+Date: Wed, 25 Jun 2025 20:13:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Mark Brown <broonie@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-spi@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Biju Das <biju.das.jz@bp.renesas.com>,
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 3/6] spi: Add driver for the RZ/V2H(P) RSPI IP
-Message-ID: <202506251915.mDWx8v2S-lkp@intel.com>
-References: <20250624192304.338979-4-fabrizio.castro.jz@renesas.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jfern:nova/irq 18/23] rust-project.json: warning: ignored by one of
+ the .gitignore files
+Message-ID: <202506252014.6CrzeGuS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,112 +61,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624192304.338979-4-fabrizio.castro.jz@renesas.com>
 
-Hi Fabrizio,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on broonie-spi/for-next]
-[also build test ERROR on geert-renesas-drivers/renesas-clk arm64/for-next/core geert-renesas-devel/next robh/for-next linus/master v6.16-rc3 next-20250625]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fabrizio-Castro/clk-renesas-r9a09g057-Add-entries-for-the-RSPIs/20250625-032714
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
-patch link:    https://lore.kernel.org/r/20250624192304.338979-4-fabrizio.castro.jz%40renesas.com
-patch subject: [PATCH 3/6] spi: Add driver for the RZ/V2H(P) RSPI IP
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250625/202506251915.mDWx8v2S-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506251915.mDWx8v2S-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/irq
+head:   a4365b5800b5e1ffc954628d80dbffea234d3513
+commit: 90211f8354a8d834844ae16cc7a21c27639e65d6 [18/23] JOEL: Add LSM metadata
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20250625/202506252014.6CrzeGuS-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506252014.6CrzeGuS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506251915.mDWx8v2S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506252014.6CrzeGuS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/spi/spi-rzv2h-rspi.c: In function 'rzv2h_rspi_prepare_message':
->> drivers/spi/spi-rzv2h-rspi.c:298:18: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     298 |         conf32 = FIELD_PREP(RSPI_SPCMD_CPOL, !!(spi->mode & SPI_CPOL));
-         |                  ^~~~~~~~~~
-
-
-vim +/FIELD_PREP +298 drivers/spi/spi-rzv2h-rspi.c
-
-   268	
-   269	static int rzv2h_rspi_prepare_message(struct spi_controller *ctlr,
-   270					      struct spi_message *message)
-   271	{
-   272		struct rzv2h_rspi_priv *rspi = spi_controller_get_devdata(ctlr);
-   273		const struct spi_device *spi = message->spi;
-   274		struct spi_transfer *xfer;
-   275		u32 speed_hz = U32_MAX;
-   276		u8 bits_per_word;
-   277		u32 conf32;
-   278		u16 conf16;
-   279	
-   280		/* Make sure SPCR.SPE is 0 before amending the configuration */
-   281		rzv2h_rspi_spe_disable(rspi);
-   282	
-   283		/* Configure the device to work in "host" mode */
-   284		conf32 = RSPI_SPCR_MSTR;
-   285	
-   286		/* Auto-stop function */
-   287		conf32 |= RSPI_SPCR_SCKASE;
-   288	
-   289		/* SPI receive buffer full interrupt enable */
-   290		conf32 |= RSPI_SPCR_SPRIE;
-   291	
-   292		writel(conf32, rspi->base + RSPI_SPCR);
-   293	
-   294		/* Use SPCMD0 only */
-   295		writeb(0x0, rspi->base + RSPI_SPSCR);
-   296	
-   297		/* Setup mode */
- > 298		conf32 = FIELD_PREP(RSPI_SPCMD_CPOL, !!(spi->mode & SPI_CPOL));
-   299		conf32 |= FIELD_PREP(RSPI_SPCMD_CPHA, !!(spi->mode & SPI_CPHA));
-   300		conf32 |= FIELD_PREP(RSPI_SPCMD_LSBF, !!(spi->mode & SPI_LSB_FIRST));
-   301		conf32 |= FIELD_PREP(RSPI_SPCMD_SSLKP, 1);
-   302		conf32 |= FIELD_PREP(RSPI_SPCMD_SSLA, spi_get_chipselect(spi, 0));
-   303		writel(conf32, rspi->base + RSPI_SPCMD);
-   304		if (spi->mode & SPI_CS_HIGH)
-   305			writeb(BIT(spi_get_chipselect(spi, 0)), rspi->base + RSPI_SSLP);
-   306		else
-   307			writeb(0, rspi->base + RSPI_SSLP);
-   308	
-   309		/* Setup FIFO thresholds */
-   310		conf16 = FIELD_PREP(RSPI_SPDCR2_TTRG, RSPI_FIFO_SIZE - 1);
-   311		conf16 |= FIELD_PREP(RSPI_SPDCR2_RTRG, 0);
-   312		writew(conf16, rspi->base + RSPI_SPDCR2);
-   313	
-   314		rzv2h_rspi_clear_fifos(rspi);
-   315	
-   316		list_for_each_entry(xfer, &message->transfers, transfer_list) {
-   317			if (!xfer->speed_hz)
-   318				continue;
-   319	
-   320			speed_hz = min(xfer->speed_hz, speed_hz);
-   321			bits_per_word = xfer->bits_per_word;
-   322		}
-   323	
-   324		if (speed_hz == U32_MAX)
-   325			return -EINVAL;
-   326	
-   327		rspi->bytes_per_word = roundup_pow_of_two(BITS_TO_BYTES(bits_per_word));
-   328		rzv2h_rspi_reg_rmw(rspi, RSPI_SPCMD, RSPI_SPCMD_SPB, bits_per_word - 1);
-   329	
-   330		rspi->freq = rzv2h_rspi_setup_clock(rspi, speed_hz);
-   331		if (!rspi->freq)
-   332			return -EINVAL;
-   333	
-   334		rzv2h_rspi_spe_enable(rspi);
-   335	
-   336		return 0;
-   337	}
-   338	
+   compile_commands.json: warning: ignored by one of the .gitignore files
+>> rust-project.json: warning: ignored by one of the .gitignore files
+   scripts/target.json: warning: ignored by one of the .gitignore files
 
 -- 
 0-DAY CI Kernel Test Service
