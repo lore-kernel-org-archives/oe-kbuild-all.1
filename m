@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E951227B4E4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 22:11:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2032FCE2A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 22:32:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750889502; cv=none; b=jn/uIrtpGLW9/UNUTNsa3MWbvk4kFlP691A0vDQBn0NfWlUtc9Bx+aC7SSL2xlcuDkjTYZ6GL3Ki80xV+yYJ+Xw0S7rxzgTrXMT5UhooI3a5PZsTUi2t8WuvAgGWI1XvtjXfClEb/zOkM4IMFKATOsGWIlIlb7UXoyHHrQu9rQc=
+	t=1750890761; cv=none; b=U+Bw6h5mfCQyU75AXMpv+oEkl9h1ek2E7KFXBZaywOV45kdfsOSLNqWUPgDwlI5L2W7STKUXk1rjp297g5sb9LX+xBrLPZWM14v6mzhckzkNytMVUTDHb64tjRyuu3jDbTiHCzoih5Gv+9P7kUyN0U3DqyqTi6Bqc+jPG3HUUJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750889502; c=relaxed/simple;
-	bh=9MHp0EUXYgZktE5hlIhFD+j11i6IHoUrZRnqJa3Md9c=;
+	s=arc-20240116; t=1750890761; c=relaxed/simple;
+	bh=NfVz8kgj02VIea7i6HbHULFAjBJeQHijmzt1hfOqdM8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MRgsj5EwuzDmY7l6aXzmDKCXiKCdpaErEJjtUUP9T//gC44JGAxaQ+RZ4HeiT0GkYLQpw5fRRUKMb0niWUBhbCzyi7AHHb+2CNvbn5ktLbePvotWTef+5DGi5mcf8uHD9WAME48dTISZ8nP+YNbcb1Fvh1znXKX3VYT4BcLLsso=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HpcYncq9; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=gwwoIe/NMDMDdcpyhPKAP0lowi8Hlb3HxZ42O3ibtdrBZJY/Iyp2TFb2AmBZouz7mYdTyAoJ/dfXdalE2v4zL/d+5qGkVMcJ3FKOSGj5nkJlL0SPuj+gshzsPBUtESuBr+9N0jNvnmnrNeZmqcsw1yC4no4vOKmLhBZYD2LXECc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PJVAghuM; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HpcYncq9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PJVAghuM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750889500; x=1782425500;
+  t=1750890759; x=1782426759;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=9MHp0EUXYgZktE5hlIhFD+j11i6IHoUrZRnqJa3Md9c=;
-  b=HpcYncq9UG2baTCET6Rn1uzueVMEQwJIzpDNBywnndjLGYu23guNzzxS
-   H1tUwTw88jPEwI8Mh15Hl8mxx4UDf8g7aKqZ40h5B9lAUTWmvRxspY25h
-   90W0bN37HylsFfxraIqKjSLFHE3xKOHDXSAlCPC2X7UtnKYBLl1aizoSx
-   UdLy0t3ayOKiZX7JHkW39ydyCUtepv3CBJnrnbxTF5sOotqiThRTt7vkZ
-   fy/+UHNtCUs0pBbqseQP2YqWW9gI97hgdPC2qedJeasOu42DnvrvWuvFw
-   5n6RV3D5EgL05Cjh1SYzjZ/eUPj/HZtNK7f4l21qj2ue6GCJ3d8ADBcvG
-   w==;
-X-CSE-ConnectionGUID: Q/IJGGEySPejyjGRiu4ZIA==
-X-CSE-MsgGUID: Dn0X6bCcSX+OrDiyFSLJjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53270935"
+  bh=NfVz8kgj02VIea7i6HbHULFAjBJeQHijmzt1hfOqdM8=;
+  b=PJVAghuMtpsUDKfHlGMUAUz2S+xlYIsKmifcRUA51drPxSUgkfpsgNlb
+   Osj30kIcEY0V7z0+Ks5VBi8V0aI5PGcnR3FelPmrV55au6/ZnYDFivvxa
+   /ur4HfCx5q3Mm4fjxIQh630L1EhbqlZqKmICtDXpkyRDuPtiKp6YIxc0s
+   8P9/y1il9MPyWCcVflbiN9HFRtkfIG+vleGWbCmITgZs2ZeWD5iOc8tYw
+   iBTMBmWhgVX993k1Q11YGnt4xq17ypYW5fBZi7mm0ku8OZBG/rim17WEt
+   W69dZidZ/eqqKYT3+b+RSo//azZ9scmhcp+8X088/iipbdlROm8gUBh1a
+   g==;
+X-CSE-ConnectionGUID: YfZp3uwUTs+PlanNM+galQ==
+X-CSE-MsgGUID: 22Ev7+diQdGQuGuXJx58pA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="64531315"
 X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="53270935"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 15:11:37 -0700
-X-CSE-ConnectionGUID: +27DddziTziMBU7dcceK2Q==
-X-CSE-MsgGUID: mY/utMkrTNeAUaxn7hM7SA==
+   d="scan'208";a="64531315"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 15:32:38 -0700
+X-CSE-ConnectionGUID: c4VRpMBnTwSrVQCqHVESew==
+X-CSE-MsgGUID: Ue/dLz80TL2sAhYiq3sTDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="175989468"
+   d="scan'208";a="151763709"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 25 Jun 2025 15:11:35 -0700
+  by orviesa010.jf.intel.com with ESMTP; 25 Jun 2025 15:32:37 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUYL7-000TUM-12;
-	Wed, 25 Jun 2025 22:11:33 +0000
-Date: Thu, 26 Jun 2025 06:11:10 +0800
+	id 1uUYfS-000TUs-2J;
+	Wed, 25 Jun 2025 22:32:34 +0000
+Date: Thu, 26 Jun 2025 06:32:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
+To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:smp3 18/18] fs/seq_file.c:1129:36: warning: statement with no
- effect
-Message-ID: <202506260604.mbWUxxkl-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1327/1327] mm/vmscan.c:3257:21: error:
+ implicit declaration of function 'kernel_swap_enabled'
+Message-ID: <202506260620.eD5Db5H9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,68 +62,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/norov/linux smp3
-head:   0beaccbbf4cc7a3ecbb1ee89ac6428265f123b20
-commit: 0beaccbbf4cc7a3ecbb1ee89ac6428265f123b20 [18/18] seq_file: use a dedicated for_each_cpu() in seq_hlist_next_percpu()
-config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20250626/202506260604.mbWUxxkl-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506260604.mbWUxxkl-lkp@intel.com/reproduce)
+Hi liubo,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   2095c984bc19c926a057ed0e96b9f795b4c504b4
+commit: 44983705e56ab22fda801d66e2a6bd0d1be7ca0b [1327/1327] etmem: add original kernel swap enabled options
+config: x86_64-buildonly-randconfig-005-20241216 (https://download.01.org/0day-ci/archive/20250626/202506260620.eD5Db5H9-lkp@intel.com/config)
+compiler: clang version 19.1.3 (https://github.com/llvm/llvm-project ab51eccf88f5321e7c60591c5546b254b6afab99)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506260620.eD5Db5H9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506260604.mbWUxxkl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506260620.eD5Db5H9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/wait.h:9,
-                    from include/linux/wait_bit.h:8,
-                    from include/linux/fs.h:7,
-                    from fs/seq_file.c:12:
-   fs/seq_file.c: In function 'seq_hlist_next_percpu':
->> fs/seq_file.c:1129:36: warning: statement with no effect [-Wunused-value]
-    1129 |         for_each_possible_cpu_from(*cpu)  {
-   include/linux/cpumask.h:1117:47: note: in definition of macro 'for_each_possible_cpu_from'
-    1117 | #define for_each_possible_cpu_from(cpu) for ((cpu); (cpu) < 1; (cpu)++)
-         |                                               ^~~
+   mm/vmscan.c:2734:17: warning: variable 'node_lru_pages' set but not used [-Wunused-but-set-variable]
+    2734 |                 unsigned long node_lru_pages = 0;
+         |                               ^
+>> mm/vmscan.c:3257:21: error: implicit declaration of function 'kernel_swap_enabled' [-Werror,-Wimplicit-function-declaration]
+    3257 |         if (sc != NULL && !kernel_swap_enabled())
+         |                            ^
+   mm/vmscan.c:3257:21: note: did you mean 'kernfs_ns_enabled'?
+   include/linux/kernfs.h:309:20: note: 'kernfs_ns_enabled' declared here
+     309 | static inline bool kernfs_ns_enabled(struct kernfs_node *kn)
+         |                    ^
+   1 warning and 1 error generated.
 
 
-vim +1129 fs/seq_file.c
+vim +/kernel_swap_enabled +3257 mm/vmscan.c
 
-  1108	
-  1109	/**
-  1110	 * seq_hlist_next_percpu - move to the next position of the percpu hlist array
-  1111	 * @v:    pointer to current hlist_node
-  1112	 * @head: pointer to percpu array of struct hlist_heads
-  1113	 * @cpu:  pointer to cpu "cursor"
-  1114	 * @pos:  start position of sequence
-  1115	 *
-  1116	 * Called at seq_file->op->next().
-  1117	 */
-  1118	struct hlist_node *
-  1119	seq_hlist_next_percpu(void *v, struct hlist_head __percpu *head,
-  1120				int *cpu, loff_t *pos)
-  1121	{
-  1122		struct hlist_node *node = v;
-  1123	
-  1124		++*pos;
-  1125	
-  1126		if (node->next)
-  1127			return node->next;
-  1128	
-> 1129		for_each_possible_cpu_from(*cpu)  {
-  1130			struct hlist_head *bucket = per_cpu_ptr(head, *cpu);
-  1131	
-  1132			if (!hlist_empty(bucket))
-  1133				return bucket->first;
-  1134		}
-  1135		return NULL;
-  1136	}
-  1137	EXPORT_SYMBOL(seq_hlist_next_percpu);
-  1138	
+  3250	
+  3251	/*
+  3252	 * Check if original kernel swap is enabled
+  3253	 * turn off kernel swap,but leave page cache reclaim on
+  3254	 */
+  3255	static inline void kernel_swap_check(struct scan_control *sc)
+  3256	{
+> 3257		if (sc != NULL && !kernel_swap_enabled())
+  3258			sc->may_swap = 0;
+  3259	}
+  3260	
 
 -- 
 0-DAY CI Kernel Test Service
