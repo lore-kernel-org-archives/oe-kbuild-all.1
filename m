@@ -1,108 +1,192 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB881EF0B9;
-	Wed, 25 Jun 2025 06:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 669CF1E9B1A;
+	Wed, 25 Jun 2025 06:42:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750832948; cv=none; b=WFJrWg7S0uzb25L9k4GazD/F8aacxX2ReBFTa8UHpkq3O6eKepUek+wSU4H3G5jwxMpjOOMSeQZK8C8QpKAJbWfC0reJgsAA2SDwOMaYFEjBlcSUqH+v8GfgmGOxbWU1KaEBPX/YAGZOt+nXBSDWUl+YTvMD8Ng1J209X/b6E0I=
+	t=1750833733; cv=none; b=hu/FnL2o6856kOlDFxcCWI8XRr16HP8pF6uWvep9kTiqaIRW5dw/VLO2HhxcsJ9Isw2j5DqASVC8rSnHGmLB4Br6SPQ3gUQsN3mZaPv1Yq6Hryig3b0zaAB8b5wrTBP+cuboz+E/2fbHtrbNAsR9kdM5uCLLvNQyyJwXcAJy8Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750832948; c=relaxed/simple;
-	bh=DNNM9U7fRK37I0J9YAYr9hjb20ReSmw0RtBuRXiGOG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VX1cQUMLiRNnlFYqcTHLP45mpHJy7F1qon5b+JgD92z19lIG7HYbPPVAozRHAcsedxaDTkz6fArJRMw9BbuqMmCpDW2eHm6I42esOaSg/rvtl5dL8UDuw2FFaaqSeqAW58XdFEJqlIW8kSFMIVBkf4sst/5VHecXcRd4CPYCSgk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ro5pzVDo; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1750833733; c=relaxed/simple;
+	bh=CnoUkHx+3Zv32biwudTEAWRIP9eoJKj7s2aFPX8uKuM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p+lcn8dWEehw/FZO+qthxzdofHMIyL5BvHUOBy4OQvFdJKYIOPeq+S3zsP0eVl9Jin+8jHAll8UoRRcluRqcOUtGtCMtEocmLGRDUSa7L1KwuZEq4iiR83cs2C8xetFpVwHVv9+SNCwfuIIsXUWsV3pG86qyZHdo9bVmY9RBk6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QDsW9kHc; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ro5pzVDo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QDsW9kHc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750832946; x=1782368946;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DNNM9U7fRK37I0J9YAYr9hjb20ReSmw0RtBuRXiGOG8=;
-  b=Ro5pzVDowWWihllAJuFrXmLnXo1Z/z5KbZOJtA3dHQEl3qGOapljnv9N
-   p1chBxW77NaXj6qkVvUpdBdAsDiE5QY161Di1cWa6n2AXRhNw/NyGKFrH
-   pwtd8WdpU/HyiFp0rJ3j1Chmq71b/KUjMJuskSecw6xBIOzwWCsog9F4M
-   pyN6hsMF/ampkFyDgvoDnubGy89W5cP42L7ocsa9J2YCEJh8fKmqiWFVj
-   COh16p4mBW9UDmkxTt6HcITd2Dw9ej09MSSz/Sz6HS5ixAvLamAHL9GhR
-   hHXpbDqJoEoNxEmRv1zw8H0L7Zg5mUyJb/MN+Ilftdhomnu+iwMB3WjAU
-   g==;
-X-CSE-ConnectionGUID: mQZs0LYHRvGm+z7nuC1v9g==
-X-CSE-MsgGUID: EPQHa7cqTe66/uPka534fw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="52809066"
+  t=1750833731; x=1782369731;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=CnoUkHx+3Zv32biwudTEAWRIP9eoJKj7s2aFPX8uKuM=;
+  b=QDsW9kHcTZuZpzcNnHwi4Tjstsw40yhNPQ289eYOigFeaNPYOwdDE7E4
+   ImpllmnrblXkzouF7Lkjoa8RjLZP8mJm6G8Iodwy6knkATH5g8CbdZZa+
+   +8rbkTWahdUi0Msfpst//U4j0DsGYls1hUucKk2f64LxBFN4sPGpF84cH
+   tIuXtMzqh0ukl47OQCPy+bwm70ORR6BloSrxze4I4FhWqrxnt5mGUbWRf
+   d/CeP4+NLT7m3LKvndt8ZgfG/3X+xoS8FdqGF5tmTA2DYKqqQP0OuGf68
+   wPg+pod9rmj0Xxjof8/uLDls10js3fJigSVRyafAF8lyNhYt6+w9ag2lC
+   A==;
+X-CSE-ConnectionGUID: Xx7ihMFYQP6pL4FHkczxwA==
+X-CSE-MsgGUID: 9jY78WJJSZyEpYMrT8Fi3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="55717863"
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="52809066"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 23:29:05 -0700
-X-CSE-ConnectionGUID: PW0LCxVqRiq5tOJF/BAXzg==
-X-CSE-MsgGUID: jx8BLcRvRt659tI9CLsbWA==
+   d="scan'208";a="55717863"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 23:42:11 -0700
+X-CSE-ConnectionGUID: kTIZYBRtRq+v9oPu0ti44w==
+X-CSE-MsgGUID: buLOqMPCQAONl2o7vLQIgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="151541828"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 24 Jun 2025 23:29:02 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uUJcx-000SoU-2a;
-	Wed, 25 Jun 2025 06:28:59 +0000
-Date: Wed, 25 Jun 2025 14:28:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Vitaly Wool <vitaly.wool@konsulko.se>, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, rust-for-linux@vger.kernel.org,
-	Vitaly Wool <vitaly.wool@konsulko.se>
-Subject: Re: [PATCH v2 2/2] rust: support large align and NUMA ids in allocs
-Message-ID: <202506251416.O5iI9bmq-lkp@intel.com>
-References: <20250624123922.3258215-1-vitaly.wool@konsulko.se>
+   d="scan'208";a="183013642"
+Received: from xpardee-mobl.amr.corp.intel.com (HELO [10.246.154.149]) ([10.246.154.149])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 23:42:10 -0700
+Message-ID: <6cceff87-56bc-4a7c-bbb9-caee2374e3ae@linux.intel.com>
+Date: Tue, 24 Jun 2025 23:42:09 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250624123922.3258215-1-vitaly.wool@konsulko.se>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 4/5] platform/x86:intel/pmc: Show substate requirement
+ for S0ix blockers
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+References: <a0500c45-993d-4daa-b35f-48c9ff4cf50b@suswa.mountain>
+Content-Language: en-US
+From: Xi Pardee <xi.pardee@linux.intel.com>
+In-Reply-To: <a0500c45-993d-4daa-b35f-48c9ff4cf50b@suswa.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Vitaly,
+Hi Dan,
 
-kernel test robot noticed the following build warnings:
+Thanks for your comments. Responses are in line.
 
-[auto build test WARNING on akpm-mm/mm-everything]
-[also build test WARNING on rust/alloc-next rust/rust-next linus/master v6.16-rc3 next-20250624]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Xi
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vitaly-Wool/mm-vmalloc-allow-to-set-node-and-align-in-vrealloc/20250624-204140
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250624123922.3258215-1-vitaly.wool%40konsulko.se
-patch subject: [PATCH v2 2/2] rust: support large align and NUMA ids in allocs
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250625/202506251416.O5iI9bmq-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506251416.O5iI9bmq-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506251416.O5iI9bmq-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> warning: unused import: `crate::pr_warn`
-   --> rust/kernel/alloc/allocator.rs:18:5
-   |
-   18 | use crate::pr_warn;
-   |     ^^^^^^^^^^^^^^
-   |
-   = note: `#[warn(unused_imports)]` on by default
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 6/24/2025 7:45 AM, Dan Carpenter wrote:
+> Hi Xi,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Xi-Pardee/platform-x86-intel-pmc-Enable-SSRAM-support-for-Lunar-Lake/20250622-050804
+> base:   linus/master
+> patch link:    https://lore.kernel.org/r/20250621210529.237964-5-xi.pardee%40linux.intel.com
+> patch subject: [PATCH v1 4/5] platform/x86:intel/pmc: Show substate requirement for S0ix blockers
+> config: i386-randconfig-141-20250623 (https://download.01.org/0day-ci/archive/20250624/202506241840.0POVt4tf-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202506241840.0POVt4tf-lkp@intel.com/
+>
+> New smatch warnings:
+> drivers/platform/x86/intel/pmc/core.c:1525 pmc_core_pmt_get_blk_sub_req() error: uninitialized symbol 'ret'.
+> drivers/platform/x86/intel/pmc/core.c:1559 pmc_core_get_telem_info() error: uninitialized symbol 'ret'.
+>
+> vim +/ret +1525 drivers/platform/x86/intel/pmc/core.c
+>
+> f3435ca196060d Xi Pardee 2025-06-21  1497  static int pmc_core_pmt_get_blk_sub_req(struct pmc_dev *pmcdev, struct pmc *pmc,
+> f3435ca196060d Xi Pardee 2025-06-21  1498  					struct telem_endpoint *ep)
+> f3435ca196060d Xi Pardee 2025-06-21  1499  {
+> f3435ca196060d Xi Pardee 2025-06-21  1500  	u32 num_blocker, sample_id;
+> f3435ca196060d Xi Pardee 2025-06-21  1501  	unsigned int index;
+> f3435ca196060d Xi Pardee 2025-06-21  1502  	u32 *req_offset;
+> f3435ca196060d Xi Pardee 2025-06-21  1503  	int ret;
+> f3435ca196060d Xi Pardee 2025-06-21  1504
+> f3435ca196060d Xi Pardee 2025-06-21  1505  	num_blocker = pmc->map->num_s0ix_blocker;
+> f3435ca196060d Xi Pardee 2025-06-21  1506  	sample_id = pmc->map->blocker_req_offset;
+> f3435ca196060d Xi Pardee 2025-06-21  1507
+> f3435ca196060d Xi Pardee 2025-06-21  1508  	pmc->blk_sub_req_regs = devm_kzalloc(&pmcdev->pdev->dev,
+> f3435ca196060d Xi Pardee 2025-06-21  1509  					 num_blocker * sizeof(u32),
+>
+> Use devm_kcalloc() so we don't have to check if num_blocker can be
+> greater than UINT_MAX / 4 on 32bit systems.
+>
+> f3435ca196060d Xi Pardee 2025-06-21  1510  					 GFP_KERNEL);
+> f3435ca196060d Xi Pardee 2025-06-21  1511  	if (!pmc->blk_sub_req_regs)
+> f3435ca196060d Xi Pardee 2025-06-21  1512  		ret = -ENOMEM;
+>
+> s/ret = /return /.  Otherwise it leads to a NULL pointer dereference.
+>
+> f3435ca196060d Xi Pardee 2025-06-21  1513
+> f3435ca196060d Xi Pardee 2025-06-21  1514  	req_offset = pmc->blk_sub_req_regs;
+> f3435ca196060d Xi Pardee 2025-06-21  1515  	for (index = 0; index < num_blocker; index++) {
+>
+> smatch doesn't know if num_blocker can be zero.
+To avoid the warning, return 0 instead when function succeeds in version 2.
+>
+> f3435ca196060d Xi Pardee 2025-06-21  1516  		ret = pmt_telem_read32(ep, sample_id, req_offset, 1);
+> f3435ca196060d Xi Pardee 2025-06-21  1517  		if (ret) {
+> f3435ca196060d Xi Pardee 2025-06-21  1518  			dev_err(&pmcdev->pdev->dev,
+> f3435ca196060d Xi Pardee 2025-06-21  1519  				"couldn't read Low Power Mode requirements: %d\n", ret);
+> f3435ca196060d Xi Pardee 2025-06-21  1520  			return ret;
+> f3435ca196060d Xi Pardee 2025-06-21  1521  		}
+> f3435ca196060d Xi Pardee 2025-06-21  1522  		sample_id++;
+> f3435ca196060d Xi Pardee 2025-06-21  1523  		req_offset++;
+> f3435ca196060d Xi Pardee 2025-06-21  1524  	}
+> f3435ca196060d Xi Pardee 2025-06-21 @1525  	return ret;
+> f3435ca196060d Xi Pardee 2025-06-21  1526  }
+> f3435ca196060d Xi Pardee 2025-06-21  1527
+> f3435ca196060d Xi Pardee 2025-06-21  1528  static int pmc_core_get_telem_info(struct pmc_dev *pmcdev, int func, unsigned int telem_info)
+> 78a7491d5cba8b Xi Pardee 2025-04-09  1529  {
+> b5d46539626833 Xi Pardee 2025-04-25  1530  	struct pci_dev *pcidev __free(pci_dev_put) = NULL;
+> d7bc7e19147769 Xi Pardee 2025-06-21  1531  	struct telem_endpoint *ep;
+> 052fabddeaa70b Xi Pardee 2025-04-09  1532  	unsigned int i;
+> d7bc7e19147769 Xi Pardee 2025-06-21  1533  	u32 guid;
+> 052fabddeaa70b Xi Pardee 2025-04-09  1534  	int ret;
+> 78a7491d5cba8b Xi Pardee 2025-04-09  1535
+> b5d46539626833 Xi Pardee 2025-04-25  1536  	pcidev = pci_get_domain_bus_and_slot(0, 0, PCI_DEVFN(20, func));
+> b5d46539626833 Xi Pardee 2025-04-25  1537  	if (!pcidev)
+> 78a7491d5cba8b Xi Pardee 2025-04-09  1538  		return -ENODEV;
+> 78a7491d5cba8b Xi Pardee 2025-04-09  1539
+> 78a7491d5cba8b Xi Pardee 2025-04-09  1540  	for (i = 0; i < ARRAY_SIZE(pmcdev->pmcs); ++i) {
+> d7bc7e19147769 Xi Pardee 2025-06-21  1541  		struct pmc *pmc;
+> d7bc7e19147769 Xi Pardee 2025-06-21  1542
+> d7bc7e19147769 Xi Pardee 2025-06-21  1543  		pmc = pmcdev->pmcs[i];
+> d7bc7e19147769 Xi Pardee 2025-06-21  1544  		if (!pmc)
+> 78a7491d5cba8b Xi Pardee 2025-04-09  1545  			continue;
+> 78a7491d5cba8b Xi Pardee 2025-04-09  1546
+> d7bc7e19147769 Xi Pardee 2025-06-21  1547  		guid = pmc_core_find_guid(pmcdev->regmap_list, pmc->map);
+> d7bc7e19147769 Xi Pardee 2025-06-21  1548  		if (!guid)
+> d7bc7e19147769 Xi Pardee 2025-06-21  1549  			return -ENXIO;
+> d7bc7e19147769 Xi Pardee 2025-06-21  1550
+> d7bc7e19147769 Xi Pardee 2025-06-21  1551  		ep = pmt_telem_find_and_register_endpoint(pcidev, guid, 0);
+> d7bc7e19147769 Xi Pardee 2025-06-21  1552  		if (IS_ERR(ep)) {
+> d7bc7e19147769 Xi Pardee 2025-06-21  1553  			dev_dbg(&pmcdev->pdev->dev, "couldn't get telem endpoint %pe", ep);
+> d7bc7e19147769 Xi Pardee 2025-06-21  1554  			return -EPROBE_DEFER;
+> d7bc7e19147769 Xi Pardee 2025-06-21  1555  		}
+> d7bc7e19147769 Xi Pardee 2025-06-21  1556
+> f3435ca196060d Xi Pardee 2025-06-21  1557  		if (telem_info & SUB_REQ_LPM)
+> d7bc7e19147769 Xi Pardee 2025-06-21  1558  			ret = pmc_core_pmt_get_lpm_req(pmcdev, pmc, ep);
+>
+> ret is uninitialized on else path.  I generally encourage developers
+> to set CONFIG_INIT_STACK_ALL_PATTERN=y for their testing.
+Changed to only check ret value in the if condition in version 2.
+> 78a7491d5cba8b Xi Pardee 2025-04-09 @1559  		if (ret)
+> f3435ca196060d Xi Pardee 2025-06-21  1560  			goto unregister_ep;
+> f3435ca196060d Xi Pardee 2025-06-21  1561
+> f3435ca196060d Xi Pardee 2025-06-21  1562  		if (telem_info & SUB_REQ_BLK)
+> f3435ca196060d Xi Pardee 2025-06-21  1563  			ret = pmc_core_pmt_get_blk_sub_req(pmcdev, pmc, ep);
+> f3435ca196060d Xi Pardee 2025-06-21  1564  		if (ret)
+> f3435ca196060d Xi Pardee 2025-06-21  1565  			goto unregister_ep;
+> f3435ca196060d Xi Pardee 2025-06-21  1566
+> f3435ca196060d Xi Pardee 2025-06-21  1567  		pmt_telem_unregister_endpoint(ep);
+> 78a7491d5cba8b Xi Pardee 2025-04-09  1568  	}
+> 78a7491d5cba8b Xi Pardee 2025-04-09  1569
+> 78a7491d5cba8b Xi Pardee 2025-04-09  1570  	return 0;
+> f3435ca196060d Xi Pardee 2025-06-21  1571
+> f3435ca196060d Xi Pardee 2025-06-21  1572  unregister_ep:
+> f3435ca196060d Xi Pardee 2025-06-21  1573  	pmt_telem_unregister_endpoint(ep);
+> f3435ca196060d Xi Pardee 2025-06-21  1574  	return ret;
+> 78a7491d5cba8b Xi Pardee 2025-04-09  1575  }
+>
