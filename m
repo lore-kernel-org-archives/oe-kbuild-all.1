@@ -1,71 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B57260567;
-	Wed, 25 Jun 2025 12:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9082F25C81E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 12:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750855543; cv=none; b=R2Z45zSCHEGN3SMKQkaG8+eZWxgpBqAImI0J22Y1iHsFIVicod73MaVLRoYyoJz/CuWcic7n8JY4VVJvzxBCAa4jK+qhmgfD0LREFZBxjwfG+ZMiAXYJcjOVDXW1JWNuJ9ksaLUO1uhoO9rhBXMRmvPqR9qxw8Je3a6lIgGJyFc=
+	t=1750856142; cv=none; b=UY4jvZgNqMPZ3vQcilomQz1REp1wn4aInbMmmbdNMkuH7G++l3HdKqAp5heUE3SdW37yLj1Au0JNKPsaofNud0amG1+tLVcQ9Iid+2/1tNcYgzXpz6w+eGAmFNYqstT3iYvkOzKc0U6Kxl3xOf51B0E33BkiW5lnxRbzMNfaSIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750855543; c=relaxed/simple;
-	bh=JM1dsCTTMKSVO7veZW6xF7seieqF91knIU3zOqPtYe4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FNtfDGsebbhlKrI9dh2I8kpErPVKOWHZVqO3ii6kW5m0DZFquQwhivhtSwMZhiZ5VR26jHE0Jm7HHI3Zjz2TkAfxNPXWJDVe0+CDR//IaKdOb0vQUTBxlUXAGIqrhXLuiyx+N0l/QFqbDP/fpJoFwF2puR9mNeeM/n+iaLFT4oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dz9D+ahs; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1750856142; c=relaxed/simple;
+	bh=sxWdRd7NNHQBYD0wslE+kbhQa09Z/lUVHM/puqjrtTI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Nrz2q/uJYneIieP3FYADJOIIMCgORUeNX5elkB1Nxs6e1OtHkCqkSxSmfHICY5MwH47/YHC5sBsAfeMJ1hJtqfQBZr5QdpIwKUq17Ovyi1dLEVmTa46rDU/Ck8/ljAQ8e1how/Mg6NjJaZgWRMLyGy2HT8sfSGsRx3KcAH77TTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xf48z7zJ; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dz9D+ahs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xf48z7zJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750855543; x=1782391543;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=JM1dsCTTMKSVO7veZW6xF7seieqF91knIU3zOqPtYe4=;
-  b=Dz9D+ahsTKH9Wrk61jAyLgHUVjcQ9rgL4a7Go3zxy0NmHk0DEywciJQY
-   w6aXmcM3dgWVOhDZpJDPFHcFXGpRuame7SpTEmRyom6kMOCGy0vDTK0on
-   4YRgxZjrFsbwAmiiVXdPCdS6rkZkr9eIRtJeKOQI9Wqk9srSu4DblEB3Q
-   a1hfOC+0WuZ82h4154y0HKNFPfcZAPKDhE/Hz0giONN2XxG015GAfDvbD
-   R2ZcD3/oEsBzu5Wmr2p8LI8qJ7ynzweQVLKj7/wlKcUFJMkx2cec5FsKa
-   iN9nzcDCmSY5v3zWeDIrOMzICRU+6lhRVXuasvEXb7uOQnb30UTmhvPXd
-   A==;
-X-CSE-ConnectionGUID: qzsylQ4LQNCAME27dov3WQ==
-X-CSE-MsgGUID: Iler/CYoQIeKubcGXefjdw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="75661887"
+  t=1750856140; x=1782392140;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sxWdRd7NNHQBYD0wslE+kbhQa09Z/lUVHM/puqjrtTI=;
+  b=Xf48z7zJ3Sf6DGv8yvFDW8ynmwhvLOAicmLhUaGBZeHUonKA+vPF1UAL
+   k0zPZxnx2HCXYnzxK/NtPc8Z1mF4GUPkgOKd+YHZldUTiDPilzCfPi0Wb
+   nd4F5wulyaxkYi5IqQd8OrIx5EvaKjgYR+A07wsqz+urtJUF3kVzhFNi0
+   qV7qzPLomiUbd2uW6T2RykhCJ1a3o4jYBuCNNoANoOwdrj4YAZnz/jyLK
+   PfITZ9k4hYntw89tjBHaWfMDpM8PEsyOaZFY3YjfOvQIm47of86VfS54+
+   vX2F2ieNAqqZe5XvOGybxoNkYImbfCIFig/cacCZooqSdKwD9XN3mygzr
+   Q==;
+X-CSE-ConnectionGUID: xysXkZIgTLunpCPGgy8I4A==
+X-CSE-MsgGUID: 7asRxJHoS8K98glhZHTb4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="53264025"
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="75661887"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 05:45:42 -0700
-X-CSE-ConnectionGUID: cW31pKh0S+KsTFQLo7x2ZQ==
-X-CSE-MsgGUID: saZoJ8aRTkmSx/Qs3ISaQg==
+   d="scan'208";a="53264025"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 05:55:40 -0700
+X-CSE-ConnectionGUID: SGeEDwZCTCSjjY9v71D/lw==
+X-CSE-MsgGUID: /iCJ1ejkTFmr3O9v8L4yoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="183245285"
+   d="scan'208";a="156603503"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 25 Jun 2025 05:45:37 -0700
+  by orviesa003.jf.intel.com with ESMTP; 25 Jun 2025 05:55:37 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUPVP-000T6o-0L;
-	Wed, 25 Jun 2025 12:45:35 +0000
-Date: Wed, 25 Jun 2025 20:45:08 +0800
+	id 1uUPf5-000T7C-2d;
+	Wed, 25 Jun 2025 12:55:35 +0000
+Date: Wed, 25 Jun 2025 20:55:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alice Ryhl <aliceryhl@google.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Miguel Ojeda <ojeda@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>, dri-devel@lists.freedesktop.org,
-	rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Alice Ryhl <aliceryhl@google.com>
-Subject: Re: [PATCH v2 2/2] rust: types: rename Opaque::raw_get to cast_into
-Message-ID: <202506252207.uYOBf8SU-lkp@intel.com>
-References: <20250624-opaque-from-raw-v2-2-e4da40bdc59c@google.com>
+To: Bingbu Cao <bingbu.cao@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [sailus-media-tree:ipu7 1/7]
+ drivers/staging/media/ipu7/ipu7-buttress.c: warning: EXPORT_SYMBOL() is
+ used, but #include <linux/export.h> is missing
+Message-ID: <202506252004.5hMovDGZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,38 +63,223 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624-opaque-from-raw-v2-2-e4da40bdc59c@google.com>
 
-Hi Alice,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 19272b37aa4f83ca52bdf9c16d5d81bdd1354494]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alice-Ryhl/rust-types-add-Opaque-cast_from/20250624-232939
-base:   19272b37aa4f83ca52bdf9c16d5d81bdd1354494
-patch link:    https://lore.kernel.org/r/20250624-opaque-from-raw-v2-2-e4da40bdc59c%40google.com
-patch subject: [PATCH v2 2/2] rust: types: rename Opaque::raw_get to cast_into
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250625/202506252207.uYOBf8SU-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506252207.uYOBf8SU-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git ipu7
+head:   0542d88a01679ac03a980f7d53daefe8caebe345
+commit: 4fc6f9e2be4048a8e695d2b7545df344554f5fd6 [1/7] media: staging/ipu7: add Intel IPU7 PCI device driver
+config: m68k-allnoconfig (https://download.01.org/0day-ci/archive/20250625/202506252004.5hMovDGZ-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506252004.5hMovDGZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506252207.uYOBf8SU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506252004.5hMovDGZ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error[E0599]: no function or associated item named `cast_into` found for struct `HrTimer` in the current scope
-   --> rust/kernel/time/hrtimer.rs:175:45
-   |
-   96  | #[pin_data]
-   | ----------- function or associated item `cast_into` not found for this struct
-   ...
-   175 |         let c_timer_ptr = unsafe { HrTimer::cast_into(this) };
-   |                                             ^^^^^^^^^ function or associated item not found in `HrTimer<_>`
+   drivers/soc/apple/rtkit.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/apple/sart.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/bcm/brcmstb/common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/fsl/dpio/dpio-service.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/fsl/qbman/bman.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/fsl/qbman/bman_ccsr.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/fsl/qbman/bman_portal.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/fsl/qbman/qman.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/fsl/qbman/qman_ccsr.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/fsl/qbman/qman_portal.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/fsl/qe/qe.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/fsl/qe/qe_io.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/fsl/qe/qe_tdm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/fsl/qe/qmc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/fsl/qe/tsa.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/ixp4xx/ixp4xx-npe.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/ixp4xx/ixp4xx-qmgr.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/mediatek/mtk-cmdq-helper.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/mediatek/mtk-dvfsrc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/mediatek/mtk-mmsys.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/mediatek/mtk-mutex.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/microchip/mpfs-sys-controller.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/pxa/ssp.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/apr.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/cmd-db.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/ice.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/kryo-l2-accessors.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/llcc-qcom.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/mdt_loader.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/ocmem.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/pdr_interface.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/pmic_glink.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/qcom-geni-se.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/qcom-pbs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/qcom_aoss.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/qcom_pdr_msg.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/qmi_encdec.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/qmi_interface.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/rpmh.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/smd-rpm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/smem.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/smem_state.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/qcom/wcnss_ctrl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/renesas/rcar-rst.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/samsung/exynos-pmu.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/samsung/exynos5422-asv.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/sunxi/sunxi_sram.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/tegra/fuse/fuse-tegra.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/ti/k3-ringacc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/ti/knav_dma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/ti/knav_qmss_acc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/ti/knav_qmss_queue.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/ti/pruss.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/ti/ti_sci_inta_msi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/ti/wkup_m3_ipc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soc/xilinx/xlnx_event_manager.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soundwire/bus.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soundwire/bus_type.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soundwire/cadence_master.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soundwire/generic_bandwidth_allocation.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soundwire/intel.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soundwire/intel_ace2x.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soundwire/mipi_disco.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soundwire/slave.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/soundwire/stream.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spi/spi-altera-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spi/spi-amd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spi/spi-bcm-qspi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spi/spi-bitbang.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spi/spi-dw-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spi/spi-dw-dma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spi/spi-fsl-cpm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spi/spi-fsl-lib.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spi/spi-intel.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spi/spi-loongson-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spi/spi-loopback-test.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spi/spi-mem.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spi/spi-pxa2xx.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spmi/spmi-devres.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/spmi/spmi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/ssb/main.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/fbtft/fbtft-core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/gpib/common/gpib_os.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/gpib/nec7210/nec7210.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/gpib/tms9914/tms9914.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/greybus/audio_apbridgea.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/greybus/audio_codec.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/greybus/audio_gb.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/greybus/audio_manager.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/greybus/gbphy.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/greybus/spilib.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/iio/addac/adt7316.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/media/av7110/sp8870.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/media/deprecated/atmel/atmel-isc-base.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/media/deprecated/atmel/atmel-isc-clk.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/media/imx/imx-media-capture.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/media/imx/imx-media-dev-common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/media/imx/imx-media-of.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/media/imx/imx-media-utils.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+>> drivers/staging/media/ipu7/ipu7-buttress.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+>> drivers/staging/media/ipu7/ipu7.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/media/meson/vdec/codec_hevc_common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/media/meson/vdec/vdec.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/media/meson/vdec/vdec_helpers.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/nvec/nvec.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/octeon/ethernet.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/iscsi/iscsi_target.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/iscsi/iscsi_target_datain_values.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/iscsi/iscsi_target_device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/iscsi/iscsi_target_erl0.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/iscsi/iscsi_target_erl1.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/iscsi/iscsi_target_login.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/iscsi/iscsi_target_nego.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/iscsi/iscsi_target_parameters.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/iscsi/iscsi_target_tmr.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/iscsi/iscsi_target_transport.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/iscsi/iscsi_target_util.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/target_core_configfs.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/target_core_hba.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/target_core_sbc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/target_core_spc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/target/target_core_transport.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tc/tc-driver.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tee/tee_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tee/tee_shm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tee/tee_shm_pool.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/intel/int340x_thermal/int340x_thermal_zone.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/intel/int340x_thermal/platform_temperature_control.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/intel/int340x_thermal/processor_thermal_device.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/intel/int340x_thermal/processor_thermal_mbox.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/intel/int340x_thermal/processor_thermal_power_floor.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/intel/int340x_thermal/processor_thermal_rapl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/intel/int340x_thermal/processor_thermal_rfim.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/intel/int340x_thermal/processor_thermal_wt_hint.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/intel/int340x_thermal/processor_thermal_wt_req.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/intel/intel_soc_dts_iosf.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/intel/intel_tcc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/st/st_thermal.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/thermal_netlink.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thermal/thermal_trip.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thunderbolt/nhi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thunderbolt/property.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thunderbolt/usb4_port.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/thunderbolt/xdomain.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/hvc/hvc_console.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serdev/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serial/8250/8250_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serial/8250/8250_dma.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serial/8250/8250_dwlib.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serial/8250/8250_fsl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serial/8250/8250_pci.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serial/8250/8250_pcilib.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serial/8250/8250_platform.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serial/8250/8250_port.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serial/8250/8250_rt288x.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serial/serial_core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serial/serial_mctrl_gpio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serial/serial_port.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/serial/suncore.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/sysrq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/tty_buffer.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/tty_io.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/tty_ioctl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/tty_jobctrl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/tty_ldisc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/tty_mutex.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/tty_port.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/vt/consolemap.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/vt/keyboard.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/vt/selection.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/vt/vt.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/tty/vt/vt_ioctl.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/ufs/core/ufs-mcq.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/ufs/core/ufshcd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/ufs/host/tc-dwc-g210.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/ufs/host/ufshcd-dwc.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/ufs/host/ufshcd-pltfrm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/uio/uio.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/atm/usbatm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/cdns3/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/cdns3/drd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/chipidea/core.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/chipidea/usbmisc_imx.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/class/cdc-wdm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/common/common.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/common/debug.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/common/led.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/common/ulpi.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/common/usb-otg-fsm.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/core/file.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/core/generic.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/core/hcd-pci.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/core/hcd.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/core/hub.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/core/message.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/core/of.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
+   drivers/usb/core/phy.c: warning: EXPORT_SYMBOL() is used, but #include <linux/export.h> is missing
 
 -- 
 0-DAY CI Kernel Test Service
