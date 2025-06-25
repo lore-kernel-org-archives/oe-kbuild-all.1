@@ -1,67 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A812B9A5
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 00:42:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BE011C69D;
+	Wed, 25 Jun 2025 00:53:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750812149; cv=none; b=WZRQ+BnRvxDXRRdQmtl4SB1bRpenk7OJUklwsJsoR7u2cZ3xNWWo+ev2RATzTv8B3qL5bFnlKgV0oN+IC2tzM4mLTxA2AXDazGF35uSu0OHgOslHq8rSsfcX1ZomMkYpRoMHY3faz23oXsDkP24sGRREkP8D9K6EDqC7Bb8N4fU=
+	t=1750812808; cv=none; b=hN2P9Fk2604t/wTd4LingzW9OFbN+gITAUjgizoCl6NlCKTUguHt0xfvAh8lkCimi384WPTtl/ZwRsADnJIyRJhf2y7AiZ6JlnIJHsL7ZR0BeCcgDuGGpEj97P/5EfgwWv3JU10nfMGDX13XvYCdNKFMCAPOZwsI/LfwAGzwOOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750812149; c=relaxed/simple;
-	bh=sU2bp2FhksrcqHMdvPNPlXXnoiA4d9/n8fR2mCs2TO0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L4Qzs1GEE3SO88WztRvIJZCckij4/gLZs3RzZDfIj1zkbpLLOgRmzKQW1gisqfVf2XizUFJfg7v8yTOkmOx2Z6x21/qIc/QJGixm6ITWW5aE7g5DmOOSzUr6lx6P0Dr85JnEl4VUHLAaInVfO3r00Gm4wbxf3Q44XLXcXX1cy64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eXvIOc0D; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1750812808; c=relaxed/simple;
+	bh=6UjiUIMwuhuLlQuGi506wxp+dRK/c8MR0rbNOcUMVvQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rRJyAtGA5of691SBasTxjZtkF6sidh5miVPo8AfztqfUjxD/YMa22LXPbYVLQxN5+wkE9gSqNnW4Hy60osQvjT6ZzFzcSlabyAGsgSG+QZmXYeZ2jdzLET4164OSsxmbqG1WoX9j/fN54vO2XjFHkhWi5No/44ki3AckwDkEF1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nFPIpAhj; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eXvIOc0D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nFPIpAhj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750812148; x=1782348148;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sU2bp2FhksrcqHMdvPNPlXXnoiA4d9/n8fR2mCs2TO0=;
-  b=eXvIOc0DD7FheIcg5vqbPkavvWQ6muS6W9n3W25VPJWcXjAK534N5jYO
-   4OSnx+wE9Jhs7CMKP79s0GUsWk5YJUynxTRPRkMwmmjPNgJrmBM5I5PRo
-   3/HuaZPFo22AxCCiUzEsbdQ4bVaVNBQW/vy2CbCSrbwuw6V4rKzL5Q66C
-   lma9CDxFlrrqPTL7VSXOAm+bt138DHvQsZ0t0kmcrw6I7XN8uJPV4TGTM
-   AoneyDWHfTgGQRn8sbLPZiFdsBQ51hdDqqS+phU4ndIXWINv2BUwOULw0
-   LNpFuFvKKKFAqhUrBHJ/ytRRAw/bkVnqXxNRC1AZvk569GpevsGizLmxw
+  t=1750812808; x=1782348808;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6UjiUIMwuhuLlQuGi506wxp+dRK/c8MR0rbNOcUMVvQ=;
+  b=nFPIpAhjws6R8HoJro5v084lzWjFn490BwzjilVcYfZln0+qCchwjxpa
+   qeq41XYDm6NPv4gihg0AMK4Hsqv4wNCflF8zNUm/6WHIq/+R88aQ10UNl
+   UEJcYWp3lG/lajG41Xd9+a+ivqRgqWqXhjXogk1KGjYgzpphlO8BTxVML
+   pHd2Q51BC/W/vGHO1OSEaJRF88FjbQ8dTmyiuOZKoClIWhy9Ych0Q3C/R
+   v/zafRGhBHPPCRhcMEKuWuQAzL/taqmeVetJas5JrpzNG+U5mytryrYBg
+   wm0eKQzWeLoZIkZ2QEk0ynDpmxxhArSDLCIX/GF/Dkerx8riZx8wcPFxl
    A==;
-X-CSE-ConnectionGUID: ajrh46VcSGS68XKJcTeV2g==
-X-CSE-MsgGUID: oaUQ2s7YTnOFsLLKXhj4Yw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="70497658"
+X-CSE-ConnectionGUID: l34mlqWWSqmuLvxD3ipzQQ==
+X-CSE-MsgGUID: JoFqei1+S/+YsESUU8dwnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="70498328"
 X-IronPort-AV: E=Sophos;i="6.16,263,1744095600"; 
-   d="scan'208";a="70497658"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 17:42:28 -0700
-X-CSE-ConnectionGUID: D6eAnGzDS2CVyTA3FvngIg==
-X-CSE-MsgGUID: b/dXdKFATX2y6HDy5S3wfA==
+   d="scan'208";a="70498328"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 17:53:27 -0700
+X-CSE-ConnectionGUID: N/7rRLknRWyajmUa7nJf0A==
+X-CSE-MsgGUID: unYm8mmORw2BzHFN5eZJ1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,263,1744095600"; 
-   d="scan'208";a="183103928"
+   d="scan'208";a="157832517"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 24 Jun 2025 17:42:23 -0700
+  by orviesa005.jf.intel.com with ESMTP; 24 Jun 2025 17:53:26 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUEDV-000Sd4-1v;
-	Wed, 25 Jun 2025 00:42:21 +0000
-Date: Wed, 25 Jun 2025 08:42:08 +0800
+	id 1uUEOB-000Sdm-1P;
+	Wed, 25 Jun 2025 00:53:23 +0000
+Date: Wed, 25 Jun 2025 08:53:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maxime =?iso-8859-1?Q?B=E9lair?= <maxime.belair@canonical.com>,
-	linux-security-module@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, john.johansen@canonical.com,
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-	mic@digikod.net, kees@kernel.org, stephen.smalley.work@gmail.com,
-	casey@schaufler-ca.com, takedakn@nttdata.co.jp,
-	penguin-kernel@i-love.sakura.ne.jp, song@kernel.org,
-	rdunlap@infraread.org, linux-api@vger.kernel.org,
-	apparmor@lists.ubuntu.com, linux-kernel@vger.kernel.org,
-	Maxime =?iso-8859-1?Q?B=E9lair?= <maxime.belair@canonical.com>
-Subject: Re: [PATCH v3 2/3] lsm: introduce security_lsm_config_*_policy hooks
-Message-ID: <202506250843.UnXrlnza-lkp@intel.com>
-References: <20250624143211.436045-3-maxime.belair@canonical.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:klp-build 43/65] error: no rules expected the token
+ `ARCH_STATIC_BRANCH_ASM`
+Message-ID: <202506250848.uW9fXtgx-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,53 +61,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624143211.436045-3-maxime.belair@canonical.com>
 
-Hi Maxime,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 9c32cda43eb78f78c73aee4aa344b777714e259b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-B-lair/Wire-up-lsm_config_self_policy-and-lsm_config_system_policy-syscalls/20250624-225008
-base:   9c32cda43eb78f78c73aee4aa344b777714e259b
-patch link:    https://lore.kernel.org/r/20250624143211.436045-3-maxime.belair%40canonical.com
-patch subject: [PATCH v3 2/3] lsm: introduce security_lsm_config_*_policy hooks
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20250625/202506250843.UnXrlnza-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506250843.UnXrlnza-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git klp-build
+head:   725de0d647d7481d2906efc3acb44c8afd5e4244
+commit: b928a7bd0ac3d38d2aa464038bad4f972f01fade [43/65] x86/jump_label: Define ELF section entry size for jump labels
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250625/202506250848.uW9fXtgx-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506250848.uW9fXtgx-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506250843.UnXrlnza-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506250848.uW9fXtgx-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/perf_event.h:62,
-                    from include/linux/trace_events.h:10,
-                    from include/trace/syscall.h:7,
-                    from include/linux/syscalls.h:94,
-                    from init/main.c:21:
->> include/linux/security.h:1618:12: warning: 'security_lsm_config_system_policy' defined but not used [-Wunused-function]
-    1618 | static int security_lsm_config_system_policy(u32 lsm_id, u32 op, void __user *buf,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/security.h:1611:12: warning: 'security_lsm_config_self_policy' defined but not used [-Wunused-function]
-    1611 | static int security_lsm_config_self_policy(u32 lsm_id, u32 op, void __user *buf,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/security_lsm_config_system_policy +1618 include/linux/security.h
-
-  1617	
-> 1618	static int security_lsm_config_system_policy(u32 lsm_id, u32 op, void __user *buf,
-  1619						     size_t size, u32 flags)
-  1620	{
-  1621	
-  1622		return -EOPNOTSUPP;
-  1623	}
-  1624	#endif	/* CONFIG_SECURITY */
-  1625	
+>> rust/kernel/generated_arch_static_branch_asm.rs.S:7:89: error: too few arguments provided to function-like macro invocation
+   7 | ::kernel::concat_literals!(ARCH_STATIC_BRANCH_ASM("{symb} + {off} + {branch}", "{l_yes}"))
+   |                                                                                         ^
+   arch/x86/include/asm/jump_label.h:25:9: note: macro 'ARCH_STATIC_BRANCH_ASM' defined here
+   25 | #define ARCH_STATIC_BRANCH_ASM(key, label, size)              |         ^
+   1 error generated.
+>> error: no rules expected the token `ARCH_STATIC_BRANCH_ASM`
+   --> rust/kernel/generated_arch_static_branch_asm.rs:1:28
+   |
+   1   | ::kernel::concat_literals!(ARCH_STATIC_BRANCH_ASM)
+   |                            ^^^^^^^^^^^^^^^^^^^^^^ no rules expected this token in macro call
+   |
+   ::: rust/kernel/lib.rs:246:1
+   |
+   246 | macro_rules! concat_literals {
+   | ---------------------------- when calling this macro
+   |
+   = note: while trying to match sequence start
 
 -- 
 0-DAY CI Kernel Test Service
