@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0C4B16A956;
-	Wed, 25 Jun 2025 14:18:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6309A2673BD
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 14:34:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750861086; cv=none; b=Cngk1CP74o7NMnPbbVnz47GJm5b5RSwi441ZSlnuC7xxeV1Yg3WkM0hB6UmnRz1r5fct4CCCodT5RsNRtKKLblm6Mvndds6nKdPDfOEXi+HNh3YHQ1TyQ/sCCOuiqTELiRTbiLOC7Y5ADXrNT4JuAmj1aVxcDJBQQ/OlkmAJMgY=
+	t=1750862089; cv=none; b=U0GkGgxHXVQWaguaKWVcwww4xy+zqZVDwwGLxZR8a8/Ynpeww9LGTtcY3F0CPnPzRGer8dq8BcxVVRtcmZVtR/fwxNzpRisVKc7Kvlf2bGWHgErtT+Ylju7RBeemlV0hHYtIyYIbYiW6Pif8bNl0aexTtXjTgvNyZYxtDB/auOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750861086; c=relaxed/simple;
-	bh=M4G5XDxRuWGuM0Ue4i3Qt7POHiiyrCSIdxYPmlP+Yhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A9qW8bu9OCWQmV4rACzAO/JOMFdak89LD1ncNRXMaUsZDn1JPnOl1VwnH92o05x3qn0IwYcggih3a7GrRLx2db4YRYuXbXNaAUi1X7ac77CI6cFI2f/QsQ4nWquc0Pp5TiiA9aCsSvjwPoc6loIAJkZz6r0IhI+CjUtmXPrGlZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ow4JylV7; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1750862089; c=relaxed/simple;
+	bh=R/DlI/eAWHGDYnoaFyT9N17UHjTpV+AyhGIKUilf4BI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Fzt2Zcq5Sdoln0vIEeqOAFBBWq79NqhC6FKVkJnccsQm4Mjg3kDsZ+I+WmD0hRWYYSIHYRCNl/rRFP4jNzKp1cR4jWQ3LoqQEyI3e5tCXkd6bdrMWlWgL5+bgH2sReVLahJiEOZoeijch9LBmkghQSLfwXQ1JfUrwDWy4GL26AU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cpFUiLG2; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ow4JylV7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cpFUiLG2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750861084; x=1782397084;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M4G5XDxRuWGuM0Ue4i3Qt7POHiiyrCSIdxYPmlP+Yhk=;
-  b=Ow4JylV7E/MiEsVaJA4CZtIC/X3Kg6IjI49v+50CFJq4+WDhnzr5+Kpx
-   u+Ktp0o6iNCRttnc+HwYSxaZ0ynmEsBT/F7nM86/Qk/IoMjnq7U0X03hM
-   U+NlNhSNGq37YT5jAVJc+tFSnrJy6hTZuWdrANgJuLhvsODwbqm0zcYSk
-   Wv3mokhHxcwvt3qbekvs72Rrc6WNWhXe/GiZ74WwcSpKlkjW/nk9hmmzF
-   S34/XDAxoXsmZgRTprLVMxyDwifyCTV6BHHoRTu2OwnQsqSdYHnxjSCbI
-   Ojd8TWKBFygK+J9sYHq8uUmIK988RP7twpDKyXHa9fcePnh3ERFxAnD9u
+  t=1750862087; x=1782398087;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=R/DlI/eAWHGDYnoaFyT9N17UHjTpV+AyhGIKUilf4BI=;
+  b=cpFUiLG2pLxGxktXjq2P4sYVxvQT1uUasNoiSww0xM7JSd7NpOhBFw06
+   9dIouyjHLzUDJ7QZcSkkIXsEzIgOc9jdLBUt6vsm1tsjTrK4RCg4gFUid
+   XWyk8y973Q5D2CWendD5SrnencaHGUmulByAyyN0OxPOv0Tb4X4AyCjUk
+   lsJAnmt9SRgpwZ6zseIF1Dzc9cyTCNuHTk+luLCgHOEJ1DOHsA4iHE/QE
+   WDeZU2YBC1tWNEDmGQse++QTtC8Pe1RERrkgX+fAiEZBWSrsWUUubCt0J
+   qZhP5ixZJafT5TB1RAUR1v7XHQmL7JZcEz6NtvyvWmkknZgGV5Iz2/828
    A==;
-X-CSE-ConnectionGUID: IUTuWdPdQVqKGXkA+pV0Dg==
-X-CSE-MsgGUID: WvY6FZeoSceFY1urHwI1rQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53197827"
+X-CSE-ConnectionGUID: q+KxTwM3SFyteZ10uznZ5A==
+X-CSE-MsgGUID: XGDp/pGdTeGDjvpk/cTODg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="56921003"
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="53197827"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 07:17:49 -0700
-X-CSE-ConnectionGUID: kltvbGmNTs2VqFyO5g4Z5w==
-X-CSE-MsgGUID: gGNfuW1XSeS7l+BDROKwjA==
+   d="scan'208";a="56921003"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 07:34:43 -0700
+X-CSE-ConnectionGUID: SJVQ+6KIRpCwlDPec3vx9g==
+X-CSE-MsgGUID: YiVlrkSKRjulFecywvOzvg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="151658653"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 25 Jun 2025 07:17:45 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+   d="scan'208";a="175878924"
+Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
+  by fmviesa002.fm.intel.com with ESMTP; 25 Jun 2025 07:34:39 -0700
+Received: from kbuild by e588e990b675 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUQwZ-000TB8-1Q;
-	Wed, 25 Jun 2025 14:17:43 +0000
-Date: Wed, 25 Jun 2025 22:17:42 +0800
+	id 1uURCu-00003D-1i;
+	Wed, 25 Jun 2025 14:34:36 +0000
+Date: Wed, 25 Jun 2025 16:33:54 +0200
 From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>, linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, hch@lst.de, miklos@szeredi.hu,
-	brauner@kernel.org, djwong@kernel.org, anuj20.g@samsung.com,
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev,
-	kernel-team@meta.com
-Subject: Re: [PATCH v3 13/16] fuse: use iomap for writeback
-Message-ID: <202506252117.9V3HTO0i-lkp@intel.com>
-References: <20250624022135.832899-14-joannelkoong@gmail.com>
+To: kernel@openeuler.org, Wupeng Ma <mawupeng1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2195/2195] mm/memblock.c:1409:20: warning: no
+ previous prototype for 'memblock_alloc_range_nid_flags'
+Message-ID: <202506252231.3JnNvuLi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,48 +61,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624022135.832899-14-joannelkoong@gmail.com>
 
-Hi Joanne,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on xfs-linux/for-next linus/master v6.16-rc3 next-20250625]
-[cannot apply to gfs2/for-next mszeredi-fuse/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/iomap-pass-more-arguments-using-struct-iomap_writepage_ctx/20250624-102709
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250624022135.832899-14-joannelkoong%40gmail.com
-patch subject: [PATCH v3 13/16] fuse: use iomap for writeback
-config: arm64-randconfig-003-20250625 (https://download.01.org/0day-ci/archive/20250625/202506252117.9V3HTO0i-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506252117.9V3HTO0i-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   c02455c4cce8052f74fc11c09e9073c01c7f33a4
+commit: 64018b291c1f49622c4b23b303364d760306d662 [2195/2195] mm/memblock: Introduce ability to alloc memory from specify memory region
+config: x86_64-randconfig-2005-20250501 (https://download.01.org/0day-ci/archive/20250625/202506252231.3JnNvuLi-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506252231.3JnNvuLi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506252117.9V3HTO0i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506252231.3JnNvuLi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepages':
->> file.c:(.text+0xa30): undefined reference to `iomap_writepages'
->> file.c:(.text+0xa30): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_writepages'
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepage_finish':
->> file.c:(.text+0x1fd8): undefined reference to `iomap_finish_folio_write'
->> file.c:(.text+0x1fd8): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_finish_folio_write'
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_cache_write_iter':
-   file.c:(.text+0x888c): undefined reference to `iomap_file_buffered_write'
-   file.c:(.text+0x888c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_file_buffered_write'
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_iomap_writeback_range':
->> file.c:(.text+0x9258): undefined reference to `iomap_start_folio_write'
->> file.c:(.text+0x9258): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_start_folio_write'
->> aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x370): undefined reference to `iomap_dirty_folio'
-   aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x3a0): undefined reference to `iomap_release_folio'
+>> mm/memblock.c:1409:20: warning: no previous prototype for 'memblock_alloc_range_nid_flags' [-Wmissing-prototypes]
+    1409 | phys_addr_t __init memblock_alloc_range_nid_flags(phys_addr_t size,
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/memblock_alloc_range_nid_flags +1409 mm/memblock.c
+
+  1386	
+  1387	/**
+  1388	 * memblock_alloc_range_nid_flags - allocate boot memory block with specify flag
+  1389	 * @size: size of memory block to be allocated in bytes
+  1390	 * @align: alignment of the region and block's size
+  1391	 * @start: the lower bound of the memory region to allocate (phys address)
+  1392	 * @end: the upper bound of the memory region to allocate (phys address)
+  1393	 * @nid: nid of the free area to find, %NUMA_NO_NODE for any node
+  1394	 * @exact_nid: control the allocation fall back to other nodes
+  1395	 * @flags: alloc memory from specify memblock flag
+  1396	 *
+  1397	 * The allocation is performed from memory region limited by
+  1398	 * memblock.current_limit if @end == %MEMBLOCK_ALLOC_ACCESSIBLE.
+  1399	 *
+  1400	 * If the specified node can not hold the requested memory and @exact_nid
+  1401	 * is false, the allocation falls back to any node in the system.
+  1402	 *
+  1403	 * In addition, function sets the min_count to 0 using kmemleak_alloc_phys for
+  1404	 * allocated boot memory block, so that it is never reported as leaks.
+  1405	 *
+  1406	 * Return:
+  1407	 * Physical address of allocated memory block on success, %0 on failure.
+  1408	 */
+> 1409	phys_addr_t __init memblock_alloc_range_nid_flags(phys_addr_t size,
+  1410						phys_addr_t align, phys_addr_t start,
+  1411						phys_addr_t end, int nid,
+  1412						bool exact_nid,
+  1413						enum memblock_flags flags)
+  1414	{
+  1415		phys_addr_t found;
+  1416	
+  1417		if (WARN_ONCE(nid == MAX_NUMNODES, "Usage of MAX_NUMNODES is deprecated. Use NUMA_NO_NODE instead\n"))
+  1418			nid = NUMA_NO_NODE;
+  1419	
+  1420		if (!align) {
+  1421			/* Can't use WARNs this early in boot on powerpc */
+  1422			dump_stack();
+  1423			align = SMP_CACHE_BYTES;
+  1424		}
+  1425	
+  1426	again:
+  1427		found = memblock_find_in_range_node(size, align, start, end, nid,
+  1428						    flags);
+  1429		if (found && !memblock_reserve(found, size))
+  1430			goto done;
+  1431	
+  1432		if (nid != NUMA_NO_NODE && !exact_nid) {
+  1433			found = memblock_find_in_range_node(size, align, start,
+  1434							    end, NUMA_NO_NODE,
+  1435							    flags);
+  1436			if (found && !memblock_reserve(found, size))
+  1437				goto done;
+  1438		}
+  1439	
+  1440		if (flags & MEMBLOCK_MIRROR) {
+  1441			flags &= ~MEMBLOCK_MIRROR;
+  1442			pr_warn_ratelimited("Could not allocate %pap bytes of mirrored memory\n",
+  1443				&size);
+  1444			goto again;
+  1445		}
+  1446	
+  1447		return 0;
+  1448	
+  1449	done:
+  1450		/*
+  1451		 * Skip kmemleak for those places like kasan_init() and
+  1452		 * early_pgtable_alloc() due to high volume.
+  1453		 */
+  1454		if (end != MEMBLOCK_ALLOC_NOLEAKTRACE)
+  1455			/*
+  1456			 * Memblock allocated blocks are never reported as
+  1457			 * leaks. This is because many of these blocks are
+  1458			 * only referred via the physical address which is
+  1459			 * not looked up by kmemleak.
+  1460			 */
+  1461			kmemleak_alloc_phys(found, size, 0);
+  1462	
+  1463		/*
+  1464		 * Some Virtual Machine platforms, such as Intel TDX or AMD SEV-SNP,
+  1465		 * require memory to be accepted before it can be used by the
+  1466		 * guest.
+  1467		 *
+  1468		 * Accept the memory of the allocated buffer.
+  1469		 */
+  1470		accept_memory(found, found + size);
+  1471	
+  1472		return found;
+  1473	}
+  1474	
 
 -- 
 0-DAY CI Kernel Test Service
