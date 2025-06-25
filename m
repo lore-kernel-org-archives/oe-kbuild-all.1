@@ -1,124 +1,441 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5902D1A76BC
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 02:29:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C211A5BA9
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 02:39:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750818592; cv=none; b=I1yvXplVEyPcr/kixC4YYj6x4UaiRabiB6XiUiZ/XqjYxbYIbyQ7chN15pOY8LH9y0aMI5gThUOsmbqPvkSITcLnAxziWs4IoLrDibA4QPhNL5024XF+IZ8IE7qW7ab9xPLtTvb1Y1TVdVFQcb5JgPIAns+Dx2BnyqIRGQtGkM4=
+	t=1750819180; cv=none; b=N5+qKJTGd+xQq0zjQPx2XSCKc8esSDN+6fI9g6Rw1aBhN8taJyEpTIPvfJxOFIGM0EQQqqrijddbG86HdurYhcUvXpWJHM4iIc/AdVGQnHHACu6Ocgy+HpGP5E+gkmQaCXiSX3dF9qw0SoyBhCN3AEGA9zexILOc9SEUnrceDBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750818592; c=relaxed/simple;
-	bh=Ackd6oL4QEZhNsdWFDsaCVzCrTRV/Pf/z7DouQ0Gs5M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PYz0a3XgsPFXtTzDL6mMrSn8vplruZP++fBwCBzlHZeq/TwIBS8i5Z/w8sBDgF7Ec/pkKvHGoMVJALp2lWVPeTVAUOrSkuZINv9+3/QQVEfaPva7A6jeAX4d78+K5IDG3JN5n19SotTP/b9tV7Pqs1chep6TlrkIsFJ4iN7nIPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=koIfgwaV; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1750819180; c=relaxed/simple;
+	bh=srNBAP6CSDGHyL6kAStivjbP2+W62MVnjcVp0nrgiGU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C8dvrwFxhO2I7KX1p5xeFyB4PUvVVauby0CPEMVf3ddPVcURP7zZUotFEwiwAtZLE6sBWqX9s3ZopCG7/5WlEsLyIv4rIXfYrT2wZnV+8SrJhZo4uNf6WYnel4pdgA5YuMQDlbZ5JtETx2sJ6SAJ9uQTpuckDJL8AGgfQAaSWNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lrzb2Tli; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="koIfgwaV"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-749068b9b63so549939b3a.0
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 24 Jun 2025 19:29:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1750818590; x=1751423390; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xRoBVr301Z32U1U+wNWEV8kI1I28cFbSqrPbaNR/5yE=;
-        b=koIfgwaVLiQAxKu8IspyYUTDCWde0F+dYCSLdDc8LPRyD9+UGstV216yuwURZ3GGlm
-         otDD9YF2peUI0LjWtRa3NN2Pmg+wvGrOl/llPFg6ObUopYmNxd05ogt+WiP3w9TQX4SP
-         vAb26a2YkQ8oc/+SEWlHPmsV/Tv4NWKquMwCWS8UwpYN8G7llvHnqYuW6ilUNmjcm4cS
-         BVBJ+BM4Wew6AjXKWt4iUEFt9el0vRlMkkYZGo5aLzhBT6KS9V3OWMKM6YQmp4LGqsLP
-         PJx282yV9iYDGapZealUtAxZRMeXCdYa8brFlGFYvgwOnJLj0IDINCAxLgZssl9xaAh7
-         8yfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1750818590; x=1751423390;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xRoBVr301Z32U1U+wNWEV8kI1I28cFbSqrPbaNR/5yE=;
-        b=uYAesJEcsxhh1nz/6iVU/QfNLEImupKXc98Ng692BvbDaicddavi1rQuz5kXd3IhNW
-         2YfVBYVdBwLznL93f8CM46bVuzQCjAR6gKJxmUDjglTnnUhAp4A9xOpHmUAxg+Rkp8Sf
-         zJT9doJdV1OS2+SJpShUs9WTZiuwoLiExjWOnUtpGqvvxHiy/+JU62tojt0J/E7BDVRU
-         9NLpORO/hr3ivrmTiXHQ75TE4GFNM0MTdQo4uB7rCqFHAXgbZuLuIoN7oLmils/v2Jrn
-         kPy7umcsWfPCByQT3KUfMg9AB83QETiTiwUwzyAJr75T/sUBMgTm0APyml3h9PXKF39h
-         mPKA==
-X-Forwarded-Encrypted: i=1; AJvYcCUQTIX1qLE69c3jcudcZPdrbMTD6Akp4cy1gHRqgDdNVS5Js2IHWY5HOAEbj/uq9VvwD/QTCTs1bTboVBFS@lists.linux.dev
-X-Gm-Message-State: AOJu0Yxnhs8m1szXBsznMRd2PvLi3i6mSJwgmJmgNmLslqy5R0PIDeZV
-	h0heln+H570gRrpxpFSUGBeBT4Di06Ak/apJSsjhUom0m93tpeA13nfFwELWnu1Shcc=
-X-Gm-Gg: ASbGncuKrUIWeslBoY8oo4bMAjLcpTgitz70iB+n9b0AElrOUAbu5Jd2nGFQrddo5z2
-	ACtuw0xPW/Im724KXujRiyDaJ/g34ELJk44MKCDD075Gupb2rsJ/Gwis5Cj+Mf5oVtVfsCRJbjE
-	TF++3iQb7+LRvsXWQ4Y1NWMtYwvvhpnOhgRspENsXDJW0R7TgHG34FpcglFB0YGlrh5r+BfPDFG
-	FrFujpM8ly8ZTDxAuyXQ5fYC7gfl1S+x9wHQ44w3rsSH9aIOew2GbzgRY/TQ4B4NMuxHZMuGBkF
-	iY2DCI/ZwTzGGuMg5dn5p2N7H/mPkXqG9zAMT2yLkZLTPSWWasOT0IkikaO4TrYjI4dP7xG7/L4
-	4rQqdpiZ1s6YU
-X-Google-Smtp-Source: AGHT+IGDhzovgW8mfz1TgwEtDPLzMaEOkE7E5An9/EYwotB65YMux34Z99Rx+rpB+eyQKTmSPq1Cmg==
-X-Received: by 2002:a05:6a00:2290:b0:736:5e28:cfba with SMTP id d2e1a72fcca58-74ad44d861dmr2057195b3a.18.1750818589640;
-        Tue, 24 Jun 2025 19:29:49 -0700 (PDT)
-Received: from localhost.localdomain ([203.208.189.7])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-749b5e08caesm3190947b3a.4.2025.06.24.19.29.46
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 24 Jun 2025 19:29:49 -0700 (PDT)
-From: lizhe.67@bytedance.com
-To: lkp@intel.com
-Cc: alex.williamson@redhat.com,
-	david@redhat.com,
-	jgg@ziepe.ca,
-	kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lizhe.67@bytedance.com,
-	oe-kbuild-all@lists.linux.dev,
-	peterx@redhat.com
-Subject: Re: [PATCH v5 1/3] vfio/type1: batch vfio_find_vpfn() in function vfio_unpin_pages_remote()
-Date: Wed, 25 Jun 2025 10:29:42 +0800
-Message-ID: <20250625022942.76489-1-lizhe.67@bytedance.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <202506250037.VfdBAPP3-lkp@intel.com>
-References: <202506250037.VfdBAPP3-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lrzb2Tli"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1750819177; x=1782355177;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=srNBAP6CSDGHyL6kAStivjbP2+W62MVnjcVp0nrgiGU=;
+  b=Lrzb2TlipBmdl5Ct4aF/rR2axT++28gRGdSLmTXWznA6C1ZjUYoprzBb
+   NCVBpjmpcHeI81U4J3iapPp3yqIE1ApoWT8astdb5dhEcFmlxI9x8mcq3
+   bpJLrxtTEQgGJwCsW7AbC27esu/OdaRXLu3HUIcaiCqCNGHxBEw1m+/S2
+   pvZ+nnmx3KU/IxiGtG1sA7aoLmt4aNUPQ8J6mVkxjuYXBY6CaOhVu1bFN
+   o7HRyg7QXmZlOqvzIPh6t+5ucqJUMVPcNxz/tE9WKo08Ak7gVAXIlQHbz
+   47dDFDu+2WztyCELS0YpZILYscw82vdY+hM91lHyFGnYVjDsP0DLUqAUr
+   A==;
+X-CSE-ConnectionGUID: xZg4AEKnT1mMCIrxciG2ew==
+X-CSE-MsgGUID: UfKijtMDRr+XYnwyu6wlcA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="53143007"
+X-IronPort-AV: E=Sophos;i="6.16,263,1744095600"; 
+   d="scan'208";a="53143007"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 19:39:37 -0700
+X-CSE-ConnectionGUID: 8KStVUqfTMqrekn9rEHijQ==
+X-CSE-MsgGUID: Ff2RIAI9SbqtnM2/rRRp8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,263,1744095600"; 
+   d="scan'208";a="183124328"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 24 Jun 2025 19:39:35 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uUG2v-000ShU-1F;
+	Wed, 25 Jun 2025 02:39:33 +0000
+Date: Wed, 25 Jun 2025 10:39:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2983/2983]
+ drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c:546:5: error: no previous
+ prototype for function 'ps3_pci_init'
+Message-ID: <202506251007.uWNSnCWy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 25 Jun 2025 00:23:03 +0800,
-kernel test robot <lkp@intel.com> wrote:
+Hi liujie_answer,
 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on awilliam-vfio/next]
-> [also build test ERROR on awilliam-vfio/for-linus linus/master v6.16-rc3 next-20250624]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/lizhe-67-bytedance-com/vfio-type1-batch-vfio_find_vpfn-in-function-vfio_unpin_pages_remote/20250620-112605
-> base:   https://github.com/awilliam/linux-vfio.git next
-> patch link:    https://lore.kernel.org/r/20250620032344.13382-2-lizhe.67%40bytedance.com
-> patch subject: [PATCH v5 1/3] vfio/type1: batch vfio_find_vpfn() in function vfio_unpin_pages_remote()
-> config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250625/202506250037.VfdBAPP3-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506250037.VfdBAPP3-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506250037.VfdBAPP3-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    drivers/vfio/vfio_iommu_type1.c: In function 'vfio_unpin_pages_remote':
-> >> drivers/vfio/vfio_iommu_type1.c:738:37: error: implicit declaration of function 'vpfn_pages'; did you mean 'vma_pages'? [-Werror=implicit-function-declaration]
->      738 |         long unlocked = 0, locked = vpfn_pages(dma, iova, npage);
->          |                                     ^~~~~~~~~~
->          |                                     vma_pages
->    cc1: some warnings being treated as errors
+FYI, the error/warning still remains.
 
-Perhaps we need to compile with this patch[1] included to avoid build
-errors.
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   3778f0b898118491b80dc9bcde38c1713662232c
+commit: 13f748eddc9dfdec8a18922ed601e1906dcb183a [2983/2983] [PATCH] SCSI: Linkdata: Supports Linkdata HBA/RAID Controllers
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250625/202506251007.uWNSnCWy-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506251007.uWNSnCWy-lkp@intel.com/reproduce)
 
-Thanks,
-Zhe
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506251007.uWNSnCWy-lkp@intel.com/
 
-[1]: https://lore.kernel.org/all/20250529064947.38433-1-lizhe.67@bytedance.com/
+All errors (new ones prefixed by >>):
+
+>> drivers/scsi/linkdata/ps3stor/ps3_ioc_manager.c:308:5: error: no previous prototype for function 'ps3_hard_reset_to_ready' [-Werror,-Wmissing-prototypes]
+     308 | int ps3_hard_reset_to_ready(struct ps3_instance *instance)
+         |     ^
+   drivers/scsi/linkdata/ps3stor/ps3_ioc_manager.c:308:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     308 | int ps3_hard_reset_to_ready(struct ps3_instance *instance)
+         | ^
+         | static 
+   1 error generated.
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:877:6: error: no previous prototype for function 'ps3_set_task_manager_busy' [-Werror,-Wmissing-prototypes]
+     877 | void ps3_set_task_manager_busy(struct ps3_instance *instance,
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:877:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     877 | void ps3_set_task_manager_busy(struct ps3_instance *instance,
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:1111:5: error: no previous prototype for function 'ps3_wait_for_outstanding_complete' [-Werror,-Wmissing-prototypes]
+    1111 | int ps3_wait_for_outstanding_complete(struct ps3_instance *instance)
+         |     ^
+   drivers/scsi/linkdata/ps3stor/ps3_scsi_cmd_err.c:1111:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1111 | int ps3_wait_for_outstanding_complete(struct ps3_instance *instance)
+         | ^
+         | static 
+   2 errors generated.
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:132:6: error: no previous prototype for function 'ps3_trigger_irq_poll' [-Werror,-Wmissing-prototypes]
+     132 | void ps3_trigger_irq_poll(struct ps3_irq *irq)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:132:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     132 | void ps3_trigger_irq_poll(struct ps3_irq *irq)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:244:5: error: no previous prototype for function 'ps3_resp_status_convert' [-Werror,-Wmissing-prototypes]
+     244 | int ps3_resp_status_convert(unsigned int resp_status)
+         |     ^
+   drivers/scsi/linkdata/ps3stor/ps3_cmd_complete.c:244:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     244 | int ps3_resp_status_convert(unsigned int resp_status)
+         | ^
+         | static 
+   2 errors generated.
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:212:1: error: no previous prototype for function 'ps3_qos_cmd_waitq_get' [-Werror,-Wmissing-prototypes]
+     212 | ps3_qos_cmd_waitq_get(struct ps3_qos_tg_context *qos_tg_ctx,
+         | ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:211:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     211 | struct qos_wait_queue *
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:336:15: error: no previous prototype for function 'ps3_qos_vd_cmdword_get' [-Werror,-Wmissing-prototypes]
+     336 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
+         |               ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:336:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     336 | unsigned char ps3_qos_vd_cmdword_get(struct ps3_cmd *cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:352:15: error: no previous prototype for function 'ps3_qos_exclusive_cmdword_get' [-Werror,-Wmissing-prototypes]
+     352 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
+         |               ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:352:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     352 | unsigned char ps3_qos_exclusive_cmdword_get(struct ps3_cmd *cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:364:15: error: no previous prototype for function 'ps3_qos_tg_decision' [-Werror,-Wmissing-prototypes]
+     364 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
+         |               ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:364:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     364 | unsigned char ps3_qos_tg_decision(struct ps3_cmd *cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:750:15: error: no previous prototype for function 'ps3_qos_all_pd_rc_get' [-Werror,-Wmissing-prototypes]
+     750 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
+         |               ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:750:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     750 | unsigned char ps3_qos_all_pd_rc_get(struct ps3_cmd *cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:877:6: error: no previous prototype for function 'ps3_pd_quota_waitq_clear_all' [-Werror,-Wmissing-prototypes]
+     877 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:877:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     877 | void ps3_pd_quota_waitq_clear_all(struct ps3_qos_pd_mgr *qos_pd_mgr,
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:893:6: error: no previous prototype for function 'ps3_pd_quota_waitq_clean' [-Werror,-Wmissing-prototypes]
+     893 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:893:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     893 | void ps3_pd_quota_waitq_clean(struct ps3_qos_pd_mgr *qos_pd_mgr,
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:1059:6: error: no previous prototype for function 'ps3_qos_pd_waitq_ratio_update' [-Werror,-Wmissing-prototypes]
+    1059 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:1059:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1059 | void ps3_qos_pd_waitq_ratio_update(struct ps3_qos_pd_mgr *qos_pd_mgr)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2020:15: error: no previous prototype for function 'ps3_hba_qos_decision' [-Werror,-Wmissing-prototypes]
+    2020 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
+         |               ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2020:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2020 | unsigned char ps3_hba_qos_decision(struct ps3_cmd *cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2041:6: error: no previous prototype for function 'ps3_hba_qos_waitq_notify' [-Werror,-Wmissing-prototypes]
+    2041 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2041:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2041 | void ps3_hba_qos_waitq_notify(struct ps3_instance *instance)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2101:6: error: no previous prototype for function 'ps3_cmd_waitq_abort' [-Werror,-Wmissing-prototypes]
+    2101 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2101:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2101 | bool ps3_cmd_waitq_abort(struct ps3_cmd *aborted_cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2464:6: error: no previous prototype for function 'ps3_hba_qos_waitq_clear_all' [-Werror,-Wmissing-prototypes]
+    2464 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2464:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2464 | void ps3_hba_qos_waitq_clear_all(struct ps3_instance *instance, int resp_status)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2828:6: error: no previous prototype for function 'ps3_hba_qos_vd_init' [-Werror,-Wmissing-prototypes]
+    2828 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2828:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2828 | void ps3_hba_qos_vd_init(struct ps3_instance *instance,
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:2937:6: error: no previous prototype for function 'ps3_hba_qos_vd_reset' [-Werror,-Wmissing-prototypes]
+    2937 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:2937:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2937 | void ps3_hba_qos_vd_reset(struct ps3_instance *instance, unsigned short disk_id)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3024:6: error: no previous prototype for function 'ps3_hba_qos_waitq_poll' [-Werror,-Wmissing-prototypes]
+    3024 | void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3024:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3024 | void ps3_hba_qos_waitq_poll(struct ps3_instance *instance)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3280:15: error: no previous prototype for function 'ps3_raid_qos_decision' [-Werror,-Wmissing-prototypes]
+    3280 | unsigned char ps3_raid_qos_decision(struct ps3_cmd *cmd)
+         |               ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3280:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3280 | unsigned char ps3_raid_qos_decision(struct ps3_cmd *cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3335:6: error: no previous prototype for function 'ps3_qos_mgrq_resend' [-Werror,-Wmissing-prototypes]
+    3335 | void ps3_qos_mgrq_resend(struct ps3_qos_softq_mgr *softq_mgr)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3335:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3335 | void ps3_qos_mgrq_resend(struct ps3_qos_softq_mgr *softq_mgr)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3479:6: error: no previous prototype for function 'ps3_raid_qos_waitq_notify' [-Werror,-Wmissing-prototypes]
+    3479 | void ps3_raid_qos_waitq_notify(struct ps3_instance *instance)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3479:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3479 | void ps3_raid_qos_waitq_notify(struct ps3_instance *instance)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_qos.c:3822:15: error: no previous prototype for function 'ps3_raid_qos_waitq_abort' [-Werror,-Wmissing-prototypes]
+    3822 | unsigned char ps3_raid_qos_waitq_abort(struct ps3_cmd *cmd)
+         |               ^
+   drivers/scsi/linkdata/ps3stor/ps3_qos.c:3822:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3822 | unsigned char ps3_raid_qos_waitq_abort(struct ps3_cmd *cmd)
+         | ^
+         | static 
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_scsih.c:1959:1: error: unused function 'ps3_scsih_dev_id_get' [-Werror,-Wunused-function]
+    1959 | ps3_scsih_dev_id_get(const struct scsi_cmnd *s_cmd)
+         | ^~~~~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:86:6: error: no previous prototype for function 'ps3_cmd_stat_content_clear' [-Werror,-Wmissing-prototypes]
+      86 | void ps3_cmd_stat_content_clear(struct ps3_instance *instance)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:86:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      86 | void ps3_cmd_stat_content_clear(struct ps3_instance *instance)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:404:6: error: no previous prototype for function 'ps3_io_recv_ok_stat_inc' [-Werror,-Wmissing-prototypes]
+     404 | void ps3_io_recv_ok_stat_inc(struct ps3_instance *ins,
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_cmd_statistics.c:404:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     404 | void ps3_io_recv_ok_stat_inc(struct ps3_instance *ins,
+         | ^
+         | static 
+   2 errors generated.
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_ioctl.c:786:6: error: no previous prototype for function 'ps3_clean_mgr_cmd' [-Werror,-Wmissing-prototypes]
+     786 | void ps3_clean_mgr_cmd(struct ps3_instance *instance)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_ioctl.c:786:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     786 | void ps3_clean_mgr_cmd(struct ps3_instance *instance)
+         | ^
+         | static 
+   1 error generated.
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:579:5: error: no previous prototype for function 'ps3_r1x_hash_bit_check' [-Werror,-Wmissing-prototypes]
+     579 | int ps3_r1x_hash_bit_check(struct ps3_r1x_hash_bit_mgr *hash_mgr,
+         |     ^
+   drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:579:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     579 | int ps3_r1x_hash_bit_check(struct ps3_r1x_hash_bit_mgr *hash_mgr,
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:679:6: error: no previous prototype for function 'ps3_r1x_conflict_queue_hash_bit_lock' [-Werror,-Wmissing-prototypes]
+     679 | void ps3_r1x_conflict_queue_hash_bit_lock(struct ps3_r1x_lock_mgr *mgr,
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:679:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     679 | void ps3_r1x_conflict_queue_hash_bit_lock(struct ps3_r1x_lock_mgr *mgr,
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:731:5: error: no previous prototype for function 'ps3_r1x_hash_bit_lock' [-Werror,-Wmissing-prototypes]
+     731 | int ps3_r1x_hash_bit_lock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
+         |     ^
+   drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:731:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     731 | int ps3_r1x_hash_bit_lock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:989:6: error: no previous prototype for function 'ps3_r1x_hash_bit_unlock' [-Werror,-Wmissing-prototypes]
+     989 | void ps3_r1x_hash_bit_unlock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:989:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     989 | void ps3_r1x_hash_bit_unlock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1174:5: error: no previous prototype for function 'ps3_range_check_and_insert' [-Werror,-Wmissing-prototypes]
+    1174 | int ps3_range_check_and_insert(struct ps3_range_tree_root *range_root,
+         |     ^
+   drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1174:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1174 | int ps3_range_check_and_insert(struct ps3_range_tree_root *range_root,
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1232:5: error: no previous prototype for function 'ps3_r1x_hash_range_lock' [-Werror,-Wmissing-prototypes]
+    1232 | int ps3_r1x_hash_range_lock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
+         |     ^
+   drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1232:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1232 | int ps3_r1x_hash_range_lock(struct ps3_r1x_lock_mgr *mgr, struct ps3_cmd *cmd)
+         | ^
+         | static 
+>> drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1313:6: error: no previous prototype for function 'ps3_r1x_hash_range_unlock' [-Werror,-Wmissing-prototypes]
+    1313 | void ps3_r1x_hash_range_unlock(struct ps3_r1x_lock_mgr *mgr,
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_r1x_write_lock.c:1313:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1313 | void ps3_r1x_hash_range_unlock(struct ps3_r1x_lock_mgr *mgr,
+         | ^
+         | static 
+   7 errors generated.
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_debug.c:884:5: error: no previous prototype for function 'ps3_dump_dir_length' [-Werror,-Wmissing-prototypes]
+     884 | int ps3_dump_dir_length(const char *buf, size_t count)
+         |     ^
+   drivers/scsi/linkdata/ps3stor/ps3_debug.c:884:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     884 | int ps3_dump_dir_length(const char *buf, size_t count)
+         | ^
+         | static 
+   1 error generated.
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_module_para.c:610:14: error: no previous prototype for function 'ps3_cli_ver_query' [-Werror,-Wmissing-prototypes]
+     610 | unsigned int ps3_cli_ver_query(void)
+         |              ^
+   drivers/scsi/linkdata/ps3stor/ps3_module_para.c:610:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     610 | unsigned int ps3_cli_ver_query(void)
+         | ^
+         | static 
+   1 error generated.
+--
+>> drivers/scsi/linkdata/ps3stor/ps3_rb_tree.c:155:6: error: no previous prototype for function 'rbtDelNodeDo' [-Werror,-Wmissing-prototypes]
+     155 | void rbtDelNodeDo(struct Ps3RbRoot *pRoot, struct Ps3RbNode *pNode)
+         |      ^
+   drivers/scsi/linkdata/ps3stor/ps3_rb_tree.c:155:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     155 | void rbtDelNodeDo(struct Ps3RbRoot *pRoot, struct Ps3RbNode *pNode)
+         | ^
+         | static 
+   1 error generated.
+..
+
+
+vim +/ps3_pci_init +546 drivers/scsi/linkdata/ps3stor/./linux/ps3_base.c
+
+   545	
+ > 546	int ps3_pci_init(struct pci_dev *pdev, struct ps3_instance *instance)
+   547	{
+   548		resource_size_t base_addr = 0;
+   549		int ret = PS3_SUCCESS;
+   550	
+   551		ret = pci_enable_device_mem(pdev);
+   552		if (ret != PS3_SUCCESS) {
+   553			LOG_ERROR("hno:%u pci id[%u] pci enable failed\n",
+   554				  PS3_HOST(instance), pdev->dev.id);
+   555			goto l_pci_enable_device_mem_failed;
+   556		}
+   557	
+   558		pci_set_master(pdev);
+   559	
+   560		instance->reg_bar = PS3_REGISTER_BAR_INDEX;
+   561		ret = (pci_resource_flags(pdev, instance->reg_bar) & IORESOURCE_MEM);
+   562		if (!ret) {
+   563			LOG_ERROR("hno:%u Bar %lu isnot IORESOURCE_MEM\n",
+   564				  PS3_HOST(instance), instance->reg_bar);
+   565			goto l_bar_check_failed;
+   566		}
+   567		ret = pci_request_selected_regions(pdev, 1 << instance->reg_bar,
+   568						   "PS3 pci regions");
+   569		if (ret != PS3_SUCCESS) {
+   570			LOG_ERROR("hno:%u IO memory region busy\n", PS3_HOST(instance));
+   571			goto l_pci_request_selected_regions_failed;
+   572		}
+   573	#if defined(PS3_SUPPORT_PCIE_REPORT)
+   574		pci_enable_pcie_error_reporting(pdev);
+   575	#endif
+   576		if (instance->ioc_adpter->reg_set) {
+   577			instance->reg_set =
+   578				(struct Ps3Fifo __iomem *)instance->ioc_adpter->reg_set(
+   579					pdev, instance->reg_bar);
+   580		} else {
+   581			instance->reg_set = (struct Ps3Fifo __iomem *)ioremap(
+   582				pci_resource_start(pdev, instance->reg_bar),
+   583				PS3_REGISTER_SET_SIZE);
+   584		}
+   585		if (instance->reg_set == NULL) {
+   586			LOG_ERROR("hno:%u ioremap failed\n", PS3_HOST(instance));
+   587			goto l_ioremap_failed;
+   588		} else {
+   589			pci_set_drvdata(pdev, instance);
+   590		}
+   591	
+   592		ps3_atomic_set(&instance->watchdog_reg_read_fail_count, 0);
+   593		LOG_INFO(
+   594			"reg_bar_idx = %lu, bar_base_paddr = 0x%llx, reg_set_vaddr = 0x%p\n",
+   595			instance->reg_bar, (unsigned long long)base_addr, instance->reg_set);
+   596	
+   597		return PS3_SUCCESS;
+   598	l_ioremap_failed:
+   599		pci_release_selected_regions(instance->pdev, 1 << instance->reg_bar);
+   600	#if defined(PS3_SUPPORT_PCIE_REPORT)
+   601		pci_disable_pcie_error_reporting(pdev);
+   602	#endif
+   603	l_pci_request_selected_regions_failed:
+   604		pci_disable_device(instance->pdev);
+   605	l_bar_check_failed:
+   606	l_pci_enable_device_mem_failed:
+   607		return -PS3_FAILED;
+   608	}
+   609	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
