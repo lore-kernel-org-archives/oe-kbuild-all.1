@@ -1,66 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE71A29B22D
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 09:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B058129ACC6;
+	Wed, 25 Jun 2025 09:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750843103; cv=none; b=U4Xh276xbWPzQuOgttYqX0zsMomhnGDseFVwEgoZ9VlJKpXaKhZcnTSBmf4vg5Zdypm+BCA9ZaUIDkXHfbBMm5j2X1G9IM0ZI/fFv9F1fvSlVeShJsoOaI/ykzjqpW4SsYzu/qcNDxWXr8vyHwSIvBhF+uym10Z3Kjk4ihlUSWk=
+	t=1750844366; cv=none; b=ojVZW7egchYuiU4dpBHWxS1uVNBKqEVXEQaG6ANcLBG36ia/GZa11rZcqNqi7/tR5FuHkjAkUZQLI6Bn0GB7ygq8kRWRdmDFzVkQzE9wSzkCPOA8jaAQKU8700y7vmGPksESJEchM11sIXXAgDJcqEfHrJ1TRY0wCGHLufrM3tY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750843103; c=relaxed/simple;
-	bh=t4E/+UT8fmI9fR5q5fWeoyUhS4+biJF4voTPqNOEia0=;
+	s=arc-20240116; t=1750844366; c=relaxed/simple;
+	bh=wsM2YbD+M0xXuq6ZAwS4w4/eJ5LnAfTL+ORhH1xoJ+Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fc6ErvtaSKvEXE9LBYcoYyydud8cxOmDby0HcfKJlubmyv15JUCa8CCNU5o0JLYIXGoIYApx2n0dgrDIs7YNOI8qT+qzuOh0yp2jeiXj4hnN3fDmyyi6lvsabO93pHvmnqcdq6rBjOhEU+Urs6IulPe1eugP0bnh0kCj/5QYIlk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8nYTZ2O; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=itOPafxRWVd6wRKL3rM5nzJ4cqkvJahUehEvoCK7QIGT7YLo3gXUQSLU29CrEG9iDrfxK+r2VGRh3dCCD7ewN3OCq4ytWr+wukQ03loEomyhhemvuIKxrNTEED29JlQWEwrsiv/PL5DMJ0kPUVlUfeAL4r74vVt1rlubbII1fXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UIiGv3X1; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8nYTZ2O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UIiGv3X1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750843100; x=1782379100;
+  t=1750844364; x=1782380364;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=t4E/+UT8fmI9fR5q5fWeoyUhS4+biJF4voTPqNOEia0=;
-  b=T8nYTZ2OtmDDWiys+1XlzItMIsMXFMbfA+VL9SN6C/RgFT+/CdkfO+C6
-   Kp8v51eh9INMs32y71jlspqEqCtIbhG94uazAHBaeIPiFYKoNW6rq4rHN
-   qb9n+0sxhw268L9h7rnkCcA7T1l+jMJfMqevM0MpTqvsL55zO/XlM3BLj
-   SCDrGM0L1P877BkO7ns91z3VoDIn3/lBycTaUOjr6470XCgtrhNJiL/ym
-   wUG23RHSXCaBWwZEHYvh3+hKnocp/4se2EgzDe1QxP60eMMumo/F1Y86d
-   ZpUHVkGqYSs9f7Qr2ht7UtHs9A1BFLpzAa9AmynENrno4JvsBASyH5y/H
-   g==;
-X-CSE-ConnectionGUID: te7CbClhR3CNAOnjKV95SA==
-X-CSE-MsgGUID: 53+wp7BxQUOa7J7V1VH0DA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="53072785"
+  bh=wsM2YbD+M0xXuq6ZAwS4w4/eJ5LnAfTL+ORhH1xoJ+Q=;
+  b=UIiGv3X1IswA68W5hOY6ktto4m1D5sRKjrcweHy6G0KMBOCr0tTnyZ+k
+   Lqy6bjfDN7aM9uWKHIcezttZ5ontMJP77PzMpojz8vDBIV3oYJL2kRpmj
+   HX5BDoM1CgE1K/4PxgMfIdcRAiQ+B2wKjS5+UmOQc/12GOLKrj3524mnx
+   QcKb24X+yeJqwCRb+S2dgmYNS5zrsqyCSgp+N8BExuJxA9ejZVu5HZKUp
+   tjEjfu7+ZSNgU5mJck4vWItWIPgCZ3aQffcuurAXiy/HhN6W0Zi2ZXRLO
+   PgsPHYEFiU/SJ/x1AumBFNPx+M3MyQNBn8KRdLW5blshHPDZs6riuywhT
+   A==;
+X-CSE-ConnectionGUID: 9Y1L5FZtSXq6FVXAd9qKsg==
+X-CSE-MsgGUID: X2it3/EDRxmHsXux90ufcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="40726610"
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="53072785"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 02:18:19 -0700
-X-CSE-ConnectionGUID: Pu8/GqJxQ9Wf4jSmGYdK6Q==
-X-CSE-MsgGUID: yJ8Gcn95QCiXtZkX+gKVcw==
+   d="scan'208";a="40726610"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 02:39:23 -0700
+X-CSE-ConnectionGUID: rE6PHxq3SY6amVbIO6+R9Q==
+X-CSE-MsgGUID: UXE3rrreQwWkT/nXb7LPYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="157934397"
+   d="scan'208";a="151584247"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 25 Jun 2025 02:18:15 -0700
+  by orviesa010.jf.intel.com with ESMTP; 25 Jun 2025 02:39:18 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUMGj-000SwA-29;
-	Wed, 25 Jun 2025 09:18:13 +0000
-Date: Wed, 25 Jun 2025 17:17:47 +0800
+	id 1uUMb5-000SyA-2S;
+	Wed, 25 Jun 2025 09:39:15 +0000
+Date: Wed, 25 Jun 2025 17:38:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Vikas Gupta <vikas.gupta@broadcom.com>, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
-	andrew+netdev@lunn.ch, horms@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, michael.chan@broadcom.com,
-	pavan.chebbi@broadcom.com, vsrama-krishna.nemani@broadcom.com,
-	Vikas Gupta <vikas.gupta@broadcom.com>,
-	Bhargava Chenna Marreddy <bhargava.marreddy@broadcom.com>,
-	Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>
-Subject: Re: [net-next, 08/10] bng_en: Add irq allocation support
-Message-ID: <202506251636.aTzmB45K-lkp@intel.com>
-References: <20250618144743.843815-9-vikas.gupta@broadcom.com>
+To: Mario Limonciello <superm1@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Lukas Wunner <lukas@wunner.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	"(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
+	linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v5 7/9] PCI/VGA: Replace vga_is_firmware_default() with a
+ screen info check
+Message-ID: <202506251749.fPKnHMH5-lkp@intel.com>
+References: <20250624203042.1102346-8-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,99 +80,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250618144743.843815-9-vikas.gupta@broadcom.com>
+In-Reply-To: <20250624203042.1102346-8-superm1@kernel.org>
 
-Hi Vikas,
+Hi Mario,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16-rc3 next-20250624]
-[cannot apply to horms-ipvs/master]
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus tip/x86/core linus/master v6.16-rc3 next-20250625]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Vikas-Gupta/bng_en-Add-PCI-interface/20250618-173130
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250618144743.843815-9-vikas.gupta%40broadcom.com
-patch subject: [net-next, 08/10] bng_en: Add irq allocation support
-config: parisc-randconfig-r073-20250619 (https://download.01.org/0day-ci/archive/20250625/202506251636.aTzmB45K-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250625-043200
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250624203042.1102346-8-superm1%40kernel.org
+patch subject: [PATCH v5 7/9] PCI/VGA: Replace vga_is_firmware_default() with a screen info check
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250625/202506251749.fPKnHMH5-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506251749.fPKnHMH5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506251636.aTzmB45K-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506251749.fPKnHMH5-lkp@intel.com/
 
-smatch warnings:
-drivers/net/ethernet/broadcom/bnge/bnge_resc.c:347 bnge_alloc_irqs() warn: unsigned 'irqs_demand' is never less than zero.
+All errors (new ones prefixed by >>):
 
-vim +/irqs_demand +347 drivers/net/ethernet/broadcom/bnge/bnge_resc.c
-
-   329	
-   330	int bnge_alloc_irqs(struct bnge_dev *bd)
-   331	{
-   332		u16 aux_msix, tx_cp, num_entries;
-   333		u16 irqs_demand, max, min = 1;
-   334		int i, rc = 0;
-   335	
-   336		irqs_demand = bnge_nqs_demand(bd);
-   337		max = bnge_get_max_func_irqs(bd);
-   338		if (irqs_demand > max)
-   339			irqs_demand = max;
-   340	
-   341		if (!(bd->flags & BNGE_EN_SHARED_CHNL))
-   342			min = 2;
-   343	
-   344		irqs_demand = pci_alloc_irq_vectors(bd->pdev, min, irqs_demand,
-   345						    PCI_IRQ_MSIX);
-   346		aux_msix = bnge_aux_get_msix(bd);
- > 347		if (irqs_demand < 0 || irqs_demand < aux_msix) {
-   348			rc = -ENODEV;
-   349			goto err_free_irqs;
-   350		}
-   351	
-   352		num_entries = irqs_demand;
-   353		if (pci_msix_can_alloc_dyn(bd->pdev))
-   354			num_entries = max;
-   355		bd->irq_tbl = kcalloc(num_entries, sizeof(*bd->irq_tbl), GFP_KERNEL);
-   356		if (!bd->irq_tbl) {
-   357			rc = -ENOMEM;
-   358			goto err_free_irqs;
-   359		}
-   360	
-   361		for (i = 0; i < irqs_demand; i++)
-   362			bd->irq_tbl[i].vector = pci_irq_vector(bd->pdev, i);
-   363	
-   364		bd->irqs_acquired = irqs_demand;
-   365		/* Reduce rings based upon num of vectors allocated.
-   366		 * We dont need to consider NQs as they have been calculated
-   367		 * and must be more than irqs_demand.
-   368		 */
-   369		rc = bnge_adjust_rings(bd, &bd->rx_nr_rings,
-   370				       &bd->tx_nr_rings,
-   371				       irqs_demand - aux_msix, min == 1);
-   372		if (rc)
-   373			goto err_free_irqs;
-   374	
-   375		tx_cp = bnge_num_tx_to_cp(bd, bd->tx_nr_rings);
-   376		bd->nq_nr_rings = (min == 1) ?
-   377			max_t(u16, tx_cp, bd->rx_nr_rings) :
-   378			tx_cp + bd->rx_nr_rings;
-   379	
-   380		/* Readjust tx_nr_rings_per_tc */
-   381		if (!bd->num_tc)
-   382			bd->tx_nr_rings_per_tc = bd->tx_nr_rings;
-   383	
-   384		return 0;
-   385	
-   386	err_free_irqs:
-   387		dev_err(bd->dev, "Failed to allocate IRQs err = %d\n", rc);
-   388		bnge_free_irqs(bd);
-   389		return rc;
-   390	}
-   391	
+   ld: vmlinux.o: in function `vga_arbiter_add_pci_device':
+>> vgaarb.c:(.text+0x5f8f90): undefined reference to `screen_info_pci_dev'
+>> ld: vgaarb.c:(.text+0x5f91f8): undefined reference to `screen_info_pci_dev'
 
 -- 
 0-DAY CI Kernel Test Service
