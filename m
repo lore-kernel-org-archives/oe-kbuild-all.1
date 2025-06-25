@@ -1,58 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A2128726A
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 23:25:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541DE2F1FD2
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 23:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750893947; cv=none; b=DOgOc8lB72HsmPHQT6zOTBKAk5JAAfrgmtsvNVtjVXA0BgbllNiN6o1Cf5KBo3hnsozVXziRsA24JUhN8+oNlfiBvo/n7mAxzbNJavb2Bi+AP7hddb2gLptig+6uPyBw/7RIh7ingrQTxrhJgr5ZtrAGdOJakLkwsDuvEBoBH4c=
+	t=1750895149; cv=none; b=QFi6H0pWvmbmaD4JRkROAimMi0QUp+28aOakOZosDhI0jOR5RMhRFkWid9D2n0qiaTRTTxK9FgDvSRLY2wnhfFfPLvrnEondK2lZWOak/kWRpRizpTq8TzJ7Y8pLia7L466sz1XDWI2+943BUyA9nxuHeSw8e15dJ5j8Ka2E6dc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750893947; c=relaxed/simple;
-	bh=7WrqoTPg3qazJEkFvXReT6ZOEt1Y57zZPLOMZhI11lo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Djh+QNDoxP2tC57j0c5YDRMFep50P6enXE81c+zces0spYcVasmRu8nUh/7h08YvPB9iJzBxm58O3PSS0FVISBvszFqLyzVB2T2LKN3FhZuDegO8qSOhyagnn9ByffO/JqBtCsiWgCcfRPLM07OWxZ7Ea6KG9CDTfpqZcc9twq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KU+ezAvP; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1750895149; c=relaxed/simple;
+	bh=J0SwHZlrdzrvFq0FNPdyG6iwaLv8uWkmdSTYCBDuozg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=koLSU4TTf8oyq7MfJrXobpqJvZ+vAoCb1wPBJHhhwgmstkyClcTFxITnNdI+3lJkTVa7SYJRnS8mV8gRIXGbScei4y3dxEAU0o6Zt6obluGfkK6HTWpHF4EphpRFFdrhAmmrzNSg/aNpTcA7EhGVD2uMEOzau25+dYcisxlWcQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U1/iAGMl; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KU+ezAvP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U1/iAGMl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750893944; x=1782429944;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7WrqoTPg3qazJEkFvXReT6ZOEt1Y57zZPLOMZhI11lo=;
-  b=KU+ezAvP2qH70WnmSULvt59SfAyPLCyV1EFOnMwzHvgp2jgVclXp78KC
-   LTwt9hSaHo76JLHPHLV+ukAc5qrh29wc1FddOJVuRTb/J7n3iCYJULatl
-   C3i89Z7KeDlM9LlyTgSahSS5ZneKJG4Gr3MjgydOILu2jBYZKA/RrlKNf
-   wLC5iV0p9C1yzruGHuyJCMU5jq+uzkX2TBzLJ5G3HlmWhKbTEHS+BjwZE
-   ksCf40gxuNARwHik4LkKEkewhkNB2WKMVAAV4xAc3/bR1kG8FR80mbs8u
-   7cGR5C9JO5QJm2/m3XViD2i/DwuYikt/cXuIL7K856oV3S4jArpmBRtev
+  t=1750895148; x=1782431148;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=J0SwHZlrdzrvFq0FNPdyG6iwaLv8uWkmdSTYCBDuozg=;
+  b=U1/iAGMl3zxUxkpPLFzzVr+et3cKHSk+U/3GCkAF8cEtIjHFQvxTJGFc
+   QxzTkqvq8ismiozqA7cFS7/DcyXzDaI80LWJe/pwmAyZ/c0qxaa77pbif
+   g1v7J6CHj43iiWfh0UzQNT5T8uz45dM/4oNJqHJbxLwPHRx84g2xHwCqr
+   Z5d1fuskn3fsV7Qpj7q5GjZHM/ZNhcT4sXDgeoGjmE+13dsrRtb+RmnKU
+   SX5kIGAnA2Jn9Om5PpYCmLkLU57ck01G6Hxn78BRjGerfGnvlGUrGa+jj
+   7Qnrn4f+e9EIZs/C4wV7E1Fy2Jz9fMD9FYOJEXVh6QP9zZiZGaeH/u0D6
    Q==;
-X-CSE-ConnectionGUID: FIXlyoV4Q8GpE4M1hcSvVQ==
-X-CSE-MsgGUID: S2RiosuwS/OgyCNCdblynw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="64613795"
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="64613795"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 16:25:42 -0700
-X-CSE-ConnectionGUID: fC4/gLFuQ1Ss4dgXVk0BfA==
-X-CSE-MsgGUID: 3ctHkPF2TMesrwTKDLLg5g==
+X-CSE-ConnectionGUID: CoviMpCVSoyQCACw39SB3w==
+X-CSE-MsgGUID: 3rbsD8GxTsC1fphilExAJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="53324989"
+X-IronPort-AV: E=Sophos;i="6.16,266,1744095600"; 
+   d="scan'208";a="53324989"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 16:45:47 -0700
+X-CSE-ConnectionGUID: fxOEiMDpSraFpXm48RthWg==
+X-CSE-MsgGUID: SNN5RbQPQJmxl0RxQFTI1Q==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="153070317"
+X-IronPort-AV: E=Sophos;i="6.16,266,1744095600"; 
+   d="scan'208";a="152121244"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Jun 2025 16:25:41 -0700
+  by orviesa009.jf.intel.com with ESMTP; 25 Jun 2025 16:45:44 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUZUo-000TWQ-2j;
-	Wed, 25 Jun 2025 23:25:38 +0000
-Date: Thu, 26 Jun 2025 07:25:20 +0800
+	id 1uUZoD-000TXm-2R;
+	Wed, 25 Jun 2025 23:45:41 +0000
+Date: Thu, 26 Jun 2025 07:45:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1480/1480] mm/debug.c:174:3: warning:
- format specifies type 'void *' but the argument has type 'int'
-Message-ID: <202506260702.g1zX5c8d-lkp@intel.com>
+To: Arun Raghavan <arun@arunraghavan.net>,
+	Shengjiu Wang <shengjiu.wang@gmail.com>,
+	Xiubo Li <Xiubo.Lee@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Fabio Estevam <festevam@gmail.com>,
+	Nicolin Chen <nicoleotsuka@gmail.com>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
+	Takashi Iwai <tiwai@suse.com>,
+	Pieterjan Camerlynck <p.camerlynck@televic.com>,
+	linux-sound@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-kernel@vger.kernel.org, Arun Raghavan <arun@asymptotic.io>
+Subject: Re: [PATCH] ASoC: fsl_sai: Force a software reset when starting in
+ consumer mode
+Message-ID: <202506260745.Z7PLEr3i-lkp@intel.com>
+References: <20250625130648.201331-1-arun@arunraghavan.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,143 +72,145 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250625130648.201331-1-arun@arunraghavan.net>
 
-Hi Ding,
+Hi Arun,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   2095c984bc19c926a057ed0e96b9f795b4c504b4
-commit: 2d2fe6b40444bd8f84f674930ac5f98a6314702e [1480/1480] ascend: mm: add an owner for mm_struct
-config: x86_64-randconfig-r112-20250311 (https://download.01.org/0day-ci/archive/20250626/202506260702.g1zX5c8d-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506260702.g1zX5c8d-lkp@intel.com/reproduce)
+[auto build test WARNING on broonie-sound/for-next]
+[also build test WARNING on linus/master v6.16-rc3 next-20250625]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Arun-Raghavan/ASoC-fsl_sai-Force-a-software-reset-when-starting-in-consumer-mode/20250625-210824
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20250625130648.201331-1-arun%40arunraghavan.net
+patch subject: [PATCH] ASoC: fsl_sai: Force a software reset when starting in consumer mode
+config: arc-randconfig-002-20250626 (https://download.01.org/0day-ci/archive/20250626/202506260745.Z7PLEr3i-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506260745.Z7PLEr3i-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506260702.g1zX5c8d-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506260745.Z7PLEr3i-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   mm/debug.c: note: in included file (through include/linux/kernel.h):
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   mm/debug.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h):
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
-   mm/debug.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:44: sparse: sparse: got <
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
-   /opt/cross/clang-cd708029e0/lib/clang/19/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
->> mm/debug.c:174:3: warning: format specifies type 'void *' but the argument has type 'int' [-Wformat]
-     135 |                 atomic_read(&mm->tlb_flush_pending),
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
-     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ~~~     ^~~~~~~~~~~
->> mm/debug.c:175:3: warning: format specifies type 'int' but the argument has type 'unsigned long' [-Wformat]
-     142 |                 mm->def_flags, &mm->def_flags
-         |                 ^~~~~~~~~~~~~
-   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
-     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ~~~     ^~~~~~~~~~~
->> mm/debug.c:175:18: warning: format specifies type 'unsigned long' but the argument has type 'const unsigned long *' [-Wformat]
-     143 |                 mm->def_flags, &mm->def_flags
-         |                                ^~~~~~~~~~~~~~
-   include/linux/printk.h:342:35: note: expanded from macro 'pr_emerg'
-     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ~~~     ^~~~~~~~~~~
->> mm/debug.c:143:21: warning: more '%' conversions than data arguments [-Wformat-insufficient-args]
-     143 |                 "def_flags: %#lx(%pGv)\n",
-         |                                  ~^
-   include/linux/printk.h:342:27: note: expanded from macro 'pr_emerg'
-     342 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                  ^~~
-   include/linux/printk.h:332:21: note: expanded from macro 'pr_fmt'
-     332 | #define pr_fmt(fmt) fmt
+   sound/soc/fsl/fsl_sai.c: In function 'fsl_sai_trigger':
+>> sound/soc/fsl/fsl_sai.c:848:21: warning: the comparison will always evaluate as 'true' for the address of 'is_consumer_mode' will never be NULL [-Waddress]
+     848 |                 if (sai->is_consumer_mode) {
          |                     ^~~
-   4 warnings generated.
+   In file included from sound/soc/fsl/fsl_sai.c:24:
+   sound/soc/fsl/fsl_sai.h:287:14: note: 'is_consumer_mode' declared here
+     287 |         bool is_consumer_mode[2];
+         |              ^~~~~~~~~~~~~~~~
 
 
-vim +174 mm/debug.c
+vim +848 sound/soc/fsl/fsl_sai.c
 
-82742a3a515219 Sasha Levin           2014-10-09  114  
-31c9afa6db122a Sasha Levin           2014-10-09  115  void dump_mm(const struct mm_struct *mm)
-31c9afa6db122a Sasha Levin           2014-10-09  116  {
-7a9cdebdcc17e4 Linus Torvalds        2018-09-12  117  	pr_emerg("mm %px mmap %px seqnum %llu task_size %lu\n"
-31c9afa6db122a Sasha Levin           2014-10-09  118  #ifdef CONFIG_MMU
-152a2d199e1385 Matthew Wilcox        2018-01-04  119  		"get_unmapped_area %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  120  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  121  		"mmap_base %lu mmap_legacy_base %lu highest_vm_end %lu\n"
-152a2d199e1385 Matthew Wilcox        2018-01-04  122  		"pgd %px mm_users %d mm_count %d pgtables_bytes %lu map_count %d\n"
-31c9afa6db122a Sasha Levin           2014-10-09  123  		"hiwater_rss %lx hiwater_vm %lx total_vm %lx locked_vm %lx\n"
-84638335900f19 Konstantin Khlebnikov 2016-01-14  124  		"pinned_vm %lx data_vm %lx exec_vm %lx stack_vm %lx\n"
-31c9afa6db122a Sasha Levin           2014-10-09  125  		"start_code %lx end_code %lx start_data %lx end_data %lx\n"
-31c9afa6db122a Sasha Levin           2014-10-09  126  		"start_brk %lx brk %lx start_stack %lx\n"
-31c9afa6db122a Sasha Levin           2014-10-09  127  		"arg_start %lx arg_end %lx env_start %lx env_end %lx\n"
-152a2d199e1385 Matthew Wilcox        2018-01-04  128  		"binfmt %px flags %lx core_state %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  129  #ifdef CONFIG_AIO
-152a2d199e1385 Matthew Wilcox        2018-01-04  130  		"ioctx_table %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  131  #endif
-2d2fe6b40444bd Ding Tianhong         2021-10-30  132  #ifdef CONFIG_MM_OWNER
-152a2d199e1385 Matthew Wilcox        2018-01-04  133  		"owner %px "
-31c9afa6db122a Sasha Levin           2014-10-09  134  #endif
-152a2d199e1385 Matthew Wilcox        2018-01-04  135  		"exe_file %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  136  #ifdef CONFIG_MMU_NOTIFIER
-152a2d199e1385 Matthew Wilcox        2018-01-04  137  		"mmu_notifier_mm %px\n"
-31c9afa6db122a Sasha Levin           2014-10-09  138  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  139  #ifdef CONFIG_NUMA_BALANCING
-31c9afa6db122a Sasha Levin           2014-10-09  140  		"numa_next_scan %lu numa_scan_offset %lu numa_scan_seq %d\n"
-31c9afa6db122a Sasha Levin           2014-10-09  141  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  142  		"tlb_flush_pending %d\n"
-b8eceeb99014cf Vlastimil Babka       2016-03-15 @143  		"def_flags: %#lx(%pGv)\n",
-31c9afa6db122a Sasha Levin           2014-10-09  144  
-7a9cdebdcc17e4 Linus Torvalds        2018-09-12  145  		mm, mm->mmap, (long long) mm->vmacache_seqnum, mm->task_size,
-31c9afa6db122a Sasha Levin           2014-10-09  146  #ifdef CONFIG_MMU
-31c9afa6db122a Sasha Levin           2014-10-09  147  		mm->get_unmapped_area,
-31c9afa6db122a Sasha Levin           2014-10-09  148  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  149  		mm->mmap_base, mm->mmap_legacy_base, mm->highest_vm_end,
-31c9afa6db122a Sasha Levin           2014-10-09  150  		mm->pgd, atomic_read(&mm->mm_users),
-31c9afa6db122a Sasha Levin           2014-10-09  151  		atomic_read(&mm->mm_count),
-af5b0f6a09e42c Kirill A. Shutemov    2017-11-15  152  		mm_pgtables_bytes(mm),
-31c9afa6db122a Sasha Levin           2014-10-09  153  		mm->map_count,
-53f4e528406789 Daniel Jordan         2019-08-14  154  		mm->hiwater_rss, mm->hiwater_vm, mm->total_vm,
-53f4e528406789 Daniel Jordan         2019-08-14  155  		atomic_long_read(&mm->locked_vm),
-84638335900f19 Konstantin Khlebnikov 2016-01-14  156  		mm->pinned_vm, mm->data_vm, mm->exec_vm, mm->stack_vm,
-31c9afa6db122a Sasha Levin           2014-10-09  157  		mm->start_code, mm->end_code, mm->start_data, mm->end_data,
-31c9afa6db122a Sasha Levin           2014-10-09  158  		mm->start_brk, mm->brk, mm->start_stack,
-31c9afa6db122a Sasha Levin           2014-10-09  159  		mm->arg_start, mm->arg_end, mm->env_start, mm->env_end,
-31c9afa6db122a Sasha Levin           2014-10-09  160  		mm->binfmt, mm->flags, mm->core_state,
-31c9afa6db122a Sasha Levin           2014-10-09  161  #ifdef CONFIG_AIO
-31c9afa6db122a Sasha Levin           2014-10-09  162  		mm->ioctx_table,
-31c9afa6db122a Sasha Levin           2014-10-09  163  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  164  #ifdef CONFIG_MEMCG
-31c9afa6db122a Sasha Levin           2014-10-09  165  		mm->owner,
-31c9afa6db122a Sasha Levin           2014-10-09  166  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  167  		mm->exe_file,
-31c9afa6db122a Sasha Levin           2014-10-09  168  #ifdef CONFIG_MMU_NOTIFIER
-31c9afa6db122a Sasha Levin           2014-10-09  169  		mm->mmu_notifier_mm,
-31c9afa6db122a Sasha Levin           2014-10-09  170  #endif
-31c9afa6db122a Sasha Levin           2014-10-09  171  #ifdef CONFIG_NUMA_BALANCING
-31c9afa6db122a Sasha Levin           2014-10-09  172  		mm->numa_next_scan, mm->numa_scan_offset, mm->numa_scan_seq,
-31c9afa6db122a Sasha Levin           2014-10-09  173  #endif
-16af97dc5a8975 Nadav Amit            2017-08-10 @174  		atomic_read(&mm->tlb_flush_pending),
-b8eceeb99014cf Vlastimil Babka       2016-03-15 @175  		mm->def_flags, &mm->def_flags
-31c9afa6db122a Sasha Levin           2014-10-09  176  	);
-31c9afa6db122a Sasha Levin           2014-10-09  177  }
-31c9afa6db122a Sasha Levin           2014-10-09  178  
-
-:::::: The code at line 174 was first introduced by commit
-:::::: 16af97dc5a8975371a83d9e30a64038b48f40a2d mm: migrate: prevent racy access to tlb_flush_pending
-
-:::::: TO: Nadav Amit <nadav.amit@gmail.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+   814	
+   815	static int fsl_sai_trigger(struct snd_pcm_substream *substream, int cmd,
+   816			struct snd_soc_dai *cpu_dai)
+   817	{
+   818		struct fsl_sai *sai = snd_soc_dai_get_drvdata(cpu_dai);
+   819		unsigned int ofs = sai->soc_data->reg_offset;
+   820	
+   821		bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
+   822		int adir = tx ? RX : TX;
+   823		int dir = tx ? TX : RX;
+   824		u32 xcsr;
+   825	
+   826		/*
+   827		 * Asynchronous mode: Clear SYNC for both Tx and Rx.
+   828		 * Rx sync with Tx clocks: Clear SYNC for Tx, set it for Rx.
+   829		 * Tx sync with Rx clocks: Clear SYNC for Rx, set it for Tx.
+   830		 */
+   831		regmap_update_bits(sai->regmap, FSL_SAI_TCR2(ofs), FSL_SAI_CR2_SYNC,
+   832				   sai->synchronous[TX] ? FSL_SAI_CR2_SYNC : 0);
+   833		regmap_update_bits(sai->regmap, FSL_SAI_RCR2(ofs), FSL_SAI_CR2_SYNC,
+   834				   sai->synchronous[RX] ? FSL_SAI_CR2_SYNC : 0);
+   835	
+   836		/*
+   837		 * It is recommended that the transmitter is the last enabled
+   838		 * and the first disabled.
+   839		 */
+   840		switch (cmd) {
+   841		case SNDRV_PCM_TRIGGER_START:
+   842		case SNDRV_PCM_TRIGGER_RESUME:
+   843		case SNDRV_PCM_TRIGGER_PAUSE_RELEASE:
+   844			/*
+   845			 * Force a software reset if we are not the clock provider, as we
+   846			 * might have lost frame sync during xrun recovery.
+   847			 */
+ > 848			if (sai->is_consumer_mode) {
+   849				regmap_update_bits(sai->regmap,
+   850						FSL_SAI_xCSR(tx, ofs), FSL_SAI_CSR_SR,
+   851						FSL_SAI_CSR_SR);
+   852				regmap_update_bits(sai->regmap,
+   853						FSL_SAI_xCSR(tx, ofs), FSL_SAI_CSR_SR,
+   854						0);
+   855			}
+   856			regmap_update_bits(sai->regmap, FSL_SAI_xCSR(tx, ofs),
+   857					   FSL_SAI_CSR_FRDE, FSL_SAI_CSR_FRDE);
+   858	
+   859			regmap_update_bits(sai->regmap, FSL_SAI_xCSR(tx, ofs),
+   860					   FSL_SAI_CSR_TERE, FSL_SAI_CSR_TERE);
+   861			/*
+   862			 * Enable the opposite direction for synchronous mode
+   863			 * 1. Tx sync with Rx: only set RE for Rx; set TE & RE for Tx
+   864			 * 2. Rx sync with Tx: only set TE for Tx; set RE & TE for Rx
+   865			 *
+   866			 * RM recommends to enable RE after TE for case 1 and to enable
+   867			 * TE after RE for case 2, but we here may not always guarantee
+   868			 * that happens: "arecord 1.wav; aplay 2.wav" in case 1 enables
+   869			 * TE after RE, which is against what RM recommends but should
+   870			 * be safe to do, judging by years of testing results.
+   871			 */
+   872			if (fsl_sai_dir_is_synced(sai, adir))
+   873				regmap_update_bits(sai->regmap, FSL_SAI_xCSR((!tx), ofs),
+   874						   FSL_SAI_CSR_TERE, FSL_SAI_CSR_TERE);
+   875	
+   876			regmap_update_bits(sai->regmap, FSL_SAI_xCSR(tx, ofs),
+   877					   FSL_SAI_CSR_xIE_MASK, FSL_SAI_FLAGS);
+   878			break;
+   879		case SNDRV_PCM_TRIGGER_STOP:
+   880		case SNDRV_PCM_TRIGGER_SUSPEND:
+   881		case SNDRV_PCM_TRIGGER_PAUSE_PUSH:
+   882			regmap_update_bits(sai->regmap, FSL_SAI_xCSR(tx, ofs),
+   883					   FSL_SAI_CSR_FRDE, 0);
+   884			regmap_update_bits(sai->regmap, FSL_SAI_xCSR(tx, ofs),
+   885					   FSL_SAI_CSR_xIE_MASK, 0);
+   886	
+   887			/* Check if the opposite FRDE is also disabled */
+   888			regmap_read(sai->regmap, FSL_SAI_xCSR(!tx, ofs), &xcsr);
+   889	
+   890			/*
+   891			 * If opposite stream provides clocks for synchronous mode and
+   892			 * it is inactive, disable it before disabling the current one
+   893			 */
+   894			if (fsl_sai_dir_is_synced(sai, adir) && !(xcsr & FSL_SAI_CSR_FRDE))
+   895				fsl_sai_config_disable(sai, adir);
+   896	
+   897			/*
+   898			 * Disable current stream if either of:
+   899			 * 1. current stream doesn't provide clocks for synchronous mode
+   900			 * 2. current stream provides clocks for synchronous mode but no
+   901			 *    more stream is active.
+   902			 */
+   903			if (!fsl_sai_dir_is_synced(sai, dir) || !(xcsr & FSL_SAI_CSR_FRDE))
+   904				fsl_sai_config_disable(sai, dir);
+   905	
+   906			break;
+   907		default:
+   908			return -EINVAL;
+   909		}
+   910	
+   911		return 0;
+   912	}
+   913	
 
 -- 
 0-DAY CI Kernel Test Service
