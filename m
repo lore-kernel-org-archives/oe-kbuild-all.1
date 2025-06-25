@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE859946A;
-	Wed, 25 Jun 2025 17:03:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 029EB2C325B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 17:32:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750870989; cv=none; b=MdNjlUINSSPjhQC24zbLqAaoVlSpZrMLHIpZoEfPcaOGCcf6iSHyvoPRCfmErDm1DAmJJ3lRPhc765MvXxKfAnl1v+UGxlyctVwPBJ1CVka+Peu6j3sani4AvQuLJdwaqTaQXyY5kTinbntlzthI2JVT8nJmG2sPnzbRTm6Ao2s=
+	t=1750872773; cv=none; b=ke9t/OeN7JWPBnHOgFdXd+F+/cK66JPR5JXG0kDjcsPRwbL/z3ffJ1vW8qIWC8hvjSxuKcweEYff/PVwVMx2rIJ1CY4gJJmzhnjiSyXDH68AHXTIlAfFVmpPaPNmmYVnBDwaq1Gon/QFPvrurZiAiLrBNzytq5BPQzKPVKPBnxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750870989; c=relaxed/simple;
-	bh=0+ImX5Z5+yST+Npw31q/8a7InEoeRMTLz6Y4D6JHFtI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JxU3e9j/0PZSAwl7LUBgyG1gcPJg44tY6emQ84Aa7q60jl1NvoGgUjtcLn03+R9Dxu1wU1cxDmGPZ0PwRVnaqOJIGfqE0WghSlLVeRY/UsRIrBYichap8wstFvWUOxTegIAGPE4mXYyQddZK7Fvae5JLG8y2KWTlA3BoCoVn1Y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dLLPqjHW; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1750872773; c=relaxed/simple;
+	bh=1hMQDfeXncGWdS7X2ShYad/6MSGW9Vw16KtcFCAvaHg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JTNGxEElMAonH4hkjIYc5oXDNblmIDJulpN9zTk7ao8cztRjhaFO1/4h4eNP/cxPHbjJrQa+g8MCGh27HedILJ9er4MoV/1jQJrLhX0BIMQz9/cfhupZyr+lN9qxIfoxDFerU58JMUd/fz5VQnKSPKsFRiSPoDeCSaXU+uhWs2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i0AjE1PF; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dLLPqjHW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i0AjE1PF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750870988; x=1782406988;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=0+ImX5Z5+yST+Npw31q/8a7InEoeRMTLz6Y4D6JHFtI=;
-  b=dLLPqjHWXaGqeSnjkuEa1a7bz8sbdqIX/773yiy+IXxJsinUJ/Jr3VqB
-   6VhcSuC6lSW8TeAjvBobWFu/At+rE/fNKhwhQdjfe0FNbHohs/D/WxMz+
-   a7GRfgLjqLjdwi3KKIT5M/biLWNss/AY0YA5giqTf7i+HOLuIdMDJKpIy
-   TPbNdudHtcOCiRqK5L4sqDl1tRqv/hZnMsK5rQ1UvEe/O3kER5asOx5Kk
-   l17++GzDo60pbDprtFPIV8uhdT1hCnM4rwkFY2iB5eQsSl9z7I06NL/bq
-   xgCQgA/nqeD1W7Vg+ISanyJm4zO9MGyauy4wOMTLN1nckR38ryqrNb8+Q
-   g==;
-X-CSE-ConnectionGUID: +/UISAehQdizLTD2aJZFpQ==
-X-CSE-MsgGUID: PZPyBZdVQCmLETDfWlcKnw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="78581521"
+  t=1750872771; x=1782408771;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1hMQDfeXncGWdS7X2ShYad/6MSGW9Vw16KtcFCAvaHg=;
+  b=i0AjE1PFMRBhdTllAuWqtmnUpZnTss3XYKm9Vh2An1EOnVATG0i/zUdm
+   w2+5BtLQgel9StgGgSIg224xY/6GgsJ9kgixVyhFhMKIDvR/9JEWGhLFk
+   o39KAo+AeajEqiS3ow8fc97awKzQ2FoLJzIc+hDdm2PAlYUgcBzGRdHDx
+   UO6CwTrLG4pkzJZeEv94KW2LWQkGE8m62fZ1+f+24Ittg3aRQ7Ai/Jn44
+   +Vq9H0NOI9DYnuhbKistg71+ak09m+xdt5rz5c01kXMEMFaxVbthFjgFp
+   SVRs7NJmi52En33LvRxAmUMAE7hr/RagVYDyWV0jApHVR2CN3J+6Z47qA
+   A==;
+X-CSE-ConnectionGUID: G81dWFJqRniKwWxKl4LbUA==
+X-CSE-MsgGUID: MOPLGBEwQki7wQZ3AQD6pQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="70586972"
 X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="78581521"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 10:03:07 -0700
-X-CSE-ConnectionGUID: gy67ZgwNTDKWcXsuBplZwg==
-X-CSE-MsgGUID: e9r7QM1LQyqQI9aTuVfkMQ==
+   d="scan'208";a="70586972"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 10:32:50 -0700
+X-CSE-ConnectionGUID: gbJtHF/JSqG84QIeUgnmXQ==
+X-CSE-MsgGUID: amPUlWoqTkKAtS5MY4m9xQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,265,1744095600"; 
-   d="scan'208";a="157767066"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Jun 2025 10:03:04 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+   d="scan'208";a="158038099"
+Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
+  by orviesa005.jf.intel.com with ESMTP; 25 Jun 2025 10:32:49 -0700
+Received: from kbuild by e588e990b675 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUTWY-000TLm-0J;
-	Wed, 25 Jun 2025 17:03:02 +0000
-Date: Thu, 26 Jun 2025 01:02:51 +0800
+	id 1uUTzL-000043-0O;
+	Wed, 25 Jun 2025 17:32:47 +0000
+Date: Wed, 25 Jun 2025 19:32:11 +0200
 From: kernel test robot <lkp@intel.com>
-To: Joanne Koong <joannelkoong@gmail.com>, linux-fsdevel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, hch@lst.de, miklos@szeredi.hu,
-	brauner@kernel.org, djwong@kernel.org, anuj20.g@samsung.com,
-	linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev,
-	kernel-team@meta.com
-Subject: Re: [PATCH v3 14/16] fuse: use iomap for folio laundering
-Message-ID: <202506260003.qJL8KxcS-lkp@intel.com>
-References: <20250624022135.832899-15-joannelkoong@gmail.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2195/2195] arch/x86/kernel/early-quirks.c:722:6:
+ warning: no previous prototype for 'is_zhaoxin_kh40000'
+Message-ID: <202506260155.UP7h1X4B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,51 +61,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624022135.832899-15-joannelkoong@gmail.com>
 
-Hi Joanne,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on xfs-linux/for-next linus/master v6.16-rc3 next-20250625]
-[cannot apply to gfs2/for-next mszeredi-fuse/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/iomap-pass-more-arguments-using-struct-iomap_writepage_ctx/20250624-102709
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250624022135.832899-15-joannelkoong%40gmail.com
-patch subject: [PATCH v3 14/16] fuse: use iomap for folio laundering
-config: arm64-randconfig-003-20250625 (https://download.01.org/0day-ci/archive/20250626/202506260003.qJL8KxcS-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 12.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506260003.qJL8KxcS-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   c02455c4cce8052f74fc11c09e9073c01c7f33a4
+commit: 8eaba08b2d72718a40cafe3402ab4f26b0dc62eb [2195/2195] x86/cpu/zhaoxin: Encapsulate access to global variables within functions
+config: x86_64-randconfig-2005-20250501 (https://download.01.org/0day-ci/archive/20250626/202506260155.UP7h1X4B-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506260155.UP7h1X4B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506260003.qJL8KxcS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506260155.UP7h1X4B-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepages':
-   file.c:(.text+0xbf0): undefined reference to `iomap_writepages'
-   file.c:(.text+0xbf0): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_writepages'
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepage_finish':
-   file.c:(.text+0x1fd8): undefined reference to `iomap_finish_folio_write'
-   file.c:(.text+0x1fd8): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_finish_folio_write'
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_cache_write_iter':
-   file.c:(.text+0x888c): undefined reference to `iomap_file_buffered_write'
-   file.c:(.text+0x888c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_file_buffered_write'
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_launder_folio':
->> file.c:(.text+0x8f74): undefined reference to `iomap_writeback_folio'
->> file.c:(.text+0x8f74): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_writeback_folio'
-   aarch64-linux-ld: fs/fuse/file.o: in function `fuse_iomap_writeback_range':
-   file.c:(.text+0x90d8): undefined reference to `iomap_start_folio_write'
-   file.c:(.text+0x90d8): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_start_folio_write'
-   aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x370): undefined reference to `iomap_dirty_folio'
-   aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x3a0): undefined reference to `iomap_release_folio'
+>> arch/x86/kernel/early-quirks.c:722:6: warning: no previous prototype for 'is_zhaoxin_kh40000' [-Wmissing-prototypes]
+     722 | bool is_zhaoxin_kh40000(void)
+         |      ^~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/early-quirks.c: In function 'quirk_zhaoxin_dma_patch':
+   arch/x86/kernel/early-quirks.c:737:28: error: 'kh40000_dma_direct_ops' undeclared (first use in this function)
+     737 |                 dma_ops = &kh40000_dma_direct_ops;
+         |                            ^~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kernel/early-quirks.c:737:28: note: each undeclared identifier is reported only once for each function it appears in
+--
+>> kernel/dma/contiguous.c:209:13: warning: no previous prototype for 'is_zhaoxin_kh40000' [-Wmissing-prototypes]
+     209 | bool __weak is_zhaoxin_kh40000(void)
+         |             ^~~~~~~~~~~~~~~~~~
+
+
+vim +/is_zhaoxin_kh40000 +722 arch/x86/kernel/early-quirks.c
+
+   721	
+ > 722	bool is_zhaoxin_kh40000(void)
+   723	{
+   724		return zhaoxin_kh40000;
+   725	}
+   726	
 
 -- 
 0-DAY CI Kernel Test Service
