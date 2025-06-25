@@ -1,65 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCDF815442A;
-	Wed, 25 Jun 2025 05:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D79AE307498;
+	Wed, 25 Jun 2025 06:18:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750829161; cv=none; b=DTe4m1RWmiBVcJ+oAIiJs82rYa2MUkfk7AmlHnN4g4QWSAOLjxag4dbPB/g5vfHJ6qOBckmg77hYon/WMPUNky+GEy8YQ4FVA5O0349JShF/OYHqoYQnOUtpvsujDa/IQzJcmIddLSwbxreFpxiKJ/8Z+frAxNHYh3XQGgWHLZU=
+	t=1750832310; cv=none; b=Pw9448DADMhADGZGJv+eFerQcylpF/SHqnqnPvdWlG4qwHwves2we5mDQDfPiW6N5LIFerfqS3ktEOgOQDooPAswigg48mGSUbOfj+T0/2ajzw4SsDhpcGpwjOG0y6ggJIlZ7EGOKEs9o0MTvbLoU90EzSGWTQUgLSWsFxqsUJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750829161; c=relaxed/simple;
-	bh=0hRDN1u+td/ykRY2vm1L2kpHhMG55EsaPbIq6V+qxC0=;
+	s=arc-20240116; t=1750832310; c=relaxed/simple;
+	bh=v8dGxdpXvhwjMLSxtF/xObVxeM0eFoe68UmmiFX3esY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J60YUxAY/g802fQ9kILVQUpJxL7HsjYxZB7tOTWlBF8+8J09dW1JUkhOzc/TxylR9eFX1J+aVlsMKwT/vmMMh+ig4URukr0t52vidcprTrnG2H0MnXJB0R2YPOkVUxObrInyJC7BN4I5uxmvJM9Sb9ZYRwhnWrAcU1cVcfg9ugI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V49jy8Wg; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=SIo0YI3myhP0Jf3/jJmbDi8vT6a1S7PsX5qOYpKJw6xtN3qd6KoTAL7PKKEYC0ooeU8WZ27HjClP/9OyXYMbpsB7riJQxFyz0/ty/0qz3mRVg9+A11DKzaxn7e79C6CK5r5cOE2NBhwTIW9Qr9B6hU6pmq2735hZ8PnfcXssGTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LDn6Q2vH; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V49jy8Wg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LDn6Q2vH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750829160; x=1782365160;
+  t=1750832308; x=1782368308;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=0hRDN1u+td/ykRY2vm1L2kpHhMG55EsaPbIq6V+qxC0=;
-  b=V49jy8WgEE097EUng++RcmCiKAwGXnvmCh4UGrYlba8ZS8TMm32k9SX3
-   8sps8j3zBjymv/KBsWs6u4JTzxFfFClRhlE5JBx7Bt2+SMEuO3+8sKMBU
-   AWmN0Y7EYpMlDDzZ9k6jswAojsL3vNPuokpRhRs7zg3HPDGC1IYQ2qb4W
-   55d3T6Y1T5qEV/VuHxRIEC5BtTj3DHQRgmNoEvU4efYGHssquMMsxV5sv
-   oPKiiyRnBGA8Vqt5bJ5qBV3XG2z5N1H+VpCgdkDmXT0eJJlp3dMEogr8e
-   cQxPHb6L4YMcsBTvsIhYEP2+lFysx7U878RvwmrgzzPoc1YfCfV7I/9dO
-   A==;
-X-CSE-ConnectionGUID: XpTMP+kZRkya+xOef9QTCQ==
-X-CSE-MsgGUID: 7S1wrLr8Qiac/4SEBeLbpg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="56761506"
-X-IronPort-AV: E=Sophos;i="6.16,263,1744095600"; 
-   d="scan'208";a="56761506"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 22:26:00 -0700
-X-CSE-ConnectionGUID: ixov8sJuSMyuGT/+aXJspQ==
-X-CSE-MsgGUID: rAcO2f4sTmWHpLFigXyuZQ==
+  bh=v8dGxdpXvhwjMLSxtF/xObVxeM0eFoe68UmmiFX3esY=;
+  b=LDn6Q2vHZG0rMXB0T95iwUg1HA07fH1Pyej/kB7dIqAM8yOjXiNCL0lP
+   7BigNKszp1hTV4AhMZna5W4KULzFUZjUOrw8Iq8hf7jtnHhE3sA0kiR09
+   iRebdbJopnrhSLAJ4lolwyW5U5lq5BbkTUco7v6LdcLwYZvPTE/4s97d0
+   ewuHMTpvXbinxNGPByYsN+c9/GSWJlNDF/rzx1x1ruSnvayJ/XeIYF/p7
+   it3X941eU7ash1y9draCTfJ+RUREiv6L5KrszVovzXzemUK4HYEglgMFh
+   cb1rbILwW2qsvkBFFdUj0pBsj56vLGJkvoCyL9ss8lLfYgtV+hCK5aXmu
+   Q==;
+X-CSE-ConnectionGUID: /J+z62KgThe/SvNH6/sM9w==
+X-CSE-MsgGUID: r2I+e4eHTr6NHOTd3b+yRA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="63351722"
+X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
+   d="scan'208";a="63351722"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2025 23:18:06 -0700
+X-CSE-ConnectionGUID: 61QiRcVBRhaW/fx0UykyOw==
+X-CSE-MsgGUID: SyFgvC+DRVaCzbOgdTJ5wg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,263,1744095600"; 
-   d="scan'208";a="156145722"
+X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
+   d="scan'208";a="157624492"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 24 Jun 2025 22:25:56 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 24 Jun 2025 23:18:00 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUIdu-000Smg-1O;
-	Wed, 25 Jun 2025 05:25:54 +0000
-Date: Wed, 25 Jun 2025 13:25:08 +0800
+	id 1uUJSI-000So2-0t;
+	Wed, 25 Jun 2025 06:17:58 +0000
+Date: Wed, 25 Jun 2025 14:17:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Clark <james.clark@linaro.org>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Larisa Grigore <larisa.grigore@nxp.com>,
-	Frank Li <Frank.li@nxp.com>, Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
-	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
-	James Clark <james.clark@linaro.org>
-Subject: Re: [PATCH v3 3/6] spi: spi-fsl-dspi: Stub out DMA functions
-Message-ID: <202506251332.thYB4ced-lkp@intel.com>
-References: <20250624-james-nxp-spi-dma-v3-3-e7d574f5f62c@linaro.org>
+To: Pengyu Luo <mitltlatltl@gmail.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Eric Biggers <ebiggers@google.com>, Len Brown <len.brown@intel.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Ingo Molnar <mingo@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Joel Granados <joel.granados@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Pengyu Luo <mitltlatltl@gmail.com>,
+	Hong Zhu <vanyang@smail.nju.edu.cn>
+Subject: Re: [PATCH 3/4] arm64: dts: qcom: sc8280xp: Add initial support for
+ Ntmer TW220
+Message-ID: <202506251320.oOPGzTPQ-lkp@intel.com>
+References: <20250617092929.1492750-4-mitltlatltl@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,77 +79,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624-james-nxp-spi-dma-v3-3-e7d574f5f62c@linaro.org>
+In-Reply-To: <20250617092929.1492750-4-mitltlatltl@gmail.com>
 
-Hi James,
+Hi Pengyu,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 4f326fa6236787ca516ea6eab8e5e9dc5c236f03]
+[auto build test ERROR on robh/for-next]
+[also build test ERROR on linus/master v6.16-rc3 next-20250624]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Clark/spi-spi-fsl-dspi-Clear-completion-counter-before-initiating-transfer/20250624-183952
-base:   4f326fa6236787ca516ea6eab8e5e9dc5c236f03
-patch link:    https://lore.kernel.org/r/20250624-james-nxp-spi-dma-v3-3-e7d574f5f62c%40linaro.org
-patch subject: [PATCH v3 3/6] spi: spi-fsl-dspi: Stub out DMA functions
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250625/202506251332.thYB4ced-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506251332.thYB4ced-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Pengyu-Luo/dt-bindings-vendor-prefixes-Add-Ntmer/20250617-173338
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250617092929.1492750-4-mitltlatltl%40gmail.com
+patch subject: [PATCH 3/4] arm64: dts: qcom: sc8280xp: Add initial support for Ntmer TW220
+config: arm64-randconfig-001-20250624 (https://download.01.org/0day-ci/archive/20250625/202506251320.oOPGzTPQ-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506251320.oOPGzTPQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506251332.thYB4ced-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506251320.oOPGzTPQ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/spi/spi-fsl-dspi.c: In function 'dspi_dma_xfer':
->> drivers/spi/spi-fsl-dspi.c:729:9: error: 'sdpi' undeclared (first use in this function); did you mean 'dspi'?
-     729 |         sdpi->cur_msg->status = -EINVAL;
-         |         ^~~~
-         |         dspi
-   drivers/spi/spi-fsl-dspi.c:729:9: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/spi/spi-fsl-dspi.c: At top level:
->> drivers/spi/spi-fsl-dspi.c:474:12: warning: 'dspi_pop_tx_pushr' defined but not used [-Wunused-function]
-     474 | static u32 dspi_pop_tx_pushr(struct fsl_dspi *dspi)
-         |            ^~~~~~~~~~~~~~~~~
-
-
-vim +729 drivers/spi/spi-fsl-dspi.c
-
-   705	
-   706	static void dspi_release_dma(struct fsl_dspi *dspi)
-   707	{
-   708		int dma_bufsize = dspi->devtype_data->fifo_size * 2;
-   709		struct fsl_dspi_dma *dma = dspi->dma;
-   710	
-   711		if (!dma)
-   712			return;
-   713	
-   714		if (dma->chan_tx) {
-   715			dma_free_coherent(dma->chan_tx->device->dev, dma_bufsize,
-   716					  dma->tx_dma_buf, dma->tx_dma_phys);
-   717			dma_release_channel(dma->chan_tx);
-   718		}
-   719	
-   720		if (dma->chan_rx) {
-   721			dma_free_coherent(dma->chan_rx->device->dev, dma_bufsize,
-   722					  dma->rx_dma_buf, dma->rx_dma_phys);
-   723			dma_release_channel(dma->chan_rx);
-   724		}
-   725	}
-   726	#else
-   727	static void dspi_dma_xfer(struct fsl_dspi *dspi)
-   728	{
- > 729		sdpi->cur_msg->status = -EINVAL;
-   730	}
-   731	static int dspi_request_dma(struct fsl_dspi *dspi, phys_addr_t phy_addr)
-   732	{
-   733		dev_err(&dspi->pdev->dev, "DMA support not enabled in kernel\n");
-   734		return -EINVAL;
-   735	}
-   736	static void dspi_release_dma(struct fsl_dspi *dspi) {}
-   737	#endif
-   738	
+>> Error: arch/arm64/boot/dts/qcom/sc8280xp-ntmer-tw220.dts:751.1-10 Label or path gpi_dma0 not found
+>> Error: arch/arm64/boot/dts/qcom/sc8280xp-ntmer-tw220.dts:755.1-10 Label or path gpi_dma1 not found
+>> Error: arch/arm64/boot/dts/qcom/sc8280xp-ntmer-tw220.dts:759.1-10 Label or path gpi_dma2 not found
+>> FATAL ERROR: Syntax error parsing input tree
 
 -- 
 0-DAY CI Kernel Test Service
