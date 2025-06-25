@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99B4A258CC1;
-	Wed, 25 Jun 2025 07:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5F727A90E
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 08:36:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750835470; cv=none; b=t0xDqCS36qMmAstglyrSfeOg+UHD+rK9O/FRtY5Qd/PwDqY2jFHvFphe9W0WasiAT+Oyn+7Hst0sjalgvHTIW1DLDJ/Nk+xHFLUJUMG5AWvDVlZHvEmqXTVInTaa4PcLNsKTIhnpYXgBcZuwA2X71Rp+07ZZr1q7z9EntXmZmic=
+	t=1750840574; cv=none; b=M0r2mN7l9fbbXkzDZtwu8JbiRS4oI9Pou0BdetBiQTzFUkCN6b5wYpKf0fHfJACsXvC5G0QJWdKRQJseLhdSntNRAjc/F8eqLjr+W85MTbiG7+JE0xpJ/BbkB4xLDz/YWU6l1XWShtTq9vPRUKxmM6Nd705MMkI/pIOq5QbgB7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750835470; c=relaxed/simple;
-	bh=mNEMpUGa8rDYteMLi4xCtYy2E5bn8LSTBSKl/pLqk/A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bSB7N7bmSU/+4mjQfU+76oXizW7yDqFQHXj4draMGmy6Tq7v+qxXmK0PICkM+J93t+1HWLAJTRayFN8c5LzTvRBjPcPj4bhLfpLZXnHgrLiSDWBQRdbEFZi9f6MUyjd6otA8PVjrfCPhyDlekWFL2LUOwuKlXP1Of0uyYLxul8M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IhuGw8JD; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1750840574; c=relaxed/simple;
+	bh=8NGkj4fETg6w/L614bzv+cY7DJGy7v0lFObjvUbfuqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=DIeeQUSpkpxYNapOypcaqBQGLk6xjFh4hhe29fCtNvsx6fzjTr9Nn01k/azIuCZakG+QzjjciVT7KR1DydNEmJC/220mbCdRt999VGAoV5G5Kc7IGPvMn84SDYJE8TE8PNbUWKv24Ek/KPqyJciDcpFLK57V9hwv+qo/+YKi8V0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PjzUVAkg; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IhuGw8JD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PjzUVAkg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750835469; x=1782371469;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mNEMpUGa8rDYteMLi4xCtYy2E5bn8LSTBSKl/pLqk/A=;
-  b=IhuGw8JD/3sBT97lJEKrQEzEN8RX5wbJ9iMHjp5Ld0NrnXFUWU6AlH2M
-   QzBratFOYTT4qzhFHaXu89FMYXkl4RGIgNpQdsBgj6K8fMdkTDHYfvJGA
-   XwgrLp/oNcVWiUbkN78Mmwfng1asbG4rx0n3AXj5Cg3jO+rGnK6VPIVnc
-   3a6NvsuddrkE06ILT2jVx+f2w7niLCBOPzMfKeEmvnEnZM4CCNlp0GpWl
-   8Koi6lHgjVrIYR+cLW8MGxAR0ny3xVHeo5PO7aZu2rDZW/DBLNo0wlQjY
-   bDQsRMvn4Xa++PTwHxhbuzL1LubJe7xCrRopktqo4Qj8JgHL9JtTtMhCv
-   w==;
-X-CSE-ConnectionGUID: fVplj1rdRn2Mzavqy+Hpaw==
-X-CSE-MsgGUID: Cf6sOgbFTTCeV+LMF4cpeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="52963774"
+  t=1750840573; x=1782376573;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8NGkj4fETg6w/L614bzv+cY7DJGy7v0lFObjvUbfuqE=;
+  b=PjzUVAkgUvU9zuswWjdAcdyu0xLyrUU8E6Rcd9zEo4OcGNMtQ8VMoOTW
+   I4JLFw52/SQaXo8RgDC/kODCYzhjCPEUQONh6ytESCr3o0rxkTSHsx/hD
+   6c5t+KVSF2OiPwpyyc5Bpd2j211wOwUgLC2O4fuEk8eH+bEICkxFXDMEi
+   NUn7gJ29SrE8GKkwoBCFuexm0s/oSSO3Jw1G8W6lCMPGSkH4HTiru7pbV
+   iuKnyc1ey0TblJ82fRj/pEyZmMlHApdwaX9eTekSlnrYMt2Js1Rq4F6OP
+   Yk4StHfdg++giQbBcQReD7VvfUamVjtwdba+DbYEr9PEE7ruwdFCeByuY
+   A==;
+X-CSE-ConnectionGUID: sroNCQ3QSTCJ+PiYvg+TEw==
+X-CSE-MsgGUID: nHHWZ7HCSYuWfZfa0Aa//w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="63701079"
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="52963774"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 00:11:08 -0700
-X-CSE-ConnectionGUID: RyTVzk0rRJKJJPJBWtsdfw==
-X-CSE-MsgGUID: rrQIsZ9ES6u3CXPaY4+2vw==
+   d="scan'208";a="63701079"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 01:36:12 -0700
+X-CSE-ConnectionGUID: wHkUUndVSqWFs7Ugpy0oPQ==
+X-CSE-MsgGUID: EtTTe861SZKrCV99mLTeDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="152622908"
+   d="scan'208";a="175803540"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 25 Jun 2025 00:11:05 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 25 Jun 2025 01:36:12 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUKHe-000Spy-2S;
-	Wed, 25 Jun 2025 07:11:02 +0000
-Date: Wed, 25 Jun 2025 15:10:33 +0800
+	id 1uULc1-000Stw-2r;
+	Wed, 25 Jun 2025 08:36:09 +0000
+Date: Wed, 25 Jun 2025 16:35:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: James Clark <james.clark@linaro.org>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Larisa Grigore <larisa.grigore@nxp.com>,
-	Frank Li <Frank.li@nxp.com>, Christoph Hellwig <hch@lst.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-spi@vger.kernel.org,
-	imx@lists.linux.dev, linux-kernel@vger.kernel.org,
-	James Clark <james.clark@linaro.org>
-Subject: Re: [PATCH v3 6/6] spi: spi-fsl-dspi: Report FIFO overflows as errors
-Message-ID: <202506251415.Cj026uIP-lkp@intel.com>
-References: <20250624-james-nxp-spi-dma-v3-6-e7d574f5f62c@linaro.org>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jpoimboe:klp-build 43/63] kernel/bounds.c:35:40: error: invalid
+ application of 'sizeof' to incomplete type 'struct jump_entry'
+Message-ID: <202506251600.VKaltOhm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,78 +61,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624-james-nxp-spi-dma-v3-6-e7d574f5f62c@linaro.org>
 
-Hi James,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 4f326fa6236787ca516ea6eab8e5e9dc5c236f03]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/James-Clark/spi-spi-fsl-dspi-Clear-completion-counter-before-initiating-transfer/20250624-183952
-base:   4f326fa6236787ca516ea6eab8e5e9dc5c236f03
-patch link:    https://lore.kernel.org/r/20250624-james-nxp-spi-dma-v3-6-e7d574f5f62c%40linaro.org
-patch subject: [PATCH v3 6/6] spi: spi-fsl-dspi: Report FIFO overflows as errors
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250625/202506251415.Cj026uIP-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506251415.Cj026uIP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jpoimboe/linux.git klp-build
+head:   adb4071ac1d133861613cf55ff4f4d4858313258
+commit: aacce3fee88ef9617ea4938a4f53b46974be7202 [43/63] x86/jump_label: Define ELF section entry size for jump labels
+config: i386-buildonly-randconfig-002-20250625 (https://download.01.org/0day-ci/archive/20250625/202506251600.VKaltOhm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506251600.VKaltOhm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506251415.Cj026uIP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506251600.VKaltOhm-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/spi/spi-fsl-dspi.c: In function 'dspi_dma_xfer':
-   drivers/spi/spi-fsl-dspi.c:792:9: error: 'sdpi' undeclared (first use in this function); did you mean 'dspi'?
-     792 |         sdpi->cur_msg->status = -EINVAL;
-         |         ^~~~
-         |         dspi
-   drivers/spi/spi-fsl-dspi.c:792:9: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/spi/spi-fsl-dspi.c: In function 'dspi_poll':
->> drivers/spi/spi-fsl-dspi.c:1086:49: error: implicit declaration of function 'dspi_fifo_error'; did you mean 'dspi_fifo_write'? [-Wimplicit-function-declaration]
-    1086 |                         dspi->cur_msg->status = dspi_fifo_error(dspi, spi_sr);
-         |                                                 ^~~~~~~~~~~~~~~
-         |                                                 dspi_fifo_write
-   drivers/spi/spi-fsl-dspi.c: At top level:
-   drivers/spi/spi-fsl-dspi.c:474:12: warning: 'dspi_pop_tx_pushr' defined but not used [-Wunused-function]
-     474 | static u32 dspi_pop_tx_pushr(struct fsl_dspi *dspi)
-         |            ^~~~~~~~~~~~~~~~~
+   In file included from kernel/bounds.c:13:
+   kernel/bounds.c: In function 'main':
+>> kernel/bounds.c:35:40: error: invalid application of 'sizeof' to incomplete type 'struct jump_entry'
+      35 |         DEFINE(JUMP_ENTRY_SIZE, sizeof(struct jump_entry));
+         |                                        ^~~~~~
+   include/linux/kbuild.h:6:69: note: in definition of macro 'DEFINE'
+       6 |         asm volatile("\n.ascii \"->" #sym " %0 " #val "\"" : : "i" (val))
+         |                                                                     ^~~
+   make[3]: *** [scripts/Makefile.build:182: kernel/bounds.s] Error 1 shuffle=2115482694
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1274: prepare0] Error 2 shuffle=2115482694
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2115482694
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2115482694
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +1086 drivers/spi/spi-fsl-dspi.c
+vim +35 kernel/bounds.c
 
-  1072	
-  1073	static void dspi_poll(struct fsl_dspi *dspi)
-  1074	{
-  1075		int tries = 1000;
-  1076		u32 spi_sr;
-  1077	
-  1078		while (dspi->len) {
-  1079			do {
-  1080				regmap_read(dspi->regmap, SPI_SR, &spi_sr);
-  1081				regmap_write(dspi->regmap, SPI_SR, spi_sr);
-  1082	
-  1083				if (spi_sr & SPI_SR_CMDTCF)
-  1084					break;
-  1085	
-> 1086				dspi->cur_msg->status = dspi_fifo_error(dspi, spi_sr);
-  1087				if (dspi->cur_msg->status)
-  1088					return;
-  1089			} while (--tries);
-  1090	
-  1091			if (!tries) {
-  1092				dspi->cur_msg->status = -ETIMEDOUT;
-  1093				return;
-  1094			}
-  1095	
-  1096			dspi_rxtx(dspi);
-  1097		}
-  1098	
-  1099		dspi->cur_msg->status = 0;
-  1100	}
-  1101	
+    17	
+    18	int main(void)
+    19	{
+    20		/* The enum constants to put into include/generated/bounds.h */
+    21		DEFINE(NR_PAGEFLAGS, __NR_PAGEFLAGS);
+    22		DEFINE(MAX_NR_ZONES, __MAX_NR_ZONES);
+    23	#ifdef CONFIG_SMP
+    24		DEFINE(NR_CPUS_BITS, order_base_2(CONFIG_NR_CPUS));
+    25	#endif
+    26		DEFINE(SPINLOCK_SIZE, sizeof(spinlock_t));
+    27	#ifdef CONFIG_LRU_GEN
+    28		DEFINE(LRU_GEN_WIDTH, order_base_2(MAX_NR_GENS + 1));
+    29		DEFINE(__LRU_REFS_WIDTH, MAX_NR_TIERS - 2);
+    30	#else
+    31		DEFINE(LRU_GEN_WIDTH, 0);
+    32		DEFINE(__LRU_REFS_WIDTH, 0);
+    33	#endif
+    34	#if defined(CONFIG_HAVE_ARCH_JUMP_LABEL_RELATIVE)
+  > 35		DEFINE(JUMP_ENTRY_SIZE, sizeof(struct jump_entry));
 
 -- 
 0-DAY CI Kernel Test Service
