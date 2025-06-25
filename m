@@ -1,58 +1,66 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B873929B200;
-	Wed, 25 Jun 2025 09:18:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE71A29B22D
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 25 Jun 2025 09:18:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750843101; cv=none; b=k/QkOJe6BBbOz4mm2f9VYfbTGTW9u6Y24OxBvQ9VVelgo+Jz9Gn60sjqSeutoMb6ISIS3GGyw3d139uSUoXK5k6qf8BjmVoZWfRx7eSRRDbbplLJk/OmakzIgToemIy/nEZYNB3Epoyv2dFZ9osjVfBoUChbUd5e4D4CJXJQA9M=
+	t=1750843103; cv=none; b=U4Xh276xbWPzQuOgttYqX0zsMomhnGDseFVwEgoZ9VlJKpXaKhZcnTSBmf4vg5Zdypm+BCA9ZaUIDkXHfbBMm5j2X1G9IM0ZI/fFv9F1fvSlVeShJsoOaI/ykzjqpW4SsYzu/qcNDxWXr8vyHwSIvBhF+uym10Z3Kjk4ihlUSWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750843101; c=relaxed/simple;
-	bh=tmysgYzWCWGyTY2cKnSO+JaAAf94I6dDoKYocrjhCjo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=b3AhoVNR/l6fFfEqQ3GN1Ik7Df2J/GuXce/EWiX1/cHx2LQ1hY7pY49W9ygHAKO9NwfZZ2Tg+jLhArMo8eF2AHnwHh5zTEyaH9MqjjO77O4OhOAjYwhNYQIDP7AYGYzwC3veFIND6P1Fm2d8K1VR0bd2QPyQfaTdhkEZ6dERYO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dlZSecl7; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1750843103; c=relaxed/simple;
+	bh=t4E/+UT8fmI9fR5q5fWeoyUhS4+biJF4voTPqNOEia0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fc6ErvtaSKvEXE9LBYcoYyydud8cxOmDby0HcfKJlubmyv15JUCa8CCNU5o0JLYIXGoIYApx2n0dgrDIs7YNOI8qT+qzuOh0yp2jeiXj4hnN3fDmyyi6lvsabO93pHvmnqcdq6rBjOhEU+Urs6IulPe1eugP0bnh0kCj/5QYIlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T8nYTZ2O; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dlZSecl7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T8nYTZ2O"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750843099; x=1782379099;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tmysgYzWCWGyTY2cKnSO+JaAAf94I6dDoKYocrjhCjo=;
-  b=dlZSecl7/g0/sGQzHN18zF3Gs7E3HiRWliZiEiqbEutnwaluHKVYYnvj
-   Ir3jnk4nMxHPb5CCWoD0RtBQ6lSuON8zXi4oHw2HqQMg0YBn933f4hIgD
-   D4RJP3Mcq4R9dfC9uiHzFoBSFyhe61YBv2YszPdMcqBJQHfbninMx3C61
-   xFIx4NZl1f5YVn2UyivyLXGSVUQ7z1kqZlUn/WL75p26hSkLdY90QjRw8
-   30mVmFk9IQPni6d7XawNVoG2WMPPAKm/P0EgEq7bqw3Y1jfxB6wog7+f9
-   yVox26FgV+/vfjK/5oNrJ2MREV0IBjpUMFCJKoxcK57ty61fieTu+o7BS
-   A==;
-X-CSE-ConnectionGUID: kby8micXRLCi5OvkNuBo9Q==
-X-CSE-MsgGUID: VLe9l+JtRO6rNPOEZ9DvkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="53072782"
+  t=1750843100; x=1782379100;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t4E/+UT8fmI9fR5q5fWeoyUhS4+biJF4voTPqNOEia0=;
+  b=T8nYTZ2OtmDDWiys+1XlzItMIsMXFMbfA+VL9SN6C/RgFT+/CdkfO+C6
+   Kp8v51eh9INMs32y71jlspqEqCtIbhG94uazAHBaeIPiFYKoNW6rq4rHN
+   qb9n+0sxhw268L9h7rnkCcA7T1l+jMJfMqevM0MpTqvsL55zO/XlM3BLj
+   SCDrGM0L1P877BkO7ns91z3VoDIn3/lBycTaUOjr6470XCgtrhNJiL/ym
+   wUG23RHSXCaBWwZEHYvh3+hKnocp/4se2EgzDe1QxP60eMMumo/F1Y86d
+   ZpUHVkGqYSs9f7Qr2ht7UtHs9A1BFLpzAa9AmynENrno4JvsBASyH5y/H
+   g==;
+X-CSE-ConnectionGUID: te7CbClhR3CNAOnjKV95SA==
+X-CSE-MsgGUID: 53+wp7BxQUOa7J7V1VH0DA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11474"; a="53072785"
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="53072782"
+   d="scan'208";a="53072785"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 02:18:17 -0700
-X-CSE-ConnectionGUID: JeLDTBzWT7C6WpPBr4qP2A==
-X-CSE-MsgGUID: BL0ukZioS1mf+CL3SMBvyw==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jun 2025 02:18:19 -0700
+X-CSE-ConnectionGUID: Pu8/GqJxQ9Wf4jSmGYdK6Q==
+X-CSE-MsgGUID: yJ8Gcn95QCiXtZkX+gKVcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,264,1744095600"; 
-   d="scan'208";a="157934398"
+   d="scan'208";a="157934397"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 25 Jun 2025 02:18:15 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUMGj-000SwC-2D;
+	id 1uUMGj-000SwA-29;
 	Wed, 25 Jun 2025 09:18:13 +0000
-Date: Wed, 25 Jun 2025 17:17:46 +0800
+Date: Wed, 25 Jun 2025 17:17:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [kvm-x86:mmio 3/3] arch/x86/kvm/mmu/spte.c:295:30: error: use of
- undeclared identifier 'mmio_stale_data_clear'
-Message-ID: <202506251700.XDtuLHgR-lkp@intel.com>
+To: Vikas Gupta <vikas.gupta@broadcom.com>, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	andrew+netdev@lunn.ch, horms@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, michael.chan@broadcom.com,
+	pavan.chebbi@broadcom.com, vsrama-krishna.nemani@broadcom.com,
+	Vikas Gupta <vikas.gupta@broadcom.com>,
+	Bhargava Chenna Marreddy <bhargava.marreddy@broadcom.com>,
+	Rajashekar Hudumula <rajashekar.hudumula@broadcom.com>
+Subject: Re: [net-next, 08/10] bng_en: Add irq allocation support
+Message-ID: <202506251636.aTzmB45K-lkp@intel.com>
+References: <20250618144743.843815-9-vikas.gupta@broadcom.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,159 +69,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250618144743.843815-9-vikas.gupta@broadcom.com>
 
-tree:   https://github.com/kvm-x86/linux mmio
-head:   00c8216399da1e7df22637dfb4d6d451adc5f24e
-commit: 00c8216399da1e7df22637dfb4d6d451adc5f24e [3/3] KVM: VMX: Apply MMIO Stale Data mitigation if KVM maps MMIO into the guest
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250625/202506251700.XDtuLHgR-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506251700.XDtuLHgR-lkp@intel.com/reproduce)
+Hi Vikas,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.16-rc3 next-20250624]
+[cannot apply to horms-ipvs/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Vikas-Gupta/bng_en-Add-PCI-interface/20250618-173130
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250618144743.843815-9-vikas.gupta%40broadcom.com
+patch subject: [net-next, 08/10] bng_en: Add irq allocation support
+config: parisc-randconfig-r073-20250619 (https://download.01.org/0day-ci/archive/20250625/202506251636.aTzmB45K-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506251700.XDtuLHgR-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506251636.aTzmB45K-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/net/ethernet/broadcom/bnge/bnge_resc.c:347 bnge_alloc_irqs() warn: unsigned 'irqs_demand' is never less than zero.
 
->> arch/x86/kvm/mmu/spte.c:295:30: error: use of undeclared identifier 'mmio_stale_data_clear'
-     295 |         if (static_branch_unlikely(&mmio_stale_data_clear) &&
-         |                                     ^
->> arch/x86/kvm/mmu/spte.c:295:30: error: use of undeclared identifier 'mmio_stale_data_clear'
->> arch/x86/kvm/mmu/spte.c:295:30: error: use of undeclared identifier 'mmio_stale_data_clear'
->> arch/x86/kvm/mmu/spte.c:295:30: error: use of undeclared identifier 'mmio_stale_data_clear'
-   4 errors generated.
---
->> arch/x86/kvm/vmx/vmx.c:968:30: error: use of undeclared identifier 'mmio_stale_data_clear'
-     968 |         if (static_branch_unlikely(&mmio_stale_data_clear) &&
-         |                                     ^
->> arch/x86/kvm/vmx/vmx.c:968:30: error: use of undeclared identifier 'mmio_stale_data_clear'
->> arch/x86/kvm/vmx/vmx.c:968:30: error: use of undeclared identifier 'mmio_stale_data_clear'
->> arch/x86/kvm/vmx/vmx.c:968:30: error: use of undeclared identifier 'mmio_stale_data_clear'
-   4 errors generated.
+vim +/irqs_demand +347 drivers/net/ethernet/broadcom/bnge/bnge_resc.c
 
-
-vim +/mmio_stale_data_clear +295 arch/x86/kvm/mmu/spte.c
-
-   185	
-   186	bool make_spte(struct kvm_vcpu *vcpu, struct kvm_mmu_page *sp,
-   187		       const struct kvm_memory_slot *slot,
-   188		       unsigned int pte_access, gfn_t gfn, kvm_pfn_t pfn,
-   189		       u64 old_spte, bool prefetch, bool synchronizing,
-   190		       bool host_writable, u64 *new_spte)
-   191	{
-   192		int level = sp->role.level;
-   193		u64 spte = SPTE_MMU_PRESENT_MASK;
-   194		int is_host_mmio = -1;
-   195		bool wrprot = false;
-   196	
-   197		/*
-   198		 * For the EPT case, shadow_present_mask has no RWX bits set if
-   199		 * exec-only page table entries are supported.  In that case,
-   200		 * ACC_USER_MASK and shadow_user_mask are used to represent
-   201		 * read access.  See FNAME(gpte_access) in paging_tmpl.h.
-   202		 */
-   203		WARN_ON_ONCE((pte_access | shadow_present_mask) == SHADOW_NONPRESENT_VALUE);
-   204	
-   205		if (sp->role.ad_disabled)
-   206			spte |= SPTE_TDP_AD_DISABLED;
-   207		else if (kvm_mmu_page_ad_need_write_protect(vcpu->kvm, sp))
-   208			spte |= SPTE_TDP_AD_WRPROT_ONLY;
-   209	
-   210		spte |= shadow_present_mask;
-   211		if (!prefetch || synchronizing)
-   212			spte |= shadow_accessed_mask;
-   213	
-   214		/*
-   215		 * For simplicity, enforce the NX huge page mitigation even if not
-   216		 * strictly necessary.  KVM could ignore the mitigation if paging is
-   217		 * disabled in the guest, as the guest doesn't have any page tables to
-   218		 * abuse.  But to safely ignore the mitigation, KVM would have to
-   219		 * ensure a new MMU is loaded (or all shadow pages zapped) when CR0.PG
-   220		 * is toggled on, and that's a net negative for performance when TDP is
-   221		 * enabled.  When TDP is disabled, KVM will always switch to a new MMU
-   222		 * when CR0.PG is toggled, but leveraging that to ignore the mitigation
-   223		 * would tie make_spte() further to vCPU/MMU state, and add complexity
-   224		 * just to optimize a mode that is anything but performance critical.
-   225		 */
-   226		if (level > PG_LEVEL_4K && (pte_access & ACC_EXEC_MASK) &&
-   227		    is_nx_huge_page_enabled(vcpu->kvm)) {
-   228			pte_access &= ~ACC_EXEC_MASK;
-   229		}
-   230	
-   231		if (pte_access & ACC_EXEC_MASK)
-   232			spte |= shadow_x_mask;
-   233		else
-   234			spte |= shadow_nx_mask;
-   235	
-   236		if (pte_access & ACC_USER_MASK)
-   237			spte |= shadow_user_mask;
-   238	
-   239		if (level > PG_LEVEL_4K)
-   240			spte |= PT_PAGE_SIZE_MASK;
-   241	
-   242		if (kvm_x86_ops.get_mt_mask)
-   243			spte |= kvm_x86_call(get_mt_mask)(vcpu, gfn,
-   244							  kvm_is_mmio_pfn(pfn, &is_host_mmio));
-   245		if (host_writable)
-   246			spte |= shadow_host_writable_mask;
-   247		else
-   248			pte_access &= ~ACC_WRITE_MASK;
-   249	
-   250		if (shadow_me_value && !kvm_is_mmio_pfn(pfn, &is_host_mmio))
-   251			spte |= shadow_me_value;
-   252	
-   253		spte |= (u64)pfn << PAGE_SHIFT;
-   254	
-   255		if (pte_access & ACC_WRITE_MASK) {
-   256			/*
-   257			 * Unsync shadow pages that are reachable by the new, writable
-   258			 * SPTE.  Write-protect the SPTE if the page can't be unsync'd,
-   259			 * e.g. it's write-tracked (upper-level SPs) or has one or more
-   260			 * shadow pages and unsync'ing pages is not allowed.
-   261			 *
-   262			 * When overwriting an existing leaf SPTE, and the old SPTE was
-   263			 * writable, skip trying to unsync shadow pages as any relevant
-   264			 * shadow pages must already be unsync, i.e. the hash lookup is
-   265			 * unnecessary (and expensive).  Note, this relies on KVM not
-   266			 * changing PFNs without first zapping the old SPTE, which is
-   267			 * guaranteed by both the shadow MMU and the TDP MMU.
-   268			 */
-   269			if ((!is_last_spte(old_spte, level) || !is_writable_pte(old_spte)) &&
-   270			    mmu_try_to_unsync_pages(vcpu->kvm, slot, gfn, synchronizing, prefetch))
-   271				wrprot = true;
-   272			else
-   273				spte |= PT_WRITABLE_MASK | shadow_mmu_writable_mask |
-   274					shadow_dirty_mask;
-   275		}
-   276	
-   277		if (prefetch && !synchronizing)
-   278			spte = mark_spte_for_access_track(spte);
-   279	
-   280		WARN_ONCE(is_rsvd_spte(&vcpu->arch.mmu->shadow_zero_check, spte, level),
-   281			  "spte = 0x%llx, level = %d, rsvd bits = 0x%llx", spte, level,
-   282			  get_rsvd_bits(&vcpu->arch.mmu->shadow_zero_check, spte, level));
-   283	
-   284		/*
-   285		 * Mark the memslot dirty *after* modifying it for access tracking.
-   286		 * Unlike folios, memslots can be safely marked dirty out of mmu_lock,
-   287		 * i.e. in the fast page fault handler.
-   288		 */
-   289		if ((spte & PT_WRITABLE_MASK) && kvm_slot_dirty_track_enabled(slot)) {
-   290			/* Enforced by kvm_mmu_hugepage_adjust. */
-   291			WARN_ON_ONCE(level > PG_LEVEL_4K);
-   292			mark_page_dirty_in_slot(vcpu->kvm, slot, gfn);
-   293		}
-   294	
- > 295		if (static_branch_unlikely(&mmio_stale_data_clear) &&
-   296		    !kvm_vcpu_can_access_host_mmio(vcpu) &&
-   297		    kvm_is_mmio_pfn(pfn, &is_host_mmio))
-   298			kvm_track_host_mmio_mapping(vcpu);
-   299	
-   300		*new_spte = spte;
-   301		return wrprot;
-   302	}
-   303	
+   329	
+   330	int bnge_alloc_irqs(struct bnge_dev *bd)
+   331	{
+   332		u16 aux_msix, tx_cp, num_entries;
+   333		u16 irqs_demand, max, min = 1;
+   334		int i, rc = 0;
+   335	
+   336		irqs_demand = bnge_nqs_demand(bd);
+   337		max = bnge_get_max_func_irqs(bd);
+   338		if (irqs_demand > max)
+   339			irqs_demand = max;
+   340	
+   341		if (!(bd->flags & BNGE_EN_SHARED_CHNL))
+   342			min = 2;
+   343	
+   344		irqs_demand = pci_alloc_irq_vectors(bd->pdev, min, irqs_demand,
+   345						    PCI_IRQ_MSIX);
+   346		aux_msix = bnge_aux_get_msix(bd);
+ > 347		if (irqs_demand < 0 || irqs_demand < aux_msix) {
+   348			rc = -ENODEV;
+   349			goto err_free_irqs;
+   350		}
+   351	
+   352		num_entries = irqs_demand;
+   353		if (pci_msix_can_alloc_dyn(bd->pdev))
+   354			num_entries = max;
+   355		bd->irq_tbl = kcalloc(num_entries, sizeof(*bd->irq_tbl), GFP_KERNEL);
+   356		if (!bd->irq_tbl) {
+   357			rc = -ENOMEM;
+   358			goto err_free_irqs;
+   359		}
+   360	
+   361		for (i = 0; i < irqs_demand; i++)
+   362			bd->irq_tbl[i].vector = pci_irq_vector(bd->pdev, i);
+   363	
+   364		bd->irqs_acquired = irqs_demand;
+   365		/* Reduce rings based upon num of vectors allocated.
+   366		 * We dont need to consider NQs as they have been calculated
+   367		 * and must be more than irqs_demand.
+   368		 */
+   369		rc = bnge_adjust_rings(bd, &bd->rx_nr_rings,
+   370				       &bd->tx_nr_rings,
+   371				       irqs_demand - aux_msix, min == 1);
+   372		if (rc)
+   373			goto err_free_irqs;
+   374	
+   375		tx_cp = bnge_num_tx_to_cp(bd, bd->tx_nr_rings);
+   376		bd->nq_nr_rings = (min == 1) ?
+   377			max_t(u16, tx_cp, bd->rx_nr_rings) :
+   378			tx_cp + bd->rx_nr_rings;
+   379	
+   380		/* Readjust tx_nr_rings_per_tc */
+   381		if (!bd->num_tc)
+   382			bd->tx_nr_rings_per_tc = bd->tx_nr_rings;
+   383	
+   384		return 0;
+   385	
+   386	err_free_irqs:
+   387		dev_err(bd->dev, "Failed to allocate IRQs err = %d\n", rc);
+   388		bnge_free_irqs(bd);
+   389		return rc;
+   390	}
+   391	
 
 -- 
 0-DAY CI Kernel Test Service
