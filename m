@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2AA01E7C03
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Jun 2025 16:09:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87DD38632C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Jun 2025 16:11:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750954168; cv=none; b=OWuj2a2wC1N2KRJS0sNLOc1fwnMt+bRVJhxfepU/ajZ6cuNa0EQZtPi0pc8CIn00NUhpx+9yFBqqdCuq08tVsRj5ARzlqe4JgnTa7FfXg1znRavd0J2jIe4vEbFJXO1VnWs6z3TJGg59YfE94c11YL15fRRIrJBISaDFv07WGlA=
+	t=1750954294; cv=none; b=hCSqA3JMst7HpV3wSr5bu87KQ5B2zw2h+sdNWHJBF5KYe/vOB8k+w7hdvbOdB/bWbYz8UJYVBc0qIbskgocFXXwj+Jr/porPzLox5QQKyYWmd6XGSqboZ6opjcl0o2uCSHE+Dssk++iPPYGKuyuSx+PmzlMKoBATbVrceIdqs54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750954168; c=relaxed/simple;
-	bh=8v6Edpy+sGVMSa6G5xOFCcgl790bRQ8Fjv5onHJT8GE=;
+	s=arc-20240116; t=1750954294; c=relaxed/simple;
+	bh=Z7wH6TIjfz3V6LmsPjqRfGPSYOqwjPgDrKjIp6guEtg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fQLiCm2f5owq9SIuZ2ltYH341TgadrGG/T6jCjKXB0RvdvwdNcwZZtitx/TrCl3yaUssiZrdOtYMQy5nRG25nymdFE+HwMkkBNGFC8wk9N4B4ci6/8ffnQyUhYbCPemEYATSEAXdj7dlYTyUiJSEKjRhPGeaAtzw4PcmsHxc1S8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hFkl7OzA; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=l5aYuI7QGdH23+7V9L7zJZ/1hZw1fr9MfiLsRJsoI9EEyIO1GbCUv4HPAx7aYh8K46wAOpE5omAUsb7LllgT5TrFuz/+1WwYWGsMenQo4VLp4c06KkQnvfx3y6dGee+7vkYC6DqWOvqeJEYWS5vwF14FRFvldOjSEUm1vSoS2TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UOIzJ1/9; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hFkl7OzA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UOIzJ1/9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750954166; x=1782490166;
+  t=1750954292; x=1782490292;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8v6Edpy+sGVMSa6G5xOFCcgl790bRQ8Fjv5onHJT8GE=;
-  b=hFkl7OzAF63E4dwwgCnDSkg8u4EUIq21TSicHqIUueElLQOs/+ubefgH
-   hR0EqvifFI2rmcTZyqcQpAe5BTkO3K8UxbH/Zv9ivcQgVr0BZ+2TAaaxD
-   UREtqb7wBNcl99nf+UgClGgsL09ZenW7DAQ1nSurcwTgg6oMeqHmkMl9w
-   hJQD6I0wWhR36c4RkMmMmGwPOM58i9dirF/aVBu6xE8jYIiyNxFHAL5+9
-   sGqnAcnTNAmOnafvKYyqOChdtOXO5D6yhmyQg5RzjNPGMj66T9GxOIsEt
-   XNmubNqtDnKMBECLrZWPyKw8aUInAUm3P0iSLYfLLH//j7hDSC3yV4DCL
-   Q==;
-X-CSE-ConnectionGUID: 3fcL/AqpTmaf3npLfNE6qw==
-X-CSE-MsgGUID: FtltDfstSpy1V5Jg8Adsjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="63515319"
+  bh=Z7wH6TIjfz3V6LmsPjqRfGPSYOqwjPgDrKjIp6guEtg=;
+  b=UOIzJ1/9TgYYj68USRdtrJN2CTGHeXGcCTcm0C92nJtMQlxYnLTP7LN9
+   rQF8lnKTiVfzGAKk6cerCGWaJFV700r8557LaVmGL/ZEI2DHMiVoYHIdQ
+   ZHybicKKkvzqcrvT7DJBxZuct13SZj6W6I1cU6brTCvcggKr/OhBlI5WB
+   sqSYPkXu2Xn1A3nzrK+xmoKw0oBPPLH+tSDXIT2Mezd6SRQb6GhtTyb+l
+   JWGlJ8cRGqRoD0U8vMaT3azk5e24Iy6brHsrwPCgDoQ9L05sDPJ3euLxy
+   hnRLRhgcEAlVik0DsND7ruMgObzDAcf15GW9kjQ2Vnt4xvsEFgZ8Okat3
+   w==;
+X-CSE-ConnectionGUID: 7JkZhh+gRQyxZJcjXe0tqg==
+X-CSE-MsgGUID: 7Fe0bBrTRWCHw/3K0ONwWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="52378998"
 X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
-   d="scan'208";a="63515319"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 09:09:26 -0700
-X-CSE-ConnectionGUID: sNh5cHKiQfCx8QmN0DGiaA==
-X-CSE-MsgGUID: QI241kVSTU63EZrVPLu/5g==
+   d="scan'208";a="52378998"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 09:11:31 -0700
+X-CSE-ConnectionGUID: u1icHYySRdSuTM2so/YNew==
+X-CSE-MsgGUID: DrB6K+neQNSNkqE9fv0q9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
-   d="scan'208";a="152071168"
-Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
-  by orviesa006.jf.intel.com with ESMTP; 26 Jun 2025 09:09:24 -0700
-Received: from kbuild by e588e990b675 with local (Exim 4.96)
+   d="scan'208";a="158310875"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 26 Jun 2025 09:11:30 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUpAA-0000Xv-0B;
-	Thu, 26 Jun 2025 16:09:22 +0000
-Date: Thu, 26 Jun 2025 18:08:31 +0200
+	id 1uUpCC-000UFa-1Y;
+	Thu, 26 Jun 2025 16:11:28 +0000
+Date: Fri, 27 Jun 2025 00:10:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2195/2195] include/linux/fortify-string.h:606:4:
- error: call to '__read_overflow2_field' declared with 'warning' attribute:
- detected read beyond size of field (2nd parameter); maybe use
- struct_group()?
-Message-ID: <202506270011.JbqIzVUa-lkp@intel.com>
+Subject: [android-common:android14-5.15 2/2]
+ include/trace/trace_events.h:27:23: warning:
+ 'str__cpuidle_psci__trace_system_name' defined but not used
+Message-ID: <202506270025.PoYCVBPo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,146 +63,142 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   c02455c4cce8052f74fc11c09e9073c01c7f33a4
-commit: dd013ad487534c1838afc2f55efdb5daec15aace [2195/2195] Ethernet: Linkdata: Supports Linkdata ethernet Controllers
-config: x86_64-randconfig-2002-20250501 (https://download.01.org/0day-ci/archive/20250627/202506270011.JbqIzVUa-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270011.JbqIzVUa-lkp@intel.com/reproduce)
+Hi Maulik,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   612eb672b1e96a39fed53ecaa9ab27fc8509d989
+commit: 3567f516024d93b7e353408d2b1e92b219caf8d2 [2/2] ANDROID: cpuidle-psci: Add vendor hook for cpuidle psci enter and exit
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250627/202506270025.PoYCVBPo-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270025.PoYCVBPo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506270011.JbqIzVUa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506270025.PoYCVBPo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_ethtool.c:12:
-   In file included from drivers/net/ethernet/linkdata/sxevf/sxevf/sxevf_ethtool.h:14:
-   In file included from include/linux/ethtool.h:16:
-   In file included from include/linux/bitmap.h:11:
-   In file included from include/linux/string.h:294:
->> include/linux/fortify-string.h:606:4: error: call to '__read_overflow2_field' declared with 'warning' attribute: detected read beyond size of field (2nd parameter); maybe use struct_group()? [-Werror,-Wattribute-warning]
-     606 |                         __read_overflow2_field(q_size_field, size);
-         |                         ^
-   1 error generated.
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cpuidle_psci.h:25,
+                    from drivers/android/vendor_hooks.c:38:
+>> include/trace/trace_events.h:27:23: warning: 'str__cpuidle_psci__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/pm_domain.h:21,
+                    from drivers/android/vendor_hooks.c:37:
+   include/trace/trace_events.h:27:23: warning: 'str__pm_domain__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/timer.h:19,
+                    from drivers/android/vendor_hooks.c:36:
+   include/trace/trace_events.h:27:23: warning: 'str__timer__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/net.h:25,
+                    from drivers/android/vendor_hooks.c:35:
+   include/trace/trace_events.h:27:23: warning: 'str__net__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/iommu.h:30,
+                    from drivers/android/vendor_hooks.c:34:
+   include/trace/trace_events.h:27:23: warning: 'str__iommu__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/sys.h:17,
+                    from drivers/android/vendor_hooks.c:33:
+   include/trace/trace_events.h:27:23: warning: 'str__sys__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
 
-vim +606 include/linux/fortify-string.h
+vim +/str__cpuidle_psci__trace_system_name +27 include/trace/trace_events.h
 
-a28a6e860c6cf2 Francis Laniel 2021-02-25  541  
-f68f2ff91512c1 Kees Cook      2021-04-20  542  /*
-f68f2ff91512c1 Kees Cook      2021-04-20  543   * To make sure the compiler can enforce protection against buffer overflows,
-f68f2ff91512c1 Kees Cook      2021-04-20  544   * memcpy(), memmove(), and memset() must not be used beyond individual
-f68f2ff91512c1 Kees Cook      2021-04-20  545   * struct members. If you need to copy across multiple members, please use
-f68f2ff91512c1 Kees Cook      2021-04-20  546   * struct_group() to create a named mirror of an anonymous struct union.
-f68f2ff91512c1 Kees Cook      2021-04-20  547   * (e.g. see struct sk_buff.) Read overflow checking is currently only
-f68f2ff91512c1 Kees Cook      2021-04-20  548   * done when a write overflow is also present, or when building with W=1.
-f68f2ff91512c1 Kees Cook      2021-04-20  549   *
-f68f2ff91512c1 Kees Cook      2021-04-20  550   * Mitigation coverage matrix
-f68f2ff91512c1 Kees Cook      2021-04-20  551   *					Bounds checking at:
-f68f2ff91512c1 Kees Cook      2021-04-20  552   *					+-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  553   *					| Compile time  |   Run time    |
-f68f2ff91512c1 Kees Cook      2021-04-20  554   * memcpy() argument sizes:		| write | read  | write | read  |
-f68f2ff91512c1 Kees Cook      2021-04-20  555   *        dest     source   length      +-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  556   * memcpy(known,   known,   constant)	|   y   |   y   |  n/a  |  n/a  |
-f68f2ff91512c1 Kees Cook      2021-04-20  557   * memcpy(known,   unknown, constant)	|   y   |   n   |  n/a  |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  558   * memcpy(known,   known,   dynamic)	|   n   |   n   |   B   |   B   |
-f68f2ff91512c1 Kees Cook      2021-04-20  559   * memcpy(known,   unknown, dynamic)	|   n   |   n   |   B   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  560   * memcpy(unknown, known,   constant)	|   n   |   y   |   V   |  n/a  |
-f68f2ff91512c1 Kees Cook      2021-04-20  561   * memcpy(unknown, unknown, constant)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  562   * memcpy(unknown, known,   dynamic)	|   n   |   n   |   V   |   B   |
-f68f2ff91512c1 Kees Cook      2021-04-20  563   * memcpy(unknown, unknown, dynamic)	|   n   |   n   |   V   |   V   |
-f68f2ff91512c1 Kees Cook      2021-04-20  564   *					+-------+-------+-------+-------+
-f68f2ff91512c1 Kees Cook      2021-04-20  565   *
-f68f2ff91512c1 Kees Cook      2021-04-20  566   * y = perform deterministic compile-time bounds checking
-f68f2ff91512c1 Kees Cook      2021-04-20  567   * n = cannot perform deterministic compile-time bounds checking
-f68f2ff91512c1 Kees Cook      2021-04-20  568   * n/a = no run-time bounds checking needed since compile-time deterministic
-f68f2ff91512c1 Kees Cook      2021-04-20  569   * B = can perform run-time bounds checking (currently unimplemented)
-f68f2ff91512c1 Kees Cook      2021-04-20  570   * V = vulnerable to run-time overflow (will need refactoring to solve)
-f68f2ff91512c1 Kees Cook      2021-04-20  571   *
-f68f2ff91512c1 Kees Cook      2021-04-20  572   */
-54d9469bc515dc Kees Cook      2021-06-24  573  __FORTIFY_INLINE bool fortify_memcpy_chk(__kernel_size_t size,
-f68f2ff91512c1 Kees Cook      2021-04-20  574  					 const size_t p_size,
-f68f2ff91512c1 Kees Cook      2021-04-20  575  					 const size_t q_size,
-f68f2ff91512c1 Kees Cook      2021-04-20  576  					 const size_t p_size_field,
-f68f2ff91512c1 Kees Cook      2021-04-20  577  					 const size_t q_size_field,
-f68f2ff91512c1 Kees Cook      2021-04-20  578  					 const char *func)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  579  {
-a28a6e860c6cf2 Francis Laniel 2021-02-25  580  	if (__builtin_constant_p(size)) {
-f68f2ff91512c1 Kees Cook      2021-04-20  581  		/*
-f68f2ff91512c1 Kees Cook      2021-04-20  582  		 * Length argument is a constant expression, so we
-f68f2ff91512c1 Kees Cook      2021-04-20  583  		 * can perform compile-time bounds checking where
-fa35198f39571b Kees Cook      2022-09-19  584  		 * buffer sizes are also known at compile time.
-f68f2ff91512c1 Kees Cook      2021-04-20  585  		 */
-f68f2ff91512c1 Kees Cook      2021-04-20  586  
-f68f2ff91512c1 Kees Cook      2021-04-20  587  		/* Error when size is larger than enclosing struct. */
-fa35198f39571b Kees Cook      2022-09-19  588  		if (__compiletime_lessthan(p_size_field, p_size) &&
-fa35198f39571b Kees Cook      2022-09-19  589  		    __compiletime_lessthan(p_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25  590  			__write_overflow();
-fa35198f39571b Kees Cook      2022-09-19  591  		if (__compiletime_lessthan(q_size_field, q_size) &&
-fa35198f39571b Kees Cook      2022-09-19  592  		    __compiletime_lessthan(q_size, size))
-a28a6e860c6cf2 Francis Laniel 2021-02-25  593  			__read_overflow2();
-f68f2ff91512c1 Kees Cook      2021-04-20  594  
-f68f2ff91512c1 Kees Cook      2021-04-20  595  		/* Warn when write size argument larger than dest field. */
-fa35198f39571b Kees Cook      2022-09-19  596  		if (__compiletime_lessthan(p_size_field, size))
-f68f2ff91512c1 Kees Cook      2021-04-20  597  			__write_overflow_field(p_size_field, size);
-f68f2ff91512c1 Kees Cook      2021-04-20  598  		/*
-f68f2ff91512c1 Kees Cook      2021-04-20  599  		 * Warn for source field over-read when building with W=1
-f68f2ff91512c1 Kees Cook      2021-04-20  600  		 * or when an over-write happened, so both can be fixed at
-f68f2ff91512c1 Kees Cook      2021-04-20  601  		 * the same time.
-f68f2ff91512c1 Kees Cook      2021-04-20  602  		 */
-fa35198f39571b Kees Cook      2022-09-19  603  		if ((IS_ENABLED(KBUILD_EXTRA_WARN1) ||
-fa35198f39571b Kees Cook      2022-09-19  604  		     __compiletime_lessthan(p_size_field, size)) &&
-fa35198f39571b Kees Cook      2022-09-19  605  		    __compiletime_lessthan(q_size_field, size))
-f68f2ff91512c1 Kees Cook      2021-04-20 @606  			__read_overflow2_field(q_size_field, size);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  607  	}
-f68f2ff91512c1 Kees Cook      2021-04-20  608  	/*
-f68f2ff91512c1 Kees Cook      2021-04-20  609  	 * At this point, length argument may not be a constant expression,
-f68f2ff91512c1 Kees Cook      2021-04-20  610  	 * so run-time bounds checking can be done where buffer sizes are
-f68f2ff91512c1 Kees Cook      2021-04-20  611  	 * known. (This is not an "else" because the above checks may only
-f68f2ff91512c1 Kees Cook      2021-04-20  612  	 * be compile-time warnings, and we want to still warn for run-time
-f68f2ff91512c1 Kees Cook      2021-04-20  613  	 * overflows.)
-f68f2ff91512c1 Kees Cook      2021-04-20  614  	 */
-f68f2ff91512c1 Kees Cook      2021-04-20  615  
-f68f2ff91512c1 Kees Cook      2021-04-20  616  	/*
-f68f2ff91512c1 Kees Cook      2021-04-20  617  	 * Always stop accesses beyond the struct that contains the
-f68f2ff91512c1 Kees Cook      2021-04-20  618  	 * field, when the buffer's remaining size is known.
-311fb40aa0569a Kees Cook      2022-09-02  619  	 * (The SIZE_MAX test is to optimize away checks where the buffer
-f68f2ff91512c1 Kees Cook      2021-04-20  620  	 * lengths are unknown.)
-f68f2ff91512c1 Kees Cook      2021-04-20  621  	 */
-311fb40aa0569a Kees Cook      2022-09-02  622  	if ((p_size != SIZE_MAX && p_size < size) ||
-311fb40aa0569a Kees Cook      2022-09-02  623  	    (q_size != SIZE_MAX && q_size < size))
-f68f2ff91512c1 Kees Cook      2021-04-20  624  		fortify_panic(func);
-54d9469bc515dc Kees Cook      2021-06-24  625  
-54d9469bc515dc Kees Cook      2021-06-24  626  	/*
-54d9469bc515dc Kees Cook      2021-06-24  627  	 * Warn when writing beyond destination field size.
-54d9469bc515dc Kees Cook      2021-06-24  628  	 *
-54d9469bc515dc Kees Cook      2021-06-24  629  	 * We must ignore p_size_field == 0 for existing 0-element
-54d9469bc515dc Kees Cook      2021-06-24  630  	 * fake flexible arrays, until they are all converted to
-54d9469bc515dc Kees Cook      2021-06-24  631  	 * proper flexible arrays.
-54d9469bc515dc Kees Cook      2021-06-24  632  	 *
-9f7d69c5cd2390 Kees Cook      2022-09-19  633  	 * The implementation of __builtin_*object_size() behaves
-54d9469bc515dc Kees Cook      2021-06-24  634  	 * like sizeof() when not directly referencing a flexible
-54d9469bc515dc Kees Cook      2021-06-24  635  	 * array member, which means there will be many bounds checks
-54d9469bc515dc Kees Cook      2021-06-24  636  	 * that will appear at run-time, without a way for them to be
-54d9469bc515dc Kees Cook      2021-06-24  637  	 * detected at compile-time (as can be done when the destination
-54d9469bc515dc Kees Cook      2021-06-24  638  	 * is specifically the flexible array member).
-54d9469bc515dc Kees Cook      2021-06-24  639  	 * https://gcc.gnu.org/bugzilla/show_bug.cgi?id=101832
-54d9469bc515dc Kees Cook      2021-06-24  640  	 */
-54d9469bc515dc Kees Cook      2021-06-24  641  	if (p_size_field != 0 && p_size_field != SIZE_MAX &&
-54d9469bc515dc Kees Cook      2021-06-24  642  	    p_size != p_size_field && p_size_field < size)
-54d9469bc515dc Kees Cook      2021-06-24  643  		return true;
-54d9469bc515dc Kees Cook      2021-06-24  644  
-54d9469bc515dc Kees Cook      2021-06-24  645  	return false;
-a28a6e860c6cf2 Francis Laniel 2021-02-25  646  }
-a28a6e860c6cf2 Francis Laniel 2021-02-25  647  
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
 
-:::::: The code at line 606 was first introduced by commit
-:::::: f68f2ff91512c199ec24883001245912afc17873 fortify: Detect struct member overflows in memcpy() at compile-time
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
 
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Kees Cook <keescook@chromium.org>
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
