@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BBD4A33
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Jun 2025 17:51:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E53E2F002E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Jun 2025 19:42:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750960294; cv=none; b=B3YnoiNrVH2X+Xws1Zgsq63VjP0HyU88XRnMcYT05G2E71Aie9wkMafyAt/GgHceuttYtZ3BAfjchh0BqmznsSHKQyaIZc34f3L/9yzwQ3ZM0WxO8BzBf4k0Xebol4H3FLH2BlMXDmg7c+ButV6a4rA6Qce/aXZSNncptrwvPPw=
+	t=1750966962; cv=none; b=P/VHAhmc26fzlrX9WP1UgFFe+pFO4rOWpJQLxiqPDc/2Lmxq0bQInh+4nhhPDh3J+zhaFQ0BcLruvSQd9Xb9Q3tjcXvoWxT8zCOmLHydqFNztpDWL5KCKUNb7aKG3XAP9QPaoxDJ4Eo9usH19bSl2Zdk7pxrNBYOc3WwnusOvaY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750960294; c=relaxed/simple;
-	bh=2LJyMlmvhwNm+yZvy5qPT4MRbOhQu9UJThK9bUvl1ao=;
+	s=arc-20240116; t=1750966962; c=relaxed/simple;
+	bh=2kACzHQ7qArNuYO+GBmVuAbSWAyLTO5F4cXujl/wkTo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FQQuv8Z87KM7LdS/fI/W+t/G8b1p3BNIe1Bs7Vp2m0t+NTzExNmNh7W4l5MO70LiHaY5+dkCDG+86/peWCcDs+hBSGQ57vZprrO4ns22rpwz1lI3oyWJ5nJaHKnN/+WWeHAFJWtnrUvD8PJaVdbGDNL5MJAdudUPb6nM1YkDJYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fWbJ2Rgk; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=OyVjOWWN0O/xex9cwDYO8w7kdgWTyRPbQuvqlF/ld1uG9p+LOMGy/39RNHSfU6yxGs7LKOqk6bZH2glt+E/nhWv4RTn7ytUIgnBHNOqcTCLl3y0kL6h6JkqXOFN5wGYiVl9BQr8DEIQjylvKhyvU5S35gwHbC6Zww6ksRYiJfsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZDliL7dL; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWbJ2Rgk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZDliL7dL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750960293; x=1782496293;
+  t=1750966960; x=1782502960;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2LJyMlmvhwNm+yZvy5qPT4MRbOhQu9UJThK9bUvl1ao=;
-  b=fWbJ2Rgk5OWpXHHbzzfOgWdKFml7RhtEtepgjJnPB+5TkxTbK1kRz0UT
-   1zRQfL6jSOgTwwdAgSHXPdGkOFRBBBJvmg1mUOOqJkjmLeu9UDHJwJuGx
-   Phw6BRi1otOXPoKtdfpt5XGZcW1pHAOdrqvz/gcTeSVnElY6ZONGPC1Dh
-   JdjMglqyi4mBduoVKHU0mEhrIeG/rjVrl/oPrktrinh1G52pGxbZzKD4C
-   C5rFAiiCQIhRSyphR2BjpBO48YxiNtiO9BEkmWj1Jb1Tbq+NMhvaIYzkI
-   bTIeezsDjv3hbKjHG5Njn3kBpoXFGFGmKzhmoFloOnLSOeTV7/1TybOC0
+  bh=2kACzHQ7qArNuYO+GBmVuAbSWAyLTO5F4cXujl/wkTo=;
+  b=ZDliL7dLmEXS3QffiatzcNSLw8mWaFl+dQAexHMc3EJpBC1/uSrAiwgI
+   SN2ru90kpshCEKNlvGW/qT9SzYO01yIEcvl4rcDQWdrbPIFH10jQ3Rfd+
+   r192kjVTMuGx7rHpIveA3In/msdlABYkm7JzbY/9BIfWyyE/HTLmOA7xh
+   QLnA350PE3safzN1WwjmnAP6hx750+Flij2Ve4SdM9rAZCWXcTeeapAGP
+   jDG9BuJxCEv7now+pqh5fICoaAM/V3JzfHijyHe3hCXI+WLJM/oUxNMcC
+   CqWderT2kmWWMzfW7DI6pJTs1ulxD2GO0oMHeDaGbCA0hCh6AmNGsE2WJ
    A==;
-X-CSE-ConnectionGUID: sC0eyPrDRm2wEub6EcXZcQ==
-X-CSE-MsgGUID: VeDRFy2+SFS2NSpBtnk50g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="64622628"
+X-CSE-ConnectionGUID: AKg417gARE2yU+tq0sORlg==
+X-CSE-MsgGUID: 8GrbNkNISQCEXqhjAfZMJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53138751"
 X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
-   d="scan'208";a="64622628"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 10:51:32 -0700
-X-CSE-ConnectionGUID: zUsJSFaJSMKT7WNa+tLA5Q==
-X-CSE-MsgGUID: fQFTMO9XRgOdXn+FLFuOvw==
+   d="scan'208";a="53138751"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 12:42:39 -0700
+X-CSE-ConnectionGUID: aiLoypVaSUi9hS2Ph2LgHQ==
+X-CSE-MsgGUID: S+O02a2VQ8eW0VUNx1Udrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
-   d="scan'208";a="152336357"
+   d="scan'208";a="152710555"
 Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
-  by orviesa009.jf.intel.com with ESMTP; 26 Jun 2025 10:51:31 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 26 Jun 2025 12:42:38 -0700
 Received: from kbuild by e588e990b675 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUqky-0000YZ-1I;
-	Thu, 26 Jun 2025 17:51:28 +0000
-Date: Thu, 26 Jun 2025 19:50:31 +0200
+	id 1uUsUV-0000Zb-2Z;
+	Thu, 26 Jun 2025 19:42:35 +0000
+Date: Thu, 26 Jun 2025 21:42:27 +0200
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, libai <libai12@huawei.com>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2195/2195] drivers/vhost/vdpa.c:589:16: error:
- call to undeclared function 'iommufd_ctx_from_fd'; ISO C99 and later do not
- support implicit function declarations
-Message-ID: <202506270113.hqxVfK1W-lkp@intel.com>
+Subject: [chrome-os:chromeos-6.6 0/10] include/linux/fortify-string.h:421:19:
+ warning: writing 1 byte into a region of size 0
+Message-ID: <202506262103.SMoPpD39-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,98 +62,114 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   c02455c4cce8052f74fc11c09e9073c01c7f33a4
-commit: 6a58b8be556fb7de52ae0272a994a1c73fffc903 [2195/2195] vhost/vdpa: Add support to bind and attach iommufd
-config: x86_64-randconfig-2002-20250501 (https://download.01.org/0day-ci/archive/20250627/202506270113.hqxVfK1W-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270113.hqxVfK1W-lkp@intel.com/reproduce)
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chromeos-6.6
+head:   9845c8cbe1257dc2076d42b3297bfd06b7a78029
+commit: beb260292232956605c97414369a880d90cf9f56 [0/10] CHROMIUM: fortify: Downgrade to FORTIFY=2
+config: i386-buildonly-randconfig-2003-20250626 (https://download.01.org/0day-ci/archive/20250626/202506262103.SMoPpD39-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506262103.SMoPpD39-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506270113.hqxVfK1W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506262103.SMoPpD39-lkp@intel.com/
 
-Note: the openeuler/OLK-6.6 HEAD c02455c4cce8052f74fc11c09e9073c01c7f33a4 builds fine.
-      It only hurts bisectability.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+   In file included from include/linux/string.h:295,
+                    from include/acpi/platform/aclinux.h:52,
+                    from include/acpi/platform/acenv.h:160,
+                    from include/acpi/acpi.h:22,
+                    from drivers/acpi/acpica/nsnames.c:8:
+   In function 'strlcat',
+       inlined from 'strcat' at include/linux/fortify-string.h:447:6,
+       inlined from 'acpi_ns_build_prefixed_pathname' at drivers/acpi/acpica/nsnames.c:378:4:
+>> include/linux/fortify-string.h:421:19: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+     421 |         p[actual] = '\0';
+         |         ~~~~~~~~~~^~~~~~
+   In file included from include/acpi/platform/aclinux.h:58:
+   In function 'kmalloc',
+       inlined from 'kzalloc' at include/linux/slab.h:721:9,
+       inlined from 'acpi_os_allocate_zeroed' at include/acpi/platform/aclinuxex.h:57:9,
+       inlined from 'acpi_ns_build_prefixed_pathname' at drivers/acpi/acpica/nsnames.c:367:6:
+   include/linux/slab.h:604:16: note: at offset -2 into destination object of size [2, 2147483647] allocated by '__kmalloc'
+     604 |         return __kmalloc(size, flags);
+         |                ^~~~~~~~~~~~~~~~~~~~~~
 
->> drivers/vhost/vdpa.c:589:16: error: call to undeclared function 'iommufd_ctx_from_fd'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     589 |         iommufd_ctx = iommufd_ctx_from_fd(bind.iommufd);
-         |                       ^
-   drivers/vhost/vdpa.c:589:16: note: did you mean 'iommufd_ctx_from_file'?
-   include/linux/iommufd.h:143:35: note: 'iommufd_ctx_from_file' declared here
-     143 | static inline struct iommufd_ctx *iommufd_ctx_from_file(struct file *file)
-         |                                   ^
->> drivers/vhost/vdpa.c:589:14: error: incompatible integer to pointer conversion assigning to 'struct iommufd_ctx *' from 'int' [-Wint-conversion]
-     589 |         iommufd_ctx = iommufd_ctx_from_fd(bind.iommufd);
-         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
 
+vim +421 include/linux/fortify-string.h
 
-vim +/iommufd_ctx_from_fd +589 drivers/vhost/vdpa.c
+a28a6e860c6cf2 Francis Laniel 2021-02-25  361  
+605395cd7ceded Kees Cook      2023-04-02  362  /* Defined after fortified strlen() to reuse it. */
+605395cd7ceded Kees Cook      2023-04-02  363  extern size_t __real_strlcat(char *p, const char *q, size_t avail) __RENAME(strlcat);
+605395cd7ceded Kees Cook      2023-04-02  364  /**
+605395cd7ceded Kees Cook      2023-04-02  365   * strlcat - Append a string to an existing string
+605395cd7ceded Kees Cook      2023-04-02  366   *
+605395cd7ceded Kees Cook      2023-04-02  367   * @p: pointer to %NUL-terminated string to append to
+605395cd7ceded Kees Cook      2023-04-02  368   * @q: pointer to %NUL-terminated string to append from
+605395cd7ceded Kees Cook      2023-04-02  369   * @avail: Maximum bytes available in @p
+605395cd7ceded Kees Cook      2023-04-02  370   *
+605395cd7ceded Kees Cook      2023-04-02  371   * Appends %NUL-terminated string @q after the %NUL-terminated
+605395cd7ceded Kees Cook      2023-04-02  372   * string at @p, but will not write beyond @avail bytes total,
+605395cd7ceded Kees Cook      2023-04-02  373   * potentially truncating the copy from @q. @p will stay
+605395cd7ceded Kees Cook      2023-04-02  374   * %NUL-terminated only if a %NUL already existed within
+605395cd7ceded Kees Cook      2023-04-02  375   * the @avail bytes of @p. If so, the resulting number of
+605395cd7ceded Kees Cook      2023-04-02  376   * bytes copied from @q will be at most "@avail - strlen(@p) - 1".
+605395cd7ceded Kees Cook      2023-04-02  377   *
+605395cd7ceded Kees Cook      2023-04-02  378   * Do not use this function. While FORTIFY_SOURCE tries to avoid
+605395cd7ceded Kees Cook      2023-04-02  379   * read and write overflows, this is only possible when the sizes
+605395cd7ceded Kees Cook      2023-04-02  380   * of @p and @q are known to the compiler. Prefer building the
+605395cd7ceded Kees Cook      2023-04-02  381   * string with formatting, via scnprintf(), seq_buf, or similar.
+605395cd7ceded Kees Cook      2023-04-02  382   *
+605395cd7ceded Kees Cook      2023-04-02  383   * Returns total bytes that _would_ have been contained by @p
+605395cd7ceded Kees Cook      2023-04-02  384   * regardless of truncation, similar to snprintf(). If return
+605395cd7ceded Kees Cook      2023-04-02  385   * value is >= @avail, the string has been truncated.
+605395cd7ceded Kees Cook      2023-04-02  386   *
+605395cd7ceded Kees Cook      2023-04-02  387   */
+605395cd7ceded Kees Cook      2023-04-02  388  __FORTIFY_INLINE
+605395cd7ceded Kees Cook      2023-04-02  389  size_t strlcat(char * const POS p, const char * const POS q, size_t avail)
+605395cd7ceded Kees Cook      2023-04-02  390  {
+605395cd7ceded Kees Cook      2023-04-02  391  	const size_t p_size = __member_size(p);
+605395cd7ceded Kees Cook      2023-04-02  392  	const size_t q_size = __member_size(q);
+605395cd7ceded Kees Cook      2023-04-02  393  	size_t p_len, copy_len;
+605395cd7ceded Kees Cook      2023-04-02  394  	size_t actual, wanted;
+605395cd7ceded Kees Cook      2023-04-02  395  
+605395cd7ceded Kees Cook      2023-04-02  396  	/* Give up immediately if both buffer sizes are unknown. */
+605395cd7ceded Kees Cook      2023-04-02  397  	if (p_size == SIZE_MAX && q_size == SIZE_MAX)
+605395cd7ceded Kees Cook      2023-04-02  398  		return __real_strlcat(p, q, avail);
+605395cd7ceded Kees Cook      2023-04-02  399  
+605395cd7ceded Kees Cook      2023-04-02  400  	p_len = strnlen(p, avail);
+605395cd7ceded Kees Cook      2023-04-02  401  	copy_len = strlen(q);
+605395cd7ceded Kees Cook      2023-04-02  402  	wanted = actual = p_len + copy_len;
+605395cd7ceded Kees Cook      2023-04-02  403  
+605395cd7ceded Kees Cook      2023-04-02  404  	/* Cannot append any more: report truncation. */
+605395cd7ceded Kees Cook      2023-04-02  405  	if (avail <= p_len)
+605395cd7ceded Kees Cook      2023-04-02  406  		return wanted;
+605395cd7ceded Kees Cook      2023-04-02  407  
+605395cd7ceded Kees Cook      2023-04-02  408  	/* Give up if string is already overflowed. */
+605395cd7ceded Kees Cook      2023-04-02  409  	if (p_size <= p_len)
+605395cd7ceded Kees Cook      2023-04-02  410  		fortify_panic(__func__);
+605395cd7ceded Kees Cook      2023-04-02  411  
+605395cd7ceded Kees Cook      2023-04-02  412  	if (actual >= avail) {
+605395cd7ceded Kees Cook      2023-04-02  413  		copy_len = avail - p_len - 1;
+605395cd7ceded Kees Cook      2023-04-02  414  		actual = p_len + copy_len;
+605395cd7ceded Kees Cook      2023-04-02  415  	}
+605395cd7ceded Kees Cook      2023-04-02  416  
+605395cd7ceded Kees Cook      2023-04-02  417  	/* Give up if copy will overflow. */
+605395cd7ceded Kees Cook      2023-04-02  418  	if (p_size <= actual)
+605395cd7ceded Kees Cook      2023-04-02  419  		fortify_panic(__func__);
+605395cd7ceded Kees Cook      2023-04-02  420  	__underlying_memcpy(p + p_len, q, copy_len);
+605395cd7ceded Kees Cook      2023-04-02 @421  	p[actual] = '\0';
+605395cd7ceded Kees Cook      2023-04-02  422  
+605395cd7ceded Kees Cook      2023-04-02  423  	return wanted;
+605395cd7ceded Kees Cook      2023-04-02  424  }
+605395cd7ceded Kees Cook      2023-04-02  425  
 
-   576	
-   577	static long vhost_vdpa_bind_iommufd(struct vhost_vdpa *v, int __user *argp)
-   578	{
-   579		struct vhost_vdpa_bind_iommufd bind;
-   580		struct iommufd_ctx *iommufd_ctx;
-   581		struct iommufd_device *idev;
-   582		struct device *dma_dev = vdpa_get_dma_dev(v->vdpa);
-   583		struct iommu_group *iommu_group = iommu_group_get(dma_dev);
-   584		int ret = 0;
-   585	
-   586		if (copy_from_user(&bind, argp, sizeof(bind)))
-   587			return -EFAULT;
-   588	
- > 589		iommufd_ctx = iommufd_ctx_from_fd(bind.iommufd);
-   590		if (IS_ERR(iommufd_ctx))
-   591			return PTR_ERR(iommufd_ctx);
-   592	
-   593		if (v->domain) {
-   594			iommu_detach_device(v->domain, dma_dev);
-   595			iommu_domain_free(v->domain);
-   596			v->domain = NULL;
-   597		}
-   598	
-   599		/**
-   600		 * Default iommu domain is created when vdpa device driver probes.
-   601		 * Unuse default domain first to avoid failure when claiming dma owner.
-   602		 */
-   603		if (dma_dev->bus && dma_dev->bus->dma_cleanup)
-   604			dma_dev->bus->dma_cleanup(dma_dev);
-   605		ret = iommu_group_claim_dma_owner(iommu_group, iommufd_ctx);
-   606		if (ret)
-   607			goto dma_configure;
-   608	
-   609		idev = iommufd_device_bind(iommufd_ctx, dma_dev, &bind.out_devid);
-   610		if (IS_ERR(idev)) {
-   611			ret = PTR_ERR(idev);
-   612			goto release_owner;
-   613		}
-   614		v->iommufd_dev = idev;
-   615	
-   616		if (copy_to_user(argp, &bind, sizeof(bind))) {
-   617			ret = -EFAULT;
-   618			goto unbind;
-   619		}
-   620	
-   621		goto out;
-   622	
-   623	unbind:
-   624		iommufd_device_unbind(v->iommufd_dev);
-   625		v->iommufd_dev = NULL;
-   626	release_owner:
-   627		iommu_group_release_dma_owner(iommu_group);
-   628	dma_configure:
-   629		if (dma_dev->bus && dma_dev->bus->dma_configure)
-   630			dma_dev->bus->dma_configure(dma_dev);
-   631	out:
-   632		iommufd_ctx_put(iommufd_ctx);
-   633		return ret;
-   634	}
-   635	
+:::::: The code at line 421 was first introduced by commit
+:::::: 605395cd7ceded5842c8ba6763ea24feee690c87 fortify: Add protection for strlcat()
+
+:::::: TO: Kees Cook <keescook@chromium.org>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
