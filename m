@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB4252264A1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Jun 2025 14:17:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F892E718D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Jun 2025 15:19:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750947452; cv=none; b=r1xLTxNRqcauMhKh90oepWGJ7C0wUcU05ySA0ELk5S2hbapO+gfVvj9tUN+IMWKjj2/Dpt98ktGMydUKSNPU2mGuQbtuiN4iWUi9dXat/66QQIa2WcvFQXlUA5pwP7fvlCoJkgc7vO6yI+SVy1CPIW2vDQXe2zvq1w1xwjBbvxM=
+	t=1750951168; cv=none; b=nhPvvTffTtb1ad7X8iJHkr1H4Z5WaVd+9GvuUBpKa0f38lCDZBBwsxpZMV/NGX5lkU+oMUo1nevJ18sDar+DqdyWO8+z/CyRc/4rAzkOKKnuCvp7kxWP6aAozv7JAztkYBytn1BKRobn1CYSuAhyO5Nh/7HaN+5fG6HuJvhbxdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750947452; c=relaxed/simple;
-	bh=XqYClj/5pBa3GX06fk9cdq2WQFGn81GtU1URfAAqPEA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cBoBkY3SvSLT0fjnJkt7+E2IyxUlvQDTmZUYNqYwZeCpZvBnOBnBUW/1ucjtrdFip9Bwxv/pfsvVG6Ai2LMcb23gmYZ/etbU267v1jto5wy8pOxHs8xcY49vsUsISSWfONKvWT7LUn40PvIyh+NSddsDCcbZMGE+qudgA+gKXhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fE1yKSxu; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1750951168; c=relaxed/simple;
+	bh=snu57Ne6Cg4V6ZGGVQSxAwUcdMHrzYnpTUHGrCx2NAk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Kki9LlH41Pi9BpaL3hswcgpZ0iKAm42uaSA+CoqS/Cp++hsB7R6Tfgu8DaTolR1sMvv9AeAuFb2R3XhaYb9ld+S4foBXjfqMHKx2Xjhr4CsuZcY4YyCDJm0uxDP3K4HlBJfrsPF2mCVYln5kG61kPXd+CXoVr/AucEO51hkBF8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LswEo6jT; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fE1yKSxu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LswEo6jT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750947450; x=1782483450;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XqYClj/5pBa3GX06fk9cdq2WQFGn81GtU1URfAAqPEA=;
-  b=fE1yKSxu6SKZjcjrEaWj7tyAlyQuihtR8HZrM+VixkQY7iao/eSO44kn
-   EYv6bDaNAWQMVsj1psTqs3aY5HgZfX1jNrJAk9W45+OH/2mOBZ+8t8M7+
-   Nru3ubDyMZulr8/CTPoowkUle7WsJ25l3ST+jA6M3yryoK9zmFgwScMi/
-   Ak5MBBVa69ugY1kJTrT+htLGnCQL4yLcKbzeDvXVq8oCM0IVs0+U0MH+r
-   AbSVPlQN2l+ledZ7tsncRCoyPoX+UktbB2Zk0cA/2zG1e9sQIVqS1qg/k
-   y3JT+oAiCYozi0/+r1iW8O3W+MMGZXIMBLFq4nEbKWHjk3s5bmViirPT7
-   g==;
-X-CSE-ConnectionGUID: IE92/in5Rwy+Gw8+ovjF4w==
-X-CSE-MsgGUID: ANTvOr5tRMWAo/Q2UidYCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11475"; a="57052619"
+  t=1750951167; x=1782487167;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=snu57Ne6Cg4V6ZGGVQSxAwUcdMHrzYnpTUHGrCx2NAk=;
+  b=LswEo6jTFiEm4CiNEe0HAqpgWhc3paIBSbxUhR2usAShGX14KW7bO/xm
+   mOLeOaKHkb+Rqp1ndQ+qnQoYEil+MeUIGa36tT6tSJlaCM+4HDzwMweOq
+   JfD/Nmw3A/wkaykStzPKNNLQbzOgcyJ5zZdqqcGaMwSVfyjWi36YsHg1r
+   YlF3dWdyNjUMrcduoWk7Rm3v2g4FeGIWuu0FuokOgNX7q4267/TSFf7+9
+   seLeYLXsVJbPmLeqE/QuepUEBIh0nW/vzoatomb4IczghFsLTyBJPxgqb
+   j+IPP0cYY9vt+LLBAhoLMppzClZCHEh+sxsA+58hI//HSmpGLxrnE2Gjf
+   A==;
+X-CSE-ConnectionGUID: qeXJGKJfQvi8D8vdbw0Fxg==
+X-CSE-MsgGUID: 6GrmssEjQBOZ943TyKg9Tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="52371538"
 X-IronPort-AV: E=Sophos;i="6.16,267,1744095600"; 
-   d="scan'208";a="57052619"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 07:17:24 -0700
-X-CSE-ConnectionGUID: JUHEvcgrQ+a5oGO82lC68g==
-X-CSE-MsgGUID: tZdw/BDBQoChW6TnhG5NiA==
+   d="scan'208";a="52371538"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 08:19:26 -0700
+X-CSE-ConnectionGUID: 9Wtf6e37T/mU2P+8AP42Tg==
+X-CSE-MsgGUID: z7I4lQEZSdmZi+ZgkFcB1g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,267,1744095600"; 
-   d="scan'208";a="183558913"
+   d="scan'208";a="176210377"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 26 Jun 2025 07:17:20 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 26 Jun 2025 08:19:25 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUnPh-000U8Y-1k;
-	Thu, 26 Jun 2025 14:17:17 +0000
-Date: Thu, 26 Jun 2025 22:17:00 +0800
+	id 1uUoNn-000UBw-0C;
+	Thu, 26 Jun 2025 15:19:23 +0000
+Date: Thu, 26 Jun 2025 23:19:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jeremy Kerr <jk@codeconstruct.com.au>,
-	Matt Johnston <matt@codeconstruct.com.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org
-Subject: Re: [PATCH net-next v3 02/14] net: mctp: test: make cloned_frag
- buffers more appropriately-sized
-Message-ID: <202506262133.SOMnmRa5-lkp@intel.com>
-References: <20250625-dev-forwarding-v3-2-2061bd3013b3@codeconstruct.com.au>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [trace:unwind/perf 7/25] include/asm-generic/local64.h:47:9: error:
+ implicit declaration of function 'local_cmpxchg'; did you mean
+ 'local64_cmpxchg'?
+Message-ID: <202506262326.fWi7Ph5b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,150 +62,114 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250625-dev-forwarding-v3-2-2061bd3013b3@codeconstruct.com.au>
 
-Hi Jeremy,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 0097c4195b1d0ca57d15979626c769c74747b5a0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jeremy-Kerr/net-mctp-don-t-use-source-cb-data-when-forwarding-ensure-pkt_type-is-set/20250625-154020
-base:   0097c4195b1d0ca57d15979626c769c74747b5a0
-patch link:    https://lore.kernel.org/r/20250625-dev-forwarding-v3-2-2061bd3013b3%40codeconstruct.com.au
-patch subject: [PATCH net-next v3 02/14] net: mctp: test: make cloned_frag buffers more appropriately-sized
-config: microblaze-allyesconfig (https://download.01.org/0day-ci/archive/20250626/202506262133.SOMnmRa5-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506262133.SOMnmRa5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace unwind/perf
+head:   ef14ef3b4ae3d7710e7249ca40ee5eed9979f781
+commit: f773ef7b06cd28026b7d301370d5b389d04b20c2 [7/25] unwind_user/deferred: Make unwind deferral requests NMI-safe
+config: arm64-randconfig-003-20250626 (https://download.01.org/0day-ci/archive/20250626/202506262326.fWi7Ph5b-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506262326.fWi7Ph5b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506262133.SOMnmRa5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506262326.fWi7Ph5b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from net/mctp/route.c:1549:
-   net/mctp/test/route-test.c: In function 'mctp_test_route_input_cloned_frag':
->> net/mctp/test/route-test.c:937:12: warning: argument to variable-length array is too large [-Wvla-larger-than=]
-     937 |         u8 compare[data_len * ARRAY_SIZE(hdrs)];
-         |            ^~~~~~~
-   net/mctp/test/route-test.c:937:12: note: limit is 1 bytes, but argument is 15
-   net/mctp/test/route-test.c:938:12: warning: argument to variable-length array is too large [-Wvla-larger-than=]
-     938 |         u8 flat[data_len * ARRAY_SIZE(hdrs)];
-         |            ^~~~
-   net/mctp/test/route-test.c:938:12: note: limit is 1 bytes, but argument is 15
+   In file included from ./arch/arm64/include/generated/asm/local64.h:1,
+                    from include/linux/unwind_deferred_types.h:5,
+                    from include/linux/sched.h:49,
+                    from include/linux/percpu.h:12,
+                    from include/asm-generic/local.h:5,
+                    from ./arch/arm64/include/generated/asm/local.h:1,
+                    from drivers/hwtracing/coresight/coresight-stm.c:18:
+   include/asm-generic/local64.h:25:2: error: unknown type name 'local_t'
+     local_t a;
+     ^~~~~~~
+   include/asm-generic/local64.h: In function 'local64_cmpxchg':
+>> include/asm-generic/local64.h:47:9: error: implicit declaration of function 'local_cmpxchg'; did you mean 'local64_cmpxchg'? [-Werror=implicit-function-declaration]
+     return local_cmpxchg(&l->a, old, new);
+            ^~~~~~~~~~~~~
+            local64_cmpxchg
+   include/asm-generic/local64.h: In function 'local64_try_cmpxchg':
+>> include/asm-generic/local64.h:52:9: error: implicit declaration of function 'local_try_cmpxchg'; did you mean 'local64_try_cmpxchg'? [-Werror=implicit-function-declaration]
+     return local_try_cmpxchg(&l->a, (long *)old, new);
+            ^~~~~~~~~~~~~~~~~
+            local64_try_cmpxchg
+   In file included from include/linux/sched.h:49,
+                    from include/linux/percpu.h:12,
+                    from include/asm-generic/local.h:5,
+                    from ./arch/arm64/include/generated/asm/local.h:1,
+                    from drivers/hwtracing/coresight/coresight-stm.c:18:
+   include/linux/unwind_deferred_types.h: At top level:
+   include/linux/unwind_deferred_types.h:17:2: error: unknown type name 'local_t'
+     local_t   pending;
+     ^~~~~~~
+   In file included from ./arch/arm64/include/generated/asm/local.h:1,
+                    from drivers/hwtracing/coresight/coresight-stm.c:18:
+   include/linux/u64_stats_sync.h: In function 'u64_stats_read':
+>> include/asm-generic/local.h:29:44: error: request for member 'a' in something not a structure or union
+    #define local_read(l) atomic_long_read(&(l)->a)
+                                               ^~
+   include/asm-generic/local64.h:30:26: note: in expansion of macro 'local_read'
+    #define local64_read(l)  local_read(&(l)->a)
+                             ^~~~~~~~~~
+   include/linux/u64_stats_sync.h:79:9: note: in expansion of macro 'local64_read'
+     return local64_read(&p->v);
+            ^~~~~~~~~~~~
+   include/linux/u64_stats_sync.h: In function 'u64_stats_set':
+   include/asm-generic/local.h:30:45: error: request for member 'a' in something not a structure or union
+    #define local_set(l,i) atomic_long_set((&(l)->a),(i))
+                                                ^~
+   include/asm-generic/local64.h:31:26: note: in expansion of macro 'local_set'
+    #define local64_set(l,i) local_set((&(l)->a),(i))
+                             ^~~~~~~~~
+   include/linux/u64_stats_sync.h:84:2: note: in expansion of macro 'local64_set'
+     local64_set(&p->v, val);
+     ^~~~~~~~~~~
+   include/linux/u64_stats_sync.h: In function 'u64_stats_add':
+   include/asm-generic/local.h:33:49: error: request for member 'a' in something not a structure or union
+    #define local_add(i,l) atomic_long_add((i),(&(l)->a))
+                                                    ^~
+   include/asm-generic/local64.h:34:26: note: in expansion of macro 'local_add'
+    #define local64_add(i,l) local_add((i),(&(l)->a))
+                             ^~~~~~~~~
+   include/linux/u64_stats_sync.h:89:2: note: in expansion of macro 'local64_add'
+     local64_add(val, &p->v);
+     ^~~~~~~~~~~
+   include/linux/u64_stats_sync.h: In function 'u64_stats_inc':
+   include/asm-generic/local.h:31:42: error: request for member 'a' in something not a structure or union
+    #define local_inc(l) atomic_long_inc(&(l)->a)
+                                             ^~
+   include/asm-generic/local64.h:32:25: note: in expansion of macro 'local_inc'
+    #define local64_inc(l)  local_inc(&(l)->a)
+                            ^~~~~~~~~
+   include/linux/u64_stats_sync.h:94:2: note: in expansion of macro 'local64_inc'
+     local64_inc(&p->v);
+     ^~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +937 net/mctp/test/route-test.c
+vim +47 include/asm-generic/local64.h
 
-   923	
-   924	/* Input route to socket, using a fragmented message created from clones.
-   925	 */
-   926	static void mctp_test_route_input_cloned_frag(struct kunit *test)
-   927	{
-   928		/* 5 packet fragments, forming 2 complete messages */
-   929		const struct mctp_hdr hdrs[5] = {
-   930			RX_FRAG(FL_S, 0),
-   931			RX_FRAG(0, 1),
-   932			RX_FRAG(FL_E, 2),
-   933			RX_FRAG(FL_S, 0),
-   934			RX_FRAG(FL_E, 1),
-   935		};
-   936		const size_t data_len = 3; /* arbitrary */
- > 937		u8 compare[data_len * ARRAY_SIZE(hdrs)];
-   938		u8 flat[data_len * ARRAY_SIZE(hdrs)];
-   939		struct mctp_test_route *rt;
-   940		struct mctp_test_dev *dev;
-   941		struct sk_buff *skb[5];
-   942		struct sk_buff *rx_skb;
-   943		struct socket *sock;
-   944		size_t total;
-   945		void *p;
-   946		int rc;
-   947	
-   948		total = data_len + sizeof(struct mctp_hdr);
-   949	
-   950		__mctp_route_test_init(test, &dev, &rt, &sock, MCTP_NET_ANY);
-   951	
-   952		/* Create a single skb initially with concatenated packets */
-   953		skb[0] = mctp_test_create_skb(&hdrs[0], 5 * total);
-   954		mctp_test_skb_set_dev(skb[0], dev);
-   955		memset(skb[0]->data, 0 * 0x11, skb[0]->len);
-   956		memcpy(skb[0]->data, &hdrs[0], sizeof(struct mctp_hdr));
-   957	
-   958		/* Extract and populate packets */
-   959		for (int i = 1; i < 5; i++) {
-   960			skb[i] = skb_clone(skb[i - 1], GFP_ATOMIC);
-   961			KUNIT_ASSERT_TRUE(test, skb[i]);
-   962			p = skb_pull(skb[i], total);
-   963			KUNIT_ASSERT_TRUE(test, p);
-   964			skb_reset_network_header(skb[i]);
-   965			memcpy(skb[i]->data, &hdrs[i], sizeof(struct mctp_hdr));
-   966			memset(&skb[i]->data[sizeof(struct mctp_hdr)], i * 0x11, data_len);
-   967		}
-   968		for (int i = 0; i < 5; i++)
-   969			skb_trim(skb[i], total);
-   970	
-   971		/* SOM packets have a type byte to match the socket */
-   972		skb[0]->data[4] = 0;
-   973		skb[3]->data[4] = 0;
-   974	
-   975		skb_dump("pkt1 ", skb[0], false);
-   976		skb_dump("pkt2 ", skb[1], false);
-   977		skb_dump("pkt3 ", skb[2], false);
-   978		skb_dump("pkt4 ", skb[3], false);
-   979		skb_dump("pkt5 ", skb[4], false);
-   980	
-   981		for (int i = 0; i < 5; i++) {
-   982			KUNIT_EXPECT_EQ(test, refcount_read(&skb[i]->users), 1);
-   983			/* Take a reference so we can check refcounts at the end */
-   984			skb_get(skb[i]);
-   985		}
-   986	
-   987		/* Feed the fragments into MCTP core */
-   988		for (int i = 0; i < 5; i++) {
-   989			rc = mctp_route_input(&rt->rt, skb[i]);
-   990			KUNIT_EXPECT_EQ(test, rc, 0);
-   991		}
-   992	
-   993		/* Receive first reassembled message */
-   994		rx_skb = skb_recv_datagram(sock->sk, MSG_DONTWAIT, &rc);
-   995		KUNIT_EXPECT_EQ(test, rc, 0);
-   996		KUNIT_EXPECT_EQ(test, rx_skb->len, 3 * data_len);
-   997		rc = skb_copy_bits(rx_skb, 0, flat, rx_skb->len);
-   998		for (int i = 0; i < rx_skb->len; i++)
-   999			compare[i] = (i / data_len) * 0x11;
-  1000		/* Set type byte */
-  1001		compare[0] = 0;
-  1002	
-  1003		KUNIT_EXPECT_MEMEQ(test, flat, compare, rx_skb->len);
-  1004		KUNIT_EXPECT_EQ(test, refcount_read(&rx_skb->users), 1);
-  1005		kfree_skb(rx_skb);
-  1006	
-  1007		/* Receive second reassembled message */
-  1008		rx_skb = skb_recv_datagram(sock->sk, MSG_DONTWAIT, &rc);
-  1009		KUNIT_EXPECT_EQ(test, rc, 0);
-  1010		KUNIT_EXPECT_EQ(test, rx_skb->len, 2 * data_len);
-  1011		rc = skb_copy_bits(rx_skb, 0, flat, rx_skb->len);
-  1012		for (int i = 0; i < rx_skb->len; i++)
-  1013			compare[i] = (i / data_len + 3) * 0x11;
-  1014		/* Set type byte */
-  1015		compare[0] = 0;
-  1016	
-  1017		KUNIT_EXPECT_MEMEQ(test, flat, compare, rx_skb->len);
-  1018		KUNIT_EXPECT_EQ(test, refcount_read(&rx_skb->users), 1);
-  1019		kfree_skb(rx_skb);
-  1020	
-  1021		/* Check input skb refcounts */
-  1022		for (int i = 0; i < 5; i++) {
-  1023			KUNIT_EXPECT_EQ(test, refcount_read(&skb[i]->users), 1);
-  1024			kfree_skb(skb[i]);
-  1025		}
-  1026	
-  1027		__mctp_route_test_fini(test, dev, rt, sock);
-  1028	}
-  1029	
+1996bda2a42480 Peter Zijlstra 2010-05-21  44  
+8fc4fddaf9a184 Uros Bizjak    2023-04-05  45  static inline s64 local64_cmpxchg(local64_t *l, s64 old, s64 new)
+8fc4fddaf9a184 Uros Bizjak    2023-04-05  46  {
+8fc4fddaf9a184 Uros Bizjak    2023-04-05 @47  	return local_cmpxchg(&l->a, old, new);
+8fc4fddaf9a184 Uros Bizjak    2023-04-05  48  }
+8fc4fddaf9a184 Uros Bizjak    2023-04-05  49  
+8fc4fddaf9a184 Uros Bizjak    2023-04-05  50  static inline bool local64_try_cmpxchg(local64_t *l, s64 *old, s64 new)
+8fc4fddaf9a184 Uros Bizjak    2023-04-05  51  {
+8fc4fddaf9a184 Uros Bizjak    2023-04-05 @52  	return local_try_cmpxchg(&l->a, (long *)old, new);
+8fc4fddaf9a184 Uros Bizjak    2023-04-05  53  }
+8fc4fddaf9a184 Uros Bizjak    2023-04-05  54  
+
+:::::: The code at line 47 was first introduced by commit
+:::::: 8fc4fddaf9a184eea7da21290236a1764e608a01 locking/generic: Wire up local{,64}_try_cmpxchg()
+
+:::::: TO: Uros Bizjak <ubizjak@gmail.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
