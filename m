@@ -1,66 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6566243946;
-	Thu, 26 Jun 2025 19:54:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941CF1C5F09
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Jun 2025 19:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750967685; cv=none; b=dIR6V1FaoItBhWo+e4g0zu/PCShH+crEhLyZi9Z1Mo+DeMUOY19TxpKX5CjnoHYCXzs6khWJ3WNNJJBriv+eRWu1jbdF6yVSa+rr+AnQSU75qj/uuXjrbC+LzkJNoQOip0g6SaBuY4AVkohxKrl4ERUolivOaMj28X3EwSHATQE=
+	t=1750967685; cv=none; b=DfKz5jYuWiuEFO+sU0HWnKei1CVFyAmQs70HMGloeQTVB7N5HpV7XiBb+FIhXhGIdLkUpHIRW+CDY/aHU8UUIykhHVSt5G5Z7VYC99OhuFGpKpCBi0Q1XuRkEe/017nd+PMZK0twykMTqm35wA51q3n1uOFIf4e1he21EP5edXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1750967685; c=relaxed/simple;
-	bh=gn5nOzWo+pttQt2eJniHL54WGy8M+aBF6Uz5ZI6bmU0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iUA8x6G/iPM0VDpOHGkIS5icBDcib/ARVW3XZBmFN5j3Tp2x9X6Zyz9wpDLcjxOuZ1HsEGgmyw/Ln3jHeisE1bcrgQwadkIDFCTprAfbHT6ZHE9QgvlXVFV0DGK36tBXVfC0vdi0v8su8jouhER3lNYnwnPSU15hqTXENuwudZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RxH9KXMX; arc=none smtp.client-ip=198.175.65.19
+	bh=UlLRn0kAVlDAp/jmNTOQKQCI95p25HSDQn/67iR23yc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rb5rPcfPVvyC6fGJq012t7QDdVNHpnDoqGPs6GahRR1PVmwi+DCAaL1xLsW6pmfvbhGeQqqeNEkk6l4SHIjypo9BHVAlH3fJI8GL0EfMVT40qA9peywMjWPq/LcD6druAzAJ0GvBVZQXPSpFn5ti9b297Pnc7o4ZNJXCJYQh1MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e4iVlp34; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RxH9KXMX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e4iVlp34"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750967684; x=1782503684;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gn5nOzWo+pttQt2eJniHL54WGy8M+aBF6Uz5ZI6bmU0=;
-  b=RxH9KXMXUF1+86s0SDflHyjRRxaiuKFjDoY2AMqyuOcjNx2tOwucVkq4
-   sw2wg8qHTlFu8LwQYhhMtbyw7HBm1bnRh8SaiQJYFBaaBb04T+ma7AyOu
-   5mr6YKqOJz2V/XFNUVHtBhaf3DReMWYoCAqCsbbkM17miDaJx6GzhvpNL
-   yP0J4E3sIVTyN7UNuEnO51zDQvogAELxDo75vM3tXrDtBJCCNyGE8JbuN
-   yocfkVX9t4/Kca4qPv342/7YsduPQ0Ph5gEp0flBnD4YT6/e3ZyjUs+r3
-   iNGRCd5DRBHkTm9b1yw7MHBAwgOzdiCnBO+7Niar5keUkhMRndsYhWrcj
-   w==;
-X-CSE-ConnectionGUID: aTzc03/1TwyP76rqJnlPFw==
-X-CSE-MsgGUID: c9Ct/W9wR1+/yVMfx/uc2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53149659"
+  t=1750967683; x=1782503683;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UlLRn0kAVlDAp/jmNTOQKQCI95p25HSDQn/67iR23yc=;
+  b=e4iVlp34Sb1yAgAhjCQ221Z/xeC+6aifHMatHHrxaRSnRDsF/zaiAqiT
+   W+sj+Us2o4GRQXzkmgzCCypvXJ0SEG0LuP8tkDUnmmk3g8ux5v2z/Pujj
+   5Jv6VVa9J3Fbyn1fpMlNPMYtXhGGcCIvovs38sPN//DlaztERvmIGnT7j
+   Mt0lYSnqweknvTyoFyOqBh7AUoiHzEckBWI26cO3ljpc+GFtB4tkergZy
+   9DDilXWNHEl2lRS/3h3uP/Hg+Eg7VrFyyLXdRCNwydtd/81MMoaXP7U1N
+   Wyp89n7kMTEhn8RmBR8FS7BMZ7OebaG2ADT+rcRoaA6A99nGJdZ3nI3iq
+   A==;
+X-CSE-ConnectionGUID: cpBQn5w2RJOQ9E/buCzrPg==
+X-CSE-MsgGUID: 3NELBumvSsiaay9ORhpTAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53149656"
 X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
-   d="scan'208";a="53149659"
+   d="scan'208";a="53149656"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 12:54:43 -0700
-X-CSE-ConnectionGUID: C3BdmoQfSdyGc+OqHqcbWw==
-X-CSE-MsgGUID: RwyhP4apQXaKfopC3tG8Hw==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 12:54:42 -0700
+X-CSE-ConnectionGUID: bz+rffQNQTCKWcLYdoqlpA==
+X-CSE-MsgGUID: gqGXwpaUTt6NTCLzkeW2QA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
-   d="scan'208";a="157178658"
+   d="scan'208";a="157178655"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 26 Jun 2025 12:54:42 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUsgA-000VV0-1k;
+	id 1uUsgA-000VV2-1n;
 	Thu, 26 Jun 2025 19:54:38 +0000
-Date: Fri, 27 Jun 2025 03:54:20 +0800
+Date: Fri, 27 Jun 2025 03:54:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christian Marangi <ansuelsmth@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Benjamin Larsson <benjamin.larsson@genexis.eu>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Christian Marangi <ansuelsmth@gmail.com>
-Subject: Re: [PATCH v17] pwm: airoha: Add support for EN7581 SoC
-Message-ID: <202506270344.Sx9MtDt4-lkp@intel.com>
-References: <20250625194919.94214-1-ansuelsmth@gmail.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-5.15 2/2]
+ include/trace/trace_events.h:27:23: warning: 'str__avc__trace_system_name'
+ defined but not used
+Message-ID: <202506270305.R1EL8utP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,99 +62,143 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250625194919.94214-1-ansuelsmth@gmail.com>
 
-Hi Christian,
+Hi Kuan-Ying,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16-rc3 next-20250626]
-[cannot apply to thierry-reding-pwm/for-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christian-Marangi/pwm-airoha-Add-support-for-EN7581-SoC/20250626-035111
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250625194919.94214-1-ansuelsmth%40gmail.com
-patch subject: [PATCH v17] pwm: airoha: Add support for EN7581 SoC
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250627/202506270344.Sx9MtDt4-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270344.Sx9MtDt4-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android14-5.15
+head:   612eb672b1e96a39fed53ecaa9ab27fc8509d989
+commit: 6605f296d3075b0830251ae3f04fb88591e1e863 [2/2] ANDROID: security: selinux: Add restricted vendor hook in avc
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250627/202506270305.R1EL8utP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270305.R1EL8utP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506270344.Sx9MtDt4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506270305.R1EL8utP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/pwm/pwm-airoha.c:498:6: warning: variable 'period_ns' is uninitialized when used here [-Wuninitialized]
-     498 |         if (period_ns < AIROHA_PWM_PERIOD_TICK_NS)
-         |             ^~~~~~~~~
-   drivers/pwm/pwm-airoha.c:486:15: note: initialize the variable 'period_ns' to silence this warning
-     486 |         u32 period_ns, duty_ns;
-         |                      ^
-         |                       = 0
-   1 warning generated.
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/avc.h:33,
+                    from drivers/android/vendor_hooks.c:40:
+>> include/trace/trace_events.h:27:23: warning: 'str__avc__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:27:23: note: in definition of macro '__app__'
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/vmscan.h:18,
+                    from drivers/android/vendor_hooks.c:39:
+   include/trace/trace_events.h:27:23: warning: 'str__vmscan__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/cpuidle_psci.h:25,
+                    from drivers/android/vendor_hooks.c:38:
+   include/trace/trace_events.h:27:23: warning: 'str__cpuidle_psci__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/pm_domain.h:21,
+                    from drivers/android/vendor_hooks.c:37:
+   include/trace/trace_events.h:27:23: warning: 'str__pm_domain__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/timer.h:19,
+                    from drivers/android/vendor_hooks.c:36:
+   include/trace/trace_events.h:27:23: warning: 'str__timer__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
+         |                           ^~~~~~~~~~~~~~~~~~~
+   include/trace/trace_events.h:36:1: note: in expansion of macro 'TRACE_MAKE_SYSTEM_STR'
+      36 | TRACE_MAKE_SYSTEM_STR();
+         | ^~~~~~~~~~~~~~~~~~~~~
+   In file included from include/trace/define_trace.h:102,
+                    from include/trace/hooks/net.h:25,
+                    from drivers/android/vendor_hooks.c:35:
+   include/trace/trace_events.h:27:23: warning: 'str__net__trace_system_name' defined but not used [-Wunused-const-variable=]
+      27 | #define __app__(x, y) str__##x##y
+         |                       ^~~~~
+   include/trace/trace_events.h:28:21: note: in expansion of macro '__app__'
+      28 | #define __app(x, y) __app__(x, y)
+         |                     ^~~~~~~
+   include/trace/trace_events.h:30:29: note: in expansion of macro '__app'
+      30 | #define TRACE_SYSTEM_STRING __app(TRACE_SYSTEM_VAR,__trace_system_name)
+         |                             ^~~~~
+   include/trace/trace_events.h:33:27: note: in expansion of macro 'TRACE_SYSTEM_STRING'
+      33 |         static const char TRACE_SYSTEM_STRING[] =       \
 
 
-vim +/period_ns +498 drivers/pwm/pwm-airoha.c
+vim +/str__avc__trace_system_name +27 include/trace/trace_events.h
 
-   480	
-   481	static int airoha_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
-   482				    const struct pwm_state *state)
-   483	{
-   484		struct airoha_pwm *pc = pwmchip_get_drvdata(chip);
-   485		u32 period_ticks, duty_ticks;
-   486		u32 period_ns, duty_ns;
-   487	
-   488		if (!state->enabled) {
-   489			airoha_pwm_disable(pc, pwm);
-   490			return 0;
-   491		}
-   492	
-   493		/* Only normal polarity is supported */
-   494		if (state->polarity == PWM_POLARITY_INVERSED)
-   495			return -EINVAL;
-   496	
-   497		/* Exit early if period is less than minimum supported */
- > 498		if (period_ns < AIROHA_PWM_PERIOD_TICK_NS)
-   499			return -EINVAL;
-   500	
-   501		/* Clamp period to MAX supported value */
-   502		if (state->period > AIROHA_PWM_PERIOD_MAX_NS)
-   503			period_ns = AIROHA_PWM_PERIOD_MAX_NS;
-   504		else
-   505			period_ns = state->period;
-   506	
-   507		/* Validate duty to configured period */
-   508		if (state->duty_cycle > period_ns)
-   509			duty_ns = period_ns;
-   510		else
-   511			duty_ns = state->duty_cycle;
-   512	
-   513		/*
-   514		 * Period goes at 4ns step, normalize it to check if we can
-   515		 * share a generator.
-   516		 */
-   517		period_ns = rounddown(period_ns, AIROHA_PWM_PERIOD_TICK_NS);
-   518	
-   519		/*
-   520		 * Duty is divided in 255 segment, normalize it to check if we
-   521		 * can share a generator.
-   522		 */
-   523		duty_ns = DIV_U64_ROUND_UP(duty_ns * AIROHA_PWM_DUTY_FULL,
-   524					   AIROHA_PWM_DUTY_FULL);
-   525	
-   526		/* Convert ns to ticks */
-   527		period_ticks = airoha_pwm_get_period_ticks_from_ns(period_ns);
-   528		duty_ticks = airoha_pwm_get_duty_ticks_from_ns(period_ns, duty_ns);
-   529	
-   530		return airoha_pwm_config(pc, pwm, period_ticks, duty_ticks);
-   531	}
-   532	
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  26) 
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31 @27) #define __app__(x, y) str__##x##y
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  28) #define __app(x, y) __app__(x, y)
+acd388fd3af350 include/trace/ftrace.h Steven Rostedt (Red Hat  2015-03-31  29) 
+
+:::::: The code at line 27 was first introduced by commit
+:::::: acd388fd3af350ab24c6ab6f19b83fc4a4f3aa60 tracing: Give system name a pointer
+
+:::::: TO: Steven Rostedt (Red Hat) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
