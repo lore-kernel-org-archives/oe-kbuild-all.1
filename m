@@ -1,63 +1,79 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF33225A3B;
-	Thu, 26 Jun 2025 23:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C8BD2264B4;
+	Thu, 26 Jun 2025 23:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750981385; cv=none; b=SRilY/f5tWMfQaDGkLJsXP68aFKW72m6KzuFZ/ZhbRYhxQJwHMs+74bwOhmIsPWcr1EOq0eUDrf5pegZYRKkn+LFCwI+7fTFcK8JyybYMuAT6PpMDSovFLRjnJDiSnUsDVARAXHJwGUA/YlknkdSMGfP2KzzRHr/W+8kRGMLPzA=
+	t=1750981386; cv=none; b=gb3jNG8i2mbm2TTjvGUCqrcgixqFtKGc5lUpzWxkUyLJmIKMl+jrk/OiiWutFA04zxDR8GqXu2EU5blVan4kWx+cej+95XMP7h1s6PaJne823Uq91Iz8JGbGgEaYcDv2FFgG3NM2sTQTUVgn0LZIEZfthRLEIvKFNsMjsL0Nx08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750981385; c=relaxed/simple;
-	bh=s+sHXnMIu9ogKtKBJRsBiK9Etovg11vexBmTduJQ9mg=;
+	s=arc-20240116; t=1750981386; c=relaxed/simple;
+	bh=urZl6JTvJf0apVJYt9mU6sqER8QXulKfZ2pqNl0VDWg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fk8rWaYQj7B7b8cYbcNJ1Mswuejn1gdAMzEniiHtSDva1vVi6RJ6GFmje1hp/zz9VUDJA0SBAuqnnVpWjFqiYD+VNpJgCZAO7hEjvEnGyihPD2aB3qH3O0snh/arcfECA659IaE3h5u/jb3RaGv97V0NJDgJeF5dzVBrBp+/kAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eWQapn7V; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=oKNJFNHeaxK13qzqyOeLTCZSpM04lVOVCy06wOKUfSTiJlfVlkEu/ivuONWTdIQJ0H+pNPe/CEmuk3MO78sBPA8g486YJ3eIO6M+7j2zmg/4hYXkUXwcWi79uVtXCSaqBpmfnpUyPLzbXI692NoafoL4ggVeV3kQOegDjhpzgYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bua59xce; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eWQapn7V"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bua59xce"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750981382; x=1782517382;
+  t=1750981384; x=1782517384;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=s+sHXnMIu9ogKtKBJRsBiK9Etovg11vexBmTduJQ9mg=;
-  b=eWQapn7VsJCbYlpHZrxoGiGajDd2IOVM7TCqVnlTNnHZ6ikormHaxA5e
-   J5N0jbUXG3CTL88J31yAsTZp/88C3VuIkiDJec3swzSAtgK3xv58Yxlnj
-   aLpTIYsWWJd6Wd68QJOUVMlsAD7ciKkp+ZkNpF1IayTWO7s0d6CC/MjKo
-   bBOOA7mSEbaKLeMh4eLA76YniiAHNx0DBpM+DVWE9SjDFD4IDF/27TXbv
-   V52uI9Br6frlsbLyZX5GD+pDGwNcrxvfriJmRZC1jP5gZekiK3HKXD6bp
-   WRqaHjhVScEEa/6G4tsovV9Zrh9uMolIKMJYChy+2ohzgCfOZNxl7R7gC
+  bh=urZl6JTvJf0apVJYt9mU6sqER8QXulKfZ2pqNl0VDWg=;
+  b=Bua59xceq+Zg/aVPE+HaY49vAsfgDOcaoKszWBHHfsdYC5abpE84hqxZ
+   EmStoCrDHwfpZnhXhh/bbgl5YanLA9XjQRdt0DyQ13cvLC7uhNEg30d05
+   g8UxD0XOc0QVX/e1fW2s1Gg7c+bkGdBf6C7gS06QqcVnmieLUdw6Nj0bT
+   EOZ/JPpC4bAkI5FIuuZkMoFm3mW5XCRhENETmyxjFQPSBYcldWLigmMdK
+   3AoEKLx6RzP2cTLCcHNU0FR6sIcod7EspZ2SeeWIXWRMbQdnQUCwOUpvQ
+   pmtXDyKQyHYHqwxhTx3gweoZaO79b9yrKMnBbMmxxT/bb6Fm+1MYnE0+Q
    w==;
-X-CSE-ConnectionGUID: xBAL8caESQSVIWFBr82hOQ==
-X-CSE-MsgGUID: MP3sUgkdRp+ZG0GEBUhTGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="57077585"
+X-CSE-ConnectionGUID: hxolasd5RTyz0TZdlLLFVQ==
+X-CSE-MsgGUID: zo7ZmyDXRcejWIiwSXyfZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53373327"
 X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
-   d="scan'208";a="57077585"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 16:43:02 -0700
-X-CSE-ConnectionGUID: ylBp68rwRX6NV3ZHbObM+Q==
-X-CSE-MsgGUID: 5Bv4H2IUT8aJCbK+/gPg+w==
+   d="scan'208";a="53373327"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 16:43:04 -0700
+X-CSE-ConnectionGUID: m2O60cNASlipTnztUvc2bg==
+X-CSE-MsgGUID: 4k/IXgdbQv6+NtWf8J3f4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
-   d="scan'208";a="183691181"
+   d="scan'208";a="156946019"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 26 Jun 2025 16:42:59 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 Jun 2025 16:42:59 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUwF7-000Vdg-0Z;
+	id 1uUwF7-000Vde-0V;
 	Thu, 26 Jun 2025 23:42:57 +0000
-Date: Fri, 27 Jun 2025 07:42:33 +0800
+Date: Fri, 27 Jun 2025 07:42:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>, linux-nfs@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	root max-exfl020 <root@max-exfl020.desy.de>,
-	Tigran Mkrtchyan <tigran.mkrtchyan@desy.de>
-Subject: Re: [PATCH] pNFS/flexfiles: don't attempt pnfs on fatal DS errors
-Message-ID: <202506270701.wUk38xC4-lkp@intel.com>
-References: <20250626091202.130567-1-tigran.mkrtchyan@desy.de>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Inki Dae <inki.dae@samsung.com>,
+	Jagan Teki <jagan@amarulasolutions.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Dmitry Baryshkov <lumag@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Hui Pu <Hui.Pu@gehealthcare.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-sunxi@lists.linux.dev,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 22/32] drm: renesas: rz-du: rzg2l_mipi_dsi: convert to
+ the .attach_new op
+Message-ID: <202506270718.iCW6cHYD-lkp@intel.com>
+References: <20250625-drm-dsi-host-no-device-ptr-v1-22-e36bc258a7c5@bootlin.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,132 +82,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250626091202.130567-1-tigran.mkrtchyan@desy.de>
+In-Reply-To: <20250625-drm-dsi-host-no-device-ptr-v1-22-e36bc258a7c5@bootlin.com>
 
-Hi Tigran,
+Hi Luca,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on trondmy-nfs/linux-next]
-[also build test WARNING on linus/master v6.16-rc3 next-20250626]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on 1174bf15bd601f17556f721798cd9183e169549a]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tigran-Mkrtchyan/pNFS-flexfiles-don-t-attempt-pnfs-on-fatal-DS-errors/20250626-171336
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-patch link:    https://lore.kernel.org/r/20250626091202.130567-1-tigran.mkrtchyan%40desy.de
-patch subject: [PATCH] pNFS/flexfiles: don't attempt pnfs on fatal DS errors
-config: i386-buildonly-randconfig-005-20250627 (https://download.01.org/0day-ci/archive/20250627/202506270701.wUk38xC4-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270701.wUk38xC4-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Luca-Ceresoli/drm-mipi-dsi-add-sanity-check-of-lane-number-in-mipi_dsi_attach/20250626-005002
+base:   1174bf15bd601f17556f721798cd9183e169549a
+patch link:    https://lore.kernel.org/r/20250625-drm-dsi-host-no-device-ptr-v1-22-e36bc258a7c5%40bootlin.com
+patch subject: [PATCH 22/32] drm: renesas: rz-du: rzg2l_mipi_dsi: convert to the .attach_new op
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250627/202506270718.iCW6cHYD-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270718.iCW6cHYD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506270701.wUk38xC4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506270718.iCW6cHYD-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/nfs/flexfilelayout/flexfilelayoutdev.c:56:9: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-      56 |         int i, ret = -ENOMEM;
-         |                ^
->> fs/nfs/flexfilelayout/flexfilelayoutdev.c:379:6: warning: variable 'status' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     379 |         if (!ff_layout_init_mirror_ds(lseg->pls_layout, mirror))
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nfs/flexfilelayout/flexfilelayoutdev.c:421:15: note: uninitialized use occurs here
-     421 |         ds = ERR_PTR(status);
-         |                      ^~~~~~
-   fs/nfs/flexfilelayout/flexfilelayoutdev.c:379:2: note: remove the 'if' if its condition is always false
-     379 |         if (!ff_layout_init_mirror_ds(lseg->pls_layout, mirror))
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     380 |                 goto noconnect;
-         |                 ~~~~~~~~~~~~~~
-   fs/nfs/flexfilelayout/flexfilelayoutdev.c:377:12: note: initialize the variable 'status' to silence this warning
-     377 |         int status;
-         |                   ^
-         |                    = 0
-   2 warnings generated.
+   In file included from include/linux/device.h:15,
+                    from include/linux/dma-mapping.h:5,
+                    from drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:11:
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c: In function 'rzg2l_mipi_dsi_host_attach':
+>> drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:712:33: error: 'device' undeclared (first use in this function)
+     712 |                                 device->format);
+         |                                 ^~~~~~
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:711:25: note: in expansion of macro 'dev_err'
+     711 |                         dev_err(dsi->dev, "Unsupported format 0x%04x\n",
+         |                         ^~~~~~~
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:712:33: note: each undeclared identifier is reported only once for each function it appears in
+     712 |                                 device->format);
+         |                                 ^~~~~~
+   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                                     ^~~~~~~~~~~
+   drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c:711:25: note: in expansion of macro 'dev_err'
+     711 |                         dev_err(dsi->dev, "Unsupported format 0x%04x\n",
+         |                         ^~~~~~~
 
 
-vim +379 fs/nfs/flexfilelayout/flexfilelayoutdev.c
+vim +/device +712 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
 
-cefa587a40bb53 Trond Myklebust       2019-02-28  350  
-95e2b7e95d43c5 Jeff Layton           2016-05-17  351  /**
-95e2b7e95d43c5 Jeff Layton           2016-05-17  352   * nfs4_ff_layout_prepare_ds - prepare a DS connection for an RPC call
-95e2b7e95d43c5 Jeff Layton           2016-05-17  353   * @lseg: the layout segment we're operating on
-2444ff277a686d Trond Myklebust       2019-02-14  354   * @mirror: layout mirror describing the DS to use
-95e2b7e95d43c5 Jeff Layton           2016-05-17  355   * @fail_return: return layout on connect failure?
-95e2b7e95d43c5 Jeff Layton           2016-05-17  356   *
-95e2b7e95d43c5 Jeff Layton           2016-05-17  357   * Try to prepare a DS connection to accept an RPC call. This involves
-95e2b7e95d43c5 Jeff Layton           2016-05-17  358   * selecting a mirror to use and connecting the client to it if it's not
-95e2b7e95d43c5 Jeff Layton           2016-05-17  359   * already connected.
-95e2b7e95d43c5 Jeff Layton           2016-05-17  360   *
-95e2b7e95d43c5 Jeff Layton           2016-05-17  361   * Since we only need a single functioning mirror to satisfy a read, we don't
-95e2b7e95d43c5 Jeff Layton           2016-05-17  362   * want to return the layout if there is one. For writes though, any down
-95e2b7e95d43c5 Jeff Layton           2016-05-17  363   * mirror should result in a LAYOUTRETURN. @fail_return is how we distinguish
-95e2b7e95d43c5 Jeff Layton           2016-05-17  364   * between the two cases.
-95e2b7e95d43c5 Jeff Layton           2016-05-17  365   *
-95e2b7e95d43c5 Jeff Layton           2016-05-17  366   * Returns a pointer to a connected DS object on success or NULL on failure.
-95e2b7e95d43c5 Jeff Layton           2016-05-17  367   */
-d67ae825a59d63 Tom Haynes            2014-12-11  368  struct nfs4_pnfs_ds *
-2444ff277a686d Trond Myklebust       2019-02-14  369  nfs4_ff_layout_prepare_ds(struct pnfs_layout_segment *lseg,
-2444ff277a686d Trond Myklebust       2019-02-14  370  			  struct nfs4_ff_layout_mirror *mirror,
-d67ae825a59d63 Tom Haynes            2014-12-11  371  			  bool fail_return)
-d67ae825a59d63 Tom Haynes            2014-12-11  372  {
-6468b866bac7de root max-exfl020      2025-06-26  373  	struct nfs4_pnfs_ds *ds = ERR_PTR(-EAGAIN);
-d67ae825a59d63 Tom Haynes            2014-12-11  374  	struct inode *ino = lseg->pls_layout->plh_inode;
-d67ae825a59d63 Tom Haynes            2014-12-11  375  	struct nfs_server *s = NFS_SERVER(ino);
-d67ae825a59d63 Tom Haynes            2014-12-11  376  	unsigned int max_payload;
-a33e4b036d4612 Weston Andros Adamson 2017-03-09  377  	int status;
-d67ae825a59d63 Tom Haynes            2014-12-11  378  
-cefa587a40bb53 Trond Myklebust       2019-02-28 @379  	if (!ff_layout_init_mirror_ds(lseg->pls_layout, mirror))
-0a156dd58274b0 Trond Myklebust       2019-02-27  380  		goto noconnect;
-d67ae825a59d63 Tom Haynes            2014-12-11  381  
-d67ae825a59d63 Tom Haynes            2014-12-11  382  	ds = mirror->mirror_ds->ds;
-a2915fa06227b0 Baptiste Lepers       2021-09-06  383  	if (READ_ONCE(ds->ds_clp))
-a2915fa06227b0 Baptiste Lepers       2021-09-06  384  		goto out;
-d67ae825a59d63 Tom Haynes            2014-12-11  385  	/* matching smp_wmb() in _nfs4_pnfs_v3/4_ds_connect */
-d67ae825a59d63 Tom Haynes            2014-12-11  386  	smp_rmb();
-d67ae825a59d63 Tom Haynes            2014-12-11  387  
-d67ae825a59d63 Tom Haynes            2014-12-11  388  	/* FIXME: For now we assume the server sent only one version of NFS
-d67ae825a59d63 Tom Haynes            2014-12-11  389  	 * to use for the DS.
-d67ae825a59d63 Tom Haynes            2014-12-11  390  	 */
-2444ff277a686d Trond Myklebust       2019-02-14  391  	status = nfs4_pnfs_ds_connect(s, ds, &mirror->mirror_ds->id_node,
-2444ff277a686d Trond Myklebust       2019-02-14  392  			     dataserver_timeo, dataserver_retrans,
-d67ae825a59d63 Tom Haynes            2014-12-11  393  			     mirror->mirror_ds->ds_versions[0].version,
-7d38de3ffa75f9 Anna Schumaker        2016-11-17  394  			     mirror->mirror_ds->ds_versions[0].minor_version);
-d67ae825a59d63 Tom Haynes            2014-12-11  395  
-d67ae825a59d63 Tom Haynes            2014-12-11  396  	/* connect success, check rsize/wsize limit */
-260f32adb88dad Trond Myklebust       2017-04-20  397  	if (!status) {
-d488b9d01fbc2f Trond Myklebust       2024-09-05  398  		/*
-d488b9d01fbc2f Trond Myklebust       2024-09-05  399  		 * ds_clp is put in destroy_ds().
-d488b9d01fbc2f Trond Myklebust       2024-09-05  400  		 * keep ds_clp even if DS is local, so that if local IO cannot
-d488b9d01fbc2f Trond Myklebust       2024-09-05  401  		 * proceed somehow, we can fall back to NFS whenever we want.
-d488b9d01fbc2f Trond Myklebust       2024-09-05  402  		 */
-1ff4716f420b5a Mike Snitzer          2025-05-13  403  		nfs_local_probe_async(ds->ds_clp);
-d67ae825a59d63 Tom Haynes            2014-12-11  404  		max_payload =
-d67ae825a59d63 Tom Haynes            2014-12-11  405  			nfs_block_size(rpc_max_payload(ds->ds_clp->cl_rpcclient),
-d67ae825a59d63 Tom Haynes            2014-12-11  406  				       NULL);
-d67ae825a59d63 Tom Haynes            2014-12-11  407  		if (mirror->mirror_ds->ds_versions[0].rsize > max_payload)
-d67ae825a59d63 Tom Haynes            2014-12-11  408  			mirror->mirror_ds->ds_versions[0].rsize = max_payload;
-d67ae825a59d63 Tom Haynes            2014-12-11  409  		if (mirror->mirror_ds->ds_versions[0].wsize > max_payload)
-d67ae825a59d63 Tom Haynes            2014-12-11  410  			mirror->mirror_ds->ds_versions[0].wsize = max_payload;
-3dc147359e3dcd Trond Myklebust       2016-08-29  411  		goto out;
-3dc147359e3dcd Trond Myklebust       2016-08-29  412  	}
-0a156dd58274b0 Trond Myklebust       2019-02-27  413  noconnect:
-d67ae825a59d63 Tom Haynes            2014-12-11  414  	ff_layout_track_ds_error(FF_LAYOUT_FROM_HDR(lseg->pls_layout),
-d67ae825a59d63 Tom Haynes            2014-12-11  415  				 mirror, lseg->pls_range.offset,
-d67ae825a59d63 Tom Haynes            2014-12-11  416  				 lseg->pls_range.length, NFS4ERR_NXIO,
-d67ae825a59d63 Tom Haynes            2014-12-11  417  				 OP_ILLEGAL, GFP_NOIO);
-f0922a6c0cdb92 Trond Myklebust       2019-02-10  418  	ff_layout_send_layouterror(lseg);
-094069f1d96f69 Jeff Layton           2016-05-17  419  	if (fail_return || !ff_layout_has_available_ds(lseg))
-d67ae825a59d63 Tom Haynes            2014-12-11  420  		pnfs_error_mark_layout_for_return(ino, lseg);
-6468b866bac7de root max-exfl020      2025-06-26  421  	ds = ERR_PTR(status);
-d67ae825a59d63 Tom Haynes            2014-12-11  422  out:
-d67ae825a59d63 Tom Haynes            2014-12-11  423  	return ds;
-d67ae825a59d63 Tom Haynes            2014-12-11  424  }
-d67ae825a59d63 Tom Haynes            2014-12-11  425  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  686  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  687  /* -----------------------------------------------------------------------------
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  688   * Host setting
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  689   */
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  690  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  691  static int rzg2l_mipi_dsi_host_attach(struct mipi_dsi_host *host,
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  692  				      const struct mipi_dsi_bus_fmt *bus_fmt)
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  693  {
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  694  	struct rzg2l_mipi_dsi *dsi = host_to_rzg2l_mipi_dsi(host);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  695  	int ret;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  696  
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  697  	if (bus_fmt->lanes > dsi->num_data_lanes) {
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  698  		dev_err(dsi->dev,
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  699  			"Number of lines of device (%u) exceeds host (%u)\n",
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  700  			bus_fmt->lanes, dsi->num_data_lanes);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  701  		return -EINVAL;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  702  	}
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  703  
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  704  	switch (mipi_dsi_pixel_format_to_bpp(bus_fmt->format)) {
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  705  	case 24:
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  706  		break;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  707  	case 18:
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  708  		break;
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  709  	case 16:
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  710  		if (!(dsi->info->features & RZ_MIPI_DSI_FEATURE_16BPP)) {
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  711  			dev_err(dsi->dev, "Unsupported format 0x%04x\n",
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09 @712  				device->format);
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  713  			return -EINVAL;
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  714  		}
+a56a6b81d80fdf drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Lad Prabhakar 2025-06-09  715  		break;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  716  	default:
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  717  		dev_err(dsi->dev, "Unsupported format 0x%04x\n", bus_fmt->format);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  718  		return -EINVAL;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  719  	}
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  720  
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  721  	dsi->lanes = bus_fmt->lanes;
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  722  	dsi->format = bus_fmt->format;
+e8120e232c40c1 drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c Luca Ceresoli 2025-06-25  723  	dsi->mode_flags = bus_fmt->mode_flags;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  724  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  725  	dsi->next_bridge = devm_drm_of_get_bridge(dsi->dev, dsi->dev->of_node,
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  726  						  1, 0);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  727  	if (IS_ERR(dsi->next_bridge)) {
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  728  		ret = PTR_ERR(dsi->next_bridge);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  729  		dev_err(dsi->dev, "failed to get next bridge: %d\n", ret);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  730  		return ret;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  731  	}
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  732  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  733  	drm_bridge_add(&dsi->bridge);
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  734  
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  735  	return 0;
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  736  }
+7a043f978ed143 drivers/gpu/drm/rcar-du/rzg2l_mipi_dsi.c       Biju Das      2022-09-20  737  
 
 -- 
 0-DAY CI Kernel Test Service
