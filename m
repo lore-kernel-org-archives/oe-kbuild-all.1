@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C691B4247
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Jun 2025 16:31:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BBD4A33
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Jun 2025 17:51:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750955501; cv=none; b=BCDIydjzripX9Lp0PS2MD2QUX19Ec4wsz7bH2xNy3+oIt1GSEJl3nt+rWjbqLV7ta8TNM1XpIpiLs3Q3DBf7XC8g5f/ZWE7rnGpSlIvMo4Si9ClXTbLBVBebLwq+XIMsImUrkzyekDstd/3jx29SFD9ZDHYYpfw9xgyErNavNAA=
+	t=1750960294; cv=none; b=B3YnoiNrVH2X+Xws1Zgsq63VjP0HyU88XRnMcYT05G2E71Aie9wkMafyAt/GgHceuttYtZ3BAfjchh0BqmznsSHKQyaIZc34f3L/9yzwQ3ZM0WxO8BzBf4k0Xebol4H3FLH2BlMXDmg7c+ButV6a4rA6Qce/aXZSNncptrwvPPw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750955501; c=relaxed/simple;
-	bh=4vhY6njRa9Rl8vz7fB5BjME1Ai3VboLm3lxRlFY1PYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=STAlpWI4H38u2/JeeGW1ME3EEsa3bs0WFgOwGcoCw2KB2EZ+w9Y6vCBK9UzhXls+XjYo/SXsUoL7KgkzcyKdu+ik3UCdnMcN5kH8dfaCXz36XOaoEE7ZW+vHvrD7Kbb5T1Mztg2sgFxlrshuDhmVG1MvCXUvf0ICEYHTd2V6JCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cCbGxZ08; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1750960294; c=relaxed/simple;
+	bh=2LJyMlmvhwNm+yZvy5qPT4MRbOhQu9UJThK9bUvl1ao=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FQQuv8Z87KM7LdS/fI/W+t/G8b1p3BNIe1Bs7Vp2m0t+NTzExNmNh7W4l5MO70LiHaY5+dkCDG+86/peWCcDs+hBSGQ57vZprrO4ns22rpwz1lI3oyWJ5nJaHKnN/+WWeHAFJWtnrUvD8PJaVdbGDNL5MJAdudUPb6nM1YkDJYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fWbJ2Rgk; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cCbGxZ08"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fWbJ2Rgk"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1750955500; x=1782491500;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4vhY6njRa9Rl8vz7fB5BjME1Ai3VboLm3lxRlFY1PYc=;
-  b=cCbGxZ08Ss77Y6WPRrUZYoILJ6NxhTtTPmwDmXBvAp7evgjHwEoclJIY
-   feXIyZX7eVYh7AoqwLTRLhx/8P226K+MgBaEMctcnto+gmxSp+MsjY3/h
-   Nf3BF97t9mb8ogRevJAgvp4bJGwyEp+nnaiC4sYm6qNtZNrjBaZG4m1OU
-   kW3kFJzKv+70lhhbLmNGO6KhnDD71l8DpUqrjlhlACvm2V3XRD1M4wpfb
-   dUCnqA4R1JfIWJHOAsuun6PWu7cl9BjoFx4eCnVmfCghzdCOPlEKEEgrB
-   soLP1ZZHjrAbvg3+oldgxF0EnMRK6NqSsdVn4J/hPyoEIjefqRcZNp/rh
+  t=1750960293; x=1782496293;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2LJyMlmvhwNm+yZvy5qPT4MRbOhQu9UJThK9bUvl1ao=;
+  b=fWbJ2Rgk5OWpXHHbzzfOgWdKFml7RhtEtepgjJnPB+5TkxTbK1kRz0UT
+   1zRQfL6jSOgTwwdAgSHXPdGkOFRBBBJvmg1mUOOqJkjmLeu9UDHJwJuGx
+   Phw6BRi1otOXPoKtdfpt5XGZcW1pHAOdrqvz/gcTeSVnElY6ZONGPC1Dh
+   JdjMglqyi4mBduoVKHU0mEhrIeG/rjVrl/oPrktrinh1G52pGxbZzKD4C
+   C5rFAiiCQIhRSyphR2BjpBO48YxiNtiO9BEkmWj1Jb1Tbq+NMhvaIYzkI
+   bTIeezsDjv3hbKjHG5Njn3kBpoXFGFGmKzhmoFloOnLSOeTV7/1TybOC0
    A==;
-X-CSE-ConnectionGUID: Ak0n6lJyS5+EYU4DWcpagg==
-X-CSE-MsgGUID: VjxGKTIQQMOzNzIfDViz6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="64614197"
+X-CSE-ConnectionGUID: sC0eyPrDRm2wEub6EcXZcQ==
+X-CSE-MsgGUID: VeDRFy2+SFS2NSpBtnk50g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="64622628"
 X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
-   d="scan'208";a="64614197"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 09:31:37 -0700
-X-CSE-ConnectionGUID: m7HO+CcBToas/7kyx6GJmQ==
-X-CSE-MsgGUID: W4gpHGpBQ9OusFjWdq2Pig==
+   d="scan'208";a="64622628"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 10:51:32 -0700
+X-CSE-ConnectionGUID: zUsJSFaJSMKT7WNa+tLA5Q==
+X-CSE-MsgGUID: fQFTMO9XRgOdXn+FLFuOvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,268,1744095600"; 
-   d="scan'208";a="152074764"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Jun 2025 09:31:33 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+   d="scan'208";a="152336357"
+Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
+  by orviesa009.jf.intel.com with ESMTP; 26 Jun 2025 10:51:31 -0700
+Received: from kbuild by e588e990b675 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uUpVa-000UGo-0H;
-	Thu, 26 Jun 2025 16:31:30 +0000
-Date: Fri, 27 Jun 2025 00:31:29 +0800
+	id 1uUqky-0000YZ-1I;
+	Thu, 26 Jun 2025 17:51:28 +0000
+Date: Thu, 26 Jun 2025 19:50:31 +0200
 From: kernel test robot <lkp@intel.com>
-To: Bo Liu <liubo03@inspur.com>, phillip@squashfs.org.uk
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Bo Liu <liubo03@inspur.com>
-Subject: Re: [PATCH] Squashfs: add page cache share support
-Message-ID: <202506270024.FPuaCoE9-lkp@intel.com>
-References: <20250626003644.3675-1-liubo03@inspur.com>
+To: kernel@openeuler.org, libai <libai12@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2195/2195] drivers/vhost/vdpa.c:589:16: error:
+ call to undeclared function 'iommufd_ctx_from_fd'; ISO C99 and later do not
+ support implicit function declarations
+Message-ID: <202506270113.hqxVfK1W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,87 +62,99 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250626003644.3675-1-liubo03@inspur.com>
 
-Hi Bo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.16-rc3]
-[also build test WARNING on linus/master next-20250626]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bo-Liu/Squashfs-add-page-cache-share-support/20250626-084010
-base:   v6.16-rc3
-patch link:    https://lore.kernel.org/r/20250626003644.3675-1-liubo03%40inspur.com
-patch subject: [PATCH] Squashfs: add page cache share support
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250627/202506270024.FPuaCoE9-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270024.FPuaCoE9-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   c02455c4cce8052f74fc11c09e9073c01c7f33a4
+commit: 6a58b8be556fb7de52ae0272a994a1c73fffc903 [2195/2195] vhost/vdpa: Add support to bind and attach iommufd
+config: x86_64-randconfig-2002-20250501 (https://download.01.org/0day-ci/archive/20250627/202506270113.hqxVfK1W-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270113.hqxVfK1W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506270024.FPuaCoE9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506270113.hqxVfK1W-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the openeuler/OLK-6.6 HEAD c02455c4cce8052f74fc11c09e9073c01c7f33a4 builds fine.
+      It only hurts bisectability.
 
-   In file included from fs/squashfs/pagecache_share.c:18:
->> fs/squashfs/squashfs.h:25:40: warning: 'struct squashfs_page_actor' declared inside parameter list will not be visible outside of this definition or declaration
-      25 |                                 struct squashfs_page_actor *);
-         |                                        ^~~~~~~~~~~~~~~~~~~
->> fs/squashfs/squashfs.h:49:33: warning: 'struct squashfs_sb_info' declared inside parameter list will not be visible outside of this definition or declaration
-      49 |         void * (*create)(struct squashfs_sb_info *msblk, void *comp_opts);
-         |                                 ^~~~~~~~~~~~~~~~
-   fs/squashfs/squashfs.h:50:32: warning: 'struct squashfs_sb_info' declared inside parameter list will not be visible outside of this definition or declaration
-      50 |         void (*destroy)(struct squashfs_sb_info *msblk);
-         |                                ^~~~~~~~~~~~~~~~
-   fs/squashfs/squashfs.h:52:58: warning: 'struct squashfs_page_actor' declared inside parameter list will not be visible outside of this definition or declaration
-      52 |                           int offset, int length, struct squashfs_page_actor *output);
-         |                                                          ^~~~~~~~~~~~~~~~~~~
-   fs/squashfs/squashfs.h:51:34: warning: 'struct squashfs_sb_info' declared inside parameter list will not be visible outside of this definition or declaration
-      51 |         int (*decompress)(struct squashfs_sb_info *msblk, struct bio *bio,
-         |                                  ^~~~~~~~~~~~~~~~
+All errors (new ones prefixed by >>):
+
+>> drivers/vhost/vdpa.c:589:16: error: call to undeclared function 'iommufd_ctx_from_fd'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     589 |         iommufd_ctx = iommufd_ctx_from_fd(bind.iommufd);
+         |                       ^
+   drivers/vhost/vdpa.c:589:16: note: did you mean 'iommufd_ctx_from_file'?
+   include/linux/iommufd.h:143:35: note: 'iommufd_ctx_from_file' declared here
+     143 | static inline struct iommufd_ctx *iommufd_ctx_from_file(struct file *file)
+         |                                   ^
+>> drivers/vhost/vdpa.c:589:14: error: incompatible integer to pointer conversion assigning to 'struct iommufd_ctx *' from 'int' [-Wint-conversion]
+     589 |         iommufd_ctx = iommufd_ctx_from_fd(bind.iommufd);
+         |                     ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-vim +25 fs/squashfs/squashfs.h
+vim +/iommufd_ctx_from_fd +589 drivers/vhost/vdpa.c
 
-f5cc08737507f2 Phillip Lougher 2024-12-29  22  
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  23  /* block.c */
-846b730e99518a Phillip Lougher 2013-11-18  24  extern int squashfs_read_data(struct super_block *, u64, int, u64 *,
-846b730e99518a Phillip Lougher 2013-11-18 @25  				struct squashfs_page_actor *);
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  26  
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  27  /* cache.c */
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  28  extern struct squashfs_cache *squashfs_cache_init(char *, int, int);
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  29  extern void squashfs_cache_delete(struct squashfs_cache *);
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  30  extern struct squashfs_cache_entry *squashfs_cache_get(struct super_block *,
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  31  				struct squashfs_cache *, u64, int);
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  32  extern void squashfs_cache_put(struct squashfs_cache_entry *);
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  33  extern int squashfs_copy_data(void *, struct squashfs_cache_entry *, int, int);
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  34  extern int squashfs_read_metadata(struct super_block *, void *, u64 *,
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  35  				int *, int);
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  36  extern struct squashfs_cache_entry *squashfs_get_fragment(struct super_block *,
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  37  				u64, int);
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  38  extern struct squashfs_cache_entry *squashfs_get_datablock(struct super_block *,
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  39  				u64, int);
-82de647e1f81fd Phillip Lougher 2011-05-20  40  extern void *squashfs_read_table(struct super_block *, u64, int);
-ffae2cd73a9e82 Phillip Lougher 2009-01-05  41  
-4c0f0bb2351bee Phillip Lougher 2009-10-06  42  /* decompressor.c */
-4c0f0bb2351bee Phillip Lougher 2009-10-06  43  extern const struct squashfs_decompressor *squashfs_lookup_decompressor(int);
-9508c6b90b3f57 Phillip Lougher 2013-11-13  44  extern void *squashfs_decompressor_setup(struct super_block *, unsigned short);
-9508c6b90b3f57 Phillip Lougher 2013-11-13  45  
-9508c6b90b3f57 Phillip Lougher 2013-11-13  46  /* decompressor_xxx.c */
-80f784098ff44e Xiaoming Ni     2022-10-19  47  
-80f784098ff44e Xiaoming Ni     2022-10-19  48  struct squashfs_decompressor_thread_ops {
-80f784098ff44e Xiaoming Ni     2022-10-19 @49  	void * (*create)(struct squashfs_sb_info *msblk, void *comp_opts);
-80f784098ff44e Xiaoming Ni     2022-10-19  50  	void (*destroy)(struct squashfs_sb_info *msblk);
-80f784098ff44e Xiaoming Ni     2022-10-19  51  	int (*decompress)(struct squashfs_sb_info *msblk, struct bio *bio,
-80f784098ff44e Xiaoming Ni     2022-10-19  52  			  int offset, int length, struct squashfs_page_actor *output);
-80f784098ff44e Xiaoming Ni     2022-10-19  53  	int (*max_decompressors)(void);
-80f784098ff44e Xiaoming Ni     2022-10-19  54  };
-80f784098ff44e Xiaoming Ni     2022-10-19  55  
+   576	
+   577	static long vhost_vdpa_bind_iommufd(struct vhost_vdpa *v, int __user *argp)
+   578	{
+   579		struct vhost_vdpa_bind_iommufd bind;
+   580		struct iommufd_ctx *iommufd_ctx;
+   581		struct iommufd_device *idev;
+   582		struct device *dma_dev = vdpa_get_dma_dev(v->vdpa);
+   583		struct iommu_group *iommu_group = iommu_group_get(dma_dev);
+   584		int ret = 0;
+   585	
+   586		if (copy_from_user(&bind, argp, sizeof(bind)))
+   587			return -EFAULT;
+   588	
+ > 589		iommufd_ctx = iommufd_ctx_from_fd(bind.iommufd);
+   590		if (IS_ERR(iommufd_ctx))
+   591			return PTR_ERR(iommufd_ctx);
+   592	
+   593		if (v->domain) {
+   594			iommu_detach_device(v->domain, dma_dev);
+   595			iommu_domain_free(v->domain);
+   596			v->domain = NULL;
+   597		}
+   598	
+   599		/**
+   600		 * Default iommu domain is created when vdpa device driver probes.
+   601		 * Unuse default domain first to avoid failure when claiming dma owner.
+   602		 */
+   603		if (dma_dev->bus && dma_dev->bus->dma_cleanup)
+   604			dma_dev->bus->dma_cleanup(dma_dev);
+   605		ret = iommu_group_claim_dma_owner(iommu_group, iommufd_ctx);
+   606		if (ret)
+   607			goto dma_configure;
+   608	
+   609		idev = iommufd_device_bind(iommufd_ctx, dma_dev, &bind.out_devid);
+   610		if (IS_ERR(idev)) {
+   611			ret = PTR_ERR(idev);
+   612			goto release_owner;
+   613		}
+   614		v->iommufd_dev = idev;
+   615	
+   616		if (copy_to_user(argp, &bind, sizeof(bind))) {
+   617			ret = -EFAULT;
+   618			goto unbind;
+   619		}
+   620	
+   621		goto out;
+   622	
+   623	unbind:
+   624		iommufd_device_unbind(v->iommufd_dev);
+   625		v->iommufd_dev = NULL;
+   626	release_owner:
+   627		iommu_group_release_dma_owner(iommu_group);
+   628	dma_configure:
+   629		if (dma_dev->bus && dma_dev->bus->dma_configure)
+   630			dma_dev->bus->dma_configure(dma_dev);
+   631	out:
+   632		iommufd_ctx_put(iommufd_ctx);
+   633		return ret;
+   634	}
+   635	
 
 -- 
 0-DAY CI Kernel Test Service
