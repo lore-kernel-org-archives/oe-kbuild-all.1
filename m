@@ -1,235 +1,220 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2061.outbound.protection.outlook.com [40.107.92.61])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D428A2EBBA1
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Jun 2025 15:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1750953039; cv=fail; b=UVg4NYD+WgehVrBL383SslPbZZQ3+bVoM9fWuKE5y91lxgtTl4JP1C7LJ+45l4sG/rjWuvKmNpEiP5ykHUMJiuf0dXGghJe5pTwkmOPI0MMEvDFtEo2xH6F47zes9Qdd+c/sCyl6mhs5O0GkEZuFSXxKoGIgwrVgEbxQhNofcjA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1750953039; c=relaxed/simple;
-	bh=AtpufXTRqbjTlqTHE1L3Dd/QobF0j4lK24+QerJ3Ocg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JpvVVu/fkwbtFev8LZ+xqZU7NnZ4bX3wsi7306SzYhyddmMgA6wIsIaEZTTxHAkjByhaTB7TpcRquP5U4FnAnV6sZ6iJX2BxO7VNwPJfJDSp5T5LC0ZS9cwZxZEk1EpWcHpN3QKYFL8EyaO0ra+JB3KoRtOLhKdkD8aN4u/Pk1A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=U+fV818k; arc=fail smtp.client-ip=40.107.92.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC4B1F0E26
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Jun 2025 16:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1750954085; cv=none; b=TGYHuf7+JohmtRok/EPobqI09sHaEiN1JTaEyoSmNFaWb4huKmDfJux9EPSfTCnJNh4SQpYawkJ5zIoZf8lIzOwnEQnuLJadlgwqAVrz84AK4g8czHJhrR6qZl88ehkF8u1tivnstZ9kBlGOmGHm8ztIzAmND7LlAze6KqY7ON4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1750954085; c=relaxed/simple;
+	bh=DL1+7UVbskqPFhRV6b0q2N497hB08uiGR/oEXMO/TPM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bDvI1oXt08SSNj/wqjullYm96qdnWAHHkwuPMffwgebsJH2SeaVPOgowDXo/CGZ4tstNRz2AXbboq6ts6FfqzMO+i3FcIGSdcIW7kFN4VvVOM+beUxpVXZ9E0T8FZaGUUKZ5gPzvqPPZmJ/qhOq0E6B8LKS2pwWxM3U31TEnWeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GSit/sVs; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="U+fV818k"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MHiCDd9JqUohAEnqc6NRo+g2vEsiigQzl5FWlqdkwV+I+fHthBNLvboDzWQH/1CiHcDvYtLfV08ypzDCddJEERaUdKWjtvZ9TKfc02hDo4dVdA5PdQWyIQUpTqk43TmXinKR2z0df9eNVVxKTdKoPN6/tb3qbUg/hCpKxiKyLoI+Ca3kHZARZNVTfaz98Q2Kksfn90CTqkDLoXzf9yyite9Hm7WRqay2pJupZQKzEhMQOhvazRb2MkAEtozYPUknpoOW81Y5fsxJ7bQ/HlRPds0BaGD5qeAaI+SKubtqTsRtJvlmTHml7436VoITbKPVzjpg3RikTOgVR1xRrs1VkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t0lwc8aGoKZ/Zgfp/M4RR8qIMjjtMvdNNVjqK/UBgBo=;
- b=M1DujYvfZp9BrYpT6nxHiNvgW5W8woXlsO1NxyC7JI0IPgBPWXf0l49lksSQliy0vgXf2G9A7OjFXncWQ8iCcJNxmpX1lnTpEY7Y36Kiq7WXDx+6DvbrA3+utDSqS8nVPD8cag/83dAQk8cMD2qqmge/hRYHAgQululV6FsctFnQPja9WhZNzxqDnGOOtx2f91U9PnulcFSXMV+XwpZ3Kqmqyh4wpH3qQvewoAKJcU+I8gX7aYpx0so0mBx1RQfN7obNQ7Q+m+lJxhiaC8a7zZmqfhBY/8oDExIkcqxfX+hq0c98LETP3grDT468R/Nkam5WlgcNHm240e13hrmDXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t0lwc8aGoKZ/Zgfp/M4RR8qIMjjtMvdNNVjqK/UBgBo=;
- b=U+fV818kP118ucTfpymhSlXe3fUuWCR9RDKbcolWyIQHn0aAB3y7VndYOKOqF2PKaFXVpGF/OCuss2khfgV4Vrf/dMFEZg51ZU1Le3ZxLGFszDcnz8hXjzUW0G4ks9wBwq9KIN4kr34hIMX2blmVscOuUtTapEJmN5M2bwFo/5oqvOpnPeD069/W3orUpHehiw2OUPze6Kw2QvTy4ZfOj7x0mgU5MztczlzZvkkbaObwr8G96GW8n/+2k2blTTAoYYxtlipKEfHNg+Aqk8Zp9tpWNbIFGzw6FaTP2ZhFq2uak7A+eBpake8s3vFTrhhyfYM9aCH+WQrPMGsYvu6hrw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- SJ0PR12MB7034.namprd12.prod.outlook.com (2603:10b6:a03:449::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.17; Thu, 26 Jun
- 2025 15:50:31 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::5189:ecec:d84a:133a%5]) with mapi id 15.20.8835.037; Thu, 26 Jun 2025
- 15:50:31 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: kernel test robot <lkp@intel.com>
-Cc: David Hildenbrand <david@redhat.com>, oe-kbuild-all@lists.linux.dev
-Subject: Re: [davidhildenbrand:migration 19/29] mm/migrate.c:74: undefined
- reference to `zsmalloc_mops'
-Date: Thu, 26 Jun 2025 11:50:29 -0400
-X-Mailer: MailMate (2.0r6265)
-Message-ID: <6B5E3CA4-CC1B-4F96-8A45-0695D7477914@nvidia.com>
-In-Reply-To: <202506262314.sLjaWWCY-lkp@intel.com>
-References: <202506262314.sLjaWWCY-lkp@intel.com>
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: BLAPR05CA0043.namprd05.prod.outlook.com
- (2603:10b6:208:335::23) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GSit/sVs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1750954082;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=YSTlLrRvzvAOIWUxrO2JXP3DUL1U9Mqsfv2lboVwIGc=;
+	b=GSit/sVs5ZScD30stAq7o6TfokMoBcNApjWkrwzODeMY+fC+oisRz9yomHWeaEjmdAqzmY
+	Lrzezynv6kwyjod2tgGjH7dMjyK6BKEdE8HWHlgMOk13RZnUurzZ9Se0AfWDY5SzIXgatN
+	JN4tzvlJ+cvBpYorwAg9Prpr2kouQnw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-636-Bb9AKzJKN7etj7mU8EoyIQ-1; Thu, 26 Jun 2025 12:08:00 -0400
+X-MC-Unique: Bb9AKzJKN7etj7mU8EoyIQ-1
+X-Mimecast-MFC-AGG-ID: Bb9AKzJKN7etj7mU8EoyIQ_1750954080
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-450df53d461so9103265e9.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 26 Jun 2025 09:08:00 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1750954079; x=1751558879;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YSTlLrRvzvAOIWUxrO2JXP3DUL1U9Mqsfv2lboVwIGc=;
+        b=q9nUHvkzrnZhKeSUIqCnfeQHRD6nSDJIk9IF9ZtZ6BHEwrTiBobYgFyL/85ca1mh7l
+         3PAMr+g1IoMOwE9aGaP8ZWH53a/ECHGI8+Wafx3cols2dqzMbm2gIlZjUo+vfJAE49YS
+         hB0kqb6s3j3SvSf/1gzOsjs1nMqzxZVWOYwY3fYyXo4zaLhYkO9D4aw71e7E880DBH7L
+         GTyseCXtsuS9zDKmImewpNJ8ZoFFazVul1rSAoQh9DQsZ0mu97+ZPRou9nXIlZOtsAuH
+         VrxCuT3s7Sh1+VS8AtjDRSM5mHPBYnmLRKvCSg21fNgr+aa1G+57T3UXfZ8yDddw5f2A
+         AFVg==
+X-Gm-Message-State: AOJu0Yyf+jA0jJeXL7cGGVrIlLStC4IJYH0+uHN+RLmyGW50j/ezNoYs
+	fB85zx3HB9jgRM0KkSxPyDSUShgM+Ftn4B1sV+wMcJ2PYGrRqu+DTd9WAfZyf5U9PqQyubf7hfV
+	RJCfceKNkRUfGnFKNh3hTQEQ6hBwBmmCp06FN1pOgraLwyuKhWZ8JYhzJtonCu2YWmKo=
+X-Gm-Gg: ASbGncv+Y7/XbpT4xUwE9Bx/+PN+Q3D7Yz+lbVRnzITGhEH/G5yXUmpKGsTyvet5GcW
+	T+5XRnEzsaTBF8HYuQZecLqAdMmVwq5GRjfKzjNpAZguGBq0nQZ3jXCWn3uI1FOH3v7+NEic1dG
+	AFBKusp8XMcvhSQ0KEqOq408vYIE2FNaf7wAn6O4syYpbXGH0YEFkZn49zHbjS0QGQgkX4bv3r+
+	Ps2Qz+C0833ShAYza3DznSsw5Ih5E8DZgzaAPqUGZKI9VSq6GPUTfLnku+NlgVNKGbnc/2eJL0U
+	xRfmegsVcJpWi0bV3ly7WdmMjC/WnXD8gPL6yGDF5qONEha40SspqY/IyNr6MgXyTy05jORYQKP
+	3lQDLvlnjbjd1djvG4ykYHTQdb+7/IZtqFGuX/LpepfLHHPKf5A==
+X-Received: by 2002:a05:600c:1c25:b0:442:f8e7:25ef with SMTP id 5b1f17b1804b1-45383371376mr65946775e9.11.1750954079459;
+        Thu, 26 Jun 2025 09:07:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGxor3ZyuP2Fyxk2enFkk+sN5zEU6hflkXZjWJ9tq2NutyFdhtVPnXF8ko3iRw2XjNY9vmlUw==
+X-Received: by 2002:a05:600c:1c25:b0:442:f8e7:25ef with SMTP id 5b1f17b1804b1-45383371376mr65946085e9.11.1750954078852;
+        Thu, 26 Jun 2025 09:07:58 -0700 (PDT)
+Received: from ?IPV6:2003:d8:2f3c:2f00:8afc:23fe:3813:776c? (p200300d82f3c2f008afc23fe3813776c.dip0.t-ipconnect.de. [2003:d8:2f3c:2f00:8afc:23fe:3813:776c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a892e595d1sm262161f8f.71.2025.06.26.09.07.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Jun 2025 09:07:58 -0700 (PDT)
+Message-ID: <7a3e8d56-72fc-4ca1-905b-a7d54cea1132@redhat.com>
+Date: Thu, 26 Jun 2025 18:07:57 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|SJ0PR12MB7034:EE_
-X-MS-Office365-Filtering-Correlation-Id: efb3865f-52af-44d2-40cf-08ddb4c92def
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?oES2CNFHxGjIwveO2xE9h936oR9n+t8hB/vH7Tp6ELHGIcIcwNudTBYKVyPA?=
- =?us-ascii?Q?mk/QfeEs7zvX3aHF/LUUAjsvtRq2/JbiEzpkyiFuvW4Of8vZ6XjLJANMX1ao?=
- =?us-ascii?Q?2LH8p9zHnXMmsxPhVGe7o/XH+xqBomybCfLDJ/AHLPvukEgBkh2zZJR3d9dq?=
- =?us-ascii?Q?Ghvg4kPZey4U6XgyUVHF5FlzXJsEh6Z34SsvhJ6Py/I4lFaqeVgHc5KFi0LD?=
- =?us-ascii?Q?ChlfpTRXxshO6J7hUxW1BDSIZgiv4Eq3PN/Nz1yXRWtHDixBvN8raFb21Tjy?=
- =?us-ascii?Q?MSLpkMD5PeSLhuPEbadtz9cH4s+MADNn+lC0QGLRxg9v1bk2EqMy+07R+2Z3?=
- =?us-ascii?Q?0bt3VJICEHuKL3SmExYc6jbgbHOp4akBAzhdJQWX6yf7EqrjRMwCcAgn4VtA?=
- =?us-ascii?Q?01e8FFxMYxRs9eW1Wxz5+V7czPKBgrJ6Heyt93z3Kez8Az6iHEKhtWhWapsA?=
- =?us-ascii?Q?5+9L5/pbZQFNrDYK9uM63L2CFfqD7gGEsDqLutyGXfSGo1fMDBi694DVmQfm?=
- =?us-ascii?Q?OBTLzOc3ikSrCuUY+GYNBKb9YrojR1M1eP5+HPiQSYTsfb1LSqEu6yeAUNOd?=
- =?us-ascii?Q?e/VqtlOCc38w2BilfFeX5o9E+Uo5Yu/0pnLXj9nhl/ZwFZ3HmIjZtuTUMs8N?=
- =?us-ascii?Q?kA7JmcHgr90umCf+UzkE6MlAN3faSbRBYcKAiEPVCDjjiydLKleRZ+lqH6Gw?=
- =?us-ascii?Q?yN8ILMDr2R7edUW04bix+lP2mQfFiDpcyetkQ+8mKrHjtxr6Kn4MbAi8N80h?=
- =?us-ascii?Q?Ikz3jljKCiK6fc+RLEje737tXc9uUoKkS3BuwqYMbXrLn5LBatUFa4L7KD14?=
- =?us-ascii?Q?i4KXJ8h5trAMf0Wg0obUHhp1s21aocmc2bmrG1JLsJPBxRSjOy/Q53VvLzYi?=
- =?us-ascii?Q?saQRXG7Mutf3N/ULiK3aZcdM9DM3LDJlXvQ0hZuYzG+LHHacBfIBAbslwhzS?=
- =?us-ascii?Q?kezHDoEIoSCJka2sxO3PCDs4p8eL8Ogs+bDxHKCK6sD0NzivmLN5AR7pEYk4?=
- =?us-ascii?Q?c3+e9rngIbELMXBkYixpkBEoPvwzGOFkc+C+WHP8thEem3hdERIpni1Am8w0?=
- =?us-ascii?Q?UR16jMZ6tLLGEkBcM8R5v+yhfAxo2QzcK5ycekoPFyhvlEbtMK6fTjiM/h6Y?=
- =?us-ascii?Q?CqVb+HsuImn+e7helPragDyDz2SDEw08MuL+9cpscVgzmVOXEDECvSe9fy1s?=
- =?us-ascii?Q?Ak4FXMFablk3V+UuO3OjxxXV2dPQlyL2l93VYul2IcKJrPBp6OUCfO7xm7UF?=
- =?us-ascii?Q?LF9HdEQcgQn29iZNronE2ropyK+HGsLvuKWeGkpvE47Rjs4qelKYpNMDSkl3?=
- =?us-ascii?Q?aenVqzMv07wEvxHT1GclqrToxLIAAwKlWyTMs1Dt2AykwYHPOw6BJkfvgRej?=
- =?us-ascii?Q?Yso8W50=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?t4QFV7V9PgKZ9adrX7Skqkxx5f9yonSbjbUJ5IFsC+hVxBMSHwx277SXDX/6?=
- =?us-ascii?Q?DmpKxrVZgtk1GDNd2YsyM0i6seyH6lWNJPpAH7Ppv8oTlH6XpVqJRqInOH5q?=
- =?us-ascii?Q?WidKEZF3MS1gfJ4mbT6GBpOBF1FYbRMsLEH25eqHUmOqwKEbyLVtLjwM2XJz?=
- =?us-ascii?Q?kYdj/8zSLp18dyEHwwccLBslzSUzmWyYlg4hj0g0loigJ3Lts2Xzpwzp+4Hv?=
- =?us-ascii?Q?JxjDFFuTPNcqGsvKQxHRfvjmd0s3PNV+fQhKdYDSpAQpNJOj6qKrnlp8GmL3?=
- =?us-ascii?Q?oWcBEJZgxWkNM2/HlPCjMa6TR0IypYGfpwvGCTrSjx0jJLow073dyk6W6vxI?=
- =?us-ascii?Q?jkEhogMa7d97sgDlr7vq9wJOuvjTLVQSgjzvnLcAnsBBiFCNpSHD8ZbsL7SS?=
- =?us-ascii?Q?0d5TVWVOmGjiCX0svlA85jSF4TSfFEEUuHYb3inFrJ/YLOMkJx7wKVzupIwq?=
- =?us-ascii?Q?d9+hK8dYLxa1pdLo2ybpsKAP6XA2W6aqHX0oKrqapR6NqSHYa742H19JQc1l?=
- =?us-ascii?Q?j3eGt7JHLlfl9oQ9I9dQRNLl01YUCfnW7iC/XFtUod6APH1zy0HY9QHMFQ2s?=
- =?us-ascii?Q?ccVdkNQTvs77spdDQvd5LV4O41k6dpWdVcG8u12jst/V1BiRDRuZCaU4tiu8?=
- =?us-ascii?Q?o8GfJPqXyiNvvQz1rkSFYOwGImG76hAoN1neSfV0tATLlmoUMGjGaYlE6B/k?=
- =?us-ascii?Q?jZrWqJMAsGJ4j8x2j5bi+4j3toLLTN2SeyBN5vzyNkHrJuKQ0lxESYKRqR7h?=
- =?us-ascii?Q?FqRAzdMxd4cwj8PsR1h6OiOoCqEiKp/Mpv0aqmPJoJlJi9s5tm2bCn1Uu+WT?=
- =?us-ascii?Q?eqqGU5KDRyJHJKgE3wyfCWxYqwX9Q/pAzBfgbnX8lbwPsC+u2pRMJ04xKL10?=
- =?us-ascii?Q?xlocRMUPRGnZ0QfIND6lwmLlK69u1PLgsFc4/JfD6gQZSw8r7US/tGEvC0OI?=
- =?us-ascii?Q?HivGIa7LMn4dG/imKrZ2w8xOEZO6GJJS02n4AUvQGkMzMf88GmwsTqbmbcht?=
- =?us-ascii?Q?keMINXcacBBilhDVbs3InZotTTGdVc/lNK55puIyyx7xI7tN8UZqw7o8TkcF?=
- =?us-ascii?Q?s6LSb0R5UuhyCnTn/yfMWssTGEEMpXeB79QAq8EtQpE3YAL+TeyfvpshTZQO?=
- =?us-ascii?Q?6uc8/giI0ZaSNzmWelM4ktuHvVrjsoFMePkLmQSRVQwdIFlSz3NgO8G8jpya?=
- =?us-ascii?Q?LIsnL2aQ7dM0nyAXfn/gdYHRkvgTQJKCSqQ1kMMIyNq+cuNVRmWesW7oYU4a?=
- =?us-ascii?Q?PFYmI/FXVVYbLs1rfbdr2snvUXzKr0dI7aDihhfL/ht/b3mq95Fh7384y/+P?=
- =?us-ascii?Q?yNrYKg02X20BN602V6PdMFBfZqNvJRZqmG8557HodmFYpVFRmRibHENbJSDq?=
- =?us-ascii?Q?SbPHa0d1ctU9x75Ijxp5n9OptryLMVUlQU49EbNm7foXeftVkktfko+DKf0o?=
- =?us-ascii?Q?IpPV7AmjWI55feJBiIjy0m1qVeu8hMPhq+DQ/+1KrsUHAHGsTEbhtEsR07Yw?=
- =?us-ascii?Q?ESA/QqL0hiPUkhmLxoAh5SgopeRY0OgrQCf0PpH432SkubyTg9Db3k6GvDMO?=
- =?us-ascii?Q?520IaequCH4EMIftR1Y5PnzRb6/NB+XqtPP/H3Cp?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: efb3865f-52af-44d2-40cf-08ddb4c92def
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jun 2025 15:50:31.1628
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +8MpFSU8u5oFBPf9OrtYvwFZ5DDI9i5YBiXJkBg2H8V6IbZJ5RKQyY5yxg9rrucq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB7034
+User-Agent: Mozilla Thunderbird
+Subject: Re: [davidhildenbrand:migration 19/29] mm/migrate.c:74: undefined
+ reference to `zsmalloc_mops'
+To: Zi Yan <ziy@nvidia.com>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+References: <202506262314.sLjaWWCY-lkp@intel.com>
+ <6B5E3CA4-CC1B-4F96-8A45-0695D7477914@nvidia.com>
+From: David Hildenbrand <david@redhat.com>
+Autocrypt: addr=david@redhat.com; keydata=
+ xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
+ dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
+ QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
+ XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
+ Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
+ PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
+ WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
+ UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
+ jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
+ B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzSREYXZpZCBIaWxk
+ ZW5icmFuZCA8ZGF2aWRAcmVkaGF0LmNvbT7CwZgEEwEIAEICGwMGCwkIBwMCBhUIAgkKCwQW
+ AgMBAh4BAheAAhkBFiEEG9nKrXNcTDpGDfzKTd4Q9wD/g1oFAl8Ox4kFCRKpKXgACgkQTd4Q
+ 9wD/g1oHcA//a6Tj7SBNjFNM1iNhWUo1lxAja0lpSodSnB2g4FCZ4R61SBR4l/psBL73xktp
+ rDHrx4aSpwkRP6Epu6mLvhlfjmkRG4OynJ5HG1gfv7RJJfnUdUM1z5kdS8JBrOhMJS2c/gPf
+ wv1TGRq2XdMPnfY2o0CxRqpcLkx4vBODvJGl2mQyJF/gPepdDfcT8/PY9BJ7FL6Hrq1gnAo4
+ 3Iv9qV0JiT2wmZciNyYQhmA1V6dyTRiQ4YAc31zOo2IM+xisPzeSHgw3ONY/XhYvfZ9r7W1l
+ pNQdc2G+o4Di9NPFHQQhDw3YTRR1opJaTlRDzxYxzU6ZnUUBghxt9cwUWTpfCktkMZiPSDGd
+ KgQBjnweV2jw9UOTxjb4LXqDjmSNkjDdQUOU69jGMUXgihvo4zhYcMX8F5gWdRtMR7DzW/YE
+ BgVcyxNkMIXoY1aYj6npHYiNQesQlqjU6azjbH70/SXKM5tNRplgW8TNprMDuntdvV9wNkFs
+ 9TyM02V5aWxFfI42+aivc4KEw69SE9KXwC7FSf5wXzuTot97N9Phj/Z3+jx443jo2NR34XgF
+ 89cct7wJMjOF7bBefo0fPPZQuIma0Zym71cP61OP/i11ahNye6HGKfxGCOcs5wW9kRQEk8P9
+ M/k2wt3mt/fCQnuP/mWutNPt95w9wSsUyATLmtNrwccz63XOwU0EVcufkQEQAOfX3n0g0fZz
+ Bgm/S2zF/kxQKCEKP8ID+Vz8sy2GpDvveBq4H2Y34XWsT1zLJdvqPI4af4ZSMxuerWjXbVWb
+ T6d4odQIG0fKx4F8NccDqbgHeZRNajXeeJ3R7gAzvWvQNLz4piHrO/B4tf8svmRBL0ZB5P5A
+ 2uhdwLU3NZuK22zpNn4is87BPWF8HhY0L5fafgDMOqnf4guJVJPYNPhUFzXUbPqOKOkL8ojk
+ CXxkOFHAbjstSK5Ca3fKquY3rdX3DNo+EL7FvAiw1mUtS+5GeYE+RMnDCsVFm/C7kY8c2d0G
+ NWkB9pJM5+mnIoFNxy7YBcldYATVeOHoY4LyaUWNnAvFYWp08dHWfZo9WCiJMuTfgtH9tc75
+ 7QanMVdPt6fDK8UUXIBLQ2TWr/sQKE9xtFuEmoQGlE1l6bGaDnnMLcYu+Asp3kDT0w4zYGsx
+ 5r6XQVRH4+5N6eHZiaeYtFOujp5n+pjBaQK7wUUjDilPQ5QMzIuCL4YjVoylWiBNknvQWBXS
+ lQCWmavOT9sttGQXdPCC5ynI+1ymZC1ORZKANLnRAb0NH/UCzcsstw2TAkFnMEbo9Zu9w7Kv
+ AxBQXWeXhJI9XQssfrf4Gusdqx8nPEpfOqCtbbwJMATbHyqLt7/oz/5deGuwxgb65pWIzufa
+ N7eop7uh+6bezi+rugUI+w6DABEBAAHCwXwEGAEIACYCGwwWIQQb2cqtc1xMOkYN/MpN3hD3
+ AP+DWgUCXw7HsgUJEqkpoQAKCRBN3hD3AP+DWrrpD/4qS3dyVRxDcDHIlmguXjC1Q5tZTwNB
+ boaBTPHSy/Nksu0eY7x6HfQJ3xajVH32Ms6t1trDQmPx2iP5+7iDsb7OKAb5eOS8h+BEBDeq
+ 3ecsQDv0fFJOA9ag5O3LLNk+3x3q7e0uo06XMaY7UHS341ozXUUI7wC7iKfoUTv03iO9El5f
+ XpNMx/YrIMduZ2+nd9Di7o5+KIwlb2mAB9sTNHdMrXesX8eBL6T9b+MZJk+mZuPxKNVfEQMQ
+ a5SxUEADIPQTPNvBewdeI80yeOCrN+Zzwy/Mrx9EPeu59Y5vSJOx/z6OUImD/GhX7Xvkt3kq
+ Er5KTrJz3++B6SH9pum9PuoE/k+nntJkNMmQpR4MCBaV/J9gIOPGodDKnjdng+mXliF3Ptu6
+ 3oxc2RCyGzTlxyMwuc2U5Q7KtUNTdDe8T0uE+9b8BLMVQDDfJjqY0VVqSUwImzTDLX9S4g/8
+ kC4HRcclk8hpyhY2jKGluZO0awwTIMgVEzmTyBphDg/Gx7dZU1Xf8HFuE+UZ5UDHDTnwgv7E
+ th6RC9+WrhDNspZ9fJjKWRbveQgUFCpe1sa77LAw+XFrKmBHXp9ZVIe90RMe2tRL06BGiRZr
+ jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
+ WNyWQQ==
+Organization: Red Hat
+In-Reply-To: <6B5E3CA4-CC1B-4F96-8A45-0695D7477914@nvidia.com>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: XPWIkjTe0v2zRQrawQZM0c9CBRiw9K_dcqttb3Z6jKk_1750954080
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 26 Jun 2025, at 11:39, kernel test robot wrote:
+On 26.06.25 17:50, Zi Yan wrote:
+> On 26 Jun 2025, at 11:39, kernel test robot wrote:
+> 
+>> tree:   https://github.com/davidhildenbrand/linux migration
+>> head:   2119af6765ea1ce921ab4e6dba8ee4e651e42a59
+>> commit: d9cf33cabf3b3027973522362e9198273c7abffd [19/29] mm: stop storing migration_ops in page->mapping
+>> config: i386-randconfig-141-20250508 (https://download.01.org/0day-ci/archive/20250626/202506262314.sLjaWWCY-lkp@intel.com/config)
+>> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250626/202506262314.sLjaWWCY-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202506262314.sLjaWWCY-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     ld: mm/migrate.o: in function `page_movable_ops':
+>>>> mm/migrate.c:74: undefined reference to `zsmalloc_mops'
+>>
+>>
+>> vim +74 mm/migrate.c
+>>
+>>      55	
+>>      56	static const struct movable_operations *page_movable_ops(struct page *page)
+>>      57	{
+>>      58		VM_WARN_ON_ONCE_PAGE(!page_has_movable_ops(page), page);
+>>      59	
+>>      60		/*
+>>      61		 * If we enable page migration for a page of a certain type by marking
+>>      62		 * it as movable, the page type must be sticky until the page gets freed
+>>      63		 * back to the buddy.
+>>      64		 */
+>>      65	#ifdef CONFIG_BALLOON_COMPACTION
+>>      66		if (PageOffline(page))
+>>      67			/* Only balloon compaction sets PageOffline pages movable. */
+>>      68			return &balloon_mops;
+>>      69	#endif /* CONFIG_BALLOON_COMPACTION */
+>>      70	#ifdef CONFIG_ZSMALLOC
+>>      71		if (PageZsmalloc(page))
+>>      72			return &zsmalloc_mops;
+>>      73	#endif /* CONFIG_ZSMALLOC */
+>>    > 74		return NULL;
+>>      75	}
+>>      76	
+> 
+> Apparently, CONFIG_ZSMALLOC does not depend on CONFIG_COMPACTION.
+> 
+> This should fix it:
+> 
+>  From 6eeb27030931cf8dc24dac2d7d16f57853a162d6 Mon Sep 17 00:00:00 2001
+> From: Zi Yan <ziy@nvidia.com>
+> Date: Thu, 26 Jun 2025 11:48:39 -0400
+> Subject: [PATCH] zsmalloc_mops is only available with CONFIG_ZSMALLOC &&
+>   CONFIG_COMPACTION
+> 
+> Signed-off-by: Zi Yan <ziy@nvidia.com>
+> ---
+>   mm/migrate.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/mm/migrate.c b/mm/migrate.c
+> index f87a998b696e..f7366bfaeb32 100644
+> --- a/mm/migrate.c
+> +++ b/mm/migrate.c
+> @@ -67,10 +67,10 @@ static const struct movable_operations *page_movable_ops(struct page *page)
+>   		/* Only balloon compaction sets PageOffline pages movable. */
+>   		return &balloon_mops;
+>   #endif /* CONFIG_BALLOON_COMPACTION */
+> -#ifdef CONFIG_ZSMALLOC
+> +#if defined(CONFIG_ZSMALLOC) && defined(CONFIG_COMPACTION)
+>   	if (PageZsmalloc(page))
+>   		return &zsmalloc_mops;
+> -#endif /* CONFIG_ZSMALLOC */
+> +#endif /* CONFIG_ZSMALLOC && CONFIG_COMPACTION */
+>   	return NULL;
 
-> tree:   https://github.com/davidhildenbrand/linux migration
-> head:   2119af6765ea1ce921ab4e6dba8ee4e651e42a59
-> commit: d9cf33cabf3b3027973522362e9198273c7abffd [19/29] mm: stop stori=
-ng migration_ops in page->mapping
-> config: i386-randconfig-141-20250508 (https://download.01.org/0day-ci/a=
-rchive/20250626/202506262314.sLjaWWCY-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20250626/202506262314.sLjaWWCY-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506262314.sLjaWWCY-l=
-kp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    ld: mm/migrate.o: in function `page_movable_ops':
->>> mm/migrate.c:74: undefined reference to `zsmalloc_mops'
->
->
-> vim +74 mm/migrate.c
->
->     55	=
+Ah yes, makes sense. Thanks!
 
->     56	static const struct movable_operations *page_movable_ops(struct =
-page *page)
->     57	{
->     58		VM_WARN_ON_ONCE_PAGE(!page_has_movable_ops(page), page);
->     59	=
+-- 
+Cheers,
 
->     60		/*
->     61		 * If we enable page migration for a page of a certain type by =
-marking
->     62		 * it as movable, the page type must be sticky until the page g=
-ets freed
->     63		 * back to the buddy.
->     64		 */
->     65	#ifdef CONFIG_BALLOON_COMPACTION
->     66		if (PageOffline(page))
->     67			/* Only balloon compaction sets PageOffline pages movable. */
->     68			return &balloon_mops;
->     69	#endif /* CONFIG_BALLOON_COMPACTION */
->     70	#ifdef CONFIG_ZSMALLOC
->     71		if (PageZsmalloc(page))
->     72			return &zsmalloc_mops;
->     73	#endif /* CONFIG_ZSMALLOC */
->   > 74		return NULL;
->     75	}
->     76	=
+David / dhildenb
 
-
-Apparently, CONFIG_ZSMALLOC does not depend on CONFIG_COMPACTION.
-
-This should fix it:
-
-=46rom 6eeb27030931cf8dc24dac2d7d16f57853a162d6 Mon Sep 17 00:00:00 2001
-From: Zi Yan <ziy@nvidia.com>
-Date: Thu, 26 Jun 2025 11:48:39 -0400
-Subject: [PATCH] zsmalloc_mops is only available with CONFIG_ZSMALLOC &&
- CONFIG_COMPACTION
-
-Signed-off-by: Zi Yan <ziy@nvidia.com>
----
- mm/migrate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/mm/migrate.c b/mm/migrate.c
-index f87a998b696e..f7366bfaeb32 100644
---- a/mm/migrate.c
-+++ b/mm/migrate.c
-@@ -67,10 +67,10 @@ static const struct movable_operations *page_movable_=
-ops(struct page *page)
- 		/* Only balloon compaction sets PageOffline pages movable. */
- 		return &balloon_mops;
- #endif /* CONFIG_BALLOON_COMPACTION */
--#ifdef CONFIG_ZSMALLOC
-+#if defined(CONFIG_ZSMALLOC) && defined(CONFIG_COMPACTION)
- 	if (PageZsmalloc(page))
- 		return &zsmalloc_mops;
--#endif /* CONFIG_ZSMALLOC */
-+#endif /* CONFIG_ZSMALLOC && CONFIG_COMPACTION */
- 	return NULL;
- }
-
--- =
-
-2.47.2
-
-
-Best Regards,
-Yan, Zi
