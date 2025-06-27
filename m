@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882BE2264C7;
-	Fri, 27 Jun 2025 08:06:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCE222F764
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 08:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751011595; cv=none; b=HXNZTJTsdN/UtVD3F67/9mQhTWVnVN4upZGWT9w5ai7IdUbQu9nHuDl/7EGdOxm1LfGbYdCU94imBcLn30DkllCWyBByBGTzPi/zm+EDySvI9B+Of19GUdfFWyKbhBuydqDEpN/VWS4nY9u1NOM3XKGRPpMFrBXWkrKNu6J/KxA=
+	t=1751011836; cv=none; b=F8KLw0/YkX5+i5cJ8XTRQKmPJcmYw4uxJIV2X2P5q10Z4660xXKtaWfe31NG7AvEeXPStCcvZTu0GxLaMSHALdafHC/mWgw5jJ0ovo8/ZCOIlGuC7MnqwltpHbF+d8i6U2s/XPcV9Kea1lBdyDhBRQ+nIPkRlwDNn90qi7PUtjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751011595; c=relaxed/simple;
-	bh=Fd/B71Ay1n6YVW8By1kBNB5aLOrWe2WdwbwtZmI38kA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZY922S7Ldlarc4D8fXTQEexIg4D5IHIS10FAfR9zgFD3sC6876tb44/ivS7W8TORhsRMy639ZbnUXsIW5sQEKEn0n9+0hzZMXZezF23g4izV0IdWhBORH1quPWLahWG+Qeeauuxppx5oR1aJ75cMwptKlziEwhSnVCmyQxahxb8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kmjoS7Ei; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1751011836; c=relaxed/simple;
+	bh=w2EXOLArpNFPUj8ovtNnoegWnYpa78aDNYr6xn18IDo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rFLcbi/2YdtbBA1+ro2euoRrpGOzoL7PMe9wArciJfD9ryJZAtLJsI7d4GjEODax8GK7vaUrRGESW3UqvrY3RSVwgICnPecDbfiJrkx3xtHPGGr0Nn+0eHc4Gv95i4jx/CP7BrT7BF1YWBBR0Lnw0cvLkUTzVBFbG48s9TwzKjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oJXAKlwN; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmjoS7Ei"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oJXAKlwN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751011593; x=1782547593;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Fd/B71Ay1n6YVW8By1kBNB5aLOrWe2WdwbwtZmI38kA=;
-  b=kmjoS7EixVJxgErWRMcpvfU89Lpizw1by5OTLoHc3TM3u9hMDRQaOL1q
-   y2tX6i/CbQyndZcVlYWik1kt/fkAw4qsTCuxXuBdpkjd7FWDVHJIoke7V
-   VRLOnQRBCHhyY+NcTtySmbuEeVpvelp8BveV+4twTDcpyMc9CXLuxAxuQ
-   zskoro4lEmYmTK0+o2bGTlWnjJe+cbTpB9RriPB2lU8kW6nSRh+VhY2fF
-   OEzSkNhvGsCjzWThk9NnY6XfZan6OfA+fWNnDs03nuvbkmgUH4zDwaaOQ
-   C4nVrZSSrO0saTRqp3yQNzPq6GJt4ML9ys/ZsFfzIzozsE/8Q6isf1hDX
+  t=1751011835; x=1782547835;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=w2EXOLArpNFPUj8ovtNnoegWnYpa78aDNYr6xn18IDo=;
+  b=oJXAKlwNANsiQ9aYK9OckTi3UH9Yjy/RkNejEHddmLgaOFmNANMlSska
+   CBtCAo91rtoJQbm2mmNGPwkCFApUcVSNAyAtqQRSRryAa2jkMPysnXFUr
+   n5uwAN0tFOa7P5IzlnLn+AUs4oSgWTg1zL3BLb4mF+n730WXccXHngWaq
+   DICwISQ1Jk/yDw5J8Dt7Hw4fb+S1kpEqVFhwY+A9kSFI7rZzAmjSJ4Xgb
+   /jEim607Ma+RJkyaYxQI+DZNRLn9lSPvc2iBfi5skF9c2jMJXn+qAZYf/
+   WQC9IEGSG06K0agTgaEzcqLAHFZt+gpaSpN7BQntC86xgc+QEVOU+NhPa
    Q==;
-X-CSE-ConnectionGUID: uczU0B+gQxu5cmdweYuKaA==
-X-CSE-MsgGUID: 0nrei+v3QnewMstwwMQdXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53467789"
+X-CSE-ConnectionGUID: 6xvZ3N5kRu6IdqqayZXPWA==
+X-CSE-MsgGUID: 9DACCVLOSCifJtVVr5RLiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="57126919"
 X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="53467789"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 01:06:33 -0700
-X-CSE-ConnectionGUID: F3t9TbshTvixij/xrIJ3mQ==
-X-CSE-MsgGUID: uF8MnP8ZQCi2tufOsfTPmQ==
+   d="scan'208";a="57126919"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 01:10:34 -0700
+X-CSE-ConnectionGUID: 079kVueNR4KkAreeVHz1iw==
+X-CSE-MsgGUID: oV/UVicHT6el6kXkqmhwGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="176421304"
-Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
-  by fmviesa002.fm.intel.com with ESMTP; 27 Jun 2025 01:06:31 -0700
-Received: from kbuild by e588e990b675 with local (Exim 4.96)
+   d="scan'208";a="157029087"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 27 Jun 2025 01:10:31 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uV46P-0000dX-1F;
-	Fri, 27 Jun 2025 08:06:29 +0000
-Date: Fri, 27 Jun 2025 10:05:30 +0200
+	id 1uV4AG-000VyE-2a;
+	Fri, 27 Jun 2025 08:10:28 +0000
+Date: Fri, 27 Jun 2025 16:09:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huang Ying <ying.huang@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: kernel/resource.c:1838:43: warning: implicit conversion from
- 'unsigned long long' to 'resource_size_t' (aka 'unsigned int') changes value
- from 68719476735 to 4294967295
-Message-ID: <202506271014.vuMnyMSa-lkp@intel.com>
+To: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 5/5] powerpc: Implement masked user access
+Message-ID: <202506271642.Qq9oGRb8-lkp@intel.com>
+References: <9dfb66c94941e8f778c4cabbf046af2a301dd963.1750585239.git.christophe.leroy@csgroup.eu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,79 +62,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <9dfb66c94941e8f778c4cabbf046af2a301dd963.1750585239.git.christophe.leroy@csgroup.eu>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6f2a71a99ebd5dfaa7948a2e9c59eae94b741bd8
-commit: 99185c10d5d9214d0d0c8b7866660203e344ee3b resource, kunit: add test case for region_intersects()
-date:   9 months ago
-config: arm-randconfig-2006-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271014.vuMnyMSa-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271014.vuMnyMSa-lkp@intel.com/reproduce)
+Hi Christophe,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on powerpc/fixes]
+[also build test ERROR on akpm-mm/mm-nonmm-unstable brauner-vfs/vfs.all linus/master v6.16-rc3 next-20250626]
+[cannot apply to powerpc/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christophe-Leroy/uaccess-Add-masked_user_-read-write-_access_begin/20250622-175354
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git fixes
+patch link:    https://lore.kernel.org/r/9dfb66c94941e8f778c4cabbf046af2a301dd963.1750585239.git.christophe.leroy%40csgroup.eu
+patch subject: [PATCH 5/5] powerpc: Implement masked user access
+config: powerpc-randconfig-001-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271642.Qq9oGRb8-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271642.Qq9oGRb8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506271014.vuMnyMSa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506271642.Qq9oGRb8-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/resource.c:21:
-   In file included from include/linux/pseudo_fs.h:4:
-   In file included from include/linux/fs_context.h:14:
-   In file included from include/linux/security.h:33:
-   In file included from include/linux/mm.h:2198:
-   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
-     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
-         |                               ~~~~~~~~~~~ ^ ~~~
->> kernel/resource.c:1838:43: warning: implicit conversion from 'unsigned long long' to 'resource_size_t' (aka 'unsigned int') changes value from 68719476735 to 4294967295 [-Wconstant-conversion]
-    1838 |                 end = min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
-         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
-   kernel/resource.c:1827:52: note: expanded from macro 'MAX_PHYS_ADDR'
-    1827 | #define MAX_PHYS_ADDR           ((1ULL << MAX_PHYSMEM_BITS) - 1)
-         |                                                             ^
-   include/linux/minmax.h:213:52: note: expanded from macro 'min_t'
-     213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~^~
-   include/linux/minmax.h:96:33: note: expanded from macro '__cmp_once'
-      96 |         __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:31: note: expanded from macro '__cmp_once_unique'
-      93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
-         |                                ~~    ^
-   kernel/resource.c:1855:45: warning: implicit conversion from 'unsigned long long' to 'resource_size_t' (aka 'unsigned int') changes value from 68719476735 to 4294967295 [-Wconstant-conversion]
-    1855 |                 addr <= min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
-   kernel/resource.c:1827:52: note: expanded from macro 'MAX_PHYS_ADDR'
-    1827 | #define MAX_PHYS_ADDR           ((1ULL << MAX_PHYSMEM_BITS) - 1)
-         |                                                             ^
-   include/linux/minmax.h:213:52: note: expanded from macro 'min_t'
-     213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
-         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~^~
-   include/linux/minmax.h:96:33: note: expanded from macro '__cmp_once'
-      96 |         __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:93:31: note: expanded from macro '__cmp_once_unique'
-      93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
-         |                                ~~    ^
-   3 warnings generated.
+   In file included from <command-line>:
+   In function 'mask_user_address',
+       inlined from 'masked_user_read_access_begin' at arch/powerpc/include/asm/uaccess.h:538:21,
+       inlined from 'get_sigset_argpack' at fs/select.c:780:11,
+       inlined from '__do_sys_pselect6' at fs/select.c:799:6,
+       inlined from '__se_sys_pselect6' at fs/select.c:793:1,
+       inlined from 'sys_pselect6' at fs/select.c:793:1:
+>> include/linux/compiler_types.h:568:45: error: call to '__compiletime_assert_414' declared with attribute error: BUILD_BUG_ON failed: TASK_SIZE_MAX + SZ_128K > border
+     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:549:25: note: in definition of macro '__compiletime_assert'
+     549 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:568:9: note: in expansion of macro '_compiletime_assert'
+     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/powerpc/include/asm/uaccess.h:510:9: note: in expansion of macro 'BUILD_BUG_ON'
+     510 |         BUILD_BUG_ON(TASK_SIZE_MAX + SZ_128K > border);
+         |         ^~~~~~~~~~~~
 
 
-vim +1838 kernel/resource.c
+vim +/__compiletime_assert_414 +568 include/linux/compiler_types.h
 
-  1831	
-  1832	static resource_size_t gfr_start(struct resource *base, resource_size_t size,
-  1833					 resource_size_t align, unsigned long flags)
-  1834	{
-  1835		if (flags & GFR_DESCENDING) {
-  1836			resource_size_t end;
-  1837	
-> 1838			end = min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
-  1839			return end - size + 1;
-  1840		}
-  1841	
-  1842		return ALIGN(max(base->start, align), align);
-  1843	}
-  1844	
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  554  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  555  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  556  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  557  
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  558  /**
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  559   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  560   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  561   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  562   *
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  563   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  564   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  565   * compiler has support to do so.
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  566   */
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  567  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2d Will Deacon 2020-07-21 @568  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2d Will Deacon 2020-07-21  569  
 
 -- 
 0-DAY CI Kernel Test Service
