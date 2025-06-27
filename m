@@ -1,59 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FD41F9A8B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 19:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81ED21B9F4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 19:42:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751051439; cv=none; b=PNN6BEyuG49EEdA5W/Ie6I90E+NcvnbTYqaPXkjVmbUmYbXtH5tHzpnpH9pkKOEd8gMPoODOcOjAu/HIwyXYqgqU6GW/jKqSyY+5ZRijw622f5nVTqykpj+PK1t557ZH5x4oGmhAN8A9MRQNrB0d7a52qJ+vrXSB8nXnZ0RXA3U=
+	t=1751053373; cv=none; b=lMA4+qxwT0DqRCRI4mq8MBMmoM9+8+auvPbRMDZhyKE6f3jy4zbx/e/wGDgtlM9E65WED1h+9etcZZwAhfkEPP6CYuOoYR6XhVaMk5pmyGsC14yqrDeNRaEIc1hVMPNJ2Q9TKJrw7Ius5zET5j+Iku5HjbysJDPfjp2/UcGLSdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751051439; c=relaxed/simple;
-	bh=ibyGbCO+OGZw7j6BE8USlgUxel2mx3XSk92IGIeX6MI=;
+	s=arc-20240116; t=1751053373; c=relaxed/simple;
+	bh=QihDfFv9ga4JrI1pfJodLb6y/r8Sk3I1rAJV/82jHOE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aYtcQpEIF5hhjgls/epvJXsGbteS8aoZctdNPHTG1OrdIF3z+67jPi5jozh+aiggAxq+uRYsJ7q39M4Y4qT1ZtI7sfYTIHfe9LANnD1aRgoueK9wHKx/dnSmDwNyjl4y/D7dqkhUWzrCy48hOMQOTAqdhYHB33SyUlHmtQwqVfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fudbSoPw; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=KEjWy5/H+LF4Mhthj9KO+TuyGJOZUByv/ORJf7bpRnjzEBFVTzSmYxReuwU2cToC2rnN85qP3teTecL2FlN2P6inQHRPYMehB6njutfyxZ299UJpT/yZy1ZKRz/0+culRCCiziZiI/X/9wZmCOrCDA/W3PdOCXMAtAk12GN9GtI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jejMUfoB; arc=none smtp.client-ip=209.85.167.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fudbSoPw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751051438; x=1782587438;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ibyGbCO+OGZw7j6BE8USlgUxel2mx3XSk92IGIeX6MI=;
-  b=fudbSoPwFHxPmGTR/YIFaXzp8mTnocFpu2jRIrNdVZ7vpaJIUFZNUhHk
-   Z3PNDSZCQwzQg2YauUpscu0dgQN4Zfib7i07BDsC9gY1uZ8YpT2rYns+S
-   zclcbLUUcTsJkhq0xKqT/9R8QJ6EZQ+bAg2keYQxyp6xABTcHwfTbk7c3
-   4xqQgWs2QoAqfvEcILi7GpiumcaZJSQy2pGMDkKp1G2a3T5z/czeitf8S
-   2qjHREcvBE6rAygsgILA0QlU9TR3+9Y6dBnHvd74C39O35tb/k3pMKto7
-   95SGz4+RrHj+3liZ/V2c89DOmx224i1Nwd199SAChepMjpkc6TSItdQiE
-   A==;
-X-CSE-ConnectionGUID: WBshswRUSfOFSeXS63WDwA==
-X-CSE-MsgGUID: dgLmQyyiRKC/yzdb7Csz1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53527523"
-X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
-   d="scan'208";a="53527523"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 12:10:37 -0700
-X-CSE-ConnectionGUID: VD6ILpMhQy2DQH29B3+HCQ==
-X-CSE-MsgGUID: tzSj6hSCRJahqJt+4MR9FA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
-   d="scan'208";a="153370041"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 27 Jun 2025 12:10:36 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uVET3-000WU2-1x;
-	Fri, 27 Jun 2025 19:10:33 +0000
-Date: Sat, 28 Jun 2025 03:10:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amery Hung <amery.hung@bytedance.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Martin KaFai Lau <martin.lau@kernel.org>
-Subject: net/sched/bpf_qdisc.c:224:18: sparse: sparse: symbol
- 'bpf_qdisc_init_prologue' was not declared. Should it be static?
-Message-ID: <202506280351.g258QPQS-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jejMUfoB"
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-40a55314d06so854846b6e.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 12:42:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751053371; x=1751658171; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZHw+WJ64dHACnc7Bud37Nl/T15dKpBv+JiMjM+lyrgA=;
+        b=jejMUfoBCB8FtXbGgQEIluYHbxWdC9cARIP+SLL0+DUBxPRLIGGYlhJWGUSGGyaO23
+         xqYx0HBMWFTudkOnSpP79kUtsy7ZRLFrw6sMLr/hgvWQdqDs5+PQqoiQ1eB0vTf4N+WV
+         qzxzR5xWeVn+09IMlfLZbdnagRES2ou7JEUTi+PiZ+T66ySkgO2QRWGlqqmPObN+y+BA
+         UfH0m2SMgy9aYD5YNodSzyALto6R4aRwpwtM8mkrXNEuuhFPapXA/6H7ZmI+zdzxKO9Y
+         Ogs3aWK+8I93zZELzvAzgpk5nN2Wrntt7OHzUp/KhcqZsTpHcesGCwzhwp/MIWGXEdbz
+         nsHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751053371; x=1751658171;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZHw+WJ64dHACnc7Bud37Nl/T15dKpBv+JiMjM+lyrgA=;
+        b=r9fQ+sNNNC79GqbnKo4vieNM1YJsC/8viymz5aEkRSn+FmoMxdkH0/ZenRfX4n5axe
+         5RlM2wEO48IWz54fwUquwCnQ39hYowD3W6Kx/qPpemMzxRXr2z6bPn3mOtZQcSeW+Cb9
+         QVH47mHpWmDq1sak+T2UNr/mYXNuUzCEA4T5aNcKj2B3m2k8eOQYyaa/1/pCvugWDLDq
+         dlobhdMJNfMOgJi94PpUwsFLTSbGPouNsYcFE2WNwVa+NU6QTdx0bKSiRRJJF8L6ewkY
+         F3XQSw8Tk0Wz+tn4ymHNVhHVwpj8ZuWU5UMZYSwZKEBeqJF4ddI3coD02NN7CK0BXuSY
+         j6AQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWAiKnmeg3g6QRvrM7sfn4L3PZ+Gu1hqCC8Y3uiVj0ta3UUg/UZAuNpa0qn8+x+lkNRdyUh3zfD9XOcwRmy@lists.linux.dev
+X-Gm-Message-State: AOJu0YzfvqgU7bi4cb0ZG3s7RYieeYlIqXbggoAQpWQMobLLY/qMNOwO
+	OyXLI18UHH1pTIyzcXSh0ReUIP1+yYzhnBxYt5jg/a1bZJUWnLJZxTOTg9n/GGyPPnA=
+X-Gm-Gg: ASbGncsvM/saRPwJsOv9dzjBRwU3ZRX6l0h/5PMh1ARQC9rwxTgdC9M02QTTuvA58Tz
+	cleHJGTyob9qG2UGrwsPpeqN/+Yxn52QDvaJE1o/4w6qPJ4PKTJd3WTPhueQHUdK7mCUvZ48MKL
+	ByOYjRvnKW+SyvQtp17rAm2c6kjWrEiYbGAsB59hrzA711s3I+k3YFC2i6Fvo4BfVEruToO7eHF
+	6MAXD1wbuH6bseRlVBzA2MRCQNGUahzjMc6GjLMKaAhm1wluYuBloxKEO99otP9OeUnNEjE/78b
+	ca2uj0hqpjtUK5C6LCZytkD1Ya8ifcZ5zA29hkCV3S4GSMC3odo2p8qsDiHD+hqFVqs8ig==
+X-Google-Smtp-Source: AGHT+IH5uoBFw2Udb6ovo2SD8dpCsBqIYrHL9XKo8HZbUvvBBEOdNkQdnf9VE5Fth+7RjBV02SNJVQ==
+X-Received: by 2002:a05:6808:6a85:b0:40a:a8ad:bc11 with SMTP id 5614622812f47-40b33da6484mr2866471b6e.17.1751053370665;
+        Fri, 27 Jun 2025 12:42:50 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:f3a4:7b11:3bf4:5d7b])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-40b3241e38csm483938b6e.34.2025.06.27.12.42.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jun 2025 12:42:50 -0700 (PDT)
+Date: Fri, 27 Jun 2025 22:42:48 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	broonie@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, lgirdwood@gmail.com,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v2 4/6] regulator: Add support for MediaTek MT6363 SPMI
+ PMIC Regulators
+Message-ID: <f4ec5c4b-78e6-423b-8b19-97171c9d93ec@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +78,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250624073548.29732-5-angelogioacchino.delregno@collabora.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e540341508ce2f6e27810106253d5de194b66750
-commit: 7a2dafda950b78611dc441c83d105dfdc7082681 bpf: net_sched: Add a qdisc watchdog timer
-date:   2 months ago
-config: powerpc64-randconfig-r113-20250627 (https://download.01.org/0day-ci/archive/20250628/202506280351.g258QPQS-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20250628/202506280351.g258QPQS-lkp@intel.com/reproduce)
+Hi AngeloGioacchino,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-regulator-Document-MediaTek-MT6316-PMIC-Regulators/20250624-154048
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20250624073548.29732-5-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v2 4/6] regulator: Add support for MediaTek MT6363 SPMI PMIC Regulators
+config: x86_64-randconfig-161-20250627 (https://download.01.org/0day-ci/archive/20250628/202506280258.somyWWgp-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506280351.g258QPQS-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202506280258.somyWWgp-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/sched/bpf_qdisc.c:224:18: sparse: sparse: symbol 'bpf_qdisc_init_prologue' was not declared. Should it be static?
->> net/sched/bpf_qdisc.c:234:18: sparse: sparse: symbol 'bpf_qdisc_reset_destroy_epilogue' was not declared. Should it be static?
+New smatch warnings:
+drivers/regulator/mt6363-regulator.c:351 mt6363_regulator_set_mode() error: uninitialized symbol 'regmap'.
+drivers/regulator/mt6363-regulator.c:388 mt6363_regulator_set_mode() error: uninitialized symbol 'ret'.
 
-vim +/bpf_qdisc_init_prologue +224 net/sched/bpf_qdisc.c
+vim +/regmap +351 drivers/regulator/mt6363-regulator.c
 
-   184	
-   185	/* bpf_skb_get_hash - Get the flow hash of an skb.
-   186	 * @skb: The skb to get the flow hash from.
-   187	 */
- > 188	__bpf_kfunc u32 bpf_skb_get_hash(struct sk_buff *skb)
-   189	{
-   190		return skb_get_hash(skb);
-   191	}
-   192	
-   193	/* bpf_kfree_skb - Release an skb's reference and drop it immediately.
-   194	 * @skb: The skb whose reference to be released and dropped.
-   195	 */
-   196	__bpf_kfunc void bpf_kfree_skb(struct sk_buff *skb)
-   197	{
-   198		kfree_skb(skb);
-   199	}
-   200	
-   201	/* bpf_qdisc_skb_drop - Drop an skb by adding it to a deferred free list.
-   202	 * @skb: The skb whose reference to be released and dropped.
-   203	 * @to_free_list: The list of skbs to be dropped.
-   204	 */
-   205	__bpf_kfunc void bpf_qdisc_skb_drop(struct sk_buff *skb,
-   206					    struct bpf_sk_buff_ptr *to_free_list)
-   207	{
-   208		__qdisc_drop(skb, (struct sk_buff **)to_free_list);
-   209	}
-   210	
-   211	/* bpf_qdisc_watchdog_schedule - Schedule a qdisc to a later time using a timer.
-   212	 * @sch: The qdisc to be scheduled.
-   213	 * @expire: The expiry time of the timer.
-   214	 * @delta_ns: The slack range of the timer.
-   215	 */
-   216	__bpf_kfunc void bpf_qdisc_watchdog_schedule(struct Qdisc *sch, u64 expire, u64 delta_ns)
-   217	{
-   218		struct bpf_sched_data *q = qdisc_priv(sch);
-   219	
-   220		qdisc_watchdog_schedule_range_ns(&q->watchdog, expire, delta_ns);
-   221	}
-   222	
-   223	/* bpf_qdisc_init_prologue - Hidden kfunc called in prologue of .init. */
- > 224	__bpf_kfunc void bpf_qdisc_init_prologue(struct Qdisc *sch)
-   225	{
-   226		struct bpf_sched_data *q = qdisc_priv(sch);
-   227	
-   228		qdisc_watchdog_init(&q->watchdog, sch);
-   229	}
-   230	
-   231	/* bpf_qdisc_reset_destroy_epilogue - Hidden kfunc called in epilogue of .reset
-   232	 * and .destroy
-   233	 */
- > 234	__bpf_kfunc void bpf_qdisc_reset_destroy_epilogue(struct Qdisc *sch)
-   235	{
-   236		struct bpf_sched_data *q = qdisc_priv(sch);
-   237	
-   238		qdisc_watchdog_cancel(&q->watchdog);
-   239	}
-   240	
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  342  static int mt6363_regulator_set_mode(struct regulator_dev *rdev,
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  343  				     unsigned int mode)
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  344  {
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  345  	struct mt6363_regulator_info *info = rdev_get_drvdata(rdev);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  346  	struct regmap *regmap;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  347  	int cur_mode, ret;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  348  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  349  	switch (mode) {
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  350  	case REGULATOR_MODE_FAST:
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24 @351  		ret = mt6363_buck_unlock(regmap, true);
+                                                                                                 ^^^^^
+Uninitialized.
+
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  352  		if (ret)
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  353  			break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  354  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  355  		ret = regmap_set_bits(regmap, info->modeset_reg, info->modeset_mask);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  356  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  357  		mt6363_buck_unlock(regmap, false);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  358  		break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  359  	case REGULATOR_MODE_NORMAL:
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  360  		cur_mode = mt6363_regulator_get_mode(rdev);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  361  		if (cur_mode < 0) {
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  362  			ret = cur_mode;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  363  			break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  364  		}
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  365  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  366  		if (cur_mode == REGULATOR_MODE_FAST) {
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  367  			ret = mt6363_buck_unlock(regmap, true);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  368  			if (ret)
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  369  				break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  370  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  371  			ret = regmap_clear_bits(regmap, info->modeset_reg, info->modeset_mask);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  372  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  373  			mt6363_buck_unlock(regmap, false);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  374  			break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  375  		} else if (cur_mode == REGULATOR_MODE_IDLE) {
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  376  			ret = regmap_clear_bits(regmap, info->lp_mode_reg, info->lp_mode_mask);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  377  			if (ret == 0)
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  378  				usleep_range(100, 200);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  379  		}
+
+ret not initialized on else path.
+
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  380  		break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  381  	case REGULATOR_MODE_IDLE:
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  382  		ret = regmap_set_bits(regmap, info->lp_mode_reg, info->lp_mode_mask);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  383  		break;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  384  	default:
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  385  		ret = -EINVAL;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  386  	}
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  387  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24 @388  	if (ret) {
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  389  		dev_err(&rdev->dev, "Failed to set mode %u: %d\n", mode, ret);
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  390  		return ret;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  391  	}
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  392  
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  393  	return 0;
+5dae648aed0eaf AngeloGioacchino Del Regno 2025-06-24  394  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
