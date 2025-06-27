@@ -1,68 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B17B2264A8
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 07:58:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882BE2264C7;
+	Fri, 27 Jun 2025 08:06:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751011115; cv=none; b=n8pSMO5si4QMXMJR/X/sNCkZy3f4zrQzca3xX7Rrz0LxBTGEan2IboK0Rb/Ai8A97s9IJlYIyckNwV31wlKmvRDQnf2pGTYm3z7tqVDs7/+0VzqIzhj366eVix7Kuo9mE2QpMAGcnsySsARLmfxDdveIsfVF0qPG+zrKBaYJ0b4=
+	t=1751011595; cv=none; b=HXNZTJTsdN/UtVD3F67/9mQhTWVnVN4upZGWT9w5ai7IdUbQu9nHuDl/7EGdOxm1LfGbYdCU94imBcLn30DkllCWyBByBGTzPi/zm+EDySvI9B+Of19GUdfFWyKbhBuydqDEpN/VWS4nY9u1NOM3XKGRPpMFrBXWkrKNu6J/KxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751011115; c=relaxed/simple;
-	bh=Fyg0cpFx4aTbB3uk0FSSpezLibp4GAAeDnWy0ypWXYg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AshjbnrA5n0IcxRNBbLOa4ie+PETARp5yr0uwReG1+xu4+WqclX5Fdr45NIv7s9Ob7/LXnRiGuaZ4hWL6HOS7Ng64tMZ2gZb7pQSpTKVEBsKCBuk8Zc5jBT3wR64c1MhnaBhOSmYGPvTJgabEyG/V+OSzkuJD19RPkHN2n8xBa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oKYXYNlN; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1751011595; c=relaxed/simple;
+	bh=Fd/B71Ay1n6YVW8By1kBNB5aLOrWe2WdwbwtZmI38kA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZY922S7Ldlarc4D8fXTQEexIg4D5IHIS10FAfR9zgFD3sC6876tb44/ivS7W8TORhsRMy639ZbnUXsIW5sQEKEn0n9+0hzZMXZezF23g4izV0IdWhBORH1quPWLahWG+Qeeauuxppx5oR1aJ75cMwptKlziEwhSnVCmyQxahxb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kmjoS7Ei; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oKYXYNlN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kmjoS7Ei"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751011112; x=1782547112;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Fyg0cpFx4aTbB3uk0FSSpezLibp4GAAeDnWy0ypWXYg=;
-  b=oKYXYNlNJ+0XaIMizaMCCtSJHPl8GgCgE0yVZXRMJYCraxsilo1F8NNc
-   mbEVB2KyJho8x2NZ6Lp25Yk2wrzFZM2308fBiL15fJ2Rxt0zw9kf/svlu
-   oKMAfihyQZnQfc3AzbMmekWCdw7+lqLmY/D0Vd51CQZ9Z4rAQJWehORi3
-   /f6tOv0VhEAQGYGmlUcIkIAgG7FOD9Ck6eP0/0nPiZ8hcWYt5aeXQabt4
-   wwhJSCF3RsQTROWU7sYEu4o5kuefv19HP205FJ1yW/vJ0TBm8uwiMced8
-   K7JHcZoEfT1RUxFeFdmI2cTt8Fraep8FlOLXUkHSjEXrrRpwxCsIohy7F
-   g==;
-X-CSE-ConnectionGUID: zlxyfQYGRCeitfLGGjhX2w==
-X-CSE-MsgGUID: Wc9ANNpETIeIRLEVWz2dXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="78759737"
-X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="78759737"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 00:58:32 -0700
-X-CSE-ConnectionGUID: uoRikHCJQTaAUw8eJtuwog==
-X-CSE-MsgGUID: ZHkJKVaYSmq20p6vFpHyBA==
+  t=1751011593; x=1782547593;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Fd/B71Ay1n6YVW8By1kBNB5aLOrWe2WdwbwtZmI38kA=;
+  b=kmjoS7EixVJxgErWRMcpvfU89Lpizw1by5OTLoHc3TM3u9hMDRQaOL1q
+   y2tX6i/CbQyndZcVlYWik1kt/fkAw4qsTCuxXuBdpkjd7FWDVHJIoke7V
+   VRLOnQRBCHhyY+NcTtySmbuEeVpvelp8BveV+4twTDcpyMc9CXLuxAxuQ
+   zskoro4lEmYmTK0+o2bGTlWnjJe+cbTpB9RriPB2lU8kW6nSRh+VhY2fF
+   OEzSkNhvGsCjzWThk9NnY6XfZan6OfA+fWNnDs03nuvbkmgUH4zDwaaOQ
+   C4nVrZSSrO0saTRqp3yQNzPq6GJt4ML9ys/ZsFfzIzozsE/8Q6isf1hDX
+   Q==;
+X-CSE-ConnectionGUID: uczU0B+gQxu5cmdweYuKaA==
+X-CSE-MsgGUID: 0nrei+v3QnewMstwwMQdXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53467789"
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="53467789"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 01:06:33 -0700
+X-CSE-ConnectionGUID: F3t9TbshTvixij/xrIJ3mQ==
+X-CSE-MsgGUID: uF8MnP8ZQCi2tufOsfTPmQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="152479988"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 27 Jun 2025 00:58:29 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="176421304"
+Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
+  by fmviesa002.fm.intel.com with ESMTP; 27 Jun 2025 01:06:31 -0700
+Received: from kbuild by e588e990b675 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uV3yc-000VwV-01;
-	Fri, 27 Jun 2025 07:58:26 +0000
-Date: Fri, 27 Jun 2025 15:58:15 +0800
+	id 1uV46P-0000dX-1F;
+	Fri, 27 Jun 2025 08:06:29 +0000
+Date: Fri, 27 Jun 2025 10:05:30 +0200
 From: kernel test robot <lkp@intel.com>
-To: Ian Rogers <irogers@google.com>, Eric Biggers <ebiggers@google.com>,
-	Yuzhuo Jing <yuzhuo@google.com>, Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Vincenzo Frascino <vincenzo.frascino@arm.com>,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	"Jason A. Donenfeld" <Jason@zx2c4.com>,
-	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Ian Rogers <irogers@google.com>
-Subject: Re: [PATCH v3 1/3] vdso: Switch get/put unaligned from packed struct
- to memcpy
-Message-ID: <202506271501.X7apmMDK-lkp@intel.com>
-References: <20250626054826.433453-2-irogers@google.com>
+To: Huang Ying <ying.huang@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Linux Memory Management List <linux-mm@kvack.org>
+Subject: kernel/resource.c:1838:43: warning: implicit conversion from
+ 'unsigned long long' to 'resource_size_t' (aka 'unsigned int') changes value
+ from 68719476735 to 4294967295
+Message-ID: <202506271014.vuMnyMSa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,454 +65,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250626054826.433453-2-irogers@google.com>
 
-Hi Ian,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16-rc3 next-20250626]
-[cannot apply to tip/timers/vdso acme/perf/core]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Rogers/vdso-Switch-get-put-unaligned-from-packed-struct-to-memcpy/20250626-135005
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250626054826.433453-2-irogers%40google.com
-patch subject: [PATCH v3 1/3] vdso: Switch get/put unaligned from packed struct to memcpy
-config: nios2-randconfig-r111-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271501.X7apmMDK-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250627/202506271501.X7apmMDK-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6f2a71a99ebd5dfaa7948a2e9c59eae94b741bd8
+commit: 99185c10d5d9214d0d0c8b7866660203e344ee3b resource, kunit: add test case for region_intersects()
+date:   9 months ago
+config: arm-randconfig-2006-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271014.vuMnyMSa-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271014.vuMnyMSa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506271501.X7apmMDK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506271014.vuMnyMSa-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   drivers/infiniband/core/cm.c: note: in included file (through include/rdma/ibta_vol1_c12.h, drivers/infiniband/core/cm_msgs.h):
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
-   drivers/infiniband/core/cm.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   drivers/infiniband/core/cm.c: note: in included file (through include/rdma/ibta_vol1_c12.h, drivers/infiniband/core/cm_msgs.h):
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
-   drivers/infiniband/core/cm.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   drivers/infiniband/core/cm.c: note: in included file (through include/rdma/ibta_vol1_c12.h, drivers/infiniband/core/cm_msgs.h):
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
-   drivers/infiniband/core/cm.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   drivers/infiniband/core/cm.c: note: in included file (through include/rdma/ibta_vol1_c12.h, drivers/infiniband/core/cm_msgs.h):
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
->> include/rdma/iba.h:48:16: sparse: sparse: incorrect type in argument 1 (different modifiers) @@     expected void * @@     got restricted __be64 const * @@
-   include/rdma/iba.h:48:16: sparse:     expected void *
-   include/rdma/iba.h:48:16: sparse:     got restricted __be64 const *
-   drivers/infiniband/core/cm.c: note: in included file (through include/uapi/linux/swab.h, include/linux/swab.h, include/uapi/linux/byteorder/little_endian.h, ...):
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:31:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
-   arch/nios2/include/uapi/asm/swab.h:25:24: sparse: sparse: too many arguments for function __builtin_custom_ini
+All warnings (new ones prefixed by >>):
 
-vim +48 include/rdma/iba.h
+   In file included from kernel/resource.c:21:
+   In file included from include/linux/pseudo_fs.h:4:
+   In file included from include/linux/fs_context.h:14:
+   In file included from include/linux/security.h:33:
+   In file included from include/linux/mm.h:2198:
+   include/linux/vmstat.h:518:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     518 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+>> kernel/resource.c:1838:43: warning: implicit conversion from 'unsigned long long' to 'resource_size_t' (aka 'unsigned int') changes value from 68719476735 to 4294967295 [-Wconstant-conversion]
+    1838 |                 end = min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
+         |                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   kernel/resource.c:1827:52: note: expanded from macro 'MAX_PHYS_ADDR'
+    1827 | #define MAX_PHYS_ADDR           ((1ULL << MAX_PHYSMEM_BITS) - 1)
+         |                                                             ^
+   include/linux/minmax.h:213:52: note: expanded from macro 'min_t'
+     213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~^~
+   include/linux/minmax.h:96:33: note: expanded from macro '__cmp_once'
+      96 |         __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:31: note: expanded from macro '__cmp_once_unique'
+      93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+         |                                ~~    ^
+   kernel/resource.c:1855:45: warning: implicit conversion from 'unsigned long long' to 'resource_size_t' (aka 'unsigned int') changes value from 68719476735 to 4294967295 [-Wconstant-conversion]
+    1855 |                 addr <= min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
+         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+   kernel/resource.c:1827:52: note: expanded from macro 'MAX_PHYS_ADDR'
+    1827 | #define MAX_PHYS_ADDR           ((1ULL << MAX_PHYSMEM_BITS) - 1)
+         |                                                             ^
+   include/linux/minmax.h:213:52: note: expanded from macro 'min_t'
+     213 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+         |                           ~~~~~~~~~~~~~~~~~~~~~~~~~^~
+   include/linux/minmax.h:96:33: note: expanded from macro '__cmp_once'
+      96 |         __cmp_once_unique(op, type, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:31: note: expanded from macro '__cmp_once_unique'
+      93 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+         |                                ~~    ^
+   3 warnings generated.
 
-d05d4ac4c9316a2 Leon Romanovsky 2020-01-16  41  
-d05d4ac4c9316a2 Leon Romanovsky 2020-01-16  42  static inline u64 _iba_get64(const __be64 *ptr)
-d05d4ac4c9316a2 Leon Romanovsky 2020-01-16  43  {
-d05d4ac4c9316a2 Leon Romanovsky 2020-01-16  44  	/*
-d05d4ac4c9316a2 Leon Romanovsky 2020-01-16  45  	 * The mads are constructed so that 32 bit and smaller are naturally
-d05d4ac4c9316a2 Leon Romanovsky 2020-01-16  46  	 * aligned, everything larger has a max alignment of 4 bytes.
-d05d4ac4c9316a2 Leon Romanovsky 2020-01-16  47  	 */
-d05d4ac4c9316a2 Leon Romanovsky 2020-01-16 @48  	return be64_to_cpu(get_unaligned(ptr));
-d05d4ac4c9316a2 Leon Romanovsky 2020-01-16  49  }
-d05d4ac4c9316a2 Leon Romanovsky 2020-01-16  50  
+
+vim +1838 kernel/resource.c
+
+  1831	
+  1832	static resource_size_t gfr_start(struct resource *base, resource_size_t size,
+  1833					 resource_size_t align, unsigned long flags)
+  1834	{
+  1835		if (flags & GFR_DESCENDING) {
+  1836			resource_size_t end;
+  1837	
+> 1838			end = min_t(resource_size_t, base->end, MAX_PHYS_ADDR);
+  1839			return end - size + 1;
+  1840		}
+  1841	
+  1842		return ALIGN(max(base->start, align), align);
+  1843	}
+  1844	
 
 -- 
 0-DAY CI Kernel Test Service
