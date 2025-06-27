@@ -1,75 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD3C1684B4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 07:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173C42264A8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 07:58:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751009792; cv=none; b=C+p1ZMr2pnMw4lziPtPnlfngXdUnnjj/1fHB9aS7gQb5QkFB5/QfwRg061FcUjMQBKjEVv+e1f8bhaqCeY1YXqH3ZGsQTn2IORj7fFObNrEa8Y9Cz9AxelYBP55o2GzRLPZGVZJF6honxWJA5HZMuXeyXFKFa197A5yLBMznosM=
+	t=1751011111; cv=none; b=ItvfvXjAS8YiXNquSg2adaL9M8ZupXmzIVpEZcKOlWE8VhuJE46RbXzodlSSMcuNH06r9earsvUQSC8qaqarM4u06kf63QOlx6yWpueH7s9iZbPz/1v1j+SlBy5cVeG/w44g2CEtbMeud5TVF8LwE8iSQIWWFSk4jyT9Z9IXKAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751009792; c=relaxed/simple;
-	bh=R7MFiZ9r/m2icBqFE8z942btjxdQ3uI5L9jjyYNHCUk=;
+	s=arc-20240116; t=1751011111; c=relaxed/simple;
+	bh=l9n8KltPPbYE3t93Ps5saCbC29p8bhSOg0qy1bAZscs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sl4zZehs/iqXHb38p3tKV0S2TfiatNrkWdRSgPl502ec3/gqwGpqf3D2XazlBpaKAkoFXslotYosW16MNwba37XBt59hyWm51g84xMaDG/MCnY/lmXl1gPVqrgDVPXvqhZfKfKjouNjXEhFNqKHjNWCdEqX2wDob+QkgJE+f5cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H99sShmZ; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cnkghgi+D3tPCCRrf2DHtuoYE7K7ykKRTwrzvwvCfP9lseZg3R9DFXlHrEB6M95gXXaOJeKoxD3p0YmzGUnFf7/WECFnq3IHPfdhTJCHHnNL1Baj8EWSpi4gn6PD5NJ53gGjDvQKNO2ki1EgCKVYfDYHB5DtG7NrckPb8B79QD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lm9XR8QN; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H99sShmZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lm9XR8QN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751009791; x=1782545791;
+  t=1751011110; x=1782547110;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=R7MFiZ9r/m2icBqFE8z942btjxdQ3uI5L9jjyYNHCUk=;
-  b=H99sShmZ5ZHkx0LflLUPHOJpa31Hu6HiBe6zbhkMdfm21FPh4/dErC/T
-   9ikhw7ymdDesgB2otN+OV0aBRqXy+lHJZ6H4ZpgFAT+rYnEmSdopFrpsa
-   LpMnDBO5JLp3ugfUfDTEKZYYy+pXX3wPoMPitjaWYo8kuRAezImR8BAvp
-   t05rLm4UxwMuCVSHJOADPqRoA4LzA8RkIDDqK59PaG35sh15rURf+4XC/
-   /Y28KaatMHzqiueJVfFsPUlCEp07W+5dOpHTy3e0MHrYfNY7rxpdESiEm
-   96TAonZJVLHkPk+TJeaagUnqz8JxpRUj/Nm3sWjnRY0ljAnU+0bcyrtcM
-   w==;
-X-CSE-ConnectionGUID: AG3tBCuIQz+6gIwS5l4mbA==
-X-CSE-MsgGUID: KIw1tBbET5O+4cA/t0lghg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53190635"
+  bh=l9n8KltPPbYE3t93Ps5saCbC29p8bhSOg0qy1bAZscs=;
+  b=lm9XR8QN717Dn9AGiFl0LAhZqAp5vDbDnvXvs8418J4O5taW1PZ7ym8n
+   GulVOOF3PiB3Hig75R2OxMlnF4fw/ST0cKguPelHhQ7FfoJsXu54yzetj
+   U7mOoV1tWpWZLOU3MY3tL0BPewvIeK6koqz987Uck7+B5bA6eLQbhX2Hs
+   04PXPgxf5X1787vwLSMcBNLTykumyMdczY3URMrdEYrMBekskyhzTLoHZ
+   rI64A4IEpAIal/Dk4jC5QmkAXH1A3M7ktWqGpnjQeVIYgQ4gvzuPupXsx
+   VMyH2fL8GbGSWlXZ138wQ6MekcXMuTWfP0oPF0UZwf+DUejlMOdT/e1Zr
+   A==;
+X-CSE-ConnectionGUID: 31SR9X6qTQqSUBWBfPL/qg==
+X-CSE-MsgGUID: t2TeQoxOQ/G749QoX0O+/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="78759732"
 X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="53190635"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 00:36:31 -0700
-X-CSE-ConnectionGUID: Kh5t6bgAQ1+j0Xkx9PE3SA==
-X-CSE-MsgGUID: j0Uw8pEZQUqEGpTzy5l4rg==
+   d="scan'208";a="78759732"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 00:58:29 -0700
+X-CSE-ConnectionGUID: 8dWLYkZISsKZ8xM6dWnpuA==
+X-CSE-MsgGUID: Z8UhkWkBQcOjsDb0DD5w2Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="153256700"
+   d="scan'208";a="152479987"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Jun 2025 00:36:26 -0700
+  by orviesa009.jf.intel.com with ESMTP; 27 Jun 2025 00:58:28 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uV3dI-000VvV-0Y;
-	Fri, 27 Jun 2025 07:36:24 +0000
-Date: Fri, 27 Jun 2025 15:35:59 +0800
+	id 1uV3yb-000VwQ-30;
+	Fri, 27 Jun 2025 07:58:25 +0000
+Date: Fri, 27 Jun 2025 15:58:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Taniya Das <quic_tdas@quicinc.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Ajit Pandey <quic_ajipan@quicinc.com>,
-	Imran Shaik <quic_imrashai@quicinc.com>,
-	Jagadeesh Kona <quic_jkona@quicinc.com>,
-	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	Taniya Das <quic_tdas@quicinc.com>,
-	Dmitry Baryshkov <lumag@kernel.org>
-Subject: Re: [PATCH v10 07/10] clk: qcom: gpucc-qcs615: Add QCS615 graphics
- clock controller driver
-Message-ID: <202506271519.GYlfvTOB-lkp@intel.com>
-References: <20250625-qcs615-mm-v10-clock-controllers-v10-7-ec48255f90d8@quicinc.com>
+To: Bo Liu <liubo03@inspur.com>, phillip@squashfs.org.uk
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Bo Liu <liubo03@inspur.com>
+Subject: Re: [PATCH] Squashfs: add page cache share support
+Message-ID: <202506271526.5iaNmw8d-lkp@intel.com>
+References: <20250626003644.3675-1-liubo03@inspur.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,38 +63,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250625-qcs615-mm-v10-clock-controllers-v10-7-ec48255f90d8@quicinc.com>
+In-Reply-To: <20250626003644.3675-1-liubo03@inspur.com>
 
-Hi Taniya,
+Hi Bo,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 2ae2aaafb21454f4781c30734959cf223ab486ef]
+[auto build test WARNING on v6.16-rc3]
+[also build test WARNING on linus/master next-20250626]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Taniya-Das/clk-qcom-clk-alpha-pll-Add-support-for-dynamic-update-for-slewing-PLLs/20250625-184903
-base:   2ae2aaafb21454f4781c30734959cf223ab486ef
-patch link:    https://lore.kernel.org/r/20250625-qcs615-mm-v10-clock-controllers-v10-7-ec48255f90d8%40quicinc.com
-patch subject: [PATCH v10 07/10] clk: qcom: gpucc-qcs615: Add QCS615 graphics clock controller driver
-config: arc-randconfig-r121-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271519.GYlfvTOB-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 13.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20250627/202506271519.GYlfvTOB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Bo-Liu/Squashfs-add-page-cache-share-support/20250626-084010
+base:   v6.16-rc3
+patch link:    https://lore.kernel.org/r/20250626003644.3675-1-liubo03%40inspur.com
+patch subject: [PATCH] Squashfs: add page cache share support
+config: m68k-randconfig-r132-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271526.5iaNmw8d-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250627/202506271526.5iaNmw8d-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506271519.GYlfvTOB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506271526.5iaNmw8d-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
->> drivers/clk/qcom/gpucc-qcs615.c:396:15: sparse: sparse: symbol 'gpu_cc_qcs615_hws' was not declared. Should it be static?
+>> fs/squashfs/pagecache_share.c:136:35: sparse: sparse: symbol 'squashfs_file_vm_ops' was not declared. Should it be static?
 
-vim +/gpu_cc_qcs615_hws +396 drivers/clk/qcom/gpucc-qcs615.c
+vim +/squashfs_file_vm_ops +136 fs/squashfs/pagecache_share.c
 
-   395	
- > 396	struct clk_hw *gpu_cc_qcs615_hws[] = {
-   397		[CRC_DIV_PLL0] = &crc_div_pll0.hw,
-   398		[CRC_DIV_PLL1] = &crc_div_pll1.hw,
-   399	};
-   400	
+   135	
+ > 136	const struct vm_operations_struct squashfs_file_vm_ops = {
+   137		.fault		= filemap_fault,
+   138		.map_pages	= filemap_map_pages,
+   139		.page_mkwrite	= filemap_page_mkwrite,
+   140	};
+   141	
 
 -- 
 0-DAY CI Kernel Test Service
