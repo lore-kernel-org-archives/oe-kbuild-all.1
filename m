@@ -1,144 +1,204 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F01A22D3EEC
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 12:40:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC3842D3EEB
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 12:44:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751028055; cv=none; b=DDMeeEzR5pbh4Ng82qpwllZyRZMPU2X+ZqhcI4mkUGpIiVADRhRS8Si9AKrJlfEZ0sEMp018h8RKCDJxjW/t3AV9OzStjjGJf5kurEPjqEJvArgorHiMu+apfSWSIbmufC2emUnEfs72bYS0wzOUbpMFmrBSzn4UoUpN8ejfohk=
+	t=1751028290; cv=none; b=nsOZFiicaby9sPctwEEUwddBFFjGootpuTEAIbhdZzcwu+UvmxUm1AGNH46RrbejIFHdIBnh3ExyiUCPCkG7n5b+wTDNI4t9QiBuT8zKvbynamhM9L+rEapoSO4aBzDEMOKpFAeBmFpp7ijD7NVnNMhK7riPxbNopvXg82i9TUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751028055; c=relaxed/simple;
-	bh=fwLogRgv5SA5f+CCgKXKbJuqMjGSRjY9rBRVcVbQ/q4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=P4RxZZJlLo+rozM6ydaBK6HvxXGoHA66YKHbmWTIS1HUTrrug5d++WGTvS9H0HMr5AYu3ZEJOHS8H6/0Z1bOtTL94GBvHBOMyoApa3hLvsn9IypYetZXMnRkx/ERpLtwlZJEBXPuRel8+J/qbJpAyYazVAacIXt4dxDidgySGzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mR5dS5T6; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751028290; c=relaxed/simple;
+	bh=7CxNAB6Ww6ghTcQzdWoMfravHLxKJEA3UU0mfgnUYyU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=T6gDAbjuwb+5i/Bm/yE8xFD9+nY/zrZpW2aAnTh3d9OtH6l3LZHJrHXMG8kEzL+ghP0eVtMsqGfa2Ws7JiBu6/AN1jtwTnE0Fu56a0NzyTUlVAblx99H8STXtqtWsM7Up7CNMkmC0rFkofkUEklAdSIPvelnvCVdmOjjtxurGlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GMnlJi+J; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mR5dS5T6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751028054; x=1782564054;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fwLogRgv5SA5f+CCgKXKbJuqMjGSRjY9rBRVcVbQ/q4=;
-  b=mR5dS5T6sklYkqg6jq4448FRpDyz1dZi6pCPqYfB99iqBDQTaSAgv6EO
-   PKEW9l7wm03Ldak+s+9MR5iP8fa8cfEtCbCUC10O2bvwZtP+bdd2XCVwi
-   zN3E4lhdwKLdFZlVnGP16+xvDMDbfzEqS2CMjeXOfOhNPyPF2i51wipH7
-   mybCx5wBd9k3/EqwyUhoe0OhdaFfW+KhehMnHYWKjdUmXSCx7WtZ9Dx5+
-   0QKMT/YZ8PBJiXk/pvnZlSvFb5mT9i8DBW4334Zc4q8NpgJDb5gfH15Bd
-   Ris/bJYnJw8DZDupC7xFI9oLwX7IHWzrHm7NuJ+5AUr19rOB56gOprhqr
-   g==;
-X-CSE-ConnectionGUID: mwnuA7XfR66q+9NXXpJhpw==
-X-CSE-MsgGUID: jyWvQcuaRpOBP919TYtpbA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="78778286"
-X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="78778286"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 05:40:53 -0700
-X-CSE-ConnectionGUID: HeWf7RPBT6mK6hCwd10DZQ==
-X-CSE-MsgGUID: VcUtREDPQsuU0pxVk8pWnQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="153096603"
-Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
-  by fmviesa009.fm.intel.com with ESMTP; 27 Jun 2025 05:40:52 -0700
-Received: from kbuild by e588e990b675 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uV8Nu-0000f9-1i;
-	Fri, 27 Jun 2025 12:40:50 +0000
-Date: Fri, 27 Jun 2025 14:40:36 +0200
-From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 0/2]
- drivers/usb/host/xhci-sideband.c:263: warning: Function parameter or struct
- member 'intr_num' not described in 'xhci_sideband_create_interrupter'
-Message-ID: <202506272012.w0aBh5XW-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GMnlJi+J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1751028287;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TZosY5w17Hxk/zCHJm5+wUbxMTuxq80xOJSHb1b9TZY=;
+	b=GMnlJi+JXp4m3uInEcBA24fdHFQfz6AJuYcmK5ItcsT/3btpfw4VkAfQWGVdak3knSNTjh
+	wNNlo5pjjblHJyHMfqemdM+kzXEsQtwzFKhQ8eHhv5I0FFmG7dQ/yA1Ez8ejzlfm+BAKyl
+	vgyuekgiGczlQb64FQ9/cBMZTtVbu7s=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-48-7M8u9tPiNx230KWcWzkGZQ-1; Fri, 27 Jun 2025 08:44:46 -0400
+X-MC-Unique: 7M8u9tPiNx230KWcWzkGZQ-1
+X-Mimecast-MFC-AGG-ID: 7M8u9tPiNx230KWcWzkGZQ_1751028285
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4536962204aso8522725e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 05:44:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751028285; x=1751633085;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TZosY5w17Hxk/zCHJm5+wUbxMTuxq80xOJSHb1b9TZY=;
+        b=AB1jvkA8DNysHb9G9IneDDnE8jFnfuSPKr2gqAHhfNDQ2pLIudHxzypfrKUZAsqyKo
+         11spC47L6BZk52Y+X8uf8XHZ6dm+1MwWeC63pQoHpn6h/nYsV5PcUllnMR0lcU6d11eC
+         HWceg3UEC1Ms9A0fFckI8fHXaZZxXz6U/X3lJNyqreGcp0Bj/SmVozlVMz+ORDSXCbcC
+         WIHQD8HkXD6fg6P22LdzZWj4yKRB5/Yn/9emghr6LE7lzc8yXA5yJnHno/ELs+/+BhYF
+         6uhWic2kLnLqIjk5OhD5SYTK6WJLPaw01Zt45aX+0yzDSo8Tep/ymSKnyZlkS6GOvIR0
+         55Yg==
+X-Forwarded-Encrypted: i=1; AJvYcCUFMFcHZqPGIcUS3rdsavlc+XC9l1iUGgm3832CFSw29qrZrkmy7YZq4PDUdqx1MNWD+lqKAj5hdslWzOgi@lists.linux.dev
+X-Gm-Message-State: AOJu0YwiMKgM3VoINMoE94dkWtRTU7rubebxeGsJJ3AkAt5/xOlvopKt
+	2RX7wdwa/sYM3RxYmwRC2NuHv6QjMUgGaH+1rZ7Fp5LXWhMh0IpJvXh1w1DHrN97xLMD5aBOCjg
+	3i+f/Vvw+voYILq5jUTUBRYjJszBQhzIYuQZwW+YDWKP6Bf3v8xC8uukOW2pv1aa8uCs=
+X-Gm-Gg: ASbGnct72yKFbxK2vD+ygVlK/pU3k4f3w65POn070bZMq9vMVLYO36EcOjpcCdOj0cs
+	2h9NlAnWxllOsU46FTCbPPz4r42VRixHURo6NDpvaSSfn8jVRBnh05rO1UYEfIeDUFvxf9YmSkP
+	u6NuBxql+Mkmt9UIO+dSJYT5zHGK9UA3YrFqDpsL/zAR2NQTqIhfFCrpAR8x321268GGagecOJY
+	uDDxMO+q4JcFG1KqAaUDpaxlTnarsrjV0hikgLkXWSCMwmxcp+vPWkq+X+rjGTcCj+ySKxlkKSD
+	pupNN6Amb+ThRnqF3wDQY92hCOOZp5YtDVpNpPQxUKVSCmDwl/rPEi09r1ULw4Ok1f8hvQ==
+X-Received: by 2002:a05:600c:1d1a:b0:43e:afca:808f with SMTP id 5b1f17b1804b1-4538ee790admr36216915e9.31.1751028284975;
+        Fri, 27 Jun 2025 05:44:44 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFjzEwFcMeAJ+My3RqiKLbICi2QrUfsZqQCz9lhS78S8Yc02l7InGbh/oVajWJNYQoqdnQtVg==
+X-Received: by 2002:a05:600c:1d1a:b0:43e:afca:808f with SMTP id 5b1f17b1804b1-4538ee790admr36216495e9.31.1751028284425;
+        Fri, 27 Jun 2025 05:44:44 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:244f:bd10:2bd0:124a:622c:badb? ([2a0d:3344:244f:bd10:2bd0:124a:622c:badb])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4538a423abbsm50841375e9.39.2025.06.27.05.44.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Jun 2025 05:44:43 -0700 (PDT)
+Message-ID: <9a940f1d-da2e-4400-909b-36c5d72c950a@redhat.com>
+Date: Fri, 27 Jun 2025 14:44:42 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 net-next 4/9] vhost-net: allow configuring extended
+ features
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jason Wang <jasowang@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>, Jonathan Corbet <corbet@lwn.net>,
+ kvm@vger.kernel.org, linux-doc@vger.kernel.org
+References: <23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni@redhat.com>
+ <202506271443.G9cAx8PS-lkp@intel.com>
+ <d172caa9-6d31-45a3-929c-d3927ba6702e@redhat.com>
+ <20250627075441-mutt-send-email-mst@kernel.org>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250627075441-mutt-send-email-mst@kernel.org>
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: IdqnD8DXZx2RZspdzxT6ivVmhXWFSnHmJXevdTJ5SY0_1751028285
+X-Mimecast-Originator: redhat.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   0144e2490a70c3551bfb173921278f21d8255d44
-commit: c354230ab97feb64813581d381c9f199ed70dd33 [0/2] FROMGIT: usb: host: xhci-mem: Allow for interrupter clients to choose specific index
-config: x86_64-buildonly-randconfig-2001-20250626 (https://download.01.org/0day-ci/archive/20250627/202506272012.w0aBh5XW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506272012.w0aBh5XW-lkp@intel.com/reproduce)
+On 6/27/25 2:18 PM, Michael S. Tsirkin wrote:
+> On Fri, Jun 27, 2025 at 12:28:00PM +0200, Paolo Abeni wrote:
+>> On 6/27/25 8:41 AM, kernel test robot wrote:
+>>> kernel test robot noticed the following build warnings:
+>>>
+>>> [auto build test WARNING on net-next/main]
+>>>
+>>> url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/scripts-kernel_doc-py-properly-handle-VIRTIO_DECLARE_FEATURES/20250624-221751
+>>> base:   net-next/main
+>>> patch link:    https://lore.kernel.org/r/23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni%40redhat.com
+>>> patch subject: [PATCH v6 net-next 4/9] vhost-net: allow configuring extended features
+>>> config: csky-randconfig-001-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271443.G9cAx8PS-lkp@intel.com/config)
+>>> compiler: csky-linux-gcc (GCC) 15.1.0
+>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271443.G9cAx8PS-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202506271443.G9cAx8PS-lkp@intel.com/
+>>>
+>>> All warnings (new ones prefixed by >>):
+>>>
+>>>    In file included from include/linux/uaccess.h:12,
+>>>                     from include/linux/sched/task.h:13,
+>>>                     from include/linux/sched/signal.h:9,
+>>>                     from include/linux/rcuwait.h:6,
+>>>                     from include/linux/percpu-rwsem.h:7,
+>>>                     from include/linux/fs.h:34,
+>>>                     from include/linux/compat.h:17,
+>>>                     from drivers/vhost/net.c:8:
+>>>    arch/csky/include/asm/uaccess.h: In function '__get_user_fn.constprop':
+>>>>> arch/csky/include/asm/uaccess.h:147:9: warning: 'retval' is used uninitialized [-Wuninitialized]
+>>>      147 |         __asm__ __volatile__(                           \
+>>>          |         ^~~~~~~
+>>>    arch/csky/include/asm/uaccess.h:187:17: note: in expansion of macro '__get_user_asm_64'
+>>>      187 |                 __get_user_asm_64(x, ptr, retval);
+>>>          |                 ^~~~~~~~~~~~~~~~~
+>>>    arch/csky/include/asm/uaccess.h:170:13: note: 'retval' was declared here
+>>>      170 |         int retval;
+>>>          |             ^~~~~~
+>>>
+>>>
+>>> vim +/retval +147 arch/csky/include/asm/uaccess.h
+>>>
+>>> da551281947cb2c Guo Ren 2018-09-05  141  
+>>> e58a41c2226847f Guo Ren 2021-04-21  142  #define __get_user_asm_64(x, ptr, err)			\
+>>> da551281947cb2c Guo Ren 2018-09-05  143  do {							\
+>>> da551281947cb2c Guo Ren 2018-09-05  144  	int tmp;					\
+>>> e58a41c2226847f Guo Ren 2021-04-21  145  	int errcode;					\
+>>> e58a41c2226847f Guo Ren 2021-04-21  146  							\
+>>> e58a41c2226847f Guo Ren 2021-04-21 @147  	__asm__ __volatile__(				\
+>>> e58a41c2226847f Guo Ren 2021-04-21  148  	"1:   ldw     %3, (%2, 0)     \n"		\
+>>> da551281947cb2c Guo Ren 2018-09-05  149  	"     stw     %3, (%1, 0)     \n"		\
+>>> e58a41c2226847f Guo Ren 2021-04-21  150  	"2:   ldw     %3, (%2, 4)     \n"		\
+>>> e58a41c2226847f Guo Ren 2021-04-21  151  	"     stw     %3, (%1, 4)     \n"		\
+>>> e58a41c2226847f Guo Ren 2021-04-21  152  	"     br      4f              \n"		\
+>>> e58a41c2226847f Guo Ren 2021-04-21  153  	"3:   mov     %0, %4          \n"		\
+>>> e58a41c2226847f Guo Ren 2021-04-21  154  	"     br      4f              \n"		\
+>>> da551281947cb2c Guo Ren 2018-09-05  155  	".section __ex_table, \"a\"   \n"		\
+>>> da551281947cb2c Guo Ren 2018-09-05  156  	".align   2                   \n"		\
+>>> e58a41c2226847f Guo Ren 2021-04-21  157  	".long    1b, 3b              \n"		\
+>>> e58a41c2226847f Guo Ren 2021-04-21  158  	".long    2b, 3b              \n"		\
+>>> da551281947cb2c Guo Ren 2018-09-05  159  	".previous                    \n"		\
+>>> e58a41c2226847f Guo Ren 2021-04-21  160  	"4:                           \n"		\
+>>> e58a41c2226847f Guo Ren 2021-04-21  161  	: "=r"(err), "=r"(x), "=r"(ptr),		\
+>>> e58a41c2226847f Guo Ren 2021-04-21  162  	  "=r"(tmp), "=r"(errcode)			\
+>>> e58a41c2226847f Guo Ren 2021-04-21  163  	: "0"(err), "1"(x), "2"(ptr), "3"(0),		\
+>>> e58a41c2226847f Guo Ren 2021-04-21  164  	  "4"(-EFAULT)					\
+>>> da551281947cb2c Guo Ren 2018-09-05  165  	: "memory");					\
+>>> da551281947cb2c Guo Ren 2018-09-05  166  } while (0)
+>>> da551281947cb2c Guo Ren 2018-09-05  167  
+>>
+>> AFAICS the issue reported here is in the arch-specific uaccess helpers
+>> and not related to this series.
+>>
+>> /P
+> 
+> I think it's due to code like this in your patch:
+> 
+> +                       if (get_user(features, featurep + 1 + i))
+> +                               return -EFAULT;
+> 
+> the specific arch might have a bug that this is unconvering,
+> or a limitation, I can't say.
+> 
+> Seems worth fixing, though.
+> 
+> Poke the mainatiners?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506272012.w0aBh5XW-lkp@intel.com/
+FTR, I tried the boot reproducer locally, and does not trigger here.
 
-All warnings (new ones prefixed by >>):
+The above statement is AFAICS legit, and the issue, if any, is present
+into such arch. I would not say this patch is 'uncovering' anything, as
+the relevant pattern is very common.
 
-   drivers/usb/host/xhci-sideband.c:263: warning: Function parameter or struct member 'imod_interval' not described in 'xhci_sideband_create_interrupter'
->> drivers/usb/host/xhci-sideband.c:263: warning: Function parameter or struct member 'intr_num' not described in 'xhci_sideband_create_interrupter'
-   drivers/usb/host/xhci-sideband.c:346: warning: Function parameter or struct member 'type' not described in 'xhci_sideband_register'
+Possibly the test robot added support for csky only recently?
 
+I will ping the arch maintainers, but I suggest/argue not blocking this
+series for this thing.
 
-vim +263 drivers/usb/host/xhci-sideband.c
+Thanks,
 
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  244  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  245  /**
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  246   * xhci_sideband_create_interrupter - creates a new interrupter for this sideband
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  247   * @sb: sideband instance for this usb device
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  248   * @num_seg: number of event ring segments to allocate
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  249   * @ip_autoclear: IP autoclearing support such as MSI implemented
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  250   *
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  251   * Sets up a xhci interrupter that can be used for this sideband accessed usb
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  252   * device. Transfer events for this device can be routed to this interrupters
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  253   * event ring by setting the 'Interrupter Target' field correctly when queueing
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  254   * the transfer TRBs.
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  255   * Once this interrupter is created the interrupter target ID can be obtained
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  256   * by calling xhci_sideband_interrupter_id()
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  257   *
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  258   * Returns 0 on success, negative error otherwise
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  259   */
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  260  int
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  261  xhci_sideband_create_interrupter(struct xhci_sideband *sb, int num_seg,
-c354230ab97feb Wesley Cheng  2025-04-09  262  				 bool ip_autoclear, u32 imod_interval, int intr_num)
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09 @263  {
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  264  	int ret = 0;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  265  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  266  	if (!sb || !sb->xhci)
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  267  		return -ENODEV;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  268  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  269  	mutex_lock(&sb->mutex);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  270  	if (sb->ir) {
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  271  		ret = -EBUSY;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  272  		goto out;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  273  	}
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  274  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  275  	sb->ir = xhci_create_secondary_interrupter(xhci_to_hcd(sb->xhci),
-c354230ab97feb Wesley Cheng  2025-04-09  276  						   num_seg, imod_interval,
-c354230ab97feb Wesley Cheng  2025-04-09  277  						   intr_num);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  278  	if (!sb->ir) {
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  279  		ret = -ENOMEM;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  280  		goto out;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  281  	}
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  282  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  283  	sb->ir->ip_autoclear = ip_autoclear;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  284  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  285  out:
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  286  	mutex_unlock(&sb->mutex);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  287  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  288  	return ret;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  289  }
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  290  EXPORT_SYMBOL_GPL(xhci_sideband_create_interrupter);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  291  
+Paolo
 
-:::::: The code at line 263 was first introduced by commit
-:::::: 8b9c57ce39a5a88dbc923cebe1fdd234239a7f94 FROMGIT: xhci: sideband: add initial api to register a secondary interrupter entity
-
-:::::: TO: Mathias Nyman <mathias.nyman@linux.intel.com>
-:::::: CC: Carlos Llamas <cmllamas@google.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
