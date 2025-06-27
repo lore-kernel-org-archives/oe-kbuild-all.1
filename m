@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13AF22DD60F
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 14:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369F69443
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 15:20:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751035155; cv=none; b=BTSJA5QklBZjLEAEhqCHpxBypeBUL3ewo30maqYdYYfssxC+HnK7VG06mzuWMnAZ/YRRNAdcYmdCVd42NIPpVQXySWMQkcEhI14oSEtRSDShjzERwPE7AVWYdWD77xSM/jMYgDnZXbCE241XnO+YNclIkQNoOjAzkKZXz15Ssrg=
+	t=1751037611; cv=none; b=YYKT0OxlqHZxTm3nipv246T0qZX/tqNvMicmqA48umQ4iGyq4r1XIiSov/WkqGJ07c3xxgN6k/OZY40mYzXFuWGLGMPNWIiG7VmSqrImQ8CXhNVuNAS8udbLC9DyD3QjtBrhnAwdWWJAvJsKbLn/ogPrRnmy1V2TyKn2imBWs7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751035155; c=relaxed/simple;
-	bh=QPy46Z72FTzq+V2GfoYOLOyi0wckMaAML2irBAyl1ms=;
+	s=arc-20240116; t=1751037611; c=relaxed/simple;
+	bh=oYYOnOXdn0GX+o6EqVygQDxxbbM/WbjRNzk1x6naRaI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RZtsn4pqC3DdFyIvgoyQW/LG2TeDDpOkY1lye2Tvf+zuDHPT3zXorrAbDHkb8QbxlchNBpWhGej5gi/I+A6zDBtcGCa/du8HZgdXbqhEc2rNoa4vRUlB96pdSyH63A+HfVphE2ntrB1b5xWVUUPOIHVOsTG9kqfp2aNk+O1Huo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d4/JIDyr; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=TqvXh8E6+ZOBRG3smzTHaSuKRC+zxExuvEjS2Vvb1LqmpNjTK5ZIrdnAenAMl2UXn82//m5l/RzXSCxwRnOdQ1CarsipeYpce4hSpXY/FLy1glmA2uvtnJDl7gMnoFHbv9Qustvri/7vzR/r+s20HmrNkCTDrFW/CQZ7N285ML0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GXy8M2WA; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d4/JIDyr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GXy8M2WA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751035153; x=1782571153;
+  t=1751037610; x=1782573610;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=QPy46Z72FTzq+V2GfoYOLOyi0wckMaAML2irBAyl1ms=;
-  b=d4/JIDyrY0VB2CLwg+uLiFby04NA3Nof99qdBxUt70/a1IU9VnxPz9Vg
-   b9sXWtPnDTScK/wy3W1HJG6Wed7pu6GrU0Kl+jdGLb5hByvjJKSLvM0JX
-   AFyDQjDuCZ9TORodwIkpl2xyXIIPuQ6dW/I2c/0C3nEFgzzfXEOGTVugi
-   C6BtWp7DQiSatnWKUtmT1tln9924AFXGQhTlkz0N2eMud9Izt4+txn9YG
-   5bJJ5JPjOS1t+CMUmKcd8k5pDc6uOpAffUypxJuJ4EwMm+dHs8KkdcCgu
-   ulNHOU7IVjXUAliITs3X7542yi4LFJCSglz8kjT/ehZaBmujt1XOplC7N
+  bh=oYYOnOXdn0GX+o6EqVygQDxxbbM/WbjRNzk1x6naRaI=;
+  b=GXy8M2WAsT7QmhfumNTCuw8WdCMZeJhp4AhnKtbPYYkfy98eZWbAva3w
+   sS4lpbh8QH9bYYJkw0Nt6+WupsN0LDNUdPyPnXbLBtoprB5sGGVGerpld
+   3Ygxa8/szvmE8gEKrb8dc696aPDcZsxHDyKxR1bFySro2CZWly8vNeye2
+   /sdDPHFdmuTMOT/FDxRO+RXuVlCJ5c+LmBwqVUQS99XSPVtdhhTkAK4gs
+   B6ARNbok/zzN4LEEVOuDvGxxS1+umoEVK3vs75LJMZUhyTNhxk8HEOR0e
+   ptPcpVNkZLuVj18amGUTRZcVLlvjzGHn8Xi12AcHyB0Rxsbkoks3VZIa1
    w==;
-X-CSE-ConnectionGUID: i4uww336TWCLBim3J0BOUA==
-X-CSE-MsgGUID: 7B08KAFNRnus59L69874Cw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53292096"
+X-CSE-ConnectionGUID: EJNI9t6RQAuldPoUAnE2Nw==
+X-CSE-MsgGUID: OvNQWEpXSuyd2kN5H9D5zw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53449957"
 X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="53292096"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 07:39:13 -0700
-X-CSE-ConnectionGUID: O2Y63WpuR3284kIVvQ7/xw==
-X-CSE-MsgGUID: I4EkIJmjTOSL2pqP3ryBIw==
+   d="scan'208";a="53449957"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 08:20:09 -0700
+X-CSE-ConnectionGUID: lSgWr0O1TJGVh5FT4OkSKw==
+X-CSE-MsgGUID: 9oYJKmEjSoqqDndOLQxdrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="183857844"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Jun 2025 07:39:10 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+   d="scan'208";a="152444861"
+Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
+  by fmviesa007.fm.intel.com with ESMTP; 27 Jun 2025 08:20:08 -0700
+Received: from kbuild by e588e990b675 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVAEO-000WG1-23;
-	Fri, 27 Jun 2025 14:39:08 +0000
-Date: Fri, 27 Jun 2025 22:38:45 +0800
+	id 1uVAs1-0000gd-1d;
+	Fri, 27 Jun 2025 15:20:05 +0000
+Date: Fri, 27 Jun 2025 17:19:07 +0200
 From: kernel test robot <lkp@intel.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andrea Righi <arighi@nvidia.com>
-Subject: kernel/sched/ext_idle.c:736:33: sparse: sparse: incorrect type in
- initializer (different address spaces)
-Message-ID: <202506272222.ohKcICfH-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-desktop 0/2]
+ drivers/usb/host/xhci-sideband.c:372: warning: Function parameter or struct
+ member 'notify_client' not described in 'xhci_sideband_register'
+Message-ID: <202506271754.ZQ5p1ODq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,203 +63,95 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   67a993863163cb88b1b68974c31b0d84ece4293e
-commit: d310fb40096896abe1928b88224129bf7122532f sched_ext: Clean up scx_root usages
-date:   6 weeks ago
-config: powerpc64-randconfig-r113-20250627 (https://download.01.org/0day-ci/archive/20250627/202506272222.ohKcICfH-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.3.0
-reproduce: (https://download.01.org/0day-ci/archive/20250627/202506272222.ohKcICfH-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
+head:   0144e2490a70c3551bfb173921278f21d8255d44
+commit: b7f481d533d071f4d6d6b1480323e50f995efbbe [0/2] FROMGIT: usb: host: xhci: Notify xHCI sideband on transfer ring free
+config: x86_64-buildonly-randconfig-2001-20250626 (https://download.01.org/0day-ci/archive/20250627/202506271754.ZQ5p1ODq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271754.ZQ5p1ODq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506272222.ohKcICfH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506271754.ZQ5p1ODq-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/ext.c:3339:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext.c:3339:38: sparse:     expected struct task_struct *prev
-   kernel/sched/ext.c:3339:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/ext.c:3394:49: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3394:49: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3394:49: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3451:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3451:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3451:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3510:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3510:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3510:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3529:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3529:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3529:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3641:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3641:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3641:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3720:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3720:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3720:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3772:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3772:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3772:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3799:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3799:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3799:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3812:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3812:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3812:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3941:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3941:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3941:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root
-   kernel/sched/ext.c:3956:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root @@
-   kernel/sched/ext.c:3956:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:3956:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root
-   kernel/sched/ext.c:5057:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root @@
-   kernel/sched/ext.c:5057:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:5057:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root
-   kernel/sched/ext.c:5099:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root @@
-   kernel/sched/ext.c:5099:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:5099:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root
-   kernel/sched/ext.c:5209:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext.c:5209:52: sparse:     expected struct task_struct *p
-   kernel/sched/ext.c:5209:52: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/ext.c:5971:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/ext.c:5971:32: sparse:     expected struct task_struct const *p
-   kernel/sched/ext.c:5971:32: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/ext.c:6080:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root @@
-   kernel/sched/ext.c:6080:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:6080:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root
-   kernel/sched/ext.c:6352:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root @@
-   kernel/sched/ext.c:6352:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:6352:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root
-   kernel/sched/ext.c:6485:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root @@
-   kernel/sched/ext.c:6485:33: sparse:     expected struct scx_sched *sch
-   kernel/sched/ext.c:6485:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root
-   kernel/sched/ext.c:7332:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/ext.c:7332:33: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/ext.c:7332:33: sparse:    struct task_struct const *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/ext_idle.c:245:24: sparse: sparse: Using plain integer as NULL pointer
->> kernel/sched/ext_idle.c:736:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root @@
-   kernel/sched/ext_idle.c:766:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/syscalls.c:206:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/syscalls.c:206:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/syscalls.c:206:22: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/sched.h:2241:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2241:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2241:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2241:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2252:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2252:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2252:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2241:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2252:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2241:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2241:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2252:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2241:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2241:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2241:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2252:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2441:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2441:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2441:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2252:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2252:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2441:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2441:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2441:9: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/syscalls.c:1295:6: sparse: sparse: context imbalance in 'sched_getaffinity' - different lock contexts for basic block
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/rt.c:1697:15: sparse: sparse: dereference of noderef expression
+All warnings (new ones prefixed by >>):
 
-vim +736 kernel/sched/ext_idle.c
+   drivers/usb/host/xhci-sideband.c:287: warning: Function parameter or struct member 'imod_interval' not described in 'xhci_sideband_create_interrupter'
+   drivers/usb/host/xhci-sideband.c:287: warning: Function parameter or struct member 'intr_num' not described in 'xhci_sideband_create_interrupter'
+   drivers/usb/host/xhci-sideband.c:372: warning: Function parameter or struct member 'type' not described in 'xhci_sideband_register'
+>> drivers/usb/host/xhci-sideband.c:372: warning: Function parameter or struct member 'notify_client' not described in 'xhci_sideband_register'
 
-   717	
-   718	/*
-   719	 * Update the idle state of a CPU to @idle.
-   720	 *
-   721	 * If @do_notify is true, ops.update_idle() is invoked to notify the scx
-   722	 * scheduler of an actual idle state transition (idle to busy or vice
-   723	 * versa). If @do_notify is false, only the idle state in the idle masks is
-   724	 * refreshed without invoking ops.update_idle().
-   725	 *
-   726	 * This distinction is necessary, because an idle CPU can be "reserved" and
-   727	 * awakened via scx_bpf_pick_idle_cpu() + scx_bpf_kick_cpu(), marking it as
-   728	 * busy even if no tasks are dispatched. In this case, the CPU may return
-   729	 * to idle without a true state transition. Refreshing the idle masks
-   730	 * without invoking ops.update_idle() ensures accurate idle state tracking
-   731	 * while avoiding unnecessary updates and maintaining balanced state
-   732	 * transitions.
-   733	 */
-   734	void __scx_update_idle(struct rq *rq, bool idle, bool do_notify)
-   735	{
- > 736		struct scx_sched *sch = scx_root;
-   737		int cpu = cpu_of(rq);
-   738	
-   739		lockdep_assert_rq_held(rq);
-   740	
-   741		/*
-   742		 * Trigger ops.update_idle() only when transitioning from a task to
-   743		 * the idle thread and vice versa.
-   744		 *
-   745		 * Idle transitions are indicated by do_notify being set to true,
-   746		 * managed by put_prev_task_idle()/set_next_task_idle().
-   747		 */
-   748		if (SCX_HAS_OP(sch, update_idle) && do_notify && !scx_rq_bypassing(rq))
-   749			SCX_CALL_OP(SCX_KF_REST, update_idle, rq, cpu_of(rq), idle);
-   750	
-   751		/*
-   752		 * Update the idle masks:
-   753		 * - for real idle transitions (do_notify == true)
-   754		 * - for idle-to-idle transitions (indicated by the previous task
-   755		 *   being the idle thread, managed by pick_task_idle())
-   756		 *
-   757		 * Skip updating idle masks if the previous task is not the idle
-   758		 * thread, since set_next_task_idle() has already handled it when
-   759		 * transitioning from a task to the idle thread (calling this
-   760		 * function with do_notify == true).
-   761		 *
-   762		 * In this way we can avoid updating the idle masks twice,
-   763		 * unnecessarily.
-   764		 */
-   765		if (static_branch_likely(&scx_builtin_idle_enabled))
-   766			if (do_notify || is_idle_task(rq->curr))
-   767				update_builtin_idle(cpu, idle);
-   768	}
-   769	
+
+vim +372 drivers/usb/host/xhci-sideband.c
+
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  358  
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  359  /**
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  360   * xhci_sideband_register - register a sideband for a usb device
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  361   * @intf: usb interface associated with the sideband device
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  362   *
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  363   * Allows for clients to utilize XHCI interrupters and fetch transfer and event
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  364   * ring parameters for executing data transfers.
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  365   *
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  366   * Return: pointer to a new xhci_sideband instance if successful. NULL otherwise.
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  367   */
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  368  struct xhci_sideband *
+b7f481d533d071 Wesley Cheng  2025-04-09  369  xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type,
+b7f481d533d071 Wesley Cheng  2025-04-09  370  		       int (*notify_client)(struct usb_interface *intf,
+b7f481d533d071 Wesley Cheng  2025-04-09  371  				    struct xhci_sideband_event *evt))
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09 @372  {
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  373  	struct usb_device *udev = interface_to_usbdev(intf);
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  374  	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  375  	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  376  	struct xhci_virt_device *vdev;
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  377  	struct xhci_sideband *sb;
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  378  
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  379  	/*
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  380  	 * Make sure the usb device is connected to a xhci controller.  Fail
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  381  	 * registration if the type is anything other than  XHCI_SIDEBAND_VENDOR,
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  382  	 * as this is the only type that is currently supported by xhci-sideband.
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  383  	 */
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  384  	if (!udev->slot_id || type != XHCI_SIDEBAND_VENDOR)
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  385  		return NULL;
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  386  
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  387  	sb = kzalloc_node(sizeof(*sb), GFP_KERNEL, dev_to_node(hcd->self.sysdev));
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  388  	if (!sb)
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  389  		return NULL;
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  390  
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  391  	mutex_init(&sb->mutex);
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  392  
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  393  	/* check this device isn't already controlled via sideband */
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  394  	spin_lock_irq(&xhci->lock);
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  395  
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  396  	vdev = xhci->devs[udev->slot_id];
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  397  
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  398  	if (!vdev || vdev->sideband) {
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  399  		xhci_warn(xhci, "XHCI sideband for slot %d already in use\n",
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  400  			  udev->slot_id);
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  401  		spin_unlock_irq(&xhci->lock);
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  402  		kfree(sb);
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  403  		return NULL;
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  404  	}
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  405  
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  406  	sb->xhci = xhci;
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  407  	sb->vdev = vdev;
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  408  	sb->intf = intf;
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  409  	sb->type = type;
+b7f481d533d071 Wesley Cheng  2025-04-09  410  	sb->notify_client = notify_client;
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  411  	vdev->sideband = sb;
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  412  
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  413  	spin_unlock_irq(&xhci->lock);
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  414  
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  415  	return sb;
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  416  }
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  417  EXPORT_SYMBOL_GPL(xhci_sideband_register);
+8b9c57ce39a5a8 Mathias Nyman 2025-04-09  418  
+
+:::::: The code at line 372 was first introduced by commit
+:::::: 8b9c57ce39a5a88dbc923cebe1fdd234239a7f94 FROMGIT: xhci: sideband: add initial api to register a secondary interrupter entity
+
+:::::: TO: Mathias Nyman <mathias.nyman@linux.intel.com>
+:::::: CC: Carlos Llamas <cmllamas@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
