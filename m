@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1B021ABBD;
-	Fri, 27 Jun 2025 07:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA2721ABD0
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 07:14:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751008052; cv=none; b=jmUczs+YGxVOk+S7/g9ml0oiyu0Ubt1tDTBLknpeQYOOYmdr4nvOYRhbOrJIMgf+d5fPddXEQErLNyU8+GhWSZEiRIlDjtOq6P6sjFevHSdgBu+5HMWy/g5Ndn/bO2gNAb3R4wOMr9uQFtv/iip3xFyX6OSxxyJn0+uEh5BmHqs=
+	t=1751008461; cv=none; b=TiJWkfNN2+R4TI7quKAefso0HJ0lZFoAni06+J6ieotyxj1L0K262adNtaixWsBMmBuCLqj2R7xLNGuxmFe2uhQMAcAu9zWGWLpEAtC3ZPfy4AJNzMglNxfkyXqWAn+qatfVI6W3nNLgXes5AQt5Uk4RfndnN1JnjoVwVADfCdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751008052; c=relaxed/simple;
-	bh=nHdiRy3stV+rcgza0BoLT+2CGiXpoTADufk1CFbeKqA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bA252THG57Xh2QtiMC2oLHAEiKe/REguahIsH7hBy1A4bW66EhAOOQJ4mXjtGP51S4LMAAncrxUJZChJhbJjb3N7IKSdgIUDJsrLqCPsnymnUN069jiXRJF3m54bhqZ0JDeDiuPt6qF5UWggnQlr0mmH6YF6HOzOU0SFtK6w3oI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lR3n1Vkf; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1751008461; c=relaxed/simple;
+	bh=r7WqAqDZvux8ILvAUvJ0zRMtKQ3KYersyvbrv0LPqXM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M5vZUL57Xjsg0JOG0eQnJusB07gGqc5Sg5la6aIwJaAwwPPJcmufNDWmHKU7JowS0hagKvtlO+locNVZKcBMsAEcCYnV5pbzlqBOgHolJ6x5xhLL0cGlKkUJ19j8sKQ0f+pFUpRXYS988+SrBoQGHVdl/Rjw5h7c30zBOw6JeCY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XKSqKMVW; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lR3n1Vkf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XKSqKMVW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751008051; x=1782544051;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nHdiRy3stV+rcgza0BoLT+2CGiXpoTADufk1CFbeKqA=;
-  b=lR3n1VkfNP2RQ6Mi/WxjWqWXMfOCO0xh5E2mzpGVBFTl7oXmHi3f6chq
-   sF9XQSZIjT8zF/m8Dj6rEFngvAmatzZ7yMtpaHc9P+C7JD7Kcp2z2QG2l
-   bPbGh80jlz8Gn3g8TgQFw/OLvi9EqEf4mrDGGJJn96HAhDt4d9acrv8ad
-   KUuXXvLB0JJwvSNqc0E26DkyG7np+1/HW7YhkWNG3H6nfPGy68mFy1j35
-   FfXa728jUFKEeNB1DgF6JtELNZtXas3Srx6RVw/hBj7rXRk9jCPkRhLxN
-   Dc5Q61bowzZh2nPNL+qY5XcRjk3LBJHNxdkXamECpYIcLT9sx3pDlB3cM
-   A==;
-X-CSE-ConnectionGUID: wIhwkO6hTGq/O6Ovw5kC0g==
-X-CSE-MsgGUID: jIXP/923T8a9ovEUImpfwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53397769"
+  t=1751008460; x=1782544460;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r7WqAqDZvux8ILvAUvJ0zRMtKQ3KYersyvbrv0LPqXM=;
+  b=XKSqKMVWbDc6tmvkDXUO+Hn7zcZP59EQT/XdgT4x66jHecfBjStPosvP
+   ZNa58W2PE39uR+NREUD1b491ZqLdhYeS0/4RuHFZkPXj4fKxGdWkDUwrt
+   bL+t4bv/J6GTW1Oq/Q0DIPFuWmaxzA7va3Mx+vSLGy8qvOIZQ/bKM1SLa
+   915VCfDggDFUy9rHf4efqQ1li1dChqnv12r0neV2TD4AKX4YXpsHlQCVk
+   to/cChyaXwTcHM1OTwUYp+OLnMZy7F8pJUSs/shdReyNn27+qXMpiLW2a
+   GcuNV20cSdIIgrfIHWdIGMaAbxlisZQviVNvMVG1VDmtrkWXVfvxF0u9C
+   g==;
+X-CSE-ConnectionGUID: XuxRMxNTTnCUwJGdR4Ho1w==
+X-CSE-MsgGUID: DMhktVp9QbyDDrrG/Bpg6w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53413930"
 X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="53397769"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 00:07:30 -0700
-X-CSE-ConnectionGUID: +tAArbUYQi+9Q+kyJDE8gQ==
-X-CSE-MsgGUID: f+yryH1cRt6c7y9aYmnFvw==
+   d="scan'208";a="53413930"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 00:14:19 -0700
+X-CSE-ConnectionGUID: 8Z9o0froSrqnqnj4QFd/XQ==
+X-CSE-MsgGUID: gH+DYWqxQhilc/m8cjiI4g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="157018304"
-Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
-  by fmviesa005.fm.intel.com with ESMTP; 27 Jun 2025 00:07:28 -0700
-Received: from kbuild by e588e990b675 with local (Exim 4.96)
+   d="scan'208";a="158468558"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 27 Jun 2025 00:14:17 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uV3BF-0000cx-2Q;
-	Fri, 27 Jun 2025 07:07:25 +0000
-Date: Fri, 27 Jun 2025 09:06:45 +0200
+	id 1uV3Hq-000VuA-2m;
+	Fri, 27 Jun 2025 07:14:14 +0000
+Date: Fri, 27 Jun 2025 15:13:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: FUJITA Tomonori <fujita.tomonori@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
-Message-ID: <202506270925.eyPB7JXk-lkp@intel.com>
+To: hsyemail2@gmail.com, Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sheng-Yuan Huang <syhuang3@nuvoton.com>
+Subject: Re: [PATCH v3 1/1] USB: serial: nct_usb_serial: add support for
+ Nuvoton USB adapter
+Message-ID: <202506271430.ZtD5WXck-lkp@intel.com>
+References: <20250623071713.12814-2-syhuang3@nuvoton.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,51 +66,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250623071713.12814-2-syhuang3@nuvoton.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6f2a71a99ebd5dfaa7948a2e9c59eae94b741bd8
-commit: 584e61452f75bfeac2cdd83730b4059526ec60c7 rust: helpers: Remove volatile qualifier from io helpers
-date:   2 months ago
-config: um-randconfig-2006-20250627 (https://download.01.org/0day-ci/archive/20250627/202506270925.eyPB7JXk-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270925.eyPB7JXk-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on johan-usb-serial/usb-next]
+[also build test WARNING on johan-usb-serial/usb-linus usb/usb-testing usb/usb-next usb/usb-linus tty/tty-testing tty/tty-next tty/tty-linus linus/master v6.16-rc3 next-20250626]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/hsyemail2-gmail-com/USB-serial-nct_usb_serial-add-support-for-Nuvoton-USB-adapter/20250623-151955
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git usb-next
+patch link:    https://lore.kernel.org/r/20250623071713.12814-2-syhuang3%40nuvoton.com
+patch subject: [PATCH v3 1/1] USB: serial: nct_usb_serial: add support for Nuvoton USB adapter
+reproduce: (https://download.01.org/0day-ci/archive/20250627/202506271430.ZtD5WXck-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506270925.eyPB7JXk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506271430.ZtD5WXck-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   ***
-   *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang >= 19.1
-   *** may not work due to a bug (https://github.com/rust-lang/rust-bindgen/pull/2824),
-   *** unless patched (like Debian's).
-   ***   Your bindgen version:  0.65.1
-   ***   Your libclang version: 21.0.0
-   ***
-   ***
-   *** Please see Documentation/rust/quick-start.rst for details
-   *** on how to set up the Rust support.
-   ***
->> error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
-   --> rust/kernel/block/mq/operations.rs:15:33
-   |
-   15 | use core::{marker::PhantomData, sync::atomic::AtomicU64, sync::atomic::Ordering};
-   |                                 ^^^^^^^^^^^^^^---------
-   |                                 |             |
-   |                                 |             help: a similar name exists in the module: `AtomicU32`
-   |                                 no `AtomicU64` in `sync::atomic`
---
->> error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
-   --> rust/kernel/block/mq/request.rs:16:20
-   |
-   16 |     sync::atomic::{AtomicU64, Ordering},
-   |                    ^^^^^^^^^
-   |                    |
-   |                    no `AtomicU64` in `sync::atomic`
-   |                    help: a similar name exists in the module: `AtomicU32`
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/media/i2c/ov02c10.c: 12 linux/version.h not needed.
+>> ./drivers/usb/serial/nct_usb_serial.c: 29 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 432: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
