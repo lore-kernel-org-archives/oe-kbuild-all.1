@@ -1,288 +1,328 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp-o-2.desy.de (smtp-o-2.desy.de [131.169.56.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2C12F3E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 06:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86327211A05
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 06:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=131.169.56.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751005937; cv=none; b=huhkUzXZipwwwf+kXhrX5kBJO7Lggr7OBlJVaNbAdUlznwolLV3T1jt11MeI7X/gAXJ280fHmCLf5zCrYDPHfuPDrpmCl/qYtkAkBZEnAsPiDEwjcKvHFN7ZKSZJkWExck4nqioIQTMUPQu4NHjmHXXydHmm5kn6PYzNR/uyVEs=
+	t=1751006283; cv=none; b=hVKsOogJezUQ/ao3m2wijtjvoywhA9kXpawzjLelsKxGYQ7gFOQrpx7tpUGsC8PNs0fxSDFCoZLhV50P4FP0MLIggh2L1PotgM/HNoxgZxQbFFFXDWvDR5ZZDM91n0lvXdRGaAoOGH22OIGWCjbcoopaTls1/nG8j1qz1dXPMVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751005937; c=relaxed/simple;
-	bh=9A9iPPrgHvn6+aPQnmmVGRl4M1HdMS5a1bIS9CDSqmE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IV69RFPAaoYBes6qMbaAFDTW5JGqYcnl4eSWXypf3YWS/wRK4vfmvWrFEX8eX5VErVTYEpZvzu7yk+viEH7HkA1SbVu3K9nhpsi7KwQpJxd3+km4+LKov5NnuyH7qzDrFakE58Jv34l7u9DhpjvBPABRH9Hbp14uQbDwtw7dfvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C7iDipzh; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751006283; c=relaxed/simple;
+	bh=8aEIiEExHIiOZW81kfkBZYF4oztHEz1vL9useAbrl3s=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=JSbVvHbc8kEOm6ABv6zU7iItDEjk9OeSrAWCie9QKkM9Gu+/IJAi+Gdgv9Tsd6Qia9OfveFTjS8Is18OffqzO8VaraUGa1l50mERKxSL/m0aiSAZqPrXy0fW1d1yVxHZ1yd4DIexoz9d6CDLZUIOuekxvdBi9goyB8GGKdHyF3w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=desy.de; spf=pass smtp.mailfrom=desy.de; dkim=pass (1024-bit key) header.d=desy.de header.i=@desy.de header.b=OASwFf43; arc=none smtp.client-ip=131.169.56.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=desy.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=desy.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C7iDipzh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751005936; x=1782541936;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=9A9iPPrgHvn6+aPQnmmVGRl4M1HdMS5a1bIS9CDSqmE=;
-  b=C7iDipzhNc1tVMHr5KhN5Itp5MNTweVPu5KiA7Wv8bGpMXIwV1EojUhJ
-   lZrKubdxDQ3H7SCzEhayIjXQQfy5jmTT0BDHHWRWOF0RyAO1jsQr7DcpP
-   SQkIrRrU9ikA9O5Emmp5cr2lrWVwv0R+5XxyVBzfhle+6CjztDj4xJdqI
-   f4C1s777r6LkjmM+TVlWDPG5jlqHq1rpUySniD9e3qX9Ji+o4G9DqJ74F
-   jIgGrr7jOGmALtNLI7sL41aSpZzKhFMcHw++mntGJiDk4uru+XaeuZJ8N
-   TGpzI2z0vrWIrG4oydWiLy1scZ+yA9R7bBiKYKoh1j1aea153SBe+0djt
-   A==;
-X-CSE-ConnectionGUID: xlIoZ+F2T/2R21tJQZfE7Q==
-X-CSE-MsgGUID: uIpE999nTMe3KlPUG032+w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="63913398"
-X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="63913398"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 23:32:15 -0700
-X-CSE-ConnectionGUID: g3a9+yP9Qs66TO486UPSXw==
-X-CSE-MsgGUID: 9z7w6EbDQP2ZXL3fpBlpFw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="152240808"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Jun 2025 23:32:11 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uV2d6-000Vs0-1N;
-	Fri, 27 Jun 2025 06:32:08 +0000
-Date: Fri, 27 Jun 2025 14:31:31 +0800
-From: kernel test robot <lkp@intel.com>
-To: Maxime =?iso-8859-1?Q?B=E9lair?= <maxime.belair@canonical.com>,
-	linux-security-module@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, john.johansen@canonical.com,
-	paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-	mic@digikod.net, kees@kernel.org, stephen.smalley.work@gmail.com,
-	casey@schaufler-ca.com, takedakn@nttdata.co.jp,
-	penguin-kernel@i-love.sakura.ne.jp, song@kernel.org,
-	rdunlap@infraread.org, linux-api@vger.kernel.org,
-	apparmor@lists.ubuntu.com, linux-kernel@vger.kernel.org,
-	Maxime =?iso-8859-1?Q?B=E9lair?= <maxime.belair@canonical.com>
-Subject: Re: [PATCH v3 1/3] Wire up lsm_config_self_policy and
- lsm_config_system_policy syscalls
-Message-ID: <202506271432.Hsg0FzKQ-lkp@intel.com>
-References: <20250624143211.436045-2-maxime.belair@canonical.com>
+	dkim=pass (1024-bit key) header.d=desy.de header.i=@desy.de header.b="OASwFf43"
+Received: from smtp-buf-2.desy.de (smtp-buf-2.desy.de [IPv6:2001:638:700:1038::1:a5])
+	by smtp-o-2.desy.de (Postfix) with ESMTP id CBEDE13F653
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 08:37:52 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 smtp-o-2.desy.de CBEDE13F653
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=desy.de; s=default;
+	t=1751006272; bh=O26z/BdBpuZ6SUZjoIyFTOeSBRIRGg3IIEP2T83P6Hw=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=OASwFf43sG+k6Q9utQM2dM8qSkttryW606tLbndlJEOA2Q7kM+j3ALrEFO8KBeJwr
+	 1+J3YWJQGC70M2Poz6NS4wjewVxYIxGcCcURDiQ7YhYoAoaz8Ve+G6LnrvXTy0nBZ3
+	 bmnDylcaLMqgPrj6drXNzNE6otRTYnI9CNPxQLjs=
+Received: from smtp-m-2.desy.de (smtp-m-2.desy.de [IPv6:2001:638:700:1038::1:82])
+	by smtp-buf-2.desy.de (Postfix) with ESMTP id BC1FA120043;
+	Fri, 27 Jun 2025 08:37:52 +0200 (CEST)
+Received: from a1722.mx.srv.dfn.de (a1722.mx.srv.dfn.de [194.95.233.47])
+	by smtp-m-2.desy.de (Postfix) with ESMTP id AA81916003F;
+	Fri, 27 Jun 2025 08:37:52 +0200 (CEST)
+Received: from smtp-intra-2.desy.de (smtp-intra-2.desy.de [IPv6:2001:638:700:1038::1:53])
+	by a1722.mx.srv.dfn.de (Postfix) with ESMTP id 44E43320093;
+	Fri, 27 Jun 2025 08:37:50 +0200 (CEST)
+Received: from z-mbx-2.desy.de (z-mbx-2.desy.de [131.169.55.140])
+	by smtp-intra-2.desy.de (Postfix) with ESMTP id 893E22004C;
+	Fri, 27 Jun 2025 08:37:50 +0200 (CEST)
+Date: Fri, 27 Jun 2025 08:37:50 +0200 (CEST)
+From: "Mkrtchyan, Tigran" <tigran.mkrtchyan@desy.de>
+To: kernel test robot <lkp@intel.com>
+Cc: linux-nfs <linux-nfs@vger.kernel.org>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>
+Message-ID: <2024057888.423104.1751006270267.JavaMail.zimbra@desy.de>
+In-Reply-To: <202506270701.wUk38xC4-lkp@intel.com>
+References: <20250626091202.130567-1-tigran.mkrtchyan@desy.de> <202506270701.wUk38xC4-lkp@intel.com>
+Subject: Re: [PATCH] pNFS/flexfiles: don't attempt pnfs on fatal DS errors
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250624143211.436045-2-maxime.belair@canonical.com>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256; 
+	boundary="----=_Part_423105_962662865.1751006270440"
+X-Mailer: Zimbra 9.0.0_GA_4769 (ZimbraWebClient - FF140 (Linux)/9.0.0_GA_4784)
+Thread-Topic: pNFS/flexfiles: don't attempt pnfs on fatal DS errors
+Thread-Index: k2tgoQPfb0fk10AGxU0g9t+pS0kk0w==
 
-Hi Maxime,
+------=_Part_423105_962662865.1751006270440
+Date: Fri, 27 Jun 2025 08:37:50 +0200 (CEST)
+From: "Mkrtchyan, Tigran" <tigran.mkrtchyan@desy.de>
+To: kernel test robot <lkp@intel.com>
+Cc: linux-nfs <linux-nfs@vger.kernel.org>, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>
+Message-ID: <2024057888.423104.1751006270267.JavaMail.zimbra@desy.de>
+In-Reply-To: <202506270701.wUk38xC4-lkp@intel.com>
+References: <20250626091202.130567-1-tigran.mkrtchyan@desy.de> <202506270701.wUk38xC4-lkp@intel.com>
+Subject: Re: [PATCH] pNFS/flexfiles: don't attempt pnfs on fatal DS errors
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: Zimbra 9.0.0_GA_4769 (ZimbraWebClient - FF140 (Linux)/9.0.0_GA_4784)
+Thread-Topic: pNFS/flexfiles: don't attempt pnfs on fatal DS errors
+Thread-Index: k2tgoQPfb0fk10AGxU0g9t+pS0kk0w==
 
-kernel test robot noticed the following build warnings:
+Thank you, robot!
 
-[auto build test WARNING on 9c32cda43eb78f78c73aee4aa344b777714e259b]
+----- Original Message -----
+> From: "kernel test robot" <lkp@intel.com>
+> To: "Tigran Mkrtchyan" <tigran.mkrtchyan@desy.de>, "linux-nfs" <linux-nfs@vger.kernel.org>
+> Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker"
+> <anna@kernel.org>, "root max-exfl020" <root@max-exfl020.desy.de>, "Tigran Mkrtchyan" <tigran.mkrtchyan@desy.de>
+> Sent: Friday, 27 June, 2025 01:42:33
+> Subject: Re: [PATCH] pNFS/flexfiles: don't attempt pnfs on fatal DS errors
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maxime-B-lair/Wire-up-lsm_config_self_policy-and-lsm_config_system_policy-syscalls/20250624-225008
-base:   9c32cda43eb78f78c73aee4aa344b777714e259b
-patch link:    https://lore.kernel.org/r/20250624143211.436045-2-maxime.belair%40canonical.com
-patch subject: [PATCH v3 1/3] Wire up lsm_config_self_policy and lsm_config_system_policy syscalls
-config: riscv-randconfig-001-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271432.Hsg0FzKQ-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271432.Hsg0FzKQ-lkp@intel.com/reproduce)
+> Hi Tigran,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on trondmy-nfs/linux-next]
+> [also build test WARNING on linus/master v6.16-rc3 next-20250626]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:
+> https://github.com/intel-lab-lkp/linux/commits/Tigran-Mkrtchyan/pNFS-flexfiles-don-t-attempt-pnfs-on-fatal-DS-errors/20250626-171336
+> base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+> patch link:
+> https://lore.kernel.org/r/20250626091202.130567-1-tigran.mkrtchyan%40desy.de
+> patch subject: [PATCH] pNFS/flexfiles: don't attempt pnfs on fatal DS errors
+> config: i386-buildonly-randconfig-005-20250627
+> (https://download.01.org/0day-ci/archive/20250627/202506270701.wUk38xC4-lkp@intel.com/config)
+> compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project
+> 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+> reproduce (this is a W=1 build):
+> (https://download.01.org/0day-ci/archive/20250627/202506270701.wUk38xC4-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+>| Reported-by: kernel test robot <lkp@intel.com>
+>| Closes:
+>| https://lore.kernel.org/oe-kbuild-all/202506270701.wUk38xC4-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>   fs/nfs/flexfilelayout/flexfilelayoutdev.c:56:9: warning: variable 'ret' set but
+>   not used [-Wunused-but-set-variable]
+>      56 |         int i, ret = -ENOMEM;
+>         |                ^
+>>> fs/nfs/flexfilelayout/flexfilelayoutdev.c:379:6: warning: variable 'status' is
+>>> used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+>     379 |         if (!ff_layout_init_mirror_ds(lseg->pls_layout, mirror))
+>         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>   fs/nfs/flexfilelayout/flexfilelayoutdev.c:421:15: note: uninitialized use occurs
+>   here
+>     421 |         ds = ERR_PTR(status);
+>         |                      ^~~~~~
+>   fs/nfs/flexfilelayout/flexfilelayoutdev.c:379:2: note: remove the 'if' if its
+>   condition is always false
+>     379 |         if (!ff_layout_init_mirror_ds(lseg->pls_layout, mirror))
+>         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>     380 |                 goto noconnect;
+>         |                 ~~~~~~~~~~~~~~
+>   fs/nfs/flexfilelayout/flexfilelayoutdev.c:377:12: note: initialize the variable
+>   'status' to silence this warning
+>     377 |         int status;
+>         |                   ^
+>         |                    = 0
+>   2 warnings generated.
+> 
+> 
+> vim +379 fs/nfs/flexfilelayout/flexfilelayoutdev.c
+> 
+> cefa587a40bb53 Trond Myklebust       2019-02-28  350
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  351  /**
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  352   *
+> nfs4_ff_layout_prepare_ds - prepare a DS connection for an RPC call
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  353   * @lseg: the layout
+> segment we're operating on
+> 2444ff277a686d Trond Myklebust       2019-02-14  354   * @mirror: layout mirror
+> describing the DS to use
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  355   * @fail_return: return
+> layout on connect failure?
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  356   *
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  357   * Try to prepare a DS
+> connection to accept an RPC call. This involves
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  358   * selecting a mirror to
+> use and connecting the client to it if it's not
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  359   * already connected.
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  360   *
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  361   * Since we only need a
+> single functioning mirror to satisfy a read, we don't
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  362   * want to return the
+> layout if there is one. For writes though, any down
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  363   * mirror should result in
+> a LAYOUTRETURN. @fail_return is how we distinguish
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  364   * between the two cases.
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  365   *
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  366   * Returns a pointer to a
+> connected DS object on success or NULL on failure.
+> 95e2b7e95d43c5 Jeff Layton           2016-05-17  367   */
+> d67ae825a59d63 Tom Haynes            2014-12-11  368  struct nfs4_pnfs_ds *
+> 2444ff277a686d Trond Myklebust       2019-02-14  369
+> nfs4_ff_layout_prepare_ds(struct pnfs_layout_segment *lseg,
+> 2444ff277a686d Trond Myklebust       2019-02-14  370  			  struct
+> nfs4_ff_layout_mirror *mirror,
+> d67ae825a59d63 Tom Haynes            2014-12-11  371  			  bool fail_return)
+> d67ae825a59d63 Tom Haynes            2014-12-11  372  {
+> 6468b866bac7de root max-exfl020      2025-06-26  373  	struct nfs4_pnfs_ds *ds =
+> ERR_PTR(-EAGAIN);
+> d67ae825a59d63 Tom Haynes            2014-12-11  374  	struct inode *ino =
+> lseg->pls_layout->plh_inode;
+> d67ae825a59d63 Tom Haynes            2014-12-11  375  	struct nfs_server *s =
+> NFS_SERVER(ino);
+> d67ae825a59d63 Tom Haynes            2014-12-11  376  	unsigned int max_payload;
+> a33e4b036d4612 Weston Andros Adamson 2017-03-09  377  	int status;
+> d67ae825a59d63 Tom Haynes            2014-12-11  378
+> cefa587a40bb53 Trond Myklebust       2019-02-28 @379  	if
+> (!ff_layout_init_mirror_ds(lseg->pls_layout, mirror))
+> 0a156dd58274b0 Trond Myklebust       2019-02-27  380  		goto noconnect;
+> d67ae825a59d63 Tom Haynes            2014-12-11  381
+> d67ae825a59d63 Tom Haynes            2014-12-11  382  	ds =
+> mirror->mirror_ds->ds;
+> a2915fa06227b0 Baptiste Lepers       2021-09-06  383  	if
+> (READ_ONCE(ds->ds_clp))
+> a2915fa06227b0 Baptiste Lepers       2021-09-06  384  		goto out;
+> d67ae825a59d63 Tom Haynes            2014-12-11  385  	/* matching smp_wmb() in
+> _nfs4_pnfs_v3/4_ds_connect */
+> d67ae825a59d63 Tom Haynes            2014-12-11  386  	smp_rmb();
+> d67ae825a59d63 Tom Haynes            2014-12-11  387
+> d67ae825a59d63 Tom Haynes            2014-12-11  388  	/* FIXME: For now we
+> assume the server sent only one version of NFS
+> d67ae825a59d63 Tom Haynes            2014-12-11  389  	 * to use for the DS.
+> d67ae825a59d63 Tom Haynes            2014-12-11  390  	 */
+> 2444ff277a686d Trond Myklebust       2019-02-14  391  	status =
+> nfs4_pnfs_ds_connect(s, ds, &mirror->mirror_ds->id_node,
+> 2444ff277a686d Trond Myklebust       2019-02-14  392  			     dataserver_timeo,
+> dataserver_retrans,
+> d67ae825a59d63 Tom Haynes            2014-12-11  393
+> 			     mirror->mirror_ds->ds_versions[0].version,
+> 7d38de3ffa75f9 Anna Schumaker        2016-11-17  394
+> 			     mirror->mirror_ds->ds_versions[0].minor_version);
+> d67ae825a59d63 Tom Haynes            2014-12-11  395
+> d67ae825a59d63 Tom Haynes            2014-12-11  396  	/* connect success, check
+> rsize/wsize limit */
+> 260f32adb88dad Trond Myklebust       2017-04-20  397  	if (!status) {
+> d488b9d01fbc2f Trond Myklebust       2024-09-05  398  		/*
+> d488b9d01fbc2f Trond Myklebust       2024-09-05  399  		 * ds_clp is put in
+> destroy_ds().
+> d488b9d01fbc2f Trond Myklebust       2024-09-05  400  		 * keep ds_clp even if
+> DS is local, so that if local IO cannot
+> d488b9d01fbc2f Trond Myklebust       2024-09-05  401  		 * proceed somehow, we
+> can fall back to NFS whenever we want.
+> d488b9d01fbc2f Trond Myklebust       2024-09-05  402  		 */
+> 1ff4716f420b5a Mike Snitzer          2025-05-13  403
+> 		nfs_local_probe_async(ds->ds_clp);
+> d67ae825a59d63 Tom Haynes            2014-12-11  404  		max_payload =
+> d67ae825a59d63 Tom Haynes            2014-12-11  405
+> 			nfs_block_size(rpc_max_payload(ds->ds_clp->cl_rpcclient),
+> d67ae825a59d63 Tom Haynes            2014-12-11  406  				       NULL);
+> d67ae825a59d63 Tom Haynes            2014-12-11  407  		if
+> (mirror->mirror_ds->ds_versions[0].rsize > max_payload)
+> d67ae825a59d63 Tom Haynes            2014-12-11  408
+> 			mirror->mirror_ds->ds_versions[0].rsize = max_payload;
+> d67ae825a59d63 Tom Haynes            2014-12-11  409  		if
+> (mirror->mirror_ds->ds_versions[0].wsize > max_payload)
+> d67ae825a59d63 Tom Haynes            2014-12-11  410
+> 			mirror->mirror_ds->ds_versions[0].wsize = max_payload;
+> 3dc147359e3dcd Trond Myklebust       2016-08-29  411  		goto out;
+> 3dc147359e3dcd Trond Myklebust       2016-08-29  412  	}
+> 0a156dd58274b0 Trond Myklebust       2019-02-27  413  noconnect:
+> d67ae825a59d63 Tom Haynes            2014-12-11  414
+> 	ff_layout_track_ds_error(FF_LAYOUT_FROM_HDR(lseg->pls_layout),
+> d67ae825a59d63 Tom Haynes            2014-12-11  415  				 mirror,
+> lseg->pls_range.offset,
+> d67ae825a59d63 Tom Haynes            2014-12-11  416
+> 				 lseg->pls_range.length, NFS4ERR_NXIO,
+> d67ae825a59d63 Tom Haynes            2014-12-11  417  				 OP_ILLEGAL,
+> GFP_NOIO);
+> f0922a6c0cdb92 Trond Myklebust       2019-02-10  418
+> 	ff_layout_send_layouterror(lseg);
+> 094069f1d96f69 Jeff Layton           2016-05-17  419  	if (fail_return ||
+> !ff_layout_has_available_ds(lseg))
+> d67ae825a59d63 Tom Haynes            2014-12-11  420
+> 		pnfs_error_mark_layout_for_return(ino, lseg);
+> 6468b866bac7de root max-exfl020      2025-06-26  421  	ds = ERR_PTR(status);
+> d67ae825a59d63 Tom Haynes            2014-12-11  422  out:
+> d67ae825a59d63 Tom Haynes            2014-12-11  423  	return ds;
+> d67ae825a59d63 Tom Haynes            2014-12-11  424  }
+> d67ae825a59d63 Tom Haynes            2014-12-11  425
+> 
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506271432.Hsg0FzKQ-lkp@intel.com/
+------=_Part_423105_962662865.1751006270440
+Content-Type: application/pkcs7-signature; name=smime.p7s; smime-type=signed-data
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/compat.h:34,
-                    from arch/riscv/include/asm/elf.h:12,
-                    from include/linux/elf.h:6,
-                    from include/linux/module.h:19,
-                    from include/linux/bpf.h:20,
-                    from include/linux/security.h:35,
-                    from security/lsm_syscalls.c:13:
-   arch/riscv/include/asm/syscall_wrapper.h:35:14: warning: '__se_sys_lsm_set_self_attr' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int,  long int,  long int)' [-Wattribute-alias]
-     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
-                 ^~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:227:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   security/lsm_syscalls.c:55:1: note: in expansion of macro 'SYSCALL_DEFINE4'
-    SYSCALL_DEFINE4(lsm_set_self_attr, unsigned int, attr, struct lsm_ctx __user *,
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:41:14: note: aliased declaration here
-     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-                 ^~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:227:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   security/lsm_syscalls.c:55:1: note: in expansion of macro 'SYSCALL_DEFINE4'
-    SYSCALL_DEFINE4(lsm_set_self_attr, unsigned int, attr, struct lsm_ctx __user *,
-    ^~~~~~~~~~~~~~~
->> arch/riscv/include/asm/syscall_wrapper.h:35:14: warning: '__se_sys_lsm_config_system_policy' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int,  long int,  long int,  long int)' [-Wattribute-alias]
-     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
-                 ^~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:228:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   security/lsm_syscalls.c:128:1: note: in expansion of macro 'SYSCALL_DEFINE5'
-    SYSCALL_DEFINE5(lsm_config_system_policy, u32, lsm_id, u32, op, void __user *,
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:41:14: note: aliased declaration here
-     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-                 ^~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:228:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   security/lsm_syscalls.c:128:1: note: in expansion of macro 'SYSCALL_DEFINE5'
-    SYSCALL_DEFINE5(lsm_config_system_policy, u32, lsm_id, u32, op, void __user *,
-    ^~~~~~~~~~~~~~~
->> arch/riscv/include/asm/syscall_wrapper.h:35:14: warning: '__se_sys_lsm_config_self_policy' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int,  long int,  long int,  long int)' [-Wattribute-alias]
-     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
-                 ^~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:228:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   security/lsm_syscalls.c:122:1: note: in expansion of macro 'SYSCALL_DEFINE5'
-    SYSCALL_DEFINE5(lsm_config_self_policy, u32, lsm_id, u32, op, void __user *,
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:41:14: note: aliased declaration here
-     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-                 ^~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:228:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   security/lsm_syscalls.c:122:1: note: in expansion of macro 'SYSCALL_DEFINE5'
-    SYSCALL_DEFINE5(lsm_config_self_policy, u32, lsm_id, u32, op, void __user *,
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:35:14: warning: '__se_sys_lsm_list_modules' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int,  long int)' [-Wattribute-alias]
-     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
-                 ^~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:226:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   security/lsm_syscalls.c:96:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-    SYSCALL_DEFINE3(lsm_list_modules, u64 __user *, ids, u32 __user *, size,
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:41:14: note: aliased declaration here
-     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-                 ^~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:226:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE3(name, ...) SYSCALL_DEFINEx(3, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   security/lsm_syscalls.c:96:1: note: in expansion of macro 'SYSCALL_DEFINE3'
-    SYSCALL_DEFINE3(lsm_list_modules, u64 __user *, ids, u32 __user *, size,
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:35:14: warning: '__se_sys_lsm_get_self_attr' alias between functions of incompatible types 'long int(ulong,  ulong,  ulong,  ulong,  ulong,  ulong,  ulong)' {aka 'long int(long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int,  long unsigned int)'} and 'long int(long int,  long int,  long int,  long int)' [-Wattribute-alias]
-     static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong,  \
-                 ^~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:227:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   security/lsm_syscalls.c:77:1: note: in expansion of macro 'SYSCALL_DEFINE4'
-    SYSCALL_DEFINE4(lsm_get_self_attr, unsigned int, attr, struct lsm_ctx __user *,
-    ^~~~~~~~~~~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:41:14: note: aliased declaration here
-     static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-                 ^~~~~~
-   arch/riscv/include/asm/syscall_wrapper.h:82:2: note: in expansion of macro '__SYSCALL_SE_DEFINEx'
-     __SYSCALL_SE_DEFINEx(x, sys, name, __VA_ARGS__)    \
-     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:235:2: note: in expansion of macro '__SYSCALL_DEFINEx'
-     __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
-     ^~~~~~~~~~~~~~~~~
-   include/linux/syscalls.h:227:36: note: in expansion of macro 'SYSCALL_DEFINEx'
-    #define SYSCALL_DEFINE4(name, ...) SYSCALL_DEFINEx(4, _##name, __VA_ARGS__)
-                                       ^~~~~~~~~~~~~~~
-   security/lsm_syscalls.c:77:1: note: in expansion of macro 'SYSCALL_DEFINE4'
-    SYSCALL_DEFINE4(lsm_get_self_attr, unsigned int, attr, struct lsm_ctx __user *,
-    ^~~~~~~~~~~~~~~
-
-
-vim +35 arch/riscv/include/asm/syscall_wrapper.h
-
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  16  
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  17  #define __SYSCALL_SE_DEFINEx(x, prefix, name, ...)					\
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  18  	static long __se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__));		\
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  19  	static long __se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  20  
-08d0ce30e0e4fc Sami Tolvanen 2023-07-10  21  #define SC_RISCV_REGS_TO_ARGS(x, ...)							\
-08d0ce30e0e4fc Sami Tolvanen 2023-07-10  22  	__MAP(x,__SC_ARGS								\
-08d0ce30e0e4fc Sami Tolvanen 2023-07-10  23  	      ,,regs->orig_a0,,regs->a1,,regs->a2					\
-08d0ce30e0e4fc Sami Tolvanen 2023-07-10  24  	      ,,regs->a3,,regs->a4,,regs->a5,,regs->a6)
-08d0ce30e0e4fc Sami Tolvanen 2023-07-10  25  
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  26  #else
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  27  /*
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  28   * Use type aliasing to ensure registers a0-a6 are correctly passed to the syscall
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  29   * implementation when >word-size arguments are used.
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  30   */
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  31  #define __SYSCALL_SE_DEFINEx(x, prefix, name, ...)					\
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  32  	__diag_push();									\
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  33  	__diag_ignore(GCC, 8, "-Wattribute-alias",					\
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  34  			"Type aliasing is used to sanitize syscall arguments");		\
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11 @35  	static long __se_##prefix##name(ulong, ulong, ulong, ulong, ulong, ulong, 	\
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  36  					ulong)						\
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  37  			__attribute__((alias(__stringify(___se_##prefix##name))));	\
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  38  	__diag_pop();									\
-653650c468be21 Sami Tolvanen 2024-03-26  39  	static long noinline ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))	\
-653650c468be21 Sami Tolvanen 2024-03-26  40  			__used;								\
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  41  	static long ___se_##prefix##name(__MAP(x,__SC_LONG,__VA_ARGS__))
-a9ad73295cc1e3 Sami Tolvanen 2024-03-11  42  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCAMIIH
+XzCCBUegAwIBAgIQGrSZ0tLzGu9JoeeaXGroSzANBgkqhkiG9w0BAQwFADBVMQswCQYDVQQGEwJO
+TDEZMBcGA1UEChMQR0VBTlQgVmVyZW5pZ2luZzErMCkGA1UEAxMiR0VBTlQgVENTIEF1dGhlbnRp
+Y2F0aW9uIFJTQSBDQSA0QjAeFw0yNDEyMDQwOTQzMjZaFw0yNjAxMDMwOTQzMjZaMIGpMRMwEQYK
+CZImiZPyLGQBGRMDb3JnMRYwFAYKCZImiZPyLGQBGRMGdGVyZW5hMRMwEQYKCZImiZPyLGQBGRMD
+dGNzMQswCQYDVQQGEwJERTEuMCwGA1UEChMlRGV1dHNjaGVzIEVsZWt0cm9uZW4tU3luY2hyb3Ry
+b24gREVTWTEoMCYGA1UEAwwfVGlncmFuIE1rcnRjaHlhbiB0aWdyYW5AZGVzeS5kZTCCAiIwDQYJ
+KoZIhvcNAQEBBQADggIPADCCAgoCggIBAKZ1aJleygPW8bRzYJ3VfXwfY2TxAF0QUuTk/6Bqu8Bi
+UQjIgmBQ1hCzz8DVdJ8saw7p5/c1JDmVHqm2DJPwXLROKACiDdSHPf+N8PFZvxHxOqFNPeO/oJhO
+jHXG1c/tL8ElfiUlMtEZYtoS60/VUz3A/4FIWP2A5s/UIOSZyCcKz3AUcAanHGEJVS8oWKQj7pNX
+yjojvX4aPHzsKP+c+c/5wq08/aziRXLCekhKk+VdS8lhlS/3AL1G0VSWKj5/pOpz4ozmv44GEw9z
+FAsPWuTcLXqCX993BOoWAyQDcygAsb0nQQMzx+4wlSGsI31/gKOE5ZOJ3SErWDswgzxWm8Xht/Kl
+ymDHPXi8P0ohQjJrQRpJXVwD/tXDwSSbWP9jnVbtqpvLLBkNrSy6elW19nkE1ObpSPcn+be5hs1P
+59Y+GPudytAQ3MOoFoNd7kxpVQoM6cdQjRHdyIDbavZrdxr33s7uqSbcI/PE8W5M0iPNnd4ip4kH
+UIOdpsjk7b7kEdO4Jf9dDrz/fduAEaW+AUTfb+G42LiftUBXkANa50nOseW3tocadYOTySufN9or
+IwvcQ/1uemVd83On7k8bWevfU159x28aidxv8liqJXrrT28tp/QxtGtDXjo9jdkWi/5d/9XfqQgN
+IT7KH42fc3ZlaL3pLuJwEQWVtFnWUTRJAgMBAAGjggHUMIIB0DAfBgNVHSMEGDAWgBQQMuoC4vzP
+6lYlVIfDmPXog9bFJDAOBgNVHQ8BAf8EBAMCBaAwCQYDVR0TBAIwADAdBgNVHSUEFjAUBggrBgEF
+BQcDAgYIKwYBBQUHAwQwRQYDVR0gBD4wPDAMBgoqhkiG90wFAgIFMA0GCyqGSIb3TAUCAwMDMA0G
+CyqGSIb3TAUCAwECMA4GDCsGAQQBgcRaAgMCAjBUBgNVHR8ETTBLMEmgR6BFhkNodHRwOi8vY3Js
+LmVudGVycHJpc2Uuc2VjdGlnby5jb20vR0VBTlRUQ1NBdXRoZW50aWNhdGlvblJTQUNBNEIuY3Js
+MIGRBggrBgEFBQcBAQSBhDCBgTBPBggrBgEFBQcwAoZDaHR0cDovL2NydC5lbnRlcnByaXNlLnNl
+Y3RpZ28uY29tL0dFQU5UVENTQXV0aGVudGljYXRpb25SU0FDQTRCLmNydDAuBggrBgEFBQcwAYYi
+aHR0cDovL29jc3AuZW50ZXJwcmlzZS5zZWN0aWdvLmNvbTAjBgNVHREEHDAagRh0aWdyYW4ubWty
+dGNoeWFuQGRlc3kuZGUwHQYDVR0OBBYEFMmhx6vILo+tVVV6rojJTwL+t2eGMA0GCSqGSIb3DQEB
+DAUAA4ICAQARKKJEO1G3lIe+AA+E3pl5mNYs/+XgswX1316JYDRzBnfVweMR6IaOT7yrP+Mwhx3v
+yiM8VeSVFtfyLlV6FaHAxNFo5Z19L++g/FWWAg0Wz13aFaEm0+KEp8RkB/Mh3EbSukZxUqmWCgrx
+zmx+I5zlX8pLxNgrxcc1WW5l7Y7y2sci++W6wE/L7rgMuznqiBLw/qwnkXAeQrw2PIllAGwRqrwa
+37kPa+naT1P0HskuBFHQSmMihB5HQl6+2Rs9M5RMW3/IlUQAqkhZQGBXmiWDivjPFKXJQnCmhQmh
+76sOcSOScfzYI5xOD+ZGdBRRufkUxaXJ2G//IgkK2R8mqrFEXxBFaBMc0uMBJHKNv+FO7H6VPOe9
+BD9FwfLiqWvGwKJrF11Bk/QSfWh+zCJ8JHPAi6irwQO4Xf+0xhPsxb+jBfKK3I84YMf6zsDkdDzH
+lkNPhDh4xhYhEAk+L228pjTEmnbb2QVv52grZ0dbITuN+Hz2ypvLfaS8p06lrht45COlkmuIUVqp
+bsc3kRt610qwXSjYcc8zeCQI0Rqnnq+0UN5T0KU7JSzUho6vaTSUG57uc7b3DkIW2Z9VpXX5xKb/
+vfl++jC5JzKrbCeS+QOStpXwwaH62IUHwdfWfkvpzb8EFALEmCvu8nlT9NaqYlB/xogMH6oHBm+Y
+nxmRQxWROAAAMYIDZTCCA2ECAQEwaTBVMQswCQYDVQQGEwJOTDEZMBcGA1UEChMQR0VBTlQgVmVy
+ZW5pZ2luZzErMCkGA1UEAxMiR0VBTlQgVENTIEF1dGhlbnRpY2F0aW9uIFJTQSBDQSA0QgIQGrSZ
+0tLzGu9JoeeaXGroSzANBglghkgBZQMEAgEFAKCBzjAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcB
+MBwGCSqGSIb3DQEJBTEPFw0yNTA2MjcwNjM3NTBaMC0GCSqGSIb3DQEJNDEgMB4wDQYJYIZIAWUD
+BAIBBQChDQYJKoZIhvcNAQELBQAwLwYJKoZIhvcNAQkEMSIEIHCgLcbGkyVronmwretXYOd41aO7
+ErcaN8xMiG37R64WMDQGCSqGSIb3DQEJDzEnMCUwCgYIKoZIhvcNAwcwDgYIKoZIhvcNAwICAgCA
+MAcGBSsOAwIHMA0GCSqGSIb3DQEBCwUABIICABae2U+UHn7ZvNH/4vvubNHYZ/+qcgJ6PznlBhyC
+vfFRoNDFLAf77Zp3wdSaeBTcg5B4XVkl1gzdqjo3o/fBbkYaT4u0rPB1odMR0gU6glrH141aruyo
+cq6/wtr+ZsQrd1JRq6oeK0MlXJbtV9XNeqSmhG7oKga/YK4jcfUQVJ3EnAwrzsQ0IGSPDsfDse34
+CwIcFpR0Gvlxz0Bs6i5gV8XHT1kmTrLvE3ddoqMXdTYZdFlnXdaqP8dEjKJsbPc/1EfffLh6Uwyn
+Q2FuxxPTHMh8+ywAiLFrZamHLvbfxEJz7hr6yHwnYrTFYLieHHrLsg8teSoFYaJ5DCCQcu9ltAoV
+Nfr3M7epd8aiDw1WjdZOyzw4TLWp1anq581eZjha5h5JtIsmzyiuJ71WUZZwCZhzT8u5uKueFS/a
+MHRIfxLy7/PqMLPY7hqMl63jcYBkYsNJi50JR6avVQZfiV73cjg/gfpPUQx1SxQGoN365j2FxK6r
+dB9l6w66wV8/EoQ/DSCO50ZRDfV1RG5gQkAbG2Noco59tPAZP2Dvt2SObEEP3X+3+yNx8KauYaRO
+DhogY1PmuQam5yAYc5mSyxNCN6BGmM27bDKy7JzsuTVqsNSxvJI7sU+4FnW43HAE9W4bFGQuIEob
+FZCV5UXI+wn7wyoszcm0+8V7B/W/mw7ho8+sAAAAAAAA
+------=_Part_423105_962662865.1751006270440--
