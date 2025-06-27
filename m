@@ -1,60 +1,75 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F6A81684B4
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 07:36:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD3C1684B4
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 07:36:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751009789; cv=none; b=kpyG2EoNFOS2ZIbmyUbXVrvOw67VE5pnUyA4LbKxRBhTFx2UgKabK+iFQRLjv9ILtiXmIhKudpcphz5taEpa7KYGdgrjle2t7oyknDSODSULk5jLfGJRwfz3iKok4WwEjkpDKdneX7iubjzBKORQ93VjnlHnzDgBIMyDOQcAy98=
+	t=1751009792; cv=none; b=C+p1ZMr2pnMw4lziPtPnlfngXdUnnjj/1fHB9aS7gQb5QkFB5/QfwRg061FcUjMQBKjEVv+e1f8bhaqCeY1YXqH3ZGsQTn2IORj7fFObNrEa8Y9Cz9AxelYBP55o2GzRLPZGVZJF6honxWJA5HZMuXeyXFKFa197A5yLBMznosM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751009789; c=relaxed/simple;
-	bh=hNVftWQ63rFf3Ee+kqeNtyEvtbH+AVjgbBrH7OnWLLM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iS+OIeJxmdVvVp4JgxUn0fXuW5W6Jzzo/G8iYbtSF8IGvchRVxZf8NH1Ez8xN1mFak3FDmR04iS+SYfWTvG38ltSXRDqH8oyHxa/q2BPLz4/JOswTFJFItU5enqlzasSRDFrvDRnVbnHMBHEyh+xSNTEEvoLyJ48BjAHYGHD49s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F9ATPWsl; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1751009792; c=relaxed/simple;
+	bh=R7MFiZ9r/m2icBqFE8z942btjxdQ3uI5L9jjyYNHCUk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sl4zZehs/iqXHb38p3tKV0S2TfiatNrkWdRSgPl502ec3/gqwGpqf3D2XazlBpaKAkoFXslotYosW16MNwba37XBt59hyWm51g84xMaDG/MCnY/lmXl1gPVqrgDVPXvqhZfKfKjouNjXEhFNqKHjNWCdEqX2wDob+QkgJE+f5cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H99sShmZ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F9ATPWsl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H99sShmZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751009789; x=1782545789;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hNVftWQ63rFf3Ee+kqeNtyEvtbH+AVjgbBrH7OnWLLM=;
-  b=F9ATPWslcPc344cRCXuJuio7Rd9Xy1q35WyddENcsTO1w9ZM6Ffue/cw
-   kdmBOG+b23pdKIrHOzVSDs+zzj+sH9oMyG3itmNzLT8q7qdkI+Du/3dKd
-   4P1JlqntlD7dP0C8rqc4AMuEtUGOqMTs1NMZW6EMfoNafTSj2almCTtCR
-   IkAJHiY0G6zF2RBePrd6xWwcj1uGRQNK/Ty5kekOJqnKfOzwMX1UxJ+9Y
-   CZ8cnkXKkhfqQWNREKLCWx1Fbat/Cka1D0zPrl7i8zKIyDwXb/ep5gYjT
-   Fvg25qIQ/sgdigPihnU17RX1dN3Hb1TasfmdIkCI093pmsbPbeYVQgCcF
-   g==;
-X-CSE-ConnectionGUID: GuhzyyIeS3ez/7J7we22dg==
-X-CSE-MsgGUID: 6q24/6pCQ12+QuNx/tR8sg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53190632"
+  t=1751009791; x=1782545791;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=R7MFiZ9r/m2icBqFE8z942btjxdQ3uI5L9jjyYNHCUk=;
+  b=H99sShmZ5ZHkx0LflLUPHOJpa31Hu6HiBe6zbhkMdfm21FPh4/dErC/T
+   9ikhw7ymdDesgB2otN+OV0aBRqXy+lHJZ6H4ZpgFAT+rYnEmSdopFrpsa
+   LpMnDBO5JLp3ugfUfDTEKZYYy+pXX3wPoMPitjaWYo8kuRAezImR8BAvp
+   t05rLm4UxwMuCVSHJOADPqRoA4LzA8RkIDDqK59PaG35sh15rURf+4XC/
+   /Y28KaatMHzqiueJVfFsPUlCEp07W+5dOpHTy3e0MHrYfNY7rxpdESiEm
+   96TAonZJVLHkPk+TJeaagUnqz8JxpRUj/Nm3sWjnRY0ljAnU+0bcyrtcM
+   w==;
+X-CSE-ConnectionGUID: AG3tBCuIQz+6gIwS5l4mbA==
+X-CSE-MsgGUID: KIw1tBbET5O+4cA/t0lghg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53190635"
 X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="53190632"
+   d="scan'208";a="53190635"
 Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 00:36:28 -0700
-X-CSE-ConnectionGUID: o3bktFEcTtm9W/DXCZaF6Q==
-X-CSE-MsgGUID: 8G8zR2RDTcSE2e8mjx5iFw==
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 00:36:31 -0700
+X-CSE-ConnectionGUID: Kh5t6bgAQ1+j0Xkx9PE3SA==
+X-CSE-MsgGUID: j0Uw8pEZQUqEGpTzy5l4rg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="153256706"
+   d="scan'208";a="153256700"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by fmviesa008.fm.intel.com with ESMTP; 27 Jun 2025 00:36:26 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uV3dI-000VvX-0e;
+	id 1uV3dI-000VvV-0Y;
 	Fri, 27 Jun 2025 07:36:24 +0000
-Date: Fri, 27 Jun 2025 15:35:58 +0800
+Date: Fri, 27 Jun 2025 15:35:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tony Luck <tony.luck@intel.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-ia64@vger.kernel.org
-Subject: [aegl:rdt-aet-v6 32/45] kismet: WARNING: unmet direct dependencies
- detected for INTEL_RAPL_CORE when selected by INTEL_RAPL_TPMI
-Message-ID: <202506271542.l76jdSsw-lkp@intel.com>
+To: Taniya Das <quic_tdas@quicinc.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Ajit Pandey <quic_ajipan@quicinc.com>,
+	Imran Shaik <quic_imrashai@quicinc.com>,
+	Jagadeesh Kona <quic_jkona@quicinc.com>,
+	linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	Taniya Das <quic_tdas@quicinc.com>,
+	Dmitry Baryshkov <lumag@kernel.org>
+Subject: Re: [PATCH v10 07/10] clk: qcom: gpucc-qcs615: Add QCS615 graphics
+ clock controller driver
+Message-ID: <202506271519.GYlfvTOB-lkp@intel.com>
+References: <20250625-qcs615-mm-v10-clock-controllers-v10-7-ec48255f90d8@quicinc.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,29 +78,38 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250625-qcs615-mm-v10-clock-controllers-v10-7-ec48255f90d8@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/aegl/linux.git rdt-aet-v6
-head:   453022799f324c7f532802ec2fd27a72c32bd4be
-commit: d1d8a56c5343bbc768611ca1757528d36130acfc [32/45] x86/resctrl: Discover hardware telemetry events
-config: x86_64-kismet-CONFIG_INTEL_RAPL_CORE-CONFIG_INTEL_RAPL_TPMI-0-0 (https://download.01.org/0day-ci/archive/20250627/202506271542.l76jdSsw-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250627/202506271542.l76jdSsw-lkp@intel.com/reproduce)
+Hi Taniya,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 2ae2aaafb21454f4781c30734959cf223ab486ef]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Taniya-Das/clk-qcom-clk-alpha-pll-Add-support-for-dynamic-update-for-slewing-PLLs/20250625-184903
+base:   2ae2aaafb21454f4781c30734959cf223ab486ef
+patch link:    https://lore.kernel.org/r/20250625-qcs615-mm-v10-clock-controllers-v10-7-ec48255f90d8%40quicinc.com
+patch subject: [PATCH v10 07/10] clk: qcom: gpucc-qcs615: Add QCS615 graphics clock controller driver
+config: arc-randconfig-r121-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271519.GYlfvTOB-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20250627/202506271519.GYlfvTOB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506271542.l76jdSsw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506271519.GYlfvTOB-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for INTEL_RAPL_CORE when selected by INTEL_RAPL_TPMI
-   WARNING: unmet direct dependencies detected for INTEL_VSEC
-     Depends on [n]: X86_PLATFORM_DEVICES [=y] && PCI [=n]
-     Selected by [y]:
-     - X86_CPU_RESCTRL [=y] && X86 [=y] && (CPU_SUP_INTEL [=y] || CPU_SUP_AMD [=y]) && MISC_FILESYSTEMS [=y]
-   
-   WARNING: unmet direct dependencies detected for INTEL_RAPL_CORE
-     Depends on [n]: POWERCAP [=y] && PCI [=n]
-     Selected by [y]:
-     - INTEL_RAPL_TPMI [=y] && POWERCAP [=y] && X86 [=y] && INTEL_TPMI [=y]
+sparse warnings: (new ones prefixed by >>)
+>> drivers/clk/qcom/gpucc-qcs615.c:396:15: sparse: sparse: symbol 'gpu_cc_qcs615_hws' was not declared. Should it be static?
+
+vim +/gpu_cc_qcs615_hws +396 drivers/clk/qcom/gpucc-qcs615.c
+
+   395	
+ > 396	struct clk_hw *gpu_cc_qcs615_hws[] = {
+   397		[CRC_DIV_PLL0] = &crc_div_pll0.hw,
+   398		[CRC_DIV_PLL1] = &crc_div_pll1.hw,
+   399	};
+   400	
 
 -- 
 0-DAY CI Kernel Test Service
