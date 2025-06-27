@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693AD4502A;
-	Fri, 27 Jun 2025 18:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FD41F9A8B
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 19:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751050181; cv=none; b=Pa5CigJu58UQdUaWt9oq+o8bhITqk99w5lnKhbvKNKxg98W0bKlrLcoOfTiPv7lrjp6h4/A80xM8uwUROaxnxgCPRKEVOiRu3+uQiY0BodLv8pptIgPsn/Z45tB+B8zNzoI8irOlsL8sR6yqplGAJiDf3nQLjrZXo+FrYospUbI=
+	t=1751051439; cv=none; b=PNN6BEyuG49EEdA5W/Ie6I90E+NcvnbTYqaPXkjVmbUmYbXtH5tHzpnpH9pkKOEd8gMPoODOcOjAu/HIwyXYqgqU6GW/jKqSyY+5ZRijw622f5nVTqykpj+PK1t557ZH5x4oGmhAN8A9MRQNrB0d7a52qJ+vrXSB8nXnZ0RXA3U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751050181; c=relaxed/simple;
-	bh=narcaFjXVhe4/7r7kPhjOLSPFF8lb9hRlbz3gP5dDG0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q0VX0WrlvAJZ6F1N8qwIxgw/X92WtYGrZd2iF9Y4PctqzMLARkFejRlJAo+ioC/kBb9kthn3PiIPLSgyhRpNjn1nFbH5S6umqiCKDqq+UMfanOJmsxrER94HcdoHbhrckJcmKHF6NH7mki1PEt7wWK97rEH7jGhIc/JGMDUMgbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=agY5s/XZ; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1751051439; c=relaxed/simple;
+	bh=ibyGbCO+OGZw7j6BE8USlgUxel2mx3XSk92IGIeX6MI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aYtcQpEIF5hhjgls/epvJXsGbteS8aoZctdNPHTG1OrdIF3z+67jPi5jozh+aiggAxq+uRYsJ7q39M4Y4qT1ZtI7sfYTIHfe9LANnD1aRgoueK9wHKx/dnSmDwNyjl4y/D7dqkhUWzrCy48hOMQOTAqdhYHB33SyUlHmtQwqVfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fudbSoPw; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="agY5s/XZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fudbSoPw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751050178; x=1782586178;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=narcaFjXVhe4/7r7kPhjOLSPFF8lb9hRlbz3gP5dDG0=;
-  b=agY5s/XZQocy8Ex2IuFJHX0TUM4XyP1AiT6BUj1VSXRZiT2g57lYyjwU
-   B/JhsHCObpsXQ+S4vGvrliVsff+pkz3kvsRrw+k0HIQ1SEo5uQbla3F2v
-   Qc82jdageexcO/KZRnfvdlTwv4NUQTMXzwreUKtouCYxyj4x7rIjvzkP7
-   iDONiWB5wl2U3pop+iz6alsGcuBa5qKyZzvV/o+MP2JBOzmW7TyVtNAzS
-   0EyPb6l5cb2iDc1pj/8BEta6JLOXqZbSyl6XR17VaKvJhnnlPnXC4Fssy
-   iYCp3E0ICtFwex1ark2x12OyAQsTIEnLsfe51CxzaTKPudKMdJhE3rH5r
-   Q==;
-X-CSE-ConnectionGUID: Wyd4i/bQRQWvZmQ8FPh9NA==
-X-CSE-MsgGUID: kOI4XYj6Q72SVtOpzDYKQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="78810499"
+  t=1751051438; x=1782587438;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ibyGbCO+OGZw7j6BE8USlgUxel2mx3XSk92IGIeX6MI=;
+  b=fudbSoPwFHxPmGTR/YIFaXzp8mTnocFpu2jRIrNdVZ7vpaJIUFZNUhHk
+   Z3PNDSZCQwzQg2YauUpscu0dgQN4Zfib7i07BDsC9gY1uZ8YpT2rYns+S
+   zclcbLUUcTsJkhq0xKqT/9R8QJ6EZQ+bAg2keYQxyp6xABTcHwfTbk7c3
+   4xqQgWs2QoAqfvEcILi7GpiumcaZJSQy2pGMDkKp1G2a3T5z/czeitf8S
+   2qjHREcvBE6rAygsgILA0QlU9TR3+9Y6dBnHvd74C39O35tb/k3pMKto7
+   95SGz4+RrHj+3liZ/V2c89DOmx224i1Nwd199SAChepMjpkc6TSItdQiE
+   A==;
+X-CSE-ConnectionGUID: WBshswRUSfOFSeXS63WDwA==
+X-CSE-MsgGUID: dgLmQyyiRKC/yzdb7Csz1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53527523"
 X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
-   d="scan'208";a="78810499"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 11:49:37 -0700
-X-CSE-ConnectionGUID: A7Edkv01Q/aVxm2Gt3qXJQ==
-X-CSE-MsgGUID: Egm5CKSjSTaC/g/ScZ2zJQ==
+   d="scan'208";a="53527523"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 12:10:37 -0700
+X-CSE-ConnectionGUID: VD6ILpMhQy2DQH29B3+HCQ==
+X-CSE-MsgGUID: tzSj6hSCRJahqJt+4MR9FA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
-   d="scan'208";a="152394717"
+   d="scan'208";a="153370041"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 27 Jun 2025 11:49:34 -0700
+  by orviesa008.jf.intel.com with ESMTP; 27 Jun 2025 12:10:36 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVE8h-000WTG-3D;
-	Fri, 27 Jun 2025 18:49:32 +0000
-Date: Sat, 28 Jun 2025 02:49:20 +0800
+	id 1uVET3-000WU2-1x;
+	Fri, 27 Jun 2025 19:10:33 +0000
+Date: Sat, 28 Jun 2025 03:10:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Peng Fan <peng.fan@nxp.com>, Sudeep Holla <sudeep.holla@arm.com>,
-	Cristian Marussi <cristian.marussi@arm.com>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	arm-scmi@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Peng Fan <peng.fan@nxp.com>
-Subject: Re: [PATCH 7/7] firmware: imx: sm-misc: Dump syslog and system info
-Message-ID: <202506280217.aZih1pGT-lkp@intel.com>
-References: <20250627-sm-misc-api-v1-v1-7-2b99481fe825@nxp.com>
+To: Amery Hung <amery.hung@bytedance.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Martin KaFai Lau <martin.lau@kernel.org>
+Subject: net/sched/bpf_qdisc.c:224:18: sparse: sparse: symbol
+ 'bpf_qdisc_init_prologue' was not declared. Should it be static?
+Message-ID: <202506280351.g258QPQS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,144 +62,83 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250627-sm-misc-api-v1-v1-7-2b99481fe825@nxp.com>
 
-Hi Peng,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on ecb259c4f70dd5c83907809f45bf4dc6869961d7]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Peng-Fan/firmware-arm_scmi-imx-Add-documentation-for-MISC_BOARD_INFO/20250627-140736
-base:   ecb259c4f70dd5c83907809f45bf4dc6869961d7
-patch link:    https://lore.kernel.org/r/20250627-sm-misc-api-v1-v1-7-2b99481fe825%40nxp.com
-patch subject: [PATCH 7/7] firmware: imx: sm-misc: Dump syslog and system info
-config: i386-buildonly-randconfig-001-20250628 (https://download.01.org/0day-ci/archive/20250628/202506280217.aZih1pGT-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506280217.aZih1pGT-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e540341508ce2f6e27810106253d5de194b66750
+commit: 7a2dafda950b78611dc441c83d105dfdc7082681 bpf: net_sched: Add a qdisc watchdog timer
+date:   2 months ago
+config: powerpc64-randconfig-r113-20250627 (https://download.01.org/0day-ci/archive/20250628/202506280351.g258QPQS-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20250628/202506280351.g258QPQS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506280217.aZih1pGT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506280351.g258QPQS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/sched/bpf_qdisc.c:224:18: sparse: sparse: symbol 'bpf_qdisc_init_prologue' was not declared. Should it be static?
+>> net/sched/bpf_qdisc.c:234:18: sparse: sparse: symbol 'bpf_qdisc_reset_destroy_epilogue' was not declared. Should it be static?
 
->> drivers/firmware/imx/sm-misc.c:58:11: error: call to undeclared function 'kmalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      58 |         syslog = kmalloc(sizeof(*syslog), GFP_KERNEL);
-         |                  ^
-   drivers/firmware/imx/sm-misc.c:58:11: note: did you mean 'mm_alloc'?
-   include/linux/sched/mm.h:16:26: note: 'mm_alloc' declared here
-      16 | extern struct mm_struct *mm_alloc(void);
-         |                          ^
->> drivers/firmware/imx/sm-misc.c:58:9: error: incompatible integer to pointer conversion assigning to 'struct scmi_imx_misc_syslog *' from 'int' [-Wint-conversion]
-      58 |         syslog = kmalloc(sizeof(*syslog), GFP_KERNEL);
-         |                ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/firmware/imx/sm-misc.c:64:3: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      64 |                 kfree(syslog);
-         |                 ^
-   drivers/firmware/imx/sm-misc.c:80:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      80 |         kfree(syslog);
-         |         ^
-   drivers/firmware/imx/sm-misc.c:97:9: error: call to undeclared function 'kmalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      97 |         info = kmalloc(sizeof(*info), GFP_KERNEL);
-         |                ^
->> drivers/firmware/imx/sm-misc.c:97:7: error: incompatible integer to pointer conversion assigning to 'struct scmi_imx_misc_system_info *' from 'int' [-Wint-conversion]
-      97 |         info = kmalloc(sizeof(*info), GFP_KERNEL);
-         |              ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/firmware/imx/sm-misc.c:127:2: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     127 |         kfree(info);
-         |         ^
-   7 errors generated.
+vim +/bpf_qdisc_init_prologue +224 net/sched/bpf_qdisc.c
 
-
-vim +/kmalloc +58 drivers/firmware/imx/sm-misc.c
-
-    46	
-    47	static ssize_t syslog_show(struct device *device, struct device_attribute *attr,
-    48				   char *buf)
-    49	{
-    50		struct scmi_imx_misc_sys_sleep_rec *rec;
-    51		struct scmi_imx_misc_syslog *syslog;
-    52		int ret;
-    53		size_t len = 0;
-    54	
-    55		if (!ph)
-    56			return 0;
-    57	
-  > 58		syslog = kmalloc(sizeof(*syslog), GFP_KERNEL);
-    59		if (!syslog)
-    60			return -ENOMEM;
-    61	
-    62		ret = imx_misc_ctrl_ops->misc_syslog(ph, sizeof(*syslog), syslog);
-    63		if (ret) {
-  > 64			kfree(syslog);
-    65			return ret;
-    66		}
-    67	
-    68		rec = &syslog->syssleeprecord;
-    69	
-    70		len += sysfs_emit_at(buf, len, "Wake Vector = %u\n", rec->wakesource);
-    71		len += sysfs_emit_at(buf, len, "Sys sleep mode = %u\n", rec->syssleepmode);
-    72		len += sysfs_emit_at(buf, len, "Sys sleep flags = 0x%08x\n", rec->syssleepflags);
-    73		len += sysfs_emit_at(buf, len, "MIX power status = 0x%08x\n", rec->mixpwrstat);
-    74		len += sysfs_emit_at(buf, len, "MEM power status = 0x%08x\n", rec->mempwrstat);
-    75		len += sysfs_emit_at(buf, len, "PLL power status = 0x%08x\n", rec->pllpwrstat);
-    76		len += sysfs_emit_at(buf, len, "Sleep latency = %u\n", rec->sleepentryusec);
-    77		len += sysfs_emit_at(buf, len, "Wake latency = %u\n", rec->sleepexitusec);
-    78		len += sysfs_emit_at(buf, len, "Sleep count = %u\n", rec->sleepcnt);
-    79	
-    80		kfree(syslog);
-    81	
-    82		return len;
-    83	}
-    84	
-    85	static DEVICE_ATTR_RO(syslog);
-    86	
-    87	static ssize_t system_info_show(struct device *device, struct device_attribute *attr,
-    88					char *buf)
-    89	{
-    90		struct scmi_imx_misc_system_info *info;
-    91		int len = 0;
-    92		int ret;
-    93	
-    94		if (!ph)
-    95			return 0;
-    96	
-  > 97		info = kmalloc(sizeof(*info), GFP_KERNEL);
-    98		if (!info)
-    99			return -ENOMEM;
-   100	
-   101		ret = imx_misc_ctrl_ops->misc_discover_build_info(ph, info);
-   102		if (ret)
-   103			goto err;
-   104	
-   105		ret = imx_misc_ctrl_ops->misc_cfg_info(ph, info);
-   106		if (ret)
-   107			goto err;
-   108	
-   109		ret = imx_misc_ctrl_ops->misc_silicon_info(ph, info);
-   110		if (ret)
-   111			goto err;
-   112	
-   113		ret = imx_misc_ctrl_ops->misc_board_info(ph, info);
-   114		if (ret)
-   115			goto err;
-   116	
-   117		len += sysfs_emit_at(buf, len, "SM Version    = Build %u, Commit 08%x\n",
-   118				     info->buildnum, info->buildcommit);
-   119		len += sysfs_emit_at(buf, len, "SM Config     = %s, mSel=%u\n",
-   120				     info->cfgname, info->msel);
-   121		len += sysfs_emit_at(buf, len, "Silicon       = %s\n", info->siname);
-   122		len += sysfs_emit_at(buf, len, "Board         = %s, attr=0x%08x\n",
-   123				     info->brdname, info->brd_attributes);
-   124	
-   125		ret = len;
-   126	err:
-   127		kfree(info);
-   128		return ret;
-   129	}
-   130	
+   184	
+   185	/* bpf_skb_get_hash - Get the flow hash of an skb.
+   186	 * @skb: The skb to get the flow hash from.
+   187	 */
+ > 188	__bpf_kfunc u32 bpf_skb_get_hash(struct sk_buff *skb)
+   189	{
+   190		return skb_get_hash(skb);
+   191	}
+   192	
+   193	/* bpf_kfree_skb - Release an skb's reference and drop it immediately.
+   194	 * @skb: The skb whose reference to be released and dropped.
+   195	 */
+   196	__bpf_kfunc void bpf_kfree_skb(struct sk_buff *skb)
+   197	{
+   198		kfree_skb(skb);
+   199	}
+   200	
+   201	/* bpf_qdisc_skb_drop - Drop an skb by adding it to a deferred free list.
+   202	 * @skb: The skb whose reference to be released and dropped.
+   203	 * @to_free_list: The list of skbs to be dropped.
+   204	 */
+   205	__bpf_kfunc void bpf_qdisc_skb_drop(struct sk_buff *skb,
+   206					    struct bpf_sk_buff_ptr *to_free_list)
+   207	{
+   208		__qdisc_drop(skb, (struct sk_buff **)to_free_list);
+   209	}
+   210	
+   211	/* bpf_qdisc_watchdog_schedule - Schedule a qdisc to a later time using a timer.
+   212	 * @sch: The qdisc to be scheduled.
+   213	 * @expire: The expiry time of the timer.
+   214	 * @delta_ns: The slack range of the timer.
+   215	 */
+   216	__bpf_kfunc void bpf_qdisc_watchdog_schedule(struct Qdisc *sch, u64 expire, u64 delta_ns)
+   217	{
+   218		struct bpf_sched_data *q = qdisc_priv(sch);
+   219	
+   220		qdisc_watchdog_schedule_range_ns(&q->watchdog, expire, delta_ns);
+   221	}
+   222	
+   223	/* bpf_qdisc_init_prologue - Hidden kfunc called in prologue of .init. */
+ > 224	__bpf_kfunc void bpf_qdisc_init_prologue(struct Qdisc *sch)
+   225	{
+   226		struct bpf_sched_data *q = qdisc_priv(sch);
+   227	
+   228		qdisc_watchdog_init(&q->watchdog, sch);
+   229	}
+   230	
+   231	/* bpf_qdisc_reset_destroy_epilogue - Hidden kfunc called in epilogue of .reset
+   232	 * and .destroy
+   233	 */
+ > 234	__bpf_kfunc void bpf_qdisc_reset_destroy_epilogue(struct Qdisc *sch)
+   235	{
+   236		struct bpf_sched_data *q = qdisc_priv(sch);
+   237	
+   238		qdisc_watchdog_cancel(&q->watchdog);
+   239	}
+   240	
 
 -- 
 0-DAY CI Kernel Test Service
