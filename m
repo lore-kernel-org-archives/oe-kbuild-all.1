@@ -1,77 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA596289E10
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 22:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7C0328A3ED
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 22:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751062257; cv=none; b=UqgBVuNnOVeP3tLTvU0bTTd3Au+cDjUJ0FxhGqVRW37d6OJY3sZdPjtnuOP00RKFScX+m2XoC9Z8y7Q/9zTlTyPlqveyRpXos+NxRKo4YuIQT/q0q/7ke5OfrETwQBB4FxBplOLdumynmSewMV6UHD7lwJDekKR39jjoZ92CNAo=
+	t=1751062855; cv=none; b=Em/RsU3fzqMT9EC6w1D8GbpCr1ExL6ixoRNURxdTiFou+Ey7hkXoiIOFk9Ll+F9zJCV02R1tj9sjnEhLV+QSlnwssCupWezVmESIxsW1cjG/xxRsuoDJ6y1TC65Ckn48YuheuC9NzgSn65y0uELQrZmRmnLeEyq/8bj4K8lY17k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751062257; c=relaxed/simple;
-	bh=9j2iOLGaZr8Hoi6wuymqoKRDc6hjkyChb8a2vuTyhTg=;
+	s=arc-20240116; t=1751062855; c=relaxed/simple;
+	bh=9L0ixXMRbVqYGzBnfUXhugHIfiWqtm/lpXgHMiILOps=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SEG9gsYZHRPgIk40sfMimo7FVu2FClj6KYuFa+mEXTLtZ0HvZrTPX51iatPT5/xGBz0PLQHx1gCwACUxsHq5UD6VZjz86zZq98VptunzlWfIVzgjHK/Xeaog456ERPkvHCCGIZBNobCwZ5I2kd4dOx9wEgvhuYDi3HT5GiuzlnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bgD8ziro; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=cMkL6u1qTbOV8+PAhUWOJwTuKqXvakt/EVPpvV6ii8Rt9ekpdJEPluSaOL/CvvT3Fco+L0u3d8qQRHJ/tMcMym1GiSU7M4MhT1LbLcgF2wTCYQTCH9RL25UL6/rhZLVq6IBLAo0MdzlIa5+Q15p14lcdHAgse6YCc9NwK6vR8Ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=djw67N73; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bgD8ziro"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djw67N73"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751062256; x=1782598256;
+  t=1751062854; x=1782598854;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9j2iOLGaZr8Hoi6wuymqoKRDc6hjkyChb8a2vuTyhTg=;
-  b=bgD8zirorX6NJvAgrXi/VBDPIQYoM0T9VxB/JlQE5+oD3+D+Cnf99a9Y
-   o7o1luXW4tb368Oqi/Qf6EdJcj3qb1EIYbnZX6f14/xoxaSoNJc1qYkLw
-   SYSSnQ3FslMHulEq0L7h0nnjDhIOp8h4gf+D8bsGi6Spm0y+6opLWJmTa
-   k0fVa6genGM0q6zrfZxDMgzR3JUJChRxqr3XN6l7iC/abUGtCaTqEsWzS
-   7wbhPBFLcAwEFBMLw98MZvJux1sUR/D2z2xI2K4HJ75v/Rad4EJj3ehmd
-   D2td1E7Do9Mk/QIzvEXt1X0U0GWiAhq7SILFQBdnt+KnKL0qmDEUn3aQ8
-   A==;
-X-CSE-ConnectionGUID: IHuGcrtESduUEvldf0epvA==
-X-CSE-MsgGUID: izKu3hiVSCG+wQqhu/3mZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53244769"
+  bh=9L0ixXMRbVqYGzBnfUXhugHIfiWqtm/lpXgHMiILOps=;
+  b=djw67N73ktSDG/aAzbauhF/+Ec5uAv4OIscBeEJ1/hAA6DiPMyK+vF/p
+   QLl7s8S3I+qWN57IUzsvEkxpE0PT2d8z+qa+kabulI04vyJzmhcFRzJh1
+   hddxLBrxIilooWKYK5EzGolDULI4Q9WZsCzG8tfzU5T3v/f2VulbeJDQh
+   aZJnXx+016TyDBEWaYhW0aXStQrE4m+4r1dfWolAiy483BuCFOqVG7T+e
+   /zR3VEIaN+yqmrJtOFQ37igCpjEBGNMWf8tz8EgQqeIYg0Kw9Gxb2qVa7
+   xjX5MuF43+o1Xo+Huw/6xZzgcN5Zv+HRVMz2A8GWlzIJhOeUomwRX2wyd
+   Q==;
+X-CSE-ConnectionGUID: meDo/WYWTd6UXfbrLIuGRg==
+X-CSE-MsgGUID: H+9Ua3YcRx+txcjYj/eduw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53509081"
 X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
-   d="scan'208";a="53244769"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 15:10:55 -0700
-X-CSE-ConnectionGUID: JC7UNC/gQXOKOcxqBF/bog==
-X-CSE-MsgGUID: cLdzcmXLTR69N+M0okxK+A==
+   d="scan'208";a="53509081"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 15:20:54 -0700
+X-CSE-ConnectionGUID: rpVEiyRYQB+NIypkshJRVw==
+X-CSE-MsgGUID: 6rfxsHhQR1ysfl3rVu0jWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
-   d="scan'208";a="153399779"
+   d="scan'208";a="153095261"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 27 Jun 2025 15:10:51 -0700
+  by orviesa007.jf.intel.com with ESMTP; 27 Jun 2025 15:20:52 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVHHU-000WaA-0H;
-	Fri, 27 Jun 2025 22:10:48 +0000
-Date: Sat, 28 Jun 2025 06:10:00 +0800
+	id 1uVHRA-000WaM-2O;
+	Fri, 27 Jun 2025 22:20:48 +0000
+Date: Sat, 28 Jun 2025 06:20:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wander Lairson Costa <wander@redhat.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	David Woodhouse <dwmw@amazon.co.uk>,
-	Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Clark Williams <williams@redhat.com>,
-	Gabriele Monaco <gmonaco@redhat.com>
-Subject: Re: [PATCH 1/2] trace/preemptirq: reduce overhead of
- irq_enable/disable tracepoints
-Message-ID: <202506280530.WX885a04-lkp@intel.com>
-References: <20250626142017.26372-2-wander@redhat.com>
+To: Hans Zhang <18255117159@163.com>, lpieralisi@kernel.org,
+	bhelgaas@google.com, mani@kernel.org, kwilczynski@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, robh@kernel.org, jingoohan1@gmail.com,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Hans Zhang <18255117159@163.com>
+Subject: Re: [PATCH v3] PCI: dwc: Refactor code by using
+ dw_pcie_clear_and_set_dword()
+Message-ID: <202506280542.6ttkdrur-lkp@intel.com>
+References: <20250626145040.14180-3-18255117159@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,243 +66,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250626142017.26372-2-wander@redhat.com>
+In-Reply-To: <20250626145040.14180-3-18255117159@163.com>
 
-Hi Wander,
+Hi Hans,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on trace/for-next]
-[also build test ERROR on tip/sched/core linus/master v6.16-rc3 next-20250627]
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v6.16-rc3 next-20250627]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wander-Lairson-Costa/trace-preemptirq-reduce-overhead-of-irq_enable-disable-tracepoints/20250626-222438
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20250626142017.26372-2-wander%40redhat.com
-patch subject: [PATCH 1/2] trace/preemptirq: reduce overhead of irq_enable/disable tracepoints
-config: parisc-randconfig-001-20250628 (https://download.01.org/0day-ci/archive/20250628/202506280530.WX885a04-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506280530.WX885a04-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Hans-Zhang/PCI-dwc-Refactor-code-by-using-dw_pcie_clear_and_set_dword/20250627-031223
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250626145040.14180-3-18255117159%40163.com
+patch subject: [PATCH v3] PCI: dwc: Refactor code by using dw_pcie_clear_and_set_dword()
+config: arc-randconfig-001-20250628 (https://download.01.org/0day-ci/archive/20250628/202506280542.6ttkdrur-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506280542.6ttkdrur-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506280530.WX885a04-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506280542.6ttkdrur-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
-   include/linux/jump_label.h:299:19: error: implicit declaration of function 'atomic_try_cmpxchg'; did you mean 'raw_cpu_try_cmpxchg'? [-Werror=implicit-function-declaration]
-     } while (!likely(atomic_try_cmpxchg(&key->enabled, &v, v + 1)));
-                      ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:76:40: note: in definition of macro 'likely'
-    # define likely(x) __builtin_expect(!!(x), 1)
-                                           ^
-   In file included from include/linux/static_key.h:1,
-                    from include/linux/tracepoint-defs.h:12,
-                    from include/linux/irqflags.h:20,
-                    from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/parisc/include/asm/cmpxchg.h:87,
-                    from arch/parisc/include/asm/atomic.h:10,
-                    from include/linux/atomic.h:7,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
-   include/linux/jump_label.h: In function 'static_key_slow_dec':
-   include/linux/jump_label.h:307:2: error: implicit declaration of function 'atomic_dec' [-Werror=implicit-function-declaration]
-     atomic_dec(&key->enabled);
-     ^~~~~~~~~~
-   include/linux/jump_label.h: In function 'static_key_enable':
-   include/linux/jump_label.h:326:3: error: implicit declaration of function 'WARN_ON_ONCE'; did you mean 'WRITE_ONCE'? [-Werror=implicit-function-declaration]
-      WARN_ON_ONCE(atomic_read(&key->enabled) != 1);
-      ^~~~~~~~~~~~
-      WRITE_ONCE
-   include/linux/jump_label.h:329:2: error: implicit declaration of function 'atomic_set'; did you mean 'static_assert'? [-Werror=implicit-function-declaration]
-     atomic_set(&key->enabled, 1);
-     ^~~~~~~~~~
-     static_assert
-   In file included from include/linux/atomic.h:80,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
-   include/linux/atomic/atomic-arch-fallback.h: At top level:
-   include/linux/atomic/atomic-arch-fallback.h:455:1: error: static declaration of 'raw_atomic_read' follows non-static declaration
-    raw_atomic_read(const atomic_t *v)
-    ^~~~~~~~~~~~~~~
-   In file included from include/linux/static_key.h:1,
-                    from include/linux/tracepoint-defs.h:12,
-                    from include/linux/irqflags.h:20,
-                    from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/parisc/include/asm/cmpxchg.h:87,
-                    from arch/parisc/include/asm/atomic.h:10,
-                    from include/linux/atomic.h:7,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
-   include/linux/jump_label.h:262:9: note: previous implicit declaration of 'raw_atomic_read' was here
-     return raw_atomic_read(&key->enabled);
-            ^~~~~~~~~~~~~~~
-   In file included from include/linux/atomic.h:82,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
-   include/linux/atomic/atomic-instrumented.h:30:1: error: static declaration of 'atomic_read' follows non-static declaration
-    atomic_read(const atomic_t *v)
-    ^~~~~~~~~~~
-   In file included from include/linux/static_key.h:1,
-                    from include/linux/tracepoint-defs.h:12,
-                    from include/linux/irqflags.h:20,
-                    from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/parisc/include/asm/cmpxchg.h:87,
-                    from arch/parisc/include/asm/atomic.h:10,
-                    from include/linux/atomic.h:7,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
-   include/linux/jump_label.h:295:6: note: previous implicit declaration of 'atomic_read' was here
-     v = atomic_read(&key->enabled);
-         ^~~~~~~~~~~
-   In file included from include/linux/atomic.h:82,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
->> include/linux/atomic/atomic-instrumented.h:65:1: warning: conflicting types for 'atomic_set'
-    atomic_set(atomic_t *v, int i)
-    ^~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:65:1: error: static declaration of 'atomic_set' follows non-static declaration
-   In file included from include/linux/static_key.h:1,
-                    from include/linux/tracepoint-defs.h:12,
-                    from include/linux/irqflags.h:20,
-                    from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/parisc/include/asm/cmpxchg.h:87,
-                    from arch/parisc/include/asm/atomic.h:10,
-                    from include/linux/atomic.h:7,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
-   include/linux/jump_label.h:329:2: note: previous implicit declaration of 'atomic_set' was here
-     atomic_set(&key->enabled, 1);
-     ^~~~~~~~~~
-   In file included from include/linux/atomic.h:82,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
->> include/linux/atomic/atomic-instrumented.h:590:1: warning: conflicting types for 'atomic_dec'
-    atomic_dec(atomic_t *v)
-    ^~~~~~~~~~
-   include/linux/atomic/atomic-instrumented.h:590:1: error: static declaration of 'atomic_dec' follows non-static declaration
-   In file included from include/linux/static_key.h:1,
-                    from include/linux/tracepoint-defs.h:12,
-                    from include/linux/irqflags.h:20,
-                    from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/parisc/include/asm/cmpxchg.h:87,
-                    from arch/parisc/include/asm/atomic.h:10,
-                    from include/linux/atomic.h:7,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
-   include/linux/jump_label.h:307:2: note: previous implicit declaration of 'atomic_dec' was here
-     atomic_dec(&key->enabled);
-     ^~~~~~~~~~
-   In file included from include/linux/atomic.h:82,
-                    from arch/parisc/include/asm/bitops.h:13,
-                    from include/linux/bitops.h:68,
-                    from include/linux/kernel.h:23,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
->> include/linux/atomic/atomic-instrumented.h:1275:1: error: conflicting types for 'atomic_try_cmpxchg'
-    atomic_try_cmpxchg(atomic_t *v, int *old, int new)
-    ^~~~~~~~~~~~~~~~~~
-   In file included from include/linux/array_size.h:5,
-                    from include/linux/kernel.h:16,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/page-flags.h:10,
-                    from kernel/bounds.c:10:
-   include/linux/jump_label.h:299:19: note: previous implicit declaration of 'atomic_try_cmpxchg' was here
-     } while (!likely(atomic_try_cmpxchg(&key->enabled, &v, v + 1)));
-                      ^~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:76:40: note: in definition of macro 'likely'
-    # define likely(x) __builtin_expect(!!(x), 1)
-                                           ^
+   In file included from drivers/pci/controller/dwc/pcie-amd-mdb.c:21:
+   drivers/pci/controller/dwc/pcie-designware.h: In function 'dw_pcie_dbi_ro_wr_en':
+>> drivers/pci/controller/dwc/pcie-designware.h:712:2: error: implicit declaration of function 'dw_pcie_clear_and_set_dword'; did you mean 'pcie_capability_set_dword'? [-Werror=implicit-function-declaration]
+     dw_pcie_clear_and_set_dword(pci, PCIE_MISC_CONTROL_1_OFF,
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+     pcie_capability_set_dword
    cc1: some warnings being treated as errors
-   make[3]: *** [scripts/Makefile.build:98: kernel/bounds.s] Error 1 shuffle=1288049444
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1274: prepare0] Error 2 shuffle=1288049444
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1288049444
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=1288049444
-   make: Target 'prepare' not remade because of errors.
 
 
-vim +/atomic_try_cmpxchg +1275 include/linux/atomic/atomic-instrumented.h
+vim +712 drivers/pci/controller/dwc/pcie-designware.h
 
-aa525d063851a9 include/asm-generic/atomic-instrumented.h  Mark Rutland 2018-09-04  1259  
-ad8110706f3811 include/linux/atomic/atomic-instrumented.h Mark Rutland 2023-06-05  1260  /**
-ad8110706f3811 include/linux/atomic/atomic-instrumented.h Mark Rutland 2023-06-05  1261   * atomic_try_cmpxchg() - atomic compare and exchange with full ordering
-ad8110706f3811 include/linux/atomic/atomic-instrumented.h Mark Rutland 2023-06-05  1262   * @v: pointer to atomic_t
-ad8110706f3811 include/linux/atomic/atomic-instrumented.h Mark Rutland 2023-06-05  1263   * @old: pointer to int value to compare with
-ad8110706f3811 include/linux/atomic/atomic-instrumented.h Mark Rutland 2023-06-05  1264   * @new: int value to assign
-ad8110706f3811 include/linux/atomic/atomic-instrumented.h Mark Rutland 2023-06-05  1265   *
-ad8110706f3811 include/linux/atomic/atomic-instrumented.h Mark Rutland 2023-06-05  1266   * If (@v == @old), atomically updates @v to @new with full ordering.
-6dfee110c6cc7a include/linux/atomic/atomic-instrumented.h Mark Rutland 2024-02-09  1267   * Otherwise, @v is not modified, @old is updated to the current value of @v,
-6dfee110c6cc7a include/linux/atomic/atomic-instrumented.h Mark Rutland 2024-02-09  1268   * and relaxed ordering is provided.
-ad8110706f3811 include/linux/atomic/atomic-instrumented.h Mark Rutland 2023-06-05  1269   *
-ad8110706f3811 include/linux/atomic/atomic-instrumented.h Mark Rutland 2023-06-05  1270   * Unsafe to use in noinstr code; use raw_atomic_try_cmpxchg() there.
-ad8110706f3811 include/linux/atomic/atomic-instrumented.h Mark Rutland 2023-06-05  1271   *
-ad8110706f3811 include/linux/atomic/atomic-instrumented.h Mark Rutland 2023-06-05  1272   * Return: @true if the exchange occured, @false otherwise.
-ad8110706f3811 include/linux/atomic/atomic-instrumented.h Mark Rutland 2023-06-05  1273   */
-c020395b6634b7 include/asm-generic/atomic-instrumented.h  Marco Elver  2019-11-26  1274  static __always_inline bool
-aa525d063851a9 include/asm-generic/atomic-instrumented.h  Mark Rutland 2018-09-04 @1275  atomic_try_cmpxchg(atomic_t *v, int *old, int new)
-aa525d063851a9 include/asm-generic/atomic-instrumented.h  Mark Rutland 2018-09-04  1276  {
-e87c4f6642f496 include/linux/atomic/atomic-instrumented.h Marco Elver  2021-11-30  1277  	kcsan_mb();
-3570a1bcf45e9a include/asm-generic/atomic-instrumented.h  Marco Elver  2020-07-24  1278  	instrument_atomic_read_write(v, sizeof(*v));
-3570a1bcf45e9a include/asm-generic/atomic-instrumented.h  Marco Elver  2020-07-24  1279  	instrument_atomic_read_write(old, sizeof(*old));
-c9268ac615f9f6 include/linux/atomic/atomic-instrumented.h Mark Rutland 2023-06-05  1280  	return raw_atomic_try_cmpxchg(v, old, new);
-aa525d063851a9 include/asm-generic/atomic-instrumented.h  Mark Rutland 2018-09-04  1281  }
-aa525d063851a9 include/asm-generic/atomic-instrumented.h  Mark Rutland 2018-09-04  1282  
+   709	
+   710	static inline void dw_pcie_dbi_ro_wr_en(struct dw_pcie *pci)
+   711	{
+ > 712		dw_pcie_clear_and_set_dword(pci, PCIE_MISC_CONTROL_1_OFF,
+   713					    0, PCIE_DBI_RO_WR_EN);
+   714	}
+   715	
 
 -- 
 0-DAY CI Kernel Test Service
