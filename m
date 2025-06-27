@@ -1,83 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545C120B80B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 20:11:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F792EBDE5
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 20:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751055085; cv=none; b=ghCELOsB+XHOQtu43Hpq7i7Xjr+FpgSjxk4wL5182dH6LyUHV+J3jsAzhx+jy959u/5/k9Vsz+i3/IHnZZAtGphzP+gBxBAHC3q+kuR8IrarL/fCd3kEhZ2S0SlQjcv18X2BOMOLauJa0fi9hj4mffoFeYm5j9YD3Yy7QYZ723U=
+	t=1751055165; cv=none; b=IGoZvwMCN+YRABk07uPK4O6A18VdMWM9fBbrFycpAdF9LooyOppx2vPa9aq7NuF8tLsWz2IOH84lDdqjJvGJ5YDdkHOgptjkwsJ16awE0nby+Mk0Jsy0UZmBCcdc/F3zehXmHZ60L92Mw6HRRTZvVdeqttoTE5/6DrX5H/g3+MA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751055085; c=relaxed/simple;
-	bh=TxKmAuf22xBHiZt2TNjQfrHx/IQeMmYLYqVEZtL05DI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=qjvpWxbz0DdBu7zTuATtPuuIF5sdnNrNWWutIx4AmK6QEfGCaQGZhjZ8oDCimyPUf+0vN93WhgJZAl3cnESc3yk7r3Qi382Ti2kb0BOwP4i+PVoC3ul4FFkH3SMpRs+5Key2jCeoR/IKkAKyDB3OB0t0+94ZWR+DZ+vHJvDl9tM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JQJGuOL9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751055165; c=relaxed/simple;
+	bh=Q3KZT0Npr6synI5d8Qanys68ufCRfmcfjhC4Gu/eVLw=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=r5LYJJBGP82cGZegE8uvOs/CpjqAYkjiZwFdq9/nF+TtwUcQh2XSNjpz1MMWO0TzfWg/mYakdyy/j9XV61ExK6Xg1OgWpygDhKTL/BT7367MqptM+N8JvoLN7icyuLVUbvWyS2cDFp1gPpediiLSR/LiZ4W2fvN5V1Xhmsb2Pdk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nrRGrsUV; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JQJGuOL9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEE37C4CEE3;
-	Fri, 27 Jun 2025 20:11:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751055084;
-	bh=TxKmAuf22xBHiZt2TNjQfrHx/IQeMmYLYqVEZtL05DI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JQJGuOL9iGOyvbfaVKhUiUdNH9xGOlEonsBstFc67sh7NrAt61+Uc028plbB6N1a6
-	 Vv5lkedY8Nrw4jNkYGAlcZJMr/QrcgZNWQvPaSeYwrKMu/+OUbg1842i3F9QS3Z2yz
-	 gW8OHiqprSYWRZWr4inQ8hlRh0wFDZ2ZKuP5QWVhNiT0k/xjouPksVRqgKTadVPKxp
-	 fe1inYULNnNGycMYN65/kUDNK7itJ/mSpq4KtFYnDXoxA9nYe5BDamTJNnHIFWMz5h
-	 3vvN2826ADAmSOHr8OQX+E7uRiDzajBvz4jKu+wOXxD9tTPRgz92bUHmOqP9AQZG8k
-	 /qbCPLevRS8gQ==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	kernel test robot <lkp@intel.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [linux-next:master 5320/5590] mm/damon/sysfs-schemes.c:1622:32: sparse: sparse: symbol 'damos_sysfs_action_names' was not declared. Should it be static?
-Date: Fri, 27 Jun 2025 13:11:22 -0700
-Message-Id: <20250627201122.53436-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250627125731.19f70c310cb4f315177e41e6@linux-foundation.org>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nrRGrsUV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751055163; x=1782591163;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=Q3KZT0Npr6synI5d8Qanys68ufCRfmcfjhC4Gu/eVLw=;
+  b=nrRGrsUV30gvwUXZzCVSfBfrizkkvZZfzgXKt0sR5Hh0Wg1GY/+c+wmU
+   5Whsy2D37bsyvHEbR3PbHZBFRxwQrO9ypCZfMo9ZPf2N2iZNZgWNYGm8t
+   yaY+VbwLylkq95XKX3UfMh3AvzGgPWmLfrlG36IDdn4NSH47P+wTvL8NO
+   La5TWipUNJmVEdvISb2BOljwf39N7ixnBijKyQorB6rSWWfAVS54r6pZQ
+   yRGyZhiLsg1KwIg3AMvyL/iTlAzZhERUwrQDFoa+hPWiePtknBEuthgzU
+   roKkgU/+PlNv0T6zgsEWsKqkytKsWcmuBkNKhOM5b8fK58cSj3mkJFbmq
+   g==;
+X-CSE-ConnectionGUID: W+TVnRs8SamnS3/MswC9WQ==
+X-CSE-MsgGUID: gDm7Iv6NQzahZY13xcjcwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53501448"
+X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
+   d="scan'208";a="53501448"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 13:12:42 -0700
+X-CSE-ConnectionGUID: mjMPQIW8TNGj40dojRiVzw==
+X-CSE-MsgGUID: S2FVB/9GRrSFbqCN5B1LrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
+   d="scan'208";a="190075283"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 27 Jun 2025 13:12:41 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uVFR8-000WVm-0o;
+	Fri, 27 Jun 2025 20:12:38 +0000
+Date: Sat, 28 Jun 2025 04:12:01 +0800
+From: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>
+Subject: [linux-next:master 5606/5998] kernel/bpf/helpers.c:3315:17: sparse:
+ sparse: incorrect type in argument 2 (different address spaces)
+Message-ID: <202506280434.kvMzVe89-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 27 Jun 2025 12:57:31 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2aeda9592360c200085898a258c4754bfe879921
+commit: 886178a33a30fe685e926d84f531243982fb3c70 [5606/5998] Merge git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf after rc3
+config: riscv-randconfig-r123-20250627 (https://download.01.org/0day-ci/archive/20250628/202506280434.kvMzVe89-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 10.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250628/202506280434.kvMzVe89-lkp@intel.com/reproduce)
 
-> On Fri, 27 Jun 2025 16:41:02 +0800 kernel test robot <lkp@intel.com> wrote:
-[...]
-> > sparse warnings: (new ones prefixed by >>)
-> > >> mm/damon/sysfs-schemes.c:1622:32: sparse: sparse: symbol 'damos_sysfs_action_names' was not declared. Should it be static?
-> 
-> Thanks.
-> 
-> --- a/mm/damon/sysfs-schemes.c~mm-damon-sysfs-schemes-decouple-from-damos_action-fix
-> +++ a/mm/damon/sysfs-schemes.c
-> @@ -1619,7 +1619,7 @@ struct damos_sysfs_action_name {
->  	char *name;
->  };
->  
-> -struct damos_sysfs_action_name damos_sysfs_action_names[] = {
-> +static struct damos_sysfs_action_name damos_sysfs_action_names[] = {
->  	{
->  		.action = DAMOS_WILLNEED,
->  		.name = "willneed",
-> _
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506280434.kvMzVe89-lkp@intel.com/
 
-Thank you Andrew.  I posted a same fix[1] but forgot noting that here.  Since
-it is same to yours and yours is already added to mm tree, let's keep using
-yours unless you mind.
+sparse warnings: (new ones prefixed by >>)
+   kernel/bpf/helpers.c:1198:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long long ( *[usertype] callback_fn )( ... ) @@     got void [noderef] __rcu * @@
+   kernel/bpf/helpers.c:1198:21: sparse:     expected unsigned long long ( *[usertype] callback_fn )( ... )
+   kernel/bpf/helpers.c:1198:21: sparse:     got void [noderef] __rcu *
+   kernel/bpf/helpers.c:2472:18: sparse: sparse: symbol 'bpf_task_release_dtor' was not declared. Should it be static?
+   kernel/bpf/helpers.c:2502:18: sparse: sparse: symbol 'bpf_cgroup_release_dtor' was not declared. Should it be static?
+>> kernel/bpf/helpers.c:3315:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
+   kernel/bpf/helpers.c:3315:17: sparse:     expected void const [noderef] __user *from
+   kernel/bpf/helpers.c:3315:17: sparse:     got char *
+   kernel/bpf/helpers.c:3316:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
+   kernel/bpf/helpers.c:3316:17: sparse:     expected void const [noderef] __user *from
+   kernel/bpf/helpers.c:3316:17: sparse:     got char *
+   kernel/bpf/helpers.c:3355:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
+   kernel/bpf/helpers.c:3355:17: sparse:     expected void const [noderef] __user *from
+   kernel/bpf/helpers.c:3355:17: sparse:     got char *
+   kernel/bpf/helpers.c:3409:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
+   kernel/bpf/helpers.c:3409:17: sparse:     expected void const [noderef] __user *from
+   kernel/bpf/helpers.c:3409:17: sparse:     got char *
+   kernel/bpf/helpers.c:3441:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
+   kernel/bpf/helpers.c:3441:17: sparse:     expected void const [noderef] __user *from
+   kernel/bpf/helpers.c:3441:17: sparse:     got char *
+   kernel/bpf/helpers.c:3474:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
+   kernel/bpf/helpers.c:3474:17: sparse:     expected void const [noderef] __user *from
+   kernel/bpf/helpers.c:3474:17: sparse:     got char *
+   kernel/bpf/helpers.c:3524:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
+   kernel/bpf/helpers.c:3524:17: sparse:     expected void const [noderef] __user *from
+   kernel/bpf/helpers.c:3524:17: sparse:     got char *
+   kernel/bpf/helpers.c:3528:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
+   kernel/bpf/helpers.c:3528:25: sparse:     expected void const [noderef] __user *from
+   kernel/bpf/helpers.c:3528:25: sparse:     got char *
+   kernel/bpf/helpers.c:3568:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
+   kernel/bpf/helpers.c:3568:17: sparse:     expected void const [noderef] __user *from
+   kernel/bpf/helpers.c:3568:17: sparse:     got char *
+   kernel/bpf/helpers.c:3572:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
+   kernel/bpf/helpers.c:3572:25: sparse:     expected void const [noderef] __user *from
+   kernel/bpf/helpers.c:3572:25: sparse:     got char *
+   kernel/bpf/helpers.c:3614:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
+   kernel/bpf/helpers.c:3614:25: sparse:     expected void const [noderef] __user *from
+   kernel/bpf/helpers.c:3614:25: sparse:     got char *
+   kernel/bpf/helpers.c:3617:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
+   kernel/bpf/helpers.c:3617:25: sparse:     expected void const [noderef] __user *from
+   kernel/bpf/helpers.c:3617:25: sparse:     got char *
+   kernel/bpf/helpers.c:2920:18: sparse: sparse: context imbalance in 'bpf_rcu_read_lock' - wrong count at exit
+   kernel/bpf/helpers.c:2925:18: sparse: sparse: context imbalance in 'bpf_rcu_read_unlock' - unexpected unlock
 
-FWIW,
+vim +3315 kernel/bpf/helpers.c
 
-Reviewed-by: SeongJae Park <sj@kernel.org>
+f95695f2c46592 Yonghong Song 2025-05-23  3281  
+e91370550f1fe6 Viktor Malik  2025-06-26  3282  /*
+e91370550f1fe6 Viktor Malik  2025-06-26  3283   * Kfuncs for string operations.
+e91370550f1fe6 Viktor Malik  2025-06-26  3284   *
+e91370550f1fe6 Viktor Malik  2025-06-26  3285   * Since strings are not necessarily %NUL-terminated, we cannot directly call
+e91370550f1fe6 Viktor Malik  2025-06-26  3286   * in-kernel implementations. Instead, we open-code the implementations using
+e91370550f1fe6 Viktor Malik  2025-06-26  3287   * __get_kernel_nofault instead of plain dereference to make them safe.
+e91370550f1fe6 Viktor Malik  2025-06-26  3288   */
+e91370550f1fe6 Viktor Malik  2025-06-26  3289  
+e91370550f1fe6 Viktor Malik  2025-06-26  3290  /**
+e91370550f1fe6 Viktor Malik  2025-06-26  3291   * bpf_strcmp - Compare two strings
+e91370550f1fe6 Viktor Malik  2025-06-26  3292   * @s1__ign: One string
+e91370550f1fe6 Viktor Malik  2025-06-26  3293   * @s2__ign: Another string
+e91370550f1fe6 Viktor Malik  2025-06-26  3294   *
+e91370550f1fe6 Viktor Malik  2025-06-26  3295   * Return:
+e91370550f1fe6 Viktor Malik  2025-06-26  3296   * * %0       - Strings are equal
+e91370550f1fe6 Viktor Malik  2025-06-26  3297   * * %-1      - @s1__ign is smaller
+e91370550f1fe6 Viktor Malik  2025-06-26  3298   * * %1       - @s2__ign is smaller
+e91370550f1fe6 Viktor Malik  2025-06-26  3299   * * %-EFAULT - Cannot read one of the strings
+e91370550f1fe6 Viktor Malik  2025-06-26  3300   * * %-E2BIG  - One of strings is too large
+e91370550f1fe6 Viktor Malik  2025-06-26  3301   * * %-ERANGE - One of strings is outside of kernel address space
+e91370550f1fe6 Viktor Malik  2025-06-26  3302   */
+e91370550f1fe6 Viktor Malik  2025-06-26  3303  __bpf_kfunc int bpf_strcmp(const char *s1__ign, const char *s2__ign)
+e91370550f1fe6 Viktor Malik  2025-06-26  3304  {
+e91370550f1fe6 Viktor Malik  2025-06-26  3305  	char c1, c2;
+e91370550f1fe6 Viktor Malik  2025-06-26  3306  	int i;
+e91370550f1fe6 Viktor Malik  2025-06-26  3307  
+e91370550f1fe6 Viktor Malik  2025-06-26  3308  	if (!copy_from_kernel_nofault_allowed(s1__ign, 1) ||
+e91370550f1fe6 Viktor Malik  2025-06-26  3309  	    !copy_from_kernel_nofault_allowed(s2__ign, 1)) {
+e91370550f1fe6 Viktor Malik  2025-06-26  3310  		return -ERANGE;
+e91370550f1fe6 Viktor Malik  2025-06-26  3311  	}
+e91370550f1fe6 Viktor Malik  2025-06-26  3312  
+e91370550f1fe6 Viktor Malik  2025-06-26  3313  	guard(pagefault)();
+e91370550f1fe6 Viktor Malik  2025-06-26  3314  	for (i = 0; i < XATTR_SIZE_MAX; i++) {
+e91370550f1fe6 Viktor Malik  2025-06-26 @3315  		__get_kernel_nofault(&c1, s1__ign, char, err_out);
+e91370550f1fe6 Viktor Malik  2025-06-26  3316  		__get_kernel_nofault(&c2, s2__ign, char, err_out);
+e91370550f1fe6 Viktor Malik  2025-06-26  3317  		if (c1 != c2)
+e91370550f1fe6 Viktor Malik  2025-06-26  3318  			return c1 < c2 ? -1 : 1;
+e91370550f1fe6 Viktor Malik  2025-06-26  3319  		if (c1 == '\0')
+e91370550f1fe6 Viktor Malik  2025-06-26  3320  			return 0;
+e91370550f1fe6 Viktor Malik  2025-06-26  3321  		s1__ign++;
+e91370550f1fe6 Viktor Malik  2025-06-26  3322  		s2__ign++;
+e91370550f1fe6 Viktor Malik  2025-06-26  3323  	}
+e91370550f1fe6 Viktor Malik  2025-06-26  3324  	return -E2BIG;
+e91370550f1fe6 Viktor Malik  2025-06-26  3325  err_out:
+e91370550f1fe6 Viktor Malik  2025-06-26  3326  	return -EFAULT;
+e91370550f1fe6 Viktor Malik  2025-06-26  3327  }
+e91370550f1fe6 Viktor Malik  2025-06-26  3328  
 
-[1] https://lore.kernel.org/20250627162806.50589-1-sj@kernel.org
+:::::: The code at line 3315 was first introduced by commit
+:::::: e91370550f1fe6fa3b02e8bf9762e3dc0a02fcad bpf: Add kfuncs for read-only string operations
 
+:::::: TO: Viktor Malik <vmalik@redhat.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
-Thanks,
-SJ
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
