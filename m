@@ -1,67 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D237F29DB8F;
-	Fri, 27 Jun 2025 11:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C922D9793
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 12:12:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751024519; cv=none; b=s2IumSGrzbxxmhF/woQkCF8dnzs5K/jMKZdWcdC4vrmWC/BvOYaova1nJynfdVmo8udrcITBbYHLwjCbMLlCQZSbU48o/t5tm12JA2U4ilpk7bzF+aGP28aNuvIzzXDPrM4kzJPJw9JkNs4Xb9fHhfQQE9KEq9IzLHFx01/XwVI=
+	t=1751026381; cv=none; b=dooy5Gu8QwzfejFpeN9L8z4OiHUkajr5E3ui8aweyClVxaw69FduFShMWVleiNAIeMRlKxXY9GJJCM/0DYN6mC3iuRsfz2wPaNKaF2jTPvuvA+rIuevCnCPO26p9JXI4iqUxrSCDptXzXGscZQb1zWIm2fnvqIhsY64+MnK3xAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751024519; c=relaxed/simple;
-	bh=nZOaxhDoY088s77SVWl/RPAG6Ac4V85NnmsvRFym91c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f6aBIvBTJqJQA+xXEcZjjFrkABDnCHwP65BtKue4bC3P/jOaDI6cYANZnNHSAwWLiB5S/8kwXiHfMkZ7d3XCGYZbg/gOzCcb0uBnDsnw0FkHwSIkrJgHT+7N+RFQqM/mBgV/spmLC8WcqvpROCtmY48gR8T/gP+tJlNHanzgFXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QZDxp/RN; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1751026381; c=relaxed/simple;
+	bh=PKL3fMKbuI+dL8WOBgknCDy8FhDpyp6Lhh+5tK3DtPE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=J85Gohmgirx/jbhclts1X3NHRSB+DMWZvL06D9kZefnOo/+Qx6uXRmVjvUr8t88Go3Yue/mLtbkIWv5vw86AkTKXldPEKfd1SAFAeZX5atu39l71HVSmfuL7HOjv1AdDSb1NY3MS689dkhtPN1wZOk8Y+NdLn1fQTgpGpDDgPu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gM6WDwq2; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZDxp/RN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gM6WDwq2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751024517; x=1782560517;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nZOaxhDoY088s77SVWl/RPAG6Ac4V85NnmsvRFym91c=;
-  b=QZDxp/RNQH3I28LgXGbHMbg4JzxLZM3OwkgpklFB00VOpyaMGYrO+oHm
-   qX+2Ew2wZILmAs9FzTtOVlVIKJoEJiZ/ykadatM68Ul8b/sbp3GxCjS7N
-   eVpCEM6JQcBInwITPhyt/I5uXkTJJXOUVuL++ldbpL+euYNGdTYRhd4Lr
-   n+PcGsi3przlMd5dS3I8z2lRYNlEXfa9JCnsFlY7SLKesPbLE3DsDMt8s
-   omuSiuao231u6BvtV4i1IwYGk00bi/0uzDeiznHbS+L3scpp40Pily9XK
-   RnXzia/lNjI5Eh90mUZVsjp1+Ttgf7u4XYrzOJVcBiHz9CvNuq591nem9
-   A==;
-X-CSE-ConnectionGUID: y8yfJJgtQNKLYQtGKHQh1A==
-X-CSE-MsgGUID: KNWOfeloTZilvwjeTMaKuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="64690897"
+  t=1751026378; x=1782562378;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PKL3fMKbuI+dL8WOBgknCDy8FhDpyp6Lhh+5tK3DtPE=;
+  b=gM6WDwq2cY+ZAuZQRPBE6rlzsFCryAqlguKpBvxZkwZhGSSFakWFQtQQ
+   qnsJNc2p4QCTRbosARTczlBP8MnaDFr/bEcuscdVs6Bv3YfhjoF1coLVI
+   D7Zu+bv/+2NjuHO/uyyKq5q1XbsXsCFQDlg931pFKfxrudRXN13gXUPBb
+   pOnuG5cyIvFqH84Q75PZaDJ0SDanzTJEsBLgBDin6T6Q0PvpLC+XP23Pl
+   p3roRodz8mMN0YSJdUQZqK9yC/hHacsdsTCXsd1equ/iAVglHksVJsl/L
+   djs7ySa/deU3vj0utmWwycrJ++f41mIGFzOaZhGif930Hy8u796KKyZju
+   Q==;
+X-CSE-ConnectionGUID: y5uh7GpzRG2noVRpN5N8dg==
+X-CSE-MsgGUID: /NCmVF4bQMSNdtIoleTD/Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53486791"
 X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="64690897"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 04:41:56 -0700
-X-CSE-ConnectionGUID: H3g5RGKmS6yosg3y/uOPDQ==
-X-CSE-MsgGUID: 9Hjg6KM7QLOiPI/I3F05LA==
+   d="scan'208";a="53486791"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 05:12:57 -0700
+X-CSE-ConnectionGUID: 5eVWvi21RIK3Fy7SkoC8pA==
+X-CSE-MsgGUID: S85c+Q+jSbK+rhpw1nc8WQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="183822281"
+   d="scan'208";a="176470846"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Jun 2025 04:41:53 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 27 Jun 2025 05:12:56 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uV7So-000W8M-38;
-	Fri, 27 Jun 2025 11:41:50 +0000
-Date: Fri, 27 Jun 2025 19:40:57 +0800
+	id 1uV7wr-000W9O-20;
+	Fri, 27 Jun 2025 12:12:53 +0000
+Date: Fri, 27 Jun 2025 20:12:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Kent Gibson <warthog618@gmail.com>,
-	Jan =?iso-8859-1?Q?L=FCbbe?= <jlu@pengutronix.de>,
-	Marek Vasut <marex@denx.de>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Linus Walleij <linus.walleij@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 8/9] gpio: sysfs: allow disabling the legacy parts of
- the GPIO sysfs interface
-Message-ID: <202506271940.T2QaCrba-lkp@intel.com>
-References: <20250623-gpio-sysfs-chip-export-v2-8-d592793f8964@linaro.org>
+To: Tejun Heo <tj@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andrea Righi <arighi@nvidia.com>
+Subject: kernel/sched/ext.c:4743:33: sparse: sparse: incorrect type in
+ initializer (different address spaces)
+Message-ID: <202506272035.5Ew6nQH6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,266 +62,334 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250623-gpio-sysfs-chip-export-v2-8-d592793f8964@linaro.org>
 
-Hi Bartosz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on cb908f3699fb137e28017a8fdf506c35762b3eb6]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/gpio-sysfs-add-a-parallel-class-device-for-each-GPIO-chip-using-device-IDs/20250623-170412
-base:   cb908f3699fb137e28017a8fdf506c35762b3eb6
-patch link:    https://lore.kernel.org/r/20250623-gpio-sysfs-chip-export-v2-8-d592793f8964%40linaro.org
-patch subject: [PATCH v2 8/9] gpio: sysfs: allow disabling the legacy parts of the GPIO sysfs interface
-config: s390-randconfig-002-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271940.T2QaCrba-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271940.T2QaCrba-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   67a993863163cb88b1b68974c31b0d84ece4293e
+commit: c201ea1578d3b9eed29494ba3dc2abbccf62c4c8 sched_ext: Move event_stats_cpu into scx_sched
+date:   8 weeks ago
+config: powerpc64-randconfig-r113-20250627 (https://download.01.org/0day-ci/archive/20250627/202506272035.5Ew6nQH6-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 13.3.0
+reproduce: (https://download.01.org/0day-ci/archive/20250627/202506272035.5Ew6nQH6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506271940.T2QaCrba-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506272035.5Ew6nQH6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/sched/ext.c:3264:21: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:3264:21: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3264:21: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3264:21: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3264:21: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3264:21: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3264:21: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3282:13: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:3282:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3282:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3282:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3282:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3282:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3282:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3326:38: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *prev @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext.c:3326:38: sparse:     expected struct task_struct *prev
+   kernel/sched/ext.c:3326:38: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/ext.c:3434:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [toplevel] scx_root @@
+   kernel/sched/ext.c:3434:33: sparse:     expected struct scx_sched *sch
+   kernel/sched/ext.c:3434:33: sparse:     got struct scx_sched [noderef] __rcu *static [toplevel] scx_root
+   kernel/sched/ext.c:3503:13: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:3503:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3503:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3503:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3503:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3503:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3503:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3523:50: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct sched_ext_ops *ops @@     got struct sched_ext_ops [noderef] __rcu * @@
+   kernel/sched/ext.c:3523:50: sparse:     expected struct sched_ext_ops *ops
+   kernel/sched/ext.c:3523:50: sparse:     got struct sched_ext_ops [noderef] __rcu *
+   kernel/sched/ext.c:3525:23: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:3525:23: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3525:23: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3525:23: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3525:23: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3525:23: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3525:23: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3527:29: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:3527:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3527:29: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3527:29: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3527:29: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3527:29: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3527:29: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3630:20: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:3630:20: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3630:20: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3630:20: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3630:20: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3630:20: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3630:20: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3702:13: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:3702:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3702:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3702:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3702:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3702:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3702:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3765:13: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:3765:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3765:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3765:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3765:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3765:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3765:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3769:13: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:3769:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3769:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3769:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3769:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3769:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3769:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3780:13: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:3780:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3780:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3780:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3780:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3780:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3780:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3809:13: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:3809:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3809:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3809:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3809:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3809:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3809:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3918:13: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:3918:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3918:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3918:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3918:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3918:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3918:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3934:13: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:3934:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3934:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3934:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:3934:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:3934:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:3934:13: sparse:     got unsigned long [noderef] __rcu *
+>> kernel/sched/ext.c:4743:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root @@
+   kernel/sched/ext.c:4743:33: sparse:     expected struct scx_sched *sch
+   kernel/sched/ext.c:4743:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [toplevel] scx_root
+   kernel/sched/ext.c:5057:13: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:5057:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:5057:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:5057:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:5057:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:5057:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:5057:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:5104:13: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:5104:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:5104:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:5104:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:5104:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:5104:13: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:5104:13: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:5127:30: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:5127:30: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:5127:30: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:5127:30: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:5127:30: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:5127:30: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:5127:30: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:5161:21: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext.c:5161:21: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:5161:21: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:5161:21: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:5161:21: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext.c:5161:21: sparse:     expected unsigned long const volatile *addr
+   kernel/sched/ext.c:5161:21: sparse:     got unsigned long [noderef] __rcu *
+   kernel/sched/ext.c:5185:52: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext.c:5185:52: sparse:     expected struct task_struct *p
+   kernel/sched/ext.c:5185:52: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/ext.c:5197:25: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root @@
+   kernel/sched/ext.c:5197:25: sparse:     expected struct scx_sched *sch
+   kernel/sched/ext.c:5197:25: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root
+   kernel/sched/ext.c:5951:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
+   kernel/sched/ext.c:5951:32: sparse:     expected struct task_struct const *p
+   kernel/sched/ext.c:5951:32: sparse:     got struct task_struct [noderef] __rcu *curr
+   kernel/sched/ext.c:6331:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root @@
+   kernel/sched/ext.c:6331:33: sparse:     expected struct scx_sched *sch
+   kernel/sched/ext.c:6331:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root
+   kernel/sched/ext.c:6464:33: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct scx_sched *sch @@     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root @@
+   kernel/sched/ext.c:6464:33: sparse:     expected struct scx_sched *sch
+   kernel/sched/ext.c:6464:33: sparse:     got struct scx_sched [noderef] __rcu *static [addressable] [assigned] [toplevel] scx_root
+   kernel/sched/ext.c:7305:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/sched/ext.c:7305:33: sparse:    struct task_struct [noderef] __rcu *
+   kernel/sched/ext.c:7305:33: sparse:    struct task_struct const *
+   kernel/sched/build_policy.c: note: in included file:
+   kernel/sched/ext_idle.c:245:24: sparse: sparse: Using plain integer as NULL pointer
+   kernel/sched/ext_idle.c:747:13: sparse: sparse: cast removes address space '__rcu' of expression
+   kernel/sched/ext_idle.c:747:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext_idle.c:747:13: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected unsigned long const volatile *addr @@     got unsigned long [noderef] __rcu * @@
+   kernel/sched/ext_idle.c:766:49: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct const *p @@     got struct task_struct [noderef] __rcu *curr @@
 
-   drivers/gpio/gpiolib-sysfs.c:818:3: error: cannot jump from this goto statement to its label
-     818 |                 goto err_free_name;
-         |                 ^
-   drivers/gpio/gpiolib-sysfs.c:820:8: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     820 |         char *path __free(kfree) = kasprintf(GFP_KERNEL, "gpio%u/value",
-         |               ^
-   drivers/gpio/gpiolib-sysfs.c:811:3: error: cannot jump from this goto statement to its label
-     811 |                 goto err_put_dirent;
-         |                 ^
-   drivers/gpio/gpiolib-sysfs.c:820:8: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     820 |         char *path __free(kfree) = kasprintf(GFP_KERNEL, "gpio%u/value",
-         |               ^
-   drivers/gpio/gpiolib-sysfs.c:802:3: error: cannot jump from this goto statement to its label
-     802 |                 goto err_put_dirent;
-         |                 ^
-   drivers/gpio/gpiolib-sysfs.c:820:8: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     820 |         char *path __free(kfree) = kasprintf(GFP_KERNEL, "gpio%u/value",
-         |               ^
-   drivers/gpio/gpiolib-sysfs.c:747:3: error: cannot jump from this goto statement to its label
-     747 |                 goto err_clear_bit;
-         |                 ^
-   drivers/gpio/gpiolib-sysfs.c:820:8: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     820 |         char *path __free(kfree) = kasprintf(GFP_KERNEL, "gpio%u/value",
-         |               ^
-   drivers/gpio/gpiolib-sysfs.c:741:3: error: cannot jump from this goto statement to its label
-     741 |                 goto err_clear_bit;
-         |                 ^
-   drivers/gpio/gpiolib-sysfs.c:820:8: note: jump bypasses initialization of variable with __attribute__((cleanup))
-     820 |         char *path __free(kfree) = kasprintf(GFP_KERNEL, "gpio%u/value",
-         |               ^
->> drivers/gpio/gpiolib-sysfs.c:962:6: warning: unused variable 'err' [-Wunused-variable]
-     962 |         int err;
-         |             ^~~
-   1 warning and 5 errors generated.
+vim +4743 kernel/sched/ext.c
 
+f0e1a0643a59bf Tejun Heo      2024-06-18  4740  
+1a2469403eb26c Tejun Heo      2025-04-04  4741  static void scx_disable_workfn(struct kthread_work *work)
+f0e1a0643a59bf Tejun Heo      2024-06-18  4742  {
+17108735b47d12 Tejun Heo      2025-04-29 @4743  	struct scx_sched *sch = scx_root;
+17108735b47d12 Tejun Heo      2025-04-29  4744  	struct scx_exit_info *ei = sch->exit_info;
+f0e1a0643a59bf Tejun Heo      2024-06-18  4745  	struct scx_task_iter sti;
+f0e1a0643a59bf Tejun Heo      2024-06-18  4746  	struct task_struct *p;
+0b304617936094 Tejun Heo      2025-04-09  4747  	int kind, cpu;
+f0e1a0643a59bf Tejun Heo      2024-06-18  4748  
+17108735b47d12 Tejun Heo      2025-04-29  4749  	kind = atomic_read(&sch->exit_kind);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4750  	while (true) {
+f0e1a0643a59bf Tejun Heo      2024-06-18  4751  		/*
+f0e1a0643a59bf Tejun Heo      2024-06-18  4752  		 * NONE indicates that a new scx_ops has been registered since
+f0e1a0643a59bf Tejun Heo      2024-06-18  4753  		 * disable was scheduled - don't kill the new ops. DONE
+f0e1a0643a59bf Tejun Heo      2024-06-18  4754  		 * indicates that the ops has already been disabled.
+f0e1a0643a59bf Tejun Heo      2024-06-18  4755  		 */
+f0e1a0643a59bf Tejun Heo      2024-06-18  4756  		if (kind == SCX_EXIT_NONE || kind == SCX_EXIT_DONE)
+f0e1a0643a59bf Tejun Heo      2024-06-18  4757  			return;
+17108735b47d12 Tejun Heo      2025-04-29  4758  		if (atomic_try_cmpxchg(&sch->exit_kind, &kind, SCX_EXIT_DONE))
+f0e1a0643a59bf Tejun Heo      2024-06-18  4759  			break;
+f0e1a0643a59bf Tejun Heo      2024-06-18  4760  	}
+f0e1a0643a59bf Tejun Heo      2024-06-18  4761  	ei->kind = kind;
+f0e1a0643a59bf Tejun Heo      2024-06-18  4762  	ei->reason = scx_exit_reason(ei->kind);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4763  
+f0e1a0643a59bf Tejun Heo      2024-06-18  4764  	/* guarantee forward progress by bypassing scx_ops */
+8c6ee862467e86 Tejun Heo      2025-04-04  4765  	scx_bypass(true);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4766  
+1a7ff7216c8b4d Tejun Heo      2025-04-04  4767  	switch (scx_set_enable_state(SCX_DISABLING)) {
+1a7ff7216c8b4d Tejun Heo      2025-04-04  4768  	case SCX_DISABLING:
+f0e1a0643a59bf Tejun Heo      2024-06-18  4769  		WARN_ONCE(true, "sched_ext: duplicate disabling instance?");
+f0e1a0643a59bf Tejun Heo      2024-06-18  4770  		break;
+1a7ff7216c8b4d Tejun Heo      2025-04-04  4771  	case SCX_DISABLED:
+f0e1a0643a59bf Tejun Heo      2024-06-18  4772  		pr_warn("sched_ext: ops error detected without ops (%s)\n",
+17108735b47d12 Tejun Heo      2025-04-29  4773  			sch->exit_info->msg);
+1a7ff7216c8b4d Tejun Heo      2025-04-04  4774  		WARN_ON_ONCE(scx_set_enable_state(SCX_DISABLED) != SCX_DISABLING);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4775  		goto done;
+f0e1a0643a59bf Tejun Heo      2024-06-18  4776  	default:
+f0e1a0643a59bf Tejun Heo      2024-06-18  4777  		break;
+f0e1a0643a59bf Tejun Heo      2024-06-18  4778  	}
+f0e1a0643a59bf Tejun Heo      2024-06-18  4779  
+f0e1a0643a59bf Tejun Heo      2024-06-18  4780  	/*
+f0e1a0643a59bf Tejun Heo      2024-06-18  4781  	 * Here, every runnable task is guaranteed to make forward progress and
+f0e1a0643a59bf Tejun Heo      2024-06-18  4782  	 * we can safely use blocking synchronization constructs. Actually
+f0e1a0643a59bf Tejun Heo      2024-06-18  4783  	 * disable ops.
+f0e1a0643a59bf Tejun Heo      2024-06-18  4784  	 */
+a50c365f996d89 Tejun Heo      2025-04-04  4785  	mutex_lock(&scx_enable_mutex);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4786  
+f0e1a0643a59bf Tejun Heo      2024-06-18  4787  	static_branch_disable(&__scx_switched_all);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4788  	WRITE_ONCE(scx_switching_all, false);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4789  
+f0e1a0643a59bf Tejun Heo      2024-06-18  4790  	/*
+160216568cddc9 Tejun Heo      2024-09-27  4791  	 * Shut down cgroup support before tasks so that the cgroup attach path
+1a2469403eb26c Tejun Heo      2025-04-04  4792  	 * doesn't race against scx_exit_task().
+f0e1a0643a59bf Tejun Heo      2024-06-18  4793  	 */
+8195136669661f Tejun Heo      2024-09-04  4794  	scx_cgroup_lock();
+160216568cddc9 Tejun Heo      2024-09-27  4795  	scx_cgroup_exit();
+160216568cddc9 Tejun Heo      2024-09-27  4796  	scx_cgroup_unlock();
+f0e1a0643a59bf Tejun Heo      2024-06-18  4797  
+f0e1a0643a59bf Tejun Heo      2024-06-18  4798  	/*
+61eeb9a90522da Tejun Heo      2024-08-30  4799  	 * The BPF scheduler is going away. All tasks including %TASK_DEAD ones
+61eeb9a90522da Tejun Heo      2024-08-30  4800  	 * must be switched out and exited synchronously.
+f0e1a0643a59bf Tejun Heo      2024-06-18  4801  	 */
+160216568cddc9 Tejun Heo      2024-09-27  4802  	percpu_down_write(&scx_fork_rwsem);
+160216568cddc9 Tejun Heo      2024-09-27  4803  
+1a2469403eb26c Tejun Heo      2025-04-04  4804  	scx_init_task_enabled = false;
+160216568cddc9 Tejun Heo      2024-09-27  4805  
+967da578325d85 Tejun Heo      2024-10-10  4806  	scx_task_iter_start(&sti);
+a8532fac7b5d27 Tejun Heo      2024-08-30  4807  	while ((p = scx_task_iter_next_locked(&sti))) {
+f0e1a0643a59bf Tejun Heo      2024-06-18  4808  		const struct sched_class *old_class = p->sched_class;
+69d5e722be949a Peter Zijlstra 2024-10-30  4809  		const struct sched_class *new_class =
+69d5e722be949a Peter Zijlstra 2024-10-30  4810  			__setscheduler_class(p->policy, p->prio);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4811  		struct sched_enq_and_set_ctx ctx;
+f0e1a0643a59bf Tejun Heo      2024-06-18  4812  
+69d5e722be949a Peter Zijlstra 2024-10-30  4813  		if (old_class != new_class && p->se.sched_delayed)
+69d5e722be949a Peter Zijlstra 2024-10-30  4814  			dequeue_task(task_rq(p), p, DEQUEUE_SLEEP | DEQUEUE_DELAYED);
+69d5e722be949a Peter Zijlstra 2024-10-30  4815  
+61eeb9a90522da Tejun Heo      2024-08-30  4816  		sched_deq_and_put_task(p, DEQUEUE_SAVE | DEQUEUE_MOVE, &ctx);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4817  
+69d5e722be949a Peter Zijlstra 2024-10-30  4818  		p->sched_class = new_class;
+f0e1a0643a59bf Tejun Heo      2024-06-18  4819  		check_class_changing(task_rq(p), p, old_class);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4820  
+f0e1a0643a59bf Tejun Heo      2024-06-18  4821  		sched_enq_and_set_task(&ctx);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4822  
+f0e1a0643a59bf Tejun Heo      2024-06-18  4823  		check_class_changed(task_rq(p), p, old_class, p->prio);
+1a2469403eb26c Tejun Heo      2025-04-04  4824  		scx_exit_task(p);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4825  	}
+967da578325d85 Tejun Heo      2024-10-10  4826  	scx_task_iter_stop(&sti);
+160216568cddc9 Tejun Heo      2024-09-27  4827  	percpu_up_write(&scx_fork_rwsem);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4828  
+3a9910b5904d29 Changwoo Min   2025-01-09  4829  	/*
+3a9910b5904d29 Changwoo Min   2025-01-09  4830  	 * Invalidate all the rq clocks to prevent getting outdated
+3a9910b5904d29 Changwoo Min   2025-01-09  4831  	 * rq clocks from a previous scx scheduler.
+3a9910b5904d29 Changwoo Min   2025-01-09  4832  	 */
+3a9910b5904d29 Changwoo Min   2025-01-09  4833  	for_each_possible_cpu(cpu) {
+3a9910b5904d29 Changwoo Min   2025-01-09  4834  		struct rq *rq = cpu_rq(cpu);
+3a9910b5904d29 Changwoo Min   2025-01-09  4835  		scx_rq_clock_invalidate(rq);
+3a9910b5904d29 Changwoo Min   2025-01-09  4836  	}
+3a9910b5904d29 Changwoo Min   2025-01-09  4837  
+f0e1a0643a59bf Tejun Heo      2024-06-18  4838  	/* no task is on scx, turn off all the switches and flush in-progress calls */
+a50c365f996d89 Tejun Heo      2025-04-04  4839  	static_branch_disable(&__scx_enabled);
+17108735b47d12 Tejun Heo      2025-04-29  4840  	bitmap_zero(sch->has_op, SCX_OPI_END);
+d73249f88743df Andrea Righi   2025-02-14  4841  	scx_idle_disable();
+f0e1a0643a59bf Tejun Heo      2024-06-18  4842  	synchronize_rcu();
+f0e1a0643a59bf Tejun Heo      2024-06-18  4843  
+f0e1a0643a59bf Tejun Heo      2024-06-18  4844  	if (ei->kind >= SCX_EXIT_ERROR) {
+344576fa6a69ce Tejun Heo      2024-08-07  4845  		pr_err("sched_ext: BPF scheduler \"%s\" disabled (%s)\n",
+17108735b47d12 Tejun Heo      2025-04-29  4846  		       sch->ops.name, ei->reason);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4847  
+344576fa6a69ce Tejun Heo      2024-08-07  4848  		if (ei->msg[0] != '\0')
+17108735b47d12 Tejun Heo      2025-04-29  4849  			pr_err("sched_ext: %s: %s\n", sch->ops.name, ei->msg);
+62d3726d4cd66f Tejun Heo      2024-09-23  4850  #ifdef CONFIG_STACKTRACE
+f0e1a0643a59bf Tejun Heo      2024-06-18  4851  		stack_trace_print(ei->bt, ei->bt_len, 2);
+62d3726d4cd66f Tejun Heo      2024-09-23  4852  #endif
+344576fa6a69ce Tejun Heo      2024-08-07  4853  	} else {
+344576fa6a69ce Tejun Heo      2024-08-07  4854  		pr_info("sched_ext: BPF scheduler \"%s\" disabled (%s)\n",
+17108735b47d12 Tejun Heo      2025-04-29  4855  			sch->ops.name, ei->reason);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4856  	}
+f0e1a0643a59bf Tejun Heo      2024-06-18  4857  
+17108735b47d12 Tejun Heo      2025-04-29  4858  	if (sch->ops.exit)
+18853ba782bef6 Andrea Righi   2025-04-22  4859  		SCX_CALL_OP(SCX_KF_UNLOCKED, exit, NULL, ei);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4860  
+8a010b81b3a50b David Vernet   2024-06-18  4861  	cancel_delayed_work_sync(&scx_watchdog_work);
+8a010b81b3a50b David Vernet   2024-06-18  4862  
+f0e1a0643a59bf Tejun Heo      2024-06-18  4863  	/*
+17108735b47d12 Tejun Heo      2025-04-29  4864  	 * scx_root clearing must be inside cpus_read_lock(). See
+17108735b47d12 Tejun Heo      2025-04-29  4865  	 * handle_hotplug().
+f0e1a0643a59bf Tejun Heo      2024-06-18  4866  	 */
+17108735b47d12 Tejun Heo      2025-04-29  4867  	cpus_read_lock();
+17108735b47d12 Tejun Heo      2025-04-29  4868  	RCU_INIT_POINTER(scx_root, NULL);
+17108735b47d12 Tejun Heo      2025-04-29  4869  	cpus_read_unlock();
+f0e1a0643a59bf Tejun Heo      2024-06-18  4870  
+17108735b47d12 Tejun Heo      2025-04-29  4871  	/*
+17108735b47d12 Tejun Heo      2025-04-29  4872  	 * Delete the kobject from the hierarchy synchronously. Otherwise, sysfs
+17108735b47d12 Tejun Heo      2025-04-29  4873  	 * could observe an object of the same name still in the hierarchy when
+17108735b47d12 Tejun Heo      2025-04-29  4874  	 * the next scheduler is loaded.
+17108735b47d12 Tejun Heo      2025-04-29  4875  	 */
+17108735b47d12 Tejun Heo      2025-04-29  4876  	kobject_del(&sch->kobj);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4877  
+f0e1a0643a59bf Tejun Heo      2024-06-18  4878  	free_percpu(scx_dsp_ctx);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4879  	scx_dsp_ctx = NULL;
+f0e1a0643a59bf Tejun Heo      2024-06-18  4880  	scx_dsp_max_batch = 0;
+f0e1a0643a59bf Tejun Heo      2024-06-18  4881  
+a50c365f996d89 Tejun Heo      2025-04-04  4882  	mutex_unlock(&scx_enable_mutex);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4883  
+1a7ff7216c8b4d Tejun Heo      2025-04-04  4884  	WARN_ON_ONCE(scx_set_enable_state(SCX_DISABLED) != SCX_DISABLING);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4885  done:
+8c6ee862467e86 Tejun Heo      2025-04-04  4886  	scx_bypass(false);
+f0e1a0643a59bf Tejun Heo      2024-06-18  4887  }
+f0e1a0643a59bf Tejun Heo      2024-06-18  4888  
 
-vim +/err +962 drivers/gpio/gpiolib-sysfs.c
+:::::: The code at line 4743 was first introduced by commit
+:::::: 17108735b47d125b7649c9b6d4be94cdffc863b9 sched_ext: Use dynamic allocation for scx_sched
 
-65fbd24108991d Bartosz Golaszewski 2025-06-23  798  
-574194e59098d9 Bartosz Golaszewski 2025-06-23  799  	gdev_data = gdev_get_data(gdev);
-574194e59098d9 Bartosz Golaszewski 2025-06-23  800  	if (!gdev_data) {
-574194e59098d9 Bartosz Golaszewski 2025-06-23  801  		status = -ENODEV;
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  802  		goto err_put_dirent;
-574194e59098d9 Bartosz Golaszewski 2025-06-23  803  	}
-574194e59098d9 Bartosz Golaszewski 2025-06-23  804  
-574194e59098d9 Bartosz Golaszewski 2025-06-23  805  	list_add(&desc_data->list, &gdev_data->exported_lines);
-574194e59098d9 Bartosz Golaszewski 2025-06-23  806  
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  807  	desc_data->attr_group.name = kasprintf(GFP_KERNEL, "gpio%u",
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  808  					       gpio_chip_hwgpio(desc));
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  809  	if (!desc_data->attr_group.name) {
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  810  		status = -ENOMEM;
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  811  		goto err_put_dirent;
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  812  	}
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  813  
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  814  	desc_data->parent = &gdev_data->cdev_id->kobj;
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  815  	status = sysfs_create_groups(desc_data->parent,
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  816  				     desc_data->attr_groups);
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  817  	if (status)
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  818  		goto err_free_name;
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  819  
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23 @820  	char *path __free(kfree) = kasprintf(GFP_KERNEL, "gpio%u/value",
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  821  					     gpio_chip_hwgpio(desc));
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  822  	if (!path) {
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  823  		status = -ENOMEM;
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  824  		goto err_remove_groups;
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  825  	}
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  826  
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  827  	desc_data->value_chip_node = kernfs_walk_and_get(desc_data->parent->sd,
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  828  							 path);
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  829  	if (!desc_data->value_chip_node) {
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  830  		status = -ENODEV;
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  831  		goto err_remove_groups;
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  832  	}
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  833  
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  834  	return 0;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  835  
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  836  err_remove_groups:
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  837  	sysfs_remove_groups(desc_data->parent, desc_data->attr_groups);
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  838  err_free_name:
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  839  	kfree(desc_data->attr_group.name);
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  840  err_put_dirent:
-d6fe296d76af3f Bartosz Golaszewski 2025-06-23  841  #if IS_ENABLED(CONFIG_GPIO_SYSFS_LEGACY)
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  842  	sysfs_put(desc_data->value_class_node);
-65fbd24108991d Bartosz Golaszewski 2025-06-23  843  err_unregister_device:
-574194e59098d9 Bartosz Golaszewski 2025-06-23  844  	device_unregister(desc_data->dev);
-c43960fbcc514b Johan Hovold        2015-05-04  845  err_free_data:
-d6fe296d76af3f Bartosz Golaszewski 2025-06-23  846  #endif /* CONFIG_GPIO_SYSFS_LEGACY */
-d54627a4c4f9a8 Bartosz Golaszewski 2025-06-23  847  	kfree(desc_data);
-f4af1671c28854 Bartosz Golaszewski 2024-10-31  848  err_clear_bit:
-35b545332b809a Bartosz Golaszewski 2024-01-12  849  	clear_bit(FLAG_EXPORT, &desc->flags);
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  850  	gpiod_dbg(desc, "%s: status %d\n", __func__, status);
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  851  	return status;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  852  }
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  853  EXPORT_SYMBOL_GPL(gpiod_export);
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  854  
-d6fe296d76af3f Bartosz Golaszewski 2025-06-23  855  #if IS_ENABLED(CONFIG_GPIO_SYSFS_LEGACY)
-c43960fbcc514b Johan Hovold        2015-05-04  856  static int match_export(struct device *dev, const void *desc)
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  857  {
-c43960fbcc514b Johan Hovold        2015-05-04  858  	struct gpiod_data *data = dev_get_drvdata(dev);
-c43960fbcc514b Johan Hovold        2015-05-04  859  
-c43960fbcc514b Johan Hovold        2015-05-04  860  	return data->desc == desc;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  861  }
-d6fe296d76af3f Bartosz Golaszewski 2025-06-23  862  #endif /* CONFIG_GPIO_SYSFS_LEGACY */
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  863  
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  864  /**
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  865   * gpiod_export_link - create a sysfs link to an exported GPIO node
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  866   * @dev: device under which to create symlink
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  867   * @name: name of the symlink
-2d9d05192e7d1a Thierry Reding      2017-07-24  868   * @desc: GPIO to create symlink to, already exported
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  869   *
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  870   * Set up a symlink from /sys/.../dev/name to /sys/class/gpio/gpioN
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  871   * node. Caller is responsible for unlinking.
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  872   *
-94bd9ce16063a2 Andy Shevchenko     2024-08-28  873   * Returns:
-94bd9ce16063a2 Andy Shevchenko     2024-08-28  874   * 0 on success, or negative errno on failure.
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  875   */
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  876  int gpiod_export_link(struct device *dev, const char *name,
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  877  		      struct gpio_desc *desc)
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  878  {
-d6fe296d76af3f Bartosz Golaszewski 2025-06-23  879  #if IS_ENABLED(CONFIG_GPIO_SYSFS_LEGACY)
-56d30ec14c1330 Johan Hovold        2015-05-04  880  	struct device *cdev;
-56d30ec14c1330 Johan Hovold        2015-05-04  881  	int ret;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  882  
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  883  	if (!desc) {
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  884  		pr_warn("%s: invalid GPIO\n", __func__);
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  885  		return -EINVAL;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  886  	}
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  887  
-56d30ec14c1330 Johan Hovold        2015-05-04  888  	cdev = class_find_device(&gpio_class, NULL, desc, match_export);
-56d30ec14c1330 Johan Hovold        2015-05-04  889  	if (!cdev)
-56d30ec14c1330 Johan Hovold        2015-05-04  890  		return -ENODEV;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  891  
-56d30ec14c1330 Johan Hovold        2015-05-04  892  	ret = sysfs_create_link(&dev->kobj, &cdev->kobj, name);
-56d30ec14c1330 Johan Hovold        2015-05-04  893  	put_device(cdev);
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  894  
-56d30ec14c1330 Johan Hovold        2015-05-04  895  	return ret;
-d6fe296d76af3f Bartosz Golaszewski 2025-06-23  896  #else
-d6fe296d76af3f Bartosz Golaszewski 2025-06-23  897  	return -EOPNOTSUPP;
-d6fe296d76af3f Bartosz Golaszewski 2025-06-23  898  #endif /* CONFIG_GPIO_SYSFS_LEGACY */
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  899  }
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  900  EXPORT_SYMBOL_GPL(gpiod_export_link);
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  901  
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  902  /**
-31963eb039b7d5 Amitesh Singh       2016-09-08  903   * gpiod_unexport - reverse effect of gpiod_export()
-2d9d05192e7d1a Thierry Reding      2017-07-24  904   * @desc: GPIO to make unavailable
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  905   *
-31963eb039b7d5 Amitesh Singh       2016-09-08  906   * This is implicit on gpiod_free().
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  907   */
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  908  void gpiod_unexport(struct gpio_desc *desc)
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  909  {
-574194e59098d9 Bartosz Golaszewski 2025-06-23  910  	struct gpiod_data *desc_data = NULL;
-574194e59098d9 Bartosz Golaszewski 2025-06-23  911  	struct gpiodev_data *gdev_data;
-574194e59098d9 Bartosz Golaszewski 2025-06-23  912  	struct gpio_device *gdev;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  913  
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  914  	if (!desc) {
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  915  		pr_warn("%s: invalid GPIO\n", __func__);
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  916  		return;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  917  	}
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  918  
-f4af1671c28854 Bartosz Golaszewski 2024-10-31  919  	scoped_guard(mutex, &sysfs_lock) {
-72eba6f66a0017 Johan Hovold        2015-05-04  920  		if (!test_bit(FLAG_EXPORT, &desc->flags))
-f4af1671c28854 Bartosz Golaszewski 2024-10-31  921  			return;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  922  
-574194e59098d9 Bartosz Golaszewski 2025-06-23  923  		gdev = gpiod_to_gpio_device(desc);
-574194e59098d9 Bartosz Golaszewski 2025-06-23  924  		gdev_data = gdev_get_data(gdev);
-574194e59098d9 Bartosz Golaszewski 2025-06-23  925  		if (!gdev_data)
-574194e59098d9 Bartosz Golaszewski 2025-06-23  926  			return;
-574194e59098d9 Bartosz Golaszewski 2025-06-23  927  
-574194e59098d9 Bartosz Golaszewski 2025-06-23  928  		list_for_each_entry(desc_data, &gdev_data->exported_lines, list)
-574194e59098d9 Bartosz Golaszewski 2025-06-23  929  			if (desc == desc_data->desc)
-574194e59098d9 Bartosz Golaszewski 2025-06-23  930  				break;
-574194e59098d9 Bartosz Golaszewski 2025-06-23  931  
-574194e59098d9 Bartosz Golaszewski 2025-06-23  932  		if (!desc_data)
-f4af1671c28854 Bartosz Golaszewski 2024-10-31  933  			return;
-72eba6f66a0017 Johan Hovold        2015-05-04  934  
-574194e59098d9 Bartosz Golaszewski 2025-06-23  935  		list_del(&desc_data->list);
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  936  		clear_bit(FLAG_EXPORT, &desc->flags);
-d6fe296d76af3f Bartosz Golaszewski 2025-06-23  937  #if IS_ENABLED(CONFIG_GPIO_SYSFS_LEGACY)
-d54627a4c4f9a8 Bartosz Golaszewski 2025-06-23  938  		sysfs_put(desc_data->value_class_node);
-574194e59098d9 Bartosz Golaszewski 2025-06-23  939  		device_unregister(desc_data->dev);
-d6fe296d76af3f Bartosz Golaszewski 2025-06-23  940  #endif /* CONFIG_GPIO_SYSFS_LEGACY */
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  941  		sysfs_remove_groups(desc_data->parent, desc_data->attr_groups);
-d65a6b43cccca4 Bartosz Golaszewski 2025-06-23  942  		kernfs_put(desc_data->value_chip_node);
-72eba6f66a0017 Johan Hovold        2015-05-04  943  
-54d9acd7540995 Johan Hovold        2015-05-04  944  		/*
-f4af1671c28854 Bartosz Golaszewski 2024-10-31  945  		 * Release irq after deregistration to prevent race with
-f4af1671c28854 Bartosz Golaszewski 2024-10-31  946  		 * edge_store.
-54d9acd7540995 Johan Hovold        2015-05-04  947  		 */
-d54627a4c4f9a8 Bartosz Golaszewski 2025-06-23  948  		if (desc_data->irq_flags)
-d54627a4c4f9a8 Bartosz Golaszewski 2025-06-23  949  			gpio_sysfs_free_irq(desc_data);
-f4af1671c28854 Bartosz Golaszewski 2024-10-31  950  	}
-72eba6f66a0017 Johan Hovold        2015-05-04  951  
-d54627a4c4f9a8 Bartosz Golaszewski 2025-06-23  952  	mutex_destroy(&desc_data->mutex);
-d54627a4c4f9a8 Bartosz Golaszewski 2025-06-23  953  	kfree(desc_data);
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  954  }
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  955  EXPORT_SYMBOL_GPL(gpiod_unexport);
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  956  
-afbc4f312b5e6e Linus Walleij       2016-02-09  957  int gpiochip_sysfs_register(struct gpio_device *gdev)
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  958  {
-fd19792851db77 Bartosz Golaszewski 2025-06-10  959  	struct gpiodev_data *data;
-d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  960  	struct gpio_chip *chip;
-513246a34b8dc5 Bartosz Golaszewski 2023-12-21  961  	struct device *parent;
-e6bb78570f7d53 Antonio Quartulli   2025-06-23 @962  	int err;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  963  
-426577bd8846d6 Johan Hovold        2015-05-04  964  	/*
-426577bd8846d6 Johan Hovold        2015-05-04  965  	 * Many systems add gpio chips for SOC support very early,
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  966  	 * before driver model support is available.  In those cases we
-426577bd8846d6 Johan Hovold        2015-05-04  967  	 * register later, in gpiolib_sysfs_init() ... here we just
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  968  	 * verify that _some_ field of gpio_class got initialized.
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  969  	 */
-6f14c02220c791 Greg Kroah-Hartman  2023-03-31  970  	if (!class_is_registered(&gpio_class))
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  971  		return 0;
-0eb4c6c2671ca0 Alexandre Courbot   2014-07-01  972  
-d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  973  	guard(srcu)(&gdev->srcu);
-d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  974  
-d82b9e0887e69d Bartosz Golaszewski 2024-02-14  975  	chip = srcu_dereference(gdev->chip, &gdev->srcu);
-d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  976  	if (!chip)
-d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  977  		return -ENODEV;
-d83cee3d2bb131 Bartosz Golaszewski 2024-01-23  978  
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  979  	/*
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  980  	 * For sysfs backward compatibility we need to preserve this
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  981  	 * preferred parenting to the gpio_chip parent field, if set.
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  982  	 */
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  983  	if (chip->parent)
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  984  		parent = chip->parent;
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  985  	else
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  986  		parent = &gdev->dev;
-d27c17285eb7eb Bamvor Jian Zhang   2016-02-24  987  
-fd19792851db77 Bartosz Golaszewski 2025-06-10  988  	data = kmalloc(sizeof(*data), GFP_KERNEL);
-fd19792851db77 Bartosz Golaszewski 2025-06-10  989  	if (!data)
-fd19792851db77 Bartosz Golaszewski 2025-06-10  990  		return -ENOMEM;
-fd19792851db77 Bartosz Golaszewski 2025-06-10  991  
-fd19792851db77 Bartosz Golaszewski 2025-06-10  992  	data->gdev = gdev;
-574194e59098d9 Bartosz Golaszewski 2025-06-23  993  	INIT_LIST_HEAD(&data->exported_lines);
-3ff74be5c1a72d Johan Hovold        2015-05-04  994  
-f4af1671c28854 Bartosz Golaszewski 2024-10-31  995  	guard(mutex)(&sysfs_lock);
-fd19792851db77 Bartosz Golaszewski 2025-06-10  996  
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Tejun Heo <tj@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
