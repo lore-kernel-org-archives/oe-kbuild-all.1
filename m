@@ -1,72 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 131472139C9
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 06:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1B021ABBD;
+	Fri, 27 Jun 2025 07:07:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751006537; cv=none; b=AUEdBm1E1+8yaX/+0RHrFjcFZbV0TJkyhZ0rHPlTzwolku7s/fsGXnRmx6VY/BCoqAIU95tZJKX6Hx2I2ea6HVvIRZTTsKdtF4HispUEeEOfeIc8qAHEXgRZgWk5BFssTBCeWXJUntxcvpbaEEZHqBzEarRJnzgaMIkuEtOxlxA=
+	t=1751008052; cv=none; b=jmUczs+YGxVOk+S7/g9ml0oiyu0Ubt1tDTBLknpeQYOOYmdr4nvOYRhbOrJIMgf+d5fPddXEQErLNyU8+GhWSZEiRIlDjtOq6P6sjFevHSdgBu+5HMWy/g5Ndn/bO2gNAb3R4wOMr9uQFtv/iip3xFyX6OSxxyJn0+uEh5BmHqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751006537; c=relaxed/simple;
-	bh=vxdzXCA6uv6ITMEmQeBZBJbpf7EQ+8bixtqN/sPot0o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hBbGyJwnarKXnhLvnbfFWg0UrQdCZaD+pwhVJqZH/87t7QfOlpdGwBrJmWYjFIVtEhhUhBJBpaEveFr9yYxNcviPXwdiWXD6X3B2Lgef0ydi+zm7Cb3xfyhdXi4+LWTr2Gyv/Ikvr9yPpO9IXM929HVBmvRb2axSpQZvqF/SIHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UUDep40g; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1751008052; c=relaxed/simple;
+	bh=nHdiRy3stV+rcgza0BoLT+2CGiXpoTADufk1CFbeKqA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bA252THG57Xh2QtiMC2oLHAEiKe/REguahIsH7hBy1A4bW66EhAOOQJ4mXjtGP51S4LMAAncrxUJZChJhbJjb3N7IKSdgIUDJsrLqCPsnymnUN069jiXRJF3m54bhqZ0JDeDiuPt6qF5UWggnQlr0mmH6YF6HOzOU0SFtK6w3oI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lR3n1Vkf; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UUDep40g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lR3n1Vkf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751006536; x=1782542536;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vxdzXCA6uv6ITMEmQeBZBJbpf7EQ+8bixtqN/sPot0o=;
-  b=UUDep40gQbBTHVnYkfA9a/sPJlQRNTgUGSOPPjmnONtJ9qKSDPDZmCHp
-   zEJ3mCPhXXcHLQ991oIgEoBzjPLBf9TjwX9/c/poQznMsMT7Gc2NWzfa9
-   wH1kRiqpYTlLJf1G9g8ERYj26orefpXsFlYBTjBIBFuQ/GLsFjoKK3dS0
-   RpxMU/pCNkyD5REOu2Q98ka7ZoKXYgIZzNWQQivAgUOQG/LW2O5hXGqIQ
-   3P0juFSs2yAwKyqqZkFbhK9KdJr6doDuxmpDmQycZmJ1MBRKjvgWuEatk
-   faUhTi3QmS08T8dGiecBDTf+C46yzMv3+OSAOH8aFagaY30vF1VHfP5XH
-   w==;
-X-CSE-ConnectionGUID: fv5lwWF0TYCYK+0n2h8LEA==
-X-CSE-MsgGUID: BKNY8E+uSQSnxzEgu7sYng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="63913853"
+  t=1751008051; x=1782544051;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nHdiRy3stV+rcgza0BoLT+2CGiXpoTADufk1CFbeKqA=;
+  b=lR3n1VkfNP2RQ6Mi/WxjWqWXMfOCO0xh5E2mzpGVBFTl7oXmHi3f6chq
+   sF9XQSZIjT8zF/m8Dj6rEFngvAmatzZ7yMtpaHc9P+C7JD7Kcp2z2QG2l
+   bPbGh80jlz8Gn3g8TgQFw/OLvi9EqEf4mrDGGJJn96HAhDt4d9acrv8ad
+   KUuXXvLB0JJwvSNqc0E26DkyG7np+1/HW7YhkWNG3H6nfPGy68mFy1j35
+   FfXa728jUFKEeNB1DgF6JtELNZtXas3Srx6RVw/hBj7rXRk9jCPkRhLxN
+   Dc5Q61bowzZh2nPNL+qY5XcRjk3LBJHNxdkXamECpYIcLT9sx3pDlB3cM
+   A==;
+X-CSE-ConnectionGUID: wIhwkO6hTGq/O6Ovw5kC0g==
+X-CSE-MsgGUID: jIXP/923T8a9ovEUImpfwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53397769"
 X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="63913853"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2025 23:42:15 -0700
-X-CSE-ConnectionGUID: O441FA8cQuiHFmr0hGjU4A==
-X-CSE-MsgGUID: OOenNMkkTAWhitkwCCiBEg==
+   d="scan'208";a="53397769"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 00:07:30 -0700
+X-CSE-ConnectionGUID: +tAArbUYQi+9Q+kyJDE8gQ==
+X-CSE-MsgGUID: f+yryH1cRt6c7y9aYmnFvw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,269,1744095600"; 
-   d="scan'208";a="152243449"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 26 Jun 2025 23:42:12 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+   d="scan'208";a="157018304"
+Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
+  by fmviesa005.fm.intel.com with ESMTP; 27 Jun 2025 00:07:28 -0700
+Received: from kbuild by e588e990b675 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uV2mm-000VsI-2z;
-	Fri, 27 Jun 2025 06:42:08 +0000
-Date: Fri, 27 Jun 2025 14:41:58 +0800
+	id 1uV3BF-0000cx-2Q;
+	Fri, 27 Jun 2025 07:07:25 +0000
+Date: Fri, 27 Jun 2025 09:06:45 +0200
 From: kernel test robot <lkp@intel.com>
-To: Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowang@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
-	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
-	Yuri Benditovich <yuri.benditovich@daynix.com>,
-	Akihiko Odaki <akihiko.odaki@daynix.com>,
-	Jonathan Corbet <corbet@lwn.net>, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 net-next 4/9] vhost-net: allow configuring extended
- features
-Message-ID: <202506271443.G9cAx8PS-lkp@intel.com>
-References: <23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni@redhat.com>
+To: FUJITA Tomonori <fujita.tomonori@gmail.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Subject: error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
+Message-ID: <202506270925.eyPB7JXk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,78 +62,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni@redhat.com>
 
-Hi Paolo,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/scripts-kernel_doc-py-properly-handle-VIRTIO_DECLARE_FEATURES/20250624-221751
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni%40redhat.com
-patch subject: [PATCH v6 net-next 4/9] vhost-net: allow configuring extended features
-config: csky-randconfig-001-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271443.G9cAx8PS-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271443.G9cAx8PS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   6f2a71a99ebd5dfaa7948a2e9c59eae94b741bd8
+commit: 584e61452f75bfeac2cdd83730b4059526ec60c7 rust: helpers: Remove volatile qualifier from io helpers
+date:   2 months ago
+config: um-randconfig-2006-20250627 (https://download.01.org/0day-ci/archive/20250627/202506270925.eyPB7JXk-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506270925.eyPB7JXk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506271443.G9cAx8PS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506270925.eyPB7JXk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/linux/uaccess.h:12,
-                    from include/linux/sched/task.h:13,
-                    from include/linux/sched/signal.h:9,
-                    from include/linux/rcuwait.h:6,
-                    from include/linux/percpu-rwsem.h:7,
-                    from include/linux/fs.h:34,
-                    from include/linux/compat.h:17,
-                    from drivers/vhost/net.c:8:
-   arch/csky/include/asm/uaccess.h: In function '__get_user_fn.constprop':
->> arch/csky/include/asm/uaccess.h:147:9: warning: 'retval' is used uninitialized [-Wuninitialized]
-     147 |         __asm__ __volatile__(                           \
-         |         ^~~~~~~
-   arch/csky/include/asm/uaccess.h:187:17: note: in expansion of macro '__get_user_asm_64'
-     187 |                 __get_user_asm_64(x, ptr, retval);
-         |                 ^~~~~~~~~~~~~~~~~
-   arch/csky/include/asm/uaccess.h:170:13: note: 'retval' was declared here
-     170 |         int retval;
-         |             ^~~~~~
-
-
-vim +/retval +147 arch/csky/include/asm/uaccess.h
-
-da551281947cb2c Guo Ren 2018-09-05  141  
-e58a41c2226847f Guo Ren 2021-04-21  142  #define __get_user_asm_64(x, ptr, err)			\
-da551281947cb2c Guo Ren 2018-09-05  143  do {							\
-da551281947cb2c Guo Ren 2018-09-05  144  	int tmp;					\
-e58a41c2226847f Guo Ren 2021-04-21  145  	int errcode;					\
-e58a41c2226847f Guo Ren 2021-04-21  146  							\
-e58a41c2226847f Guo Ren 2021-04-21 @147  	__asm__ __volatile__(				\
-e58a41c2226847f Guo Ren 2021-04-21  148  	"1:   ldw     %3, (%2, 0)     \n"		\
-da551281947cb2c Guo Ren 2018-09-05  149  	"     stw     %3, (%1, 0)     \n"		\
-e58a41c2226847f Guo Ren 2021-04-21  150  	"2:   ldw     %3, (%2, 4)     \n"		\
-e58a41c2226847f Guo Ren 2021-04-21  151  	"     stw     %3, (%1, 4)     \n"		\
-e58a41c2226847f Guo Ren 2021-04-21  152  	"     br      4f              \n"		\
-e58a41c2226847f Guo Ren 2021-04-21  153  	"3:   mov     %0, %4          \n"		\
-e58a41c2226847f Guo Ren 2021-04-21  154  	"     br      4f              \n"		\
-da551281947cb2c Guo Ren 2018-09-05  155  	".section __ex_table, \"a\"   \n"		\
-da551281947cb2c Guo Ren 2018-09-05  156  	".align   2                   \n"		\
-e58a41c2226847f Guo Ren 2021-04-21  157  	".long    1b, 3b              \n"		\
-e58a41c2226847f Guo Ren 2021-04-21  158  	".long    2b, 3b              \n"		\
-da551281947cb2c Guo Ren 2018-09-05  159  	".previous                    \n"		\
-e58a41c2226847f Guo Ren 2021-04-21  160  	"4:                           \n"		\
-e58a41c2226847f Guo Ren 2021-04-21  161  	: "=r"(err), "=r"(x), "=r"(ptr),		\
-e58a41c2226847f Guo Ren 2021-04-21  162  	  "=r"(tmp), "=r"(errcode)			\
-e58a41c2226847f Guo Ren 2021-04-21  163  	: "0"(err), "1"(x), "2"(ptr), "3"(0),		\
-e58a41c2226847f Guo Ren 2021-04-21  164  	  "4"(-EFAULT)					\
-da551281947cb2c Guo Ren 2018-09-05  165  	: "memory");					\
-da551281947cb2c Guo Ren 2018-09-05  166  } while (0)
-da551281947cb2c Guo Ren 2018-09-05  167  
+   ***
+   *** Rust bindings generator 'bindgen' < 0.69.5 together with libclang >= 19.1
+   *** may not work due to a bug (https://github.com/rust-lang/rust-bindgen/pull/2824),
+   *** unless patched (like Debian's).
+   ***   Your bindgen version:  0.65.1
+   ***   Your libclang version: 21.0.0
+   ***
+   ***
+   *** Please see Documentation/rust/quick-start.rst for details
+   *** on how to set up the Rust support.
+   ***
+>> error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
+   --> rust/kernel/block/mq/operations.rs:15:33
+   |
+   15 | use core::{marker::PhantomData, sync::atomic::AtomicU64, sync::atomic::Ordering};
+   |                                 ^^^^^^^^^^^^^^---------
+   |                                 |             |
+   |                                 |             help: a similar name exists in the module: `AtomicU32`
+   |                                 no `AtomicU64` in `sync::atomic`
+--
+>> error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
+   --> rust/kernel/block/mq/request.rs:16:20
+   |
+   16 |     sync::atomic::{AtomicU64, Ordering},
+   |                    ^^^^^^^^^
+   |                    |
+   |                    no `AtomicU64` in `sync::atomic`
+   |                    help: a similar name exists in the module: `AtomicU32`
 
 -- 
 0-DAY CI Kernel Test Service
