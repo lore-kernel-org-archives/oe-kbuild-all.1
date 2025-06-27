@@ -1,172 +1,106 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA532D97A1
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 10:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C346298CAB;
+	Fri, 27 Jun 2025 10:48:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751020091; cv=none; b=Z5XOwft1wWH75FjVwzJhFtx4gJRf3hxr+dk8A2/iXDAX77X1zL6AJ70LG+hZE3gfSm9LGlCaBwO0Mijr0pG2CjC+qbPBU545ExSw/rC+r2jKzUx8CwfDulz4EfdI3pDK2tjKHxP9Vh6MBfo3lxbDd/o5XuL8qyLmNrDahzfXcg4=
+	t=1751021333; cv=none; b=iMRcd2xvAFBcfL8CimpXayr6mPbvbgv+VPrf6S2g/nmIAA3SwFQW3CTqqW/+gADOCt3OBdMJGNrMTsPISzYdYVlJGAyTIStkDtdwrIj3RX73+LwGwpgWfhgrKCQ2iPJux9Aa1SnOefPqlyxFlwxrsCVsiKmWDlkpIR2V/c4r8Hc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751020091; c=relaxed/simple;
-	bh=L+QrdPiV6RVKjdNxIalHS5LAvUl5JKrsnqMr9MWkF+w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qre+ZFRfcEu5Tv64W3/I6H/lYZGFB7L29w1Y77HyCtiglTHhiaxXFebKSZtekLd7pPd+cz0jKsS1lujmR4vIM7Ny2mcqPtrnYk0RFMTdARTUfZ6807MpwSNQQULCYz0Y7eIqGL9HqsgigWKQQyGrwrL98gb//+YtY9pvEklJax8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=d5c+pJl+; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751021333; c=relaxed/simple;
+	bh=t5zc6fIQTCmGoE8p4c4MC9Y05swYQ+weDqBUHa/JISA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W/eVkMD0zpNa7QIWE5W6uu5d1ext7jTwa/49pNOVXwLU5UMV5jRarbzX8fPtLXnK007IG401j6T7GQGvtNSnttaC0a4l1JpNlw9xZXcyak2T23UDy6wZmhwKucqvOQLkv5+8FgxD4RZ6pBZ56k2w8AciTIltxCbnjhC3KD/J/yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U6voMRwB; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="d5c+pJl+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751020088;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iJdsZHiVVLuKwLXH4KCxaDOcm8lE5bSikqTqeRxiKOY=;
-	b=d5c+pJl+VfAswf18FKvoGJ0ulUCQh4qpvHrIWHxBHoIQzkHtTNsGJUT3l0TVEffeUTBvG+
-	ir/3ASFMCxVy3LKd/xkkjkK9Tw8forT5f3FsRPhCUrrsTTWQ73OgKJPqnS5y5uZtmXD7QY
-	eCW0+YGGrmTBxcnliBSDQpnYeRtczsI=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-1-0uYIMRlqPuGUksjEOMHm1Q-1; Fri, 27 Jun 2025 06:28:05 -0400
-X-MC-Unique: 0uYIMRlqPuGUksjEOMHm1Q-1
-X-Mimecast-MFC-AGG-ID: 0uYIMRlqPuGUksjEOMHm1Q_1751020084
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4535ad64d30so14375345e9.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 03:28:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751020084; x=1751624884;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iJdsZHiVVLuKwLXH4KCxaDOcm8lE5bSikqTqeRxiKOY=;
-        b=NadYO8pDrTaaZ7N089zVq+BGWzwe5pLLg8EZofYC7UtiOAJ0Z92vgTgd8uZND8NHIQ
-         WbJphvt3ZaGxbaW2E2r/YLKSZunAOsXwCe1kaoTGTbC6v3nd+F2BAE3zZhQogCU/rmkV
-         gysIaEDG7/b5DF1rdprf4p725iQF33UWufzJQPLP67GrWtJqpdv3FtYCwgMXmbYU9X86
-         alZXkb1crbrPHTTbfzbMZ1bxNZzoDz5+NmZvTB908PaCoOiytKRceLaegjUmRh0WDD/k
-         4YSXA7seMwg3kTqq6QqqD8Y40ZC7/qCuvHabvCEAEjUwCetuQ8f6OjdlVNtDpJ56YiAx
-         1nUw==
-X-Gm-Message-State: AOJu0YwP8IU4fdHNe4QZ8DfDYDemXWgNW+1yZ0YmmzN3GcGXq9sVSJhY
-	OuuKq+fBsWDUbcEJkr0LSEShs6HtPgF0cKnVhaakgaGqe2hUS3CzzPu32wrtPXQvlSNe2Xr4iza
-	tQZHjCKymL/kUIu6Tj2uYP2AOsd6XhalW22vBGsDy3ArbWC8o5U/RWzK1c9KViMFyPTI=
-X-Gm-Gg: ASbGncsEUhirCHqd/xblFsNuC8soOHBh0OEquOSxFg7h59HRxQftnz9wflysqkQ5SlP
-	jIyDsO0IAnQ3RHN1mac5aupoToHDzGefarDWut1Ajnotg28oAaMcqEKUeQPaVXxaxWhSGdHaS9Q
-	vqjFTPg0zGbonlC+dlgfn2iSdrnc1ACPri3xDIp3nQNVmnYAZZDZBHqIFgqxjmTSIQic1kseUoh
-	PeU0Lwc2VUha220rvwQffYdeUJX08/gLaoGsxbz2CgId8wwN4V6koIZf29o7YfmR6HwFvYjAgX3
-	SochqjEE3lfxQ5KoKFjoCSzbRjNFlDoHLilz+BlWeN7hRVnOrzwImv45DMcbzkkWhtBu1w==
-X-Received: by 2002:a05:600c:674f:b0:43c:e70d:44f0 with SMTP id 5b1f17b1804b1-4538ee8384emr26594145e9.19.1751020083757;
-        Fri, 27 Jun 2025 03:28:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG9k4IjA2+y/oHun89HaX7Ynjd/DsFZcqDREnTUjAINHGGZ0PW4fhojEDavNVYzeGalZ02RXQ==
-X-Received: by 2002:a05:600c:674f:b0:43c:e70d:44f0 with SMTP id 5b1f17b1804b1-4538ee8384emr26593745e9.19.1751020083235;
-        Fri, 27 Jun 2025 03:28:03 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:244f:bd10:2bd0:124a:622c:badb? ([2a0d:3344:244f:bd10:2bd0:124a:622c:badb])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-453835798acsm73314445e9.10.2025.06.27.03.28.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 27 Jun 2025 03:28:02 -0700 (PDT)
-Message-ID: <d172caa9-6d31-45a3-929c-d3927ba6702e@redhat.com>
-Date: Fri, 27 Jun 2025 12:28:00 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U6voMRwB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751021332; x=1782557332;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=t5zc6fIQTCmGoE8p4c4MC9Y05swYQ+weDqBUHa/JISA=;
+  b=U6voMRwB/2yVpwc5KRGhXM8kLvjA4Nay4c2F2i65mMat1HeasieeL3vm
+   h+er9O0Iev+OGKJlu0acQRZ386E2inCbaR2BRzj3rqcU4gwipVnfewb+P
+   mNjncEP5jMm+Y6pGzcw50nEdSNR8GEwoBwa9pyWaGvhDoDIm6bovyMns6
+   qMYCOFs1lAuDDNRLpUKFuQu5ec53wILdlb4lmXlnrJlGji7ORZvzf3DOO
+   P/HKa0pneKEAb6c1mwubtc1+NDec8svdx9x4U06ih4QMkNwutkggxKT9N
+   P1mgxFbJGYq7PRHkjTr/zr834tU4S9a0pFoLZlmYsHZQq5zEihPXtIA5i
+   w==;
+X-CSE-ConnectionGUID: IQ0rl7nLSUS9EKV/xwOhhQ==
+X-CSE-MsgGUID: 5hlB3+UYQyabaeX8J0Rd8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="53274498"
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="53274498"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 03:48:51 -0700
+X-CSE-ConnectionGUID: AW3mqA78TgWq4HU9M2HqiQ==
+X-CSE-MsgGUID: rnkN1+BOSDapci4mJ7S4XQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
+   d="scan'208";a="156819302"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 27 Jun 2025 03:48:48 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uV6dR-000W5i-25;
+	Fri, 27 Jun 2025 10:48:45 +0000
+Date: Fri, 27 Jun 2025 18:48:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Niranjan H Y <niranjan.hy@ti.com>, broonie@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	andriy.shevchenko@linux.intel.com, tiwai@suse.de,
+	alsa-devel@alsa-project.org, baojun.xu@ti.com, shenghao-ding@ti.com,
+	liam.r.girdwood@intel.com, lgirdwood@gmail.com, robh@kernel.org,
+	linux-sound@vger.kernel.org, devicetree@vger.kernel.org,
+	navada@ti.com, v-hampiholi@ti.com, niranjan.hy@ti.com
+Subject: Re: [PATCH v3 1/4] ASoc: tac5x1x: add codec driver tac5x1x family
+Message-ID: <202506271807.cuEjxbbx-lkp@intel.com>
+References: <20250626181334.1200-2-niranjan.hy@ti.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 net-next 4/9] vhost-net: allow configuring extended
- features
-To: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jason Wang <jasowang@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Xuan Zhuo
- <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Yuri Benditovich <yuri.benditovich@daynix.com>,
- Akihiko Odaki <akihiko.odaki@daynix.com>, Jonathan Corbet <corbet@lwn.net>,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org
-References: <23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni@redhat.com>
- <202506271443.G9cAx8PS-lkp@intel.com>
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <202506271443.G9cAx8PS-lkp@intel.com>
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: SEdT05nr-DOrdHM06xz9oxHDYhkyIYebcJx2hQQ25Yw_1751020084
-X-Mimecast-Originator: redhat.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250626181334.1200-2-niranjan.hy@ti.com>
 
-On 6/27/25 8:41 AM, kernel test robot wrote:
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on net-next/main]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Paolo-Abeni/scripts-kernel_doc-py-properly-handle-VIRTIO_DECLARE_FEATURES/20250624-221751
-> base:   net-next/main
-> patch link:    https://lore.kernel.org/r/23e46bff5333015d92bf0876033750d9fbf555a0.1750753211.git.pabeni%40redhat.com
-> patch subject: [PATCH v6 net-next 4/9] vhost-net: allow configuring extended features
-> config: csky-randconfig-001-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271443.G9cAx8PS-lkp@intel.com/config)
-> compiler: csky-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271443.G9cAx8PS-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506271443.G9cAx8PS-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from include/linux/uaccess.h:12,
->                     from include/linux/sched/task.h:13,
->                     from include/linux/sched/signal.h:9,
->                     from include/linux/rcuwait.h:6,
->                     from include/linux/percpu-rwsem.h:7,
->                     from include/linux/fs.h:34,
->                     from include/linux/compat.h:17,
->                     from drivers/vhost/net.c:8:
->    arch/csky/include/asm/uaccess.h: In function '__get_user_fn.constprop':
->>> arch/csky/include/asm/uaccess.h:147:9: warning: 'retval' is used uninitialized [-Wuninitialized]
->      147 |         __asm__ __volatile__(                           \
->          |         ^~~~~~~
->    arch/csky/include/asm/uaccess.h:187:17: note: in expansion of macro '__get_user_asm_64'
->      187 |                 __get_user_asm_64(x, ptr, retval);
->          |                 ^~~~~~~~~~~~~~~~~
->    arch/csky/include/asm/uaccess.h:170:13: note: 'retval' was declared here
->      170 |         int retval;
->          |             ^~~~~~
-> 
-> 
-> vim +/retval +147 arch/csky/include/asm/uaccess.h
-> 
-> da551281947cb2c Guo Ren 2018-09-05  141  
-> e58a41c2226847f Guo Ren 2021-04-21  142  #define __get_user_asm_64(x, ptr, err)			\
-> da551281947cb2c Guo Ren 2018-09-05  143  do {							\
-> da551281947cb2c Guo Ren 2018-09-05  144  	int tmp;					\
-> e58a41c2226847f Guo Ren 2021-04-21  145  	int errcode;					\
-> e58a41c2226847f Guo Ren 2021-04-21  146  							\
-> e58a41c2226847f Guo Ren 2021-04-21 @147  	__asm__ __volatile__(				\
-> e58a41c2226847f Guo Ren 2021-04-21  148  	"1:   ldw     %3, (%2, 0)     \n"		\
-> da551281947cb2c Guo Ren 2018-09-05  149  	"     stw     %3, (%1, 0)     \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  150  	"2:   ldw     %3, (%2, 4)     \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  151  	"     stw     %3, (%1, 4)     \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  152  	"     br      4f              \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  153  	"3:   mov     %0, %4          \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  154  	"     br      4f              \n"		\
-> da551281947cb2c Guo Ren 2018-09-05  155  	".section __ex_table, \"a\"   \n"		\
-> da551281947cb2c Guo Ren 2018-09-05  156  	".align   2                   \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  157  	".long    1b, 3b              \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  158  	".long    2b, 3b              \n"		\
-> da551281947cb2c Guo Ren 2018-09-05  159  	".previous                    \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  160  	"4:                           \n"		\
-> e58a41c2226847f Guo Ren 2021-04-21  161  	: "=r"(err), "=r"(x), "=r"(ptr),		\
-> e58a41c2226847f Guo Ren 2021-04-21  162  	  "=r"(tmp), "=r"(errcode)			\
-> e58a41c2226847f Guo Ren 2021-04-21  163  	: "0"(err), "1"(x), "2"(ptr), "3"(0),		\
-> e58a41c2226847f Guo Ren 2021-04-21  164  	  "4"(-EFAULT)					\
-> da551281947cb2c Guo Ren 2018-09-05  165  	: "memory");					\
-> da551281947cb2c Guo Ren 2018-09-05  166  } while (0)
-> da551281947cb2c Guo Ren 2018-09-05  167  
+Hi Niranjan,
 
-AFAICS the issue reported here is in the arch-specific uaccess helpers
-and not related to this series.
+kernel test robot noticed the following build errors:
 
-/P
+[auto build test ERROR on broonie-sound/for-next]
+[also build test ERROR on linus/master v6.16-rc3 next-20250627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Niranjan-H-Y/ASoc-tac5x1x-add-codec-driver-tac5x1x-family/20250627-021555
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
+patch link:    https://lore.kernel.org/r/20250626181334.1200-2-niranjan.hy%40ti.com
+patch subject: [PATCH v3 1/4] ASoc: tac5x1x: add codec driver tac5x1x family
+config: x86_64-kexec (attached as .config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271807.cuEjxbbx-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506271807.cuEjxbbx-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> error: recursive dependency detected!
+   symbol REGMAP_I2C is selected by SND_SOC_TAC5X1X_I2C
+   symbol SND_SOC_TAC5X1X_I2C depends on REGMAP_I2C
+   For a resolution refer to Documentation/kbuild/kconfig-language.rst
+   subsection "Kconfig recursive dependency limitations"
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
