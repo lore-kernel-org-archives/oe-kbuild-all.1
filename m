@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369F69443
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 15:20:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090F82D97A8
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 15:21:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751037611; cv=none; b=YYKT0OxlqHZxTm3nipv246T0qZX/tqNvMicmqA48umQ4iGyq4r1XIiSov/WkqGJ07c3xxgN6k/OZY40mYzXFuWGLGMPNWIiG7VmSqrImQ8CXhNVuNAS8udbLC9DyD3QjtBrhnAwdWWJAvJsKbLn/ogPrRnmy1V2TyKn2imBWs7s=
+	t=1751037679; cv=none; b=VZFjppqYywybkWRn3UTjfuQi/uPfL21ixyJAgxUBhMDTjVhixKy9MgnjsTeLqJfJUC75QqbJhvzIo3wKOJP4P5RfNogmdOE1qC6Pg+0rFswjKzHeKhv6kfQDjSciBmDym+FbWLA88OT/m9Vt1P6rJE8dFJAbqB8DZL9e0cGb3eg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751037611; c=relaxed/simple;
-	bh=oYYOnOXdn0GX+o6EqVygQDxxbbM/WbjRNzk1x6naRaI=;
+	s=arc-20240116; t=1751037679; c=relaxed/simple;
+	bh=MEluzz5rsZG4071BVoaluZk8uolIp4lKFARVu9fothI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TqvXh8E6+ZOBRG3smzTHaSuKRC+zxExuvEjS2Vvb1LqmpNjTK5ZIrdnAenAMl2UXn82//m5l/RzXSCxwRnOdQ1CarsipeYpce4hSpXY/FLy1glmA2uvtnJDl7gMnoFHbv9Qustvri/7vzR/r+s20HmrNkCTDrFW/CQZ7N285ML0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GXy8M2WA; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=kUa8Qq8sVo+81UF6ebjZaKjWEnNQpdTjHD5IywOyUOIqy9lB/6Mz4A/wRK5qw8WZk/olkiTmn7W55TU7Z3NCmoVRyeSQA4rEBOOplCNNVD/LVPkLvFMs7kvzFZ+ksUX7ODa1uu7e5ZYeNebTvmgHDaFet8xQhrVlvdVS4OksVY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qi0pudvv; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GXy8M2WA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qi0pudvv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751037610; x=1782573610;
+  t=1751037678; x=1782573678;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=oYYOnOXdn0GX+o6EqVygQDxxbbM/WbjRNzk1x6naRaI=;
-  b=GXy8M2WAsT7QmhfumNTCuw8WdCMZeJhp4AhnKtbPYYkfy98eZWbAva3w
-   sS4lpbh8QH9bYYJkw0Nt6+WupsN0LDNUdPyPnXbLBtoprB5sGGVGerpld
-   3Ygxa8/szvmE8gEKrb8dc696aPDcZsxHDyKxR1bFySro2CZWly8vNeye2
-   /sdDPHFdmuTMOT/FDxRO+RXuVlCJ5c+LmBwqVUQS99XSPVtdhhTkAK4gs
-   B6ARNbok/zzN4LEEVOuDvGxxS1+umoEVK3vs75LJMZUhyTNhxk8HEOR0e
-   ptPcpVNkZLuVj18amGUTRZcVLlvjzGHn8Xi12AcHyB0Rxsbkoks3VZIa1
-   w==;
-X-CSE-ConnectionGUID: EJNI9t6RQAuldPoUAnE2Nw==
-X-CSE-MsgGUID: OvNQWEpXSuyd2kN5H9D5zw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53449957"
+  bh=MEluzz5rsZG4071BVoaluZk8uolIp4lKFARVu9fothI=;
+  b=Qi0pudvvbStTe4tH8MPpwid2oI04tRcCEe1UBhqUwigSLxTas9HXan4K
+   7N+GsS8YMyRszOoHGbL9XzgxsF78KC6pDUCoP5OCn26BeQjnJTLiG9q27
+   84EyOmPnFEf5JiEQXneGktGrSogzmZW6Vm12GNmTo7ORKhE+iCuXwbQHW
+   lLBY9WD9KkEW96iOTUUGu4EhBqzf+GtcxHhOkW0y63qV552CQPPq+vd1t
+   zyrRxRUBk4sMdvzP/lVr6UElt/XWgTZ+Buaq8KCGgcgue2vN8cPWLbinh
+   gvepOb5ww+At/UbYToD/UmiCTqxnmywywHqtw3gV76fUifN398bsqhdtw
+   g==;
+X-CSE-ConnectionGUID: Cr1CHULkQRSbPtjFVdI/KQ==
+X-CSE-MsgGUID: Ydyi5DPXQv+qL595jEw0lw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="78790691"
 X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="53449957"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 08:20:09 -0700
-X-CSE-ConnectionGUID: lSgWr0O1TJGVh5FT4OkSKw==
-X-CSE-MsgGUID: 9oYJKmEjSoqqDndOLQxdrA==
+   d="scan'208";a="78790691"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 08:21:17 -0700
+X-CSE-ConnectionGUID: x95QZt6ZQeenvEMNazgEuw==
+X-CSE-MsgGUID: HdwXoc46RpyAfYN3UQbktg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="152444861"
-Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
-  by fmviesa007.fm.intel.com with ESMTP; 27 Jun 2025 08:20:08 -0700
-Received: from kbuild by e588e990b675 with local (Exim 4.96)
+   d="scan'208";a="190022589"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 27 Jun 2025 08:21:16 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVAs1-0000gd-1d;
-	Fri, 27 Jun 2025 15:20:05 +0000
-Date: Fri, 27 Jun 2025 17:19:07 +0200
+	id 1uVAt7-000WJk-1m;
+	Fri, 27 Jun 2025 15:21:13 +0000
+Date: Fri, 27 Jun 2025 23:20:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 0/2]
- drivers/usb/host/xhci-sideband.c:372: warning: Function parameter or struct
- member 'notify_client' not described in 'xhci_sideband_register'
-Message-ID: <202506271754.ZQ5p1ODq-lkp@intel.com>
+Subject: [isilence:dmabuf-rw-v1-test 7/16] block/blk-merge.c:332:58: error:
+ expected ')'
+Message-ID: <202506272334.BRUQjWiu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,95 +62,110 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   0144e2490a70c3551bfb173921278f21d8255d44
-commit: b7f481d533d071f4d6d6b1480323e50f995efbbe [0/2] FROMGIT: usb: host: xhci: Notify xHCI sideband on transfer ring free
-config: x86_64-buildonly-randconfig-2001-20250626 (https://download.01.org/0day-ci/archive/20250627/202506271754.ZQ5p1ODq-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506271754.ZQ5p1ODq-lkp@intel.com/reproduce)
+tree:   https://github.com/isilence/linux dmabuf-rw-v1-test
+head:   949fb10351aae03bf6ca32fb3c4a714ebaefc9e9
+commit: e483c8c11f7f015f2d540fcf6335b69f736938f3 [7/16] bio: introduce dma vector backed bios
+config: x86_64-buildonly-randconfig-002-20250627 (https://download.01.org/0day-ci/archive/20250627/202506272334.BRUQjWiu-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250627/202506272334.BRUQjWiu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506271754.ZQ5p1ODq-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506272334.BRUQjWiu-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/usb/host/xhci-sideband.c:287: warning: Function parameter or struct member 'imod_interval' not described in 'xhci_sideband_create_interrupter'
-   drivers/usb/host/xhci-sideband.c:287: warning: Function parameter or struct member 'intr_num' not described in 'xhci_sideband_create_interrupter'
-   drivers/usb/host/xhci-sideband.c:372: warning: Function parameter or struct member 'type' not described in 'xhci_sideband_register'
->> drivers/usb/host/xhci-sideband.c:372: warning: Function parameter or struct member 'notify_client' not described in 'xhci_sideband_register'
+>> block/blk-merge.c:332:58: error: expected ')'
+     332 |                 return bio_split_rw_at_dmavec(bio, lim, segs, max_bytes;
+         |                                                                        ^
+   block/blk-merge.c:332:32: note: to match this '('
+     332 |                 return bio_split_rw_at_dmavec(bio, lim, segs, max_bytes;
+         |                                              ^
+   1 error generated.
 
 
-vim +372 drivers/usb/host/xhci-sideband.c
+vim +332 block/blk-merge.c
 
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  358  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  359  /**
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  360   * xhci_sideband_register - register a sideband for a usb device
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  361   * @intf: usb interface associated with the sideband device
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  362   *
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  363   * Allows for clients to utilize XHCI interrupters and fetch transfer and event
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  364   * ring parameters for executing data transfers.
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  365   *
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  366   * Return: pointer to a new xhci_sideband instance if successful. NULL otherwise.
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  367   */
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  368  struct xhci_sideband *
-b7f481d533d071 Wesley Cheng  2025-04-09  369  xhci_sideband_register(struct usb_interface *intf, enum xhci_sideband_type type,
-b7f481d533d071 Wesley Cheng  2025-04-09  370  		       int (*notify_client)(struct usb_interface *intf,
-b7f481d533d071 Wesley Cheng  2025-04-09  371  				    struct xhci_sideband_event *evt))
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09 @372  {
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  373  	struct usb_device *udev = interface_to_usbdev(intf);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  374  	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  375  	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  376  	struct xhci_virt_device *vdev;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  377  	struct xhci_sideband *sb;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  378  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  379  	/*
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  380  	 * Make sure the usb device is connected to a xhci controller.  Fail
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  381  	 * registration if the type is anything other than  XHCI_SIDEBAND_VENDOR,
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  382  	 * as this is the only type that is currently supported by xhci-sideband.
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  383  	 */
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  384  	if (!udev->slot_id || type != XHCI_SIDEBAND_VENDOR)
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  385  		return NULL;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  386  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  387  	sb = kzalloc_node(sizeof(*sb), GFP_KERNEL, dev_to_node(hcd->self.sysdev));
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  388  	if (!sb)
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  389  		return NULL;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  390  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  391  	mutex_init(&sb->mutex);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  392  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  393  	/* check this device isn't already controlled via sideband */
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  394  	spin_lock_irq(&xhci->lock);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  395  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  396  	vdev = xhci->devs[udev->slot_id];
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  397  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  398  	if (!vdev || vdev->sideband) {
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  399  		xhci_warn(xhci, "XHCI sideband for slot %d already in use\n",
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  400  			  udev->slot_id);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  401  		spin_unlock_irq(&xhci->lock);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  402  		kfree(sb);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  403  		return NULL;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  404  	}
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  405  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  406  	sb->xhci = xhci;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  407  	sb->vdev = vdev;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  408  	sb->intf = intf;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  409  	sb->type = type;
-b7f481d533d071 Wesley Cheng  2025-04-09  410  	sb->notify_client = notify_client;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  411  	vdev->sideband = sb;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  412  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  413  	spin_unlock_irq(&xhci->lock);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  414  
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  415  	return sb;
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  416  }
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  417  EXPORT_SYMBOL_GPL(xhci_sideband_register);
-8b9c57ce39a5a8 Mathias Nyman 2025-04-09  418  
-
-:::::: The code at line 372 was first introduced by commit
-:::::: 8b9c57ce39a5a88dbc923cebe1fdd234239a7f94 FROMGIT: xhci: sideband: add initial api to register a secondary interrupter entity
-
-:::::: TO: Mathias Nyman <mathias.nyman@linux.intel.com>
-:::::: CC: Carlos Llamas <cmllamas@google.com>
+   310	
+   311	
+   312	/**
+   313	 * bio_split_rw_at - check if and where to split a read/write bio
+   314	 * @bio:  [in] bio to be split
+   315	 * @lim:  [in] queue limits to split based on
+   316	 * @segs: [out] number of segments in the bio with the first half of the sectors
+   317	 * @max_bytes: [in] maximum number of bytes per bio
+   318	 *
+   319	 * Find out if @bio needs to be split to fit the queue limits in @lim and a
+   320	 * maximum size of @max_bytes.  Returns a negative error number if @bio can't be
+   321	 * split, 0 if the bio doesn't have to be split, or a positive sector offset if
+   322	 * @bio needs to be split.
+   323	 */
+   324	int bio_split_rw_at(struct bio *bio, const struct queue_limits *lim,
+   325			unsigned *segs, unsigned max_bytes)
+   326	{
+   327		struct bio_vec bv, bvprv, *bvprvp = NULL;
+   328		struct bvec_iter iter;
+   329		unsigned nsegs = 0, bytes = 0;
+   330	
+   331		if (bio_flagged(bio, BIO_DMAVEC))
+ > 332			return bio_split_rw_at_dmavec(bio, lim, segs, max_bytes;
+   333	
+   334		bio_for_each_bvec(bv, bio, iter) {
+   335			/*
+   336			 * If the queue doesn't support SG gaps and adding this
+   337			 * offset would create a gap, disallow it.
+   338			 */
+   339			if (bvprvp && bvec_gap_to_prev(lim, bvprvp, bv.bv_offset))
+   340				goto split;
+   341	
+   342			if (nsegs < lim->max_segments &&
+   343			    bytes + bv.bv_len <= max_bytes &&
+   344			    bv.bv_offset + bv.bv_len <= lim->min_segment_size) {
+   345				nsegs++;
+   346				bytes += bv.bv_len;
+   347			} else {
+   348				if (bvec_split_segs(lim, &bv, &nsegs, &bytes,
+   349						lim->max_segments, max_bytes))
+   350					goto split;
+   351			}
+   352	
+   353			bvprv = bv;
+   354			bvprvp = &bvprv;
+   355		}
+   356	
+   357		*segs = nsegs;
+   358		return 0;
+   359	split:
+   360		if (bio->bi_opf & REQ_ATOMIC)
+   361			return -EINVAL;
+   362	
+   363		/*
+   364		 * We can't sanely support splitting for a REQ_NOWAIT bio. End it
+   365		 * with EAGAIN if splitting is required and return an error pointer.
+   366		 */
+   367		if (bio->bi_opf & REQ_NOWAIT)
+   368			return -EAGAIN;
+   369	
+   370		*segs = nsegs;
+   371	
+   372		/*
+   373		 * Individual bvecs might not be logical block aligned. Round down the
+   374		 * split size so that each bio is properly block size aligned, even if
+   375		 * we do not use the full hardware limits.
+   376		 */
+   377		bytes = ALIGN_DOWN(bytes, bio_split_alignment(bio, lim));
+   378	
+   379		/*
+   380		 * Bio splitting may cause subtle trouble such as hang when doing sync
+   381		 * iopoll in direct IO routine. Given performance gain of iopoll for
+   382		 * big IO can be trival, disable iopoll when split needed.
+   383		 */
+   384		bio_clear_polled(bio);
+   385		return bytes >> SECTOR_SHIFT;
+   386	}
+   387	EXPORT_SYMBOL_GPL(bio_split_rw_at);
+   388	
 
 -- 
 0-DAY CI Kernel Test Service
