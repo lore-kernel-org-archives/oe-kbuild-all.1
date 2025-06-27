@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 766FA241667
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 08:41:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1AC272E71
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 08:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751013701; cv=none; b=dbBPeR9mIP0G+6lUs36aKveIA9XHp4S4wt0Im2FiS4YEVZD8vb61LLtDOFDfIKdzj+b0Dm78IikQcqfqjhIQJfzDgGnt3LdBy/Ht1ffii0dhgxE/hkLCcuT2NKwu9vBOAm02pg84vXj1TI5YX4SmihhBL2umg/vy2w0werPCcEo=
+	t=1751014359; cv=none; b=XwsjfgL8YW35PcrMlyzFIaoyVdP0HIFUFBt+KQHBuqZxRBk9XeMYA6yK8uYlnlGdYAOb7IAExndMoLu991m8kUOcfWAEZqXT0BW0Jl9OcazjntIKZE4plEWvrwJ8sYFLqxNEbbrT3856r9iuiGnBhA9TzkukwSBJCtqw92Zlv3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751013701; c=relaxed/simple;
-	bh=+tgVWPFjq3dOEapaqCYUwjdg4Nu1t4jk7GEQjeWm2kg=;
+	s=arc-20240116; t=1751014359; c=relaxed/simple;
+	bh=37FJ2yC5SgZteMKXtF/XijG36Vlm4EttECt3jV8XUkI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GIbU/lzsZ04Xjvz8RN+JL3EW+P1QCSQY8KLKoePdIMRVmUut83cuTP77DzBNRIDC8y46srQU7wmTrUjunrKmzrkjo2MdPOJab1G41ykT4c2jBDAJrzzwE4aql+2q3j4pKzfs53a9Oj8BQavPbBHbkaxawrQAMBdsPfNpXstN5JE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y4OhWyfH; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=ZGRHEWwDH3GMqg05mJoaMfmUyRY9NtrAStDzfZ6tMXYbC13KV9msg0eTvNA79myzabRqmp1yd1KdI6bTsFeX770DqS5mUVLZWJfsXw4Xek7g25FYDaIZX9Pdzs78RJjO/ReYo8KUZgxN6ulXKbA+jQHbPedAEjYXISggQRqJFHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SrAEIWU7; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y4OhWyfH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SrAEIWU7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751013700; x=1782549700;
+  t=1751014358; x=1782550358;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+tgVWPFjq3dOEapaqCYUwjdg4Nu1t4jk7GEQjeWm2kg=;
-  b=Y4OhWyfHHErd+iwH61/EzOL522mHs5FMJnGnB6gnyinnUa7sSXv+hhv/
-   wOxEkxBhAw2zW8M6E6GgUOTpPQ5JXs8Ddx+Qn99hV/FEhH7yMsNiW6iO/
-   +PQs6Rdc+1z6iY7vOXrrgXaeqjKegxJ4GvFKkvmNocADBOeBSb2XyLGHq
-   b4tkNCOjZ9FVz40UMoOCwOP/QRELu9erQD8tDNqYzN9s9L4xOL4t08xS8
-   Zs5URKNS/A+1qXSeZ+QcTJWn2x8Q4E1cWLMdfaFa8CxL+dfl1atALL5p7
-   OmlSlET6mHDP7IAsCjOwhFg+EpmFV/Hw+qElF5bUdXRHYjhLKpPuKTzxv
-   Q==;
-X-CSE-ConnectionGUID: NuozIkIDSgycFwak3TdQIA==
-X-CSE-MsgGUID: SCYVeViUSLaV6oWyXIXSEg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="75869003"
+  bh=37FJ2yC5SgZteMKXtF/XijG36Vlm4EttECt3jV8XUkI=;
+  b=SrAEIWU7mmrZwdJt/aiB0Ut/bwNVQbszjOL2S3IoTfwj2YJas4cuAYmN
+   3jz7JM5q8n5oS2BJ6mZO5qn0PtypU3hL9pbV63kcp6bS7TpCbO7WTCyI+
+   5k+hvHs+g5rdIkzehlK7K7voyWsj3TU0tuGy5QOtWchHAMkd6olmKLiGN
+   cD1BuQxe0H0DbT5X9Rej4Dh0LIlVQzFJ9zf6/2lTD4SYyCL8W4Apq9Mmw
+   HMWkBRp8zxbv9S8uCLXdACoFr4C75kTCWEDnfUwf1NbASTtiv2vL8rZCw
+   sJeJmOVp61hPyDqPuqCg3zmiv8Iz7S1C75DNauOY63aXwpWTH3RYm2ejM
+   g==;
+X-CSE-ConnectionGUID: oXep+maEQ1+yIMCe1YA9JQ==
+X-CSE-MsgGUID: MOzQWvmxQ1OwbxRtdqpsQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11476"; a="55946396"
 X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="75869003"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 01:41:36 -0700
-X-CSE-ConnectionGUID: mxya/GrXT8aVxaBGfomBxw==
-X-CSE-MsgGUID: j+x5FDVCQFWlooAcQlq5RQ==
+   d="scan'208";a="55946396"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 01:52:36 -0700
+X-CSE-ConnectionGUID: 2xC0O6pPSyC+YNbc7luYXg==
+X-CSE-MsgGUID: JPX+O1UPRjeESWYfw1eUlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,270,1744095600"; 
-   d="scan'208";a="153269900"
+   d="scan'208";a="152495772"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Jun 2025 01:41:34 -0700
+  by orviesa009.jf.intel.com with ESMTP; 27 Jun 2025 01:52:35 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uV4eJ-000Vz8-2c;
-	Fri, 27 Jun 2025 08:41:31 +0000
-Date: Fri, 27 Jun 2025 16:41:02 +0800
+	id 1uV4oy-000Vzu-2e;
+	Fri, 27 Jun 2025 08:52:32 +0000
+Date: Fri, 27 Jun 2025 16:51:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [linux-next:master 5320/5590] mm/damon/sysfs-schemes.c:1622:32:
- sparse: sparse: symbol 'damos_sysfs_action_names' was not declared. Should
- it be static?
-Message-ID: <202506271655.b8yfEZIT-lkp@intel.com>
+To: Bingbu Cao <bingbu.cao@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [sailus-media-tree:ipu7 1/7] versioncheck:
+ ./drivers/staging/media/ipu7/ipu7.c: 24 linux/version.h not needed.
+Message-ID: <202506271629.IqnPPnFu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,67 +63,33 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   ecb259c4f70dd5c83907809f45bf4dc6869961d7
-commit: 98c5783c468ce5630a0604c69694d04ccc078c02 [5320/5590] mm/damon/sysfs-schemes: decouple from damos_action
-config: hexagon-randconfig-r122-20250627 (https://download.01.org/0day-ci/archive/20250627/202506271655.b8yfEZIT-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
-reproduce: (https://download.01.org/0day-ci/archive/20250627/202506271655.b8yfEZIT-lkp@intel.com/reproduce)
+tree:   git://linuxtv.org/sailus/media_tree.git ipu7
+head:   0542d88a01679ac03a980f7d53daefe8caebe345
+commit: 4fc6f9e2be4048a8e695d2b7545df344554f5fd6 [1/7] media: staging/ipu7: add Intel IPU7 PCI device driver
+reproduce: (https://download.01.org/0day-ci/archive/20250627/202506271629.IqnPPnFu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506271655.b8yfEZIT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506271629.IqnPPnFu-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/damon/sysfs-schemes.c:1622:32: sparse: sparse: symbol 'damos_sysfs_action_names' was not declared. Should it be static?
-
-vim +/damos_sysfs_action_names +1622 mm/damon/sysfs-schemes.c
-
-  1621	
-> 1622	struct damos_sysfs_action_name damos_sysfs_action_names[] = {
-  1623		{
-  1624			.action = DAMOS_WILLNEED,
-  1625			.name = "willneed",
-  1626		},
-  1627		{
-  1628			.action = DAMOS_COLD,
-  1629			.name = "cold",
-  1630		},
-  1631		{
-  1632			.action = DAMOS_PAGEOUT,
-  1633			.name = "pageout",
-  1634		},
-  1635		{
-  1636			.action = DAMOS_HUGEPAGE,
-  1637			.name = "hugepage",
-  1638		},
-  1639		{
-  1640			.action = DAMOS_NOHUGEPAGE,
-  1641			.name = "nohugepage",
-  1642		},
-  1643		{
-  1644			.action = DAMOS_LRU_PRIO,
-  1645			.name = "lru_prio",
-  1646		},
-  1647		{
-  1648			.action = DAMOS_LRU_DEPRIO,
-  1649			.name = "lru_deprio",
-  1650		},
-  1651		{
-  1652			.action = DAMOS_MIGRATE_HOT,
-  1653			.name = "migrate_hot",
-  1654		},
-  1655		{
-  1656			.action = DAMOS_MIGRATE_COLD,
-  1657			.name = "migrate_cold",
-  1658		},
-  1659		{
-  1660			.action = DAMOS_STAT,
-  1661			.name = "stat",
-  1662		},
-  1663	};
-  1664	
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-20/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j32 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./drivers/media/i2c/ov02c10.c: 12 linux/version.h not needed.
+>> ./drivers/staging/media/ipu7/ipu7.c: 24 linux/version.h not needed.
+   ./samples/bpf/spintest.bpf.c: 8 linux/version.h not needed.
+   ./tools/lib/bpf/bpf_helpers.h: 432: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/dev_cgroup.c: 9 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/netcnt_prog.c: 3 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 27 linux/version.h not needed.
 
 -- 
 0-DAY CI Kernel Test Service
