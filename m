@@ -1,64 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38E07171092
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 21:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728DB28A1DD
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 21:41:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751060152; cv=none; b=kLQEBvDXeEuNCo3qM/WpsZIO6m/wozYF478szjlMtdAmOf7NJWZcjDG/luosZEiW250Tv2+4H/7sETy0oEFrz3PC0ur+4wqTcDT5ay2Y68luecOWJWxKRuLvsSUJ9o+ODUUIgNitfFjxcGRGYQ7/fpgjERxJzvVL/7mypdgkaRg=
+	t=1751060503; cv=none; b=fNt5h//PD7fgo5vq6H0fKJKeFCRFR8uydzFG5bJLCJwIC7A5wlWF9IrhiXxUd48HaKQaVAE4c/psr1nYv8Pzy+s3rmEL2N9eSqf9Rd8uKovWhEZpcxNnsU7qnZ+JJrxnQHmri54IaTGgnGwhYQQG/bHva0HUxZclmQArFqvjreQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751060152; c=relaxed/simple;
-	bh=dDiJZ0vgG3S+6SnN32VF9/i/0mO2k4wbUUU+DGN3xDQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YV8nvffUNIy6ltj1LfzmaeEQzDB0tuKwYduw5Ry7dkeWGCaK0/CJXX9f65TIKh4Xh3goYCo3KM3cUKmwhWp+S94ecIKa5oMpB8XUIPBBhHpatiVY1uPJFy4nUXoelAbRCB7RXWFsH9YAsMdmIIQnhz5yY9kyoGG37DnZ//PuXG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OKqm+gqf; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751060503; c=relaxed/simple;
+	bh=NYtk8M39yXKnfiu1ICE4qoVuCladpZZV45cFgl6dXlE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ITI4Yx2TyT43TC2O8cLypuip45K7Ds61aSdZHo2YYToIpFf9GPiVBp+C3StjS4C2lUR9SM4N1PsXlybAayZRTQyqsxu7hKhtZF7M+PTLCRU0g/HjVnYzAxyyWhEyCET3OywqoeNxEpDc1fdp4vUwl3Y+t+ORXXFGLJhtixo/6O0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oDkfVd6o; arc=none smtp.client-ip=209.85.160.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OKqm+gqf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751060150; x=1782596150;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dDiJZ0vgG3S+6SnN32VF9/i/0mO2k4wbUUU+DGN3xDQ=;
-  b=OKqm+gqfFVVH55jun2SMb8Ud9SQwWKt7iccZ1lrmt1CR9PO2c44O/bhT
-   YK/N08ccdzCdqN8VDR5fTQ1pA2hWRQlJspCmHlachQ6xfOD5vAlNcUPhX
-   dPhBXOIF22LWoP2eexTCTNXO6Sb7lJ0jpUnE7x4PNu3KjkOkZRs5b9o7b
-   qQoJ9eJXa12SMNfjHOiw68znH+mBesbrAOpPC+KIWSiepX1AkS8m2vekx
-   dMrCAgjpalfkxEvxyPAEJM4uzF8icEJxJdrw4epydYNz54uMFi+NyXX+c
-   dwRLFLokvGCbVN23MnvgHGMwa4CMZGm0vm39TXEcRLB6ayUH4KiZoSeTR
-   A==;
-X-CSE-ConnectionGUID: BoUeQ/ULSF6Y9lr2+PHryQ==
-X-CSE-MsgGUID: 6Br5ap1iTzicZmECz7BZ0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="52610803"
-X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
-   d="scan'208";a="52610803"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 14:35:50 -0700
-X-CSE-ConnectionGUID: yDugyF5VQfy8pIYLYHd3ng==
-X-CSE-MsgGUID: LjXKLAZTTRSfjtvYI4GxsQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
-   d="scan'208";a="153451742"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Jun 2025 14:35:47 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uVGjZ-000WYo-0i;
-	Fri, 27 Jun 2025 21:35:45 +0000
-Date: Sat, 28 Jun 2025 05:35:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH net-next v1 1/1] net/mlx5: Don't use "proxy" headers
-Message-ID: <202506280551.g3Yi6Vuw-lkp@intel.com>
-References: <20250626164509.327410-1-andriy.shevchenko@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oDkfVd6o"
+Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-2ea65f5a0easo1517384fac.1
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 14:41:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751060500; x=1751665300; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=J1fXy6FRhTbbi+8IsBVYmrkApFTU+grleJe/y7M2JmI=;
+        b=oDkfVd6oVYvsqq57EJf31h9CyQNuCEMAyZzZZarhfTde6aCkw0fG9DfCydDWfm5r09
+         khE2rU+9WTMLfAnNUmkSSTbOrYovgBkSyUlUVEmxWksqrWDva4jBPKFyLTILsSEMtHSx
+         mS62Us9jkO+vB88YT7PIJD0JMEXszspbshbsfWyCPyRBiTZE27ZgqL04V8f/Vg9zmNwI
+         590ZyKAA+4kLJya8EYL86EfOephCwxDJuXhsZxq3gJce6AMcz/0yu3LHjcP7M1hGQZfx
+         J+8SAdPNpiega2Qu3W98C2WUg6+3L8aEMDHDqsdqFIqWu7HvjTPE+jwwG4pnte5Nbory
+         YRNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751060500; x=1751665300;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=J1fXy6FRhTbbi+8IsBVYmrkApFTU+grleJe/y7M2JmI=;
+        b=rjhSZW7GpBvLqyzXRoOs+PaZWoZvOGde5kYDJrqLKH8CZnd4t0iFEUqtuEIBQ1oH0b
+         9ohTKO14Bk+gTKTGkfVuma70dPhd/qMnTieNtxaQK9Wx1Ko+FaC+Ywk9XR20O0Ze9ohy
+         7hDNYQj5JDv1fAEGCeiyN1NK/pozQMGEKbr3IZHF7LLCfb5xto85S74oZX75yXYFuF1U
+         +jXDN84vagMrwHZKFxLTjNVx4hmQyc4ksPDspVxxvInuizbWXmlEWnxcYSRLRzOp0Hob
+         77wnUwtUQp5t2pOrnX/eB7gpkNOQAi1sXK7wMCrj5LUpeN88RI07O3NxFYcr14vQfS77
+         Hq+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVCfW4Vb86wEn7ZlkvV0ClbGjgyrjBhnL+2o5wpB9CE05YHgHRaOVK33DRLZl4Sdlvd4WsDnDdzRIsQEoSa@lists.linux.dev
+X-Gm-Message-State: AOJu0YzaAaT3uOhrgS6HYOoA8w+eqQn38+LigWGk/ByUsBbUrdSU61fb
+	fqOEkLKjR2h+2BmTavnevcq7RqgpybZAMYqb/f/K+IGmuUiXkJYesuOpX675wpCW4EA=
+X-Gm-Gg: ASbGncurP/SwVlGVyyFFcr2cHGHsuReRLi6sAej313jyJtJ8OgIDAt+KfNeM5wRPfBd
+	sF20+HXLiyorwo/NGo6WxPsDjmN82D5MSNTk7fiL7GG60pCb9UE/g3mYFJUN/0jbjDehmdxoGyR
+	VgAGs1sZciN1VKglJSzfVVRKRc9WTxq7DtZEBxjJtpcTeNBYwdMzFSAv4Bneb/Eqs3oPHrj2BI0
+	+4kwoYateof1D0qU5CRO2XldZzUxH9LHzpc1wVgbyM2sSXea68LkOK4mUlxnE2GqImWAYOAV8EB
+	8i4FNXFHeC2bpKScOwv0ybq/dMnpVtFIQxfFKJEc0pMegrNLFjIftDOwH5Z1UGR15fJxZg==
+X-Google-Smtp-Source: AGHT+IGm9VN0jQzOnPNshOP1xXBcfWTM+rCNUm1jZDI7araoiPvZx0sPQo2pmdZdBLXePTf9ULNRtg==
+X-Received: by 2002:a05:6871:5207:b0:2e9:5d01:effc with SMTP id 586e51a60fabf-2efcedefd56mr6125495fac.2.1751060499975;
+        Fri, 27 Jun 2025 14:41:39 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:f3a4:7b11:3bf4:5d7b])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2efd50b1a53sm1086207fac.31.2025.06.27.14.41.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jun 2025 14:41:38 -0700 (PDT)
+Date: Sat, 28 Jun 2025 00:41:37 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2] tpm: Cleanup class for tpm_buf
+Message-ID: <f5a3cddf-39a3-48ed-98ed-dbbdccac5cff@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,322 +70,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250626164509.327410-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20250626101935.1007898-1-jarkko@kernel.org>
 
-Hi Andy,
+Hi Jarkko,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/net-mlx5-Don-t-use-proxy-headers/20250627-004605
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250626164509.327410-1-andriy.shevchenko%40linux.intel.com
-patch subject: [PATCH net-next v1 1/1] net/mlx5: Don't use "proxy" headers
-config: arm64-randconfig-001-20250628 (https://download.01.org/0day-ci/archive/20250628/202506280551.g3Yi6Vuw-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506280551.g3Yi6Vuw-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/tpm-Cleanup-class-for-tpm_buf/20250626-182148
+base:   char-misc/char-misc-testing
+patch link:    https://lore.kernel.org/r/20250626101935.1007898-1-jarkko%40kernel.org
+patch subject: [PATCH v2] tpm: Cleanup class for tpm_buf
+config: x86_64-randconfig-161-20250627 (https://download.01.org/0day-ci/archive/20250628/202506280550.7lqjVBcB-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506280551.g3Yi6Vuw-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202506280550.7lqjVBcB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/char/tpm/tpm2-cmd.c:575 tpm2_get_pcr_allocation() warn: iterator 'i' not incremented
 
-   In file included from drivers/infiniband/hw/mlx5/dm.h:9,
-                    from drivers/infiniband/hw/mlx5/dm.c:7:
->> drivers/infiniband/hw/mlx5/mlx5_ib.h:1125:9: error: unknown type name 'mempool_t'
-    1125 |         mempool_t *pool;
-         |         ^~~~~~~~~
---
-   In file included from drivers/net/ethernet/mellanox/mlx5/core/lib/gid.c:37:
-   drivers/net/ethernet/mellanox/mlx5/core/lib/mlx5.h: In function 'mlx5_core_net':
-   drivers/net/ethernet/mellanox/mlx5/core/lib/mlx5.h:50:16: error: implicit declaration of function 'devlink_net'; did you mean 'dev_net'? [-Wimplicit-function-declaration]
-      50 |         return devlink_net(priv_to_devlink(dev));
-         |                ^~~~~~~~~~~
-         |                dev_net
-   drivers/net/ethernet/mellanox/mlx5/core/lib/mlx5.h:50:28: error: implicit declaration of function 'priv_to_devlink' [-Wimplicit-function-declaration]
-      50 |         return devlink_net(priv_to_devlink(dev));
-         |                            ^~~~~~~~~~~~~~~
->> drivers/net/ethernet/mellanox/mlx5/core/lib/mlx5.h:50:16: error: returning 'int' from a function with return type 'struct net *' makes pointer from integer without a cast [-Wint-conversion]
-      50 |         return devlink_net(priv_to_devlink(dev));
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
-   In file included from drivers/net/ethernet/mellanox/mlx5/core/health.c:41:
-   drivers/net/ethernet/mellanox/mlx5/core/lib/mlx5.h: In function 'mlx5_core_net':
-   drivers/net/ethernet/mellanox/mlx5/core/lib/mlx5.h:50:16: error: implicit declaration of function 'devlink_net'; did you mean 'dev_net'? [-Wimplicit-function-declaration]
-      50 |         return devlink_net(priv_to_devlink(dev));
-         |                ^~~~~~~~~~~
-         |                dev_net
-   drivers/net/ethernet/mellanox/mlx5/core/lib/mlx5.h:50:28: error: implicit declaration of function 'priv_to_devlink' [-Wimplicit-function-declaration]
-      50 |         return devlink_net(priv_to_devlink(dev));
-         |                            ^~~~~~~~~~~~~~~
->> drivers/net/ethernet/mellanox/mlx5/core/lib/mlx5.h:50:16: error: returning 'int' from a function with return type 'struct net *' makes pointer from integer without a cast [-Wint-conversion]
-      50 |         return devlink_net(priv_to_devlink(dev));
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/net/ethernet/mellanox/mlx5/core/health.c:45:
-   drivers/net/ethernet/mellanox/mlx5/core/diag/fw_tracer.h: At top level:
-   drivers/net/ethernet/mellanox/mlx5/core/diag/fw_tracer.h:202:52: warning: 'struct devlink_fmsg' declared inside parameter list will not be visible outside of this definition or declaration
-     202 |                                             struct devlink_fmsg *fmsg);
-         |                                                    ^~~~~~~~~~~~
-   In file included from drivers/net/ethernet/mellanox/mlx5/core/health.c:46:
-   drivers/net/ethernet/mellanox/mlx5/core/diag/reporter_vnic.h:13:50: warning: 'struct devlink_fmsg' declared inside parameter list will not be visible outside of this definition or declaration
-      13 |                                           struct devlink_fmsg *fmsg,
-         |                                                  ^~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:465:34: warning: 'struct devlink_fmsg' declared inside parameter list will not be visible outside of this definition or declaration
-     465 |                           struct devlink_fmsg *fmsg,
-         |                                  ^~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: In function 'mlx5_fw_reporter_diagnose':
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:468:37: error: implicit declaration of function 'devlink_health_reporter_priv' [-Wimplicit-function-declaration]
-     468 |         struct mlx5_core_dev *dev = devlink_health_reporter_priv(reporter);
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/mellanox/mlx5/core/health.c:468:37: error: initialization of 'struct mlx5_core_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:473:9: error: implicit declaration of function 'devlink_fmsg_u8_pair_put' [-Wimplicit-function-declaration]
-     473 |         devlink_fmsg_u8_pair_put(fmsg, "Syndrome", synd);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:477:9: error: implicit declaration of function 'devlink_fmsg_string_pair_put' [-Wimplicit-function-declaration]
-     477 |         devlink_fmsg_string_pair_put(fmsg, "Description", hsynd_str(synd));
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: At top level:
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:488:39: warning: 'struct devlink_fmsg' declared inside parameter list will not be visible outside of this definition or declaration
-     488 | mlx5_fw_reporter_ctx_pairs_put(struct devlink_fmsg *fmsg,
-         |                                       ^~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: In function 'mlx5_fw_reporter_ctx_pairs_put':
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:492:9: error: implicit declaration of function 'devlink_fmsg_u32_pair_put' [-Wimplicit-function-declaration]
-     492 |         devlink_fmsg_u32_pair_put(fmsg, "fw_miss_counter", fw_reporter_ctx->miss_counter);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: At top level:
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:497:47: warning: 'struct devlink_fmsg' declared inside parameter list will not be visible outside of this definition or declaration
-     497 |                                        struct devlink_fmsg *fmsg)
-         |                                               ^~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: In function 'mlx5_fw_reporter_heath_buffer_data_put':
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:507:9: error: implicit declaration of function 'devlink_fmsg_pair_nest_start' [-Wimplicit-function-declaration]
-     507 |         devlink_fmsg_pair_nest_start(fmsg, "health buffer");
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:508:9: error: implicit declaration of function 'devlink_fmsg_obj_nest_start' [-Wimplicit-function-declaration]
-     508 |         devlink_fmsg_obj_nest_start(fmsg);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:509:9: error: implicit declaration of function 'devlink_fmsg_arr_pair_nest_start' [-Wimplicit-function-declaration]
-     509 |         devlink_fmsg_arr_pair_nest_start(fmsg, "assert_var");
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:511:17: error: implicit declaration of function 'devlink_fmsg_u32_put' [-Wimplicit-function-declaration]
-     511 |                 devlink_fmsg_u32_put(fmsg, ioread32be(h->assert_var + i));
-         |                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:512:9: error: implicit declaration of function 'devlink_fmsg_arr_pair_nest_end' [-Wimplicit-function-declaration]
-     512 |         devlink_fmsg_arr_pair_nest_end(fmsg);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:526:9: error: implicit declaration of function 'devlink_fmsg_obj_nest_end' [-Wimplicit-function-declaration]
-     526 |         devlink_fmsg_obj_nest_end(fmsg);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:527:9: error: implicit declaration of function 'devlink_fmsg_pair_nest_end' [-Wimplicit-function-declaration]
-     527 |         devlink_fmsg_pair_nest_end(fmsg);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: At top level:
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:532:30: warning: 'struct devlink_fmsg' declared inside parameter list will not be visible outside of this definition or declaration
-     532 |                       struct devlink_fmsg *fmsg, void *priv_ctx,
-         |                              ^~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: In function 'mlx5_fw_reporter_dump':
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:535:37: error: initialization of 'struct mlx5_core_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     535 |         struct mlx5_core_dev *dev = devlink_health_reporter_priv(reporter);
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:545:48: error: passing argument 1 of 'mlx5_fw_reporter_ctx_pairs_put' from incompatible pointer type [-Wincompatible-pointer-types]
-     545 |                 mlx5_fw_reporter_ctx_pairs_put(fmsg, fw_reporter_ctx);
-         |                                                ^~~~
-         |                                                |
-         |                                                struct devlink_fmsg *
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:488:53: note: expected 'struct devlink_fmsg *' but argument is of type 'struct devlink_fmsg *'
-     488 | mlx5_fw_reporter_ctx_pairs_put(struct devlink_fmsg *fmsg,
-         |                                ~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:548:53: error: passing argument 2 of 'mlx5_fw_reporter_heath_buffer_data_put' from incompatible pointer type [-Wincompatible-pointer-types]
-     548 |         mlx5_fw_reporter_heath_buffer_data_put(dev, fmsg);
-         |                                                     ^~~~
-         |                                                     |
-         |                                                     struct devlink_fmsg *
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:497:61: note: expected 'struct devlink_fmsg *' but argument is of type 'struct devlink_fmsg *'
-     497 |                                        struct devlink_fmsg *fmsg)
-         |                                        ~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:550:69: error: passing argument 2 of 'mlx5_fw_tracer_get_saved_traces_objects' from incompatible pointer type [-Wincompatible-pointer-types]
-     550 |         return mlx5_fw_tracer_get_saved_traces_objects(dev->tracer, fmsg);
-         |                                                                     ^~~~
-         |                                                                     |
-         |                                                                     struct devlink_fmsg *
-   drivers/net/ethernet/mellanox/mlx5/core/diag/fw_tracer.h:202:66: note: expected 'struct devlink_fmsg *' but argument is of type 'struct devlink_fmsg *'
-     202 |                                             struct devlink_fmsg *fmsg);
-         |                                             ~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: In function 'mlx5_fw_reporter_err_work':
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:566:17: error: implicit declaration of function 'devlink_health_report' [-Wimplicit-function-declaration]
-     566 |                 devlink_health_report(health->fw_reporter,
-         |                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: At top level:
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:576:21: error: variable 'mlx5_fw_reporter_pf_ops' has initializer but incomplete type
-     576 | static const struct devlink_health_reporter_ops mlx5_fw_reporter_pf_ops = {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:577:18: error: 'const struct devlink_health_reporter_ops' has no member named 'name'
-     577 |                 .name = "fw",
-         |                  ^~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:577:25: warning: excess elements in struct initializer
-     577 |                 .name = "fw",
-         |                         ^~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:577:25: note: (near initialization for 'mlx5_fw_reporter_pf_ops')
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:578:18: error: 'const struct devlink_health_reporter_ops' has no member named 'diagnose'
-     578 |                 .diagnose = mlx5_fw_reporter_diagnose,
-         |                  ^~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:578:29: warning: excess elements in struct initializer
-     578 |                 .diagnose = mlx5_fw_reporter_diagnose,
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:578:29: note: (near initialization for 'mlx5_fw_reporter_pf_ops')
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:579:18: error: 'const struct devlink_health_reporter_ops' has no member named 'dump'
-     579 |                 .dump = mlx5_fw_reporter_dump,
-         |                  ^~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:579:25: warning: excess elements in struct initializer
-     579 |                 .dump = mlx5_fw_reporter_dump,
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:579:25: note: (near initialization for 'mlx5_fw_reporter_pf_ops')
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:582:21: error: variable 'mlx5_fw_reporter_ops' has initializer but incomplete type
-     582 | static const struct devlink_health_reporter_ops mlx5_fw_reporter_ops = {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:583:18: error: 'const struct devlink_health_reporter_ops' has no member named 'name'
-     583 |                 .name = "fw",
-         |                  ^~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:583:25: warning: excess elements in struct initializer
-     583 |                 .name = "fw",
-         |                         ^~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:583:25: note: (near initialization for 'mlx5_fw_reporter_ops')
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:584:18: error: 'const struct devlink_health_reporter_ops' has no member named 'diagnose'
-     584 |                 .diagnose = mlx5_fw_reporter_diagnose,
-         |                  ^~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:584:29: warning: excess elements in struct initializer
-     584 |                 .diagnose = mlx5_fw_reporter_diagnose,
-         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:584:29: note: (near initialization for 'mlx5_fw_reporter_ops')
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: In function 'mlx5_fw_fatal_reporter_recover':
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:592:37: error: initialization of 'struct mlx5_core_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     592 |         struct mlx5_core_dev *dev = devlink_health_reporter_priv(reporter);
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: At top level:
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:599:36: warning: 'struct devlink_fmsg' declared inside parameter list will not be visible outside of this definition or declaration
-     599 |                             struct devlink_fmsg *fmsg, void *priv_ctx,
-         |                                    ^~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: In function 'mlx5_fw_fatal_reporter_dump':
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:602:37: error: initialization of 'struct mlx5_core_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     602 |         struct mlx5_core_dev *dev = devlink_health_reporter_priv(reporter);
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:620:48: error: passing argument 1 of 'mlx5_fw_reporter_ctx_pairs_put' from incompatible pointer type [-Wincompatible-pointer-types]
-     620 |                 mlx5_fw_reporter_ctx_pairs_put(fmsg, fw_reporter_ctx);
-         |                                                ^~~~
-         |                                                |
-         |                                                struct devlink_fmsg *
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:488:53: note: expected 'struct devlink_fmsg *' but argument is of type 'struct devlink_fmsg *'
-     488 | mlx5_fw_reporter_ctx_pairs_put(struct devlink_fmsg *fmsg,
-         |                                ~~~~~~~~~~~~~~~~~~~~~^~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:623:9: error: implicit declaration of function 'devlink_fmsg_binary_pair_put' [-Wimplicit-function-declaration]
-     623 |         devlink_fmsg_binary_pair_put(fmsg, "crdump_data", cr_data, crdump_size);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: In function 'mlx5_fw_fatal_reporter_err_work':
->> drivers/net/ethernet/mellanox/mlx5/core/health.c:641:17: error: assignment to 'struct devlink *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     641 |         devlink = priv_to_devlink(dev);
-         |                 ^
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:652:17: error: implicit declaration of function 'devl_lock'; did you mean 'rtnl_lock'? [-Wimplicit-function-declaration]
-     652 |                 devl_lock(devlink);
-         |                 ^~~~~~~~~
-         |                 rtnl_lock
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:655:17: error: implicit declaration of function 'devl_unlock'; did you mean 'rtnl_unlock'? [-Wimplicit-function-declaration]
-     655 |                 devl_unlock(devlink);
-         |                 ^~~~~~~~~~~
-         |                 rtnl_unlock
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: At top level:
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:672:21: error: variable 'mlx5_fw_fatal_reporter_pf_ops' has initializer but incomplete type
-     672 | static const struct devlink_health_reporter_ops mlx5_fw_fatal_reporter_pf_ops = {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:673:18: error: 'const struct devlink_health_reporter_ops' has no member named 'name'
-     673 |                 .name = "fw_fatal",
-         |                  ^~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:673:25: warning: excess elements in struct initializer
-     673 |                 .name = "fw_fatal",
-         |                         ^~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:673:25: note: (near initialization for 'mlx5_fw_fatal_reporter_pf_ops')
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:674:18: error: 'const struct devlink_health_reporter_ops' has no member named 'recover'
-     674 |                 .recover = mlx5_fw_fatal_reporter_recover,
-         |                  ^~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:674:28: warning: excess elements in struct initializer
-     674 |                 .recover = mlx5_fw_fatal_reporter_recover,
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:674:28: note: (near initialization for 'mlx5_fw_fatal_reporter_pf_ops')
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:675:18: error: 'const struct devlink_health_reporter_ops' has no member named 'dump'
-     675 |                 .dump = mlx5_fw_fatal_reporter_dump,
-         |                  ^~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:675:25: warning: excess elements in struct initializer
-     675 |                 .dump = mlx5_fw_fatal_reporter_dump,
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:675:25: note: (near initialization for 'mlx5_fw_fatal_reporter_pf_ops')
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:678:21: error: variable 'mlx5_fw_fatal_reporter_ops' has initializer but incomplete type
-     678 | static const struct devlink_health_reporter_ops mlx5_fw_fatal_reporter_ops = {
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:679:18: error: 'const struct devlink_health_reporter_ops' has no member named 'name'
-     679 |                 .name = "fw_fatal",
-         |                  ^~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:679:25: warning: excess elements in struct initializer
-     679 |                 .name = "fw_fatal",
-         |                         ^~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:679:25: note: (near initialization for 'mlx5_fw_fatal_reporter_ops')
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:680:18: error: 'const struct devlink_health_reporter_ops' has no member named 'recover'
-     680 |                 .recover = mlx5_fw_fatal_reporter_recover,
-         |                  ^~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:680:28: warning: excess elements in struct initializer
-     680 |                 .recover = mlx5_fw_fatal_reporter_recover,
-         |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:680:28: note: (near initialization for 'mlx5_fw_fatal_reporter_ops')
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: In function 'mlx5_fw_reporters_create':
->> drivers/net/ethernet/mellanox/mlx5/core/health.c:693:35: error: initialization of 'struct devlink *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     693 |         struct devlink *devlink = priv_to_devlink(dev);
-         |                                   ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:710:17: error: implicit declaration of function 'devl_health_reporter_create' [-Wimplicit-function-declaration]
-     710 |                 devl_health_reporter_create(devlink, fw_ops, 0, dev);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/mellanox/mlx5/core/health.c:709:29: error: assignment to 'struct devlink_health_reporter *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     709 |         health->fw_reporter =
-         |                             ^
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:715:35: error: assignment to 'struct devlink_health_reporter *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     715 |         health->fw_fatal_reporter =
-         |                                   ^
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: In function 'mlx5_fw_reporters_destroy':
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:730:17: error: implicit declaration of function 'devlink_health_reporter_destroy' [-Wimplicit-function-declaration]
-     730 |                 devlink_health_reporter_destroy(health->fw_reporter);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: In function 'mlx5_health_init':
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:884:35: error: initialization of 'struct devlink *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     884 |         struct devlink *devlink = priv_to_devlink(dev);
-         |                                   ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c: At top level:
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:576:49: error: storage size of 'mlx5_fw_reporter_pf_ops' isn't known
-     576 | static const struct devlink_health_reporter_ops mlx5_fw_reporter_pf_ops = {
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:582:49: error: storage size of 'mlx5_fw_reporter_ops' isn't known
-     582 | static const struct devlink_health_reporter_ops mlx5_fw_reporter_ops = {
-         |                                                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:672:49: error: storage size of 'mlx5_fw_fatal_reporter_pf_ops' isn't known
-     672 | static const struct devlink_health_reporter_ops mlx5_fw_fatal_reporter_pf_ops = {
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mellanox/mlx5/core/health.c:678:49: error: storage size of 'mlx5_fw_fatal_reporter_ops' isn't known
-     678 | static const struct devlink_health_reporter_ops mlx5_fw_fatal_reporter_ops = {
-         |                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +/i +575 drivers/char/tpm/tpm2-cmd.c
 
+fa4f99c05320eb2 Nayna Jain      2019-07-11  562  ssize_t tpm2_get_pcr_allocation(struct tpm_chip *chip)
+1db15344f874f65 Nayna Jain      2017-01-30  563  {
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  564  	CLASS_TPM_BUF(buf, PAGE_SIZE);
+1db15344f874f65 Nayna Jain      2017-01-30  565  	struct tpm2_pcr_selection pcr_selection;
+1db15344f874f65 Nayna Jain      2017-01-30  566  	void *marker;
+1db15344f874f65 Nayna Jain      2017-01-30  567  	void *end;
+1db15344f874f65 Nayna Jain      2017-01-30  568  	void *pcr_select_offset;
+1db15344f874f65 Nayna Jain      2017-01-30  569  	u32 sizeof_pcr_selection;
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  570  	u32 nr_possible_banks;
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  571  	u32 nr_alloc_banks = 0;
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  572  	u16 hash_alg;
+1db15344f874f65 Nayna Jain      2017-01-30  573  	u32 rsp_len;
+1db15344f874f65 Nayna Jain      2017-01-30  574  	int rc;
+1db15344f874f65 Nayna Jain      2017-01-30 @575  	int i = 0;
+1db15344f874f65 Nayna Jain      2017-01-30  576  
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  577  	if (!buf)
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  578  		return -ENOMEM;
+1db15344f874f65 Nayna Jain      2017-01-30  579  
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  580  	tpm_buf_reset(buf, TPM2_ST_NO_SESSIONS, TPM2_CC_GET_CAPABILITY);
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  581  	tpm_buf_append_u32(buf, TPM2_CAP_PCRS);
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  582  	tpm_buf_append_u32(buf, 0);
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  583  	tpm_buf_append_u32(buf, 1);
+1db15344f874f65 Nayna Jain      2017-01-30  584  
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  585  	rc = tpm_transmit_cmd(chip, buf, 9, "get tpm pcr allocation");
+1db15344f874f65 Nayna Jain      2017-01-30  586  	if (rc)
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  587  		return rc;
+1db15344f874f65 Nayna Jain      2017-01-30  588  
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  589  	nr_possible_banks = be32_to_cpup(
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  590  		(__be32 *)&buf->data[TPM_HEADER_SIZE + 5]);
+1db15344f874f65 Nayna Jain      2017-01-30  591  
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  592  	chip->allocated_banks = kcalloc(nr_possible_banks,
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  593  					sizeof(*chip->allocated_banks),
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  594  					GFP_KERNEL);
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  595  	if (!chip->allocated_banks)
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  596  		return -ENOMEM;
+1db15344f874f65 Nayna Jain      2017-01-30  597  
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  598  	marker = &buf->data[TPM_HEADER_SIZE + 9];
+1db15344f874f65 Nayna Jain      2017-01-30  599  
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  600  	rsp_len = be32_to_cpup((__be32 *)&buf->data[2]);
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  601  	end = &buf->data[rsp_len];
+1db15344f874f65 Nayna Jain      2017-01-30  602  
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  603  	return rc;
+                                                        ^^^^^^^^^^
+Presumably this was not intentional?
 
-vim +/mempool_t +1125 drivers/infiniband/hw/mlx5/mlx5_ib.h
-
-a560f1d9af4be84 Mark Bloch     2018-09-17  1117  
-d5d284b829a6eb7 Saeed Mahameed 2018-11-19  1118  struct mlx5_ib_pf_eq {
-ca390799c2aa036 Yuval Avnery   2019-06-10  1119  	struct notifier_block irq_nb;
-d5d284b829a6eb7 Saeed Mahameed 2018-11-19  1120  	struct mlx5_ib_dev *dev;
-d5d284b829a6eb7 Saeed Mahameed 2018-11-19  1121  	struct mlx5_eq *core;
-d5d284b829a6eb7 Saeed Mahameed 2018-11-19  1122  	struct work_struct work;
-d5d284b829a6eb7 Saeed Mahameed 2018-11-19  1123  	spinlock_t lock; /* Pagefaults spinlock */
-d5d284b829a6eb7 Saeed Mahameed 2018-11-19  1124  	struct workqueue_struct *wq;
-d5d284b829a6eb7 Saeed Mahameed 2018-11-19 @1125  	mempool_t *pool;
-d5d284b829a6eb7 Saeed Mahameed 2018-11-19  1126  };
-d5d284b829a6eb7 Saeed Mahameed 2018-11-19  1127  
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  604  	for (i = 0; i < nr_possible_banks; i++) {
+1db15344f874f65 Nayna Jain      2017-01-30  605  		pcr_select_offset = marker +
+1db15344f874f65 Nayna Jain      2017-01-30  606  			offsetof(struct tpm2_pcr_selection, size_of_select);
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  607  		if (pcr_select_offset >= end)
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  608  			return -EFAULT;
+1db15344f874f65 Nayna Jain      2017-01-30  609  
+1db15344f874f65 Nayna Jain      2017-01-30  610  		memcpy(&pcr_selection, marker, sizeof(pcr_selection));
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  611  		hash_alg = be16_to_cpu(pcr_selection.hash_alg);
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  612  
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  613  		pcr_select_offset = memchr_inv(pcr_selection.pcr_select, 0,
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  614  					       pcr_selection.size_of_select);
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  615  		if (pcr_select_offset) {
+879b589210a9a0c Roberto Sassu   2019-02-06  616  			chip->allocated_banks[nr_alloc_banks].alg_id = hash_alg;
+879b589210a9a0c Roberto Sassu   2019-02-06  617  
+879b589210a9a0c Roberto Sassu   2019-02-06  618  			rc = tpm2_init_bank_info(chip, nr_alloc_banks);
+879b589210a9a0c Roberto Sassu   2019-02-06  619  			if (rc < 0)
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  620  				return rc;
+879b589210a9a0c Roberto Sassu   2019-02-06  621  
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  622  			nr_alloc_banks++;
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  623  		}
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  624  
+1db15344f874f65 Nayna Jain      2017-01-30  625  		sizeof_pcr_selection = sizeof(pcr_selection.hash_alg) +
+1db15344f874f65 Nayna Jain      2017-01-30  626  			sizeof(pcr_selection.size_of_select) +
+1db15344f874f65 Nayna Jain      2017-01-30  627  			pcr_selection.size_of_select;
+1db15344f874f65 Nayna Jain      2017-01-30  628  		marker = marker + sizeof_pcr_selection;
+1db15344f874f65 Nayna Jain      2017-01-30  629  	}
+1db15344f874f65 Nayna Jain      2017-01-30  630  
+bcfff8384f6c4e6 Roberto Sassu   2019-02-06  631  	chip->nr_allocated_banks = nr_alloc_banks;
+ce255545c9add8c Jarkko Sakkinen 2025-06-26  632  	return 0;
+1db15344f874f65 Nayna Jain      2017-01-30  633  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
