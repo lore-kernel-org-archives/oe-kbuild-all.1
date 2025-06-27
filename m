@@ -1,57 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28F792EBDE5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 20:12:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B7BE1E8322
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 21:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751055165; cv=none; b=IGoZvwMCN+YRABk07uPK4O6A18VdMWM9fBbrFycpAdF9LooyOppx2vPa9aq7NuF8tLsWz2IOH84lDdqjJvGJ5YDdkHOgptjkwsJ16awE0nby+Mk0Jsy0UZmBCcdc/F3zehXmHZ60L92Mw6HRRTZvVdeqttoTE5/6DrX5H/g3+MA=
+	t=1751058291; cv=none; b=u6yRJhKL4p6+DD1zSMYoSfg7B59Kz5aOCSyNqYHSKVm/yaLlOhPNbcQmrqWuWoYdMa2DokJRSOAOpK5ZV//cvBsOySa3Opr87/Ku6bZG9DpllQSWxj0oWEuhS6kMkbJxnVxbRFB0XTz4feQ+bvqRXGiZ2RlpN1TABixZskplo1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751055165; c=relaxed/simple;
-	bh=Q3KZT0Npr6synI5d8Qanys68ufCRfmcfjhC4Gu/eVLw=;
-	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=r5LYJJBGP82cGZegE8uvOs/CpjqAYkjiZwFdq9/nF+TtwUcQh2XSNjpz1MMWO0TzfWg/mYakdyy/j9XV61ExK6Xg1OgWpygDhKTL/BT7367MqptM+N8JvoLN7icyuLVUbvWyS2cDFp1gPpediiLSR/LiZ4W2fvN5V1Xhmsb2Pdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nrRGrsUV; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1751058291; c=relaxed/simple;
+	bh=mq9KQCan7JFRFTHlAnoG3cKyo0JGbSZs98TC5zf0rPw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UoWpCldfRejCgkq0ENbbEOqxl1Akw8yVAnDwsU8kHjmQyveeBpBoWGSVMJAYRv/RAAUq3AD+P2O5Ag2pWutIewxm1H9Wcl40a8NBKdxQJOw2ks+Iis9K6w2KLY0oa5KVhB7OJqBv2sCIffmzVCR3n5WrJDM2HfoL+91oPxxhdUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DzxmAYGA; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nrRGrsUV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DzxmAYGA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751055163; x=1782591163;
-  h=date:from:cc:subject:message-id:mime-version;
-  bh=Q3KZT0Npr6synI5d8Qanys68ufCRfmcfjhC4Gu/eVLw=;
-  b=nrRGrsUV30gvwUXZzCVSfBfrizkkvZZfzgXKt0sR5Hh0Wg1GY/+c+wmU
-   5Whsy2D37bsyvHEbR3PbHZBFRxwQrO9ypCZfMo9ZPf2N2iZNZgWNYGm8t
-   yaY+VbwLylkq95XKX3UfMh3AvzGgPWmLfrlG36IDdn4NSH47P+wTvL8NO
-   La5TWipUNJmVEdvISb2BOljwf39N7ixnBijKyQorB6rSWWfAVS54r6pZQ
-   yRGyZhiLsg1KwIg3AMvyL/iTlAzZhERUwrQDFoa+hPWiePtknBEuthgzU
-   roKkgU/+PlNv0T6zgsEWsKqkytKsWcmuBkNKhOM5b8fK58cSj3mkJFbmq
-   g==;
-X-CSE-ConnectionGUID: W+TVnRs8SamnS3/MswC9WQ==
-X-CSE-MsgGUID: gDm7Iv6NQzahZY13xcjcwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53501448"
+  t=1751058289; x=1782594289;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mq9KQCan7JFRFTHlAnoG3cKyo0JGbSZs98TC5zf0rPw=;
+  b=DzxmAYGAx4eVTLxPsO8WLBJ9zvwqlN5TH6Vpp+o0WylmFwQ+onVnS8S6
+   gxEfn53crLvu7CzrLCE+eqbP+L7wjJ3VGO48DIhQFshhtUYIkFY1YbJ9v
+   NIk+MzVxlTgzFDQK/hFRUgiZB+re2vDCKYkWom6R+abm6LYLWYfNGtQsN
+   G1q48qyu797Qv2DcgxzLHMWsndpaIlTlQmM9f5z+MxPCFJdxCAx4g/BoP
+   UeF8Rp+nFC1EvaBObHJrhGX9Dx/HqQy4K1gvQ2BKkcNzDpFHTTFSvgDPC
+   zj+QyJyj6Yo5YX11jdUGxV5MNA2Qc8E5iScUMqjYZaDgtGGiNfokXTFS9
+   A==;
+X-CSE-ConnectionGUID: 6aH3EZezTJ28O3qeX6rfOg==
+X-CSE-MsgGUID: XF7oMc42Q7eei716BCBArQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53534864"
 X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
-   d="scan'208";a="53501448"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 13:12:42 -0700
-X-CSE-ConnectionGUID: mjMPQIW8TNGj40dojRiVzw==
-X-CSE-MsgGUID: S2FVB/9GRrSFbqCN5B1LrA==
+   d="scan'208";a="53534864"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 14:04:49 -0700
+X-CSE-ConnectionGUID: RygQbJXHRM2F9TXTm3WCjw==
+X-CSE-MsgGUID: Xx2vBOxzTdCS9EH4kU37Sw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
-   d="scan'208";a="190075283"
+   d="scan'208";a="152291990"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 27 Jun 2025 13:12:41 -0700
+  by orviesa010.jf.intel.com with ESMTP; 27 Jun 2025 14:04:44 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVFR8-000WVm-0o;
-	Fri, 27 Jun 2025 20:12:38 +0000
-Date: Sat, 28 Jun 2025 04:12:01 +0800
+	id 1uVGFW-000WXi-1X;
+	Fri, 27 Jun 2025 21:04:42 +0000
+Date: Sat, 28 Jun 2025 05:03:47 +0800
 From: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>
-Subject: [linux-next:master 5606/5998] kernel/bpf/helpers.c:3315:17: sparse:
- sparse: incorrect type in argument 2 (different address spaces)
-Message-ID: <202506280434.kvMzVe89-lkp@intel.com>
+To: Nam Cao <namcao@linutronix.de>,
+	"K . Y . Srinivasan" <kys@microsoft.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Nam Cao <namcao@linutronix.de>
+Subject: Re: [PATCH 1/1] x86/hyperv: Switch to msi_create_parent_irq_domain()
+Message-ID: <202506280404.eZJ6vN93-lkp@intel.com>
+References: <0eafade05acb51022242635750cd4990f3adb0ac.1750947640.git.namcao@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -60,120 +71,296 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <0eafade05acb51022242635750cd4990f3adb0ac.1750947640.git.namcao@linutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2aeda9592360c200085898a258c4754bfe879921
-commit: 886178a33a30fe685e926d84f531243982fb3c70 [5606/5998] Merge git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf after rc3
-config: riscv-randconfig-r123-20250627 (https://download.01.org/0day-ci/archive/20250628/202506280434.kvMzVe89-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 10.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250628/202506280434.kvMzVe89-lkp@intel.com/reproduce)
+Hi Nam,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/master]
+[also build test ERROR on linus/master v6.16-rc3 next-20250627]
+[cannot apply to tip/x86/core tip/auto-latest]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Cao/x86-hyperv-Switch-to-msi_create_parent_irq_domain/20250626-225420
+base:   tip/master
+patch link:    https://lore.kernel.org/r/0eafade05acb51022242635750cd4990f3adb0ac.1750947640.git.namcao%40linutronix.de
+patch subject: [PATCH 1/1] x86/hyperv: Switch to msi_create_parent_irq_domain()
+config: i386-randconfig-014-20250628 (https://download.01.org/0day-ci/archive/20250628/202506280404.eZJ6vN93-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506280404.eZJ6vN93-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506280434.kvMzVe89-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506280404.eZJ6vN93-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/bpf/helpers.c:1198:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected unsigned long long ( *[usertype] callback_fn )( ... ) @@     got void [noderef] __rcu * @@
-   kernel/bpf/helpers.c:1198:21: sparse:     expected unsigned long long ( *[usertype] callback_fn )( ... )
-   kernel/bpf/helpers.c:1198:21: sparse:     got void [noderef] __rcu *
-   kernel/bpf/helpers.c:2472:18: sparse: sparse: symbol 'bpf_task_release_dtor' was not declared. Should it be static?
-   kernel/bpf/helpers.c:2502:18: sparse: sparse: symbol 'bpf_cgroup_release_dtor' was not declared. Should it be static?
->> kernel/bpf/helpers.c:3315:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3315:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3315:17: sparse:     got char *
-   kernel/bpf/helpers.c:3316:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3316:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3316:17: sparse:     got char *
-   kernel/bpf/helpers.c:3355:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3355:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3355:17: sparse:     got char *
-   kernel/bpf/helpers.c:3409:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3409:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3409:17: sparse:     got char *
-   kernel/bpf/helpers.c:3441:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3441:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3441:17: sparse:     got char *
-   kernel/bpf/helpers.c:3474:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3474:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3474:17: sparse:     got char *
-   kernel/bpf/helpers.c:3524:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3524:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3524:17: sparse:     got char *
-   kernel/bpf/helpers.c:3528:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3528:25: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3528:25: sparse:     got char *
-   kernel/bpf/helpers.c:3568:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3568:17: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3568:17: sparse:     got char *
-   kernel/bpf/helpers.c:3572:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3572:25: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3572:25: sparse:     got char *
-   kernel/bpf/helpers.c:3614:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3614:25: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3614:25: sparse:     got char *
-   kernel/bpf/helpers.c:3617:25: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got char * @@
-   kernel/bpf/helpers.c:3617:25: sparse:     expected void const [noderef] __user *from
-   kernel/bpf/helpers.c:3617:25: sparse:     got char *
-   kernel/bpf/helpers.c:2920:18: sparse: sparse: context imbalance in 'bpf_rcu_read_lock' - wrong count at exit
-   kernel/bpf/helpers.c:2925:18: sparse: sparse: context imbalance in 'bpf_rcu_read_unlock' - unexpected unlock
+All error/warnings (new ones prefixed by >>):
 
-vim +3315 kernel/bpf/helpers.c
+   In file included from drivers/irqchip/irq-msi-lib.c:7:
+>> include/linux/irqchip/irq-msi-lib.h:25:39: warning: 'struct msi_domain_info' declared inside parameter list will not be visible outside of this definition or declaration
+      25 |                                struct msi_domain_info *info);
+         |                                       ^~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-msi-lib.c:28:39: warning: 'struct msi_domain_info' declared inside parameter list will not be visible outside of this definition or declaration
+      28 |                                struct msi_domain_info *info)
+         |                                       ^~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-msi-lib.c:26:6: error: conflicting types for 'msi_lib_init_dev_msi_info'; have 'bool(struct device *, struct irq_domain *, struct irq_domain *, struct msi_domain_info *)' {aka '_Bool(struct device *, struct irq_domain *, struct irq_domain *, struct msi_domain_info *)'}
+      26 | bool msi_lib_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/irqchip/irq-msi-lib.h:23:6: note: previous declaration of 'msi_lib_init_dev_msi_info' with type 'bool(struct device *, struct irq_domain *, struct irq_domain *, struct msi_domain_info *)' {aka '_Bool(struct device *, struct irq_domain *, struct irq_domain *, struct msi_domain_info *)'}
+      23 | bool msi_lib_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-msi-lib.c: In function 'msi_lib_init_dev_msi_info':
+>> drivers/irqchip/irq-msi-lib.c:30:56: error: 'struct irq_domain' has no member named 'msi_parent_ops'
+      30 |         const struct msi_parent_ops *pops = real_parent->msi_parent_ops;
+         |                                                        ^~
+>> drivers/irqchip/irq-msi-lib.c:31:37: error: invalid use of undefined type 'struct msi_domain_info'
+      31 |         struct irq_chip *chip = info->chip;
+         |                                     ^~
+>> drivers/irqchip/irq-msi-lib.c:43:38: error: invalid use of undefined type 'const struct msi_parent_ops'
+      43 |         if (domain->bus_token == pops->bus_select_token) {
+         |                                      ^~
+   drivers/irqchip/irq-msi-lib.c:51:30: error: invalid use of undefined type 'const struct msi_parent_ops'
+      51 |         required_flags = pops->required_flags;
+         |                              ^~
+   drivers/irqchip/irq-msi-lib.c:54:20: error: invalid use of undefined type 'struct msi_domain_info'
+      54 |         switch(info->bus_token) {
+         |                    ^~
+   In file included from arch/x86/include/asm/bug.h:103,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/barrier.h:5,
+                    from include/asm-generic/bitops/generic-non-atomic.h:7,
+                    from include/linux/bitops.h:28,
+                    from include/linux/of.h:15,
+                    from include/linux/irqdomain.h:14,
+                    from include/linux/irqchip/irq-msi-lib.h:9:
+   drivers/irqchip/irq-msi-lib.c:68:38: error: invalid use of undefined type 'struct msi_domain_info'
+      68 |                 if (WARN_ON_ONCE(info->flags))
+         |                                      ^~
+   include/asm-generic/bug.h:117:32: note: in definition of macro 'WARN_ON_ONCE'
+     117 |         int __ret_warn_on = !!(condition);                      \
+         |                                ^~~~~~~~~
+   drivers/irqchip/irq-msi-lib.c:72:21: error: invalid use of undefined type 'struct msi_domain_info'
+      72 |                 info->flags = MSI_FLAG_ALLOC_SIMPLE_MSI_DESCS | MSI_FLAG_FREE_MSI_DESCS;
+         |                     ^~
+>> drivers/irqchip/irq-msi-lib.c:72:31: error: 'MSI_FLAG_ALLOC_SIMPLE_MSI_DESCS' undeclared (first use in this function)
+      72 |                 info->flags = MSI_FLAG_ALLOC_SIMPLE_MSI_DESCS | MSI_FLAG_FREE_MSI_DESCS;
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-msi-lib.c:72:31: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/irqchip/irq-msi-lib.c:72:65: error: 'MSI_FLAG_FREE_MSI_DESCS' undeclared (first use in this function)
+      72 |                 info->flags = MSI_FLAG_ALLOC_SIMPLE_MSI_DESCS | MSI_FLAG_FREE_MSI_DESCS;
+         |                                                                 ^~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-msi-lib.c:76:36: error: 'MSI_FLAG_PCI_MSI_MASK_PARENT' undeclared (first use in this function)
+      76 |                 required_flags &= ~MSI_FLAG_PCI_MSI_MASK_PARENT;
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-msi-lib.c:91:13: error: invalid use of undefined type 'struct msi_domain_info'
+      91 |         info->flags                     &= pops->supported_flags;
+         |             ^~
+   drivers/irqchip/irq-msi-lib.c:91:48: error: invalid use of undefined type 'const struct msi_parent_ops'
+      91 |         info->flags                     &= pops->supported_flags;
+         |                                                ^~
+   drivers/irqchip/irq-msi-lib.c:93:13: error: invalid use of undefined type 'struct msi_domain_info'
+      93 |         info->flags                     |= required_flags;
+         |             ^~
+   drivers/irqchip/irq-msi-lib.c:96:36: error: invalid use of undefined type 'const struct msi_parent_ops'
+      96 |         if (!chip->irq_eoi && (pops->chip_flags & MSI_CHIP_FLAG_SET_EOI))
+         |                                    ^~
+>> drivers/irqchip/irq-msi-lib.c:96:51: error: 'MSI_CHIP_FLAG_SET_EOI' undeclared (first use in this function)
+      96 |         if (!chip->irq_eoi && (pops->chip_flags & MSI_CHIP_FLAG_SET_EOI))
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-msi-lib.c:98:36: error: invalid use of undefined type 'const struct msi_parent_ops'
+      98 |         if (!chip->irq_ack && (pops->chip_flags & MSI_CHIP_FLAG_SET_ACK))
+         |                                    ^~
+>> drivers/irqchip/irq-msi-lib.c:98:51: error: 'MSI_CHIP_FLAG_SET_ACK' undeclared (first use in this function)
+      98 |         if (!chip->irq_ack && (pops->chip_flags & MSI_CHIP_FLAG_SET_ACK))
+         |                                                   ^~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-msi-lib.c:113:46: error: invalid use of undefined type 'struct msi_domain_info'
+     113 |         if (!chip->irq_set_affinity && !(info->flags & MSI_FLAG_NO_AFFINITY))
+         |                                              ^~
+>> drivers/irqchip/irq-msi-lib.c:113:56: error: 'MSI_FLAG_NO_AFFINITY' undeclared (first use in this function)
+     113 |         if (!chip->irq_set_affinity && !(info->flags & MSI_FLAG_NO_AFFINITY))
+         |                                                        ^~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-msi-lib.c:114:42: error: 'msi_domain_set_affinity' undeclared (first use in this function); did you mean 'msi_domain_get_virq'?
+     114 |                 chip->irq_set_affinity = msi_domain_set_affinity;
+         |                                          ^~~~~~~~~~~~~~~~~~~~~~~
+         |                                          msi_domain_get_virq
+   In file included from drivers/irqchip/irq-msi-lib.c:5:
+   drivers/irqchip/irq-msi-lib.c: At top level:
+   drivers/irqchip/irq-msi-lib.c:117:19: error: conflicting types for 'msi_lib_init_dev_msi_info'; have 'bool(struct device *, struct irq_domain *, struct irq_domain *, struct msi_domain_info *)' {aka '_Bool(struct device *, struct irq_domain *, struct irq_domain *, struct msi_domain_info *)'}
+     117 | EXPORT_SYMBOL_GPL(msi_lib_init_dev_msi_info);
+         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/export.h:76:28: note: in definition of macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                            ^~~
+   include/linux/export.h:90:41: note: in expansion of macro '_EXPORT_SYMBOL'
+      90 | #define EXPORT_SYMBOL_GPL(sym)          _EXPORT_SYMBOL(sym, "GPL")
+         |                                         ^~~~~~~~~~~~~~
+   drivers/irqchip/irq-msi-lib.c:117:1: note: in expansion of macro 'EXPORT_SYMBOL_GPL'
+     117 | EXPORT_SYMBOL_GPL(msi_lib_init_dev_msi_info);
+         | ^~~~~~~~~~~~~~~~~
+   include/linux/irqchip/irq-msi-lib.h:23:6: note: previous declaration of 'msi_lib_init_dev_msi_info' with type 'bool(struct device *, struct irq_domain *, struct irq_domain *, struct msi_domain_info *)' {aka '_Bool(struct device *, struct irq_domain *, struct irq_domain *, struct msi_domain_info *)'}
+      23 | bool msi_lib_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/irqchip/irq-msi-lib.c: In function 'msi_lib_irq_domain_select':
+   drivers/irqchip/irq-msi-lib.c:134:45: error: 'struct irq_domain' has no member named 'msi_parent_ops'
+     134 |         const struct msi_parent_ops *ops = d->msi_parent_ops;
+         |                                             ^~
+   drivers/irqchip/irq-msi-lib.c:144:29: error: invalid use of undefined type 'const struct msi_parent_ops'
+     144 |         if (bus_token == ops->bus_select_token)
+         |                             ^~
+   drivers/irqchip/irq-msi-lib.c:147:22: error: invalid use of undefined type 'const struct msi_parent_ops'
+     147 |         return !!(ops->bus_select_mask & busmask);
+         |                      ^~
+>> drivers/irqchip/irq-msi-lib.c:148:1: warning: control reaches end of non-void function [-Wreturn-type]
+     148 | }
+         | ^
 
-f95695f2c46592 Yonghong Song 2025-05-23  3281  
-e91370550f1fe6 Viktor Malik  2025-06-26  3282  /*
-e91370550f1fe6 Viktor Malik  2025-06-26  3283   * Kfuncs for string operations.
-e91370550f1fe6 Viktor Malik  2025-06-26  3284   *
-e91370550f1fe6 Viktor Malik  2025-06-26  3285   * Since strings are not necessarily %NUL-terminated, we cannot directly call
-e91370550f1fe6 Viktor Malik  2025-06-26  3286   * in-kernel implementations. Instead, we open-code the implementations using
-e91370550f1fe6 Viktor Malik  2025-06-26  3287   * __get_kernel_nofault instead of plain dereference to make them safe.
-e91370550f1fe6 Viktor Malik  2025-06-26  3288   */
-e91370550f1fe6 Viktor Malik  2025-06-26  3289  
-e91370550f1fe6 Viktor Malik  2025-06-26  3290  /**
-e91370550f1fe6 Viktor Malik  2025-06-26  3291   * bpf_strcmp - Compare two strings
-e91370550f1fe6 Viktor Malik  2025-06-26  3292   * @s1__ign: One string
-e91370550f1fe6 Viktor Malik  2025-06-26  3293   * @s2__ign: Another string
-e91370550f1fe6 Viktor Malik  2025-06-26  3294   *
-e91370550f1fe6 Viktor Malik  2025-06-26  3295   * Return:
-e91370550f1fe6 Viktor Malik  2025-06-26  3296   * * %0       - Strings are equal
-e91370550f1fe6 Viktor Malik  2025-06-26  3297   * * %-1      - @s1__ign is smaller
-e91370550f1fe6 Viktor Malik  2025-06-26  3298   * * %1       - @s2__ign is smaller
-e91370550f1fe6 Viktor Malik  2025-06-26  3299   * * %-EFAULT - Cannot read one of the strings
-e91370550f1fe6 Viktor Malik  2025-06-26  3300   * * %-E2BIG  - One of strings is too large
-e91370550f1fe6 Viktor Malik  2025-06-26  3301   * * %-ERANGE - One of strings is outside of kernel address space
-e91370550f1fe6 Viktor Malik  2025-06-26  3302   */
-e91370550f1fe6 Viktor Malik  2025-06-26  3303  __bpf_kfunc int bpf_strcmp(const char *s1__ign, const char *s2__ign)
-e91370550f1fe6 Viktor Malik  2025-06-26  3304  {
-e91370550f1fe6 Viktor Malik  2025-06-26  3305  	char c1, c2;
-e91370550f1fe6 Viktor Malik  2025-06-26  3306  	int i;
-e91370550f1fe6 Viktor Malik  2025-06-26  3307  
-e91370550f1fe6 Viktor Malik  2025-06-26  3308  	if (!copy_from_kernel_nofault_allowed(s1__ign, 1) ||
-e91370550f1fe6 Viktor Malik  2025-06-26  3309  	    !copy_from_kernel_nofault_allowed(s2__ign, 1)) {
-e91370550f1fe6 Viktor Malik  2025-06-26  3310  		return -ERANGE;
-e91370550f1fe6 Viktor Malik  2025-06-26  3311  	}
-e91370550f1fe6 Viktor Malik  2025-06-26  3312  
-e91370550f1fe6 Viktor Malik  2025-06-26  3313  	guard(pagefault)();
-e91370550f1fe6 Viktor Malik  2025-06-26  3314  	for (i = 0; i < XATTR_SIZE_MAX; i++) {
-e91370550f1fe6 Viktor Malik  2025-06-26 @3315  		__get_kernel_nofault(&c1, s1__ign, char, err_out);
-e91370550f1fe6 Viktor Malik  2025-06-26  3316  		__get_kernel_nofault(&c2, s2__ign, char, err_out);
-e91370550f1fe6 Viktor Malik  2025-06-26  3317  		if (c1 != c2)
-e91370550f1fe6 Viktor Malik  2025-06-26  3318  			return c1 < c2 ? -1 : 1;
-e91370550f1fe6 Viktor Malik  2025-06-26  3319  		if (c1 == '\0')
-e91370550f1fe6 Viktor Malik  2025-06-26  3320  			return 0;
-e91370550f1fe6 Viktor Malik  2025-06-26  3321  		s1__ign++;
-e91370550f1fe6 Viktor Malik  2025-06-26  3322  		s2__ign++;
-e91370550f1fe6 Viktor Malik  2025-06-26  3323  	}
-e91370550f1fe6 Viktor Malik  2025-06-26  3324  	return -E2BIG;
-e91370550f1fe6 Viktor Malik  2025-06-26  3325  err_out:
-e91370550f1fe6 Viktor Malik  2025-06-26  3326  	return -EFAULT;
-e91370550f1fe6 Viktor Malik  2025-06-26  3327  }
-e91370550f1fe6 Viktor Malik  2025-06-26  3328  
 
-:::::: The code at line 3315 was first introduced by commit
-:::::: e91370550f1fe6fa3b02e8bf9762e3dc0a02fcad bpf: Add kfuncs for read-only string operations
+vim +26 drivers/irqchip/irq-msi-lib.c
 
-:::::: TO: Viktor Malik <vmalik@redhat.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+72e257c6f05803 Thomas Gleixner   2024-06-23    8  
+72e257c6f05803 Thomas Gleixner   2024-06-23    9  /**
+72e257c6f05803 Thomas Gleixner   2024-06-23   10   * msi_lib_init_dev_msi_info - Domain info setup for MSI domains
+72e257c6f05803 Thomas Gleixner   2024-06-23   11   * @dev:		The device for which the domain is created for
+72e257c6f05803 Thomas Gleixner   2024-06-23   12   * @domain:		The domain providing this callback
+72e257c6f05803 Thomas Gleixner   2024-06-23   13   * @real_parent:	The real parent domain of the domain to be initialized
+72e257c6f05803 Thomas Gleixner   2024-06-23   14   *			which might be a domain built on top of @domain or
+72e257c6f05803 Thomas Gleixner   2024-06-23   15   *			@domain itself
+72e257c6f05803 Thomas Gleixner   2024-06-23   16   * @info:		The domain info for the domain to be initialize
+72e257c6f05803 Thomas Gleixner   2024-06-23   17   *
+72e257c6f05803 Thomas Gleixner   2024-06-23   18   * This function is to be used for all types of MSI domains above the root
+72e257c6f05803 Thomas Gleixner   2024-06-23   19   * parent domain and any intermediates. The topmost parent domain specific
+72e257c6f05803 Thomas Gleixner   2024-06-23   20   * functionality is determined via @real_parent.
+72e257c6f05803 Thomas Gleixner   2024-06-23   21   *
+72e257c6f05803 Thomas Gleixner   2024-06-23   22   * All intermediate domains between the root and the device domain must
+72e257c6f05803 Thomas Gleixner   2024-06-23   23   * have either msi_parent_ops.init_dev_msi_info = msi_parent_init_dev_msi_info
+72e257c6f05803 Thomas Gleixner   2024-06-23   24   * or invoke it down the line.
+72e257c6f05803 Thomas Gleixner   2024-06-23   25   */
+72e257c6f05803 Thomas Gleixner   2024-06-23  @26  bool msi_lib_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
+72e257c6f05803 Thomas Gleixner   2024-06-23   27  			       struct irq_domain *real_parent,
+72e257c6f05803 Thomas Gleixner   2024-06-23  @28  			       struct msi_domain_info *info)
+72e257c6f05803 Thomas Gleixner   2024-06-23   29  {
+72e257c6f05803 Thomas Gleixner   2024-06-23  @30  	const struct msi_parent_ops *pops = real_parent->msi_parent_ops;
+1c000dcaad2bef Thomas Gleixner   2025-02-17  @31  	struct irq_chip *chip = info->chip;
+8c41ccec839c62 Thomas Gleixner   2024-06-23   32  	u32 required_flags;
+72e257c6f05803 Thomas Gleixner   2024-06-23   33  
+72e257c6f05803 Thomas Gleixner   2024-06-23   34  	/* Parent ops available? */
+72e257c6f05803 Thomas Gleixner   2024-06-23   35  	if (WARN_ON_ONCE(!pops))
+72e257c6f05803 Thomas Gleixner   2024-06-23   36  		return false;
+72e257c6f05803 Thomas Gleixner   2024-06-23   37  
+72e257c6f05803 Thomas Gleixner   2024-06-23   38  	/*
+72e257c6f05803 Thomas Gleixner   2024-06-23   39  	 * MSI parent domain specific settings. For now there is only the
+72e257c6f05803 Thomas Gleixner   2024-06-23   40  	 * root parent domain, e.g. NEXUS, acting as a MSI parent, but it is
+72e257c6f05803 Thomas Gleixner   2024-06-23   41  	 * possible to stack MSI parents. See x86 vector -> irq remapping
+72e257c6f05803 Thomas Gleixner   2024-06-23   42  	 */
+72e257c6f05803 Thomas Gleixner   2024-06-23  @43  	if (domain->bus_token == pops->bus_select_token) {
+72e257c6f05803 Thomas Gleixner   2024-06-23   44  		if (WARN_ON_ONCE(domain != real_parent))
+72e257c6f05803 Thomas Gleixner   2024-06-23   45  			return false;
+72e257c6f05803 Thomas Gleixner   2024-06-23   46  	} else {
+72e257c6f05803 Thomas Gleixner   2024-06-23   47  		WARN_ON_ONCE(1);
+72e257c6f05803 Thomas Gleixner   2024-06-23   48  		return false;
+72e257c6f05803 Thomas Gleixner   2024-06-23   49  	}
+72e257c6f05803 Thomas Gleixner   2024-06-23   50  
+8c41ccec839c62 Thomas Gleixner   2024-06-23   51  	required_flags = pops->required_flags;
+8c41ccec839c62 Thomas Gleixner   2024-06-23   52  
+72e257c6f05803 Thomas Gleixner   2024-06-23   53  	/* Is the target domain bus token supported? */
+72e257c6f05803 Thomas Gleixner   2024-06-23   54  	switch(info->bus_token) {
+8c41ccec839c62 Thomas Gleixner   2024-06-23   55  	case DOMAIN_BUS_PCI_DEVICE_MSI:
+8c41ccec839c62 Thomas Gleixner   2024-06-23   56  	case DOMAIN_BUS_PCI_DEVICE_MSIX:
+8c41ccec839c62 Thomas Gleixner   2024-06-23   57  		if (WARN_ON_ONCE(!IS_ENABLED(CONFIG_PCI_MSI)))
+8c41ccec839c62 Thomas Gleixner   2024-06-23   58  			return false;
+8c41ccec839c62 Thomas Gleixner   2024-06-23   59  
+496436f4a514a3 Thomas Gleixner   2024-06-23   60  		break;
+496436f4a514a3 Thomas Gleixner   2024-06-23   61  	case DOMAIN_BUS_DEVICE_MSI:
+496436f4a514a3 Thomas Gleixner   2024-06-23   62  		/*
+496436f4a514a3 Thomas Gleixner   2024-06-23   63  		 * Per device MSI should never have any MSI feature bits
+496436f4a514a3 Thomas Gleixner   2024-06-23   64  		 * set. It's sole purpose is to create a dumb interrupt
+496436f4a514a3 Thomas Gleixner   2024-06-23   65  		 * chip which has a device specific irq_write_msi_msg()
+496436f4a514a3 Thomas Gleixner   2024-06-23   66  		 * callback.
+496436f4a514a3 Thomas Gleixner   2024-06-23   67  		 */
+496436f4a514a3 Thomas Gleixner   2024-06-23   68  		if (WARN_ON_ONCE(info->flags))
+496436f4a514a3 Thomas Gleixner   2024-06-23   69  			return false;
+496436f4a514a3 Thomas Gleixner   2024-06-23   70  
+496436f4a514a3 Thomas Gleixner   2024-06-23   71  		/* Core managed MSI descriptors */
+496436f4a514a3 Thomas Gleixner   2024-06-23  @72  		info->flags = MSI_FLAG_ALLOC_SIMPLE_MSI_DESCS | MSI_FLAG_FREE_MSI_DESCS;
+64a855324311dd Thomas Gleixner   2024-06-23   73  		fallthrough;
+64a855324311dd Thomas Gleixner   2024-06-23   74  	case DOMAIN_BUS_WIRED_TO_MSI:
+496436f4a514a3 Thomas Gleixner   2024-06-23   75  		/* Remove PCI specific flags */
+496436f4a514a3 Thomas Gleixner   2024-06-23  @76  		required_flags &= ~MSI_FLAG_PCI_MSI_MASK_PARENT;
+8c41ccec839c62 Thomas Gleixner   2024-06-23   77  		break;
+72e257c6f05803 Thomas Gleixner   2024-06-23   78  	default:
+72e257c6f05803 Thomas Gleixner   2024-06-23   79  		/*
+72e257c6f05803 Thomas Gleixner   2024-06-23   80  		 * This should never be reached. See
+72e257c6f05803 Thomas Gleixner   2024-06-23   81  		 * msi_lib_irq_domain_select()
+72e257c6f05803 Thomas Gleixner   2024-06-23   82  		 */
+72e257c6f05803 Thomas Gleixner   2024-06-23   83  		WARN_ON_ONCE(1);
+72e257c6f05803 Thomas Gleixner   2024-06-23   84  		return false;
+72e257c6f05803 Thomas Gleixner   2024-06-23   85  	}
+72e257c6f05803 Thomas Gleixner   2024-06-23   86  
+72e257c6f05803 Thomas Gleixner   2024-06-23   87  	/*
+72e257c6f05803 Thomas Gleixner   2024-06-23   88  	 * Mask out the domain specific MSI feature flags which are not
+72e257c6f05803 Thomas Gleixner   2024-06-23   89  	 * supported by the real parent.
+72e257c6f05803 Thomas Gleixner   2024-06-23   90  	 */
+72e257c6f05803 Thomas Gleixner   2024-06-23   91  	info->flags			&= pops->supported_flags;
+72e257c6f05803 Thomas Gleixner   2024-06-23   92  	/* Enforce the required flags */
+8c41ccec839c62 Thomas Gleixner   2024-06-23   93  	info->flags			|= required_flags;
+72e257c6f05803 Thomas Gleixner   2024-06-23   94  
+72e257c6f05803 Thomas Gleixner   2024-06-23   95  	/* Chip updates for all child bus types */
+1c000dcaad2bef Thomas Gleixner   2025-02-17  @96  	if (!chip->irq_eoi && (pops->chip_flags & MSI_CHIP_FLAG_SET_EOI))
+1c000dcaad2bef Thomas Gleixner   2025-02-17   97  		chip->irq_eoi = irq_chip_eoi_parent;
+1c000dcaad2bef Thomas Gleixner   2025-02-17  @98  	if (!chip->irq_ack && (pops->chip_flags & MSI_CHIP_FLAG_SET_ACK))
+1c000dcaad2bef Thomas Gleixner   2025-02-17   99  		chip->irq_ack = irq_chip_ack_parent;
+72e257c6f05803 Thomas Gleixner   2024-06-23  100  
+72e257c6f05803 Thomas Gleixner   2024-06-23  101  	/*
+72e257c6f05803 Thomas Gleixner   2024-06-23  102  	 * The device MSI domain can never have a set affinity callback. It
+72e257c6f05803 Thomas Gleixner   2024-06-23  103  	 * always has to rely on the parent domain to handle affinity
+72e257c6f05803 Thomas Gleixner   2024-06-23  104  	 * settings. The device MSI domain just has to write the resulting
+72e257c6f05803 Thomas Gleixner   2024-06-23  105  	 * MSI message into the hardware which is the whole purpose of the
+72e257c6f05803 Thomas Gleixner   2024-06-23  106  	 * device MSI domain aside of mask/unmask which is provided e.g. by
+72e257c6f05803 Thomas Gleixner   2024-06-23  107  	 * PCI/MSI device domains.
+06526443a34c06 Marc Zyngier      2025-05-13  108  	 *
+06526443a34c06 Marc Zyngier      2025-05-13  109  	 * The exception to the rule is when the underlying domain
+06526443a34c06 Marc Zyngier      2025-05-13  110  	 * tells you that affinity is not a thing -- for example when
+06526443a34c06 Marc Zyngier      2025-05-13  111  	 * everything is muxed behind a single interrupt.
+72e257c6f05803 Thomas Gleixner   2024-06-23  112  	 */
+06526443a34c06 Marc Zyngier      2025-05-13 @113  	if (!chip->irq_set_affinity && !(info->flags & MSI_FLAG_NO_AFFINITY))
+1c000dcaad2bef Thomas Gleixner   2025-02-17 @114  		chip->irq_set_affinity = msi_domain_set_affinity;
+72e257c6f05803 Thomas Gleixner   2024-06-23  115  	return true;
+72e257c6f05803 Thomas Gleixner   2024-06-23  116  }
+72e257c6f05803 Thomas Gleixner   2024-06-23  117  EXPORT_SYMBOL_GPL(msi_lib_init_dev_msi_info);
+72e257c6f05803 Thomas Gleixner   2024-06-23  118  
+72e257c6f05803 Thomas Gleixner   2024-06-23  119  /**
+72e257c6f05803 Thomas Gleixner   2024-06-23  120   * msi_lib_irq_domain_select - Shared select function for NEXUS domains
+72e257c6f05803 Thomas Gleixner   2024-06-23  121   * @d:		Pointer to the irq domain on which select is invoked
+72e257c6f05803 Thomas Gleixner   2024-06-23  122   * @fwspec:	Firmware spec describing what is searched
+72e257c6f05803 Thomas Gleixner   2024-06-23  123   * @bus_token:	The bus token for which a matching irq domain is looked up
+72e257c6f05803 Thomas Gleixner   2024-06-23  124   *
+72e257c6f05803 Thomas Gleixner   2024-06-23  125   * Returns:	%0 if @d is not what is being looked for
+72e257c6f05803 Thomas Gleixner   2024-06-23  126   *
+72e257c6f05803 Thomas Gleixner   2024-06-23  127   *		%1 if @d is either the domain which is directly searched for or
+72e257c6f05803 Thomas Gleixner   2024-06-23  128   *		   if @d is providing the parent MSI domain for the functionality
+72e257c6f05803 Thomas Gleixner   2024-06-23  129   *			 requested with @bus_token.
+72e257c6f05803 Thomas Gleixner   2024-06-23  130   */
+72e257c6f05803 Thomas Gleixner   2024-06-23  131  int msi_lib_irq_domain_select(struct irq_domain *d, struct irq_fwspec *fwspec,
+72e257c6f05803 Thomas Gleixner   2024-06-23  132  			      enum irq_domain_bus_token bus_token)
+72e257c6f05803 Thomas Gleixner   2024-06-23  133  {
+72e257c6f05803 Thomas Gleixner   2024-06-23  134  	const struct msi_parent_ops *ops = d->msi_parent_ops;
+72e257c6f05803 Thomas Gleixner   2024-06-23  135  	u32 busmask = BIT(bus_token);
+72e257c6f05803 Thomas Gleixner   2024-06-23  136  
+880799fc7a3a12 Maxime Chevallier 2024-08-23  137  	if (!ops)
+880799fc7a3a12 Maxime Chevallier 2024-08-23  138  		return 0;
+880799fc7a3a12 Maxime Chevallier 2024-08-23  139  
+72e257c6f05803 Thomas Gleixner   2024-06-23  140  	if (fwspec->fwnode != d->fwnode || fwspec->param_count != 0)
+72e257c6f05803 Thomas Gleixner   2024-06-23  141  		return 0;
+72e257c6f05803 Thomas Gleixner   2024-06-23  142  
+72e257c6f05803 Thomas Gleixner   2024-06-23  143  	/* Handle pure domain searches */
+72e257c6f05803 Thomas Gleixner   2024-06-23  144  	if (bus_token == ops->bus_select_token)
+72e257c6f05803 Thomas Gleixner   2024-06-23  145  		return 1;
+72e257c6f05803 Thomas Gleixner   2024-06-23  146  
+880799fc7a3a12 Maxime Chevallier 2024-08-23  147  	return !!(ops->bus_select_mask & busmask);
+72e257c6f05803 Thomas Gleixner   2024-06-23 @148  }
 
 -- 
 0-DAY CI Kernel Test Service
