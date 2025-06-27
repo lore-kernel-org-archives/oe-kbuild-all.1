@@ -1,67 +1,77 @@
-Received: from mail-oa1-f54.google.com (mail-oa1-f54.google.com [209.85.160.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 728DB28A1DD
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 21:41:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126BE28B7DD;
+	Fri, 27 Jun 2025 22:00:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751060503; cv=none; b=fNt5h//PD7fgo5vq6H0fKJKeFCRFR8uydzFG5bJLCJwIC7A5wlWF9IrhiXxUd48HaKQaVAE4c/psr1nYv8Pzy+s3rmEL2N9eSqf9Rd8uKovWhEZpcxNnsU7qnZ+JJrxnQHmri54IaTGgnGwhYQQG/bHva0HUxZclmQArFqvjreQ=
+	t=1751061658; cv=none; b=RprMqTSPWHV7/Fy0a14GaD+LeoMqJFClfXho0E8cJt66q4562O25yBWkkCw9L95Zg2rlY2hFE01/H7f/IgvMFz6pLNudOluhkxgPlltaDM/ItfCSdEKeQ7eMalFPgA6f5TdMs7jumcqc9pwtHsHHoPKBPUt67tysd2y1a0ta23k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751060503; c=relaxed/simple;
-	bh=NYtk8M39yXKnfiu1ICE4qoVuCladpZZV45cFgl6dXlE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=ITI4Yx2TyT43TC2O8cLypuip45K7Ds61aSdZHo2YYToIpFf9GPiVBp+C3StjS4C2lUR9SM4N1PsXlybAayZRTQyqsxu7hKhtZF7M+PTLCRU0g/HjVnYzAxyyWhEyCET3OywqoeNxEpDc1fdp4vUwl3Y+t+ORXXFGLJhtixo/6O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oDkfVd6o; arc=none smtp.client-ip=209.85.160.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1751061658; c=relaxed/simple;
+	bh=kny2SXs15smNjfH9pjMs4jOR3nHD7rU5IcbqFhZp10w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JBGRj6Vw6tODH0PKcmPtbzCIBCv5XESb959etzXYU30exVZjFSnWLITRV5qjSqujfAldGpfQWa/NBNxfvdgSk4qmwReXVkxlDZto2DywIZRjany6viVVVe64Lv6K1acg16cue0OHzSeJb9CKxXA+zmxjsI6RGSpssOAuaC9QHek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T34kLHej; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oDkfVd6o"
-Received: by mail-oa1-f54.google.com with SMTP id 586e51a60fabf-2ea65f5a0easo1517384fac.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 27 Jun 2025 14:41:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751060500; x=1751665300; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=J1fXy6FRhTbbi+8IsBVYmrkApFTU+grleJe/y7M2JmI=;
-        b=oDkfVd6oVYvsqq57EJf31h9CyQNuCEMAyZzZZarhfTde6aCkw0fG9DfCydDWfm5r09
-         khE2rU+9WTMLfAnNUmkSSTbOrYovgBkSyUlUVEmxWksqrWDva4jBPKFyLTILsSEMtHSx
-         mS62Us9jkO+vB88YT7PIJD0JMEXszspbshbsfWyCPyRBiTZE27ZgqL04V8f/Vg9zmNwI
-         590ZyKAA+4kLJya8EYL86EfOephCwxDJuXhsZxq3gJce6AMcz/0yu3LHjcP7M1hGQZfx
-         J+8SAdPNpiega2Qu3W98C2WUg6+3L8aEMDHDqsdqFIqWu7HvjTPE+jwwG4pnte5Nbory
-         YRNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751060500; x=1751665300;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J1fXy6FRhTbbi+8IsBVYmrkApFTU+grleJe/y7M2JmI=;
-        b=rjhSZW7GpBvLqyzXRoOs+PaZWoZvOGde5kYDJrqLKH8CZnd4t0iFEUqtuEIBQ1oH0b
-         9ohTKO14Bk+gTKTGkfVuma70dPhd/qMnTieNtxaQK9Wx1Ko+FaC+Ywk9XR20O0Ze9ohy
-         7hDNYQj5JDv1fAEGCeiyN1NK/pozQMGEKbr3IZHF7LLCfb5xto85S74oZX75yXYFuF1U
-         +jXDN84vagMrwHZKFxLTjNVx4hmQyc4ksPDspVxxvInuizbWXmlEWnxcYSRLRzOp0Hob
-         77wnUwtUQp5t2pOrnX/eB7gpkNOQAi1sXK7wMCrj5LUpeN88RI07O3NxFYcr14vQfS77
-         Hq+Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVCfW4Vb86wEn7ZlkvV0ClbGjgyrjBhnL+2o5wpB9CE05YHgHRaOVK33DRLZl4Sdlvd4WsDnDdzRIsQEoSa@lists.linux.dev
-X-Gm-Message-State: AOJu0YzaAaT3uOhrgS6HYOoA8w+eqQn38+LigWGk/ByUsBbUrdSU61fb
-	fqOEkLKjR2h+2BmTavnevcq7RqgpybZAMYqb/f/K+IGmuUiXkJYesuOpX675wpCW4EA=
-X-Gm-Gg: ASbGncurP/SwVlGVyyFFcr2cHGHsuReRLi6sAej313jyJtJ8OgIDAt+KfNeM5wRPfBd
-	sF20+HXLiyorwo/NGo6WxPsDjmN82D5MSNTk7fiL7GG60pCb9UE/g3mYFJUN/0jbjDehmdxoGyR
-	VgAGs1sZciN1VKglJSzfVVRKRc9WTxq7DtZEBxjJtpcTeNBYwdMzFSAv4Bneb/Eqs3oPHrj2BI0
-	+4kwoYateof1D0qU5CRO2XldZzUxH9LHzpc1wVgbyM2sSXea68LkOK4mUlxnE2GqImWAYOAV8EB
-	8i4FNXFHeC2bpKScOwv0ybq/dMnpVtFIQxfFKJEc0pMegrNLFjIftDOwH5Z1UGR15fJxZg==
-X-Google-Smtp-Source: AGHT+IGm9VN0jQzOnPNshOP1xXBcfWTM+rCNUm1jZDI7araoiPvZx0sPQo2pmdZdBLXePTf9ULNRtg==
-X-Received: by 2002:a05:6871:5207:b0:2e9:5d01:effc with SMTP id 586e51a60fabf-2efcedefd56mr6125495fac.2.1751060499975;
-        Fri, 27 Jun 2025 14:41:39 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:f3a4:7b11:3bf4:5d7b])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2efd50b1a53sm1086207fac.31.2025.06.27.14.41.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Jun 2025 14:41:38 -0700 (PDT)
-Date: Sat, 28 Jun 2025 00:41:37 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Jarkko Sakkinen <jarkko@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2] tpm: Cleanup class for tpm_buf
-Message-ID: <f5a3cddf-39a3-48ed-98ed-dbbdccac5cff@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T34kLHej"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751061655; x=1782597655;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kny2SXs15smNjfH9pjMs4jOR3nHD7rU5IcbqFhZp10w=;
+  b=T34kLHejB8ewKhnm6qNbkjpDJns2uBovFNn2uoIv8QtNnNneKvE81Qf5
+   8bxevKRGQjUEmJVAarflJ1nxzCU128Q2/K7S0wttrkP49XorlokoqmByU
+   7M/nrFrp8OIa2TX+VePuTHx/BkaKtKg3lUYxfwlSjT1BIeuMA0r2UkK93
+   NFRVXX6gF4iPKuDRKqRGw4xtTAmg62vs3iOg3FZubLpcPpwigdP1gulym
+   M1ocymy2+Ltn1rhtuOqBU5UEy7sOsfCLJ4tlLOcqDY37HS3uY01IAU2Mk
+   TSKWrR6P6cW4rvtFXipMA4nkNtiUb4+V3XXTM9TTSQeQSWthfetUdQO7t
+   g==;
+X-CSE-ConnectionGUID: ZdlDxbjXSt2LgNY4i9rqBA==
+X-CSE-MsgGUID: DNuTxRqBTa6EohNcrbpHEw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="78821551"
+X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
+   d="scan'208";a="78821551"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 15:00:54 -0700
+X-CSE-ConnectionGUID: shvZSA3uQkq+ng3gytSIeA==
+X-CSE-MsgGUID: wYvyKMvQQzWkl55yWsxyxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,271,1744095600"; 
+   d="scan'208";a="158416385"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 27 Jun 2025 15:00:49 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uVH7n-000WZq-16;
+	Fri, 27 Jun 2025 22:00:47 +0000
+Date: Sat, 28 Jun 2025 05:59:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wander Lairson Costa <wander@redhat.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	David Woodhouse <dwmw@amazon.co.uk>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Clark Williams <williams@redhat.com>,
+	Gabriele Monaco <gmonaco@redhat.com>
+Subject: Re: [PATCH 2/2] tracing/preemptirq: Optimize
+ preempt_disable/enable() tracepoint overhead
+Message-ID: <202506280524.R4BJehMT-lkp@intel.com>
+References: <20250626142017.26372-3-wander@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,109 +80,239 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250626101935.1007898-1-jarkko@kernel.org>
+In-Reply-To: <20250626142017.26372-3-wander@redhat.com>
 
-Hi Jarkko,
+Hi Wander,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
+[auto build test ERROR on trace/for-next]
+[also build test ERROR on tip/sched/core linus/master v6.16-rc3 next-20250627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jarkko-Sakkinen/tpm-Cleanup-class-for-tpm_buf/20250626-182148
-base:   char-misc/char-misc-testing
-patch link:    https://lore.kernel.org/r/20250626101935.1007898-1-jarkko%40kernel.org
-patch subject: [PATCH v2] tpm: Cleanup class for tpm_buf
-config: x86_64-randconfig-161-20250627 (https://download.01.org/0day-ci/archive/20250628/202506280550.7lqjVBcB-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wander-Lairson-Costa/trace-preemptirq-reduce-overhead-of-irq_enable-disable-tracepoints/20250626-222438
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20250626142017.26372-3-wander%40redhat.com
+patch subject: [PATCH 2/2] tracing/preemptirq: Optimize preempt_disable/enable() tracepoint overhead
+config: powerpc-randconfig-002-20250628 (https://download.01.org/0day-ci/archive/20250628/202506280524.R4BJehMT-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506280524.R4BJehMT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506280550.7lqjVBcB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506280524.R4BJehMT-lkp@intel.com/
 
-smatch warnings:
-drivers/char/tpm/tpm2-cmd.c:575 tpm2_get_pcr_allocation() warn: iterator 'i' not incremented
+All errors (new ones prefixed by >>):
 
-vim +/i +575 drivers/char/tpm/tpm2-cmd.c
+   In file included from arch/powerpc/kernel/asm-offsets.c:12:
+   In file included from include/linux/compat.h:14:
+   In file included from include/linux/sem.h:5:
+   In file included from include/uapi/linux/sem.h:5:
+   In file included from include/linux/ipc.h:7:
+   In file included from include/linux/rhashtable-types.h:12:
+   In file included from include/linux/alloc_tag.h:11:
+   In file included from include/linux/preempt.h:13:
+   In file included from include/linux/tracepoint-defs.h:11:
+   In file included from include/linux/atomic.h:7:
+   In file included from arch/powerpc/include/asm/atomic.h:11:
+   In file included from arch/powerpc/include/asm/cmpxchg.h:755:
+   In file included from include/asm-generic/cmpxchg-local.h:6:
+>> include/linux/irqflags.h:201:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+     201 | DECLARE_TRACEPOINT(irq_enable);
+         | ^
+         | int
+>> include/linux/irqflags.h:201:20: error: a parameter list without types is only allowed in a function definition
+     201 | DECLARE_TRACEPOINT(irq_enable);
+         |                    ^
+   include/linux/irqflags.h:202:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+     202 | DECLARE_TRACEPOINT(irq_disable);
+         | ^
+         | int
+   include/linux/irqflags.h:202:20: error: a parameter list without types is only allowed in a function definition
+     202 | DECLARE_TRACEPOINT(irq_disable);
+         |                    ^
+>> include/linux/irqflags.h:274:47: error: call to undeclared function 'tracepoint_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     274 | DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
+         |                                               ^
+   include/linux/irqflags.h:206:7: note: expanded from macro 'local_irq_enable'
+     206 |                 if (tracepoint_enabled(irq_enable))     \
+         |                     ^
+>> include/linux/irqflags.h:274:47: error: use of undeclared identifier 'irq_enable'
+   include/linux/irqflags.h:206:26: note: expanded from macro 'local_irq_enable'
+     206 |                 if (tracepoint_enabled(irq_enable))     \
+         |                                        ^
+>> include/linux/irqflags.h:274:47: error: use of undeclared identifier 'irq_enable'
+   include/linux/irqflags.h:206:26: note: expanded from macro 'local_irq_enable'
+     206 |                 if (tracepoint_enabled(irq_enable))     \
+         |                                        ^
+>> include/linux/irqflags.h:274:47: error: use of undeclared identifier 'irq_enable'
+   include/linux/irqflags.h:206:26: note: expanded from macro 'local_irq_enable'
+     206 |                 if (tracepoint_enabled(irq_enable))     \
+         |                                        ^
+   include/linux/irqflags.h:274:26: error: call to undeclared function 'tracepoint_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     274 | DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
+         |                          ^
+   include/linux/irqflags.h:215:7: note: expanded from macro 'local_irq_disable'
+     215 |                 if (tracepoint_enabled(irq_disable) &&  \
+         |                     ^
+>> include/linux/irqflags.h:274:26: error: use of undeclared identifier 'irq_disable'; did you mean 'was_disabled'?
+   include/linux/irqflags.h:215:26: note: expanded from macro 'local_irq_disable'
+     215 |                 if (tracepoint_enabled(irq_disable) &&  \
+         |                                        ^
+   include/linux/irqflags.h:274:26: note: 'was_disabled' declared here
+   include/linux/irqflags.h:213:8: note: expanded from macro 'local_irq_disable'
+     213 |                 bool was_disabled = raw_irqs_disabled();\
+         |                      ^
+>> include/linux/irqflags.h:274:26: error: use of undeclared identifier 'irq_disable'; did you mean 'was_disabled'?
+     274 | DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
+         |                          ^
+   include/linux/irqflags.h:215:26: note: expanded from macro 'local_irq_disable'
+     215 |                 if (tracepoint_enabled(irq_disable) &&  \
+         |                                        ^
+   include/linux/irqflags.h:274:26: note: 'was_disabled' declared here
+   include/linux/irqflags.h:213:8: note: expanded from macro 'local_irq_disable'
+     213 |                 bool was_disabled = raw_irqs_disabled();\
+         |                      ^
+>> include/linux/irqflags.h:274:26: error: use of undeclared identifier 'irq_disable'; did you mean 'was_disabled'?
+     274 | DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
+         |                          ^
+   include/linux/irqflags.h:215:26: note: expanded from macro 'local_irq_disable'
+     215 |                 if (tracepoint_enabled(irq_disable) &&  \
+         |                                        ^
+   include/linux/irqflags.h:274:26: note: 'was_disabled' declared here
+   include/linux/irqflags.h:213:8: note: expanded from macro 'local_irq_disable'
+     213 |                 bool was_disabled = raw_irqs_disabled();\
+         |                      ^
+   include/linux/irqflags.h:277:7: error: call to undeclared function 'tracepoint_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     277 |                     local_irq_restore(_T->flags),
+         |                     ^
+   include/linux/irqflags.h:230:7: note: expanded from macro 'local_irq_restore'
+     230 |                 if (tracepoint_enabled(irq_enable) &&   \
+         |                     ^
+   include/linux/irqflags.h:277:7: error: use of undeclared identifier 'irq_enable'
+   include/linux/irqflags.h:230:26: note: expanded from macro 'local_irq_restore'
+     230 |                 if (tracepoint_enabled(irq_enable) &&   \
+         |                                        ^
+   include/linux/irqflags.h:277:7: error: use of undeclared identifier 'irq_enable'
+   include/linux/irqflags.h:230:26: note: expanded from macro 'local_irq_restore'
+     230 |                 if (tracepoint_enabled(irq_enable) &&   \
+         |                                        ^
+   include/linux/irqflags.h:277:7: error: use of undeclared identifier 'irq_enable'
+   include/linux/irqflags.h:230:26: note: expanded from macro 'local_irq_restore'
+     230 |                 if (tracepoint_enabled(irq_enable) &&   \
+         |                                        ^
+   include/linux/irqflags.h:276:7: error: call to undeclared function 'tracepoint_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     276 |                     local_irq_save(_T->flags),
+         |                     ^
+   include/linux/irqflags.h:223:7: note: expanded from macro 'local_irq_save'
+     223 |                 if (tracepoint_enabled(irq_disable) &&  \
+         |                     ^
+   include/linux/irqflags.h:276:7: error: use of undeclared identifier 'irq_disable'
+   include/linux/irqflags.h:223:26: note: expanded from macro 'local_irq_save'
+     223 |                 if (tracepoint_enabled(irq_disable) &&  \
+         |                                        ^
+   include/linux/irqflags.h:276:7: error: use of undeclared identifier 'irq_disable'
+   include/linux/irqflags.h:223:26: note: expanded from macro 'local_irq_save'
+     223 |                 if (tracepoint_enabled(irq_disable) &&  \
+         |                                        ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+   make[3]: *** [scripts/Makefile.build:98: arch/powerpc/kernel/asm-offsets.s] Error 1 shuffle=1905180499
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1274: prepare0] Error 2 shuffle=1905180499
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=1905180499
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=1905180499
+   make: Target 'prepare' not remade because of errors.
 
-fa4f99c05320eb2 Nayna Jain      2019-07-11  562  ssize_t tpm2_get_pcr_allocation(struct tpm_chip *chip)
-1db15344f874f65 Nayna Jain      2017-01-30  563  {
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  564  	CLASS_TPM_BUF(buf, PAGE_SIZE);
-1db15344f874f65 Nayna Jain      2017-01-30  565  	struct tpm2_pcr_selection pcr_selection;
-1db15344f874f65 Nayna Jain      2017-01-30  566  	void *marker;
-1db15344f874f65 Nayna Jain      2017-01-30  567  	void *end;
-1db15344f874f65 Nayna Jain      2017-01-30  568  	void *pcr_select_offset;
-1db15344f874f65 Nayna Jain      2017-01-30  569  	u32 sizeof_pcr_selection;
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  570  	u32 nr_possible_banks;
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  571  	u32 nr_alloc_banks = 0;
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  572  	u16 hash_alg;
-1db15344f874f65 Nayna Jain      2017-01-30  573  	u32 rsp_len;
-1db15344f874f65 Nayna Jain      2017-01-30  574  	int rc;
-1db15344f874f65 Nayna Jain      2017-01-30 @575  	int i = 0;
-1db15344f874f65 Nayna Jain      2017-01-30  576  
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  577  	if (!buf)
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  578  		return -ENOMEM;
-1db15344f874f65 Nayna Jain      2017-01-30  579  
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  580  	tpm_buf_reset(buf, TPM2_ST_NO_SESSIONS, TPM2_CC_GET_CAPABILITY);
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  581  	tpm_buf_append_u32(buf, TPM2_CAP_PCRS);
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  582  	tpm_buf_append_u32(buf, 0);
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  583  	tpm_buf_append_u32(buf, 1);
-1db15344f874f65 Nayna Jain      2017-01-30  584  
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  585  	rc = tpm_transmit_cmd(chip, buf, 9, "get tpm pcr allocation");
-1db15344f874f65 Nayna Jain      2017-01-30  586  	if (rc)
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  587  		return rc;
-1db15344f874f65 Nayna Jain      2017-01-30  588  
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  589  	nr_possible_banks = be32_to_cpup(
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  590  		(__be32 *)&buf->data[TPM_HEADER_SIZE + 5]);
-1db15344f874f65 Nayna Jain      2017-01-30  591  
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  592  	chip->allocated_banks = kcalloc(nr_possible_banks,
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  593  					sizeof(*chip->allocated_banks),
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  594  					GFP_KERNEL);
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  595  	if (!chip->allocated_banks)
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  596  		return -ENOMEM;
-1db15344f874f65 Nayna Jain      2017-01-30  597  
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  598  	marker = &buf->data[TPM_HEADER_SIZE + 9];
-1db15344f874f65 Nayna Jain      2017-01-30  599  
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  600  	rsp_len = be32_to_cpup((__be32 *)&buf->data[2]);
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  601  	end = &buf->data[rsp_len];
-1db15344f874f65 Nayna Jain      2017-01-30  602  
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  603  	return rc;
-                                                        ^^^^^^^^^^
-Presumably this was not intentional?
 
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  604  	for (i = 0; i < nr_possible_banks; i++) {
-1db15344f874f65 Nayna Jain      2017-01-30  605  		pcr_select_offset = marker +
-1db15344f874f65 Nayna Jain      2017-01-30  606  			offsetof(struct tpm2_pcr_selection, size_of_select);
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  607  		if (pcr_select_offset >= end)
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  608  			return -EFAULT;
-1db15344f874f65 Nayna Jain      2017-01-30  609  
-1db15344f874f65 Nayna Jain      2017-01-30  610  		memcpy(&pcr_selection, marker, sizeof(pcr_selection));
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  611  		hash_alg = be16_to_cpu(pcr_selection.hash_alg);
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  612  
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  613  		pcr_select_offset = memchr_inv(pcr_selection.pcr_select, 0,
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  614  					       pcr_selection.size_of_select);
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  615  		if (pcr_select_offset) {
-879b589210a9a0c Roberto Sassu   2019-02-06  616  			chip->allocated_banks[nr_alloc_banks].alg_id = hash_alg;
-879b589210a9a0c Roberto Sassu   2019-02-06  617  
-879b589210a9a0c Roberto Sassu   2019-02-06  618  			rc = tpm2_init_bank_info(chip, nr_alloc_banks);
-879b589210a9a0c Roberto Sassu   2019-02-06  619  			if (rc < 0)
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  620  				return rc;
-879b589210a9a0c Roberto Sassu   2019-02-06  621  
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  622  			nr_alloc_banks++;
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  623  		}
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  624  
-1db15344f874f65 Nayna Jain      2017-01-30  625  		sizeof_pcr_selection = sizeof(pcr_selection.hash_alg) +
-1db15344f874f65 Nayna Jain      2017-01-30  626  			sizeof(pcr_selection.size_of_select) +
-1db15344f874f65 Nayna Jain      2017-01-30  627  			pcr_selection.size_of_select;
-1db15344f874f65 Nayna Jain      2017-01-30  628  		marker = marker + sizeof_pcr_selection;
-1db15344f874f65 Nayna Jain      2017-01-30  629  	}
-1db15344f874f65 Nayna Jain      2017-01-30  630  
-bcfff8384f6c4e6 Roberto Sassu   2019-02-06  631  	chip->nr_allocated_banks = nr_alloc_banks;
-ce255545c9add8c Jarkko Sakkinen 2025-06-26  632  	return 0;
-1db15344f874f65 Nayna Jain      2017-01-30  633  }
+vim +/tracepoint_enabled +274 include/linux/irqflags.h
+
+00b0ed2d4997af6 Peter Zijlstra       2020-08-12  200  
+563d10fd41452f8 Wander Lairson Costa 2025-06-26 @201  DECLARE_TRACEPOINT(irq_enable);
+563d10fd41452f8 Wander Lairson Costa 2025-06-26 @202  DECLARE_TRACEPOINT(irq_disable);
+563d10fd41452f8 Wander Lairson Costa 2025-06-26  203  
+de30a2b355ea853 Ingo Molnar          2006-07-03  204  #define local_irq_enable()				\
+00b0ed2d4997af6 Peter Zijlstra       2020-08-12  205  	do {						\
+563d10fd41452f8 Wander Lairson Costa 2025-06-26 @206  		if (tracepoint_enabled(irq_enable))	\
+00b0ed2d4997af6 Peter Zijlstra       2020-08-12  207  			trace_hardirqs_on();		\
+00b0ed2d4997af6 Peter Zijlstra       2020-08-12  208  		raw_local_irq_enable();			\
+00b0ed2d4997af6 Peter Zijlstra       2020-08-12  209  	} while (0)
+00b0ed2d4997af6 Peter Zijlstra       2020-08-12  210  
+de30a2b355ea853 Ingo Molnar          2006-07-03  211  #define local_irq_disable()				\
+00b0ed2d4997af6 Peter Zijlstra       2020-08-12  212  	do {						\
+044d0d6de9f5019 Nicholas Piggin      2020-07-23  213  		bool was_disabled = raw_irqs_disabled();\
+00b0ed2d4997af6 Peter Zijlstra       2020-08-12  214  		raw_local_irq_disable();		\
+563d10fd41452f8 Wander Lairson Costa 2025-06-26  215  		if (tracepoint_enabled(irq_disable) &&	\
+563d10fd41452f8 Wander Lairson Costa 2025-06-26  216  		    !was_disabled)			\
+00b0ed2d4997af6 Peter Zijlstra       2020-08-12  217  			trace_hardirqs_off();		\
+00b0ed2d4997af6 Peter Zijlstra       2020-08-12  218  	} while (0)
+00b0ed2d4997af6 Peter Zijlstra       2020-08-12  219  
+de30a2b355ea853 Ingo Molnar          2006-07-03  220  #define local_irq_save(flags)				\
+3f307891ce0e7b0 Steven Rostedt       2008-07-25  221  	do {						\
+3f307891ce0e7b0 Steven Rostedt       2008-07-25  222  		raw_local_irq_save(flags);		\
+563d10fd41452f8 Wander Lairson Costa 2025-06-26  223  		if (tracepoint_enabled(irq_disable) &&	\
+563d10fd41452f8 Wander Lairson Costa 2025-06-26  224  		    !raw_irqs_disabled_flags(flags))	\
+3f307891ce0e7b0 Steven Rostedt       2008-07-25  225  			trace_hardirqs_off();		\
+3f307891ce0e7b0 Steven Rostedt       2008-07-25  226  	} while (0)
+3f307891ce0e7b0 Steven Rostedt       2008-07-25  227  
+de30a2b355ea853 Ingo Molnar          2006-07-03  228  #define local_irq_restore(flags)			\
+de30a2b355ea853 Ingo Molnar          2006-07-03  229  	do {						\
+563d10fd41452f8 Wander Lairson Costa 2025-06-26  230  		if (tracepoint_enabled(irq_enable) &&	\
+563d10fd41452f8 Wander Lairson Costa 2025-06-26  231  		    !raw_irqs_disabled_flags(flags))	\
+de30a2b355ea853 Ingo Molnar          2006-07-03  232  			trace_hardirqs_on();		\
+de30a2b355ea853 Ingo Molnar          2006-07-03  233  		raw_local_irq_restore(flags);		\
+de30a2b355ea853 Ingo Molnar          2006-07-03  234  	} while (0)
+de30a2b355ea853 Ingo Molnar          2006-07-03  235  
+df9ee29270c11db David Howells        2010-10-07  236  #define safe_halt()					\
+df9ee29270c11db David Howells        2010-10-07  237  	do {						\
+563d10fd41452f8 Wander Lairson Costa 2025-06-26  238  		if (tracepoint_enabled(irq_enable))	\
+df9ee29270c11db David Howells        2010-10-07  239  			trace_hardirqs_on();		\
+df9ee29270c11db David Howells        2010-10-07  240  		raw_safe_halt();			\
+df9ee29270c11db David Howells        2010-10-07  241  	} while (0)
+df9ee29270c11db David Howells        2010-10-07  242  
+df9ee29270c11db David Howells        2010-10-07  243  
+db2dcb4f91d5fec Jan Beulich          2015-01-20  244  #else /* !CONFIG_TRACE_IRQFLAGS */
+df9ee29270c11db David Howells        2010-10-07  245  
+df9ee29270c11db David Howells        2010-10-07  246  #define local_irq_enable()	do { raw_local_irq_enable(); } while (0)
+df9ee29270c11db David Howells        2010-10-07  247  #define local_irq_disable()	do { raw_local_irq_disable(); } while (0)
+00b0ed2d4997af6 Peter Zijlstra       2020-08-12  248  #define local_irq_save(flags)	do { raw_local_irq_save(flags); } while (0)
+df9ee29270c11db David Howells        2010-10-07  249  #define local_irq_restore(flags) do { raw_local_irq_restore(flags); } while (0)
+df9ee29270c11db David Howells        2010-10-07  250  #define safe_halt()		do { raw_safe_halt(); } while (0)
+df9ee29270c11db David Howells        2010-10-07  251  
+db2dcb4f91d5fec Jan Beulich          2015-01-20  252  #endif /* CONFIG_TRACE_IRQFLAGS */
+db2dcb4f91d5fec Jan Beulich          2015-01-20  253  
+db2dcb4f91d5fec Jan Beulich          2015-01-20  254  #define local_save_flags(flags)	raw_local_save_flags(flags)
+db2dcb4f91d5fec Jan Beulich          2015-01-20  255  
+db2dcb4f91d5fec Jan Beulich          2015-01-20  256  /*
+db2dcb4f91d5fec Jan Beulich          2015-01-20  257   * Some architectures don't define arch_irqs_disabled(), so even if either
+db2dcb4f91d5fec Jan Beulich          2015-01-20  258   * definition would be fine we need to use different ones for the time being
+db2dcb4f91d5fec Jan Beulich          2015-01-20  259   * to avoid build issues.
+db2dcb4f91d5fec Jan Beulich          2015-01-20  260   */
+db2dcb4f91d5fec Jan Beulich          2015-01-20  261  #ifdef CONFIG_TRACE_IRQFLAGS_SUPPORT
+db2dcb4f91d5fec Jan Beulich          2015-01-20  262  #define irqs_disabled()					\
+db2dcb4f91d5fec Jan Beulich          2015-01-20  263  	({						\
+db2dcb4f91d5fec Jan Beulich          2015-01-20  264  		unsigned long _flags;			\
+db2dcb4f91d5fec Jan Beulich          2015-01-20  265  		raw_local_save_flags(_flags);		\
+db2dcb4f91d5fec Jan Beulich          2015-01-20  266  		raw_irqs_disabled_flags(_flags);	\
+db2dcb4f91d5fec Jan Beulich          2015-01-20  267  	})
+db2dcb4f91d5fec Jan Beulich          2015-01-20  268  #else /* !CONFIG_TRACE_IRQFLAGS_SUPPORT */
+db2dcb4f91d5fec Jan Beulich          2015-01-20  269  #define irqs_disabled()	raw_irqs_disabled()
+40b1f4e5113eafc Michael Neuling      2009-10-22  270  #endif /* CONFIG_TRACE_IRQFLAGS_SUPPORT */
+de30a2b355ea853 Ingo Molnar          2006-07-03  271  
+db2dcb4f91d5fec Jan Beulich          2015-01-20  272  #define irqs_disabled_flags(flags) raw_irqs_disabled_flags(flags)
+db2dcb4f91d5fec Jan Beulich          2015-01-20  273  
+54da6a0924311c7 Peter Zijlstra       2023-05-26 @274  DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
+54da6a0924311c7 Peter Zijlstra       2023-05-26  275  DEFINE_LOCK_GUARD_0(irqsave,
+54da6a0924311c7 Peter Zijlstra       2023-05-26  276  		    local_irq_save(_T->flags),
+54da6a0924311c7 Peter Zijlstra       2023-05-26  277  		    local_irq_restore(_T->flags),
+54da6a0924311c7 Peter Zijlstra       2023-05-26  278  		    unsigned long flags)
+54da6a0924311c7 Peter Zijlstra       2023-05-26  279  
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
