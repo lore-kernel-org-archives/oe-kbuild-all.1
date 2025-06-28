@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC1C3FC2;
-	Sat, 28 Jun 2025 07:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06E01A23B5
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jun 2025 07:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751095959; cv=none; b=EOIXsXzk7/dKSG365DC4hCdaE0CXe56N6lYEsgIybBCv7BP4t9XMel153a54Rar5cmMsBYBqQSn9BNSARATp/AbkmbpQi75YrQF8WT56lMLHYFShBZgkGTW/JRHC5KajvfvLgzEy6yUSlzeaGbGkzF8vfwDUrpQWlQH+mWvK32Q=
+	t=1751097160; cv=none; b=RZJZ7BU2QnY0+SvZjAeBEDZz78Wz6BqwNpuHaSx8ZZUOFmCRG8C5H0mqy11zcr5bdb0ut3ScUVk+peudYc5K/wIrVY5lqI71UkHsfRLYZ0oc5P3SKecfcAYQaNMHeDlG7riV4ompExaiSUBwq1Z0aGWyN5NcfYwmCSpGAcstxCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751095959; c=relaxed/simple;
-	bh=VxkARWkB0aq7yYC24dvQDmT3R3hm+Ujx+8DCWsOSsV8=;
+	s=arc-20240116; t=1751097160; c=relaxed/simple;
+	bh=zw8+XZcRIWHl4Pb7ANDvCfIV/XjuEkN0+TvXI1VOw6E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=srJ8kLMwDgTDNyV19ldx2x5Wyp5hgULYEnmY/C8/cB1yszaCpUJkNtz420TK/C/hpJ37R5c2HO/JMBfQAf9xH5sdUHUT/un8Pz0XWHxxF/d03ilEb3atknkReHc6u1Vw0xoOvzoECYlPe3W1Z4osxpVrEWDA6gvwIz6wfIh9DQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CkwQFMWm; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=bxNnuCOv1mrz6kITlygHVCfQ4cdeTg2+GFV3Qm3SV4mvmdWfwNBMLSZmq8R4dtI7X21lCSrCI6enREpbIcCeuZCAim8Apt3XMomn8GouyVo8LhR70aq5bvFWBIoa8XMmUFqkJrf3Hn0WYVJlRY895+w40iz24LLBiIKSG+xaYBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mz1vALNH; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CkwQFMWm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mz1vALNH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751095957; x=1782631957;
+  t=1751097158; x=1782633158;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=VxkARWkB0aq7yYC24dvQDmT3R3hm+Ujx+8DCWsOSsV8=;
-  b=CkwQFMWmVuVJnKTTZYmlQM7cOUb3dLqge8IQ9bNizUpPAzR9erdTp2lr
-   dNKpjKEGsw2/ZCrhwQoB7Ta1Jt9vR4FZfopi0g/zZpGjApdyWqAgwA2On
-   NzflDogLokntlc86+68Wc+08dx9LaymYkxdJCusX1qrpPSYyBnqvXnvz0
-   n/sAJ8cr63dyiHPjKWrpyZ98NRRu23hRiJL3v2WiLWO+UGgBbVfhF5aco
-   ez116fVhfsJenBACnSpKpseU5iEUJ9uiQPNJFH0UrXUwZRDxCR/Z4Hdr/
-   1KsX0k9VStWLC5FqleGBY8l0G0zL+QrJ/dG1vGlT9c7fVFeXEx9PIpJia
-   Q==;
-X-CSE-ConnectionGUID: MlxwlDVnS36/+cM488JNDQ==
-X-CSE-MsgGUID: UPBIqitORbqHGEe8goFHRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="63655436"
+  bh=zw8+XZcRIWHl4Pb7ANDvCfIV/XjuEkN0+TvXI1VOw6E=;
+  b=mz1vALNHWnfTvWMnUWYOQG1RGcxSM4sA4mbyY16p1myoaqVAPrAjYN1F
+   XU7yzYKdfQ9EepqjxJxsHPCr5H5C7GaoOGgwBY3gy1CKaID5dezRCsGJf
+   89IprmTiWuou++j3/5bScEL0A/pNAdYW2AszLmfzIaW+30Vem3gHv3UKu
+   SoZS/qdxuXUwQfWDed05U0R3JAyk+vOgYLKpmXrLkwRJd0j5Ky2nmWKDx
+   GEXIPBCilC18FLNZH+I/bUeSULHhEkXOD19bfRF4n9chSd6Vj6weA+hgW
+   yStbdNjWjUxYsbm7UuU3MXzLZdwSTFnJSRoBBus44I+jRIcPZNaEgg7EP
+   g==;
+X-CSE-ConnectionGUID: 9z2Dcf28SSCYdgEKQ8Fyyw==
+X-CSE-MsgGUID: T3Z4YfGLTEiqiOkKEyPnXA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="57081100"
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="63655436"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 00:32:37 -0700
-X-CSE-ConnectionGUID: yUkFfSVERgai/gy+CcbSVg==
-X-CSE-MsgGUID: U+lGoKUhS/+E0fUy6599DQ==
+   d="scan'208";a="57081100"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 00:52:38 -0700
+X-CSE-ConnectionGUID: wIItiP6PSA6co7huGb8zmQ==
+X-CSE-MsgGUID: SPfVjudESzKsKbdwnJfnrA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="157032721"
+   d="scan'208";a="153088228"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 28 Jun 2025 00:32:34 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 28 Jun 2025 00:52:35 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVQ36-000Wu2-0p;
-	Sat, 28 Jun 2025 07:32:32 +0000
-Date: Sat, 28 Jun 2025 15:32:08 +0800
+	id 1uVQMT-000Wuk-1w;
+	Sat, 28 Jun 2025 07:52:33 +0000
+Date: Sat, 28 Jun 2025 15:52:27 +0800
 From: kernel test robot <lkp@intel.com>
 To: zhongjinji@honor.com, linux-mm@kvack.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	akpm@linux-foundation.org, yuzhao@google.com,
-	linux-kernel@vger.kernel.org, yipengxiang@honor.com,
-	liulu.liu@honor.com, feng.han@honor.com
+Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
+	yuzhao@google.com, linux-kernel@vger.kernel.org,
+	yipengxiang@honor.com, liulu.liu@honor.com, feng.han@honor.com
 Subject: Re: [PATCH] mm: vmscan: Page scanning depends on swappiness and
  refault
-Message-ID: <202506281519.wHSXE6l0-lkp@intel.com>
+Message-ID: <202506281559.f6IHM6uJ-lkp@intel.com>
 References: <20250627162606.30609-1-zhongjinji@honor.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -70,10 +69,10 @@ In-Reply-To: <20250627162606.30609-1-zhongjinji@honor.com>
 
 Hi,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.16-rc3]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v6.16-rc3]
 [cannot apply to akpm-mm/mm-everything next-20250627]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
@@ -83,60 +82,219 @@ url:    https://github.com/intel-lab-lkp/linux/commits/zhongjinji-honor-com/mm-v
 base:   linus/master
 patch link:    https://lore.kernel.org/r/20250627162606.30609-1-zhongjinji%40honor.com
 patch subject: [PATCH] mm: vmscan: Page scanning depends on swappiness and refault
-config: x86_64-buildonly-randconfig-005-20250628 (https://download.01.org/0day-ci/archive/20250628/202506281519.wHSXE6l0-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506281519.wHSXE6l0-lkp@intel.com/reproduce)
+config: x86_64-buildonly-randconfig-003-20250628 (https://download.01.org/0day-ci/archive/20250628/202506281559.f6IHM6uJ-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506281559.f6IHM6uJ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506281519.wHSXE6l0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506281559.f6IHM6uJ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> mm/vmscan.c:2783:24: error: use of undeclared identifier 'swappiness'
-    2783 |         if ((!sc->priority && swappiness) || sc->file_is_tiny)
-         |                               ^
->> mm/vmscan.c:4100:33: error: expected identifier
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/vmscan.c:4100:20: note: in expansion of macro 'READ_ONCE'
+    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
+         |                    ^~~~~~~~~
+   mm/vmscan.c:4100:40: error: expected identifier before '.' token
     4100 |         if (seq <= READ_ONCE(mm_state->.seq))
          |                                        ^
->> mm/vmscan.c:4100:33: error: expected identifier
->> mm/vmscan.c:4100:33: error: expected identifier
->> mm/vmscan.c:4100:33: error: expected identifier
->> mm/vmscan.c:4100:33: error: expected identifier
->> mm/vmscan.c:4100:33: error: expected identifier
->> mm/vmscan.c:4100:33: error: expected identifier
->> mm/vmscan.c:4154:3: error: call to undeclared function 'for_each_age_able_type'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+   include/linux/compiler_types.h:548:23: note: in definition of macro '__compiletime_assert'
+     548 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:568:9: note: in expansion of macro '_compiletime_assert'
+     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/vmscan.c:4100:20: note: in expansion of macro 'READ_ONCE'
+    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
+         |                    ^~~~~~~~~
+   mm/vmscan.c:4100:40: error: expected identifier before '.' token
+    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
+         |                                        ^
+   include/linux/compiler_types.h:548:23: note: in definition of macro '__compiletime_assert'
+     548 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:568:9: note: in expansion of macro '_compiletime_assert'
+     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |                            ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/vmscan.c:4100:20: note: in expansion of macro 'READ_ONCE'
+    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
+         |                    ^~~~~~~~~
+   mm/vmscan.c:4100:40: error: expected identifier before '.' token
+    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
+         |                                        ^
+   include/linux/compiler_types.h:548:23: note: in definition of macro '__compiletime_assert'
+     548 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:568:9: note: in expansion of macro '_compiletime_assert'
+     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
+      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |         compiletime_assert_rwonce_type(x);                              \
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/vmscan.c:4100:20: note: in expansion of macro 'READ_ONCE'
+    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
+         |                    ^~~~~~~~~
+   mm/vmscan.c:4100:40: error: expected identifier before '.' token
+    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
+         |                                        ^
+   include/linux/compiler_types.h:518:27: note: in definition of macro '__unqual_scalar_typeof'
+     518 |                 _Generic((x),                                           \
+         |                           ^
+   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
+      50 |         __READ_ONCE(x);                                                 \
+         |         ^~~~~~~~~~~
+   mm/vmscan.c:4100:20: note: in expansion of macro 'READ_ONCE'
+    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
+         |                    ^~~~~~~~~
+   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:390,
+                    from include/asm-generic/bug.h:5,
+                    from arch/x86/include/asm/bug.h:103,
+                    from include/linux/bug.h:5,
+                    from include/linux/mmdebug.h:5,
+                    from include/linux/mm.h:6,
+                    from mm/vmscan.c:15:
+   mm/vmscan.c:4100:40: error: expected identifier before '.' token
+    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
+         |                                        ^
+   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                         ^
+   mm/vmscan.c:4100:20: note: in expansion of macro 'READ_ONCE'
+    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
+         |                    ^~~~~~~~~
+>> mm/vmscan.c:4097:34: warning: variable 'mm_state' set but not used [-Wunused-but-set-variable]
+    4097 |         struct lru_gen_mm_state *mm_state = get_mm_state(lruvec, type);
+         |                                  ^~~~~~~~
+   mm/vmscan.c: In function 'try_to_inc_max_seq':
+   mm/vmscan.c:4154:17: error: implicit declaration of function 'for_each_age_able_type'; did you mean 'for_each_evictable_type'? [-Werror=implicit-function-declaration]
     4154 |                 for_each_age_able_type(type, can_age) {
-         |                 ^
->> mm/vmscan.c:4154:40: error: expected ';' after expression
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 for_each_evictable_type
+   mm/vmscan.c:4154:54: error: expected ';' before '{' token
     4154 |                 for_each_age_able_type(type, can_age) {
-         |                                                      ^
+         |                                                      ^~
          |                                                      ;
-   10 errors generated.
+   mm/vmscan.c: At top level:
+>> mm/vmscan.c:3876:13: warning: 'walk_mm' defined but not used [-Wunused-function]
+    3876 | static void walk_mm(struct mm_struct *mm, struct lru_gen_mm_walk *walk)
+         |             ^~~~~~~
+>> mm/vmscan.c:3103:13: warning: 'iterate_mm_list' defined but not used [-Wunused-function]
+    3103 | static bool iterate_mm_list(struct lru_gen_mm_walk *walk, struct mm_struct **iter, int type)
+         |             ^~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/swappiness +2783 mm/vmscan.c
+vim +/mm_state +4097 mm/vmscan.c
 
-  2770	
-  2771	static int get_swappiness(struct lruvec *lruvec, struct scan_control *sc)
-  2772	{
-  2773		struct mem_cgroup *memcg = lruvec_memcg(lruvec);
-  2774		struct pglist_data *pgdat = lruvec_pgdat(lruvec);
-  2775	
-  2776		if (!sc->may_swap)
-  2777			return 0;
-  2778	
-  2779		if (!can_demote(pgdat->node_id, sc, memcg) &&
-  2780		    mem_cgroup_get_nr_swap_pages(memcg) < MIN_LRU_BATCH)
-  2781			return 0;
-  2782	
-> 2783		if ((!sc->priority && swappiness) || sc->file_is_tiny)
-  2784			return BALACNCE_SWAPPINESS;
-  2785	
-  2786		return sc_swappiness(sc, memcg);
-  2787	}
-  2788	
+  4093	
+  4094	static bool can_mm_list_age(struct lruvec *lruvec, struct lru_gen_mm_walk *walk,
+  4095			  int type, unsigned long seq)
+  4096	{
+> 4097		struct lru_gen_mm_state *mm_state = get_mm_state(lruvec, type);
+  4098	
+  4099		/* see the comment in iterate_mm_list() */
+> 4100		if (seq <= READ_ONCE(mm_state->.seq))
+  4101			return false;
+  4102	
+  4103		/*
+  4104		 * If the hardware doesn't automatically set the accessed bit, fallback
+  4105		 * to lru_gen_look_around(), which only clears the accessed bit in a
+  4106		 * handful of PTEs. Spreading the work out over a period of time usually
+  4107		 * is less efficient, but it avoids bursty page faults.
+  4108		 */
+  4109		if (!should_walk_mmu()) {
+  4110			return iterate_mm_list_nowalk(lruvec, type, seq);
+  4111		}
+  4112	
+  4113		walk = set_mm_walk(NULL, true);
+  4114		if (!walk) {
+  4115			return iterate_mm_list_nowalk(lruvec, type, seq);
+  4116		}
+  4117	
+  4118		return true;
+  4119	}
+  4120	
+  4121	static bool try_to_inc_max_seq(struct lruvec *lruvec, unsigned long *seq,
+  4122				       bool *can_age, bool force_scan)
+  4123	{
+  4124		int type;
+  4125		bool success;
+  4126		struct lru_gen_mm_walk *walk = NULL;
+  4127		struct mm_struct *mm = NULL;
+  4128		struct lru_gen_folio *lrugen = &lruvec->lrugen;
+  4129	
+  4130		if (!walk_mmu_enable())
+  4131			return inc_max_seq(lruvec, seq, can_age);
+  4132	
+  4133		for_each_gen_type(type) {
+  4134			if (!can_age[type])
+  4135				continue;
+  4136			VM_WARN_ON_ONCE(seq[type] > READ_ONCE(lrugen->max_seq[type]));
+  4137	
+  4138			can_age[type] = can_mm_list_age(lruvec, walk, type, seq[type]);
+  4139		}
+  4140	
+  4141		success = can_age[LRU_GEN_ANON] || can_age[LRU_GEN_FILE];
+  4142		if (!success || !walk)
+  4143			goto done;
+  4144	
+  4145		walk->lruvec = lruvec;
+  4146		walk->force_scan = force_scan;
+  4147	
+  4148		for_each_gen_type(type) {
+  4149			walk->seq[type] = seq[type];
+  4150			walk->can_age[type] = can_age[type];
+  4151		}
+  4152	
+  4153		do {
+> 4154			for_each_age_able_type(type, can_age) {
+  4155				can_age[type] = iterate_mm_list(walk, &mm, type);
+  4156			}
+  4157			if (mm)
+  4158				walk_mm(mm, walk);
+  4159		} while (mm);
+  4160	
+  4161		success = can_age[LRU_GEN_ANON] || can_age[LRU_GEN_FILE];
+  4162	done:
+  4163		if (success) {
+  4164			success = inc_max_seq(lruvec, seq, can_age);
+  4165			WARN_ON_ONCE(!success);
+  4166		}
+  4167	
+  4168		return success;
+  4169	}
+  4170	
 
 -- 
 0-DAY CI Kernel Test Service
