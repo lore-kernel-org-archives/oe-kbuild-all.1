@@ -1,77 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D74223C50E;
-	Sat, 28 Jun 2025 14:40:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10121AA1DB
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jun 2025 15:15:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751121634; cv=none; b=sO2P+Z17B4CEsloxCCLbpdn5p5yTw5dztgGLrQ3udZjSyXmnFeS8ftdSQHNzPPrj/8Rjsau1ICHPd7LwVIBHPAf0q/y5QHd+Q6mg0a0m9X2u43CQh3yN4MVz7TBfRXhrdv1jzeOVclqQ6KkSk7YXTb0ny6LQfvZ6Tcj4s/06NEc=
+	t=1751123736; cv=none; b=SI/9Wr3fl5a0EcdfvKfyyS1NtAT58Ppb48sTlUAOzQe/ACqi8au4fkBAjIbI39JE9YH5X3epffQvAg2vvDghmB56Wzp4lwVbgqUB8Kt43Otjm4LrhsbkAPVgdJRUwADMiiJjFV2hArEKQhIOeEgk2hCBLzv6qCGPQRtNHybKbwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751121634; c=relaxed/simple;
-	bh=/Lu5LTfcFXkeWsxjRBcxgn1uQUXHqbZ5PSxmsunseSs=;
+	s=arc-20240116; t=1751123736; c=relaxed/simple;
+	bh=KdAezppgQ4Rh9Mn4QZ7Pfd2XJYyK3e0m9fFebe1kEkc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HYBOSnLJIuRY+h3FE2L8LYVv+HLbt36KOUCC6yhc9O4H+BRoqe/vKicvtcAL30gO4LcmOZC+Rwj776ozeaIbi+bruCVCU9q+gBmNOOcnPN0r/nxqV7otGAi5iV34uwo2uzy0fYQGCQl6vk4LBHdXeu3DT3oXSquSVe5cwr3Ag+E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nlxdowWT; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=m2kfSqWpUvdQdrvvTkfJ85WcP/Ck3Sd1WhdxuGul52RR5fvDkO5BIXfcaW/5mrVmbfi7Epd+oO6Pvi+xemRwB5hksPaX+odQI2Oq1AjPDsiC7GiUhIqyvol7hrJ0syXmr97kBKhaUcPA/BVW0hVAZx72hn86Kzr52LO2QMSyqu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H608KFXW; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nlxdowWT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H608KFXW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751121633; x=1782657633;
+  t=1751123735; x=1782659735;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/Lu5LTfcFXkeWsxjRBcxgn1uQUXHqbZ5PSxmsunseSs=;
-  b=nlxdowWTsbMG/M6aPTc71gGJ+8WJMH66TRF6StRaq/gMYQ4Bzq5+ZFlc
-   uMmumP9Ikj4QNlqiOB9r99/p+7w+iV4NCC2WgQR5n2/IgO+lWQ2iny9O6
-   tWCArLziTNCpL1QSd9UNvYmpgl+gCVoUZ4yeFaf2TGsjqNw7hp5DynnHg
-   FpG/48/4ThI7ro8LdkCwmGHo3L3pHSQrebkNi7kCAG0gKJfpR/kT+7nvr
-   IVEaFMWa81XXovwJfJBcD5mhgVn2kOaKUtg8TsERdL/C2894mFvNV/E7W
-   a48JLZL5f2Nyp3lGwQgr4udranEl440WXLdnS9xEKyegVwaWNxHLO52tj
-   g==;
-X-CSE-ConnectionGUID: N8dYUnLgQbiSlZuJWAQzHw==
-X-CSE-MsgGUID: 23MaVvsGTz+VvYtlTgr1Mw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="57189743"
+  bh=KdAezppgQ4Rh9Mn4QZ7Pfd2XJYyK3e0m9fFebe1kEkc=;
+  b=H608KFXWvhfhfYzgfVnOJmZilXWcyKA6kXbezAvvsOxtrbr7IIiDQfFe
+   LWF/efqb2dAUSC095lVR803ol5SItDfe3y9i0fqWnXn8AnEo7vvJMS6o/
+   oTQwQIg8rHiQWT3htO44OY2L4C7d5PXbHOOLJMbu2+RHaRl1LLYNp3C8n
+   +rWSh4GiAB7j5Iz831IXaV5C0gBBr87SvSKib63H/dPNYOiPj3mXFW8QA
+   m9UfK9ZlcjzjuDCCpBpw5oODCjIIacfcjTsgShcmQoibN2EwN4H91eEcY
+   6x1wQf2bgSIkhZdI3KPTe9Mq0sDOaqJQYerRFBGFOlhNv63O3AJe4Jlc2
+   A==;
+X-CSE-ConnectionGUID: jPAevCqSRjOtmlRbJ1Cumg==
+X-CSE-MsgGUID: CcJDOMdMREetveywvIOLSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="64010965"
 X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="57189743"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 07:40:32 -0700
-X-CSE-ConnectionGUID: j1rXOS1xRES1LHHDv8h1yw==
-X-CSE-MsgGUID: bzHqMp1BQXeH9Myq/cxsjw==
+   d="scan'208";a="64010965"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 08:15:34 -0700
+X-CSE-ConnectionGUID: 5jv1ZLPETLOtX+oSb5jpwA==
+X-CSE-MsgGUID: OVow9ORfRYefx0FCy3/rpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="176727413"
+   d="scan'208";a="157328041"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Jun 2025 07:40:27 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 28 Jun 2025 08:15:32 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVWjB-000X7V-05;
-	Sat, 28 Jun 2025 14:40:25 +0000
-Date: Sat, 28 Jun 2025 22:39:55 +0800
+	id 1uVXH7-000X8I-2o;
+	Sat, 28 Jun 2025 15:15:29 +0000
+Date: Sat, 28 Jun 2025 23:14:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Lukas Wunner <lukas@wunner.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	"(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-	linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
-Message-ID: <202506282240.aqA0j5M3-lkp@intel.com>
-References: <20250627043108.3141206-10-superm1@kernel.org>
+To: Jay Wang <wanjay@amazon.com>, stable@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S . Miller" <davem@davemloft.net>,
+	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
+	wanjay@amazon.com, Samuel Mendoza-Jonas <samjonas@amazon.com>,
+	Elena Avila <ellavila@amazon.com>
+Subject: Re: [PATCH 1/2] crypto: rng - Override drivers/char/random in FIPS
+ mode
+Message-ID: <202506282235.pPmU7tOj-lkp@intel.com>
+References: <20250628042918.32253-2-wanjay@amazon.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,55 +67,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250627043108.3141206-10-superm1@kernel.org>
+In-Reply-To: <20250628042918.32253-2-wanjay@amazon.com>
 
-Hi Mario,
+Hi Jay,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on pci/next]
-[also build test WARNING on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus tip/x86/core linus/master v6.16-rc3 next-20250627]
+[auto build test ERROR on herbert-cryptodev-2.6/master]
+[also build test ERROR on herbert-crypto-2.6/master linus/master v6.16-rc3 next-20250627]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250627-123349
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250627043108.3141206-10-superm1%40kernel.org
-patch subject: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
-config: powerpc-bluestone_defconfig (https://download.01.org/0day-ci/archive/20250628/202506282240.aqA0j5M3-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506282240.aqA0j5M3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jay-Wang/crypto-rng-Override-drivers-char-random-in-FIPS-mode/20250628-123147
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/20250628042918.32253-2-wanjay%40amazon.com
+patch subject: [PATCH 1/2] crypto: rng - Override drivers/char/random in FIPS mode
+config: x86_64-buildonly-randconfig-001-20250628 (https://download.01.org/0day-ci/archive/20250628/202506282235.pPmU7tOj-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506282235.pPmU7tOj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506282240.aqA0j5M3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506282235.pPmU7tOj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/pci/pci-sysfs.c:688:8: warning: unused variable 'dev_attr_boot_display' [-Wunused-variable]
-     688 | static DEVICE_ATTR_RO(boot_display);
-         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:199:26: note: expanded from macro 'DEVICE_ATTR_RO'
-     199 |         struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
-         |                                 ^~~~~~~~~~~~~~~~
-   <scratch space>:54:1: note: expanded from here
-      54 | dev_attr_boot_display
-         | ^~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+>> crypto/rng.c:272:21: error: variable 'crypto_devrandom_rng' has initializer but incomplete type
+     272 | static const struct random_extrng crypto_devrandom_rng = {
+         |                     ^~~~~~~~~~~~~
+>> crypto/rng.c:273:10: error: 'const struct random_extrng' has no member named 'extrng_read'
+     273 |         .extrng_read = crypto_devrandom_read,
+         |          ^~~~~~~~~~~
+>> crypto/rng.c:273:24: warning: excess elements in struct initializer
+     273 |         .extrng_read = crypto_devrandom_read,
+         |                        ^~~~~~~~~~~~~~~~~~~~~
+   crypto/rng.c:273:24: note: (near initialization for 'crypto_devrandom_rng')
+>> crypto/rng.c:274:10: error: 'const struct random_extrng' has no member named 'owner'
+     274 |         .owner = THIS_MODULE,
+         |          ^~~~~
+   In file included from include/linux/printk.h:6,
+                    from include/asm-generic/bug.h:22,
+                    from arch/x86/include/asm/bug.h:103,
+                    from arch/x86/include/asm/alternative.h:9,
+                    from arch/x86/include/asm/barrier.h:5,
+                    from include/linux/list.h:11,
+                    from include/linux/swait.h:5,
+                    from include/linux/completion.h:12,
+                    from include/linux/crypto.h:15,
+                    from include/crypto/algapi.h:13,
+                    from include/crypto/internal/rng.h:12,
+                    from crypto/rng.c:11:
+   include/linux/init.h:182:21: warning: excess elements in struct initializer
+     182 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   crypto/rng.c:274:18: note: in expansion of macro 'THIS_MODULE'
+     274 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   include/linux/init.h:182:21: note: (near initialization for 'crypto_devrandom_rng')
+     182 | #define THIS_MODULE ((struct module *)0)
+         |                     ^
+   crypto/rng.c:274:18: note: in expansion of macro 'THIS_MODULE'
+     274 |         .owner = THIS_MODULE,
+         |                  ^~~~~~~~~~~
+   crypto/rng.c: In function 'crypto_rng_init':
+>> crypto/rng.c:280:17: error: implicit declaration of function 'random_register_extrng'; did you mean 'crypto_register_rng'? [-Werror=implicit-function-declaration]
+     280 |                 random_register_extrng(&crypto_devrandom_rng);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~
+         |                 crypto_register_rng
+   crypto/rng.c: In function 'crypto_rng_exit':
+>> crypto/rng.c:286:9: error: implicit declaration of function 'random_unregister_extrng'; did you mean 'crypto_unregister_rng'? [-Werror=implicit-function-declaration]
+     286 |         random_unregister_extrng();
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+         |         crypto_unregister_rng
+   crypto/rng.c: At top level:
+>> crypto/rng.c:272:35: error: storage size of 'crypto_devrandom_rng' isn't known
+     272 | static const struct random_extrng crypto_devrandom_rng = {
+         |                                   ^~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/dev_attr_boot_display +688 drivers/pci/pci-sysfs.c
+vim +/crypto_devrandom_rng +272 crypto/rng.c
 
-   682	
-   683	static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
-   684					 char *buf)
-   685	{
-   686		return sysfs_emit(buf, "1\n");
-   687	}
- > 688	static DEVICE_ATTR_RO(boot_display);
-   689	
+   271	
+ > 272	static const struct random_extrng crypto_devrandom_rng = {
+ > 273		.extrng_read = crypto_devrandom_read,
+ > 274		.owner = THIS_MODULE,
+   275	};
+   276	
+   277	static int __init crypto_rng_init(void)
+   278	{
+   279		if (fips_enabled)
+ > 280			random_register_extrng(&crypto_devrandom_rng);
+   281		return 0;
+   282	}
+   283	
+   284	static void __exit crypto_rng_exit(void)
+   285	{
+ > 286		random_unregister_extrng();
+   287	}
+   288	
 
 -- 
 0-DAY CI Kernel Test Service
