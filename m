@@ -1,64 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10121AA1DB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jun 2025 15:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37021EB5FD;
+	Sat, 28 Jun 2025 15:19:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751123736; cv=none; b=SI/9Wr3fl5a0EcdfvKfyyS1NtAT58Ppb48sTlUAOzQe/ACqi8au4fkBAjIbI39JE9YH5X3epffQvAg2vvDghmB56Wzp4lwVbgqUB8Kt43Otjm4LrhsbkAPVgdJRUwADMiiJjFV2hArEKQhIOeEgk2hCBLzv6qCGPQRtNHybKbwI=
+	t=1751123979; cv=none; b=d+FHmMgxYOU/jo+VhagmOGhmN+Rrnv06NgHMXtbl15TtQ528ZjiejgFsBPJMndsN/8l0QM9t8oFFTAOKwor0LyuEm90jahjE8gpq9d1aYv9JTa5PFsWOsyJqxNtd1j6ugpU0j3kjkCOP9/f1KegsjSaCGw1NywZke6KYFG8re/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751123736; c=relaxed/simple;
-	bh=KdAezppgQ4Rh9Mn4QZ7Pfd2XJYyK3e0m9fFebe1kEkc=;
+	s=arc-20240116; t=1751123979; c=relaxed/simple;
+	bh=XK4HMbYqe5lBvehgeZ5b6wX+d1FRmOk1MWPacl29n0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m2kfSqWpUvdQdrvvTkfJ85WcP/Ck3Sd1WhdxuGul52RR5fvDkO5BIXfcaW/5mrVmbfi7Epd+oO6Pvi+xemRwB5hksPaX+odQI2Oq1AjPDsiC7GiUhIqyvol7hrJ0syXmr97kBKhaUcPA/BVW0hVAZx72hn86Kzr52LO2QMSyqu8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H608KFXW; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=HAaiQwRF5HyJHaZ18ilI4EBvHgPCtl11TX8p/BResIUse2JjcG+YVjBFK+Yfa0PCs66eSEcFWc4YlO3KXKghM0LkU72G0ZbKXDA4HDSV1JYIceTM1X46BCODtlVbf/CbTj1r+mH0BftZ223vDkPMb7Y6bWQ39CCg4vTmf9K42UY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eC1XPplo; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H608KFXW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eC1XPplo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751123735; x=1782659735;
+  t=1751123978; x=1782659978;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=KdAezppgQ4Rh9Mn4QZ7Pfd2XJYyK3e0m9fFebe1kEkc=;
-  b=H608KFXWvhfhfYzgfVnOJmZilXWcyKA6kXbezAvvsOxtrbr7IIiDQfFe
-   LWF/efqb2dAUSC095lVR803ol5SItDfe3y9i0fqWnXn8AnEo7vvJMS6o/
-   oTQwQIg8rHiQWT3htO44OY2L4C7d5PXbHOOLJMbu2+RHaRl1LLYNp3C8n
-   +rWSh4GiAB7j5Iz831IXaV5C0gBBr87SvSKib63H/dPNYOiPj3mXFW8QA
-   m9UfK9ZlcjzjuDCCpBpw5oODCjIIacfcjTsgShcmQoibN2EwN4H91eEcY
-   6x1wQf2bgSIkhZdI3KPTe9Mq0sDOaqJQYerRFBGFOlhNv63O3AJe4Jlc2
-   A==;
-X-CSE-ConnectionGUID: jPAevCqSRjOtmlRbJ1Cumg==
-X-CSE-MsgGUID: CcJDOMdMREetveywvIOLSg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="64010965"
+  bh=XK4HMbYqe5lBvehgeZ5b6wX+d1FRmOk1MWPacl29n0c=;
+  b=eC1XPplohapn1ZhA+rczmlrGJo57H4HPdKZK7y8n4sIJYmDPihGTDpby
+   q+VC4J2HnBla9g4+Z69Z42ZQrLZ2p1q+RscRlQWVr9H0zABtdSoxVgpOX
+   t/uNFOlT4khlTB9xpZk34UeFc756cq4f7a8TIVX9rQ4/ypvebdbORnQKO
+   LQ6HTHV9e4B6Xtchp6RFJNUPeQzmaMkg1YpRGkJE/Gob5BZHyViXpazGa
+   khtTwKw/vG7MDgmfFiL4laRPwN0OlcYSyPwlRUDS3COpR/8XCiKGy81qA
+   evBFFL6DwLIIkiP+p8W7h99gZYoD+asg8QDtkHRFpsVvOyQC2jZdpbMTA
+   w==;
+X-CSE-ConnectionGUID: R+ZyEYiwRA2iyKYBMCRSYg==
+X-CSE-MsgGUID: tXEp3d5YTyKsAfr0hLpDug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="53501276"
 X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="64010965"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 08:15:34 -0700
-X-CSE-ConnectionGUID: 5jv1ZLPETLOtX+oSb5jpwA==
-X-CSE-MsgGUID: OVow9ORfRYefx0FCy3/rpw==
+   d="scan'208";a="53501276"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 08:19:37 -0700
+X-CSE-ConnectionGUID: qZzmuQ/CSxKgMqtwIDYTGQ==
+X-CSE-MsgGUID: +ojCm4X1Q7eZcWX/PGcXxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="157328041"
+   d="scan'208";a="157444417"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 28 Jun 2025 08:15:32 -0700
+  by orviesa003.jf.intel.com with ESMTP; 28 Jun 2025 08:19:33 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVXH7-000X8I-2o;
-	Sat, 28 Jun 2025 15:15:29 +0000
-Date: Sat, 28 Jun 2025 23:14:41 +0800
+	id 1uVXL0-000X8c-2z;
+	Sat, 28 Jun 2025 15:19:30 +0000
+Date: Sat, 28 Jun 2025 23:18:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jay Wang <wanjay@amazon.com>, stable@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org,
-	wanjay@amazon.com, Samuel Mendoza-Jonas <samjonas@amazon.com>,
-	Elena Avila <ellavila@amazon.com>
-Subject: Re: [PATCH 1/2] crypto: rng - Override drivers/char/random in FIPS
- mode
-Message-ID: <202506282235.pPmU7tOj-lkp@intel.com>
-References: <20250628042918.32253-2-wanjay@amazon.com>
+To: Nam Cao <namcao@linutronix.de>,
+	"K . Y . Srinivasan" <kys@microsoft.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H . Peter Anvin" <hpa@zytor.com>, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Nam Cao <namcao@linutronix.de>
+Subject: Re: [PATCH 1/1] x86/hyperv: Switch to msi_create_parent_irq_domain()
+Message-ID: <202506282256.cHlEHrdc-lkp@intel.com>
+References: <0eafade05acb51022242635750cd4990f3adb0ac.1750947640.git.namcao@linutronix.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,107 +72,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250628042918.32253-2-wanjay@amazon.com>
+In-Reply-To: <0eafade05acb51022242635750cd4990f3adb0ac.1750947640.git.namcao@linutronix.de>
 
-Hi Jay,
+Hi Nam,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on herbert-cryptodev-2.6/master]
-[also build test ERROR on herbert-crypto-2.6/master linus/master v6.16-rc3 next-20250627]
+[auto build test WARNING on tip/master]
+[also build test WARNING on linus/master v6.16-rc3 next-20250627]
+[cannot apply to tip/x86/core tip/auto-latest]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jay-Wang/crypto-rng-Override-drivers-char-random-in-FIPS-mode/20250628-123147
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
-patch link:    https://lore.kernel.org/r/20250628042918.32253-2-wanjay%40amazon.com
-patch subject: [PATCH 1/2] crypto: rng - Override drivers/char/random in FIPS mode
-config: x86_64-buildonly-randconfig-001-20250628 (https://download.01.org/0day-ci/archive/20250628/202506282235.pPmU7tOj-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506282235.pPmU7tOj-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Cao/x86-hyperv-Switch-to-msi_create_parent_irq_domain/20250626-225420
+base:   tip/master
+patch link:    https://lore.kernel.org/r/0eafade05acb51022242635750cd4990f3adb0ac.1750947640.git.namcao%40linutronix.de
+patch subject: [PATCH 1/1] x86/hyperv: Switch to msi_create_parent_irq_domain()
+config: x86_64-buildonly-randconfig-002-20250628 (https://download.01.org/0day-ci/archive/20250628/202506282256.cHlEHrdc-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506282256.cHlEHrdc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506282235.pPmU7tOj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506282256.cHlEHrdc-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> crypto/rng.c:272:21: error: variable 'crypto_devrandom_rng' has initializer but incomplete type
-     272 | static const struct random_extrng crypto_devrandom_rng = {
-         |                     ^~~~~~~~~~~~~
->> crypto/rng.c:273:10: error: 'const struct random_extrng' has no member named 'extrng_read'
-     273 |         .extrng_read = crypto_devrandom_read,
-         |          ^~~~~~~~~~~
->> crypto/rng.c:273:24: warning: excess elements in struct initializer
-     273 |         .extrng_read = crypto_devrandom_read,
-         |                        ^~~~~~~~~~~~~~~~~~~~~
-   crypto/rng.c:273:24: note: (near initialization for 'crypto_devrandom_rng')
->> crypto/rng.c:274:10: error: 'const struct random_extrng' has no member named 'owner'
-     274 |         .owner = THIS_MODULE,
-         |          ^~~~~
-   In file included from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:22,
-                    from arch/x86/include/asm/bug.h:103,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/barrier.h:5,
-                    from include/linux/list.h:11,
-                    from include/linux/swait.h:5,
-                    from include/linux/completion.h:12,
-                    from include/linux/crypto.h:15,
-                    from include/crypto/algapi.h:13,
-                    from include/crypto/internal/rng.h:12,
-                    from crypto/rng.c:11:
-   include/linux/init.h:182:21: warning: excess elements in struct initializer
-     182 | #define THIS_MODULE ((struct module *)0)
-         |                     ^
-   crypto/rng.c:274:18: note: in expansion of macro 'THIS_MODULE'
-     274 |         .owner = THIS_MODULE,
-         |                  ^~~~~~~~~~~
-   include/linux/init.h:182:21: note: (near initialization for 'crypto_devrandom_rng')
-     182 | #define THIS_MODULE ((struct module *)0)
-         |                     ^
-   crypto/rng.c:274:18: note: in expansion of macro 'THIS_MODULE'
-     274 |         .owner = THIS_MODULE,
-         |                  ^~~~~~~~~~~
-   crypto/rng.c: In function 'crypto_rng_init':
->> crypto/rng.c:280:17: error: implicit declaration of function 'random_register_extrng'; did you mean 'crypto_register_rng'? [-Werror=implicit-function-declaration]
-     280 |                 random_register_extrng(&crypto_devrandom_rng);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                 crypto_register_rng
-   crypto/rng.c: In function 'crypto_rng_exit':
->> crypto/rng.c:286:9: error: implicit declaration of function 'random_unregister_extrng'; did you mean 'crypto_unregister_rng'? [-Werror=implicit-function-declaration]
-     286 |         random_unregister_extrng();
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-         |         crypto_unregister_rng
-   crypto/rng.c: At top level:
->> crypto/rng.c:272:35: error: storage size of 'crypto_devrandom_rng' isn't known
-     272 | static const struct random_extrng crypto_devrandom_rng = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
+   In file included from drivers/irqchip/irq-msi-lib.c:7:
+>> include/linux/irqchip/irq-msi-lib.h:25:18: warning: declaration of 'struct msi_domain_info' will not be visible outside of this function [-Wvisibility]
+      25 |                                struct msi_domain_info *info);
+         |                                       ^
+>> drivers/irqchip/irq-msi-lib.c:28:18: warning: declaration of 'struct msi_domain_info' will not be visible outside of this function [-Wvisibility]
+      28 |                                struct msi_domain_info *info)
+         |                                       ^
+   drivers/irqchip/irq-msi-lib.c:26:6: error: conflicting types for 'msi_lib_init_dev_msi_info'
+      26 | bool msi_lib_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
+         |      ^
+   include/linux/irqchip/irq-msi-lib.h:23:6: note: previous declaration is here
+      23 | bool msi_lib_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
+         |      ^
+   drivers/irqchip/irq-msi-lib.c:30:51: error: no member named 'msi_parent_ops' in 'struct irq_domain'
+      30 |         const struct msi_parent_ops *pops = real_parent->msi_parent_ops;
+         |                                             ~~~~~~~~~~~  ^
+   drivers/irqchip/irq-msi-lib.c:31:30: error: incomplete definition of type 'struct msi_domain_info'
+      31 |         struct irq_chip *chip = info->chip;
+         |                                 ~~~~^
+   drivers/irqchip/irq-msi-lib.c:28:18: note: forward declaration of 'struct msi_domain_info'
+      28 |                                struct msi_domain_info *info)
+         |                                       ^
+   drivers/irqchip/irq-msi-lib.c:43:31: error: incomplete definition of type 'const struct msi_parent_ops'
+      43 |         if (domain->bus_token == pops->bus_select_token) {
+         |                                  ~~~~^
+   include/linux/irqdomain.h:27:8: note: forward declaration of 'struct msi_parent_ops'
+      27 | struct msi_parent_ops;
+         |        ^
+   drivers/irqchip/irq-msi-lib.c:51:23: error: incomplete definition of type 'const struct msi_parent_ops'
+      51 |         required_flags = pops->required_flags;
+         |                          ~~~~^
+   include/linux/irqdomain.h:27:8: note: forward declaration of 'struct msi_parent_ops'
+      27 | struct msi_parent_ops;
+         |        ^
+   drivers/irqchip/irq-msi-lib.c:54:13: error: incomplete definition of type 'struct msi_domain_info'
+      54 |         switch(info->bus_token) {
+         |                ~~~~^
+   drivers/irqchip/irq-msi-lib.c:28:18: note: forward declaration of 'struct msi_domain_info'
+      28 |                                struct msi_domain_info *info)
+         |                                       ^
+   drivers/irqchip/irq-msi-lib.c:68:24: error: incomplete definition of type 'struct msi_domain_info'
+      68 |                 if (WARN_ON_ONCE(info->flags))
+         |                                  ~~~~^
+   include/asm-generic/bug.h:117:25: note: expanded from macro 'WARN_ON_ONCE'
+     117 |         int __ret_warn_on = !!(condition);                      \
+         |                                ^~~~~~~~~
+   drivers/irqchip/irq-msi-lib.c:28:18: note: forward declaration of 'struct msi_domain_info'
+      28 |                                struct msi_domain_info *info)
+         |                                       ^
+   drivers/irqchip/irq-msi-lib.c:72:7: error: incomplete definition of type 'struct msi_domain_info'
+      72 |                 info->flags = MSI_FLAG_ALLOC_SIMPLE_MSI_DESCS | MSI_FLAG_FREE_MSI_DESCS;
+         |                 ~~~~^
+   drivers/irqchip/irq-msi-lib.c:28:18: note: forward declaration of 'struct msi_domain_info'
+      28 |                                struct msi_domain_info *info)
+         |                                       ^
+   drivers/irqchip/irq-msi-lib.c:72:17: error: use of undeclared identifier 'MSI_FLAG_ALLOC_SIMPLE_MSI_DESCS'
+      72 |                 info->flags = MSI_FLAG_ALLOC_SIMPLE_MSI_DESCS | MSI_FLAG_FREE_MSI_DESCS;
+         |                               ^
+   drivers/irqchip/irq-msi-lib.c:72:51: error: use of undeclared identifier 'MSI_FLAG_FREE_MSI_DESCS'
+      72 |                 info->flags = MSI_FLAG_ALLOC_SIMPLE_MSI_DESCS | MSI_FLAG_FREE_MSI_DESCS;
+         |                                                                 ^
+   drivers/irqchip/irq-msi-lib.c:76:22: error: use of undeclared identifier 'MSI_FLAG_PCI_MSI_MASK_PARENT'
+      76 |                 required_flags &= ~MSI_FLAG_PCI_MSI_MASK_PARENT;
+         |                                    ^
+   drivers/irqchip/irq-msi-lib.c:91:6: error: incomplete definition of type 'struct msi_domain_info'
+      91 |         info->flags                     &= pops->supported_flags;
+         |         ~~~~^
+   drivers/irqchip/irq-msi-lib.c:28:18: note: forward declaration of 'struct msi_domain_info'
+      28 |                                struct msi_domain_info *info)
+         |                                       ^
+   drivers/irqchip/irq-msi-lib.c:91:23: error: incomplete definition of type 'const struct msi_parent_ops'
+      91 |         info->flags                     &= pops->supported_flags;
+         |                                            ~~~~^
+   include/linux/irqdomain.h:27:8: note: forward declaration of 'struct msi_parent_ops'
+      27 | struct msi_parent_ops;
+         |        ^
+   drivers/irqchip/irq-msi-lib.c:93:6: error: incomplete definition of type 'struct msi_domain_info'
+      93 |         info->flags                     |= required_flags;
+         |         ~~~~^
+   drivers/irqchip/irq-msi-lib.c:28:18: note: forward declaration of 'struct msi_domain_info'
+      28 |                                struct msi_domain_info *info)
+         |                                       ^
+   drivers/irqchip/irq-msi-lib.c:96:29: error: incomplete definition of type 'const struct msi_parent_ops'
+      96 |         if (!chip->irq_eoi && (pops->chip_flags & MSI_CHIP_FLAG_SET_EOI))
+         |                                ~~~~^
+   include/linux/irqdomain.h:27:8: note: forward declaration of 'struct msi_parent_ops'
+      27 | struct msi_parent_ops;
+         |        ^
+   drivers/irqchip/irq-msi-lib.c:96:44: error: use of undeclared identifier 'MSI_CHIP_FLAG_SET_EOI'
+      96 |         if (!chip->irq_eoi && (pops->chip_flags & MSI_CHIP_FLAG_SET_EOI))
+         |                                                   ^
+   drivers/irqchip/irq-msi-lib.c:98:29: error: incomplete definition of type 'const struct msi_parent_ops'
+      98 |         if (!chip->irq_ack && (pops->chip_flags & MSI_CHIP_FLAG_SET_ACK))
+         |                                ~~~~^
+   include/linux/irqdomain.h:27:8: note: forward declaration of 'struct msi_parent_ops'
+      27 | struct msi_parent_ops;
+         |        ^
+   drivers/irqchip/irq-msi-lib.c:98:44: error: use of undeclared identifier 'MSI_CHIP_FLAG_SET_ACK'
+      98 |         if (!chip->irq_ack && (pops->chip_flags & MSI_CHIP_FLAG_SET_ACK))
+         |                                                   ^
+   drivers/irqchip/irq-msi-lib.c:113:39: error: incomplete definition of type 'struct msi_domain_info'
+     113 |         if (!chip->irq_set_affinity && !(info->flags & MSI_FLAG_NO_AFFINITY))
+         |                                          ~~~~^
+   drivers/irqchip/irq-msi-lib.c:28:18: note: forward declaration of 'struct msi_domain_info'
+      28 |                                struct msi_domain_info *info)
 
 
-vim +/crypto_devrandom_rng +272 crypto/rng.c
+vim +25 include/linux/irqchip/irq-msi-lib.h
 
-   271	
- > 272	static const struct random_extrng crypto_devrandom_rng = {
- > 273		.extrng_read = crypto_devrandom_read,
- > 274		.owner = THIS_MODULE,
-   275	};
-   276	
-   277	static int __init crypto_rng_init(void)
-   278	{
-   279		if (fips_enabled)
- > 280			random_register_extrng(&crypto_devrandom_rng);
-   281		return 0;
-   282	}
-   283	
-   284	static void __exit crypto_rng_exit(void)
-   285	{
- > 286		random_unregister_extrng();
-   287	}
-   288	
+496436f4a514a3 drivers/irqchip/irq-msi-lib.h Thomas Gleixner 2024-06-23  19  
+72e257c6f05803 drivers/irqchip/irq-msi-lib.h Thomas Gleixner 2024-06-23  20  int msi_lib_irq_domain_select(struct irq_domain *d, struct irq_fwspec *fwspec,
+72e257c6f05803 drivers/irqchip/irq-msi-lib.h Thomas Gleixner 2024-06-23  21  			      enum irq_domain_bus_token bus_token);
+72e257c6f05803 drivers/irqchip/irq-msi-lib.h Thomas Gleixner 2024-06-23  22  
+72e257c6f05803 drivers/irqchip/irq-msi-lib.h Thomas Gleixner 2024-06-23  23  bool msi_lib_init_dev_msi_info(struct device *dev, struct irq_domain *domain,
+72e257c6f05803 drivers/irqchip/irq-msi-lib.h Thomas Gleixner 2024-06-23  24  			       struct irq_domain *real_parent,
+72e257c6f05803 drivers/irqchip/irq-msi-lib.h Thomas Gleixner 2024-06-23 @25  			       struct msi_domain_info *info);
+72e257c6f05803 drivers/irqchip/irq-msi-lib.h Thomas Gleixner 2024-06-23  26  
 
 -- 
 0-DAY CI Kernel Test Service
