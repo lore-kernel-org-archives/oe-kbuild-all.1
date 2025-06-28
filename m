@@ -1,76 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7185B1CD1E1;
-	Sat, 28 Jun 2025 05:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A0121FF59
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jun 2025 06:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751088513; cv=none; b=rs8JLDdkTPPRWJcS/0hy3GiF+PkUrHmZRK120P8VDIeMIqFRcU1wTnJzGOo5fdUl/hww9WRbB3wEo9fh6GMNdemNdoWaK+JUeIs8Pvaq3z9oxBRoqiSvXQh0rCY0bi+l5SIlKJw30AFRt93FtQVXyKIVhOmIE9/PVI99hvFiU4k=
+	t=1751093437; cv=none; b=FgUUc7MVl4StQHaf8nOUCQyPxNBG7Ketfx9jA8qy+IGYgivdRyXr23TWck2z7chpGOXNCh6CF0rcoZC1yl1KTmZJ6Xda55zPq8geuY7V/IChPDn1jw1uASdntH0oA2kHuLXkekrDVnSX65fYo/7lahvnfSRBnwW77YzD9oUZofs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751088513; c=relaxed/simple;
-	bh=/PouR7nev/ceIZ/BO1Yk6lP2sUsqB6YlSfWvYBhCwKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jxUndVXAYT6nYSDcIRM1S/d61ECAOVfEo2ymcvDclDOKzE4jHboNKhOE04CwP7ma5Y48ZpNfPrCWA5xKCla5zvvavvMMKxptUAYphgDyuiyHqiMFBAEOpvjioRORax4duYDMwEN4reC8cr8dnqNFIo/1jFpS38b2L9KLu8+M8nw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WA5PDo7w; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1751093437; c=relaxed/simple;
+	bh=YIXSV8/3I4ujw2zHs5UGQQG7ZKaS4RL1GeSs6riO77U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qVyG+LzrrI1/MRyZ/NN+wuvZEm+Shr159qzugBHlrRXp3ejU2e3fpiEJschZdBSsum4eKLlSynx+YWlvsGgLFo6CE1+42eglGU1PQB9GEwyZ8z2xe6m6OK6SaA8OqWwPS0IY8dSTis0KHnsH4WWnHBP4wT9bobAPJKq8pm028EY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EENf6SYE; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WA5PDo7w"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EENf6SYE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751088512; x=1782624512;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/PouR7nev/ceIZ/BO1Yk6lP2sUsqB6YlSfWvYBhCwKg=;
-  b=WA5PDo7wUCqXytIgvUEsvaE+K68/5WPxwBqK3R6xaWdSpk9M7oU6S5wC
-   J0jKtuznVGkkyFT8hpxksA/wtz4CFyvVuRHxFqRul6Zgk03+MPZNNWeu2
-   tE5Xf7F+vjqH+IKZkw0IYRKi4zb9fDWJp2UDg74r0eHvgucHI//YmG4xa
-   psvCy49b70sTVI7f2mPz4+LZDBRBYKwLW5Bhm5U2fp49agjOZs+a60axo
-   xe+ZCGEcKFmFUjcs/f/lLsvHb4IvTQH1wKeL9AF3szJPQKZ1TbcxwyLwu
-   x8fJXos5ZTHoGGacoIFHxzOnj6w+CFE/eZUJWhnR6BHGGiyUKHhy8ja4Y
-   A==;
-X-CSE-ConnectionGUID: BbSf+s3AQkKVID0YEQPG6A==
-X-CSE-MsgGUID: 3XWIzCuRRtukwShmjmzsUw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53119935"
+  t=1751093434; x=1782629434;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YIXSV8/3I4ujw2zHs5UGQQG7ZKaS4RL1GeSs6riO77U=;
+  b=EENf6SYEslpQL1Ww1HncWvNi5/xa3QCHgb+UP6uSgFj9vQEj5W6602Cj
+   45if+v34Ak2WuRMYfAgV9ksp0cE9xTPgow/UbGd5DKyUzdCQY1Hbstt8D
+   Q3Zj4Tvzc/P7hKfkJo8RZtlKYNab9PrIKnknS0J0ymXPxpfsSx4rK5YcX
+   Qqjx5SzR9jP5Tp/o6LiWLKlzC8jgeER4/00cExlA+i/seR79IO8dAXI1/
+   RX1xFbcpuCohgNSMd9ayfqYPt/9//4BSWvBZHmr/vZAcL3fpywYwGfDw7
+   Vq9WbZdDtJKj1CEJFO+0GNT3g0vN5IehexKuFRPh7ihHFXA9ULhFtEaKm
+   Q==;
+X-CSE-ConnectionGUID: 9Ra3oh6fSG6+P7QV2Spq8w==
+X-CSE-MsgGUID: VbWjc7GVTUGSptNoMOD0pw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53489330"
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="53119935"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 22:28:31 -0700
-X-CSE-ConnectionGUID: rDEavM7eScyJIozOfi5Adg==
-X-CSE-MsgGUID: aGbsD7QwQ4C31I2aKNUKmA==
+   d="scan'208";a="53489330"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 23:50:32 -0700
+X-CSE-ConnectionGUID: 4jtgzjsVS7iwURyd0bMFow==
+X-CSE-MsgGUID: fjOFENOFS761pOMAo+seFA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="184012419"
+   d="scan'208";a="153693530"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 27 Jun 2025 22:28:25 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 27 Jun 2025 23:50:31 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVO6w-000WpC-1w;
-	Sat, 28 Jun 2025 05:28:22 +0000
-Date: Sat, 28 Jun 2025 13:28:00 +0800
+	id 1uVPOP-000WsO-02;
+	Sat, 28 Jun 2025 06:50:29 +0000
+Date: Sat, 28 Jun 2025 14:50:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Lukas Wunner <lukas@wunner.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	"(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-	linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
-Message-ID: <202506281332.JQb144bv-lkp@intel.com>
-References: <20250627043108.3141206-10-superm1@kernel.org>
+To: kernel@openeuler.org, Shi Jing <shijing34@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2989/2989]
+ drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:1879:17: error: implicit
+ declaration of function '__symbol_put'; did you mean '__symbol_get'?
+Message-ID: <202506281459.uUU3BKjw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,87 +62,89 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250627043108.3141206-10-superm1@kernel.org>
 
-Hi Mario,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus tip/x86/core linus/master v6.16-rc3 next-20250627]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250627-123349
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250627043108.3141206-10-superm1%40kernel.org
-patch subject: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
-config: arc-randconfig-001-20250628 (https://download.01.org/0day-ci/archive/20250628/202506281332.JQb144bv-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506281332.JQb144bv-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   c245365237da527fb423d85e7ec54648113f843d
+commit: 79871cd2cd720225eb582c9ed49fb4a96a270b3b [2989/2989] net/hinic3: Synchronize new NIC features and bug fixes
+config: x86_64-buildonly-randconfig-006-20250628 (https://download.01.org/0day-ci/archive/20250628/202506281459.uUU3BKjw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506281459.uUU3BKjw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506281332.JQb144bv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506281459.uUU3BKjw-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/pci/pci-sysfs.c: In function 'pci_create_sysfs_dev_files':
->> drivers/pci/pci-sysfs.c:1701:11: error: implicit declaration of function 'pci_create_boot_display_file'; did you mean 'pci_create_sysfs_dev_files'? [-Werror=implicit-function-declaration]
-     retval = pci_create_boot_display_file(pdev);
-              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-              pci_create_sysfs_dev_files
-   drivers/pci/pci-sysfs.c: In function 'pci_remove_sysfs_dev_files':
->> drivers/pci/pci-sysfs.c:1719:2: error: implicit declaration of function 'pci_remove_boot_display_file'; did you mean 'pci_remove_sysfs_dev_files'? [-Werror=implicit-function-declaration]
-     pci_remove_boot_display_file(pdev);
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     pci_remove_sysfs_dev_files
-   In file included from include/linux/pci.h:37,
-                    from drivers/pci/pci-sysfs.c:19:
-   At top level:
->> include/linux/device.h:199:26: warning: 'dev_attr_boot_display' defined but not used [-Wunused-variable]
-     struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
-                             ^~~~~~~~~
-   drivers/pci/pci-sysfs.c:688:8: note: in expansion of macro 'DEVICE_ATTR_RO'
-    static DEVICE_ATTR_RO(boot_display);
-           ^~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:103:6: warning: no previous prototype for 'hinic3_uld_lock_init' [-Wmissing-prototypes]
+     103 | void hinic3_uld_lock_init(void)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:525:5: warning: no previous prototype for 'hinic3_pdev_is_virtfn' [-Wmissing-prototypes]
+     525 | u32 hinic3_pdev_is_virtfn(struct pci_dev *pdev)
+         |     ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:785:5: warning: no previous prototype for '__set_vroce_func_state' [-Wmissing-prototypes]
+     785 | int __set_vroce_func_state(struct hinic3_pcidev *pci_adapter)
+         |     ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:826:6: warning: no previous prototype for 'slave_host_mgmt_vroce_work' [-Wmissing-prototypes]
+     826 | void slave_host_mgmt_vroce_work(struct work_struct *work)
+         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:834:7: warning: no previous prototype for 'hinic3_get_roce_uld_by_pdev' [-Wmissing-prototypes]
+     834 | void *hinic3_get_roce_uld_by_pdev(struct pci_dev *pdev)
+         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:1796:6: warning: no previous prototype for 'hinic3_set_func_state' [-Wmissing-prototypes]
+    1796 | void hinic3_set_func_state(struct hinic3_pcidev *pci_adapter)
+         |      ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:1822:6: warning: no previous prototype for 'slave_host_mgmt_work' [-Wmissing-prototypes]
+    1822 | void slave_host_mgmt_work(struct work_struct *work)
+         |      ^~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c: In function 'slave_host_vfio_probe_delay_work':
+>> drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c:1879:17: error: implicit declaration of function '__symbol_put'; did you mean '__symbol_get'? [-Werror=implicit-function-declaration]
+    1879 |                 __symbol_put("migration_dev_migration_probe");
+         |                 ^~~~~~~~~~~~
+         |                 __symbol_get
    cc1: some warnings being treated as errors
 
 
-vim +1701 drivers/pci/pci-sysfs.c
+vim +1879 drivers/net/ethernet/huawei/hinic3/hw/hinic3_lld.c
 
-  1693	
-  1694	int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
-  1695	{
-  1696		int retval;
-  1697	
-  1698		if (!sysfs_initialized)
-  1699			return -EACCES;
-  1700	
-> 1701		retval = pci_create_boot_display_file(pdev);
-  1702		if (retval)
-  1703			return retval;
-  1704	
-  1705		return pci_create_resource_files(pdev);
-  1706	}
-  1707	
-  1708	/**
-  1709	 * pci_remove_sysfs_dev_files - cleanup PCI specific sysfs files
-  1710	 * @pdev: device whose entries we should free
-  1711	 *
-  1712	 * Cleanup when @pdev is removed from sysfs.
-  1713	 */
-  1714	void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
-  1715	{
-  1716		if (!sysfs_initialized)
-  1717			return;
-  1718	
-> 1719		pci_remove_boot_display_file(pdev);
-  1720		pci_remove_resource_files(pdev);
-  1721	}
-  1722	
+  1858	
+  1859	static void slave_host_vfio_probe_delay_work(struct work_struct *work)
+  1860	{
+  1861		struct delayed_work *delay = to_delayed_work(work);
+  1862		struct hinic3_pcidev *pci_adapter = container_of(delay, struct hinic3_pcidev, migration_probe_dwork);
+  1863		struct pci_dev *pdev = pci_adapter->pcidev;
+  1864		int (*dev_migration_probe)(struct pci_dev *);
+  1865		int rc;
+  1866	
+  1867		if (hinic3_func_type((struct hinic3_hwdev *)pci_adapter->hwdev) != TYPE_PF) {
+  1868			return;
+  1869		}
+  1870	
+  1871		dev_migration_probe = __symbol_get("migration_dev_migration_probe");
+  1872		if (!(dev_migration_probe)) {
+  1873			sdk_err(&pdev->dev,
+  1874				"Failed to find: migration_dev_migration_probe");
+  1875			queue_delayed_work(pci_adapter->migration_probe_workq,
+  1876				&pci_adapter->migration_probe_dwork, WAIT_TIME * HZ);
+  1877		} else {
+  1878			rc = dev_migration_probe(pdev);
+> 1879			__symbol_put("migration_dev_migration_probe");
+  1880			if (rc) {
+  1881				sdk_err(&pdev->dev,
+  1882					"Failed to __dev_migration_probe, rc:0x%x, pf migrated(%d).\n",
+  1883					rc, g_is_pf_migrated);
+  1884			} else {
+  1885				g_is_pf_migrated = true;
+  1886				sdk_info(&pdev->dev,
+  1887					 "Successed in __dev_migration_probe, pf migrated(%d).\n",
+  1888					 g_is_pf_migrated);
+  1889			}
+  1890		}
+  1891	
+  1892		return;
+  1893	}
+  1894	
 
 -- 
 0-DAY CI Kernel Test Service
