@@ -1,60 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A89C97DA9C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jun 2025 04:58:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7185B1CD1E1;
+	Sat, 28 Jun 2025 05:28:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751086705; cv=none; b=oePXEOvdO6tj4/DM5WyhgSYS6HSN1FbmPowgNBckoUZkLaJq5+rb8g6O3f22B7o4TWSM0rwjDuCbBC/E2HUGFk1kwvfbDa1TxDz58yb7kYDIECAF8mN9PZUU374tU9zTkyr/syQAo6Ag0GYdKQKnxGR+j1DwCM+ofnQvTQCdjxc=
+	t=1751088513; cv=none; b=rs8JLDdkTPPRWJcS/0hy3GiF+PkUrHmZRK120P8VDIeMIqFRcU1wTnJzGOo5fdUl/hww9WRbB3wEo9fh6GMNdemNdoWaK+JUeIs8Pvaq3z9oxBRoqiSvXQh0rCY0bi+l5SIlKJw30AFRt93FtQVXyKIVhOmIE9/PVI99hvFiU4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751086705; c=relaxed/simple;
-	bh=OfWONuJ51YaU9PPGIiNJe8BQMp7eAsD3gANkV+jrrfE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VaoAq051NlATVB3lh2EpUbR1W4yF5Nha9D0YP1+TFs2bAnLFfdhnYm0Z26k3ao06axBVoumLaMaaDA0OPhkTKsY+A+6ya9yAc6wncJdjyl0g5baVXpRP1oIegO6AouGiT1Wp4dt+cMBe2UPFEbYTpRx20V77Y1XWvUotm+y7X0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LhrS9bw2; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1751088513; c=relaxed/simple;
+	bh=/PouR7nev/ceIZ/BO1Yk6lP2sUsqB6YlSfWvYBhCwKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jxUndVXAYT6nYSDcIRM1S/d61ECAOVfEo2ymcvDclDOKzE4jHboNKhOE04CwP7ma5Y48ZpNfPrCWA5xKCla5zvvavvMMKxptUAYphgDyuiyHqiMFBAEOpvjioRORax4duYDMwEN4reC8cr8dnqNFIo/1jFpS38b2L9KLu8+M8nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WA5PDo7w; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LhrS9bw2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WA5PDo7w"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751086704; x=1782622704;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=OfWONuJ51YaU9PPGIiNJe8BQMp7eAsD3gANkV+jrrfE=;
-  b=LhrS9bw2pL35WgfKlXIK8rV7btKl9YBEFSMwC3pw0Pvbwo3Ax3NiPm1Z
-   cMEMo6op6DyY+NBICNP+fsLcyHH1tWACjQ2Nu5L2INzFOmFecm0ADwDoO
-   EgODggQHwKq1uWBnE40p16biyznWQoNugMyyHhV/CvVq+7LyeJotAcsde
-   baF6FSqlBBRjfEFx+TNpT77h4SJPVmmJWhBrdgwEsuY1wug/RrQFWb8SY
-   mwAbEhBtH977bmnUt28NQhFoprrOMZY1WGdB6i6feVc9qwGs6Ga4nqU/Z
-   sAGUpivKwhnbvHjMUIvxtvreQtFNLAKasTcNbLTjl/sKgX4QBdwBKBgFL
-   w==;
-X-CSE-ConnectionGUID: SX6B8tVKQoq6Gezhqz5HVA==
-X-CSE-MsgGUID: SvJ9Cu4JS/O48i0i076Kww==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="56018164"
+  t=1751088512; x=1782624512;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/PouR7nev/ceIZ/BO1Yk6lP2sUsqB6YlSfWvYBhCwKg=;
+  b=WA5PDo7wUCqXytIgvUEsvaE+K68/5WPxwBqK3R6xaWdSpk9M7oU6S5wC
+   J0jKtuznVGkkyFT8hpxksA/wtz4CFyvVuRHxFqRul6Zgk03+MPZNNWeu2
+   tE5Xf7F+vjqH+IKZkw0IYRKi4zb9fDWJp2UDg74r0eHvgucHI//YmG4xa
+   psvCy49b70sTVI7f2mPz4+LZDBRBYKwLW5Bhm5U2fp49agjOZs+a60axo
+   xe+ZCGEcKFmFUjcs/f/lLsvHb4IvTQH1wKeL9AF3szJPQKZ1TbcxwyLwu
+   x8fJXos5ZTHoGGacoIFHxzOnj6w+CFE/eZUJWhnR6BHGGiyUKHhy8ja4Y
+   A==;
+X-CSE-ConnectionGUID: BbSf+s3AQkKVID0YEQPG6A==
+X-CSE-MsgGUID: 3XWIzCuRRtukwShmjmzsUw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="53119935"
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="56018164"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 21:58:23 -0700
-X-CSE-ConnectionGUID: 5Yg08f0vTxKtVXkpTIbJEA==
-X-CSE-MsgGUID: M8e1OrwsSW618UzRwFSj2A==
+   d="scan'208";a="53119935"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jun 2025 22:28:31 -0700
+X-CSE-ConnectionGUID: rDEavM7eScyJIozOfi5Adg==
+X-CSE-MsgGUID: aGbsD7QwQ4C31I2aKNUKmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="153068135"
+   d="scan'208";a="184012419"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Jun 2025 21:58:22 -0700
+  by orviesa002.jf.intel.com with ESMTP; 27 Jun 2025 22:28:25 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVNds-000Wnm-0h;
-	Sat, 28 Jun 2025 04:58:20 +0000
-Date: Sat, 28 Jun 2025 12:57:27 +0800
+	id 1uVO6w-000WpC-1w;
+	Sat, 28 Jun 2025 05:28:22 +0000
+Date: Sat, 28 Jun 2025 13:28:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1-2024-12 1/1]
- drivers/net/wwan/t7xx/t7xx_hif_dpmaif_rx.c:780:38: warning: default
- initialization of an object of type 'typeof (timeout)' (aka 'const unsigned
- long') leaves the object uninitialized
-Message-ID: <202506281243.nawJOxIL-lkp@intel.com>
+To: Mario Limonciello <superm1@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Lukas Wunner <lukas@wunner.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	"(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
+	linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
+Message-ID: <202506281332.JQb144bv-lkp@intel.com>
+References: <20250627043108.3141206-10-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,130 +79,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250627043108.3141206-10-superm1@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1-2024-12
-head:   d7e681d5f2760062573dbd9f6fb00a2cac081eed
-commit: ec6f22171dc266f410335068291f2149b64e8363 [1/1] net: wwan: t7xx: do not compile with -Werror
-config: arm64-randconfig-002-20250628 (https://download.01.org/0day-ci/archive/20250628/202506281243.nawJOxIL-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506281243.nawJOxIL-lkp@intel.com/reproduce)
+Hi Mario,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus tip/x86/core linus/master v6.16-rc3 next-20250627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250627-123349
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250627043108.3141206-10-superm1%40kernel.org
+patch subject: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
+config: arc-randconfig-001-20250628 (https://download.01.org/0day-ci/archive/20250628/202506281332.JQb144bv-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506281332.JQb144bv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506281243.nawJOxIL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506281332.JQb144bv-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/net/wwan/t7xx/t7xx_hif_dpmaif_rx.c:780:38: warning: default initialization of an object of type 'typeof (timeout)' (aka 'const unsigned long') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
-     780 |                 if (!skb_info->msg_pit_received && time_after_eq(jiffies, timeout))
-         |                                                    ^
-   include/linux/jiffies.h:112:3: note: expanded from macro 'time_after_eq'
-     112 |          typecheck(unsigned long, b) && \
-         |          ^
-   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                   ^
-   1 warning generated.
+   drivers/pci/pci-sysfs.c: In function 'pci_create_sysfs_dev_files':
+>> drivers/pci/pci-sysfs.c:1701:11: error: implicit declaration of function 'pci_create_boot_display_file'; did you mean 'pci_create_sysfs_dev_files'? [-Werror=implicit-function-declaration]
+     retval = pci_create_boot_display_file(pdev);
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+              pci_create_sysfs_dev_files
+   drivers/pci/pci-sysfs.c: In function 'pci_remove_sysfs_dev_files':
+>> drivers/pci/pci-sysfs.c:1719:2: error: implicit declaration of function 'pci_remove_boot_display_file'; did you mean 'pci_remove_sysfs_dev_files'? [-Werror=implicit-function-declaration]
+     pci_remove_boot_display_file(pdev);
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     pci_remove_sysfs_dev_files
+   In file included from include/linux/pci.h:37,
+                    from drivers/pci/pci-sysfs.c:19:
+   At top level:
+>> include/linux/device.h:199:26: warning: 'dev_attr_boot_display' defined but not used [-Wunused-variable]
+     struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
+                             ^~~~~~~~~
+   drivers/pci/pci-sysfs.c:688:8: note: in expansion of macro 'DEVICE_ATTR_RO'
+    static DEVICE_ATTR_RO(boot_display);
+           ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +780 drivers/net/wwan/t7xx/t7xx_hif_dpmaif_rx.c
+vim +1701 drivers/pci/pci-sysfs.c
 
-d642b012df70a76 Haijun Liu 2022-05-06  763  
-d642b012df70a76 Haijun Liu 2022-05-06  764  static int t7xx_dpmaif_rx_start(struct dpmaif_rx_queue *rxq, const unsigned int pit_cnt,
-d642b012df70a76 Haijun Liu 2022-05-06  765  				const unsigned long timeout)
-d642b012df70a76 Haijun Liu 2022-05-06  766  {
-d642b012df70a76 Haijun Liu 2022-05-06  767  	unsigned int cur_pit, pit_len, rx_cnt, recv_skb_cnt = 0;
-d642b012df70a76 Haijun Liu 2022-05-06  768  	struct device *dev = rxq->dpmaif_ctrl->dev;
-d642b012df70a76 Haijun Liu 2022-05-06  769  	struct dpmaif_cur_rx_skb_info *skb_info;
-d642b012df70a76 Haijun Liu 2022-05-06  770  	int ret = 0;
-d642b012df70a76 Haijun Liu 2022-05-06  771  
-d642b012df70a76 Haijun Liu 2022-05-06  772  	pit_len = rxq->pit_size_cnt;
-d642b012df70a76 Haijun Liu 2022-05-06  773  	skb_info = &rxq->rx_data_info;
-d642b012df70a76 Haijun Liu 2022-05-06  774  	cur_pit = rxq->pit_rd_idx;
-d642b012df70a76 Haijun Liu 2022-05-06  775  
-d642b012df70a76 Haijun Liu 2022-05-06  776  	for (rx_cnt = 0; rx_cnt < pit_cnt; rx_cnt++) {
-d642b012df70a76 Haijun Liu 2022-05-06  777  		struct dpmaif_pit *pkt_info;
-d642b012df70a76 Haijun Liu 2022-05-06  778  		u32 val;
-d642b012df70a76 Haijun Liu 2022-05-06  779  
-d642b012df70a76 Haijun Liu 2022-05-06 @780  		if (!skb_info->msg_pit_received && time_after_eq(jiffies, timeout))
-d642b012df70a76 Haijun Liu 2022-05-06  781  			break;
-d642b012df70a76 Haijun Liu 2022-05-06  782  
-d642b012df70a76 Haijun Liu 2022-05-06  783  		pkt_info = (struct dpmaif_pit *)rxq->pit_base + cur_pit;
-d642b012df70a76 Haijun Liu 2022-05-06  784  		if (t7xx_dpmaif_check_pit_seq(rxq, pkt_info)) {
-d642b012df70a76 Haijun Liu 2022-05-06  785  			dev_err_ratelimited(dev, "RXQ%u checks PIT SEQ fail\n", rxq->index);
-d642b012df70a76 Haijun Liu 2022-05-06  786  			return -EAGAIN;
-d642b012df70a76 Haijun Liu 2022-05-06  787  		}
-d642b012df70a76 Haijun Liu 2022-05-06  788  
-d642b012df70a76 Haijun Liu 2022-05-06  789  		val = FIELD_GET(PD_PIT_PACKET_TYPE, le32_to_cpu(pkt_info->header));
-d642b012df70a76 Haijun Liu 2022-05-06  790  		if (val == DES_PT_MSG) {
-d642b012df70a76 Haijun Liu 2022-05-06  791  			if (skb_info->msg_pit_received)
-d642b012df70a76 Haijun Liu 2022-05-06  792  				dev_err(dev, "RXQ%u received repeated PIT\n", rxq->index);
-d642b012df70a76 Haijun Liu 2022-05-06  793  
-d642b012df70a76 Haijun Liu 2022-05-06  794  			skb_info->msg_pit_received = true;
-d642b012df70a76 Haijun Liu 2022-05-06  795  			t7xx_dpmaif_parse_msg_pit(rxq, pkt_info, skb_info);
-d642b012df70a76 Haijun Liu 2022-05-06  796  		} else { /* DES_PT_PD */
-d642b012df70a76 Haijun Liu 2022-05-06  797  			val = FIELD_GET(PD_PIT_BUFFER_TYPE, le32_to_cpu(pkt_info->header));
-d642b012df70a76 Haijun Liu 2022-05-06  798  			if (val != PKT_BUF_FRAG)
-d642b012df70a76 Haijun Liu 2022-05-06  799  				ret = t7xx_dpmaif_get_rx_pkt(rxq, pkt_info, skb_info);
-d642b012df70a76 Haijun Liu 2022-05-06  800  			else if (!skb_info->cur_skb)
-d642b012df70a76 Haijun Liu 2022-05-06  801  				ret = -EINVAL;
-d642b012df70a76 Haijun Liu 2022-05-06  802  			else
-d642b012df70a76 Haijun Liu 2022-05-06  803  				ret = t7xx_dpmaif_get_frag(rxq, pkt_info, skb_info);
-d642b012df70a76 Haijun Liu 2022-05-06  804  
-d642b012df70a76 Haijun Liu 2022-05-06  805  			if (ret < 0) {
-d642b012df70a76 Haijun Liu 2022-05-06  806  				skb_info->err_payload = 1;
-d642b012df70a76 Haijun Liu 2022-05-06  807  				dev_err_ratelimited(dev, "RXQ%u error payload\n", rxq->index);
-d642b012df70a76 Haijun Liu 2022-05-06  808  			}
-d642b012df70a76 Haijun Liu 2022-05-06  809  
-d642b012df70a76 Haijun Liu 2022-05-06  810  			val = FIELD_GET(PD_PIT_CONT, le32_to_cpu(pkt_info->header));
-d642b012df70a76 Haijun Liu 2022-05-06  811  			if (!val) {
-d642b012df70a76 Haijun Liu 2022-05-06  812  				if (!skb_info->err_payload) {
-d642b012df70a76 Haijun Liu 2022-05-06  813  					t7xx_dpmaif_rx_skb(rxq, skb_info);
-d642b012df70a76 Haijun Liu 2022-05-06  814  				} else if (skb_info->cur_skb) {
-d642b012df70a76 Haijun Liu 2022-05-06  815  					dev_kfree_skb_any(skb_info->cur_skb);
-d642b012df70a76 Haijun Liu 2022-05-06  816  					skb_info->cur_skb = NULL;
-d642b012df70a76 Haijun Liu 2022-05-06  817  				}
-d642b012df70a76 Haijun Liu 2022-05-06  818  
-d642b012df70a76 Haijun Liu 2022-05-06  819  				memset(skb_info, 0, sizeof(*skb_info));
-d642b012df70a76 Haijun Liu 2022-05-06  820  
-d642b012df70a76 Haijun Liu 2022-05-06  821  				recv_skb_cnt++;
-d642b012df70a76 Haijun Liu 2022-05-06  822  				if (!(recv_skb_cnt & DPMAIF_RX_PUSH_THRESHOLD_MASK)) {
-d642b012df70a76 Haijun Liu 2022-05-06  823  					wake_up_all(&rxq->rx_wq);
-d642b012df70a76 Haijun Liu 2022-05-06  824  					recv_skb_cnt = 0;
-d642b012df70a76 Haijun Liu 2022-05-06  825  				}
-d642b012df70a76 Haijun Liu 2022-05-06  826  			}
-d642b012df70a76 Haijun Liu 2022-05-06  827  		}
-d642b012df70a76 Haijun Liu 2022-05-06  828  
-d642b012df70a76 Haijun Liu 2022-05-06  829  		cur_pit = t7xx_ring_buf_get_next_wr_idx(pit_len, cur_pit);
-d642b012df70a76 Haijun Liu 2022-05-06  830  		rxq->pit_rd_idx = cur_pit;
-d642b012df70a76 Haijun Liu 2022-05-06  831  		rxq->pit_remain_release_cnt++;
-d642b012df70a76 Haijun Liu 2022-05-06  832  
-d642b012df70a76 Haijun Liu 2022-05-06  833  		if (rx_cnt > 0 && !(rx_cnt % DPMAIF_NOTIFY_RELEASE_COUNT)) {
-d642b012df70a76 Haijun Liu 2022-05-06  834  			ret = t7xx_dpmaifq_rx_notify_hw(rxq);
-d642b012df70a76 Haijun Liu 2022-05-06  835  			if (ret < 0)
-d642b012df70a76 Haijun Liu 2022-05-06  836  				break;
-d642b012df70a76 Haijun Liu 2022-05-06  837  		}
-d642b012df70a76 Haijun Liu 2022-05-06  838  	}
-d642b012df70a76 Haijun Liu 2022-05-06  839  
-d642b012df70a76 Haijun Liu 2022-05-06  840  	if (recv_skb_cnt)
-d642b012df70a76 Haijun Liu 2022-05-06  841  		wake_up_all(&rxq->rx_wq);
-d642b012df70a76 Haijun Liu 2022-05-06  842  
-d642b012df70a76 Haijun Liu 2022-05-06  843  	if (!ret)
-d642b012df70a76 Haijun Liu 2022-05-06  844  		ret = t7xx_dpmaifq_rx_notify_hw(rxq);
-d642b012df70a76 Haijun Liu 2022-05-06  845  
-d642b012df70a76 Haijun Liu 2022-05-06  846  	if (ret)
-d642b012df70a76 Haijun Liu 2022-05-06  847  		return ret;
-d642b012df70a76 Haijun Liu 2022-05-06  848  
-d642b012df70a76 Haijun Liu 2022-05-06  849  	return rx_cnt;
-d642b012df70a76 Haijun Liu 2022-05-06  850  }
-d642b012df70a76 Haijun Liu 2022-05-06  851  
-
-:::::: The code at line 780 was first introduced by commit
-:::::: d642b012df70a76dd5723f2d426b40bffe83ac49 net: wwan: t7xx: Add data path interface
-
-:::::: TO: Haijun Liu <haijun.liu@mediatek.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+  1693	
+  1694	int __must_check pci_create_sysfs_dev_files(struct pci_dev *pdev)
+  1695	{
+  1696		int retval;
+  1697	
+  1698		if (!sysfs_initialized)
+  1699			return -EACCES;
+  1700	
+> 1701		retval = pci_create_boot_display_file(pdev);
+  1702		if (retval)
+  1703			return retval;
+  1704	
+  1705		return pci_create_resource_files(pdev);
+  1706	}
+  1707	
+  1708	/**
+  1709	 * pci_remove_sysfs_dev_files - cleanup PCI specific sysfs files
+  1710	 * @pdev: device whose entries we should free
+  1711	 *
+  1712	 * Cleanup when @pdev is removed from sysfs.
+  1713	 */
+  1714	void pci_remove_sysfs_dev_files(struct pci_dev *pdev)
+  1715	{
+  1716		if (!sysfs_initialized)
+  1717			return;
+  1718	
+> 1719		pci_remove_boot_display_file(pdev);
+  1720		pci_remove_resource_files(pdev);
+  1721	}
+  1722	
 
 -- 
 0-DAY CI Kernel Test Service
