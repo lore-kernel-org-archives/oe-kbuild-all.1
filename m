@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06E01A23B5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jun 2025 07:52:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C1B1C5F1B
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jun 2025 08:44:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751097160; cv=none; b=RZJZ7BU2QnY0+SvZjAeBEDZz78Wz6BqwNpuHaSx8ZZUOFmCRG8C5H0mqy11zcr5bdb0ut3ScUVk+peudYc5K/wIrVY5lqI71UkHsfRLYZ0oc5P3SKecfcAYQaNMHeDlG7riV4ompExaiSUBwq1Z0aGWyN5NcfYwmCSpGAcstxCg=
+	t=1751100284; cv=none; b=k8/odjgvR4ZsUymwSCDIHkXu6pdMF/pLNFMmrTqSSe9dZd1ZNrG4QAOlfSVibyCtRQoB4457+tiE0LVNbEZOi80B+mE/1iQBqPNLWkpQH/bnNQb4sBEvLl3BsM77n0TmB7m1smwEgwrFlFYbdrHqFitCqXGkKEQAwjAcieivIQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751097160; c=relaxed/simple;
-	bh=zw8+XZcRIWHl4Pb7ANDvCfIV/XjuEkN0+TvXI1VOw6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bxNnuCOv1mrz6kITlygHVCfQ4cdeTg2+GFV3Qm3SV4mvmdWfwNBMLSZmq8R4dtI7X21lCSrCI6enREpbIcCeuZCAim8Apt3XMomn8GouyVo8LhR70aq5bvFWBIoa8XMmUFqkJrf3Hn0WYVJlRY895+w40iz24LLBiIKSG+xaYBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mz1vALNH; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1751100284; c=relaxed/simple;
+	bh=nlrGEI9OpG+H5s+7amgT1YtNa2lY4u4SK6aX0tw6LkM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GN8+qoAIH7nC7OvAhYrxXdNmMlm+vy8+mG3ybVKaE/naqssdDApWqXMT4JYkiovisBY3q/fqksKWFojEAEhAOoZoNka/3kM4ooqT/43ep56gZX7mTYzfa+/7NqiLQaseAfWu1vSnpeD3texjgOnIrBQsoDU7hkU0ipRwib5halg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OmMcHvLY; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mz1vALNH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OmMcHvLY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751097158; x=1782633158;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zw8+XZcRIWHl4Pb7ANDvCfIV/XjuEkN0+TvXI1VOw6E=;
-  b=mz1vALNHWnfTvWMnUWYOQG1RGcxSM4sA4mbyY16p1myoaqVAPrAjYN1F
-   XU7yzYKdfQ9EepqjxJxsHPCr5H5C7GaoOGgwBY3gy1CKaID5dezRCsGJf
-   89IprmTiWuou++j3/5bScEL0A/pNAdYW2AszLmfzIaW+30Vem3gHv3UKu
-   SoZS/qdxuXUwQfWDed05U0R3JAyk+vOgYLKpmXrLkwRJd0j5Ky2nmWKDx
-   GEXIPBCilC18FLNZH+I/bUeSULHhEkXOD19bfRF4n9chSd6Vj6weA+hgW
-   yStbdNjWjUxYsbm7UuU3MXzLZdwSTFnJSRoBBus44I+jRIcPZNaEgg7EP
+  t=1751100282; x=1782636282;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nlrGEI9OpG+H5s+7amgT1YtNa2lY4u4SK6aX0tw6LkM=;
+  b=OmMcHvLYJ4CtErckUydVU3IR1z9xpiDGYR9jvanHdfv3aeKmKxzqUPX3
+   HHn3yiY8G3s197eqofibrD/95bRddjPQWEFhycz+YfJddy1pLALBGVC9O
+   JpG4N/uw4+JoL4lSse2OsqMOUx8uq1I1OXnR6wcy/ZMHuXsKiyOwxoHH+
+   2joGWFyCgJodeBWQ0SuZy0PJH4ofFx9TudsYbTgAYKORAKI8rqFsrwGGg
+   P+Im3+ncu6cFZJizNBTBzo5MFuU+v8CiC58Ci8cnRlp1eRf7yitFYR2It
+   S7cACvKa+1ih+2tuR2UCvy5F1YjASzQkyE86B1lcWWG8k5xVDokECjk1m
    g==;
-X-CSE-ConnectionGUID: 9z2Dcf28SSCYdgEKQ8Fyyw==
-X-CSE-MsgGUID: T3Z4YfGLTEiqiOkKEyPnXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="57081100"
+X-CSE-ConnectionGUID: Rt7kjkDOT/OzJm2abf28Kg==
+X-CSE-MsgGUID: SS+K2prPQHqZj/zaJJiovA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="75947242"
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="57081100"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 00:52:38 -0700
-X-CSE-ConnectionGUID: wIItiP6PSA6co7huGb8zmQ==
-X-CSE-MsgGUID: SPfVjudESzKsKbdwnJfnrA==
+   d="scan'208";a="75947242"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 01:44:41 -0700
+X-CSE-ConnectionGUID: z0yvuWd8QNC5dhLrhpUP3Q==
+X-CSE-MsgGUID: j40ghVhkS+abnqntwCSrHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="153088228"
+   d="scan'208";a="152512419"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 28 Jun 2025 00:52:35 -0700
+  by orviesa006.jf.intel.com with ESMTP; 28 Jun 2025 01:44:39 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVQMT-000Wuk-1w;
-	Sat, 28 Jun 2025 07:52:33 +0000
-Date: Sat, 28 Jun 2025 15:52:27 +0800
+	id 1uVRAq-000Wvo-2k;
+	Sat, 28 Jun 2025 08:44:36 +0000
+Date: Sat, 28 Jun 2025 16:44:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: zhongjinji@honor.com, linux-mm@kvack.org
-Cc: oe-kbuild-all@lists.linux.dev, akpm@linux-foundation.org,
-	yuzhao@google.com, linux-kernel@vger.kernel.org,
-	yipengxiang@honor.com, liulu.liu@honor.com, feng.han@honor.com
-Subject: Re: [PATCH] mm: vmscan: Page scanning depends on swappiness and
- refault
-Message-ID: <202506281559.f6IHM6uJ-lkp@intel.com>
-References: <20250627162606.30609-1-zhongjinji@honor.com>
+To: Samuel Holland <samuel.holland@sifive.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@rivosinc.com>,
+	Jesse Taube <mr.bossman075@gmail.com>
+Subject: ld.lld: error: Function Import: link error: linking module flags
+ 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)'
+ and 'vmlinux.a(net-traces.o at 1409108)'
+Message-ID: <202506281650.jluKcypL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,236 +64,43 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250627162606.30609-1-zhongjinji@honor.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16-rc3]
-[cannot apply to akpm-mm/mm-everything next-20250627]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/zhongjinji-honor-com/mm-vmscan-Page-scanning-depends-on-swappiness-and-refault/20250628-002820
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250627162606.30609-1-zhongjinji%40honor.com
-patch subject: [PATCH] mm: vmscan: Page scanning depends on swappiness and refault
-config: x86_64-buildonly-randconfig-003-20250628 (https://download.01.org/0day-ci/archive/20250628/202506281559.f6IHM6uJ-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506281559.f6IHM6uJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   aaf724ed69264719550ec4f194d3ab17b886af9a
+commit: 2c0391b29b27f315c1b4c29ffde66f50b29fab99 riscv: Allow NOMMU kernels to access all of RAM
+date:   3 months ago
+config: riscv-randconfig-r131-20250627 (https://download.01.org/0day-ci/archive/20250628/202506281650.jluKcypL-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce: (https://download.01.org/0day-ci/archive/20250628/202506281650.jluKcypL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506281559.f6IHM6uJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506281650.jluKcypL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:4100:20: note: in expansion of macro 'READ_ONCE'
-    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
-         |                    ^~~~~~~~~
-   mm/vmscan.c:4100:40: error: expected identifier before '.' token
-    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
-         |                                        ^
-   include/linux/compiler_types.h:548:23: note: in definition of macro '__compiletime_assert'
-     548 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:568:9: note: in expansion of macro '_compiletime_assert'
-     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:4100:20: note: in expansion of macro 'READ_ONCE'
-    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
-         |                    ^~~~~~~~~
-   mm/vmscan.c:4100:40: error: expected identifier before '.' token
-    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
-         |                                        ^
-   include/linux/compiler_types.h:548:23: note: in definition of macro '__compiletime_assert'
-     548 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:568:9: note: in expansion of macro '_compiletime_assert'
-     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:28: note: in expansion of macro '__native_word'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |                            ^~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:4100:20: note: in expansion of macro 'READ_ONCE'
-    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
-         |                    ^~~~~~~~~
-   mm/vmscan.c:4100:40: error: expected identifier before '.' token
-    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
-         |                                        ^
-   include/linux/compiler_types.h:548:23: note: in definition of macro '__compiletime_assert'
-     548 |                 if (!(condition))                                       \
-         |                       ^~~~~~~~~
-   include/linux/compiler_types.h:568:9: note: in expansion of macro '_compiletime_assert'
-     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:36:9: note: in expansion of macro 'compiletime_assert'
-      36 |         compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long),  \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:49:9: note: in expansion of macro 'compiletime_assert_rwonce_type'
-      49 |         compiletime_assert_rwonce_type(x);                              \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:4100:20: note: in expansion of macro 'READ_ONCE'
-    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
-         |                    ^~~~~~~~~
-   mm/vmscan.c:4100:40: error: expected identifier before '.' token
-    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
-         |                                        ^
-   include/linux/compiler_types.h:518:27: note: in definition of macro '__unqual_scalar_typeof'
-     518 |                 _Generic((x),                                           \
-         |                           ^
-   include/asm-generic/rwonce.h:50:9: note: in expansion of macro '__READ_ONCE'
-      50 |         __READ_ONCE(x);                                                 \
-         |         ^~~~~~~~~~~
-   mm/vmscan.c:4100:20: note: in expansion of macro 'READ_ONCE'
-    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
-         |                    ^~~~~~~~~
-   In file included from ./arch/x86/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:390,
-                    from include/asm-generic/bug.h:5,
-                    from arch/x86/include/asm/bug.h:103,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:6,
-                    from mm/vmscan.c:15:
-   mm/vmscan.c:4100:40: error: expected identifier before '.' token
-    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
-         |                                        ^
-   include/asm-generic/rwonce.h:44:73: note: in definition of macro '__READ_ONCE'
-      44 | #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(x))
-         |                                                                         ^
-   mm/vmscan.c:4100:20: note: in expansion of macro 'READ_ONCE'
-    4100 |         if (seq <= READ_ONCE(mm_state->.seq))
-         |                    ^~~~~~~~~
->> mm/vmscan.c:4097:34: warning: variable 'mm_state' set but not used [-Wunused-but-set-variable]
-    4097 |         struct lru_gen_mm_state *mm_state = get_mm_state(lruvec, type);
-         |                                  ^~~~~~~~
-   mm/vmscan.c: In function 'try_to_inc_max_seq':
-   mm/vmscan.c:4154:17: error: implicit declaration of function 'for_each_age_able_type'; did you mean 'for_each_evictable_type'? [-Werror=implicit-function-declaration]
-    4154 |                 for_each_age_able_type(type, can_age) {
-         |                 ^~~~~~~~~~~~~~~~~~~~~~
-         |                 for_each_evictable_type
-   mm/vmscan.c:4154:54: error: expected ';' before '{' token
-    4154 |                 for_each_age_able_type(type, can_age) {
-         |                                                      ^~
-         |                                                      ;
-   mm/vmscan.c: At top level:
->> mm/vmscan.c:3876:13: warning: 'walk_mm' defined but not used [-Wunused-function]
-    3876 | static void walk_mm(struct mm_struct *mm, struct lru_gen_mm_walk *walk)
-         |             ^~~~~~~
->> mm/vmscan.c:3103:13: warning: 'iterate_mm_list' defined but not used [-Wunused-function]
-    3103 | static bool iterate_mm_list(struct lru_gen_mm_walk *walk, struct mm_struct **iter, int type)
-         |             ^~~~~~~~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/mm_state +4097 mm/vmscan.c
-
-  4093	
-  4094	static bool can_mm_list_age(struct lruvec *lruvec, struct lru_gen_mm_walk *walk,
-  4095			  int type, unsigned long seq)
-  4096	{
-> 4097		struct lru_gen_mm_state *mm_state = get_mm_state(lruvec, type);
-  4098	
-  4099		/* see the comment in iterate_mm_list() */
-> 4100		if (seq <= READ_ONCE(mm_state->.seq))
-  4101			return false;
-  4102	
-  4103		/*
-  4104		 * If the hardware doesn't automatically set the accessed bit, fallback
-  4105		 * to lru_gen_look_around(), which only clears the accessed bit in a
-  4106		 * handful of PTEs. Spreading the work out over a period of time usually
-  4107		 * is less efficient, but it avoids bursty page faults.
-  4108		 */
-  4109		if (!should_walk_mmu()) {
-  4110			return iterate_mm_list_nowalk(lruvec, type, seq);
-  4111		}
-  4112	
-  4113		walk = set_mm_walk(NULL, true);
-  4114		if (!walk) {
-  4115			return iterate_mm_list_nowalk(lruvec, type, seq);
-  4116		}
-  4117	
-  4118		return true;
-  4119	}
-  4120	
-  4121	static bool try_to_inc_max_seq(struct lruvec *lruvec, unsigned long *seq,
-  4122				       bool *can_age, bool force_scan)
-  4123	{
-  4124		int type;
-  4125		bool success;
-  4126		struct lru_gen_mm_walk *walk = NULL;
-  4127		struct mm_struct *mm = NULL;
-  4128		struct lru_gen_folio *lrugen = &lruvec->lrugen;
-  4129	
-  4130		if (!walk_mmu_enable())
-  4131			return inc_max_seq(lruvec, seq, can_age);
-  4132	
-  4133		for_each_gen_type(type) {
-  4134			if (!can_age[type])
-  4135				continue;
-  4136			VM_WARN_ON_ONCE(seq[type] > READ_ONCE(lrugen->max_seq[type]));
-  4137	
-  4138			can_age[type] = can_mm_list_age(lruvec, walk, type, seq[type]);
-  4139		}
-  4140	
-  4141		success = can_age[LRU_GEN_ANON] || can_age[LRU_GEN_FILE];
-  4142		if (!success || !walk)
-  4143			goto done;
-  4144	
-  4145		walk->lruvec = lruvec;
-  4146		walk->force_scan = force_scan;
-  4147	
-  4148		for_each_gen_type(type) {
-  4149			walk->seq[type] = seq[type];
-  4150			walk->can_age[type] = can_age[type];
-  4151		}
-  4152	
-  4153		do {
-> 4154			for_each_age_able_type(type, can_age) {
-  4155				can_age[type] = iterate_mm_list(walk, &mm, type);
-  4156			}
-  4157			if (mm)
-  4158				walk_mm(mm, walk);
-  4159		} while (mm);
-  4160	
-  4161		success = can_age[LRU_GEN_ANON] || can_age[LRU_GEN_FILE];
-  4162	done:
-  4163		if (success) {
-  4164			success = inc_max_seq(lruvec, seq, can_age);
-  4165			WARN_ON_ONCE(!success);
-  4166		}
-  4167	
-  4168		return success;
-  4169	}
-  4170	
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(trace.o at 1237988)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(mballoc.o at 1255208)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(core.o at 1357508)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(send.o at 1276448)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(slub.o at 1244588)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(skbuff.o at 1406948)'
+>> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(net-traces.o at 1409108)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(inode.o at 1255088)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(volumes.o at 1275308)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(ring_buffer.o at 1237928)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(tcp.o at 1412828)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(syscall.o at 1239488)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(core.o at 1242068)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(blk-mq.o at 1287308)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(af_packet.o at 1418288)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(super.o at 1274168)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(target_core_transport.o at 1358588)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(filter.o at 1408028)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(inode.o at 1274768)'
+   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(vmscan.o at 1243208)'
+   ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
 
 -- 
 0-DAY CI Kernel Test Service
