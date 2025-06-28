@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F8F1F874C;
-	Sat, 28 Jun 2025 20:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1D21C7009
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jun 2025 20:08:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751140822; cv=none; b=OrbQHeog97AI/NzI6/qxZBihAoJvWJ4CPQglWKfKbg6gsD82kp0Br6zFcT2Ie/zeEOfXBuVRk1cfhVVIhmYkHqAC7B78K+90dMwjhrOLYig6nqsmUIkt0YMtos7FI/ACKu2JI1HI96zTAo/G63LpOkNlSJ7BAkfWCRlAEJ6eNCU=
+	t=1751141284; cv=none; b=oJ5scGlGuEJ3faxzDrOKwUmpeWmCxYTOGgw5XNS/yGXzp980TsGyeDdb1ypMqZ1bizk29He3eLd4C7iaXHXVCY7eLt/cAtdjGlV0rO0gmEFKjZ0KR7Qvw8WSrt/JGnJ8UrfpqVpzFjv48UMXOsNZu4apW8fv4mP1AaYNgi+1Z4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751140822; c=relaxed/simple;
-	bh=Fewzt4Fd/252fQPHl/D4J7EfWkwRKK0Pnj4XMlX3kYo=;
+	s=arc-20240116; t=1751141284; c=relaxed/simple;
+	bh=fcQHLlZqBoiEDrIt5/F3ZQ8A0HrIWQAcDnsjevvnNYk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=oz7WeLOSlJ8+lVfJrUqDJ3pAmLC5oclQK2fvooV+bODvrTa8gtP2wzOHU4LRzDC/dymX4nAZp87nVJcfJDZ0EGysoPnH5gQDPMrvwxN8eFUfiIYxk7sXj10e4lGeiNLuFEwfxr9aBFt8vY9fxGaj0iBNF8NPuZaq+AEQ0BjPQsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eLz54KrL; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=K9dMZRK20B9ftFLkyCetQI8ouXtxnswmk0zZjJI5ASeJux4qU7Xs/DZ3Pb/TnGXf3xNya5Q1odT8FHEu067mcSkB1vRA9XZsWrC1P6Dsah5Nm7DfiVzOWbhd8jc52Kv6Pmj4AMP6SE5P5sPV81Nc+wUNw9nzHTZbDvGg218p7Mc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oE7srqxV; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eLz54KrL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oE7srqxV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751140820; x=1782676820;
+  t=1751141284; x=1782677284;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Fewzt4Fd/252fQPHl/D4J7EfWkwRKK0Pnj4XMlX3kYo=;
-  b=eLz54KrLwdv2XpSEUFUk/7g3mU6N4alDDe8pRqvRiGC0ANspG0dBJEhS
-   hoPISr17VDl0ComovZVw79guvkItwyfQfptjBalaIlkJI52tE2BZG429W
-   te8C4yDBZhy68mbncn4cZ5AqEk486bnfNB1HrZzsPKtAyxJBu/JWNkU4P
-   cq2QduavZjZQjdBEjd8qFlmq86wWuMdDZSlnEEV3SWv7BQ+o8PjbYTtXS
-   APIxqin1Di0CUPqLfsOW2QslG9BFupAHLseH/Ta3PM0T+BhYMqyelUbSV
-   Wf0TAs3qpTNlRP05SH5YsQFqCVZ62llEuUYQ456ruvY5ee9NzMoAQo/jQ
-   w==;
-X-CSE-ConnectionGUID: uUpovu93R164V/vrMyIFuQ==
-X-CSE-MsgGUID: f1ENOs/zTFahffV9twpDZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="53542037"
+  bh=fcQHLlZqBoiEDrIt5/F3ZQ8A0HrIWQAcDnsjevvnNYk=;
+  b=oE7srqxVFt8DCO+1qTZ9ywymGxPNk1Zs5Z8IqZix98hVdC05XwuG0lc2
+   yj87j45I4u+3iu1nnKToy1FyOwwA8qJa/AiA8MnEA2oO77EBCn0LeTenB
+   t1ONlrSwZLAdUccLV6nfyoXiChNJ4q2Opdn1UR+vGasy8TpGsYwVOcfBy
+   8mm0GHVF5LdFbAMGn/W9qQas3ruyhAXDujDNqb6vGaMjtQgcyzL2yM4g0
+   GQElkO7JZFQzCrJgtMdmcF6sdtPLnR3gp+DmTJcXDkIPV9c6MIni9x0oG
+   IaV7rWAyeDoptc2xH+32sDGpT31GyLmPmAI60cT81MgmAKRtSaIThuhAF
+   Q==;
+X-CSE-ConnectionGUID: 9eWNuCrCTKWu32v63E6aLw==
+X-CSE-MsgGUID: U/1dpMwxR+eum02J+ImZ6g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="53517467"
 X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="53542037"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 13:00:19 -0700
-X-CSE-ConnectionGUID: TMJg88XSSCmkrljpNZFSpw==
-X-CSE-MsgGUID: P4b5l5eUSgGG9zKTEllA3A==
+   d="scan'208";a="53517467"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 13:08:03 -0700
+X-CSE-ConnectionGUID: PWj5w7ZKRhq4f6xYWQ+9KQ==
+X-CSE-MsgGUID: 3KZG4+/vS26z+xxUCMpYDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="152819619"
-Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
-  by orviesa009.jf.intel.com with ESMTP; 28 Jun 2025 13:00:18 -0700
-Received: from kbuild by e588e990b675 with local (Exim 4.96)
+   d="scan'208";a="190262670"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 28 Jun 2025 13:08:02 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVbie-0000oV-0p;
-	Sat, 28 Jun 2025 20:00:12 +0000
-Date: Sat, 28 Jun 2025 21:59:49 +0200
+	id 1uVbqB-000XLS-1d;
+	Sat, 28 Jun 2025 20:07:59 +0000
+Date: Sun, 29 Jun 2025 04:07:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: kernel/fork.c:3088:2: warning: clone3() entry point is missing,
- please fix
-Message-ID: <202506282120.6vRwodm3-lkp@intel.com>
+To: =?utf-8?B?0JTQsNC80ZjQsNC9INCT0LXQvtGA0LPQuNC10LLRgdC60Lg=?= <gdamjan@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [gdamjan:v6.16-rc3/ipu7-imx471 1/4]
+ drivers/media/pci/intel/ipu7/ipu7-dma.h: linux/iova.h is included more than
+ once.
+Message-ID: <202506290333.pcOWxijL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,123 +63,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Arnd,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   aaf724ed69264719550ec4f194d3ab17b886af9a
-commit: 505d66d1abfb90853e24ab6cbdf83b611473d6fc clone3: drop __ARCH_WANT_SYS_CLONE3 macro
-date:   12 months ago
-config: hexagon-randconfig-2002-20250626 (https://download.01.org/0day-ci/archive/20250628/202506282120.6vRwodm3-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506282120.6vRwodm3-lkp@intel.com/reproduce)
+tree:   https://github.com/gdamjan/linux v6.16-rc3/ipu7-imx471
+head:   045e8700d4a10d6d9159291b2df0b84413501874
+commit: 8e9f82059ae3a9e0439a15584792a8935f9272dc [1/4] copy drivers from github.com/intel/ipu7-drivers
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506282120.6vRwodm3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506290333.pcOWxijL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/media/pci/intel/ipu7/ipu7-dma.h: linux/iova.h is included more than once.
 
-   In file included from kernel/fork.c:34:
-   In file included from include/linux/mempolicy.h:15:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:548:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     548 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:561:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     561 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from kernel/fork.c:34:
-   In file included from include/linux/mempolicy.h:15:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:574:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     574 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from kernel/fork.c:34:
-   In file included from include/linux/mempolicy.h:15:
-   In file included from include/linux/pagemap.h:11:
-   In file included from include/linux/highmem.h:12:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:14:
-   In file included from arch/hexagon/include/asm/io.h:328:
-   include/asm-generic/io.h:585:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     585 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:595:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     595 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:605:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     605 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> kernel/fork.c:3088:2: warning: clone3() entry point is missing, please fix [-W#warnings]
-    3088 | #warning clone3() entry point is missing, please fix
-         |  ^
-   7 warnings generated.
+vim +9 drivers/media/pci/intel/ipu7/ipu7-dma.h
 
-
-vim +3088 kernel/fork.c
-
-  3068	
-  3069	/**
-  3070	 * sys_clone3 - create a new process with specific properties
-  3071	 * @uargs: argument structure
-  3072	 * @size:  size of @uargs
-  3073	 *
-  3074	 * clone3() is the extensible successor to clone()/clone2().
-  3075	 * It takes a struct as argument that is versioned by its size.
-  3076	 *
-  3077	 * Return: On success, a positive PID for the child process.
-  3078	 *         On error, a negative errno number.
-  3079	 */
-  3080	SYSCALL_DEFINE2(clone3, struct clone_args __user *, uargs, size_t, size)
-  3081	{
-  3082		int err;
-  3083	
-  3084		struct kernel_clone_args kargs;
-  3085		pid_t set_tid[MAX_PID_NS_LEVEL];
-  3086	
-  3087	#ifdef __ARCH_BROKEN_SYS_CLONE3
-> 3088	#warning clone3() entry point is missing, please fix
-  3089		return -ENOSYS;
-  3090	#endif
-  3091	
-  3092		kargs.set_tid = set_tid;
-  3093	
-  3094		err = copy_clone_args_from_user(&kargs, uargs, size);
-  3095		if (err)
-  3096			return err;
-  3097	
-  3098		if (!clone3_args_valid(&kargs))
-  3099			return -EINVAL;
-  3100	
-  3101		return kernel_clone(&kargs);
-  3102	}
-  3103	
+     6	
+     7	#include <linux/dma-map-ops.h>
+     8	#include <linux/dma-mapping.h>
+   > 9	#include <linux/iova.h>
+  > 10	#include <linux/iova.h>
+    11	#include <linux/scatterlist.h>
+    12	#include <linux/types.h>
+    13	
 
 -- 
 0-DAY CI Kernel Test Service
