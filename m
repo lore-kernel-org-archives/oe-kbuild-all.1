@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C1B1C5F1B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jun 2025 08:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763141799F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jun 2025 10:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751100284; cv=none; b=k8/odjgvR4ZsUymwSCDIHkXu6pdMF/pLNFMmrTqSSe9dZd1ZNrG4QAOlfSVibyCtRQoB4457+tiE0LVNbEZOi80B+mE/1iQBqPNLWkpQH/bnNQb4sBEvLl3BsM77n0TmB7m1smwEgwrFlFYbdrHqFitCqXGkKEQAwjAcieivIQ8=
+	t=1751105269; cv=none; b=iyeOHHZAUVu/znROxm9P5EitSJnSLa7ScIV5Xq353VxPre12GVXnkbKol/rUnqrf2RtuHVDBcDfjURzd3oFPrp4lUr+QhIX4PpyTNiQ8hfx7pc9ZSZOvKxu5Km+EEOhwrhrfC5F2dzbxW5I3R9cRUcmIQnZATgLEzu/x0WK0blE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751100284; c=relaxed/simple;
-	bh=nlrGEI9OpG+H5s+7amgT1YtNa2lY4u4SK6aX0tw6LkM=;
+	s=arc-20240116; t=1751105269; c=relaxed/simple;
+	bh=jaGRDV3y+L/pdjPAaUNPT3wKfM7TTLTFm7lWJ98z7f8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GN8+qoAIH7nC7OvAhYrxXdNmMlm+vy8+mG3ybVKaE/naqssdDApWqXMT4JYkiovisBY3q/fqksKWFojEAEhAOoZoNka/3kM4ooqT/43ep56gZX7mTYzfa+/7NqiLQaseAfWu1vSnpeD3texjgOnIrBQsoDU7hkU0ipRwib5halg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OmMcHvLY; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=LYLpDXrerIqFiKFN7f2LHWh0CStNf0Dup6++R1H79sDxYQ41wezzWJ9fiRRnBscRfCJu6kvfVATrmPZD4pMzWQfIyg8J4XpWiQFRnSB4I3vbFh1JNNhiO+SPDUozwXHHdXRl6EunR2dPzwnV4EupeEes0eIbPhtWDl7X7+O3Cx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SbiVzLO5; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OmMcHvLY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SbiVzLO5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751100282; x=1782636282;
+  t=1751105267; x=1782641267;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nlrGEI9OpG+H5s+7amgT1YtNa2lY4u4SK6aX0tw6LkM=;
-  b=OmMcHvLYJ4CtErckUydVU3IR1z9xpiDGYR9jvanHdfv3aeKmKxzqUPX3
-   HHn3yiY8G3s197eqofibrD/95bRddjPQWEFhycz+YfJddy1pLALBGVC9O
-   JpG4N/uw4+JoL4lSse2OsqMOUx8uq1I1OXnR6wcy/ZMHuXsKiyOwxoHH+
-   2joGWFyCgJodeBWQ0SuZy0PJH4ofFx9TudsYbTgAYKORAKI8rqFsrwGGg
-   P+Im3+ncu6cFZJizNBTBzo5MFuU+v8CiC58Ci8cnRlp1eRf7yitFYR2It
-   S7cACvKa+1ih+2tuR2UCvy5F1YjASzQkyE86B1lcWWG8k5xVDokECjk1m
-   g==;
-X-CSE-ConnectionGUID: Rt7kjkDOT/OzJm2abf28Kg==
-X-CSE-MsgGUID: SS+K2prPQHqZj/zaJJiovA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="75947242"
+  bh=jaGRDV3y+L/pdjPAaUNPT3wKfM7TTLTFm7lWJ98z7f8=;
+  b=SbiVzLO5960/4CCLDL9OIdrSpN0nzUp/N6gMx/t6VwKwUPdQ6egwsjXa
+   Y8kjwBsGnDSWYvHv6nMwwoQfUU0uxxPd1UJG2vQoSY/PxUJQaj39OQYXC
+   /z9B0/JPij1MDLezwYwh4QW97fjwM5d4qkny2sDwEuzDrdhy+NXpggmvx
+   cp1BbVyFA8wFUG8eDcD4MYdyhBmvcA3OMoJQeY8MuOWOpohcqXnP7OWqu
+   6/XahLkmddDPwBxRjh9eeHML3vjsVWDpVOjpksxXXDkrlDapcAvwThpIf
+   35LdTl0KGTVmuoxtyHe84YID1McdFXGNYUP74A9wyQz1x1pFdwn+fd+bf
+   A==;
+X-CSE-ConnectionGUID: REzIQgWeR46Eq1fCm8QveA==
+X-CSE-MsgGUID: 8SiCIdBGSFa8d3Y45TAHGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="56024509"
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="75947242"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 01:44:41 -0700
-X-CSE-ConnectionGUID: z0yvuWd8QNC5dhLrhpUP3Q==
-X-CSE-MsgGUID: j40ghVhkS+abnqntwCSrHQ==
+   d="scan'208";a="56024509"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 03:07:47 -0700
+X-CSE-ConnectionGUID: qeguitj1Q46X2s4cV18guA==
+X-CSE-MsgGUID: BElNms1MQ9KVwwAgbqqNnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="152512419"
+   d="scan'208";a="153308602"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 28 Jun 2025 01:44:39 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 28 Jun 2025 03:07:46 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVRAq-000Wvo-2k;
-	Sat, 28 Jun 2025 08:44:36 +0000
-Date: Sat, 28 Jun 2025 16:44:34 +0800
+	id 1uVSTH-000WyW-2K;
+	Sat, 28 Jun 2025 10:07:43 +0000
+Date: Sat, 28 Jun 2025 18:07:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Holland <samuel.holland@sifive.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Palmer Dabbelt <palmer@rivosinc.com>,
-	Jesse Taube <mr.bossman075@gmail.com>
-Subject: ld.lld: error: Function Import: link error: linking module flags
- 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)'
- and 'vmlinux.a(net-traces.o at 1409108)'
-Message-ID: <202506281650.jluKcypL-lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Naveen N Rao (AMD)" <naveen@kernel.org>
+Subject: [linux-next:master 3640/5998]
+ include/asm-generic/bitops/fls64.h:24:20: sparse: sparse: cast truncates
+ bits from constant value (ffffffffff000 becomes fffff000)
+Message-ID: <202506281823.KIJ5j5Pi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,42 +63,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   aaf724ed69264719550ec4f194d3ab17b886af9a
-commit: 2c0391b29b27f315c1b4c29ffde66f50b29fab99 riscv: Allow NOMMU kernels to access all of RAM
-date:   3 months ago
-config: riscv-randconfig-r131-20250627 (https://download.01.org/0day-ci/archive/20250628/202506281650.jluKcypL-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce: (https://download.01.org/0day-ci/archive/20250628/202506281650.jluKcypL-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2aeda9592360c200085898a258c4754bfe879921
+commit: 2e002ddc896684f668427113ec027f3025fe6c41 [3640/5998] KVM: SVM: Drop pointless masking of kernel page pa's with AVIC HPA masks
+config: i386-randconfig-061-20250628 (https://download.01.org/0day-ci/archive/20250628/202506281823.KIJ5j5Pi-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506281823.KIJ5j5Pi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506281650.jluKcypL-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506281823.KIJ5j5Pi-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/x86/kvm/svm/avic.c: note: in included file (through arch/x86/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h, ...):
+>> include/asm-generic/bitops/fls64.h:24:20: sparse: sparse: cast truncates bits from constant value (ffffffffff000 becomes fffff000)
 
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(trace.o at 1237988)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(mballoc.o at 1255208)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(core.o at 1357508)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(send.o at 1276448)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(slub.o at 1244588)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(skbuff.o at 1406948)'
->> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(net-traces.o at 1409108)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(inode.o at 1255088)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(volumes.o at 1275308)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(ring_buffer.o at 1237928)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(tcp.o at 1412828)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(syscall.o at 1239488)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(core.o at 1242068)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(blk-mq.o at 1287308)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(af_packet.o at 1418288)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(super.o at 1274168)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(target_core_transport.o at 1358588)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(filter.o at 1408028)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(inode.o at 1274768)'
-   ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values in 'vmlinux.a(init.o at 1228868)' and 'vmlinux.a(vmscan.o at 1243208)'
-   ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
+vim +24 include/asm-generic/bitops/fls64.h
+
+a54baa1487c51c8 Akinobu Mita           2006-03-26   6  
+d57594c203b1e7b Alexander van Heukelum 2008-03-15   7  /**
+d57594c203b1e7b Alexander van Heukelum 2008-03-15   8   * fls64 - find last set bit in a 64-bit word
+d57594c203b1e7b Alexander van Heukelum 2008-03-15   9   * @x: the word to search
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  10   *
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  11   * This is defined in a similar way as the libc and compiler builtin
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  12   * ffsll, but returns the position of the most significant set bit.
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  13   *
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  14   * fls64(value) returns 0 if value is 0 or the position of the last
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  15   * set bit if value is nonzero. The last (most significant) bit is
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  16   * at position 64.
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  17   */
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  18  #if BITS_PER_LONG == 32
+c8399943bdb70fe Andi Kleen             2009-01-12  19  static __always_inline int fls64(__u64 x)
+2dfc383ad587bbe Akinobu Mita           2006-03-26  20  {
+2dfc383ad587bbe Akinobu Mita           2006-03-26  21  	__u32 h = x >> 32;
+2dfc383ad587bbe Akinobu Mita           2006-03-26  22  	if (h)
+2dfc383ad587bbe Akinobu Mita           2006-03-26  23  		return fls(h) + 32;
+2dfc383ad587bbe Akinobu Mita           2006-03-26 @24  	return fls(x);
+2dfc383ad587bbe Akinobu Mita           2006-03-26  25  }
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  26  #elif BITS_PER_LONG == 64
+c8399943bdb70fe Andi Kleen             2009-01-12  27  static __always_inline int fls64(__u64 x)
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  28  {
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  29  	if (x == 0)
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  30  		return 0;
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  31  	return __fls(x) + 1;
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  32  }
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  33  #else
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  34  #error BITS_PER_LONG not 32 or 64
+d57594c203b1e7b Alexander van Heukelum 2008-03-15  35  #endif
+2dfc383ad587bbe Akinobu Mita           2006-03-26  36  
+
+:::::: The code at line 24 was first introduced by commit
+:::::: 2dfc383ad587bbead84739a9ff9273df3eda983d [PATCH] bitops: generic fls64()
+
+:::::: TO: Akinobu Mita <mita@miraclelinux.com>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
