@@ -1,77 +1,77 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F35413B5AE
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jun 2025 14:40:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D74223C50E;
+	Sat, 28 Jun 2025 14:40:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751121633; cv=none; b=aRur+rD9iRdb83FqihgtkaRyaTI9igPB4KtzrHAbvPdtphr+bNMe0BZqrnuAlfoCYbKZvd6Df8EvlePfT1oU2NZWDJXWKIjbQPKLR0rCw8h4m9UNQzMdq2I/O35ISs+o8u+Y35s3HZfBPVBnNcD4qZW/9K805fte/B5l9ltT+gM=
+	t=1751121634; cv=none; b=sO2P+Z17B4CEsloxCCLbpdn5p5yTw5dztgGLrQ3udZjSyXmnFeS8ftdSQHNzPPrj/8Rjsau1ICHPd7LwVIBHPAf0q/y5QHd+Q6mg0a0m9X2u43CQh3yN4MVz7TBfRXhrdv1jzeOVclqQ6KkSk7YXTb0ny6LQfvZ6Tcj4s/06NEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751121633; c=relaxed/simple;
-	bh=4oS+7h1peoBPDGkDpNkDonVv+uRR2Pdzbr4KL3z4+Fo=;
+	s=arc-20240116; t=1751121634; c=relaxed/simple;
+	bh=/Lu5LTfcFXkeWsxjRBcxgn1uQUXHqbZ5PSxmsunseSs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ihbH+MSFlQJIwes5IVt5aUpnhOpjCMF2TIQFY4wU5WL7ceIHPi45rTAVpDXqqMfhZyE8sTNBozGfF5GWINQrpORFFhwatunw0bc1aVrADUPizPor0mwHcDF4sgJM20sbBzWOk0awUCLyAWlM1SHJbduRm8sFlj6IgGD+5aO6ttw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBHq+CVS; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=HYBOSnLJIuRY+h3FE2L8LYVv+HLbt36KOUCC6yhc9O4H+BRoqe/vKicvtcAL30gO4LcmOZC+Rwj776ozeaIbi+bruCVCU9q+gBmNOOcnPN0r/nxqV7otGAi5iV34uwo2uzy0fYQGCQl6vk4LBHdXeu3DT3oXSquSVe5cwr3Ag+E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nlxdowWT; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBHq+CVS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nlxdowWT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751121631; x=1782657631;
+  t=1751121633; x=1782657633;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=4oS+7h1peoBPDGkDpNkDonVv+uRR2Pdzbr4KL3z4+Fo=;
-  b=XBHq+CVSTI1hGZkf4c55hJyrZIJMBHvM/0rLHHnSR4r+XMOpqci16Pei
-   i3GIgPrPpJHu5Wjc3ktS+O45Jn1iTY5UTYqKMbNfs/3UblQ2/SSRiLl6h
-   KrLiXZbWCBv8gGbTOOAiy4q1QK27irNjNEo6ztViq7aETi36aIN2tme/x
-   7x+EeR4Z5eFyqmy4wEfCPbDY4OV2tzKBraiBT7iTNEoqJQ//3IeSMYDf1
-   flLpwZfsb++k9cghS2GR6sFMLQcCyhmlaUEAeIP9SypP9020JDeduYnuZ
-   1ZRH3OSO+UzqQApq/xqJdE3DlsVF9MsBIGnzOf/dEIcr6mYolPGArknnI
-   Q==;
-X-CSE-ConnectionGUID: sWG+DenFS9CARyN1Xq3YJw==
-X-CSE-MsgGUID: T7/Kv0u6RaeKVHf/HsCl9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="57189727"
+  bh=/Lu5LTfcFXkeWsxjRBcxgn1uQUXHqbZ5PSxmsunseSs=;
+  b=nlxdowWTsbMG/M6aPTc71gGJ+8WJMH66TRF6StRaq/gMYQ4Bzq5+ZFlc
+   uMmumP9Ikj4QNlqiOB9r99/p+7w+iV4NCC2WgQR5n2/IgO+lWQ2iny9O6
+   tWCArLziTNCpL1QSd9UNvYmpgl+gCVoUZ4yeFaf2TGsjqNw7hp5DynnHg
+   FpG/48/4ThI7ro8LdkCwmGHo3L3pHSQrebkNi7kCAG0gKJfpR/kT+7nvr
+   IVEaFMWa81XXovwJfJBcD5mhgVn2kOaKUtg8TsERdL/C2894mFvNV/E7W
+   a48JLZL5f2Nyp3lGwQgr4udranEl440WXLdnS9xEKyegVwaWNxHLO52tj
+   g==;
+X-CSE-ConnectionGUID: N8dYUnLgQbiSlZuJWAQzHw==
+X-CSE-MsgGUID: 23MaVvsGTz+VvYtlTgr1Mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="57189743"
 X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="57189727"
+   d="scan'208";a="57189743"
 Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 07:40:31 -0700
-X-CSE-ConnectionGUID: wtjJeq5vT46tOTz15Ufqrg==
-X-CSE-MsgGUID: zStQ/Ns7REONv7l+P9v1lQ==
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 07:40:32 -0700
+X-CSE-ConnectionGUID: j1rXOS1xRES1LHHDv8h1yw==
+X-CSE-MsgGUID: bzHqMp1BQXeH9Myq/cxsjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
-   d="scan'208";a="176727412"
+   d="scan'208";a="176727413"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
   by fmviesa002.fm.intel.com with ESMTP; 28 Jun 2025 07:40:27 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVWjA-000X7S-2x;
-	Sat, 28 Jun 2025 14:40:24 +0000
-Date: Sat, 28 Jun 2025 22:39:54 +0800
+	id 1uVWjB-000X7V-05;
+	Sat, 28 Jun 2025 14:40:25 +0000
+Date: Sat, 28 Jun 2025 22:39:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wander Lairson Costa <wander@redhat.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	David Woodhouse <dwmw@amazon.co.uk>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Clark Williams <williams@redhat.com>,
-	Gabriele Monaco <gmonaco@redhat.com>
-Subject: Re: [PATCH 2/2] tracing/preemptirq: Optimize
- preempt_disable/enable() tracepoint overhead
-Message-ID: <202506282232.13AjjGxr-lkp@intel.com>
-References: <20250626142017.26372-3-wander@redhat.com>
+To: Mario Limonciello <superm1@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Lukas Wunner <lukas@wunner.de>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	"(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
+	linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
+Message-ID: <202506282240.aqA0j5M3-lkp@intel.com>
+References: <20250627043108.3141206-10-superm1@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,400 +80,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250626142017.26372-3-wander@redhat.com>
+In-Reply-To: <20250627043108.3141206-10-superm1@kernel.org>
 
-Hi Wander,
+Hi Mario,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on trace/for-next]
-[also build test WARNING on tip/sched/core linus/master v6.16-rc3 next-20250627]
+[auto build test WARNING on pci/next]
+[also build test WARNING on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus tip/x86/core linus/master v6.16-rc3 next-20250627]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Wander-Lairson-Costa/trace-preemptirq-reduce-overhead-of-irq_enable-disable-tracepoints/20250626-222438
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20250626142017.26372-3-wander%40redhat.com
-patch subject: [PATCH 2/2] tracing/preemptirq: Optimize preempt_disable/enable() tracepoint overhead
-config: sparc64-randconfig-001-20250628 (https://download.01.org/0day-ci/archive/20250628/202506282232.13AjjGxr-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506282232.13AjjGxr-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250627-123349
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250627043108.3141206-10-superm1%40kernel.org
+patch subject: [PATCH v6 9/9] PCI: Add a new 'boot_display' attribute
+config: powerpc-bluestone_defconfig (https://download.01.org/0day-ci/archive/20250628/202506282240.aqA0j5M3-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506282240.aqA0j5M3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506282232.13AjjGxr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506282240.aqA0j5M3-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/sparc/include/asm/cmpxchg_64.h:111,
-                    from arch/sparc/include/asm/cmpxchg.h:5,
-                    from arch/sparc/include/asm/atomic_64.h:12,
-                    from arch/sparc/include/asm/atomic.h:5,
-                    from include/linux/atomic.h:7,
-                    from include/linux/tracepoint-defs.h:11,
-                    from include/linux/preempt.h:13,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from kernel/resource.c:17:
-   include/linux/irqflags.h:201:1: warning: data definition has no type or storage class
-    DECLARE_TRACEPOINT(irq_enable);
-    ^~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:201:1: error: type defaults to 'int' in declaration of 'DECLARE_TRACEPOINT' [-Werror=implicit-int]
->> include/linux/irqflags.h:201:1: warning: parameter names (without types) in function declaration
-   include/linux/irqflags.h:202:1: warning: data definition has no type or storage class
-    DECLARE_TRACEPOINT(irq_disable);
-    ^~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:202:1: error: type defaults to 'int' in declaration of 'DECLARE_TRACEPOINT' [-Werror=implicit-int]
-   include/linux/irqflags.h:202:1: warning: parameter names (without types) in function declaration
-   In file included from include/linux/preempt.h:11,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from kernel/resource.c:17:
-   include/linux/irqflags.h: In function 'class_irq_destructor':
-   include/linux/irqflags.h:206:7: error: implicit declaration of function 'tracepoint_enabled'; did you mean 'local_irq_enable'? [-Werror=implicit-function-declaration]
-      if (tracepoint_enabled(irq_enable)) \
-          ^~~~~~~~~~~~~~~~~~
-   include/linux/cleanup.h:385:18: note: in definition of macro '__DEFINE_UNLOCK_GUARD'
-     if (_T->lock) { _unlock; }     \
-                     ^~~~~~~
-   include/linux/irqflags.h:274:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:274:47: note: in expansion of macro 'local_irq_enable'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-                                                  ^~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:206:26: error: 'irq_enable' undeclared (first use in this function); did you mean 'irqs_disabled'?
-      if (tracepoint_enabled(irq_enable)) \
-                             ^~~~~~~~~~
-   include/linux/cleanup.h:385:18: note: in definition of macro '__DEFINE_UNLOCK_GUARD'
-     if (_T->lock) { _unlock; }     \
-                     ^~~~~~~
-   include/linux/irqflags.h:274:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:274:47: note: in expansion of macro 'local_irq_enable'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-                                                  ^~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:206:26: note: each undeclared identifier is reported only once for each function it appears in
-      if (tracepoint_enabled(irq_enable)) \
-                             ^~~~~~~~~~
-   include/linux/cleanup.h:385:18: note: in definition of macro '__DEFINE_UNLOCK_GUARD'
-     if (_T->lock) { _unlock; }     \
-                     ^~~~~~~
-   include/linux/irqflags.h:274:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:274:47: note: in expansion of macro 'local_irq_enable'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-                                                  ^~~~~~~~~~~~~~~~
-   include/linux/irqflags.h: In function 'class_irq_constructor':
-   include/linux/irqflags.h:215:26: error: 'irq_disable' undeclared (first use in this function); did you mean 'irqs_disabled'?
-      if (tracepoint_enabled(irq_disable) && \
-                             ^~~~~~~~~~~
-   include/linux/cleanup.h:403:2: note: in definition of macro '__DEFINE_LOCK_GUARD_0'
-     _lock;        \
-     ^~~~~
-   include/linux/irqflags.h:274:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:274:26: note: in expansion of macro 'local_irq_disable'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-                             ^~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h: In function 'class_irqsave_destructor':
-   include/linux/irqflags.h:230:26: error: 'irq_enable' undeclared (first use in this function); did you mean 'irqs_disabled'?
-      if (tracepoint_enabled(irq_enable) && \
-                             ^~~~~~~~~~
-   include/linux/cleanup.h:385:18: note: in definition of macro '__DEFINE_UNLOCK_GUARD'
-     if (_T->lock) { _unlock; }     \
-                     ^~~~~~~
-   include/linux/irqflags.h:275:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irqsave,
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:277:7: note: in expansion of macro 'local_irq_restore'
-          local_irq_restore(_T->flags),
-          ^~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h: In function 'class_irqsave_constructor':
-   include/linux/irqflags.h:223:26: error: 'irq_disable' undeclared (first use in this function); did you mean 'irqs_disabled'?
-      if (tracepoint_enabled(irq_disable) && \
-                             ^~~~~~~~~~~
-   include/linux/cleanup.h:403:2: note: in definition of macro '__DEFINE_LOCK_GUARD_0'
-     _lock;        \
-     ^~~~~
-   include/linux/irqflags.h:275:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irqsave,
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:276:7: note: in expansion of macro 'local_irq_save'
-          local_irq_save(_T->flags),
-          ^~~~~~~~~~~~~~
-   In file included from include/linux/static_key.h:1,
-                    from include/linux/tracepoint-defs.h:12,
-                    from include/linux/preempt.h:13,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from kernel/resource.c:17:
-   include/linux/spinlock_api_smp.h: In function '__raw_spin_lock_irqsave':
-   include/linux/tracepoint-defs.h:92:27: error: '__tracepoint_irq_disable' undeclared (first use in this function); did you mean 'raw_local_irq_disable'?
-     static_branch_unlikely(&(__tracepoint_##tp).key)
-                              ^~~~~~~~~~~~~
-   include/linux/jump_label.h:503:43: note: in definition of macro 'static_branch_unlikely'
---
-   In file included from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/sparc/include/asm/cmpxchg_64.h:111,
-                    from arch/sparc/include/asm/cmpxchg.h:5,
-                    from arch/sparc/include/asm/atomic_64.h:12,
-                    from arch/sparc/include/asm/atomic.h:5,
-                    from include/linux/atomic.h:7,
-                    from include/linux/tracepoint-defs.h:11,
-                    from include/linux/preempt.h:13,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from kernel/fork.c:16:
-   include/linux/irqflags.h:201:1: warning: data definition has no type or storage class
-    DECLARE_TRACEPOINT(irq_enable);
-    ^~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:201:1: error: type defaults to 'int' in declaration of 'DECLARE_TRACEPOINT' [-Werror=implicit-int]
->> include/linux/irqflags.h:201:1: warning: parameter names (without types) in function declaration
-   include/linux/irqflags.h:202:1: warning: data definition has no type or storage class
-    DECLARE_TRACEPOINT(irq_disable);
-    ^~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:202:1: error: type defaults to 'int' in declaration of 'DECLARE_TRACEPOINT' [-Werror=implicit-int]
-   include/linux/irqflags.h:202:1: warning: parameter names (without types) in function declaration
-   In file included from include/linux/preempt.h:11,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from kernel/fork.c:16:
-   include/linux/irqflags.h: In function 'class_irq_destructor':
-   include/linux/irqflags.h:206:7: error: implicit declaration of function 'tracepoint_enabled'; did you mean 'local_irq_enable'? [-Werror=implicit-function-declaration]
-      if (tracepoint_enabled(irq_enable)) \
-          ^~~~~~~~~~~~~~~~~~
-   include/linux/cleanup.h:385:18: note: in definition of macro '__DEFINE_UNLOCK_GUARD'
-     if (_T->lock) { _unlock; }     \
-                     ^~~~~~~
-   include/linux/irqflags.h:274:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:274:47: note: in expansion of macro 'local_irq_enable'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-                                                  ^~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:206:26: error: 'irq_enable' undeclared (first use in this function); did you mean 'irqs_disabled'?
-      if (tracepoint_enabled(irq_enable)) \
-                             ^~~~~~~~~~
-   include/linux/cleanup.h:385:18: note: in definition of macro '__DEFINE_UNLOCK_GUARD'
-     if (_T->lock) { _unlock; }     \
-                     ^~~~~~~
-   include/linux/irqflags.h:274:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:274:47: note: in expansion of macro 'local_irq_enable'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-                                                  ^~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:206:26: note: each undeclared identifier is reported only once for each function it appears in
-      if (tracepoint_enabled(irq_enable)) \
-                             ^~~~~~~~~~
-   include/linux/cleanup.h:385:18: note: in definition of macro '__DEFINE_UNLOCK_GUARD'
-     if (_T->lock) { _unlock; }     \
-                     ^~~~~~~
-   include/linux/irqflags.h:274:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:274:47: note: in expansion of macro 'local_irq_enable'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-                                                  ^~~~~~~~~~~~~~~~
-   include/linux/irqflags.h: In function 'class_irq_constructor':
-   include/linux/irqflags.h:215:26: error: 'irq_disable' undeclared (first use in this function); did you mean 'irqs_disabled'?
-      if (tracepoint_enabled(irq_disable) && \
-                             ^~~~~~~~~~~
-   include/linux/cleanup.h:403:2: note: in definition of macro '__DEFINE_LOCK_GUARD_0'
-     _lock;        \
-     ^~~~~
-   include/linux/irqflags.h:274:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:274:26: note: in expansion of macro 'local_irq_disable'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-                             ^~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h: In function 'class_irqsave_destructor':
-   include/linux/irqflags.h:230:26: error: 'irq_enable' undeclared (first use in this function); did you mean 'irqs_disabled'?
-      if (tracepoint_enabled(irq_enable) && \
-                             ^~~~~~~~~~
-   include/linux/cleanup.h:385:18: note: in definition of macro '__DEFINE_UNLOCK_GUARD'
-     if (_T->lock) { _unlock; }     \
-                     ^~~~~~~
-   include/linux/irqflags.h:275:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irqsave,
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:277:7: note: in expansion of macro 'local_irq_restore'
-          local_irq_restore(_T->flags),
-          ^~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h: In function 'class_irqsave_constructor':
-   include/linux/irqflags.h:223:26: error: 'irq_disable' undeclared (first use in this function); did you mean 'irqs_disabled'?
-      if (tracepoint_enabled(irq_disable) && \
-                             ^~~~~~~~~~~
-   include/linux/cleanup.h:403:2: note: in definition of macro '__DEFINE_LOCK_GUARD_0'
-     _lock;        \
-     ^~~~~
-   include/linux/irqflags.h:275:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irqsave,
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:276:7: note: in expansion of macro 'local_irq_save'
-          local_irq_save(_T->flags),
-          ^~~~~~~~~~~~~~
-   In file included from include/linux/static_key.h:1,
-                    from include/linux/tracepoint-defs.h:12,
-                    from include/linux/preempt.h:13,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from kernel/fork.c:16:
-   include/linux/spinlock_api_smp.h: In function '__raw_spin_lock_irqsave':
-   include/linux/tracepoint-defs.h:92:27: error: '__tracepoint_irq_disable' undeclared (first use in this function); did you mean 'raw_local_irq_disable'?
-     static_branch_unlikely(&(__tracepoint_##tp).key)
-                              ^~~~~~~~~~~~~
-   include/linux/jump_label.h:503:43: note: in definition of macro 'static_branch_unlikely'
---
-   In file included from include/asm-generic/cmpxchg-local.h:6,
-                    from arch/sparc/include/asm/cmpxchg_64.h:111,
-                    from arch/sparc/include/asm/cmpxchg.h:5,
-                    from arch/sparc/include/asm/atomic_64.h:12,
-                    from arch/sparc/include/asm/atomic.h:5,
-                    from include/linux/atomic.h:7,
-                    from include/linux/tracepoint-defs.h:11,
-                    from include/linux/preempt.h:13,
-                    from include/linux/alloc_tag.h:11,
-                    from include/linux/rhashtable-types.h:12,
-                    from include/linux/ipc.h:7,
-                    from include/uapi/linux/sem.h:5,
-                    from include/linux/sem.h:5,
-                    from include/linux/compat.h:14,
-                    from kernel/compat.c:12:
-   include/linux/irqflags.h:201:1: warning: data definition has no type or storage class
-    DECLARE_TRACEPOINT(irq_enable);
-    ^~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:201:1: error: type defaults to 'int' in declaration of 'DECLARE_TRACEPOINT' [-Werror=implicit-int]
->> include/linux/irqflags.h:201:1: warning: parameter names (without types) in function declaration
-   include/linux/irqflags.h:202:1: warning: data definition has no type or storage class
-    DECLARE_TRACEPOINT(irq_disable);
-    ^~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:202:1: error: type defaults to 'int' in declaration of 'DECLARE_TRACEPOINT' [-Werror=implicit-int]
-   include/linux/irqflags.h:202:1: warning: parameter names (without types) in function declaration
-   In file included from include/linux/jump_label.h:78,
-                    from include/linux/dynamic_debug.h:6,
-                    from include/linux/printk.h:616,
-                    from include/asm-generic/bug.h:22,
-                    from arch/sparc/include/asm/bug.h:25,
-                    from include/linux/bug.h:5,
-                    from include/linux/alloc_tag.h:8,
-                    from include/linux/rhashtable-types.h:12,
-                    from include/linux/ipc.h:7,
-                    from include/uapi/linux/sem.h:5,
-                    from include/linux/sem.h:5,
-                    from include/linux/compat.h:14,
-                    from kernel/compat.c:12:
-   include/linux/irqflags.h: In function 'class_irq_destructor':
-   include/linux/irqflags.h:206:7: error: implicit declaration of function 'tracepoint_enabled'; did you mean 'static_key_enabled'? [-Werror=implicit-function-declaration]
-      if (tracepoint_enabled(irq_enable)) \
-          ^~~~~~~~~~~~~~~~~~
-   include/linux/cleanup.h:385:18: note: in definition of macro '__DEFINE_UNLOCK_GUARD'
-     if (_T->lock) { _unlock; }     \
-                     ^~~~~~~
-   include/linux/irqflags.h:274:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:274:47: note: in expansion of macro 'local_irq_enable'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-                                                  ^~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:206:26: error: 'irq_enable' undeclared (first use in this function); did you mean 'ctl_table'?
-      if (tracepoint_enabled(irq_enable)) \
-                             ^~~~~~~~~~
-   include/linux/cleanup.h:385:18: note: in definition of macro '__DEFINE_UNLOCK_GUARD'
-     if (_T->lock) { _unlock; }     \
-                     ^~~~~~~
-   include/linux/irqflags.h:274:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:274:47: note: in expansion of macro 'local_irq_enable'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-                                                  ^~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:206:26: note: each undeclared identifier is reported only once for each function it appears in
-      if (tracepoint_enabled(irq_enable)) \
-                             ^~~~~~~~~~
-   include/linux/cleanup.h:385:18: note: in definition of macro '__DEFINE_UNLOCK_GUARD'
-     if (_T->lock) { _unlock; }     \
-                     ^~~~~~~
-   include/linux/irqflags.h:274:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:274:47: note: in expansion of macro 'local_irq_enable'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-                                                  ^~~~~~~~~~~~~~~~
-   include/linux/irqflags.h: In function 'class_irq_constructor':
-   include/linux/irqflags.h:215:26: error: 'irq_disable' undeclared (first use in this function); did you mean 'irqs_disabled'?
-      if (tracepoint_enabled(irq_disable) && \
-                             ^~~~~~~~~~~
-   include/linux/cleanup.h:403:2: note: in definition of macro '__DEFINE_LOCK_GUARD_0'
-     _lock;        \
-     ^~~~~
-   include/linux/irqflags.h:274:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:274:26: note: in expansion of macro 'local_irq_disable'
-    DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-                             ^~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h: In function 'class_irqsave_destructor':
-   include/linux/irqflags.h:230:26: error: 'irq_enable' undeclared (first use in this function); did you mean 'ctl_table'?
-      if (tracepoint_enabled(irq_enable) && \
-                             ^~~~~~~~~~
-   include/linux/cleanup.h:385:18: note: in definition of macro '__DEFINE_UNLOCK_GUARD'
-     if (_T->lock) { _unlock; }     \
-                     ^~~~~~~
-   include/linux/irqflags.h:275:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irqsave,
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:277:7: note: in expansion of macro 'local_irq_restore'
-          local_irq_restore(_T->flags),
-          ^~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h: In function 'class_irqsave_constructor':
-   include/linux/irqflags.h:223:26: error: 'irq_disable' undeclared (first use in this function); did you mean 'irqs_disabled'?
-      if (tracepoint_enabled(irq_disable) && \
-                             ^~~~~~~~~~~
-   include/linux/cleanup.h:403:2: note: in definition of macro '__DEFINE_LOCK_GUARD_0'
-     _lock;        \
-     ^~~~~
-   include/linux/irqflags.h:275:1: note: in expansion of macro 'DEFINE_LOCK_GUARD_0'
-    DEFINE_LOCK_GUARD_0(irqsave,
-    ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:276:7: note: in expansion of macro 'local_irq_save'
-          local_irq_save(_T->flags),
-          ^~~~~~~~~~~~~~
-   In file included from include/linux/dynamic_debug.h:6,
-                    from include/linux/printk.h:616,
-                    from include/asm-generic/bug.h:22,
-                    from arch/sparc/include/asm/bug.h:25,
-                    from include/linux/bug.h:5,
-                    from include/linux/alloc_tag.h:8,
-..
+>> drivers/pci/pci-sysfs.c:688:8: warning: unused variable 'dev_attr_boot_display' [-Wunused-variable]
+     688 | static DEVICE_ATTR_RO(boot_display);
+         |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:199:26: note: expanded from macro 'DEVICE_ATTR_RO'
+     199 |         struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
+         |                                 ^~~~~~~~~~~~~~~~
+   <scratch space>:54:1: note: expanded from here
+      54 | dev_attr_boot_display
+         | ^~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +201 include/linux/irqflags.h
+vim +/dev_attr_boot_display +688 drivers/pci/pci-sysfs.c
 
-00b0ed2d4997af Peter Zijlstra       2020-08-12  200  
-563d10fd41452f Wander Lairson Costa 2025-06-26 @201  DECLARE_TRACEPOINT(irq_enable);
-563d10fd41452f Wander Lairson Costa 2025-06-26  202  DECLARE_TRACEPOINT(irq_disable);
-563d10fd41452f Wander Lairson Costa 2025-06-26  203  
+   682	
+   683	static ssize_t boot_display_show(struct device *dev, struct device_attribute *attr,
+   684					 char *buf)
+   685	{
+   686		return sysfs_emit(buf, "1\n");
+   687	}
+ > 688	static DEVICE_ATTR_RO(boot_display);
+   689	
 
 -- 
 0-DAY CI Kernel Test Service
