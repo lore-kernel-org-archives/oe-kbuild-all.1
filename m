@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62844238D54
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 28 Jun 2025 11:20:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E162B3597A;
+	Sat, 28 Jun 2025 11:52:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751109655; cv=none; b=HnvEuKqg9snarOWbXDfT+/tkycWjDMgdbwnuu+hVCJQ0j1E1XgXScCqtRWb1FhqQ1gw80hXZDdWYcJuKwpi8XHD4zll89KUu6nmftwEBBF/3hkGZcIoIkFHEumvgwDjhHBdW8ropCyzwKBFKTXmDxN/Be3SnXqrcG61GSWnB5GY=
+	t=1751111582; cv=none; b=oIFRqOMDQ3ky/+mPQtx4lJ/uoaWAmnRcLt15dx/nVLLSKvhMfURXaCiqK+F7p6L9zWDKQr9Hjea1o8aQoduiU6e64pT1Q+dXUecKl3+5HyHDfG/HQh6f8zDrjsz5YYX8VPLv731tBOn4QTrnMwhLzlUFQqTH9t4+lE6eKkZLF9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751109655; c=relaxed/simple;
-	bh=5hRsgFtGknKzSmWy0qbz0oiEOBs4iV/BxLCdUTZiHhE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NH5t/4pmO2Xj9LF/w4CFEgeihBg6VYQmypZPR67Q5hSHOGORJvESyt48D8knoIOtWRknpAbSFLUnoAY1hvpJwLXu7UZch9rRF5bHrL/GINkckHAoKKMPKA3MVAnZNMQX/9oDS9yUMOzxLdkTrv2laMBsCvIWTPRre13/Mf+o1ZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nfs2Bi0G; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1751111582; c=relaxed/simple;
+	bh=h/SU3jsa28hvi5Fs3KZQKyZnmzMBWeZGmESAC1iqtnY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tZsYDtCoQ4AgGlhOuq/PH0ht0feWS/I3NiHfldHDSAeIhk4qGdejyxpuTzdGZStWh8iKEeBXYqlnBUjPCCliQRw5iBeYgtyVxTmG04kqYnKMJlhKCUCEVzMHuIG+0JhKZxULVRV9nX0UWAX+LGwwX425TORdSwkKdqSCdDUvVyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i+q6bJId; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nfs2Bi0G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i+q6bJId"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751109654; x=1782645654;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5hRsgFtGknKzSmWy0qbz0oiEOBs4iV/BxLCdUTZiHhE=;
-  b=Nfs2Bi0Ga3NKUrE31tRc3wAA4jlwPo4yG7eAK8xXxjlVkJ1FG9URPNsH
-   0LLHYoJH8wYjOc1gZD0iU4wWhuT7vtLUOpN7UAF+qgyc90SFXLdHblHwb
-   zRdsv3+SLTdjKOIj4sTSoYL9wXti8q5QZq+2ktwQoRPOYjll/jt7Ub828
-   m+5CEoKacxmA7N+wk5Mnr2fz0CbUVJRfdMHXxxza1SlfEvSmD1bGqoOkf
-   +yxDPmwkCIMtoy8kJK5TRdUsy4dqM8AxZgrwJW5x02euM4ZBbOg9lxJnM
-   2d/FBNlbhXVhEWBxF1/EV72R2bOmMP4xu0l4PeVfiO5ptGMDRl8aZpcHF
+  t=1751111580; x=1782647580;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h/SU3jsa28hvi5Fs3KZQKyZnmzMBWeZGmESAC1iqtnY=;
+  b=i+q6bJIdict5YS7xSf5VL/Ii4WIreIagITp04D4CUvcgwH6QLW9piTr6
+   74/qAS50IbtpR0klxcnN8nNmoctnp4iTewF5Hsk4kFILCNVO78k0j0Go+
+   fhBtpgTPrPiKiN+tHI/VlO6m8OvAOftj6J3LDXQgJy8L1vVjHCLCKMrCX
+   o3TpZL2ZlRVmt5IP9pQz9UynLiOkWO3p8rNDoLPf0sD5oN5MGC5zE+/74
+   owvikDY1qUShaKwn+A5mZH1+xc4Id3cGGI9ZHe5XsyhrN7fuKugSzOAHT
+   DOg7B/Ob19IQfc5E00zLQZBeoIEBU4m5saE5T75x5RKt8e8TUDifh4EzW
    A==;
-X-CSE-ConnectionGUID: AGM+0k9eSUKWQbR0wzsjpQ==
-X-CSE-MsgGUID: JxBMuorhSUGmBmIEndZJmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="56026417"
-X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="56026417"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 04:20:53 -0700
-X-CSE-ConnectionGUID: EAQA53eESNyl2C78KB4Yjg==
-X-CSE-MsgGUID: Y9a4d4aKQOmy9xTW4jv7+A==
+X-CSE-ConnectionGUID: aqw+vqLcQhinOfzMaqwQCg==
+X-CSE-MsgGUID: V38GZHeqQL+OeIkcjpvajw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11477"; a="64097043"
+X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
+   d="scan'208";a="64097043"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jun 2025 04:52:59 -0700
+X-CSE-ConnectionGUID: S1+Ys8t7R4yIAjMP72BteA==
+X-CSE-MsgGUID: ZUr28zSaSQ+Y8n2Nb6cKtg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,272,1744095600"; 
-   d="scan'208";a="190199959"
+X-IronPort-AV: E=Sophos;i="6.16,273,1744095600"; 
+   d="scan'208";a="157563459"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 28 Jun 2025 04:20:52 -0700
+  by orviesa004.jf.intel.com with ESMTP; 28 Jun 2025 04:52:55 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVTc1-000X0I-0t;
-	Sat, 28 Jun 2025 11:20:49 +0000
-Date: Sat, 28 Jun 2025 19:20:38 +0800
+	id 1uVU72-000X1S-0n;
+	Sat, 28 Jun 2025 11:52:52 +0000
+Date: Sat, 28 Jun 2025 19:52:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Namjae Jeon <linkinjeon@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Steve French <stfrench@microsoft.com>
-Subject: fs/smb/server/connection.c:42:5-24: WARNING: atomic_dec_and_test
- variation before object free at line 43.
-Message-ID: <202506281916.wVorCT8Y-lkp@intel.com>
+To: Tiffany Yang <ynaffit@google.com>, linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	keescook@google.com, kernel-team@android.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+	Todd Kjos <tkjos@android.com>, Martijn Coenen <maco@android.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Christian Brauner <brauner@kernel.org>,
+	Carlos Llamas <cmllamas@google.com>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+Subject: Re: [PATCH 5/5] binder: encapsulate individual alloc test cases
+Message-ID: <202506281959.hfOTIUjS-lkp@intel.com>
+References: <20250627203748.881022-6-ynaffit@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,46 +73,234 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250627203748.881022-6-ynaffit@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   aaf724ed69264719550ec4f194d3ab17b886af9a
-commit: ee426bfb9d09b29987369b897fe9b6485ac2be27 ksmbd: add refcnt to ksmbd_conn struct
-date:   10 months ago
-config: i386-randconfig-052-20250628 (https://download.01.org/0day-ci/archive/20250628/202506281916.wVorCT8Y-lkp@intel.com/config)
+Hi Tiffany,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on staging/staging-testing]
+[also build test WARNING on staging/staging-next staging/staging-linus shuah-kselftest/kunit shuah-kselftest/kunit-fixes linus/master v6.16-rc3 next-20250627]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tiffany-Yang/binder-Fix-selftest-page-indexing/20250628-044044
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250627203748.881022-6-ynaffit%40google.com
+patch subject: [PATCH 5/5] binder: encapsulate individual alloc test cases
+config: i386-buildonly-randconfig-001-20250628 (https://download.01.org/0day-ci/archive/20250628/202506281959.hfOTIUjS-lkp@intel.com/config)
 compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250628/202506281959.hfOTIUjS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506281916.wVorCT8Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506281959.hfOTIUjS-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> fs/smb/server/connection.c:42:5-24: WARNING: atomic_dec_and_test variation before object free at line 43.
+All warnings (new ones prefixed by >>):
 
-vim +42 fs/smb/server/connection.c
+>> drivers/android/tests/binder_alloc_kunit.c:256:18: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     255 |                             "Initial buffers not freed correctly: %lu/%lu pages not on lru list",
+         |                                                                       ~~~
+         |                                                                       %zu
+     256 |                             failures, pages);
+         |                                       ^~~~~
+   include/kunit/test.h:987:11: note: expanded from macro 'KUNIT_EXPECT_EQ_MSG'
+     986 |                                    fmt,                                        \
+         |                                    ~~~
+     987 |                                     ##__VA_ARGS__)
+         |                                       ^~~~~~~~~~~
+   include/kunit/test.h:823:11: note: expanded from macro 'KUNIT_BINARY_INT_ASSERTION'
+     822 |                                     fmt,                                       \
+         |                                     ~~~
+     823 |                                     ##__VA_ARGS__)
+         |                                       ^~~~~~~~~~~
+   include/kunit/test.h:807:11: note: expanded from macro 'KUNIT_BASE_BINARY_ASSERTION'
+     806 |                       fmt,                                                     \
+         |                       ~~~
+     807 |                       ##__VA_ARGS__);                                          \
+         |                         ^~~~~~~~~~~
+   include/kunit/test.h:689:11: note: expanded from macro '_KUNIT_FAILED'
+     688 |                                     fmt,                                       \
+         |                                     ~~~
+     689 |                                     ##__VA_ARGS__);                            \
+         |                                       ^~~~~~~~~~~
+   drivers/android/tests/binder_alloc_kunit.c:279:18: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+     278 |                             "Reallocated buffers not freed correctly: %lu/%lu pages not on lru list",
+         |                                                                           ~~~
+         |                                                                           %zu
+     279 |                             failures, pages);
+         |                                       ^~~~~
+   include/kunit/test.h:987:11: note: expanded from macro 'KUNIT_EXPECT_EQ_MSG'
+     986 |                                    fmt,                                        \
+         |                                    ~~~
+     987 |                                     ##__VA_ARGS__)
+         |                                       ^~~~~~~~~~~
+   include/kunit/test.h:823:11: note: expanded from macro 'KUNIT_BINARY_INT_ASSERTION'
+     822 |                                     fmt,                                       \
+         |                                     ~~~
+     823 |                                     ##__VA_ARGS__)
+         |                                       ^~~~~~~~~~~
+   include/kunit/test.h:807:11: note: expanded from macro 'KUNIT_BASE_BINARY_ASSERTION'
+     806 |                       fmt,                                                     \
+         |                       ~~~
+     807 |                       ##__VA_ARGS__);                                          \
+         |                         ^~~~~~~~~~~
+   include/kunit/test.h:689:11: note: expanded from macro '_KUNIT_FAILED'
+     688 |                                     fmt,                                       \
+         |                                     ~~~
+     689 |                                     ##__VA_ARGS__);                            \
+         |                                       ^~~~~~~~~~~
+>> drivers/android/tests/binder_alloc_kunit.c:320:53: warning: format specifies type 'ssize_t' (aka 'int') but the argument has type 'unsigned long' [-Wformat]
+     320 |                         kunit_err(test, "case %zd: [%s] | %s - %s - %s", *runs,
+         |                                               ~~~                        ^~~~~
+         |                                               %lu
+   include/kunit/test.h:650:38: note: expanded from macro 'kunit_err'
+     650 |         kunit_printk(KERN_ERR, test, fmt, ##__VA_ARGS__)
+         |                                      ~~~    ^~~~~~~~~~~
+   include/kunit/test.h:616:21: note: expanded from macro 'kunit_printk'
+     615 |         kunit_log(lvl, test, KUNIT_SUBTEST_INDENT "# %s: " fmt,         \
+         |                                                            ~~~
+     616 |                   (test)->name, ##__VA_ARGS__)
+         |                                   ^~~~~~~~~~~
+   include/kunit/test.h:609:21: note: expanded from macro 'kunit_log'
+     609 |                 printk(lvl fmt, ##__VA_ARGS__);                         \
+         |                            ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:507:60: note: expanded from macro 'printk'
+     507 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:479:19: note: expanded from macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+>> drivers/android/tests/binder_alloc_kunit.c:320:53: warning: format specifies type 'ssize_t' (aka 'int') but the argument has type 'unsigned long' [-Wformat]
+     320 |                         kunit_err(test, "case %zd: [%s] | %s - %s - %s", *runs,
+         |                                               ~~~                        ^~~~~
+         |                                               %lu
+   include/kunit/test.h:650:38: note: expanded from macro 'kunit_err'
+     650 |         kunit_printk(KERN_ERR, test, fmt, ##__VA_ARGS__)
+         |                                      ~~~    ^~~~~~~~~~~
+   include/kunit/test.h:616:21: note: expanded from macro 'kunit_printk'
+     615 |         kunit_log(lvl, test, KUNIT_SUBTEST_INDENT "# %s: " fmt,         \
+         |                                                            ~~~
+     616 |                   (test)->name, ##__VA_ARGS__)
+         |                                   ^~~~~~~~~~~
+   include/kunit/test.h:611:8: note: expanded from macro 'kunit_log'
+     610 |                 kunit_log_append((test_or_suite)->log,  fmt,            \
+         |                                                         ~~~
+     611 |                                  ##__VA_ARGS__);                        \
+         |                                    ^~~~~~~~~~~
+   4 warnings generated.
 
-    24	
-    25	/**
-    26	 * ksmbd_conn_free() - free resources of the connection instance
-    27	 *
-    28	 * @conn:	connection instance to be cleand up
-    29	 *
-    30	 * During the thread termination, the corresponding conn instance
-    31	 * resources(sock/memory) are released and finally the conn object is freed.
-    32	 */
-    33	void ksmbd_conn_free(struct ksmbd_conn *conn)
-    34	{
-    35		down_write(&conn_list_lock);
-    36		list_del(&conn->conns_list);
-    37		up_write(&conn_list_lock);
-    38	
-    39		xa_destroy(&conn->sessions);
-    40		kvfree(conn->request_buf);
-    41		kfree(conn->preauth_info);
-  > 42		if (atomic_dec_and_test(&conn->refcnt))
-  > 43			kfree(conn);
-    44	}
-    45	
+
+vim +256 drivers/android/tests/binder_alloc_kunit.c
+
+   230	
+   231	/* Executes one full test run for the given test case. */
+   232	static bool binder_alloc_test_alloc_free(struct kunit *test,
+   233						 struct binder_alloc *alloc,
+   234						 struct binder_alloc_test_case_info *tc,
+   235						 size_t end)
+   236	{
+   237		size_t pages = PAGE_ALIGN(end) / PAGE_SIZE;
+   238		struct binder_buffer *buffers[BUFFER_NUM];
+   239		unsigned long failures;
+   240		bool failed = false;
+   241	
+   242		failures = binder_alloc_test_alloc_buf(test, alloc, buffers,
+   243						       tc->buffer_sizes,
+   244						       tc->free_sequence);
+   245		failed = failed || failures;
+   246		KUNIT_EXPECT_EQ_MSG(test, failures, 0,
+   247				    "Initial allocation failed: %lu/%u buffers with errors",
+   248				    failures, BUFFER_NUM);
+   249	
+   250		failures = binder_alloc_test_free_buf(test, alloc, buffers,
+   251						      tc->buffer_sizes,
+   252						      tc->free_sequence, end);
+   253		failed = failed || failures;
+   254		KUNIT_EXPECT_EQ_MSG(test, failures, 0,
+   255				    "Initial buffers not freed correctly: %lu/%lu pages not on lru list",
+ > 256				    failures, pages);
+   257	
+   258		/* Allocate from lru. */
+   259		failures = binder_alloc_test_alloc_buf(test, alloc, buffers,
+   260						       tc->buffer_sizes,
+   261						       tc->free_sequence);
+   262		failed = failed || failures;
+   263		KUNIT_EXPECT_EQ_MSG(test, failures, 0,
+   264				    "Reallocation failed: %lu/%u buffers with errors",
+   265				    failures, BUFFER_NUM);
+   266	
+   267		failures = list_lru_count(alloc->freelist);
+   268		failed = failed || failures;
+   269		KUNIT_EXPECT_EQ_MSG(test, failures, 0,
+   270				    "lru list should be empty after reallocation but still has %lu pages",
+   271				    failures);
+   272	
+   273		failures = binder_alloc_test_free_buf(test, alloc, buffers,
+   274						      tc->buffer_sizes,
+   275						      tc->free_sequence, end);
+   276		failed = failed || failures;
+   277		KUNIT_EXPECT_EQ_MSG(test, failures, 0,
+   278				    "Reallocated buffers not freed correctly: %lu/%lu pages not on lru list",
+   279				    failures, pages);
+   280	
+   281		failures = binder_alloc_test_free_page(test, alloc);
+   282		failed = failed || failures;
+   283		KUNIT_EXPECT_EQ_MSG(test, failures, 0,
+   284				    "Failed to clean up allocated pages: %lu/%lu pages still installed",
+   285				    failures, (alloc->buffer_size / PAGE_SIZE));
+   286	
+   287		return failed;
+   288	}
+   289	
+   290	static bool is_dup(int *seq, int index, int val)
+   291	{
+   292		int i;
+   293	
+   294		for (i = 0; i < index; i++) {
+   295			if (seq[i] == val)
+   296				return true;
+   297		}
+   298		return false;
+   299	}
+   300	
+   301	/* Generate BUFFER_NUM factorial free orders. */
+   302	static void permute_frees(struct kunit *test, struct binder_alloc *alloc,
+   303				  struct binder_alloc_test_case_info *tc,
+   304				  unsigned long *runs, unsigned long *failures,
+   305				  int index, size_t end)
+   306	{
+   307		bool case_failed;
+   308		int i;
+   309	
+   310		if (index == BUFFER_NUM) {
+   311			char freeseq_buf[FREESEQ_BUFLEN];
+   312	
+   313			case_failed = binder_alloc_test_alloc_free(test, alloc, tc, end);
+   314			*runs += 1;
+   315			*failures += case_failed;
+   316	
+   317			if (case_failed || PRINT_ALL_CASES) {
+   318				stringify_free_seq(test, tc->free_sequence, freeseq_buf,
+   319						   FREESEQ_BUFLEN);
+ > 320				kunit_err(test, "case %zd: [%s] | %s - %s - %s", *runs,
+   321					  case_failed ? "FAILED" : "PASSED",
+   322					  tc->front_pages ? "front" : "back ",
+   323					  tc->alignments, freeseq_buf);
+   324			}
+   325	
+   326			return;
+   327		}
+   328		for (i = 0; i < BUFFER_NUM; i++) {
+   329			if (is_dup(tc->free_sequence, index, i))
+   330				continue;
+   331			tc->free_sequence[index] = i;
+   332			permute_frees(test, alloc, tc, runs, failures, index + 1, end);
+   333		}
+   334	}
+   335	
 
 -- 
 0-DAY CI Kernel Test Service
