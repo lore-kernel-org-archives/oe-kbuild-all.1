@@ -1,137 +1,113 @@
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C46E21D3F0
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jun 2025 10:10:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2627F1E521D
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jun 2025 10:29:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751191817; cv=none; b=RLJRXu8hkOfIW2zBYGfyZSY8gV6iFL+Gr8hTYKhWIQ2agaKu22XVkPKqVqp4VIMEJu/7XXvCSkcLqy+X0rsBZE35SlZo4Ezv6c5Y0t5iVI3+qJDFEmFrWbgBxoyLv/kPZPS3sYsmH5zFX+JFRFRRwSffctVjxpuDY34dTRaOfvQ=
+	t=1751192959; cv=none; b=RJz1pO7x0Bg/Alvhq9A01/FFPmeYJrR+W+mIeDfmTSqsZvKj7CJ+hA4+l8fKnW8Ur3kZgtxWPflujT8cBkRMviUotdT+EXt8UZpuhaBKr6bCF7V6pVyF3rGuirt56LsiJwB4EMfDr1pvpyA/hyNAOncXD955XVAiYL+nbpDwWrc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751191817; c=relaxed/simple;
-	bh=R6uSRM1xEjbR8Uh/ppwy7XPm0tCcOs8UMbZXeqNBPkY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
-	 References:In-Reply-To; b=im1lAfYuSWapQB1W4KTTjCei90JcYHr7CWfKu7RibEhsyXyIbZYg9KFUjnAuu8oFxOApV14TZ8OE9DzglT1QHIg6WRiuofEClKd+QDeIu7nu4cbUKOy77yQaP/W5FMJEbRuKyiq2tTPAN5MqCiBHhBnRv0Alt5tgMSllVqGZwqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=jbLTkcMk; arc=none smtp.client-ip=91.218.175.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+	s=arc-20240116; t=1751192959; c=relaxed/simple;
+	bh=0gK4Hs3s8uJdCaSHxZMl8NCih4C/s280smu/7pQAwb8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Z7Mpcutd7NGKrLrvNRPGeHmXt/MnNuROXgnsbRO0wcYnZp9Lw41WKMcwYZ5Se81Rcev4mDQVghUN9uX+qE5K7jlCpPbSEiOgfw0/fpfzTr1WEKfsDWIrsl8evL9raXJV0nBzcnC4RNg3W8SjDsKBbej69goa8wMiPSq7saYE5v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WEK3Y76E; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="jbLTkcMk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WEK3Y76E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751192958; x=1782728958;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0gK4Hs3s8uJdCaSHxZMl8NCih4C/s280smu/7pQAwb8=;
+  b=WEK3Y76EMIIO5jkEaTlVVqzXMfEjpC8TYRzJsvD7qfDhz5Pg/ZmMPiJo
+   wOQRUviPI2OXiQ8YGDajgDMRsUo0Zv9FUiI9AliD9n0Qx4AhDZJkIl717
+   LyJDEv5blbpbHL0Q/6TuV5XMyhUurmAut9z1VcrLnZrLi/NBAh7sCx4SL
+   5D8omBjOFbJgTnUeEj9K2m7kdTx47/DRzEEF8Jhr0IpXaFD0f/Ij5QgWW
+   N7JdRyeAiLC3sViGgCpTgiN7K9iPTR6DVdrg3FquBrqIWCg43QaQe6Y/C
+   zm90THqniV9GdsTXQtpG7PoFSvFpjoXBytsp4ZvIqxndiD+KA2CNsv4zw
+   g==;
+X-CSE-ConnectionGUID: enkjkuPEQl+t0ohR+qAyBg==
+X-CSE-MsgGUID: EGqugLo+Rm6mPyJ7nGO/cQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11478"; a="57215418"
+X-IronPort-AV: E=Sophos;i="6.16,275,1744095600"; 
+   d="scan'208";a="57215418"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2025 03:29:17 -0700
+X-CSE-ConnectionGUID: kGxp+xUHR8GrUGt8ePzRcw==
+X-CSE-MsgGUID: SKs5jiZlTouK4MRet4e1gg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,275,1744095600"; 
+   d="scan'208";a="157227896"
+Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
+  by fmviesa003.fm.intel.com with ESMTP; 29 Jun 2025 03:29:15 -0700
+Received: from kbuild by e588e990b675 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uVpHd-0000sx-10;
+	Sun, 29 Jun 2025 10:29:13 +0000
+Date: Sun, 29 Jun 2025 12:28:54 +0200
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zhang Zekun <zhangzekun11@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2985/2985] drivers/acpi/numa/hmat.c:726:6:
+ warning: no previous prototype for function 'hmat_restore_target'
+Message-ID: <202506291239.arFZDGuj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1751191803;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=H6Wlp3JgvEp0ycS0t6Z7WKduaZTKhf5gEm0eW6oKUXk=;
-	b=jbLTkcMkzlOS4+CCECrHk6uIoEiUlZ8gi1AojI4kxi/eKj82hZVBUd0JkXPnB663LhL/Ek
-	gVqtKR4nI0DDAfDOLpK/pQysjigMfgN3b1oiUOlRymhs+BHhUm9Z2CIhjA6/dxDofMziof
-	bnZIC1eACNKyzLAaEjVmvFIWqNG5ubaMMU3Bswi2HkrK89/j4dBSJJ+/1Zwh7tZHRPMd7F
-	h8lCIjiqZr5zNjUESE1775Fn9QF8oEovSIHTMpvWLnkHDCJkdQKwj0qhGDK74YgzHqetQ1
-	lUR6lfFU1Fa45OZRahJUi6V6lS9ljIdgWs2JFN09YMxLkfMYs6Tf+IRgJb//Zg==
-Content-Type: multipart/signed;
- boundary=43508436bcd3ad84eb98e0bb756b39ac53921fae364149a231ac9f8d2b94;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Sun, 29 Jun 2025 12:09:49 +0200
-Message-Id: <DAYXOI4WITJW.1G5DBWEQDDY1Z@cknow.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "kernel test robot" <lkp@intel.com>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Heiko Stuebner" <heiko@sntech.de>
-Cc: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>, "Dragan Simic"
- <dsimic@manjaro.org>, "Quentin Schulz" <quentin.schulz@cherry.de>, "Johan
- Jonker" <jbx6244@gmail.com>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/8] arm64: dts: rockchip: Refactor DSI nodes on rk3399
- boards
-References: <20250627152645.740981-3-didi.debian@cknow.org>
- <202506290852.bWro2lBe-lkp@intel.com>
-In-Reply-To: <202506290852.bWro2lBe-lkp@intel.com>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---43508436bcd3ad84eb98e0bb756b39ac53921fae364149a231ac9f8d2b94
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   c245365237da527fb423d85e7ec54648113f843d
+commit: 2e1b00fcf1e3152a1e73846f5f9ec37cef088a65 [2985/2985] ACPI/HMAT: Add missing locality information for hot-added device
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250629/202506291239.arFZDGuj-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250629/202506291239.arFZDGuj-lkp@intel.com/reproduce)
 
-Hi,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506291239.arFZDGuj-lkp@intel.com/
 
-On Sun Jun 29, 2025 at 2:32 AM CEST, kernel test robot wrote:
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on rockchip/for-next]
-> [also build test ERROR on next-20250627]
-> [cannot apply to robh/for-next krzk/for-next krzk-dt/for-next linus/maste=
-r v6.16-rc3]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Diederik-de-Haas/a=
-rm64-dts-rockchip-Refactor-DSI-nodes-on-px30-boards/20250627-233300
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/mmind/linux-rockc=
-hip.git for-next
-> patch link:    https://lore.kernel.org/r/20250627152645.740981-3-didi.deb=
-ian%40cknow.org
-> patch subject: [PATCH 2/8] arm64: dts: rockchip: Refactor DSI nodes on rk=
-3399 boards
-> config: arm64-randconfig-002-20250629 (https://download.01.org/0day-ci/ar=
-chive/20250629/202506290852.bWro2lBe-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd70=
-8029e0b2869e80abe31ddb175f7c35361f90)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250629/202506290852.bWro2lBe-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506290852.bWro2lBe-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->>> Error: arch/arm64/boot/dts/rockchip/rk3399-rockpro64-screen.dtso:75.1-6=
- syntax error
->    FATAL ERROR: Unable to parse input tree
+All warnings (new ones prefixed by >>):
 
-The kernel test robot is right as the ``&mipi_out`` node is missing a
-closing ``;``, so thanks for that :-)
-The problem is also present in v2, so I'll send a v3 shortly.
+>> drivers/acpi/numa/hmat.c:726:6: warning: no previous prototype for function 'hmat_restore_target' [-Wmissing-prototypes]
+     726 | void hmat_restore_target(int nid)
+         |      ^
+   drivers/acpi/numa/hmat.c:726:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     726 | void hmat_restore_target(int nid)
+         | ^
+         | static 
+   1 warning generated.
 
-Luckily I've now found why my build script didn't catch it.
-```sh
-export PATH=3D~/dev/kernel.org/dt-schema-venv/bin/:$PATH CROSS_COMPILE=3Daa=
-rch64-linux-gnu- ARCH=3Darm64
-make distclean
-make debarm64_defconfig
-make CHECK_DTBS=3Dy W=3D1 rockchip/px30-cobra-ltk050h3146w-a2.dtb
-<quite-a-long-list-of-all-boards-at-least-I-thought-so>
-```
 
-(debarm64_defconfig is my own defconfig based on Debian's kernel config)
+vim +/hmat_restore_target +726 drivers/acpi/numa/hmat.c
 
-That long list didn't have ``rockchip/rk3399-rockpro64-screen.dtbo``.
-Is there a better/simpler way to validate all rockchip boards without
-having to explicitly list each and every one of them?
+   725	
+ > 726	void hmat_restore_target(int nid)
+   727	{
+   728		struct memory_target *target;
+   729		int pxm;
+   730	
+   731		pxm = node_to_pxm(nid);
+   732		target = find_mem_target(pxm);
+   733		if (!target)
+   734			return;
+   735	
+   736		mutex_lock(&target_lock);
+   737		hmat_register_target_cache(target);
+   738		hmat_register_target_perf(target, 0);
+   739		hmat_register_target_perf(target, 1);
+   740		mutex_unlock(&target_lock);
+   741	}
+   742	
 
-Cheers,
-  Diederik
-
---43508436bcd3ad84eb98e0bb756b39ac53921fae364149a231ac9f8d2b94
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaGEQ8wAKCRDXblvOeH7b
-bkmOAP9oM6RsgNp49/g+vN6x7caM8SHQCK0m03vWy5v9AUMPCAD9Gu0vIsw3p1fn
-Jw3UxbRGaW+2LtlZ/raAKpP6oBKDRA4=
-=vkok
------END PGP SIGNATURE-----
-
---43508436bcd3ad84eb98e0bb756b39ac53921fae364149a231ac9f8d2b94--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
