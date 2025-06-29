@@ -1,68 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9853C288A8
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jun 2025 20:57:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD75423B61A
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jun 2025 21:08:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751230656; cv=none; b=gjfqCANcsTewEI2VA7NSptsW3XjD0N6wXm4VyIFsT8B18F/3soMxySWNgDa9isVBOC90FSG+Dur9EotLVkbgy6gvIqXx+PifIEMRSNgTtikk+ebKghYJ9WZioo9t0L3tzwjXs2yN5OGmMEkc9403EuYc93698VkvTc09QsJgEdo=
+	t=1751231287; cv=none; b=ulnIQfJwn4YDVQ5QOklEjJfYtlDm31Y1r58PorNv8vFT2yjvCKBv4HuR27Tx9SE7jBChaTL1in97Pg7rMEVYPddWiTkW69aElER1WLDVH1jSyYDZ6GvOpqFXYPKIS8B7FaWk1JBSfzkQ4mogAUF7+psyUIxvdmYbSbo7S7o+mGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751230656; c=relaxed/simple;
-	bh=4sGclJ7JPmOXEyw1qCkUxmj9+SxiJpgXHWGQ3kI7L8E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZYsV84G+hLy4lY8KygS4fEjnv5VNTsn0lH4+fRqL9toY25Lqbm5MJVSadbsear7Bw2D2q5IaJgNcv7hISGyfFjYi9L3ncctrxVEAjWi/Z3v4diMSgLMEeFtCenZA9EL9KCEnLYEtqyXPV8erxjYmOvT9yLdFncGnchpCiRdqB2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TKlRP+3f; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1751231287; c=relaxed/simple;
+	bh=GA25YuzzMVH/O5rVPqpL3+VneG+gMI0cVLHzUk8/FCM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=K08do1igxuj3BCI9hYm+s+NBdUQHGnImXO5F6JLrswXSwDddOYs7JbpSEuKGxLoZDF0vvJyuBfAmNK6nUQ/E0+A2A1bOG2GetojsmnnSyjPUB6VfCN/H+iRV1kBfct8IWcUnio0NnpD6CHrrRW77KzM8Xs0gQPRFGChSoEw9eQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MYqMartq; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TKlRP+3f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MYqMartq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751230654; x=1782766654;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4sGclJ7JPmOXEyw1qCkUxmj9+SxiJpgXHWGQ3kI7L8E=;
-  b=TKlRP+3f/6xa/BsqWWJ1rOHbxPuKQxI4UoAPkOLKgX/24YK4S0W6CBr2
-   mLPR1nT5/bW4GCFEzV87wIlEZZTVo2cHsL/Io2xUX33AXqMUItAvvUk8W
-   9WqWBlXmOIbT0zR7n5FNnqx5iO2Scc+dXCQRUtGTtL6hkAm6bT4XA5ZN5
-   dv7KBef4kk2nC0XhV2699kGEOcy0HG1jHzZ4AeMlm9WPBTj9IG+663CZ1
-   Pj+fUkEP3t5l940/2+jDusWx7FcnGku0Boqu/5jn9IB7k/6oV7h8hdY17
-   eK08987vV6w5dwdnS9y6gzs9fEJWqsrutlm0s/XcNOy2f0Jem8BdKuO3R
-   Q==;
-X-CSE-ConnectionGUID: GZkPcjKeTCOmfNNF1X24MQ==
-X-CSE-MsgGUID: dzuU/y0cQdKg9mmajEQlWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="76006846"
+  t=1751231285; x=1782767285;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GA25YuzzMVH/O5rVPqpL3+VneG+gMI0cVLHzUk8/FCM=;
+  b=MYqMartqTe0YgGaUt0eWoujBV2uWtsYk6De+paEn4TJzT/Lp13sXv4Hk
+   ueJhQlj2LlA5q94RbadGrViRAd/XbDmd9D86laG/4XYgbckqF8j2vuHJ9
+   Yn8zHdeL346wDGEQ5QvQ0dnYqmAjMQDQO9TYNLXsL3I/TSXDHNLtEpJMF
+   i3vJG7+vIGXWZK2FiS2YUiMnxDqq8S9fGD8V4K9ezO3cCWToIi2gxTl9G
+   TphcjjWgYZSxaQyWm0YE8xVeI6MMKh+t8pc4MBCldsexRRhG0bugwHEoO
+   nG40H7Yagvg/21kJ7BO1bv0fm4aP3g3FoI9Ako3hejXiXjGgjhQfUMNGM
+   A==;
+X-CSE-ConnectionGUID: y1QJrCrXSe2WHgjzEnr0NA==
+X-CSE-MsgGUID: jKjEChh3S3WToLY/KI0aZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="57137527"
 X-IronPort-AV: E=Sophos;i="6.16,276,1744095600"; 
-   d="scan'208";a="76006846"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2025 13:57:34 -0700
-X-CSE-ConnectionGUID: yqedKzWcThKyEa84V8mKAQ==
-X-CSE-MsgGUID: 2xMj3oDGTH6CIdlGLr8kEA==
+   d="scan'208";a="57137527"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2025 14:08:05 -0700
+X-CSE-ConnectionGUID: MdWRuUWiS1yFaVGF64FLyA==
+X-CSE-MsgGUID: A7JUm79gR7a7by//PAMANg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,276,1744095600"; 
-   d="scan'208";a="152780971"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 29 Jun 2025 13:57:29 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+   d="scan'208";a="157553590"
+Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
+  by fmviesa005.fm.intel.com with ESMTP; 29 Jun 2025 14:08:04 -0700
+Received: from kbuild by e588e990b675 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uVz5b-000YE2-1w;
-	Sun, 29 Jun 2025 20:57:27 +0000
-Date: Mon, 30 Jun 2025 04:56:37 +0800
+	id 1uVzFp-0000yR-2C;
+	Sun, 29 Jun 2025 21:08:01 +0000
+Date: Sun, 29 Jun 2025 23:07:12 +0200
 From: kernel test robot <lkp@intel.com>
-To: Laura Nao <laura.nao@collabora.com>, mturquette@baylibre.com,
-	sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, p.zabel@pengutronix.de,
-	richardcochran@gmail.com
-Cc: oe-kbuild-all@lists.linux.dev, guangjie.song@mediatek.com,
-	wenst@chromium.org, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, netdev@vger.kernel.org,
-	kernel@collabora.com, Laura Nao <laura.nao@collabora.com>
-Subject: Re: [PATCH v2 22/29] clk: mediatek: Add MT8196 mfg clock support
-Message-ID: <202506300416.dbAiyBcI-lkp@intel.com>
-References: <20250624143220.244549-23-laura.nao@collabora.com>
+To: Pop Ioan Daniel <pop.ioan-daniel@analog.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
+Subject: [linux-next:master 1547/5590] Warning:
+ drivers/iio/industrialio-backend.c:724 function parameter 'chan' not
+ described in 'iio_backend_oversampling_ratio_set'
+Message-ID: <202506292344.HLJbrrgR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,48 +65,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250624143220.244549-23-laura.nao@collabora.com>
 
-Hi Laura,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on clk/clk-next]
-[also build test WARNING on linus/master v6.16-rc3 next-20250627]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Laura-Nao/clk-mediatek-clk-pll-Add-set-clr-regs-for-shared-PLL-enable-control/20250624-225217
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20250624143220.244549-23-laura.nao%40collabora.com
-patch subject: [PATCH v2 22/29] clk: mediatek: Add MT8196 mfg clock support
-config: arm64-randconfig-r053-20250629 (https://download.01.org/0day-ci/archive/20250630/202506300416.dbAiyBcI-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2aeda9592360c200085898a258c4754bfe879921
+commit: 69f00e4ab1f70b333d0e36c9e9d04abf7cea3fa6 [1547/5590] iio: backend: update iio_backend_oversampling_ratio_set
+config: alpha-randconfig-2002-20250625 (https://download.01.org/0day-ci/archive/20250629/202506292344.HLJbrrgR-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250629/202506292344.HLJbrrgR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506300416.dbAiyBcI-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506292344.HLJbrrgR-lkp@intel.com/
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/clk/mediatek/clk-mt8196-mfg.c:143:3-8: No need to set .owner here. The core will do it.
+All warnings (new ones prefixed by >>):
 
-vim +143 drivers/clk/mediatek/clk-mt8196-mfg.c
-
-   137	
-   138	static struct platform_driver clk_mt8196_mfg_drv = {
-   139		.probe = clk_mt8196_mfg_probe,
-   140		.remove = clk_mt8196_mfg_remove,
-   141		.driver = {
-   142			.name = "clk-mt8196-mfg",
- > 143			.owner = THIS_MODULE,
-   144			.of_match_table = of_match_clk_mt8196_mfg,
-   145		},
-   146	};
-   147	module_platform_driver(clk_mt8196_mfg_drv);
-   148	
+>> Warning: drivers/iio/industrialio-backend.c:724 function parameter 'chan' not described in 'iio_backend_oversampling_ratio_set'
 
 -- 
 0-DAY CI Kernel Test Service
