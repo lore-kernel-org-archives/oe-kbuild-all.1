@@ -1,60 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43297247280
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 09:56:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C01B123F27B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 09:56:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751277400; cv=none; b=qYvGhYIxqZLb67oao+Ik8zWYsp9FxQ5lHurUeo6xsOndcfiZf5IztuIxkAaZrMCGe57yHn4O9M/6Jjkr8DOl7WoQ6okWyBQAFl7PmwQf4U7MoWnwAgBlTpB3EnMEghzvBKCJtO6G8ohzydVkHTRvZJU7zH37nBk4GICupmuT+MU=
+	t=1751277400; cv=none; b=X9bQRm3brzB0BlrJ/TKt3HPJ4WizLBYUnsF6Sv4/flQXgMGW15OL0oPWdoSXxrfGxLV5WKWdPKwryuReVJARKZPh4mDWhdJADsvPuu5vWIZDPR/vyR1/4zTjxJGw3gQgvFb4dpFRuRrgT379zmtbCxUVPXuNJ4q2l5bal5CddEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1751277400; c=relaxed/simple;
-	bh=fhkE2Bp+6mcX4/VW/vyM0PiJUUPPSbKwX9jzJgOolNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FirJuS4WYJWgHqU3uWai/Zjn6uJnVXQZQDUW1HmiM2UFR7DrAzxKtY3baeqsJg1GH4ejc9MTVwWrfAPqSHXnBuH2B5/MSYgx3UV2A7nP5aCqOtF8OWu5SqUc/CALJUe8+rHRxEbGEMSv2EXpyZ8U4Wo5w9w0fvOjmSjnWERdBnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PiV8IIsw; arc=none smtp.client-ip=192.198.163.11
+	bh=lRurOeZ7EKZfBhd+PazQpT0UPsCtzFmVV3p9ECRTaxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VL9Qg8SqUjCIArWOSG4iihJf+9mBqkdkYfNxVt9UTXkDRqSserGQC5WxhwxtLwbjx7Kb2scAF21ezOkXEC4TBVpgIWk6eSZ99ccOvObaaYcCDuhKLxD7bKKt59WU1QRNsBxnZztCQf1zlfV1RPXYtSeopVnfM0tf8695rq/V2dQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CzRWn/r2; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PiV8IIsw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CzRWn/r2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1751277398; x=1782813398;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=fhkE2Bp+6mcX4/VW/vyM0PiJUUPPSbKwX9jzJgOolNI=;
-  b=PiV8IIswDVG9rEy44pKzKpCIBdAMHfYb6hwU735u7ysNkylxhARwQcez
-   XYFnv9J+xQtYWj4aR2ILegDjHhdWCMPPdYbKuUEEG7VFe/cGE+hqT7kbo
-   5Y5VK0X/tsep7AgZF53/yZdg0SBmpgXvXcBX4qHAFPdpyRgxrgakUAR4d
-   eSmIHTjxn36kIDx24XHwAvR9KstApSXGtgPXEhOkMm1DUFEBv++57aoa9
-   othUisAKZHOD1GKoTVI9qw8RG1d3w8vubl2oLpamcbAWQ3r9Zisz/gi/V
-   RoeqIoLyBcP2X59N6xwwTzJAfmXa5l2jWETyJb9QfD46NxAotkEJoTTCS
-   g==;
-X-CSE-ConnectionGUID: Tel5y2uEQqq+aWXwafUYZg==
-X-CSE-MsgGUID: 8OLbLyE6Q/+eUPWhlpUwRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="64093959"
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lRurOeZ7EKZfBhd+PazQpT0UPsCtzFmVV3p9ECRTaxo=;
+  b=CzRWn/r2TjTMKm3l5tUKR3fGibva3aUl92K0crjh4Uo94Hs0tMrR1EMy
+   2kb2kXiHpWgUCLz0xjHid1dEAe+Tm0ZAqN+86+zjJy/bJmxNotfSmGPJm
+   aBCcNfCaL+iA1NCVKoCyjplU7gix2Gnvx30vXKzfbWquykqqgjKRwOSEI
+   Fe3weER7mSTbDB+oO7fopUCJDdU+B8VAfFf8rD3r73QFzZHFGo1leGEW6
+   nkygTG1D1Y6hT6hOGIKgtJsbunF50aEj94bww/XDUf1N1mUyEenHtDB+H
+   hsTW3M6SIbLVDSmVpN9I8zYRORa9m28+8E2AgMXxtj/cLLiIDedChnYZq
+   A==;
+X-CSE-ConnectionGUID: FVAleGTHTh+d9epK9H4JPQ==
+X-CSE-MsgGUID: l/EAMGN7T0Oow+UxdQ3ICA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="70932089"
 X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
-   d="scan'208";a="64093959"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 02:56:38 -0700
-X-CSE-ConnectionGUID: uMUNNo4hTeuIJUPvRNd1xQ==
-X-CSE-MsgGUID: SHw0d27sTMKfXVyjzNTfwA==
+   d="scan'208";a="70932089"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 02:56:38 -0700
+X-CSE-ConnectionGUID: dNZuO+IMSw25ZROr0r/Png==
+X-CSE-MsgGUID: Slrx0BFzS4G/O/KiCbWXHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
-   d="scan'208";a="157958672"
-Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 30 Jun 2025 02:56:37 -0700
-Received: from kbuild by e588e990b675 with local (Exim 4.96)
+   d="scan'208";a="153044245"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 30 Jun 2025 02:56:35 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWBFZ-0001B9-35;
-	Mon, 30 Jun 2025 09:56:33 +0000
-Date: Mon, 30 Jun 2025 11:55:55 +0200
+	id 1uWBFY-000Yks-2G;
+	Mon, 30 Jun 2025 09:56:32 +0000
+Date: Mon, 30 Jun 2025 17:56:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>
-Subject: [linux-next:master 2048/5998]
- arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: usb_phy@2620738
- (ti,keystone-usbphy): '#address-cells', '#size-cells' do not match any of
- the regexes: '^pinctrl-[0-9]+$'
-Message-ID: <202506301132.an2PPip7-lkp@intel.com>
+To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
+	linux-mm@kvack.org, Johannes Weiner <hannes@cmpxchg.org>,
+	Christian Koenig <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dave Chinner <david@fromorbit.com>,
+	Kairui Song <kasong@tencent.com>, Dave Airlie <airlied@redhat.com>
+Subject: Re: [PATCH 10/17] ttm: add a memcg accounting flag to the
+ alloc/populate APIs
+Message-ID: <202506301731.dRh8GUQZ-lkp@intel.com>
+References: <20250630045005.1337339-11-airlied@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,86 +66,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250630045005.1337339-11-airlied@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   2aeda9592360c200085898a258c4754bfe879921
-commit: 222bb02ee691237f1e9393d31226faa35097e9ab [2048/5998] dt-bindings: phy: Convert ti,keystone-usbphy to DT schema
-config: arm-randconfig-2053-20250625 (https://download.01.org/0day-ci/archive/20250630/202506301132.an2PPip7-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema version: 2025.6.1
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301132.an2PPip7-lkp@intel.com/reproduce)
+Hi Dave,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on drm/drm-next]
+[cannot apply to akpm-mm/mm-everything linus/master v6.16-rc4 next-20250630]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/drm-ttm-use-gpu-mm-stats-to-track-gpu-memory-allocations-v2/20250630-134938
+base:   git://anongit.freedesktop.org/drm/drm drm-next
+patch link:    https://lore.kernel.org/r/20250630045005.1337339-11-airlied%40gmail.com
+patch subject: [PATCH 10/17] ttm: add a memcg accounting flag to the alloc/populate APIs
+config: riscv-randconfig-001-20250630 (https://download.01.org/0day-ci/archive/20250630/202506301731.dRh8GUQZ-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301731.dRh8GUQZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506301132.an2PPip7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506301731.dRh8GUQZ-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/clocks/clkxge@23500c8: failed to match any schema with compatible: ['ti,keystone,psc-clock']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/i2c@2530000: failed to match any schema with compatible: ['ti,davinci-i2c']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/i2c@2530400: failed to match any schema with compatible: ['ti,davinci-i2c']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/i2c@2530800: failed to match any schema with compatible: ['ti,davinci-i2c']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/spi@21000400: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/spi@21000400: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/spi@21000600: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/spi@21000600: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/spi@21000800: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/spi@21000800: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
->> arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: usb_phy@2620738 (ti,keystone-usbphy): '#address-cells', '#size-cells' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/ti,keystone-usbphy.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: usb@2680000 (ti,keystone-dwc3): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$', 'usb@[a-f0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/usb/ti,keystone-dwc3.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: wdt@22f0080 (ti,keystone-wdt): $nodename:0: 'wdt@22f0080' does not match '^(timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/ti,davinci-wdt.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: cs0: 'clocks' is a dependency of 'clock-ranges'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: nand@0,0 (ti,keystone-nand): #size-cells: 0 was expected
---
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/clocks/clkuart3@2350000: failed to match any schema with compatible: ['ti,keystone,psc-clock']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/i2c@2530000: failed to match any schema with compatible: ['ti,davinci-i2c']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/i2c@2530400: failed to match any schema with compatible: ['ti,davinci-i2c']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/i2c@2530800: failed to match any schema with compatible: ['ti,davinci-i2c']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/spi@21000400: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/spi@21000400: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/spi@21000600: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/spi@21000600: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/spi@21000800: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/spi@21000800: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
->> arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: usb_phy@2620738 (ti,keystone-usbphy): '#address-cells', '#size-cells' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/ti,keystone-usbphy.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: usb@2680000 (ti,keystone-dwc3): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$', 'usb@[a-f0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/usb/ti,keystone-dwc3.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: wdt@22f0080 (ti,keystone-wdt): $nodename:0: 'wdt@22f0080' does not match '^(timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/ti,davinci-wdt.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: cs0: 'clocks' is a dependency of 'clock-ranges'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: nand@0,0 (ti,keystone-nand): #size-cells: 0 was expected
---
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/clocks/clkxge@23500c8: failed to match any schema with compatible: ['ti,keystone,psc-clock']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/i2c@2530000: failed to match any schema with compatible: ['ti,davinci-i2c']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/i2c@2530400: failed to match any schema with compatible: ['ti,davinci-i2c']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/i2c@2530800: failed to match any schema with compatible: ['ti,davinci-i2c']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/spi@21000400: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/spi@21000400: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/spi@21000600: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/spi@21000600: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/spi@21000800: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/spi@21000800: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
->> arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: usb_phy@2620738 (ti,keystone-usbphy): '#address-cells', '#size-cells' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/phy/ti,keystone-usbphy.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: usb@2680000 (ti,keystone-dwc3): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$', 'usb@[a-f0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/usb/ti,keystone-dwc3.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: wdt@22f0080 (ti,keystone-wdt): $nodename:0: 'wdt@22f0080' does not match '^(timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/ti,davinci-wdt.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: cs0: 'clocks' is a dependency of 'clock-ranges'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: nand@0,0 (ti,keystone-nand): #size-cells: 0 was expected
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/gpu/drm/ttm/ttm_bo.c:1256 function parameter 'memcg_account' not described in 'ttm_bo_populate'
 
 -- 
 0-DAY CI Kernel Test Service
