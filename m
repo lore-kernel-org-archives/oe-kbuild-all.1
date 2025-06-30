@@ -1,168 +1,151 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3959F23FC49
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 09:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FD31ABED9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 09:17:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751275051; cv=none; b=X+0A0ne00XBqeGoqjqzLcvQ8PhW0nRJ3qkzXkS9nbhFG/QylDYNvS4DHlp9j2/80aIYTjSdkbKNhgQELuTTWM15EOLqlJnIRvg5L2W6yDhk+6Xmk4pQ8raCQ4it+bkZEizeFPv8Xe9Q4GthRmV6MBosxbjpcV0U0dBy6WGTRCKM=
+	t=1751275057; cv=none; b=PhiNiEaks4nccCUDNMTPNpujCHKMfSfSnBLQKifdKQjBNiqS38WcPe3oe0Q0T3TfM0oeVnJFW3GQ6CHkupoZh/NGWoEmWptduBvsZ5bgcw+DgXd7tBjE7GQCxndEP89GNFYsbO2/VLp40LFo/DR6NHf/XZ62aUL4kx/J4MOmJEs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751275051; c=relaxed/simple;
-	bh=T1XYIsANHmz/Er/skgggm0k+2uqncTh2t0Q1H95EGA0=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=Bc0LBgi5CrVtgZLAtUce30RDNIa9V2Gspr/ZtXIV1mAlndQQUxVHslPf+EHqYfysZVciycfuQMiEHGXUG0ZnJOUcwnZkXLWx3T2w3Y2MlAYNKrg64BWgkXFhMC7pic89bGm4wXg82c24j0Xrq0ggPzzKzy+A/dybXIKHqZtj/NU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ROhZuEPU; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1751275057; c=relaxed/simple;
+	bh=WAWAQKYuyBa6o67rIp015Wh7TWQ+crU5mDCn8JpAQjQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=L6/JVVpKeahGGp+DwQmCflU08JZb8fDimTR2gTNroQ48isUykEK9z8L6ZflHEHr53eZna+/Cmi9f6lY0+5FogdgJke3Tyx7G1jNJKphXdkik2HLOtT9lpPaOONr2TXULls+ap2ITxs6zUzCeRzQtAbt6IxV9adbTZUEHzC5QWHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FhPaKtum; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ROhZuEPU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1751275047;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rTeBvWfbV+enSzDAScZMGtwtYcy8ru7yyyyPelAWiW8=;
-	b=ROhZuEPUHLSPbuwZXww3ZMSuQH5ITc0FpGu+JQBAzOgQexkLjHmaU8QosUwXNxMweD4K0h
-	40Kxho/RPdBlLmbW4R5VrETeFvjtm313loydyaqCzO3NWDeSo+s+0N/kiLH40HSRlsLm0e
-	guFN/V0fxn12VDM17PlpDAsPfbvdNSQ=
-Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-562-HmTcXydwPBKdPONEwzT0Sg-1; Mon,
- 30 Jun 2025 05:17:23 -0400
-X-MC-Unique: HmTcXydwPBKdPONEwzT0Sg-1
-X-Mimecast-MFC-AGG-ID: HmTcXydwPBKdPONEwzT0Sg_1751275042
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 42F461978F61;
-	Mon, 30 Jun 2025 09:17:22 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.42.28.81])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 783FF180045C;
-	Mon, 30 Jun 2025 09:17:20 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <202506240423.E942yKJP-lkp@intel.com>
-References: <202506240423.E942yKJP-lkp@intel.com>
-To: kernel test robot <lkp@intel.com>
-Cc: dhowells@redhat.com, oe-kbuild-all@lists.linux.dev,
-    linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>
-Subject: Re: net/rxrpc/output.c:974:1: warning: the frame size of 1160 bytes is larger than 1024 bytes
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FhPaKtum"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751275056; x=1782811056;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WAWAQKYuyBa6o67rIp015Wh7TWQ+crU5mDCn8JpAQjQ=;
+  b=FhPaKtumLXpPxGTtQG5xZooW8bNVVsqDxzztikrb5GtUI19vbPqA+4rJ
+   QS6NjT/tWyW70xq6iOztIMvRlKf6EA9E/eqMq3rDzKikn7dzeMIRoxQ67
+   Tb7VCFyNmcxI9RvswYl/2R8wFi/77PfK1GHL2TnxZc5ztums/hdm0BUK6
+   8eGXAxaISPxVgbBiCix4DUgxLpSYw4XVt6bWx7t72i2hfbd7HsyV1BqXu
+   TfteJuKAUVuNLUXrKKYjt4q4CrCs7N46NEzPx5NP8OOLp96smK5LuJ6Sj
+   iauLnt75yUsVuz/m8lKabiKRFaAOr7bGIxyPooLOjE+GcUKk1LtLdY1iy
+   Q==;
+X-CSE-ConnectionGUID: MSXrphVCRxOKw/5tcrd5Yg==
+X-CSE-MsgGUID: HDrHWEwMSNGHPj3HnjD9Ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="53456590"
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="53456590"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 02:17:35 -0700
+X-CSE-ConnectionGUID: Rbi147cYTh2ZYLHkSDbZrQ==
+X-CSE-MsgGUID: W21qZr8pTFOdikD7l/Nl3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="152888907"
+Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
+  by orviesa006.jf.intel.com with ESMTP; 30 Jun 2025 02:17:33 -0700
+Received: from kbuild by e588e990b675 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uWAdn-0001AR-1C;
+	Mon, 30 Jun 2025 09:17:31 +0000
+Date: Mon, 30 Jun 2025 11:17:12 +0200
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-kiwi-5.10 131/131]
+ arch/x86/kernel/traps.c:176:46: warning: format specifies type 'unsigned
+ long' but the argument has type 'void *'
+Message-ID: <202506301155.9qrWrYLA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1859690.1751275037.1@warthog.procyon.org.uk>
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 30 Jun 2025 10:17:19 +0100
-Message-ID: <1859693.1751275039@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I think the attached patch should fix this.
+tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
+head:   a24db0101fdd172c3b06b30ba59b614e686ff1e7
+commit: e4f1f4c9a6f6bdc4ed2f2d6d05fe5cd78af07bdf [131/131] ANDROID: Add kiwi_fault_logging kernel parameter
+config: x86_64-randconfig-2002-20250501 (https://download.01.org/0day-ci/archive/20250630/202506301155.9qrWrYLA-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301155.9qrWrYLA-lkp@intel.com/reproduce)
 
-David
----
-rxrpc: Fix over large frame size warning
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506301155.9qrWrYLA-lkp@intel.com/
 
-Under some circumstances, the compiler will emit the following warning for
-rxrpc_send_response():
+All warnings (new ones prefixed by >>):
 
-   net/rxrpc/output.c: In function 'rxrpc_send_response':
-   net/rxrpc/output.c:974:1: warning: the frame size of 1160 bytes is larg=
-er than 1024 bytes
+>> arch/x86/kernel/traps.c:176:46: warning: format specifies type 'unsigned long' but the argument has type 'void *' [-Wformat]
+     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+         |                                                                ~~~
+     176 |                         current->comm, task_pid_nr(current), str, addr, trapnr, signr,
+         |                                                                   ^~~~
+>> arch/x86/kernel/traps.c:176:60: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
+     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+         |                                                                                     ~~~
+         |                                                                                     %x
+     176 |                         current->comm, task_pid_nr(current), str, addr, trapnr, signr,
+         |                                                                                 ^~~~~
+   arch/x86/kernel/traps.c:177:4: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
+     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+         |                                                                                                ~~~
+         |                                                                                                %x
+     176 |                         current->comm, task_pid_nr(current), str, addr, trapnr, signr,
+     177 |                         sicode, (void *)regs->ip, (void *)regs->sp, error_code);
+         |                         ^~~~~~
+   3 warnings generated.
 
-This occurs because the local variables include a 16-element scatterlist
-array and a 16-element bio_vec array.  It's probably not actually a proble=
-m
-as this function is only called by the rxrpc I/O thread function in a
-kernel thread and there won't be much on the stack before it.
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=y] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=y] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
 
-Fix this by overlaying the bio_vec array over the kvec array in the
-rxrpc_local struct.  There is one of these per I/O thread and the kvec
-array is intended for pointing at bits of a packet to be transmitted,
-typically a DATA or an ACK packet.  As packets for a local endpoint are
-only transmitted by its specific I/O thread, there can be no race, and so
-overlaying this bit of memory should be no problem.
 
-Fixes: 5800b1cf3fd8 ("rxrpc: Allow CHALLENGEs to the passed to the app for=
- a RESPONSE")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202506240423.E942yKJP-lkp@in=
-tel.com/
-Signed-off-by: David Howells <dhowells@redhat.com>
-cc: Marc Dionne <marc.dionne@auristor.com>
-cc: "David S. Miller" <davem@davemloft.net>
-cc: Eric Dumazet <edumazet@google.com>
-cc: Jakub Kicinski <kuba@kernel.org>
-cc: Paolo Abeni <pabeni@redhat.com>
-cc: Simon Horman <horms@kernel.org>
-cc: linux-afs@lists.infradead.org
-cc: netdev@vger.kernel.org
----
- net/rxrpc/ar-internal.h |   15 +++++++++------
- net/rxrpc/output.c      |    5 ++++-
- 2 files changed, 13 insertions(+), 7 deletions(-)
+vim +176 arch/x86/kernel/traps.c
 
-diff --git a/net/rxrpc/ar-internal.h b/net/rxrpc/ar-internal.h
-index 5bd3922c310d..376e33dce8c1 100644
---- a/net/rxrpc/ar-internal.h
-+++ b/net/rxrpc/ar-internal.h
-@@ -361,12 +361,15 @@ struct rxrpc_local {
- 	struct list_head	new_client_calls; /* Newly created client calls need co=
-nnection */
- 	spinlock_t		client_call_lock; /* Lock for ->new_client_calls */
- 	struct sockaddr_rxrpc	srx;		/* local address */
--	/* Provide a kvec table sufficiently large to manage either a DATA
--	 * packet with a maximum set of jumbo subpackets or a PING ACK padded
--	 * out to 64K with zeropages for PMTUD.
--	 */
--	struct kvec		kvec[1 + RXRPC_MAX_NR_JUMBO > 3 + 16 ?
--				     1 + RXRPC_MAX_NR_JUMBO : 3 + 16];
-+	union {
-+		/* Provide a kvec table sufficiently large to manage either a
-+		 * DATA packet with a maximum set of jumbo subpackets or a PING
-+		 * ACK padded out to 64K with zeropages for PMTUD.
-+		 */
-+		struct kvec		kvec[1 + RXRPC_MAX_NR_JUMBO > 3 + 16 ?
-+					     1 + RXRPC_MAX_NR_JUMBO : 3 + 16];
-+		struct bio_vec		bvec[3 + 16];
-+	};
- };
- =
+   170	
+   171	static void do_error_trap(struct pt_regs *regs, long error_code, char *str,
+   172		unsigned long trapnr, int signr, int sicode, void __user *addr)
+   173	{
+   174		if (unlikely(kiwi_fault_logging)) {
+   175		    printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
+ > 176				current->comm, task_pid_nr(current), str, addr, trapnr, signr,
+   177				sicode, (void *)regs->ip, (void *)regs->sp, error_code);
+   178		}
+   179		RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
+   180	
+   181		if (notify_die(DIE_TRAP, str, regs, error_code, trapnr, signr) !=
+   182				NOTIFY_STOP) {
+   183			cond_local_irq_enable(regs);
+   184			do_trap(trapnr, signr, str, regs, error_code, sicode, addr);
+   185			cond_local_irq_disable(regs);
+   186		}
+   187	}
+   188	
 
- /*
-diff --git a/net/rxrpc/output.c b/net/rxrpc/output.c
-index 0af19bcdc80a..ef7b3096c95e 100644
---- a/net/rxrpc/output.c
-+++ b/net/rxrpc/output.c
-@@ -924,7 +924,7 @@ void rxrpc_send_response(struct rxrpc_connection *conn=
-, struct sk_buff *response
- {
- 	struct rxrpc_skb_priv *sp =3D rxrpc_skb(response);
- 	struct scatterlist sg[16];
--	struct bio_vec bvec[16];
-+	struct bio_vec *bvec =3D conn->local->bvec;
- 	struct msghdr msg;
- 	size_t len =3D sp->resp.len;
- 	__be32 wserial;
-@@ -938,6 +938,9 @@ void rxrpc_send_response(struct rxrpc_connection *conn=
-, struct sk_buff *response
- 	if (ret < 0)
- 		goto fail;
- 	nr_sg =3D ret;
-+	ret =3D -EIO;
-+	if (WARN_ON_ONCE(nr_sg > ARRAY_SIZE(conn->local->bvec)))
-+		goto fail;
- =
-
- 	for (int i =3D 0; i < nr_sg; i++)
- 		bvec_set_page(&bvec[i], sg_page(&sg[i]), sg[i].length, sg[i].offset);
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
