@@ -1,117 +1,104 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5605F2E403
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 08:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC36B23AB8D
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 09:14:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751273050; cv=none; b=a+v6FmdOv9U+eir2k5r3RERQg9WMMTJCLNvxy7ZQHTlQTOjud1gvfmZx6mxwULdjQj8Se2qj6wpJMCr5YHtXmiBkJVl9AQSuAk8qJWsHWu3Odf2n6ootcONO7qrYfxlIAVQPD33lgxguXOg4c3nULePRGt95/cwhdSbZPn8HDVo=
+	t=1751274873; cv=none; b=pHsJXiek/J4G8+90z962sde99XzPXmnu/O/gASO+AyKfWx0TVHFR9Z0KCTgVx2ocDdLv9+gTpqq9+aGRWepREM3ADkhnSIdcC+WfI1OGeJWBGn+DNSVRBQItzh03wy0HqpluGFNV7CALPChFSI+pe0F6oN5G432sDiDciSN9NfY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751273050; c=relaxed/simple;
-	bh=hJfbLRuFnnr8gAEE6//ksIP4SmDlGurpqlaKsqFIq+w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uwlcKOFBs6S1RK+KT3Ungr5cfVldgp48Ocyo0xjnbOeKDHsWEz5thV+XlrI7AFbglLLHTnj6dAodkZgVt856rwdQy/gbQ++4+IscbfkvE8zePi+Bh+jQ4kzb4hRaR7jNHRx4XSeMom66VNsLcEt9in//yxJFuL4mtQrtMWWVzIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=CHjlQ1mG; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1751274873; c=relaxed/simple;
+	bh=+ciEc3geEqxA7USk4wBQIdNIAHo910IlmLxKHaMgxjE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TEpQhxRo0iaLN1gYin5L3k/RDjQHGjdF6iOGdssStxhO0Ax4DUSZBtjQX7iStA2vHVX7o648COtNq93zx7XFXY+iG7MQ0q0QyDYu9lli3PZhIP+gkTydXjBLt0+EQaX0Sj2ZUMmYEUj0nn4bf2PWeOeb9Dp0PMcOP+b5K/rtAho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZuzSvQp1; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="CHjlQ1mG"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4a5903bceffso57159781cf.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 01:44:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1751273048; x=1751877848; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iiCw4e6C46xOcJozINpGOloW5lDrrrAuNKK3T9+bjyA=;
-        b=CHjlQ1mGIi+ib1QnCRpxx4NTRmrfkAf3uTQpKumOSX2X1cvy0QV/4LW2He03Q+BIZD
-         n/fuQabOoRFDQkRZ6n3SmiEIkf7MZii9Qn94cj3zDtFjbSHvBdbZ3EcLghXsqhH5fVA3
-         JSF9VbOO8mkDTfGCeJuNrr3Juthv1qiWx4uObadBaxWoC/X7jVyjO/39Z8HXaca1q9lH
-         hqMmMMW9MHSW6S4YU4yfjKRe/8xGDhbhOPoICCE2idUPO1gbRfKAZ9/qI5AeAW91a10F
-         h78rcW4GoORtjBrteRGufxEooMPd0ycgc6A2LiLroEQVjvlHwIkriDC5Y4Ar90dkpODz
-         cZlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751273048; x=1751877848;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=iiCw4e6C46xOcJozINpGOloW5lDrrrAuNKK3T9+bjyA=;
-        b=fMPJMZmzMYfJIftUyIQt7Qy8HoIfjRv2Lm6AvKLLgvkgkKOhfhdnPinvX0h+6C2j5+
-         zm9gKPwPcWkjOE0Fc7zImErlxOBrC1M7HPl3j05MhrqM/lQJvy4p3jYHYQmmasW1aWSM
-         VSv8GuTlQBWWeY9dcVQZkIEIxkPuCLxTjm1yAFCp9buthes94BbChYqB6h8fI1zuJJCM
-         R6Gy8ShHon8SjJIyaT+0x/Q/OV9EJs91vwPC6ibnSoK7kHsFKU59smZ9wTCqL7jx7/I0
-         6mSqdgHpGyGRHGmLUP3/NDXMuK4A44liGHnZbrZ0DOLja93f0g4a8fs4RkSyURmjqHuE
-         gCnQ==
-X-Gm-Message-State: AOJu0Yy0NsNoReQZqApn2HXJhgYJ+xGHKkSwE4WWu7KFUFNGl6fSlE6b
-	iWfr29A3Ce5ubmsgMd5/olRjY5q+6FMgclSkl/uuvPR6lLn/KQdKsIvSJjgSEvGUEnWXtwW76RQ
-	QdT7apnFvdSKfKPNil7c8Be5Jt+o3kc/TQc2fwuFe
-X-Gm-Gg: ASbGncv+I3FN8fTrjhqee66EbdKwuRqGWa1o5+8jEObjZc7UbHdyrJhPr6TOw8r8Dst
-	ol0ZJmQOI7RUe3OEq5r8oZlz/gjGrRblf6UvwvjOb7o9s3KyATUQF58bH0SZN44RyLREGjo59xp
-	q9b1cQ+MsfTvaaquPWFJ9UHT5uUQf5E7AHPH1HEqmPWlA=
-X-Google-Smtp-Source: AGHT+IEO6CGlcU0pGXJk0nD24+RYq1uMetRhmp3DMDxP/SvB1/Kr0/7JezKDmaqY8f+A7hfxy5hdY+IuJM+oAv0SQIM=
-X-Received: by 2002:a05:622a:4d47:b0:4a7:6e64:ecae with SMTP id
- d75a77b69052e-4a7fcac457amr182969791cf.30.1751273047863; Mon, 30 Jun 2025
- 01:44:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZuzSvQp1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751274872; x=1782810872;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+ciEc3geEqxA7USk4wBQIdNIAHo910IlmLxKHaMgxjE=;
+  b=ZuzSvQp15ZlGsmjw4fEpaoRetgwbVb4kOanuotAgaUo/up3jdAZCf/67
+   LE+Or97qI1oHeOVb5L2WCnV5B1JftyRwFQ5+VlnZ1gXz+aVO4KB5yRLjS
+   TndQKWJy7xRXH0vvpNCjYXKbhca/vv5szf5bfWbVGfrLy1zunjjfBgcpW
+   SnHbuRH+bsbK45FYr572spSLrpmV7hhxr9/W/M2b43opJGX7CcSwFmb1M
+   p7h5hDpw8fA9UVZ+/lNbfbVmrpsV4vRZzOfXUcOjHsjrhRJba9RWH+G1j
+   Lu+EfqIHp+d96kKeG9efiQ/x5OeydObXHfmWhwo9tMQIyVKpY494YzLPk
+   w==;
+X-CSE-ConnectionGUID: AW+t5r94TTaMUmK0RyTzrA==
+X-CSE-MsgGUID: ZusjQILOQvqCNHC6QNKMXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="64189242"
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="64189242"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 02:14:31 -0700
+X-CSE-ConnectionGUID: 36fq/8NhTJKbLyYqFy3yZA==
+X-CSE-MsgGUID: 8nm9WVDFRzOlMMc9rynDRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="153712660"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 30 Jun 2025 02:14:30 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uWAaq-000Yin-1L;
+	Mon, 30 Jun 2025 09:14:28 +0000
+Date: Mon, 30 Jun 2025 17:13:57 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tzungbi-chrome-platform:dev3 4/6] lib/kunit/kprobe_stub.c:25:12:
+ error: conflicting types for 'kprobe_handler'; have 'int(struct kprobe *,
+ struct pt_regs *)'
+Message-ID: <202506301708.YJgkPz1n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202506300504.avZTufkf-lkp@intel.com>
-In-Reply-To: <202506300504.avZTufkf-lkp@intel.com>
-From: Eric Dumazet <edumazet@google.com>
-Date: Mon, 30 Jun 2025 01:43:56 -0700
-X-Gm-Features: Ac12FXxYYW6Te0_qsySnuQysG6zDuyR5mF9XHmL5XGyLWaeqH02vz91zNyGm4b8
-Message-ID: <CANn89iKuK7Q8gSzYi1Z8OoYQDJMbend_ja44mTNW3g5_SN+3BQ@mail.gmail.com>
-Subject: Re: [linux-next:master 4262/5998] include/net/sock.h:2098:16: sparse:
- sparse: cast to non-scalar
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>, 
-	=?UTF-8?Q?Maciej_=C5=BBenczykowski?= <maze@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Jun 29, 2025 at 2:58=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   2aeda9592360c200085898a258c4754bfe879921
-> commit: c51da3f7a161c6822232be832abdffe47eb55b4c [4262/5998] net: remove =
-sock_i_uid()
-> config: alpha-randconfig-r123-20250630 (https://download.01.org/0day-ci/a=
-rchive/20250630/202506300504.avZTufkf-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 13.3.0
-> reproduce: (https://download.01.org/0day-ci/archive/20250630/202506300504=
-.avZTufkf-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506300504.avZTufkf-lkp=
-@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
->    net/bluetooth/af_bluetooth.c:248:25: sparse: sparse: context imbalance=
- in 'bt_accept_enqueue' - different lock contexts for basic block
->    net/bluetooth/af_bluetooth.c: note: in included file (through include/=
-net/bluetooth/bluetooth.h):
-> >> include/net/sock.h:2098:16: sparse: sparse: cast to non-scalar
-> >> include/net/sock.h:2098:16: sparse: sparse: cast from non-scalar
->
-> vim +2098 include/net/sock.h
->
-> ^1da177e4c3f41 Linus Torvalds 2005-04-16  2094
-> e84a4927a404f3 Eric Dumazet   2025-06-20  2095  static inline kuid_t sk_u=
-id(const struct sock *sk)
-> e84a4927a404f3 Eric Dumazet   2025-06-20  2096  {
-> e84a4927a404f3 Eric Dumazet   2025-06-20  2097          /* Paired with WR=
-ITE_ONCE() in sockfs_setattr() */
-> e84a4927a404f3 Eric Dumazet   2025-06-20 @2098          return READ_ONCE(=
-sk->sk_uid);
-> e84a4927a404f3 Eric Dumazet   2025-06-20  2099  }
-> e84a4927a404f3 Eric Dumazet   2025-06-20  2100
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tzungbi/chrome-platform.git dev3
+head:   feed99729a7729442ce6bace637033f9bd78a78c
+commit: a5d9a2e9789fbe579fcdf56097c87d81e59896c9 [4/6] kunit: Expose 'kprobes stub' API to redirect functions
+config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20250630/202506301708.YJgkPz1n-lkp@intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301708.YJgkPz1n-lkp@intel.com/reproduce)
 
-Interesting, somehow my copy of sparse on x86_64 does not complain.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506301708.YJgkPz1n-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> lib/kunit/kprobe_stub.c:25:12: error: conflicting types for 'kprobe_handler'; have 'int(struct kprobe *, struct pt_regs *)'
+      25 | static int kprobe_handler(struct kprobe *kp, struct pt_regs *regs)
+         |            ^~~~~~~~~~~~~~
+   In file included from include/linux/kprobes.h:31,
+                    from lib/kunit/kprobe_stub.c:9:
+   arch/powerpc/include/asm/kprobes.h:88:12: note: previous declaration of 'kprobe_handler' with type 'int(struct pt_regs *)'
+      88 | extern int kprobe_handler(struct pt_regs *regs);
+         |            ^~~~~~~~~~~~~~
+
+
+vim +25 lib/kunit/kprobe_stub.c
+
+    24	
+  > 25	static int kprobe_handler(struct kprobe *kp, struct pt_regs *regs)
+    26	{
+    27		struct kunit_kprobe_stub_ctx *ctx = container_of(kp, struct kunit_kprobe_stub_ctx, kp);
+    28	
+    29		instruction_pointer_set(regs, ctx->replacement_addr);
+    30		return 1;
+    31	}
+    32	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
