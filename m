@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0524A923
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 04:52:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31022522A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 05:18:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751259174; cv=none; b=LadkqiAkbu19BrkqbqCpW271kVwbP1UJWo/HTrrOB5ozSagTARr/Q1HM5TMQR2weL5ncdjHajwgDAckPZwMbFle6qA8vfdOaU8eFPzZUji1NQmSH93YsZdc+ZoZhki/+tOP2/YW3Xb3au7/3ZErIZAo8AjJt94tPvCkaD0ilx+g=
+	t=1751260736; cv=none; b=A/RsVc7GPi58A8Dr2agWuQneCDUmvSzwQBjG0+4W7vzqZqaSxnoR48KA5Burvh0ls4txeYqtD2VUyiJghIxCtUw/iBe6AHYDRmXVZaX0XzMcvXrrx7RUQbbYQCjLi7A5le/WBQ/lyvoKeQOWDH31aHSxS46tif+36VrHy71fkSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751259174; c=relaxed/simple;
-	bh=LqcgP3gFrwZ1audwAp7WrmXzq0ML9himVFXysxrgZ0A=;
+	s=arc-20240116; t=1751260736; c=relaxed/simple;
+	bh=aStqK1GA6HeCMgPP1SpWL2bIqFbZwwBQdmEDqf1lQI4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HCKQZLC0mn0W3sk/XeFvXsb6haNjCQ8/5TtbzfS/6qgHEIDGGXaaX+k4V+82Y4QtSUzLB4WU9JVCZK8OT+kIlZUZED4wRG4RJVUB0Knm/YA6a2ggM/KCNJ4gWrnfe6QlxEm42YmOxCXdtky1q/7NxoRRxg/MNNG0hlljWjnQGmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M6OSHXKy; arc=none smtp.client-ip=198.175.65.21
+	 Content-Disposition; b=N/IuXFv+p0dcU95dNLv2KixZ39q78/o/AwmdkZuDiGlRdjh2iLCBfiRA9zRuFjlp7sbfcJtWvD5tptEKOFKdsvwoXMdAjV7KTs3WwHcm6gfMldirgqcf02L+F9FSbN0z5WS3bRaxDIbdq8KvuAuQgjs7jmD2Kp0Tk9OWO4gcDdU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l0P+N97R; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M6OSHXKy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l0P+N97R"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751259171; x=1782795171;
+  t=1751260734; x=1782796734;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LqcgP3gFrwZ1audwAp7WrmXzq0ML9himVFXysxrgZ0A=;
-  b=M6OSHXKyhFyiNVLcDuv0FBXhCL8hXZ4tQOZihA0fkR3zhwR6ecbeEujQ
-   XUiXoM2ElLEGZpPxOfvxIT60lPp6+NHPwbCSq9p+WIC+1IH0b7lWli15J
-   uK1vIWiMZeFW/BLRNYqh7kW8pEyBXOPtmGnMKZa9dSmt6lGFfi6Vw6tML
-   2EysTujnEH0RIKGvRzhxmHWUFru6NenfQRb+/gc4q7msBulyv2bdHJ77b
-   IdQR/E5eoFZNx2qUETkwpgJqiLc6+T4a/VB8UggvJYkpRHpK95uVTTAg6
-   0XkhlCF8wQobDMxDT47iWzIdAeWaw+ua0ks1JUMAcq9rtXWROtAA6vCgY
-   Q==;
-X-CSE-ConnectionGUID: FH/OBhoZQjOCNl1/c76dUA==
-X-CSE-MsgGUID: qBkCqBvxTNWwMYaP9GaP/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="53338173"
+  bh=aStqK1GA6HeCMgPP1SpWL2bIqFbZwwBQdmEDqf1lQI4=;
+  b=l0P+N97RdhbYdHshxfvo4R7JYevAAjUcE/loWZJ/ffxd7QQLYAKhsWCb
+   rTR2rMzeGiXWwSrEqYRMF9/aBxtl88zGv09Ggrhm/Y+ohMhbsy5gqFmj5
+   irQ5H0UHW4VrcyQ/IiH/hFXwdWAd0gK4ZUt9fnvqyPwKlq3OKIW2w58mm
+   zMDDyZJRvoe23XyV01Pj7jWMwLYm0XR/hHjkvjQQA9ZdgQB9HneReFuuT
+   9QZkK8s51F8dGHSkA+ajCLjaTX1Js0sSR8LKxJjpGLgYSFF58QgT/itJM
+   QDEiyUcx7QmIegULV9SDVcmSlbIjZ5e2n2aFEfNTaH5DS8E2/0/6fBmBG
+   A==;
+X-CSE-ConnectionGUID: 00G4onLhQweBqjsmxGp6mQ==
+X-CSE-MsgGUID: +ANER7t7Rh6Z4yrH7zIo/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="53599967"
 X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
-   d="scan'208";a="53338173"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2025 21:52:51 -0700
-X-CSE-ConnectionGUID: PnzjdBvTT+GlV7jegUEoFg==
-X-CSE-MsgGUID: QvJ+aotvTjSybZ1uxetBRw==
+   d="scan'208";a="53599967"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2025 22:18:54 -0700
+X-CSE-ConnectionGUID: 6UaC7HCNSLGWmPrKJL5Q/w==
+X-CSE-MsgGUID: Fm4ZTnsPTkyiHXYz9JRRoA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
-   d="scan'208";a="153089206"
+   d="scan'208";a="153898981"
 Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
-  by orviesa009.jf.intel.com with ESMTP; 29 Jun 2025 21:52:50 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 29 Jun 2025 22:18:52 -0700
 Received: from kbuild by e588e990b675 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uW6Vc-000131-0A;
-	Mon, 30 Jun 2025 04:52:48 +0000
-Date: Mon, 30 Jun 2025 06:52:02 +0200
+	id 1uW6un-00013H-20;
+	Mon, 30 Jun 2025 05:18:49 +0000
+Date: Mon, 30 Jun 2025 07:18:31 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-5.4 1/1] include/linux/kernel.h:843:43:
- warning: comparison of distinct pointer types lacks a cast
-Message-ID: <202506300640.42SWZMFf-lkp@intel.com>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	"Martin K. Petersen" <martin.petersen@oracle.com>,
+	Colin Ian King <colin.i.king@gmail.com>
+Subject: drivers/scsi/dc395x.c:2185:13: warning: variable 'fact' set but not
+ used
+Message-ID: <202506300705.3Sj0EHmY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,79 +64,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-5.4
-head:   14b655c6b6487670ee48bc9b760aefb4412b0f78
-commit: f4b0174e9f18aaba59ee6ffdaf8827a7f94eb606 [1/1] tracing: Fix oob write in trace_seq_to_buffer()
-config: i386-randconfig-2001-20250626 (https://download.01.org/0day-ci/archive/20250630/202506300640.42SWZMFf-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506300640.42SWZMFf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d0b3b7b22dfa1f4b515fd3a295b3fd958f9e81af
+commit: 62b434b0db2cdc21d6fe978d24d8f84e473cb5e7 scsi: dc395x: Remove DEBUG conditional compilation
+date:   9 weeks ago
+config: loongarch-randconfig-2006-20250625 (https://download.01.org/0day-ci/archive/20250630/202506300705.3Sj0EHmY-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506300705.3Sj0EHmY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506300640.42SWZMFf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506300705.3Sj0EHmY-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/trace/trace.c:925:6: warning: no previous prototype for 'tracing_snapshot_instance_cond' [-Wmissing-prototypes]
-     925 | void tracing_snapshot_instance_cond(struct trace_array *tr, void *cond_data)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from include/asm-generic/bug.h:19,
-                    from arch/x86/include/asm/bug.h:83,
-                    from include/linux/bug.h:5,
-                    from include/linux/mmdebug.h:5,
-                    from include/linux/mm.h:9,
-                    from include/linux/ring_buffer.h:5,
-                    from kernel/trace/trace.c:15:
-   kernel/trace/trace.c: In function 'tracing_splice_read_pipe':
->> include/linux/kernel.h:843:43: warning: comparison of distinct pointer types lacks a cast
-     843 |                 (!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-         |                                           ^~
-   include/linux/kernel.h:857:18: note: in expansion of macro '__typecheck'
-     857 |                 (__typecheck(x, y) && __no_side_effects(x, y))
-         |                  ^~~~~~~~~~~
-   include/linux/kernel.h:867:31: note: in expansion of macro '__safe_cmp'
-     867 |         __builtin_choose_expr(__safe_cmp(x, y), \
-         |                               ^~~~~~~~~~
-   include/linux/kernel.h:876:25: note: in expansion of macro '__careful_cmp'
-     876 | #define min(x, y)       __careful_cmp(x, y, <)
-         |                         ^~~~~~~~~~~~~
-   kernel/trace/trace.c:6334:43: note: in expansion of macro 'min'
-    6334 |                                           min((size_t)trace_seq_used(&iter->seq),
-         |                                           ^~~
-   kernel/trace/trace.c: At top level:
-   kernel/trace/trace.c:8538:21: warning: no previous prototype for 'trace_array_create' [-Wmissing-prototypes]
-    8538 | struct trace_array *trace_array_create(const char *name)
-         |                     ^~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:8661:5: warning: no previous prototype for 'trace_array_destroy' [-Wmissing-prototypes]
-    8661 | int trace_array_destroy(struct trace_array *this_tr)
-         |     ^~~~~~~~~~~~~~~~~~~
+   drivers/scsi/dc395x.c: In function 'msgin_set_sync':
+>> drivers/scsi/dc395x.c:2185:13: warning: variable 'fact' set but not used [-Wunused-but-set-variable]
+    2185 |         int fact;
+         |             ^~~~
 
 
-vim +843 include/linux/kernel.h
+vim +/fact +2185 drivers/scsi/dc395x.c
 
-526211bc58c4b3 Ingo Molnar    2009-03-05  829  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  830  /*
-3c8ba0d61d04ce Kees Cook      2018-03-30  831   * min()/max()/clamp() macros must accomplish three things:
-3c8ba0d61d04ce Kees Cook      2018-03-30  832   *
-3c8ba0d61d04ce Kees Cook      2018-03-30  833   * - avoid multiple evaluations of the arguments (so side-effects like
-3c8ba0d61d04ce Kees Cook      2018-03-30  834   *   "x++" happen only once) when non-constant.
-3c8ba0d61d04ce Kees Cook      2018-03-30  835   * - perform strict type-checking (to generate warnings instead of
-3c8ba0d61d04ce Kees Cook      2018-03-30  836   *   nasty runtime surprises). See the "unnecessary" pointer comparison
-3c8ba0d61d04ce Kees Cook      2018-03-30  837   *   in __typecheck().
-3c8ba0d61d04ce Kees Cook      2018-03-30  838   * - retain result as a constant expressions when called with only
-3c8ba0d61d04ce Kees Cook      2018-03-30  839   *   constant expressions (to avoid tripping VLA warnings in stack
-3c8ba0d61d04ce Kees Cook      2018-03-30  840   *   allocation usage).
-3c8ba0d61d04ce Kees Cook      2018-03-30  841   */
-3c8ba0d61d04ce Kees Cook      2018-03-30  842  #define __typecheck(x, y) \
-3c8ba0d61d04ce Kees Cook      2018-03-30 @843  		(!!(sizeof((typeof(x) *)1 == (typeof(y) *)1)))
-3c8ba0d61d04ce Kees Cook      2018-03-30  844  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2178  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2179  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2180  /* set sync transfer mode */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2181  static void msgin_set_sync(struct AdapterCtlBlk *acb, struct ScsiReqBlk *srb)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2182  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2183  	struct DeviceCtlBlk *dcb = srb->dcb;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2184  	u8 bval;
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @2185  	int fact;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2186  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2187  	if (srb->msgin_buf[4] > 15)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2188  		srb->msgin_buf[4] = 15;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2189  	if (!(dcb->dev_mode & NTC_DO_SYNC_NEGO))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2190  		dcb->sync_offset = 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2191  	else if (dcb->sync_offset == 0)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2192  		dcb->sync_offset = srb->msgin_buf[4];
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2193  	if (srb->msgin_buf[4] > dcb->sync_offset)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2194  		srb->msgin_buf[4] = dcb->sync_offset;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2195  	else
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2196  		dcb->sync_offset = srb->msgin_buf[4];
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2197  	bval = 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2198  	while (bval < 7 && (srb->msgin_buf[3] > clock_period[bval]
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2199  			    || dcb->min_nego_period >
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2200  			    clock_period[bval]))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2201  		bval++;
+62b434b0db2cdc Oliver Neukum  2025-04-28  2202  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2203  	srb->msgin_buf[3] = clock_period[bval];
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2204  	dcb->sync_period &= 0xf0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2205  	dcb->sync_period |= ALT_SYNC | bval;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2206  	dcb->min_nego_period = srb->msgin_buf[3];
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2207  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2208  	if (dcb->sync_period & WIDE_SYNC)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2209  		fact = 500;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2210  	else
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2211  		fact = 250;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2212  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2213  	if (!(srb->state & SRB_DO_SYNC_NEGO)) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2214  		/* Reply with corrected SDTR Message */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2215  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2216  		memcpy(srb->msgout_buf, srb->msgin_buf, 5);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2217  		srb->msg_count = 5;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2218  		DC395x_ENABLE_MSGOUT;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2219  		dcb->sync_mode |= SYNC_NEGO_DONE;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2220  	} else {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2221  		if ((dcb->sync_mode & WIDE_NEGO_ENABLE)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2222  		    && !(dcb->sync_mode & WIDE_NEGO_DONE)) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2223  			build_wdtr(acb, dcb, srb);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2224  			DC395x_ENABLE_MSGOUT;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2225  		}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2226  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2227  	srb->state &= ~SRB_DO_SYNC_NEGO;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2228  	dcb->sync_mode |= SYNC_NEGO_DONE | SYNC_NEGO_ENABLE;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2229  
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2230  	reprogram_regs(acb, dcb);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2231  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2232  
 
-:::::: The code at line 843 was first introduced by commit
-:::::: 3c8ba0d61d04ced9f8d9ff93977995a9e4e96e91 kernel.h: Retain constant expression output for max()/min()
+:::::: The code at line 2185 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Kees Cook <keescook@chromium.org>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
 0-DAY CI Kernel Test Service
