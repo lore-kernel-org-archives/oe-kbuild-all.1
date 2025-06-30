@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2FE5221F12
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 21:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E143C4C6C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 22:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751318048; cv=none; b=mgbHZom9+zJ56oV1gDHWWM5103KJ1uE8KnTbfyJaEZknB6Ks269fVjdFy641sqIqJTZ5y4PmyM77UmUEncOjqFJVyF04ftdOI1vNuUto4Bl6G3HGjkNdj/VHlOepcdqs90/hAGnESK3kpbFviXKxA6dgADozTf44m739nqqg7Dw=
+	t=1751321360; cv=none; b=X3l5UmfmlJAsY9Dl/gvpQL7D6dqSEoonTo7kkscIpSczLmhiLlwLi18H9thdTA/ycgt3gxsW0LuLYCQaQ/ews/MTGocsaoZdrMjoAc0cjabo4isY01nVTANn0B8qsMGq5QPM9XIEELiDp/xdjcP37vAyJur3bo9jHtzPxgjb2n0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751318048; c=relaxed/simple;
-	bh=Oem9gVaCMugCQKw5c3QDMFahemyBDeKiILu5oDJgMfY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MrL9ChM4l8ZCz+CSvlpj1vMF+QzTqJ3ZhNmCBeCdfwOZOfr+dXoDgbhWwd7Q05tvyhu9xC2eACOiprURGnzymKuzCNtZ9kMVqhhckWp02TgptKtJmQglL7mosW1GFb8AtUPudjb44LO9esqZt83QN/urwy+hm/QMIdwiJfIqY+s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JlVbsGjb; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1751321360; c=relaxed/simple;
+	bh=CWF8K0+JEFix5jRu+JNhGBEpCZPOlQ8Ny5a89ql8Tlw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=STjXOw+a5pmDYNLviIU0KN25VWEkQPPmPeQ60Feu2phgrXBHnJ8fAnmSt8r9HAFEIVr3R6FAoNQ9r1u58a/hfAcVFOGGQ0LNOlH7rAUOUZpoUVYMa6oVZI9tDh/4dg1dkbtxl8wf+f8HgV70dhVV3kA7fHlbHTmLGdUWiTTcNic=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bcvh4UYE; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JlVbsGjb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bcvh4UYE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751318047; x=1782854047;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Oem9gVaCMugCQKw5c3QDMFahemyBDeKiILu5oDJgMfY=;
-  b=JlVbsGjb8z2PRQoyUv9Z2iSCTlGM8dwNgbiN6by4VCJtS3JPCctjvG25
-   FP4MgtjG6b8V68ie5WIFMFYE6uIYpUSKJmR9p/qwUUvgKTsk08+LFLsFi
-   ruLbhj0KLJKRFRTjEqtipccYbaxm0yZNCy8CsW5SuQuh2d53uZkbPnbge
-   HKNU+TqNjEkpbStupx94rsR0k/GJDye2KOAGNH9nAzf1uaWk8YYIRpKO5
-   u0vuoJrbzhx14nEYL6Yj7cnVLS8QuckpU3gFTwxhyaOa2LDu6VeeSlVKa
-   dOZM5vzYT5q3xtOfovDsvO4lfLWtGMhH22uJiQAjM2/w12jn1WMyKDcxy
-   g==;
-X-CSE-ConnectionGUID: GuniieaATt+PD1edBb/cKw==
-X-CSE-MsgGUID: BRsRzGWJTxqtGlfZph9PHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="56178303"
+  t=1751321359; x=1782857359;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CWF8K0+JEFix5jRu+JNhGBEpCZPOlQ8Ny5a89ql8Tlw=;
+  b=Bcvh4UYEJEi5IuzPlumsFFGnZuAE7x0+ctg94P0oXg7Hexu3V/suE0SE
+   /Dq+ONUZ/pdX/YdaNlgdR6mJUTFhB3U8oRtQbyhxV3iqlRu1vbokRQlwC
+   5eM4IpfOFAhm6UAP8rmJrEDd2kLVd4ubWcTGmFa9zqw019QxyuWEn0sMa
+   nOzF/6ocZt6hvH9cKttJuvDPE+s1aGVVYIYGoJfuzsUsqqt0KAq84qN1+
+   qy+3YCo7yF2I57dsLxwKOy6OBmUR+75Rn+Dxa+ZaS+N/km07b27tcL9AD
+   T5MhwB4IcyUAeaM6QoNGm2alHWNSdeHbt7CqJHodv9+QGic0oXsvoVBnp
+   A==;
+X-CSE-ConnectionGUID: MX1Lkf3IRlGHE4ZdClORDA==
+X-CSE-MsgGUID: xsCI6WrWSZS9bPWOrjxNbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="52676706"
 X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
-   d="scan'208";a="56178303"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 14:14:06 -0700
-X-CSE-ConnectionGUID: HNRVKyphSqym/21dQ/hOTg==
-X-CSE-MsgGUID: bxf7WQ6WQ3WemoV6BjhQaw==
+   d="scan'208";a="52676706"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 15:09:18 -0700
+X-CSE-ConnectionGUID: 9nz+v2rvRQmegypfaMeFXg==
+X-CSE-MsgGUID: m5ujfXIKTwek1eo9LxXxbw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
-   d="scan'208";a="157842977"
+   d="scan'208";a="152965787"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 30 Jun 2025 14:14:05 -0700
+  by orviesa010.jf.intel.com with ESMTP; 30 Jun 2025 15:09:14 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWLpC-000ZN4-1n;
-	Mon, 30 Jun 2025 21:14:02 +0000
-Date: Tue, 1 Jul 2025 05:13:35 +0800
+	id 1uWMgZ-000ZQ2-39;
+	Mon, 30 Jun 2025 22:09:11 +0000
+Date: Tue, 1 Jul 2025 06:08:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: atags_to_fdt.c:undefined reference to `stackleak_track_stack'
-Message-ID: <202507010513.Wna5VLE6-lkp@intel.com>
+To: Kurt Borja <kuurtb@gmail.com>, Hans de Goede <hdegoede@redhat.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Joshua Grisham <josh@joshuagrisham.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Armin Wolf <W_Armin@gmx.de>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, Antheas Kapenekakis <lkml@antheas.dev>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Prasanth Ksr <prasanth.ksr@dell.com>,
+	Jorge Lopez <jorge.lopez2@hp.com>,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dell.Client.Kernel@dell.com, Kurt Borja <kuurtb@gmail.com>
+Subject: Re: [PATCH v4 1/6] platform/x86: firmware_attributes_class: Add
+ device initialization methods
+Message-ID: <202507010553.vgtA0xlb-lkp@intel.com>
+References: <20250630-fw-attrs-api-v4-1-1a04952b255f@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,31 +74,31 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250630-fw-attrs-api-v4-1-1a04952b255f@gmail.com>
 
-Hi Jinjie,
+Hi Kurt,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   d0b3b7b22dfa1f4b515fd3a295b3fd958f9e81af
-commit: 2335c9cb831faba1a4efcc612886073b6f175fe4 ARM: 9407/1: Add support for STACKLEAK gcc plugin
-date:   12 months ago
-config: arm-randconfig-002-20250701 (https://download.01.org/0day-ci/archive/20250701/202507010513.Wna5VLE6-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507010513.Wna5VLE6-lkp@intel.com/reproduce)
+[auto build test WARNING on 73f0f2b52c5ea67b3140b23f58d8079d158839c8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kurt-Borja/platform-x86-firmware_attributes_class-Add-device-initialization-methods/20250630-160549
+base:   73f0f2b52c5ea67b3140b23f58d8079d158839c8
+patch link:    https://lore.kernel.org/r/20250630-fw-attrs-api-v4-1-1a04952b255f%40gmail.com
+patch subject: [PATCH v4 1/6] platform/x86: firmware_attributes_class: Add device initialization methods
+config: x86_64-randconfig-073-20250701 (https://download.01.org/0day-ci/archive/20250701/202507010553.vgtA0xlb-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507010553.vgtA0xlb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507010513.Wna5VLE6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507010553.vgtA0xlb-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: arm-linux-gnueabi-ld: DWARF error: could not find abbrev number 13
-   arch/arm/boot/compressed/atags_to_fdt.o: in function `merge_fdt_bootargs':
->> atags_to_fdt.c:(.text+0x9c): undefined reference to `stackleak_track_stack'
-   arm-linux-gnueabi-ld: arch/arm/boot/compressed/atags_to_fdt.o: in function `atags_to_fdt':
-   atags_to_fdt.c:(.text+0x158): undefined reference to `stackleak_track_stack'
+>> Warning: drivers/platform/x86/firmware_attributes_class.c:39 function parameter 'drvdata' not described in 'fwat_device_register'
+>> Warning: drivers/platform/x86/firmware_attributes_class.c:39 Excess function parameter 'data' description in 'fwat_device_register'
 
 -- 
 0-DAY CI Kernel Test Service
