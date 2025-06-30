@@ -1,75 +1,58 @@
-Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF7B728D8EB
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 16:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF8D28C873;
+	Mon, 30 Jun 2025 16:25:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751300041; cv=none; b=lvFJgOAOodveweiM0L96h5aqdtEK3EB2XRnIYcPEIBXJulnmUT93SzEyT7VzpQ+CFNNL8wL/2jLJ+6d7LoHdv6ncAB3Fo/n4PMDoMNmFzkqSa7ShAEcOPnPt0U8sQ+izXdoEsORnHetjvUNQDlzgGYh0RCFDvzo/jLI7CflWwYo=
+	t=1751300710; cv=none; b=H0RbZHoduYqulsp43701A6DNs++nApWAIt9qjwo2wJQ8zke2wouJFxjhdaPORfd265zdTyZQT73oZsDaLH1c3ArreAq1XF9Qh0gfO14adICgF6N3jkmPqsNaHKBUzijjWBz8d31ZgoZD0dRSkmiEPYrLLSXToJCXorG4w2CjYso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751300041; c=relaxed/simple;
-	bh=ejFEDSf8EYAO/rBEEWs62uOnoiP/wYb+ZA25xNO38Sc=;
+	s=arc-20240116; t=1751300710; c=relaxed/simple;
+	bh=ux+trMzmDsu919a8g/ViYn9yx0SZb18epLylTUUzWZ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=FVJVEnHW8LYrN6AJCdWJ52kRfp5p4OXyHh052RacMDBqeN4A9EdlWTvdaBnJ7m66u8f0Ynh/Owa2ufBupcTTErrGuKaYkTP+YLIrXqkxu8HsjztMygRNt3fFUlBPcywrPO76UYshsQedM/8QP1FLS9DuAohaAFmnGN49Qh33Tt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AbdXMNap; arc=none smtp.client-ip=209.85.167.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=pjswLwUm6PK5Vfkn65wDUUVnEMLnS2autb4omORdyMBMy1tlBwLTZDn1NcNKcaU06E7XHObB3aTPITUcKdweGejuKvNgR9v5ZuPWU6O9jt8WgFx8qtyHr/GG4Eak0LWf7PNQWgXB1XB/xm6MorDokaJ4/sNlzfhSPicDlsTi8KM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kHbLfCuI; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AbdXMNap"
-Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-407a6c6a6d4so1468184b6e.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 09:13:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751300039; x=1751904839; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=z4K2GXVJiuaKILQGQTItkLUww/Aie+jD+a1eWqS2IOU=;
-        b=AbdXMNapRqUzo/RnaXbUQYBnHna+uB6WgumLwfPMUq/3lLPGOljH2/ULvimKt856cd
-         0SHOMoSieogcYpe9xqC1fzsHHH93WX8CAFvEqHY8EkBECrwNUTl6WJ9vOApbGboGajxF
-         1jDl/c7thFfByToUSaltUpnVo2kGWDuODqPbmqNcLcQ22cMHz7ZlPrZo/ubwco0+SpAi
-         r8kfAnhb040+X9pYlKQe/8ZeumQ/jmye7HkvsSs8qVj/wl/MuFm6FwTwQIb9aCuippQI
-         WEaLU9N0U+6gn5A6l8nC0AUbpnc61fKCBhebu+nlz9beNnGOuwNvqKQ03xUosjOvtoxq
-         4PTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751300039; x=1751904839;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z4K2GXVJiuaKILQGQTItkLUww/Aie+jD+a1eWqS2IOU=;
-        b=uxaWtPimJZjfFwPcUWSdq34D5CdltZOyZ+S3noz0p4TWPmbfl7r6XN7cN2UUPk46hh
-         8uUfPeTpPJp9aADDm9VudD2cGGRYFl/TudNxdZn7U0MsOMUYYExn23Cw2mN4k+H4fxJm
-         Z/YvQ2PgF0I2Bg4CZj95P8rB9fnQGIaW55gFcV7RJNHdiTYTRm+hs7R69Egn8JxffYH6
-         Qd7pVAK+WtjHZ73VEtpaBRxi0WalkLS/y+V4eJDf5UjKdho30mOvBIu6k98NYnQUxj+c
-         nbv1MCPe80TG4W/rRGb2XsUJRuIrV5CaW8UxMbTRQOrD9FwHOZGnKyQ0QO+L0By7pb9Q
-         3gPA==
-X-Forwarded-Encrypted: i=1; AJvYcCVhHxJNaMPv0OM9dcBqNU7NgKJFRt0e2OMnxHOEmTOy8xAFmJxTvxn++wE/xGkC7TJnfN3U81gF8u9Gc9vU@lists.linux.dev
-X-Gm-Message-State: AOJu0Yx93oj3bCYG1r9Z0Z3OBp63EcMjsykBWr6ZQQnCnuLNwkienLzs
-	qQpSaUgAyacLRf80ebSIwO0ZuwExw02tM97dx8UrvMvxr0qWjYUnkpk4OvXg/iLl8tM=
-X-Gm-Gg: ASbGnctvPh/zbFOWthRiCZUlGRpLF9Q8OURlK6btpE2sc07L89q0oyKe6KXaz7C+Pc5
-	I4f/oA+hnbexhl0pKIQMzAaLiLSS6Mpe+MCkBgfWYXU47hNvNjEfKl6A8gTdxKt6rg2LBj+eJPn
-	z2XMLdhQA4iSxzCpzyadkec7UKJ2QxBUBJvVmKLFiAnvg770F2DvIJB4wGVbPvzLlGf7KWBYLUS
-	I8+0M05hQnWAA9wKQ6hjib5xtcn6uS5WJyxVPtMjPEqQFv21zpt/bcldTc+SIJ5L+MAF/QnJz+n
-	KDJ4IlLyt8QhjIzg2kOJwRveoUcDu3JKLgZct3wm06WcOvcHyi3/CLpvcF0vkz+KLdUm
-X-Google-Smtp-Source: AGHT+IFAFlASv7Ojn6bTOl96SOGAN68965wAV7Dt6BYrHwwgQEMEUSNQsxpaQz7AhcjUol0ME8awag==
-X-Received: by 2002:a05:6808:4f54:b0:404:764:f7b6 with SMTP id 5614622812f47-40b33c469c7mr12480268b6e.9.1751300038962;
-        Mon, 30 Jun 2025 09:13:58 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:fb67:363d:328:e253])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-40b32406a58sm1743722b6e.29.2025.06.30.09.13.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Jun 2025 09:13:58 -0700 (PDT)
-Date: Mon, 30 Jun 2025 19:13:57 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	heiko@sntech.de, nicolas.dufresne@collabora.com, jgg@ziepe.ca
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, iommu@lists.linux.dev,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: Re: [PATCH v4 3/5] iommu: Add verisilicon IOMMU driver
-Message-ID: <9d247bec-d206-495e-b8d6-23a7c3cc0882@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kHbLfCuI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751300708; x=1782836708;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ux+trMzmDsu919a8g/ViYn9yx0SZb18epLylTUUzWZ8=;
+  b=kHbLfCuIo7Ka31KxmKXApT9U4ln0hg3zHI0RsB2pNcUzAI9BWFeyQY63
+   npX0R1hBcka8LEpatWNDqwK1uJyfzBYIXMiQi7jReatzOWITgbPNQzG30
+   4iBFC4FFvD7BL36mfrMHML/hxp5PehC410LvpY/Jzd9tVVpz5MxX72qHx
+   vaxyClcxeif5EWonQxJGE9WOdG9xLPz3202d5mG152KHCh4lZ10vM1wii
+   dpJrqO2f1DBnqSzpqh8ohzBl3K9SzN1W3qgIHSMaloCrB2aBmY57Ing4p
+   AfXYjMSp4srwIZSxy4l0h47K1guFgpS6KMj7ue1VAK5WNivjbkz8c3/3e
+   w==;
+X-CSE-ConnectionGUID: a52XwlpnQOWsxdjPm9yR1w==
+X-CSE-MsgGUID: yWVzBtY6TrWnnsReQihyPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="57342878"
+X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
+   d="scan'208";a="57342878"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 09:25:07 -0700
+X-CSE-ConnectionGUID: CT6FU235T/WilUl3y3OD8Q==
+X-CSE-MsgGUID: wladRW8rRZuhk5s23jbTaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
+   d="scan'208";a="159012137"
+Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
+  by fmviesa004.fm.intel.com with ESMTP; 30 Jun 2025 09:25:07 -0700
+Received: from kbuild by e588e990b675 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uWHJY-0001FP-1Q;
+	Mon, 30 Jun 2025 16:25:04 +0000
+Date: Mon, 30 Jun 2025 18:24:05 +0200
+From: kernel test robot <lkp@intel.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:io_uring-defer-tw.3 3/6] io_uring/slist.h:91:7:
+ warning: variable 'ret' set but not used
+Message-ID: <202506301848.F6jPQVAB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,64 +61,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250623153931.158765-4-benjamin.gaignard@collabora.com>
 
-Hi Benjamin,
-
-kernel test robot noticed the following build warnings:
-
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Gaignard/dt-bindings-vendor-prefixes-Add-Verisilicon/20250623-234734
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250623153931.158765-4-benjamin.gaignard%40collabora.com
-patch subject: [PATCH v4 3/5] iommu: Add verisilicon IOMMU driver
-config: alpha-randconfig-r073-20250627 (https://download.01.org/0day-ci/archive/20250629/202506290711.T0HOr5wS-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-defer-tw.3
+head:   bbc42e47c323defdb248d9802a92852cca44d353
+commit: 6e353f5918ea32f8c5719096de064efa5858e5c9 [3/6] io_uring/slist: add list-to-list list splice helper
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250630/202506301848.F6jPQVAB-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301848.F6jPQVAB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202506290711.T0HOr5wS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506301848.F6jPQVAB-lkp@intel.com/
 
-smatch warnings:
-drivers/iommu/vsi-iommu.c:657 vsi_iommu_probe() error: uninitialized symbol 'err'.
+All warnings (new ones prefixed by >>):
 
-vim +/err +657 drivers/iommu/vsi-iommu.c
+   In file included from io_uring/io_uring.c:82:
+   In file included from io_uring/io_uring.h:13:
+>> io_uring/slist.h:91:7: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+      91 |         bool ret = false;
+         |              ^
+   1 warning generated.
 
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  639  static int vsi_iommu_probe(struct platform_device *pdev)
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  640  {
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  641  	struct device *dev = &pdev->dev;
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  642  	struct vsi_iommu *iommu;
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  643  	int err;
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  644  
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  645  	iommu = devm_kzalloc(dev, sizeof(*iommu), GFP_KERNEL);
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  646  	if (!iommu)
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  647  		return -ENOMEM;
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  648  
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  649  	iommu->dev = dev;
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  650  
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  651  	iommu->regs = devm_platform_ioremap_resource(pdev, 0);
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  652  	if (IS_ERR(iommu->regs))
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  653  		return -ENOMEM;
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  654  
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  655  	iommu->num_clocks = devm_clk_bulk_get_all(dev, &iommu->clocks);
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  656  	if  (iommu->num_clocks < 0)
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23 @657  		return err;
 
-s/err/iommu->num_clocks/
+vim +/ret +91 io_uring/slist.h
 
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  658  
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  659  	err = clk_bulk_prepare(iommu->num_clocks, iommu->clocks);
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  660  	if (err)
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  661  		return err;
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  662  
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  663  	iommu->irq = platform_get_irq(pdev, 0);
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  664  	if (iommu->irq < 0)
-15ea72d5401fb7 Benjamin Gaignard 2025-06-23  665  		return iommu->irq;
+    87	
+    88	static inline bool wq_list_splice_list(struct io_wq_work_list *src,
+    89					       struct io_wq_work_list *dst)
+    90	{
+  > 91		bool ret = false;
+    92	
+    93		if (wq_list_empty(dst)) {
+    94			*dst = *src;
+    95		} else {
+    96			dst->last->next = src->first;
+    97			dst->last = src->last;
+    98			ret = true;
+    99		}
+   100		INIT_WQ_LIST(src);
+   101		return false;
+   102	}
+   103	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
