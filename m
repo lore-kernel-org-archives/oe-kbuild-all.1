@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5FD31ABED9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 09:17:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43297247280
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 09:56:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751275057; cv=none; b=PhiNiEaks4nccCUDNMTPNpujCHKMfSfSnBLQKifdKQjBNiqS38WcPe3oe0Q0T3TfM0oeVnJFW3GQ6CHkupoZh/NGWoEmWptduBvsZ5bgcw+DgXd7tBjE7GQCxndEP89GNFYsbO2/VLp40LFo/DR6NHf/XZ62aUL4kx/J4MOmJEs=
+	t=1751277400; cv=none; b=qYvGhYIxqZLb67oao+Ik8zWYsp9FxQ5lHurUeo6xsOndcfiZf5IztuIxkAaZrMCGe57yHn4O9M/6Jjkr8DOl7WoQ6okWyBQAFl7PmwQf4U7MoWnwAgBlTpB3EnMEghzvBKCJtO6G8ohzydVkHTRvZJU7zH37nBk4GICupmuT+MU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751275057; c=relaxed/simple;
-	bh=WAWAQKYuyBa6o67rIp015Wh7TWQ+crU5mDCn8JpAQjQ=;
+	s=arc-20240116; t=1751277400; c=relaxed/simple;
+	bh=fhkE2Bp+6mcX4/VW/vyM0PiJUUPPSbKwX9jzJgOolNI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L6/JVVpKeahGGp+DwQmCflU08JZb8fDimTR2gTNroQ48isUykEK9z8L6ZflHEHr53eZna+/Cmi9f6lY0+5FogdgJke3Tyx7G1jNJKphXdkik2HLOtT9lpPaOONr2TXULls+ap2ITxs6zUzCeRzQtAbt6IxV9adbTZUEHzC5QWHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FhPaKtum; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=FirJuS4WYJWgHqU3uWai/Zjn6uJnVXQZQDUW1HmiM2UFR7DrAzxKtY3baeqsJg1GH4ejc9MTVwWrfAPqSHXnBuH2B5/MSYgx3UV2A7nP5aCqOtF8OWu5SqUc/CALJUe8+rHRxEbGEMSv2EXpyZ8U4Wo5w9w0fvOjmSjnWERdBnY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PiV8IIsw; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FhPaKtum"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PiV8IIsw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751275056; x=1782811056;
+  t=1751277398; x=1782813398;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WAWAQKYuyBa6o67rIp015Wh7TWQ+crU5mDCn8JpAQjQ=;
-  b=FhPaKtumLXpPxGTtQG5xZooW8bNVVsqDxzztikrb5GtUI19vbPqA+4rJ
-   QS6NjT/tWyW70xq6iOztIMvRlKf6EA9E/eqMq3rDzKikn7dzeMIRoxQ67
-   Tb7VCFyNmcxI9RvswYl/2R8wFi/77PfK1GHL2TnxZc5ztums/hdm0BUK6
-   8eGXAxaISPxVgbBiCix4DUgxLpSYw4XVt6bWx7t72i2hfbd7HsyV1BqXu
-   TfteJuKAUVuNLUXrKKYjt4q4CrCs7N46NEzPx5NP8OOLp96smK5LuJ6Sj
-   iauLnt75yUsVuz/m8lKabiKRFaAOr7bGIxyPooLOjE+GcUKk1LtLdY1iy
-   Q==;
-X-CSE-ConnectionGUID: MSXrphVCRxOKw/5tcrd5Yg==
-X-CSE-MsgGUID: HDrHWEwMSNGHPj3HnjD9Ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="53456590"
+  bh=fhkE2Bp+6mcX4/VW/vyM0PiJUUPPSbKwX9jzJgOolNI=;
+  b=PiV8IIswDVG9rEy44pKzKpCIBdAMHfYb6hwU735u7ysNkylxhARwQcez
+   XYFnv9J+xQtYWj4aR2ILegDjHhdWCMPPdYbKuUEEG7VFe/cGE+hqT7kbo
+   5Y5VK0X/tsep7AgZF53/yZdg0SBmpgXvXcBX4qHAFPdpyRgxrgakUAR4d
+   eSmIHTjxn36kIDx24XHwAvR9KstApSXGtgPXEhOkMm1DUFEBv++57aoa9
+   othUisAKZHOD1GKoTVI9qw8RG1d3w8vubl2oLpamcbAWQ3r9Zisz/gi/V
+   RoeqIoLyBcP2X59N6xwwTzJAfmXa5l2jWETyJb9QfD46NxAotkEJoTTCS
+   g==;
+X-CSE-ConnectionGUID: Tel5y2uEQqq+aWXwafUYZg==
+X-CSE-MsgGUID: 8OLbLyE6Q/+eUPWhlpUwRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="64093959"
 X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
-   d="scan'208";a="53456590"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 02:17:35 -0700
-X-CSE-ConnectionGUID: Rbi147cYTh2ZYLHkSDbZrQ==
-X-CSE-MsgGUID: W21qZr8pTFOdikD7l/Nl3w==
+   d="scan'208";a="64093959"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 02:56:38 -0700
+X-CSE-ConnectionGUID: uMUNNo4hTeuIJUPvRNd1xQ==
+X-CSE-MsgGUID: SHw0d27sTMKfXVyjzNTfwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
-   d="scan'208";a="152888907"
+   d="scan'208";a="157958672"
 Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
-  by orviesa006.jf.intel.com with ESMTP; 30 Jun 2025 02:17:33 -0700
+  by orviesa004.jf.intel.com with ESMTP; 30 Jun 2025 02:56:37 -0700
 Received: from kbuild by e588e990b675 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWAdn-0001AR-1C;
-	Mon, 30 Jun 2025 09:17:31 +0000
-Date: Mon, 30 Jun 2025 11:17:12 +0200
+	id 1uWBFZ-0001B9-35;
+	Mon, 30 Jun 2025 09:56:33 +0000
+Date: Mon, 30 Jun 2025 11:55:55 +0200
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android12-kiwi-5.10 131/131]
- arch/x86/kernel/traps.c:176:46: warning: format specifies type 'unsigned
- long' but the argument has type 'void *'
-Message-ID: <202506301155.9qrWrYLA-lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Vinod Koul <vkoul@kernel.org>
+Subject: [linux-next:master 2048/5998]
+ arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: usb_phy@2620738
+ (ti,keystone-usbphy): '#address-cells', '#size-cells' do not match any of
+ the regexes: '^pinctrl-[0-9]+$'
+Message-ID: <202506301132.an2PPip7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,88 +64,85 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android12-kiwi-5.10
-head:   a24db0101fdd172c3b06b30ba59b614e686ff1e7
-commit: e4f1f4c9a6f6bdc4ed2f2d6d05fe5cd78af07bdf [131/131] ANDROID: Add kiwi_fault_logging kernel parameter
-config: x86_64-randconfig-2002-20250501 (https://download.01.org/0day-ci/archive/20250630/202506301155.9qrWrYLA-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301155.9qrWrYLA-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   2aeda9592360c200085898a258c4754bfe879921
+commit: 222bb02ee691237f1e9393d31226faa35097e9ab [2048/5998] dt-bindings: phy: Convert ti,keystone-usbphy to DT schema
+config: arm-randconfig-2053-20250625 (https://download.01.org/0day-ci/archive/20250630/202506301132.an2PPip7-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+dtschema version: 2025.6.1
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301132.an2PPip7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506301155.9qrWrYLA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506301132.an2PPip7-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> arch/x86/kernel/traps.c:176:46: warning: format specifies type 'unsigned long' but the argument has type 'void *' [-Wformat]
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                                                                ~~~
-     176 |                         current->comm, task_pid_nr(current), str, addr, trapnr, signr,
-         |                                                                   ^~~~
->> arch/x86/kernel/traps.c:176:60: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                                                                                     ~~~
-         |                                                                                     %x
-     176 |                         current->comm, task_pid_nr(current), str, addr, trapnr, signr,
-         |                                                                                 ^~~~~
-   arch/x86/kernel/traps.c:177:4: warning: format specifies type 'unsigned long' but the argument has type 'int' [-Wformat]
-     175 |             printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
-         |                                                                                                ~~~
-         |                                                                                                %x
-     176 |                         current->comm, task_pid_nr(current), str, addr, trapnr, signr,
-     177 |                         sicode, (void *)regs->ip, (void *)regs->sp, error_code);
-         |                         ^~~~~~
-   3 warnings generated.
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=y] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
-
-
-vim +176 arch/x86/kernel/traps.c
-
-   170	
-   171	static void do_error_trap(struct pt_regs *regs, long error_code, char *str,
-   172		unsigned long trapnr, int signr, int sicode, void __user *addr)
-   173	{
-   174		if (unlikely(kiwi_fault_logging)) {
-   175		    printk(KERN_ALERT "%s[%d]: do_error_trap for %s at %lx trapnr %lx signr %lx sicode %lx ip %px sp %px error %lx",
- > 176				current->comm, task_pid_nr(current), str, addr, trapnr, signr,
-   177				sicode, (void *)regs->ip, (void *)regs->sp, error_code);
-   178		}
-   179		RCU_LOCKDEP_WARN(!rcu_is_watching(), "entry code didn't wake RCU");
-   180	
-   181		if (notify_die(DIE_TRAP, str, regs, error_code, trapnr, signr) !=
-   182				NOTIFY_STOP) {
-   183			cond_local_irq_enable(regs);
-   184			do_trap(trapnr, signr, str, regs, error_code, sicode, addr);
-   185			cond_local_irq_disable(regs);
-   186		}
-   187	}
-   188	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/clocks/clkxge@23500c8: failed to match any schema with compatible: ['ti,keystone,psc-clock']
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/i2c@2530000: failed to match any schema with compatible: ['ti,davinci-i2c']
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/i2c@2530400: failed to match any schema with compatible: ['ti,davinci-i2c']
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/i2c@2530800: failed to match any schema with compatible: ['ti,davinci-i2c']
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/spi@21000400: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/spi@21000400: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/spi@21000600: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/spi@21000600: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/spi@21000800: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/spi@21000800: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+>> arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: usb_phy@2620738 (ti,keystone-usbphy): '#address-cells', '#size-cells' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/ti,keystone-usbphy.yaml#
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: usb@2680000 (ti,keystone-dwc3): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$', 'usb@[a-f0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/usb/ti,keystone-dwc3.yaml#
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: wdt@22f0080 (ti,keystone-wdt): $nodename:0: 'wdt@22f0080' does not match '^(timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/ti,davinci-wdt.yaml#
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: cs0: 'clocks' is a dependency of 'clock-ranges'
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+   arch/arm/boot/dts/ti/keystone/keystone-k2hk-evm.dtb: nand@0,0 (ti,keystone-nand): #size-cells: 0 was expected
+--
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/clocks/clkuart3@2350000: failed to match any schema with compatible: ['ti,keystone,psc-clock']
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/i2c@2530000: failed to match any schema with compatible: ['ti,davinci-i2c']
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/i2c@2530400: failed to match any schema with compatible: ['ti,davinci-i2c']
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/i2c@2530800: failed to match any schema with compatible: ['ti,davinci-i2c']
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/spi@21000400: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/spi@21000400: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/spi@21000600: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/spi@21000600: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/spi@21000800: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/spi@21000800: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+>> arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: usb_phy@2620738 (ti,keystone-usbphy): '#address-cells', '#size-cells' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/ti,keystone-usbphy.yaml#
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: usb@2680000 (ti,keystone-dwc3): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$', 'usb@[a-f0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/usb/ti,keystone-dwc3.yaml#
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: wdt@22f0080 (ti,keystone-wdt): $nodename:0: 'wdt@22f0080' does not match '^(timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/ti,davinci-wdt.yaml#
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: cs0: 'clocks' is a dependency of 'clock-ranges'
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+   arch/arm/boot/dts/ti/keystone/keystone-k2l-evm.dtb: nand@0,0 (ti,keystone-nand): #size-cells: 0 was expected
+--
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/clocks/clkxge@23500c8: failed to match any schema with compatible: ['ti,keystone,psc-clock']
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/i2c@2530000: failed to match any schema with compatible: ['ti,davinci-i2c']
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/i2c@2530400: failed to match any schema with compatible: ['ti,davinci-i2c']
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/i2c@2530800: failed to match any schema with compatible: ['ti,davinci-i2c']
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/spi@21000400: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/spi@21000400: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/spi@21000600: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/spi@21000600: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/spi@21000800: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/spi@21000800: failed to match any schema with compatible: ['ti,keystone-spi', 'ti,dm6441-spi']
+>> arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: usb_phy@2620738 (ti,keystone-usbphy): '#address-cells', '#size-cells' do not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/ti,keystone-usbphy.yaml#
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: usb@2680000 (ti,keystone-dwc3): 'clock-names' does not match any of the regexes: '^pinctrl-[0-9]+$', 'usb@[a-f0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/usb/ti,keystone-dwc3.yaml#
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: wdt@22f0080 (ti,keystone-wdt): $nodename:0: 'wdt@22f0080' does not match '^(timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
+   	from schema $id: http://devicetree.org/schemas/watchdog/ti,davinci-wdt.yaml#
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: /soc@0/aemif@21000a00: failed to match any schema with compatible: ['ti,keystone-aemif', 'ti,davinci-aemif']
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: cs0: 'clocks' is a dependency of 'clock-ranges'
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+   arch/arm/boot/dts/ti/keystone/keystone-k2e-evm.dtb: nand@0,0 (ti,keystone-nand): #size-cells: 0 was expected
 
 -- 
 0-DAY CI Kernel Test Service
