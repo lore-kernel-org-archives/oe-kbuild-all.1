@@ -1,64 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C105D2D320B
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 18:12:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF5F23C4FA
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 18:43:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751307139; cv=none; b=aP19ALzXWp8Iisr0HBN+x3zCej5sNDKUCDP9B4UdREpyXEOPYhZRnfqWUmysN51oXJs+QTlS0bgrJ9RrnQ3copxNRMn1ac5/+Yxe9K8NDdO1c79ZIidYOOdGWVFx9XtWIvOW5TVwSZhDTIwwYNlD8IeZ3Oer4aNC9vxc4Djz5Ac=
+	t=1751309003; cv=none; b=qjUeSBBr58McGGF6wYgukiU3je0lpnSJSYDme7L+Ls4pz69gTpBJOyFRxZIe7e/DYvJamV6daHZti6YfbyT6vV42jpHiuuW0fIFgXTf/yrc6vwyfe55k9gicBSyCzk/hqA+HrItTjRTH3Ab9Y3ZmWsERplTIpNjYfQ+5glmsFDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751307139; c=relaxed/simple;
-	bh=I+kVS3NjR7w6E4QkvIa2eJytYERbIRQvZk5z3WhX438=;
+	s=arc-20240116; t=1751309003; c=relaxed/simple;
+	bh=e9L2Or2Z+AWl0PzpMP/E7A3kcDY9LygJW2AF7pQN8bw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GXsl0FVfycPIVH6cvSs5+gRo2hbKijrdC1YxtXxcXkvwYfdXPWk/VBbx5IeWdASiw/SR5SOnJ592jWqjlbAbtAc/JqWs2qaV0CfL78fQp0wh8qMhU8oZMXRP+LDTuGuPADBAtIAFyqy6lBptmq/snDfChgEftpxj/FqDUYjTSvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PXsKwFih; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=S8yCeAAYGsV5cMquVPXZz/HZ8zBNTE+TZZHJimNunmmqzam/98wnuWfp3u52CNjRh+xuwxhS9MLLtostyJvQZ9q7++UEVxnfXQMRMeZyi6mEvLckSvmVLk2kxNUrdLJmUTEDGjcKgIZR0fE+rt+3EcuyprgOMFTuK9EOJtebB9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tj8/MWoB; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PXsKwFih"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tj8/MWoB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751307137; x=1782843137;
+  t=1751309002; x=1782845002;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=I+kVS3NjR7w6E4QkvIa2eJytYERbIRQvZk5z3WhX438=;
-  b=PXsKwFihe7MCEQfrWix+I5nxV4DPKxlBf6zlV2kk6MR3Rco2WB8l6u9c
-   OKv/X6q5DsvPFnmzwVQ+INsKzz4fVgve2YRz0KaaunUmPX/32DkephdZt
-   q51jCWZeGhqrZWIzDi4LGyrgEKUXx0H8rI10Ytc+wAjgqequSi+qDN0dn
-   KBNceO2Y2TcSrJqnzzADla8cGShZoHpKFH8v641cWfbNxSUxAzAqbmFH3
-   N5Kbcga6q25hNKdNQXP+56JQ6u/dal4acVBRZDsAC6la5TJ5XF46yNcK3
-   mjjn4nWD7F1qgySsIOKHYYd1sIlt2yjgw7zTqxe3htLgl0j7lsv/goC2e
-   g==;
-X-CSE-ConnectionGUID: w1IKA9HZR0K418HJ0Fu71w==
-X-CSE-MsgGUID: nAiu+af6TC2uJsiQHkVlfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="78982267"
+  bh=e9L2Or2Z+AWl0PzpMP/E7A3kcDY9LygJW2AF7pQN8bw=;
+  b=Tj8/MWoBFWYigL7uF1io4IyRiNJ3vD/KaKqVRGwbRcbrhhDtL0Dpj0l4
+   Bm5j4Uz5f71y3dc0znehlzeGYxJ/pPB3Pot1msGIE42NoInwvbOS7Mysf
+   HSV5hkWpOSMGhJTSgeVl4ZGMWbXfms+CM6RHBal0nVvypthpjYEKJcwLE
+   EvvjpBkGUGjiM07OiQ7YHHaXCWt+s7HDkmlGAYzzpfEb/cpQxDqMxW0x2
+   F3l+KkxJ9epD1eWIJNbQpkq81v/aEy08hu8pkVCIHb8vQgNcg/4uDd9q5
+   aGNH26dupOLwueT2nBNMUYkPbodLaIOuNS8YC9KT43Aw05yKflfoOgwig
+   w==;
+X-CSE-ConnectionGUID: C8zXnnjERLKgbCRw4B5XRg==
+X-CSE-MsgGUID: zujBZTSaStqDDvC/T2kZRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="71112259"
 X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
-   d="scan'208";a="78982267"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 11:12:16 -0700
-X-CSE-ConnectionGUID: AF3thvOhQIG68tifoh0cIw==
-X-CSE-MsgGUID: DnISahm6RA62K58gYs0Uhw==
+   d="scan'208";a="71112259"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 11:43:21 -0700
+X-CSE-ConnectionGUID: 8zfLGR6RQj2x1iOIOjPbCg==
+X-CSE-MsgGUID: tQ+X3+5WTM6pCoOTWO29LA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
-   d="scan'208";a="153622082"
+   d="scan'208";a="153016837"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 30 Jun 2025 11:12:14 -0700
+  by orviesa006.jf.intel.com with ESMTP; 30 Jun 2025 11:43:20 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWIzE-000ZFy-0T;
-	Mon, 30 Jun 2025 18:12:12 +0000
-Date: Tue, 1 Jul 2025 02:11:29 +0800
+	id 1uWJTJ-000ZGo-0G;
+	Mon, 30 Jun 2025 18:43:17 +0000
+Date: Tue, 1 Jul 2025 02:43:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Komal Bajaj <komal.bajaj@oss.qualcomm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Souradeep Chowdhury <quic_schowdhu@quicinc.com>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v2] usb: misc: qcom_eud: Access EUD_MODE_MANAGER2 through
- secure calls
-Message-ID: <202507010127.xjmnq7A8-lkp@intel.com>
-References: <20250627125131.27606-1-komal.bajaj@oss.qualcomm.com>
+To: Govind Singh <govind.sk85@gmail.com>, ath12k@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
+	Govind Singh <govind.sk85@gmail.com>
+Subject: Re: [PATCH] ath12k: add module param to control MSI mode and address
+ width
+Message-ID: <202507010226.p5NvqJE6-lkp@intel.com>
+References: <20250624165031.58616-1-govind.sk85@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,39 +64,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250627125131.27606-1-komal.bajaj@oss.qualcomm.com>
+In-Reply-To: <20250624165031.58616-1-govind.sk85@gmail.com>
 
-Hi Komal,
+Hi Govind,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus linus/master v6.16-rc4 next-20250630]
+[auto build test WARNING on ath/ath-next]
+[also build test WARNING on wireless/main wireless-next/main linus/master v6.16-rc4 next-20250630]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Komal-Bajaj/usb-misc-qcom_eud-Access-EUD_MODE_MANAGER2-through-secure-calls/20250627-205244
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20250627125131.27606-1-komal.bajaj%40oss.qualcomm.com
-patch subject: [PATCH v2] usb: misc: qcom_eud: Access EUD_MODE_MANAGER2 through secure calls
-config: um-randconfig-r131-20250629 (https://download.01.org/0day-ci/archive/20250701/202507010127.xjmnq7A8-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507010127.xjmnq7A8-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Govind-Singh/ath12k-add-module-param-to-control-MSI-mode-and-address-width/20250625-005348
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath-next
+patch link:    https://lore.kernel.org/r/20250624165031.58616-1-govind.sk85%40gmail.com
+patch subject: [PATCH] ath12k: add module param to control MSI mode and address width
+config: sparc-randconfig-r112-20250630 (https://download.01.org/0day-ci/archive/20250701/202507010226.p5NvqJE6-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 12.4.0
+reproduce: (https://download.01.org/0day-ci/archive/20250701/202507010226.p5NvqJE6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507010127.xjmnq7A8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507010226.p5NvqJE6-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/wireless/ath/ath12k/pci.c:52:6: sparse: sparse: symbol 'ath12k_32bit_msi' was not declared. Should it be static?
 
-   /usr/bin/ld: drivers/usb/misc/qcom_eud.o: in function `eud_remove':
->> qcom_eud.c:(.text+0x6da): undefined reference to `qcom_scm_io_writel'
-   /usr/bin/ld: drivers/usb/misc/qcom_eud.o: in function `enable_store':
-   qcom_eud.c:(.text+0x7c7): undefined reference to `qcom_scm_io_writel'
->> /usr/bin/ld: qcom_eud.c:(.text+0x848): undefined reference to `qcom_scm_io_writel'
-   collect2: error: ld returned 1 exit status
+vim +/ath12k_32bit_msi +52 drivers/net/wireless/ath/ath12k/pci.c
+
+    51	
+  > 52	bool ath12k_32bit_msi;
+    53	module_param(ath12k_32bit_msi, bool, 0644);
+    54	MODULE_PARM_DESC(ath12k_32bit_msi, "Force 32-bit MSI addressing");
+    55	
 
 -- 
 0-DAY CI Kernel Test Service
