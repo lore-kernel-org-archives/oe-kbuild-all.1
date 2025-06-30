@@ -1,58 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AF8D28C873;
-	Mon, 30 Jun 2025 16:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFFBF28DF41
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 16:26:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751300710; cv=none; b=H0RbZHoduYqulsp43701A6DNs++nApWAIt9qjwo2wJQ8zke2wouJFxjhdaPORfd265zdTyZQT73oZsDaLH1c3ArreAq1XF9Qh0gfO14adICgF6N3jkmPqsNaHKBUzijjWBz8d31ZgoZD0dRSkmiEPYrLLSXToJCXorG4w2CjYso=
+	t=1751300801; cv=none; b=Tdi3titZ1YV4W4U1o5r4yWYlRDjkNoZLNjUlMjHe0RUAUIgVBCqCnIUPTAwBGcs+iDhjcbxdL1Vf8tO/E1MacSl+8yR/9P6nTqZ0+cOejeMyITVE8YQ37CKjyWe0g96qgIdyjp1N3EV9iSdzrld/lqtTLbyqPx3Ywe7aIXmMgUU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751300710; c=relaxed/simple;
-	bh=ux+trMzmDsu919a8g/ViYn9yx0SZb18epLylTUUzWZ8=;
+	s=arc-20240116; t=1751300801; c=relaxed/simple;
+	bh=ZYMR7z5T+7I0DbIT2AphsLI9oq3i24aPeQXV7iyq+7M=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pjswLwUm6PK5Vfkn65wDUUVnEMLnS2autb4omORdyMBMy1tlBwLTZDn1NcNKcaU06E7XHObB3aTPITUcKdweGejuKvNgR9v5ZuPWU6O9jt8WgFx8qtyHr/GG4Eak0LWf7PNQWgXB1XB/xm6MorDokaJ4/sNlzfhSPicDlsTi8KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kHbLfCuI; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Disposition:In-Reply-To; b=IY36v3kirFPhCZYhCfbA9pmf6hme28yEvDPfL4kgJaBVVr165zDUs9/hVB2UADFXdkYcn5Q19KMovHVpDG7h7aeWuWonWbrPmGzYwJAT5dcZT9UMTAdztuk/GoffEywa4n+yokjRWPNytosKc4JAoLFPEYza01NAIjRtRHwR4qI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q0FkWTaz; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kHbLfCuI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751300708; x=1782836708;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ux+trMzmDsu919a8g/ViYn9yx0SZb18epLylTUUzWZ8=;
-  b=kHbLfCuIo7Ka31KxmKXApT9U4ln0hg3zHI0RsB2pNcUzAI9BWFeyQY63
-   npX0R1hBcka8LEpatWNDqwK1uJyfzBYIXMiQi7jReatzOWITgbPNQzG30
-   4iBFC4FFvD7BL36mfrMHML/hxp5PehC410LvpY/Jzd9tVVpz5MxX72qHx
-   vaxyClcxeif5EWonQxJGE9WOdG9xLPz3202d5mG152KHCh4lZ10vM1wii
-   dpJrqO2f1DBnqSzpqh8ohzBl3K9SzN1W3qgIHSMaloCrB2aBmY57Ing4p
-   AfXYjMSp4srwIZSxy4l0h47K1guFgpS6KMj7ue1VAK5WNivjbkz8c3/3e
-   w==;
-X-CSE-ConnectionGUID: a52XwlpnQOWsxdjPm9yR1w==
-X-CSE-MsgGUID: yWVzBtY6TrWnnsReQihyPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="57342878"
-X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
-   d="scan'208";a="57342878"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 09:25:07 -0700
-X-CSE-ConnectionGUID: CT6FU235T/WilUl3y3OD8Q==
-X-CSE-MsgGUID: wladRW8rRZuhk5s23jbTaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,278,1744095600"; 
-   d="scan'208";a="159012137"
-Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
-  by fmviesa004.fm.intel.com with ESMTP; 30 Jun 2025 09:25:07 -0700
-Received: from kbuild by e588e990b675 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uWHJY-0001FP-1Q;
-	Mon, 30 Jun 2025 16:25:04 +0000
-Date: Mon, 30 Jun 2025 18:24:05 +0200
-From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:io_uring-defer-tw.3 3/6] io_uring/slist.h:91:7:
- warning: variable 'ret' set but not used
-Message-ID: <202506301848.F6jPQVAB-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q0FkWTaz"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-60bf5a08729so4997078a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 09:26:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751300797; x=1751905597; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=535W8k9pU5sUVdNwdQXzTxnf8TouFsbPOMvqYlYzbaQ=;
+        b=Q0FkWTaz+2LsyxQMCExw1OKoXxKTI9noO/1oz4QLVWIsZ9nnL1pc7RviNi21HH7rf0
+         et4OKTWA/IIlaBhM1pfKE3p8rJKUBTVZ94ld75E/H0qCmnigVLmi1WZnaTq5+d212Boc
+         prbsjsnNwbRA5kyjqHCOzO9zzQ3vSVxLIgQANkLz4iK2RsG826mLO0h4XtCOmZlCz7dU
+         fkvlmBCfnsdjtKAo5LDGR/x3/9b2RvHJWq2onyWigsa9i55/HlEEWzaskrp3/sY11Pxm
+         DNY2JW0nBHCRpgqkylHORVaqgFKER2pVud3ocV8u4s91YQSkk7YR4z5g7igEfXMYrfG4
+         n13w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751300797; x=1751905597;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=535W8k9pU5sUVdNwdQXzTxnf8TouFsbPOMvqYlYzbaQ=;
+        b=eyquB1aqnKe4TqxD6lTMIVq5YKhBWiwKwiulfUwTuCDzhDKQNyWlKVlL436vLZIaLm
+         tUIugXiKuRqA5fGLhCqhwtLTpoMJBRpmQ7vwVIroe6E1NDh+7/vCVoa/i43Z2FXkslQH
+         U71+UX+K5Wl334b6S3HJI9gIsXM5GcpIZTMRT8YyGV/YOFOzZZVTyAATqQ9TAlBJUcYY
+         KbnUEitve/b9WK05ZghJDO4zX3ruuGTQw2Sbe4EHok5SzLiWwlOwaVUvUVNxcRJAZfJd
+         PtbjmBPmKfAYheJ6bk6Ut5rVwohhu9eAHcpHTNNWD0ikApjD5co6JwxpbbdyienJqh+p
+         mmWw==
+X-Forwarded-Encrypted: i=1; AJvYcCVIS1lOO8Y9a9M2YqrBGNwuDGv8Q0ynXDshbbryz73DFaylhg7T+Nyz+hoqNIbzRABpaXlofbj0YNkEB/6V@lists.linux.dev
+X-Gm-Message-State: AOJu0Ywt7tv9WpwK4L83qVWXy+uSBmnTeFDtN92ucXq30k+eiiiIeO1a
+	sltSw+8VwZz+GlAJIfvSiHKDOwgObkuiPimaV3Jll8UIWHJzfsWUvObGPLzTZQyqito=
+X-Gm-Gg: ASbGnctbOuMdFug7rINEdofBHd1Xy9xxvTP0YRWWx2e6L9REirnFZnaNEC3Bj2uV44G
+	j0xeFrlnxe6RqMy1EshiMIfzwFJ6LSjCS84UYBE7pRhQfM3xOr974q45dgyt+M9Pyj4ps3T7sZC
+	g3rxTt4OazoVk87J41eYNZ7S9Z023E1o4pprZUrZGu9AfNeL0Q1nIzwGWvWg0NOIkhRKeqXEZyM
+	bTdKwPlzlotw17OsLl+V3EHtBRYPq84294qE5oA9AYUfjfzb3IWPFRICylbVHr3rLX3v3yWgdKX
+	Lmeac+1ltv6RWpAI6tIlPHphvk4gFJdyhsQfvwp5N78KhvlCLE8xj3MlqGFIDGdi//LoNZyuOK5
+	34M4=
+X-Google-Smtp-Source: AGHT+IEZUFYK3OlqCsPYEUjbY6KleNynpLo18SzDo4cGFtE9VgvfMNqI4nas16gqs6EKpGcliuTGQg==
+X-Received: by 2002:a17:907:94cc:b0:ad8:8719:f6f3 with SMTP id a640c23a62f3a-ae34fdbbadfmr1268647466b.22.1751300797043;
+        Mon, 30 Jun 2025 09:26:37 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:fb67:363d:328:e253])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae35776d0ebsm685350066b.155.2025.06.30.09.26.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Jun 2025 09:26:36 -0700 (PDT)
+Date: Mon, 30 Jun 2025 19:26:34 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Shradha Todi <shradha.t@samsung.com>,
+	linux-pci@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-fsd@tesla.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	manivannan.sadhasivam@linaro.org, lpieralisi@kernel.org,
+	kw@linux.com, robh@kernel.org, bhelgaas@google.com,
+	jingoohan1@gmail.com, krzk+dt@kernel.org, conor+dt@kernel.org,
+	alim.akhtar@samsung.com, vkoul@kernel.org, kishon@kernel.org,
+	arnd@arndb.de, m.szyprowski@samsung.com, jh80.chung@samsung.com,
+	pankaj.dubey@samsung.com, Shradha Todi <shradha.t@samsung.com>
+Subject: Re: [PATCH v2 09/10] PCI: exynos: Add support for Tesla FSD SoC
+Message-ID: <5ed352de-8319-4e3f-8cce-43a4bb332e66@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,49 +81,72 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250625165229.3458-10-shradha.t@samsung.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-defer-tw.3
-head:   bbc42e47c323defdb248d9802a92852cca44d353
-commit: 6e353f5918ea32f8c5719096de064efa5858e5c9 [3/6] io_uring/slist: add list-to-list list splice helper
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250630/202506301848.F6jPQVAB-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301848.F6jPQVAB-lkp@intel.com/reproduce)
+Hi Shradha,
+
+kernel test robot noticed the following build warnings:
+
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Shradha-Todi/PCI-exynos-Remove-unused-MACROs-in-exynos-PCI-file/20250626-104154
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250625165229.3458-10-shradha.t%40samsung.com
+patch subject: [PATCH v2 09/10] PCI: exynos: Add support for Tesla FSD SoC
+config: um-randconfig-r071-20250630 (https://download.01.org/0day-ci/archive/20250630/202506301329.VWoiH0yn-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506301848.F6jPQVAB-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202506301329.VWoiH0yn-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+smatch warnings:
+drivers/pci/controller/dwc/pci-exynos.c:621 exynos_pcie_probe() error: we previously assumed 'pdata->res_ops' could be null (see line 609)
+drivers/pci/controller/dwc/pci-exynos.c:655 exynos_pcie_probe() warn: missing error code 'ret'
 
-   In file included from io_uring/io_uring.c:82:
-   In file included from io_uring/io_uring.h:13:
->> io_uring/slist.h:91:7: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-      91 |         bool ret = false;
-         |              ^
-   1 warning generated.
+vim +621 drivers/pci/controller/dwc/pci-exynos.c
 
+b9388ee21b4e79 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25  595  			dev_err(dev, "couldn't get the register offset for syscon!\n");
+b9388ee21b4e79 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25  596  			return ret;
+b9388ee21b4e79 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25  597  		}
+b9388ee21b4e79 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25  598  	}
+b9388ee21b4e79 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25  599  
+778f7c194b1dac drivers/pci/controller/dwc/pci-exynos.c Jaehoon Chung      2020-11-13  600  	/* External Local Bus interface (ELBI) registers */
+778f7c194b1dac drivers/pci/controller/dwc/pci-exynos.c Jaehoon Chung      2020-11-13  601  	ep->elbi_base = devm_platform_ioremap_resource_byname(pdev, "elbi");
+778f7c194b1dac drivers/pci/controller/dwc/pci-exynos.c Jaehoon Chung      2020-11-13  602  	if (IS_ERR(ep->elbi_base))
+778f7c194b1dac drivers/pci/controller/dwc/pci-exynos.c Jaehoon Chung      2020-11-13  603  		return PTR_ERR(ep->elbi_base);
+778f7c194b1dac drivers/pci/controller/dwc/pci-exynos.c Jaehoon Chung      2020-11-13  604  
+10106d5c1f9cee drivers/pci/controller/dwc/pci-exynos.c Cristian Ciocaltea 2024-12-17  605  	ret = devm_clk_bulk_get_all_enabled(dev, &ep->clks);
+6b11143f9344dd dripdata->res_opsvers/pci/controller/dwc/pci-exynos.c Shradha Todi       2024-02-20  606  	if (ret < 0)
+6b11143f9344dd drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2024-02-20  607  		return ret;
+4b1ced841b2e31 drivers/pci/host/pci-exynos.c           Jingoo Han         2013-07-31  608  
+ed1b6ec2c47ce8 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25 @609  	if (pdata->res_ops && pdata->res_ops->init_regulator) {
+                                                                                                    ^^^^^^^^^^^^^^
+This code assumes pdata->res_ops can be NULL
 
-vim +/ret +91 io_uring/slist.h
+ed1b6ec2c47ce8 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25  610  		ret = ep->pdata->res_ops->init_regulator(ep);
+4b1ced841b2e31 drivers/pci/host/pci-exynos.c           Jingoo Han         2013-07-31  611  		if (ret)
+4b1ced841b2e31 drivers/pci/host/pci-exynos.c           Jingoo Han         2013-07-31  612  			return ret;
+ed1b6ec2c47ce8 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25  613  	}
+4b1ced841b2e31 drivers/pci/host/pci-exynos.c           Jingoo Han         2013-07-31  614  
+ed1b6ec2c47ce8 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25  615  	ret = samsung_regulator_enable(ep);
+3278478084747c drivers/pci/host/pci-exynos.c           Niyas Ahmed S T    2017-02-01  616  	if (ret)
+3278478084747c drivers/pci/host/pci-exynos.c           Niyas Ahmed S T    2017-02-01  617  		return ret;
+4b1ced841b2e31 drivers/pci/host/pci-exynos.c           Jingoo Han         2013-07-31  618  
+b2e6d3055d5545 drivers/pci/dwc/pci-exynos.c            Bjorn Helgaas      2017-02-21  619  	platform_set_drvdata(pdev, ep);
+b9388ee21b4e79 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25  620  
+b9388ee21b4e79 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25 @621  	if (pdata->res_ops->set_device_mode)
+                                                                                                    ^^^^^^^^^^^^^^
+But this dereferences it without checking.  Most likely the
+NULL check should be removed?
 
-    87	
-    88	static inline bool wq_list_splice_list(struct io_wq_work_list *src,
-    89					       struct io_wq_work_list *dst)
-    90	{
-  > 91		bool ret = false;
-    92	
-    93		if (wq_list_empty(dst)) {
-    94			*dst = *src;
-    95		} else {
-    96			dst->last->next = src->first;
-    97			dst->last = src->last;
-    98			ret = true;
-    99		}
-   100		INIT_WQ_LIST(src);
-   101		return false;
-   102	}
-   103	
+b9388ee21b4e79 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25  622  		pdata->res_ops->set_device_mode(ep);
+b9388ee21b4e79 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25  623  
+b9388ee21b4e79 drivers/pci/controller/dwc/pci-exynos.c Shradha Todi       2025-06-25  624  	switch (ep->pdata->device_mode) {
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
