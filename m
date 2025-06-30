@@ -1,134 +1,101 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F375428C037;
-	Mon, 30 Jun 2025 14:22:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83BF228C031
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 14:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751293381; cv=none; b=NjC7eAqWNPNTMZrR47xPXB2/o7tWrgTKEyElcuOBozBx/Kh4SLypMb0ahMC9FnZ1VYs/rfW194NMVhagVirji9AvkAyDXCCy/6Nej3r15WqKZDtk1tLoxfhPnX3IW72tz9ppXL2S+kETYaLs5d20X/VtmSl+20+bqoqDCBIMGJ0=
+	t=1751295572; cv=none; b=AxdhFHygS3vLAhjP88VJtLtMNkqnFm79X3CgKbyntrQaYD1UBb1+9J/BM80XDhgOwtBfe9kZLQyTsTV3ydVddVUnSzFMoy+4LehDG7AUPHme4B5gOKCm/jCcfw9Rr5X974aTPGMpT6KWr+GphKUL9ih5FnyowcVmaX0eUfpRLoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751293381; c=relaxed/simple;
-	bh=w14eEZ/zg+hqTdzOPY2gaieWf5JUv1WnpYU89uhLNyk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CKGyqGBzTGUFRxVYc3/6IVquMXwTvYtPpDHCkxm5N8FW24P/9NOKCK8vw2U0rl5q2cGEJV/Ft4G0Y1oavd7Up5i1nvB8nt7B6NqcV+nJxI9Q5P+3BDonGEv93G/y4+6UQ4QjpYOlnfCnA8zKddw4wGFrTR612fN0T8u8rQvouwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ia2XhOqX; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751295572; c=relaxed/simple;
+	bh=kHZG/SAHtaCXvJPooJ1iE8nE6vSy8XcqduQc3aJRiIY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=lG7+pE0oFoZJi94qP92VwavgcVtyfsflDe4iIQg1piPt/eDr1RV9rh7LQK0Rr5SMlPZjDWjZzKw6txJO16lCxqOCrMSJpmxn/foxB4RYWvD43tWOrj3obPkh7of1OLSCR5MU7Pd4Yzvhmda1WSiIs9L4j3Pj/XpXWAtW6gC4C+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y5MYW/Oa; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ia2XhOqX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751293380; x=1782829380;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=w14eEZ/zg+hqTdzOPY2gaieWf5JUv1WnpYU89uhLNyk=;
-  b=ia2XhOqXLK+1B/KreDNV+sXmPdnMNh4pd2ehcvyD4e06cTrgvBWUGsoD
-   tUloS+F1pfXh3uOyajjIreO+Joy/u1ygmfPZi2il9p5eCADdPH4ZveyCG
-   iaVM860jlM/zTtZlmnjigGBMuF7FGm5fGin9Iu3djw5fI/s3/IGeaM8Vy
-   fYhZtWmfD1JFIF6KgKD1+9IcKBeqBSYJLUDQcaQJCI8W4Nvy1cvdRfETB
-   sxPb5CQeOvi7MOnoJCrAD+Zn/whG72p1UbvPTxIVWSf5lnCztkjABi0RQ
-   XGMM01E2sfsgAnzmhg+czlO9l9quHPQM9LXB3G1PHrpXeD14krNhVn/JX
-   g==;
-X-CSE-ConnectionGUID: ThjzyCSNQ0GUA/PFSTuMcQ==
-X-CSE-MsgGUID: STSEIdeKTZK0A4ARDxM+DA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="57298317"
-X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
-   d="scan'208";a="57298317"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 07:23:00 -0700
-X-CSE-ConnectionGUID: 1JrWuOmUSvCv9ODpECv1JA==
-X-CSE-MsgGUID: AyaCAb46Q1qBhCjPaMnZVg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
-   d="scan'208";a="153223420"
-Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
-  by orviesa009.jf.intel.com with ESMTP; 30 Jun 2025 07:22:58 -0700
-Received: from kbuild by e588e990b675 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uWFPL-0001E7-2j;
-	Mon, 30 Jun 2025 14:22:55 +0000
-Date: Mon, 30 Jun 2025 16:22:36 +0200
-From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>
-Subject: [linux-next:master 2933/6007]
- arch/arm64/boot/dts/qcom/msm8976-longcheer-l9360.dts:111.20-139.4: Warning
- (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30:
- unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or
- child "reg" property
-Message-ID: <202506301614.OKDuZ3Vc-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y5MYW/Oa"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-acb5ec407b1so398299466b.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 07:59:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1751295569; x=1751900369; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=jZODcrcofm3wCiChuUI5ZxeqAT+1tWcc0clYojsHPHM=;
+        b=Y5MYW/Oau6Iuo2xmM1MguRugFUIJ+ubPlkzpfbn5U85KL5LUo76oFlZ0zKnCTXuW8k
+         SbWxJLEQ+jLxMEpBROC5YLtGtH+djGgz4QjRgKmeL3GYney/KwmvzCBa39o1NoEfjy7G
+         BNOY5IxoZDdnozNmZ/Vb6cMLw/JZm36l0lfXz/Ny0ilzd2S4g6ftORdGIzCXUUNj6VWx
+         V6qVtw/As7YYspP6G9YsD0EHZdnbetLKCevvvmH48lXKp3hVG5movktdaI7oDlsgHr9Z
+         LeXxepSUX/lR0UGQMS2IHd8l5ReMsxYfxFuCHmBuQZDJYeu4ps2YO8/0NJsFyfJwfqaP
+         dHdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751295569; x=1751900369;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jZODcrcofm3wCiChuUI5ZxeqAT+1tWcc0clYojsHPHM=;
+        b=Sw3KFCuz8ncJgNO0qxkLLIsO8jT/R4jNfdTrk2AQ7zSpGHk/qwus7qduRsDTEJ0tau
+         KUrV6b5Ep+fg887FeJ6phQmBuyfYad1xCFXvcTVixgCFI1on7012NdIfyRPcQTwU7fnS
+         1jTgHqtpamt+bF08U8gcjX5427P37jqbjXo+50ZRn/uEsKXCQhVowWmzZs/Bm8DZtVoH
+         99rjqHPAvD8KIzYmvkDElq875HCvzceFvTjikRm8TlIksSHnZJ7v8TFRzXKzEtVAuyzp
+         EZP6nLzsIaGWzuzrIZEggJmxH5tjSV2kVzf23fhaO3qclvudSqCglFqy5z6UQZFpC6Xf
+         WNHQ==
+X-Gm-Message-State: AOJu0YxclS3mKeC86Y+zjugJSAxVsmH2+pBIt0G+0eNhHTJSgCT8h2Z5
+	fUTxRoNHyMZ73bvg04Tr4UBobk3aDL2tWl0Y8IIXS5eyD9F2iIFXrbPD
+X-Gm-Gg: ASbGncuhJx6+YiqsRh9bnNi0j1/Rb+EgIDeDRoiEK/Cv+DVCaGfgZQZnwqnEAnGseQj
+	iS/784B6cmIr523eiSN+3DOQZqLPeurSZwbW9hquTwIHE6oSu2GT9/OiVkh6Db/hOadgfjL5qBo
+	qFVKUdiN697YWxow9yD0crH8zeYA1yLj2PXIY++buxCelXLXuU2sfpfBkaQ/xtqj+DCJVn9xiS2
+	NnrWDlbBbNBjuyzxyEbHp+mM6jy1jHfmtfL/QzYw4f9G/lgPKsfco5Png51T8nbAloKVrdO0uD7
+	7kRHb3S3E8RV9XzJFRK8cmnhbHQzCj/flER4fifdqp4/oFnAuR8E1YIzsfkuLcRfC/ZYf8najj/
+	NnnKvVnmHaxM9YexV2KIFbA==
+X-Google-Smtp-Source: AGHT+IHDFRjJ772iqS77I2LkwKiaoRWD8c/M97Vl3pT5NO8QRHrk7P9+uiILla9TUhzZkDy6xm8HbA==
+X-Received: by 2002:a17:907:3e8b:b0:ae3:6eb9:60d0 with SMTP id a640c23a62f3a-ae36eb96270mr904600566b.42.1751295568458;
+        Mon, 30 Jun 2025 07:59:28 -0700 (PDT)
+Received: from [192.168.32.20] (public-gprs411093.centertel.pl. [37.47.237.22])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ae35365a00bsm674931066b.43.2025.06.30.07.59.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Jun 2025 07:59:28 -0700 (PDT)
+Message-ID: <e33f4cec-dec5-41ae-a1dd-aa6953604526@gmail.com>
+Date: Mon, 30 Jun 2025 16:59:26 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] HID: playstation: DS4: Add BT poll interval adjustment
+To: Terry Junge <linuxhid@cosmicgizmosystems.com>,
+ kernel test robot <lkp@intel.com>,
+ Roderick Colenbrander <roderick.colenbrander@sony.com>,
+ Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+References: <20250508214305.836406-1-titanv3585@gmail.com>
+ <202505100535.vKH3zHW6-lkp@intel.com>
+ <f5594328-11e4-4310-b961-41d8ca0c8116@gmail.com>
+ <cce2d94e-8798-489f-8c9f-68f021bb21a7@cosmicgizmosystems.com>
+Content-Language: en-US
+From: Vadym Tytan <titanv3585@gmail.com>
+In-Reply-To: <cce2d94e-8798-489f-8c9f-68f021bb21a7@cosmicgizmosystems.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   1343433ed38923a21425c602e92120a1f1db5f7a
-commit: 79b896e7da7e2743fc930d260bcecd1e84a003c4 [2933/6007] arm64: dts: qcom: msm8976-longcheer-l9360: Add initial device tree
-config: arm64-randconfig-2003-20250630 (https://download.01.org/0day-ci/archive/20250630/202506301614.OKDuZ3Vc-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301614.OKDuZ3Vc-lkp@intel.com/reproduce)
+> Should it be      .attr    = { .name = "dualshock4_bt_poll_interval", .mode = 0644 },  ?
+> 
+> Or did you not expand the macro fully on purpose?
+> 
+> Thanks,
+> Terry
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506301614.OKDuZ3Vc-lkp@intel.com/
+Here's my own quote
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:987.27-1061.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:1063.27-1118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8004.dtsi:14.23-23.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/pm8950.dtsi:176.9-185.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@1: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/arm64/boot/dts/qcom/msm8976-longcheer-l9360.dts:111.20-139.4: Warning (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:510.27-513.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s0-p1@219: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s0-p2@219)
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:530.27-533.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s2-p1@21c: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s2-p2@21c)
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:555.27-558.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s4-p1@221: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s4-p2@221)
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:575.27-578.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s6-p1@224: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s6-p2@224)
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:595.25-598.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/mode@228: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s8-p1@228)
-   arch/arm64/boot/dts/qcom/msm8976.dtsi:605.27-608.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s8-p2@229: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s9-p1@229)
+> P.S. Macro was expanded and variable name was changed from `dev_attr_bt_poll_interval` to `dev_attr_dualshock4_bt_poll_interval` because this attribute only applies to DualShock4
+So, yes, i expanded it like that on purpose, as it applies only to DS4, 
+and while being attribute, it applies only per device, so no collision 
+is possible.
 
-vim +111 arch/arm64/boot/dts/qcom/msm8976-longcheer-l9360.dts
-
-   107	
-   108	&blsp1_i2c2 {
-   109		status = "okay";
-   110	
- > 111		led-controller@30 {
-   112			compatible = "kinetic,ktd2026";
-   113			reg = <0x30>;
-   114			#address-cells = <1>;
-   115			#size-cells = <0>;
-   116	
-   117			multi-led {
-   118				color = <LED_COLOR_ID_RGB>;
-   119				function = LED_FUNCTION_STATUS;
-   120	
-   121				#address-cells = <1>;
-   122				#size-cells = <0>;
-   123	
-   124				led@0 {
-   125					reg = <0>;
-   126					color = <LED_COLOR_ID_RED>;
-   127				};
-   128	
-   129				led@1 {
-   130					reg = <1>;
-   131					color = <LED_COLOR_ID_GREEN>;
-   132				};
-   133	
-   134				led@2 {
-   135					reg = <2>;
-   136					color = <LED_COLOR_ID_BLUE>;
-   137				};
-   138			};
-   139		};
-   140	};
-   141	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+You're welcome
+Vadym
