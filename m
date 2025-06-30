@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF971F869E
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 29 Jun 2025 22:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28AB510A3E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 00:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751234981; cv=none; b=H97kYfNzMVUiIMfZFTaNpy9+Io8TAxe0HJseH7P1YeHNeXMtchdsgjyXWt8eB5pMr52rDZ99Ler7T9GJeqVzlKU8uw5BAFxRVweZmcrbZ+u0MP/DHWg9GQA4LqMFonlk+MZ+A8xEeCEhUa1ohZBCpn4itvMpjVf0dT1LaGYisYg=
+	t=1751243509; cv=none; b=d0ytKUgQ2JWBNX3bkTWwO8G81TbKPrqLZyccNPp+st0mxdBP4D7DukY/7PNIat9kWHwjp3OpEHNJqFqgTdzF7tU8pSKG36AjI4OsvMKKUyVervfFoynojF4int4UoHhB2leJhZD1jhik3oX3wAqnUkpD+8J6mkkqhiHWtwD+h28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751234981; c=relaxed/simple;
-	bh=esTkBPeZs+pVHETpbbD78TzZ+wJ1IS2/6Dr19gIySdk=;
+	s=arc-20240116; t=1751243509; c=relaxed/simple;
+	bh=oSeqhUmrhhO0FJQIuAe49rnzhL1nx/mjtlQhIhQO5yo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OeHXKZMqh89OSarZGkBw/Pib9l+cCTaFHIl2HHgf0A1SiaJYVOH4uAX1Vu6pRQDuV6HWCNKwYY+v2/b7iNQ8t9CGRVHqBNUsgYhnjvuYUMBrS2Nt/lFINR5kD69CATORhnaQsF987YmubVPTV7pbagCanxpZCm2Lv2Cb+s3OhCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M0HuNLgH; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=PlJ/ZcDQGsl9KauPS1A6Am9A+UeF9uqeRSAPy82P7t4t8SmDTjBVI5C3zYRwLQSiRk+Me68a9h5aP1oX6S8n2FETvqvsSceJJ+08rDBSPd4bSo4vx8iz3J8wvZ5KjV77om4iaH/U9ANLLfuE/ieEu5JfQeprX7tm3s8Bu0mS0Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SXos16/E; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M0HuNLgH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SXos16/E"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751234979; x=1782770979;
+  t=1751243508; x=1782779508;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=esTkBPeZs+pVHETpbbD78TzZ+wJ1IS2/6Dr19gIySdk=;
-  b=M0HuNLgHurFFgY/FaDvvkBLJDTwahgnQ1mbnnPw+FPNrMrrQobaY6Lpr
-   X+VRswH6y7t0gSXr6pBrGoeE3jwbAJc+4dySZtzkrY7D2TzqoRTVVgq6/
-   6WYTYRYJgJYjc23KK5juaFx3Xyv8EEr7hS68cuRv9UHbW/yNU/0Q331FE
-   JOzYTpFUq1ntLmDujAiRsaO96JoL8GpIzjm1FEzHFa+M0/dG/EbiaeYeG
-   Okxfm2d4pbUW9/ITfWhhtvE/PqyOHALVyDkaHMlF58NRYG5czyUb3wJZg
-   f6E7rd1wLhYTDOiKkDJnmWL/mbZ7Kl1xc/TDZG7+3gMla7BBz1Jq9yaYo
-   Q==;
-X-CSE-ConnectionGUID: I7CE98TgR9qA/u/MmFbh9w==
-X-CSE-MsgGUID: diP2KHGkQiGqyu91PU1+dQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="52574969"
+  bh=oSeqhUmrhhO0FJQIuAe49rnzhL1nx/mjtlQhIhQO5yo=;
+  b=SXos16/EfrbCIWLU3mLfTbnW+a6MM8MR6bGZgboxhrjOG69AKZUNsxN0
+   V4ue+Xg2iVd8hfQG2sOaqBbqbRypfPVo41T0Tuqe9SHAYpAS9ZEw15mba
+   JMdBN7T60YTKq2tr6ROgAyJ6B6SQE7viiEhyEpRVsfCBqLDk3O2gz4OHE
+   ErZ7bSTqSvo6AYdA9TPdKb8RX0VjFriqNzxXtRRfI04vlOTbKta82qQup
+   11hH3KK08QFwhJTrrfTEzWqjJKmt02tKJfpDezD7ppBCDiiejGiBnNxFG
+   w9NsI925Zr+JvrPRtagBzNMDwDrTxPDD+apXRcKiA39hCwH8amlvYGBc5
+   A==;
+X-CSE-ConnectionGUID: jQvqiOv4SwyttI8/al+Cxw==
+X-CSE-MsgGUID: +pT7M7LZRny6zyQYRnbiRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="53583642"
 X-IronPort-AV: E=Sophos;i="6.16,276,1744095600"; 
-   d="scan'208";a="52574969"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2025 15:09:36 -0700
-X-CSE-ConnectionGUID: r+kGPcljRd663Kaa1DKH0g==
-X-CSE-MsgGUID: X6TpsZm/QKegRZ4DkAG32A==
+   d="scan'208";a="53583642"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2025 17:31:47 -0700
+X-CSE-ConnectionGUID: 8NgnPVblR4ODYaxnrT1ICQ==
+X-CSE-MsgGUID: ZvEgI8lQQfmr/Rcafj8wMQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,276,1744095600"; 
-   d="scan'208";a="190475007"
+   d="scan'208";a="157700164"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 29 Jun 2025 15:09:36 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 Jun 2025 17:31:46 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uW0DN-000YHC-0l;
-	Sun, 29 Jun 2025 22:09:33 +0000
-Date: Mon, 30 Jun 2025 06:08:41 +0800
+	id 1uW2Qx-000YLe-1l;
+	Mon, 30 Jun 2025 00:31:43 +0000
+Date: Mon, 30 Jun 2025 08:31:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-new 226/237] WARNING: modpost: vmlinux: section mismatch
- in reference: kasan_init+0x54 (section: .text) -> kasan_init_generic
- (section: .init.text)
-Message-ID: <202506300650.wjMQ0CnC-lkp@intel.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1673/1673] fs/btrfs/transaction.o:
+ warning: objtool: start_transaction()+0x3bd: unreachable instruction
+Message-ID: <202506300834.dp152UeL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,21 +62,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
-head:   2e462e10265dcdce546cab85a902b716e2b26d9f
-commit: f6a00da8def1db533603d45c6c2c1529fda83067 [226/237] kasan/um: call kasan_init_generic in kasan_init
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20250630/202506300650.wjMQ0CnC-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506300650.wjMQ0CnC-lkp@intel.com/reproduce)
+Hi Filipe,
+
+First bad commit (maybe != root cause):
+
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   a9d08fabefcfd9cb8ebe45f8b79a321c0f349d40
+commit: 2582bb7bd5a9278555265a99a94a8416e5eb7d3c [1673/1673] Btrfs: fix deadlock between fiemap and transaction commits
+config: x86_64-buildonly-randconfig-002-20250628 (https://download.01.org/0day-ci/archive/20250630/202506300834.dp152UeL-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506300834.dp152UeL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202506300650.wjMQ0CnC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506300834.dp152UeL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> WARNING: modpost: vmlinux: section mismatch in reference: kasan_init+0x54 (section: .text) -> kasan_init_generic (section: .init.text)
+>> fs/btrfs/transaction.o: warning: objtool: start_transaction()+0x3bd: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
