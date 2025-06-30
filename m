@@ -1,113 +1,134 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27EB28A1DA
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 13:13:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F375428C037;
+	Mon, 30 Jun 2025 14:22:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751289192; cv=none; b=CbJqOnE86R2sbe7ObPp3oM8ArVl96mGyq00l76EAOWkLErzb7/wgfmRa+VBsOeBfTFfJETUawc5ipZS8R1G3PVAByikj7fMx/p+75ArecrO6sWosKQXW3hL3zx4KiMCFV0c6nJMMyT9kTsT/acayiugRyxQX8rH1+S1i0qvO9cQ=
+	t=1751293381; cv=none; b=NjC7eAqWNPNTMZrR47xPXB2/o7tWrgTKEyElcuOBozBx/Kh4SLypMb0ahMC9FnZ1VYs/rfW194NMVhagVirji9AvkAyDXCCy/6Nej3r15WqKZDtk1tLoxfhPnX3IW72tz9ppXL2S+kETYaLs5d20X/VtmSl+20+bqoqDCBIMGJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751289192; c=relaxed/simple;
-	bh=sBgkn0f8/4VXlX8UWPXjVuNBjjXBIZJ/mKg68iRvsJ4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=F/tGY5kQSW+IpqRCBDIV9kqci9Kixzwp3T36Y5/f9j+wUwgBmBe7k/0hB7EF0exhPLp+z4J8SwkFX2Vo11h1LDvrv0mUpP/QsGWaGrjlZ/emA0gixi+S6kqbPYx2aGOn8CGZzNtZ2DnGwcPOcRq7O265MF13GLt/EIIhqQcD+Oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=Qt/xf8jv; arc=none smtp.client-ip=91.218.175.189
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+	s=arc-20240116; t=1751293381; c=relaxed/simple;
+	bh=w14eEZ/zg+hqTdzOPY2gaieWf5JUv1WnpYU89uhLNyk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CKGyqGBzTGUFRxVYc3/6IVquMXwTvYtPpDHCkxm5N8FW24P/9NOKCK8vw2U0rl5q2cGEJV/Ft4G0Y1oavd7Up5i1nvB8nt7B6NqcV+nJxI9Q5P+3BDonGEv93G/y4+6UQ4QjpYOlnfCnA8zKddw4wGFrTR612fN0T8u8rQvouwY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ia2XhOqX; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="Qt/xf8jv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ia2XhOqX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751293380; x=1782829380;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=w14eEZ/zg+hqTdzOPY2gaieWf5JUv1WnpYU89uhLNyk=;
+  b=ia2XhOqXLK+1B/KreDNV+sXmPdnMNh4pd2ehcvyD4e06cTrgvBWUGsoD
+   tUloS+F1pfXh3uOyajjIreO+Joy/u1ygmfPZi2il9p5eCADdPH4ZveyCG
+   iaVM860jlM/zTtZlmnjigGBMuF7FGm5fGin9Iu3djw5fI/s3/IGeaM8Vy
+   fYhZtWmfD1JFIF6KgKD1+9IcKBeqBSYJLUDQcaQJCI8W4Nvy1cvdRfETB
+   sxPb5CQeOvi7MOnoJCrAD+Zn/whG72p1UbvPTxIVWSf5lnCztkjABi0RQ
+   XGMM01E2sfsgAnzmhg+czlO9l9quHPQM9LXB3G1PHrpXeD14krNhVn/JX
+   g==;
+X-CSE-ConnectionGUID: ThjzyCSNQ0GUA/PFSTuMcQ==
+X-CSE-MsgGUID: STSEIdeKTZK0A4ARDxM+DA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="57298317"
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="57298317"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 07:23:00 -0700
+X-CSE-ConnectionGUID: 1JrWuOmUSvCv9ODpECv1JA==
+X-CSE-MsgGUID: AyaCAb46Q1qBhCjPaMnZVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="153223420"
+Received: from igk-lkp-server01.igk.intel.com (HELO e588e990b675) ([10.91.175.65])
+  by orviesa009.jf.intel.com with ESMTP; 30 Jun 2025 07:22:58 -0700
+Received: from kbuild by e588e990b675 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uWFPL-0001E7-2j;
+	Mon, 30 Jun 2025 14:22:55 +0000
+Date: Mon, 30 Jun 2025 16:22:36 +0200
+From: kernel test robot <lkp@intel.com>
+To: =?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Bjorn Andersson <andersson@kernel.org>
+Subject: [linux-next:master 2933/6007]
+ arch/arm64/boot/dts/qcom/msm8976-longcheer-l9360.dts:111.20-139.4: Warning
+ (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30:
+ unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or
+ child "reg" property
+Message-ID: <202506301614.OKDuZ3Vc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1751289184;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TpapsnvN2qo9hhPhQHWIegeAB6bx1Q9QSQ1S7RYoiB8=;
-	b=Qt/xf8jvowFgC12MA52xjmF0ThLOYdQaLftpgkvXJadJkSgMfDayzMLNa8IjYygLdcFLhg
-	z/WC7CnjE3bpRYZ4rwLuQI1pdSLIE7CU75h+QkuZ2Y09OPbcbCc5GtizQAnuqrkjZM2hEr
-	9g+wkuXxX/kxtOJz+KRFIv+SAmTBAq9wmztrlyEapOsPglHrN1D9qrrrspbcDhnGk9nC1h
-	cuMV2maGNu/Zfo+CcABkJBAczKh13xrTz88Jfk3CvOLAU81kP1lutYYfAXHTeCV33uvS54
-	ezpbVrnGiUMKbvOfrw6k+E9+IW3i1ABrBldKqDlaXHZKXE3J7lOqibP/spxoTA==
-Content-Type: multipart/signed;
- boundary=cabcb7cd44803ee80fe883dca4e1018394457acca069f00ba0876c0d4cf7;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Mon, 30 Jun 2025 15:12:56 +0200
-Message-Id: <DAZW78SRQQ0Y.2R1T9V72Q7AZH@cknow.org>
-Cc: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>, "Dragan Simic"
- <dsimic@manjaro.org>, "Quentin Schulz" <quentin.schulz@cherry.de>, "Johan
- Jonker" <jbx6244@gmail.com>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-rockchip@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/8] arm64: dts: rockchip: Refactor DSI nodes on rk3399
- boards
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Krzysztof Kozlowski" <krzk@kernel.org>, "kernel test robot"
- <lkp@intel.com>, "Rob Herring" <robh@kernel.org>, "Conor Dooley"
- <conor+dt@kernel.org>, "Heiko Stuebner" <heiko@sntech.de>
-References: <20250627152645.740981-3-didi.debian@cknow.org>
- <202506290852.bWro2lBe-lkp@intel.com>
- <DAYXOI4WITJW.1G5DBWEQDDY1Z@cknow.org>
- <9f1ac97a-6109-40d1-bf85-f2a8e25138f0@kernel.org>
-In-Reply-To: <9f1ac97a-6109-40d1-bf85-f2a8e25138f0@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---cabcb7cd44803ee80fe883dca4e1018394457acca069f00ba0876c0d4cf7
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   1343433ed38923a21425c602e92120a1f1db5f7a
+commit: 79b896e7da7e2743fc930d260bcecd1e84a003c4 [2933/6007] arm64: dts: qcom: msm8976-longcheer-l9360: Add initial device tree
+config: arm64-randconfig-2003-20250630 (https://download.01.org/0day-ci/archive/20250630/202506301614.OKDuZ3Vc-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301614.OKDuZ3Vc-lkp@intel.com/reproduce)
 
-On Mon Jun 30, 2025 at 7:57 AM CEST, Krzysztof Kozlowski wrote:
-> On 29/06/2025 12:09, Diederik de Haas wrote:
->>=20
->> Luckily I've now found why my build script didn't catch it.
->> ```sh
->> export PATH=3D~/dev/kernel.org/dt-schema-venv/bin/:$PATH CROSS_COMPILE=
-=3Daarch64-linux-gnu- ARCH=3Darm64
->> make distclean
->> make debarm64_defconfig
->> make CHECK_DTBS=3Dy W=3D1 rockchip/px30-cobra-ltk050h3146w-a2.dtb
->> <quite-a-long-list-of-all-boards-at-least-I-thought-so>
->> ```
->>=20
->> (debarm64_defconfig is my own defconfig based on Debian's kernel config)
->>=20
->> That long list didn't have ``rockchip/rk3399-rockpro64-screen.dtbo``.
->> Is there a better/simpler way to validate all rockchip boards without
->> having to explicitly list each and every one of them?
-> make defconfig && make
->
-> or make dtbs
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506301614.OKDuZ3Vc-lkp@intel.com/
 
-``make dtbs`` is faster then I recalled, but I do like the detail with
-``make CHECK_DTBS=3Dy W=3D1 rockchip/<board1>.dtb rockchip/<board2>.dtb``.
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:987.27-1061.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a94000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:1063.27-1118.6: Warning (avoid_unnecessary_addr_size): /soc@0/display-subsystem@1a00000/dsi@1a96000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pm8004.dtsi:14.23-23.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@5: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/pm8950.dtsi:176.9-185.4: Warning (avoid_unnecessary_addr_size): /soc@0/spmi@200f000/pmic@1: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/qcom/msm8976-longcheer-l9360.dts:111.20-139.4: Warning (avoid_unnecessary_addr_size): /soc@0/i2c@78b6000/led-controller@30: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:510.27-513.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s0-p1@219: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s0-p2@219)
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:530.27-533.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s2-p1@21c: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s2-p2@21c)
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:555.27-558.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s4-p1@221: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s4-p2@221)
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:575.27-578.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s6-p1@224: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s6-p2@224)
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:595.25-598.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/mode@228: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s8-p1@228)
+   arch/arm64/boot/dts/qcom/msm8976.dtsi:605.27-608.6: Warning (unique_unit_address_if_enabled): /soc@0/qfprom@a4000/s8-p2@229: duplicate unit-address (also used in node /soc@0/qfprom@a4000/s9-p1@229)
 
-If I don't specify a list of boards, then it will build them all
-including freescale/qcom/renesas/etc, while I only want the rockchip
-ones. And as my script takes 20-30 minutes, that will probably be
-several hours. Per run. And I ran it after each patch.
+vim +111 arch/arm64/boot/dts/qcom/msm8976-longcheer-l9360.dts
 
-Giving ``rockchip/*.dtb[o]`` as parameter is basically what I want, but
-I'm not aware of that being possible.
-OTOH it's (already) a script, so I will probably just do a ``find`` to
-dynamically generate the board list.
+   107	
+   108	&blsp1_i2c2 {
+   109		status = "okay";
+   110	
+ > 111		led-controller@30 {
+   112			compatible = "kinetic,ktd2026";
+   113			reg = <0x30>;
+   114			#address-cells = <1>;
+   115			#size-cells = <0>;
+   116	
+   117			multi-led {
+   118				color = <LED_COLOR_ID_RGB>;
+   119				function = LED_FUNCTION_STATUS;
+   120	
+   121				#address-cells = <1>;
+   122				#size-cells = <0>;
+   123	
+   124				led@0 {
+   125					reg = <0>;
+   126					color = <LED_COLOR_ID_RED>;
+   127				};
+   128	
+   129				led@1 {
+   130					reg = <1>;
+   131					color = <LED_COLOR_ID_GREEN>;
+   132				};
+   133	
+   134				led@2 {
+   135					reg = <2>;
+   136					color = <LED_COLOR_ID_BLUE>;
+   137				};
+   138			};
+   139		};
+   140	};
+   141	
 
-Cheers,
-  Diederik
-
---cabcb7cd44803ee80fe883dca4e1018394457acca069f00ba0876c0d4cf7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaGKNWgAKCRDXblvOeH7b
-brfvAQCxEpSIjkdmRZ7MkQ5i4THNqBXbUOtLpJCTsHAh8TEeqwD7Btya8sIXw2rg
-yTjCXv4ijLgp0OdfAo5k5i8MXuWUyQI=
-=isL+
------END PGP SIGNATURE-----
-
---cabcb7cd44803ee80fe883dca4e1018394457acca069f00ba0876c0d4cf7--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
