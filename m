@@ -1,53 +1,58 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935A91E51FB;
-	Mon, 30 Jun 2025 06:45:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97959202F8F
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 30 Jun 2025 07:17:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751265920; cv=none; b=m9TnLu3mJoRKvGOlVzFkc6kIsxW13jsBY1kw9dgYKR0yDdSN74zRH3IipwRGdWpyrsucY8e9YSn0T1YmgXNp877jLCQMt739H01Su7x6lDPt+nRjSFgl0jhsXKM3UYzbAiJkR3JXFN6ExiUPVFAv4rMyXrhiKnUTNOAny+gMGAM=
+	t=1751267842; cv=none; b=T9UhQi/m2uFHpCM8G7uOnkpIH+gHcSv+0uH3/KkGBp+t+GLwGNek3Q+mJ1MCePf0cljtgF8QXANTau2r27Y5QQEbID2Iyj32hJeddBZVuGYOTb250qI+/jVRUAeLTbJr7EyHoXcirpvAnrUCK8ErwtAxSR4tnjel3q4jV9dHsew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751265920; c=relaxed/simple;
-	bh=zSBz5NdE8YYgdvvURKnoPcZyypOiXEf4BTV57OwDv8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NCHV0BWSYty2bQpkGTY5WF5ndBbIdftCCTn24PqAZ0nwXDzuH2LfpTGc2XNZbF/JGlmcOQiZ5TYpHa5T4nTjxb3Pv9z1Av/mZf7zPCcsnFeceBRIUfhyKzc8bhOA/Zwqwf1MI02imvyzBG/vIEoLCD3afZ4DOoqxk/r8GdHbpU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=OujG/FW7; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=hCS6zI6m; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1751267842; c=relaxed/simple;
+	bh=92WyQMGXY55rlKrt8VevzmG7uhIEydWVlvL7jeyFZug=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tgl8/hZjeXwWqhH0QeC2NjtcTV1eiVY1on0+u+qA2oBa1CtVLytUGVctjkTSezHLrbyj9g2R2v10N69KDZmVek5C904B5s9j7elCDFfYL7/gzYHZ08xlU0axxZ6b8AnVPLW4b+BWG7eIuoQUvMJSigTru6U9j2YYni59FfxPq+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EPQ7tZhc; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="OujG/FW7";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="hCS6zI6m"
-Date: Mon, 30 Jun 2025 08:45:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1751265910;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QZQltrJmsUv5t75sduP0xOfkCDCGatOPuiFCAR+zNeU=;
-	b=OujG/FW7w2zbApKtr9vE6HArhqNcbw3ImwDJDisdlEkk1t2HCMjwtrLRQ1/rs4+17H3YUl
-	XxFm/zjgI5M36oDVYIEHXbHI5FFg/VxL4YCbaDiXWa+YngTnTS4VVIxi5/BBYsDf4vAAQG
-	mF4uccUOgrl0gFifZlNA5GqOshFS/qqFbCz1GPdN4yNj8I8xn3KMhWObJ8sLblodxz1mTO
-	nuBOT/mcXz8YFjXJNOmLeWUh4gf7Ixg3VwtGF+ZHD5uQMSpIUhH50CgWvqUVQsaPLs1V6I
-	UdYFwF1415IuLHOUZnrtdqB8wZvKJ0gmYTLIOPtdy7vvVqp55NuD8xUhEyQ7hg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1751265910;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QZQltrJmsUv5t75sduP0xOfkCDCGatOPuiFCAR+zNeU=;
-	b=hCS6zI6mXbfa8ruVxFhSDZbvAzAQ1i0Q2z+VsINTus+7rGoccNHJOH+xaOSwkTTWLOhGwS
-	617UoxWjv5els8BQ==
-From: Nam Cao <namcao@linutronix.de>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Palmer Dabbelt <palmer@dabbelt.com>,
-	Alexandre Ghiti <alexghiti@rivosinc.com>,
-	linux-riscv@lists.infradead.org
-Subject: Re: ld.lld: error: Function Import: link error: linking module flags
- 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at
- 899876), and 'i32 1' from vmlinux.a(security.o at 937376)
-Message-ID: <20250630064442.M5D7FRfm@linutronix.de>
-References: <202506290255.KBVM83vZ-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EPQ7tZhc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751267840; x=1782803840;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=92WyQMGXY55rlKrt8VevzmG7uhIEydWVlvL7jeyFZug=;
+  b=EPQ7tZhc2Naet5yKDCNCN4u0qdXejNSCBv2Z7Jmuh5F31nZjx+AziM7G
+   shQtHduzeNDfrIYyxwAJfDLu/L3lvnUwcnMhQ8+bCIks/trUpDj5vHVXL
+   Pm+x3VruB2cEercp+FCZpW1eqK3Ne6Yj/dmEo7NCna8RV47x3+WcvG8JV
+   qj2uGq9/JCD74HYyKaF4pVa7c0hBluGqvwWtPZ47u4Dmdjg+v6FBWIur/
+   EKK1PxoeH7zgWn0xB2RbZPiarQnzXIDxVJsmP7a+2rZgOQOGmLIBPrfMs
+   a96CwYZWNTRp4VLh0STemPODPtsd08d/Kvdprvfd3aIL6cqKqobq1+OXN
+   Q==;
+X-CSE-ConnectionGUID: Sn1N31x6R3y8+4BAcjKkUQ==
+X-CSE-MsgGUID: RTc5ZPoxSDeMouKTXn+y7A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11479"; a="64834826"
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="64834826"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 00:17:19 -0700
+X-CSE-ConnectionGUID: 7qVfaJXrQUuerLPOpSfgxw==
+X-CSE-MsgGUID: e35QtlWCRjSzyVm7PmZJtQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,277,1744095600"; 
+   d="scan'208";a="157772135"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 30 Jun 2025 00:17:18 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uW8lP-000Yag-2O;
+	Mon, 30 Jun 2025 07:17:15 +0000
+Date: Mon, 30 Jun 2025 15:16:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tzung-Bi Shih <tzungbi@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tzungbi-chrome-platform:dev3 6/6] ld: kunit-test.c:undefined
+ reference to `kunit_deactivate_kprobe_stub'
+Message-ID: <202506301542.UDSsrXiT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -56,56 +61,25 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202506290255.KBVM83vZ-lkp@intel.com>
 
-+Cc: linux-riscv@lists.infradead.org
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tzungbi/chrome-platform.git dev3
+head:   feed99729a7729442ce6bace637033f9bd78a78c
+commit: feed99729a7729442ce6bace637033f9bd78a78c [6/6] kunit: Add tests for kprobe stub
+config: x86_64-buildonly-randconfig-006-20250630 (https://download.01.org/0day-ci/archive/20250630/202506301542.UDSsrXiT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250630/202506301542.UDSsrXiT-lkp@intel.com/reproduce)
 
-On Sun, Jun 29, 2025 at 02:25:33AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   aaf724ed69264719550ec4f194d3ab17b886af9a
-> commit: 890ba5be6335dbbbc99af14ea007befb5f83f174 Revert "riscv: Define TASK_SIZE_MAX for __access_ok()"
-> date:   5 days ago
-> config: riscv-randconfig-001-20250628 (https://download.01.org/0day-ci/archive/20250629/202506290255.KBVM83vZ-lkp@intel.com/config)
-> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250629/202506290255.KBVM83vZ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506290255.KBVM83vZ-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(net-traces.o at 1014596)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(e1000_main.o at 992876)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(core.o at 912236)
-> >> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(security.o at 937376)
-> >> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(sock.o at 1012256)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(ioctl.o at 1015736)
-> >> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(socket.o at 1012196)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(ring_buffer.o at 910076)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(hugetlb.o at 919016)
-> >> ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(btf.o at 913916)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(page_alloc.o at 918536)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(slub.o at 918836)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(spi.o at 992036)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(vmalloc.o at 918296)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(syscall.o at 912296)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(trace.o at 910136)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(skbuff.o at 1012376)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(vmscan.o at 916376)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(xprtsock.o at 1024196)
->    ld.lld: error: Function Import: link error: linking module flags 'Code Model': IDs have conflicting values: 'i32 3' from vmlinux.a(init.o at 899876), and 'i32 1' from vmlinux.a(filemap.o at 915776)
->    ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202506301542.UDSsrXiT-lkp@intel.com/
 
-I'm not sure what lld is saying here. It seems this problem has always been
-there, the revert commit just made it appears more.
+All errors (new ones prefixed by >>):
 
-These errors should still be investigated, but I think the revert commit is
-fine.
+   ld: vmlinux.o: in function `kunit_kprobe_stub_test':
+   kunit-test.c:(.text+0xea5bd2): undefined reference to `__kunit_activate_kprobe_stub'
+>> ld: kunit-test.c:(.text+0xea5be9): undefined reference to `kunit_deactivate_kprobe_stub'
 
-I see CONFIG_CMODEL_MEDLOW=y, so probably has something to do with
-arch/riscv/mm/init.c is compiled with -mcmodel=medany, while the others are
-compiled with -mcmodel=medlow. I leave it to smarter minds..
-
-Nam
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
