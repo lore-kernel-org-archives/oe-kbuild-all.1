@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A50F1A29A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 11:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31012749D2
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 11:55:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751370325; cv=none; b=EmKcV+o5zrI3+3M5/TzDWgv4zNQ9zjs4VgdHJRJ8q5QArHHGiVLlaFyiuQ8qtSFdl3FikwhYepG5trSzgU8Qt6n3JPvYgihH48PcheAMVYq1KZJLM5+HLyY+aNhJ4fa0psZdKY30GQQhnAx8H2vdJbu9SXZDtRTOP4eV+01SqLY=
+	t=1751370927; cv=none; b=GYoE/d1kzd5UiDqaOMPHG25RmfU+ohURGCpCQvTn+pEThaejr3giM9jd2FJzvH83mOghyeiw3lwa0Sy9JzWv2hGynU0AWe0I8E4/1iDpSbbH/kV77ik3F/GoC4QfPL3a4NMexV7sfNAgH4Pw88S/qoAhB0cUuEiEHScnnmIbe2I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751370325; c=relaxed/simple;
-	bh=dpELE2CA52lHHaXItcEE0FOUxaxJKe7f5mRZB7myRJQ=;
+	s=arc-20240116; t=1751370927; c=relaxed/simple;
+	bh=lY4+eC1PvE8kkZw0hyPr2bmqSM+pt7uh0hqGkv5VUc0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=STa7od/ohcDL1EchZ1iqsuMf7TOSxow6XNmtaDjcKNuUE2lmR8XUmFH7TI8vPEn4tT7qR2JsyPQ3YxO8Z/0QO5+UXRZvhIKsBLX5YnYROzIJyUc/wLaxQN7njQg5yAkLVA1BbexYnzXPXF94uFq1ZARcXp9kr/D3kjtjRoQu3MM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GGFAxVGN; arc=none smtp.client-ip=192.198.163.15
+	 Content-Disposition; b=bHFlv52Bof+qEsFsF8xFWCL4BZfB9MFaz5GfSiV56b+p9ubGr8JjnbcHIbix/MRa/z3dnxCed4h5ibEORYOHbERGC2oHK8ALNEUye551B82qvzWRmQ4+8bJkRU05c3jZi9/OwNR/dGcb0eGQ0+zTBeK1mQKzF+r3Jvftt2xYDBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FBpgIplQ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GGFAxVGN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FBpgIplQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751370324; x=1782906324;
+  t=1751370925; x=1782906925;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dpELE2CA52lHHaXItcEE0FOUxaxJKe7f5mRZB7myRJQ=;
-  b=GGFAxVGN7uqR7FnBu/593MyY7u6qa2tCYXwEY8PzOk/EmY1X1h14eFVF
-   oBKb/iav7enj5HXzEqnNiZLFQv5m+lEE2wdvp1dtCWVMg50uZg35h9f/w
-   k/RMkmR4RXTg/a1qOk+0ebtZU5jq6pXLpyyF1ndlWw0lvDlgMl2KjTBA3
-   1bAW7EtrGn8dY4ZwQRzLzRWYkw/wl5o3oRAx3K5WaZY4TYf+rRfPGjBlN
-   lh6gJArDVdkseQWCmu29i0XzfHvJwmJFqTiEEpI+/hVPtmoyyizYsWfMZ
-   K9vWh8+BOFIguryVAw0HmeIRg+RzE2+TQy4VMvfLRoOPMrXQbsa4+zJ1w
+  bh=lY4+eC1PvE8kkZw0hyPr2bmqSM+pt7uh0hqGkv5VUc0=;
+  b=FBpgIplQeERdMF9lvzhWd7szJsLcLsqiULq1a4fCqA5q8++34cSlmVWQ
+   OcuR+DsmHca4nm2Cwbv0ciYjJHTE+ymX3sXfMSzYozPZ5zN+/TbpdvRlD
+   9w8h7I0Q8soePa+OzxQf7ceHcXMpIZiDaBxLgpsZ1Git214JbJ9gtV0TD
+   o9+HfuYMFHADY2W6jdSXznR/Ak1v6+remI2mYrYPHO0CQtg7gE9iVBER9
+   xi9MOnKneRLVGSbRraV5KG/yVO/hSe0OttvF1g94lLjSNMPXkNRG90NgZ
+   TrGiFrHqJCVN4s84lC2ULfOWFcWVgWp7bSAFluCoHuHYBrSdaZO66RlNP
    g==;
-X-CSE-ConnectionGUID: TwkuobrORoOFfxBIeaIpZw==
-X-CSE-MsgGUID: 2vax2XWfQ8GSac40X7pkTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="53774291"
+X-CSE-ConnectionGUID: Xhj0dmRtQ3OOQqYCUfzmLw==
+X-CSE-MsgGUID: fGKlJTDxTCmNMOMttAVASA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="52863096"
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="53774291"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 04:45:23 -0700
-X-CSE-ConnectionGUID: VQFwKO7xRTqz0bnOhJZdAQ==
-X-CSE-MsgGUID: jFMt577hQX2XUsndoUTF6w==
+   d="scan'208";a="52863096"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 04:55:25 -0700
+X-CSE-ConnectionGUID: yz7BkTSsSGS+GNip7YlF0w==
+X-CSE-MsgGUID: e8XmR1xhRVGV6LpLrTjpxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="190920345"
+   d="scan'208";a="154244315"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 01 Jul 2025 04:45:22 -0700
+  by orviesa008.jf.intel.com with ESMTP; 01 Jul 2025 04:55:24 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWZQO-000a5u-04;
-	Tue, 01 Jul 2025 11:45:20 +0000
-Date: Tue, 1 Jul 2025 19:44:45 +0800
+	id 1uWZa5-000a6M-2A;
+	Tue, 01 Jul 2025 11:55:21 +0000
+Date: Tue, 1 Jul 2025 19:55:14 +0800
 From: kernel test robot <lkp@intel.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:pcie_switch_groups 3/12] drivers/iommu/iommu.c:1619:12:
- warning: assignment to 'struct pci_dev *' from 'int' makes pointer from
+Subject: [jgunthorpe:pcie_switch_groups 3/12] drivers/iommu/iommu.c:1619:19:
+ error: assignment to 'struct pci_dev *' from 'int' makes pointer from
  integer without a cast
-Message-ID: <202507011913.HU16N1BQ-lkp@intel.com>
+Message-ID: <202507011914.PQrXaDn4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,16 +66,16 @@ Content-Disposition: inline
 tree:   https://github.com/jgunthorpe/linux pcie_switch_groups
 head:   44fc32b44e9100467bc59704d09b5aca075ccb06
 commit: 4cbce969c519aae8c87f0f72fb43e0e1dd590dc6 [3/12] iommu: Compute iommu_groups properly for PCIe switches
-config: riscv-randconfig-002-20250701 (https://download.01.org/0day-ci/archive/20250701/202507011913.HU16N1BQ-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507011913.HU16N1BQ-lkp@intel.com/reproduce)
+config: csky-randconfig-r071-20250701 (https://download.01.org/0day-ci/archive/20250701/202507011914.PQrXaDn4-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507011914.PQrXaDn4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507011913.HU16N1BQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507011914.PQrXaDn4-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    In file included from drivers/iommu/iommu.c:24:
    include/linux/pci.h:2066:24: warning: no previous prototype for 'pci_bus_isolated' [-Wmissing-prototypes]
@@ -88,19 +88,17 @@ All warnings (new ones prefixed by >>):
          |          PCIE_NON_ISOLATED
    include/linux/pci.h:2067:10: note: each undeclared identifier is reported only once for each function it appears in
    drivers/iommu/iommu.c: In function 'pci_device_group':
-   drivers/iommu/iommu.c:1619:14: error: implicit declaration of function 'pci_real_dma_dev'; did you mean 'pci_alloc_dev'? [-Werror=implicit-function-declaration]
-    1619 |  real_pdev = pci_real_dma_dev(pdev);
-         |              ^~~~~~~~~~~~~~~~
-         |              pci_alloc_dev
->> drivers/iommu/iommu.c:1619:12: warning: assignment to 'struct pci_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1619 |  real_pdev = pci_real_dma_dev(pdev);
-         |            ^
-   In file included from drivers/iommu/iommu.c:24:
+   drivers/iommu/iommu.c:1619:21: error: implicit declaration of function 'pci_real_dma_dev'; did you mean 'pci_alloc_dev'? [-Wimplicit-function-declaration]
+    1619 |         real_pdev = pci_real_dma_dev(pdev);
+         |                     ^~~~~~~~~~~~~~~~
+         |                     pci_alloc_dev
+>> drivers/iommu/iommu.c:1619:19: error: assignment to 'struct pci_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+    1619 |         real_pdev = pci_real_dma_dev(pdev);
+         |                   ^
    include/linux/pci.h: In function 'pci_bus_isolated':
    include/linux/pci.h:2067:28: warning: control reaches end of non-void function [-Wreturn-type]
     2067 | { return PCI_NON_ISOLATED; }
          |                            ^
-   cc1: some warnings being treated as errors
 
 
 vim +1619 drivers/iommu/iommu.c
