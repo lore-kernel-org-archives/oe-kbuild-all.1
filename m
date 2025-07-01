@@ -1,77 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CE1E273817;
-	Tue,  1 Jul 2025 12:36:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CE834A23
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 12:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751373397; cv=none; b=nE+Pxz+nAEMmZq/yvWFaZEJt4w4lpknkzGRGV151K8S+6GL7mRzc2T5xEDJiXfjdo9C4iK52XNTPn/ANcBqbUuhfFbvPw7bWe47so42n9OPF28BTiN9MgpLsHZXCYe9bnPG/KSn9xKdcERlXto6QxC3g8CJZnkVkjwszA0EaytY=
+	t=1751374003; cv=none; b=gAxGTg8PramSz8IcSe6KOn4//+iLObFvj1vxsziXZv0/uxJYTYKwXs4QhuLoEp25h6IM1ac50yFxEu9CXAnLKR2BJSXarx8dYKqSWNT+bf0Vl7X3qBIaGoLHqHkHJy3XWci2k0E63ddREuAC+VGpENf7LQQG9H916r9ZioXoTjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751373397; c=relaxed/simple;
-	bh=Nd+PoXGJseXlQ84rElI6bHZVU9EObgcACAxSth1bZ4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SplMi3YYiGaZBw5oPyp9elaiMMwrkXXZqS3jeERGj4x96+BnJG/OCbGQ1FAba3I9PmJMldu3ClwPI/SAGPJxNC0EWUp9bg+WYtQICVH4Y6SHaBzqtIdbHAzOvxRlbMl5pMmBtqvaarbmfAFiMQYGcyf1uNcmFKPW2nitWOzdIVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NOU+XryH; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1751374003; c=relaxed/simple;
+	bh=hQdRp4ob6vvZa9G1DO/UHUttmwjYclzcgb9vZ6HBmdw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KUw0lsqVRN/pGL66/Q9rYdFSXAA6/z5vp9tMe05QoFbff0aRcOzKAfXpG1RGXKYyJpwTSfPWafgh6o1YcC3SV4Wb5oZhivy6EjATDGUc6+gZgeCPqspTjbrGTxvky19bdwjMp9EZMzvYDfXMAdSkjL4GV0zyDMlvahxpLyWUP4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UUpDTxsA; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NOU+XryH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UUpDTxsA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751373395; x=1782909395;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Nd+PoXGJseXlQ84rElI6bHZVU9EObgcACAxSth1bZ4I=;
-  b=NOU+XryHgfRiXikKWf6YwbWjVFL+6jpeqjvGCabJRVplc/xvPab2FXiq
-   BnNciP8bAQMnA5y10jyldH4TgV+urJ5RRSdT76CK7f43RMLaXpJrxxHPs
-   SyiKJkOVKtil1mhzM/PzgLsFzzByflko0QC/tDkDf8xO77/wG6KdEVG7Z
-   yHwLcCSqYtu60q5q+uVrbZTcJZuI1EJTJP3Jjvb0EVa0Sa4L4KTVq8U6d
-   rByMg8tMoXxHU+8yVHkbsdO2HZVUtXx3wsdYwqhvJD4dUh7UuhmIg7yml
-   9Czr3NkybJmP6QiJQt7zM5zxD2GXjRVNPsYaHULjB8Q5GUglMaxhsmt4w
-   w==;
-X-CSE-ConnectionGUID: KNU/9enQRlWuGPQF8xwyOQ==
-X-CSE-MsgGUID: DIIAl6C8SUi/86Lr0e5FPA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="56263532"
+  t=1751374003; x=1782910003;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=hQdRp4ob6vvZa9G1DO/UHUttmwjYclzcgb9vZ6HBmdw=;
+  b=UUpDTxsALaHl/+iA2YyI/xPpSAeszg5zlct2PbzDF2oV675pAz48GnD5
+   kaHu0zBfuSVcOM434Gub6rJtA+JTc2vXVKoRO7Livs+CfcwJKv8+Yz845
+   AXVe4/431fdg3K5vkJmaV1MDxa5BrJYAPYV6AnPEGYOSD/BzmBC8MAZT+
+   dKluJ9n6zH8g1RkLqlH5/uCyZN+cElgaLT2CA5s0MmLoJ7hyqCMtrqG4N
+   b+sQ8QLhB0ibAH3mVh6Ed4YfD9megmFV6e7pJeYM3aq/KkdQCUT1OlkSX
+   pDlUuB1lsGKIQHRbqtcsYVWhU5+9/vOjcJxrwEbz53fdNAKPbkM8hRX/z
+   Q==;
+X-CSE-ConnectionGUID: OAPxEkfJSx23imaYHhSshg==
+X-CSE-MsgGUID: gXXLnk7YRNCg6wu63LzbTg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="53501088"
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="56263532"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 05:36:34 -0700
-X-CSE-ConnectionGUID: PQWY0j4GRtyp/OtvXgyDnA==
-X-CSE-MsgGUID: /mYoMBFYRiarGfuQkVN/oA==
+   d="scan'208";a="53501088"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 05:46:33 -0700
+X-CSE-ConnectionGUID: Yrtyu+RTQ364Ni8a42ldEA==
+X-CSE-MsgGUID: FvkMxUQiTMuJW0BgCORx+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="154254176"
+   d="scan'208";a="157793287"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 Jul 2025 05:36:29 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 01 Jul 2025 05:46:32 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWaDq-000a9G-2H;
-	Tue, 01 Jul 2025 12:36:26 +0000
-Date: Tue, 1 Jul 2025 20:36:08 +0800
+	id 1uWaNZ-000a9q-2c;
+	Tue, 01 Jul 2025 12:46:29 +0000
+Date: Tue, 1 Jul 2025 20:46:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Wander Lairson Costa <wander@redhat.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Boqun Feng <boqun.feng@gmail.com>,
-	David Woodhouse <dwmw@amazon.co.uk>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Clark Williams <williams@redhat.com>,
-	Gabriele Monaco <gmonaco@redhat.com>
-Subject: Re: [PATCH v2 2/2] tracing/preemptirq: Optimize
- preempt_disable/enable() tracepoint overhead
-Message-ID: <202507011942.sCSGnb2M-lkp@intel.com>
-References: <20250630195243.701516-3-wander@redhat.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, John Hubbard <jhubbard@nvidia.com>
+Subject: [jfern:nova/master 67/87] Diff in drivers/gpu/nova-core/regs.rs at
+ line 204:
+Message-ID: <202507012005.8qhLTyif-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,335 +61,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250630195243.701516-3-wander@redhat.com>
 
-Hi Wander,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on trace/for-next]
-[also build test ERROR on tip/sched/core linus/master v6.16-rc4 next-20250701]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Wander-Lairson-Costa/trace-preemptirq-reduce-overhead-of-irq_enable-disable-tracepoints/20250701-035446
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20250630195243.701516-3-wander%40redhat.com
-patch subject: [PATCH v2 2/2] tracing/preemptirq: Optimize preempt_disable/enable() tracepoint overhead
-config: powerpc-randconfig-003-20250701 (https://download.01.org/0day-ci/archive/20250701/202507011942.sCSGnb2M-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507011942.sCSGnb2M-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/master
+head:   dfa2b234298399a62d48d2a78ce8f3f58d21cda1
+commit: 4ded3836543309dc0cf93d6308511f1b45f3f2b5 [67/87] nova-core: falcon: Add support to write firmware version
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250701/202507012005.8qhLTyif-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507012005.8qhLTyif-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507011942.sCSGnb2M-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507012005.8qhLTyif-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:14:
-   In file included from include/linux/sem.h:5:
-   In file included from include/uapi/linux/sem.h:5:
-   In file included from include/linux/ipc.h:7:
-   In file included from include/linux/rhashtable-types.h:12:
-   In file included from include/linux/alloc_tag.h:11:
-   In file included from include/linux/preempt.h:13:
-   In file included from include/linux/tracepoint-defs.h:11:
-   In file included from include/linux/atomic.h:7:
-   In file included from arch/powerpc/include/asm/atomic.h:11:
-   In file included from arch/powerpc/include/asm/cmpxchg.h:755:
-   In file included from include/asm-generic/cmpxchg-local.h:6:
-   include/linux/irqflags.h:201:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     201 | DECLARE_TRACEPOINT(irq_enable);
-         | ^
-         | int
-   include/linux/irqflags.h:201:20: error: a parameter list without types is only allowed in a function definition
-     201 | DECLARE_TRACEPOINT(irq_enable);
-         |                    ^
-   include/linux/irqflags.h:202:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     202 | DECLARE_TRACEPOINT(irq_disable);
-         | ^
-         | int
-   include/linux/irqflags.h:202:20: error: a parameter list without types is only allowed in a function definition
-     202 | DECLARE_TRACEPOINT(irq_disable);
-         |                    ^
-   include/linux/irqflags.h:277:47: error: call to undeclared function 'tracepoint_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     277 | DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-         |                                               ^
-   include/linux/irqflags.h:210:7: note: expanded from macro 'local_irq_enable'
-     210 |                 if (__trace_enabled(irq_enable))        \
-         |                     ^
-   include/linux/irqflags.h:206:3: note: expanded from macro '__trace_enabled'
-     206 |          tracepoint_enabled(tp))
-         |          ^
-   include/linux/irqflags.h:277:47: error: use of undeclared identifier 'irq_enable'
-     277 | DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-         |                                               ^~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:210:23: note: expanded from macro 'local_irq_enable'
-     210 |                 if (__trace_enabled(irq_enable))        \
-         |                                     ^~~~~~~~~~
-   include/linux/irqflags.h:277:26: error: call to undeclared function 'tracepoint_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     277 | DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-         |                          ^
-   include/linux/irqflags.h:219:7: note: expanded from macro 'local_irq_disable'
-     219 |                 if (__trace_enabled(irq_disable) &&     \
-         |                     ^
-   include/linux/irqflags.h:206:3: note: expanded from macro '__trace_enabled'
-     206 |          tracepoint_enabled(tp))
-         |          ^
-   include/linux/irqflags.h:277:26: error: use of undeclared identifier 'irq_disable'
-     277 | DEFINE_LOCK_GUARD_0(irq, local_irq_disable(), local_irq_enable())
-         |                          ^~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:219:23: note: expanded from macro 'local_irq_disable'
-     219 |                 if (__trace_enabled(irq_disable) &&     \
-         |                                     ^~~~~~~~~~~
-   include/linux/irqflags.h:280:7: error: call to undeclared function 'tracepoint_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     280 |                     local_irq_restore(_T->flags),
-         |                     ^
-   include/linux/irqflags.h:234:7: note: expanded from macro 'local_irq_restore'
-     234 |                 if (__trace_enabled(irq_enable) &&      \
-         |                     ^
-   include/linux/irqflags.h:206:3: note: expanded from macro '__trace_enabled'
-     206 |          tracepoint_enabled(tp))
-         |          ^
-   include/linux/irqflags.h:280:7: error: use of undeclared identifier 'irq_enable'
-     280 |                     local_irq_restore(_T->flags),
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:234:23: note: expanded from macro 'local_irq_restore'
-     234 |                 if (__trace_enabled(irq_enable) &&      \
-         |                                     ^~~~~~~~~~
-   include/linux/irqflags.h:279:7: error: call to undeclared function 'tracepoint_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     279 |                     local_irq_save(_T->flags),
-         |                     ^
-   include/linux/irqflags.h:227:7: note: expanded from macro 'local_irq_save'
-     227 |                 if (__trace_enabled(irq_disable) &&     \
-         |                     ^
-   include/linux/irqflags.h:206:3: note: expanded from macro '__trace_enabled'
-     206 |          tracepoint_enabled(tp))
-         |          ^
-   include/linux/irqflags.h:279:7: error: use of undeclared identifier 'irq_disable'
-     279 |                     local_irq_save(_T->flags),
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:227:23: note: expanded from macro 'local_irq_save'
-     227 |                 if (__trace_enabled(irq_disable) &&     \
-         |                                     ^~~~~~~~~~~
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:15:
-   In file included from include/linux/socket.h:8:
-   In file included from include/linux/uio.h:9:
-   In file included from include/linux/mm_types.h:8:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:312:
->> include/linux/spinlock_api_smp.h:151:2: error: use of undeclared identifier '__tracepoint_irq_enable'; did you mean '__tracepoint_preempt_enable'?
-     151 |         local_irq_restore(flags);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:234:7: note: expanded from macro 'local_irq_restore'
-     234 |                 if (__trace_enabled(irq_enable) &&      \
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:206:3: note: expanded from macro '__trace_enabled'
-     206 |          tracepoint_enabled(tp))
-         |          ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint-defs.h:92:27: note: expanded from macro 'tracepoint_enabled'
-      92 |         static_branch_unlikely(&(__tracepoint_##tp).key)
-         |                                  ^~~~~~~~~~~~~~~~~
-   <scratch space>:103:1: note: expanded from here
-     103 | __tracepoint_irq_enable
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:202:1: note: '__tracepoint_preempt_enable' declared here
-     202 | DECLARE_TRACEPOINT(preempt_enable);
-         | ^
-   include/linux/tracepoint-defs.h:88:27: note: expanded from macro 'DECLARE_TRACEPOINT'
-      88 |         extern struct tracepoint __tracepoint_##tp
-         |                                  ^
-   <scratch space>:104:1: note: expanded from here
-     104 | __tracepoint_preempt_enable
-         | ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:15:
-   In file included from include/linux/socket.h:8:
-   In file included from include/linux/uio.h:9:
-   In file included from include/linux/mm_types.h:8:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:312:
->> include/linux/spinlock_api_smp.h:151:2: error: use of undeclared identifier '__tracepoint_irq_enable'; did you mean '__tracepoint_preempt_enable'?
-     151 |         local_irq_restore(flags);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:234:7: note: expanded from macro 'local_irq_restore'
-     234 |                 if (__trace_enabled(irq_enable) &&      \
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:206:3: note: expanded from macro '__trace_enabled'
-     206 |          tracepoint_enabled(tp))
-         |          ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint-defs.h:92:27: note: expanded from macro 'tracepoint_enabled'
-      92 |         static_branch_unlikely(&(__tracepoint_##tp).key)
-         |                                  ^~~~~~~~~~~~~~~~~
-   <scratch space>:103:1: note: expanded from here
-     103 | __tracepoint_irq_enable
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:202:1: note: '__tracepoint_preempt_enable' declared here
-     202 | DECLARE_TRACEPOINT(preempt_enable);
-         | ^
-   include/linux/tracepoint-defs.h:88:27: note: expanded from macro 'DECLARE_TRACEPOINT'
-      88 |         extern struct tracepoint __tracepoint_##tp
-         |                                  ^
-   <scratch space>:104:1: note: expanded from here
-     104 | __tracepoint_preempt_enable
-         | ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:15:
-   In file included from include/linux/socket.h:8:
-   In file included from include/linux/uio.h:9:
-   In file included from include/linux/mm_types.h:8:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:312:
->> include/linux/spinlock_api_smp.h:151:2: error: use of undeclared identifier '__tracepoint_irq_enable'; did you mean '__tracepoint_preempt_enable'?
-     151 |         local_irq_restore(flags);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:234:7: note: expanded from macro 'local_irq_restore'
-     234 |                 if (__trace_enabled(irq_enable) &&      \
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:206:3: note: expanded from macro '__trace_enabled'
-     206 |          tracepoint_enabled(tp))
-         |          ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint-defs.h:92:27: note: expanded from macro 'tracepoint_enabled'
-      92 |         static_branch_unlikely(&(__tracepoint_##tp).key)
-         |                                  ^~~~~~~~~~~~~~~~~
-   <scratch space>:103:1: note: expanded from here
-     103 | __tracepoint_irq_enable
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:202:1: note: '__tracepoint_preempt_enable' declared here
-     202 | DECLARE_TRACEPOINT(preempt_enable);
-         | ^
-   include/linux/tracepoint-defs.h:88:27: note: expanded from macro 'DECLARE_TRACEPOINT'
-      88 |         extern struct tracepoint __tracepoint_##tp
-         |                                  ^
-   <scratch space>:104:1: note: expanded from here
-     104 | __tracepoint_preempt_enable
-         | ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:15:
-   In file included from include/linux/socket.h:8:
-   In file included from include/linux/uio.h:9:
-   In file included from include/linux/mm_types.h:8:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:312:
->> include/linux/spinlock_api_smp.h:151:2: error: use of undeclared identifier '__tracepoint_irq_enable'; did you mean '__tracepoint_preempt_enable'?
-     151 |         local_irq_restore(flags);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:234:7: note: expanded from macro 'local_irq_restore'
-     234 |                 if (__trace_enabled(irq_enable) &&      \
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:206:3: note: expanded from macro '__trace_enabled'
-     206 |          tracepoint_enabled(tp))
-         |          ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint-defs.h:92:27: note: expanded from macro 'tracepoint_enabled'
-      92 |         static_branch_unlikely(&(__tracepoint_##tp).key)
-         |                                  ^~~~~~~~~~~~~~~~~
-   <scratch space>:103:1: note: expanded from here
-     103 | __tracepoint_irq_enable
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:202:1: note: '__tracepoint_preempt_enable' declared here
-     202 | DECLARE_TRACEPOINT(preempt_enable);
-         | ^
-   include/linux/tracepoint-defs.h:88:27: note: expanded from macro 'DECLARE_TRACEPOINT'
-      88 |         extern struct tracepoint __tracepoint_##tp
-         |                                  ^
-   <scratch space>:104:1: note: expanded from here
-     104 | __tracepoint_preempt_enable
-         | ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:15:
-   In file included from include/linux/socket.h:8:
-   In file included from include/linux/uio.h:9:
-   In file included from include/linux/mm_types.h:8:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:312:
-   include/linux/spinlock_api_smp.h:159:2: error: use of undeclared identifier '__tracepoint_irq_enable'; did you mean '__tracepoint_preempt_enable'?
-     159 |         local_irq_enable();
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:210:7: note: expanded from macro 'local_irq_enable'
-     210 |                 if (__trace_enabled(irq_enable))        \
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:206:3: note: expanded from macro '__trace_enabled'
-     206 |          tracepoint_enabled(tp))
-         |          ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint-defs.h:92:27: note: expanded from macro 'tracepoint_enabled'
-      92 |         static_branch_unlikely(&(__tracepoint_##tp).key)
-         |                                  ^~~~~~~~~~~~~~~~~
-   <scratch space>:108:1: note: expanded from here
-     108 | __tracepoint_irq_enable
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:202:1: note: '__tracepoint_preempt_enable' declared here
-     202 | DECLARE_TRACEPOINT(preempt_enable);
-         | ^
-   include/linux/tracepoint-defs.h:88:27: note: expanded from macro 'DECLARE_TRACEPOINT'
-      88 |         extern struct tracepoint __tracepoint_##tp
-         |                                  ^
-   <scratch space>:104:1: note: expanded from here
-     104 | __tracepoint_preempt_enable
-         | ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:15:
-   In file included from include/linux/socket.h:8:
-   In file included from include/linux/uio.h:9:
-   In file included from include/linux/mm_types.h:8:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:312:
-   include/linux/spinlock_api_smp.h:159:2: error: use of undeclared identifier '__tracepoint_irq_enable'; did you mean '__tracepoint_preempt_enable'?
-     159 |         local_irq_enable();
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:210:7: note: expanded from macro 'local_irq_enable'
-     210 |                 if (__trace_enabled(irq_enable))        \
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:206:3: note: expanded from macro '__trace_enabled'
-     206 |          tracepoint_enabled(tp))
-         |          ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/tracepoint-defs.h:92:27: note: expanded from macro 'tracepoint_enabled'
-      92 |         static_branch_unlikely(&(__tracepoint_##tp).key)
-         |                                  ^~~~~~~~~~~~~~~~~
-   <scratch space>:108:1: note: expanded from here
-     108 | __tracepoint_irq_enable
-         | ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/preempt.h:202:1: note: '__tracepoint_preempt_enable' declared here
-     202 | DECLARE_TRACEPOINT(preempt_enable);
-         | ^
-   include/linux/tracepoint-defs.h:88:27: note: expanded from macro 'DECLARE_TRACEPOINT'
-      88 |         extern struct tracepoint __tracepoint_##tp
-         |                                  ^
-   <scratch space>:104:1: note: expanded from here
-     104 | __tracepoint_preempt_enable
-         | ^
-   In file included from arch/powerpc/kernel/asm-offsets.c:12:
-   In file included from include/linux/compat.h:15:
-   In file included from include/linux/socket.h:8:
-   In file included from include/linux/uio.h:9:
-   In file included from include/linux/mm_types.h:8:
-   In file included from include/linux/kref.h:16:
-   In file included from include/linux/spinlock.h:312:
-   include/linux/spinlock_api_smp.h:159:2: error: use of undeclared identifier '__tracepoint_irq_enable'; did you mean '__tracepoint_preempt_enable'?
-     159 |         local_irq_enable();
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:210:7: note: expanded from macro 'local_irq_enable'
-     210 |                 if (__trace_enabled(irq_enable))        \
-         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:206:3: note: expanded from macro '__trace_enabled'
-     206 |          tracepoint_enabled(tp))
-
-
-vim +151 include/linux/spinlock_api_smp.h
-
-69d0ee7377eef80 Heiko Carstens  2009-08-31  145  
-9c1721aa4994f66 Thomas Gleixner 2009-12-03  146  static inline void __raw_spin_unlock_irqrestore(raw_spinlock_t *lock,
-69d0ee7377eef80 Heiko Carstens  2009-08-31  147  					    unsigned long flags)
-69d0ee7377eef80 Heiko Carstens  2009-08-31  148  {
-5facae4f3549b5c Qian Cai        2019-09-19  149  	spin_release(&lock->dep_map, _RET_IP_);
-9828ea9d75c38fe Thomas Gleixner 2009-12-03  150  	do_raw_spin_unlock(lock);
-69d0ee7377eef80 Heiko Carstens  2009-08-31 @151  	local_irq_restore(flags);
-69d0ee7377eef80 Heiko Carstens  2009-08-31  152  	preempt_enable();
-69d0ee7377eef80 Heiko Carstens  2009-08-31  153  }
-69d0ee7377eef80 Heiko Carstens  2009-08-31  154  
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j28 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in drivers/gpu/nova-core/regs.rs at line 204:
+        31:0    value as u32;
+    });
+    
+   -
+    // Used to store version information about the firmware running
+    // on the Falcon processor.
+    register!(NV_PFALCON_FALCON_OS @ +0x00000080 {
+   Diff in drivers/gpu/nova-core/falcon/gsp.rs at line 1:
+    // SPDX-License-Identifier: GPL-2.0
+    
+   -use kernel::time::Delta;
+    use kernel::prelude::*;
+   +use kernel::time::Delta;
+    
+    use crate::{
+        driver::Bar0,
+   Diff in drivers/gpu/nova-core/falcon/gsp.rs at line 28:
+    
+        /// Function to check if GSP reload/resume has completed during the boot process.
+        #[expect(dead_code)]
+   -    pub(crate) fn check_reload_completed(
+   -        &self,
+   -        bar: &Bar0,
+   -        timeout: Delta,
+   -    ) -> Result<bool> {
+   +    pub(crate) fn check_reload_completed(&self, bar: &Bar0, timeout: Delta) -> Result<bool> {
+            wait_on(timeout, || {
+                let val = regs::NV_PGC6_BSI_SECURE_SCRATCH_14::read(bar);
+                if val.boot_stage_3_handoff() {
+   Diff in drivers/gpu/nova-core/falcon/gsp.rs at line 1:
+    // SPDX-License-Identifier: GPL-2.0
+    
+   -use kernel::time::Delta;
+    use kernel::prelude::*;
+   +use kernel::time::Delta;
+    
+    use crate::{
+        driver::Bar0,
+   Diff in drivers/gpu/nova-core/falcon/gsp.rs at line 28:
+    
+        /// Function to check if GSP reload/resume has completed during the boot process.
+        #[expect(dead_code)]
+   -    pub(crate) fn check_reload_completed(
+   -        &self,
+   -        bar: &Bar0,
+   -        timeout: Delta,
+   -    ) -> Result<bool> {
+   +    pub(crate) fn check_reload_completed(&self, bar: &Bar0, timeout: Delta) -> Result<bool> {
+            wait_on(timeout, || {
+                let val = regs::NV_PGC6_BSI_SECURE_SCRATCH_14::read(bar);
+                if val.boot_stage_3_handoff() {
+>> Diff in drivers/gpu/nova-core/regs.rs at line 204:
+        31:0    value as u32;
+    });
+    
+   -
+    // Used to store version information about the firmware running
+    // on the Falcon processor.
+    register!(NV_PFALCON_FALCON_OS @ +0x00000080 {
+   Diff in drivers/gpu/nova-core/falcon/gsp.rs at line 1:
+    // SPDX-License-Identifier: GPL-2.0
+    
+   -use kernel::time::Delta;
+    use kernel::prelude::*;
+   +use kernel::time::Delta;
+    
+    use crate::{
+        driver::Bar0,
+   Diff in drivers/gpu/nova-core/falcon/gsp.rs at line 28:
+    
+        /// Function to check if GSP reload/resume has completed during the boot process.
+        #[expect(dead_code)]
+   -    pub(crate) fn check_reload_completed(
+   -        &self,
+   -        bar: &Bar0,
+   -        timeout: Delta,
+   -    ) -> Result<bool> {
+   +    pub(crate) fn check_reload_completed(&self, bar: &Bar0, timeout: Delta) -> Result<bool> {
+            wait_on(timeout, || {
+                let val = regs::NV_PGC6_BSI_SECURE_SCRATCH_14::read(bar);
+                if val.boot_stage_3_handoff() {
+   make[2]: *** [Makefile:1825: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
