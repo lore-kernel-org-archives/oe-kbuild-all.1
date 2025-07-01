@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112AB18D
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 01:43:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5634418C12
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 02:04:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751334237; cv=none; b=YO9fxJwN7+tjtqUW1MYv6SDPTo5/lhwYSPb9lmm6dXrwTWN+cWNtOda9RJVXrE6hDs2fbYpIYP+wb3QD8WffYk8xIDSCK8gKQxDTwjWq0eL+7MElTCHGuNDpRelZNas6m7ECbM/Qjzm/LWf+E0TIaZZfFlJ7Z+aqy5vy+UCX4Uo=
+	t=1751335450; cv=none; b=de6TcYodmIJE/rNg5LQI+qtE/PZigPRP+IB5Vdhux2xAFt8np/6skbgf5aiyvB1zu38iZ+elX3UPqkNQox2i/mKO9EQnqJcdW50iCU52fYC+dpHTKo3FlKfu1EFjZzNhvRWsxRUbH9it86kAGkuXZVAPdOgM+EEMoShidNtn9v4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751334237; c=relaxed/simple;
-	bh=bd3EaD7KrSsLlK6SN+vw3W/vpYtANPtwOKp7s3W5gPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HRvgRUqf2RQ0e2HXnqWOrSqhEFUtY+9g4fX5vyoEAG4K7fHGbSyJAOfARUMD4wiCjYTBEs9QpT9kmy85uOrcJs5KBIyACygfhUrSqDoS+7/klyPDhMuOLARpLw0fuEQUZu7A5k0XO71i9vEeE0wvNmNJpfltHGY+RVj51quFcrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dHK6kciD; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1751335450; c=relaxed/simple;
+	bh=/inhb27RaibR1LB4C56Pt3j+PRVXuCNwSkRPWvlKho0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZvbaXG4VviuZ/krDVKG1WHzKIQgiqexqk4Ptsj9iJg227hXUeqBSD+Fr0CzKSg+LORx55r1f6kI5j4RA+Op8oLplDtZjEWa2zC9LIhF0+qMFY8yk5hjlrlc4i73/ph28D2jI9DEcsTu9VRXQJFMg0ojjl+fH7WOfg2DNUPSBaG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nc/jsYtw; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dHK6kciD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nc/jsYtw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751334236; x=1782870236;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=bd3EaD7KrSsLlK6SN+vw3W/vpYtANPtwOKp7s3W5gPw=;
-  b=dHK6kciDUXsFYe6XbJSeoidiXPpdg94zGNR8KlHE8HVl3tJjPC9FsP59
-   KnvqpZMhQLlwzc6u0l/ZPWereUoOuNQg40kBjCX2Hfqzgn0kvoZ8a168+
-   iZELBnYf3twOCjLwXfOTgAMY3k8Kz66CuHL2hRQPSNgbysvkwwNB9UJL5
-   XORJqiAHdr+zfWGzbCCgjHNcnEfl3aBCrUIZoMjDXVz0rQpcAWprC8vfu
-   SrSIezVFRbmIrp6JfTOkeut9Zxt15SurYxymcIOstSlW5YvOe0mmD6sG2
-   d6qOjAkLVSA/hPxV5Kp/w57uciI36dZ1nY0NesdeL6xgaGRa6O8/T2+KW
-   Q==;
-X-CSE-ConnectionGUID: vFSeTdmkQFGyljlOz7fSwQ==
-X-CSE-MsgGUID: l9/jirkMRPqr4GcESTWf+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="52807177"
+  t=1751335448; x=1782871448;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/inhb27RaibR1LB4C56Pt3j+PRVXuCNwSkRPWvlKho0=;
+  b=nc/jsYtwb88SN8YWbu/4qEniLVcPCxqxt+AK5jfBql5aOyDi5uV6uQLF
+   Al2/yXi96AdqmqZ5/5hH61lD92E9GLslP0hIP5h//c80tNLYM2JlHMuZW
+   UrlGpu8dwYewRmbOkrZCTYPOkCjAbCBTgamn8rAtiZMGh9gy0dUysfC4N
+   UDAgCCdHQD4qvg0iFQEZDHvKVuln+MPuuRWbS1JbchXPbjGudnYo/6n4s
+   4kf0m9P+rQYcyhghmvKeKsPx5u64RXdnihuSDimU1U4VBN5Co8AR1Dptw
+   xeDR2nlMYlKqMCguzMDbyiVaoi8tWPiWhYtdzV/pCAzMFS+Xzqa3hXmRc
+   g==;
+X-CSE-ConnectionGUID: zhn/KzZ0TzGbdsI4GWm/Hg==
+X-CSE-MsgGUID: s5E0Qx3ZTzWaongy5jvEKQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="64180137"
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="52807177"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 18:43:55 -0700
-X-CSE-ConnectionGUID: VjV2eGe+TyO7DS98Yw/Dcw==
-X-CSE-MsgGUID: swC7WzcdRUGB21YBuC3MNg==
+   d="scan'208";a="64180137"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 19:04:08 -0700
+X-CSE-ConnectionGUID: Bk9HNqJsTi6+CrQbGiZ3gg==
+X-CSE-MsgGUID: TZd3gKpARxu3v+tGc3MzXw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="153794534"
+   d="scan'208";a="184557647"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 30 Jun 2025 18:43:54 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 30 Jun 2025 19:04:04 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWQ2J-000ZVu-33;
-	Tue, 01 Jul 2025 01:43:51 +0000
-Date: Tue, 1 Jul 2025 09:43:12 +0800
+	id 1uWQLq-000ZWg-0T;
+	Tue, 01 Jul 2025 02:04:02 +0000
+Date: Tue, 1 Jul 2025 10:03:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 55/95]
- fs/bcachefs/fs.c:2567:5: error: 'struct super_block' has no member named
- 's_encoding'
-Message-ID: <202507010941.JU9oxZlM-lkp@intel.com>
+To: Jakub Sitnicki <jakub@cloudflare.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Alexei Starovoitov <ast@kernel.org>,
+	Arthur Fabre <arthur@arthurfabre.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Jesse Brandeburg <jbrandeburg@cloudflare.com>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Lorenzo Bianconi <lorenzo@kernel.org>,
+	Toke =?iso-8859-1?Q?H=F8iland-J=F8rgensen?= <thoiland@redhat.com>,
+	Yan Zhai <yan@cloudflare.com>, netdev@vger.kernel.org,
+	kernel-team@cloudflare.com, Stanislav Fomichev <sdf@fomichev.me>
+Subject: Re: [PATCH bpf-next 02/13] bpf: Helpers for skb dynptr
+ read/write/slice
+Message-ID: <202507010904.MkxDYPdY-lkp@intel.com>
+References: <20250630-skb-metadata-thru-dynptr-v1-2-f17da13625d8@cloudflare.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,84 +73,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250630-skb-metadata-thru-dynptr-v1-2-f17da13625d8@cloudflare.com>
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   689b1f32c808a06e270cf5158dff7358ffeb52d0
-commit: 1b68e7f71480c4951aedad2c037d57b0856a488b [55/95] bcachefs: opts.casefold_disabled
-config: riscv-randconfig-002-20250701 (https://download.01.org/0day-ci/archive/20250701/202507010941.JU9oxZlM-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507010941.JU9oxZlM-lkp@intel.com/reproduce)
+Hi Jakub,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Sitnicki/bpf-Ignore-dynptr-offset-in-skb-data-access/20250630-225941
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250630-skb-metadata-thru-dynptr-v1-2-f17da13625d8%40cloudflare.com
+patch subject: [PATCH bpf-next 02/13] bpf: Helpers for skb dynptr read/write/slice
+config: microblaze-allnoconfig (https://download.01.org/0day-ci/archive/20250701/202507010904.MkxDYPdY-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507010904.MkxDYPdY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507010941.JU9oxZlM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507010904.MkxDYPdY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   fs/bcachefs/fs.c: In function 'bch2_fs_get_tree':
->> fs/bcachefs/fs.c:2567:5: error: 'struct super_block' has no member named 's_encoding'
-    2567 |   sb->s_encoding = c->cf_encoding;
-         |     ^~
+   In file included from kernel/sysctl.c:29:
+>> include/linux/filter.h:1788:1: error: expected identifier or '(' before '{' token
+    1788 | {
+         | ^
+   include/linux/filter.h:1795:1: error: expected identifier or '(' before '{' token
+    1795 | {
+         | ^
+>> include/linux/filter.h:1785:19: warning: 'bpf_dynptr_skb_write' declared 'static' but never defined [-Wunused-function]
+    1785 | static inline int bpf_dynptr_skb_write(const struct bpf_dynptr_kern *dst,
+         |                   ^~~~~~~~~~~~~~~~~~~~
+>> include/linux/filter.h:1792:21: warning: 'bpf_dynptr_skb_slice' declared 'static' but never defined [-Wunused-function]
+    1792 | static inline void *bpf_dynptr_skb_slice(const struct bpf_dynptr_kern *ptr,
+         |                     ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +2567 fs/bcachefs/fs.c
+vim +1788 include/linux/filter.h
 
-1c6fdbd8f2465d Kent Overstreet             2017-03-16  2563  
-ecae0bd5173b10 Linus Torvalds              2023-11-02  2564  	sb->s_shrink->seeks = 0;
-e3f2db39b39b69 Kent Overstreet             2021-11-13  2565  
-1b68e7f71480c4 Kent Overstreet             2025-06-26  2566  	if (bch2_fs_casefold_enabled(c))
-c83311c5b90d12 Kent Overstreet             2025-04-26 @2567  		sb->s_encoding = c->cf_encoding;
-c83311c5b90d12 Kent Overstreet             2025-04-26  2568  	generic_set_sb_d_ops(sb);
-c83311c5b90d12 Kent Overstreet             2025-04-26  2569  
-284ae18c1d7aa4 Kent Overstreet             2021-03-16  2570  	vinode = bch2_vfs_inode_get(c, BCACHEFS_ROOT_SUBVOL_INUM);
-d4bf5eecd78a90 Kent Overstreet             2022-07-18  2571  	ret = PTR_ERR_OR_ZERO(vinode);
-e46c181af9e230 Kent Overstreet             2023-09-11  2572  	bch_err_msg(c, ret, "mounting: error getting root inode");
-cf904c8d964fa4 Kent Overstreet             2023-12-16  2573  	if (ret)
-1c6fdbd8f2465d Kent Overstreet             2017-03-16  2574  		goto err_put_super;
-1c6fdbd8f2465d Kent Overstreet             2017-03-16  2575  
-1c6fdbd8f2465d Kent Overstreet             2017-03-16  2576  	sb->s_root = d_make_root(vinode);
-1c6fdbd8f2465d Kent Overstreet             2017-03-16  2577  	if (!sb->s_root) {
-619f5bee86b558 Kent Overstreet             2019-04-17  2578  		bch_err(c, "error mounting: error allocating root dentry");
-1c6fdbd8f2465d Kent Overstreet             2017-03-16  2579  		ret = -ENOMEM;
-1c6fdbd8f2465d Kent Overstreet             2017-03-16  2580  		goto err_put_super;
-1c6fdbd8f2465d Kent Overstreet             2017-03-16  2581  	}
-1c6fdbd8f2465d Kent Overstreet             2017-03-16  2582  
-1c6fdbd8f2465d Kent Overstreet             2017-03-16  2583  	sb->s_flags |= SB_ACTIVE;
-1c6fdbd8f2465d Kent Overstreet             2017-03-16  2584  out:
-25ee25e637a6f7 Kent Overstreet             2024-05-29  2585  	fc->root = dget(sb->s_root);
-83208cbf2f08c2 Kent Overstreet             2024-05-28  2586  err:
-5645c32ccf3197 Kent Overstreet             2024-05-29  2587  	darray_exit(&devs_to_fs);
-5645c32ccf3197 Kent Overstreet             2024-05-29  2588  	bch2_darray_str_exit(&devs);
-0f1f7324da0a65 Kent Overstreet             2024-07-03  2589  	if (ret)
-0f1f7324da0a65 Kent Overstreet             2024-07-03  2590  		pr_err("error: %s", bch2_err_str(ret));
-83208cbf2f08c2 Kent Overstreet             2024-05-28  2591  	/*
-83208cbf2f08c2 Kent Overstreet             2024-05-28  2592  	 * On an inconsistency error in recovery we might see an -EROFS derived
-83208cbf2f08c2 Kent Overstreet             2024-05-28  2593  	 * errorcode (from the journal), but we don't want to return that to
-83208cbf2f08c2 Kent Overstreet             2024-05-28  2594  	 * userspace as that causes util-linux to retry the mount RO - which is
-83208cbf2f08c2 Kent Overstreet             2024-05-28  2595  	 * confusing:
-83208cbf2f08c2 Kent Overstreet             2024-05-28  2596  	 */
-83208cbf2f08c2 Kent Overstreet             2024-05-28  2597  	if (bch2_err_matches(ret, EROFS) && ret != -EROFS)
-83208cbf2f08c2 Kent Overstreet             2024-05-28  2598  		ret = -EIO;
-25ee25e637a6f7 Kent Overstreet             2024-05-29  2599  	return bch2_err_class(ret);
-5645c32ccf3197 Kent Overstreet             2024-05-29  2600  
-5645c32ccf3197 Kent Overstreet             2024-05-29  2601  err_stop_fs:
-5645c32ccf3197 Kent Overstreet             2024-05-29  2602  	bch2_fs_stop(c);
-5645c32ccf3197 Kent Overstreet             2024-05-29  2603  	goto err;
-5645c32ccf3197 Kent Overstreet             2024-05-29  2604  
-5645c32ccf3197 Kent Overstreet             2024-05-29  2605  err_put_super:
-7c4cb50e1a39ad Florian Albrechtskirchinger 2025-03-27  2606  	if (!sb->s_root)
-5645c32ccf3197 Kent Overstreet             2024-05-29  2607  		__bch2_fs_stop(c);
-5645c32ccf3197 Kent Overstreet             2024-05-29  2608  	deactivate_locked_super(sb);
-5645c32ccf3197 Kent Overstreet             2024-05-29  2609  	goto err;
-1c6fdbd8f2465d Kent Overstreet             2017-03-16  2610  }
-1c6fdbd8f2465d Kent Overstreet             2017-03-16  2611  
-
-:::::: The code at line 2567 was first introduced by commit
-:::::: c83311c5b90d12ea22e847fd9390e2fdb6a34f68 bcachefs: Use generic_set_sb_d_ops for standard casefolding d_ops
-
-:::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+b5964b968ac64c Joanne Koong   2023-03-01  1784  
+e8b34e67737d71 Jakub Sitnicki 2025-06-30 @1785  static inline int bpf_dynptr_skb_write(const struct bpf_dynptr_kern *dst,
+e8b34e67737d71 Jakub Sitnicki 2025-06-30  1786  				       u32 offset, const void *src, u32 len,
+e8b34e67737d71 Jakub Sitnicki 2025-06-30  1787  				       u64 flags);
+b5964b968ac64c Joanne Koong   2023-03-01 @1788  {
+b5964b968ac64c Joanne Koong   2023-03-01  1789  	return -EOPNOTSUPP;
+b5964b968ac64c Joanne Koong   2023-03-01  1790  }
+05421aecd4ed65 Joanne Koong   2023-03-01  1791  
+e8b34e67737d71 Jakub Sitnicki 2025-06-30 @1792  static inline void *bpf_dynptr_skb_slice(const struct bpf_dynptr_kern *ptr,
+e8b34e67737d71 Jakub Sitnicki 2025-06-30  1793  					 u32 offset, void *buf, u32 len);
+e8b34e67737d71 Jakub Sitnicki 2025-06-30  1794  
 
 -- 
 0-DAY CI Kernel Test Service
