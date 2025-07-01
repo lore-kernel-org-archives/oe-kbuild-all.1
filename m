@@ -1,62 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEBF1F4282;
-	Tue,  1 Jul 2025 04:30:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98E81DB154
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 04:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751344237; cv=none; b=bSZPskPqjGnUnrLUeF8apQg8jtFQnDLp9NiwSK5pIHeOiGOgiZ3givyf2wjgcWFkbzkj1wl6Su6/TCE6u1QeOcNvQqZ3sWD7R3t3aojnIQ8T8rGG/cxqvu0gY6t47x4Fau0C11hiDR/iELMqWSuQ4GVMe6XfNhzqmgEzFr7KarY=
+	t=1751345562; cv=none; b=huKn47SPL0/8mUEjZVqw6pzTGFtWqWY8xNoOeGSb1HF2r/yXYufhnsTZebH0Oa7lZkGhKB6DJZiK9ubmHAQVsjb+cXHefJpyEpWG+SiDv2ExfqRNbdy6THqhY7rlM15au3xhicPEu3z4qNKIIuIrR2Y/OT0A6yoyGZAHXDDXZSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751344237; c=relaxed/simple;
-	bh=ESSpbAhyzHl+us763V2GUBX0A0mjMQTO+0IGNVgjxfM=;
+	s=arc-20240116; t=1751345562; c=relaxed/simple;
+	bh=qLpGZhMZb9Z8g5y1Iw0lGZyivCoTKa8j9TbnnMY3JnA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=g4OXQAl0BaRgzFyd61tjd1pSR285t5yTE2hTLvrNmm4rsUj/+USKVX10GEWuKdmkMu4Lah+PvVlpmMU1LOISrkmsHQhP1wHG6QPcksTJNo/1DQ2XAwVy8HuLDO26GTZBMGOuN5M9tyupnBfa0zv/CEswRba0gLBJZy+NZ88dh/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FpMJnW9G; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=J71e/QGte5QVa0K5PMwXmJOEunDXowRI2tP5bG8NUKUWGDHAo1HmRZWbcQmXisnZPMWPjKNUQAXQ1gQj3t23j0ABQfQCFYZIr67I1C1QzWXLoaxBBcOoWdZ2UCoEwQCyRELFZh92iKp6PGleZFVv1arkeNk3nLAR1tGcirkw/oM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fTq1R9XW; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FpMJnW9G"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fTq1R9XW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751344236; x=1782880236;
+  t=1751345560; x=1782881560;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ESSpbAhyzHl+us763V2GUBX0A0mjMQTO+0IGNVgjxfM=;
-  b=FpMJnW9G/uB7RWOZE/0gNJgryCdGcVCEjlrV2yefw/QAToq+9xU9XqLh
-   YSJqQXFcXk8OQPDWt9cQ5vPFtbZAosY5L0MFWMbz7/T+o2BWzDk38CjoZ
-   DgsqrWoUePdN3QRtkYYkXv9KmTbNY1mWGRMf60AX+tZKxFHLJni/maXoM
-   deor+/hf4EFf/buMUCu80KL0ReU4iLSm2OEzdWdgLyn43egVgJ9+8z1y/
-   asR0ywOTljni1Wk+yKhhor90eiOv2IovbCNIZ+O4g+Pgk8L/X68ZWSFnS
-   jYg2/w+OaIMwMnVbtyVyOdvAqig/zMg4yJ7pR6odXKNsy4ER2FAYZVC26
-   Q==;
-X-CSE-ConnectionGUID: e5zQn1/6Rdmf03ArHa6YWA==
-X-CSE-MsgGUID: Lfxisq5QTr20nLhtV0EocQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="53713230"
+  bh=qLpGZhMZb9Z8g5y1Iw0lGZyivCoTKa8j9TbnnMY3JnA=;
+  b=fTq1R9XW/euhEmGHkLwYJEsLofBkkdF3Zwqwr5UmoO4WxviKyz/LGjwR
+   drVNa82J25zfiFGZI7Kv6eHTJUNSXIkoji7yqLbleBHT+HOIJCCjbnwmS
+   izCdtXLFt1vsPJ+vIkd3Qh/TT4uFJEAH5kXTJG7AVe9C+ERdgfbKFboJu
+   GlpHUkfpb+csNH7lKAKZL2/xpSlt/ZG394TLRu5Fzkabem6O/ga5cN+1T
+   KHM351ue87zrk/QE0tQpOCLmhEqnss1m+v9K5wXg6x4PHu8cxdZBOPQqE
+   E72voGNm0VnlXGxqSwqAZDtlv7MVj8uIS3/96NnxIlrMtBtOlaXK28iwn
+   g==;
+X-CSE-ConnectionGUID: oV+0ZBSAT2WfmqfaGYu9MA==
+X-CSE-MsgGUID: qimwG2stQsyvyGS5Ace76A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="53312927"
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="53713230"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 21:30:35 -0700
-X-CSE-ConnectionGUID: km7WhSfYTM2b/SWYFPbUsw==
-X-CSE-MsgGUID: RCcT1HKfR+eqqyC3FEZfdA==
+   d="scan'208";a="53312927"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2025 21:52:40 -0700
+X-CSE-ConnectionGUID: lgY+P2arS0uHkQ3gVdLwdA==
+X-CSE-MsgGUID: zA6h7u5hQn62QceML/UGEA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="153042577"
+   d="scan'208";a="158050296"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 30 Jun 2025 21:30:33 -0700
+  by orviesa003.jf.intel.com with ESMTP; 30 Jun 2025 21:52:36 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWSda-000ZiQ-0T;
-	Tue, 01 Jul 2025 04:30:30 +0000
-Date: Tue, 1 Jul 2025 12:30:10 +0800
+	id 1uWSyv-000ZjC-2J;
+	Tue, 01 Jul 2025 04:52:33 +0000
+Date: Tue, 1 Jul 2025 12:52:02 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ryan Chung <seokwoo.chung130@gmail.com>, hao.wu@intel.com,
-	trix@redhat.com, mdf@kernel.org, yilun.xu@intel.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-fpga@vger.kernel.org,
-	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Ryan Chung <seokwoo.chung130@gmail.com>
-Subject: Re: [PATCH] fpga: dfl: Replace scnprintf() with sysfs_emit()
-Message-ID: <202507011152.ULf4bZsW-lkp@intel.com>
-References: <20250630125018.48417-1-seokwoo.chung130@gmail.com>
+To: Oleh Kuzhylnyi <kuzhylol@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sasha Finkelstein <fnkl.kernel@gmail.com>,
+	Javier Carrasco <javier.carrasco.cruz@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Javier Martinez Canillas <javierm@redhat.com>,
+	Janne Grunau <j@jannau.net>, Igor Opaniuk <igor.opaniuk@gmail.com>,
+	Neal Gompa <neal@gompa.dev>, Jeff LaBundy <jeff@labundy.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Oleh Kuzhylnyi <kuzhylol@gmail.com>, linux-input@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 2/2] input: add hynitron cst816x series touchscreen
+Message-ID: <202507011209.R4JNwHSj-lkp@intel.com>
+References: <20250629162523.291887-2-kuzhylol@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,115 +74,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250630125018.48417-1-seokwoo.chung130@gmail.com>
+In-Reply-To: <20250629162523.291887-2-kuzhylol@gmail.com>
 
-Hi Ryan,
+Hi Oleh,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16-rc4 next-20250630]
+[auto build test WARNING on dtor-input/next]
+[also build test WARNING on dtor-input/for-linus robh/for-next krzk-dt/for-next linus/master v6.16-rc4 next-20250630]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Ryan-Chung/fpga-dfl-Replace-scnprintf-with-sysfs_emit/20250630-205221
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250630125018.48417-1-seokwoo.chung130%40gmail.com
-patch subject: [PATCH] fpga: dfl: Replace scnprintf() with sysfs_emit()
-config: x86_64-randconfig-001-20250701 (https://download.01.org/0day-ci/archive/20250701/202507011152.ULf4bZsW-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507011152.ULf4bZsW-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Oleh-Kuzhylnyi/input-add-hynitron-cst816x-series-touchscreen/20250630-002723
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/dtor/input.git next
+patch link:    https://lore.kernel.org/r/20250629162523.291887-2-kuzhylol%40gmail.com
+patch subject: [PATCH v8 2/2] input: add hynitron cst816x series touchscreen
+config: microblaze-randconfig-r131-20250701 (https://download.01.org/0day-ci/archive/20250701/202507011209.R4JNwHSj-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 15.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20250701/202507011209.R4JNwHSj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507011152.ULf4bZsW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507011209.R4JNwHSj-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/input/touchscreen/hynitron-cst816x.c:97:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] abs_x @@     got unsigned long @@
+   drivers/input/touchscreen/hynitron-cst816x.c:97:21: sparse:     expected restricted __be16 [usertype] abs_x
+   drivers/input/touchscreen/hynitron-cst816x.c:97:21: sparse:     got unsigned long
+>> drivers/input/touchscreen/hynitron-cst816x.c:98:21: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __be16 [usertype] abs_y @@     got unsigned long @@
+   drivers/input/touchscreen/hynitron-cst816x.c:98:21: sparse:     expected restricted __be16 [usertype] abs_y
+   drivers/input/touchscreen/hynitron-cst816x.c:98:21: sparse:     got unsigned long
+>> drivers/input/touchscreen/hynitron-cst816x.c:148:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int value @@     got restricted __be16 [addressable] [usertype] abs_x @@
+   drivers/input/touchscreen/hynitron-cst816x.c:148:58: sparse:     expected int value
+   drivers/input/touchscreen/hynitron-cst816x.c:148:58: sparse:     got restricted __be16 [addressable] [usertype] abs_x
+>> drivers/input/touchscreen/hynitron-cst816x.c:149:58: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected int value @@     got restricted __be16 [addressable] [usertype] abs_y @@
+   drivers/input/touchscreen/hynitron-cst816x.c:149:58: sparse:     expected int value
+   drivers/input/touchscreen/hynitron-cst816x.c:149:58: sparse:     got restricted __be16 [addressable] [usertype] abs_y
 
-   In file included from arch/x86/include/asm/page_types.h:9,
-                    from arch/x86/include/asm/ptrace.h:6,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from drivers/fpga/dfl-afu-main.c:18:
-   drivers/fpga/dfl-afu-main.c: In function 'id_show':
->> include/vdso/page.h:15:25: warning: passing argument 2 of 'sysfs_emit' makes pointer from integer without a cast [-Wint-conversion]
-      15 | #define PAGE_SIZE       (_AC(1,UL) << CONFIG_PAGE_SHIFT)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         long unsigned int
-   drivers/fpga/dfl-afu-main.c:159:32: note: in expansion of macro 'PAGE_SIZE'
-     159 |         return sysfs_emit(buf, PAGE_SIZE, "%d\n", id);
-         |                                ^~~~~~~~~
-   In file included from include/linux/kobject.h:20,
-                    from include/linux/module.h:21:
-   include/linux/sysfs.h:492:39: note: expected 'const char *' but argument is of type 'long unsigned int'
-     492 | int sysfs_emit(char *buf, const char *fmt, ...);
-         |                           ~~~~~~~~~~~~^~~
-   drivers/fpga/dfl-afu-main.c: In function 'afu_id_show':
->> include/vdso/page.h:15:25: warning: passing argument 2 of 'sysfs_emit' makes pointer from integer without a cast [-Wint-conversion]
-      15 | #define PAGE_SIZE       (_AC(1,UL) << CONFIG_PAGE_SHIFT)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         long unsigned int
-   drivers/fpga/dfl-afu-main.c:478:32: note: in expansion of macro 'PAGE_SIZE'
-     478 |         return sysfs_emit(buf, PAGE_SIZE, "%016llx%016llx\n", guidh, guidl);
-         |                                ^~~~~~~~~
-   include/linux/sysfs.h:492:39: note: expected 'const char *' but argument is of type 'long unsigned int'
-     492 | int sysfs_emit(char *buf, const char *fmt, ...);
-         |                           ~~~~~~~~~~~~^~~
---
-   In file included from arch/x86/include/asm/page_types.h:9,
-                    from arch/x86/include/asm/ptrace.h:6,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from arch/x86/include/asm/timex.h:5,
-                    from include/linux/timex.h:67,
-                    from include/linux/time32.h:13,
-                    from include/linux/time.h:60,
-                    from include/linux/stat.h:19,
-                    from include/linux/module.h:13,
-                    from dfl-afu-main.c:18:
-   dfl-afu-main.c: In function 'id_show':
->> include/vdso/page.h:15:25: warning: passing argument 2 of 'sysfs_emit' makes pointer from integer without a cast [-Wint-conversion]
-      15 | #define PAGE_SIZE       (_AC(1,UL) << CONFIG_PAGE_SHIFT)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         long unsigned int
-   dfl-afu-main.c:159:32: note: in expansion of macro 'PAGE_SIZE'
-     159 |         return sysfs_emit(buf, PAGE_SIZE, "%d\n", id);
-         |                                ^~~~~~~~~
-   In file included from include/linux/kobject.h:20,
-                    from include/linux/module.h:21:
-   include/linux/sysfs.h:492:39: note: expected 'const char *' but argument is of type 'long unsigned int'
-     492 | int sysfs_emit(char *buf, const char *fmt, ...);
-         |                           ~~~~~~~~~~~~^~~
-   dfl-afu-main.c: In function 'afu_id_show':
->> include/vdso/page.h:15:25: warning: passing argument 2 of 'sysfs_emit' makes pointer from integer without a cast [-Wint-conversion]
-      15 | #define PAGE_SIZE       (_AC(1,UL) << CONFIG_PAGE_SHIFT)
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                         |
-         |                         long unsigned int
-   dfl-afu-main.c:478:32: note: in expansion of macro 'PAGE_SIZE'
-     478 |         return sysfs_emit(buf, PAGE_SIZE, "%016llx%016llx\n", guidh, guidl);
-         |                                ^~~~~~~~~
-   include/linux/sysfs.h:492:39: note: expected 'const char *' but argument is of type 'long unsigned int'
-     492 | int sysfs_emit(char *buf, const char *fmt, ...);
-         |                           ~~~~~~~~~~~~^~~
+vim +97 drivers/input/touchscreen/hynitron-cst816x.c
 
-
-vim +/sysfs_emit +15 include/vdso/page.h
-
-efe8419ae78d65e Vincenzo Frascino 2024-10-14  14  
-efe8419ae78d65e Vincenzo Frascino 2024-10-14 @15  #define PAGE_SIZE	(_AC(1,UL) << CONFIG_PAGE_SHIFT)
-efe8419ae78d65e Vincenzo Frascino 2024-10-14  16  
+    90	
+    91	static bool cst816x_process_touch(struct cst816x_priv *priv,
+    92					  struct cst816x_touch_desc *desc)
+    93	{
+    94		if (cst816x_i2c_read_register(priv, CST816X_RD_REG, desc, sizeof(*desc)))
+    95			return false;
+    96	
+  > 97		desc->abs_x = get_unaligned_be16(&desc->abs_x) & GENMASK(11, 0);
+  > 98		desc->abs_y = get_unaligned_be16(&desc->abs_y) & GENMASK(11, 0);
+    99	
+   100		dev_dbg(&priv->client->dev, "x: %u, y: %u, t: %u, g: 0x%x\n",
+   101			desc->abs_x, desc->abs_y, desc->touch, desc->gesture);
+   102	
+   103		return true;
+   104	}
+   105	
+   106	static int cst816x_register_input(struct cst816x_priv *priv)
+   107	{
+   108		priv->input = devm_input_allocate_device(&priv->client->dev);
+   109		if (!priv->input)
+   110			return -ENOMEM;
+   111	
+   112		priv->input->name = "Hynitron CST816x Series Touchscreen";
+   113		priv->input->phys = "input/ts";
+   114		priv->input->id.bustype = BUS_I2C;
+   115		input_set_drvdata(priv->input, priv);
+   116	
+   117		input_set_abs_params(priv->input, ABS_X, 0, 240, 0, 0);
+   118		input_set_abs_params(priv->input, ABS_Y, 0, 240, 0, 0);
+   119	
+   120		for (int i = 0; i < priv->keycodemax; i++) {
+   121			if (priv->keycode[i] == KEY_RESERVED)
+   122				continue;
+   123	
+   124			input_set_capability(priv->input, EV_KEY, priv->keycode[i]);
+   125		}
+   126	
+   127		return input_register_device(priv->input);
+   128	}
+   129	
+   130	static void cst816x_reset(struct cst816x_priv *priv)
+   131	{
+   132		gpiod_set_value_cansleep(priv->reset, 1);
+   133		msleep(50);
+   134		gpiod_set_value_cansleep(priv->reset, 0);
+   135		msleep(100);
+   136	}
+   137	
+   138	static irqreturn_t cst816x_irq_cb(int irq, void *cookie)
+   139	{
+   140		struct cst816x_priv *priv = cookie;
+   141		struct cst816x_touch_desc desc;
+   142	
+   143		if (!cst816x_process_touch(priv, &desc))
+   144			return IRQ_HANDLED;
+   145	
+   146		if (desc.touch) {
+   147			input_report_key(priv->input, priv->keycode[CST816X_TOUCH], 1);
+ > 148			input_report_abs(priv->input, ABS_X, desc.abs_x);
+ > 149			input_report_abs(priv->input, ABS_Y, desc.abs_y);
+   150		}
+   151	
+   152		if (desc.gesture) {
+   153			input_report_key(priv->input, priv->keycode[desc.gesture & 0x0F],
+   154					 desc.touch);
+   155	
+   156			if (!desc.touch)
+   157				input_report_key(priv->input,
+   158						 priv->keycode[CST816X_TOUCH], 0);
+   159		}
+   160	
+   161		input_sync(priv->input);
+   162	
+   163		return IRQ_HANDLED;
+   164	}
+   165	
 
 -- 
 0-DAY CI Kernel Test Service
