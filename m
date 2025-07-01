@@ -1,113 +1,122 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50AD8821;
-	Tue,  1 Jul 2025 11:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E0D22DFA3;
+	Tue,  1 Jul 2025 11:45:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751369694; cv=none; b=JDcX40NMtMHPgFgT7cvukmiGznVQzHWX8PlEDPTCqHM7OQysqfql/z+uNKSnieIGiOwWbmptTX76FRKcdwJtBlS/JOtf6jmy6YT9hwcCctNYrQq983RisfAz3T7eaz0e80fT2Nuv8QiotM5zhPtGa+iDjKoAXNfBUoRjPrdPA9Q=
+	t=1751370325; cv=none; b=Op1BITlO0sDlxGg9At0fqRMhvsYMlso5LKZ68W63eSP+Hs7x+Dvw6/SoBQ5aLWaplRZgA5wvdcj84rXnv5qmcxn9iaRZ2UY/pI2ZfOI+Aymq1yXcheVq0dnTxIxvzoi1k/yGDtnkU8KiDclWORFA+5Lb7Fripz10rR8hPyFKZuI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751369694; c=relaxed/simple;
-	bh=ivvvymmSfinokPA9qi1LGV8jWib2h8DV4cJuLS0xY2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f6poiBbmtdfzI0Hfb2P89bH+e94a6Ccts5EYpD4MpDUPfsCEz+urJQUVjo7I1DRLcOfegHt9pbq7N9XAuzSSecB0sOXLz2+O1VT3XgK5Wu0rb2zIUdOPrLsORvVOcvaIqb+uGLqrB25QRdq+RqeXkfl/hutwCAwUANtYnlwwUq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=on5fa/N7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751370325; c=relaxed/simple;
+	bh=aNPrlNO0LEQO9yhlQ7FyAqWQwiyb0Haxmp76a4+P4kQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=vF9nbueYk5Y6Y6x8Gy76y/Nj45pfFu/j57ehh8KJkbV9DqSBfJCoQJUBhnazHipGWEv5L7Qo5Pbbt6GleZfBDvdGA/rdIp7phu/1q4koEXgS1BZmlhQ9wg86fcMxk+TR4rYgo7G97ViLryIuP8Zwzi4IK8RV+PF+nQbfDm+klMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bFKr+LrF; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="on5fa/N7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25244C4CEEB;
-	Tue,  1 Jul 2025 11:34:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751369693;
-	bh=ivvvymmSfinokPA9qi1LGV8jWib2h8DV4cJuLS0xY2E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=on5fa/N7993Xiu8R8CmxLBfvJ25rLsGHcos0mtPx5h7O+Uf8PnRwRziavn1ZNk3qD
-	 dTlslotJxMgwQgJdXVemlWpk547OoKF09nmdwOK8mjg9Dw3s1arKSEV7tTpFEdh6CL
-	 NPKTxPzuKGG96E1Io5mCVhQJcuVdbIQr7g2WAtZWHqBLqFkVGUgpLGBnnyKZqHp0Vb
-	 SyfLuqjRiNIcavAZo9eM7r4tSbw+tiGx6AdcIMvQ+ypA9/f+T8O/0PhvLXdKbUnh9n
-	 wRC++Hv0QndQB4NIsjh8/mPRVtWo7RD9dV/TsgFK2FYIkOWjAQtc3iDsqfTq8TepTW
-	 55NYlUn9KniJQ==
-Date: Tue, 1 Jul 2025 13:34:47 +0200
-From: Christian Brauner <brauner@kernel.org>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, linux-fsdevel@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, hch@lst.de, miklos@szeredi.hu, djwong@kernel.org, 
-	anuj20.g@samsung.com, linux-xfs@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v3 13/16] fuse: use iomap for writeback
-Message-ID: <20250701-duktus-weitverbreitet-fb6b177ba0d8@brauner>
-References: <20250624022135.832899-14-joannelkoong@gmail.com>
- <202506252117.9V3HTO0i-lkp@intel.com>
- <CAJnrk1Z5NZ0_f=OMMam9hf0xJwM=SsmgFpyfbnKE7MT_i_kZMQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bFKr+LrF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751370324; x=1782906324;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aNPrlNO0LEQO9yhlQ7FyAqWQwiyb0Haxmp76a4+P4kQ=;
+  b=bFKr+LrFFt3B+y4cQN5Rz36G/jC9HQRDXACpogy6eJ08F7i0kk6jmGyg
+   guodMsP0FWJAtssUN68VMUXSyY2+SkHpT3bYDmge3sNUU0joNnLBiBba/
+   wwIPK9EPPERMz1Ey+JLhhICw/VlR755ODgkWuk2U0+zL5DeDyvn+yprq2
+   rJX0Dw4y2kGXfaDm0TBy/r3I1886r9UdFahikhDdKd/+Q+anG3vQVB2rw
+   qFdwBpS7OEEK2musy9NpoDDrMKQDgr8kkhrB0MNJy2brtrHvRxitPxz9a
+   r2XZN3l5oNtzC4NIaBvqsN91LiSS9nqRJ8CPjf/WEDPXXCZxLFH7Buy2t
+   A==;
+X-CSE-ConnectionGUID: 4wENHOcpSWSH2ZoyDdN3qg==
+X-CSE-MsgGUID: kKRym84FQpazppuBKWK1YQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="53736472"
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
+   d="scan'208";a="53736472"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 04:45:23 -0700
+X-CSE-ConnectionGUID: y7Trj0I1QAi7xqqYwslJ+Q==
+X-CSE-MsgGUID: T2fpWbg0QEmDR+xV/WXlXw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
+   d="scan'208";a="177417566"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 01 Jul 2025 04:45:22 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uWZQO-000a5w-0A;
+	Tue, 01 Jul 2025 11:45:20 +0000
+Date: Tue, 1 Jul 2025 19:44:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jgunthorpe:pcie_switch_groups 5/12] include/linux/pci.h:2073:6:
+ warning: no previous prototype for function 'pci_reachable_set'
+Message-ID: <202507011916.pteA6lcS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1Z5NZ0_f=OMMam9hf0xJwM=SsmgFpyfbnKE7MT_i_kZMQ@mail.gmail.com>
 
-On Wed, Jun 25, 2025 at 09:48:15AM -0700, Joanne Koong wrote:
-> On Wed, Jun 25, 2025 at 7:18 AM kernel test robot <lkp@intel.com> wrote:
-> >
-> > Hi Joanne,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on brauner-vfs/vfs.all]
-> > [also build test ERROR on xfs-linux/for-next linus/master v6.16-rc3 next-20250625]
-> > [cannot apply to gfs2/for-next mszeredi-fuse/for-next]
-> > [If your patch is applied to the wrong git tree, kindly drop us a note.
-> > And when submitting patch, we suggest to use '--base' as documented in
-> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Joanne-Koong/iomap-pass-more-arguments-using-struct-iomap_writepage_ctx/20250624-102709
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-> > patch link:    https://lore.kernel.org/r/20250624022135.832899-14-joannelkoong%40gmail.com
-> > patch subject: [PATCH v3 13/16] fuse: use iomap for writeback
-> > config: arm64-randconfig-003-20250625 (https://download.01.org/0day-ci/archive/20250625/202506252117.9V3HTO0i-lkp@intel.com/config)
-> > compiler: aarch64-linux-gcc (GCC) 12.3.0
-> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250625/202506252117.9V3HTO0i-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202506252117.9V3HTO0i-lkp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepages':
-> > >> file.c:(.text+0xa30): undefined reference to `iomap_writepages'
-> > >> file.c:(.text+0xa30): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_writepages'
-> >    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_writepage_finish':
-> > >> file.c:(.text+0x1fd8): undefined reference to `iomap_finish_folio_write'
-> > >> file.c:(.text+0x1fd8): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_finish_folio_write'
-> >    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_cache_write_iter':
-> >    file.c:(.text+0x888c): undefined reference to `iomap_file_buffered_write'
-> >    file.c:(.text+0x888c): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_file_buffered_write'
-> >    aarch64-linux-ld: fs/fuse/file.o: in function `fuse_iomap_writeback_range':
-> > >> file.c:(.text+0x9258): undefined reference to `iomap_start_folio_write'
-> > >> file.c:(.text+0x9258): relocation truncated to fit: R_AARCH64_CALL26 against undefined symbol `iomap_start_folio_write'
-> > >> aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x370): undefined reference to `iomap_dirty_folio'
-> >    aarch64-linux-ld: fs/fuse/file.o:(.rodata+0x3a0): undefined reference to `iomap_release_folio'
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> 
-> As noted in the cover letter [1]
-> 
->    Please note the following:
->    * this patchset version temporarily drops the CONFIG_BLOCK iomap refactoring
->      patches that will be needed to merge in the series. As of now, this breaks
->      compilation for environments where CONFIG_BLOCK is not set, but the
->      CONFIG_BLOCK iomap changes will be re-added back in once the core changes
->      in this patchset are ready to go.
-> 
-> 
-> These errors will be fixed in later versions when the CONFIG_BLOCK
-> patches get added in.
+tree:   https://github.com/jgunthorpe/linux pcie_switch_groups
+head:   44fc32b44e9100467bc59704d09b5aca075ccb06
+commit: 49f0c1b95856536e454bf3a1ef7fc8409f1b587f [5/12] PCI: Add pci_reachable_set()
+config: hexagon-allnoconfig (https://download.01.org/0day-ci/archive/20250701/202507011916.pteA6lcS-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project e04c938cc08a90ae60440ce22d072ebc69d67ee8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507011916.pteA6lcS-lkp@intel.com/reproduce)
 
-Ok, sounds good. Main thing is I can merge it all in one go.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507011916.pteA6lcS-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from kernel/dma/direct.c:16:
+   In file included from include/linux/pci-p2pdma.h:14:
+>> include/linux/pci.h:2073:6: warning: no previous prototype for function 'pci_reachable_set' [-Wmissing-prototypes]
+    2073 | void pci_reachable_set(struct pci_dev *start, struct pci_alias_set *devfns,
+         |      ^
+   include/linux/pci.h:2073:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2073 | void pci_reachable_set(struct pci_dev *start, struct pci_alias_set *devfns,
+         | ^
+         | static 
+   include/linux/pci.h:2079:10: error: use of undeclared identifier 'PCI_NON_ISOLATED'; did you mean 'PCIE_NON_ISOLATED'?
+    2079 | { return PCI_NON_ISOLATED; }
+         |          ^~~~~~~~~~~~~~~~
+         |          PCIE_NON_ISOLATED
+   include/linux/pci.h:854:2: note: 'PCIE_NON_ISOLATED' declared here
+     854 |         PCIE_NON_ISOLATED,
+         |         ^
+   include/linux/pci.h:2078:24: warning: no previous prototype for function 'pci_bus_isolated' [-Wmissing-prototypes]
+    2078 | enum pci_bus_isolation pci_bus_isolated(struct pci_bus *bus)
+         |                        ^
+   include/linux/pci.h:2078:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2078 | enum pci_bus_isolation pci_bus_isolated(struct pci_bus *bus)
+         | ^
+         | static 
+   kernel/dma/direct.c:148:20: warning: shift count >= width of type [-Wshift-count-overflow]
+     148 |                     phys_limit < DMA_BIT_MASK(64) &&
+         |                                  ^~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:73:54: note: expanded from macro 'DMA_BIT_MASK'
+      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                                      ^ ~~~
+   3 warnings and 1 error generated.
+
+
+vim +/pci_reachable_set +2073 include/linux/pci.h
+
+  2072	
+> 2073	void pci_reachable_set(struct pci_dev *start, struct pci_alias_set *devfns,
+  2074			       bool (*reachable)(struct pci_dev *deva,
+  2075						 struct pci_dev *devb))
+  2076	{ }
+  2077	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
