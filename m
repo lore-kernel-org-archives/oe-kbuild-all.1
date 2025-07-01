@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA4015E96
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 10:32:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4BBA26A0FC
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 10:43:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751365934; cv=none; b=DFocdd9CllQ05JXRw9SOEq4Ob8dWDLLUicN1hbAukqtU/QQFIhZQhVgLevRMshmhfoP+8uvPbTyVowcz832EgrDMxjgkjnob9v3Jq4nmsT8LvEI837n46m85Ai9/1hpHsroOUwtbAQs4ws1Ln0MBs/Q4w3XicSlKpX7H3xmT1hs=
+	t=1751366595; cv=none; b=E8k4TuAXoAtqtmR+K1w472xG6tdX0HhQCREE8l1s4uUsozh+epSaZk0jycTOUBfGTMMtnUpMmIk44nJZ9JnNvX3vHzgYz6AbWnvnEsNpueo/G76ITwdUnLYIY3XP5pX5uj2wcwBpnyF9P+pnb+B1+5JTucCD5uZuEB27JWFDibk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751365934; c=relaxed/simple;
-	bh=KFQ3Y+pkEqJc8qXrsKgLrHhHwNO8VS0ND7y48Hk8wLo=;
+	s=arc-20240116; t=1751366595; c=relaxed/simple;
+	bh=l/4PizZzQIKzcOfs7URCC/wywMWbISlOmXS51ctuSb0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IwlShUtXTOmj437gyWOZj13VtWEnhEbDHmb1lLKv8P5jbLEIutCwaHGWz7HKsbYHETPPXg5kl753U5LANeDc8Wz/3V6wpgFySkS/LqTtlV9XB8Arww56ihT+B6ygVpnKTc8buWmz49WtTPF6o85jwEyAJg5IKbZCyiIKlOWFBF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CCZJhTYF; arc=none smtp.client-ip=198.175.65.15
+	 Content-Disposition; b=SPocFTlmA5XFxxzCW0g8VZ3Oh/aNNXvcwa54ydOBMU3bmjrowe89q7zjwMx1mIAOscYLXzOgViNMm2BPtVIlJ3BkYfpsd4Hkns7uPxuiHSEwm5mECKFnqsaUlv3FBoJssOq3baJLGfO4W0aQZL/gEDbsV1TKmuL5xHEnxpTCtjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JfOBytap; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CCZJhTYF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JfOBytap"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751365933; x=1782901933;
+  t=1751366594; x=1782902594;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KFQ3Y+pkEqJc8qXrsKgLrHhHwNO8VS0ND7y48Hk8wLo=;
-  b=CCZJhTYFXDix6CBvR/pYTVcLlGBSYwQJGCVV+ZxHfik1+XfKmF+7PXDL
-   SqUrVtvs3Zko5EQcJUxPnVGZ7WCA4vDswfRYwYfQzDOH4AqV+c+He0UIv
-   MKK5MnjbjAO0QzHw4HmFiTc6pUmZE+WFUrLnKdu/wqQirJzxRfRTp+qPg
-   IbtEHfLHQuKUKrx8UWKyjaeVySgJKRxlWLoWHUHBjZenilLdYybuYayrh
-   R9JsWUnIQ3UE26UDKexSEPmOWiCuTvYnoQ5cYBUWdBe86O7vhnCoqr0hV
-   TvuYAar56vNUIfmHAo+DHXehvoWNw7a30An55C88xnj7CxKi+Igf0HBeK
-   Q==;
-X-CSE-ConnectionGUID: qdfOlwOsT82af89sIuxPHw==
-X-CSE-MsgGUID: BUAcU72TQha3s+I/wW4HDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="57303723"
+  bh=l/4PizZzQIKzcOfs7URCC/wywMWbISlOmXS51ctuSb0=;
+  b=JfOBytapE9zbgo2LO2sCTc0dXrXj+JjYsmxTqe3MDqDGYv+WESybpgy/
+   yuKCYOT2xKvDkpycbZtdNXToMavYn9aavSz6TL+C9kjzE8KKlWt0sa0Ey
+   420yM8TXJ24F1UbjxTy1bJVV64u4eS3bA7xAA2cfb0SUoOIxZsBeGTOli
+   YRdTMcB5tMz2Du1wpof6VMGEO7wSnip5wzmIoUAgRkebX80DW/zKog2Az
+   3kCDZ/bOILu1Djf0zu4NZpmKcCYjoqyyvwyEW4M5YXoOMz3EhKIbcIv8L
+   ZFsvGbRpAODVIlRiu/RbLxK57wIgDk0Cgy+rAvPcoHdfMVS1Y9yIzxJI1
+   w==;
+X-CSE-ConnectionGUID: wv940JR8RLCSEBtfLU0TcA==
+X-CSE-MsgGUID: QxfxOg4QSzSd9t2Gc/kGjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="64679057"
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="57303723"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 03:32:13 -0700
-X-CSE-ConnectionGUID: hQrXYdEiQse/5dHINGM+gw==
-X-CSE-MsgGUID: CHzkwkz4R++zhFShdwmeiQ==
+   d="scan'208";a="64679057"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 03:43:13 -0700
+X-CSE-ConnectionGUID: +ppM86PaRdmPryciMO3xBg==
+X-CSE-MsgGUID: IYjG9TCvQCeAauxRfXB5Nw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="153510188"
+   d="scan'208";a="153209267"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 01 Jul 2025 03:32:11 -0700
+  by orviesa006.jf.intel.com with ESMTP; 01 Jul 2025 03:43:13 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWYHZ-000a1S-0X;
-	Tue, 01 Jul 2025 10:32:09 +0000
-Date: Tue, 1 Jul 2025 18:31:53 +0800
+	id 1uWYSE-000a1o-01;
+	Tue, 01 Jul 2025 10:43:10 +0000
+Date: Tue, 1 Jul 2025 18:42:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 2989/2989] kernel/futex/core.o: warning:
- objtool: handle_futex_death()+0x16c: unreachable instruction
-Message-ID: <202507011830.hdTLU1NP-lkp@intel.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, John Hubbard <jhubbard@nvidia.com>
+Subject: [jfern:nova/master 64/87] Diff in
+ drivers/gpu/nova-core/falcon/gsp.rs at line 1:
+Message-ID: <202507011855.Uj0lOWHk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,25 +62,100 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Peter,
-
-First bad commit (maybe != root cause):
-
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   0655af1b703c5ae3de3a1ba80e5e31690ccfae93
-commit: f552f518f86f4489577e296625e624271e2f76b2 [2989/2989] futex: Move to kernel/futex/
-config: x86_64-buildonly-randconfig-002-20250628 (https://download.01.org/0day-ci/archive/20250701/202507011830.hdTLU1NP-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507011830.hdTLU1NP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/master
+head:   dfa2b234298399a62d48d2a78ce8f3f58d21cda1
+commit: f44ae3fcdbe155060b348c66ae943d53744e1f5c [64/87] nova-core: gsp: Add support for checking if GSP reloaded
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250701/202507011855.Uj0lOWHk-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507011855.Uj0lOWHk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507011830.hdTLU1NP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507011855.Uj0lOWHk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/futex/core.o: warning: objtool: handle_futex_death()+0x16c: unreachable instruction
+   PATH=/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   INFO PATH=/opt/cross/rustc-1.78.0-bindgen-0.65.1/cargo/bin:/opt/cross/clang-18/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 12h /usr/bin/make KCFLAGS= -fno-crash-diagnostics -Wno-error=return-type -Wreturn-type -funsigned-char -Wundef W=1 --keep-going LLVM=1 -j28 -C source O=/kbuild/obj/consumer/x86_64-rhel-9.4-rust ARCH=x86_64 SHELL=/bin/bash rustfmtcheck
+   make: Entering directory '/kbuild/src/consumer'
+   make[1]: Entering directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+>> Diff in drivers/gpu/nova-core/falcon/gsp.rs at line 1:
+    // SPDX-License-Identifier: GPL-2.0
+    
+   -use kernel::time::Delta;
+    use kernel::prelude::*;
+   +use kernel::time::Delta;
+    
+    use crate::{
+        driver::Bar0,
+   Diff in drivers/gpu/nova-core/falcon/gsp.rs at line 28:
+    
+        /// Function to check if GSP reload/resume has completed during the boot process.
+        #[expect(dead_code)]
+   -    pub(crate) fn check_reload_completed(
+   -        &self,
+   -        bar: &Bar0,
+   -        timeout: Delta,
+   -    ) -> Result<bool> {
+   +    pub(crate) fn check_reload_completed(&self, bar: &Bar0, timeout: Delta) -> Result<bool> {
+            wait_on(timeout, || {
+                let val = regs::NV_PGC6_BSI_SECURE_SCRATCH_14::read(bar);
+                if val.boot_stage_3_handoff() {
+>> Diff in drivers/gpu/nova-core/falcon/gsp.rs at line 1:
+    // SPDX-License-Identifier: GPL-2.0
+    
+   -use kernel::time::Delta;
+    use kernel::prelude::*;
+   +use kernel::time::Delta;
+    
+    use crate::{
+        driver::Bar0,
+   Diff in drivers/gpu/nova-core/falcon/gsp.rs at line 28:
+    
+        /// Function to check if GSP reload/resume has completed during the boot process.
+        #[expect(dead_code)]
+   -    pub(crate) fn check_reload_completed(
+   -        &self,
+   -        bar: &Bar0,
+   -        timeout: Delta,
+   -    ) -> Result<bool> {
+   +    pub(crate) fn check_reload_completed(&self, bar: &Bar0, timeout: Delta) -> Result<bool> {
+            wait_on(timeout, || {
+                let val = regs::NV_PGC6_BSI_SECURE_SCRATCH_14::read(bar);
+                if val.boot_stage_3_handoff() {
+>> Diff in drivers/gpu/nova-core/falcon/gsp.rs at line 1:
+    // SPDX-License-Identifier: GPL-2.0
+    
+   -use kernel::time::Delta;
+    use kernel::prelude::*;
+   +use kernel::time::Delta;
+    
+    use crate::{
+        driver::Bar0,
+   Diff in drivers/gpu/nova-core/falcon/gsp.rs at line 28:
+    
+        /// Function to check if GSP reload/resume has completed during the boot process.
+        #[expect(dead_code)]
+   -    pub(crate) fn check_reload_completed(
+   -        &self,
+   -        bar: &Bar0,
+   -        timeout: Delta,
+   -    ) -> Result<bool> {
+   +    pub(crate) fn check_reload_completed(&self, bar: &Bar0, timeout: Delta) -> Result<bool> {
+            wait_on(timeout, || {
+                let val = regs::NV_PGC6_BSI_SECURE_SCRATCH_14::read(bar);
+                if val.boot_stage_3_handoff() {
+   make[1]: Leaving directory '/kbuild/obj/consumer/x86_64-rhel-9.4-rust'
+   make[2]: *** [Makefile:1825: rustfmt] Error 123
+   make[2]: Target 'rustfmtcheck' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'rustfmtcheck' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'rustfmtcheck' not remade because of errors.
+   make: Leaving directory '/kbuild/src/consumer'
 
 -- 
 0-DAY CI Kernel Test Service
