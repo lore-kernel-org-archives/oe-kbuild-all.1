@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A120326E6F1
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 10:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDA4015E96
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 10:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751365333; cv=none; b=EvnsGWBT+ZYOx9GBifoxDTmgEhgihNaFJkj32pby/ANPCPM4TGoX6NHzi0uepE+v++Y7BasPIOHTmFw3ZvUJjoW65+PbTYy2sQMoPo8boaoko61x2cSVxJfOBn2w7IXiZozHLyLuPib4kBpK/CP8EheBYHxukqI9FXwISoj9abk=
+	t=1751365934; cv=none; b=DFocdd9CllQ05JXRw9SOEq4Ob8dWDLLUicN1hbAukqtU/QQFIhZQhVgLevRMshmhfoP+8uvPbTyVowcz832EgrDMxjgkjnob9v3Jq4nmsT8LvEI837n46m85Ai9/1hpHsroOUwtbAQs4ws1Ln0MBs/Q4w3XicSlKpX7H3xmT1hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751365333; c=relaxed/simple;
-	bh=tEzzifPZoW7kQ3MfUGhPe/Mj4AtGYyy0K52V2WWDGfk=;
+	s=arc-20240116; t=1751365934; c=relaxed/simple;
+	bh=KFQ3Y+pkEqJc8qXrsKgLrHhHwNO8VS0ND7y48Hk8wLo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bGgh38SeBpj2Ao2eFNmtPh4p8Aqg6x8oVt+zywV3yC3B7H7ejwviNxZE8ks8AfP8zaICkFeJymqdnEjyHZW2Vnrqwnckm4RrujbclIDftH0mhrM9b8Bm43OYRjidFti4tG/K8IrcHAH/fQC44p2XyfxMNpgG86YqxAB0wlau9xY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BLM95neh; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=IwlShUtXTOmj437gyWOZj13VtWEnhEbDHmb1lLKv8P5jbLEIutCwaHGWz7HKsbYHETPPXg5kl753U5LANeDc8Wz/3V6wpgFySkS/LqTtlV9XB8Arww56ihT+B6ygVpnKTc8buWmz49WtTPF6o85jwEyAJg5IKbZCyiIKlOWFBF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CCZJhTYF; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BLM95neh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CCZJhTYF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751365331; x=1782901331;
+  t=1751365933; x=1782901933;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=tEzzifPZoW7kQ3MfUGhPe/Mj4AtGYyy0K52V2WWDGfk=;
-  b=BLM95nehk+xbhq2ewFEFmV/NOjNnciHi8tsuguK89J0qs8rezfnkkzHA
-   NlqXC/drNt8t8fFy0Cf9U9FAzgO9kgX4sFdZdBCq/9SvbiYbfsNY/XiSG
-   yaEYp9GG1f80EN46Xb0a7O7cRC9Q2fZjRa/vaPDdovrVp3Z9T/aUdRqPy
-   vzUGojBKr+NiSDVPP02OptnXQ8dyKNlND5a+cEVjFuKUrjjt1pfU8S2ah
-   DMjNMUUyRLUuFO18n6cy8v6lCwM5h8MMGb4DRlRD0HNKQ+jp9EjoL6uxe
-   Rf1Rqvt6bPR7CthqtVfydFN51FkeEO8CHtl/HZzxSjKYilxTo73Iiujre
+  bh=KFQ3Y+pkEqJc8qXrsKgLrHhHwNO8VS0ND7y48Hk8wLo=;
+  b=CCZJhTYFXDix6CBvR/pYTVcLlGBSYwQJGCVV+ZxHfik1+XfKmF+7PXDL
+   SqUrVtvs3Zko5EQcJUxPnVGZ7WCA4vDswfRYwYfQzDOH4AqV+c+He0UIv
+   MKK5MnjbjAO0QzHw4HmFiTc6pUmZE+WFUrLnKdu/wqQirJzxRfRTp+qPg
+   IbtEHfLHQuKUKrx8UWKyjaeVySgJKRxlWLoWHUHBjZenilLdYybuYayrh
+   R9JsWUnIQ3UE26UDKexSEPmOWiCuTvYnoQ5cYBUWdBe86O7vhnCoqr0hV
+   TvuYAar56vNUIfmHAo+DHXehvoWNw7a30An55C88xnj7CxKi+Igf0HBeK
    Q==;
-X-CSE-ConnectionGUID: 0STm+eoBRCyVvl+hD4fPPw==
-X-CSE-MsgGUID: EDAW8PkFRF2lFAfDvY7a6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="64976181"
+X-CSE-ConnectionGUID: qdfOlwOsT82af89sIuxPHw==
+X-CSE-MsgGUID: BUAcU72TQha3s+I/wW4HDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="57303723"
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="64976181"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 03:22:11 -0700
-X-CSE-ConnectionGUID: p25gm577SvK6F5lH5aVSaw==
-X-CSE-MsgGUID: XTdLYcORSM2h2R7ct4iamA==
+   d="scan'208";a="57303723"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 03:32:13 -0700
+X-CSE-ConnectionGUID: hQrXYdEiQse/5dHINGM+gw==
+X-CSE-MsgGUID: CHzkwkz4R++zhFShdwmeiQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="153205228"
+   d="scan'208";a="153510188"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 01 Jul 2025 03:22:10 -0700
+  by orviesa009.jf.intel.com with ESMTP; 01 Jul 2025 03:32:11 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWY7r-000a0k-0S;
-	Tue, 01 Jul 2025 10:22:07 +0000
-Date: Tue, 1 Jul 2025 18:21:20 +0800
+	id 1uWYHZ-000a1S-0X;
+	Tue, 01 Jul 2025 10:32:09 +0000
+Date: Tue, 1 Jul 2025 18:31:53 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:pcie_switch_groups 2/12] include/linux/pci.h:2067:28:
- warning: control reaches end of non-void function
-Message-ID: <202507011852.9neWn3a6-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 2989/2989] kernel/futex/core.o: warning:
+ objtool: handle_futex_death()+0x16c: unreachable instruction
+Message-ID: <202507011830.hdTLU1NP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,41 +62,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux pcie_switch_groups
-head:   44fc32b44e9100467bc59704d09b5aca075ccb06
-commit: 1ef9f1a958f948a7ed5a60048c5fc668838007d7 [2/12] PCI: Add pci_bus_isolation()
-config: riscv-randconfig-002-20250701 (https://download.01.org/0day-ci/archive/20250701/202507011852.9neWn3a6-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507011852.9neWn3a6-lkp@intel.com/reproduce)
+Hi Peter,
+
+First bad commit (maybe != root cause):
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   0655af1b703c5ae3de3a1ba80e5e31690ccfae93
+commit: f552f518f86f4489577e296625e624271e2f76b2 [2989/2989] futex: Move to kernel/futex/
+config: x86_64-buildonly-randconfig-002-20250628 (https://download.01.org/0day-ci/archive/20250701/202507011830.hdTLU1NP-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507011830.hdTLU1NP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507011852.9neWn3a6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507011830.hdTLU1NP-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/iommu/iommu.c:24:
-   include/linux/pci.h:2066:24: warning: no previous prototype for 'pci_bus_isolated' [-Wmissing-prototypes]
-    2066 | enum pci_bus_isolation pci_bus_isolated(struct pci_bus *bus)
-         |                        ^~~~~~~~~~~~~~~~
-   include/linux/pci.h: In function 'pci_bus_isolated':
-   include/linux/pci.h:2067:10: error: 'PCI_NON_ISOLATED' undeclared (first use in this function); did you mean 'PCIE_NON_ISOLATED'?
-    2067 | { return PCI_NON_ISOLATED; }
-         |          ^~~~~~~~~~~~~~~~
-         |          PCIE_NON_ISOLATED
-   include/linux/pci.h:2067:10: note: each undeclared identifier is reported only once for each function it appears in
->> include/linux/pci.h:2067:28: warning: control reaches end of non-void function [-Wreturn-type]
-    2067 | { return PCI_NON_ISOLATED; }
-         |                            ^
-
-
-vim +2067 include/linux/pci.h
-
-  2065	
-> 2066	enum pci_bus_isolation pci_bus_isolated(struct pci_bus *bus)
-> 2067	{ return PCI_NON_ISOLATED; }
-  2068	
+>> kernel/futex/core.o: warning: objtool: handle_futex_death()+0x16c: unreachable instruction
 
 -- 
 0-DAY CI Kernel Test Service
