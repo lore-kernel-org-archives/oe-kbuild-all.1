@@ -1,59 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31012749D2
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 11:55:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6A22AD02;
+	Tue,  1 Jul 2025 12:06:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751370927; cv=none; b=GYoE/d1kzd5UiDqaOMPHG25RmfU+ohURGCpCQvTn+pEThaejr3giM9jd2FJzvH83mOghyeiw3lwa0Sy9JzWv2hGynU0AWe0I8E4/1iDpSbbH/kV77ik3F/GoC4QfPL3a4NMexV7sfNAgH4Pw88S/qoAhB0cUuEiEHScnnmIbe2I=
+	t=1751371589; cv=none; b=MMNo4HmNl0Q21SFf8uMzh/VeXJwMeRTLePtzE0nxsnVEP4bzE9vbjCYcFF+zPwhQbL11aPlU+kMM37foa8gQ2F6k9ceVeSQIhn/VosgnUTeJuHB5oPu8xbGTGAqbWHuLpzrc1cssV9sHVWiYpbLvaSzejHJwkfyQLViBFvo3EI4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751370927; c=relaxed/simple;
-	bh=lY4+eC1PvE8kkZw0hyPr2bmqSM+pt7uh0hqGkv5VUc0=;
+	s=arc-20240116; t=1751371589; c=relaxed/simple;
+	bh=vtwL355P7xg/kNnf+LDHrpJKPY3z9ZBrkpJ97FcFU4s=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bHFlv52Bof+qEsFsF8xFWCL4BZfB9MFaz5GfSiV56b+p9ubGr8JjnbcHIbix/MRa/z3dnxCed4h5ibEORYOHbERGC2oHK8ALNEUye551B82qvzWRmQ4+8bJkRU05c3jZi9/OwNR/dGcb0eGQ0+zTBeK1mQKzF+r3Jvftt2xYDBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FBpgIplQ; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=Tf6Yu1ZwHYaISqj3tEABIbbM4fHpYGG069JAgk/mhGcqXaUfNBjX5sG6ZyD/QodMKcc7ug5B6+1vyMtiP6Ed736JIUmBPNzIGvDd6kt0NZqt1QuqBlFXduy+v6Ia1sik6ZUQLFCMmxGdPLFD9s97IepdTLWhF6JjWoxB9ROKTPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGXAX/25; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FBpgIplQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGXAX/25"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751370925; x=1782906925;
+  t=1751371588; x=1782907588;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lY4+eC1PvE8kkZw0hyPr2bmqSM+pt7uh0hqGkv5VUc0=;
-  b=FBpgIplQeERdMF9lvzhWd7szJsLcLsqiULq1a4fCqA5q8++34cSlmVWQ
-   OcuR+DsmHca4nm2Cwbv0ciYjJHTE+ymX3sXfMSzYozPZ5zN+/TbpdvRlD
-   9w8h7I0Q8soePa+OzxQf7ceHcXMpIZiDaBxLgpsZ1Git214JbJ9gtV0TD
-   o9+HfuYMFHADY2W6jdSXznR/Ak1v6+remI2mYrYPHO0CQtg7gE9iVBER9
-   xi9MOnKneRLVGSbRraV5KG/yVO/hSe0OttvF1g94lLjSNMPXkNRG90NgZ
-   TrGiFrHqJCVN4s84lC2ULfOWFcWVgWp7bSAFluCoHuHYBrSdaZO66RlNP
+  bh=vtwL355P7xg/kNnf+LDHrpJKPY3z9ZBrkpJ97FcFU4s=;
+  b=bGXAX/259SLiQazbtfiJp3DHmVeAzlz6mSdls2lvVpelQXlpCN7QakVh
+   a3AL9sS/cW7tIxJ1dzmWs9CtIhaebhTEOoOqdYQ5+x/tUrK4EP/jo0oMK
+   dHCrrA6slW6eF+Zv1Aki4S55KpGMBrLGrxSoQCUvJHM2ckGZTQuVw+7ZT
+   NBVCU0N3gYb5lY0kB7Jxq5uQ9/iIlmhTiTNM9cFV0KMXq6Qbr2mIIUaCI
+   TUUmGOLKyzmTveeIKsrZ9cONWwgTBSdf8GDzYK4fh87k3yi3xmFDsxAws
+   DMQYgt8sTeBUlEowIjLbIaFcw7rXy3vt6PURhfvuzDNRudXrMyKqkBXnQ
    g==;
-X-CSE-ConnectionGUID: Xhj0dmRtQ3OOQqYCUfzmLw==
-X-CSE-MsgGUID: fGKlJTDxTCmNMOMttAVASA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="52863096"
+X-CSE-ConnectionGUID: +auYYbasQte91RyZ3GXENA==
+X-CSE-MsgGUID: /oucow0NTu2Wj5l/b5boog==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="52864165"
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="52863096"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 04:55:25 -0700
-X-CSE-ConnectionGUID: yz7BkTSsSGS+GNip7YlF0w==
-X-CSE-MsgGUID: e8XmR1xhRVGV6LpLrTjpxg==
+   d="scan'208";a="52864165"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 05:06:27 -0700
+X-CSE-ConnectionGUID: hfQVdkq5TWyEg6XHgFytPQ==
+X-CSE-MsgGUID: BjoM80rvQyW5/vJ1n1psAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="154244315"
+   d="scan'208";a="158312161"
 Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 01 Jul 2025 04:55:24 -0700
+  by orviesa004.jf.intel.com with ESMTP; 01 Jul 2025 05:06:25 -0700
 Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWZa5-000a6M-2A;
-	Tue, 01 Jul 2025 11:55:21 +0000
-Date: Tue, 1 Jul 2025 19:55:14 +0800
+	id 1uWZkk-000a7I-2n;
+	Tue, 01 Jul 2025 12:06:22 +0000
+Date: Tue, 1 Jul 2025 20:05:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:pcie_switch_groups 3/12] drivers/iommu/iommu.c:1619:19:
- error: assignment to 'struct pci_dev *' from 'int' makes pointer from
- integer without a cast
-Message-ID: <202507011914.PQrXaDn4-lkp@intel.com>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: fs/lockd/svcsubs.c:416:1: warning: stack frame size (1032) exceeds
+ limit (1024) in 'nlmsvc_mark_resources'
+Message-ID: <202507011934.YZ0Qoq4s-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,189 +64,140 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/jgunthorpe/linux pcie_switch_groups
-head:   44fc32b44e9100467bc59704d09b5aca075ccb06
-commit: 4cbce969c519aae8c87f0f72fb43e0e1dd590dc6 [3/12] iommu: Compute iommu_groups properly for PCIe switches
-config: csky-randconfig-r071-20250701 (https://download.01.org/0day-ci/archive/20250701/202507011914.PQrXaDn4-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507011914.PQrXaDn4-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   66701750d5565c574af42bef0b789ce0203e3071
+commit: 3415b10a03945b0da4a635e146750dfe5ce0f448 kbuild: Fix '-S -c' in x86 stack protector scripts
+date:   11 months ago
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250701/202507011934.YZ0Qoq4s-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507011934.YZ0Qoq4s-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507011914.PQrXaDn4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507011934.YZ0Qoq4s-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from drivers/iommu/iommu.c:24:
-   include/linux/pci.h:2066:24: warning: no previous prototype for 'pci_bus_isolated' [-Wmissing-prototypes]
-    2066 | enum pci_bus_isolation pci_bus_isolated(struct pci_bus *bus)
-         |                        ^~~~~~~~~~~~~~~~
-   include/linux/pci.h: In function 'pci_bus_isolated':
-   include/linux/pci.h:2067:10: error: 'PCI_NON_ISOLATED' undeclared (first use in this function); did you mean 'PCIE_NON_ISOLATED'?
-    2067 | { return PCI_NON_ISOLATED; }
-         |          ^~~~~~~~~~~~~~~~
-         |          PCIE_NON_ISOLATED
-   include/linux/pci.h:2067:10: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/iommu/iommu.c: In function 'pci_device_group':
-   drivers/iommu/iommu.c:1619:21: error: implicit declaration of function 'pci_real_dma_dev'; did you mean 'pci_alloc_dev'? [-Wimplicit-function-declaration]
-    1619 |         real_pdev = pci_real_dma_dev(pdev);
-         |                     ^~~~~~~~~~~~~~~~
-         |                     pci_alloc_dev
->> drivers/iommu/iommu.c:1619:19: error: assignment to 'struct pci_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1619 |         real_pdev = pci_real_dma_dev(pdev);
-         |                   ^
-   include/linux/pci.h: In function 'pci_bus_isolated':
-   include/linux/pci.h:2067:28: warning: control reaches end of non-void function [-Wreturn-type]
-    2067 | { return PCI_NON_ISOLATED; }
-         |                            ^
+   In file included from fs/lockd/svcsubs.c:16:
+   In file included from include/linux/sunrpc/svc.h:17:
+   In file included from include/linux/sunrpc/xdr.h:17:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2221:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> fs/lockd/svcsubs.c:416:1: warning: stack frame size (1032) exceeds limit (1024) in 'nlmsvc_mark_resources' [-Wframe-larger-than]
+     416 | nlmsvc_mark_resources(struct net *net)
+         | ^
+   6 warnings generated.
+--
+   In file included from drivers/dma/dw-edma/dw-edma-pcie.c:11:
+   In file included from include/linux/pci.h:1648:
+   In file included from include/linux/dmapool.h:14:
+   In file included from include/linux/scatterlist.h:8:
+   In file included from include/linux/mm.h:2221:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/dma/dw-edma/dw-edma-pcie.c:159:12: warning: stack frame size (1032) exceeds limit (1024) in 'dw_edma_pcie_probe' [-Wframe-larger-than]
+     159 | static int dw_edma_pcie_probe(struct pci_dev *pdev,
+         |            ^
+   6 warnings generated.
+--
+   In file included from drivers/video/fbdev/savage/savagefb_driver.c:49:
+   In file included from include/linux/mm.h:2221:
+   include/linux/vmstat.h:500:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     500 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     501 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:507:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     507 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     508 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:514:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     514 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:519:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     519 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     520 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:528:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     528 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     529 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/video/fbdev/savage/savagefb_driver.c:1503:12: warning: stack frame size (1032) exceeds limit (1024) in 'savagefb_set_par' [-Wframe-larger-than]
+    1503 | static int savagefb_set_par(struct fb_info *info)
+         |            ^
+   6 warnings generated.
 
 
-vim +1619 drivers/iommu/iommu.c
+vim +/nlmsvc_mark_resources +416 fs/lockd/svcsubs.c
 
-  1575	
-  1576	/*
-  1577	 * For legacy PCI we have two main considerations when forming groups:
-  1578	 *
-  1579	 *  1) In PCI we can loose the RID inside the fabric, or some devices will use
-  1580	 *     the wrong RID. The PCI core calls this aliasing, but from an IOMMU
-  1581	 *     perspective it means that a PCI device may have multiple RIDs and a
-  1582	 *     single RID may represent many PCI devices. This effectively means all the
-  1583	 *     aliases must share a translation, thus group, because the IOMMU cannot
-  1584	 *     tell devices apart.
-  1585	 *
-  1586	 *  2) PCI permits a bus segment to claim an address even if the transaction
-  1587	 *     originates from an end point not the CPU. When it happens it is called
-  1588	 *     peer to peer. Claiming a transaction in the middle of the bus hierarchy
-  1589	 *     bypasses the IOMMU translation. The IOMMU subsystem rules require these
-  1590	 *     devices to be placed in the same group because they lack isolation from
-  1591	 *     each other. In PCI Express the ACS system can be used to inhibit this and
-  1592	 *     force transactions to go to the IOMMU.
-  1593	 *
-  1594	 *     From a PCI perspective any given PCI bus is either isolating or
-  1595	 *     non-isolating. Isolating means downstream originated transactions always
-  1596	 *     progress toward the CPU and do not go to other devices on the bus
-  1597	 *     segment, while non-isolating means downstream originated transactions can
-  1598	 *     progress back downstream through another device on the bus segment.
-  1599	 *
-  1600	 *     Beyond buses a multi-function device or bridge can also allow
-  1601	 *     transactions to loop back internally from one function to another.
-  1602	 *
-  1603	 *     Once a PCI bus becomes non isolating the entire downstream hierarchy of
-  1604	 *     that bus becomes a single group.
-  1605	 */
-  1606	struct iommu_group *pci_device_group(struct device *dev)
-  1607	{
-  1608		struct pci_dev *pdev = to_pci_dev(dev);
-  1609		struct iommu_group *group;
-  1610		struct pci_dev *real_pdev;
-  1611	
-  1612		if (WARN_ON(!dev_is_pci(dev)))
-  1613			return ERR_PTR(-EINVAL);
-  1614	
-  1615		/*
-  1616		 * Arches can supply a completely different PCI device that actually
-  1617		 * does DMA.
-  1618		 */
-> 1619		real_pdev = pci_real_dma_dev(pdev);
-  1620		if (real_pdev != pdev) {
-  1621			group = iommu_group_get(&real_pdev->dev);
-  1622			if (!group) {
-  1623				/*
-  1624				 * The real_pdev has not had an iommu probed to it. We
-  1625				 * can't create a new group here because there is no way
-  1626				 * for pci_device_group(real_pdev) to pick it up.
-  1627				 */
-  1628				dev_err(dev,
-  1629					"PCI device is probing out of order, real device of %s is not probed yet\n",
-  1630					pci_name(real_pdev));
-  1631				return ERR_PTR(-EPROBE_DEFER);
-  1632			}
-  1633			return group;
-  1634		}
-  1635	
-  1636		if (pdev->dev_flags & PCI_DEV_FLAGS_BRIDGE_XLATE_ROOT)
-  1637			return iommu_group_alloc();
-  1638	
-  1639		/* Anything upstream of this enforcing non-isolated? */
-  1640		group = pci_hierarchy_group(pdev);
-  1641		if (group)
-  1642			return group;
-  1643	
-  1644		switch (pci_bus_isolated(pdev->bus)) {
-  1645		case PCIE_ISOLATED:
-  1646			/* Check multi-function groups and same-bus devfn aliases */
-  1647			group = pci_get_alias_group(pdev);
-  1648			if (group)
-  1649				return group;
-  1650	
-  1651			/* No shared group found, allocate new */
-  1652			return iommu_group_alloc();
-  1653	
-  1654		/*
-  1655		 * On legacy PCI there is no RID at an electrical level. On PCI-X the
-  1656		 * RID of the bridge may be used in some cases instead of the
-  1657		 * downstream's RID. This creates aliasing problems. PCI/PCI-X doesn't
-  1658		 * provide isolation either. The end result is that as soon as we hit a
-  1659		 * PCI/PCI-X bus we switch to non-isolated for the whole downstream for
-  1660		 * both aliasing and isolation reasons. The bridge has to be included in
-  1661		 * the group because of the aliasing.
-  1662		 */
-  1663		case PCI_BRIDGE_NON_ISOLATED:
-  1664		/* A PCIe switch where the USP has MMIO and is not isolated. */
-  1665		case PCIE_NON_ISOLATED:
-  1666			group = iommu_group_get(&pdev->bus->self->dev);
-  1667			if (WARN_ON(!group))
-  1668				return ERR_PTR(-EINVAL);
-  1669			/*
-  1670			 * No need to be concerned with aliases here since we are going
-  1671			 * to put the entire downstream tree in the bridge/USP's group.
-  1672			 */
-  1673			group->bus_data |= BUS_DATA_PCI_UNISOLATED;
-  1674			return group;
-  1675	
-  1676		/*
-  1677		 * It is a PCI bus and the upstream bridge/port does not alias or allow
-  1678		 * P2P.
-  1679		 */
-  1680		case PCI_BUS_NON_ISOLATED:
-  1681		/*
-  1682		 * It is a PCIe switch and the DSP cannot reach the USP. The DSP's
-  1683		 * are not isolated from each other and share a group.
-  1684		 */
-  1685		case PCIE_SWITCH_DSP_NON_ISOLATED: {
-  1686			struct pci_dev *piter = NULL;
-  1687	
-  1688			/*
-  1689			 * All the downstream devices on the bus share a group. If this
-  1690			 * is a PCIe switch then they will all be DSPs
-  1691			 */
-  1692			for_each_pci_dev(piter) {
-  1693				if (piter->bus != pdev->bus)
-  1694					continue;
-  1695				group = iommu_group_get(&piter->dev);
-  1696				if (group) {
-  1697					pci_dev_put(piter);
-  1698					if (WARN_ON(!(group->bus_data &
-  1699						      BUS_DATA_PCI_UNISOLATED)))
-  1700						group->bus_data |=
-  1701							BUS_DATA_PCI_UNISOLATED;
-  1702					return group;
-  1703				}
-  1704			}
-  1705	
-  1706			group = iommu_group_alloc();
-  1707			group->bus_data |= BUS_DATA_PCI_UNISOLATED;
-  1708			return group;
-  1709		}
-  1710		default:
-  1711			break;
-  1712		}
-  1713		WARN_ON(true);
-  1714		return ERR_PTR(-EINVAL);
-  1715	}
-  1716	EXPORT_SYMBOL_GPL(pci_device_group);
-  1717	
+f2af793db02d2c Olaf Kirch           2006-10-04  411  
+^1da177e4c3f41 Linus Torvalds       2005-04-16  412  /*
+^1da177e4c3f41 Linus Torvalds       2005-04-16  413   * Mark all hosts that still hold resources
+^1da177e4c3f41 Linus Torvalds       2005-04-16  414   */
+^1da177e4c3f41 Linus Torvalds       2005-04-16  415  void
+b26411f85d3763 Stanislav Kinsbursky 2012-07-25 @416  nlmsvc_mark_resources(struct net *net)
+^1da177e4c3f41 Linus Torvalds       2005-04-16  417  {
+b26411f85d3763 Stanislav Kinsbursky 2012-07-25  418  	struct nlm_host hint;
+b26411f85d3763 Stanislav Kinsbursky 2012-07-25  419  
+e919b0765287f3 Vasily Averin        2017-11-08  420  	dprintk("lockd: %s for net %x\n", __func__, net ? net->ns.inum : 0);
+b26411f85d3763 Stanislav Kinsbursky 2012-07-25  421  	hint.net = net;
+b26411f85d3763 Stanislav Kinsbursky 2012-07-25  422  	nlm_traverse_files(&hint, nlmsvc_mark_host, NULL);
+^1da177e4c3f41 Linus Torvalds       2005-04-16  423  }
+^1da177e4c3f41 Linus Torvalds       2005-04-16  424  
+
+:::::: The code at line 416 was first introduced by commit
+:::::: b26411f85d3763ec5fc553854d9c3c0966072090 LockD: mark host per network namespace on garbage collect
+
+:::::: TO: Stanislav Kinsbursky <skinsbursky@parallels.com>
+:::::: CC: J. Bruce Fields <bfields@redhat.com>
 
 -- 
 0-DAY CI Kernel Test Service
