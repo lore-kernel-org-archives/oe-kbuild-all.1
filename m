@@ -1,193 +1,295 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2049.outbound.protection.outlook.com [40.107.244.49])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D312222A6
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 21:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751405610; cv=fail; b=Qfyi72hhQzC77LmqqKGsLeeEE7nK2Nl1gqdXtDY9o3dXArTt4rGbuTj65JtGZHE6z87bMm0qUSGscrw7BELFMn1Fh/y9xciYUs5LDdVcUsvgs6W6B2RdQpMlQHkwcG/YZ2IvM/VwNYKLfTtVkGLIDk96BsSO4f6A3EFdS5J32L4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751405610; c=relaxed/simple;
-	bh=eUyU+fbFfS8EbnHD99MHkIHOULPchC0ALH2Dzcqe/XY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cmFYZbD4EgwvElmphZ+irNPl1gYIE3JsH6M26zdSKSaOwVJfF7Wg3NgfcsSLS9JdToqnAH1S5NMk2cq+aYcC1nM/J1JyTwI9xpniSOi9bQwosX6kNRgRivkVxwR3ZMf39KTs4c4SUs72KpFuf447ubDnhZrBcHiuNaGkaVxSn2Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sgCWnDLe; arc=fail smtp.client-ip=40.107.244.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64002261591;
+	Tue,  1 Jul 2025 21:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751406994; cv=none; b=Xlc+6B4EQAurfnw2nkdg2FxOJ0gbe2B9CLeRzouFAB4lV7b1yrXAKxWiQOrgF42eAfOdBJOiJ2Pd7+sRqoU5TWwJMKSJqPdxkImuU0kbg4ngMG9c4unHux16SjJcQOCB8yoyySHYLm3JF8JKFWUP0TyF4F6GbfCulIt9srt7HjI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751406994; c=relaxed/simple;
+	bh=oY5LNb5fbr7IN9pcsIbI7/CiyZj7InMf++EYxhBZRnI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gveaklgZC5W9uvBZlf8k65mLgp6fML6XtjB/i61HEzwE8of5OdSh7vmd4wbzKPeE/S4DrLE290qePZ5Ufe8fGDczmLS4IY2c9C9uzTTkkgcasp2h+6CfFaIU+00IcRdvupIFJtXSWERyJdWpfgdtb0wRZ0UIkvUQOUbcqizU/tA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P67isBFo; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sgCWnDLe"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xtgElOApqKLvZ9ElrtZrwrWfxCILphhbog44xiRVTTokjFo20GA+DL4ujhtW/HNKlyAwyjeMbq6F997U1kmhb5DnwWzPo1s0zSXF5y8yBGwXcJiq/lUZN2sOLeHUfHBG8O1QWEIVv8Iw9Pfk147x6d27Z6jOTjncISTrJxIqMz427U9W0mE/mW5BRcn/C42jvAk+cOYyRoUdEnoNo9qSWBKOvqyqfKvMVNtdFp1iAEINAyBQxnymx752zG4Efqtrd+DXeV+SQra7ftM1qwsxn6/Abiznx0MhUkXX88UTCHyKPFa2Xbib1l5odyJFBU47HVirxXUnHa7Fz+clsEmGlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ocjnbUDNmzrpxLpwXOJvFGqansCGUiZQz7+/ALZVUHE=;
- b=ga/cX2D6rQJvqfkLae+BTcPzMBkknzOsBNRpI3mp/9njHl0z8NIkao95lUktqrjALIFJZ82W6ZlTEQtuzjYhp/O0s9l7DemL2StL8aS4LJbn1tsMno42SydcEuZqPtk+I/AQL2p9XjPRjIlfbBqDIqB2WwGqKVHVRasnFICabbJdRHC/E7r+p070WgpyYMadPzJVpaJUy2TIq3z8bYGyGeYUBBU63txdzeMGdS7ArMVkg6QREHNDSlrcozlN3Z4YgSR/o52g50RoM0n6eB53sTrNYDaK85AyFkZTSZiISLbrBjjO45phcUm0W98Wr1YCXzFV1ulU4F9HgsQWruzLDw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ocjnbUDNmzrpxLpwXOJvFGqansCGUiZQz7+/ALZVUHE=;
- b=sgCWnDLegKp51gwFkc6ehUdqPvpbWRLWhFu/ps1JXhZrzFH/jrkAZcauZrSHqgn9kYe66FHWWMcaG26jtj0dYu/KDn6girG35BLHeFAa/sMmDiqD7fhP7EPET46wr3qLqv+fJ1Yz1rKZ8bByvNTJ0XTJ4F6wSAGN/xezE/grIsG6GQMC8tCiUq3nk3J2j9ngaiHWDOJZRdSBxTTAhhH0W7mFA6V20cFBQqBXljEO7dI+vm86vFdydd3lD1q5T5eemggop05mt9qRrzwp662SFx7k8Js73fXnkADrWMLesJuXa/ND6K0u20yr6iMlOPGH7cC4eNmDfdXXBpmOdSgmkg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by DS0PR12MB7679.namprd12.prod.outlook.com (2603:10b6:8:134::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.22; Tue, 1 Jul
- 2025 21:33:26 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%7]) with mapi id 15.20.8901.018; Tue, 1 Jul 2025
- 21:33:26 +0000
-Message-ID: <7969b64a-c18d-4b4d-a514-d78eaf9fd920@nvidia.com>
-Date: Tue, 1 Jul 2025 17:33:24 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [jfern:nova/master 72/87] Diff in
- drivers/gpu/nova-core/debugfs.rs at line 1:
-To: John Hubbard <jhubbard@nvidia.com>, kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-References: <202507020022.CTF71Rpm-lkp@intel.com>
- <03c57ca0-200d-407a-a0da-43137c9eda3f@nvidia.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <03c57ca0-200d-407a-a0da-43137c9eda3f@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN0P221CA0006.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:208:52a::12) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P67isBFo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751406991; x=1782942991;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oY5LNb5fbr7IN9pcsIbI7/CiyZj7InMf++EYxhBZRnI=;
+  b=P67isBFoqW2LyzlD0wh+3lTsA1QgFIUa7tWDAre8m02aLOywvm2A0Mdc
+   /8pnzB6/46tHORqYw1fn7hDmhu8mxr4X342NNz1cc7GVE2O8u9deCOMCq
+   zedNCNq+yhp6/n0zOy1I31URwyKUvD8w4788isDaS24cKuXmGsyhgKhQP
+   8ZkjuVAcAzldDMoTYPUI4b4h2hsbMLGAE3d38lTtW+HgEjEudxMQ+f5D4
+   eVT19o3PncDdt3HQG/+t+lSLXqQJ+juYPQsJeC/gb8QH4be+3q73nRl6v
+   82lfoWlEDhHViORDckPzJSn6MyVOcjfCHOLlQqw5YkiehyEEEuxdIAFrk
+   A==;
+X-CSE-ConnectionGUID: ZSknIq1ZQ26KbFQBqWy6Mw==
+X-CSE-MsgGUID: KkkLNuMZRMy/i80KeHcHbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="52803248"
+X-IronPort-AV: E=Sophos;i="6.16,280,1744095600"; 
+   d="scan'208";a="52803248"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 14:56:30 -0700
+X-CSE-ConnectionGUID: WdunRTW0RKKf9wvtdSnDpQ==
+X-CSE-MsgGUID: 9L0X+n5xTOmZAOIzj/X5xw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,280,1744095600"; 
+   d="scan'208";a="177559879"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 01 Jul 2025 14:56:28 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uWixm-000ahY-2S;
+	Tue, 01 Jul 2025 21:56:26 +0000
+Date: Wed, 2 Jul 2025 05:56:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, x86@kernel.org,
+	"Borislav Petkov (AMD)" <bp@alien8.de>
+Subject: [tip:master 19/19] include/linux/irq-entry-common.h:201:2: error:
+ unexpected token
+Message-ID: <202507020528.N0LtekXt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DS0PR12MB7679:EE_
-X-MS-Office365-Filtering-Correlation-Id: 38175ba1-0889-469f-fb4b-08ddb8e6e9a5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?K0cvb3BheUw2eVJGRlZyUDE5d0tiaDYyUXhMMjVwcFYxV295a3ZiLzV5TEV3?=
- =?utf-8?B?NGw0cndKNnB4b2l3anNScmZsak1PQ0FSa0xib1NhZW9hM3FCYnZic1V5NExo?=
- =?utf-8?B?eGV0NTFRZEdLSmhNcE9FaW1xdnhlM3lxd3dUSHdmOEp3MzVMMzZxb0lnbith?=
- =?utf-8?B?YWVkUnQzNk0wZ25iK2twT0gzZ0FlUGZPOHl3V2JSWWVUQm9KYnpIa3FMSngy?=
- =?utf-8?B?N1ZBSzhPMjExYnM0SmZnYXRxcVNQMjlEZUs4SGkyK21hdlAwSjBGbjJPMjZB?=
- =?utf-8?B?YXBuRWJMMjNnazA4cHBITzMzTFllTUVYaDJLZWs3Smsram1qZHhjQTdIOEp1?=
- =?utf-8?B?SGNqcktqQXQ4WG5qdno0aW90K0huUGxkeTFteXFSM25EL0tZTFUzRDRPQm5P?=
- =?utf-8?B?STl6U0sxYkxsOVZlQVNsd1FhTnJIcTNWNW1VZ0I5dmo1T2l6ODVrNHY3T0NO?=
- =?utf-8?B?MTljTGhSL3Bsd0w3UEdydmxRN1NnSmk2UXJVcnBBZGljM0Z2VzBjaU1iTlY5?=
- =?utf-8?B?S1VId3p2eEZ4RDVFMGJmVEdpZUpGNlJ5ZDA5Q08wL2VuY3ZvVk9ObXU5N0FY?=
- =?utf-8?B?OUFncTdSM00vemltdi8rUWpDWVVaRTBLeVRJaUtlOHdRWU9pMnNzOSt0SE4w?=
- =?utf-8?B?dW16ckc1Z3AzSXZRaE1OVmZqSk5obk5UQkMxajNmQUdteW1yVWttZFlrTFZF?=
- =?utf-8?B?a3BlcW1ZcHk5djVkeGYwMzc3cXVqT1RiOHhFMWRYQ2hjTTNUOFB5blY5M3RG?=
- =?utf-8?B?em5OVXFPNUwxKy9nTCtobzFRV0JxalVVdkFPTU9Vc2N6bHpBcHRzZWFGT0sz?=
- =?utf-8?B?UUR6djIvUmF6d0lTYlZWWFJwdytmV3NwRzNvTm1tSmpYVWtUK0JCYWxybXo5?=
- =?utf-8?B?dHlJSGUxNkYvY3J2Wk5TTkVpT2k4TThlUzBNZ20zQXU5c2R0eXBXREREeVVV?=
- =?utf-8?B?Vk9JNjdCcldwYnJLNEg3aWZnTkVpSVQrNDhIemJDTzdDYm13a2pXd0Z4dC92?=
- =?utf-8?B?bUdIeHBuL0Z2WCtRVWQzczBTV3BkZ04rdGNKbDJNVGhzWWttMHhXK251UVd0?=
- =?utf-8?B?SjVGVlNEdmFHYldqN1N2VXgrd2F2WXpXTDg1bEN1U0lkS3g2MVhkcWxyejV2?=
- =?utf-8?B?dDdpMlpnY3JmZDEwSlJnWjRac0F2QVpmUU0rdHpPTUNOeUx2dzlUU3hmTzRN?=
- =?utf-8?B?ampleUJza25HS3k4N3Fqd0V0K3E5MUxHMEVTTmhCU1pndnR0REZvVFdrNWNX?=
- =?utf-8?B?dS9oSHlDVFpNSUl1dE5wUkNnMUdpUXkrYkJnOGJVQ0dXOGtBblFwSFBtRmlS?=
- =?utf-8?B?ZGdhTy9KOVdldnErR0JCTU1XeXhERFArZHpSSzg1NWlzZUdzT2RpV05RVUtB?=
- =?utf-8?B?Smo4NXhWNTFyQ0JUUVpXMCt6V0Q2eXhhbk9SN2h6VUxtQ3VkeHNuYnpmMTdj?=
- =?utf-8?B?cGYwdUxnZUNOcWZ2bFdVaFVNVFJacWZXRElId3FXSVo3Mm01dEJQM3BWd1dR?=
- =?utf-8?B?TmxOR09hY1gyaFpQb2sxU0xUWGJ4T0thcWhocWxRY3o3ZUtIRmJzZ2lkc1E0?=
- =?utf-8?B?bmVCWjZyZldQOGUwUGxQQ1RpYVVCVFhDYitWQmU4Z3lBd2s0WlZtOEZFaXEw?=
- =?utf-8?B?RjBHQW14ZittaTd1VWhMVDdkMTZyYzN3TVpYYWxHWEZkR053SGtWaFBtQnZj?=
- =?utf-8?B?TUlnci9KN3lvVXQ4RnZIc1BuREVyMWx1YzZnR0pWaTZ6NnBldkVlbW03cXAv?=
- =?utf-8?B?NEVaZEdqZk9QdmhmLzRlREpHa3dQQ2UydHV0TGw4UmtnZmNJVi9zWEt6TjRv?=
- =?utf-8?B?RkhSeEROaG1MbzUwSWhxeFM1dFdPMldmWldaamMrY1ZOMmFZVDhxdW9Menpa?=
- =?utf-8?B?bWl0b2p1YWF6amdUbWRMUEYrRjBJYVFqT1Bpc2Vqamp1VWZuTHpjSE9FTHBa?=
- =?utf-8?Q?M/9zpBYYPmw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB8059.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?czJmVE9Td0hNZnh4QTNKYXZZZEtxL2FkUStJYlVTd1VUS0ZIcE1Id3NINVdY?=
- =?utf-8?B?RDBDY1NsWitpUGlKR3Zhd2lMcWtGbDRubUlyMy8rTWJXME0yYVFuTFFHNC9H?=
- =?utf-8?B?REI5ZkNET3Q5TUNnTnNTUS9iR3FsejVwOThRbGJWdWM0VzhMNjRweCtEK2Qv?=
- =?utf-8?B?OEI1c0Npdk9NZDRlWFBFY3F6QXZxaU9zdzZYSzVDcllNNlFDcnN3NUtMTXZB?=
- =?utf-8?B?SzltWlp6UEwzaWcxQUJieDRSM1h1SFY5c2NYYnpjSU56THNTNWFwRG1CK0h3?=
- =?utf-8?B?Y25uZ3BicDdLamtJR3VicVpZZm5Yd09Ic1czVkJwbDNlNzlyUHd6Q2l6UUF1?=
- =?utf-8?B?Z2IxYlFGQWxQRlFtaGUxY3BFRFFBNUE0UkQ2ZDMxTzc1Sk1BOHRGa3llVlc3?=
- =?utf-8?B?c3lRNXRSMkN6T3hESldTK0ZWdEFmRFhpVVZhQk0wMGJEZ1lWeVM1cUtTNkps?=
- =?utf-8?B?ZE9mcEY4cmZ1MTRyUVJrMzFyRWdUbTlUUEt1dEpMZVlOaSsyTXNmNFhXdzcy?=
- =?utf-8?B?bGFxUDRBSTNwdENCcm1nK0dpQ1hFMG1SRTNPelU2MXZsVnFoN1ZXUXhvT1Fq?=
- =?utf-8?B?WExtVUJSVVFmL2lmRkZlbWJMQms3TndvNkdmN0lDcG5nZitjQ20rUzAwMGFm?=
- =?utf-8?B?S0J3QmRRYWZpVk1jQlRYK0ZnSTUxR1lEZVY2aTlVVXBNbnhQOXBnbGJtOGJn?=
- =?utf-8?B?Y1VaZFNZcHlkRXJqckN2U1krYk9TYmtqWVlsVmwwRTV4akdzSVN5QVFkVDdl?=
- =?utf-8?B?cGgxeHJSZ3lFd2tDUUR2SHN1b2FoREc1UGRWOVJLQjlHTkRTSXR5WU1CZlNs?=
- =?utf-8?B?VTZyODI0N1BCVFBtS21YWGpnR0VLaGtiMkU4U2V2MTFuTE5GclR5U0ZQM0pj?=
- =?utf-8?B?cmtSNlVDbEd2amFNdUpCL2gramNOcWNxeTNOSDkyYWFHWHByeFl4eFpGYU91?=
- =?utf-8?B?U2JJQVE3QjdXUjUzNHAzWGxvV3lEcVFIK0ZYb2daRmFyUzg2N1pUT1lCdUhR?=
- =?utf-8?B?NW5HRTJ1blowOXdhRko5aE1UMVIvYzZrSHB1eWxleVp3ckFOZXBZbm5ZZG9D?=
- =?utf-8?B?MjdoSTdIQVUxNUJkNzk5R2xCRDBpWCtmM3NpZyt3UUtibFNkbjhqNDRZN2FS?=
- =?utf-8?B?bWZvMUxiVjRoM2ZqMXFmZEZXdElObFBoQ1ZCSzBNRlgydXp2R3RmbERtUzZu?=
- =?utf-8?B?cUxvbWM4R0NxdGxxQ2tNUVYxV0V1K0M2c0hVRjhTdWk2UG5kaFpIT1BnUEd5?=
- =?utf-8?B?U0NodFhQV2ZrVjc5VjZvN0xWOVY3TmEvNlNzclZ2czQxTEhxRkgzWm1yam4x?=
- =?utf-8?B?TTZQRzIyYTNrdm9LNjFMWDB2b0VmOFJpTDBSdTNNOEZ1YkVjNG4zZFVySHc3?=
- =?utf-8?B?U2RCNFU2WFpDMXZjSXhvUDV1UFBucTZ5aWgzMFIyWnpIVCtUbDN6QkQ2KzFh?=
- =?utf-8?B?NlN4YlBlWU05RmM5RXJ2RXRnWDd0SVNRaHZ5d2hzN3VuUmRzeWpUSzBaTjlQ?=
- =?utf-8?B?TW0zUXVHV25jSkEraEtwSW1YYmhxMWkrbmxIS1V5K2dFbHh2aWZhc2R5cFdu?=
- =?utf-8?B?ZXZBcUZraTJ5S2o5U3NGbVdoNXVza3FvN3ZWRy80Y3MvbzNPN2Q4STlOUVJh?=
- =?utf-8?B?SGtPT2EzKzltS1RteExSWDZ3SE43RENlSzNiVHBhNnQ5cW5mZHV0Mlk2YVFL?=
- =?utf-8?B?VUVZSW5iOGFIdEx3NWI1Q1J4RHVGSlBScTNJeXdCNkUrTS9iYzNjZmtQMmVI?=
- =?utf-8?B?L2NyaTBKSUMwdXVzU05Iem1nQ3gvN0U4Vk9IZGt5QlF0cUFLYUFYUjFTVGF4?=
- =?utf-8?B?YndWdlMwWlJVYldQenMxTDE5TFluZDVzYTRTdFpCNTBKeDkyampiMWNhQmdh?=
- =?utf-8?B?ZHUvZ0wwRnNXL3M0WnJHVFo3WUY4SW5nTHc1MnQvaklJWVZwTFJyZTB4eWow?=
- =?utf-8?B?WllTc1UxdmRHRk5lN2VoU0ZTNFhmUk5VR3dKR3NHZktibGFvL01XQXBOa0du?=
- =?utf-8?B?R0QwVVRNbkk5Mmp4Z3p1bzExRFZwZXNESko5cTU1NmR2amxuVGVGQ29xWjhH?=
- =?utf-8?B?WUp4a2dBSkxudjJCbkVVRWp5ZGhuYXpPc3BETkNOWlV1bEtidzRkellqc1hh?=
- =?utf-8?Q?+zUEZbtG59PkABwSLdKMfJG4I?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38175ba1-0889-469f-fb4b-08ddb8e6e9a5
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 21:33:26.2915
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EhYX/u7n9o80BZGrhIlwmaHFEs6S+X/V7T16n7Z3nQB/cTcFjBOl0Qb3xwJM7u2XoQ7CyH13g+tD8BKfX7te+Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7679
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git master
+head:   104f02a7798f7e8aba25545f9d485035532260b2
+commit: 104f02a7798f7e8aba25545f9d485035532260b2 [19/19] Merge core/entry into tip/master
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250702/202507020528.N0LtekXt-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507020528.N0LtekXt-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507020528.N0LtekXt-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/s390/kernel/process.c:32:
+   include/linux/entry-common.h:161:7: error: unexpected token
+     161 |                 if (WARN(irqs_disabled(), "syscall %lu left IRQs disabled", nr))
+         |                     ^
+   include/asm-generic/bug.h:141:3: note: expanded from macro 'WARN'
+     141 |                 __WARN_printf(TAINT_WARN, format);                      \
+         |                 ^
+   include/asm-generic/bug.h:113:3: note: expanded from macro '__WARN_printf'
+     113 |                 __WARN_FLAGS("", BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint));\
+         |                 ^
+   arch/s390/include/asm/bug.h:44:2: note: expanded from macro '__WARN_FLAGS'
+      44 |         __BUG_FLAGS(cond_str, BUGFLAG_WARNING|(flags));         \
+         |         ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/stringify.h:10:27: note: expanded from macro '__stringify'
+      10 | #define __stringify(x...)       __stringify_1(x)
+         |                                 ^
+   include/linux/stringify.h:9:29: note: expanded from macro '__stringify_1'
+       9 | #define __stringify_1(x...)     #x
+         |                                 ^
+   <scratch space>:31:1: note: expanded from here
+      31 | ".pushsection __bug_table, \"aw\"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, \"aMS\", @progbits, 1; 10002: .string \"\" \"include/linux/entry-common.h\"; .popsection; .long 10002b - .; .short 161; .short (1 << 0)|((1 << 3) | ((9) << 8)); .popsection; 10001: mc 0,0"
+         | ^
+   <inline asm>:1:134: note: instantiated into assembly here
+       1 |         .pushsection __bug_table, "aw"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, "aMS", @progbits, 1; 10002: .string "" "include/linux/entry-common.h"; .popsection; .long 10002b - .; .short 161; .short (1 << 0)|((1 << 3) | ((9) << 8)); .popsection; 10001: mc 0,0
+         |                                                                                                                                             ^
+   In file included from arch/s390/kernel/process.c:32:
+   In file included from include/linux/entry-common.h:5:
+>> include/linux/irq-entry-common.h:201:2: error: unexpected token
+     201 |         lockdep_assert_irqs_disabled();
+         |         ^
+   include/linux/lockdep.h:582:2: note: expanded from macro 'lockdep_assert_irqs_disabled'
+     582 |         WARN_ON_ONCE(__lockdep_enabled && this_cpu_read(hardirqs_enabled)); \
+         |         ^
+   include/asm-generic/bug.h:119:3: note: expanded from macro 'WARN_ON_ONCE'
+     119 |                 __WARN_FLAGS("["#condition"] ",                 \
+         |                 ^
+   arch/s390/include/asm/bug.h:44:2: note: expanded from macro '__WARN_FLAGS'
+      44 |         __BUG_FLAGS(cond_str, BUGFLAG_WARNING|(flags));         \
+         |         ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/stringify.h:10:27: note: expanded from macro '__stringify'
+      10 | #define __stringify(x...)       __stringify_1(x)
+         |                                 ^
+   include/linux/stringify.h:9:29: note: expanded from macro '__stringify_1'
+       9 | #define __stringify_1(x...)     #x
+         |                                 ^
+   <scratch space>:153:1: note: expanded from here
+     153 | ".pushsection __bug_table, \"aw\"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, \"aMS\", @progbits, 1; 10002: .string \"[\"\"__lockdep_enabled && this_cpu_read(hardirqs_enabled)\"\"] \" \"include/linux/irq-entry-common.h\"; .popsection; .long 10002b - .; .short 201; .short (1 << 0)|((1 << 1) | ((9) << 8)); .popsection; 10001: mc 0,0"
+         | ^
+   <inline asm>:1:134: note: instantiated into assembly here
+       1 |         .pushsection __bug_table, "aw"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, "aMS", @progbits, 1; 10002: .string "[""__lockdep_enabled && this_cpu_read(hardirqs_enabled)""] " "include/linux/irq-entry-common.h"; .popsection; .long 10002b - .; .short 201; .short (1 << 0)|((1 << 1) | ((9) << 8)); .popsection; 10001: mc 0,0
+         |                                                                                                                                             ^
+   In file included from arch/s390/kernel/process.c:32:
+   In file included from include/linux/entry-common.h:5:
+   include/linux/irq-entry-common.h:214:2: error: unexpected token
+     214 |         lockdep_assert_irqs_disabled();
+         |         ^
+   include/linux/lockdep.h:582:2: note: expanded from macro 'lockdep_assert_irqs_disabled'
+     582 |         WARN_ON_ONCE(__lockdep_enabled && this_cpu_read(hardirqs_enabled)); \
+         |         ^
+   include/asm-generic/bug.h:119:3: note: expanded from macro 'WARN_ON_ONCE'
+     119 |                 __WARN_FLAGS("["#condition"] ",                 \
+         |                 ^
+   arch/s390/include/asm/bug.h:44:2: note: expanded from macro '__WARN_FLAGS'
+      44 |         __BUG_FLAGS(cond_str, BUGFLAG_WARNING|(flags));         \
+         |         ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/stringify.h:10:27: note: expanded from macro '__stringify'
+      10 | #define __stringify(x...)       __stringify_1(x)
+         |                                 ^
+   include/linux/stringify.h:9:29: note: expanded from macro '__stringify_1'
+       9 | #define __stringify_1(x...)     #x
+         |                                 ^
+   <scratch space>:2:1: note: expanded from here
+       2 | ".pushsection __bug_table, \"aw\"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, \"aMS\", @progbits, 1; 10002: .string \"[\"\"__lockdep_enabled && this_cpu_read(hardirqs_enabled)\"\"] \" \"include/linux/irq-entry-common.h\"; .popsection; .long 10002b - .; .short 214; .short (1 << 0)|((1 << 1) | ((9) << 8)); .popsection; 10001: mc 0,0"
+         | ^
+   <inline asm>:1:134: note: instantiated into assembly here
+       1 |         .pushsection __bug_table, "aw"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, "aMS", @progbits, 1; 10002: .string "[""__lockdep_enabled && this_cpu_read(hardirqs_enabled)""] " "include/linux/irq-entry-common.h"; .popsection; .long 10002b - .; .short 214; .short (1 << 0)|((1 << 1) | ((9) << 8)); .popsection; 10001: mc 0,0
+         |                                                                                                                                             ^
+   3 errors generated.
+--
+   In file included from arch/s390/kernel/syscall.c:35:
+   include/linux/entry-common.h:161:7: error: unexpected token
+     161 |                 if (WARN(irqs_disabled(), "syscall %lu left IRQs disabled", nr))
+         |                     ^
+   include/asm-generic/bug.h:141:3: note: expanded from macro 'WARN'
+     141 |                 __WARN_printf(TAINT_WARN, format);                      \
+         |                 ^
+   include/asm-generic/bug.h:113:3: note: expanded from macro '__WARN_printf'
+     113 |                 __WARN_FLAGS("", BUGFLAG_NO_CUT_HERE | BUGFLAG_TAINT(taint));\
+         |                 ^
+   arch/s390/include/asm/bug.h:44:2: note: expanded from macro '__WARN_FLAGS'
+      44 |         __BUG_FLAGS(cond_str, BUGFLAG_WARNING|(flags));         \
+         |         ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/stringify.h:10:27: note: expanded from macro '__stringify'
+      10 | #define __stringify(x...)       __stringify_1(x)
+         |                                 ^
+   include/linux/stringify.h:9:29: note: expanded from macro '__stringify_1'
+       9 | #define __stringify_1(x...)     #x
+         |                                 ^
+   <scratch space>:137:1: note: expanded from here
+     137 | ".pushsection __bug_table, \"aw\"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, \"aMS\", @progbits, 1; 10002: .string \"\" \"include/linux/entry-common.h\"; .popsection; .long 10002b - .; .short 161; .short (1 << 0)|((1 << 3) | ((9) << 8)); .popsection; 10001: mc 0,0"
+         | ^
+   <inline asm>:1:134: note: instantiated into assembly here
+       1 |         .pushsection __bug_table, "aw"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, "aMS", @progbits, 1; 10002: .string "" "include/linux/entry-common.h"; .popsection; .long 10002b - .; .short 161; .short (1 << 0)|((1 << 3) | ((9) << 8)); .popsection; 10001: mc 0,0
+         |                                                                                                                                             ^
+   In file included from arch/s390/kernel/syscall.c:35:
+   In file included from include/linux/entry-common.h:5:
+>> include/linux/irq-entry-common.h:201:2: error: unexpected token
+     201 |         lockdep_assert_irqs_disabled();
+         |         ^
+   include/linux/lockdep.h:582:2: note: expanded from macro 'lockdep_assert_irqs_disabled'
+     582 |         WARN_ON_ONCE(__lockdep_enabled && this_cpu_read(hardirqs_enabled)); \
+         |         ^
+   include/asm-generic/bug.h:119:3: note: expanded from macro 'WARN_ON_ONCE'
+     119 |                 __WARN_FLAGS("["#condition"] ",                 \
+         |                 ^
+   arch/s390/include/asm/bug.h:44:2: note: expanded from macro '__WARN_FLAGS'
+      44 |         __BUG_FLAGS(cond_str, BUGFLAG_WARNING|(flags));         \
+         |         ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/stringify.h:10:27: note: expanded from macro '__stringify'
+      10 | #define __stringify(x...)       __stringify_1(x)
+         |                                 ^
+   include/linux/stringify.h:9:29: note: expanded from macro '__stringify_1'
+       9 | #define __stringify_1(x...)     #x
+         |                                 ^
+   <scratch space>:59:1: note: expanded from here
+      59 | ".pushsection __bug_table, \"aw\"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, \"aMS\", @progbits, 1; 10002: .string \"[\"\"__lockdep_enabled && this_cpu_read(hardirqs_enabled)\"\"] \" \"include/linux/irq-entry-common.h\"; .popsection; .long 10002b - .; .short 201; .short (1 << 0)|((1 << 1) | ((9) << 8)); .popsection; 10001: mc 0,0"
+         | ^
+   <inline asm>:1:134: note: instantiated into assembly here
+       1 |         .pushsection __bug_table, "aw"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, "aMS", @progbits, 1; 10002: .string "[""__lockdep_enabled && this_cpu_read(hardirqs_enabled)""] " "include/linux/irq-entry-common.h"; .popsection; .long 10002b - .; .short 201; .short (1 << 0)|((1 << 1) | ((9) << 8)); .popsection; 10001: mc 0,0
+         |                                                                                                                                             ^
+   In file included from arch/s390/kernel/syscall.c:35:
+   In file included from include/linux/entry-common.h:5:
+   include/linux/irq-entry-common.h:214:2: error: unexpected token
+     214 |         lockdep_assert_irqs_disabled();
+         |         ^
+   include/linux/lockdep.h:582:2: note: expanded from macro 'lockdep_assert_irqs_disabled'
+     582 |         WARN_ON_ONCE(__lockdep_enabled && this_cpu_read(hardirqs_enabled)); \
+         |         ^
+   include/asm-generic/bug.h:119:3: note: expanded from macro 'WARN_ON_ONCE'
+     119 |                 __WARN_FLAGS("["#condition"] ",                 \
+         |                 ^
+   arch/s390/include/asm/bug.h:44:2: note: expanded from macro '__WARN_FLAGS'
+      44 |         __BUG_FLAGS(cond_str, BUGFLAG_WARNING|(flags));         \
+         |         ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/stringify.h:10:27: note: expanded from macro '__stringify'
+      10 | #define __stringify(x...)       __stringify_1(x)
+         |                                 ^
+   include/linux/stringify.h:9:29: note: expanded from macro '__stringify_1'
+       9 | #define __stringify_1(x...)     #x
+         |                                 ^
+   <scratch space>:104:1: note: expanded from here
+     104 | ".pushsection __bug_table, \"aw\"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, \"aMS\", @progbits, 1; 10002: .string \"[\"\"__lockdep_enabled && this_cpu_read(hardirqs_enabled)\"\"] \" \"include/linux/irq-entry-common.h\"; .popsection; .long 10002b - .; .short 214; .short (1 << 0)|((1 << 1) | ((9) << 8)); .popsection; 10001: mc 0,0"
+         | ^
+   <inline asm>:1:134: note: instantiated into assembly here
+       1 |         .pushsection __bug_table, "aw"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, "aMS", @progbits, 1; 10002: .string "[""__lockdep_enabled && this_cpu_read(hardirqs_enabled)""] " "include/linux/irq-entry-common.h"; .popsection; .long 10002b - .; .short 214; .short (1 << 0)|((1 << 1) | ((9) << 8)); .popsection; 10001: mc 0,0
+         |                                                                                                                                             ^
+   3 errors generated.
 
 
+vim +201 include/linux/irq-entry-common.h
 
-On 7/1/2025 1:56 PM, John Hubbard wrote:
-> On 7/1/25 9:14 AM, kernel test robot wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/
->> master
->> head:   dfa2b234298399a62d48d2a78ce8f3f58d21cda1
->> commit: 70794f2c1436933de0355b0bc0eb6faf16e968f8 [72/87] DEBUG: nova-core:
->> debugfs support to dump logrm, logintr, loginit
-> 
-> Hi Joel,
-> 
-> I've forgotten, but did you submit this and its related patches,
-> directly to the kernel test robot? Otherwise I'm wondering how
-> this was launched. Just curious.
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  180  
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  181  /**
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  182   * exit_to_user_mode_loop - do any pending work before leaving to user space
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  183   */
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  184  unsigned long exit_to_user_mode_loop(struct pt_regs *regs,
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  185  				     unsigned long ti_work);
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  186  
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  187  /**
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  188   * exit_to_user_mode_prepare - call exit_to_user_mode_loop() if required
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  189   * @regs:	Pointer to pt_regs on entry stack
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  190   *
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  191   * 1) check that interrupts are disabled
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  192   * 2) call tick_nohz_user_enter_prepare()
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  193   * 3) call exit_to_user_mode_loop() if any flags from
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  194   *    EXIT_TO_USER_MODE_WORK are set
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  195   * 4) check that interrupts are still disabled
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  196   */
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  197  static __always_inline void exit_to_user_mode_prepare(struct pt_regs *regs)
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  198  {
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  199  	unsigned long ti_work;
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  200  
+a70e9f647f501e3 Jinjie Ruan 2025-06-24 @201  	lockdep_assert_irqs_disabled();
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  202  
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  203  	/* Flush pending rcuog wakeup before the last need_resched() check */
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  204  	tick_nohz_user_enter_prepare();
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  205  
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  206  	ti_work = read_thread_flags();
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  207  	if (unlikely(ti_work & EXIT_TO_USER_MODE_WORK))
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  208  		ti_work = exit_to_user_mode_loop(regs, ti_work);
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  209  
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  210  	arch_exit_to_user_mode_prepare(regs, ti_work);
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  211  
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  212  	/* Ensure that kernel state is sane for a return to userspace */
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  213  	kmap_assert_nomap();
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  214  	lockdep_assert_irqs_disabled();
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  215  	lockdep_sys_exit();
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  216  }
+a70e9f647f501e3 Jinjie Ruan 2025-06-24  217  
 
-It launches for all my upstream trees (scheduler, RCU), and I push my WIP trees
-to kernel.org as well to share with others, so it tests everything. There used
-to be a way to stop it from doing so by appending '.wip' but now I believe that
-doesn't work (also its odd to suffix .wip). To its credit, I did fix the lint
-errors it shared in my latest tree.
+:::::: The code at line 201 was first introduced by commit
+:::::: a70e9f647f501e36a6a092888b1ea7386b7c5664 entry: Split generic entry into generic exception and syscall entry
 
-> I also noticed that the patch title (subject line) should be
-> tweaked, in order to have the right hierarchy, to:
-> 
->     nova-core: debugfs support to dump logrm, logintr, loginit
-> 
-> ...and if this is not a keeper, then maybe put "DEBUG" in there,
-> somewhere well after the "nova-core: " prefix.
+:::::: TO: Jinjie Ruan <ruanjinjie@huawei.com>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
-Yep, fixed. thanks,
-
- - Joel
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
