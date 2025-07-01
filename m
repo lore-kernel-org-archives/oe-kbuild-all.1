@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CC672637
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 09:31:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D980126FA62
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 09:46:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751362299; cv=none; b=CWGi5Wwzcrwi34z+FbC5g+VTf1yXZXCo4e+Ao725QliTygqSTfkHLMDJjZk42Gz1sAIlkFmlcKxOZTMpLL7CqJv86q8xSGlMTV44IDUkuGX3IS4wzOwAhLkLSwl2zUVeBpmc15psodfQwYoBP/GlPOeHOB3WHxJCySX3A6WuBJ8=
+	t=1751363171; cv=none; b=iRnvH9iCfHqnPtqRBy7qEN4v2mwUOSTCWz4BWTdGbXUB0mrL2QT9D3jjueHtlFa2RXmWtOnMy5lD10AQDnqEweonwgssgMogmqCi6YE10wNonNZnW2NHOUYn4vkItOltSm9zk8LN1WtqmslPvZpWglaWMQq47Tq0iXOxiYQwek4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751362299; c=relaxed/simple;
-	bh=7EGg2sDIun+1DGDD4CmSigpV4zLKBXCdT1zkBiqGfK4=;
+	s=arc-20240116; t=1751363171; c=relaxed/simple;
+	bh=j17YAtHKER+YOnY2027p4TAksXzqhC0bsWkLo6x/H/w=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F+VrnSr5l7xRXQ0BAKyjRfGgtmjUNfZY8RFXatOpANkf1mOQnl80n3HlbOPHyh0yWFHkZhsmQfShzn7MccVFRqqgyUvJmjAoq9bNwlsDqV7W1jOMxxS++msu2cmZ3Rxqkr73Vcw4hDERsziwG/DE+OyFLRk95GJjMKNrub7ymoM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mI/3l0Em; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=Ud3JBeEd7n5wQD1L8dEH4jb4YYz9a6579KKHRAjtmWZ2SG6pdpcdrgyljuNVP4y8mvjHUah+XgNoI9OoA15V5C3hexh8YgJMj/C17pfvcGrUlNP5ITQ/FLD+EoR3TxykRfRTtXOG0z5VGMfEY3kPjtRXwqTwPdpelTeWsUrAXfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FYGMRY3Q; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mI/3l0Em"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FYGMRY3Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751362296; x=1782898296;
+  t=1751363168; x=1782899168;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7EGg2sDIun+1DGDD4CmSigpV4zLKBXCdT1zkBiqGfK4=;
-  b=mI/3l0EmvsMWWGQTs2R7HX3BHzTqJ7iMXkm+ZZEUZ7eHm6i8bHDOn5ar
-   7A/wCS30ICbPKd+iKj/+AWeVbP5jl7h90GZeZjQoS+ItNowgkt+b0O91u
-   sSWKlRpY2FLPBq/oTpqwA4o1txZvh8iQRUb6CIRaEohiHDSP+j9Vef4aQ
-   C++XA8WOvbN0qMvFqZZPHPS/n/aGN2w5/1QIjxonUObX0jpumGYcIi+8Q
-   9OQOolmFbfW01jgllyufjcsiBr9YXSkn08Vxzoc/tpuBvcRMjWgew3Cko
-   HnIGIBZAVjP41ScyDpYrqiU5anKB6RfYaWdCYvAA2KFCAGlRA49ReCnpT
-   w==;
-X-CSE-ConnectionGUID: KlI2FA+oQROfLtXYEeTeJw==
-X-CSE-MsgGUID: 10O0MuVISF24cj0sP88Zsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="64969875"
+  bh=j17YAtHKER+YOnY2027p4TAksXzqhC0bsWkLo6x/H/w=;
+  b=FYGMRY3QEOoe2tZiNJZixxpL4n4Sbb/SzEn6JQ+9pbUrkiM0dSQ+uuRq
+   F3f69RHIeyutU0onrHi0LRCKI7Kc4XvcABrTK8jWEAJT7BKpNlNI69EXg
+   p0zVXPYxmc3MteheCAWV609ndR1vVTv7atIxiHRHfRceaWW9gutNEgFV5
+   sZ9IDf/HDck+Vsf6GtcBCpht9yJAhjPLsAkqjCVbgl9l/m4XnHZL8UrSL
+   XwLQYJqTxAZlXwyK5C0T7Q/9gf+rxw2DoS7I5FQDlhwZiGYxRJzbmNAto
+   lca++461v567Wb3LElb/YKfsLO2jX/CXkxWCaRb2hwVmQebZU7+GGV7dj
+   A==;
+X-CSE-ConnectionGUID: CnbOPSt1Sxexyl1k02x8Lg==
+X-CSE-MsgGUID: nFYnrZSeS6CmAym2xCNlZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11480"; a="64971910"
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="64969875"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 02:31:35 -0700
-X-CSE-ConnectionGUID: MiaeJAbIRemhuykc1nI7dQ==
-X-CSE-MsgGUID: jOTk7a1MSwKFtSJe6ygePQ==
+   d="scan'208";a="64971910"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 02:46:07 -0700
+X-CSE-ConnectionGUID: IcefsN+uRD2FR1Gmyq6mrA==
+X-CSE-MsgGUID: SfYcxiQUQ6edx/hzV9k62Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="153120234"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 01 Jul 2025 02:31:34 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
+   d="scan'208";a="158115804"
+Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
+  by orviesa003.jf.intel.com with ESMTP; 01 Jul 2025 02:46:06 -0700
+Received: from kbuild by 030a839a1121 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWXKt-000Zx0-2v;
-	Tue, 01 Jul 2025 09:31:31 +0000
-Date: Tue, 1 Jul 2025 17:30:32 +0800
+	id 1uWXYx-00002v-2H;
+	Tue, 01 Jul 2025 09:46:03 +0000
+Date: Tue, 1 Jul 2025 11:45:24 +0200
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 10/10]
- arch/x86/kernel/csv_command.c:433:5: warning: no previous prototype for
- 'csv3_issue_request_rtmr'
-Message-ID: <202507011754.OGepAsri-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1605/1605]
+ arch/x86/mm/pageattr.c:1787:5: warning: no previous prototype for function
+ 'set_memory_global'
+Message-ID: <202507011110.QFxtjmpf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,39 +63,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   18341c6c5a0f59b0b6173b07bd070a1fece13cad
-commit: 02cab5edebee4012cfe8caac6066af26add0699b [10/10] anolis: x86/csv: Introduce RTMR interfaces
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250701/202507011754.OGepAsri-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507011754.OGepAsri-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   890108d01fde2c3b6dde4d169b695ce64362f135
+commit: eac7073aa69aa1cac819aa712146284f53f642b1 [1605/1605] x86/mm/pti: Clear Global bit more aggressively
+config: x86_64-buildonly-randconfig-2001-20250501 (https://download.01.org/0day-ci/archive/20250701/202507011110.QFxtjmpf-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507011110.QFxtjmpf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507011754.OGepAsri-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507011110.QFxtjmpf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from arch/x86/kernel/csv_command.c:15:
-   arch/x86/kernel/csv_command_common.c:34:13: warning: no previous prototype for 'csv_scan_secure_call_pages' [-Wmissing-prototypes]
-      34 | void __init csv_scan_secure_call_pages(struct boot_params *boot_params)
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/csv_command_common.c:81:13: warning: no previous prototype for 'csv_early_secure_call' [-Wmissing-prototypes]
-      81 | void __init csv_early_secure_call(u64 base_address, u64 num_pages,
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/csv_command.c:387:5: warning: no previous prototype for 'csv3_issue_request_report' [-Wmissing-prototypes]
-     387 | int csv3_issue_request_report(phys_addr_t paddr, size_t size)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~~
->> arch/x86/kernel/csv_command.c:433:5: warning: no previous prototype for 'csv3_issue_request_rtmr' [-Wmissing-prototypes]
-     433 | int csv3_issue_request_rtmr(void *req_buffer, size_t buffer_size)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/mm/pageattr.c:170:6: warning: no previous prototype for function 'arch_invalidate_pmem' [-Wmissing-prototypes]
+     170 | void arch_invalidate_pmem(void *addr, size_t size)
+         |      ^
+   arch/x86/mm/pageattr.c:170:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     170 | void arch_invalidate_pmem(void *addr, size_t size)
+         | ^
+         | static 
+   arch/x86/mm/pageattr.c:556:17: warning: variable 'old_pte' set but not used [-Wunused-but-set-variable]
+     556 |         pte_t new_pte, old_pte, *tmp;
+         |                        ^
+   arch/x86/mm/pageattr.c:1781:5: warning: no previous prototype for function 'set_memory_nonglobal' [-Wmissing-prototypes]
+    1781 | int set_memory_nonglobal(unsigned long addr, int numpages)
+         |     ^
+   arch/x86/mm/pageattr.c:1781:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1781 | int set_memory_nonglobal(unsigned long addr, int numpages)
+         | ^
+         | static 
+>> arch/x86/mm/pageattr.c:1787:5: warning: no previous prototype for function 'set_memory_global' [-Wmissing-prototypes]
+    1787 | int set_memory_global(unsigned long addr, int numpages)
+         |     ^
+   arch/x86/mm/pageattr.c:1787:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1787 | int set_memory_global(unsigned long addr, int numpages)
+         | ^
+         | static 
+   4 warnings generated.
 
 
-vim +/csv3_issue_request_rtmr +433 arch/x86/kernel/csv_command.c
+vim +/set_memory_global +1787 arch/x86/mm/pageattr.c
 
-   432	
- > 433	int csv3_issue_request_rtmr(void *req_buffer, size_t buffer_size)
+  1786	
+> 1787	int set_memory_global(unsigned long addr, int numpages)
+  1788	{
+  1789		return change_page_attr_set(&addr, numpages,
+  1790					    __pgprot(_PAGE_GLOBAL), 0);
+  1791	}
+  1792	
 
 -- 
 0-DAY CI Kernel Test Service
