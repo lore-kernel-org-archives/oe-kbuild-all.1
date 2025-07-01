@@ -1,170 +1,193 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2049.outbound.protection.outlook.com [40.107.244.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48CEF1C84C5;
-	Tue,  1 Jul 2025 21:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751405186; cv=none; b=Cu2RpPcOZQgICsvDZQLdZ6xiNtcqyUrf5F7W3ECasfM343fdVq+4x5Xh6RVlbJRTklFRDyNGcjoYeAlPXfl9aY/ckv0m+FLCaSHzUkVdDqcXI+fIbG4z/HO6dQ0ZVOm+u4zWMkDyGmazx986A8tYHHJhkKVZxU6E9cozdZfgo+A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751405186; c=relaxed/simple;
-	bh=R8n6arEGcVswxLhU83lkKsbJgDWgzGUs6I6rRw/rX1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Xa5Tq7TRbbhellPimYdd/MEGasrGJ8K0zv1PGJAn/pgURo6qFniDYsXpsILkyUH0rf4Ze/c9uYW+fwoDuzN5ksG/HQHJBnydqBFQMdtbm3IyLWdLncrAl8rBb9vDRGSiW2qnAoG/93mkFUpiD3AmQ0f74aPelgNoLUJb/fgX6b4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eCqWnndB; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D312222A6
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 21:33:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751405610; cv=fail; b=Qfyi72hhQzC77LmqqKGsLeeEE7nK2Nl1gqdXtDY9o3dXArTt4rGbuTj65JtGZHE6z87bMm0qUSGscrw7BELFMn1Fh/y9xciYUs5LDdVcUsvgs6W6B2RdQpMlQHkwcG/YZ2IvM/VwNYKLfTtVkGLIDk96BsSO4f6A3EFdS5J32L4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751405610; c=relaxed/simple;
+	bh=eUyU+fbFfS8EbnHD99MHkIHOULPchC0ALH2Dzcqe/XY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=cmFYZbD4EgwvElmphZ+irNPl1gYIE3JsH6M26zdSKSaOwVJfF7Wg3NgfcsSLS9JdToqnAH1S5NMk2cq+aYcC1nM/J1JyTwI9xpniSOi9bQwosX6kNRgRivkVxwR3ZMf39KTs4c4SUs72KpFuf447ubDnhZrBcHiuNaGkaVxSn2Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sgCWnDLe; arc=fail smtp.client-ip=40.107.244.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eCqWnndB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751405185; x=1782941185;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=R8n6arEGcVswxLhU83lkKsbJgDWgzGUs6I6rRw/rX1c=;
-  b=eCqWnndBCxk5fw9dghWBt8CbY4x+Mls8sZO5QtfGtIqYSBn20yrSz5NK
-   L1J/IGU3pX5xxC621ffReXlfzUocIginTi7GF7vOMsSIpyvtHITaoAY4o
-   44FjGVWqBAUiOx11s8b/2FZSFHoKL0EMQuF+IQJ/RJQNaNmdY2T8O8WSQ
-   eesbrZ0poXHz06jkwD0PBugNiM3c/cFL75iN74Dsn0iL7XxaUdWQPHQqn
-   PThFu8acQ+v7T5UuOqxyN4Fth6qP2n0KTFhCGJyMTDfvO25+mu9JcM++f
-   MzFLhPWF1XXysF/75SeyPZBGfudAsf1m9agqQgks8toBFJyedVUNI224M
-   Q==;
-X-CSE-ConnectionGUID: RYK8z/KeRXmnAx0HKnBYLw==
-X-CSE-MsgGUID: qT9v7+UGSwuRib5Kpi88Rg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="57365413"
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="57365413"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 14:26:24 -0700
-X-CSE-ConnectionGUID: p8Re8qrHSWKaLTO/ZB8WAQ==
-X-CSE-MsgGUID: U3wKPwmWSaeo1juvCZWoCA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="153982061"
-Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 01 Jul 2025 14:26:21 -0700
-Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uWiUd-000afq-0u;
-	Tue, 01 Jul 2025 21:26:19 +0000
-Date: Wed, 2 Jul 2025 05:25:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jason Wang <jasowang@redhat.com>, mst@redhat.com,
-	xuanzhuo@linux.alibaba.com, eperezma@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org, hch@infradead.org,
-	xieyongji@bytedance.com
-Subject: Re: [PATCH 7/9] vdpa: rename dma_dev to map_token
-Message-ID: <202507020521.PEt0EuaY-lkp@intel.com>
-References: <20250701011401.74851-8-jasowang@redhat.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sgCWnDLe"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xtgElOApqKLvZ9ElrtZrwrWfxCILphhbog44xiRVTTokjFo20GA+DL4ujhtW/HNKlyAwyjeMbq6F997U1kmhb5DnwWzPo1s0zSXF5y8yBGwXcJiq/lUZN2sOLeHUfHBG8O1QWEIVv8Iw9Pfk147x6d27Z6jOTjncISTrJxIqMz427U9W0mE/mW5BRcn/C42jvAk+cOYyRoUdEnoNo9qSWBKOvqyqfKvMVNtdFp1iAEINAyBQxnymx752zG4Efqtrd+DXeV+SQra7ftM1qwsxn6/Abiznx0MhUkXX88UTCHyKPFa2Xbib1l5odyJFBU47HVirxXUnHa7Fz+clsEmGlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ocjnbUDNmzrpxLpwXOJvFGqansCGUiZQz7+/ALZVUHE=;
+ b=ga/cX2D6rQJvqfkLae+BTcPzMBkknzOsBNRpI3mp/9njHl0z8NIkao95lUktqrjALIFJZ82W6ZlTEQtuzjYhp/O0s9l7DemL2StL8aS4LJbn1tsMno42SydcEuZqPtk+I/AQL2p9XjPRjIlfbBqDIqB2WwGqKVHVRasnFICabbJdRHC/E7r+p070WgpyYMadPzJVpaJUy2TIq3z8bYGyGeYUBBU63txdzeMGdS7ArMVkg6QREHNDSlrcozlN3Z4YgSR/o52g50RoM0n6eB53sTrNYDaK85AyFkZTSZiISLbrBjjO45phcUm0W98Wr1YCXzFV1ulU4F9HgsQWruzLDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ocjnbUDNmzrpxLpwXOJvFGqansCGUiZQz7+/ALZVUHE=;
+ b=sgCWnDLegKp51gwFkc6ehUdqPvpbWRLWhFu/ps1JXhZrzFH/jrkAZcauZrSHqgn9kYe66FHWWMcaG26jtj0dYu/KDn6girG35BLHeFAa/sMmDiqD7fhP7EPET46wr3qLqv+fJ1Yz1rKZ8bByvNTJ0XTJ4F6wSAGN/xezE/grIsG6GQMC8tCiUq3nk3J2j9ngaiHWDOJZRdSBxTTAhhH0W7mFA6V20cFBQqBXljEO7dI+vm86vFdydd3lD1q5T5eemggop05mt9qRrzwp662SFx7k8Js73fXnkADrWMLesJuXa/ND6K0u20yr6iMlOPGH7cC4eNmDfdXXBpmOdSgmkg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
+ by DS0PR12MB7679.namprd12.prod.outlook.com (2603:10b6:8:134::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8880.22; Tue, 1 Jul
+ 2025 21:33:26 +0000
+Received: from SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
+ ([fe80::4ee2:654e:1fe8:4b91%7]) with mapi id 15.20.8901.018; Tue, 1 Jul 2025
+ 21:33:26 +0000
+Message-ID: <7969b64a-c18d-4b4d-a514-d78eaf9fd920@nvidia.com>
+Date: Tue, 1 Jul 2025 17:33:24 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [jfern:nova/master 72/87] Diff in
+ drivers/gpu/nova-core/debugfs.rs at line 1:
+To: John Hubbard <jhubbard@nvidia.com>, kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev
+References: <202507020022.CTF71Rpm-lkp@intel.com>
+ <03c57ca0-200d-407a-a0da-43137c9eda3f@nvidia.com>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <03c57ca0-200d-407a-a0da-43137c9eda3f@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MN0P221CA0006.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:208:52a::12) To SN7PR12MB8059.namprd12.prod.outlook.com
+ (2603:10b6:806:32b::7)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250701011401.74851-8-jasowang@redhat.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|DS0PR12MB7679:EE_
+X-MS-Office365-Filtering-Correlation-Id: 38175ba1-0889-469f-fb4b-08ddb8e6e9a5
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?K0cvb3BheUw2eVJGRlZyUDE5d0tiaDYyUXhMMjVwcFYxV295a3ZiLzV5TEV3?=
+ =?utf-8?B?NGw0cndKNnB4b2l3anNScmZsak1PQ0FSa0xib1NhZW9hM3FCYnZic1V5NExo?=
+ =?utf-8?B?eGV0NTFRZEdLSmhNcE9FaW1xdnhlM3lxd3dUSHdmOEp3MzVMMzZxb0lnbith?=
+ =?utf-8?B?YWVkUnQzNk0wZ25iK2twT0gzZ0FlUGZPOHl3V2JSWWVUQm9KYnpIa3FMSngy?=
+ =?utf-8?B?N1ZBSzhPMjExYnM0SmZnYXRxcVNQMjlEZUs4SGkyK21hdlAwSjBGbjJPMjZB?=
+ =?utf-8?B?YXBuRWJMMjNnazA4cHBITzMzTFllTUVYaDJLZWs3Smsram1qZHhjQTdIOEp1?=
+ =?utf-8?B?SGNqcktqQXQ4WG5qdno0aW90K0huUGxkeTFteXFSM25EL0tZTFUzRDRPQm5P?=
+ =?utf-8?B?STl6U0sxYkxsOVZlQVNsd1FhTnJIcTNWNW1VZ0I5dmo1T2l6ODVrNHY3T0NO?=
+ =?utf-8?B?MTljTGhSL3Bsd0w3UEdydmxRN1NnSmk2UXJVcnBBZGljM0Z2VzBjaU1iTlY5?=
+ =?utf-8?B?S1VId3p2eEZ4RDVFMGJmVEdpZUpGNlJ5ZDA5Q08wL2VuY3ZvVk9ObXU5N0FY?=
+ =?utf-8?B?OUFncTdSM00vemltdi8rUWpDWVVaRTBLeVRJaUtlOHdRWU9pMnNzOSt0SE4w?=
+ =?utf-8?B?dW16ckc1Z3AzSXZRaE1OVmZqSk5obk5UQkMxajNmQUdteW1yVWttZFlrTFZF?=
+ =?utf-8?B?a3BlcW1ZcHk5djVkeGYwMzc3cXVqT1RiOHhFMWRYQ2hjTTNUOFB5blY5M3RG?=
+ =?utf-8?B?em5OVXFPNUwxKy9nTCtobzFRV0JxalVVdkFPTU9Vc2N6bHpBcHRzZWFGT0sz?=
+ =?utf-8?B?UUR6djIvUmF6d0lTYlZWWFJwdytmV3NwRzNvTm1tSmpYVWtUK0JCYWxybXo5?=
+ =?utf-8?B?dHlJSGUxNkYvY3J2Wk5TTkVpT2k4TThlUzBNZ20zQXU5c2R0eXBXREREeVVV?=
+ =?utf-8?B?Vk9JNjdCcldwYnJLNEg3aWZnTkVpSVQrNDhIemJDTzdDYm13a2pXd0Z4dC92?=
+ =?utf-8?B?bUdIeHBuL0Z2WCtRVWQzczBTV3BkZ04rdGNKbDJNVGhzWWttMHhXK251UVd0?=
+ =?utf-8?B?SjVGVlNEdmFHYldqN1N2VXgrd2F2WXpXTDg1bEN1U0lkS3g2MVhkcWxyejV2?=
+ =?utf-8?B?dDdpMlpnY3JmZDEwSlJnWjRac0F2QVpmUU0rdHpPTUNOeUx2dzlUU3hmTzRN?=
+ =?utf-8?B?ampleUJza25HS3k4N3Fqd0V0K3E5MUxHMEVTTmhCU1pndnR0REZvVFdrNWNX?=
+ =?utf-8?B?dS9oSHlDVFpNSUl1dE5wUkNnMUdpUXkrYkJnOGJVQ0dXOGtBblFwSFBtRmlS?=
+ =?utf-8?B?ZGdhTy9KOVdldnErR0JCTU1XeXhERFArZHpSSzg1NWlzZUdzT2RpV05RVUtB?=
+ =?utf-8?B?Smo4NXhWNTFyQ0JUUVpXMCt6V0Q2eXhhbk9SN2h6VUxtQ3VkeHNuYnpmMTdj?=
+ =?utf-8?B?cGYwdUxnZUNOcWZ2bFdVaFVNVFJacWZXRElId3FXSVo3Mm01dEJQM3BWd1dR?=
+ =?utf-8?B?TmxOR09hY1gyaFpQb2sxU0xUWGJ4T0thcWhocWxRY3o3ZUtIRmJzZ2lkc1E0?=
+ =?utf-8?B?bmVCWjZyZldQOGUwUGxQQ1RpYVVCVFhDYitWQmU4Z3lBd2s0WlZtOEZFaXEw?=
+ =?utf-8?B?RjBHQW14ZittaTd1VWhMVDdkMTZyYzN3TVpYYWxHWEZkR053SGtWaFBtQnZj?=
+ =?utf-8?B?TUlnci9KN3lvVXQ4RnZIc1BuREVyMWx1YzZnR0pWaTZ6NnBldkVlbW03cXAv?=
+ =?utf-8?B?NEVaZEdqZk9QdmhmLzRlREpHa3dQQ2UydHV0TGw4UmtnZmNJVi9zWEt6TjRv?=
+ =?utf-8?B?RkhSeEROaG1MbzUwSWhxeFM1dFdPMldmWldaamMrY1ZOMmFZVDhxdW9Menpa?=
+ =?utf-8?B?bWl0b2p1YWF6amdUbWRMUEYrRjBJYVFqT1Bpc2Vqamp1VWZuTHpjSE9FTHBa?=
+ =?utf-8?Q?M/9zpBYYPmw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB8059.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?czJmVE9Td0hNZnh4QTNKYXZZZEtxL2FkUStJYlVTd1VUS0ZIcE1Id3NINVdY?=
+ =?utf-8?B?RDBDY1NsWitpUGlKR3Zhd2lMcWtGbDRubUlyMy8rTWJXME0yYVFuTFFHNC9H?=
+ =?utf-8?B?REI5ZkNET3Q5TUNnTnNTUS9iR3FsejVwOThRbGJWdWM0VzhMNjRweCtEK2Qv?=
+ =?utf-8?B?OEI1c0Npdk9NZDRlWFBFY3F6QXZxaU9zdzZYSzVDcllNNlFDcnN3NUtMTXZB?=
+ =?utf-8?B?SzltWlp6UEwzaWcxQUJieDRSM1h1SFY5c2NYYnpjSU56THNTNWFwRG1CK0h3?=
+ =?utf-8?B?Y25uZ3BicDdLamtJR3VicVpZZm5Yd09Ic1czVkJwbDNlNzlyUHd6Q2l6UUF1?=
+ =?utf-8?B?Z2IxYlFGQWxQRlFtaGUxY3BFRFFBNUE0UkQ2ZDMxTzc1Sk1BOHRGa3llVlc3?=
+ =?utf-8?B?c3lRNXRSMkN6T3hESldTK0ZWdEFmRFhpVVZhQk0wMGJEZ1lWeVM1cUtTNkps?=
+ =?utf-8?B?ZE9mcEY4cmZ1MTRyUVJrMzFyRWdUbTlUUEt1dEpMZVlOaSsyTXNmNFhXdzcy?=
+ =?utf-8?B?bGFxUDRBSTNwdENCcm1nK0dpQ1hFMG1SRTNPelU2MXZsVnFoN1ZXUXhvT1Fq?=
+ =?utf-8?B?WExtVUJSVVFmL2lmRkZlbWJMQms3TndvNkdmN0lDcG5nZitjQ20rUzAwMGFm?=
+ =?utf-8?B?S0J3QmRRYWZpVk1jQlRYK0ZnSTUxR1lEZVY2aTlVVXBNbnhQOXBnbGJtOGJn?=
+ =?utf-8?B?Y1VaZFNZcHlkRXJqckN2U1krYk9TYmtqWVlsVmwwRTV4akdzSVN5QVFkVDdl?=
+ =?utf-8?B?cGgxeHJSZ3lFd2tDUUR2SHN1b2FoREc1UGRWOVJLQjlHTkRTSXR5WU1CZlNs?=
+ =?utf-8?B?VTZyODI0N1BCVFBtS21YWGpnR0VLaGtiMkU4U2V2MTFuTE5GclR5U0ZQM0pj?=
+ =?utf-8?B?cmtSNlVDbEd2amFNdUpCL2gramNOcWNxeTNOSDkyYWFHWHByeFl4eFpGYU91?=
+ =?utf-8?B?U2JJQVE3QjdXUjUzNHAzWGxvV3lEcVFIK0ZYb2daRmFyUzg2N1pUT1lCdUhR?=
+ =?utf-8?B?NW5HRTJ1blowOXdhRko5aE1UMVIvYzZrSHB1eWxleVp3ckFOZXBZbm5ZZG9D?=
+ =?utf-8?B?MjdoSTdIQVUxNUJkNzk5R2xCRDBpWCtmM3NpZyt3UUtibFNkbjhqNDRZN2FS?=
+ =?utf-8?B?bWZvMUxiVjRoM2ZqMXFmZEZXdElObFBoQ1ZCSzBNRlgydXp2R3RmbERtUzZu?=
+ =?utf-8?B?cUxvbWM4R0NxdGxxQ2tNUVYxV0V1K0M2c0hVRjhTdWk2UG5kaFpIT1BnUEd5?=
+ =?utf-8?B?U0NodFhQV2ZrVjc5VjZvN0xWOVY3TmEvNlNzclZ2czQxTEhxRkgzWm1yam4x?=
+ =?utf-8?B?TTZQRzIyYTNrdm9LNjFMWDB2b0VmOFJpTDBSdTNNOEZ1YkVjNG4zZFVySHc3?=
+ =?utf-8?B?U2RCNFU2WFpDMXZjSXhvUDV1UFBucTZ5aWgzMFIyWnpIVCtUbDN6QkQ2KzFh?=
+ =?utf-8?B?NlN4YlBlWU05RmM5RXJ2RXRnWDd0SVNRaHZ5d2hzN3VuUmRzeWpUSzBaTjlQ?=
+ =?utf-8?B?TW0zUXVHV25jSkEraEtwSW1YYmhxMWkrbmxIS1V5K2dFbHh2aWZhc2R5cFdu?=
+ =?utf-8?B?ZXZBcUZraTJ5S2o5U3NGbVdoNXVza3FvN3ZWRy80Y3MvbzNPN2Q4STlOUVJh?=
+ =?utf-8?B?SGtPT2EzKzltS1RteExSWDZ3SE43RENlSzNiVHBhNnQ5cW5mZHV0Mlk2YVFL?=
+ =?utf-8?B?VUVZSW5iOGFIdEx3NWI1Q1J4RHVGSlBScTNJeXdCNkUrTS9iYzNjZmtQMmVI?=
+ =?utf-8?B?L2NyaTBKSUMwdXVzU05Iem1nQ3gvN0U4Vk9IZGt5QlF0cUFLYUFYUjFTVGF4?=
+ =?utf-8?B?YndWdlMwWlJVYldQenMxTDE5TFluZDVzYTRTdFpCNTBKeDkyampiMWNhQmdh?=
+ =?utf-8?B?ZHUvZ0wwRnNXL3M0WnJHVFo3WUY4SW5nTHc1MnQvaklJWVZwTFJyZTB4eWow?=
+ =?utf-8?B?WllTc1UxdmRHRk5lN2VoU0ZTNFhmUk5VR3dKR3NHZktibGFvL01XQXBOa0du?=
+ =?utf-8?B?R0QwVVRNbkk5Mmp4Z3p1bzExRFZwZXNESko5cTU1NmR2amxuVGVGQ29xWjhH?=
+ =?utf-8?B?WUp4a2dBSkxudjJCbkVVRWp5ZGhuYXpPc3BETkNOWlV1bEtidzRkellqc1hh?=
+ =?utf-8?Q?+zUEZbtG59PkABwSLdKMfJG4I?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38175ba1-0889-469f-fb4b-08ddb8e6e9a5
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Jul 2025 21:33:26.2915
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EhYX/u7n9o80BZGrhIlwmaHFEs6S+X/V7T16n7Z3nQB/cTcFjBOl0Qb3xwJM7u2XoQ7CyH13g+tD8BKfX7te+Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7679
 
-Hi Jason,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on mst-vhost/linux-next]
-[also build test ERROR on linus/master v6.16-rc4 next-20250701]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Wang/virtio_ring-constify-virtqueue-pointer-for-DMA-helpers/20250701-091746
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux-next
-patch link:    https://lore.kernel.org/r/20250701011401.74851-8-jasowang%40redhat.com
-patch subject: [PATCH 7/9] vdpa: rename dma_dev to map_token
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20250702/202507020521.PEt0EuaY-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507020521.PEt0EuaY-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507020521.PEt0EuaY-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/vdpa/mlx5/net/mlx5_vnet.c: In function 'mlx5_get_vq_dma_dev':
-   drivers/vdpa/mlx5/net/mlx5_vnet.c:3405:28: error: 'struct vdpa_device' has no member named 'dma_dev'; did you mean 'mdev'?
-    3405 |         return mvdev->vdev.dma_dev;
-         |                            ^~~~~~~
-         |                            mdev
-   drivers/vdpa/mlx5/net/mlx5_vnet.c: At top level:
-   drivers/vdpa/mlx5/net/mlx5_vnet.c:3687:10: error: 'const struct vdpa_config_ops' has no member named 'get_vq_dma_dev'; did you mean 'get_vq_ready'?
-    3687 |         .get_vq_dma_dev = mlx5_get_vq_dma_dev,
-         |          ^~~~~~~~~~~~~~
-         |          get_vq_ready
->> drivers/vdpa/mlx5/net/mlx5_vnet.c:3687:27: error: positional initialization of field in 'struct' declared with 'designated_init' attribute [-Werror=designated-init]
-    3687 |         .get_vq_dma_dev = mlx5_get_vq_dma_dev,
-         |                           ^~~~~~~~~~~~~~~~~~~
-   drivers/vdpa/mlx5/net/mlx5_vnet.c:3687:27: note: (near initialization for 'mlx5_vdpa_ops')
-   drivers/vdpa/mlx5/net/mlx5_vnet.c:3687:27: error: initialization of 'void (*)(struct vdpa_device *)' from incompatible pointer type 'struct device * (*)(struct vdpa_device *, u16)' {aka 'struct device * (*)(struct vdpa_device *, short unsigned int)'} [-Werror=incompatible-pointer-types]
-   drivers/vdpa/mlx5/net/mlx5_vnet.c:3687:27: note: (near initialization for 'mlx5_vdpa_ops.unbind_mm')
-   drivers/vdpa/mlx5/net/mlx5_vnet.c: In function 'mlx5_vdpa_dev_add':
-   drivers/vdpa/mlx5/net/mlx5_vnet.c:3966:21: error: 'struct vdpa_device' has no member named 'dma_dev'; did you mean 'mdev'?
-    3966 |         mvdev->vdev.dma_dev = &mdev->pdev->dev;
-         |                     ^~~~~~~
-         |                     mdev
-   drivers/vdpa/mlx5/net/mlx5_vnet.c: In function 'mlx5_get_vq_dma_dev':
->> drivers/vdpa/mlx5/net/mlx5_vnet.c:3406:1: warning: control reaches end of non-void function [-Wreturn-type]
-    3406 | }
-         | ^
-   cc1: some warnings being treated as errors
 
 
-vim +3687 drivers/vdpa/mlx5/net/mlx5_vnet.c
+On 7/1/2025 1:56 PM, John Hubbard wrote:
+> On 7/1/25 9:14 AM, kernel test robot wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/
+>> master
+>> head:   dfa2b234298399a62d48d2a78ce8f3f58d21cda1
+>> commit: 70794f2c1436933de0355b0bc0eb6faf16e968f8 [72/87] DEBUG: nova-core:
+>> debugfs support to dump logrm, logintr, loginit
+> 
+> Hi Joel,
+> 
+> I've forgotten, but did you submit this and its related patches,
+> directly to the kernel test robot? Otherwise I'm wondering how
+> this was launched. Just curious.
 
-8fcd20c307042b Eli Cohen          2022-07-14  3652  
-1a86b377aa2147 Eli Cohen          2020-08-04  3653  static const struct vdpa_config_ops mlx5_vdpa_ops = {
-1a86b377aa2147 Eli Cohen          2020-08-04  3654  	.set_vq_address = mlx5_vdpa_set_vq_address,
-1a86b377aa2147 Eli Cohen          2020-08-04  3655  	.set_vq_num = mlx5_vdpa_set_vq_num,
-1a86b377aa2147 Eli Cohen          2020-08-04  3656  	.kick_vq = mlx5_vdpa_kick_vq,
-1a86b377aa2147 Eli Cohen          2020-08-04  3657  	.set_vq_cb = mlx5_vdpa_set_vq_cb,
-1a86b377aa2147 Eli Cohen          2020-08-04  3658  	.set_vq_ready = mlx5_vdpa_set_vq_ready,
-1a86b377aa2147 Eli Cohen          2020-08-04  3659  	.get_vq_ready = mlx5_vdpa_get_vq_ready,
-1a86b377aa2147 Eli Cohen          2020-08-04  3660  	.set_vq_state = mlx5_vdpa_set_vq_state,
-1a86b377aa2147 Eli Cohen          2020-08-04  3661  	.get_vq_state = mlx5_vdpa_get_vq_state,
-1892a3d425bf52 Eli Cohen          2022-05-18  3662  	.get_vendor_vq_stats = mlx5_vdpa_get_vendor_vq_stats,
-1a86b377aa2147 Eli Cohen          2020-08-04  3663  	.get_vq_notification = mlx5_get_vq_notification,
-1a86b377aa2147 Eli Cohen          2020-08-04  3664  	.get_vq_irq = mlx5_get_vq_irq,
-1a86b377aa2147 Eli Cohen          2020-08-04  3665  	.get_vq_align = mlx5_vdpa_get_vq_align,
-d4821902e43453 Gautam Dawar       2022-03-30  3666  	.get_vq_group = mlx5_vdpa_get_vq_group,
-03dd63c8fae459 Dragos Tatulea     2023-10-18  3667  	.get_vq_desc_group = mlx5_vdpa_get_vq_desc_group, /* Op disabled if not supported. */
-a64917bc2e9b1e Eli Cohen          2022-01-05  3668  	.get_device_features = mlx5_vdpa_get_device_features,
-c695964474f3a8 Eugenio P�rez      2023-07-03  3669  	.get_backend_features = mlx5_vdpa_get_backend_features,
-a64917bc2e9b1e Eli Cohen          2022-01-05  3670  	.set_driver_features = mlx5_vdpa_set_driver_features,
-a64917bc2e9b1e Eli Cohen          2022-01-05  3671  	.get_driver_features = mlx5_vdpa_get_driver_features,
-1a86b377aa2147 Eli Cohen          2020-08-04  3672  	.set_config_cb = mlx5_vdpa_set_config_cb,
-1a86b377aa2147 Eli Cohen          2020-08-04  3673  	.get_vq_num_max = mlx5_vdpa_get_vq_num_max,
-1a86b377aa2147 Eli Cohen          2020-08-04  3674  	.get_device_id = mlx5_vdpa_get_device_id,
-1a86b377aa2147 Eli Cohen          2020-08-04  3675  	.get_vendor_id = mlx5_vdpa_get_vendor_id,
-1a86b377aa2147 Eli Cohen          2020-08-04  3676  	.get_status = mlx5_vdpa_get_status,
-1a86b377aa2147 Eli Cohen          2020-08-04  3677  	.set_status = mlx5_vdpa_set_status,
-0686082dbf7a20 Xie Yongji         2021-08-31  3678  	.reset = mlx5_vdpa_reset,
-2eacf4b5e3ebe7 Si-Wei Liu         2023-10-21  3679  	.compat_reset = mlx5_vdpa_compat_reset,
-442706f9f94d28 Stefano Garzarella 2021-03-15  3680  	.get_config_size = mlx5_vdpa_get_config_size,
-1a86b377aa2147 Eli Cohen          2020-08-04  3681  	.get_config = mlx5_vdpa_get_config,
-1a86b377aa2147 Eli Cohen          2020-08-04  3682  	.set_config = mlx5_vdpa_set_config,
-1a86b377aa2147 Eli Cohen          2020-08-04  3683  	.get_generation = mlx5_vdpa_get_generation,
-1a86b377aa2147 Eli Cohen          2020-08-04  3684  	.set_map = mlx5_vdpa_set_map,
-2eacf4b5e3ebe7 Si-Wei Liu         2023-10-21  3685  	.reset_map = mlx5_vdpa_reset_map,
-8fcd20c307042b Eli Cohen          2022-07-14  3686  	.set_group_asid = mlx5_set_group_asid,
-36871fb92b7059 Jason Wang         2023-01-19 @3687  	.get_vq_dma_dev = mlx5_get_vq_dma_dev,
-1a86b377aa2147 Eli Cohen          2020-08-04  3688  	.free = mlx5_vdpa_free,
-cae15c2ed8e6e0 Eli Cohen          2022-07-14  3689  	.suspend = mlx5_vdpa_suspend,
-145096937b8a6a Dragos Tatulea     2023-12-25  3690  	.resume = mlx5_vdpa_resume, /* Op disabled if not supported. */
-1a86b377aa2147 Eli Cohen          2020-08-04  3691  };
-1a86b377aa2147 Eli Cohen          2020-08-04  3692  
+It launches for all my upstream trees (scheduler, RCU), and I push my WIP trees
+to kernel.org as well to share with others, so it tests everything. There used
+to be a way to stop it from doing so by appending '.wip' but now I believe that
+doesn't work (also its odd to suffix .wip). To its credit, I did fix the lint
+errors it shared in my latest tree.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> I also noticed that the patch title (subject line) should be
+> tweaked, in order to have the right hierarchy, to:
+> 
+>     nova-core: debugfs support to dump logrm, logintr, loginit
+> 
+> ...and if this is not a keeper, then maybe put "DEBUG" in there,
+> somewhere well after the "nova-core: " prefix.
+
+Yep, fixed. thanks,
+
+ - Joel
+
