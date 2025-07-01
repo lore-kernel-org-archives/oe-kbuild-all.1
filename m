@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBC283D69
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  1 Jul 2025 21:06:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 230631CA81;
+	Tue,  1 Jul 2025 21:16:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751404005; cv=none; b=EKSQlF0HReDvUxJNM86i46a5GREU5VjFmf43yTxZbsRoG/e8GvON1WvqEyExNGcdWFHL5TqBk5W7r3mNP/YWDgQv76EQisK4um1Xo2+9CSdCC6cqBL4dUfOrbqVvDg/snJ8cWAo0Mcd5kWj8gq/k1xj6+dEJcP+MvjXY4UqKhoE=
+	t=1751404581; cv=none; b=iTVQqWl8RFovktsNo73ntRIwNKdpAqRBZJOmGh238yza01v1twjbWbmJCqMyRQpxy35YXSOdNtvAQj0LSjuFtyNUdnNJ8krojrZJO/USmqNNjgOsChUl2t4JUKRYU8U1zwIjhc9ENk5c3SBbrTOKUMeRWAgb7acjJB/ML0Vlbrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751404005; c=relaxed/simple;
-	bh=PqIXXGqUDqryYxsL5cHYuNwovOnoFcQyiCjrLee1e60=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hWW0YMVunLmdIyMvPcpCfEr8wyR3Zn51zrl3xoWLdqnciC7EVAfyHsGSqdbT5r+gqN/VqZCT8GLPsf0zttGrBpPJf+wlRcveRUQsP7q3i8WJLqjJB4qX78HQxu/4BSWoy7l2d+RAfpH13dcMzlN0xvl6B4l0WhtiW5x95SOwVN4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M6um7OSw; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1751404581; c=relaxed/simple;
+	bh=ep8GUgf72M6KOxzHfGZnQ5fblx6RT2lj3YJWgkmV7ac=;
+	h=Date:From:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LDV4Er60DlPeOQ8PmS6LHKCNN5hy/DGMDUw2nRamYWKctUnWU0+Y4AzhvJ9MJL/UYDiUZ2ZlX9tzxFZvAKOBu4KVi7P4pAM9PpabRceoBbllAH2AuugpoDnJMzz31Ys+wVyflPRr7fxepdQzZyms5/5QJ6+r27ztAMUKhvt7Fi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DvDF/xc6; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M6um7OSw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DvDF/xc6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751404003; x=1782940003;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PqIXXGqUDqryYxsL5cHYuNwovOnoFcQyiCjrLee1e60=;
-  b=M6um7OSwXLeLfePZSgKDTXwZsFWAWzolIVJ4qQG6oaeNQkCUcbdCGEgl
-   F3k7LiY7sl4Yt52cwDL8j2BxgFq/0kSj49dopyUsLmlkVgbzo3/YdVjti
-   tAMjvc/oeBrltAEdJRqZB6LbcI1r0YX8g4hUmQ6iWZRtPd9l13W17L/oY
-   If41QaTSQDI1V2GwGXJdj8rRw5LM/Z9A2tXH/mnEEQN2RkLQ+MfFpJ0OV
-   +zaMuxXVKr0tJftmEh+fsjJ8O1vHdX8kWvLblOKZMlp/m4mvqP7/uln97
-   QHVYYhVQal1LQKxi7qMaUJaNhhFO8dHK8lxWnpEMni4MpUccSRclbdpNQ
-   w==;
-X-CSE-ConnectionGUID: Tpx0qiVBSxS5eHwojxJzMA==
-X-CSE-MsgGUID: /g0nkogRTLC6zmBTJWuMfw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="52800079"
+  t=1751404580; x=1782940580;
+  h=date:from:cc:subject:message-id:mime-version;
+  bh=ep8GUgf72M6KOxzHfGZnQ5fblx6RT2lj3YJWgkmV7ac=;
+  b=DvDF/xc6ft+0nQfqw045GT0o4Ruuqf5NnmhrN04ZWigvy55NLg3zLsmv
+   ZvymHNpHTUiGFPqjnMoCvyC4cbMIW9AjcHSnyj1W53LJXSieoI05GYPfU
+   06pCttxu3+nP6KaMlA2BFWH5WzuTKPrgqd7jaAh2nvyjOhhBG2ZDTg2ew
+   h4zi3dcz9PsDWlni+0s8uRg5JRS0VZFWHJ/XKNNfsTKmLOH7oJHYG/uy+
+   hnPanGYpBwbWXoAw176W7g7Dz0mMQbnxLJRadueMXTXB0ZuDCD+F6FceF
+   daNh6uprKPEBQt9RoGOQCtmun80c5MG5xNvznfYbE5vtvzk2Xwo6oKbBa
+   g==;
+X-CSE-ConnectionGUID: lRKhZUTwSwix+f3KSWZr4g==
+X-CSE-MsgGUID: 6cx30M7cQNyfHdXs8AT12w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="53550868"
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="52800079"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 14:06:42 -0700
-X-CSE-ConnectionGUID: E6NTWtk/TEOF4cA02OALjg==
-X-CSE-MsgGUID: vm2oGgUBQLu5eBMd7sVe4Q==
+   d="scan'208";a="53550868"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 14:16:20 -0700
+X-CSE-ConnectionGUID: fP8INlnWSVeOikdzsx6JQg==
+X-CSE-MsgGUID: nPjHQKtUTveE9xqaG7fM0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,279,1744095600"; 
-   d="scan'208";a="153643532"
-Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
-  by orviesa009.jf.intel.com with ESMTP; 01 Jul 2025 14:06:41 -0700
-Received: from kbuild by 030a839a1121 with local (Exim 4.96)
+   d="scan'208";a="153285731"
+Received: from lkp-server01.sh.intel.com (HELO e8142ee1dce2) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 01 Jul 2025 14:16:18 -0700
+Received: from kbuild by e8142ee1dce2 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWiBa-000097-0u;
-	Tue, 01 Jul 2025 21:06:38 +0000
-Date: Tue, 1 Jul 2025 23:06:14 +0200
+	id 1uWiKu-000afa-0e;
+	Tue, 01 Jul 2025 21:16:16 +0000
+Date: Wed, 2 Jul 2025 05:15:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1605/1605]
- fs/btrfs/compression.c:531:25: warning: variable 'tree' set but not used
-Message-ID: <202507012345.5Oo8Ma9A-lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, llvm@lists.linux.dev
+Subject: [android-common:android15-6.6-2024-09 44/44]
+ include/linux/mm_inline.h:46:41: warning: arithmetic between different
+ enumeration types ('enum node_stat_item' and 'enum lru_list')
+Message-ID: <202507020556.SLemvbia-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,217 +62,149 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   890108d01fde2c3b6dde4d169b695ce64362f135
-commit: 00032d38eaa89c76de7d9c1ae6de8c48c14edd74 [1605/1605] btrfs: drop extent_io_ops::merge_bio_hook callback
-config: x86_64-buildonly-randconfig-2001-20250501 (https://download.01.org/0day-ci/archive/20250701/202507012345.5Oo8Ma9A-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250701/202507012345.5Oo8Ma9A-lkp@intel.com/reproduce)
+TO: cros-kernel-buildreports@googlegroups.com
+
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-09
+head:   f20ec5968458dc75eff21363f4ea28947c6e3800
+commit: c40e60f00caf18bc382215c79651777eb40f5f9d [44/44] kbuild: Enable -Wenum-conversion by default
+config: i386-buildonly-randconfig-001-20250702 (https://download.01.org/0day-ci/archive/20250702/202507020556.SLemvbia-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507020556.SLemvbia-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507012345.5Oo8Ma9A-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507020556.SLemvbia-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/btrfs/compression.c:417:16: warning: variable 'nr_pages' set but not used [-Wunused-but-set-variable]
-     417 |         unsigned long nr_pages = 0;
-         |                       ^
->> fs/btrfs/compression.c:531:25: warning: variable 'tree' set but not used [-Wunused-but-set-variable]
-     531 |         struct extent_io_tree *tree;
-         |                                ^
-   2 warnings generated.
-   fs/btrfs/compression.o: warning: objtool: missing symbol for section .init.text
+   In file included from mm/page-writeback.c:20:
+   In file included from include/linux/mm.h:2116:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/page-writeback.c:40:
+>> include/linux/mm_inline.h:46:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      46 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+>> include/linux/mm_inline.h:48:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      48 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   3 warnings generated.
+--
+   In file included from mm/page_alloc.c:19:
+   In file included from include/linux/mm.h:2116:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/page_alloc.c:43:
+>> include/linux/mm_inline.h:46:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      46 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+>> include/linux/mm_inline.h:48:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      48 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/page_alloc.c:2712:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    2712 |         __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/page_alloc.c:2788:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    2788 |                 __count_zid_vm_events(PGALLOC, page_zonenum(page), 1 << order);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/page_alloc.c:4415:2: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    4415 |         __count_zid_vm_events(PGALLOC, zone_idx(zone), nr_account);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   6 warnings generated.
+--
+   In file included from mm/compaction.c:12:
+   In file included from include/linux/swap.h:9:
+   In file included from include/linux/memcontrol.h:20:
+   In file included from include/linux/mm.h:2116:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/compaction.c:15:
+>> include/linux/mm_inline.h:46:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      46 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+>> include/linux/mm_inline.h:48:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      48 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/compaction.c:479:20: warning: unused function 'pageblock_skip_persistent' [-Wunused-function]
+     479 | static inline bool pageblock_skip_persistent(struct page *page)
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/compaction.c:484:20: warning: unused function 'update_pageblock_skip' [-Wunused-function]
+     484 | static inline void update_pageblock_skip(struct compact_control *cc,
+         |                    ^~~~~~~~~~~~~~~~~~~~~
+   5 warnings generated.
+--
+   In file included from mm/vmscan.c:15:
+   In file included from include/linux/mm.h:2116:
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   In file included from mm/vmscan.c:30:
+>> include/linux/mm_inline.h:46:41: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      46 |         __mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+         |                                    ~~~~~~~~~~~ ^ ~~~
+>> include/linux/mm_inline.h:48:22: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+      48 |                                 NR_ZONE_LRU_BASE + lru, nr_pages);
+         |                                 ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/vmscan.c:669:51: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     669 |                         size += zone_page_state(zone, NR_ZONE_LRU_BASE + lru);
+         |                                                       ~~~~~~~~~~~~~~~~ ^ ~~~
+   mm/vmscan.c:2386:4: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    2386 |                         __count_zid_vm_events(PGSCAN_SKIP, zid, nr_skipped[zid]);
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   mm/vmscan.c:2893:51: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2893 |         inactive = lruvec_page_state(lruvec, NR_LRU_BASE + inactive_lru);
+         |                                              ~~~~~~~~~~~ ^ ~~~~~~~~~~~~
+   mm/vmscan.c:2894:49: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+    2894 |         active = lruvec_page_state(lruvec, NR_LRU_BASE + active_lru);
+         |                                            ~~~~~~~~~~~ ^ ~~~~~~~~~~
+   mm/vmscan.c:6818:3: warning: arithmetic between different enumeration types ('enum vm_event_item' and 'enum zone_type') [-Wenum-enum-conversion]
+    6818 |                 __count_zid_vm_events(ALLOCSTALL, sc->reclaim_idx, 1);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:135:34: note: expanded from macro '__count_zid_vm_events'
+     135 |         __count_vm_events(item##_NORMAL - ZONE_NORMAL + zid, delta)
+         |                           ~~~~~~~~~~~~~ ^ ~~~~~~~~~~~
+   8 warnings generated.
 
 
-vim +/tree +531 fs/btrfs/compression.c
+vim +46 include/linux/mm_inline.h
 
-771ed689d2cd53 Chris Mason        2008-11-06  515  
-c8b978188c9a0f Chris Mason        2008-10-29  516  /*
-c8b978188c9a0f Chris Mason        2008-10-29  517   * for a compressed read, the bio we get passed has all the inode pages
-c8b978188c9a0f Chris Mason        2008-10-29  518   * in it.  We don't actually do IO on those pages but allocate new ones
-c8b978188c9a0f Chris Mason        2008-10-29  519   * to hold the compressed pages on disk.
-c8b978188c9a0f Chris Mason        2008-10-29  520   *
-4f024f3797c43c Kent Overstreet    2013-10-11  521   * bio->bi_iter.bi_sector points to the compressed extent on disk
-c8b978188c9a0f Chris Mason        2008-10-29  522   * bio->bi_io_vec points to all of the inode pages
-c8b978188c9a0f Chris Mason        2008-10-29  523   *
-c8b978188c9a0f Chris Mason        2008-10-29  524   * After the compressed pages are read, we copy the bytes into the
-c8b978188c9a0f Chris Mason        2008-10-29  525   * bio we were passed and then call the bio end_io calls
-c8b978188c9a0f Chris Mason        2008-10-29  526   */
-4e4cbee93d5613 Christoph Hellwig  2017-06-03  527  blk_status_t btrfs_submit_compressed_read(struct inode *inode, struct bio *bio,
-c8b978188c9a0f Chris Mason        2008-10-29  528  				 int mirror_num, unsigned long bio_flags)
-c8b978188c9a0f Chris Mason        2008-10-29  529  {
-0b246afa62b0cf Jeff Mahoney       2016-06-22  530  	struct btrfs_fs_info *fs_info = btrfs_sb(inode->i_sb);
-c8b978188c9a0f Chris Mason        2008-10-29 @531  	struct extent_io_tree *tree;
-c8b978188c9a0f Chris Mason        2008-10-29  532  	struct extent_map_tree *em_tree;
-c8b978188c9a0f Chris Mason        2008-10-29  533  	struct compressed_bio *cb;
-c8b978188c9a0f Chris Mason        2008-10-29  534  	unsigned long compressed_len;
-c8b978188c9a0f Chris Mason        2008-10-29  535  	unsigned long nr_pages;
-306e16ce13c0f3 David Sterba       2011-04-19  536  	unsigned long pg_index;
-c8b978188c9a0f Chris Mason        2008-10-29  537  	struct page *page;
-c8b978188c9a0f Chris Mason        2008-10-29  538  	struct block_device *bdev;
-c8b978188c9a0f Chris Mason        2008-10-29  539  	struct bio *comp_bio;
-4f024f3797c43c Kent Overstreet    2013-10-11  540  	u64 cur_disk_byte = (u64)bio->bi_iter.bi_sector << 9;
-e04ca626baee68 Chris Mason        2008-11-10  541  	u64 em_len;
-e04ca626baee68 Chris Mason        2008-11-10  542  	u64 em_start;
-c8b978188c9a0f Chris Mason        2008-10-29  543  	struct extent_map *em;
-4e4cbee93d5613 Christoph Hellwig  2017-06-03  544  	blk_status_t ret = BLK_STS_RESOURCE;
-15e3004a0eb2c4 Josef Bacik        2012-10-05  545  	int faili = 0;
-d20f7043fa6565 Chris Mason        2008-12-08  546  	u32 *sums;
-c8b978188c9a0f Chris Mason        2008-10-29  547  
-c8b978188c9a0f Chris Mason        2008-10-29  548  	tree = &BTRFS_I(inode)->io_tree;
-c8b978188c9a0f Chris Mason        2008-10-29  549  	em_tree = &BTRFS_I(inode)->extent_tree;
-c8b978188c9a0f Chris Mason        2008-10-29  550  
-c8b978188c9a0f Chris Mason        2008-10-29  551  	/* we need the actual starting offset of this extent in the file */
-890871be854b5f Chris Mason        2009-09-02  552  	read_lock(&em_tree->lock);
-c8b978188c9a0f Chris Mason        2008-10-29  553  	em = lookup_extent_mapping(em_tree,
-263663cd3c4fbf Ming Lei           2017-12-18  554  				   page_offset(bio_first_page_all(bio)),
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  555  				   PAGE_SIZE);
-890871be854b5f Chris Mason        2009-09-02  556  	read_unlock(&em_tree->lock);
-285190d99fef69 Tsutomu Itoh       2012-02-16  557  	if (!em)
-4e4cbee93d5613 Christoph Hellwig  2017-06-03  558  		return BLK_STS_IOERR;
-c8b978188c9a0f Chris Mason        2008-10-29  559  
-d20f7043fa6565 Chris Mason        2008-12-08  560  	compressed_len = em->block_len;
-2ff7e61e0d30ff Jeff Mahoney       2016-06-22  561  	cb = kmalloc(compressed_bio_size(fs_info, compressed_len), GFP_NOFS);
-6b82ce8d824bd4 liubo              2011-01-26  562  	if (!cb)
-6b82ce8d824bd4 liubo              2011-01-26  563  		goto out;
-6b82ce8d824bd4 liubo              2011-01-26  564  
-a50299ae7cc4ba Elena Reshetova    2017-03-03  565  	refcount_set(&cb->pending_bios, 0);
-c8b978188c9a0f Chris Mason        2008-10-29  566  	cb->errors = 0;
-c8b978188c9a0f Chris Mason        2008-10-29  567  	cb->inode = inode;
-d20f7043fa6565 Chris Mason        2008-12-08  568  	cb->mirror_num = mirror_num;
-d20f7043fa6565 Chris Mason        2008-12-08  569  	sums = &cb->sums;
-c8b978188c9a0f Chris Mason        2008-10-29  570  
-ff5b7ee33d8241 Yan Zheng          2008-11-10  571  	cb->start = em->orig_start;
-e04ca626baee68 Chris Mason        2008-11-10  572  	em_len = em->len;
-e04ca626baee68 Chris Mason        2008-11-10  573  	em_start = em->start;
-d20f7043fa6565 Chris Mason        2008-12-08  574  
-c8b978188c9a0f Chris Mason        2008-10-29  575  	free_extent_map(em);
-e04ca626baee68 Chris Mason        2008-11-10  576  	em = NULL;
-c8b978188c9a0f Chris Mason        2008-10-29  577  
-81381053d094a3 Christoph Hellwig  2016-11-25  578  	cb->len = bio->bi_iter.bi_size;
-c8b978188c9a0f Chris Mason        2008-10-29  579  	cb->compressed_len = compressed_len;
-261507a02ccba9 Li Zefan           2010-12-17  580  	cb->compress_type = extent_compress_type(bio_flags);
-c8b978188c9a0f Chris Mason        2008-10-29  581  	cb->orig_bio = bio;
-c8b978188c9a0f Chris Mason        2008-10-29  582  
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  583  	nr_pages = DIV_ROUND_UP(compressed_len, PAGE_SIZE);
-31e818fe7375d6 David Sterba       2015-02-20  584  	cb->compressed_pages = kcalloc(nr_pages, sizeof(struct page *),
-c8b978188c9a0f Chris Mason        2008-10-29  585  				       GFP_NOFS);
-6b82ce8d824bd4 liubo              2011-01-26  586  	if (!cb->compressed_pages)
-6b82ce8d824bd4 liubo              2011-01-26  587  		goto fail1;
-6b82ce8d824bd4 liubo              2011-01-26  588  
-0b246afa62b0cf Jeff Mahoney       2016-06-22  589  	bdev = fs_info->fs_devices->latest_bdev;
-c8b978188c9a0f Chris Mason        2008-10-29  590  
-306e16ce13c0f3 David Sterba       2011-04-19  591  	for (pg_index = 0; pg_index < nr_pages; pg_index++) {
-306e16ce13c0f3 David Sterba       2011-04-19  592  		cb->compressed_pages[pg_index] = alloc_page(GFP_NOFS |
-c8b978188c9a0f Chris Mason        2008-10-29  593  							      __GFP_HIGHMEM);
-15e3004a0eb2c4 Josef Bacik        2012-10-05  594  		if (!cb->compressed_pages[pg_index]) {
-15e3004a0eb2c4 Josef Bacik        2012-10-05  595  			faili = pg_index - 1;
-0e9350de2ecdf2 Dan Carpenter      2017-06-19  596  			ret = BLK_STS_RESOURCE;
-6b82ce8d824bd4 liubo              2011-01-26  597  			goto fail2;
-c8b978188c9a0f Chris Mason        2008-10-29  598  		}
-15e3004a0eb2c4 Josef Bacik        2012-10-05  599  	}
-15e3004a0eb2c4 Josef Bacik        2012-10-05  600  	faili = nr_pages - 1;
-c8b978188c9a0f Chris Mason        2008-10-29  601  	cb->nr_pages = nr_pages;
-c8b978188c9a0f Chris Mason        2008-10-29  602  
-e04ca626baee68 Chris Mason        2008-11-10  603  	add_ra_bio_pages(inode, em_start + em_len, cb);
-771ed689d2cd53 Chris Mason        2008-11-06  604  
-771ed689d2cd53 Chris Mason        2008-11-06  605  	/* include any pages we added in add_ra-bio_pages */
-81381053d094a3 Christoph Hellwig  2016-11-25  606  	cb->len = bio->bi_iter.bi_size;
-771ed689d2cd53 Chris Mason        2008-11-06  607  
-c821e7f3daa4d0 David Sterba       2017-06-02  608  	comp_bio = btrfs_bio_alloc(bdev, cur_disk_byte);
-ebcc326316f3d7 David Sterba       2018-06-29  609  	comp_bio->bi_opf = REQ_OP_READ;
-c8b978188c9a0f Chris Mason        2008-10-29  610  	comp_bio->bi_private = cb;
-c8b978188c9a0f Chris Mason        2008-10-29  611  	comp_bio->bi_end_io = end_compressed_bio_read;
-a50299ae7cc4ba Elena Reshetova    2017-03-03  612  	refcount_set(&cb->pending_bios, 1);
-c8b978188c9a0f Chris Mason        2008-10-29  613  
-306e16ce13c0f3 David Sterba       2011-04-19  614  	for (pg_index = 0; pg_index < nr_pages; pg_index++) {
-4e4cbee93d5613 Christoph Hellwig  2017-06-03  615  		int submit = 0;
-4e4cbee93d5613 Christoph Hellwig  2017-06-03  616  
-306e16ce13c0f3 David Sterba       2011-04-19  617  		page = cb->compressed_pages[pg_index];
-c8b978188c9a0f Chris Mason        2008-10-29  618  		page->mapping = inode->i_mapping;
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  619  		page->index = em_start >> PAGE_SHIFT;
-d20f7043fa6565 Chris Mason        2008-12-08  620  
-4f024f3797c43c Kent Overstreet    2013-10-11  621  		if (comp_bio->bi_iter.bi_size)
-00032d38eaa89c David Sterba       2018-07-18  622  			submit = btrfs_merge_bio_hook(page, 0, PAGE_SIZE,
-c8b978188c9a0f Chris Mason        2008-10-29  623  					comp_bio, 0);
-c8b978188c9a0f Chris Mason        2008-10-29  624  
-70b99e6959a4c2 Chris Mason        2008-10-31  625  		page->mapping = NULL;
-4e4cbee93d5613 Christoph Hellwig  2017-06-03  626  		if (submit || bio_add_page(comp_bio, page, PAGE_SIZE, 0) <
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  627  		    PAGE_SIZE) {
-0b246afa62b0cf Jeff Mahoney       2016-06-22  628  			ret = btrfs_bio_wq_end_io(fs_info, comp_bio,
-bfebd8b5441755 David Sterba       2014-07-30  629  						  BTRFS_WQ_ENDIO_DATA);
-79787eaab46121 Jeff Mahoney       2012-03-12  630  			BUG_ON(ret); /* -ENOMEM */
-c8b978188c9a0f Chris Mason        2008-10-29  631  
-af09abfece59aa Chris Mason        2008-11-07  632  			/*
-af09abfece59aa Chris Mason        2008-11-07  633  			 * inc the count before we submit the bio so
-af09abfece59aa Chris Mason        2008-11-07  634  			 * we know the end IO handler won't happen before
-af09abfece59aa Chris Mason        2008-11-07  635  			 * we inc the count.  Otherwise, the cb might get
-af09abfece59aa Chris Mason        2008-11-07  636  			 * freed before we're done setting it up
-af09abfece59aa Chris Mason        2008-11-07  637  			 */
-a50299ae7cc4ba Elena Reshetova    2017-03-03  638  			refcount_inc(&cb->pending_bios);
-af09abfece59aa Chris Mason        2008-11-07  639  
-6cbff00f4632c8 Christoph Hellwig  2009-04-17  640  			if (!(BTRFS_I(inode)->flags & BTRFS_INODE_NODATASUM)) {
-2ff7e61e0d30ff Jeff Mahoney       2016-06-22  641  				ret = btrfs_lookup_bio_sums(inode, comp_bio,
-2ff7e61e0d30ff Jeff Mahoney       2016-06-22  642  							    sums);
-79787eaab46121 Jeff Mahoney       2012-03-12  643  				BUG_ON(ret); /* -ENOMEM */
-d20f7043fa6565 Chris Mason        2008-12-08  644  			}
-ed6078f70335f1 David Sterba       2014-06-05  645  			sums += DIV_ROUND_UP(comp_bio->bi_iter.bi_size,
-0b246afa62b0cf Jeff Mahoney       2016-06-22  646  					     fs_info->sectorsize);
-d20f7043fa6565 Chris Mason        2008-12-08  647  
-2ff7e61e0d30ff Jeff Mahoney       2016-06-22  648  			ret = btrfs_map_bio(fs_info, comp_bio, mirror_num, 0);
-4246a0b63bd8f5 Christoph Hellwig  2015-07-20  649  			if (ret) {
-4e4cbee93d5613 Christoph Hellwig  2017-06-03  650  				comp_bio->bi_status = ret;
-4246a0b63bd8f5 Christoph Hellwig  2015-07-20  651  				bio_endio(comp_bio);
-4246a0b63bd8f5 Christoph Hellwig  2015-07-20  652  			}
-c8b978188c9a0f Chris Mason        2008-10-29  653  
-c821e7f3daa4d0 David Sterba       2017-06-02  654  			comp_bio = btrfs_bio_alloc(bdev, cur_disk_byte);
-ebcc326316f3d7 David Sterba       2018-06-29  655  			comp_bio->bi_opf = REQ_OP_READ;
-771ed689d2cd53 Chris Mason        2008-11-06  656  			comp_bio->bi_private = cb;
-771ed689d2cd53 Chris Mason        2008-11-06  657  			comp_bio->bi_end_io = end_compressed_bio_read;
-771ed689d2cd53 Chris Mason        2008-11-06  658  
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  659  			bio_add_page(comp_bio, page, PAGE_SIZE, 0);
-c8b978188c9a0f Chris Mason        2008-10-29  660  		}
-09cbfeaf1a5a67 Kirill A. Shutemov 2016-04-01  661  		cur_disk_byte += PAGE_SIZE;
-c8b978188c9a0f Chris Mason        2008-10-29  662  	}
-c8b978188c9a0f Chris Mason        2008-10-29  663  
-0b246afa62b0cf Jeff Mahoney       2016-06-22  664  	ret = btrfs_bio_wq_end_io(fs_info, comp_bio, BTRFS_WQ_ENDIO_DATA);
-79787eaab46121 Jeff Mahoney       2012-03-12  665  	BUG_ON(ret); /* -ENOMEM */
-c8b978188c9a0f Chris Mason        2008-10-29  666  
-c2db1073fdf975 Tsutomu Itoh       2011-03-01  667  	if (!(BTRFS_I(inode)->flags & BTRFS_INODE_NODATASUM)) {
-2ff7e61e0d30ff Jeff Mahoney       2016-06-22  668  		ret = btrfs_lookup_bio_sums(inode, comp_bio, sums);
-79787eaab46121 Jeff Mahoney       2012-03-12  669  		BUG_ON(ret); /* -ENOMEM */
-c2db1073fdf975 Tsutomu Itoh       2011-03-01  670  	}
-d20f7043fa6565 Chris Mason        2008-12-08  671  
-2ff7e61e0d30ff Jeff Mahoney       2016-06-22  672  	ret = btrfs_map_bio(fs_info, comp_bio, mirror_num, 0);
-4246a0b63bd8f5 Christoph Hellwig  2015-07-20  673  	if (ret) {
-4e4cbee93d5613 Christoph Hellwig  2017-06-03  674  		comp_bio->bi_status = ret;
-4246a0b63bd8f5 Christoph Hellwig  2015-07-20  675  		bio_endio(comp_bio);
-4246a0b63bd8f5 Christoph Hellwig  2015-07-20  676  	}
-c8b978188c9a0f Chris Mason        2008-10-29  677  
-c8b978188c9a0f Chris Mason        2008-10-29  678  	return 0;
-6b82ce8d824bd4 liubo              2011-01-26  679  
-6b82ce8d824bd4 liubo              2011-01-26  680  fail2:
-15e3004a0eb2c4 Josef Bacik        2012-10-05  681  	while (faili >= 0) {
-15e3004a0eb2c4 Josef Bacik        2012-10-05  682  		__free_page(cb->compressed_pages[faili]);
-15e3004a0eb2c4 Josef Bacik        2012-10-05  683  		faili--;
-15e3004a0eb2c4 Josef Bacik        2012-10-05  684  	}
-6b82ce8d824bd4 liubo              2011-01-26  685  
-6b82ce8d824bd4 liubo              2011-01-26  686  	kfree(cb->compressed_pages);
-6b82ce8d824bd4 liubo              2011-01-26  687  fail1:
-6b82ce8d824bd4 liubo              2011-01-26  688  	kfree(cb);
-6b82ce8d824bd4 liubo              2011-01-26  689  out:
-6b82ce8d824bd4 liubo              2011-01-26  690  	free_extent_map(em);
-6b82ce8d824bd4 liubo              2011-01-26  691  	return ret;
-c8b978188c9a0f Chris Mason        2008-10-29  692  }
-261507a02ccba9 Li Zefan           2010-12-17  693  
+b2e185384f53478 Rik van Riel            2008-10-18  36  
+aa1b67903a19e02 Yu Zhao                 2022-09-18  37  static __always_inline void __update_lru_size(struct lruvec *lruvec,
+599d0c954f91d06 Mel Gorman              2016-07-28  38  				enum lru_list lru, enum zone_type zid,
+889a3747b3b7661 Matthew Wilcox (Oracle  2021-02-25  39) 				long nr_pages)
+9d5e6a9f22311b0 Hugh Dickins            2016-05-19  40  {
+599d0c954f91d06 Mel Gorman              2016-07-28  41  	struct pglist_data *pgdat = lruvec_pgdat(lruvec);
+599d0c954f91d06 Mel Gorman              2016-07-28  42  
+ec1c86b25f4bdd9 Yu Zhao                 2022-09-18  43  	lockdep_assert_held(&lruvec->lru_lock);
+ec1c86b25f4bdd9 Yu Zhao                 2022-09-18  44  	WARN_ON_ONCE(nr_pages != (int)nr_pages);
+ec1c86b25f4bdd9 Yu Zhao                 2022-09-18  45  
+e0ee0e71078abbc Johannes Weiner         2019-05-13 @46  	__mod_lruvec_state(lruvec, NR_LRU_BASE + lru, nr_pages);
+71c799f4982d340 Minchan Kim             2016-07-28  47  	__mod_zone_page_state(&pgdat->node_zones[zid],
+71c799f4982d340 Minchan Kim             2016-07-28 @48  				NR_ZONE_LRU_BASE + lru, nr_pages);
+aa1b67903a19e02 Yu Zhao                 2022-09-18  49  }
+aa1b67903a19e02 Yu Zhao                 2022-09-18  50  
 
-:::::: The code at line 531 was first introduced by commit
-:::::: c8b978188c9a0fd3d535c13debd19d522b726f1f Btrfs: Add zlib compression support
+:::::: The code at line 46 was first introduced by commit
+:::::: e0ee0e71078abbcadd4cbc38fb8570551fccc103 mm: memcontrol: track LRU counts in the vmstats array
 
-:::::: TO: Chris Mason <chris.mason@oracle.com>
-:::::: CC: Chris Mason <chris.mason@oracle.com>
+:::::: TO: Johannes Weiner <hannes@cmpxchg.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
