@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756D71DED52
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Jul 2025 21:47:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A0523C4F1
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Jul 2025 22:22:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751492868; cv=none; b=LEpOg60F40ipuK/s835zxEb9FFd0I3dmPGEqWxF9oA3tAQBwR1dq51YHxuzLFeg5lweTDtMupFr+G8cGhyHUlwp1VTvaBuLmbfHIIWS4Pp3Uj4Zi61hStjuzSww5jGeBoIUNthhLzvhwdBdkpAyYaHMiQ4Nyeiw9XTrGKlI16vQ=
+	t=1751494949; cv=none; b=dcHIY5HVYFamasLpgYIic6jx/yC8pmPunLJ99svf5gWOa38ryBWSVslL4QBBUo1Rb40nQiBqQzm6wIcbDXS5vX9hm5oOF+OZk5cilI50xBJOoVCi6D/OEdG9hxnnQxPMThnl0B9QFUBdZIRrhdrwiLaVeN5rGxg9UDJzMxlz58A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751492868; c=relaxed/simple;
-	bh=u5e7LN2hzkb8FCwXKPb2BSBOiXR8OIjgT8FU9LJZE+s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=AWp/q2BD0F0nUmQttbvALxxxv3HoRMkE7GO1/gQaqdeJHZ+jSd1VU84Q7WHEsDUVfpjhZwZ1Jx7FmIHyft+i7+iaaWsrT5pA9QhLHufF8egV6WCJjhSrtvheNa8oeQeKkBbRnLFKsyRC8R1BQK1eKmDIR937pnxU7sPqpxUU1Kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cM7OGGmr; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1751494949; c=relaxed/simple;
+	bh=FSBB74AWOzBuoVgHVSZx4QTMQgURBguTlendXQ0fTd4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LKM1qIGaX0dXOnnvahqrXmumTwAFrb76KIR2AwS/NKZ+FOOqPcMqSjpNLRqrHdUMwg4aqqcvfX+OA2bHEeIJqyvGUbBCcVWycHRK46KwULTi9zsErm/GcfAzjb/5Ikzr1zmGOAy+9lqjIHNNpm0c0dOeIOBwiudHvZmbFaNKmO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HRb+stCx; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cM7OGGmr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HRb+stCx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751492866; x=1783028866;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u5e7LN2hzkb8FCwXKPb2BSBOiXR8OIjgT8FU9LJZE+s=;
-  b=cM7OGGmrCOlQWm9zhPZT0rBVVnBnWkqLJi+cFO6nhEpE15zTPfV0Rfn9
-   o2a20JjLomI+TEKimxA9/8bzF2DC7ttVcQE2EikDkW46AENr6eIqBZdTe
-   yLTfXnwOMvPDvxHfoFjPMGPgCzrzkJ+hFzDjq1yuL4ATLK1Fp596gFDIw
-   2lf+1HrW/KAJyOJw0DZn9kav+DCExAIC1SEFN2sSyALZ2jJ5dVaIzuhC+
-   372hvAbMuBLtpQZOodGr3BquSe5u5Z4yg/Vw6faog1KBjVuzReTmeuN3O
-   MXfZ2o6j3m1CJ0pQxMg3D2FT21PfwqhQa2LS/OkSNFCRuNI0tjSGbyQvz
-   A==;
-X-CSE-ConnectionGUID: jlXEvoBVSHet1ihvY2TVqw==
-X-CSE-MsgGUID: JW00h2DpRIitpKfzl1aiCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="53773295"
+  t=1751494947; x=1783030947;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FSBB74AWOzBuoVgHVSZx4QTMQgURBguTlendXQ0fTd4=;
+  b=HRb+stCx1jh+tYI850c17vLmxbM9QdVk+aWkMV3cOC6vtm392NR8v94F
+   423k8rKTcnFYmcCD42DU9UcgrKRKbSDI+/4Py1p4SszeJZvtnDGv1mHQ6
+   kgFjFqNvpZVkq7JFjQsnOaDC18vxbNJculqxOFvLV3izVTT06OlzOCrYy
+   IbhDFNQhqg2oeuHTc/Is/F5GmdnnMPGHohMzyoJPp12PGTIHRIoNlxPHK
+   sfuEtHmHFo96XfVs9kNBSznq8SZlqytLbcaAOt6qP+QfUau7IGqqrjoZp
+   XKtmRSBkthXwHKsNHcjwBm4kwl/YFlZSEBa2FteFi29k1JXLVIi3KO6nv
+   w==;
+X-CSE-ConnectionGUID: bGgAA2NtRzyYZQisB57y8w==
+X-CSE-MsgGUID: uHWRsBdVSM2qxt1mkjluOw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="53532786"
 X-IronPort-AV: E=Sophos;i="6.16,282,1744095600"; 
-   d="scan'208";a="53773295"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 14:47:46 -0700
-X-CSE-ConnectionGUID: ko1SFAudRPSNMAAhuvyI4Q==
-X-CSE-MsgGUID: Z3Lxqj18RuuniNOhv2lHhA==
+   d="scan'208";a="53532786"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 15:22:27 -0700
+X-CSE-ConnectionGUID: RnXJ9GouQQejLFyP6bGFRg==
+X-CSE-MsgGUID: 6sHkjv7uSva8Ssp+ID+dWA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,282,1744095600"; 
-   d="scan'208";a="159696966"
-Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
-  by fmviesa004.fm.intel.com with ESMTP; 02 Jul 2025 14:47:45 -0700
-Received: from kbuild by 030a839a1121 with local (Exim 4.96)
+   d="scan'208";a="153644133"
+Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 02 Jul 2025 15:22:25 -0700
+Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uX5Is-0000LB-2a;
-	Wed, 02 Jul 2025 21:47:42 +0000
-Date: Wed, 2 Jul 2025 23:46:54 +0200
+	id 1uX5qQ-000187-2m;
+	Wed, 02 Jul 2025 22:22:22 +0000
+Date: Thu, 3 Jul 2025 06:21:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1605/1605] arch/x86/kernel/cpu/tsx.o:
- warning: objtool: missing symbol for section .init.text
-Message-ID: <202507022335.TNQz2BS2-lkp@intel.com>
+To: Stanislav Fomichev <sdf@fomichev.me>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com
+Subject: Re: [PATCH net-next v2 4/8] net:
+ s/dev_pre_changeaddr_notify/netif_pre_changeaddr_notify/
+Message-ID: <202507030614.bVvnbuna-lkp@intel.com>
+References: <20250630164222.712558-5-sdf@fomichev.me>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,22 +64,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250630164222.712558-5-sdf@fomichev.me>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d96cd567c8d8d584405abe92c2576bf58202fa6e
-commit: 3115bfac2b92923e5d01eecc9b84ea7f499b1c5c [1605/1605] x86/cpu: Add a "tsx=" cmdline option with TSX disabled by default
-config: x86_64-buildonly-randconfig-2004-20250501 (https://download.01.org/0day-ci/archive/20250702/202507022335.TNQz2BS2-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507022335.TNQz2BS2-lkp@intel.com/reproduce)
+Hi Stanislav,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Stanislav-Fomichev/net-s-dev_get_stats-netif_get_stats/20250701-004408
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250630164222.712558-5-sdf%40fomichev.me
+patch subject: [PATCH net-next v2 4/8] net: s/dev_pre_changeaddr_notify/netif_pre_changeaddr_notify/
+config: i386-randconfig-002-20250702 (https://download.01.org/0day-ci/archive/20250703/202507030614.bVvnbuna-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250703/202507030614.bVvnbuna-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507022335.TNQz2BS2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507030614.bVvnbuna-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>, old ones prefixed by <<):
 
->> arch/x86/kernel/cpu/tsx.o: warning: objtool: missing symbol for section .init.text
+>> WARNING: modpost: module bridge uses symbol netif_pre_changeaddr_notify from namespace NETDEV_INTERNAL, but does not import it.
 
 -- 
 0-DAY CI Kernel Test Service
