@@ -1,151 +1,92 @@
-Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6029B27A465
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Jul 2025 16:11:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01806101DE;
+	Wed,  2 Jul 2025 16:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751472720; cv=none; b=s8q/pwIXuc4gxpS7wfSsP1JVIVbQYju+gFkdXWv0PTQbf/h5L9TNh2uwxIxy8Bm+sjyN0JS4xDWk/rYMixEPFveKn+6eq/RJXLx2f/vSmPI6BI9OkfY3+cqhtyzyUnlpoMytOBFCico+LmolkmRa6D3AzmWSB/sGLUeVybZyJ9Q=
+	t=1751473404; cv=none; b=THwd+z+TNi4dICT/q5+yjqrGHm6oQdM93bNHe7dGPIa8zlhUxTUtwb0NFwFyMt6nEOqs4S7HNPA+7CYoCf+WDcAsSlRmcBOhW/xV5BwrfeBNGY6nbOHs/3i1CtjgOzXS7ehUwLmIwTYYz1zPaIcTzM3PJKg7new5BmJdwH5vnFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751472720; c=relaxed/simple;
-	bh=ku/1O1AIFsAJJ6qmmvnq+B5DRjf3j0x7VN0LkoGzkUQ=;
+	s=arc-20240116; t=1751473404; c=relaxed/simple;
+	bh=fYVUHcGXuXgCgpqOkZIAJT1XR4RaxdGG0zliMP2efjM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LvkReZj9f64354BRmLeddQi9iPhL7zio+hYgthu6nWiRNcdWtehgnVcPEXJnXv8B/x0nMrux90G8ucYbWyJZPufbGKexITKBzNGV0boEYnx1gIuozd8wXpeqfVvYn5uiq+zKWKsVCW339/BAoKMWnKCDU83/2/jkyZfbzt6ZiHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=E2/ElB2I; arc=none smtp.client-ip=209.85.160.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=q3pCXGpt5GdjcJQmnAN1/meEotBhGQQfE2amRK80b868j9Liy3fTbF5kMx4TLSUasAnqs+7uPO3CV4YqjPBBtX2OeFUDCyYExSjgJ2gJxXfRHaEH8D9m7EZvTND2sT5wqMQv3vEMsg+JfMN/OD11eSaKhOCEFEZIb+MJgs2pg78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RsGEZ2Ce; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E2/ElB2I"
-Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-2ef493de975so2919941fac.1
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 02 Jul 2025 09:11:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1751472717; x=1752077517; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xLl0djX76uDh2KqOF+EzMvL6PoM9gvUJ0/VwerVvcuU=;
-        b=E2/ElB2Iro3FPU7pvd01z+NBzqF8+JThtj8pQnvw9R68wGl0WJAgdYp5OKyd5S2LaW
-         RZvHi2pSYeJTnGDIfXdkPiFVCwXwY8mZ/QHsXRE8fWixON8lVo4VRRZESHqdCrhzKVHJ
-         tFILpJiODGOG0YgTK0UtBKvXBbT9e46X2WBh5Kv37Asvbgoh2jt8/7azXBRuHUJeyACz
-         tAnJCznO68DrIJDVrb8r5k49I0vw0IJFgjDo989YkMYyFxFPyxmH7apJ3ol1sx8XjLA9
-         +W4cYfenqC8pRTcz9NnkRmdOo6f3s+qZSJ/tr8O+zAsTb7OKRtV8/OtqirbOMIYDFSvA
-         +LoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751472717; x=1752077517;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xLl0djX76uDh2KqOF+EzMvL6PoM9gvUJ0/VwerVvcuU=;
-        b=s1pRnVDjmsWuGPYyiNBNBC7TChecRzY3Y6M6fhLHp4X1+GIkFeXzaFJiSJgfvTOxGD
-         FwqXDjpacPqE/ourBBZn4haOJw3mQK8yhZWjNMQ1zoArNdxX/CZSUWyEIB3YL5UH1XB8
-         DEMTtPLA1PDeSkp1jG0oh6Xhz8VmwUEbhCeFlPeFnN1AUt7JEtogzyoTJntEFQdupw8g
-         zJavIQNB8in2pzA3IQW1PnJvzwQd60mnkuR2RSABXx6fhGI1ArEb7K0K1CXr6O4ZSKIq
-         v4lfwDdV0fQAjSIXeolRc5Exx3jJysJ0i2L67WKkjBx18FlUnUdcJqNhaWkzLEgj9Hhr
-         PrLA==
-X-Forwarded-Encrypted: i=1; AJvYcCUpLdIL09R4gq9g0ZvU9Zo0mPE/C0exqoF6JixIk6dGLjwpjtu4An9Dty7iMsnz9+/xP90/4Bpb6SakLH6W@lists.linux.dev
-X-Gm-Message-State: AOJu0YwXWyJJSpiwiJvXbvKOes8QDVEQ1scMeEBrXpb7jq28KQeoRV8g
-	8PrjF22ebAjHC383Vb4xZIxrrjw+JXDsi22cr1VM4BZeDFkllGxJXOmCkqjxQYLOrbc=
-X-Gm-Gg: ASbGncvwedr/lQNIFwPG3dHmjabDeodwL1+k+QX3EOxv8kQH1xrzAQPgyzYGjCGE+YT
-	3poSgCqR/zcZ6lZ09rr4w+FKxk46YkYodi+wqX+LkIbzxnBLxbtTgRcTs6uwNbARbnLqeM0XpKH
-	DrhndmT4J8cKEOGHUTRIHiYsKyHdhuTtmdRnp7UQcWczuoq74FajHL4OMAMqVf9VgJOPM91ZgV+
-	O7MkLxkZAVuxJN6b3/hX5ejJpudRosWm4z1iT1qx5kU0fvP3b4wSRPtbFHwYm9oa3PrXmDaqoOC
-	h2OaOFdp2R4cZ9Fw+HEcRi5q+EVoF+kI+94GBGsJKOKGP5BtRRGnR8EuK4U2tjzS+LYgsw==
-X-Google-Smtp-Source: AGHT+IEUcyyYplg3dAlsN64/ClYT7sGu4SJixmVO5+dP9Ynt+31d1VKg5vFlMLwsobsP4aHj0c1LwQ==
-X-Received: by 2002:a05:6870:e8c9:b0:2ea:8f12:5762 with SMTP id 586e51a60fabf-2f5a8d27ce5mr2546491fac.7.1751472717371;
-        Wed, 02 Jul 2025 09:11:57 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:7056:ddb5:3445:864f])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2efd4ef7024sm3926135fac.13.2025.07.02.09.11.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Jul 2025 09:11:56 -0700 (PDT)
-Date: Wed, 2 Jul 2025 19:11:54 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: lizhe.67@bytedance.com
-Cc: alex.williamson@redhat.com, david@redhat.com, jgg@ziepe.ca,
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev,
-	peterx@redhat.com
-Subject: Re: [PATCH 3/4] vfio/type1: introduce a new member has_rsvd for
- struct vfio_dma
-Message-ID: <24446bf8-3255-4622-a53c-33690c07fb17@suswa.mountain>
-References: <c209cfd6-05b1-4491-91ce-c672414d718c@suswa.mountain>
- <20250702034720.53574-1-lizhe.67@bytedance.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RsGEZ2Ce"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3ED8C4CEE7;
+	Wed,  2 Jul 2025 16:23:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751473403;
+	bh=fYVUHcGXuXgCgpqOkZIAJT1XR4RaxdGG0zliMP2efjM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RsGEZ2Ceh+RsllyA1Uv4oQdkpwdt0S2EPdURLWB1uNlzdx9d0dusMscw3dW/aknlj
+	 COs92Rquf2x6maGv0YQEBRqzcFQG2Bky2wEMh0uAXrUS3Cu9w5Nmc785pYCRmNBHhN
+	 GpiMnUClAKWDGj6kJ6zQCGtivXPzfUf3BPjjGOH2aRcbcCsiC6Y2xb6kp837g9EVw4
+	 qGtE+dKJ4dKBqxLJJJD+OjtA6VDYkNRrOruXD5+pS6jEFYX4E4VMM8HSe49EXFvpuI
+	 CZv48pZGEOSsGc2YejCZgBlzjIpbGt06TuWzsIi4z8sbsjcZcuTbdS7iBZ9qV95f4h
+	 XTfGYDIstc/kw==
+Date: Wed, 2 Jul 2025 17:23:18 +0100
+From: Lee Jones <lee@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Binbin Zhou <zhoubinbin@loongson.cn>,
+	Binbin Zhou <zhoubb.aaron@gmail.com>,
+	Huacai Chen <chenhuacai@loongson.cn>,
+	Corey Minyard <minyard@acm.org>, oe-kbuild-all@lists.linux.dev,
+	Xuerui Wang <kernel@xen0n.name>, loongarch@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net, jeffbai@aosc.io,
+	kexybiscuit@aosc.io, wangyao@lemote.com,
+	Chong Qiao <qiaochong@loongson.cn>
+Subject: Re: [PATCH v6 2/3] mfd: ls2kbmc: Add Loongson-2K BMC reset function
+ support
+Message-ID: <20250702162318.GZ10134@google.com>
+References: <78b06d1c7ae0677868e0c7498b589af163313c8d.1750939357.git.zhoubinbin@loongson.cn>
+ <202507021011.sDAHGinj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250702034720.53574-1-lizhe.67@bytedance.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <202507021011.sDAHGinj-lkp@intel.com>
 
-On Wed, Jul 02, 2025 at 11:47:20AM +0800, lizhe.67@bytedance.com wrote:
-> On Tue, 1 Jul 2025 18:13:48 +0300, dan.carpenter@linaro.org wrote:
-> 
-> > New smatch warnings:
-> > drivers/vfio/vfio_iommu_type1.c:788 vfio_pin_pages_remote() error: uninitialized symbol 'rsvd'.
-> > 
-> > Old smatch warnings:
-> > drivers/vfio/vfio_iommu_type1.c:2376 vfio_iommu_type1_attach_group() warn: '&group->next' not removed from list
-> > 
-> > vim +/rsvd +788 drivers/vfio/vfio_iommu_type1.c
-> > 
-> > 8f0d5bb95f763c Kirti Wankhede  2016-11-17  684  static long vfio_pin_pages_remote(struct vfio_dma *dma, unsigned long vaddr,
-> > 0635559233434a Alex Williamson 2025-02-18  685  				  unsigned long npage, unsigned long *pfn_base,
-> > 4b6c33b3229678 Daniel Jordan   2021-02-19  686  				  unsigned long limit, struct vfio_batch *batch)
-> > 73fa0d10d077d9 Alex Williamson 2012-07-31  687  {
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  688  	unsigned long pfn;
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  689  	struct mm_struct *mm = current->mm;
-> > 6c38c055cc4c0a Alex Williamson 2016-12-30  690  	long ret, pinned = 0, lock_acct = 0;
-> > 89c29def6b0101 Alex Williamson 2018-06-02  691  	bool rsvd;
-> > a54eb55045ae9b Kirti Wankhede  2016-11-17  692  	dma_addr_t iova = vaddr - dma->vaddr + dma->iova;
-> > 166fd7d94afdac Alex Williamson 2013-06-21  693  
-> > 6c38c055cc4c0a Alex Williamson 2016-12-30  694  	/* This code path is only user initiated */
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  695  	if (!mm)
-> > 166fd7d94afdac Alex Williamson 2013-06-21  696  		return -ENODEV;
-> > 73fa0d10d077d9 Alex Williamson 2012-07-31  697  
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  698  	if (batch->size) {
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  699  		/* Leftover pages in batch from an earlier call. */
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  700  		*pfn_base = page_to_pfn(batch->pages[batch->offset]);
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  701  		pfn = *pfn_base;
-> > 89c29def6b0101 Alex Williamson 2018-06-02  702  		rsvd = is_invalid_reserved_pfn(*pfn_base);
-> 
-> When batch->size is not zero, we initialize rsvd here.
-> 
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  703  	} else {
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  704  		*pfn_base = 0;
-> 
-> When the value of batch->size is zero, we set the value of *pfn_base
-> to zero and do not initialize rsvd for the time being.
-> 
-> > 5c6c2b21ecc9ad Alex Williamson 2013-06-21  705  	}
-> > 5c6c2b21ecc9ad Alex Williamson 2013-06-21  706  
-> > eb996eec783c1e Alex Williamson 2025-02-18  707  	if (unlikely(disable_hugepages))
-> > eb996eec783c1e Alex Williamson 2025-02-18  708  		npage = 1;
-> > eb996eec783c1e Alex Williamson 2025-02-18  709  
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  710  	while (npage) {
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  711  		if (!batch->size) {
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  712  			/* Empty batch, so refill it. */
-> > eb996eec783c1e Alex Williamson 2025-02-18  713  			ret = vaddr_get_pfns(mm, vaddr, npage, dma->prot,
-> > eb996eec783c1e Alex Williamson 2025-02-18  714  					     &pfn, batch);
-> > be16c1fd99f41a Daniel Jordan   2021-02-19  715  			if (ret < 0)
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  716  				goto unpin_out;
-> > 166fd7d94afdac Alex Williamson 2013-06-21  717  
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  718  			if (!*pfn_base) {
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  719  				*pfn_base = pfn;
-> > 4d83de6da265cd Daniel Jordan   2021-02-19  720  				rsvd = is_invalid_reserved_pfn(*pfn_base);
-> 
-> Therefore, for the first loop, when batch->size is zero, *pfn_base must
-> be zero, which will then lead to the initialization of rsvd.
-> 
+On Wed, 02 Jul 2025, kernel test robot wrote:
 
-Yeah.  :/
+> Hi Binbin,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 3d77b3cc7cc8115d89fa14eaf601e56372953484]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Binbin-Zhou/mfd-ls2kbmc-Introduce-Loongson-2K-BMC-core-driver/20250626-203353
+> base:   3d77b3cc7cc8115d89fa14eaf601e56372953484
+> patch link:    https://lore.kernel.org/r/78b06d1c7ae0677868e0c7498b589af163313c8d.1750939357.git.zhoubinbin%40loongson.cn
+> patch subject: [PATCH v6 2/3] mfd: ls2kbmc: Add Loongson-2K BMC reset function support
+> config: sparc64-allmodconfig (https://download.01.org/0day-ci/archive/20250702/202507021011.sDAHGinj-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 15.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507021011.sDAHGinj-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202507021011.sDAHGinj-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/mfd/ls2k-bmc-core.c: In function 'ls2k_bmc_pdata_initial':
+> >> drivers/mfd/ls2k-bmc-core.c:349:15: error: implicit declaration of function 'acpi_register_gsi' [-Wimplicit-function-declaration]
+>      349 |         irq = acpi_register_gsi(NULL, gsi, ACPI_EDGE_SENSITIVE, ACPI_ACTIVE_LOW);
+>          |               ^~~~~~~~~~~~~~~~~
+> >> drivers/mfd/ls2k-bmc-core.c:376:9: error: implicit declaration of function 'acpi_unregister_gsi'; did you mean 'arch_unregister_cpu'? [-Wimplicit-function-declaration]
+>      376 |         acpi_unregister_gsi(gsi);
+>          |         ^~~~~~~~~~~~~~~~~~~
+>          |         arch_unregister_cpu
 
-I don't know why this warning was printed honestly.  Smatch is supposed
-to figure that kind of thing out correctly.  It isn't printed on my
-system.  I've tried deleting the cross function DB (which shouldn't
-matter) and I'm using the published version of Smatch but I can't get it
-to print.  Ah well.  My bad.  Thanks for taking a look.
+Is this error valid?
 
-regards,
-dan carpenter
-
+-- 
+Lee Jones [李琼斯]
