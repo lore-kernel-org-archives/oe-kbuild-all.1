@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40032277CBE
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Jul 2025 16:06:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204E51E0DD8;
+	Wed,  2 Jul 2025 16:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751472380; cv=none; b=Tfr/qI2TD2kc4LK/JwyRhtE+MNwNd+uDmvM36+nqKJkY5zxo07ILWSwj1gW2T4fi4iH2/1gVM4/islYpJgpXP6JZD/Zb79WP75ndTR4/0paX8l5BqDazk6CFGxl4DY+qCnXRbE1xpqKrbGDt4sEuMgkECRPzvXWByg6K9uKFtFA=
+	t=1751472628; cv=none; b=aWE1FLwA1ZqNbteym4TCfS7F9YepimMrscM98NfZDMreQUsCOocNZWpleQSGDY4O70zqQQEdhfAOH7ULmpyiYl2sDOuK6n5RBfOyynM1sm3WDEngUyzQ5ZhnViLNK0Mto5U9cPiydTyLCPdNea+uJiGXYVl44RQFuOjPmYI1s1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751472380; c=relaxed/simple;
-	bh=1cHpxiEe084IrQNWs8CfW5GmlkSS/p3OTZgrqj8xTKw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XDjhU4laKD1AUCiBQ1PAVsKgUXgEJxfygc4ThxAWxU4EtHMeMVU7pXLAaiYVQVCS0RNWI0FHJGnepWg8eSL1p4oCNX5LwludHWLMey+Oz83qatN8xAzK5T+TF3YiCJGxW2+80LP+xkHITQzEepoR7AtqwZttSj6tmwhtQPVPHas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mIkXTzB7; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751472628; c=relaxed/simple;
+	bh=d/6DDJH1wV/ODNau5RFdyJrWY0eEwWDgeUDuqlxT/u4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ThWL/orUBPsH8WyaHbZyQd9sSgLSn798j6WXwqMI6HMSfYk4bxpGu77Fvfy6kaMKLECPdlvI6VEpJahN2tycRKuTGOYUTm1yaBctXUrgyFSa85d6r2XHCX4Wp1JxnBE3tYA6CM4Q6CNgWz6Dlc1crKQp0rx0slCFpc7ji8vTA4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AvTS2/WF; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mIkXTzB7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751472378; x=1783008378;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1cHpxiEe084IrQNWs8CfW5GmlkSS/p3OTZgrqj8xTKw=;
-  b=mIkXTzB7wokpCVy0gCBkwZbcxzK9GCGw9wUXfd/bOeKV1hPjlu71qnpO
-   ie7Bt2U8GX46uA+85xNLDmjFZQnEdZv4j90Vv4bgetuPbVmn/Vtf4TtqO
-   y96Z8hEfU/yWitio1CxCJW5TVUB+8ERaR6oX37KB5/2fDHO2Sb72K26aq
-   RK4Lizq9xmcgmrSoJyJzinMxoe9IWdJHYrwDFS1WciQUJ4VyWqUKTRsiO
-   8gI5osPNg0qD5YCuWeAEqakpqYUFystyyJ144BilkpYI9YidboNSLgDz0
-   dwgHsFICYCqR5/0H7nq7uii6i6nT5jxXt9xX68ZD7qlx/4Ic8CM07+7Fi
-   A==;
-X-CSE-ConnectionGUID: ZPMXAjPBS+2n4ZJ4PkowGQ==
-X-CSE-MsgGUID: 7nJKoslcSTyRzo4NaXkKaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="79219441"
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="79219441"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 09:06:18 -0700
-X-CSE-ConnectionGUID: X7CFnwvVQQ27SSkSCLpqRQ==
-X-CSE-MsgGUID: Rx0CrSDJSoShSRikpbd8fg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="158500081"
-Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
-  by orviesa003.jf.intel.com with ESMTP; 02 Jul 2025 09:06:16 -0700
-Received: from kbuild by 030a839a1121 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uWzyQ-0000JR-1X;
-	Wed, 02 Jul 2025 16:06:14 +0000
-Date: Wed, 2 Jul 2025 18:05:46 +0200
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1605/1605] mm/vmscan.c:3257:21: error:
- implicit declaration of function 'kernel_swap_enabled'
-Message-ID: <202507021830.RRt4mQ1g-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AvTS2/WF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=0epRK0OpAHsu5Xbqj5f1MXvdML5cfnc/geubT1WmD50=; b=AvTS2/WFEmf7N5VxO3wwFykFOz
+	vx9RSS/PiE5Vlf/so4AtLDWqs50t6lmKvFdQCYza844DhDuQsvhnFuBuXfJIKHPhBps9FbkzuHjuW
+	4kYmlY5OCDZ5pGaOoVyr5KmKpRdUOng2Ub2w0h6x/KGAwrLSPof2Z7/b84hLBsJjQ2wxFQfV2m4Ys
+	9zrujuOmthQP6680TdqH3jCS9wol/JGgbDw0Z7+w47YO2QljslSEek8rAPt8xB6N+8BRg44MGqdyb
+	gYXhv7bWY9i8aLetcyBVpqLmBZWkt+eK2UoCEiDK2VzDi1cfL1/bcZiiMV+9yPqb0pX8MhQnfHfjv
+	w35KoTQg==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uX02I-00000007Ukt-0P7a;
+	Wed, 02 Jul 2025 16:10:14 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id E89AF300130; Wed, 02 Jul 2025 18:10:12 +0200 (CEST)
+Date: Wed, 2 Jul 2025 18:10:12 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Heiko Carstens <hca@linux.ibm.com>
+Cc: Mark Rutland <mark.rutland@arm.com>, Borislav Petkov <bp@alien8.de>,
+	kernel test robot <lkp@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+	Jinjie Ruan <ruanjinjie@huawei.com>,
+	Nathan Chancellor <nathan@kernel.org>
+Subject: Re: [tip:master 19/19] include/linux/irq-entry-common.h:201:2:
+ error: unexpected token
+Message-ID: <20250702161012.GQ1613200@noisy.programming.kicks-ass.net>
+References: <202507020528.N0LtekXt-lkp@intel.com>
+ <20250702123240.GDaGUm6Le4KLL7o_91@fat_crate.local>
+ <aGUtCveV8Ev17_FS@J2N7QTR9R3.cambridge.arm.com>
+ <20250702130915.GEaGUve86iYnv337_Z@fat_crate.local>
+ <aGUxH--v32Bv4T81@J2N7QTR9R3.cambridge.arm.com>
+ <20250702132415.GFaGUy_6q0dZZI9AX3@fat_crate.local>
+ <aGU_IY70Jt4bcbf2@J2N7QTR9R3.cambridge.arm.com>
+ <20250702145425.GS1613376@noisy.programming.kicks-ass.net>
+ <20250702150739.GT1613376@noisy.programming.kicks-ass.net>
+ <20250702154137.71390C24-hca@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,48 +63,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250702154137.71390C24-hca@linux.ibm.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d96cd567c8d8d584405abe92c2576bf58202fa6e
-commit: 44983705e56ab22fda801d66e2a6bd0d1be7ca0b [1605/1605] etmem: add original kernel swap enabled options
-config: x86_64-buildonly-randconfig-2002-20250501 (https://download.01.org/0day-ci/archive/20250702/202507021830.RRt4mQ1g-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507021830.RRt4mQ1g-lkp@intel.com/reproduce)
+On Wed, Jul 02, 2025 at 05:41:37PM +0200, Heiko Carstens wrote:
+> On Wed, Jul 02, 2025 at 05:07:39PM +0200, Peter Zijlstra wrote:
+> > > > > diff --git a/arch/s390/include/asm/bug.h b/arch/s390/include/asm/bug.h
+> > > > > index a185855ab158..46d9eb64bd18 100644
+> > > > > --- a/arch/s390/include/asm/bug.h
+> > > > > +++ b/arch/s390/include/asm/bug.h
+> > > > > @@ -9,7 +9,7 @@
+> > > > >  #else
+> > > > >  #define __BUGVERBOSE_LOCATION(file, line)			\
+> > > > >  		.pushsection .rodata.str, "aMS", @progbits, 1;	\
+> > > > > -	10002:	.string file;					\
+> > > > > +	10002:	.ascii file;					\
+> > > > >  		.popsection;					\
+> > > > >  								\
+> > > > >  		.long 10002b - .;				\
+> > > > > 
+> > > > 
+> > > > IIUC this also needs a trailing "\0" as per the link above, or this
+> > > > won't get a NUL-terminator (but will build just fine).
+> > > 
+> > > Yup, I ran into this before. Let me go fix that commit.
+> > 
+> >  + e7e26cfad96c...2a20b2730147 core/bugs -> core/bugs (forced update)
+> 
+> Thank you! But wouldn't you also need to merge Nathan's patch [1] into
+> the loongarch commit (or maybe you are just about to do that)?
+> 
+> [1] https://lore.kernel.org/all/20250616-loongarch-fix-warn-cond-llvm-ias-v1-1-6c6d90bb4466@kernel.org/
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?h=core/bugs&id=5d476f66e6add0b709a09d60feecff3a2d156800
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507021830.RRt4mQ1g-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   mm/vmscan.c:2734:17: warning: variable 'node_lru_pages' set but not used [-Wunused-but-set-variable]
-    2734 |                 unsigned long node_lru_pages = 0;
-         |                               ^
->> mm/vmscan.c:3257:21: error: implicit declaration of function 'kernel_swap_enabled' [-Werror,-Wimplicit-function-declaration]
-    3257 |         if (sc != NULL && !kernel_swap_enabled())
-         |                            ^
-   mm/vmscan.c:3257:21: note: did you mean 'kernfs_ns_enabled'?
-   include/linux/kernfs.h:309:20: note: 'kernfs_ns_enabled' declared here
-     309 | static inline bool kernfs_ns_enabled(struct kernfs_node *kn)
-         |                    ^
-   1 warning and 1 error generated.
-
-
-vim +/kernel_swap_enabled +3257 mm/vmscan.c
-
-  3250	
-  3251	/*
-  3252	 * Check if original kernel swap is enabled
-  3253	 * turn off kernel swap,but leave page cache reclaim on
-  3254	 */
-  3255	static inline void kernel_swap_check(struct scan_control *sc)
-  3256	{
-> 3257		if (sc != NULL && !kernel_swap_enabled())
-  3258			sc->may_swap = 0;
-  3259	}
-  3260	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Uh, indeed. Let me go do so.
