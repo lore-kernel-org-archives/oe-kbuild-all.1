@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6453B2472BA;
-	Wed,  2 Jul 2025 09:38:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846DF182D0
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Jul 2025 09:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751449125; cv=none; b=iGRH0aanSpRM2kgqEOsJN1/k4ikO1fmIJyHn7Fjd1Lp1Mt4t5ZcGg/qEgacTul7HHbv5vgGfZ2tw+AkBeW0fCXktV4K+p3lmnJV1cktkrrQkgeUEkqWkpRx3ehx+SGxwpEgsnV1F+noenQDYbjk24NxbVtUcTp9+mWjQGvWp1Vw=
+	t=1751449660; cv=none; b=bGDDuIVggnqRClV4O2/0EG4Nrwo13REU6O8JPKMM3S0KP7npw9DOVwCbeGZfMVBkgxVtlIywBJZhGa8drAc2z2LSjOI3l4BJ/IM8L7sP6e/BZFX2dP/Axqx72oEe5qwK3s6a8XnbfAX3q1+5uwx+cZQOqt0pxO0X9CdwrE7InGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751449125; c=relaxed/simple;
-	bh=8h5yhlQZTlCH63EhsQeoliFKG47GizkjYq0xiXyjzPM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t6RMR2+13LRuxcPcgAtPbU9c+OdKLVKX80mA3czriwRq9R5QfTdASuipPUrXSaQ9MPAW64G3ER3JDzKWRv+W4J0zJ6s7slQ7EpMY75c7XYCv5+1GmCmv0LtXGpnQDw80Rfx3aubi3tIZoY3K+8rx3od1JQOJOBACYkmP1HB6k2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bfMSTnt2; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1751449660; c=relaxed/simple;
+	bh=uBX0xMI3nxPshGz3Hd/QGDU6qrtB3E5zGCNox1NlFm0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JC3jo6+DHRTDJvUlTz5Pg7XjhHg8p/2H13lZ7dY95Ba7IJdKsR35x0GQ+z3HLetlLEqj+JyrAWOag0KWSOvS4O5GhteT9WcVTqGLwoaF2NFOrmhdgVyHO3JYNWibRkYZcmeNmt1t5ijPBQnbc3P87Hj4m5IKYshVCRxC801gyns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DVX69LMA; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bfMSTnt2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DVX69LMA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751449123; x=1782985123;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8h5yhlQZTlCH63EhsQeoliFKG47GizkjYq0xiXyjzPM=;
-  b=bfMSTnt2YQh1/fVftgTJLnjuCAEzChCQ2nlszKXPnj+DzseIn89vuO+r
-   q2LU4LCs/Hwo6i7Q5ZSJ90xf5MuWXrBJ/iWXzWdGmCaz2SrHjTtytHrIH
-   FxloYUglG73fApsXfIrWraC/xTCLnecTZKqNh4kTAj5FsSNMCVBb8LdBO
-   xDcFAdbnvK/m10/DM4/MrEwEBCASznnbFkrmhQR/cdgJIq/D6LZtkgLDC
-   cSXMayBT+Vp2Vwy9+pCE2ToZkwMvpcc0kSZFeCxR8w4aEtSt79bScruzR
-   VrPQBtNiJebJ++RtuU7leHff33g6ozk5nMhczTX5ofOpVkM11NW76Kz2z
-   Q==;
-X-CSE-ConnectionGUID: G7NXqEdbT6C6YScJJsEnLQ==
-X-CSE-MsgGUID: CvTO5AlWTHe1A71BHdR+aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="53828335"
+  t=1751449658; x=1782985658;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=uBX0xMI3nxPshGz3Hd/QGDU6qrtB3E5zGCNox1NlFm0=;
+  b=DVX69LMADdHLIyv80K/8FImVismSEEXCET/s8TOJyDJQSTX8VVZSOyiz
+   uSiEW4wjwIXA4dZFXrvhZOBRMP8BnoWhjXPZ7OFAiw7CtY663zNsKbz5g
+   b6rzMI+QfMfnf3kssG8gBmUmkY+rmryXn6RzJ8HnLnu0p2+Zwh/V0IiRT
+   HdvFFmJvkTd+ywpxC7p2TTQAT5ynkr5XpZ7p0+gt63Sa5r/ym5eRMGyv+
+   ANYnDCq7K8TuPNe8vJ6RTzuvne9ieF3VDNps8vxVf0a8/iGLBQVWciHOE
+   PEOpG8HOFWqdS0+yb5u30eDrfotpxhmABcAKx5R8KsoaAei2umMnHUcs0
+   g==;
+X-CSE-ConnectionGUID: 47ZDxR9YS9qB+4QYMtEwSQ==
+X-CSE-MsgGUID: JTq1l0qFTFCJH4Fk25ztyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="56357899"
 X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="53828335"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 02:38:42 -0700
-X-CSE-ConnectionGUID: JFcumAsbRv6XdQqBqByDSA==
-X-CSE-MsgGUID: W7t/IrywQD2y/DuJ3PuGKQ==
+   d="scan'208";a="56357899"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 02:47:37 -0700
+X-CSE-ConnectionGUID: G89utYFnQiaLdPwLNusvNw==
+X-CSE-MsgGUID: m0qCb8vxTvWnhsYkNUcY2A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="159733190"
-Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 02 Jul 2025 02:38:40 -0700
-Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
+   d="scan'208";a="185060416"
+Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
+  by orviesa002.jf.intel.com with ESMTP; 02 Jul 2025 02:47:36 -0700
+Received: from kbuild by 030a839a1121 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWtvJ-0000T1-2j;
-	Wed, 02 Jul 2025 09:38:37 +0000
-Date: Wed, 2 Jul 2025 17:38:16 +0800
+	id 1uWu3x-0000Gv-1V;
+	Wed, 02 Jul 2025 09:47:33 +0000
+Date: Wed, 2 Jul 2025 11:47:13 +0200
 From: kernel test robot <lkp@intel.com>
-To: Qu Wenruo <wqu@suse.com>, linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	viro@zeniv.linux.org.uk, brauner@kernel.org, jack@suse.cz
-Subject: Re: [PATCH v2 5/6] btrfs: implement shutdown ioctl
-Message-ID: <202507021710.jq2jhLL2-lkp@intel.com>
-References: <7572ae432f4caebf074e0b9db8a88a502aed3217.1751347436.git.wqu@suse.com>
+To: kernel@openeuler.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 2999/2999]
+ drivers/crypto/ccp/hygon/hct.c:1343:15: warning: no previous prototype for
+ 'hct_pin_memory'
+Message-ID: <202507021158.W1ajhxKz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,213 +62,71 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <7572ae432f4caebf074e0b9db8a88a502aed3217.1751347436.git.wqu@suse.com>
 
-Hi Qu,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on brauner-vfs/vfs.all tytso-ext4/dev jaegeuk-f2fs/dev xfs-linux/for-next linus/master v6.16-rc4 next-20250701]
-[cannot apply to jaegeuk-f2fs/dev-test]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Qu-Wenruo/fs-enhance-and-rename-shutdown-callback-to-remove_bdev/20250701-133555
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for-next
-patch link:    https://lore.kernel.org/r/7572ae432f4caebf074e0b9db8a88a502aed3217.1751347436.git.wqu%40suse.com
-patch subject: [PATCH v2 5/6] btrfs: implement shutdown ioctl
-config: arm-randconfig-001-20250702 (https://download.01.org/0day-ci/archive/20250702/202507021710.jq2jhLL2-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507021710.jq2jhLL2-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   e4755f6a2b98f251edcf63f98f416b5d76425f8c
+commit: b7a218b5c46200f323ac0fe07589e0bf0d648069 [2999/2999] crypto: hct: provides hygon crypto technology ccp device driver.
+config: x86_64-buildonly-randconfig-2004-20250702 (https://download.01.org/0day-ci/archive/20250702/202507021158.W1ajhxKz-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507021158.W1ajhxKz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507021710.jq2jhLL2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507021158.W1ajhxKz-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> fs/btrfs/ioctl.c:5250:16: warning: unused variable 'flags' [-Wunused-variable]
-    5250 |         unsigned long flags;
-         |                       ^~~~~
-   1 warning generated.
+>> drivers/crypto/ccp/hygon/hct.c:1343:15: warning: no previous prototype for 'hct_pin_memory' [-Wmissing-prototypes]
+    1343 | struct page **hct_pin_memory(struct hct_private *private, unsigned long uaddr,
+         |               ^~~~~~~~~~~~~~
 
 
-vim +/flags +5250 fs/btrfs/ioctl.c
+vim +/hct_pin_memory +1343 drivers/crypto/ccp/hygon/hct.c
 
-  5241	
-  5242	long btrfs_ioctl(struct file *file, unsigned int
-  5243			cmd, unsigned long arg)
-  5244	{
-  5245		struct inode *inode = file_inode(file);
-  5246		struct btrfs_fs_info *fs_info = inode_to_fs_info(inode);
-  5247		struct btrfs_root *root = BTRFS_I(inode)->root;
-  5248		void __user *argp = (void __user *)arg;
-  5249		/* If @arg is just an unsigned long value. */
-> 5250		unsigned long flags;
-  5251	
-  5252		switch (cmd) {
-  5253		case FS_IOC_GETVERSION:
-  5254			return btrfs_ioctl_getversion(inode, argp);
-  5255		case FS_IOC_GETFSLABEL:
-  5256			return btrfs_ioctl_get_fslabel(fs_info, argp);
-  5257		case FS_IOC_SETFSLABEL:
-  5258			return btrfs_ioctl_set_fslabel(file, argp);
-  5259		case FITRIM:
-  5260			return btrfs_ioctl_fitrim(fs_info, argp);
-  5261		case BTRFS_IOC_SNAP_CREATE:
-  5262			return btrfs_ioctl_snap_create(file, argp, 0);
-  5263		case BTRFS_IOC_SNAP_CREATE_V2:
-  5264			return btrfs_ioctl_snap_create_v2(file, argp, 0);
-  5265		case BTRFS_IOC_SUBVOL_CREATE:
-  5266			return btrfs_ioctl_snap_create(file, argp, 1);
-  5267		case BTRFS_IOC_SUBVOL_CREATE_V2:
-  5268			return btrfs_ioctl_snap_create_v2(file, argp, 1);
-  5269		case BTRFS_IOC_SNAP_DESTROY:
-  5270			return btrfs_ioctl_snap_destroy(file, argp, false);
-  5271		case BTRFS_IOC_SNAP_DESTROY_V2:
-  5272			return btrfs_ioctl_snap_destroy(file, argp, true);
-  5273		case BTRFS_IOC_SUBVOL_GETFLAGS:
-  5274			return btrfs_ioctl_subvol_getflags(BTRFS_I(inode), argp);
-  5275		case BTRFS_IOC_SUBVOL_SETFLAGS:
-  5276			return btrfs_ioctl_subvol_setflags(file, argp);
-  5277		case BTRFS_IOC_DEFAULT_SUBVOL:
-  5278			return btrfs_ioctl_default_subvol(file, argp);
-  5279		case BTRFS_IOC_DEFRAG:
-  5280			return btrfs_ioctl_defrag(file, NULL);
-  5281		case BTRFS_IOC_DEFRAG_RANGE:
-  5282			return btrfs_ioctl_defrag(file, argp);
-  5283		case BTRFS_IOC_RESIZE:
-  5284			return btrfs_ioctl_resize(file, argp);
-  5285		case BTRFS_IOC_ADD_DEV:
-  5286			return btrfs_ioctl_add_dev(fs_info, argp);
-  5287		case BTRFS_IOC_RM_DEV:
-  5288			return btrfs_ioctl_rm_dev(file, argp);
-  5289		case BTRFS_IOC_RM_DEV_V2:
-  5290			return btrfs_ioctl_rm_dev_v2(file, argp);
-  5291		case BTRFS_IOC_FS_INFO:
-  5292			return btrfs_ioctl_fs_info(fs_info, argp);
-  5293		case BTRFS_IOC_DEV_INFO:
-  5294			return btrfs_ioctl_dev_info(fs_info, argp);
-  5295		case BTRFS_IOC_TREE_SEARCH:
-  5296			return btrfs_ioctl_tree_search(root, argp);
-  5297		case BTRFS_IOC_TREE_SEARCH_V2:
-  5298			return btrfs_ioctl_tree_search_v2(root, argp);
-  5299		case BTRFS_IOC_INO_LOOKUP:
-  5300			return btrfs_ioctl_ino_lookup(root, argp);
-  5301		case BTRFS_IOC_INO_PATHS:
-  5302			return btrfs_ioctl_ino_to_path(root, argp);
-  5303		case BTRFS_IOC_LOGICAL_INO:
-  5304			return btrfs_ioctl_logical_to_ino(fs_info, argp, 1);
-  5305		case BTRFS_IOC_LOGICAL_INO_V2:
-  5306			return btrfs_ioctl_logical_to_ino(fs_info, argp, 2);
-  5307		case BTRFS_IOC_SPACE_INFO:
-  5308			return btrfs_ioctl_space_info(fs_info, argp);
-  5309		case BTRFS_IOC_SYNC: {
-  5310			int ret;
-  5311	
-  5312			ret = btrfs_start_delalloc_roots(fs_info, LONG_MAX, false);
-  5313			if (ret)
-  5314				return ret;
-  5315			ret = btrfs_sync_fs(inode->i_sb, 1);
-  5316			/*
-  5317			 * There may be work for the cleaner kthread to do (subvolume
-  5318			 * deletion, delayed iputs, defrag inodes, etc), so wake it up.
-  5319			 */
-  5320			wake_up_process(fs_info->cleaner_kthread);
-  5321			return ret;
-  5322		}
-  5323		case BTRFS_IOC_START_SYNC:
-  5324			return btrfs_ioctl_start_sync(root, argp);
-  5325		case BTRFS_IOC_WAIT_SYNC:
-  5326			return btrfs_ioctl_wait_sync(fs_info, argp);
-  5327		case BTRFS_IOC_SCRUB:
-  5328			return btrfs_ioctl_scrub(file, argp);
-  5329		case BTRFS_IOC_SCRUB_CANCEL:
-  5330			return btrfs_ioctl_scrub_cancel(fs_info);
-  5331		case BTRFS_IOC_SCRUB_PROGRESS:
-  5332			return btrfs_ioctl_scrub_progress(fs_info, argp);
-  5333		case BTRFS_IOC_BALANCE_V2:
-  5334			return btrfs_ioctl_balance(file, argp);
-  5335		case BTRFS_IOC_BALANCE_CTL:
-  5336			return btrfs_ioctl_balance_ctl(fs_info, arg);
-  5337		case BTRFS_IOC_BALANCE_PROGRESS:
-  5338			return btrfs_ioctl_balance_progress(fs_info, argp);
-  5339		case BTRFS_IOC_SET_RECEIVED_SUBVOL:
-  5340			return btrfs_ioctl_set_received_subvol(file, argp);
-  5341	#ifdef CONFIG_64BIT
-  5342		case BTRFS_IOC_SET_RECEIVED_SUBVOL_32:
-  5343			return btrfs_ioctl_set_received_subvol_32(file, argp);
-  5344	#endif
-  5345		case BTRFS_IOC_SEND:
-  5346			return _btrfs_ioctl_send(root, argp, false);
-  5347	#if defined(CONFIG_64BIT) && defined(CONFIG_COMPAT)
-  5348		case BTRFS_IOC_SEND_32:
-  5349			return _btrfs_ioctl_send(root, argp, true);
-  5350	#endif
-  5351		case BTRFS_IOC_GET_DEV_STATS:
-  5352			return btrfs_ioctl_get_dev_stats(fs_info, argp);
-  5353		case BTRFS_IOC_QUOTA_CTL:
-  5354			return btrfs_ioctl_quota_ctl(file, argp);
-  5355		case BTRFS_IOC_QGROUP_ASSIGN:
-  5356			return btrfs_ioctl_qgroup_assign(file, argp);
-  5357		case BTRFS_IOC_QGROUP_CREATE:
-  5358			return btrfs_ioctl_qgroup_create(file, argp);
-  5359		case BTRFS_IOC_QGROUP_LIMIT:
-  5360			return btrfs_ioctl_qgroup_limit(file, argp);
-  5361		case BTRFS_IOC_QUOTA_RESCAN:
-  5362			return btrfs_ioctl_quota_rescan(file, argp);
-  5363		case BTRFS_IOC_QUOTA_RESCAN_STATUS:
-  5364			return btrfs_ioctl_quota_rescan_status(fs_info, argp);
-  5365		case BTRFS_IOC_QUOTA_RESCAN_WAIT:
-  5366			return btrfs_ioctl_quota_rescan_wait(fs_info);
-  5367		case BTRFS_IOC_DEV_REPLACE:
-  5368			return btrfs_ioctl_dev_replace(fs_info, argp);
-  5369		case BTRFS_IOC_GET_SUPPORTED_FEATURES:
-  5370			return btrfs_ioctl_get_supported_features(argp);
-  5371		case BTRFS_IOC_GET_FEATURES:
-  5372			return btrfs_ioctl_get_features(fs_info, argp);
-  5373		case BTRFS_IOC_SET_FEATURES:
-  5374			return btrfs_ioctl_set_features(file, argp);
-  5375		case BTRFS_IOC_GET_SUBVOL_INFO:
-  5376			return btrfs_ioctl_get_subvol_info(inode, argp);
-  5377		case BTRFS_IOC_GET_SUBVOL_ROOTREF:
-  5378			return btrfs_ioctl_get_subvol_rootref(root, argp);
-  5379		case BTRFS_IOC_INO_LOOKUP_USER:
-  5380			return btrfs_ioctl_ino_lookup_user(file, argp);
-  5381		case FS_IOC_ENABLE_VERITY:
-  5382			return fsverity_ioctl_enable(file, (const void __user *)argp);
-  5383		case FS_IOC_MEASURE_VERITY:
-  5384			return fsverity_ioctl_measure(file, argp);
-  5385		case FS_IOC_READ_VERITY_METADATA:
-  5386			return fsverity_ioctl_read_metadata(file, argp);
-  5387		case BTRFS_IOC_ENCODED_READ:
-  5388			return btrfs_ioctl_encoded_read(file, argp, false);
-  5389		case BTRFS_IOC_ENCODED_WRITE:
-  5390			return btrfs_ioctl_encoded_write(file, argp, false);
-  5391	#if defined(CONFIG_64BIT) && defined(CONFIG_COMPAT)
-  5392		case BTRFS_IOC_ENCODED_READ_32:
-  5393			return btrfs_ioctl_encoded_read(file, argp, true);
-  5394		case BTRFS_IOC_ENCODED_WRITE_32:
-  5395			return btrfs_ioctl_encoded_write(file, argp, true);
-  5396	#endif
-  5397		case BTRFS_IOC_SUBVOL_SYNC_WAIT:
-  5398			return btrfs_ioctl_subvol_sync(fs_info, argp);
-  5399	#ifdef CONFIG_BTRFS_EXPERIMENTAL
-  5400		case BTRFS_IOC_SHUTDOWN:
-  5401			if (!capable(CAP_SYS_ADMIN))
-  5402				return -EPERM;
-  5403			if (get_user(flags, (__u32 __user *)arg))
-  5404				return -EFAULT;
-  5405			return btrfs_emergency_shutdown(fs_info, flags);
-  5406	#endif
-  5407		}
-  5408	
-  5409		return -ENOTTY;
-  5410	}
-  5411	
+  1342	
+> 1343	struct page **hct_pin_memory(struct hct_private *private, unsigned long uaddr,
+  1344				unsigned long ulen, unsigned long *n)
+  1345	{
+  1346		unsigned long npages, size;
+  1347		int npinned;
+  1348		struct page **pages;
+  1349		unsigned long first, last;
+  1350	
+  1351		if (ulen == 0 || uaddr + ulen < uaddr)
+  1352			return NULL;
+  1353	
+  1354		first = (uaddr & PAGE_MASK) >> PAGE_SHIFT;
+  1355		last = ((uaddr + ulen - 1) & PAGE_MASK) >> PAGE_SHIFT;
+  1356		npages = (last - first + 1);
+  1357	
+  1358		if (WARN_ON_ONCE(npages > INT_MAX))
+  1359			return NULL;
+  1360	
+  1361		size = npages * sizeof(struct page *);
+  1362		if (size > PAGE_SIZE)
+  1363			pages = vmalloc(size);
+  1364		else
+  1365			pages = kmalloc(size, GFP_KERNEL);
+  1366	
+  1367		if (!pages)
+  1368			return NULL;
+  1369	
+  1370		/* Pin the user virtual address. */
+  1371		npinned = pin_user_pages_fast(uaddr, npages, FOLL_WRITE, pages);
+  1372		if (npinned != npages)
+  1373			goto err;
+  1374	
+  1375		*n = npages;
+  1376		return pages;
+  1377	
+  1378	err:
+  1379		if (npinned > 0)
+  1380			unpin_user_pages(pages, npinned);
+  1381		kvfree(pages);
+  1382		return NULL;
+  1383	}
+  1384	
 
 -- 
 0-DAY CI Kernel Test Service
