@@ -1,58 +1,55 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D7E2777F9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Jul 2025 14:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D70530AADD;
+	Wed,  2 Jul 2025 14:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751466251; cv=none; b=CiPjxYAdPFw5k/rwlKk+PkjjITUkQ6DbW3NhCL7eDLy0kqIeoJRhrnbf5prJHW+kcazN8wcR6fgknsfmE2kSa+5ERzTwJcYZZjYZXpShnz0Noom54AdV5cGZRrhrKde6d4W3rkrINXjsUSR/M00zaiuOnh/l9FoLRWKWPNZ0uP0=
+	t=1751468077; cv=none; b=jKNHbEGdauGnsge/Ps0iC3fprrcE6fvmBqxBvhBeH4W1ejEOck6Td1sHpVTRApKJyeISUIkYEzia7nZ5vipQV0awkqekOF49xOT+hfq3G2hULcOyM8h/WGcM865klkvH+jR0V44DSb3/rDefmAIi53LR6CzDIadfIVkh7SjHreE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751466251; c=relaxed/simple;
-	bh=nfcVMJazC+RNwARClxxS5YRxwkZw3+W8YYuTi+/LKXQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=PbiNL7c36EAZVuEWfN7rSLUXv0NP7jiN32tKBwqoxubCMS182JJeTeVqQ2SzA9KmsxhTyvqZBil1q75sdVYf2+cU+AUPPs8KRvy3mtm0LoLovI1w7Vv+uIhSaPSjju9jKNPnrJUITApFy1vac9fDQEDpObSuXjPSA7OPQmupaOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OGTGiFnp; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751468077; c=relaxed/simple;
+	bh=eQ2/A1buAaeHKe+GvIsaoH6T/9HiQLjm/8yCRn8ffmU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RWgbOEcULdhldw56kAbJzA4weE0pAoUlZHrQa70eizcookFhOrcRSka1nc38kbY2nVlFi5l66NWm3fzg2zWgeNKY751oHEuv2Mgp9GZNnSOMiurzj+FEL9l+hYk+Mvi1X3iA/ndiq3AKnND/rOOYMlZdXaez1fWhXYebw0nB7u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ZQG5cWt8; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OGTGiFnp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751466250; x=1783002250;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nfcVMJazC+RNwARClxxS5YRxwkZw3+W8YYuTi+/LKXQ=;
-  b=OGTGiFnpnHwd4dPYeD78YFUi/e+pXLiC+nQgzjTrYiD8IIe2HSHuciTd
-   rQ+LIojx/DiMPc/uwOWtVRp8kmWtGRPWoZn6EJHd5tPNdRKsZ+os4jhoC
-   10rliJ2M05o5y7zoS1Rddfe4VcbPk/y5TGRjCIeljfMJoU1JXPq27P66R
-   YA9MpUBlSI406DLB9pnHWlQlHixNJZZWXO6lHwuTbRYBFXLCVx+6g2zA0
-   wH0AKnXVpyXCNJPm9vjrjts4b4wYIUQB53mB2sqOJIs9zl+qsVWGs5uCc
-   YiEtOoFSOSwD4hKBOZhj4nKBcSOqhEdDQ+EfM8hDWS0+1fOBoexPj3aN3
-   w==;
-X-CSE-ConnectionGUID: UDbFOFcmQHOKJgVPEpBwzA==
-X-CSE-MsgGUID: 5LLAxwjDTBqhLNjy+sKrKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="57545082"
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="57545082"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 07:24:10 -0700
-X-CSE-ConnectionGUID: qBMIVQFfS6iDrlB8zD/8fQ==
-X-CSE-MsgGUID: iM2Zs6cNQNO8/obH8EmsEg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="154648170"
-Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Jul 2025 07:24:08 -0700
-Received: from kbuild by 030a839a1121 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uWyNZ-0000IL-31;
-	Wed, 02 Jul 2025 14:24:05 +0000
-Date: Wed, 2 Jul 2025 16:23:46 +0200
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yang Yingliang <yangyingliang@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1605/1605] kernel/hung_task.c:148:7:
- error: use of undeclared identifier 'sysctl_hung_task_all_cpu_backtrace'
-Message-ID: <202507021631.OYJPyxwP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ZQG5cWt8"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=EYpEhJ438Ygm0susoUO/i2kjn9mzut5gdv/JGZDLwN8=; b=ZQG5cWt8xy8DDyDdLe6QAkTwL1
+	rOvUDh87KFgD+HZ6RWsxkvdbsrG66fNHaewECBZ6zAwu+6gNMDyCtZESjZPhi5OWh7sZ7dknM0kwH
+	3YSF0+I3Wde63EojpdTPLRwKCrCjOzq4rZI8Tdo1oeDDTGUMD5ZCujYmLuItuAQKB59d5OBqZSqG2
+	+7Koq1573KaU+FsTNn66XU1K1e9jmlrD/h/UYBv0UcWHkZRofbgJeiISBg6vKsLaVIdCotdRy1QqQ
+	8WlastzM9o8Sact0jvkmqf6tnZkeq0edEIT3sbyXQXChPU0KnhxRSXIHWYMFW42Wcx0O9Xs/a073q
+	JjfsxVMg==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uWyqw-00000007SOj-0Etr;
+	Wed, 02 Jul 2025 14:54:26 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 3857030017D; Wed, 02 Jul 2025 16:54:25 +0200 (CEST)
+Date: Wed, 2 Jul 2025 16:54:25 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Borislav Petkov <bp@alien8.de>, kernel test robot <lkp@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+	Jinjie Ruan <ruanjinjie@huawei.com>
+Subject: Re: [tip:master 19/19] include/linux/irq-entry-common.h:201:2:
+ error: unexpected token
+Message-ID: <20250702145425.GS1613376@noisy.programming.kicks-ass.net>
+References: <202507020528.N0LtekXt-lkp@intel.com>
+ <20250702123240.GDaGUm6Le4KLL7o_91@fat_crate.local>
+ <aGUtCveV8Ev17_FS@J2N7QTR9R3.cambridge.arm.com>
+ <20250702130915.GEaGUve86iYnv337_Z@fat_crate.local>
+ <aGUxH--v32Bv4T81@J2N7QTR9R3.cambridge.arm.com>
+ <20250702132415.GFaGUy_6q0dZZI9AX3@fat_crate.local>
+ <aGU_IY70Jt4bcbf2@J2N7QTR9R3.cambridge.arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,98 +58,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <aGU_IY70Jt4bcbf2@J2N7QTR9R3.cambridge.arm.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d96cd567c8d8d584405abe92c2576bf58202fa6e
-commit: 190aae97bcddbed131a203f829257b168f5058ce [1605/1605] kernel/hung_task.c: introduce sysctl to print all traces when a hung task is detected
-config: x86_64-buildonly-randconfig-2002-20250501 (https://download.01.org/0day-ci/archive/20250702/202507021631.OYJPyxwP-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507021631.OYJPyxwP-lkp@intel.com/reproduce)
+On Wed, Jul 02, 2025 at 03:16:01PM +0100, Mark Rutland wrote:
+> On Wed, Jul 02, 2025 at 03:24:15PM +0200, Borislav Petkov wrote:
+> > On Wed, Jul 02, 2025 at 02:16:15PM +0100, Mark Rutland wrote:
+> > > Sounds like a plan.
+> > 
+> > As we figured out on IRC:
+> > 
+> > https://lore.kernel.org/all/20250616-loongarch-fix-warn-cond-llvm-ias-v1-1-6c6d90bb4466@kernel.org/
+> > 
+> > "clang's integrated assembler only supports concatenating strings with
+> > '.ascii'. There was discussion of allowing '.string' / '.asciz' but it
+> > was decided against [1] because it was undesirable to match the behavior
+> > of released binutils at the time, where"
+> > 
+> > and this seems to fix it here:
+> > 
+> > ---
+> > diff --git a/arch/s390/include/asm/bug.h b/arch/s390/include/asm/bug.h
+> > index a185855ab158..46d9eb64bd18 100644
+> > --- a/arch/s390/include/asm/bug.h
+> > +++ b/arch/s390/include/asm/bug.h
+> > @@ -9,7 +9,7 @@
+> >  #else
+> >  #define __BUGVERBOSE_LOCATION(file, line)			\
+> >  		.pushsection .rodata.str, "aMS", @progbits, 1;	\
+> > -	10002:	.string file;					\
+> > +	10002:	.ascii file;					\
+> >  		.popsection;					\
+> >  								\
+> >  		.long 10002b - .;				\
+> > 
+> 
+> IIUC this also needs a trailing "\0" as per the link above, or this
+> won't get a NUL-terminator (but will build just fine).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507021631.OYJPyxwP-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> kernel/hung_task.c:148:7: error: use of undeclared identifier 'sysctl_hung_task_all_cpu_backtrace'
-     148 |                 if (sysctl_hung_task_all_cpu_backtrace)
-         |                     ^
-   kernel/hung_task.c:235:5: warning: no previous prototype for function 'proc_dohung_task_timeout_secs' [-Wmissing-prototypes]
-     235 | int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
-         |     ^
-   kernel/hung_task.c:235:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     235 | int proc_dohung_task_timeout_secs(struct ctl_table *table, int write,
-         | ^
-         | static 
-   1 warning and 1 error generated.
-
-
-vim +/sysctl_hung_task_all_cpu_backtrace +148 kernel/hung_task.c
-
-    94	
-    95	static void check_hung_task(struct task_struct *t, unsigned long timeout)
-    96	{
-    97		unsigned long switch_count = t->nvcsw + t->nivcsw;
-    98	
-    99		/*
-   100		 * Ensure the task is not frozen.
-   101		 * Also, skip vfork and any other user process that freezer should skip.
-   102		 */
-   103		if (unlikely(t->flags & (PF_FROZEN | PF_FREEZER_SKIP)))
-   104		    return;
-   105	
-   106		/*
-   107		 * When a freshly created task is scheduled once, changes its state to
-   108		 * TASK_UNINTERRUPTIBLE without having ever been switched out once, it
-   109		 * musn't be checked.
-   110		 */
-   111		if (unlikely(!switch_count))
-   112			return;
-   113	
-   114		if (switch_count != t->last_switch_count) {
-   115			t->last_switch_count = switch_count;
-   116			t->last_switch_time = jiffies;
-   117			return;
-   118		}
-   119		if (time_is_after_jiffies(t->last_switch_time + timeout * HZ))
-   120			return;
-   121	
-   122		trace_sched_process_hang(t);
-   123	
-   124		if (sysctl_hung_task_panic) {
-   125			console_verbose();
-   126			hung_task_show_lock = true;
-   127			hung_task_call_panic = true;
-   128		}
-   129	
-   130		/*
-   131		 * Ok, the task did not get scheduled for more than 2 minutes,
-   132		 * complain:
-   133		 */
-   134		if (sysctl_hung_task_warnings) {
-   135			if (sysctl_hung_task_warnings > 0)
-   136				sysctl_hung_task_warnings--;
-   137			pr_err("INFO: task %s:%d blocked for more than %ld seconds.\n",
-   138				t->comm, t->pid, timeout);
-   139			pr_err("      %s %s %.*s\n",
-   140				print_tainted(), init_utsname()->release,
-   141				(int)strcspn(init_utsname()->version, " "),
-   142				init_utsname()->version);
-   143			pr_err("\"echo 0 > /proc/sys/kernel/hung_task_timeout_secs\""
-   144				" disables this message.\n");
-   145			sched_show_task(t);
-   146			hung_task_show_lock = true;
-   147	
- > 148			if (sysctl_hung_task_all_cpu_backtrace)
-   149				hung_task_show_all_bt = true;
-   150		}
-   151	
-   152		touch_nmi_watchdog();
-   153	}
-   154	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Yup, I ran into this before. Let me go fix that commit.
