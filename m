@@ -1,58 +1,41 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CFD9275846
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Jul 2025 13:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 530D52EA163;
+	Wed,  2 Jul 2025 14:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751464709; cv=none; b=pRUGGHp5KGYBGuNeXHTrXSSYIuxO0V+GcQdeunzRCj+fqYqS9cmFxoe6SDz24gLub4WEpzaOTekhnIh0t9M6rMGbOG+P7I9OJtuW0NSc6tk0K94Zo7y+InkMM/HjYzh/ry3Pytgg/yvLwqSnNxBcA/iSe5bPEvvmK+rOuT8HAv0=
+	t=1751465767; cv=none; b=UhQawXDcTmE8BPFXvQk7AL78ljKXZ7N70N0HOedawK0VaxCU4Zhvdwy3JeWhHGWDyEuTOP1/LVOUAweZNK46WlElwZ462x58mTiRCPTdhHCEuFFjUAQQHrCSK2m1HWraMyeRqQeTUT9Pc7jkbpOH0FwgWcSB7ctPFIFJhgMxPCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751464709; c=relaxed/simple;
-	bh=cNi6zXtUqDAz9I7/3FrKUe2xS7369M5D+D+rRSyNc7o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=L/YWijvGEipWmZqEWgzFTZdt9HZ5Fa8hsKc37JL2tcILdzbeMLJs4AYM7Q6oJTmD4zPc5PanjxiX3jPZu23HIyF1Tuf++bU/iTB3OMN94aSwEC3mL/N3PcMYafUFuPAiSBdsHLlRFSVF/11hl6Ckwyl8bVmQ/MCAty6k2BaYJiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VwhSlStr; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VwhSlStr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751464707; x=1783000707;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cNi6zXtUqDAz9I7/3FrKUe2xS7369M5D+D+rRSyNc7o=;
-  b=VwhSlStrh8eItNDq4C3f8K54UU9X8gDOlnqobLlR5MwEvaTkJ2LJKisf
-   2TdsQmRYwpeOlqkQM2TY5G1lW4Eod5QlSjn+FBy5XfiAsfk8Yz2celyGS
-   iiPbKXa8vGcQ9vufRQv2AR9LaadV0R+fQOu9cmIvjIT8YPoafl2YqwNSx
-   mtSa9u/GlWrEDj2A1RPO3YuPd28jR4HTA63HxM8mAib2juyJ9pxlkyhJb
-   fTb2dMzkipE05WQOd6jj/9UvdT2IcGs11FV7Xqth0nfMSrFwlCL/Wt2Fx
-   BKa3VkJAxeMU7C0WPxTF01EzjT602tOS4anpn2hseCb2wWn0tDOgVyzPV
-   g==;
-X-CSE-ConnectionGUID: RclIPkLmTkSFuemrkBackw==
-X-CSE-MsgGUID: Tr8NXHoxQNGiukMRsYjiPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="53689602"
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="53689602"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 06:58:26 -0700
-X-CSE-ConnectionGUID: SjQQGwB7Q62IM68p2EL3AQ==
-X-CSE-MsgGUID: R3BpDnmfRGC7hbeEIFaPIg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="185028639"
-Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 02 Jul 2025 06:58:20 -0700
-Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uWxyb-0000hd-2E;
-	Wed, 02 Jul 2025 13:58:17 +0000
-Date: Wed, 2 Jul 2025 21:57:36 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bard Liao <yung-chuan.liao@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [thesofproject:topic/sof-dev 7944/8060] mtk-adsp-common.c:undefined
- reference to `mtk_adsp_ipc_send'
-Message-ID: <202507022143.ro0QYKxv-lkp@intel.com>
+	s=arc-20240116; t=1751465767; c=relaxed/simple;
+	bh=DIYuzkdweaBOtoLUxlve79p01Dm36bPtHwaVozKAsZM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TXLeqHX+JVTYXgjpF7HVm0Vbv9j5ibd8DvzUOGQkD6oi5BhGD8KqqKea+qWQF9d7LMbFCxrxGt41q7kVD9GQePSBWMB0bQ9cUiujcY1R9qfmCzTkbK05Weow7gfERMZ3eF+HBcMzcJIuozVIEtSVzRdxh/uNKSUkDr9tYaDn7oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EDFAB22C7;
+	Wed,  2 Jul 2025 07:15:50 -0700 (PDT)
+Received: from J2N7QTR9R3.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DE3193F6A8;
+	Wed,  2 Jul 2025 07:16:03 -0700 (PDT)
+Date: Wed, 2 Jul 2025 15:16:01 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	kernel test robot <lkp@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+	Jinjie Ruan <ruanjinjie@huawei.com>
+Subject: Re: [tip:master 19/19] include/linux/irq-entry-common.h:201:2:
+ error: unexpected token
+Message-ID: <aGU_IY70Jt4bcbf2@J2N7QTR9R3.cambridge.arm.com>
+References: <202507020528.N0LtekXt-lkp@intel.com>
+ <20250702123240.GDaGUm6Le4KLL7o_91@fat_crate.local>
+ <aGUtCveV8Ev17_FS@J2N7QTR9R3.cambridge.arm.com>
+ <20250702130915.GEaGUve86iYnv337_Z@fat_crate.local>
+ <aGUxH--v32Bv4T81@J2N7QTR9R3.cambridge.arm.com>
+ <20250702132415.GFaGUy_6q0dZZI9AX3@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,27 +44,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250702132415.GFaGUy_6q0dZZI9AX3@fat_crate.local>
 
-tree:   https://github.com/thesofproject/linux topic/sof-dev
-head:   d4313480bac60ae98ed8142fa7d30d62854c1b87
-commit: 5d1ad0198aca9adc1252497092b7c20ed3b72d45 [7944/8060] Merge branch 'sound/upstream-20250619' into merge/sound-upstream-20250619
-config: um-randconfig-r054-20250702 (https://download.01.org/0day-ci/archive/20250702/202507022143.ro0QYKxv-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507022143.ro0QYKxv-lkp@intel.com/reproduce)
+On Wed, Jul 02, 2025 at 03:24:15PM +0200, Borislav Petkov wrote:
+> On Wed, Jul 02, 2025 at 02:16:15PM +0100, Mark Rutland wrote:
+> > Sounds like a plan.
+> 
+> As we figured out on IRC:
+> 
+> https://lore.kernel.org/all/20250616-loongarch-fix-warn-cond-llvm-ias-v1-1-6c6d90bb4466@kernel.org/
+> 
+> "clang's integrated assembler only supports concatenating strings with
+> '.ascii'. There was discussion of allowing '.string' / '.asciz' but it
+> was decided against [1] because it was undesirable to match the behavior
+> of released binutils at the time, where"
+> 
+> and this seems to fix it here:
+> 
+> ---
+> diff --git a/arch/s390/include/asm/bug.h b/arch/s390/include/asm/bug.h
+> index a185855ab158..46d9eb64bd18 100644
+> --- a/arch/s390/include/asm/bug.h
+> +++ b/arch/s390/include/asm/bug.h
+> @@ -9,7 +9,7 @@
+>  #else
+>  #define __BUGVERBOSE_LOCATION(file, line)			\
+>  		.pushsection .rodata.str, "aMS", @progbits, 1;	\
+> -	10002:	.string file;					\
+> +	10002:	.ascii file;					\
+>  		.popsection;					\
+>  								\
+>  		.long 10002b - .;				\
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507022143.ro0QYKxv-lkp@intel.com/
+IIUC this also needs a trailing "\0" as per the link above, or this
+won't get a NUL-terminator (but will build just fine).
 
-All errors (new ones prefixed by >>):
+While looking at this I spotted that arm64 doesn't propagate the
+cond_str down to __BUGVERBOSE_LOCATION(), which is why we don't
+encounter the same problem today.
 
-   /usr/bin/ld: sound/soc/sof/mediatek/mtk-adsp-common.o: in function `mtk_adsp_send_msg':
->> mtk-adsp-common.c:(.text+0x51): undefined reference to `mtk_adsp_ipc_send'
-   /usr/bin/ld: sound/soc/sof/mediatek/mtk-adsp-common.o: in function `mtk_adsp_handle_request':
-   mtk-adsp-common.c:(.text+0x12b): undefined reference to `mtk_adsp_ipc_send'
-   collect2: error: ld returned 1 exit status
+We should probably fix that, but it looks like it might need some more
+header wrangling for ASM_BUG(). I thought we'd split that out to avoid
+circular header dependencies, but I could be mistaken.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Mark.
+
+> 
+> I leave it to Mr. Z to sort out.
+> 
+> -- 
+> Regards/Gruss,
+>     Boris.
+> 
+> https://people.kernel.org/tglx/notes-about-netiquette
