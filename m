@@ -1,69 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD71A1C84D7;
-	Wed,  2 Jul 2025 06:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BBCA7260C
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Jul 2025 06:45:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751438087; cv=none; b=ekqMnP7aZGQCLIb9OhfrzX7JloMY19FJzQK4VM/0Jxz18Of8lJPBSRHq/5mUGWk64W0k50vGZSrdvO990RmPwdPtnzr3I5CU9KmvFPyZ/wHZeFZHoztRdt6Mpe++21bvD3XFLzNaSnA8zm50iw0LtHrfoAuyKPq+lKcfyYuw3nY=
+	t=1751438738; cv=none; b=rsNfJ3yACOisHCM9OBZwGMG95V07yD13WGINqgFMJwQ543zWTqgjVQCbY123Yimv62kMdMFxaoL1xrFmMPo7FWTd85p5Q5RbCxjZ/AVLjUjkOQ7XTlk+BNDy9M1nK7hSheQZ/D5U7PkNEHWpcT1jAYBt/hRLMXLGij1a+h35p1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751438087; c=relaxed/simple;
-	bh=hMZ4282zP/9HuvYTYZaNGB5P3n+SJekOKkZamRjOEJw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FwAJRx8W8tUOhhJ8Kr4t6hxdWU3b/be24yXI06LSLzwPihJjbSmeu6CFULySlAZs7UyFl+DMhfhJ7dOgjIm8zn+rra8ZFo4/ZotiYD7ZfyoIhCHneKJOfnC/QPyqILE8IW02Sb6kGH/SY90NLUFh1x7MqO/18CpSVW0PyNmQJWY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jCwkdvfQ; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1751438738; c=relaxed/simple;
+	bh=PIgWwbFq2D3vXf1A04NnLpMOKVr/VEjD37468c2IiFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=jDFQehzWXC0DWsGTfeDH6iRd0KtePOdfU67zFjKHh2mHlv3M2BzH22aRoWoycKL+mEkeJRGHT25DmvG6kvzcq/KRvsiktV6bvRQW2eAFOLe0OSny0XV4o12E1anExDa2jTRFhvhLOG8xhd9u9z9hUEKNQlwe8q3+3gRq3SQ29Zw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W6UqCZmM; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jCwkdvfQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W6UqCZmM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751438086; x=1782974086;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hMZ4282zP/9HuvYTYZaNGB5P3n+SJekOKkZamRjOEJw=;
-  b=jCwkdvfQaZ7/EXiTrvL33o7cUt4QwieHJCtIF0rh7zAzvBcZF/uJVr/b
-   oSd5eWXzkcZbghGK8aJGtShww1OCGNrQMmIH032pnq9/Jma90j5GOO/5y
-   qbpNpRbZhckS0UucVQ1xVdpEQZY+rE/ooWV98PzeFYt3bsQ82R+XG9lyP
-   1xWKB6zQ1q4xOrZIZ+EjzaWjn4LtWDlC0FULkGQwH4ynU4KPdf33xCbAK
-   vX2I9ws/qO7c+kTEhRFAN1O2RYA/dohMNM/V+sTpFzdSEU8NZ70GGzRY/
-   JHBf1WvzB3oVXGspW16abUrrFoCX/j/6I5r/uAGX7HJy4YOE7gkeP3nOM
+  t=1751438736; x=1782974736;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PIgWwbFq2D3vXf1A04NnLpMOKVr/VEjD37468c2IiFg=;
+  b=W6UqCZmMFq/Fcfl5qunTEXU0KGkV8KINNyFbe2cImDwhWKoWe0pkIC82
+   uSDICZ/Y6ymU/qIw735vWXAWIXEB9Wgllf6fU6jQmi1nm8rDAOP/LWC3z
+   ahL5gfpmLiYWQQUKjpgU9DaNwdU39qQzsP8gfLtaVDKgZ/ZdNLQZLCPf0
+   DkpCQFlsFeyFby+tv2iwZNI0l9HymixClQMuN9xVn0DAbBjbWo9ofyJtE
+   WAjoLWCCa4Ygji2njsT3jlROW1UqCoO670vrieBlYhxrhGMlcDOXMs3KM
+   sE9CiLycZWI4gHhCCcVx0wOuACefylkfBYzaItoE5Si9F9r37y0IRwv7A
    g==;
-X-CSE-ConnectionGUID: 4fwk1UKgQ5mWtVJ/ZtP5bA==
-X-CSE-MsgGUID: mz5zBUSTSYeUE7woOsab1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="52952516"
+X-CSE-ConnectionGUID: QX52R479QWuArrsGmSZxpw==
+X-CSE-MsgGUID: zMipPkuJSgmSPiUpSxAfRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11481"; a="64768465"
 X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="52952516"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 23:34:45 -0700
-X-CSE-ConnectionGUID: Hn/PqNkoQmKfqs1+lkfu1w==
-X-CSE-MsgGUID: yanwPjBFQRCnQ9a08djl4w==
+   d="scan'208";a="64768465"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jul 2025 23:45:34 -0700
+X-CSE-ConnectionGUID: AoOLehg/SouKG0kL+EHZuA==
+X-CSE-MsgGUID: T2/0ZaNkSPS+jvBE7CHqfQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="153390776"
-Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 01 Jul 2025 23:34:41 -0700
-Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
+   d="scan'208";a="177671994"
+Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
+  by fmviesa002.fm.intel.com with ESMTP; 01 Jul 2025 23:45:33 -0700
+Received: from kbuild by 030a839a1121 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWr3G-0000G6-2m;
-	Wed, 02 Jul 2025 06:34:38 +0000
-Date: Wed, 2 Jul 2025 14:34:02 +0800
+	id 1uWrDl-0000Eb-0s;
+	Wed, 02 Jul 2025 06:45:29 +0000
+Date: Wed, 2 Jul 2025 08:45:15 +0200
 From: kernel test robot <lkp@intel.com>
-To: Leo Yan <leo.yan@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	James Clark <james.clark@linaro.org>,
-	Levi Yun <yeoreum.yun@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Yabin Cui <yabinc@google.com>, Keita Morisaki <keyz@google.com>,
-	Yuanfang Zhang <quic_yuanfang@quicinc.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, Leo Yan <leo.yan@arm.com>
-Subject: Re: [PATCH v2 11/28] coresight: Populate CPU ID into the
- coresight_device structure
-Message-ID: <202507021422.Zj4Hv0CG-lkp@intel.com>
-References: <20250701-arm_cs_pm_fix_v3-v2-11-23ebb864fcc1@arm.com>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1605/1605] net/9p/client.o: warning:
+ objtool: missing symbol for section .exit.text
+Message-ID: <202507020802.Dmvtg8wR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,127 +61,28 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250701-arm_cs_pm_fix_v3-v2-11-23ebb864fcc1@arm.com>
 
-Hi Leo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 66701750d5565c574af42bef0b789ce0203e3071]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Leo-Yan/coresight-Change-device-mode-to-atomic-type/20250701-230354
-base:   66701750d5565c574af42bef0b789ce0203e3071
-patch link:    https://lore.kernel.org/r/20250701-arm_cs_pm_fix_v3-v2-11-23ebb864fcc1%40arm.com
-patch subject: [PATCH v2 11/28] coresight: Populate CPU ID into the coresight_device structure
-config: arm-randconfig-004-20250702 (https://download.01.org/0day-ci/archive/20250702/202507021422.Zj4Hv0CG-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507021422.Zj4Hv0CG-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   d96cd567c8d8d584405abe92c2576bf58202fa6e
+commit: a6fb923f7803f40a567445dfe1ff3a539c8adc1f [1605/1605] 9p: Use a slab for allocating requests
+config: x86_64-buildonly-randconfig-2002-20250501 (https://download.01.org/0day-ci/archive/20250702/202507020802.Dmvtg8wR-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507020802.Dmvtg8wR-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507021422.Zj4Hv0CG-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507020802.Dmvtg8wR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/hwtracing/coresight/coresight-dummy.c:182:11: error: incompatible integer to pointer conversion assigning to 'struct device *' from 'int' [-Wint-conversion]
-     182 |         desc.dev = -1;
-         |                  ^ ~~
-   1 error generated.
-
-
-vim +182 drivers/hwtracing/coresight/coresight-dummy.c
-
-   113	
-   114	static int dummy_probe(struct platform_device *pdev)
-   115	{
-   116		struct device *dev = &pdev->dev;
-   117		struct device_node *node = dev->of_node;
-   118		struct coresight_platform_data *pdata;
-   119		struct dummy_drvdata *drvdata;
-   120		struct coresight_desc desc = { 0 };
-   121		int ret = 0, trace_id = 0;
-   122	
-   123		drvdata = devm_kzalloc(dev, sizeof(*drvdata), GFP_KERNEL);
-   124		if (!drvdata)
-   125			return -ENOMEM;
-   126	
-   127		if (of_device_is_compatible(node, "arm,coresight-dummy-source")) {
-   128	
-   129			desc.name = coresight_alloc_device_name(&source_devs, dev);
-   130			if (!desc.name)
-   131				return -ENOMEM;
-   132	
-   133			desc.type = CORESIGHT_DEV_TYPE_SOURCE;
-   134			desc.subtype.source_subtype =
-   135						CORESIGHT_DEV_SUBTYPE_SOURCE_OTHERS;
-   136			desc.ops = &dummy_source_cs_ops;
-   137			desc.groups = coresight_dummy_groups;
-   138	
-   139			ret = coresight_get_static_trace_id(dev, &trace_id);
-   140			if (!ret) {
-   141				/* Get the static id if id is set in device tree. */
-   142				ret = coresight_trace_id_get_static_system_id(trace_id);
-   143				if (ret < 0) {
-   144					dev_err(dev, "Fail to get static id.\n");
-   145					return ret;
-   146				}
-   147			} else {
-   148				/* Get next available id if id is not set in device tree. */
-   149				trace_id = coresight_trace_id_get_system_id();
-   150				if (trace_id < 0) {
-   151					ret = trace_id;
-   152					return ret;
-   153				}
-   154			}
-   155			drvdata->traceid = (u8)trace_id;
-   156	
-   157		} else if (of_device_is_compatible(node, "arm,coresight-dummy-sink")) {
-   158			desc.name = coresight_alloc_device_name(&sink_devs, dev);
-   159			if (!desc.name)
-   160				return -ENOMEM;
-   161	
-   162			desc.type = CORESIGHT_DEV_TYPE_SINK;
-   163			desc.subtype.sink_subtype = CORESIGHT_DEV_SUBTYPE_SINK_DUMMY;
-   164			desc.ops = &dummy_sink_cs_ops;
-   165		} else {
-   166			dev_err(dev, "Device type not set\n");
-   167			return -EINVAL;
-   168		}
-   169	
-   170		pdata = coresight_get_platform_data(dev);
-   171		if (IS_ERR(pdata)) {
-   172			ret = PTR_ERR(pdata);
-   173			goto free_id;
-   174		}
-   175		pdev->dev.platform_data = pdata;
-   176	
-   177		drvdata->dev = &pdev->dev;
-   178		platform_set_drvdata(pdev, drvdata);
-   179	
-   180		desc.pdata = pdev->dev.platform_data;
-   181		desc.dev = &pdev->dev;
- > 182		desc.dev = -1;
-   183		drvdata->csdev = coresight_register(&desc);
-   184		if (IS_ERR(drvdata->csdev)) {
-   185			ret = PTR_ERR(drvdata->csdev);
-   186			goto free_id;
-   187		}
-   188	
-   189		pm_runtime_enable(dev);
-   190		dev_dbg(dev, "Dummy device initialized\n");
-   191	
-   192		ret = 0;
-   193		goto out;
-   194	
-   195	free_id:
-   196		if (IS_VALID_CS_TRACE_ID(drvdata->traceid))
-   197			coresight_trace_id_put_system_id(drvdata->traceid);
-   198	
-   199	out:
-   200		return ret;
-   201	}
-   202	
+   net/9p/client.c:376: warning: Function parameter or member 'c' not described in 'p9_client_cb'
+   net/9p/client.c:376: warning: Function parameter or member 'req' not described in 'p9_client_cb'
+   net/9p/client.c:376: warning: Function parameter or member 'status' not described in 'p9_client_cb'
+   net/9p/client.c:523: warning: Function parameter or member 'uidata' not described in 'p9_check_zc_errors'
+   net/9p/client.c:774: warning: Function parameter or member 'in_hdrlen' not described in 'p9_client_zc_rpc'
+   net/9p/client.c:774: warning: Excess function parameter 'hdrlen' description in 'p9_client_zc_rpc'
+>> net/9p/client.o: warning: objtool: missing symbol for section .exit.text
 
 -- 
 0-DAY CI Kernel Test Service
