@@ -1,60 +1,73 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204E51E0DD8;
-	Wed,  2 Jul 2025 16:10:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6029B27A465
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Jul 2025 16:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751472628; cv=none; b=aWE1FLwA1ZqNbteym4TCfS7F9YepimMrscM98NfZDMreQUsCOocNZWpleQSGDY4O70zqQQEdhfAOH7ULmpyiYl2sDOuK6n5RBfOyynM1sm3WDEngUyzQ5ZhnViLNK0Mto5U9cPiydTyLCPdNea+uJiGXYVl44RQFuOjPmYI1s1Y=
+	t=1751472720; cv=none; b=s8q/pwIXuc4gxpS7wfSsP1JVIVbQYju+gFkdXWv0PTQbf/h5L9TNh2uwxIxy8Bm+sjyN0JS4xDWk/rYMixEPFveKn+6eq/RJXLx2f/vSmPI6BI9OkfY3+cqhtyzyUnlpoMytOBFCico+LmolkmRa6D3AzmWSB/sGLUeVybZyJ9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751472628; c=relaxed/simple;
-	bh=d/6DDJH1wV/ODNau5RFdyJrWY0eEwWDgeUDuqlxT/u4=;
+	s=arc-20240116; t=1751472720; c=relaxed/simple;
+	bh=ku/1O1AIFsAJJ6qmmvnq+B5DRjf3j0x7VN0LkoGzkUQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ThWL/orUBPsH8WyaHbZyQd9sSgLSn798j6WXwqMI6HMSfYk4bxpGu77Fvfy6kaMKLECPdlvI6VEpJahN2tycRKuTGOYUTm1yaBctXUrgyFSa85d6r2XHCX4Wp1JxnBE3tYA6CM4Q6CNgWz6Dlc1crKQp0rx0slCFpc7ji8vTA4g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=AvTS2/WF; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=LvkReZj9f64354BRmLeddQi9iPhL7zio+hYgthu6nWiRNcdWtehgnVcPEXJnXv8B/x0nMrux90G8ucYbWyJZPufbGKexITKBzNGV0boEYnx1gIuozd8wXpeqfVvYn5uiq+zKWKsVCW339/BAoKMWnKCDU83/2/jkyZfbzt6ZiHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=E2/ElB2I; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="AvTS2/WF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=0epRK0OpAHsu5Xbqj5f1MXvdML5cfnc/geubT1WmD50=; b=AvTS2/WFEmf7N5VxO3wwFykFOz
-	vx9RSS/PiE5Vlf/so4AtLDWqs50t6lmKvFdQCYza844DhDuQsvhnFuBuXfJIKHPhBps9FbkzuHjuW
-	4kYmlY5OCDZ5pGaOoVyr5KmKpRdUOng2Ub2w0h6x/KGAwrLSPof2Z7/b84hLBsJjQ2wxFQfV2m4Ys
-	9zrujuOmthQP6680TdqH3jCS9wol/JGgbDw0Z7+w47YO2QljslSEek8rAPt8xB6N+8BRg44MGqdyb
-	gYXhv7bWY9i8aLetcyBVpqLmBZWkt+eK2UoCEiDK2VzDi1cfL1/bcZiiMV+9yPqb0pX8MhQnfHfjv
-	w35KoTQg==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uX02I-00000007Ukt-0P7a;
-	Wed, 02 Jul 2025 16:10:14 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id E89AF300130; Wed, 02 Jul 2025 18:10:12 +0200 (CEST)
-Date: Wed, 2 Jul 2025 18:10:12 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: Heiko Carstens <hca@linux.ibm.com>
-Cc: Mark Rutland <mark.rutland@arm.com>, Borislav Petkov <bp@alien8.de>,
-	kernel test robot <lkp@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Linus Walleij <linus.walleij@linaro.org>,
-	Jinjie Ruan <ruanjinjie@huawei.com>,
-	Nathan Chancellor <nathan@kernel.org>
-Subject: Re: [tip:master 19/19] include/linux/irq-entry-common.h:201:2:
- error: unexpected token
-Message-ID: <20250702161012.GQ1613200@noisy.programming.kicks-ass.net>
-References: <202507020528.N0LtekXt-lkp@intel.com>
- <20250702123240.GDaGUm6Le4KLL7o_91@fat_crate.local>
- <aGUtCveV8Ev17_FS@J2N7QTR9R3.cambridge.arm.com>
- <20250702130915.GEaGUve86iYnv337_Z@fat_crate.local>
- <aGUxH--v32Bv4T81@J2N7QTR9R3.cambridge.arm.com>
- <20250702132415.GFaGUy_6q0dZZI9AX3@fat_crate.local>
- <aGU_IY70Jt4bcbf2@J2N7QTR9R3.cambridge.arm.com>
- <20250702145425.GS1613376@noisy.programming.kicks-ass.net>
- <20250702150739.GT1613376@noisy.programming.kicks-ass.net>
- <20250702154137.71390C24-hca@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="E2/ElB2I"
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-2ef493de975so2919941fac.1
+        for <oe-kbuild-all@lists.linux.dev>; Wed, 02 Jul 2025 09:11:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1751472717; x=1752077517; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xLl0djX76uDh2KqOF+EzMvL6PoM9gvUJ0/VwerVvcuU=;
+        b=E2/ElB2Iro3FPU7pvd01z+NBzqF8+JThtj8pQnvw9R68wGl0WJAgdYp5OKyd5S2LaW
+         RZvHi2pSYeJTnGDIfXdkPiFVCwXwY8mZ/QHsXRE8fWixON8lVo4VRRZESHqdCrhzKVHJ
+         tFILpJiODGOG0YgTK0UtBKvXBbT9e46X2WBh5Kv37Asvbgoh2jt8/7azXBRuHUJeyACz
+         tAnJCznO68DrIJDVrb8r5k49I0vw0IJFgjDo989YkMYyFxFPyxmH7apJ3ol1sx8XjLA9
+         +W4cYfenqC8pRTcz9NnkRmdOo6f3s+qZSJ/tr8O+zAsTb7OKRtV8/OtqirbOMIYDFSvA
+         +LoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751472717; x=1752077517;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xLl0djX76uDh2KqOF+EzMvL6PoM9gvUJ0/VwerVvcuU=;
+        b=s1pRnVDjmsWuGPYyiNBNBC7TChecRzY3Y6M6fhLHp4X1+GIkFeXzaFJiSJgfvTOxGD
+         FwqXDjpacPqE/ourBBZn4haOJw3mQK8yhZWjNMQ1zoArNdxX/CZSUWyEIB3YL5UH1XB8
+         DEMTtPLA1PDeSkp1jG0oh6Xhz8VmwUEbhCeFlPeFnN1AUt7JEtogzyoTJntEFQdupw8g
+         zJavIQNB8in2pzA3IQW1PnJvzwQd60mnkuR2RSABXx6fhGI1ArEb7K0K1CXr6O4ZSKIq
+         v4lfwDdV0fQAjSIXeolRc5Exx3jJysJ0i2L67WKkjBx18FlUnUdcJqNhaWkzLEgj9Hhr
+         PrLA==
+X-Forwarded-Encrypted: i=1; AJvYcCUpLdIL09R4gq9g0ZvU9Zo0mPE/C0exqoF6JixIk6dGLjwpjtu4An9Dty7iMsnz9+/xP90/4Bpb6SakLH6W@lists.linux.dev
+X-Gm-Message-State: AOJu0YwXWyJJSpiwiJvXbvKOes8QDVEQ1scMeEBrXpb7jq28KQeoRV8g
+	8PrjF22ebAjHC383Vb4xZIxrrjw+JXDsi22cr1VM4BZeDFkllGxJXOmCkqjxQYLOrbc=
+X-Gm-Gg: ASbGncvwedr/lQNIFwPG3dHmjabDeodwL1+k+QX3EOxv8kQH1xrzAQPgyzYGjCGE+YT
+	3poSgCqR/zcZ6lZ09rr4w+FKxk46YkYodi+wqX+LkIbzxnBLxbtTgRcTs6uwNbARbnLqeM0XpKH
+	DrhndmT4J8cKEOGHUTRIHiYsKyHdhuTtmdRnp7UQcWczuoq74FajHL4OMAMqVf9VgJOPM91ZgV+
+	O7MkLxkZAVuxJN6b3/hX5ejJpudRosWm4z1iT1qx5kU0fvP3b4wSRPtbFHwYm9oa3PrXmDaqoOC
+	h2OaOFdp2R4cZ9Fw+HEcRi5q+EVoF+kI+94GBGsJKOKGP5BtRRGnR8EuK4U2tjzS+LYgsw==
+X-Google-Smtp-Source: AGHT+IEUcyyYplg3dAlsN64/ClYT7sGu4SJixmVO5+dP9Ynt+31d1VKg5vFlMLwsobsP4aHj0c1LwQ==
+X-Received: by 2002:a05:6870:e8c9:b0:2ea:8f12:5762 with SMTP id 586e51a60fabf-2f5a8d27ce5mr2546491fac.7.1751472717371;
+        Wed, 02 Jul 2025 09:11:57 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:7056:ddb5:3445:864f])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2efd4ef7024sm3926135fac.13.2025.07.02.09.11.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Jul 2025 09:11:56 -0700 (PDT)
+Date: Wed, 2 Jul 2025 19:11:54 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: lizhe.67@bytedance.com
+Cc: alex.williamson@redhat.com, david@redhat.com, jgg@ziepe.ca,
+	kvm@vger.kernel.org, linux-kernel@vger.kernel.org, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, oe-kbuild@lists.linux.dev,
+	peterx@redhat.com
+Subject: Re: [PATCH 3/4] vfio/type1: introduce a new member has_rsvd for
+ struct vfio_dma
+Message-ID: <24446bf8-3255-4622-a53c-33690c07fb17@suswa.mountain>
+References: <c209cfd6-05b1-4491-91ce-c672414d718c@suswa.mountain>
+ <20250702034720.53574-1-lizhe.67@bytedance.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,36 +76,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250702154137.71390C24-hca@linux.ibm.com>
+In-Reply-To: <20250702034720.53574-1-lizhe.67@bytedance.com>
 
-On Wed, Jul 02, 2025 at 05:41:37PM +0200, Heiko Carstens wrote:
-> On Wed, Jul 02, 2025 at 05:07:39PM +0200, Peter Zijlstra wrote:
-> > > > > diff --git a/arch/s390/include/asm/bug.h b/arch/s390/include/asm/bug.h
-> > > > > index a185855ab158..46d9eb64bd18 100644
-> > > > > --- a/arch/s390/include/asm/bug.h
-> > > > > +++ b/arch/s390/include/asm/bug.h
-> > > > > @@ -9,7 +9,7 @@
-> > > > >  #else
-> > > > >  #define __BUGVERBOSE_LOCATION(file, line)			\
-> > > > >  		.pushsection .rodata.str, "aMS", @progbits, 1;	\
-> > > > > -	10002:	.string file;					\
-> > > > > +	10002:	.ascii file;					\
-> > > > >  		.popsection;					\
-> > > > >  								\
-> > > > >  		.long 10002b - .;				\
-> > > > > 
-> > > > 
-> > > > IIUC this also needs a trailing "\0" as per the link above, or this
-> > > > won't get a NUL-terminator (but will build just fine).
-> > > 
-> > > Yup, I ran into this before. Let me go fix that commit.
+On Wed, Jul 02, 2025 at 11:47:20AM +0800, lizhe.67@bytedance.com wrote:
+> On Tue, 1 Jul 2025 18:13:48 +0300, dan.carpenter@linaro.org wrote:
+> 
+> > New smatch warnings:
+> > drivers/vfio/vfio_iommu_type1.c:788 vfio_pin_pages_remote() error: uninitialized symbol 'rsvd'.
 > > 
-> >  + e7e26cfad96c...2a20b2730147 core/bugs -> core/bugs (forced update)
+> > Old smatch warnings:
+> > drivers/vfio/vfio_iommu_type1.c:2376 vfio_iommu_type1_attach_group() warn: '&group->next' not removed from list
+> > 
+> > vim +/rsvd +788 drivers/vfio/vfio_iommu_type1.c
+> > 
+> > 8f0d5bb95f763c Kirti Wankhede  2016-11-17  684  static long vfio_pin_pages_remote(struct vfio_dma *dma, unsigned long vaddr,
+> > 0635559233434a Alex Williamson 2025-02-18  685  				  unsigned long npage, unsigned long *pfn_base,
+> > 4b6c33b3229678 Daniel Jordan   2021-02-19  686  				  unsigned long limit, struct vfio_batch *batch)
+> > 73fa0d10d077d9 Alex Williamson 2012-07-31  687  {
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  688  	unsigned long pfn;
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  689  	struct mm_struct *mm = current->mm;
+> > 6c38c055cc4c0a Alex Williamson 2016-12-30  690  	long ret, pinned = 0, lock_acct = 0;
+> > 89c29def6b0101 Alex Williamson 2018-06-02  691  	bool rsvd;
+> > a54eb55045ae9b Kirti Wankhede  2016-11-17  692  	dma_addr_t iova = vaddr - dma->vaddr + dma->iova;
+> > 166fd7d94afdac Alex Williamson 2013-06-21  693  
+> > 6c38c055cc4c0a Alex Williamson 2016-12-30  694  	/* This code path is only user initiated */
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  695  	if (!mm)
+> > 166fd7d94afdac Alex Williamson 2013-06-21  696  		return -ENODEV;
+> > 73fa0d10d077d9 Alex Williamson 2012-07-31  697  
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  698  	if (batch->size) {
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  699  		/* Leftover pages in batch from an earlier call. */
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  700  		*pfn_base = page_to_pfn(batch->pages[batch->offset]);
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  701  		pfn = *pfn_base;
+> > 89c29def6b0101 Alex Williamson 2018-06-02  702  		rsvd = is_invalid_reserved_pfn(*pfn_base);
 > 
-> Thank you! But wouldn't you also need to merge Nathan's patch [1] into
-> the loongarch commit (or maybe you are just about to do that)?
+> When batch->size is not zero, we initialize rsvd here.
 > 
-> [1] https://lore.kernel.org/all/20250616-loongarch-fix-warn-cond-llvm-ias-v1-1-6c6d90bb4466@kernel.org/
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?h=core/bugs&id=5d476f66e6add0b709a09d60feecff3a2d156800
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  703  	} else {
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  704  		*pfn_base = 0;
+> 
+> When the value of batch->size is zero, we set the value of *pfn_base
+> to zero and do not initialize rsvd for the time being.
+> 
+> > 5c6c2b21ecc9ad Alex Williamson 2013-06-21  705  	}
+> > 5c6c2b21ecc9ad Alex Williamson 2013-06-21  706  
+> > eb996eec783c1e Alex Williamson 2025-02-18  707  	if (unlikely(disable_hugepages))
+> > eb996eec783c1e Alex Williamson 2025-02-18  708  		npage = 1;
+> > eb996eec783c1e Alex Williamson 2025-02-18  709  
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  710  	while (npage) {
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  711  		if (!batch->size) {
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  712  			/* Empty batch, so refill it. */
+> > eb996eec783c1e Alex Williamson 2025-02-18  713  			ret = vaddr_get_pfns(mm, vaddr, npage, dma->prot,
+> > eb996eec783c1e Alex Williamson 2025-02-18  714  					     &pfn, batch);
+> > be16c1fd99f41a Daniel Jordan   2021-02-19  715  			if (ret < 0)
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  716  				goto unpin_out;
+> > 166fd7d94afdac Alex Williamson 2013-06-21  717  
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  718  			if (!*pfn_base) {
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  719  				*pfn_base = pfn;
+> > 4d83de6da265cd Daniel Jordan   2021-02-19  720  				rsvd = is_invalid_reserved_pfn(*pfn_base);
+> 
+> Therefore, for the first loop, when batch->size is zero, *pfn_base must
+> be zero, which will then lead to the initialization of rsvd.
+> 
 
-Uh, indeed. Let me go do so.
+Yeah.  :/
+
+I don't know why this warning was printed honestly.  Smatch is supposed
+to figure that kind of thing out correctly.  It isn't printed on my
+system.  I've tried deleting the cross function DB (which shouldn't
+matter) and I'm using the published version of Smatch but I can't get it
+to print.  Ah well.  My bad.  Thanks for taking a look.
+
+regards,
+dan carpenter
+
