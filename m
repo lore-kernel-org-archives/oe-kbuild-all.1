@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4939D2F0C6A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Jul 2025 14:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB56822F74E;
+	Wed,  2 Jul 2025 14:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751465844; cv=none; b=dSTApreSJlIR3btMYw+ddXNRHZR5PmViPcVeyNhiOmkgS0nDOd4I6xaBSw3DNg5mx7lwTZSga5C7LqAHlWFFFWB3muwggCCTzr7UPq2G+vcisSe5URdCONnUpx0zt0/vL9Hs6MYWXDyldSmkZPLiWuyzgm+P08XK7vOmyfIwCrI=
+	t=1751466026; cv=none; b=j3Rkzvow14T3kgYg4Lh3ztV40tgq1/MhWZAKRTThLXbaLd5G7yPgE/yAraONK/YFh0omgnCntIrZxyOy9XK5+l1WOQaqXwrmnGOAdb7djvyx40Rv2yz3beWm5Zi3qzZSQGTa/iR5JF/k2rXNudiFA9NxI94qd5hLyQDV4Vsv+v8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751465844; c=relaxed/simple;
-	bh=6lYTc4bPMGTThEsVIf0UH+JJddow1ot2X7mNbb0hAx8=;
+	s=arc-20240116; t=1751466026; c=relaxed/simple;
+	bh=fUjjmNwNu+I918GyCW7ZLvqGnEQsJGFlLj4tLWza9Zk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=mVy3uwTbeH6adlxV1tUPoQcw/Yufo66QSs0lQPocaEBV++IoVmYHJpF3bVwONwMVYOzQRhIhMojernH+eaBR9ZyUN1tSo/kpl8c1KSwOn7TjxyOw4g4Ofsg8rAX/0Gfaek41zdHf0HJjGwGJvaKPQaib/UaVVRiN+IYy0Pl8QHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B0MmZMBN; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=Ax7ImOfShcQzIrHvvpL4jZgG/R8aMTLM5F3KLTUPkHrDvhesvRc5y1DFlkC4NuKUYJMdHdruYN9FGdoDhbS5VahjpSPWE2hnqY+08QtNLZTng2b2J15GfOMxVzxmGJohcgmA9l6+1utMAgKtxOXSKEYkYdyhjNw6QrP7Fzl7cqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WolByMn8; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B0MmZMBN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WolByMn8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751465844; x=1783001844;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=6lYTc4bPMGTThEsVIf0UH+JJddow1ot2X7mNbb0hAx8=;
-  b=B0MmZMBNTiBOLq85TF1VVQIe8Ej5GQ28ihYOMdcFGWKpd4wDmuvaYk5t
-   876J1MZkmEt7no3c81wIR0B8TPOfiQdkR6B3l3VHU1HTkMQttjFOci12+
-   E810F+Aj9HAiVgCgAi6UPFoaBQKsJI+WEL/3VYugBnocg1+c0fNIctJz7
-   O57+BMM+iQyGrKEIwF5RqPEsZ/nsZy5QyM46ltCD6IsJkb2nz+R6Lx67l
-   a9uL/FGIL4WUguKP9xRFlYjFsKClRRu7Bp3F8WFfyK/MfbgKxBErSDkN4
-   o/H5EOJZ2AnjGCTrQRypmSqYOBKzZ9MRGK07vOYDWqltdBwLYdSb0sZRo
+  t=1751466024; x=1783002024;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=fUjjmNwNu+I918GyCW7ZLvqGnEQsJGFlLj4tLWza9Zk=;
+  b=WolByMn8zigsgAUBLxkH55ZMmVPmQuW6jpImZArWud82CWEM/qrVFEWi
+   sNMLihvJh9ouurE1tvD06G/bIoP053RitfzxfwwWp31RBKwGQ4NJuJHZZ
+   A9C61YzLEoe6awJd+a/t2CV/rUjWRtWpxaxFoNzfA3OzAY3HZaVi2f2Oz
+   z8AMRuC9zOP6hWaSgDjQaxtH6P7lW5eOhAAO+X6ozUanfsUWPAdamnpth
+   L6uHPPq/bKyezm3Gty16XWEBWRtG7K4RsoficokMT3KinsvBOY5AXpz+j
+   7r2xx2gG5HYVQXgGx8zSDnltnbWUc0rDzJ45h0WulvjPL8b0WAYgn6Kws
    A==;
-X-CSE-ConnectionGUID: VHd7/wXKQe2BESPeozyGWg==
-X-CSE-MsgGUID: i7pLbdHhQ4KIrmmlkXalYg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="57542988"
+X-CSE-ConnectionGUID: +ENibMrZSJ2s2r2Rp4Eg7g==
+X-CSE-MsgGUID: 4VMJY9i6SOWsyCma4erQtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="64811959"
 X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="57542988"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 07:17:23 -0700
-X-CSE-ConnectionGUID: MJMw/FrdSQ64xG7rY4J8lA==
-X-CSE-MsgGUID: qU/kPLY0TVSkFdzaf75+vA==
+   d="scan'208";a="64811959"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 07:20:23 -0700
+X-CSE-ConnectionGUID: D0EEC0aASAeo7dKqHseC+A==
+X-CSE-MsgGUID: YT9KZdJySLCN713sTeb9wA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,281,1744095600"; 
-   d="scan'208";a="154646803"
+   d="scan'208";a="154162229"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 02 Jul 2025 07:17:21 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 02 Jul 2025 07:20:22 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uWyH1-0000j9-1s;
-	Wed, 02 Jul 2025 14:17:19 +0000
-Date: Wed, 2 Jul 2025 22:17:04 +0800
+	id 1uWyJv-0000jT-38;
+	Wed, 02 Jul 2025 14:20:19 +0000
+Date: Wed, 2 Jul 2025 22:19:37 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oscar Maes <oscmaes92@gmail.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net] net: ipv4: fix incorrect MTU in broadcast routes
-Message-ID: <aGU_YEQkZ-ZPo4nm@08871597274f>
+To: Linus Walleij <linus.walleij@linaro.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 5977/6007] drivers/pinctrl/pinctrl-k210.c:600:6:
+ error: unexpected token
+Message-ID: <202507022208.BF3SgKv5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +61,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250702141515.9414-1-oscmaes92@gmail.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   50c8770a42faf8b1c7abe93e7c114337f580a97d
+commit: 31624295f28fd44d1cae16144caf8ada5e9b189a [5977/6007] Merge branch 'for-next' of git://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctrl.git
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250702/202507022208.BF3SgKv5-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507022208.BF3SgKv5-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507022208.BF3SgKv5-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All errors (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+>> drivers/pinctrl/pinctrl-k210.c:600:6: error: unexpected token
+     600 |         if (WARN_ON(pin >= K210_NPINS))
+         |             ^
+   include/asm-generic/bug.h:132:3: note: expanded from macro 'WARN_ON'
+     132 |                 __WARN();                                               \
+         |                 ^
+   include/asm-generic/bug.h:109:19: note: expanded from macro '__WARN'
+     109 | #define __WARN()                __WARN_FLAGS("", BUGFLAG_TAINT(TAINT_WARN))
+         |                                 ^
+   arch/s390/include/asm/bug.h:44:2: note: expanded from macro '__WARN_FLAGS'
+      44 |         __BUG_FLAGS(cond_str, BUGFLAG_WARNING|(flags));         \
+         |         ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=0 to see all)
+   include/linux/stringify.h:10:27: note: expanded from macro '__stringify'
+      10 | #define __stringify(x...)       __stringify_1(x)
+         |                                 ^
+   include/linux/stringify.h:9:29: note: expanded from macro '__stringify_1'
+       9 | #define __stringify_1(x...)     #x
+         |                                 ^
+   <scratch space>:22:1: note: expanded from here
+      22 | ".pushsection __bug_table, \"aw\"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, \"aMS\", @progbits, 1; 10002: .string \"\" \"drivers/pinctrl/pinctrl-k210.c\"; .popsection; .long 10002b - .; .short 600; .short (1 << 0)|(((9) << 8)); .popsection; 10001: mc 0,0"
+         | ^
+   <inline asm>:1:134: note: instantiated into assembly here
+       1 |         .pushsection __bug_table, "aw"; .align 4; 10000: .long 10001f - .; .pushsection .rodata.str, "aMS", @progbits, 1; 10002: .string "" "drivers/pinctrl/pinctrl-k210.c"; .popsection; .long 10002b - .; .short 600; .short (1 << 0)|(((9) << 8)); .popsection; 10001: mc 0,0
+         |                                                                                                                                             ^
+   1 error generated.
 
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH net] net: ipv4: fix incorrect MTU in broadcast routes
-Link: https://lore.kernel.org/stable/20250702141515.9414-1-oscmaes92%40gmail.com
+
+vim +600 drivers/pinctrl/pinctrl-k210.c
+
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  593  
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  594  static int k210_pinconf_set(struct pinctrl_dev *pctldev, unsigned int pin,
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  595  			    unsigned long *configs, unsigned int num_configs)
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  596  {
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  597  	unsigned int param, arg;
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  598  	int i, ret;
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  599  
+d4c34d09ab03e1 Damien Le Moal 2021-01-12 @600  	if (WARN_ON(pin >= K210_NPINS))
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  601  		return -EINVAL;
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  602  
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  603  	for (i = 0; i < num_configs; i++) {
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  604  		param = pinconf_to_config_param(configs[i]);
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  605  		arg = pinconf_to_config_argument(configs[i]);
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  606  		ret = k210_pinconf_set_param(pctldev, pin, param, arg);
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  607  		if (ret)
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  608  			return ret;
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  609  	}
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  610  
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  611  	return 0;
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  612  }
+d4c34d09ab03e1 Damien Le Moal 2021-01-12  613  
+
+:::::: The code at line 600 was first introduced by commit
+:::::: d4c34d09ab03e1e631fe195ddf35365a1273be9c pinctrl: Add RISC-V Canaan Kendryte K210 FPIOA driver
+
+:::::: TO: Damien Le Moal <damien.lemoal@wdc.com>
+:::::: CC: Palmer Dabbelt <palmerdabbelt@google.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
