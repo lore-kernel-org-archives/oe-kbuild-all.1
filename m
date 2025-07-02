@@ -1,94 +1,84 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D212D77F3;
-	Wed,  2 Jul 2025 18:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C2C3303DF4
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Jul 2025 18:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751479984; cv=none; b=SifHO+hhOt/XXZ4/j1zIT6rXMwE4py6cpsOAthoCThyGB2xxGM47fo5RzUIe3Mgj5YiKNotMjoxoqkX0iqahOqooiL+/QcOLKYD86QIy8xKftaChQTMlv0a2g7RS0nD+ZoEVNNnk3pgJ8uM3NpY7JECpCQt6XuYGGmsho0uNnLQ=
+	t=1751480039; cv=none; b=d7u9dyT1QCFEAMNtLSsmVdYcOCh2r4PqTlFCId/HlY9IzjpSF0rr8JsrXIGux/hn3WjRfOD513Tyziidkv8yY5NJ+1id51jHt4DBkKQ/6vG/fZTlOpac8ZV1AcUcI+Mcfhx8JykwB0cCWzOQTdte+iS5p4A5LSiUMboQOTgY15s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751479984; c=relaxed/simple;
-	bh=VDnHH8qP6oZIvk6lbRuEMGwsY0B+qCnowOVHKrLfnyg=;
+	s=arc-20240116; t=1751480039; c=relaxed/simple;
+	bh=FTMTBVHafsgOVvWOY9lRkFnzF0EhJ434dvnWnrHjayU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mhFRTMsr72DGq7Fs7ncjLitZtel5zePAAxcofhcdRHtud1fLmfz3g3iUstzWoZ0sybMHo5WG4p1Q1o6KXyrNmb9lHUE17JCUvyxPElqtLcD9HmTby6mWMFL3HgoV13DmL+M7JQ2lLb9tNtfEcLhL3cBeHZJAtzcrjGTLP0wtU2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=BWIKujXI; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=SGPkDRJQ3praMDSlyD2glS3OzmQgfT8NlN187L8DGuk5Vecez+pwXfVCKBSM5/txlNzLCAXAcugKWN3oFMYLtdkVahoBizy5c9nK9KxLtvg8OHaQJY8EJ0Yew1j8IfjN0cTXHAo2cDpf7uxcbD4wEN3XKL8zw8UihZAdgSbqpTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JwSe8RFD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="BWIKujXI"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 37D9840E021C;
-	Wed,  2 Jul 2025 18:12:59 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id sxZ_fpRKH06n; Wed,  2 Jul 2025 18:12:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1751479975; bh=t/LXRgWle3PyUM7zxWZSUtGTSzpFtT7sBoW4E1bzRIM=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JwSe8RFD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65ED9C4CEE7;
+	Wed,  2 Jul 2025 18:13:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751480036;
+	bh=FTMTBVHafsgOVvWOY9lRkFnzF0EhJ434dvnWnrHjayU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BWIKujXIVQz0zFg1Dw9DpHunxfTzvh8tPBPJEjydquAs73WldnBc6y+e6WnS6CYmN
-	 EmaYWFTrU1mpv/t3qs/SdagjwT/RqZyt3yD2GfeZCptP2rVq/9qsWg4XoqJdTE+/nd
-	 agJhTWku3k/VKwpP2KFu+k15G2MbdOR3NWmmcbVXGKVL7TdEUd5Z+AOoVDnlSelLtk
-	 +ZtXjz1Z9h1TeTZk7WyRfJY0oedPNmYY5On5vagznjNE1DiyfO01Jav8b0/PSSWtrO
-	 yJ6Rlro+ztRcY63gDQIUL25Q+sLVPTvJeHSIi8rlD0VgrzvYF0S0nxWf1lPC8MSSnf
-	 J4ryESupZzxGjlKHrsqT79WP9QnitQOLdZfz90wx4K1q2eNS1clZR9l+dxlPXKW5z/
-	 n1D0XXX16B57g9uHc3Z4iE4Brh6Qt+xSL6Pyorvip9hF1uIdHHA4W5093hatL1TwqD
-	 7BFVX7lLpCu9myHsxp6OMBl4BatS+dyyL3fGKrKAdP4nl9HrNf04EROghZfcFmcu+z
-	 IjP/kIpp1nti8RsrL5p0gRG2pJ2pnOb8Zg+Ad77GJbPAyJcb7oZlUcNSi5CeBctsF4
-	 e1h0sQAGw7Ql8FLKYgXuIhEDrnOjPgmCjmWTg9VOLFARFWLy79h24ja6dUO1ZEtp9F
-	 VJu5NWlfnPuxF/AsQz+UdlHc=
-Received: from zn.tnic (p57969c58.dip0.t-ipconnect.de [87.150.156.88])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id BE8E940E0215;
-	Wed,  2 Jul 2025 18:12:42 +0000 (UTC)
-Date: Wed, 2 Jul 2025 20:12:36 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	kernel test robot <lkp@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	x86@kernel.org, Linus Walleij <linus.walleij@linaro.org>,
-	Jinjie Ruan <ruanjinjie@huawei.com>
-Subject: Re: [tip:master 19/19] include/linux/irq-entry-common.h:201:2:
- error: unexpected token
-Message-ID: <20250702181236.GGaGV2lAMxdCg_7MoX@fat_crate.local>
-References: <aGUtCveV8Ev17_FS@J2N7QTR9R3.cambridge.arm.com>
- <20250702130915.GEaGUve86iYnv337_Z@fat_crate.local>
- <aGUxH--v32Bv4T81@J2N7QTR9R3.cambridge.arm.com>
- <20250702132415.GFaGUy_6q0dZZI9AX3@fat_crate.local>
- <aGU_IY70Jt4bcbf2@J2N7QTR9R3.cambridge.arm.com>
- <20250702145425.GS1613376@noisy.programming.kicks-ass.net>
- <20250702150739.GT1613376@noisy.programming.kicks-ass.net>
- <20250702154137.71390C24-hca@linux.ibm.com>
- <20250702161012.GQ1613200@noisy.programming.kicks-ass.net>
- <20250702180136.GA3452438@ax162>
+	b=JwSe8RFDzam1tvgEukuds/+6Lk2LDXvIshl0rGAGkUbVsEaT3NxEgk0b1BubytLEg
+	 508mGK7f+8aszscvuUxWPbWM1f0aF/Cs49U6fwZbDMyukvXZe1jM4stnaMWonTLO5x
+	 BmKyTBDFH6JMVc+ekejCu+mlRI+RhBl24ju8QkeqYwYgmaHgWXfo2HXhaaBzgzZ+cS
+	 F7yuyD3BP6aR9MRIwzBlbiHUN6cDas89dGIGvVrFGYgxTkVEcW0TWR1KVPq66raDse
+	 CbDHbPbVLAdOXZnszSI9B+y7N8xgiYtXfh0rVOkhd+hMb3GpLWZ9Mhfg5mM4BLDcCz
+	 mp3RVF53PhibQ==
+Date: Wed, 2 Jul 2025 21:13:51 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Yishai Hadas <yishaih@nvidia.com>, oe-kbuild-all@lists.linux.dev,
+	Edward Srouji <edwards@nvidia.com>,
+	Moshe Shemesh <moshe@nvidia.com>
+Subject: Re: [leon-rdma:rdma-next 33/79]
+ drivers/net/ethernet/mellanox/mlx5/core/lib/st.c:35:33: error: 'struct
+ mlx5_priv' has no member named 'parent_mdev'
+Message-ID: <20250702181351.GM6278@unreal>
+References: <202507030151.5w1XHRpX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250702180136.GA3452438@ax162>
+In-Reply-To: <202507030151.5w1XHRpX-lkp@intel.com>
 
-On Wed, Jul 02, 2025 at 11:01:36AM -0700, Nathan Chancellor wrote:
-> Thanks Peter. Did something go awry with the latest rebase? It looks
-> like current core/bugs has the loongarch issue fixed but "bugs/s390: Use
-> 'cond_str' in __EMIT_BUG()" seems to have reverted to the broken
-> version?
+On Thu, Jul 03, 2025 at 01:13:23AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
+> head:   839c76b16028184c778569358fdf2ca05a742087
+> commit: 89cb32e3172f83069192502e5bc8247522ac9d0d [33/79] net/mlx5: Add support for device steering tag
+> config: i386-buildonly-randconfig-005-20250702 (https://download.01.org/0day-ci/archive/20250703/202507030151.5w1XHRpX-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250703/202507030151.5w1XHRpX-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202507030151.5w1XHRpX-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    drivers/net/ethernet/mellanox/mlx5/core/lib/st.c: In function 'mlx5_st_create':
+> >> drivers/net/ethernet/mellanox/mlx5/core/lib/st.c:35:33: error: 'struct mlx5_priv' has no member named 'parent_mdev'
+>       35 |                 return dev->priv.parent_mdev->st;
+>          |                                 ^
+> 
 
-Ah crap, lemme fix that.
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/lib/st.c b/drivers/net/ethernet/mellanox/mlx5/core/lib/st.c
+index 85e4e0c90f34..2ab1b31f5db3 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/lib/st.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/lib/st.c
+@@ -31,7 +31,7 @@ struct mlx5_st *mlx5_st_create(struct mlx5_core_dev *dev)
+        if (!MLX5_CAP_GEN(dev, mkey_pcie_tph))
+                return NULL;
 
--- 
-Regards/Gruss,
-    Boris.
+-       if (mlx5_core_is_sf(dev))
++       if (IS_ENABLED(CONFIG_MLX5_SF) && mlx5_core_is_sf(dev))
+                return dev->priv.parent_mdev->st;
 
-https://people.kernel.org/tglx/notes-about-netiquette
+        /* Checking whether the device is capable */
+
