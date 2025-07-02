@@ -1,59 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841412749E5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Jul 2025 17:51:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A10A2E7BA1;
+	Wed,  2 Jul 2025 18:01:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751478687; cv=none; b=Am4nF/RnILh57Sfr6NUV7VLrw/hZ9Wva0J7d6jF6NIjUSmudbPF0MSOXk8lP7iliYvgHQUIwok0yhVHYuChJvQSTNPg428nPw8cM+2TZysoyJp3U/F/c9r/FgrF6btgDn7iJWv2rVDXK4IPcA0MbSATyqxK7mhP6IYncgnBtOD8=
+	t=1751479302; cv=none; b=HtGBBHebzj1nsE3ryYTEf1+p2S4Mt4x55p6zz+y9f5HGKIypeJGp8q/BHIEf96L+VZxsdvQJM3H99U8QkVZWrkvHwl8tA/+YBKHyfLcUndVJSUNVyK4KOZVOG5qJg+E7hHVjwfAPnBDFnkrStEj6a7IwakWQfxaqC63ruYAEjGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751478687; c=relaxed/simple;
-	bh=BNgkw9UNfDfqPYgNiW1NkLL0TSR92Fl17ghzvAMGAfk=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VCL9XgEXdtA6CL4WbQpJdF5CG4P9cRhRwqwNah1LAsFQigjJZokaqvQemtVvLHK96cWVcHwTC6v3c1JDXF9jQ255VxXEnTojTk0oTm5I4JdulUEQMfQdTjGm0gIPZe99cp96H2ov8juk6fnjE6Z7xxzgCMB/oLANPopIgIbYCsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Whpxqtf7; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751479302; c=relaxed/simple;
+	bh=3lsMooKWK3LYSzXl02GSB2/NoJwzFYWA5lTVaIhuUWo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dWwIwSeuGcNWXSjX5c563rE9LU9y+lz7S7YNNStZakhjZeaw2aozHNramFh5Jor5oHAQRddMJnMBTRWH3d8FNKcNN/95NrXDtFLiYMuRvO3LFAnHaMzwWIez6/otsj4wPa8AhQyo8okC73l07Jm3Dz+cnQXU9reESi/6vuDfoLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sjFGkOhy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Whpxqtf7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751478687; x=1783014687;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BNgkw9UNfDfqPYgNiW1NkLL0TSR92Fl17ghzvAMGAfk=;
-  b=Whpxqtf7u4GRRBm/9b1izM5+vZcR7o3PCuflX5Cinn/ziD0RJ8JQyaXL
-   g14YYtn/d4HUnIzoyWJRBOrwQK7sHqEFluRhPF2OcME/j0UtW5SyNImuw
-   EFf4evdHzjlSZBUHXrYp0mpOTA7uW9TbPZr2d3JtQnzcggB7NrWd4Rip1
-   YDm8DkJVryLtYRGpUhyWkrj/4eqOepkA6Lmpqv+J+yISeLuRRnpVUv90n
-   NpXopxspkYWPQhltJyfkPgXxbPIgG5l5BqyCRVImKSwcVAkHE635lEa+S
-   J4B0CnLeMWiaqckbUuscSkQLaJS8aSv4wkeXgOPE3gKpe8+4WIsq0hsXQ
-   g==;
-X-CSE-ConnectionGUID: ZdC+ey/DTf2AF0gmSlPtKw==
-X-CSE-MsgGUID: yFPtYwh+QHS+pLNygkxFDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="65245316"
-X-IronPort-AV: E=Sophos;i="6.16,282,1744095600"; 
-   d="scan'208";a="65245316"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 10:51:26 -0700
-X-CSE-ConnectionGUID: WdKGNn8GS96x6bJtUu92Jw==
-X-CSE-MsgGUID: Fw6jWftvRBCL3zY+iEAM5A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,282,1744095600"; 
-   d="scan'208";a="158711753"
-Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 02 Jul 2025 10:51:25 -0700
-Received: from kbuild by 030a839a1121 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uX1c9-0000KD-1y;
-	Wed, 02 Jul 2025 17:51:21 +0000
-Date: Wed, 2 Jul 2025 19:51:02 +0200
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yongqiang Liu <liuyongqiang13@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1605/1605]
- net/sched/sch_generic.c:956:6: warning: no previous prototype for function
- 'qdisc_free_cb'
-Message-ID: <202507021947.XsyT5pAU-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sjFGkOhy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E11EC4CEE7;
+	Wed,  2 Jul 2025 18:01:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1751479301;
+	bh=3lsMooKWK3LYSzXl02GSB2/NoJwzFYWA5lTVaIhuUWo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sjFGkOhyDGYQbWWnUkvigrY155E4ldvwTDotT+uXlwXTySd3pDne+T06Z14HNiaTa
+	 W/ohs4WOQZOiCsbxOSNacL6tbdgzcmxxIOZZ7jlM+dkkwYNt9Jd+iFUTdfcS1O6rIp
+	 pxYUiWbIhUtymQv/+v6BD+2PqXpLlUlSYgGj3YnJuK5IAOyhusC0H6+m757RY/TL+c
+	 96WgylrcjG16mSiIZaeLgcJbeFGw+//9PpWBqQmMgkbrZQhhn5gdVut9RuBt7MD3Jl
+	 tXLwyXKcbk0P6EttiDkc1uVNhGaQJCdwNA3Ffgg9F/8S9hydPTAIf+KVG7Rk0KXbY3
+	 2L8Jp1bn9qH+g==
+Date: Wed, 2 Jul 2025 11:01:36 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Heiko Carstens <hca@linux.ibm.com>, Mark Rutland <mark.rutland@arm.com>,
+	Borislav Petkov <bp@alien8.de>, kernel test robot <lkp@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Linus Walleij <linus.walleij@linaro.org>,
+	Jinjie Ruan <ruanjinjie@huawei.com>
+Subject: Re: [tip:master 19/19] include/linux/irq-entry-common.h:201:2:
+ error: unexpected token
+Message-ID: <20250702180136.GA3452438@ax162>
+References: <20250702123240.GDaGUm6Le4KLL7o_91@fat_crate.local>
+ <aGUtCveV8Ev17_FS@J2N7QTR9R3.cambridge.arm.com>
+ <20250702130915.GEaGUve86iYnv337_Z@fat_crate.local>
+ <aGUxH--v32Bv4T81@J2N7QTR9R3.cambridge.arm.com>
+ <20250702132415.GFaGUy_6q0dZZI9AX3@fat_crate.local>
+ <aGU_IY70Jt4bcbf2@J2N7QTR9R3.cambridge.arm.com>
+ <20250702145425.GS1613376@noisy.programming.kicks-ass.net>
+ <20250702150739.GT1613376@noisy.programming.kicks-ass.net>
+ <20250702154137.71390C24-hca@linux.ibm.com>
+ <20250702161012.GQ1613200@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,42 +56,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250702161012.GQ1613200@noisy.programming.kicks-ass.net>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   d96cd567c8d8d584405abe92c2576bf58202fa6e
-commit: 5a1704c7f3c1f3499716b7f440efa002f6724a35 [1605/1605] net: sched: extend Qdisc with rcu
-config: x86_64-buildonly-randconfig-2002-20250501 (https://download.01.org/0day-ci/archive/20250702/202507021947.XsyT5pAU-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507021947.XsyT5pAU-lkp@intel.com/reproduce)
+On Wed, Jul 02, 2025 at 06:10:12PM +0200, Peter Zijlstra wrote:
+> On Wed, Jul 02, 2025 at 05:41:37PM +0200, Heiko Carstens wrote:
+> > On Wed, Jul 02, 2025 at 05:07:39PM +0200, Peter Zijlstra wrote:
+> > > > > > diff --git a/arch/s390/include/asm/bug.h b/arch/s390/include/asm/bug.h
+> > > > > > index a185855ab158..46d9eb64bd18 100644
+> > > > > > --- a/arch/s390/include/asm/bug.h
+> > > > > > +++ b/arch/s390/include/asm/bug.h
+> > > > > > @@ -9,7 +9,7 @@
+> > > > > >  #else
+> > > > > >  #define __BUGVERBOSE_LOCATION(file, line)			\
+> > > > > >  		.pushsection .rodata.str, "aMS", @progbits, 1;	\
+> > > > > > -	10002:	.string file;					\
+> > > > > > +	10002:	.ascii file;					\
+> > > > > >  		.popsection;					\
+> > > > > >  								\
+> > > > > >  		.long 10002b - .;				\
+> > > > > > 
+> > > > > 
+> > > > > IIUC this also needs a trailing "\0" as per the link above, or this
+> > > > > won't get a NUL-terminator (but will build just fine).
+> > > > 
+> > > > Yup, I ran into this before. Let me go fix that commit.
+> > > 
+> > >  + e7e26cfad96c...2a20b2730147 core/bugs -> core/bugs (forced update)
+> > 
+> > Thank you! But wouldn't you also need to merge Nathan's patch [1] into
+> > the loongarch commit (or maybe you are just about to do that)?
+> > 
+> > [1] https://lore.kernel.org/all/20250616-loongarch-fix-warn-cond-llvm-ias-v1-1-6c6d90bb4466@kernel.org/
+> > [2] https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git/commit/?h=core/bugs&id=5d476f66e6add0b709a09d60feecff3a2d156800
+> 
+> Uh, indeed. Let me go do so.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507021947.XsyT5pAU-lkp@intel.com/
+Thanks Peter. Did something go awry with the latest rebase? It looks
+like current core/bugs has the loongarch issue fixed but "bugs/s390: Use
+'cond_str' in __EMIT_BUG()" seems to have reverted to the broken
+version?
 
-All warnings (new ones prefixed by >>):
-
->> net/sched/sch_generic.c:956:6: warning: no previous prototype for function 'qdisc_free_cb' [-Wmissing-prototypes]
-     956 | void qdisc_free_cb(struct rcu_head *head)
-         |      ^
-   net/sched/sch_generic.c:956:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     956 | void qdisc_free_cb(struct rcu_head *head)
-         | ^
-         | static 
-   1 warning generated.
-
-
-vim +/qdisc_free_cb +956 net/sched/sch_generic.c
-
-   955	
- > 956	void qdisc_free_cb(struct rcu_head *head)
-   957	{
-   958		struct Qdisc *q = container_of(head, struct Qdisc, rcu);
-   959	
-   960		qdisc_free(q);
-   961	}
-   962	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/tmp/.psub.eKGNE0S0Yf b/tmp/.psub.w9BLv9qXti
+index 0fb363b71ebb..f3ce9e3ce952 100644
+--- a/tmp/.psub.eKGNE0S0Yf
++++ b/tmp/.psub.w9BLv9qXti
+@@ -1,8 +1,8 @@
+-commit d9f685d24d69b6b64cecb3dd70d7e51836bf531f
++commit 6540db6ce800aaeedc8d733d1e6d2f1c83c7b217
+ Author:     Heiko Carstens <hca@linux.ibm.com>
+ AuthorDate: Tue May 20 15:39:27 2025 +0200
+ Commit:     Peter Zijlstra <peterz@infradead.org>
+-CommitDate: Wed Jul 2 16:55:06 2025 +0200
++CommitDate: Wed Jul 2 18:16:12 2025 +0200
+ 
+     bugs/s390: Use 'cond_str' in __EMIT_BUG()
+     
+@@ -32,7 +32,7 @@ CommitDate: Wed Jul 2 16:55:06 2025 +0200
+     Link: https://lore.kernel.org/r/20250617135042.1878068-3-hca@linux.ibm.com
+ 
+ diff --git a/arch/s390/include/asm/bug.h b/arch/s390/include/asm/bug.h
+-index 30f8785a01f5..c39500eec300 100644
++index 30f8785a01f5..0c808dadbc22 100644
+ --- a/arch/s390/include/asm/bug.h
+ +++ b/arch/s390/include/asm/bug.h
+ @@ -2,52 +2,52 @@
+@@ -48,7 +48,7 @@ index 30f8785a01f5..c39500eec300 100644
+ +#else
+ +#define __BUGVERBOSE_LOCATION(file, line)			\
+ +		.pushsection .rodata.str, "aMS", @progbits, 1;	\
+-+	10002:	.ascii file "\0";				\
+++	10002:	.string file;					\
+ +		.popsection;					\
+ +								\
+ +		.long 10002b - .;				\
