@@ -1,44 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7FF2DE711;
-	Wed,  2 Jul 2025 21:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8A9723C4F1
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  2 Jul 2025 21:22:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751490179; cv=none; b=u2IpHpexXQB9T5bqOsIn1Ci975ZYHPI8ve0/F+5ZNOiPQAUC49Q8XW3cV93qeTcp4PG1+kEqDx0lEPpl0ZCdiq7mVAbBLIxlqkpJc3IPBhBK9G4kYj9cY1c7Bq+Aye7PnZ8T9NTzhpB1CR09WDpVpew95Qv/0UDIgveFTGRtxWQ=
+	t=1751491368; cv=none; b=Q4pBC+s4eDyW4XKFEyoOQ7KyO/KSjZyeaC64cm2mUcigpUtIQHNx84dmDXoxmWCr6zF6+OQ8AEnmakar/d4rGOoCFiXWwNQZl2OkZcp/7lGC3PokOTZh1aOzY9HAme8ET+sWd2LMTkGJrktMGQPpsfE8G4y8SS6p9pUOcVnVv8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751490179; c=relaxed/simple;
-	bh=7VX+4FXtEgWxCwQZYFAkBrVoY00hVeIiCeXazH1tkiM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WzdlK4OYR4PVZxo4tr5/ote/VJEjs6B9h9DxMsGR1m0cVV5oBXdWuJEVQKjy+pCQc6Lv1Ul7Px9sZEaONlNuNgi5+IH/7pzIxO6eTZ7ku3lB8AN15Si6h7OhejJF2cA6cNlwN9fk/elIHdfbdNf8YH+mFAGVDzYzKd5ZCriYjLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TDZOogq3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1751491368; c=relaxed/simple;
+	bh=tqk5Xf/QtXNEXZ6oYrNirpBR+DeBQCuZcsLz+PyHC9A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=cz61MK1l8rmcnTwlGgERMN8yrjynp8t7AHYRqlg9DVQV+PzpUGwPpsHNqgJ+LGtRWA2sUpTOXgQwLtYp9hrLUMlRJ+HHD1/4nT6gGWxDLWngXiD+fiFfDZx8iwUZuKJ5EDEOPwEHtK6/D8uiQp8Slr5q1fiKEqn6oyntBRMpvb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YLZgPUT8; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TDZOogq3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53507C4CEE7;
-	Wed,  2 Jul 2025 21:02:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1751490178;
-	bh=7VX+4FXtEgWxCwQZYFAkBrVoY00hVeIiCeXazH1tkiM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TDZOogq3sGawwQjdu3BCQrROMBGB/mEWyEMpKiu8E1kCoB0XURRoso6B95kkxsRyd
-	 QMvGAQANDedQhoyrqToRyQCRHoh6sNdvHlKf9VbR5bdNxSTkherThEOEL5kP21wjn8
-	 dig5lWeLkg8+ZL0wwBqEZk00y0Mkk9lMmvb33YPIad7f1e0gD+93VGR18wUwOhg68N
-	 fEshwQTGEEC/9pZu8rnrAHecbrZobfK20CNEGdlgkPEMgVkHBsPNfSQChwqgnrI3t6
-	 7YsRDQ/F/G0HQZNRnm8ILwSCKJt5iP0OLT7Zf/JmdgD+BSa0C3VA+wyqVkfR2rFKQ6
-	 iwpq9lQxjnSiw==
-Date: Wed, 2 Jul 2025 14:02:54 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: kernel test robot <lkp@intel.com>, Nikunj A Dadhania <nikunj@amd.com>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, x86@kernel.org
-Subject: Re: [tip:x86/urgent 1/1] arch/x86/coco/sev/core.c:2170:30: warning:
- variable 'dummy' set but not used
-Message-ID: <20250702210254.GA3996668@ax162>
-References: <202507010218.3O5Ge0Xt-lkp@intel.com>
- <20250630192726.GBaGLlHl84xIopx4Pt@fat_crate.local>
- <20250701150644.GA3563357@ax162>
- <20250701152953.GCaGP-8bWPmRWI10Ec@fat_crate.local>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YLZgPUT8"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751491367; x=1783027367;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=tqk5Xf/QtXNEXZ6oYrNirpBR+DeBQCuZcsLz+PyHC9A=;
+  b=YLZgPUT8xgEBhA7JMuofoSWI300JWNV/ZE1EEd9T1lc4SYdSpth8GxpM
+   890+IMfRlOJ1qvbmKEnPTWYVrEbVI0ZoVhX/syS7ccpbF+rMQrJkejKv6
+   e0pRLIs6oBb/DJcVK097Ecg+EPdJDXjI68lnZWCJvnay/Qd3ZqRY0BQTF
+   SRirZPsVej9x8zVkec7mTfo2FHDvsnO5BHrSQ3MyVGAZTgFsv3e1uF1/9
+   BT+pizy3m5Y0QIYxrE5utfSUfED0YnxFnVT6jhocyOC3yiNm2wCWljruB
+   kYdPVyJ2oITd1JlTdYb+AyujWKCcOKP0rnxFgRGPiEFWW0xOKInt5mp9Q
+   Q==;
+X-CSE-ConnectionGUID: m2h3L1DtQFmZQ8Lob+EkPg==
+X-CSE-MsgGUID: ZmAo9Iu7SkuaDj8ugyRi0w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="65262400"
+X-IronPort-AV: E=Sophos;i="6.16,282,1744095600"; 
+   d="scan'208";a="65262400"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 14:22:46 -0700
+X-CSE-ConnectionGUID: fWf6cBySRJyhYlkD7gcf0g==
+X-CSE-MsgGUID: LGDe1B/WQyafCJ/8z46Zhg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,282,1744095600"; 
+   d="scan'208";a="185125788"
+Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
+  by fmviesa001.fm.intel.com with ESMTP; 02 Jul 2025 14:22:43 -0700
+Received: from kbuild by 030a839a1121 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uX4ue-0000Kv-2C;
+	Wed, 02 Jul 2025 21:22:40 +0000
+Date: Wed, 2 Jul 2025 23:22:20 +0200
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zheng Zengkai <zhengzengkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3003/3003] arch/x86/kernel/cpu/sgx/encl.c:289:
+ warning: Excess function parameter 'kref' description in 'sgx_encl_release'
+Message-ID: <202507022302.stbezZy1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -47,38 +61,90 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250701152953.GCaGP-8bWPmRWI10Ec@fat_crate.local>
 
-On Tue, Jul 01, 2025 at 05:29:53PM +0200, Borislav Petkov wrote:
-> On Tue, Jul 01, 2025 at 08:06:44AM -0700, Nathan Chancellor wrote:
-> > Citation needed. This reproduces with Clang 15 (earliest supported on
-> > x86 now), Clang 19, and GCC 15 for me. Were you missing W=1?
-> 
-> Nope.
-> 
-> $ git checkout -b test 4a35d2b5254af89595fd90dae9ee0c8f990a148d
-> Switched to a new branch 'test'
-> $ make CC=clang-19 HOSTCC=clang-19 W=1 arch/x86/coco/sev/core.o
-> ...
->   LINK    /mnt/kernel/kernel/linux/tools/objtool/objtool
->   CC      arch/x86/coco/sev/core.o
-> $ clang-19 --version
-> Debian clang version 19.1.7 (1+b1)
-> Target: x86_64-pc-linux-gnu
-> Thread model: posix
-> InstalledDir: /usr/lib/llvm-19/bin
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   e4755f6a2b98f251edcf63f98f416b5d76425f8c
+commit: 2e2b7d495f53c8cc013c4177c1f9da540f9155c9 [3003/3003] x86/sgx: Add a page reclaimer
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250702/202507022302.stbezZy1-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250702/202507022302.stbezZy1-lkp@intel.com/reproduce)
 
-Spooky, same SHA, build command, and configuration from this thread with
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507022302.stbezZy1-lkp@intel.com/
 
-  Debian clang version 19.1.7 (3+b1)
-  Target: x86_64-pc-linux-gnu
-  Thread model: posix
-  InstalledDir: /usr/lib/llvm-19/bin
+All warnings (new ones prefixed by >>):
 
-from unstable Debian (since it is what I base on for my Debian
-development container) shows it for me... Can't imagine the two Debian
-patch levels would have caused anything here but it is probably not
-worth thinking too much more about since it is already resolved.
+   arch/x86/kernel/cpu/sgx/encl.c:289: warning: Function parameter or member 'ref' not described in 'sgx_encl_release'
+>> arch/x86/kernel/cpu/sgx/encl.c:289: warning: Excess function parameter 'kref' description in 'sgx_encl_release'
 
-Cheers,
-Nathan
+
+vim +289 arch/x86/kernel/cpu/sgx/encl.c
+
+   280	
+   281	/**
+   282	 * sgx_encl_release - Destroy an enclave instance
+   283	 * @kref:	address of a kref inside &sgx_encl
+   284	 *
+   285	 * Used together with kref_put(). Frees all the resources associated with the
+   286	 * enclave and the instance itself.
+   287	 */
+   288	void sgx_encl_release(struct kref *ref)
+ > 289	{
+   290		struct sgx_encl *encl = container_of(ref, struct sgx_encl, refcount);
+   291		struct sgx_va_page *va_page;
+   292		struct sgx_encl_page *entry;
+   293		unsigned long index;
+   294	
+   295		xa_for_each(&encl->page_array, index, entry) {
+   296			if (entry->epc_page) {
+   297				/*
+   298				 * The page and its radix tree entry cannot be freed
+   299				 * if the page is being held by the reclaimer.
+   300				 */
+   301				if (sgx_unmark_page_reclaimable(entry->epc_page))
+   302					continue;
+   303	
+   304				sgx_free_epc_page(entry->epc_page);
+   305				encl->secs_child_cnt--;
+   306				entry->epc_page = NULL;
+   307			}
+   308	
+   309			kfree(entry);
+   310		}
+   311	
+   312		xa_destroy(&encl->page_array);
+   313	
+   314		if (!encl->secs_child_cnt && encl->secs.epc_page) {
+   315			sgx_free_epc_page(encl->secs.epc_page);
+   316			encl->secs.epc_page = NULL;
+   317		}
+   318	
+   319		while (!list_empty(&encl->va_pages)) {
+   320			va_page = list_first_entry(&encl->va_pages, struct sgx_va_page,
+   321						   list);
+   322			list_del(&va_page->list);
+   323			sgx_free_epc_page(va_page->epc_page);
+   324			kfree(va_page);
+   325		}
+   326	
+   327		if (encl->backing)
+   328			fput(encl->backing);
+   329	
+   330		cleanup_srcu_struct(&encl->srcu);
+   331	
+   332		WARN_ON_ONCE(!list_empty(&encl->mm_list));
+   333	
+   334		/* Detect EPC page leak's. */
+   335		WARN_ON_ONCE(encl->secs_child_cnt);
+   336		WARN_ON_ONCE(encl->secs.epc_page);
+   337	
+   338		kfree(encl);
+   339	}
+   340	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
