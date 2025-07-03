@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223132D77E3
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Jul 2025 09:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69692DE6E2
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Jul 2025 11:29:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751534762; cv=none; b=CHWAMM9vmupUhBBCJFT7ZyA/dqQX/v283fTSufFogxSxMLxOVc7lEke8Yh9l2aMYoKdHd6xO2JnCysIVN0JSFzBeOcyKhQuy5il/gqss5iaHkgr2bX4WTARwrVGRhZF81BuGaK2/qIZJs1SPvrxAn2LJ1+JVVcq9jgQP+bTdpm0=
+	t=1751542155; cv=none; b=H91CSR+B534pc0gSsJYhHOuIsJS7tA57vP9Zu9yr/T1aLIB9hYwC+011iN7fP58gH9B4FA36SpctdYqPc3smPt3X1hxX6vwhVVwx1FMaKZG7ZF8Ry4X6P2vlPE4zc1mhc2TUDnhuf4pHAb2PPYyYgtb8d5ulTAmE1CwNB2M10wM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751534762; c=relaxed/simple;
-	bh=Z5cEeS66j5GOqMJGvmdyxMfxqlIKrTAE8iYx6kRXRtM=;
+	s=arc-20240116; t=1751542155; c=relaxed/simple;
+	bh=BQlQhMAY7wyR/OULV0qPVGjo7Ubla2JSBNcV2Ffeyms=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ecuSyjbvYKMPFg+RwnpqJR4Xk6LxaOqfBCyBDA/4Y1zfvEz9eI6uiwg7IlwYf2IcwMj8SwgS/fDxYOdS9JqFee4TnEolcVxRTrL4fSfS66oqPI+uHycgO74Nq/zoF53u8Mr+47V8RKdo2QqpYfbFJB8hImYcm2yOR3LMl176miw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TAZ2LnP7; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=FrrTIWLLdy+YHIxnK5Ll3LMzOTb4SU/G2ndFnk3VYUzBzL+DVb0FVt9m/1X1u2gnfmBA1n9YlJoWr5ZUK6e9UW9VM0+D2BDFXmlAAvVN+/lIPTb2w7/yGcUXup19U8IIqqNn8BG5lx2OBHbjSSw2R7SJ2J6lgKOVYnDq902BPpE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fbqWRPGG; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TAZ2LnP7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fbqWRPGG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751534760; x=1783070760;
+  t=1751542153; x=1783078153;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Z5cEeS66j5GOqMJGvmdyxMfxqlIKrTAE8iYx6kRXRtM=;
-  b=TAZ2LnP7JyLWkDvGEQp0Qi8vluZ+EfKVk3CBl+zgpLqOt9adeA4IJxEU
-   3Zb0oqY3JKs/oVQedil9CoucBhbSSIAe9/y4UIxVfibHuPq6OJBJomO9X
-   ZLJJX6L6mINgXPXLISA1ANSTvAVI0R5+EUmYBoqycqB6fDyIjrAKXcVfa
-   c0SiKQ0krHag2E/W70QGQne07pGKqCdANCtnUmvAp5Ie1gedfr46CECCr
-   87TH8ywxna2ksT0jSWoZLaUlKc34lgWWAIc7om3Vpt4Q7ruyA6alCP6p6
-   UqKPXVoVYGECaU1kSL3y6JtDvx9rDq0brs3H8tqFhGJqEi9O/azdUgIWu
-   g==;
-X-CSE-ConnectionGUID: +ei0mSMASqO8gTPJOA6IoA==
-X-CSE-MsgGUID: 1pZgh64kRwScq+71wdg6OA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="65307927"
-X-IronPort-AV: E=Sophos;i="6.16,283,1744095600"; 
-   d="scan'208";a="65307927"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 02:25:59 -0700
-X-CSE-ConnectionGUID: WvkB1W+PTqKO5u7rI5y+ig==
-X-CSE-MsgGUID: z/JJPfshSjamot8Oohq7gA==
+  bh=BQlQhMAY7wyR/OULV0qPVGjo7Ubla2JSBNcV2Ffeyms=;
+  b=fbqWRPGG+a2APdccuO4uTMoVOkmN0YHHmEthLFilPIAmuocVY3tXwJpG
+   FfltSCXCOuT6MJnqJHicPaMZch3tvaalVF4wzFfedZYhdEFe4NiTPFLlC
+   KpSKJTVh5lx0vHNKUCMX26VWmmuir1C/v4oK5H/m4AGJhURLlodblktq9
+   wy7rqGoV7XOmhNlpF9dgB1NEUtKp+luGU2UrI4pbCJg1iLb0lW6Wvagc4
+   0I4qfWtTsCYQjs1vnmy9EklIBTciHIChBmfVSEjb040wc/RmDwEcWz8fh
+   b/aPoAVo5YYCHLbFhnKM5VU4dpLx4YHbftlBhCwuyRONwKdKI3NL6FLYe
+   w==;
+X-CSE-ConnectionGUID: gq/z6lI+T7ixa8QMHY2EbA==
+X-CSE-MsgGUID: Cujdmp3yQOWIuWoccyzKtg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="53731900"
+X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
+   d="scan'208";a="53731900"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 04:29:12 -0700
+X-CSE-ConnectionGUID: Hr3W/qEXSEeKvTSlPs/eeA==
+X-CSE-MsgGUID: G8Wq6UBrQ1uXcMTWQ71B3A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,283,1744095600"; 
-   d="scan'208";a="155064498"
+X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
+   d="scan'208";a="185293873"
 Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
-  by fmviesa010.fm.intel.com with ESMTP; 03 Jul 2025 02:25:58 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 03 Jul 2025 04:29:11 -0700
 Received: from kbuild by 030a839a1121 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXGCa-0000Re-1p;
-	Thu, 03 Jul 2025 09:25:56 +0000
-Date: Thu, 3 Jul 2025 11:25:00 +0200
+	id 1uXI7p-0000TL-0U;
+	Thu, 03 Jul 2025 11:29:09 +0000
+Date: Thu, 3 Jul 2025 13:29:01 +0200
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1605/1605] mm/hugetlb.c:1370:6:
- warning: no previous prototype for function
- 'free_huge_page_to_dhugetlb_pool'
-Message-ID: <202507031140.U5GKFBc9-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1605/1605] kernel/cgroup/cgroup.c:2240:
+ warning: Excess function parameter 'lock_threadgroup' description in
+ 'cgroup_attach_lock'
+Message-ID: <202507031346.HRMtINKf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,86 +64,65 @@ Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   fc7fe8d28044724c4f29058aeb93f2e492585380
-commit: 0bc0d0d57edacd59ebe38d05ad9c4b2bc185aa51 [1605/1605] dhugetlb: backport dynamic hugetlb feature
-config: x86_64-buildonly-randconfig-2004-20250501 (https://download.01.org/0day-ci/archive/20250703/202507031140.U5GKFBc9-lkp@intel.com/config)
+head:   26d81348fb134a6bffb49fd1b55d8842cbf6424d
+commit: 4924308a1ca9cc2f791398836a8744c22078ffbd [1605/1605] cgroup: Fix threadgroup_rwsem <-> cpus_read_lock() deadlock
+config: x86_64-buildonly-randconfig-2004-20250501 (https://download.01.org/0day-ci/archive/20250703/202507031346.HRMtINKf-lkp@intel.com/config)
 compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250703/202507031140.U5GKFBc9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250703/202507031346.HRMtINKf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507031140.U5GKFBc9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507031346.HRMtINKf-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/hugetlb.c:1370:6: warning: no previous prototype for function 'free_huge_page_to_dhugetlb_pool' [-Wmissing-prototypes]
-    1370 | void free_huge_page_to_dhugetlb_pool(struct page *page, bool restore_reserve)
-         |      ^
-   mm/hugetlb.c:1370:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-    1370 | void free_huge_page_to_dhugetlb_pool(struct page *page, bool restore_reserve)
-         | ^
-         | static 
-   In file included from mm/hugetlb.c:14:
-   include/linux/mempolicy.h:329:13: warning: unused function '__do_mbind' [-Wunused-function]
-     329 | static long __do_mbind(unsigned long start, unsigned long len,
-         |             ^~~~~~~~~~
-   2 warnings generated.
+>> kernel/cgroup/cgroup.c:2240: warning: Excess function parameter 'lock_threadgroup' description in 'cgroup_attach_lock'
+>> kernel/cgroup/cgroup.c:2250: warning: Excess function parameter 'lock_threadgroup' description in 'cgroup_attach_unlock'
 
 
-vim +/free_huge_page_to_dhugetlb_pool +1370 mm/hugetlb.c
+vim +2240 kernel/cgroup/cgroup.c
 
-  1324	
-  1325	#ifdef CONFIG_DYNAMIC_HUGETLB
-  1326	static void free_huge_page_to_dhugetlb_pool(struct page *page,
-  1327						    bool restore_reserve)
-  1328	{
-  1329		struct hstate *h = page_hstate(page);
-  1330		struct dhugetlb_pool *hpool;
-  1331	
-  1332		hpool = get_dhugetlb_pool_from_dhugetlb_pagelist(page);
-  1333		if (unlikely(!hpool)) {
-  1334			pr_err("dhugetlb: free error: get hpool failed\n");
-  1335			return;
-  1336		}
-  1337	
-  1338		spin_lock(&hpool->lock);
-  1339		ClearPagePool(page);
-  1340		set_compound_page_dtor(page, NULL_COMPOUND_DTOR);
-  1341		if (!hstate_is_gigantic(h)) {
-  1342			list_add(&page->lru, &hpool->dhugetlb_2M_freelists);
-  1343			hpool->free_reserved_2M++;
-  1344			hpool->used_2M--;
-  1345			if (restore_reserve) {
-  1346				hpool->mmap_reserved_2M++;
-  1347				trace_dhugetlb_acct_memory(hpool,
-  1348							   hpool->mmap_reserved_2M,
-  1349							   DHUGETLB_RESV_2M);
-  1350			}
-  1351			trace_dhugetlb_alloc_free(hpool, page, hpool->free_reserved_2M,
-  1352						  DHUGETLB_FREE_2M);
-  1353		} else {
-  1354			list_add(&page->lru, &hpool->dhugetlb_1G_freelists);
-  1355			hpool->free_reserved_1G++;
-  1356			hpool->used_1G--;
-  1357			if (restore_reserve) {
-  1358				hpool->mmap_reserved_1G++;
-  1359				trace_dhugetlb_acct_memory(hpool,
-  1360							   hpool->mmap_reserved_1G,
-  1361							   DHUGETLB_RESV_1G);
-  1362			}
-  1363			trace_dhugetlb_alloc_free(hpool, page, hpool->free_reserved_1G,
-  1364						  DHUGETLB_FREE_1G);
-  1365		}
-  1366		spin_unlock(&hpool->lock);
-  1367		dhugetlb_pool_put(hpool);
-  1368	}
-  1369	#else
-> 1370	void free_huge_page_to_dhugetlb_pool(struct page *page, bool restore_reserve)
-  1371	{
-  1372	}
-  1373	#endif
-  1374	
+  2215	
+  2216	/**
+  2217	 * cgroup_attach_lock - Lock for ->attach()
+  2218	 * @lock_threadgroup: whether to down_write cgroup_threadgroup_rwsem
+  2219	 *
+  2220	 * cgroup migration sometimes needs to stabilize threadgroups against forks and
+  2221	 * exits by write-locking cgroup_threadgroup_rwsem. However, some ->attach()
+  2222	 * implementations (e.g. cpuset), also need to disable CPU hotplug.
+  2223	 * Unfortunately, letting ->attach() operations acquire cpus_read_lock() can
+  2224	 * lead to deadlocks.
+  2225	 *
+  2226	 * Bringing up a CPU may involve creating and destroying tasks which requires
+  2227	 * read-locking threadgroup_rwsem, so threadgroup_rwsem nests inside
+  2228	 * cpus_read_lock(). If we call an ->attach() which acquires the cpus lock while
+  2229	 * write-locking threadgroup_rwsem, the locking order is reversed and we end up
+  2230	 * waiting for an on-going CPU hotplug operation which in turn is waiting for
+  2231	 * the threadgroup_rwsem to be released to create new tasks. For more details:
+  2232	 *
+  2233	 *   http://lkml.kernel.org/r/20220711174629.uehfmqegcwn2lqzu@wubuntu
+  2234	 *
+  2235	 * Resolve the situation by always acquiring cpus_read_lock() before optionally
+  2236	 * write-locking cgroup_threadgroup_rwsem. This allows ->attach() to assume that
+  2237	 * CPU hotplug is disabled on entry.
+  2238	 */
+  2239	static void cgroup_attach_lock(void)
+> 2240	{
+  2241		cpus_read_lock();
+  2242		percpu_down_write(&cgroup_threadgroup_rwsem);
+  2243	}
+  2244	
+  2245	/**
+  2246	 * cgroup_attach_unlock - Undo cgroup_attach_lock()
+  2247	 * @lock_threadgroup: whether to up_write cgroup_threadgroup_rwsem
+  2248	 */
+  2249	static void cgroup_attach_unlock(void)
+> 2250	{
+  2251		percpu_up_write(&cgroup_threadgroup_rwsem);
+  2252		cpus_read_unlock();
+  2253	}
+  2254	
 
 -- 
 0-DAY CI Kernel Test Service
