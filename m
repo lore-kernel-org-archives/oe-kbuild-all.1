@@ -1,69 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A7E22DE6E2
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Jul 2025 17:04:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C91E288C8E
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Jul 2025 17:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751562298; cv=none; b=Y0PHD7HuVtmnNfdqkMy+9IdTFz2pY7xyMKuHf1CcDrmu+gOJf7mBY3fK56gTD9oVHTvAEwzoYhLlZvLAAPORWUzvAiE0vzn/UEz4nW/Y+majQjLbJ9mWYOlek9fQVoqf2P2CSUw3mdxEClEp5skWSttwzhIC4TGPmhKrZI83Q3c=
+	t=1751563557; cv=none; b=E98B5uqOyG57dj2hVCO7QNIH/dKn3nL4iXv43S1qPGl/TCaPLOC6zXef3ucdrudSQ23SG4NNLhCuDytO5gtBto7b41TL/vvY1YrgSyjVR44PCcr60MOOGGrtJ3TeYdBsnd/QkhQpJoYv4m1dpljLg1lRdWM003MtUsCbtybH7Uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751562298; c=relaxed/simple;
-	bh=QsC4CqDA0Dxv8zb6CyeYGANC/Ef8RVUzUXmP4D/HMSM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K90dwxMkWiFkuhdOOEvOkAZhBjmHPk+RdrNk+zz/3mxHSNupn73nxl7hu4VAkhwpfh7E+04v/SkXQOO/kxDVvNeeqa5TYU+/NimTQebgHgixPawX4Bses+ixWEPxA1tw9i//msluaarUJmgUHzUdZohn1LyNsTaK4T/en9LZcuo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GQMznmMm; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1751563557; c=relaxed/simple;
+	bh=k32CtKSjw1lWybQ1M8mvYMgFwEdmhO/lav+TPlnDRDk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HB/7uf7VD5bzLbP0hZcecarZ7WYgx5+hSMjosAGhyeAn3Bkz4CqF27WiO4RJ33wTacqfmkx2YJi4v45flkhd+wZOp/IjM9re/Vh+I8sA06wzEh6usAxR4eox/LRt5OBrX2+HTQz0eK82PycRwdJNp9jmaE9pIHYCFzbAuhcOCdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e2wBdxFf; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GQMznmMm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e2wBdxFf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751562296; x=1783098296;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QsC4CqDA0Dxv8zb6CyeYGANC/Ef8RVUzUXmP4D/HMSM=;
-  b=GQMznmMmocKUBFBTnOu2G43QI8WKQjn5vrKPKk3vY69d0O7lv6zb90RZ
-   mO23uIWbTqEOd5II0YF4iFs/ezX7OG/c+gG1+PXIvlZXBPDa8o0bhHOPW
-   lGx7J0GwQV6NLXdBiOOw6dwdtJrCrfziKcxJl0ZZLedjbty1RW5nN1M2Z
-   jBh2rMqeqsL27aDpVsexkacWotJZw+KXLoKEXgIYJfE1ZLzDqHtjzMOkc
-   qoRIrRCjg1BYbWWuX9GXnZUwgynSmHOlURsOvJxJwYJnbNeCE5Y7rW53g
-   cMFH4Squ70RFCiig1xfjl2nTEtm5dk+v2C9loJU9xPy73DGmCuzYL3hFr
+  t=1751563556; x=1783099556;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=k32CtKSjw1lWybQ1M8mvYMgFwEdmhO/lav+TPlnDRDk=;
+  b=e2wBdxFfRnbAOstPFi3GOncSxTqCtU2l/2P7uLCCGpeb2tYejPSAAM7S
+   ZiLOXXvo7qCdkJH4uPbTIOnkIFF+oH1HdpdylmIRgu1QBHcvNbUM4sFcB
+   xy/XwCVKxr6BLuzFwLtuh4syrAd7JnDx2CfH/neWNRsgOdMTHRlYJByJ0
+   Cmy/cXVQnuPkSyAi1xYV4as9e3uDdABMoDvOUpuuWzI6kv5n3wrwjyIzH
+   S6g/KlFCORLN8n3uI/H5PWxg1cprMuvjPzBAqmYqvoKj5ArcMiqmV9Lmr
+   y4Cx9hH2YzllJtNIRPAwVKKfbwi23tFL9ICtC37Bw6SPHmG134Kc0YRyP
    g==;
-X-CSE-ConnectionGUID: bHrRHZPESBq9X8iQCQiPIg==
-X-CSE-MsgGUID: fs181LbNRSu1glNuOmj/5A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53868207"
+X-CSE-ConnectionGUID: Xj+LC3JgSv6S9L39Ham0tg==
+X-CSE-MsgGUID: enTRpYEVSICkD20OndsYEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="54014507"
 X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="53868207"
+   d="scan'208";a="54014507"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 10:04:56 -0700
-X-CSE-ConnectionGUID: cM4NzYspRFWldVkEozDfmA==
-X-CSE-MsgGUID: DXOA958VQjupwLGla7Z+3Q==
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 10:25:55 -0700
+X-CSE-ConnectionGUID: 4DcNUBVbQM6A4OsFurvadQ==
+X-CSE-MsgGUID: VSdTH4uISHyaO2p0+iaZnA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="154062938"
+   d="scan'208";a="154069012"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Jul 2025 10:04:52 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 03 Jul 2025 10:25:54 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXNMf-0002op-2A;
-	Thu, 03 Jul 2025 17:04:49 +0000
-Date: Fri, 4 Jul 2025 01:04:47 +0800
+	id 1uXNh2-0002q3-05;
+	Thu, 03 Jul 2025 17:25:52 +0000
+Date: Fri, 4 Jul 2025 01:25:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nick Hu <nick.hu@sifive.com>, conor+dt@kernel.org, krzk+dt@kernel.org,
-	Alexandre Ghiti <alex@ghiti.fr>, linux-kernel@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-riscv@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, Nick Hu <nick.hu@sifive.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Anup Patel <anup@brainfault.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>
-Subject: Re: [PATCH v3 2/3] cpuidle: riscv-sbi: Work with the external
- pmdomain driver
-Message-ID: <202507040001.Jm6FQyH6-lkp@intel.com>
-References: <20250702091236.5281-3-nick.hu@sifive.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android-mainline-desktop 4/4] kismet: WARNING: unmet
+ direct dependencies detected for INTEL_SCU when selected by
+ GKI_HIDDEN_X86_CONFIGS
+Message-ID: <202507040117.pOCZfIVF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,121 +62,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250702091236.5281-3-nick.hu@sifive.com>
 
-Hi Nick,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on rafael-pm/linux-next]
-[also build test WARNING on rafael-pm/bleeding-edge robh/for-next linus/master v6.16-rc4 next-20250703]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Hu/cpuidle-riscv-sbi-Work-with-the-external-pmdomain-driver/20250702-181250
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
-patch link:    https://lore.kernel.org/r/20250702091236.5281-3-nick.hu%40sifive.com
-patch subject: [PATCH v3 2/3] cpuidle: riscv-sbi: Work with the external pmdomain driver
-config: riscv-randconfig-001-20250703 (https://download.01.org/0day-ci/archive/20250704/202507040001.Jm6FQyH6-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507040001.Jm6FQyH6-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android-mainline-desktop
+head:   7b423b7f82f1447ab090e96318cc6ecb6121b23a
+commit: cb2eff1500d4d5b48b1f2955d5b5490f0398088d [4/4] ANDROID: GKI: x86: Enable Intel SCU IPC as x86 hidden
+config: x86_64-kismet-CONFIG_INTEL_SCU-CONFIG_GKI_HIDDEN_X86_CONFIGS-0-0 (https://download.01.org/0day-ci/archive/20250704/202507040117.pOCZfIVF-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250704/202507040117.pOCZfIVF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507040001.Jm6FQyH6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507040117.pOCZfIVF-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   drivers/cpuidle/cpuidle-riscv-sbi.c: In function 'sbi_cpuidle_probe':
->> drivers/cpuidle/cpuidle-riscv-sbi.c:569:1: warning: label 'out' defined but not used [-Wunused-label]
-     569 | out:
-         | ^~~
-
-
-vim +/out +569 drivers/cpuidle/cpuidle-riscv-sbi.c
-
-   493	
-   494	static int sbi_cpuidle_probe(struct platform_device *pdev)
-   495	{
-   496		int cpu, ret;
-   497		struct cpuidle_driver *drv;
-   498		struct cpuidle_device *dev;
-   499		struct device_node *pds_node;
-   500	
-   501		/* Detect OSI support based on CPU DT nodes */
-   502		sbi_cpuidle_use_osi = true;
-   503		for_each_possible_cpu(cpu) {
-   504			struct device_node *np __free(device_node) = of_cpu_device_node_get(cpu);
-   505			if (np &&
-   506			    of_property_present(np, "power-domains") &&
-   507			    of_property_present(np, "power-domain-names")) {
-   508				continue;
-   509			} else {
-   510				sbi_cpuidle_use_osi = false;
-   511				break;
-   512			}
-   513		}
-   514	
-   515		/* Populate generic power domains from DT nodes */
-   516		pds_node = of_find_node_by_path("/cpus/power-domains");
-   517		if (pds_node) {
-   518			ret = sbi_genpd_probe(pds_node);
-   519			of_node_put(pds_node);
-   520			if (ret)
-   521				return ret;
-   522		}
-   523	
-   524		/* Attaching the cpu to the corresponding power domain */
-   525		if (sbi_cpuidle_use_osi) {
-   526			for_each_present_cpu(cpu) {
-   527				struct sbi_cpuidle_data *data = per_cpu_ptr(&sbi_cpuidle_data, cpu);
-   528	
-   529				data->dev = dt_idle_attach_cpu(cpu, "sbi");
-   530				if (IS_ERR_OR_NULL(data->dev)) {
-   531					ret = PTR_ERR_OR_ZERO(data->dev);
-   532					if (ret != -EPROBE_DEFER)
-   533						pr_debug("Hart%ld: fail to attach the power domain\n",
-   534							 cpuid_to_hartid_map(cpu));
-   535	
-   536					while (--cpu >= 0)
-   537						dt_idle_detach_cpu(data->dev);
-   538					return ret;
-   539				}
-   540			}
-   541			/* Setup CPU hotplut notifiers */
-   542			sbi_idle_init_cpuhp();
-   543		}
-   544	
-   545		/* Initialize CPU idle driver for each present CPU */
-   546		for_each_present_cpu(cpu) {
-   547			ret = sbi_cpuidle_init_cpu(&pdev->dev, cpu);
-   548			if (ret) {
-   549				pr_debug("HART%ld: idle driver init failed\n",
-   550					 cpuid_to_hartid_map(cpu));
-   551				goto out_fail;
-   552			}
-   553		}
-   554	
-   555		if (cpuidle_disabled())
-   556			pr_info("cpuidle is disabled\n");
-   557		else
-   558			pr_info("idle driver registered for all CPUs\n");
-   559	
-   560		return 0;
-   561	
-   562	out_fail:
-   563		while (--cpu >= 0) {
-   564			dev = per_cpu(cpuidle_devices, cpu);
-   565			drv = cpuidle_get_cpu_driver(dev);
-   566			cpuidle_unregister(drv);
-   567			sbi_cpuidle_deinit_cpu(cpu);
-   568		}
- > 569	out:
-   570		return ret;
-   571	}
-   572	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for INTEL_SCU when selected by GKI_HIDDEN_X86_CONFIGS
+   WARNING: unmet direct dependencies detected for INTEL_SCU
+     Depends on [n]: X86_PLATFORM_DEVICES [=n]
+     Selected by [y]:
+     - GKI_HIDDEN_X86_CONFIGS [=y] && X86 [=y]
+   
+   WARNING: unmet direct dependencies detected for LEDS_EXPRESSWIRE
+     Depends on [n]: GPIOLIB [=n] || NEW_LEDS [=n] && GPIOLIB [=n]
+     Selected by [y]:
+     - BACKLIGHT_KTD2801 [=y] && HAS_IOMEM [=y] && BACKLIGHT_CLASS_DEVICE [=y]
 
 -- 
 0-DAY CI Kernel Test Service
