@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022EF2853E3
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Jul 2025 04:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E23347D5
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Jul 2025 04:46:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751515346; cv=none; b=ZvZHnFc9gFFt8tgC12Z7qqZkcOhg1fMqOPVIGcKpGHhYVhE6/ADL0CPVgDGzOX/cy2j5WIdmchED2j2d+02tz3lHxvoZUX0A08VKSx6WPuImavU0g7eJxaLpI1sZ0Wiq2okzOjrtJFiDh0oa5a2pF5yC+KylRvaEpqmb3DP4a/I=
+	t=1751517991; cv=none; b=OCyY9vVEyLX/Oy7Zw2w9mGAIVeWsS7J0XDcvTfu2G9O8+p3C2K9Bn8iDWmQ/b14CGvrNrsS7525VFU9F41cxC/NrPnloZWr+i1qb/+U+p3BZGIhD9dNuAwGyizo8oQalwGpx06DLYqjkwxW5hy8qlANYn/hEpPtJEk8ytFYCiow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751515346; c=relaxed/simple;
-	bh=4Lpx9zmCAe+V9zhaSDl11OV2Ybn5HsCwfuWifYODQvw=;
+	s=arc-20240116; t=1751517991; c=relaxed/simple;
+	bh=eFjCWsetQWARVchAJKHMkgbJHBnDGMahFd8CGoPKtoE=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OrvYpvdxUD4K2TXw3P09Ge/9ppMOyE4h+hpBs6CJ50cIoLn1SBfU2REok+tjossVUR6VhA90TKRWVEJoIYTXw8/CTgABvwW9titFbzWOqUXV4VwrftCrLl+w8QMJWjUL6seLkz4fVJgIcPPUPfd5HssZwb+WKuxP4n8bRH5UDQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EXDKqjxl; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=BeVx25ThoDmar0frluTwrFoSa59ggvn0uV4+eQLBcVjn920Pia+oYAzu2agWdCa5y4Z/pnS7xlSdlEVr2tND3o4BnAFsopeJpdv0NBNipgghuhNGAKLZx11mDZPzlBGTWeMvoea9hZcR0xft1u9dtw2aw031tUXS626k0Sn7gzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RCTBxbdj; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EXDKqjxl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RCTBxbdj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751515344; x=1783051344;
+  t=1751517990; x=1783053990;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4Lpx9zmCAe+V9zhaSDl11OV2Ybn5HsCwfuWifYODQvw=;
-  b=EXDKqjxl0V7j1oALyXnLjy6UOfQ2cCr+eycp+dOVXQm0ls7YZJ68+bI1
-   HTDzHzMvMhS1iRX4r6GRNXQO6Zt3bE4jsf6ChA+9QeFXS40dpdGK+Aq7B
-   3ZhXLjL65bo5DuSyMhCB1piC9qGRxAQi+NMeWK43s6rc4NkGbjerx1exN
-   smler8eouoXc7iX9N4P6JbLfdua5CtXMlifzwV3mL7qIR0VBCEPHNCEsG
-   xf+hHBgQwnVsTBMf/TqqkwnV+hB4o7/gdWj0pliHRGYWj0Nr/c402r5IU
-   w+v1mVsewPNC0m0sp56kr3xzmMV9l3prt1DRE56NkBaxHDqH+uuBqa+J5
-   g==;
-X-CSE-ConnectionGUID: /1JtlDkKQFarjUsF49/HoA==
-X-CSE-MsgGUID: 1BRpCaDdQImBVq0G5kjVSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="79264070"
+  bh=eFjCWsetQWARVchAJKHMkgbJHBnDGMahFd8CGoPKtoE=;
+  b=RCTBxbdjqV/0VImSZaM3IwCKQN8ZTvhn4JvOLLZInmmDVaRGflqA1JHZ
+   cNM0vAGUmn71l+rqYIMwtjUe8dF46WadI6Gwumak82wzk2cDIDb+0EkUC
+   WfGmT2aA/dSlBA4E7KIfvz7k6z0DobBv8gMWBlT7cp0cgURw03bgt73Nj
+   v9R9sYzdg+WLLhkpBHw5cZXek5FnsWVvgej6Gmdu/1lQEgq1DS4DTX8Ne
+   SBgAJGueur87djkA4VL0rCBmLlfrdxkYwE795pKbOLKbjd8MkKCmOBzHL
+   52MA8TWRaqiNdWB11xYh7KkMLaxjIjU36NB1AS2dYdnP3SgIirkdaXcby
+   A==;
+X-CSE-ConnectionGUID: Dl+QUu6/SQGiw0oLnYBGwg==
+X-CSE-MsgGUID: IYrFvs4nRK+s1OSxh5Mz9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="65287136"
 X-IronPort-AV: E=Sophos;i="6.16,283,1744095600"; 
-   d="scan'208";a="79264070"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 21:02:23 -0700
-X-CSE-ConnectionGUID: kYG7eHMlTYm7X9W3CaEFKQ==
-X-CSE-MsgGUID: beGGJ30lS6m8EY/1vJyvLA==
+   d="scan'208";a="65287136"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 21:46:28 -0700
+X-CSE-ConnectionGUID: ChRjhAPJR5CU3Th+i+O+Xg==
+X-CSE-MsgGUID: TquwA7sYT/qBdYkvRbFU4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,283,1744095600"; 
-   d="scan'208";a="158815705"
+   d="scan'208";a="154756948"
 Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 02 Jul 2025 21:02:22 -0700
+  by orviesa008.jf.intel.com with ESMTP; 02 Jul 2025 21:46:26 -0700
 Received: from kbuild by 030a839a1121 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXB9P-0000Oj-2U;
-	Thu, 03 Jul 2025 04:02:19 +0000
-Date: Thu, 3 Jul 2025 06:01:29 +0200
+	id 1uXBq2-0000Ov-1A;
+	Thu, 03 Jul 2025 04:46:22 +0000
+Date: Thu, 3 Jul 2025 06:46:06 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
+To: kernel@openeuler.org, Xie XiuQi <xiexiuqi@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi_5 6/10]
- samples/ftrace/ftrace-direct.c:210:16: error: too few arguments to function
- 'register_ftrace_direct'
-Message-ID: <202507030611.rhRhIU5m-lkp@intel.com>
+Subject: [openeuler:openEuler-1.0-LTS 1605/1605]
+ drivers/pwm/pwm-pca9685.c:173:21: warning: variable 'pwm' set but not used
+Message-ID: <202507030648.wv6Tc1L9-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,105 +62,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
-head:   b288c6b15d20122d59ddf3bce2fb86afe6ed56c3
-commit: 60f053ac0f246163e7330460f249edf54905e8cc [6/10] ftrace: Use direct hash interface in direct functions
-config: x86_64-rhel-9.4-bpf (https://download.01.org/0day-ci/archive/20250703/202507030611.rhRhIU5m-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250703/202507030611.rhRhIU5m-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   382711115afc1197da2c288679079946650ef017
+commit: 0e0a61eb0d758e7fd91a0543e7d12fc065df5b70 [1605/1605] pwm: Clear chip_data in pwm_put()
+config: x86_64-buildonly-randconfig-2004-20250501 (https://download.01.org/0day-ci/archive/20250703/202507030648.wv6Tc1L9-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250703/202507030648.wv6Tc1L9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507030611.rhRhIU5m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507030648.wv6Tc1L9-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   samples/ftrace/ftrace-direct.c: In function 'ftrace_direct_init':
->> samples/ftrace/ftrace-direct.c:210:16: error: too few arguments to function 'register_ftrace_direct'
-     210 |         return register_ftrace_direct(&direct, (unsigned long) my_tramp);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from samples/ftrace/ftrace-direct.c:5:
-   include/linux/ftrace.h:539:5: note: declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct.c: In function 'ftrace_direct_exit':
->> samples/ftrace/ftrace-direct.c:215:9: error: too few arguments to function 'unregister_ftrace_direct'
-     215 |         unregister_ftrace_direct(&direct, (unsigned long)my_tramp, true);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ftrace.h:540:5: note: declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct.c: In function 'ftrace_direct_init':
->> samples/ftrace/ftrace-direct.c:211:1: warning: control reaches end of non-void function [-Wreturn-type]
-     211 | }
-         | ^
---
-   samples/ftrace/ftrace-direct-too.c: In function 'ftrace_direct_init':
->> samples/ftrace/ftrace-direct-too.c:243:16: error: too few arguments to function 'register_ftrace_direct'
-     243 |         return register_ftrace_direct(&direct, (unsigned long) my_tramp);
-         |                ^~~~~~~~~~~~~~~~~~~~~~
-   In file included from samples/ftrace/ftrace-direct-too.c:5:
-   include/linux/ftrace.h:539:5: note: declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-too.c: In function 'ftrace_direct_exit':
->> samples/ftrace/ftrace-direct-too.c:248:9: error: too few arguments to function 'unregister_ftrace_direct'
-     248 |         unregister_ftrace_direct(&direct, (unsigned long)my_tramp, true);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ftrace.h:540:5: note: declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-too.c: In function 'ftrace_direct_init':
->> samples/ftrace/ftrace-direct-too.c:244:1: warning: control reaches end of non-void function [-Wreturn-type]
-     244 | }
-         | ^
---
-   samples/ftrace/ftrace-direct-modify.c: In function 'simple_thread':
->> samples/ftrace/ftrace-direct-modify.c:305:23: error: too few arguments to function 'modify_ftrace_direct'
-     305 |                 ret = modify_ftrace_direct(&direct, tramps[t]);
-         |                       ^~~~~~~~~~~~~~~~~~~~
-   In file included from samples/ftrace/ftrace-direct-modify.c:4:
-   include/linux/ftrace.h:542:5: note: declared here
-     542 | int modify_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr, bool lock_direct_mutex);
-         |     ^~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-modify.c: In function 'ftrace_direct_init':
->> samples/ftrace/ftrace-direct-modify.c:321:15: error: too few arguments to function 'register_ftrace_direct'
-     321 |         ret = register_ftrace_direct(&direct, my_tramp);
-         |               ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ftrace.h:539:5: note: declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-modify.c: In function 'ftrace_direct_exit':
->> samples/ftrace/ftrace-direct-modify.c:331:9: error: too few arguments to function 'unregister_ftrace_direct'
-     331 |         unregister_ftrace_direct(&direct, my_tramp, true);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/ftrace.h:540:5: note: declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/pwm/pwm-pca9685.c:173:21: warning: variable 'pwm' set but not used [-Wunused-but-set-variable]
+     173 |         struct pwm_device *pwm;
+         |                            ^
+   1 warning generated.
 
 
-vim +/register_ftrace_direct +210 samples/ftrace/ftrace-direct.c
+vim +/pwm +173 drivers/pwm/pwm-pca9685.c
 
-23edf48309b14a Florent Revest          2023-03-21  205  
-b06457c83af669 Steven Rostedt (VMware  2019-11-08  206) static int __init ftrace_direct_init(void)
-b06457c83af669 Steven Rostedt (VMware  2019-11-08  207) {
-23edf48309b14a Florent Revest          2023-03-21  208  	ftrace_set_filter_ip(&direct, (unsigned long) wake_up_process, 0, 0);
-23edf48309b14a Florent Revest          2023-03-21  209  
-da8bdfbd422333 Florent Revest          2023-03-21 @210  	return register_ftrace_direct(&direct, (unsigned long) my_tramp);
-b06457c83af669 Steven Rostedt (VMware  2019-11-08 @211) }
-b06457c83af669 Steven Rostedt (VMware  2019-11-08  212) 
-b06457c83af669 Steven Rostedt (VMware  2019-11-08  213) static void __exit ftrace_direct_exit(void)
-b06457c83af669 Steven Rostedt (VMware  2019-11-08  214) {
-da8bdfbd422333 Florent Revest          2023-03-21 @215  	unregister_ftrace_direct(&direct, (unsigned long)my_tramp, true);
-b06457c83af669 Steven Rostedt (VMware  2019-11-08  216) }
-b06457c83af669 Steven Rostedt (VMware  2019-11-08  217) 
+bccec89f0a35f65 Mika Westerberg   2016-09-20  169  
+c40c461e1944b9c Sven Van Asbroeck 2017-04-13  170  static void pca9685_pwm_gpio_free(struct gpio_chip *gpio, unsigned int offset)
+c40c461e1944b9c Sven Van Asbroeck 2017-04-13  171  {
+c40c461e1944b9c Sven Van Asbroeck 2017-04-13  172  	struct pca9685 *pca = gpiochip_get_data(gpio);
+c40c461e1944b9c Sven Van Asbroeck 2017-04-13 @173  	struct pwm_device *pwm;
+c40c461e1944b9c Sven Van Asbroeck 2017-04-13  174  
+c40c461e1944b9c Sven Van Asbroeck 2017-04-13  175  	pca9685_pwm_gpio_set(gpio, offset, 0);
+c40c461e1944b9c Sven Van Asbroeck 2017-04-13  176  	pm_runtime_put(pca->chip.dev);
+c40c461e1944b9c Sven Van Asbroeck 2017-04-13  177  	mutex_lock(&pca->lock);
+c40c461e1944b9c Sven Van Asbroeck 2017-04-13  178  	pwm = &pca->chip.pwms[offset];
+c40c461e1944b9c Sven Van Asbroeck 2017-04-13  179  	mutex_unlock(&pca->lock);
+c40c461e1944b9c Sven Van Asbroeck 2017-04-13  180  }
+c40c461e1944b9c Sven Van Asbroeck 2017-04-13  181  
 
-:::::: The code at line 210 was first introduced by commit
-:::::: da8bdfbd422333fbb7c85ac1d7f18592d17d6665 ftrace: Rename _ftrace_direct_multi APIs to _ftrace_direct APIs
+:::::: The code at line 173 was first introduced by commit
+:::::: c40c461e1944b9cfb520e04184ec1e5c80fb210b pwm: pca9685: Fix GPIO-only operation
 
-:::::: TO: Florent Revest <revest@chromium.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
+:::::: TO: Sven Van Asbroeck <thesven73@gmail.com>
+:::::: CC: Thierry Reding <thierry.reding@gmail.com>
 
 -- 
 0-DAY CI Kernel Test Service
