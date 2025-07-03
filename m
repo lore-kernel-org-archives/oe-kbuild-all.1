@@ -1,66 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D542EE27C
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Jul 2025 16:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003E62E2EFD;
+	Thu,  3 Jul 2025 16:12:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751558568; cv=none; b=SR9uDD9tajPLU2pzzPGGFg9+3OnoAB2l7+Xz6ZBDczu4QmG8AvqSr6DDKZGfrWoddlYfPLKrzO2ZMvKisKwi1DQbzEGKQn27rR+Huud0td6iKvlSTl7NUuru29kk1/5Nz6WXmYbDSzYpyirZw31l4vHlVEAqT7IkXYkUNeBBmHQ=
+	t=1751559169; cv=none; b=G4W4pJMZcQVjvkRpjn4AIPach9xw/pOT11scerWoXRTz9Iye6C8IHiYcSMqjN/w8w8le34klbXCQUFFt8cWrENJ1HY7NqnvlWBX2qzBKaXSr5vFTA5zWiYkbblp4xYHs+fxxZXpQ1NEtdIh9392DZw4bFFfUKApYluBd5d2aSMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751558568; c=relaxed/simple;
-	bh=TY4yLMNjkRugTa/okMdIoOP1bnWENDOCYTwC6NjmULg=;
+	s=arc-20240116; t=1751559169; c=relaxed/simple;
+	bh=/1Xcbv7DHWPMWnutmLmYpXLQkI8SK/2SLoif4ibr2W0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n1e7Su4tWx5sh93RRscd8nDzL84jUMTniMMeafh+Ij1VnGmcataB+Jy8/h4ypf9+vaiEJq9KMZEKw5+WKzyzuJYqWluMUiSR9zDfeULuBn0aGbQfda1SgM72WDgsby5P2JfPVUEJ2//08yKN4xocFeXnr3JvMtqeKbgHbh8J6d0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IgY8o46Y; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=YbrBKPGrMECLMLBjTDj3R/RLUy/qbEz3s1ecccaFGLSHQiV/oABLoXcqpBv2JWpYdcC3PXrs9RKgt9ZnQoEkzJQ2/oORHGyTsAGoLSPCGoMiQTVxmZOkoZjijM3Y9RJB1+5+6s/OxsKZFZJfjQ6x6aUHUgADUeYQTpTQPecqaiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=izPW6UbX; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IgY8o46Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="izPW6UbX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751558566; x=1783094566;
+  t=1751559167; x=1783095167;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=TY4yLMNjkRugTa/okMdIoOP1bnWENDOCYTwC6NjmULg=;
-  b=IgY8o46YaDEYb6N97DM2oIUTg+EFt28cpLf3AvMnJMoYjrWdHpLHQ4fC
-   kfVoWxIWC2nNULEIzTjAJyrRn3TV1e7R1F+7pjVhJ4GrfcDK589DF3+NO
-   Oja50CRqy9pbw6e6fZ/5rlJiCjuGMGn+goCne/10fea/XvYh9D7heGDw7
-   Y8uQNhF5AT3GqLyzMuUI4b7Zk+s5Ov067iVuRVEI29CHWZ1ZzS2nWhqnd
-   VsEhSXH0KGsZMFUDXOVi5PGhmhUyDD6w+3B4gYyapoSCGBnl4+Ds/5Isu
-   P/ho+vl4bhrcZeHv+v/ZuNR3nuuKZ2m0Z0l7rOzkjnYnvb0aZevzmXbPH
-   g==;
-X-CSE-ConnectionGUID: f+zUYL5PRYWzmD7So/tiCw==
-X-CSE-MsgGUID: q6cE3ZZySvKsLGLjtsX2vw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53117922"
+  bh=/1Xcbv7DHWPMWnutmLmYpXLQkI8SK/2SLoif4ibr2W0=;
+  b=izPW6UbXOQlKKIUOM5zS2K4HciEp1AnwTUYLjsWrLMxD2dd/Qh46rp7f
+   zoCEGxmeWaJe2beEaFtXhgqOBuIWacr7tKy8KRx3mAs2aQYc9ScImpy1O
+   FkXLzBl2qrZOkC8s8HZ6EcBwgbada5ZMuCcYZrlZbKANofQqWD96lHKV7
+   AlJi4TSFZcMb/shThKrQpFO2QBNH7f2El3ZSFNt7+njp8TCwhW60neTZK
+   FAT8CdcHbjnnkeiM95IKmqTzpIe9uDp0dDo8vrT0S4wynHS9/DkvK4ozV
+   3htIGS2ntb1Qq1xBQ/MXB1gMZe/7ZSzWsLinTjTqRl6Dsr7tXQ0Z5mnog
+   Q==;
+X-CSE-ConnectionGUID: C68Bcr9OQBKxZKt5/KnQSQ==
+X-CSE-MsgGUID: ql9kT55QTheS4yR2aZ6Tpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53761232"
 X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="53117922"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 09:02:45 -0700
-X-CSE-ConnectionGUID: itwYFqXiTEqwrPVag3Qfzw==
-X-CSE-MsgGUID: Bg1RtVG/RPuhzHyjrcaYag==
+   d="scan'208";a="53761232"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 09:12:46 -0700
+X-CSE-ConnectionGUID: TJLxhh/LSmeAZJxwGZLaQQ==
+X-CSE-MsgGUID: xezOal8XSw23TuHzlyVaew==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="158679754"
+   d="scan'208";a="154776173"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Jul 2025 09:02:42 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 03 Jul 2025 09:12:45 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXMOW-0002ky-0f;
-	Thu, 03 Jul 2025 16:02:40 +0000
-Date: Fri, 4 Jul 2025 00:02:23 +0800
+	id 1uXMYF-0002mV-0J;
+	Thu, 03 Jul 2025 16:12:43 +0000
+Date: Fri, 4 Jul 2025 00:12:39 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Lameter via B4 Relay <devnull+cl.gentwo.org@kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Ingo Molnar <mingo@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, sh@gentwo.org,
-	Darren Hart <dvhart@infradead.org>,
-	"Christoph Lameter (Ampere)" <cl@gentwo.org>
-Subject: Re: [PATCH] Skew tick for systems with a large number of processors
-Message-ID: <202507032322.5jzirIYw-lkp@intel.com>
-References: <20250702-tick_skew-v1-1-ff8d73035b02@gentwo.org>
+To: Lucas Eiji Uchiyama <lucaseiji54@gmail.com>,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Lucas Eiji Uchiyama <lucaseiji54@gmail.com>
+Subject: Re: [PATCH] iio: dps310.c: Remove duplication in functions
+Message-ID: <202507032329.6gxPgmu4-lkp@intel.com>
+References: <20250702233441.94203-1-lucaseiji54@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,85 +64,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250702-tick_skew-v1-1-ff8d73035b02@gentwo.org>
+In-Reply-To: <20250702233441.94203-1-lucaseiji54@gmail.com>
 
-Hi Christoph,
+Hi Lucas,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on 66701750d5565c574af42bef0b789ce0203e3071]
+[auto build test ERROR on jic23-iio/togreg]
+[also build test ERROR on linus/master v6.16-rc4 next-20250703]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Lameter-via-B4-Relay/Skew-tick-for-systems-with-a-large-number-of-processors/20250703-034357
-base:   66701750d5565c574af42bef0b789ce0203e3071
-patch link:    https://lore.kernel.org/r/20250702-tick_skew-v1-1-ff8d73035b02%40gentwo.org
-patch subject: [PATCH] Skew tick for systems with a large number of processors
-config: arc-randconfig-002-20250703 (https://download.01.org/0day-ci/archive/20250703/202507032322.5jzirIYw-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250703/202507032322.5jzirIYw-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Eiji-Uchiyama/iio-dps310-c-Remove-duplication-in-functions/20250703-073628
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250702233441.94203-1-lucaseiji54%40gmail.com
+patch subject: [PATCH] iio: dps310.c: Remove duplication in functions
+config: arm64-randconfig-001-20250703 (https://download.01.org/0day-ci/archive/20250703/202507032329.6gxPgmu4-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f1a4bb62452d88a0edd9340b3ca7c9b11ad9193f)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250703/202507032329.6gxPgmu4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507032322.5jzirIYw-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507032329.6gxPgmu4-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/time/tick-sched.c: In function 'tick_setup_sched_timer':
->> kernel/time/tick-sched.c:1577:44: error: 'CONFIG_TICK_SKEW_LIMIT' undeclared (first use in this function); did you mean 'CONFIG_TICK_ONESHOT'?
-    1577 |                 if (num_possible_cpus() >= CONFIG_TICK_SKEW_LIMIT) {
-         |                                            ^~~~~~~~~~~~~~~~~~~~~~
-         |                                            CONFIG_TICK_ONESHOT
-   kernel/time/tick-sched.c:1577:44: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/iio/pressure/dps310.c:553:47: error: too few arguments to function call, expected 3, have 2
+     553 |                         rc = dps310_set_samp_freq(data, TEMPERATURE);
+         |                              ~~~~~~~~~~~~~~~~~~~~                  ^
+   drivers/iio/pressure/dps310.c:309:12: note: 'dps310_set_samp_freq' declared here
+     309 | static int dps310_set_samp_freq(struct dps310_data *data, int freq, int mode)
+         |            ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +1577 kernel/time/tick-sched.c
+vim +553 drivers/iio/pressure/dps310.c
 
-  1566	
-  1567	/**
-  1568	 * tick_setup_sched_timer - setup the tick emulation timer
-  1569	 * @hrtimer: whether to use the hrtimer or not
-  1570	 */
-  1571	void tick_setup_sched_timer(bool hrtimer)
-  1572	{
-  1573		struct tick_sched *ts = this_cpu_ptr(&tick_cpu_sched);
-  1574	
-  1575		/* Figure out if we should skew the tick */
-  1576		if (sched_skew_tick < 0) {
-> 1577			if (num_possible_cpus() >= CONFIG_TICK_SKEW_LIMIT) {
-  1578				sched_skew_tick = 1;
-  1579				pr_info("Tick skewed mode enabled. Possible cpus %u > %u\n",
-  1580					num_possible_cpus(), CONFIG_TICK_SKEW_LIMIT);
-  1581			} else
-  1582				sched_skew_tick = 0;
-  1583		}
-  1584	
-  1585		/* Emulate tick processing via per-CPU hrtimers: */
-  1586		hrtimer_setup(&ts->sched_timer, tick_nohz_handler, CLOCK_MONOTONIC, HRTIMER_MODE_ABS_HARD);
-  1587	
-  1588		if (IS_ENABLED(CONFIG_HIGH_RES_TIMERS) && hrtimer)
-  1589			tick_sched_flag_set(ts, TS_FLAG_HIGHRES);
-  1590	
-  1591		/* Get the next period (per-CPU) */
-  1592		hrtimer_set_expires(&ts->sched_timer, tick_init_jiffy_update());
-  1593	
-  1594		/* Offset the tick to avert 'jiffies_lock' contention. */
-  1595		if (sched_skew_tick) {
-  1596			u64 offset = TICK_NSEC >> 1;
-  1597			do_div(offset, num_possible_cpus());
-  1598			offset *= smp_processor_id();
-  1599			hrtimer_add_expires_ns(&ts->sched_timer, offset);
-  1600		} else
-  1601			pr_info("Tick operating in synchronized mode.\n");
-  1602	
-  1603	
-  1604		hrtimer_forward_now(&ts->sched_timer, TICK_NSEC);
-  1605		if (IS_ENABLED(CONFIG_HIGH_RES_TIMERS) && hrtimer)
-  1606			hrtimer_start_expires(&ts->sched_timer, HRTIMER_MODE_ABS_PINNED_HARD);
-  1607		else
-  1608			tick_program_event(hrtimer_get_expires(&ts->sched_timer), 1);
-  1609		tick_nohz_activate(ts);
-  1610	}
-  1611	
+   534	
+   535	static int dps310_write_raw(struct iio_dev *iio,
+   536				    struct iio_chan_spec const *chan, int val,
+   537				    int val2, long mask)
+   538	{
+   539		int rc;
+   540		struct dps310_data *data = iio_priv(iio);
+   541	
+   542		if (mutex_lock_interruptible(&data->lock))
+   543			return -EINTR;
+   544	
+   545		switch (mask) {
+   546		case IIO_CHAN_INFO_SAMP_FREQ:
+   547			switch (chan->type) {
+   548			case IIO_PRESSURE:
+   549				rc = dps310_set_samp_freq(data, val, PRESSURE);
+   550				break;
+   551	
+   552			case IIO_TEMP:
+ > 553				rc = dps310_set_samp_freq(data, TEMPERATURE);
+   554				break;
+   555	
+   556			default:
+   557				rc = -EINVAL;
+   558				break;
+   559			}
+   560			break;
+   561	
+   562		case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
+   563			switch (chan->type) {
+   564			case IIO_PRESSURE:
+   565				rc = dps310_set_precision(data, val, PRESSURE);
+   566				break;
+   567	
+   568			case IIO_TEMP:
+   569				rc = dps310_set_precision(data, val, TEMPERATURE);
+   570				break;
+   571	
+   572			default:
+   573				rc = -EINVAL;
+   574				break;
+   575			}
+   576			break;
+   577	
+   578		default:
+   579			rc = -EINVAL;
+   580			break;
+   581		}
+   582	
+   583		mutex_unlock(&data->lock);
+   584		return rc;
+   585	}
+   586	
 
 -- 
 0-DAY CI Kernel Test Service
