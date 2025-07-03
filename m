@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFD83596B
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Jul 2025 15:35:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5282DE6F5
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Jul 2025 15:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751556942; cv=none; b=TYVtKkk6eDg+vUYOuEUjbT9FDMR8zMXzJUYH78V/M7seWrSMmD/f2iTsyADeLOPdUEjAMA6vYDX0eNKgJD18HFLwdMsst3MvGs1L1BHjXXFNXvHDOp73qmUlNbpziWzsHgCQjMRIOck8DsrUte6zrCjgLA3Tk97wa/NhUQAqqzo=
+	t=1751557243; cv=none; b=cr2oHcf16r4LyzUxHtI82f0sno9Xdndg58R1yw5Nq6lKw84Fl/HnJjmA+YJ/x7wZFojCRUDl+UNmhlt3KP7Hmld6qfEaREi1Cang1k596SFk74Z32zlHKUx1G0lgsEfD2gpJ+lQl+XnctTfVuSCunsoiugUPafgL8VPiZvKpYzo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751556942; c=relaxed/simple;
-	bh=4hmK8hn+Rv8R6FQYtUawlrkRbbn4TakLst5+moB1oSU=;
+	s=arc-20240116; t=1751557243; c=relaxed/simple;
+	bh=vrLOAvfiUp/kzkSjilZb8dPqwx2h+3sq8mNIPPBKUE4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=g2FIQNms6EolIyP0R+CXGywhsVHAw4c5UDLiDdiIDhda/m0FoZRjGSTGJ9I59JwtJKHLPS6dtx7ZUs9d3QXlUv92QRGrNo3VF4NBdSGuZkiMrLK7IbLWvTYx5m5blBjF2WOIcDO13tJPpTuLGYznJI51qA9natsRwQLdrlC8bME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f0bZ5DsE; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=fxbM+oAEmoZWcF0pWEQnT4D8gIpzkRXRRhjioV0WIcRyaZaNtJrf4bi/vA5PtztLoHWAWtp7ytw7MEokMVORNM2NRxYYmwdddcsMBtYYLxyiXbgR1zgekm84ahgkaTvg1skolxw51K9ClC1ZxA3eFnCOQTTJ8PIZqmit/MdSWJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JPeHtSD/; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f0bZ5DsE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JPeHtSD/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751556941; x=1783092941;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=4hmK8hn+Rv8R6FQYtUawlrkRbbn4TakLst5+moB1oSU=;
-  b=f0bZ5DsEAzTEVCHcaPsDJTu9GZlpnadTxu5895Z9Nq2LpWxFlwFrelY7
-   G5IaZCfyrv4keXbasOjj6p3KuxzTW5Mnjt49c/Ljq8MAXLHZw6xqWAC4P
-   q83JPtCk8wms3qzZM+8OY/XiLdVd/U/BhWudUGNt4bzyGpR0irerpGBan
-   ZKtLOMGAwTIezEoDmHg45ZxorQytPBaJ0LHMd0eSJ/+P7w0lR0/MSKEwX
-   Zk41mSfoFS3oZDiw2Ei8+1ADDFP/J5C4mSYZVI0MvsIf2mwuBjCg5PQtZ
-   iBWvymVi4JosOt6DTMvpiUEx68SZYC9T3hYj4fpfkjroD8mY9VSZSQJbo
-   g==;
-X-CSE-ConnectionGUID: dYqrBuchRbW8Knp3Gosfwg==
-X-CSE-MsgGUID: pktOonWaRL+BRtjLbpzFmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53983906"
+  t=1751557241; x=1783093241;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vrLOAvfiUp/kzkSjilZb8dPqwx2h+3sq8mNIPPBKUE4=;
+  b=JPeHtSD/94ZweoX659VljUgetE8qRPOSIZ4jLZ8Lfny2JEtLUavHMxKx
+   0oVUSWq0sLSKJumQcsaeazkFKtd5fo0wQ0S1h8Obnzm3lWE3dougXnEOq
+   aC1PAdmzNGn8OIrWCsmMdxEHFieOk6UcvI6Hp2dHn+To4sBbkHMbpXIRD
+   JeaY6+nqzi4mLVYRplfx+lfZhUzFklQJXnxFFhagJWiCfXEtX7pYesn/9
+   x9pXLNZy5/OYghUetxVVivfxnh+Qp+GsSOusqCHibGQ2Kjv1Ry6kjAIVT
+   yY6BBIYa8+DnbZnRZQ6k0+xJpcgjl4atT7hGx1MERMNkrbO4NCVclE46i
+   Q==;
+X-CSE-ConnectionGUID: /KW1yuC2S7OftNIdJ5kSmw==
+X-CSE-MsgGUID: gIYybV0hTw+DYH6eZFzfGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="57562514"
 X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="53983906"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 08:35:40 -0700
-X-CSE-ConnectionGUID: MP/y1R+3QRqtZGF7UZbRGQ==
-X-CSE-MsgGUID: KWmAoqZAQ4GMmBlepAuNzw==
+   d="scan'208";a="57562514"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 08:40:40 -0700
+X-CSE-ConnectionGUID: NGwUPgc3Q7WKd4WFwp9utA==
+X-CSE-MsgGUID: pZPywMxnQgCnFHetYNH1Cw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="185346844"
+   d="scan'208";a="154765510"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 03 Jul 2025 08:35:40 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 03 Jul 2025 08:40:40 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXLyL-0002jT-2S;
-	Thu, 03 Jul 2025 15:35:37 +0000
-Date: Thu, 3 Jul 2025 23:34:50 +0800
+	id 1uXM3C-0002jv-0o;
+	Thu, 03 Jul 2025 15:40:38 +0000
+Date: Thu, 3 Jul 2025 23:39:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Oscar Maes <oscmaes92@gmail.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net v2 1/2] net: ipv4: fix incorrect MTU in broadcast
- routes
-Message-ID: <aGajGp-Hu5S2k73L@909f0290d8b6>
+To: Rob Clark <robdclark@chromium.org>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Antonino Maniscalco <antomani103@gmail.com>
+Subject: [drm-msm:msm-next-robclark 46/52] Warning:
+ drivers/gpu/drm/msm/msm_gem_vma.c:174 function parameter 'gpuvm' not
+ described in 'msm_gem_vm_unusable'
+Message-ID: <202507032334.9SCwc952-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +63,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250703152838.2993-1-oscmaes92@gmail.com>
 
-Hi,
+tree:   https://gitlab.freedesktop.org/drm/msm.git msm-next-robclark
+head:   62da1a7f66fbaa9304a7e7384a86798d55f2661d
+commit: b8774838b7160378a5d73d46e8ec3893390b6262 [46/52] drm/msm: Add VM logging for VM_BIND updates
+config: arm-randconfig-002-20250703 (https://download.01.org/0day-ci/archive/20250703/202507032334.9SCwc952-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250703/202507032334.9SCwc952-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507032334.9SCwc952-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All warnings (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH net v2 1/2] net: ipv4: fix incorrect MTU in broadcast routes
-Link: https://lore.kernel.org/stable/20250703152838.2993-1-oscmaes92%40gmail.com
+>> Warning: drivers/gpu/drm/msm/msm_gem_vma.c:174 function parameter 'gpuvm' not described in 'msm_gem_vm_unusable'
+>> Warning: drivers/gpu/drm/msm/msm_gem_vma.c:174 Excess function parameter 'vm' description in 'msm_gem_vm_unusable'
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
