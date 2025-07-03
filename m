@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BED9C21B9C5;
-	Thu,  3 Jul 2025 02:54:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EAD0218584
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Jul 2025 02:59:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751511292; cv=none; b=X9Ht75F/Suv/f42x6zFDVwYOD8eYwflapwNlbkpUNztDb9e0oYGflP0NV8dCV0knakfu74JnDYQe0zWIe6inFQmgE+oqMeZmlfBRjmc7+Qe5IudtwfyfMBwuazaLOhiMEuIuM+lHOahWkbVYQSRQlxmBDbw+laaYzXiyA75syxQ=
+	t=1751511565; cv=none; b=uZVjnBu4Acw2pBUF3veIrbP/pfFnW4ibITFApmwKYvECwLCAT9Z/1kEF8wH7Cc6A10p6EPSlSbhz45znK+TcapjeiPA22FdkfpB12kOcO1XvK1KxXatHBbA7NlaX2ZAp/t0KogcVMTJs857QHyDucaUADV2L2CUyeapBOoAvztc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751511292; c=relaxed/simple;
-	bh=kFmQptJ2um6gQpVBecE2eyF0GAIxnUceibqL3Hs0n3Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DWMBexMolAKazUMzBJhD8uzHFEP1dp8DhR1Bh7w0tlE/7yuDtWDiWm2QR89P3xjCzVzhuC2OiNNwP6v+5nGIC8nOuG6JuxRRI37dQ9Bl79q4240c5gHWSImq96Xw6OVQ3CmQwgYxBOqGSHsx40cCd2oGqqqPdVnsbK9onRWu5+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZTmrSM5X; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1751511565; c=relaxed/simple;
+	bh=jqkrbGIblO1LWEQnHFU3lka4kBD2RxTr/WcVQOAc2q8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OKkiBJkQUC3lfHa67Zso39f7v/ATq1r9WiEx90ZXtn5uRzE9i7+9+9PR3HSBtZwQth76xhsOcreDUjh0UtiEl4I19mZQmEm/DXfFZPtuKrE0CaiYn55HHpSyu5zdlYEPxF9VZ+lfESWrvVAJ5R9MzpuMwMpswBkt32AiFpBUln8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AnTNV3xY; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZTmrSM5X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AnTNV3xY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751511291; x=1783047291;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=kFmQptJ2um6gQpVBecE2eyF0GAIxnUceibqL3Hs0n3Y=;
-  b=ZTmrSM5XbsJLjOflPuQ4ncwShjWbMRNqwsySRqirLel4gGX6mSSFSxQ2
-   Ulp+4yVwMLACrrM4x4DpKbwGGoDMWR1uyjeKF7Yrj+IBypvq8oyc+5CSS
-   /HkhnhBNp/SCFUmXzF+6Irr/juE9Jwu4EK6o+hAHXMZayso5H3q5HxqNz
-   ydLxxVNYbKpO5X8VLVM00wG78F0O24KkQTWjVj1SPX4RUi2EpkQLA/NGv
-   1IRAyaW3QlpLb2Lrk3t7POCwZ7lXyk79RqK6fps61UQSn7pVsZUfLBo/G
-   GVRU7rmFrz+mz5nPMRLjQexvsky170OhhUwJNDfWqj8TRR+kc+tL8lWWv
-   Q==;
-X-CSE-ConnectionGUID: S0zBOARtSz+6agljUuCZQg==
-X-CSE-MsgGUID: tEpw/CtmRwKag8VfQSVPvQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="71259636"
+  t=1751511564; x=1783047564;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jqkrbGIblO1LWEQnHFU3lka4kBD2RxTr/WcVQOAc2q8=;
+  b=AnTNV3xYIPp72oL+5NsBd3133v/fxzWg+u18EnBg0GEoIKSem043SQMl
+   9jR/SFl9eo+Icp28uVN4a8uobcyjcDdhNcBJ74rplhiTg/1x5fWeppZlc
+   7Izmnpn7KARumXGS9ghijvuXRTP3nwSI+IZS3OtVAar9dGfnEeR/0k4Ha
+   kUXK98UXQ7UbJqVUY2pA+cNMe4PuUSqYxfvyAblxJyjGgzHRYRdDmW93T
+   M8fD0s1zheyw9Ea5co6shGtfU1c8utb7jtY496AtDhP2FgXM4SQeAIoVS
+   eEz8c2gg7BirmugB6iSmpULUbMUA3QZyGazVh0ZbVylm0/2XlmaZV/SNn
+   A==;
+X-CSE-ConnectionGUID: GlnYtAnySiCDWurxGb16DA==
+X-CSE-MsgGUID: dZCFPEEYQPmsZzmoMkNxyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11482"; a="65281798"
 X-IronPort-AV: E=Sophos;i="6.16,283,1744095600"; 
-   d="scan'208";a="71259636"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 19:54:19 -0700
-X-CSE-ConnectionGUID: RsaEUOVmTZSxPm2nFYUumg==
-X-CSE-MsgGUID: 3Zmldh7fSJyZRYZlJFDcDA==
+   d="scan'208";a="65281798"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jul 2025 19:59:24 -0700
+X-CSE-ConnectionGUID: 4ltHjfUdRb27zYhAb1hi9Q==
+X-CSE-MsgGUID: zYA43KZMQpuUwBKlNtFUnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,283,1744095600"; 
-   d="scan'208";a="154990385"
-Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
-  by fmviesa010.fm.intel.com with ESMTP; 02 Jul 2025 19:54:17 -0700
-Received: from kbuild by 030a839a1121 with local (Exim 4.96)
+   d="scan'208";a="159941461"
+Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 02 Jul 2025 19:59:21 -0700
+Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXA5W-0000OL-2e;
-	Thu, 03 Jul 2025 02:54:14 +0000
-Date: Thu, 3 Jul 2025 04:53:15 +0200
+	id 1uXAAQ-0001Pf-2Y;
+	Thu, 03 Jul 2025 02:59:18 +0000
+Date: Thu, 3 Jul 2025 10:58:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mel Gorman <mgorman@suse.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Kees Cook <kees@kernel.org>
-Subject: fs/fat/dir.o: warning: objtool: fat_ioctl_filldir+0x7dd: stack state
- mismatch: cfa1=4+168 cfa2=4+160
-Message-ID: <202507030459.nFRTDqOT-lkp@intel.com>
+To: Mingming Cao <mmc@linux.ibm.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bjking1@linux.ibm.com,
+	haren@linux.ibm.com, ricklind@linux.ibm.com, mmc@linux.ibm.com,
+	Dave Marquardt <davemarq@linux.ibm.com>
+Subject: Re: [PATCH net-next 2/4] ibmvnic: Use atomic64_t for queue stats
+Message-ID: <202507031001.nn9LVAkH-lkp@intel.com>
+References: <20250630234806.10885-3-mmc@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +64,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250630234806.10885-3-mmc@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   b4911fb0b060899e4eebca0151eb56deb86921ec
-commit: 496d2d23886436f7c651bf4c14950eb002815c61 mm: security: Check early if HARDENED_USERCOPY is enabled
-date:   4 months ago
-config: x86_64-buildonly-randconfig-2004-20250703 (https://download.01.org/0day-ci/archive/20250703/202507030459.nFRTDqOT-lkp@intel.com/config)
+Hi Mingming,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mingming-Cao/ibmvnic-Derive-NUM_RX_STATS-NUM_TX_STATS-dynamically/20250701-074915
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250630234806.10885-3-mmc%40linux.ibm.com
+patch subject: [PATCH net-next 2/4] ibmvnic: Use atomic64_t for queue stats
 compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250703/202507030459.nFRTDqOT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507030459.nFRTDqOT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507031001.nn9LVAkH-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+includecheck warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/ibm/ibmvnic.c: linux/atomic.h is included more than once.
 
->> fs/fat/dir.o: warning: objtool: fat_ioctl_filldir+0x7dd: stack state mismatch: cfa1=4+168 cfa2=4+160
+vim +62 drivers/net/ethernet/ibm/ibmvnic.c
+
+    34	
+    35	#include <linux/module.h>
+    36	#include <linux/moduleparam.h>
+    37	#include <linux/types.h>
+    38	#include <linux/errno.h>
+    39	#include <linux/completion.h>
+    40	#include <linux/ioport.h>
+    41	#include <linux/dma-mapping.h>
+    42	#include <linux/kernel.h>
+    43	#include <linux/netdevice.h>
+    44	#include <linux/etherdevice.h>
+    45	#include <linux/skbuff.h>
+    46	#include <linux/init.h>
+    47	#include <linux/delay.h>
+    48	#include <linux/mm.h>
+    49	#include <linux/ethtool.h>
+    50	#include <linux/proc_fs.h>
+    51	#include <linux/if_arp.h>
+    52	#include <linux/in.h>
+    53	#include <linux/ip.h>
+    54	#include <linux/ipv6.h>
+    55	#include <linux/irq.h>
+    56	#include <linux/irqdomain.h>
+    57	#include <linux/kthread.h>
+    58	#include <linux/seq_file.h>
+    59	#include <linux/interrupt.h>
+    60	#include <net/net_namespace.h>
+    61	#include <asm/hvcall.h>
+  > 62	#include <linux/atomic.h>
+    63	#include <asm/vio.h>
+    64	#include <asm/xive.h>
+    65	#include <asm/iommu.h>
+    66	#include <linux/uaccess.h>
+    67	#include <asm/firmware.h>
+    68	#include <linux/workqueue.h>
+    69	#include <linux/if_vlan.h>
+    70	#include <linux/utsname.h>
+    71	#include <linux/cpu.h>
+  > 72	#include <linux/atomic.h>
+    73	
 
 -- 
 0-DAY CI Kernel Test Service
