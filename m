@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8732D661D
-	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Jul 2025 23:14:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAE02D46C3
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Jul 2025 23:20:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751584462; cv=none; b=RxIuzyrQPqgKsIZj0XHUQJYPjKq4CKm9t68Vsbj9sHla+o9FeRK+SXHzzEKgZVW6JEt7XCjD/9qXCUKrOWQxPFnJS4ZDTMKUtK2ABmb3OBYj7zZZ3L2Mv4EcVk1zyl5AODZjUR9dEZL+A5MKnKJGNAX9vF8MAPLsyggwUNiaDd4=
+	t=1751584832; cv=none; b=qQKLwVy23Hbkddn5NZaVuFv84e1PjYPQrrumHHmqpqgypQhf2M8rnRQWHb3bYQx19X3je78q2TE21dhME6CdZo8KRsjT6QQUN3t1MD8z3wCDSwoxFQKLULgQStDw27cKj2g65B9+8Enimd32PetSAIQq5ePHkUuC3I44vSvoofQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751584462; c=relaxed/simple;
-	bh=zGZ0pXyv5IgTa0BQTZwoamf/Y4MnfO2nnBzi2uo1C7E=;
+	s=arc-20240116; t=1751584832; c=relaxed/simple;
+	bh=iaU49mJDQ/egWSpm6/q/jZ5zJLJoj/v21ybO9/iVqe0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=crQ9tf1ZUsxKdgD2bnjfkTvug4uB7PeHOLWGRytDt6swkMVlCm2jSFmLxuEnYl7kPjusexn6Y2mSmb1uqdBqtvNV5DmiPFGCh+1XLtQ8HRExpVZK6saMb+F7dktSdtKj8imYOkxaRjG8wHYvVxuImle6edAvOPu+k5WJu3UKtPQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=neLWlsbK; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=X8WalLBURU/hsuntrLt4pdroeJcT/2IcBjOMA0hSLOazinH0BZlY3SgjvWT3aL5v8FxZHGFt7ZPhjv3CUTONS0JZfJc/i7D74iU226pCmRWXTy70pcS459YNyi/JYKijp6psyguYHq/z+0jsu6qKIm/7QRQ2XlVf/AdACc7bFkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L04Q37rz; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="neLWlsbK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L04Q37rz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751584461; x=1783120461;
+  t=1751584831; x=1783120831;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zGZ0pXyv5IgTa0BQTZwoamf/Y4MnfO2nnBzi2uo1C7E=;
-  b=neLWlsbK57MNFwPOOyTNpF6bxJ55mjNHdKiDUZvyZ+5lY2wWkhCrRfXq
-   KgFN84RUERzyHewsNkIg275eT8DsPgBsISYv+M75b8xjzbcW1qDl3cMQj
-   jV/P9z8UTVYx7AwURZhC7BaN7VsYcK3s3G76PDYZKj3YMHOhynC+HclZ7
-   bEaaScKegq43CNvHegj0JqPvKQv3dnFenV6zZplgXROeW+yjlSEIN5JAg
-   LvKG8Erc5PVx5T2DexxFGIr48AoiP+tCTnIdB3o5vuHNMtxgeyVQooOLX
-   n+K0HgtxI4EewUQp3Mp+MkckBzyXpiPeGbirKcXeIHmqzsUHwKEpP1gQy
-   A==;
-X-CSE-ConnectionGUID: 0pgcLwPhSOeLTOT91IRdjw==
-X-CSE-MsgGUID: feitmBoeTd6LvWr3SW3pfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64975610"
+  bh=iaU49mJDQ/egWSpm6/q/jZ5zJLJoj/v21ybO9/iVqe0=;
+  b=L04Q37rzzG3TSSqybxS8K5YENr8G8enfmPLN4Bk9UM3rXS+GZnuzyEcR
+   smD7S77crv/01Iny3/KPDu9Gi2SmzeV2Afe2ti9zUpV1dY6hwOM0ko+FX
+   XboJ/IopALAv1Nz60rhtpPOiCT2SZfIyTKvH81Zl8gQRq2o0/ido4narY
+   XUYdamtfaAa6+M1mybuJandoLK+P2tK72jLqx3YFiD9izKv1ZwQmCVyc0
+   WBryDRoGkESejnNxPODDWK42lqZlYYCo4e/qGtSw7mkOdClX1cDz9ijhG
+   PFJGQqv3D/XtAzq2KnBCn4XUFrOviTmBynJHz1JIafOdHQDnDCh3f2qua
+   Q==;
+X-CSE-ConnectionGUID: iuZU2WUrQGWXvMkNMADZTg==
+X-CSE-MsgGUID: SV/P34h6QhafASne8dcvbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53643240"
 X-IronPort-AV: E=Sophos;i="6.16,285,1744095600"; 
-   d="scan'208";a="64975610"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 16:14:21 -0700
-X-CSE-ConnectionGUID: Ea+UynGqQXOB4SLWehKH6A==
-X-CSE-MsgGUID: GycfcAz2Rka3Be3qdUfMzg==
+   d="scan'208";a="53643240"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 16:20:30 -0700
+X-CSE-ConnectionGUID: A6DyRzAiR8Kv2K3+f/QxPA==
+X-CSE-MsgGUID: 2OPQus1LQP6tTRj7JnMkpw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,285,1744095600"; 
-   d="scan'208";a="159052503"
-Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
-  by orviesa004.jf.intel.com with ESMTP; 03 Jul 2025 16:14:19 -0700
-Received: from kbuild by 030a839a1121 with local (Exim 4.96)
+   d="scan'208";a="154257037"
+Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 03 Jul 2025 16:20:29 -0700
+Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXT8D-0000Xx-0r;
-	Thu, 03 Jul 2025 23:14:17 +0000
-Date: Fri, 4 Jul 2025 01:14:09 +0200
+	id 1uXTEA-00036N-1J;
+	Thu, 03 Jul 2025 23:20:26 +0000
+Date: Fri, 4 Jul 2025 07:20:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2024-11 0/15]
- kernel/module/gki_module.c:31:6: warning: no previous prototype for
- 'gki_is_module_unprotected_symbol'
-Message-ID: <202507040148.xhwchNST-lkp@intel.com>
+To: Qianfeng Rong <rongqianfeng@vivo.com>
+Cc: oe-kbuild-all@lists.linux.dev, Andi Shyti <andi.shyti@kernel.org>
+Subject: [andi-shyti:i2c/i2c-host-next 14/15]
+ include/linux/compiler_types.h:568:45: error: call to
+ '__compiletime_assert_369' declared with attribute error: min(max, 0x8 -
+ tx_fstat) signedness error
+Message-ID: <202507040752.385GebdM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,80 +64,72 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-11
-head:   1d873e4aee8bf3c96dbb4222ecf206afe52c6c81
-commit: e9669eeb2f4580e44226cf1b582340f4b6388387 [0/15] ANDROID: GKI: Add module load time symbol protection
-config: i386-buildonly-randconfig-2001-20250701 (https://download.01.org/0day-ci/archive/20250704/202507040148.xhwchNST-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507040148.xhwchNST-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host-next
+head:   9089458addadf2fad4a8f2baf7a5d01def8a1a6d
+commit: cbae4d3dd2f7f01fa8fa807c70ad2b304279fd87 [14/15] i2c: busses: Use min() to improve code
+config: arc-randconfig-002-20250704 (https://download.01.org/0day-ci/archive/20250704/202507040752.385GebdM-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507040752.385GebdM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507040148.xhwchNST-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507040752.385GebdM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/module/gki_module.c:31:6: warning: no previous prototype for 'gki_is_module_unprotected_symbol' [-Wmissing-prototypes]
-      31 | bool gki_is_module_unprotected_symbol(const char *name)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DRM_MIPI_DSI
-   Depends on [n]: HAS_IOMEM [=y] && DRM [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_DRM_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PRIV
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_SPY
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WIRELESS_EXT
-   Depends on [n]: NET [=n] && WIRELESS [=n]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for WEXT_CORE
-   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_VMASTER
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
-   Depends on [n]: SOUND [=y] && !UML && SND [=n] && SND_JACK [=y]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for SND_PCM_ELD
-   Depends on [n]: SOUND [=y] && !UML && SND [=n]
-   Selected by [y]:
-   - GKI_HIDDEN_SND_CONFIGS [=y]
-   WARNING: unmet direct dependencies detected for WEXT_PROC
-   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
-   Selected by [y]:
-   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   In file included from <command-line>:
+   drivers/i2c/busses/i2c-st.c: In function 'st_i2c_rd_fill_tx_fifo':
+>> include/linux/compiler_types.h:568:45: error: call to '__compiletime_assert_369' declared with attribute error: min(max, 0x8 - tx_fstat) signedness error
+     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:549:25: note: in definition of macro '__compiletime_assert'
+     549 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:568:9: note: in expansion of macro '_compiletime_assert'
+     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:93:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      93 |         BUILD_BUG_ON_MSG(!__types_ok(ux, uy),           \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:98:9: note: in expansion of macro '__careful_cmp_once'
+      98 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:105:25: note: in expansion of macro '__careful_cmp'
+     105 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/i2c/busses/i2c-st.c:453:13: note: in expansion of macro 'min'
+     453 |         i = min(max, SSC_TXFIFO_SIZE - tx_fstat);
+         |             ^~~
 
 
-vim +/gki_is_module_unprotected_symbol +31 kernel/module/gki_module.c
+vim +/__compiletime_assert_369 +568 include/linux/compiler_types.h
 
-    25	
-    26	/**
-    27	 * gki_is_module_unprotected_symbol - Is a symbol unprotected for unsigned module?
-    28	 *
-    29	 * @name:	Symbol being checked in list of unprotected symbols
-    30	 */
-  > 31	bool gki_is_module_unprotected_symbol(const char *name)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  554  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  555  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  557  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  559   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  560   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  561   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  562   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  563   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  564   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  565   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  566   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  567  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @568  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  569  
+
+:::::: The code at line 568 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
