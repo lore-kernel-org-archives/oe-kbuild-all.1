@@ -1,160 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003E62E2EFD;
-	Thu,  3 Jul 2025 16:12:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B385625B669
+	for <oe-kbuild-all@lists.linux.dev>; Thu,  3 Jul 2025 17:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751559169; cv=none; b=G4W4pJMZcQVjvkRpjn4AIPach9xw/pOT11scerWoXRTz9Iye6C8IHiYcSMqjN/w8w8le34klbXCQUFFt8cWrENJ1HY7NqnvlWBX2qzBKaXSr5vFTA5zWiYkbblp4xYHs+fxxZXpQ1NEtdIh9392DZw4bFFfUKApYluBd5d2aSMo=
+	t=1751562296; cv=none; b=g0uGTRKC539LiDDvSDQBWlXyw4BEBTuzoGPaZhVlJR5juPElKBxlhpu4/kofLikxEKs2jAQLtQxaK79PT3OCpRuC/qJlBMPgm5Fb9vthXl0SdVxyP1kP8NR7JHdD2azCee4otI6N4Zag9tRnTbniaFfIMNdG5x+BDvzuaRv4Pys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751559169; c=relaxed/simple;
-	bh=/1Xcbv7DHWPMWnutmLmYpXLQkI8SK/2SLoif4ibr2W0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YbrBKPGrMECLMLBjTDj3R/RLUy/qbEz3s1ecccaFGLSHQiV/oABLoXcqpBv2JWpYdcC3PXrs9RKgt9ZnQoEkzJQ2/oORHGyTsAGoLSPCGoMiQTVxmZOkoZjijM3Y9RJB1+5+6s/OxsKZFZJfjQ6x6aUHUgADUeYQTpTQPecqaiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=izPW6UbX; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1751562296; c=relaxed/simple;
+	bh=cAIhw7KTUfMUv4LWouXkqcQkRb3ILd4HKaSWKJ6n8l8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MQ51mwULGcZ12MaFiWJvxGuAnYwpMPRiRCsa8mj9ScP3+WVWoZPMxIOuPlD/7GAxK499zwrm+LypQq6VmxjeFw3yXkQgqUsT9Pahyq7ijlHU+c8f7iiQuu1UFN6k3DPl9RwIdKVF5BHVL9KjDifisgtGghqEHbZTl3pVl4Csxps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BYhZV2Kh; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="izPW6UbX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BYhZV2Kh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751559167; x=1783095167;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/1Xcbv7DHWPMWnutmLmYpXLQkI8SK/2SLoif4ibr2W0=;
-  b=izPW6UbXOQlKKIUOM5zS2K4HciEp1AnwTUYLjsWrLMxD2dd/Qh46rp7f
-   zoCEGxmeWaJe2beEaFtXhgqOBuIWacr7tKy8KRx3mAs2aQYc9ScImpy1O
-   FkXLzBl2qrZOkC8s8HZ6EcBwgbada5ZMuCcYZrlZbKANofQqWD96lHKV7
-   AlJi4TSFZcMb/shThKrQpFO2QBNH7f2El3ZSFNt7+njp8TCwhW60neTZK
-   FAT8CdcHbjnnkeiM95IKmqTzpIe9uDp0dDo8vrT0S4wynHS9/DkvK4ozV
-   3htIGS2ntb1Qq1xBQ/MXB1gMZe/7ZSzWsLinTjTqRl6Dsr7tXQ0Z5mnog
-   Q==;
-X-CSE-ConnectionGUID: C68Bcr9OQBKxZKt5/KnQSQ==
-X-CSE-MsgGUID: ql9kT55QTheS4yR2aZ6Tpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53761232"
+  t=1751562294; x=1783098294;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=cAIhw7KTUfMUv4LWouXkqcQkRb3ILd4HKaSWKJ6n8l8=;
+  b=BYhZV2KhKn1zJhr4t52cV+c4+gqYdtmD0qPJ1TVIxbHHtYBZA3d+ttwV
+   RsRhjQs8M044UgbVkqtk/aykgGFFFvb18M1NlEnLstvqf/LZMPhHsJOaB
+   1b7aSx+BA2ZLK6LC0PYbSnP2adA7ql+MweqvsMyQXFhbfXqSF0wG8Q87P
+   SJFKZJ1SnazmKshT7KYNSsxv/Rg9GQbWTnhoc4ZakIywNDIqjQfrMGPHS
+   NdGbC0BvQ53BGn3hoOiGWzVUtW0H56hQcNPFCtvPF7a5E9CRGcT8cB39e
+   rId5KhQ1mq6tLTTxYt8Urg7JFEbYP0WZUI5KXd8vZbmZahyio35gMA9vL
+   w==;
+X-CSE-ConnectionGUID: KQZ3GJa2Ssy1Xgbch454uA==
+X-CSE-MsgGUID: IJVedGy9SgSbL4WwZZhS1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="76445951"
 X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="53761232"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 09:12:46 -0700
-X-CSE-ConnectionGUID: TJLxhh/LSmeAZJxwGZLaQQ==
-X-CSE-MsgGUID: xezOal8XSw23TuHzlyVaew==
+   d="scan'208";a="76445951"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 10:04:53 -0700
+X-CSE-ConnectionGUID: yHmlpqn6RbSp+NGGrHgjmw==
+X-CSE-MsgGUID: ScFrfyXTRqan5sEWk4EiVQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,284,1744095600"; 
-   d="scan'208";a="154776173"
+   d="scan'208";a="153834882"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 03 Jul 2025 09:12:45 -0700
+  by orviesa010.jf.intel.com with ESMTP; 03 Jul 2025 10:04:52 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXMYF-0002mV-0J;
-	Thu, 03 Jul 2025 16:12:43 +0000
-Date: Fri, 4 Jul 2025 00:12:39 +0800
+	id 1uXNMf-0002or-2H;
+	Thu, 03 Jul 2025 17:04:49 +0000
+Date: Fri, 4 Jul 2025 01:04:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lucas Eiji Uchiyama <lucaseiji54@gmail.com>,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Lucas Eiji Uchiyama <lucaseiji54@gmail.com>
-Subject: Re: [PATCH] iio: dps310.c: Remove duplication in functions
-Message-ID: <202507032329.6gxPgmu4-lkp@intel.com>
-References: <20250702233441.94203-1-lucaseiji54@gmail.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 13/13]
+ drivers/vfio/pci/vfio_pci.c:14:9: warning: 'pr_fmt' macro redefined
+Message-ID: <202507040026.dzG4coxP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250702233441.94203-1-lucaseiji54@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Lucas,
+Hi Yi,
 
-kernel test robot noticed the following build errors:
+First bad commit (maybe != root cause):
 
-[auto build test ERROR on jic23-iio/togreg]
-[also build test ERROR on linus/master v6.16-rc4 next-20250703]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Lucas-Eiji-Uchiyama/iio-dps310-c-Remove-duplication-in-functions/20250703-073628
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250702233441.94203-1-lucaseiji54%40gmail.com
-patch subject: [PATCH] iio: dps310.c: Remove duplication in functions
-config: arm64-randconfig-001-20250703 (https://download.01.org/0day-ci/archive/20250703/202507032329.6gxPgmu4-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f1a4bb62452d88a0edd9340b3ca7c9b11ad9193f)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250703/202507032329.6gxPgmu4-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   e19c0b65fe0e6ed2dcda7cb2f7c66806af85a6e6
+commit: 2eb10dcc633db289e94478ef25856a94154315c2 [13/13] vfio/pci: Use the new device life cycle helpers
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250704/202507040026.dzG4coxP-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507040026.dzG4coxP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507032329.6gxPgmu4-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507040026.dzG4coxP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/iio/pressure/dps310.c:553:47: error: too few arguments to function call, expected 3, have 2
-     553 |                         rc = dps310_set_samp_freq(data, TEMPERATURE);
-         |                              ~~~~~~~~~~~~~~~~~~~~                  ^
-   drivers/iio/pressure/dps310.c:309:12: note: 'dps310_set_samp_freq' declared here
-     309 | static int dps310_set_samp_freq(struct dps310_data *data, int freq, int mode)
-         |            ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+>> drivers/vfio/pci/vfio_pci.c:14:9: warning: 'pr_fmt' macro redefined [-Wmacro-redefined]
+      14 | #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+         |         ^
+   include/linux/printk.h:301:9: note: previous definition is here
+     301 | #define pr_fmt(fmt) fmt
+         |         ^
+   1 warning generated.
 
 
-vim +553 drivers/iio/pressure/dps310.c
+vim +/pr_fmt +14 drivers/vfio/pci/vfio_pci.c
 
-   534	
-   535	static int dps310_write_raw(struct iio_dev *iio,
-   536				    struct iio_chan_spec const *chan, int val,
-   537				    int val2, long mask)
-   538	{
-   539		int rc;
-   540		struct dps310_data *data = iio_priv(iio);
-   541	
-   542		if (mutex_lock_interruptible(&data->lock))
-   543			return -EINTR;
-   544	
-   545		switch (mask) {
-   546		case IIO_CHAN_INFO_SAMP_FREQ:
-   547			switch (chan->type) {
-   548			case IIO_PRESSURE:
-   549				rc = dps310_set_samp_freq(data, val, PRESSURE);
-   550				break;
-   551	
-   552			case IIO_TEMP:
- > 553				rc = dps310_set_samp_freq(data, TEMPERATURE);
-   554				break;
-   555	
-   556			default:
-   557				rc = -EINVAL;
-   558				break;
-   559			}
-   560			break;
-   561	
-   562		case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
-   563			switch (chan->type) {
-   564			case IIO_PRESSURE:
-   565				rc = dps310_set_precision(data, val, PRESSURE);
-   566				break;
-   567	
-   568			case IIO_TEMP:
-   569				rc = dps310_set_precision(data, val, TEMPERATURE);
-   570				break;
-   571	
-   572			default:
-   573				rc = -EINVAL;
-   574				break;
-   575			}
-   576			break;
-   577	
-   578		default:
-   579			rc = -EINVAL;
-   580			break;
-   581		}
-   582	
-   583		mutex_unlock(&data->lock);
-   584		return rc;
-   585	}
-   586	
+0f00f834ef9ed3c Max Gurtovoy 2021-08-26 @14  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+0f00f834ef9ed3c Max Gurtovoy 2021-08-26  15  
+
+:::::: The code at line 14 was first introduced by commit
+:::::: 0f00f834ef9ed3cec92cfb5da7176f15a8d52520 vfio/pci: Split the pci_driver code out of vfio_pci_core.c
+
+:::::: TO: Max Gurtovoy <mgurtovoy@nvidia.com>
+:::::: CC: 小龙 <wenqing.ly@alibaba-inc.com>
 
 -- 
 0-DAY CI Kernel Test Service
