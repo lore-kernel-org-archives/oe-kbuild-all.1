@@ -1,63 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54F1322DF9E
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 21:19:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79AF21991D2
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 22:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751663987; cv=none; b=F3ifs1GibAvDcTD2aeD71notn4mp7jarSp/eobk2wMVAg1z6ie5fGbxp1hqHR3NoVUMR3v8DogvhVYgZ5T5ZwLHh9kK0yQQ8lYD+Z+qDG7Ef5rAGD4VHrfiyfxyjCn8a+y429lrkt8ln2Us9gYlONa5p7Q/uzJay7uBs3EmkYM4=
+	t=1751668311; cv=none; b=VILUUumIxxYvMUSkPNXn7Tpw/2aazLYzlBV5QOBOvh6lg5QBIpKRr2UDuzdcMKUl/LCBhB0x1yFy1S4oGW7s5GWc+7jDHlTjG6B/idEv5Z7yKIkQyNU/5inI9HPWEFCi8+xGMON56O/dHhJdwFWP2B3T/Ottsjqiq9Bz/e61jZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751663987; c=relaxed/simple;
-	bh=DQL5r67Qu/34vn2qT6B5dU9fn3aC9sM/wv7oTD4DDII=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q0Pf0u6MRcsAUcjyOKf8o1eZo60NWfIwHVhXdhuobPBpZcCb2oweTOJ/Pb1Uh4tdA7gpxdyksytJW5WOOhCE5bG8xXFFXrCOJob5+xADGfyaJqlRhkMqc/taOwA1f03krlef5yxhYjnP139iDErGACWkW5bLsqTymAHD2FidfeA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FCl+wowr; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1751668311; c=relaxed/simple;
+	bh=PxYBPboDRasXzW6Hx07ve0Ia+g8XeliZMeZoLQ9Ie7w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Dk+axAqjxxg3zyXp5N2yiaYp427UrkZgzE+/Dph40gMw0LZBX4te3OTdZw82+M+I/ihKiMh65vWyfVMHXncxQLr3cCQGy3vk3e8ZN6kYqkX4Yaj02jk5YH+4qZmQ09VCgdcgf05CbFE2rvJcyTSUwgFVnn8VQDLCkLA9ice2NTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RzHoH0Vu; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FCl+wowr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RzHoH0Vu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751663985; x=1783199985;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DQL5r67Qu/34vn2qT6B5dU9fn3aC9sM/wv7oTD4DDII=;
-  b=FCl+wowrd9dSSrQ5G9O3SboEu5CVAUyLVtPc+qFzp69npg/tKnZ27woy
-   eBfogt6eNwoaUJd/RIZY5vrjFEmMdIpL3QqAjHcGnN4nAM55gz17um+3i
-   bZryFjaDat3V2KpJfjXSreK141Y1JWgYB2QPmZoFWWo6KxIrLdN5hWcbq
-   z81Et6bf+cnVwA8xfHRv3ajBFw3R6g/UGaqPwF6hDt1X+033+ch9uD+Yr
-   RWF8KkL1m5IHw+aIO7J51XtBVN+il8mw3L7AuNxIljPAW21toMuDvp8PK
-   8a01QUwOylWq13So+iiXFDd00Q1+sv0CZ2rpGwRriJGFYBQTe2RKVkr0Z
-   A==;
-X-CSE-ConnectionGUID: DkYZ2aYMTYyDmvpqf+D6wg==
-X-CSE-MsgGUID: XOGrJOxlTfS4MLBSlEaRpQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="65444664"
+  t=1751668310; x=1783204310;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PxYBPboDRasXzW6Hx07ve0Ia+g8XeliZMeZoLQ9Ie7w=;
+  b=RzHoH0VuEpXT2VB4CxAjJ5rVFdp4HMbizPAP0GuuraXd9vSjwwX7SYNa
+   IZKVaQ+nRiQjKURmwTJ13YOnFvcRZuXfw9gwzVbyQju8Ih7bVWuoxIeqA
+   2bEjRmARAtP1+moyx2oBJTAbC2whPXXhW+ClCsGVkzTR6bN1SLG7Haw3g
+   qq3MZmtgY/9Md+9pIpcAW62SZHl2v2ejLRxnGJVuPlokcJDqv+NPIkPik
+   hadJ0tPNW1MPdNIKQ1TYchuh9237Gic2TkXIfCfEtq6KRsxcjq50UMrJ4
+   INKPYILmPrMERGrgbJVGUzSsb9YUw2BGikwtiE1p5h5SNW/6wQzRqinHX
+   w==;
+X-CSE-ConnectionGUID: EBFznxPkS0SoWhG63ydJ8A==
+X-CSE-MsgGUID: eUy+9yPLQXavvg7cK3+xAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="53214354"
 X-IronPort-AV: E=Sophos;i="6.16,288,1744095600"; 
-   d="scan'208";a="65444664"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 14:19:44 -0700
-X-CSE-ConnectionGUID: dWI3YPAcRp+t0kOr0cMeOg==
-X-CSE-MsgGUID: l41/JSsfSMeigNYlw4sxeA==
+   d="scan'208";a="53214354"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 15:31:49 -0700
+X-CSE-ConnectionGUID: jyE4BRSUSBmistWw+Nt/Bw==
+X-CSE-MsgGUID: HnvsKqZgQlaT/ONBnsWL7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,288,1744095600"; 
-   d="scan'208";a="159265596"
+   d="scan'208";a="154810538"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 04 Jul 2025 14:19:41 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 04 Jul 2025 15:31:47 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXnop-000459-15;
-	Fri, 04 Jul 2025 21:19:39 +0000
-Date: Sat, 5 Jul 2025 05:19:34 +0800
+	id 1uXowb-00047T-1k;
+	Fri, 04 Jul 2025 22:31:45 +0000
+Date: Sat, 5 Jul 2025 06:31:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: lizhe.67@bytedance.com, alex.williamson@redhat.com,
-	akpm@linux-foundation.org, david@redhat.com, peterx@redhat.com,
-	jgg@ziepe.ca
-Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	lizhe.67@bytedance.com
-Subject: Re: [PATCH v2 1/5] mm: introduce num_pages_contiguous()
-Message-ID: <202507050529.EoMuEtd8-lkp@intel.com>
-References: <20250704062602.33500-2-lizhe.67@bytedance.com>
+To: Alex Markuze <amarkuze@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
+Subject: [ceph-client:binary_tracing 2/4] net/ceph/ceph_san_logger.c:508:21:
+ sparse: sparse: incorrect type in initializer (different address spaces)
+Message-ID: <202507050653.f2vZWkeo-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,98 +61,148 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250704062602.33500-2-lizhe.67@bytedance.com>
 
-Hi,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on awilliam-vfio/next]
-[also build test ERROR on awilliam-vfio/for-linus akpm-mm/mm-everything linus/master v6.16-rc4 next-20250704]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/lizhe-67-bytedance-com/mm-introduce-num_pages_contiguous/20250704-142948
-base:   https://github.com/awilliam/linux-vfio.git next
-patch link:    https://lore.kernel.org/r/20250704062602.33500-2-lizhe.67%40bytedance.com
-patch subject: [PATCH v2 1/5] mm: introduce num_pages_contiguous()
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250705/202507050529.EoMuEtd8-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250705/202507050529.EoMuEtd8-lkp@intel.com/reproduce)
+tree:   https://github.com/ceph/ceph-client.git binary_tracing
+head:   242b3aa593381c5ed2f425dbfb145bf7ca42e1fc
+commit: 8a1cb95e58001067ea33908f1762ca31d6f93b69 [2/4] ceph_san code
+config: x86_64-randconfig-r122-20250704 (https://download.01.org/0day-ci/archive/20250705/202507050653.f2vZWkeo-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250705/202507050653.f2vZWkeo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507050529.EoMuEtd8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507050653.f2vZWkeo-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> net/ceph/ceph_san_logger.c:508:21: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct ceph_san_tls_ctx [noderef] __percpu ** @@
+   net/ceph/ceph_san_logger.c:508:21: sparse:     expected void const [noderef] __percpu *__vpp_verify
+   net/ceph/ceph_san_logger.c:508:21: sparse:     got struct ceph_san_tls_ctx [noderef] __percpu **
+>> net/ceph/ceph_san_logger.c:508:55: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   net/ceph/ceph_san_logger.c:508:55: sparse:    struct ceph_san_tls_ctx [noderef] __percpu *
+   net/ceph/ceph_san_logger.c:508:55: sparse:    struct ceph_san_tls_ctx *
+   net/ceph/ceph_san_logger.c:567:36: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct ceph_san_tls_ctx [noderef] __percpu ** @@
+>> net/ceph/ceph_san_logger.c:567:36: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct ceph_san_tls_ctx *ctx @@     got struct ceph_san_tls_ctx [noderef] __percpu *[assigned] pscr_ret__ @@
+   net/ceph/ceph_san_logger.c:572:13: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct ceph_san_tls_ctx [noderef] __percpu ** @@
+   net/ceph/ceph_san_logger.c:589:5: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected void const [noderef] __percpu *__vpp_verify @@     got struct ceph_san_tls_ctx [noderef] __percpu ** @@
+>> net/ceph/ceph_san_logger.c:589:5: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ceph_san_tls_ctx [noderef] __percpu *pto_tmp__ @@     got struct ceph_san_tls_ctx *ctx @@
+>> net/ceph/ceph_san_logger.c:589:5: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ceph_san_tls_ctx [noderef] __percpu *pto_tmp__ @@     got struct ceph_san_tls_ctx *ctx @@
+>> net/ceph/ceph_san_logger.c:589:5: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ceph_san_tls_ctx [noderef] __percpu *pto_tmp__ @@     got struct ceph_san_tls_ctx *ctx @@
+>> net/ceph/ceph_san_logger.c:589:5: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct ceph_san_tls_ctx [noderef] __percpu *pto_tmp__ @@     got struct ceph_san_tls_ctx *ctx @@
 
-   In file included from arch/sh/include/asm/page.h:160,
-                    from arch/sh/include/asm/thread_info.h:13,
-                    from include/linux/thread_info.h:60,
-                    from include/asm-generic/preempt.h:5,
-                    from ./arch/sh/include/generated/asm/preempt.h:1,
-                    from include/linux/preempt.h:79,
-                    from include/linux/spinlock.h:56,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/mm.h:7,
-                    from arch/sh/kernel/asm-offsets.c:14:
-   include/linux/mm.h: In function 'num_pages_contiguous':
->> include/asm-generic/memory_model.h:48:21: error: implicit declaration of function 'page_to_section'; did you mean 'present_section'? [-Wimplicit-function-declaration]
-      48 |         int __sec = page_to_section(__pg);                      \
-         |                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:32: note: in definition of macro '__pfn_to_page'
-      53 | ({      unsigned long __pfn = (pfn);                    \
-         |                                ^~~
-   include/asm-generic/memory_model.h:65:21: note: in expansion of macro '__page_to_pfn'
-      65 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:200:38: note: in expansion of macro 'page_to_pfn'
-     200 | #define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
-         |                                      ^~~~~~~~~~~
-   include/linux/mm.h:221:33: note: in expansion of macro 'nth_page'
-     221 |                 if (pages[i] != nth_page(first_page, i))
-         |                                 ^~~~~~~~
-   include/linux/mm.h: At top level:
->> include/linux/mm.h:2002:29: error: conflicting types for 'page_to_section'; have 'long unsigned int(const struct page *)'
-    2002 | static inline unsigned long page_to_section(const struct page *page)
-         |                             ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:48:21: note: previous implicit declaration of 'page_to_section' with type 'int()'
-      48 |         int __sec = page_to_section(__pg);                      \
-         |                     ^~~~~~~~~~~~~~~
-   include/asm-generic/memory_model.h:53:32: note: in definition of macro '__pfn_to_page'
-      53 | ({      unsigned long __pfn = (pfn);                    \
-         |                                ^~~
-   include/asm-generic/memory_model.h:65:21: note: in expansion of macro '__page_to_pfn'
-      65 | #define page_to_pfn __page_to_pfn
-         |                     ^~~~~~~~~~~~~
-   include/linux/mm.h:200:38: note: in expansion of macro 'page_to_pfn'
-     200 | #define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
-         |                                      ^~~~~~~~~~~
-   include/linux/mm.h:221:33: note: in expansion of macro 'nth_page'
-     221 |                 if (pages[i] != nth_page(first_page, i))
-         |                                 ^~~~~~~~
-   make[3]: *** [scripts/Makefile.build:98: arch/sh/kernel/asm-offsets.s] Error 1
-   make[3]: Target 'prepare' not remade because of errors.
-   make[2]: *** [Makefile:1274: prepare0] Error 2
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2
-   make: Target 'prepare' not remade because of errors.
+vim +508 net/ceph/ceph_san_logger.c
 
-
-vim +2002 include/linux/mm.h
-
-bf4e8902ee5080 Daniel Kiper      2011-05-24  2001  
-aa462abe8aaf21 Ian Campbell      2011-08-17 @2002  static inline unsigned long page_to_section(const struct page *page)
-d41dee369bff3b Andy Whitcroft    2005-06-23  2003  {
-d41dee369bff3b Andy Whitcroft    2005-06-23  2004  	return (page->flags >> SECTIONS_PGSHIFT) & SECTIONS_MASK;
-d41dee369bff3b Andy Whitcroft    2005-06-23  2005  }
-308c05e35e3517 Christoph Lameter 2008-04-28  2006  #endif
-d41dee369bff3b Andy Whitcroft    2005-06-23  2007  
+   482	
+   483	    while (entry == NULL) {
+   484	        ctx = ceph_san_get_ctx();
+   485	        if (!ctx) {
+   486	            pr_err("Failed to get TLS context\n");
+   487	            return NULL;
+   488	        }
+   489	        if (!is_valid_kernel_addr(ctx)) {
+   490	            pr_err("ceph_san_log: invalid TLS context address: %pK\n", ctx);
+   491	            return NULL;
+   492	        }
+   493	        if (unlikely(retry_count)) {
+   494	            pr_debug("[%d]Retrying allocation with ctx %llu (%s, pid %d) (retry %d, needed_size=%zu @ %d)\n",
+   495	                     smp_processor_id(), ctx->id, ctx->comm, ctx->pid, retry_count, needed_size, source_id);
+   496	        }
+   497	
+   498	        alloc = cephsan_pagefrag_alloc(&ctx->pf, needed_size);
+   499	        if (alloc == (u64)-ENOMEM) {
+   500	            pr_debug("[%d]ceph_san_log: pagefrag full for ctx %llu (%s, pid %d), refcount=%d. Alloc failed (retry=%d): pf head=%u active_elements=%d alloc_count=%u, needed_size=%zu, pagefrag_size=%u\n",
+   501	                   smp_processor_id(),
+   502	                   ctx->id, ctx->comm, ctx->pid, atomic_read(&ctx->refcount), retry_count, ctx->pf.head,
+   503	                   ctx->pf.active_elements, ctx->pf.alloc_count,
+   504	                   needed_size, CEPHSAN_PAGEFRAG_SIZE);
+   505	
+   506	            /* Invalidate the correct active context slot before releasing and retrying */
+   507	            if (in_serving_softirq()) {
+ > 508	                if (this_cpu_read(g_logger.napi_ctxs) == ctx) {
+   509	                    pr_debug("[%d]ceph_san_log: Clearing NAPI slot for ctx %llu (CPU %d) due to ENOMEM.\n", smp_processor_id(), ctx->id, smp_processor_id());
+   510	                    this_cpu_write(g_logger.napi_ctxs, NULL);
+   511	                } else {
+   512	                    pr_warn("[%d]ceph_san_log: ENOMEM for ctx %llu (%s, pid %d) in softirq, but it wasn't in current CPU's NAPI slot. NAPI slot holds %p. Refcount: %d.\n",
+   513	                            smp_processor_id(), ctx->id, ctx->comm, ctx->pid, this_cpu_read(g_logger.napi_ctxs), atomic_read(&ctx->refcount));
+   514	                }
+   515	            } else {
+   516	                if (current->tls_ctx == (void *)&ctx->release) {
+   517	                    pr_debug("[%d]ceph_san_log: Clearing current->tls_ctx for TLS ctx %llu due to ENOMEM.\n", smp_processor_id(), ctx->id);
+   518	                    current->tls_ctx = NULL;
+   519	                } else {
+   520	                    pr_warn("[%d]ceph_san_log: ENOMEM for ctx %llu (%s, pid %d) not in softirq, but it wasn't current->tls_ctx. current->tls_ctx is %p. Refcount: %d.\n",
+   521	                            smp_processor_id(), ctx->id, ctx->comm, ctx->pid, current->tls_ctx, atomic_read(&ctx->refcount));
+   522	                }
+   523	            }
+   524	
+   525	            ++retry_count;
+   526	            ceph_san_tls_release(ctx); /* This decrements refcount, ctx may be reused or freed */
+   527	            entry = NULL; /* Ensure we loop to get a new context */
+   528	            continue;
+   529	        }
+   530	        //TODO:: remove this shit alloc should return a ptr
+   531	        entry = cephsan_pagefrag_get_ptr(&ctx->pf, alloc);
+   532	        if (unlikely(!is_valid_kernel_addr(entry))) {
+   533	            pr_debug("[%d]ceph_san_log: invalid log entry pointer: %llx from ctx %llu (%s, pid %d)\n",
+   534	                     smp_processor_id(), (unsigned long long)entry, ctx->id, ctx->comm, ctx->pid);
+   535	            ceph_san_tls_release(ctx); /* Release the context as we can't use the entry */
+   536	            entry = NULL; /* force retry to get a new context and page */
+   537	            continue;
+   538	        }
+   539	        if (unlikely(retry_count)) {
+   540	            pr_debug("[%d]Successfully allocated with ctx %llu (%s, pid %d) after %d retries (needed_size=%zu @ %d)\n",
+   541	                     smp_processor_id(), ctx->id, ctx->comm, ctx->pid, retry_count, needed_size, source_id);
+   542	        }
+   543	    }
+   544	
+   545	    /* Update last_entry pointer */
+   546	    ctx->pf.last_entry = entry;
+   547	
+   548	    /* Fill in entry details */
+   549	#if CEPH_SAN_DEBUG_POISON
+   550	    entry->debug_poison = CEPH_SAN_LOG_ENTRY_POISON;
+   551	#endif
+   552	    entry->ts_delta = (u32)(jiffies - ctx->base_jiffies);
+   553	    entry->source_id = (u16)source_id;
+   554	    entry->client_id = (u8)client_id;
+   555	    entry->len = (u8)needed_size;
+   556	    return entry->buffer;
+   557	}
+   558	EXPORT_SYMBOL(ceph_san_log);
+   559	
+   560	/**
+   561	 * ceph_san_get_napi_ctx - Get NAPI context for current CPU
+   562	 *
+   563	 * Returns pointer to NAPI context or NULL if not set
+   564	 */
+   565	struct ceph_san_tls_ctx *ceph_san_get_napi_ctx(void)
+   566	{
+ > 567	    struct ceph_san_tls_ctx *ctx = this_cpu_read(g_logger.napi_ctxs);
+   568	
+   569	    if (ctx) {
+   570	        if (!is_valid_active_ctx(ctx, "NAPI")) {
+   571	            pr_err("BUG: Invalid NAPI context found for CPU %d, clearing.\n", smp_processor_id());
+   572	            this_cpu_write(g_logger.napi_ctxs, NULL);
+   573	            return NULL;
+   574	        }
+   575	    }
+   576	    return ctx;
+   577	}
+   578	EXPORT_SYMBOL(ceph_san_get_napi_ctx);
+   579	
+   580	/**
+   581	 * ceph_san_set_napi_ctx - Set NAPI context for current CPU
+   582	 * @ctx: Context to set
+   583	 */
+   584	void ceph_san_set_napi_ctx(struct ceph_san_tls_ctx *ctx)
+   585	{
+   586	    if (ctx && !is_valid_active_ctx(ctx, "New NAPI being set")) {
+   587	        BUG(); /* Context should be valid and refcount 1 before being set */
+   588	    }
+ > 589	    this_cpu_write(g_logger.napi_ctxs, ctx);
+   590	}
+   591	EXPORT_SYMBOL(ceph_san_set_napi_ctx);
+   592	
 
 -- 
 0-DAY CI Kernel Test Service
