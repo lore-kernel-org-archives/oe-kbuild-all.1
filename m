@@ -1,113 +1,180 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F272C3265
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 11:55:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02EE21DDC1B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 12:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751630151; cv=none; b=iSOaTNipsElM10wuqB1YNdLABH5eFBZHUumFo7VycGDYmJ1ge12V5AMKic3jIwlJIlRgNPWvrkPF/oyLqMFZWNScq/KxFDbEuV3Nl02mcw+6rgshlUhatCjEXINGxlpuzQESSgNbBS9AKqM7daGG9a/lyaXZsgYlV6izWgOVTYU=
+	t=1751630532; cv=none; b=kU51yPhfOJnh7qwExHQEUn6s1v+A+x0TWZ/3xdwTENiy5jgNJJC6XLJdppX8e3Gy6wu4hDVI8NvFqtEetkc74aJloaX2Nz1di/4c3XNGDDhtzP5NbOOeKHNiieYyjS4M+GrbGnzYleGLb/24Jqyt+wovsrBkszmTQtJqf6grahI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751630151; c=relaxed/simple;
-	bh=Xmy7q3NVSgh8uO9N856HZBsWMg9T8BiaUlKDGm3xUiQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XcsQ6pgw2pId3q77KPxI72AhsRdz3EURtWSEaj/r/vvamNP5Sx4/sPkckKHiF43LwE/Tu9ha3T/jvPwjFawS7emwnAaW383dhHIdYNdVmTNj3NIYcs5R3hTxX5jU1eSrIJMa2MxqS1gdygDO9vV3shuPDG4mvl1LDOEmu2jfIT0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LwY037d4; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751630532; c=relaxed/simple;
+	bh=VyVXvW0GJCusfg2t/Z3AbgPKYnBY/yqNTPJqxs/sjSo=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=CTRSa6bgnnMbPYI/Ol4W9qAjJoGR18iPWGJFmh3QFd2stXvfcgJAGMNcW4wfZoCffZigmrVrWPlZoF/ImP50PanYTitSBhUDn+D1gVNq0XkgfL4UtCaghnFbQsjgiqA/Rv0GO1zhgUqTtvGue3nSDCzrvLFRnUmvhGNAzNR6vB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=LxGjtFFI; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ea49YdsV; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=D5G/4eWo; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=Ze7jQaz/; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LwY037d4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751630149; x=1783166149;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Xmy7q3NVSgh8uO9N856HZBsWMg9T8BiaUlKDGm3xUiQ=;
-  b=LwY037d4XJMenfnERu7Lh0yHr3VNDXsBKEF+NvhOgLu3KlA5BFynWH8O
-   5N/msXHEphHX7JaYEg+3y4BE8EoQBmvOFuxnFS4RffnZ5jbUDomPPgrwe
-   PnMXvz6yopiHLgKTQr74++bf1Kul30CKz4d06lx4YaY6mnEjdGuP1+e84
-   K+lEp57uognNWu+rnMMXOTLPE7ua4QPalHd7DkAc0kDukaHtXhLnJcKJR
-   oM3tiffEaducX0SHxQhivRuZsP0a2FVrgm77e90oZS8WXUpX9+Yg1C2E1
-   bl7SRDieaN7tafAdivGtJnMtP+Lq6idKOrLlOFochVCHSmiI/KanUQzsn
-   w==;
-X-CSE-ConnectionGUID: 7MPy1aDPSaqnQK7NcCw+Ng==
-X-CSE-MsgGUID: fYmwmrC6TLK60DPTfJu78A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="79404687"
-X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="79404687"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 04:55:49 -0700
-X-CSE-ConnectionGUID: h3d1krEoRkWCaF0DpnlAkg==
-X-CSE-MsgGUID: AXHSdGV9TfqLq0Whrun0ew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="185644638"
-Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 04 Jul 2025 04:55:46 -0700
-Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uXf16-0003fL-1Z;
-	Fri, 04 Jul 2025 11:55:44 +0000
-Date: Fri, 4 Jul 2025 19:55:07 +0800
-From: kernel test robot <lkp@intel.com>
-To: Matt Johnston <matt@codeconstruct.com.au>,
-	Jeremy Kerr <jk@codeconstruct.com.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Matt Johnston <matt@codeconstruct.com.au>
-Subject: Re: [PATCH net-next 3/7] net: mctp: Add test for conflicting bind()s
-Message-ID: <202507041923.SYifiPF1-lkp@intel.com>
-References: <20250703-mctp-bind-v1-3-bb7e97c24613@codeconstruct.com.au>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="LxGjtFFI";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ea49YdsV";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="D5G/4eWo";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="Ze7jQaz/"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 1CBBB1F458;
+	Fri,  4 Jul 2025 12:02:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1751630528; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ksO2cKP2xTep54j9rlHzxwNG5XzdhWH3z3gduU+w4VI=;
+	b=LxGjtFFIWAdlwosTNr293wu7lP1Yt1pWNNUcSsbuGNxMfqhkUSKPsRHGTszi203GNtv1qL
+	p3DJFxpU44aqNkuIr2fh2U1iXa+dxjyWuAnAWiwJVqtf2HFcLVQxEhlMmyIoyKPmA+UXc7
+	PFG4sZXZqpPe45we9+ZwJL9TaxQp/Cg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1751630528;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ksO2cKP2xTep54j9rlHzxwNG5XzdhWH3z3gduU+w4VI=;
+	b=ea49YdsVb06RUVKqRd8LlV9yOZf1Z9MqNXDoQLczOhkspNLgTNCCQjqwdTM0V+0/EZkZwa
+	+LD0Tz2zKUHi0TBg==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="D5G/4eWo";
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="Ze7jQaz/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1751630527; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ksO2cKP2xTep54j9rlHzxwNG5XzdhWH3z3gduU+w4VI=;
+	b=D5G/4eWo9uIr0vKJzMwVf04JoMmj1G7zH1Ot9veBWHTTdD6OaSl4ENWGorT550zHhaK16Q
+	wtdli/A8/i78T0ow+ueKvlFSRJXxjmsjgVvut2s/EttbixHGYMBJNXJuIiMR6iuY+oeUN/
+	1J+A4AYqPXr/LrAxWVNcJSplRJXlX6U=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1751630527;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ksO2cKP2xTep54j9rlHzxwNG5XzdhWH3z3gduU+w4VI=;
+	b=Ze7jQaz/CvjvkdV2ev6SxePcut4vrzM5ORLNE2DZhlMTrpNQBAS/hADrw0rPC06L+qC6nk
+	YmzjjhSLP/6JQXCw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C9DC713A71;
+	Fri,  4 Jul 2025 12:02:06 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xZwaML7CZ2hoTQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Fri, 04 Jul 2025 12:02:06 +0000
+Date: Fri, 04 Jul 2025 14:02:06 +0200
+Message-ID: <87ms9knozl.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: patches@opensource.cirrus.com
+Cc: GalaxySnail <me@glxys.nl>,
+    simont@opensource.cirrus.com,
+    david.rhodes@cirrus.com,
+    linux-kernel@vger.kernel.org,
+    linux-sound@vger.kernel.org,
+    lkp@intel.com,
+    oe-kbuild-all@lists.linux.dev,
+    perex@perex.cz,
+    rf@opensource.cirrus.com,
+    tiwai@suse.com
+Subject: Re: [PATCH v3] ALSA: hda: add MODULE_FIRMWARE for cs35l41/cs35l56
+In-Reply-To: <20250624101716.2365302-2-me@glxys.nl>
+References: <002901dbe4ef$57d0cce0$077266a0$@opensource.cirrus.com>
+	<20250624101716.2365302-2-me@glxys.nl>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250703-mctp-bind-v1-3-bb7e97c24613@codeconstruct.com.au>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-3.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from,2a07:de40:b281:106:10:150:64:167:received];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[glxys.nl:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:mid,suse.de:dkim];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Rspamd-Queue-Id: 1CBBB1F458
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -3.51
 
-Hi Matt,
+On Tue, 24 Jun 2025 12:17:17 +0200,
+GalaxySnail wrote:
+> 
+> add firmware information in the .modinfo section, so that userspace
+> tools can find out firmware required by cs35l41/cs35l56 kernel module
+> 
+> Signed-off-by: GalaxySnail <me@glxys.nl>
+> ---
+> Thanks for your review!
+> 
+> v2 -> v3: fixed typo
+> v1 -> v2: fixed missing ';' in the previous patch
 
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 8b98f34ce1d8c520403362cb785231f9898eb3ff]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matt-Johnston/net-mctp-Prevent-duplicate-binds/20250703-171427
-base:   8b98f34ce1d8c520403362cb785231f9898eb3ff
-patch link:    https://lore.kernel.org/r/20250703-mctp-bind-v1-3-bb7e97c24613%40codeconstruct.com.au
-patch subject: [PATCH net-next 3/7] net: mctp: Add test for conflicting bind()s
-config: sparc-randconfig-001-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041923.SYifiPF1-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041923.SYifiPF1-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507041923.SYifiPF1-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from net/mctp/route.c:1538:
->> net/mctp/test/route-test.c:1254:65: warning: 'type1' defined but not used [-Wunused-const-variable=]
-    1254 | static const struct mctp_test_bind_setup bind_addr8_netdefault, type1 = {
-         |                                                                 ^~~~~
->> net/mctp/test/route-test.c:1254:42: warning: 'bind_addr8_netdefault' defined but not used [-Wunused-const-variable=]
-    1254 | static const struct mctp_test_bind_setup bind_addr8_netdefault, type1 = {
-         |                                          ^~~~~~~~~~~~~~~~~~~~~
+Cirrus people, can you review this before I merge?
 
 
-vim +/type1 +1254 net/mctp/test/route-test.c
+thanks,
 
-  1253	
-> 1254	static const struct mctp_test_bind_setup bind_addr8_netdefault, type1 = {
-  1255		.bind_addr = 8, .bind_net = MCTP_NET_ANY, .bind_type = 1,
-  1256	};
-  1257	
+Takashi
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+>  sound/pci/hda/cs35l41_hda.c | 2 ++
+>  sound/pci/hda/cs35l56_hda.c | 4 ++++
+>  2 files changed, 6 insertions(+)
+> 
+> diff --git a/sound/pci/hda/cs35l41_hda.c b/sound/pci/hda/cs35l41_hda.c
+> index d5bc81099d0d..17cdce91fdbf 100644
+> --- a/sound/pci/hda/cs35l41_hda.c
+> +++ b/sound/pci/hda/cs35l41_hda.c
+> @@ -2085,3 +2085,5 @@ MODULE_IMPORT_NS("SND_SOC_CS_AMP_LIB");
+>  MODULE_AUTHOR("Lucas Tanure, Cirrus Logic Inc, <tanureal@opensource.cirrus.com>");
+>  MODULE_LICENSE("GPL");
+>  MODULE_IMPORT_NS("FW_CS_DSP");
+> +MODULE_FIRMWARE("cirrus/cs35l41-*.wmfw");
+> +MODULE_FIRMWARE("cirrus/cs35l41-*.bin");
+> diff --git a/sound/pci/hda/cs35l56_hda.c b/sound/pci/hda/cs35l56_hda.c
+> index 3f2fd32f4ad9..eedd8fdd3b8b 100644
+> --- a/sound/pci/hda/cs35l56_hda.c
+> +++ b/sound/pci/hda/cs35l56_hda.c
+> @@ -1122,3 +1122,7 @@ MODULE_IMPORT_NS("SND_SOC_CS_AMP_LIB");
+>  MODULE_AUTHOR("Richard Fitzgerald <rf@opensource.cirrus.com>");
+>  MODULE_AUTHOR("Simon Trimmer <simont@opensource.cirrus.com>");
+>  MODULE_LICENSE("GPL");
+> +MODULE_FIRMWARE("cirrus/cs35l54-*.wmfw");
+> +MODULE_FIRMWARE("cirrus/cs35l54-*.bin");
+> +MODULE_FIRMWARE("cirrus/cs35l56-*.wmfw");
+> +MODULE_FIRMWARE("cirrus/cs35l56-*.bin");
+> -- 
+> 2.50.0
+> 
