@@ -1,66 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8386239E90
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 11:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B811DF991;
+	Fri,  4 Jul 2025 11:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751626966; cv=none; b=OWCrk7FkZ+h9tHjrYz09uEH+Ss9+6VmiurABfRXxgxKNvEboDYwc+PWLTbD8srSYFcxvBQYCxHqHDSfp6RfwlWsjjJ2eG8eeTkposrBT/rlONdnLxu0oOp2YD5wVp++bxR3lKnb+KZ36HsmHdlV4ftDI/jGPi/8pyWT1SWLiHfo=
+	t=1751629488; cv=none; b=pCLnIcDXtwUoiC0gg8BNP80Z5cJlYafLJ1EKpFYXb3UNI5A0h2Wl7mKYJ/5bNylGl6FU9Pb9UIPqlIU6qgbR1nTw4Q8aXaJa4FkMJ3mfN+CsEIFw7PP5DRV+GAg+gcAvXtrtCICkLXorVWmnAAjX80wi7/z+VDC2U0NWA0SyerE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751626966; c=relaxed/simple;
-	bh=RPGK3rzN/jti3M3Bwfulr/BzvLaYn9tJQuNbxRwcnb4=;
+	s=arc-20240116; t=1751629488; c=relaxed/simple;
+	bh=CJ8JIKbXJfPK6rmC466QKL4s4DqqoD3hSTlHy6aEudg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h4AXGudIpc3+62lnLSXJNhQTH/4Y54uvA+VfAlKwugI9B+q/zKrqFh7M+C0A/xN1tz9iSkesHKLaYC9ipQdXfk5YDbODkUXRAnXtz38MOMQZq8Plnra8iVL9zQTofLREBoFsZUYMVlcbg0fst8wmUX9XHLxymuxh6beBR+iLSbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ifZHHvcR; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=mXcnmuemEIiDhH6W3Nvtttci+avHAzgdCG86LwuUqN+EZEnvl9jubLU3JVBBrAwjoddKBhPAe1Osc5WqFxZrk0gfrEK9ZWoONS3a76a6mS1TjtK/dB8LnvP/uMjpZOI2ViDm+7RCSDmErk2xKNTCPlzV/lEmleNBZ72RrJJw8mA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LrLh+D/J; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ifZHHvcR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LrLh+D/J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751626965; x=1783162965;
+  t=1751629487; x=1783165487;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=RPGK3rzN/jti3M3Bwfulr/BzvLaYn9tJQuNbxRwcnb4=;
-  b=ifZHHvcRtrUSCDXEZtwb4VqkZDv3fA5/tMt44prWnZVUy34/HO9WB5aA
-   5uRVFrCsgQ5QF9EOoV6HxEMrtXy29tF6A4eFWWlb4vKVt2LiYGj/u9my7
-   /pY7pkn2j2ON3WBmzdFXcMVKvyqYUUnLPnuJjN7VRa2SoqWcOjhV8U9Ry
-   dwYiQl/FNhcXX5x/zePgMzLeodS3OqDV3VPaOiwFX+rOLT+VsmL/VNsH6
-   YMhntlL9z8ewmZFJXN/zbkkSp9W4WR/G7aYSStr597SpFMbzTAniB7w2i
-   jI5sQYKBY98WPm5jc+Y8zg7xghuQOskdGxdvl+QGMtCg65uWSc+eEMNEo
+  bh=CJ8JIKbXJfPK6rmC466QKL4s4DqqoD3hSTlHy6aEudg=;
+  b=LrLh+D/JdYAnSUNje75mAsOvJJ2AudIUvdaEZ9zagCmnVJ0d8Ru58IU5
+   qhyPDq4QEU1iBATvxQipkniUeMoPdF92jYFuMnCeIvkumwz89ja6oYu1q
+   CjBJ2NaHf6ARqVMkSnxwNbfT4PYw8KZ3u/mqoV1LHww51PifAFZ4Rvtco
+   5+DiJmxILUskoM+Pi2p5JBGJH8LOoB2XqK/qrRf291SXL962F2dMgbAvL
+   3c79RxohVTLCyHpOEJMr+tssQnbmeFzd9GBaNLFfdmVpW1Ik1W/pZVM1W
+   wGv+PeXeB1KucE1rL5DCjkMEHAlaro9Eage3gnUIEAtVmmKdkaaY5JlTI
    Q==;
-X-CSE-ConnectionGUID: hxXnHQnqRfOubHQ8asFsmg==
-X-CSE-MsgGUID: 2I4GA0mZQQ+z35gy1glVqw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="76508701"
+X-CSE-ConnectionGUID: lHfNF0ZVSjKrOt/ZI5csfw==
+X-CSE-MsgGUID: v01e9AbdQ4Wy/mvvusKEow==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="79404126"
 X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="76508701"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 04:02:44 -0700
-X-CSE-ConnectionGUID: A8nMu1HmRX+OjxIzdAW2eA==
-X-CSE-MsgGUID: uFhlsTEiTb6D3ohepmnCJQ==
+   d="scan'208";a="79404126"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 04:44:46 -0700
+X-CSE-ConnectionGUID: 29o8eOgkS1W9fZWzbyADXQ==
+X-CSE-MsgGUID: qYoPXODjQXCg2XfKGJjnqg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="154260168"
+   d="scan'208";a="154709737"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 04 Jul 2025 04:02:42 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 04 Jul 2025 04:44:45 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXeBj-0003d1-2t;
-	Fri, 04 Jul 2025 11:02:39 +0000
-Date: Fri, 4 Jul 2025 19:01:46 +0800
+	id 1uXeqR-0003en-1L;
+	Fri, 04 Jul 2025 11:44:43 +0000
+Date: Fri, 4 Jul 2025 19:44:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Matt Johnston <matt@codeconstruct.com.au>,
-	Jeremy Kerr <jk@codeconstruct.com.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Matt Johnston <matt@codeconstruct.com.au>
-Subject: Re: [PATCH net-next 6/7] net: mctp: Test conflicts of connect() with
- bind()
-Message-ID: <202507041803.6bndMcXn-lkp@intel.com>
-References: <20250703-mctp-bind-v1-6-bb7e97c24613@codeconstruct.com.au>
+To: "David E. Box" <david.e.box@linux.intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH V3 15/15] platform/x86/intel/pmt: KUNIT test for PMT
+ Enhanced Discovery API
+Message-ID: <202507041955.XHNndERv-lkp@intel.com>
+References: <20250703022832.1302928-16-david.e.box@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,150 +63,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250703-mctp-bind-v1-6-bb7e97c24613@codeconstruct.com.au>
+In-Reply-To: <20250703022832.1302928-16-david.e.box@linux.intel.com>
 
-Hi Matt,
+Hi David,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on 8b98f34ce1d8c520403362cb785231f9898eb3ff]
+[auto build test WARNING on d0b3b7b22dfa1f4b515fd3a295b3fd958f9e81af]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Matt-Johnston/net-mctp-Prevent-duplicate-binds/20250703-171427
-base:   8b98f34ce1d8c520403362cb785231f9898eb3ff
-patch link:    https://lore.kernel.org/r/20250703-mctp-bind-v1-6-bb7e97c24613%40codeconstruct.com.au
-patch subject: [PATCH net-next 6/7] net: mctp: Test conflicts of connect() with bind()
-config: loongarch-randconfig-001-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041803.6bndMcXn-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041803.6bndMcXn-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/David-E-Box/MAINTAINERS-Add-link-to-documentation-of-Intel-PMT-ABI/20250703-103720
+base:   d0b3b7b22dfa1f4b515fd3a295b3fd958f9e81af
+patch link:    https://lore.kernel.org/r/20250703022832.1302928-16-david.e.box%40linux.intel.com
+patch subject: [PATCH V3 15/15] platform/x86/intel/pmt: KUNIT test for PMT Enhanced Discovery API
+config: i386-randconfig-004-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041955.XHNndERv-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041955.XHNndERv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507041803.6bndMcXn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507041955.XHNndERv-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from net/mctp/route.c:1584:
-   net/mctp/test/route-test.c:1258:65: warning: 'type1' defined but not used [-Wunused-const-variable=]
-    1258 | static const struct mctp_test_bind_setup bind_addr8_netdefault, type1 = {
-         |                                                                 ^~~~~
-   net/mctp/test/route-test.c:1258:42: warning: 'bind_addr8_netdefault' defined but not used [-Wunused-const-variable=]
-    1258 | static const struct mctp_test_bind_setup bind_addr8_netdefault, type1 = {
-         |                                          ^~~~~~~~~~~~~~~~~~~~~
-   net/mctp/test/route-test.c: In function 'mctp_bind_pair_desc':
->> net/mctp/test/route-test.c:1340:49: warning: '%s' directive output may be truncated writing up to 99 bytes into a region of size between 87 and 101 [-Wformat-truncation=]
-    1340 |                  "{bind(addr %d, type %d, net %d%s)} {bind(addr %d, type %d, net %d%s)} -> error %d",
-         |                                                 ^~
-    1341 |                  t->bind1->bind_addr, t->bind1->bind_type, t->bind1->bind_net, peer1,
-         |                                                                                ~~~~~
-   net/mctp/test/route-test.c:1340:18: note: directive argument in the range [0, 255]
-    1340 |                  "{bind(addr %d, type %d, net %d%s)} {bind(addr %d, type %d, net %d%s)} -> error %d",
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/mctp/test/route-test.c:1340:18: note: directive argument in the range [0, 255]
-   net/mctp/test/route-test.c:1339:9: note: 'snprintf' output between 71 and 307 bytes into a destination of size 128
-    1339 |         snprintf(desc, KUNIT_PARAM_DESC_SIZE,
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1340 |                  "{bind(addr %d, type %d, net %d%s)} {bind(addr %d, type %d, net %d%s)} -> error %d",
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1341 |                  t->bind1->bind_addr, t->bind1->bind_type, t->bind1->bind_net, peer1,
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1342 |                  t->bind2->bind_addr, t->bind2->bind_type, t->bind2->bind_net, peer2,
-         |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1343 |                  t->error);
-         |                  ~~~~~~~~~
+>> drivers/platform/x86/intel/pmt/discovery-kunit.c:35:73: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+      35 |                 kunit_info(test, "\t\taddr=%p, size=%lu, num_rmids=%u", region->addr, region->size,
+         |                                                     ~~~                               ^~~~~~~~~~~~
+         |                                                     %zu
+   include/kunit/test.h:616:39: note: expanded from macro 'kunit_info'
+     616 |         kunit_printk(KERN_INFO, test, fmt, ##__VA_ARGS__)
+         |                                       ~~~    ^~~~~~~~~~~
+   include/kunit/test.h:604:21: note: expanded from macro 'kunit_printk'
+     603 |         kunit_log(lvl, test, KUNIT_SUBTEST_INDENT "# %s: " fmt,         \
+         |                                                            ~~~
+     604 |                   (test)->name, ##__VA_ARGS__)
+         |                                   ^~~~~~~~~~~
+   include/kunit/test.h:597:21: note: expanded from macro 'kunit_log'
+     597 |                 printk(lvl fmt, ##__VA_ARGS__);                         \
+         |                            ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:507:60: note: expanded from macro 'printk'
+     507 | #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+         |                                                     ~~~    ^~~~~~~~~~~
+   include/linux/printk.h:479:19: note: expanded from macro 'printk_index_wrap'
+     479 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ~~~~    ^~~~~~~~~~~
+>> drivers/platform/x86/intel/pmt/discovery-kunit.c:35:73: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+      35 |                 kunit_info(test, "\t\taddr=%p, size=%lu, num_rmids=%u", region->addr, region->size,
+         |                                                     ~~~                               ^~~~~~~~~~~~
+         |                                                     %zu
+   include/kunit/test.h:616:39: note: expanded from macro 'kunit_info'
+     616 |         kunit_printk(KERN_INFO, test, fmt, ##__VA_ARGS__)
+         |                                       ~~~    ^~~~~~~~~~~
+   include/kunit/test.h:604:21: note: expanded from macro 'kunit_printk'
+     603 |         kunit_log(lvl, test, KUNIT_SUBTEST_INDENT "# %s: " fmt,         \
+         |                                                            ~~~
+     604 |                   (test)->name, ##__VA_ARGS__)
+         |                                   ^~~~~~~~~~~
+   include/kunit/test.h:599:8: note: expanded from macro 'kunit_log'
+     598 |                 kunit_log_append((test_or_suite)->log,  fmt,            \
+         |                                                         ~~~
+     599 |                                  ##__VA_ARGS__);                        \
+         |                                    ^~~~~~~~~~~
+   2 warnings generated.
 
 
-vim +1340 net/mctp/test/route-test.c
+vim +35 drivers/platform/x86/intel/pmt/discovery-kunit.c
 
-  1257	
-> 1258	static const struct mctp_test_bind_setup bind_addr8_netdefault, type1 = {
-  1259		.bind_addr = 8, .bind_net = MCTP_NET_ANY, .bind_type = 1,
-  1260	};
-  1261	
-  1262	/* 1 is default net */
-  1263	static const struct mctp_test_bind_setup bind_addr8_net1_type1 = {
-  1264		.bind_addr = 8, .bind_net = 1, .bind_type = 1,
-  1265	};
-  1266	
-  1267	static const struct mctp_test_bind_setup bind_addrany_net1_type1 = {
-  1268		.bind_addr = MCTP_ADDR_ANY, .bind_net = 1, .bind_type = 1,
-  1269	};
-  1270	
-  1271	/* 2 is an arbitrary net */
-  1272	static const struct mctp_test_bind_setup bind_addr8_net2_type1 = {
-  1273		.bind_addr = 8, .bind_net = 2, .bind_type = 1,
-  1274	};
-  1275	
-  1276	static const struct mctp_test_bind_setup bind_addr8_netdefault_type1 = {
-  1277		.bind_addr = 8, .bind_net = MCTP_NET_ANY, .bind_type = 1,
-  1278	};
-  1279	
-  1280	static const struct mctp_test_bind_setup bind_addrany_net2_type2 = {
-  1281		.bind_addr = MCTP_ADDR_ANY, .bind_net = 2, .bind_type = 2,
-  1282	};
-  1283	
-  1284	static const struct mctp_test_bind_setup bind_addrany_net2_type1_peer9 = {
-  1285		.bind_addr = MCTP_ADDR_ANY, .bind_net = 2, .bind_type = 1,
-  1286		.have_peer = true, .peer_addr = 9, .peer_net = 2,
-  1287	};
-  1288	
-  1289	struct mctp_bind_pair_test {
-  1290		const struct mctp_test_bind_setup *bind1;
-  1291		const struct mctp_test_bind_setup *bind2;
-  1292		int error;
-  1293	};
-  1294	
-  1295	/* Pairs of binds and whether they will conflict */
-  1296	static const struct mctp_bind_pair_test mctp_bind_pair_tests[] = {
-  1297		/* Both ADDR_ANY, conflict */
-  1298		{ &bind_addrany_netdefault_type1, &bind_addrany_netdefault_type1, EADDRINUSE },
-  1299		/* Same specific EID, conflict */
-  1300		{ &bind_addr8_netdefault_type1, &bind_addr8_netdefault_type1, EADDRINUSE },
-  1301		/* ADDR_ANY vs specific EID, OK */
-  1302		{ &bind_addrany_netdefault_type1, &bind_addr8_netdefault_type1, 0 },
-  1303		/* ADDR_ANY different types, OK */
-  1304		{ &bind_addrany_net2_type2, &bind_addrany_net2_type1, 0 },
-  1305		/* ADDR_ANY different nets, OK */
-  1306		{ &bind_addrany_net2_type1, &bind_addrany_netdefault_type1, 0 },
-  1307	
-  1308		/* specific EID, NET_ANY (resolves to default)
-  1309		 *  vs specific EID, explicit default net 1, conflict
-  1310		 */
-  1311		{ &bind_addr8_netdefault_type1, &bind_addr8_net1_type1, EADDRINUSE },
-  1312	
-  1313		/* specific EID, net 1 vs specific EID, net 2, ok */
-  1314		{ &bind_addr8_net1_type1, &bind_addr8_net2_type1, 0 },
-  1315	
-  1316		/* ANY_ADDR, NET_ANY (doesn't resolve to default)
-  1317		 *  vs ADDR_ANY, explicit default net 1, OK
-  1318		 */
-  1319		{ &bind_addrany_netdefault_type1, &bind_addrany_net1_type1, 0 },
-  1320	
-  1321		/* specific remote peer doesn't conflict with any-peer bind */
-  1322		{ &bind_addrany_net2_type1_peer9, &bind_addrany_net2_type1, 0 },
-  1323	
-  1324		/* bind() NET_ANY is allowed with a connect() net */
-  1325		{ &bind_addrany_net2_type1_peer9, &bind_addrany_netdefault_type1, 0 },
-  1326	};
-  1327	
-  1328	static void mctp_bind_pair_desc(const struct mctp_bind_pair_test *t, char *desc)
-  1329	{
-  1330		char peer1[100] = {0}, peer2[100] = {0};
-  1331	
-  1332		if (t->bind1->have_peer)
-  1333			snprintf(peer1, sizeof(peer1), ", peer %d net %d",
-  1334				 t->bind1->peer_addr, t->bind1->peer_net);
-  1335		if (t->bind2->have_peer)
-  1336			snprintf(peer2, sizeof(peer2), ", peer %d net %d",
-  1337				 t->bind2->peer_addr, t->bind2->peer_net);
-  1338	
-  1339		snprintf(desc, KUNIT_PARAM_DESC_SIZE,
-> 1340			 "{bind(addr %d, type %d, net %d%s)} {bind(addr %d, type %d, net %d%s)} -> error %d",
-  1341			 t->bind1->bind_addr, t->bind1->bind_type, t->bind1->bind_net, peer1,
-  1342			 t->bind2->bind_addr, t->bind2->bind_type, t->bind2->bind_net, peer2,
-  1343			 t->error);
-  1344	}
-  1345	
+    17	
+    18	static void
+    19	validate_pmt_regions(struct kunit *test, struct pmt_feature_group *feature_group, int feature_id)
+    20	{
+    21		int i;
+    22	
+    23		kunit_info(test, "Feature ID %d [%s] has %d regions.\n", feature_id,
+    24			   pmt_feature_names[feature_id], feature_group->count);
+    25	
+    26		for (i = 0; i < feature_group->count; i++) {
+    27			struct telemetry_region *region = &feature_group->regions[i];
+    28	
+    29			kunit_info(test, "  - Region %d: cdie_mask=%u, package_id=%u, partition=%u, segment=%u,",
+    30				   i, region->plat_info.cdie_mask, region->plat_info.package_id,
+    31				   region->plat_info.partition, region->plat_info.segment);
+    32			kunit_info(test, "\t\tbus=%u, device=%u, function=%u, guid=0x%x,",
+    33				   region->plat_info.bus_number, region->plat_info.device_number,
+    34				   region->plat_info.function_number, region->guid);
+  > 35			kunit_info(test, "\t\taddr=%p, size=%lu, num_rmids=%u", region->addr, region->size,
+    36				   region->num_rmids);
+    37	
+    38	
+    39			KUNIT_ASSERT_GE(test, region->plat_info.cdie_mask, 0);
+    40			KUNIT_ASSERT_GE(test, region->plat_info.package_id, 0);
+    41			KUNIT_ASSERT_GE(test, region->plat_info.partition, 0);
+    42			KUNIT_ASSERT_GE(test, region->plat_info.segment, 0);
+    43			KUNIT_ASSERT_GE(test, region->plat_info.bus_number, 0);
+    44			KUNIT_ASSERT_GE(test, region->plat_info.device_number, 0);
+    45			KUNIT_ASSERT_GE(test, region->plat_info.function_number, 0);
+    46	
+    47			KUNIT_ASSERT_NE(test, region->guid, 0);
+    48	
+    49			KUNIT_ASSERT_NOT_ERR_OR_NULL(test, (__force const void *)region->addr);
+    50		}
+    51	}
+    52	
 
 -- 
 0-DAY CI Kernel Test Service
