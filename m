@@ -1,60 +1,58 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514DB2571AA;
-	Fri,  4 Jul 2025 06:29:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C1625BF0B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 06:30:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751610564; cv=none; b=WbA+gOxjBWhEg13eU2eJeAq3w5W2NaZovmAyBwnf1gmQ/fivZP/ATSWtED4uHLQKIzhWILO0Cy0g90qfqfxmSDfj/siDQkBqyonEbkW5zyixBSgs65ziVAPUkz84jEpijyM72sLdkIu4arc30BueK9bypSwJWIkbTjsqanJ+S5I=
+	t=1751610620; cv=none; b=SdWulUukrUdT6cqProe2At4y61v/s4g9RcKcGE4YS2oxxXsjo5LHvJWtqEQgK/H24iycPKlwmndzbSmZZr9o23j/jEhzGIQXCa1rs+6GD+Agg5OqvelMxpEqlqJ8NFdCfciXTCKtorVNVzK/ue+gu1MhmVoFT3De6UTE71VIBaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751610564; c=relaxed/simple;
-	bh=ImH06joPL3/qWGacg6dZs1pbwtWp5RCQiR/KBV2V29I=;
+	s=arc-20240116; t=1751610620; c=relaxed/simple;
+	bh=cszJGJ3uwv84/OVFkv9UoMNXP9CRY8uItvq8izcJkk4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IUONneeydiB/VfDO7uXdAD0ck38WEpXMiMruz27PwdHv8drXwY6fx9oWcfDcFQg8DpRcQhBhf5qdu1CyLddetOxjgRoPNDu1dqk/DHGH9GssxN487dOFZL6jUZl5OuUoNltWm6ovZ3Z6vKgA8rGW3Mu2njiWLYOxl4h9Y/CgfVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YTCPrSNE; arc=none smtp.client-ip=192.198.163.19
+	 Content-Disposition; b=AI5MVYdtldJnhlXYAioxK/o9PuwSlM8W0tAojz1pgwORaqAmN8ZdwnXC0rGmt5fzJlNLHw5lbndw3IDMSXJDu2CKD822aP+KP9Y6Nfwdjr/K5mUVHDYLS1MCAKWJlLeeOCG8SbvDG6InJMJHcoi1rUUWqMwSI/cgGiN2sLP+/yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gWk0c9yQ; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YTCPrSNE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gWk0c9yQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751610562; x=1783146562;
+  t=1751610618; x=1783146618;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ImH06joPL3/qWGacg6dZs1pbwtWp5RCQiR/KBV2V29I=;
-  b=YTCPrSNEqARZCcuyXCAV5DRR/fK8Vz+6VZHWsX/96ugCpZbHIS3xGmzn
-   /Qqs4zToGkZMQlbml8e3cxPt0Iek3v3li0E8Yipuk7GQwOJeVTSUgEle/
-   Sp5QEO+S6uGfi2Wq+GurxdBDD9u5Hs2659chuAoz70j/PVQFNsGZ4zR7r
-   YeN6yJ6bc9IvCjwKliX+G8vXyzY4xsFB8WnH2MNxS8vK6K+ArKg+VnFnf
-   a9cWewwq7d97FFT8PUr8cGKIG0s9tqN4VY1kvsWmMSyK9r5IzT/XpQpEJ
-   l6A0Kf14xTrNb1/P9oHVYdNUcE+DTkwx4xzCRqISIZj3UxNFTDih1ejA2
-   A==;
-X-CSE-ConnectionGUID: ibFPD6lJTmCnPboGYA1aAA==
-X-CSE-MsgGUID: wjGZZ/9XSna88kMqy9kBBg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53075025"
+  bh=cszJGJ3uwv84/OVFkv9UoMNXP9CRY8uItvq8izcJkk4=;
+  b=gWk0c9yQKczrj0ocYRpiDnltPorU1wu9H24pldupvOts6oN3ph/jjAwV
+   H0qSJN8lqzjCrdeti52bHvsXANaYDNXGW3RljsLY9fO6XDHe5ySPrxQ3g
+   q4prEMacnTjqN9LgvefYhY1Uk6bOREGvfdeSjfOrTPw6PXi02yLBdV3S1
+   35KiBhyHNY3RQeRxSj7dkyb5WGKJ1m8D8cjTb1pbQcrxxiyAQBCwHhGAT
+   GJzQCV5y/kT2PgmMoWQKU/ONnrXYZmpGF7d6HuODJhlkzkca9EvV6CfMN
+   3l2wgjvfYRemYYPIbHd9b/cH4f2g1uLqY2ohQfEMS45I/Bw6otLTtNLE4
+   w==;
+X-CSE-ConnectionGUID: ZmnDGYJbTNGQFYbPaabXug==
+X-CSE-MsgGUID: A1rbKFzSSYi4FhuzF4BCwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53075104"
 X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="53075025"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 23:29:22 -0700
-X-CSE-ConnectionGUID: CPFv5qDxT66SzbrSyBnQrQ==
-X-CSE-MsgGUID: dWaxlykQS0uV12Ze89t/eA==
+   d="scan'208";a="53075104"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 23:30:17 -0700
+X-CSE-ConnectionGUID: E/fTH7s2Tb6NbY/XGL3/1A==
+X-CSE-MsgGUID: 4zSrKahmTsC5T2pQGVu8CQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="158840796"
-Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Jul 2025 23:29:20 -0700
-Received: from kbuild by 030a839a1121 with local (Exim 4.96)
+   d="scan'208";a="154209943"
+Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
+  by fmviesa007.fm.intel.com with ESMTP; 03 Jul 2025 23:30:16 -0700
+Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXZvC-0000dF-0e;
-	Fri, 04 Jul 2025 06:29:18 +0000
-Date: Fri, 4 Jul 2025 08:28:25 +0200
+	id 1uXZw6-0003Oy-09;
+	Fri, 04 Jul 2025 06:30:14 +0000
+Date: Fri, 4 Jul 2025 14:29:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ian Forbes <ian.forbes@broadcom.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Zack Rusin <zack.rusin@broadcom.com>
-Subject: [linux-next:master 2648/7039] Warning:
- drivers/gpu/drm/vmwgfx/vmwgfx_fence.c:526 function parameter 'f' not
- described in 'vmw_event_fence_action_seq_passed'
-Message-ID: <202507040807.jKTxWGVQ-lkp@intel.com>
+To: kernel@openeuler.org, Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3011/3011] arch/arm64/kernel/syscall.c:281:6:
+ warning: no previous prototype for 'do_el0_xcall'
+Message-ID: <202507041422.jQntADhM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,23 +62,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   8d6c58332c7a8ba025fcfa76888b6c37dbce9633
-commit: db6a94b263541af5678e520fb3959b03ec88ad2b [2648/7039] drm/vmwgfx: Implement dma_fence_ops properly
-config: x86_64-buildonly-randconfig-2004-20250704 (https://download.01.org/0day-ci/archive/20250704/202507040807.jKTxWGVQ-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507040807.jKTxWGVQ-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   d33d9222dd0abdddb305cbcd6dddf6763e0bcd5a
+commit: f22cbd7df3438fb008e74ddcbe6619c1a03c7955 [3011/3011] arm64: Faster SVC exception handler with xcall
+config: arm64-randconfig-001-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041422.jQntADhM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041422.jQntADhM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507040807.jKTxWGVQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507041422.jQntADhM-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: drivers/gpu/drm/vmwgfx/vmwgfx_fence.c:526 function parameter 'f' not described in 'vmw_event_fence_action_seq_passed'
->> Warning: drivers/gpu/drm/vmwgfx/vmwgfx_fence.c:526 function parameter 'cb' not described in 'vmw_event_fence_action_seq_passed'
->> Warning: drivers/gpu/drm/vmwgfx/vmwgfx_fence.c:526 Excess function parameter 'action' description in 'vmw_event_fence_action_seq_passed'
+>> arch/arm64/kernel/syscall.c:281:6: warning: no previous prototype for 'do_el0_xcall' [-Wmissing-prototypes]
+     281 | void do_el0_xcall(struct pt_regs *regs)
+         |      ^~~~~~~~~~~~
+   arch/arm64/kernel/syscall.c:297:6: warning: no previous prototype for 'do_el0_svc' [-Wmissing-prototypes]
+     297 | void do_el0_svc(struct pt_regs *regs)
+         |      ^~~~~~~~~~
+   arch/arm64/kernel/syscall.c:313:6: warning: no previous prototype for 'do_el0_svc_compat' [-Wmissing-prototypes]
+     313 | void do_el0_svc_compat(struct pt_regs *regs)
+         |      ^~~~~~~~~~~~~~~~~
+
+
+vim +/do_el0_xcall +281 arch/arm64/kernel/syscall.c
+
+   279	
+   280	#ifdef CONFIG_FAST_SYSCALL
+ > 281	void do_el0_xcall(struct pt_regs *regs)
+   282	{
+   283		const syscall_fn_t *t = sys_call_table;
+   284	
 
 -- 
 0-DAY CI Kernel Test Service
