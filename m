@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8A515E5DC
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 04:37:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D723BE65
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 05:49:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751603830; cv=none; b=HuZQuuyK5okdsSKep/FJqOh/un7X/9IRTWwm2LKgnf78Z/Dh83rfUXtP7EIDhLg0PP6zWs0PDHHgiF2rARPafqWoGeT/RUIJZo5Ez9LuIRoTb7+AnqGG9NMJMMYTMWep/75U5NeQ9rpJKzb89XzMXiXsu4unYkJaVZUJHCXgiLM=
+	t=1751608155; cv=none; b=nzkyVBIBcoTi5NbXNLiw3Mgc34oVYswgOiOAIdspoH4rinBL2yjU/UK1+OlSjVxxR7RrokduME6tqkvovVpAjGAJT/rmvRBR23Pi2lN9jBh/O/ghVMXPCC+WHVeehiXglxVxQlh1Ok9BOoa3ewoyDKRlcw794bT9fiU69PgAiQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751603830; c=relaxed/simple;
-	bh=R6NTFccffGawZDl1pAez0XRKWk/lYZkQT95w5kb0k74=;
+	s=arc-20240116; t=1751608155; c=relaxed/simple;
+	bh=amTRJOr6a0HWEHyzBV9ELTfipO4VzRlS8nYfe8M0dwM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fwOhsxZDHvAJL9guSobG80IlUL0//aLEmDmZZgooRvqs2NOlFRR6+XwN4CIiXEmiq1JhjeQwljrdty4li0hL13cp7LH242OfcSKonjTUUB23rZoB6PQTyQY9csqKNWWnzncXIOoXcE7dwPoDlouXBAQyJ8zXzjerFPAjCp5bo3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HPr2vwuz; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=m2lf9aJk7a6vrXoj8nZ5SMWF+bcnrPU1nV6SOw2AzAO7+BS/QEjPe0vpTMBLKsRhHz4v1yPKr4fkSVVKiOwRc4Vf7MV7aCq4M93Ug74+JJTBjPb4G/lgXQOVkokhoXzMhoUu5jGSEIXnen7c95sevUh3o/qcF+5f3l8ay0Ltg+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJl5isQh; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HPr2vwuz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJl5isQh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751603828; x=1783139828;
+  t=1751608153; x=1783144153;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=R6NTFccffGawZDl1pAez0XRKWk/lYZkQT95w5kb0k74=;
-  b=HPr2vwuzKNYeo1fxIPps+wpCe1xgcuOLB/CFs5UKvfXSUZTLpoMvED5P
-   AoCNZMQLYjuubfZlC8nBXQyVskzMXtZVgvg2CMYuGpzpN8sX+NOces5Fo
-   LqImfbv7t7CIBuKAk1V43T2V7Xm+cWFedGwnF8hTm50h6tVsZmtaDYACt
-   AjEhmpacbA4/PKopn99/i5fEUbe+I+IMs+b7BkBeBUyPKGPhxQG63PZHk
-   DWGA2amkn6J+6LFzrjCuKbPbym++Pgj1HvZzhBXlejHbvQESAJGK9awNP
-   Tk3tv9vVV15Fevlb9kaKYiwiT27E1GysaWZax0VAcCgE/LDL9OCRoPerk
+  bh=amTRJOr6a0HWEHyzBV9ELTfipO4VzRlS8nYfe8M0dwM=;
+  b=fJl5isQhoRqUmdcIfB17mUaN/4iK6s4Oee4cgmbWJjQ/hrOJfRcelhWv
+   Q5v4iyNJrl9RsV8hDnhIYwer47DAYWMFcCyN3k5sf7y21QPBm/iRRSjjz
+   VhF1hHG0q/ZwUAuYrYvQxJ8jSqOFsK91Kt5up/MFZVkaJUtnQ2X3ublgd
+   NZ70R25WuTzNhyDKvz0HMzO+UUr4mn/bBni6eTAv/V5nh1yqQo3ySSbrr
+   FipFzbuijxryETPD60Cl+sSHrt8+OovglNabDyusxJC74Lv2X3xN+kkWI
+   N/1UKFlVCnW8LKkk2Opq1ZS9qgZ0sKA3Cg1VqBiGYR/qd5KxQw+qnoMNJ
    w==;
-X-CSE-ConnectionGUID: SsDSQZcmQ0S8RWsioQryPQ==
-X-CSE-MsgGUID: 5gJn+fFjSXCjSfO3A/1GAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="56560452"
+X-CSE-ConnectionGUID: xtqBjIq4SaWE/CT3T7c3aA==
+X-CSE-MsgGUID: ZhZFZDUXRfK2ehP60ownvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64993952"
 X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="56560452"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 21:37:07 -0700
-X-CSE-ConnectionGUID: oqXgfm0eSJ6grmAz6XKR0g==
-X-CSE-MsgGUID: OsRaog7/TPOf4+cT9wXjow==
+   d="scan'208";a="64993952"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 22:49:12 -0700
+X-CSE-ConnectionGUID: G6nsXXSeSly5LwFMhNKG2g==
+X-CSE-MsgGUID: TUptskEkTGySn64zwFtFaA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="154194748"
+   d="scan'208";a="154313102"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 03 Jul 2025 21:37:06 -0700
+  by orviesa009.jf.intel.com with ESMTP; 03 Jul 2025 22:49:12 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXYAa-0003L9-0W;
-	Fri, 04 Jul 2025 04:37:04 +0000
-Date: Fri, 4 Jul 2025 12:36:18 +0800
+	id 1uXZIL-0003Md-0n;
+	Fri, 04 Jul 2025 05:49:09 +0000
+Date: Fri, 4 Jul 2025 13:48:37 +0800
 From: kernel test robot <lkp@intel.com>
 To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2455/2455] ERROR: modpost: "fg_console"
- [drivers/video/fbdev/ls2k500sfb.ko] undefined!
-Message-ID: <202507041220.xQnKLHix-lkp@intel.com>
+Subject: [openeuler:OLK-5.10 3011/3011]
+ drivers/net/ethernet/mucse/rnp/rnp_sysfs.c:1958:2: warning: 'strncpy'
+ specified bound 100 equals destination size
+Message-ID: <202507041337.WpaxtPMv-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,121 +63,104 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   673b27ee13cb811b3f418669e6826b95459c32f4
-commit: 8248d42b7c5f4338a54f26d8efebec8614b43466 [2455/2455] fbdev: add ls2k500sfb driver for ls2k500 bmc.
-config: arm64-randconfig-001-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041220.xQnKLHix-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041220.xQnKLHix-lkp@intel.com/reproduce)
+Hi Dong,
+
+FYI, the error/warning still remains.
+
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   d33d9222dd0abdddb305cbcd6dddf6763e0bcd5a
+commit: e53494b741272933726616122ea77143d9742631 [3011/3011] drivers: initial support for rnp drivers from Mucse Technology
+config: arm64-randconfig-004-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041337.WpaxtPMv-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041337.WpaxtPMv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507041220.xQnKLHix-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507041337.WpaxtPMv-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/block/xen-blkback/xen-blkback.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/pcf50633-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/qcom-pm8008.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvme/host/nvme-tcp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_cmdset_0020.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/mdio/mdio-aspeed.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/ath/wcn36xx/wcn36xx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/broadcom/brcm80211/brcmfmac/wcc/brcmfmac-wcc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/brcmfmac-cyw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/broadcom/brcm80211/brcmfmac/bca/brcmfmac-bca.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/ti/wlcore/wlcore.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/ti/wlcore/wlcore_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/ti/wlcore/wlcore_sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/ti/wl12xx/wl12xx.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/ti/wl1251/wl1251_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/wireless/ti/wl1251/wl1251_sdio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/arcnet.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/rfc1201.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/arc-rawmode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/capmode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/arcnet/com90io.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_generic.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/ppp_async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/net/ppp/bsd_comp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/atm/iphase.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/atm/eni.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firewire/firewire-uapi-test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/ohci-exynos.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/usb_debug.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/serial/mxuport.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/gadget/function/usb_f_uvc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/mon/usbmon.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/chipidea/ci_hdrc_msm.o
-WARNING: modpost: drivers/rtc/rtc-at91rm9200: section mismatch in reference: at91_rtc_driver+0x8 (section: .data) -> at91_rtc_remove (section: .exit.text)
-WARNING: modpost: drivers/rtc/rtc-mv: section mismatch in reference: mv_rtc_driver+0x8 (section: .data) -> mv_rtc_remove (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-omap.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/rtc/rtc-rc5t583.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/i2c/busses/i2c-pxa.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/tuners/tda9887.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/videobuf2/videobuf2-dvb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/common/uvc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/pci/ttpci/budget-core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/dvb-frontends/au8522_decoder.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-async.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/media/v4l2-core/v4l2-fwnode.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/of_mmc_spi.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/tmio_mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/host/renesas_sdhi_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/mmc_core.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_simple.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/pwrseq_sd8787.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mmc/core/sdio_uart.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/leds/flash/leds-rt4505.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/coreboot_table.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/cbmem.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/firmware/google/vpd-sysfs.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/xilinx/zynqmp-aes-gcm.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/intel/keembay/keembay-ocs-hcu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/wlan-ng/prism2_usb.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_ccmp.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/rtl8192e/rtllib_crypt_tkip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/staging/fbtft/fbtft.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/devfreq/governor_simpleondemand.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/perf/marvell_cn10k_ddr_pmu.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwtracing/intel_th/intel_th_msu_sink.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/nvmem/nvmem_u-boot-env.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/siox/siox-bus-gpio.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/interconnect/imx/imx8mn-interconnect.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/ingenic-adc.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/adc/xilinx-ams.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/iio/buffer/kfifo_buf.o
-WARNING: modpost: drivers/hwtracing/coresight/coresight-etm4x: section mismatch in reference: etm4x_amba_driver+0x98 (section: .data) -> etm4_remove_amba (section: .exit.text)
-WARNING: modpost: drivers/hwtracing/coresight/coresight-etm4x: section mismatch in reference: etm4_platform_driver+0x8 (section: .data) -> etm4_remove_platform_dev (section: .exit.text)
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/core/dev_addr_lists_test.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/netfilter/nft_fib.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/netfilter/iptable_raw.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/ipip.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/udp_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv4/raw_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xfrm/xfrm_user.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/unix/unix_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/netfilter/nf_reject_ipv6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/ah6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/esp6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/ipv6/mip6.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtables.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_broute.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_filter.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/bridge/netfilter/ebtable_nat.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/atm/lec.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/tipc/diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/xdp/xsk_diag.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/6lowpan/6lowpan.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/nfc/nfc_digital.o
-WARNING: modpost: missing MODULE_DESCRIPTION() in net/hsr/hsr.o
->> ERROR: modpost: "fg_console" [drivers/video/fbdev/ls2k500sfb.ko] undefined!
+   In file included from drivers/net/ethernet/mucse/rnp/rnp.h:21,
+                    from drivers/net/ethernet/mucse/rnp/rnp_sysfs.c:13:
+   drivers/net/ethernet/mucse/rnp/rnp_common.h: In function '_rnp_skb_dump':
+   drivers/net/ethernet/mucse/rnp/rnp_common.h:336:22: warning: suggest braces around empty body in an 'if' statement [-Wempty-body]
+     336 |       &dev->features);
+         |                      ^
+   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:16: warning: variable 'tailroom' set but not used [-Wunused-but-set-variable]
+     299 |  int headroom, tailroom;
+         |                ^~~~~~~~
+   drivers/net/ethernet/mucse/rnp/rnp_common.h:299:6: warning: variable 'headroom' set but not used [-Wunused-but-set-variable]
+     299 |  int headroom, tailroom;
+         |      ^~~~~~~~
+   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:16: warning: variable 'has_trans' set but not used [-Wunused-but-set-variable]
+     298 |  bool has_mac, has_trans;
+         |                ^~~~~~~~~
+   drivers/net/ethernet/mucse/rnp/rnp_common.h:298:7: warning: variable 'has_mac' set but not used [-Wunused-but-set-variable]
+     298 |  bool has_mac, has_trans;
+         |       ^~~~~~~
+   drivers/net/ethernet/mucse/rnp/rnp_sysfs.c: At top level:
+   drivers/net/ethernet/mucse/rnp/rnp_sysfs.c:1214:5: warning: no previous prototype for 'rnp_mbx_get_pn_sn' [-Wmissing-prototypes]
+    1214 | int rnp_mbx_get_pn_sn(struct rnp_hw *hw, char pn[33], char sn[33])
+         |     ^~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/mucse/rnp/rnp_sysfs.c: In function '_switch_loopback':
+>> drivers/net/ethernet/mucse/rnp/rnp_sysfs.c:1958:2: warning: 'strncpy' specified bound 100 equals destination size [-Wstringop-truncation]
+    1958 |  strncpy(name, peer_eth, sizeof(name));
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/strncpy +1958 drivers/net/ethernet/mucse/rnp/rnp_sysfs.c
+
+  1950	
+  1951	static ssize_t _switch_loopback(struct rnp_adapter *adapter,
+  1952					const char *peer_eth, int en)
+  1953	{
+  1954		struct net_device *peer_netdev = NULL;
+  1955		struct rnp_adapter *peer_adapter = NULL;
+  1956		char name[100];
+  1957	
+> 1958		strncpy(name, peer_eth, sizeof(name));
+  1959		strim(name);
+  1960	
+  1961		pr_info("%s: nr_lane:%d peer_lane:%s en:%d\n", __func__, 0,
+  1962		       peer_eth, en);
+  1963	
+  1964		peer_netdev = dev_get_by_name(&init_net, name);
+  1965		if (!peer_netdev) {
+  1966			e_err(drv, "canot' find %s\n", name);
+  1967			return -EINVAL;
+  1968		}
+  1969		peer_adapter = netdev_priv(peer_netdev);
+  1970	
+  1971		if (PCI_SLOT(peer_adapter->pdev->devfn) !=
+  1972		    PCI_SLOT(adapter->pdev->devfn)) {
+  1973			e_err(drv, "%s %s not in same slot\n",
+  1974			       netdev_name(adapter->netdev),
+  1975			       netdev_name(peer_adapter->netdev));
+  1976			dev_put(peer_netdev);
+  1977			return -EINVAL;
+  1978		}
+  1979	
+  1980	
+  1981		do_switch_loopback_set(adapter, en, 0,
+  1982				       rnp_is_pf1(&peer_adapter->hw) ? 4 : 0);
+  1983		do_switch_loopback_set(peer_adapter, en, 0,
+  1984				       rnp_is_pf1(&adapter->hw) ? 4 : 0);
+  1985	
+  1986		if (peer_netdev)
+  1987			dev_put(peer_netdev);
+  1988	
+  1989		return 0;
+  1990	}
+  1991	static ssize_t switch_loopback_on_store(struct device *dev,
+  1992						struct device_attribute *attr,
+  1993						const char *buf, size_t count)
+  1994	{
+  1995		struct rnp_adapter *adapter = netdev_priv(to_net_device(dev));
+  1996	
+  1997		return _switch_loopback(adapter, buf, 1) == 0 ? count : -EINVAL;
+  1998	}
+  1999	
 
 -- 
 0-DAY CI Kernel Test Service
