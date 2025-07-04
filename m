@@ -1,58 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EF72256D;
-	Fri,  4 Jul 2025 00:14:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A607AA41
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 00:14:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751588081; cv=none; b=IUz/HCpqa2JHy0hC653gVgP85llpX2rB2LyH+sPpWvFOOWStgcpgGyAuPZWeR9I11SnGu1XBC5oIMzTGzQyyW0z9zQiIQoMlBd+RJuDP4rCBApT3sKIir4IabEeO48rIkMiSZ4Xgrz3C1mQe+R5/ycbtTORE4omb7o2CtKGWVIA=
+	t=1751588083; cv=none; b=ahZy4p4FCYTEWBW3cTL4c0M6KPaC55a+cA8j22CIYEK3R9RY1LXWhciGF9v0cRVXO3ylo575MukB0evFwjnohLQXbVb3Yem94e1zCBKVbJ3t8GFCmGdi2Cdbt24llIIVhcqp3dtoQemkdWVM3109+2YWxvLri/ay+Fqmcsz8fnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751588081; c=relaxed/simple;
-	bh=Thcv2lXsolJPolZ8Fw7uZMjPuwda62oe3H32E+swRcY=;
+	s=arc-20240116; t=1751588083; c=relaxed/simple;
+	bh=7f62RC90Nna/9DnvTsz/kC8sMkeZXIP3vZ3XQD2ljvA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rMsHowYcOLzWAnSOm37b31KNblIu8+wQ88Nu1jp3UHuefqqDhlRg1rpITOZ4+qVgnVsOLdA7r3RqgXNVc4yMP+rcy01UWRGx10H8WWdlB7cl/Ewkt8tecV56XMJ+tqwFDHzdpjHDg7JMmsyh04hLzTIZ7mJo49W62Jql2A9hh7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ERqkU6SV; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=Pi2B3OOxl0hE8/74ohEk6Tqx5NhpIgDSno+oqWCvawXw2KeP9zxHSDiZehhBubjCYTD4wgTgIOVkhjJKorPnOx+9kD2Uk5iayRQJ5CNZBcv13TfK5hsR0oB+tT1DxE0vueNn4yUlStHi/P92WGaLNX3M8RV6aJfUSlHBEzGk9Xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P+4Htf+k; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ERqkU6SV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P+4Htf+k"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751588080; x=1783124080;
+  t=1751588082; x=1783124082;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Thcv2lXsolJPolZ8Fw7uZMjPuwda62oe3H32E+swRcY=;
-  b=ERqkU6SVWUehEO/QCEIN+TTw25pNrCoL1JUGtkg6R2iRAQ37NIwTa2rB
-   cuCU+TQGtZ63pcDGQOwsGKkrKESQ7oXaf7A85v9wdTqBJN3DuzLM3FJAd
-   4zM/tINLJXp2zu4ki548fN63dpEUPDBBS+KYs/4ufLgzzYmz4t4Nb2Kb2
-   S74LEQAKAZYt2YfYwhJqOr5Z3D+H+jgvycedwfELLD4gpebbSuzulL+q9
-   CW5/UO19MLxsskz5sDkmG2fMEBngOKPnOgcM56+b8Esy5CHoA8FSDPupz
-   miFWgK7psUB/gkg5O87SZJkcU5nskADSXtTdZall3tP+M5wlINTeTEpE+
+  bh=7f62RC90Nna/9DnvTsz/kC8sMkeZXIP3vZ3XQD2ljvA=;
+  b=P+4Htf+k4MQox2sD7XCjeX9K7gW9I7FlyESX0K30OEvc8W7/hLNGiHlb
+   zgcHN8qFPrwHwvZLnG90sTAOU3WdBsTdICGj/jItFHKyV6+a/vh4PUPHl
+   /lTJ1EV9WhDodqOrL5klFM+Ni6zKhlcUAR8Cy0XIqaWG80jTD3ZF08DLw
+   mY/6wDgsWSC28dCmHHgwOz6M8rRCOhk36RcsGgfdmYkxlKizORXZAcDL0
+   Gu9iOaK5PRjX5HgeR26ClTDsvayl8A/6j/AqEYgBki/DtVRv/nE+RaPZW
+   MyATTZdx4fUa/qjHTVGv4KZ0KFArZtD/Geudl1GUpSt7O6E1tJOSq8Gkz
    w==;
-X-CSE-ConnectionGUID: qUJ/jiWkSq2EppmHxo7ZuA==
-X-CSE-MsgGUID: lPTml1OHTOit+Es9TxcsFw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64172773"
+X-CSE-ConnectionGUID: DJRqRk3ZS+SBigu1RZGwWA==
+X-CSE-MsgGUID: UGorXPILTWyI3sLhMCvCLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="64172774"
 X-IronPort-AV: E=Sophos;i="6.16,285,1744095600"; 
-   d="scan'208";a="64172773"
+   d="scan'208";a="64172774"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
   by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jul 2025 17:14:40 -0700
-X-CSE-ConnectionGUID: xLSUPYI5RleM3l1Oz574Tw==
-X-CSE-MsgGUID: Rq4987dPSky8bBFjIhm0fw==
+X-CSE-ConnectionGUID: VTPdGOyYSx2MSCXaV1Sw8A==
+X-CSE-MsgGUID: 1bXv4Qn2TzipA5WSuh/OEg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,285,1744095600"; 
-   d="scan'208";a="160023941"
+   d="scan'208";a="160023947"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
   by fmviesa004.fm.intel.com with ESMTP; 03 Jul 2025 17:14:38 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXU4Z-00038j-2u;
+	id 1uXU4Z-00038h-2q;
 	Fri, 04 Jul 2025 00:14:35 +0000
-Date: Fri, 4 Jul 2025 08:14:33 +0800
+Date: Fri, 4 Jul 2025 08:14:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jfern:rcu/irq-exit-v2 4/7] Warning: kernel/rcu/tree.c:762 function
- parameter 't' not described in 'rcu_set_blocked'
-Message-ID: <202507040850.vVcNFld9-lkp@intel.com>
+To: Lucas De Marchi <lucas.demarchi@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Nirmoy Das <nirmoy.das@intel.com>,
+	Matthew Brost <matthew.brost@intel.com>
+Subject: ERROR: modpost: "gt_reset_failure" [drivers/gpu/drm/xe/xe.ko]
+ undefined!
+Message-ID: <202507040856.ZmxlBB1a-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,31 +64,99 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git rcu/irq-exit-v2
-head:   694abfc6d256d0bb3bbf659527a692224e000d68
-commit: 7ccc41afea53b41ec9c8f3d77e877062a23184dc [4/7] rcu: Add helper functions for task and cpu_no_qs flag setting
-config: i386-buildonly-randconfig-004-20250704 (https://download.01.org/0day-ci/archive/20250704/202507040850.vVcNFld9-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507040850.vVcNFld9-lkp@intel.com/reproduce)
+Hi Lucas,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4c06e63b92038fadb566b652ec3ec04e228931e8
+commit: 08b5a4798713f4331317272752b27b1c4f6a246d drm/xe: Allow to compile out debugfs
+date:   11 months ago
+config: parisc-randconfig-r061-20250703 (https://download.01.org/0day-ci/archive/20250704/202507040856.ZmxlBB1a-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507040856.ZmxlBB1a-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507040850.vVcNFld9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507040856.ZmxlBB1a-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-   Warning: kernel/rcu/tree.c:734 function parameter 'value' not described in 'rcu_set_exp_qs_needed'
-   Warning: kernel/rcu/tree.c:745 function parameter 'rdp' not described in 'rcu_set_exp_qs_needed_cpu'
-   Warning: kernel/rcu/tree.c:745 function parameter 'value' not described in 'rcu_set_exp_qs_needed_cpu'
-   Warning: kernel/rcu/tree.c:754 function parameter 'rdp' not described in 'rcu_set_norm_qs_needed'
-   Warning: kernel/rcu/tree.c:754 function parameter 'value' not described in 'rcu_set_norm_qs_needed'
->> Warning: kernel/rcu/tree.c:762 function parameter 't' not described in 'rcu_set_blocked'
->> Warning: kernel/rcu/tree.c:762 function parameter 'value' not described in 'rcu_set_blocked'
->> Warning: kernel/rcu/tree.c:770 function parameter 't' not described in 'rcu_set_need_qs'
->> Warning: kernel/rcu/tree.c:770 function parameter 'value' not described in 'rcu_set_need_qs'
->> Warning: kernel/rcu/tree.c:778 function parameter 't' not described in 'rcu_set_exp_hint'
->> Warning: kernel/rcu/tree.c:778 function parameter 'value' not described in 'rcu_set_exp_hint'
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/rcu/refscale.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in kernel/time/time_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in mm/kfence/kfence_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp437.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp737.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp775.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp850.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp852.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp857.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp861.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp863.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp864.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp865.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp866.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_cp874.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_ascii.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_iso8859-2.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-r.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-u.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_koi8-ru.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/nls_utf8.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-centeuro.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-croatian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/nls/mac-romanian.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/binfmt_misc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in fs/exportfs/exportfs.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/keys/trusted-keys/trusted.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in crypto/curve25519-generic.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/kunit/kunit-example-test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/math/rational.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libchacha.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in lib/crypto/libpoly1305.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/platform_lcd.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/backlight/rt4831-backlight.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_accel.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_DAC1064.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/matrox/matroxfb_Ti3026.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/video/fbdev/kyro/kyrofb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/qcom/hdma_mgmt.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma/dmatest.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_base.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/8250/8250_parisc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/serial/serial_mctrl_gpio.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/n_hdlc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/tty/ttynull.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/lp.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/hw_random/omap3-rom-rng.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/char/ppdev.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/gpu/drm/tests/drm_hdmi_state_helper_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-kunit.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-raw-ram.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/base/regmap/regmap-w1.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mfd/arizona.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/core/cxl_core.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_pci.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_mem.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/cxl/cxl_port.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/scsi/ppa.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/hd44780_common.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/auxdisplay/line-display.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/host/xhci-pci-renesas.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/ezusb.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/misc/isight_firmware.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/usb/class/usbtmc.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/input/tests/input_test.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/hwmon/mr75203.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/crypto/atmel-sha204a.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/parport/parport.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/chips/cfi_util.o
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/mtd/maps/map_funcs.o
+>> ERROR: modpost: "gt_reset_failure" [drivers/gpu/drm/xe/xe.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
