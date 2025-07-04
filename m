@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A756E20C00B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 10:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6682D2AD20
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 11:02:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751625644; cv=none; b=tW/AoVYlMZrm1fqELfNvkpKDd3TanM7wZxvbguTPbXMCpO5gex45ZxzJsm8m8QnptYq9DZCEdgqVJxRp4tcYueWgY4H2G8iIyVcKGzzjBOtrROy0Cx7aqlchUMAgLH9sV/tpucuO4JI05HicDPAK8FPsX4B+4lkItlfIuTdVChY=
+	t=1751626965; cv=none; b=RX7sXVw4poaIyV3rUJ09NJHPuTUg4asks6n2pGu4KF7Mt6Zb8jOoVqZIs6tdsRV5GIhfIqWnvHKNChxRWfoY19qaYHcmqvEHpZ/ad2UQRHi9w5xiI3pEp25apmf/oV6CTX39Fqx9Z4k2BeHgwmKN0N+idsadSD80I11Cf61g2m0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751625644; c=relaxed/simple;
-	bh=ev3y70e0JpbfAZi4K25S30cmybtFxYRD+YPwz8QqzGc=;
+	s=arc-20240116; t=1751626965; c=relaxed/simple;
+	bh=2WY+1qiegW/0O5P9cNs/w9jIBAMDxrgF4RkyOaNKurk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rHzKOXkT8IutCIJbqjehmdvtwwtcNvT7LO3qU7FkSxYO+OPsWXiJJQYcFYVKCx2hVmivjwmlHXXTaEWfJKHg65F3EcZ3ggqEme6Ho3/3qIJCF0KecQoS1cmlkX6DKsVnYB5jQikujo1IzQa+bZivdRbt+YdncJn94/OqDP9wiHw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WvooJXjh; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=I1UfWUJHpvLHHZvkA9VxWSwrHWoUHVt+IXKcQsiSQ3a+ymjFLW9bkxhnvtezO+hCnjBc4sgnGA0QsmMdBsEOVCrTM+zviZ5sibZ+FPPiN9AZF9mTwlcSjUv7uR0s5S3VU1+K4DtuX+VbLZO9BBe/n9CvQXTUdoi2jtvnyGfCaLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FhyEWsa2; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WvooJXjh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FhyEWsa2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751625643; x=1783161643;
+  t=1751626963; x=1783162963;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ev3y70e0JpbfAZi4K25S30cmybtFxYRD+YPwz8QqzGc=;
-  b=WvooJXjhwJCnGnFaopzJe4jed9v1QaA+hv084ScaR42tNNo78ytxXvO2
-   VPB0s0SqPan4/chJnafdxtzQ4As5fzCQsj0ajk7k9MLTVmMy73i8aG0/P
-   Y7++5yfqPPpVNyZe7JgMuhZwcSe+xHm0+epEQjhHeq8Eb6sVV8Wq+n4Bk
-   qots/F+udndFisvKVIIeYyTK3pUiaJzACssMQ9iCcWQL3LRCzXvgPbbEq
-   JST3YnAKrMkIQ2qOgOC/RD7Qg79rcW3EfV1i/5m2LR65iGcZ2GVqPpw74
-   u3uwwHmmO+xNdD1O/EVLCu5vetjYVxBpMozjnUbl4VuOF4q05jovmeDVc
-   A==;
-X-CSE-ConnectionGUID: F72yb0QgSTCfP5ubdAfORQ==
-X-CSE-MsgGUID: 0H0g9mMBQCmVQz1u+3/ojw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="71532145"
+  bh=2WY+1qiegW/0O5P9cNs/w9jIBAMDxrgF4RkyOaNKurk=;
+  b=FhyEWsa2+aPr8o+Ms5oWTRQZocrX0DdkiLZ6asEHRJUSWI9C7/RvW+5t
+   z9pkatZN1l+6DyWb7vCKoTNI3Ed0IFb3pi+YtlZ/ztWT7C80vHLoqxhQ2
+   L8+uKZtvX3zf5xhpV5CAcrXoRiyepvnBTzS23CpzVcjMuklgAO1WSGBCm
+   714UhdPejKImHmAJ2NPlDALeHUcfI1sH/NlJ7i5EbYXqLnJtWUxtQeC2F
+   gzKeas+mW1Tu9SlS2vSHuChK6mdOZzXzpc6r/+jHPWHfB61wTora8ji0w
+   WNq2wgzRjW+ow7aRT4+qkOoKO10Tg3G1dvnpDXJuOKxm90GGuhrk1Unoy
+   w==;
+X-CSE-ConnectionGUID: xWT7tJejTaqUhwO8Wx0dHA==
+X-CSE-MsgGUID: nDI/iWMZSoSQAPj9Q/nKzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="76508695"
 X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="71532145"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 03:40:41 -0700
-X-CSE-ConnectionGUID: /UgqEeRMQXiK1qECu2Rcyg==
-X-CSE-MsgGUID: WyLq8KVNSQaziwBhl5PKjA==
+   d="scan'208";a="76508695"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 04:02:43 -0700
+X-CSE-ConnectionGUID: cec6iDqtRveFuRAwO+kpYA==
+X-CSE-MsgGUID: AGkolEJBSSO/AvrG38goFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="154740630"
+   d="scan'208";a="154260169"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 04 Jul 2025 03:40:40 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 04 Jul 2025 04:02:42 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXdqP-0003bj-1t;
-	Fri, 04 Jul 2025 10:40:37 +0000
-Date: Fri, 4 Jul 2025 18:40:17 +0800
+	id 1uXeBj-0003d3-2z;
+	Fri, 04 Jul 2025 11:02:39 +0000
+Date: Fri, 4 Jul 2025 19:01:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 110/113]
- fs/bcachefs/btree_cache.c:190:29: warning: unused variable 'bc'
-Message-ID: <202507041858.zRP5EHCm-lkp@intel.com>
+Subject: [android-common:mirror-chromeos-5.10-arcvm 1/1]
+ kernel/sched/core.c:1660:7: error: 'struct sched_entity' has no member named
+ 'avg'
+Message-ID: <202507041822.oUTpdIMz-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,53 +63,39 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   869fe6267c3286b53f85effa38ab83a6200fd49b
-commit: ace9e99ba674c601f71218613ecfec44976becfc [110/113] bcachefs: Tweak btree cache helpers for use by btree node scan
-config: i386-buildonly-randconfig-001-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041858.zRP5EHCm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041858.zRP5EHCm-lkp@intel.com/reproduce)
+Hi David,
+
+FYI, the error/warning still remains.
+
+tree:   https://android.googlesource.com/kernel/common mirror-chromeos-5.10-arcvm
+head:   57eaf09d30ceb65be00c907370420547a7992943
+commit: e0515f89730a8597730e11f244a80d37c7970d4a [1/1] CHROMIUM: FROMLIST: sched/fair: Add util_guest for tasks
+config: arm-randconfig-003-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041822.oUTpdIMz-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041822.oUTpdIMz-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507041858.zRP5EHCm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507041822.oUTpdIMz-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/bcachefs/btree_cache.c: In function '__bch2_btree_node_mem_alloc':
->> fs/bcachefs/btree_cache.c:190:29: warning: unused variable 'bc' [-Wunused-variable]
-     190 |         struct btree_cache *bc = &c->btree_cache;
-         |                             ^~
+   kernel/sched/core.c: In function '__setscheduler_task_util':
+>> kernel/sched/core.c:1660:7: error: 'struct sched_entity' has no member named 'avg'
+     p->se.avg.util_guest = attr->sched_util_min;
+          ^
 
 
-vim +/bc +190 fs/bcachefs/btree_cache.c
+vim +1660 kernel/sched/core.c
 
-4580baec7fbee2f Kent Overstreet 2020-07-25  187  
-6adaac0b95dd39d Kent Overstreet 2021-04-20  188  struct btree *__bch2_btree_node_mem_alloc(struct bch_fs *c)
-4580baec7fbee2f Kent Overstreet 2020-07-25  189  {
-4580baec7fbee2f Kent Overstreet 2020-07-25 @190  	struct btree_cache *bc = &c->btree_cache;
-a10195764901e0a Kent Overstreet 2022-10-22  191  	struct btree *b;
-a10195764901e0a Kent Overstreet 2022-10-22  192  
-a10195764901e0a Kent Overstreet 2022-10-22  193  	b = __btree_node_mem_alloc(c, GFP_KERNEL);
-4580baec7fbee2f Kent Overstreet 2020-07-25  194  	if (!b)
-4580baec7fbee2f Kent Overstreet 2020-07-25  195  		return NULL;
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  196  
-4580baec7fbee2f Kent Overstreet 2020-07-25  197  	if (btree_node_data_alloc(c, b, GFP_KERNEL)) {
-4580baec7fbee2f Kent Overstreet 2020-07-25  198  		kfree(b);
-4580baec7fbee2f Kent Overstreet 2020-07-25  199  		return NULL;
-4580baec7fbee2f Kent Overstreet 2020-07-25  200  	}
-4580baec7fbee2f Kent Overstreet 2020-07-25  201  
-677bdb7346b6fd8 Alan Huang      2025-02-26  202  	bch2_btree_lock_init(&b->c, 0, GFP_KERNEL);
-4580baec7fbee2f Kent Overstreet 2020-07-25  203  	return b;
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  204  }
-1c6fdbd8f2465dd Kent Overstreet 2017-03-16  205  
-
-:::::: The code at line 190 was first introduced by commit
-:::::: 4580baec7fbee2fdceb9b5b2b337ea3734a6d2b8 bcachefs: Remove some uses of PAGE_SIZE in the btree code
-
-:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
-:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+  1656	
+  1657		if (likely(!(attr->sched_flags & SCHED_FLAG_UTIL_GUEST)))
+  1658			return;
+  1659	
+> 1660		p->se.avg.util_guest = attr->sched_util_min;
+  1661	}
+  1662	
 
 -- 
 0-DAY CI Kernel Test Service
