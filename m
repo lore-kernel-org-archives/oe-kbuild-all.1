@@ -1,60 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819181BE238;
-	Fri,  4 Jul 2025 14:24:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C701C84B2
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 14:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751639045; cv=none; b=WTx6iVjfg++mn6Epn4CwHjU9dWwHG9apXz3P9WXwIflzciGe2PeC8G3n9d19YjEM/PT70mjzFe8+MkfBtw/g/j9UP5QbrBFlo2c0HgA4niIvuJ6xKCzTzyPgOlkl5nlaBYw+DPiPVX3XwiHrtUvxsKn1XH9iuvO+ZIw618vD7nc=
+	t=1751639047; cv=none; b=OfE6D8Ilp8r9l6hThiFP9y6Nodr5lMrESdtOKYO1Qm+PoxAsK0DP4/2O9Bwn1J1GFlhBpoYlLeeVvGeDPsoRr94YNBkNtt7EAX40/GUODqb9aihqfLm0mMvsMl6gE8Tu7WXGZd8XBqUQf+/bIAW9I9G31KSBZrD63+iaOeYKJTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751639045; c=relaxed/simple;
-	bh=z/fpFp3C57D5zsiDOMOhZGP8+ZvQdPEfkKOjBj3KX58=;
+	s=arc-20240116; t=1751639047; c=relaxed/simple;
+	bh=gqGr7YMNSNGMmPO5TwyjCTxRgNuwtUce0xo5IGee5Nc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c8kHK+05BOIwmEgF8aAe8skutJHvVWWRpv5KbOjGIKXr4rdeHM8hBI9g29kcEVYFzorkSMzZxNvOMgEnfbuVU2gYoH7XGIjZyO7lMk9ATeu6k7TqUqbJfHNSgrd7aEqNGz96oYcBNVMUPmgOn/u6BFuN03ksgb/Z4fIk+9Y+MNU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LsF+6IBd; arc=none smtp.client-ip=198.175.65.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=NIREuFqk/HdeBpHa8Gf+TlctmsR3JX6zCCHbPg0gJY2VUOFFx8i/jVjs3Y8uco9s0X4csGrvnYirSsBf26BfmY8luAIpmR9KGj4jWUH6oip+eOVkqbF5XMaHhC9GUyyNQVo/TZzLq6k2lSXmuZZUp7bNHK5ktKJ2G9XRs125GwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NKgRU8Hc; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LsF+6IBd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NKgRU8Hc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751639044; x=1783175044;
+  t=1751639046; x=1783175046;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=z/fpFp3C57D5zsiDOMOhZGP8+ZvQdPEfkKOjBj3KX58=;
-  b=LsF+6IBdn5N5wdJ2hdLI+8U5F2Tuu+dDIWvLccJOm3iBtU/42sCdRtZy
-   h+T2GQdWfvtHL7bK8sWjKl5pHXVFmxCrimL9Z+NDg1DxCUF1mgyO3V20F
-   JDwj6w6qYXcETjeMxhMGMrdlFhVKxneF9yYbwacoVhb6ios6kRdEyyHfh
-   NZD/+zL+NfmGeedUvjC1F0XwWpeGHPyhfS+ZQkKNVk7NUG8G3SophjCxu
-   S28Y+TQR2XDhEZEnpWZfygnuJrbhR4AIFjQaPd1zn8NOJPJEO0FUvdCUB
-   86HK8WS1GeXXIBpdJ7vowv5mfrIMNa0EfCfBXrH1FIXGi6ACpYD71vhPP
-   A==;
-X-CSE-ConnectionGUID: L9pL8QsUSmqb+JZm4PNUyg==
-X-CSE-MsgGUID: xQvT2Q+yRgCZqJGNee9QQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="65030802"
+  bh=gqGr7YMNSNGMmPO5TwyjCTxRgNuwtUce0xo5IGee5Nc=;
+  b=NKgRU8HcQskjes1wfy0m/h6Wj7TlCFjDNOthhB/qfDa/msyUKNY7aQyj
+   azJ8wlGS7aJz/zo9WkWv3plUUOnhNrEOQ3uJvhSbZFTWXXK5Cr5PmdvHj
+   IZ3rkIvujL8REPUjhrU217xmfRSIDmsxLT4rpgM9Hh+Nm9q+HMfsTCNfq
+   oAN6fVRoxdnbuzObYIERjGXBf+UBrC283weDKNHyyMhKDrn3HiI0yucXL
+   vL91leTZLrVVLex7cK6O1tNX/Z10ueNZCbVKXD/0WwgNj1Y9HjZ993/I/
+   bjHhYEUX0r1F33v6AEbECtdu1QbuUeDyYpKw+fDA2Y/HWgJa0kHBNvujl
+   g==;
+X-CSE-ConnectionGUID: sGFRToDdQfKv6l2WFpEzkw==
+X-CSE-MsgGUID: I5iZwi/4Q3i3SL33Arlcfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="53846978"
 X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="65030802"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 07:24:03 -0700
-X-CSE-ConnectionGUID: Nv/ibLK0QM6j9ScZxt9p3A==
-X-CSE-MsgGUID: EJtADhggRxWmKnIG5CTl7w==
+   d="scan'208";a="53846978"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 07:24:05 -0700
+X-CSE-ConnectionGUID: 4S/0i2I+QNCR9MadHUaojw==
+X-CSE-MsgGUID: pT61i3k+SwGGxvI3+kg+qw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="178317909"
+   d="scan'208";a="154078646"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 04 Jul 2025 07:24:01 -0700
+  by orviesa006.jf.intel.com with ESMTP; 04 Jul 2025 07:24:02 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXhKZ-0003nJ-1s;
+	id 1uXhKZ-0003nH-1p;
 	Fri, 04 Jul 2025 14:23:59 +0000
-Date: Fri, 4 Jul 2025 22:23:30 +0800
+Date: Fri, 4 Jul 2025 22:23:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH v5 2/2] mm: Fix OOM killer inaccuracy on large
- many-core systems
-Message-ID: <202507042202.J2ui1z8Y-lkp@intel.com>
-References: <20250703173813.18432-3-mathieu.desnoyers@efficios.com>
+To: Jianping.Shen@de.bosch.com, jic23@kernel.org, lars@metafoo.de,
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+	dima.fedrau@gmail.com, marcelo.schmitt1@gmail.com,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Christian.Lorenz3@de.bosch.com,
+	Ulrike.Frauendorf@de.bosch.com, Kai.Dolde@de.bosch.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v3 2/2] iio: imu: smi330: Add driver
+Message-ID: <202507042238.UDo16CzT-lkp@intel.com>
+References: <20250703153823.806073-3-Jianping.Shen@de.bosch.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,79 +67,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250703173813.18432-3-mathieu.desnoyers@efficios.com>
+In-Reply-To: <20250703153823.806073-3-Jianping.Shen@de.bosch.com>
 
-Hi Mathieu,
+Hi,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on akpm-mm/mm-nonmm-unstable]
-[also build test ERROR on trace/for-next kees/for-next/execve linus/master v6.16-rc4]
-[cannot apply to akpm-mm/mm-everything dennis-percpu/for-next]
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.16-rc4 next-20250704]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mathieu-Desnoyers/lib-Introduce-hierarchical-per-cpu-counters/20250704-013915
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-nonmm-unstable
-patch link:    https://lore.kernel.org/r/20250703173813.18432-3-mathieu.desnoyers%40efficios.com
-patch subject: [RFC PATCH v5 2/2] mm: Fix OOM killer inaccuracy on large many-core systems
-config: x86_64-buildonly-randconfig-003-20250704 (https://download.01.org/0day-ci/archive/20250704/202507042202.J2ui1z8Y-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507042202.J2ui1z8Y-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Jianping-Shen-de-bosch-com/dt-bindings-iio-imu-smi330-Add-binding/20250703-234441
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250703153823.806073-3-Jianping.Shen%40de.bosch.com
+patch subject: [PATCH v3 2/2] iio: imu: smi330: Add driver
+config: microblaze-randconfig-r073-20250704 (https://download.01.org/0day-ci/archive/20250704/202507042238.UDo16CzT-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507042238.UDo16CzT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507042202.J2ui1z8Y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507042238.UDo16CzT-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: percpu_counter_tree_precise_compare_value
-   >>> referenced by fork.c:590 (kernel/fork.c:590)
-   >>>               vmlinux.o:(__mmdrop)
-   >>> referenced by fork.c:590 (kernel/fork.c:590)
-   >>>               vmlinux.o:(__mmdrop)
-   >>> referenced by fork.c:590 (kernel/fork.c:590)
-   >>>               vmlinux.o:(__mmdrop)
-   >>> referenced 1 more times
---
->> ld.lld: error: undefined symbol: percpu_counter_tree_destroy
-   >>> referenced by fork.c:694 (kernel/fork.c:694)
-   >>>               vmlinux.o:(__mmdrop)
-   >>> referenced by fork.c:694 (kernel/fork.c:694)
-   >>>               vmlinux.o:(__mmdrop)
-   >>> referenced by fork.c:694 (kernel/fork.c:694)
-   >>>               vmlinux.o:(__mmdrop)
-   >>> referenced 2 more times
---
->> ld.lld: error: undefined symbol: percpu_counter_tree_precise_sum
-   >>> referenced by fork.c:591 (kernel/fork.c:591)
-   >>>               vmlinux.o:(__mmdrop)
-   >>> referenced by fork.c:591 (kernel/fork.c:591)
-   >>>               vmlinux.o:(__mmdrop)
-   >>> referenced by fork.c:591 (kernel/fork.c:591)
-   >>>               vmlinux.o:(__mmdrop)
-   >>> referenced 1 more times
---
->> ld.lld: error: undefined symbol: percpu_counter_tree_init
-   >>> referenced by fork.c:1084 (kernel/fork.c:1084)
-   >>>               vmlinux.o:(mm_init)
-   >>> referenced by fork.c:1084 (kernel/fork.c:1084)
-   >>>               vmlinux.o:(mm_init)
-   >>> referenced by fork.c:1084 (kernel/fork.c:1084)
-   >>>               vmlinux.o:(mm_init)
-   >>> referenced 1 more times
---
->> ld.lld: error: undefined symbol: percpu_counter_tree_add_slowpath
-   >>> referenced by percpu_counter_tree.h:93 (include/linux/percpu_counter_tree.h:93)
-   >>>               vmlinux.o:(filemap_map_pages)
-   >>> referenced by percpu_counter_tree.h:93 (include/linux/percpu_counter_tree.h:93)
-   >>>               vmlinux.o:(copy_page_range)
-   >>> referenced by percpu_counter_tree.h:93 (include/linux/percpu_counter_tree.h:93)
-   >>>               vmlinux.o:(unmap_page_range)
-   >>> referenced 27 more times
+   drivers/iio/imu/smi330/smi330_i2c.c: In function 'smi330_regmap_i2c_read':
+>> drivers/iio/imu/smi330/smi330_i2c.c:26:11: warning: unused variable 'retry' [-Wunused-variable]
+     int ret, retry;
+              ^~~~~
+
+
+vim +/retry +26 drivers/iio/imu/smi330/smi330_i2c.c
+
+    20	
+    21	static int smi330_regmap_i2c_read(void *context, const void *reg_buf,
+    22					  size_t reg_size, void *val_buf,
+    23					  size_t val_size)
+    24	{
+    25		struct smi330_i2c_priv *priv = context;
+  > 26		int ret, retry;
+    27	
+    28		/*
+    29		 * SMI330 I2C read frame:
+    30		 * <Slave address[6:0], RnW> <x, Register address[6:0]>
+    31		 * <Slave address[6:0], RnW> <Dummy[7:0]> <Dummy[7:0]> <Data_0[7:0]> <Data_1[15:8]>...
+    32		 *                                                     <Data_N[7:0]> <Data_N[15:8]>
+    33		 * Remark: Slave address is not considered part of the frame in the following definitions
+    34		 */
+    35		struct i2c_msg msgs[] = {
+    36			{
+    37				.addr = priv->i2c->addr,
+    38				.flags = priv->i2c->flags,
+    39				.len = reg_size,
+    40				.buf = (u8 *)reg_buf,
+    41			},
+    42			{
+    43				.addr = priv->i2c->addr,
+    44				.flags = priv->i2c->flags | I2C_M_RD,
+    45				.len = SMI330_NUM_DUMMY_BYTES + val_size,
+    46				.buf = priv->rx_buffer,
+    47			},
+    48		};
+    49	
+    50		ret = i2c_transfer(priv->i2c->adapter, msgs, ARRAY_SIZE(msgs));
+    51		if (ret < 0)
+    52			return ret;
+    53	
+    54		memcpy(val_buf, priv->rx_buffer + SMI330_NUM_DUMMY_BYTES, val_size);
+    55	
+    56		return 0;
+    57	}
+    58	
 
 -- 
 0-DAY CI Kernel Test Service
