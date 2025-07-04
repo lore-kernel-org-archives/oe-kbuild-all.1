@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0609527F003
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 10:30:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE5F29293D
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 10:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751625042; cv=none; b=kS2RqspwTDM74WUyWt0BSLGbL7wdP493WMVVZuMKdeevkDBLqK6kppjIAjLWr+/2jIeaOSu3L9WS5L5f5+4JHSG06TYdkgqMMyAN1Vng+XUka9QYqS3oeSD0+Kqt92lBeZYNv1xi4JsJw5Fs4ZRV9DM+nES0EdRRlhyFMClsTC4=
+	t=1751625042; cv=none; b=Uua1OWliZZqR3jLdsZFClPO6XQd/L/tBuoh0HVERHJAsDndfeDDoxIsoABdH094CE+PvDRCdPw20LMhNplUNZATAUNMWaCnd4mEz3Is8HIYcbDebDUL8cP78y3ZzyvxERDwQOk15WX2A5CodgJ5sI7bKJ1F/6OckqqfRjNIdvUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1751625042; c=relaxed/simple;
-	bh=7nzM1Wlhh7FnNwM37fYLEaA15Pv6UbxSj/JqACircOk=;
+	bh=u3yHTiHWkZXfYLtRIExGhVRe4MSGzTtkLiYyMWU3UUo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ev1QdMmy/kmpUZIrpRVnWazkOxqQzahSSdTbvimux6juJuN3rwhUk9IyFXchDTwpZ9XWxdiegqKWhAhmwSf/l4htxtVR0CxAQe3+KdWKJ2p07pyJkZSoZPc8sE9M5PctNa3Kt4wV/cb+OQRGlwT+G5xNOLqE7ZZiywVTqT/QFTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hSEDp00X; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=EYw3YZkM6a7CiMDVqUTihqg6g3cQDGwF/6gHxzY3tspOjqVgmqr02g2OmynzXX5+asfDHSSeQBcIeaK+v+EzNWi6wf3VR0rwI4fUVVYZcjA/R2kvcnrxihWiv0YYv6SPm4pGNOdOJIgQtMbJeB4JHhevZtPQlM9gCslB7HZqWto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QE3eouBm; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hSEDp00X"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QE3eouBm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751625040; x=1783161040;
+  t=1751625041; x=1783161041;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7nzM1Wlhh7FnNwM37fYLEaA15Pv6UbxSj/JqACircOk=;
-  b=hSEDp00XQLSzH+/UrIBh3WJOAMQcroXiGvMYvJjNJ+PhjLW3tUj80qEJ
-   +Na/2BCe2eut82t5wMs0GRT4ps6d1/XVC9wwKJwFNBZHOKfjthMPkX1KL
-   pI+B1NwBurEcLQsF7vHRjuVu5Gbzf+/wCsDRmp859lWzG4G7o9EkQHNaz
-   N5ByqqxuGeSYDqN+XOcdqbaalyhKR0UfuWsMAX5JFqTY4f4TdD2yqIZ45
-   UBRLPE7XAbAQzltHlnnvDzwfUMOFpmyyrLnpszjYGU7xydwNtbIJJULuR
-   kqggzfkDMG2aBsnZxh/cdiUBfTsqitwbEV40xXMLb6rD+t7eAcE+ZE732
-   w==;
-X-CSE-ConnectionGUID: PUh/04WnTuGu88zOKoQYhA==
-X-CSE-MsgGUID: tXDZ5JzXRwuBqZzxWMOXzA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="71531330"
+  bh=u3yHTiHWkZXfYLtRIExGhVRe4MSGzTtkLiYyMWU3UUo=;
+  b=QE3eouBmpFJYdXIB7v4yxa8uVeV23HUgobZAn+aIKHMfhgjNu2SYFhaD
+   3criepsEDrdbV9TD4hS6ykM0+nSq2Xj7BfaYqUazdQBOYXv7WXszzVYbh
+   cHew08se0yhZZLVAXgCfCjb/Z0tvLJUKK8MUjKoUowYtneSGOZTB2pz6I
+   5RJ2o6T0Mbfhy5fjTsW8GZ3ipPzmEpGGN+4xE4OMua9zWHwQXZIqjEp5Q
+   3L7n/LBbCBuz4BvRRm0kUoiyZmer3IysLGhBR9g+aH6CBYMq44ZFx7eNA
+   tyoOF9HPl/xZ0rNLiw5KTFHy/8drKLzL4fF6vLDVxR6O2QhMTQobxMYZt
+   g==;
+X-CSE-ConnectionGUID: umPJs82hSwabbeT5clO9ug==
+X-CSE-MsgGUID: cX8JiEyeRKK0mxfzD0Bh9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53884294"
 X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="71531330"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 03:30:39 -0700
-X-CSE-ConnectionGUID: P6oY6gWHQ0afKt7UGYQPhw==
-X-CSE-MsgGUID: 4l2sJAcQQqG9epdWAG+1+g==
+   d="scan'208";a="53884294"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 03:30:40 -0700
+X-CSE-ConnectionGUID: Lh1fqFrDSIuDqyWuuzEVYw==
+X-CSE-MsgGUID: BpWJaBNlQPadHHten/jA+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="155375681"
+   d="scan'208";a="155102161"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 04 Jul 2025 03:30:38 -0700
+  by orviesa008.jf.intel.com with ESMTP; 04 Jul 2025 03:30:38 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXdgi-0003ax-1f;
+	id 1uXdgi-0003b5-2B;
 	Fri, 04 Jul 2025 10:30:36 +0000
-Date: Fri, 4 Jul 2025 18:29:54 +0800
+Date: Fri, 4 Jul 2025 18:29:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Zhang Qiao <zhangqiao22@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-5.10 3011/3011] kernel/sched/soft_domain.c:186:24:
- error: implicit declaration of function 'cpu_util_cfs'; did you mean
- 'cpu_util_irq'?
-Message-ID: <202507041857.BTkVYp1k-lkp@intel.com>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Christoph Hellwig <hch@lst.de>
+Subject: include/linux/build_bug.h:78:41: error: static assertion failed:
+ "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
+Message-ID: <202507041801.wE1h9GnN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,46 +63,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
-head:   41b7827f33a9fc1fe425b85029312de34b0f0abe
-commit: dd6655291bf7230ef984e1d283a5ec05821f996f [3011/3011] sched: Attach task group to soft domain
-config: arm64-randconfig-001-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041857.BTkVYp1k-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041857.BTkVYp1k-lkp@intel.com/reproduce)
+Hi Darrick,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4c06e63b92038fadb566b652ec3ec04e228931e8
+commit: 13877bc79d81354c53e91f3c86ac0f7bafe3ba7b xfs: port ondisk structure checks from xfs/122 to the kernel
+date:   8 months ago
+config: arm-randconfig-r123-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041801.wE1h9GnN-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250704/202507041801.wE1h9GnN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507041857.BTkVYp1k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507041801.wE1h9GnN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/sched/soft_domain.c: In function 'sum_util':
->> kernel/sched/soft_domain.c:186:24: error: implicit declaration of function 'cpu_util_cfs'; did you mean 'cpu_util_irq'? [-Werror=implicit-function-declaration]
-     186 |                 sum += cpu_util_cfs(cpu_rq(cpu));
-         |                        ^~~~~~~~~~~~
-         |                        cpu_util_irq
-   kernel/sched/soft_domain.c: In function '__sched_group_set_soft_domain':
-   kernel/sched/soft_domain.c:269:13: warning: variable 'cpu' set but not used [-Wunused-but-set-variable]
-     269 |         int cpu;
-         |             ^~~
-   cc1: some warnings being treated as errors
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/semaphore.h:11,
+                    from fs/xfs/xfs_linux.h:24,
+                    from fs/xfs/xfs.h:26,
+                    from fs/xfs/xfs_super.c:7:
+   fs/xfs/libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
+      10 |         static_assert(sizeof(structname) == (size), \
+         |         ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:133:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
+     133 |         XFS_CHECK_STRUCT_SIZE(struct xfs_attr_sf_entry,         3);
+         |         ^~~~~~~~~~~~~~~~~~~~~
+>> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_dir2_data_unused) is wrong, expected 6"
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                         ^~~~~~~~~~~~~~
+   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
+      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+         |                                  ^~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
+      10 |         static_assert(sizeof(structname) == (size), \
+         |         ^~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_ondisk.h:136:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
+     136 |         XFS_CHECK_STRUCT_SIZE(struct xfs_dir2_data_unused,      6);
+         |         ^~~~~~~~~~~~~~~~~~~~~
 
 
-vim +186 kernel/sched/soft_domain.c
+vim +78 include/linux/build_bug.h
 
-   179	
-   180	static unsigned long sum_util(struct cpumask *mask)
-   181	{
-   182		unsigned long sum = 0;
-   183		int cpu;
-   184	
-   185		for_each_cpu(cpu, mask)
- > 186			sum += cpu_util_cfs(cpu_rq(cpu));
-   187	
-   188		return sum;
-   189	}
-   190	
+bc6245e5efd70c Ian Abbott       2017-07-10  60  
+6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
+6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
+6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
+6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
+6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
+6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
+6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
+6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
+6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
+6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
+6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
+6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
+6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
+6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
+6bab69c65013be Rasmus Villemoes 2019-03-07 @77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
+6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+6bab69c65013be Rasmus Villemoes 2019-03-07  79  
+07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+
+:::::: The code at line 78 was first introduced by commit
+:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+
+:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
