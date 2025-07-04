@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E3CC272E4A
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 07:11:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1DA277007;
+	Fri,  4 Jul 2025 07:11:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751613084; cv=none; b=nBF3zyTb2k70jgXq/8D5EI7hg70hPA7NjGHGWC9b+dO4TnQxxYRSg1aAUWno1p52fBEHEhNHmSEUETRjEYnVjnKiPq/cRNKiU3RTMqlX8U/tAM9l7XxtI9+dQDljyyibIzQqBfAQeoD61FOtaki/bE5zwxn6YZchR2i2y4X/+nU=
+	t=1751613085; cv=none; b=O7LxZiNSQktYjm7WHARAsQhc67Vqe6iRt1jOax+aoIochakbFQ7hRiwoX7YbIsllxY0u8jjdxYNJZW1/IicvWY9lUaLPNk9VOsUEvpZohCYf1G4/crwSv6OY990qJ7KRrIQ+axy4oHoU4euvzpP9roOgkdLtKwRi/LGksABLSSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751613084; c=relaxed/simple;
-	bh=JLw3lD6nl72qK8sYIiCu7tWhO7iIrzgSqUpwkyYJo2Q=;
+	s=arc-20240116; t=1751613085; c=relaxed/simple;
+	bh=eY3yxetsfcAKTWev+VU+/alB84PZJgr/bSup/avdUOI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Nn4lYeoTeSGJ5LPFbOEf0E19WHK4prAxvF6zYgP1RnnoxFo2BPeLv3FyjKidKWBE0r1STb9474C+rgZRS2BHmnqYDvVd+kg8FdCHlMyhfNtQcJEO008nP5g2jbr/Agrx01mqOMt49gJfIiNOSHPioQ7cRSoETRASrNYH8QPzeko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TTM6b8QB; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=REd/sEqk4t+XnA5tT49kkkaR/lRqkwgRDKaVlPGLXSazcWJHdlpJ+j00kEQzsASEm3dYs91q9argoDkRWxwmy7dN+fek+0ZCIcEc6cRdD2b69OczIzGGoZbjgCyT0nw5njFwfnOTxOMF19pvsVGOQ3H4MRhdbJZm1XBRwyl7hPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dOGAgx2A; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TTM6b8QB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dOGAgx2A"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751613082; x=1783149082;
+  t=1751613084; x=1783149084;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JLw3lD6nl72qK8sYIiCu7tWhO7iIrzgSqUpwkyYJo2Q=;
-  b=TTM6b8QBPWhKmdsejlPSlpqgNxAC9Uz+OlQtwqycleCD1sQ3nPw7PH97
-   tRUviLvBMUfrmTChlA6leEtVTSAwYpmYHvUvZ3XwI86zmlYLVQ+aTD7Bj
-   nbWxZF2HMP2coQU17XbDEfVhFrlhhWZt6K4wb/XQtFJGNNkh4wCXntBZE
-   ZO4+64+2R1ILXC12rNizSNhC0itwyGoSQjDsuWPY1VStoptL2nYZ7VFug
-   tTqqELB3zT/Xo1loWu/bwNxjqcVOuT8TmZzdoNiAG824wQrP2Wd1cHvPJ
-   IQeCLl/2sVykN1OQQP3CbuxJcZIB05KUDachcwXolYVo6CulqEDMwTte5
-   g==;
-X-CSE-ConnectionGUID: uU2G9T0dQEWCfui/bnMBKw==
-X-CSE-MsgGUID: JPp9f0xQQXCVkKrd2FtDrg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="79384086"
+  bh=eY3yxetsfcAKTWev+VU+/alB84PZJgr/bSup/avdUOI=;
+  b=dOGAgx2A9WF+aWJs1d1DyVSq2zPBFj3iMSLDcEV1eqAk1BaijkGT53FI
+   kY4M4Z/A5cb4l7+8xPR/5EUUx/fAkY2o2fY2qcQpHjLTiBT5bJtuPe4Y5
+   C6FGtM37CMuHRJolTIe1jnd/f9oCvejWQMMfR6gnxWr7770UkSdGVnMF/
+   SsMBP/lZfMXdj0L9AntZg7sB5vqUV2WKDMKAUZtfs2x1tsPQq9Gto4zv9
+   bwFC+L7H5py4SY8ympH4u080EezRlIq9EDM2XEmk12GKcjCcTuyuVzaMq
+   y3NC78iKcg32W81X8jK3aEmWeUhkrGwGp0myPtM2qrOjKQLTUJD7wFikZ
+   A==;
+X-CSE-ConnectionGUID: MrklBSBlRRyrHZU4Y5wM4A==
+X-CSE-MsgGUID: az72VBt4SN2irRs3f8Odeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="79384088"
 X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="79384086"
+   d="scan'208";a="79384088"
 Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:11:21 -0700
-X-CSE-ConnectionGUID: fgUKOvMpSCaitICZ8jnDOQ==
-X-CSE-MsgGUID: yyfXVpgDRT+o/OXQBkT1NA==
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 00:11:22 -0700
+X-CSE-ConnectionGUID: IVDkeR18QE+cNvYaY52qBA==
+X-CSE-MsgGUID: F3eZDpPASRqJM8biS/HOOw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,286,1744095600"; 
-   d="scan'208";a="159124484"
+   d="scan'208";a="159124486"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
   by orviesa004.jf.intel.com with ESMTP; 04 Jul 2025 00:11:20 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXaZp-0003Qx-2M;
+	id 1uXaZp-0003Qz-2R;
 	Fri, 04 Jul 2025 07:11:17 +0000
-Date: Fri, 4 Jul 2025 15:10:49 +0800
+Date: Fri, 4 Jul 2025 15:10:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Markuze <amarkuze@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, ceph-devel@vger.kernel.org
-Subject: [ceph-client:binary_tracing 2/4]
- include/linux/ceph/ceph_san_ser.h:116:19: error: static assertion failed due
- to requirement 'sizeof (null_str.str) == sizeof(unsigned long)':
- null_str.str size must match unsigned long for proper alignment
-Message-ID: <202507041548.xbrz4aTf-lkp@intel.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>
+Subject: [trace:unwind/core 13/14] include/linux/unwind_deferred.h:57:27:
+ error: assigning to 'union unwind_task_id' from incompatible type 'int'
+Message-ID: <202507041545.j60uUWuS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,177 +63,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/ceph/ceph-client.git binary_tracing
-head:   242b3aa593381c5ed2f425dbfb145bf7ca42e1fc
-commit: 8a1cb95e58001067ea33908f1762ca31d6f93b69 [2/4] ceph_san code
-config: arm-randconfig-r071-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041548.xbrz4aTf-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 61529d9e36fa86782a2458e6bdeedf7f376ef4b5)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041548.xbrz4aTf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace unwind/core
+head:   13e7688d3b4aaabfa3d6289071e136c98e8f31d1
+commit: 4a9ffd6ce545f51b23f260e5697145d5da460dbb [13/14] unwind_user/x86: Enable frame pointer unwinding on x86
+config: x86_64-allnoconfig (https://download.01.org/0day-ci/archive/20250704/202507041545.j60uUWuS-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041545.j60uUWuS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507041548.xbrz4aTf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507041545.j60uUWuS-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from net/ceph/ceph_common.c:3:
-   In file included from include/linux/ceph/ceph_debug.h:9:
-   In file included from include/linux/ceph/ceph_san_logger.h:10:
->> include/linux/ceph/ceph_san_ser.h:116:19: error: static assertion failed due to requirement 'sizeof (null_str.str) == sizeof(unsigned long)': null_str.str size must match unsigned long for proper alignment
-     116 |     static_assert(sizeof(null_str.str) == sizeof(unsigned long),
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/ceph/ceph_san_ser.h:116:40: note: expression evaluates to '8 == 4'
-     116 |     static_assert(sizeof(null_str.str) == sizeof(unsigned long),
-         |                   ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
+   In file included from arch/x86/kernel/signal.c:28:
+   In file included from include/linux/entry-common.h:15:
+>> include/linux/unwind_deferred.h:57:27: error: assigning to 'union unwind_task_id' from incompatible type 'int'
+      57 |                 current->unwind_info.id = 0;
+         |                                         ^ ~
    1 error generated.
---
-   In file included from net/ceph/ceph_san_logger.c:17:
-   In file included from include/linux/ceph/ceph_san_logger.h:10:
->> include/linux/ceph/ceph_san_ser.h:116:19: error: static assertion failed due to requirement 'sizeof (null_str.str) == sizeof(unsigned long)': null_str.str size must match unsigned long for proper alignment
-     116 |     static_assert(sizeof(null_str.str) == sizeof(unsigned long),
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
-   include/linux/ceph/ceph_san_ser.h:116:40: note: expression evaluates to '8 == 4'
-     116 |     static_assert(sizeof(null_str.str) == sizeof(unsigned long),
-         |                   ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:50: note: expanded from macro 'static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                                  ^~~~
-   include/linux/build_bug.h:78:56: note: expanded from macro '__static_assert'
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                                        ^~~~
->> net/ceph/ceph_san_logger.c:866:67: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     865 |             pr_debug("reconstruct: writing %s string '%s' (len=%zu) at out_offset=%ld\n",
-         |                                                                                   ~~~
-         |                                                                                   %d
-     866 |                    type ? "pointer" : "inline", str, strlen(str), in_buffer - entry->buffer);
-         |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:637:38: note: expanded from macro 'pr_debug'
-     637 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                     ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:135:18: note: expanded from macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ~~~    ^~~~~~~~~~~
-   net/ceph/ceph_san_logger.c:877:25: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     876 |             pr_debug("reconstruct: reading int %d at in_offset=%ld\n",
-         |                                                                ~~~
-         |                                                                %d
-     877 |                    val, in_buffer - entry->buffer);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:637:38: note: expanded from macro 'pr_debug'
-     637 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                     ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:135:18: note: expanded from macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ~~~    ^~~~~~~~~~~
-   net/ceph/ceph_san_logger.c:892:25: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     891 |             pr_debug("reconstruct: reading int %u at in_offset=%ld\n",
-         |                                                                ~~~
-         |                                                                %d
-     892 |                    val, in_buffer - entry->buffer);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:637:38: note: expanded from macro 'pr_debug'
-     637 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                     ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:135:18: note: expanded from macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ~~~    ^~~~~~~~~~~
-   net/ceph/ceph_san_logger.c:907:25: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     906 |             pr_debug("reconstruct: reading int %u at in_offset=%ld\n",
-         |                                                                ~~~
-         |                                                                %d
-     907 |                    val, in_buffer - entry->buffer);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:637:38: note: expanded from macro 'pr_debug'
-     637 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                     ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:135:18: note: expanded from macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ~~~    ^~~~~~~~~~~
-   net/ceph/ceph_san_logger.c:922:45: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     921 |             pr_debug("reconstruct: reading pointer %llx at in_offset=%ld\n",
-         |                                                                      ~~~
-         |                                                                      %d
-     922 |                    (unsigned long long)val, in_buffer - entry->buffer);
-         |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:637:38: note: expanded from macro 'pr_debug'
-     637 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                     ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:135:18: note: expanded from macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ~~~    ^~~~~~~~~~~
-   net/ceph/ceph_san_logger.c:937:30: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     936 |             pr_debug("reconstruct: reading int %u (octal: %o) at in_offset=%ld\n",
-         |                                                                            ~~~
-         |                                                                            %d
-     937 |                    val, val, in_buffer - entry->buffer);
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:637:38: note: expanded from macro 'pr_debug'
-     637 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                     ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:135:18: note: expanded from macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ~~~    ^~~~~~~~~~~
-   net/ceph/ceph_san_logger.c:956:33: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     955 |                     pr_debug("reconstruct: reading long long %lld at in_offset=%ld\n",
-         |                                                                                ~~~
-         |                                                                                %d
-     956 |                            val, in_buffer - entry->buffer);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:637:38: note: expanded from macro 'pr_debug'
-     637 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                     ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:135:18: note: expanded from macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ~~~    ^~~~~~~~~~~
-   net/ceph/ceph_san_logger.c:962:33: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     961 |                     pr_debug("reconstruct: reading long long %llu at in_offset=%ld\n",
-         |                                                                                ~~~
-         |                                                                                %d
-     962 |                            val, in_buffer - entry->buffer);
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:637:38: note: expanded from macro 'pr_debug'
-     637 |         no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-         |                                     ~~~     ^~~~~~~~~~~
-   include/linux/printk.h:135:18: note: expanded from macro 'no_printk'
-     135 |                 _printk(fmt, ##__VA_ARGS__);            \
-         |                         ~~~    ^~~~~~~~~~~
-   net/ceph/ceph_san_logger.c:968:33: warning: format specifies type 'long' but the argument has type 'int' [-Wformat]
-     967 |                     pr_debug("reconstruct: reading long long %llu at in_offset=%ld\n",
-         |                                                                                ~~~
-         |                                                                                %d
-     968 |                            val, in_buffer - entry->buffer);
 
 
-vim +116 include/linux/ceph/ceph_san_ser.h
+vim +57 include/linux/unwind_deferred.h
 
-   112	
-   113	static inline size_t write_null_str(char *dst)
-   114	{
-   115		*(union null_str_u *)dst = null_str;
- > 116	    static_assert(sizeof(null_str.str) == sizeof(unsigned long),
-   117	                 "null_str.str size must match unsigned long for proper alignment");
-   118	    return __builtin_strlen(null_str.str);
-   119	}
-   120	
+11678a9b0f7328b Steven Rostedt 2025-06-30  43  
+be1affc11bf5d06 Josh Poimboeuf 2025-06-30  44  static __always_inline void unwind_reset_info(void)
+be1affc11bf5d06 Josh Poimboeuf 2025-06-30  45  {
+d92af163548c2cf Steven Rostedt 2025-06-30  46  	struct unwind_task_info *info = &current->unwind_info;
+d92af163548c2cf Steven Rostedt 2025-06-30  47  	unsigned long bits;
+d92af163548c2cf Steven Rostedt 2025-06-30  48  
+d92af163548c2cf Steven Rostedt 2025-06-30  49  	/* Was there any unwinding? */
+d92af163548c2cf Steven Rostedt 2025-06-30  50  	if (unlikely(info->unwind_mask)) {
+d92af163548c2cf Steven Rostedt 2025-06-30  51  		bits = info->unwind_mask;
+d92af163548c2cf Steven Rostedt 2025-06-30  52  		do {
+d92af163548c2cf Steven Rostedt 2025-06-30  53  			/* Is a task_work going to run again before going back */
+d92af163548c2cf Steven Rostedt 2025-06-30  54  			if (bits & UNWIND_PENDING)
+d92af163548c2cf Steven Rostedt 2025-06-30  55  				return;
+d92af163548c2cf Steven Rostedt 2025-06-30  56  		} while (!try_cmpxchg(&info->unwind_mask, &bits, 0UL));
+eba02b7e7ae52d4 Josh Poimboeuf 2025-06-30 @57  		current->unwind_info.id = 0;
+ef627d7976da738 Steven Rostedt 2025-06-30  58  
+d92af163548c2cf Steven Rostedt 2025-06-30  59  		if (unlikely(info->cache))
+d92af163548c2cf Steven Rostedt 2025-06-30  60  			info->cache->nr_entries = 0;
+be1affc11bf5d06 Josh Poimboeuf 2025-06-30  61  	}
+ef627d7976da738 Steven Rostedt 2025-06-30  62  }
+be1affc11bf5d06 Josh Poimboeuf 2025-06-30  63  
+
+:::::: The code at line 57 was first introduced by commit
+:::::: eba02b7e7ae52d4b6cda51156ae3d181bd781d56 unwind_user/deferred: Add deferred unwinding interface
+
+:::::: TO: Josh Poimboeuf <jpoimboe@kernel.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
 -- 
 0-DAY CI Kernel Test Service
