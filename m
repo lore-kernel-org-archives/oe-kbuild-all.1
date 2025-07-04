@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AE5F29293D
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 10:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A756E20C00B
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 10:40:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751625042; cv=none; b=Uua1OWliZZqR3jLdsZFClPO6XQd/L/tBuoh0HVERHJAsDndfeDDoxIsoABdH094CE+PvDRCdPw20LMhNplUNZATAUNMWaCnd4mEz3Is8HIYcbDebDUL8cP78y3ZzyvxERDwQOk15WX2A5CodgJ5sI7bKJ1F/6OckqqfRjNIdvUg=
+	t=1751625644; cv=none; b=tW/AoVYlMZrm1fqELfNvkpKDd3TanM7wZxvbguTPbXMCpO5gex45ZxzJsm8m8QnptYq9DZCEdgqVJxRp4tcYueWgY4H2G8iIyVcKGzzjBOtrROy0Cx7aqlchUMAgLH9sV/tpucuO4JI05HicDPAK8FPsX4B+4lkItlfIuTdVChY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751625042; c=relaxed/simple;
-	bh=u3yHTiHWkZXfYLtRIExGhVRe4MSGzTtkLiYyMWU3UUo=;
+	s=arc-20240116; t=1751625644; c=relaxed/simple;
+	bh=ev3y70e0JpbfAZi4K25S30cmybtFxYRD+YPwz8QqzGc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=EYw3YZkM6a7CiMDVqUTihqg6g3cQDGwF/6gHxzY3tspOjqVgmqr02g2OmynzXX5+asfDHSSeQBcIeaK+v+EzNWi6wf3VR0rwI4fUVVYZcjA/R2kvcnrxihWiv0YYv6SPm4pGNOdOJIgQtMbJeB4JHhevZtPQlM9gCslB7HZqWto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QE3eouBm; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=rHzKOXkT8IutCIJbqjehmdvtwwtcNvT7LO3qU7FkSxYO+OPsWXiJJQYcFYVKCx2hVmivjwmlHXXTaEWfJKHg65F3EcZ3ggqEme6Ho3/3qIJCF0KecQoS1cmlkX6DKsVnYB5jQikujo1IzQa+bZivdRbt+YdncJn94/OqDP9wiHw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WvooJXjh; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QE3eouBm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WvooJXjh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751625041; x=1783161041;
+  t=1751625643; x=1783161643;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=u3yHTiHWkZXfYLtRIExGhVRe4MSGzTtkLiYyMWU3UUo=;
-  b=QE3eouBmpFJYdXIB7v4yxa8uVeV23HUgobZAn+aIKHMfhgjNu2SYFhaD
-   3criepsEDrdbV9TD4hS6ykM0+nSq2Xj7BfaYqUazdQBOYXv7WXszzVYbh
-   cHew08se0yhZZLVAXgCfCjb/Z0tvLJUKK8MUjKoUowYtneSGOZTB2pz6I
-   5RJ2o6T0Mbfhy5fjTsW8GZ3ipPzmEpGGN+4xE4OMua9zWHwQXZIqjEp5Q
-   3L7n/LBbCBuz4BvRRm0kUoiyZmer3IysLGhBR9g+aH6CBYMq44ZFx7eNA
-   tyoOF9HPl/xZ0rNLiw5KTFHy/8drKLzL4fF6vLDVxR6O2QhMTQobxMYZt
-   g==;
-X-CSE-ConnectionGUID: umPJs82hSwabbeT5clO9ug==
-X-CSE-MsgGUID: cX8JiEyeRKK0mxfzD0Bh9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="53884294"
+  bh=ev3y70e0JpbfAZi4K25S30cmybtFxYRD+YPwz8QqzGc=;
+  b=WvooJXjhwJCnGnFaopzJe4jed9v1QaA+hv084ScaR42tNNo78ytxXvO2
+   VPB0s0SqPan4/chJnafdxtzQ4As5fzCQsj0ajk7k9MLTVmMy73i8aG0/P
+   Y7++5yfqPPpVNyZe7JgMuhZwcSe+xHm0+epEQjhHeq8Eb6sVV8Wq+n4Bk
+   qots/F+udndFisvKVIIeYyTK3pUiaJzACssMQ9iCcWQL3LRCzXvgPbbEq
+   JST3YnAKrMkIQ2qOgOC/RD7Qg79rcW3EfV1i/5m2LR65iGcZ2GVqPpw74
+   u3uwwHmmO+xNdD1O/EVLCu5vetjYVxBpMozjnUbl4VuOF4q05jovmeDVc
+   A==;
+X-CSE-ConnectionGUID: F72yb0QgSTCfP5ubdAfORQ==
+X-CSE-MsgGUID: 0H0g9mMBQCmVQz1u+3/ojw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11483"; a="71532145"
 X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="53884294"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 03:30:40 -0700
-X-CSE-ConnectionGUID: Lh1fqFrDSIuDqyWuuzEVYw==
-X-CSE-MsgGUID: BpWJaBNlQPadHHten/jA+w==
+   d="scan'208";a="71532145"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 03:40:41 -0700
+X-CSE-ConnectionGUID: /UgqEeRMQXiK1qECu2Rcyg==
+X-CSE-MsgGUID: WyLq8KVNSQaziwBhl5PKjA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="155102161"
+   d="scan'208";a="154740630"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 04 Jul 2025 03:30:38 -0700
+  by orviesa007.jf.intel.com with ESMTP; 04 Jul 2025 03:40:40 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXdgi-0003b5-2B;
-	Fri, 04 Jul 2025 10:30:36 +0000
-Date: Fri, 4 Jul 2025 18:29:55 +0800
+	id 1uXdqP-0003bj-1t;
+	Fri, 04 Jul 2025 10:40:37 +0000
+Date: Fri, 4 Jul 2025 18:40:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Christoph Hellwig <hch@lst.de>
-Subject: include/linux/build_bug.h:78:41: error: static assertion failed:
- "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
-Message-ID: <202507041801.wE1h9GnN-lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [koverstreet-bcachefs:bcachefs-testing 110/113]
+ fs/bcachefs/btree_cache.c:190:29: warning: unused variable 'bc'
+Message-ID: <202507041858.zRP5EHCm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,87 +62,53 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Darrick,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4c06e63b92038fadb566b652ec3ec04e228931e8
-commit: 13877bc79d81354c53e91f3c86ac0f7bafe3ba7b xfs: port ondisk structure checks from xfs/122 to the kernel
-date:   8 months ago
-config: arm-randconfig-r123-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041801.wE1h9GnN-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250704/202507041801.wE1h9GnN-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   869fe6267c3286b53f85effa38ab83a6200fd49b
+commit: ace9e99ba674c601f71218613ecfec44976becfc [110/113] bcachefs: Tweak btree cache helpers for use by btree node scan
+config: i386-buildonly-randconfig-001-20250704 (https://download.01.org/0day-ci/archive/20250704/202507041858.zRP5EHCm-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507041858.zRP5EHCm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507041801.wE1h9GnN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507041858.zRP5EHCm-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from include/linux/container_of.h:5,
-                    from include/linux/list.h:5,
-                    from include/linux/semaphore.h:11,
-                    from fs/xfs/xfs_linux.h:24,
-                    from fs/xfs/xfs.h:26,
-                    from fs/xfs/xfs_super.c:7:
-   fs/xfs/libxfs/xfs_ondisk.h: In function 'xfs_check_ondisk_structs':
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_attr_sf_entry) is wrong, expected 3"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:133:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     133 |         XFS_CHECK_STRUCT_SIZE(struct xfs_attr_sf_entry,         3);
-         |         ^~~~~~~~~~~~~~~~~~~~~
->> include/linux/build_bug.h:78:41: error: static assertion failed: "XFS: sizeof(struct xfs_dir2_data_unused) is wrong, expected 6"
-      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-         |                                         ^~~~~~~~~~~~~~
-   include/linux/build_bug.h:77:34: note: in expansion of macro '__static_assert'
-      77 | #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-         |                                  ^~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:10:9: note: in expansion of macro 'static_assert'
-      10 |         static_assert(sizeof(structname) == (size), \
-         |         ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_ondisk.h:136:9: note: in expansion of macro 'XFS_CHECK_STRUCT_SIZE'
-     136 |         XFS_CHECK_STRUCT_SIZE(struct xfs_dir2_data_unused,      6);
-         |         ^~~~~~~~~~~~~~~~~~~~~
+   fs/bcachefs/btree_cache.c: In function '__bch2_btree_node_mem_alloc':
+>> fs/bcachefs/btree_cache.c:190:29: warning: unused variable 'bc' [-Wunused-variable]
+     190 |         struct btree_cache *bc = &c->btree_cache;
+         |                             ^~
 
 
-vim +78 include/linux/build_bug.h
+vim +/bc +190 fs/bcachefs/btree_cache.c
 
-bc6245e5efd70c Ian Abbott       2017-07-10  60  
-6bab69c65013be Rasmus Villemoes 2019-03-07  61  /**
-6bab69c65013be Rasmus Villemoes 2019-03-07  62   * static_assert - check integer constant expression at build time
-6bab69c65013be Rasmus Villemoes 2019-03-07  63   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  64   * static_assert() is a wrapper for the C11 _Static_assert, with a
-6bab69c65013be Rasmus Villemoes 2019-03-07  65   * little macro magic to make the message optional (defaulting to the
-6bab69c65013be Rasmus Villemoes 2019-03-07  66   * stringification of the tested expression).
-6bab69c65013be Rasmus Villemoes 2019-03-07  67   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  68   * Contrary to BUILD_BUG_ON(), static_assert() can be used at global
-6bab69c65013be Rasmus Villemoes 2019-03-07  69   * scope, but requires the expression to be an integer constant
-6bab69c65013be Rasmus Villemoes 2019-03-07  70   * expression (i.e., it is not enough that __builtin_constant_p() is
-6bab69c65013be Rasmus Villemoes 2019-03-07  71   * true for expr).
-6bab69c65013be Rasmus Villemoes 2019-03-07  72   *
-6bab69c65013be Rasmus Villemoes 2019-03-07  73   * Also note that BUILD_BUG_ON() fails the build if the condition is
-6bab69c65013be Rasmus Villemoes 2019-03-07  74   * true, while static_assert() fails the build if the expression is
-6bab69c65013be Rasmus Villemoes 2019-03-07  75   * false.
-6bab69c65013be Rasmus Villemoes 2019-03-07  76   */
-6bab69c65013be Rasmus Villemoes 2019-03-07 @77  #define static_assert(expr, ...) __static_assert(expr, ##__VA_ARGS__, #expr)
-6bab69c65013be Rasmus Villemoes 2019-03-07 @78  #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-6bab69c65013be Rasmus Villemoes 2019-03-07  79  
-07a368b3f55a79 Maxim Levitsky   2022-10-25  80  
+4580baec7fbee2f Kent Overstreet 2020-07-25  187  
+6adaac0b95dd39d Kent Overstreet 2021-04-20  188  struct btree *__bch2_btree_node_mem_alloc(struct bch_fs *c)
+4580baec7fbee2f Kent Overstreet 2020-07-25  189  {
+4580baec7fbee2f Kent Overstreet 2020-07-25 @190  	struct btree_cache *bc = &c->btree_cache;
+a10195764901e0a Kent Overstreet 2022-10-22  191  	struct btree *b;
+a10195764901e0a Kent Overstreet 2022-10-22  192  
+a10195764901e0a Kent Overstreet 2022-10-22  193  	b = __btree_node_mem_alloc(c, GFP_KERNEL);
+4580baec7fbee2f Kent Overstreet 2020-07-25  194  	if (!b)
+4580baec7fbee2f Kent Overstreet 2020-07-25  195  		return NULL;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  196  
+4580baec7fbee2f Kent Overstreet 2020-07-25  197  	if (btree_node_data_alloc(c, b, GFP_KERNEL)) {
+4580baec7fbee2f Kent Overstreet 2020-07-25  198  		kfree(b);
+4580baec7fbee2f Kent Overstreet 2020-07-25  199  		return NULL;
+4580baec7fbee2f Kent Overstreet 2020-07-25  200  	}
+4580baec7fbee2f Kent Overstreet 2020-07-25  201  
+677bdb7346b6fd8 Alan Huang      2025-02-26  202  	bch2_btree_lock_init(&b->c, 0, GFP_KERNEL);
+4580baec7fbee2f Kent Overstreet 2020-07-25  203  	return b;
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  204  }
+1c6fdbd8f2465dd Kent Overstreet 2017-03-16  205  
 
-:::::: The code at line 78 was first introduced by commit
-:::::: 6bab69c65013bed5fce9f101a64a84d0385b3946 build_bug.h: add wrapper for _Static_assert
+:::::: The code at line 190 was first introduced by commit
+:::::: 4580baec7fbee2fdceb9b5b2b337ea3734a6d2b8 bcachefs: Remove some uses of PAGE_SIZE in the btree code
 
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Kent Overstreet <kent.overstreet@gmail.com>
+:::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
 
 -- 
 0-DAY CI Kernel Test Service
