@@ -1,64 +1,76 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C701C84B2
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  4 Jul 2025 14:24:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A4C01C3C18;
+	Fri,  4 Jul 2025 15:36:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751639047; cv=none; b=OfE6D8Ilp8r9l6hThiFP9y6Nodr5lMrESdtOKYO1Qm+PoxAsK0DP4/2O9Bwn1J1GFlhBpoYlLeeVvGeDPsoRr94YNBkNtt7EAX40/GUODqb9aihqfLm0mMvsMl6gE8Tu7WXGZd8XBqUQf+/bIAW9I9G31KSBZrD63+iaOeYKJTE=
+	t=1751643376; cv=none; b=cYouw0BGWh5FCnPf4LNlcevjDPrIpJhErEIqYRpnI6M5n4kesNFQA5s6Fl8K2ya44oVF2dRRDOO5Y/c4nBbyeLib042kvUzW3ue6nZmksEDga1/QOo7pUfUbx5p3mqVAZUFy973h9IRTOdPryhN1flQ59WhAhLLJmN9qpA8yxwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751639047; c=relaxed/simple;
-	bh=gqGr7YMNSNGMmPO5TwyjCTxRgNuwtUce0xo5IGee5Nc=;
+	s=arc-20240116; t=1751643376; c=relaxed/simple;
+	bh=SWttKQL4FkWzc6MgsldmYN3kVwwpFN2mg/MdqGHZizY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NIREuFqk/HdeBpHa8Gf+TlctmsR3JX6zCCHbPg0gJY2VUOFFx8i/jVjs3Y8uco9s0X4csGrvnYirSsBf26BfmY8luAIpmR9KGj4jWUH6oip+eOVkqbF5XMaHhC9GUyyNQVo/TZzLq6k2lSXmuZZUp7bNHK5ktKJ2G9XRs125GwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NKgRU8Hc; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=HqYoQhmtUqsGcZQHmEMn0ClpaNZaN62FhsKTVqZzy5CBiRn1aZM9oPTAOwq9IBF11QS2c/VAfXF5nJqu2veux0/SgSv+/gMxfKJ2WcjYFhe1twkRETQ1a3g7W9lvTuRKAgC4ojN+Ht2WhQpCpUXi75OCJ4WSnodISVoOj5CNt9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OJJgN3SO; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NKgRU8Hc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OJJgN3SO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751639046; x=1783175046;
+  t=1751643376; x=1783179376;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gqGr7YMNSNGMmPO5TwyjCTxRgNuwtUce0xo5IGee5Nc=;
-  b=NKgRU8HcQskjes1wfy0m/h6Wj7TlCFjDNOthhB/qfDa/msyUKNY7aQyj
-   azJ8wlGS7aJz/zo9WkWv3plUUOnhNrEOQ3uJvhSbZFTWXXK5Cr5PmdvHj
-   IZ3rkIvujL8REPUjhrU217xmfRSIDmsxLT4rpgM9Hh+Nm9q+HMfsTCNfq
-   oAN6fVRoxdnbuzObYIERjGXBf+UBrC283weDKNHyyMhKDrn3HiI0yucXL
-   vL91leTZLrVVLex7cK6O1tNX/Z10ueNZCbVKXD/0WwgNj1Y9HjZ993/I/
-   bjHhYEUX0r1F33v6AEbECtdu1QbuUeDyYpKw+fDA2Y/HWgJa0kHBNvujl
-   g==;
-X-CSE-ConnectionGUID: sGFRToDdQfKv6l2WFpEzkw==
-X-CSE-MsgGUID: I5iZwi/4Q3i3SL33Arlcfg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="53846978"
+  bh=SWttKQL4FkWzc6MgsldmYN3kVwwpFN2mg/MdqGHZizY=;
+  b=OJJgN3SOy4xJxe6bxVx3XCE8BYUx9FAJcUXNfZNV3THjrO7KOSI5bxJM
+   rTLYrkqkh7ehYGV0QXzB9acNGqIIGzbGfZikpIEBe62e501lKxUHV8vDc
+   gQ9Y1a7UqVy8QlSxSny6n3lp08FjOIKAzHlzegPWjzouUqLdA1CYS5jgz
+   yCToTFvEu79Fioyw+Ns8dLB8WxPInMEsPqAxv2dA/G3TI2rCWhkyaJM+y
+   zEVH0e4kT4nWxmVtCEHyzWCoK1e2PzLvWE0xCbJU2rkFy8YbDKyqQZeD6
+   yfZMI8BuHLl8terGSmDnyfIAbrBH3/qi8pK8XCxvFtbGexVsZ+6ZDzbYs
+   Q==;
+X-CSE-ConnectionGUID: r85geDFbTn+inmAoUVugag==
+X-CSE-MsgGUID: FnD63QQrQQWvPrWbCtqVkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="53951517"
 X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="53846978"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 07:24:05 -0700
-X-CSE-ConnectionGUID: 4S/0i2I+QNCR9MadHUaojw==
-X-CSE-MsgGUID: pT61i3k+SwGGxvI3+kg+qw==
+   d="scan'208";a="53951517"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 08:36:15 -0700
+X-CSE-ConnectionGUID: 8Wuv05NdRTiiT1w3N26BHA==
+X-CSE-MsgGUID: IL7TXyDfRxq0Y0POh56owg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,287,1744095600"; 
-   d="scan'208";a="154078646"
+   d="scan'208";a="158697099"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 04 Jul 2025 07:24:02 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 04 Jul 2025 08:36:09 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uXhKZ-0003nH-1p;
-	Fri, 04 Jul 2025 14:23:59 +0000
-Date: Fri, 4 Jul 2025 22:23:31 +0800
+	id 1uXiSN-0003q7-1l;
+	Fri, 04 Jul 2025 15:36:07 +0000
+Date: Fri, 4 Jul 2025 23:35:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jianping.Shen@de.bosch.com, jic23@kernel.org, lars@metafoo.de,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	dima.fedrau@gmail.com, marcelo.schmitt1@gmail.com,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Christian.Lorenz3@de.bosch.com,
-	Ulrike.Frauendorf@de.bosch.com, Kai.Dolde@de.bosch.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 2/2] iio: imu: smi330: Add driver
-Message-ID: <202507042238.UDo16CzT-lkp@intel.com>
-References: <20250703153823.806073-3-Jianping.Shen@de.bosch.com>
+To: Balbir Singh <balbirs@nvidia.com>, linux-mm@kvack.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	akpm@linux-foundation.org, linux-kernel@vger.kernel.org,
+	Balbir Singh <balbirs@nvidia.com>,
+	Karol Herbst <kherbst@redhat.com>, Lyude Paul <lyude@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Barry Song <baohua@kernel.org>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Ryan Roberts <ryan.roberts@arm.com>,
+	Matthew Wilcox <willy@infradead.org>, Peter Xu <peterx@redhat.com>,
+	Zi Yan <ziy@nvidia.com>, Kefeng Wang <wangkefeng.wang@huawei.com>,
+	Jane Chu <jane.chu@oracle.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Donet Tom <donettom@linux.ibm.com>
+Subject: Re: [v1 resend 04/12] mm/migrate_device: THP migration of zone
+ device pages
+Message-ID: <202507042336.o2mutGeh-lkp@intel.com>
+References: <20250703233511.2028395-5-balbirs@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,80 +79,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250703153823.806073-3-Jianping.Shen@de.bosch.com>
+In-Reply-To: <20250703233511.2028395-5-balbirs@nvidia.com>
 
-Hi,
+Hi Balbir,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.16-rc4 next-20250704]
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on next-20250704]
+[cannot apply to akpm-mm/mm-nonmm-unstable shuah-kselftest/next shuah-kselftest/fixes linus/master v6.16-rc4]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jianping-Shen-de-bosch-com/dt-bindings-iio-imu-smi330-Add-binding/20250703-234441
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250703153823.806073-3-Jianping.Shen%40de.bosch.com
-patch subject: [PATCH v3 2/2] iio: imu: smi330: Add driver
-config: microblaze-randconfig-r073-20250704 (https://download.01.org/0day-ci/archive/20250704/202507042238.UDo16CzT-lkp@intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507042238.UDo16CzT-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Balbir-Singh/mm-zone_device-support-large-zone-device-private-folios/20250704-073807
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250703233511.2028395-5-balbirs%40nvidia.com
+patch subject: [v1 resend 04/12] mm/migrate_device: THP migration of zone device pages
+config: x86_64-randconfig-075-20250704 (https://download.01.org/0day-ci/archive/20250704/202507042336.o2mutGeh-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250704/202507042336.o2mutGeh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507042238.UDo16CzT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507042336.o2mutGeh-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/iio/imu/smi330/smi330_i2c.c: In function 'smi330_regmap_i2c_read':
->> drivers/iio/imu/smi330/smi330_i2c.c:26:11: warning: unused variable 'retry' [-Wunused-variable]
-     int ret, retry;
-              ^~~~~
-
-
-vim +/retry +26 drivers/iio/imu/smi330/smi330_i2c.c
-
-    20	
-    21	static int smi330_regmap_i2c_read(void *context, const void *reg_buf,
-    22					  size_t reg_size, void *val_buf,
-    23					  size_t val_size)
-    24	{
-    25		struct smi330_i2c_priv *priv = context;
-  > 26		int ret, retry;
-    27	
-    28		/*
-    29		 * SMI330 I2C read frame:
-    30		 * <Slave address[6:0], RnW> <x, Register address[6:0]>
-    31		 * <Slave address[6:0], RnW> <Dummy[7:0]> <Dummy[7:0]> <Data_0[7:0]> <Data_1[15:8]>...
-    32		 *                                                     <Data_N[7:0]> <Data_N[15:8]>
-    33		 * Remark: Slave address is not considered part of the frame in the following definitions
-    34		 */
-    35		struct i2c_msg msgs[] = {
-    36			{
-    37				.addr = priv->i2c->addr,
-    38				.flags = priv->i2c->flags,
-    39				.len = reg_size,
-    40				.buf = (u8 *)reg_buf,
-    41			},
-    42			{
-    43				.addr = priv->i2c->addr,
-    44				.flags = priv->i2c->flags | I2C_M_RD,
-    45				.len = SMI330_NUM_DUMMY_BYTES + val_size,
-    46				.buf = priv->rx_buffer,
-    47			},
-    48		};
-    49	
-    50		ret = i2c_transfer(priv->i2c->adapter, msgs, ARRAY_SIZE(msgs));
-    51		if (ret < 0)
-    52			return ret;
-    53	
-    54		memcpy(val_buf, priv->rx_buffer + SMI330_NUM_DUMMY_BYTES, val_size);
-    55	
-    56		return 0;
-    57	}
-    58	
+>> Warning: mm/migrate_device.c:89 function parameter 'fault_folio' not described in 'migrate_vma_collect_huge_pmd'
+>> Warning: mm/migrate_device.c:707 function parameter 'page' not described in 'migrate_vma_insert_huge_pmd_page'
+   Warning: mm/migrate_device.c:707 Excess function parameter 'folio' description in 'migrate_vma_insert_huge_pmd_page'
 
 -- 
 0-DAY CI Kernel Test Service
