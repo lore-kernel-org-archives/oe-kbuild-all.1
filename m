@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC24D2E3702
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Jul 2025 22:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AABA199924
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Jul 2025 23:35:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751754225; cv=none; b=RLgTLVYXErJ4bIhp+aF+8Fra1OYhLdEAAurmJjXf+BnmdVB2uSjMTj613tCJgckjc325Pp0b9BClw4Q1iLZ90ncQV0P6nRaZcWLqlm00oaaITs7gPzw0Jtjaqu/Ls99fk7TYOUpCLRypvC1LbGkgfQ57/sb16WjJWS9rQLTqDI4=
+	t=1751758550; cv=none; b=IikfCwLiFd0eXkKOGKk7GjxYKOLdbN63kKVlI9pZcoNexpRqX6ktCqCy39bx2ClH1+BoUxZpgsL3Lj5s+twbaevfXgCMtDr6VxZYznkexqWAehlZ3bhtAc5pyHRxf0lk0cVZfsqA9X9Uk30s/IRjxYZszKRd6YjNvjRasN52hIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751754225; c=relaxed/simple;
-	bh=HfkjmbdMuT0fbo1D/l7xPxY1MPI+B+Z4RCBKJ84kLK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=LWG6difaBuKkbC+6jYFaGM0aDBy1uXR0GB4I25YgnFy0/8XsDgYAbmaVzpgsbo37R0E1i7wqG9DMcdG1b2EiHipZdyvax9LNraXTZH12emk8kib8BvHlw1Uif0aluLvenX74g6zs3U6O1jNbvuQw0Ni2X2hQYnJZ4ia65VN3jKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SsBvrI4B; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1751758550; c=relaxed/simple;
+	bh=A94WtBC9VOjOZLtKx9YvAY4tYhQiEfvWGt+qLpUShNs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d972NukHVE8mw5aGPw0iMUEZSCoy5hQn/50bD3SOk1Hkx9m33W36KHrLSDZRJwte43Y5xAMeI8VkP1CS4/b429LtK5/oZQSaYisGmFcZW5S8T7ysfe29XM3xEazgaLnsc9EMzXCrDHPJdeERqGNMAZpLS3PUTl/USr3o3CnmZvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YLl62+td; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SsBvrI4B"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YLl62+td"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751754223; x=1783290223;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=HfkjmbdMuT0fbo1D/l7xPxY1MPI+B+Z4RCBKJ84kLK4=;
-  b=SsBvrI4B9AC9mC7gokJ4+4KI8YP4X337aDY3TpIeQnBqRP7czhJv+hxG
-   HONZqpQN65jGhhvXdT8lW11p5e79ntM6YSoZ3/jbzd44eht9YLelAESOi
-   ceyiBEhpOLYUiCRh0XZ/PyX11GozISv5fRuClvvjpMBzhb4S5KuESkrlU
-   W8Nk3OxdK9Dq9xRM4pgpdAQbG+Pf+GkUbxPN1wpiQhM9yJr9b+RHWK3Mx
-   Z/xEfaDoLKdeVBTtDdEGkw7Pp68LUYoz2wLU2YhemMEkvNuefYlEnc9s3
-   Mp3jtGX7xPnxAz6seyBMGsW1TyqXbR5gbvd/0dD9BpVONmnA+Aypb/FwK
-   Q==;
-X-CSE-ConnectionGUID: 19W6jlocTGGUhmMJyOO7+Q==
-X-CSE-MsgGUID: 5WQ5FaQ4RbqnP5HXF9N8Ug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="64622720"
+  t=1751758548; x=1783294548;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=A94WtBC9VOjOZLtKx9YvAY4tYhQiEfvWGt+qLpUShNs=;
+  b=YLl62+tdUx6adPAaglONuG5VZvNCj3QV7M1Mv7ymSBhhHR5hlFAYUjXq
+   4h5We7j8ch4G5gB2UDYJ0LEmhKV2tqqfyxXRumEkJYuIEu9vShlUAuIRm
+   Y1036cCniUpSiWLAwkhCAG+Qizavnrx/nVGXzjRixQnzBiovVL4Rydsr5
+   rUvV9MLo9AmfHi5j8T/HLvd7z63BLdp067g/TcvRPsGjpQHcZrGZQ0H8M
+   mkgYCtmp+FMLr9HO0FBipdzhQalGc/OjcvSkuHFiiFoM3LJgqGEwdaPUh
+   TWMD6jW1bbJ4e8j55og3DQLl8v8SL6o7im51bQBL3YP4Yj/Lm89G9xtHQ
+   A==;
+X-CSE-ConnectionGUID: gKs96giSRS+4Fho87r3U+Q==
+X-CSE-MsgGUID: s4Bpr6irTVen8KtFI+7Qmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="57797194"
 X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
-   d="scan'208";a="64622720"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 15:23:43 -0700
-X-CSE-ConnectionGUID: OwO1nFgXSfKMAX8nY/q+fA==
-X-CSE-MsgGUID: S2o3FCrGQj6tkQcKJMM3Ag==
+   d="scan'208";a="57797194"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 16:35:47 -0700
+X-CSE-ConnectionGUID: /5ztsOlUS9y0Y1kLwnajeQ==
+X-CSE-MsgGUID: xO0D70IBSJOrMCQd3nxu9Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
-   d="scan'208";a="154628519"
+   d="scan'208";a="159167154"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 05 Jul 2025 15:23:41 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 05 Jul 2025 16:35:47 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYBIJ-0004kB-1n;
-	Sat, 05 Jul 2025 22:23:39 +0000
-Date: Sun, 6 Jul 2025 06:23:08 +0800
+	id 1uYCQ4-0004ln-37;
+	Sat, 05 Jul 2025 23:35:44 +0000
+Date: Sun, 6 Jul 2025 07:35:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
-	Marek Vasut <marek.vasut+renesas@mailbox.org>
-Subject: [linux-next:master 952/7381] ERROR: modpost:
- "devm_gpio_regmap_register" [drivers/regulator/rpi-panel-v2-regulator.ko]
- undefined!
-Message-ID: <202507060637.LfSd4z0I-lkp@intel.com>
+To: Damien =?iso-8859-1?Q?Ri=E9gel?= <damien.riegel@silabs.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC 2/6] greybus: cpc: add core logic
+Message-ID: <202507060710.jUXLbK61-lkp@intel.com>
+References: <20250705004036.3828-3-damien.riegel@silabs.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,31 +62,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250705004036.3828-3-damien.riegel@silabs.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   26ffb3d6f02cd0935fb9fa3db897767beee1cb2a
-commit: d49305862fdc4d9ff1b1093b4ed7d8e0cb9971b4 [952/7381] regulator: rpi-panel-v2: Add regulator for 7" Raspberry Pi 720x1280
-config: alpha-randconfig-r113-20250705 (https://download.01.org/0day-ci/archive/20250706/202507060637.LfSd4z0I-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250706/202507060637.LfSd4z0I-lkp@intel.com/reproduce)
+Hi Damien,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on staging/staging-testing]
+[also build test ERROR on staging/staging-next staging/staging-linus linus/master v6.16-rc4 next-20250704]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Ri-gel/greybus-move-host-controller-drivers-comment-in-Makefile/20250705-090138
+base:   staging/staging-testing
+patch link:    https://lore.kernel.org/r/20250705004036.3828-3-damien.riegel%40silabs.com
+patch subject: [RFC 2/6] greybus: cpc: add core logic
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250706/202507060710.jUXLbK61-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250706/202507060710.jUXLbK61-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507060637.LfSd4z0I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507060710.jUXLbK61-lkp@intel.com/
 
-Note: the linux-next/master HEAD 26ffb3d6f02cd0935fb9fa3db897767beee1cb2a builds fine.
-      It may have been fixed somewhere.
+All error/warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "devm_gpio_regmap_register" [drivers/regulator/rpi-panel-v2-regulator.ko] undefined!
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for GPIO_REGMAP
-   Depends on [n]: GPIOLIB [=n]
-   Selected by [m]:
-   - REGULATOR_RASPBERRYPI_TOUCHSCREEN_V2 [=m] && REGULATOR [=y] && I2C [=m]
+>> make[6]: *** No rule to make target 'drivers/greybus/cpc/main.o', needed by 'drivers/greybus/cpc/gb-cpc.o'.
+   make[6]: Target 'drivers/greybus/cpc/' not remade because of errors.
+--
+>> Warning: drivers/greybus/cpc/header.c:181 function parameter 'wnd' not described in 'cpc_header_number_in_window'
+>> Warning: drivers/greybus/cpc/header.c:181 Excess function parameter 'end' description in 'cpc_header_number_in_window'
 
 -- 
 0-DAY CI Kernel Test Service
