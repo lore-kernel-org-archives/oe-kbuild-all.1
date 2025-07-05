@@ -1,70 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95019211A19;
-	Sat,  5 Jul 2025 17:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4007D1D5165;
+	Sat,  5 Jul 2025 17:54:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751736867; cv=none; b=jWZ16/QACqACY6iDINIP7YWO2Sig/7rzFVxBPRszPEtR2wpPAtiiAM9RJzjtxc0td5Qw70yEY1GLOu1uGoOMOwfujjrj+WkhrClyOxcEbdss075FqK/z7UfJ784e1ddIrUYfMHQ6rWXYnWUJbO5C+9+eTSZMAu+2+NTru/tWncg=
+	t=1751738070; cv=none; b=GdT8iXl1tYOjHMoIpiFT3vhwI/zQrbr8G1tA02s4MtkLVc3uYSi+oqLRVI3clH8cWPLnMp9/9P7gm7Xnj97WnGuvDGl/IxtLM4K3azEsOiBpLXa3k7rG8pkA79wyMSZYeOWElL64JAca/XWnfqPQz+5fuedy3g911M1wuOgrxVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751736867; c=relaxed/simple;
-	bh=jwjO89dAruZlxXW25Yo8Gimm/KsplfgPKs8KiTMRLJE=;
+	s=arc-20240116; t=1751738070; c=relaxed/simple;
+	bh=rICWKtoMH+zyndlY0ZXbsoGpXVyzFl9DyaZBL8qQaao=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F6d/WcHweaH1ntRcLbqr7kEEp0smKMzXPwEeB8wzJUTrWkliNFnD4EPDnVzXlMwFiHqvbHNEcM7BT/1sj0m1gc0fi2reh2/ZbEY9UmE2ULAowjdwM+63s1TVwVfdaAVyzuqZLIPIo3LtqdN1OudXr18g4rxle1U+uaP6HWcMARg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M2whp148; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=rJPwdtz9vVKFUr2BufVD7oJUo2srWofmgCGbCO28LVAVfX0JRHx89sYb4p/uv2gCMzbeAOI/UImVLMMv51m1TPpz7WbHilyVY+JSeAq50FUnRG9vwaru6Vg90NvqR8AsYm9mCPbzjUnWzt4WrACrgxF8UAu8HD97s6F4R0p5oN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ML1ZvgWs; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M2whp148"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ML1ZvgWs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751736865; x=1783272865;
+  t=1751738067; x=1783274067;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=jwjO89dAruZlxXW25Yo8Gimm/KsplfgPKs8KiTMRLJE=;
-  b=M2whp148BT5+IzXAvu8sRCsJtENR53e+ztomc6V8mGhAxrAGkMQJWhXC
-   UjeYT2h43kfVTgbrNhz5lnmSQezhLM1PffT1TBqszY4UkfjixDDpjZKco
-   yI9N1KZ5Pa36r/vGGy2SMEEC2Tq1odYQ3Vx8E+tVaDAAFPSVXZBrcOH7X
-   rIYyMQAQX06R95aB9+CPUawr2+vSxzCNvBtuw0hlpyofejjwxs+A7Pot2
-   FgjWAY8nWXOBTD1fNCB85vhbLslN+Cia/zlPJsm0rmyRTFEllkqCUHWUR
-   IgumbMHyzseey8n5htqmonZQIhZ9qs9kfitiBjHE45YVYjZb6L/uKfgBu
+  bh=rICWKtoMH+zyndlY0ZXbsoGpXVyzFl9DyaZBL8qQaao=;
+  b=ML1ZvgWsRhwVmeh2sUwnowU3t4R6HJej3rL0PaYoix3gGH6wLCejFYpZ
+   F3durz7P7GEkgEeWjoRZBXlrVfqgnl34/FCCsUSRcqOL6oGEGxhxw4hg6
+   8/fS9OP9DSDt25YlkuYrclvi8BMUf40fQ5KKZHN1Tw5wyIOqiFHObYBFy
+   oTbDzqD4+ze9dsIlANSSAcDMdxFWf5TenD1TtI8JnVXOy3vKfkeIR7KXM
+   +8i4JH0Vmkzv9OKDpmglTy51IUBIfhYvuHC3UieRwUPcSVg9It8l3A0I2
+   l2Y7sJeEHfIrlnbLVcF0FLIjnDc2biIlsFWjV+yjqv3CJnWttNCo7eWIC
    w==;
-X-CSE-ConnectionGUID: PvjugGcnQ5GK0AHknkNA8A==
-X-CSE-MsgGUID: DuxBjvTFTuegNPKYtvzvgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="57790096"
+X-CSE-ConnectionGUID: N61dpd4PTMKfyVZl27I8Uw==
+X-CSE-MsgGUID: 4wiA9x3YRae4eAFZmHl9yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="64711297"
 X-IronPort-AV: E=Sophos;i="6.16,290,1744095600"; 
-   d="scan'208";a="57790096"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 10:34:25 -0700
-X-CSE-ConnectionGUID: UjlxWgo5RW6vclon7VAVJQ==
-X-CSE-MsgGUID: whd9aa+uQ8m2unXGIE7e1g==
+   d="scan'208";a="64711297"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 10:54:27 -0700
+X-CSE-ConnectionGUID: TZ/utm6MSFeQswsdWm9GjQ==
+X-CSE-MsgGUID: XN4Gx1F1S2GKMc4NbGXj8w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,290,1744095600"; 
-   d="scan'208";a="159203564"
+   d="scan'208";a="159128439"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 05 Jul 2025 10:34:22 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 05 Jul 2025 10:54:23 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uY6mJ-0004dz-2F;
-	Sat, 05 Jul 2025 17:34:19 +0000
-Date: Sun, 6 Jul 2025 01:33:21 +0800
+	id 1uY75h-0004ed-0i;
+	Sat, 05 Jul 2025 17:54:21 +0000
+Date: Sun, 6 Jul 2025 01:53:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Eric Woudstra <ericwouds@gmail.com>,
-	Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	netfilter-devel@vger.kernel.org, bridge@lists.linux.dev,
-	Eric Woudstra <ericwouds@gmail.com>
-Subject: Re: [PATCH v13 nf-next 1/3] netfilter: utils: nf_checksum(_partial)
- correct data!=networkheader
-Message-ID: <202507060106.A5xgr1Rs-lkp@intel.com>
-References: <20250704191135.1815969-2-ericwouds@gmail.com>
+To: Dmitry Baryshkov <lumag@kernel.org>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+	Sean Paul <sean@poorly.run>,
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jordan Crouse <jordan@cosmicpenguin.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 11/12] drm/msm/dpu: rewrite
+ _dpu_format_populate_plane_sizes_ubwc()
+Message-ID: <202507060149.j2XwjHut-lkp@intel.com>
+References: <20250705-dpu-formats-v1-11-40f0bb31b8c8@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,67 +72,158 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250704191135.1815969-2-ericwouds@gmail.com>
+In-Reply-To: <20250705-dpu-formats-v1-11-40f0bb31b8c8@oss.qualcomm.com>
 
-Hi Eric,
+Hi Dmitry,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on netfilter-nf/main]
-[also build test WARNING on horms-ipvs/master linus/master v6.16-rc4 next-20250704]
-[cannot apply to nf-next/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on 26ffb3d6f02cd0935fb9fa3db897767beee1cb2a]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Woudstra/netfilter-utils-nf_checksum-_partial-correct-data-networkheader/20250705-031418
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20250704191135.1815969-2-ericwouds%40gmail.com
-patch subject: [PATCH v13 nf-next 1/3] netfilter: utils: nf_checksum(_partial) correct data!=networkheader
-config: x86_64-randconfig-121-20250705 (https://download.01.org/0day-ci/archive/20250706/202507060106.A5xgr1Rs-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250706/202507060106.A5xgr1Rs-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/drm-msm-disp-set-num_planes-to-1-for-interleaved-YUV-formats/20250705-104933
+base:   26ffb3d6f02cd0935fb9fa3db897767beee1cb2a
+patch link:    https://lore.kernel.org/r/20250705-dpu-formats-v1-11-40f0bb31b8c8%40oss.qualcomm.com
+patch subject: [PATCH 11/12] drm/msm/dpu: rewrite _dpu_format_populate_plane_sizes_ubwc()
+config: powerpc64-randconfig-003-20250705 (https://download.01.org/0day-ci/archive/20250706/202507060149.j2XwjHut-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 61529d9e36fa86782a2458e6bdeedf7f376ef4b5)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250706/202507060149.j2XwjHut-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507060106.A5xgr1Rs-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507060149.j2XwjHut-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/netfilter/utils.c:131:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __sum16 @@     got int @@
-   net/netfilter/utils.c:131:24: sparse:     expected restricted __sum16
-   net/netfilter/utils.c:131:24: sparse:     got int
-   net/netfilter/utils.c:155:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __sum16 @@     got int @@
-   net/netfilter/utils.c:155:24: sparse:     expected restricted __sum16
-   net/netfilter/utils.c:155:24: sparse:     got int
+All warnings (new ones prefixed by >>):
 
-vim +131 net/netfilter/utils.c
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:79:7: warning: variable 'sclines' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      79 |                 if (fmt->pixel_format == DRM_FORMAT_NV12 ||
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      80 |                     fmt->pixel_format == DRM_FORMAT_P010) {
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:104:4: note: uninitialized use occurs here
+     104 |                         sclines, DPU_UBWC_PLANE_SIZE_ALIGNMENT);
+         |                         ^~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:79:3: note: remove the 'if' if its condition is always true
+      79 |                 if (fmt->pixel_format == DRM_FORMAT_NV12 ||
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      80 |                     fmt->pixel_format == DRM_FORMAT_P010) {
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:74:31: note: initialize the variable 'sclines' to silence this warning
+      74 |                 unsigned int stride, sclines;
+         |                                             ^
+         |                                              = 0
+>> drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:79:7: warning: variable 'stride' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+      79 |                 if (fmt->pixel_format == DRM_FORMAT_NV12 ||
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      80 |                     fmt->pixel_format == DRM_FORMAT_P010) {
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:102:28: note: uninitialized use occurs here
+     102 |                 layout->plane_pitch[0] = stride;
+         |                                          ^~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:79:3: note: remove the 'if' if its condition is always true
+      79 |                 if (fmt->pixel_format == DRM_FORMAT_NV12 ||
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      80 |                     fmt->pixel_format == DRM_FORMAT_P010) {
+         |                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c:74:22: note: initialize the variable 'stride' to silence this warning
+      74 |                 unsigned int stride, sclines;
+         |                                    ^
+         |                                     = 0
+   2 warnings generated.
 
-   122	
-   123	__sum16 nf_checksum(struct sk_buff *skb, unsigned int hook,
-   124			    unsigned int dataoff, u8 protocol,
-   125			    unsigned short family)
-   126	{
-   127		unsigned int nhpull = skb_network_header(skb) - skb->data;
-   128		__sum16 csum = 0;
-   129	
-   130		if (!pskb_may_pull(skb, nhpull))
- > 131			return -ENOMEM;
-   132		__skb_pull(skb, nhpull);
-   133		switch (family) {
-   134		case AF_INET:
-   135			csum = nf_ip_checksum(skb, hook, dataoff - nhpull, protocol);
-   136			break;
-   137		case AF_INET6:
-   138			csum = nf_ip6_checksum(skb, hook, dataoff - nhpull, protocol);
-   139			break;
-   140		}
-   141		__skb_push(skb, nhpull);
-   142	
-   143		return csum;
-   144	}
-   145	EXPORT_SYMBOL_GPL(nf_checksum);
-   146	
+
+vim +79 drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c
+
+    65	
+    66	static int _dpu_format_populate_plane_sizes_ubwc(
+    67			const struct msm_format *fmt,
+    68			struct drm_framebuffer *fb,
+    69			struct dpu_hw_fmt_layout *layout)
+    70	{
+    71		bool meta = MSM_FORMAT_IS_UBWC(fmt);
+    72	
+    73		if (MSM_FORMAT_IS_YUV(fmt)) {
+    74			unsigned int stride, sclines;
+    75			unsigned int y_tile_width, y_tile_height;
+    76			unsigned int y_meta_stride, y_meta_scanlines;
+    77			unsigned int uv_meta_stride, uv_meta_scanlines;
+    78	
+  > 79			if (fmt->pixel_format == DRM_FORMAT_NV12 ||
+    80			    fmt->pixel_format == DRM_FORMAT_P010) {
+    81				if (MSM_FORMAT_IS_DX(fmt)) {
+    82					if (fmt->flags & MSM_FORMAT_FLAG_UNPACK_TIGHT) {
+    83						stride = MSM_MEDIA_ALIGN(fb->width, 192);
+    84						stride = MSM_MEDIA_ALIGN(stride * 4 / 3, 256);
+    85						y_tile_width = 48;
+    86					} else {
+    87						stride = MSM_MEDIA_ALIGN(fb->width * 2, 256);
+    88						y_tile_width = 32;
+    89					}
+    90	
+    91					sclines = MSM_MEDIA_ALIGN(fb->height, 16);
+    92					y_tile_height = 4;
+    93				} else {
+    94					stride = MSM_MEDIA_ALIGN(fb->width, 128);
+    95					y_tile_width = 32;
+    96	
+    97					sclines = MSM_MEDIA_ALIGN(fb->height, 32);
+    98					y_tile_height = 8;
+    99				}
+   100			}
+   101	
+   102			layout->plane_pitch[0] = stride;
+   103			layout->plane_size[0] = MSM_MEDIA_ALIGN(layout->plane_pitch[0] *
+   104				sclines, DPU_UBWC_PLANE_SIZE_ALIGNMENT);
+   105	
+   106			layout->plane_pitch[1] = stride;
+   107			layout->plane_size[1] = MSM_MEDIA_ALIGN(layout->plane_pitch[1] *
+   108				sclines, DPU_UBWC_PLANE_SIZE_ALIGNMENT);
+   109	
+   110			if (!meta)
+   111				return 0;
+   112	
+   113			y_meta_stride = MSM_MEDIA_ROUNDUP(fb->width, y_tile_width);
+   114			layout->plane_pitch[2] = MSM_MEDIA_ALIGN(y_meta_stride, 64);
+   115	
+   116			y_meta_scanlines = MSM_MEDIA_ROUNDUP(fb->height, y_tile_height);
+   117			y_meta_scanlines = MSM_MEDIA_ALIGN(y_meta_scanlines, 16);
+   118			layout->plane_size[2] = MSM_MEDIA_ALIGN(layout->plane_pitch[2] *
+   119				y_meta_scanlines, DPU_UBWC_PLANE_SIZE_ALIGNMENT);
+   120	
+   121			uv_meta_stride = MSM_MEDIA_ROUNDUP((fb->width+1)>>1, y_tile_width / 2);
+   122			layout->plane_pitch[3] = MSM_MEDIA_ALIGN(uv_meta_stride, 64);
+   123	
+   124			uv_meta_scanlines = MSM_MEDIA_ROUNDUP((fb->height+1)>>1, y_tile_height);
+   125			uv_meta_scanlines = MSM_MEDIA_ALIGN(uv_meta_scanlines, 16);
+   126			layout->plane_size[3] = MSM_MEDIA_ALIGN(layout->plane_pitch[3] *
+   127				uv_meta_scanlines, DPU_UBWC_PLANE_SIZE_ALIGNMENT);
+   128		} else {
+   129			unsigned int rgb_scanlines, rgb_meta_scanlines, rgb_meta_stride;
+   130	
+   131			layout->plane_pitch[0] = MSM_MEDIA_ALIGN(fb->width * fmt->bpp, 256);
+   132			rgb_scanlines = MSM_MEDIA_ALIGN(fb->height, 16);
+   133			layout->plane_size[0] = MSM_MEDIA_ALIGN(layout->plane_pitch[0] *
+   134				rgb_scanlines, DPU_UBWC_PLANE_SIZE_ALIGNMENT);
+   135	
+   136			if (!meta)
+   137				return 0;
+   138	
+   139			/* uAPI leaves plane[1] empty and plane[2] as meta */
+   140			layout->num_planes += 1;
+   141	
+   142			rgb_meta_stride = MSM_MEDIA_ROUNDUP(fb->width, 16);
+   143			layout->plane_pitch[2] = MSM_MEDIA_ALIGN(rgb_meta_stride, 64);
+   144	
+   145			rgb_meta_scanlines = MSM_MEDIA_ROUNDUP(fb->height, 4);
+   146			rgb_meta_scanlines = MSM_MEDIA_ALIGN(rgb_meta_scanlines, 16);
+   147	
+   148			layout->plane_size[2] = MSM_MEDIA_ALIGN(layout->plane_pitch[2] *
+   149				rgb_meta_scanlines, DPU_UBWC_PLANE_SIZE_ALIGNMENT);
+   150		}
+   151	
+   152		return 0;
+   153	}
+   154	
 
 -- 
 0-DAY CI Kernel Test Service
