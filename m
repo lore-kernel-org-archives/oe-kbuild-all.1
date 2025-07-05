@@ -1,98 +1,148 @@
-Received: from zg8tmja5ljk3lje4mi4ymjia.icoremail.net (zg8tmja5ljk3lje4mi4ymjia.icoremail.net [209.97.182.222])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 088FA1BF58;
-	Sat,  5 Jul 2025 02:14:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.97.182.222
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748A6360
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Jul 2025 02:42:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751681670; cv=none; b=nsJMUItKeJdchDqiQBhV5TqnByln2JDaNNu599ThBbwll9Q1IGPTZLloIWxKD2MQE0vz5ehqly9nSqgRdk23P5VbhsnPFMBr9vvbQqVTWvaU/rO7cl7QJkqQEFZYEbX1VriwCvJ9UNefAmhujigt8VUwGQ4KK2gBUXzC/qhH7yM=
+	t=1751683333; cv=none; b=Y+jnO42EFBBKk5HA8BZ/HXzVWIFICAVtzbnUIoJ2msJAgRG9rZp6Buj8agg1f4KkjPLB745iLs3j0Ub4JADPpihuXZuZDUB7YLC6d0T335dXmYwblrSMMfTO4FzD/ZVO7SBkhRQz7Or2h8xV7KjoM5VZEGuL5QbmyX2ADhXO8k0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751681670; c=relaxed/simple;
-	bh=DnwXkV3mh2xNWLLry95sYPXozKXFK8Czxdfs07K9YpI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
-	 MIME-Version:Message-ID; b=NjF2oSP2ekjs/xK2J433Ez2ajODeXCyGYlvt/eRGhTWD8fwvXb5JiPLWyBgFVv6yfAJbl0IHzGZUpwEUPQLSzBF7AYURkKite092I3IQ/YLT3XggHdqUy0E2RpctBYlBeKTvXUe2iKBCUrDR5pORCykFo8SZpXK7kGQpKnClQ84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=209.97.182.222
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [112.10.226.58])
-	by mtasvr (Coremail) with SMTP id _____wDHRSxbimhoyH7qAw--.5558S3;
-	Sat, 05 Jul 2025 10:13:48 +0800 (CST)
-Received: from linma$zju.edu.cn ( [112.10.226.58] ) by
- ajax-webmail-mail-app3 (Coremail) ; Sat, 5 Jul 2025 10:13:46 +0800
- (GMT+08:00)
-Date: Sat, 5 Jul 2025 10:13:46 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: "Lin Ma" <linma@zju.edu.cn>
-To: "kernel test robot" <lkp@intel.com>
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, mingo@kernel.org,
-	tglx@linutronix.de, pwn9uin@gmail.com, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net v3] net: atm: Fix incorrect net_device lec check
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2024.3-cmXT6 build
- 20250620(94335109) Copyright (c) 2002-2025 www.mailtech.cn zju.edu.cn
-In-Reply-To: <202507050831.2GTrUnFN-lkp@intel.com>
-References: <20250703052427.12626-1-linma@zju.edu.cn>
- <202507050831.2GTrUnFN-lkp@intel.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	s=arc-20240116; t=1751683333; c=relaxed/simple;
+	bh=7SDj9nyNVBOLUf8/ai5QWRlQA9FpJ4sWQK5r8B/8np0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bIBe8V4BPcYce/3lMS/Ot9Aia4ABUklsvRc8gW4EKDciigObyyMx8zaEYT8NqjWJ8wfIsftV9xAhZT8RvV+VqGOJKAbwf4uTv2P2rDkhqNR/Fj0ir+wV5i1sxO2elFOsjOvCpfXqWO6brZgppdOkcELPDyAYzyYiUo3YBZQ2/W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kbk1S7jn; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kbk1S7jn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751683329; x=1783219329;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7SDj9nyNVBOLUf8/ai5QWRlQA9FpJ4sWQK5r8B/8np0=;
+  b=kbk1S7jnKB1Hpp4/0m28BNzle1mzAg7VBmoF1PDPY1lzo5S5IXlPJQGD
+   pQJdfUSOf0gbwqI6WjggZ0s/zOcTUO3U32OvJXzN1AAw4JjizsZlz0ENc
+   ds6WrFNkdoWCTgfTMGLn2W934ir84TqqjjsYCif9iwAg1SLimd/vuQ4ae
+   hQqtD+YQDjrmr2JbD/uaWocA6mEe0aO2OY2pFM3XdJs4mYbRU287gOpEY
+   BmJcZq7Yq4tU9GpfjS/qOjHB0boQP0fViRXIlFMFW45RoCsS8f6muwL4j
+   hoVLNDxUQRticrc+fCQvjdNKL+J08Zp5ixTAb5VS5m6yRYH5vLX9ZIiBg
+   g==;
+X-CSE-ConnectionGUID: uERaF5sASGu8zdUGhsMx7Q==
+X-CSE-MsgGUID: DL3f8OcRRayMPuGfe+swug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11484"; a="57670408"
+X-IronPort-AV: E=Sophos;i="6.16,289,1744095600"; 
+   d="scan'208";a="57670408"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jul 2025 19:42:08 -0700
+X-CSE-ConnectionGUID: 61QUFjXDS3CVwldmRvhz4w==
+X-CSE-MsgGUID: M1Dx02bkTwKV5N/OKozU7w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,289,1744095600"; 
+   d="scan'208";a="191934933"
+Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 04 Jul 2025 19:42:08 -0700
+Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uXsqs-0004DN-0w;
+	Sat, 05 Jul 2025 02:42:06 +0000
+Date: Sat, 5 Jul 2025 10:41:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Jia Qingtong <jiaqingtong@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2439/2439]
+ drivers/irqchip/irq-gic-v3-its.c:422:6: warning: no previous prototype for
+ function 'build_devid_pools'
+Message-ID: <202507051010.IHIzrory-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Message-ID: <208fe08d.af32.197d85c6fb6.Coremail.linma@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:zS_KCgD3_Ilbimho74xkAA--.19191W
-X-CM-SenderInfo: qtrwiiyqvtljo62m3hxhgxhubq/1tbiAwcQEmhlCw4N8wAKs6
-X-CM-DELIVERINFO: =?B?jiZXnQXKKxbFmtjJiESix3B1w3tPqcowV1L23Bze5QtIr9Db75bEBiiEybVhThS0pI
-	APHs9E3REyVLMz4DLkghFkBLqH5QYsdiIeS7um6fpDNefWi4wE3F/NAR45aDN/ORt2VyFM
-	7zRxcFgotyfKCrND2Di8M1FrbpUWplBdpdkwTnOMjT390PyTZ68sFSMcKOis0w==
-X-Coremail-Antispam: 1Uk129KBj93XoW7Cr17ZrWxuw1DJr1xGFWkKrX_yoW8Wr13pa
-	18JayqgrZ8Wry0ga97Ka4j9ws8t395W3sxWF15Ar15ua1DAFyDWrWIgrnxXryUKr4qg348
-	KF9FgFnayw1UAabCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUQYb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
-	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
-	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0Y48IcxkI7V
-	AKI48G6xCjnVAKz4kxM4xvF2IEb7IF0Fy264kE64k0F24lFcxC0VAYjxAxZF0Ex2IqxwAC
-	I402YVCY1x02628vn2kIc2xKxwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJV
-	W8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF
-	1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6x
-	IIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvE
-	x4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UMVCEFcxC0VAYjx
-	AxZFUvcSsGvfC2KfnxnUUI43ZEXa7IU8rcTJUUUUU==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-SGkgcm9ib3QsCgo+IAo+IEhpIExpbiwKPiAKPiBrZXJuZWwgdGVzdCByb2JvdCBub3RpY2VkIHRo
-ZSBmb2xsb3dpbmcgYnVpbGQgZXJyb3JzOgo+IAo+IFthdXRvIGJ1aWxkIHRlc3QgRVJST1Igb24g
-bmV0L21haW5dCj4gCj4gdXJsOiAgICBodHRwczovL2dpdGh1Yi5jb20vaW50ZWwtbGFiLWxrcC9s
-aW51eC9jb21taXRzL0xpbi1NYS9uZXQtYXRtLUZpeC1pbmNvcnJlY3QtbmV0X2RldmljZS1sZWMt
-Y2hlY2svMjAyNTA3MDMtMTMyNzI3Cj4gYmFzZTogICBuZXQvbWFpbgo+IHBhdGNoIGxpbms6ICAg
-IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL3IvMjAyNTA3MDMwNTI0MjcuMTI2MjYtMS1saW5tYSU0
-MHpqdS5lZHUuY24KPiBwYXRjaCBzdWJqZWN0OiBbUEFUQ0ggbmV0IHYzXSBuZXQ6IGF0bTogRml4
-IGluY29ycmVjdCBuZXRfZGV2aWNlIGxlYyBjaGVjawo+IGNvbmZpZzogeDg2XzY0LXJhbmRjb25m
-aWctMDc4LTIwMjUwNzA1IChodHRwczovL2Rvd25sb2FkLjAxLm9yZy8wZGF5LWNpL2FyY2hpdmUv
-MjAyNTA3MDUvMjAyNTA3MDUwODMxLjJHVHJVbkZOLWxrcEBpbnRlbC5jb20vY29uZmlnKQo+IGNv
-bXBpbGVyOiBjbGFuZyB2ZXJzaW9uIDIwLjEuNyAoaHR0cHM6Ly9naXRodWIuY29tL2xsdm0vbGx2
-bS1wcm9qZWN0IDYxNDZhODhmNjA0OTJiNTIwYTM2ZjhmOGYzMjMxZTE1ZjNjYzYwODIpCj4gcmVw
-cm9kdWNlICh0aGlzIGlzIGEgVz0xIGJ1aWxkKTogKGh0dHBzOi8vZG93bmxvYWQuMDEub3JnLzBk
-YXktY2kvYXJjaGl2ZS8yMDI1MDcwNS8yMDI1MDcwNTA4MzEuMkdUclVuRk4tbGtwQGludGVsLmNv
-bS9yZXByb2R1Y2UpCj4gCj4gSWYgeW91IGZpeCB0aGUgaXNzdWUgaW4gYSBzZXBhcmF0ZSBwYXRj
-aC9jb21taXQgKGkuZS4gbm90IGp1c3QgYSBuZXcgdmVyc2lvbiBvZgo+IHRoZSBzYW1lIHBhdGNo
-L2NvbW1pdCksIGtpbmRseSBhZGQgZm9sbG93aW5nIHRhZ3MKPiB8IFJlcG9ydGVkLWJ5OiBrZXJu
-ZWwgdGVzdCByb2JvdCA8bGtwQGludGVsLmNvbT4KPiB8IENsb3NlczogaHR0cHM6Ly9sb3JlLmtl
-cm5lbC5vcmcvb2Uta2J1aWxkLWFsbC8yMDI1MDcwNTA4MzEuMkdUclVuRk4tbGtwQGludGVsLmNv
-bS8KPiAKPiBBbGwgZXJyb3JzIChuZXcgb25lcyBwcmVmaXhlZCBieSA+Piwgb2xkIG9uZXMgcHJl
-Zml4ZWQgYnkgPDwpOgo+IAo+ID4+IEVSUk9SOiBtb2Rwb3N0OiAiaXNfbmV0ZGV2X2xlYyIgW25l
-dC9hdG0vbXBvYS5rb10gdW5kZWZpbmVkIQo+IAo+IC0tIAo+IDAtREFZIENJIEtlcm5lbCBUZXN0
-IFNlcnZpY2UKPiBodHRwczovL2dpdGh1Yi5jb20vaW50ZWwvbGtwLXRlc3RzL3dpa2kKCllvdSBh
-cmUgcmlnaHQsIHRoaXMgcGF0Y2gganVzdCBjb21waWxlIHdoZW4gQ09ORklHX0FUTT15IGJ1dCBy
-YWlzZQplcnJvciBpZiBDT05GSUdfQVRNPW0uIEknbSBzbyBzdHVwaWQgdGhhdCBJIG1hZGUgdGhp
-cyBzeW1ib2wgbWlzdGFrZSA6KAoKVW5kZXIgZml4aW5nIGl0IGN1cnJlbnRseS4KClRoYW5rcwpM
-aW4KCgo=
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   016a2eb38be5e29bea5011bd5fed627886f59f65
+commit: dce2ff908fc83eb4decc87632bdd0cad670528cf [2439/2439] irqchip/gic-v3-its: Move build_devid_pools from its to acpi iort init
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250705/202507051010.IHIzrory-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250705/202507051010.IHIzrory-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507051010.IHIzrory-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from drivers/irqchip/irq-gic-v3-its.c:7:
+   In file included from include/linux/acpi.h:37:
+   In file included from include/acpi/acpi_io.h:7:
+   In file included from arch/arm64/include/asm/acpi.h:14:
+   In file included from include/linux/memblock.h:12:
+   In file included from include/linux/mm.h:2253:
+   include/linux/vmstat.h:508:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     508 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     509 |                            item];
+         |                            ~~~~
+   include/linux/vmstat.h:515:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     515 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     516 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:522:36: warning: arithmetic between different enumeration types ('enum node_stat_item' and 'enum lru_list') [-Wenum-enum-conversion]
+     522 |         return node_stat_name(NR_LRU_BASE + lru) + 3; // skip "nr_"
+         |                               ~~~~~~~~~~~ ^ ~~~
+   include/linux/vmstat.h:527:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     527 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     528 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/vmstat.h:536:43: warning: arithmetic between different enumeration types ('enum zone_stat_item' and 'enum numa_stat_item') [-Wenum-enum-conversion]
+     536 |         return vmstat_text[NR_VM_ZONE_STAT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~ ^
+     537 |                            NR_VM_NUMA_EVENT_ITEMS +
+         |                            ~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/irqchip/irq-gic-v3-its.c:422:6: warning: no previous prototype for function 'build_devid_pools' [-Wmissing-prototypes]
+     422 | void build_devid_pools(void)
+         |      ^
+   drivers/irqchip/irq-gic-v3-its.c:422:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     422 | void build_devid_pools(void)
+         | ^
+         | static 
+   drivers/irqchip/irq-gic-v3-its.c:54:12: warning: unused function 'iort_get_used_bus_bitmap' [-Wunused-function]
+      54 | static int iort_get_used_bus_bitmap(unsigned long **bus_bm, resource_size_t *len)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~
+   7 warnings generated.
+
+
+vim +/build_devid_pools +422 drivers/irqchip/irq-gic-v3-its.c
+
+   417	
+   418	#ifdef CONFIG_VIRT_PLAT_DEV
+   419	/*
+   420	 * Currently we only build *one* devid pool.
+   421	 */
+ > 422	void build_devid_pools(void)
+   423	{
+   424		struct its_node *its;
+   425	
+   426		its = list_first_entry(&its_nodes, struct its_node, entry);
+   427		if (readl_relaxed(its->base + GITS_IIDR) != 0x00051736)
+   428			return;
+   429	
+   430		if (!probe_devid_pool_one())
+   431			rsv_devid_pool_cap = true;
+   432	
+   433		if (rsv_devid_pool_cap)
+   434			pr_info("ITS: reserved device id pools enabled\n");
+   435	}
+   436	#endif
+   437	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
