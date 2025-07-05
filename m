@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AEF12AD00;
-	Sat,  5 Jul 2025 15:12:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C9614EC46
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Jul 2025 16:52:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751728360; cv=none; b=O8POyyttZfjsO5v7W4kf0mnlcS5XQD4t9Nxct3a0CBwDLwkxQELLDgrQFHM7utyAB/fEqxE7DneL8b2GgFxc9wUBfU3jkH5Hz10OzfeJwxMW4rszUTq4EKlTH+c4/2OIchUCkOp+vSmYumzGhXuOfHjP6loySd41Vk2BN35JAIk=
+	t=1751734344; cv=none; b=NKfhyXaveXY2L6qMwfbb98LIFhJqxDxzZJ+w7uxNa0nDqw+wF5uLGcAMt1zwlJGfaFqtE6S9oh1vGp5TstWe8ePMonmCXUYTnbEQ3ueiDmji9Vqcl3xdzPnRKlN55KXVKHoU56wjWnfXkraw7IbYlZC2jLORTZyldoey6DfBLwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751728360; c=relaxed/simple;
-	bh=IB9nl7319cY+0cL9PqevjHLdbb13k85S9gBNOs4msQs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=N21IF+reI0VUZ87y+c9/Ze60+za4Mr08MnzAqJzqOBDOOkkX7oXhniTtQ8T+CAcXD0VG+4auvdWYZWweQC+ExeJPW+PJJuaULsrM74/Qv/k4+3T1I8InEvQF4cqOYtAMimKtujlxKRDKbsq2K+C/lZVM+6VSz5r1Xx9aZMhdUtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EKwQrdWG; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1751734344; c=relaxed/simple;
+	bh=e2wiSNs48ZBe2YT9oRIVY+jqqRRhnGkNdUsYu5WN1Lw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m7kHy5Yw3wYo522X7E3QZxI/S6N4cBMCNZmXOhgOLQBxKfCTF4zU1BU4ocFkhShoyOSDeB/yU3zn0usbdpYaaRn4M1AgWUEmN9ZAuwAH8SLNHDSqtVUYHkWUY+f1gn+xEWf61wJUNWiI7ccS7DJWcktms0OFkJ7aFz+gcQ2pgcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZLu+Ni5Q; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EKwQrdWG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZLu+Ni5Q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751728358; x=1783264358;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IB9nl7319cY+0cL9PqevjHLdbb13k85S9gBNOs4msQs=;
-  b=EKwQrdWG+vEWkjBjV+Waws14kGHuPVqxEaHwy/EzMSSWHZu32bVXRR80
-   1qJDkJxOvoudWrX7aSVNAnEfn6XUVMfXW+VqJ8t8Lcm7xVidtdhC86mGo
-   GvM0/m6mi3jR45yiUM825Ak5Z8z83I8hITC//kKBClcgNnR2wlfJzygm4
-   GCGe7Vwv18wNY128SFUsiGJlXDRueS2TuFbSmaizMiz12yOdNozoF+5sZ
-   zNyCJ5iA0ouDmaEQzgN0XADfJrygLJOJ8iriGCWoavMfI1wctTQ/OpkuA
-   pzJGgwGj37gCv2GR+8jbJud7kwAmjrHPQC5WqCDpU7WHuFz/tkxA3G6bR
-   w==;
-X-CSE-ConnectionGUID: qkMzuxQ7TCOqAgzXY7tlIg==
-X-CSE-MsgGUID: 5EKAUeq2SvK0PTSsSylN7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="71449477"
+  t=1751734342; x=1783270342;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=e2wiSNs48ZBe2YT9oRIVY+jqqRRhnGkNdUsYu5WN1Lw=;
+  b=ZLu+Ni5QGqBU1QM1DbsUFwvmviqq4LMZTsgGjB+uEtRMkE7Rd/K/k8XF
+   xkaQZFwaetEGUwODAf6Lz53wFJ6ZVmqofC+OZA7pq0b8eqlPhxqrGeYFl
+   Rt4KQZgxd1ElzxtHzBFntowgoBUaWif4VdFHz2Vk9bLIPOiRh477ksrkG
+   oBm7Aag8qnAnBQa5Y4wvk4dgamX98iHyv29sk47GEXbRRf212NqoqXjjq
+   3o06QH8GnYVFfxwh1m2K96AmCWst5xk7d0yBVh+s1TAJ/a5XIgyO+P3rm
+   qLShbhKqfZiVSoK3gH+j1jQdeH7zcOG6TFGse3VA0OPMlH+er/2E41+kx
+   g==;
+X-CSE-ConnectionGUID: r5pZi51ETXSvwnDICGXAUQ==
+X-CSE-MsgGUID: oZrq+mj5Tnug5zNyxfQoGw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="53238637"
 X-IronPort-AV: E=Sophos;i="6.16,290,1744095600"; 
-   d="scan'208";a="71449477"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 08:12:37 -0700
-X-CSE-ConnectionGUID: +p5Iv0URThSpU7xvbT0jyQ==
-X-CSE-MsgGUID: 71aFyogfQ8mYwd/xaDy/hg==
+   d="scan'208";a="53238637"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 09:52:21 -0700
+X-CSE-ConnectionGUID: z2oItUR9ROmbiFGY0UomQA==
+X-CSE-MsgGUID: cOW1/8VqTWG0kX5QC4KFoQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,290,1744095600"; 
-   d="scan'208";a="158860536"
-Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
-  by fmviesa003.fm.intel.com with ESMTP; 05 Jul 2025 08:12:36 -0700
-Received: from kbuild by 030a839a1121 with local (Exim 4.96)
+   d="scan'208";a="154263751"
+Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 05 Jul 2025 09:52:20 -0700
+Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uY4Z6-0000qf-0r;
-	Sat, 05 Jul 2025 15:12:32 +0000
-Date: Sat, 5 Jul 2025 17:12:16 +0200
+	id 1uY67c-0004ch-1x;
+	Sat, 05 Jul 2025 16:52:16 +0000
+Date: Sun, 6 Jul 2025 00:51:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Nikita Ofitserov <himikof@gmail.com>
-Subject: [bcachefs:bcachefs-testing 61/115]
- fs/bcachefs/btree_node_scan.c:229:6: warning: variable 'bio' is used
- uninitialized whenever 'if' condition is true
-Message-ID: <202507051757.KRkB4I2y-lkp@intel.com>
+To: yangge1116@126.com, ardb@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jarkko@kernel.org,
+	sathyanarayanan.kuppuswamy@linux.intel.com,
+	ilias.apalodimas@linaro.org, jgg@ziepe.ca,
+	linux-efi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, liuzixing@hygon.cn,
+	Ge Yang <yangge1116@126.com>
+Subject: Re: [PATCH V2] efi/tpm: Fix the issue where the CC platforms event
+ log header can't be correctly identified
+Message-ID: <202507060016.n5ikMP6Q-lkp@intel.com>
+References: <1751710616-24464-1-git-send-email-yangge1116@126.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,103 +68,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <1751710616-24464-1-git-send-email-yangge1116@126.com>
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   00f57187e818a61b0a8ac65c62d15a344bbf3d3a
-commit: fb75bc573b1b0dc6168dd48e7c93fadd10ad7be9 [61/115] bcachefs: btree node scan no longer uses btree cache
-config: x86_64-buildonly-randconfig-2003-20250705 (https://download.01.org/0day-ci/archive/20250705/202507051757.KRkB4I2y-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250705/202507051757.KRkB4I2y-lkp@intel.com/reproduce)
+Hi,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on efi/next]
+[also build test ERROR on char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.16-rc4 next-20250704]
+[cannot apply to intel-tdx/guest-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/yangge1116-126-com/efi-tpm-Fix-the-issue-where-the-CC-platforms-event-log-header-can-t-be-correctly-identified/20250705-182032
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
+patch link:    https://lore.kernel.org/r/1751710616-24464-1-git-send-email-yangge1116%40126.com
+patch subject: [PATCH V2] efi/tpm: Fix the issue where the CC platforms event log header can't be correctly identified
+config: arc-randconfig-002-20250705 (https://download.01.org/0day-ci/archive/20250706/202507060016.n5ikMP6Q-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250706/202507060016.n5ikMP6Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507051757.KRkB4I2y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507060016.n5ikMP6Q-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> fs/bcachefs/btree_node_scan.c:229:6: warning: variable 'bio' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     229 |         if (!b) {
-         |             ^~
-   fs/bcachefs/btree_node_scan.c:267:10: note: uninitialized use occurs here
-     267 |         bio_put(bio);
-         |                 ^~~
-   fs/bcachefs/btree_node_scan.c:229:2: note: remove the 'if' if its condition is always false
-     229 |         if (!b) {
-         |         ^~~~~~~~~
-     230 |                 bch_err(c, "read_btree_nodes_worker: error allocating buf");
-         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     231 |                 w->f->ret = -ENOMEM;
-         |                 ~~~~~~~~~~~~~~~~~~~~
-     232 |                 goto err;
-         |                 ~~~~~~~~~
-     233 |         }
-         |         ~
-   fs/bcachefs/btree_node_scan.c:235:2: note: variable 'bio' is declared here
-     235 |         struct bio *bio = bio_alloc(NULL, buf_pages(b->data, c->opts.btree_node_size), 0, GFP_KERNEL);
-         |         ^
-   fs/bcachefs/btree_node_scan.c:68:19: warning: unused function 'bkey_journal_seq' [-Wunused-function]
-      68 | static inline u64 bkey_journal_seq(struct bkey_s_c k)
-         |                   ^~~~~~~~~~~~~~~~
-   2 warnings generated.
+   drivers/char/tpm/eventlog/tpm2.c: In function 'calc_tpm2_event_size':
+>> drivers/char/tpm/eventlog/tpm2.c:40:25: error: implicit declaration of function 'cc_platform_has' [-Werror=implicit-function-declaration]
+      40 |                         cc_platform_has(CC_ATTR_GUEST_STATE_ENCRYPT));
+         |                         ^~~~~~~~~~~~~~~
+>> drivers/char/tpm/eventlog/tpm2.c:40:41: error: 'CC_ATTR_GUEST_STATE_ENCRYPT' undeclared (first use in this function)
+      40 |                         cc_platform_has(CC_ATTR_GUEST_STATE_ENCRYPT));
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/tpm/eventlog/tpm2.c:40:41: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/char/tpm/eventlog/tpm2.c:41:1: warning: control reaches end of non-void function [-Wreturn-type]
+      41 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +229 fs/bcachefs/btree_node_scan.c
+vim +/cc_platform_has +40 drivers/char/tpm/eventlog/tpm2.c
 
-   220	
-   221	static int read_btree_nodes_worker(void *p)
-   222	{
-   223		struct find_btree_nodes_worker *w = p;
-   224		struct bch_fs *c = container_of(w->f, struct bch_fs, found_btree_nodes);
-   225		struct bch_dev *ca = w->ca;
-   226		unsigned long last_print = jiffies;
-   227	
-   228		struct btree *b = __bch2_btree_node_mem_alloc(c);
- > 229		if (!b) {
-   230			bch_err(c, "read_btree_nodes_worker: error allocating buf");
-   231			w->f->ret = -ENOMEM;
-   232			goto err;
-   233		}
-   234	
-   235		struct bio *bio = bio_alloc(NULL, buf_pages(b->data, c->opts.btree_node_size), 0, GFP_KERNEL);
-   236		if (!bio) {
-   237			bch_err(c, "read_btree_nodes_worker: error allocating bio");
-   238			w->f->ret = -ENOMEM;
-   239			goto err;
-   240		}
-   241	
-   242		for (u64 bucket = ca->mi.first_bucket; bucket < ca->mi.nbuckets; bucket++)
-   243			for (unsigned bucket_offset = 0;
-   244			     bucket_offset + btree_sectors(c) <= ca->mi.bucket_size;
-   245			     bucket_offset += btree_sectors(c)) {
-   246				if (time_after(jiffies, last_print + HZ * 30)) {
-   247					u64 cur_sector = bucket * ca->mi.bucket_size + bucket_offset;
-   248					u64 end_sector = ca->mi.nbuckets * ca->mi.bucket_size;
-   249	
-   250					bch_info(ca, "%s: %2u%% done", __func__,
-   251						 (unsigned) div64_u64(cur_sector * 100, end_sector));
-   252					last_print = jiffies;
-   253				}
-   254	
-   255				u64 sector = bucket * ca->mi.bucket_size + bucket_offset;
-   256	
-   257				if (c->sb.version_upgrade_complete >= bcachefs_metadata_version_mi_btree_bitmap &&
-   258				    !bch2_dev_btree_bitmap_marked_sectors(ca, sector, btree_sectors(c)))
-   259					continue;
-   260	
-   261				try_read_btree_node(w->f, ca, b, bio, sector);
-   262			}
-   263	err:
-   264		if (b)
-   265			__btree_node_data_free(b);
-   266		kfree(b);
-   267		bio_put(bio);
-   268		enumerated_ref_put(&ca->io_ref[READ], BCH_DEV_READ_REF_btree_node_scan);
-   269		closure_put(w->cl);
-   270		kfree(w);
-   271		return 0;
-   272	}
-   273	
+    24	
+    25	/*
+    26	 * calc_tpm2_event_size() - calculate the event size, where event
+    27	 * is an entry in the TPM 2.0 event log. The event is of type Crypto
+    28	 * Agile Log Entry Format as defined in TCG EFI Protocol Specification
+    29	 * Family "2.0".
+    30	
+    31	 * @event: event whose size is to be calculated.
+    32	 * @event_header: the first event in the event log.
+    33	 *
+    34	 * Returns size of the event. If it is an invalid event, returns 0.
+    35	 */
+    36	static size_t calc_tpm2_event_size(struct tcg_pcr_event2_head *event,
+    37					   struct tcg_pcr_event *event_header)
+    38	{
+    39		return __calc_tpm2_event_size(event, event_header, false,
+  > 40				cc_platform_has(CC_ATTR_GUEST_STATE_ENCRYPT));
+  > 41	}
+    42	
 
 -- 
 0-DAY CI Kernel Test Service
