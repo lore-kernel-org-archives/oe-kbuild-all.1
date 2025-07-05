@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E232E371A
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Jul 2025 19:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43B0F2E371C
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Jul 2025 20:10:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751744375; cv=none; b=u21uHZFuS5o7Zd3oC96Zmyjpl93HzrQvqSIjkwfVUcTzF4p0ppeUJHvr+C+7+YXXaSy+fNG2RoAps+TIZIY0D7b+94xFk/EphmkHY+zivvfOlp7Q4oCdp3ZP1Z04NYxMw8sywppz4C5WlFZFxpYPD7Gx12mVwy/jd7DRo5/7AzA=
+	t=1751746236; cv=none; b=MT7nR1hxTI1wrvzheWc/zJcAeboWTdy2mCykfBsUz92a51k38bmMfO0BqXeAx50INmCxSv6u/KwZnWzaHzwXhX0YJ5WufdbfVuQ4qZetDIshaURh7DG5UJt4mbsuv9vohNFRxBe9GHHpNRx6THOg2kgjWaDICNzEw5h5WASAjpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751744375; c=relaxed/simple;
-	bh=yeHuztYKX/J87YvswDe2bHMcYUEpJjESV2g0dxCOA3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ze+mHuQIEBOLJFV/bAS5NW4JS9nT8IvKj0CTcaNdJT1cysSOBDftWS7L2n7QL5KHb63aaGb8UWJtn9CMlZG5ZfMA6S2WxAuM0rQzRT+pBNpAdBexCtRudvPbZOzBJLlC1AwtYqM5nSCT6nqnjIiyIbRdwKbEowPGzAGhS06GubM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c6BchwXZ; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1751746236; c=relaxed/simple;
+	bh=IKd/OZ9xTGLIsYPZn42BcNOs9eAuXHBylEdjgArRxPM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=TEDYpv1vHWvTqlAOlmL7sCoxuLwmIoEMbeBB8Bw0ouzaitfDvn5ri+w4H0XrpaNiddRZGqon9xBNQt10Db/BekTZq7mVR1Uxa/NEusL2d5LX168esJW+SMsuRydwIwTL/eZmv3M2ue6VJCWLWwAIXzLe5Z2wkqnC4WY7moDxDAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BE7Qz2pP; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c6BchwXZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BE7Qz2pP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751744374; x=1783280374;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yeHuztYKX/J87YvswDe2bHMcYUEpJjESV2g0dxCOA3w=;
-  b=c6BchwXZARLFSigltHT75qotURBXabsbC8gqTQccO4sPTbXMfsqwiA/t
-   Nm9SP8XJV3ZBnD5Rty8OFWgbnHYwSD2E3+SYqTp6QVIY+fQN5Da6u8EWu
-   dkboxV8WlDPhGdlrD0jNQSZDNEa7nkTfyYF1MPtdZPVobeNV12TE8qy87
-   d9wmCZLxjoqLiJhocKW27YaBgNzDG79WSU7kf6MOfA2jW9JYfUWYycFOi
-   gdFP4zzkoy51UB7L8bp3bQH8sNUqiVBQqFtM2VJERJ+DL2bf2aMoo6ni0
-   f3tccSat3mzZvX8tPXPt/otZ58t60ZWryyxJd9GXcXNW+Y/Xt43IJ568W
-   g==;
-X-CSE-ConnectionGUID: kQicCD/NR3C992Ndx1+Mdw==
-X-CSE-MsgGUID: EKX9ry2OTISKihjAx6Q86g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="54138982"
-X-IronPort-AV: E=Sophos;i="6.16,290,1744095600"; 
-   d="scan'208";a="54138982"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 12:39:33 -0700
-X-CSE-ConnectionGUID: D2buj6/PSK+QwWkOHwBSlA==
-X-CSE-MsgGUID: zOQacUnnQ/GfQ+24ECwKEw==
+  t=1751746234; x=1783282234;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IKd/OZ9xTGLIsYPZn42BcNOs9eAuXHBylEdjgArRxPM=;
+  b=BE7Qz2pP7gttjiQYBa3FEjS1Zbx+ndTtWVdv0RQgMfIPiC4EmIj+gW5j
+   JOGYfCEcrP76bYVhHddbkPnmmOT2DbMjeCc3b2x/58elG/bEUxL/RPisg
+   lJWyJDNjUY+BV87MXWj/gOzU0Hgutk2APeNve+HUTWGPnir0UWBbZq2CB
+   GHYTClTZMUYvgex7aTBD2X5M0NBMWCeykwqmYNErMFgs+BJkpjuTR11N5
+   XBgECj4GTLoY1OPDYApC6O7v3ObTdLgwiA/5iubbHYHAAg7npZ2qHmjEh
+   0SCF+nj8ePx8Mel0WM6F/6UyGJuRIAKlzRuL6FV+Qb6wHuaxlOzWz9J6u
+   A==;
+X-CSE-ConnectionGUID: 4MGbpOl2QF6sxTvx9uUrPg==
+X-CSE-MsgGUID: frQWalIFTLKhqOutoM+Gpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="54166708"
+X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
+   d="scan'208";a="54166708"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 13:10:34 -0700
+X-CSE-ConnectionGUID: fh1Sq4iWTo+HzmOvwe9L4Q==
+X-CSE-MsgGUID: kuvNi3ocRO61dgUxfM+fSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,290,1744095600"; 
-   d="scan'208";a="192044663"
+   d="scan'208";a="185884502"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 05 Jul 2025 12:39:30 -0700
+  by orviesa002.jf.intel.com with ESMTP; 05 Jul 2025 13:10:33 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uY8jQ-0004gd-1b;
-	Sat, 05 Jul 2025 19:39:28 +0000
-Date: Sun, 6 Jul 2025 03:38:56 +0800
+	id 1uY9DS-0004hX-1b;
+	Sat, 05 Jul 2025 20:10:30 +0000
+Date: Sun, 6 Jul 2025 04:09:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Grzegorz Nitka <grzegorz.nitka@intel.com>,
-	intel-wired-lan@lists.osuosl.org
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
-	Przemyslaw Korba <przemyslaw.korba@intel.com>,
-	Milena Olech <milena.olech@intel.com>,
-	Grzegorz Nitka <grzegorz.nitka@intel.com>
-Subject: Re: [PATCH v4 iwl-next] ice: add recovery clock and clock 1588
- control for E825c
-Message-ID: <202507060341.1fxNEfxg-lkp@intel.com>
-References: <20250704155155.1976706-1-grzegorz.nitka@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 1/1] kismet: WARNING: unmet direct
+ dependencies detected for RESCTRL_FS when selected by X86_CPU_RESCTRL
+Message-ID: <202507060447.zgfR9mJb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,40 +61,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250704155155.1976706-1-grzegorz.nitka@intel.com>
 
-Hi Grzegorz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 6dbc64bfa1f08ecc3770d1c795ecdde25167fe63]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Grzegorz-Nitka/ice-add-recovery-clock-and-clock-1588-control-for-E825c/20250704-235415
-base:   6dbc64bfa1f08ecc3770d1c795ecdde25167fe63
-patch link:    https://lore.kernel.org/r/20250704155155.1976706-1-grzegorz.nitka%40intel.com
-patch subject: [PATCH v4 iwl-next] ice: add recovery clock and clock 1588 control for E825c
-config: x86_64-randconfig-121-20250705 (https://download.01.org/0day-ci/archive/20250706/202507060341.1fxNEfxg-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250706/202507060341.1fxNEfxg-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   d969457e60e9ea507680a1751a06b04ed0e952fa
+commit: 6a17ffc470497d45d1824185813aecdb8fcf9062 [1/1] fs/resctrl: Add boiler plate for external resctrl code
+config: x86_64-kismet-CONFIG_RESCTRL_FS-CONFIG_X86_CPU_RESCTRL-0-0 (https://download.01.org/0day-ci/archive/20250706/202507060447.zgfR9mJb-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250706/202507060447.zgfR9mJb-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507060341.1fxNEfxg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507060447.zgfR9mJb-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/intel/ice/ice_ptp_hw.c:135:51: sparse: sparse: Using plain integer as NULL pointer
-   drivers/net/ethernet/intel/ice/ice_ptp_hw.c:136:51: sparse: sparse: Using plain integer as NULL pointer
-   drivers/net/ethernet/intel/ice/ice_ptp_hw.c:364:9: sparse: sparse: context imbalance in 'ice_ptp_exec_tmr_cmd' - wrong count at exit
-
-vim +135 drivers/net/ethernet/intel/ice/ice_ptp_hw.c
-
-   133	
-   134	static const struct ice_cgu_pin_desc ice_e825c_inputs[] = {
- > 135		{ "CLK_IN_0",	 0, DPLL_PIN_TYPE_MUX, 0, 0},
-   136		{ "CLK_IN_1",	 0, DPLL_PIN_TYPE_MUX, 0, 0},
-   137	};
-   138	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for RESCTRL_FS when selected by X86_CPU_RESCTRL
+   WARNING: unmet direct dependencies detected for RESCTRL_FS_PSEUDO_LOCK
+     Depends on [n]: MISC_FILESYSTEMS [=n]
+     Selected by [y]:
+     - X86_CPU_RESCTRL [=y] && X86 [=y] && (CPU_SUP_INTEL [=y] || CPU_SUP_AMD [=y])
+   
+   WARNING: unmet direct dependencies detected for RESCTRL_FS
+     Depends on [n]: MISC_FILESYSTEMS [=n] && ARCH_HAS_CPU_RESCTRL [=y]
+     Selected by [y]:
+     - X86_CPU_RESCTRL [=y] && X86 [=y] && (CPU_SUP_INTEL [=y] || CPU_SUP_AMD [=y])
 
 -- 
 0-DAY CI Kernel Test Service
