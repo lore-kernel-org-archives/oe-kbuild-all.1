@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6CB61DFFD
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  5 Jul 2025 13:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF389220F36;
+	Sat,  5 Jul 2025 13:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751720639; cv=none; b=URxLWexXAxwrUhr87pUXZZVTxSiuFAw1kkZijfrXLV7US1ZiWWaxMizTmQMvj3+0xDn3KJZ4RxpWyX84sobumGrvR4Gpq1EejP5xCRezdUtlBRVHBRMqy+le+P0fxjfOimPyMAtEc3yVSaiZbgrrfQmHjOUzEn6bpE3am1JACQg=
+	t=1751720905; cv=none; b=C2GADZd4Vf7BOu4AngmRh8EKjdFyKtF0sr9S0EJPDvOeW9s2aS6UdlE9XunpTNvbHnAyvCnYxaR/YoOwqWMh/GPELHvmN25FLJH+OrlyTIyaVEtnn+Av7dziMPHCwTeg3X4Fr/Rs0UxX/pReruU2am0o/htC+hMmMWro7QzVlMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751720639; c=relaxed/simple;
-	bh=7sWjGiM8OKddzp8XEBAdOl2jfXkDRn7ibwcREJHf9ik=;
+	s=arc-20240116; t=1751720905; c=relaxed/simple;
+	bh=+pACBmjuxd0xlMmO+RuQBdhwDjOf8aqSl4s8/3l7Us4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ocPyz7PAtnJXbyCxbU4D/t5c1vyGJcbMyasQu+7DBrNvFujlJM90u5rtPrj1n94tY9JxZEeSLorZYMWCyHTE/3kSUL2bj5m9wIpruULHjtVGO3yB941eBAJxqlVLahoni7z7uuC9yDb989edgdxN6KKLud7BSm+19yuGbqn0TzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SJjAhyNz; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=UkUNMRtLKcaVZdohfUTCvjhP1NXFJ14EmsVHiHMrkx2oL5ZBKI3eIJKG1w2EM8eLM53Vg9fjLxo3PrKAy50RCqWdt5r5s//uu5OsGwCwqzk1hACLTe46nhrCnxr1KkaLyOSrjq8j9FFgP+CrYpnyGxVYFDjS1RBuROph0rMhpOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AUk5ybjq; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SJjAhyNz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AUk5ybjq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751720637; x=1783256637;
+  t=1751720904; x=1783256904;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=7sWjGiM8OKddzp8XEBAdOl2jfXkDRn7ibwcREJHf9ik=;
-  b=SJjAhyNzPnxGFww17xkF83VOLWeaMgFCYH0OKkHL17VhDYcQb3pVL181
-   BNSNMHM2GQvZ4FfjXmCjtUeTojvY+gytOzDxOklYPySWp3N9OYMecYYMa
-   kmc3keEylC1C96KsFFtINoWNPPx5siu4cacNXniSmBmeHz6eiAbtZsTqM
-   6a0FUlY5d4SW/49HUrnV4Kdy/s/g3hDf6aFJYX1+IrZU5BNNsu/yRKlVh
-   8D1v1dp2XiCFmNq07TGDUrGRSAHDRL4cdrFXDbgcT7gpHupyxUYj2R+4d
-   VMZAIxA0u3pYFjNR2hhQDdUCje2F5BtBX94lvPb0Mlew0W8xjC8HkTH/C
-   g==;
-X-CSE-ConnectionGUID: +KzpUDhyRoGI73QIPysKbg==
-X-CSE-MsgGUID: WkWmNzZXTPW+XGIB64FUZw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="57817340"
+  bh=+pACBmjuxd0xlMmO+RuQBdhwDjOf8aqSl4s8/3l7Us4=;
+  b=AUk5ybjq//vBR+/UwSw15TM75wBv/DTEr+AIX4N5zOJ6ixnZFeUL7lWn
+   trpvjTkzCeoECK2hPVtWONy/XwDxZsgpnH0aj2feyFesTNXaiRC8acceA
+   a3jsK45udYFhF0IOfEb27R8C2AyG0DCyjouiTCiiwV+nY/Ih/hrkQ+JRC
+   iKEljiHSgVuUYVFPWmt03kspLLGlvgypw6kjwjKg4ba+Yp+Fvx66Z8/lm
+   b5ZU/GDMPYk9q3mChwl6kdpFnXmF6KZ2pxZnNfjPeeodCdrYOZFAykopK
+   me8zEa00/b5wnv08kkRbA3awtnFYimylgpERx9xdA9WILXUpdgoNLM4wm
+   w==;
+X-CSE-ConnectionGUID: rm2bxp6nRJOw4/HuxrRyPQ==
+X-CSE-MsgGUID: 1dYw9dmXRZWvpX2M1Ob1Yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="54158710"
 X-IronPort-AV: E=Sophos;i="6.16,290,1744095600"; 
-   d="scan'208";a="57817340"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 06:03:56 -0700
-X-CSE-ConnectionGUID: czToAxUeSNmajQPz782EjQ==
-X-CSE-MsgGUID: 5Mg9aI5zTjmBzQ0xsy43AA==
+   d="scan'208";a="54158710"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 06:08:23 -0700
+X-CSE-ConnectionGUID: jppY0NEeTLmdf7AGvyjDhA==
+X-CSE-MsgGUID: 7GJLzw18RhSyHB3l4SjltQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,290,1744095600"; 
-   d="scan'208";a="155182322"
-Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Jul 2025 06:03:55 -0700
-Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
+   d="scan'208";a="185778635"
+Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
+  by fmviesa001.fm.intel.com with ESMTP; 05 Jul 2025 06:08:22 -0700
+Received: from kbuild by 030a839a1121 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uY2Yb-0004V3-1m;
-	Sat, 05 Jul 2025 13:03:53 +0000
-Date: Sat, 5 Jul 2025 21:03:23 +0800
+	id 1uY2cu-0000px-1J;
+	Sat, 05 Jul 2025 13:08:20 +0000
+Date: Sat, 5 Jul 2025 15:07:36 +0200
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 1/1] kismet: WARNING: unmet direct
- dependencies detected for PHY_DW_DPHY when selected by
- VERISILICON_DW_MIPI_DSI
-Message-ID: <202507052018.OqPndl6f-lkp@intel.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sj:damon/next 10/106] mm/damon/core.c:2023:3: warning: variable
+ 'sidx' is uninitialized when used here
+Message-ID: <202507051517.bs3jd8RW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,23 +62,47 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   d969457e60e9ea507680a1751a06b04ed0e952fa
-commit: 500e70f6113ba8e3d77cbe6c36fb5a5d546e0557 [1/1] anolis: riscv: gpu/drm: add T-HEAD Light support
-config: x86_64-kismet-CONFIG_PHY_DW_DPHY-CONFIG_VERISILICON_DW_MIPI_DSI-0-0 (https://download.01.org/0day-ci/archive/20250705/202507052018.OqPndl6f-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250705/202507052018.OqPndl6f-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+head:   9af2f87d23cb0b15f32e59e4e9da681454a46eab
+commit: 405b04c2042a3448c2986c909608037f05a3bf0c [10/106] mm/damon: add trace event for effective size quota
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250705/202507051517.bs3jd8RW-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250705/202507051517.bs3jd8RW-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507052018.OqPndl6f-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507051517.bs3jd8RW-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PHY_DW_DPHY when selected by VERISILICON_DW_MIPI_DSI
-   WARNING: unmet direct dependencies detected for PHY_DW_DPHY
-     Depends on [n]: HAS_IOMEM [=y] && OF [=n]
-     Selected by [y]:
-     - VERISILICON_DW_MIPI_DSI [=y] && HAS_IOMEM [=y] && DRM_VERISILICON [=y]
+All warnings (new ones prefixed by >>):
+
+>> mm/damon/core.c:2023:3: warning: variable 'sidx' is uninitialized when used here [-Wuninitialized]
+    2023 |                 sidx++;
+         |                 ^~~~
+   mm/damon/core.c:2017:29: note: initialize the variable 'sidx' to silence this warning
+    2017 |         unsigned int cidx = 0, sidx;
+         |                                    ^
+         |                                     = 0
+   1 warning generated.
+
+
+vim +/sidx +2023 mm/damon/core.c
+
+  2013	
+  2014	static void damos_trace_esz(struct damon_ctx *c, struct damos *s,
+  2015			struct damos_quota *quota)
+  2016	{
+  2017		unsigned int cidx = 0, sidx;
+  2018		struct damos *siter;
+  2019	
+  2020		damon_for_each_scheme(siter, c) {
+  2021			if (siter == s)
+  2022				break;
+> 2023			sidx++;
+  2024		}
+  2025		trace_damos_esz(cidx, sidx, quota->esz, true);
+  2026	}
+  2027	
 
 -- 
 0-DAY CI Kernel Test Service
