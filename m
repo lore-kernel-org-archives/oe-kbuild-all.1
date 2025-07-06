@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D3FBE5E;
-	Sun,  6 Jul 2025 20:32:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8F031E51EF
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Jul 2025 22:14:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751833978; cv=none; b=j9S+HCzIDaHFaPVi/DjlqJTgraFRRp7m51YaiYHPP8NDe6B2EATRxf19g7cnkX009j8yQWStHK/KeHIqy+D9u7BV0DVElZUQmGLd5QwHq/wa9Lu6ByAHNa9LrK+oQuYggfLlvCnBxg6l5VHmDTn0rX5wwoDqm8OhOwalXQC4JYM=
+	t=1751840093; cv=none; b=dOgAgkjIiMsMO+zoc48Ni7JK45WisPTiURWivp3+ckZhGu69ybxvdxz2f7FxDt08TX9n63CPK0dY8psaSGoecWR6L6f/k7dxRtPfbAyCMcW5efgjnVL6tGYrcDyHq/f0Kebd0pbqhTZJy6l/oPPpicRWVAEulnKhkk4X6A2IcnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751833978; c=relaxed/simple;
-	bh=dkZtYtA/4Ntw00wf6mEXDz9syjqbhWznb9Hw7+E4on0=;
+	s=arc-20240116; t=1751840093; c=relaxed/simple;
+	bh=dyThFhp271Q8JlfwOJzm/CEwFhHWw7ilVzK+C95jhq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Hc0gODxo1IWaRSxPZ2UKnQvtOoqFOxZz11ozA1QdP28TmzzCu75IMFCXa15/3/sJQQNaqz9PHwgqN0i5jTtPLTpf54hwBXINGt6hP1geW8BXaMFVkYFgvkar1KLQf54dqVpqhaB9Fs6oyGiEC/l3MhIo++t58/ZnZWj+kVAkcxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h/FcFVRy; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=D0WGpD0BoS1ctey3pOnGcw0AkEJdwu2+MUT0G06GJIlLRogPeKwlnLahezEcQmdgpC9xnU3u1neFmjJRGK7rwb242yV3gYnYyd5KCKiJ3HCh5rSj6r8XQ3/X+32uOcadXuI294kfQzzFG9mZuLaX1JcKhBgsZBxiq7eKaPkudVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XO/ymKxA; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/FcFVRy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XO/ymKxA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751833977; x=1783369977;
+  t=1751840091; x=1783376091;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=dkZtYtA/4Ntw00wf6mEXDz9syjqbhWznb9Hw7+E4on0=;
-  b=h/FcFVRyWFZHybzunrMVhtYReCIGZU7x6Xhvok3/O5SLp/GUUS9PxCke
-   ayQRcp3SH6dChx7wuDiFbdNt2fjUAt3QqFCadkR7HVJVucaSUxXMNVwtJ
-   5EzlLuR3zt9ni5+Z1wgLr6npqAujR+BApiyczMP0Ets4EGwPUBxueWTp5
-   /jhn/GxfP2I5HVBO/uF4ohIyRL7S6b+VaHll2quI/jsHAT44du2A6MXo6
-   KNq0vaOpaNxxHuUR1/4POtMgS9TarW2fwQ77dtbe3BreLlKuJ7+P+es4y
-   bKKyot3VV5Epg6JJFQToAJdqKIIY2lTxz8vMJhfJhOx8cy8khSyO9A7x+
+  bh=dyThFhp271Q8JlfwOJzm/CEwFhHWw7ilVzK+C95jhq8=;
+  b=XO/ymKxAwBsZX7AKGcZ1Llm9BEbWOXhiRA1yvKo6CQe5Al7PJNWQzF6r
+   L+gFlVkjjTSHDT33oLuk6tsglFKvN37fvu5dQd4XmI2ZPUvUfstylMgVa
+   xwRvahs5AfRzPHKyBjT0QFu+lhmBnDKUlukC1RLC7W6cumhlt941AS+YH
+   kfwyzTPRwklKa44Az6ZQCm0sAL9q855ij6StXJXncgYW6I/MNOrr0n6e2
+   /gI2dgjvlDyOQqWmMxuKygo/aW4nBofED2pmGmu6iMIpA52P6BSDoNRYo
+   cd1abijXr/amfsNSz6FQBCh1OCAp9Ak+ssARxjbrcBROenr8tDDuXPO4W
    w==;
-X-CSE-ConnectionGUID: 4kLteXCLS1WRuho8js8fAg==
-X-CSE-MsgGUID: DeekjXMsQqyHH35kApq0tA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11486"; a="53276388"
+X-CSE-ConnectionGUID: yJJppImXTQOGBn6butfWEw==
+X-CSE-MsgGUID: sY5i8+jRTqGr2Ky0qbj/BA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11486"; a="64750145"
 X-IronPort-AV: E=Sophos;i="6.16,292,1744095600"; 
-   d="scan'208";a="53276388"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2025 13:32:56 -0700
-X-CSE-ConnectionGUID: lB4j6yCLRROEuogtMAMRzA==
-X-CSE-MsgGUID: pT3XFhDjSQm3ojkYOr6yVA==
+   d="scan'208";a="64750145"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2025 15:14:51 -0700
+X-CSE-ConnectionGUID: 6BiJAg2YSxCGKtAlJ70U/A==
+X-CSE-MsgGUID: TbAxkGWVQ+qviyqbSF93yg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,292,1744095600"; 
-   d="scan'208";a="155794385"
-Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
-  by fmviesa010.fm.intel.com with ESMTP; 06 Jul 2025 13:32:55 -0700
-Received: from kbuild by 030a839a1121 with local (Exim 4.96)
+   d="scan'208";a="186075692"
+Received: from lkp-server01.sh.intel.com (HELO def1aeed4587) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 06 Jul 2025 15:14:50 -0700
+Received: from kbuild by def1aeed4587 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYW2f-0001aX-22;
-	Sun, 06 Jul 2025 20:32:53 +0000
-Date: Sun, 6 Jul 2025 22:32:51 +0200
+	id 1uYXdH-00001F-2u;
+	Sun, 06 Jul 2025 22:14:47 +0000
+Date: Mon, 7 Jul 2025 06:13:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi_5 6/10] Warning:
- kernel/trace/ftrace.c:5970 function parameter 'ip' not described in
- 'register_ftrace_direct'
-Message-ID: <202507062235.zu6xJNBr-lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12-lts 0/1] aspeed_wdt.c:undefined
+ reference to `__udivdi3'
+Message-ID: <202507070336.hoWKuyAI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,24 +62,25 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
-head:   b288c6b15d20122d59ddf3bce2fb86afe6ed56c3
-commit: 60f053ac0f246163e7330460f249edf54905e8cc [6/10] ftrace: Use direct hash interface in direct functions
-config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250706/202507062235.zu6xJNBr-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250706/202507062235.zu6xJNBr-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12-lts
+head:   6da4371380fb119ad2fbf1fc1fdc635e037cbf2f
+commit: 1e0398a349e85cc1a23bafcf005c9a351251267f [0/1] watchdog: aspeed: Update bootstatus handling
+config: i386-allyesconfig (https://download.01.org/0day-ci/archive/20250707/202507070336.hoWKuyAI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250707/202507070336.hoWKuyAI-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507062235.zu6xJNBr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507070336.hoWKuyAI-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+Note: the android-common/android16-6.12-lts HEAD 6da4371380fb119ad2fbf1fc1fdc635e037cbf2f builds fine.
+      It only hurts bisectability.
 
->> Warning: kernel/trace/ftrace.c:5970 function parameter 'ip' not described in 'register_ftrace_direct'
->> Warning: kernel/trace/ftrace.c:6001 function parameter 'ip' not described in 'unregister_ftrace_direct'
->> Warning: kernel/trace/ftrace.c:6033 function parameter 'ip' not described in 'modify_ftrace_direct'
->> Warning: kernel/trace/ftrace.c:6033 function parameter 'lock_direct_mutex' not described in 'modify_ftrace_direct'
+All errors (new ones prefixed by >>):
+
+   ld: drivers/watchdog/aspeed_wdt.o: in function `aspeed_wdt_update_bootstatus':
+>> aspeed_wdt.c:(.text+0x390): undefined reference to `__udivdi3'
 
 -- 
 0-DAY CI Kernel Test Service
