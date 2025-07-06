@@ -1,64 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D4B288510
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Jul 2025 22:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2E629E10F
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Jul 2025 22:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751840097; cv=none; b=g7BJv3lUOfAWSZn5d5nUNUnl4m7mp7H3mJ93i69Pnz08QfUhwXqbOpVblJCaTHWA0umQ0011wdnRKrWjxIAPc7GLqwm0NfvCik8lKEvJVy9TrhL4M3GVeMjwYaIuPFHYF7mYW3AGUvJQ/4/pLQmA3NI0ENAuVJKugLbQh3AzRIo=
+	t=1751840098; cv=none; b=TRhQkYPxeQ5pjuHLHBHkFenTbwmCgGab7ApiZgO+QDDUyrq9qvXRwMTJ5Q4luXczy7DxP6JsfoKowiURapXBaWoSGk8KEAfPamW2xbPD1syX34NPtr4MJLm3MiUNdou+Xok2N4CIbateQT/P/vpOSq1s+2eA2iKj/aCuSZV1fTY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751840097; c=relaxed/simple;
-	bh=6MqFgvDjnix1ZNjql75fA41FRBYAI2GLxcKf9FIqU2w=;
+	s=arc-20240116; t=1751840098; c=relaxed/simple;
+	bh=hmEXNIJmR0D3RDDCbO8lUZB66YQ9TLzRBzv6R4R6YlU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gn4VJEUee0fErLu34aLEPZ5MOcgzDvspWB6U02K3SJIXXrvtW03cn0Aq8buM7W1P5ZlCuZkAGCbEhj8avLwnsdG7zJjCp4xG4RZ54BLLlEnz5j8hGQy0CgsJaB+jzOeElEH3LEnW1ojFU6tC9ttrT7PeYpMkBv8lqXn8LN/OPM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iYItO0pl; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=u8+WqLWXBH2mpjb4lvUKUvGBaXXIJvSrGj/LBnapb+kO3FwX0jDIdT5yAptp/pqA4QAemf3V9bUdZqXz+UT7fImPX9sEE46lQ1hpjKDQycdAi2eU7je+PihKqedAAEkBOOdbmiiV67xl2tcUmwwguOBoE9eZx7wIo042lKo1uqk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cb3+Aa8f; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iYItO0pl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cb3+Aa8f"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751840095; x=1783376095;
+  t=1751840097; x=1783376097;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6MqFgvDjnix1ZNjql75fA41FRBYAI2GLxcKf9FIqU2w=;
-  b=iYItO0plNQ2MHdAs5YF25MQ2LEuuQa+f/bTs93ukjs3H9zAhsmYxdoXF
-   wyuL7Psj5tpqcF9Q6Kx8/tQ4gGd5K/dHevGlmYbayNgzYx08nt/Oj9q/r
-   r8KRmg7nSq6ljVvR/VBxNqRYS7btBWXyrdg5l1Dmrdvc796LXcGiBd6kE
-   PRNDDuJqIvkvzTnzll6SMV2jRJxZENh3+eodGHO2O8pqcIboNnKdsY1bx
-   4wm4XQ6PHTkv/mPlI6vLRgfB8lnfFGQiHcDhyY2ItZBSm3GSvtoajjGRO
-   /2G/lCQPwHAbczuFr+4yTnHvE6GmsDuwcI3me2DY2cR766Ph38F/db3ID
-   Q==;
-X-CSE-ConnectionGUID: FuOeLrJJT2q0h9gmJEx6KQ==
-X-CSE-MsgGUID: yLrY8iSwQv6VIzOTOrRR7A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11486"; a="64750159"
+  bh=hmEXNIJmR0D3RDDCbO8lUZB66YQ9TLzRBzv6R4R6YlU=;
+  b=cb3+Aa8fdEnHz11/EtNSs9ygKStKac59kFea9ffRRoxIOtDpktBoAZZC
+   +THkkGLTaI8AGUsO0yIhyTsgRq/KLJCoANFdyvvK/pv0PVbpy9b9yAERi
+   WE7cLJX1KMmBytP89UFK85BVupk/7ee1b9UVuP5Da+JpBP4H1EA7v45/1
+   NdcRmBZI/BmMn6rOlEQRXhO42UpvsXReUJdd+knJVC/yNRu76FUIDXhg5
+   OVq4e83aY8rZ+Dq3mfecvirRakmbtsLKgCVhFOC6WG3seP8mAZ604HgUu
+   lIOAMRE6i9MNv7ZgWxfDwlBfiGsyFpct1/tsdfsR0PD074eupZwzsmhpo
+   w==;
+X-CSE-ConnectionGUID: CbWhYkoMSwiMZjYBg57GEw==
+X-CSE-MsgGUID: yeSda/wpTuifv7CQbI4dPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11486"; a="65123390"
 X-IronPort-AV: E=Sophos;i="6.16,292,1744095600"; 
-   d="scan'208";a="64750159"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2025 15:14:52 -0700
-X-CSE-ConnectionGUID: lLgESG7OSZKqxQee1CsdNQ==
-X-CSE-MsgGUID: hbjae5esQ8uE6mAjG87dXg==
+   d="scan'208";a="65123390"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2025 15:14:52 -0700
+X-CSE-ConnectionGUID: lZON38qeQimdCh/Ao2QCUw==
+X-CSE-MsgGUID: lapjV7n8RzS9ZyZMsn4OuA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,292,1744095600"; 
-   d="scan'208";a="186075690"
+   d="scan'208";a="154802322"
 Received: from lkp-server01.sh.intel.com (HELO def1aeed4587) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 06 Jul 2025 15:14:50 -0700
+  by orviesa009.jf.intel.com with ESMTP; 06 Jul 2025 15:14:49 -0700
 Received: from kbuild by def1aeed4587 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYXdH-000017-2f;
+	id 1uYXdH-00001A-2k;
 	Sun, 06 Jul 2025 22:14:47 +0000
-Date: Mon, 7 Jul 2025 06:13:48 +0800
+Date: Mon, 7 Jul 2025 06:13:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Len Bao <len.bao@gmx.us>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: oe-kbuild-all@lists.linux.dev, Len Bao <len.bao@gmx.us>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] drm/dp: Remove dead code after return statement
-Message-ID: <202507070237.Hwcze8au-lkp@intel.com>
-References: <20250706162431.15029-1-len.bao@gmx.us>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: Re: [PATCH v2 1/1] watchdog: Don't use "proxy" headers
+Message-ID: <202507070407.CE8Utfgk-lkp@intel.com>
+References: <20250627073753.589509-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,68 +65,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250706162431.15029-1-len.bao@gmx.us>
+In-Reply-To: <20250627073753.589509-1-andriy.shevchenko@linux.intel.com>
 
-Hi Len,
+Hi Andy,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v6.16-rc4 next-20250704]
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.16-rc4 next-20250704]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Len-Bao/drm-dp-Remove-dead-code-after-return-statement/20250707-002653
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250706162431.15029-1-len.bao%40gmx.us
-patch subject: [PATCH] drm/dp: Remove dead code after return statement
-config: arm-randconfig-002-20250707 (https://download.01.org/0day-ci/archive/20250707/202507070237.Hwcze8au-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250707/202507070237.Hwcze8au-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andy-Shevchenko/watchdog-Don-t-use-proxy-headers/20250627-153933
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250627073753.589509-1-andriy.shevchenko%40linux.intel.com
+patch subject: [PATCH v2 1/1] watchdog: Don't use "proxy" headers
+config: i386-randconfig-052-20250706 (https://download.01.org/0day-ci/archive/20250707/202507070407.CE8Utfgk-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250707/202507070407.CE8Utfgk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507070237.Hwcze8au-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507070407.CE8Utfgk-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/display/drm_dp_helper.c: In function 'drm_dp_pcon_frl_configure_2':
->> drivers/gpu/drm/display/drm_dp_helper.c:3580:13: warning: unused variable 'ret' [-Wunused-variable]
-    3580 |         int ret;
-         |             ^~~
+   drivers/watchdog/it87_wdt.c: In function 'superio_enter':
+>> drivers/watchdog/it87_wdt.c:121:14: error: implicit declaration of function 'request_muxed_region' [-Werror=implicit-function-declaration]
+     121 |         if (!request_muxed_region(REG, 2, WATCHDOG_NAME))
+         |              ^~~~~~~~~~~~~~~~~~~~
+   drivers/watchdog/it87_wdt.c: In function 'superio_exit':
+>> drivers/watchdog/it87_wdt.c:135:9: error: implicit declaration of function 'release_region' [-Werror=implicit-function-declaration]
+     135 |         release_region(REG, 2);
+         |         ^~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/ret +3580 drivers/gpu/drm/display/drm_dp_helper.c
+vim +/request_muxed_region +121 drivers/watchdog/it87_wdt.c
 
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3565  
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3566  /**
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3567   * drm_dp_pcon_frl_configure_2() - Set HDMI Link configuration Step-2
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3568   * @aux: DisplayPort AUX channel
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3569   * @max_frl_mask : Max FRL BW to be tried by the PCON with HDMI Sink
-68a8c645b2538c drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2021-03-23  3570   * @frl_type : FRL training type, can be Extended, or Normal.
-68a8c645b2538c drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2021-03-23  3571   * In Normal FRL training, the PCON tries each frl bw from the max_frl_mask
-68a8c645b2538c drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2021-03-23  3572   * starting from min, and stops when link training is successful. In Extended
-68a8c645b2538c drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2021-03-23  3573   * FRL training, all frl bw selected in the mask are trained by the PCON.
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3574   *
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3575   * Returns 0 if success, else returns negative error code.
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3576   */
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3577  int drm_dp_pcon_frl_configure_2(struct drm_dp_aux *aux, int max_frl_mask,
-68a8c645b2538c drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2021-03-23  3578  				u8 frl_type)
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3579  {
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18 @3580  	int ret;
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3581  	u8 buf = max_frl_mask;
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3582  
-68a8c645b2538c drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2021-03-23  3583  	if (frl_type == DP_PCON_FRL_LINK_TRAIN_EXTENDED)
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3584  		buf |= DP_PCON_FRL_LINK_TRAIN_EXTENDED;
-68a8c645b2538c drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2021-03-23  3585  	else
-68a8c645b2538c drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2021-03-23  3586  		buf &= ~DP_PCON_FRL_LINK_TRAIN_EXTENDED;
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3587  
-af67978ee37e54 drivers/gpu/drm/display/drm_dp_helper.c Dmitry Baryshkov 2025-03-24  3588  	return drm_dp_dpcd_write_byte(aux, DP_PCON_HDMI_LINK_CONFIG_2, buf);
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3589  }
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3590  EXPORT_SYMBOL(drm_dp_pcon_frl_configure_2);
-ce32a6239de648 drivers/gpu/drm/drm_dp_helper.c         Ankit Nautiyal   2020-12-18  3591  
+e1fee94f346387 Oliver Schuster 2008-03-05  115  
+a134b825608df6 Nat Gurumoorthy 2011-05-09  116  static inline int superio_enter(void)
+e1fee94f346387 Oliver Schuster 2008-03-05  117  {
+a134b825608df6 Nat Gurumoorthy 2011-05-09  118  	/*
+a134b825608df6 Nat Gurumoorthy 2011-05-09  119  	 * Try to reserve REG and REG + 1 for exclusive access.
+a134b825608df6 Nat Gurumoorthy 2011-05-09  120  	 */
+a134b825608df6 Nat Gurumoorthy 2011-05-09 @121  	if (!request_muxed_region(REG, 2, WATCHDOG_NAME))
+a134b825608df6 Nat Gurumoorthy 2011-05-09  122  		return -EBUSY;
+a134b825608df6 Nat Gurumoorthy 2011-05-09  123  
+e1fee94f346387 Oliver Schuster 2008-03-05  124  	outb(0x87, REG);
+e1fee94f346387 Oliver Schuster 2008-03-05  125  	outb(0x01, REG);
+e1fee94f346387 Oliver Schuster 2008-03-05  126  	outb(0x55, REG);
+e1fee94f346387 Oliver Schuster 2008-03-05  127  	outb(0x55, REG);
+a134b825608df6 Nat Gurumoorthy 2011-05-09  128  	return 0;
+e1fee94f346387 Oliver Schuster 2008-03-05  129  }
+e1fee94f346387 Oliver Schuster 2008-03-05  130  
+e1fee94f346387 Oliver Schuster 2008-03-05  131  static inline void superio_exit(void)
+e1fee94f346387 Oliver Schuster 2008-03-05  132  {
+e1fee94f346387 Oliver Schuster 2008-03-05  133  	outb(0x02, REG);
+e1fee94f346387 Oliver Schuster 2008-03-05  134  	outb(0x02, VAL);
+a134b825608df6 Nat Gurumoorthy 2011-05-09 @135  	release_region(REG, 2);
+e1fee94f346387 Oliver Schuster 2008-03-05  136  }
+e1fee94f346387 Oliver Schuster 2008-03-05  137  
 
 -- 
 0-DAY CI Kernel Test Service
