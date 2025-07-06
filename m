@@ -1,116 +1,210 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B4ED2FB;
-	Sun,  6 Jul 2025 03:06:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB891684A4
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Jul 2025 04:30:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751771169; cv=none; b=TTP75uwUgk3HusFN71FC3I+i7V3Q11bxBOPfroTeYh9rCxZY7D+jpntfZnkJN6K03GYOPCYP/b37NxCX5r5SBhNsxXCVxVDpTJ0mCUiyJCqTEPz8iF5g0eMdPpNYAQ6kcF3EsCWbTZsAZo/axwXEaiSK8v7edezIfP12AhfWGvk=
+	t=1751776218; cv=none; b=nx52+ln/yoZPl3DH+O2mi6niBGsso3qE8pVY+RPFmymS4poLhiXBf49GmeFKtXEkZvKriFZNBrIg5FxHHEULM4vTHdpIct4lpKbbv/GGYvfMMzs0LKMSdPB/D0f24ZBa1RGk07u31jPyQiYtuWvWrxMfySiy8fi5hafDnfiOnO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751771169; c=relaxed/simple;
-	bh=iBI/Y7Y2TK1z9mUYXrJyGM8Cqi42Qt7xaOHNi8F1ZeA=;
+	s=arc-20240116; t=1751776218; c=relaxed/simple;
+	bh=wooHoirHZtu0a5A+d2+8+BgRHGQ/MFCV+B8Pz8Sx2/I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O0ArFPUvfVjTkdHtWZX+7bnrsSGsQw0E/Yjpt9/plcyKW/G5ip2Vw+I3F6ObdTdH/BDyhrt8OXCxCvE8+nB8kGrHih3z6jU+wYk3y/OgII8GTs65U77Ea+5glzJ7PUiUR0AfXwAdAcMc00H86+SBNRGwvVf6Yto+SJ3vtxlF1hI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UzyzjJ7J; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=SYfxgrTr0CyZdEnP8DIY5nRz1EtFocZveA5vTtY+RVHDUva9SWPCMatP0C/cMUUEKFyJtde0obRMLv0GWrPFdkEfYjacfQ8sWmoPYZCQkysDvDaPqXoH/iJMxZdV3hMscnZaITjUCYYgYNcOuwxZyE1S4KkZWwepv6JmnrpKaGA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JX1p6qd3; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UzyzjJ7J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JX1p6qd3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751771167; x=1783307167;
+  t=1751776217; x=1783312217;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=iBI/Y7Y2TK1z9mUYXrJyGM8Cqi42Qt7xaOHNi8F1ZeA=;
-  b=UzyzjJ7JmcL0hYFqDl2pMrArFD88Z1CHl4RuAm+VylVptt+zcvvMi2p1
-   noJ3Je8ZfK4NcbHjIHFzh2oEU0FFdNF4iXLu3BLMeZgP6ulCJ48ANTGls
-   XW07tKZ8eDGSXUD4AvZVO7LmlkcVYM7xsJAOEYP91VYe3fcepHyB8ZN/b
-   uhcP8JJM8IGp/Q/If2wb9Jg/OT6CObyPGVOQzBKjAiy3dW48tYGH1L8y/
-   XOhaYEoR0HNHxorQ8daZP/0ZvAa2EjPG/cBUY5BJvkOBIWEs2+yagYf/5
-   GW3HqWix/sNqAtslTRpaAUze5JmESIu3tkKLV+Mip8lQbHT1V0UkqPcGg
-   g==;
-X-CSE-ConnectionGUID: lUfzhsrLTgisa/RjSRQr7A==
-X-CSE-MsgGUID: bw2QeQvaQpefh4dc9clz9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="65483595"
+   mime-version:in-reply-to;
+  bh=wooHoirHZtu0a5A+d2+8+BgRHGQ/MFCV+B8Pz8Sx2/I=;
+  b=JX1p6qd3Toj/6GgPbQAilgWmiTlBhwYy/h8W8wq66iVkkvhEEnTWKekO
+   vDQF2WVN6i+uHmeF3YtYBeEPY7XBgR69V0sWH/Cqpr59aluiuC41RjsR7
+   ixuP0TFklj5DqgtfIyQ3QRc86axlRhQWx78isWRt/pfAnBd6QYSczeb0w
+   VUHqpAolFmvq1vr3opvZiCcBsrcl73xnA2WxW6Giq8PXY58DPjXe1rK15
+   ZEYqugDi1NlNSjHqgEVIpgOQYQ/wi5nxmNWhZ0OPPKM2QWHp25FOgKJ+a
+   YR2X/89VyV75rrXuz5oBvUQlSxr3Ctuh/Oq2g+9xMhDB0ry/M9Bjy+PoH
+   Q==;
+X-CSE-ConnectionGUID: htfmXFejRDqzEmgL+4JTFA==
+X-CSE-MsgGUID: Md48p/f9SlWfs3Z2+Xn3qw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="65091572"
 X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
-   d="scan'208";a="65483595"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 20:06:07 -0700
-X-CSE-ConnectionGUID: 9RzBk+4xRzCsdIO7hkpsCA==
-X-CSE-MsgGUID: hY9zMaW5SZabpDCpV+rQWg==
+   d="scan'208";a="65091572"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 21:30:15 -0700
+X-CSE-ConnectionGUID: dp3PM6/bQKuctTFEjrYzCw==
+X-CSE-MsgGUID: OuBbdbJ3QhyP47pk4JZepQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
-   d="scan'208";a="178587492"
+   d="scan'208";a="154337953"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Jul 2025 20:06:03 -0700
+  by orviesa010.jf.intel.com with ESMTP; 05 Jul 2025 21:30:10 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYFhY-0004qd-2e;
-	Sun, 06 Jul 2025 03:06:00 +0000
-Date: Sun, 6 Jul 2025 11:05:26 +0800
+	id 1uYH0x-0004sd-1e;
+	Sun, 06 Jul 2025 04:30:07 +0000
+Date: Sun, 6 Jul 2025 12:29:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
+To: Wander Lairson Costa <wander@redhat.com>,
 	Ingo Molnar <mingo@redhat.com>,
 	Peter Zijlstra <peterz@infradead.org>,
-	Darren Hart <dvhart@infradead.org>,
-	Davidlohr Bueso <dave@stgolabs.net>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-dev@igalia.com,
-	=?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@igalia.com>
-Subject: Re: [PATCH 01/15] selftests: kselftest: Create ksft_print_dbg_msg()
-Message-ID: <202507061039.0ZKQCW5y-lkp@intel.com>
-References: <20250704-tonyk-robust_test_cleanup-v1-1-c0ff4f24c4e1@igalia.com>
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	David Woodhouse <dwmw@amazon.co.uk>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Thomas Gleixner <tglx@linutronix.de>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Clark Williams <williams@redhat.com>,
+	Gabriele Monaco <gmonaco@redhat.com>
+Subject: Re: [PATCH v3 1/2] trace/preemptirq: reduce overhead of
+ irq_enable/disable tracepoints
+Message-ID: <202507061226.y7g5eBuq-lkp@intel.com>
+References: <20250704170748.97632-2-wander@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250704-tonyk-robust_test_cleanup-v1-1-c0ff4f24c4e1@igalia.com>
+In-Reply-To: <20250704170748.97632-2-wander@redhat.com>
 
-Hi André,
+Hi Wander,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on a24cc6ce1933eade12aa2b9859de0fcd2dac2c06]
+[auto build test ERROR on trace/for-next]
+[also build test ERROR on tip/sched/core linus/master v6.16-rc4 next-20250704]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andr-Almeida/selftests-kselftest-Create-ksft_print_dbg_msg/20250704-231034
-base:   a24cc6ce1933eade12aa2b9859de0fcd2dac2c06
-patch link:    https://lore.kernel.org/r/20250704-tonyk-robust_test_cleanup-v1-1-c0ff4f24c4e1%40igalia.com
-patch subject: [PATCH 01/15] selftests: kselftest: Create ksft_print_dbg_msg()
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250706/202507061039.0ZKQCW5y-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250706/202507061039.0ZKQCW5y-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Wander-Lairson-Costa/trace-preemptirq-reduce-overhead-of-irq_enable-disable-tracepoints/20250705-011058
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+patch link:    https://lore.kernel.org/r/20250704170748.97632-2-wander%40redhat.com
+patch subject: [PATCH v3 1/2] trace/preemptirq: reduce overhead of irq_enable/disable tracepoints
+config: nios2-randconfig-r123-20250706 (https://download.01.org/0day-ci/archive/20250706/202507061226.y7g5eBuq-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250706/202507061226.y7g5eBuq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507061039.0ZKQCW5y-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507061226.y7g5eBuq-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from samples/vfs/test-list-all-mounts.c:11:
-   In file included from samples/vfs/../../tools/testing/selftests/pidfd/pidfd.h:19:
->> samples/vfs/../../tools/testing/selftests/pidfd/../kselftest.h:107:8: error: unknown type name 'bool'
-     107 | static bool ksft_debug_enabled;
-         |        ^
-   1 error generated.
+   In file included from ./arch/nios2/include/generated/asm/cmpxchg.h:1,
+                    from include/asm-generic/atomic.h:12,
+                    from ./arch/nios2/include/generated/asm/atomic.h:1,
+                    from include/linux/atomic.h:7,
+                    from include/linux/jump_label.h:257,
+                    from include/linux/static_key.h:1,
+                    from include/linux/tracepoint-defs.h:11,
+                    from include/linux/irqflags.h:20,
+                    from include/asm-generic/bitops.h:14,
+                    from ./arch/nios2/include/generated/asm/bitops.h:1,
+                    from include/linux/bitops.h:68,
+                    from include/linux/log2.h:12,
+                    from kernel/bounds.c:13:
+   include/asm-generic/cmpxchg.h: In function '__generic_xchg':
+>> include/asm-generic/cmpxchg.h:33:3: error: implicit declaration of function 'local_irq_save'; did you mean 'arch_local_irq_save'? [-Werror=implicit-function-declaration]
+      local_irq_save(flags);
+      ^~~~~~~~~~~~~~
+      arch_local_irq_save
+>> include/asm-generic/cmpxchg.h:36:3: error: implicit declaration of function 'local_irq_restore'; did you mean 'arch_local_irq_restore'? [-Werror=implicit-function-declaration]
+      local_irq_restore(flags);
+      ^~~~~~~~~~~~~~~~~
+      arch_local_irq_restore
+   In file included from include/asm-generic/cmpxchg.h:89,
+                    from ./arch/nios2/include/generated/asm/cmpxchg.h:1,
+                    from include/asm-generic/atomic.h:12,
+                    from ./arch/nios2/include/generated/asm/atomic.h:1,
+                    from include/linux/atomic.h:7,
+                    from include/linux/jump_label.h:257,
+                    from include/linux/static_key.h:1,
+                    from include/linux/tracepoint-defs.h:11,
+                    from include/linux/irqflags.h:20,
+                    from include/asm-generic/bitops.h:14,
+                    from ./arch/nios2/include/generated/asm/bitops.h:1,
+                    from include/linux/bitops.h:68,
+                    from include/linux/log2.h:12,
+                    from kernel/bounds.c:13:
+   include/asm-generic/cmpxchg-local.h: In function '__generic_cmpxchg_local':
+>> include/asm-generic/cmpxchg-local.h:26:2: error: implicit declaration of function 'raw_local_irq_save'; did you mean 'arch_local_irq_save'? [-Werror=implicit-function-declaration]
+     raw_local_irq_save(flags);
+     ^~~~~~~~~~~~~~~~~~
+     arch_local_irq_save
+>> include/asm-generic/cmpxchg-local.h:47:2: error: implicit declaration of function 'raw_local_irq_restore'; did you mean 'arch_local_irq_restore'? [-Werror=implicit-function-declaration]
+     raw_local_irq_restore(flags);
+     ^~~~~~~~~~~~~~~~~~~~~
+     arch_local_irq_restore
+   cc1: some warnings being treated as errors
+   make[3]: *** [scripts/Makefile.build:98: kernel/bounds.s] Error 1
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1274: prepare0] Error 2
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/bool +107 samples/vfs/../../tools/testing/selftests/pidfd/../kselftest.h
+vim +33 include/asm-generic/cmpxchg.h
 
-   104	
-   105	static struct ksft_count ksft_cnt;
-   106	static unsigned int ksft_plan;
- > 107	static bool ksft_debug_enabled;
-   108	
+b4816afa3986704 David Howells 2012-03-28  22  
+b4816afa3986704 David Howells 2012-03-28  23  static inline
+82b993e8249ae3c Mark Rutland  2021-05-25  24  unsigned long __generic_xchg(unsigned long x, volatile void *ptr, int size)
+b4816afa3986704 David Howells 2012-03-28  25  {
+b4816afa3986704 David Howells 2012-03-28  26  	unsigned long ret, flags;
+b4816afa3986704 David Howells 2012-03-28  27  
+b4816afa3986704 David Howells 2012-03-28  28  	switch (size) {
+b4816afa3986704 David Howells 2012-03-28  29  	case 1:
+b4816afa3986704 David Howells 2012-03-28  30  #ifdef __xchg_u8
+b4816afa3986704 David Howells 2012-03-28  31  		return __xchg_u8(x, ptr);
+b4816afa3986704 David Howells 2012-03-28  32  #else
+b4816afa3986704 David Howells 2012-03-28 @33  		local_irq_save(flags);
+b4816afa3986704 David Howells 2012-03-28  34  		ret = *(volatile u8 *)ptr;
+656e9007ef58627 Arnd Bergmann 2023-03-02  35  		*(volatile u8 *)ptr = (x & 0xffu);
+b4816afa3986704 David Howells 2012-03-28 @36  		local_irq_restore(flags);
+b4816afa3986704 David Howells 2012-03-28  37  		return ret;
+b4816afa3986704 David Howells 2012-03-28  38  #endif /* __xchg_u8 */
+b4816afa3986704 David Howells 2012-03-28  39  
+b4816afa3986704 David Howells 2012-03-28  40  	case 2:
+b4816afa3986704 David Howells 2012-03-28  41  #ifdef __xchg_u16
+b4816afa3986704 David Howells 2012-03-28  42  		return __xchg_u16(x, ptr);
+b4816afa3986704 David Howells 2012-03-28  43  #else
+b4816afa3986704 David Howells 2012-03-28  44  		local_irq_save(flags);
+b4816afa3986704 David Howells 2012-03-28  45  		ret = *(volatile u16 *)ptr;
+656e9007ef58627 Arnd Bergmann 2023-03-02  46  		*(volatile u16 *)ptr = (x & 0xffffu);
+b4816afa3986704 David Howells 2012-03-28  47  		local_irq_restore(flags);
+b4816afa3986704 David Howells 2012-03-28  48  		return ret;
+b4816afa3986704 David Howells 2012-03-28  49  #endif /* __xchg_u16 */
+b4816afa3986704 David Howells 2012-03-28  50  
+b4816afa3986704 David Howells 2012-03-28  51  	case 4:
+b4816afa3986704 David Howells 2012-03-28  52  #ifdef __xchg_u32
+b4816afa3986704 David Howells 2012-03-28  53  		return __xchg_u32(x, ptr);
+b4816afa3986704 David Howells 2012-03-28  54  #else
+b4816afa3986704 David Howells 2012-03-28  55  		local_irq_save(flags);
+b4816afa3986704 David Howells 2012-03-28  56  		ret = *(volatile u32 *)ptr;
+656e9007ef58627 Arnd Bergmann 2023-03-02  57  		*(volatile u32 *)ptr = (x & 0xffffffffu);
+b4816afa3986704 David Howells 2012-03-28  58  		local_irq_restore(flags);
+b4816afa3986704 David Howells 2012-03-28  59  		return ret;
+b4816afa3986704 David Howells 2012-03-28  60  #endif /* __xchg_u32 */
+b4816afa3986704 David Howells 2012-03-28  61  
 
 -- 
 0-DAY CI Kernel Test Service
