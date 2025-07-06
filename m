@@ -1,59 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447C62AD00
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Jul 2025 11:21:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D3521FF30;
+	Sun,  6 Jul 2025 13:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751800906; cv=none; b=Huh8uhBOtBz5EHbo52BGarqXf15qgcNNHt/m1Nh6WqWmYNu8iSXtSbakhra38FdYaIU15BQKkvintpMe4EJsJhYjZBAcF9g02Qil2jp768ebFFlx52xLF9/OnC96Y0ggb4ZvNgo21T98XIcyjolAEW9o13ehNF8TTdzJLr+lGCc=
+	t=1751808295; cv=none; b=Bl37zzfMnExnf7awEzx15q6L7y4XbqoX6P2m163RJlqzfNS6zq8I58HSLtHy3jQq3veajG+UHHxuluqbBCK0hF0pXCWLD66tT1AwyQi9D1AwS7/tSY4JxXT42Sg7zAp28ZT5SaJEAdSOGEG6L6IZ8a5hBbmGJYJBILBDVBTIX7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751800906; c=relaxed/simple;
-	bh=cCeGKBNquo6WM75vwFGVKznwR1w66GtqoCxRjWXQoL4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=p9pukLnqwaDkYYMBBk8UAFCTKEDpE2B4Tb5Vsqkdi9j+gN/zmYgL/Anvq2Lw1q56BIRIMPJTAWRTKjEU4rDNXyXwG3VDZIqehsK906gIW87nKjwtHtd56Ym+hWatNMKEvoWEYWra9lWjvCraxqTPE/5tJlyKzNvOyEYmvhcW91Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B1RlstBZ; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1751808295; c=relaxed/simple;
+	bh=MDngCFoCTSnVbqNfTg5aaI5DnhuGTd8SytOekmkV6Cs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H+aONAlWHkIVLo/fsr0yrDmkFqnNWAKoSI6woCN0Wr0d8E4PdRPqVPM+R8vvmlOPDsobrq+8pf7+OCA0sKKIl5ybXDvW8SkTnqHd8oLsnN05H8P2AKWy9j9rFiwMhj8vs5uHhSCGwTtYinHIETIYctk+f4xxcEVgLCpdThXQbzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MiYTUYoF; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B1RlstBZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MiYTUYoF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751800904; x=1783336904;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cCeGKBNquo6WM75vwFGVKznwR1w66GtqoCxRjWXQoL4=;
-  b=B1RlstBZhBtpiL3cug3wUWx6lXah+n8HMs5YWBAHgAxmKPIlt3JVVfIL
-   z/SSrwqs2+h8Yh7W2ORvDVsW4oCioCkzbHMj/e9FuG0L2p0LQw0dwAVG7
-   Lxr4cYlZ7W4Lzm8HywlCo/GR2KHLjYVzqDsHDcqnwjzVEnOtylGwlmwaY
-   e4kqjx7MMqAp9pLJ82+V9dHnKg3jt4W0z0rx7xXi68Cx/a48a9NYBvBZK
-   hOkV7JOtkWs0P5hnXnXhcrp9xv08XvGOpHYQnc0skbeytCSo9XHTElzR8
-   Sd4VdNK3rGdZWGRvw0aTZF6mYA7HvkZRtx4hV92lZVbmHXl33KDl9lCT9
-   w==;
-X-CSE-ConnectionGUID: jKZMg4hfTkyx3g4ZoFVZ6A==
-X-CSE-MsgGUID: N/RjYdKBTRSGt3RnU1gYdw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="53966180"
+  t=1751808294; x=1783344294;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MDngCFoCTSnVbqNfTg5aaI5DnhuGTd8SytOekmkV6Cs=;
+  b=MiYTUYoFtsRJnY893yxZ5gq5jcVyN7LI9RzZawdadf6lyq1HFU0gwd4I
+   JOq6DXA30eRTqP9kLuvEfldpM+QuxJIsC1RcHOoZQDwjxt0IC8UBMKWka
+   pFkJFtyAPV6Uql5d/e8eqw7nOUYw0B5+5hPsaoUGyxvD4a7SgDjot9bLb
+   hcZ+/F4YpYevg5hEtsFczQfFcGWVtc4KsCweawLxAr5AVBp5619XkSVaO
+   UjyufwjmRWzQJoeO11Hoc2CgaNQ7P5/+8L21uaxoe9oy7UzVQ1n31waPn
+   Tt87FN678HlbTvxobTL/szmMGkYB5lw2zYmmmsjf2l0EMlRdgO9m2FIF3
+   A==;
+X-CSE-ConnectionGUID: w0PgLyxJQker1aU9Olk2Ew==
+X-CSE-MsgGUID: DdxB63ADQTyr7yd2xxRZJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11486"; a="54140952"
 X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
-   d="scan'208";a="53966180"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2025 04:21:42 -0700
-X-CSE-ConnectionGUID: ih5MVqyvQ9iTUnfRYnSJ5w==
-X-CSE-MsgGUID: a1Gi1VGwQjmUel11j99LRQ==
+   d="scan'208";a="54140952"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2025 06:24:53 -0700
+X-CSE-ConnectionGUID: Xw4K0rOhRh680MdnnNbYPg==
+X-CSE-MsgGUID: YxEJnjw6QFq1Ro5vTH9LLQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
-   d="scan'208";a="178647486"
+X-IronPort-AV: E=Sophos;i="6.16,292,1744095600"; 
+   d="scan'208";a="154738214"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 06 Jul 2025 04:21:41 -0700
+  by orviesa009.jf.intel.com with ESMTP; 06 Jul 2025 06:24:49 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYNRD-00052h-0N;
-	Sun, 06 Jul 2025 11:21:39 +0000
-Date: Sun, 6 Jul 2025 19:21:08 +0800
+	id 1uYPMN-00054J-1F;
+	Sun, 06 Jul 2025 13:24:47 +0000
+Date: Sun, 6 Jul 2025 21:24:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Wupeng Ma <mawupeng1@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2464/2464] mm/memblock.c:1409:20: sparse: sparse:
- symbol 'memblock_alloc_range_nid_flags' was not declared. Should it be
- static?
-Message-ID: <202507061912.dAsXiJp3-lkp@intel.com>
+To: Khalid Ali <khaliidcaliy@gmail.com>, ardb@kernel.org,
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	alex@ghiti.fr
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	gargaditya08@live.com, jonathan@marek.ca, kees@kernel.org,
+	linux-efi@vger.kernel.org, linux-riscv@lists.infradead.org,
+	lukas@wunner.de, linux-kernel@vger.kernel.org,
+	Khalid Ali <khaliidcaliy@gmail.com>
+Subject: Re: [PATCH v2 2/2] efi/libstub: Print uefi status code on error
+ messages
+Message-ID: <202507062122.z20qLlyi-lkp@intel.com>
+References: <20250706100147.1447-1-khaliidcaliy@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,113 +69,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250706100147.1447-1-khaliidcaliy@gmail.com>
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   a9f7917e90ec872036160e2cb3a1d3c1856cb406
-commit: 64018b291c1f49622c4b23b303364d760306d662 [2464/2464] mm/memblock: Introduce ability to alloc memory from specify memory region
-config: arm64-randconfig-r111-20250705 (https://download.01.org/0day-ci/archive/20250706/202507061912.dAsXiJp3-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 61529d9e36fa86782a2458e6bdeedf7f376ef4b5)
-reproduce: (https://download.01.org/0day-ci/archive/20250706/202507061912.dAsXiJp3-lkp@intel.com/reproduce)
+Hi Khalid,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on efi/next]
+[also build test WARNING on linus/master v6.16-rc4 next-20250704]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Khalid-Ali/efi-libstub-Print-uefi-status-code-on-error-messages/20250706-180349
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
+patch link:    https://lore.kernel.org/r/20250706100147.1447-1-khaliidcaliy%40gmail.com
+patch subject: [PATCH v2 2/2] efi/libstub: Print uefi status code on error messages
+config: loongarch-randconfig-001-20250706 (https://download.01.org/0day-ci/archive/20250706/202507062122.z20qLlyi-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250706/202507062122.z20qLlyi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507061912.dAsXiJp3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507062122.z20qLlyi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> mm/memblock.c:1409:20: sparse: sparse: symbol 'memblock_alloc_range_nid_flags' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/memblock_alloc_range_nid_flags +1409 mm/memblock.c
+>> drivers/firmware/efi/libstub/efi-stub.c:117:70: warning: variable 'status' is uninitialized when used here [-Wuninitialized]
+     117 |                 efi_err("getting command line via LOADED_IMAGE_PROTOCOL: 0x%lx\n", status);
+         |                                                                                    ^~~~~~
+   drivers/firmware/efi/libstub/efistub.h:75:39: note: expanded from macro 'efi_err'
+      75 |         efi_printk(KERN_ERR "ERROR: " fmt, ##__VA_ARGS__)
+         |                                              ^~~~~~~~~~~
+   drivers/firmware/efi/libstub/efi-stub.c:108:21: note: initialize the variable 'status' to silence this warning
+     108 |         efi_status_t status;
+         |                            ^
+         |                             = 0
+   1 warning generated.
 
-  1386	
-  1387	/**
-  1388	 * memblock_alloc_range_nid_flags - allocate boot memory block with specify flag
-  1389	 * @size: size of memory block to be allocated in bytes
-  1390	 * @align: alignment of the region and block's size
-  1391	 * @start: the lower bound of the memory region to allocate (phys address)
-  1392	 * @end: the upper bound of the memory region to allocate (phys address)
-  1393	 * @nid: nid of the free area to find, %NUMA_NO_NODE for any node
-  1394	 * @exact_nid: control the allocation fall back to other nodes
-  1395	 * @flags: alloc memory from specify memblock flag
-  1396	 *
-  1397	 * The allocation is performed from memory region limited by
-  1398	 * memblock.current_limit if @end == %MEMBLOCK_ALLOC_ACCESSIBLE.
-  1399	 *
-  1400	 * If the specified node can not hold the requested memory and @exact_nid
-  1401	 * is false, the allocation falls back to any node in the system.
-  1402	 *
-  1403	 * In addition, function sets the min_count to 0 using kmemleak_alloc_phys for
-  1404	 * allocated boot memory block, so that it is never reported as leaks.
-  1405	 *
-  1406	 * Return:
-  1407	 * Physical address of allocated memory block on success, %0 on failure.
-  1408	 */
-> 1409	phys_addr_t __init memblock_alloc_range_nid_flags(phys_addr_t size,
-  1410						phys_addr_t align, phys_addr_t start,
-  1411						phys_addr_t end, int nid,
-  1412						bool exact_nid,
-  1413						enum memblock_flags flags)
-  1414	{
-  1415		phys_addr_t found;
-  1416	
-  1417		if (WARN_ONCE(nid == MAX_NUMNODES, "Usage of MAX_NUMNODES is deprecated. Use NUMA_NO_NODE instead\n"))
-  1418			nid = NUMA_NO_NODE;
-  1419	
-  1420		if (!align) {
-  1421			/* Can't use WARNs this early in boot on powerpc */
-  1422			dump_stack();
-  1423			align = SMP_CACHE_BYTES;
-  1424		}
-  1425	
-  1426	again:
-  1427		found = memblock_find_in_range_node(size, align, start, end, nid,
-  1428						    flags);
-  1429		if (found && !memblock_reserve(found, size))
-  1430			goto done;
-  1431	
-  1432		if (nid != NUMA_NO_NODE && !exact_nid) {
-  1433			found = memblock_find_in_range_node(size, align, start,
-  1434							    end, NUMA_NO_NODE,
-  1435							    flags);
-  1436			if (found && !memblock_reserve(found, size))
-  1437				goto done;
-  1438		}
-  1439	
-  1440		if (flags & MEMBLOCK_MIRROR) {
-  1441			flags &= ~MEMBLOCK_MIRROR;
-  1442			pr_warn_ratelimited("Could not allocate %pap bytes of mirrored memory\n",
-  1443				&size);
-  1444			goto again;
-  1445		}
-  1446	
-  1447		return 0;
-  1448	
-  1449	done:
-  1450		/*
-  1451		 * Skip kmemleak for those places like kasan_init() and
-  1452		 * early_pgtable_alloc() due to high volume.
-  1453		 */
-  1454		if (end != MEMBLOCK_ALLOC_NOLEAKTRACE)
-  1455			/*
-  1456			 * Memblock allocated blocks are never reported as
-  1457			 * leaks. This is because many of these blocks are
-  1458			 * only referred via the physical address which is
-  1459			 * not looked up by kmemleak.
-  1460			 */
-  1461			kmemleak_alloc_phys(found, size, 0);
-  1462	
-  1463		/*
-  1464		 * Some Virtual Machine platforms, such as Intel TDX or AMD SEV-SNP,
-  1465		 * require memory to be accepted before it can be used by the
-  1466		 * guest.
-  1467		 *
-  1468		 * Accept the memory of the allocated buffer.
-  1469		 */
-  1470		accept_memory(found, found + size);
-  1471	
-  1472		return found;
-  1473	}
-  1474	
+
+vim +/status +117 drivers/firmware/efi/libstub/efi-stub.c
+
+   104	
+   105	efi_status_t efi_handle_cmdline(efi_loaded_image_t *image, char **cmdline_ptr)
+   106	{
+   107		char *cmdline __free(efi_pool) = NULL;
+   108		efi_status_t status;
+   109	
+   110		/*
+   111		 * Get the command line from EFI, using the LOADED_IMAGE
+   112		 * protocol. We are going to copy the command line into the
+   113		 * device tree, so this can be allocated anywhere.
+   114		 */
+   115		cmdline = efi_convert_cmdline(image);
+   116		if (!cmdline) {
+ > 117			efi_err("getting command line via LOADED_IMAGE_PROTOCOL: 0x%lx\n", status);
+   118			return EFI_OUT_OF_RESOURCES;
+   119		}
+   120	
+   121		if (!IS_ENABLED(CONFIG_CMDLINE_FORCE)) {
+   122			status = efi_parse_options(cmdline);
+   123			if (status != EFI_SUCCESS) {
+   124				efi_err("Failed to parse EFI load options: 0x%lx\n", status);
+   125				return status;
+   126			}
+   127		}
+   128	
+   129		if (IS_ENABLED(CONFIG_CMDLINE_EXTEND) ||
+   130		    IS_ENABLED(CONFIG_CMDLINE_FORCE) ||
+   131		    cmdline[0] == 0) {
+   132			status = efi_parse_options(CONFIG_CMDLINE);
+   133			if (status != EFI_SUCCESS) {
+   134				efi_err("Failed to parse built-in command line: 0x%lx\n", status);
+   135				return status;
+   136			}
+   137		}
+   138	
+   139		*cmdline_ptr = no_free_ptr(cmdline);
+   140		return EFI_SUCCESS;
+   141	}
+   142	
 
 -- 
 0-DAY CI Kernel Test Service
