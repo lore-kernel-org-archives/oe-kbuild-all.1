@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F452E36F2
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Jul 2025 02:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4DCA1419A9
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Jul 2025 02:34:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751768643; cv=none; b=hHhyY0AGDJqMw0OMt/wEJdCe1Lgu09fWB0cHHcNFWk/JcV2DTVwGbHWvwpX1oqgqjQKpJigYkBJcebYzItw3hEEZsHys0hhfw7CRx1Ul5QtQ2UqXqYK6m4atXuIbiBZXlKBrd2khdU0YjRW48a7HE2ObF14YwEG5cIKlh9JCpnc=
+	t=1751769244; cv=none; b=pSz3wvFdw+ciUz+jhy+bpZ0c+T3ilQRFJoaAPmSH/fl28iFEo+lWSvAvvGGTw6U4q6HmUUzzzTQUsxziaOY0MhHaokhzmsHJ0TQFOMNQ8B8XrJutGXUPwiuLi6nmbW9SVZRP6LraNbDVclly6P3mtIaTmLcnNBlt9bDLniUUdUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751768643; c=relaxed/simple;
-	bh=CO3NNkd8KxJktlvx4OOfr03Qn1SZBVjrGp5TqosPtZQ=;
+	s=arc-20240116; t=1751769244; c=relaxed/simple;
+	bh=CuHNXhFH4vjOT4BqGIn40b2LVFhYcmMqVFJ3g3X/qAk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e3BPWnRKncnxTtmRqy6GnlL21PNGLBJ4XXBY0hQCn2udwKyfyqLrEx3P781QshYFeu/hhHQGKBmlqh3ybflI54juifLEnUBKFBeD/ZSwPgAM6FA7VdhrZXWvpmD21l3xgazYom/vZQ3z1LIZ2l5rf4P8rYuAMyMdOrbgWQIW/CI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eosMLcQh; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=qWLOlY83JIVGeQ4QtSsTMzeYEWdfCpfLntrsszIwj2DQhH2fduHrVd6sGuKaBypsRn3M0fvZRTdU2XdRuABWJZaHWhpjPqJkvY8HBoLHADKbR23XFaiGommZcpK6ggIC0F6GRrtf9F/SjsGzYnCLa7UjBaRzchNxE8AuD4bG3bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bCMhth+Y; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eosMLcQh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bCMhth+Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751768641; x=1783304641;
+  t=1751769242; x=1783305242;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=CO3NNkd8KxJktlvx4OOfr03Qn1SZBVjrGp5TqosPtZQ=;
-  b=eosMLcQh+usOL6dlTWU1i1F+SxTAj2OZ+jVE3aREhtt8msnlbTPmC1bj
-   rQcCu6moBt/4p7YubZpqE9+cowInN4UErp462aMWfzWo/1wBPwwmW/xo8
-   bzFmIwTSwTZTT+kw92vR/151HQEfO04M8mPjFkIlUcrS8QkjoOmK3sHVo
-   N+oeMc7yb+zNnDlYLKQJDw/dBOZ/77mvGxss4bvwYAKdFTJ9HI6D/FQqf
-   4Ta/8hNoqPYhuL2OwJXI6VL6gW8BdIbVULWhZvqU4KaDhKPfRPVHxpVj+
-   2Vu1WSjqy10p9ljC3SWqkRqOgm5NsH2ICrMRJ0XPzNygd4zg8da/YG2EI
+  bh=CuHNXhFH4vjOT4BqGIn40b2LVFhYcmMqVFJ3g3X/qAk=;
+  b=bCMhth+Yq2QAx6ybKyHtmrz6Z4Pmc5PpN8ljjxki9b0k6BsTcVV7DUbr
+   TfmNXnCY9qL/fsmMSza7NL5a4XKWJ0Y9UyqLHG3fGADqfKy1pRsrBjb9p
+   oGpYyLSdPMidsbFU/yC4hSu4g015EJhfldiCZzxFiOw4UlKibGWvF3ZA2
+   kcU9gkPCXkRELP/r9QooJKtjRlZUofZ8M8IbO/XlfZGwnbXLgwOd2yM8D
+   pCXi3X56paE5JkNNCaXYr1LSL1ZZIk2d522Ow5j/EaQoHjrGLncNFcFk3
+   7Tx55DNh9xPBLP3IFdSRBf6KqOYlvBi1BeHPvov2CqswhZeSM5/W1K6mr
    Q==;
-X-CSE-ConnectionGUID: YT+M3Vy7RU64xnwyrfw/lw==
-X-CSE-MsgGUID: WpXyf1hFTtyzl3PWLgulIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="53249198"
+X-CSE-ConnectionGUID: Vy2cKotOTtiV89WjbjVeZw==
+X-CSE-MsgGUID: j+VaNGIATCe9ujuXZq5L8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="54126203"
 X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
-   d="scan'208";a="53249198"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 19:24:01 -0700
-X-CSE-ConnectionGUID: 76fNJ35RSi6t0i8lgTk3ww==
-X-CSE-MsgGUID: 2r9XZwo1Rf+4aBYUyFrL8A==
+   d="scan'208";a="54126203"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 19:34:01 -0700
+X-CSE-ConnectionGUID: JZfZQMKmRvGah0U5WuHV5Q==
+X-CSE-MsgGUID: HMhBDJXpSbyhNdBGH/+Buw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
-   d="scan'208";a="178581810"
+   d="scan'208";a="154323271"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 05 Jul 2025 19:23:59 -0700
+  by orviesa010.jf.intel.com with ESMTP; 05 Jul 2025 19:34:00 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYF2r-0004pP-1M;
-	Sun, 06 Jul 2025 02:23:57 +0000
-Date: Sun, 6 Jul 2025 10:22:59 +0800
+	id 1uYFCX-0004pf-32;
+	Sun, 06 Jul 2025 02:33:57 +0000
+Date: Sun, 6 Jul 2025 10:33:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, =?utf-8?B?6Zer5rW35rab?= <yanhaitao2@huawei.com>
+To: kernel@openeuler.org
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2467/2467] fs/nfs/enfs_adapter.c:62:25: sparse:
- sparse: symbol 'nfs_multipath_router_get' was not declared. Should it be
- static?
-Message-ID: <202507061041.8fClqxw5-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2467/2467] include/linux/if_caqm.h:391:23:
+ sparse: sparse: incorrect type in assignment (different base types)
+Message-ID: <202507061006.UPqKLwaS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,247 +64,147 @@ Content-Disposition: inline
 
 tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
 head:   a9f7917e90ec872036160e2cb3a1d3c1856cb406
-commit: 18e360871c3f648ecb0d8cc9b23fd4268a64c17f [2467/2467] add enfs feature
-config: x86_64-randconfig-121-20250706 (https://download.01.org/0day-ci/archive/20250706/202507061041.8fClqxw5-lkp@intel.com/config)
+commit: 946747d4a52c34156031e41f9cb5cfb292747dcf [2467/2467] net: tcp: Add CAQM4TCP in the openeuler 6.6 kernel
+config: x86_64-randconfig-123-20250706 (https://download.01.org/0day-ci/archive/20250706/202507061006.UPqKLwaS-lkp@intel.com/config)
 compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250706/202507061041.8fClqxw5-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250706/202507061006.UPqKLwaS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507061041.8fClqxw5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507061006.UPqKLwaS-lkp@intel.com/
 
 sparse warnings: (new ones prefixed by >>)
-   fs/nfs/enfs_adapter.c:18:31: sparse: sparse: symbol 'enfs_adapter' was not declared. Should it be static?
->> fs/nfs/enfs_adapter.c:62:25: sparse: sparse: symbol 'nfs_multipath_router_get' was not declared. Should it be static?
->> fs/nfs/enfs_adapter.c:78:6: sparse: sparse: symbol 'nfs_multipath_router_put' was not declared. Should it be static?
->> fs/nfs/enfs_adapter.c:84:6: sparse: sparse: symbol 'is_valid_option' was not declared. Should it be static?
+   net/core/gro.c: note: in included file:
+>> include/linux/if_caqm.h:391:23: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] caqm_hdr_info @@     got restricted __be16 [usertype] h_caqm_info @@
+   include/linux/if_caqm.h:391:23: sparse:     expected unsigned short [usertype] caqm_hdr_info
+   include/linux/if_caqm.h:391:23: sparse:     got restricted __be16 [usertype] h_caqm_info
 --
->> fs/nfs/fs_context.c:374:26: sparse: sparse: symbol 'getNfsMultiPathOpt' was not declared. Should it be static?
---
-   fs/nfs/enfs/enfs_init.c:30:25: sparse: sparse: symbol 'enfs_adapter' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_init.c:95:9: sparse: sparse: symbol 'enfs_init' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_init.c:100:6: sparse: sparse: symbol 'enfs_fini' was not declared. Should it be static?
---
->> fs/nfs/enfs/enfs_multipath_parse.c:24:6: sparse: sparse: symbol 'nfs_multipath_parse_ip_ipv6_add' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_parse.c:162:5: sparse: sparse: symbol 'enfs_parse_ip_single' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_parse.c:209:6: sparse: sparse: symbol 'nfs_multipath_parse_ip_list_get_cursor' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_parse.c:236:6: sparse: sparse: symbol 'enfs_valid_ip' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_parse.c:248:5: sparse: sparse: symbol 'nfs_multipath_parse_ip_list' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_parse.c:361:6: sparse: sparse: symbol 'isInvalidDns' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_parse.c:387:5: sparse: sparse: symbol 'nfs_multipath_parse_dns_list' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_parse.c:431:5: sparse: sparse: symbol 'parse_remote_type' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_parse.c:473:57: sparse: sparse: restricted __be32 degrades to integer
->> fs/nfs/enfs/enfs_multipath_parse.c:471:5: sparse: sparse: symbol 'nfs_multipath_parse_options_check_ipv4_valid' was not declared. Should it be static?
-   fs/nfs/enfs/enfs_multipath_parse.c:486:44: sparse: sparse: restricted __be32 degrades to integer
-   fs/nfs/enfs/enfs_multipath_parse.c:487:44: sparse: sparse: restricted __be32 degrades to integer
-   fs/nfs/enfs/enfs_multipath_parse.c:488:44: sparse: sparse: restricted __be32 degrades to integer
-   fs/nfs/enfs/enfs_multipath_parse.c:489:44: sparse: sparse: restricted __be32 degrades to integer
->> fs/nfs/enfs/enfs_multipath_parse.c:478:5: sparse: sparse: symbol 'nfs_multipath_parse_options_check_ipv6_valid' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_parse.c:494:5: sparse: sparse: symbol 'nfs_multipath_parse_options_check_ip_valid' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_parse.c:510:5: sparse: sparse: symbol 'nfs_multipath_parse_options_check_valid' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_parse.c:536:5: sparse: sparse: symbol 'nfs_multipath_parse_options_check_duplicate' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_parse.c:562:5: sparse: sparse: symbol 'nfs_multipath_parse_options_check' was not declared. Should it be static?
---
->> fs/nfs/enfs/enfs_config.c:554:6: sparse: sparse: symbol 'enfs_glob_match' was not declared. Should it be static?
---
->> fs/nfs/enfs/enfs_multipath_client.c:72:5: sparse: sparse: symbol 'nfs_multipath_client_mount_info_init' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_client.c:120:6: sparse: sparse: symbol 'enfs_free_client_info' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_client.c:135:6: sparse: sparse: symbol 'nfs_multipath_client_info_free_work' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_client.c:191:6: sparse: sparse: symbol 'nfs_multipath_ip_list_info_match' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_client.c:328:6: sparse: sparse: symbol 'print_ip_info' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_client.c:352:6: sparse: sparse: symbol 'print_dns_info' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath_client.c:390:6: sparse: sparse: symbol 'convert_lookup_cache_str' was not declared. Should it be static?
---
->> fs/nfs/enfs/enfs_roundrobin.c:107:17: sparse: sparse: symbol 'enfs_lb_switch_find_first_active_xprt' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_roundrobin.c:119:17: sparse: sparse: symbol 'enfs_lb_switch_get_main_xprt' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_roundrobin.c:169:17: sparse: sparse: symbol 'enfs_lb_get_singular_xprt' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_roundrobin.c:332:5: sparse: sparse: symbol 'enfs_lb_revert_policy' was not declared. Should it be static?
---
->> fs/nfs/enfs/enfs_remount.c:105:6: sparse: sparse: symbol 'enfs_clnt_delete_obsolete_xprts' was not declared. Should it be static?
---
->> fs/nfs/enfs/enfs_multipath.c:186:63: sparse: sparse: cast from restricted __be16
-   fs/nfs/enfs/enfs_multipath.c:190:65: sparse: sparse: cast from restricted __be16
->> fs/nfs/enfs/enfs_multipath.c:211:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __be16 @@     got int @@
-   fs/nfs/enfs/enfs_multipath.c:211:24: sparse:     expected restricted __be16
-   fs/nfs/enfs/enfs_multipath.c:211:24: sparse:     got int
->> fs/nfs/enfs/enfs_multipath.c:321:5: sparse: sparse: symbol 'enfs_configure_xprt_to_clnt' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath.c:357:6: sparse: sparse: symbol 'enfs_cmp_addrs' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath.c:374:6: sparse: sparse: symbol 'enfs_xprt_addrs_is_same' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath.c:393:6: sparse: sparse: symbol 'enfs_already_have_xprt' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath.c:782:52: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct in_device *dvice @@     got struct in_device [noderef] __rcu *ip_ptr @@
-   fs/nfs/enfs/enfs_multipath.c:782:52: sparse:     expected struct in_device *dvice
-   fs/nfs/enfs/enfs_multipath.c:782:52: sparse:     got struct in_device [noderef] __rcu *ip_ptr
->> fs/nfs/enfs/enfs_multipath.c:785:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct inet6_dev *idev @@     got struct inet6_dev [noderef] __rcu *ip6_ptr @@
-   fs/nfs/enfs/enfs_multipath.c:785:61: sparse:     expected struct inet6_dev *idev
-   fs/nfs/enfs/enfs_multipath.c:785:61: sparse:     got struct inet6_dev [noderef] __rcu *ip6_ptr
->> fs/nfs/enfs/enfs_multipath.c:836:5: sparse: sparse: symbol 'enfs_multipath_create_thread' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath.c:925:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
-   fs/nfs/enfs/enfs_multipath.c:925:43: sparse:     expected struct rpc_xprt *xprt
-   fs/nfs/enfs/enfs_multipath.c:925:43: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
->> fs/nfs/enfs/enfs_multipath.c:932:6: sparse: sparse: symbol 'enfs_create_multi_xprt' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_multipath.c:988:6: sparse: sparse: symbol 'enfs_release_rpc_clnt' was not declared. Should it be static?
---
->> fs/nfs/enfs/enfs_rpc_proc.c:13:21: sparse: sparse: symbol 'enfs_procedures' was not declared. Should it be static?
---
->> fs/nfs/enfs/exten_call.c:60:5: sparse: sparse: symbol 'NfsExtendProcInfoExtendEncode' was not declared. Should it be static?
->> fs/nfs/enfs/exten_call.c:178:5: sparse: sparse: symbol 'NfsExtendDecodeFsShard' was not declared. Should it be static?
->> fs/nfs/enfs/exten_call.c:263:5: sparse: sparse: symbol 'NfsExtendDecodeLifInfo' was not declared. Should it be static?
->> fs/nfs/enfs/exten_call.c:531:5: sparse: sparse: symbol 'EnfsExtendDecodePreCheck' was not declared. Should it be static?
->> fs/nfs/enfs/exten_call.c:542:5: sparse: sparse: symbol 'NfsExtendProcInfoExtendDecode' was not declared. Should it be static?
->> fs/nfs/enfs/exten_call.c:597:5: sparse: sparse: symbol 'dorado_extend_route' was not declared. Should it be static?
->> fs/nfs/enfs/exten_call.c:666:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
-   fs/nfs/enfs/exten_call.c:666:22: sparse:     expected struct rpc_xprt *xprt
-   fs/nfs/enfs/exten_call.c:666:22: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
-   fs/nfs/enfs/exten_call.c:668:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
-   fs/nfs/enfs/exten_call.c:668:21: sparse:     expected struct rpc_xprt *xprt
-   fs/nfs/enfs/exten_call.c:668:21: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
-   fs/nfs/enfs/exten_call.c:671:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
-   fs/nfs/enfs/exten_call.c:671:30: sparse:     expected struct rpc_xprt *xprt
-   fs/nfs/enfs/exten_call.c:671:30: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
-   fs/nfs/enfs/exten_call.c:676:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
-   fs/nfs/enfs/exten_call.c:676:22: sparse:     expected struct rpc_xprt *xprt
-   fs/nfs/enfs/exten_call.c:676:22: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
->> fs/nfs/enfs/exten_call.c:662:6: sparse: sparse: symbol 'nego_enfs_version' was not declared. Should it be static?
->> fs/nfs/enfs/exten_call.c:955:6: sparse: sparse: symbol 'NfsExtendDnsQuerySetArgs' was not declared. Should it be static?
->> fs/nfs/enfs/exten_call.c:966:6: sparse: sparse: symbol 'NfsExtendDnsQuerySetRes' was not declared. Should it be static?
---
->> fs/nfs/enfs/enfs_lookup_cache.c:30:27: sparse: sparse: symbol 'enfs_lookup_cahce' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:98:6: sparse: sparse: symbol 'enfs_clean_server_lookup_cache_flag' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:112:6: sparse: sparse: symbol 'enfs_update_lookup_cache_flag_to_server' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:223:53: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
-   fs/nfs/enfs/enfs_lookup_cache.c:223:53: sparse:     expected struct rpc_xprt *xprt
-   fs/nfs/enfs/enfs_lookup_cache.c:223:53: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
-   fs/nfs/enfs/enfs_lookup_cache.c:226:60: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
-   fs/nfs/enfs/enfs_lookup_cache.c:226:60: sparse:     expected struct rpc_xprt *xprt
-   fs/nfs/enfs/enfs_lookup_cache.c:226:60: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
-   fs/nfs/enfs/enfs_lookup_cache.c:230:61: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
-   fs/nfs/enfs/enfs_lookup_cache.c:230:61: sparse:     expected struct rpc_xprt *xprt
-   fs/nfs/enfs/enfs_lookup_cache.c:230:61: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
-   fs/nfs/enfs/enfs_lookup_cache.c:240:53: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
-   fs/nfs/enfs/enfs_lookup_cache.c:240:53: sparse:     expected struct rpc_xprt *xprt
-   fs/nfs/enfs/enfs_lookup_cache.c:240:53: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
->> fs/nfs/enfs/enfs_lookup_cache.c:146:5: sparse: sparse: symbol 'enfs_query_lookup_cache' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:251:6: sparse: sparse: symbol 'enfs_query_lookup_cache_pre_check' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:269:6: sparse: sparse: symbol 'lookupcache_execute_work' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:292:6: sparse: sparse: symbol 'lookupcache_workqueue_queue_work' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:305:5: sparse: sparse: symbol 'lookupcache_add_work' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:374:6: sparse: sparse: symbol 'lookupcache_loop_rpclnt' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:423:6: sparse: sparse: symbol 'enfs_lookupcache_update_switch' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:440:5: sparse: sparse: symbol 'lookupcache_routine' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:460:5: sparse: sparse: symbol 'lookupcache_start' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:471:5: sparse: sparse: symbol 'enfs_lookupcache_workqueue_init' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:487:6: sparse: sparse: symbol 'lookupcache_workqueue_fini' was not declared. Should it be static?
->> fs/nfs/enfs/enfs_lookup_cache.c:504:5: sparse: sparse: symbol 'enfs_lookupcache_timer_init' was not declared. Should it be static?
-   fs/nfs/enfs/enfs_lookup_cache.c:146:5: sparse: sparse: context imbalance in 'enfs_query_lookup_cache' - different lock contexts for basic block
---
->> fs/nfs/enfs/dns_process.c:92:6: sparse: sparse: symbol 'enfs_update_domain_name' was not declared. Should it be static?
->> fs/nfs/enfs/dns_process.c:129:6: sparse: sparse: symbol 'enfs_swap_name_cache' was not declared. Should it be static?
->> fs/nfs/enfs/dns_process.c:148:6: sparse: sparse: symbol 'enfs_domain_inc' was not declared. Should it be static?
->> fs/nfs/enfs/dns_process.c:217:6: sparse: sparse: symbol 'ip_list_append' was not declared. Should it be static?
->> fs/nfs/enfs/dns_process.c:361:5: sparse: sparse: symbol 'enfs_quick_sort' was not declared. Should it be static?
->> fs/nfs/enfs/dns_process.c:394:5: sparse: sparse: symbol 'enfs_dns_process_ip' was not declared. Should it be static?
->> fs/nfs/enfs/dns_process.c:434:5: sparse: sparse: symbol 'enfs_server_query_dns' was not declared. Should it be static?
->> fs/nfs/enfs/dns_process.c:494:6: sparse: sparse: symbol 'query_dns_each_name' was not declared. Should it be static?
->> fs/nfs/enfs/dns_process.c:582:5: sparse: sparse: symbol 'enfs_iter_nfs_clnt' was not declared. Should it be static?
->> fs/nfs/enfs/dns_process.c:669:6: sparse: sparse: symbol 'enfs_domain_for_each' was not declared. Should it be static?
---
->> fs/nfs/enfs/shard_route.c:327:5: sparse: sparse: symbol 'enfs_query_lif_info' was not declared. Should it be static?
->> fs/nfs/enfs/shard_route.c:434:5: sparse: sparse: symbol 'enfs_update_fsshard' was not declared. Should it be static?
->> fs/nfs/enfs/shard_route.c:530:5: sparse: sparse: symbol 'enfs_update_lsinfo' was not declared. Should it be static?
->> fs/nfs/enfs/shard_route.c:555:5: sparse: sparse: symbol 'enfs_update_lif_info' was not declared. Should it be static?
->> fs/nfs/enfs/shard_route.c:639:5: sparse: sparse: symbol 'enfs_delete_shard' was not declared. Should it be static?
->> fs/nfs/enfs/shard_route.c:776:21: sparse: sparse: symbol 'nfs3_parse_ops' was not declared. Should it be static?
->> fs/nfs/enfs/shard_route.c:801:5: sparse: sparse: symbol 'nfs3_parse_ops_size' was not declared. Should it be static?
->> fs/nfs/enfs/shard_route.c:858:34: sparse: sparse: cast removes address space '__rcu' of expression
-   fs/nfs/enfs/shard_route.c:867:34: sparse: sparse: cast removes address space '__rcu' of expression
->> fs/nfs/enfs/shard_route.c:1035:6: sparse: sparse: symbol 'check_cpuid_invalid' was not declared. Should it be static?
->> fs/nfs/enfs/shard_route.c:1108:17: sparse: sparse: symbol 'enfs_choose_shard_xport' was not declared. Should it be static?
->> fs/nfs/enfs/shard_route.c:1187:17: sparse: sparse: symbol 'enfs_get_shard_xport' was not declared. Should it be static?
-   fs/nfs/enfs/shard_route.c:1741:34: sparse: sparse: cast removes address space '__rcu' of expression
-   fs/nfs/enfs/shard_route.c:1750:34: sparse: sparse: cast removes address space '__rcu' of expression
->> fs/nfs/enfs/shard_route.c:1954:24: sparse: sparse: symbol 'enfs_shard_ctrl_init' was not declared. Should it be static?
+   net/ethernet/eth.c: note: in included file:
+>> include/linux/if_caqm.h:470:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short [usertype] @@     got restricted __be16 [usertype] @@
+   include/linux/if_caqm.h:470:25: sparse:     expected unsigned short [usertype]
+   include/linux/if_caqm.h:470:25: sparse:     got restricted __be16 [usertype]
 
-vim +/nfs_multipath_router_get +62 fs/nfs/enfs_adapter.c
+vim +391 include/linux/if_caqm.h
 
-    17	
-  > 18	struct enfs_adapter_ops __rcu *enfs_adapter;
-    19	
-    20	static DEFINE_MUTEX(enfs_module_mutex);
-    21	static void *enfs_adapter_data;
-    22	
-    23	void *enfs_adapter_get_data(void)
-    24	{
-    25		return enfs_adapter_data;
-    26	}
-    27	EXPORT_SYMBOL_GPL(enfs_adapter_get_data);
-    28	
-    29	void enfs_adapter_set_data(void *data)
-    30	{
-    31		enfs_adapter_data = data;
-    32	}
-    33	EXPORT_SYMBOL_GPL(enfs_adapter_set_data);
-    34	
-    35	int enfs_adapter_register(struct enfs_adapter_ops *ops)
-    36	{
-    37		struct enfs_adapter_ops *old;
-    38	
-    39		old = cmpxchg((struct enfs_adapter_ops **)&enfs_adapter, NULL, ops);
-    40		if (old == NULL || old == ops)
-    41			return 0;
-    42		pr_err("ENFS: regist enfs_adapter ops %p fail. old %p\n",
-    43			ops, old);
-    44		return -EPERM;
-    45	}
-    46	EXPORT_SYMBOL_GPL(enfs_adapter_register);
-    47	
-    48	int enfs_adapter_unregister(struct enfs_adapter_ops *ops)
-    49	{
-    50		struct enfs_adapter_ops *old;
-    51	
-    52		old = cmpxchg((struct enfs_adapter_ops **)&enfs_adapter, ops, NULL);
-    53		if (old == ops || old == NULL)
-    54			return 0;
-    55		pr_err("ENFS: unregist enfs_adapter ops %p fail. old %p\n",
-    56			ops,
-    57		       old);
-    58		return -EPERM;
-    59	}
-    60	EXPORT_SYMBOL_GPL(enfs_adapter_unregister);
-    61	
-  > 62	struct enfs_adapter_ops *nfs_multipath_router_get(void)
-    63	{
-    64		struct enfs_adapter_ops *ops;
-    65	
-    66		rcu_read_lock();
-    67		ops = rcu_dereference(enfs_adapter);
-    68		if (ops == NULL) {
-    69			rcu_read_unlock();
-    70			return NULL;
-    71		}
-    72		if (!try_module_get(ops->owner))
-    73			ops = NULL;
-    74		rcu_read_unlock();
-    75		return ops;
-    76	}
-    77	
-  > 78	void nfs_multipath_router_put(struct enfs_adapter_ops *ops)
-    79	{
-    80		if (ops)
-    81			module_put(ops->owner);
-    82	}
-    83	
-  > 84	bool is_valid_option(enum nfsmultipathoptions option)
-    85	{
-    86		if (option < REMOTEADDR || option >= INVALID_OPTION) {
-    87			pr_warn("ENFS: invalid option %d\n",
-    88				option);
-    89			return false;
-    90		}
-    91	
-    92		return true;
-    93	}
-    94	
+   359	
+   360	static inline void skb_gro_caqm_untag(struct sk_buff *skb)
+   361	{
+   362	#ifdef CONFIG_ETH_CAQM
+   363		struct caqm_hdr *chdr;
+   364		struct vlan_hdr *vlanhdr;
+   365		u16 caqm_hdr_info;
+   366		__be16 proto = skb->protocol;
+   367		u8 skip_time = 0;
+   368		int mac_len, meta_len;
+   369		void *meta;
+   370		struct caqm_hdr tmp_caqm_data;
+   371	
+   372		if (!static_branch_unlikely(&sysctl_caqm_enable) || skb_shared(skb))
+   373			return;
+   374	
+   375		/* We may access the two bytes after caqm_hdr in caqm_set_encap_proto(). */
+   376		if (unlikely(!pskb_may_pull(skb, VLAN_HLEN * 2 + CAQM_HLEN + sizeof(unsigned short))))
+   377			return;
+   378	
+   379		vlanhdr = (struct vlan_hdr *)(skb->data - VLAN_HLEN);
+   380		// Skip at most 2 vlan hdr
+   381		while (skip_time < 2 && eth_type_vlan(proto)) {
+   382			vlanhdr++; // chdr move a VLAN len
+   383			skip_time += 1;
+   384			proto = vlanhdr->h_vlan_encapsulated_proto;
+   385		}
+   386		// Look for vlan header, 2 times
+   387		if (!eth_type_caqm(proto) || skb_cow(skb, skb_headroom(skb)) < 0)
+   388			return;
+   389	
+   390		chdr = (struct caqm_hdr *)(((void *)vlanhdr) + VLAN_HLEN);
+ > 391		caqm_hdr_info = chdr->h_caqm_info;
+   392		__caqm_put_tag(skb, caqm_hdr_info);
+   393	
+   394		if ((unsigned char *) chdr != skb->data) {
+   395			// adjust the caqm header before vlan header
+   396			// 1. Set the vlanhdr->proto as the next
+   397			vlanhdr->h_vlan_encapsulated_proto = chdr->h_caqm_encapsulated_proto;
+   398			// 2. Exchange caqm and vlan hdr
+   399			tmp_caqm_data = *chdr;
+   400			memmove(skb->data + CAQM_HLEN, skb->data, skip_time * VLAN_HLEN);
+   401			*(struct caqm_hdr *)(skb->data) = tmp_caqm_data;
+   402		} else
+   403			caqm_set_encap_proto(skb, chdr);
+   404	
+   405		skb_pull_rcsum(skb, CAQM_HLEN);
+   406	
+   407		mac_len = skb->data - skb_mac_header(skb);
+   408		if (likely(mac_len > CAQM_HLEN + ETH_TLEN)) {
+   409			memmove(skb_mac_header(skb) + CAQM_HLEN, skb_mac_header(skb),
+   410				mac_len - CAQM_HLEN - ETH_TLEN);
+   411		}
+   412	
+   413		meta_len = skb_metadata_len(skb);
+   414		if (meta_len) {
+   415			meta = skb_metadata_end(skb) - meta_len;
+   416			memmove(meta + CAQM_HLEN, meta, meta_len);
+   417		}
+   418	
+   419		skb->mac_header += CAQM_HLEN;
+   420	
+   421		skb_reset_network_header(skb);
+   422		if (!skb_transport_header_was_set(skb))
+   423			skb_reset_transport_header(skb);
+   424		skb_reset_mac_len(skb);
+   425	
+   426	#endif
+   427	}
+   428	
+   429	#ifdef CONFIG_ETH_CAQM
+   430	static inline __be16 caqm_get_protocol_and_depth(struct sk_buff *skb,
+   431							 __be16 type, int *depth)
+   432	{
+   433		type = vlan_get_protocol_and_depth(skb, type, depth);
+   434		if (static_branch_unlikely(&sysctl_caqm_enable) && eth_type_caqm(type))
+   435			return caqm_get_protocol_and_depth_after_vlan(skb, type, depth);
+   436		else
+   437			return type;
+   438	}
+   439	#endif
+   440	
+   441	static inline void caqm_update_hint_in_gro(struct sk_buff *skb, struct sk_buff *p)
+   442	{
+   443	#ifdef CONFIG_ETH_CAQM
+   444		struct skb_caqm_info *cinfo_p = get_skb_caqm_info(p);
+   445		struct skb_caqm_info *cinfo_skb = get_skb_caqm_info(skb);
+   446	
+   447		if (static_branch_unlikely(&sysctl_caqm_enable) && cinfo_p->recv_en && cinfo_skb->recv_en) {
+   448			cinfo_p->recv_hint += cinfo_skb->recv_hint;
+   449			cinfo_skb->recv_en = 0;
+   450		}
+   451	#endif
+   452	}
+   453	
+   454	static inline int caqm_add_eth_header(struct sk_buff *skb, unsigned short *type,
+   455				       struct net_device *dev)
+   456	{
+   457	#ifdef CONFIG_ETH_CAQM
+   458		struct skb_caqm_info *cinfo = get_skb_caqm_info(skb);
+   459	
+   460		if (static_branch_unlikely(&sysctl_caqm_enable) &&
+   461		    (sysctl_caqm_filter_nics & (1UL << dev->ifindex)) == 0)
+   462			cinfo->send_en = 0;
+   463		if (static_branch_unlikely(&sysctl_caqm_enable) && cinfo->send_en) {
+   464			cinfo->send_en = 0;
+   465			if (unlikely(skb_headroom(skb) <  ETH_HLEN + CAQM_HLEN))
+   466				return -ETH_HLEN;
+   467			u16 *chdr = skb_push(skb, CAQM_HLEN);
+   468	
+   469			chdr[0] = (cinfo->send_hdr);
+ > 470			chdr[1] = htons(*type);
+   471			*type = (unsigned short)sysctl_caqm_tpid;
+   472		}
+   473	#endif
+   474		return 0;
+   475	}
+   476	
 
 -- 
 0-DAY CI Kernel Test Service
