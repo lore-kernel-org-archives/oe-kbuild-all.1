@@ -1,147 +1,121 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 253642E371A
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Jul 2025 08:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD653207
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Jul 2025 10:09:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751790325; cv=none; b=DgqT6FgfdfkLKSRmojTpPRbfQnAN7SkQKd9djmxUu0RjfP4KY5nxmdM8hgkHBungonutdAAx80o8zMVgauD/jeLGYOOSo7/f2TGGWjeTrGh8LXPrlWs64GZWqS3z/nCU1DF7tZNSuCogRDekwdyubomh/oDcECF/uIR3N1L+New=
+	t=1751796578; cv=none; b=E8gVBO0+DWprl+3MSUPg+1+XxNQEYpTls+sKCSK+J6dIOIgHk+MENk9WsSRL0A8iEjWISVcqs737+SbmL/yZL1VmkKiAvA9aYsF+TrmPiyYlKw+KBcih4XpvK9Z5c1WeocYq781Asq9DNnc+w+Ar1sGi9iJ5Vhz8qR3dJ3MPjgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751790325; c=relaxed/simple;
-	bh=czui/hoe1XrTEL9F7AaWuQcj7tp71dTQxYV84pw8uNA=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qas7j1H/WodcPGTiMjGjhUelnNeUkPo+R7frQ/5nFAG10wPDA4dDYM+Wi6H4zF2KOQbLhzFAvMZxOME/YJXcah+8FO2Ms5iH4imbFPCjaNuC7CXoHFweLIUs2Ha5f7WG3cOcdKJAgSnbsXR6x1wwzwpODbRs/Bvb2DtrEJEuqHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Agy6GyCn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qybYFfuW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Agy6GyCn; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=qybYFfuW; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1751796578; c=relaxed/simple;
+	bh=lUIHw2Kx7Q9crTZC+RLVSSIK7nPYnkrlooahFfTjiqg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=omqVbUQZ+DTdKmL9InsldjOnr3HnUbB8PVW7ZhnnMNwAQvnM5GiMmgDgWnESUrEDMozc4CbadJQD4C6yVzEn284o94h5ez0vyrS5qMF2s06R5D9BvyTcxR7dr/7RlNzaF9cHHZO218DKpwyjFaWrbjV3LaatrljcsOp5IS19xfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LI/KLVvv; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Agy6GyCn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qybYFfuW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Agy6GyCn";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="qybYFfuW"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1B7E021180;
-	Sun,  6 Jul 2025 08:23:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751790208; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3mJFCrTMKspb9NN+oGxNyMlJlXwvlzYkGHm2UPqJjMs=;
-	b=Agy6GyCnZnV3a0IFQoYG9n1YKLAk37N9UySbaDQiaS5nNU0Kn0c4pJtESZAkUUM3NaqlSS
-	CO+zFRJD4OyS+EvbyIIpgrGYnf4YSP8DAsIXSl4QV6ngze2qHUOMoIIq6/JRPbkYoskc5y
-	J4VUVTOUcSlFGpXuksSCTwb/tx+CTCo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751790208;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3mJFCrTMKspb9NN+oGxNyMlJlXwvlzYkGHm2UPqJjMs=;
-	b=qybYFfuWD1hmyCI1i/Wi7k/oeUp02Moe9U3DxR2LUSkQhgAyG6sXgYFU8jUa98b+aB9r3n
-	9wyxXxs20zVll/Bg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Agy6GyCn;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=qybYFfuW
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1751790208; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3mJFCrTMKspb9NN+oGxNyMlJlXwvlzYkGHm2UPqJjMs=;
-	b=Agy6GyCnZnV3a0IFQoYG9n1YKLAk37N9UySbaDQiaS5nNU0Kn0c4pJtESZAkUUM3NaqlSS
-	CO+zFRJD4OyS+EvbyIIpgrGYnf4YSP8DAsIXSl4QV6ngze2qHUOMoIIq6/JRPbkYoskc5y
-	J4VUVTOUcSlFGpXuksSCTwb/tx+CTCo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1751790208;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=3mJFCrTMKspb9NN+oGxNyMlJlXwvlzYkGHm2UPqJjMs=;
-	b=qybYFfuWD1hmyCI1i/Wi7k/oeUp02Moe9U3DxR2LUSkQhgAyG6sXgYFU8jUa98b+aB9r3n
-	9wyxXxs20zVll/Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id B8BF313A29;
-	Sun,  6 Jul 2025 08:23:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id xsiWK38yamitWwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Sun, 06 Jul 2025 08:23:27 +0000
-Date: Sun, 06 Jul 2025 10:23:27 +0200
-Message-ID: <87y0t1n2ww.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: GalaxySnail <me@glxys.nl>
-Cc: simont@opensource.cirrus.com,
-	david.rhodes@cirrus.com,
-	linux-kernel@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev,
-	patches@opensource.cirrus.com,
-	perex@perex.cz,
-	rf@opensource.cirrus.com,
-	tiwai@suse.com
-Subject: Re: [PATCH v3] ALSA: hda: add MODULE_FIRMWARE for cs35l41/cs35l56
-In-Reply-To: <20250624101716.2365302-2-me@glxys.nl>
-References: <002901dbe4ef$57d0cce0$077266a0$@opensource.cirrus.com>
-	<20250624101716.2365302-2-me@glxys.nl>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/27.2 Mule/6.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LI/KLVvv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751796576; x=1783332576;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=lUIHw2Kx7Q9crTZC+RLVSSIK7nPYnkrlooahFfTjiqg=;
+  b=LI/KLVvv035Yj5Q4giRDdbWmgJ5eXVvTLidwWfVFYqhn9dewf7VCnUnv
+   VWhghD5t/dljsjq5EYPajtC2WUwX/7wY9JWaqvlqovdZEIBfzCYnLKxdI
+   E+YQp0s8az1neUdGSbvkeoF57GzXklvRklF6oJoMaGU+vorJVpp/SrQoG
+   D2qEPMpQT8vslOkfN9qjVL8RQ7xJTU8Y9dw+JLwEOUT1KxfwsbBh+EURN
+   mimbHnm1lrPmMI9e6GkXBEgaGDD0QbS7Kb7Eq891noELU+2UAFZX0HRQU
+   0lfQf8tkaktpEkVw1RJdKk6pu0zq/LRyQWtT88I9vnbx0xaBw1RZzLa4S
+   A==;
+X-CSE-ConnectionGUID: nv3EuW/lSOqm2plkkQ0U7Q==
+X-CSE-MsgGUID: jnXZhibWTlC3weLThjAdwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="54156396"
+X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
+   d="scan'208";a="54156396"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2025 03:09:35 -0700
+X-CSE-ConnectionGUID: dIdNTuB2R9Kg6zicD24ZsQ==
+X-CSE-MsgGUID: ltxSh2MKQ2+kGWJRmHfZ+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
+   d="scan'208";a="160513861"
+Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
+  by fmviesa004.fm.intel.com with ESMTP; 06 Jul 2025 03:09:35 -0700
+Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uYMJR-00050x-0w;
+	Sun, 06 Jul 2025 10:09:33 +0000
+Date: Sun, 6 Jul 2025 18:08:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [robh:imx93-ethos-v2 26/31] drivers/accel/ethos/ethos_drv.c:265:9:
+ sparse: sparse: incorrect type in argument 1 (different address spaces)
+Message-ID: <202507061841.AiZfx9FX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Level: 
-X-Spam-Flag: NO
-X-Rspamd-Queue-Id: 1B7E021180
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Score: -3.51
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 24 Jun 2025 12:17:17 +0200,
-GalaxySnail wrote:
-> 
-> add firmware information in the .modinfo section, so that userspace
-> tools can find out firmware required by cs35l41/cs35l56 kernel module
-> 
-> Signed-off-by: GalaxySnail <me@glxys.nl>
-> ---
-> Thanks for your review!
-> 
-> v2 -> v3: fixed typo
-> v1 -> v2: fixed missing ';' in the previous patch
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git imx93-ethos-v2
+head:   652b6e3a8a3b0663143c380c080702c9e705be8d
+commit: 0387723ea682298c3cd4749dc78bd81a012e8b8f [26/31] drm: ethos: SRAM support rework.
+config: riscv-randconfig-r131-20250706 (https://download.01.org/0day-ci/archive/20250706/202507061841.AiZfx9FX-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 61529d9e36fa86782a2458e6bdeedf7f376ef4b5)
+reproduce: (https://download.01.org/0day-ci/archive/20250706/202507061841.AiZfx9FX-lkp@intel.com/reproduce)
 
-Applied now to for-next branch.  Thanks.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507061841.AiZfx9FX-lkp@intel.com/
 
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> drivers/accel/ethos/ethos_drv.c:265:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *sram @@
+   drivers/accel/ethos/ethos_drv.c:265:9: sparse:     expected void const *
+   drivers/accel/ethos/ethos_drv.c:265:9: sparse:     got void [noderef] __iomem *sram
+>> drivers/accel/ethos/ethos_drv.c:265:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const * @@     got void [noderef] __iomem *sram @@
+   drivers/accel/ethos/ethos_drv.c:265:9: sparse:     expected void const *
+   drivers/accel/ethos/ethos_drv.c:265:9: sparse:     got void [noderef] __iomem *sram
+>> drivers/accel/ethos/ethos_drv.c:265:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void * @@     got void [noderef] __iomem *sram @@
+   drivers/accel/ethos/ethos_drv.c:265:9: sparse:     expected void *
+   drivers/accel/ethos/ethos_drv.c:265:9: sparse:     got void [noderef] __iomem *sram
 
-Takashi
+vim +265 drivers/accel/ethos/ethos_drv.c
+
+   243	
+   244	static int ethos_reset(struct ethos_device *ethosdev)
+   245	{
+   246		int ret;
+   247		u32 reg;
+   248	
+   249		writel_relaxed(0x3, ethosdev->regs + NPU_REG_RESET);
+   250	
+   251		ret = readl_poll_timeout(ethosdev->regs + NPU_REG_STATUS, reg, !(reg & 0x4),
+   252					 USEC_PER_MSEC, USEC_PER_SEC);
+   253		if (ret)
+   254			return ret;
+   255	
+   256		if ((readl_relaxed(ethosdev->regs + NPU_REG_PROT) & 0x3) != 0x3) {
+   257			dev_info(ethosdev->base.dev, "read PROT = %x\n", readl_relaxed(ethosdev->regs + NPU_REG_PROT));
+   258	//		return -EINVAL;
+   259		}
+   260		// TODO AXI port config, defaults might work
+   261		if (ethos_is_u65(ethosdev)) {
+   262			writel_relaxed(0x1f3f0032, ethosdev->regs + NPU_REG_AXILIMIT0);
+   263		}
+   264	
+ > 265		memset(ethosdev->sram, 0, ethosdev->npu_info.sram_size);
+   266	
+   267		return 0;
+   268	}
+   269	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
