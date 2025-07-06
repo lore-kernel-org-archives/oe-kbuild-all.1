@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E08C2CCC0
-	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Jul 2025 02:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34F452E36F2
+	for <oe-kbuild-all@lists.linux.dev>; Sun,  6 Jul 2025 02:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751767984; cv=none; b=gmHteJkrjjZC36lNDW+i5+QYKUdvibUzsb0XD2nrG/NroC6pP0eqZrDcmTbf2MGAyLbtyZq3Z3mZizAsTLq8FU1azPUovjo7Yly156KBwwrSIpl22Famn0tHYits89tM0dtlD26ie8F2KHIF0abD8pZF9DLiXvoXi8kZt9DJUq8=
+	t=1751768643; cv=none; b=hHhyY0AGDJqMw0OMt/wEJdCe1Lgu09fWB0cHHcNFWk/JcV2DTVwGbHWvwpX1oqgqjQKpJigYkBJcebYzItw3hEEZsHys0hhfw7CRx1Ul5QtQ2UqXqYK6m4atXuIbiBZXlKBrd2khdU0YjRW48a7HE2ObF14YwEG5cIKlh9JCpnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751767984; c=relaxed/simple;
-	bh=cxQeL0oH+76cufx36nw7v4ljcvG3KBCpszc/4BzMYVU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ocSjImKuqpn0nhd5Cem6LF7aH1sbxOGn/B2nwL3ehyBYu9biQb56d/8SlrmEjkbjRz87mov1AfpnH4JyMx9ZvY0OjCljpqvjsrQ1Kcw/UyNyIivBlVkkIjQqTx5FcnLOLgVCA4x3GbmiL8+utGArCby1tflRWVMb1zsW9ZMU7HA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TM0wyc1F; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1751768643; c=relaxed/simple;
+	bh=CO3NNkd8KxJktlvx4OOfr03Qn1SZBVjrGp5TqosPtZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e3BPWnRKncnxTtmRqy6GnlL21PNGLBJ4XXBY0hQCn2udwKyfyqLrEx3P781QshYFeu/hhHQGKBmlqh3ybflI54juifLEnUBKFBeD/ZSwPgAM6FA7VdhrZXWvpmD21l3xgazYom/vZQ3z1LIZ2l5rf4P8rYuAMyMdOrbgWQIW/CI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eosMLcQh; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TM0wyc1F"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eosMLcQh"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751767981; x=1783303981;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cxQeL0oH+76cufx36nw7v4ljcvG3KBCpszc/4BzMYVU=;
-  b=TM0wyc1FjHDyjBk0io+HrU3ZI0aW63+mHmDYj36z2S7Ax7/0Y/JBX1sb
-   mYHxNewnWPyG2c9qfa3uIuybWYaG75Z2JTVNS+vSgvDf8d4lFwGj3VGOo
-   CGlgvTqAl7fOnLeehpI+Xc3XS3kBajJvepLDnYwejNrMMLmbsuxpvqYZB
-   eJ7PcHiQN0aQEUEJ+7LUGGouqTpr1sqahnIsfyPX8+cGVwsNp5zJuNKHR
-   OS2OnI4Sgd7e7QVf+owCA1ZHMTP/0HlYt4lOQObybYsofBf0LMJvAEgzf
-   YT0cS5aYaB2qFOU9cGs47X0Vq1hiysjT1/3BYB8KecX1N+wygUZ3CUyUa
-   w==;
-X-CSE-ConnectionGUID: EOgPyranQJKm3v0hNgqIEg==
-X-CSE-MsgGUID: U8rZD9LvSeKk9uDkfJ8HgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="53953045"
+  t=1751768641; x=1783304641;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=CO3NNkd8KxJktlvx4OOfr03Qn1SZBVjrGp5TqosPtZQ=;
+  b=eosMLcQh+usOL6dlTWU1i1F+SxTAj2OZ+jVE3aREhtt8msnlbTPmC1bj
+   rQcCu6moBt/4p7YubZpqE9+cowInN4UErp462aMWfzWo/1wBPwwmW/xo8
+   bzFmIwTSwTZTT+kw92vR/151HQEfO04M8mPjFkIlUcrS8QkjoOmK3sHVo
+   N+oeMc7yb+zNnDlYLKQJDw/dBOZ/77mvGxss4bvwYAKdFTJ9HI6D/FQqf
+   4Ta/8hNoqPYhuL2OwJXI6VL6gW8BdIbVULWhZvqU4KaDhKPfRPVHxpVj+
+   2Vu1WSjqy10p9ljC3SWqkRqOgm5NsH2ICrMRJ0XPzNygd4zg8da/YG2EI
+   Q==;
+X-CSE-ConnectionGUID: YT+M3Vy7RU64xnwyrfw/lw==
+X-CSE-MsgGUID: WpXyf1hFTtyzl3PWLgulIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11485"; a="53249198"
 X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
-   d="scan'208";a="53953045"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 19:13:01 -0700
-X-CSE-ConnectionGUID: P7AFuKtSR+WFx2ZJHWLR/g==
-X-CSE-MsgGUID: FP+xo/NgTgmmHsIN/qpxMw==
+   d="scan'208";a="53249198"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Jul 2025 19:24:01 -0700
+X-CSE-ConnectionGUID: 76fNJ35RSi6t0i8lgTk3ww==
+X-CSE-MsgGUID: 2r9XZwo1Rf+4aBYUyFrL8A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,291,1744095600"; 
-   d="scan'208";a="155275019"
+   d="scan'208";a="178581810"
 Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 05 Jul 2025 19:12:59 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 05 Jul 2025 19:23:59 -0700
 Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYEsC-0004p1-1k;
-	Sun, 06 Jul 2025 02:12:56 +0000
-Date: Sun, 6 Jul 2025 10:12:46 +0800
+	id 1uYF2r-0004pP-1M;
+	Sun, 06 Jul 2025 02:23:57 +0000
+Date: Sun, 6 Jul 2025 10:22:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: ChenMiao <chenmiao.ku@gmail.com>,
-	Linux RISCV <linux-riscv@lists.infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, chenmiao <chenmiao.ku@gmail.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] riscv: ftrace: Fix the logic issue in DYNAMIC_FTRACE
- selection
-Message-ID: <202507060946.JDTW8TlM-lkp@intel.com>
-References: <20250703084818.394491-1-chenmiao.ku@gmail.com>
+To: kernel@openeuler.org, =?utf-8?B?6Zer5rW35rab?= <yanhaitao2@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2467/2467] fs/nfs/enfs_adapter.c:62:25: sparse:
+ sparse: symbol 'nfs_multipath_router_get' was not declared. Should it be
+ static?
+Message-ID: <202507061041.8fClqxw5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,223 +62,250 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250703084818.394491-1-chenmiao.ku@gmail.com>
 
-Hi ChenMiao,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.16-rc4 next-20250704]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/ChenMiao/riscv-ftrace-Fix-the-logic-issue-in-DYNAMIC_FTRACE-selection/20250703-165308
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250703084818.394491-1-chenmiao.ku%40gmail.com
-patch subject: [PATCH] riscv: ftrace: Fix the logic issue in DYNAMIC_FTRACE selection
-config: riscv-randconfig-001-20250706 (https://download.01.org/0day-ci/archive/20250706/202507060946.JDTW8TlM-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250706/202507060946.JDTW8TlM-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   a9f7917e90ec872036160e2cb3a1d3c1856cb406
+commit: 18e360871c3f648ecb0d8cc9b23fd4268a64c17f [2467/2467] add enfs feature
+config: x86_64-randconfig-121-20250706 (https://download.01.org/0day-ci/archive/20250706/202507061041.8fClqxw5-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250706/202507061041.8fClqxw5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507060946.JDTW8TlM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507061041.8fClqxw5-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   fs/nfs/enfs_adapter.c:18:31: sparse: sparse: symbol 'enfs_adapter' was not declared. Should it be static?
+>> fs/nfs/enfs_adapter.c:62:25: sparse: sparse: symbol 'nfs_multipath_router_get' was not declared. Should it be static?
+>> fs/nfs/enfs_adapter.c:78:6: sparse: sparse: symbol 'nfs_multipath_router_put' was not declared. Should it be static?
+>> fs/nfs/enfs_adapter.c:84:6: sparse: sparse: symbol 'is_valid_option' was not declared. Should it be static?
+--
+>> fs/nfs/fs_context.c:374:26: sparse: sparse: symbol 'getNfsMultiPathOpt' was not declared. Should it be static?
+--
+   fs/nfs/enfs/enfs_init.c:30:25: sparse: sparse: symbol 'enfs_adapter' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_init.c:95:9: sparse: sparse: symbol 'enfs_init' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_init.c:100:6: sparse: sparse: symbol 'enfs_fini' was not declared. Should it be static?
+--
+>> fs/nfs/enfs/enfs_multipath_parse.c:24:6: sparse: sparse: symbol 'nfs_multipath_parse_ip_ipv6_add' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_parse.c:162:5: sparse: sparse: symbol 'enfs_parse_ip_single' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_parse.c:209:6: sparse: sparse: symbol 'nfs_multipath_parse_ip_list_get_cursor' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_parse.c:236:6: sparse: sparse: symbol 'enfs_valid_ip' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_parse.c:248:5: sparse: sparse: symbol 'nfs_multipath_parse_ip_list' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_parse.c:361:6: sparse: sparse: symbol 'isInvalidDns' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_parse.c:387:5: sparse: sparse: symbol 'nfs_multipath_parse_dns_list' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_parse.c:431:5: sparse: sparse: symbol 'parse_remote_type' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_parse.c:473:57: sparse: sparse: restricted __be32 degrades to integer
+>> fs/nfs/enfs/enfs_multipath_parse.c:471:5: sparse: sparse: symbol 'nfs_multipath_parse_options_check_ipv4_valid' was not declared. Should it be static?
+   fs/nfs/enfs/enfs_multipath_parse.c:486:44: sparse: sparse: restricted __be32 degrades to integer
+   fs/nfs/enfs/enfs_multipath_parse.c:487:44: sparse: sparse: restricted __be32 degrades to integer
+   fs/nfs/enfs/enfs_multipath_parse.c:488:44: sparse: sparse: restricted __be32 degrades to integer
+   fs/nfs/enfs/enfs_multipath_parse.c:489:44: sparse: sparse: restricted __be32 degrades to integer
+>> fs/nfs/enfs/enfs_multipath_parse.c:478:5: sparse: sparse: symbol 'nfs_multipath_parse_options_check_ipv6_valid' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_parse.c:494:5: sparse: sparse: symbol 'nfs_multipath_parse_options_check_ip_valid' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_parse.c:510:5: sparse: sparse: symbol 'nfs_multipath_parse_options_check_valid' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_parse.c:536:5: sparse: sparse: symbol 'nfs_multipath_parse_options_check_duplicate' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_parse.c:562:5: sparse: sparse: symbol 'nfs_multipath_parse_options_check' was not declared. Should it be static?
+--
+>> fs/nfs/enfs/enfs_config.c:554:6: sparse: sparse: symbol 'enfs_glob_match' was not declared. Should it be static?
+--
+>> fs/nfs/enfs/enfs_multipath_client.c:72:5: sparse: sparse: symbol 'nfs_multipath_client_mount_info_init' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_client.c:120:6: sparse: sparse: symbol 'enfs_free_client_info' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_client.c:135:6: sparse: sparse: symbol 'nfs_multipath_client_info_free_work' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_client.c:191:6: sparse: sparse: symbol 'nfs_multipath_ip_list_info_match' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_client.c:328:6: sparse: sparse: symbol 'print_ip_info' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_client.c:352:6: sparse: sparse: symbol 'print_dns_info' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath_client.c:390:6: sparse: sparse: symbol 'convert_lookup_cache_str' was not declared. Should it be static?
+--
+>> fs/nfs/enfs/enfs_roundrobin.c:107:17: sparse: sparse: symbol 'enfs_lb_switch_find_first_active_xprt' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_roundrobin.c:119:17: sparse: sparse: symbol 'enfs_lb_switch_get_main_xprt' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_roundrobin.c:169:17: sparse: sparse: symbol 'enfs_lb_get_singular_xprt' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_roundrobin.c:332:5: sparse: sparse: symbol 'enfs_lb_revert_policy' was not declared. Should it be static?
+--
+>> fs/nfs/enfs/enfs_remount.c:105:6: sparse: sparse: symbol 'enfs_clnt_delete_obsolete_xprts' was not declared. Should it be static?
+--
+>> fs/nfs/enfs/enfs_multipath.c:186:63: sparse: sparse: cast from restricted __be16
+   fs/nfs/enfs/enfs_multipath.c:190:65: sparse: sparse: cast from restricted __be16
+>> fs/nfs/enfs/enfs_multipath.c:211:24: sparse: sparse: incorrect type in return expression (different base types) @@     expected restricted __be16 @@     got int @@
+   fs/nfs/enfs/enfs_multipath.c:211:24: sparse:     expected restricted __be16
+   fs/nfs/enfs/enfs_multipath.c:211:24: sparse:     got int
+>> fs/nfs/enfs/enfs_multipath.c:321:5: sparse: sparse: symbol 'enfs_configure_xprt_to_clnt' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath.c:357:6: sparse: sparse: symbol 'enfs_cmp_addrs' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath.c:374:6: sparse: sparse: symbol 'enfs_xprt_addrs_is_same' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath.c:393:6: sparse: sparse: symbol 'enfs_already_have_xprt' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath.c:782:52: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct in_device *dvice @@     got struct in_device [noderef] __rcu *ip_ptr @@
+   fs/nfs/enfs/enfs_multipath.c:782:52: sparse:     expected struct in_device *dvice
+   fs/nfs/enfs/enfs_multipath.c:782:52: sparse:     got struct in_device [noderef] __rcu *ip_ptr
+>> fs/nfs/enfs/enfs_multipath.c:785:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct inet6_dev *idev @@     got struct inet6_dev [noderef] __rcu *ip6_ptr @@
+   fs/nfs/enfs/enfs_multipath.c:785:61: sparse:     expected struct inet6_dev *idev
+   fs/nfs/enfs/enfs_multipath.c:785:61: sparse:     got struct inet6_dev [noderef] __rcu *ip6_ptr
+>> fs/nfs/enfs/enfs_multipath.c:836:5: sparse: sparse: symbol 'enfs_multipath_create_thread' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath.c:925:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
+   fs/nfs/enfs/enfs_multipath.c:925:43: sparse:     expected struct rpc_xprt *xprt
+   fs/nfs/enfs/enfs_multipath.c:925:43: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
+>> fs/nfs/enfs/enfs_multipath.c:932:6: sparse: sparse: symbol 'enfs_create_multi_xprt' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_multipath.c:988:6: sparse: sparse: symbol 'enfs_release_rpc_clnt' was not declared. Should it be static?
+--
+>> fs/nfs/enfs/enfs_rpc_proc.c:13:21: sparse: sparse: symbol 'enfs_procedures' was not declared. Should it be static?
+--
+>> fs/nfs/enfs/exten_call.c:60:5: sparse: sparse: symbol 'NfsExtendProcInfoExtendEncode' was not declared. Should it be static?
+>> fs/nfs/enfs/exten_call.c:178:5: sparse: sparse: symbol 'NfsExtendDecodeFsShard' was not declared. Should it be static?
+>> fs/nfs/enfs/exten_call.c:263:5: sparse: sparse: symbol 'NfsExtendDecodeLifInfo' was not declared. Should it be static?
+>> fs/nfs/enfs/exten_call.c:531:5: sparse: sparse: symbol 'EnfsExtendDecodePreCheck' was not declared. Should it be static?
+>> fs/nfs/enfs/exten_call.c:542:5: sparse: sparse: symbol 'NfsExtendProcInfoExtendDecode' was not declared. Should it be static?
+>> fs/nfs/enfs/exten_call.c:597:5: sparse: sparse: symbol 'dorado_extend_route' was not declared. Should it be static?
+>> fs/nfs/enfs/exten_call.c:666:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
+   fs/nfs/enfs/exten_call.c:666:22: sparse:     expected struct rpc_xprt *xprt
+   fs/nfs/enfs/exten_call.c:666:22: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
+   fs/nfs/enfs/exten_call.c:668:21: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
+   fs/nfs/enfs/exten_call.c:668:21: sparse:     expected struct rpc_xprt *xprt
+   fs/nfs/enfs/exten_call.c:668:21: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
+   fs/nfs/enfs/exten_call.c:671:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
+   fs/nfs/enfs/exten_call.c:671:30: sparse:     expected struct rpc_xprt *xprt
+   fs/nfs/enfs/exten_call.c:671:30: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
+   fs/nfs/enfs/exten_call.c:676:22: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
+   fs/nfs/enfs/exten_call.c:676:22: sparse:     expected struct rpc_xprt *xprt
+   fs/nfs/enfs/exten_call.c:676:22: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
+>> fs/nfs/enfs/exten_call.c:662:6: sparse: sparse: symbol 'nego_enfs_version' was not declared. Should it be static?
+>> fs/nfs/enfs/exten_call.c:955:6: sparse: sparse: symbol 'NfsExtendDnsQuerySetArgs' was not declared. Should it be static?
+>> fs/nfs/enfs/exten_call.c:966:6: sparse: sparse: symbol 'NfsExtendDnsQuerySetRes' was not declared. Should it be static?
+--
+>> fs/nfs/enfs/enfs_lookup_cache.c:30:27: sparse: sparse: symbol 'enfs_lookup_cahce' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:98:6: sparse: sparse: symbol 'enfs_clean_server_lookup_cache_flag' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:112:6: sparse: sparse: symbol 'enfs_update_lookup_cache_flag_to_server' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:223:53: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
+   fs/nfs/enfs/enfs_lookup_cache.c:223:53: sparse:     expected struct rpc_xprt *xprt
+   fs/nfs/enfs/enfs_lookup_cache.c:223:53: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
+   fs/nfs/enfs/enfs_lookup_cache.c:226:60: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
+   fs/nfs/enfs/enfs_lookup_cache.c:226:60: sparse:     expected struct rpc_xprt *xprt
+   fs/nfs/enfs/enfs_lookup_cache.c:226:60: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
+   fs/nfs/enfs/enfs_lookup_cache.c:230:61: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
+   fs/nfs/enfs/enfs_lookup_cache.c:230:61: sparse:     expected struct rpc_xprt *xprt
+   fs/nfs/enfs/enfs_lookup_cache.c:230:61: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
+   fs/nfs/enfs/enfs_lookup_cache.c:240:53: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct rpc_xprt *xprt @@     got struct rpc_xprt [noderef] __rcu *cl_xprt @@
+   fs/nfs/enfs/enfs_lookup_cache.c:240:53: sparse:     expected struct rpc_xprt *xprt
+   fs/nfs/enfs/enfs_lookup_cache.c:240:53: sparse:     got struct rpc_xprt [noderef] __rcu *cl_xprt
+>> fs/nfs/enfs/enfs_lookup_cache.c:146:5: sparse: sparse: symbol 'enfs_query_lookup_cache' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:251:6: sparse: sparse: symbol 'enfs_query_lookup_cache_pre_check' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:269:6: sparse: sparse: symbol 'lookupcache_execute_work' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:292:6: sparse: sparse: symbol 'lookupcache_workqueue_queue_work' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:305:5: sparse: sparse: symbol 'lookupcache_add_work' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:374:6: sparse: sparse: symbol 'lookupcache_loop_rpclnt' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:423:6: sparse: sparse: symbol 'enfs_lookupcache_update_switch' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:440:5: sparse: sparse: symbol 'lookupcache_routine' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:460:5: sparse: sparse: symbol 'lookupcache_start' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:471:5: sparse: sparse: symbol 'enfs_lookupcache_workqueue_init' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:487:6: sparse: sparse: symbol 'lookupcache_workqueue_fini' was not declared. Should it be static?
+>> fs/nfs/enfs/enfs_lookup_cache.c:504:5: sparse: sparse: symbol 'enfs_lookupcache_timer_init' was not declared. Should it be static?
+   fs/nfs/enfs/enfs_lookup_cache.c:146:5: sparse: sparse: context imbalance in 'enfs_query_lookup_cache' - different lock contexts for basic block
+--
+>> fs/nfs/enfs/dns_process.c:92:6: sparse: sparse: symbol 'enfs_update_domain_name' was not declared. Should it be static?
+>> fs/nfs/enfs/dns_process.c:129:6: sparse: sparse: symbol 'enfs_swap_name_cache' was not declared. Should it be static?
+>> fs/nfs/enfs/dns_process.c:148:6: sparse: sparse: symbol 'enfs_domain_inc' was not declared. Should it be static?
+>> fs/nfs/enfs/dns_process.c:217:6: sparse: sparse: symbol 'ip_list_append' was not declared. Should it be static?
+>> fs/nfs/enfs/dns_process.c:361:5: sparse: sparse: symbol 'enfs_quick_sort' was not declared. Should it be static?
+>> fs/nfs/enfs/dns_process.c:394:5: sparse: sparse: symbol 'enfs_dns_process_ip' was not declared. Should it be static?
+>> fs/nfs/enfs/dns_process.c:434:5: sparse: sparse: symbol 'enfs_server_query_dns' was not declared. Should it be static?
+>> fs/nfs/enfs/dns_process.c:494:6: sparse: sparse: symbol 'query_dns_each_name' was not declared. Should it be static?
+>> fs/nfs/enfs/dns_process.c:582:5: sparse: sparse: symbol 'enfs_iter_nfs_clnt' was not declared. Should it be static?
+>> fs/nfs/enfs/dns_process.c:669:6: sparse: sparse: symbol 'enfs_domain_for_each' was not declared. Should it be static?
+--
+>> fs/nfs/enfs/shard_route.c:327:5: sparse: sparse: symbol 'enfs_query_lif_info' was not declared. Should it be static?
+>> fs/nfs/enfs/shard_route.c:434:5: sparse: sparse: symbol 'enfs_update_fsshard' was not declared. Should it be static?
+>> fs/nfs/enfs/shard_route.c:530:5: sparse: sparse: symbol 'enfs_update_lsinfo' was not declared. Should it be static?
+>> fs/nfs/enfs/shard_route.c:555:5: sparse: sparse: symbol 'enfs_update_lif_info' was not declared. Should it be static?
+>> fs/nfs/enfs/shard_route.c:639:5: sparse: sparse: symbol 'enfs_delete_shard' was not declared. Should it be static?
+>> fs/nfs/enfs/shard_route.c:776:21: sparse: sparse: symbol 'nfs3_parse_ops' was not declared. Should it be static?
+>> fs/nfs/enfs/shard_route.c:801:5: sparse: sparse: symbol 'nfs3_parse_ops_size' was not declared. Should it be static?
+>> fs/nfs/enfs/shard_route.c:858:34: sparse: sparse: cast removes address space '__rcu' of expression
+   fs/nfs/enfs/shard_route.c:867:34: sparse: sparse: cast removes address space '__rcu' of expression
+>> fs/nfs/enfs/shard_route.c:1035:6: sparse: sparse: symbol 'check_cpuid_invalid' was not declared. Should it be static?
+>> fs/nfs/enfs/shard_route.c:1108:17: sparse: sparse: symbol 'enfs_choose_shard_xport' was not declared. Should it be static?
+>> fs/nfs/enfs/shard_route.c:1187:17: sparse: sparse: symbol 'enfs_get_shard_xport' was not declared. Should it be static?
+   fs/nfs/enfs/shard_route.c:1741:34: sparse: sparse: cast removes address space '__rcu' of expression
+   fs/nfs/enfs/shard_route.c:1750:34: sparse: sparse: cast removes address space '__rcu' of expression
+>> fs/nfs/enfs/shard_route.c:1954:24: sparse: sparse: symbol 'enfs_shard_ctrl_init' was not declared. Should it be static?
 
-   arch/riscv/kernel/mcount-dyn.S: Assembler messages:
->> arch/riscv/kernel/mcount-dyn.S:85: Error: illegal operands `addi sp,sp,-FREGS_SIZE_ON_STACK'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:86: Error: illegal operands `sd t0,FREGS_EPC(sp)'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:87: Error: illegal operands `sd x1,FREGS_RA(sp)'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:91: Error: illegal operands `sd x6,FREGS_T1(sp)'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:100: Error: illegal operands `sd x10,FREGS_A0(sp)'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:101: Error: illegal operands `sd x11,FREGS_A1(sp)'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:102: Error: illegal operands `sd x12,FREGS_A2(sp)'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:103: Error: illegal operands `sd x13,FREGS_A3(sp)'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:104: Error: illegal operands `sd x14,FREGS_A4(sp)'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:105: Error: illegal operands `sd x15,FREGS_A5(sp)'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:106: Error: illegal operands `sd x16,FREGS_A6(sp)'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:107: Error: illegal operands `sd x17,FREGS_A7(sp)'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:109: Error: illegal operands `addi a0,a0,FREGS_SIZE_ON_STACK'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:110: Error: illegal operands `sd a0,FREGS_SP(sp)'
-   arch/riscv/kernel/mcount-dyn.S:185:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:114: Error: illegal operands `ld t0,FREGS_EPC(sp)'
-   arch/riscv/kernel/mcount-dyn.S:195:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:115: Error: illegal operands `ld x1,FREGS_RA(sp)'
-   arch/riscv/kernel/mcount-dyn.S:195:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:119: Error: illegal operands `ld x6,FREGS_T1(sp)'
-   arch/riscv/kernel/mcount-dyn.S:195:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:128: Error: illegal operands `ld x10,FREGS_A0(sp)'
-   arch/riscv/kernel/mcount-dyn.S:195:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:129: Error: illegal operands `ld x11,FREGS_A1(sp)'
-   arch/riscv/kernel/mcount-dyn.S:195:  Info: macro invoked from here
->> arch/riscv/kernel/mcount-dyn.S:130: Error: illegal operands `ld x12,FREGS_A2(sp)'
-   arch/riscv/kernel/mcount-dyn.S:195:  Info: macro invoked from here
-   arch/riscv/kernel/mcount-dyn.S:131: Error: illegal operands `ld x13,FREGS_A3(sp)'
-   arch/riscv/kernel/mcount-dyn.S:195:  Info: macro invoked from here
-   arch/riscv/kernel/mcount-dyn.S:132: Error: illegal operands `ld x14,FREGS_A4(sp)'
-   arch/riscv/kernel/mcount-dyn.S:195:  Info: macro invoked from here
-   arch/riscv/kernel/mcount-dyn.S:133: Error: illegal operands `ld x15,FREGS_A5(sp)'
-   arch/riscv/kernel/mcount-dyn.S:195:  Info: macro invoked from here
-   arch/riscv/kernel/mcount-dyn.S:134: Error: illegal operands `ld x16,FREGS_A6(sp)'
-   arch/riscv/kernel/mcount-dyn.S:195:  Info: macro invoked from here
-   arch/riscv/kernel/mcount-dyn.S:135: Error: illegal operands `ld x17,FREGS_A7(sp)'
-   arch/riscv/kernel/mcount-dyn.S:195:  Info: macro invoked from here
-   arch/riscv/kernel/mcount-dyn.S:137: Error: illegal operands `addi sp,sp,FREGS_SIZE_ON_STACK'
-   arch/riscv/kernel/mcount-dyn.S:195:  Info: macro invoked from here
+vim +/nfs_multipath_router_get +62 fs/nfs/enfs_adapter.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for DYNAMIC_FTRACE
-   Depends on [n]: FTRACE [=y] && FUNCTION_TRACER [=y] && HAVE_DYNAMIC_FTRACE [=n]
-   Selected by [y]:
-   - RISCV [=y] && FUNCTION_TRACER [=y]
-
-
-vim +85 arch/riscv/kernel/mcount-dyn.S
-
-afc76b8b8011218 Guo Ren        2020-12-17   27  
-afc76b8b8011218 Guo Ren        2020-12-17   28  	.macro SAVE_ABI
-afc76b8b8011218 Guo Ren        2020-12-17   29  	addi	sp, sp, -ABI_SIZE_ON_STACK
-afc76b8b8011218 Guo Ren        2020-12-17   30  
-afc76b8b8011218 Guo Ren        2020-12-17   31  	REG_S	a0, ABI_A0(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   32  	REG_S	a1, ABI_A1(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   33  	REG_S	a2, ABI_A2(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   34  	REG_S	a3, ABI_A3(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   35  	REG_S	a4, ABI_A4(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   36  	REG_S	a5, ABI_A5(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   37  	REG_S	a6, ABI_A6(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   38  	REG_S	a7, ABI_A7(sp)
-6724a76cff85ee2 Guo Ren        2023-01-12   39  	REG_S	t0, ABI_T0(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   40  	REG_S	ra, ABI_RA(sp)
-c15ac4fd60d5ffd Alan Kao       2018-02-13   41  	.endm
-c15ac4fd60d5ffd Alan Kao       2018-02-13   42  
-afc76b8b8011218 Guo Ren        2020-12-17   43  	.macro RESTORE_ABI
-afc76b8b8011218 Guo Ren        2020-12-17   44  	REG_L	a0, ABI_A0(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   45  	REG_L	a1, ABI_A1(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   46  	REG_L	a2, ABI_A2(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   47  	REG_L	a3, ABI_A3(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   48  	REG_L	a4, ABI_A4(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   49  	REG_L	a5, ABI_A5(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   50  	REG_L	a6, ABI_A6(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   51  	REG_L	a7, ABI_A7(sp)
-6724a76cff85ee2 Guo Ren        2023-01-12   52  	REG_L	t0, ABI_T0(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   53  	REG_L	ra, ABI_RA(sp)
-afc76b8b8011218 Guo Ren        2020-12-17   54  
-afc76b8b8011218 Guo Ren        2020-12-17   55  	addi	sp, sp, ABI_SIZE_ON_STACK
-c15ac4fd60d5ffd Alan Kao       2018-02-13   56  	.endm
-c15ac4fd60d5ffd Alan Kao       2018-02-13   57  
-35e61e8827ee8ea Song Shuai     2023-11-30   58  /**
-7caa9765465f60b Puranjay Mohan 2024-04-05   59  * SAVE_ABI_REGS - save regs against the ftrace_regs struct
-35e61e8827ee8ea Song Shuai     2023-11-30   60  *
-35e61e8827ee8ea Song Shuai     2023-11-30   61  * After the stack is established,
-35e61e8827ee8ea Song Shuai     2023-11-30   62  *
-35e61e8827ee8ea Song Shuai     2023-11-30   63  * 0(sp) stores the PC of the traced function which can be accessed
-b2137c3b6d7a456 Andy Chiu      2025-04-08   64  * by &(fregs)->epc in tracing function.
-35e61e8827ee8ea Song Shuai     2023-11-30   65  *
-35e61e8827ee8ea Song Shuai     2023-11-30   66  * 8(sp) stores the function return address (i.e. parent IP) that
-7caa9765465f60b Puranjay Mohan 2024-04-05   67  * can be accessed by &(fregs)->ra in tracing function.
-35e61e8827ee8ea Song Shuai     2023-11-30   68  *
-35e61e8827ee8ea Song Shuai     2023-11-30   69  * The other regs are saved at the respective localtion and accessed
-7caa9765465f60b Puranjay Mohan 2024-04-05   70  * by the respective ftrace_regs member.
-35e61e8827ee8ea Song Shuai     2023-11-30   71  *
-35e61e8827ee8ea Song Shuai     2023-11-30   72  * Here is the layout of stack for your reference.
-35e61e8827ee8ea Song Shuai     2023-11-30   73  *
-35e61e8827ee8ea Song Shuai     2023-11-30   74  * PT_SIZE_ON_STACK  ->  +++++++++
-35e61e8827ee8ea Song Shuai     2023-11-30   75  *                       + ..... +
-35e61e8827ee8ea Song Shuai     2023-11-30   76  *                       + a0-a7 + --++++-> ftrace_caller saved
-7caa9765465f60b Puranjay Mohan 2024-04-05   77  *                       + t1    + --++++-> direct tramp address
-7caa9765465f60b Puranjay Mohan 2024-04-05   78  *                       + s0    + --+ // frame pointer
-35e61e8827ee8ea Song Shuai     2023-11-30   79  *                       + sp    +   +
-35e61e8827ee8ea Song Shuai     2023-11-30   80  *                       + ra    + --+ // parent IP
-35e61e8827ee8ea Song Shuai     2023-11-30   81  *               sp  ->  + epc   + --+ // PC
-35e61e8827ee8ea Song Shuai     2023-11-30   82  *                       +++++++++
-35e61e8827ee8ea Song Shuai     2023-11-30   83  **/
-7caa9765465f60b Puranjay Mohan 2024-04-05   84  	.macro SAVE_ABI_REGS
-7caa9765465f60b Puranjay Mohan 2024-04-05  @85  	addi	sp, sp, -FREGS_SIZE_ON_STACK
-7caa9765465f60b Puranjay Mohan 2024-04-05  @86  	REG_S	t0,  FREGS_EPC(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05  @87  	REG_S	x1,  FREGS_RA(sp)
-35e61e8827ee8ea Song Shuai     2023-11-30   88  #ifdef HAVE_FUNCTION_GRAPH_FP_TEST
-7caa9765465f60b Puranjay Mohan 2024-04-05   89  	REG_S	x8,  FREGS_S0(sp)
-35e61e8827ee8ea Song Shuai     2023-11-30   90  #endif
-7caa9765465f60b Puranjay Mohan 2024-04-05  @91  	REG_S	x6,  FREGS_T1(sp)
-f8693f6dffcd186 Andy Chiu      2025-04-08   92  #ifdef CONFIG_CC_IS_CLANG
-f8693f6dffcd186 Andy Chiu      2025-04-08   93  	REG_S	x7,  FREGS_T2(sp)
-f8693f6dffcd186 Andy Chiu      2025-04-08   94  	REG_S	x28, FREGS_T3(sp)
-f8693f6dffcd186 Andy Chiu      2025-04-08   95  	REG_S	x29, FREGS_T4(sp)
-f8693f6dffcd186 Andy Chiu      2025-04-08   96  	REG_S	x30, FREGS_T5(sp)
-f8693f6dffcd186 Andy Chiu      2025-04-08   97  	REG_S	x31, FREGS_T6(sp)
-f8693f6dffcd186 Andy Chiu      2025-04-08   98  #endif
-7caa9765465f60b Puranjay Mohan 2024-04-05   99  	// save the arguments
-7caa9765465f60b Puranjay Mohan 2024-04-05 @100  	REG_S	x10, FREGS_A0(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @101  	REG_S	x11, FREGS_A1(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @102  	REG_S	x12, FREGS_A2(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @103  	REG_S	x13, FREGS_A3(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @104  	REG_S	x14, FREGS_A4(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @105  	REG_S	x15, FREGS_A5(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @106  	REG_S	x16, FREGS_A6(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @107  	REG_S	x17, FREGS_A7(sp)
-b21cdb9523e5561 Andy Chiu      2025-04-08  108  	mv	a0, sp
-b21cdb9523e5561 Andy Chiu      2025-04-08 @109  	addi	a0, a0, FREGS_SIZE_ON_STACK
-b21cdb9523e5561 Andy Chiu      2025-04-08 @110  	REG_S	a0, FREGS_SP(sp)	// Put original SP on stack
-bc1a4c3a8425568 Alan Kao       2018-02-13  111  	.endm
-bc1a4c3a8425568 Alan Kao       2018-02-13  112  
-b21cdb9523e5561 Andy Chiu      2025-04-08  113  	.macro RESTORE_ABI_REGS
-7caa9765465f60b Puranjay Mohan 2024-04-05 @114  	REG_L	t0, FREGS_EPC(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @115  	REG_L	x1, FREGS_RA(sp)
-35e61e8827ee8ea Song Shuai     2023-11-30  116  #ifdef HAVE_FUNCTION_GRAPH_FP_TEST
-7caa9765465f60b Puranjay Mohan 2024-04-05  117  	REG_L	x8, FREGS_S0(sp)
-35e61e8827ee8ea Song Shuai     2023-11-30  118  #endif
-7caa9765465f60b Puranjay Mohan 2024-04-05 @119  	REG_L	x6,  FREGS_T1(sp)
-f8693f6dffcd186 Andy Chiu      2025-04-08  120  #ifdef CONFIG_CC_IS_CLANG
-f8693f6dffcd186 Andy Chiu      2025-04-08  121  	REG_L	x7,  FREGS_T2(sp)
-f8693f6dffcd186 Andy Chiu      2025-04-08  122  	REG_L	x28, FREGS_T3(sp)
-f8693f6dffcd186 Andy Chiu      2025-04-08  123  	REG_L	x29, FREGS_T4(sp)
-f8693f6dffcd186 Andy Chiu      2025-04-08  124  	REG_L	x30, FREGS_T5(sp)
-f8693f6dffcd186 Andy Chiu      2025-04-08  125  	REG_L	x31, FREGS_T6(sp)
-f8693f6dffcd186 Andy Chiu      2025-04-08  126  #endif
-7caa9765465f60b Puranjay Mohan 2024-04-05  127  	// restore the arguments
-7caa9765465f60b Puranjay Mohan 2024-04-05 @128  	REG_L	x10, FREGS_A0(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @129  	REG_L	x11, FREGS_A1(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @130  	REG_L	x12, FREGS_A2(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @131  	REG_L	x13, FREGS_A3(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @132  	REG_L	x14, FREGS_A4(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @133  	REG_L	x15, FREGS_A5(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @134  	REG_L	x16, FREGS_A6(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05 @135  	REG_L	x17, FREGS_A7(sp)
-7caa9765465f60b Puranjay Mohan 2024-04-05  136  
-7caa9765465f60b Puranjay Mohan 2024-04-05  137  	addi	sp, sp, FREGS_SIZE_ON_STACK
-afc76b8b8011218 Guo Ren        2020-12-17  138  	.endm
-35e61e8827ee8ea Song Shuai     2023-11-30  139  
-35e61e8827ee8ea Song Shuai     2023-11-30  140  	.macro PREPARE_ARGS
-b2137c3b6d7a456 Andy Chiu      2025-04-08  141  	addi	a0, t0, -MCOUNT_JALR_SIZE	// ip (callsite's jalr insn)
-b21cdb9523e5561 Andy Chiu      2025-04-08  142  #ifdef CONFIG_DYNAMIC_FTRACE_WITH_CALL_OPS
-b21cdb9523e5561 Andy Chiu      2025-04-08  143  	mv 	a1, ra				// parent_ip
-b21cdb9523e5561 Andy Chiu      2025-04-08  144  	REG_L   a2, -16(t0)			// op
-b21cdb9523e5561 Andy Chiu      2025-04-08  145  	REG_L   ra, FTRACE_OPS_FUNC(a2)		// op->func
-b21cdb9523e5561 Andy Chiu      2025-04-08  146  #else
-b21cdb9523e5561 Andy Chiu      2025-04-08  147  	la	a1, function_trace_op
-b21cdb9523e5561 Andy Chiu      2025-04-08  148  	REG_L	a2, 0(a1)			// op
-b21cdb9523e5561 Andy Chiu      2025-04-08  149  	mv	a1, ra				// parent_ip
-b21cdb9523e5561 Andy Chiu      2025-04-08  150  #endif
-b21cdb9523e5561 Andy Chiu      2025-04-08  151  	mv	a3, sp				// regs
-b21cdb9523e5561 Andy Chiu      2025-04-08  152  	.endm
-b21cdb9523e5561 Andy Chiu      2025-04-08  153  
+    17	
+  > 18	struct enfs_adapter_ops __rcu *enfs_adapter;
+    19	
+    20	static DEFINE_MUTEX(enfs_module_mutex);
+    21	static void *enfs_adapter_data;
+    22	
+    23	void *enfs_adapter_get_data(void)
+    24	{
+    25		return enfs_adapter_data;
+    26	}
+    27	EXPORT_SYMBOL_GPL(enfs_adapter_get_data);
+    28	
+    29	void enfs_adapter_set_data(void *data)
+    30	{
+    31		enfs_adapter_data = data;
+    32	}
+    33	EXPORT_SYMBOL_GPL(enfs_adapter_set_data);
+    34	
+    35	int enfs_adapter_register(struct enfs_adapter_ops *ops)
+    36	{
+    37		struct enfs_adapter_ops *old;
+    38	
+    39		old = cmpxchg((struct enfs_adapter_ops **)&enfs_adapter, NULL, ops);
+    40		if (old == NULL || old == ops)
+    41			return 0;
+    42		pr_err("ENFS: regist enfs_adapter ops %p fail. old %p\n",
+    43			ops, old);
+    44		return -EPERM;
+    45	}
+    46	EXPORT_SYMBOL_GPL(enfs_adapter_register);
+    47	
+    48	int enfs_adapter_unregister(struct enfs_adapter_ops *ops)
+    49	{
+    50		struct enfs_adapter_ops *old;
+    51	
+    52		old = cmpxchg((struct enfs_adapter_ops **)&enfs_adapter, ops, NULL);
+    53		if (old == ops || old == NULL)
+    54			return 0;
+    55		pr_err("ENFS: unregist enfs_adapter ops %p fail. old %p\n",
+    56			ops,
+    57		       old);
+    58		return -EPERM;
+    59	}
+    60	EXPORT_SYMBOL_GPL(enfs_adapter_unregister);
+    61	
+  > 62	struct enfs_adapter_ops *nfs_multipath_router_get(void)
+    63	{
+    64		struct enfs_adapter_ops *ops;
+    65	
+    66		rcu_read_lock();
+    67		ops = rcu_dereference(enfs_adapter);
+    68		if (ops == NULL) {
+    69			rcu_read_unlock();
+    70			return NULL;
+    71		}
+    72		if (!try_module_get(ops->owner))
+    73			ops = NULL;
+    74		rcu_read_unlock();
+    75		return ops;
+    76	}
+    77	
+  > 78	void nfs_multipath_router_put(struct enfs_adapter_ops *ops)
+    79	{
+    80		if (ops)
+    81			module_put(ops->owner);
+    82	}
+    83	
+  > 84	bool is_valid_option(enum nfsmultipathoptions option)
+    85	{
+    86		if (option < REMOTEADDR || option >= INVALID_OPTION) {
+    87			pr_warn("ENFS: invalid option %d\n",
+    88				option);
+    89			return false;
+    90		}
+    91	
+    92		return true;
+    93	}
+    94	
 
 -- 
 0-DAY CI Kernel Test Service
