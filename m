@@ -1,64 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F20FC1714B7;
-	Sun,  6 Jul 2025 15:30:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B167717A309;
+	Sun,  6 Jul 2025 19:19:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751815803; cv=none; b=JVeTSrrHB52ziYTvE//eDGtYJmB6bJq8EO8p9Ry2wdenMwhppG+yyL7rNGgQrtTojPoZNJJoG4PcY3Hs5dHRTT+Qx32nvUO/lJkIVdTRcJFWtksDOsVXA7nJWwvj/+tWmugsNga1i+v3yrJw/+Rvu27bbyvT6p1PxBAkHi/Tukw=
+	t=1751829595; cv=none; b=jU5nCrSUCDavP0OlF2qyh86mSWG/yIau+z5xIQNdGmE/Qfmsz077+x9rqgtryNjaKOZxEKmtz6HclcVnX8GzpWfvjseOzISXZVOTr8YY+Vje9YnCtRBS4scFXp3WtfgfR5ZS+LHLomiZS5aJ/BUVb4FHnVHMNzqH/VPPZxZC4kc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751815803; c=relaxed/simple;
-	bh=hXxpxP3r6USDwbJPV6SqHo7rk/wp740Agncua43aQb0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rs6QgfHdDecqrwxBQaJft6nY5rDkZTRtWaooSzILPNvOrFHQiTmmdmLqbqM2kNAhKku7+OTEF7ivsh5PuXrXvmYpCvRyMPNCVeyVYk6Gs6yMl6eLK/mcDealtecDKr5SPVtVAV1aRmNnxSlZOfXY5MMIyVIv4+t4m4GCc4+vPwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dfk/LZlw; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1751829595; c=relaxed/simple;
+	bh=OKGvpjKu3NOPP88JJeZ/6P34we7ClAD7zEr9jOhZWcg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=pyd7kRH6SnDZX4/0q9BjPfZadzXdqDgtvAvqrADfhPA0W3l6IRrqynsFaWCquFFhLcwk3ROmmkkm4y3dNecGOU4uK7tfMuhHqSinVafTXo980k9uSg3XolLVGcCQq17W552q1oQO5eMMTFwXrGHrBuRt1fUMAh4YuBfKFot+emY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZR/UX9A7; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dfk/LZlw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZR/UX9A7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751815802; x=1783351802;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hXxpxP3r6USDwbJPV6SqHo7rk/wp740Agncua43aQb0=;
-  b=Dfk/LZlwbkJjZPSQ8fJ4jKZN55lyxNFW2wHpgB4EtK8YGYryt05dMM6z
-   9Eda4CPZ7qKFkftFBLIeHH/eyxH00FTWyXhWTSbl0syc+3Xxdss371DZX
-   bpSeKpgTgOI6Vs0qIjBi66uEuFUUSiRswe8YgrfmdKWOJfMS5H5lBfojV
-   IjjxrdQkUkV8A3XBUMgIFowAHphmu2ZFqIkX/A4ueooh/RZckR904FTvJ
-   vbeKfY9vhf5v0BaqVD//jPPSyIl/wEdZbMqM1pqa7c1JQt9iSjSEe78mF
-   n52qhyU4MIuxnxPkECZManZ2XoIhIhLCfeHHLXb4hitVzvALNYVFVXEZF
-   w==;
-X-CSE-ConnectionGUID: uiU5EOVvSU2c0ud7RXfdZg==
-X-CSE-MsgGUID: mY8wRUstQ/qG/libZ//ZhA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11486"; a="53175701"
+  t=1751829594; x=1783365594;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OKGvpjKu3NOPP88JJeZ/6P34we7ClAD7zEr9jOhZWcg=;
+  b=ZR/UX9A7I7Iz/NEdaxIO9gz6m8D99JIdJFlEIc8mh1s9JIdPdNQQFM7V
+   28Jxxw6131K8Suymhp8bwM3mVQokor06T4/d3Egvj/FcX/mQe8RTuP7KE
+   f4U4x1GYQpTO8oEs4wi0MigRg1tgOnYi5bA/Lajj8VTE5Rt/u1lSPZr8g
+   lLAwmqLgZ3mdjPpK50kM8DpJaXd2Eyunt7D4pALeMnXh+m1azGyHl/G5Q
+   OhgadRegfcB2L4T03Yaq88X7XH4vV873qkIABwGtgCwmvDmhckfWCNAkv
+   c3sGL0yXmbm5hQQzlhc+Ovz4aY4JZoa5YH4Hv6BdEEK8n4BcINUHwn7cs
+   Q==;
+X-CSE-ConnectionGUID: YE79QmVcR3OoVc3chAFY6w==
+X-CSE-MsgGUID: Uux69JiJQ8Kaeu9wFuqJQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11486"; a="53180862"
 X-IronPort-AV: E=Sophos;i="6.16,292,1744095600"; 
-   d="scan'208";a="53175701"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2025 08:30:01 -0700
-X-CSE-ConnectionGUID: x1z/klDhSlmx6BOMRHviwA==
-X-CSE-MsgGUID: vuLjyKkDRwGbyRsUrex4mw==
+   d="scan'208";a="53180862"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2025 12:19:53 -0700
+X-CSE-ConnectionGUID: /q/u9sT1T8WYnsjHz9ovYA==
+X-CSE-MsgGUID: oI12MAC+St+QluHacTeOwA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,292,1744095600"; 
-   d="scan'208";a="154435374"
-Received: from lkp-server01.sh.intel.com (HELO 0b2900756c14) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 06 Jul 2025 08:29:59 -0700
-Received: from kbuild by 0b2900756c14 with local (Exim 4.96)
+   d="scan'208";a="159389725"
+Received: from igk-lkp-server01.igk.intel.com (HELO 030a839a1121) ([10.91.175.65])
+  by orviesa003.jf.intel.com with ESMTP; 06 Jul 2025 12:19:52 -0700
+Received: from kbuild by 030a839a1121 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYRJV-00057H-0S;
-	Sun, 06 Jul 2025 15:29:57 +0000
-Date: Sun, 6 Jul 2025 23:29:24 +0800
+	id 1uYUtx-0001aP-0p;
+	Sun, 06 Jul 2025 19:19:49 +0000
+Date: Sun, 6 Jul 2025 21:19:23 +0200
 From: kernel test robot <lkp@intel.com>
-To: Gokul Sivakumar <gokulkumar.sivakumar@infineon.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Arend van Spriel <arend.vanspriel@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
-	brcm80211@lists.linux.dev, wlan-kernel-dev-list@infineon.com,
-	gokulkumar.sivakumar@infineon.com
-Subject: Re: [PATCH wireless-next v2] wifi: brcmfmac: fix EXTSAE WPA3
- connection failure due to AUTH TX failure
-Message-ID: <202507062346.dYsnIxdD-lkp@intel.com>
-References: <20250703135307.7433-1-gokulkumar.sivakumar@infineon.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi_5 2/10] kernel/trace/ftrace.c:6304:6:
+ warning: variable 'err' is used uninitialized whenever 'if' condition is
+ true
+Message-ID: <202507062107.7xOwdDO8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,163 +62,164 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250703135307.7433-1-gokulkumar.sivakumar@infineon.com>
 
-Hi Gokul,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on wireless-next/main]
-[also build test WARNING on wireless/main linus/master v6.16-rc4 next-20250704]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gokul-Sivakumar/wifi-brcmfmac-fix-EXTSAE-WPA3-connection-failure-due-to-AUTH-TX-failure/20250703-215456
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
-patch link:    https://lore.kernel.org/r/20250703135307.7433-1-gokulkumar.sivakumar%40infineon.com
-patch subject: [PATCH wireless-next v2] wifi: brcmfmac: fix EXTSAE WPA3 connection failure due to AUTH TX failure
-config: sh-randconfig-r121-20250704 (https://download.01.org/0day-ci/archive/20250706/202507062346.dYsnIxdD-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20250706/202507062346.dYsnIxdD-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi_5
+head:   b288c6b15d20122d59ddf3bce2fb86afe6ed56c3
+commit: c9910285c9bbb6b3afad3d1048ef11abf71bcdeb [2/10] ftrace: Add register_ftrace_direct_hash function
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250706/202507062107.7xOwdDO8-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250706/202507062107.7xOwdDO8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507062346.dYsnIxdD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507062107.7xOwdDO8-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:5620:52: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le32 [usertype] channel @@     got signed int [addressable] [usertype] hw_ch @@
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:5620:52: sparse:     expected restricted __le32 [usertype] channel
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c:5620:52: sparse:     got signed int [addressable] [usertype] hw_ch
---
->> drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:156:44: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __le16 [usertype] channel @@     got signed int [addressable] [usertype] hw_ch @@
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:156:44: sparse:     expected restricted __le16 [usertype] channel
-   drivers/net/wireless/broadcom/brcm80211/brcmfmac/cyw/core.c:156:44: sparse:     got signed int [addressable] [usertype] hw_ch
+All warnings (new ones prefixed by >>):
 
-vim +5620 drivers/net/wireless/broadcom/brcm80211/brcmfmac/cfg80211.c
+>> kernel/trace/ftrace.c:6304:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    6304 |         if (!new_hash)
+         |             ^~~~~~~~~
+   kernel/trace/ftrace.c:6333:9: note: uninitialized use occurs here
+    6333 |         return err;
+         |                ^~~
+   kernel/trace/ftrace.c:6304:2: note: remove the 'if' if its condition is always false
+    6304 |         if (!new_hash)
+         |         ^~~~~~~~~~~~~~
+    6305 |                 goto out_unlock;
+         |                 ~~~~~~~~~~~~~~~
+   kernel/trace/ftrace.c:6300:6: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    6300 |         if (!filter_hash)
+         |             ^~~~~~~~~~~~
+   kernel/trace/ftrace.c:6333:9: note: uninitialized use occurs here
+    6333 |         return err;
+         |                ^~~
+   kernel/trace/ftrace.c:6300:2: note: remove the 'if' if its condition is always false
+    6300 |         if (!filter_hash)
+         |         ^~~~~~~~~~~~~~~~~
+    6301 |                 goto out_unlock;
+         |                 ~~~~~~~~~~~~~~~
+   kernel/trace/ftrace.c:6295:7: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    6295 |                 if (ops->flags & FTRACE_OPS_FL_ENABLED)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/ftrace.c:6333:9: note: uninitialized use occurs here
+    6333 |         return err;
+         |                ^~~
+   kernel/trace/ftrace.c:6295:3: note: remove the 'if' if its condition is always false
+    6295 |                 if (ops->flags & FTRACE_OPS_FL_ENABLED)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    6296 |                         goto out_unlock;
+         |                         ~~~~~~~~~~~~~~~
+   kernel/trace/ftrace.c:6293:7: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    6293 |                 if (ops->func || ops->trampoline)
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/ftrace.c:6333:9: note: uninitialized use occurs here
+    6333 |         return err;
+         |                ^~~
+   kernel/trace/ftrace.c:6293:3: note: remove the 'if' if its condition is always false
+    6293 |                 if (ops->func || ops->trampoline)
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    6294 |                         goto out_unlock;
+         |                         ~~~~~~~~~~~~~~~
+>> kernel/trace/ftrace.c:6293:7: warning: variable 'err' is used uninitialized whenever '||' condition is true [-Wsometimes-uninitialized]
+    6293 |                 if (ops->func || ops->trampoline)
+         |                     ^~~~~~~~~
+   kernel/trace/ftrace.c:6333:9: note: uninitialized use occurs here
+    6333 |         return err;
+         |                ^~~
+   kernel/trace/ftrace.c:6293:7: note: remove the '||' if its condition is always false
+    6293 |                 if (ops->func || ops->trampoline)
+         |                     ^~~~~~~~~~~~
+   kernel/trace/ftrace.c:6284:8: warning: variable 'err' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    6284 |                         if (__ftrace_lookup_ip(direct_functions, entry->ip))
+         |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/ftrace.c:6333:9: note: uninitialized use occurs here
+    6333 |         return err;
+         |                ^~~
+   kernel/trace/ftrace.c:6284:4: note: remove the 'if' if its condition is always false
+    6284 |                         if (__ftrace_lookup_ip(direct_functions, entry->ip))
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    6285 |                                 goto out_unlock;
+         |                                 ~~~~~~~~~~~~~~~
+   kernel/trace/ftrace.c:6272:18: note: initialize the variable 'err' to silence this warning
+    6272 |         int i, size, err;
+         |                         ^
+         |                          = 0
+   6 warnings generated.
 
-  5528	
-  5529	
-  5530	int
-  5531	brcmf_cfg80211_mgmt_tx(struct wiphy *wiphy, struct wireless_dev *wdev,
-  5532			       struct cfg80211_mgmt_tx_params *params, u64 *cookie)
-  5533	{
-  5534		struct brcmf_cfg80211_info *cfg = wiphy_to_cfg(wiphy);
-  5535		struct ieee80211_channel *chan = params->chan;
-  5536		struct brcmf_pub *drvr = cfg->pub;
-  5537		const u8 *buf = params->buf;
-  5538		size_t len = params->len;
-  5539		const struct ieee80211_mgmt *mgmt;
-  5540		struct brcmf_cfg80211_vif *vif;
-  5541		s32 err = 0;
-  5542		s32 ie_offset;
-  5543		s32 ie_len;
-  5544		struct brcmf_fil_action_frame_le *action_frame;
-  5545		struct brcmf_fil_af_params_le *af_params;
-  5546		bool ack;
-  5547		s32 ch, hw_ch;
-  5548	
-  5549		brcmf_dbg(TRACE, "Enter\n");
-  5550	
-  5551		*cookie = 0;
-  5552	
-  5553		mgmt = (const struct ieee80211_mgmt *)buf;
-  5554	
-  5555		if (!ieee80211_is_mgmt(mgmt->frame_control)) {
-  5556			bphy_err(drvr, "Driver only allows MGMT packet type\n");
-  5557			return -EPERM;
-  5558		}
-  5559	
-  5560		vif = container_of(wdev, struct brcmf_cfg80211_vif, wdev);
-  5561	
-  5562		if (ieee80211_is_probe_resp(mgmt->frame_control)) {
-  5563			/* Right now the only reason to get a probe response */
-  5564			/* is for p2p listen response or for p2p GO from     */
-  5565			/* wpa_supplicant. Unfortunately the probe is send   */
-  5566			/* on primary ndev, while dongle wants it on the p2p */
-  5567			/* vif. Since this is only reason for a probe        */
-  5568			/* response to be sent, the vif is taken from cfg.   */
-  5569			/* If ever desired to send proberesp for non p2p     */
-  5570			/* response then data should be checked for          */
-  5571			/* "DIRECT-". Note in future supplicant will take    */
-  5572			/* dedicated p2p wdev to do this and then this 'hack'*/
-  5573			/* is not needed anymore.                            */
-  5574			ie_offset =  DOT11_MGMT_HDR_LEN +
-  5575				     DOT11_BCN_PRB_FIXED_LEN;
-  5576			ie_len = len - ie_offset;
-  5577			if (vif == cfg->p2p.bss_idx[P2PAPI_BSSCFG_PRIMARY].vif)
-  5578				vif = cfg->p2p.bss_idx[P2PAPI_BSSCFG_DEVICE].vif;
-  5579			err = brcmf_vif_set_mgmt_ie(vif,
-  5580						    BRCMF_VNDR_IE_PRBRSP_FLAG,
-  5581						    &buf[ie_offset],
-  5582						    ie_len);
-  5583			cfg80211_mgmt_tx_status(wdev, *cookie, buf, len, true,
-  5584						GFP_KERNEL);
-  5585		} else if (ieee80211_is_action(mgmt->frame_control)) {
-  5586			if (len > BRCMF_FIL_ACTION_FRAME_SIZE + DOT11_MGMT_HDR_LEN) {
-  5587				bphy_err(drvr, "invalid action frame length\n");
-  5588				err = -EINVAL;
-  5589				goto exit;
-  5590			}
-  5591			af_params = kzalloc(sizeof(*af_params), GFP_KERNEL);
-  5592			if (af_params == NULL) {
-  5593				bphy_err(drvr, "unable to allocate frame\n");
-  5594				err = -ENOMEM;
-  5595				goto exit;
-  5596			}
-  5597			action_frame = &af_params->action_frame;
-  5598			/* Add the packet Id */
-  5599			action_frame->packet_id = cpu_to_le32(*cookie);
-  5600			/* Add BSSID */
-  5601			memcpy(&action_frame->da[0], &mgmt->da[0], ETH_ALEN);
-  5602			memcpy(&af_params->bssid[0], &mgmt->bssid[0], ETH_ALEN);
-  5603			/* Add the length exepted for 802.11 header  */
-  5604			action_frame->len = cpu_to_le16(len - DOT11_MGMT_HDR_LEN);
-  5605			/* Add the channel. Use the one specified as parameter if any or
-  5606			 * the current one (got from the firmware) otherwise
-  5607			 */
-  5608			if (chan) {
-  5609				ch = ieee80211_frequency_to_channel(chan->center_freq);
-  5610				af_params->channel = cpu_to_le32(ch);
-  5611			} else {
-  5612				err = brcmf_fil_cmd_int_get(vif->ifp,
-  5613							    BRCMF_C_GET_CHANNEL,
-  5614							    &hw_ch);
-  5615				if (err) {
-  5616					bphy_err(drvr,
-  5617						 "unable to get current hw channel\n");
-  5618					goto free;
-  5619				} else {
-> 5620					af_params->channel = hw_ch;
-  5621				}
-  5622			}
-  5623	
-  5624			af_params->dwell_time = cpu_to_le32(params->wait);
-  5625			memcpy(action_frame->data, &buf[DOT11_MGMT_HDR_LEN],
-  5626			       le16_to_cpu(action_frame->len));
-  5627	
-  5628			brcmf_dbg(TRACE, "Action frame, cookie=%lld, len=%d, channel=%d\n",
-  5629				  *cookie, le16_to_cpu(action_frame->len),
-  5630				  le32_to_cpu(af_params->channel));
-  5631	
-  5632			ack = brcmf_p2p_send_action_frame(cfg, cfg_to_ndev(cfg),
-  5633							  af_params);
-  5634	
-  5635			cfg80211_mgmt_tx_status(wdev, *cookie, buf, len, ack,
-  5636						GFP_KERNEL);
-  5637	free:
-  5638			kfree(af_params);
-  5639		} else {
-  5640			brcmf_dbg(TRACE, "Unhandled, fc=%04x!!\n", mgmt->frame_control);
-  5641			brcmf_dbg_hex_dump(true, buf, len, "payload, len=%zu\n", len);
-  5642		}
-  5643	
-  5644	exit:
-  5645		return err;
-  5646	}
-  5647	BRCMF_EXPORT_SYMBOL_GPL(brcmf_cfg80211_mgmt_tx);
-  5648	
+
+vim +6304 kernel/trace/ftrace.c
+
+  6267	
+  6268	int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
+  6269	{
+  6270		struct ftrace_hash *filter_hash = NULL, *new_hash = NULL, *free_hash = NULL;
+  6271		struct ftrace_func_entry *entry;
+  6272		int i, size, err;
+  6273		bool reg;
+  6274	
+  6275		if (!hash_count(hash))
+  6276			return 0;
+  6277	
+  6278		mutex_lock(&direct_mutex);
+  6279	
+  6280		/* Make sure requested entry is not already registered.. */
+  6281		size = 1 << hash->size_bits;
+  6282		for (i = 0; i < size; i++) {
+  6283			hlist_for_each_entry(entry, &hash->buckets[i], hlist) {
+  6284				if (__ftrace_lookup_ip(direct_functions, entry->ip))
+  6285					goto out_unlock;
+  6286			}
+  6287		}
+  6288	
+  6289		filter_hash = ops->func_hash ? ops->func_hash->filter_hash : NULL;
+  6290	
+  6291		reg = hash_count(filter_hash) == 0;
+  6292		if (reg) {
+> 6293			if (ops->func || ops->trampoline)
+  6294				goto out_unlock;
+  6295			if (ops->flags & FTRACE_OPS_FL_ENABLED)
+  6296				goto out_unlock;
+  6297		}
+  6298	
+  6299		filter_hash = hash_add(filter_hash, hash);
+  6300		if (!filter_hash)
+  6301			goto out_unlock;
+  6302	
+  6303		new_hash = hash_add(direct_functions, hash);
+> 6304		if (!new_hash)
+  6305			goto out_unlock;
+  6306	
+  6307		free_hash = direct_functions;
+  6308		rcu_assign_pointer(direct_functions, new_hash);
+  6309		new_hash = NULL;
+  6310	
+  6311		if (reg) {
+  6312			ops->func = call_direct_funcs_hash;
+  6313			ops->flags = MULTI_FLAGS;
+  6314			ops->trampoline = FTRACE_REGS_ADDR;
+  6315			ops->local_hash.filter_hash = filter_hash;
+  6316	
+  6317			err = register_ftrace_function_nolock(ops);
+  6318			if (!err)
+  6319				filter_hash = NULL;
+  6320		} else {
+  6321			err = ftrace_update_ops(ops, filter_hash, EMPTY_HASH);
+  6322		}
+  6323	
+  6324	 out_unlock:
+  6325		mutex_unlock(&direct_mutex);
+  6326	
+  6327		if (free_hash && free_hash != EMPTY_HASH)
+  6328			call_rcu_tasks(&free_hash->rcu, register_ftrace_direct_cb);
+  6329	
+  6330		if (filter_hash)
+  6331			free_ftrace_hash(filter_hash);
+  6332	
+  6333		return err;
+  6334	}
+  6335	EXPORT_SYMBOL_GPL(register_ftrace_direct_hash);
+  6336	
 
 -- 
 0-DAY CI Kernel Test Service
