@@ -1,66 +1,62 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 698B921C9F2
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Jul 2025 20:25:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255B62E370C
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Jul 2025 20:25:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751919929; cv=none; b=st6/Gg4HJgvgdwCpDZjqa2iEM2OBhmlByLRTDf9di/qf7GitBMAhidMhiWj8RD6m5wAERUg5mfV3QZ7Ow9exxDsJz/sQoRBurRKiAd01FCn5/hn0eIFwyC+r07uqnrTNSPbhNdtW0E3sbzmTroZDD4iRK9OEo/llq1eRdQ6CA0Q=
+	t=1751919930; cv=none; b=L0rGvoSvt+adYZue4k6krBl1E7rKqmnpJBuuz0M66I3RSaG4szWew1ccEuBp9oasgJFQIYAxlFiHyQb7+avYalAG56XsRcQczvK1/WSpD3wf6Ehd6ox3zoxY2bBaqrPw44T4erbMVR7EITEbKqpYz6R1w4AygvJqxXbFGnPaQk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751919929; c=relaxed/simple;
-	bh=ALU+dhe7RMxGCeWyGHrchm7rctCqe3A9IXlJ6lhSGrY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sJ+Sv/3nMHZru55mLcry2TFUa9OjQBrfojaEHMsUheX5QLzFmGRoq+fvGKFWFN9Mk39P8eEnNn8ySDAat/u8TBb8NG0sIDxLdTeeFZSEZljOdv2YlgrlP3XapjnhNe6liyPcVzykamo0chAxEuXavyCyYQo5ecxtenaRFDr/TLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RFS1cZSk; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1751919930; c=relaxed/simple;
+	bh=VTyui1TD2+dBPQ4s3x5S6ne7GSTMKJOET/gdjfe+Qh0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=dMbbjsFUFv9wmjmviGXBqzYYHI+WtRA0iuWnWG1zGhRmr0V9Tni28KgEXIrh52mgH+HX9aezKbSsESePmmrlTbbuqDlBA0t+9Mjry/D4iriYWVZ48p+MUyPsNL4CPaFwjA9EoifndKNo6nvx2qQ8XAE+NM9KBxvp8NYpUQUT+ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYnkU6K+; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RFS1cZSk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYnkU6K+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751919929; x=1783455929;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ALU+dhe7RMxGCeWyGHrchm7rctCqe3A9IXlJ6lhSGrY=;
-  b=RFS1cZSkUIpx2aI04bglM3XjKf/aUP9yIWXxkUgGKre9Kah7MHdXr/gw
-   8V/iE4zu2J0fEO/Zrx6jfzmhOQMf7OeHObVm6mtb43W59v3s5Gtyrf2Ct
-   sKRzOKx9J2hU2fyNAyh/Siu3qSut0nf+00iyiUaE2kSh/JZn6jc+CzV6d
-   pudPnLbHwdSXEyumfMjdtUPJa8p9EFAKFMpUSx6FR+yHRCy2phlp+vk9U
-   V0WLWr162YBHzdu9ElfYAueilQoybwY7wJ45tku31m65JJbHwXk6a4KyE
-   2DKWrO71epSDqENpY6XskvppA6+eIog2vivmjl2kRJSxf95vffReHealW
-   A==;
-X-CSE-ConnectionGUID: TavTTqeCTP2XoS3WxQl8XQ==
-X-CSE-MsgGUID: HmQGJUuGS4uXQ4M0Mp7YWg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="76700291"
+  t=1751919927; x=1783455927;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VTyui1TD2+dBPQ4s3x5S6ne7GSTMKJOET/gdjfe+Qh0=;
+  b=JYnkU6K+dwgYsMMl4P0/Ca51ypVuR6fKyr1ChYstTCEu2UPNwttoncF6
+   fj1OVOyTPuTwTMvnXJBAo1XS5pOnvBxYunPXHfHick/5ZG7eBsTXKsxyw
+   7nHpqRdodqFZom3EqQfQXwCHhpaC0AP0Ca/+PdSWnkOr2kVvnOMxh1oCY
+   G3cC3QslB7RDbh3uuGrpQlF+iSlF8ajZCxnqbGAj9k3TKL7T7qQoCaYsE
+   u80dIi7nM85ha0mzfO2XIOJ8A2e+uYv7a9nrbdfoxLgv9dnNpWI3QR7g4
+   7Wb/dQm7dWgM5/R8x1dp9nfqYKLX34tQm1R+wjXnFfuy32z1VcIfcPH+I
+   Q==;
+X-CSE-ConnectionGUID: I8oogqllR6+nQLhCaw4jlA==
+X-CSE-MsgGUID: iYKP37tGRqen/2dIARwPNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="76700288"
 X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; 
-   d="scan'208";a="76700291"
+   d="scan'208";a="76700288"
 Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 13:25:28 -0700
-X-CSE-ConnectionGUID: K05odVfnT1KfGBLQIyD4vg==
-X-CSE-MsgGUID: Nrj/hWGmQjON/Ypi+mr9HQ==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 13:25:27 -0700
+X-CSE-ConnectionGUID: vtSEXlmcTmWRvzTPJoc/bg==
+X-CSE-MsgGUID: /72SQADMTsSbs5JTeQG9kQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; 
-   d="scan'208";a="155044368"
+   d="scan'208";a="155044367"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
   by orviesa009.jf.intel.com with ESMTP; 07 Jul 2025 13:25:25 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYsOw-0000it-2k;
+	id 1uYsOw-0000iz-2w;
 	Mon, 07 Jul 2025 20:25:22 +0000
-Date: Tue, 8 Jul 2025 04:25:10 +0800
+Date: Tue, 8 Jul 2025 04:25:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Rosen Penev <rosenp@gmail.com>, netdev@vger.kernel.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>,
-	Vladimir Oltean <olteanv@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	=?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <clement.leger@bootlin.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] net: dsa: rzn1_a5psw: add COMPILE_TEST
-Message-ID: <202507080426.3RX5BOHi-lkp@intel.com>
-References: <20250707003918.21607-2-rosenp@gmail.com>
+To: Nam Cao <namcao@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Florian Fainelli <florian.fainelli@broadcom.com>
+Subject: [pci:controller/msi-parent 6/15] Warning:
+ drivers/pci/controller/pcie-iproc-msi.c:109 Excess struct member
+ 'msi_domain' description in 'iproc_msi'
+Message-ID: <202507080437.HQuYK7x8-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,36 +65,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250707003918.21607-2-rosenp@gmail.com>
 
-Hi Rosen,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net/main]
-[also build test WARNING on net-next/main linus/master horms-ipvs/master v6.16-rc5 next-20250704]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Rosen-Penev/net-dsa-rzn1_a5psw-add-COMPILE_TEST/20250707-130922
-base:   net/main
-patch link:    https://lore.kernel.org/r/20250707003918.21607-2-rosenp%40gmail.com
-patch subject: [PATCH 1/2] net: dsa: rzn1_a5psw: add COMPILE_TEST
-config: alpha-kismet-CONFIG_PCS_RZN1_MIIC-CONFIG_NET_DSA_RZN1_A5PSW-0-0 (https://download.01.org/0day-ci/archive/20250708/202507080426.3RX5BOHi-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250708/202507080426.3RX5BOHi-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/msi-parent
+head:   8c0c598f3f217961103ab782da53a7b980fd68b3
+commit: 52a8808de0060d87381147c7aecfd7153c1b72cb [6/15] PCI: iproc: Switch to msi_create_parent_irq_domain()
+config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250708/202507080437.HQuYK7x8-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507080437.HQuYK7x8-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507080426.3RX5BOHi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507080437.HQuYK7x8-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC when selected by NET_DSA_RZN1_A5PSW
-   WARNING: unmet direct dependencies detected for PCS_RZN1_MIIC
-     Depends on [n]: NETDEVICES [=y] && OF [=n] && (ARCH_RZN1 [=n] || COMPILE_TEST [=y])
-     Selected by [y]:
-     - NET_DSA_RZN1_A5PSW [=y] && NETDEVICES [=y] && NET_DSA [=y] && (OF [=n] && ARCH_RZN1 [=n] || COMPILE_TEST [=y])
+All warnings (new ones prefixed by >>):
+
+>> Warning: drivers/pci/controller/pcie-iproc-msi.c:109 Excess struct member 'msi_domain' description in 'iproc_msi'
 
 -- 
 0-DAY CI Kernel Test Service
