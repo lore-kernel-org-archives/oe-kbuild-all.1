@@ -1,161 +1,162 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B215D1BD9F0
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Jul 2025 03:53:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E39372614
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Jul 2025 05:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751860389; cv=none; b=aUkwooNYHTf6ZK3MrATBiIAYvpQ68E2BlbFAKFzM+br85ZQVdG1WKVxPskBSAOSKZVedA0Y0F7v6Hs6gftmGYnccvGd+0ZqFngxEUi5sCSMgbOWGBulUIkdjo4kMXl3CbDE6kubknFFBZjw6X8PiWX3QtFY4tgrTTX+gAH8Q4IU=
+	t=1751865067; cv=none; b=QDkKtn8Lpf/y3VerSomsMLowUFsdTx0759sBn9rwWkSKBVY35HYfTwppvGDyNQ6WhBuVOB20yNxkSBK6FHVzRYyaB2anxPRi6pUlEmHeamnLgOHFDJY21ZqkOeZlWnKgSDzx8a6l1z8r4inP3qxCiYD/HMxfW/WeI+raPv1eM0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751860389; c=relaxed/simple;
-	bh=/fve97GTd9bXitqStqnzD3wq1Emy4aKwuUyvzEethf0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WyY+1TgxgD0lSw0ET4SrbPxg4UJSNWNQhJE2MRSYf6j9mOLpUH64qQUQIXQE3+M1BUCAGqd59ln0S55MKFm6PRHK9inWQo0VoUWBnNC3DAZPYde7ZzcRpyYplmkCOKq81LxCv3KVpdfYPxKoUQGtfagiKtsB5WYjkEqIaGU8t9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=lo1efuAQ; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	s=arc-20240116; t=1751865067; c=relaxed/simple;
+	bh=s2A3HO70NoTO/BGaTHc+/tUjc6RIU3G5z7dyhVEDKpo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F92M5O5PhIAAQQcN/j26mNNJcoIlqFaVWAXTSM3oa9AP5GvCLwTapKQ9wEln1OV7VvJNkdjk0p7i4jLy1lWQc3Dplbwlaf48a12pxXu9AyTDswdZ1/lj7791MvA4rrXno9YLW9aOou7iZfB/Hc9VyxuRBr92ZkDo6zHbvg1VxaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mGRmDJD0; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="lo1efuAQ"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b31f0ef5f7aso1387218a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 06 Jul 2025 20:53:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1751860387; x=1752465187; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mub7PjK+ZQMm18cy8qNtEOXQgRqk+RrTOpKNrinRMis=;
-        b=lo1efuAQosQmJOv6C4oJR9WRjac3mmjdU+PNPv/3xvDV/N5Sy6DhrMTJ6ZGMJ/wUyE
-         eFAJ1Up2GfHGVeNN1v+0B/ODW35is/5EXkeSErA5cSvruCSVyDEzxPWub3pl+R+g6DD9
-         MVyhhnWDMilYh1KpAAcuG6cQTHaACjiloNIzpgcAZRZ8KicFHdB4EvDWz7J39yFfov1L
-         E3lpOat+WDq+FKyKu3HZ6+77b3B9HxT8fZSkvzYBGaMZekSbS8xwOZ3ZaQS41xCRLTuR
-         KY/rP2Ji5+4OYq3c6vzuKCqHb6hv3UthHz5K6PDzLeBUCSn680vL7m1e0O3+Hag5xorD
-         yk1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751860387; x=1752465187;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mub7PjK+ZQMm18cy8qNtEOXQgRqk+RrTOpKNrinRMis=;
-        b=JNnrZqNtpU+XYpZ7C/jUYZUCAI/o7Ll6H5T9y8HURK+5csPvb6Lbp2Znl3Co+j5c3y
-         oqBNv2MZWMgCDEH8Zo3W2rgm2XbJaZBbetR4RI/tzFG80cLusOskZS7nHszoTjQV42eD
-         +s9UIP42z4OgvC61hsBVKom43EIqQUM+UqfwgMi3fdLX7a3psZfGVW1EpCSPUqQr2xRM
-         DqZHq03l/teyGF3zEHcBBa5524gpO3Uh/x4rNsZ3fYTMfZkurd8Q4eznpr6vY5n6qKbL
-         bF4pu4LTkOfqmoCa0Mk1IbgQvp3aT+pLUFnCd+bJCoj7Yhj2TkAbKYOBYJwURkhHkrIt
-         c9Cw==
-X-Forwarded-Encrypted: i=1; AJvYcCV5ikNvRxJlgxPow8pYXyPNS/m4RUSHKnmyFq9yuJg/28tyZJ1tyfzghFHYHPPo9SVH8CldRXcjvgCMYjzZ@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywexo/sULX17fOmb9fspqDRpifmnLNpPLvcRo0vEcCSGiAk9MCS
-	Ib1w/Hu8Zy64yJ8qbB5tHV28l2+4u3DJQrm3od0MqTjTS4kHB5JKkdddfiKnhhuycRE=
-X-Gm-Gg: ASbGncucMIu35zucalk/gDTLt4ZgmFOSja2sgr3QiJ4WKdP0i4mzLFG59GUShySUBae
-	4+EWaXLWB6uRDLhwYb66wVJzaQhclpyDhzz2xYyWCytvVW53mkj7H/bxsS/QqN6/t4+5RpH/9SX
-	uN1KHxcGZiYGO7ZaZzPLuNpe4N/xjj6JbqDczzXs+D3p4ViZK53c8VrUAEwcACTJV4Gk4GI+iug
-	eBZpVidUg7ysL/hdUJoidR0gbmlspufDMDm6w+GNs2OgojfE5yh8BcH/Ie8rwD3KeeUmq2mRcWT
-	7SgSJe7rFEpoahQcI5diuyFDB/FwyAAxhXhtyn0ICbojtXVRnRvVt5H99dhLn5eKe1Zt2fFjhLB
-	MRNhUwzXLmvmU5XyM5aajJYE=
-X-Google-Smtp-Source: AGHT+IFtHyTBc6qEYu6hdCH6cigb35sVn8qLgWaMfVrg0MupVPG7/z/yW4uRvdyfX28do9yc+RvdzQ==
-X-Received: by 2002:a05:6a20:6a0d:b0:225:defd:26f0 with SMTP id adf61e73a8af0-2260c92da99mr18422851637.32.1751860387103;
-        Sun, 06 Jul 2025 20:53:07 -0700 (PDT)
-Received: from localhost.localdomain ([203.208.189.6])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b38ee74cf48sm7538658a12.77.2025.07.06.20.53.02
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 06 Jul 2025 20:53:06 -0700 (PDT)
-From: lizhe.67@bytedance.com
-To: lkp@intel.com
-Cc: akpm@linux-foundation.org,
-	alex.williamson@redhat.com,
-	david@redhat.com,
-	jgg@ziepe.ca,
-	kvm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	lizhe.67@bytedance.com,
-	oe-kbuild-all@lists.linux.dev,
-	peterx@redhat.com
-Subject: Re: [PATCH v2 1/5] mm: introduce num_pages_contiguous()
-Date: Mon,  7 Jul 2025 11:52:59 +0800
-Message-ID: <20250707035259.61640-1-lizhe.67@bytedance.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <202507050529.EoMuEtd8-lkp@intel.com>
-References: <202507050529.EoMuEtd8-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mGRmDJD0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751865066; x=1783401066;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=s2A3HO70NoTO/BGaTHc+/tUjc6RIU3G5z7dyhVEDKpo=;
+  b=mGRmDJD0wnCVcCAN7dx0d8w9BtjRjTxd+TGEhgHcszwe3JBeNAv0gX6a
+   3pmZb/hg6huJY6COy5pEssK0miDv0PkzwLOmC2/5OaTEKY7VebHYdhbdN
+   u7q5l2IasblbsT98dtct9wTs+xBmrrE/KVwTq2w9L9bYUB02ofhxicXaU
+   TK2EpZ/lRzmhBWI2qqjEGZeiKKVFW+GcoFVZ0zY/dpYQQOhgRSux/Uaz1
+   WmPpi0evm+KU65DFLHYxsKdCE0Gv6WkaliGNDDDhy6RnRzcPncUje41k1
+   QscwhvhWj0myrPqkvPMZA1GBF1PzeocX0PZddUjqpFtWNGIn6MuzyXe0T
+   w==;
+X-CSE-ConnectionGUID: NcrwZ2xZQqGeFluN/RQAaA==
+X-CSE-MsgGUID: dE3Fe5P5RfCcvRDbCgRRSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11486"; a="54046967"
+X-IronPort-AV: E=Sophos;i="6.16,293,1744095600"; 
+   d="scan'208";a="54046967"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Jul 2025 22:11:06 -0700
+X-CSE-ConnectionGUID: DMgNTngJSnqQ5g8qsIueOw==
+X-CSE-MsgGUID: NYIdSPcOSB6oPBFubWLOEQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,293,1744095600"; 
+   d="scan'208";a="155602374"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 06 Jul 2025 22:11:05 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uYe86-00007v-1t;
+	Mon, 07 Jul 2025 05:11:02 +0000
+Date: Mon, 7 Jul 2025 13:10:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Alejandro Colomar <alx@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC v2 3/5] mm: Use seprintf() instead of less ergonomic APIs
+Message-ID: <202507071145.zcWsi1Wm-lkp@intel.com>
+References: <e3271b5f2ad9fe1282c8e6892a15984b9e316340.1751823326.git.alx@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e3271b5f2ad9fe1282c8e6892a15984b9e316340.1751823326.git.alx@kernel.org>
 
-On Sat, 5 Jul 2025 05:19:34 +0800, lkp@intel.com wrote:
- 
-> All errors (new ones prefixed by >>):
-> 
->    In file included from arch/sh/include/asm/page.h:160,
->                     from arch/sh/include/asm/thread_info.h:13,
->                     from include/linux/thread_info.h:60,
->                     from include/asm-generic/preempt.h:5,
->                     from ./arch/sh/include/generated/asm/preempt.h:1,
->                     from include/linux/preempt.h:79,
->                     from include/linux/spinlock.h:56,
->                     from include/linux/mmzone.h:8,
->                     from include/linux/gfp.h:7,
->                     from include/linux/mm.h:7,
->                     from arch/sh/kernel/asm-offsets.c:14:
->    include/linux/mm.h: In function 'num_pages_contiguous':
-> >> include/asm-generic/memory_model.h:48:21: error: implicit declaration of function 'page_to_section'; did you mean 'present_section'? [-Wimplicit-function-declaration]
->       48 |         int __sec = page_to_section(__pg);                      \
->          |                     ^~~~~~~~~~~~~~~
->    include/asm-generic/memory_model.h:53:32: note: in definition of macro '__pfn_to_page'
->       53 | ({      unsigned long __pfn = (pfn);                    \
->          |                                ^~~
->    include/asm-generic/memory_model.h:65:21: note: in expansion of macro '__page_to_pfn'
->       65 | #define page_to_pfn __page_to_pfn
->          |                     ^~~~~~~~~~~~~
->    include/linux/mm.h:200:38: note: in expansion of macro 'page_to_pfn'
->      200 | #define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
->          |                                      ^~~~~~~~~~~
->    include/linux/mm.h:221:33: note: in expansion of macro 'nth_page'
->      221 |                 if (pages[i] != nth_page(first_page, i))
->          |                                 ^~~~~~~~
->    include/linux/mm.h: At top level:
-> >> include/linux/mm.h:2002:29: error: conflicting types for 'page_to_section'; have 'long unsigned int(const struct page *)'
->     2002 | static inline unsigned long page_to_section(const struct page *page)
->          |                             ^~~~~~~~~~~~~~~
->    include/asm-generic/memory_model.h:48:21: note: previous implicit declaration of 'page_to_section' with type 'int()'
->       48 |         int __sec = page_to_section(__pg);                      \
->          |                     ^~~~~~~~~~~~~~~
->    include/asm-generic/memory_model.h:53:32: note: in definition of macro '__pfn_to_page'
->       53 | ({      unsigned long __pfn = (pfn);                    \
->          |                                ^~~
->    include/asm-generic/memory_model.h:65:21: note: in expansion of macro '__page_to_pfn'
->       65 | #define page_to_pfn __page_to_pfn
->          |                     ^~~~~~~~~~~~~
->    include/linux/mm.h:200:38: note: in expansion of macro 'page_to_pfn'
->      200 | #define nth_page(page,n) pfn_to_page(page_to_pfn((page)) + (n))
->          |                                      ^~~~~~~~~~~
->    include/linux/mm.h:221:33: note: in expansion of macro 'nth_page'
->      221 |                 if (pages[i] != nth_page(first_page, i))
->          |                                 ^~~~~~~~
->    make[3]: *** [scripts/Makefile.build:98: arch/sh/kernel/asm-offsets.s] Error 1
->    make[3]: Target 'prepare' not remade because of errors.
->    make[2]: *** [Makefile:1274: prepare0] Error 2
->    make[2]: Target 'prepare' not remade because of errors.
->    make[1]: *** [Makefile:248: __sub-make] Error 2
->    make[1]: Target 'prepare' not remade because of errors.
->    make: *** [Makefile:248: __sub-make] Error 2
->    make: Target 'prepare' not remade because of errors.
-> 
-> 
-> vim +2002 include/linux/mm.h
-> 
-> bf4e8902ee5080 Daniel Kiper      2011-05-24  2001  
-> aa462abe8aaf21 Ian Campbell      2011-08-17 @2002  static inline unsigned long page_to_section(const struct page *page)
-> d41dee369bff3b Andy Whitcroft    2005-06-23  2003  {
-> d41dee369bff3b Andy Whitcroft    2005-06-23  2004  	return (page->flags >> SECTIONS_PGSHIFT) & SECTIONS_MASK;
-> d41dee369bff3b Andy Whitcroft    2005-06-23  2005  }
-> 308c05e35e3517 Christoph Lameter 2008-04-28  2006  #endif
-> d41dee369bff3b Andy Whitcroft    2005-06-23  2007  
+Hi Alejandro,
 
-Thank you. Let's move function num_pages_contiguous() below the
-definition of page_to_section() to resolve this compilation error.
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-Thanks,
-Zhe
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on akpm-mm/mm-nonmm-unstable linus/master v6.16-rc5 next-20250704]
+[cannot apply to vbabka-slab/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Alejandro-Colomar/vsprintf-Add-v-seprintf-v-stprintf/20250707-062040
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/e3271b5f2ad9fe1282c8e6892a15984b9e316340.1751823326.git.alx%40kernel.org
+patch subject: [RFC v2 3/5] mm: Use seprintf() instead of less ergonomic APIs
+config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250707/202507071145.zcWsi1Wm-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250707/202507071145.zcWsi1Wm-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507071145.zcWsi1Wm-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   mm/slub.c: In function 'create_unique_id':
+>> mm/slub.c:7445:13: warning: 'seprintf' reading 1 byte from a region of size 0 [-Wstringop-overread]
+    7445 |         p = seprintf(p, e, "%07u", s->size);
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/slub.c:7445:13: note: referencing argument 2 of type 'const char[0]'
+   In file included from include/linux/kernel.h:33,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/smp.h:13,
+                    from include/linux/lockdep.h:14,
+                    from include/linux/spinlock.h:63,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:7,
+                    from mm/slub.c:13:
+   include/linux/sprintf.h:18:22: note: in a call to function 'seprintf'
+      18 | __printf(3, 4) char *seprintf(char *p, const char end[0], const char *fmt, ...);
+         |                      ^~~~~~~~
+
+
+vim +/seprintf +7445 mm/slub.c
+
+  7411	
+  7412	/* Create a unique string id for a slab cache:
+  7413	 *
+  7414	 * Format	:[flags-]size
+  7415	 */
+  7416	static char *create_unique_id(struct kmem_cache *s)
+  7417	{
+  7418		char *name = kmalloc(ID_STR_LENGTH, GFP_KERNEL);
+  7419		char *p = name;
+  7420		char *e = name + ID_STR_LENGTH;
+  7421	
+  7422		if (!name)
+  7423			return ERR_PTR(-ENOMEM);
+  7424	
+  7425		*p++ = ':';
+  7426		/*
+  7427		 * First flags affecting slabcache operations. We will only
+  7428		 * get here for aliasable slabs so we do not need to support
+  7429		 * too many flags. The flags here must cover all flags that
+  7430		 * are matched during merging to guarantee that the id is
+  7431		 * unique.
+  7432		 */
+  7433		if (s->flags & SLAB_CACHE_DMA)
+  7434			*p++ = 'd';
+  7435		if (s->flags & SLAB_CACHE_DMA32)
+  7436			*p++ = 'D';
+  7437		if (s->flags & SLAB_RECLAIM_ACCOUNT)
+  7438			*p++ = 'a';
+  7439		if (s->flags & SLAB_CONSISTENCY_CHECKS)
+  7440			*p++ = 'F';
+  7441		if (s->flags & SLAB_ACCOUNT)
+  7442			*p++ = 'A';
+  7443		if (p != name + 1)
+  7444			*p++ = '-';
+> 7445		p = seprintf(p, e, "%07u", s->size);
+  7446	
+  7447		if (WARN_ON(p == NULL)) {
+  7448			kfree(name);
+  7449			return ERR_PTR(-EINVAL);
+  7450		}
+  7451		kmsan_unpoison_memory(name, p - name);
+  7452		return name;
+  7453	}
+  7454	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
