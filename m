@@ -1,77 +1,60 @@
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A894426B76C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Jul 2025 21:33:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545ED1C5D55
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Jul 2025 21:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751924012; cv=none; b=fykb/xoqU42zbLS6mPZMPqTC/lTsKIqaSNIDRZ547zaW7IWh4ODxkvOXenUG3mymMN5aoOH4fi7Rp5PTKGQfG+yw1zMPeMCQj1M3x1EYlCUA78GrgvfgivSUYVPP3/COz3V++i+2dkK+UbsXfi/f5FNp+GQ3WdkqP2uiF+lYCfE=
+	t=1751924315; cv=none; b=vEx1z4frD3tzsM4QkMK3vY/A6jkeVCpi4QO5RaIXngsJEhXIDygqYgDPJI1ILlAeFCO/WpU4AJzumDBjMqCzBZLy3fn8xvGSkyaSpww6o3RK25uJiGOKFM9OD7l1gYR7DeUgIvdvXU+6YpCwASdUlyk32huOnGvVumtAwr6lXZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751924012; c=relaxed/simple;
-	bh=IScrXANU3gy8kTdt2EolRmDR+MMV1A8bs6MmHNMAM8o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bm3041ti1QV6U4zHP5TQqjR4aRag99GzwwFII47uLf7vopTpBjveRyt2T5VtQazSR+eCmJaOBB8bD4JdqtNwXvlr4qldW5uiaia5yG6B7vrz8lFgzfhruwvm1ZRcbW3cwMU8iaKYi5TzuvjiZuP779fmYSIDcdKLYF2NRsKCiX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ENlYQsYu; arc=none smtp.client-ip=209.85.208.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1751924315; c=relaxed/simple;
+	bh=nUPQjbUzjyWSHWL0blBZyC0Ncv1+L/elGMTfU7OpyV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IIGb1W2pJxfGlgApox9XzdV0CxZsuNNbOQBVjxXRZQfRF1xyvu8SDcAfOvG20/15ozKWR1KdeQSbhVoJRuZmIkKdHKBjX5aI5ufm6CHoDXAazQ3T7F1xagK86JbDsreMTXgCFo6Z+4pwGzLbN2RQzN3HRPrtfe4IlyTHLQPVvhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nGMtBOHs; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ENlYQsYu"
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6095f07cd53so450584a12.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 07 Jul 2025 14:33:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1751924009; x=1752528809; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/Ltgx0FAElaI2g9x7RDxclBbvIyqiFXdyM4H0mdYW0U=;
-        b=ENlYQsYuRD5meASRmei09jjImDdFtwlbV+Nf9dlLmPocs8TOVkqvv0gttItdgaoRN8
-         FuZZz/Jw4qKRBK/d0rEEwdAk61HYeJD3xepeRgfZ5scH+Rs+8XqmrX0BSgDRqCB/sjOK
-         ZDWWxhhK7sHWr6rhElLuuiVZyCHEUjvl1X96vNUUTZpMbThZVbZQQpPXd9rCKW/t2Z6v
-         6PuKbyRd0knNKTYg8iFVqhwh3CuyGzGhXLlO4LcdWOoTHfAeXtrdGtXEmXoMWnVPLndK
-         I10AkAgNAcavzUQ9ayaugMM0AkumlbLqII1CdlOXMzGfSk+vvhhawxU0TIldhAHbAuqB
-         Q5Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1751924009; x=1752528809;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/Ltgx0FAElaI2g9x7RDxclBbvIyqiFXdyM4H0mdYW0U=;
-        b=Ywpxm6uqRj/6LNm/eaPXaZmMDxIPfc94MBDybixrrdNz88kjLh5AetgWy9gI2ySQKg
-         HkeLWSr/jZqiQSsIZ6X9ApUfxo7UoXuE0bEqocWCqMFR7ofZTxLPZcg0D6zI+9ba1Qq8
-         qzK2mUdLjTYiiDKtnlg2ZkUMr2tHul7qHo/94rcMTBlLNFjdNkZf4/2/OU95t72bi7GV
-         BUl+e+Bzd2UwdF/ZWd2lrjWI8f1mRhBLhaZEX6xsWYyP5c3H/Lyvi/Y23pf/E7YHGRvb
-         B+fzt6gdHb1k9C9Qjtx7zRl9QqAtn275UmCrf9oShW11UmHBjVjn1IcXuR0XGskSdLLx
-         aG0g==
-X-Forwarded-Encrypted: i=1; AJvYcCWvkRCOS2YmUxzB6EEz2xoEAWxk4sB2RMvUWjmhnsgUiPWWZBOOrgsNQgaaX3KyScPXpmIN6BErriaxcC6v@lists.linux.dev
-X-Gm-Message-State: AOJu0YwPgWveHN4Tlb53ASuc4twGnp0DHn8mUvnarSGNZ411V35TEUuI
-	+FP0aHeU9stcvbkEH1q3yKV+rEKOfnJ+mXq7fqUMAIn/Q77EnIcxRRRs
-X-Gm-Gg: ASbGncuI5Oe8Wvr6JcHwIttA6Tut8Mo2NSr3G3/FHvtIHK/Um09rmfNai8AndOZjVie
-	BWw5z6bMh0ySWz9e1iqynFZeWR8LonA8bnlpqeThxWKu4raiac0K+KDQWENt3Vmp2jPSSWgyRhp
-	cGdR/8toAxlZU240bdA4JME16SKDG3fu+oLKcTNlGTCi7wGBByRw3N6a+VT/eP4R6h77vxDeGlz
-	xk/s6RtCzS/JO6wcJ+lhnAfmK60vk8nh/Kvv+YfTMOuWsrzxkmPKbNtfc8T/E6geS7kEP9aO3JJ
-	1+lh2ewcomKfDqmH780UdMu2BmpXSX1nM8Y/KQCiGJal/quo/dWaDBs=
-X-Google-Smtp-Source: AGHT+IGV0fT6r+q+zuljOpEhYhveEQHE8dmGQnhNroLSXtZqCz9n3C8gmfvavRHcFo6ioSGWCeSroQ==
-X-Received: by 2002:a05:6402:524e:b0:606:aea6:15f3 with SMTP id 4fb4d7f45d1cf-60fd6522d37mr3938094a12.1.1751924008734;
-        Mon, 07 Jul 2025 14:33:28 -0700 (PDT)
-Received: from skbuf ([2a02:2f04:d708:da00:9ed3:c5c0:bd91:c71c])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-60fcb8c63f9sm6041670a12.72.2025.07.07.14.33.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Jul 2025 14:33:27 -0700 (PDT)
-Date: Tue, 8 Jul 2025 00:33:25 +0300
-From: Vladimir Oltean <olteanv@gmail.com>
-To: Rosen Penev <rosenp@gmail.com>
-Cc: kernel test robot <lkp@intel.com>, netdev@vger.kernel.org,
-	Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Andrew Lunn <andrew@lunn.ch>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	=?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <clement.leger@bootlin.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] net: dsa: rzn1_a5psw: add COMPILE_TEST
-Message-ID: <20250707213325.b42szcgiuqurrx3h@skbuf>
-References: <20250707003918.21607-2-rosenp@gmail.com>
- <202507080426.3RX5BOHi-lkp@intel.com>
- <CAKxU2N83JjTG19_GD-9LPJfe=aY4tU+7dFjRhFqGeLDn6beGKQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nGMtBOHs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1751924314; x=1783460314;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nUPQjbUzjyWSHWL0blBZyC0Ncv1+L/elGMTfU7OpyV8=;
+  b=nGMtBOHsL+DZNzCIhYtxBzLajkpdR0BuVknWFVPY4FtKvlhXH0w4NvGe
+   BUiAjHZIuibfF47JRJPZktB8YSMvg3H6Ee0jH00ilaaI/NkN3BbHGsoNS
+   6iOQtdOD26pYZE+XTari+uZRx43dwyhmGDPm6ijf4aPhFBQsV6M1ANRId
+   KmvQB+fTQjKoNng2UBMQ8XJIVvHsgfKLq68F3Uqnih4JxB9AN9FRYHKNv
+   YB3PAYIk+Z0J981vYWKUOBuOo3iTh4YalxsmKTz3/45JaO6U323Jb0nQu
+   Z/4AdxFWwNQHSQJ3HwJ8Nr1NkYrH6pL0IzopmBZFSRwcbikyMi7WGpdbZ
+   Q==;
+X-CSE-ConnectionGUID: PxmsKr2dTXWbZgw3BDj5Ow==
+X-CSE-MsgGUID: +7vMb27nRRuUoMxz3wWJkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54125351"
+X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; 
+   d="scan'208";a="54125351"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 14:38:33 -0700
+X-CSE-ConnectionGUID: e45zr7jZRqa50WC9uoO0HQ==
+X-CSE-MsgGUID: poFnKSfDRtmLeRNxtj6J3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; 
+   d="scan'208";a="159655365"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 07 Jul 2025 14:38:32 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uYtXh-0000lP-22;
+	Mon, 07 Jul 2025 21:38:29 +0000
+Date: Tue, 8 Jul 2025 05:37:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 2/2] ERROR: modpost: module fuse uses
+ symbol dget_parent from namespace
+ VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not
+ import it.
+Message-ID: <202507080551.jXZm37No-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -80,20 +63,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKxU2N83JjTG19_GD-9LPJfe=aY4tU+7dFjRhFqGeLDn6beGKQ@mail.gmail.com>
 
-On Mon, Jul 07, 2025 at 01:47:49PM -0700, Rosen Penev wrote:
-> so it's probably better to do
-> depends on OF && (ARCH_RZN1 || COMPILE_TEST)
-> to match the pcs driver.
-> 
-> not sure it would fix this error though...
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   f6ca783ba264dd369e8cc3ae35cb42ceeaf0f915
+commit: e2c81a7fa3cb3fe3ff19af6fcf11cf014a578f24 [2/2] ANDROID: Fix incorrect namespacing for ANDROID_GKI_VFS_EXPORT_ONLY
+config: x86_64-randconfig-161-20250708 (https://download.01.org/0day-ci/archive/20250708/202507080551.jXZm37No-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507080551.jXZm37No-lkp@intel.com/reproduce)
 
-Yes, you can't select something which has "depends on", unless you
-ensure that all its dependencies are satisfied.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507080551.jXZm37No-lkp@intel.com/
 
-If Kbuild has the same operator precedence as C, then "&&" has higher
-precedence than "||", and "OF && ARCH_RZN1 || COMPILE_TEST" actually
-evaluates to a different expression than "OF && (ARCH_RZN1 || COMPILE_TEST)".
-The former can be true when OF=n, while the latter can't. Thus, OF=n is
-an unsatisfied dependency for the PCS driver.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in drivers/dma-buf/heaps/system_heap.o
+ERROR: modpost: module reiserfs uses symbol d_set_d_op from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol dentry_open from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol mntget from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol fsstack_copy_inode_size from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol lock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol unlock_rename from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module ecryptfs uses symbol vfs_getattr from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+>> ERROR: modpost: module fuse uses symbol dget_parent from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+>> ERROR: modpost: module fuse uses symbol mntget from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+>> ERROR: modpost: module fuse uses symbol path_get from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+>> ERROR: modpost: module fuse uses symbol d_drop from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: "of_regulator_bulk_get_all" [drivers/pci/pwrctrl/pci-pwrctl-slot.ko] undefined!
+ERROR: modpost: module target_core_mod uses symbol override_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module target_core_mod uses symbol revert_creds from namespace VFS_internal_I_am_really_a_filesystem_and_am_NOT_a_driver, but does not import it.
+ERROR: modpost: module snd-compress uses symbol dma_buf_get from namespace DMA_BUF, but does not import it.
+ERROR: modpost: module snd-compress uses symbol dma_buf_put from namespace DMA_BUF, but does not import it.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=y] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
