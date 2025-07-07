@@ -1,138 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F36129AAEA
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Jul 2025 12:02:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5986191499
+	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Jul 2025 12:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751889762; cv=none; b=U0BvfCQA21UgGugFEIhEia+Tp9Tq/at6Pd62Yhox3/Ls0b9dvSGGrvhHhI3vfzsfZxX7epsDRpYRVNx2fOYRbaetMFm4hirR1rIV6WGFan73U+5kmpaL1ZocdyhcHDlsPb8/aKrXoo0wTrehJC4GnuOEsqE5ZLQPWKtQZPjU2Mg=
+	t=1751889961; cv=none; b=ACBKP5F4AAp5ZWb+q7d9Db/cSiIYeFN6JsecXVZvd9QfcOTdMpF1xtakT0HyV/g0nJm6j6J0yL/SKvO2+8Tje/SGqGHKv4PF4vkq5UEBUlV2VoGRyrc7bl9r9M/XsFPRv66Fi+Iyck9zEhaGVH6w/7lk+EMde+vPSze8APwTSEo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751889762; c=relaxed/simple;
-	bh=wBT4Q+pyrF7Qfbs5xIuZmSmQ7W0KdrOfDcDWLBgtIPA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZMFucjsYtM7BIcc0Z6Lr3XoGnRzk7T8TNt/wb7pIaDye127RRsMMGxN6J/+pfG6c7CVNwueZC+jzHiguTyJ5SX2JWu6KdQfQGYqhoOMWsZCY7zfvgwu52LoMMcbSK1+sxXDkGsDxaJ0lBsz5UWIJBJ5yxJrokkk2TC7C9WFFOQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UB1nG6vo; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751889961; c=relaxed/simple;
+	bh=tZ801LLNKdS+VNXgUpZHe/YDCfJy/le/GNWNddLIspE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=NgIg4H4xP/7R3k089qgpJjdLH2E9s/VUuKkg05NFVZ0SE8BAySAjk8jeVaVA7G7KA0OcANPxphzn6ONY81WDMyKUQ5Vb3TDeQWVKfZQ7NB5yq6Bs8DaIX3N24PcMuFjzIgH/HuXHJ4Gfq/UyY1Krb+/TxaBGfQtjxMtICxexPOY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=readmodwrite.com; spf=none smtp.mailfrom=readmodwrite.com; dkim=pass (2048-bit key) header.d=readmodwrite-com.20230601.gappssmtp.com header.i=@readmodwrite-com.20230601.gappssmtp.com header.b=F7rG38aC; arc=none smtp.client-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=readmodwrite.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=readmodwrite.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UB1nG6vo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751889761; x=1783425761;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wBT4Q+pyrF7Qfbs5xIuZmSmQ7W0KdrOfDcDWLBgtIPA=;
-  b=UB1nG6voVWU3Bp/G7kA7uP5jg0liE4XLuyHeIcupX2nV2Wf3MdhjBsNr
-   SOmKyWbp4aX++t+P4oHFi4t490tN8UHFpNDsfTbmxOXeoNnGEOV0JL1x9
-   +SWQ59NbHDGQ4wbt7bDoc8Zf/1ApFYsK2VzdZlHpN5117s1afJTIMGiRF
-   tMuijE2jSaaR9Hw+S7LTdbcLZCwK8dwg2igkghsifk1P/xyk9BvIT36PT
-   1dY2Uak0ENSAP5xqRzi2zF2119Z9/mBWPDzgh/zwvI6erZin8tUyolO1b
-   983wIsLVDenb2NECX5aIuPXlbpdjw/mSHDyH7obxsdDlijlhsjleGJONj
-   g==;
-X-CSE-ConnectionGUID: hPXWBqN4QC685wmKC03Lyw==
-X-CSE-MsgGUID: 4/oj/pFhQZKAB8anxc1EnA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11486"; a="71544276"
-X-IronPort-AV: E=Sophos;i="6.16,294,1744095600"; 
-   d="scan'208";a="71544276"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 05:02:40 -0700
-X-CSE-ConnectionGUID: ZeZAo0J/S4Wd42bdiwWPCg==
-X-CSE-MsgGUID: 0PSDn4giSfa007VsXS5QNA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,294,1744095600"; 
-   d="scan'208";a="154620752"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 07 Jul 2025 05:02:38 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uYkYO-0000ON-1F;
-	Mon, 07 Jul 2025 12:02:36 +0000
-Date: Mon, 7 Jul 2025 20:01:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:intel-5.10-CWF-SST-ANBZ22493 1/1]
- include/linux/overflow.h:88:22: warning: comparison of distinct pointer
- types lacks a cast
-Message-ID: <202507071931.EMnWMxik-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=readmodwrite-com.20230601.gappssmtp.com header.i=@readmodwrite-com.20230601.gappssmtp.com header.b="F7rG38aC"
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-313f68bc519so2266207a91.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 07 Jul 2025 05:05:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=readmodwrite-com.20230601.gappssmtp.com; s=20230601; t=1751889959; x=1752494759; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AbRTOhGVmvoLFbv7787UbxqrHjCa5AmcSlfrkYU6bVo=;
+        b=F7rG38aCJGoAy/2t3kHmfjpu9E9Iwa5/1yYIq4/zuA7hOJmkNJLaVJsrX2Z14RcF0p
+         69EP2pYmzH4LjSJaeXPQax+8T+15qsbveyYdHoKvWxKT55Bxw8nDcjZv9QCnDA/9jeJx
+         k0Ph8PbdMK5ABc2njH8E7xN6eLkcYx7JP7FZzYvbex9QBN4oG4XcU2YRRyc4fozTsyZ9
+         GJeLC3L0P+gD5q209sKfz5C8hd6G/Z0dfNSV8tSDB3i2Qqsz0NdYH/ODQEIspXZwltv8
+         /jqyKCPZDbo0agFM9ZPaZ7zYiUv3ouHcOXme7WE0lT7vlw5QXU1QqBDEC58nYpQU48LO
+         H8Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1751889959; x=1752494759;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=AbRTOhGVmvoLFbv7787UbxqrHjCa5AmcSlfrkYU6bVo=;
+        b=UBCU75mp7HU0gxHONVySTWyWjkPHJBiscVoBhyYDBqyQ2zB+6/UC8Ygy5Up0kxqg3c
+         nSV/CO7B6MV3WqXi+5xOjXKm5RMsIHCBoZ3E2TFNacBf4vJNuSENI49IZMtwHHGNQvJx
+         cf4ccoal/XKCyTTDkv4is1jXgQU3sxPkvdmk1IvqGDw2U/tjvGiTAM+CVtF6l0f1VSu5
+         YGiN4MwOliXJdCFXr7m3SdU1lyJ2F4e+YgBeB93gCVKgFWFdFoXxc/9nSlbYydq6hOl5
+         8ujwscvhR3PoaazI4lRnDaqoMttuoeQPPi0SGC+QDRVq8xmcJMG13iP9D2QGUV3wwX4H
+         +JbQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWZyDzdK5DjgPvjmfa531l31LK5baZ9gGVg/lrzRwfB1Q4qf5tnRrU86cKWzKXp4iakPY5ecQaNmIq7qS9A@lists.linux.dev
+X-Gm-Message-State: AOJu0YxrteBNwwVVk+AcP/Ti2ACC0i2nu8CyGCo0+3a3Of28b4dPO6q6
+	+I72lj5shDF5XJ7z0SoiMiwoEs0xAzpe1u9RDA6eDTZRKiGN1c77LHuw38cX6gRU+aZGyZAxZ0V
+	yA/n4xwlNphYVQUKhjAvaRUTIZ72yyZ+lwG+NXNWtRw==
+X-Gm-Gg: ASbGncsfFrNkIcvp6oipkghI/kno42cMKa1NMjV70N4b70Y7ITtxN5QeEvQkk31/NhU
+	GhJBeNdBEyc5rbUbEYSAn3wAU5Nt7+3HehxBdMb4s3wWUrvGJVBHzYXLqQoosp3OaU58UmwgBWw
+	RHimhOs/EL0AOyEJTdy22nswqnHNbUciqq3Qi6FWrly/s3+Fk6n5UUw93XCmNO
+X-Google-Smtp-Source: AGHT+IGUdt3KMjfnarURaNeP6WlX5nDMccMisIpvVAtRfZIXRm1ihWFRYUMZ6WRww+XZ0TQLt/UUU5X1wU/E7Un8bGY=
+X-Received: by 2002:a17:90b:2ecd:b0:311:ef19:824d with SMTP id
+ 98e67ed59e1d1-31aadcb0f0emr20626562a91.2.1751889959009; Mon, 07 Jul 2025
+ 05:05:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250704120604.2688934-1-matt@readmodwrite.com>
+ <202507051300.E0JSHxu1-lkp@intel.com> <CANpmjNMU26CGN2zYvCYC9eFwfsgHW4U=DQs4sA8TTPte7RTrSg@mail.gmail.com>
+In-Reply-To: <CANpmjNMU26CGN2zYvCYC9eFwfsgHW4U=DQs4sA8TTPte7RTrSg@mail.gmail.com>
+From: Matt Fleming <matt@readmodwrite.com>
+Date: Mon, 7 Jul 2025 13:05:47 +0100
+X-Gm-Features: Ac12FXzyYmYk7YR7M3ps6gHcAJL7EYFN2ugE_j8ajeQSisU5-HpmQRqbIHrcaFw
+Message-ID: <CAENh_STpgcdkwZiB2Zd-10QmnadnUBiMjOQPPFqaEVpYjrU4Zg@mail.gmail.com>
+Subject: Re: [PATCH v2] stackdepot: Make max number of pools build-time configurable
+To: Marco Elver <elver@google.com>
+Cc: kernel test robot <lkp@intel.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>, linux-kernel@vger.kernel.org, 
+	kernel-team@cloudflare.com, Alexander Potapenko <glider@google.com>, 
+	Andrey Konovalov <andreyknvl@gmail.com>, Dmitry Vyukov <dvyukov@google.com>, 
+	Oscar Salvador <osalvador@suse.de>, Vlastimil Babka <vbabka@suse.cz>, 
+	Matt Fleming <mfleming@cloudflare.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ville,
+On Mon, Jul 7, 2025 at 7:40=E2=80=AFAM Marco Elver <elver@google.com> wrote=
+:
+>
+> On Sat, 5 Jul 2025 at 08:01, kernel test robot <lkp@intel.com> wrote:
+> >
+> > Hi Matt,
+> >
+> > kernel test robot noticed the following build errors:
+> >
+> > [auto build test ERROR on akpm-mm/mm-nonmm-unstable]
+> > [also build test ERROR on linus/master v6.16-rc4 next-20250704]
+> > [cannot apply to akpm-mm/mm-everything]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Matt-Fleming/sta=
+ckdepot-Make-max-number-of-pools-build-time-configurable/20250704-200804
+> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-=
+nonmm-unstable
+> > patch link:    https://lore.kernel.org/r/20250704120604.2688934-1-matt%=
+40readmodwrite.com
+> > patch subject: [PATCH v2] stackdepot: Make max number of pools build-ti=
+me configurable
+> > config: arm64-randconfig-001-20250705 (https://download.01.org/0day-ci/=
+archive/20250705/202507051300.E0JSHxu1-lkp@intel.com/config)
+> > compiler: aarch64-linux-gcc (GCC) 10.5.0
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20250705/202507051300.E0JSHxu1-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202507051300.E0JSHxu1-l=
+kp@intel.com/
+> >
+> > All errors (new ones prefixed by >>):
+> >
+> >    In file included from include/linux/init.h:5,
+> >                     from include/linux/printk.h:6,
+> >                     from include/asm-generic/bug.h:22,
+> >                     from arch/arm64/include/asm/bug.h:26,
+> >                     from include/linux/bug.h:5,
+> >                     from include/linux/vfsdebug.h:5,
+> >                     from include/linux/fs.h:5,
+> >                     from include/linux/debugfs.h:15,
+> >                     from lib/stackdepot.c:17:
+> > >> include/linux/build_bug.h:78:41: error: static assertion failed: "DE=
+POT_MAX_POOLS <=3D (1LL << (DEPOT_POOL_INDEX_BITS)) - 1"
+> >       78 | #define __static_assert(expr, msg, ...) _Static_assert(expr,=
+ msg)
+> >          |                                         ^~~~~~~~~~~~~~
+> >    include/linux/build_bug.h:77:34: note: in expansion of macro '__stat=
+ic_assert'
+> >       77 | #define static_assert(expr, ...) __static_assert(expr, ##__V=
+A_ARGS__, #expr)
+> >          |                                  ^~~~~~~~~~~~~~~
+> >    lib/stackdepot.c:42:1: note: in expansion of macro 'static_assert'
+> >       42 | static_assert(DEPOT_MAX_POOLS <=3D (1LL << (DEPOT_POOL_INDEX=
+_BITS)) - 1);
+> >          | ^~~~~~~~~~~~~
+>
+> This is odd. The randconfig here uses the default:
+>
+> > CONFIG_STACKDEPOT_MAX_POOLS=3D8192
 
-FYI, the error/warning still remains.
+Ugh, I see what's happened here. For this config, the expression evaluates =
+to
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-5.10-CWF-SST-ANBZ22493
-head:   4d8e1d27db152f18e8e9064c37d1fa993f4d7e77
-commit: c91b41e6a4cc972b62dc7c0f433436091b4028e5 [1/1] drm/modes: Avoid divide by zero harder in drm_mode_vrefresh()
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250707/202507071931.EMnWMxik-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250707/202507071931.EMnWMxik-lkp@intel.com/reproduce)
+  static_assert(8192 <=3D 8191);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507071931.EMnWMxik-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/slab.h:16,
-                    from include/linux/resource_ext.h:11,
-                    from include/linux/acpi.h:14,
-                    from include/linux/i2c.h:14,
-                    from include/drm/drm_crtc.h:29,
-                    from drivers/gpu/drm/drm_modes.c:41:
-   drivers/gpu/drm/drm_modes.c: In function 'drm_mode_vrefresh':
->> include/linux/overflow.h:88:22: warning: comparison of distinct pointer types lacks a cast
-      88 |         (void) (&__a == &__b);                  \
-         |                      ^~
-   drivers/gpu/drm/drm_modes.c:772:13: note: in expansion of macro 'check_mul_overflow'
-     772 |         if (check_mul_overflow(mode->clock, num, &num))
-         |             ^~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:89:22: warning: comparison of distinct pointer types lacks a cast
-      89 |         (void) (&__a == __d);                   \
-         |                      ^~
-   drivers/gpu/drm/drm_modes.c:772:13: note: in expansion of macro 'check_mul_overflow'
-     772 |         if (check_mul_overflow(mode->clock, num, &num))
-         |             ^~~~~~~~~~~~~~~~~~
->> include/linux/overflow.h:88:22: warning: comparison of distinct pointer types lacks a cast
-      88 |         (void) (&__a == &__b);                  \
-         |                      ^~
-   drivers/gpu/drm/drm_modes.c:775:13: note: in expansion of macro 'check_mul_overflow'
-     775 |         if (check_mul_overflow(mode->htotal * mode->vtotal, den, &den))
-         |             ^~~~~~~~~~~~~~~~~~
-   include/linux/overflow.h:89:22: warning: comparison of distinct pointer types lacks a cast
-      89 |         (void) (&__a == __d);                   \
-         |                      ^~
-   drivers/gpu/drm/drm_modes.c:775:13: note: in expansion of macro 'check_mul_overflow'
-     775 |         if (check_mul_overflow(mode->htotal * mode->vtotal, den, &den))
-         |             ^~~~~~~~~~~~~~~~~~
-
-
-vim +88 include/linux/overflow.h
-
-f0907827a8a915 Rasmus Villemoes 2018-05-08  83  
-9b80e4c4ddaca3 Kees Cook        2020-08-12  84  #define check_mul_overflow(a, b, d) __must_check_overflow(({	\
-f0907827a8a915 Rasmus Villemoes 2018-05-08  85  	typeof(a) __a = (a);			\
-f0907827a8a915 Rasmus Villemoes 2018-05-08  86  	typeof(b) __b = (b);			\
-f0907827a8a915 Rasmus Villemoes 2018-05-08  87  	typeof(d) __d = (d);			\
-f0907827a8a915 Rasmus Villemoes 2018-05-08 @88  	(void) (&__a == &__b);			\
-f0907827a8a915 Rasmus Villemoes 2018-05-08  89  	(void) (&__a == __d);			\
-f0907827a8a915 Rasmus Villemoes 2018-05-08  90  	__builtin_mul_overflow(__a, __b, __d);	\
-9b80e4c4ddaca3 Kees Cook        2020-08-12  91  }))
-f0907827a8a915 Rasmus Villemoes 2018-05-08  92  
-
-:::::: The code at line 88 was first introduced by commit
-:::::: f0907827a8a9152aedac2833ed1b674a7b2a44f2 compiler.h: enable builtin overflow checkers and add fallback code
-
-:::::: TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-:::::: CC: Kees Cook <keescook@chromium.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+So the default needs to be 8191.
