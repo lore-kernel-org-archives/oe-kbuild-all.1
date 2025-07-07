@@ -1,62 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 255B62E370C
-	for <oe-kbuild-all@lists.linux.dev>; Mon,  7 Jul 2025 20:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98193C2FB;
+	Mon,  7 Jul 2025 20:25:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751919930; cv=none; b=L0rGvoSvt+adYZue4k6krBl1E7rKqmnpJBuuz0M66I3RSaG4szWew1ccEuBp9oasgJFQIYAxlFiHyQb7+avYalAG56XsRcQczvK1/WSpD3wf6Ehd6ox3zoxY2bBaqrPw44T4erbMVR7EITEbKqpYz6R1w4AygvJqxXbFGnPaQk8=
+	t=1751919932; cv=none; b=hGHdbBLvzr/ojCAAFyV5T9eT40vQ1LnbBiazuy2vMPDddXbHJylsZuPYziLsqL326TAbPuYyFJmHFQGGWi7fCHtavwcnjXvewbuuFvSAofyunxDxPjBeDDDx48nDjcvIAeRuGBW5qqI0lWQ/67b5lgAmstRlDvrPMQ7/RPfsR1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751919930; c=relaxed/simple;
-	bh=VTyui1TD2+dBPQ4s3x5S6ne7GSTMKJOET/gdjfe+Qh0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dMbbjsFUFv9wmjmviGXBqzYYHI+WtRA0iuWnWG1zGhRmr0V9Tni28KgEXIrh52mgH+HX9aezKbSsESePmmrlTbbuqDlBA0t+9Mjry/D4iriYWVZ48p+MUyPsNL4CPaFwjA9EoifndKNo6nvx2qQ8XAE+NM9KBxvp8NYpUQUT+ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYnkU6K+; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1751919932; c=relaxed/simple;
+	bh=EskchuAk3wqYLaXr8x1fF4HhW/cyWSRnnGTXvtWRQDk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NyCBrgbx0S732mvoeRnXPujK/LyUhfamBFe5l0QY9fANXd8gTiCZkIIbyl/5kHtPWrS86KK4BaDqdKP+uMd33LQZXQm7BgQlHsr4tnOhg7lwPs5OlyOsiPRkn5pvFSAx0lk3bE2Icc+7wQ5dOW2qRX+qgKrXHQANB49yrEN5ufo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PFSMiyjW; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYnkU6K+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PFSMiyjW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751919927; x=1783455927;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VTyui1TD2+dBPQ4s3x5S6ne7GSTMKJOET/gdjfe+Qh0=;
-  b=JYnkU6K+dwgYsMMl4P0/Ca51ypVuR6fKyr1ChYstTCEu2UPNwttoncF6
-   fj1OVOyTPuTwTMvnXJBAo1XS5pOnvBxYunPXHfHick/5ZG7eBsTXKsxyw
-   7nHpqRdodqFZom3EqQfQXwCHhpaC0AP0Ca/+PdSWnkOr2kVvnOMxh1oCY
-   G3cC3QslB7RDbh3uuGrpQlF+iSlF8ajZCxnqbGAj9k3TKL7T7qQoCaYsE
-   u80dIi7nM85ha0mzfO2XIOJ8A2e+uYv7a9nrbdfoxLgv9dnNpWI3QR7g4
-   7Wb/dQm7dWgM5/R8x1dp9nfqYKLX34tQm1R+wjXnFfuy32z1VcIfcPH+I
-   Q==;
-X-CSE-ConnectionGUID: I8oogqllR6+nQLhCaw4jlA==
-X-CSE-MsgGUID: iYKP37tGRqen/2dIARwPNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="76700288"
+  t=1751919930; x=1783455930;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=EskchuAk3wqYLaXr8x1fF4HhW/cyWSRnnGTXvtWRQDk=;
+  b=PFSMiyjWxSENYTsXW7yK27IvUOBPlM/K6TjAR8PKDCExpKrEOS3hXnkb
+   V/tLnq5bnOgyCom0y7aHCy4HHqvbenw+hLd51xvtOceje5nE7wExHUCsp
+   c2q86ydUzVZ/EOr+NGbMKOmkjL8v6wqemctSSKyNlnkC9QqBQNucSYvfJ
+   HOWBtPX8N6IG0XYnbdTMI68YUZsDm5ZmBpoPjz/Y5b5+bGfagEDNaIYNg
+   OD5oCqNz9TPpCrEHsQsIUdKE7d00rZXNw1i6f9E1AadMfys3gPrXGkBuc
+   qGTFxMkJVusmyekwRI2SgAzEJaUG3GjPKyS7mbSKZd6/BdoYpq4HN6efk
+   A==;
+X-CSE-ConnectionGUID: ovON4JLAQCushbMPwk7o0A==
+X-CSE-MsgGUID: 5dgaG2bXQ8WiASyBBwgolg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="53362604"
 X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; 
-   d="scan'208";a="76700288"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 13:25:27 -0700
-X-CSE-ConnectionGUID: vtSEXlmcTmWRvzTPJoc/bg==
-X-CSE-MsgGUID: /72SQADMTsSbs5JTeQG9kQ==
+   d="scan'208";a="53362604"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 13:25:29 -0700
+X-CSE-ConnectionGUID: AVK4PUxOTGWdv6LR1Tocbw==
+X-CSE-MsgGUID: wULjMUCrS7qxIoDnvtRdGQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; 
-   d="scan'208";a="155044367"
+   d="scan'208";a="159344412"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 07 Jul 2025 13:25:25 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 07 Jul 2025 13:25:25 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYsOw-0000iz-2w;
+	id 1uYsOw-0000iv-2p;
 	Mon, 07 Jul 2025 20:25:22 +0000
-Date: Tue, 8 Jul 2025 04:25:11 +0800
+Date: Tue, 8 Jul 2025 04:25:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nam Cao <namcao@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-pci@vger.kernel.org,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Florian Fainelli <florian.fainelli@broadcom.com>
-Subject: [pci:controller/msi-parent 6/15] Warning:
- drivers/pci/controller/pcie-iproc-msi.c:109 Excess struct member
- 'msi_domain' description in 'iproc_msi'
-Message-ID: <202507080437.HQuYK7x8-lkp@intel.com>
+To: Menglong Dong <menglong8.dong@gmail.com>, ast@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	daniel@iogearbox.net, john.fastabend@gmail.com, andrii@kernel.org,
+	martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
+	yonghong.song@linux.dev, kpsingh@kernel.org, sdf@fomichev.me,
+	haoluo@google.com, jolsa@kernel.org, bpf@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Menglong Dong <dongml2@chinatelecom.cn>
+Subject: Re: [PATCH bpf-next] bpf: make the attach target more accurate
+Message-ID: <202507080452.fCL471ap-lkp@intel.com>
+References: <20250707113528.378303-1-dongml2@chinatelecom.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,22 +68,79 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250707113528.378303-1-dongml2@chinatelecom.cn>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git controller/msi-parent
-head:   8c0c598f3f217961103ab782da53a7b980fd68b3
-commit: 52a8808de0060d87381147c7aecfd7153c1b72cb [6/15] PCI: iproc: Switch to msi_create_parent_irq_domain()
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250708/202507080437.HQuYK7x8-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507080437.HQuYK7x8-lkp@intel.com/reproduce)
+Hi Menglong,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/bpf-make-the-attach-target-more-accurate/20250707-194159
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250707113528.378303-1-dongml2%40chinatelecom.cn
+patch subject: [PATCH bpf-next] bpf: make the attach target more accurate
+config: i386-buildonly-randconfig-003-20250708 (https://download.01.org/0day-ci/archive/20250708/202507080452.fCL471ap-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507080452.fCL471ap-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507080437.HQuYK7x8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507080452.fCL471ap-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> Warning: drivers/pci/controller/pcie-iproc-msi.c:109 Excess struct member 'msi_domain' description in 'iproc_msi'
+>> kernel/bpf/verifier.c:23491:43: error: incomplete definition of type 'const struct module'
+    23491 |                 err = module_kallsyms_on_each_symbol(mod->name, symbol_mod_callback,
+          |                                                      ~~~^
+   include/linux/printk.h:400:8: note: forward declaration of 'struct module'
+     400 | struct module;
+         |        ^
+   1 error generated.
+
+
+vim +23491 kernel/bpf/verifier.c
+
+ 23466	
+ 23467	/**
+ 23468	 * bpf_lookup_attach_addr: Lookup address for a symbol
+ 23469	 *
+ 23470	 * @mod: kernel module to lookup the symbol, NULL means to lookup the kernel
+ 23471	 * symbols
+ 23472	 * @sym: the symbol to resolve
+ 23473	 * @addr: pointer to store the result
+ 23474	 *
+ 23475	 * Lookup the address of the symbol @sym, and the address should has
+ 23476	 * corresponding ftrace location. If multiple symbols with the name @sym
+ 23477	 * exist, the one that has ftrace location will be returned. If more than
+ 23478	 * 1 has ftrace location, -EADDRNOTAVAIL will be returned.
+ 23479	 *
+ 23480	 * Returns: 0 on success, -errno otherwise.
+ 23481	 */
+ 23482	static int bpf_lookup_attach_addr(const struct module *mod, const char *sym,
+ 23483					  unsigned long *addr)
+ 23484	{
+ 23485		struct symbol_lookup_ctx ctx = { .addr = 0, .name = sym };
+ 23486		int err;
+ 23487	
+ 23488		if (!mod)
+ 23489			err = kallsyms_on_each_match_symbol(symbol_callback, sym, &ctx);
+ 23490		else
+ 23491			err = module_kallsyms_on_each_symbol(mod->name, symbol_mod_callback,
+ 23492							     &ctx);
+ 23493	
+ 23494		if (!ctx.addr)
+ 23495			return -ENOENT;
+ 23496	
+ 23497		if (err)
+ 23498			return err;
+ 23499	
+ 23500		*addr = ctx.addr;
+ 23501	
+ 23502		return 0;
+ 23503	}
+ 23504	
 
 -- 
 0-DAY CI Kernel Test Service
