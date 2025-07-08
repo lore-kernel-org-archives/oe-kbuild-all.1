@@ -1,70 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A9C1E4AB;
-	Tue,  8 Jul 2025 04:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E4D189F3F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Jul 2025 04:32:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751947881; cv=none; b=HhdcUFB6slYyFHnpgYaUAXMxj16fw/WR3B2ylYDQ+Whz/tdP9s5Ti6BXow6ltKy4+NklPjpJmeohh8IchD9foliEKBoyfo5HPdTf/3Ig72XsbeYTMpw/nWA0UEvdarCQSe/uWHHc1yEPJjRQWJhfOevD5+raqfjxYJK2ug0X1Ow=
+	t=1751949135; cv=none; b=jDCVgIdkhdE3jy5FZIbccsHCv/j8VZUYSg6ZsoiBd3dPfgqvf+DT/n2iEVToE5iLOHr0NuY0op+Mm8AlaShuU4VbEpNUAcMp1kLfgjrhAtUcvykrDHFNgEKTX/ra37KCZFzj56QaKg6kweR0vi9p4VLdxdx1+4eF5UGI7PFmK7c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751947881; c=relaxed/simple;
-	bh=rXWlj/9LA/DLJXLyR14GgKkKykP6BE3a/HJ93b2Dcwk=;
+	s=arc-20240116; t=1751949135; c=relaxed/simple;
+	bh=SGs2vOCD+oEAqmoiVNBCOf6GVQ76wy6LLeXWaxJzwtw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aVxLW+nz1Y64kWRbPLLWAhNdtsZU5Pur+0DG2Vh4l0acaJIr2yHdfvljybbYAXcDNKAmwdM/VjE9UUvAUkTu/exSecB5pGN74pueV1ShNK2z2XBxEu5Gws+XqnBp4uRG9PuzXoDVad5HxPb/2lNuoVD0vbG9poUj59OYohLXIko=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n3sdAxC6; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=LW3lL1s4uTKshSXanGGW8CXuPBgYSP+ooulALI+cvRw6/zLo8ZNNF+Tr8rJrqLbSAqvHUzP8NSER1Nf4sIRkAr4ZpkEesmyxHNVluFCg6EkT6Oz8cZpCeZYk3XSzstHfaLgHFXWRoukmIgTE136ByfTOFRcSX/AZ1PEE7XC5WME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XZ4P7I0p; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n3sdAxC6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XZ4P7I0p"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751947879; x=1783483879;
+  t=1751949133; x=1783485133;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=rXWlj/9LA/DLJXLyR14GgKkKykP6BE3a/HJ93b2Dcwk=;
-  b=n3sdAxC678OTAeNNqjjuCvb9IHbVeyrdPhvy4gztBalKxdNytNmH0sAi
-   XeQMl5zeRxbN3xekFr2DbrnMzmYJzoJA8MiZD1P38hv2U5qRXnLxdOTMH
-   qQoHqK6E1h3Cs9fyGYBHNGU6V/WPLaXgEshhSsUcG3+Fk2PvXj+i3sM+o
-   /WxonKTA/eS9lSzCs+14Kf6MCn9M3J9r69eY7jJeibw4KqkiD/l2jsBbG
-   eawMTmLGFLa72SxwjMyTux86E8hZ67TW89IIgxbuYb+kPvLJdGbTUHBHX
-   zYa2SlMXtSNMiOLYJpSQ+J5i2U017sEwQjr3P7b4BX2xvnneSFFcuO7tU
-   Q==;
-X-CSE-ConnectionGUID: 0zZyxdWeSiuudwpeSoF4KQ==
-X-CSE-MsgGUID: fQkbC0OXSdizCVyTRdFChA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54102821"
+  bh=SGs2vOCD+oEAqmoiVNBCOf6GVQ76wy6LLeXWaxJzwtw=;
+  b=XZ4P7I0pAMIW1bV+4CgfpdySvqljAmzgF+NdaEsvY6Rq3pwqpIyL+ukZ
+   5UM1iqbY/RVNOPf/HXk8CI8Jv5Pwq0GZYWbZEOzGtKisluWW+ZA1w4nWK
+   77GPgwjAWT/NMtbzym8oVAvUS+l/QvC6oRqP26Uj2Zn45lB4mNXr7jRSX
+   BflPA9JcX02gVgiSofWsAOHqf8K9H/XoX+aAnB8GGc/aDe7IUtwV6ar9M
+   aE+7uStiCVh7Rc6tIszROkN++Py2nEXz1lM8WSAghNMYdmadFWNxSZsvg
+   U5CT6KPHej1PCKHjNIfvc5VUKuqMl8Y5DPOlenYZeATX7APDYIdzlQ1Xk
+   w==;
+X-CSE-ConnectionGUID: EJ+P+eO2Q8CiVUPUZKJJPw==
+X-CSE-MsgGUID: G3gqQHMXROO8s/Q06iVGIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54104057"
 X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
-   d="scan'208";a="54102821"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 21:11:18 -0700
-X-CSE-ConnectionGUID: DZoxYoMGRzil7CEsBfKMlQ==
-X-CSE-MsgGUID: u20iTc/lRr6KYeJeE2AD3w==
+   d="scan'208";a="54104057"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 21:32:13 -0700
+X-CSE-ConnectionGUID: 7DmqQOyQTSaGkwP/9ALLjg==
+X-CSE-MsgGUID: LfsJr7ffQpaxYzuZNnfMLw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
-   d="scan'208";a="154793097"
+   d="scan'208";a="159727950"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 07 Jul 2025 21:11:09 -0700
+  by orviesa003.jf.intel.com with ESMTP; 07 Jul 2025 21:32:11 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYzfe-0000yh-1p;
-	Tue, 08 Jul 2025 04:11:06 +0000
-Date: Tue, 8 Jul 2025 12:10:12 +0800
+	id 1uZ000-0000zT-2O;
+	Tue, 08 Jul 2025 04:32:08 +0000
+Date: Tue, 8 Jul 2025 12:31:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tao Chen <chen.dylane@linux.dev>, ast@kernel.org, daniel@iogearbox.net,
-	john.fastabend@gmail.com, andrii@kernel.org, martin.lau@linux.dev,
-	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
-	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
-	jolsa@kernel.org, mattbobrowski@google.com, rostedt@goodmis.org,
-	mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
-	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-	pabeni@redhat.com, horms@kernel.org, kuniyu@amazon.com,
-	willemb@google.com, jakub@cloudflare.com, pablo@netfilter.org,
-	kadlec@netfilter.org, hawk@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: Re: [PATCH bpf-next 1/6] bpf: Add attach_type in bpf_link
-Message-ID: <202507081130.devFCURB-lkp@intel.com>
-References: <20250707153916.802802-2-chen.dylane@linux.dev>
+To: Damien Le Moal <dlemoal@kernel.org>, linux-ide@vger.kernel.org,
+	Niklas Cassel <cassel@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH 2/3] ata: libata-eh: Remove ata_do_eh()
+Message-ID: <202507081215.hXgFd0Tv-lkp@intel.com>
+References: <20250707105931.548315-3-dlemoal@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,60 +63,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250707153916.802802-2-chen.dylane@linux.dev>
+In-Reply-To: <20250707105931.548315-3-dlemoal@kernel.org>
 
-Hi Tao,
+Hi Damien,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on bpf-next/master]
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.16-rc5 next-20250704]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tao-Chen/bpf-Add-attach_type-in-bpf_link/20250707-234517
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250707153916.802802-2-chen.dylane%40linux.dev
-patch subject: [PATCH bpf-next 1/6] bpf: Add attach_type in bpf_link
-config: i386-randconfig-015-20250708 (https://download.01.org/0day-ci/archive/20250708/202507081130.devFCURB-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507081130.devFCURB-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Damien-Le-Moal/ata-libata-eh-Make-ata_eh_followup_srst_needed-return-a-bool/20250707-190306
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250707105931.548315-3-dlemoal%40kernel.org
+patch subject: [PATCH 2/3] ata: libata-eh: Remove ata_do_eh()
+config: csky-randconfig-001-20250708 (https://download.01.org/0day-ci/archive/20250708/202507081215.hXgFd0Tv-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507081215.hXgFd0Tv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507081130.devFCURB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507081215.hXgFd0Tv-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/net/netkit.c:778:32: error: too few arguments to function call, expected 5, have 4
-     777 |         bpf_link_init(&nkl->link, BPF_LINK_TYPE_NETKIT,
-         |         ~~~~~~~~~~~~~
-     778 |                       &netkit_link_lops, prog);
-         |                                              ^
-   include/linux/bpf.h:2534:6: note: 'bpf_link_init' declared here
-    2534 | void bpf_link_init(struct bpf_link *link, enum bpf_link_type type,
-         |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2535 |                    const struct bpf_link_ops *ops, struct bpf_prog *prog,
-         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    2536 |                    enum bpf_attach_type attach_type);
-         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   drivers/ata/libata-eh.c: In function 'ata_std_error_handler':
+>> drivers/ata/libata-eh.c:4056:27: error: 'sata_sff_hardreset' undeclared (first use in this function); did you mean 'sata_std_hardreset'?
+    4056 |              hardreset == sata_sff_hardreset) && !sata_scr_valid(&ap->link))
+         |                           ^~~~~~~~~~~~~~~~~~
+         |                           sata_std_hardreset
+   drivers/ata/libata-eh.c:4056:27: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +778 drivers/net/netkit.c
+vim +4056 drivers/ata/libata-eh.c
 
-35dfaad7188cdc Daniel Borkmann 2023-10-24  770  
-35dfaad7188cdc Daniel Borkmann 2023-10-24  771  static int netkit_link_init(struct netkit_link *nkl,
-35dfaad7188cdc Daniel Borkmann 2023-10-24  772  			    struct bpf_link_primer *link_primer,
-35dfaad7188cdc Daniel Borkmann 2023-10-24  773  			    const union bpf_attr *attr,
-35dfaad7188cdc Daniel Borkmann 2023-10-24  774  			    struct net_device *dev,
-35dfaad7188cdc Daniel Borkmann 2023-10-24  775  			    struct bpf_prog *prog)
-35dfaad7188cdc Daniel Borkmann 2023-10-24  776  {
-35dfaad7188cdc Daniel Borkmann 2023-10-24  777  	bpf_link_init(&nkl->link, BPF_LINK_TYPE_NETKIT,
-35dfaad7188cdc Daniel Borkmann 2023-10-24 @778  		      &netkit_link_lops, prog);
-35dfaad7188cdc Daniel Borkmann 2023-10-24  779  	nkl->location = attr->link_create.attach_type;
-35dfaad7188cdc Daniel Borkmann 2023-10-24  780  	nkl->dev = dev;
-35dfaad7188cdc Daniel Borkmann 2023-10-24  781  	return bpf_link_prime(&nkl->link, link_primer);
-35dfaad7188cdc Daniel Borkmann 2023-10-24  782  }
-35dfaad7188cdc Daniel Borkmann 2023-10-24  783  
+  4038	
+  4039	/**
+  4040	 *	ata_std_error_handler - standard error handler
+  4041	 *	@ap: host port to handle error for
+  4042	 *
+  4043	 *	Perform standard error handling sequence.
+  4044	 *
+  4045	 *	LOCKING:
+  4046	 *	Kernel thread context (may sleep).
+  4047	 */
+  4048	void ata_std_error_handler(struct ata_port *ap)
+  4049	{
+  4050		struct ata_port_operations *ops = ap->ops;
+  4051		ata_reset_fn_t hardreset = ops->hardreset;
+  4052		int rc;
+  4053	
+  4054		/* Ignore built-in hardresets if SCR access is not available */
+  4055		if ((hardreset == sata_std_hardreset ||
+> 4056		     hardreset == sata_sff_hardreset) && !sata_scr_valid(&ap->link))
+  4057			hardreset = NULL;
+  4058	
+  4059		ata_eh_autopsy(ap);
+  4060		ata_eh_report(ap);
+  4061	
+  4062		rc = ata_eh_recover(ap, ops->prereset, ops->softreset,
+  4063				    hardreset, ops->postreset, NULL);
+  4064		if (rc) {
+  4065			struct ata_device *dev;
+  4066	
+  4067			ata_for_each_dev(dev, &ap->link, ALL)
+  4068				ata_dev_disable(dev);
+  4069		}
+  4070	
+  4071		ata_eh_finish(ap);
+  4072	}
+  4073	EXPORT_SYMBOL_GPL(ata_std_error_handler);
+  4074	
 
 -- 
 0-DAY CI Kernel Test Service
