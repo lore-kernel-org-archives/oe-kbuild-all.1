@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57FA31FF1C4
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Jul 2025 05:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C331718024
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Jul 2025 05:54:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751952861; cv=none; b=hSdz89J0fP25nBqsIvXP1kmZTXtCZDRYyJeoZkAdBmZuad/arWk9f6FT3/sNo1ArMr5BfIICX+eGq3gaMgvMKh7Vn3YUx1wl47fn327iVdrigYQb7CTseBjGDHfIjJB0Ilda0Z7NSBMmNd0dkDXUWUtd4LUi0UtyKbJrXLP9ObY=
+	t=1751954064; cv=none; b=UYkjC5mFzH880DiA8deNA7Zqxcug/RdMEnx+yfY76tTfs11o1B10Yhf1ZVETS5fuVfWSWRI+zLzjJ1NzkfKoMZ8kS0MdbtFLr3c0XV2h3hM3JFIQGwXxw8pmRHgKbEoaQHi18WUsOFV60/fErwJx6vJCEp+nXqWXzaSRCkwRGSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751952861; c=relaxed/simple;
-	bh=WOddxJzRLHemyfY4Lpdy70am+ukh+IWjHC2gqZQK4BM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b3Wa08GPDF9lswwK4WTXFTXpyuoH5fevbmkY8WIMUjRu42HiOAoFds3v3nHfqeXJtLOC5X64foJAKrri+h9JuetBhxBLDrUROOos4PaKy4wmcC9mGsL6Xe7J+OqGYwRBc295/Xw+qVnv2O+G+/+Z/mhj0M91thB7yUXbLb3u19s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W0ALjSVn; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1751954064; c=relaxed/simple;
+	bh=+CHxP4+M1ekWa17UTqWKSrWA6jLeDtXFvbSRz1Kvk6M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=O8OuZSs3Ir9+C8G3HGLZF9YD6GNWd6ISdSlobUuwqUnofpUOwK/2KPHRT7IckeKq0khxkgWYpFQHZfC5ldwXfcYL7aksGKE1h/gkoGdhp1ClxfjadJfZtda+/8fFHA3tqmL6CgzJPWpDCU6pkYFmZwvtaIDQO0iS0dUH7onKh+c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJOZdgfl; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W0ALjSVn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJOZdgfl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751952859; x=1783488859;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WOddxJzRLHemyfY4Lpdy70am+ukh+IWjHC2gqZQK4BM=;
-  b=W0ALjSVnuivIP1p7+TYVJXiaZsQc0WGwqs9ugzHl5YnuaV3QkXDONbkO
-   YHB15J4UPBWf2tdOymd2GeFtNUFrQ1mf4MHi+KzReNtijQwtBzuVPa5t9
-   n9skZqtAnVDEf2P0lU902An3AD/bF8KbpC1SgqrXWZTfuBfI/y4wIpPk1
-   O43tyGCJ27wqpR4TNf7Q5FK9iNXZPnmu0S4KBFilmI5KG8N1/ciQ+eHbg
-   ucOFDmTuXSl+jy/nW3LLTyk9dV6vOwR6ERV3uIl0o3orHi0zGIsD6omqG
-   3BYsOW5B2yjTbnNJ01pkTUvG9ywK/Wn4dPAM224KlOTfeddH+IAvZfunl
-   A==;
-X-CSE-ConnectionGUID: +xozZS1mTVGtYe/eE2wwLA==
-X-CSE-MsgGUID: JYUPB8yHRl+RNk9I31Miuw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="79612395"
+  t=1751954062; x=1783490062;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=+CHxP4+M1ekWa17UTqWKSrWA6jLeDtXFvbSRz1Kvk6M=;
+  b=TJOZdgfl7SsLs2b8dClivZ03GnfxfaMFGBSNRGZyuTigRitnemfbnRu4
+   uqjUeFB/ldvJC+kUIX7w3N6bHuIo7XfoEDbVejJ4gf50obEJ91k81IkVJ
+   Qi5Ze4LKePNTawsMWmA9ujkIhusqMgtVUJSBzBuhCW51XJacSyt6AW0jC
+   4KBLw4ExYrzcQO/M5b14CyCMDbYDYbvOXp4rEUBrP4HjPsrQ+zawVUSMY
+   DSPpfqOhBNiEsLrjFigvwB3aE4TPQxjL/ZSNTRbI7HZ1FuxVKT5tjCvQO
+   QgZEfWhXqKQoPB3egytdog1KX9HNGBbr8kQ+Ucqg+FKX8S7GEn5J0Ssz3
+   Q==;
+X-CSE-ConnectionGUID: oPEzgbXjTiiFsoGzM58d4g==
+X-CSE-MsgGUID: rNFz+v0sR8eujYJ9AkwxUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="57949750"
 X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
-   d="scan'208";a="79612395"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 22:34:18 -0700
-X-CSE-ConnectionGUID: +F2wyMA0TdSTjyV2pxz9DQ==
-X-CSE-MsgGUID: OxZalE9kSe2PQUFEJ1yXdw==
+   d="scan'208";a="57949750"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 22:54:21 -0700
+X-CSE-ConnectionGUID: QrwFovJVR0Oc+uRq24F4nw==
+X-CSE-MsgGUID: BjubGk0CQZuVNDHaKQVuSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
-   d="scan'208";a="159672264"
+   d="scan'208";a="159742465"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 07 Jul 2025 22:34:16 -0700
+  by orviesa003.jf.intel.com with ESMTP; 07 Jul 2025 22:54:19 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZ0y6-00011n-12;
-	Tue, 08 Jul 2025 05:34:14 +0000
-Date: Tue, 8 Jul 2025 13:33:38 +0800
+	id 1uZ1HV-00012P-1r;
+	Tue, 08 Jul 2025 05:54:17 +0000
+Date: Tue, 8 Jul 2025 13:53:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pan Deng <pan.deng@intel.com>, peterz@infradead.org, mingo@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	tianyou.li@intel.com, tim.c.chen@linux.intel.com,
-	yu.c.chen@intel.com, pan.deng@intel.com
-Subject: Re: [PATCH 3/4] sched/rt: Split root_domain->rto_count to
- per-NUMA-node counters
-Message-ID: <202507081317.4IdE2euZ-lkp@intel.com>
-References: <2c1e1dbacaddd881f3cca340ece1f9268029b620.1751852370.git.pan.deng@intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
+Subject: [tiwai-sound:test/hda-reorg 17/42]
+ sound/soc/intel/atom/sst/sst_acpi.c:272: undefined reference to
+ `snd_intel_acpi_dsp_driver_probe'
+Message-ID: <202507081351.iyDgGOUP-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,192 +62,152 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2c1e1dbacaddd881f3cca340ece1f9268029b620.1751852370.git.pan.deng@intel.com>
 
-Hi Pan,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on v6.16-rc5]
-[also build test WARNING on linus/master]
-[cannot apply to tip/sched/core peterz-queue/sched/core tip/master tip/auto-latest next-20250704]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Pan-Deng/sched-rt-Optimize-cpupri_vec-layout-to-mitigate-cache-line-contention/20250707-131831
-base:   v6.16-rc5
-patch link:    https://lore.kernel.org/r/2c1e1dbacaddd881f3cca340ece1f9268029b620.1751852370.git.pan.deng%40intel.com
-patch subject: [PATCH 3/4] sched/rt: Split root_domain->rto_count to per-NUMA-node counters
-config: loongarch-randconfig-r112-20250708 (https://download.01.org/0day-ci/archive/20250708/202507081317.4IdE2euZ-lkp@intel.com/config)
-compiler: loongarch64-linux-gcc (GCC) 15.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20250708/202507081317.4IdE2euZ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/hda-reorg
+head:   be6979113a769a90bab2a55a30ae83b76f5971e6
+commit: d1bc64a913342041aaacdde0c0920eb0d5b96281 [17/42] ALSA: hda: Move HD-audio core stuff into sound/hda/core
+config: i386-randconfig-063-20250522 (https://download.01.org/0day-ci/archive/20250708/202507081351.iyDgGOUP-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507081351.iyDgGOUP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507081317.4IdE2euZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507081351.iyDgGOUP-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/sched/rt.c:1679:45: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:1679:45: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:1679:45: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/rt.c:1722:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:1722:39: sparse:     expected struct task_struct *donor
-   kernel/sched/rt.c:1722:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/rt.c:1742:64: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:1742:64: sparse:     expected struct task_struct *tsk
-   kernel/sched/rt.c:1742:64: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:2084:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *task @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:2084:40: sparse:     expected struct task_struct *task
-   kernel/sched/rt.c:2084:40: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:2107:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/rt.c:2107:13: sparse:    struct task_struct *
-   kernel/sched/rt.c:2107:13: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/rt.c:2453:54: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/rt.c:2453:54: sparse:     expected struct task_struct *tsk
-   kernel/sched/rt.c:2453:54: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/rt.c:2455:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:2455:40: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:2455:40: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/rt.c:2455:62: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/rt.c:2455:62: sparse:     expected struct task_struct *p
-   kernel/sched/rt.c:2455:62: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/deadline.c:2717:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:2717:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:2717:23: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:2727:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:2727:13: sparse:    struct task_struct *
-   kernel/sched/deadline.c:2727:13: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2833:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:2833:25: sparse:    struct task_struct *
-   kernel/sched/deadline.c:2833:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2357:42: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:2357:42: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:2357:42: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:2368:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:2368:38: sparse:     expected struct task_struct *tsk
-   kernel/sched/deadline.c:2368:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1262:39: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1262:39: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1262:39: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1262:85: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:1262:85: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:1262:85: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:1362:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:1362:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1362:23: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:1671:31: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:1671:31: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:1671:31: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:1671:70: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:1671:70: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:1671:70: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:1760:39: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:1760:39: sparse:     expected struct task_struct *donor
-   kernel/sched/deadline.c:1760:39: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:2578:9: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct sched_domain *[assigned] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/deadline.c:2578:9: sparse:     expected struct sched_domain *[assigned] sd
-   kernel/sched/deadline.c:2578:9: sparse:     got struct sched_domain [noderef] __rcu *parent
-   kernel/sched/deadline.c:2242:14: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *curr @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/deadline.c:2242:14: sparse:     expected struct task_struct *curr
-   kernel/sched/deadline.c:2242:14: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2243:15: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct task_struct *donor @@     got struct task_struct [noderef] __rcu * @@
-   kernel/sched/deadline.c:2243:15: sparse:     expected struct task_struct *donor
-   kernel/sched/deadline.c:2243:15: sparse:     got struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:2318:43: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:2318:43: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:2318:43: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:2878:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *tsk @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/deadline.c:2878:38: sparse:     expected struct task_struct *tsk
-   kernel/sched/deadline.c:2878:38: sparse:     got struct task_struct [noderef] __rcu *curr
-   kernel/sched/deadline.c:2880:23: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/deadline.c:2880:23: sparse:     expected struct task_struct *p
-   kernel/sched/deadline.c:2880:23: sparse:     got struct task_struct [noderef] __rcu *donor
-   kernel/sched/deadline.c:2882:44: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct sched_dl_entity const *b @@     got struct sched_dl_entity [noderef] __rcu * @@
-   kernel/sched/deadline.c:2882:44: sparse:     expected struct sched_dl_entity const *b
-   kernel/sched/deadline.c:2882:44: sparse:     got struct sched_dl_entity [noderef] __rcu *
-   kernel/sched/deadline.c:3071:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/deadline.c:3071:23: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/deadline.c:3071:23: sparse:    struct task_struct *
-   kernel/sched/deadline.c:3120:32: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/syscalls.c:206:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/syscalls.c:206:22: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/syscalls.c:206:22: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/sched.h:2276:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2276:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2276:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2276:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2276:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2276:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2287:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2287:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2287:26: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/rt.c:2413:45: sparse: sparse: dereference of noderef expression
-   kernel/sched/build_policy.c: note: in included file:
->> kernel/sched/sched.h:2627:35: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *donor @@
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/rt.c:2456:32: sparse: sparse: dereference of noderef expression
-   kernel/sched/rt.c:2457:32: sparse: sparse: dereference of noderef expression
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/sched.h:2276:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2276:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2276:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2287:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2287:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2287:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2276:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2276:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2276:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2276:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2276:25: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2276:25: sparse:    struct task_struct *
-   kernel/sched/sched.h:2287:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2287:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2287:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2287:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2287:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2287:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2476:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2476:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2476:9: sparse:    struct task_struct *
-   kernel/sched/sched.h:2287:26: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2287:26: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2287:26: sparse:    struct task_struct *
-   kernel/sched/sched.h:2476:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   kernel/sched/sched.h:2476:9: sparse:    struct task_struct [noderef] __rcu *
-   kernel/sched/sched.h:2476:9: sparse:    struct task_struct *
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/syscalls.c:1296:6: sparse: sparse: context imbalance in 'sched_getaffinity' - different lock contexts for basic block
-   kernel/sched/build_policy.c: note: in included file:
-   kernel/sched/rt.c:1767:15: sparse: sparse: dereference of noderef expression
+All errors (new ones prefixed by >>):
 
-vim +2627 kernel/sched/sched.h
+   ld: sound/soc/intel/atom/sst/sst_acpi.o: in function `sst_acpi_probe':
+>> sound/soc/intel/atom/sst/sst_acpi.c:272: undefined reference to `snd_intel_acpi_dsp_driver_probe'
 
-04746ed80bcf31 Ingo Molnar               2024-04-07  2624  
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2625  static inline struct task_struct *get_push_task(struct rq *rq)
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2626  {
-af0c8b2bf67b25 Peter Zijlstra            2024-10-09 @2627  	struct task_struct *p = rq->donor;
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2628  
-5cb9eaa3d274f7 Peter Zijlstra            2020-11-17  2629  	lockdep_assert_rq_held(rq);
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2630  
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2631  	if (rq->push_busy)
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2632  		return NULL;
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2633  
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2634  	if (p->nr_cpus_allowed == 1)
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2635  		return NULL;
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2636  
-e681dcbaa4b284 Sebastian Andrzej Siewior 2021-08-26  2637  	if (p->migration_disabled)
-e681dcbaa4b284 Sebastian Andrzej Siewior 2021-08-26  2638  		return NULL;
-e681dcbaa4b284 Sebastian Andrzej Siewior 2021-08-26  2639  
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2640  	rq->push_busy = true;
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2641  	return get_task_struct(p);
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2642  }
-a7c81556ec4d34 Peter Zijlstra            2020-09-28  2643  
+
+vim +272 sound/soc/intel/atom/sst/sst_acpi.c
+
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  255  
+5129ad6e4e6999 sound/soc/intel/sst/sst_acpi.c      Wei Yongjun          2014-12-09  256  static int sst_acpi_probe(struct platform_device *pdev)
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  257  {
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  258  	struct device *dev = &pdev->dev;
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  259  	int ret = 0;
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  260  	struct intel_sst_drv *ctx;
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  261  	const struct acpi_device_id *id;
+7feb2f786a46d3 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2017-10-12  262  	struct snd_soc_acpi_mach *mach;
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  263  	struct platform_device *mdev;
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  264  	struct platform_device *plat_dev;
+12cc291b0b5850 sound/soc/intel/atom/sst/sst_acpi.c Vinod Koul           2015-11-05  265  	struct sst_platform_info *pdata;
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  266  	unsigned int dev_id;
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  267  
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  268  	id = acpi_match_device(dev->driver->acpi_match_table, dev);
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  269  	if (!id)
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  270  		return -ENODEV;
+df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12  271  
+df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12 @272  	ret = snd_intel_acpi_dsp_driver_probe(dev, id->id);
+df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12  273  	if (ret != SND_INTEL_DSP_DRIVER_ANY && ret != SND_INTEL_DSP_DRIVER_SST) {
+df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12  274  		dev_dbg(dev, "SST ACPI driver not selected, aborting probe\n");
+df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12  275  		return -ENODEV;
+df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12  276  	}
+df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12  277  
+1635c694124fe6 sound/soc/intel/atom/sst/sst_acpi.c Colin Ian King       2016-09-16  278  	dev_dbg(dev, "for %s\n", id->id);
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  279  
+7feb2f786a46d3 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2017-10-12  280  	mach = (struct snd_soc_acpi_mach *)id->driver_data;
+7feb2f786a46d3 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2017-10-12  281  	mach = snd_soc_acpi_find_machine(mach);
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  282  	if (mach == NULL) {
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  283  		dev_err(dev, "No matching machine driver found\n");
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  284  		return -ENODEV;
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  285  	}
+73a33f6f6d44db sound/soc/intel/atom/sst/sst_acpi.c Vinod Koul           2016-07-08  286  
+536cfd2f375d36 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2019-05-30  287  	if (soc_intel_is_byt())
+6004640638a2cb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2017-10-12  288  		mach->pdata = &byt_rvp_platform_data;
+6004640638a2cb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2017-10-12  289  	else
+6004640638a2cb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2017-10-12  290  		mach->pdata = &chv_platform_data;
+12cc291b0b5850 sound/soc/intel/atom/sst/sst_acpi.c Vinod Koul           2015-11-05  291  	pdata = mach->pdata;
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  292  
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  293  	if (!strcmp(id->id, "LPE0F28")) {
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  294  		struct resource *rsrc;
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  295  
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  296  		/* Use regular BYT SST PCI VID:PID */
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  297  		dev_id = 0x80860F28;
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  298  		byt_rvp_platform_data.res_info = &lpe8086_res_info;
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  299  
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  300  		/*
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  301  		 * The "LPE0F28" ACPI device has separate IO-mem resources for:
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  302  		 * DDR, SHIM, MBOX, IRAM, DRAM, CFG
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  303  		 * None of which covers the entire LPE base address range.
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  304  		 * lpe8086_res_info.acpi_lpe_res_index points to the SHIM.
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  305  		 * Patch this to cover the entire base address range as expected
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  306  		 * by sst_platform_get_resources().
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  307  		 */
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  308  		rsrc = platform_get_resource(pdev, IORESOURCE_MEM,
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  309  					     pdata->res_info->acpi_lpe_res_index);
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  310  		if (!rsrc) {
+c1895ba181e560 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-26  311  			dev_err(dev, "Invalid SHIM base\n");
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  312  			return -EIO;
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  313  		}
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  314  		rsrc->start -= pdata->res_info->shim_offset;
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  315  		rsrc->end = rsrc->start + 0x200000 - 1;
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  316  	} else {
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  317  		ret = kstrtouint(id->id, 16, &dev_id);
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  318  		if (ret < 0) {
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  319  			dev_err(dev, "Unique device id conversion error: %d\n", ret);
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  320  			return ret;
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  321  		}
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  322  
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  323  		if (soc_intel_is_byt_cr(pdev))
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  324  			byt_rvp_platform_data.res_info = &bytcr_res_info;
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  325  	}
+6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  326  
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  327  	dev_dbg(dev, "ACPI device id: %x\n", dev_id);
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  328  
+a68bc0d43e1b96 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-08-12  329  	ret = sst_alloc_drv_context(&ctx, dev, dev_id);
+a68bc0d43e1b96 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-08-12  330  	if (ret < 0)
+a68bc0d43e1b96 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-08-12  331  		return ret;
+a68bc0d43e1b96 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-08-12  332  
+3ee1cd4f81e15f sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2018-11-01  333  	/* update machine parameters */
+3ee1cd4f81e15f sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2018-11-01  334  	mach->mach_params.acpi_ipc_irq_index =
+3ee1cd4f81e15f sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2018-11-01  335  		pdata->res_info->acpi_ipc_irq_index;
+3ee1cd4f81e15f sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2018-11-01  336  
+caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  337  	plat_dev = platform_device_register_data(dev, pdata->platform, -1,
+caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  338  						NULL, 0);
+f5d40b400fe2de sound/soc/intel/sst/sst_acpi.c      Wei Yongjun          2014-12-09  339  	if (IS_ERR(plat_dev)) {
+caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  340  		dev_err(dev, "Failed to create machine device: %s\n",
+caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  341  			pdata->platform);
+f5d40b400fe2de sound/soc/intel/sst/sst_acpi.c      Wei Yongjun          2014-12-09  342  		return PTR_ERR(plat_dev);
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  343  	}
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  344  
+caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  345  	/*
+caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  346  	 * Create platform device for sst machine driver,
+caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  347  	 * pass machine info as pdata
+caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  348  	 */
+caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  349  	mdev = platform_device_register_data(dev, mach->drv_name, -1,
+caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  350  					(const void *)mach, sizeof(*mach));
+f5d40b400fe2de sound/soc/intel/sst/sst_acpi.c      Wei Yongjun          2014-12-09  351  	if (IS_ERR(mdev)) {
+caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  352  		dev_err(dev, "Failed to create machine device: %s\n",
+caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  353  			mach->drv_name);
+f5d40b400fe2de sound/soc/intel/sst/sst_acpi.c      Wei Yongjun          2014-12-09  354  		return PTR_ERR(mdev);
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  355  	}
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  356  
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  357  	/* Fill sst platform data */
+12cc291b0b5850 sound/soc/intel/atom/sst/sst_acpi.c Vinod Koul           2015-11-05  358  	ctx->pdata = pdata;
+12cc291b0b5850 sound/soc/intel/atom/sst/sst_acpi.c Vinod Koul           2015-11-05  359  	strcpy(ctx->firmware_name, mach->fw_filename);
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  360  
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  361  	ret = sst_platform_get_resources(ctx);
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  362  	if (ret)
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  363  		return ret;
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  364  
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  365  	ret = sst_context_init(ctx);
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  366  	if (ret < 0)
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  367  		return ret;
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  368  
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  369  	sst_configure_runtime_pm(ctx);
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  370  	platform_set_drvdata(pdev, ctx);
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  371  	return ret;
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  372  }
+336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  373  
+
+:::::: The code at line 272 was first introduced by commit
+:::::: df5f5edaef4b653fa731dcf3753e71766f95c2cd ASoC: Intel: Atom: add dynamic selection of DSP driver
+
+:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
