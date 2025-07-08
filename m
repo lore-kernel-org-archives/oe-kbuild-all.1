@@ -1,254 +1,168 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011037.outbound.protection.outlook.com [52.101.65.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C6021C861A
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Jul 2025 01:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751937898; cv=none; b=RHTxuaeBY1YwxezYxWs3IGxlJOv54xi19Ie8B+V0pDuytesj39wNoy6r8MZESSJLehtUCXlDW5608qwTKWxYTH4vTvzty6TBXVkFcS9qcNtE6mmW0Ombv/G6J6RssHW0PVUfMsJKFbDrdAwdyaKQwHfj1QYivFOB4ro62QpLGy0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751937898; c=relaxed/simple;
-	bh=MIDVhEgAB169QqTlSVsFtDhTinag8m90y/fMUqxOgPo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uzd7xSm5n1RQwRjXFECmqKy4hWQeFm0tXOwaDsNpk03LGmfHCZJLMHY4yCz/kZoOqDSTHHWDul5C66BgPQF47Z6htuYOZcyghf6Pfd8KN6McfsUPkdsS/4FlZ9SNLM+IntupXrpRzPtPlkbXIdFlTqmbMF4sf5ZPmHUHwMqKLJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k2Xl1lu7; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF372198A2F
+	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Jul 2025 01:30:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1751938223; cv=fail; b=VwKT4BkobopVsgzC8aqSZo+2kSKQYn4k/lapSrO6RReVpytg8NzTCZ8QtKphJDQ44/FrY2kgplT+Y721tlU6vxX+utoYTwoO/xpwecEW2WaeHuqNvxFdbZjZwA2mURAa5w1X+umg5nJQGTrzaAFuJC/WsvzALQF+BNHIzTceQts=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1751938223; c=relaxed/simple;
+	bh=FGLmT679zlvhfKHNQivVQ9EJgtfMz2GaqXpeuz8BnSc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=F3vfUZqJ4aQ8s1Tm31oGIBnB92j6ZJ0ie884C+/y3S4scGHvvB3q94FvzCwS1HBO58r5Pegyg0FQUUR95RKoXrXfPui7WkVH3y879KtRMHNyGp5QImXOQ+o/FbK6H3AeofSNBnQpELiI5SjmbxnO2U/hdeOesfkjbjfFpjb6Dig=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=c2qwJKz8; arc=fail smtp.client-ip=52.101.65.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k2Xl1lu7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751937895; x=1783473895;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MIDVhEgAB169QqTlSVsFtDhTinag8m90y/fMUqxOgPo=;
-  b=k2Xl1lu7vLHAs6212MjbbWnCeyhg+KocB82QximXtpDQC/Ob27t++boe
-   oovio5w/hBsjpbCA+w7xpeVLyMn18sAXU1cdWNn9LRIHOxQq719H/AH5I
-   v7V5PPCpqmu7P5gcIJTbRM1jiH7ztnYlUxt2pUMI0S7XfhigAexNLcpgw
-   +GcqiE143xSMPQ70SWsgHkRWGfEEH59r3jaH9xzGsRtuUNxYAhAyij5tc
-   thSS7+mLK4RG7qWy/GAYmuh60OvfiR5CxnRnRdfi5r/HkZTzzNW4ZjVIi
-   9r2G8ZH8jEFx8yzb9hIXS/GdUniTBfLsshvDBDpmA53EYSQeDG1TZhRFp
-   A==;
-X-CSE-ConnectionGUID: 31ytTrhIQTWJKpBpWMoENQ==
-X-CSE-MsgGUID: 6+f1L/FFSiu8438FbYGxfw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="53884008"
-X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; 
-   d="scan'208";a="53884008"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 18:24:54 -0700
-X-CSE-ConnectionGUID: oN4UjozlRv+lsfmDQ4/GCA==
-X-CSE-MsgGUID: y6W1Lg93RuuZTOwEXXXkeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,295,1744095600"; 
-   d="scan'208";a="186318590"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 07 Jul 2025 18:24:53 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uYx4k-0000tT-38;
-	Tue, 08 Jul 2025 01:24:50 +0000
-Date: Tue, 8 Jul 2025 09:24:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2467/2467]
- drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_probe.c:549:5: error: no
- previous prototype for 'sss_pci_probe'
-Message-ID: <202507080923.Gxei1X4A-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="c2qwJKz8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tQJgBwO9O4TntbH1Aj8mcV31PzjqZ78WZv+3uPpICKSzEbEOi6JslqNBHLe7Sl/EnQJjmus+s2b4kAJZG5NNNVWfYze3cR1NzgZSuE8vzbMuohKHRr5gtSNN6erNiSGSkRgtlhBxlSHrrbWk5vQLmw9FReY6sB9FUNFL0NdlZvMZ3e/vvqKRhhUINp9nxoy+4Bi3d9mwyk9YsFWAOjc32TJ+gWDN3BwHgth575yCr/R4QX3xO73Mz5ep5HKEoBM9C26KHQBS7WVReY8vktQSCVlSh4ItZnVdSPI7MDfJjfVL11NwxQ/1tYHDJ4DFwT4beLqr6Bc0bYq2/1xmT0+72g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8W/luRR3QCta+d94r/MHvwb/xcvA0ztH17z6JfrQlCI=;
+ b=Q9gmh8pKZrLL13aAmnC4VFbXY6Jg9VC+yjCQlSHkCJiwu+pghaC+RofOtE/ik5USFQ2KgpvXpZ75X4/Z7FBIepzKwjNqlNxwJCJDpw4B6kSOA3o++fHf5W3HcckW2AWrw/c9jw+gh8h7EwdHNKyfnBn3q9ssLCnnaTtBHze5gxKGPyG//bShEVTXce44xsNoA6KwRLVxWq3Ue8qLJ/R95UZ4wFrboO/DZbT00Q4F6kVAn++qczns+YjP/FfKT1jgGsZcYCrbudY0EZ31Kgvm6fOz6n6DP7gDNWB2QfCimjigPBNW7+89lZNvswM2aGky8/qmi1ibQnhFGpv8zoMa2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8W/luRR3QCta+d94r/MHvwb/xcvA0ztH17z6JfrQlCI=;
+ b=c2qwJKz86Q1twd0B9/KzF6U8T1IxYfrYCiKMSXS4GwuwFLEiPXQvWxuRy3hOjbzFTvYfYwXmKcjBdiIgEGDlINmHD6gZU9+XsHXmZenaho9Ms3pXbolM8I0+Z634LsLkOT7IwmM+lTq2qOuyLZPjwXE+7vKm+LMEDYK2FnQFAnEIYDArq945A8RjBan5rPHQKuXqBOHIXxaauG+3IWjrClliGgoCZzcjuBEkwgSyW/En7Cytxa1aZukgQNfe0cr92S/7T0wujI423cLljRd0mM5evWly7WrU9qSMpI8ypcab1nRDCG0bWhHhxBeR3WmMIUpIhz5y7hw5DDKf6IYpDQ==
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com (2603:10a6:102:1da::15)
+ by DB4PR04MB11278.eurprd04.prod.outlook.com (2603:10a6:10:5e5::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.25; Tue, 8 Jul
+ 2025 01:30:15 +0000
+Received: from PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630]) by PAXPR04MB8459.eurprd04.prod.outlook.com
+ ([fe80::165a:30a2:5835:9630%7]) with mapi id 15.20.8901.024; Tue, 8 Jul 2025
+ 01:30:15 +0000
+From: Peng Fan <peng.fan@nxp.com>
+To: kernel test robot <lkp@intel.com>, Sudeep Holla <sudeep.holla@arm.com>
+CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>, Cristian
+ Marussi <cristian.marussi@arm.com>
+Subject: RE: [sudeep-holla:for-next/scmi/updates 5/6]
+ drivers/firmware/arm_scmi/bus.c:349:33: error: 'scmi_pm_suspend' undeclared
+ here (not in a function)
+Thread-Topic: [sudeep-holla:for-next/scmi/updates 5/6]
+ drivers/firmware/arm_scmi/bus.c:349:33: error: 'scmi_pm_suspend' undeclared
+ here (not in a function)
+Thread-Index: AQHb71TYaP52xMML7UeWyXx2Jmv53bQncDGA
+Date: Tue, 8 Jul 2025 01:30:15 +0000
+Message-ID:
+ <PAXPR04MB845932CD9E1C87FA1A4F72BC884EA@PAXPR04MB8459.eurprd04.prod.outlook.com>
+References: <202507072359.Hfy79Adu-lkp@intel.com>
+In-Reply-To: <202507072359.Hfy79Adu-lkp@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR04MB8459:EE_|DB4PR04MB11278:EE_
+x-ms-office365-filtering-correlation-id: 327f9744-73c7-4e58-fe49-08ddbdbefdb2
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|19092799006|38070700018;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?zGc4nuRuXmUmnTy+mOE0HcN/jhpsrFDIF9tLZbJDuvgzZFVeruVkzHo88Fvf?=
+ =?us-ascii?Q?FCQdb5qNL6wL2fEorIwhgDMLtSVXJ/4S4TB0NDx3RwM0dIoxNxmpNLGgly/+?=
+ =?us-ascii?Q?K0XD3l+VBcGpnb8pERyC3KbYG8v4wSRj/mXSzoiLkLlVFBiNUae1oiS6ly/c?=
+ =?us-ascii?Q?6lcCFtnKd7lOURlPe0N/Mlbpb3mv8SfYrqvoG6Uwfx55fEpEcgGFWn2SdPvt?=
+ =?us-ascii?Q?blqDz21VxgXm8LBEWcl3VmJE6KzuRIRTXm7XrFasGy/rFlvMXNgTAjLi4J0D?=
+ =?us-ascii?Q?YJPBkY1jxbsAR3NpGbW9hLQxfGKJmvy5Q82mUUGVycw72TMjmg+qt244GbGb?=
+ =?us-ascii?Q?3F4KJPJ8OWWfv939/eQuEb3Fn/7psvxH/O053uy3GAjIgPkJC/y21yqz8wLO?=
+ =?us-ascii?Q?MQ6mxvcfEdPGG5NNpWHJ9qPE3LBsfzHyZkVRfBfmJ5LHlBQ12sc3B65hRBSF?=
+ =?us-ascii?Q?ACJxyl++OpJ2+tRT/bCNibAX1SVgG0ysrJUhbx2mi+Oe9VnVV3pXCWczT+pe?=
+ =?us-ascii?Q?EvZhiU32IGR3V5SJOpNbkpc92OvMjqeBCsws/DwIYyImgDJ1B7+gkGHm9ZAF?=
+ =?us-ascii?Q?KE+lc9VFR7Ghmv+/yn8AfpKmZIabR6WGEc2OxghHuzG+KdKD9Z8/32h7C+i3?=
+ =?us-ascii?Q?j+8Lcez7JYW/xN8iVtW2heqafj4DwVgUJi4eR5d93BrL0MpYkFNWkhfT6l7T?=
+ =?us-ascii?Q?5z7ku7O2BTus+yUP6CUBOJuxowZC3IX9JvMpYdfUyXr3fTUpCA4ZIBNKXqE6?=
+ =?us-ascii?Q?kO0zXRbw7XlBpaubhqdGUakxbWERZGcj9Jg+IDe8ZegAgBUSDSvVDsQcFnxL?=
+ =?us-ascii?Q?/5b65astU9HBfGLTJdu9YGqImhG6etmpVtSwvLs+jFkPKJC0hqRVb3WPAS6/?=
+ =?us-ascii?Q?RkfiTtfkNHcmTLeOXJBP4hp6BK5ZccOvMF0DFr1uSCQ0O5xz2z1K3Xr64w4e?=
+ =?us-ascii?Q?lzOup8q1vtyjL6D4+E1Ye6FJFN6Utmmx8kAj2iCuYWA2OnlUm7Ebo4SYLDjA?=
+ =?us-ascii?Q?WudxX1JCW4c0gpuJfLsrOgHZVv3BwmRWD9osRrKmh3vCefPipZL3HdJUSWuL?=
+ =?us-ascii?Q?sxvpI2uOnqSKW7BvbkxmiYPpNxDbYXflXveHn2hkIot2S2CAOK2UM4oGJ0G6?=
+ =?us-ascii?Q?H4YF6qaRXMf6QJKXJDe7Ftb4l/XsU2ApZMsWDHhtfV9+pqTS0egvTL2HQANf?=
+ =?us-ascii?Q?8P59mmTe990dpkq4EEaxZxbCoXwCJZ0n4YYBRJR5rB6ebI+SVaDS0X6ITkI7?=
+ =?us-ascii?Q?BGxuzAgjA8b3WzyVSpuZYLu0kZADa1MqXDFXUYrU1StS15aom3BjUKp6E6H2?=
+ =?us-ascii?Q?KjJS0lx78h4jOIhbp2UF5quMzIDPzEVcmweIyNrSaq3Afy426o8Ov+NWzyJx?=
+ =?us-ascii?Q?Z1wBHEsSBoB3E09mRYRn7QZpsJ/xLHr/yoODD2VkMA2Z4TBPiYus0NekBB1U?=
+ =?us-ascii?Q?PewAl2JgiCYWG/MB/LA/ZnX9FpHwuFvnKQPw8EO/Z+WTnfk60c7DZfv8+cYP?=
+ =?us-ascii?Q?GpU2krS0vtn6mwI=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8459.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(19092799006)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?a3CBKESOPn9ZRMSwrDV7AxyKlQO/LLzKCRlTdfZNrIdE39refkMBSDKfS26I?=
+ =?us-ascii?Q?hyhnqMUCudC2ybu37VpDO4WNB2qWS5s50Kbm96udzNQD+DDkpRa8TGeW8Nzr?=
+ =?us-ascii?Q?N6M8grHcE1YTXg+j9M47zz3RQvVrscvZQBTDXfDt5SZ6YToQaChVDor79cmO?=
+ =?us-ascii?Q?IF2oa6jjqvXDu5gbOU21UVQniHTcJN7MrgX4mVsL/bZP4KbsCQ7wHBXaWqfn?=
+ =?us-ascii?Q?tDYeldSpR+82+SH6bEhziGFdc+/XqmymGXbzvZoL9jVO3f0GsqRjt45VI0GL?=
+ =?us-ascii?Q?ODQZRiP4eOsaSaPiUQxKcOriALoGKARPLLUSbyijeDCNKvYWAqLcXun/i/j/?=
+ =?us-ascii?Q?fiMmMi6MRjB4cOuBGEWkJPhOijoXY7WA98lYOkaqfzP30ifz3CUY42DU3/QL?=
+ =?us-ascii?Q?FTtjdswjzE3xCYhUToQNZa/OqysECM0BLef1G26EdFSZhKQCy/y3i/FxztN2?=
+ =?us-ascii?Q?7KbRSSv21+X32ezdg30tSCTRSckFsifsTcjAbRqOWCJ6+7GvOQ4Ndd7UtU7+?=
+ =?us-ascii?Q?ft6qC7ZHUrasf/+QwE5iJW/mW8pbZfcjhsk6DNyPVTrIh9gj9xPYrEAli7bq?=
+ =?us-ascii?Q?ljEq9ZyIgEqn0gJXehNyhXUaLL3b61uaX5EW2i43O/INktVze6ENTyUnvXyb?=
+ =?us-ascii?Q?hjRe+10WrH485G0l/ZFfTh6t3DH/GEWz6GgOarBshQ+5LWiZ30y3ZcESEaCL?=
+ =?us-ascii?Q?qw5BUyUPFz7jtp5p7hUc3aHnQOlRjFEtov19NDpvHNIBch/yeM7ydCgJtQRl?=
+ =?us-ascii?Q?VyR/zmK3nj8l4ZKVKS6tEmb9UO7Syhs7jdrZTOZE2woW7abf7oCOJVoKa7n6?=
+ =?us-ascii?Q?ui1hWTxgnd1Htt9qMJPnVa0mazvm2jT5DgO8uFJclmS2ZPm7DCJDxx2BbLTs?=
+ =?us-ascii?Q?gFPkkd+G93JRM/2DIKqmi8MCLiQHCzPxMuvlDpVHEQiUxpi1g1J2b8gUAeMh?=
+ =?us-ascii?Q?fX/897HmSkTAurnEiXNXt1PFlP56Wb5dD1faspLxEGi1/oKE8O5bMnrr5gF2?=
+ =?us-ascii?Q?hk6b86Fh5ACpgrhfcB/kdJNjkEDxqFHv1iGkQXlnuyxy517121tL+kjS35dx?=
+ =?us-ascii?Q?GSmHS9a4rkcasNDnK+A3NTWi99a9xT2Gp7Gct9Ii+gMm8Kq3Cxfbtbj+GItD?=
+ =?us-ascii?Q?NwQp/p8haLM3sLM1wfbMjfdiwSCb3bZZ2qjbmxKXVe0G/o43oTglPtW9WuEo?=
+ =?us-ascii?Q?B7wtEeyfKInTbCE+Jt8NesORyOqlQKa8jmhCKn2ML+5QJ/5XY3T3nRYulKEP?=
+ =?us-ascii?Q?IB2oFIFmQ5PJuL8Xqa8Lmnl21IGajDFoeoqsCga7FktlmNNu4R8N0fguV1IX?=
+ =?us-ascii?Q?8ZbXvYJ0Qu6eDWfNdMEpbBBVEtJ+c7BwGPjS8faFYNZAgK6x1/vk1cuWd0g/?=
+ =?us-ascii?Q?GyfhfM5bI4qlMAgVR0PhY8pNXhvswIPwzmCIdlP5nirvuYHbnSmau/Rl6pdB?=
+ =?us-ascii?Q?K04hANzwsuU4o5jicuufFf1eJ78JVfhSt++0NJISoNfUICTXsQpIbZ7pJEww?=
+ =?us-ascii?Q?qgWSmAK8gYSvr4n9KbLgFDgYHdrkJxiK8GiSGYn69NFGI2s4KMfscNS23XaD?=
+ =?us-ascii?Q?zxY9ZZi5S+0CNHoVyZM=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8459.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 327f9744-73c7-4e58-fe49-08ddbdbefdb2
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jul 2025 01:30:15.4145
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GhhkKLsrbA4VhN7DpWccWSILLGcbM23/vkziVVsefN2wmTKpsmbNwF2RroD63U2KhYgOxQzA/LURJy8nTKCKvQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB4PR04MB11278
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   6b0fae63a73913be2bf981e780e69590ccb489ed
-commit: 1ff5e78839ab1038757ebfd00f0a26ae53e64bda [2467/2467] improve 3SNIC 910/920/930 NIC driver
-config: x86_64-randconfig-102-20250706 (https://download.01.org/0day-ci/archive/20250708/202507080923.Gxei1X4A-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507080923.Gxei1X4A-lkp@intel.com/reproduce)
+> drivers/firmware/arm_scmi/bus.c:349:33: error: 'scmi_pm_suspend'
+> undeclared here (not in a function)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507080923.Gxei1X4A-lkp@intel.com/
+I downloaded toolchain from [1] and export CROSS_COMPILE=3Di386-linux-
 
-All errors (new ones prefixed by >>):
+But not able to reproduce this issue:
+  CC      drivers/firmware/arm_scmi/bus.o
+  CC      drivers/firmware/arm_scmi/driver.o
+  CC      drivers/firmware/arm_scmi/notify.o
+  CC      drivers/firmware/arm_scmi/quirks.o
 
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_probe.c:277:5: error: no previous prototype for 'sss_attach_uld_driver' [-Werror=missing-prototypes]
-     277 | int sss_attach_uld_driver(struct sss_pci_adapter *adapter,
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_probe.c:549:5: error: no previous prototype for 'sss_pci_probe' [-Werror=missing-prototypes]
-     549 | int sss_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-         |     ^~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_remove.c:91:6: error: no previous prototype for 'sss_detach_uld_driver' [-Werror=missing-prototypes]
-      91 | void sss_detach_uld_driver(struct sss_pci_adapter *adapter,
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_remove.c:121:6: error: no previous prototype for 'sss_detach_all_uld_driver' [-Werror=missing-prototypes]
-     121 | void sss_detach_all_uld_driver(struct sss_pci_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_remove.c:139:6: error: no previous prototype for 'sss_dettach_uld_dev' [-Werror=missing-prototypes]
-     139 | void sss_dettach_uld_dev(struct sss_pci_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_remove.c:180:6: error: no previous prototype for 'sss_deinit_function' [-Werror=missing-prototypes]
-     180 | void sss_deinit_function(struct pci_dev *pdev)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_remove.c:201:6: error: no previous prototype for 'sss_unmap_pci_bar' [-Werror=missing-prototypes]
-     201 | void sss_unmap_pci_bar(struct sss_pci_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_remove.c:212:5: error: no previous prototype for 'sss_deinit_adapter' [-Werror=missing-prototypes]
-     212 | int sss_deinit_adapter(struct sss_pci_adapter *adapter)
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_remove.c:238:6: error: no previous prototype for 'sss_deinit_pci_dev' [-Werror=missing-prototypes]
-     238 | void sss_deinit_pci_dev(struct pci_dev *pdev)
-         |      ^~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_remove.c:250:6: error: no previous prototype for 'sss_pci_remove' [-Werror=missing-prototypes]
-     250 | void sss_pci_remove(struct pci_dev *pdev)
-         |      ^~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_shutdown.c:28:6: error: no previous prototype for 'sss_pci_shutdown' [-Werror=missing-prototypes]
-      28 | void sss_pci_shutdown(struct pci_dev *pdev)
-         |      ^~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_error.c:34:18: error: no previous prototype for 'sss_detect_pci_error' [-Werror=missing-prototypes]
-      34 | pci_ers_result_t sss_detect_pci_error(struct pci_dev *pdev,
-         |                  ^~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_global.c:37:6: error: no previous prototype for 'sss_init_uld_lock' [-Werror=missing-prototypes]
-      37 | void sss_init_uld_lock(void)
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_global.c:42:6: error: no previous prototype for 'sss_lock_uld' [-Werror=missing-prototypes]
-      42 | void sss_lock_uld(void)
-         |      ^~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_global.c:47:6: error: no previous prototype for 'sss_unlock_uld' [-Werror=missing-prototypes]
-      47 | void sss_unlock_uld(void)
-         |      ^~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_global.c:52:14: error: no previous prototype for 'sss_get_uld_names' [-Werror=missing-prototypes]
-      52 | const char **sss_get_uld_names(void)
-         |              ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_global.c:57:22: error: no previous prototype for 'sss_get_uld_info' [-Werror=missing-prototypes]
-      57 | struct sss_uld_info *sss_get_uld_info(void)
-         |                      ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_global.c:62:6: error: no previous prototype for 'sss_attach_is_enable' [-Werror=missing-prototypes]
-      62 | bool sss_attach_is_enable(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
-   drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwdev_init.c: In function 'sss_heartbeat_lost_handler':
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwdev_init.c:185:13: error: variable 'pcie_src' set but not used [-Werror=unused-but-set-variable]
-     185 |         u16 pcie_src;
-         |             ^~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwdev_init.c:184:13: error: variable 'fault_level' set but not used [-Werror=unused-but-set-variable]
-     184 |         u16 fault_level;
-         |             ^~~~~~~~~~~
-   drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwdev_init.c: At top level:
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwdev_init.c:384:5: error: no previous prototype for 'sss_init_hwdev' [-Werror=missing-prototypes]
-     384 | int sss_init_hwdev(struct sss_pci_adapter *adapter)
-         |     ^~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwdev_init.c:487:6: error: no previous prototype for 'sss_deinit_hwdev' [-Werror=missing-prototypes]
-     487 | void sss_deinit_hwdev(void *hwdev)
-         |      ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwdev_init.c:518:6: error: no previous prototype for 'sss_hwdev_stop' [-Werror=missing-prototypes]
-     518 | void sss_hwdev_stop(void *hwdev)
-         |      ^~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwdev_init.c:531:6: error: no previous prototype for 'sss_hwdev_detach' [-Werror=missing-prototypes]
-     531 | void sss_hwdev_detach(void *hwdev)
-         |      ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwdev_init.c:539:6: error: no previous prototype for 'sss_hwdev_shutdown' [-Werror=missing-prototypes]
-     539 | void sss_hwdev_shutdown(void *hwdev)
-         |      ^~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwdev_mgmt_info.c:54:5: error: no previous prototype for 'sss_init_mgmt_info' [-Werror=missing-prototypes]
-      54 | int sss_init_mgmt_info(struct sss_hwdev *hwdev)
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwdev_mgmt_info.c:90:6: error: no previous prototype for 'sss_deinit_mgmt_info' [-Werror=missing-prototypes]
-      90 | void sss_deinit_mgmt_info(struct sss_hwdev *hwdev)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwdev_io_flush.c:91:5: error: no previous prototype for 'sss_hwdev_flush_io' [-Werror=missing-prototypes]
-      91 | int sss_hwdev_flush_io(struct sss_hwdev *hwdev, u16 channel)
-         |     ^~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_ctrlq_init.c:278:5: error: no previous prototype for 'sss_reinit_ctrlq_ctx' [-Werror=missing-prototypes]
-     278 | int sss_reinit_ctrlq_ctx(struct sss_hwdev *hwdev)
-         |     ^~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_ctrlq_init.c:368:6: error: no previous prototype for 'sss_deinit_ctrlq' [-Werror=missing-prototypes]
-     368 | void sss_deinit_ctrlq(struct sss_hwdev *hwdev)
-         |      ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_ctrlq_init.c:502:5: error: no previous prototype for 'sss_init_ctrlq_channel' [-Werror=missing-prototypes]
-     502 | int sss_init_ctrlq_channel(struct sss_hwdev *hwdev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_ctrlq_init.c:539:6: error: no previous prototype for 'sss_deinit_ctrlq_channel' [-Werror=missing-prototypes]
-     539 | void sss_deinit_ctrlq_channel(struct sss_hwdev *hwdev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_ctrlq_init.c:548:6: error: no previous prototype for 'sss_ctrlq_flush_sync_cmd' [-Werror=missing-prototypes]
-     548 | void sss_ctrlq_flush_sync_cmd(struct sss_hwdev *hwdev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_ctrlq_init.c:574:5: error: no previous prototype for 'sss_wait_ctrlq_stop' [-Werror=missing-prototypes]
-     574 | int sss_wait_ctrlq_stop(struct sss_hwdev *hwdev)
-         |     ^~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_mbx_init.c:252:5: error: no previous prototype for 'sss_init_func_mbx_msg' [-Werror=missing-prototypes]
-     252 | int sss_init_func_mbx_msg(void *hwdev, u16 func_num)
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_mbx_init.c:401:5: error: no previous prototype for 'sss_hwif_init_mbx' [-Werror=missing-prototypes]
-     401 | int sss_hwif_init_mbx(struct sss_hwdev *hwdev)
-         |     ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_mbx_init.c:449:6: error: no previous prototype for 'sss_hwif_deinit_mbx' [-Werror=missing-prototypes]
-     449 | void sss_hwif_deinit_mbx(struct sss_hwdev *hwdev)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_mbx_init.c:872:6: error: no previous prototype for 'sss_recv_mbx_aeq_handler' [-Werror=missing-prototypes]
-     872 | void sss_recv_mbx_aeq_handler(void *handle, u8 *header, u8 size)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_adm.c:544:5: error: no previous prototype for 'sss_adm_msg_write' [-Werror=missing-prototypes]
-     544 | int sss_adm_msg_write(struct sss_adm_msg *adm_msg, u8 node_id,
-         |     ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_adm.c:550:5: error: no previous prototype for 'sss_adm_msg_read' [-Werror=missing-prototypes]
-     550 | int sss_adm_msg_read(struct sss_adm_msg *adm_msg, u8 node_id,
-         |     ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_adm.c:596:5: error: no previous prototype for 'sss_adm_msg_read_ack' [-Werror=missing-prototypes]
-     596 | int sss_adm_msg_read_ack(void *hwdev, u8 dest, const void *cmd,
-         |     ^~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_adm.c:617:5: error: no previous prototype for 'sss_adm_msg_write_nack' [-Werror=missing-prototypes]
-     617 | int sss_adm_msg_write_nack(void *hwdev, u8 dest, const void *cmd, u16 size)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_hwif_adm.c:681:5: error: no previous prototype for 'sss_sync_send_adm_msg' [-Werror=missing-prototypes]
-     681 | int sss_sync_send_adm_msg(void *hwdev, u8 mod, u16 cmd, void *buf_in,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-..
+Sudeep, Cristian,
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for ACPI_HOTPLUG_IGNORE_OSC
-   Depends on [n]: ACPI [=y] && ACPI_HOTPLUG_PRESENT_CPU [=n]
-   Selected by [y]:
-   - X86 [=y] && ACPI [=y] && HOTPLUG_CPU [=y]
+Do you know what could be the issue here?
 
+Thanks,
+Peng
 
-vim +/sss_pci_probe +549 drivers/net/ethernet/3snic/sssnic/nic/../hw/sss_pci_probe.c
+[1] https://www.kernel.org/pub/tools/crosstool/files/bin/x86_64/12.2.0/
 
-6864d14bb90f03a weiwei1 2024-04-09  548  
-6864d14bb90f03a weiwei1 2024-04-09 @549  int sss_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-
-:::::: The code at line 549 was first introduced by commit
-:::::: 6864d14bb90f03a1e5b7fbcc04fc2ba4d692bd3e support 3SNIC 910/920/930 NIC
-
-:::::: TO: weiwei1 <weiwei1@ramaxel.com>
-:::::: CC: weiwei1 <weiwei1@ramaxel.com>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
