@@ -1,59 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3FA23771E
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Jul 2025 03:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53A9C1E4AB;
+	Tue,  8 Jul 2025 04:11:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751945288; cv=none; b=njElfsXPKBEb1AfnJqJ3GSKR4WlqjE0jsuZR0LSVVZkHvwjkREacppPcUgsAyPuEJ1sJy1Vv6tzLNhiP1clLMIFpB1xNylBewBl5Ahs/cFsLBnangcTxPvHSY+PjJh5w+xsYYv9qW9I0C44FCj2c9Np2DRY6qjehXkhfxhFLlo8=
+	t=1751947881; cv=none; b=HhdcUFB6slYyFHnpgYaUAXMxj16fw/WR3B2ylYDQ+Whz/tdP9s5Ti6BXow6ltKy4+NklPjpJmeohh8IchD9foliEKBoyfo5HPdTf/3Ig72XsbeYTMpw/nWA0UEvdarCQSe/uWHHc1yEPJjRQWJhfOevD5+raqfjxYJK2ug0X1Ow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751945288; c=relaxed/simple;
-	bh=qY/S05QuvfBUAsOTIkjfg2DfXMN22Dj9idGGoT44Aps=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hgRs4xCrpRqOmNIrxgFZPUKC8Oo/RwZwbBYAjtvwffeZYZs7isntpv3/MyBOo9pN1OwUzyVp9wEp8jsrIDKNQApguBxsbGoPXAQr+rkyEEhwvi0dmTNyobS6ngH2eVvs1qjCtQErupIoSU4fy2/l60pb5SBbHeOcf/tgRPgm74c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UmugHypn; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1751947881; c=relaxed/simple;
+	bh=rXWlj/9LA/DLJXLyR14GgKkKykP6BE3a/HJ93b2Dcwk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aVxLW+nz1Y64kWRbPLLWAhNdtsZU5Pur+0DG2Vh4l0acaJIr2yHdfvljybbYAXcDNKAmwdM/VjE9UUvAUkTu/exSecB5pGN74pueV1ShNK2z2XBxEu5Gws+XqnBp4uRG9PuzXoDVad5HxPb/2lNuoVD0vbG9poUj59OYohLXIko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n3sdAxC6; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UmugHypn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n3sdAxC6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751945287; x=1783481287;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qY/S05QuvfBUAsOTIkjfg2DfXMN22Dj9idGGoT44Aps=;
-  b=UmugHypnljfjlGGDuJOsUMXJQBotaoN24vAOpci5GNLH4jl7EkLtuj18
-   2OlGvyzbcBD9H5sQ4qijb3teK0dF0notMCExN7Uxdaci4yBqKtTw754sz
-   U/+ZncPuby4Th3X3YgVuVCwvaRQatU0aUCc31ZCWKSAqsDiGvUtv0VIQ3
-   /7kOLFA4lb2fHWBbb9uti072p7oCgcEGMU7oYvpjYBmWcXg8pNgdHN3GT
-   3Q+IIpHeOqL/c4XItAxiByxclMidx3fOOkweF0b0NjjS1fOfoyAygPqJN
-   X6N0OhZnld2CncMNvSu/bO2DW3LkOfsBWa9mS8TdrC48kXvneH3Rmys/z
-   A==;
-X-CSE-ConnectionGUID: HJ1LBJWqS/itAeDR+0N30A==
-X-CSE-MsgGUID: PneW6x4gR5uLEWTVuLfs0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="56786085"
+  t=1751947879; x=1783483879;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rXWlj/9LA/DLJXLyR14GgKkKykP6BE3a/HJ93b2Dcwk=;
+  b=n3sdAxC678OTAeNNqjjuCvb9IHbVeyrdPhvy4gztBalKxdNytNmH0sAi
+   XeQMl5zeRxbN3xekFr2DbrnMzmYJzoJA8MiZD1P38hv2U5qRXnLxdOTMH
+   qQoHqK6E1h3Cs9fyGYBHNGU6V/WPLaXgEshhSsUcG3+Fk2PvXj+i3sM+o
+   /WxonKTA/eS9lSzCs+14Kf6MCn9M3J9r69eY7jJeibw4KqkiD/l2jsBbG
+   eawMTmLGFLa72SxwjMyTux86E8hZ67TW89IIgxbuYb+kPvLJdGbTUHBHX
+   zYa2SlMXtSNMiOLYJpSQ+J5i2U017sEwQjr3P7b4BX2xvnneSFFcuO7tU
+   Q==;
+X-CSE-ConnectionGUID: 0zZyxdWeSiuudwpeSoF4KQ==
+X-CSE-MsgGUID: fQkbC0OXSdizCVyTRdFChA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54102821"
 X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
-   d="scan'208";a="56786085"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 20:28:06 -0700
-X-CSE-ConnectionGUID: FM7VNwSfQ8O5vjPQDcuWRA==
-X-CSE-MsgGUID: INYHyrvgTk+ouwxYEeysqQ==
+   d="scan'208";a="54102821"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 21:11:18 -0700
+X-CSE-ConnectionGUID: DZoxYoMGRzil7CEsBfKMlQ==
+X-CSE-MsgGUID: u20iTc/lRr6KYeJeE2AD3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
-   d="scan'208";a="192561072"
+   d="scan'208";a="154793097"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 07 Jul 2025 20:28:06 -0700
+  by orviesa006.jf.intel.com with ESMTP; 07 Jul 2025 21:11:09 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uYyzy-0000xP-3C;
-	Tue, 08 Jul 2025 03:28:02 +0000
-Date: Tue, 8 Jul 2025 11:28:00 +0800
+	id 1uYzfe-0000yh-1p;
+	Tue, 08 Jul 2025 04:11:06 +0000
+Date: Tue, 8 Jul 2025 12:10:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android16-6.12-desktop 1/1]
- kernel/locking/ww_mutex.h:294:52: warning: comparison of distinct pointer
- types ('struct mutex *' and 'struct rt_mutex *')
-Message-ID: <202507081129.nrdeQHnj-lkp@intel.com>
+To: Tao Chen <chen.dylane@linux.dev>, ast@kernel.org, daniel@iogearbox.net,
+	john.fastabend@gmail.com, andrii@kernel.org, martin.lau@linux.dev,
+	eddyz87@gmail.com, song@kernel.org, yonghong.song@linux.dev,
+	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+	jolsa@kernel.org, mattbobrowski@google.com, rostedt@goodmis.org,
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, horms@kernel.org, kuniyu@amazon.com,
+	willemb@google.com, jakub@cloudflare.com, pablo@netfilter.org,
+	kadlec@netfilter.org, hawk@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	bpf@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH bpf-next 1/6] bpf: Add attach_type in bpf_link
+Message-ID: <202507081130.devFCURB-lkp@intel.com>
+References: <20250707153916.802802-2-chen.dylane@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,73 +73,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250707153916.802802-2-chen.dylane@linux.dev>
 
-tree:   https://android.googlesource.com/kernel/common android16-6.12-desktop
-head:   d704d6eeb1f202e678a2118fbdae485eab9e7945
-commit: 4f9e4406e4981511e1348e4483eae7c21cd5fe24 [1/1] ANDROID: Update proxy-exec logic from v14 to v18
-config: arm64-randconfig-002-20250708 (https://download.01.org/0day-ci/archive/20250708/202507081129.nrdeQHnj-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507081129.nrdeQHnj-lkp@intel.com/reproduce)
+Hi Tao,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tao-Chen/bpf-Add-attach_type-in-bpf_link/20250707-234517
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250707153916.802802-2-chen.dylane%40linux.dev
+patch subject: [PATCH bpf-next 1/6] bpf: Add attach_type in bpf_link
+config: i386-randconfig-015-20250708 (https://download.01.org/0day-ci/archive/20250708/202507081130.devFCURB-lkp@intel.com/config)
+compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507081130.devFCURB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507081129.nrdeQHnj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507081130.devFCURB-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from kernel/locking/ww_rt_mutex.c:10:
-   In file included from kernel/locking/rtmutex.c:65:
->> kernel/locking/ww_mutex.h:294:52: warning: comparison of distinct pointer types ('struct mutex *' and 'struct rt_mutex *') [-Wcompare-distinct-pointer-types]
-     294 |                 WARN_ON_ONCE(__get_task_blocked_on(waiter->task) != lock);
-         |                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~
-   include/asm-generic/bug.h:184:41: note: expanded from macro 'WARN_ON_ONCE'
-     184 | #define WARN_ON_ONCE(condition) WARN_ON(condition)
-         |                                         ^~~~~~~~~
-   include/asm-generic/bug.h:171:25: note: expanded from macro 'WARN_ON'
-     171 |         int __ret_warn_on = !!(condition);                              \
-         |                                ^~~~~~~~~
-   1 warning generated.
+>> drivers/net/netkit.c:778:32: error: too few arguments to function call, expected 5, have 4
+     777 |         bpf_link_init(&nkl->link, BPF_LINK_TYPE_NETKIT,
+         |         ~~~~~~~~~~~~~
+     778 |                       &netkit_link_lops, prog);
+         |                                              ^
+   include/linux/bpf.h:2534:6: note: 'bpf_link_init' declared here
+    2534 | void bpf_link_init(struct bpf_link *link, enum bpf_link_type type,
+         |      ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2535 |                    const struct bpf_link_ops *ops, struct bpf_prog *prog,
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2536 |                    enum bpf_attach_type attach_type);
+         |                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 error generated.
 
 
-vim +294 kernel/locking/ww_mutex.h
+vim +778 drivers/net/netkit.c
 
-   267	
-   268	/*
-   269	 * Wait-Die; wake a lesser waiter context (when locks held) such that it can
-   270	 * die.
-   271	 *
-   272	 * Among waiters with context, only the first one can have other locks acquired
-   273	 * already (ctx->acquired > 0), because __ww_mutex_add_waiter() and
-   274	 * __ww_mutex_check_kill() wake any but the earliest context.
-   275	 */
-   276	static bool
-   277	__ww_mutex_die(struct MUTEX *lock, struct MUTEX_WAITER *waiter,
-   278		       struct ww_acquire_ctx *ww_ctx, struct wake_q_head *wake_q)
-   279	{
-   280		if (!ww_ctx->is_wait_die)
-   281			return false;
-   282	
-   283		if (waiter->ww_ctx->acquired > 0 && __ww_ctx_less(waiter->ww_ctx, ww_ctx)) {
-   284	#ifndef WW_RT
-   285			debug_mutex_wake_waiter(lock, waiter);
-   286	#endif
-   287			 /* nested as we should hold current->blocked_lock already */
-   288			raw_spin_lock_nested(&waiter->task->blocked_lock, SINGLE_DEPTH_NESTING);
-   289			/*
-   290			 * When waking up the task to die, be sure to set the
-   291			 * blocked_on_state to BO_WAKING. Otherwise we can see
-   292			 * circular blocked_on relationships that can't resolve.
-   293			 */
- > 294			WARN_ON_ONCE(__get_task_blocked_on(waiter->task) != lock);
-   295			__set_blocked_on_waking(waiter->task);
-   296			raw_spin_unlock(&waiter->task->blocked_lock);
-   297			wake_q_add(wake_q, waiter->task);
-   298		}
-   299	
-   300		return true;
-   301	}
-   302	
+35dfaad7188cdc Daniel Borkmann 2023-10-24  770  
+35dfaad7188cdc Daniel Borkmann 2023-10-24  771  static int netkit_link_init(struct netkit_link *nkl,
+35dfaad7188cdc Daniel Borkmann 2023-10-24  772  			    struct bpf_link_primer *link_primer,
+35dfaad7188cdc Daniel Borkmann 2023-10-24  773  			    const union bpf_attr *attr,
+35dfaad7188cdc Daniel Borkmann 2023-10-24  774  			    struct net_device *dev,
+35dfaad7188cdc Daniel Borkmann 2023-10-24  775  			    struct bpf_prog *prog)
+35dfaad7188cdc Daniel Borkmann 2023-10-24  776  {
+35dfaad7188cdc Daniel Borkmann 2023-10-24  777  	bpf_link_init(&nkl->link, BPF_LINK_TYPE_NETKIT,
+35dfaad7188cdc Daniel Borkmann 2023-10-24 @778  		      &netkit_link_lops, prog);
+35dfaad7188cdc Daniel Borkmann 2023-10-24  779  	nkl->location = attr->link_create.attach_type;
+35dfaad7188cdc Daniel Borkmann 2023-10-24  780  	nkl->dev = dev;
+35dfaad7188cdc Daniel Borkmann 2023-10-24  781  	return bpf_link_prime(&nkl->link, link_primer);
+35dfaad7188cdc Daniel Borkmann 2023-10-24  782  }
+35dfaad7188cdc Daniel Borkmann 2023-10-24  783  
 
 -- 
 0-DAY CI Kernel Test Service
