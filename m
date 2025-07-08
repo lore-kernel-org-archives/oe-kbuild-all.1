@@ -1,214 +1,81 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C331718024
-	for <oe-kbuild-all@lists.linux.dev>; Tue,  8 Jul 2025 05:54:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79D3122126C;
+	Tue,  8 Jul 2025 06:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1751954064; cv=none; b=UYkjC5mFzH880DiA8deNA7Zqxcug/RdMEnx+yfY76tTfs11o1B10Yhf1ZVETS5fuVfWSWRI+zLzjJ1NzkfKoMZ8kS0MdbtFLr3c0XV2h3hM3JFIQGwXxw8pmRHgKbEoaQHi18WUsOFV60/fErwJx6vJCEp+nXqWXzaSRCkwRGSc=
+	t=1751957538; cv=none; b=hir5sFZZeKbBv9IrJPH8dHZALf2Bh7a0uR3i43hU4Lc6qfu0RjsoKePCiljZYeskFDbOW106v8MZIrr1FKFSogaKhWOHrlSTqIjc4nzROrwEB98Tq5M6UyAkiaGojP5AVCs1wC8o62x0NhAwRTY8+q3x2dYyNtj+yPVaOFHG5pQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1751954064; c=relaxed/simple;
-	bh=+CHxP4+M1ekWa17UTqWKSrWA6jLeDtXFvbSRz1Kvk6M=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=O8OuZSs3Ir9+C8G3HGLZF9YD6GNWd6ISdSlobUuwqUnofpUOwK/2KPHRT7IckeKq0khxkgWYpFQHZfC5ldwXfcYL7aksGKE1h/gkoGdhp1ClxfjadJfZtda+/8fFHA3tqmL6CgzJPWpDCU6pkYFmZwvtaIDQO0iS0dUH7onKh+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TJOZdgfl; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1751957538; c=relaxed/simple;
+	bh=lBouEhyY4AYTaOHEkyVgq++1q0ex7e59XgWoSNa6o10=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LxWJAk0aFOeSVJ229roZm3bK6DNboo8g+ZkRQRJYKpBFvrmdPFoeC6CwVm9I/1r9H3R5h5bqllue5IE66IApDjkjTDFiKXXLfTXS7vVJK6rIEN9jQqjxx8P+Wjow1ZZoF3xYl2C6hGZhP1VDCuAsJvnmiRHxQatrUTJ5hEiTpXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=BBUC696w; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=ozOZNhpD; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TJOZdgfl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1751954062; x=1783490062;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+CHxP4+M1ekWa17UTqWKSrWA6jLeDtXFvbSRz1Kvk6M=;
-  b=TJOZdgfl7SsLs2b8dClivZ03GnfxfaMFGBSNRGZyuTigRitnemfbnRu4
-   uqjUeFB/ldvJC+kUIX7w3N6bHuIo7XfoEDbVejJ4gf50obEJ91k81IkVJ
-   Qi5Ze4LKePNTawsMWmA9ujkIhusqMgtVUJSBzBuhCW51XJacSyt6AW0jC
-   4KBLw4ExYrzcQO/M5b14CyCMDbYDYbvOXp4rEUBrP4HjPsrQ+zawVUSMY
-   DSPpfqOhBNiEsLrjFigvwB3aE4TPQxjL/ZSNTRbI7HZ1FuxVKT5tjCvQO
-   QgZEfWhXqKQoPB3egytdog1KX9HNGBbr8kQ+Ucqg+FKX8S7GEn5J0Ssz3
-   Q==;
-X-CSE-ConnectionGUID: oPEzgbXjTiiFsoGzM58d4g==
-X-CSE-MsgGUID: rNFz+v0sR8eujYJ9AkwxUA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="57949750"
-X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
-   d="scan'208";a="57949750"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Jul 2025 22:54:21 -0700
-X-CSE-ConnectionGUID: QrwFovJVR0Oc+uRq24F4nw==
-X-CSE-MsgGUID: BjubGk0CQZuVNDHaKQVuSQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,296,1744095600"; 
-   d="scan'208";a="159742465"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 07 Jul 2025 22:54:19 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uZ1HV-00012P-1r;
-	Tue, 08 Jul 2025 05:54:17 +0000
-Date: Tue, 8 Jul 2025 13:53:55 +0800
-From: kernel test robot <lkp@intel.com>
-To: Takashi Iwai <tiwai@suse.de>
-Cc: oe-kbuild-all@lists.linux.dev, alsa-devel@alsa-project.org
-Subject: [tiwai-sound:test/hda-reorg 17/42]
- sound/soc/intel/atom/sst/sst_acpi.c:272: undefined reference to
- `snd_intel_acpi_dsp_driver_probe'
-Message-ID: <202507081351.iyDgGOUP-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="BBUC696w";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="ozOZNhpD"
+Date: Tue, 8 Jul 2025 08:52:11 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1751957532;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xTFJEMX+i1VMWfM3oEOevD645WEcGHYINCyovuoDlV8=;
+	b=BBUC696wbkWYTUUHi8dK1nhIE3Fbu1u/P1DuDtzSdTl0QXPtvuk0XszpyrSClLyCNeT3UK
+	rUkRzaKhDPOWwmlA4PBd+X0cxU1oVc2E2xlKdL21f+zkUlRNFenc+DtVBueDBajSjz4Al7
+	VvZ+NSY+WD0d0c+2tuNVMc2zS9aAMPg4u5GbFjoyBCEgJle25nOyxis0MAxeFNRQyebSe2
+	8Rt+nbL+jNKS6TZ+Ltz1yXM9+E0QrUxFYhKZL4LL+oiFpVvR1FR6nuaAw8cFjJMMyrOetl
+	Dp9XPvY6uTRKL9jz3b3la1cupFAT48gFU5Q5FZ5Arj7BWOPsHAH/oI1TnnM4jw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1751957532;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xTFJEMX+i1VMWfM3oEOevD645WEcGHYINCyovuoDlV8=;
+	b=ozOZNhpD6ibZz6y031pememu1m7IXcwFmA0J9LA9ewtokhZACMGdmf6WY1zdphEkwKGcNc
+	ol7HZM+Ag+2ejcCg==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: kernel test robot <lkp@intel.com>
+Cc: Peter Zijlstra <peterz@infradead.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [bigeasy-staging:futex_percpu_ref 2/3] kernel/fork.c:1063:2:
+ error: statement requires expression of scalar type ('void' invalid)
+Message-ID: <20250708065211.ymEQXmIi@linutronix.de>
+References: <202507080405.TViOt083-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+In-Reply-To: <202507080405.TViOt083-lkp@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git test/hda-reorg
-head:   be6979113a769a90bab2a55a30ae83b76f5971e6
-commit: d1bc64a913342041aaacdde0c0920eb0d5b96281 [17/42] ALSA: hda: Move HD-audio core stuff into sound/hda/core
-config: i386-randconfig-063-20250522 (https://download.01.org/0day-ci/archive/20250708/202507081351.iyDgGOUP-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507081351.iyDgGOUP-lkp@intel.com/reproduce)
+On 2025-07-08 04:14:22 [+0800], kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/staging.git futex_percpu_ref
+> head:   68087bce4b1dfad7de82a55bcc27fec3a19df65e
+> commit: ebfd80a39c4e2258942c2949863b316607d4700a [2/3] futex: Use RCU-based per-CPU reference counting instead of rcuref_t
+> config: x86_64-buildonly-randconfig-003-20250708 (https://download.01.org/0day-ci/archive/20250708/202507080405.TViOt083-lkp@intel.com/config)
+> compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250708/202507080405.TViOt083-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202507080405.TViOt083-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> kernel/fork.c:1063:2: error: statement requires expression of scalar type ('void' invalid)
+>     1063 |         if (futex_mm_init(mm))
+>          |         ^   ~~~~~~~~~~~~~~~~~
+>    1 error generated.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507081351.iyDgGOUP-lkp@intel.com/
+Thank you, folded
+	https://lore.kernel.org/all/20250708065124.DtoAH-O1@linutronix.de/
 
-All errors (new ones prefixed by >>):
-
-   ld: sound/soc/intel/atom/sst/sst_acpi.o: in function `sst_acpi_probe':
->> sound/soc/intel/atom/sst/sst_acpi.c:272: undefined reference to `snd_intel_acpi_dsp_driver_probe'
-
-
-vim +272 sound/soc/intel/atom/sst/sst_acpi.c
-
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  255  
-5129ad6e4e6999 sound/soc/intel/sst/sst_acpi.c      Wei Yongjun          2014-12-09  256  static int sst_acpi_probe(struct platform_device *pdev)
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  257  {
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  258  	struct device *dev = &pdev->dev;
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  259  	int ret = 0;
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  260  	struct intel_sst_drv *ctx;
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  261  	const struct acpi_device_id *id;
-7feb2f786a46d3 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2017-10-12  262  	struct snd_soc_acpi_mach *mach;
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  263  	struct platform_device *mdev;
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  264  	struct platform_device *plat_dev;
-12cc291b0b5850 sound/soc/intel/atom/sst/sst_acpi.c Vinod Koul           2015-11-05  265  	struct sst_platform_info *pdata;
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  266  	unsigned int dev_id;
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  267  
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  268  	id = acpi_match_device(dev->driver->acpi_match_table, dev);
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  269  	if (!id)
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  270  		return -ENODEV;
-df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12  271  
-df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12 @272  	ret = snd_intel_acpi_dsp_driver_probe(dev, id->id);
-df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12  273  	if (ret != SND_INTEL_DSP_DRIVER_ANY && ret != SND_INTEL_DSP_DRIVER_SST) {
-df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12  274  		dev_dbg(dev, "SST ACPI driver not selected, aborting probe\n");
-df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12  275  		return -ENODEV;
-df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12  276  	}
-df5f5edaef4b65 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2020-11-12  277  
-1635c694124fe6 sound/soc/intel/atom/sst/sst_acpi.c Colin Ian King       2016-09-16  278  	dev_dbg(dev, "for %s\n", id->id);
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  279  
-7feb2f786a46d3 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2017-10-12  280  	mach = (struct snd_soc_acpi_mach *)id->driver_data;
-7feb2f786a46d3 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2017-10-12  281  	mach = snd_soc_acpi_find_machine(mach);
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  282  	if (mach == NULL) {
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  283  		dev_err(dev, "No matching machine driver found\n");
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  284  		return -ENODEV;
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  285  	}
-73a33f6f6d44db sound/soc/intel/atom/sst/sst_acpi.c Vinod Koul           2016-07-08  286  
-536cfd2f375d36 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2019-05-30  287  	if (soc_intel_is_byt())
-6004640638a2cb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2017-10-12  288  		mach->pdata = &byt_rvp_platform_data;
-6004640638a2cb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2017-10-12  289  	else
-6004640638a2cb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2017-10-12  290  		mach->pdata = &chv_platform_data;
-12cc291b0b5850 sound/soc/intel/atom/sst/sst_acpi.c Vinod Koul           2015-11-05  291  	pdata = mach->pdata;
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  292  
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  293  	if (!strcmp(id->id, "LPE0F28")) {
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  294  		struct resource *rsrc;
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  295  
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  296  		/* Use regular BYT SST PCI VID:PID */
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  297  		dev_id = 0x80860F28;
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  298  		byt_rvp_platform_data.res_info = &lpe8086_res_info;
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  299  
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  300  		/*
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  301  		 * The "LPE0F28" ACPI device has separate IO-mem resources for:
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  302  		 * DDR, SHIM, MBOX, IRAM, DRAM, CFG
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  303  		 * None of which covers the entire LPE base address range.
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  304  		 * lpe8086_res_info.acpi_lpe_res_index points to the SHIM.
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  305  		 * Patch this to cover the entire base address range as expected
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  306  		 * by sst_platform_get_resources().
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  307  		 */
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  308  		rsrc = platform_get_resource(pdev, IORESOURCE_MEM,
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  309  					     pdata->res_info->acpi_lpe_res_index);
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  310  		if (!rsrc) {
-c1895ba181e560 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-26  311  			dev_err(dev, "Invalid SHIM base\n");
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  312  			return -EIO;
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  313  		}
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  314  		rsrc->start -= pdata->res_info->shim_offset;
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  315  		rsrc->end = rsrc->start + 0x200000 - 1;
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  316  	} else {
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  317  		ret = kstrtouint(id->id, 16, &dev_id);
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  318  		if (ret < 0) {
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  319  			dev_err(dev, "Unique device id conversion error: %d\n", ret);
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  320  			return ret;
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  321  		}
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  322  
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  323  		if (soc_intel_is_byt_cr(pdev))
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  324  			byt_rvp_platform_data.res_info = &bytcr_res_info;
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  325  	}
-6668610b4d8ce9 sound/soc/intel/atom/sst/sst_acpi.c Hans de Goede        2024-10-25  326  
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  327  	dev_dbg(dev, "ACPI device id: %x\n", dev_id);
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  328  
-a68bc0d43e1b96 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-08-12  329  	ret = sst_alloc_drv_context(&ctx, dev, dev_id);
-a68bc0d43e1b96 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-08-12  330  	if (ret < 0)
-a68bc0d43e1b96 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-08-12  331  		return ret;
-a68bc0d43e1b96 sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-08-12  332  
-3ee1cd4f81e15f sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2018-11-01  333  	/* update machine parameters */
-3ee1cd4f81e15f sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2018-11-01  334  	mach->mach_params.acpi_ipc_irq_index =
-3ee1cd4f81e15f sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2018-11-01  335  		pdata->res_info->acpi_ipc_irq_index;
-3ee1cd4f81e15f sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2018-11-01  336  
-caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  337  	plat_dev = platform_device_register_data(dev, pdata->platform, -1,
-caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  338  						NULL, 0);
-f5d40b400fe2de sound/soc/intel/sst/sst_acpi.c      Wei Yongjun          2014-12-09  339  	if (IS_ERR(plat_dev)) {
-caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  340  		dev_err(dev, "Failed to create machine device: %s\n",
-caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  341  			pdata->platform);
-f5d40b400fe2de sound/soc/intel/sst/sst_acpi.c      Wei Yongjun          2014-12-09  342  		return PTR_ERR(plat_dev);
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  343  	}
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  344  
-caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  345  	/*
-caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  346  	 * Create platform device for sst machine driver,
-caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  347  	 * pass machine info as pdata
-caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  348  	 */
-caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  349  	mdev = platform_device_register_data(dev, mach->drv_name, -1,
-caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  350  					(const void *)mach, sizeof(*mach));
-f5d40b400fe2de sound/soc/intel/sst/sst_acpi.c      Wei Yongjun          2014-12-09  351  	if (IS_ERR(mdev)) {
-caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  352  		dev_err(dev, "Failed to create machine device: %s\n",
-caf94ed8629afb sound/soc/intel/atom/sst/sst_acpi.c Pierre-Louis Bossart 2016-01-04  353  			mach->drv_name);
-f5d40b400fe2de sound/soc/intel/sst/sst_acpi.c      Wei Yongjun          2014-12-09  354  		return PTR_ERR(mdev);
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  355  	}
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  356  
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  357  	/* Fill sst platform data */
-12cc291b0b5850 sound/soc/intel/atom/sst/sst_acpi.c Vinod Koul           2015-11-05  358  	ctx->pdata = pdata;
-12cc291b0b5850 sound/soc/intel/atom/sst/sst_acpi.c Vinod Koul           2015-11-05  359  	strcpy(ctx->firmware_name, mach->fw_filename);
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  360  
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  361  	ret = sst_platform_get_resources(ctx);
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  362  	if (ret)
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  363  		return ret;
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  364  
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  365  	ret = sst_context_init(ctx);
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  366  	if (ret < 0)
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  367  		return ret;
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  368  
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  369  	sst_configure_runtime_pm(ctx);
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  370  	platform_set_drvdata(pdev, ctx);
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  371  	return ret;
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  372  }
-336cfbb05edf7b sound/soc/intel/sst/sst_acpi.c      Vinod Koul           2014-11-11  373  
-
-:::::: The code at line 272 was first introduced by commit
-:::::: df5f5edaef4b653fa731dcf3753e71766f95c2cd ASoC: Intel: Atom: add dynamic selection of DSP driver
-
-:::::: TO: Pierre-Louis Bossart <pierre-louis.bossart@linux.intel.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sebastian
