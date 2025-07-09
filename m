@@ -1,64 +1,125 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-81.smtpout.orange.fr [80.12.242.81])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B5722126A
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 16:51:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23EA2EB11
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 17:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752079884; cv=none; b=ULrJr3g+LKzc7kd/f9UY1GUISYfDQDdkBJvxMr3cUAXCfZmyuk9lnu4MLpqsHME05EUEq6AC0FEyG2jUJzi9nISbE3hq0Z4AG7/gXJs20Ea3TY9TTl6+26CNLH2b3o3t3jIVmzOvdrwfkJHOLsge7BwIh49ib8wNw890R6dutC8=
+	t=1752080641; cv=none; b=DjMW9e43FQac3uNNTH47e1kqrQoN1WjgMU596SEnQzKPjU8FTQO7HTqm6PPaUXeRcrZmddlmXKWpMnqZzIccCBccwhckMj1E/vLRJF964Vs5U8cfpVegALE4SmR6IZlP+HjCbobP8I6oVsgGaniBWpCFHZT6iexW6/b2KFVI2ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752079884; c=relaxed/simple;
-	bh=tfc8AtxPw+ap096NeufOKoTHLGveoD4nijUKSFLapCM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sLkHWWn+Y7iHWu9XlVWxGaF9JySjRZCWZEj8xhCMbM+LwUVSsO3nADex08y/lVVpJjsg8DpyYzlRXCjwfhOHObk1o53WVQ//qAJUWpHz3AT6bdlYzxf5IrR3kdSfe+O4FXkO2430+JQmQ+zD6MhvqmwKo0oLM4AKIKyvz3OPtJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf14.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id CE42B1601E0;
-	Wed,  9 Jul 2025 16:51:21 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf14.hostedemail.com (Postfix) with ESMTPA id F3AC034;
-	Wed,  9 Jul 2025 16:51:19 +0000 (UTC)
-Date: Wed, 9 Jul 2025 12:51:18 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: kernel test robot <lkp@intel.com>
-Cc: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
- <oe-kbuild-all@lists.linux.dev>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, <linux-kernel@vger.kernel.org>,
- <linux-trace-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/2] tracing: Remove "__attribute__()" from the type
- field of event format
-Message-ID: <20250709125118.3caad8b6@batman.local.home>
-In-Reply-To: <aG3AghTb49v6BBYn@rli9-mobl>
-References: <175197568917.977073.2201559708302320631.stgit@mhiramat.tok.corp.google.com>
-	<aG3AghTb49v6BBYn@rli9-mobl>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1752080641; c=relaxed/simple;
+	bh=+QLS67LP3MAKEKzz3JJMVKPpv6Hxh0TQYFvpq7He7W4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BIhE/FIAcQ0ADeY4elqnxYNGEYQlKzj+YL8w9Z+0k2h/mB1jKGqgwTzOVXqvNhKV/RwHVuiO/wwR6iczXgVWrWOdya3hNI/956Y/tIgjJVjr3rnfwKUBMdup1RzM46MtG4JiNxUPOQ77YFYq4aEIgcko0P/YXbogCs8XBSzlFCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=tD5mAcSV; arc=none smtp.client-ip=80.12.242.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="tD5mAcSV"
+Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+ ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
+	by smtp.orange.fr with ESMTPA
+	id ZYD2uiFK70i5kZYD2uV8Mx; Wed, 09 Jul 2025 19:03:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1752080636;
+	bh=zun+I1R1xXyJz0HTUliO8x5fV8L46/pP1oYWwkaGDyM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=tD5mAcSV17dDqivd0yuOdX396vyjLb9SPpJq1S1BRuBLPMHwTcBl8bCk3vF4KhkPw
+	 OK8IxCL8cbyTr3bvgOXKL+toR4ggJbJEHKEcVvqFDa092/Rn/YxTHLc3DDBbOxECQD
+	 WXYve3A5Mfdgmeb6914zViG/OBmyYgyTYrR+u51tqT/dBd7RsIDnFi54pjrIZRKfcs
+	 gCpKVZ6RtQWxPVZrBZZxqqxiHS+4vdCYwoCcAMGN0bffMcXV9LglKdF9SkkN2pF/So
+	 tcguz1UG4SuJober2Y+EUFsQKj/3ZQUjO9bpqr6em6c+uiov1WP6M+ieocdKqN2NOz
+	 N2qYgHK9wOjIw==
+X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Wed, 09 Jul 2025 19:03:56 +0200
+X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
+Message-ID: <14040edb-5c27-42d2-a78b-f679bbc90ed8@wanadoo.fr>
+Date: Wed, 9 Jul 2025 19:03:52 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: 8uy9a5h5hxkbs1ahj16xa3zbcxdj5b5h
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: F3AC034
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+X4E1czMyTNgkK5aFe39jLFCsv4YE57OU=
-X-HE-Tag: 1752079879-312940
-X-HE-Meta: U2FsdGVkX19o7+dTY0sNErQwyWuNezb5QDNlPJ31aVp6aSSSZc2fcsylevVJnnHwLfp3ZiV1+1z36y3olGQ4pcQcK3EQAzs8pfppyckTKBqe11qQxgByb+Efh11hx3foHz+qI6sMNKbMPiLWja+sMQiGCZFcnFASuAEaR8i4aXO9+pkOqIkEvY5u0MzWChOFyO16ZImjW0Gb/cmxBc7d0rXnR6gpuvpGIUF2VJPFC2wJzGw7T6PMeWnmQbm/7rgwCnizydX+KQYYIMkhc5+/K0rzLLzCWMLUBllM0yNq+o5q0gTAYULKJfU/SCSHw7E+N+0V6f7bHe02MyUt5wDbmm3lXfyBn2QJ
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] squashfs: Fix incorrect argument to sizeof in
+ kmalloc_array call
+To: Andrew Morton <akpm@linux-foundation.org>,
+ kernel test robot <lkp@intel.com>
+Cc: Colin Ian King <colin.i.king@gmail.com>,
+ Phillip Lougher <phillip@squashfs.org.uk>, Chanho Min <chanho.min@lge.com>,
+ oe-kbuild-all@lists.linux.dev, kernel-janitors@vger.kernel.org,
+ Linux Memory Management List <linux-mm@kvack.org>,
+ linux-kernel@vger.kernel.org
+References: <20250708142604.1891156-1-colin.i.king@gmail.com>
+ <aG3AVf8fbqHzk+OD@rli9-mobl>
+ <20250708195413.e990d63665144c28b0caa672@linux-foundation.org>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20250708195413.e990d63665144c28b0caa672@linux-foundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, 9 Jul 2025 09:06:10 +0800
-kernel test robot <lkp@intel.com> wrote:
+Le 09/07/2025 à 04:54, Andrew Morton a écrit :
+> On Wed, 9 Jul 2025 09:05:25 +0800 kernel test robot <lkp@intel.com> wrote:
+> 
+>> Hi Colin,
+>>
+>> kernel test robot noticed the following build errors:
+>>
+>> [auto build test ERROR on akpm-mm/mm-everything]
+>> [also build test ERROR on next-20250708]
+>> [cannot apply to linus/master v6.16-rc5]
+>> [If your patch is applied to the wrong git tree, kindly drop us a note.
+>> And when submitting patch, we suggest to use '--base' as documented in
+>> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>>
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Colin-Ian-King/squashfs-Fix-incorrect-argument-to-sizeof-in-kmalloc_array-call/20250708-223017
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+>> patch link:    https://lore.kernel.org/r/20250708142604.1891156-1-colin.i.king%40gmail.com
+>> patch subject: [PATCH] squashfs: Fix incorrect argument to sizeof in kmalloc_array call
+>> :::::: branch date: 10 hours ago
+>> :::::: commit date: 10 hours ago
+>> config: mips-randconfig-r071-20250709 (attached as .config)
+>> compiler: mips64-linux-gcc (GCC) 8.5.0
+>> reproduce (this is a W=1 build): (attached as reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202507090822.QI1bMiUV-lkp@intel.com/
+>>
+>> All error/warnings (new ones prefixed by >>):
+>>
+>>     In file included from include/linux/percpu.h:5,
+>>                      from include/linux/percpu_counter.h:14,
+>>                      from include/linux/mm_types.h:21,
+>>                      from include/linux/mmzone.h:22,
+>>                      from include/linux/gfp.h:7,
+>>                      from include/linux/xarray.h:16,
+>>                      from include/linux/list_lru.h:14,
+>>                      from include/linux/fs.h:14,
+>>                      from include/linux/highmem.h:5,
+>>                      from include/linux/bvec.h:10,
+>>                      from include/linux/blk_types.h:10,
+>>                      from include/linux/blkdev.h:9,
+>>                      from fs/squashfs/block.c:16:
+>>     fs/squashfs/block.c: In function 'squashfs_bio_read_cached':
+>>>> fs/squashfs/block.c:92:12: error: 'folio' undeclared (first use in this function)
+>>         sizeof(*folio), GFP_KERNEL | __GFP_ZERO);
+>>                 ^~~~~
+> 
+> I made it
+> 
+> 	struct folio **cache_folios = kmalloc_array(page_count,
+> 			sizeof(*cache_folios), GFP_KERNEL | __GFP_ZERO);
+> 
 
->    kernel/trace/trace_events.c: In function 'sanitize_field_type':
-> >> kernel/trace/trace_events.c:120:30: error: initializer element is not constant  
->      static const int attr_len = strlen(ATTRIBUTE_STR);
->                                  ^~~~~~
+WHy not kcalloc(), to be less verbose and remove the explicit __GFP_ZERO?
 
-I guess this could be fixed by making the above:
+CJ
 
-	static const int attr_len = sizeof(ATTRIBUTE_STR) - 1;
+> 
+> 
 
--- Steve
