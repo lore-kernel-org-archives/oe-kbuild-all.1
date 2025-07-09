@@ -1,208 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3046E280303
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 08:56:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752051420; cv=fail; b=KuWjVLbBSZhjpLBdWRK4vlOiLGpKUGOWF74nFX6yEsBJwo3238jcZq5HuQLAUUJ7cwWzQnWGpDGZLpgovNWW+PoqWMtXBlBCxPeKSeJUjr1a4e7m9hFU1jeugMjTcTHAQgss8+M/rQqlHqKgN5Mf1b7SubBohtYIDDX+vk785Js=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752051420; c=relaxed/simple;
-	bh=vgzXE8afF7A0rhn4JrORtM51y6H0GGu9GEkNW/LBh2I=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=rVzPAc1H01THc5IU3zT9EMxkSVbzlko6naX7AnSHKIxGxEXvG5ylNTRDjaaLLBMMvOAJgh0Jw5BOQas7sIZvVY5Prm+Ng86zHDrV85p0SoHujduYccVOniMi+OeJsoqTFVz/evzpWpk5fx3rb8RO/jycANkoVFd7LdZVv7t+w6o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fp+kFQ9c; arc=fail smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2835280CEA;
+	Wed,  9 Jul 2025 09:10:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752052211; cv=none; b=NLrTLLSLR5E2p3qJ9Pnt9GCseieRJiqQesEmuIxkvZqb/F1HRHJ4h4MbyfxUGAOZZBQderHCdz1x4ufJzuVV9K185KgKKNjWyWmt3BAbt5CD9A88M9lbOC+g0FYh3uY0puT5T80RaowmubNcNkXMfJJqhq+CBEGX0yaKha3zzC8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752052211; c=relaxed/simple;
+	bh=IJjJgM4OeRcDQZbbuj3g79bHehoQC7+ut1sOtWZkbZs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=okCDQxW0jI0GlMzkSwtRKb/4YIxvVjCkHOgRTNhSJkCYQxOfRKcPm74CtVU9zOrlR4Qaq33QftQC72GcaIkXnSlNQ7egGxy5OkePpioXJvzOSq/WhDB0uGb2/yzGdbIcNsm2lC3rEbdG6vkFAr1PYzHY7+oiyRqrsw5OKtSXJZU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QzW535K+; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fp+kFQ9c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QzW535K+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752051419; x=1783587419;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=vgzXE8afF7A0rhn4JrORtM51y6H0GGu9GEkNW/LBh2I=;
-  b=fp+kFQ9cO5hwenyWgkv17eSHgRLyjdQKsvAk52fCqyAoGVIFKhJzsBUV
-   rjl+tQfmQS+fnH5/HXiTi9QNWYOHy3zqadTx5nxKFLJxWVj34oh5xs5q/
-   WFsItULQ/fz0jWj7yQUTIjSuCWv2oKb1Y+9eP3A8wYTpiKO7ik5aXExuG
-   Rn4Fv4r43uXyRcYr8IjU+iap5S/3mj6v6knGEr90IjIIPfNO9+109nYHo
-   v1fDjbVD8aWn1KdbEbSda9fSVFsdHzlvCa0Y4LQF9q3jxp3lVqPWnUG2n
-   Q91bDt8SRHVKiUh9GRVF68t9yOD9HkDwoXkteddgOrCwxOW911LIfFdYJ
-   A==;
-X-CSE-ConnectionGUID: AjMPiKTKRcKqTJf/W/p9Lg==
-X-CSE-MsgGUID: of+Ksr0OQ5eygJMvQrP9gg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54447877"
+  t=1752052210; x=1783588210;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IJjJgM4OeRcDQZbbuj3g79bHehoQC7+ut1sOtWZkbZs=;
+  b=QzW535K+xfDaHCNexMYzWVCUvLjy2T+RkUb3NyQa1550zSztnkeh8TGn
+   3fcICDvc3vbCF+6xYGyvQGBgYzYoVOI9PP6ESL8LO3hDHCo5YwzGvs7OJ
+   7fcQgL3hDjE75xmurGu/xxBtPWRqaSaAyTEtgc+VMHFldojTxmPiEGWoa
+   yhhGpS50Odmqhp43lnSVi0r/Sap4pEMGgw3oNZLGDAoSPEXiCal4/kU3i
+   eeS5Wj8y07Kve6GR/OHwOJjOje6DUT5mYnXzq42Dey2nOG21OqjO7plJP
+   j/YW1PXgd3dfgDzYpnNyNeOvdZ3+PI+JIgyNDLNtd8Y6hn3W0njQXSsEy
+   Q==;
+X-CSE-ConnectionGUID: sPmb+GX2Rtan+BpeJxqSyQ==
+X-CSE-MsgGUID: Kvw8NGh2QWGK4srzO0xVNg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54163376"
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="54447877"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 01:56:58 -0700
-X-CSE-ConnectionGUID: 56IB/oMWShmPSqNilWuX7w==
-X-CSE-MsgGUID: sr2r9vtrQeWxm3inZ2moDw==
+   d="scan'208";a="54163376"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 02:10:09 -0700
+X-CSE-ConnectionGUID: 3G6X9a/9QZGs4/E1Nu1G6A==
+X-CSE-MsgGUID: 8VeCwGwHRoyx12QvGTKIaw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="186724781"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 01:56:58 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 9 Jul 2025 01:56:57 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Wed, 9 Jul 2025 01:56:57 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (40.107.220.84)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 9 Jul 2025 01:56:56 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yPj/PAGRQx6ra6f4RCGOv7gu4SAO970J9AHK3wyPVsrwfsdkgeLN58OS3k7PvEs7NvkAMqS/r0wLQi7UA8ib/VDRNvVtC3H1oJ32pqTia0e+SgNiKtDzx3O7YEKo6h8Jg5QpLil44XLoA5OCn2JjDPbPhGdUn0jTFl3JjrHTZJA+TuDinsI1sfbHrC0Rao1jUpSDivHJIW9IjsaKZ9cm88leaoKPx20LEHQI9Lz7y+RtLvv7bW21j16XxPesAww8A90quVyT4b/Zd2+TFqSFCXXG+aAqHCDhhH5b1lYSqiT8E284Xgl2dD12cwT/DywP1wcFuML7PBALImlhFELrng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G5nw/bcF4oXPTUeCWbVyPpHsrtC/DPm0a1RgdJ45jzE=;
- b=dv85FVdndweidkAph0hRbSAcqlKc7MLsL1knA/aL+VGg+OvE2iw4p9pnAwtBIgGJAo2UlWbusqfnI146xSN8rS+u6cFjXiQMYCI2jqEXhVruTeJmLbhGxkMpscAg45t9F9NFlb6Slvj1zCAaTp33/1VWom5rD46lcxsohxhjmLDy7XLgIaLtncw2MtPX8yeMeFMiB4TpN1NO45fEiWI46ylC3VLVMq3IUQHDgL4nIN4oNIeImjAyMmvjIFtjeMEG+HJKKDdtuFUXf09IqiguZTQ+KvygcfqmUN4dsnCsvxf3E4XDZb8FHJwozxFfu9vMJSzIN5MbWUDnzggNxkTXGQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from PH0PR11MB5674.namprd11.prod.outlook.com (2603:10b6:510:ec::10)
- by PH7PR11MB7516.namprd11.prod.outlook.com (2603:10b6:510:275::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.26; Wed, 9 Jul
- 2025 08:56:43 +0000
-Received: from PH0PR11MB5674.namprd11.prod.outlook.com
- ([fe80::77d3:dfb2:3bd:e02a]) by PH0PR11MB5674.namprd11.prod.outlook.com
- ([fe80::77d3:dfb2:3bd:e02a%6]) with mapi id 15.20.8901.021; Wed, 9 Jul 2025
- 08:56:42 +0000
-From: "Li, Philip" <philip.li@intel.com>
-To: "Deng, Pan" <pan.deng@intel.com>, lkp <lkp@intel.com>,
-	"peterz@infradead.org" <peterz@infradead.org>, "mingo@kernel.org"
-	<mingo@kernel.org>
-CC: "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Li, Tianyou"
-	<tianyou.li@intel.com>, "tim.c.chen@linux.intel.com"
-	<tim.c.chen@linux.intel.com>, "Chen, Yu C" <yu.c.chen@intel.com>
-Subject: RE: [PATCH 3/4] sched/rt: Split root_domain->rto_count to
- per-NUMA-node counters
-Thread-Topic: [PATCH 3/4] sched/rt: Split root_domain->rto_count to
- per-NUMA-node counters
-Thread-Index: AQHb78nbO9mVovvEEUe6nrCYlBc7+bQoQm+AgAE8G8A=
-Date: Wed, 9 Jul 2025 08:56:42 +0000
-Message-ID: <PH0PR11MB56746CA201023FEE6D47B244E049A@PH0PR11MB5674.namprd11.prod.outlook.com>
-References: <2c1e1dbacaddd881f3cca340ece1f9268029b620.1751852370.git.pan.deng@intel.com>
- <202507081317.4IdE2euZ-lkp@intel.com>
- <BL1PR11MB6003439ECD3790035E99E5AF964EA@BL1PR11MB6003.namprd11.prod.outlook.com>
-In-Reply-To: <BL1PR11MB6003439ECD3790035E99E5AF964EA@BL1PR11MB6003.namprd11.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR11MB5674:EE_|PH7PR11MB7516:EE_
-x-ms-office365-filtering-correlation-id: 3a2f0d5c-990b-4eea-373f-08ddbec686a8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?dgRqh3TZzuZg2FwNqA8PWt7fh5woL9nEmryqaan76LI5QbQ3oVJucUVoYhmF?=
- =?us-ascii?Q?zmMYMvKy7O8/IEz0l0Dh1GEN45nN3MsK6kAbvtsiRF68dKMLk3V7Apf7CQlV?=
- =?us-ascii?Q?16izIdFcJBg9N3amy7tHL5Sz/ipK2kv8Z08WjtqPVEcSJFMseuCBjzLu6TkQ?=
- =?us-ascii?Q?j7pVIM/f8UnBAdVozWpWsTGtUV+ZDCDCkJGigX+WcS4E180KKuUvEBLLPvMc?=
- =?us-ascii?Q?Oa7mbQd3T74GAVxZZHM/QEiRg4afIXkN0Jse2fS7HgbS0XB1m/xGId2ZYe0b?=
- =?us-ascii?Q?i54ZYxzJDxisdAMoziJyzfXiBqRr/f5LbE+WLQZFbfeBwlgBByhfGrnQKnWA?=
- =?us-ascii?Q?lQJhE4/GcvBrHn/svjkuNsblQe+PDmbHsP7uW0WVSHWM3ldsZejakydGOaX8?=
- =?us-ascii?Q?FncrctTdfExtQSIdO6zkiel6UiCAR/luxwSh+39nZ1VTtyn796comC0fbpYZ?=
- =?us-ascii?Q?2u5uxKAnUKEVMxG84Q/ue/JcaYGwcpWcsTW7vab/iY4Tt33KagvpLl14u6mL?=
- =?us-ascii?Q?upgCUmK+mfIqlEdUnywp6svXyI7B90eMCf30Rah1i3rfSIj7+t2UiZTq/ecQ?=
- =?us-ascii?Q?pLP6da8H5fJeFajtKBrQc7IjUQPyJOQnatRfDjkQBkF9DzJxAkWKyan+XW6T?=
- =?us-ascii?Q?7ZIazdTuiy1r1WiRSO2eScmtx/bCoIVGBQbfNTKjHSjka3FjdO9np+9Wi5pd?=
- =?us-ascii?Q?uwk7zxixZRHgqGj0s10tShVTzF3nKllUGilDsGLbm7EOi3cXGVCJC4lbS0b6?=
- =?us-ascii?Q?T5tsefB3+1EiKopk1jS9PEDjWhCulJ4Q7cBY32+d2ZBlbGkg3MvnrypMjsqg?=
- =?us-ascii?Q?1qVno8+1rY6hufhWnyBDZoyVgEhWnvbK/7HXBJGc9gNVhq314clra4d+YyCn?=
- =?us-ascii?Q?LdXGlZnuzPqnEvwUPuNHpkrbYjkX6fdGFARG8jftUX1CrXoi5N3Rq6vtr+4L?=
- =?us-ascii?Q?A/8aqa5qOHsG6dziSKUFT8FPDOTBc2QLhLyfu5CqJJiBLt2DMwvNX/tDMzZ/?=
- =?us-ascii?Q?cf839ZemDCpbtFLsqbO3eWooLefJdXwOFLLqzUWHYri+GbaBhAHykZyfPByv?=
- =?us-ascii?Q?gmgy83SF/B2sKujCanVBA9g95dLdNRqc98mr9NNkqSnYYAAGvFmTnehltk8d?=
- =?us-ascii?Q?wOD8GmL6MXmrMvbF+cMWuXnrnT/Tlq6DUX91UIxvu/dV388F2GdtP+2eV9dC?=
- =?us-ascii?Q?VuhKGoW233hnLYMnTgstbewCq/PU+45HqoxaEVelFiJUpdqO+qxQFH/17/4W?=
- =?us-ascii?Q?5Q6xWgHbJkybQU7xzqWkVo1JBL+wm2naUmlztlIWY6V1Jc2qLa/9TQ1nqJzT?=
- =?us-ascii?Q?EYrRqcqZ8TbP1+nOW+VLK/7aXqU5Y0M7GPzZjPsSnbgzRUbt+2mn7vkZUGqK?=
- =?us-ascii?Q?oRvWkXX8jpqgRalEyycSmC+1PosABNe/EwMQ6Gd3ZgTpC9ds/rSgOkKQLmLQ?=
- =?us-ascii?Q?mFSNPUORKO42uK15Co1EYaSXcrPDQoyuu3tu7IROZtawxbG3+K243A=3D=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5674.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?+gBOC4PZOhqLBkKDv4zeRNiKlclY63QTds2Tki21Mvg/1cMLfzG1GHuwOg2U?=
- =?us-ascii?Q?o5e7OPA9v/yorxr4oaS7hvtkTybRm0HZG5kpHqVPpxljJC2kjpEu7Lsb5kkZ?=
- =?us-ascii?Q?iAHvv1PDOhViVv3m2Zs4Ew9fZGILrWk9dPLT6lTXtmftgfl591yUhSomK7Hr?=
- =?us-ascii?Q?orvWjG/9cpaPSCAnvcxBPwRO1M57a8IIjK1M8GvGJjeIh3UN/tCCys/wWUwg?=
- =?us-ascii?Q?hNB3YdNUSuPZTqRQwuFxdJT3Lqul86IMp5Rl8xyLtLEr1j9qD3gUBy48CUjA?=
- =?us-ascii?Q?szqipS0AwTHKEx0uJpTebwKva84K2Fud8KzHViroY8x/ErGvpiD7GLn/QbZL?=
- =?us-ascii?Q?NOkfk/rfDDjCpP+zjM1rc6EenCDd6JLdKrqSsyjPQXqOF9B71FJ8vLgVikyI?=
- =?us-ascii?Q?enoM093JPjlw4i+fQYqCIuvz8MKisnj51MUBzQrR2r/AFDR+l79n1Ioz5Klq?=
- =?us-ascii?Q?IdqRX0QF2BXKNP4btHhpXoOhPkwS5Vi1YE9Em/6VPQNIqKCLVoFCStwO8fXA?=
- =?us-ascii?Q?FR9kadmtNV+Mfp04hvTW1kPGcc4xOJ/RkBnn3d4dIBdzabSe5bQGLxo0Nber?=
- =?us-ascii?Q?G32ZZ7nDE4jmEIZk0OkWvvawDByxYwxTAyDVsTIuEcFsevlQFjVz4z//O3U4?=
- =?us-ascii?Q?S/EcfpzB1fYbVzeC4cmsKkM7d8mA6LWmLKkfvfa/Ao/qtNK84zAcTK6GKkiI?=
- =?us-ascii?Q?m+1y0k7W0GVb7FD6ubAV8gEPykxAR4lEe68JX7hJQvFpkiug3e9A8MjEGARg?=
- =?us-ascii?Q?hsYEwgdPNLsUuFkIeuMUlLNYTrUIWSuz+EFnbc6W706+3TDZYJjWXK7hH1q/?=
- =?us-ascii?Q?kpV8HZs0/ZMCfu3uv65jWKPytZRY8+mNR1WxWtUsyux6GwpLrwL6vLpjit2x?=
- =?us-ascii?Q?ZKanVEmQ8t/YhfffezAuh7iNoHJ7Pg+rgwcM8gylrcVkxgFNSd20Ow0H07KP?=
- =?us-ascii?Q?XLcGAEMGL+V0mw2eNJBNPAwc8aAghEJpuzR6P/XaIcGVtFbGyLwj6+DwhxLn?=
- =?us-ascii?Q?AEpGAWnRTSqb4ZAdjN7MdVrfUZNFJLSa+Rd8AInsmtpR0SL54e7cIuvEDSrJ?=
- =?us-ascii?Q?9kYUfzuZ2jtGe1qNAj8s0otj1RuPT81XbHqToMaD28Rb+/PuGl+a0lCraIIv?=
- =?us-ascii?Q?bc8AoGqk767RRnlimbqgmrxtq2TDGbolxtejLFxPiADdHLq0dbLclqcKLKsU?=
- =?us-ascii?Q?VgxX1p8R4UyO9Q4TyTjjzxXjMA8ZCv/9FMEmY3vxD1rgM1X4YXZ8GiL2Kvyy?=
- =?us-ascii?Q?MWS8B/TsqeQa1cM2zsj7P/PWJlykhMUGbymvY7OLmFduUkHOCN2xXIZ42Jd4?=
- =?us-ascii?Q?wxrKF9Oe8OM8W9/y97PTRi/JhV7/WFbOATw5HoCub7FlTFfaiEoLaxeNHdBd?=
- =?us-ascii?Q?X2+okA6h2VN/rKjQh9wjOfs+zg6CV5KU5edoSpUM0W7WSE5nLVeQrXMeJ1YM?=
- =?us-ascii?Q?vNzKGIdymfaNuK/r5ClCHU8MtM7yg57ZVcW3atmiZVqgDng9DWlzEzp5455F?=
- =?us-ascii?Q?G40KhTOBMmLViq1T2dtIhd+eroclZ4huUL7jCQkI92XcXglPRwdUD/CS5esB?=
- =?us-ascii?Q?dO49HykpZBDOiIFBBlwFR5m7Zf2yMB3E1vwbUrJA?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+   d="scan'208";a="155458330"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 09 Jul 2025 02:10:07 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uZQoW-0003Kz-1d;
+	Wed, 09 Jul 2025 09:10:04 +0000
+Date: Wed, 9 Jul 2025 17:09:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, "Darrick J. Wong" <djwong@kernel.org>,
+	Joanne Koong <joannelkoong@gmail.com>, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-block@vger.kernel.org, gfs2@lists.linux.dev
+Subject: Re: [PATCH 01/14] iomap: header diet
+Message-ID: <202507091656.dMTKUTBY-lkp@intel.com>
+References: <20250708135132.3347932-2-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5674.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a2f0d5c-990b-4eea-373f-08ddbec686a8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Jul 2025 08:56:42.7834
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: UoxaTeCpzAwek4oKMTf1y1EktS3fcigOkXohsoD/45niKgCyJZxMpb+dm1o90XGduuJzDQZfOUsMI3VHH6FrAA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB7516
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250708135132.3347932-2-hch@lst.de>
 
-> > comparison expression (different address spaces):
-> >    kernel/sched/sched.h:2276:25: sparse:    struct task_struct [noderef=
-] __rcu *
-> >    kernel/sched/sched.h:2276:25: sparse:    struct task_struct *
-> >    kernel/sched/sched.h:2276:25: sparse: sparse: incompatible types in
-> > comparison expression (different address spaces):
-> >    kernel/sched/sched.h:2276:25: sparse:    struct task_struct [noderef=
-] __rcu *
-> >    kernel/sched/sched.h:2276:25: sparse:    struct task_struct *
-> >    kernel/sched/sched.h:2287:26: sparse: sparse: incompatible types in
-> > comparison expression (different address spaces):
-> >    kernel/sched/sched.h:2287:26: sparse:    struct task_struct [noderef=
-] __rcu *
-> >    kernel/sched/sched.h:2287:26: sparse:    struct task_struct *
-> >    kernel/sched/build_policy.c: note: in included file:
-> >    kernel/sched/rt.c:2413:45: sparse: sparse: dereference of noderef ex=
-pression
-> >    kernel/sched/build_policy.c: note: in included file:
-> > >> kernel/sched/sched.h:2627:35: sparse: sparse: incorrect type in init=
-ializer
-> This warning is not about the change we made, @lkp, could you please chec=
-k it?
+Hi Christoph,
 
-Sorry for this false report, it should not be related to your changes. We w=
-ill follow
-up to figure out what is wrong during the bisections. Sorry for wasting you=
-r time.
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on xfs-linux/for-next gfs2/for-next linus/master v6.16-rc5 next-20250708]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/iomap-pass-more-arguments-using-the-iomap-writeback-context/20250708-225155
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250708135132.3347932-2-hch%40lst.de
+patch subject: [PATCH 01/14] iomap: header diet
+config: arc-randconfig-001-20250709 (https://download.01.org/0day-ci/archive/20250709/202507091656.dMTKUTBY-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250709/202507091656.dMTKUTBY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507091656.dMTKUTBY-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+   fs/iomap/buffered-io.c: In function 'iomap_dirty_folio':
+>> fs/iomap/buffered-io.c:642:9: error: implicit declaration of function 'filemap_dirty_folio'; did you mean 'iomap_dirty_folio'? [-Werror=implicit-function-declaration]
+     return filemap_dirty_folio(mapping, folio);
+            ^~~~~~~~~~~~~~~~~~~
+            iomap_dirty_folio
+   fs/iomap/buffered-io.c: In function 'iomap_write_iter':
+>> fs/iomap/buffered-io.c:930:58: error: 'BDP_ASYNC' undeclared (first use in this function); did you mean 'I_SYNC'?
+     unsigned int bdp_flags = (iter->flags & IOMAP_NOWAIT) ? BDP_ASYNC : 0;
+                                                             ^~~~~~~~~
+                                                             I_SYNC
+   fs/iomap/buffered-io.c:930:58: note: each undeclared identifier is reported only once for each function it appears in
+>> fs/iomap/buffered-io.c:945:12: error: implicit declaration of function 'balance_dirty_pages_ratelimited_flags' [-Werror=implicit-function-declaration]
+      status = balance_dirty_pages_ratelimited_flags(mapping,
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/iomap/buffered-io.c: In function 'iomap_unshare_iter':
+>> fs/iomap/buffered-io.c:1309:3: error: implicit declaration of function 'balance_dirty_pages_ratelimited'; did you mean 'pr_alert_ratelimited'? [-Werror=implicit-function-declaration]
+      balance_dirty_pages_ratelimited(iter->inode->i_mapping);
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      pr_alert_ratelimited
+   fs/iomap/buffered-io.c: In function 'iomap_zero_iter':
+>> fs/iomap/buffered-io.c:1376:3: error: implicit declaration of function 'folio_mark_accessed'; did you mean 'folio_wait_locked'? [-Werror=implicit-function-declaration]
+      folio_mark_accessed(folio);
+      ^~~~~~~~~~~~~~~~~~~
+      folio_wait_locked
+   fs/iomap/buffered-io.c: In function 'iomap_alloc_ioend':
+   fs/iomap/buffered-io.c:1624:26: error: implicit declaration of function 'wbc_to_write_flags'; did you mean 'do_pipe_flags'? [-Werror=implicit-function-declaration]
+              REQ_OP_WRITE | wbc_to_write_flags(wbc),
+                             ^~~~~~~~~~~~~~~~~~
+                             do_pipe_flags
+   fs/iomap/buffered-io.c:1629:2: error: implicit declaration of function 'wbc_init_bio'; did you mean 'arc_init_IRQ'? [-Werror=implicit-function-declaration]
+     wbc_init_bio(wbc, bio);
+     ^~~~~~~~~~~~
+     arc_init_IRQ
+   fs/iomap/buffered-io.c: In function 'iomap_add_to_ioend':
+   fs/iomap/buffered-io.c:1748:2: error: implicit declaration of function 'wbc_account_cgroup_owner'; did you mean 'pr_cont_cgroup_name'? [-Werror=implicit-function-declaration]
+     wbc_account_cgroup_owner(wbc, folio, len);
+     ^~~~~~~~~~~~~~~~~~~~~~~~
+     pr_cont_cgroup_name
+   fs/iomap/buffered-io.c: In function 'iomap_writepages':
+>> fs/iomap/buffered-io.c:1965:18: error: implicit declaration of function 'writeback_iter'; did you mean 'write_lock_irq'? [-Werror=implicit-function-declaration]
+     while ((folio = writeback_iter(mapping, wbc, folio, &error)))
+                     ^~~~~~~~~~~~~~
+                     write_lock_irq
+>> fs/iomap/buffered-io.c:1965:16: warning: assignment to 'struct folio *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     while ((folio = writeback_iter(mapping, wbc, folio, &error)))
+                   ^
+   cc1: some warnings being treated as errors
+
+
+vim +642 fs/iomap/buffered-io.c
+
+8306a5f5630552 Matthew Wilcox (Oracle  2021-04-28  634) 
+4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  635) bool iomap_dirty_folio(struct address_space *mapping, struct folio *folio)
+4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  636) {
+4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  637) 	struct inode *inode = mapping->host;
+4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  638) 	size_t len = folio_size(folio);
+4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  639) 
+4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  640) 	ifs_alloc(inode, folio, 0);
+4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  641) 	iomap_set_range_dirty(folio, 0, len);
+4ce02c67972211 Ritesh Harjani (IBM     2023-07-10 @642) 	return filemap_dirty_folio(mapping, folio);
+4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  643) }
+4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  644) EXPORT_SYMBOL_GPL(iomap_dirty_folio);
+4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  645) 
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
