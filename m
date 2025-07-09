@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CD32D12E7
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 11:16:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD1DB1F55F8
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 11:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752059791; cv=none; b=difdhJRRMuHkhFBpHVWmGVa8Dr9nuOQe+XMwqd23J+1nTLXjPAkxCqDUUedtE2gtx7CsaogZETRK2gDNsDrM4z6PArKUR9+0bVtUl7wxMh84O+bnbu7PRu+cBNphuBRaQ5sDyGSB0KjkwURzAnViKQtLW5vRe5U4Q6b7GO56pEI=
+	t=1752060443; cv=none; b=by+IfFW8ADCNnzBxDqFtYlzWWB+uPpy+eQZbdXiGv9cF9APyYfZZXHbxEeQWBjOMiddkpmEQ0KYa06cu2hm3B//o4YGYQYO8VJF5Tu01SM2JghRgVvWq0RipdhFV8LCyrVJpRk7kX0YAXD1AMdC7aPhgAyGPREAvJO+ZVk8TRME=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752059791; c=relaxed/simple;
-	bh=32L3Rb+UPYZJfq5N73CTmBYgLjgAuu4+A3pkOC45u7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sBUkY8pshfNmzX/S4/1/diOe2aBfCHfxA4tQGnOSL4nMVqJ6x2TYSHO0BIZ2SvnyXiKvVF/iVOXIzfWTrgZ4QnmKyjRz0KygIckEQCgHcftO9PmSuLkC0iWNYEQ52KUesB7MySM1NDS8s9ZSzirPF2/0/RjC0zOlD3guQ1+35BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQSM/Thd; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1752060443; c=relaxed/simple;
+	bh=DyhD8lbMpN/hri3OdvfFl3gu63rlwRjNkV3t6tMgP7I=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qOi/EEQzri94KSN1nzZZlGGi6qRCrrO1qSLwXfJRuKp6IY/A3vSWyQzAJu3u0EkbKSUK+7gqX6dhkdtENds+WaKbrMQyeeyDRlzz4YBEG72c7CIGMN4QC5eIvipNr3MS5gnbeDkAefTEa6qXkQPCM1Xf7HggtzNh/+IF4Xu6Aok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NxFRSDGW; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQSM/Thd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NxFRSDGW"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752059790; x=1783595790;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=32L3Rb+UPYZJfq5N73CTmBYgLjgAuu4+A3pkOC45u7s=;
-  b=YQSM/ThdC9Qtoulrxku10Jm13xKFcJUx3umkjNXuV2eJbN4o2UNIddjn
-   ozoOb4mF/FTBs6TowWiCPC4bckIL9YKbIGgtfSADZFLOD4vLtrQm3sG2c
-   9ERyvDW2Gkp3T2sVUB1ixr9eq4ao1infHopAFsh4pssbbFBDo16Wub2eU
-   wPATH7jkrBPWIJ0PNpRZ3RVi5LxfBnzw1zKGBlOA4O74BdB40eJ7z3Yny
-   AFK4w91TUcZkdAonYgqL8Md2JsqqMkSFO1MvmIf60tqK5KkZkxvUzHsXw
-   Yq1kqx5EtGRmlTFtM5kxz4S2TVYEqvkeqy5B5uic1Jc8LntehXjAmSZRu
+  t=1752060442; x=1783596442;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DyhD8lbMpN/hri3OdvfFl3gu63rlwRjNkV3t6tMgP7I=;
+  b=NxFRSDGWK9cdnVG1k3rA9BBUu549T+g9ryrTToR0hVSwomq9R4dOOEnd
+   ylt/QL1rypQbamiLXLXZOiVUK+6gVcQQRz1ajiwd5crZzkdpM+Zzn5LfN
+   ojEmGEt7fW86SJ+XQpS86umKMIKqRX1IkSU/WzQujsxO+QpKP6yzW68w0
+   NWigxDKczdKFbGkf4//tbwgI08yl5eDhOvVOq5h44jF2fx/zoIiH5NddH
+   BcseXYmA0frv+I7kiUn8YPp7FV8f/Eh6hwNATLVV2cIwm7McAr9pzlNRD
+   99QagRPWtgoxj8ck+Y6N6yKTwz6Z5m6Meattear7CeDm5uVFj6X5nMoyQ
    Q==;
-X-CSE-ConnectionGUID: MCdKwNudRHaRdfV1euBtIA==
-X-CSE-MsgGUID: Dq4PAmqJTGC5tjztS3ARFg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="53532918"
+X-CSE-ConnectionGUID: dT1suWHqSQSDaihh9FmzDw==
+X-CSE-MsgGUID: 4h/pxwuGTDWdlILYHU7UYg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54174741"
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="53532918"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 04:16:21 -0700
-X-CSE-ConnectionGUID: q5OhuuEUQgu8XNT7/3fZPQ==
-X-CSE-MsgGUID: PMhyUsdAQjW/pYXcuN5Ehw==
+   d="scan'208";a="54174741"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 04:27:21 -0700
+X-CSE-ConnectionGUID: 2HJwWpWeRA2DZcec7BlxGg==
+X-CSE-MsgGUID: qjkdiXHmQou5bpY4VyPQjg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="156084802"
+   d="scan'208";a="155881381"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 09 Jul 2025 04:16:18 -0700
+  by orviesa007.jf.intel.com with ESMTP; 09 Jul 2025 04:27:20 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZSme-0003S7-2T;
-	Wed, 09 Jul 2025 11:16:16 +0000
-Date: Wed, 9 Jul 2025 19:16:05 +0800
+	id 1uZSxJ-0003Sq-2g;
+	Wed, 09 Jul 2025 11:27:17 +0000
+Date: Wed, 9 Jul 2025 19:26:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
-	amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
-	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Subject: Re: [PATCH v6 01/15] drm/sched: Add some scheduling quality unit
- tests
-Message-ID: <202507091842.CV3bHmEt-lkp@intel.com>
-References: <20250708095147.73366-2-tvrtko.ursulin@igalia.com>
+To: kernel@openeuler.org, yangxiangkai <yangxiangkai@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2464/2464] arch/arm64/kvm/virtcca_cvm.c:1193:5:
+ sparse: sparse: symbol 'cvm_arm_smmu_domain_set_kvm' was not declared.
+ Should it be static?
+Message-ID: <202507091947.60BNSiXp-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,98 +62,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250708095147.73366-2-tvrtko.ursulin@igalia.com>
 
-Hi Tvrtko,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on v6.16-rc5 next-20250708]
-[cannot apply to drm-exynos/exynos-drm-next linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-sched-Add-some-scheduling-quality-unit-tests/20250708-180519
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20250708095147.73366-2-tvrtko.ursulin%40igalia.com
-patch subject: [PATCH v6 01/15] drm/sched: Add some scheduling quality unit tests
-config: powerpc-randconfig-001-20250709 (https://download.01.org/0day-ci/archive/20250709/202507091842.CV3bHmEt-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250709/202507091842.CV3bHmEt-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   4467208a8b5583a77c842c4eb7673166deb5b717
+commit: ad540a13eb8292fc92651b3bf281088a502a85f9 [2464/2464] virtcca feature: fix msi iova map
+config: arm64-randconfig-r111-20250705 (https://download.01.org/0day-ci/archive/20250709/202507091947.60BNSiXp-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 61529d9e36fa86782a2458e6bdeedf7f376ef4b5)
+reproduce: (https://download.01.org/0day-ci/archive/20250709/202507091947.60BNSiXp-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507091842.CV3bHmEt-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507091947.60BNSiXp-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   arch/arm64/kvm/virtcca_cvm.c:963:5: sparse: sparse: symbol 'kvm_cvm_create_dev_ttt_levels' was not declared. Should it be static?
+>> arch/arm64/kvm/virtcca_cvm.c:1193:5: sparse: sparse: symbol 'cvm_arm_smmu_domain_set_kvm' was not declared. Should it be static?
+--
+>> drivers/coda/coda_vfio.c:323:5: sparse: sparse: symbol 'virtcca_set_dev_msi_addr' was not declared. Should it be static?
 
-   powerpc-linux-ld: drivers/gpu/drm/scheduler/tests/tests_scheduler.o: in function `drm_sched_client_work':
->> drivers/gpu/drm/scheduler/tests/tests_scheduler.c:419: undefined reference to `__divdi3'
+vim +/cvm_arm_smmu_domain_set_kvm +1193 arch/arm64/kvm/virtcca_cvm.c
 
-
-vim +419 drivers/gpu/drm/scheduler/tests/tests_scheduler.c
-
-   409	
-   410	static void drm_sched_client_work(struct kthread_work *work)
-   411	{
-   412		struct test_client *client = container_of(work, typeof(*client), work);
-   413		const long sync_wait = MAX_SCHEDULE_TIMEOUT;
-   414		unsigned int cycle, work_us, period_us;
-   415		struct drm_mock_sched_job *job = NULL;
-   416	
-   417		work_us = client->params.job_cnt * client->params.job_us;
-   418		period_us = work_us + client->params.wait_us;
- > 419		client->cycles = DIV_ROUND_UP(ktime_to_us(client->duration), period_us);
-   420		client->ideal_duration = us_to_ktime(client->cycles * period_us);
-   421	
-   422		client->start = ktime_get();
-   423	
-   424		for (cycle = 0; cycle < client->cycles; cycle++) {
-   425			unsigned int batch;
-   426			unsigned long us;
-   427			ktime_t t;
-   428	
-   429			if (READ_ONCE(client->done))
-   430				break;
-   431	
-   432			t = ktime_get();
-   433			for (batch = 0; batch < client->params.job_cnt; batch++) {
-   434				job = drm_mock_sched_job_new(client->test,
-   435							     client->entity);
-   436				drm_mock_sched_job_set_duration_us(job,
-   437								   client->params.job_us);
-   438				drm_mock_sched_job_submit(job);
-   439			}
-   440	
-   441			if (client->params.sync)
-   442				drm_mock_sched_job_wait_finished(job, sync_wait);
-   443	
-   444			t = ktime_sub(ktime_get(), t);
-   445			us = ktime_to_us(t);
-   446			update_stats(&client->cycle_time, cycle, us);
-   447			if (ktime_to_us(t) >= (long)work_us)
-   448				us = ktime_to_us(t) - work_us;
-   449			else if (WARN_ON_ONCE(client->params.sync))
-   450				us = 0;
-   451			update_stats(&client->latency_time, cycle, us);
-   452			WRITE_ONCE(client->cycle, cycle);
-   453	
-   454			if (READ_ONCE(client->done))
-   455				break;
-   456	
-   457			if (client->params.wait_us)
-   458				fsleep(client->params.wait_us);
-   459			else
-   460				cond_resched();
-   461		}
-   462	
-   463		client->done = drm_mock_sched_job_wait_finished(job, sync_wait);
-   464		client->end = ktime_get();
-   465	}
-   466	
+  1184	
+  1185	/**
+  1186	 * cvm_arm_smmu_domain_set_kvm - Associate SMMU domain with CVM
+  1187	 * @dev: The Device under the iommu group
+  1188	 *
+  1189	 * Returns:
+  1190	 * %0 if smmu_domain has been associate cvm or associate cvm successfully
+  1191	 * %-ENXIO if the iommu group does not have smmu domain
+  1192	 */
+> 1193	int cvm_arm_smmu_domain_set_kvm(struct device *dev, void *data)
+  1194	{
+  1195		struct kvm *kvm;
+  1196		struct iommu_domain *domain;
+  1197		struct arm_smmu_domain *arm_smmu_domain = NULL;
+  1198	
+  1199		domain = iommu_get_domain_for_dev(dev);
+  1200		if (!domain)
+  1201			return -ENXIO;
+  1202	
+  1203		arm_smmu_domain = to_smmu_domain(domain);
+  1204		if (arm_smmu_domain->kvm)
+  1205			return 1;
+  1206	
+  1207		kvm = virtcca_arm_smmu_get_kvm(arm_smmu_domain);
+  1208		if (kvm && kvm_is_virtcca_cvm(kvm))
+  1209			arm_smmu_domain->kvm = kvm;
+  1210	
+  1211		return 1;
+  1212	}
+  1213	
 
 -- 
 0-DAY CI Kernel Test Service
