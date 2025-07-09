@@ -1,61 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475BB28ECC9
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 10:55:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CD32D12E7
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 11:16:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752058520; cv=none; b=f13nFlGpS8i8AcX9H9DMwBNWzbvoelbfag4A25CCE+pcvX9T/Trlm3NpFXguCuMpHtvs3aBzGI4O3PqQoS5KtG6TNclkk1ucHoVT0pLf2DD7dCHhRus3UB4hOSDUSn3O3UsaWlz9KaI3O4noPxVHtFmFc+b6IQNUhF6wrc41ZOE=
+	t=1752059791; cv=none; b=difdhJRRMuHkhFBpHVWmGVa8Dr9nuOQe+XMwqd23J+1nTLXjPAkxCqDUUedtE2gtx7CsaogZETRK2gDNsDrM4z6PArKUR9+0bVtUl7wxMh84O+bnbu7PRu+cBNphuBRaQ5sDyGSB0KjkwURzAnViKQtLW5vRe5U4Q6b7GO56pEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752058520; c=relaxed/simple;
-	bh=h97z8lAti3H/gUzMZpPU7k8yTrw68zfOYFkzYqo8WIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eTJWAcuTfowuZFI40HUI8ac50dWfzqoFhyT4uKg2VFovht7gVFuU8b8HRhCbou4hZ8habyZWbqhxvYFxA0ezYbSnHhRwP7xlV/FbOHUCiWfg/hPA6mVMlSqCkkMQWp/98/e/2hpIUYsSpGPCbJhLmCi192CCn3vnyGoM5nsOito=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qp32AqLX; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1752059791; c=relaxed/simple;
+	bh=32L3Rb+UPYZJfq5N73CTmBYgLjgAuu4+A3pkOC45u7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sBUkY8pshfNmzX/S4/1/diOe2aBfCHfxA4tQGnOSL4nMVqJ6x2TYSHO0BIZ2SvnyXiKvVF/iVOXIzfWTrgZ4QnmKyjRz0KygIckEQCgHcftO9PmSuLkC0iWNYEQ52KUesB7MySM1NDS8s9ZSzirPF2/0/RjC0zOlD3guQ1+35BE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YQSM/Thd; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qp32AqLX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YQSM/Thd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752058518; x=1783594518;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h97z8lAti3H/gUzMZpPU7k8yTrw68zfOYFkzYqo8WIQ=;
-  b=Qp32AqLX/A1P8y6PKzDCwe4jGLgY40YmN6qfiV12d1T1RRYUT2NsmJTC
-   Gn/QeYu0hWVZReL9OPr/m3oWZtlXl+gNqfNifoAtec/sjvZQ603FDonrZ
-   8Fnss9tFbVPjM1PVjPqL/xFVXny1wpY9E3UbUHCCS7lwG67ScRl2EsKAB
-   Lwxvoy+CLB7W/FxQTfCJWT5LWvce1IlZV/y76+RSI0On5RQbLFRbLsoWG
-   mYxc2IuR/NEanYi41WqkbT835WV+INAw3ETbh2d4wXHKQTiPJYqZQlaqu
-   uWJvMdzX7CUUCihsuxSHm/A9rHxthPAJI2/aIbvjWpZVXSnW+7BnF1jS+
-   A==;
-X-CSE-ConnectionGUID: 9quZTm/wRRi5X0ZswLQnCg==
-X-CSE-MsgGUID: BG5Hb/77RD6klWrMQaUJ7g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54446760"
+  t=1752059790; x=1783595790;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=32L3Rb+UPYZJfq5N73CTmBYgLjgAuu4+A3pkOC45u7s=;
+  b=YQSM/ThdC9Qtoulrxku10Jm13xKFcJUx3umkjNXuV2eJbN4o2UNIddjn
+   ozoOb4mF/FTBs6TowWiCPC4bckIL9YKbIGgtfSADZFLOD4vLtrQm3sG2c
+   9ERyvDW2Gkp3T2sVUB1ixr9eq4ao1infHopAFsh4pssbbFBDo16Wub2eU
+   wPATH7jkrBPWIJ0PNpRZ3RVi5LxfBnzw1zKGBlOA4O74BdB40eJ7z3Yny
+   AFK4w91TUcZkdAonYgqL8Md2JsqqMkSFO1MvmIf60tqK5KkZkxvUzHsXw
+   Yq1kqx5EtGRmlTFtM5kxz4S2TVYEqvkeqy5B5uic1Jc8LntehXjAmSZRu
+   Q==;
+X-CSE-ConnectionGUID: MCdKwNudRHaRdfV1euBtIA==
+X-CSE-MsgGUID: Dq4PAmqJTGC5tjztS3ARFg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="53532918"
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="54446760"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 03:55:18 -0700
-X-CSE-ConnectionGUID: mTP5zX8TTCmD57FNRdPszQ==
-X-CSE-MsgGUID: BykVQu86SfWJQBGQwnFTAw==
+   d="scan'208";a="53532918"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 04:16:21 -0700
+X-CSE-ConnectionGUID: q5OhuuEUQgu8XNT7/3fZPQ==
+X-CSE-MsgGUID: PMhyUsdAQjW/pYXcuN5Ehw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="161396208"
+   d="scan'208";a="156084802"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 09 Jul 2025 03:55:17 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 09 Jul 2025 04:16:18 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZSSI-0003Qh-0n;
-	Wed, 09 Jul 2025 10:55:14 +0000
-Date: Wed, 9 Jul 2025 18:54:20 +0800
+	id 1uZSme-0003S7-2T;
+	Wed, 09 Jul 2025 11:16:16 +0000
+Date: Wed, 9 Jul 2025 19:16:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yishai Hadas <yishaih@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>,
-	Edward Srouji <edwards@nvidia.com>
-Subject: [leon-rdma:rdma-next 49/92]
- drivers/infiniband/core/uverbs_std_types_dmah.c:64
- ib_uverbs_handler_UVERBS_METHOD_DMAH_ALLOC() warn: unsigned 'dmah->mem_type'
- is never less than zero.
-Message-ID: <202507091808.fHKHlIEm-lkp@intel.com>
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, intel-xe@lists.freedesktop.org,
+	amd-gfx@lists.freedesktop.org, kernel-dev@igalia.com,
+	Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Subject: Re: [PATCH v6 01/15] drm/sched: Add some scheduling quality unit
+ tests
+Message-ID: <202507091842.CV3bHmEt-lkp@intel.com>
+References: <20250708095147.73366-2-tvrtko.ursulin@igalia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,102 +71,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250708095147.73366-2-tvrtko.ursulin@igalia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
-head:   d728d0f17029a7c747224beb83aef0def8b1dd93
-commit: f2ff001b657ae65cde8e4c560990a098284f3b04 [49/92] RDMA/core: Introduce a DMAH object and its alloc/free APIs
-config: i386-randconfig-141-20250709 (https://download.01.org/0day-ci/archive/20250709/202507091808.fHKHlIEm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+Hi Tvrtko,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on drm-misc/drm-misc-next]
+[also build test ERROR on v6.16-rc5 next-20250708]
+[cannot apply to drm-exynos/exynos-drm-next linus/master drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tvrtko-Ursulin/drm-sched-Add-some-scheduling-quality-unit-tests/20250708-180519
+base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+patch link:    https://lore.kernel.org/r/20250708095147.73366-2-tvrtko.ursulin%40igalia.com
+patch subject: [PATCH v6 01/15] drm/sched: Add some scheduling quality unit tests
+config: powerpc-randconfig-001-20250709 (https://download.01.org/0day-ci/archive/20250709/202507091842.CV3bHmEt-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250709/202507091842.CV3bHmEt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507091808.fHKHlIEm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507091842.CV3bHmEt-lkp@intel.com/
 
-smatch warnings:
-drivers/infiniband/core/uverbs_std_types_dmah.c:64 ib_uverbs_handler_UVERBS_METHOD_DMAH_ALLOC() warn: unsigned 'dmah->mem_type' is never less than zero.
+All errors (new ones prefixed by >>):
 
-vim +64 drivers/infiniband/core/uverbs_std_types_dmah.c
+   powerpc-linux-ld: drivers/gpu/drm/scheduler/tests/tests_scheduler.o: in function `drm_sched_client_work':
+>> drivers/gpu/drm/scheduler/tests/tests_scheduler.c:419: undefined reference to `__divdi3'
 
-    29	
-    30	static int UVERBS_HANDLER(UVERBS_METHOD_DMAH_ALLOC)(
-    31		struct uverbs_attr_bundle *attrs)
-    32	{
-    33		struct ib_uobject *uobj =
-    34			uverbs_attr_get(attrs, UVERBS_ATTR_ALLOC_DMAH_HANDLE)
-    35				->obj_attr.uobject;
-    36		struct ib_device *ib_dev = attrs->context->device;
-    37		struct ib_dmah *dmah;
-    38		int ret;
-    39	
-    40		if (!ib_dev->ops.alloc_dmah || !ib_dev->ops.dealloc_dmah)
-    41			return -EOPNOTSUPP;
-    42	
-    43		dmah = rdma_zalloc_drv_obj(ib_dev, ib_dmah);
-    44		if (!dmah)
-    45			return -ENOMEM;
-    46	
-    47		if (uverbs_attr_is_valid(attrs, UVERBS_ATTR_ALLOC_DMAH_CPU_ID)) {
-    48			ret = uverbs_copy_from(&dmah->cpu_id, attrs,
-    49					       UVERBS_ATTR_ALLOC_DMAH_CPU_ID);
-    50			if (ret)
-    51				goto err;
-    52	
-    53			if (!cpumask_test_cpu(dmah->cpu_id, current->cpus_ptr)) {
-    54				ret = -EPERM;
-    55				goto err;
-    56			}
-    57	
-    58			dmah->valid_fields |= BIT(IB_DMAH_CPU_ID_EXISTS);
-    59		}
-    60	
-    61		if (uverbs_attr_is_valid(attrs, UVERBS_ATTR_ALLOC_DMAH_TPH_MEM_TYPE)) {
-    62			dmah->mem_type = uverbs_attr_get_enum_id(attrs,
-    63						UVERBS_ATTR_ALLOC_DMAH_TPH_MEM_TYPE);
-  > 64			if (dmah->mem_type < 0) {
-    65				ret = dmah->mem_type;
-    66				goto err;
-    67			}
-    68			dmah->valid_fields |= BIT(IB_DMAH_MEM_TYPE_EXISTS);
-    69		}
-    70	
-    71		if (uverbs_attr_is_valid(attrs, UVERBS_ATTR_ALLOC_DMAH_PH)) {
-    72			ret = uverbs_copy_from(&dmah->ph, attrs,
-    73					       UVERBS_ATTR_ALLOC_DMAH_PH);
-    74			if (ret)
-    75				goto err;
-    76	
-    77			/* Per PCIe spec 6.2-1.0, only the lowest two bits are applicable */
-    78			if (dmah->ph & 0xFC) {
-    79				ret = -EINVAL;
-    80				goto err;
-    81			}
-    82	
-    83			dmah->valid_fields |= BIT(IB_DMAH_PH_EXISTS);
-    84		}
-    85	
-    86		dmah->device = ib_dev;
-    87		dmah->uobject = uobj;
-    88		atomic_set(&dmah->usecnt, 0);
-    89	
-    90		rdma_restrack_new(&dmah->res, RDMA_RESTRACK_DMAH);
-    91		rdma_restrack_set_name(&dmah->res, NULL);
-    92	
-    93		ret = ib_dev->ops.alloc_dmah(dmah, attrs);
-    94		if (ret) {
-    95			rdma_restrack_put(&dmah->res);
-    96			goto err;
-    97		}
-    98	
-    99		uobj->object = dmah;
-   100		rdma_restrack_add(&dmah->res);
-   101		uverbs_finalize_uobj_create(attrs, UVERBS_ATTR_ALLOC_DMAH_HANDLE);
-   102		return 0;
-   103	err:
-   104		kfree(dmah);
-   105		return ret;
-   106	}
-   107	
+
+vim +419 drivers/gpu/drm/scheduler/tests/tests_scheduler.c
+
+   409	
+   410	static void drm_sched_client_work(struct kthread_work *work)
+   411	{
+   412		struct test_client *client = container_of(work, typeof(*client), work);
+   413		const long sync_wait = MAX_SCHEDULE_TIMEOUT;
+   414		unsigned int cycle, work_us, period_us;
+   415		struct drm_mock_sched_job *job = NULL;
+   416	
+   417		work_us = client->params.job_cnt * client->params.job_us;
+   418		period_us = work_us + client->params.wait_us;
+ > 419		client->cycles = DIV_ROUND_UP(ktime_to_us(client->duration), period_us);
+   420		client->ideal_duration = us_to_ktime(client->cycles * period_us);
+   421	
+   422		client->start = ktime_get();
+   423	
+   424		for (cycle = 0; cycle < client->cycles; cycle++) {
+   425			unsigned int batch;
+   426			unsigned long us;
+   427			ktime_t t;
+   428	
+   429			if (READ_ONCE(client->done))
+   430				break;
+   431	
+   432			t = ktime_get();
+   433			for (batch = 0; batch < client->params.job_cnt; batch++) {
+   434				job = drm_mock_sched_job_new(client->test,
+   435							     client->entity);
+   436				drm_mock_sched_job_set_duration_us(job,
+   437								   client->params.job_us);
+   438				drm_mock_sched_job_submit(job);
+   439			}
+   440	
+   441			if (client->params.sync)
+   442				drm_mock_sched_job_wait_finished(job, sync_wait);
+   443	
+   444			t = ktime_sub(ktime_get(), t);
+   445			us = ktime_to_us(t);
+   446			update_stats(&client->cycle_time, cycle, us);
+   447			if (ktime_to_us(t) >= (long)work_us)
+   448				us = ktime_to_us(t) - work_us;
+   449			else if (WARN_ON_ONCE(client->params.sync))
+   450				us = 0;
+   451			update_stats(&client->latency_time, cycle, us);
+   452			WRITE_ONCE(client->cycle, cycle);
+   453	
+   454			if (READ_ONCE(client->done))
+   455				break;
+   456	
+   457			if (client->params.wait_us)
+   458				fsleep(client->params.wait_us);
+   459			else
+   460				cond_resched();
+   461		}
+   462	
+   463		client->done = drm_mock_sched_job_wait_finished(job, sync_wait);
+   464		client->end = ktime_get();
+   465	}
+   466	
 
 -- 
 0-DAY CI Kernel Test Service
