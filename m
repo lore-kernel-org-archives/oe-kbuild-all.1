@@ -1,58 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73C61A23A5
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 04:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DC6823C4FC
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 05:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752033941; cv=none; b=e0eUMrzlp4Wf2kno2OPH+ZhM9NPHDmbGfcY6/L55vewjkqKq254234FtfxjTaCv2KqWTqLV0SjGr+aRQJMFlZO1fLIO4zZI7xDdmfVrDkGPraQp5kTQSn4kIM5+Vfe+cAmeCtfLyvHCwcOIRBSR2w6vLMn4OCJHIZzr4rpTp/nc=
+	t=1752038401; cv=none; b=doC6MSM0dSr8K80a09vqwb4bsG7tjqjysoyqYLK1vdV3SmxvMERuXpihszzRrrcbEflZzFqcZg1nFiUqezvuCCNx80jGNyqUt2h+f2uXGIIBsRBzsxlztY1Y/qrMWj7JWuid9Ah4f0FykXeyStVORsDHiBYlVcvNJ/Z2VmV66nc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752033941; c=relaxed/simple;
-	bh=4k2qByuNt3tUphKGbrIHY7JfkQMB+cw0U4oTkqn6AVA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=meFINCOXiMSh4p62Y/kgjOaQ4QGeFP5ayenEIqpddgaqLFQI0j2FI4x+uX0WB5nlRfK9zTHsy9D7m16PtZ2yt8H7e8oVNaarHZRPJKDaZhfloG+/zS0xRGU1vYig3wrSrEJSZFZPQSCFlh+7XExhHfIctCxbyMJYQmwoMTrT7Mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AKQTsA95; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1752038401; c=relaxed/simple;
+	bh=1HKYQB+6U3/FZmF5kwiWOis/cLTGRKWllXiKrhif0Qw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LE2zge96bJYg1qyCrcZk8cCOBHBJ3qIdZVQGti96dVzRThBoVKwblUAv+kDegjBDFB8hlKYxxpeFjQkh3ADPbs9UTCs3yrmw0sLkE/Q7vEyo5C7lyFyWS5oJ9rLUO2vIsgKn0XucK8x9RxwvzkgtOrhgbeHCI6gbLVUekledpKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PJibutz8; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AKQTsA95"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PJibutz8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752033940; x=1783569940;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4k2qByuNt3tUphKGbrIHY7JfkQMB+cw0U4oTkqn6AVA=;
-  b=AKQTsA95b2tBx3KR3EqZcF44SuFO0JWIHdlxd6yGd86kTRJSd3HkjnVz
-   epVpCHKGzFXjU5lsHYawKdYQe0LqhquleRC6nEKDQoiqsmtFf4MIPsg4G
-   q1WG8282xQwhhwh20EDAx9CI6RspDO9ZlOgZcLnI/8j0YX5aRr92Eray8
-   jYzEYMLogNMf1QwBDK/eY1zwd5FScc3/TbEJF0BK8O91EjgC1QGYabYRE
-   2R2QLjYNAVIQ+uof4jna7CEIGGeii3Jl5Lz/wewXmYgBeJ4eFIOyg6Nrk
-   ipGvtT2eHM6cGqQOiMDn9l/U+zuXXulQdraJvUlHiSbSDBW94hKAh8ztr
-   g==;
-X-CSE-ConnectionGUID: BcGUfF6ZS6KFxg1jlzl6Rg==
-X-CSE-MsgGUID: 5otHMHVRR12/9rUXjAYdmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="79723365"
+  t=1752038400; x=1783574400;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1HKYQB+6U3/FZmF5kwiWOis/cLTGRKWllXiKrhif0Qw=;
+  b=PJibutz8ik2fFkmQq4jG6GiZCr84V7Osqa67qvLbOA82sak43bzBsBRz
+   pGH+8bniYKFY72pVFd8QxpIzCX3y0VdqXofDvP5KMj2h1rAtKm8oBTjMg
+   oYmLigpn1+IT5hJqHzaV4n4TL+uwD6gcmwWPUrgF5FSdgGYeJruw6DPMI
+   YmlBQ9lOBOwsgE0HUjAAoVsaGnsO5+ug61Ub/HmqACrB/315NpdXiPUpM
+   4YHNYdwuOUc5mJkeBRQ7e7H2//kDPj1dK8dLUo6hk2pFIkq8NECeSYShl
+   tJuM+FGlQrtdfbs/bMKLqissOFV//899n3L0VreNn/t4zXwaV8BaQndUn
+   Q==;
+X-CSE-ConnectionGUID: bTD4xpOaSbiLpUIq0I/mrw==
+X-CSE-MsgGUID: 9WttVf2aRKug89mQFuUyqA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54260371"
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="79723365"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 21:05:37 -0700
-X-CSE-ConnectionGUID: EyM2H/cXS7qcQLu4wOnpcw==
-X-CSE-MsgGUID: rkH6Irl6TuqwsiK5LW+tEQ==
+   d="scan'208";a="54260371"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jul 2025 22:07:45 -0700
+X-CSE-ConnectionGUID: 8ZHutkv5QRSldcFywYFZPw==
+X-CSE-MsgGUID: MkqBmEq1Sz2Chj2bZ5VnCg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="161317551"
+   d="scan'208";a="159986231"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 08 Jul 2025 21:05:36 -0700
+  by orviesa003.jf.intel.com with ESMTP; 08 Jul 2025 22:07:42 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZM3p-00034Z-2V;
-	Wed, 09 Jul 2025 04:05:33 +0000
-Date: Wed, 9 Jul 2025 12:05:08 +0800
+	id 1uZN1v-00036x-1O;
+	Wed, 09 Jul 2025 05:07:39 +0000
+Date: Wed, 9 Jul 2025 13:07:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1-2025-05 27/27] net/core/scm.c:95:36:
- error: 'struct scm_fp_list' has no member named 'vertices'
-Message-ID: <202507091101.5fVht1mu-lkp@intel.com>
+To: Yao Zi <ziyao@disroot.org>, Drew Fustini <fustini@kernel.org>,
+	Guo Ren <guoren@kernel.org>, Fu Wei <wefu@redhat.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>, Jisheng Zhang <jszhang@kernel.org>,
+	Yangtao Li <frank.li@vivo.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-riscv@lists.infradead.org,
+	linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Yao Zi <ziyao@disroot.org>
+Subject: Re: [PATCH] clk: thead: th1520-ap: Correctly refer the parent for
+ c910 and osc_12m
+Message-ID: <202507091214.BjAuy5rw-lkp@intel.com>
+References: <20250705052028.24611-1-ziyao@disroot.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,97 +69,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250705052028.24611-1-ziyao@disroot.org>
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-05
-head:   66e758f7d0c01a696c3a9db8929417e7403a1571
-commit: 24f186b6215a84672d5bb05746085098c32c4995 [27/27] UPSTREAM: af_unix: Allocate struct unix_vertex for each inflight AF_UNIX fd.
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250709/202507091101.5fVht1mu-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250709/202507091101.5fVht1mu-lkp@intel.com/reproduce)
+Hi Yao,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on linus/master v6.16-rc5 next-20250708]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yao-Zi/clk-thead-th1520-ap-Correctly-refer-the-parent-for-c910-and-osc_12m/20250705-132237
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
+patch link:    https://lore.kernel.org/r/20250705052028.24611-1-ziyao%40disroot.org
+patch subject: [PATCH] clk: thead: th1520-ap: Correctly refer the parent for c910 and osc_12m
+config: riscv-randconfig-r131-20250709 (https://download.01.org/0day-ci/archive/20250709/202507091214.BjAuy5rw-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 15.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20250709/202507091214.BjAuy5rw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507091101.5fVht1mu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507091214.BjAuy5rw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   WARNING: invalid argument to '-march': '_zacas_zabha'
+>> drivers/clk/thead/clk-th1520-ap.c:585:25: sparse: sparse: symbol 'osc12m_clk' was not declared. Should it be static?
 
-   net/core/scm.c: In function 'scm_fp_copy':
->> net/core/scm.c:95:36: error: 'struct scm_fp_list' has no member named 'vertices'
-      95 |                 INIT_LIST_HEAD(&fpl->vertices);
-         |                                    ^~
-   net/core/scm.c: In function 'scm_fp_dup':
-   net/core/scm.c:384:40: error: 'struct scm_fp_list' has no member named 'vertices'
-     384 |                 INIT_LIST_HEAD(&new_fpl->vertices);
-         |                                        ^~
+vim +/osc12m_clk +585 drivers/clk/thead/clk-th1520-ap.c
 
-
-vim +95 net/core/scm.c
-
-    68	
-    69	static int scm_fp_copy(struct cmsghdr *cmsg, struct scm_fp_list **fplp)
-    70	{
-    71		int *fdp = (int*)CMSG_DATA(cmsg);
-    72		struct scm_fp_list *fpl = *fplp;
-    73		struct file **fpp;
-    74		int i, num;
-    75	
-    76		num = (cmsg->cmsg_len - sizeof(struct cmsghdr))/sizeof(int);
-    77	
-    78		if (num <= 0)
-    79			return 0;
-    80	
-    81		if (num > SCM_MAX_FD)
-    82			return -EINVAL;
-    83	
-    84		if (!fpl)
-    85		{
-    86			fpl = kmalloc(sizeof(struct scm_fp_list), GFP_KERNEL_ACCOUNT);
-    87			if (!fpl)
-    88				return -ENOMEM;
-    89			*fplp = fpl;
-    90			fpl->count = 0;
-    91			fpl->count_unix = 0;
-    92			fpl->max = SCM_MAX_FD;
-    93			fpl->user = NULL;
-    94	#if IS_ENABLED(CONFIG_UNIX)
-  > 95			INIT_LIST_HEAD(&fpl->vertices);
-    96	#endif
-    97		}
-    98		fpp = &fpl->fp[fpl->count];
-    99	
-   100		if (fpl->count + num > fpl->max)
-   101			return -EINVAL;
-   102	
-   103		/*
-   104		 *	Verify the descriptors and increment the usage count.
-   105		 */
-   106	
-   107		for (i=0; i< num; i++)
-   108		{
-   109			int fd = fdp[i];
-   110			struct file *file;
-   111	
-   112			if (fd < 0 || !(file = fget_raw(fd)))
-   113				return -EBADF;
-   114			/* don't allow io_uring files */
-   115			if (io_is_uring_fops(file)) {
-   116				fput(file);
-   117				return -EINVAL;
-   118			}
-   119			if (unix_get_socket(file))
-   120				fpl->count_unix++;
-   121	
-   122			*fpp++ = file;
-   123			fpl->count++;
-   124		}
-   125	
-   126		if (!fpl->user)
-   127			fpl->user = get_uid(current_user());
-   128	
-   129		return num;
-   130	}
-   131	
+   584	
+ > 585	struct clk_fixed_factor osc12m_clk = {
+   586		.div		= 2,
+   587		.mult		= 1,
+   588		.hw.init	= CLK_HW_INIT_PARENTS_DATA("osc_12m",
+   589							   osc_24m_clk,
+   590							   &clk_fixed_factor_ops,
+   591							   0),
+   592	};
+   593	
 
 -- 
 0-DAY CI Kernel Test Service
