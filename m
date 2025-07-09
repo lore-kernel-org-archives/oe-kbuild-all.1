@@ -1,125 +1,152 @@
-Received: from smtp.smtpout.orange.fr (smtp-81.smtpout.orange.fr [80.12.242.81])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23EA2EB11
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 17:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3072156F4A;
+	Wed,  9 Jul 2025 17:20:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752080641; cv=none; b=DjMW9e43FQac3uNNTH47e1kqrQoN1WjgMU596SEnQzKPjU8FTQO7HTqm6PPaUXeRcrZmddlmXKWpMnqZzIccCBccwhckMj1E/vLRJF964Vs5U8cfpVegALE4SmR6IZlP+HjCbobP8I6oVsgGaniBWpCFHZT6iexW6/b2KFVI2ys=
+	t=1752081604; cv=none; b=utb+Imh05mXod1uswMnZSHmCJtIUq/VMIz3bBEs9Ykoszx4nojIypIeYpNqdPCiUxqV2BT5q+gCs2tEuMz8u1x/mDNWK5WNZEgv4AbHyryUB8jHxoElJWaFUprRPDv3IlQc2mEhEV1/IB7NHZkWMkbqaaWu2CpfP+xEL9BqvFKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752080641; c=relaxed/simple;
-	bh=+QLS67LP3MAKEKzz3JJMVKPpv6Hxh0TQYFvpq7He7W4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BIhE/FIAcQ0ADeY4elqnxYNGEYQlKzj+YL8w9Z+0k2h/mB1jKGqgwTzOVXqvNhKV/RwHVuiO/wwR6iczXgVWrWOdya3hNI/956Y/tIgjJVjr3rnfwKUBMdup1RzM46MtG4JiNxUPOQ77YFYq4aEIgcko0P/YXbogCs8XBSzlFCQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=tD5mAcSV; arc=none smtp.client-ip=80.12.242.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1752081604; c=relaxed/simple;
+	bh=K15coVbUq4k5YO1LhyiQD1STXDhuD3lAUmzmXi1CD3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QtsineCb+DQpI08acFPfXrvSyZK5Mj1JhblwqFJJGqRcFGt5V58TEjhbmlDUL6owMti5q5QEb3OtuN1Cy9g8VQLfnxsoONWsXGiclnEWzBcBwnR0ZH/O1WmWRV6l7o4I/G6obYOpIKUQUxcFqaJxTp+fBCUOYG7PJyuyYUSZlkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bF6Pag4R; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="tD5mAcSV"
-Received: from [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
- ([IPv6:2a01:cb10:785:b00:8347:f260:7456:7662])
-	by smtp.orange.fr with ESMTPA
-	id ZYD2uiFK70i5kZYD2uV8Mx; Wed, 09 Jul 2025 19:03:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1752080636;
-	bh=zun+I1R1xXyJz0HTUliO8x5fV8L46/pP1oYWwkaGDyM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=tD5mAcSV17dDqivd0yuOdX396vyjLb9SPpJq1S1BRuBLPMHwTcBl8bCk3vF4KhkPw
-	 OK8IxCL8cbyTr3bvgOXKL+toR4ggJbJEHKEcVvqFDa092/Rn/YxTHLc3DDBbOxECQD
-	 WXYve3A5Mfdgmeb6914zViG/OBmyYgyTYrR+u51tqT/dBd7RsIDnFi54pjrIZRKfcs
-	 gCpKVZ6RtQWxPVZrBZZxqqxiHS+4vdCYwoCcAMGN0bffMcXV9LglKdF9SkkN2pF/So
-	 tcguz1UG4SuJober2Y+EUFsQKj/3ZQUjO9bpqr6em6c+uiov1WP6M+ieocdKqN2NOz
-	 N2qYgHK9wOjIw==
-X-ME-Helo: [IPV6:2a01:cb10:785:b00:8347:f260:7456:7662]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Wed, 09 Jul 2025 19:03:56 +0200
-X-ME-IP: 2a01:cb10:785:b00:8347:f260:7456:7662
-Message-ID: <14040edb-5c27-42d2-a78b-f679bbc90ed8@wanadoo.fr>
-Date: Wed, 9 Jul 2025 19:03:52 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bF6Pag4R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752081602; x=1783617602;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=K15coVbUq4k5YO1LhyiQD1STXDhuD3lAUmzmXi1CD3M=;
+  b=bF6Pag4RTL60ghrRKnIhz/BPr9zPOdmQ6ttfrM/FZY6B5DustvkMsHcu
+   ytf3ppCAj6EbwvWDKBEH5CGaH14vdOxLwL3409AIVwmtc+iK4kwzNx3Ad
+   iZYgI68c324Jfqjm+wbeiVXsoiCenDH9Scy7et1X4FlBamLnRqe9gsqnO
+   L5mmVsTYd7f5LmXOoAcHqqVA8Ho+kE8BWerRKgkECIT4TvDZqJJqgWgiu
+   1QkPe3Oxafhtz8PxRUad5QSktWBgkm21O+kH1Y7rpu2F6lgYqfk9yD3fK
+   JLw0nTcOwe1blAre8rcKNmaYNiUTxlTUxIte8G7z29en2cOr5ipISerz+
+   A==;
+X-CSE-ConnectionGUID: PGQfbOEhRp+S+zfeoW7gxA==
+X-CSE-MsgGUID: lL4u5F82QbeWtikFqujmNA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="65804713"
+X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
+   d="scan'208";a="65804713"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 10:20:02 -0700
+X-CSE-ConnectionGUID: vSW8DNRFTWGF6nHkoYHjIw==
+X-CSE-MsgGUID: HrO1BL03TfOGbKFygymHHw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
+   d="scan'208";a="155247055"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 09 Jul 2025 10:19:56 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uZYSX-0003oJ-2m;
+	Wed, 09 Jul 2025 17:19:53 +0000
+Date: Thu, 10 Jul 2025 01:19:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chenghao Duan <duanchenghao@kylinos.cn>, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, yangtiezhu@loongson.cn,
+	hengqi.chen@gmail.com, chenhuacai@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, martin.lau@linux.dev, eddyz87@gmail.com,
+	song@kernel.org, yonghong.song@linux.dev, john.fastabend@gmail.com,
+	kpsingh@kernel.org, sdf@fomichev.me, haoluo@google.com,
+	jolsa@kernel.org, kernel@xen0n.name, linux-kernel@vger.kernel.org,
+	loongarch@lists.linux.dev, bpf@vger.kernel.org,
+	guodongtai@kylinos.cn, duanchenghao@kylinos.cn,
+	youling.tang@linux.dev, jianghaoran@kylinos.cn
+Subject: Re: [PATCH v3 5/5] LoongArch: BPF: Add bpf trampoline support for
+ Loongarch
+Message-ID: <202507100034.wXofj6VX-lkp@intel.com>
+References: <20250709055029.723243-6-duanchenghao@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] squashfs: Fix incorrect argument to sizeof in
- kmalloc_array call
-To: Andrew Morton <akpm@linux-foundation.org>,
- kernel test robot <lkp@intel.com>
-Cc: Colin Ian King <colin.i.king@gmail.com>,
- Phillip Lougher <phillip@squashfs.org.uk>, Chanho Min <chanho.min@lge.com>,
- oe-kbuild-all@lists.linux.dev, kernel-janitors@vger.kernel.org,
- Linux Memory Management List <linux-mm@kvack.org>,
- linux-kernel@vger.kernel.org
-References: <20250708142604.1891156-1-colin.i.king@gmail.com>
- <aG3AVf8fbqHzk+OD@rli9-mobl>
- <20250708195413.e990d63665144c28b0caa672@linux-foundation.org>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20250708195413.e990d63665144c28b0caa672@linux-foundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250709055029.723243-6-duanchenghao@kylinos.cn>
 
-Le 09/07/2025 à 04:54, Andrew Morton a écrit :
-> On Wed, 9 Jul 2025 09:05:25 +0800 kernel test robot <lkp@intel.com> wrote:
-> 
->> Hi Colin,
->>
->> kernel test robot noticed the following build errors:
->>
->> [auto build test ERROR on akpm-mm/mm-everything]
->> [also build test ERROR on next-20250708]
->> [cannot apply to linus/master v6.16-rc5]
->> [If your patch is applied to the wrong git tree, kindly drop us a note.
->> And when submitting patch, we suggest to use '--base' as documented in
->> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->>
->> url:    https://github.com/intel-lab-lkp/linux/commits/Colin-Ian-King/squashfs-Fix-incorrect-argument-to-sizeof-in-kmalloc_array-call/20250708-223017
->> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
->> patch link:    https://lore.kernel.org/r/20250708142604.1891156-1-colin.i.king%40gmail.com
->> patch subject: [PATCH] squashfs: Fix incorrect argument to sizeof in kmalloc_array call
->> :::::: branch date: 10 hours ago
->> :::::: commit date: 10 hours ago
->> config: mips-randconfig-r071-20250709 (attached as .config)
->> compiler: mips64-linux-gcc (GCC) 8.5.0
->> reproduce (this is a W=1 build): (attached as reproduce)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Closes: https://lore.kernel.org/oe-kbuild-all/202507090822.QI1bMiUV-lkp@intel.com/
->>
->> All error/warnings (new ones prefixed by >>):
->>
->>     In file included from include/linux/percpu.h:5,
->>                      from include/linux/percpu_counter.h:14,
->>                      from include/linux/mm_types.h:21,
->>                      from include/linux/mmzone.h:22,
->>                      from include/linux/gfp.h:7,
->>                      from include/linux/xarray.h:16,
->>                      from include/linux/list_lru.h:14,
->>                      from include/linux/fs.h:14,
->>                      from include/linux/highmem.h:5,
->>                      from include/linux/bvec.h:10,
->>                      from include/linux/blk_types.h:10,
->>                      from include/linux/blkdev.h:9,
->>                      from fs/squashfs/block.c:16:
->>     fs/squashfs/block.c: In function 'squashfs_bio_read_cached':
->>>> fs/squashfs/block.c:92:12: error: 'folio' undeclared (first use in this function)
->>         sizeof(*folio), GFP_KERNEL | __GFP_ZERO);
->>                 ^~~~~
-> 
-> I made it
-> 
-> 	struct folio **cache_folios = kmalloc_array(page_count,
-> 			sizeof(*cache_folios), GFP_KERNEL | __GFP_ZERO);
-> 
+Hi Chenghao,
 
-WHy not kcalloc(), to be less verbose and remove the explicit __GFP_ZERO?
+kernel test robot noticed the following build warnings:
 
-CJ
+[auto build test WARNING on bpf-next/net]
+[also build test WARNING on bpf-next/master bpf/master linus/master v6.16-rc5 next-20250709]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 
-> 
+url:    https://github.com/intel-lab-lkp/linux/commits/Chenghao-Duan/LoongArch-Add-the-function-to-generate-the-beq-and-bne-assembly-instructions/20250709-135350
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
+patch link:    https://lore.kernel.org/r/20250709055029.723243-6-duanchenghao%40kylinos.cn
+patch subject: [PATCH v3 5/5] LoongArch: BPF: Add bpf trampoline support for Loongarch
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250710/202507100034.wXofj6VX-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507100034.wXofj6VX-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507100034.wXofj6VX-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> arch/loongarch/net/bpf_jit.c:1411:6: warning: variable 'ip' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    1411 |         if (addr && ctx->image && ctx->ro_image)
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/loongarch/net/bpf_jit.c:1414:51: note: uninitialized use occurs here
+    1414 |         return emit_jump_and_link(ctx, LOONGARCH_GPR_RA, ip, addr);
+         |                                                          ^~
+   arch/loongarch/net/bpf_jit.c:1411:2: note: remove the 'if' if its condition is always true
+    1411 |         if (addr && ctx->image && ctx->ro_image)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    1412 |                 ip = (u64)(ctx->image + ctx->idx);
+>> arch/loongarch/net/bpf_jit.c:1411:6: warning: variable 'ip' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
+    1411 |         if (addr && ctx->image && ctx->ro_image)
+         |             ^~~~~~~~~~~~~~~~~~
+   arch/loongarch/net/bpf_jit.c:1414:51: note: uninitialized use occurs here
+    1414 |         return emit_jump_and_link(ctx, LOONGARCH_GPR_RA, ip, addr);
+         |                                                          ^~
+   arch/loongarch/net/bpf_jit.c:1411:6: note: remove the '&&' if its condition is always true
+    1411 |         if (addr && ctx->image && ctx->ro_image)
+         |             ^~~~~~~~~~~~~~~~~~~~~
+>> arch/loongarch/net/bpf_jit.c:1411:6: warning: variable 'ip' is used uninitialized whenever '&&' condition is false [-Wsometimes-uninitialized]
+    1411 |         if (addr && ctx->image && ctx->ro_image)
+         |             ^~~~
+   arch/loongarch/net/bpf_jit.c:1414:51: note: uninitialized use occurs here
+    1414 |         return emit_jump_and_link(ctx, LOONGARCH_GPR_RA, ip, addr);
+         |                                                          ^~
+   arch/loongarch/net/bpf_jit.c:1411:6: note: remove the '&&' if its condition is always true
+    1411 |         if (addr && ctx->image && ctx->ro_image)
+         |             ^~~~~~~
+   arch/loongarch/net/bpf_jit.c:1409:8: note: initialize the variable 'ip' to silence this warning
+    1409 |         u64 ip;
+         |               ^
+         |                = 0
+   3 warnings generated.
+
+
+vim +1411 arch/loongarch/net/bpf_jit.c
+
+  1406	
+  1407	static int emit_call(struct jit_ctx *ctx, u64 addr)
+  1408	{
+  1409		u64 ip;
+  1410	
+> 1411		if (addr && ctx->image && ctx->ro_image)
+  1412			ip = (u64)(ctx->image + ctx->idx);
+  1413	
+  1414		return emit_jump_and_link(ctx, LOONGARCH_GPR_RA, ip, addr);
+  1415	}
+  1416	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
