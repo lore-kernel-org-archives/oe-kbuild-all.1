@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AC6F28EA52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05892292B5A
 	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 13:09:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752066572; cv=none; b=jaDTWgvmObuN3Yn+a/7CvziZSUL3MeudzNeyoRUAWWBi8DudKB/qdqhNW1JXeslCWauw4Ofud3jInbnET720GVs3kSk4D7pzuE034lEYwAkfV+wlPvtgdGa5A8xK4EqDLvQuggwNX1YKQFlFBK2lfAdcNmUvtRYoCl4l/CCFIJk=
+	t=1752066573; cv=none; b=LPf9eQhLTo5QaEAyPe9xC3mX6MfIlSDLW5IdDl5DR0ucaXkKkVctN30lxx+iTqtf9si9SuGhYgFa4Qbk1avXtlzJbR/eTtLpR69/qwzaxK4YyWg33PAHQ1HVFMeIukjBFvUJ/m7dEh6XPB7fO3QyXCsDQ7uCFTwp7X7KN0EqNV0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752066572; c=relaxed/simple;
-	bh=faerV1UgPOMjsKWM/oRS7TI+aRKZiiZI/ZASoX11/ss=;
+	s=arc-20240116; t=1752066573; c=relaxed/simple;
+	bh=k4HABKirLAMqsX37mJ176BWnFfYZIFbDQvE/yvlDZ0A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZE/Jwu7/ytUSJKbPB27GPMIVRDAa/9bIHpjLN3mPqnuRrhyHbJSwo1jp5dJxAuZ8U6t2fzQjBw06Gm/50WK9WmCfApmSTlZWwIozeF3sVZp/txXrUAHNacHW+AmB/2r8sQXasfCplQN7CqJwW6z9LdUELoZ9WokvL09tt+Mp5To=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wkm/54w4; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=nMWv7UOhuUpzUx1KO2sa3SjnyxXumxGlh0poI58207IerDRFte/ICH77usvfP0I+euTaRFGATZukoCcZUBOP7hOoEkpe2oOVZH5QW6Kx+IoAbYzw9t28bzKdRnowlOrzVscm+KBVes/TlpUNRcTZbpb7NyLyU4UImIBvtuLwaLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AkmxNx96; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wkm/54w4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AkmxNx96"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752066570; x=1783602570;
+  t=1752066571; x=1783602571;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=faerV1UgPOMjsKWM/oRS7TI+aRKZiiZI/ZASoX11/ss=;
-  b=Wkm/54w4BpG4Ho2018G/HenFIEdt6G7WcT9koq7rwG2fuzazVHQ98H29
-   UkYJjRQ5N3/C7MtHqoVw5O+z7fqR13DoZGnc6jgM/KreUPznDClufaaFc
-   yh6UuoXU4Z2hGPYI3D6sbobBqQfYvXfcJ9q8/r3EUEs6dyCA3/fEVhy/A
-   u8z6zgAQ/rpOSrdWVHcQzDXVjtS9UILB51ZPV6wQ1HKKaIiPJcbyqBycG
-   EvV1YYelM2XoB2+xbSz0NWvBewV7FDUeP3Ee6X74pWOuJ74J1eUEyuksB
-   JXMaUM+hlsEpXhGWRE1jKQWSMcYLdYJDP+owhe4pTTOC8X5TFKTn+sbeT
-   w==;
-X-CSE-ConnectionGUID: IXVvhkUCSxq4oMOC+sLLlQ==
-X-CSE-MsgGUID: 0dyFPzE4R5abnSkHUWemGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54453338"
+  bh=k4HABKirLAMqsX37mJ176BWnFfYZIFbDQvE/yvlDZ0A=;
+  b=AkmxNx968pEUlKZWqAQ0Co8Apc33DhudZFkHtFsoxgG57X9a93jBrBiv
+   D4hILfdBXlCZbYgoPbOvJn6cLo+Y8OJX1izL+U8uZuCju+td1EATUFuqz
+   r9ouEgbP8ws+cedZCL/ixM7Vcib/2W/PG/76Wz1SyN0uf+TjDtuKtWlhq
+   py1plRG0otTssy9pfb34Fx1g8mSIELdXmVwQbkRTBakruMwqswkj7ntAK
+   tYaSu+sirEtFYXYGN6x93EC5xWzh0e84lcnHV2nkeWHhlhjTijYzTDA/U
+   jSdskNbeoRkQJcwO7UnbsbgTdSjo8kkvq/gs9vPEXcy3oBvEb9IHCwdvS
+   A==;
+X-CSE-ConnectionGUID: oHkALagtQ7i2q+/wPlyb0g==
+X-CSE-MsgGUID: qe9yHGCNRuyjGOetOQYYbQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="76873409"
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="54453338"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 06:09:30 -0700
-X-CSE-ConnectionGUID: vl0H7/L7SyC157o5rwurpw==
-X-CSE-MsgGUID: sdooYbFdSQCjDSxer5Dylw==
+   d="scan'208";a="76873409"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 06:09:30 -0700
+X-CSE-ConnectionGUID: YJw5Hg3lRw+H6iYhf7aOuQ==
+X-CSE-MsgGUID: puiVQvCnS/uamCQ2JwhUpA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="161324693"
+   d="scan'208";a="186745544"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Jul 2025 06:09:28 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 09 Jul 2025 06:09:29 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZUYA-0003Xv-2H;
+	id 1uZUYA-0003Xx-2K;
 	Wed, 09 Jul 2025 13:09:26 +0000
-Date: Wed, 9 Jul 2025 21:09:17 +0800
+Date: Wed, 9 Jul 2025 21:09:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
+To: kernel@openeuler.org, y00878127 <yangxiangkai@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1-2025-05 27/27] net/core/scm.c:96:20:
- error: 'struct scm_fp_list' has no member named 'dead'
-Message-ID: <202507092039.ZiRUh21w-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2464/2464] arch/arm64/kvm/tmi.c:25:24: sparse:
+ sparse: cast removes address space '__iomem' of expression
+Message-ID: <202507092132.Hy6EMke7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,114 +62,63 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1-2025-05
-head:   66e758f7d0c01a696c3a9db8929417e7403a1571
-commit: 8f0aa725509f3616cb721a810f93594b6d1f10f8 [27/27] UPSTREAM: af_unix: Add dead flag to struct scm_fp_list.
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250709/202507092039.ZiRUh21w-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250709/202507092039.ZiRUh21w-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   4467208a8b5583a77c842c4eb7673166deb5b717
+commit: c5161d7e11a7e30755b2ec55aaebfd500193cbbc [2464/2464] virtCCA supports SR-IOV in CoDA scenarios.
+config: arm64-randconfig-r111-20250705 (https://download.01.org/0day-ci/archive/20250709/202507092132.Hy6EMke7-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 61529d9e36fa86782a2458e6bdeedf7f376ef4b5)
+reproduce: (https://download.01.org/0day-ci/archive/20250709/202507092132.Hy6EMke7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507092039.ZiRUh21w-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507092132.Hy6EMke7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> arch/arm64/kvm/tmi.c:25:24: sparse: sparse: cast removes address space '__iomem' of expression
+   arch/arm64/kvm/tmi.c:33:16: sparse: sparse: cast removes address space '__iomem' of expression
+   arch/arm64/kvm/tmi.c:37:25: sparse: sparse: cast removes address space '__iomem' of expression
 
-   net/core/scm.c: In function 'scm_fp_copy':
-   net/core/scm.c:95:20: error: 'struct scm_fp_list' has no member named 'inflight'
-      95 |                 fpl->inflight = false;
-         |                    ^~
->> net/core/scm.c:96:20: error: 'struct scm_fp_list' has no member named 'dead'
-      96 |                 fpl->dead = false;
-         |                    ^~
-   net/core/scm.c:97:20: error: 'struct scm_fp_list' has no member named 'edges'
-      97 |                 fpl->edges = NULL;
-         |                    ^~
-   net/core/scm.c:98:36: error: 'struct scm_fp_list' has no member named 'vertices'
-      98 |                 INIT_LIST_HEAD(&fpl->vertices);
-         |                                    ^~
-   net/core/scm.c: In function 'scm_fp_dup':
-   net/core/scm.c:387:24: error: 'struct scm_fp_list' has no member named 'inflight'
-     387 |                 new_fpl->inflight = false;
-         |                        ^~
-   net/core/scm.c:388:24: error: 'struct scm_fp_list' has no member named 'edges'
-     388 |                 new_fpl->edges = NULL;
-         |                        ^~
-   net/core/scm.c:389:40: error: 'struct scm_fp_list' has no member named 'vertices'
-     389 |                 INIT_LIST_HEAD(&new_fpl->vertices);
-         |                                        ^~
+vim +/__iomem +25 arch/arm64/kvm/tmi.c
 
+67e11ee6347c43 Jingxian He  2024-08-03  11  
+4038e2b6238582 yangxiangkai 2024-09-18  12  /**
+4038e2b6238582 yangxiangkai 2024-09-18  13   * mmio_va_to_pa - To convert the virtual address of the mmio space
+4038e2b6238582 yangxiangkai 2024-09-18  14   * to a physical address, it is necessary to implement this interface
+4038e2b6238582 yangxiangkai 2024-09-18  15   * because the kernel insterface __pa has an error when converting the
+4038e2b6238582 yangxiangkai 2024-09-18  16   * physical address of the virtual address of the mmio space
+4038e2b6238582 yangxiangkai 2024-09-18  17   * @addr:	MMIO virtual address
+4038e2b6238582 yangxiangkai 2024-09-18  18   */
+c5161d7e11a7e3 yxk          2025-05-07  19  u64 mmio_va_to_pa(const void __iomem *addr)
+95542c9cac98d1 yangxiangkai 2024-09-11  20  {
+95542c9cac98d1 yangxiangkai 2024-09-11  21  	uint64_t pa, par_el1;
+95542c9cac98d1 yangxiangkai 2024-09-11  22  
+95542c9cac98d1 yangxiangkai 2024-09-11  23  	asm volatile(
+95542c9cac98d1 yangxiangkai 2024-09-11  24  		"AT S1E1W, %0\n"
+95542c9cac98d1 yangxiangkai 2024-09-11 @25  		::"r"((uint64_t)(addr))
+95542c9cac98d1 yangxiangkai 2024-09-11  26  	);
+95542c9cac98d1 yangxiangkai 2024-09-11  27  	isb();
+95542c9cac98d1 yangxiangkai 2024-09-11  28  	asm volatile(
+95542c9cac98d1 yangxiangkai 2024-09-11  29  		"mrs %0, par_el1\n"
+95542c9cac98d1 yangxiangkai 2024-09-11  30  		: "=r"(par_el1)
+95542c9cac98d1 yangxiangkai 2024-09-11  31  	);
+95542c9cac98d1 yangxiangkai 2024-09-11  32  
+95542c9cac98d1 yangxiangkai 2024-09-11  33  	pa = ((uint64_t)(addr) & (PAGE_SIZE - 1)) |
+95542c9cac98d1 yangxiangkai 2024-09-11  34  		(par_el1 & ULL(0x000ffffffffff000));
+95542c9cac98d1 yangxiangkai 2024-09-11  35  
+95542c9cac98d1 yangxiangkai 2024-09-11  36  	if (par_el1 & UL(1 << 0))
+95542c9cac98d1 yangxiangkai 2024-09-11  37  		return (uint64_t)(addr);
+95542c9cac98d1 yangxiangkai 2024-09-11  38  	else
+95542c9cac98d1 yangxiangkai 2024-09-11  39  		return pa;
+95542c9cac98d1 yangxiangkai 2024-09-11  40  }
+4038e2b6238582 yangxiangkai 2024-09-18  41  EXPORT_SYMBOL(mmio_va_to_pa);
+95542c9cac98d1 yangxiangkai 2024-09-11  42  
 
-vim +96 net/core/scm.c
+:::::: The code at line 25 was first introduced by commit
+:::::: 95542c9cac98d1fe33e1c1a4616cc9e638e73973 virtcca feature: read or write config space forwarding to secure world
 
-    68	
-    69	static int scm_fp_copy(struct cmsghdr *cmsg, struct scm_fp_list **fplp)
-    70	{
-    71		int *fdp = (int*)CMSG_DATA(cmsg);
-    72		struct scm_fp_list *fpl = *fplp;
-    73		struct file **fpp;
-    74		int i, num;
-    75	
-    76		num = (cmsg->cmsg_len - sizeof(struct cmsghdr))/sizeof(int);
-    77	
-    78		if (num <= 0)
-    79			return 0;
-    80	
-    81		if (num > SCM_MAX_FD)
-    82			return -EINVAL;
-    83	
-    84		if (!fpl)
-    85		{
-    86			fpl = kmalloc(sizeof(struct scm_fp_list), GFP_KERNEL_ACCOUNT);
-    87			if (!fpl)
-    88				return -ENOMEM;
-    89			*fplp = fpl;
-    90			fpl->count = 0;
-    91			fpl->count_unix = 0;
-    92			fpl->max = SCM_MAX_FD;
-    93			fpl->user = NULL;
-    94	#if IS_ENABLED(CONFIG_UNIX)
-    95			fpl->inflight = false;
-  > 96			fpl->dead = false;
-    97			fpl->edges = NULL;
-    98			INIT_LIST_HEAD(&fpl->vertices);
-    99	#endif
-   100		}
-   101		fpp = &fpl->fp[fpl->count];
-   102	
-   103		if (fpl->count + num > fpl->max)
-   104			return -EINVAL;
-   105	
-   106		/*
-   107		 *	Verify the descriptors and increment the usage count.
-   108		 */
-   109	
-   110		for (i=0; i< num; i++)
-   111		{
-   112			int fd = fdp[i];
-   113			struct file *file;
-   114	
-   115			if (fd < 0 || !(file = fget_raw(fd)))
-   116				return -EBADF;
-   117			/* don't allow io_uring files */
-   118			if (io_is_uring_fops(file)) {
-   119				fput(file);
-   120				return -EINVAL;
-   121			}
-   122			if (unix_get_socket(file))
-   123				fpl->count_unix++;
-   124	
-   125			*fpp++ = file;
-   126			fpl->count++;
-   127		}
-   128	
-   129		if (!fpl->user)
-   130			fpl->user = get_uid(current_user());
-   131	
-   132		return num;
-   133	}
-   134	
+:::::: TO: yangxiangkai <yangxiangkai@huawei.com>
+:::::: CC: yangxiangkai <yangxiangkai@huawei.com>
 
 -- 
 0-DAY CI Kernel Test Service
