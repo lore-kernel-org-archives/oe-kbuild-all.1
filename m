@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0A21E5B78
-	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 16:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C9821D59B
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 16:38:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752077210; cv=none; b=lkRuI5iAlqUsp0148SPCqORk3jK1GyKdp1ar4zxIGrysAUMpwDSFX0weBX6MZBk9TyP2mjyUF3CB2hGGKEd5a+4Mhnml/eELQlvkxL89emkvWJQYIC647Ct+Gm647kSYRB+CqgfglVEtMmoB433Kvq+KCRdkFVR8TwWn88l7eMU=
+	t=1752079136; cv=none; b=Agw8e+nUAFCFIhCroviGUaLiKLfchhopDMrKPU1ocYM9kzWNKHqk21Zp09oJK482UjCZzmlwNWwKG5yDoc8M6Jxd3ga8qlobiIDb46uKpt4jXSj6K5n0NRwOqjluYM2Zqae+4xhsWqxkCrAe8PM45NdgLXyVxWEPxsOgzP9MJZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752077210; c=relaxed/simple;
-	bh=Iw01SdOK6NsdAVs1WwArRVUiGOjinnWmxDjn9hhqfos=;
+	s=arc-20240116; t=1752079136; c=relaxed/simple;
+	bh=c0Yoaq1u5GTcsKPfkwIQ20vU05+byQhVkohxOp5Z+v4=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SRSu9IjCRXpMSWulQQ1RuDEhzxDE93Kf+DiwadOBiFKUyAcAk6fGiZetQwauQc+B7kSUwRZkabY5HTaIHNO4m0J5buDXXugxMPqZzdxOsthMCDtySb33TV0EUrcepfCvQ2bUUgIXL0Dl7xQI9JKmM4IzPiyXu1SNOQsi5C7J29U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fly90wGt; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=JQZT7AvAXpwl8Cxu55NtU79fD2oWxSN3rSb4Ma6YMTO1asDo/TyGxJ+SCLvbCoW5KA25TAsN6FIRg8iwyzfgtVxXRnuCulJDqvBwpREawqVxBqkPu1tlRURkv8FRhVC6OAwRqCZt9z0AOpwLPO0ztKE8XD4vNHpVVToL6OWyc3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EX919we9; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fly90wGt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EX919we9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752077209; x=1783613209;
+  t=1752079133; x=1783615133;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Iw01SdOK6NsdAVs1WwArRVUiGOjinnWmxDjn9hhqfos=;
-  b=Fly90wGtLq5RF/NZxrMWzF3NX7lhgG5Rh9ZrLnmP9rkqsaOPrQTM3pp9
-   9ibfuFvkDcDDtdXQrJ+xtPNEyAOaLfpYyd9PwoLH89OzUJqUTuBCXsjbA
-   HhqT70CRhcx6J0oMh2A90UB6aBZhpvQokJZnNngJbiQAcwNT6LaDFGmR4
-   nOu7oIsmsOOMfemrnPX3lzGJ+hseWisELfvTDFRZSOJaJ9TVeoauwMbyF
-   D3peq6Mvo7gc/i/GqP+GIgFwYRklfvMC3ONEbJM7nyBVxcaVcZ98r/7M1
-   xfB6VPpUe/zavq5bm4r9Q2SCRFsVhbMB8neQ2NLX1o+JuN+ptlfPXHlRe
-   w==;
-X-CSE-ConnectionGUID: B3JhBTs5ShSwkJ+yTMeTCw==
-X-CSE-MsgGUID: ubu7VIbUQviS+qILVgIMCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54473672"
+  bh=c0Yoaq1u5GTcsKPfkwIQ20vU05+byQhVkohxOp5Z+v4=;
+  b=EX919we90Lrja5xHWerrpASTlqcvuP+OXRqt9dYgEQp5wLpbnDUnFrf/
+   7P3WuzgLrwmfdz7mBMOZ3PraSifAMpuejAEsYtXLVIDC+g8LpKCEmSKyT
+   XXPrEqJbG1yDAiuRaADmrcrNh8zAxttcyP857pKTr4PHjbhDnN1P/F5D6
+   8Wobu5HCxKIbjf79cOJJexZsgM6Xk8Qa/1jIRdsKW7KlQK//dCzXJwXj1
+   DDuM0+UXv8mGHedKjJTaZDHFOb3Myt5kcj8yqbPiYWLUgLYnsPxSm9lZi
+   Hqs/SmQC4Dt5D57vmo1i0Gg7azRlBGIZIy7dy11v8JWLrNygnBWz/MFjD
+   g==;
+X-CSE-ConnectionGUID: uN8EOVH8QvuVPZL3s2t3CQ==
+X-CSE-MsgGUID: 9kHJup9CQUuZ0UysNja1Fg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54441005"
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="54473672"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 09:06:48 -0700
-X-CSE-ConnectionGUID: HhoO8YZaSlOYJa57Qpan9Q==
-X-CSE-MsgGUID: SzcXI6SHSJyc6hRRCLvi3w==
+   d="scan'208";a="54441005"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 09:38:53 -0700
+X-CSE-ConnectionGUID: 3nwmWzyZQGaCn7yc+7jUCA==
+X-CSE-MsgGUID: FUckeRRVT0GCaqi+OJhpFg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="160350116"
+   d="scan'208";a="155236466"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 09 Jul 2025 09:06:48 -0700
+  by orviesa006.jf.intel.com with ESMTP; 09 Jul 2025 09:38:52 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZXJl-0003iv-0C;
-	Wed, 09 Jul 2025 16:06:45 +0000
-Date: Thu, 10 Jul 2025 00:06:25 +0800
+	id 1uZXon-0003lV-1B;
+	Wed, 09 Jul 2025 16:38:49 +0000
+Date: Thu, 10 Jul 2025 00:38:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Brian Masney <bmasney@redhat.com>
+To: Leon Romanovsky <leonro@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [masneyb:clk-remove-round-rate 19/195]
- drivers/clk/at91/clk-peripheral.c:335:12: error: redefinition of
- 'clk_sam9x5_peripheral_determine_rate'
-Message-ID: <202507100052.fogoKeEo-lkp@intel.com>
+Subject: [leon-rdma:dmabuf-vfio 11/16] drivers/pci/p2pdma.c:984:31: error:
+ invalid use of undefined type 'struct pci_Dev'
+Message-ID: <202507100004.PiQyOHKM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,149 +62,343 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/masneyb/linux clk-remove-round-rate
-head:   87183237516af3a54bb2ce1f72e261ddaa776bee
-commit: 3fb9f70c4af0259c167d5e0613400052cfc55096 [19/195] clk: at91: peripheral: convert from round_rate() to determine_rate()
-config: arm-randconfig-001-20250709 (https://download.01.org/0day-ci/archive/20250710/202507100052.fogoKeEo-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507100052.fogoKeEo-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dmabuf-vfio
+head:   76398694a39d0be3b1e8a107e4dd025cfd1448fd
+commit: 07f78ef067ca643ea92cf0c95e25cd3c40420b03 [11/16] PCI/P2PDMA: Move to higher level PCI device pointer calculation
+config: arm64-randconfig-004-20250709 (https://download.01.org/0day-ci/archive/20250710/202507100004.PiQyOHKM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507100004.PiQyOHKM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507100052.fogoKeEo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507100004.PiQyOHKM-lkp@intel.com/
 
 All error/warnings (new ones prefixed by >>):
 
->> drivers/clk/at91/clk-peripheral.c:335:12: error: redefinition of 'clk_sam9x5_peripheral_determine_rate'
-     335 | static int clk_sam9x5_peripheral_determine_rate(struct clk_hw *hw,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/at91/clk-peripheral.c:271:12: note: previous definition of 'clk_sam9x5_peripheral_determine_rate' with type 'int(struct clk_hw *, struct clk_rate_request *)'
-     271 | static int clk_sam9x5_peripheral_determine_rate(struct clk_hw *hw,
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/clk/at91/clk-peripheral.c:271:12: warning: 'clk_sam9x5_peripheral_determine_rate' defined but not used [-Wunused-function]
+>> drivers/pci/p2pdma.c:977:28: warning: 'struct pci_Dev' declared inside parameter list will not be visible outside of this definition or declaration
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                            ^~~~~~~
+   In file included from include/linux/radix-tree.h:18,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:12,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from include/linux/dma-mapping.h:5,
+                    from include/linux/dma-map-ops.h:9,
+                    from drivers/pci/p2pdma.c:13:
+   drivers/pci/p2pdma.c: In function 'pci_p2pdma_map_type':
+>> drivers/pci/p2pdma.c:984:31: error: invalid use of undefined type 'struct pci_Dev'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |                               ^~
+   include/linux/rcupdate.h:532:10: note: in definition of macro '__rcu_dereference_check'
+     532 |  typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |          ^
+   include/linux/rcupdate.h:752:28: note: in expansion of macro 'rcu_dereference_check'
+     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
+         |                            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/p2pdma.c:984:11: note: in expansion of macro 'rcu_dereference'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |           ^~~~~~~~~~~~~~~
+>> drivers/pci/p2pdma.c:984:31: error: invalid use of undefined type 'struct pci_Dev'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |                               ^~
+   include/linux/rcupdate.h:532:31: note: in definition of macro '__rcu_dereference_check'
+     532 |  typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                               ^
+   include/linux/rcupdate.h:752:28: note: in expansion of macro 'rcu_dereference_check'
+     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
+         |                            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/p2pdma.c:984:11: note: in expansion of macro 'rcu_dereference'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |           ^~~~~~~~~~~~~~~
+   In file included from <command-line>:
+>> drivers/pci/p2pdma.c:984:31: error: invalid use of undefined type 'struct pci_Dev'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |                               ^~
+   include/linux/compiler_types.h:548:9: note: in definition of macro '__compiletime_assert'
+     548 |   if (!(condition))     \
+         |         ^~~~~~~~~
+   include/linux/compiler_types.h:568:2: note: in expansion of macro '_compiletime_assert'
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:2: note: in expansion of macro 'compiletime_assert'
+      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
+         |  ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:21: note: in expansion of macro '__native_word'
+      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
+         |                     ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:2: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |  compiletime_assert_rwonce_type(x);    \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:532:43: note: in expansion of macro 'READ_ONCE'
+     532 |  typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                           ^~~~~~~~~
+   include/linux/rcupdate.h:680:2: note: in expansion of macro '__rcu_dereference_check'
+     680 |  __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:752:28: note: in expansion of macro 'rcu_dereference_check'
+     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
+         |                            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/p2pdma.c:984:11: note: in expansion of macro 'rcu_dereference'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |           ^~~~~~~~~~~~~~~
+>> drivers/pci/p2pdma.c:984:31: error: invalid use of undefined type 'struct pci_Dev'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |                               ^~
+   include/linux/compiler_types.h:548:9: note: in definition of macro '__compiletime_assert'
+     548 |   if (!(condition))     \
+         |         ^~~~~~~~~
+   include/linux/compiler_types.h:568:2: note: in expansion of macro '_compiletime_assert'
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:2: note: in expansion of macro 'compiletime_assert'
+      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
+         |  ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:21: note: in expansion of macro '__native_word'
+      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
+         |                     ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:2: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |  compiletime_assert_rwonce_type(x);    \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:532:43: note: in expansion of macro 'READ_ONCE'
+     532 |  typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                           ^~~~~~~~~
+   include/linux/rcupdate.h:680:2: note: in expansion of macro '__rcu_dereference_check'
+     680 |  __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:752:28: note: in expansion of macro 'rcu_dereference_check'
+     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
+         |                            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/p2pdma.c:984:11: note: in expansion of macro 'rcu_dereference'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |           ^~~~~~~~~~~~~~~
+>> drivers/pci/p2pdma.c:984:31: error: invalid use of undefined type 'struct pci_Dev'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |                               ^~
+   include/linux/compiler_types.h:548:9: note: in definition of macro '__compiletime_assert'
+     548 |   if (!(condition))     \
+         |         ^~~~~~~~~
+   include/linux/compiler_types.h:568:2: note: in expansion of macro '_compiletime_assert'
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:2: note: in expansion of macro 'compiletime_assert'
+      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
+         |  ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:21: note: in expansion of macro '__native_word'
+      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
+         |                     ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:2: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |  compiletime_assert_rwonce_type(x);    \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:532:43: note: in expansion of macro 'READ_ONCE'
+     532 |  typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                           ^~~~~~~~~
+   include/linux/rcupdate.h:680:2: note: in expansion of macro '__rcu_dereference_check'
+     680 |  __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:752:28: note: in expansion of macro 'rcu_dereference_check'
+     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
+         |                            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/p2pdma.c:984:11: note: in expansion of macro 'rcu_dereference'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |           ^~~~~~~~~~~~~~~
+>> drivers/pci/p2pdma.c:984:31: error: invalid use of undefined type 'struct pci_Dev'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |                               ^~
+   include/linux/compiler_types.h:548:9: note: in definition of macro '__compiletime_assert'
+     548 |   if (!(condition))     \
+         |         ^~~~~~~~~
+   include/linux/compiler_types.h:568:2: note: in expansion of macro '_compiletime_assert'
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:2: note: in expansion of macro 'compiletime_assert'
+      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
+         |  ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:21: note: in expansion of macro '__native_word'
+      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
+         |                     ^~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:2: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |  compiletime_assert_rwonce_type(x);    \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:532:43: note: in expansion of macro 'READ_ONCE'
+     532 |  typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                           ^~~~~~~~~
+   include/linux/rcupdate.h:680:2: note: in expansion of macro '__rcu_dereference_check'
+     680 |  __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:752:28: note: in expansion of macro 'rcu_dereference_check'
+     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
+         |                            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/p2pdma.c:984:11: note: in expansion of macro 'rcu_dereference'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |           ^~~~~~~~~~~~~~~
+>> drivers/pci/p2pdma.c:984:31: error: invalid use of undefined type 'struct pci_Dev'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |                               ^~
+   include/linux/compiler_types.h:548:9: note: in definition of macro '__compiletime_assert'
+     548 |   if (!(condition))     \
+         |         ^~~~~~~~~
+   include/linux/compiler_types.h:568:2: note: in expansion of macro '_compiletime_assert'
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:36:2: note: in expansion of macro 'compiletime_assert'
+      36 |  compiletime_assert(__native_word(t) || sizeof(t) == sizeof(long long), \
+         |  ^~~~~~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:49:2: note: in expansion of macro 'compiletime_assert_rwonce_type'
+      49 |  compiletime_assert_rwonce_type(x);    \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:532:43: note: in expansion of macro 'READ_ONCE'
+     532 |  typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                           ^~~~~~~~~
+   include/linux/rcupdate.h:680:2: note: in expansion of macro '__rcu_dereference_check'
+     680 |  __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:752:28: note: in expansion of macro 'rcu_dereference_check'
+     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
+         |                            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/p2pdma.c:984:11: note: in expansion of macro 'rcu_dereference'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |           ^~~~~~~~~~~~~~~
+>> drivers/pci/p2pdma.c:984:31: error: invalid use of undefined type 'struct pci_Dev'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |                               ^~
+   include/linux/compiler_types.h:518:13: note: in definition of macro '__unqual_scalar_typeof'
+     518 |   _Generic((x),      \
+         |             ^
+   include/asm-generic/rwonce.h:50:2: note: in expansion of macro '__READ_ONCE'
+      50 |  __READ_ONCE(x);       \
+         |  ^~~~~~~~~~~
+   include/linux/rcupdate.h:532:43: note: in expansion of macro 'READ_ONCE'
+     532 |  typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                           ^~~~~~~~~
+   include/linux/rcupdate.h:680:2: note: in expansion of macro '__rcu_dereference_check'
+     680 |  __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:752:28: note: in expansion of macro 'rcu_dereference_check'
+     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
+         |                            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/p2pdma.c:984:11: note: in expansion of macro 'rcu_dereference'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |           ^~~~~~~~~~~~~~~
+   In file included from arch/arm64/include/asm/rwonce.h:67,
+                    from include/linux/compiler.h:390,
+                    from include/linux/ctype.h:5,
+                    from drivers/pci/p2pdma.c:12:
+>> drivers/pci/p2pdma.c:984:31: error: invalid use of undefined type 'struct pci_Dev'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |                               ^~
+   include/asm-generic/rwonce.h:44:72: note: in definition of macro '__READ_ONCE'
+      44 | #define __READ_ONCE(x) (*(const volatile __unqual_scalar_typeof(x) *)&(x))
+         |                                                                        ^
+   include/linux/rcupdate.h:532:43: note: in expansion of macro 'READ_ONCE'
+     532 |  typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+         |                                           ^~~~~~~~~
+   include/linux/rcupdate.h:680:2: note: in expansion of macro '__rcu_dereference_check'
+     680 |  __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+         |  ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:752:28: note: in expansion of macro 'rcu_dereference_check'
+     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
+         |                            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/p2pdma.c:984:11: note: in expansion of macro 'rcu_dereference'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |           ^~~~~~~~~~~~~~~
+   In file included from include/linux/radix-tree.h:18,
+                    from include/linux/idr.h:15,
+                    from include/linux/kernfs.h:12,
+                    from include/linux/sysfs.h:16,
+                    from include/linux/kobject.h:20,
+                    from include/linux/energy_model.h:7,
+                    from include/linux/device.h:16,
+                    from include/linux/dma-mapping.h:5,
+                    from include/linux/dma-map-ops.h:9,
+                    from drivers/pci/p2pdma.c:13:
+>> drivers/pci/p2pdma.c:984:31: error: invalid use of undefined type 'struct pci_Dev'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |                               ^~
+   include/linux/rcupdate.h:535:12: note: in definition of macro '__rcu_dereference_check'
+     535 |  ((typeof(*p) __force __kernel *)(local)); \
+         |            ^
+   include/linux/rcupdate.h:752:28: note: in expansion of macro 'rcu_dereference_check'
+     752 | #define rcu_dereference(p) rcu_dereference_check(p, 0)
+         |                            ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/p2pdma.c:984:11: note: in expansion of macro 'rcu_dereference'
+     984 |  p2pdma = rcu_dereference(pdev->p2pdma);
+         |           ^~~~~~~~~~~~~~~
+>> drivers/pci/p2pdma.c:992:33: error: passing argument 1 of 'calc_map_type_and_dist' from incompatible pointer type [-Werror=incompatible-pointer-types]
+     992 |   return calc_map_type_and_dist(pdev, client, &dist, true);
+         |                                 ^~~~
+         |                                 |
+         |                                 struct pci_Dev *
+   drivers/pci/p2pdma.c:584:40: note: expected 'struct pci_dev *' but argument is of type 'struct pci_Dev *'
+     584 | calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
+         |                        ~~~~~~~~~~~~~~~~^~~~~~~~
+   drivers/pci/p2pdma.c: In function '__pci_p2pdma_update_state':
+   drivers/pci/p2pdma.c:1002:18: error: 'client' redeclared as different kind of symbol
+    1002 |  struct pci_dev *client;
+         |                  ^~~~~~
+   drivers/pci/p2pdma.c:998:27: note: previous definition of 'client' was here
+     998 |           struct pci_dev *client, struct page *page)
+         |           ~~~~~~~~~~~~~~~~^~~~~~
+>> drivers/pci/p2pdma.c:1010:35: error: passing argument 1 of 'pci_p2pdma_map_type' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    1010 |  state->map = pci_p2pdma_map_type(pdev, client);
+         |                                   ^~~~
+         |                                   |
+         |                                   struct pci_dev *
+   drivers/pci/p2pdma.c:977:37: note: expected 'struct pci_Dev *' but argument is of type 'struct pci_dev *'
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                     ~~~~~~~~~~~~~~~~^~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/clk_sam9x5_peripheral_determine_rate +335 drivers/clk/at91/clk-peripheral.c
+vim +984 drivers/pci/p2pdma.c
 
-   270	
- > 271	static int clk_sam9x5_peripheral_determine_rate(struct clk_hw *hw,
-   272							struct clk_rate_request *req)
-   273	{
-   274		struct clk_sam9x5_peripheral *periph = to_clk_sam9x5_peripheral(hw);
-   275		struct clk_hw *parent = clk_hw_get_parent(hw);
-   276		unsigned long parent_rate = clk_hw_get_rate(parent);
-   277		unsigned long tmp_rate;
-   278		long best_rate = LONG_MIN;
-   279		long best_diff = LONG_MIN;
-   280		u32 shift;
-   281	
-   282		if (periph->id < PERIPHERAL_ID_MIN || !periph->range.max)
-   283			return parent_rate;
-   284	
-   285		/* Fist step: check the available dividers. */
-   286		for (shift = 0; shift <= PERIPHERAL_MAX_SHIFT; shift++) {
-   287			tmp_rate = parent_rate >> shift;
-   288	
-   289			if (periph->range.max && tmp_rate > periph->range.max)
-   290				continue;
-   291	
-   292			clk_sam9x5_peripheral_best_diff(req, parent, parent_rate,
-   293							shift, &best_diff, &best_rate);
-   294	
-   295			if (!best_diff || best_rate <= req->rate)
-   296				break;
-   297		}
-   298	
-   299		if (periph->chg_pid < 0)
-   300			goto end;
-   301	
-   302		/* Step two: try to request rate from parent. */
-   303		parent = clk_hw_get_parent_by_index(hw, periph->chg_pid);
-   304		if (!parent)
-   305			goto end;
-   306	
-   307		for (shift = 0; shift <= PERIPHERAL_MAX_SHIFT; shift++) {
-   308			struct clk_rate_request req_parent;
-   309	
-   310			clk_hw_forward_rate_request(hw, req, parent, &req_parent, req->rate << shift);
-   311			if (__clk_determine_rate(parent, &req_parent))
-   312				continue;
-   313	
-   314			clk_sam9x5_peripheral_best_diff(req, parent, req_parent.rate,
-   315							shift, &best_diff, &best_rate);
-   316	
-   317			if (!best_diff)
-   318				break;
-   319		}
-   320	end:
-   321		if (best_rate < 0 ||
-   322		    (periph->range.max && best_rate > periph->range.max))
-   323			return -EINVAL;
-   324	
-   325		pr_debug("PCK: %s, best_rate = %ld, parent clk: %s @ %ld\n",
-   326			 __func__, best_rate,
-   327			 __clk_get_name((req->best_parent_hw)->clk),
-   328			 req->best_parent_rate);
-   329	
-   330		req->rate = best_rate;
-   331	
-   332		return 0;
-   333	}
-   334	
- > 335	static int clk_sam9x5_peripheral_determine_rate(struct clk_hw *hw,
-   336							struct clk_rate_request *req)
-   337	{
-   338		int shift = 0;
-   339		unsigned long best_rate;
-   340		unsigned long best_diff;
-   341		unsigned long cur_rate = req->best_parent_rate;
-   342		unsigned long cur_diff;
-   343		struct clk_sam9x5_peripheral *periph = to_clk_sam9x5_peripheral(hw);
-   344	
-   345		if (periph->id < PERIPHERAL_ID_MIN || !periph->range.max) {
-   346			req->rate = req->best_parent_rate;
-   347	
-   348			return 0;
-   349		}
-   350	
-   351		if (periph->range.max) {
-   352			for (; shift <= PERIPHERAL_MAX_SHIFT; shift++) {
-   353				cur_rate = req->best_parent_rate >> shift;
-   354				if (cur_rate <= periph->range.max)
-   355					break;
-   356			}
-   357		}
-   358	
-   359		if (req->rate >= cur_rate) {
-   360			req->rate = cur_rate;
-   361	
-   362			return 0;
-   363		}
-   364	
-   365		best_diff = cur_rate - req->rate;
-   366		best_rate = cur_rate;
-   367		for (; shift <= PERIPHERAL_MAX_SHIFT; shift++) {
-   368			cur_rate = req->best_parent_rate >> shift;
-   369			if (cur_rate < req->rate)
-   370				cur_diff = req->rate - cur_rate;
-   371			else
-   372				cur_diff = cur_rate - req->rate;
-   373	
-   374			if (cur_diff < best_diff) {
-   375				best_diff = cur_diff;
-   376				best_rate = cur_rate;
-   377			}
-   378	
-   379			if (!best_diff || cur_rate < req->rate)
-   380				break;
-   381		}
-   382	
-   383		req->rate = best_rate;
-   384	
-   385		return 0;
-   386	}
-   387	
+977196b8c5b20b9 Logan Gunthorpe   2018-10-04   975  
+129a3ed0a8932bd Leon Romanovsky   2025-07-07   976  static enum pci_p2pdma_map_type
+07f78ef067ca643 Leon Romanovsky   2025-07-07  @977  pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+5d52e1abcd47957 Logan Gunthorpe   2019-08-12   978  {
+ae21f835a5bda0e Eric Dumazet      2021-07-01   979  	enum pci_p2pdma_map_type type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+ae21f835a5bda0e Eric Dumazet      2021-07-01   980  	struct pci_p2pdma *p2pdma;
+719c98658058f4a Logan Gunthorpe   2022-07-08   981  	int dist;
+7e2faa1710c4087 Logan Gunthorpe   2021-06-10   982  
+ae21f835a5bda0e Eric Dumazet      2021-07-01   983  	rcu_read_lock();
+129a3ed0a8932bd Leon Romanovsky   2025-07-07  @984  	p2pdma = rcu_dereference(pdev->p2pdma);
+ae21f835a5bda0e Eric Dumazet      2021-07-01   985  
+ae21f835a5bda0e Eric Dumazet      2021-07-01   986  	if (p2pdma)
+ae21f835a5bda0e Eric Dumazet      2021-07-01   987  		type = xa_to_value(xa_load(&p2pdma->map_types,
+5d52e1abcd47957 Logan Gunthorpe   2019-08-12   988  					   map_types_idx(client)));
+ae21f835a5bda0e Eric Dumazet      2021-07-01   989  	rcu_read_unlock();
+719c98658058f4a Logan Gunthorpe   2022-07-08   990  
+719c98658058f4a Logan Gunthorpe   2022-07-08   991  	if (type == PCI_P2PDMA_MAP_UNKNOWN)
+129a3ed0a8932bd Leon Romanovsky   2025-07-07  @992  		return calc_map_type_and_dist(pdev, client, &dist, true);
+719c98658058f4a Logan Gunthorpe   2022-07-08   993  
+ae21f835a5bda0e Eric Dumazet      2021-07-01   994  	return type;
+5d52e1abcd47957 Logan Gunthorpe   2019-08-12   995  }
+5d52e1abcd47957 Logan Gunthorpe   2019-08-12   996  
+a25e7962db0d798 Christoph Hellwig 2025-05-05   997  void __pci_p2pdma_update_state(struct pci_p2pdma_map_state *state,
+07f78ef067ca643 Leon Romanovsky   2025-07-07   998  			       struct pci_dev *client, struct page *page)
+5e180ff326b43bd Logan Gunthorpe   2022-07-08   999  {
+129a3ed0a8932bd Leon Romanovsky   2025-07-07  1000  	struct pci_p2pdma_pagemap *p2p_pgmap = to_p2p_pgmap(page_pgmap(page));
+07f78ef067ca643 Leon Romanovsky   2025-07-07  1001  	struct pci_dev *pdev = to_pci_dev(p2p_pgmap->mem.owner);
+07f78ef067ca643 Leon Romanovsky   2025-07-07  1002  	struct pci_dev *client;
+07f78ef067ca643 Leon Romanovsky   2025-07-07  1003  
+07f78ef067ca643 Leon Romanovsky   2025-07-07  1004  	if (!pdev->p2pdma) {
+07f78ef067ca643 Leon Romanovsky   2025-07-07  1005  		state->map = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+07f78ef067ca643 Leon Romanovsky   2025-07-07  1006  		return;
+07f78ef067ca643 Leon Romanovsky   2025-07-07  1007  	}
+129a3ed0a8932bd Leon Romanovsky   2025-07-07  1008  
+129a3ed0a8932bd Leon Romanovsky   2025-07-07  1009  	state->mem = &p2p_pgmap->mem;
+07f78ef067ca643 Leon Romanovsky   2025-07-07 @1010  	state->map = pci_p2pdma_map_type(pdev, client);
+5e180ff326b43bd Logan Gunthorpe   2022-07-08  1011  }
+5e180ff326b43bd Logan Gunthorpe   2022-07-08  1012  
+
+:::::: The code at line 984 was first introduced by commit
+:::::: 129a3ed0a8932bd3f53853e87d2c0d3b50516d34 PCI/P2PDMA: Split out the information about the providing device from pgmap
+
+:::::: TO: Leon Romanovsky <leonro@nvidia.com>
+:::::: CC: Leon Romanovsky <leon@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
