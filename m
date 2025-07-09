@@ -1,70 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A622528B7DE;
-	Wed,  9 Jul 2025 10:23:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4BC267B89;
+	Wed,  9 Jul 2025 10:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752056599; cv=none; b=B+8DL6rK4tU1T8Ea/38tZ/3VOQe1kOdzQdkcIJaOwGBKTq8J2RRkdn75+AReCESrK1Byb6JJ9/BxUbh9kpNE8naw6NcgYgbutOBU11p7NJ25ATbgp0lh1EAdjCs4Eq1nbyOiNEH5g8HmTzHXoIaUUEisFpogSWWVyY+hS2uly6E=
+	t=1752056608; cv=none; b=bU/8H2B+Du4eQqs5aVpGl4lcQelYtkBGlwUAQAWFsA0G6C3fO23ZqFAkWO93reVRfOvVtfp60U56qv03Ot5P5nBOSlMgJrrkzrgDWjwCS11Cn0oufkSVu+1f7SR4K0vHNC2gpVcZbUE4ObqmL4a6BPPNipvZyUhQX+BVBEH+oVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752056599; c=relaxed/simple;
-	bh=saN/d4gfnEw13D+prR8b8IdE3mlm76MqGHQUgKWmIVM=;
+	s=arc-20240116; t=1752056608; c=relaxed/simple;
+	bh=2+N4smsYfrl5HTf8MH0tIEMC4qA9EcZ/1I6Yj3gLik4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VbMwXVjKXkeZ8fqI+SAsDhbbS1D1fPfTZrFN8A1Jg8rNG8TBE/3m/AI1MbMB2T5S3wjeBO0+92rixKrjjGUYYXXsj16hlO2tiGiskLt6iVm04kPwWZTbET3ube7yuPAoxUFN8WDQDjrTWSi/z20P89h0iPWejKdNTQVxPWZ5Wzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nicqy+R0; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=kkcyusRNtFmKCbFjDo1wRDV8l8kU7enI9eD0CSVdDpFgdKfHz4czOvOgp0jcLp4uw7AuX2YnPzEJiORUjoLgRXVDO0WntwqTxLm5EI2nmbUJB0aQgoLAbzDSwEuKAwM81URxsaay3CW7l/UrPsf7iHQYARZALt/32daGodBY7Z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k837bwEF; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nicqy+R0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k837bwEF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752056598; x=1783592598;
+  t=1752056607; x=1783592607;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=saN/d4gfnEw13D+prR8b8IdE3mlm76MqGHQUgKWmIVM=;
-  b=Nicqy+R0TdipZB532ShK1EFZo84lQVBzNlTwzCGM2jTJJ7yx8f1TythC
-   9cD1nXSvYFloTkkGz4nwkJCEl+LsAdRag1io2J/GZxi65Nb8aaCACCXBE
-   XAzZPyiu7JEcaqtaUpiermnk0zc9yfyBtFXoye25HeK2jP1Uixxo+Sf0x
-   oon5ciUIsitZYlfUskxocOQdwb7gu7P88tnsH4koKTl+IMin7ftr1SGV8
-   Z6LXjylATW79MznIQcARhCA2+GNh2/uThBhx2ZO9yR1omWwclhuj7hQJu
-   fzPjQNW1OH3dVL22NJ0mzCGBUzzALKTs5vTx/lvJ4TFVBQG88N+v4jwey
-   w==;
-X-CSE-ConnectionGUID: Jz5gSZY4ROS6kaw3MgCqhw==
-X-CSE-MsgGUID: kQ+CgewJRoOXXFaPyZgFGA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="76860268"
+  bh=2+N4smsYfrl5HTf8MH0tIEMC4qA9EcZ/1I6Yj3gLik4=;
+  b=k837bwEFQCPuYd2DS1m+4vSJdVcy1zcFNo3Z35MkwIt2oFyq/tBgbIZT
+   RRxUGnT5HDEAsHnDfLMMskZmOGj0SR6idSmcwsqw2SqboCLP0FCh29IRN
+   3vVYmZ9mXkTt5Whtcr0sD3JXwbuW5Ov7/n2H3V1+l+eHbsdHfi8gQJNZ0
+   tnxRv4yfuO4abSeF9oD+nCw9SyTn298OUbwQcm+6NhVJwwK1MoneOWJw5
+   GJZgCu+ubKP4fBn4e5gbc+ofSby6qo/4SOvzvhxh/wI1MgsaTlpvLl2Ny
+   MC0MnMKC2e1jlXkUGAfj4Pm+AtLqdET1Sy9aIiAUmPWq8x9tuAm6BNvtE
+   g==;
+X-CSE-ConnectionGUID: qckYPUKLTQSKbJGvv7a4wg==
+X-CSE-MsgGUID: U8DrPye3SW6aR4lJd3Vf8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="79750717"
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="76860268"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 03:23:16 -0700
-X-CSE-ConnectionGUID: 0H38jff9RYSTaPGDbHz5iw==
-X-CSE-MsgGUID: P5tlRiFCQPi8zz6fhqvRcQ==
+   d="scan'208";a="79750717"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 03:23:19 -0700
+X-CSE-ConnectionGUID: nA7HpcjlRkSUBS07mOfahw==
+X-CSE-MsgGUID: 2ZH4Zb0hTQCxpOErnia7Jg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="156221519"
+   d="scan'208";a="160057178"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 09 Jul 2025 03:23:13 -0700
+  by orviesa003.jf.intel.com with ESMTP; 09 Jul 2025 03:23:13 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZRxG-0003OR-0S;
+	id 1uZRxG-0003OT-0W;
 	Wed, 09 Jul 2025 10:23:10 +0000
-Date: Wed, 9 Jul 2025 18:22:37 +0800
+Date: Wed, 9 Jul 2025 18:22:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Keke Li <keke.li@amlogic.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Dan Scally <dan.scally@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH 2/8] media: uapi: Convert RkISP1 to V4L2 extensible params
-Message-ID: <202507091859.x8Yx8AZb-lkp@intel.com>
-References: <20250708-extensible-parameters-validation-v1-2-9fc27c9c728c@ideasonboard.com>
+To: Duje =?utf-8?Q?Mihanovi=C4=87?= <duje@dujemihanovic.xyz>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Lubomir Rintel <lkundrak@v3.sk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+	Gregory Clement <gregory.clement@bootlin.com>,
+	Sebastian Hesselbarth <sebastian.hesselbarth@gmail.com>,
+	Kees Cook <kees@kernel.org>, Tony Luck <tony.luck@intel.com>,
+	"Guilherme G. Piccoli" <gpiccoli@igalia.com>,
+	Ulf Hansson <ulf.hansson@linaro.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, David Wronek <david@mainlining.org>,
+	Karel Balej <balejk@matfyz.cz>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-hardening@vger.kernel.org, phone-devel@vger.kernel.org,
+	~postmarketos/upstreaming@lists.sr.ht, soc@lists.linux.dev,
+	linux-mmc@vger.kernel.org
+Subject: Re: [PATCH v16 3/5] arm64: Kconfig.platforms: Add config for Marvell
+ PXA1908 platform
+Message-ID: <202507091803.RBsXE3aX-lkp@intel.com>
+References: <20250708-pxa1908-lkml-v16-3-b4392c484180@dujemihanovic.xyz>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,34 +80,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250708-extensible-parameters-validation-v1-2-9fc27c9c728c@ideasonboard.com>
+In-Reply-To: <20250708-pxa1908-lkml-v16-3-b4392c484180@dujemihanovic.xyz>
 
-Hi Jacopo,
+Hi Duje,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on a8598c7de1bcd94461ca54c972efa9b4ea501fb9]
+[auto build test WARNING on d7b8f8e20813f0179d8ef519541a3527e7661d3a]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-uapi-Introduce-V4L2-extensible-params/20250708-184651
-base:   a8598c7de1bcd94461ca54c972efa9b4ea501fb9
-patch link:    https://lore.kernel.org/r/20250708-extensible-parameters-validation-v1-2-9fc27c9c728c%40ideasonboard.com
-patch subject: [PATCH 2/8] media: uapi: Convert RkISP1 to V4L2 extensible params
-config: i386-buildonly-randconfig-003-20250709 (https://download.01.org/0day-ci/archive/20250709/202507091859.x8Yx8AZb-lkp@intel.com/config)
-compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146a88f60492b520a36f8f8f3231e15f3cc6082)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250709/202507091859.x8Yx8AZb-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Duje-Mihanovi/dt-bindings-mmc-sdhci-pxa-restrict-pinctrl-to-pxav1/20250709-011510
+base:   d7b8f8e20813f0179d8ef519541a3527e7661d3a
+patch link:    https://lore.kernel.org/r/20250708-pxa1908-lkml-v16-3-b4392c484180%40dujemihanovic.xyz
+patch subject: [PATCH v16 3/5] arm64: Kconfig.platforms: Add config for Marvell PXA1908 platform
+config: arm64-kismet-CONFIG_I2C_GPIO-CONFIG_VIDEO_MMP_CAMERA-0-0 (https://download.01.org/0day-ci/archive/20250709/202507091803.RBsXE3aX-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250709/202507091803.RBsXE3aX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507091859.x8Yx8AZb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507091803.RBsXE3aX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from <built-in>:1:
->> ./usr/include/linux/rkisp1-config.h:10:10: fatal error: 'linux/build_bug.h' file not found
-      10 | #include <linux/build_bug.h>
-         |          ^~~~~~~~~~~~~~~~~~~
-   1 error generated.
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for I2C_GPIO when selected by VIDEO_MMP_CAMERA
+   WARNING: unmet direct dependencies detected for I2C_GPIO
+     Depends on [n]: I2C [=y] && HAS_IOMEM [=y] && (GPIOLIB [=n] || COMPILE_TEST [=n])
+     Selected by [y]:
+     - VIDEO_MMP_CAMERA [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && MEDIA_PLATFORM_DRIVERS [=y] && V4L_PLATFORM_DRIVERS [=y] && I2C [=y] && VIDEO_DEV [=y] && (ARCH_MMP [=y] || COMPILE_TEST [=n]) && COMMON_CLK [=y]
 
 -- 
 0-DAY CI Kernel Test Service
