@@ -1,62 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2835280CEA;
-	Wed,  9 Jul 2025 09:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9B1272808
+	for <oe-kbuild-all@lists.linux.dev>; Wed,  9 Jul 2025 09:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752052211; cv=none; b=NLrTLLSLR5E2p3qJ9Pnt9GCseieRJiqQesEmuIxkvZqb/F1HRHJ4h4MbyfxUGAOZZBQderHCdz1x4ufJzuVV9K185KgKKNjWyWmt3BAbt5CD9A88M9lbOC+g0FYh3uY0puT5T80RaowmubNcNkXMfJJqhq+CBEGX0yaKha3zzC8=
+	t=1752052870; cv=none; b=lW26HuT3C6whr8+L9gJXIuZjMNRQGXpDGDf7OWdaY9YCdkdm7muYuivDErRyrvbcJgZS8GbExvOLN6BcqXB7VWzIGHnhgz9mOxLgI46b+VF6qDMG9bscBcdNLsbcWytNdB+VZsvHfkQFX/bkgHLw8BnohE/8DUgfHGG6/1vgPC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752052211; c=relaxed/simple;
-	bh=IJjJgM4OeRcDQZbbuj3g79bHehoQC7+ut1sOtWZkbZs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=okCDQxW0jI0GlMzkSwtRKb/4YIxvVjCkHOgRTNhSJkCYQxOfRKcPm74CtVU9zOrlR4Qaq33QftQC72GcaIkXnSlNQ7egGxy5OkePpioXJvzOSq/WhDB0uGb2/yzGdbIcNsm2lC3rEbdG6vkFAr1PYzHY7+oiyRqrsw5OKtSXJZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QzW535K+; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1752052870; c=relaxed/simple;
+	bh=z3x2Gt1rt8xqTtqo9CeUFY3qwCPecBK5Nelp2o0HyOg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=H7cpn5lOx3oWdWa1xnavY5BhGGqDQfNOK6y5S/+sRiURBH6G45WhnD9OKG623Qtqb9N9scrHvdp4MMb3kc9BuuYDus28APBs01p9hTsnANnq+cjMwT8HIWjObqOBfUJRIBphkhD9H2W5CmUCtWVGp9TAtiJXIqSZcID9uAK89ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aKU1KqTH; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QzW535K+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aKU1KqTH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752052210; x=1783588210;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IJjJgM4OeRcDQZbbuj3g79bHehoQC7+ut1sOtWZkbZs=;
-  b=QzW535K+xfDaHCNexMYzWVCUvLjy2T+RkUb3NyQa1550zSztnkeh8TGn
-   3fcICDvc3vbCF+6xYGyvQGBgYzYoVOI9PP6ESL8LO3hDHCo5YwzGvs7OJ
-   7fcQgL3hDjE75xmurGu/xxBtPWRqaSaAyTEtgc+VMHFldojTxmPiEGWoa
-   yhhGpS50Odmqhp43lnSVi0r/Sap4pEMGgw3oNZLGDAoSPEXiCal4/kU3i
-   eeS5Wj8y07Kve6GR/OHwOJjOje6DUT5mYnXzq42Dey2nOG21OqjO7plJP
-   j/YW1PXgd3dfgDzYpnNyNeOvdZ3+PI+JIgyNDLNtd8Y6hn3W0njQXSsEy
-   Q==;
-X-CSE-ConnectionGUID: sPmb+GX2Rtan+BpeJxqSyQ==
-X-CSE-MsgGUID: Kvw8NGh2QWGK4srzO0xVNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="54163376"
+  t=1752052869; x=1783588869;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=z3x2Gt1rt8xqTtqo9CeUFY3qwCPecBK5Nelp2o0HyOg=;
+  b=aKU1KqTHLpk/LCkQ2gt4yfBdALjqL1JLlAE0C+FiW9hEillThSUwuLEF
+   2ZJXywMSE+C+KYdEKLNcRxrYFEpkEU3JnuIFp1AZiDNvJVoLxVk3qBugR
+   8IBAOkXJld3VZ7DlgmHgTGK6vQAJa81lVcT+kDuOprzTA4qOU8f3Uajny
+   SYgg/jiX1hv2aoHe8zo+VeCMlgkDcrf+LR1t1K2Jz9D4YK/tYmvl7lfVY
+   3w7iNHn5YgcLAceI5UvOoanJzXx0Mnwe/6RXkmMflHgXBduyajK66L2sM
+   sYnj8biKr0oUhYF3emMMSnXEZz5lIRDOnpoOmiCcpyotuPS39SLh37p7j
+   g==;
+X-CSE-ConnectionGUID: W1La/j+NQ2GncVq8ICZXeg==
+X-CSE-MsgGUID: apOCNoLQTEmu53AT/J0NbA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11487"; a="76853900"
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="54163376"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 02:10:09 -0700
-X-CSE-ConnectionGUID: 3G6X9a/9QZGs4/E1Nu1G6A==
-X-CSE-MsgGUID: 8VeCwGwHRoyx12QvGTKIaw==
+   d="scan'208";a="76853900"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 02:21:09 -0700
+X-CSE-ConnectionGUID: sw36Ee8kSUeQoStCO4NcvQ==
+X-CSE-MsgGUID: hW/y84lhQlyCmjDEid+m6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,298,1744095600"; 
-   d="scan'208";a="155458330"
+   d="scan'208";a="161374562"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 09 Jul 2025 02:10:07 -0700
+  by orviesa005.jf.intel.com with ESMTP; 09 Jul 2025 02:21:07 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZQoW-0003Kz-1d;
-	Wed, 09 Jul 2025 09:10:04 +0000
-Date: Wed, 9 Jul 2025 17:09:19 +0800
+	id 1uZQzB-0003Ld-17;
+	Wed, 09 Jul 2025 09:21:05 +0000
+Date: Wed, 9 Jul 2025 17:20:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Christoph Hellwig <hch@lst.de>, Christian Brauner <brauner@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, "Darrick J. Wong" <djwong@kernel.org>,
-	Joanne Koong <joannelkoong@gmail.com>, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-block@vger.kernel.org, gfs2@lists.linux.dev
-Subject: Re: [PATCH 01/14] iomap: header diet
-Message-ID: <202507091656.dMTKUTBY-lkp@intel.com>
-References: <20250708135132.3347932-2-hch@lst.de>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, kvm@vger.kernel.org,
+	virtualization@lists.linux-foundation.org, netdev@vger.kernel.org
+Subject: [mst-vhost:vhost 4/8] include/linux/pci.h:2738:14: warning: implicit
+ declaration of function 'pci_device_is_present'; did you mean
+ 'pci_dev_present'?
+Message-ID: <202507091726.qKSmDnk7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,96 +63,51 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250708135132.3347932-2-hch@lst.de>
 
-Hi Christoph,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on brauner-vfs/vfs.all]
-[also build test ERROR on xfs-linux/for-next gfs2/for-next linus/master v6.16-rc5 next-20250708]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/iomap-pass-more-arguments-using-the-iomap-writeback-context/20250708-225155
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250708135132.3347932-2-hch%40lst.de
-patch subject: [PATCH 01/14] iomap: header diet
-config: arc-randconfig-001-20250709 (https://download.01.org/0day-ci/archive/20250709/202507091656.dMTKUTBY-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250709/202507091656.dMTKUTBY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git vhost
+head:   97d5f469f45a2312a124376fd6fa368ef8419dff
+commit: b7468115b6045e555aa8a8f2fa327c1c073fc6df [4/8] pci: report surprise removal event
+config: x86_64-buildonly-randconfig-004-20250709 (https://download.01.org/0day-ci/archive/20250709/202507091726.qKSmDnk7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250709/202507091726.qKSmDnk7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507091656.dMTKUTBY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507091726.qKSmDnk7-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   fs/iomap/buffered-io.c: In function 'iomap_dirty_folio':
->> fs/iomap/buffered-io.c:642:9: error: implicit declaration of function 'filemap_dirty_folio'; did you mean 'iomap_dirty_folio'? [-Werror=implicit-function-declaration]
-     return filemap_dirty_folio(mapping, folio);
-            ^~~~~~~~~~~~~~~~~~~
-            iomap_dirty_folio
-   fs/iomap/buffered-io.c: In function 'iomap_write_iter':
->> fs/iomap/buffered-io.c:930:58: error: 'BDP_ASYNC' undeclared (first use in this function); did you mean 'I_SYNC'?
-     unsigned int bdp_flags = (iter->flags & IOMAP_NOWAIT) ? BDP_ASYNC : 0;
-                                                             ^~~~~~~~~
-                                                             I_SYNC
-   fs/iomap/buffered-io.c:930:58: note: each undeclared identifier is reported only once for each function it appears in
->> fs/iomap/buffered-io.c:945:12: error: implicit declaration of function 'balance_dirty_pages_ratelimited_flags' [-Werror=implicit-function-declaration]
-      status = balance_dirty_pages_ratelimited_flags(mapping,
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/iomap/buffered-io.c: In function 'iomap_unshare_iter':
->> fs/iomap/buffered-io.c:1309:3: error: implicit declaration of function 'balance_dirty_pages_ratelimited'; did you mean 'pr_alert_ratelimited'? [-Werror=implicit-function-declaration]
-      balance_dirty_pages_ratelimited(iter->inode->i_mapping);
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      pr_alert_ratelimited
-   fs/iomap/buffered-io.c: In function 'iomap_zero_iter':
->> fs/iomap/buffered-io.c:1376:3: error: implicit declaration of function 'folio_mark_accessed'; did you mean 'folio_wait_locked'? [-Werror=implicit-function-declaration]
-      folio_mark_accessed(folio);
-      ^~~~~~~~~~~~~~~~~~~
-      folio_wait_locked
-   fs/iomap/buffered-io.c: In function 'iomap_alloc_ioend':
-   fs/iomap/buffered-io.c:1624:26: error: implicit declaration of function 'wbc_to_write_flags'; did you mean 'do_pipe_flags'? [-Werror=implicit-function-declaration]
-              REQ_OP_WRITE | wbc_to_write_flags(wbc),
-                             ^~~~~~~~~~~~~~~~~~
-                             do_pipe_flags
-   fs/iomap/buffered-io.c:1629:2: error: implicit declaration of function 'wbc_init_bio'; did you mean 'arc_init_IRQ'? [-Werror=implicit-function-declaration]
-     wbc_init_bio(wbc, bio);
-     ^~~~~~~~~~~~
-     arc_init_IRQ
-   fs/iomap/buffered-io.c: In function 'iomap_add_to_ioend':
-   fs/iomap/buffered-io.c:1748:2: error: implicit declaration of function 'wbc_account_cgroup_owner'; did you mean 'pr_cont_cgroup_name'? [-Werror=implicit-function-declaration]
-     wbc_account_cgroup_owner(wbc, folio, len);
-     ^~~~~~~~~~~~~~~~~~~~~~~~
-     pr_cont_cgroup_name
-   fs/iomap/buffered-io.c: In function 'iomap_writepages':
->> fs/iomap/buffered-io.c:1965:18: error: implicit declaration of function 'writeback_iter'; did you mean 'write_lock_irq'? [-Werror=implicit-function-declaration]
-     while ((folio = writeback_iter(mapping, wbc, folio, &error)))
-                     ^~~~~~~~~~~~~~
-                     write_lock_irq
->> fs/iomap/buffered-io.c:1965:16: warning: assignment to 'struct folio *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     while ((folio = writeback_iter(mapping, wbc, folio, &error)))
-                   ^
-   cc1: some warnings being treated as errors
+   In file included from drivers/firmware/efi/libstub/pci.c:10:
+   include/linux/pci.h: In function 'pci_set_disconnect_work':
+>> include/linux/pci.h:2738:14: warning: implicit declaration of function 'pci_device_is_present'; did you mean 'pci_dev_present'? [-Wimplicit-function-declaration]
+    2738 |         if (!pci_device_is_present(pdev))
+         |              ^~~~~~~~~~~~~~~~~~~~~
+         |              pci_dev_present
 
 
-vim +642 fs/iomap/buffered-io.c
+vim +2738 include/linux/pci.h
 
-8306a5f5630552 Matthew Wilcox (Oracle  2021-04-28  634) 
-4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  635) bool iomap_dirty_folio(struct address_space *mapping, struct folio *folio)
-4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  636) {
-4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  637) 	struct inode *inode = mapping->host;
-4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  638) 	size_t len = folio_size(folio);
-4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  639) 
-4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  640) 	ifs_alloc(inode, folio, 0);
-4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  641) 	iomap_set_range_dirty(folio, 0, len);
-4ce02c67972211 Ritesh Harjani (IBM     2023-07-10 @642) 	return filemap_dirty_folio(mapping, folio);
-4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  643) }
-4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  644) EXPORT_SYMBOL_GPL(iomap_dirty_folio);
-4ce02c67972211 Ritesh Harjani (IBM     2023-07-10  645) 
+  2722	
+  2723	/*
+  2724	 * Caller must initialize @pdev->disconnect_work before invoking this.
+  2725	 * The work function must run and check pci_test_and_clear_disconnect_enable.
+  2726	 * Note that device can go away right after this call.
+  2727	 */
+  2728	static inline void pci_set_disconnect_work(struct pci_dev *pdev)
+  2729	{
+  2730		/* Make sure WQ has been initialized already */
+  2731		smp_wmb();
+  2732	
+  2733		WRITE_ONCE(pdev->disconnect_work_enable, 0x1);
+  2734	
+  2735		/* check the device did not go away meanwhile. */
+  2736		mb();
+  2737	
+> 2738		if (!pci_device_is_present(pdev))
+  2739			schedule_work(&pdev->disconnect_work);
+  2740	}
+  2741	
 
 -- 
 0-DAY CI Kernel Test Service
