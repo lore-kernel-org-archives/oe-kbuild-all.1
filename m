@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64E5421E0B2
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 05:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33935383
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 05:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752123797; cv=none; b=a3y+FsOMEVHCJbzeoBQ5SmSpOWGBVc2XrQLOABpB+482C1nCcsjp4HiJPWpJJBACPkspHaK5k9+29Y0reGzUsZSaJp89mfy6+lTUQHXFfP5wo2xe6iWmZMM8YpANGHbR7N6UOWXNYpNqITyZphLNK554ZgGeE0PoQWAYQoTmAiE=
+	t=1752126921; cv=none; b=LIGizb8oD5+tA4p9vGX14nvYxSNze7rXgyOBbW7O7BxC8XebV9SCrLPY5q/5+PrhjAKfEn+VhogapLk0uRqv3K5vGTvV5Pk3BU6DG7mP4zUy/vbhpmv+T0/FleOGWwbfPLiDIVtg9hh/YHk+/hPGZ8L/vmkAhl04+t3DGbBN0HQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752123797; c=relaxed/simple;
-	bh=Ceu1vyvqX6TYeOkJEwk23yxxRDONyxh9J+9TUBafHoU=;
+	s=arc-20240116; t=1752126921; c=relaxed/simple;
+	bh=VZRle5fT15DA2cJLD4dtJ7iVcZVne6IWQy7VTgxvCsc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OU0Hompr8R7JzZBdSxici9wj65J9GXlTYkHeeLRMulA0aWciKK2AXxoNM0ETOhyD9tQPI+Omqp7aFuuwPrUoDlFHNimJOGo0HQidfiojeeKIWG386bgQFpRVaBP5t0SsQNxfBTdvUuRMnUMgp1lPLtl9e8sc+3WZ7jTySD0kGo0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KSnPW3JK; arc=none smtp.client-ip=192.198.163.8
+	 Content-Disposition; b=U5Ysj4Ay+K3THPWXHlNMFhrLGSDWvS8dyeQM5zXcfH+vy8nnJItiONA8hWyXW9/lsvgXBTYdx0XH+uV70S/VbnOcXJyghRxZotKVKSbMjIRtU2Ps46JvKK7TIGRP8a3OpR3SjMlMEUbl4oQuQF6Y7OLJd4My7E8Q8WLyQ6ETbUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d3eVgDt2; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KSnPW3JK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d3eVgDt2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752123795; x=1783659795;
+  t=1752126919; x=1783662919;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Ceu1vyvqX6TYeOkJEwk23yxxRDONyxh9J+9TUBafHoU=;
-  b=KSnPW3JKt4fdaPoi9jh9+RJrOMGJqd4n1spOjHjYbUBOJudOvCIeum3y
-   9jFX05S7r7QTwjoUNnOS4OPbdGfi6pK1m2vvLMupOp0qd530+a6IVl3KB
-   DFTjlsWHqG54wbTaXXfVKUQenMG1v4/AcihzEkqr2DKF5S6+Eb4BQ3M1N
-   CFmULrVeULA57iwLg3YtHxq2Glgvgt6KWjXlEA+Q/6SM5oGBxvzcJk/is
-   5mLK8qXB9g4XBhCB78W9gzKQnvxeqSaGduBempqt1W7AbdSAwPQh5lXnE
-   o4FM0EVY+lPuo0f1lDwXWu/nsqTgP764A+wLYgl7wnd1OtHIZ+DmbC/T/
-   A==;
-X-CSE-ConnectionGUID: VN3a5aT8QUicNDNHwduPxA==
-X-CSE-MsgGUID: pa+1DwwmSDGgJKwVvAj8cQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="71977972"
+  bh=VZRle5fT15DA2cJLD4dtJ7iVcZVne6IWQy7VTgxvCsc=;
+  b=d3eVgDt2YbzF+1qVZAtaNfem9o95M/cLLq8PB2vaXYqPvNFd7EwngB3V
+   XMECWpPwaCcO/cXTnDHK0ReKlb/K4YQJvdzb+NGzdITlyfQzmW5W9JA/D
+   q7ugUvu4l7K6HTpNKCU5ATW+jzUGnnY+JGMt1wB+xm2Mw3Rz1Zfd3cfQB
+   gsIjMFaglELT16baTF/a4e358DL4eMhe6t4qgAsIpdWosEKa3A+dl3rWi
+   iUsKWBvI2UyMOvOAx9fQ1lzCub42iPTy4w/cu/BGmKWZsZTGGUJ9OusvG
+   qAiHJKblm3fzICUoIw+9xEqj3PECXl6uyqbUjE0i0aYEMSqB0xx+tjxsS
+   w==;
+X-CSE-ConnectionGUID: PNxlg1ALQo2KlPmKNvfBQA==
+X-CSE-MsgGUID: L7J15uCCSt+Jbl0Sp+ukWw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="76940620"
 X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="71977972"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 22:03:14 -0700
-X-CSE-ConnectionGUID: fR1eTBIWSDmFpWh27Ok4Kw==
-X-CSE-MsgGUID: crU3mnTXSU6ZxBpS49yptA==
+   d="scan'208";a="76940620"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 22:55:18 -0700
+X-CSE-ConnectionGUID: qADJV0XTRsaJQnK6PCi3gA==
+X-CSE-MsgGUID: RbiL0eihSRyvdq25Qi/FCQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="155380034"
+   d="scan'208";a="161639493"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 09 Jul 2025 22:03:12 -0700
+  by orviesa005.jf.intel.com with ESMTP; 09 Jul 2025 22:55:17 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZjR7-0004V3-2s;
-	Thu, 10 Jul 2025 05:03:09 +0000
-Date: Thu, 10 Jul 2025 13:02:39 +0800
+	id 1uZkFW-0004XP-2Q;
+	Thu, 10 Jul 2025 05:55:14 +0000
+Date: Thu, 10 Jul 2025 13:55:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Robin Murphy <robin.murphy@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Mark Brown <broonie@kernel.org>
-Subject: arch/arm64/kernel/signal.c:1042: undefined reference to
- `restore_gcs_context'
-Message-ID: <202507101225.jSw3nM7e-lkp@intel.com>
+To: Leon Romanovsky <leonro@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@nvidia.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>
+Subject: [leon-rdma:dmabuf-vfio 16/16]
+ drivers/vfio/pci/vfio_pci_dmabuf.c:315:40: sparse: sparse: incorrect type in
+ argument 1 (different address spaces)
+Message-ID: <202507101337.KvPciEaK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,101 +64,56 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Robin,
-
-FYI, the error/warning still remains.
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   8c2e52ebbe885c7eeaabd3b7ddcdc1246fc400d2
-commit: f00b53f1614f7be554fd28b9594ef4e63e2686c5 arm64: cpufeature: Add GCS to cpucap_is_possible()
-date:   7 months ago
-config: arm64-randconfig-003-20250710 (https://download.01.org/0day-ci/archive/20250710/202507101225.jSw3nM7e-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507101225.jSw3nM7e-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dmabuf-vfio
+head:   76398694a39d0be3b1e8a107e4dd025cfd1448fd
+commit: 76398694a39d0be3b1e8a107e4dd025cfd1448fd [16/16] vfio/pci: Allow MMIO regions to be exported through dma-buf
+config: parisc-randconfig-r122-20250710 (https://download.01.org/0day-ci/archive/20250710/202507101337.KvPciEaK-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250710/202507101337.KvPciEaK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507101225.jSw3nM7e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507101337.KvPciEaK-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/vfio/pci/vfio_pci_dmabuf.c:315:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file [noderef] __rcu **f @@     got struct file ** @@
+   drivers/vfio/pci/vfio_pci_dmabuf.c:315:40: sparse:     expected struct file [noderef] __rcu **f
+   drivers/vfio/pci/vfio_pci_dmabuf.c:315:40: sparse:     got struct file **
+   drivers/vfio/pci/vfio_pci_dmabuf.c:335:40: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct file [noderef] __rcu **f @@     got struct file ** @@
+   drivers/vfio/pci/vfio_pci_dmabuf.c:335:40: sparse:     expected struct file [noderef] __rcu **f
+   drivers/vfio/pci/vfio_pci_dmabuf.c:335:40: sparse:     got struct file **
 
-   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
-   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: arch/arm64/kernel/signal.o: in function `restore_sigframe':
->> arch/arm64/kernel/signal.c:1042: undefined reference to `restore_gcs_context'
-   aarch64-linux-ld: arch/arm64/kernel/signal.o: in function `setup_sigframe':
->> arch/arm64/kernel/signal.c:1300: undefined reference to `preserve_gcs_context'
+vim +315 drivers/vfio/pci/vfio_pci_dmabuf.c
 
-
-vim +1042 arch/arm64/kernel/signal.c
-
-47ccb02868cead Dave Martin      2017-06-15  1002  
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1003  static int restore_sigframe(struct pt_regs *regs,
-2e8a1acea8597f Kevin Brodsky    2024-10-29  1004  			    struct rt_sigframe __user *sf,
-2e8a1acea8597f Kevin Brodsky    2024-10-29  1005  			    struct user_access_state *ua_state)
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1006  {
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1007  	sigset_t set;
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1008  	int i, err;
-47ccb02868cead Dave Martin      2017-06-15  1009  	struct user_ctxs user;
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1010  
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1011  	err = __copy_from_user(&set, &sf->uc.uc_sigmask, sizeof(set));
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1012  	if (err == 0)
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1013  		set_current_blocked(&set);
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1014  
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1015  	for (i = 0; i < 31; i++)
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1016  		__get_user_error(regs->regs[i], &sf->uc.uc_mcontext.regs[i],
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1017  				 err);
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1018  	__get_user_error(regs->sp, &sf->uc.uc_mcontext.sp, err);
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1019  	__get_user_error(regs->pc, &sf->uc.uc_mcontext.pc, err);
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1020  	__get_user_error(regs->pstate, &sf->uc.uc_mcontext.pstate, err);
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1021  
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1022  	/*
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1023  	 * Avoid sys_rt_sigreturn() restarting.
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1024  	 */
-17c28958600928 Dave Martin      2017-08-01  1025  	forget_syscall(regs);
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1026  
-dbd4d7ca563fd0 Mark Rutland     2016-03-01  1027  	err |= !valid_user_regs(&regs->user_regs, current);
-47ccb02868cead Dave Martin      2017-06-15  1028  	if (err == 0)
-47ccb02868cead Dave Martin      2017-06-15  1029  		err = parse_user_sigframe(&user, sf);
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1030  
-6d502b6ba1b267 Suzuki K Poulose 2020-01-13  1031  	if (err == 0 && system_supports_fpsimd()) {
-8cd969d28fd284 Dave Martin      2017-10-31  1032  		if (!user.fpsimd)
-8cd969d28fd284 Dave Martin      2017-10-31  1033  			return -EINVAL;
-8cd969d28fd284 Dave Martin      2017-10-31  1034  
-df07443f477a7e Mark Brown       2022-06-24  1035  		if (user.sve)
-8cd969d28fd284 Dave Martin      2017-10-31  1036  			err = restore_sve_fpsimd_context(&user);
-df07443f477a7e Mark Brown       2022-06-24  1037  		else
-4e4e93045fe1ad Mark Brown       2023-01-31  1038  			err = restore_fpsimd_context(&user);
-8cd969d28fd284 Dave Martin      2017-10-31  1039  	}
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1040  
-16f47bb9ac8afe Mark Brown       2024-10-01  1041  	if (err == 0 && system_supports_gcs() && user.gcs)
-16f47bb9ac8afe Mark Brown       2024-10-01 @1042  		err = restore_gcs_context(&user);
-16f47bb9ac8afe Mark Brown       2024-10-01  1043  
-e9d14f3f3fb76c Dongxu Sun       2023-03-17  1044  	if (err == 0 && system_supports_tpidr2() && user.tpidr2)
-39e54499280f37 Mark Brown       2022-12-27  1045  		err = restore_tpidr2_context(&user);
-39e54499280f37 Mark Brown       2022-12-27  1046  
-8c46def44409fc Mark Brown       2024-03-06  1047  	if (err == 0 && system_supports_fpmr() && user.fpmr)
-8c46def44409fc Mark Brown       2024-03-06  1048  		err = restore_fpmr_context(&user);
-8c46def44409fc Mark Brown       2024-03-06  1049  
-39782210eb7e87 Mark Brown       2022-04-19  1050  	if (err == 0 && system_supports_sme() && user.za)
-39782210eb7e87 Mark Brown       2022-04-19  1051  		err = restore_za_context(&user);
-39782210eb7e87 Mark Brown       2022-04-19  1052  
-ee072cf708048c Mark Brown       2023-01-16  1053  	if (err == 0 && system_supports_sme2() && user.zt)
-ee072cf708048c Mark Brown       2023-01-16  1054  		err = restore_zt_context(&user);
-ee072cf708048c Mark Brown       2023-01-16  1055  
-9160f7e909e179 Joey Gouly       2024-08-22  1056  	if (err == 0 && system_supports_poe() && user.poe)
-2e8a1acea8597f Kevin Brodsky    2024-10-29  1057  		err = restore_poe_context(&user, ua_state);
-9160f7e909e179 Joey Gouly       2024-08-22  1058  
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1059  	return err;
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1060  }
-2c020ed8d148f7 Catalin Marinas  2012-03-05  1061  
-
-:::::: The code at line 1042 was first introduced by commit
-:::::: 16f47bb9ac8afe09e7ca14cc53748f779b2a12e0 arm64/signal: Expose GCS state in signal frames
-
-:::::: TO: Mark Brown <broonie@kernel.org>
-:::::: CC: Catalin Marinas <catalin.marinas@arm.com>
+   300	
+   301	void vfio_pci_dma_buf_move(struct vfio_pci_core_device *vdev, bool revoked)
+   302	{
+   303		struct vfio_pci_dma_buf *priv;
+   304		struct vfio_pci_dma_buf *tmp;
+   305	
+   306		lockdep_assert_held_write(&vdev->memory_lock);
+   307	
+   308		list_for_each_entry_safe(priv, tmp, &vdev->dmabufs, dmabufs_elm) {
+   309			/*
+   310			 * Returns true if a reference was successfully obtained.
+   311			 * The caller must interlock with the dmabuf's release
+   312			 * function in some way, such as RCU, to ensure that this
+   313			 * is not called on freed memory.
+   314			 */
+ > 315			if (!get_file_rcu(&priv->dmabuf->file))
+   316				continue;
+   317	
+   318			if (priv->revoked != revoked) {
+   319				dma_resv_lock(priv->dmabuf->resv, NULL);
+   320				priv->revoked = revoked;
+   321				dma_buf_move_notify(priv->dmabuf);
+   322				dma_resv_unlock(priv->dmabuf->resv);
+   323			}
+   324			dma_buf_put(priv->dmabuf);
+   325		}
+   326	}
+   327	
 
 -- 
 0-DAY CI Kernel Test Service
