@@ -1,43 +1,59 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2F4F27056F;
-	Thu, 10 Jul 2025 14:26:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDC817B421
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 14:30:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752157600; cv=none; b=tquse+4UOr1qE8RyuuUZmAssnzcBVMjnwslpidDYidfZ3ryiBO+WOYBtZ6vbBlTd/n0DEMMYZgh6Qh0DZhejEmMPjWzfGlTGXq7yG75ix4jNxu0K/hE6gyGc8hyKxkek5b5ljSLYG7g1y7Wp1ACR59fg1aN4LgxCjncleklPzoA=
+	t=1752157817; cv=none; b=cnCJRAJ5QmjMgxj8/XJqIDDexax+5xwpd8VtYvPW7/k/kA0xV4wT1BgwxNRuaF/ETTsVVvBAmGu3TUaiIJDpSvGgORZ8Taa4noqlPn73mMadwMioWH7N7tqZUYTZL5a/PmSXaxxqNH7G9ZKM02CwdMotqJAe+VyFRR5flL7EKns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752157600; c=relaxed/simple;
-	bh=y7y/n/lbP5p1Mhyo9ICE4LSsULATO697OeoGKbocUjw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lAtPV7t9p/J6/bBdIeP3PEEXsVSytLOBUzmFBVcPXuZR0Ay77YTsOm/QdoURZ34pruqAWqfUrX7ic+wVHtjkjgaDepn5x1hgBPEdwcqzGHtNlNt0mmWiDlysd8LIWFQsaLMqQoKoZdgelzk1ttb8bcEk4xiSJVwID7Z/n5tXHS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lsuph2be; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752157817; c=relaxed/simple;
+	bh=g5MwrCI6sk832lhryi4KgtNtnuCrduxIO6sRbESPEoc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=Z47CRDBewxmTa+qRIQneH3Tmg0h+LA3ArwkazykigEUIVcJMKK82MIYlq8PusIWg1/a+5w12w0gXxzHZFmSrzyeS/n385spcKKBeRWQ67fExllAa56T05VX2H0yLuZD/13jko1Y8hT91Ki+GmH3ZrXC/MNuDCrLHc/T0csXyZlw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dSUPZSLO; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lsuph2be"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF374C4CEE3;
-	Thu, 10 Jul 2025 14:26:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752157600;
-	bh=y7y/n/lbP5p1Mhyo9ICE4LSsULATO697OeoGKbocUjw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Lsuph2be6bg2CFbf17Rfua5VksJBwoAzCeLeQ1M+JRZHzOGlYLjNUcL2DuORoCAdU
-	 Xw0SVuenvn865tAx4xupjM282/sd8HiyWbG5mViQbmtjgSpm+vC85LZfbMYsVyYIG8
-	 3EwrFdDlakeamY21LaV+8/MxeR6vnBLhWoxDE0c7K7sgG4lXZFn/6HHSsiH6l9XrcS
-	 sius+4vVDqlRFtiknj2wJSG6MR0Tqttot7pJOg8zvxc3rzhaR0Jt5gJiyjZP1m0mLC
-	 mEMWSRK1DGf98OYRVqXDPY4dL8cbn+9gcAbKJfz5WwLJaDNYZBaRIOpCeZGkRxReHw
-	 nfvicmcvcrCaA==
-Date: Thu, 10 Jul 2025 14:26:38 +0000
-From: Jaegeuk Kim <jaegeuk@kernel.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	linux-f2fs-devel@lists.sourceforge.net
-Subject: Re: [jaegeuk-f2fs:dev-test 65/93] fs/f2fs/data.c:58:56: error:
- passing 'const struct folio *' to parameter of type 'struct folio *'
- discards qualifiers
-Message-ID: <aG_NntbzliX0WUGB@google.com>
-References: <202507101412.50ND2WEX-lkp@intel.com>
- <aG_Gr8NvCiXC4SyU@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dSUPZSLO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752157816; x=1783693816;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=g5MwrCI6sk832lhryi4KgtNtnuCrduxIO6sRbESPEoc=;
+  b=dSUPZSLOFrr/9pQD3q6eU8htJcwLAos+ilC4I58nMbEE3bKY6H2guIup
+   GzJaCBcv+ux5xJKgKzYUtCECTJnlE683i7DNJqbO6sE/8Eqnvu4B9XCZ0
+   8KrtPB1WS61JCtJTJ6DoPp5F1lv6c4lVTKu2diCY79j9CyS9x9hMzu2Sm
+   siZs8DcB2phYZAnVlDKXnnbx5cq9oR3W4isFE1hsZvMf3dJXhUxNITgvx
+   d8eTT9ZervJJYUH6Mr+rITIs7tTaNGJZRPicE3sYCae7IwCf76m3vGCx7
+   s35yKhap+hxuxvzc9RgLMx9SSFbY+flv0QCCHd26eB7c10tj3kqcsOo2u
+   g==;
+X-CSE-ConnectionGUID: 6mnnbijyTYWZuFTF/DFjeg==
+X-CSE-MsgGUID: Orw8fzUMQbyTNAJGpxS6HQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="71891307"
+X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
+   d="scan'208";a="71891307"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 07:30:16 -0700
+X-CSE-ConnectionGUID: 1rWwfLNoRsqucLhvBUaTMg==
+X-CSE-MsgGUID: TEgytC4iQk+CxN74GmzpSA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
+   d="scan'208";a="156584903"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 10 Jul 2025 07:30:14 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uZsHs-00057v-0j;
+	Thu, 10 Jul 2025 14:30:12 +0000
+Date: Thu, 10 Jul 2025 22:29:23 +0800
+From: kernel test robot <lkp@intel.com>
+To: Oscar Maes <oscmaes92@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH net-next v2 1/2] net: ipv4: fix incorrect MTU in
+ broadcast routes
+Message-ID: <aG_OQ2K-ubHM4iey@6c88aed3eaa3>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -46,43 +62,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aG_Gr8NvCiXC4SyU@casper.infradead.org>
+In-Reply-To: <20250710142714.12986-1-oscmaes92@gmail.com>
 
-On 07/10, Matthew Wilcox wrote:
-> On Thu, Jul 10, 2025 at 03:17:28PM +0800, kernel test robot wrote:
-> > >> fs/f2fs/data.c:58:56: error: passing 'const struct folio *' to parameter of type 'struct folio *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-> >       58 |                 return folio_test_f2fs_gcing(fscrypt_pagecache_folio(folio));
-> >          |                                                                      ^~~~~
-> >    include/linux/fscrypt.h:527:67: note: passing argument to parameter 'bounce_folio' here
-> >      527 | static inline struct folio *fscrypt_pagecache_folio(struct folio *bounce_folio)
-> 
-> Ah; I changed only one of the definitions of fscrypt_pagecache_folio.
-> 
-> Jaegeuk, can you fold in this fix?
+Hi,
 
-Will this break ext4?
+Thanks for your patch.
 
-In ext4,
-		struct folio *folio = fi.folio;
-		...
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-		if (fscrypt_is_bounce_folio(folio)) {
-			io_folio = folio;
-			folio = fscrypt_pagecache_folio(folio);
-		}
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-> 
-> diff --git a/include/linux/fscrypt.h b/include/linux/fscrypt.h
-> index b334c0538864..8d9127a0fdb3 100644
-> --- a/include/linux/fscrypt.h
-> +++ b/include/linux/fscrypt.h
-> @@ -524,7 +524,8 @@ static inline bool fscrypt_is_bounce_folio(const struct folio *folio)
->  	return false;
->  }
->  
-> -static inline struct folio *fscrypt_pagecache_folio(struct folio *bounce_folio)
-> +static inline
-> +struct folio *fscrypt_pagecache_folio(const struct folio *bounce_folio)
->  {
->  	WARN_ON_ONCE(1);
->  	return ERR_PTR(-EINVAL);
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH net-next v2 1/2] net: ipv4: fix incorrect MTU in broadcast routes
+Link: https://lore.kernel.org/stable/20250710142714.12986-1-oscmaes92%40gmail.com
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
+
