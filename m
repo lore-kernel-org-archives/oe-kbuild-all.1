@@ -1,60 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54FF2882AB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 07:18:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F00E28982D;
+	Thu, 10 Jul 2025 07:18:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752131912; cv=none; b=J9r7NBpMdtxsE1PzBb4xRpUBsWur+LCEU9/iAq8JgRJ4kqpo6ox/eunaln+WfeEmpo98eDA7qGWWjRpH9hVO83W/VjytgpzZAJ8SlGsBpYpCdPiGpXCZ11ZbC1h3Pi8pyd0cX2lJW7KvPiG/nUCX4QSLfNh9W6zDCyDBklACoMo=
+	t=1752131913; cv=none; b=gAF8FKhJwJ8DcxqZAvNi6n5+ToI3WmPTYRcNhlrlatN8vjZpCiyt5Joipg/srIVCtnLnJNwyvVD3QN3YopdDETcAVsom6q1hPQg7TGwVqWmjqOF6KwFmfmasUJKBuR5LNwSZh3odiHFUJp7JVR+UgrHNPPK6gnqEmWVfV8Wgv/o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752131912; c=relaxed/simple;
-	bh=3DN4pKgaetx6w60UiqUaI5FlT4cSG/d2uDOewryM/k8=;
+	s=arc-20240116; t=1752131913; c=relaxed/simple;
+	bh=KCIJ9MRY/XQnVYRAuimMORPAQ2dSU6Y7v2W7uF7Vlj0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GxYGobxiUSKEe/8I8EkeosINlKaQr/+sTuXfDmZhAmAvHWgF2SJYNYtkfzhOUJyByrJvkGg6V6fV0BL17wXJ/HkLCVl4nqODQqgqkCx5NqMwni8JM9o/5CNf7rQqjvUju1tuCHEi44n6dFLys3okhdFocS7eO5Euliu3NM2evKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ebibqrvz; arc=none smtp.client-ip=198.175.65.12
+	 Content-Disposition; b=hli3JJo9X0l8qnuEoRGgbLs/qw9y0LBVQjmseCj+7fOCZZCETTCR9olue+3MQfiINtBzPDGYG8QajMKwVOGz7dU8y/crhG0yLaPv4Vsgyb79YyIcgNv2qY+PtJQ5HR8kkiWZgKTqfeSlQDhh2mfilkXjojkhE7UVvPXlQhMYbTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AvZfvEoM; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ebibqrvz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AvZfvEoM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752131910; x=1783667910;
+  t=1752131912; x=1783667912;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3DN4pKgaetx6w60UiqUaI5FlT4cSG/d2uDOewryM/k8=;
-  b=ebibqrvz0Ffh9V22vxwd4mF9LZfQnnGhWIMNeNlK1MF7WRdsm+TcOFOH
-   7uqLtofEpTReub6mmog0uObpv+X0wBI/Ke9vBEh95cF6b+M7fzlr4+WwK
-   7J4h+kJsjER/sZJfqAEbxOVk7rYJWRw43XQO9Rqt7F/aL6M6Oy/eyE04z
-   azdN8iBTpXwhaYKwSOl3ucegwQlTX/caEx1jYOEsTqGw0A/BM6TiFtA8G
-   PnIrLuZFfpoTzb5OZLr0vMCuBKv2+vGqcLpVYZPlPKbEW8av6t5j26FTy
-   gzxWoBK34gSfHEp9f+izUthQBZuFACVEqm/FRiZOXkHOpy2JFgCmUwtbG
-   A==;
-X-CSE-ConnectionGUID: EYxwGOx5TreE7axR2loiBQ==
-X-CSE-MsgGUID: 6A6dCpUeRg6kveZC9jkEvA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="65854741"
+  bh=KCIJ9MRY/XQnVYRAuimMORPAQ2dSU6Y7v2W7uF7Vlj0=;
+  b=AvZfvEoMk15s00fYSAggdQ1D5WFgtPWDVUAVDZUB+L0LTNxuzZMaPatu
+   T3q8Dyzx0V+m9brTowHFg7LcWzYCZj0g0OuqhtsKec/8XRWOOuBpSSeUf
+   M7QPcCtkWmahDDLm1Sk48/6+LRXHH9NU7wPr89EGhQlKD+FOVswSx2Hxv
+   qU5nAto6NG3N47ORdZ35dr7VdUCyrpQIB8ZRsiDsfzkZ13D8M0CJ39ZcO
+   9+cpR7a8ou+1iOqtUoKW3yafvxuteGeWoRbsjmhy9l3RtkkcoCZ1hm7JI
+   F1jpSUiobfXjorXabykq7eGSahvirHfiZCWb/FS4LJ06brAmR6LwzqFh1
+   g==;
+X-CSE-ConnectionGUID: jcy2BgdQRsq0Wd5oiba0Jw==
+X-CSE-MsgGUID: knuTO2S5T8qQUkBSr7eV0g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="65854744"
 X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="65854741"
+   d="scan'208";a="65854744"
 Received: from fmviesa010.fm.intel.com ([10.60.135.150])
   by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 00:18:30 -0700
-X-CSE-ConnectionGUID: wjygWLF1RoqA/piQU+fS7Q==
-X-CSE-MsgGUID: HU1/jqVATlGFg9vfrvM+Cw==
+X-CSE-ConnectionGUID: VKfc2npuQ0ORH8regQGDbA==
+X-CSE-MsgGUID: EG3YYGzMSFic7bgwKrMQJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="156727716"
+   d="scan'208";a="156727715"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
   by fmviesa010.fm.intel.com with ESMTP; 10 Jul 2025 00:18:27 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZlY1-0004f3-1u;
+	id 1uZlY1-0004f1-1r;
 	Thu, 10 Jul 2025 07:18:25 +0000
-Date: Thu, 10 Jul 2025 15:17:37 +0800
+Date: Thu, 10 Jul 2025 15:17:28 +0800
 From: kernel test robot <lkp@intel.com>
 To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net,
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-f2fs-devel@lists.sourceforge.net,
 	Jaegeuk Kim <jaegeuk@kernel.org>
-Subject: [jaegeuk-f2fs:dev-test 65/93] fs/f2fs/data.c:58:70: warning: passing
- argument 1 of 'fscrypt_pagecache_folio' discards 'const' qualifier from
- pointer target type
-Message-ID: <202507101514.gTDqNbBm-lkp@intel.com>
+Subject: [jaegeuk-f2fs:dev-test 65/93] fs/f2fs/data.c:58:56: error: passing
+ 'const struct folio *' to parameter of type 'struct folio *' discards
+ qualifiers
+Message-ID: <202507101412.50ND2WEX-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,26 +68,24 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
 head:   bc8610a18daa4a611d189374031fe1fa3c603423
 commit: 9f506c758707749076b4ec2402007670c6f35558 [65/93] f2fs: Use a folio in f2fs_is_cp_guaranteed()
-config: i386-buildonly-randconfig-001-20250710 (https://download.01.org/0day-ci/archive/20250710/202507101514.gTDqNbBm-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507101514.gTDqNbBm-lkp@intel.com/reproduce)
+config: s390-randconfig-002-20250710 (https://download.01.org/0day-ci/archive/20250710/202507101412.50ND2WEX-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507101412.50ND2WEX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507101514.gTDqNbBm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507101412.50ND2WEX-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/f2fs/data.c: In function 'f2fs_is_cp_guaranteed':
->> fs/f2fs/data.c:58:70: warning: passing argument 1 of 'fscrypt_pagecache_folio' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+>> fs/f2fs/data.c:58:56: error: passing 'const struct folio *' to parameter of type 'struct folio *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
       58 |                 return folio_test_f2fs_gcing(fscrypt_pagecache_folio(folio));
          |                                                                      ^~~~~
-   In file included from fs/f2fs/f2fs.h:28,
-                    from fs/f2fs/data.c:24:
-   include/linux/fscrypt.h:527:67: note: expected 'struct folio *' but argument is of type 'const struct folio *'
+   include/linux/fscrypt.h:527:67: note: passing argument to parameter 'bounce_folio' here
      527 | static inline struct folio *fscrypt_pagecache_folio(struct folio *bounce_folio)
-         |                                                     ~~~~~~~~~~~~~~^~~~~~~~~~~~
+         |                                                                   ^
+   1 error generated.
 
 
 vim +58 fs/f2fs/data.c
