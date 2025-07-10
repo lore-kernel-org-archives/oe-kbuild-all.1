@@ -1,61 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3605F4A3C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 17:16:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61A9213224
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 17:47:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752167799; cv=none; b=tJGiw00vXVoAu4WbzHTk+ZMVxHJLUqZLnkmFXti05s57f4W1yiGgYpyle6QLP15+0kVUODUG7KczN361OQdTwGwB7w3RBjuLuC6qmZl933/dPJsxjC0evkuQ1oUkhsRhY6wS3+jDpSstAESYM0PQwpM+0pMwuyfm6x2ZSgH/DLQ=
+	t=1752169664; cv=none; b=IVv5xwy7YHXSIoASsxv39eJD7W4BBRbHVn66vZk2b55YQwQzgJtj2JZrQMnB0/OGISji+vefVVFDs3I79T8GpOK0075gH0ABtPN2tD+ieWeBKEsj3FpCa3I4pIDJCmPVEV/x9PP79t8VKocxGVyFjDj3yJPoZq4tLqP4yiL1heg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752167799; c=relaxed/simple;
-	bh=cbr8E3jm51fQ5qYgcIH2G6FwehgTdiN7zyDXdaaXs3Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=YwdxDyDR9XXw8isklIWjZxtvBqARPzNht3S98uEaXUU3+8u8McUlfaFYDWro3zv/SUmxCxokSUmVGZXntsQ8ut4lvH3cQf6AVkpDXFIlvaRDR90UyiOEcYPRgqndzPVm4Rx61hcQG4mBbNw1WYFyQmymAeZ8Vc0mDJqyotI23KA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=flZ1Rulu; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1752169664; c=relaxed/simple;
+	bh=fYsLiKestMpek0qN0cEg0MwyFp4HDvg6ZGLxP22SxYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FL8cmhBDMJq70Nayc1ChN2aT3KdsmUdZOofRA+hckbuRcICLvFFy+dZ6tzi2s7my8koiL9gwzNKpC8Uo+XIzQgZ42T/HS6JxEa/iXBD7t7N1WsXjdQMqDjLc7X/cxgPlAKcYMkJjXpASrwMuedP7QN82kjVmOFjliQJpziN6580=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HBPJalUO; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="flZ1Rulu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HBPJalUO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752167798; x=1783703798;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=cbr8E3jm51fQ5qYgcIH2G6FwehgTdiN7zyDXdaaXs3Y=;
-  b=flZ1Rulun/ifRG3A9XOnb4/B4YpO4tGSZ0jSe5ILOhj9OvZtHd9gVTHa
-   TyegjeVYkE5a8LwHL23arIeS8+C2+q1F0EfHwy5vPX2Q6o92nyEqQXxIL
-   7UxgKk8PQfzPDX48N9izRBMgUPK3rIbJzpo+8IpHGHN/i4wr8+GsN3Kv7
-   5hPdoQ2aw9Q0e6QMp08xq2hz52WaJw8zSmB2L/byUJMN05mm/mXTO40bT
-   h6O3xlwPvmG0brkZGcQXR+V2S4ECZNHdwFaoOrK455/x+auKcYvYP5I5o
-   J7/inqEy+G8f5BJmdgvlX8XZWzfMh7kh2WO1XuP9Jw6O7V6p/KnedByvR
-   w==;
-X-CSE-ConnectionGUID: IHYXcu48RYCJFan0D2g6tA==
-X-CSE-MsgGUID: 9c5g+5OES9yVBb7lPauRgg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="54550886"
+  t=1752169663; x=1783705663;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fYsLiKestMpek0qN0cEg0MwyFp4HDvg6ZGLxP22SxYs=;
+  b=HBPJalUOoCoZUfp7A76eHhXevYEJXgXGsNj84VySUvE0R4Piu2eDHkOu
+   bAtZBJXgtomBkcED9dZ/PKAscM0fxt7BZnhbRmc9eJmtGLT74QhjaCJ9e
+   HuuQjBOz4XFsyBjxtV8FoCKcZlpLxW4+tO+gzGRmnsI7pm+0d44HHfdPS
+   Dunhh6pnryPc3ye4wkoZ0OG3tUPajvjzlXaDT3SSIm6/9rKsImKV0rocH
+   EmiOWW01jw5kF79I+pC+3NMrenR+efeY58cRvG+nWrXvpPpx23thoC1TN
+   JxKz+Tzl5CXEZtxOo8Hx+ycANBb75sFvubfGlniauz1O3cRRzLVq75VWs
+   A==;
+X-CSE-ConnectionGUID: OO8zhQ8PTJS6EblmVIAiPw==
+X-CSE-MsgGUID: P0Wfk6m+TOalg18U+ye2og==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="58226644"
 X-IronPort-AV: E=Sophos;i="6.16,301,1744095600"; 
-   d="scan'208";a="54550886"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 10:16:37 -0700
-X-CSE-ConnectionGUID: 5fa7LTlSRJ6HKKhl922UXg==
-X-CSE-MsgGUID: j8j/DWMAQ4WX50jpUda+gw==
+   d="scan'208";a="58226644"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 10:47:42 -0700
+X-CSE-ConnectionGUID: vAa6fRD7S8aIzxZuFlntBA==
+X-CSE-MsgGUID: qOPVOyJASByw8/vBIia/Mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,301,1744095600"; 
-   d="scan'208";a="155778911"
+   d="scan'208";a="193369281"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Jul 2025 10:16:36 -0700
+  by orviesa001.jf.intel.com with ESMTP; 10 Jul 2025 10:47:40 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZusr-0005H9-1w;
-	Thu, 10 Jul 2025 17:16:33 +0000
-Date: Fri, 11 Jul 2025 01:16:16 +0800
+	id 1uZvMu-0005It-1P;
+	Thu, 10 Jul 2025 17:47:36 +0000
+Date: Fri, 11 Jul 2025 01:47:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2024-08 36/36]
- arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000
- (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('mdio',
- 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth',
- 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config',...
-Message-ID: <202507110140.N2atiyUy-lkp@intel.com>
+To: Nick Hu <nick.hu@sifive.com>, Alexandre Ghiti <alex@ghiti.fr>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Nick Hu <nick.hu@sifive.com>,
+	Anup Patel <anup@brainfault.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>
+Subject: Re: [PATCH 2/2] irqchip/riscv-aplic: Save and restore APLIC registers
+Message-ID: <202507110131.OzZXquiC-lkp@intel.com>
+References: <20250709025516.28051-3-nick.hu@sifive.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,33 +68,147 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250709025516.28051-3-nick.hu@sifive.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-08
-head:   b64c8a8cf865a837d7b16f8d32f56de627f77976
-commit: 120ab6c06f69b39e54c949542fa85fd49ff51278 [36/36] arm64: dts: qcom: sa8775p-ride: enable ethernet0
-config: arm64-randconfig-051-20250702 (https://download.01.org/0day-ci/archive/20250711/202507110140.N2atiyUy-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 3deed4211a46632a25b1b558b357273a5ce4ee96)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110140.N2atiyUy-lkp@intel.com/reproduce)
+Hi Nick,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on tip/irq/core]
+[also build test ERROR on linus/master v6.16-rc5 next-20250710]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Hu/irqchip-riscv-aplic-Save-and-restore-APLIC-registers/20250709-115608
+base:   tip/irq/core
+patch link:    https://lore.kernel.org/r/20250709025516.28051-3-nick.hu%40sifive.com
+patch subject: [PATCH 2/2] irqchip/riscv-aplic: Save and restore APLIC registers
+config: riscv-randconfig-r132-20250710 (https://download.01.org/0day-ci/archive/20250711/202507110131.OzZXquiC-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+reproduce: (https://download.01.org/0day-ci/archive/20250711/202507110131.OzZXquiC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507110140.N2atiyUy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507110131.OzZXquiC-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: rsc@18200000 (qcom,rpmh-rsc): 'power-domains' is a required property
-   	from schema $id: http://devicetree.org/schemas/soc/qcom/qcom,rpmh-rsc.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): snps,pbl: [32] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): snps,pbl: [32] is not one of [1, 2, 4, 8, 16, 32]
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): rx-queues-config:queue0:snps,priority: [1] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
-   arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): rx-queues-config:queue3:snps,priority: [12] is not of type 'integer'
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
->> arch/arm64/boot/dts/qcom/sa8775p-ride.dtb: ethernet@23040000 (qcom,sa8775p-ethqos): Unevaluated properties are not allowed ('mdio', 'phy-handle', 'phy-mode', 'power-domains', 'rx-fifo-depth', 'rx-queues-config', 'snps,mtl-rx-config', 'snps,mtl-tx-config', 'snps,pbl', 'snps,ps-speed', 'snps,tso', 'tx-fifo-depth', 'tx-queues-config' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/qcom,ethqos.yaml#
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
+   In file included from include/linux/of_irq.h:7:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:804:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     804 |         insb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
+     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
+   In file included from include/linux/of_irq.h:7:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:812:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     812 |         insw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
+     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
+   In file included from include/linux/of_irq.h:7:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:820:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     820 |         insl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
+     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
+         |                                          ~~~~~~~~~~ ^
+   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
+   In file included from include/linux/of_irq.h:7:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:829:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     829 |         outsb(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
+     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
+   In file included from include/linux/of_irq.h:7:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:838:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     838 |         outsw(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
+     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
+   In file included from include/linux/of_irq.h:7:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:847:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     847 |         outsl(addr, buffer, count);
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
+     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
+         |                                            ~~~~~~~~~~ ^
+   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
+   In file included from include/linux/of_irq.h:7:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/riscv/include/asm/io.h:136:
+   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+>> drivers/irqchip/irq-riscv-aplic-main.c:220:26: error: use of undeclared identifier 'valH'
+     220 |                 priv->saved_msiaddrh = valH;
+         |                                        ^~~~
+   7 warnings and 1 error generated.
+
+
+vim +/valH +220 drivers/irqchip/irq-riscv-aplic-main.c
+
+   203	
+   204	void aplic_init_hw_global(struct aplic_priv *priv, bool msi_mode)
+   205	{
+   206		u32 val;
+   207	#ifdef CONFIG_RISCV_M_MODE
+   208		u32 valh;
+   209	
+   210		if (msi_mode) {
+   211			val = lower_32_bits(priv->msicfg.base_ppn);
+   212			valh = FIELD_PREP(APLIC_xMSICFGADDRH_BAPPN, upper_32_bits(priv->msicfg.base_ppn));
+   213			valh |= FIELD_PREP(APLIC_xMSICFGADDRH_LHXW, priv->msicfg.lhxw);
+   214			valh |= FIELD_PREP(APLIC_xMSICFGADDRH_HHXW, priv->msicfg.hhxw);
+   215			valh |= FIELD_PREP(APLIC_xMSICFGADDRH_LHXS, priv->msicfg.lhxs);
+   216			valh |= FIELD_PREP(APLIC_xMSICFGADDRH_HHXS, priv->msicfg.hhxs);
+   217			writel(val, priv->regs + APLIC_xMSICFGADDR);
+   218			writel(valh, priv->regs + APLIC_xMSICFGADDRH);
+   219			priv->saved_msiaddr = val;
+ > 220			priv->saved_msiaddrh = valH;
+   221		}
+   222	#endif
+   223	
+   224		/* Setup APLIC domaincfg register */
+   225		val = readl(priv->regs + APLIC_DOMAINCFG);
+   226		val |= APLIC_DOMAINCFG_IE;
+   227		if (msi_mode)
+   228			val |= APLIC_DOMAINCFG_DM;
+   229		writel(val, priv->regs + APLIC_DOMAINCFG);
+   230		if (readl(priv->regs + APLIC_DOMAINCFG) != val)
+   231			dev_warn(priv->dev, "unable to write 0x%x in domaincfg\n", val);
+   232		priv->saved_domaincfg = val;
+   233	}
+   234	
 
 -- 
 0-DAY CI Kernel Test Service
