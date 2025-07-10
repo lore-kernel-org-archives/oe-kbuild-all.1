@@ -1,84 +1,225 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDC817B421
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 14:30:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1A225A354
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 14:33:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752157817; cv=none; b=cnCJRAJ5QmjMgxj8/XJqIDDexax+5xwpd8VtYvPW7/k/kA0xV4wT1BgwxNRuaF/ETTsVVvBAmGu3TUaiIJDpSvGgORZ8Taa4noqlPn73mMadwMioWH7N7tqZUYTZL5a/PmSXaxxqNH7G9ZKM02CwdMotqJAe+VyFRR5flL7EKns=
+	t=1752157990; cv=none; b=LI7oN1cFDV0/5/1VWFLihTCTJ2V8aKWBNscdeQwipfe12zsDI6fYAivTtmkN1XBaW8BWsQN/yIJogKRbCOhJcY8ieUAoU3mV1J40vy5BbxOlrnkTls/2KWtNUJsmeXt7iSV8cqJa2RIw2xfWLhLFtdbnWhIzd+5ANbg6lAWMBgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752157817; c=relaxed/simple;
-	bh=g5MwrCI6sk832lhryi4KgtNtnuCrduxIO6sRbESPEoc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=Z47CRDBewxmTa+qRIQneH3Tmg0h+LA3ArwkazykigEUIVcJMKK82MIYlq8PusIWg1/a+5w12w0gXxzHZFmSrzyeS/n385spcKKBeRWQ67fExllAa56T05VX2H0yLuZD/13jko1Y8hT91Ki+GmH3ZrXC/MNuDCrLHc/T0csXyZlw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dSUPZSLO; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dSUPZSLO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752157816; x=1783693816;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=g5MwrCI6sk832lhryi4KgtNtnuCrduxIO6sRbESPEoc=;
-  b=dSUPZSLOFrr/9pQD3q6eU8htJcwLAos+ilC4I58nMbEE3bKY6H2guIup
-   GzJaCBcv+ux5xJKgKzYUtCECTJnlE683i7DNJqbO6sE/8Eqnvu4B9XCZ0
-   8KrtPB1WS61JCtJTJ6DoPp5F1lv6c4lVTKu2diCY79j9CyS9x9hMzu2Sm
-   siZs8DcB2phYZAnVlDKXnnbx5cq9oR3W4isFE1hsZvMf3dJXhUxNITgvx
-   d8eTT9ZervJJYUH6Mr+rITIs7tTaNGJZRPicE3sYCae7IwCf76m3vGCx7
-   s35yKhap+hxuxvzc9RgLMx9SSFbY+flv0QCCHd26eB7c10tj3kqcsOo2u
-   g==;
-X-CSE-ConnectionGUID: 6mnnbijyTYWZuFTF/DFjeg==
-X-CSE-MsgGUID: Orw8fzUMQbyTNAJGpxS6HQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="71891307"
-X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="71891307"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 07:30:16 -0700
-X-CSE-ConnectionGUID: 1rWwfLNoRsqucLhvBUaTMg==
-X-CSE-MsgGUID: TEgytC4iQk+CxN74GmzpSA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="156584903"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 10 Jul 2025 07:30:14 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uZsHs-00057v-0j;
-	Thu, 10 Jul 2025 14:30:12 +0000
-Date: Thu, 10 Jul 2025 22:29:23 +0800
-From: kernel test robot <lkp@intel.com>
-To: Oscar Maes <oscmaes92@gmail.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH net-next v2 1/2] net: ipv4: fix incorrect MTU in
- broadcast routes
-Message-ID: <aG_OQ2K-ubHM4iey@6c88aed3eaa3>
+	s=arc-20240116; t=1752157990; c=relaxed/simple;
+	bh=d2PggKXh65C5wsYv+sAOWEiyIFudIEs6dBBQURke4Pg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=agelgz66Zx5QHRBsiFW0XLyxWSC3nmjNLPLzkIoQgrM9SQXzmHIhy8cHam4/wiKPy2nWEv00aHn5obM3YxHWlDkvSq1zmvVqXeoVR2vyJcJxcRTjAXwvsaiTv/lo3n2b8o/0fr/GmQ6in5MdjkCAeRUGCjqjc+TZm2d0twbOHfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 8123C44330;
+	Thu, 10 Jul 2025 14:32:58 +0000 (UTC)
+Message-ID: <7204f633-5b35-41ce-b847-7dfbaedbac47@ghiti.fr>
+Date: Thu, 10 Jul 2025 16:32:57 +0200
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250710142714.12986-1-oscmaes92@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V2] riscv: ftrace: Fix the logic issue in DYNAMIC_FTRACE
+ selection
+To: Miao Chen <chenmiao.ku@gmail.com>
+Cc: kernel test robot <lkp@intel.com>,
+ Linux RISCV <linux-riscv@lists.infradead.org>,
+ oe-kbuild-all@lists.linux.dev, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Heiko Carstens <hca@linux.ibm.com>, Pu Lehui <pulehui@huawei.com>,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+References: <aG3A8Jirg+TxNza/@rli9-mobl>
+ <f5b1fc77-d180-4df7-b8f6-0cb0ca4a187a@ghiti.fr>
+ <CAKxVwge4=cagaVDesKWe0BE88U0YmNn5LLDJvJG=F7EEP2=-LQ@mail.gmail.com>
+Content-Language: en-US
+From: Alexandre Ghiti <alex@ghiti.fr>
+In-Reply-To: <CAKxVwge4=cagaVDesKWe0BE88U0YmNn5LLDJvJG=F7EEP2=-LQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdegtdeilecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhepfeeujedtgeekvdehhfduhfegfeeiveehueegheegvdfgjefhteejieduledvfeetnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpkhgvrhhnvghlrdhorhhgpdhinhhfrhgruggvrggurdhorhhgnecukfhppedvtddtudemkeeiudemfeefkedvmegvfheltdemsgeffhdumeejtgeirgemsgehudelmegrfhgstdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemfeefkedvmegvfheltdemsgeffhdumeejtgeirgemsgehudelmegrfhgstddphhgvlhhopeglkffrggeimedvtddtudemkeeiudemfeefkedvmegvfheltdemsgeffhdumeejtgeirgemsgehudelmegrfhgstdgnpdhmrghilhhfrhhomheprghlvgigsehghhhithhirdhfrhdpnhgspghrtghpthhtohepudehpdhrtghpthhtoheptghhvghnmhhirghordhkuhesghhmrghilhdrtghomhdprhgtphhtthhopehlkhhpsehin
+ hhtvghlrdgtohhmpdhrtghpthhtoheplhhinhhugidqrhhishgtvheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhtohepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtoheprghouhesvggvtghsrdgsvghrkhgvlhgvhidrvgguuhdprhgtphhtthhopehrohhsthgvughtsehgohhoughmihhsrdhorhhg
+X-GND-Sasl: alex@ghiti.fr
 
-Hi,
 
-Thanks for your patch.
-
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
-
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH net-next v2 1/2] net: ipv4: fix incorrect MTU in broadcast routes
-Link: https://lore.kernel.org/stable/20250710142714.12986-1-oscmaes92%40gmail.com
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 7/10/25 14:34, Miao Chen wrote:
+> Hello Alex,
+>
+> Sure, I'll checkout it. Btw, this is my first commit, so can u tell
+> how to reproduce failed case? Using the reproduce and .config.gz gived
+> by build-bot?
 
 
+Yes exactly!
 
+
+>
+> Thanks,
+>
+> Chen Miao
+>
+> Alexandre Ghiti <alex@ghiti.fr> 于2025年7月10日周四 19:53写道：
+>> Hi ChenMiao,
+>>
+>> On 7/9/25 03:08, kernel test robot wrote:
+>>> Hi ChenMiao,
+>>>
+>>> kernel test robot noticed the following build errors:
+>>>
+>>> [auto build test ERROR on fda589c286040d9ba2d72a0eaf0a13945fc48026]
+>>>
+>>> url:    https://github.com/intel-lab-lkp/linux/commits/ChenMiao/riscv-ftrace-Fix-the-logic-issue-in-DYNAMIC_FTRACE-selection/20250706-231907
+>>> base:   fda589c286040d9ba2d72a0eaf0a13945fc48026
+>>> patch link:    https://lore.kernel.org/r/20250706151830.25091-1-chenmiao.ku%40gmail.com
+>>> patch subject: [PATCH V2] riscv: ftrace: Fix the logic issue in DYNAMIC_FTRACE selection
+>>> :::::: branch date: 2 days ago
+>>> :::::: commit date: 2 days ago
+>>> config: riscv-randconfig-r112-20250708 (attached as .config)
+>>> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+>>> reproduce: (attached as reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202507090650.YGY56SIA-lkp@intel.com/
+>>>
+>>> All errors (new ones prefixed by >>):
+>>>
+>>>>> <instantiation>:1:14: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
+>>>      addi sp, sp, -FREGS_SIZE_ON_STACK
+>>>                   ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>>> <instantiation>:2:18: error: unexpected token
+>>>       sw t0, FREGS_EPC(sp)
+>>>                       ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:3:17: error: unexpected token
+>>>       sw x1, FREGS_RA(sp)
+>>>                      ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:7:17: error: unexpected token
+>>>       sw x6, FREGS_T1(sp)
+>>>                      ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:9:17: error: unexpected token
+>>>       sw x7, FREGS_T2(sp)
+>>>                      ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:10:18: error: unexpected token
+>>>       sw x28, FREGS_T3(sp)
+>>>                       ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:11:18: error: unexpected token
+>>>       sw x29, FREGS_T4(sp)
+>>>                       ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:12:18: error: unexpected token
+>>>       sw x30, FREGS_T5(sp)
+>>>                       ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:13:18: error: unexpected token
+>>>       sw x31, FREGS_T6(sp)
+>>>                       ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:16:18: error: unexpected token
+>>>       sw x10, FREGS_A0(sp)
+>>>                       ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:17:18: error: unexpected token
+>>>       sw x11, FREGS_A1(sp)
+>>>                       ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:18:18: error: unexpected token
+>>>       sw x12, FREGS_A2(sp)
+>>>                       ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:19:18: error: unexpected token
+>>>       sw x13, FREGS_A3(sp)
+>>>                       ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:20:18: error: unexpected token
+>>>       sw x14, FREGS_A4(sp)
+>>>                       ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:21:18: error: unexpected token
+>>>       sw x15, FREGS_A5(sp)
+>>>                       ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:22:18: error: unexpected token
+>>>       sw x16, FREGS_A6(sp)
+>>>                       ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:23:18: error: unexpected token
+>>>       sw x17, FREGS_A7(sp)
+>>>                       ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>       ^
+>>>      <instantiation>:25:15: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
+>>>       addi a0, a0, FREGS_SIZE_ON_STACK
+>>>                    ^
+>>>      arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
+>>>       SAVE_ABI_REGS
+>>>
+>>> Kconfig warnings: (for reference only)
+>>>      WARNING: unmet direct dependencies detected for DYNAMIC_FTRACE
+>>>      Depends on [n]: FTRACE [=y] && FUNCTION_TRACER [=y] && HAVE_DYNAMIC_FTRACE [=n]
+>>>      Selected by [y]:
+>>>      - RISCV [=y] && FUNCTION_TRACER [=y]
+>> To avoid that, we should check HAVE_DYNAMIC_FTRACE too:
+>>
+>> select DYNAMIC_FTRACE if FUNCTION_TRACER && HAVE_DYNAMIC_FTRACE
+>>
+>> That fixes the build error for me. Can you send a v3 with this change?
+>>
+>> Thanks,
+>>
+>> Alex
+>>
+>>
+> _______________________________________________
+> linux-riscv mailing list
+> linux-riscv@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-riscv
