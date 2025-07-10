@@ -1,84 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ACF62C032E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 22:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970CB235BE2;
+	Thu, 10 Jul 2025 23:06:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752188175; cv=none; b=pBoh54sAWCF243XdQ9JPrHHHJjdtQUJMjBEIxLO3J0K6kWJSS3xFDdJT9BsYbVyr2wLWicbYhNmLRtX9jmhGiln9TYaWV1e535Nfce/KNYfoGcp7H42EeB893G5q5UpWP307Mf1cl94BuIAd1+8+jiM98oTkzrSeQGabzoNkAIY=
+	t=1752188774; cv=none; b=qxVxtzOl08BKraeZMjhCG0W9sgSAi23LpHA3U+LOqRE7SU1pjfOgSS0GughPtpeLMM2b2W/A4V40qkGKaYeeajQ4YCzkwP6H3MgLBIQa8Mm47HrNslLDcq2u89wV4bCOvumpXtuEM6UKuWI0oK1QY4ujev8Op6KksG7FEZ3b3cQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752188175; c=relaxed/simple;
-	bh=DtBCnSmhIL5QlVvXed3zGCyfHWHT1jsOpnFz7W+i8ZU=;
+	s=arc-20240116; t=1752188774; c=relaxed/simple;
+	bh=gR+udLZjcv0sGahdUh5bn/KKz8nD0rgunrRyccSYz6Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b24YQwgE4eZcSmt14PXbwCjw4YXDSfESzxje4Ep57kkxWAEYfGUoO8RnuKwGyv06uqtRLeBDK7bFWuoztF2u+NVDzT64jhIlAx+jpmwonQnkQExRYpcAGHFjJvlsxCaRT/QfzHC1LqpFaRdgGu3wzIhIdEKb9m/t2eSHnj0dLnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l+bH0MD1; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=X0gnocVWa8Ae5K6mKOaWU38lFT1DGoHAly0e6PKmhk8VzR0aGCwA5YeqrvB1ftibbJ5wHWr2mHE5d3GU+03CDxDuKzYyvTsp7Iu14/hrwdbLcHOWroJQmV09EBJ70+5cYynKzJCFJKzauAYIRcskpX6TnKBpnSel7O75brA/VUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mKfpA/rT; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l+bH0MD1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mKfpA/rT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752188175; x=1783724175;
+  t=1752188772; x=1783724772;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=DtBCnSmhIL5QlVvXed3zGCyfHWHT1jsOpnFz7W+i8ZU=;
-  b=l+bH0MD1RrnqKwbOOeJy9nc7LnMRrSzBG3p5rI91nfl0hJ4M3DHWPm4Q
-   GDvogTCPv3BYuIsPBUeGjbMquIXFy9UbdD8vTMDvaeca3RiL7xNd5c+s5
-   +AKfJCDKpzCDRu+/5lQsYRpN+fCkbvqRhKzNLeo9IXZDr4AAyKyfB1ku/
-   ktqVvQ+Xn1Bd49IPY18grEfHIGXvzNl0hDb9uUClKNrDpyW3tAdpgBn1E
-   0TFlkPeOkVHN30fTyzpwA6Ql+CDF48QM02UVMuHlILa3Hu7xmYAri3NeK
-   uKntmUIeaFJIKLhbdhuzXa3l3GfQ2ZriGLBmGhISTxP/LTGLwUbKuB4OS
-   A==;
-X-CSE-ConnectionGUID: WOmEXVRhRceMVnalc19pJQ==
-X-CSE-MsgGUID: RMmtI60wQvyctWINGVfS0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="71930993"
+  bh=gR+udLZjcv0sGahdUh5bn/KKz8nD0rgunrRyccSYz6Y=;
+  b=mKfpA/rTh0ChbFi6Jwj4tuBFUjKUgpU1TIg/kqOXAe3+zOV5M+dkmiHT
+   YU13a3s7XVAtzomi+x+qpHroZ7ijPYrg55+7Fuf67Q0dJcPl+j6mvH2Eg
+   hPSAh5EzLI/AWp1bpcMrpSv+mEj9haPajgf2kpjufy0FCq194RXnU9rRW
+   hlb8SLgMFTzBzfzIS4o3h0Li9/45oFkHO+FgLhffV7ur67yfb03otSRne
+   w5Y98llOs6EcmhM5pCF3qQSjk34xzLEJWCUwAZ1KCL2w2w3Zi/Zw34AXh
+   gkRB+8Dn/OvFqRuiwgYQ2oK32txkGidjMJM3NpYvCE5gPQ8vSene4Z6Lz
+   w==;
+X-CSE-ConnectionGUID: cKbwUuJ9R9eTNdrgnlfUrg==
+X-CSE-MsgGUID: b4KIcchwSueaI+Dr+t6bQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="72064151"
 X-IronPort-AV: E=Sophos;i="6.16,301,1744095600"; 
-   d="scan'208";a="71930993"
+   d="scan'208";a="72064151"
 Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 15:56:14 -0700
-X-CSE-ConnectionGUID: 5cB1inXeQUu1peA9zbTvNw==
-X-CSE-MsgGUID: 3jPQiPwBQWq/5zJ1RdER0g==
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 16:06:12 -0700
+X-CSE-ConnectionGUID: lZDEknDSRr+ZJ0FAc8ShhQ==
+X-CSE-MsgGUID: oZ/Pr7TGTemQzpGJpgMZAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,301,1744095600"; 
-   d="scan'208";a="156702190"
+   d="scan'208";a="156704259"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 10 Jul 2025 15:56:07 -0700
+  by orviesa008.jf.intel.com with ESMTP; 10 Jul 2025 16:06:09 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ua0BQ-0005Yt-1l;
-	Thu, 10 Jul 2025 22:56:04 +0000
-Date: Fri, 11 Jul 2025 06:55:17 +0800
+	id 1ua0L7-0005ZH-28;
+	Thu, 10 Jul 2025 23:06:05 +0000
+Date: Fri, 11 Jul 2025 07:05:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: ksk4725@coasia.com, Jesper Nilsson <jesper.nilsson@axis.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sylwester Nawrocki <s.nawrocki@samsung.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Tomasz Figa <tomasz.figa@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Ravi Patel <ravi.patel@samsung.com>,
-	SungMin Park <smn1196@coasia.com>
-Cc: oe-kbuild-all@lists.linux.dev, kenkim <kenkim@coasia.com>,
-	Jongshin Park <pjsin865@coasia.com>,
-	GunWoo Kim <gwk1013@coasia.com>, HaGyeong Kim <hgkim05@coasia.com>,
-	GyoungBo Min <mingyoungbo@coasia.com>,
-	Pankaj Dubey <pankaj.dubey@samsung.com>,
-	Shradha Todi <shradha.t@samsung.com>,
-	Inbaraj E <inbaraj.e@samsung.com>,
-	Swathi K S <swathi.ks@samsung.com>,
-	Hrishikesh <hrishikesh.d@samsung.com>,
-	Dongjin Yang <dj76.yang@samsung.com>,
-	Sang Min Kim <hypmean.kim@samsung.com>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 05/16] clk: samsung: artpec-8: Add clock support for
- CMU_CMU block
-Message-ID: <202507110637.uCFXqy3U-lkp@intel.com>
-References: <20250710002047.1573841-6-ksk4725@coasia.com>
+To: Kuniyuki Iwashima <kuniyu@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	David Ahern <dsahern@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@google.com>
+Subject: Re: [PATCH v1 net-next] dev: Pass netdevice_tracker to
+ dev_get_by_flags_rcu().
+Message-ID: <202507110651.qJgShsUO-lkp@intel.com>
+References: <20250709190144.659194-1-kuniyu@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,128 +70,81 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250710002047.1573841-6-ksk4725@coasia.com>
+In-Reply-To: <20250709190144.659194-1-kuniyu@google.com>
 
-Hi,
+Hi Kuniyuki,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on krzk/for-next]
-[also build test WARNING on robh/for-next pinctrl-samsung/for-next linus/master v6.16-rc5 next-20250710]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on net-next/main]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/ksk4725-coasia-com/dt-bindings-clock-Add-CMU-bindings-definitions-for-ARTPEC-8-platform/20250710-082940
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/krzk/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250710002047.1573841-6-ksk4725%40coasia.com
-patch subject: [PATCH 05/16] clk: samsung: artpec-8: Add clock support for CMU_CMU block
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250711/202507110637.uCFXqy3U-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110637.uCFXqy3U-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/dev-Pass-netdevice_tracker-to-dev_get_by_flags_rcu/20250710-030425
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250709190144.659194-1-kuniyu%40google.com
+patch subject: [PATCH v1 net-next] dev: Pass netdevice_tracker to dev_get_by_flags_rcu().
+config: x86_64-randconfig-071-20250711 (https://download.01.org/0day-ci/archive/20250711/202507110651.qJgShsUO-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110651.qJgShsUO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507110637.uCFXqy3U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507110651.qJgShsUO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/clk/samsung/clk-artpec8.c:201:7: warning: unused variable 'mout_clkcmu_fsys_sfmc_p' [-Wunused-const-variable]
-     201 | PNAME(mout_clkcmu_fsys_sfmc_p) = {
-         |       ^~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+>> net/core/dev.c:1294:17: error: use of undeclared identifier 'dev_get_by_flags_rcu'; did you mean 'netdev_get_by_flags_rcu'?
+    1294 | EXPORT_IPV6_MOD(dev_get_by_flags_rcu);
+         |                 ^~~~~~~~~~~~~~~~~~~~
+         |                 netdev_get_by_flags_rcu
+   include/net/ip.h:693:42: note: expanded from macro 'EXPORT_IPV6_MOD'
+     693 | #define EXPORT_IPV6_MOD(X) EXPORT_SYMBOL(X)
+         |                                          ^
+   include/linux/export.h:89:44: note: expanded from macro 'EXPORT_SYMBOL'
+      89 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
+         |                                                        ^
+   include/linux/export.h:86:54: note: expanded from macro '_EXPORT_SYMBOL'
+      86 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
+         |                                                         ^
+   include/linux/export.h:76:16: note: expanded from macro '__EXPORT_SYMBOL'
+      76 |         extern typeof(sym) sym;                                 \
+         |                       ^
+   net/core/dev.c:1280:20: note: 'netdev_get_by_flags_rcu' declared here
+    1280 | struct net_device *netdev_get_by_flags_rcu(struct net *net, netdevice_tracker *tracker,
+         |                    ^
+   1 error generated.
 
 
-vim +/mout_clkcmu_fsys_sfmc_p +201 drivers/clk/samsung/clk-artpec8.c
+vim +1294 net/core/dev.c
 
-   179	
-   180	PNAME(mout_clkcmu_bus_bus_p) = {
-   181		"dout_pll_shared1_div2", "dout_pll_shared0_div3",
-   182		"dout_pll_shared1_div3", "dout_pll_shared1_div4" };
-   183	PNAME(mout_clkcmu_bus_dlp_p) = {
-   184		"dout_pll_shared0_div2", "dout_pll_shared0_div4",
-   185		"dout_pll_shared1_div2", "dout_pll_shared1_div4" };
-   186	PNAME(mout_clkcmu_core_bus_p) = {
-   187		"dout_pll_shared1_div2", "dout_pll_shared0_div3",
-   188		"dout_pll_shared0_div4", "dout_pll_shared1_div3" };
-   189	PNAME(mout_clkcmu_core_dlp_p) = {
-   190		"dout_pll_shared0_div2", "dout_pll_sahred1_div2",
-   191		"dout_pll_shared0_div3", "dout_pll_shared1_div3" };
-   192	PNAME(mout_clkcmu_cpucl_switch_p) = {
-   193		"dout_pll_shared0_div2", "dout_pll_shared1_div2",
-   194		"dout_pll_shared0_div3", "dout_pll_shared1_div3" };
-   195	PNAME(mout_clkcmu_fsys_bus_p) = {
-   196		"dout_pll_shared1_div2", "dout_pll_shared0_div2",
-   197		"dout_pll_shared1_div4", "dout_pll_shared1_div3" };
-   198	PNAME(mout_clkcmu_fsys_ip_p) = {
-   199		"dout_pll_shared0_div2", "dout_pll_shared1_div3",
-   200		"dout_pll_shared1_div2", "dout_pll_shared0_div3" };
- > 201	PNAME(mout_clkcmu_fsys_sfmc_p) = {
-   202		"dout_pll_shared1_div3", "dout_pll_shared0_div2",
-   203		"dout_pll_shared1_div2", "dout_pll_shared0_div3" };
-   204	PNAME(mout_clkcmu_fsys_scan0_p) = {
-   205		"dout_pll_shared0_div4", "dout_pll_shared1_div4" };
-   206	PNAME(mout_clkcmu_fsys_scan1_p) = {
-   207		"dout_pll_shared0_div4", "dout_pll_shared1_div4" };
-   208	PNAME(mout_clkcmu_imem_imem_p) = {
-   209		"dout_pll_shared1_div4", "dout_pll_shared0_div3",
-   210		"dout_pll_shared1_div3", "dout_pll_shared1_div2" };
-   211	PNAME(mout_clkcmu_imem_jpeg_p) = {
-   212		"dout_pll_shared0_div2", "dout_pll_shared0_div3",
-   213		"dout_pll_shared1_div2", "dout_pll_shared1_div3" };
-   214	PNAME(mout_clkcmu_cdc_core_p) = {
-   215		"dout_pll_shared1_div2", "dout_pll_shared0_div3",
-   216		"dout_pll_shared1_div3", "dout_pll_shared1_div4" };
-   217	PNAME(mout_clkcmu_dlp_core_p) = {
-   218		"dout_pll_shared0_div2", "dout_pll_shared1_div2",
-   219		"dout_pll_shared0_div3", "dout_pll_shared1_div3" };
-   220	PNAME(mout_clkcmu_3d_p) = {
-   221		"dout_pll_shared0_div2", "dout_pll_shared1_div2",
-   222		"dout_pll_shared0_div3", "dout_pll_shared1_div3" };
-   223	PNAME(mout_clkcmu_2d_p) = {
-   224		"dout_pll_shared0_div2", "dout_pll_shared1_div2",
-   225		"dout_pll_shared0_div3", "dout_pll_shared1_div3" };
-   226	PNAME(mout_clkcmu_mif_switch_p) = {
-   227		"dout_pll_shared0", "dout_pll_shared1",
-   228		"dout_pll_shared0_div2", "dout_pll_shared0_div3" };
-   229	PNAME(mout_clkcmu_mif_busp_p) = {
-   230		"dout_pll_shared0_div3", "dout_pll_shared1_div4",
-   231		"dout_pll_shared0_div4", "dout_pll_shared0_div2" };
-   232	PNAME(mout_clkcmu_peri_disp_p) = {
-   233		"dout_pll_shared1_div2", "dout_pll_shared0_div2",
-   234		"dout_pll_shared1_div4", "dout_pll_shared1_div3" };
-   235	PNAME(mout_clkcmu_peri_ip_p) = {
-   236		"dout_pll_shared1_div2", "dout_pll_shared0_div4",
-   237		"dout_pll_shared1_div4", "dout_pll_shared0_div2" };
-   238	PNAME(mout_clkcmu_rsp_core_p) = {
-   239		"dout_pll_shared1_div2", "dout_pll_shared0_div3",
-   240		"dout_pll_shared1_div3", "dout_pll_shared1_div4" };
-   241	PNAME(mout_clkcmu_trfm_core_p) = {
-   242		"dout_pll_shared1_div2", "dout_pll_shared0_div3",
-   243		"dout_pll_shared1_div3", "dout_pll_shared1_div4" };
-   244	PNAME(mout_clkcmu_vca_ace_p) = {
-   245		"dout_pll_shared1_div2", "dout_pll_shared0_div3",
-   246		"dout_pll_shared1_div3", "dout_pll_shared1_div4" };
-   247	PNAME(mout_clkcmu_vca_od_p) = {
-   248		"dout_pll_shared1_div2", "dout_pll_shared0_div3",
-   249		"dout_pll_shared1_div3", "dout_pll_shared1_div4" };
-   250	PNAME(mout_clkcmu_vio_core_p) = {
-   251		"dout_pll_shared0_div3", "dout_pll_shared0_div2",
-   252		"dout_pll_shared1_div2", "dout_pll_shared1_div3" };
-   253	PNAME(mout_clkcmu_vip0_core_p) = {
-   254		"dout_pll_shared1_div2", "dout_pll_shared0_div3",
-   255		"dout_pll_shared1_div3", "dout_pll_shared1_div4" };
-   256	PNAME(mout_clkcmu_vip1_core_p) = {
-   257		"dout_pll_shared1_div2", "dout_pll_shared0_div3",
-   258		"dout_pll_shared1_div3", "dout_pll_shared1_div4" };
-   259	PNAME(mout_clkcmu_vpp_core_p) = {
-   260		"dout_pll_shared1_div2", "dout_pll_shared0_div3",
-   261		"dout_pll_shared1_div3", "dout_pll_shared1_div4" };
-   262	PNAME(mout_clkcmu_pll_shared0_p) = { "fin_pll", "fout_pll_shared0" };
-   263	PNAME(mout_clkcmu_pll_shared1_p) = { "fin_pll", "fout_pll_shared1" };
-   264	PNAME(mout_clkcmu_pll_audio_p) = { "fin_pll", "fout_pll_audio" };
-   265	
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1268  
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1269  /**
+700489140bac828 Kuniyuki Iwashima 2025-07-09  1270   * netdev_get_by_flags_rcu - find any device with given flags
+c4ea43c552ecc9c Randy Dunlap      2007-10-12  1271   * @net: the applicable net namespace
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1272   * @if_flags: IFF_* values
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1273   * @mask: bitmask of bits in if_flags to check
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1274   *
+eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1275   * Search for any interface with the given flags.
+eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1276   *
+eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1277   * Context: rcu_read_lock() must be held.
+eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1278   * Returns: NULL if a device is not found or a pointer to the device.
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1279   */
+700489140bac828 Kuniyuki Iwashima 2025-07-09  1280  struct net_device *netdev_get_by_flags_rcu(struct net *net, netdevice_tracker *tracker,
+700489140bac828 Kuniyuki Iwashima 2025-07-09  1281  					   unsigned short if_flags, unsigned short mask)
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1282  {
+eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1283  	struct net_device *dev;
+6c555490e0ce885 WANG Cong         2014-09-11  1284  
+eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1285  	for_each_netdev_rcu(net, dev) {
+eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1286  		if (((READ_ONCE(dev->flags) ^ if_flags) & mask) == 0) {
+700489140bac828 Kuniyuki Iwashima 2025-07-09  1287  			netdev_hold(dev, tracker, GFP_ATOMIC);
+eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1288  			return dev;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1289  		}
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1290  	}
+eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1291  
+eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1292  	return NULL;
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1293  }
+eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02 @1294  EXPORT_IPV6_MOD(dev_get_by_flags_rcu);
+^1da177e4c3f415 Linus Torvalds    2005-04-16  1295  
 
 -- 
 0-DAY CI Kernel Test Service
