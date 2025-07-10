@@ -1,67 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970CB235BE2;
-	Thu, 10 Jul 2025 23:06:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 377FF3208
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 23:18:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752188774; cv=none; b=qxVxtzOl08BKraeZMjhCG0W9sgSAi23LpHA3U+LOqRE7SU1pjfOgSS0GughPtpeLMM2b2W/A4V40qkGKaYeeajQ4YCzkwP6H3MgLBIQa8Mm47HrNslLDcq2u89wV4bCOvumpXtuEM6UKuWI0oK1QY4ujev8Op6KksG7FEZ3b3cQ=
+	t=1752189492; cv=none; b=ni3Orpj7H0TSz54YIPT9gxQ5ZcwPloLucwSXFZTqrkw3bC/Jq258uvbhzzEWiQKurxRH5y0sx8aWkvkzLp2t8WFm2n0M1AIyUxzuAE95EA+IY1sIF3tdxtI9dQcjhzZT8zCULiRzDvSVlL0Cid8d5oE/3e18BQMgsBaXlmDhY1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752188774; c=relaxed/simple;
-	bh=gR+udLZjcv0sGahdUh5bn/KKz8nD0rgunrRyccSYz6Y=;
+	s=arc-20240116; t=1752189492; c=relaxed/simple;
+	bh=tjyghXvqEojFj3Pfwby+hkzR77SXqdDqIKc/4prwiCc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X0gnocVWa8Ae5K6mKOaWU38lFT1DGoHAly0e6PKmhk8VzR0aGCwA5YeqrvB1ftibbJ5wHWr2mHE5d3GU+03CDxDuKzYyvTsp7Iu14/hrwdbLcHOWroJQmV09EBJ70+5cYynKzJCFJKzauAYIRcskpX6TnKBpnSel7O75brA/VUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mKfpA/rT; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=lf58zNkXkWUDfQCd2bs0R6dO4u0zj2m3L7NvVspPFBCrE/ohUJor8HGwEQH96pnN+vW6REnqszNCSAJnimE/PP98D3kA0T8pDh1JoBQjaSdi7hlvGsgyKAH1Yh/TtlMjS8MN9EFYUCS/iV78QgXOPPyhKeWl6Pbac3G9oe5g79o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jw4R9Qng; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mKfpA/rT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jw4R9Qng"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752188772; x=1783724772;
+  t=1752189491; x=1783725491;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=gR+udLZjcv0sGahdUh5bn/KKz8nD0rgunrRyccSYz6Y=;
-  b=mKfpA/rTh0ChbFi6Jwj4tuBFUjKUgpU1TIg/kqOXAe3+zOV5M+dkmiHT
-   YU13a3s7XVAtzomi+x+qpHroZ7ijPYrg55+7Fuf67Q0dJcPl+j6mvH2Eg
-   hPSAh5EzLI/AWp1bpcMrpSv+mEj9haPajgf2kpjufy0FCq194RXnU9rRW
-   hlb8SLgMFTzBzfzIS4o3h0Li9/45oFkHO+FgLhffV7ur67yfb03otSRne
-   w5Y98llOs6EcmhM5pCF3qQSjk34xzLEJWCUwAZ1KCL2w2w3Zi/Zw34AXh
-   gkRB+8Dn/OvFqRuiwgYQ2oK32txkGidjMJM3NpYvCE5gPQ8vSene4Z6Lz
-   w==;
-X-CSE-ConnectionGUID: cKbwUuJ9R9eTNdrgnlfUrg==
-X-CSE-MsgGUID: b4KIcchwSueaI+Dr+t6bQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="72064151"
-X-IronPort-AV: E=Sophos;i="6.16,301,1744095600"; 
-   d="scan'208";a="72064151"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 16:06:12 -0700
-X-CSE-ConnectionGUID: lZDEknDSRr+ZJ0FAc8ShhQ==
-X-CSE-MsgGUID: oZ/Pr7TGTemQzpGJpgMZAw==
+  bh=tjyghXvqEojFj3Pfwby+hkzR77SXqdDqIKc/4prwiCc=;
+  b=Jw4R9QngzggoEYx+GEtSTwfVSt0CIVzEhr4FdG7afCnqPWMoNgeruT8i
+   r0qGnP/5bJZHPCKc2Q1Wp8/1sT+3mYMaLoEC3pQZ6YJt+PSuj19SWjRYd
+   W7A1aUDErf1yammTdiIc/DV8z/4gHmZ91ZHAwh0ysHAEzfJfQqjRw92ky
+   cSPkpB1iJda2gHdMLTni7kbpqQhudGDzI26lbRCR04dhHBdJEcVqfpafe
+   mMXdNAqcWauOS2+Ml3SrheL5pnU4PN/3b26UPxD5j0QFPeS/b7oHUaNdz
+   Q+6fooGGAxDAstu0F5r3EiuGMBT4YCVYPafNmpNmbd/i936Z1hk1njRRc
+   A==;
+X-CSE-ConnectionGUID: /nsAn1mHRdCeRTnpRSSrEQ==
+X-CSE-MsgGUID: QTTVGGo0R6uHAS+nPUAcpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="54573700"
+X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
+   d="scan'208";a="54573700"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 16:18:11 -0700
+X-CSE-ConnectionGUID: /adAwK4+Sh6eT546oXugAA==
+X-CSE-MsgGUID: Go9DAg15TKq2937p/k7/bg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,301,1744095600"; 
-   d="scan'208";a="156704259"
+X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
+   d="scan'208";a="160517973"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 10 Jul 2025 16:06:09 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 10 Jul 2025 16:18:09 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ua0L7-0005ZH-28;
-	Thu, 10 Jul 2025 23:06:05 +0000
-Date: Fri, 11 Jul 2025 07:05:31 +0800
+	id 1ua0Wk-0005Zj-25;
+	Thu, 10 Jul 2025 23:18:06 +0000
+Date: Fri, 11 Jul 2025 07:17:27 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	David Ahern <dsahern@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>
-Subject: Re: [PATCH v1 net-next] dev: Pass netdevice_tracker to
- dev_get_by_flags_rcu().
-Message-ID: <202507110651.qJgShsUO-lkp@intel.com>
-References: <20250709190144.659194-1-kuniyu@google.com>
+To: Andrey Skvortsov <andrej.skvortzov@gmail.com>,
+	Ping-Ke Shih <pkshih@realtek.com>, Kalle Valo <kvalo@kernel.org>,
+	linux-wireless@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Bitterblue Smith <rtl8821cerfe2@gmail.com>,
+	Fiona Klute <fiona.klute@gmx.de>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Andrey Skvortsov <andrej.skvortzov@gmail.com>
+Subject: Re: [PATCH v2 1/2] wifi: rtw88: introduce callback to override phy
+ parameters from tables
+Message-ID: <202507110636.fqI1Fyh7-lkp@intel.com>
+References: <20250709223159.2787192-2-andrej.skvortzov@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,81 +68,46 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250709190144.659194-1-kuniyu@google.com>
+In-Reply-To: <20250709223159.2787192-2-andrej.skvortzov@gmail.com>
 
-Hi Kuniyuki,
+Hi Andrey,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on net-next/main]
+[auto build test WARNING on wireless-next/main]
+[also build test WARNING on wireless/main linus/master v6.16-rc5 next-20250710]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/dev-Pass-netdevice_tracker-to-dev_get_by_flags_rcu/20250710-030425
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250709190144.659194-1-kuniyu%40google.com
-patch subject: [PATCH v1 net-next] dev: Pass netdevice_tracker to dev_get_by_flags_rcu().
-config: x86_64-randconfig-071-20250711 (https://download.01.org/0day-ci/archive/20250711/202507110651.qJgShsUO-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110651.qJgShsUO-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Andrey-Skvortsov/wifi-rtw88-introduce-callback-to-override-phy-parameters-from-tables/20250710-063838
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wireless/wireless-next.git main
+patch link:    https://lore.kernel.org/r/20250709223159.2787192-2-andrej.skvortzov%40gmail.com
+patch subject: [PATCH v2 1/2] wifi: rtw88: introduce callback to override phy parameters from tables
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250711/202507110636.fqI1Fyh7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110636.fqI1Fyh7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507110651.qJgShsUO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507110636.fqI1Fyh7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> net/core/dev.c:1294:17: error: use of undeclared identifier 'dev_get_by_flags_rcu'; did you mean 'netdev_get_by_flags_rcu'?
-    1294 | EXPORT_IPV6_MOD(dev_get_by_flags_rcu);
-         |                 ^~~~~~~~~~~~~~~~~~~~
-         |                 netdev_get_by_flags_rcu
-   include/net/ip.h:693:42: note: expanded from macro 'EXPORT_IPV6_MOD'
-     693 | #define EXPORT_IPV6_MOD(X) EXPORT_SYMBOL(X)
-         |                                          ^
-   include/linux/export.h:89:44: note: expanded from macro 'EXPORT_SYMBOL'
-      89 | #define EXPORT_SYMBOL(sym)              _EXPORT_SYMBOL(sym, "")
-         |                                                        ^
-   include/linux/export.h:86:54: note: expanded from macro '_EXPORT_SYMBOL'
-      86 | #define _EXPORT_SYMBOL(sym, license)    __EXPORT_SYMBOL(sym, license, "")
-         |                                                         ^
-   include/linux/export.h:76:16: note: expanded from macro '__EXPORT_SYMBOL'
-      76 |         extern typeof(sym) sym;                                 \
-         |                       ^
-   net/core/dev.c:1280:20: note: 'netdev_get_by_flags_rcu' declared here
-    1280 | struct net_device *netdev_get_by_flags_rcu(struct net *net, netdevice_tracker *tracker,
-         |                    ^
-   1 error generated.
+   drivers/net/wireless/realtek/rtw88/mac.c: In function 'rtw_mac_postinit':
+>> drivers/net/wireless/realtek/rtw88/mac.c:1416:13: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+    1416 |         int ret = 0;
+         |             ^~~
 
 
-vim +1294 net/core/dev.c
+vim +/ret +1416 drivers/net/wireless/realtek/rtw88/mac.c
 
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1268  
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1269  /**
-700489140bac828 Kuniyuki Iwashima 2025-07-09  1270   * netdev_get_by_flags_rcu - find any device with given flags
-c4ea43c552ecc9c Randy Dunlap      2007-10-12  1271   * @net: the applicable net namespace
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1272   * @if_flags: IFF_* values
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1273   * @mask: bitmask of bits in if_flags to check
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1274   *
-eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1275   * Search for any interface with the given flags.
-eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1276   *
-eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1277   * Context: rcu_read_lock() must be held.
-eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1278   * Returns: NULL if a device is not found or a pointer to the device.
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1279   */
-700489140bac828 Kuniyuki Iwashima 2025-07-09  1280  struct net_device *netdev_get_by_flags_rcu(struct net *net, netdevice_tracker *tracker,
-700489140bac828 Kuniyuki Iwashima 2025-07-09  1281  					   unsigned short if_flags, unsigned short mask)
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1282  {
-eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1283  	struct net_device *dev;
-6c555490e0ce885 WANG Cong         2014-09-11  1284  
-eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1285  	for_each_netdev_rcu(net, dev) {
-eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1286  		if (((READ_ONCE(dev->flags) ^ if_flags) & mask) == 0) {
-700489140bac828 Kuniyuki Iwashima 2025-07-09  1287  			netdev_hold(dev, tracker, GFP_ATOMIC);
-eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1288  			return dev;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1289  		}
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1290  	}
-eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1291  
-eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02  1292  	return NULL;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1293  }
-eb1ac9ff6c4a572 Kuniyuki Iwashima 2025-07-02 @1294  EXPORT_IPV6_MOD(dev_get_by_flags_rcu);
-^1da177e4c3f415 Linus Torvalds    2005-04-16  1295  
+  1412	
+  1413	int rtw_mac_postinit(struct rtw_dev *rtwdev)
+  1414	{
+  1415		const struct rtw_chip_info *chip = rtwdev->chip;
+> 1416		int ret = 0;
 
 -- 
 0-DAY CI Kernel Test Service
