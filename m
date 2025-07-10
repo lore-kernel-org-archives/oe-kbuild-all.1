@@ -1,201 +1,251 @@
-Received: from relay16.mail.gandi.net (relay16.mail.gandi.net [217.70.178.236])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFE172222AB
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 11:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.236
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD4A277C82
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 11:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752148449; cv=none; b=PvxNrT2hiLOF0bM+o2sjRHSiHGj6T8fXxKCwpeRRUxHpV3sQHuupnHdsstmpssINtIgKpa68tAufjFLI8i24++olB07Qt3axVWXPWkkBxKNtv8EiPHdI8c7KfG8iMhtR7AezJriVUnjuTo3RZ9z8Pw0hfBHmrpP15ZWJ2Fa2wn4=
+	t=1752148745; cv=none; b=Fsq98CzbWCY2/Tmz9Q6d2yspQmZl6LKl+sU3rc/43ssLWJR62LasLz8wkESJahwJnbKMIBInl1MxNrvB+SwpcB45Mkn3SXTnoATDGbdZXWxh2Iu8PRefpqkQKGpSmx5CEhsB14JH63wWlVI6GuHFx6IbOuA32v5PuOkjN9PaviU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752148449; c=relaxed/simple;
-	bh=MVHqixVBLg0H9xE1bSL31ysVRFUE+Oyp0iIqhY4ebuw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DgIIZOkpZrBR5hqAGNcSjJ3BrPBai2x8iijbosFq5gtqfS9J46IzjtlbVUviJRg3hdQI8xUEzkQHrOLPwvnYntopM+MVopN953pC6cglf9fXAmX4zWkU9ga5Gd8RjOa+w5TB00Cv/kq1bIuo2JZ/tkFeBqABbMe2TynE6WVChqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.178.236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 670B8449CD;
-	Thu, 10 Jul 2025 11:53:54 +0000 (UTC)
-Message-ID: <f5b1fc77-d180-4df7-b8f6-0cb0ca4a187a@ghiti.fr>
-Date: Thu, 10 Jul 2025 13:53:53 +0200
+	s=arc-20240116; t=1752148745; c=relaxed/simple;
+	bh=a+LGaSfOm7UQ65ndM+41ftSzMsJeAg7m167TUN8+wxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rfXnYj2a7s4dMFugZD8MPz7fVbZMz6W5GSEFuKNRbh4TM1wiBDv6Y84mfWhsRgVspJvlhGU/qVvYT4jyfxZFYmP1kpLl16KSDfbJr4O9bf8t/vWsO1D4sYD8y0dZlLAD5MWO+JJGAolG4yp3NBRPkVUvMrbPSeLiNqcJLeHpuEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iNIMiwB6; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iNIMiwB6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752148743; x=1783684743;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=a+LGaSfOm7UQ65ndM+41ftSzMsJeAg7m167TUN8+wxo=;
+  b=iNIMiwB6/e5qmnXAN5ptlQ0VcTyPcm+rM+l5yvo2wk4nUjPj/PXD4LbL
+   9g0bB+lfglFxL2Nsauv80675Ko6kYLIEkAOhQ2bjvyZteOPJz4OWaS0rN
+   KcQQ2he/15j0y2KU/bp+rMiSCcvXVEnOXo4xoC5K/53SwKC+Q7VBn0jT2
+   YlJuhkEeOwDzq7vZY0GTTCwfB7Ch+Op2Qa3MHTV8CA24lSB71cr0+1Wga
+   Ja73B/MTFgAmhUAW7HJlhLRXNuNlpWFSBTXErX/zTslZd1SHaLEcm+4zh
+   BXIAeIV5tua1a14SNgESvjXORvHIF5702R7aABy6nhtqf51aztjmOhGFO
+   Q==;
+X-CSE-ConnectionGUID: dIuEMiTNTgOnnBh9tyBJWQ==
+X-CSE-MsgGUID: m3Yoca4XS4+PH1XqS7AlCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54278712"
+X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
+   d="scan'208";a="54278712"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 04:59:02 -0700
+X-CSE-ConnectionGUID: 1QYkK1GLTL64gN6tM2X30Q==
+X-CSE-MsgGUID: 8N0Hx56NTK6pozwTRK+7pg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
+   d="scan'208";a="160072063"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 10 Jul 2025 04:59:00 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uZpvW-0004zz-1a;
+	Thu, 10 Jul 2025 11:58:58 +0000
+Date: Thu, 10 Jul 2025 19:58:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 10/16] PCI: Add pci_mfd_isolation()
+Message-ID: <202507101925.TPzxoCBq-lkp@intel.com>
+References: <10-v2-4a9b9c983431+10e2-pcie_switch_groups_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2] riscv: ftrace: Fix the logic issue in DYNAMIC_FTRACE
- selection
-To: kernel test robot <lkp@intel.com>, ChenMiao <chenmiao.ku@gmail.com>,
- Linux RISCV <linux-riscv@lists.infradead.org>
-Cc: oe-kbuild-all@lists.linux.dev, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Heiko Carstens <hca@linux.ibm.com>, Pu Lehui <pulehui@huawei.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-References: <aG3A8Jirg+TxNza/@rli9-mobl>
-Content-Language: en-US
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <aG3A8Jirg+TxNza/@rli9-mobl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdegtdefiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtjeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhepueekjeefieeikeevvefhtddtteevgefgtdffheegieegkeffueeujefhjefftdeinecuffhomhgrihhnpehgihhthhhusgdrtghomhdpkhgvrhhnvghlrdhorhhgnecukfhppedvtddtudemkeeiudemfeefkedvmegvfheltdemsgeffhdumeejtgeirgemsgehudelmegrfhgstdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvtddtudemkeeiudemfeefkedvmegvfheltdemsgeffhdumeejtgeirgemsgehudelmegrfhgstddphhgvlhhopeglkffrggeimedvtddtudemkeeiudemfeefkedvmegvfheltdemsgeffhdumeejtgeirgemsgehudelmegrfhgstdgnpdhmrghilhhfrhhomheprghlvgigsehghhhithhirdhfrhdpnhgspghrtghpthhtohepudehpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopegthhgvnhhmihgrohdrkhhusehgmhgrihhlrdgtohhmpdhrtghpthhto
- heplhhinhhugidqrhhishgtvheslhhishhtshdrihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtohepphgruhhlrdifrghlmhhslhgvhiesshhifhhivhgvrdgtohhmpdhrtghpthhtohepphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhrtghpthhtoheprghouhesvggvtghsrdgsvghrkhgvlhgvhidrvgguuhdprhgtphhtthhopehrohhsthgvughtsehgohhoughmihhsrdhorhhg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <10-v2-4a9b9c983431+10e2-pcie_switch_groups_jgg@nvidia.com>
 
-Hi ChenMiao,
+Hi Jason,
 
-On 7/9/25 03:08, kernel test robot wrote:
-> Hi ChenMiao,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on fda589c286040d9ba2d72a0eaf0a13945fc48026]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/ChenMiao/riscv-ftrace-Fix-the-logic-issue-in-DYNAMIC_FTRACE-selection/20250706-231907
-> base:   fda589c286040d9ba2d72a0eaf0a13945fc48026
-> patch link:    https://lore.kernel.org/r/20250706151830.25091-1-chenmiao.ku%40gmail.com
-> patch subject: [PATCH V2] riscv: ftrace: Fix the logic issue in DYNAMIC_FTRACE selection
-> :::::: branch date: 2 days ago
-> :::::: commit date: 2 days ago
-> config: riscv-randconfig-r112-20250708 (attached as .config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-> reproduce: (attached as reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507090650.YGY56SIA-lkp@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->>> <instantiation>:1:14: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
->     addi sp, sp, -FREGS_SIZE_ON_STACK
->                  ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->>> <instantiation>:2:18: error: unexpected token
->      sw t0, FREGS_EPC(sp)
->                      ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:3:17: error: unexpected token
->      sw x1, FREGS_RA(sp)
->                     ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:7:17: error: unexpected token
->      sw x6, FREGS_T1(sp)
->                     ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:9:17: error: unexpected token
->      sw x7, FREGS_T2(sp)
->                     ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:10:18: error: unexpected token
->      sw x28, FREGS_T3(sp)
->                      ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:11:18: error: unexpected token
->      sw x29, FREGS_T4(sp)
->                      ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:12:18: error: unexpected token
->      sw x30, FREGS_T5(sp)
->                      ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:13:18: error: unexpected token
->      sw x31, FREGS_T6(sp)
->                      ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:16:18: error: unexpected token
->      sw x10, FREGS_A0(sp)
->                      ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:17:18: error: unexpected token
->      sw x11, FREGS_A1(sp)
->                      ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:18:18: error: unexpected token
->      sw x12, FREGS_A2(sp)
->                      ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:19:18: error: unexpected token
->      sw x13, FREGS_A3(sp)
->                      ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:20:18: error: unexpected token
->      sw x14, FREGS_A4(sp)
->                      ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:21:18: error: unexpected token
->      sw x15, FREGS_A5(sp)
->                      ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:22:18: error: unexpected token
->      sw x16, FREGS_A6(sp)
->                      ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:23:18: error: unexpected token
->      sw x17, FREGS_A7(sp)
->                      ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->      ^
->     <instantiation>:25:15: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
->      addi a0, a0, FREGS_SIZE_ON_STACK
->                   ^
->     arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->      SAVE_ABI_REGS
->
-> Kconfig warnings: (for reference only)
->     WARNING: unmet direct dependencies detected for DYNAMIC_FTRACE
->     Depends on [n]: FTRACE [=y] && FUNCTION_TRACER [=y] && HAVE_DYNAMIC_FTRACE [=n]
->     Selected by [y]:
->     - RISCV [=y] && FUNCTION_TRACER [=y]
+kernel test robot noticed the following build errors:
 
-To avoid that, we should check HAVE_DYNAMIC_FTRACE too:
+[auto build test ERROR on e04c78d86a9699d136910cfc0bdcf01087e3267e]
 
-select DYNAMIC_FTRACE if FUNCTION_TRACER && HAVE_DYNAMIC_FTRACE
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Gunthorpe/PCI-Move-REQ_ACS_FLAGS-into-pci_regs-h-as-PCI_ACS_ISOLATED/20250709-225414
+base:   e04c78d86a9699d136910cfc0bdcf01087e3267e
+patch link:    https://lore.kernel.org/r/10-v2-4a9b9c983431%2B10e2-pcie_switch_groups_jgg%40nvidia.com
+patch subject: [PATCH v2 10/16] PCI: Add pci_mfd_isolation()
+config: i386-buildonly-randconfig-001-20250710 (https://download.01.org/0day-ci/archive/20250710/202507101925.TPzxoCBq-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507101925.TPzxoCBq-lkp@intel.com/reproduce)
 
-That fixes the build error for me. Can you send a v3 with this change?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507101925.TPzxoCBq-lkp@intel.com/
 
-Thanks,
+All error/warnings (new ones prefixed by >>):
 
-Alex
+   In file included from include/ras/ras_event.h:12,
+                    from mm/memory-failure.c:65:
+>> include/linux/pci.h:2082:6: warning: no previous prototype for 'pci_mfd_isolated' [-Wmissing-prototypes]
+    2082 | bool pci_mfd_isolated(struct pci_dev *dev)
+         |      ^~~~~~~~~~~~~~~~
+--
+   ld: arch/x86/hyperv/irqdomain.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/setup.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/x86_init.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/irqinit.o: in function `pci_mfd_isolated':
+   arch/x86/kernel/irqinit.c:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/probe_roms.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/pci-dma.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/quirks.o: in function `pci_mfd_isolated':
+   arch/x86/kernel/quirks.c:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/cpu/cacheinfo.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/cpu/cyrix.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/cpu/mce/inject.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/cpu/microcode/amd.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/acpi/boot.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/mpparse.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/apic/io_apic.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/reboot_fixups_32.o: in function `pci_mfd_isolated':
+   arch/x86/kernel/reboot_fixups_32.c:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/kernel/devicetree.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/mm/init_32.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/mm/pat/set_memory.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: arch/x86/platform/scx200/scx200_32.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: kernel/dma/direct.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: mm/memory-failure.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: fs/fuse/virtio_fs.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: lib/iomap.o: in function `pci_mfd_isolated':
+>> include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/leds/flash/leds-mt6370-flash.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/leds/flash/leds-as3645a.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/leds/flash/leds-rt4505.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/leds/flash/leds-rt8515.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/leds/flash/leds-sgm3140.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/pci/of.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/video/aperture.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/acpi/osl.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/acpi/reboot.o: in function `pci_mfd_isolated':
+   drivers/acpi/reboot.c:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/acpi/bus.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/acpi/glue.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/acpi/acpi_processor.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/acpi/acpi_platform.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/acpi/x86/utils.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/pnp/resource.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/pnp/quirks.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/pnp/pnpacpi/rsparser.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/clk/x86/clk-fch.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/gpu/drm/drm_edid.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/gpu/drm/drm_file.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/gpu/drm/drm_ioctl.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/gpu/drm/drm_fb_helper.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/gpu/drm/arm/display/komeda/komeda_drv.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/scsi/scsi_lib.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/nvme/host/core.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/nvme/host/ioctl.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/nvme/host/sysfs.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/nvme/host/pr.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/nvme/host/multipath.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/nvme/host/zns.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/nvme/host/fabrics.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/nvme/host/fc.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/nvme/target/core.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/nvme/target/configfs.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/nvme/target/passthru.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/nvme/target/loop.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/ata/libata-core.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/ata/libata-eh.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/ata/libata-acpi.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/ata/ahci_ceva.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/ata/libahci.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/ata/libahci_platform.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/ata/ahci_dwc.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/net/ethernet/amd/lance.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/net/ethernet/amd/xgbe/xgbe-dev.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/net/hyperv/netvsc_drv.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/net/net_failover.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/pcmcia/pcmcia_resource.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/pcmcia/cistpl.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
+   ld: drivers/pcmcia/rsrc_nonstatic.o: in function `pci_mfd_isolated':
+   include/linux/pci.h:2083: multiple definition of `pci_mfd_isolated'; arch/x86/events/amd/ibs.o:include/linux/pci.h:2083: first defined here
 
 
->
+vim +2083 include/linux/pci.h
+
+  2081	
+> 2082	bool pci_mfd_isolated(struct pci_dev *dev)
+> 2083	{ return false; }
+  2084	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
