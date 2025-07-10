@@ -1,65 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E61A9213224
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 17:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3738938DD8
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 19:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752169664; cv=none; b=IVv5xwy7YHXSIoASsxv39eJD7W4BBRbHVn66vZk2b55YQwQzgJtj2JZrQMnB0/OGISji+vefVVFDs3I79T8GpOK0075gH0ABtPN2tD+ieWeBKEsj3FpCa3I4pIDJCmPVEV/x9PP79t8VKocxGVyFjDj3yJPoZq4tLqP4yiL1heg=
+	t=1752175192; cv=none; b=RD+d+r+A6YOv4PQeb8CmKrwjPBzgsoJb7qNhj36RzdQe4HojTe8oXhivUuo4b/iU8QnpzO64l27Gm2Zrc5e8LhE6JPfs+2qAUKDmNc6UwZ0W/51LU4U1TW7nmqyBGZbI8G91mEOFw4/EcFJTvC111VnwFBR8Z6aV1i3OBoWyShk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752169664; c=relaxed/simple;
-	bh=fYsLiKestMpek0qN0cEg0MwyFp4HDvg6ZGLxP22SxYs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FL8cmhBDMJq70Nayc1ChN2aT3KdsmUdZOofRA+hckbuRcICLvFFy+dZ6tzi2s7my8koiL9gwzNKpC8Uo+XIzQgZ42T/HS6JxEa/iXBD7t7N1WsXjdQMqDjLc7X/cxgPlAKcYMkJjXpASrwMuedP7QN82kjVmOFjliQJpziN6580=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HBPJalUO; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1752175192; c=relaxed/simple;
+	bh=Pn9bFpGVvVA1RIvCpH9oZ+qWBeN/hKWVO2Z1m+zbLKI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JPuxSYDjPmtFQ3dizST0gxKc/mtgq+5eePES1Nmyybdu15relhIxKzykrVFUsFhRRN1Qi7k+f7U9d/u2eWED2LBtW0AhLZ06shJJGX51Y74ZnGz/jk5hO0s8aPyfHuqM7LYx44RD2XcQR+dr2n+AInDx+VQIgbBZ8CcqGwRyYUY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZsOrGDvl; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HBPJalUO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZsOrGDvl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752169663; x=1783705663;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=fYsLiKestMpek0qN0cEg0MwyFp4HDvg6ZGLxP22SxYs=;
-  b=HBPJalUOoCoZUfp7A76eHhXevYEJXgXGsNj84VySUvE0R4Piu2eDHkOu
-   bAtZBJXgtomBkcED9dZ/PKAscM0fxt7BZnhbRmc9eJmtGLT74QhjaCJ9e
-   HuuQjBOz4XFsyBjxtV8FoCKcZlpLxW4+tO+gzGRmnsI7pm+0d44HHfdPS
-   Dunhh6pnryPc3ye4wkoZ0OG3tUPajvjzlXaDT3SSIm6/9rKsImKV0rocH
-   EmiOWW01jw5kF79I+pC+3NMrenR+efeY58cRvG+nWrXvpPpx23thoC1TN
-   JxKz+Tzl5CXEZtxOo8Hx+ycANBb75sFvubfGlniauz1O3cRRzLVq75VWs
-   A==;
-X-CSE-ConnectionGUID: OO8zhQ8PTJS6EblmVIAiPw==
-X-CSE-MsgGUID: P0Wfk6m+TOalg18U+ye2og==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="58226644"
+  t=1752175190; x=1783711190;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=Pn9bFpGVvVA1RIvCpH9oZ+qWBeN/hKWVO2Z1m+zbLKI=;
+  b=ZsOrGDvlaQgj8rx2sxLuHSglrLlaV6bfO/+DZ/nfCRNTY40gPHgcHSLR
+   BOmEMPItc/SFvCBxQPG+1UepjJT6JUgvbuenfwfGBVPqBz7KYteNt8Lz6
+   DsQYTHrDLdQwi2xLCOe69hB5OMkgeHlr4xt+OsOqfELCqcLWFpTbrc90a
+   rxwaOwMo+sxjTl6tS4efM4KiM+KE0z4Z9pQ0UndVErD4Di6gpeHpuOagc
+   M3jsrGmC/ZVHoxcIEdRb+oDN1nYmbwwr3ffst3e9XQ2UKYvy99NtCEIMv
+   F36/pva3gGTYIuc7cDVgCxI/Ilhc0zQTzDQCynkBM/BRAzAyT7nzdpGzQ
+   Q==;
+X-CSE-ConnectionGUID: uPYeW3/qSgOCIkG3YpmuYA==
+X-CSE-MsgGUID: SoCH0SFoQzWz4PXpmwrTmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="65167881"
 X-IronPort-AV: E=Sophos;i="6.16,301,1744095600"; 
-   d="scan'208";a="58226644"
+   d="scan'208";a="65167881"
 Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 10:47:42 -0700
-X-CSE-ConnectionGUID: vAa6fRD7S8aIzxZuFlntBA==
-X-CSE-MsgGUID: qOPVOyJASByw8/vBIia/Mw==
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 12:19:49 -0700
+X-CSE-ConnectionGUID: NP4v34LfR/ySeJtc0QXZVA==
+X-CSE-MsgGUID: 1gM+Zwn+TiOVuToWzSYyVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,301,1744095600"; 
-   d="scan'208";a="193369281"
+   d="scan'208";a="193385633"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 10 Jul 2025 10:47:40 -0700
+  by orviesa001.jf.intel.com with ESMTP; 10 Jul 2025 12:19:48 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZvMu-0005It-1P;
-	Thu, 10 Jul 2025 17:47:36 +0000
-Date: Fri, 11 Jul 2025 01:47:17 +0800
+	id 1uZwo5-0005Of-1m;
+	Thu, 10 Jul 2025 19:19:45 +0000
+Date: Fri, 11 Jul 2025 03:19:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nick Hu <nick.hu@sifive.com>, Alexandre Ghiti <alex@ghiti.fr>,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Nick Hu <nick.hu@sifive.com>,
-	Anup Patel <anup@brainfault.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>
-Subject: Re: [PATCH 2/2] irqchip/riscv-aplic: Save and restore APLIC registers
-Message-ID: <202507110131.OzZXquiC-lkp@intel.com>
-References: <20250709025516.28051-3-nick.hu@sifive.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android16-6.12 1/1] include/linux/compiler.h:166:45:
+ error: '__UNIQUE_ID_y_555' undeclared; did you mean '__UNIQUE_ID_x_554'?
+Message-ID: <202507110304.W6dWq1wF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,147 +61,222 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250709025516.28051-3-nick.hu@sifive.com>
 
-Hi Nick,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/irq/core]
-[also build test ERROR on linus/master v6.16-rc5 next-20250710]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nick-Hu/irqchip-riscv-aplic-Save-and-restore-APLIC-registers/20250709-115608
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20250709025516.28051-3-nick.hu%40sifive.com
-patch subject: [PATCH 2/2] irqchip/riscv-aplic: Save and restore APLIC registers
-config: riscv-randconfig-r132-20250710 (https://download.01.org/0day-ci/archive/20250711/202507110131.OzZXquiC-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
-reproduce: (https://download.01.org/0day-ci/archive/20250711/202507110131.OzZXquiC-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   5bbd30a60b961b77650b161742eecdbd13077fdc
+commit: 4f9e4406e4981511e1348e4483eae7c21cd5fe24 [1/1] ANDROID: Update proxy-exec logic from v14 to v18
+config: arm-randconfig-003-20250711 (https://download.01.org/0day-ci/archive/20250711/202507110304.W6dWq1wF-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110304.W6dWq1wF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507110131.OzZXquiC-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507110304.W6dWq1wF-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
-   In file included from include/linux/of_irq.h:7:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:804:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     804 |         insb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:104:53: note: expanded from macro 'insb'
-     104 | #define insb(addr, buffer, count) __insb(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
-   In file included from include/linux/of_irq.h:7:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:812:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     812 |         insw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:105:53: note: expanded from macro 'insw'
-     105 | #define insw(addr, buffer, count) __insw(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
-   In file included from include/linux/of_irq.h:7:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:820:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     820 |         insl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:106:53: note: expanded from macro 'insl'
-     106 | #define insl(addr, buffer, count) __insl(PCI_IOBASE + (addr), buffer, count)
-         |                                          ~~~~~~~~~~ ^
-   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
-   In file included from include/linux/of_irq.h:7:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:829:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     829 |         outsb(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:118:55: note: expanded from macro 'outsb'
-     118 | #define outsb(addr, buffer, count) __outsb(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
-   In file included from include/linux/of_irq.h:7:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:838:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     838 |         outsw(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:119:55: note: expanded from macro 'outsw'
-     119 | #define outsw(addr, buffer, count) __outsw(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
-   In file included from include/linux/of_irq.h:7:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:847:2: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     847 |         outsl(addr, buffer, count);
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/include/asm/io.h:120:55: note: expanded from macro 'outsl'
-     120 | #define outsl(addr, buffer, count) __outsl(PCI_IOBASE + (addr), buffer, count)
-         |                                            ~~~~~~~~~~ ^
-   In file included from drivers/irqchip/irq-riscv-aplic-main.c:13:
-   In file included from include/linux/of_irq.h:7:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:12:
-   In file included from arch/riscv/include/asm/io.h:136:
-   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
-         |                                                   ~~~~~~~~~~ ^
->> drivers/irqchip/irq-riscv-aplic-main.c:220:26: error: use of undeclared identifier 'valH'
-     220 |                 priv->saved_msiaddrh = valH;
-         |                                        ^~~~
-   7 warnings and 1 error generated.
+   In file included from include/linux/blk-crypto.h:127,
+                    from include/linux/blk-crypto-profile.h:10,
+                    from include/linux/mmc/host.h:19,
+                    from drivers/mmc/host/mmci.c:23:
+   include/linux/blkdev.h:1776:24: error: field 'req_list' has incomplete type
+    1776 |         struct rq_list req_list;
+         |                        ^~~~~~~~
+   In file included from <command-line>:
+   drivers/mmc/host/mmci.c: In function 'mmci_probe':
+>> include/linux/compiler.h:166:45: error: '__UNIQUE_ID_y_555' undeclared (first use in this function); did you mean '__UNIQUE_ID_x_554'?
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
+     516 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
+     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   include/linux/compiler.h:166:45: note: each undeclared identifier is reported only once for each function it appears in
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                             ^~~~~~~~~~~~
+   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
+     516 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   include/linux/compiler_types.h:536:9: note: in expansion of macro '_compiletime_assert'
+     536 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:100:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |         ^~~~~~~~~~~~~~~~
+   include/linux/minmax.h:56:27: note: in expansion of macro 'is_signed_type'
+      56 | #define __sign_use(x,ux) (is_signed_type(typeof(ux))? \
+         |                           ^~~~~~~~~~~~~~
+   include/linux/minmax.h:82:29: note: in expansion of macro '__sign_use'
+      82 |         (__sign_use(x,ux) & __sign_use(y,uy))
+         |                             ^~~~~~~~~~
+   include/linux/minmax.h:100:27: note: in expansion of macro '__types_ok'
+     100 |         BUILD_BUG_ON_MSG(!__types_ok(x,y,ux,uy),        \
+         |                           ^~~~~~~~~~
+   include/linux/minmax.h:105:9: note: in expansion of macro '__careful_cmp_once'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:29: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                             ^~~~~~~
+   include/linux/compiler_types.h:84:22: note: in expansion of macro '___PASTE'
+      84 | #define __PASTE(a,b) ___PASTE(a,b)
+         |                      ^~~~~~~~
+   include/linux/compiler.h:166:37: note: in expansion of macro '__PASTE'
+     166 | #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+         |                                     ^~~~~~~
+   include/linux/minmax.h:105:55: note: in expansion of macro '__UNIQUE_ID'
+     105 |         __careful_cmp_once(op, x, y, __UNIQUE_ID(x_), __UNIQUE_ID(y_))
+         |                                                       ^~~~~~~~~~~
+   include/linux/minmax.h:129:25: note: in expansion of macro '__careful_cmp'
+     129 | #define min(x, y)       __careful_cmp(min, x, y)
+         |                         ^~~~~~~~~~~~~
+   drivers/mmc/host/mmci.c:2333:40: note: in expansion of macro 'min'
+    2333 |                                 fmax : min(host->mclk, fmax);
+         |                                        ^~~
+   include/linux/minmax.h:77:36: error: first argument to '__builtin_choose_expr' not a constant
+      77 |   #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux)>4,1LL,1L))
+         |                                    ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:516:23: note: in definition of macro '__compiletime_assert'
+     516 |                 if (!(condition))                                       \
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for PHYLINK
+   Depends on [n]: NETDEVICES [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_ETHERNET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for CAN_RX_OFFLOAD
+   Depends on [n]: NETDEVICES [=n] && CAN_DEV [=n] && CAN_NETLINK [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_MCP251XFD_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=y] && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for NET_DEVLINK
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=n] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for DIMLIB
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for PAGE_POOL
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for NET_PTP_CLASSIFY
+   Depends on [n]: NET [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_NET_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for INTEL_MEI_ME
+   Depends on [n]: X86 && PCI [=y]
+   Selected by [y]:
+   - INTEL_MEI_PXP [=y] && (DRM_I915 [=n] || DRM_XE [=y])
+   WARNING: unmet direct dependencies detected for BALLOON_COMPACTION
+   Depends on [n]: COMPACTION [=n] && MEMORY_BALLOON [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_MM_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=n] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=n] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_COMPRESS_ACCEL
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=y] && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
 
 
-vim +/valH +220 drivers/irqchip/irq-riscv-aplic-main.c
+vim +166 include/linux/compiler.h
 
-   203	
-   204	void aplic_init_hw_global(struct aplic_priv *priv, bool msi_mode)
-   205	{
-   206		u32 val;
-   207	#ifdef CONFIG_RISCV_M_MODE
-   208		u32 valh;
-   209	
-   210		if (msi_mode) {
-   211			val = lower_32_bits(priv->msicfg.base_ppn);
-   212			valh = FIELD_PREP(APLIC_xMSICFGADDRH_BAPPN, upper_32_bits(priv->msicfg.base_ppn));
-   213			valh |= FIELD_PREP(APLIC_xMSICFGADDRH_LHXW, priv->msicfg.lhxw);
-   214			valh |= FIELD_PREP(APLIC_xMSICFGADDRH_HHXW, priv->msicfg.hhxw);
-   215			valh |= FIELD_PREP(APLIC_xMSICFGADDRH_LHXS, priv->msicfg.lhxs);
-   216			valh |= FIELD_PREP(APLIC_xMSICFGADDRH_HHXS, priv->msicfg.hhxs);
-   217			writel(val, priv->regs + APLIC_xMSICFGADDR);
-   218			writel(valh, priv->regs + APLIC_xMSICFGADDRH);
-   219			priv->saved_msiaddr = val;
- > 220			priv->saved_msiaddrh = valH;
-   221		}
-   222	#endif
-   223	
-   224		/* Setup APLIC domaincfg register */
-   225		val = readl(priv->regs + APLIC_DOMAINCFG);
-   226		val |= APLIC_DOMAINCFG_IE;
-   227		if (msi_mode)
-   228			val |= APLIC_DOMAINCFG_DM;
-   229		writel(val, priv->regs + APLIC_DOMAINCFG);
-   230		if (readl(priv->regs + APLIC_DOMAINCFG) != val)
-   231			dev_warn(priv->dev, "unable to write 0x%x in domaincfg\n", val);
-   232		priv->saved_domaincfg = val;
-   233	}
-   234	
+fe8c8a126806fe Cesar Eduardo Barros 2013-11-25  165  
+a8306f2d4dcea0 Nick Desaulniers     2023-08-31 @166  #define __UNIQUE_ID(prefix) __PASTE(__PASTE(__UNIQUE_ID_, prefix), __COUNTER__)
+6f33d58794ef4c Rusty Russell        2012-11-22  167  
+
+:::::: The code at line 166 was first introduced by commit
+:::::: a8306f2d4dcea03538c70c26d2948483f70254ff compiler.h: unify __UNIQUE_ID
+
+:::::: TO: Nick Desaulniers <ndesaulniers@google.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
