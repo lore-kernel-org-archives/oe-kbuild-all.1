@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A09A47;
-	Thu, 10 Jul 2025 00:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF06C539A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 00:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752106365; cv=none; b=aOzazSJZgk+uTRJ7jeSpGRWjE0QPGIKsGTNufVam3lL4T/vs8e7u0pus0vMYbq4b/3CHFpH0t6Ddh3wnXSKyBXbfY99zx4snrYgYtaoj9t73QJLgUVe4A5/nF9oXBc8u1q/v49/ugD45oFo1G1YvjpPdel+2PUIxVVcsCqAwScE=
+	t=1752108828; cv=none; b=MqfLnYvI7TV/ANqmXPkMBKhkajnHUpoGlSKyb7vfcU1QFbQCz2HuxOVtKo8i46pfFfQGGg5mybDr/6arPLzUeFiG0iwoKWY+Ht/rrA9kqwJfG3p1e+7oorqshDb09GIQWUc2FwJBd+XacL/3M8qzMus3w06HFF38thtjLyshTtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752106365; c=relaxed/simple;
-	bh=lwH9hNdFsBeCfhJ7eyk6vPn0/eFcO9EjVXkBTJMbTP4=;
+	s=arc-20240116; t=1752108828; c=relaxed/simple;
+	bh=YAzD1zPFWkIBQiWhkxrd/o57Zxzi7xi5u3oL58PN0Uc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y8yuemblIQxyK9KTB8OJbr3eINhaw4xORhNVW14pOong17IOD6U8/zqhK2OycaLRUVqbJs6/iDOFj6craLy0ewkGtp6DGDL5533CARy1T5XlAPFb/7n/5I9SQBr8Jqlo5YtuDTf9Ws95zV9nt1U1fXYnkc33lt9rO2P8IDGX21o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BxTXNG0A; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=ku2dzroMoR1QfXytKSfBHnnhj0U1ZXwE3+mc2nSqvgDlwXq4+mT2dOsISu+Peae5BUoekPxOWoLAWSxClYjj+2fEAq7POXF6POzOPHlm76gcQQGa0wixEBJ6InO3Ud3Cw3Ba0H7GfvkNOJBH3Llzmf6JWbddjYof9DJKu7AJNns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=btJhLNZF; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BxTXNG0A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="btJhLNZF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752106364; x=1783642364;
+  t=1752108826; x=1783644826;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=lwH9hNdFsBeCfhJ7eyk6vPn0/eFcO9EjVXkBTJMbTP4=;
-  b=BxTXNG0AvoAUDkYoRmx/TVGYaJpRgBf8lgVkv9RA/DufiVOGu9REdKhZ
-   60rSAPjmm6vMXQIvwjfRBEmJi51NOuiDdrzgx5IMnHAD5cZJXHnAJW1Wq
-   3R/o2I3Pr7XgoY0eoqiFbmm/gF8mRD2hqKvYIy3o3j/NsVuX49GUlj4XZ
-   0Ooj6a1I2lb/LXgX67Uf4O2NHiZe6wpwA23eDTt3XxVBAdErZIvN1Y/fM
-   G4lsyMN63nk4nJtuEy3kL5hMQPMZtj2DV6Pqggq3Sez8suVwbyj31IZo2
-   b1x0sw4I6MNQsqXKCTnNWJ4FsdeUFGmpecw5QIQBXZHniR+V0c2l2/ArO
-   g==;
-X-CSE-ConnectionGUID: OHNEkohNTFKJ5XMKMmvEUQ==
-X-CSE-MsgGUID: Crg62cswSIm2Br9jlNz5KA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="42003889"
+  bh=YAzD1zPFWkIBQiWhkxrd/o57Zxzi7xi5u3oL58PN0Uc=;
+  b=btJhLNZFboWKjuzix/2F8++teSOpy/HEb1N0/oojz3oV1swClh/Jt2T6
+   SOiZL4RrSiBFYHefdUmMo33aO7aAeo0Q/RJgFp98RXjPvvkzvTtucbKTD
+   tArtZQPkl/ExG7krmOxonkT6l3J4Kn+yJtJ7hdc9JbzT+ULPYIhP+/jZU
+   ksf30F/anVIQ4EBSBDfki9d0sLrt20gPMt2Dgmoa+ntiPNgmfm991eRgX
+   ySUW6nLNTRqTC6BU0BELlWl7P+9EB9sjcRhzjGjqpP7m0AMpfVe93fEjr
+   RzwDeNF3PSQAKhE2dfLIg0RadEx2HJqEnMdnN5cwJ89PjjRxDurBJdXMx
+   Q==;
+X-CSE-ConnectionGUID: 6Ww6NffWQJa4953eZzrMdQ==
+X-CSE-MsgGUID: qNknXI3cQyKhu1bQoBxHeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="53491582"
 X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="42003889"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 17:12:43 -0700
-X-CSE-ConnectionGUID: oMfcHE1LQXmYpYtDt818Zw==
-X-CSE-MsgGUID: g/tDbQ1BQo66k7/OpQ7KrA==
+   d="scan'208";a="53491582"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 17:53:46 -0700
+X-CSE-ConnectionGUID: BFJv4Cv+Q5uQv89ggknyPA==
+X-CSE-MsgGUID: eiVDl+QXSzaFu3a304NuPg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="155680702"
+   d="scan'208";a="161480760"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 09 Jul 2025 17:12:41 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 09 Jul 2025 17:53:45 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZety-0004EX-2i;
-	Thu, 10 Jul 2025 00:12:38 +0000
-Date: Thu, 10 Jul 2025 08:12:08 +0800
+	id 1uZfXj-0004GR-0J;
+	Thu, 10 Jul 2025 00:53:43 +0000
+Date: Thu, 10 Jul 2025 08:52:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yishai Hadas <yishaih@nvidia.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Leon Romanovsky <leon@kernel.org>,
-	Edward Srouji <edwards@nvidia.com>
-Subject: [leon-rdma:rdma-next 56/102]
- drivers/infiniband/hw/hns/hns_roce_mr.c:242:10: error: incompatible integer
- to pointer conversion returning 'int' from a function with result type
- 'struct ib_mr *'
-Message-ID: <202507100805.RMkoPCwe-lkp@intel.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [norov:bitmap-for-next 9/9] arch/arm64/kvm/sys_regs.c:2627:3:
+ warning: ignoring return value of function declared with
+ 'warn_unused_result' attribute
+Message-ID: <202507100832.pW0wqkAO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,81 +63,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
-head:   168eb64efd0f6c7938890d4c9029142dcd13fd7c
-commit: e8063443db94464663beb65a92425bba22ae41e6 [56/102] IB: Extend UVERBS_METHOD_REG_MR to get DMAH
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250710/202507100805.RMkoPCwe-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507100805.RMkoPCwe-lkp@intel.com/reproduce)
+tree:   https://github.com/norov/linux bitmap-for-next
+head:   f66f9c3d09c12f6ceea17d1ba22be2cb8bc9e4e4
+commit: f66f9c3d09c12f6ceea17d1ba22be2cb8bc9e4e4 [9/9] bitfield: Ensure the return values of helper functions are checked
+config: arm64-randconfig-001-20250710 (https://download.01.org/0day-ci/archive/20250710/202507100832.pW0wqkAO-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507100832.pW0wqkAO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507100805.RMkoPCwe-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507100832.pW0wqkAO-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/infiniband/hw/hns/hns_roce_mr.c:242:10: error: incompatible integer to pointer conversion returning 'int' from a function with result type 'struct ib_mr *' [-Wint-conversion]
-     242 |                 return -EOPNOTSUPP;
-         |                        ^~~~~~~~~~~
-   1 error generated.
+>> arch/arm64/kvm/sys_regs.c:2627:3: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
+    2627 |                 u64_replace_bits(val, hpmn, MDCR_EL2_HPMN);
+         |                 ^~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
 
-vim +242 drivers/infiniband/hw/hns/hns_roce_mr.c
+vim +/warn_unused_result +2627 arch/arm64/kvm/sys_regs.c
 
-   231	
-   232	struct ib_mr *hns_roce_reg_user_mr(struct ib_pd *pd, u64 start, u64 length,
-   233					   u64 virt_addr, int access_flags,
-   234					   struct ib_dmah *dmah,
-   235					   struct ib_udata *udata)
-   236	{
-   237		struct hns_roce_dev *hr_dev = to_hr_dev(pd->device);
-   238		struct hns_roce_mr *mr;
-   239		int ret;
-   240	
-   241		if (dmah)
- > 242			return -EOPNOTSUPP;
-   243	
-   244		mr = kzalloc(sizeof(*mr), GFP_KERNEL);
-   245		if (!mr) {
-   246			ret = -ENOMEM;
-   247			goto err_out;
-   248		}
-   249	
-   250		mr->iova = virt_addr;
-   251		mr->size = length;
-   252		mr->pd = to_hr_pd(pd)->pdn;
-   253		mr->access = access_flags;
-   254		mr->type = MR_TYPE_MR;
-   255	
-   256		ret = alloc_mr_key(hr_dev, mr);
-   257		if (ret)
-   258			goto err_alloc_mr;
-   259	
-   260		ret = alloc_mr_pbl(hr_dev, mr, udata, start);
-   261		if (ret)
-   262			goto err_alloc_key;
-   263	
-   264		ret = hns_roce_mr_enable(hr_dev, mr);
-   265		if (ret)
-   266			goto err_alloc_pbl;
-   267	
-   268		mr->ibmr.rkey = mr->ibmr.lkey = mr->key;
-   269	
-   270		return &mr->ibmr;
-   271	
-   272	err_alloc_pbl:
-   273		free_mr_pbl(hr_dev, mr);
-   274	err_alloc_key:
-   275		free_mr_key(hr_dev, mr);
-   276	err_alloc_mr:
-   277		kfree(mr);
-   278	err_out:
-   279		atomic64_inc(&hr_dev->dfx_cnt[HNS_ROCE_DFX_MR_REG_ERR_CNT]);
-   280	
-   281		return ERR_PTR(ret);
-   282	}
-   283	
+a68cddbe47efda Mark Brown   2024-10-23  2605  
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2606  static bool access_mdcr(struct kvm_vcpu *vcpu,
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2607  			struct sys_reg_params *p,
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2608  			const struct sys_reg_desc *r)
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2609  {
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2610  	u64 hpmn, val, old = __vcpu_sys_reg(vcpu, MDCR_EL2);
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2611  
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2612  	if (!p->is_write) {
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2613  		p->regval = old;
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2614  		return true;
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2615  	}
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2616  
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2617  	val = p->regval;
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2618  	hpmn = FIELD_GET(MDCR_EL2_HPMN, val);
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2619  
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2620  	/*
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2621  	 * If HPMN is out of bounds, limit it to what we actually
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2622  	 * support. This matches the UNKNOWN definition of the field
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2623  	 * in that case, and keeps the emulation simple. Sort of.
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2624  	 */
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2625  	if (hpmn > vcpu->kvm->arch.nr_pmu_counters) {
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2626  		hpmn = vcpu->kvm->arch.nr_pmu_counters;
+efff9dd2fee7a5 Marc Zyngier 2025-04-09 @2627  		u64_replace_bits(val, hpmn, MDCR_EL2_HPMN);
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2628  	}
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2629  
+6678791ee3da0b Marc Zyngier 2025-06-03  2630  	__vcpu_assign_sys_reg(vcpu, MDCR_EL2, val);
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2631  
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2632  	/*
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2633  	 * Request a reload of the PMU to enable/disable the counters
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2634  	 * affected by HPME.
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2635  	 */
+efff9dd2fee7a5 Marc Zyngier 2025-04-09  2636  	if ((old ^ val) & MDCR_EL2_HPME)
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2637  		kvm_make_request(KVM_REQ_RELOAD_PMU, vcpu);
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2638  
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2639  	return true;
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2640  }
+d3ba35b69eaed0 Oliver Upton 2024-12-17  2641  
+
+:::::: The code at line 2627 was first introduced by commit
+:::::: efff9dd2fee7a5969b5b2a04995e638c3ba15826 KVM: arm64: Handle out-of-bound write to MDCR_EL2.HPMN
+
+:::::: TO: Marc Zyngier <maz@kernel.org>
+:::::: CC: Marc Zyngier <maz@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
