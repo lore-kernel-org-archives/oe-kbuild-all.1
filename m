@@ -1,61 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F00E28982D;
-	Thu, 10 Jul 2025 07:18:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7FF5288C2A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 07:28:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752131913; cv=none; b=gAF8FKhJwJ8DcxqZAvNi6n5+ToI3WmPTYRcNhlrlatN8vjZpCiyt5Joipg/srIVCtnLnJNwyvVD3QN3YopdDETcAVsom6q1hPQg7TGwVqWmjqOF6KwFmfmasUJKBuR5LNwSZh3odiHFUJp7JVR+UgrHNPPK6gnqEmWVfV8Wgv/o=
+	t=1752132515; cv=none; b=C68iA16//NElLPPGBWPPxwtWHa69cYLmhsHW2NNVGR3/juMNHHiOaVYdZJtYeWyvh/Wr5BF0Z8sj5AKuxD7QNRj13ShJj7dsotWh0f2mEPzXoJ+lxMn8f4eSBpsPmtVE1DE51B+8Io5SXKolWPZXO8L+D8/ZFoxwCOwZO/xbp4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752131913; c=relaxed/simple;
-	bh=KCIJ9MRY/XQnVYRAuimMORPAQ2dSU6Y7v2W7uF7Vlj0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=hli3JJo9X0l8qnuEoRGgbLs/qw9y0LBVQjmseCj+7fOCZZCETTCR9olue+3MQfiINtBzPDGYG8QajMKwVOGz7dU8y/crhG0yLaPv4Vsgyb79YyIcgNv2qY+PtJQ5HR8kkiWZgKTqfeSlQDhh2mfilkXjojkhE7UVvPXlQhMYbTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AvZfvEoM; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1752132515; c=relaxed/simple;
+	bh=q8aajeMJr0YFcHtfckwDFxnJGjYHirD2U5daz/hfiyw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZTKRghdElSMq6VqoTYYUhqK0rWwgwZMTNTqS+WOrKBUmN6Y82CSZGwlKhwIoD1SVCrTv/DxJU47ztTeemTBbYRZ5u/2SrpBMSpeMdNyBrIIH3PZdvQNL6Mcgun6h9V9hORxuIX0sF/aUWX+0/wsk7pNPzcC3UEc86xg+KyoF9Yg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e1fIFzEa; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AvZfvEoM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e1fIFzEa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752131912; x=1783667912;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KCIJ9MRY/XQnVYRAuimMORPAQ2dSU6Y7v2W7uF7Vlj0=;
-  b=AvZfvEoMk15s00fYSAggdQ1D5WFgtPWDVUAVDZUB+L0LTNxuzZMaPatu
-   T3q8Dyzx0V+m9brTowHFg7LcWzYCZj0g0OuqhtsKec/8XRWOOuBpSSeUf
-   M7QPcCtkWmahDDLm1Sk48/6+LRXHH9NU7wPr89EGhQlKD+FOVswSx2Hxv
-   qU5nAto6NG3N47ORdZ35dr7VdUCyrpQIB8ZRsiDsfzkZ13D8M0CJ39ZcO
-   9+cpR7a8ou+1iOqtUoKW3yafvxuteGeWoRbsjmhy9l3RtkkcoCZ1hm7JI
-   F1jpSUiobfXjorXabykq7eGSahvirHfiZCWb/FS4LJ06brAmR6LwzqFh1
-   g==;
-X-CSE-ConnectionGUID: jcy2BgdQRsq0Wd5oiba0Jw==
-X-CSE-MsgGUID: knuTO2S5T8qQUkBSr7eV0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="65854744"
+  t=1752132514; x=1783668514;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=q8aajeMJr0YFcHtfckwDFxnJGjYHirD2U5daz/hfiyw=;
+  b=e1fIFzEagPwKaSBa5yDs5L7R7JI7yIXyWYWikwfaKIcuS327mnWHNodT
+   FdPuZ8MjXJp4+q/tBSnoacvdiI8d4QfsYSnIHmWVlgFdX6dX++S2z90lA
+   pMsmacedLDlyIyL8rcXaRKNc42/yPrIxbZe0v0KOVdksLw7L+Mn5WmLoI
+   /lNb7pzzYUznAfEDfVgXQ+IXfRadO8xDdwedW7kPxfcBleJHc5wbvuZ1Z
+   d1LGHDhoAgsbMHGEaBfuXD93eIfedSAdfkzyc7poTqiyucAxmyBz8J+Pm
+   UrTtlk+F+9mms377UXHHvyjQWn9uWdVVkSq2HbWqcjfhLUhwGN7BnYi6X
+   A==;
+X-CSE-ConnectionGUID: RpNv8ry+TxmUj4W7poHc5g==
+X-CSE-MsgGUID: 6Lt6R/5yTx2sqxuPdRnSRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="54531572"
 X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="65854744"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 00:18:30 -0700
-X-CSE-ConnectionGUID: VKfc2npuQ0ORH8regQGDbA==
-X-CSE-MsgGUID: EG3YYGzMSFic7bgwKrMQJg==
+   d="scan'208";a="54531572"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 00:28:33 -0700
+X-CSE-ConnectionGUID: vr85dqWcS/S3xtlKLeUf7g==
+X-CSE-MsgGUID: wCqDWvxSSMuPwoC2T8lxIQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="156727715"
+   d="scan'208";a="186970578"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 10 Jul 2025 00:18:27 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 10 Jul 2025 00:28:30 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZlY1-0004f1-1r;
-	Thu, 10 Jul 2025 07:18:25 +0000
-Date: Thu, 10 Jul 2025 15:17:28 +0800
+	id 1uZlhk-0004gJ-1w;
+	Thu, 10 Jul 2025 07:28:28 +0000
+Date: Thu, 10 Jul 2025 15:27:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Jaegeuk Kim <jaegeuk@kernel.org>
-Subject: [jaegeuk-f2fs:dev-test 65/93] fs/f2fs/data.c:58:56: error: passing
- 'const struct folio *' to parameter of type 'struct folio *' discards
- qualifiers
-Message-ID: <202507101412.50ND2WEX-lkp@intel.com>
+To: Yun Lu <luyun_611@163.com>, willemdebruijn.kernel@gmail.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] af_packet: fix soft lockup issue caused by
+ tpacket_snd()
+Message-ID: <202507101547.Li8m6iCU-lkp@intel.com>
+References: <20250709095653.62469-3-luyun_611@163.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,57 +66,247 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250709095653.62469-3-luyun_611@163.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git dev-test
-head:   bc8610a18daa4a611d189374031fe1fa3c603423
-commit: 9f506c758707749076b4ec2402007670c6f35558 [65/93] f2fs: Use a folio in f2fs_is_cp_guaranteed()
-config: s390-randconfig-002-20250710 (https://download.01.org/0day-ci/archive/20250710/202507101412.50ND2WEX-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507101412.50ND2WEX-lkp@intel.com/reproduce)
+Hi Yun,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+[also build test ERROR on net/main linus/master v6.16-rc5 next-20250709]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yun-Lu/af_packet-fix-the-SO_SNDTIMEO-constraint-not-effective-on-tpacked_snd/20250709-175915
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250709095653.62469-3-luyun_611%40163.com
+patch subject: [PATCH v3 2/2] af_packet: fix soft lockup issue caused by tpacket_snd()
+config: i386-buildonly-randconfig-001-20250710 (https://download.01.org/0day-ci/archive/20250710/202507101547.Li8m6iCU-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507101547.Li8m6iCU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507101412.50ND2WEX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507101547.Li8m6iCU-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> fs/f2fs/data.c:58:56: error: passing 'const struct folio *' to parameter of type 'struct folio *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-      58 |                 return folio_test_f2fs_gcing(fscrypt_pagecache_folio(folio));
-         |                                                                      ^~~~~
-   include/linux/fscrypt.h:527:67: note: passing argument to parameter 'bounce_folio' here
-     527 | static inline struct folio *fscrypt_pagecache_folio(struct folio *bounce_folio)
-         |                                                                   ^
-   1 error generated.
+   net/packet/af_packet.c: In function 'tpacket_snd':
+>> net/packet/af_packet.c:2956:37: error: expected ';' before 'err'
+    2956 |         } while (likely(ph != NULL))
+         |                                     ^
+         |                                     ;
+    2957 | 
+    2958 |         err = len_sum;
+         |         ~~~                          
 
 
-vim +58 fs/f2fs/data.c
+vim +2956 net/packet/af_packet.c
 
-    49	
-    50	bool f2fs_is_cp_guaranteed(const struct page *page)
-    51	{
-    52		const struct folio *folio = page_folio(page);
-    53		struct address_space *mapping = folio->mapping;
-    54		struct inode *inode;
-    55		struct f2fs_sb_info *sbi;
-    56	
-    57		if (fscrypt_is_bounce_folio(folio))
-  > 58			return folio_test_f2fs_gcing(fscrypt_pagecache_folio(folio));
-    59	
-    60		inode = mapping->host;
-    61		sbi = F2FS_I_SB(inode);
-    62	
-    63		if (inode->i_ino == F2FS_META_INO(sbi) ||
-    64				inode->i_ino == F2FS_NODE_INO(sbi) ||
-    65				S_ISDIR(inode->i_mode))
-    66			return true;
-    67	
-    68		if ((S_ISREG(inode->i_mode) && IS_NOQUOTA(inode)) ||
-    69				folio_test_f2fs_gcing(folio))
-    70			return true;
-    71		return false;
-    72	}
-    73	
+  2769	
+  2770	static int tpacket_snd(struct packet_sock *po, struct msghdr *msg)
+  2771	{
+  2772		struct sk_buff *skb = NULL;
+  2773		struct net_device *dev;
+  2774		struct virtio_net_hdr *vnet_hdr = NULL;
+  2775		struct sockcm_cookie sockc;
+  2776		__be16 proto;
+  2777		int err, reserve = 0;
+  2778		void *ph;
+  2779		DECLARE_SOCKADDR(struct sockaddr_ll *, saddr, msg->msg_name);
+  2780		bool need_wait = !(msg->msg_flags & MSG_DONTWAIT);
+  2781		int vnet_hdr_sz = READ_ONCE(po->vnet_hdr_sz);
+  2782		unsigned char *addr = NULL;
+  2783		int tp_len, size_max;
+  2784		void *data;
+  2785		int len_sum = 0;
+  2786		int status = TP_STATUS_AVAILABLE;
+  2787		int hlen, tlen, copylen = 0;
+  2788		long timeo;
+  2789	
+  2790		mutex_lock(&po->pg_vec_lock);
+  2791	
+  2792		/* packet_sendmsg() check on tx_ring.pg_vec was lockless,
+  2793		 * we need to confirm it under protection of pg_vec_lock.
+  2794		 */
+  2795		if (unlikely(!po->tx_ring.pg_vec)) {
+  2796			err = -EBUSY;
+  2797			goto out;
+  2798		}
+  2799		if (likely(saddr == NULL)) {
+  2800			dev	= packet_cached_dev_get(po);
+  2801			proto	= READ_ONCE(po->num);
+  2802		} else {
+  2803			err = -EINVAL;
+  2804			if (msg->msg_namelen < sizeof(struct sockaddr_ll))
+  2805				goto out;
+  2806			if (msg->msg_namelen < (saddr->sll_halen
+  2807						+ offsetof(struct sockaddr_ll,
+  2808							sll_addr)))
+  2809				goto out;
+  2810			proto	= saddr->sll_protocol;
+  2811			dev = dev_get_by_index(sock_net(&po->sk), saddr->sll_ifindex);
+  2812			if (po->sk.sk_socket->type == SOCK_DGRAM) {
+  2813				if (dev && msg->msg_namelen < dev->addr_len +
+  2814					   offsetof(struct sockaddr_ll, sll_addr))
+  2815					goto out_put;
+  2816				addr = saddr->sll_addr;
+  2817			}
+  2818		}
+  2819	
+  2820		err = -ENXIO;
+  2821		if (unlikely(dev == NULL))
+  2822			goto out;
+  2823		err = -ENETDOWN;
+  2824		if (unlikely(!(dev->flags & IFF_UP)))
+  2825			goto out_put;
+  2826	
+  2827		sockcm_init(&sockc, &po->sk);
+  2828		if (msg->msg_controllen) {
+  2829			err = sock_cmsg_send(&po->sk, msg, &sockc);
+  2830			if (unlikely(err))
+  2831				goto out_put;
+  2832		}
+  2833	
+  2834		if (po->sk.sk_socket->type == SOCK_RAW)
+  2835			reserve = dev->hard_header_len;
+  2836		size_max = po->tx_ring.frame_size
+  2837			- (po->tp_hdrlen - sizeof(struct sockaddr_ll));
+  2838	
+  2839		if ((size_max > dev->mtu + reserve + VLAN_HLEN) && !vnet_hdr_sz)
+  2840			size_max = dev->mtu + reserve + VLAN_HLEN;
+  2841	
+  2842		timeo = sock_sndtimeo(&po->sk, msg->msg_flags & MSG_DONTWAIT);
+  2843		reinit_completion(&po->skb_completion);
+  2844	
+  2845		do {
+  2846			ph = packet_current_frame(po, &po->tx_ring,
+  2847						  TP_STATUS_SEND_REQUEST);
+  2848			if (unlikely(ph == NULL)) {
+  2849				/* Note: packet_read_pending() might be slow if we
+  2850				 * have to call it as it's per_cpu variable, but in
+  2851				 * fast-path we don't have to call it, only when ph
+  2852				 * is NULL, we need to check pending_refcnt.
+  2853				 */
+  2854				if (need_wait && packet_read_pending(&po->tx_ring)) {
+  2855					timeo = wait_for_completion_interruptible_timeout(&po->skb_completion, timeo);
+  2856					if (timeo <= 0) {
+  2857						err = !timeo ? -ETIMEDOUT : -ERESTARTSYS;
+  2858						goto out_put;
+  2859					} else {
+  2860						/* Just reuse ph to continue for the next iteration, and
+  2861						 * ph will be reassigned at the start of the next iteration.
+  2862						 */
+  2863						ph = (void *)1;
+  2864					}
+  2865				}
+  2866				/* check for additional frames */
+  2867				continue;
+  2868			}
+  2869	
+  2870			skb = NULL;
+  2871			tp_len = tpacket_parse_header(po, ph, size_max, &data);
+  2872			if (tp_len < 0)
+  2873				goto tpacket_error;
+  2874	
+  2875			status = TP_STATUS_SEND_REQUEST;
+  2876			hlen = LL_RESERVED_SPACE(dev);
+  2877			tlen = dev->needed_tailroom;
+  2878			if (vnet_hdr_sz) {
+  2879				vnet_hdr = data;
+  2880				data += vnet_hdr_sz;
+  2881				tp_len -= vnet_hdr_sz;
+  2882				if (tp_len < 0 ||
+  2883				    __packet_snd_vnet_parse(vnet_hdr, tp_len)) {
+  2884					tp_len = -EINVAL;
+  2885					goto tpacket_error;
+  2886				}
+  2887				copylen = __virtio16_to_cpu(vio_le(),
+  2888							    vnet_hdr->hdr_len);
+  2889			}
+  2890			copylen = max_t(int, copylen, dev->hard_header_len);
+  2891			skb = sock_alloc_send_skb(&po->sk,
+  2892					hlen + tlen + sizeof(struct sockaddr_ll) +
+  2893					(copylen - dev->hard_header_len),
+  2894					!need_wait, &err);
+  2895	
+  2896			if (unlikely(skb == NULL)) {
+  2897				/* we assume the socket was initially writeable ... */
+  2898				if (likely(len_sum > 0))
+  2899					err = len_sum;
+  2900				goto out_status;
+  2901			}
+  2902			tp_len = tpacket_fill_skb(po, skb, ph, dev, data, tp_len, proto,
+  2903						  addr, hlen, copylen, &sockc);
+  2904			if (likely(tp_len >= 0) &&
+  2905			    tp_len > dev->mtu + reserve &&
+  2906			    !vnet_hdr_sz &&
+  2907			    !packet_extra_vlan_len_allowed(dev, skb))
+  2908				tp_len = -EMSGSIZE;
+  2909	
+  2910			if (unlikely(tp_len < 0)) {
+  2911	tpacket_error:
+  2912				if (packet_sock_flag(po, PACKET_SOCK_TP_LOSS)) {
+  2913					__packet_set_status(po, ph,
+  2914							TP_STATUS_AVAILABLE);
+  2915					packet_increment_head(&po->tx_ring);
+  2916					kfree_skb(skb);
+  2917					continue;
+  2918				} else {
+  2919					status = TP_STATUS_WRONG_FORMAT;
+  2920					err = tp_len;
+  2921					goto out_status;
+  2922				}
+  2923			}
+  2924	
+  2925			if (vnet_hdr_sz) {
+  2926				if (virtio_net_hdr_to_skb(skb, vnet_hdr, vio_le())) {
+  2927					tp_len = -EINVAL;
+  2928					goto tpacket_error;
+  2929				}
+  2930				virtio_net_hdr_set_proto(skb, vnet_hdr);
+  2931			}
+  2932	
+  2933			skb->destructor = tpacket_destruct_skb;
+  2934			__packet_set_status(po, ph, TP_STATUS_SENDING);
+  2935			packet_inc_pending(&po->tx_ring);
+  2936	
+  2937			status = TP_STATUS_SEND_REQUEST;
+  2938			err = packet_xmit(po, skb);
+  2939			if (unlikely(err != 0)) {
+  2940				if (err > 0)
+  2941					err = net_xmit_errno(err);
+  2942				if (err && __packet_get_status(po, ph) ==
+  2943					   TP_STATUS_AVAILABLE) {
+  2944					/* skb was destructed already */
+  2945					skb = NULL;
+  2946					goto out_status;
+  2947				}
+  2948				/*
+  2949				 * skb was dropped but not destructed yet;
+  2950				 * let's treat it like congestion or err < 0
+  2951				 */
+  2952				err = 0;
+  2953			}
+  2954			packet_increment_head(&po->tx_ring);
+  2955			len_sum += tp_len;
+> 2956		} while (likely(ph != NULL))
+  2957	
+  2958		err = len_sum;
+  2959		goto out_put;
+  2960	
+  2961	out_status:
+  2962		__packet_set_status(po, ph, status);
+  2963		kfree_skb(skb);
+  2964	out_put:
+  2965		dev_put(dev);
+  2966	out:
+  2967		mutex_unlock(&po->pg_vec_lock);
+  2968		return err;
+  2969	}
+  2970	
 
 -- 
 0-DAY CI Kernel Test Service
