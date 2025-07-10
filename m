@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A514E28C2D6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 08:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1EB291C0E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 09:44:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752135642; cv=none; b=gdE5GIrMb+/NH1HwLyyPV6Vs/sYyn0566K9d+zzBR8KanPlgz9WbkLajxOnMTTpt7Hlbe0uYt4FFPaRaltUo6A9vAe5gzjuUcbNY9X/6Z1BZaTnnbg+tA6R10hthtOvxs6BdbZlLMxEBZBpICYBbnxUvMUl/ZMzpkp5GySlUhng=
+	t=1752140692; cv=none; b=bD1ZX7prg5gA2dlXWacmzjrD8/oqpk2JtNJWNkMnYqW103sec1qf8IXbYkOl6gEcNmfx66KN2GqkyBTJtNsjz5eQ35mOXp0/K8BcEsgKwbeK2qfaNV9yN6Wri1tU6MfVEelXd2Do5pm4g8sw84yXKOlPiyOjy6KFlWI/whYMeWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752135642; c=relaxed/simple;
-	bh=shJwFqgMArdLMFoaqcQN6wS/mwgqrzRBCd5mRUJqrA0=;
+	s=arc-20240116; t=1752140692; c=relaxed/simple;
+	bh=6SwpX44RUlVO1OaOkxgiZ2BY0E+cUR7S0bjhyDCXfKY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=SFTy10FUX0cKDq3PUMzHs00C7BCPf6RwKiyTQNEgIBvN9jdj8URQYaEDuUFAY3/eHL1QnABmp48iIvSG2Jaie+cloX6lfcEFnNtqo0GorF0QZuz6XqSmVCml2N7wvk7FkV9fLtKyqMvkSXCkk25ygnHm22we39G0m7bCaDxl1TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jLtXFaqQ; arc=none smtp.client-ip=192.198.163.11
+	 Content-Disposition; b=UgreXwFomtKRjez7wUy6+uj32XrCJ/Ck4+i3gT1xqVpsYEupdFBKUppWVhiGBAc3msZrtsQBAFyDWcgPPKxsZEELF+TOJsa4gXaUqd/JUW8vqv2U4QqYQCBTWBMvBWJuDGoNbtnN6IbSQuOjt0nnluNK+PT0R4tIeLNbaL9c1Es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EyrFdI1V; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jLtXFaqQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EyrFdI1V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752135640; x=1783671640;
+  t=1752140691; x=1783676691;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=shJwFqgMArdLMFoaqcQN6wS/mwgqrzRBCd5mRUJqrA0=;
-  b=jLtXFaqQkRSwMH/qnNTwNy/j8oiKVOdG2rqrAvyeCgTHn+0lxuV1YQTZ
-   TL7U4uyzjaEDtf7JWxu+vU8v1FTcEOeW3q0/JhlGUdjDR6unv8T7BFQEr
-   MwHidlqDStvv5KGvEd+7jK2gb7OqS8NTXtEtDzNn/6tAX1oDEDMRuMyMQ
-   +EWZVPij0fCRmn5BTUm+eIhNEetFs+y86dJ8XJ9kVxJxFF+Owus8m0GBx
-   dBY6lWTAEQabDJ5on9fp5RewP1DB2myhKHKh3UzoBC8LKFVHwjTAYlHo1
-   u2NooSGd0g/Zzsg8qd+QU228pzL9SQdXN2Yc8V++jIlhgOIPqVwbJwlUS
-   Q==;
-X-CSE-ConnectionGUID: pR3JowkjQvyVFSugocNYqQ==
-X-CSE-MsgGUID: U9YMea7HRhKGFWsjEkfTJA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="64988513"
+  bh=6SwpX44RUlVO1OaOkxgiZ2BY0E+cUR7S0bjhyDCXfKY=;
+  b=EyrFdI1VdQSsAC6wMcI/rZNHXMF3NjA3Y995zugkGRmYFh6PQCL+KXpa
+   44NYF5i4G0TMTFB0bTfumCeUrEQr99jIgmo+hn7lbD/O2XivNZqspcBf4
+   CkZOySirzF/t0LrWpMJCy/UhV0qPTSyKN/sKZjjcVjI8S2cV/AQfgb+hW
+   rAdX/qSl8ArZKhflXLoaHfzA1ejNrLyI7NcugVUMDMVP9/cUN2uCue/eg
+   CtVp0/p2X9Z9W9PWvgXk15eXeTjZ7LKcs9A+nh5NhAAssCT1Ux6LN1WiO
+   WS0rQq7AoBnAcO6W8Wz3r3x8ZD0ot5dNvuld1+vJptWzUhqLEWNhrnGrU
+   w==;
+X-CSE-ConnectionGUID: +vYu/jLUSL+fnYNxqgXSew==
+X-CSE-MsgGUID: 7VEJr1J4TMemUkoYIv08dg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="65766958"
 X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="64988513"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 01:20:40 -0700
-X-CSE-ConnectionGUID: 0HVE70btSYOW6ZSnTn7P7g==
-X-CSE-MsgGUID: bRhbI7NaSy+0/sGnXbBxLA==
+   d="scan'208";a="65766958"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 02:44:50 -0700
+X-CSE-ConnectionGUID: tZmkJZ4ZRXSO817z6StuyA==
+X-CSE-MsgGUID: wlzcQwfcTM20syhiGagvTg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,300,1744095600"; 
-   d="scan'208";a="160548462"
+   d="scan'208";a="160351166"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 10 Jul 2025 01:20:38 -0700
+  by orviesa003.jf.intel.com with ESMTP; 10 Jul 2025 02:44:50 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZmWC-0004mB-1I;
-	Thu, 10 Jul 2025 08:20:36 +0000
-Date: Thu, 10 Jul 2025 16:20:33 +0800
+	id 1uZnpe-0004sN-39;
+	Thu, 10 Jul 2025 09:44:46 +0000
+Date: Thu, 10 Jul 2025 17:44:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
+To: Leon Romanovsky <leonro@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:fnb 33/37]
- drivers/net/ethernet/mellanox/mlxsw/spectrum1_kvdl.c:282:13: warning: unused
- variable 'occ'
-Message-ID: <202507101628.5BZpvwdU-lkp@intel.com>
+Subject: [leon-rdma:dmabuf-vfio 11/16] drivers/pci/p2pdma.c:977:28: warning:
+ declaration of 'struct pci_Dev' will not be visible outside of this function
+Message-ID: <202507101704.aThdDBSt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,51 +62,134 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/norov/linux fnb
-head:   870b9f6edf53871a5cc4aaf858054d8362c49989
-commit: a56fd4e0a4b6111bffdf5ece29e9ff46d4ae654d [33/37] mlxsw: simplify mlxsw_sp1_kvdl_part_occ()
-config: s390-allyesconfig (https://download.01.org/0day-ci/archive/20250710/202507101628.5BZpvwdU-lkp@intel.com/config)
-compiler: s390-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507101628.5BZpvwdU-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dmabuf-vfio
+head:   76398694a39d0be3b1e8a107e4dd025cfd1448fd
+commit: 07f78ef067ca643ea92cf0c95e25cd3c40420b03 [11/16] PCI/P2PDMA: Move to higher level PCI device pointer calculation
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250710/202507101704.aThdDBSt-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507101704.aThdDBSt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507101628.5BZpvwdU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507101704.aThdDBSt-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   drivers/net/ethernet/mellanox/mlxsw/spectrum1_kvdl.c: In function 'mlxsw_sp1_kvdl_part_occ':
->> drivers/net/ethernet/mellanox/mlxsw/spectrum1_kvdl.c:282:13: warning: unused variable 'occ' [-Wunused-variable]
-     282 |         u64 occ = 0;
-         |             ^~~
->> drivers/net/ethernet/mellanox/mlxsw/spectrum1_kvdl.c:281:13: warning: unused variable 'bit' [-Wunused-variable]
-     281 |         int bit = -1;
-         |             ^~~
+>> drivers/pci/p2pdma.c:977:28: warning: declaration of 'struct pci_Dev' will not be visible outside of this function [-Wvisibility]
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                            ^
+   drivers/pci/p2pdma.c:984:31: error: incomplete definition of type 'struct pci_Dev'
+     984 |         p2pdma = rcu_dereference(pdev->p2pdma);
+         |                                  ~~~~^
+   drivers/pci/p2pdma.c:977:28: note: forward declaration of 'struct pci_Dev'
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                            ^
+   drivers/pci/p2pdma.c:984:31: error: incomplete definition of type 'struct pci_Dev'
+     984 |         p2pdma = rcu_dereference(pdev->p2pdma);
+         |                                  ~~~~^
+   drivers/pci/p2pdma.c:977:28: note: forward declaration of 'struct pci_Dev'
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                            ^
+   drivers/pci/p2pdma.c:984:31: error: incomplete definition of type 'struct pci_Dev'
+     984 |         p2pdma = rcu_dereference(pdev->p2pdma);
+         |                                  ~~~~^
+   drivers/pci/p2pdma.c:977:28: note: forward declaration of 'struct pci_Dev'
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                            ^
+   drivers/pci/p2pdma.c:984:31: error: incomplete definition of type 'struct pci_Dev'
+     984 |         p2pdma = rcu_dereference(pdev->p2pdma);
+         |                                  ~~~~^
+   drivers/pci/p2pdma.c:977:28: note: forward declaration of 'struct pci_Dev'
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                            ^
+   drivers/pci/p2pdma.c:984:31: error: incomplete definition of type 'struct pci_Dev'
+     984 |         p2pdma = rcu_dereference(pdev->p2pdma);
+         |                                  ~~~~^
+   drivers/pci/p2pdma.c:977:28: note: forward declaration of 'struct pci_Dev'
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                            ^
+   drivers/pci/p2pdma.c:984:31: error: incomplete definition of type 'struct pci_Dev'
+     984 |         p2pdma = rcu_dereference(pdev->p2pdma);
+         |                                  ~~~~^
+   drivers/pci/p2pdma.c:977:28: note: forward declaration of 'struct pci_Dev'
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                            ^
+   drivers/pci/p2pdma.c:984:31: error: incomplete definition of type 'struct pci_Dev'
+     984 |         p2pdma = rcu_dereference(pdev->p2pdma);
+         |                                  ~~~~^
+   drivers/pci/p2pdma.c:977:28: note: forward declaration of 'struct pci_Dev'
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                            ^
+   drivers/pci/p2pdma.c:984:31: error: incomplete definition of type 'struct pci_Dev'
+     984 |         p2pdma = rcu_dereference(pdev->p2pdma);
+         |                                  ~~~~^
+   drivers/pci/p2pdma.c:977:28: note: forward declaration of 'struct pci_Dev'
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                            ^
+   drivers/pci/p2pdma.c:984:31: error: incomplete definition of type 'struct pci_Dev'
+     984 |         p2pdma = rcu_dereference(pdev->p2pdma);
+         |                                  ~~~~^
+   drivers/pci/p2pdma.c:977:28: note: forward declaration of 'struct pci_Dev'
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                            ^
+   drivers/pci/p2pdma.c:984:31: error: incomplete definition of type 'struct pci_Dev'
+     984 |         p2pdma = rcu_dereference(pdev->p2pdma);
+         |                                  ~~~~^
+   drivers/pci/p2pdma.c:977:28: note: forward declaration of 'struct pci_Dev'
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                            ^
+   drivers/pci/p2pdma.c:984:31: error: incomplete definition of type 'struct pci_Dev'
+     984 |         p2pdma = rcu_dereference(pdev->p2pdma);
+         |                                  ~~~~^
+   drivers/pci/p2pdma.c:977:28: note: forward declaration of 'struct pci_Dev'
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                            ^
+   drivers/pci/p2pdma.c:992:33: error: incompatible pointer types passing 'struct pci_Dev *' to parameter of type 'struct pci_dev *' [-Werror,-Wincompatible-pointer-types]
+     992 |                 return calc_map_type_and_dist(pdev, client, &dist, true);
+         |                                               ^~~~
+   drivers/pci/p2pdma.c:584:40: note: passing argument to parameter 'provider' here
+     584 | calc_map_type_and_dist(struct pci_dev *provider, struct pci_dev *client,
+         |                                        ^
+   drivers/pci/p2pdma.c:1002:18: error: redefinition of 'client'
+    1002 |         struct pci_dev *client;
+         |                         ^
+   drivers/pci/p2pdma.c:998:27: note: previous definition is here
+     998 |                                struct pci_dev *client, struct page *page)
+         |                                                ^
+   drivers/pci/p2pdma.c:1010:35: error: incompatible pointer types passing 'struct pci_dev *' to parameter of type 'struct pci_Dev *' [-Werror,-Wincompatible-pointer-types]
+    1010 |         state->map = pci_p2pdma_map_type(pdev, client);
+         |                                          ^~~~
+   drivers/pci/p2pdma.c:977:37: note: passing argument to parameter 'pdev' here
+     977 | pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+         |                                     ^
+   1 warning and 14 errors generated.
 
 
-vim +/occ +282 drivers/net/ethernet/mellanox/mlxsw/spectrum1_kvdl.c
+vim +977 drivers/pci/p2pdma.c
 
-ebcff74386e6fb Jiri Pirko 2018-07-08  276  
-ebcff74386e6fb Jiri Pirko 2018-07-08  277  static u64 mlxsw_sp1_kvdl_part_occ(struct mlxsw_sp1_kvdl_part *part)
-ebcff74386e6fb Jiri Pirko 2018-07-08  278  {
-ebcff74386e6fb Jiri Pirko 2018-07-08  279  	const struct mlxsw_sp1_kvdl_part_info *info = &part->info;
-ebcff74386e6fb Jiri Pirko 2018-07-08  280  	unsigned int nr_entries;
-ebcff74386e6fb Jiri Pirko 2018-07-08 @281  	int bit = -1;
-ebcff74386e6fb Jiri Pirko 2018-07-08 @282  	u64 occ = 0;
-ebcff74386e6fb Jiri Pirko 2018-07-08  283  
-ebcff74386e6fb Jiri Pirko 2018-07-08  284  	nr_entries = (info->end_index -
-ebcff74386e6fb Jiri Pirko 2018-07-08  285  		      info->start_index + 1) /
-ebcff74386e6fb Jiri Pirko 2018-07-08  286  		      info->alloc_size;
-a56fd4e0a4b611 Yury Norov 2025-07-07  287  	return (u64)info->alloc_size * bitmap_weight(part->usage, nr_entries);
-ebcff74386e6fb Jiri Pirko 2018-07-08  288  }
-ebcff74386e6fb Jiri Pirko 2018-07-08  289  
-
-:::::: The code at line 282 was first introduced by commit
-:::::: ebcff74386e6fbfe1d5dc406b99db63481f9c2c7 mlxsw: spectrum_kvdl: Push out KVD linear management into ops
-
-:::::: TO: Jiri Pirko <jiri@mellanox.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+   975	
+   976	static enum pci_p2pdma_map_type
+ > 977	pci_p2pdma_map_type(struct pci_Dev *pdev, struct pci_dev *client)
+   978	{
+   979		enum pci_p2pdma_map_type type = PCI_P2PDMA_MAP_NOT_SUPPORTED;
+   980		struct pci_p2pdma *p2pdma;
+   981		int dist;
+   982	
+   983		rcu_read_lock();
+   984		p2pdma = rcu_dereference(pdev->p2pdma);
+   985	
+   986		if (p2pdma)
+   987			type = xa_to_value(xa_load(&p2pdma->map_types,
+   988						   map_types_idx(client)));
+   989		rcu_read_unlock();
+   990	
+   991		if (type == PCI_P2PDMA_MAP_UNKNOWN)
+   992			return calc_map_type_and_dist(pdev, client, &dist, true);
+   993	
+   994		return type;
+   995	}
+   996	
 
 -- 
 0-DAY CI Kernel Test Service
