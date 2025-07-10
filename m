@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF06C539A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 00:53:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C09A95C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 10 Jul 2025 01:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752108828; cv=none; b=MqfLnYvI7TV/ANqmXPkMBKhkajnHUpoGlSKyb7vfcU1QFbQCz2HuxOVtKo8i46pfFfQGGg5mybDr/6arPLzUeFiG0iwoKWY+Ht/rrA9kqwJfG3p1e+7oorqshDb09GIQWUc2FwJBd+XacL/3M8qzMus3w06HFF38thtjLyshTtU=
+	t=1752110756; cv=none; b=BmUCR463MfDebQlqwjTh40rTbp5DKx1ayOVVtB7YUBV8QAH7K36Xrv00vMkUyNKUqSX7D+523bgPUoqOcy5PLP49fXsxIC/pyKJUQK85B9Gh4YAvePe9acETCWHzwhrmOTKtdPaX9bVz0iXMpgHE0czugfhcTruxUYRrT3Q7ew4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752108828; c=relaxed/simple;
-	bh=YAzD1zPFWkIBQiWhkxrd/o57Zxzi7xi5u3oL58PN0Uc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ku2dzroMoR1QfXytKSfBHnnhj0U1ZXwE3+mc2nSqvgDlwXq4+mT2dOsISu+Peae5BUoekPxOWoLAWSxClYjj+2fEAq7POXF6POzOPHlm76gcQQGa0wixEBJ6InO3Ud3Cw3Ba0H7GfvkNOJBH3Llzmf6JWbddjYof9DJKu7AJNns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=btJhLNZF; arc=none smtp.client-ip=192.198.163.19
+	s=arc-20240116; t=1752110756; c=relaxed/simple;
+	bh=c3o3o5MgoZYDwVx/0ytOtVFtAUqCATZ4t7Y9Efk3G7A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cMRSvFYkL3L0ftgp2Yvi3zdftaSFdPhQKaqyzSZ+unJfLScQyDNdmDw+ti7bhTQ6furZgTGzz3U9PX+q3yHo70F/QEdVmJ0DyZWZOzda5/Zq2rC2HR4FEDPUh866buwfSUZC+3qU7H8v57x+DtdpDAFPakiryqWcxtdJpOE/Nj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XHIJjma+; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="btJhLNZF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XHIJjma+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752108826; x=1783644826;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YAzD1zPFWkIBQiWhkxrd/o57Zxzi7xi5u3oL58PN0Uc=;
-  b=btJhLNZFboWKjuzix/2F8++teSOpy/HEb1N0/oojz3oV1swClh/Jt2T6
-   SOiZL4RrSiBFYHefdUmMo33aO7aAeo0Q/RJgFp98RXjPvvkzvTtucbKTD
-   tArtZQPkl/ExG7krmOxonkT6l3J4Kn+yJtJ7hdc9JbzT+ULPYIhP+/jZU
-   ksf30F/anVIQ4EBSBDfki9d0sLrt20gPMt2Dgmoa+ntiPNgmfm991eRgX
-   ySUW6nLNTRqTC6BU0BELlWl7P+9EB9sjcRhzjGjqpP7m0AMpfVe93fEjr
-   RzwDeNF3PSQAKhE2dfLIg0RadEx2HJqEnMdnN5cwJ89PjjRxDurBJdXMx
+  t=1752110754; x=1783646754;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=c3o3o5MgoZYDwVx/0ytOtVFtAUqCATZ4t7Y9Efk3G7A=;
+  b=XHIJjma+fk8EH5pM/dker890uDziDvLjhaOJLRoBth7iuxa81raHoAFz
+   wQGgbpCfNXjZ83G8DwU/gWkR0UD1/w1gPN9q1svQFH9nW2uv2DJumtxnh
+   bpq77h9zdmA0JLT1OIZtDCyQhLMGz52phaz7JJvwGIqE4CB/qesc/edtr
+   9L9LtSNWIlb26ftm5KHG/6/Qa0gHpY7Nev02Tldw/qXennil6+hkIQRa9
+   B+zENOgL3ISp7bmRzt2dJV7IFTs/Do12jUD4+uXdyWRezzlLY4NuCYxM5
+   tVuQkVgx8H/bynOBr/CbiGjLqWHGNS2VTWmw4RJvXOe9tcwKuoCYrHkbH
    Q==;
-X-CSE-ConnectionGUID: 6Ww6NffWQJa4953eZzrMdQ==
-X-CSE-MsgGUID: qNknXI3cQyKhu1bQoBxHeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="53491582"
+X-CSE-ConnectionGUID: FZOb1iy/Tay68824niD98g==
+X-CSE-MsgGUID: dpMNhuDUQbi0qwX0Li3HTw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11489"; a="58048135"
 X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="53491582"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 17:53:46 -0700
-X-CSE-ConnectionGUID: BFJv4Cv+Q5uQv89ggknyPA==
-X-CSE-MsgGUID: eiVDl+QXSzaFu3a304NuPg==
+   d="scan'208";a="58048135"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jul 2025 18:25:53 -0700
+X-CSE-ConnectionGUID: r+oFE+c+Q6SJBTij1pblqw==
+X-CSE-MsgGUID: hcN+cDC2QEiYF/r1fFfVlw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,299,1744095600"; 
-   d="scan'208";a="161480760"
+   d="scan'208";a="156269224"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 09 Jul 2025 17:53:45 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 09 Jul 2025 18:25:48 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uZfXj-0004GR-0J;
-	Thu, 10 Jul 2025 00:53:43 +0000
-Date: Thu, 10 Jul 2025 08:52:50 +0800
+	id 1uZg2k-0004JD-23;
+	Thu, 10 Jul 2025 01:25:46 +0000
+Date: Thu, 10 Jul 2025 09:25:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:bitmap-for-next 9/9] arch/arm64/kvm/sys_regs.c:2627:3:
- warning: ignoring return value of function declared with
- 'warn_unused_result' attribute
-Message-ID: <202507100832.pW0wqkAO-lkp@intel.com>
+To: Suleiman Souhlal <suleiman@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>
+Cc: oe-kbuild-all@lists.linux.dev, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Chao Gao <chao.gao@intel.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	John Stultz <jstultz@google.com>, kvm@vger.kernel.org,
+	linux-kernel@vger.kernel.org, ssouhlal@freebsd.org,
+	Suleiman Souhlal <suleiman@google.com>
+Subject: Re: [PATCH v6 1/3] KVM: x86: Advance guest TSC after deep suspend.
+Message-ID: <202507100824.oV2rHgt9-lkp@intel.com>
+References: <20250709070450.473297-2-suleiman@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,72 +74,198 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250709070450.473297-2-suleiman@google.com>
 
-tree:   https://github.com/norov/linux bitmap-for-next
-head:   f66f9c3d09c12f6ceea17d1ba22be2cb8bc9e4e4
-commit: f66f9c3d09c12f6ceea17d1ba22be2cb8bc9e4e4 [9/9] bitfield: Ensure the return values of helper functions are checked
-config: arm64-randconfig-001-20250710 (https://download.01.org/0day-ci/archive/20250710/202507100832.pW0wqkAO-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507100832.pW0wqkAO-lkp@intel.com/reproduce)
+Hi Suleiman,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on kvm/next kvm/linux-next linus/master v6.16-rc5 next-20250709]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Suleiman-Souhlal/KVM-x86-Advance-guest-TSC-after-deep-suspend/20250709-150751
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20250709070450.473297-2-suleiman%40google.com
+patch subject: [PATCH v6 1/3] KVM: x86: Advance guest TSC after deep suspend.
+config: i386-buildonly-randconfig-002-20250710 (https://download.01.org/0day-ci/archive/20250710/202507100824.oV2rHgt9-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250710/202507100824.oV2rHgt9-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507100832.pW0wqkAO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507100824.oV2rHgt9-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> arch/arm64/kvm/sys_regs.c:2627:3: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
-    2627 |                 u64_replace_bits(val, hpmn, MDCR_EL2_HPMN);
-         |                 ^~~~~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
+   arch/x86/kvm/x86.c: In function 'kvm_arch_vcpu_load':
+>> arch/x86/kvm/x86.c:5044:27: error: implicit declaration of function 'kvm_get_time_and_clockread'; did you mean 'kvm_get_monotonic_and_clockread'? [-Werror=implicit-function-declaration]
+    5044 |                 advance = kvm_get_time_and_clockread(&kernel_ns, &tsc_now);
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                           kvm_get_monotonic_and_clockread
+>> arch/x86/kvm/x86.c:5062:17: error: 'kvm' undeclared (first use in this function)
+    5062 |                 kvm->arch.host_was_suspended = false;
+         |                 ^~~
+   arch/x86/kvm/x86.c:5062:17: note: each undeclared identifier is reported only once for each function it appears in
+   In file included from include/linux/bitops.h:7,
+                    from include/linux/kernel.h:23,
+                    from include/linux/cpumask.h:11,
+                    from include/linux/alloc_tag.h:13,
+                    from include/linux/percpu.h:5,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/kvm_host.h:7,
+                    from arch/x86/kvm/x86.c:20:
+>> arch/x86/kvm/x86.c:5063:71: error: 'flags' undeclared (first use in this function)
+    5063 |                 raw_spin_unlock_irqrestore(&kvm->arch.tsc_write_lock, flags);
+         |                                                                       ^~~~~
+   include/linux/typecheck.h:11:16: note: in definition of macro 'typecheck'
+      11 |         typeof(x) __dummy2; \
+         |                ^
+   arch/x86/kvm/x86.c:5063:17: note: in expansion of macro 'raw_spin_unlock_irqrestore'
+    5063 |                 raw_spin_unlock_irqrestore(&kvm->arch.tsc_write_lock, flags);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/typecheck.h:12:25: warning: comparison of distinct pointer types lacks a cast
+      12 |         (void)(&__dummy == &__dummy2); \
+         |                         ^~
+   include/linux/spinlock.h:281:17: note: in expansion of macro 'typecheck'
+     281 |                 typecheck(unsigned long, flags);                \
+         |                 ^~~~~~~~~
+   arch/x86/kvm/x86.c:5063:17: note: in expansion of macro 'raw_spin_unlock_irqrestore'
+    5063 |                 raw_spin_unlock_irqrestore(&kvm->arch.tsc_write_lock, flags);
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/kvm/x86.c: At top level:
+>> arch/x86/kvm/x86.c:5068:9: error: expected identifier or '(' before 'if'
+    5068 |         if (unlikely(vcpu->cpu != cpu) || kvm_check_tsc_unstable()) {
+         |         ^~
+>> include/linux/kvm_host.h:182:39: error: expected declaration specifiers or '...' before '(' token
+     182 | #define KVM_ARCH_REQ_FLAGS(nr, flags) ({ \
+         |                                       ^
+   include/linux/kvm_host.h:186:36: note: in expansion of macro 'KVM_ARCH_REQ_FLAGS'
+     186 | #define KVM_ARCH_REQ(nr)           KVM_ARCH_REQ_FLAGS(nr, 0)
+         |                                    ^~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/kvm_host.h:94:41: note: in expansion of macro 'KVM_ARCH_REQ'
+      94 | #define KVM_REQ_STEAL_UPDATE            KVM_ARCH_REQ(8)
+         |                                         ^~~~~~~~~~~~
+   arch/x86/kvm/x86.c:5096:26: note: in expansion of macro 'KVM_REQ_STEAL_UPDATE'
+    5096 |         kvm_make_request(KVM_REQ_STEAL_UPDATE, vcpu);
+         |                          ^~~~~~~~~~~~~~~~~~~~
+>> arch/x86/kvm/x86.c:5096:48: error: unknown type name 'vcpu'
+    5096 |         kvm_make_request(KVM_REQ_STEAL_UPDATE, vcpu);
+         |                                                ^~~~
+>> arch/x86/kvm/x86.c:5097:1: error: expected identifier or '(' before '}' token
+    5097 | }
+         | ^
+   cc1: some warnings being treated as errors
 
 
-vim +/warn_unused_result +2627 arch/arm64/kvm/sys_regs.c
+vim +5044 arch/x86/kvm/x86.c
 
-a68cddbe47efda Mark Brown   2024-10-23  2605  
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2606  static bool access_mdcr(struct kvm_vcpu *vcpu,
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2607  			struct sys_reg_params *p,
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2608  			const struct sys_reg_desc *r)
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2609  {
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2610  	u64 hpmn, val, old = __vcpu_sys_reg(vcpu, MDCR_EL2);
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2611  
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2612  	if (!p->is_write) {
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2613  		p->regval = old;
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2614  		return true;
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2615  	}
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2616  
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2617  	val = p->regval;
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2618  	hpmn = FIELD_GET(MDCR_EL2_HPMN, val);
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2619  
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2620  	/*
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2621  	 * If HPMN is out of bounds, limit it to what we actually
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2622  	 * support. This matches the UNKNOWN definition of the field
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2623  	 * in that case, and keeps the emulation simple. Sort of.
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2624  	 */
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2625  	if (hpmn > vcpu->kvm->arch.nr_pmu_counters) {
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2626  		hpmn = vcpu->kvm->arch.nr_pmu_counters;
-efff9dd2fee7a5 Marc Zyngier 2025-04-09 @2627  		u64_replace_bits(val, hpmn, MDCR_EL2_HPMN);
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2628  	}
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2629  
-6678791ee3da0b Marc Zyngier 2025-06-03  2630  	__vcpu_assign_sys_reg(vcpu, MDCR_EL2, val);
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2631  
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2632  	/*
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2633  	 * Request a reload of the PMU to enable/disable the counters
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2634  	 * affected by HPME.
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2635  	 */
-efff9dd2fee7a5 Marc Zyngier 2025-04-09  2636  	if ((old ^ val) & MDCR_EL2_HPME)
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2637  		kvm_make_request(KVM_REQ_RELOAD_PMU, vcpu);
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2638  
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2639  	return true;
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2640  }
-d3ba35b69eaed0 Oliver Upton 2024-12-17  2641  
-
-:::::: The code at line 2627 was first introduced by commit
-:::::: efff9dd2fee7a5969b5b2a04995e638c3ba15826 KVM: arm64: Handle out-of-bound write to MDCR_EL2.HPMN
-
-:::::: TO: Marc Zyngier <maz@kernel.org>
-:::::: CC: Marc Zyngier <maz@kernel.org>
+  4997	
+  4998	void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
+  4999	{
+  5000		struct kvm_pmu *pmu = vcpu_to_pmu(vcpu);
+  5001	
+  5002		vcpu->arch.l1tf_flush_l1d = true;
+  5003	
+  5004		if (vcpu->scheduled_out && pmu->version && pmu->event_count) {
+  5005			pmu->need_cleanup = true;
+  5006			kvm_make_request(KVM_REQ_PMU, vcpu);
+  5007		}
+  5008	
+  5009		/* Address WBINVD may be executed by guest */
+  5010		if (need_emulate_wbinvd(vcpu)) {
+  5011			if (kvm_x86_call(has_wbinvd_exit)())
+  5012				cpumask_set_cpu(cpu, vcpu->arch.wbinvd_dirty_mask);
+  5013			else if (vcpu->cpu != -1 && vcpu->cpu != cpu)
+  5014				smp_call_function_single(vcpu->cpu,
+  5015						wbinvd_ipi, NULL, 1);
+  5016		}
+  5017	
+  5018		kvm_x86_call(vcpu_load)(vcpu, cpu);
+  5019	
+  5020		if (vcpu != per_cpu(last_vcpu, cpu)) {
+  5021			/*
+  5022			 * Flush the branch predictor when switching vCPUs on the same
+  5023			 * physical CPU, as each vCPU needs its own branch prediction
+  5024			 * domain.  No IBPB is needed when switching between L1 and L2
+  5025			 * on the same vCPU unless IBRS is advertised to the vCPU; that
+  5026			 * is handled on the nested VM-Exit path.
+  5027			 */
+  5028			if (static_branch_likely(&switch_vcpu_ibpb))
+  5029				indirect_branch_prediction_barrier();
+  5030			per_cpu(last_vcpu, cpu) = vcpu;
+  5031		}
+  5032	
+  5033		/* Save host pkru register if supported */
+  5034		vcpu->arch.host_pkru = read_pkru();
+  5035	
+  5036		/* Apply any externally detected TSC adjustments (due to suspend) */
+  5037		if (unlikely(vcpu->arch.tsc_offset_adjustment)) {
+  5038			unsigned long flags;
+  5039			struct kvm *kvm;
+  5040			bool advance;
+  5041			u64 kernel_ns, l1_tsc, offset, tsc_now;
+  5042	
+  5043			kvm = vcpu->kvm;
+> 5044			advance = kvm_get_time_and_clockread(&kernel_ns, &tsc_now);
+  5045			raw_spin_lock_irqsave(&kvm->arch.tsc_write_lock, flags);
+  5046			/*
+  5047			 * Advance the guest's TSC to current time instead of only
+  5048			 * preventing it from going backwards, while making sure
+  5049			 * all the vCPUs use the same offset.
+  5050			 */
+  5051			if (kvm->arch.host_was_suspended && advance) {
+  5052				l1_tsc = nsec_to_cycles(vcpu,
+  5053							kvm->arch.kvmclock_offset + kernel_ns);
+  5054				offset = kvm_compute_l1_tsc_offset(vcpu, l1_tsc);
+  5055				kvm->arch.cur_tsc_offset = offset;
+  5056				kvm_vcpu_write_tsc_offset(vcpu, offset);
+  5057			} else if (advance)
+  5058				kvm_vcpu_write_tsc_offset(vcpu, kvm->arch.cur_tsc_offset);
+  5059			} else {
+  5060				adjust_tsc_offset_host(vcpu, vcpu->arch.tsc_offset_adjustment);
+  5061			}
+> 5062			kvm->arch.host_was_suspended = false;
+> 5063			raw_spin_unlock_irqrestore(&kvm->arch.tsc_write_lock, flags);
+  5064			vcpu->arch.tsc_offset_adjustment = 0;
+  5065			kvm_make_request(KVM_REQ_CLOCK_UPDATE, vcpu);
+  5066		}
+  5067	
+> 5068		if (unlikely(vcpu->cpu != cpu) || kvm_check_tsc_unstable()) {
+  5069			s64 tsc_delta = !vcpu->arch.last_host_tsc ? 0 :
+  5070					rdtsc() - vcpu->arch.last_host_tsc;
+  5071			if (tsc_delta < 0)
+  5072				mark_tsc_unstable("KVM discovered backwards TSC");
+  5073	
+  5074			if (kvm_check_tsc_unstable()) {
+  5075				u64 offset = kvm_compute_l1_tsc_offset(vcpu,
+  5076							vcpu->arch.last_guest_tsc);
+  5077				kvm_vcpu_write_tsc_offset(vcpu, offset);
+  5078				if (!vcpu->arch.guest_tsc_protected)
+  5079					vcpu->arch.tsc_catchup = 1;
+  5080			}
+  5081	
+  5082			if (kvm_lapic_hv_timer_in_use(vcpu))
+  5083				kvm_lapic_restart_hv_timer(vcpu);
+  5084	
+  5085			/*
+  5086			 * On a host with synchronized TSC, there is no need to update
+  5087			 * kvmclock on vcpu->cpu migration
+  5088			 */
+  5089			if (!vcpu->kvm->arch.use_master_clock || vcpu->cpu == -1)
+  5090				kvm_make_request(KVM_REQ_GLOBAL_CLOCK_UPDATE, vcpu);
+  5091			if (vcpu->cpu != cpu)
+  5092				kvm_make_request(KVM_REQ_MIGRATE_TIMER, vcpu);
+  5093			vcpu->cpu = cpu;
+  5094		}
+  5095	
+> 5096		kvm_make_request(KVM_REQ_STEAL_UPDATE, vcpu);
+> 5097	}
+  5098	
 
 -- 
 0-DAY CI Kernel Test Service
