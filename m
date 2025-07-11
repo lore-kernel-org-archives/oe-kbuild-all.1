@@ -1,58 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EFA31DDA1E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2417C2EFD81
 	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 17:13:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752254038; cv=none; b=at07LkAdEvQ+9Q25uH60lY4RoOkpGQ8T+xxNz9COn5NRVGf5ehWHyk6DRCouFMwoynwNe2sxeqozGKpOYczs13wuUw6V13ctXtaUlbWIjh9jJG0/gYBBj/YJgEgjl0MUNN0ffat4QPImIgV2Mlxf29jc3mj6wpWVendRqfjS/80=
+	t=1752254039; cv=none; b=jfzQig9+h65UN/O6cfiWyIA9KKYKfMLwuPk8wwPBlXUwEpL7Kij3oVvD5NrGmY4N1UzuDTau+UwflG3Z6prrGu+CEo1pC8YqA7MDv5piSMccCIsTAQhFexpRXyPmDXdRhxjDf94ESp+KnKV1rkHTPAW/mk5VdmcWCreRbrvwy/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752254038; c=relaxed/simple;
-	bh=6tf+lj6wIf/SDjac7MA4xKlfPryCzg6htxY5hBTwGAg=;
+	s=arc-20240116; t=1752254039; c=relaxed/simple;
+	bh=XMbRIVkwobmiz6YGt2DG45vgqNNFxiLj6dawk2pkXVo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=e63UFoxjC+l3BqDKaH13VdFoAeS65Z5LU3S5pDhikRxjx74+/CrxWv6MbkS+O6+DADWSt/OyLg0YRh2zkJWSfjYOJeuF4/Ev8Qx5v0UlvjgRHecgasUExHLy0l4BOqgJPOkcscS7Gna88zz0kpkffzzKekJj8sX+Uq6TGmO/K3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ru9xmSPc; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=UcTYX0XykPEciGTXhgIxeLJWtHf0eZptVdPnRuG9WCk6ohYIi1DBNChphz37OZ60+ToO4XjLD/1Yc3+eaxUfvMJ2EDiwK3ZJOxxY/bw6JUXkoXnnqGS48IGIFbBt4FbjZEUZUuLidUTaBUTcjItsuy+GFipE7KCvWmO6MUGZ5Kk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y8BE456i; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ru9xmSPc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y8BE456i"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752254036; x=1783790036;
+  t=1752254037; x=1783790037;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6tf+lj6wIf/SDjac7MA4xKlfPryCzg6htxY5hBTwGAg=;
-  b=Ru9xmSPc3crgh+6h+patWN3dlg1/X58seOsoYORXWkp6d3XW1isqIvqV
-   KiXcg5SC5yZxCLzBZApD/StcJ0ColxZWwJ+be629Qc2fNzt3NthiRsrq6
-   spwZ9Vm56rwIWwGR96UJktePdXD7+ZfBNNCFBFHQePUg2akMHwFRvnccQ
-   7vBGW8pEUkNVaDE/nwOhPUIPXdANgbdZ+XCnMMxnT6SUFr35MVsTTTZbr
-   Tf7xSir0+0aX5lldezgmV8hbCGUc9SaNMWhr7IClFqd4moXawBmvxVnQR
-   Di9kLdwa1Sr/WDVq4D/OWms2EEDuunQ5+dQTbOPXpLmTet7A0drCWIKNn
+  bh=XMbRIVkwobmiz6YGt2DG45vgqNNFxiLj6dawk2pkXVo=;
+  b=Y8BE456ifBXEw5l+Ckx1APpN3he4gf6t0P+mZZNhlfA1VPjj27v2cx0+
+   0znujPzA0inJ13AUaTxQlO8u1LTm/ucbI5jxo7i2pL18zCOsQNXjwkEKc
+   itR/1z72LTi0EC/KFnAimp2rPsTEP0RAG+TJzH/rYzKPIu9sAm0TGuAXl
+   Z/1Ln8MgUMLt32H92vZzK3CmtAYr6JMUpmWgmazDkHR5F3OjSNLF0KxrD
+   Tl9tlX3aVFW3yX37Uk65VRc/I7Z67kSM2LvEl61peI6aPeigydPPuyjJY
+   LxFap0Ykkm8w7NU20UDsd10espXFCtT5VviCSRukMLz/Sn0f8uFdIa2HF
    Q==;
-X-CSE-ConnectionGUID: 94S5Yt+bRDOExgZ6KmfmXQ==
-X-CSE-MsgGUID: ux0exMoxSx+/mPOTJG/17g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54271626"
+X-CSE-ConnectionGUID: 3Af/MBIlRJ2ehwHRlTU2mQ==
+X-CSE-MsgGUID: 6fcAiYrMQVeKliSRYLirlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="72004683"
 X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
-   d="scan'208";a="54271626"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 10:13:56 -0700
-X-CSE-ConnectionGUID: aJM/mnHATMuGPDpvc4MfEA==
-X-CSE-MsgGUID: ir1aH5pfQK2hKe4P8HPh+g==
+   d="scan'208";a="72004683"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 10:13:56 -0700
+X-CSE-ConnectionGUID: Oh6euQBHTTqY6fFsFL4JQQ==
+X-CSE-MsgGUID: AOrRSEQ5RfS+5+jFN7IsgA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
-   d="scan'208";a="160750387"
+   d="scan'208";a="156508666"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 11 Jul 2025 10:13:55 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 11 Jul 2025 10:13:55 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uaHJo-0006b3-1y;
+	id 1uaHJo-0006b1-1u;
 	Fri, 11 Jul 2025 17:13:52 +0000
-Date: Sat, 12 Jul 2025 01:13:24 +0800
+Date: Sat, 12 Jul 2025 01:13:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steev Klimaszewski <steev@kali.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [steev:lenovo-x13s-6.16.0-rc5 53/77] ld.lld: error: undefined
- symbol: psci_cpu_suspend_enter
-Message-ID: <202507120153.bxl16pLr-lkp@intel.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>
+Subject: [linux-next:master 8533/9053] include/linux/limits.h:11:25: warning:
+ conversion from 'long long unsigned int' to 'long unsigned int' changes
+ value from '18446744073709551615' to '4294967295'
+Message-ID: <202507120122.8Tizf08n-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +66,48 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/steev/linux lenovo-x13s-6.16.0-rc5
-head:   8a7f181d5501fa73b17dcb76340908f033b61b88
-commit: e5fb9bee4b0bcb2f1182c04501be2cf254666046 [53/77] firmware/psci: Allow specifying an S2RAM state through CPU_SUSPEND
-config: arm64-randconfig-004-20250711 (https://download.01.org/0day-ci/archive/20250712/202507120153.bxl16pLr-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250712/202507120153.bxl16pLr-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a62b7a37e6fcf4a675b1548e7c168b96ec836442
+commit: 44b6b311bedcd301731cf16738373bd66f7e96c8 [8533/9053] iommufd: Add mmap interface
+config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250712/202507120122.8Tizf08n-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250712/202507120122.8Tizf08n-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507120153.bxl16pLr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507120122.8Tizf08n-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: undefined symbol: psci_cpu_suspend_enter
-   >>> referenced by psci.c
-   >>>               drivers/firmware/psci/psci.o:(psci_cpu_suspend_s2ram_enter) in archive vmlinux.a
+   In file included from include/linux/overflow.h:6,
+                    from include/linux/string.h:13,
+                    from include/linux/scatterlist.h:5,
+                    from include/linux/iommu.h:10,
+                    from drivers/iommu/iommufd/iommufd_private.h:7,
+                    from drivers/iommu/iommufd/driver.c:4:
+   drivers/iommu/iommufd/driver.c: In function '_iommufd_alloc_mmap':
+>> include/linux/limits.h:11:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
+      11 | #define PHYS_ADDR_MAX   (~(phys_addr_t)0)
+         |                         ^~~~~~~~~~~~~~~~~
+   drivers/iommu/iommufd/driver.c:61:43: note: in expansion of macro 'PHYS_ADDR_MAX'
+      61 |                                PAGE_SIZE, PHYS_ADDR_MAX, GFP_KERNEL);
+         |                                           ^~~~~~~~~~~~~
+
+
+vim +11 include/linux/limits.h
+
+54d50897d544c87 Masahiro Yamada 2019-03-07   8  
+54d50897d544c87 Masahiro Yamada 2019-03-07   9  #define SIZE_MAX	(~(size_t)0)
+dabba87229411a5 Pasha Tatashin  2022-05-27  10  #define SSIZE_MAX	((ssize_t)(SIZE_MAX >> 1))
+54d50897d544c87 Masahiro Yamada 2019-03-07 @11  #define PHYS_ADDR_MAX	(~(phys_addr_t)0)
+54d50897d544c87 Masahiro Yamada 2019-03-07  12  
+
+:::::: The code at line 11 was first introduced by commit
+:::::: 54d50897d544c874562253e2a8f70dfcad22afe8 linux/kernel.h: split *_MAX and *_MIN macros into <linux/limits.h>
+
+:::::: TO: Masahiro Yamada <yamada.masahiro@socionext.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
