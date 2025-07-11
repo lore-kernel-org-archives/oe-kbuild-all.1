@@ -1,83 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E168DDBC;
-	Fri, 11 Jul 2025 01:14:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 069252A1C9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 01:26:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752196470; cv=none; b=X160wizdm0WKeBN31AIIocrAUITMnTE0yBTvAbKM//YuJFp3Q7ofsoPd2vnRHIlMVNPqb3B+uSLNxsY9+hlJ8SgCOET9QcTavbeIh5WD9E/JDE80qgCurm2jr4GRke+lM8QEqBuFv3LnlVXJJxlxizvEnk7txXg87PZ+c01+Bsw=
+	t=1752197163; cv=none; b=eO6nibZGLOHSHV+QRCDfU3twZcACq2Iu9uLTaS2OuT8qNrJZlSpg5H4eIFp9JKFtPKyJcTh5TqKnerNmKJZd+UVuT2FmX/1pAdpO9DvilB7Gpwtl0QYebCL+zGJDsIB2reVopZ/DhQc/CEX+WKHUwiHbqmVAIzGK9TK5+/f9AwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752196470; c=relaxed/simple;
-	bh=q6bgf8nbsmbq7qhLfWYwY4RarY9tPzXyKzdsj2l6iwc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IK+BsP4ND4THcviBqYLtb6lrbrbsrT3Lh6/KZXYkjqRgP0/gwLlrKeMxR7BWOQKm8SODBrm9vFs1MnTfYgtOcPJ3LgCDe8oF6eS8fopYVJ4JnIg0T8sKJe02P218a18DaI7v5GP6NHKve7PzqtDyvrRdwZ5BbfWE5KyqbULRLq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hk5LPoak; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1752197163; c=relaxed/simple;
+	bh=DyZKLvtXwZT7ZnODnLgNWRV7NvU+i2EWdgYXaKt/yxY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=BnS4p9+Poe0j9EBDHNFtTgY8itaZ+QfUbXnPNWFQh6Tn+P99rlFTGF9MoFdbm9oyY1Gm0rZlGVa5LZiJxBOd1lqk0G67MGAlcVn+MWbhfSTE1inrEbARDRIWhbmL9sED9Iv1so+HVV9J+iJ5mw91jlgu8WqnkAmJvb/fDSa9xi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MpO9bglv; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hk5LPoak"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MpO9bglv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752196470; x=1783732470;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q6bgf8nbsmbq7qhLfWYwY4RarY9tPzXyKzdsj2l6iwc=;
-  b=Hk5LPoakMlkmpE14oYdFseGUdBDqgQW63ZL2saQ4beQBYiLCZor9bApz
-   JLYjGLZmgqAk2B5PL13n0q+eeAhZii6Kl5kfwB8utEyDutu/zWFc4U8p7
-   6nYy5WcOBMug+KAvxZ6gUoo0kxeqvXkDLno23G2Cyuhv5yGWHUqSG2PZ/
-   si1AndnvEmCFLxJqowP9nNIFLOm1np/xghKlF5HlvJJiTGt4IAKvZ/95S
-   TGAmCakSEyhU/3VprPcJOJC4D7D+MNhrVwCEY6GinzdAVa8RWak2VrKyC
-   05RprWdWqTc2VwvR9I9QuijHBxPK6sKfPmZc72LzWSYKv+1KerUeMpcVq
-   A==;
-X-CSE-ConnectionGUID: bjFDmQJiT+yXFvI6Ako1sw==
-X-CSE-MsgGUID: ITASsiX+SeGxSJwB9AMZNA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="65940546"
+  t=1752197161; x=1783733161;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=DyZKLvtXwZT7ZnODnLgNWRV7NvU+i2EWdgYXaKt/yxY=;
+  b=MpO9bglvvNOwU7ketXG69g+FWdfJBAyxsypfBgDWvLFfPDvcDITFWBgN
+   ZNu39I8q7jrOPKaO1r5AlkUcK5VafDWgcfzjTsJlneVJC7Cq6yT346VLa
+   WGdVYzRRyd1GaT20fRP2HE5DKiMAZWE987yZNVstgtjuIR5mRmQ0T3v9Z
+   jAstmlB9VIGHDX1s04Rqs6GoilEm4yGe3sTFnqggzaQfmg0BgXc/BQJ3J
+   f6f5qVtcWmwakJDRLHWza1RBRM6yNlJQcHUOzQj+0ExVlr1EQnNnGHggi
+   POvI0FpZS6+MgAQudKq4ShU0oMqOUsb1Cv/cSrk+ltl1Xj1rOdXw9UkwT
+   Q==;
+X-CSE-ConnectionGUID: CEZXWAbJSgGZk+Jgp87Wyw==
+X-CSE-MsgGUID: Co3Y8FW7SG27T9qUkBk3Fw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="65075583"
 X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="65940546"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 18:14:29 -0700
-X-CSE-ConnectionGUID: vsVsUFYdRBmlwmDGaNYNHA==
-X-CSE-MsgGUID: b/jQH0PhRbS5yqpTSE21Qw==
+   d="scan'208";a="65075583"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 18:25:23 -0700
+X-CSE-ConnectionGUID: wGutbxOoRB+/Ln0qBL2Yyw==
+X-CSE-MsgGUID: u0vuOaDjRja+SRLn8lTeQw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="187242746"
+   d="scan'208";a="155660553"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 10 Jul 2025 18:14:21 -0700
+  by orviesa010.jf.intel.com with ESMTP; 10 Jul 2025 18:25:22 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ua2LC-0005h9-0j;
-	Fri, 11 Jul 2025 01:14:18 +0000
-Date: Fri, 11 Jul 2025 09:14:05 +0800
+	id 1ua2Vr-0005iV-2N;
+	Fri, 11 Jul 2025 01:25:19 +0000
+Date: Fri, 11 Jul 2025 09:25:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	cros-qcom-dts-watchers@chromium.org, Vinod Koul <vkoul@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Elliot Berman <elliotb317@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Stephen Boyd <swboyd@chromium.org>, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	Andre Draszik <andre.draszik@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-samsung-soc@vger.kernel.org, Wei Xu <xuwei5@hisilicon.com>
-Subject: Re: [PATCH v10 01/10] power: reset: reboot-mode: Add device tree
- node-based registration
-Message-ID: <202507110849.ahNmViin-lkp@intel.com>
-References: <20250710-arm-psci-system_reset2-vendor-reboots-v10-1-b2d3b882be85@oss.qualcomm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2024-08 36/36]
+ arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb:
+ system-cache-controller@9200000 (qcom,sc8180x-llcc): reg-names:4:
+ 'llcc4_base' was expected
+Message-ID: <202507110943.PNblKkSw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -86,164 +63,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250710-arm-psci-system_reset2-vendor-reboots-v10-1-b2d3b882be85@oss.qualcomm.com>
 
-Hi Shivendra,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 58ba80c4740212c29a1cf9b48f588e60a7612209]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shivendra-Pratap/power-reset-reboot-mode-Add-device-tree-node-based-registration/20250710-172104
-base:   58ba80c4740212c29a1cf9b48f588e60a7612209
-patch link:    https://lore.kernel.org/r/20250710-arm-psci-system_reset2-vendor-reboots-v10-1-b2d3b882be85%40oss.qualcomm.com
-patch subject: [PATCH v10 01/10] power: reset: reboot-mode: Add device tree node-based registration
-config: i386-buildonly-randconfig-006-20250711 (https://download.01.org/0day-ci/archive/20250711/202507110849.ahNmViin-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110849.ahNmViin-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-08
+head:   b64c8a8cf865a837d7b16f8d32f56de627f77976
+commit: 74cf6675c35ec3034053a69926f4d98e52852eb0 [36/36] arm64: dts: qcom: sc8180x: Fix LLCC reg property
+config: arm64-randconfig-051-20250702 (https://download.01.org/0day-ci/archive/20250711/202507110943.PNblKkSw-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 3deed4211a46632a25b1b558b357273a5ce4ee96)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110943.PNblKkSw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507110849.ahNmViin-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507110943.PNblKkSw-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
-
->> drivers/power/reset/reboot-mode.c:15:9: warning: 'pr_fmt' macro redefined [-Wmacro-redefined]
-      15 | #define pr_fmt(fmt)     "reboot-mode: " fmt
-         |         ^
-   include/linux/printk.h:397:9: note: previous definition is here
-     397 | #define pr_fmt(fmt) fmt
-         |         ^
->> drivers/power/reset/reboot-mode.c:86:10: error: call to undeclared function 'kzalloc'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      86 |                 info = kzalloc(sizeof(*info), GFP_KERNEL);
-         |                        ^
->> drivers/power/reset/reboot-mode.c:86:8: error: incompatible integer to pointer conversion assigning to 'struct mode_info *' from 'int' [-Wint-conversion]
-      86 |                 info = kzalloc(sizeof(*info), GFP_KERNEL);
-         |                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/power/reset/reboot-mode.c:94:4: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      94 |                         kfree(info);
-         |                         ^
-   drivers/power/reset/reboot-mode.c:139:3: error: call to undeclared function 'kfree'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     139 |                 kfree(info);
-         |                 ^
-   1 warning and 4 errors generated.
-
-
-vim +/kzalloc +86 drivers/power/reset/reboot-mode.c
-
-    13	
-    14	#define PREFIX "mode-"
-  > 15	#define pr_fmt(fmt)	"reboot-mode: " fmt
-    16	
-    17	struct mode_info {
-    18		const char *mode;
-    19		u32 magic;
-    20		struct list_head list;
-    21	};
-    22	
-    23	static unsigned int get_reboot_mode_magic(struct reboot_mode_driver *reboot,
-    24						  const char *cmd)
-    25	{
-    26		const char *normal = "normal";
-    27		struct mode_info *info;
-    28		char cmd_[110];
-    29	
-    30		if (!cmd)
-    31			cmd = normal;
-    32	
-    33		list_for_each_entry(info, &reboot->head, list)
-    34			if (!strcmp(info->mode, cmd))
-    35				return info->magic;
-    36	
-    37		/* try to match again, replacing characters impossible in DT */
-    38		if (strscpy(cmd_, cmd, sizeof(cmd_)) == -E2BIG)
-    39			return 0;
-    40	
-    41		strreplace(cmd_, ' ', '-');
-    42		strreplace(cmd_, ',', '-');
-    43		strreplace(cmd_, '/', '-');
-    44	
-    45		list_for_each_entry(info, &reboot->head, list)
-    46			if (!strcmp(info->mode, cmd_))
-    47				return info->magic;
-    48	
-    49		return 0;
-    50	}
-    51	
-    52	static int reboot_mode_notify(struct notifier_block *this,
-    53				      unsigned long mode, void *cmd)
-    54	{
-    55		struct reboot_mode_driver *reboot;
-    56		unsigned int magic;
-    57	
-    58		reboot = container_of(this, struct reboot_mode_driver, reboot_notifier);
-    59		magic = get_reboot_mode_magic(reboot, cmd);
-    60		if (magic)
-    61			reboot->write(reboot, magic);
-    62	
-    63		return NOTIFY_DONE;
-    64	}
-    65	
-    66	/**
-    67	 * reboot_mode_register - register a reboot mode driver
-    68	 * @reboot: reboot mode driver
-    69	 * @np: Pointer to device tree node
-    70	 *
-    71	 * Returns: 0 on success or a negative error code on failure.
-    72	 */
-    73	int reboot_mode_register(struct reboot_mode_driver *reboot, struct device_node *np)
-    74	{
-    75		struct mode_info *info;
-    76		struct property *prop;
-    77		size_t len = strlen(PREFIX);
-    78		int ret;
-    79	
-    80		INIT_LIST_HEAD(&reboot->head);
-    81	
-    82		for_each_property_of_node(np, prop) {
-    83			if (strncmp(prop->name, PREFIX, len))
-    84				continue;
-    85	
-  > 86			info = kzalloc(sizeof(*info), GFP_KERNEL);
-    87			if (!info) {
-    88				ret = -ENOMEM;
-    89				goto error;
-    90			}
-    91	
-    92			if (of_property_read_u32(np, prop->name, &info->magic)) {
-    93				pr_err("reboot mode %s without magic number\n", info->mode);
-  > 94				kfree(info);
-    95				continue;
-    96			}
-    97	
-    98			info->mode = kstrdup_const(prop->name + len, GFP_KERNEL);
-    99			if (!info->mode) {
-   100				ret =  -ENOMEM;
-   101				goto error;
-   102			} else if (info->mode[0] == '\0') {
-   103				kfree_const(info->mode);
-   104				ret = -EINVAL;
-   105				pr_err("invalid mode name(%s): too short!\n", prop->name);
-   106				goto error;
-   107			}
-   108	
-   109			list_add_tail(&info->list, &reboot->head);
-   110		}
-   111	
-   112		reboot->reboot_notifier.notifier_call = reboot_mode_notify;
-   113		register_reboot_notifier(&reboot->reboot_notifier);
-   114	
-   115		return 0;
-   116	
-   117	error:
-   118		list_for_each_entry(info, &reboot->head, list)
-   119			kfree_const(info->mode);
-   120	
-   121		return ret;
-   122	}
-   123	EXPORT_SYMBOL_GPL(reboot_mode_register);
-   124	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: phy@88ee000 (qcom,sc8180x-qmp-usb3-dp-phy): usb3-phy@88e9200: '#clock-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: phy@88ee000 (qcom,sc8180x-qmp-usb3-dp-phy): reg-names:0: 'usb' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: phy@88ee000 (qcom,sc8180x-qmp-usb3-dp-phy): reg-names: ['reg-base', 'dp_com'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb3-phy@88e9200: '#clock-cells' is a dependency of 'clock-output-names'
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000 (qcom,sc8180x-llcc): reg: [[0, 153092096, 0, 327680], [0, 153616384, 0, 327680], [0, 154140672, 0, 327680], [0, 154664960, 0, 327680], [0, 157286400, 0, 327680]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000 (qcom,sc8180x-llcc): reg-names:4: 'llcc4_base' was expected
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000 (qcom,sc8180x-llcc): reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800 (qcom,sc8180x-dwc3): compatible:0: 'qcom,sc8180x-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8280xp-dwc3', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3']
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/usb@a6f8800: failed to match any schema with compatible: ['qcom,sc8180x-dwc3', 'qcom,dwc3']
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800 (qcom,sc8180x-dwc3): compatible:0: 'qcom,sc8180x-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8280xp-dwc3', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3']
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/usb@a8f8800: failed to match any schema with compatible: ['qcom,sc8180x-dwc3', 'qcom,dwc3']
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/mdss@ae00000: failed to match any schema with compatible: ['qcom,sc8180x-mdss']
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/mdss@ae00000/mdp@ae01000: failed to match any schema with compatible: ['qcom,sc8180x-dpu']
+   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: dsi@ae94000 (qcom,mdss-dsi-ctrl): interrupts: [[4], [4]] is too long
+--
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: phy@88ee000 (qcom,sc8180x-qmp-usb3-dp-phy): usb3-phy@88e9200: '#clock-cells' is a required property
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: phy@88ee000 (qcom,sc8180x-qmp-usb3-dp-phy): reg-names:0: 'usb' was expected
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: phy@88ee000 (qcom,sc8180x-qmp-usb3-dp-phy): reg-names: ['reg-base', 'dp_com'] is too short
+   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb3-phy@88e9200: '#clock-cells' is a dependency of 'clock-output-names'
+   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000 (qcom,sc8180x-llcc): reg: [[0, 153092096, 0, 327680], [0, 153616384, 0, 327680], [0, 154140672, 0, 327680], [0, 154664960, 0, 327680], [0, 157286400, 0, 327680]] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000 (qcom,sc8180x-llcc): reg-names:4: 'llcc4_base' was expected
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+>> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000 (qcom,sc8180x-llcc): reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
+   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800 (qcom,sc8180x-dwc3): compatible:0: 'qcom,sc8180x-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8280xp-dwc3', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3']
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/usb@a6f8800: failed to match any schema with compatible: ['qcom,sc8180x-dwc3', 'qcom,dwc3']
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800 (qcom,sc8180x-dwc3): compatible:0: 'qcom,sc8180x-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8280xp-dwc3', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3']
+   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/usb@a8f8800: failed to match any schema with compatible: ['qcom,sc8180x-dwc3', 'qcom,dwc3']
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/mdss@ae00000: failed to match any schema with compatible: ['qcom,sc8180x-mdss']
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/mdss@ae00000/mdp@ae01000: failed to match any schema with compatible: ['qcom,sc8180x-dpu']
+   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: dsi@ae94000 (qcom,mdss-dsi-ctrl): interrupts: [[4], [4]] is too long
 
 -- 
 0-DAY CI Kernel Test Service
