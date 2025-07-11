@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFF31A7AF7;
-	Fri, 11 Jul 2025 21:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2676C228CBE
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 23:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752270144; cv=none; b=OzBajkLE4QOOqf+qJpJk7n04smV92bya0Lxana+jnjPNx5TK2c13/sFTIWjrBPC5C1ngY7w2ir/fSLYTAms9o+zg+jNYkK8H3BMTT3V2LMQeb8huGMsM2PLHow0TbBiaLQeXgm+Lkqe6A7J/ljYTeRXGXn7+YunqUd1SFfu8TTA=
+	t=1752278255; cv=none; b=e/x6FOb4ntRsiR0ANTCw9C4ivPuWUm3JK5y0WKRRlGtmYUTqj7wkB+HMOlVMFZ8L2LFx1UXDZFSjB2f5E9bUKgmE7xRauCjCUUgjS2PcfjX5EoTf1oTZX5tHhms2s4VlkHkM/5T5E4wc0fxUhzB3v/geklVrEuQrgbCk9cNW9Vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752270144; c=relaxed/simple;
-	bh=FRJZTMDli33z+2VYtIwPjKtkzXPLWnmyhYXuUGVZ4Hc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N/3PxR8Y9rFtKVEFp0KI0flNwLHoTFRWDzk8dP7ZjPImBFsIAxsFdJPiwdQiT7RnIklg8mbdLPSqqP04TBq49wggnrvkKPj8RfqqwvuIYlUTq9c01ITQl0aluNauZ4dfybkVyxHjlzuGxTed/8ao3NenUt6IeKQgXwjWF3sYbwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZyhMw0iy; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1752278255; c=relaxed/simple;
+	bh=WDSSstMBcFrfIiS/oWUN2ir3J5cSocIjNKKxiYRTKjI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=L5QWUUEFlxYaOLOJnJxnEMUpKDLXDJbjhggCfXHu2SiddY0iLEBsheFMSQzrR0FLSLpQB2/ct9nfsD0yu7KZ2+w09C9ayiY5q5G7DZ4tmzksJGFMg6ju1k1MceYVhKKrZmkd0YOp9eU+EMXBOjWjVtEB7jXrmo/+c6aGQrxAYec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JYU6GIGs; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZyhMw0iy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JYU6GIGs"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752270142; x=1783806142;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FRJZTMDli33z+2VYtIwPjKtkzXPLWnmyhYXuUGVZ4Hc=;
-  b=ZyhMw0iyqoO6BKg1ZY98ZdWk3d0RLfZjuUlLMkLsS0pVZRz2wNJP6EXc
-   8GvT41UVlFz47z2rPQnmqNmCsCkA8qjqU6B8BqyBOKO0r22tGPYpsMLI9
-   9kr56yYE8+vjePOp+7K3c/59AyPp+rE63aZEK+SJkpuhffDLoOhS3os42
-   MJ/HqPalSuEPw36glQI6CfFteEi143St8E17K6qApiYU39LaVP8MQPM/F
-   GM1DT0rYNOiHj26c43UgD6U2jyD6B09dcO0IkTsRDRHR0QR5C4u+bDdKG
-   +gicy0qxSeVz497KmocSNZaaetiPjepaFFA64U5LOTeT6T704XV/ma7mY
+  t=1752278254; x=1783814254;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WDSSstMBcFrfIiS/oWUN2ir3J5cSocIjNKKxiYRTKjI=;
+  b=JYU6GIGsGNRAZrHxuo4uxLDs/OzhcQlgINuJYHB/DoeIAsEZxabz7OR6
+   iFQ86U4Y4DZhfDjduX4T20GtB8lc+HDJjZiHlQZqski1ISO0WkUYVtf40
+   8+cSlcee+JOpQmz0iGoFW4orXyvE7dEH8f4j5JrKPgo4amTruEHYETIuh
+   7J85a4IaLX1ExsQEhSUEs83kXO9vwnG1+haVmVQ6qS5BD1zG1b3g2qmCw
+   lVChDXmuaQ9n4b8Sh4ms3IPbPtPciXFH4SyEPtcSLEVK9C1Oemdt1xFCL
+   yZ80bPY6j8ElNKPHMj1gykr3usfG6lBmmAHFITbUohdIuNlUjjGBUL4xM
    A==;
-X-CSE-ConnectionGUID: xeUA4YpwReuRJbm9EE8yOw==
-X-CSE-MsgGUID: +phWrw11QPKbzea9+fngwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="58381143"
-X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
-   d="scan'208";a="58381143"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 14:42:21 -0700
-X-CSE-ConnectionGUID: DLeCp0zyQniDp8k0huMS+w==
-X-CSE-MsgGUID: D+NrjiQ5QSK5LShoTx+gxA==
+X-CSE-ConnectionGUID: cpYFE62RSF223/YygORPxg==
+X-CSE-MsgGUID: HvP/vZgPQMarEiavX1Mc3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54436375"
+X-IronPort-AV: E=Sophos;i="6.16,305,1744095600"; 
+   d="scan'208";a="54436375"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 16:57:33 -0700
+X-CSE-ConnectionGUID: A5djyFOXREiGRhcHrgRiCA==
+X-CSE-MsgGUID: LmOfXDbyQ0SspLZ/DUqgtQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
-   d="scan'208";a="160759947"
+X-IronPort-AV: E=Sophos;i="6.16,305,1744095600"; 
+   d="scan'208";a="156572849"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 11 Jul 2025 14:42:19 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 11 Jul 2025 16:57:32 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uaLVZ-0006oN-0u;
-	Fri, 11 Jul 2025 21:42:17 +0000
-Date: Sat, 12 Jul 2025 05:42:06 +0800
+	id 1uaNcQ-0006uZ-01;
+	Fri, 11 Jul 2025 23:57:30 +0000
+Date: Sat, 12 Jul 2025 07:57:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nikunj A Dadhania <nikunj@amd.com>, seanjc@google.com,
-	pbonzini@redhat.com, kvm@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	thomas.lendacky@amd.com, santosh.shukla@amd.com, bp@alien8.de,
-	nikunj@amd.com, Michael Roth <michael.roth@amd.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] KVM: SEV: Enforce minimum GHCB version requirement for
- SEV-SNP guests
-Message-ID: <202507120551.iDEiTBBN-lkp@intel.com>
-References: <20250711045408.95129-1-nikunj@amd.com>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>
+Subject: drivers/hwmon/xgene-hwmon.c:145:15: sparse: sparse: dereference of
+ noderef expression
+Message-ID: <202507120757.OQ27yP2N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,123 +62,121 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250711045408.95129-1-nikunj@amd.com>
 
-Hi Nikunj,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on kvm/queue]
-[also build test ERROR on kvm/next linus/master v6.16-rc5 next-20250711]
-[cannot apply to kvm/linux-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nikunj-A-Dadhania/KVM-SEV-Enforce-minimum-GHCB-version-requirement-for-SEV-SNP-guests/20250711-125527
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
-patch link:    https://lore.kernel.org/r/20250711045408.95129-1-nikunj%40amd.com
-patch subject: [PATCH] KVM: SEV: Enforce minimum GHCB version requirement for SEV-SNP guests
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250712/202507120551.iDEiTBBN-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250712/202507120551.iDEiTBBN-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   40f92e79b0aabbf3575e371f9054657a421a3e79
+commit: 80fcd1e7f5c7009fa1c64737df100cc304c19c1f hwmon: (xgene-hwmon) Simplify PCC shared memory region handling
+date:   3 months ago
+config: arm64-randconfig-r113-20250711 (https://download.01.org/0day-ci/archive/20250712/202507120757.OQ27yP2N-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+reproduce: (https://download.01.org/0day-ci/archive/20250712/202507120757.OQ27yP2N-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507120551.iDEiTBBN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507120757.OQ27yP2N-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/hwmon/xgene-hwmon.c:116:15: sparse: sparse: cast to restricted __le16
+   drivers/hwmon/xgene-hwmon.c:119:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
+   drivers/hwmon/xgene-hwmon.c:119:9: sparse:     expected unsigned short volatile
+   drivers/hwmon/xgene-hwmon.c:119:9: sparse:     got restricted __le16 [usertype]
+   drivers/hwmon/xgene-hwmon.c:128:21: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/hwmon/xgene-hwmon.c:137:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/hwmon/xgene-hwmon.c:137:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile @@     got restricted __le32 [usertype] @@
+   drivers/hwmon/xgene-hwmon.c:137:9: sparse:     expected unsigned int volatile
+   drivers/hwmon/xgene-hwmon.c:137:9: sparse:     got restricted __le32 [usertype]
+   drivers/hwmon/xgene-hwmon.c:141:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/hwmon/xgene-hwmon.c:141:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
+   drivers/hwmon/xgene-hwmon.c:141:9: sparse:     expected unsigned short volatile
+   drivers/hwmon/xgene-hwmon.c:141:9: sparse:     got restricted __le16 [usertype]
+   drivers/hwmon/xgene-hwmon.c:145:15: sparse: sparse: cast to restricted __le16
+   drivers/hwmon/xgene-hwmon.c:147:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/hwmon/xgene-hwmon.c:147:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
+   drivers/hwmon/xgene-hwmon.c:147:9: sparse:     expected unsigned short volatile
+   drivers/hwmon/xgene-hwmon.c:147:9: sparse:     got restricted __le16 [usertype]
+   drivers/hwmon/xgene-hwmon.c:151:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile @@     got restricted __le32 [usertype] @@
+   drivers/hwmon/xgene-hwmon.c:151:17: sparse:     expected unsigned int volatile
+   drivers/hwmon/xgene-hwmon.c:151:17: sparse:     got restricted __le32 [usertype]
+   drivers/hwmon/xgene-hwmon.c:538:13: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *msg @@     got struct acpi_pcct_shared_memory [noderef] __iomem * @@
+   drivers/hwmon/xgene-hwmon.c:538:13: sparse:     expected void *msg
+   drivers/hwmon/xgene-hwmon.c:538:13: sparse:     got struct acpi_pcct_shared_memory [noderef] __iomem *
+   drivers/hwmon/xgene-hwmon.c:540:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short [usertype] *addr @@     got unsigned short [noderef] __iomem * @@
+   drivers/hwmon/xgene-hwmon.c:540:38: sparse:     expected unsigned short [usertype] *addr
+   drivers/hwmon/xgene-hwmon.c:540:38: sparse:     got unsigned short [noderef] __iomem *
+   drivers/hwmon/xgene-hwmon.c:562:45: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short [usertype] *addr @@     got unsigned short [noderef] __iomem * @@
+   drivers/hwmon/xgene-hwmon.c:562:45: sparse:     expected unsigned short [usertype] *addr
+   drivers/hwmon/xgene-hwmon.c:562:45: sparse:     got unsigned short [noderef] __iomem *
+>> drivers/hwmon/xgene-hwmon.c:145:15: sparse: sparse: dereference of noderef expression
 
->> arch/x86/kvm/svm/sev.c:426:6: error: use of undeclared identifier 'snp_active'
-     426 |         if (snp_active && data->ghcb_version && data->ghcb_version < 2)
-         |             ^
-   1 error generated.
+vim +145 drivers/hwmon/xgene-hwmon.c
 
+ed42cfa881e1d8 hotran        2016-07-21  123  
+ed42cfa881e1d8 hotran        2016-07-21  124  static int xgene_hwmon_pcc_rd(struct xgene_hwmon_dev *ctx, u32 *msg)
+ed42cfa881e1d8 hotran        2016-07-21  125  {
+80fcd1e7f5c700 Sudeep Holla  2025-04-11  126  	struct acpi_pcct_shared_memory __iomem *generic_comm_base =
+80fcd1e7f5c700 Sudeep Holla  2025-04-11  127  							ctx->pcc_chan->shmem;
+c7cefce03e6912 Arnd Bergmann 2016-09-09  128  	u32 *ptr = (void *)(generic_comm_base + 1);
+ed42cfa881e1d8 hotran        2016-07-21  129  	int rc, i;
+ed42cfa881e1d8 hotran        2016-07-21  130  	u16 val;
+ed42cfa881e1d8 hotran        2016-07-21  131  
+ed42cfa881e1d8 hotran        2016-07-21  132  	mutex_lock(&ctx->rd_mutex);
+ed42cfa881e1d8 hotran        2016-07-21  133  	init_completion(&ctx->rd_complete);
+ed42cfa881e1d8 hotran        2016-07-21  134  	ctx->resp_pending = true;
+ed42cfa881e1d8 hotran        2016-07-21  135  
+ed42cfa881e1d8 hotran        2016-07-21  136  	/* Write signature for subspace */
+c7cefce03e6912 Arnd Bergmann 2016-09-09  137  	WRITE_ONCE(generic_comm_base->signature,
+2cf39b806be746 Sudeep Holla  2023-09-27  138  		   cpu_to_le32(PCC_SIGNATURE | ctx->mbox_idx));
+ed42cfa881e1d8 hotran        2016-07-21  139  
+ed42cfa881e1d8 hotran        2016-07-21  140  	/* Write to the shared command region */
+c7cefce03e6912 Arnd Bergmann 2016-09-09  141  	WRITE_ONCE(generic_comm_base->command,
+2cf39b806be746 Sudeep Holla  2023-09-27  142  		   cpu_to_le16(MSG_TYPE(msg[0]) | PCC_CMD_GENERATE_DB_INTR));
+ed42cfa881e1d8 hotran        2016-07-21  143  
+ed42cfa881e1d8 hotran        2016-07-21  144  	/* Flip CMD COMPLETE bit */
+c7cefce03e6912 Arnd Bergmann 2016-09-09 @145  	val = le16_to_cpu(READ_ONCE(generic_comm_base->status));
+2cf39b806be746 Sudeep Holla  2023-09-27  146  	val &= ~PCC_STATUS_CMD_COMPLETE;
+c7cefce03e6912 Arnd Bergmann 2016-09-09  147  	WRITE_ONCE(generic_comm_base->status, cpu_to_le16(val));
+ed42cfa881e1d8 hotran        2016-07-21  148  
+ed42cfa881e1d8 hotran        2016-07-21  149  	/* Copy the message to the PCC comm space */
+ed42cfa881e1d8 hotran        2016-07-21  150  	for (i = 0; i < sizeof(struct slimpro_resp_msg) / 4; i++)
+c7cefce03e6912 Arnd Bergmann 2016-09-09  151  		WRITE_ONCE(ptr[i], cpu_to_le32(msg[i]));
+ed42cfa881e1d8 hotran        2016-07-21  152  
+ed42cfa881e1d8 hotran        2016-07-21  153  	/* Ring the doorbell */
+ed42cfa881e1d8 hotran        2016-07-21  154  	rc = mbox_send_message(ctx->mbox_chan, msg);
+ed42cfa881e1d8 hotran        2016-07-21  155  	if (rc < 0) {
+ed42cfa881e1d8 hotran        2016-07-21  156  		dev_err(ctx->dev, "Mailbox send error %d\n", rc);
+ed42cfa881e1d8 hotran        2016-07-21  157  		goto err;
+ed42cfa881e1d8 hotran        2016-07-21  158  	}
+ed42cfa881e1d8 hotran        2016-07-21  159  	if (!wait_for_completion_timeout(&ctx->rd_complete,
+ed42cfa881e1d8 hotran        2016-07-21  160  					 usecs_to_jiffies(ctx->usecs_lat))) {
+ed42cfa881e1d8 hotran        2016-07-21  161  		dev_err(ctx->dev, "Mailbox operation timed out\n");
+ed42cfa881e1d8 hotran        2016-07-21  162  		rc = -ETIMEDOUT;
+ed42cfa881e1d8 hotran        2016-07-21  163  		goto err;
+ed42cfa881e1d8 hotran        2016-07-21  164  	}
+ed42cfa881e1d8 hotran        2016-07-21  165  
+ed42cfa881e1d8 hotran        2016-07-21  166  	/* Check for error message */
+ed42cfa881e1d8 hotran        2016-07-21  167  	if (MSG_TYPE(ctx->sync_msg.msg) == MSG_TYPE_ERR) {
+ed42cfa881e1d8 hotran        2016-07-21  168  		rc = -EINVAL;
+ed42cfa881e1d8 hotran        2016-07-21  169  		goto err;
+ed42cfa881e1d8 hotran        2016-07-21  170  	}
+ed42cfa881e1d8 hotran        2016-07-21  171  
+ed42cfa881e1d8 hotran        2016-07-21  172  	msg[0] = ctx->sync_msg.msg;
+ed42cfa881e1d8 hotran        2016-07-21  173  	msg[1] = ctx->sync_msg.param1;
+ed42cfa881e1d8 hotran        2016-07-21  174  	msg[2] = ctx->sync_msg.param2;
+ed42cfa881e1d8 hotran        2016-07-21  175  
+ed42cfa881e1d8 hotran        2016-07-21  176  err:
+ed42cfa881e1d8 hotran        2016-07-21  177  	mbox_chan_txdone(ctx->mbox_chan, 0);
+ed42cfa881e1d8 hotran        2016-07-21  178  	ctx->resp_pending = false;
+ed42cfa881e1d8 hotran        2016-07-21  179  	mutex_unlock(&ctx->rd_mutex);
+ed42cfa881e1d8 hotran        2016-07-21  180  	return rc;
+ed42cfa881e1d8 hotran        2016-07-21  181  }
+ed42cfa881e1d8 hotran        2016-07-21  182  
 
-vim +/snp_active +426 arch/x86/kvm/svm/sev.c
+:::::: The code at line 145 was first introduced by commit
+:::::: c7cefce03e691270c0e5e117248e14661e9c9cad hwmon: (xgene) access mailbox as RAM
 
-   400	
-   401	static int __sev_guest_init(struct kvm *kvm, struct kvm_sev_cmd *argp,
-   402				    struct kvm_sev_init *data,
-   403				    unsigned long vm_type)
-   404	{
-   405		struct kvm_sev_info *sev = to_kvm_sev_info(kvm);
-   406		struct sev_platform_init_args init_args = {0};
-   407		bool es_active = vm_type != KVM_X86_SEV_VM;
-   408		u64 valid_vmsa_features = es_active ? sev_supported_vmsa_features : 0;
-   409		int ret;
-   410	
-   411		if (kvm->created_vcpus)
-   412			return -EINVAL;
-   413	
-   414		if (data->flags)
-   415			return -EINVAL;
-   416	
-   417		if (data->vmsa_features & ~valid_vmsa_features)
-   418			return -EINVAL;
-   419	
-   420		if (data->ghcb_version > GHCB_VERSION_MAX || (!es_active && data->ghcb_version))
-   421			return -EINVAL;
-   422	
-   423		if (unlikely(sev->active))
-   424			return -EINVAL;
-   425	
- > 426		if (snp_active && data->ghcb_version && data->ghcb_version < 2)
-   427			return -EINVAL;
-   428	
-   429		sev->active = true;
-   430		sev->es_active = es_active;
-   431		sev->vmsa_features = data->vmsa_features;
-   432		sev->ghcb_version = data->ghcb_version;
-   433	
-   434		/*
-   435		 * Currently KVM supports the full range of mandatory features defined
-   436		 * by version 2 of the GHCB protocol, so default to that for SEV-ES
-   437		 * guests created via KVM_SEV_INIT2.
-   438		 */
-   439		if (sev->es_active && !sev->ghcb_version)
-   440			sev->ghcb_version = GHCB_VERSION_DEFAULT;
-   441	
-   442		if (vm_type == KVM_X86_SNP_VM)
-   443			sev->vmsa_features |= SVM_SEV_FEAT_SNP_ACTIVE;
-   444	
-   445		ret = sev_asid_new(sev);
-   446		if (ret)
-   447			goto e_no_asid;
-   448	
-   449		init_args.probe = false;
-   450		ret = sev_platform_init(&init_args);
-   451		if (ret)
-   452			goto e_free;
-   453	
-   454		/* This needs to happen after SEV/SNP firmware initialization. */
-   455		if (vm_type == KVM_X86_SNP_VM) {
-   456			ret = snp_guest_req_init(kvm);
-   457			if (ret)
-   458				goto e_free;
-   459		}
-   460	
-   461		INIT_LIST_HEAD(&sev->regions_list);
-   462		INIT_LIST_HEAD(&sev->mirror_vms);
-   463		sev->need_init = false;
-   464	
-   465		kvm_set_apicv_inhibit(kvm, APICV_INHIBIT_REASON_SEV);
-   466	
-   467		return 0;
-   468	
-   469	e_free:
-   470		argp->error = init_args.error;
-   471		sev_asid_free(sev);
-   472		sev->asid = 0;
-   473	e_no_asid:
-   474		sev->vmsa_features = 0;
-   475		sev->es_active = false;
-   476		sev->active = false;
-   477		return ret;
-   478	}
-   479	
+:::::: TO: Arnd Bergmann <arnd@arndb.de>
+:::::: CC: Guenter Roeck <linux@roeck-us.net>
 
 -- 
 0-DAY CI Kernel Test Service
