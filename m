@@ -1,79 +1,58 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B85722AE66
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 17:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB2A2AE66
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 17:34:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752255244; cv=none; b=leO183hYkglAU8WUO2v4V0X5onEO6u3beQjQtXkOA4ouqVx+kr1E3qFL+tdFVLbGtWrIJqWvCCQ2b3JptPHA60xrHBENC6LTOJSRmhSTV0lVDO+EW+EuiMHsspPlmzTClHkgwSd2uPifRva6BHFQk0M91UCxJzeCdluO9ETWTBY=
+	t=1752255300; cv=none; b=L4zI741gHDCfJwqmGYXLy5TO/hCh6+Fud3V96ZFMcpdNSMRJsU8u7c4T48z/BCqTnLq+vr5DOuX9JJ3vKDTMGPGt2I7QHni7fdiUQ4x1yEff3IHLOGf5YBDKSFw/eke8+/Xp/d2UpYyDcV3xu0HYWYQZYln78B+cBEdzxAEOfzQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752255244; c=relaxed/simple;
-	bh=YheUpLAaSbWrLSfr9uvkFZMV3QzgZpMF4iUrw6RPSnk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Eimy0LBnm+yQkF91Tu+e6s2b/LOtegQ6863qbaLiP/VU/9eCQJnxGihCJLKC2gKgaFO8IGXbc3VeXaZ/O7IvMQW+bNWUa0tN7xtnVvEwR52Z0rLHI4pKwyjonPef0WMqi8H91khT71G9XMkvKncwTecIRYckds4CsK+3UcOd9H4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=G/25hfbd; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1752255300; c=relaxed/simple;
+	bh=vZXHlED7p2CD1XgTgRcNUYhVanXZZCUAjfqH7hUrfzI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GblCdUbZKVjyXTsfa8fpZfbTAKySCjhkqpf/z1zLrOt8fi76UsTdtwRGK/7oKFkjMDwshp/vqkBa7AUq/qrAbFMmI8HpYQZXRHoJmYuWHSAk1WvgdSrBvaRt6Z6OZGRTBaVbq83n3JqF2vXU+SysRvR8pQYBniK+Eef5SoqhIF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bdw86xvV; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="G/25hfbd"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4a58d95ea53so29546601cf.0
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 10:34:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1752255241; x=1752860041; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zbVI5I1QFoXVsOUzX2X8p0vZv+BlFK80WUUBrHjJ1RY=;
-        b=G/25hfbdnLn861jas8KkgG9//VNeCrTHHSATm64FHpFZDn2IyAbEPyFBSr+/GbFJ04
-         0MDhBEShbgju33Uboa5NZY/vo0J36sqphiv7iwldYxlPd4p49Ch4NXso+ViC0zpJQ8lz
-         oosORO9iqYZyGc93/PMfgO29TV8SKn2a/6JFoObEd8b99LizkHgXmt8Fwf8wK8Wjc9HN
-         +uuKlxpJN4v8QSwIKRa4e6p5Uj6bnVG20w1i9Bx7FbI0H30K4Iq41PQX3ISNcaeGLb3l
-         QLfk+lL7lOu8aG4JB62CFTttu3tFAUOROvoqW7tAafkBJi2feT+oxazNaA4ZGQ208gVd
-         yy+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752255241; x=1752860041;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zbVI5I1QFoXVsOUzX2X8p0vZv+BlFK80WUUBrHjJ1RY=;
-        b=skG+m6Ynjsiz+WJBq1eFiX8hybqr8OGRNuInyWGvvzs/G36a6HKqqxPH4+1/quHoCY
-         cqWQ2p+8MrwbjkVnyQ0Aw7UEnU3U5FJJyZSxaEW3jhz0der3pugXvqyW/dBrU80o7qRL
-         TeeLtOavpfgem5C0aPydzsVf6dBtDBl9cAEYIVf8/nT5lbdqXn8NRKx0YrzIiXXQcUeE
-         9Xs97TirAUVfwEEnBEQnjOJwEpsQ/yxJnkvuHaOkcQ7cjDRyOShc8WLIx4R/MSDM6SUi
-         dqopFUBhdUsIEQz9KzO1rN83bsKcZ7R9bBbUyXvyaZeqirMU/Xcwxm1fsyX+9BGwunAf
-         wSGA==
-X-Forwarded-Encrypted: i=1; AJvYcCUS6KPPuMMml3Mlc21m7Uo2pF9tf7YnHqo1yE2R7Wv8FTYdAoZalFi/NZo1P+mnXeS28yGa70oEn+3PqwDf@lists.linux.dev
-X-Gm-Message-State: AOJu0YwsUqnKAFcTOIdtzBmEbsD+qdRetBVR/m7QCtY2ZjQ0vmrTZunu
-	PKjeB3LfOcjGdChuI9ZExkLeP8RPsWhNAaKvazJPWZa+BOaa23v7rlVL4HvHKz5+Rjc=
-X-Gm-Gg: ASbGncv7UAuB6rKmHDn1D6iZTsKfu9HeatIcgjqb5C7UizX+JThzxXE1AVhPkUodoEn
-	BFNqY8ilw5RM06CuzIrAEFXWwxD0qJRFG1Cq3jtbcyvmiVgI5fkVgb35jk/HhwKXZU8qamk7YZH
-	JglwrZrXPArNNxdIBAn4HlrqPoYwRoMZssBot2XyLSkVwHHKIWf74ErXCegODDJ5Cr2y5hjzwCe
-	Cscea78YIiBSkT1S2zz2VtndzZnLilKnctVO8TbGJSQWGy04YsE9vhEVnuBJ3qCdIuHDGUVYRER
-	pRDJ6v0s/3kpcMY5l4d0V9xJjVvqY5o49N2jpovEeNuAu1vt6bhQzj0/mzu1ESqSfUtbpg6CFWc
-	M/MwbcUBCQdRPbUQ/uraRQZh/ASCzcpLOnWaMnL7EhyBf5zK/nnW4+d4Xq5IlaXlKAZCL4rtpZw
-	==
-X-Google-Smtp-Source: AGHT+IHpAJHHkXD9R6vsbMGnar4E62cga0t4JvWO+H5hIrVMOpKDYL5YBGDXf1X3SFqXbaPr/hbPzw==
-X-Received: by 2002:a05:622a:1b93:b0:4a9:9359:4635 with SMTP id d75a77b69052e-4a9fba8a5bamr67130801cf.4.1752255241337;
-        Fri, 11 Jul 2025 10:34:01 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-167-56-70.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.56.70])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a9edc5d7e0sm23679941cf.29.2025.07.11.10.34.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jul 2025 10:34:00 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1uaHdI-00000008GBP-1Lnr;
-	Fri, 11 Jul 2025 14:34:00 -0300
-Date: Fri, 11 Jul 2025 14:34:00 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: kernel test robot <lkp@intel.com>
-Cc: Nicolin Chen <nicolinc@nvidia.com>, oe-kbuild-all@lists.linux.dev,
-	Kevin Tian <kevin.tian@intel.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>
-Subject: Re: [linux-next:master 8533/9053] include/linux/limits.h:11:25:
- warning: conversion from 'long long unsigned int' to 'long unsigned int'
- changes value from '18446744073709551615' to '4294967295'
-Message-ID: <20250711173400.GD1870174@ziepe.ca>
-References: <202507120122.8Tizf08n-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bdw86xvV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752255299; x=1783791299;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vZXHlED7p2CD1XgTgRcNUYhVanXZZCUAjfqH7hUrfzI=;
+  b=Bdw86xvVKvOH7YwByzED0gv/GM0Sac1gj5FD8EX5lQcCHj9KfIov806S
+   ngdgi+kgQ/5vjR1yT+HO+LZFMqzat/ZcpVNDAYRwvA0w9LDkt0Rm0MO0d
+   V5rW+Hyd/i7mT3UYdOWj8yExrs3YV4IgUDB9Cr8FuovPoX+IgBr4ysBG7
+   yKmQ3thuEZsnqDiAZKObKxvWAWZy3MwBNGVzzKL9FQwkydIZ3YiDr5/sX
+   PJLUgiqob0vz1+Y0pE+REgMnaeOg+KH54NPKroQ8C77jazpf1x4McyfJs
+   cZdJPo+vzGbgKPji4am2d3om3KsDoZJd9QmcPUHmxFt8CgIToSWlYWJjX
+   A==;
+X-CSE-ConnectionGUID: XVTUhu7uRECuvbB9RkiQcA==
+X-CSE-MsgGUID: X9DvVWxjT3uFx35Hlzuo+A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54415885"
+X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
+   d="scan'208";a="54415885"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 10:34:58 -0700
+X-CSE-ConnectionGUID: cePHxF82Q+GBX80vC8bWdw==
+X-CSE-MsgGUID: 7CruzdfeQ+qy1ADm0zFmbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
+   d="scan'208";a="156758533"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 11 Jul 2025 10:34:56 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uaHeA-0006bv-0K;
+	Fri, 11 Jul 2025 17:34:54 +0000
+Date: Sat, 12 Jul 2025 01:34:34 +0800
+From: kernel test robot <lkp@intel.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rgushchin:lru_note_cost.1 1/1] mm/vmscan.c:2076:34: error: passing
+ argument 1 of 'scan_balance_biased' from incompatible pointer type
+Message-ID: <202507120159.xJZov3rL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,48 +61,156 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202507120122.8Tizf08n-lkp@intel.com>
 
-On Sat, Jul 12, 2025 at 01:13:16AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   a62b7a37e6fcf4a675b1548e7c168b96ec836442
-> commit: 44b6b311bedcd301731cf16738373bd66f7e96c8 [8533/9053] iommufd: Add mmap interface
-> config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250712/202507120122.8Tizf08n-lkp@intel.com/config)
-> compiler: arc-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250712/202507120122.8Tizf08n-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507120122.8Tizf08n-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
->    In file included from include/linux/overflow.h:6,
->                     from include/linux/string.h:13,
->                     from include/linux/scatterlist.h:5,
->                     from include/linux/iommu.h:10,
->                     from drivers/iommu/iommufd/iommufd_private.h:7,
->                     from drivers/iommu/iommufd/driver.c:4:
->    drivers/iommu/iommufd/driver.c: In function '_iommufd_alloc_mmap':
-> >> include/linux/limits.h:11:25: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '18446744073709551615' to '4294967295' [-Woverflow]
->       11 | #define PHYS_ADDR_MAX   (~(phys_addr_t)0)
->          |                         ^~~~~~~~~~~~~~~~~
->    drivers/iommu/iommufd/driver.c:61:43: note: in expansion of macro 'PHYS_ADDR_MAX'
->       61 |                                PAGE_SIZE, PHYS_ADDR_MAX, GFP_KERNEL);
->          |                                           ^~~~~~~~~~~~~
+tree:   https://github.com/rgushchin/linux.git lru_note_cost.1
+head:   d5e513cdf1ec233fa62389576f6ddb1c730d9994
+commit: d5e513cdf1ec233fa62389576f6ddb1c730d9994 [1/1] mm: skip lru_note_cost() when scanning only file or anon
+config: i386-buildonly-randconfig-002-20250712 (https://download.01.org/0day-ci/archive/20250712/202507120159.xJZov3rL-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250712/202507120159.xJZov3rL-lkp@intel.com/reproduce)
 
-I fixed this like:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507120159.xJZov3rL-lkp@intel.com/
 
-@@ -58,7 +58,7 @@ int _iommufd_alloc_mmap(struct iommufd_ctx *ictx, struct iommufd_object *owner,
- 
-        /* Skip the first page to ease caller identifying the returned offset */
-        rc = mtree_alloc_range(&ictx->mt_mmap, &startp, immap, immap->length,
--                              PAGE_SIZE, PHYS_ADDR_MAX, GFP_KERNEL);
-+                              PAGE_SIZE, ULONG_MAX, GFP_KERNEL);
-        if (rc < 0) {
-                kfree(immap);
-                return rc;
+All errors (new ones prefixed by >>):
+
+   mm/vmscan.c: In function 'shrink_inactive_list':
+>> mm/vmscan.c:2076:34: error: passing argument 1 of 'scan_balance_biased' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2076 |         if (!scan_balance_biased(&sc))
+         |                                  ^~~
+         |                                  |
+         |                                  struct scan_control **
+   mm/vmscan.c:1999:54: note: expected 'struct scan_control *' but argument is of type 'struct scan_control **'
+    1999 | static bool scan_balance_biased(struct scan_control *sc)
+         |                                 ~~~~~~~~~~~~~~~~~~~~~^~
+   mm/vmscan.c: In function 'shrink_active_list':
+   mm/vmscan.c:2226:48: error: passing argument 1 of 'scan_balance_biased' from incompatible pointer type [-Werror=incompatible-pointer-types]
+    2226 |         if (nr_rotated && !scan_balance_biased(&sc))
+         |                                                ^~~
+         |                                                |
+         |                                                struct scan_control **
+   mm/vmscan.c:1999:54: note: expected 'struct scan_control *' but argument is of type 'struct scan_control **'
+    1999 | static bool scan_balance_biased(struct scan_control *sc)
+         |                                 ~~~~~~~~~~~~~~~~~~~~~^~
+   cc1: some warnings being treated as errors
 
 
-Jsaon
+vim +/scan_balance_biased +2076 mm/vmscan.c
+
+  2009	
+  2010	/*
+  2011	 * shrink_inactive_list() is a helper for shrink_node().  It returns the number
+  2012	 * of reclaimed pages
+  2013	 */
+  2014	static unsigned long shrink_inactive_list(unsigned long nr_to_scan,
+  2015			struct lruvec *lruvec, struct scan_control *sc,
+  2016			enum lru_list lru)
+  2017	{
+  2018		LIST_HEAD(folio_list);
+  2019		unsigned long nr_scanned;
+  2020		unsigned int nr_reclaimed = 0;
+  2021		unsigned long nr_taken;
+  2022		struct reclaim_stat stat;
+  2023		bool file = is_file_lru(lru);
+  2024		enum vm_event_item item;
+  2025		struct pglist_data *pgdat = lruvec_pgdat(lruvec);
+  2026		bool stalled = false;
+  2027	
+  2028		while (unlikely(too_many_isolated(pgdat, file, sc))) {
+  2029			if (stalled)
+  2030				return 0;
+  2031	
+  2032			/* wait a bit for the reclaimer. */
+  2033			stalled = true;
+  2034			reclaim_throttle(pgdat, VMSCAN_THROTTLE_ISOLATED);
+  2035	
+  2036			/* We are about to die and free our memory. Return now. */
+  2037			if (fatal_signal_pending(current))
+  2038				return SWAP_CLUSTER_MAX;
+  2039		}
+  2040	
+  2041		lru_add_drain();
+  2042	
+  2043		spin_lock_irq(&lruvec->lru_lock);
+  2044	
+  2045		nr_taken = isolate_lru_folios(nr_to_scan, lruvec, &folio_list,
+  2046					     &nr_scanned, sc, lru);
+  2047	
+  2048		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, nr_taken);
+  2049		item = PGSCAN_KSWAPD + reclaimer_offset(sc);
+  2050		if (!cgroup_reclaim(sc))
+  2051			__count_vm_events(item, nr_scanned);
+  2052		count_memcg_events(lruvec_memcg(lruvec), item, nr_scanned);
+  2053		__count_vm_events(PGSCAN_ANON + file, nr_scanned);
+  2054	
+  2055		spin_unlock_irq(&lruvec->lru_lock);
+  2056	
+  2057		if (nr_taken == 0)
+  2058			return 0;
+  2059	
+  2060		nr_reclaimed = shrink_folio_list(&folio_list, pgdat, sc, &stat, false,
+  2061						 lruvec_memcg(lruvec));
+  2062	
+  2063		spin_lock_irq(&lruvec->lru_lock);
+  2064		move_folios_to_lru(lruvec, &folio_list);
+  2065	
+  2066		__mod_lruvec_state(lruvec, PGDEMOTE_KSWAPD + reclaimer_offset(sc),
+  2067						stat.nr_demoted);
+  2068		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, -nr_taken);
+  2069		item = PGSTEAL_KSWAPD + reclaimer_offset(sc);
+  2070		if (!cgroup_reclaim(sc))
+  2071			__count_vm_events(item, nr_reclaimed);
+  2072		count_memcg_events(lruvec_memcg(lruvec), item, nr_reclaimed);
+  2073		__count_vm_events(PGSTEAL_ANON + file, nr_reclaimed);
+  2074		spin_unlock_irq(&lruvec->lru_lock);
+  2075	
+> 2076		if (!scan_balance_biased(&sc))
+  2077			lru_note_cost(lruvec, file, stat.nr_pageout,
+  2078				      nr_scanned - nr_reclaimed);
+  2079	
+  2080		/*
+  2081		 * If dirty folios are scanned that are not queued for IO, it
+  2082		 * implies that flushers are not doing their job. This can
+  2083		 * happen when memory pressure pushes dirty folios to the end of
+  2084		 * the LRU before the dirty limits are breached and the dirty
+  2085		 * data has expired. It can also happen when the proportion of
+  2086		 * dirty folios grows not through writes but through memory
+  2087		 * pressure reclaiming all the clean cache. And in some cases,
+  2088		 * the flushers simply cannot keep up with the allocation
+  2089		 * rate. Nudge the flusher threads in case they are asleep.
+  2090		 */
+  2091		if (stat.nr_unqueued_dirty == nr_taken) {
+  2092			wakeup_flusher_threads(WB_REASON_VMSCAN);
+  2093			/*
+  2094			 * For cgroupv1 dirty throttling is achieved by waking up
+  2095			 * the kernel flusher here and later waiting on folios
+  2096			 * which are in writeback to finish (see shrink_folio_list()).
+  2097			 *
+  2098			 * Flusher may not be able to issue writeback quickly
+  2099			 * enough for cgroupv1 writeback throttling to work
+  2100			 * on a large system.
+  2101			 */
+  2102			if (!writeback_throttling_sane(sc))
+  2103				reclaim_throttle(pgdat, VMSCAN_THROTTLE_WRITEBACK);
+  2104		}
+  2105	
+  2106		sc->nr.dirty += stat.nr_dirty;
+  2107		sc->nr.congested += stat.nr_congested;
+  2108		sc->nr.unqueued_dirty += stat.nr_unqueued_dirty;
+  2109		sc->nr.writeback += stat.nr_writeback;
+  2110		sc->nr.immediate += stat.nr_immediate;
+  2111		sc->nr.taken += nr_taken;
+  2112		if (file)
+  2113			sc->nr.file_taken += nr_taken;
+  2114	
+  2115		trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
+  2116				nr_scanned, nr_reclaimed, &stat, sc->priority, file);
+  2117		return nr_reclaimed;
+  2118	}
+  2119	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
