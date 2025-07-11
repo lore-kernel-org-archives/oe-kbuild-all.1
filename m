@@ -1,58 +1,64 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77B71C245C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 21:01:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFF31A7AF7;
+	Fri, 11 Jul 2025 21:42:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752267680; cv=none; b=YDw2uIYBVGhhrwq3f+4hYE8urccUt25aZp5gal8DLQaJNhDj2Flirqy8nS2ahwZ0dznBhOCa0pQEcAibtrnDPVuhEiXgiAqaNB4beVxHkbRPXJS6RIkctu87RJGyRuyI1z83s0ywZbH48Cs3m1EKMuEL8b6XcDZf1anB/lfAKzY=
+	t=1752270144; cv=none; b=OzBajkLE4QOOqf+qJpJk7n04smV92bya0Lxana+jnjPNx5TK2c13/sFTIWjrBPC5C1ngY7w2ir/fSLYTAms9o+zg+jNYkK8H3BMTT3V2LMQeb8huGMsM2PLHow0TbBiaLQeXgm+Lkqe6A7J/ljYTeRXGXn7+YunqUd1SFfu8TTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752267680; c=relaxed/simple;
-	bh=LRjqnNUn3Lp/u3WuN65PL5o1vqiRlhmwOYJ6lzQs9p0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mPKKpb5QgeEPjQHL1pPWFzyMGveXiEt3Uw/ez9xwUGFWkRzaP9jfBKiuYAnZR2wiW4pvZAlSpo4ADkORVzszWslMmEEsJOLJfvXivWbhrtXiUmWeie2oJl4M/hgl1bq9GJ60ZFP4UQMi66G7b+xJsbtn1UiTQWtCctPKgBWBFC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h2yKUZeD; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1752270144; c=relaxed/simple;
+	bh=FRJZTMDli33z+2VYtIwPjKtkzXPLWnmyhYXuUGVZ4Hc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N/3PxR8Y9rFtKVEFp0KI0flNwLHoTFRWDzk8dP7ZjPImBFsIAxsFdJPiwdQiT7RnIklg8mbdLPSqqP04TBq49wggnrvkKPj8RfqqwvuIYlUTq9c01ITQl0aluNauZ4dfybkVyxHjlzuGxTed/8ao3NenUt6IeKQgXwjWF3sYbwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZyhMw0iy; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h2yKUZeD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZyhMw0iy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752267679; x=1783803679;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LRjqnNUn3Lp/u3WuN65PL5o1vqiRlhmwOYJ6lzQs9p0=;
-  b=h2yKUZeD32EmjX+j3eWq3pp5+xaojRRxVcaeylx1stM2za8a+MGohLtW
-   g/527pIRweE184EDMrG8t2NYf35P6esCfUUtjcI4F05tbwa/nTa4WB6zo
-   K9fd/INnDCkntLIWEUxkRboks8zHN11SPsAcRPXA+ANpYHrqZn/R8gtXa
-   i3r3gK9jIHjbwUh7cH+hZtlw6cN2qCkXWXBg3P3AZqvryQd+gJvvTdDto
-   aKRi3/X0Y7EE3VsyyKyPswGpH10fuh3tCumkfWJryCDTzNJyEOm6qGWWR
-   LSJBWKYZ4YRQZkKCmYeYlbIIIGDE6u9ZSWloqVogmEDK0zGXcIPB2hIk6
-   g==;
-X-CSE-ConnectionGUID: yyEK7bI3R8y3N7nvlW/kRg==
-X-CSE-MsgGUID: 6RB/XTImSdeeeQCMfv+A0w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="58379246"
+  t=1752270142; x=1783806142;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FRJZTMDli33z+2VYtIwPjKtkzXPLWnmyhYXuUGVZ4Hc=;
+  b=ZyhMw0iyqoO6BKg1ZY98ZdWk3d0RLfZjuUlLMkLsS0pVZRz2wNJP6EXc
+   8GvT41UVlFz47z2rPQnmqNmCsCkA8qjqU6B8BqyBOKO0r22tGPYpsMLI9
+   9kr56yYE8+vjePOp+7K3c/59AyPp+rE63aZEK+SJkpuhffDLoOhS3os42
+   MJ/HqPalSuEPw36glQI6CfFteEi143St8E17K6qApiYU39LaVP8MQPM/F
+   GM1DT0rYNOiHj26c43UgD6U2jyD6B09dcO0IkTsRDRHR0QR5C4u+bDdKG
+   +gicy0qxSeVz497KmocSNZaaetiPjepaFFA64U5LOTeT6T704XV/ma7mY
+   A==;
+X-CSE-ConnectionGUID: xeUA4YpwReuRJbm9EE8yOw==
+X-CSE-MsgGUID: +phWrw11QPKbzea9+fngwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="58381143"
 X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
-   d="scan'208";a="58379246"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 14:01:17 -0700
-X-CSE-ConnectionGUID: HGKux1KnSROApiqJP25fBw==
-X-CSE-MsgGUID: lneIBGBlR0qEIZIZLMDGuQ==
+   d="scan'208";a="58381143"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 14:42:21 -0700
+X-CSE-ConnectionGUID: DLeCp0zyQniDp8k0huMS+w==
+X-CSE-MsgGUID: D+NrjiQ5QSK5LShoTx+gxA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,304,1744095600"; 
-   d="scan'208";a="180139918"
+   d="scan'208";a="160759947"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 11 Jul 2025 14:01:16 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 11 Jul 2025 14:42:19 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uaKrq-0006nP-10;
-	Fri, 11 Jul 2025 21:01:14 +0000
-Date: Sat, 12 Jul 2025 05:00:36 +0800
+	id 1uaLVZ-0006oN-0u;
+	Fri, 11 Jul 2025 21:42:17 +0000
+Date: Sat, 12 Jul 2025 05:42:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [norov:fnb 16/37] arch/powerpc/kvm/mpic.c:296:26: error: 'irq'
- undeclared; did you mean 'rq'?
-Message-ID: <202507120418.vAX30xSH-lkp@intel.com>
+To: Nikunj A Dadhania <nikunj@amd.com>, seanjc@google.com,
+	pbonzini@redhat.com, kvm@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	thomas.lendacky@amd.com, santosh.shukla@amd.com, bp@alien8.de,
+	nikunj@amd.com, Michael Roth <michael.roth@amd.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] KVM: SEV: Enforce minimum GHCB version requirement for
+ SEV-SNP guests
+Message-ID: <202507120551.iDEiTBBN-lkp@intel.com>
+References: <20250711045408.95129-1-nikunj@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,73 +67,123 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250711045408.95129-1-nikunj@amd.com>
 
-tree:   https://github.com/norov/linux fnb
-head:   870b9f6edf53871a5cc4aaf858054d8362c49989
-commit: 0b41d6e7a357f08fd23dec2bc204af5af38d7072 [16/37] power: kvm: use for_each_set_bit() in IRQ_check()
-config: powerpc-randconfig-001-20250712 (https://download.01.org/0day-ci/archive/20250712/202507120418.vAX30xSH-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250712/202507120418.vAX30xSH-lkp@intel.com/reproduce)
+Hi Nikunj,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on kvm/queue]
+[also build test ERROR on kvm/next linus/master v6.16-rc5 next-20250711]
+[cannot apply to kvm/linux-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikunj-A-Dadhania/KVM-SEV-Enforce-minimum-GHCB-version-requirement-for-SEV-SNP-guests/20250711-125527
+base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+patch link:    https://lore.kernel.org/r/20250711045408.95129-1-nikunj%40amd.com
+patch subject: [PATCH] KVM: SEV: Enforce minimum GHCB version requirement for SEV-SNP guests
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250712/202507120551.iDEiTBBN-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250712/202507120551.iDEiTBBN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507120418.vAX30xSH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507120551.iDEiTBBN-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/linux/bitmap.h:11,
-                    from include/linux/cpumask.h:12,
-                    from include/linux/smp.h:13,
-                    from include/linux/lockdep.h:14,
-                    from include/linux/spinlock.h:63,
-                    from include/linux/mmzone.h:8,
-                    from include/linux/gfp.h:7,
-                    from include/linux/slab.h:16,
-                    from arch/powerpc/kvm/mpic.c:26:
-   arch/powerpc/kvm/mpic.c: In function 'IRQ_check':
->> arch/powerpc/kvm/mpic.c:296:26: error: 'irq' undeclared (first use in this function); did you mean 'rq'?
-     296 |         for_each_set_bit(irq, q->queue, opp->max_irq) {
-         |                          ^~~
-   include/linux/find.h:586:15: note: in definition of macro 'for_each_set_bit'
-     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-         |               ^~~
-   arch/powerpc/kvm/mpic.c:296:26: note: each undeclared identifier is reported only once for each function it appears in
-     296 |         for_each_set_bit(irq, q->queue, opp->max_irq) {
-         |                          ^~~
-   include/linux/find.h:586:15: note: in definition of macro 'for_each_set_bit'
-     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-         |               ^~~
-   include/linux/find.h:586:69: warning: left-hand operand of comma expression has no effect [-Wunused-value]
-     586 |         for ((bit) = 0; (bit) = find_next_bit((addr), (size), (bit)), (bit) < (size); (bit)++)
-         |                                                                     ^
-   arch/powerpc/kvm/mpic.c:296:9: note: in expansion of macro 'for_each_set_bit'
-     296 |         for_each_set_bit(irq, q->queue, opp->max_irq) {
-         |         ^~~~~~~~~~~~~~~~
+>> arch/x86/kvm/svm/sev.c:426:6: error: use of undeclared identifier 'snp_active'
+     426 |         if (snp_active && data->ghcb_version && data->ghcb_version < 2)
+         |             ^
+   1 error generated.
 
 
-vim +296 arch/powerpc/kvm/mpic.c
+vim +/snp_active +426 arch/x86/kvm/svm/sev.c
 
-   290	
-   291	static void IRQ_check(struct openpic *opp, struct irq_queue *q)
-   292	{
-   293		int next = -1;
-   294		int priority = -1;
-   295	
- > 296		for_each_set_bit(irq, q->queue, opp->max_irq) {
-   297			pr_debug("IRQ_check: irq %d set ivpr_pr=%d pr=%d\n",
-   298				irq, IVPR_PRIORITY(opp->src[irq].ivpr), priority);
-   299	
-   300			if (IVPR_PRIORITY(opp->src[irq].ivpr) > priority) {
-   301				next = irq;
-   302				priority = IVPR_PRIORITY(opp->src[irq].ivpr);
-   303			}
-   304		}
-   305	
-   306		q->next = next;
-   307		q->priority = priority;
-   308	}
-   309	
+   400	
+   401	static int __sev_guest_init(struct kvm *kvm, struct kvm_sev_cmd *argp,
+   402				    struct kvm_sev_init *data,
+   403				    unsigned long vm_type)
+   404	{
+   405		struct kvm_sev_info *sev = to_kvm_sev_info(kvm);
+   406		struct sev_platform_init_args init_args = {0};
+   407		bool es_active = vm_type != KVM_X86_SEV_VM;
+   408		u64 valid_vmsa_features = es_active ? sev_supported_vmsa_features : 0;
+   409		int ret;
+   410	
+   411		if (kvm->created_vcpus)
+   412			return -EINVAL;
+   413	
+   414		if (data->flags)
+   415			return -EINVAL;
+   416	
+   417		if (data->vmsa_features & ~valid_vmsa_features)
+   418			return -EINVAL;
+   419	
+   420		if (data->ghcb_version > GHCB_VERSION_MAX || (!es_active && data->ghcb_version))
+   421			return -EINVAL;
+   422	
+   423		if (unlikely(sev->active))
+   424			return -EINVAL;
+   425	
+ > 426		if (snp_active && data->ghcb_version && data->ghcb_version < 2)
+   427			return -EINVAL;
+   428	
+   429		sev->active = true;
+   430		sev->es_active = es_active;
+   431		sev->vmsa_features = data->vmsa_features;
+   432		sev->ghcb_version = data->ghcb_version;
+   433	
+   434		/*
+   435		 * Currently KVM supports the full range of mandatory features defined
+   436		 * by version 2 of the GHCB protocol, so default to that for SEV-ES
+   437		 * guests created via KVM_SEV_INIT2.
+   438		 */
+   439		if (sev->es_active && !sev->ghcb_version)
+   440			sev->ghcb_version = GHCB_VERSION_DEFAULT;
+   441	
+   442		if (vm_type == KVM_X86_SNP_VM)
+   443			sev->vmsa_features |= SVM_SEV_FEAT_SNP_ACTIVE;
+   444	
+   445		ret = sev_asid_new(sev);
+   446		if (ret)
+   447			goto e_no_asid;
+   448	
+   449		init_args.probe = false;
+   450		ret = sev_platform_init(&init_args);
+   451		if (ret)
+   452			goto e_free;
+   453	
+   454		/* This needs to happen after SEV/SNP firmware initialization. */
+   455		if (vm_type == KVM_X86_SNP_VM) {
+   456			ret = snp_guest_req_init(kvm);
+   457			if (ret)
+   458				goto e_free;
+   459		}
+   460	
+   461		INIT_LIST_HEAD(&sev->regions_list);
+   462		INIT_LIST_HEAD(&sev->mirror_vms);
+   463		sev->need_init = false;
+   464	
+   465		kvm_set_apicv_inhibit(kvm, APICV_INHIBIT_REASON_SEV);
+   466	
+   467		return 0;
+   468	
+   469	e_free:
+   470		argp->error = init_args.error;
+   471		sev_asid_free(sev);
+   472		sev->asid = 0;
+   473	e_no_asid:
+   474		sev->vmsa_features = 0;
+   475		sev->es_active = false;
+   476		sev->active = false;
+   477		return ret;
+   478	}
+   479	
 
 -- 
 0-DAY CI Kernel Test Service
