@@ -1,68 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832881DED5B
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 11:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77E50146585;
+	Fri, 11 Jul 2025 11:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752231873; cv=none; b=YGk/RsGaUtNSYLxhVfNvtVjHYnYOYH1zIMDsDH9PLV+/MGgP3FwGxR8yNOyBWbq0oWAucdSBAU4BGOsYkMzvUd+gzpPR2sgD0vyDMb/605QClMIGube1VbcCxldHXQ61A2Cplkkyg4PDfM642KQSl01/eaV2NHi2kk0FJ4U4guY=
+	t=1752233666; cv=none; b=SAXK14fcMQfvPGXXHBXBBXxuJY1HRxDF30ox25vPf43yzKvOMu9U02A7rWy6jcpZuo053CNgxlHW4f0YybzAMi+i/xAzSRtNPSAVI3Bh7dAav7N/WU6OBhJfRYnUoYIhE+/iRm2h6AIHohLqI8DyUQFwT0t4IQoAOIfOwEs8B8c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752231873; c=relaxed/simple;
-	bh=nFLgi7//BECQmXxDWxXRsQ3oWB5Qx+laxM0VeYpYygc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M1hRm3bIuhOsCOolrp1/+QicSJqzlv/az9SIhkCB5vvw5zUa8bT3Rh322a02v9Kbn9e+ws9LVsRjRcdY3hrCSIkqJnyHZ3+GJ3/1veDXqYa9lFaprhkNr+uXQJK7a7HSKqXR2si0cKXkeK1YFsfD/SpqHGTajpiaW9SCbStNbnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=C91tenZg; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1752233666; c=relaxed/simple;
+	bh=aXTVGUhW1HcLpeK28p67mQY3DlIvZ++HGx1KWG7c1mc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nDCabkEGbrbqVVAOxzbt8dA36WzTLalSFG0Q1Hm7hyWFqTiKPWX2AALVPZa6c47lnmM8QIhesoBrT1M1LdB/Z7VZFwOOTugL903NNGavOVFFJFL3S/bixJHY0EtUxsiqMD842tyHJgq4dXFtSL+ATJuCYi0SUP6sEJ7ae6+/O2o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nW12yzoA; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="C91tenZg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nW12yzoA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752231872; x=1783767872;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nFLgi7//BECQmXxDWxXRsQ3oWB5Qx+laxM0VeYpYygc=;
-  b=C91tenZgC6MpStFkIdbr9DFp5o7iu9gVCRl1XaEejv+jHwvHDpmh2A/t
-   7iILBiW537X9MsYavYjVlCRYK41O0Rz4fdibQuJRGRlYLPFeGxKYt5DJd
-   aZrRZoqCjS8WKL4iwp/bTFE/xFyC94dUkhSS/N1y3OvIL6iFFK6LUYWAl
-   kSyiNlRZ62OC12JvqdG2L7YjJyp4P262HuzCm+hsb5HPeJHFMg+YaPNcb
-   iFVHjCdh1uDbihsq0ZmswzKQB7J11wYBKauWKmHuZLo5SYE5LABH08/I9
-   8In8PNFyoxCmXyE4PxjztG1mFne1sMNEgqAu02IX4s2xTsjMYDYC1pEgQ
-   A==;
-X-CSE-ConnectionGUID: VpS8PWUFRoWvPrI6qZD8Dw==
-X-CSE-MsgGUID: RGiBcjiPRqWLOvXxGz1tWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="58291539"
+  t=1752233665; x=1783769665;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=aXTVGUhW1HcLpeK28p67mQY3DlIvZ++HGx1KWG7c1mc=;
+  b=nW12yzoAUlH/ORe+BOaYbXGKeT0GVdMUlHvJlBX8SfiJvIbtOirS5zMb
+   s+etGgyAXfzxQnKYMKYrDdsGSmZWnL5BcQcXKmhaClfR01n0UMB2RUvlr
+   YhaHdWDDU4yrtQcI1IuTTK3tZDJahYzTD/JEMz2KPxo54cbGFJQ0R+2pv
+   MwQWscZxIJJaL/empbw5MXI+aJUvyRgHHV6wMp6XOyfkTDN2YvChJh4EZ
+   ksLqzbeRVWbRRr/2y9ave+tHHmoz/ehCGxHclW+cT75EV3rlRDC6EaeyC
+   GSggQuHkiXP5PdTXm/pWEowy1GFb/uWQfaOXaucPMyIPKQISUoAGnLGPi
+   w==;
+X-CSE-ConnectionGUID: gqslWlnuQdGYrJXgaFn3Wg==
+X-CSE-MsgGUID: QGQNeCY5S3yOVcXQUSF5dg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="71979462"
 X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
-   d="scan'208";a="58291539"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 04:03:23 -0700
-X-CSE-ConnectionGUID: k8Eh6q1JQ1KZfBO6cJAURA==
-X-CSE-MsgGUID: xfwK3S46RCGxcTshm6tHJg==
+   d="scan'208";a="71979462"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 04:34:24 -0700
+X-CSE-ConnectionGUID: EmxAjyUSRGiIdPaue3nG2w==
+X-CSE-MsgGUID: 7ghLkjWFTYighSMIJyneQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
-   d="scan'208";a="156837141"
+   d="scan'208";a="156683228"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 11 Jul 2025 04:03:20 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 11 Jul 2025 04:34:22 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uaBXB-0006Hf-1v;
-	Fri, 11 Jul 2025 11:03:17 +0000
-Date: Fri, 11 Jul 2025 19:02:47 +0800
+	id 1uaC1E-0006Ip-0b;
+	Fri, 11 Jul 2025 11:34:20 +0000
+Date: Fri, 11 Jul 2025 19:34:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: admiyo@os.amperecomputing.com, Jeremy Kerr <jk@codeconstruct.com.au>,
-	Matt Johnston <matt@codeconstruct.com.au>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Sudeep Holla <sudeep.holla@arm.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Huisong Li <lihuisong@huawei.com>
-Subject: Re: [PATCH net-next v22 2/2] mctp pcc: Implement MCTP over PCC
- Transport
-Message-ID: <202507111843.OV6uA3Jr-lkp@intel.com>
-References: <20250710191209.737167-3-admiyo@os.amperecomputing.com>
+To: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	"Steven Rostedt (Google)" <rostedt@goodmis.org>
+Subject: [trace:unwind/sframe 21/26] vmlinux.o: error: objtool:
+ sframe_find+0x54b: call to __asan_memset() with UACCESS enabled
+Message-ID: <202507111950.6Kc6b21t-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,61 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250710191209.737167-3-admiyo@os.amperecomputing.com>
 
-Hi,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on net-next/main]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mailbox-pcc-support-mailbox-management-of-the-shared-buffer/20250711-031525
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250710191209.737167-3-admiyo%40os.amperecomputing.com
-patch subject: [PATCH net-next v22 2/2] mctp pcc: Implement MCTP over PCC Transport
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250711/202507111843.OV6uA3Jr-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace unwind/sframe
+head:   1f143aea4ed5e05a960788d5c6f5bfc8c53eb4ea
+commit: 90b8e7010c9cbc9b793f7f2b9cdc51bdc24bcbaf [21/26] unwind_user/sframe/x86: Enable sframe unwinding on x86
+config: x86_64-randconfig-075-20250711 (https://download.01.org/0day-ci/archive/20250711/202507111950.6Kc6b21t-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507111843.OV6uA3Jr-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507111950.6Kc6b21t-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507111843.OV6uA3Jr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507111950.6Kc6b21t-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/mctp/mctp-pcc.c:71:8: warning: variable 'skb_buf' set but not used [-Wunused-but-set-variable]
-      71 |         void *skb_buf;
-         |               ^
-   1 warning generated.
-
-
-vim +/skb_buf +71 drivers/net/mctp/mctp-pcc.c
-
-    65	
-    66	static void *mctp_pcc_rx_alloc(struct mbox_client *c, int size)
-    67	{
-    68		struct mctp_pcc_mailbox *box;
-    69		struct mctp_pcc_ndev *mctp_pcc_ndev;
-    70		struct sk_buff *skb;
-  > 71		void *skb_buf;
-    72	
-    73		box = container_of(c, struct mctp_pcc_mailbox, client);
-    74		mctp_pcc_ndev = container_of(c, struct mctp_pcc_ndev, inbox.client);
-    75		if (size > mctp_pcc_ndev->mdev.dev->mtu)
-    76			return NULL;
-    77		mctp_pcc_ndev = container_of(c, struct mctp_pcc_ndev, inbox.client);
-    78		skb = netdev_alloc_skb(mctp_pcc_ndev->mdev.dev, size);
-    79		if (!skb)
-    80			return NULL;
-    81		skb_buf = skb_put(skb, size);
-    82		skb->protocol = htons(ETH_P_MCTP);
-    83	
-    84		skb_queue_head(&box->packets, skb);
-    85	
-    86		return skb->data;
-    87	}
-    88	
+>> vmlinux.o: error: objtool: sframe_find+0x54b: call to __asan_memset() with UACCESS enabled
 
 -- 
 0-DAY CI Kernel Test Service
