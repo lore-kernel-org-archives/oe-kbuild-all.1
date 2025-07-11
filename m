@@ -1,60 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE0E2EAE5
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 04:34:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94C7D78C91
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 04:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752208482; cv=none; b=tBofS/4ufnze4IWvfrjQMzPGILcyLRCXPl2u/FfEQ8xZ6KAgDE0RzdOChk2lhxXRpJn4EG+3UOviWsDAyaIO5J1B/XPaZDHXIGSObs97cwn/SM3BuXrHS5ubKX4KLBGNxMf6BBO2rx9dAOlLyfhGAK5SR4gnR8L69+Shw24n8GE=
+	t=1752209745; cv=none; b=QzHEg4wgPIl6+fCXbmBkHWV2nzNTg2y0BP+DSp6L8kX+2fYB+ZkVF8Hkkw/YZevKCbVy8hR5+e//u7H+u6ZaOXJAHGsyUTK4mJVgB5hHRbHeJwxXo/cbl/lrTWTcyzB8jNRSfROoA017KvAu9wd4Op0UEp2pu9rK1d3+z3M+aHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752208482; c=relaxed/simple;
-	bh=MK22sg89XlnSYp8eyclLApKr7lH/W6tcGeqMnKq43Iw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U5v7QvNwTEAlZWSMXjHfZZeeZTMguxmpDEEwZWTTRy2zy6ROih9/9GDkP9kGrk6eTET5JPhDrXYSojYSzsOzXQrI7isqUNkaXTDoTOqfq0wugO0d/EhMRNus5XSTh3+UueL/tl8gDctmqdyHZEibeqcUKeKWZv0MJbnDHKA+AmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i8DYcnNh; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1752209745; c=relaxed/simple;
+	bh=nmDjlbCtjRN5C7WrKYk6tvhMqcBpnIIFxiZRtcoyhzk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sedRUGVpBvV1mnpr1Q+YgrODlecPSJ40l8s5QO8wrmK4G2bpD1j9pK9EoQZ5rFYvNsznggYYVHKaGXaaZFsIU9Uj5vRAR4fvIxrwS5zDHyB4N1IOtsgwol80dE7QjShm8y+mvK9b0y/d2YnW2aMrfV5hjntlIhnDFZrKjod55YQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kOV1AXLd; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i8DYcnNh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kOV1AXLd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752208481; x=1783744481;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=MK22sg89XlnSYp8eyclLApKr7lH/W6tcGeqMnKq43Iw=;
-  b=i8DYcnNhOJgaACk2JqGVGJWKM+hrIfgYvUkRU6rgbKy6B3Evzi53jekS
-   315vC22m64imakIrb/n46PYja/MOP2k7KUqWmB/v+TkHtJUNBue0TJT35
-   TrVqpn6U0Hv5ya0s02n59+abUXUbkCplPVhhfkUW3cJKQ4U/k+pnnHa+8
-   HBuh5rORsxjcFpIo3vJHCras5TTE2/K+blkHcYsFWcDa/tWQ8OD4pOSf8
-   Rb/klmhexZ+8RJ6VgksAQ26ePUPXQcbPOWgDDpoQgIZVSJbRCL0jmyOjk
-   oXkKesdL9G/BrxMNgOpKXf06RxcDnQRz/bzkL6cbvYSVGPbBoSX9a50iP
-   A==;
-X-CSE-ConnectionGUID: H63SXs9ZS0ufK8Ec8Ty2OA==
-X-CSE-MsgGUID: ZMtVfKC/Sl+/VdWlXIgdWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="65851761"
+  t=1752209743; x=1783745743;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nmDjlbCtjRN5C7WrKYk6tvhMqcBpnIIFxiZRtcoyhzk=;
+  b=kOV1AXLdOsQQNGERSuN558TzngvBI2HnviHFzG8x/s/NlY6aIaTJIphV
+   94q0cBkNH2PL93YXoQKdSfDtX7iApJQxMzCoprpgi5/qLFkLZyCH7Zagm
+   XPukdDnZmpuKDHOyspkUhZ3B1O8uBheb/9s8xp7fxpRhGxIxy/LLpiUu4
+   x8Z/4/hsLug1INH2bMkLOuVAGyN1YmeFGfMJNcgLnIzmXrVZxGYn83mpO
+   yJ80/Vv1bXAHri6Eiqm1Ph6F+4tg18jKT3zuU6PBIVxgIw04Ui3ruWIDR
+   38qmHht+qJpeoycH+0R/9x5ZA3cayK/Qr4EFRy1/e2Y3C7MysITRc8fzP
+   Q==;
+X-CSE-ConnectionGUID: qqfaJKgUQI+uEVh/G0LnlA==
+X-CSE-MsgGUID: 49Spxnb3RiqH+fbOkt2xPw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="57116486"
 X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="65851761"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 21:34:40 -0700
-X-CSE-ConnectionGUID: Q28xVhfcQyW0K4WevK5T0Q==
-X-CSE-MsgGUID: sfSURLv7Rk+W/wbXnuKBRQ==
+   d="scan'208";a="57116486"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 21:55:43 -0700
+X-CSE-ConnectionGUID: YtYsmBWPREyJANI0l56+JQ==
+X-CSE-MsgGUID: Bp8nS3xdSoi3h3zGapZN9A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="160825441"
+   d="scan'208";a="187263438"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 10 Jul 2025 21:34:38 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 10 Jul 2025 21:55:40 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ua5T1-0005sX-39;
-	Fri, 11 Jul 2025 04:34:35 +0000
-Date: Fri, 11 Jul 2025 12:34:04 +0800
+	id 1ua5nN-0005tD-2R;
+	Fri, 11 Jul 2025 04:55:37 +0000
+Date: Fri, 11 Jul 2025 12:55:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: [akpm-mm:mm-unstable 26/150] kernel/kexec_core.c:1138:2: warning:
- label 'Resume_console' defined but not used
-Message-ID: <202507111233.6hEIDvp9-lkp@intel.com>
+To: Remi Buisson via B4 Relay <devnull+remi.buisson.tdk.com@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	Remi Buisson <remi.buisson@tdk.com>
+Subject: Re: [PATCH v2 6/8] iio: imu: inv_icm45600: add SPI driver for
+ inv_icm45600 driver
+Message-ID: <202507111201.r62j5rb6-lkp@intel.com>
+References: <20250710-add_newport_driver-v2-6-bf76d8142ef2@tdk.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,124 +71,116 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250710-add_newport_driver-v2-6-bf76d8142ef2@tdk.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-unstable
-head:   bd79eb3668131377915b42d2feaeb8e829abe7e7
-commit: fbb5aa47e7b06b935124ad4d171d468e48368398 [26/150] kexec_core: fix error code path in the KEXEC_JUMP flow
-config: i386-buildonly-randconfig-001-20250711 (https://download.01.org/0day-ci/archive/20250711/202507111233.6hEIDvp9-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507111233.6hEIDvp9-lkp@intel.com/reproduce)
+Hi Remi,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on f8f559752d573a051a984adda8d2d1464f92f954]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Remi-Buisson-via-B4-Relay/dt-bindings-iio-imu-Add-inv_icm45600/20250710-170143
+base:   f8f559752d573a051a984adda8d2d1464f92f954
+patch link:    https://lore.kernel.org/r/20250710-add_newport_driver-v2-6-bf76d8142ef2%40tdk.com
+patch subject: [PATCH v2 6/8] iio: imu: inv_icm45600: add SPI driver for inv_icm45600 driver
+config: mips-randconfig-r072-20250711 (https://download.01.org/0day-ci/archive/20250711/202507111201.r62j5rb6-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507111201.r62j5rb6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507111233.6hEIDvp9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507111201.r62j5rb6-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   kernel/kexec_core.c: In function 'kernel_kexec':
->> kernel/kexec_core.c:1138:2: warning: label 'Resume_console' defined but not used [-Wunused-label]
-    1138 |  Resume_console:
-         |  ^~~~~~~~~~~~~~
+>> drivers/iio/imu/inv_icm45600/inv_icm45600_accel.c:107:7: warning: variable 'sleep' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     107 |                 if (*scan_mask & (BIT(INV_ICM45600_ACCEL_SCAN_X) |
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     108 |                                  BIT(INV_ICM45600_ACCEL_SCAN_Y) |
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     109 |                                  BIT(INV_ICM45600_ACCEL_SCAN_Z))) {
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/inv_icm45600/inv_icm45600_accel.c:123:6: note: uninitialized use occurs here
+     123 |         if (sleep)
+         |             ^~~~~
+   drivers/iio/imu/inv_icm45600/inv_icm45600_accel.c:107:3: note: remove the 'if' if its condition is always true
+     107 |                 if (*scan_mask & (BIT(INV_ICM45600_ACCEL_SCAN_X) |
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     108 |                                  BIT(INV_ICM45600_ACCEL_SCAN_Y) |
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     109 |                                  BIT(INV_ICM45600_ACCEL_SCAN_Z))) {
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/inv_icm45600/inv_icm45600_accel.c:100:20: note: initialize the variable 'sleep' to silence this warning
+     100 |         unsigned int sleep;
+         |                           ^
+         |                            = 0
+   1 warning generated.
+--
+>> drivers/iio/imu/inv_icm45600/inv_icm45600_gyro.c:107:7: warning: variable 'sleep' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+     107 |                 if (*scan_mask & (BIT(INV_ICM45600_GYRO_SCAN_X) |
+         |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     108 |                                  BIT(INV_ICM45600_GYRO_SCAN_Y) |
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     109 |                                  BIT(INV_ICM45600_GYRO_SCAN_Z))) {
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/inv_icm45600/inv_icm45600_gyro.c:121:6: note: uninitialized use occurs here
+     121 |         if (sleep)
+         |             ^~~~~
+   drivers/iio/imu/inv_icm45600/inv_icm45600_gyro.c:107:3: note: remove the 'if' if its condition is always true
+     107 |                 if (*scan_mask & (BIT(INV_ICM45600_GYRO_SCAN_X) |
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     108 |                                  BIT(INV_ICM45600_GYRO_SCAN_Y) |
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     109 |                                  BIT(INV_ICM45600_GYRO_SCAN_Z))) {
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/imu/inv_icm45600/inv_icm45600_gyro.c:100:20: note: initialize the variable 'sleep' to silence this warning
+     100 |         unsigned int sleep;
+         |                           ^
+         |                            = 0
+   1 warning generated.
 
 
-vim +/Resume_console +1138 kernel/kexec_core.c
+vim +107 drivers/iio/imu/inv_icm45600/inv_icm45600_accel.c
 
-7e99f8b69c11c1 Ricardo Ribalda       2023-01-04  1050  
-2965faa5e03d1e Dave Young            2015-09-09  1051  /*
-2965faa5e03d1e Dave Young            2015-09-09  1052   * Move into place and start executing a preloaded standalone
-2965faa5e03d1e Dave Young            2015-09-09  1053   * executable.  If nothing was preloaded return an error.
-2965faa5e03d1e Dave Young            2015-09-09  1054   */
-2965faa5e03d1e Dave Young            2015-09-09  1055  int kernel_kexec(void)
-2965faa5e03d1e Dave Young            2015-09-09  1056  {
-2965faa5e03d1e Dave Young            2015-09-09  1057  	int error = 0;
-2965faa5e03d1e Dave Young            2015-09-09  1058  
-05c6257433b721 Valentin Schneider    2022-06-30  1059  	if (!kexec_trylock())
-2965faa5e03d1e Dave Young            2015-09-09  1060  		return -EBUSY;
-2965faa5e03d1e Dave Young            2015-09-09  1061  	if (!kexec_image) {
-2965faa5e03d1e Dave Young            2015-09-09  1062  		error = -EINVAL;
-2965faa5e03d1e Dave Young            2015-09-09  1063  		goto Unlock;
-2965faa5e03d1e Dave Young            2015-09-09  1064  	}
-2965faa5e03d1e Dave Young            2015-09-09  1065  
-2965faa5e03d1e Dave Young            2015-09-09  1066  #ifdef CONFIG_KEXEC_JUMP
-2965faa5e03d1e Dave Young            2015-09-09  1067  	if (kexec_image->preserve_context) {
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1068  		/*
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1069  		 * This flow is analogous to hibernation flows that occur
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1070  		 * before creating an image and before jumping from the
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1071  		 * restore kernel to the image one, so it uses the same
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1072  		 * device callbacks as those two flows.
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1073  		 */
-2965faa5e03d1e Dave Young            2015-09-09  1074  		pm_prepare_console();
-2965faa5e03d1e Dave Young            2015-09-09  1075  		error = freeze_processes();
-2965faa5e03d1e Dave Young            2015-09-09  1076  		if (error) {
-2965faa5e03d1e Dave Young            2015-09-09  1077  			error = -EBUSY;
-2965faa5e03d1e Dave Young            2015-09-09  1078  			goto Restore_console;
-2965faa5e03d1e Dave Young            2015-09-09  1079  		}
-e9cec4487cb789 Marcos Paulo de Souza 2025-02-26  1080  		console_suspend_all();
-2965faa5e03d1e Dave Young            2015-09-09  1081  		error = dpm_suspend_start(PMSG_FREEZE);
-2965faa5e03d1e Dave Young            2015-09-09  1082  		if (error)
-fbb5aa47e7b06b Rafael J. Wysocki     2025-07-10  1083  			goto Resume_devices;
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1084  		/*
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1085  		 * dpm_suspend_end() must be called after dpm_suspend_start()
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1086  		 * to complete the transition, like in the hibernation flows
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1087  		 * mentioned above.
-2965faa5e03d1e Dave Young            2015-09-09  1088  		 */
-2965faa5e03d1e Dave Young            2015-09-09  1089  		error = dpm_suspend_end(PMSG_FREEZE);
-2965faa5e03d1e Dave Young            2015-09-09  1090  		if (error)
-2965faa5e03d1e Dave Young            2015-09-09  1091  			goto Resume_devices;
-2f1a6fbbef7781 Nicholas Piggin       2019-04-11  1092  		error = suspend_disable_secondary_cpus();
-2965faa5e03d1e Dave Young            2015-09-09  1093  		if (error)
-2965faa5e03d1e Dave Young            2015-09-09  1094  			goto Enable_cpus;
-2965faa5e03d1e Dave Young            2015-09-09  1095  		local_irq_disable();
-2965faa5e03d1e Dave Young            2015-09-09  1096  		error = syscore_suspend();
-2965faa5e03d1e Dave Young            2015-09-09  1097  		if (error)
-2965faa5e03d1e Dave Young            2015-09-09  1098  			goto Enable_irqs;
-2965faa5e03d1e Dave Young            2015-09-09  1099  	} else
-2965faa5e03d1e Dave Young            2015-09-09  1100  #endif
-2965faa5e03d1e Dave Young            2015-09-09  1101  	{
-2965faa5e03d1e Dave Young            2015-09-09  1102  		kexec_in_progress = true;
-a119b4e5186c28 Joe LeVeque           2021-05-06  1103  		kernel_restart_prepare("kexec reboot");
-2965faa5e03d1e Dave Young            2015-09-09  1104  		migrate_to_reboot_cpu();
-7bb943806ff61e James Gowans          2023-12-13  1105  		syscore_shutdown();
-2965faa5e03d1e Dave Young            2015-09-09  1106  
-2965faa5e03d1e Dave Young            2015-09-09  1107  		/*
-2965faa5e03d1e Dave Young            2015-09-09  1108  		 * migrate_to_reboot_cpu() disables CPU hotplug assuming that
-2965faa5e03d1e Dave Young            2015-09-09  1109  		 * no further code needs to use CPU hotplug (which is true in
-2965faa5e03d1e Dave Young            2015-09-09  1110  		 * the reboot case). However, the kexec path depends on using
-2965faa5e03d1e Dave Young            2015-09-09  1111  		 * CPU hotplug again; so re-enable it here.
-2965faa5e03d1e Dave Young            2015-09-09  1112  		 */
-2965faa5e03d1e Dave Young            2015-09-09  1113  		cpu_hotplug_enable();
-d42cc530b18db2 Pavel Tatashin        2019-12-04  1114  		pr_notice("Starting new kernel\n");
-2965faa5e03d1e Dave Young            2015-09-09  1115  		machine_shutdown();
-2965faa5e03d1e Dave Young            2015-09-09  1116  	}
-2965faa5e03d1e Dave Young            2015-09-09  1117  
-b2075dbb15d7ae Pavel Tatashin        2021-05-06  1118  	kmsg_dump(KMSG_DUMP_SHUTDOWN);
-2965faa5e03d1e Dave Young            2015-09-09  1119  	machine_kexec(kexec_image);
-2965faa5e03d1e Dave Young            2015-09-09  1120  
-2965faa5e03d1e Dave Young            2015-09-09  1121  #ifdef CONFIG_KEXEC_JUMP
-2965faa5e03d1e Dave Young            2015-09-09  1122  	if (kexec_image->preserve_context) {
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1123  		/*
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1124  		 * This flow is analogous to hibernation flows that occur after
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1125  		 * creating an image and after the image kernel has got control
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1126  		 * back, and in case the devices have been reset or otherwise
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1127  		 * manipulated in the meantime, it uses the device callbacks
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1128  		 * used by the latter.
-dc6ffa6cd52d2c Rafael J. Wysocki     2025-01-09  1129  		 */
-2965faa5e03d1e Dave Young            2015-09-09  1130  		syscore_resume();
-2965faa5e03d1e Dave Young            2015-09-09  1131   Enable_irqs:
-2965faa5e03d1e Dave Young            2015-09-09  1132  		local_irq_enable();
-2965faa5e03d1e Dave Young            2015-09-09  1133   Enable_cpus:
-2f1a6fbbef7781 Nicholas Piggin       2019-04-11  1134  		suspend_enable_secondary_cpus();
-2965faa5e03d1e Dave Young            2015-09-09  1135  		dpm_resume_start(PMSG_RESTORE);
-2965faa5e03d1e Dave Young            2015-09-09  1136   Resume_devices:
-2965faa5e03d1e Dave Young            2015-09-09  1137  		dpm_resume_end(PMSG_RESTORE);
-2965faa5e03d1e Dave Young            2015-09-09 @1138   Resume_console:
-
-:::::: The code at line 1138 was first introduced by commit
-:::::: 2965faa5e03d1e71e9ff9aa143fff39e0a77543a kexec: split kexec_load syscall from kexec core code
-
-:::::: TO: Dave Young <dyoung@redhat.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+1fb5c2bf7348d06 Remi Buisson 2025-07-10   91  
+1fb5c2bf7348d06 Remi Buisson 2025-07-10   92  /* enable accelerometer sensor and FIFO write */
+1fb5c2bf7348d06 Remi Buisson 2025-07-10   93  static int inv_icm45600_accel_update_scan_mode(struct iio_dev *indio_dev,
+1fb5c2bf7348d06 Remi Buisson 2025-07-10   94  					       const unsigned long *scan_mask)
+1fb5c2bf7348d06 Remi Buisson 2025-07-10   95  {
+1fb5c2bf7348d06 Remi Buisson 2025-07-10   96  	struct inv_icm45600_state *st = iio_device_get_drvdata(indio_dev);
+1fb5c2bf7348d06 Remi Buisson 2025-07-10   97  	struct inv_icm45600_sensor_state *accel_st = iio_priv(indio_dev);
+1fb5c2bf7348d06 Remi Buisson 2025-07-10   98  	struct inv_icm45600_sensor_conf conf = INV_ICM45600_SENSOR_CONF_INIT;
+1fb5c2bf7348d06 Remi Buisson 2025-07-10   99  	unsigned int fifo_en = 0;
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  100  	unsigned int sleep;
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  101  	int ret;
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  102  
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  103  	scoped_guard(mutex, &st->lock) {
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  104  		if (*scan_mask & BIT(INV_ICM45600_ACCEL_SCAN_TEMP))
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  105  			fifo_en |= INV_ICM45600_SENSOR_TEMP;
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  106  
+1fb5c2bf7348d06 Remi Buisson 2025-07-10 @107  		if (*scan_mask & (BIT(INV_ICM45600_ACCEL_SCAN_X) |
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  108  				 BIT(INV_ICM45600_ACCEL_SCAN_Y) |
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  109  				 BIT(INV_ICM45600_ACCEL_SCAN_Z))) {
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  110  			/* enable accel sensor */
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  111  			conf.mode = accel_st->power_mode;
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  112  			ret = inv_icm45600_set_accel_conf(st, &conf, &sleep);
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  113  			if (ret)
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  114  				return ret;
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  115  			fifo_en |= INV_ICM45600_SENSOR_ACCEL;
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  116  		}
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  117  
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  118  		/* Update data FIFO write. */
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  119  		ret = inv_icm45600_buffer_set_fifo_en(st, fifo_en | st->fifo.en);
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  120  	}
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  121  
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  122  	/* Sleep required time. */
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  123  	if (sleep)
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  124  		msleep(sleep);
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  125  
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  126  	return ret;
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  127  }
+1fb5c2bf7348d06 Remi Buisson 2025-07-10  128  
 
 -- 
 0-DAY CI Kernel Test Service
