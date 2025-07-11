@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5909C376
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 00:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 350AAC120
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 00:35:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752192681; cv=none; b=iPsFoztXNQNdQFlfeJsXZNDVTbGQf+CC7xV4ZNvhbBCIjiM1+eyePOOzImA7jvOBFNgdqWbvniT4UQFXwegMVqP3oQ+Vp0NCBRx3q0Otg7bR92G8OmPaAuUfNPooSTEsk9UeMnACeIIPop9YKAoBVVClHVJiZ7zp57VCK0rQP28=
+	t=1752194123; cv=none; b=UBxG5ozXh0rtTmAjsAnQVcakMfoxFrTXztutRzxZt5juUuQgmqDqkbHyD8X8aClmQXkncbU7ZypMHzg0DOVn4z9//Ri7LjFhusegunxBxEWRVxvQdKRV5IeoD3DruJc2GYytoibjy+mjXNOS0ipctabMv6TaKY5Uo9ZzgoMidIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752192681; c=relaxed/simple;
-	bh=q+XZfx7gZD4E3O+O4tYJOtPDBJ/HSvsD8dBMmUrb7RA=;
+	s=arc-20240116; t=1752194123; c=relaxed/simple;
+	bh=uW8qZejl2fzr/fsTLEgQKFxG+XoPUs/l7q/JHEQ8kdg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n5+L0UKRjWT9LY/z7wUMHAxhWLXJVmcV4aR/hmTgjDBkq8Mcz/m/LL5eYFJTwRXFmdteMlLBOGvz7vD1VJfBvrxMGqEOsCrgl/SBUi8UrzMqW668Y0GPcfFhrbo9kjXvQD+X5ZIoe8fT6jDpjtj87Vg6G9a4AOrd5XaTG6hUiMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FbYLLcFh; arc=none smtp.client-ip=192.198.163.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=HokylPvJ5aI34zrCNG0v9cKR48cRa2pF3QFJeDbrap6xR3uhvA9ZiCIWIk7aAh+hMM1YkEbgi27OXoIeHppf7axD51Jo+1WWmsPMuf3P8I3Ibcm/srMijLmMA2VNbuxbUmIyJEO9C2pnybmgacMhz0RaBNJWxtAgNHbdHSgcGsI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mwEulz0H; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FbYLLcFh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mwEulz0H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752192679; x=1783728679;
+  t=1752194122; x=1783730122;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=q+XZfx7gZD4E3O+O4tYJOtPDBJ/HSvsD8dBMmUrb7RA=;
-  b=FbYLLcFhNQFV+v1u/IvKLoiIM21kN2vQMAKJhbkC6KCjxj0ijopoxOge
-   wA3QdWhSrd6sb/WPiS2Dq9mVbLZH82RHD0r2DEMYD7o3BKUC/MOANsoht
-   rIuY2j1ulUmIC1y9phArAJ677As+MSdGfSmpmTfjQJI9toNVzfjhJj6/G
-   /6r7UxawgoJqYLtmC+ho53Gyv5CFYEMuvgsO16tTm/9dGtkb7BgAYE9mp
-   ufrUadBp9tUhclhOCzb0NN4/kjkQHg6pa1qpFvt9eamVzX/WWD86lMeCg
-   MUBTb6eBwujoqM1lkQkPuJWpgd9Uf5K+dxtsI4iPtyudVU8Y7nNg0wPap
-   A==;
-X-CSE-ConnectionGUID: 7Jw98QfsQ9mF/iqV3uDZzw==
-X-CSE-MsgGUID: BXYj26YOTvWEyIh5Xw4DEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="65187005"
+  bh=uW8qZejl2fzr/fsTLEgQKFxG+XoPUs/l7q/JHEQ8kdg=;
+  b=mwEulz0H78g+v3KbuvZ3nmyvliAAt3hQa5D2s/wyNbRP3r46IpTKvfvH
+   NCet7PXmK2ynLY1XNS8ek18zahXdhzuW9XLg+C4A9FObk48WoLLJzdhQU
+   OCLRc/usYg/AVpTo8oo7l/usfWMqG2j5RlCoQmUbNBWi/edhj6qiAqUFF
+   jiMMHrKQjgFUhOWvpKPddzTWvgReYsNfTcCb6GXD8UorU9yK+ow3idgze
+   3+OrUOK294VvvJYKq38sImmESyOe43wciBZXfxxyQwHiq/1NfzLI/BPE4
+   L/87FB5bJ2AW14T8pF3Q4TQO+EKnc1BKL/QKJXXWOl6pGalpCB7IFBwX/
+   g==;
+X-CSE-ConnectionGUID: rXp705SiQIy6scL5Ve/EOQ==
+X-CSE-MsgGUID: 5UHgFp2+RniKNHKhLGxWjQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="54361949"
 X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="65187005"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 17:11:18 -0700
-X-CSE-ConnectionGUID: o7aAQQUgQruJMC7Xa8ZDsQ==
-X-CSE-MsgGUID: gW6hLpgET/+vWnyIxI7caw==
+   d="scan'208";a="54361949"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 17:32:19 -0700
+X-CSE-ConnectionGUID: 7QWP6bSZRsu4ecuxuAQW0Q==
+X-CSE-MsgGUID: D7j44jBSSyay68TNi57aSA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="156786606"
+   d="scan'208";a="160248982"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Jul 2025 17:11:18 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 10 Jul 2025 17:32:16 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ua1M7-0005cd-3A;
-	Fri, 11 Jul 2025 00:11:11 +0000
-Date: Fri, 11 Jul 2025 08:10:42 +0800
+	id 1ua1gU-0005eF-0P;
+	Fri, 11 Jul 2025 00:32:14 +0000
+Date: Fri, 11 Jul 2025 08:32:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nam Cao <namcao@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v13 04/12] rv: Let the reactors take care of buffers
-Message-ID: <202507110826.2ekbVdWZ-lkp@intel.com>
-References: <620a25d4b2e0f73701c4f255063b60c8d8feb7e7.1752088709.git.namcao@linutronix.de>
+To: Mahe Tardy <mahe.tardy@gmail.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, martin.lau@linux.dev,
+	daniel@iogearbox.net, john.fastabend@gmail.com, ast@kernel.org,
+	andrii@kernel.org, Mahe Tardy <mahe.tardy@gmail.com>
+Subject: Re: [PATCH bpf-next v1 3/4] bpf: add bpf_icmp_send_unreach
+ cgroup_skb kfunc
+Message-ID: <202507110812.bV4X2x0X-lkp@intel.com>
+References: <20250710102607.12413-4-mahe.tardy@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,35 +65,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <620a25d4b2e0f73701c4f255063b60c8d8feb7e7.1752088709.git.namcao@linutronix.de>
+In-Reply-To: <20250710102607.12413-4-mahe.tardy@gmail.com>
 
-Hi Nam,
+Hi Mahe,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on trace/for-next]
-[also build test WARNING on tip/sched/core akpm-mm/mm-everything linus/master v6.16-rc5 next-20250710]
-[cannot apply to kees/for-next/execve]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test ERROR on bpf-next/master]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Cao/rv-Add-undef-TRACE_INCLUDE_FILE/20250710-032354
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/620a25d4b2e0f73701c4f255063b60c8d8feb7e7.1752088709.git.namcao%40linutronix.de
-patch subject: [PATCH v13 04/12] rv: Let the reactors take care of buffers
-config: x86_64-rhel-9.4-func (https://download.01.org/0day-ci/archive/20250711/202507110826.2ekbVdWZ-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mahe-Tardy/net-move-netfilter-nf_reject_fill_skb_dst-to-core-ipv4/20250710-182905
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250710102607.12413-4-mahe.tardy%40gmail.com
+patch subject: [PATCH bpf-next v1 3/4] bpf: add bpf_icmp_send_unreach cgroup_skb kfunc
+config: i386-buildonly-randconfig-002-20250711 (https://download.01.org/0day-ci/archive/20250711/202507110812.bV4X2x0X-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110826.2ekbVdWZ-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110812.bV4X2x0X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507110826.2ekbVdWZ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507110812.bV4X2x0X-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/trace/rv/reactor_panic.o: warning: objtool: rv_panic_reaction(): unexpected end of section .text
+   ld: net/core/filter.o: in function `bpf_icmp_send_unreach':
+>> filter.c:(.text+0x11e97): undefined reference to `ip_route_reply_fetch_dst'
+>> ld: filter.c:(.text+0x11eaf): undefined reference to `__icmp_send'
 
 -- 
 0-DAY CI Kernel Test Service
