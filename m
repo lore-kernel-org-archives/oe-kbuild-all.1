@@ -1,69 +1,83 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB3822318;
-	Fri, 11 Jul 2025 02:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1222B10E9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 02:49:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752199651; cv=none; b=i53/7GtpmBVXto7Hj1cOQuR0Y3asr5p69ZY0D1VwAjX2gDaHBSDgkIe+Oz8dF4wjImNVJeKWGErqWh83WNVZT4dideubxemEBpTgPpeVVm7Y0H5yTTxPMpFEcQi8O1sQvk/2E+Gtqo5crBElBjj+kPlDMy3R8ZMcgUB8LsDbHkg=
+	t=1752202176; cv=none; b=GYsXip40EdihTEawTUt4CJikCldBfwZ3fFyugCcc0sqN6pWGp9NI36ru6D//iXhcDeSsj+7nXCyWITZ+g3sw2G69IhujcbZG0Gh0oWE0brw83SgyvA7X/U9PKWnsDcfNAMLR8xeJCLaC3GZ7aN4RVCZgou1rzS8WLt3g8Su1CNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752199651; c=relaxed/simple;
-	bh=PvjSKPyD0gXbh2bB6YpiAqsa881j4RTXn+Ts3T8ihPM=;
+	s=arc-20240116; t=1752202176; c=relaxed/simple;
+	bh=LLjZv6YaeoDc4SEEKroZA66mxOHL4zJDsp3M43OYKV4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cHouMfSy8NOISWYE1paWwAFIXxHW/+IHS50MVrYwNx57MqGjRwmTtAfYedb+OlFxHjijQ8bQqgx+DKk+Jkt4Bubq4HVzDtWQCKvTPB/KRLZCSEfrJiYSeJ+8snzQNwBhvaQwjanNoPef90716SEShMsu/GDuFXTk74k2zwfLvNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0o1sq+f; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:Content-Disposition:In-Reply-To; b=P88a4e3KHQpXwrQGidu+doHFf54XBsGEP/QF29MqqjSCODrjYTZOCsZQI7FBZ6CKg6bkiINizbxoRbt3RRECt4ZSYEFslRADxQTsQ2Ezx9oKkPQwuoT+Vj/89hVWBAIAcdFS6zarcp/1O3ckVP022JIrfurjBeHzjvAk0XVt1Ug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BaSP2puf; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0o1sq+f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BaSP2puf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752199649; x=1783735649;
+  t=1752202175; x=1783738175;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=PvjSKPyD0gXbh2bB6YpiAqsa881j4RTXn+Ts3T8ihPM=;
-  b=b0o1sq+fiQ9oUkAwWKvaPFjoh6Jgx9TcAEHn0kT3jiUI0W4le81yjwCs
-   WBUSZR5VqUVu2a14xyQN/JQbwBRrutUBPGFRzwVoVpi83Dv0pwqWXUhgK
-   wmsjmlR1DLsmxJHqT4QrYfvjM5gmucyQ0LMk/5qilbqmHBMrVNZbtxGvT
-   jTqkFQWnGw97I0kP+szuYdmP7IdPuzD9XcdkJ+M2VSjyyJdvNQ8CnDrr2
-   cJmJ1aoKC9jBaIfqiXnJtoyhdThpsBzfjKHOIamyF8fPKzZJHDDnd5sDb
-   6BZMfAV0u/Cw7pX4Nm5OkwfcuPFLUitxXymm395cFfwA3kH64/RHkp4un
-   g==;
-X-CSE-ConnectionGUID: DtjpCSC/QtizGJ9dxBEPjw==
-X-CSE-MsgGUID: 1q5Lzq3DS0+AE9w3j0hEiA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="77040276"
+  bh=LLjZv6YaeoDc4SEEKroZA66mxOHL4zJDsp3M43OYKV4=;
+  b=BaSP2pufH6pDRl6JL1M6inJpBfoffZWis7MO2Y77g8XWU77Um1Py+Rxh
+   g6czriBWNyKoEku5sIJ5OyydR++7KwgL4Q9HayerUf5bzKFHqt9dJIew0
+   vzoSX4/2mTO6ERGcX6MaqQa7j9YM1GT53LR7MUeveXyOL0eBDm3EJtSuf
+   nz9mjs2/LtxUcDTvEcfhGHEKPIeExxnm3b25WQwthAfeiMWhr38OPEOfD
+   oz9AKbFYcAQy9WtcVB5TK/3FgdPANSn7ldkn4xowuvnD+JCm+VYjXgsdV
+   kWVJQtl8OQMjMIvbzJ8O1VlFTTFpmkW/vmy6Yv4kVMRprgHoFBUHeeJCX
+   w==;
+X-CSE-ConnectionGUID: vWrMKkUoRl6yX7q7aLJlog==
+X-CSE-MsgGUID: AMW9NgM0R4qXrErZkCpq/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="53604573"
 X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="77040276"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 19:07:29 -0700
-X-CSE-ConnectionGUID: ezwbokgsSPCaJxheSsnC4A==
-X-CSE-MsgGUID: 56D/N/8bSouThmQuhjJlFg==
+   d="scan'208";a="53604573"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 19:49:35 -0700
+X-CSE-ConnectionGUID: diX3w/CCSQOd3a1b8DOe9A==
+X-CSE-MsgGUID: 6Z1BSWOoSwiK5I6R6DFClw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="160583219"
+   d="scan'208";a="161817339"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 10 Jul 2025 19:07:24 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 10 Jul 2025 19:49:28 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ua3AY-0005jj-1k;
-	Fri, 11 Jul 2025 02:07:22 +0000
-Date: Fri, 11 Jul 2025 10:06:59 +0800
+	id 1ua3pG-0005l9-01;
+	Fri, 11 Jul 2025 02:49:26 +0000
+Date: Fri, 11 Jul 2025 10:48:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tariq Toukan <tariqt@nvidia.com>, Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, Saeed Mahameed <saeed@kernel.org>,
-	Gal Pressman <gal@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
-	Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-rdma@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Dragos Tatulea <dtatulea@nvidia.com>
-Subject: Re: [PATCH net-next V2 2/3] net/mlx5e: Add device PCIe congestion
- ethtool stats
-Message-ID: <202507110932.iOkSE74e-lkp@intel.com>
-References: <1752130292-22249-3-git-send-email-tariqt@nvidia.com>
+To: Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>,
+	Sudeep Holla <sudeep.holla@arm.com>,
+	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Lorenzo Pieralisi <lpieralisi@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Olof Johansson <olof@lixom.net>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	cros-qcom-dts-watchers@chromium.org, Vinod Koul <vkoul@kernel.org>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Elliot Berman <elliotb317@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Stephen Boyd <swboyd@chromium.org>,
+	linux-pm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org,
+	Andre Draszik <andre.draszik@linaro.org>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	linux-samsung-soc@vger.kernel.org, Wei Xu <xuwei5@hisilicon.com>
+Subject: Re: [PATCH v10 01/10] power: reset: reboot-mode: Add device tree
+ node-based registration
+Message-ID: <202507111052.smU9DwLS-lkp@intel.com>
+References: <20250710-arm-psci-system_reset2-vendor-reboots-v10-1-b2d3b882be85@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,30 +86,52 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1752130292-22249-3-git-send-email-tariqt@nvidia.com>
+In-Reply-To: <20250710-arm-psci-system_reset2-vendor-reboots-v10-1-b2d3b882be85@oss.qualcomm.com>
 
-Hi Tariq,
+Hi Shivendra,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on c65d34296b2252897e37835d6007bbd01b255742]
+[auto build test WARNING on 58ba80c4740212c29a1cf9b48f588e60a7612209]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Tariq-Toukan/net-mlx5e-Create-destroy-PCIe-Congestion-Event-object/20250710-145940
-base:   c65d34296b2252897e37835d6007bbd01b255742
-patch link:    https://lore.kernel.org/r/1752130292-22249-3-git-send-email-tariqt%40nvidia.com
-patch subject: [PATCH net-next V2 2/3] net/mlx5e: Add device PCIe congestion ethtool stats
-config: powerpc-randconfig-003-20250711 (https://download.01.org/0day-ci/archive/20250711/202507110932.iOkSE74e-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110932.iOkSE74e-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Shivendra-Pratap/power-reset-reboot-mode-Add-device-tree-node-based-registration/20250710-172104
+base:   58ba80c4740212c29a1cf9b48f588e60a7612209
+patch link:    https://lore.kernel.org/r/20250710-arm-psci-system_reset2-vendor-reboots-v10-1-b2d3b882be85%40oss.qualcomm.com
+patch subject: [PATCH v10 01/10] power: reset: reboot-mode: Add device tree node-based registration
+config: riscv-randconfig-002-20250711 (https://download.01.org/0day-ci/archive/20250711/202507111052.smU9DwLS-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 12.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507111052.smU9DwLS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507110932.iOkSE74e-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507111052.smU9DwLS-lkp@intel.com/
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
+All warnings (new ones prefixed by >>):
 
->> ERROR: modpost: "mlx5e_pcie_cong_event_supported" [drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko] undefined!
+>> drivers/power/reset/reboot-mode.c:15: warning: "pr_fmt" redefined
+      15 | #define pr_fmt(fmt)     "reboot-mode: " fmt
+         | 
+   In file included from include/asm-generic/bug.h:28,
+                    from arch/riscv/include/asm/bug.h:83,
+                    from include/linux/bug.h:5,
+                    from arch/riscv/include/asm/current.h:13,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/power/reset/reboot-mode.c:6:
+   include/linux/printk.h:397: note: this is the location of the previous definition
+     397 | #define pr_fmt(fmt) fmt
+         | 
+
+
+vim +/pr_fmt +15 drivers/power/reset/reboot-mode.c
+
+    13	
+    14	#define PREFIX "mode-"
+  > 15	#define pr_fmt(fmt)	"reboot-mode: " fmt
+    16	
 
 -- 
 0-DAY CI Kernel Test Service
