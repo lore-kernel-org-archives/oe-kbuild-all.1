@@ -1,80 +1,58 @@
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FFC27D786
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 14:09:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B37279DB5;
+	Fri, 11 Jul 2025 14:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752242952; cv=none; b=d5ixDKJyMCDpvhfxmH6qvzmyEKTbRO7YHZF5M/cn97da7v1Xl9OpwyHLz+VV/215bVNNhiPHVjF8+Ylyl2miqRg54P7VdcZnz03JwtvuWR09ouox13og0pnIA5u4ce8Ut4xHbTVxYDbCm2xMGYnzXjWYW2bsYhOVvOFWqhb7okc=
+	t=1752243040; cv=none; b=lsCUXS+kj5YiwnWNUvtYx+245tZpS1J7jDQxq/3Yuu/IirtFiadqY4A9HMX2pYY8Q3SOyHw3B67pBqdpCxp7vDlx2lCFDhNu/ZwOfPa+427aZt3lh62SCTt0Sn4X3RZMr0JlFUsf8zZvIPW7UWxyaMZdvlXUw0wM29myziqef2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752242952; c=relaxed/simple;
-	bh=yZKvYHncBfQJe0YWJMImi87EGAalGmTkBDddUMRaINc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JnOsCu1tnONtIu7r9lp6WS+XSrlDo7eRqM3Y+W1AWVkIMRvLm0LlDC0ftU1q9Re6nf1Ki37AMd70J2VZjiMySitMYF7ZnKrCZFrrLNnEpSz2uzMo/Wbv4X6OM1tjexrlpp4eaKZ85Dk9hObjpyGkh8Bzpg543+anc6DTEeFldQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=WvjTNo3B; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1752243040; c=relaxed/simple;
+	bh=GIq7dWJG9937sIIi39h7wseHaiFFPGopZKeVqU8Imv8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=CblMhlEyCbMBC3uIYxiZ6jieDYfUMJaTgxc4TwvOslVowJrJesZp4oVKN59yKXKnQohIDEMmys/Mz8NcfluPErwwq9kA8IqGqL5rapZsDJ7BkFcfIqH9C/8/MAsM72y+1l+e/i3yQBdwFuEMulBsWynQnD2GTw5FC3hR11ZOMfk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ken/A3lN; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="WvjTNo3B"
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4ab3fb340e7so2416441cf.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 07:09:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1752242949; x=1752847749; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=6bI52/xgjAZypaQPclB5mkFlqrEG93vCH4YqlmfbgHw=;
-        b=WvjTNo3BKBz9u+yt7DXw9tYpjX/bCb4YtH3fxmFSbSAzhbiY0U8HVdKzTwkZo+t3CG
-         HOsSVidzZ/HvARC/3fQLjwsdR0k7ie0HdYD7xFQrb0KGlbGgSYR8Y6jA1kZZxHFqTD/0
-         /DWTJ6nkzymuu5pZ7zxhJia4xwbOQLCdzSN3j2df3QdNYvqEPBMZW4Xmmmf16nzGGx7g
-         cfQdPs3ZTfUFham8uJRliQh+zz9esujPKLJpi81rolwWvaebmQBX6rgJHhptji4HtTLm
-         PLnRhmqAE6nehr6oC3xdtfEH/C6rmiaVU10VHaEVGy8A3fnkXQTUyRmJzNDKD2VIlV4h
-         xctw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752242949; x=1752847749;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6bI52/xgjAZypaQPclB5mkFlqrEG93vCH4YqlmfbgHw=;
-        b=Y9/jGYbYIKW0sbz41qkDg6HVKo/BhykcFD8Jlx0a/x0cBquU53HPmGnJ74or9r1eoW
-         jIE/c22uW9TQd+lkndxMJyq6aM2pof2PbGYNrKqFTS64NG0rXH5rezMYnGcwMVlLI7gk
-         QXn69HQugwTO3LZ1ZzhnuM99RMcroAGlwAYmPTl1+2/DltRZlhR9xF70BSAk8KFAEZAl
-         wvfQsxNKO140uaw5TR4wf9ZQyGOoZ3o7qtFB3kXqVjod+ui0N5+piYoYAhKE4zjH51nQ
-         i3URdNpiF6m0VL40zizG2ZMYvsmmGkw+/9NWS+NdAmb92lXOmEjoQLwTytkCjjoF5nBq
-         JQKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX9uiZB9e0w+zVLCkkLiDuRWavvJmxFmPlPXRPowQ4oaiZVspTXIR3i9QjNLMXC0mKDmq/YZm/btJr7IsW7@lists.linux.dev
-X-Gm-Message-State: AOJu0YztegK0mbStHIH8cjTHxns6PZHL9F87O2HPrfHhrfHy4I/qfhiT
-	pSH/OEjXeDyyzrN/RPXaqJWSzQ9wbLMQi6Emq3waddu0/XKv54O+86YaJwxfJxR/jOA=
-X-Gm-Gg: ASbGncv8yCOZ922Hp3C/afJWseqSZFqHJvB6wdLA7BpNJL25nAp0Oqjpk47gllynqMl
-	ZqgN/mRmvEIkbtDgWr+1le5pemSr3mu/yV+2FmcjdahDREjMKDIyhSXud7YCqrBFlWTnBFyu26c
-	IeNB4xwy42rqeIAhPkEY5QWC6pEhw+mhYAJ4BwNI8Pa3dn28Nw8pqRS6G/DNvs+gsG0APuPqXpA
-	Zy5y7/UdbLB+qJFN7CVb6apUfddfP18FXBu5TF37r8myq+NP6H7R+cjm3tsRRExaE4magfgy1tE
-	mzwuQ6UCro/OIrEO/+q06S6d+aO4TauvDB0MsCp5XLcxoFnFqIVXOMyxoR7+KR+Hx1QCImE/aur
-	KiO/PbGfvycfeELLdNwdBaDGQWUgW1K5hS4KkZOl/I6Vk8BWC9POG489Dqfc+uYr/5ZWzFFcaPA
-	==
-X-Google-Smtp-Source: AGHT+IEixxsJ1OPzAr8wF1jAqr76ZRx+zlHFTsJPyONXB0Hzt8glfUePTCHimwJLnXKMKDXsmrZPVQ==
-X-Received: by 2002:ac8:4e04:0:b0:4aa:939b:2e75 with SMTP id d75a77b69052e-4aa939b3654mr25585771cf.5.1752242949082;
-        Fri, 11 Jul 2025 07:09:09 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-167-56-70.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.56.70])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4a9fc780367sm9922481cf.61.2025.07.11.07.09.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Jul 2025 07:09:08 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1uaER1-00000008ECi-2QSO;
-	Fri, 11 Jul 2025 11:09:07 -0300
-Date: Fri, 11 Jul 2025 11:09:07 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: kernel test robot <lkp@intel.com>
-Cc: Nicolin Chen <nicolinc@nvidia.com>, llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev,
-	Pranjal Shrivastava <praan@google.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Kevin Tian <kevin.tian@intel.com>
-Subject: Re: [jgg-iommufd:for-next 25/43] Warning:
- drivers/iommu/iommufd/pages.c:2114 function parameter 'lock_area' not
- described in 'iopt_area_add_access'
-Message-ID: <20250711140907.GC1870174@ziepe.ca>
-References: <202507111555.VxJIWo2k-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ken/A3lN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752243038; x=1783779038;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GIq7dWJG9937sIIi39h7wseHaiFFPGopZKeVqU8Imv8=;
+  b=Ken/A3lNlxMxYFrNkzDwPVHHgEaNy3vs3Kl7XfWQ2zgreMsQUCwGG+NH
+   CHXh4PNly2NEIUQ8V00JBMP2amyQy/Brgg9tE/j9mBOdX/CTdZiz3/OVc
+   j61YVjzEcMkbJOOfs12IryBOA3mwEWxVLPciKZDbElZE0o1Tz2vZO0JAt
+   a8Vh0h0jIq2YfdJQZ46B9fJ7TLhLLC8j/RkQUXrTsp8pqcU4FJz1jjbAd
+   5hRlL9IWYNphj7VZPFb2wLX3hTvLxnMG1dt/QqsbmuximC7VsSttfMNjx
+   +kgKTFEG6I7d6Fcpenxpkum/1XghQO8z97VGdVimDN6xsYJdxzguOwZu8
+   g==;
+X-CSE-ConnectionGUID: Umurz5BeSnC/tbkTS+MmWw==
+X-CSE-MsgGUID: NGWG3ETlRxaip+qGd6VhiA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="53760567"
+X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
+   d="scan'208";a="53760567"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 07:10:38 -0700
+X-CSE-ConnectionGUID: I1jZ79fDSdi7rwnw3XhQtA==
+X-CSE-MsgGUID: C6uFJGvCSHuAeB40j/lLkA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
+   d="scan'208";a="187358345"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 11 Jul 2025 07:10:37 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uaESQ-0006Qt-2M;
+	Fri, 11 Jul 2025 14:10:34 +0000
+Date: Fri, 11 Jul 2025 22:10:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ard Biesheuvel <ardb@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [ardb:for-kernelci 2/4] drivers/rtc/rtc-efi.c:151:21: warning:
+ unused variable 'rtc'
+Message-ID: <202507112141.qUTkwckc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -83,44 +61,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202507111555.VxJIWo2k-lkp@intel.com>
 
-On Fri, Jul 11, 2025 at 03:35:12PM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jgg/iommufd.git for-next
-> head:   7de5cc04caf979c6a1978b283eb8ad8fe5167e24
-> commit: 940d0dd200c80a77133156bb3e1aaed47e2a9c23 [25/43] iommufd/access: Bypass access->ops->unmap for internal use
-> config: i386-buildonly-randconfig-006-20250711 (https://download.01.org/0day-ci/archive/20250711/202507111555.VxJIWo2k-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507111555.VxJIWo2k-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507111555.VxJIWo2k-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> Warning: drivers/iommu/iommufd/pages.c:2114 function parameter 'lock_area' not described in 'iopt_area_add_access'
-> >> Warning: drivers/iommu/iommufd/pages.c:2173 function parameter 'unlock_area' not described in 'iopt_area_remove_access'
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/ardb/linux.git for-kernelci
+head:   2b69cc853cfd5d483e48785735ee845d3bffde85
+commit: 1dcb6fdcd10617262528f945a11852fb4aee9197 [2/4] efi-rtc: Remove wakeup functionality
+config: arm-randconfig-004-20250711 (https://download.01.org/0day-ci/archive/20250711/202507112141.qUTkwckc-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507112141.qUTkwckc-lkp@intel.com/reproduce)
 
-I fixed this with:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507112141.qUTkwckc-lkp@intel.com/
 
---- a/drivers/iommu/iommufd/pages.c
-+++ b/drivers/iommu/iommufd/pages.c
-@@ -2103,6 +2103,7 @@ iopt_pages_get_exact_access(struct iopt_pages *pages, unsigned long index,
-  * @last_index: Inclusive last page index
-  * @out_pages: Output list of struct page's representing the PFNs
-  * @flags: IOMMUFD_ACCESS_RW_* flags
-+ * @lock_area: Fail userspace munmap on this area
-  *
-  * Record that an in-kernel access will be accessing the pages, ensure they are
-  * pinned, and return the PFNs as a simple list of 'struct page *'.
-@@ -2165,6 +2166,7 @@ int iopt_area_add_access(struct iopt_area *area, unsigned long start_index,
-  * @area: The source of PFNs
-  * @start_index: First page index
-  * @last_index: Inclusive last page index
-+ * @unlock_area: Must match the matching iopt_area_add_access()'s lock_area
-  *
-  * Undo iopt_area_add_access() and unpin the pages if necessary. The caller
-  * must stop using the PFNs before calling this.
- 
+All warnings (new ones prefixed by >>):
+
+>> drivers/rtc/rtc-efi.c:151:21: warning: unused variable 'rtc' [-Wunused-variable]
+     151 |         struct rtc_device *rtc = dev_get_drvdata(dev);
+         |                            ^~~
+   1 warning generated.
+
+
+vim +/rtc +151 drivers/rtc/rtc-efi.c
+
+5e3fd9e5810f14 dann frazier       2009-03-31  146  
+501385f2a783c0 Geliang Tang       2015-11-07  147  static int efi_procfs(struct device *dev, struct seq_file *seq)
+501385f2a783c0 Geliang Tang       2015-11-07  148  {
+1dcb6fdcd10617 Ard Biesheuvel     2025-07-11  149  	efi_time_t        eft;
+501385f2a783c0 Geliang Tang       2015-11-07  150  	efi_time_cap_t    cap;
+101ca8d05913b7 Shanker Donthineni 2023-01-02 @151  	struct rtc_device *rtc = dev_get_drvdata(dev);
+501385f2a783c0 Geliang Tang       2015-11-07  152  
+501385f2a783c0 Geliang Tang       2015-11-07  153  	memset(&eft, 0, sizeof(eft));
+501385f2a783c0 Geliang Tang       2015-11-07  154  	memset(&cap, 0, sizeof(cap));
+501385f2a783c0 Geliang Tang       2015-11-07  155  
+501385f2a783c0 Geliang Tang       2015-11-07  156  	efi.get_time(&eft, &cap);
+501385f2a783c0 Geliang Tang       2015-11-07  157  
+501385f2a783c0 Geliang Tang       2015-11-07  158  	seq_printf(seq,
+501385f2a783c0 Geliang Tang       2015-11-07  159  		   "Time\t\t: %u:%u:%u.%09u\n"
+501385f2a783c0 Geliang Tang       2015-11-07  160  		   "Date\t\t: %u-%u-%u\n"
+501385f2a783c0 Geliang Tang       2015-11-07  161  		   "Daylight\t: %u\n",
+501385f2a783c0 Geliang Tang       2015-11-07  162  		   eft.hour, eft.minute, eft.second, eft.nanosecond,
+501385f2a783c0 Geliang Tang       2015-11-07  163  		   eft.year, eft.month, eft.day,
+501385f2a783c0 Geliang Tang       2015-11-07  164  		   eft.daylight);
+501385f2a783c0 Geliang Tang       2015-11-07  165  
+501385f2a783c0 Geliang Tang       2015-11-07  166  	if (eft.timezone == EFI_UNSPECIFIED_TIMEZONE)
+501385f2a783c0 Geliang Tang       2015-11-07  167  		seq_puts(seq, "Timezone\t: unspecified\n");
+501385f2a783c0 Geliang Tang       2015-11-07  168  	else
+501385f2a783c0 Geliang Tang       2015-11-07  169  		/* XXX fixme: convert to string? */
+501385f2a783c0 Geliang Tang       2015-11-07  170  		seq_printf(seq, "Timezone\t: %u\n", eft.timezone);
+501385f2a783c0 Geliang Tang       2015-11-07  171  
+501385f2a783c0 Geliang Tang       2015-11-07  172  	/*
+501385f2a783c0 Geliang Tang       2015-11-07  173  	 * now prints the capabilities
+501385f2a783c0 Geliang Tang       2015-11-07  174  	 */
+501385f2a783c0 Geliang Tang       2015-11-07  175  	seq_printf(seq,
+501385f2a783c0 Geliang Tang       2015-11-07  176  		   "Resolution\t: %u\n"
+501385f2a783c0 Geliang Tang       2015-11-07  177  		   "Accuracy\t: %u\n"
+501385f2a783c0 Geliang Tang       2015-11-07  178  		   "SetstoZero\t: %u\n",
+501385f2a783c0 Geliang Tang       2015-11-07  179  		   cap.resolution, cap.accuracy, cap.sets_to_zero);
+501385f2a783c0 Geliang Tang       2015-11-07  180  
+501385f2a783c0 Geliang Tang       2015-11-07  181  	return 0;
+501385f2a783c0 Geliang Tang       2015-11-07  182  }
+501385f2a783c0 Geliang Tang       2015-11-07  183  
+
+:::::: The code at line 151 was first introduced by commit
+:::::: 101ca8d05913b7d1e6e8b9dd792193d4082fff86 rtc: efi: Enable SET/GET WAKEUP services as optional
+
+:::::: TO: Shanker Donthineni <sdonthineni@nvidia.com>
+:::::: CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
