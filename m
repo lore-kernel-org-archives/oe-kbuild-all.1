@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F856C2E0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 00:43:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30B2046447;
+	Fri, 11 Jul 2025 01:14:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752194600; cv=none; b=T7Azu0sLYwY/lhQTiYTj+d+2kMlnV9dTH3HycecXXyxANV47gLlQ3IXYH+QPEaYNP5zG46UYdVdZPGkTjQeBhjIvr/n/HRtkxqieJQ49qujBvnJYW8goiKNNgR60+6Cz4b7T/Fp0PW+UkXJ4tUe+A0NWLwZ8Q5rhvN/KVw7xbNk=
+	t=1752196470; cv=none; b=XB9a51GODHG0+VBA//J3ios9So1eXDYuXM5Aim7OHMxiyHdUZyskOuy6ozJs5N6wHl/VLmR+jX7y091SB5pPWkhD5SIQgPYfdQXuEWT7Lk0WdvstBpKhK5o4Omx5Tj0VimT8PTJ54z1jXLQaeOhEyu3PfmmsKikES0hewELCTGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752194600; c=relaxed/simple;
-	bh=W5v4eEW+Xt7QO0uMNHJI0X4ebEt0fgPDi3KaNZUfMzQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U3G+sUnEJQivWYc0vjDvpL0vt58hPup3Ik43iSfa/B3w36GFZwTP0UlAMefowaI3lBfqXqwhxVfnBB4EUh6V1Yzf+LHtWkjgVu46LPaWv9kPKmjANf4tvcunVQGLCJW2J0xuehKLNYvLuWkqLC4hNCIegaC4Hhnx+to9UBC25fk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RH3HFJ4M; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1752196470; c=relaxed/simple;
+	bh=DYCyMUrFWv8UxDeY8uzqr2IcSenrjZosj8k5QvYfXP0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AhVSAMeDiv7kI/kzELaZ8LhO3/FYCszbJtcQCzIaffreid0PfsBYUaY/D4aigXLNNrTeP5DQNywRjsz72CC4I4PHEDxUxHrMkH0VNCZynvJXFQyvzgHfl5QetUiBnvs+3hzHwK3fGF/COr2O8rFrg0jmnPNzrXHu6NnhXiuIG+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HNE6BeVP; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RH3HFJ4M"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HNE6BeVP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752194598; x=1783730598;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=W5v4eEW+Xt7QO0uMNHJI0X4ebEt0fgPDi3KaNZUfMzQ=;
-  b=RH3HFJ4MYdF7isAjGoxFbNYWHwjTwe8Nf+k5FApzPXefP2+an6RZqOKW
-   o+7ELFgJpBDqpYrTzLvQIP+iBxxnlGjdd/LOjbTySdfu4b5pq7FORkFZk
-   vX17tzMSt6S2WwLeDsAC8pu3toeAQQE8jIcfDYdgodlZtW16SzlVn+nxh
-   tSsSPKZaeX6F7kzq3mpGbxs7GfPYqYn39BsAWHsum5CZhOQinHWZMwadj
-   byhnRL5A7k5aEzYqWjQIrrSLF5xEy2wQpVj0zbIPiofQN2gu2Gr5uB1Ur
-   8eMy0WIFZl/rWdUGllFG/KQ+7ZH3kRR9E/7V0MB1u8T/enbRFTggq4rMF
+  t=1752196469; x=1783732469;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DYCyMUrFWv8UxDeY8uzqr2IcSenrjZosj8k5QvYfXP0=;
+  b=HNE6BeVPTKdZrQdrJoXRgQti7RUOObEXJWOVA+2gchsE4ac0JNQrh6XT
+   qyWfn1Qk4WKCxv0gL9xOBWu+OmOYU69mfqYH7sEJLF0/BHjfVgcUwshqw
+   1d8wFkHHurWAjHJ5zoWoUHyKaWZvpheyvGymhQTETGt44JuDsbWiudbk+
+   pe/WCwlMgy7kIJJ51vEIWlDuBf1nIeT260os0kVVtPVyZV/Ma1V2f0pL6
+   viPkWFZgrAMz6Qa33Z8GOFJQBTrKD/ZzbGG7f2AYP38D9wcks35oa5dLn
+   gfWNBwNGlU3YrHfK4UFzriZE7kSBwzPTaL9k6JgRlW0dyFmA8Z+Fq5bQg
    Q==;
-X-CSE-ConnectionGUID: jd35dI8kTQa4yM3/M+U11A==
-X-CSE-MsgGUID: exUqKzyQSwqc9p7tduNRdw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="54620032"
+X-CSE-ConnectionGUID: Nu1oWZ8zTBeLurTMkMTn7A==
+X-CSE-MsgGUID: pHLfqmiwQnyCE2uIuzNNKg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="72072983"
 X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="54620032"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 17:43:18 -0700
-X-CSE-ConnectionGUID: uN8fFdCbQAqSiBb1z/vKSg==
-X-CSE-MsgGUID: cpC2aL/OSFunxSqq+LdVJg==
+   d="scan'208";a="72072983"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Jul 2025 18:14:28 -0700
+X-CSE-ConnectionGUID: SdMKwLrVSoGO7g8IqZPS7g==
+X-CSE-MsgGUID: rUIlbZKsQDaO0ykbXJymng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,302,1744095600"; 
-   d="scan'208";a="156793618"
+   d="scan'208";a="156964041"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 10 Jul 2025 17:43:17 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 10 Jul 2025 18:14:20 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ua1r9-0005ex-0n;
-	Fri, 11 Jul 2025 00:43:15 +0000
-Date: Fri, 11 Jul 2025 08:42:21 +0800
+	id 1ua2LC-0005hB-0n;
+	Fri, 11 Jul 2025 01:14:18 +0000
+Date: Fri, 11 Jul 2025 09:14:06 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jgunthorpe:pcie_switch_groups 18/19] drivers/iommu/iommu.c:1745
- pci_check_group() warn: inconsistent indenting
-Message-ID: <202507110831.GR5rXLF0-lkp@intel.com>
+To: Fuad Tabba <tabba@google.com>, kvm@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-mm@kvack.org,
+	kvmarm@lists.linux.dev
+Cc: oe-kbuild-all@lists.linux.dev, pbonzini@redhat.com,
+	chenhuacai@kernel.org, mpe@ellerman.id.au, anup@brainfault.org,
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	seanjc@google.com, viro@zeniv.linux.org.uk, brauner@kernel.org,
+	willy@infradead.org, akpm@linux-foundation.org,
+	xiaoyao.li@intel.com, yilun.xu@intel.com,
+	chao.p.peng@linux.intel.com, jarkko@kernel.org, amoorthy@google.com,
+	dmatlack@google.com, isaku.yamahata@intel.com, mic@digikod.net,
+	vbabka@suse.cz, vannapurve@google.com, ackerleytng@google.com,
+	mail@maciej.szmigiero.name, david@redhat.com, michael.roth@amd.com
+Subject: Re: [PATCH v13 14/20] KVM: x86: Enable guest_memfd mmap for default
+ VM type
+Message-ID: <202507110822.EaBBAGre-lkp@intel.com>
+References: <20250709105946.4009897-15-tabba@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,47 +74,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250709105946.4009897-15-tabba@google.com>
 
-tree:   https://github.com/jgunthorpe/linux pcie_switch_groups
-head:   dd09b165dc2dbc1b7e1e7032a7afb0632d03faf8
-commit: 6525a08b4145275af5fd738c4bf62e63e5f2828b [18/19] debug prints 2
-config: alpha-randconfig-r072-20250711 (https://download.01.org/0day-ci/archive/20250711/202507110831.GR5rXLF0-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
+Hi Fuad,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on d7b8f8e20813f0179d8ef519541a3527e7661d3a]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Fuad-Tabba/KVM-Rename-CONFIG_KVM_PRIVATE_MEM-to-CONFIG_KVM_GMEM/20250709-190344
+base:   d7b8f8e20813f0179d8ef519541a3527e7661d3a
+patch link:    https://lore.kernel.org/r/20250709105946.4009897-15-tabba%40google.com
+patch subject: [PATCH v13 14/20] KVM: x86: Enable guest_memfd mmap for default VM type
+config: i386-randconfig-013-20250711 (https://download.01.org/0day-ci/archive/20250711/202507110822.EaBBAGre-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507110822.EaBBAGre-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507110831.GR5rXLF0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507110822.EaBBAGre-lkp@intel.com/
 
-New smatch warnings:
-drivers/iommu/iommu.c:1745 pci_check_group() warn: inconsistent indenting
-drivers/pci/pci.c:3668 pci_acs_flags_enabled() warn: inconsistent indenting
+All errors (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/iommu/iommu.c:1036 iommu_group_alloc() warn: Calling kobject_put|get with state->initialized unset from line: 1016
-drivers/iommu/iommu.c:1042 iommu_group_alloc() warn: Calling kobject_put|get with state->initialized unset from line: 1016
-drivers/iommu/iommu.c:1051 iommu_group_alloc() warn: Calling kobject_put|get with state->initialized unset from line: 1016
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c: In function 'kvm_gmem_supports_mmap':
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:317:27: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+     317 |         const u64 flags = (u64)inode->i_private;
+         |                           ^
+   In file included from <command-line>:
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c: In function 'kvm_gmem_bind':
+>> include/linux/compiler_types.h:568:45: error: call to '__compiletime_assert_624' declared with attribute error: BUILD_BUG_ON failed: sizeof(gfn_t) != sizeof(slot->gmem.pgoff)
+     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                             ^
+   include/linux/compiler_types.h:549:25: note: in definition of macro '__compiletime_assert'
+     549 |                         prefix ## suffix();                             \
+         |                         ^~~~~~
+   include/linux/compiler_types.h:568:9: note: in expansion of macro '_compiletime_assert'
+     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+         |         ^~~~~~~~~~~~~~~~
+   arch/x86/kvm/../../../virt/kvm/guest_memfd.c:558:9: note: in expansion of macro 'BUILD_BUG_ON'
+     558 |         BUILD_BUG_ON(sizeof(gfn_t) != sizeof(slot->gmem.pgoff));
+         |         ^~~~~~~~~~~~
 
-vim +1745 drivers/iommu/iommu.c
 
-  1738	
-  1739	static void pci_check_group(const struct check_group_aliases_data *data,
-  1740				    u16 alias, struct pci_dev *pdev)
-  1741	{
-  1742		struct iommu_group *group;
-  1743	
-  1744		group = iommu_group_get(&pdev->dev);
-> 1745	dev_info(&pdev->dev," Check group %u\n",group != NULL);
-  1746		if (!group)
-  1747			return;
-  1748	
-  1749		if (group != data->group)
-  1750			dev_err(&data->pdev->dev,
-  1751				"During group construction alias processing needed dev %s alias %x to have the same group but %u != %u\n",
-  1752				pci_name(pdev), alias, data->group->id, group->id);
-  1753		iommu_group_put(group);
-  1754	}
-  1755	
+vim +/__compiletime_assert_624 +568 include/linux/compiler_types.h
+
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  554  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  555  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  557  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  559   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  560   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  561   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  562   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  563   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  564   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  565   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  566   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  567  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @568  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  569  
 
 -- 
 0-DAY CI Kernel Test Service
