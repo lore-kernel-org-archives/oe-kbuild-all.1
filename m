@@ -1,271 +1,251 @@
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9901C5F2C
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 07:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.194
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB281F4C96
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 11 Jul 2025 07:58:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752220541; cv=none; b=anhrkBHaWjoViQsIic71X29Z5E+yxPMQqP5jO+Gw4DRCJbHAL4OgdUSWXfxwRP9RaD4qUtNdnO2yNupexDn/YQqYk62905G3pnFVwnKS4DJPEUS8tJ6X2zjwWRHgwdqWp0vZhk6XyAu0SgVXHw3SXmO+FcmocI3mSJE6AOnQSi8=
+	t=1752220697; cv=none; b=jJx/fv8bkTc02TjsEOFhix9MZMAdWAJ77+coZ7zQjwyE3szlGOzOie3irEndXpClyuosLya4ep6OP3TCBCtFcZg5h4ucQI0MrQoNqwChjjozJvCWuAg9gttE1RImNXNlYbNHPWmFNZsb9yROhDKzyIXhJvmNQaQOdKuD2qJkx4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752220541; c=relaxed/simple;
-	bh=kp/uEK7Hf0N44/G/zTMQa5ClHbzJ+YFjaYV/yxyVlME=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JuQiBmvoMIHRCGIRh8zw3pt99Q585yLZB9TmqJO+KIpUok+RNFfqHXsLmCxQqgXsoVC5oNzZPsNE6mnJOUR3o9iyTPJmaPPEWZTCBSxEQlH/97ivYcOXxwbFbJcyKUe7FfBxnK/xYaoQEc/wJGqi7atw7jET9g4qUq7kI6ZKUsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr; spf=pass smtp.mailfrom=ghiti.fr; arc=none smtp.client-ip=217.70.183.194
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ghiti.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ghiti.fr
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3D7A5438DC;
-	Fri, 11 Jul 2025 07:55:26 +0000 (UTC)
-Message-ID: <b6dbdcbc-08b5-4de0-9955-cf2b048dbb38@ghiti.fr>
-Date: Fri, 11 Jul 2025 09:55:25 +0200
+	s=arc-20240116; t=1752220697; c=relaxed/simple;
+	bh=BP/IYgbQHsR2eTbv4XTSvlwTjBKMYAmm/7TXHpy8cmA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XyYspwHTgavxc2wUHHhLZyucuEMed2CvNcbro6IRr2TNZcGQvCN2iAUtKH0Cu9pvCTmQeDG6mOIv3BTd15dSH8uxU5ZNQ64wwqRl3avbLvxPMGC7BXBl/OgNAtkyzLpKeFpM1o+SGPo+oAfI0InioWObMBQRpEGP8mkJ5LkTMxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bG90sJSg; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bG90sJSg"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752220694; x=1783756694;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BP/IYgbQHsR2eTbv4XTSvlwTjBKMYAmm/7TXHpy8cmA=;
+  b=bG90sJSgcWMUgt4t8oT4Eu7yhGn4Mk3dxMIEgdSpaUANtEPlISMOH7MF
+   s87uPChuPEg4B6tJ4DWdLOsGjUpZ3pl58rA5u9PeDcdxenVAd/HN1pc14
+   Uw2zCP1QX9K05o2OCSECldSagalhAnaBuDRwS/TdPzsJVK+GXfFWnhD+H
+   hPdd94VvPbt1VPQgaYs110MMbYXY0TgirXqRuXn+zOusM1QPW9zGhzp28
+   8bvn/tzOxzygTEAXwAMzXJhEz0x5dYkC95bDo5Msq9bH5pnjBDTwSMwWj
+   zL4HHUvb53N40FdDzi/JS0tKzZ1Q1VL6hIgszQKLx9xXxB7UkZqqfxxdT
+   Q==;
+X-CSE-ConnectionGUID: iFRnS0EFRSmLEk1XSTq9bA==
+X-CSE-MsgGUID: hqzbuWZcQxqVNIzNI66AZg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11490"; a="54451357"
+X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
+   d="scan'208";a="54451357"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jul 2025 00:57:06 -0700
+X-CSE-ConnectionGUID: eZsACcFNQ8e7Veugz75k7A==
+X-CSE-MsgGUID: nhJLpbrpQvS/lqu41PHdeg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,303,1744095600"; 
+   d="scan'208";a="187293612"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 11 Jul 2025 00:56:59 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ua8cr-00067D-2D;
+	Fri, 11 Jul 2025 07:56:57 +0000
+Date: Fri, 11 Jul 2025 15:56:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	sakari.ailus@linux.intel.com, krzk+dt@kernel.org,
+	kieran.bingham@ideasonboard.com
+Cc: oe-kbuild-all@lists.linux.dev, dave.stevenson@raspberrypi.com,
+	pratap.nirujogi@amd.com, laurent.pinchart@ideasonboard.com,
+	tarang.raval@siliconsignals.io,
+	Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>,
+	Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Rob Herring <robh@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Matthias Fend <matthias.fend@emfend.at>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>, Hao Yao <hao.yao@intel.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] media: i2c: add ov2735 image sensor driver
+Message-ID: <202507111522.ERi7Nddk-lkp@intel.com>
+References: <20250710131107.69017-3-hardevsinh.palaniya@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V2] riscv: ftrace: Fix the logic issue in DYNAMIC_FTRACE
- selection
-To: Miao Chen <chenmiao.ku@gmail.com>
-Cc: kernel test robot <lkp@intel.com>,
- Linux RISCV <linux-riscv@lists.infradead.org>,
- oe-kbuild-all@lists.linux.dev, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Heiko Carstens <hca@linux.ibm.com>, Pu Lehui <pulehui@huawei.com>,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
-References: <aG3A8Jirg+TxNza/@rli9-mobl>
- <f5b1fc77-d180-4df7-b8f6-0cb0ca4a187a@ghiti.fr>
- <CAKxVwge4=cagaVDesKWe0BE88U0YmNn5LLDJvJG=F7EEP2=-LQ@mail.gmail.com>
- <7204f633-5b35-41ce-b847-7dfbaedbac47@ghiti.fr>
- <CAKxVwgdoK6wSt-1LNZ8Tn3MPaETR58RThbcdydijrKPbfpE68g@mail.gmail.com>
-Content-Language: en-US
-From: Alexandre Ghiti <alex@ghiti.fr>
-In-Reply-To: <CAKxVwgdoK6wSt-1LNZ8Tn3MPaETR58RThbcdydijrKPbfpE68g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdegvdejjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgsehtkeertddtvdejnecuhfhrohhmpeetlhgvgigrnhgurhgvucfihhhithhiuceorghlvgigsehghhhithhirdhfrheqnecuggftrfgrthhtvghrnhepfeeujedtgeekvdehhfduhfegfeeiveehueegheegvdfgjefhteejieduledvfeetnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpkhgvrhhnvghlrdhorhhgpdhinhhfrhgruggvrggurdhorhhgnecukfhppedukeehrddvudefrdduheegrddugeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepudekhedrvddufedrudehgedrudegiedphhgvlhhopegluddtrddugedrtddrudekngdpmhgrihhlfhhrohhmpegrlhgvgiesghhhihhtihdrfhhrpdhnsggprhgtphhtthhopeduhedprhgtphhtthhopegthhgvnhhmihgrohdrkhhusehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhkphesihhnthgvlhdrtghomhdprhgtphhtthhopehlihhnuhigqdhrihhstghvsehlihhsthhsrdhinhhfrhgruggvrggurdhorhhgpdhrtghpthhtohepohgvqdhksghuihhlugdqrghllheslhhishhtshdrlhhinhhug
- idruggvvhdprhgtphhtthhopehprghulhdrfigrlhhmshhlvgihsehsihhfihhvvgdrtghomhdprhgtphhtthhopehprghlmhgvrhesuggrsggsvghlthdrtghomhdprhgtphhtthhopegrohhusegvvggtshdrsggvrhhkvghlvgihrdgvughupdhrtghpthhtoheprhhoshhtvgguthesghhoohgumhhishdrohhrgh
-X-GND-Sasl: alex@ghiti.fr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250710131107.69017-3-hardevsinh.palaniya@siliconsignals.io>
 
-Hi,
+Hi Hardevsinh,
 
-On 7/10/25 17:56, Miao Chen wrote:
-> Hello Alex,
->
-> I found where the error is, but there's a problem here:
->
-> config PORTABLE
->    bool
->    default !NONPORTABLE
->    select EFI
->    select MMU
->    select OF
->
-> select HAVE_DYNAMIC_FTRACE if !XIP_KERNEL && MMU &&
-> (CLANG_SUPPORTS_DYNAMIC_FTRACE || GCC_SUPPORTS_DYNAMIC_FTRACE)
->
-> Because HAVE_DYNAMIC_FTRACE depends on the MMU—of course, it's
-> reasonable for DYNAMIC_FTRACE to depend on the MMU—*but since
-> NONPORTABLE is enabled by default, this causes PORTABLE to default to
-> n, thereby preventing the MMU from being enabled*. So, should I change
-> NONPORTABLE to default to n?
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on sailus-media-tree/master]
+[also build test ERROR on linus/master v6.16-rc5 next-20250710]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Hardevsinh-Palaniya/dt-bindings-media-i2c-Add-ov2735-sensor/20250710-211325
+base:   git://linuxtv.org/sailus/media_tree.git master
+patch link:    https://lore.kernel.org/r/20250710131107.69017-3-hardevsinh.palaniya%40siliconsignals.io
+patch subject: [PATCH v3 2/2] media: i2c: add ov2735 image sensor driver
+config: mips-randconfig-r072-20250711 (https://download.01.org/0day-ci/archive/20250711/202507111522.ERi7Nddk-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250711/202507111522.ERi7Nddk-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507111522.ERi7Nddk-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/media/i2c/ov2735.c:829:17: error: call to undeclared function 'devm_v4l2_sensor_clk_get'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     829 |         ov2735->xclk = devm_v4l2_sensor_clk_get(ov2735->dev, NULL);
+         |                        ^
+>> drivers/media/i2c/ov2735.c:829:15: error: incompatible integer to pointer conversion assigning to 'struct clk *' from 'int' [-Wint-conversion]
+     829 |         ov2735->xclk = devm_v4l2_sensor_clk_get(ov2735->dev, NULL);
+         |                      ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   2 errors generated.
 
 
-NONPORTABLE is not enabled by default and PORTABLE=n does not prevent 
-MMU from being enabled.
+vim +/devm_v4l2_sensor_clk_get +829 drivers/media/i2c/ov2735.c
 
-IIUC, it seems like you don't have HAVE_DYNAMIC_FTRACE enabled but 
-that's probably because of your toolchain, not !MMU, can you check that 
-in your .config?
+   801	
+   802	static int ov2735_probe(struct i2c_client *client)
+   803	{
+   804		struct ov2735 *ov2735;
+   805		unsigned int xclk_freq;
+   806		int ret;
+   807	
+   808		ov2735 = devm_kzalloc(&client->dev, sizeof(*ov2735), GFP_KERNEL);
+   809		if (!ov2735)
+   810			return -ENOMEM;
+   811	
+   812		ov2735->client = client;
+   813		ov2735->dev = &client->dev;
+   814	
+   815		v4l2_i2c_subdev_init(&ov2735->sd, client, &ov2735_subdev_ops);
+   816		ov2735->sd.internal_ops = &ov2735_internal_ops;
+   817	
+   818		ov2735->cci = devm_cci_regmap_init_i2c(client, 8);
+   819		if (IS_ERR(ov2735->cci)) {
+   820			ret = PTR_ERR(ov2735->cci);
+   821			return dev_err_probe(ov2735->dev, ret, "failed to initialize CCI\n");
+   822		}
+   823	
+   824		/* Set Current page to 0 */
+   825		ov2735->current_page = 0;
+   826		mutex_init(&ov2735->page_lock);
+   827	
+   828		/* Get system clock (xvclk) */
+ > 829		ov2735->xclk = devm_v4l2_sensor_clk_get(ov2735->dev, NULL);
+   830		if (IS_ERR(ov2735->xclk)) {
+   831			return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->xclk),
+   832					     "failed to get xclk\n");
+   833		}
+   834	
+   835		xclk_freq = clk_get_rate(ov2735->xclk);
+   836		if (xclk_freq != OV2735_XCLK_FREQ)
+   837			return dev_err_probe(ov2735->dev, -EINVAL,
+   838					     "xclk frequency not supported: %d Hz\n",
+   839					     xclk_freq);
+   840	
+   841		ret = ov2735_get_regulators(ov2735);
+   842		if (ret)
+   843			return dev_err_probe(ov2735->dev, ret, "failed to get regulators\n");
+   844	
+   845		ret = ov2735_parse_endpoint(ov2735);
+   846		if (ret) {
+   847			dev_err(ov2735->dev, "failed to parse endpoint configuration\n");
+   848			return ret;
+   849		}
+   850	
+   851		ov2735->reset_gpio = devm_gpiod_get(&client->dev, "reset", GPIOD_OUT_LOW);
+   852		if (IS_ERR(ov2735->reset_gpio))
+   853			return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->reset_gpio),
+   854					     "failed to get reset GPIO\n");
+   855	
+   856		ov2735->enable_gpio = devm_gpiod_get(&client->dev, "enable", GPIOD_OUT_LOW);
+   857		if (IS_ERR(ov2735->enable_gpio))
+   858			return dev_err_probe(ov2735->dev, PTR_ERR(ov2735->enable_gpio),
+   859					     "failed to get enable GPIO\n");
+   860	
+   861		ret = ov2735_power_on(ov2735->dev);
+   862		if (ret)
+   863			return ret;
+   864	
+   865		ret = ov2735_identify_module(ov2735);
+   866		if (ret)
+   867			goto error_power_off;
+   868	
+   869		/* This needs the pm runtime to be registered. */
+   870		ret = ov2735_init_controls(ov2735);
+   871		if (ret)
+   872			goto error_power_off;
+   873	
+   874		/* Initialize subdev */
+   875		ov2735->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+   876		ov2735->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+   877		ov2735->pad.flags = MEDIA_PAD_FL_SOURCE;
+   878	
+   879		ret = media_entity_pads_init(&ov2735->sd.entity, 1, &ov2735->pad);
+   880		if (ret) {
+   881			dev_err_probe(ov2735->dev, ret, "failed to init entity pads\n");
+   882			goto error_handler_free;
+   883		}
+   884	
+   885		ov2735->sd.state_lock = ov2735->handler.lock;
+   886		ret = v4l2_subdev_init_finalize(&ov2735->sd);
+   887		if (ret < 0) {
+   888			dev_err_probe(ov2735->dev, ret, "subdev init error\n");
+   889			goto error_media_entity;
+   890		}
+   891	
+   892		pm_runtime_set_active(ov2735->dev);
+   893		pm_runtime_enable(ov2735->dev);
+   894	
+   895		ret = v4l2_async_register_subdev_sensor(&ov2735->sd);
+   896		if (ret < 0) {
+   897			dev_err_probe(ov2735->dev, ret,
+   898				      "failed to register ov2735 sub-device\n");
+   899			goto error_subdev_cleanup;
+   900		}
+   901	
+   902		pm_runtime_idle(ov2735->dev);
+   903	
+   904		return 0;
+   905	
+   906	error_subdev_cleanup:
+   907		v4l2_subdev_cleanup(&ov2735->sd);
+   908		pm_runtime_disable(ov2735->dev);
+   909		pm_runtime_set_suspended(ov2735->dev);
+   910	
+   911	error_media_entity:
+   912		media_entity_cleanup(&ov2735->sd.entity);
+   913	
+   914	error_handler_free:
+   915		v4l2_ctrl_handler_free(ov2735->sd.ctrl_handler);
+   916	
+   917	error_power_off:
+   918		ov2735_power_off(ov2735->dev);
+   919	
+   920		return ret;
+   921	}
+   922	
 
-Thanks,
-
-Alex
-
-
->
-> Thanks,
->
-> Alex
->
-> Alexandre Ghiti <alex@ghiti.fr> 于2025年7月10日周四 22:33写道：
->>
->> On 7/10/25 14:34, Miao Chen wrote:
->>> Hello Alex,
->>>
->>> Sure, I'll checkout it. Btw, this is my first commit, so can u tell
->>> how to reproduce failed case? Using the reproduce and .config.gz gived
->>> by build-bot?
->>
->> Yes exactly!
->>
->>
->>> Thanks,
->>>
->>> Chen Miao
->>>
->>> Alexandre Ghiti <alex@ghiti.fr> 于2025年7月10日周四 19:53写道：
->>>> Hi ChenMiao,
->>>>
->>>> On 7/9/25 03:08, kernel test robot wrote:
->>>>> Hi ChenMiao,
->>>>>
->>>>> kernel test robot noticed the following build errors:
->>>>>
->>>>> [auto build test ERROR on fda589c286040d9ba2d72a0eaf0a13945fc48026]
->>>>>
->>>>> url:    https://github.com/intel-lab-lkp/linux/commits/ChenMiao/riscv-ftrace-Fix-the-logic-issue-in-DYNAMIC_FTRACE-selection/20250706-231907
->>>>> base:   fda589c286040d9ba2d72a0eaf0a13945fc48026
->>>>> patch link:    https://lore.kernel.org/r/20250706151830.25091-1-chenmiao.ku%40gmail.com
->>>>> patch subject: [PATCH V2] riscv: ftrace: Fix the logic issue in DYNAMIC_FTRACE selection
->>>>> :::::: branch date: 2 days ago
->>>>> :::::: commit date: 2 days ago
->>>>> config: riscv-randconfig-r112-20250708 (attached as .config)
->>>>> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
->>>>> reproduce: (attached as reproduce)
->>>>>
->>>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->>>>> the same patch/commit), kindly add following tags
->>>>> | Reported-by: kernel test robot <lkp@intel.com>
->>>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202507090650.YGY56SIA-lkp@intel.com/
->>>>>
->>>>> All errors (new ones prefixed by >>):
->>>>>
->>>>>>> <instantiation>:1:14: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
->>>>>       addi sp, sp, -FREGS_SIZE_ON_STACK
->>>>>                    ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>>> <instantiation>:2:18: error: unexpected token
->>>>>        sw t0, FREGS_EPC(sp)
->>>>>                        ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:3:17: error: unexpected token
->>>>>        sw x1, FREGS_RA(sp)
->>>>>                       ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:7:17: error: unexpected token
->>>>>        sw x6, FREGS_T1(sp)
->>>>>                       ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:9:17: error: unexpected token
->>>>>        sw x7, FREGS_T2(sp)
->>>>>                       ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:10:18: error: unexpected token
->>>>>        sw x28, FREGS_T3(sp)
->>>>>                        ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:11:18: error: unexpected token
->>>>>        sw x29, FREGS_T4(sp)
->>>>>                        ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:12:18: error: unexpected token
->>>>>        sw x30, FREGS_T5(sp)
->>>>>                        ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:13:18: error: unexpected token
->>>>>        sw x31, FREGS_T6(sp)
->>>>>                        ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:16:18: error: unexpected token
->>>>>        sw x10, FREGS_A0(sp)
->>>>>                        ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:17:18: error: unexpected token
->>>>>        sw x11, FREGS_A1(sp)
->>>>>                        ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:18:18: error: unexpected token
->>>>>        sw x12, FREGS_A2(sp)
->>>>>                        ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:19:18: error: unexpected token
->>>>>        sw x13, FREGS_A3(sp)
->>>>>                        ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:20:18: error: unexpected token
->>>>>        sw x14, FREGS_A4(sp)
->>>>>                        ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:21:18: error: unexpected token
->>>>>        sw x15, FREGS_A5(sp)
->>>>>                        ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:22:18: error: unexpected token
->>>>>        sw x16, FREGS_A6(sp)
->>>>>                        ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:23:18: error: unexpected token
->>>>>        sw x17, FREGS_A7(sp)
->>>>>                        ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>        ^
->>>>>       <instantiation>:25:15: error: operand must be a symbol with %lo/%pcrel_lo/%tprel_lo modifier or an integer in the range [-2048, 2047]
->>>>>        addi a0, a0, FREGS_SIZE_ON_STACK
->>>>>                     ^
->>>>>       arch/riscv/kernel/mcount-dyn.S:185:2: note: while in macro instantiation
->>>>>        SAVE_ABI_REGS
->>>>>
->>>>> Kconfig warnings: (for reference only)
->>>>>       WARNING: unmet direct dependencies detected for DYNAMIC_FTRACE
->>>>>       Depends on [n]: FTRACE [=y] && FUNCTION_TRACER [=y] && HAVE_DYNAMIC_FTRACE [=n]
->>>>>       Selected by [y]:
->>>>>       - RISCV [=y] && FUNCTION_TRACER [=y]
->>>> To avoid that, we should check HAVE_DYNAMIC_FTRACE too:
->>>>
->>>> select DYNAMIC_FTRACE if FUNCTION_TRACER && HAVE_DYNAMIC_FTRACE
->>>>
->>>> That fixes the build error for me. Can you send a v3 with this change?
->>>>
->>>> Thanks,
->>>>
->>>> Alex
->>>>
->>>>
->>> _______________________________________________
->>> linux-riscv mailing list
->>> linux-riscv@lists.infradead.org
->>> http://lists.infradead.org/mailman/listinfo/linux-riscv
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
