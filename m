@@ -1,62 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481631F12FB
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Jul 2025 21:45:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AE6D2AE6A
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Jul 2025 22:16:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752356731; cv=none; b=bar/T4nnRbC21fXvwVDCo3rbnrAlnrHrr/GWCYVI0ue1wtiokGy6DZ43k2kcHiigfBmEXv11JRd/s3c7hbwavOGfIuw6EkJ6eZ92zpwG8KH9l4WM0TwiGCDckoX2Rv06dTTZ7lJMrrVD25xHF77TRpb1BLP0fCXGFuylBcT0x1M=
+	t=1752358598; cv=none; b=iIB/bSUgpSyI/poXOF46D3kxdvk4EUUbmgHqEKffFVEuyoB7okCyrsEJz5Gr0udc1xAF3WGqUnUlg92IjP/g76lam9hZU/QCtZl4lJ0cx9Ts+Cc59BjC0awWEPziLziuKVIm07PTCT0ttTaOeS5BBJlmK7DMckSChtXYYH7qZmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752356731; c=relaxed/simple;
-	bh=8IX5mpUXCYTmlFFh11WohKJGUsbbEjDDWLInJqawZEY=;
+	s=arc-20240116; t=1752358598; c=relaxed/simple;
+	bh=F+oHiZeATWk7cH+yoFtp77I/m1u1NJ+hRPH1xEcCvKk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tJm9d948WGYnfw90iy1CEgfn5bytMDUyJvRm5eQocobJXv/zDtplLmg6E83xXamMEq4C8VXG/a7foZvW78AdeDiedsYFgs51l70TEuBlhasMi1u2tR9ihYjDvCPHNyMwW8J/I9lJ6IQ8go/VdElQOw2X+l02LhI1pfwwDJ2RFd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SkApOp/b; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=o6WhOWLfB3vbSb9/wDdGJh2P0wchAUIne3RnWyAFJ15dXsooI9yaiIC4zk7ofVVApPhuukIWKjxok8Y7MLTDuECXc/NWF1nbIHDjm7VNW/5gh20ME0CudBRynbO7j3+FicblSnmZBtygWW3FQcYgmzHaPrC+7htOvJLTmOo7gsg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PKamApBt; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SkApOp/b"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PKamApBt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752356729; x=1783892729;
+  t=1752358597; x=1783894597;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8IX5mpUXCYTmlFFh11WohKJGUsbbEjDDWLInJqawZEY=;
-  b=SkApOp/bYJe2vop5MVX3ly8djmboKT00fOrNAY6mxcoLxQGWYKITBDeS
-   vJr3Ey33QM9+LTEcrF18frGpBuK1QEjf3kswE+ZSlGosQpLJBZ3bbdcrg
-   Np9bq6dLs6qOE7pVHtYSZ6aJvOMoXoRaGXEQD2dlWmXIfc3Ko144lPtfw
-   N6mOaKL4e58ZLHne0p4ftWEiEzJpWGpe38EiJ+OLDDOLKhnqMIrmkSdji
-   GJGdP0sJigkfnW1ZrE9hpUaJAYxtwqRaJK3W4+16LLsiN2aN4ySn7f/V/
-   g3Syqb2ZdevtnxT+qzy1eGKyTA1ajH2HlLOpJSzydyBXvuId0WtxC/5uc
-   A==;
-X-CSE-ConnectionGUID: MQzJvh5sSD61dpCQ5UR/+A==
-X-CSE-MsgGUID: OWyILAFnRdaBWWUvV1hGNg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="65186570"
+  bh=F+oHiZeATWk7cH+yoFtp77I/m1u1NJ+hRPH1xEcCvKk=;
+  b=PKamApBtgmF32sRcUH2+D8jWvK/P/hRHaGX+mQj3eUMCHqVJrXTm/LFE
+   PYb63IuqEL8gcjW5ZHXL1X+FeCLjgwmk9Ob2kgFPgm3+4yg/cjds4csZE
+   Qp/muf6ZCEeiNAh3KQ8QS5Ftzl5gfFpDSlaBm2F+4q4HFqzu3UzF8aLww
+   lYdyOlxJmavt9nGXnDP3gbtWHQNYvRb6VP3m60x/T6StgPbxJT3GhkGv2
+   8SrPSh9sTW/voMHyW6OR4qsEvb33CTDTfY507gKjlgWmFUQtFhDol3yKl
+   50EvFcU91kSSNBM8wLttCZsN/qO6UXHa5OyJ8qVGIyks4YtWbEZN41gbj
+   w==;
+X-CSE-ConnectionGUID: hZSL0dAjTIqj1fo6eLzK6w==
+X-CSE-MsgGUID: 7LQSA+h/Q8GNgzQ3V/UHJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54765923"
 X-IronPort-AV: E=Sophos;i="6.16,307,1744095600"; 
-   d="scan'208";a="65186570"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 14:45:28 -0700
-X-CSE-ConnectionGUID: RmIkj5dVTpazBxX/ONimvA==
-X-CSE-MsgGUID: 7ReyvrBwRCC9uIny1h44Uw==
+   d="scan'208";a="54765923"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 15:16:36 -0700
+X-CSE-ConnectionGUID: JkkpHCcBQzi6MR0nCWGoiQ==
+X-CSE-MsgGUID: uQdH5NLaRi+fi4KDjJxTvA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,307,1744095600"; 
-   d="scan'208";a="156714724"
+   d="scan'208";a="187614569"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Jul 2025 14:45:26 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 12 Jul 2025 15:16:29 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uai28-0007i3-1J;
-	Sat, 12 Jul 2025 21:45:24 +0000
-Date: Sun, 13 Jul 2025 05:44:34 +0800
+	id 1uaiWA-0007it-21;
+	Sat, 12 Jul 2025 22:16:26 +0000
+Date: Sun, 13 Jul 2025 06:16:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>, mario.limonciello@amd.com,
-	rafael@kernel.org, len.brown@intel.com, pavel@kernel.org,
-	guoqing.zhang@amd.com
-Cc: oe-kbuild-all@lists.linux.dev, Randy Dunlap <rdunlap@infradead.org>,
-	linux-pm@vger.kernel.org
-Subject: Re: [PATCH] PM: hibernate: Add stub for pm_hibernate_is_recovering()
-Message-ID: <202507130544.2Nxzh8Qg-lkp@intel.com>
-References: <20250712185851.591024-1-superm1@kernel.org>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>, jic23@kernel.org,
+	robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>
+Subject: Re: [PATCH 3/3] iio: adc: add ade9000 support
+Message-ID: <202507130521.iaXBguXP-lkp@intel.com>
+References: <20250711130241.159143-4-antoniu.miclaus@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,59 +65,243 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250712185851.591024-1-superm1@kernel.org>
+In-Reply-To: <20250711130241.159143-4-antoniu.miclaus@analog.com>
 
-Hi Mario,
+Hi Antoniu,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on linux-next/master]
-[cannot apply to linus/master v6.16-rc5]
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on robh/for-next linus/master v6.16-rc5 next-20250711]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PM-hibernate-Add-stub-for-pm_hibernate_is_recovering/20250713-025938
-base:   linux-next/master
-patch link:    https://lore.kernel.org/r/20250712185851.591024-1-superm1%40kernel.org
-patch subject: [PATCH] PM: hibernate: Add stub for pm_hibernate_is_recovering()
-config: i386-buildonly-randconfig-003-20250713 (https://download.01.org/0day-ci/archive/20250713/202507130544.2Nxzh8Qg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250713/202507130544.2Nxzh8Qg-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/iio-add-power-and-energy-measurement-modifiers/20250712-022300
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250711130241.159143-4-antoniu.miclaus%40analog.com
+patch subject: [PATCH 3/3] iio: adc: add ade9000 support
+config: arc-randconfig-r133-20250713 (https://download.01.org/0day-ci/archive/20250713/202507130521.iaXBguXP-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 10.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250713/202507130521.iaXBguXP-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507130544.2Nxzh8Qg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507130521.iaXBguXP-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iio/adc/ade9000.c:1176:40: sparse: sparse: cast truncates bits from constant value (100000 becomes 0)
+   drivers/iio/adc/ade9000.c:1185:40: sparse: sparse: cast truncates bits from constant value (200000 becomes 0)
+   drivers/iio/adc/ade9000.c:1194:40: sparse: sparse: cast truncates bits from constant value (400000 becomes 0)
+   drivers/iio/adc/ade9000.c:1203:40: sparse: sparse: cast truncates bits from constant value (800000 becomes 0)
+   drivers/iio/adc/ade9000.c:1212:40: sparse: sparse: cast truncates bits from constant value (1000000 becomes 0)
+   drivers/iio/adc/ade9000.c:1221:40: sparse: sparse: cast truncates bits from constant value (2000000 becomes 0)
+   drivers/iio/adc/ade9000.c:1230:40: sparse: sparse: cast truncates bits from constant value (40000 becomes 0)
+   drivers/iio/adc/ade9000.c:1249:12: sparse: sparse: context imbalance in 'ade9000_read_raw' - different lock contexts for basic block
+>> drivers/iio/adc/ade9000.c:1761:9: sparse: sparse: dereference of noderef expression
+>> drivers/iio/adc/ade9000.c:1761:9: sparse: sparse: dereference of noderef expression
 
->> drivers/base/power/main.c:77:6: error: redefinition of 'pm_hibernate_is_recovering'
-      77 | bool pm_hibernate_is_recovering(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   In file included from drivers/base/power/main.c:32:
-   include/linux/suspend.h:420:20: note: previous definition of 'pm_hibernate_is_recovering' with type 'bool(void)' {aka '_Bool(void)'}
-     420 | static inline bool pm_hibernate_is_recovering(void) { return false; }
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+vim +1176 drivers/iio/adc/ade9000.c
 
-
-vim +/pm_hibernate_is_recovering +77 drivers/base/power/main.c
-
-098dff738abbea Rafael J. Wysocki 2010-09-22  68  
-c2aaddbd2deded Samuel Zhang      2025-07-10  69  /**
-c2aaddbd2deded Samuel Zhang      2025-07-10  70   * pm_hibernate_is_recovering - if recovering from hibernate due to error.
-c2aaddbd2deded Samuel Zhang      2025-07-10  71   *
-c2aaddbd2deded Samuel Zhang      2025-07-10  72   * Used to query if dev_pm_ops.thaw() is called for normal hibernation case or
-c2aaddbd2deded Samuel Zhang      2025-07-10  73   * recovering from some error.
-c2aaddbd2deded Samuel Zhang      2025-07-10  74   *
-c2aaddbd2deded Samuel Zhang      2025-07-10  75   * Return: true for error case, false for normal case.
-c2aaddbd2deded Samuel Zhang      2025-07-10  76   */
-c2aaddbd2deded Samuel Zhang      2025-07-10 @77  bool pm_hibernate_is_recovering(void)
-c2aaddbd2deded Samuel Zhang      2025-07-10  78  {
-c2aaddbd2deded Samuel Zhang      2025-07-10  79  	return pm_transition.event == PM_EVENT_RECOVER;
-c2aaddbd2deded Samuel Zhang      2025-07-10  80  }
-c2aaddbd2deded Samuel Zhang      2025-07-10  81  EXPORT_SYMBOL_GPL(pm_hibernate_is_recovering);
-c2aaddbd2deded Samuel Zhang      2025-07-10  82  
+  1051	
+  1052	static irqreturn_t ade9000_irq1_thread(int irq, void *data)
+  1053	{
+  1054		struct iio_dev *indio_dev = data;
+  1055		struct ade9000_state *st = iio_priv(indio_dev);
+  1056		unsigned int bit = ADE9000_ST1_CROSSING_FIRST;
+  1057		s64 timestamp = iio_get_time_ns(indio_dev);
+  1058		u32 handled_irq = 0;
+  1059		u32 interrupts;
+  1060		u32 result;
+  1061		u32 status;
+  1062		u32 tmp;
+  1063		int ret;
+  1064	
+  1065		if (!st->rst_done) {
+  1066			ret = regmap_read(st->regmap, ADE9000_REG_STATUS1, &result);
+  1067			if (ret)
+  1068				return ret;
+  1069	
+  1070			if (result & ADE9000_ST1_RSTDONE_BIT)
+  1071				st->rst_done = true;
+  1072			else
+  1073				dev_err(&st->spi->dev, "Error testing reset done");
+  1074	
+  1075			return IRQ_HANDLED;
+  1076		}
+  1077	
+  1078		ret = regmap_read(st->regmap, ADE9000_REG_STATUS1, &status);
+  1079		if (ret)
+  1080			return IRQ_HANDLED;
+  1081	
+  1082		ret = regmap_read(st->regmap, ADE9000_REG_MASK1, &interrupts);
+  1083		if (ret) {
+  1084			dev_err(&st->spi->dev, "IRQ1 read status fail");
+  1085			return IRQ_HANDLED;
+  1086		}
+  1087	
+  1088		for_each_set_bit_from(bit, (unsigned long *)&interrupts,
+  1089				      ADE9000_ST1_CROSSING_DEPTH){
+  1090			tmp = status & BIT(bit);
+  1091	
+  1092			switch (tmp) {
+  1093			case ADE9000_ST1_ZXVA_BIT:
+  1094				iio_push_event(indio_dev,
+  1095					       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+  1096								    ADE9000_ST1_ZXVA_BIT,
+  1097								    IIO_EV_TYPE_THRESH,
+  1098								    IIO_EV_DIR_EITHER),
+  1099					       timestamp);
+  1100				handled_irq |= ADE9000_ST1_ZXVA_BIT;
+  1101				break;
+  1102			case ADE9000_ST1_ZXTOVA_BIT:
+  1103				iio_push_event(indio_dev,
+  1104					       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+  1105								    ADE9000_ST1_ZXTOVA_BIT,
+  1106								    IIO_EV_TYPE_THRESH,
+  1107								    IIO_EV_DIR_EITHER),
+  1108					       timestamp);
+  1109				handled_irq |= ADE9000_ST1_ZXTOVA_BIT;
+  1110				break;
+  1111			case ADE9000_ST1_ZXIA_BIT:
+  1112				iio_push_event(indio_dev,
+  1113					       IIO_UNMOD_EVENT_CODE(IIO_CURRENT,
+  1114								    ADE9000_ST1_ZXIA_BIT,
+  1115								    IIO_EV_TYPE_THRESH,
+  1116								    IIO_EV_DIR_EITHER),
+  1117					       timestamp);
+  1118				handled_irq |= ADE9000_ST1_ZXIA_BIT;
+  1119				break;
+  1120			case ADE9000_ST1_ZXVB_BIT:
+  1121				iio_push_event(indio_dev,
+  1122					       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+  1123								    ADE9000_ST1_ZXVB_BIT,
+  1124								    IIO_EV_TYPE_THRESH,
+  1125								    IIO_EV_DIR_EITHER),
+  1126					       timestamp);
+  1127				handled_irq |= ADE9000_ST1_ZXVB_BIT;
+  1128				break;
+  1129			case ADE9000_ST1_ZXTOVB_BIT:
+  1130				iio_push_event(indio_dev,
+  1131					       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+  1132								    ADE9000_ST1_ZXTOVB_BIT,
+  1133								    IIO_EV_TYPE_THRESH,
+  1134								    IIO_EV_DIR_EITHER),
+  1135					       timestamp);
+  1136				handled_irq |= ADE9000_ST1_ZXTOVB_BIT;
+  1137				break;
+  1138			case ADE9000_ST1_ZXIB_BIT:
+  1139				iio_push_event(indio_dev,
+  1140					       IIO_UNMOD_EVENT_CODE(IIO_CURRENT,
+  1141								    ADE9000_ST1_ZXIB_BIT,
+  1142								    IIO_EV_TYPE_THRESH,
+  1143								    IIO_EV_DIR_EITHER),
+  1144					       timestamp);
+  1145				handled_irq |= ADE9000_ST1_ZXIB_BIT;
+  1146				break;
+  1147			case ADE9000_ST1_ZXVC_BIT:
+  1148				iio_push_event(indio_dev,
+  1149					       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+  1150								    ADE9000_ST1_ZXVC_BIT,
+  1151								    IIO_EV_TYPE_THRESH,
+  1152								    IIO_EV_DIR_EITHER),
+  1153					       timestamp);
+  1154				handled_irq |= ADE9000_ST1_ZXVC_BIT;
+  1155				break;
+  1156			case ADE9000_ST1_ZXTOVC_BIT:
+  1157				iio_push_event(indio_dev,
+  1158					       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+  1159								    ADE9000_ST1_ZXTOVC_BIT,
+  1160								    IIO_EV_TYPE_THRESH,
+  1161								    IIO_EV_DIR_EITHER),
+  1162					       timestamp);
+  1163				handled_irq |= ADE9000_ST1_ZXTOVC_BIT;
+  1164				break;
+  1165			case ADE9000_ST1_ZXIC_BIT:
+  1166				iio_push_event(indio_dev,
+  1167					       IIO_UNMOD_EVENT_CODE(IIO_CURRENT,
+  1168								    ADE9000_ST1_ZXIC_BIT,
+  1169								    IIO_EV_TYPE_THRESH,
+  1170								    IIO_EV_DIR_EITHER),
+  1171					       timestamp);
+  1172				handled_irq |= ADE9000_ST1_ZXIC_BIT;
+  1173				break;
+  1174			case ADE9000_ST1_SWELLA_BIT:
+  1175				iio_push_event(indio_dev,
+> 1176					       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+  1177								    ADE9000_ST1_SWELLA_BIT,
+  1178								    IIO_EV_TYPE_THRESH,
+  1179								    IIO_EV_DIR_RISING),
+  1180					       timestamp);
+  1181				handled_irq |= ADE9000_ST1_SWELLA_BIT;
+  1182				break;
+  1183			case ADE9000_ST1_SWELLB_BIT:
+  1184				iio_push_event(indio_dev,
+  1185					       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+  1186								    ADE9000_ST1_SWELLB_BIT,
+  1187								    IIO_EV_TYPE_THRESH,
+  1188								    IIO_EV_DIR_RISING),
+  1189					       timestamp);
+  1190				handled_irq |= ADE9000_ST1_SWELLB_BIT;
+  1191				break;
+  1192			case ADE9000_ST1_SWELLC_BIT:
+  1193				iio_push_event(indio_dev,
+  1194					       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+  1195								    ADE9000_ST1_SWELLC_BIT,
+  1196								    IIO_EV_TYPE_THRESH,
+  1197								    IIO_EV_DIR_RISING),
+  1198					       timestamp);
+  1199				handled_irq |= ADE9000_ST1_SWELLC_BIT;
+  1200				break;
+  1201			case ADE9000_ST1_DIPA_BIT:
+  1202				iio_push_event(indio_dev,
+  1203					       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+  1204								    ADE9000_ST1_DIPA_BIT,
+  1205								    IIO_EV_TYPE_THRESH,
+  1206								    IIO_EV_DIR_FALLING),
+  1207					       timestamp);
+  1208				handled_irq |= ADE9000_ST1_DIPA_BIT;
+  1209				break;
+  1210			case ADE9000_ST1_DIPB_BIT:
+  1211				iio_push_event(indio_dev,
+  1212					       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+  1213								    ADE9000_ST1_DIPB_BIT,
+  1214								    IIO_EV_TYPE_THRESH,
+  1215								    IIO_EV_DIR_FALLING),
+  1216					       timestamp);
+  1217				handled_irq |= ADE9000_ST1_DIPB_BIT;
+  1218				break;
+  1219			case ADE9000_ST1_DIPC_BIT:
+  1220				iio_push_event(indio_dev,
+  1221					       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+  1222								    ADE9000_ST1_DIPC_BIT,
+  1223								    IIO_EV_TYPE_THRESH,
+  1224								    IIO_EV_DIR_FALLING),
+  1225					       timestamp);
+  1226				handled_irq |= ADE9000_ST1_DIPC_BIT;
+  1227				break;
+  1228			case ADE9000_ST1_SEQERR_BIT:
+  1229				iio_push_event(indio_dev,
+  1230					       IIO_UNMOD_EVENT_CODE(IIO_VOLTAGE,
+  1231								    ADE9000_ST1_SEQERR_BIT,
+  1232								    IIO_EV_TYPE_CHANGE,
+  1233								    IIO_EV_DIR_NONE),
+  1234					       timestamp);
+  1235				handled_irq |= ADE9000_ST1_SEQERR_BIT;
+  1236				break;
+  1237			default:
+  1238				return IRQ_HANDLED;
+  1239			}
+  1240		}
+  1241	
+  1242		ret = regmap_write(st->regmap, ADE9000_REG_STATUS1, handled_irq);
+  1243		if (ret)
+  1244			return ret;
+  1245	
+  1246		return IRQ_HANDLED;
+  1247	}
+  1248	
 
 -- 
 0-DAY CI Kernel Test Service
