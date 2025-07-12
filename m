@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2E0718D
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Jul 2025 19:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC15A22652D;
+	Sat, 12 Jul 2025 20:52:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752349220; cv=none; b=gbfPndjQTLGruGsmLYO7Z382WkM5RDMG+U+lTDgqlA+eNgXiHpoLktazYIXLKoPZj55GrNQuyL4Aix8FmRs1oROSw+GrHi3GV0RXvzW8Qec2qxbEdyK+IyasS62JyAcihNRrBVspCOupmOmaq2+lhxLyWk6y0qow83v8l+nmS+0=
+	t=1752353548; cv=none; b=PX7DGH/sYx1eC0Q3DoDPZg8Oh7QAWpznQBWZF+PyDVMr/S7VoporXnvpNXq5VxIkKhY1jWVVvp1VTNEe4GlBJRpM5dIjgpGIb/6Sq8wc/YOpsWQCwzVzOhY9de7kIrT8+xWbVSzD936LeoUXsAvCRGPfnO6oSrnv7ZwRUn7XZPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752349220; c=relaxed/simple;
-	bh=mDad/KR4pimWWg+Kh0Oxg6AiO2xF9/Dsy+dLp+nq0HU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Y+F8Hh3P+IJaEOuYMSnVolSNu75/ax09mhMZhngYWK78aYKEgvWuBxBBq5mOIMYQt1ieWulonxUQFJUZ1qstuRXi7Uyj/2FHqUAaMEJZH/sSOF0eFbrVRIRUMSKV8taeUgS3YwhaMQZvTOdsMUGbDTV02XhBFwH/T6LUliap0Xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xm6QD5d9; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1752353548; c=relaxed/simple;
+	bh=el3QB5FzgTGqMoLQ2O4Y0t2EM+WD4U0n+5F7KR57zzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jI8hwkM3NlEtKI9tyBTdUMuqc6maTimEzG70KLjRiSHh1TNDjLkaYw1N60lCq0FfDEk8NkfK8Zn4byJAYXIR72xs01ALeRvuDZX0E0SbvufrzOTS7Mp6ExzsxMEI+jPnPbK3RdMHl/TFbJbO6kzK15Ov3byOMxTVeJ48yGgPoRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EVeS4Pdo; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xm6QD5d9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EVeS4Pdo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752349219; x=1783885219;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mDad/KR4pimWWg+Kh0Oxg6AiO2xF9/Dsy+dLp+nq0HU=;
-  b=Xm6QD5d9LGOBvMzAvBHXp2je+Iw5E+Sje88EOF2/kmMrInG2N8NsAKQ0
-   4XuEuWE99Ofg/HHKFZYY6czFgYKM6pr/e4Yke3t/P2lct8o36lkvQhqAp
-   5EFL6SHbxIv4JRRN2UZI1+s9iiNJjvpr+WgTJZVKnWyTh4iKpo6AEqq2R
-   94PLZxv9Q7YSc3wNnhJ3JzbI64yIY7oUH6Nse1Ou4N50OUxQqJaIasSm6
-   0J4TDzYBOtJzZAwCdxWd6p3RwPzcLS2nsyFzXuDGx4e+Yfd31e0e50LV9
-   Grn+cbrbQIfx+KHV0SNsQpmQdk9YJ+z7A+31WGG2aZPzp+TJroFulFUdn
-   g==;
-X-CSE-ConnectionGUID: /JpLe07vQry23+uwXzyF2w==
-X-CSE-MsgGUID: VPQitDT7QDWi1425aLHt6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54462208"
-X-IronPort-AV: E=Sophos;i="6.16,306,1744095600"; 
-   d="scan'208";a="54462208"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 12:40:19 -0700
-X-CSE-ConnectionGUID: ecH1Kdi6TY61CrPmyDE8Aw==
-X-CSE-MsgGUID: 8Xqffsp6Q9uyKD6TMy4afg==
+  t=1752353545; x=1783889545;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=el3QB5FzgTGqMoLQ2O4Y0t2EM+WD4U0n+5F7KR57zzo=;
+  b=EVeS4PdoNOHXYVfFoL+fIwMThH9lf9wOK+DGmdhNO6umDW+lDUfCXwxg
+   gjFkhpvN/GJpLqUpH4uNXCcu2lq5IMiNlNzupIjmWeB0AdAv+G3oaMIn+
+   uF3CeF2WXGZI+OBsov1yXSeF7J6Nw2g2jeWz+KvkMygY3espKsM1k8sdl
+   H2U6N935bJ+BhPgpz8J3xKX6dgw1iu/GWw0OnkgcFTMp0nr6n5Vjmfypw
+   ktFnWA8zqaG3HQGlFtlrcKNqMwsCEqKnORnF+qoL9vGOXz7ukf6xUZLSv
+   VJQadP7QTmZljcV8k4gGHbsYSclg2+1BqwCHyvzDECxaZCX0jRQ9xxygb
+   Q==;
+X-CSE-ConnectionGUID: iqjdfkpVTl2elkkhBZthKA==
+X-CSE-MsgGUID: gSGW+TA0S4iMhjLZrbA0Ww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="77146229"
+X-IronPort-AV: E=Sophos;i="6.16,307,1744095600"; 
+   d="scan'208";a="77146229"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 13:52:25 -0700
+X-CSE-ConnectionGUID: vfJ3frt3QBKZa7aN3nZkDQ==
+X-CSE-MsgGUID: /IL16pcTTPe0heuf+KGUqQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,306,1744095600"; 
-   d="scan'208";a="156701722"
+X-IronPort-AV: E=Sophos;i="6.16,307,1744095600"; 
+   d="scan'208";a="156425241"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 12 Jul 2025 12:40:17 -0700
+  by orviesa009.jf.intel.com with ESMTP; 12 Jul 2025 13:52:23 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uag50-0007eJ-2H;
-	Sat, 12 Jul 2025 19:40:14 +0000
-Date: Sun, 13 Jul 2025 03:39:57 +0800
+	id 1uahCm-0007gB-18;
+	Sat, 12 Jul 2025 20:52:20 +0000
+Date: Sun, 13 Jul 2025 04:51:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: Samuel Zhang <guoqing.zhang@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Lijo Lazar <lijo.lazar@amd.com>
-Subject: [linux-next:master 8552/9053] arc-linux-ld: amdgpu_drv.c:undefined
- reference to `pm_hibernate_is_recovering'
-Message-ID: <202507130333.ABgltDgA-lkp@intel.com>
+To: Ibrahim Jirdeh <ibrahimjirdeh@meta.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, jack@suse.cz,
+	amir73il@gmail.com, josef@toxicpanda.com, lesha@meta.com,
+	linux-fsdevel@vger.kernel.org, sargun@meta.com
+Subject: Re: [PATCH v4 3/3] fanotify: introduce event response identifier
+Message-ID: <202507130418.Prp26RtQ-lkp@intel.com>
+References: <20250711183101.4074140-4-ibrahimjirdeh@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,24 +64,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250711183101.4074140-4-ibrahimjirdeh@meta.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a62b7a37e6fcf4a675b1548e7c168b96ec836442
-commit: 530694f54dd5e097866999bbaebc5c133e5507b6 [8552/9053] drm/amdgpu: do not resume device in thaw for normal hibernation
-config: arc-randconfig-002-20250713 (https://download.01.org/0day-ci/archive/20250713/202507130333.ABgltDgA-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250713/202507130333.ABgltDgA-lkp@intel.com/reproduce)
+Hi Ibrahim,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on jack-fs/fsnotify]
+[also build test ERROR on linus/master v6.16-rc5 next-20250711]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ibrahim-Jirdeh/fanotify-add-support-for-a-variable-length-permission-event/20250712-023425
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jack/linux-fs.git fsnotify
+patch link:    https://lore.kernel.org/r/20250711183101.4074140-4-ibrahimjirdeh%40meta.com
+patch subject: [PATCH v4 3/3] fanotify: introduce event response identifier
+config: x86_64-kexec (https://download.01.org/0day-ci/archive/20250713/202507130418.Prp26RtQ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250713/202507130418.Prp26RtQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507130333.ABgltDgA-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507130418.Prp26RtQ-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arc-linux-ld: drivers/gpu/drm/amd/amdgpu/amdgpu_drv.o: in function `amdgpu_pmops_thaw':
-   amdgpu_drv.c:(.text+0x480): undefined reference to `pm_hibernate_is_recovering'
->> arc-linux-ld: amdgpu_drv.c:(.text+0x480): undefined reference to `pm_hibernate_is_recovering'
+   In file included from fs/notify/fdinfo.c:17:
+>> fs/notify/fanotify/fanotify.h:566:6: error: no member named 'fanotify_data' in 'struct fsnotify_group'
+     566 |         if (FAN_GROUP_FLAG(group, FAN_REPORT_RESPONSE_ID))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fanotify.h:9:12: note: expanded from macro 'FAN_GROUP_FLAG'
+       9 |         ((group)->fanotify_data.flags & (flag))
+         |          ~~~~~~~  ^
+   1 error generated.
+
+
+vim +566 fs/notify/fanotify/fanotify.h
+
+   562	
+   563	static inline bool fanotify_is_valid_response_id(struct fsnotify_group *group,
+   564							 int id)
+   565	{
+ > 566		if (FAN_GROUP_FLAG(group, FAN_REPORT_RESPONSE_ID))
 
 -- 
 0-DAY CI Kernel Test Service
