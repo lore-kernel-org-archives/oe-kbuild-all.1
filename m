@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84A928F5B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Jul 2025 07:16:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D733D145323
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Jul 2025 08:19:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752304572; cv=none; b=Q0ymCCXWjgiW2sFCKOZbG4qhM4Ary47nUUpjF1tiwpDuIrM2N1nWG4GVKpNeEj9CFChUiR53xw3GRzEeVp4eMWc6yma/Azx7kLZmaYQC1yPgl7fGnfmmvmlImlCsqeyFJkVuN6bEz4AV25fVToT5UOEs7EFnyUZU98IJsTEX7OY=
+	t=1752308359; cv=none; b=i6szLlzY5r21DJrh+Y3HhMKs1/3WjWDc40E14wqjN7P9tpX6klmiX5LPCOWzr2PmRhsnh/Axmnkpdiji0LKsVR7Yvmp/2RrxB9kayIZIMnStNYeVHW6+xb4EwqVGx6e18nE0G8EijYPG4xjFwArNuMuYqduVMnkNDzOHDi+b2J4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752304572; c=relaxed/simple;
-	bh=ccUGgpTtBWfx37KY/Uzcs3cK27ss52L0tc5huxtF148=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lMlQ/ctGuJnCyw+0UO1tujonJik2onzpBhKkTuIzwOzR8VjVOfEJpJhucn3JHj99sX6P2WmmokT6yiplPwogw0EQVvP9V5bDUqh7bC4rK/mn0401hFRlB+1iYP2v2698HEIIGXwqwQem6ybevdkX7w2EEhnZsLpaYiWr+UmiDkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dcKcrLCt; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1752308359; c=relaxed/simple;
+	bh=eB+ThotSsopGkHavSJDY+uYX/rQcwLk88dMHc6rUuHY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Pn5KqunTECmy9liH71iBvM2tykiX5fZxJfl341T7YtFaLh9lrpSoSegAt4swtnTZg98Icoblav/ywRr0gjVrf7SbQGeoYxLEVy/SGDaRpouQEbsIx/uGyikVxF27Lr7f7F6HSti8sJngphRvGElqrFcxfERJVI+cEjje84vAka0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eU+7ZhVI; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dcKcrLCt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eU+7ZhVI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752304570; x=1783840570;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ccUGgpTtBWfx37KY/Uzcs3cK27ss52L0tc5huxtF148=;
-  b=dcKcrLCtoV0/z8kTuzS+L6qzqBdIGsykoc+ihdAFt5BLye/Lr+aWJ7pA
-   h/RNuJGrqRMpmR/NUyaoaUhiegf/ePJZ9PhEteDKt+BTLbL244V0BQBRa
-   imwv2UmFP+n5ekNFdl1bzbr8rNy4c80Sr49vLGkwlaId0uxdG1rjZt5cT
-   gdlknOkIfKCZ/62zwGWdjxh/3rcp4gTXoYnFHEwdIkCP53p4sNYQDZG9W
-   XpRzLUPRY0hZSW9S3+V94P/NVzcidV7mz/xN6VbJz/VnIR/HfWRq3VGYp
-   Dnuo6XL7SyElTITiVZQsx4X2pqr+HGQP0E79ECvvuw2yHQXg+dnX6QJu0
-   A==;
-X-CSE-ConnectionGUID: mFyHYvbmRGWf9+HbTZUhXA==
-X-CSE-MsgGUID: 7wXj87MXQveDU9uAjiubQg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="65939817"
+  t=1752308358; x=1783844358;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eB+ThotSsopGkHavSJDY+uYX/rQcwLk88dMHc6rUuHY=;
+  b=eU+7ZhVIiDFeyeuVnIu50vxbwEGqwYUMoKuiX5FXNueurNG/y62IsCO4
+   KR7vt7cdp88llgnderjxxQGOI0utElMNwv67+LueGe+8JnSsD8Vn1IHrW
+   AMyBsBxMILK86qsyJz2RhD05j0F1iOb6RqyH2c4FFsGBnv/Z+iW9muUSw
+   t7ACEEzqS1PKWdoxiloPBhEptotVpnwYkklITyiDsUjb8oK+cVNTRSfk0
+   ZfCFByjxWarsgSSkW1bWw9rc65wuX09duktwtCHqMLJq/0eNFenhmGc/e
+   s6wee2qSHJ3tFfHprsTkd2U9sLbJcvL+0wIKdRY2lO89SWI/wMR493/wO
+   g==;
+X-CSE-ConnectionGUID: TpEzyw5BR9uxYqAgbe4bJQ==
+X-CSE-MsgGUID: TRCmkV4qRaqhLKHcKfoi+Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54717575"
 X-IronPort-AV: E=Sophos;i="6.16,306,1744095600"; 
-   d="scan'208";a="65939817"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 00:16:09 -0700
-X-CSE-ConnectionGUID: duN+jBTASt+t5WOj8eGv0A==
-X-CSE-MsgGUID: HtwRbzoGR0uOqn9NWLOJ9A==
+   d="scan'208";a="54717575"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 01:19:17 -0700
+X-CSE-ConnectionGUID: WaCQ6rAZRxWceQbBQ/i4Dg==
+X-CSE-MsgGUID: xkTF5SDLS/q98Fs9vp2mwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,306,1744095600"; 
-   d="scan'208";a="157255921"
+   d="scan'208";a="156156584"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 12 Jul 2025 00:16:09 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 12 Jul 2025 01:19:15 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uaUSt-00078F-0N;
-	Sat, 12 Jul 2025 07:16:07 +0000
-Date: Sat, 12 Jul 2025 15:16:00 +0800
+	id 1uaVRx-0007B1-0N;
+	Sat, 12 Jul 2025 08:19:13 +0000
+Date: Sat, 12 Jul 2025 16:18:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC v3 2/4] kernel/api: enable kerneldoc-based API
- specifications
-Message-ID: <202507121502.xau4FnHY-lkp@intel.com>
-References: <20250711114248.2288591-3-sashal@kernel.org>
+To: Sudeep Holla <sudeep.holla@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Andi Shyti <andi@smida.it>
+Subject: drivers/i2c/busses/i2c-xgene-slimpro.c:183:18: sparse: sparse:
+ dereference of noderef expression
+Message-ID: <202507121605.dG75O5HN-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,59 +62,85 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250711114248.2288591-3-sashal@kernel.org>
 
-Hi Sasha,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on uml/next]
-[also build test WARNING on uml/fixes tip/x86/core masahiroy-kbuild/for-next masahiroy-kbuild/fixes akpm-mm/mm-everything tip/sched/core linus/master v6.16-rc5 next-20250711]
-[cannot apply to arnd-asm-generic/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Sasha-Levin/kernel-api-introduce-kernel-API-specification-framework/20250711-194622
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/uml/linux next
-patch link:    https://lore.kernel.org/r/20250711114248.2288591-3-sashal%40kernel.org
-patch subject: [RFC v3 2/4] kernel/api: enable kerneldoc-based API specifications
-config: i386-buildonly-randconfig-002-20250712 (https://download.01.org/0day-ci/archive/20250712/202507121502.xau4FnHY-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250712/202507121502.xau4FnHY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   379f604cc3dc2c865dc2b13d81faa166b6df59ec
+commit: 7b174126124560f15e392fe5767face99e61ddb1 i2c: xgene-slimpro: Simplify PCC shared memory region handling
+date:   8 weeks ago
+config: arm64-randconfig-r123-20250712 (https://download.01.org/0day-ci/archive/20250712/202507121605.dG75O5HN-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+reproduce: (https://download.01.org/0day-ci/archive/20250712/202507121605.dG75O5HN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507121502.xau4FnHY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507121605.dG75O5HN-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   drivers/i2c/busses/i2c-xgene-slimpro.c:121:15: sparse: sparse: cast to restricted __le16
+   drivers/i2c/busses/i2c-xgene-slimpro.c:124:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
+   drivers/i2c/busses/i2c-xgene-slimpro.c:124:9: sparse:     expected unsigned short volatile
+   drivers/i2c/busses/i2c-xgene-slimpro.c:124:9: sparse:     got restricted __le16 [usertype]
+   drivers/i2c/busses/i2c-xgene-slimpro.c:153:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short [usertype] *addr @@     got unsigned short [noderef] __iomem * @@
+   drivers/i2c/busses/i2c-xgene-slimpro.c:153:38: sparse:     expected unsigned short [usertype] *addr
+   drivers/i2c/busses/i2c-xgene-slimpro.c:153:38: sparse:     got unsigned short [noderef] __iomem *
+   drivers/i2c/busses/i2c-xgene-slimpro.c:157:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short [usertype] *addr @@     got unsigned short [noderef] __iomem * @@
+   drivers/i2c/busses/i2c-xgene-slimpro.c:157:37: sparse:     expected unsigned short [usertype] *addr
+   drivers/i2c/busses/i2c-xgene-slimpro.c:157:37: sparse:     got unsigned short [noderef] __iomem *
+   drivers/i2c/busses/i2c-xgene-slimpro.c:159:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *msg @@     got struct acpi_pcct_shared_memory [noderef] __iomem * @@
+   drivers/i2c/busses/i2c-xgene-slimpro.c:159:21: sparse:     expected void *msg
+   drivers/i2c/busses/i2c-xgene-slimpro.c:159:21: sparse:     got struct acpi_pcct_shared_memory [noderef] __iomem *
+   drivers/i2c/busses/i2c-xgene-slimpro.c:173:21: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/i2c/busses/i2c-xgene-slimpro.c:177:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/i2c/busses/i2c-xgene-slimpro.c:177:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile @@     got restricted __le32 [usertype] @@
+   drivers/i2c/busses/i2c-xgene-slimpro.c:177:9: sparse:     expected unsigned int volatile
+   drivers/i2c/busses/i2c-xgene-slimpro.c:177:9: sparse:     got restricted __le32 [usertype]
+   drivers/i2c/busses/i2c-xgene-slimpro.c:180:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/i2c/busses/i2c-xgene-slimpro.c:180:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
+   drivers/i2c/busses/i2c-xgene-slimpro.c:180:9: sparse:     expected unsigned short volatile
+   drivers/i2c/busses/i2c-xgene-slimpro.c:180:9: sparse:     got restricted __le16 [usertype]
+   drivers/i2c/busses/i2c-xgene-slimpro.c:183:18: sparse: sparse: cast to restricted __le16
+   drivers/i2c/busses/i2c-xgene-slimpro.c:185:9: sparse: sparse: cast removes address space '__iomem' of expression
+   drivers/i2c/busses/i2c-xgene-slimpro.c:185:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
+   drivers/i2c/busses/i2c-xgene-slimpro.c:185:9: sparse:     expected unsigned short volatile
+   drivers/i2c/busses/i2c-xgene-slimpro.c:185:9: sparse:     got restricted __le16 [usertype]
+   drivers/i2c/busses/i2c-xgene-slimpro.c:189:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile @@     got restricted __le32 [usertype] @@
+   drivers/i2c/busses/i2c-xgene-slimpro.c:189:17: sparse:     expected unsigned int volatile
+   drivers/i2c/busses/i2c-xgene-slimpro.c:189:17: sparse:     got restricted __le32 [usertype]
+>> drivers/i2c/busses/i2c-xgene-slimpro.c:183:18: sparse: sparse: dereference of noderef expression
 
->> Warning: sound/soc/samsung/pcm.c:131 struct member 'lock' not described in 's3c_pcm_info'
---
->> Warning: sound/soc/fsl/fsl_esai.c:83 struct member 'lock' not described in 'fsl_esai'
---
->> Warning: sound/soc/stm/stm32_spdifrx.c:248 struct member 'lock' not described in 'stm32_spdifrx_data'
---
->> Warning: drivers/iio/temperature/mlx90632.c:162 struct member 'lock' not described in 'mlx90632_data'
---
->> Warning: drivers/iio/temperature/mlx90635.c:133 struct member 'lock' not described in 'mlx90635_data'
---
->> Warning: drivers/virtio/virtio_rtc_driver.c:37 struct member 'lock' not described in 'viortc_vq'
->> Warning: drivers/virtio/virtio_rtc_driver.c:1137 function parameter 'lock' not described in 'viortc_populate_vq'
---
->> Warning: drivers/iio/magnetometer/ak8974.c:201 struct member 'lock' not described in 'ak8974'
---
->> Warning: kernel/locking/qrwlock.c:21 function parameter 'lock' not described in 'queued_read_lock_slowpath'
->> Warning: kernel/locking/qrwlock.c:66 function parameter 'lock' not described in 'queued_write_lock_slowpath'
---
->> Warning: kernel/locking/qspinlock.c:130 function parameter 'lock' not described in 'queued_spin_lock_slowpath'
---
->> Warning: drivers/gpio/gpio-graniterapids.c:66 struct member 'lock' not described in 'gnr_gpio'
---
->> Warning: drivers/iio/dac/ad5758.c:121 struct member 'lock' not described in 'ad5758_state'
-..
+vim +183 drivers/i2c/busses/i2c-xgene-slimpro.c
+
+df5da47fe722e3 Hoan Tran    2017-04-24  168  
+df5da47fe722e3 Hoan Tran    2017-04-24  169  static void slimpro_i2c_pcc_tx_prepare(struct slimpro_i2c_dev *ctx, u32 *msg)
+df5da47fe722e3 Hoan Tran    2017-04-24  170  {
+7b174126124560 Sudeep Holla 2025-04-11  171  	struct acpi_pcct_shared_memory __iomem *generic_comm_base =
+7b174126124560 Sudeep Holla 2025-04-11  172  							ctx->pcc_chan->shmem;
+df5da47fe722e3 Hoan Tran    2017-04-24  173  	u32 *ptr = (void *)(generic_comm_base + 1);
+df5da47fe722e3 Hoan Tran    2017-04-24  174  	u16 status;
+df5da47fe722e3 Hoan Tran    2017-04-24  175  	int i;
+df5da47fe722e3 Hoan Tran    2017-04-24  176  
+df5da47fe722e3 Hoan Tran    2017-04-24  177  	WRITE_ONCE(generic_comm_base->signature,
+df5da47fe722e3 Hoan Tran    2017-04-24  178  		   cpu_to_le32(PCC_SIGNATURE | ctx->mbox_idx));
+df5da47fe722e3 Hoan Tran    2017-04-24  179  
+df5da47fe722e3 Hoan Tran    2017-04-24  180  	WRITE_ONCE(generic_comm_base->command,
+89a4ad1f437c04 Sudeep Holla 2023-09-27  181  		   cpu_to_le16(SLIMPRO_MSG_TYPE(msg[0]) | PCC_CMD_GENERATE_DB_INTR));
+df5da47fe722e3 Hoan Tran    2017-04-24  182  
+df5da47fe722e3 Hoan Tran    2017-04-24 @183  	status = le16_to_cpu(READ_ONCE(generic_comm_base->status));
+89a4ad1f437c04 Sudeep Holla 2023-09-27  184  	status &= ~PCC_STATUS_CMD_COMPLETE;
+df5da47fe722e3 Hoan Tran    2017-04-24  185  	WRITE_ONCE(generic_comm_base->status, cpu_to_le16(status));
+df5da47fe722e3 Hoan Tran    2017-04-24  186  
+df5da47fe722e3 Hoan Tran    2017-04-24  187  	/* Copy the message to the PCC comm space */
+df5da47fe722e3 Hoan Tran    2017-04-24  188  	for (i = 0; i < SLIMPRO_IIC_MSG_DWORD_COUNT; i++)
+df5da47fe722e3 Hoan Tran    2017-04-24  189  		WRITE_ONCE(ptr[i], cpu_to_le32(msg[i]));
+df5da47fe722e3 Hoan Tran    2017-04-24  190  }
+df5da47fe722e3 Hoan Tran    2017-04-24  191  
+
+:::::: The code at line 183 was first introduced by commit
+:::::: df5da47fe722e36055b97134e6bb9df58c12495c i2c: xgene-slimpro: Add ACPI support by using PCC mailbox
+
+:::::: TO: Hoan Tran <hotran@apm.com>
+:::::: CC: Wolfram Sang <wsa@the-dreams.de>
 
 -- 
 0-DAY CI Kernel Test Service
