@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D733D145323
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Jul 2025 08:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E2A519D09C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Jul 2025 10:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752308359; cv=none; b=i6szLlzY5r21DJrh+Y3HhMKs1/3WjWDc40E14wqjN7P9tpX6klmiX5LPCOWzr2PmRhsnh/Axmnkpdiji0LKsVR7Yvmp/2RrxB9kayIZIMnStNYeVHW6+xb4EwqVGx6e18nE0G8EijYPG4xjFwArNuMuYqduVMnkNDzOHDi+b2J4=
+	t=1752315690; cv=none; b=CHo6rnCI0zMSAp4cPrgp/dY+4mLcNH9GxGcXzAcxfJkqkd3S83gF+rbOaziGpw8H8OJSMtFEsYTlgXl3A+sXglqS9f070wy24W8q5YK5JEaEREDnsLeyiTrbq2tD9gO1F5KGDqYDSs8KRs/9rJ+ptR4QYF//eUasH0rTZZ9EyEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752308359; c=relaxed/simple;
-	bh=eB+ThotSsopGkHavSJDY+uYX/rQcwLk88dMHc6rUuHY=;
+	s=arc-20240116; t=1752315690; c=relaxed/simple;
+	bh=VFsFxW1UxxnurzDEv8ET2iYZknJkN9+rJ9A1xKlpd/k=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Pn5KqunTECmy9liH71iBvM2tykiX5fZxJfl341T7YtFaLh9lrpSoSegAt4swtnTZg98Icoblav/ywRr0gjVrf7SbQGeoYxLEVy/SGDaRpouQEbsIx/uGyikVxF27Lr7f7F6HSti8sJngphRvGElqrFcxfERJVI+cEjje84vAka0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eU+7ZhVI; arc=none smtp.client-ip=198.175.65.16
+	 Content-Disposition; b=sKiIJiqKkKNhI5pPT8TuSSc0E7VGWchZKsjFEPyymHbmz9nikwLRQnkB8zCVs4vbSGR4vA4/JPQ5opBTeOxv22snFQgArNh12SmEnkx/6klCNruYjmT2VqcupDpHfRMZhEWXpo8Dn6MZcOTybZ5xcsW1RoXIDavsjRbHX3X6Lh0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oIuw/6PU; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eU+7ZhVI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oIuw/6PU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752308358; x=1783844358;
+  t=1752315689; x=1783851689;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eB+ThotSsopGkHavSJDY+uYX/rQcwLk88dMHc6rUuHY=;
-  b=eU+7ZhVIiDFeyeuVnIu50vxbwEGqwYUMoKuiX5FXNueurNG/y62IsCO4
-   KR7vt7cdp88llgnderjxxQGOI0utElMNwv67+LueGe+8JnSsD8Vn1IHrW
-   AMyBsBxMILK86qsyJz2RhD05j0F1iOb6RqyH2c4FFsGBnv/Z+iW9muUSw
-   t7ACEEzqS1PKWdoxiloPBhEptotVpnwYkklITyiDsUjb8oK+cVNTRSfk0
-   ZfCFByjxWarsgSSkW1bWw9rc65wuX09duktwtCHqMLJq/0eNFenhmGc/e
-   s6wee2qSHJ3tFfHprsTkd2U9sLbJcvL+0wIKdRY2lO89SWI/wMR493/wO
-   g==;
-X-CSE-ConnectionGUID: TpEzyw5BR9uxYqAgbe4bJQ==
-X-CSE-MsgGUID: TRCmkV4qRaqhLKHcKfoi+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54717575"
+  bh=VFsFxW1UxxnurzDEv8ET2iYZknJkN9+rJ9A1xKlpd/k=;
+  b=oIuw/6PUJ22rC7svzgrAgoIYkD+rbJwBKKhYNZOtQNU0Mee8J5QYv2oY
+   rawvPbsOhfOZIM3zBGtmhFh6V4rcpj8Vq2OZi2q5q1TuH8qsjvhLyH2dg
+   yhxu8TkV464VH6nxhjyTjH5N67ksbSaOAQidTeNfMj8s9jf9uwcDG5h+T
+   9gVWAVBqEeFjXe8Rh+WiGb0nRDD6CebS2w2T1W7Gr9ovOZ/nAgCQmQBkr
+   QbGqOLLso7K2PYoJasnxXfRG/jAvN32eN8AM7N+YaDo0qVh3iymgTXTBZ
+   vSllcu1RyF4qoCWy5yZw49ImcsXJ+PF3eSM1rGWMMqra+ehpNWs0Hk959
+   Q==;
+X-CSE-ConnectionGUID: i6r5fyQ3T2eDqrMyW+LPUQ==
+X-CSE-MsgGUID: NuCnXvdCQtejmUJgNWv+Jw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="65943311"
 X-IronPort-AV: E=Sophos;i="6.16,306,1744095600"; 
-   d="scan'208";a="54717575"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 01:19:17 -0700
-X-CSE-ConnectionGUID: WaCQ6rAZRxWceQbBQ/i4Dg==
-X-CSE-MsgGUID: xkTF5SDLS/q98Fs9vp2mwQ==
+   d="scan'208";a="65943311"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 03:21:28 -0700
+X-CSE-ConnectionGUID: jEL5C27PR26He151mS69tA==
+X-CSE-MsgGUID: 5sz6gTfQRjGUD41xZkPWfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,306,1744095600"; 
-   d="scan'208";a="156156584"
+   d="scan'208";a="155973491"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 12 Jul 2025 01:19:15 -0700
+  by orviesa006.jf.intel.com with ESMTP; 12 Jul 2025 03:21:27 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uaVRx-0007B1-0N;
-	Sat, 12 Jul 2025 08:19:13 +0000
-Date: Sat, 12 Jul 2025 16:18:45 +0800
+	id 1uaXMC-0007G7-33;
+	Sat, 12 Jul 2025 10:21:24 +0000
+Date: Sat, 12 Jul 2025 18:21:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sudeep Holla <sudeep.holla@arm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Andi Shyti <andi@smida.it>
-Subject: drivers/i2c/busses/i2c-xgene-slimpro.c:183:18: sparse: sparse:
- dereference of noderef expression
-Message-ID: <202507121605.dG75O5HN-lkp@intel.com>
+To: Inochi Amaoto <inochiama@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Chen Wang <unicorn_wang@outlook.com>
+Subject: [linux-next:master 8201/9053]
+ arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: mdio@3009800
+ (mdio-mux-mmioreg): mdio@80:reg:0:0: 128 is greater than the maximum of 31
+Message-ID: <202507121830.POx2KDVi-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,84 +63,24 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   379f604cc3dc2c865dc2b13d81faa166b6df59ec
-commit: 7b174126124560f15e392fe5767face99e61ddb1 i2c: xgene-slimpro: Simplify PCC shared memory region handling
-date:   8 weeks ago
-config: arm64-randconfig-r123-20250712 (https://download.01.org/0day-ci/archive/20250712/202507121605.dG75O5HN-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   a62b7a37e6fcf4a675b1548e7c168b96ec836442
+commit: a4fb40b240fecc3cf84e12277e5b66818a80e3ad [8201/9053] riscv: dts: sophgo: Add mdio multiplexer device for cv18xx
+config: arm64-randconfig-051-20250711 (https://download.01.org/0day-ci/archive/20250712/202507121830.POx2KDVi-lkp@intel.com/config)
 compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
-reproduce: (https://download.01.org/0day-ci/archive/20250712/202507121605.dG75O5HN-lkp@intel.com/reproduce)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250712/202507121830.POx2KDVi-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507121605.dG75O5HN-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507121830.POx2KDVi-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/i2c/busses/i2c-xgene-slimpro.c:121:15: sparse: sparse: cast to restricted __le16
-   drivers/i2c/busses/i2c-xgene-slimpro.c:124:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
-   drivers/i2c/busses/i2c-xgene-slimpro.c:124:9: sparse:     expected unsigned short volatile
-   drivers/i2c/busses/i2c-xgene-slimpro.c:124:9: sparse:     got restricted __le16 [usertype]
-   drivers/i2c/busses/i2c-xgene-slimpro.c:153:38: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short [usertype] *addr @@     got unsigned short [noderef] __iomem * @@
-   drivers/i2c/busses/i2c-xgene-slimpro.c:153:38: sparse:     expected unsigned short [usertype] *addr
-   drivers/i2c/busses/i2c-xgene-slimpro.c:153:38: sparse:     got unsigned short [noderef] __iomem *
-   drivers/i2c/busses/i2c-xgene-slimpro.c:157:37: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected unsigned short [usertype] *addr @@     got unsigned short [noderef] __iomem * @@
-   drivers/i2c/busses/i2c-xgene-slimpro.c:157:37: sparse:     expected unsigned short [usertype] *addr
-   drivers/i2c/busses/i2c-xgene-slimpro.c:157:37: sparse:     got unsigned short [noderef] __iomem *
-   drivers/i2c/busses/i2c-xgene-slimpro.c:159:21: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *msg @@     got struct acpi_pcct_shared_memory [noderef] __iomem * @@
-   drivers/i2c/busses/i2c-xgene-slimpro.c:159:21: sparse:     expected void *msg
-   drivers/i2c/busses/i2c-xgene-slimpro.c:159:21: sparse:     got struct acpi_pcct_shared_memory [noderef] __iomem *
-   drivers/i2c/busses/i2c-xgene-slimpro.c:173:21: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/i2c/busses/i2c-xgene-slimpro.c:177:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/i2c/busses/i2c-xgene-slimpro.c:177:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile @@     got restricted __le32 [usertype] @@
-   drivers/i2c/busses/i2c-xgene-slimpro.c:177:9: sparse:     expected unsigned int volatile
-   drivers/i2c/busses/i2c-xgene-slimpro.c:177:9: sparse:     got restricted __le32 [usertype]
-   drivers/i2c/busses/i2c-xgene-slimpro.c:180:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/i2c/busses/i2c-xgene-slimpro.c:180:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
-   drivers/i2c/busses/i2c-xgene-slimpro.c:180:9: sparse:     expected unsigned short volatile
-   drivers/i2c/busses/i2c-xgene-slimpro.c:180:9: sparse:     got restricted __le16 [usertype]
-   drivers/i2c/busses/i2c-xgene-slimpro.c:183:18: sparse: sparse: cast to restricted __le16
-   drivers/i2c/busses/i2c-xgene-slimpro.c:185:9: sparse: sparse: cast removes address space '__iomem' of expression
-   drivers/i2c/busses/i2c-xgene-slimpro.c:185:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned short volatile @@     got restricted __le16 [usertype] @@
-   drivers/i2c/busses/i2c-xgene-slimpro.c:185:9: sparse:     expected unsigned short volatile
-   drivers/i2c/busses/i2c-xgene-slimpro.c:185:9: sparse:     got restricted __le16 [usertype]
-   drivers/i2c/busses/i2c-xgene-slimpro.c:189:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int volatile @@     got restricted __le32 [usertype] @@
-   drivers/i2c/busses/i2c-xgene-slimpro.c:189:17: sparse:     expected unsigned int volatile
-   drivers/i2c/busses/i2c-xgene-slimpro.c:189:17: sparse:     got restricted __le32 [usertype]
->> drivers/i2c/busses/i2c-xgene-slimpro.c:183:18: sparse: sparse: dereference of noderef expression
-
-vim +183 drivers/i2c/busses/i2c-xgene-slimpro.c
-
-df5da47fe722e3 Hoan Tran    2017-04-24  168  
-df5da47fe722e3 Hoan Tran    2017-04-24  169  static void slimpro_i2c_pcc_tx_prepare(struct slimpro_i2c_dev *ctx, u32 *msg)
-df5da47fe722e3 Hoan Tran    2017-04-24  170  {
-7b174126124560 Sudeep Holla 2025-04-11  171  	struct acpi_pcct_shared_memory __iomem *generic_comm_base =
-7b174126124560 Sudeep Holla 2025-04-11  172  							ctx->pcc_chan->shmem;
-df5da47fe722e3 Hoan Tran    2017-04-24  173  	u32 *ptr = (void *)(generic_comm_base + 1);
-df5da47fe722e3 Hoan Tran    2017-04-24  174  	u16 status;
-df5da47fe722e3 Hoan Tran    2017-04-24  175  	int i;
-df5da47fe722e3 Hoan Tran    2017-04-24  176  
-df5da47fe722e3 Hoan Tran    2017-04-24  177  	WRITE_ONCE(generic_comm_base->signature,
-df5da47fe722e3 Hoan Tran    2017-04-24  178  		   cpu_to_le32(PCC_SIGNATURE | ctx->mbox_idx));
-df5da47fe722e3 Hoan Tran    2017-04-24  179  
-df5da47fe722e3 Hoan Tran    2017-04-24  180  	WRITE_ONCE(generic_comm_base->command,
-89a4ad1f437c04 Sudeep Holla 2023-09-27  181  		   cpu_to_le16(SLIMPRO_MSG_TYPE(msg[0]) | PCC_CMD_GENERATE_DB_INTR));
-df5da47fe722e3 Hoan Tran    2017-04-24  182  
-df5da47fe722e3 Hoan Tran    2017-04-24 @183  	status = le16_to_cpu(READ_ONCE(generic_comm_base->status));
-89a4ad1f437c04 Sudeep Holla 2023-09-27  184  	status &= ~PCC_STATUS_CMD_COMPLETE;
-df5da47fe722e3 Hoan Tran    2017-04-24  185  	WRITE_ONCE(generic_comm_base->status, cpu_to_le16(status));
-df5da47fe722e3 Hoan Tran    2017-04-24  186  
-df5da47fe722e3 Hoan Tran    2017-04-24  187  	/* Copy the message to the PCC comm space */
-df5da47fe722e3 Hoan Tran    2017-04-24  188  	for (i = 0; i < SLIMPRO_IIC_MSG_DWORD_COUNT; i++)
-df5da47fe722e3 Hoan Tran    2017-04-24  189  		WRITE_ONCE(ptr[i], cpu_to_le32(msg[i]));
-df5da47fe722e3 Hoan Tran    2017-04-24  190  }
-df5da47fe722e3 Hoan Tran    2017-04-24  191  
-
-:::::: The code at line 183 was first introduced by commit
-:::::: df5da47fe722e36055b97134e6bb9df58c12495c i2c: xgene-slimpro: Add ACPI support by using PCC mailbox
-
-:::::: TO: Hoan Tran <hotran@apm.com>
-:::::: CC: Wolfram Sang <wsa@the-dreams.de>
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/reset-controller@3003000: failed to match any schema with compatible: ['sophgo,cv1800b-reset']
+>> arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: mdio@3009800 (mdio-mux-mmioreg): mdio@80:reg:0:0: 128 is greater than the maximum of 31
+   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
+   arch/arm64/boot/dts/sophgo/sg2000-milkv-duo-module-01-evb.dtb: /soc/ethernet@4070000: failed to match any schema with compatible: ['sophgo,cv1800b-dwmac', 'snps,dwmac-3.70a']
 
 -- 
 0-DAY CI Kernel Test Service
