@@ -1,66 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83E08472
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Jul 2025 17:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EDD18D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 12 Jul 2025 17:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752340508; cv=none; b=E3Wy9QfD+vuTATf+pLOo+mcS4k8cfGp3tm+nMVJcSGV9VsnOh7tOejOq4vP3baFKEkQCl46EOAL+P9hbh2LPCMtPdtTynaKP4me5nUNwCMj4oi66MUTkI8dwg8Sg2C1YKYi7iA52w3TH3+0+Wu+yQaLv478yFbA4hQRbGBOh71w=
+	t=1752343031; cv=none; b=oX0nc5e/+RPTLmf/mqfZs/zQzL/a1PqCZKiOsT9G8WEke2DATQjrsipXGFiHSYgLsvGtSj193jGHTCPs/EJ+f3c6oaHMnPe7AZqKCbIlCtwMVRoBiuAiZ4UQVAVwnseGQHToXKJnU9CBS0ZNLSNJWS1WmD2pOwvFuzbnRiW56V4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752340508; c=relaxed/simple;
-	bh=6frN7N+PZRfZmFjGd771R8NVmjODzYe3sPQI4d3IujQ=;
+	s=arc-20240116; t=1752343031; c=relaxed/simple;
+	bh=H/rypz2Qr+SfNGH2PuCCBQtkvX2TjfFGf7Dh9YJ871w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UUBT+cbC+3XoR7WZz1043HpAT4xkHO8MwF9IIFCmPi2KbvTyAk3aFFHPzGg5M9lB21DD8tsEKLKd5u9ZKW9M/FqLZhFQz5DQwc4VNl4WGxi7bb8mOlQhym/ZxGkw+VS8V1/PaYSxUY5YgG+tLNvnGumobcKBroRBBo56xkRiyWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IrM815jp; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=R2ef2QfBJy1QKTl7tyvPEiJcF7u8buw9xSp/CW8VT3lO1ikw17aIRkwD4ZzeiRknK5c10u57JK30wg2aY7RU3UKRQLuAaxVt6KPbNDEjt+WYxz4p88PPqbFMTkVg+Oq8kaQMuP1/IQ5ldDuMdz1ItVknaHa3nlPbvwnOUyodLBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bEvdA0Vc; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IrM815jp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bEvdA0Vc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752340507; x=1783876507;
+  t=1752343029; x=1783879029;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6frN7N+PZRfZmFjGd771R8NVmjODzYe3sPQI4d3IujQ=;
-  b=IrM815jpyV4+6BikcWM0yM6S3dK+SliPxGT8zsdN53zw3QkjVX+80Pou
-   Jj3s1eBjBczGdAPTqWGJL6rab7PItV9cNvyKd3IdNmWXRuIs4WQi6VuZa
-   2PoKahqXZoyqY1lDQJrCVvskVjRq+GX6uiP4wlSyWmq86/1CTo7bDe+f5
-   s0+rFq2CwFUgqrF3GVO8GQT25QKOsMWqDDqZ9qGF07KE7WV92m8V0/nz4
-   dADsoXqaPe/VE7Z/6uGkUyjazU7g+/aMbHzxcLB4UtvpOahXzRKcgW/y6
-   9q7t+DZynw8A02r6+nAo8AHVXZvoj5suX2PEIfA+ETAbyYp+mXsyVYxMu
-   g==;
-X-CSE-ConnectionGUID: NHwR6kIsTtmBbtkEmoA29Q==
-X-CSE-MsgGUID: mLmcCpZ+TlWMT4H90Ib0mw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66047244"
+  bh=H/rypz2Qr+SfNGH2PuCCBQtkvX2TjfFGf7Dh9YJ871w=;
+  b=bEvdA0VcVDvauiaiS2LZ8ShQULj8+xL7QW06mVygMyHoCGv8YguIyvwG
+   8Tw6jRWqOUvAzPp3hZ/MqJX99MJIGRY2WTuCO4QI7FvhlWwcsbYNV1yuV
+   LsMZPrP2PmNVlyGJosYK3j3GynEgATE/enEb3BfXOp97bg2cpjCKTMwt2
+   ANhH1kERGq8tt5d4WuHLPMujotf+As5prUtnSHe2pUxbDKpg0Awylyy8a
+   GeeXQgW2iV0OmGHGIuujRaaED6JJvM0BSBLsFxce8c7PsXLuKc9DJY7sS
+   HTvFm66iwbsX35uMBNDT+p1R7mh5jatZ2zEHsFTygrwZ5iklZNOkDhewv
+   A==;
+X-CSE-ConnectionGUID: Bh4d2R0MQ6uc4kZ69xKSoA==
+X-CSE-MsgGUID: cDPwJABdRU619RleKO0qnw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="80041349"
 X-IronPort-AV: E=Sophos;i="6.16,306,1744095600"; 
-   d="scan'208";a="66047244"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 10:15:07 -0700
-X-CSE-ConnectionGUID: n7DokkFwQw+pbZY4yCVFXg==
-X-CSE-MsgGUID: UL5sCSo5SkO3jjTXSGTBxg==
+   d="scan'208";a="80041349"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 10:57:09 -0700
+X-CSE-ConnectionGUID: oi8yhvzwTVqN/u+no0FtcA==
+X-CSE-MsgGUID: wYSE6Lg7QC24EtHbyLqjcA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,306,1744095600"; 
-   d="scan'208";a="156697898"
+   d="scan'208";a="162177159"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 12 Jul 2025 10:15:04 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 12 Jul 2025 10:57:07 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uadoT-0007XD-0x;
-	Sat, 12 Jul 2025 17:15:01 +0000
-Date: Sun, 13 Jul 2025 01:14:12 +0800
+	id 1uaeTB-0007ZP-0d;
+	Sat, 12 Jul 2025 17:57:05 +0000
+Date: Sun, 13 Jul 2025 01:56:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kuniyuki Iwashima <kuniyu@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	David Ahern <dsahern@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>
-Subject: Re: [PATCH v1 net-next 06/14] neighbour: Free pneigh_entry after RCU
- grace period.
-Message-ID: <202507130021.ovxzu4FO-lkp@intel.com>
-References: <20250711191007.3591938-7-kuniyu@google.com>
+To: Antoniu Miclaus <antoniu.miclaus@analog.com>, jic23@kernel.org,
+	robh@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Antoniu Miclaus <antoniu.miclaus@analog.com>
+Subject: Re: [PATCH 3/3] iio: adc: add ade9000 support
+Message-ID: <202507130110.J1mOxDr1-lkp@intel.com>
+References: <20250711130241.159143-4-antoniu.miclaus@analog.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,79 +65,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250711191007.3591938-7-kuniyu@google.com>
+In-Reply-To: <20250711130241.159143-4-antoniu.miclaus@analog.com>
 
-Hi Kuniyuki,
+Hi Antoniu,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on net-next/main]
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on robh/for-next linus/master v6.16-rc5 next-20250711]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kuniyuki-Iwashima/neighbour-Make-neigh_valid_get_req-return-ndmsg/20250712-031447
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250711191007.3591938-7-kuniyu%40google.com
-patch subject: [PATCH v1 net-next 06/14] neighbour: Free pneigh_entry after RCU grace period.
-config: csky-randconfig-r111-20250712 (https://download.01.org/0day-ci/archive/20250713/202507130021.ovxzu4FO-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20250713/202507130021.ovxzu4FO-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Antoniu-Miclaus/iio-add-power-and-energy-measurement-modifiers/20250712-022300
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250711130241.159143-4-antoniu.miclaus%40analog.com
+patch subject: [PATCH 3/3] iio: adc: add ade9000 support
+config: nios2-randconfig-002-20250713 (https://download.01.org/0day-ci/archive/20250713/202507130110.J1mOxDr1-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250713/202507130110.J1mOxDr1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507130021.ovxzu4FO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507130110.J1mOxDr1-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> net/core/neighbour.c:860:33: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/core/neighbour.c:860:33: sparse:    struct pneigh_entry [noderef] __rcu *
-   net/core/neighbour.c:860:33: sparse:    struct pneigh_entry *
-   net/core/neighbour.c:806:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/core/neighbour.c:806:9: sparse:    struct pneigh_entry [noderef] __rcu *
-   net/core/neighbour.c:806:9: sparse:    struct pneigh_entry *
-   net/core/neighbour.c:832:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   net/core/neighbour.c:832:25: sparse:    struct pneigh_entry [noderef] __rcu *
-   net/core/neighbour.c:832:25: sparse:    struct pneigh_entry *
-   net/core/neighbour.c:445:9: sparse: sparse: context imbalance in '__neigh_ifdown' - wrong count at exit
-   net/core/neighbour.c:869:9: sparse: sparse: context imbalance in 'pneigh_ifdown_and_unlock' - unexpected unlock
+All warnings (new ones prefixed by >>):
 
-vim +860 net/core/neighbour.c
+>> drivers/iio/adc/ade9000.c:2170:34: warning: 'ade9000_of_match' defined but not used [-Wunused-const-variable=]
+    2170 | static const struct of_device_id ade9000_of_match[] = {
+         |                                  ^~~~~~~~~~~~~~~~
 
-   845	
-   846	static void pneigh_ifdown_and_unlock(struct neigh_table *tbl,
-   847					     struct net_device *dev,
-   848					     bool skip_perm)
-   849	{
-   850		struct pneigh_entry *n, **np;
-   851		LIST_HEAD(head);
-   852		u32 h;
-   853	
-   854		for (h = 0; h <= PNEIGH_HASHMASK; h++) {
-   855			np = &tbl->phash_buckets[h];
-   856			while ((n = *np) != NULL) {
-   857				if (skip_perm && n->permanent)
-   858					goto skip;
-   859				if (!dev || n->dev == dev) {
- > 860					rcu_assign_pointer(*np, n->next);
-   861					list_add(&n->free_node, &head);
-   862					continue;
-   863				}
-   864	skip:
-   865				np = &n->next;
-   866			}
-   867		}
-   868	
-   869		write_unlock_bh(&tbl->lock);
-   870	
-   871		while (!list_empty(&head)) {
-   872			n = list_first_entry(&head, typeof(*n), free_node);
-   873			list_del(&n->free_node);
-   874	
-   875			if (tbl->pdestructor)
-   876				tbl->pdestructor(n);
-   877	
-   878			call_rcu(&n->rcu, pneigh_destroy);
-   879		}
-   880	}
-   881	
+
+vim +/ade9000_of_match +2170 drivers/iio/adc/ade9000.c
+
+  2169	
+> 2170	static const struct of_device_id ade9000_of_match[] = {
+  2171		{ .compatible = "adi,ade9000" },
+  2172		{}
+  2173	};
+  2174	MODULE_DEVICE_TABLE(of, ade9000_of_match);
+  2175	
 
 -- 
 0-DAY CI Kernel Test Service
