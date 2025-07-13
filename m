@@ -1,60 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB8967F9;
-	Sun, 13 Jul 2025 05:11:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B511581F8
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Jul 2025 05:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752383465; cv=none; b=nN41OiwXUDRqIIBg93bQLn0IIF/SMlHMC3DIUKq6KM2kTd+h4RxQov85Uzm9k+qMbaxs5JpSJHyvCdhHsPTT2UQzj1b+nkJrs+38L72E5g6NUMxuJEwhkD5jzr2DltcDKaZnl0HqTxosDMwvGhxQlc5BvnSwEI4WTCSLkew+/0Q=
+	t=1752383466; cv=none; b=IHc/aRveztyPcekPAMdoZwQEU/LU/+UmGRw/OprWl50TV4jR3K1eNW9NlwcsfLSh/mhFmacsmHLXze2BTwuyj7JUNiHKzNC8O6PAhQmWHPoLiJe0Sexx26HOX01aZdP1U1LiIzR4pN0sQ34IEXqM0bkWxrjT1YO3X48wcTsl3iY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752383465; c=relaxed/simple;
-	bh=UpLPxFXKjZumdtV3OF0HZupz2osyJS8so4bX1t327CA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IXQdq87q60D/zAiASJMIGNIw/FFmA+4eKtU/VVjvA38UC+wlx2gOUS/vBb/rpAV6jwgXdHpGRm7JgjV6rmUGFHKQwPAQjUeJ2+yCYD8GJPGu2+PjZbo8KmUrMV+Vqx7ik5KwFQuZlDcf97+svHFqXcn8PmjtUwnww6uUBaxsX3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WwIm/cwQ; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1752383466; c=relaxed/simple;
+	bh=fzQhQxxcINMwQn7nMRVM6TE8GI5gfDJ9zcHTCJjF9jI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b4FxJkvUjijvvkoC56QZshBS+yI3Z034LaWUrZH2DfGpQ59hhkKTKsQyRLZqbahOow0Iupfm9Z/5AJYKpqoCGbSZND4b0ErXt8IgunPM5srtaa++hL43oeVLmjUOFVeALbBmXrmFNLDp40yxjcGGmHFINJiy4yHQXh1TsASXBK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z7ROsNEY; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WwIm/cwQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z7ROsNEY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752383463; x=1783919463;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UpLPxFXKjZumdtV3OF0HZupz2osyJS8so4bX1t327CA=;
-  b=WwIm/cwQns2P7uQqtYKXSYWUvPn2NXk/lKRGG6xd2SjvUW9ocCDC242u
-   7qVqdASJeRHhoOiM2BrX4n88wcHqdUyV15CN97xSzbDzszxtx0dA9gmlE
-   qEiRauR0U5Bi1uGWWjM4yVjGkK5MzHFfezzwQpVZkZUhclreFB6QdbfTP
-   ubvJoddbM2lRKI9QQefEh3Xg/3dW5m/YPXSp0zRk/1NOUEGJRlPv8sQwh
-   fMpYvFA4v/SMeBeS81/tAVa/jaU+y/94zw38KerHIh1FmcGKYWXoNmxGz
-   8/29J8mQcsx5iBe1Tinsb+RizhIZvhpV7vcPdkb1dbqCAp4qpBmhZ/6rl
-   g==;
-X-CSE-ConnectionGUID: ph08qo5zQzO5HrUqoI9qXA==
-X-CSE-MsgGUID: tpQ0q2ftT3yGZJscCtAjug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="53834396"
+  t=1752383464; x=1783919464;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=fzQhQxxcINMwQn7nMRVM6TE8GI5gfDJ9zcHTCJjF9jI=;
+  b=Z7ROsNEYzRo9IatDoKuSfQmJ0qWhut1LrG4ConU+lXzty2r4YB1BN15K
+   86ygVBIx8OwALNoDCeWqgXM3nnhtGmW9/DiEphpc9m+bMxH1iF5MEXtvY
+   VTcq+hFXspxXz4CLRtrAc+It8byKqgdH6y6ru4VUKzYK7PWdsBxGIrfk7
+   GuMVeCn/Ap4ABHWh+ydzMzfqoiE684RbzGnoYg4ruk8omL1VV2QGdNpzX
+   eKFAJSa7M+EBS/9EKy/wMKkllo7fDTqi7BOaEuxxy7JrtXFwvhv7fiyjv
+   G0zOXHvxdGElU8doN0L2s1OaT5zkXq+SpNV1KS2Lz2DE+fOjhYoFLvVqq
+   w==;
+X-CSE-ConnectionGUID: 4TTCaLMjSb+cO15oJ9iq4A==
+X-CSE-MsgGUID: 4tHbpegvSOm400HA6S+DKA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="77156589"
 X-IronPort-AV: E=Sophos;i="6.16,308,1744095600"; 
-   d="scan'208";a="53834396"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 22:11:02 -0700
-X-CSE-ConnectionGUID: ZZz2MYoXTTWaQKAWxF6XPg==
-X-CSE-MsgGUID: NlydcaN6TZSUCpvXjHDLCw==
+   d="scan'208";a="77156589"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jul 2025 22:11:04 -0700
+X-CSE-ConnectionGUID: lYgPMPK1T7u3wTMvj+zltg==
+X-CSE-MsgGUID: fC5whkkXRcKFXLcfNvvVmA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,308,1744095600"; 
-   d="scan'208";a="157220374"
+   d="scan'208";a="180356311"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 12 Jul 2025 22:11:01 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 12 Jul 2025 22:11:00 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uaozK-0007th-2F;
+	id 1uaozK-0007tf-2B;
 	Sun, 13 Jul 2025 05:10:58 +0000
-Date: Sun, 13 Jul 2025 13:10:27 +0800
+Date: Sun, 13 Jul 2025 13:10:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Pratap Nirujogi <pratap.nirujogi@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: [agd5f:kq_resets 2304/2346]
- drivers/gpu/drm/amd/amdgpu/amdgpu_isp.c:174: warning: Function parameter or
- struct member 'dmabuf' not described in 'isp_user_buffer_alloc'
-Message-ID: <202507131324.TKf4iSOn-lkp@intel.com>
+To: Chia-I Wu <olvaffe@gmail.com>, Boris Brezillon <bbrezillon@kernel.org>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH v2 2/3] panthor: save task pid and comm in panthor_group
+Message-ID: <202507131246.VXxAzjGd-lkp@intel.com>
+References: <20250713030831.3227607-3-olvaffe@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,91 +69,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250713030831.3227607-3-olvaffe@gmail.com>
 
-tree:   https://gitlab.freedesktop.org/agd5f/linux.git kq_resets
-head:   524eebfdd4b30fd63ca774d7ea346bcf0e8e76b1
-commit: 5cab8cc383a58877fa0fd9eb566e68b815500cdf [2304/2346] drm/amd/amdgpu: Add helper functions for isp buffers
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250713/202507131324.TKf4iSOn-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250713/202507131324.TKf4iSOn-lkp@intel.com/reproduce)
+Hi Chia-I,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20250711]
+[also build test WARNING on v6.16-rc5]
+[cannot apply to linus/master v6.16-rc5 v6.16-rc4 v6.16-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chia-I-Wu/panthor-set-owner-field-for-driver-fops/20250713-111248
+base:   next-20250711
+patch link:    https://lore.kernel.org/r/20250713030831.3227607-3-olvaffe%40gmail.com
+patch subject: [PATCH v2 2/3] panthor: save task pid and comm in panthor_group
+config: i386-buildonly-randconfig-003-20250713 (https://download.01.org/0day-ci/archive/20250713/202507131246.VXxAzjGd-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250713/202507131246.VXxAzjGd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507131324.TKf4iSOn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507131246.VXxAzjGd-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/gpu/drm/amd/amdgpu/amdgpu_isp.c:174: warning: Function parameter or struct member 'dmabuf' not described in 'isp_user_buffer_alloc'
->> drivers/gpu/drm/amd/amdgpu/amdgpu_isp.c:174: warning: Excess function parameter 'dma_buf' description in 'isp_user_buffer_alloc'
-
-
-vim +174 drivers/gpu/drm/amd/amdgpu/amdgpu_isp.c
-
-   153	
-   154	/**
-   155	 * isp_user_buffer_alloc - create user buffer object (BO) for isp
-   156	 *
-   157	 * @dev: isp device handle
-   158	 * @dma_buf: DMABUF handle for isp buffer allocated in system memory
-   159	 * @buf_obj: GPU buffer object handle to initialize
-   160	 * @buf_addr: GPU addr of the pinned BO to initialize
-   161	 *
-   162	 * Imports isp DMABUF to allocate and pin a user BO for isp internal use. It does
-   163	 * GART alloc to generate GPU addr for BO to make it accessible through the
-   164	 * GART aperture for ISP HW.
-   165	 *
-   166	 * This function is exported to allow the V4L2 isp device external to drm device
-   167	 * to create and access the isp user BO.
-   168	 *
-   169	 * Returns:
-   170	 * 0 on success, negative error code otherwise.
-   171	 */
-   172	int isp_user_buffer_alloc(struct device *dev, void *dmabuf,
-   173				  void **buf_obj, u64 *buf_addr)
- > 174	{
-   175		struct platform_device *ispdev = to_platform_device(dev);
-   176		const struct isp_platform_data *isp_pdata;
-   177		struct amdgpu_device *adev;
-   178		struct mfd_cell *mfd_cell;
-   179		struct amdgpu_bo *bo;
-   180		u64 gpu_addr;
-   181		int ret;
-   182	
-   183		if (WARN_ON(!ispdev))
-   184			return -ENODEV;
-   185	
-   186		if (WARN_ON(!buf_obj))
-   187			return -EINVAL;
-   188	
-   189		if (WARN_ON(!buf_addr))
-   190			return -EINVAL;
-   191	
-   192		mfd_cell = &ispdev->mfd_cell[0];
-   193		if (!mfd_cell)
-   194			return -ENODEV;
-   195	
-   196		isp_pdata = mfd_cell->platform_data;
-   197		adev = isp_pdata->adev;
-   198	
-   199		ret = is_valid_isp_device(ispdev->dev.parent, adev->dev);
-   200		if (ret)
-   201			return ret;
-   202	
-   203		ret = amdgpu_bo_create_isp_user(adev, dmabuf,
-   204						AMDGPU_GEM_DOMAIN_GTT, &bo, &gpu_addr);
-   205		if (ret) {
-   206			drm_err(&adev->ddev, "failed to alloc gart user buffer (%d)", ret);
-   207			return ret;
-   208		}
-   209	
-   210		*buf_obj = (void *)bo;
-   211		*buf_addr = gpu_addr;
-   212	
-   213		return 0;
-   214	}
-   215	EXPORT_SYMBOL(isp_user_buffer_alloc);
-   216	
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:317 Excess struct member 'runnable' description in 'panthor_scheduler'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:317 Excess struct member 'idle' description in 'panthor_scheduler'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:317 Excess struct member 'waiting' description in 'panthor_scheduler'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:317 Excess struct member 'has_ref' description in 'panthor_scheduler'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:317 Excess struct member 'in_progress' description in 'panthor_scheduler'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:317 Excess struct member 'stopped_groups' description in 'panthor_scheduler'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'mem' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'input' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'output' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'input_fw_va' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'output_fw_va' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'gpu_va' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'ref' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'gt' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'sync64' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'bo' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'offset' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'kmap' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'lock' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'id' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'seqno' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'last_fence' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'in_flight_jobs' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'slots' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'slot_count' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:489 Excess struct member 'seqno' description in 'panthor_queue'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:707 Excess struct member 'data' description in 'panthor_group'
+>> Warning: drivers/gpu/drm/panthor/panthor_sched.c:707 Excess struct member 'pid' description in 'panthor_group'
+>> Warning: drivers/gpu/drm/panthor/panthor_sched.c:707 Excess struct member 'comm' description in 'panthor_group'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:843 Excess struct member 'start' description in 'panthor_job'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:843 Excess struct member 'size' description in 'panthor_job'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:843 Excess struct member 'latest_flush' description in 'panthor_job'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:843 Excess struct member 'start' description in 'panthor_job'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:843 Excess struct member 'end' description in 'panthor_job'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:843 Excess struct member 'mask' description in 'panthor_job'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:843 Excess struct member 'slot' description in 'panthor_job'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:1770 function parameter 'ptdev' not described in 'panthor_sched_report_fw_events'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:1770 function parameter 'events' not described in 'panthor_sched_report_fw_events'
+   Warning: drivers/gpu/drm/panthor/panthor_sched.c:2663 function parameter 'ptdev' not described in 'panthor_sched_report_mmu_fault'
 
 -- 
 0-DAY CI Kernel Test Service
