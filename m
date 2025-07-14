@@ -1,75 +1,69 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3927117333F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 19:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC50B2E36F0
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 19:21:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752520576; cv=none; b=hv1Cm/6Vtmi1MerUfOCkC4LkCRCkjXMumdu/W3t3KEiBz5Kpg9tywp1RyFtGXe6W7jfo5kB4xHJ7dXWdnDKZAXKoYMElVjmp92omK8YeQ9e17HR+GMY0dxbW/8cvMZsO2UwxD6iL3Uu2FpUqBZKn4k+m6hpiWK4RuHBI8tHtB48=
+	t=1752520898; cv=none; b=LFB4UUhoT/vthmHc58D6dzkzlM+PrrqeKh1QPZuxOl2IAbIRMX/412b6ey5oOL87UKXBzTTeImYFQJG3tGOTlLX/4gYz52c7Vv2zavcXS/z24lnIv1gojtC+QjT45x9cHftnHQTWUjNcohz28ubHfOm3gCpee7idx4U37peO3NM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752520576; c=relaxed/simple;
-	bh=ExDnrFktU6LuZLYRsv0xzh0D0ij8XsepJ7UCVkDeD/U=;
+	s=arc-20240116; t=1752520898; c=relaxed/simple;
+	bh=udjkE+pI4OacORgCdb4WXwwC+spArKyAGJt1PZl93OQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=QQGMCNNrfvd4AOVIj6b63Cotl5CdHH2zOpuMyST0NrrdnovTdT2IjBxu/zoGemRNd5BGv2yQT4A3vXi9QSqBmjuL6swQ9BEbrhWoYNTaf3g5pZ1GoR27kLnZFDwOQl1ugv/jptLEGnBIcbmoJ3rAaqaU6QOrqzGaMkw8auxJGmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p3aJ7tUS; arc=none smtp.client-ip=209.85.167.177
+	 Content-Disposition; b=bAgUvDENDJ0BApjttzE6itqV48sI1sHlIEBUizdDBOVVE0a7LpvdhOzYGwXK/mcMZDMmpZtI0g720KVGU/64qsSztAl+FC8g5M3+ajGhMJereBrJB95TaWj2PjCPQ4fge9aex6yhRWljyU1EMcyCK41fmo6NClq/VhKKIwqca2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jUx+XNhO; arc=none smtp.client-ip=209.85.161.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p3aJ7tUS"
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-41baecbdd36so952b6e.3
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 12:16:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jUx+XNhO"
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-61593d5f92bso57209eaf.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 12:21:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752520572; x=1753125372; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=quK8ZaMkVwSlhBi2jTInQf7Pwr7hnMJ4C8UE3Xp8UNc=;
-        b=p3aJ7tUS2XaBYrVmPORytC/lQnb8ibdJG5Pctf3iLU5Qh92geG1JTNG/j7c0/4nYta
-         2v45q+eogJRGYlwPq5QBQA++QwqBOn3YL/zcVsmgHhGwgC5qsRGTP6iYbqXQZlD/GDmq
-         EmPWMg8ZrVdV+JXoIG2z0aZMQAiP/LOfrUgUKcN5zGTYHTcORiSQ/pbK1DK1pyWY5Nqx
-         dCx8yMN6LRGdurVFT9+3SuZwP6i96tfcNxebJK1K/ionA8FvB2svCj+A4LqaXAfcAWgP
-         pT/FStv7P4HX/rhUQg8+FkjwPnLQ7TuCqWpfNxWh3LaYyZsGI0eSVsYtLVCVjtV3I9ak
-         hZHg==
+        d=linaro.org; s=google; t=1752520896; x=1753125696; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=q92yAW0S6TrRmtOIpQ3n/UYYq1tKeTfstmJi/xgr22U=;
+        b=jUx+XNhOmGrGcCeAwglNZktxoxxdwE2ZZWO/lRqG8XahonStJCI4rM1uzHfuA1YMw+
+         1vAA9t1SgK1rnmQqDFD/2CXAvj5TLnzr2/kwIbdhbR2Cj7PpxG/7PY8RcfyVcxsgPHnZ
+         qNj+0Eg6mh1lAAnP/cAsNnZRfhhZb9EifjkTFZ/PGAULpwyl+r+n251+qZLRbGZanLs7
+         XERmfoXGGUPB1YejH+F+b4AyFcpISF80H+TPqZP5mHPwhGFTI6TsjVNzbPx5jR9VFbmO
+         jGOivLhhxFhaGy93OUUjoT7snwkJ2H9YvaMMHlBfwC/RXvacLEOyRfm+uZqiaiZn8bhv
+         L1UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752520572; x=1753125372;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=quK8ZaMkVwSlhBi2jTInQf7Pwr7hnMJ4C8UE3Xp8UNc=;
-        b=PVzacp43LO56LyjQ7xJzkjjMQdlohc6zTTWSJjpUABvP7gGRCLAnTvZHxb4E7lUjO2
-         0f7GoOtXds0pPEWIfGSYFufyAczU1Y5GPfWNNEwKQ9RsVROqfbiSFuVmXYQZXte3vbqX
-         xc6k0DVzsW8XTYB1fK3AhQ3qRFeaHak6eBdzFdW6In6An4ZbLazIXHryBNlQr73k9e/j
-         xq+IZNJg6jIOjmUQOWA8XCpilxbus0OT0A+mBiX31WyD6iyeXXMCuxX0U+eHRhSLD1/o
-         6LOFw8yuH98iU10F9/iw0pxQa17KKr5vY/TaDuxBPEmOSvxZaHtNIZjPrqIyKpuUkREG
-         It2g==
-X-Forwarded-Encrypted: i=1; AJvYcCXQq3gaIVbvnaR6XUuKvtp8z85PrCk3dz6Qs5QuDe6VKTHp354XuiK8Opn78oDSthd8wCAjJu9uuIBARQEX@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy9n209V43tSXYY13jgl0t1oekA5UGPfp75QSas3avXflA9xane
-	kzO3cyP95DsYZ+F4x57PUJPesQNQd/U0p4/kLkmW6MlyTQnHsIxaxn/3L+pP+X1z/Q8=
-X-Gm-Gg: ASbGnct/MfP0v9bAeM/7vM40dct4uRjIMJLHwZ77SQFnuplwQVp/WGzd5+2SDo/6QMK
-	pPDwqxsC32GTTt7V5r4FwYhGI3eZKVWEzkGluPuA+yES1OMJfa91INzu5x/oNMJG+khH+R3bK1X
-	BIIWLHnVkc82ld/SE8VFs0xisbBEnwOgMDCKSHyaXYvybv7AzIUEkZj0ByyKCuq0LMslpy+obEw
-	NnbV2ElG7BlzU+uDqrzeCngSgcJVvTzG+D9cDg/Z97vuu6e7CghuYXnfiikiDg/iq+bwnTW62U1
-	KhqCZJBCEbMRhfiOgZSHkDOJznnJ9Uzl2vGRDwpkyDXbVXRAN96/h3807pzurvlPUMc9KaDlnxs
-	x3BA5JMUXNNzD9AVrH94JJSIZV/nEXA==
-X-Google-Smtp-Source: AGHT+IHBy9VWsoNVmD9Rbu7Fg9mDR5xD97fPNPQTUeW2MwfmoXbz4wuLLK9E6ELhEMvqF4ydV2rewQ==
-X-Received: by 2002:a05:6808:1b98:b0:40b:9bd2:460e with SMTP id 5614622812f47-41baa87a1e0mr59840b6e.22.1752520572157;
-        Mon, 14 Jul 2025 12:16:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752520896; x=1753125696;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=q92yAW0S6TrRmtOIpQ3n/UYYq1tKeTfstmJi/xgr22U=;
+        b=F+MjIlljZ/tzvvAZA0xxy3/98hK6FMdFGBgBpOdLN2u9gwj2CB6nFczVxU2lZrt3gH
+         ia4DNxxUk5thS5eeLkg69mKMDNbunfDrm4kuklYnslmuXBmY2Dx86aGx0/o/Qt0n/gen
+         SasUoewi0vvzoAZ1QlDZmQujJ/EXVVMN+CaDxDCEpYsV9tkgOoe1h18T0jazOPwmx2DU
+         7kYSrs8wBOXgw75VWSqXs20kVCZ+jILCqdTzUKDlw/tYfJuWzKjCexoaHUtZ4je9aL8d
+         06uceqqVqK6vG3/piR0gazpuHLcqlPiPAPJyL0/s5yeT0/a/LPQ+0RmL5njRvgU92VUz
+         EhVg==
+X-Forwarded-Encrypted: i=1; AJvYcCXcMEVLhOky+kkoB46s+C4rEp4nSCCFcl/zuJQAHXV5CsEHO1n16anjmuDM6lz/nqxm5UwzfrhItyk0Qonj@lists.linux.dev
+X-Gm-Message-State: AOJu0YzZCd5HXdTw3vkZwI1bZ9SXj9lgf37NGkd8ZwTiiHN3Nfy8ihgg
+	7DeHWybrB9qYkgFs8Lk0uqLqZb6UjidKK94W1ZfGnwpGAmq7qzJcQsbVtfsw3nqSKxw=
+X-Gm-Gg: ASbGncuXezMQusOkv5eqAGWg0xwuHKrtyGMST27Q9Jo+Cu4+LCU7/uJmkyy2zQu9JoP
+	GeEEt1rFQ+snp/wCs+l+tRcSysoz8G14z+P2Q5oltVIPXqH8N+KLROwt/x5zEefo9cL3/EYB4P3
+	QV+rUCUKt0DHBHXjjwzHdwXQs5Uq77yAPGsn+Nqwr3kQnqIpGS86IlK+InyZLb2jPxfkIRk+DNA
+	ionqHpO03/nsMek2/1mm5TdUKJ5QU4NOJrohUlqBW9cNwb29K7Mlv9WCEsId9fH3yJ0D1yAPJTX
+	tNYO4zOUcuKWurTN/hNlsdLvvhABOpDZQr+Z9aY2uKaHOCuTUb4uCMfaoHno5Dnps4BPrJyu1jZ
+	r534iQB3wZAFoAEgH+PZolZOAlG/n0g==
+X-Google-Smtp-Source: AGHT+IG2M23gD2repp+zhsPZVLlk4Dw/CrJTTJ5KdVKqm6Qa+WYZ1jeCVz2Ttdp7sIGfZaoAqv20Iw==
+X-Received: by 2002:a05:6808:67cc:b0:40c:b75a:40ab with SMTP id 5614622812f47-41b7d63b43bmr600281b6e.19.1752520895505;
+        Mon, 14 Jul 2025 12:21:35 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:6bb2:d90f:e5da:befc])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-414191e561esm1633700b6e.11.2025.07.14.12.16.11
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4141bcd27b6sm1614381b6e.29.2025.07.14.12.21.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 12:16:11 -0700 (PDT)
-Date: Mon, 14 Jul 2025 22:16:10 +0300
+        Mon, 14 Jul 2025 12:21:35 -0700 (PDT)
+Date: Mon, 14 Jul 2025 22:21:32 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Matt Johnston <matt@codeconstruct.com.au>,
-	Jeremy Kerr <jk@codeconstruct.com.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Matt Johnston <matt@codeconstruct.com.au>
-Subject: Re: [PATCH net-next 5/7] net: mctp: Allow limiting binds to a peer
- address
-Message-ID: <a51b1a51-8ff6-4607-b783-1944d324359d@suswa.mountain>
+To: oe-kbuild@lists.linux.dev, cros-kernel-buildreports@googlegroups.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android14-6.1-2024-07 10/10] net/rds/rdma.c:306
+ __rds_rdma_map() error: we previously assumed 'cp' could be null (see line
+ 291)
+Message-ID: <13570846-9fd4-4c6a-9c15-67f9956783df@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,111 +72,216 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250703-mctp-bind-v1-5-bb7e97c24613@codeconstruct.com.au>
 
-Hi Matt,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Matt-Johnston/net-mctp-Prevent-duplicate-binds/20250703-171427
-base:   8b98f34ce1d8c520403362cb785231f9898eb3ff
-patch link:    https://lore.kernel.org/r/20250703-mctp-bind-v1-5-bb7e97c24613%40codeconstruct.com.au
-patch subject: [PATCH net-next 5/7] net: mctp: Allow limiting binds to a peer address
-config: i386-randconfig-r072-20250708 (https://download.01.org/0day-ci/archive/20250708/202507080554.pDP37MtV-lkp@intel.com/config)
+tree:   https://android.googlesource.com/kernel/common android14-6.1-2024-07
+head:   923188d534f2cba1fabe5b4d1e5d1e2ca134cdb1
+commit: 998fd719e6d6468b930ac0c44552ea9ff8b07b80 [10/10] net/rds: fix WARNING in rds_conn_connect_if_down
+config: i386-randconfig-141-20250709 (https://download.01.org/0day-ci/archive/20250709/202507092141.iP0rV1YL-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202507080554.pDP37MtV-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507092141.iP0rV1YL-lkp@intel.com/
 
 smatch warnings:
-net/mctp/af_mctp.c:122 mctp_bind() warn: inconsistent returns 'sk'.
+net/rds/rdma.c:306 __rds_rdma_map() error: we previously assumed 'cp' could be null (see line 291)
 
-vim +/sk +122 net/mctp/af_mctp.c
+vim +/cp +306 net/rds/rdma.c
 
-8f601a1e4f8c84f Jeremy Kerr          2021-07-29   52  static int mctp_bind(struct socket *sock, struct sockaddr *addr, int addrlen)
-8f601a1e4f8c84f Jeremy Kerr          2021-07-29   53  {
-833ef3b91de692e Jeremy Kerr          2021-07-29   54  	struct sock *sk = sock->sk;
-833ef3b91de692e Jeremy Kerr          2021-07-29   55  	struct mctp_sock *msk = container_of(sk, struct mctp_sock, sk);
-848674f9a3c762e Matt Johnston        2025-07-03   56  	struct net *net = sock_net(&msk->sk);
-833ef3b91de692e Jeremy Kerr          2021-07-29   57  	struct sockaddr_mctp *smctp;
-833ef3b91de692e Jeremy Kerr          2021-07-29   58  	int rc;
-833ef3b91de692e Jeremy Kerr          2021-07-29   59  
-833ef3b91de692e Jeremy Kerr          2021-07-29   60  	if (addrlen < sizeof(*smctp))
-833ef3b91de692e Jeremy Kerr          2021-07-29   61  		return -EINVAL;
-833ef3b91de692e Jeremy Kerr          2021-07-29   62  
-833ef3b91de692e Jeremy Kerr          2021-07-29   63  	if (addr->sa_family != AF_MCTP)
-833ef3b91de692e Jeremy Kerr          2021-07-29   64  		return -EAFNOSUPPORT;
-833ef3b91de692e Jeremy Kerr          2021-07-29   65  
-833ef3b91de692e Jeremy Kerr          2021-07-29   66  	if (!capable(CAP_NET_BIND_SERVICE))
-833ef3b91de692e Jeremy Kerr          2021-07-29   67  		return -EACCES;
-833ef3b91de692e Jeremy Kerr          2021-07-29   68  
-833ef3b91de692e Jeremy Kerr          2021-07-29   69  	/* it's a valid sockaddr for MCTP, cast and do protocol checks */
-833ef3b91de692e Jeremy Kerr          2021-07-29   70  	smctp = (struct sockaddr_mctp *)addr;
-833ef3b91de692e Jeremy Kerr          2021-07-29   71  
-1e4b50f06d970d8 Eugene Syromiatnikov 2021-11-03   72  	if (!mctp_sockaddr_is_ok(smctp))
-1e4b50f06d970d8 Eugene Syromiatnikov 2021-11-03   73  		return -EINVAL;
-1e4b50f06d970d8 Eugene Syromiatnikov 2021-11-03   74  
-833ef3b91de692e Jeremy Kerr          2021-07-29   75  	lock_sock(sk);
-                                                        ^^^^^^^^^^^^^^
-locked
+eff5f53bef75c0 Andy Grover       2009-02-24  172  static int __rds_rdma_map(struct rds_sock *rs, struct rds_get_mr_args *args,
+9e630bcb7701f9 Avinash Repaka    2018-07-24  173  			  u64 *cookie_ret, struct rds_mr **mr_ret,
+9e630bcb7701f9 Avinash Repaka    2018-07-24  174  			  struct rds_conn_path *cp)
+eff5f53bef75c0 Andy Grover       2009-02-24  175  {
+eff5f53bef75c0 Andy Grover       2009-02-24  176  	struct rds_mr *mr = NULL, *found;
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  177  	struct scatterlist *sg = NULL;
+eff5f53bef75c0 Andy Grover       2009-02-24  178  	unsigned int nr_pages;
+eff5f53bef75c0 Andy Grover       2009-02-24  179  	struct page **pages = NULL;
+eff5f53bef75c0 Andy Grover       2009-02-24  180  	void *trans_private;
+eff5f53bef75c0 Andy Grover       2009-02-24  181  	unsigned long flags;
+eff5f53bef75c0 Andy Grover       2009-02-24  182  	rds_rdma_cookie_t cookie;
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  183  	unsigned int nents = 0;
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  184  	int need_odp = 0;
+eff5f53bef75c0 Andy Grover       2009-02-24  185  	long i;
+eff5f53bef75c0 Andy Grover       2009-02-24  186  	int ret;
+eff5f53bef75c0 Andy Grover       2009-02-24  187  
+eee2fa6ab32251 Ka-Cheong Poon    2018-07-23  188  	if (ipv6_addr_any(&rs->rs_bound_addr) || !rs->rs_transport) {
+eff5f53bef75c0 Andy Grover       2009-02-24  189  		ret = -ENOTCONN; /* XXX not a great errno */
+eff5f53bef75c0 Andy Grover       2009-02-24  190  		goto out;
+eff5f53bef75c0 Andy Grover       2009-02-24  191  	}
+eff5f53bef75c0 Andy Grover       2009-02-24  192  
+8690bfa17aea4c Andy Grover       2010-01-12  193  	if (!rs->rs_transport->get_mr) {
+eff5f53bef75c0 Andy Grover       2009-02-24  194  		ret = -EOPNOTSUPP;
+eff5f53bef75c0 Andy Grover       2009-02-24  195  		goto out;
+eff5f53bef75c0 Andy Grover       2009-02-24  196  	}
+eff5f53bef75c0 Andy Grover       2009-02-24  197  
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  198  	/* If the combination of the addr and size requested for this memory
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  199  	 * region causes an integer overflow, return error.
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  200  	 */
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  201  	if (((args->vec.addr + args->vec.bytes) < args->vec.addr) ||
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  202  	    PAGE_ALIGN(args->vec.addr + args->vec.bytes) <
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  203  		    (args->vec.addr + args->vec.bytes)) {
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  204  		ret = -EINVAL;
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  205  		goto out;
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  206  	}
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  207  
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  208  	if (!can_do_mlock()) {
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  209  		ret = -EPERM;
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  210  		goto out;
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  211  	}
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  212  
+eff5f53bef75c0 Andy Grover       2009-02-24  213  	nr_pages = rds_pages_in_vec(&args->vec);
+eff5f53bef75c0 Andy Grover       2009-02-24  214  	if (nr_pages == 0) {
+eff5f53bef75c0 Andy Grover       2009-02-24  215  		ret = -EINVAL;
+eff5f53bef75c0 Andy Grover       2009-02-24  216  		goto out;
+eff5f53bef75c0 Andy Grover       2009-02-24  217  	}
+eff5f53bef75c0 Andy Grover       2009-02-24  218  
+f9fb69adb6c7ac Avinash Repaka    2016-02-29  219  	/* Restrict the size of mr irrespective of underlying transport
+f9fb69adb6c7ac Avinash Repaka    2016-02-29  220  	 * To account for unaligned mr regions, subtract one from nr_pages
+f9fb69adb6c7ac Avinash Repaka    2016-02-29  221  	 */
+f9fb69adb6c7ac Avinash Repaka    2016-02-29  222  	if ((nr_pages - 1) > (RDS_MAX_MSG_SIZE >> PAGE_SHIFT)) {
+f9fb69adb6c7ac Avinash Repaka    2016-02-29  223  		ret = -EMSGSIZE;
+f9fb69adb6c7ac Avinash Repaka    2016-02-29  224  		goto out;
+f9fb69adb6c7ac Avinash Repaka    2016-02-29  225  	}
+f9fb69adb6c7ac Avinash Repaka    2016-02-29  226  
+eff5f53bef75c0 Andy Grover       2009-02-24  227  	rdsdebug("RDS: get_mr addr %llx len %llu nr_pages %u\n",
+eff5f53bef75c0 Andy Grover       2009-02-24  228  		args->vec.addr, args->vec.bytes, nr_pages);
+eff5f53bef75c0 Andy Grover       2009-02-24  229  
+eff5f53bef75c0 Andy Grover       2009-02-24  230  	/* XXX clamp nr_pages to limit the size of this alloc? */
+eff5f53bef75c0 Andy Grover       2009-02-24  231  	pages = kcalloc(nr_pages, sizeof(struct page *), GFP_KERNEL);
+8690bfa17aea4c Andy Grover       2010-01-12  232  	if (!pages) {
+eff5f53bef75c0 Andy Grover       2009-02-24  233  		ret = -ENOMEM;
+eff5f53bef75c0 Andy Grover       2009-02-24  234  		goto out;
+eff5f53bef75c0 Andy Grover       2009-02-24  235  	}
+eff5f53bef75c0 Andy Grover       2009-02-24  236  
+eff5f53bef75c0 Andy Grover       2009-02-24  237  	mr = kzalloc(sizeof(struct rds_mr), GFP_KERNEL);
+8690bfa17aea4c Andy Grover       2010-01-12  238  	if (!mr) {
+eff5f53bef75c0 Andy Grover       2009-02-24  239  		ret = -ENOMEM;
+eff5f53bef75c0 Andy Grover       2009-02-24  240  		goto out;
+eff5f53bef75c0 Andy Grover       2009-02-24  241  	}
+eff5f53bef75c0 Andy Grover       2009-02-24  242  
+e228a5d05e9ee2 Ka-Cheong Poon    2020-04-08  243  	kref_init(&mr->r_kref);
+eff5f53bef75c0 Andy Grover       2009-02-24  244  	RB_CLEAR_NODE(&mr->r_rb_node);
+eff5f53bef75c0 Andy Grover       2009-02-24  245  	mr->r_trans = rs->rs_transport;
+eff5f53bef75c0 Andy Grover       2009-02-24  246  	mr->r_sock = rs;
+eff5f53bef75c0 Andy Grover       2009-02-24  247  
+eff5f53bef75c0 Andy Grover       2009-02-24  248  	if (args->flags & RDS_RDMA_USE_ONCE)
+eff5f53bef75c0 Andy Grover       2009-02-24  249  		mr->r_use_once = 1;
+eff5f53bef75c0 Andy Grover       2009-02-24  250  	if (args->flags & RDS_RDMA_INVALIDATE)
+eff5f53bef75c0 Andy Grover       2009-02-24  251  		mr->r_invalidate = 1;
+eff5f53bef75c0 Andy Grover       2009-02-24  252  	if (args->flags & RDS_RDMA_READWRITE)
+eff5f53bef75c0 Andy Grover       2009-02-24  253  		mr->r_write = 1;
+eff5f53bef75c0 Andy Grover       2009-02-24  254  
+eff5f53bef75c0 Andy Grover       2009-02-24  255  	/*
+eff5f53bef75c0 Andy Grover       2009-02-24  256  	 * Pin the pages that make up the user buffer and transfer the page
+eff5f53bef75c0 Andy Grover       2009-02-24  257  	 * pointers to the mr's sg array.  We check to see if we've mapped
+eff5f53bef75c0 Andy Grover       2009-02-24  258  	 * the whole region after transferring the partial page references
+eff5f53bef75c0 Andy Grover       2009-02-24  259  	 * to the sg array so that we can have one page ref cleanup path.
+eff5f53bef75c0 Andy Grover       2009-02-24  260  	 *
+eff5f53bef75c0 Andy Grover       2009-02-24  261  	 * For now we have no flag that tells us whether the mapping is
+eff5f53bef75c0 Andy Grover       2009-02-24  262  	 * r/o or r/w. We need to assume r/w, or we'll do a lot of RDMA to
+eff5f53bef75c0 Andy Grover       2009-02-24  263  	 * the zero page.
+eff5f53bef75c0 Andy Grover       2009-02-24  264  	 */
+d22faec22c2ab2 Andy Grover       2010-01-12  265  	ret = rds_pin_pages(args->vec.addr, nr_pages, pages, 1);
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  266  	if (ret == -EOPNOTSUPP) {
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  267  		need_odp = 1;
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  268  	} else if (ret <= 0) {
+eff5f53bef75c0 Andy Grover       2009-02-24  269  		goto out;
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  270  	} else {
+eff5f53bef75c0 Andy Grover       2009-02-24  271  		nents = ret;
+3cec0369905d08 Julia Lawall      2020-09-20  272  		sg = kmalloc_array(nents, sizeof(*sg), GFP_KERNEL);
+8690bfa17aea4c Andy Grover       2010-01-12  273  		if (!sg) {
+eff5f53bef75c0 Andy Grover       2009-02-24  274  			ret = -ENOMEM;
+eff5f53bef75c0 Andy Grover       2009-02-24  275  			goto out;
+eff5f53bef75c0 Andy Grover       2009-02-24  276  		}
+eff5f53bef75c0 Andy Grover       2009-02-24  277  		WARN_ON(!nents);
+eff5f53bef75c0 Andy Grover       2009-02-24  278  		sg_init_table(sg, nents);
+eff5f53bef75c0 Andy Grover       2009-02-24  279  
+eff5f53bef75c0 Andy Grover       2009-02-24  280  		/* Stick all pages into the scatterlist */
+eff5f53bef75c0 Andy Grover       2009-02-24  281  		for (i = 0 ; i < nents; i++)
+eff5f53bef75c0 Andy Grover       2009-02-24  282  			sg_set_page(&sg[i], pages[i], PAGE_SIZE, 0);
+eff5f53bef75c0 Andy Grover       2009-02-24  283  
+eff5f53bef75c0 Andy Grover       2009-02-24  284  		rdsdebug("RDS: trans_private nents is %u\n", nents);
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  285  	}
+eff5f53bef75c0 Andy Grover       2009-02-24  286  	/* Obtain a transport specific MR. If this succeeds, the
+eff5f53bef75c0 Andy Grover       2009-02-24  287  	 * s/g list is now owned by the MR.
+eff5f53bef75c0 Andy Grover       2009-02-24  288  	 * Note that dma_map() implies that pending writes are
+eff5f53bef75c0 Andy Grover       2009-02-24  289  	 * flushed to RAM, so no dma_sync is needed here. */
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  290  	trans_private = rs->rs_transport->get_mr(
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15 @291  		sg, nents, rs, &mr->r_key, cp ? cp->cp_conn : NULL,
+                                                                                           ^^
+This line assumes cp can be NULL.
 
-833ef3b91de692e Jeremy Kerr          2021-07-29   76  
-833ef3b91de692e Jeremy Kerr          2021-07-29   77  	if (sk_hashed(sk)) {
-833ef3b91de692e Jeremy Kerr          2021-07-29   78  		rc = -EADDRINUSE;
-833ef3b91de692e Jeremy Kerr          2021-07-29   79  		goto out_release;
-833ef3b91de692e Jeremy Kerr          2021-07-29   80  	}
-848674f9a3c762e Matt Johnston        2025-07-03   81  
-d58bad174be0c4b Matt Johnston        2025-07-03   82  	msk->bind_local_addr = smctp->smctp_addr.s_addr;
-848674f9a3c762e Matt Johnston        2025-07-03   83  
-848674f9a3c762e Matt Johnston        2025-07-03   84  	/* MCTP_NET_ANY with a specific EID is resolved to the default net
-848674f9a3c762e Matt Johnston        2025-07-03   85  	 * at bind() time.
-848674f9a3c762e Matt Johnston        2025-07-03   86  	 * For bind_addr=MCTP_ADDR_ANY it is handled specially at route lookup time.
-848674f9a3c762e Matt Johnston        2025-07-03   87  	 */
-848674f9a3c762e Matt Johnston        2025-07-03   88  	if (smctp->smctp_network == MCTP_NET_ANY &&
-d58bad174be0c4b Matt Johnston        2025-07-03   89  	    msk->bind_local_addr != MCTP_ADDR_ANY) {
-848674f9a3c762e Matt Johnston        2025-07-03   90  		msk->bind_net = mctp_default_net(net);
-848674f9a3c762e Matt Johnston        2025-07-03   91  	} else {
-848674f9a3c762e Matt Johnston        2025-07-03   92  		msk->bind_net = smctp->smctp_network;
-848674f9a3c762e Matt Johnston        2025-07-03   93  	}
-848674f9a3c762e Matt Johnston        2025-07-03   94  
-d58bad174be0c4b Matt Johnston        2025-07-03   95  	/* ignore the IC bit */
-d58bad174be0c4b Matt Johnston        2025-07-03   96  	smctp->smctp_type &= 0x7f;
-d58bad174be0c4b Matt Johnston        2025-07-03   97  
-d58bad174be0c4b Matt Johnston        2025-07-03   98  	if (msk->bind_peer_set) {
-d58bad174be0c4b Matt Johnston        2025-07-03   99  		if (msk->bind_type != smctp->smctp_type) {
-d58bad174be0c4b Matt Johnston        2025-07-03  100  			/* Prior connect() had a different type */
-d58bad174be0c4b Matt Johnston        2025-07-03  101  			return -EINVAL;
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  292  		args->vec.addr, args->vec.bytes,
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  293  		need_odp ? ODP_ZEROBASED : ODP_NOT_NEEDED);
+eff5f53bef75c0 Andy Grover       2009-02-24  294  
+eff5f53bef75c0 Andy Grover       2009-02-24  295  	if (IS_ERR(trans_private)) {
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  296  		/* In ODP case, we don't GUP pages, so don't need
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  297  		 * to release anything.
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  298  		 */
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  299  		if (!need_odp) {
+0d4597c8c5abde Leon Romanovsky   2020-02-11  300  			unpin_user_pages(pages, nr_pages);
+eff5f53bef75c0 Andy Grover       2009-02-24  301  			kfree(sg);
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  302  		}
+eff5f53bef75c0 Andy Grover       2009-02-24  303  		ret = PTR_ERR(trans_private);
+998fd719e6d646 Edward Adam Davis 2024-03-05  304  		/* Trigger connection so that its ready for the next retry */
+998fd719e6d646 Edward Adam Davis 2024-03-05  305  		if (ret == -ENODEV)
+998fd719e6d646 Edward Adam Davis 2024-03-05 @306  			rds_conn_connect_if_down(cp->cp_conn);
+                                                                                                 ^^^^^^^^^^^
+This code dereference cp without checking.
 
-goto out_release?
-
-d58bad174be0c4b Matt Johnston        2025-07-03  102  		}
-d58bad174be0c4b Matt Johnston        2025-07-03  103  
-d58bad174be0c4b Matt Johnston        2025-07-03  104  		if (msk->bind_net == MCTP_NET_ANY) {
-d58bad174be0c4b Matt Johnston        2025-07-03  105  			/* Restrict to the network passed to connect() */
-d58bad174be0c4b Matt Johnston        2025-07-03  106  			msk->bind_net = msk->bind_peer_net;
-d58bad174be0c4b Matt Johnston        2025-07-03  107  		}
-d58bad174be0c4b Matt Johnston        2025-07-03  108  
-d58bad174be0c4b Matt Johnston        2025-07-03  109  		if (msk->bind_net != msk->bind_peer_net) {
-d58bad174be0c4b Matt Johnston        2025-07-03  110  			/* connect() had a different net to bind() */
-d58bad174be0c4b Matt Johnston        2025-07-03  111  			return -EINVAL;
-
-same.
-
-d58bad174be0c4b Matt Johnston        2025-07-03  112  		}
-d58bad174be0c4b Matt Johnston        2025-07-03  113  	} else {
-d58bad174be0c4b Matt Johnston        2025-07-03  114  		msk->bind_type = smctp->smctp_type;
-d58bad174be0c4b Matt Johnston        2025-07-03  115  	}
-833ef3b91de692e Jeremy Kerr          2021-07-29  116  
-833ef3b91de692e Jeremy Kerr          2021-07-29  117  	rc = sk->sk_prot->hash(sk);
-833ef3b91de692e Jeremy Kerr          2021-07-29  118  
-833ef3b91de692e Jeremy Kerr          2021-07-29  119  out_release:
-833ef3b91de692e Jeremy Kerr          2021-07-29  120  	release_sock(sk);
-833ef3b91de692e Jeremy Kerr          2021-07-29  121  
-833ef3b91de692e Jeremy Kerr          2021-07-29 @122  	return rc;
-8f601a1e4f8c84f Jeremy Kerr          2021-07-29  123  }
+eff5f53bef75c0 Andy Grover       2009-02-24  307  		goto out;
+eff5f53bef75c0 Andy Grover       2009-02-24  308  	}
+eff5f53bef75c0 Andy Grover       2009-02-24  309  
+eff5f53bef75c0 Andy Grover       2009-02-24  310  	mr->r_trans_private = trans_private;
+eff5f53bef75c0 Andy Grover       2009-02-24  311  
+eff5f53bef75c0 Andy Grover       2009-02-24  312  	rdsdebug("RDS: get_mr put_user key is %x cookie_addr %p\n",
+eff5f53bef75c0 Andy Grover       2009-02-24  313  	       mr->r_key, (void *)(unsigned long) args->cookie_addr);
+eff5f53bef75c0 Andy Grover       2009-02-24  314  
+eff5f53bef75c0 Andy Grover       2009-02-24  315  	/* The user may pass us an unaligned address, but we can only
+eff5f53bef75c0 Andy Grover       2009-02-24  316  	 * map page aligned regions. So we keep the offset, and build
+eff5f53bef75c0 Andy Grover       2009-02-24  317  	 * a 64bit cookie containing <R_Key, offset> and pass that
+eff5f53bef75c0 Andy Grover       2009-02-24  318  	 * around. */
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  319  	if (need_odp)
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  320  		cookie = rds_rdma_make_cookie(mr->r_key, 0);
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  321  	else
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  322  		cookie = rds_rdma_make_cookie(mr->r_key,
+2eafa1746f1787 Hans Westgaard Ry 2020-01-15  323  					      args->vec.addr & ~PAGE_MASK);
+eff5f53bef75c0 Andy Grover       2009-02-24  324  	if (cookie_ret)
+eff5f53bef75c0 Andy Grover       2009-02-24  325  		*cookie_ret = cookie;
+eff5f53bef75c0 Andy Grover       2009-02-24  326  
+0d4597c8c5abde Leon Romanovsky   2020-02-11  327  	if (args->cookie_addr &&
+0d4597c8c5abde Leon Romanovsky   2020-02-11  328  	    put_user(cookie, (u64 __user *)(unsigned long)args->cookie_addr)) {
+0d4597c8c5abde Leon Romanovsky   2020-02-11  329  		if (!need_odp) {
+0d4597c8c5abde Leon Romanovsky   2020-02-11  330  			unpin_user_pages(pages, nr_pages);
+0d4597c8c5abde Leon Romanovsky   2020-02-11  331  			kfree(sg);
+0d4597c8c5abde Leon Romanovsky   2020-02-11  332  		}
+eff5f53bef75c0 Andy Grover       2009-02-24  333  		ret = -EFAULT;
+eff5f53bef75c0 Andy Grover       2009-02-24  334  		goto out;
+eff5f53bef75c0 Andy Grover       2009-02-24  335  	}
+eff5f53bef75c0 Andy Grover       2009-02-24  336  
+eff5f53bef75c0 Andy Grover       2009-02-24  337  	/* Inserting the new MR into the rbtree bumps its
+eff5f53bef75c0 Andy Grover       2009-02-24  338  	 * reference count. */
+eff5f53bef75c0 Andy Grover       2009-02-24  339  	spin_lock_irqsave(&rs->rs_rdma_lock, flags);
+eff5f53bef75c0 Andy Grover       2009-02-24  340  	found = rds_mr_tree_walk(&rs->rs_rdma_keys, mr->r_key, mr);
+eff5f53bef75c0 Andy Grover       2009-02-24  341  	spin_unlock_irqrestore(&rs->rs_rdma_lock, flags);
+eff5f53bef75c0 Andy Grover       2009-02-24  342  
+eff5f53bef75c0 Andy Grover       2009-02-24  343  	BUG_ON(found && found != mr);
+eff5f53bef75c0 Andy Grover       2009-02-24  344  
+eff5f53bef75c0 Andy Grover       2009-02-24  345  	rdsdebug("RDS: get_mr key is %x\n", mr->r_key);
+eff5f53bef75c0 Andy Grover       2009-02-24  346  	if (mr_ret) {
+e228a5d05e9ee2 Ka-Cheong Poon    2020-04-08  347  		kref_get(&mr->r_kref);
+eff5f53bef75c0 Andy Grover       2009-02-24  348  		*mr_ret = mr;
+eff5f53bef75c0 Andy Grover       2009-02-24  349  	}
+eff5f53bef75c0 Andy Grover       2009-02-24  350  
+eff5f53bef75c0 Andy Grover       2009-02-24  351  	ret = 0;
+eff5f53bef75c0 Andy Grover       2009-02-24  352  out:
+eff5f53bef75c0 Andy Grover       2009-02-24  353  	kfree(pages);
+eff5f53bef75c0 Andy Grover       2009-02-24  354  	if (mr)
+e228a5d05e9ee2 Ka-Cheong Poon    2020-04-08  355  		kref_put(&mr->r_kref, __rds_put_mr_final);
+eff5f53bef75c0 Andy Grover       2009-02-24  356  	return ret;
+eff5f53bef75c0 Andy Grover       2009-02-24  357  }
 
 -- 
 0-DAY CI Kernel Test Service
