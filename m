@@ -1,74 +1,79 @@
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E62E27605A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 19:05:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173D725E471
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 19:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752519903; cv=none; b=CFaiOhGxhKLnkwooqQGE3vB9R08GUYftcXqUmLB86h56DwpqgLyFRO3Z2hDo/l7AvNuQ13AP4ciYCfGGkQqdJzEfLS0sjYp+K2rluxSFSCYSLcAZZRRNjwQoVK59lDSFmFRGaB3RNSefUVY9R/MPhhk6/2P/jhbPHt6fxaJeg/0=
+	t=1752519967; cv=none; b=vEIQBUCibfbWdOQxc38LfbBHTjomNkIyi1RZlkvKPj22Ne2+398AovkxV/HuyKse63JT/duG2iip3eM1RDD1YfzLOKQzocGbZ4H43v9502TnI6blQyRowqxVMC1g6ka8hgSqkrJ65F4Ghti05NmNgIFnh36AlAO8vVCCCKlfiKo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752519903; c=relaxed/simple;
-	bh=q+olkIxO6QSEQI4AAJlhbaSdpfzA/5MYP0ugPj8Pg54=;
+	s=arc-20240116; t=1752519967; c=relaxed/simple;
+	bh=36OXI6KdfNW5Azr1XrUS3aZkxv95IVhnKyZFnAzOoQc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=obxaNQDXO3zRcAOuzMUvnCqRY/07YemQMBbyeUxtsaXp8cZRWL9SLouoijsbAqzM8T3YzZKB0z4l9Qs4gV7DR045uRPEHozHI4TOO9XlTWwxhGxj42DZAhJ7rwIYtVTl1pVMh1O5hznq3aPN4KnmthXDHO1sHG/WbN30naJJaM4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=doVYO5Qu; arc=none smtp.client-ip=209.85.167.175
+	 Content-Disposition:In-Reply-To; b=o5qe/TWoyFmjfPJgrsApY00/oMN6HldqeoEy9PeVdDxycKy619AK6Gl1MPTygo93/SFsZCNa3bHdhjj5jYye53qatk01siabUYvsVKlr5FGZKv1S3tPH0rCE5lZdzChF1HcvtUrAUAYW85cHWci7e84dM6JZHk6Yg9sgUiKwN48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZC4hqlyN; arc=none smtp.client-ip=209.85.161.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="doVYO5Qu"
-Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-40a4de175a3so2381664b6e.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 12:05:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZC4hqlyN"
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-610cbca60cdso2524313eaf.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 12:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752519899; x=1753124699; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1752519965; x=1753124765; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=BdAiWES77XaDLnO1vrNoocWtjPZ3jZaAJoidOert7wA=;
-        b=doVYO5QuodjnTdKUe7JLbATlrOT8x2Zy7GyZP/+KRmv/c3BjJt/pNaMhEN69To5Yld
-         cQ1hijKpsyC95mJELAFmu9jlgk1l+PjuEWpPS8bPy8h1pyET1nf0H7kbF+uWc3MDSJFe
-         ywZRksEH2YwtHSmHJMIKbYAkeZXXqDV98v1VDhZq2gAq/DAX9CFFTlbNqMI5wrfEYzzc
-         2KOXyyLvAtab4DKVrCOUx5DN3EpvEgJYsuXICszbvx3y4b94UsS5Jf/ChZURbSxZ9ARW
-         PXmlRC/Z+3Q0ryYuoo9FXGC5msZRzDaIHTNYtCbUCDgxc/1no5zej10N3D9Az+1n93cp
-         9ZVw==
+        bh=0Kej+z2nwqH47H8syUxUZJZrrsTEp7h/K0YFhcC1+oo=;
+        b=ZC4hqlyNwZJFrt6KYulz50jsDNS0y7jbc7YoVjJ0D4BGKzdsk0LaATM+T9EenJBQIC
+         2+yJodKLPATOV5rADeB6ZZxIGN627DfmrC+JTG+J7kekY4vxVXsr0zz6MA2Oalw54T2V
+         y2W3b7LAMKU0xuwqeJMekyu1o+3Gzf/63+Jo3mPRGEKbN3FBxtzVasQTVRbe+BT8qIWY
+         Y0lMZXamro5yd0l+c/Q9QqmVPvHathTB7NdpgAp/jJKc1n35fm3kff7MmJON7rSbbQID
+         0KnZGNob0+VaBDkHUMnfHJwsD1qdaAyxab8Lo7s3V6JIBF6DsrDa+4k5OjsAag8lL13h
+         lS5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752519899; x=1753124699;
+        d=1e100.net; s=20230601; t=1752519965; x=1753124765;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BdAiWES77XaDLnO1vrNoocWtjPZ3jZaAJoidOert7wA=;
-        b=AibGVXh+rqnoHOnQcVCNZFjCU8e3qVn8bH0yWolFZdvQf9Y4qIptZAqjF+eLb1KEZr
-         Yo8vX+HNMLsNddSdoXLSET2292c2uyBV/irne71dm0db8wgv8e05jPg8bIx/luUCRZ5Q
-         1FxOO3dcKtHaFQ2iuiynL5qQnigXQUNDrHKbc+xNcvHfpZz8vBj2RNXRu34b21jOqlK6
-         Wde0gERnmegst2VpwgvAbQGSdpfrKGXYs4rm9PLRz/l0QbJ+TE54qojIAGINNN1CPoin
-         w5VBSIeRLmWaj+wEbjI6pFudljwVfgHrBEzo2uQELiU306XoiR4nQuYN743my9YNidZg
-         rlcA==
-X-Forwarded-Encrypted: i=1; AJvYcCVgbnQmK9zw34rZJ0nXzNVrrzNWMU1Y0nqYoOHRthu9rpXor662YFK8Y2Sgl5G0/yuHEn7pT4JBMq7fDWmI@lists.linux.dev
-X-Gm-Message-State: AOJu0YyyDfP67/KIv+DMqFREq3Q50+GkPPhQqiJTwwgg+lTXySjX7eWJ
-	zNs/shyIUmk1JIdj915RT1GIqg6gs477qajS5/xSLRdR5KJpuTPQEom7WQcYhE4caK4=
-X-Gm-Gg: ASbGncsj/+1nwXOy05HiFXMLsYUvzZW1EzFrf/xJc8jKCNXuhtbxgHbo/QezdZC0+5u
-	aHj6D1uzNx6wSnwlprvZgA5IuDCIlRzAWuVrwjYFxRq7DwJImnavoKvVbvLewJm/cN2SJYrOvZu
-	Us7j/xa4WVcXzLMAaG1dG1Rpz5Vl+JEzZt4Lzk5ca6cLvxF8Vbfy9nCAdiDQpWVnefItD7XPRJH
-	b/NH3DMhj3o2Wy3M/nJqkSDg2nbjdLX32OBzo74gecxMnh5W2MRb6l/zNhiGXNbuocGM5xsEj4O
-	XB+1KytzhRfCsIQ7DwbE7a3lD45kGftOjvRkIwdSph+ddr4DpFFNCA6cGqHfk/DmAmqORVyOoHq
-	fR2AZD2T/a3LEFCIz4BnUqtivhzMr1Yzv4c/4c4Cp
-X-Google-Smtp-Source: AGHT+IG9VB44/JBXZgU5GVNb+6d0g32N/Qwu1+N9nXvPuxbsMeajY2PfOx1sKYCIufDjdIs+/yM6kg==
-X-Received: by 2002:a05:6808:4f63:b0:408:fb4c:859e with SMTP id 5614622812f47-4150d745cfcmr9800740b6e.6.1752519899258;
-        Mon, 14 Jul 2025 12:04:59 -0700 (PDT)
+        bh=0Kej+z2nwqH47H8syUxUZJZrrsTEp7h/K0YFhcC1+oo=;
+        b=q8RKJbHlwLnoHJPBQCbZAt1lcb9oWdkpt2WIkUakY+2mLw0o3+4BA0YxD4aBzwbw3e
+         gpXooIyF+jSt1kVsfoyFKIjmz34SlERZSCikoktHlFXRzWyQTB/dUcYK7oDtckdKws/1
+         kyZlvfRnFtajpA46NVmE7NpySSQFhSngJv9p41PbYuI7ETLjbIF+FEsFsFFgC8uuz54/
+         JHRg67zCujQini7ZZJylIJbd88bAU3Jb8Wv/G6YOEkDDVrgrNEzUb1n0MheYUiqBTcG5
+         5vIObJClccrCUhLRP62nxlX/m+Pkch3HxmgJXrK3o55RLeUPVTI8eog8f/hBhb5RTOu4
+         r+HA==
+X-Forwarded-Encrypted: i=1; AJvYcCUtDN5w1RbVs3R55I8FTyZ8pIU1xhPp5LBR1eqPjBnzbFO0oeVvzHQfwKbt9RscXuGMUC/b3lFag+8gr5gs@lists.linux.dev
+X-Gm-Message-State: AOJu0YxbRMT4oq/mmnii4Sb45x3KRWF/mBjt7crNMzPE+HPQ4ZLxgcP7
+	yi9vYbvv5PThkOgGR76kqgQxazREdilzI1RWsvAZBGBTWNOJ5Ugx3mWZBbKR99hJBH4=
+X-Gm-Gg: ASbGncvEvBcf0IqSBr1k2YEJttWazlVUz44x1TQI3wwCfzmszbwE6Z5qkJJ3f0Qcg1C
+	Er+w9wdYPjUtAsD4okJ6GbWAx0aLUgiquEgVbahyAjj+YfeKJwBzywYb7En3qBViQY/D89UneEi
+	J9vn73UbEgtcu+iKKyqkETb4DpKASJCgE52YNVlXyLAT40s97y8y0yZMeROLDheWsLhYh/fFxA7
+	tLeqYA4iOiC6FjgM3KHy5exU8DH/eBzrUfOJwiNgSxf6KRZCiMH6iVKcede4lSncFJmmH1Xhebh
+	yhT0mxwq5nJ7pYDE+9ROxOESXJLsi2/YkAm1hW87iUNUNmrOG6qhrU1UwqWGH87vFweO6o2wC9a
+	NGddVOoj0nl4IFjBFup0bmOt/kk1TZQ==
+X-Google-Smtp-Source: AGHT+IGZFgkatUwd5pWgCV0TZaCErLH8Y+F35AINecBPyk3TXs9Ccww4XoxGRNH0aYE4YRF/Gl4C2A==
+X-Received: by 2002:a05:6820:c85:b0:613:cb90:21c with SMTP id 006d021491bc7-613e6015f92mr9732936eaf.8.1752519965067;
+        Mon, 14 Jul 2025 12:06:05 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:6bb2:d90f:e5da:befc])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-414196c9b24sm1580366b6e.17.2025.07.14.12.04.58
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-613d9d6d51bsm1169531eaf.5.2025.07.14.12.06.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 12:04:58 -0700 (PDT)
-Date: Mon, 14 Jul 2025 22:04:57 +0300
+        Mon, 14 Jul 2025 12:06:03 -0700 (PDT)
+Date: Mon, 14 Jul 2025 22:06:02 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	bpf@vger.kernel.org, ast@kernel.org, daniel@iogearbox.net,
-	andrii@kernel.org
+To: oe-kbuild@lists.linux.dev, Eric Woudstra <ericwouds@gmail.com>,
+	Pablo Neira Ayuso <pablo@netfilter.org>,
+	Jozsef Kadlecsik <kadlec@netfilter.org>,
+	Nikolay Aleksandrov <razor@blackwall.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	magnus.karlsson@intel.com, stfomichev@gmail.com,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Eryk Kubanski <e.kubanski@partner.samsung.com>
-Subject: Re: [PATCH v2 bpf] xsk: fix immature cq descriptor production
-Message-ID: <440ed42e-16d5-4b00-9402-1f26d73715d4@suswa.mountain>
+	netfilter-devel@vger.kernel.org, bridge@lists.linux.dev,
+	Eric Woudstra <ericwouds@gmail.com>
+Subject: Re: [PATCH v13 nf-next 1/3] netfilter: utils: nf_checksum(_partial)
+ correct data!=networkheader
+Message-ID: <e70e50e8-9419-4ca0-b65d-dbf4869a5d89@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,168 +82,88 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250705135512.1963216-1-maciej.fijalkowski@intel.com>
+In-Reply-To: <20250704191135.1815969-2-ericwouds@gmail.com>
 
-Hi Maciej,
+Hi Eric,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Fijalkowski/xsk-fix-immature-cq-descriptor-production/20250705-215714
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
-patch link:    https://lore.kernel.org/r/20250705135512.1963216-1-maciej.fijalkowski%40intel.com
-patch subject: [PATCH v2 bpf] xsk: fix immature cq descriptor production
-config: x86_64-randconfig-r071-20250706 (https://download.01.org/0day-ci/archive/20250706/202507061447.DwFSGum1-lkp@intel.com/config)
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Eric-Woudstra/netfilter-utils-nf_checksum-_partial-correct-data-networkheader/20250705-031418
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
+patch link:    https://lore.kernel.org/r/20250704191135.1815969-2-ericwouds%40gmail.com
+patch subject: [PATCH v13 nf-next 1/3] netfilter: utils: nf_checksum(_partial) correct data!=networkheader
+config: x86_64-randconfig-r071-20250706 (https://download.01.org/0day-ci/archive/20250706/202507061710.RCwA4Kjw-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202507061447.DwFSGum1-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507061710.RCwA4Kjw-lkp@intel.com/
 
 smatch warnings:
-net/xdp/xsk.c:819 xsk_build_skb() warn: passing zero to 'ERR_PTR'
+net/netfilter/utils.c:131 nf_checksum() warn: signedness bug returning '(-12)'
+net/netfilter/utils.c:155 nf_checksum_partial() warn: signedness bug returning '(-12)'
 
-vim +/ERR_PTR +819 net/xdp/xsk.c
+vim +131 net/netfilter/utils.c
 
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  689  static struct sk_buff *xsk_build_skb(struct xdp_sock *xs,
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  690  				     struct xdp_desc *desc)
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  691  {
-48eb03dd26304c Stanislav Fomichev        2023-11-27  692  	struct xsk_tx_metadata *meta = NULL;
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  693  	struct net_device *dev = xs->dev;
-67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  694  	struct xsk_addrs *addrs = NULL;
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  695  	struct sk_buff *skb = xs->skb;
-48eb03dd26304c Stanislav Fomichev        2023-11-27  696  	bool first_frag = false;
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  697  	int err;
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  698  
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  699  	if (dev->priv_flags & IFF_TX_SKB_NO_LINEAR) {
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  700  		skb = xsk_build_skb_zerocopy(xs, desc);
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  701  		if (IS_ERR(skb)) {
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  702  			err = PTR_ERR(skb);
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  703  			goto free_err;
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  704  		}
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  705  	} else {
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  706  		u32 hr, tr, len;
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  707  		void *buffer;
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  708  
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  709  		buffer = xsk_buff_raw_get_data(xs->pool, desc->addr);
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  710  		len = desc->len;
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  711  
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  712  		if (!skb) {
-0c0d0f42ffa6ac Felix Maurer              2024-11-14  713  			first_frag = true;
-0c0d0f42ffa6ac Felix Maurer              2024-11-14  714  
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  715  			hr = max(NET_SKB_PAD, L1_CACHE_ALIGN(dev->needed_headroom));
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  716  			tr = dev->needed_tailroom;
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  717  			skb = sock_alloc_send_skb(&xs->sk, hr + len + tr, 1, &err);
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  718  			if (unlikely(!skb))
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  719  				goto free_err;
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  720  
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  721  			skb_reserve(skb, hr);
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  722  			skb_put(skb, len);
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  723  
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  724  			err = skb_store_bits(skb, 0, buffer, len);
-0c0d0f42ffa6ac Felix Maurer              2024-11-14  725  			if (unlikely(err))
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  726  				goto free_err;
-67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  727  
-67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  728  			addrs = kzalloc(sizeof(*addrs), GFP_KERNEL);
-67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  729  			if (!addrs)
-67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  730  				goto free_err;
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  123  __sum16 nf_checksum(struct sk_buff *skb, unsigned int hook,
+                                                  ^^^^^^^
+ebee5a50d0b7cd Florian Westphal  2018-06-25  124  		    unsigned int dataoff, u8 protocol,
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  125  		    unsigned short family)
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  126  {
+39644744ee13d9 Eric Woudstra     2025-07-04  127  	unsigned int nhpull = skb_network_header(skb) - skb->data;
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  128  	__sum16 csum = 0;
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  129  
+39644744ee13d9 Eric Woudstra     2025-07-04  130  	if (!pskb_may_pull(skb, nhpull))
+39644744ee13d9 Eric Woudstra     2025-07-04 @131  		return -ENOMEM;
 
-err is not set on this path.
+This -ENOMEM doesn't work because the return type is u16.
 
-regards,
-dan carpenter
+39644744ee13d9 Eric Woudstra     2025-07-04  132  	__skb_pull(skb, nhpull);
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  133  	switch (family) {
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  134  	case AF_INET:
+39644744ee13d9 Eric Woudstra     2025-07-04  135  		csum = nf_ip_checksum(skb, hook, dataoff - nhpull, protocol);
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  136  		break;
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  137  	case AF_INET6:
+39644744ee13d9 Eric Woudstra     2025-07-04  138  		csum = nf_ip6_checksum(skb, hook, dataoff - nhpull, protocol);
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  139  		break;
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  140  	}
+39644744ee13d9 Eric Woudstra     2025-07-04  141  	__skb_push(skb, nhpull);
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  142  
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  143  	return csum;
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  144  }
+ef71fe27ec2f16 Pablo Neira Ayuso 2017-11-27  145  EXPORT_SYMBOL_GPL(nf_checksum);
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  146  
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  147  __sum16 nf_checksum_partial(struct sk_buff *skb, unsigned int hook,
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  148  			    unsigned int dataoff, unsigned int len,
+ebee5a50d0b7cd Florian Westphal  2018-06-25  149  			    u8 protocol, unsigned short family)
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  150  {
+39644744ee13d9 Eric Woudstra     2025-07-04  151  	unsigned int nhpull = skb_network_header(skb) - skb->data;
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  152  	__sum16 csum = 0;
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  153  
+39644744ee13d9 Eric Woudstra     2025-07-04  154  	if (!pskb_may_pull(skb, nhpull))
+39644744ee13d9 Eric Woudstra     2025-07-04 @155  		return -ENOMEM;
 
-67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  731  
-67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  732  			xsk_set_destructor_arg(skb, addrs);
-67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  733  
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  734  		} else {
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  735  			int nr_frags = skb_shinfo(skb)->nr_frags;
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  736  			struct page *page;
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  737  			u8 *vaddr;
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  738  
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  739  			if (unlikely(nr_frags == (MAX_SKB_FRAGS - 1) && xp_mb_desc(desc))) {
-9d0a67b9d42c63 Tirthendu Sarkar          2023-08-23  740  				err = -EOVERFLOW;
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  741  				goto free_err;
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  742  			}
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  743  
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  744  			page = alloc_page(xs->sk.sk_allocation);
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  745  			if (unlikely(!page)) {
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  746  				err = -EAGAIN;
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  747  				goto free_err;
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  748  			}
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  749  
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  750  			vaddr = kmap_local_page(page);
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  751  			memcpy(vaddr, buffer, len);
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  752  			kunmap_local(vaddr);
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  753  
-2127c604383666 Sebastian Andrzej Siewior 2024-02-02  754  			skb_add_rx_frag(skb, nr_frags, page, 0, len, PAGE_SIZE);
-2127c604383666 Sebastian Andrzej Siewior 2024-02-02  755  			refcount_add(PAGE_SIZE, &xs->sk.sk_wmem_alloc);
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  756  		}
-48eb03dd26304c Stanislav Fomichev        2023-11-27  757  
-48eb03dd26304c Stanislav Fomichev        2023-11-27  758  		if (first_frag && desc->options & XDP_TX_METADATA) {
-48eb03dd26304c Stanislav Fomichev        2023-11-27  759  			if (unlikely(xs->pool->tx_metadata_len == 0)) {
-48eb03dd26304c Stanislav Fomichev        2023-11-27  760  				err = -EINVAL;
-48eb03dd26304c Stanislav Fomichev        2023-11-27  761  				goto free_err;
-48eb03dd26304c Stanislav Fomichev        2023-11-27  762  			}
-48eb03dd26304c Stanislav Fomichev        2023-11-27  763  
-48eb03dd26304c Stanislav Fomichev        2023-11-27  764  			meta = buffer - xs->pool->tx_metadata_len;
-ce59f9686e0eca Stanislav Fomichev        2023-11-27  765  			if (unlikely(!xsk_buff_valid_tx_metadata(meta))) {
-ce59f9686e0eca Stanislav Fomichev        2023-11-27  766  				err = -EINVAL;
-ce59f9686e0eca Stanislav Fomichev        2023-11-27  767  				goto free_err;
-ce59f9686e0eca Stanislav Fomichev        2023-11-27  768  			}
-48eb03dd26304c Stanislav Fomichev        2023-11-27  769  
-48eb03dd26304c Stanislav Fomichev        2023-11-27  770  			if (meta->flags & XDP_TXMD_FLAGS_CHECKSUM) {
-48eb03dd26304c Stanislav Fomichev        2023-11-27  771  				if (unlikely(meta->request.csum_start +
-48eb03dd26304c Stanislav Fomichev        2023-11-27  772  					     meta->request.csum_offset +
-48eb03dd26304c Stanislav Fomichev        2023-11-27  773  					     sizeof(__sum16) > len)) {
-48eb03dd26304c Stanislav Fomichev        2023-11-27  774  					err = -EINVAL;
-48eb03dd26304c Stanislav Fomichev        2023-11-27  775  					goto free_err;
-48eb03dd26304c Stanislav Fomichev        2023-11-27  776  				}
-48eb03dd26304c Stanislav Fomichev        2023-11-27  777  
-48eb03dd26304c Stanislav Fomichev        2023-11-27  778  				skb->csum_start = hr + meta->request.csum_start;
-48eb03dd26304c Stanislav Fomichev        2023-11-27  779  				skb->csum_offset = meta->request.csum_offset;
-48eb03dd26304c Stanislav Fomichev        2023-11-27  780  				skb->ip_summed = CHECKSUM_PARTIAL;
-11614723af26e7 Stanislav Fomichev        2023-11-27  781  
-11614723af26e7 Stanislav Fomichev        2023-11-27  782  				if (unlikely(xs->pool->tx_sw_csum)) {
-11614723af26e7 Stanislav Fomichev        2023-11-27  783  					err = skb_checksum_help(skb);
-11614723af26e7 Stanislav Fomichev        2023-11-27  784  					if (err)
-11614723af26e7 Stanislav Fomichev        2023-11-27  785  						goto free_err;
-11614723af26e7 Stanislav Fomichev        2023-11-27  786  				}
-48eb03dd26304c Stanislav Fomichev        2023-11-27  787  			}
-ca4419f15abd19 Song Yoong Siang          2025-02-16  788  
-ca4419f15abd19 Song Yoong Siang          2025-02-16  789  			if (meta->flags & XDP_TXMD_FLAGS_LAUNCH_TIME)
-ca4419f15abd19 Song Yoong Siang          2025-02-16  790  				skb->skb_mstamp_ns = meta->request.launch_time;
-48eb03dd26304c Stanislav Fomichev        2023-11-27  791  		}
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  792  	}
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  793  
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  794  	skb->dev = dev;
-10bbf1652c1cca Eric Dumazet              2023-09-21  795  	skb->priority = READ_ONCE(xs->sk.sk_priority);
-3c5b4d69c358a9 Eric Dumazet              2023-07-28  796  	skb->mark = READ_ONCE(xs->sk.sk_mark);
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  797  	skb->destructor = xsk_destruct_skb;
-48eb03dd26304c Stanislav Fomichev        2023-11-27  798  	xsk_tx_metadata_to_compl(meta, &skb_shinfo(skb)->xsk_meta);
-67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  799  
-67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  800  	addrs = (struct xsk_addrs *)skb_shinfo(skb)->destructor_arg;
-67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  801  	addrs->addrs[addrs->num_descs++] = desc->addr;
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  802  
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  803  	return skb;
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  804  
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  805  free_err:
-0c0d0f42ffa6ac Felix Maurer              2024-11-14  806  	if (first_frag && skb)
-0c0d0f42ffa6ac Felix Maurer              2024-11-14  807  		kfree_skb(skb);
-0c0d0f42ffa6ac Felix Maurer              2024-11-14  808  
-9d0a67b9d42c63 Tirthendu Sarkar          2023-08-23  809  	if (err == -EOVERFLOW) {
-9d0a67b9d42c63 Tirthendu Sarkar          2023-08-23  810  		/* Drop the packet */
-67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  811  		xsk_inc_skb_descs(xs->skb);
-9d0a67b9d42c63 Tirthendu Sarkar          2023-08-23  812  		xsk_drop_skb(xs->skb);
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  813  		xskq_cons_release(xs->tx);
-9d0a67b9d42c63 Tirthendu Sarkar          2023-08-23  814  	} else {
-9d0a67b9d42c63 Tirthendu Sarkar          2023-08-23  815  		/* Let application retry */
-e6c4047f512280 Maciej Fijalkowski        2024-10-07  816  		xsk_cq_cancel_locked(xs->pool, 1);
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  817  	}
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  818  
-cf24f5a5feeaae Tirthendu Sarkar          2023-07-19 @819  	return ERR_PTR(err);
-9c8f21e6f8856a Xuan Zhuo                 2021-02-18  820  }
+Same.
+
+39644744ee13d9 Eric Woudstra     2025-07-04  156  	__skb_pull(skb, nhpull);
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  157  	switch (family) {
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  158  	case AF_INET:
+39644744ee13d9 Eric Woudstra     2025-07-04  159  		csum = nf_ip_checksum_partial(skb, hook, dataoff - nhpull,
+39644744ee13d9 Eric Woudstra     2025-07-04  160  					      len, protocol);
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  161  		break;
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  162  	case AF_INET6:
+39644744ee13d9 Eric Woudstra     2025-07-04  163  		csum = nf_ip6_checksum_partial(skb, hook, dataoff - nhpull,
+39644744ee13d9 Eric Woudstra     2025-07-04  164  					       len, protocol);
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  165  		break;
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  166  	}
+39644744ee13d9 Eric Woudstra     2025-07-04  167  	__skb_push(skb, nhpull);
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  168  
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  169  	return csum;
+f7dcbe2f36a660 Pablo Neira Ayuso 2017-12-20  170  }
 
 -- 
 0-DAY CI Kernel Test Service
