@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03BE2E36F0
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 18:28:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47DC213E7B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 18:49:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752517735; cv=none; b=Cb1BqvsQFcLnDBm5LESDsnnK9m8cDUOk64ECobEnMa1+oImvZzKskreQm6XnlSsEYlz3Yr41z6o5LFsZRWlTt5g3cBHfL0tDYr0GrUVaqyHPML93wgR5qyJKUZArgpMrKj7ZzO3dOa+f5dNGsaJoRW/8pi87o7kRK/TLQncqF50=
+	t=1752518998; cv=none; b=MgKJNAhoeUh94uu5z2CJM8TtFtGLlYBrjBepTSJJI5ZDJDD3VKPQegK3KQXKoY9iUB68o4OC4itTadm6+32rwS0ehHkX6sLa4YcDjT+X54Dv8rHeFz4qCIyqaHHMqfzp+A97bWXLr1UQlmnTfLVdtt8l2B1L6Oqnor1b5Jk5aRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752517735; c=relaxed/simple;
-	bh=ePRmQUVlgRHTRa4RNsfBJ21EXabSiTUcOcgrzA2jDdQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SMN9vOn6raToON17nd9KAbwRvqZ33cTgmd/nzB7O1gHu2qAbDBxhCT/T25EIVfeZRGtiBoaKgL5f2T87mYf3rqx6rB63hxgLH9vVKf3Ii2gA7/MntNQDP0aeNIgMxZoXqLqhfwQUh/YCXxRvfHu6t1JHsCOSBZtFjRjHDnfea6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QVfC53Iy; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1752518998; c=relaxed/simple;
+	bh=PzZMhucNEdUjHBk4gEneXnSqDCDsJLXKo+onhKZwiI8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=RzGMk+o5Mji4+tMBz/WBcCYuBNDf8UutRABJLlQDsO2ko5zaG6iisf6+GByRXdRLt4HVf9LqdWVHlfPFpQrR0YSrCdwUtc819XqBstWFEHAixV7UaGNBXokeXaQEI58utLeyawYAwujn1xZYZPajvojvXaL1/mEMQsyHC8AnKIw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fXxIimzc; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QVfC53Iy"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fXxIimzc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752517734; x=1784053734;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ePRmQUVlgRHTRa4RNsfBJ21EXabSiTUcOcgrzA2jDdQ=;
-  b=QVfC53Iyja5hpqamsMx0DHY1C/f/gNT25QddeEglHm5WKcpgt13JylxV
-   BJ6IIBfUQSJkkddm1zWVqh4Gj0SxyioaTQqa5vn/Km2C/JSzmpYLBipkA
-   NQgBd7YRnR5gGF1FbcZadHeZyxVXa25z1e34oNLwSlCWPoOl71ocpjEnC
-   jfhU63xpszEXwC2jf4SmSgvT/eXqEtHNxVX8M89Z5hho4Q3LlkZZHGD61
-   aDYVW+116GZLhZmZVihN35/z0QajEU/RYECss8IndV8pJRccLrFdsyHvi
-   xhaTO8R6vFAEZpZLLx/PdPGi+LHl3CR64EVpUQjShqhaDETXDCi8BA/9l
+  t=1752518997; x=1784054997;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PzZMhucNEdUjHBk4gEneXnSqDCDsJLXKo+onhKZwiI8=;
+  b=fXxIimzc4utxOuM0RUcyqCFIsicMk4dHbaY7WiWp2JndaJRFCku6VaT9
+   WdNdWrMoUz8WQmOg75rVfqfDpcvoCHdh9pfWN0jgxOGcg1hmdSynxSiUv
+   xGgrKBStGHy/0qJ0JZWmZx2kmZAOCT1BWcMP8ZF5JUdVusZN49B478UUB
+   VpuLOG+94x3xHdkmbrzJhnBgdrDry6tprIMdPbq+Jitvzw03sCXhm+zzs
+   Az6psqfaxALHPrT/YwteTl4fcwfASA9XZyc6r/GbTYvMIxoiO6mJtGD9e
+   ns6G8JR/D/E5zfkUwX9AUGBe0KvphFzeXRJuB2LhssUyPsZy+CdEF82P/
    A==;
-X-CSE-ConnectionGUID: TcgpFi47QemA5FM/9OVBKQ==
-X-CSE-MsgGUID: H+2BspslQMuGCs6xEFvhmQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="77259260"
+X-CSE-ConnectionGUID: ZTo4doNLS3mkjxVy6TE+aw==
+X-CSE-MsgGUID: Z27iE5XqSNytmeJf/t3E2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66171339"
 X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="77259260"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 11:28:53 -0700
-X-CSE-ConnectionGUID: 5RcH3eeIQR+XWqC47unNiw==
-X-CSE-MsgGUID: UbGLwxS7T+GxC/WJ+Lo4MQ==
+   d="scan'208";a="66171339"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 11:49:56 -0700
+X-CSE-ConnectionGUID: JrCWLBvBSYu2Mc8h+lYPOA==
+X-CSE-MsgGUID: bcbzpHCCThmK1WRyurC9iA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="187993620"
+   d="scan'208";a="156651275"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 14 Jul 2025 11:28:53 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 14 Jul 2025 11:49:54 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubNuz-0009DT-2l;
-	Mon, 14 Jul 2025 18:28:49 +0000
-Date: Tue, 15 Jul 2025 02:28:21 +0800
+	id 1ubOFM-0009EP-22;
+	Mon, 14 Jul 2025 18:49:52 +0000
+Date: Tue, 15 Jul 2025 02:49:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joel Granados <joel.granados@kernel.org>
+To: Wolfram Sang <wsa-dev@sang-engineering.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH RFC 1/8] nvme: Add CDQ command definitions for contiguous
- PRPs
-Message-ID: <202507150251.QaDdT4xy-lkp@intel.com>
-References: <20250714-jag-cdq-v1-1-01e027d256d5@kernel.org>
+Subject: [wsa:renesas/g3s/i3c 7/19] drivers/i3c/internals.h:35:9: error:
+ implicit declaration of function 'writesl'
+Message-ID: <202507150208.BZDzzJ5E-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,93 +61,78 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250714-jag-cdq-v1-1-01e027d256d5@kernel.org>
 
-Hi Joel,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 0ff41df1cb268fc69e703a08a57ee14ae967d0ca]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joel-Granados/nvme-Add-CDQ-command-definitions-for-contiguous-PRPs/20250714-171834
-base:   0ff41df1cb268fc69e703a08a57ee14ae967d0ca
-patch link:    https://lore.kernel.org/r/20250714-jag-cdq-v1-1-01e027d256d5%40kernel.org
-patch subject: [PATCH RFC 1/8] nvme: Add CDQ command definitions for contiguous PRPs
-config: i386-buildonly-randconfig-003-20250715 (https://download.01.org/0day-ci/archive/20250715/202507150251.QaDdT4xy-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git renesas/g3s/i3c
+head:   96358bcce0f6b8c20c9453ca17d3ad1d16515fd4
+commit: 8af3723cb0b4ec9f1f4442b617b1990ec0302c8e [7/19] i3c: master: Add inline i3c_readl_fifo() and i3c_writel_fifo()
+config: x86_64-buildonly-randconfig-003-20250714 (https://download.01.org/0day-ci/archive/20250715/202507150208.BZDzzJ5E-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150251.QaDdT4xy-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150208.BZDzzJ5E-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507150251.QaDdT4xy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507150208.BZDzzJ5E-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from <command-line>:
-   In function '_nvme_check_size',
-       inlined from 'nvme_core_init' at drivers/nvme/host/core.c:5146:2:
->> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_746' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct nvme_cdq) != 64
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   drivers/nvme/host/core.c:5136:9: note: in expansion of macro 'BUILD_BUG_ON'
-    5136 |         BUILD_BUG_ON(sizeof(struct nvme_cdq) != 64);
-         |         ^~~~~~~~~~~~
---
-   In file included from <command-line>:
-   In function '_nvme_check_size',
-       inlined from 'nvme_core_init' at core.c:5146:2:
->> include/linux/compiler_types.h:557:45: error: call to '__compiletime_assert_746' declared with attribute error: BUILD_BUG_ON failed: sizeof(struct nvme_cdq) != 64
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |                                             ^
-   include/linux/compiler_types.h:538:25: note: in definition of macro '__compiletime_assert'
-     538 |                         prefix ## suffix();                             \
-         |                         ^~~~~~
-   include/linux/compiler_types.h:557:9: note: in expansion of macro '_compiletime_assert'
-     557 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
-      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-         |                                     ^~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:50:9: note: in expansion of macro 'BUILD_BUG_ON_MSG'
-      50 |         BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-         |         ^~~~~~~~~~~~~~~~
-   core.c:5136:9: note: in expansion of macro 'BUILD_BUG_ON'
-    5136 |         BUILD_BUG_ON(sizeof(struct nvme_cdq) != 64);
-         |         ^~~~~~~~~~~~
+   In file included from drivers/i3c/master.c:21:
+   drivers/i3c/internals.h: In function 'i3c_writel_fifo':
+>> drivers/i3c/internals.h:35:9: error: implicit declaration of function 'writesl' [-Werror=implicit-function-declaration]
+      35 |         writesl(addr, buf, nbytes / 4);
+         |         ^~~~~~~
+>> drivers/i3c/internals.h:40:17: error: implicit declaration of function 'writel' [-Werror=implicit-function-declaration]
+      40 |                 writel(tmp, addr);
+         |                 ^~~~~~
+   drivers/i3c/internals.h: In function 'i3c_readl_fifo':
+>> drivers/i3c/internals.h:53:9: error: implicit declaration of function 'readsl' [-Werror=implicit-function-declaration]
+      53 |         readsl(addr, buf, nbytes / 4);
+         |         ^~~~~~
+>> drivers/i3c/internals.h:57:23: error: implicit declaration of function 'readl' [-Werror=implicit-function-declaration]
+      57 |                 tmp = readl(addr);
+         |                       ^~~~~
+   cc1: some warnings being treated as errors
 
 
-vim +/__compiletime_assert_746 +557 include/linux/compiler_types.h
+vim +/writesl +35 drivers/i3c/internals.h
 
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  543  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  544  #define _compiletime_assert(condition, msg, prefix, suffix) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  545  	__compiletime_assert(condition, msg, prefix, suffix)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  546  
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  547  /**
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  548   * compiletime_assert - break build and emit msg if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  549   * @condition: a compile-time constant condition to check
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  550   * @msg:       a message to emit if condition is false
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  551   *
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  552   * In tradition of POSIX assert, this macro will break the build if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  553   * supplied condition is *false*, emitting the supplied error message if the
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  554   * compiler has support to do so.
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  555   */
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  #define compiletime_assert(condition, msg) \
-eb5c2d4b45e3d2 Will Deacon 2020-07-21 @557  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  
+    25	
+    26	/**
+    27	 * i3c_writel_fifo - Write data buffer to 32bit FIFO
+    28	 * @addr: FIFO Address to write to
+    29	 * @buf: Pointer to the data bytes to write
+    30	 * @nbytes: Number of bytes to write
+    31	 */
+    32	static inline void i3c_writel_fifo(void __iomem *addr, const void *buf,
+    33					   int nbytes)
+    34	{
+  > 35		writesl(addr, buf, nbytes / 4);
+    36		if (nbytes & 3) {
+    37			u32 tmp = 0;
+    38	
+    39			memcpy(&tmp, buf + (nbytes & ~3), nbytes & 3);
+  > 40			writel(tmp, addr);
+    41		}
+    42	}
+    43	
+    44	/**
+    45	 * i3c_readl_fifo - Read data buffer from 32bit FIFO
+    46	 * @addr: FIFO Address to read from
+    47	 * @buf: Pointer to the buffer to store read bytes
+    48	 * @nbytes: Number of bytes to read
+    49	 */
+    50	static inline void i3c_readl_fifo(const void __iomem *addr, void *buf,
+    51					  int nbytes)
+    52	{
+  > 53		readsl(addr, buf, nbytes / 4);
+    54		if (nbytes & 3) {
+    55			u32 tmp;
+    56	
+  > 57			tmp = readl(addr);
+    58			memcpy(buf + (nbytes & ~3), &tmp, nbytes & 3);
+    59		}
+    60	}
+    61	
 
 -- 
 0-DAY CI Kernel Test Service
