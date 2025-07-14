@@ -1,115 +1,149 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476EE6ADD
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 20:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C59230BCC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 20:21:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752523700; cv=none; b=D3GYWR1QRGdU28y1XpjR2VokoGuVK4TOKU5H74VS6VZNEls+Vv0JBKiGS3xrvqktohVbHy2kfpeyNja7UzIl+uXb4JjEXq5V06kdmrek5NdxKuWnu26hxd08MPJcLZONiyiKa2SYOJ0okicW0JItr2w4rTDQyBLwEsoGyAY+jeo=
+	t=1752524482; cv=none; b=c6b731Rrq8xPEOZJrA0mwydn1x+I8cqMxzKescttYKMRChAt8ZUw0FFajjkb/zETQFmrNnrhTI7FA/pJ874C7UuHXGg9mgUC2E8tNexXgDO0GLmoVYmbyt/tEDXoJBznhRGaghiiwMMWVYmLlnmS0nfFpHQmrO052BQaO6JTvRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752523700; c=relaxed/simple;
-	bh=0zDSlRkiOlS0QSI3YIJVzMXfvMcRVm9iZvEXCz8nZYI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fvob+CClbn3DHvg9cFI089zwOi6LwYWhgSZGURruhqNyC/KdiA2crMeiBeCHpxbbeVdd3ApNZecotQEfaTbKNxAeBRz0aZVrzIxj4O9/eE3antmD9PXZW3gJvJEdgAeF17RHYLTlxG81/5Jy2TDHSqqMTE5E8NXbu3P4rzKZMvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ecYJ6W2G; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1752524482; c=relaxed/simple;
+	bh=wLTbNI2R07o+D1NepavmZiMm+whbnGVIgC6z4dt4U5Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=aBSaWh+iwMy5cZBTjcmL6wsOD/7TZ+qkf0ThG5qOUsvPHu/Ko0QhmUkNyajRfxpX4x6mn9UWVf/wAKcRw5lB/DbG4TBeq7t8hozXcT03ieDglMa9PDnJBjPIa54Zf/0fJv7sSjY4WTOa2v9V7WJd/n+Lz/lJTSCIIGGu3LQLJjQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HLVGoOgf; arc=none smtp.client-ip=209.85.167.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ecYJ6W2G"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7490acf57b9so3378452b3a.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 13:08:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HLVGoOgf"
+Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-41baecbdd33so38072b6e.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 13:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1752523698; x=1753128498; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JdX6wuJVyhd+STM969KIAF+7bNTfgsWX/rffAcR7Ohg=;
-        b=ecYJ6W2GkpJzSu8DhK3WsEHyScwLyK6nA88qPcW6wcmHNdPXhpkbwqzIFiL+hbEWNY
-         Zm1uKeawVNC2j96ch1UgjnHUgF7n0yBubxUOzwwD5+e+dVYG65J8UrZEh+0FC/h0OwQ7
-         48caL9HdNf+aSvs+Ds8/YiYZSL++uI5Ej3MjU=
+        d=linaro.org; s=google; t=1752524479; x=1753129279; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ycdGmJV+qYX8wcokCOrkAh709cXQeQWK8C0X96xlypg=;
+        b=HLVGoOgfWTVPRN9bPOszED+McXVHQ4fLIXaft+EJqmpCVEtVJ5UuFlq35Q5i6+qkXK
+         w/zm9I+f4kFd1PKAzUZaHevkLSyh7Tg+WAPRYHBQrYCBuphLmkIifmDAbrc+YnkgaP1r
+         0E412gs7n+dFPgiuOwbVsGR3gsR86kwyHScmXRttw2X6a/6sdR6neyNaeBVA6J/qMgCk
+         VKAKtHeig4DADvdReOM0oVYqHKA1xobxTK9dHxRu9hJxbhlRfJs69g6WSdYe41ENVX5n
+         yltKcwgIXlj93on+fcAgbtsPAKSzjbNLtTo1mmQiXAeALFVgCBfrTZ0iaqELh7DCpRbX
+         MLIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752523698; x=1753128498;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JdX6wuJVyhd+STM969KIAF+7bNTfgsWX/rffAcR7Ohg=;
-        b=uaxQ6Akj2MBMJpOwawSMvxp0URvhDzioZwU/zkMBx3o2Iis3QMNQXoH36EjlCiKvF7
-         KPzHGj0af/LY+g+2Wg6TMJEKYrU6uEG2NVsto5A000m/nc7H0GYOedmF5qMVJc8PT3cI
-         O2uyNBRGZgZQMPdgNlFtoaXvBBWXrBZPes/CElgLY/pPqdzoeSm9WfRpsSdgSoWI+Thl
-         1JOA0nfuEE2ZiSyZpEQjQDNpPFHRl7H0lpK2K5Yccxv44nnHzVnO6uVjJ21B6hsqYR4S
-         qcuwjN2HSSKDLVDFQ7iWGhtnyCVbGO29QQUTH2Y5lzDBoqzrlltVwZQwY0lv4KTxuTCz
-         7kjA==
-X-Forwarded-Encrypted: i=1; AJvYcCWuhcmWcAmoq6Ad+kRE+ReA6hmeYyjQdqYWLAkpcleLS4UlO4f986+uqQAZZO9rL3O6IM3cIZiWUrwl8us2@lists.linux.dev
-X-Gm-Message-State: AOJu0Ywc/XeslGQvWwrVFhnvqbqAiHvdGwHKHu7+Y/WsqXBefyslL5a/
-	uiK30xH8tMBwBCjTeWFI3KcHG9cc1bjObbWxjLd5sidQh/HbRHaToJgi6ZtoAgwBkO5IrRh1x7G
-	bpsg=
-X-Gm-Gg: ASbGncuHyZJpMnh60K3YS9p6v4/jhB7fG9aPKiydD35Y60rjx1E1rJNqG/UlLx/AzF4
-	RCeg0qPnm8J7hsEYM0JdkQ04bKayHXdgrEMKDUC9rQtLlYf+lPdTMeAEMMPIaUB4kJ0HVHMqktb
-	BRXxrixkm3cNNpwmnBg4Ers7Bh/LwnxMKrvusGtWiN5lOOz5Kzgq6uuGo/CrqzM7Il/JPIpkn1F
-	K9XkshOXpixoTYDn9pv4Zyx9PvtC0XxzmAuiGMklJZDEtqdnnmniq1U2FNUGngTMcPg/6T9Lmne
-	BwU5K4Tm6j+s1aKW4YfMNHBtPm43/65RSu485ub6QX1Zvzrm8NQ+zF1bM0ZWn0gvFg325kVG8PL
-	Mcss/r9uUkJCfrqGxBbSaG+KOa5dV/C1UeOfWFYIQFRLeIeXXZGVNKm5J8sqqeA==
-X-Google-Smtp-Source: AGHT+IGYrSCfc5bYR/7nsuQauy6HrXTVHyiIJVSHvVnDRE2QtSgYTNpnl7iRoPK2Aoj63E60A4suAQ==
-X-Received: by 2002:a05:6a00:ace:b0:748:2eb7:8cc7 with SMTP id d2e1a72fcca58-74ee3629862mr22405015b3a.21.1752523697695;
-        Mon, 14 Jul 2025 13:08:17 -0700 (PDT)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com. [209.85.216.51])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74eb9f46479sm10973786b3a.109.2025.07.14.13.08.16
-        for <oe-kbuild-all@lists.linux.dev>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Jul 2025 13:08:16 -0700 (PDT)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-31c38e75dafso3975425a91.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 13:08:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXQU9KCDiRoyyDI8eGVuVhhfkO7cpEOhpAdyoP1JbLN5aJ1F8jQLfvt9IcGflXp5+AebiHxy1VwcOoWHCtB@lists.linux.dev
-X-Received: by 2002:a17:90b:5645:b0:312:26d9:d5b2 with SMTP id
- 98e67ed59e1d1-31c4c972577mr24053371a91.0.1752523695994; Mon, 14 Jul 2025
- 13:08:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752524479; x=1753129279;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ycdGmJV+qYX8wcokCOrkAh709cXQeQWK8C0X96xlypg=;
+        b=neF4ISdK0w+kBMKNDHWLquP6LxIFdkUVvqR4+vyhpXAS4RHsJH5ysnOVqRypRQ3IPv
+         9KeHfXi+HfG1jt89H3rXYWAGmuAukx3+/cHfghkrihBYX5r40XxiNKCe6q71/L9LrUiO
+         j9gB0GyVz/JGcAIyGCRkUyISjWoccQYZ5D28CWiwihI//vCC3pq+djzSOp8adR/4Chhy
+         gnl32tF4tm8T2AZorPCYodNynkTtdnrL4tvDvDIWZmg5d8nGWBt9BzI1qRTLB0W5tvDS
+         LGLaGDp0UMzD+Zc14Q/leglIPZ1jaONvFyu37LqQN8APX+HscQEoieXJ8Q11IU+Xuf9P
+         U12g==
+X-Forwarded-Encrypted: i=1; AJvYcCVXKMfM5EJpHtJlAb2eSYXP6tNCoQe21jGQro8b/oJUe14sliCrO2hpuECu496iWrzMYQjUUkeT/a8XKxcY@lists.linux.dev
+X-Gm-Message-State: AOJu0YySTnyj0xI8Eme5lz5oRrT7DrdhUopmZlHnbcjib9e01M2OQh72
+	wuXpOrvrJH/YrRWItcLxdYS2/tVn2yIInmDE4rlCrqM3mJ7ZjIv7h8TvdLd0RIT8HGU=
+X-Gm-Gg: ASbGncuXFN7vf5OkArd5tLh3xAx6lsRxaJEiLqWsLmrgj5FH66ByFwWsyG3YHiQG82d
+	pa2WwHWEtiZaIdGzxioKaXfWE0hw9iM+aQKHdHfmmRW7Hrx/a0nvutYdMoVGOtTdnZv9+qRNKAN
+	6KiGohw+fx2w7QKgtf8IT0nAuAEQ++LNjb7n9jvuc500j3DSlDAXyAHdAwnbMh+y1jjhXyWjnIZ
+	OoTPZVMR/vTRxlj8GcP7FTwiUCySE6HR5CQWT/ww4zGUOs+MvAInfeTzkbvF96OVvG4MKJ7jpno
+	xUyAJqVQN5uW0dF8qpFym0QUf19GEvjNX/kTzAJR3fUcotlqZax1k2ENR8t0O9pxP2UPGrxYAx6
+	EPkKrsMblipH4E8RDUyXnA+jR92ejag==
+X-Google-Smtp-Source: AGHT+IH+fwasq0/i0bYvELHjKa2oXJDxtEgu4bzO01bwJv4mdFLZ8rdbCcSBn37Olne122WdUzczHg==
+X-Received: by 2002:a05:6808:164d:b0:40a:526e:5e8a with SMTP id 5614622812f47-41537182f92mr8877421b6e.1.1752524479039;
+        Mon, 14 Jul 2025 13:21:19 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:6bb2:d90f:e5da:befc])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4141cb795c4sm1644290b6e.47.2025.07.14.13.21.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jul 2025 13:21:18 -0700 (PDT)
+Date: Mon, 14 Jul 2025 23:21:17 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Remi Buisson via B4 Relay <devnull+remi.buisson.tdk.com@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, Remi Buisson <remi.buisson@tdk.com>
+Subject: Re: [PATCH v2 5/8] iio: imu: inv_icm45600: add I2C driver for
+ inv_icm45600 driver
+Message-ID: <9d091fe4-3068-4e8b-8a9c-49c25036a216@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202506301704.0SBj6ply-lkp@intel.com>
-In-Reply-To: <202506301704.0SBj6ply-lkp@intel.com>
-From: Doug Anderson <dianders@chromium.org>
-Date: Mon, 14 Jul 2025 13:08:03 -0700
-X-Gmail-Original-Message-ID: <CAD=FV=XmY1Hm7H9R1uT3nAcWOC9XFYA5YZUFWj_-xZTX335ZNA@mail.gmail.com>
-X-Gm-Features: Ac12FXw2vJl6mE_r2r8DlAbddESOYuqs5UPn3qfeXrUhF4FOOKAlHOvJs75MGjg
-Message-ID: <CAD=FV=XmY1Hm7H9R1uT3nAcWOC9XFYA5YZUFWj_-xZTX335ZNA@mail.gmail.com>
-Subject: Re: drivers/gpu/drm/bridge/ti-sn65dsi86.c:1376:2-3: Unneeded semicolon
-To: kernel test robot <lkp@intel.com>
-Cc: Jayesh Choudhary <j-choudhary@ti.com>, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250710-add_newport_driver-v2-5-bf76d8142ef2@tdk.com>
 
-Hi,
+Hi Remi,
 
-On Mon, Jun 30, 2025 at 2:14=E2=80=AFAM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t master
-> head:   d0b3b7b22dfa1f4b515fd3a295b3fd958f9e81af
-> commit: 55e8ff842051b1150461d7595d8f1d033c69d66b drm/bridge: ti-sn65dsi86=
-: Add HPD for DisplayPort connector type
-> date:   5 days ago
-> config: s390-randconfig-r061-20250630 (https://download.01.org/0day-ci/ar=
-chive/20250630/202506301704.0SBj6ply-lkp@intel.com/config)
-> compiler: clang version 20.1.7 (https://github.com/llvm/llvm-project 6146=
-a88f60492b520a36f8f8f3231e15f3cc6082)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202506301704.0SBj6ply-lkp=
-@intel.com/
->
-> cocci warnings: (new ones prefixed by >>)
-> >> drivers/gpu/drm/bridge/ti-sn65dsi86.c:1376:2-3: Unneeded semicolon
+kernel test robot noticed the following build warnings:
 
-Posted:
+url:    https://github.com/intel-lab-lkp/linux/commits/Remi-Buisson-via-B4-Relay/dt-bindings-iio-imu-Add-inv_icm45600/20250710-170143
+base:   f8f559752d573a051a984adda8d2d1464f92f954
+patch link:    https://lore.kernel.org/r/20250710-add_newport_driver-v2-5-bf76d8142ef2%40tdk.com
+patch subject: [PATCH v2 5/8] iio: imu: inv_icm45600: add I2C driver for inv_icm45600 driver
+config: s390-randconfig-r073-20250712 (https://download.01.org/0day-ci/archive/20250713/202507130115.7g0XWB2E-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
 
-https://lore.kernel.org/r/20250714130631.1.I1cfae3222e344a3b3c770d079ee6b6f=
-7f3b5d636@changeid
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202507130115.7g0XWB2E-lkp@intel.com/
+
+smatch warnings:
+drivers/iio/imu/inv_icm45600/inv_icm45600_gyro.c:121 inv_icm45600_gyro_update_scan_mode() error: uninitialized symbol 'sleep'.
+drivers/iio/imu/inv_icm45600/inv_icm45600_accel.c:123 inv_icm45600_accel_update_scan_mode() error: uninitialized symbol 'sleep'.
+
+vim +/sleep +121 drivers/iio/imu/inv_icm45600/inv_icm45600_gyro.c
+
+1fb5c2bf7348d0 Remi Buisson 2025-07-10   93  static int inv_icm45600_gyro_update_scan_mode(struct iio_dev *indio_dev,
+1fb5c2bf7348d0 Remi Buisson 2025-07-10   94  					      const unsigned long *scan_mask)
+1fb5c2bf7348d0 Remi Buisson 2025-07-10   95  {
+1fb5c2bf7348d0 Remi Buisson 2025-07-10   96  	struct inv_icm45600_state *st = iio_device_get_drvdata(indio_dev);
+1fb5c2bf7348d0 Remi Buisson 2025-07-10   97  	struct inv_icm45600_sensor_state *gyro_st = iio_priv(indio_dev);
+1fb5c2bf7348d0 Remi Buisson 2025-07-10   98  	struct inv_icm45600_sensor_conf conf = INV_ICM45600_SENSOR_CONF_INIT;
+1fb5c2bf7348d0 Remi Buisson 2025-07-10   99  	unsigned int fifo_en = 0;
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  100  	unsigned int sleep;
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  101  	int ret;
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  102  
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  103  	scoped_guard(mutex, &st->lock) {
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  104  		if (*scan_mask & BIT(INV_ICM45600_GYRO_SCAN_TEMP))
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  105  			fifo_en |= INV_ICM45600_SENSOR_TEMP;
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  106  
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  107  		if (*scan_mask & (BIT(INV_ICM45600_GYRO_SCAN_X) |
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  108  				 BIT(INV_ICM45600_GYRO_SCAN_Y) |
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  109  				 BIT(INV_ICM45600_GYRO_SCAN_Z))) {
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  110  			/* enable gyro sensor */
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  111  			conf.mode = gyro_st->power_mode;
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  112  			ret = inv_icm45600_set_gyro_conf(st, &conf, &sleep);
+
+sleep isn't necessarily set if nothing changed.
+
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  113  			if (ret)
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  114  				return ret;
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  115  			fifo_en |= INV_ICM45600_SENSOR_GYRO;
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  116  		}
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  117  		/* update data FIFO write */
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  118  		ret = inv_icm45600_buffer_set_fifo_en(st, fifo_en | st->fifo.en);
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  119  	}
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  120  	/* sleep required time */
+1fb5c2bf7348d0 Remi Buisson 2025-07-10 @121  	if (sleep)
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  122  		msleep(sleep);
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  123  
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  124  	return ret;
+1fb5c2bf7348d0 Remi Buisson 2025-07-10  125  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
