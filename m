@@ -1,75 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com [209.85.167.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75407226D00
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 18:50:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E62E27605A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 19:05:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752519002; cv=none; b=asdlwW0ppdWc1DFZmiMfvq57cvfZVBvEEeH34lqOgj7tGhuTLm48EQAjc4yThDTxpYlqNaxn4DxBf/Z8HgZApYJh8KqjPytPbZUKh/j0ilxQWZebsJyJdp+73esp64BNwAoDqG89c4cEPzQImCGme3Lh+a9zeu2vKK2lBhUvEUs=
+	t=1752519903; cv=none; b=CFaiOhGxhKLnkwooqQGE3vB9R08GUYftcXqUmLB86h56DwpqgLyFRO3Z2hDo/l7AvNuQ13AP4ciYCfGGkQqdJzEfLS0sjYp+K2rluxSFSCYSLcAZZRRNjwQoVK59lDSFmFRGaB3RNSefUVY9R/MPhhk6/2P/jhbPHt6fxaJeg/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752519002; c=relaxed/simple;
-	bh=g/hdVwW4OrDEpaJ2jeOYNUGdpDfpOP3FpqeHfrFX5Q4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UmD3g2W6W3ID2nclMWzHVmTZZXoCPuMIvMnvjsxZenJfoyn8SPjKbTlmofPQLHVK5t7BF+L2Z+pFDShaMZKRXQEEFIvuIMcxWFdu3PgZtRAY3x/jT2j52f37GSfFDtOtb6E3S84xih/dowvfIMI0sNOC9rjulMdEzP3FXqOhg0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qyu7Fvom; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752519903; c=relaxed/simple;
+	bh=q+olkIxO6QSEQI4AAJlhbaSdpfzA/5MYP0ugPj8Pg54=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=obxaNQDXO3zRcAOuzMUvnCqRY/07YemQMBbyeUxtsaXp8cZRWL9SLouoijsbAqzM8T3YzZKB0z4l9Qs4gV7DR045uRPEHozHI4TOO9XlTWwxhGxj42DZAhJ7rwIYtVTl1pVMh1O5hznq3aPN4KnmthXDHO1sHG/WbN30naJJaM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=doVYO5Qu; arc=none smtp.client-ip=209.85.167.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qyu7Fvom"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752519001; x=1784055001;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=g/hdVwW4OrDEpaJ2jeOYNUGdpDfpOP3FpqeHfrFX5Q4=;
-  b=Qyu7FvomqSBeaQc4dV6s/XpHySGK/WmhngPKChdZIiyzTemp/mHHxUQ+
-   wkUT1zRxuQOKWgJCeK80t6lJiUIreM8+T5JWn7zymnULEGtL+GoMKPYr0
-   3CqmBSR5DTzhVd7QgK+90ybNOQv4pHatS+yVpHACHiWFDXQkXDv/0oMMK
-   K8Kbs9EsFFNY32IQ+5PBcEjgCQ8Kv0JZ2Y/UYY6/yt4xurj9wpw9GCuro
-   9B6tiLWAtdmNdOI0CzGppga0ZVaVlnIRjjd7fvaCyaIiFaKQsmXhTTEB8
-   8TyR3yuCDTQ80rNQUbuKhpYD2F+SpgDF5nwxT7zHdtRDtnsYKH0Zx9I+L
-   Q==;
-X-CSE-ConnectionGUID: Vnubjo5aTXGUkey5slFSzg==
-X-CSE-MsgGUID: iDCzbEj9Q4eSnpJvndz87A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66171352"
-X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="66171352"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 11:50:00 -0700
-X-CSE-ConnectionGUID: n6iP6M2LTgWMCXmgik1TTw==
-X-CSE-MsgGUID: LOJAA0uFQLidXjoFjsHfaw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="156651276"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 14 Jul 2025 11:49:54 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubOFM-0009EJ-1n;
-	Mon, 14 Jul 2025 18:49:52 +0000
-Date: Tue, 15 Jul 2025 02:49:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Jens Wiklander <jens.wiklander@linaro.org>,
-	Sumit Garg <sumit.garg@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Apurupa Pattapu <quic_apurupa@quicinc.com>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc: oe-kbuild-all@lists.linux.dev, Harshal Dev <quic_hdev@quicinc.com>,
-	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-doc@vger.kernel.org,
-	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v6 09/12] tee: add Qualcomm TEE driver
-Message-ID: <202507150221.oWiaX1I9-lkp@intel.com>
-References: <20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-9-697fb7d41c36@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="doVYO5Qu"
+Received: by mail-oi1-f175.google.com with SMTP id 5614622812f47-40a4de175a3so2381664b6e.0
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 12:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752519899; x=1753124699; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BdAiWES77XaDLnO1vrNoocWtjPZ3jZaAJoidOert7wA=;
+        b=doVYO5QuodjnTdKUe7JLbATlrOT8x2Zy7GyZP/+KRmv/c3BjJt/pNaMhEN69To5Yld
+         cQ1hijKpsyC95mJELAFmu9jlgk1l+PjuEWpPS8bPy8h1pyET1nf0H7kbF+uWc3MDSJFe
+         ywZRksEH2YwtHSmHJMIKbYAkeZXXqDV98v1VDhZq2gAq/DAX9CFFTlbNqMI5wrfEYzzc
+         2KOXyyLvAtab4DKVrCOUx5DN3EpvEgJYsuXICszbvx3y4b94UsS5Jf/ChZURbSxZ9ARW
+         PXmlRC/Z+3Q0ryYuoo9FXGC5msZRzDaIHTNYtCbUCDgxc/1no5zej10N3D9Az+1n93cp
+         9ZVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752519899; x=1753124699;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BdAiWES77XaDLnO1vrNoocWtjPZ3jZaAJoidOert7wA=;
+        b=AibGVXh+rqnoHOnQcVCNZFjCU8e3qVn8bH0yWolFZdvQf9Y4qIptZAqjF+eLb1KEZr
+         Yo8vX+HNMLsNddSdoXLSET2292c2uyBV/irne71dm0db8wgv8e05jPg8bIx/luUCRZ5Q
+         1FxOO3dcKtHaFQ2iuiynL5qQnigXQUNDrHKbc+xNcvHfpZz8vBj2RNXRu34b21jOqlK6
+         Wde0gERnmegst2VpwgvAbQGSdpfrKGXYs4rm9PLRz/l0QbJ+TE54qojIAGINNN1CPoin
+         w5VBSIeRLmWaj+wEbjI6pFudljwVfgHrBEzo2uQELiU306XoiR4nQuYN743my9YNidZg
+         rlcA==
+X-Forwarded-Encrypted: i=1; AJvYcCVgbnQmK9zw34rZJ0nXzNVrrzNWMU1Y0nqYoOHRthu9rpXor662YFK8Y2Sgl5G0/yuHEn7pT4JBMq7fDWmI@lists.linux.dev
+X-Gm-Message-State: AOJu0YyyDfP67/KIv+DMqFREq3Q50+GkPPhQqiJTwwgg+lTXySjX7eWJ
+	zNs/shyIUmk1JIdj915RT1GIqg6gs477qajS5/xSLRdR5KJpuTPQEom7WQcYhE4caK4=
+X-Gm-Gg: ASbGncsj/+1nwXOy05HiFXMLsYUvzZW1EzFrf/xJc8jKCNXuhtbxgHbo/QezdZC0+5u
+	aHj6D1uzNx6wSnwlprvZgA5IuDCIlRzAWuVrwjYFxRq7DwJImnavoKvVbvLewJm/cN2SJYrOvZu
+	Us7j/xa4WVcXzLMAaG1dG1Rpz5Vl+JEzZt4Lzk5ca6cLvxF8Vbfy9nCAdiDQpWVnefItD7XPRJH
+	b/NH3DMhj3o2Wy3M/nJqkSDg2nbjdLX32OBzo74gecxMnh5W2MRb6l/zNhiGXNbuocGM5xsEj4O
+	XB+1KytzhRfCsIQ7DwbE7a3lD45kGftOjvRkIwdSph+ddr4DpFFNCA6cGqHfk/DmAmqORVyOoHq
+	fR2AZD2T/a3LEFCIz4BnUqtivhzMr1Yzv4c/4c4Cp
+X-Google-Smtp-Source: AGHT+IG9VB44/JBXZgU5GVNb+6d0g32N/Qwu1+N9nXvPuxbsMeajY2PfOx1sKYCIufDjdIs+/yM6kg==
+X-Received: by 2002:a05:6808:4f63:b0:408:fb4c:859e with SMTP id 5614622812f47-4150d745cfcmr9800740b6e.6.1752519899258;
+        Mon, 14 Jul 2025 12:04:59 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700:6bb2:d90f:e5da:befc])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-414196c9b24sm1580366b6e.17.2025.07.14.12.04.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Jul 2025 12:04:58 -0700 (PDT)
+Date: Mon, 14 Jul 2025 22:04:57 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	bpf@vger.kernel.org, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	magnus.karlsson@intel.com, stfomichev@gmail.com,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Eryk Kubanski <e.kubanski@partner.samsung.com>
+Subject: Re: [PATCH v2 bpf] xsk: fix immature cq descriptor production
+Message-ID: <440ed42e-16d5-4b00-9402-1f26d73715d4@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,80 +77,170 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-9-697fb7d41c36@oss.qualcomm.com>
+In-Reply-To: <20250705135512.1963216-1-maciej.fijalkowski@intel.com>
 
-Hi Amirreza,
+Hi Maciej,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 835244aba90de290b4b0b1fa92b6734f3ee7b3d9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250714-085215
-base:   835244aba90de290b4b0b1fa92b6734f3ee7b3d9
-patch link:    https://lore.kernel.org/r/20250713-qcom-tee-using-tee-ss-without-mem-obj-v6-9-697fb7d41c36%40oss.qualcomm.com
-patch subject: [PATCH v6 09/12] tee: add Qualcomm TEE driver
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250715/202507150221.oWiaX1I9-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150221.oWiaX1I9-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Maciej-Fijalkowski/xsk-fix-immature-cq-descriptor-production/20250705-215714
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git master
+patch link:    https://lore.kernel.org/r/20250705135512.1963216-1-maciej.fijalkowski%40intel.com
+patch subject: [PATCH v2 bpf] xsk: fix immature cq descriptor production
+config: x86_64-randconfig-r071-20250706 (https://download.01.org/0day-ci/archive/20250706/202507061447.DwFSGum1-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507150221.oWiaX1I9-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202507061447.DwFSGum1-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+net/xdp/xsk.c:819 xsk_build_skb() warn: passing zero to 'ERR_PTR'
 
-   In file included from drivers/tee/qcomtee/qcomtee.h:12,
-                    from drivers/tee/qcomtee/async.c:8:
-   drivers/tee/qcomtee/qcomtee_msg.h: In function 'qcomtee_msg_num_ib':
->> drivers/tee/qcomtee/qcomtee_msg.h:172:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     172 |         return FIELD_GET(QCOMTEE_MASK_IB, counts);
-         |                ^~~~~~~~~
---
-   In file included from drivers/tee/qcomtee/qcomtee.h:12,
-                    from drivers/tee/qcomtee/core.c:14:
-   drivers/tee/qcomtee/qcomtee_msg.h: In function 'qcomtee_msg_num_ib':
->> drivers/tee/qcomtee/qcomtee_msg.h:172:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     172 |         return FIELD_GET(QCOMTEE_MASK_IB, counts);
-         |                ^~~~~~~~~
-   drivers/tee/qcomtee/core.c: In function 'qcomtee_object_user_init':
-   drivers/tee/qcomtee/core.c:303:17: warning: function 'qcomtee_object_user_init' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
-     303 |                 object->name = kvasprintf_const(GFP_KERNEL, fmt, ap);
-         |                 ^~~~~~
-   drivers/tee/qcomtee/core.c: In function 'qcomtee_prepare_msg':
-   drivers/tee/qcomtee/core.c:417:26: error: implicit declaration of function 'copy_from_user' [-Wimplicit-function-declaration]
-     417 |                 else if (copy_from_user(ptr, u[i].b.uaddr, u[i].b.size))
-         |                          ^~~~~~~~~~~~~~
-   drivers/tee/qcomtee/core.c: In function 'qcomtee_update_args':
-   drivers/tee/qcomtee/core.c:496:26: error: implicit declaration of function 'copy_to_user' [-Wimplicit-function-declaration]
-     496 |                 else if (copy_to_user(u[i].b.uaddr, ptr, u[i].b.size))
-         |                          ^~~~~~~~~~~~
---
-   In file included from drivers/tee/qcomtee/qcomtee.h:12,
-                    from drivers/tee/qcomtee/user_obj.c:10:
-   drivers/tee/qcomtee/qcomtee_msg.h: In function 'qcomtee_msg_num_ib':
->> drivers/tee/qcomtee/qcomtee_msg.h:172:16: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     172 |         return FIELD_GET(QCOMTEE_MASK_IB, counts);
-         |                ^~~~~~~~~
-   drivers/tee/qcomtee/user_obj.c: In function 'qcomtee_cb_params_from_args':
-   drivers/tee/qcomtee/user_obj.c:449:29: error: implicit declaration of function 'copy_to_user' [-Wimplicit-function-declaration]
-     449 |                         if (copy_to_user(params[i].u.ubuf.uaddr, u[i].b.addr,
-         |                             ^~~~~~~~~~~~
-   drivers/tee/qcomtee/user_obj.c: In function 'qcomtee_cb_params_to_args':
-   drivers/tee/qcomtee/user_obj.c:526:29: error: implicit declaration of function 'copy_from_user' [-Wimplicit-function-declaration]
-     526 |                         if (copy_from_user(u[i].b.addr, params[i].u.ubuf.uaddr,
-         |                             ^~~~~~~~~~~~~~
+vim +/ERR_PTR +819 net/xdp/xsk.c
 
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  689  static struct sk_buff *xsk_build_skb(struct xdp_sock *xs,
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  690  				     struct xdp_desc *desc)
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  691  {
+48eb03dd26304c Stanislav Fomichev        2023-11-27  692  	struct xsk_tx_metadata *meta = NULL;
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  693  	struct net_device *dev = xs->dev;
+67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  694  	struct xsk_addrs *addrs = NULL;
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  695  	struct sk_buff *skb = xs->skb;
+48eb03dd26304c Stanislav Fomichev        2023-11-27  696  	bool first_frag = false;
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  697  	int err;
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  698  
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  699  	if (dev->priv_flags & IFF_TX_SKB_NO_LINEAR) {
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  700  		skb = xsk_build_skb_zerocopy(xs, desc);
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  701  		if (IS_ERR(skb)) {
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  702  			err = PTR_ERR(skb);
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  703  			goto free_err;
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  704  		}
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  705  	} else {
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  706  		u32 hr, tr, len;
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  707  		void *buffer;
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  708  
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  709  		buffer = xsk_buff_raw_get_data(xs->pool, desc->addr);
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  710  		len = desc->len;
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  711  
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  712  		if (!skb) {
+0c0d0f42ffa6ac Felix Maurer              2024-11-14  713  			first_frag = true;
+0c0d0f42ffa6ac Felix Maurer              2024-11-14  714  
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  715  			hr = max(NET_SKB_PAD, L1_CACHE_ALIGN(dev->needed_headroom));
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  716  			tr = dev->needed_tailroom;
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  717  			skb = sock_alloc_send_skb(&xs->sk, hr + len + tr, 1, &err);
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  718  			if (unlikely(!skb))
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  719  				goto free_err;
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  720  
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  721  			skb_reserve(skb, hr);
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  722  			skb_put(skb, len);
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  723  
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  724  			err = skb_store_bits(skb, 0, buffer, len);
+0c0d0f42ffa6ac Felix Maurer              2024-11-14  725  			if (unlikely(err))
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  726  				goto free_err;
+67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  727  
+67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  728  			addrs = kzalloc(sizeof(*addrs), GFP_KERNEL);
+67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  729  			if (!addrs)
+67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  730  				goto free_err;
 
-vim +/FIELD_GET +172 drivers/tee/qcomtee/qcomtee_msg.h
+err is not set on this path.
 
-   169	
-   170	static inline unsigned int qcomtee_msg_num_ib(u32 counts)
-   171	{
- > 172		return FIELD_GET(QCOMTEE_MASK_IB, counts);
-   173	}
-   174	
+regards,
+dan carpenter
+
+67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  731  
+67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  732  			xsk_set_destructor_arg(skb, addrs);
+67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  733  
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  734  		} else {
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  735  			int nr_frags = skb_shinfo(skb)->nr_frags;
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  736  			struct page *page;
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  737  			u8 *vaddr;
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  738  
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  739  			if (unlikely(nr_frags == (MAX_SKB_FRAGS - 1) && xp_mb_desc(desc))) {
+9d0a67b9d42c63 Tirthendu Sarkar          2023-08-23  740  				err = -EOVERFLOW;
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  741  				goto free_err;
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  742  			}
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  743  
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  744  			page = alloc_page(xs->sk.sk_allocation);
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  745  			if (unlikely(!page)) {
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  746  				err = -EAGAIN;
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  747  				goto free_err;
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  748  			}
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  749  
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  750  			vaddr = kmap_local_page(page);
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  751  			memcpy(vaddr, buffer, len);
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  752  			kunmap_local(vaddr);
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  753  
+2127c604383666 Sebastian Andrzej Siewior 2024-02-02  754  			skb_add_rx_frag(skb, nr_frags, page, 0, len, PAGE_SIZE);
+2127c604383666 Sebastian Andrzej Siewior 2024-02-02  755  			refcount_add(PAGE_SIZE, &xs->sk.sk_wmem_alloc);
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  756  		}
+48eb03dd26304c Stanislav Fomichev        2023-11-27  757  
+48eb03dd26304c Stanislav Fomichev        2023-11-27  758  		if (first_frag && desc->options & XDP_TX_METADATA) {
+48eb03dd26304c Stanislav Fomichev        2023-11-27  759  			if (unlikely(xs->pool->tx_metadata_len == 0)) {
+48eb03dd26304c Stanislav Fomichev        2023-11-27  760  				err = -EINVAL;
+48eb03dd26304c Stanislav Fomichev        2023-11-27  761  				goto free_err;
+48eb03dd26304c Stanislav Fomichev        2023-11-27  762  			}
+48eb03dd26304c Stanislav Fomichev        2023-11-27  763  
+48eb03dd26304c Stanislav Fomichev        2023-11-27  764  			meta = buffer - xs->pool->tx_metadata_len;
+ce59f9686e0eca Stanislav Fomichev        2023-11-27  765  			if (unlikely(!xsk_buff_valid_tx_metadata(meta))) {
+ce59f9686e0eca Stanislav Fomichev        2023-11-27  766  				err = -EINVAL;
+ce59f9686e0eca Stanislav Fomichev        2023-11-27  767  				goto free_err;
+ce59f9686e0eca Stanislav Fomichev        2023-11-27  768  			}
+48eb03dd26304c Stanislav Fomichev        2023-11-27  769  
+48eb03dd26304c Stanislav Fomichev        2023-11-27  770  			if (meta->flags & XDP_TXMD_FLAGS_CHECKSUM) {
+48eb03dd26304c Stanislav Fomichev        2023-11-27  771  				if (unlikely(meta->request.csum_start +
+48eb03dd26304c Stanislav Fomichev        2023-11-27  772  					     meta->request.csum_offset +
+48eb03dd26304c Stanislav Fomichev        2023-11-27  773  					     sizeof(__sum16) > len)) {
+48eb03dd26304c Stanislav Fomichev        2023-11-27  774  					err = -EINVAL;
+48eb03dd26304c Stanislav Fomichev        2023-11-27  775  					goto free_err;
+48eb03dd26304c Stanislav Fomichev        2023-11-27  776  				}
+48eb03dd26304c Stanislav Fomichev        2023-11-27  777  
+48eb03dd26304c Stanislav Fomichev        2023-11-27  778  				skb->csum_start = hr + meta->request.csum_start;
+48eb03dd26304c Stanislav Fomichev        2023-11-27  779  				skb->csum_offset = meta->request.csum_offset;
+48eb03dd26304c Stanislav Fomichev        2023-11-27  780  				skb->ip_summed = CHECKSUM_PARTIAL;
+11614723af26e7 Stanislav Fomichev        2023-11-27  781  
+11614723af26e7 Stanislav Fomichev        2023-11-27  782  				if (unlikely(xs->pool->tx_sw_csum)) {
+11614723af26e7 Stanislav Fomichev        2023-11-27  783  					err = skb_checksum_help(skb);
+11614723af26e7 Stanislav Fomichev        2023-11-27  784  					if (err)
+11614723af26e7 Stanislav Fomichev        2023-11-27  785  						goto free_err;
+11614723af26e7 Stanislav Fomichev        2023-11-27  786  				}
+48eb03dd26304c Stanislav Fomichev        2023-11-27  787  			}
+ca4419f15abd19 Song Yoong Siang          2025-02-16  788  
+ca4419f15abd19 Song Yoong Siang          2025-02-16  789  			if (meta->flags & XDP_TXMD_FLAGS_LAUNCH_TIME)
+ca4419f15abd19 Song Yoong Siang          2025-02-16  790  				skb->skb_mstamp_ns = meta->request.launch_time;
+48eb03dd26304c Stanislav Fomichev        2023-11-27  791  		}
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  792  	}
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  793  
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  794  	skb->dev = dev;
+10bbf1652c1cca Eric Dumazet              2023-09-21  795  	skb->priority = READ_ONCE(xs->sk.sk_priority);
+3c5b4d69c358a9 Eric Dumazet              2023-07-28  796  	skb->mark = READ_ONCE(xs->sk.sk_mark);
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  797  	skb->destructor = xsk_destruct_skb;
+48eb03dd26304c Stanislav Fomichev        2023-11-27  798  	xsk_tx_metadata_to_compl(meta, &skb_shinfo(skb)->xsk_meta);
+67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  799  
+67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  800  	addrs = (struct xsk_addrs *)skb_shinfo(skb)->destructor_arg;
+67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  801  	addrs->addrs[addrs->num_descs++] = desc->addr;
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  802  
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  803  	return skb;
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  804  
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  805  free_err:
+0c0d0f42ffa6ac Felix Maurer              2024-11-14  806  	if (first_frag && skb)
+0c0d0f42ffa6ac Felix Maurer              2024-11-14  807  		kfree_skb(skb);
+0c0d0f42ffa6ac Felix Maurer              2024-11-14  808  
+9d0a67b9d42c63 Tirthendu Sarkar          2023-08-23  809  	if (err == -EOVERFLOW) {
+9d0a67b9d42c63 Tirthendu Sarkar          2023-08-23  810  		/* Drop the packet */
+67a37dcecabbf0 Maciej Fijalkowski        2025-07-05  811  		xsk_inc_skb_descs(xs->skb);
+9d0a67b9d42c63 Tirthendu Sarkar          2023-08-23  812  		xsk_drop_skb(xs->skb);
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  813  		xskq_cons_release(xs->tx);
+9d0a67b9d42c63 Tirthendu Sarkar          2023-08-23  814  	} else {
+9d0a67b9d42c63 Tirthendu Sarkar          2023-08-23  815  		/* Let application retry */
+e6c4047f512280 Maciej Fijalkowski        2024-10-07  816  		xsk_cq_cancel_locked(xs->pool, 1);
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  817  	}
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19  818  
+cf24f5a5feeaae Tirthendu Sarkar          2023-07-19 @819  	return ERR_PTR(err);
+9c8f21e6f8856a Xuan Zhuo                 2021-02-18  820  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
