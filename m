@@ -1,144 +1,143 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C80D1D5146
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 19:37:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF1F01FECDD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 19:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752521869; cv=none; b=FxPpq5jQzVIiIP83kwogs2kD0XOhtqU2du/3Tw29AaNI96KRY2ogb94XPNg5+2v2GZyRhuSEYrx9+M6y9sJjbTS1ngKORRJ0oguwmooiPAb8Rb9mGrhIwr59VYvGOrslYvoja9e09NPTZTnLZ5msLPAUgDsLW4qz/JJDGlTtPxk=
+	t=1752521985; cv=none; b=miNskhNu9S52f5sTnlkAkaJfEFXE0xEqihUp+QbbsOUpDwJgRY+KBjTtpPoMjFMrQtHVJSh9YQoxpKypO+MFNuwMRq4u30o/FDaDZlxK0+Z3IWP7juoKL3JaXP/fVjXCsRzf/9yrpv3TEFtfIDcYgCZUaxLCgAq74iJSc/bu+TI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752521869; c=relaxed/simple;
-	bh=r3KO+ZBs4mN082/WzjFPu6+tKInahyanTvO0ZCUAo/A=;
+	s=arc-20240116; t=1752521985; c=relaxed/simple;
+	bh=5cSCYdKyaKnlsB59d7LA/sqcozRwuYbnW6S02DziChQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=uqzd9maZPngGtkq2mIoXj1k0PJQb4JILoM/XabOHbHcxqrgNbHzv4+OI6dqzzSiEQPG61krsfq6J51eIY+giY/Z+qWmnzOch0xPbSmr90GA5B0a2KqvYPfLjeDrVRSAairKO98MbltqmTzksevlQ342cfG4Tjuv4Buhb19bNQck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=t5mcdJ3G; arc=none smtp.client-ip=209.85.210.53
+	 Content-Disposition:In-Reply-To; b=G4jCbnxXix+kczkKXWv+h5RgVpJiNRlRTHXl2PpC9mvOtnKke6S4JvY3dj04dZXnfV+ukKdMPVwGUPVNnAUVHFgX/oS0cEjC2y6j1N85UJXxzaIlJLNn3oz4TIKqziW+tCZ1p3gO2WDqHDUwWJbERqefwQtZ5l+K537KmHhkWgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h0PTH806; arc=none smtp.client-ip=209.85.160.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="t5mcdJ3G"
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-73ce2761272so2641356a34.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 12:37:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h0PTH806"
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-2ff8d43619cso299293fac.1
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 12:39:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752521866; x=1753126666; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sP/J78YSZFnZNYcFRTT3/TqZZq4tSvgtl6O7DciL3GA=;
-        b=t5mcdJ3Ggc2rjTncIev6/vfBxFMoWuHWm+810pfLnLjyRa6aOmxkJLnJ5GkWfXsvKG
-         lVIva2SWGQb24JC+fTUeRHKuVI96bM+EjDoRNsGmEmFaPwo7tYQwiIrIClRwMASKHgPa
-         5XSDR//ec/FRzoDOFknP7l8U+YGzRfSjsZ+k9S2ObOVebOCyv0qBirNInj31vJvX0TLv
-         Fok+eO1rhHkH5+nVbdGlkH/PeDtu79gvKOg4bvH+jaL5yaRlhCod9kQFrzXSiUiqSV7U
-         DP/a13S4kcH0xsYKZrJc1yYdKEfglbE4NcIjNoQjaQDpr8NbisTEMimoQ7RWx9td8cLH
-         qa3A==
+        d=linaro.org; s=google; t=1752521983; x=1753126783; darn=lists.linux.dev;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=urOya2QD0PAv3aRyUi92qVBccHFN0GyUQM4mpsavCC0=;
+        b=h0PTH8065YgOXUSeFbRHheB72np9GCT9IWm27DMNAmZYWUQRxx/FsC5WFmKB7Ci/hY
+         vWNwkVBmhPC2v6S0XN8624CxkaUaxeKBCW1UKmpglJAXl4Syeu7t/3GnJwq/VqHi5d5k
+         eqD89j57XYcAkmAcOLvfE/srJ6vWpwwW89Pmg1ybxUxYxv/ASZjOiNjZIE20WHt/pdKu
+         ilOIr6Sm0IgR+0wLFbBcj0HW9erlQaMh8R7007giZJSOM59/0GuaHKoBCm5/0M973s2D
+         mCC3/84tlYepUVkIEOEe/GhGpe45HvzJ3SxocwohDzBg7gR4KWEqBVIH4GcmSAPFbtAK
+         82IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752521866; x=1753126666;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sP/J78YSZFnZNYcFRTT3/TqZZq4tSvgtl6O7DciL3GA=;
-        b=Y1+3VkOMrpG/OXIJt/606EP1LHnFHJwdYiN82XnKJgdIPP3rMBfGxPyL5DuVB6x5D1
-         zVooq+qsnV2HeMPbgzUxOzNmyvuFj5SAN5Fg08U7adDRLxyoX+guxRQaDWLGj0p5+MST
-         4cs7Zv9ddkvO2VnBcPOlDm3FnPO+Z6dDneecewgger6BEjHj9VFW/4IJJ/5Po10Jvwpj
-         ChYS8l9pugepnh9Npq12X1RbJD1L1m3/jhqPQiFp2qZTAX7ghJBV6gnUV27SvtkX2FFl
-         KrcLQWUKR4+Ix9uZow3Co+SE+lOiNaFB++j2J+qO6lhjx0thBH5ctAf4KLPirf8u/Is7
-         Wp5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUWzFGomsJ1DLszwCzoH7/iIleD79oJM/HHfRr+bZgzii4U93hI8tI58pwOhGQW/gzZpiITCr7bM4NF3KSD@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw8mshGoVXw9KTBybmLVp4E7ITV5X2uwjoHsb1Vft0LvjpH+E08
-	kQKeWyNt/0KDPd20TO+JOAbi5lgpEGxBomQZmRDw+88qR0Rp5fJ/20KWYRwzVht7bk0=
-X-Gm-Gg: ASbGncvQoheByk6shvoyjLuS2EJVVO7TLdmRFRdCw43tMs0PVukRRzOl10hXH52NJvo
-	y0XxSPSt6glJISm2yUfBN1WkMlyxF2iA8tSZUzVzqb23QmZSeeEpsjmIFFzpgRl9mmy/BuWGZvO
-	qCrfN+HM6yM5i1AJUWVNqZQ0iGY2VQ0VrQOZVjYEgPzLHFrADDpJZxWVBy5fIB2ydrDJPBhBeWm
-	+897JNHquaUeMhx3+eq6S5I2Pmt4X9DJnoZxBEN88q5PfRRPygs0WQCtqheoyYB6vXojjQ7h1o1
-	zkMqtiEDB3mehSD9QBOUqDwxu1yWEg2Z9VGSa+7wPU3eup8ifOyziM9Y757ydL9T3ub9MQfm6R9
-	KM+Acg44l1s77DCB2M3KPzY6oT0qx6g==
-X-Google-Smtp-Source: AGHT+IFErlbQA7v+YncKKuLD+GZLIWHCFOI/036UbG1GrAOyALCZ86WcXDhbFE3hQMC28zdAmyVLWQ==
-X-Received: by 2002:a05:6830:7105:b0:72b:8aec:fbd4 with SMTP id 46e09a7af769-73cfc2b4cacmr10268075a34.3.1752521866082;
-        Mon, 14 Jul 2025 12:37:46 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1752521983; x=1753126783;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=urOya2QD0PAv3aRyUi92qVBccHFN0GyUQM4mpsavCC0=;
+        b=krgP6zT9RV28Vgjc09193GrU9GPfVVqCREQimbTmnKbYYqBu4SMEJIIhKTM1XPtxhb
+         EABVTliGeLX4Nqj0fcc60SRxgCNgws9uor3su4AD8QBUoUVliFAfdPVIPNIhGEl8l75S
+         BN9xPVDkUzSOmauoVAM3crXQbUC4Y0EV/fNujC6O8wAajMQ5R06IkeEuxwT43o18NQu7
+         wuQ0ASAZEkDgUdJRJX5tOQWjkPTEI8yluyxhLLvT/Gw2c8TQtJEW3ANjGOCMZ/nic0ho
+         6+tJXcbAfUPpPJ1AjiqFp4zScql7SzlMAJCAeeEdBnaBCdVOpcjeSArye0o4JAXV5YM0
+         MWkg==
+X-Forwarded-Encrypted: i=1; AJvYcCWcxvsSSDayzuDaoGePldHUJqT2yFt4asSlc2cDnV0Vmh39nH8EC0yk3KQDY2rOBxXKy3SIv/A7jZXP3ynA@lists.linux.dev
+X-Gm-Message-State: AOJu0YyMll1v040kTiFYo5gX5HLQ3b/tPi9NFB173ZwreCtzCDzkIU5g
+	IlJLvptfe3c54AyNlVZN7LuFSLpJhpdvBtC6bRn30lHWZ2/NLKr1qCxaGTfc4fMqLY5kXuzYJTf
+	AAt1Q
+X-Gm-Gg: ASbGncu2NYr5I3ZhLGEVRS2l7Ze/5Nc7tpGv/RF5O1E+SlSbu2oDhSg0nKXOLkXj8CP
+	pR/ECNxPDPeYAt4hBE3aBYvz4TZIRP/gmTYTKYnz/yUhvJyow30qep5RrUB0AWAzFYPpKpGBHiS
+	mlRaXdVEjXHDx3vPt7fFu3QSmcM+sSI1zZ20+tkiogZaBB7d0ZE6+qS9hkTiqD6ww8R7Ef1UT4N
+	ZOty5uWZpLUVJlPJmpDShGvJojRu9mukh1jwg+NO7VZaa8Ay2j/dMy+3Ec9E/8Yx6gLwWGB4pa1
+	beFHn6TFLTdZBckmbSiTWDrYJQbOfKd+4V3XCaMZSrdFXfMqpqx1CCRHVqotLmGGmbjy/AoRokt
+	/r/WMoseL0ovPFNUR/l3IiME2ip36rg==
+X-Google-Smtp-Source: AGHT+IG9YCfy/a8BjNGBo1GzQjJuR8GmP8UR9cv+uwP5yDJexmfxPdWGAOu8EtDFH9IyIV9EN6mZeg==
+X-Received: by 2002:a05:6870:c03:b0:296:bbc8:4a82 with SMTP id 586e51a60fabf-2ff2706c894mr10579426fac.27.1752521982792;
+        Mon, 14 Jul 2025 12:39:42 -0700 (PDT)
 Received: from localhost ([2603:8080:b800:f700:6bb2:d90f:e5da:befc])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73cf12a609esm1658573a34.53.2025.07.14.12.37.45
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73cf12b62e8sm1674368a34.60.2025.07.14.12.39.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 12:37:45 -0700 (PDT)
-Date: Mon, 14 Jul 2025 22:37:44 +0300
+        Mon, 14 Jul 2025 12:39:42 -0700 (PDT)
+Date: Mon, 14 Jul 2025 22:39:41 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, admiyo@os.amperecomputing.com,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Robert Moore <robert.moore@intel.com>,
-	"Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-	Len Brown <lenb@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jeremy Kerr <jk@codeconstruct.com.au>,
-	Matt Johnston <matt@codeconstruct.com.au>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Huisong Li <lihuisong@huawei.com>
-Subject: Re: [PATCH net-next v22 1/2] mailbox/pcc: support mailbox management
- of the shared buffer
-Message-ID: <3806fc87-e574-46cf-98af-158c37f640e0@suswa.mountain>
+To: oe-kbuild@lists.linux.dev,
+	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Gatien Chevallier <gatien.chevallier@foss.st.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Gabriel Fernandez <gabriel.fernandez@foss.st.com>,
+	Le Goffic <legoffic.clement@gmail.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-clk@vger.kernel.org,
+	=?iso-8859-1?Q?Cl=E9ment?= Le Goffic <clement.legoffic@foss.st.com>
+Subject: Re: [PATCH v2 09/16] perf: stm32: introduce DDRPERFM driver
+Message-ID: <1fd92742-0958-4f64-8e50-4d0595fe74eb@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250710191209.737167-2-admiyo@os.amperecomputing.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250711-ddrperfm-upstream-v2-9-cdece720348f@foss.st.com>
 
-Hi,
+Hi Clément,
 
 kernel test robot noticed the following build warnings:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/admiyo-os-amperecomputing-com/mailbox-pcc-support-mailbox-management-of-the-shared-buffer/20250711-031525
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250710191209.737167-2-admiyo%40os.amperecomputing.com
-patch subject: [PATCH net-next v22 1/2] mailbox/pcc: support mailbox management of the shared buffer
-config: x86_64-randconfig-161-20250711 (https://download.01.org/0day-ci/archive/20250712/202507120609.Myazax08-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+url:    https://github.com/intel-lab-lkp/linux/commits/Cl-ment-Le-Goffic/bus-firewall-move-stm32_firewall-header-file-in-include-folder/20250712-030518
+base:   d7b8f8e20813f0179d8ef519541a3527e7661d3a
+patch link:    https://lore.kernel.org/r/20250711-ddrperfm-upstream-v2-9-cdece720348f%40foss.st.com
+patch subject: [PATCH v2 09/16] perf: stm32: introduce DDRPERFM driver
+config: sh-randconfig-r071-20250712 (https://download.01.org/0day-ci/archive/20250712/202507122125.eve8lg60-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.4.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202507120609.Myazax08-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507122125.eve8lg60-lkp@intel.com/
 
 smatch warnings:
-drivers/mailbox/pcc.c:498 pcc_send_data() error: uninitialized symbol 'ret'.
+drivers/perf/stm32_ddr_pmu.c:380 stm32_ddr_pmu_get_counter() warn: variable dereferenced before check 'pmu' (see line 376)
+drivers/perf/stm32_ddr_pmu.c:380 stm32_ddr_pmu_get_counter() warn: variable dereferenced before check 'event' (see line 377)
 
-vim +/ret +498 drivers/mailbox/pcc.c
+vim +/pmu +380 drivers/perf/stm32_ddr_pmu.c
 
-86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  490  static int pcc_send_data(struct mbox_chan *chan, void *data)
-86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  491  {
-c45ded7e11352d Sudeep Holla       2021-09-17  492  	int ret;
-bf18123e78f4d1 Sudeep Holla       2021-09-17  493  	struct pcc_chan_info *pchan = chan->con_priv;
-e332edef98ddac Adam Young         2025-07-10  494  	struct acpi_pcct_ext_pcc_shared_memory __iomem *pcc_hdr;
-e332edef98ddac Adam Young         2025-07-10  495  
-e332edef98ddac Adam Young         2025-07-10  496  	if (pchan->chan.rx_alloc)
-e332edef98ddac Adam Young         2025-07-10  497  		ret = pcc_write_to_buffer(chan, data);
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  374  static int stm32_ddr_pmu_get_counter(struct stm32_ddr_pmu *pmu, struct perf_event *event)
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  375  {
+73af3c4ba702d7 Clément Le Goffic 2025-07-11 @376  	u32 time_cnt_idx = pmu->cfg->time_cnt_idx;
+                                                                           ^^^^^^^^
 
-Hi Adam!  :)
+73af3c4ba702d7 Clément Le Goffic 2025-07-11 @377  	u32 config = event->attr.config;
+                                                                     ^^^^^^^
 
-ret is uninitialized on the else path.
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  378  	struct stm32_ddr_cnt *cnt;
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  379  
+73af3c4ba702d7 Clément Le Goffic 2025-07-11 @380  	if (!pmu || !event)
+                                                            ^^^^^^^^^^^^^^
+Checks are too late.  The variables have already been dereferenced.
 
-e332edef98ddac Adam Young         2025-07-10 @498  	if (ret)
-e332edef98ddac Adam Young         2025-07-10  499  		return ret;
-8b0f57889843af Prakash, Prashanth 2016-02-17  500  
-c45ded7e11352d Sudeep Holla       2021-09-17  501  	ret = pcc_chan_reg_read_modify_write(&pchan->cmd_update);
-c45ded7e11352d Sudeep Holla       2021-09-17  502  	if (ret)
-c45ded7e11352d Sudeep Holla       2021-09-17  503  		return ret;
-c45ded7e11352d Sudeep Holla       2021-09-17  504  
-e332edef98ddac Adam Young         2025-07-10  505  	pcc_hdr = pchan->chan.shmem;
-e332edef98ddac Adam Young         2025-07-10  506  	if (ioread32(&pcc_hdr->flags) & PCC_CMD_COMPLETION_NOTIFY)
-e332edef98ddac Adam Young         2025-07-10  507  		pchan->chan.irq_ack = true;
-e332edef98ddac Adam Young         2025-07-10  508  
-3db174e478cb0b Huisong Li         2023-08-01  509  	ret = pcc_chan_reg_read_modify_write(&pchan->db);
-e332edef98ddac Adam Young         2025-07-10  510  
-3db174e478cb0b Huisong Li         2023-08-01  511  	if (!ret && pchan->plat_irq > 0)
-3db174e478cb0b Huisong Li         2023-08-01  512  		pchan->chan_in_use = true;
-3db174e478cb0b Huisong Li         2023-08-01  513  
-3db174e478cb0b Huisong Li         2023-08-01  514  	return ret;
-86c22f8c9a3b71 Ashwin Chaugule    2014-11-12  515  }
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  381  		return -EINVAL;
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  382  
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  383  	pmu->selected_set = GROUP_VALUE(config);
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  384  
+73af3c4ba702d7 Clément Le Goffic 2025-07-11  385  	if (config == TIME_CNT) {
 
 -- 
 0-DAY CI Kernel Test Service
