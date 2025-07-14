@@ -1,63 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72F3C139579
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 12:49:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF1F2451C3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 12:49:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752497348; cv=none; b=ldxrHPFAzMALs4h6yOR1ZSk+JVQ0eE2dOEqxpJ31kMORWbhNlZiCZZEXdIxQNN+ZSf6H2EehukbrusSyfXfBEpS1yF0XKv8wDvObVbY5TbR8NkWD7gJt1ZEJ9qllr40AtdmLhpcnKMavzjelNC/hm6NA8UMJiTYoD0JVFJbKDEw=
+	t=1752497350; cv=none; b=P442jmMKhhKVWcAjMgl8et466d1A/pVDj58GULZIgStSBCcLKPUmIC3xZL2UyUc3nSQWPWPG7qLqicNiz1Z+FhUgBHb47E1Tv/nYKuI7LQzcY9P5/FFkQVQHhsxl4jMhZirahwzlsdiP2W4T7LuiPWNW768kHabNDRpgyYUI0IA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752497348; c=relaxed/simple;
-	bh=ru5dzUGuVWBWM2BV8fhw+sNou7TNB7Qth2//o/MFsX0=;
+	s=arc-20240116; t=1752497350; c=relaxed/simple;
+	bh=q3sFzrJkAfvwVuUi303xZghLQU14HiH4IYa+bfJZEhI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=InspviRgy2qaUC5mY0IgzwSgXqcEUFJmoocjx9F72qAOe/bkOK7uDHf8MuwKYXJDwTMzLenm3felFujYWF2d6Ef+E8JHehoiQ0SEmb/79o/eTHNqm70jrTUPxYl1uBicjJ43xmbDbxDKAVNZDv/c3IduV2SznoNrA+cyYn6Z6OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O0cLs8V1; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=dHczBJo9YLZgI6ICLI8g4lILuQs6NmeYtH/s+3RQ2QF4wwPejIAVNmss+MFh0woOLg+Q3dhJbRoh8JeHFk01rRsHlYd6iHleNe3vDfTKI9IQhMzlJj2FJ0HQi+iftAEkEixiNHdTuuot90VTZxEaUq6BT8jppBTisWwBnRRklu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VAGCqRNd; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O0cLs8V1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VAGCqRNd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752497346; x=1784033346;
+  t=1752497348; x=1784033348;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ru5dzUGuVWBWM2BV8fhw+sNou7TNB7Qth2//o/MFsX0=;
-  b=O0cLs8V1ap2aXdUbC7LEYaZzQhErz9IiGvvaTR3EcEOV1dcS8CF82fTL
-   zyL/ornYimygIJ/WOaWbS+Sk22qxLOP44YrwMJJ9sMnQcAaCCD3qWLgkA
-   oZ0glT7maNDDddsHxePJAi0T4onp69HcAuNfdAID776N4j0LLnr5dckGV
-   bBJgOrL8pQ6vnIDiz4cM5fPc1vpBIst5XK8b9Vh0OrFec/YSSEw4Gz4E8
-   rroOmXC3s7wlbVmbBb7wLjGkgQ05f105IyMub8vfUbUQFU79u9cdtcpoV
-   /kpqJmTL7Sc3EDTJ4zRXoblcQRoAVcHwyWWqFfwbHtvgpNUa4Ff/Xt7K2
-   g==;
-X-CSE-ConnectionGUID: DbiWeej0RLi7VakvwQu9rw==
-X-CSE-MsgGUID: UZSFYBADSeWOrtnk7veEsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54659130"
+  bh=q3sFzrJkAfvwVuUi303xZghLQU14HiH4IYa+bfJZEhI=;
+  b=VAGCqRNd359ppL1wnPm5zctkSMBhSbfLO/BsP+vXvkS6sYFe/R+2y9xe
+   pvYmeUf6QXQnxSbGkkMXSjQZk6iNKVJI0KpVfbRVYDcOuviPtq3rkcAg5
+   S00nMULqb2qAu5BtGLEVk87m2OhFPCvIUTQCfdvxel0d5rbmaKIe4oYl5
+   JPR6VwdHKeXI6MWzSVsegZxeoaVEo8P+rq3NKgSvtg+xjoJMvm83rEWW+
+   NF1hZpuPveODPN+m3y0TF1LdRO5Rz3r2Tg4cR+Fvf8swX9XHkd4IHrf2v
+   0hcUqkXlBYigaD6O6vKivfIqx98V8K6UT9+8ExGPKgkfNTGGTIT2hvPLQ
+   w==;
+X-CSE-ConnectionGUID: Pt94ervCTTydRWJoPxH0dw==
+X-CSE-MsgGUID: SwhbhSBjQDqO+2WcLl30Sw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54659133"
 X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="54659130"
+   d="scan'208";a="54659133"
 Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 05:49:05 -0700
-X-CSE-ConnectionGUID: yM+wAHaCRKSLOogV/yAMLg==
-X-CSE-MsgGUID: NC3SY2PNSPu626mW+wFJWw==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 05:49:06 -0700
+X-CSE-ConnectionGUID: NyMi8R3PQbySMLffAqbV+Q==
+X-CSE-MsgGUID: 2vs7CO1aTTOWTlvChe3olg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="160938071"
+   d="scan'208";a="160938070"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
   by fmviesa003.fm.intel.com with ESMTP; 14 Jul 2025 05:49:04 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubIcA-0008sN-0T;
+	id 1ubIcA-0008sT-0k;
 	Mon, 14 Jul 2025 12:49:02 +0000
-Date: Mon, 14 Jul 2025 20:48:19 +0800
+Date: Mon, 14 Jul 2025 20:48:20 +0800
 From: kernel test robot <lkp@intel.com>
-To: Taotao Chen <chentaotao@didiglobal.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Christian Brauner <christianvanbrauner@gmail.com>,
-	Christian Brauner <brauner@kernel.org>
-Subject: [brauner-vfs:vfs-6.17.misc 19/22] fs/ubifs/file.c:1628:27: error:
- initialization of 'int (*)(const struct kiocb *, struct address_space *,
- loff_t,  unsigned int,  unsigned int,  struct folio *, void *)' {aka 'int
- (*)(const struct kiocb *, struct address_space *, long long int,  unsigned
- i...
-Message-ID: <202507142040.wppyoX1s-lkp@intel.com>
+To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: mm/maccess.c:41:17: sparse: sparse: incorrect type in argument 2
+ (different address spaces)
+Message-ID: <202507142033.p5lg4D5Q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,47 +64,128 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs-6.17.misc
-head:   0f235ca12321e6d38c99fa74251729c5b78e6d91
-commit: 254a06118b314c34ab903cf8b2aef0d683428ff7 [19/22] fs: change write_begin/write_end interface to take struct kiocb *
-config: i386-buildonly-randconfig-005-20250714 (https://download.01.org/0day-ci/archive/20250714/202507142040.wppyoX1s-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507142040.wppyoX1s-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   347e9f5043c89695b01e66b3ed111755afcf1911
+commit: ca1a66cdd685030738cf077e3955fdedfe39fbb9 riscv: uaccess: do not do misaligned accesses in get/put_user()
+date:   6 weeks ago
+config: riscv-randconfig-r121-20250714 (https://download.01.org/0day-ci/archive/20250714/202507142033.p5lg4D5Q-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250714/202507142033.p5lg4D5Q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507142040.wppyoX1s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507142033.p5lg4D5Q-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> mm/maccess.c:41:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned long long [usertype] * @@
+   mm/maccess.c:41:17: sparse:     expected void const [noderef] __user *from
+   mm/maccess.c:41:17: sparse:     got unsigned long long [usertype] *
+>> mm/maccess.c:43:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned int [usertype] * @@
+   mm/maccess.c:43:17: sparse:     expected void const [noderef] __user *from
+   mm/maccess.c:43:17: sparse:     got unsigned int [usertype] *
+>> mm/maccess.c:45:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned short [usertype] * @@
+   mm/maccess.c:45:17: sparse:     expected void const [noderef] __user *from
+   mm/maccess.c:45:17: sparse:     got unsigned short [usertype] *
+>> mm/maccess.c:46:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
+   mm/maccess.c:46:9: sparse:     expected void const [noderef] __user *from
+   mm/maccess.c:46:9: sparse:     got unsigned char [usertype] *
+>> mm/maccess.c:73:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned long long [usertype] * @@
+   mm/maccess.c:73:17: sparse:     expected void [noderef] __user *to
+   mm/maccess.c:73:17: sparse:     got unsigned long long [usertype] *
+>> mm/maccess.c:75:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned int [usertype] * @@
+   mm/maccess.c:75:17: sparse:     expected void [noderef] __user *to
+   mm/maccess.c:75:17: sparse:     got unsigned int [usertype] *
+>> mm/maccess.c:77:17: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned short [usertype] * @@
+   mm/maccess.c:77:17: sparse:     expected void [noderef] __user *to
+   mm/maccess.c:77:17: sparse:     got unsigned short [usertype] *
+>> mm/maccess.c:78:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void [noderef] __user *to @@     got unsigned char [usertype] * @@
+   mm/maccess.c:78:9: sparse:     expected void [noderef] __user *to
+   mm/maccess.c:78:9: sparse:     got unsigned char [usertype] *
+   mm/maccess.c:98:17: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got unsigned char [usertype] * @@
+   mm/maccess.c:98:17: sparse:     expected void const [noderef] __user *from
+   mm/maccess.c:98:17: sparse:     got unsigned char [usertype] *
 
->> fs/ubifs/file.c:1628:27: error: initialization of 'int (*)(const struct kiocb *, struct address_space *, loff_t,  unsigned int,  unsigned int,  struct folio *, void *)' {aka 'int (*)(const struct kiocb *, struct address_space *, long long int,  unsigned int,  unsigned int,  struct folio *, void *)'} from incompatible pointer type 'int (*)(struct kiocb *, struct address_space *, loff_t,  unsigned int,  unsigned int,  struct folio *, void *)' {aka 'int (*)(struct kiocb *, struct address_space *, long long int,  unsigned int,  unsigned int,  struct folio *, void *)'} [-Werror=incompatible-pointer-types]
-    1628 |         .write_end      = ubifs_write_end,
-         |                           ^~~~~~~~~~~~~~~
-   fs/ubifs/file.c:1628:27: note: (near initialization for 'ubifs_file_address_operations.write_end')
-   cc1: some warnings being treated as errors
+vim +41 mm/maccess.c
 
+eab0c6089b6897 Christoph Hellwig    2020-06-08  15  
+e4137f08816bbf Sabyrzhan Tasbolatov 2024-10-11  16  /*
+e4137f08816bbf Sabyrzhan Tasbolatov 2024-10-11  17   * The below only uses kmsan_check_memory() to ensure uninitialized kernel
+e4137f08816bbf Sabyrzhan Tasbolatov 2024-10-11  18   * memory isn't leaked.
+e4137f08816bbf Sabyrzhan Tasbolatov 2024-10-11  19   */
+fe557319aa06c2 Christoph Hellwig    2020-06-17  20  #define copy_from_kernel_nofault_loop(dst, src, len, type, err_label)	\
+b58294ead14cde Christoph Hellwig    2020-06-08  21  	while (len >= sizeof(type)) {					\
+b58294ead14cde Christoph Hellwig    2020-06-08  22  		__get_kernel_nofault(dst, src, type, err_label);	\
+e4137f08816bbf Sabyrzhan Tasbolatov 2024-10-11  23  		kmsan_check_memory(src, sizeof(type));			\
+b58294ead14cde Christoph Hellwig    2020-06-08  24  		dst += sizeof(type);					\
+b58294ead14cde Christoph Hellwig    2020-06-08  25  		src += sizeof(type);					\
+b58294ead14cde Christoph Hellwig    2020-06-08  26  		len -= sizeof(type);					\
+b58294ead14cde Christoph Hellwig    2020-06-08  27  	}
+b58294ead14cde Christoph Hellwig    2020-06-08  28  
+fe557319aa06c2 Christoph Hellwig    2020-06-17  29  long copy_from_kernel_nofault(void *dst, const void *src, size_t size)
+b58294ead14cde Christoph Hellwig    2020-06-08  30  {
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  31  	unsigned long align = 0;
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  32  
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  33  	if (!IS_ENABLED(CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS))
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  34  		align = (unsigned long)dst | (unsigned long)src;
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  35  
+fe557319aa06c2 Christoph Hellwig    2020-06-17  36  	if (!copy_from_kernel_nofault_allowed(src, size))
+2a71e81d321987 Christoph Hellwig    2020-06-08  37  		return -ERANGE;
+b58294ead14cde Christoph Hellwig    2020-06-08  38  
+b58294ead14cde Christoph Hellwig    2020-06-08  39  	pagefault_disable();
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  40  	if (!(align & 7))
+fe557319aa06c2 Christoph Hellwig    2020-06-17 @41  		copy_from_kernel_nofault_loop(dst, src, size, u64, Efault);
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  42  	if (!(align & 3))
+fe557319aa06c2 Christoph Hellwig    2020-06-17 @43  		copy_from_kernel_nofault_loop(dst, src, size, u32, Efault);
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  44  	if (!(align & 1))
+fe557319aa06c2 Christoph Hellwig    2020-06-17 @45  		copy_from_kernel_nofault_loop(dst, src, size, u16, Efault);
+fe557319aa06c2 Christoph Hellwig    2020-06-17 @46  	copy_from_kernel_nofault_loop(dst, src, size, u8, Efault);
+b58294ead14cde Christoph Hellwig    2020-06-08  47  	pagefault_enable();
+b58294ead14cde Christoph Hellwig    2020-06-08  48  	return 0;
+b58294ead14cde Christoph Hellwig    2020-06-08  49  Efault:
+b58294ead14cde Christoph Hellwig    2020-06-08  50  	pagefault_enable();
+b58294ead14cde Christoph Hellwig    2020-06-08  51  	return -EFAULT;
+b58294ead14cde Christoph Hellwig    2020-06-08  52  }
+fe557319aa06c2 Christoph Hellwig    2020-06-17  53  EXPORT_SYMBOL_GPL(copy_from_kernel_nofault);
+b58294ead14cde Christoph Hellwig    2020-06-08  54  
+fe557319aa06c2 Christoph Hellwig    2020-06-17  55  #define copy_to_kernel_nofault_loop(dst, src, len, type, err_label)	\
+b58294ead14cde Christoph Hellwig    2020-06-08  56  	while (len >= sizeof(type)) {					\
+b58294ead14cde Christoph Hellwig    2020-06-08  57  		__put_kernel_nofault(dst, src, type, err_label);	\
+e4137f08816bbf Sabyrzhan Tasbolatov 2024-10-11  58  		instrument_write(dst, sizeof(type));			\
+b58294ead14cde Christoph Hellwig    2020-06-08  59  		dst += sizeof(type);					\
+b58294ead14cde Christoph Hellwig    2020-06-08  60  		src += sizeof(type);					\
+b58294ead14cde Christoph Hellwig    2020-06-08  61  		len -= sizeof(type);					\
+b58294ead14cde Christoph Hellwig    2020-06-08  62  	}
+b58294ead14cde Christoph Hellwig    2020-06-08  63  
+fe557319aa06c2 Christoph Hellwig    2020-06-17  64  long copy_to_kernel_nofault(void *dst, const void *src, size_t size)
+b58294ead14cde Christoph Hellwig    2020-06-08  65  {
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  66  	unsigned long align = 0;
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  67  
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  68  	if (!IS_ENABLED(CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS))
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  69  		align = (unsigned long)dst | (unsigned long)src;
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  70  
+b58294ead14cde Christoph Hellwig    2020-06-08  71  	pagefault_disable();
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  72  	if (!(align & 7))
+fe557319aa06c2 Christoph Hellwig    2020-06-17 @73  		copy_to_kernel_nofault_loop(dst, src, size, u64, Efault);
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  74  	if (!(align & 3))
+fe557319aa06c2 Christoph Hellwig    2020-06-17 @75  		copy_to_kernel_nofault_loop(dst, src, size, u32, Efault);
+2423de2e6f4d86 Arnd Bergmann        2021-08-11  76  	if (!(align & 1))
+fe557319aa06c2 Christoph Hellwig    2020-06-17 @77  		copy_to_kernel_nofault_loop(dst, src, size, u16, Efault);
+fe557319aa06c2 Christoph Hellwig    2020-06-17 @78  	copy_to_kernel_nofault_loop(dst, src, size, u8, Efault);
+b58294ead14cde Christoph Hellwig    2020-06-08  79  	pagefault_enable();
+b58294ead14cde Christoph Hellwig    2020-06-08  80  	return 0;
+b58294ead14cde Christoph Hellwig    2020-06-08  81  Efault:
+b58294ead14cde Christoph Hellwig    2020-06-08  82  	pagefault_enable();
+b58294ead14cde Christoph Hellwig    2020-06-08  83  	return -EFAULT;
+b58294ead14cde Christoph Hellwig    2020-06-08  84  }
+ca79a00bb9a899 Sabyrzhan Tasbolatov 2024-10-16  85  EXPORT_SYMBOL_GPL(copy_to_kernel_nofault);
+b58294ead14cde Christoph Hellwig    2020-06-08  86  
 
-vim +1628 fs/ubifs/file.c
+:::::: The code at line 41 was first introduced by commit
+:::::: fe557319aa06c23cffc9346000f119547e0f289a maccess: rename probe_kernel_{read,write} to copy_{from,to}_kernel_nofault
 
-064c73498601139 Eric Biggers            2021-07-01  1623  
-e8b815663b1bfd9 Artem Bityutskiy        2009-01-15  1624  const struct address_space_operations ubifs_file_address_operations = {
-0b7bf4830a3031d Matthew Wilcox (Oracle  2022-04-29  1625) 	.read_folio     = ubifs_read_folio,
-0df030d082d5b22 Matthew Wilcox (Oracle  2024-01-24  1626) 	.writepages     = ubifs_writepages,
-1e51764a3c2ac05 Artem Bityutskiy        2008-07-14  1627  	.write_begin    = ubifs_write_begin,
-1e51764a3c2ac05 Artem Bityutskiy        2008-07-14 @1628  	.write_end      = ubifs_write_end,
-58a2fdb61bbb2e7 Matthew Wilcox (Oracle  2022-02-09  1629) 	.invalidate_folio = ubifs_invalidate_folio,
-1f1d14dbc39a3e9 Matthew Wilcox (Oracle  2022-02-09  1630) 	.dirty_folio	= ubifs_dirty_folio,
-e7b15bae558cc11 Matthew Wilcox (Oracle  2022-06-06  1631) 	.migrate_folio	= filemap_migrate_folio,
-bcaabc55491203f Matthew Wilcox (Oracle  2022-05-01  1632) 	.release_folio	= ubifs_release_folio,
-1e51764a3c2ac05 Artem Bityutskiy        2008-07-14  1633  };
-1e51764a3c2ac05 Artem Bityutskiy        2008-07-14  1634  
-
-:::::: The code at line 1628 was first introduced by commit
-:::::: 1e51764a3c2ac05a23a22b2a95ddee4d9bffb16d UBIFS: add new flash file system
-
-:::::: TO: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
-:::::: CC: Artem Bityutskiy <Artem.Bityutskiy@nokia.com>
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
 0-DAY CI Kernel Test Service
