@@ -1,242 +1,164 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66CBD23D280
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 16:15:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BB317A2EC;
+	Mon, 14 Jul 2025 17:16:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752509737; cv=none; b=EgEfmpAzGUNHFfo25LDmn13zeomYvibzwOfgdpxqWBIcrQS6k+KvlNejg+fU1W8vqGCMln2NpHPb7MHWdq7PDdlHDwgn43YOIJ/PDHQr0p3miUpwPrJ4qxEPPM5U/ao2IXk5jrCI8LyQanu2Xvw7QBf+3SfyINkMIfcLyjxnnuA=
+	t=1752513364; cv=none; b=NzwwWPTb2qRtrhWXEo+D3Wf9kSQdPE1TVFbJy+7kCK7x6A3hFpKJOMQmQ1mOCoDazpNK4IFlAfi6uKQa7yPHK3bQOgkcT5ql1hQWaehqfDnrce8C7gNSR8dGul6RxbApyxoxUa+iXolMBp+SuJw+69g/rFbYJ5IcvkvhrfPkaeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752509737; c=relaxed/simple;
-	bh=mYlS3yad2lnGU3Gc5U+g+NzTgRuBDL7jSQEs6R1dU6k=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=TS6bzCNks+tQULAbge+jo57w/UJEG7y8Yi7GKrCJVHCPM/3tSF9w0AVm+n3LFFMiV7YDQ3qxKkZezeLWdViXYP9hiPSg2Pl6OH8eAuXjBA9BvApNJSUAbgZcXnUEmXqMhHCUishMHOdE7SXC7lvf+3LhnKYtnaep9nCOEJAvtfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JM8d08VG; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752513364; c=relaxed/simple;
+	bh=6m85wYmGPnnc4asSalRFdjp8FI3bHlAHsTWMgWqjY/Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nU7ZcMnD8wd9GOaSlel5jF/7D9ScFDOkDK5zjPmqzKwtcrkdxFxjCisj093YE249UGHmWhJGKS4NPNUVZSYXJftPF3L5vOEZbFL7tCwYN6ReNDwkaFxXr90pbw0qBUj4OphT9tD1m3xWbJ3GQsfl9gychJuD08lvTydYa7LS0Ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cbGd1zSw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JM8d08VG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752509735; x=1784045735;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=mYlS3yad2lnGU3Gc5U+g+NzTgRuBDL7jSQEs6R1dU6k=;
-  b=JM8d08VGyENCQDZPJUyaOd2JPRlyJJUSpezAu2MPIJAhU716gWTdvSxU
-   uqO98xUQH0gseawrO7F4t77DOK4+5R9yvHXARjrClg4lWrlm1YEL8lviO
-   gyIjMFTwerwjPyt9HnrxJWl7jQ/eKWA1gJK6sAKM17bEIbmnU97lIV0U2
-   1n6Hs9uysQpfQxn2bPyKwdDa5+Y6D7k1jMEC+lAvsaBVLGFnx5UBNmoFh
-   ITPntt6K8XDnw6ifTBdeOs1lBeOeifoF3Ocyy+HzrUYfYFhB0QSx7B2uT
-   MS7BsbSAp2Xk4Bwq0uKE4GlJyf1EefhnMo8uGx03T2BrE19Sqv/eM3VNY
-   w==;
-X-CSE-ConnectionGUID: D0zqitkvRNmyRyy3BWSyAw==
-X-CSE-MsgGUID: QLb0V+ajQa6+WJFLMhiheg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54563041"
-X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="54563041"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 09:15:31 -0700
-X-CSE-ConnectionGUID: HucfCtedQRml2fux3Gz9TQ==
-X-CSE-MsgGUID: ClsbmBF6TRGn4tRn7Siefg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="160988685"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 14 Jul 2025 09:15:30 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubLpw-000968-02;
-	Mon, 14 Jul 2025 16:15:28 +0000
-Date: Tue, 15 Jul 2025 00:14:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1730/1730]
- drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c:548:5: error: no
- previous prototype for 'sss_pci_probe'
-Message-ID: <202507150036.2TFl4VP9-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cbGd1zSw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86CC1C4CEED;
+	Mon, 14 Jul 2025 17:16:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1752513364;
+	bh=6m85wYmGPnnc4asSalRFdjp8FI3bHlAHsTWMgWqjY/Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cbGd1zSwBYhM0YYQBmf/nUf2yQEyJLu0TsprSrxxqZvb4k+ffnly04zsOYRFBM1vq
+	 pu14lnXwdjXS5jCFa877iralVgtkv8ettACY4nCdz0bXQZoiIGsDubBv0CUbhObw/z
+	 3EpERtSygsrSQNFqLD5F0f5n4ZeWPypubE5G1rdnE04PrEsNw3pNvuo78rRAGUPvu7
+	 jaHyjoX+LEAm+bqKP4Zo5RabRz17IUYnUqXCDvb00pnuCEUaiToJmfjHi6Hm8t4VR/
+	 xmd5E+YDnH/b406r1hEUyan+8C0bp5YNl8MGwNaoAbHESCDJSlgZq6eJlYmAm40b/q
+	 EMoaptjhQ+0zg==
+Date: Mon, 14 Jul 2025 10:15:59 -0700
+From: Nathan Chancellor <nathan@kernel.org>
+To: Sascha Bischoff <Sascha.Bischoff@arm.com>
+Cc: "lkp@intel.com" <lkp@intel.com>, Timothy Hayes <Timothy.Hayes@arm.com>,
+	"llvm@lists.linux.dev" <llvm@lists.linux.dev>,
+	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
+	"oliver.upton@linux.dev" <oliver.upton@linux.dev>, nd <nd@arm.com>
+Subject: Re: [linux-next:master 7731/9053]
+ arch/arm64/kvm/vgic/vgic-mmio.c:1094:3: warning: variable 'len' is used
+ uninitialized whenever 'if' condition is false
+Message-ID: <20250714171559.GA1364710@ax162>
+References: <202507130334.ddFcXn4N-lkp@intel.com>
+ <06b16fee8f7a1d60e6723e5dafb12158d6797c7d.camel@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <06b16fee8f7a1d60e6723e5dafb12158d6797c7d.camel@arm.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   50cedfb94c0444cc8920295500f5fa74701dc736
-commit: a6a7981cbf66d4951425d33cdce6ef39206eba83 [1730/1730] Net: ethernet: Support 3snic 3s9xx network card
-config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250715/202507150036.2TFl4VP9-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150036.2TFl4VP9-lkp@intel.com/reproduce)
+Hi Sascha,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507150036.2TFl4VP9-lkp@intel.com/
+On Mon, Jul 14, 2025 at 12:37:35PM +0000, Sascha Bischoff wrote:
+> On Sun, 2025-07-13 at 03:29 +0800, kernel test robot wrote:
+> > commit: c017e49ed1381001ba7a6521daae8f968b11cf09 [7731/9053] KVM: arm64: gic-v5: Support GICv3 compat
+> > config: arm64-randconfig-004-20250713 (https://download.01.org/0day-ci/archive/20250713/202507130334.ddFcXn4N-lkp@intel.com/config)
+> > compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+...
+> > arch/arm64/kvm/vgic/vgic-mmio.c:1094:3: warning: variable 'len' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+> >     1094 |                 BUG_ON(1);
+> >          |                 ^~~~~~~~~
+> >    include/asm-generic/bug.h:71:36: note: expanded from macro 'BUG_ON'
+> >       71 | #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
+> >          |                                    ^~~~~~~~~~~~~~~~~~~
+> >    include/linux/compiler.h:47:23: note: expanded from macro 'unlikely'
+> >       47 | #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+> >          |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+...
+> There is no actual uninitialized use of len occurring here. It is
+> explicitly initialized in both the VGIC_V2 and VGIC_V3 cases. The only
+> other path is the default case, which triggers BUG_ON(1).
+> 
+> For arm64, BUG() itself is defined as:
+> 
+> #define BUG() do {					\
+> 	__BUG_FLAGS(0);					\
+> 	unreachable();					\
+> } while (0)
+> 
+> Since __BUG_FLAGS(0) is followed by unreachable(), the compiler should
+> ideally recognize that code paths beyond this point are dead. 
+> The fact that this warning is still being emitted suggests the compiler
+> isn’t correctly propagating the unreachable() information in this
+> context.
+> 
+> Given that, this seems like an issue on the compiler side, or possibly
+> a case where BUG_ON() could be restructured to more explicitly convey
+> control-flow termination to the compiler.
 
-All errors (new ones prefixed by >>):
+In a normal configuration, it is easy for the compiler to see that
+BUG_ON(1) is the same thing as BUG() and take into account the
+__builtin_unreachable() at the end to avoid warnings.
 
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c:276:5: error: no previous prototype for 'sss_attach_uld_driver' [-Werror=missing-prototypes]
-     276 | int sss_attach_uld_driver(struct sss_pci_adapter *adapter,
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c:548:5: error: no previous prototype for 'sss_pci_probe' [-Werror=missing-prototypes]
-     548 | int sss_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-         |     ^~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:90:6: error: no previous prototype for 'sss_detach_uld_driver' [-Werror=missing-prototypes]
-      90 | void sss_detach_uld_driver(struct sss_pci_adapter *adapter,
-         |      ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:120:6: error: no previous prototype for 'sss_detach_all_uld_driver' [-Werror=missing-prototypes]
-     120 | void sss_detach_all_uld_driver(struct sss_pci_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:138:6: error: no previous prototype for 'sss_dettach_uld_dev' [-Werror=missing-prototypes]
-     138 | void sss_dettach_uld_dev(struct sss_pci_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:179:6: error: no previous prototype for 'sss_deinit_function' [-Werror=missing-prototypes]
-     179 | void sss_deinit_function(struct pci_dev *pdev)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:200:6: error: no previous prototype for 'sss_unmap_pci_bar' [-Werror=missing-prototypes]
-     200 | void sss_unmap_pci_bar(struct sss_pci_adapter *adapter)
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:211:5: error: no previous prototype for 'sss_deinit_adapter' [-Werror=missing-prototypes]
-     211 | int sss_deinit_adapter(struct sss_pci_adapter *adapter)
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:237:6: error: no previous prototype for 'sss_deinit_pci_dev' [-Werror=missing-prototypes]
-     237 | void sss_deinit_pci_dev(struct pci_dev *pdev)
-         |      ^~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_remove.c:249:6: error: no previous prototype for 'sss_pci_remove' [-Werror=missing-prototypes]
-     249 | void sss_pci_remove(struct pci_dev *pdev)
-         |      ^~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_shutdown.c:28:6: error: no previous prototype for 'sss_pci_shutdown' [-Werror=missing-prototypes]
-      28 | void sss_pci_shutdown(struct pci_dev *pdev)
-         |      ^~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_error.c:34:18: error: no previous prototype for 'sss_detect_pci_error' [-Werror=missing-prototypes]
-      34 | pci_ers_result_t sss_detect_pci_error(struct pci_dev *pdev,
-         |                  ^~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:37:6: error: no previous prototype for 'sss_init_uld_lock' [-Werror=missing-prototypes]
-      37 | void sss_init_uld_lock(void)
-         |      ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:42:6: error: no previous prototype for 'sss_lock_uld' [-Werror=missing-prototypes]
-      42 | void sss_lock_uld(void)
-         |      ^~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:47:6: error: no previous prototype for 'sss_unlock_uld' [-Werror=missing-prototypes]
-      47 | void sss_unlock_uld(void)
-         |      ^~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:52:14: error: no previous prototype for 'sss_get_uld_names' [-Werror=missing-prototypes]
-      52 | const char **sss_get_uld_names(void)
-         |              ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:57:22: error: no previous prototype for 'sss_get_uld_info' [-Werror=missing-prototypes]
-      57 | struct sss_uld_info *sss_get_uld_info(void)
-         |                      ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_pci_global.c:62:6: error: no previous prototype for 'sss_attach_is_enable' [-Werror=missing-prototypes]
-      62 | bool sss_attach_is_enable(void)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c: In function 'sss_heartbeat_lost_handler':
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:185:13: error: variable 'pcie_src' set but not used [-Werror=unused-but-set-variable]
-     185 |         u16 pcie_src;
-         |             ^~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:184:13: error: variable 'fault_level' set but not used [-Werror=unused-but-set-variable]
-     184 |         u16 fault_level;
-         |             ^~~~~~~~~~~
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c: At top level:
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:384:5: error: no previous prototype for 'sss_init_hwdev' [-Werror=missing-prototypes]
-     384 | int sss_init_hwdev(struct sss_pci_adapter *adapter)
-         |     ^~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:487:6: error: no previous prototype for 'sss_deinit_hwdev' [-Werror=missing-prototypes]
-     487 | void sss_deinit_hwdev(void *hwdev)
-         |      ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:518:6: error: no previous prototype for 'sss_hwdev_stop' [-Werror=missing-prototypes]
-     518 | void sss_hwdev_stop(void *hwdev)
-         |      ^~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:531:6: error: no previous prototype for 'sss_hwdev_detach' [-Werror=missing-prototypes]
-     531 | void sss_hwdev_detach(void *hwdev)
-         |      ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_init.c:539:6: error: no previous prototype for 'sss_hwdev_shutdown' [-Werror=missing-prototypes]
-     539 | void sss_hwdev_shutdown(void *hwdev)
-         |      ^~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_mgmt_info.c:54:5: error: no previous prototype for 'sss_init_mgmt_info' [-Werror=missing-prototypes]
-      54 | int sss_init_mgmt_info(struct sss_hwdev *hwdev)
-         |     ^~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_mgmt_info.c:90:6: error: no previous prototype for 'sss_deinit_mgmt_info' [-Werror=missing-prototypes]
-      90 | void sss_deinit_mgmt_info(struct sss_hwdev *hwdev)
-         |      ^~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwdev_io_flush.c:91:5: error: no previous prototype for 'sss_hwdev_flush_io' [-Werror=missing-prototypes]
-      91 | int sss_hwdev_flush_io(struct sss_hwdev *hwdev, u16 channel)
-         |     ^~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:277:5: error: no previous prototype for 'sss_reinit_ctrlq_ctx' [-Werror=missing-prototypes]
-     277 | int sss_reinit_ctrlq_ctx(struct sss_hwdev *hwdev)
-         |     ^~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:367:6: error: no previous prototype for 'sss_deinit_ctrlq' [-Werror=missing-prototypes]
-     367 | void sss_deinit_ctrlq(struct sss_hwdev *hwdev)
-         |      ^~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:501:5: error: no previous prototype for 'sss_init_ctrlq_channel' [-Werror=missing-prototypes]
-     501 | int sss_init_ctrlq_channel(struct sss_hwdev *hwdev)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:538:6: error: no previous prototype for 'sss_deinit_ctrlq_channel' [-Werror=missing-prototypes]
-     538 | void sss_deinit_ctrlq_channel(struct sss_hwdev *hwdev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:547:6: error: no previous prototype for 'sss_ctrlq_flush_sync_cmd' [-Werror=missing-prototypes]
-     547 | void sss_ctrlq_flush_sync_cmd(struct sss_hwdev *hwdev)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_ctrlq_init.c:573:5: error: no previous prototype for 'sss_wait_ctrlq_stop' [-Werror=missing-prototypes]
-     573 | int sss_wait_ctrlq_stop(struct sss_hwdev *hwdev)
-         |     ^~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:252:5: error: no previous prototype for 'sss_init_func_mbx_msg' [-Werror=missing-prototypes]
-     252 | int sss_init_func_mbx_msg(void *hwdev, u16 func_num)
-         |     ^~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:401:5: error: no previous prototype for 'sss_hwif_init_mbx' [-Werror=missing-prototypes]
-     401 | int sss_hwif_init_mbx(struct sss_hwdev *hwdev)
-         |     ^~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:449:6: error: no previous prototype for 'sss_hwif_deinit_mbx' [-Werror=missing-prototypes]
-     449 | void sss_hwif_deinit_mbx(struct sss_hwdev *hwdev)
-         |      ^~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_mbx_init.c:872:6: error: no previous prototype for 'sss_recv_mbx_aeq_handler' [-Werror=missing-prototypes]
-     872 | void sss_recv_mbx_aeq_handler(void *handle, u8 *header, u8 size)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
---
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:545:5: error: no previous prototype for 'sss_adm_msg_write' [-Werror=missing-prototypes]
-     545 | int sss_adm_msg_write(struct sss_adm_msg *adm_msg, u8 node_id,
-         |     ^~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:551:5: error: no previous prototype for 'sss_adm_msg_read' [-Werror=missing-prototypes]
-     551 | int sss_adm_msg_read(struct sss_adm_msg *adm_msg, u8 node_id,
-         |     ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:597:5: error: no previous prototype for 'sss_adm_msg_read_ack' [-Werror=missing-prototypes]
-     597 | int sss_adm_msg_read_ack(void *hwdev, u8 dest, const void *cmd,
-         |     ^~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:618:5: error: no previous prototype for 'sss_adm_msg_write_nack' [-Werror=missing-prototypes]
-     618 | int sss_adm_msg_write_nack(void *hwdev, u8 dest, const void *cmd, u16 size)
-         |     ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/3snic/sssnic/hw/sss_hwif_adm.c:682:5: error: no previous prototype for 'sss_sync_send_adm_msg' [-Werror=missing-prototypes]
-     682 | int sss_sync_send_adm_msg(void *hwdev, u8 mod, u16 cmd, void *buf_in,
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   cc1: all warnings being treated as errors
-..
+However, the key to what is going on here is in the second note: this
+configuration has CONFIG_TRACE_BRANCH_PROFILING=y, which turns
+unlikely() into
 
+#define __branch_check__(x, expect, is_constant) ({			\
+			long ______r;					\
+			static struct ftrace_likely_data		\
+				__aligned(4)				\
+				__section("_ftrace_annotated_branch")	\
+				______f = {				\
+				.data.func = __func__,			\
+				.data.file = __FILE__,			\
+				.data.line = __LINE__,			\
+			};						\
+			______r = __builtin_expect(!!(x), expect);	\
+			ftrace_likely_update(&______f, ______r,		\
+					     expect, is_constant);	\
+			______r;					\
+		})
 
-vim +/sss_pci_probe +548 drivers/net/ethernet/3snic/sssnic/hw/sss_pci_probe.c
+Clang's semantic analysis phase happens early in the front end, so it is
+not able to value track ______r yet, meaning that it thinks BUG() is
+only conditionally called, leaving len uninitialized in the other
+imaginary branch.
 
-   547	
- > 548	int sss_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+I see two ways to fix this. The most obvious is just turn this BUG_ON(1)
+into BUG() directly to avoid having an unlikely() in the first place.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+diff --git a/arch/arm64/kvm/vgic/vgic-mmio.c b/arch/arm64/kvm/vgic/vgic-mmio.c
+index e416e433baff..a573b1f0c6cb 100644
+--- a/arch/arm64/kvm/vgic/vgic-mmio.c
++++ b/arch/arm64/kvm/vgic/vgic-mmio.c
+@@ -1091,7 +1091,7 @@ int vgic_register_dist_iodev(struct kvm *kvm, gpa_t dist_base_address,
+ 		len = vgic_v3_init_dist_iodev(io_device);
+ 		break;
+ 	default:
+-		BUG_ON(1);
++		BUG();
+ 	}
+ 
+ 	io_device->base_addr = dist_base_address;
+---
+
+The other option would be to turn the unlikely() in the generic BUG_ON()
+to unlikely_notrace(), so that the '1' condition can always be
+constantly evaluated. I am not sure having branch checks on BUG_ON() is
+super useful since these are conditions that are intentionally hard to
+hit and you will know when they are :)
+
+diff --git a/include/asm-generic/bug.h b/include/asm-generic/bug.h
+index 2d9f61346dab..35f3e914b068 100644
+--- a/include/asm-generic/bug.h
++++ b/include/asm-generic/bug.h
+@@ -74,7 +74,7 @@ struct bug_entry {
+ #endif
+ 
+ #ifndef HAVE_ARCH_BUG_ON
+-#define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (0)
++#define BUG_ON(condition) do { if (unlikely_notrace(condition)) BUG(); } while (0)
+ #endif
+ 
+ /*
+---
+
+Both of these resolve the warning from the original configuration for
+me.
+
+Cheers,
+Nathan
