@@ -1,76 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D90A726136D;
-	Mon, 14 Jul 2025 15:14:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E678719F43A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 15:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752506090; cv=none; b=HKyJl5qJoOOcX9fM5P4CcHWmiyOq/+u/q2nA43GuFrqF3X0zYcFK8dmqkwmX4HeFYNONrmGQqamFdp+QajC8bwfdEjYalx7g4nOZO27bKG/1tH3a4zRTYUPeT6DqQOwW9LiDV60D3QTEhAPrUZNvJNIPWigmvagtMz0upL1pkxo=
+	t=1752507869; cv=none; b=rAeecZ77n9T+j1PJzLQFRDwiY2YR6VeHQHyLhDypK+FJFidXgRLqZ+LE97QhwDL1b5pEqFUzVVIgK6dXqxpP1LoRlzZ6a+z/CyLGFFDmC3PcrKpvK8WXes7NSE6xzGtmj9Lm6fcxPmOojkgV+K3qfeOYNCPmQ/zcAYUypOh5sKg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752506090; c=relaxed/simple;
-	bh=uhR4oTtyTLRPzkqDzPtiWEgon2j5NRv9mdaGjQ0k3OM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kIi42md/X1hQw9EVtsDkcwrX+I6+uUuLJEYaQdun0ivHZmZcHWKVvNpPc/ccXM9iCNeYpQVj9WTLzhhHnDHakg4Ew1VZ0WRV7Hil3wFHhQFu1Pr5/Gkd8WXcSUZm0kKQu63/j14HpVARPc+msc5wBNN5FrtCuzKART2NrJpmgv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KuPPhnj7; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1752507869; c=relaxed/simple;
+	bh=5WxlMYWSS05MC5okwdm3AB+OhjDi8B9A+2xOeCdGWYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bNhO9nDR55K38pgjxYr0I9/c9pmpkU5MHrCV/D5UXJIkZigli1frK4KnFZWCHDfRm4RCwZJF3Ob9HBo1+PV/5JJsruC9xgA/y96GvI4RA8bFuoGf6aruf2YDwj49rcJ7UzaxfmwTmY3qbVPdEOug370U35qgTmRLbdz1BgDwC18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=crjJsNB+; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KuPPhnj7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="crjJsNB+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752506090; x=1784042090;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=uhR4oTtyTLRPzkqDzPtiWEgon2j5NRv9mdaGjQ0k3OM=;
-  b=KuPPhnj70PYcDjE/y62sfZ5TYqzxITMITws4JVQvJBVRVuteD7fYZXi0
-   yhsNUz+pClEE45SC2udopz92RhxICBgHjbBY8m0umWS4ADqLpRZMu4ey0
-   NtzGkZY+WtUWJAdh12Lk4gOQKRL1NUTDG98TcBYksOfRJF35CljgTDhQ1
-   7OR8+Gisq+xzgQXT9XaoULTlze5HbUSz2c/p6pEa7nb2A8szzsY/JRRoL
-   N7poiTgoM74PU2XyUWMbPRGzNOQoSdHUE5CCXlqjB/KdPY8SUcNC8C7QZ
-   w/RtUIB/rX02+XMIH8HzgFT/arb05aZ2lJLlLZETNWdSvJ6qIxqyEMi0e
-   g==;
-X-CSE-ConnectionGUID: cB3mIsixRnuROG+gnAiOUQ==
-X-CSE-MsgGUID: Eh/BCvRVRvK49FbJNAoOew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66147842"
+  t=1752507868; x=1784043868;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=5WxlMYWSS05MC5okwdm3AB+OhjDi8B9A+2xOeCdGWYs=;
+  b=crjJsNB+3X8vJ8hu8RSFW2n0coD0uBmGukH5eZReOM8EFdiPk0W8QWC6
+   MIgaFTJmb8g5hmWIjORAWk0ORbQxPdCgY9fTd4i5kwOXsHK/7KCkW/Plc
+   J1wZgIxjRBdegkQswWQh5M06+0G5gVcCwBC8/gybeacPoYANbtgezxXee
+   eEHegnDPAp4WAZN71awQmXE46f3MU4bqDHhJtGx52rOonUSpw7iUqIJun
+   yN6bib2QPAWHBEPfLHwYlHt+OvACHZMKItqMKpluvbjd5JvL8ONkmGPrl
+   0J6hG1uEMrfk3cuFfWTEMm5t567shQZ5ri2iUMw4usmGSE47qq2eLgvTJ
+   A==;
+X-CSE-ConnectionGUID: E2ewzS4nTkiZ2mCzdLcOMw==
+X-CSE-MsgGUID: h4h7HkAJS7+7qMBC+pppyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="72152368"
 X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="66147842"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 08:13:30 -0700
-X-CSE-ConnectionGUID: QsmEd6zUTNqnT0GaVeEtLA==
-X-CSE-MsgGUID: 47IN3f/gR+WROpmruZ/DZw==
+   d="scan'208";a="72152368"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 08:44:28 -0700
+X-CSE-ConnectionGUID: pjrg+o48Tc+XXXZAwYa37w==
+X-CSE-MsgGUID: eEeP2rlcSbyraUeD5Kse/Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="187943702"
+   d="scan'208";a="161285518"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 14 Jul 2025 08:13:23 -0700
+  by orviesa003.jf.intel.com with ESMTP; 14 Jul 2025 08:44:27 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubKro-00092V-1w;
-	Mon, 14 Jul 2025 15:13:20 +0000
-Date: Mon, 14 Jul 2025 23:12:41 +0800
+	id 1ubLLs-00094B-0O;
+	Mon, 14 Jul 2025 15:44:24 +0000
+Date: Mon, 14 Jul 2025 23:43:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mario Limonciello <superm1@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Bjorn Helgaas <helgaas@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Simona Vetter <simona@ffwll.ch>, Lukas Wunner <lukas@wunner.de>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	"(open list:INTEL IOMMU (VT-d))" <iommu@lists.linux.dev>,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org,
-	linux-sound@vger.kernel.org, Daniel Dadap <ddadap@nvidia.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v7 8/9] fbcon: Use screen info to find primary device
-Message-ID: <202507142313.iWVTOSVB-lkp@intel.com>
-References: <20250706143613.1972252-9-superm1@kernel.org>
+To: kernel@openeuler.org, Tong Tiangen <tongtiangen@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-6.6 2509/2509] aarch64-linux-ld: Unexpected GOT/PLT
+ entries detected!
+Message-ID: <202507142303.gwvR0IYM-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,63 +61,29 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250706143613.1972252-9-superm1@kernel.org>
 
-Hi Mario,
+Hi Tong,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on pci/next]
-[also build test ERROR on pci/for-linus tiwai-sound/for-next tiwai-sound/for-linus tip/x86/core linus/master v6.16-rc6 next-20250714]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Mario-Limonciello/PCI-Add-helper-for-checking-if-a-PCI-device-is-a-display-controller/20250706-223745
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
-patch link:    https://lore.kernel.org/r/20250706143613.1972252-9-superm1%40kernel.org
-patch subject: [PATCH v7 8/9] fbcon: Use screen info to find primary device
-config: i386-randconfig-053-20250714 (https://download.01.org/0day-ci/archive/20250714/202507142313.iWVTOSVB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507142313.iWVTOSVB-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   bacbda61bd658b453d6e0f378d44480554480111
+commit: b991780c836ceb9a479c6c6e385e914b487e353a [2509/2509] arm64: introduce copy_mc_to_kernel() implementation
+config: arm64-randconfig-001-20250714 (https://download.01.org/0day-ci/archive/20250714/202507142303.gwvR0IYM-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507142303.gwvR0IYM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507142313.iWVTOSVB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507142303.gwvR0IYM-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: arch/x86/video/video-common.o: in function `video_is_primary_device':
->> arch/x86/video/video-common.c:45: undefined reference to `screen_info_pci_dev'
-
-
-vim +45 arch/x86/video/video-common.c
-
-    28	
-    29	bool video_is_primary_device(struct device *dev)
-    30	{
-    31		struct screen_info *si = &screen_info;
-    32		struct pci_dev *pdev;
-    33	
-    34		if (!dev_is_pci(dev))
-    35			return false;
-    36	
-    37		pdev = to_pci_dev(dev);
-    38	
-    39		if (!pci_is_display(pdev))
-    40			return false;
-    41	
-    42		if (pdev == vga_default_device())
-    43			return true;
-    44	
-  > 45		if (pdev == screen_info_pci_dev(si))
-    46			return true;
-    47	
-    48		return false;
-    49	}
-    50	EXPORT_SYMBOL(video_is_primary_device);
-    51	
+>> aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+>> aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: mm/kasan/shadow.o: in function `memcpy_mc':
+   shadow.c:(.text+0x504): undefined reference to `__memcpy_mc'
 
 -- 
 0-DAY CI Kernel Test Service
