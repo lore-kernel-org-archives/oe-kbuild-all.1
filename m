@@ -1,78 +1,58 @@
-Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64C59230BCC
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 20:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69C1E194A60
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 20:24:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752524482; cv=none; b=c6b731Rrq8xPEOZJrA0mwydn1x+I8cqMxzKescttYKMRChAt8ZUw0FFajjkb/zETQFmrNnrhTI7FA/pJ874C7UuHXGg9mgUC2E8tNexXgDO0GLmoVYmbyt/tEDXoJBznhRGaghiiwMMWVYmLlnmS0nfFpHQmrO052BQaO6JTvRg=
+	t=1752524647; cv=none; b=ZtiNKfphqW2X1Ougb35MboU3xuqyLB7BPknBD005O65mnW9VvyktMDGy3ymgYjjF9cSRlx3GPNw56Qv1Msp19j++XjCZttx9Ub60miNv2Yy9Flt3OBBoNaOER0CsVS6DwZBcGSmSkWf79ZL2G8Iqx1Y7NiAH09TKOzP616ScagE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752524482; c=relaxed/simple;
-	bh=wLTbNI2R07o+D1NepavmZiMm+whbnGVIgC6z4dt4U5Y=;
+	s=arc-20240116; t=1752524647; c=relaxed/simple;
+	bh=22i2J5hWdIztNiffuWPaL4fJVpe2SEHOyJ9gvSvwoqs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=aBSaWh+iwMy5cZBTjcmL6wsOD/7TZ+qkf0ThG5qOUsvPHu/Ko0QhmUkNyajRfxpX4x6mn9UWVf/wAKcRw5lB/DbG4TBeq7t8hozXcT03ieDglMa9PDnJBjPIa54Zf/0fJv7sSjY4WTOa2v9V7WJd/n+Lz/lJTSCIIGGu3LQLJjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HLVGoOgf; arc=none smtp.client-ip=209.85.167.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=fW/VSpvCxyeAb2iunrLP3WB1wYryRnNPFnWLrRqY3ExY8eYLsE2ifrDUKgzoWRdZOgrU1TE38rgsRfYn6C9VXNvBPjisNFItEBGEBnAWtsOOGzZIrMJQPjRgG0H1ee6PsRUvpT2nuGlMvGRMEbOk1iW38THOMJn3jefZ3rsT+Y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VMYZtWSS; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HLVGoOgf"
-Received: by mail-oi1-f176.google.com with SMTP id 5614622812f47-41baecbdd33so38072b6e.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 13:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752524479; x=1753129279; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ycdGmJV+qYX8wcokCOrkAh709cXQeQWK8C0X96xlypg=;
-        b=HLVGoOgfWTVPRN9bPOszED+McXVHQ4fLIXaft+EJqmpCVEtVJ5UuFlq35Q5i6+qkXK
-         w/zm9I+f4kFd1PKAzUZaHevkLSyh7Tg+WAPRYHBQrYCBuphLmkIifmDAbrc+YnkgaP1r
-         0E412gs7n+dFPgiuOwbVsGR3gsR86kwyHScmXRttw2X6a/6sdR6neyNaeBVA6J/qMgCk
-         VKAKtHeig4DADvdReOM0oVYqHKA1xobxTK9dHxRu9hJxbhlRfJs69g6WSdYe41ENVX5n
-         yltKcwgIXlj93on+fcAgbtsPAKSzjbNLtTo1mmQiXAeALFVgCBfrTZ0iaqELh7DCpRbX
-         MLIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752524479; x=1753129279;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ycdGmJV+qYX8wcokCOrkAh709cXQeQWK8C0X96xlypg=;
-        b=neF4ISdK0w+kBMKNDHWLquP6LxIFdkUVvqR4+vyhpXAS4RHsJH5ysnOVqRypRQ3IPv
-         9KeHfXi+HfG1jt89H3rXYWAGmuAukx3+/cHfghkrihBYX5r40XxiNKCe6q71/L9LrUiO
-         j9gB0GyVz/JGcAIyGCRkUyISjWoccQYZ5D28CWiwihI//vCC3pq+djzSOp8adR/4Chhy
-         gnl32tF4tm8T2AZorPCYodNynkTtdnrL4tvDvDIWZmg5d8nGWBt9BzI1qRTLB0W5tvDS
-         LGLaGDp0UMzD+Zc14Q/leglIPZ1jaONvFyu37LqQN8APX+HscQEoieXJ8Q11IU+Xuf9P
-         U12g==
-X-Forwarded-Encrypted: i=1; AJvYcCVXKMfM5EJpHtJlAb2eSYXP6tNCoQe21jGQro8b/oJUe14sliCrO2hpuECu496iWrzMYQjUUkeT/a8XKxcY@lists.linux.dev
-X-Gm-Message-State: AOJu0YySTnyj0xI8Eme5lz5oRrT7DrdhUopmZlHnbcjib9e01M2OQh72
-	wuXpOrvrJH/YrRWItcLxdYS2/tVn2yIInmDE4rlCrqM3mJ7ZjIv7h8TvdLd0RIT8HGU=
-X-Gm-Gg: ASbGncuXFN7vf5OkArd5tLh3xAx6lsRxaJEiLqWsLmrgj5FH66ByFwWsyG3YHiQG82d
-	pa2WwHWEtiZaIdGzxioKaXfWE0hw9iM+aQKHdHfmmRW7Hrx/a0nvutYdMoVGOtTdnZv9+qRNKAN
-	6KiGohw+fx2w7QKgtf8IT0nAuAEQ++LNjb7n9jvuc500j3DSlDAXyAHdAwnbMh+y1jjhXyWjnIZ
-	OoTPZVMR/vTRxlj8GcP7FTwiUCySE6HR5CQWT/ww4zGUOs+MvAInfeTzkbvF96OVvG4MKJ7jpno
-	xUyAJqVQN5uW0dF8qpFym0QUf19GEvjNX/kTzAJR3fUcotlqZax1k2ENR8t0O9pxP2UPGrxYAx6
-	EPkKrsMblipH4E8RDUyXnA+jR92ejag==
-X-Google-Smtp-Source: AGHT+IH+fwasq0/i0bYvELHjKa2oXJDxtEgu4bzO01bwJv4mdFLZ8rdbCcSBn37Olne122WdUzczHg==
-X-Received: by 2002:a05:6808:164d:b0:40a:526e:5e8a with SMTP id 5614622812f47-41537182f92mr8877421b6e.1.1752524479039;
-        Mon, 14 Jul 2025 13:21:19 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:6bb2:d90f:e5da:befc])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4141cb795c4sm1644290b6e.47.2025.07.14.13.21.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Jul 2025 13:21:18 -0700 (PDT)
-Date: Mon, 14 Jul 2025 23:21:17 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Remi Buisson via B4 Relay <devnull+remi.buisson.tdk.com@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, Remi Buisson <remi.buisson@tdk.com>
-Subject: Re: [PATCH v2 5/8] iio: imu: inv_icm45600: add I2C driver for
- inv_icm45600 driver
-Message-ID: <9d091fe4-3068-4e8b-8a9c-49c25036a216@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VMYZtWSS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752524645; x=1784060645;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=22i2J5hWdIztNiffuWPaL4fJVpe2SEHOyJ9gvSvwoqs=;
+  b=VMYZtWSSDkru2/r4PutuBR03XQmwUgosuKAAskRe9PPwY1CICVJjNQUR
+   s7EZQFJpaeaU38EShmJ+aPVCL925s7hpcbtQ/F7dkpih+u/tj6kvOgAmm
+   gCBBEoxyDLGDN2+DStvd9LMTfZUvQaKfWbV0hMZDrnxkcntB3sXvOZbVe
+   MHtdstnxVKThm3n5o7SoCqo35ASjG6MViK+47SXbp5UKF0P3VURD+CNkM
+   hM5BjiDpvGkIxZpNhFcXvRCvE82mMXwOT30pKKM3Ldo4ZUq0Oh7UuPNoT
+   QQs/anPtYDE8uLokb6dHHre2ix3t1rafrrPYT5B43ItPZ90LqU+6ppSjV
+   g==;
+X-CSE-ConnectionGUID: Wqd5Lss9RQaEF9R3NnWSYw==
+X-CSE-MsgGUID: jyFLXCPpSX2k7nf+4OSpFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="53838352"
+X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
+   d="scan'208";a="53838352"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 13:24:05 -0700
+X-CSE-ConnectionGUID: hmekbSenTsO6xO1wDYHmdg==
+X-CSE-MsgGUID: rqQHQxhbTOOAtDkyeGfNYw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
+   d="scan'208";a="161334824"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 14 Jul 2025 13:24:04 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ubPiU-0009IR-07;
+	Mon, 14 Jul 2025 20:24:02 +0000
+Date: Tue, 15 Jul 2025 04:24:00 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 9133/9557] ERROR: modpost: "utf8_casefold"
+ [fs/bcachefs/bcachefs.ko] undefined!
+Message-ID: <202507150409.sRu8hN54-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,69 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250710-add_newport_driver-v2-5-bf76d8142ef2@tdk.com>
 
-Hi Remi,
-
-kernel test robot noticed the following build warnings:
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Remi-Buisson-via-B4-Relay/dt-bindings-iio-imu-Add-inv_icm45600/20250710-170143
-base:   f8f559752d573a051a984adda8d2d1464f92f954
-patch link:    https://lore.kernel.org/r/20250710-add_newport_driver-v2-5-bf76d8142ef2%40tdk.com
-patch subject: [PATCH v2 5/8] iio: imu: inv_icm45600: add I2C driver for inv_icm45600 driver
-config: s390-randconfig-r073-20250712 (https://download.01.org/0day-ci/archive/20250713/202507130115.7g0XWB2E-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   0be23810e32e6d0a17df7c0ebad895ba2c210fc4
+commit: c7a5f0f01e24163162bf7811d3d7be196c200314 [9133/9557] bcachefs: More errcode conversions
+config: um-randconfig-002-20250714 (https://download.01.org/0day-ci/archive/20250715/202507150409.sRu8hN54-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150409.sRu8hN54-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202507130115.7g0XWB2E-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507150409.sRu8hN54-lkp@intel.com/
 
-smatch warnings:
-drivers/iio/imu/inv_icm45600/inv_icm45600_gyro.c:121 inv_icm45600_gyro_update_scan_mode() error: uninitialized symbol 'sleep'.
-drivers/iio/imu/inv_icm45600/inv_icm45600_accel.c:123 inv_icm45600_accel_update_scan_mode() error: uninitialized symbol 'sleep'.
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-vim +/sleep +121 drivers/iio/imu/inv_icm45600/inv_icm45600_gyro.c
-
-1fb5c2bf7348d0 Remi Buisson 2025-07-10   93  static int inv_icm45600_gyro_update_scan_mode(struct iio_dev *indio_dev,
-1fb5c2bf7348d0 Remi Buisson 2025-07-10   94  					      const unsigned long *scan_mask)
-1fb5c2bf7348d0 Remi Buisson 2025-07-10   95  {
-1fb5c2bf7348d0 Remi Buisson 2025-07-10   96  	struct inv_icm45600_state *st = iio_device_get_drvdata(indio_dev);
-1fb5c2bf7348d0 Remi Buisson 2025-07-10   97  	struct inv_icm45600_sensor_state *gyro_st = iio_priv(indio_dev);
-1fb5c2bf7348d0 Remi Buisson 2025-07-10   98  	struct inv_icm45600_sensor_conf conf = INV_ICM45600_SENSOR_CONF_INIT;
-1fb5c2bf7348d0 Remi Buisson 2025-07-10   99  	unsigned int fifo_en = 0;
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  100  	unsigned int sleep;
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  101  	int ret;
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  102  
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  103  	scoped_guard(mutex, &st->lock) {
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  104  		if (*scan_mask & BIT(INV_ICM45600_GYRO_SCAN_TEMP))
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  105  			fifo_en |= INV_ICM45600_SENSOR_TEMP;
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  106  
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  107  		if (*scan_mask & (BIT(INV_ICM45600_GYRO_SCAN_X) |
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  108  				 BIT(INV_ICM45600_GYRO_SCAN_Y) |
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  109  				 BIT(INV_ICM45600_GYRO_SCAN_Z))) {
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  110  			/* enable gyro sensor */
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  111  			conf.mode = gyro_st->power_mode;
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  112  			ret = inv_icm45600_set_gyro_conf(st, &conf, &sleep);
-
-sleep isn't necessarily set if nothing changed.
-
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  113  			if (ret)
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  114  				return ret;
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  115  			fifo_en |= INV_ICM45600_SENSOR_GYRO;
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  116  		}
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  117  		/* update data FIFO write */
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  118  		ret = inv_icm45600_buffer_set_fifo_en(st, fifo_en | st->fifo.en);
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  119  	}
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  120  	/* sleep required time */
-1fb5c2bf7348d0 Remi Buisson 2025-07-10 @121  	if (sleep)
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  122  		msleep(sleep);
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  123  
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  124  	return ret;
-1fb5c2bf7348d0 Remi Buisson 2025-07-10  125  }
+>> ERROR: modpost: "utf8_casefold" [fs/bcachefs/bcachefs.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
