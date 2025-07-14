@@ -1,59 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58BF833E1
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 13 Jul 2025 23:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3EAF15990C
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 00:51:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752448235; cv=none; b=K8n8VkuzhydohgUmvhufTMW1Wh7IF4nSceT+AQ2Xr2xx4VR/d1fUM7w1xSSFlVAtAfnIk0zycS0CojBD3HmvZM6o6FjZO0kQOqb7eOY5ONKmVd0MZPPjceWZkc1UH+/x2McJrLSGbVt/y6nSRi08DwnykCR0V5nb9H2/X704/Mc=
+	t=1752454305; cv=none; b=A4cWdnBEx1jcwxdI9yeHEEsI8ttP0mpna+87CgkFXVpEgVlT6ULNLXXNEIbB2YgKY0cy7U5tWw7TG4F8xmSjJNxzSgTTZhGMISbK4baToqEsCUUPumwQNyN4bSmxrhzcE2pnQwpaDECpEj/1oswO+56PLaDuqqrsNBVrd0zdmN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752448235; c=relaxed/simple;
-	bh=xwHHOQNQdVpLkPZIqbT1IhFUMADcEkfA0L7+Nt+84kU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=C7IKDI95wk1hyfM1rlCF+NzqzziQDKM1t4pJN7wfcqYwzoL75i3HUBIqGXIuz/+0XnE9xd4zv1K6Zmr+bcLkvAWbg+NIOUt6Dw3D1P5wYp8TdLCfKaoFSKdmbv74SRyw53lEIbN8X4PU605hlZxYzgHf+8kYF5ah4oXUlvcsLGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cC/8elcF; arc=none smtp.client-ip=192.198.163.17
+	s=arc-20240116; t=1752454305; c=relaxed/simple;
+	bh=1+sguk31ZPM7mDIsRtSsK9FeFCvoq25OnpwLLIVybKQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lexqRqY5hSctNhsunuxZ6UPaZoBi3xSlCjwlc0pd4eVJaLFc9OkR9ggyeFvd00wAt+uTEoFV/ICpVvDmyH0VPu6/DfgTtdSdiUQOGUsuya7QLiMGQi/Po6BkJDFoA5jfWXU5moGm4dfn2IHSM+3jUdAt4M7hPMOLrznHYFqqKAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FbwcSwyV; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cC/8elcF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FbwcSwyV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752448233; x=1783984233;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xwHHOQNQdVpLkPZIqbT1IhFUMADcEkfA0L7+Nt+84kU=;
-  b=cC/8elcFR2Vh9q7kXSDHP2QxhwyYh9rmsVK/ZiMwK8o8n+KECGhkRwcd
-   x/6VBVT5LMJxh/Xb5zQhRQc9EmAmK/2YVSrsT6dgtKqgHdMFgP6zD+bLu
-   Ui+hL0hxCyMSyZEaYdpVJuJRiuUT1xw9ZlCKC9+FXY4iPZOj+sO4S0c1I
-   5YyyVm1OHuy8yTQBTpE+hNm94bcvau0Ft+5DtvS4EskcM/enr/eLFfrHq
-   04aD8gt5w6xmw9RRg9uNPIoylHP00MqCSEWPMIJD7hltetAQti9XNtc0R
-   04dz1vDj9owp97T1a5CmumI71igAeJXwB01/kc2nw454tegVrhKZhAdLM
-   w==;
-X-CSE-ConnectionGUID: ONbkqYDKS6m3wPSS7sf0bQ==
-X-CSE-MsgGUID: opVnLlflT3ml5wawex1+gw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54578387"
+  t=1752454304; x=1783990304;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1+sguk31ZPM7mDIsRtSsK9FeFCvoq25OnpwLLIVybKQ=;
+  b=FbwcSwyVT1n8xUjSXiF2Q8Ylhug5aIPo+qVqwDcXk4ZsP/frjugQYSsW
+   bjOvkEEIcasw6FAe0Ie09eU+GuzRtDtD/uPO8t1e9QLO3fXAniBdenULp
+   LmpbJ8PAyJbIVC/7ht3SViRD5fVDza4+RGUIGSKqjzsFaSFXuMElE0cGx
+   nMAOhqMvDykZ1VLP5bGK+/XoAc98hq7nQ/1I4pSr5EViXjv64jQ+aMIzA
+   XXEIEhHtZjhwYzQbrRSS8ojcPYpYbdgbeJZm78UNLxLW4KCfVYXmcnjj0
+   xd2i7AEkQ7AlGAWImJ/eXpRtMgJXMREOyZ8fU2h9OTI49b4k0jvM/WtYF
+   Q==;
+X-CSE-ConnectionGUID: 5thXXsF7THmYL2Z1Xu6bdA==
+X-CSE-MsgGUID: ZdrP3zexT0C01H6lCkYdXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54613452"
 X-IronPort-AV: E=Sophos;i="6.16,309,1744095600"; 
-   d="scan'208";a="54578387"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2025 16:10:32 -0700
-X-CSE-ConnectionGUID: y4c4ElNISWOIU0ZgANMomQ==
-X-CSE-MsgGUID: tM/BYgMmTN6sn57Yx5+pCg==
+   d="scan'208";a="54613452"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jul 2025 17:51:43 -0700
+X-CSE-ConnectionGUID: kHd5RuKCQqqr/yZIGSbVwQ==
+X-CSE-MsgGUID: /QOqQbl1RUGtNzq4G0dlNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,309,1744095600"; 
-   d="scan'208";a="157537016"
+   d="scan'208";a="187802370"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 13 Jul 2025 16:10:30 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 13 Jul 2025 17:51:40 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ub5q0-0008Kx-2o;
-	Sun, 13 Jul 2025 23:10:28 +0000
-Date: Mon, 14 Jul 2025 07:09:44 +0800
+	id 1ub7Pu-0008O7-0p;
+	Mon, 14 Jul 2025 00:51:38 +0000
+Date: Mon, 14 Jul 2025 08:51:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: Inochi Amaoto <inochiama@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Chen Wang <unicorn_wang@outlook.com>
-Subject: [linux-next:master 8201/9053]
- arch/riscv/boot/dts/sophgo/cv1800b-milkv-duo.dtb: mdio@3009800
- (mdio-mux-mmioreg): mdio@80:reg:0:0: 128 is greater than the maximum of 31
-Message-ID: <202507140738.XRjv3G8i-lkp@intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Keke Li <keke.li@amlogic.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Dan Scally <dan.scally@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH v2 5/8] media: v4l2-common: Introduce v4l2-params.c
+Message-ID: <202507140820.LDrwmHML-lkp@intel.com>
+References: <20250710-extensible-parameters-validation-v2-5-7ec8918ec443@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,35 +72,77 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250710-extensible-parameters-validation-v2-5-7ec8918ec443@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   a62b7a37e6fcf4a675b1548e7c168b96ec836442
-commit: a4fb40b240fecc3cf84e12277e5b66818a80e3ad [8201/9053] riscv: dts: sophgo: Add mdio multiplexer device for cv18xx
-config: riscv-randconfig-052-20250714 (https://download.01.org/0day-ci/archive/20250714/202507140738.XRjv3G8i-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507140738.XRjv3G8i-lkp@intel.com/reproduce)
+Hi Jacopo,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on a8598c7de1bcd94461ca54c972efa9b4ea501fb9]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-uapi-Introduce-V4L2-extensible-params/20250710-215847
+base:   a8598c7de1bcd94461ca54c972efa9b4ea501fb9
+patch link:    https://lore.kernel.org/r/20250710-extensible-parameters-validation-v2-5-7ec8918ec443%40ideasonboard.com
+patch subject: [PATCH v2 5/8] media: v4l2-common: Introduce v4l2-params.c
+config: x86_64-randconfig-008-20250713 (https://download.01.org/0day-ci/archive/20250714/202507140820.LDrwmHML-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507140820.LDrwmHML-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507140738.XRjv3G8i-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507140820.LDrwmHML-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/riscv/boot/dts/sophgo/cv1800b-milkv-duo.dtb: /soc/reset-controller@3003000: failed to match any schema with compatible: ['sophgo,cv1800b-reset']
->> arch/riscv/boot/dts/sophgo/cv1800b-milkv-duo.dtb: mdio@3009800 (mdio-mux-mmioreg): mdio@80:reg:0:0: 128 is greater than the maximum of 31
-   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
-   arch/riscv/boot/dts/sophgo/cv1800b-milkv-duo.dtb: /soc/ethernet@4070000: failed to match any schema with compatible: ['sophgo,cv1800b-dwmac', 'snps,dwmac-3.70a']
---
-   arch/riscv/boot/dts/sophgo/cv1812h-huashan-pi.dtb: /soc/reset-controller@3003000: failed to match any schema with compatible: ['sophgo,cv1800b-reset']
->> arch/riscv/boot/dts/sophgo/cv1812h-huashan-pi.dtb: mdio@3009800 (mdio-mux-mmioreg): mdio@80:reg:0:0: 128 is greater than the maximum of 31
-   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
-   arch/riscv/boot/dts/sophgo/cv1812h-huashan-pi.dtb: /soc/ethernet@4070000: failed to match any schema with compatible: ['sophgo,cv1800b-dwmac', 'snps,dwmac-3.70a']
---
-   arch/riscv/boot/dts/sophgo/sg2002-licheerv-nano-b.dtb: /soc/reset-controller@3003000: failed to match any schema with compatible: ['sophgo,cv1800b-reset']
->> arch/riscv/boot/dts/sophgo/sg2002-licheerv-nano-b.dtb: mdio@3009800 (mdio-mux-mmioreg): mdio@80:reg:0:0: 128 is greater than the maximum of 31
-   	from schema $id: http://devicetree.org/schemas/net/mdio.yaml#
-   arch/riscv/boot/dts/sophgo/sg2002-licheerv-nano-b.dtb: /soc/ethernet@4070000: failed to match any schema with compatible: ['sophgo,cv1800b-dwmac', 'snps,dwmac-3.70a']
+All errors (new ones prefixed by >>):
+
+   ld: drivers/media/v4l2-core/v4l2-params.o: in function `v4l2_params_buffer_validate':
+>> drivers/media/v4l2-core/v4l2-params.c:16: undefined reference to `vb2_plane_vaddr'
+
+
+vim +16 drivers/media/v4l2-core/v4l2-params.c
+
+    10	
+    11	int v4l2_params_buffer_validate(struct device *dev, struct vb2_buffer *vb,
+    12					size_t max_size,
+    13					v4l2_params_validate_buffer buffer_validate)
+    14	{
+    15		size_t header_size = offsetof(struct v4l2_params_buffer, data);
+  > 16		struct v4l2_params_buffer *buffer = vb2_plane_vaddr(vb, 0);
+    17		size_t payload_size = vb2_get_plane_payload(vb, 0);
+    18		size_t buffer_size;
+    19		int ret;
+    20	
+    21		/* Payload size can't be greater than the destination buffer size */
+    22		if (payload_size > max_size) {
+    23			dev_dbg(dev, "Payload size is too large: %zu\n", payload_size);
+    24			return -EINVAL;
+    25		}
+    26	
+    27		/* Payload size can't be smaller than the header size */
+    28		if (payload_size < header_size) {
+    29			dev_dbg(dev, "Payload size is too small: %zu\n", payload_size);
+    30			return -EINVAL;
+    31		}
+    32	
+    33		/* Validate the size reported in the parameter buffer header */
+    34		buffer_size = header_size + buffer->data_size;
+    35		if (buffer_size != payload_size) {
+    36			dev_dbg(dev, "Data size %zu and payload size %zu are different\n",
+    37				buffer_size, payload_size);
+    38			return -EINVAL;
+    39		}
+    40	
+    41		/* Driver-specific buffer validation. */
+    42		if (buffer_validate) {
+    43			ret = buffer_validate(dev, buffer);
+    44			if (ret)
+    45				return ret;
+    46		}
+    47	
+    48		return 0;
+    49	}
+    50	EXPORT_SYMBOL_GPL(v4l2_params_buffer_validate);
+    51	
 
 -- 
 0-DAY CI Kernel Test Service
