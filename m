@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFF8A24A047;
-	Mon, 14 Jul 2025 14:20:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08997257AF9
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 14:53:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752502820; cv=none; b=GsYP5xhVexoI/QHbx3Ukr0z2Jt2cYKFzM3f7OZ4x3Wy20g9I2ccZoy59j25je3TYKWmx/8GNeK/39jybUw1xVtzQZqfxUsw8LNgFGOr9UZQWJ3QW1wPDUMakb5iyXBV4kZKiMqYA3Ues1o605xzjc+KLc/bBAKDoGBMGKNi4QQU=
+	t=1752504805; cv=none; b=aV57q/NRH7n1hQS46fiVFm6LaIsr916e1V2RmxujasD9ilturerIbvbhPQJrtjOb/tGOMjqI2yr+HraAX5YynvpbBCcaH29xA1EvzbQTIOarrIORRNcmEj/TQ44he+WDim0KE1iRVtm+q1DXdnZ0o7Xp7PB/iYYBNginu9dJJ14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752502820; c=relaxed/simple;
-	bh=AE1OIQ409CAx+zIQEdBMxWN6IpNKGgr+mxRM1H46uI0=;
+	s=arc-20240116; t=1752504805; c=relaxed/simple;
+	bh=FUSEldgjRKxrtwmVnbDWvOpVW1uGD9C6/BCr7aGjWZk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M1ynNsi79GObGIxEUuf0dLtBJI6e2iLeXmXDcpwk/jlQVwWxBYfnNuHvA9kO4H/L+SkdYq8piWGGuUjYkKwyhmCHHV8JVhzUd1lC7KKBLR0q1pP0FVGdvKMA9FJjqI6PRzak2h7NBFel4jEPpQRdXvgfksVNP9psztvEf+6RYrs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=km68Ja7K; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=DbdGm6rLbiIEWeq4T5srXxO9jRMN/lKeJupicNRe2rrdXqcS3B21kzj0WVdqrpYyXslkiBbuGP+ZCTeEjPePotmFZyRkRg2sEp4e4IufTZv3RRBotowQLozcV5mmphMrDddNYfLwroG/+RQDME7eOOUgjYT3+HmrQlDa64UZ6Xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kLzPrUFm; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="km68Ja7K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kLzPrUFm"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752502819; x=1784038819;
+  t=1752504802; x=1784040802;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AE1OIQ409CAx+zIQEdBMxWN6IpNKGgr+mxRM1H46uI0=;
-  b=km68Ja7KMgzindeR2QUmxPoKPZrKke8feNgJzMg1E6+gDxe90935kzr2
-   JZ4ensV9gEVurtpldktsyt2MpjWScIy9+Lc2052SSjRu/JfFOoTxfaZf/
-   a5De/coYdqKT5ry0iRLVE9PBmpD4xzLxxJaMksf4QAhD3vT+sUQudG8gd
-   pjJqu2YJv7Cs4J2KhPXXx+VYmT87fsg2LZQVgZf41TUsmWRXT/MDip/3J
-   GyMmHGQzzCvr1rhFWEF8XLfZ/z7pJ2ReXxHjnuJ+hjFD5w9M9QoNU+MHo
-   AFZry2r8KPgFPfSyu/wDrcCOvYL16+Y4USyRI0ojW8EOZGb3FYx7ONHXT
+  bh=FUSEldgjRKxrtwmVnbDWvOpVW1uGD9C6/BCr7aGjWZk=;
+  b=kLzPrUFmYhFnaej//lZGcxKExd4Z/owmWQ2OktAnA6WgRnr8fdGUl62p
+   Rz/RyfAehyEkoscRRvP33x1yk+hrvQZQwY7CEQgjrVjbpkXopfeGoV7g8
+   FCEItJSum4W5PHCv4kuf6k2zIIgO4ON4x1k/9T55EnQhe/qiGAnT7FKY0
+   p4WNXmC2HLWCC8shYsa94AF+V6mmpO0Lw7f99q8aeEX0J96C6bkZ6ItEr
+   6t8nAf7n7KKmHAtfhjv9D7P5oF+J7LAUwoB8dQVgIGDM91URng4G5KgRl
+   KZw8dBHnH7mve2Q6RrwlsW2WkKgCoTvYVuJS5Koxbq8Pz1cIJOb6ovN6x
    A==;
-X-CSE-ConnectionGUID: HH5Sem/YThqepw/kpKLAog==
-X-CSE-MsgGUID: QLolQrKDT/K2ygf/pxqaEw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="58464591"
+X-CSE-ConnectionGUID: 13owdtwgSySqWP6T5g5Bhw==
+X-CSE-MsgGUID: HI2a00yVT6qz6ZjkdespnA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="65399616"
 X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="58464591"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 07:20:19 -0700
-X-CSE-ConnectionGUID: qtke/G0KSJ+okN245tysrQ==
-X-CSE-MsgGUID: vgm56rzYRXG8ryMb/XzimQ==
+   d="scan'208";a="65399616"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 07:53:21 -0700
+X-CSE-ConnectionGUID: WaNC1ftcQ66UXi6rlA/fbA==
+X-CSE-MsgGUID: g2uyV+N8SF2l9IZtCZyp6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="156358250"
+   d="scan'208";a="156750456"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 14 Jul 2025 07:20:17 -0700
+  by orviesa009.jf.intel.com with ESMTP; 14 Jul 2025 07:53:20 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubK2Q-000907-2c;
-	Mon, 14 Jul 2025 14:20:14 +0000
-Date: Mon, 14 Jul 2025 22:19:58 +0800
+	id 1ubKYP-000918-26;
+	Mon, 14 Jul 2025 14:53:17 +0000
+Date: Mon, 14 Jul 2025 22:52:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [thomas-weissschuh:b4/vdso-has-macros 7/7]
- include/vdso/gettime.h:11:33: warning: '_Static_assert' with no message is a
- C23 extension
-Message-ID: <202507142249.Hm3kmAqi-lkp@intel.com>
+To: Serge Semin <fancer.lancer@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: arch/arc/include/asm/io.h:139: Error: inappropriate arguments for
+ opcode 'stw'
+Message-ID: <202507142219.ROyOoLsc-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,103 +62,49 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/vdso-has-macros
-head:   51063ab687181b4aec3cfdb1def38e50381918b8
-commit: 51063ab687181b4aec3cfdb1def38e50381918b8 [7/7] deleteme
-config: i386-buildonly-randconfig-002-20250714 (https://download.01.org/0day-ci/archive/20250714/202507142249.Hm3kmAqi-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507142249.Hm3kmAqi-lkp@intel.com/reproduce)
+Hi Serge,
+
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   347e9f5043c89695b01e66b3ed111755afcf1911
+commit: f6bb3e9d98c2e8d70587d5ddaf9426ef30d7865c net: pcs: xpcs: Add Synopsys DW xPCS platform device driver
+date:   1 year ago
+config: arc-axs103_smp_defconfig (https://download.01.org/0day-ci/archive/20250714/202507142219.ROyOoLsc-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507142219.ROyOoLsc-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507142249.Hm3kmAqi-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507142219.ROyOoLsc-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/x86/entry/vdso/vdso32/vclock_gettime.c:4:
-   In file included from arch/x86/entry/vdso/vdso32/../vclock_gettime.c:14:
->> include/vdso/gettime.h:11:33: warning: '_Static_assert' with no message is a C23 extension [-Wc23-extensions]
-      11 | _Static_assert(sizeof(long) == 4);
-         |                                 ^
-         |                                 , ""
-   In file included from arch/x86/entry/vdso/vdso32/vclock_gettime.c:4:
-   In file included from arch/x86/entry/vdso/vdso32/../vclock_gettime.c:16:
-   In file included from arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:5:
-   In file included from include/vdso/datapage.h:197:
-   In file included from arch/x86/include/asm/vdso/gettimeofday.h:20:
-   In file included from include/clocksource/hyperv_timer.h:16:
-   In file included from include/linux/clocksource.h:19:
-   In file included from include/linux/of.h:18:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:16:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:20:
-   include/linux/page-flags-layout.h:36:44: warning: '_Static_assert' with no message is a C23 extension [-Wc23-extensions]
-      36 | _Static_assert(!IS_ENABLED(BUILD_VDSO32_64));
-         |                                            ^
-         |                                            , ""
-   In file included from arch/x86/entry/vdso/vdso32/vclock_gettime.c:4:
-   In file included from arch/x86/entry/vdso/vdso32/../vclock_gettime.c:16:
-   In file included from arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:5:
-   In file included from include/vdso/datapage.h:197:
-   In file included from arch/x86/include/asm/vdso/gettimeofday.h:20:
-   In file included from include/clocksource/hyperv_timer.h:16:
-   In file included from include/linux/clocksource.h:19:
-   In file included from include/linux/of.h:18:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:16:
-   In file included from include/linux/gfp.h:7:
-   In file included from include/linux/mmzone.h:22:
-   In file included from include/linux/mm_types.h:12:
-   include/linux/maple_tree.h:27:44: warning: '_Static_assert' with no message is a C23 extension [-Wc23-extensions]
-      27 | _Static_assert(!IS_ENABLED(BUILD_VDSO32_64));
-         |                                            ^
-         |                                            , ""
-   In file included from arch/x86/entry/vdso/vdso32/vclock_gettime.c:4:
-   In file included from arch/x86/entry/vdso/vdso32/../vclock_gettime.c:16:
-   In file included from arch/x86/entry/vdso/vdso32/../../../../../lib/vdso/gettimeofday.c:5:
-   In file included from include/vdso/datapage.h:197:
-   In file included from arch/x86/include/asm/vdso/gettimeofday.h:20:
-   In file included from include/clocksource/hyperv_timer.h:16:
-   In file included from include/linux/clocksource.h:19:
-   In file included from include/linux/of.h:18:
-   In file included from include/linux/kobject.h:20:
-   In file included from include/linux/sysfs.h:16:
-   In file included from include/linux/kernfs.h:12:
-   In file included from include/linux/idr.h:15:
-   In file included from include/linux/radix-tree.h:21:
-   In file included from include/linux/xarray.h:16:
-   In file included from include/linux/gfp.h:7:
-   include/linux/mmzone.h:1122:44: warning: '_Static_assert' with no message is a C23 extension [-Wc23-extensions]
-    1122 | _Static_assert(!IS_ENABLED(BUILD_VDSO32_64));
-         |                                            ^
-         |                                            , ""
-   4 warnings generated.
+   arch/arc/include/asm/io.h: Assembler messages:
+>> arch/arc/include/asm/io.h:139: Error: inappropriate arguments for opcode 'stw'
+>> arch/arc/include/asm/io.h:139: Error: inappropriate arguments for opcode 'stw'
+>> arch/arc/include/asm/io.h:139: Error: inappropriate arguments for opcode 'stw'
 
 
-vim +/_Static_assert +11 include/vdso/gettime.h
+vim +/stw +139 arch/arc/include/asm/io.h
 
-     9	
-    10	#if !defined(CONFIG_64BIT) || defined(BUILD_VDSO32_64)
-  > 11	_Static_assert(sizeof(long) == 4);
-    12	struct old_timespec32;
-    13	int __vdso_clock_getres(clockid_t clock, struct old_timespec32 *res);
-    14	int __vdso_clock_gettime(clockid_t clock, struct old_timespec32 *ts);
-    15	#else
-    16	_Static_assert(sizeof(long) == 8);
-    17	int __vdso_clock_getres(clockid_t clock, struct __kernel_timespec *res);
-    18	int __vdso_clock_gettime(clockid_t clock, struct __kernel_timespec *ts);
-    19	#endif
-    20	
+1162b0701b14ba Vineet Gupta 2013-01-18  135  
+1162b0701b14ba Vineet Gupta 2013-01-18  136  #define __raw_writew __raw_writew
+1162b0701b14ba Vineet Gupta 2013-01-18  137  static inline void __raw_writew(u16 s, volatile void __iomem *addr)
+1162b0701b14ba Vineet Gupta 2013-01-18  138  {
+1162b0701b14ba Vineet Gupta 2013-01-18 @139  	__asm__ __volatile__(
+1162b0701b14ba Vineet Gupta 2013-01-18  140  	"	stw%U1 %0, %1	\n"
+1162b0701b14ba Vineet Gupta 2013-01-18  141  	:
+1162b0701b14ba Vineet Gupta 2013-01-18  142  	: "r" (s), "m" (*(volatile u16 __force *)addr)
+1162b0701b14ba Vineet Gupta 2013-01-18  143  	: "memory");
+1162b0701b14ba Vineet Gupta 2013-01-18  144  
+
+:::::: The code at line 139 was first introduced by commit
+:::::: 1162b0701b14ba112d4e3fe5c27c694caf983539 ARC: I/O and DMA Mappings
+
+:::::: TO: Vineet Gupta <vgupta@synopsys.com>
+:::::: CC: Vineet Gupta <vgupta@synopsys.com>
 
 -- 
 0-DAY CI Kernel Test Service
