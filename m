@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1B70233712
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AFE122127C
 	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 22:49:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752533375; cv=none; b=tosrh9oMuRXfJNSx6jTik5gM4McLTuzn4osRvM5zVgwzhKHSOmODDxUO1NaBug36hMk5S/FYji6E6Y5EgyFbbJgvJO63hxbyXARG1nuhxWQOcJqsDDgpn3VfNrVE4XJPWMIduHbUFUrsP6sEHLIW7qn9bGJ3dInTPq2ut2x5D6g=
+	t=1752533376; cv=none; b=dsze2g4eFPrdXHnY7nLQ9uYz1CdIi40Gds7qRKmcr9Qe3m8BXVE/JFL2gO52reZ7FrO4SvIaLYjK7bHTkvXZXhswFjmvQCSx4QrzEbrydSShYD+jfQIw850OQhg74xo4wdGAngqVyCePn/qlqZeIJr28Pmkq2pKDBg7hZ47Fy20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752533375; c=relaxed/simple;
-	bh=l6UDni9DuYqBURD9Ew8aIuj1tCLmtAiWwS9gvje41OA=;
+	s=arc-20240116; t=1752533376; c=relaxed/simple;
+	bh=sdrtmEaKjUsyBMg5s3VhIz8zPd0e41+pq19DXeFUsmA=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=He1zDG1cbmko9If8HpVELOKu31cKZ4+i+t4RiW233l4XHgDIuP+qG0P7/ZgRB/lpqQjCD9rY7Pg4RMB8Vn34dKaij0q9+BeFQwtk5LRiBTLV8YqcemO/XN/opSlGQHU0h/yiFEe54zgifJ0r2KujY5yvHhTZi9+y3cazxe2WiWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LbSqJ2qZ; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=WGSpeDzcAbbk11UIAcS/BcqI+bmTUXj6qbtuii3pwFf5X8fTeRnhl64fopqk5dTfAb+2BDLrh4gQitu1/5B4UmWaScb8xnSyRla8GcPCe/KP5uS1GSV8hfdFqF34eW7GF07adAFjrh8Eu2GE7UJzmACkFnHzwSe/4BM6JsAbQaE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hc4iOhSQ; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LbSqJ2qZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hc4iOhSQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1752533373; x=1784069373;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=l6UDni9DuYqBURD9Ew8aIuj1tCLmtAiWwS9gvje41OA=;
-  b=LbSqJ2qZ7bf8zYA4K2Y2jBJlIxHLnkPFQcfg0QZfCIEYhYIqXZuR0u8x
-   6lhXszA3gFuH6WnLzipNPyLpeqEodZVUTiRKM3WF1kahdUodAz601nCQk
-   s6OCdL2Lyn6p5HQVMQzeo5y8rxeZvUHviNGZVEM9y9eZLkiVMk56VO0s6
-   ccOSKufYeaWS7Eik3tE3hYxkpmu+Leb7BXJF/Xo/6yDb4r9ao8TswRCQz
-   ubYYThzpZQvKs9r1cvzXcDvA0ECSFqtVpJiAd8daf65wyAheBIwy80bF9
-   r3kqc/iFl71+ZlOO7oW0HwKcUH0FDoh1P/Y/d2urJi7Eip6+enSs8Ox17
-   Q==;
-X-CSE-ConnectionGUID: FEIQvapmQgWj2BGGVmGqxQ==
-X-CSE-MsgGUID: OMIOKZyxRty0SyGYvP7R8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="80180646"
+  bh=sdrtmEaKjUsyBMg5s3VhIz8zPd0e41+pq19DXeFUsmA=;
+  b=hc4iOhSQmo91v0iP+FgGinSwgXfgm89pVDd4c7BZQB81ADz/ffkgbf/F
+   /EX9tz9XDFf9EpSacFDgLywRNRO/s3Dd+kK5OLli1j/U4wTOnQ/0BUOAd
+   ps1DdRnVxlPGWta3ACvexgsxJJ6zUfTlRXCI9LKpUtJyl4Pz4mPMJzet9
+   csoBQWq7IqaG43VJHqOLizVPAiaDaJIgfImhwxlB7H1eeDPCqLfnG49R8
+   igK58y/6/0Krc+c/JX1BQ9L+f+z8Ve0LsK/13DRpGxG7hYvhXOoxm2/Lp
+   ya8BcDNu/wSsNj09xKb2BywtS3r3nEIvWBT6GRYjKbMrsp6hT+CpL3zUl
+   A==;
+X-CSE-ConnectionGUID: GZMmW3B2Skm6f4su3W2WYg==
+X-CSE-MsgGUID: wkQxTDKBQqWXpPoVfM9vlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54711053"
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="80180646"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 15:49:32 -0700
-X-CSE-ConnectionGUID: Iwd9f5IzQESvVg3IQtJPbw==
-X-CSE-MsgGUID: AMc66lrAT8q0Mb0sX6XD6w==
+   d="scan'208";a="54711053"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 15:49:33 -0700
+X-CSE-ConnectionGUID: +JzEyOlGSTWFSv0grsrfIA==
+X-CSE-MsgGUID: 93haTxWbROaKu5KhBJtSAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="161069989"
+   d="scan'208";a="157602070"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 14 Jul 2025 15:49:31 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 14 Jul 2025 15:49:31 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubRzF-0009Q5-1P;
+	id 1ubRzF-0009Q7-1T;
 	Mon, 14 Jul 2025 22:49:29 +0000
-Date: Tue, 15 Jul 2025 06:48:58 +0800
+Date: Tue, 15 Jul 2025 06:48:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 142/167] include/linux/cleanup.h:277:2:
- error: a label can only be part of a statement and a declaration is not a
- statement
-Message-ID: <202507150642.hTzHnoN9-lkp@intel.com>
+To: Asad Kamal <asad.kamal@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Lijo Lazar <lijo.lazar@amd.com>,
+	Hawking Zhang <Hawking.Zhang@amd.com>
+Subject: drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_12_ppt.c:273:5-8:
+ Unneeded variable: "ret". Return "0" on line 329
+Message-ID: <202507150618.WOfvWsQF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,53 +65,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   682a2b74b475e6c88226463a4679ec820c56a29e
-commit: 0d58694b02635821a42baea7a8c540e76a3aa505 [142/167] bcachefs: convert buckets.c to CLASS/guards
-config: arm-randconfig-002-20250715 (https://download.01.org/0day-ci/archive/20250715/202507150642.hTzHnoN9-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150642.hTzHnoN9-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   347e9f5043c89695b01e66b3ed111755afcf1911
+commit: 0b4119d54b17618c2ddb04a2af5bf5ebe24121e3 drm/amd/pm: Use separate metrics table for smu_v13_0_12
+date:   5 months ago
+config: arm-randconfig-r064-20250714 (https://download.01.org/0day-ci/archive/20250715/202507150618.WOfvWsQF-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 01c97b4953e87ae455bd4c41e3de3f0f0f29c61c)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507150642.hTzHnoN9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507150618.WOfvWsQF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_12_ppt.c:273:5-8: Unneeded variable: "ret". Return "0" on line 329
 
-   In file included from include/linux/irqflags.h:17,
-                    from arch/arm/include/asm/bitops.h:28,
-                    from include/linux/bitops.h:67,
-                    from include/linux/radix-tree.h:11,
-                    from include/linux/backing-dev-defs.h:6,
-                    from fs/bcachefs/bcachefs.h:196,
-                    from fs/bcachefs/buckets.c:8:
-   fs/bcachefs/buckets.c: In function '__bch2_disk_reservation_add':
->> include/linux/cleanup.h:277:2: error: a label can only be part of a statement and a declaration is not a statement
-     277 |  class_##_name##_t var __cleanup(class_##_name##_destructor) = \
-         |  ^~~~~~
-   include/linux/cleanup.h:338:2: note: in expansion of macro 'CLASS'
-     338 |  CLASS(_name, __UNIQUE_ID(guard))
-         |  ^~~~~
-   fs/bcachefs/buckets.c:1231:2: note: in expansion of macro 'guard'
-    1231 |  guard(mutex)(&c->sectors_available_lock);
-         |  ^~~~~
+vim +273 drivers/gpu/drm/amd/pm/swsmu/smu13/smu_v13_0_12_ppt.c
 
-
-vim +277 include/linux/cleanup.h
-
-54da6a0924311c Peter Zijlstra 2023-05-26  275  
-54da6a0924311c Peter Zijlstra 2023-05-26  276  #define CLASS(_name, var)						\
-54da6a0924311c Peter Zijlstra 2023-05-26 @277  	class_##_name##_t var __cleanup(class_##_name##_destructor) =	\
-54da6a0924311c Peter Zijlstra 2023-05-26  278  		class_##_name##_constructor
-54da6a0924311c Peter Zijlstra 2023-05-26  279  
-54da6a0924311c Peter Zijlstra 2023-05-26  280  
-
-:::::: The code at line 277 was first introduced by commit
-:::::: 54da6a0924311c7cf5015533991e44fb8eb12773 locking: Introduce __cleanup() based infrastructure
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
+   265	
+   266	int smu_v13_0_12_get_smu_metrics_data(struct smu_context *smu,
+   267					      MetricsMember_t member,
+   268					      uint32_t *value)
+   269	{
+   270		struct smu_table_context *smu_table = &smu->smu_table;
+   271		MetricsTable_t *metrics = (MetricsTable_t *)smu_table->metrics_table;
+   272		struct amdgpu_device *adev = smu->adev;
+ > 273		int ret = 0;
+   274		int xcc_id;
+   275	
+   276		/* For clocks with multiple instances, only report the first one */
+   277		switch (member) {
+   278		case METRICS_CURR_GFXCLK:
+   279		case METRICS_AVERAGE_GFXCLK:
+   280			xcc_id = GET_INST(GC, 0);
+   281			*value = SMUQ10_ROUND(metrics->GfxclkFrequency[xcc_id]);
+   282			break;
+   283		case METRICS_CURR_SOCCLK:
+   284		case METRICS_AVERAGE_SOCCLK:
+   285			*value = SMUQ10_ROUND(metrics->SocclkFrequency[0]);
+   286			break;
+   287		case METRICS_CURR_UCLK:
+   288		case METRICS_AVERAGE_UCLK:
+   289			*value = SMUQ10_ROUND(metrics->UclkFrequency);
+   290			break;
+   291		case METRICS_CURR_VCLK:
+   292			*value = SMUQ10_ROUND(metrics->VclkFrequency[0]);
+   293			break;
+   294		case METRICS_CURR_DCLK:
+   295			*value = SMUQ10_ROUND(metrics->DclkFrequency[0]);
+   296			break;
+   297		case METRICS_CURR_FCLK:
+   298			*value = SMUQ10_ROUND(metrics->FclkFrequency);
+   299			break;
+   300		case METRICS_AVERAGE_GFXACTIVITY:
+   301			*value = SMUQ10_ROUND(metrics->SocketGfxBusy);
+   302			break;
+   303		case METRICS_AVERAGE_MEMACTIVITY:
+   304			*value = SMUQ10_ROUND(metrics->DramBandwidthUtilization);
+   305			break;
+   306		case METRICS_CURR_SOCKETPOWER:
+   307			*value = SMUQ10_ROUND(metrics->SocketPower) << 8;
+   308			break;
+   309		case METRICS_TEMPERATURE_HOTSPOT:
+   310			*value = SMUQ10_ROUND(metrics->MaxSocketTemperature) *
+   311				 SMU_TEMPERATURE_UNITS_PER_CENTIGRADES;
+   312			break;
+   313		case METRICS_TEMPERATURE_MEM:
+   314			*value = SMUQ10_ROUND(metrics->MaxHbmTemperature) *
+   315				 SMU_TEMPERATURE_UNITS_PER_CENTIGRADES;
+   316			break;
+   317		/* This is the max of all VRs and not just SOC VR.
+   318		 * No need to define another data type for the same.
+   319		 */
+   320		case METRICS_TEMPERATURE_VRSOC:
+   321			*value = SMUQ10_ROUND(metrics->MaxVrTemperature) *
+   322				 SMU_TEMPERATURE_UNITS_PER_CENTIGRADES;
+   323			break;
+   324		default:
+   325			*value = UINT_MAX;
+   326			break;
+   327		}
+   328	
+ > 329		return ret;
+   330	}
+   331	
 
 -- 
 0-DAY CI Kernel Test Service
