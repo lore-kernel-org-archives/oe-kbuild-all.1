@@ -1,58 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E678719F43A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 15:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 467DB23D280
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 14 Jul 2025 16:04:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752507869; cv=none; b=rAeecZ77n9T+j1PJzLQFRDwiY2YR6VeHQHyLhDypK+FJFidXgRLqZ+LE97QhwDL1b5pEqFUzVVIgK6dXqxpP1LoRlzZ6a+z/CyLGFFDmC3PcrKpvK8WXes7NSE6xzGtmj9Lm6fcxPmOojkgV+K3qfeOYNCPmQ/zcAYUypOh5sKg=
+	t=1752509074; cv=none; b=GDCjyetFBdSLhm7oclIiij5xO16MfFKBStyWbfUCQyTdMpspYyMJ3QrpdYnOdQ6M9t99v+A//ZC+54P84fQJLVjZZgnVN0gJbudD5NHB3wN8aMgdXY2xz1DzmGMkQUsAV6AzA6zIYRtAVhTBEgwXCpdfQzKhMwSysy+urPG0NTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752507869; c=relaxed/simple;
-	bh=5WxlMYWSS05MC5okwdm3AB+OhjDi8B9A+2xOeCdGWYs=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bNhO9nDR55K38pgjxYr0I9/c9pmpkU5MHrCV/D5UXJIkZigli1frK4KnFZWCHDfRm4RCwZJF3Ob9HBo1+PV/5JJsruC9xgA/y96GvI4RA8bFuoGf6aruf2YDwj49rcJ7UzaxfmwTmY3qbVPdEOug370U35qgTmRLbdz1BgDwC18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=crjJsNB+; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1752509074; c=relaxed/simple;
+	bh=+z7pdLCd9aOU0paR7ZfIkOBpV4ViwruGm1soXm9IVC0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TVC7SuVHSzIYfWeUMy7Uf5irMiejcFPVvzWQVKZI2dLtaSU+hc5XMf0ti74fPIGBHONtFBE1flWZrnV1+3rgRta48Q+VzUgH5ZdYbpRbVLuRCePHqGw5XYTT4/AdvYo0S/j0q0/BwaOmlgy+D6Mp/XcdAFIeEVkpnFEWsTm2e3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B891QQtA; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="crjJsNB+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B891QQtA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752507868; x=1784043868;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=5WxlMYWSS05MC5okwdm3AB+OhjDi8B9A+2xOeCdGWYs=;
-  b=crjJsNB+3X8vJ8hu8RSFW2n0coD0uBmGukH5eZReOM8EFdiPk0W8QWC6
-   MIgaFTJmb8g5hmWIjORAWk0ORbQxPdCgY9fTd4i5kwOXsHK/7KCkW/Plc
-   J1wZgIxjRBdegkQswWQh5M06+0G5gVcCwBC8/gybeacPoYANbtgezxXee
-   eEHegnDPAp4WAZN71awQmXE46f3MU4bqDHhJtGx52rOonUSpw7iUqIJun
-   yN6bib2QPAWHBEPfLHwYlHt+OvACHZMKItqMKpluvbjd5JvL8ONkmGPrl
-   0J6hG1uEMrfk3cuFfWTEMm5t567shQZ5ri2iUMw4usmGSE47qq2eLgvTJ
-   A==;
-X-CSE-ConnectionGUID: E2ewzS4nTkiZ2mCzdLcOMw==
-X-CSE-MsgGUID: h4h7HkAJS7+7qMBC+pppyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="72152368"
+  t=1752509073; x=1784045073;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+z7pdLCd9aOU0paR7ZfIkOBpV4ViwruGm1soXm9IVC0=;
+  b=B891QQtAlhzkBOqq+r1JCYUxSft5BV8pV4+PUl3dHTyohtCKz5BfcWkB
+   yaSdZq6swHzLq8jxWeDhOP0bPNqVRgiSBJeSL1h4y6e4ErhkgCgtYaVy3
+   UeJagVVz+smNl2xGVzd8Bjqar31ojMDcvWaPoy1nYb13JAW3Nao7RmgWO
+   DiLru4cRLBTuaAD6hbJp1uf+bp46t4uVLAEjlVBBBtvWgIgb+wAp8RvPL
+   0hetjhrdwcbxPkocTvjbIA0Z7dMTHjoQGs215uLhKIwbKh0PJ8T+O7kxu
+   choaSyBJxZW750cHx26t/KevGVEIn1mcOyA9CSbkN9Vrq+eAE+h+RzZra
+   w==;
+X-CSE-ConnectionGUID: NjXeZHMFQcG4mdfRhzp0TA==
+X-CSE-MsgGUID: UCIdHXEETtqgABKc0ffA6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="72284035"
 X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="72152368"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 08:44:28 -0700
-X-CSE-ConnectionGUID: pjrg+o48Tc+XXXZAwYa37w==
-X-CSE-MsgGUID: eEeP2rlcSbyraUeD5Kse/Q==
+   d="scan'208";a="72284035"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 09:04:32 -0700
+X-CSE-ConnectionGUID: Dnk+NbKMSeqZM9tyOQwH9w==
+X-CSE-MsgGUID: 6aZPoxEmS+meo/K8kO/ycw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,311,1744095600"; 
-   d="scan'208";a="161285518"
+   d="scan'208";a="156768758"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 14 Jul 2025 08:44:27 -0700
+  by orviesa009.jf.intel.com with ESMTP; 14 Jul 2025 09:04:28 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubLLs-00094B-0O;
-	Mon, 14 Jul 2025 15:44:24 +0000
-Date: Mon, 14 Jul 2025 23:43:48 +0800
+	id 1ubLfF-000959-37;
+	Mon, 14 Jul 2025 16:04:25 +0000
+Date: Tue, 15 Jul 2025 00:04:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Tong Tiangen <tongtiangen@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2509/2509] aarch64-linux-ld: Unexpected GOT/PLT
- entries detected!
-Message-ID: <202507142303.gwvR0IYM-lkp@intel.com>
+To: Kurt Borja <kuurtb@gmail.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Joshua Grisham <josh@joshuagrisham.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Armin Wolf <W_Armin@gmx.de>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Hans de Goede <hansg@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Alok Tiwari <alok.a.tiwari@oracle.com>,
+	Antheas Kapenekakis <lkml@antheas.dev>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Prasanth Ksr <prasanth.ksr@dell.com>,
+	Jorge Lopez <jorge.lopez2@hp.com>,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Dell.Client.Kernel@dell.com, Kurt Borja <kuurtb@gmail.com>
+Subject: Re: [PATCH v6 3/6] platform/x86: firmware_attributes_class: Move
+ header to include directory
+Message-ID: <202507142344.HcDxuqCC-lkp@intel.com>
+References: <20250710-fw-attrs-api-v6-3-9959ef759771@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,29 +76,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250710-fw-attrs-api-v6-3-9959ef759771@gmail.com>
 
-Hi Tong,
+Hi Kurt,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build errors:
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   bacbda61bd658b453d6e0f378d44480554480111
-commit: b991780c836ceb9a479c6c6e385e914b487e353a [2509/2509] arm64: introduce copy_mc_to_kernel() implementation
-config: arm64-randconfig-001-20250714 (https://download.01.org/0day-ci/archive/20250714/202507142303.gwvR0IYM-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507142303.gwvR0IYM-lkp@intel.com/reproduce)
+[auto build test ERROR on 428f6f3a56ac85f37a07a3fe5149b593185d5c4c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Kurt-Borja/platform-x86-firmware_attributes_class-Add-device-initialization-methods/20250710-110641
+base:   428f6f3a56ac85f37a07a3fe5149b593185d5c4c
+patch link:    https://lore.kernel.org/r/20250710-fw-attrs-api-v6-3-9959ef759771%40gmail.com
+patch subject: [PATCH v6 3/6] platform/x86: firmware_attributes_class: Move header to include directory
+config: i386-randconfig-002-20250714 (https://download.01.org/0day-ci/archive/20250714/202507142344.HcDxuqCC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250714/202507142344.HcDxuqCC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507142303.gwvR0IYM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507142344.HcDxuqCC-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> aarch64-linux-ld: Unexpected GOT/PLT entries detected!
->> aarch64-linux-ld: Unexpected run-time procedure linkages detected!
-   aarch64-linux-ld: mm/kasan/shadow.o: in function `memcpy_mc':
-   shadow.c:(.text+0x504): undefined reference to `__memcpy_mc'
+>> drivers/platform/x86/lenovo/wmi-other.c:42:10: fatal error: ../firmware_attributes_class.h: No such file or directory
+      42 | #include "../firmware_attributes_class.h"
+         |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   compilation terminated.
+
+
+vim +42 drivers/platform/x86/lenovo/wmi-other.c
+
+edc4b183b794ba Derek J. Clark 2025-07-01  36  
+edc4b183b794ba Derek J. Clark 2025-07-01  37  #include "wmi-capdata01.h"
+edc4b183b794ba Derek J. Clark 2025-07-01  38  #include "wmi-events.h"
+edc4b183b794ba Derek J. Clark 2025-07-01  39  #include "wmi-gamezone.h"
+edc4b183b794ba Derek J. Clark 2025-07-01  40  #include "wmi-helpers.h"
+edc4b183b794ba Derek J. Clark 2025-07-01  41  #include "wmi-other.h"
+edc4b183b794ba Derek J. Clark 2025-07-01 @42  #include "../firmware_attributes_class.h"
+edc4b183b794ba Derek J. Clark 2025-07-01  43  
 
 -- 
 0-DAY CI Kernel Test Service
