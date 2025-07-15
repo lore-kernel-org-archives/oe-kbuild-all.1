@@ -1,71 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F336222FE0A;
-	Tue, 15 Jul 2025 08:09:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDC3274674
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 08:20:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752566959; cv=none; b=o47XLDUEypZJTBjMztqOWEpMNEMbye4I0SEBMlnpwIzv8vHSNkIh6EwWYyGZyBzraQpdlSfX5FRx18kixT4C2hiJQgxAd89F2jG5WwetqGWMCuo1icO8YU7YLrDat1u5HWPKgvhDBDTadv2h1ccWQcoiLsO8N5dTuwwQNYedVhQ=
+	t=1752567640; cv=none; b=mEQBLj8zhTTUvxCEIXg75rQU2IgLfz/0bBwoBSNH15sU9LfL46W3EQktUHFYVUtK1W/p6bsP0I0dWToF4/6yVWqio3bLvZfm8PSSfvqXvDJb2wDQUojDFF6W8TC9PwdrEu4yXn8cQ/5TW/oYDCBqfQ8twrmTdqVm/3KNQ2BqRO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752566959; c=relaxed/simple;
-	bh=uM50ySx9Kjkj0T8Mi2M3p5ShRWkdmqxZHE6SDBMnJoo=;
+	s=arc-20240116; t=1752567640; c=relaxed/simple;
+	bh=uof8zg9bOsut9HtWSzkZbkOmWYz0QWIMSB/79kCYUeY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AiRoH2o8sX1fsaOQhlPJlxi8Os4+E9Wnedkg4ROb7leVH6kOXhjLXfdM3kucXpDevEpi4Zp3An5WiB77yIRFlyy2Cru/AySTcP6MAlU7hz0ECmJiQy9IE9abEo5m/E27JhGj9BabqR9yyWM7va72wrBUJ9JtoTeqmWLe8g8cpUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iub0AfNx; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=EeqaLKRAZqfgb3GDmtNOUZC3izeWqDALHWeJf6wVo30L6vxY4rcQr4nR467hTo2a0GWaAQz23C/GrzRvpTleDunmJCsH8AjKB6kR3Mtm+J9s8WWc0wnDakC9uOODDEU0Gd/uhNFU5ovz35fHJl+KzejWUbbcNY1F3xCliKQdAeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cp7TDbXy; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iub0AfNx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cp7TDbXy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752566958; x=1784102958;
+  t=1752567639; x=1784103639;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=uM50ySx9Kjkj0T8Mi2M3p5ShRWkdmqxZHE6SDBMnJoo=;
-  b=iub0AfNxZm6SmF4VBloL2un6RCqObyTuzejf5KWahWaRF/9J8etyZ5wM
-   iF7jD5nkgQBMspUf1c0Rh+nDza7rnh3qabEpRc90iKkjz8WlEO4PA0l3Z
-   hGaAYwAVkziIUSB9NqWTkf5mPBc3osxVUOHvO6aUxDRkcWelksuFxGn5p
-   fP92kCZCr7fi3HPv4ZsctprgIPbhqj6FoqRL+cJ7XdkNVjIkwCeDj9/KV
-   t0q53fWStIqHI9HNspJGC2RTnJ2+XhoAOJSyEvD4Phk9+aR0mYV71+va1
-   gaVMP6477x23Rdl0shNNoI3QdHj+R3YHuxDiyQ6ayv8HVbAi/F21lBw5F
-   A==;
-X-CSE-ConnectionGUID: ahyrdVM7Seym8HIeAPGSvw==
-X-CSE-MsgGUID: P6rCQBNsTiavQtZRQgXcEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66135166"
+  bh=uof8zg9bOsut9HtWSzkZbkOmWYz0QWIMSB/79kCYUeY=;
+  b=Cp7TDbXy5bC19+bMLQKH4w+iP6YZLAHrcakGQlpFAf9469epQNBnNZOe
+   LZS3hb+ocCkSjGwlRvBsl3fvyMslmxNoMQ6xQxtcS7JZLk4YLk5Eit6fZ
+   HYqOMPwFmHG6Z47dvd3Bt3AwPXs4Wlft9kcuM2Uvrgao42pTJQ74te+p4
+   9AOqhQ6s5dDy8S0ii/fwo4i+kwOmpMCzw/ddBz9I7IMWv3DbfD3ORGUgL
+   AzA4pCD6QjSbzmN+15Wy60MEjsKKZF8ZcNeSM67qoTuZWXJW1CglYs7wp
+   ci/0PfOZDq+kUaqrQKW2PFegoDEPEJVf02vOVYJjmfS2LxEpGmj1PZh/Z
+   w==;
+X-CSE-ConnectionGUID: 5Lp/Xe+cRQGpS8UqZz+Sng==
+X-CSE-MsgGUID: SILJWh3dTN6sVFM9HkFjaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="77314716"
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="66135166"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 01:09:17 -0700
-X-CSE-ConnectionGUID: QBGt5UhhTJOQEZE4rxikvw==
-X-CSE-MsgGUID: Us1vguXYRJC85Ok8RzRAhQ==
+   d="scan'208";a="77314716"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 01:20:38 -0700
+X-CSE-ConnectionGUID: Ez6S255mQqu5RBz7l9VprA==
+X-CSE-MsgGUID: KiRzjuaESsuC6DLTZkp7xQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="161702936"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 01:09:13 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1ubair-0000000Fam8-4B3M;
-	Tue, 15 Jul 2025 11:09:09 +0300
-Date: Tue, 15 Jul 2025 11:09:09 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev,
-	Remi Buisson via B4 Relay <devnull+remi.buisson.tdk.com@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	Remi Buisson <remi.buisson@tdk.com>
-Subject: Re: [PATCH v2 5/8] iio: imu: inv_icm45600: add I2C driver for
- inv_icm45600 driver
-Message-ID: <aHYMpVIXJNuOfE55@smile.fi.intel.com>
-References: <20250710-add_newport_driver-v2-5-bf76d8142ef2@tdk.com>
- <9d091fe4-3068-4e8b-8a9c-49c25036a216@suswa.mountain>
+   d="scan'208";a="157697370"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 15 Jul 2025 01:20:35 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ubatt-0009qt-0y;
+	Tue, 15 Jul 2025 08:20:33 +0000
+Date: Tue, 15 Jul 2025 16:19:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jeroen de Borst <jeroendb@google.com>, netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, hramamurthy@google.com,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	willemb@google.com, pabeni@redhat.com,
+	Joshua Washington <joshwash@google.com>,
+	Jeroen de Borst <jeroendb@google.com>
+Subject: Re: [PATCH net-next 2/5] gve: merge xdp and xsk registration
+Message-ID: <202507151501.qOw1iRWI-lkp@intel.com>
+References: <20250714160451.124671-3-jeroendb@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,49 +66,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9d091fe4-3068-4e8b-8a9c-49c25036a216@suswa.mountain>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20250714160451.124671-3-jeroendb@google.com>
 
-On Mon, Jul 14, 2025 at 11:21:17PM +0300, Dan Carpenter wrote:
-> Hi Remi,
-> 
-> kernel test robot noticed the following build warnings:
+Hi Jeroen,
 
-It looks like a false positive, but the code is fragile.
+kernel test robot noticed the following build warnings:
 
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10   99  	unsigned int fifo_en = 0;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  100  	unsigned int sleep;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  101  	int ret;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  102  
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  103  	scoped_guard(mutex, &st->lock) {
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  104  		if (*scan_mask & BIT(INV_ICM45600_GYRO_SCAN_TEMP))
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  105  			fifo_en |= INV_ICM45600_SENSOR_TEMP;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  106  
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  107  		if (*scan_mask & (BIT(INV_ICM45600_GYRO_SCAN_X) |
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  108  				 BIT(INV_ICM45600_GYRO_SCAN_Y) |
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  109  				 BIT(INV_ICM45600_GYRO_SCAN_Z))) {
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  110  			/* enable gyro sensor */
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  111  			conf.mode = gyro_st->power_mode;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  112  			ret = inv_icm45600_set_gyro_conf(st, &conf, &sleep);
-> 
-> sleep isn't necessarily set if nothing changed.
-> 
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  113  			if (ret)
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  114  				return ret;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  115  			fifo_en |= INV_ICM45600_SENSOR_GYRO;
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  116  		}
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  117  		/* update data FIFO write */
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  118  		ret = inv_icm45600_buffer_set_fifo_en(st, fifo_en | st->fifo.en);
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  119  	}
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  120  	/* sleep required time */
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10 @121  	if (sleep)
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  122  		msleep(sleep);
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  123  
-> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  124  	return ret;
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jeroen-de-Borst/gve-deduplicate-xdp-info-and-xsk-pool-registration-logic/20250715-001243
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250714160451.124671-3-jeroendb%40google.com
+patch subject: [PATCH net-next 2/5] gve: merge xdp and xsk registration
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250715/202507151501.qOw1iRWI-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507151501.qOw1iRWI-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507151501.qOw1iRWI-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/net/ethernet/google/gve/gve_main.c: In function 'gve_reg_xsk_pool':
+>> drivers/net/ethernet/google/gve/gve_main.c:1181:29: warning: variable 'napi' set but not used [-Wunused-but-set-variable]
+    1181 |         struct napi_struct *napi;
+         |                             ^~~~
+
+
+vim +/napi +1181 drivers/net/ethernet/google/gve/gve_main.c
+
+013df4b1b64282 Joshua Washington 2025-07-14  1177  
+013df4b1b64282 Joshua Washington 2025-07-14  1178  static int gve_reg_xsk_pool(struct gve_priv *priv, struct net_device *dev,
+013df4b1b64282 Joshua Washington 2025-07-14  1179  			    struct xsk_buff_pool *pool, u16 qid)
+013df4b1b64282 Joshua Washington 2025-07-14  1180  {
+013df4b1b64282 Joshua Washington 2025-07-14 @1181  	struct napi_struct *napi;
+013df4b1b64282 Joshua Washington 2025-07-14  1182  	struct gve_rx_ring *rx;
+013df4b1b64282 Joshua Washington 2025-07-14  1183  	u16 tx_qid;
+013df4b1b64282 Joshua Washington 2025-07-14  1184  	int err;
+013df4b1b64282 Joshua Washington 2025-07-14  1185  
+013df4b1b64282 Joshua Washington 2025-07-14  1186  	rx = &priv->rx[qid];
+013df4b1b64282 Joshua Washington 2025-07-14  1187  	napi = &priv->ntfy_blocks[rx->ntfy_id].napi;
+5f1e1cdb9ff911 Joshua Washington 2025-07-14  1188  	err = xdp_rxq_info_reg_mem_model(&rx->xdp_rxq,
+013df4b1b64282 Joshua Washington 2025-07-14  1189  					 MEM_TYPE_XSK_BUFF_POOL, pool);
+013df4b1b64282 Joshua Washington 2025-07-14  1190  	if (err) {
+013df4b1b64282 Joshua Washington 2025-07-14  1191  		gve_unreg_xsk_pool(priv, qid);
+013df4b1b64282 Joshua Washington 2025-07-14  1192  		return err;
+013df4b1b64282 Joshua Washington 2025-07-14  1193  	}
+013df4b1b64282 Joshua Washington 2025-07-14  1194  
+013df4b1b64282 Joshua Washington 2025-07-14  1195  	rx->xsk_pool = pool;
+013df4b1b64282 Joshua Washington 2025-07-14  1196  
+013df4b1b64282 Joshua Washington 2025-07-14  1197  	tx_qid = gve_xdp_tx_queue_id(priv, qid);
+013df4b1b64282 Joshua Washington 2025-07-14  1198  	priv->tx[tx_qid].xsk_pool = pool;
+013df4b1b64282 Joshua Washington 2025-07-14  1199  
+013df4b1b64282 Joshua Washington 2025-07-14  1200  	return 0;
+013df4b1b64282 Joshua Washington 2025-07-14  1201  }
+013df4b1b64282 Joshua Washington 2025-07-14  1202  
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
