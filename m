@@ -1,237 +1,232 @@
-Received: from mx0a-00549402.pphosted.com (mx0a-00549402.pphosted.com [205.220.166.134])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8884A272813;
-	Tue, 15 Jul 2025 09:19:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.166.134
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752571149; cv=fail; b=cdLWtyx4CzpeZt9ma3GcQMNyeyJz4qTnAjMquoXa4wExCB8kSSwNYGHfHj1V4Jqh4jbsJZbMBca+yo7ompxGMFuQIvU2u/hEXHEb6qWzjl83nWaKNDkGMl6W43VbeoHqBtgqRm/U0A6kTWME2MUwXWRSpax768pZPWjHbmhx33M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752571149; c=relaxed/simple;
-	bh=0KqkOs+KUCBCnHUxDZvSNCLeZrFsXPTXMEDdRHMrVIk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=U9Da0esw0Okjn9jTH0Ao6vKOEwB6+Or7xYN6kwqMxfbSwTLnG/sDEz9K1nqhje6jcRqQ6ehGJMc8p+Dbwo2YjmlaI09JmWKHnhNtfqINDIobpCy2WtO6ByrLFJ7J84Az0SsgFKlWchcy/qumECKYWj/CnmyLvl/7fk6lSyZGuYc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tdk.com; spf=pass smtp.mailfrom=tdk.com; dkim=pass (2048-bit key) header.d=tdk.com header.i=@tdk.com header.b=JFpTMSNw; arc=fail smtp.client-ip=205.220.166.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=tdk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tdk.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6742C27465B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 11:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752579365; cv=none; b=oYHwu0i2X2Uqs3IO1tXmYSAbMpDsWrp1xjib3NtAGEiYoGJH2lOI5d4YMFGtWlMnJVGB70WjKBRzur/d/ctJ11ct45YyKQMGpfPclpEmHPpb8fmmEgX+rbWfdca7qD7HQQQD/5sqvOE4sDw7tY8X010zpo9Lhz30wdgol2pWDO0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752579365; c=relaxed/simple;
+	bh=n3+8jPGXx9X89AAiNO3h7+WiVtND0rGd3wOyQ93Uc1g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C9g8GbYl04NXndpesT1y6OC9WOoobMxFFHqU5UtN+0SLrsrgykH7YsmOa81IQ07pF41pg7eYNpHTMkwjHBWZrTaO0lBHueadXPLJ5xeY907kTs0s80Yz7/fJQ91tzUbwW3LUjAwMvszAlx3mv3ec16ttms/I4jpJB0oGIsUOkd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0ixwoYa; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tdk.com header.i=@tdk.com header.b="JFpTMSNw"
-Received: from pps.filterd (m0233778.ppops.net [127.0.0.1])
-	by mx0b-00549402.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56EMwOSC010934;
-	Tue, 15 Jul 2025 09:18:57 GMT
-Received: from fr6p281cu001.outbound.protection.outlook.com (mail-germanywestcentralazon11010020.outbound.protection.outlook.com [52.101.171.20])
-	by mx0b-00549402.pphosted.com (PPS) with ESMTPS id 47uft5t2jk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 15 Jul 2025 09:18:57 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EzQ1j29Y2YaOWZQsH5XPTw33Jt9a1uSDIlSEtcuo6vrAwh5yqVAonzFtNaf+4OLCLtdNcsdMGGNYq+woWeUhbzTpxaokFyqyO/0s7oAtprzhz8BqVxOyc/aUC0cjByvzwX/UrSh6BjZj9DIMC3s6H4ZC2g9ArUH3htAqHlRQIqitEPkvTN3LfMIF/74nvsVKEN1WPZKXXk5A9kaAdvjgwTvLDJwP6jDq0qreYTsOqExnlVja5cdywTjvlNG7+j3KiRJ4+u8p+WHDrYefZi9B6zpuWajHff5y4Yq4d5gznhEoldjmCk9s4XhQkoUKo1L6BRs4d4+lHhyozOJP0Q9Jpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0KqkOs+KUCBCnHUxDZvSNCLeZrFsXPTXMEDdRHMrVIk=;
- b=x751FqwHPC5l1rf1PCt7pZxao+PiZE7piVb3OX5hFf6GdNUPN3XbJGQlpsykascgiDWbEEB7hniIPijGR3e+RnZdJY2qLvuWGG3LQHohRZz6osyyj8P5decTV0JXEsVZD4USfEok8PBkF9fk1bqrJAl6/Yd4kcvj/CnxDKE8M9hA62viyLbOnJ84/rgF0Q25O1wBjTaPEcZ8KpmjIcKkl8QLZnIizBLPSa97txffgN7cBIN7ymH4GDOHDHifaE+YMwCfoxPdRKnzqw5xFP9v3PmQgfdTa+Bvq/mkpWG8VeBsZx58abkIb8rzrbhwmIsDtfnu9YRc99gLi7Q2sjVTiQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=tdk.com; dmarc=pass action=none header.from=tdk.com; dkim=pass
- header.d=tdk.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tdk.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0KqkOs+KUCBCnHUxDZvSNCLeZrFsXPTXMEDdRHMrVIk=;
- b=JFpTMSNw5pBPSpvrZ8mjWdtM5fSxok/pAw1jDgGSGSJ+Zr9Uvjy1Q74ug7Nt4z8hZxvypS85PtG8FLDHD2R67iBvEwO1q+T8zYvISJhHf1P85kmT198MTDbly/noBuEmBUHte3Toy4zyQRuhW08xCLoJRC7GuC3jXjERatYEWzXDiIApVlxW5+eux1umr6SCIC9Cy3cU7jvrKxokQGY6IGSQNiGO2xTTwNwpyegcwRVRiNQfkx5YRyryBHq07YMAXX2eTCYRNe8aeK8g64pUKN7A+m2oTfUdqmN5F3VB9v/0toYxtuy5/QXf224hUirMj7aLDWDjM9BzYyRkxuIxSQ==
-Received: from FR2PPF4571F02BC.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d18:2::2d)
- by BE0P281MB0163.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:12::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8922.33; Tue, 15 Jul
- 2025 09:18:53 +0000
-Received: from FR2PPF4571F02BC.DEUP281.PROD.OUTLOOK.COM
- ([fe80::903d:f362:450:c7bf]) by FR2PPF4571F02BC.DEUP281.PROD.OUTLOOK.COM
- ([fe80::903d:f362:450:c7bf%3]) with mapi id 15.20.8922.028; Tue, 15 Jul 2025
- 09:18:53 +0000
-From: Remi Buisson <Remi.Buisson@tdk.com>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>,
-        kernel test robot
-	<lkp@intel.com>
-CC: Remi Buisson via B4 Relay <devnull+remi.buisson.tdk.com@kernel.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        David Lechner <dlechner@baylibre.com>,
-        =?utf-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>,
-        Andy Shevchenko
-	<andy@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH v2 6/8] iio: imu: inv_icm45600: add SPI driver for
- inv_icm45600 driver
-Thread-Topic: [PATCH v2 6/8] iio: imu: inv_icm45600: add SPI driver for
- inv_icm45600 driver
-Thread-Index: AQHb8XjHfuYKc7axh0u3tRjGg76GDbQsXRWAgAAUugCABn3HoA==
-Date: Tue, 15 Jul 2025 09:18:53 +0000
-Message-ID:
- <FR2PPF4571F02BCFAD85EB34A3830AF75708C57A@FR2PPF4571F02BC.DEUP281.PROD.OUTLOOK.COM>
-References: <20250710-add_newport_driver-v2-6-bf76d8142ef2@tdk.com>
- <202507111201.r62j5rb6-lkp@intel.com> <aHCqoCNhXPqdKZId@smile.fi.intel.com>
-In-Reply-To: <aHCqoCNhXPqdKZId@smile.fi.intel.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: FR2PPF4571F02BC:EE_|BE0P281MB0163:EE_
-x-ms-office365-filtering-correlation-id: f0cbf848-0598-4924-0431-08ddc3809e66
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|366016|7416014|19092799006|1800799024|7053199007|38070700018|3613699012;
-x-microsoft-antispam-message-info:
- =?utf-8?B?b3VoQTZEWVpjWCtlQXEyMDNsaFdtUnZFcFBPZDdRV3l4OVRUVytNNFRpNW9Y?=
- =?utf-8?B?bXdzNVlONWFwUFNvc0l2NUV0aU4vOFVJL0FMcDh2VVI4cHFkUVRDd0VUajFv?=
- =?utf-8?B?VFRUSll3N0g4QnlBSHJoU0UwMmt3UXlmZVh0VE9iMENVTlpjaTM2QW1vZHcz?=
- =?utf-8?B?dld6SjkwRWNlcjNBZmFKKzdrUkY0VHNTaEpiT2V5NXRtdGFVWTZxMFpIR25K?=
- =?utf-8?B?UnB1WmF4UDNBOUZUOVFGcXlJQjIrRzRwY1pPT1VMU2xLUVRQa3FFdEVuY3Br?=
- =?utf-8?B?OXdWcW44YzNnejRuM1FDbWV2QjRjZmpNMnNuRFJ5dWRqT3NnQ3pGRGpJK0VZ?=
- =?utf-8?B?Ung5eVljODVIa204c0F1LzJFZ0RCSE1TL2RvWDNWRnRkTk51STM5UFNzQ1dD?=
- =?utf-8?B?eGVHN2ZEWkhyUFdOT09kZzdnVHhWZEJSRjhFQnFhcUNYRTNFUmhBbCt6Ym1p?=
- =?utf-8?B?WDJPNW1GSmtnRDVMTThQa0ZqZ1BXenh3bXR2NFN5b3ZLbDZwcVdzL1l0d1BO?=
- =?utf-8?B?UXlWS2hPSVNIL2dRN0VvbGxpYUEvNWllaU1ubkpJTVZ1bHQwME5QQVlMdElt?=
- =?utf-8?B?MEFMZDRKMEpDa29yNHlMUjQ4NTQrZlJuNHBFQmhGYis4RUtOMEZFcndlTkYv?=
- =?utf-8?B?U1M2UndpYVpTMS9CSkx0emdMVkxUVHhxN2U1NFhaUzN6eU5rb0pLSjJmVWU4?=
- =?utf-8?B?NEpHMll2eG1HanRVbXFyRU8rMXdvM0pqUGlSdFpqMjhpSXNlZ0ZKSlRaemFV?=
- =?utf-8?B?QStqK1Y2WFZQYXVWZDEzNzNMd2lTTTh6Rm1tNUIxNFFnV0hITUtPK2hoci9l?=
- =?utf-8?B?d2JscUVRK3VKMUxjT1BoMEVpU3I5Z0NTekxMKzNOd25mMFZrSGVNNGUvQU8v?=
- =?utf-8?B?ZzFqVHdMNlV0WVVhNGJWVFRvbU1EUXA4blpvQklqOTBPdFl0WnNadkhlWDFu?=
- =?utf-8?B?Tlk5U0FEazk0dk5XZW9WSy9QUkZDRmdILzRaeDY3VXR6WUtLZFBTOGdBWXc4?=
- =?utf-8?B?Z1VxZUdDajV5TEg3cXhpNnpqR1FqN21JcWE0aURuQVF4NUNScUk0ZGNOa0Nq?=
- =?utf-8?B?OFE3RU1FVWNodUpUbTNLRGdzR1V0MDY1WEVmTG4zNklHK01SSUNaQzlUV1ky?=
- =?utf-8?B?ZGNBbjBMZ0xyWnRHQmVqcksyV09hMThQcTVrMXlFMmNUalFvNnNOUTdPekwv?=
- =?utf-8?B?SWhoMUdhcllCcG83bTFCeDk4RW5sbXQ1bzM5Y0F5U2hmTEw2MXk2K1V4MUlH?=
- =?utf-8?B?akxrY0NSYzAxK2hlNGdaOUl2QUFsYzVJNWVMUjZpMTRFTjhxQjlWejczcDNL?=
- =?utf-8?B?bWc4UUhJNGoxZi9JMzkxci9UTHovZjdhWkhOeHRORVBRYTkxV0w0ZVYxS2Vv?=
- =?utf-8?B?RjExQU1SS1BFZlgwQmN0bzBtNVN3OVlTTG5qTGhmK1FPM1g3dzkvTTE5MXpp?=
- =?utf-8?B?MldMczczZWdPN1VXOFlFd0YwdDVtZDMyWXVSekErekxFajdxbjRaYkswWE9y?=
- =?utf-8?B?RjV6aGtIQ2x2MkdOdzNsTGF5UStJWm9jQWFaN3dCdE04MWVScDVVaUVtZEkx?=
- =?utf-8?B?U292UU43UnFYWjl4amFyb01yaTVSaExqK1RuYkhKdVZiN0MzbFdWUkhVU290?=
- =?utf-8?B?NDBEQ1hwKzVNOEYrNWJtTDFFMkZQWC9JSnVwRUFtaE5CTnlWUFhhVnBwMWk1?=
- =?utf-8?B?Y2RBbHFoMDkzMytUdGRwOHZzK2J6OEM2VFVnRWlWSFZ4ZXJFSkxCRVV0bWpG?=
- =?utf-8?B?OHJ3SWRoOXluUWVmajh5WTJweTlaSkhwbU1VSGZ2bEZ2VDZyanNJM1UvVi9n?=
- =?utf-8?B?Rm5tY0N0U2M0RFd5T3Z6eW1IdlJGKy9HTFRLMXNJYVNGQkhQVkZVcVk2U05O?=
- =?utf-8?B?L3pJVTZhMEhPMGNGYzFadVBmSlJ0bXZ0S2JUV09qT1p3OUFxU0VxZit1VHFr?=
- =?utf-8?B?Y01wWkh6VGRLVmVRQ3dKY1VKdmxZMGZoNFdUb3R5QURWTDRzUVhNdTczMExv?=
- =?utf-8?B?UXJNZk02cnJEd3Z0NS9UdFdmVFRyaE9mZlZVdFBvNXhJOVdZR3A0MXBHTDVP?=
- =?utf-8?Q?EcQFgw?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FR2PPF4571F02BC.DEUP281.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(19092799006)(1800799024)(7053199007)(38070700018)(3613699012);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?ZmExZ2l0K2szYjhGODdmcHdsSjBJVUZUbDJOZHFIUDVTTWMwejNOVW1yemJv?=
- =?utf-8?B?T3YwZDN5eVY4QUFRYjJMbFh5RmZWRnlGeVhKYytRZUc3KzgyUXY3enJoMVFV?=
- =?utf-8?B?MEk0em5LOW1FOXI3Y1BYck5MNmhDUEVRNEY2ZlpMN2tSc1RZNkxhN0dzWFQw?=
- =?utf-8?B?M3lPTCszM05FWk9TZmhwNVhWZGh5SHdMcER5TnBOa1A5UmRjSmdCaTRtckRw?=
- =?utf-8?B?djVmSUV2c1RENUpFVExabDRLZkx1ekc0MU83bWpaU1FqbzVHc0c2L0M0UFJn?=
- =?utf-8?B?UkZ1QWY4Y2JxU2V4WklSdytZMHdrN2dUQUtSRndpRUhicmdpRDhOUWVWNkJU?=
- =?utf-8?B?Y0M0YThYR2ZIclY3K252SkN0MmQ2UlNqVmFnZnFLb0N3eEF0UnY0MGVWMVlX?=
- =?utf-8?B?ZExSYWZCa0NQM016ZmdpZEZ4endvZytzQlV1S0w1V3g0Nnk4QVA4dkM3NG54?=
- =?utf-8?B?ZGg4cDJzOCtid2c1Zmo1VkhXRTh2bVkxTEd5c21MSWhCT3NkT1ZIZWZmUnpU?=
- =?utf-8?B?S2tsYTVBMU5VSG55K1ZHdzNNVThOMUlsQjJvMFc5UEd5WVA3Zmo3c3ZGeWtj?=
- =?utf-8?B?VHVUUzlEZ0ovUTNHc0JzZ2g3R0hVV1VYNW1vVkVLcHFDVGQ1dEZiamRlbWoy?=
- =?utf-8?B?T0FEdVVRSjBGWCt2eEJlMURIQmhkWElNRStBeXFJWTl5NVdJRFo4c2E3MDV6?=
- =?utf-8?B?M1UvM1BBRk05bHRLVnd6cEFFOVNoY2hqeEQvTDYvaWJpdmx4dkR3azZzL2xy?=
- =?utf-8?B?TGxaaTBZS295bWlrOUtxTkZ2OUdUSE03elNvUmk5eE1Wc3lLTGs0d0ZrWkRF?=
- =?utf-8?B?RlpjVU9pRHFlOXFOcTFSVDJsV1ZPUzR4bUYvN0J5a0U4eUFvNUcxa2JyYjhP?=
- =?utf-8?B?TlM5UHMyam8wWXhVZGI3UXlhL1ZONXJ6Tm9XUVA1V3k0Um11TTZqUEx1R2lR?=
- =?utf-8?B?YTQ3dkJkSTAzbVV6dVFySDdMVGtvOVhpNnFocVQydVpnR01IcCtuTWJueU9U?=
- =?utf-8?B?bDNvMW5Yd213VnR0S1lQejhvZ0FkaG8zRUVmZW5BM2h6d0tTRkFYOGxPRkpj?=
- =?utf-8?B?M2FZV3IrODllN2dMWVBpM1MvNVFEMzBHdFJ2NW9jTm8xWTREYnRLTVlhQWUw?=
- =?utf-8?B?dEFJU1lCem1mMmk2MnRMQVU1c1NNelNEaUh0ci9qS1h1RzFoN1NEZkJoYlhW?=
- =?utf-8?B?SWxJak5OWlpraU9rN1NiaGhXYlVDUUtSMlphWXk1VURhUGh3R1BSR2pFMFZS?=
- =?utf-8?B?K1orSlRUbEZvUmFYQ1R3RU8ybm5hWms5VmRhYmlxUFl2VVREY2hUM0xUdHBo?=
- =?utf-8?B?OFNSQVZ0aGY2OXBBdXJ1RU5VSm5vOG9tYm00Z1B4L3RITForb1Z0QUdOS0FF?=
- =?utf-8?B?bStHYnA0M255Njl6djFobktsZEVVOXhnQXJwT1AvcmJxKzlIVHloS0pMK25t?=
- =?utf-8?B?ZUJVcDlaT253VHZCcnUwOE5KclgvWHZpajRLcGRJSjBkVW1Ic0lGR054SWp6?=
- =?utf-8?B?UzNyYW1EeG0xeUVpVllnVVg4TC9vUDRiQVRuM2dQRFZYbXNDd2RZU2hkQ2RJ?=
- =?utf-8?B?UE11RjF1ajU4T3NybG4vZTRiNWFuWnNCVWhRMTAwSFpVWXYyL0xpeHlVaVFS?=
- =?utf-8?B?a2FkYVphNzVrWW84dlhOK3VvOVU2cFRsYVVVaFRGRGR3MWo1dTQ3UVpJMFpu?=
- =?utf-8?B?bmtBMFJ5YWZjVmZZQkxZZzNEdGdJUGtJcFV6eTZoWUxmWm1OMUpEemhxVEZZ?=
- =?utf-8?B?azdBZTg2cHg3bE9HZFVjR2MyZGVwRUpqQWhrSTNlei9QYjFubkhCZyt2N09t?=
- =?utf-8?B?cko3ZEhxYU5rVEdqeXZuOFIxK21PLy9NK1p5RVFXWHlNdTJXVDlLVTZsRGR5?=
- =?utf-8?B?YVlzMjZJNjU3b0NnOXdGSUNLTGt1V3IyaHZYRGo4UTUyT0FFL1lGQXhvSjFM?=
- =?utf-8?B?L0UvQjFoZDVDcGtZWFJ2bVBNNzhyWllmM2E5RWF0bzRjYmhVajEwNzJRT3FY?=
- =?utf-8?B?SVo2bkxjc3NXbnFXeVpkTHJ3b0M3TWRJWkh0bXBvZW9ML0c0dTRDSTE5WHpr?=
- =?utf-8?B?Um56M0xGb1BKd1liWTRkYXlQQVE5YWx0a240blVaMXpkMUZQQ1JuZHpyM2xx?=
- =?utf-8?Q?prFu+M5TrQ554yUvNoWQQrNqy?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0ixwoYa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752579364; x=1784115364;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=n3+8jPGXx9X89AAiNO3h7+WiVtND0rGd3wOyQ93Uc1g=;
+  b=K0ixwoYaRuT6bxreH/6w6nkEINdqbbLQo7gQU3bXT2pm9mMB9zwcZeEv
+   oY9FV0w2xV+P3LCMmTBaNvB0Tw2tGdVqAe8lGJnPVVeKZ4dZ5cek3YfF1
+   IDxxaPES/Wj8pVwRVsuR93fWBeK8sw/5nQDoyMahNA/0NnGlGvai8FFx7
+   QmJ9n4Hbvbzp4YJVFXhNHcyNC09fYAP3BONlxTyvhYeyR8woTk9yPQIo9
+   Ub7SwfYUjPJQgtjDIpdQA3WGr0q7a5JvXuKnIlyX4zEs+cgCPLVN2U9iu
+   LbBBlqL6kwg+OYxpwvHbgzud/+VCayDpjH0NY1F+o6WqhFhUo634GyZxm
+   g==;
+X-CSE-ConnectionGUID: 5aFaPBrETzKW8OLN/BUzNA==
+X-CSE-MsgGUID: YqGhiWDVSHObhGMmu9ribQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="42422877"
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
+   d="scan'208";a="42422877"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 04:36:03 -0700
+X-CSE-ConnectionGUID: irnYdiHMRh+1301yIAE6hA==
+X-CSE-MsgGUID: 9uVKpICBQuSBR9yg6PLlAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
+   d="scan'208";a="188210056"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 15 Jul 2025 04:36:00 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ubdwz-000A0l-2i;
+	Tue, 15 Jul 2025 11:35:57 +0000
+Date: Tue, 15 Jul 2025 19:35:07 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jonathan Denose <jdenose@google.com>, Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Henrik Rydberg <rydberg@bitmath.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Angela Czubak <aczubak@google.com>,
+	Sean O'Brien <seobrien@google.com>,
+	Jonathan Denose <jdenose@google.com>
+Subject: Re: [PATCH 11/11] HID: multitouch: add haptic multitouch support
+Message-ID: <202507151942.94dhYylY-lkp@intel.com>
+References: <20250714-support-forcepads-v1-11-71c7c05748c9@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-OriginatorOrg: tdk.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: FR2PPF4571F02BC.DEUP281.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0cbf848-0598-4924-0431-08ddc3809e66
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jul 2025 09:18:53.6996
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7e452255-946f-4f17-800a-a0fb6835dc6c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JqgL0HQZoUlcJPlY96IiICSoMd35+nmRAklFP9aczVV/J16kfgoBjZJD6syrMXINLXvpLlmPBgmFs4SlFPnl3w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BE0P281MB0163
-X-Proofpoint-GUID: N1DwC2eve5lEQqFMTjTOok00M2G4Vbzg
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzE1MDA4MyBTYWx0ZWRfXyeylENQGXWhV
- kEPy/BrMpEgv4Y5MuL8/5Vr44Pa7j4d1IJMvQAuXg7Gd9VC2LhpuyoWtTmW9caPmae65FAz0MVl
- U+b6GqcNzJgV/qmlGe0P160ttULhAtuGxzzUYpuC6jP+eCWE7S1S/P3a9jNl/1sTSiB/FS2JSMW
- 66jL34rBv5TMkkGLq8ecozaNLN8o1S7t3iOa4MTzCAGm5CatKcRarVez8yb07jXQz7a1vpqhE4y
- 6ybpRSkimOOW52tCpeGnGZuSpw3VoMC5IY8mz92YWZmjDKgysYhS5fOc41y6LPGGUtFk7nmLr90
- Vpjd9RJMyFrtHjN/Ba67+ns9v9fS9iH/ppBRnlEO19d1oANuu/QwxLV0vjDvl2K0EOJjY9L5yIM
- Dv8Su5Uo7BGJdIlzCXry6Kh9K7W23z3+LMJlzObT8nBGHup65h4lVmi6o8VoBEUcFeZB8DIX
-X-Authority-Analysis: v=2.4 cv=QLxoRhLL c=1 sm=1 tr=0 ts=68761d01 cx=c_pps
- a=IxrI4HAsaM/rue4H2PuiTA==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=Wb1JkmetP80A:10 a=Uwzcpa5oeQwA:10
- a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8 a=IpJZQVW2AAAA:8 a=gAnH3GRIAAAA:8
- a=In8RU02eAAAA:8 a=a_oFa5tOQqE05XSChVYA:9 a=QEXdDO2ut3YA:10
- a=IawgGOuG5U0WyFbmm1f5:22 a=EFfWL0t1EGez1ldKSZgj:22
-X-Proofpoint-ORIG-GUID: N1DwC2eve5lEQqFMTjTOok00M2G4Vbzg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.7,FMLib:17.12.80.40
- definitions=2025-07-15_01,2025-07-14_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- suspectscore=0 mlxlogscore=999 malwarescore=0 bulkscore=0 phishscore=0
- adultscore=0 lowpriorityscore=0 mlxscore=0 priorityscore=1501 clxscore=1011
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2505280000
- definitions=main-2507150083
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250714-support-forcepads-v1-11-71c7c05748c9@google.com>
 
-Pg0KPg0KPkZyb206IEFuZHkgU2hldmNoZW5rbyBtYWlsdG86YW5kcml5LnNoZXZjaGVua29AaW50
-ZWwuY29tIA0KPlNlbnQ6IEZyaWRheSwgSnVseSAxMSwgMjAyNSA4OjEwIEFNDQo+VG86IGtlcm5l
-bCB0ZXN0IHJvYm90IG1haWx0bzpsa3BAaW50ZWwuY29tDQo+Q2M6IFJlbWkgQnVpc3NvbiB2aWEg
-QjQgUmVsYXkgbWFpbHRvOmRldm51bGwrcmVtaS5idWlzc29uLnRkay5jb21Aa2VybmVsLm9yZzsg
-Sm9uYXRoYW4gQ2FtZXJvbiBtYWlsdG86amljMjNAa2VybmVsLm9yZzsgRGF2aWQgTGVjaG5lciBt
-YWlsdG86ZGxlY2huZXJAYmF5bGlicmUuY29tOyBOdW5vIFPDoSBtYWlsdG86bnVuby5zYUBhbmFs
-b2cuY29tOyBBbmR5IFNoZXZjaGVua28gbWFpbHRvOmFuZHlAa2VybmVsLm9yZzsgUm9iIEhlcnJp
-bmcgbWFpbHRvOnJvYmhAa2VybmVsLm9yZzsgS3J6eXN6dG9mIEtvemxvd3NraSBtYWlsdG86a3J6
-a0BrZXJuZWwub3JnOyBDb25vciBEb29sZXkgbWFpbHRvOmNvbm9yK2R0QGtlcm5lbC5vcmc7IG1h
-aWx0bzpvZS1rYnVpbGQtYWxsQGxpc3RzLmxpbnV4LmRldjsgbWFpbHRvOmxpbnV4LWtlcm5lbEB2
-Z2VyLmtlcm5lbC5vcmc7IG1haWx0bzpsaW51eC1paW9Admdlci5rZXJuZWwub3JnOyBtYWlsdG86
-ZGV2aWNldHJlZUB2Z2VyLmtlcm5lbC5vcmc7IFJlbWkgQnVpc3NvbiBtYWlsdG86UmVtaS5CdWlz
-c29uQHRkay5jb20NCj5TdWJqZWN0OiBSZTogW1BBVENIIHYyIDYvOF0gaWlvOiBpbXU6IGludl9p
-Y200NTYwMDogYWRkIFNQSSBkcml2ZXIgZm9yIGludl9pY200NTYwMCBkcml2ZXINCj5PbiBGcmks
-IEp1bCAxMSwgMjAyNSBhdCAxMjo1NToyNVBNICswODAwLCBrZXJuZWwgdGVzdCByb2JvdCB3cm90
-ZToNCj4+IEhpIFJlbWksDQo+PiANCj4NCj4+ICAgIGRyaXZlcnMvaWlvL2ltdS9pbnZfaWNtNDU2
-MDAvaW52X2ljbTQ1NjAwX2FjY2VsLmM6MTAwOjIwOiBub3RlOiBpbml0aWFsaXplIHRoZSB2YXJp
-YWJsZSAnc2xlZXAnIHRvIHNpbGVuY2UgdGhpcyB3YXJuaW5nDQo+PiAgICAgIDEwMCB8ICAgICAg
-ICAgdW5zaWduZWQgaW50IHNsZWVwOw0KPj4gICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIF4NCj4+ICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICAgPSAwDQo+
-DQo+Rm9yIHRoZSByZWNvcmQsIHRoaXMgaXMgdXN1YWxseSBiYWQgYWR2aWNlIGJ5IHRoZSBjb21w
-aWxlci4gWW91IG5lZWQgdG8gZWl0aGVyDQo+Y2hlY2sgZm9yIGVycm9ycywgb3IgZG8gc29tZXRo
-aW5nIGVsc2UuDQpUaGFua3MsIEknbGwgZm9sbG93IHlvdXIgcmVjb21tZW5kYXRpb24uIA0KPg0K
-Pj4gICAgZHJpdmVycy9paW8vaW11L2ludl9pY200NTYwMC9pbnZfaWNtNDU2MDBfZ3lyby5jOjEw
-MDoyMDogbm90ZTogaW5pdGlhbGl6ZSB0aGUgdmFyaWFibGUgJ3NsZWVwJyB0byBzaWxlbmNlIHRo
-aXMgd2FybmluZw0KPj4gICAgICAxMDAgfCAgICAgICAgIHVuc2lnbmVkIGludCBzbGVlcDsNCj4+
-ICAgICAgICAgIHwgICAgICAgICAgICAgICAgICAgICAgICAgICBeDQo+PiAgICAgICAgICB8ICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgID0gMA0KPg0KPkRpdHRvLg0KPg0KPi0tIA0KPldpdGgg
-QmVzdCBSZWdhcmRzLA0KPkFuZHkgU2hldmNoZW5rbw0KPg0KPg0KPg0K
+Hi Jonathan,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 86731a2a651e58953fc949573895f2fa6d456841]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Denose/HID-add-haptics-page-defines/20250714-231444
+base:   86731a2a651e58953fc949573895f2fa6d456841
+patch link:    https://lore.kernel.org/r/20250714-support-forcepads-v1-11-71c7c05748c9%40google.com
+patch subject: [PATCH 11/11] HID: multitouch: add haptic multitouch support
+config: hexagon-randconfig-r112-20250715 (https://download.01.org/0day-ci/archive/20250715/202507151942.94dhYylY-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce: (https://download.01.org/0day-ci/archive/20250715/202507151942.94dhYylY-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507151942.94dhYylY-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/hid/hid-haptic.c:13:6: error: redefinition of 'hid_haptic_feature_mapping'
+      13 | void hid_haptic_feature_mapping(struct hid_device *hdev,
+         |      ^
+   drivers/hid/hid-haptic.h:83:6: note: previous definition is here
+      83 | void hid_haptic_feature_mapping(struct hid_device *hdev,
+         |      ^
+>> drivers/hid/hid-haptic.c:51:6: error: redefinition of 'hid_haptic_check_pressure_unit'
+      51 | bool hid_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
+         |      ^
+   drivers/hid/hid-haptic.h:89:6: note: previous definition is here
+      89 | bool hid_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
+         |      ^
+>> drivers/hid/hid-haptic.c:65:5: error: redefinition of 'hid_haptic_input_mapping'
+      65 | int hid_haptic_input_mapping(struct hid_device *hdev,
+         |     ^
+   drivers/hid/hid-haptic.h:95:5: note: previous definition is here
+      95 | int hid_haptic_input_mapping(struct hid_device *hdev,
+         |     ^
+>> drivers/hid/hid-haptic.c:81:5: error: redefinition of 'hid_haptic_input_configured'
+      81 | int hid_haptic_input_configured(struct hid_device *hdev,
+         |     ^
+   drivers/hid/hid-haptic.h:104:5: note: previous definition is here
+     104 | int hid_haptic_input_configured(struct hid_device *hdev,
+         |     ^
+>> drivers/hid/hid-haptic.c:403:5: error: redefinition of 'hid_haptic_init'
+     403 | int hid_haptic_init(struct hid_device *hdev,
+         |     ^
+   drivers/hid/hid-haptic.h:114:5: note: previous definition is here
+     114 | int hid_haptic_init(struct hid_device *hdev, struct hid_haptic_device **haptic_ptr)
+         |     ^
+>> drivers/hid/hid-haptic.c:569:6: error: redefinition of 'hid_haptic_pressure_reset'
+     569 | void hid_haptic_pressure_reset(struct hid_haptic_device *haptic)
+         |      ^
+   drivers/hid/hid-haptic.h:126:6: note: previous definition is here
+     126 | void hid_haptic_pressure_reset(struct hid_haptic_device *haptic) {}
+         |      ^
+>> drivers/hid/hid-haptic.c:575:6: error: redefinition of 'hid_haptic_pressure_increase'
+     575 | void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
+         |      ^
+   drivers/hid/hid-haptic.h:128:6: note: previous definition is here
+     128 | void hid_haptic_pressure_increase(struct hid_haptic_device *haptic,
+         |      ^
+   7 errors generated.
+
+
+vim +/hid_haptic_feature_mapping +13 drivers/hid/hid-haptic.c
+
+783df9659b1cddf Angela Czubak 2025-07-14  12  
+783df9659b1cddf Angela Czubak 2025-07-14 @13  void hid_haptic_feature_mapping(struct hid_device *hdev,
+783df9659b1cddf Angela Czubak 2025-07-14  14  				struct hid_haptic_device *haptic,
+783df9659b1cddf Angela Czubak 2025-07-14  15  				struct hid_field *field, struct hid_usage *usage)
+783df9659b1cddf Angela Czubak 2025-07-14  16  {
+59b86a929daae04 Angela Czubak 2025-07-14  17  	u16 usage_hid;
+59b86a929daae04 Angela Czubak 2025-07-14  18  
+783df9659b1cddf Angela Czubak 2025-07-14  19  	if (usage->hid == HID_HP_AUTOTRIGGER) {
+783df9659b1cddf Angela Czubak 2025-07-14  20  		if (usage->usage_index >= field->report_count) {
+783df9659b1cddf Angela Czubak 2025-07-14  21  			dev_err(&hdev->dev,
+783df9659b1cddf Angela Czubak 2025-07-14  22  				"HID_HP_AUTOTRIGGER out of range\n");
+783df9659b1cddf Angela Czubak 2025-07-14  23  			return;
+783df9659b1cddf Angela Czubak 2025-07-14  24  		}
+783df9659b1cddf Angela Czubak 2025-07-14  25  
+783df9659b1cddf Angela Czubak 2025-07-14  26  		hid_device_io_start(hdev);
+783df9659b1cddf Angela Czubak 2025-07-14  27  		hid_hw_request(hdev, field->report, HID_REQ_GET_REPORT);
+783df9659b1cddf Angela Czubak 2025-07-14  28  		hid_hw_wait(hdev);
+783df9659b1cddf Angela Czubak 2025-07-14  29  		hid_device_io_stop(hdev);
+783df9659b1cddf Angela Czubak 2025-07-14  30  		haptic->default_auto_trigger =
+783df9659b1cddf Angela Czubak 2025-07-14  31  			field->value[usage->usage_index];
+783df9659b1cddf Angela Czubak 2025-07-14  32  		haptic->auto_trigger_report = field->report;
+59b86a929daae04 Angela Czubak 2025-07-14  33  	} else if ((usage->hid & HID_USAGE_PAGE) == HID_UP_ORDINAL) {
+59b86a929daae04 Angela Czubak 2025-07-14  34  		usage_hid = usage->hid & HID_USAGE;
+59b86a929daae04 Angela Czubak 2025-07-14  35  		switch (field->logical) {
+59b86a929daae04 Angela Czubak 2025-07-14  36  		case HID_HP_WAVEFORMLIST:
+59b86a929daae04 Angela Czubak 2025-07-14  37  			if (usage_hid > haptic->max_waveform_id)
+59b86a929daae04 Angela Czubak 2025-07-14  38  				haptic->max_waveform_id = usage_hid;
+59b86a929daae04 Angela Czubak 2025-07-14  39  			break;
+59b86a929daae04 Angela Czubak 2025-07-14  40  		case HID_HP_DURATIONLIST:
+59b86a929daae04 Angela Czubak 2025-07-14  41  			if (usage_hid > haptic->max_duration_id)
+59b86a929daae04 Angela Czubak 2025-07-14  42  				haptic->max_duration_id = usage_hid;
+59b86a929daae04 Angela Czubak 2025-07-14  43  			break;
+59b86a929daae04 Angela Czubak 2025-07-14  44  		default:
+59b86a929daae04 Angela Czubak 2025-07-14  45  			break;
+59b86a929daae04 Angela Czubak 2025-07-14  46  		}
+783df9659b1cddf Angela Czubak 2025-07-14  47  	}
+783df9659b1cddf Angela Czubak 2025-07-14  48  }
+783df9659b1cddf Angela Czubak 2025-07-14  49  EXPORT_SYMBOL_GPL(hid_haptic_feature_mapping);
+783df9659b1cddf Angela Czubak 2025-07-14  50  
+783df9659b1cddf Angela Czubak 2025-07-14 @51  bool hid_haptic_check_pressure_unit(struct hid_haptic_device *haptic,
+783df9659b1cddf Angela Czubak 2025-07-14  52  				    struct hid_input *hi, struct hid_field *field)
+783df9659b1cddf Angela Czubak 2025-07-14  53  {
+f96e0cf76b31615 Angela Czubak 2025-07-14  54  	if (field->unit == HID_UNIT_GRAM || field->unit == HID_UNIT_NEWTON) {
+f96e0cf76b31615 Angela Czubak 2025-07-14  55  		haptic->force_logical_minimum = field->logical_minimum;
+f96e0cf76b31615 Angela Czubak 2025-07-14  56  		haptic->force_physical_minimum = field->physical_minimum;
+f96e0cf76b31615 Angela Czubak 2025-07-14  57  		haptic->force_resolution = input_abs_get_res(hi->input,
+f96e0cf76b31615 Angela Czubak 2025-07-14  58  							     ABS_MT_PRESSURE);
+783df9659b1cddf Angela Czubak 2025-07-14  59  		return true;
+f96e0cf76b31615 Angela Czubak 2025-07-14  60  	}
+783df9659b1cddf Angela Czubak 2025-07-14  61  	return false;
+783df9659b1cddf Angela Czubak 2025-07-14  62  }
+783df9659b1cddf Angela Czubak 2025-07-14  63  EXPORT_SYMBOL_GPL(hid_haptic_check_pressure_unit);
+783df9659b1cddf Angela Czubak 2025-07-14  64  
+783df9659b1cddf Angela Czubak 2025-07-14 @65  int hid_haptic_input_mapping(struct hid_device *hdev,
+783df9659b1cddf Angela Czubak 2025-07-14  66  			     struct hid_haptic_device *haptic,
+783df9659b1cddf Angela Czubak 2025-07-14  67  			     struct hid_input *hi,
+783df9659b1cddf Angela Czubak 2025-07-14  68  			     struct hid_field *field, struct hid_usage *usage,
+783df9659b1cddf Angela Czubak 2025-07-14  69  			     unsigned long **bit, int *max)
+783df9659b1cddf Angela Czubak 2025-07-14  70  {
+783df9659b1cddf Angela Czubak 2025-07-14  71  	if (usage->hid == HID_HP_MANUALTRIGGER) {
+783df9659b1cddf Angela Czubak 2025-07-14  72  		haptic->manual_trigger_report = field->report;
+783df9659b1cddf Angela Czubak 2025-07-14  73  		/* we don't really want to map these fields */
+783df9659b1cddf Angela Czubak 2025-07-14  74  		return -1;
+783df9659b1cddf Angela Czubak 2025-07-14  75  	}
+783df9659b1cddf Angela Czubak 2025-07-14  76  
+783df9659b1cddf Angela Czubak 2025-07-14  77  	return 0;
+783df9659b1cddf Angela Czubak 2025-07-14  78  }
+783df9659b1cddf Angela Czubak 2025-07-14  79  EXPORT_SYMBOL_GPL(hid_haptic_input_mapping);
+783df9659b1cddf Angela Czubak 2025-07-14  80  
+783df9659b1cddf Angela Czubak 2025-07-14 @81  int hid_haptic_input_configured(struct hid_device *hdev,
+783df9659b1cddf Angela Czubak 2025-07-14  82  				struct hid_haptic_device *haptic,
+783df9659b1cddf Angela Czubak 2025-07-14  83  				struct hid_input *hi)
+783df9659b1cddf Angela Czubak 2025-07-14  84  {
+783df9659b1cddf Angela Czubak 2025-07-14  85  
+783df9659b1cddf Angela Czubak 2025-07-14  86  	if (hi->application == HID_DG_TOUCHPAD) {
+783df9659b1cddf Angela Czubak 2025-07-14  87  		if (haptic->auto_trigger_report &&
+783df9659b1cddf Angela Czubak 2025-07-14  88  		    haptic->manual_trigger_report) {
+783df9659b1cddf Angela Czubak 2025-07-14  89  			__set_bit(INPUT_PROP_HAPTIC_TOUCHPAD, hi->input->propbit);
+783df9659b1cddf Angela Czubak 2025-07-14  90  			return 1;
+783df9659b1cddf Angela Czubak 2025-07-14  91  		}
+783df9659b1cddf Angela Czubak 2025-07-14  92  		return 0;
+783df9659b1cddf Angela Czubak 2025-07-14  93  	}
+783df9659b1cddf Angela Czubak 2025-07-14  94  	return -1;
+783df9659b1cddf Angela Czubak 2025-07-14  95  }
+783df9659b1cddf Angela Czubak 2025-07-14  96  EXPORT_SYMBOL_GPL(hid_haptic_input_configured);
+59b86a929daae04 Angela Czubak 2025-07-14  97  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
