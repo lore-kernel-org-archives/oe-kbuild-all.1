@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BC0A19D8A7
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 19:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD7119F464
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 19:53:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752608613; cv=none; b=Nswu5rb9V/Y8a8PN6YtOFvsqLvsKTMX6OHxwqmmm2d9dNUmErok+arcsCz+Ncju4Imog6POm4C1oiuafd4avaUl1WOJbG/Bo443i7Lfbte/K4k9Qzx44wPqPsku342KYSBZ2+MGhKYWAQ4oO93kzk1o8xMz9LP/isMt5DSFityc=
+	t=1752609215; cv=none; b=t8CfzWxJv+tp2jt0lbeHL9kKFll1FBaPafkByUrGGMVtoHOsFeHlfXSQrp7SwSdT+j2hfVgEfMmkM9Lj5utRkI505lCe+EvhMTMH7Ehp9jky18htEzyehugwwWt3xKvb5XtUy7oUM4YZSB6MlLOKvZmyVFvs5VWuRDc5OSKFAHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752608613; c=relaxed/simple;
-	bh=/sgVpb/dNcZJDSjr3jnNaUZfH0ZhHlTTgWwp6dw5A9Q=;
+	s=arc-20240116; t=1752609215; c=relaxed/simple;
+	bh=RFo55hTSPEAKvpGW/kovfc2NmwxgkjTECvM/PRJTPf8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZND0T7UlhwARHqo+JVPCB8Iyjqv0Y+hejpQulWID1JZJRj6kx4hPP+/d/jtduQcHyovNx4Pk+fZbn+vF0exGty9fKeWYEK2iRKuZ6UkfXq0mpCqoGFyMXyM1x65L2EoQnKiWdR+8aYpF4ReQ81j+AbunXeSnb3HbUetVPG2cC+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NrUZv1pk; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=DaGy6KHH89DVwLo19aUFf0ChG7KKdXkdgeRuvfQ8mXnHxUBwxZpSnPLN++ZWy2xabWTL6pYLS5JWxC5nhEomtzr5OOqd+mVthjzhvjCKVDdEsH4ZqlpxomumtcjWZ9/DoQxwLmLVGMED7Fix6N/f/zMGD1EcL6R72HZXtxPioVc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LmLeE0ef; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NrUZv1pk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LmLeE0ef"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752608612; x=1784144612;
+  t=1752609213; x=1784145213;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/sgVpb/dNcZJDSjr3jnNaUZfH0ZhHlTTgWwp6dw5A9Q=;
-  b=NrUZv1pkoQF3t+aUpG+cCXT8anwDykRsuPVMukFHP32HByLpSXOVfnyH
-   SsxmTJ21/80tqusUH1hG1wzebEgNe2su7MEORYTXKqDGAkVcaQcI2yfO8
-   MR2YWmFChizZ1EP3b9aqCS60sKHI3ZdYyk6kpfIMoR/83ExjXjt0UTXWv
-   Ab1CtI0846zxudjeQw7meH7/3rwdfQmhO4PabE4G6hqJIfYHF9mN4DpdZ
-   hLKQkJbuNnyNNnVB/dQFqmOejz9UDKeHzA3gg6d4IlPPj3AVBD1q52y/n
-   uwtqoWGI8K3rOf/kpPvHwz6vOHG2nR/73kTdOWY4Dd8XkBsA2i3lOXlHS
-   g==;
-X-CSE-ConnectionGUID: 5bG/wo7WTxmK7qL9ocmEZg==
-X-CSE-MsgGUID: DbH+O+ZJTbGO9Q+jLOTxcw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="65103233"
+  bh=RFo55hTSPEAKvpGW/kovfc2NmwxgkjTECvM/PRJTPf8=;
+  b=LmLeE0efy1e2Mns67xJ8BxMnddcx/mRN0DYkpH5MEXQwnjbBcQSB5PLZ
+   OuAhDIDTkBSo1kJKTjckdPAwfu7S1ThhnMXDWre3ZOjFVGYvwUAM/eby1
+   mzKMoCpXYN86mBucQk07ARX9PW6Cx1xwqm+5gxDBGUPJi0rTXSg2bNfR1
+   3wQuhm74CS/iuOv9UXbmQj5orG4/6i1zWipL/BghRbm0fb0WpKBaGZxNQ
+   a4h2LuXaDTgaAfadzPjUl3tgdmwHyY3o62QXI6rb7cTHvSjfc3Wt276h5
+   uApVsbyd9992yMLEl16yQ5QUFTEjZvvjNjcdoaJjG7Qc4UNHsGoIFV7pV
+   w==;
+X-CSE-ConnectionGUID: 7fYqkza7TPS1Sfhxt0U1wA==
+X-CSE-MsgGUID: 0DtXa9pJRn2nu7wy4RL5MQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54696514"
 X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
-   d="scan'208";a="65103233"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 12:43:32 -0700
-X-CSE-ConnectionGUID: Lugcj4Y4T+WdN387dk2/wQ==
-X-CSE-MsgGUID: CimoqXWpTOype68qOE5ssw==
+   d="scan'208";a="54696514"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 12:53:32 -0700
+X-CSE-ConnectionGUID: btXwdQdzRl+APfTvLSaGWA==
+X-CSE-MsgGUID: L891lF/tSE+wykeSqglKfw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
-   d="scan'208";a="157400477"
+   d="scan'208";a="162954318"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 15 Jul 2025 12:43:30 -0700
+  by orviesa005.jf.intel.com with ESMTP; 15 Jul 2025 12:53:31 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ublYm-000BUt-0V;
-	Tue, 15 Jul 2025 19:43:28 +0000
-Date: Wed, 16 Jul 2025 03:43:00 +0800
+	id 1ubliS-000BVH-3B;
+	Tue, 15 Jul 2025 19:53:28 +0000
+Date: Wed, 16 Jul 2025 03:53:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Alex Elder <elder@riscstar.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Rob Herring (Arm)" <robh@kernel.org>
-Subject: arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: uart@18020000
- (ns8250): clock-names:0: 'core' was expected
-Message-ID: <202507160314.wrC51lXX-lkp@intel.com>
+To: jason.zeng@intel.com, lin.x.wang@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bytedance:5.15-velinux 92/92] include/linux/lsm_hook_defs.h:410:18:
+ warning: 'uring_sqpoll_default' defined but not used
+Message-ID: <202507160324.V12p0fDE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,38 +62,145 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   155a3c003e555a7300d156a5252c004c392ec6b0
-commit: 2c0594f9f0629a8b4d46e7e1bd069a0bafc2e350 dt-bindings: serial: 8250: support an optional second clock
-date:   3 months ago
-config: mips-randconfig-051-20250716 (https://download.01.org/0day-ci/archive/20250716/202507160314.wrC51lXX-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160314.wrC51lXX-lkp@intel.com/reproduce)
+Hi Paul,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/bytedance/kernel.git 5.15-velinux
+head:   c71e88ad12bfbc44f855b681ef923e1acc2e984a
+commit: c10004388b8cf563f38aa7424176b8c01e48331c [92/92] lsm,io_uring: add LSM hooks to io_uring
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250716/202507160324.V12p0fDE-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160324.V12p0fDE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507160314.wrC51lXX-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507160324.V12p0fDE-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /: failed to match any schema with compatible: ['tplink,tl-wr1043nd-v1', 'qca,ar9132']
-   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /: failed to match any schema with compatible: ['tplink,tl-wr1043nd-v1', 'qca,ar9132']
-   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /interrupt-controller: failed to match any schema with compatible: ['qca,ar9132-cpu-intc', 'qca,ar7100-cpu-intc']
-   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /interrupt-controller: failed to match any schema with compatible: ['qca,ar9132-cpu-intc', 'qca,ar7100-cpu-intc']
-   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: uart@18020000 (ns8250): $nodename:0: 'uart@18020000' does not match '^serial(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
->> arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: uart@18020000 (ns8250): clock-names:0: 'core' was expected
-   	from schema $id: http://devicetree.org/schemas/serial/8250.yaml#
-   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/apb/gpio@18040000: failed to match any schema with compatible: ['qca,ar9132-gpio', 'qca,ar7100-gpio']
-   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/apb/gpio@18040000: failed to match any schema with compatible: ['qca,ar9132-gpio', 'qca,ar7100-gpio']
-   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/apb/pll-controller@18050000: failed to match any schema with compatible: ['qca,ar9132-pll', 'qca,ar9130-pll']
-   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/apb/pll-controller@18050000: failed to match any schema with compatible: ['qca,ar9132-pll', 'qca,ar9130-pll']
-   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: wdt@18060008 (qca,ar7130-wdt): $nodename:0: 'wdt@18060008' does not match '^(timer|watchdog)(@.*|-([0-9]|[1-9][0-9]+))?$'
-   	from schema $id: http://devicetree.org/schemas/watchdog/qca,ar7130-wdt.yaml#
-   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: wdt@18060008 (qca,ar7130-wdt): Unevaluated properties are not allowed ('clock-names', 'clocks', 'interrupts' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/qca,ar7130-wdt.yaml#
-   arch/mips/boot/dts/qca/ar9132_tl_wr1043nd_v1.dtb: /ahb/apb/interrupt-controller@18060010: failed to match any schema with compatible: ['qca,ar9132-misc-intc', 'qca,ar7100-misc-intc']
+All warnings (new ones prefixed by >>):
+
+>> include/linux/lsm_hook_defs.h:410:18: warning: 'uring_sqpoll_default' defined but not used [-Wunused-const-variable=]
+     410 | LSM_HOOK(int, 0, uring_sqpoll, void)
+         |                  ^~~~~~~~~~~~
+   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
+     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
+         |                                ^~~~
+   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
+     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lsm_hook_defs.h:410:1: note: in expansion of macro 'LSM_HOOK'
+     410 | LSM_HOOK(int, 0, uring_sqpoll, void)
+         | ^~~~~~~~
+>> include/linux/lsm_hook_defs.h:409:18: warning: 'uring_override_creds_default' defined but not used [-Wunused-const-variable=]
+     409 | LSM_HOOK(int, 0, uring_override_creds, const struct cred *new)
+         |                  ^~~~~~~~~~~~~~~~~~~~
+   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
+     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
+         |                                ^~~~
+   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
+     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lsm_hook_defs.h:409:1: note: in expansion of macro 'LSM_HOOK'
+     409 | LSM_HOOK(int, 0, uring_override_creds, const struct cred *new)
+         | ^~~~~~~~
+   include/linux/lsm_hook_defs.h:405:18: warning: 'perf_event_write_default' defined but not used [-Wunused-const-variable=]
+     405 | LSM_HOOK(int, 0, perf_event_write, struct perf_event *event)
+         |                  ^~~~~~~~~~~~~~~~
+   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
+     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
+         |                                ^~~~
+   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
+     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lsm_hook_defs.h:405:1: note: in expansion of macro 'LSM_HOOK'
+     405 | LSM_HOOK(int, 0, perf_event_write, struct perf_event *event)
+         | ^~~~~~~~
+   include/linux/lsm_hook_defs.h:404:18: warning: 'perf_event_read_default' defined but not used [-Wunused-const-variable=]
+     404 | LSM_HOOK(int, 0, perf_event_read, struct perf_event *event)
+         |                  ^~~~~~~~~~~~~~~
+   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
+     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
+         |                                ^~~~
+   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
+     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lsm_hook_defs.h:404:1: note: in expansion of macro 'LSM_HOOK'
+     404 | LSM_HOOK(int, 0, perf_event_read, struct perf_event *event)
+         | ^~~~~~~~
+   include/linux/lsm_hook_defs.h:402:18: warning: 'perf_event_alloc_default' defined but not used [-Wunused-const-variable=]
+     402 | LSM_HOOK(int, 0, perf_event_alloc, struct perf_event *event)
+         |                  ^~~~~~~~~~~~~~~~
+   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
+     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
+         |                                ^~~~
+   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
+     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lsm_hook_defs.h:402:1: note: in expansion of macro 'LSM_HOOK'
+     402 | LSM_HOOK(int, 0, perf_event_alloc, struct perf_event *event)
+         | ^~~~~~~~
+   include/linux/lsm_hook_defs.h:401:18: warning: 'perf_event_open_default' defined but not used [-Wunused-const-variable=]
+     401 | LSM_HOOK(int, 0, perf_event_open, struct perf_event_attr *attr, int type)
+         |                  ^~~~~~~~~~~~~~~
+   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
+     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
+         |                                ^~~~
+   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
+     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lsm_hook_defs.h:401:1: note: in expansion of macro 'LSM_HOOK'
+     401 | LSM_HOOK(int, 0, perf_event_open, struct perf_event_attr *attr, int type)
+         | ^~~~~~~~
+   include/linux/lsm_hook_defs.h:398:18: warning: 'locked_down_default' defined but not used [-Wunused-const-variable=]
+     398 | LSM_HOOK(int, 0, locked_down, enum lockdown_reason what)
+         |                  ^~~~~~~~~~~
+   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
+     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
+         |                                ^~~~
+   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
+     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lsm_hook_defs.h:398:1: note: in expansion of macro 'LSM_HOOK'
+     398 | LSM_HOOK(int, 0, locked_down, enum lockdown_reason what)
+         | ^~~~~~~~
+   include/linux/lsm_hook_defs.h:394:18: warning: 'bpf_prog_alloc_security_default' defined but not used [-Wunused-const-variable=]
+     394 | LSM_HOOK(int, 0, bpf_prog_alloc_security, struct bpf_prog_aux *aux)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~~
+   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
+     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
+         |                                ^~~~
+   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
+     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lsm_hook_defs.h:394:1: note: in expansion of macro 'LSM_HOOK'
+     394 | LSM_HOOK(int, 0, bpf_prog_alloc_security, struct bpf_prog_aux *aux)
+         | ^~~~~~~~
+   include/linux/lsm_hook_defs.h:392:18: warning: 'bpf_map_alloc_security_default' defined but not used [-Wunused-const-variable=]
+     392 | LSM_HOOK(int, 0, bpf_map_alloc_security, struct bpf_map *map)
+         |                  ^~~~~~~~~~~~~~~~~~~~~~
+   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
+     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
+         |                                ^~~~
+   security/security.c:713:9: note: in expansion of macro 'DECLARE_LSM_RET_DEFAULT_int'
+     713 |         DECLARE_LSM_RET_DEFAULT_##RET(DEFAULT, NAME)
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lsm_hook_defs.h:392:1: note: in expansion of macro 'LSM_HOOK'
+     392 | LSM_HOOK(int, 0, bpf_map_alloc_security, struct bpf_map *map)
+         | ^~~~~~~~
+   include/linux/lsm_hook_defs.h:391:18: warning: 'bpf_prog_default' defined but not used [-Wunused-const-variable=]
+     391 | LSM_HOOK(int, 0, bpf_prog, struct bpf_prog *prog)
+         |                  ^~~~~~~~
+   security/security.c:708:32: note: in definition of macro 'LSM_RET_DEFAULT'
+     708 | #define LSM_RET_DEFAULT(NAME) (NAME##_default)
+
+
+vim +/uring_sqpoll_default +410 include/linux/lsm_hook_defs.h
+
+   407	
+   408	#ifdef CONFIG_IO_URING
+ > 409	LSM_HOOK(int, 0, uring_override_creds, const struct cred *new)
+ > 410	LSM_HOOK(int, 0, uring_sqpoll, void)
 
 -- 
 0-DAY CI Kernel Test Service
