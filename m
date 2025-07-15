@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D021922FB
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 15:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D7B24DCEC
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 15:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752592865; cv=none; b=S1bAPiBnMrFdGZfShiFszV7IdVkUxhpIU7rEDonWnj0O8wPQ3PEOtyjrl2cLX0rHcr4R4/17cX8v+Q3aghacTd35V4IsAFGCwSc0/R8njSC36POqZNIlj1ZRlvab1uDt+td8FMu3tydUysmw/jVvL7yboNKeBYEzy0rl/L8WWn8=
+	t=1752594129; cv=none; b=RJyI1hXs6nIxB/D6SDP9mrSl8IcLF9HWVBxm43N01ZX8dIwghI8QfJGnJ+zTkFZ+SEDl7tw+95+FqMUrxPEoeBnR8/N/R2zYDYHLRFlrTjvN8T7wQXuUqjY3dkGjPpUzt8B/7sz1qPnpa36Y3zVH/ltyRW2g0XuAmiRWjW/KJBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752592865; c=relaxed/simple;
-	bh=70YlwvCM3n3lOaxFMD73faEMAwZP8s3S23wwWmeS3sw=;
+	s=arc-20240116; t=1752594129; c=relaxed/simple;
+	bh=i7zGDrpCs0zOY7b4ZK2nPEICeLTLJNIjJydZGkO4FXQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=KtC9Wsxppd4uIxs6KB1YWd2ysfDCxx/Pm47RPjLl9WfnAUNc74gTDb3ZH/v8LsAbYL+06BoBWun7q6NjerCqqkCX7lmBRR11ACvhGvfgd6SMTz02qjZAx3g8lGfAU8S4A9id5ConhHcoSz9j23y4b6d9GZ6UX+VZI/wdgC/tEOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fMrMHOAO; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=FgdnvNdh9vG0032CMu/h+tv0QgVYnyXY1IZ7X9b2E2eTsVxKMiMTMtCA5X2KLm7BvO9nNFEzuheFMZ1UaiB5rlV7GN9p6rmXlk7pgNLbkmyFEHkNxM7loPCwJn2MaTTjUskRHLNXNpP4uDvUggYBO2oJ3Q4OXRuOtnjYYUzA4Ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Eh+OdsXi; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fMrMHOAO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Eh+OdsXi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752592864; x=1784128864;
+  t=1752594128; x=1784130128;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=70YlwvCM3n3lOaxFMD73faEMAwZP8s3S23wwWmeS3sw=;
-  b=fMrMHOAO6RmM82SWw44D/Y2h4bRdJB9dr/cvt3MEuXziefvJeqpR0sb7
-   NvJb7vPAsKXyzRhPG1y+/SzRQVBuISSx1/+ErNvuXCZY1s+ivmNVgfxDv
-   Sp8s6e1oKWp4FxnAlfXth54h2FE6WO+QBnIKfNcEVybcucdwT6S2Ab45+
-   Lmmk4sZ7kafVI8oSBuZ0V3ZY3t35W36Oi1KmQliWfQLcwj0Gz/yHBdsQC
-   TGj0P8Ifcri774nl6wuVyAKlk2XVnDgycRZt4o9WanWoxmkiqS6vCax6a
-   +9/mCVkHq4I9z3Cs+Rw5NJSrFS75L4Jgjn15V33LcvkAQPQ9MFgJTLL5W
-   g==;
-X-CSE-ConnectionGUID: vnltWpyCSBymSOklYudpLA==
-X-CSE-MsgGUID: 0TMJQLz6TRqoxnzwCQBPAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="65079110"
+  bh=i7zGDrpCs0zOY7b4ZK2nPEICeLTLJNIjJydZGkO4FXQ=;
+  b=Eh+OdsXisHlFSRdjkWFUGYjZpKTHXLq77fjWSyGdqr5PnBBQhZNV17Jt
+   bDeeq7Bun+2YO4QzywReOW0Z3wIFHj8ilSaLzxTgjUJ8P3WcULbH3jIGZ
+   wDc5tjrlMqkYmQTfpjfGh5Lie4LB7UyAgs+yjNqdCEdkIbG1EMz3fWoxN
+   nuNw+J4FhJOMFOeHaShGsMunD8L6avydtuWeJeapj/Gjk8ijaPlXW+OyU
+   RE6F1Tkr02mIl7elnX0/69oeVlBqZ7LgvggorLMZmhTxbft7BqY1e55rT
+   clDG6RYj2M+77HD7XrZRnSGLVssw+CEHp3Ks+yFSiOhxAoU55lt9GdDNf
+   Q==;
+X-CSE-ConnectionGUID: 7kjxbvjoSkuczMEzYz1HwA==
+X-CSE-MsgGUID: RTx2kLruST2y0GSK3MEI3A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54757897"
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="65079110"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 08:21:03 -0700
-X-CSE-ConnectionGUID: mNGvqeKqTHuQRaXs3/yYxg==
-X-CSE-MsgGUID: 87EG8jpWR62Gr9qZgVznSA==
+   d="scan'208";a="54757897"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 08:42:07 -0700
+X-CSE-ConnectionGUID: diPoKhKNR1mcZwHesovYdQ==
+X-CSE-MsgGUID: amoLNCgzT86k6iKA2o/ZEw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="157604733"
+   d="scan'208";a="161572175"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 15 Jul 2025 08:21:02 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 15 Jul 2025 08:42:06 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubhSm-000BEl-1F;
-	Tue, 15 Jul 2025 15:21:00 +0000
-Date: Tue, 15 Jul 2025 23:20:57 +0800
+	id 1ubhn9-000BGJ-2W;
+	Tue, 15 Jul 2025 15:42:03 +0000
+Date: Tue, 15 Jul 2025 23:41:19 +0800
 From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com, lin.x.wang@intel.com, pei.p.jia@intel.com
+To: Christoph Hellwig <hch@lst.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 0/92] mm/oom_kill.c:318:14: warning: no
- previous prototype for 'bpf_oom_evaluate_task'
-Message-ID: <202507152338.2XY3vLhj-lkp@intel.com>
+Subject: [hch-xfs:xfs-trans-cleanups 5/8] fs/xfs/xfs_inode.c:2939:6: warning:
+ variable 'error' is used uninitialized whenever 'if' condition is false
+Message-ID: <202507152359.IWcfY6aZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,38 +62,64 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-Hi Chuyi,
-
-FYI, the error/warning still remains.
-
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   c71e88ad12bfbc44f855b681ef923e1acc2e984a
-commit: 9cffac2e6f2df386d7cf4c2cf90d5fe2c1d6b793 [0/92] bytedance: mm, oom: Introduce bpf_oom_evaluate_task
-config: x86_64-buildonly-randconfig-001-20250715 (https://download.01.org/0day-ci/archive/20250715/202507152338.2XY3vLhj-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507152338.2XY3vLhj-lkp@intel.com/reproduce)
+tree:   git://git.infradead.org/users/hch/xfs xfs-trans-cleanups
+head:   eabea0b216f4782b4f15143d5b411b113026a69b
+commit: 9823a1576f363cb62d4ad064359cb2c7b5d2c49a [5/8] xfs: return the allocated transaction from xfs_trans_alloc_empty
+config: arm64-randconfig-004-20250715 (https://download.01.org/0day-ci/archive/20250715/202507152359.IWcfY6aZ-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507152359.IWcfY6aZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507152338.2XY3vLhj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507152359.IWcfY6aZ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/oom_kill.c:318:14: warning: no previous prototype for 'bpf_oom_evaluate_task' [-Wmissing-prototypes]
-     318 | noinline int bpf_oom_evaluate_task(struct task_struct *task, struct oom_control *oc)
-         |              ^~~~~~~~~~~~~~~~~~~~~
+>> fs/xfs/xfs_inode.c:2939:6: warning: variable 'error' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+    2939 |         if (xfs_inode_unlinked_incomplete(ip))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_inode.c:2944:9: note: uninitialized use occurs here
+    2944 |         return error;
+         |                ^~~~~
+   fs/xfs/xfs_inode.c:2939:2: note: remove the 'if' if its condition is always true
+    2939 |         if (xfs_inode_unlinked_incomplete(ip))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2940 |                 error = xfs_inode_reload_unlinked_bucket(tp, ip);
+   fs/xfs/xfs_inode.c:2935:13: note: initialize the variable 'error' to silence this warning
+    2935 |         int                     error;
+         |                                      ^
+         |                                       = 0
+   1 warning generated.
 
 
-vim +/bpf_oom_evaluate_task +318 mm/oom_kill.c
+vim +2939 fs/xfs/xfs_inode.c
 
-   317	
- > 318	noinline int bpf_oom_evaluate_task(struct task_struct *task, struct oom_control *oc)
-   319	{
-   320		return NO_BPF_POLICY;
-   321	}
-   322	ALLOW_ERROR_INJECTION(bpf_oom_evaluate_task, ERRNO);
-   323	
+83771c50e42b92 Darrick J. Wong   2023-09-11  2928  
+83771c50e42b92 Darrick J. Wong   2023-09-11  2929  /* Decide if this inode is missing its unlinked list and reload it. */
+83771c50e42b92 Darrick J. Wong   2023-09-11  2930  int
+83771c50e42b92 Darrick J. Wong   2023-09-11  2931  xfs_inode_reload_unlinked(
+83771c50e42b92 Darrick J. Wong   2023-09-11  2932  	struct xfs_inode	*ip)
+83771c50e42b92 Darrick J. Wong   2023-09-11  2933  {
+83771c50e42b92 Darrick J. Wong   2023-09-11  2934  	struct xfs_trans	*tp;
+83771c50e42b92 Darrick J. Wong   2023-09-11  2935  	int			error;
+83771c50e42b92 Darrick J. Wong   2023-09-11  2936  
+9823a1576f363c Christoph Hellwig 2025-07-15  2937  	tp = xfs_trans_alloc_empty(ip->i_mount);
+83771c50e42b92 Darrick J. Wong   2023-09-11  2938  	xfs_ilock(ip, XFS_ILOCK_SHARED);
+83771c50e42b92 Darrick J. Wong   2023-09-11 @2939  	if (xfs_inode_unlinked_incomplete(ip))
+83771c50e42b92 Darrick J. Wong   2023-09-11  2940  		error = xfs_inode_reload_unlinked_bucket(tp, ip);
+83771c50e42b92 Darrick J. Wong   2023-09-11  2941  	xfs_iunlock(ip, XFS_ILOCK_SHARED);
+83771c50e42b92 Darrick J. Wong   2023-09-11  2942  	xfs_trans_cancel(tp);
+83771c50e42b92 Darrick J. Wong   2023-09-11  2943  
+83771c50e42b92 Darrick J. Wong   2023-09-11  2944  	return error;
+83771c50e42b92 Darrick J. Wong   2023-09-11  2945  }
+d9041681dd2f53 Darrick J. Wong   2023-12-15  2946  
+
+:::::: The code at line 2939 was first introduced by commit
+:::::: 83771c50e42b92de6740a63e152c96c052d37736 xfs: reload entire unlinked bucket lists
+
+:::::: TO: Darrick J. Wong <djwong@kernel.org>
+:::::: CC: Darrick J. Wong <djwong@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
