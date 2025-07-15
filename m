@@ -1,42 +1,59 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E6E2BE64E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 20:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C882376F8
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 21:06:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752613201; cv=none; b=WT6xGbw5cPUXOuWLVo/BFFWHE6MXwwQnMVSoWB30Wj75H0GWmDQ/Fo7BBWJPgoXa4LeXyoGTNcboub/PwSTyoZDOTwUKC+sopUwk87GcY5OoXHV9Y6dTn0x+3VxtHw3TWbVofTT8KsOh5RAYgS8JNNNeqFrg2UWGFfW0CsqUj/g=
+	t=1752613602; cv=none; b=GEl+cbOG4KZWzSRUsS5TWEse2FkIXFcugeBwcmqAdtT1Vs4/bKOtMJozc9IINmzrBvnT+PNUVFRX26B+4w3h05xIC19lM+hBx7ytUDnAt3uTN0+ufSiDV2Fsmecp7vvHxFApFOyG9FA0rRMKcvksNUjiTjQiXRsFt9V31nSthUs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752613201; c=relaxed/simple;
-	bh=t5UHwHUcwuFO2mxJ1wCOTzEma5fPdwygV6zuENXmDPs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gNSzmEtjFmIaCG2wjUeNa/Ah6YYHHVRikEGhCtsg/qO7SjEc+fAwh4KZ9T8zeYH7etWBftEb5cIV0/kRO3qBjp/47kwQCmpLfzcpGQzZRM3mZTwxtu5GybU4OXJb3XkOdrNQWME/zbQfbRTV8XOAr6lTrkC9kXeRPJE8vI+HTAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=H77IPP9N; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1752613602; c=relaxed/simple;
+	bh=heVKCJwJfhpKufMzWyVfH9N6CXcoPK5SevbQ91zeNEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bvOdW1MZ0i8vVetDI+D6haYAaWyE+gfEvAi2r8sbbIqkmG2acawCCcL5KsTfnke6Wwvl3XsnLSMXkxp/UL2uprM/OfMIZyTDyB2EibXsQ/7k/ZPBpGqRASc3ScTNVDRGOK4TqW8YFQu2B7sjFncwhPBUMLE7TLg4i/LC2a8kZII=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gHa8uKAv; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="H77IPP9N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=qAIO
-	8P8iEkJ6QxHboa4hnNaoyWAS2UElUdw0iVqs3uU=; b=H77IPP9NX4ItN0pgE9An
-	DYac39OI3b0l96I9TJlz5RDURbGnQDl8PZ4TbcEW9jkiuMUSJhfDI5/aHwui6qWH
-	E3xkhGQyTufQHDFSl+N7cH0THvcfjIkVZ2j2z4HmYZqdpR2WDgnA4XQQY5HdmHKS
-	5izdjXcRrePFPNkF3dFlG0Sg1Nrpjs2MbPRiMRpDdFCMoM2/WUeFlaP7m638z4SK
-	UVfo2kyOrH0BiQhNIokJ7QiCPQ5mc32qup1JE5iF+cBZwL4NCXR6a7orm5UMKbho
-	dHAv1BmJ/x2hXXTAR3bU0MPv27ocy1kzN3g2p26M1wFQLbIiTE1JVsXEhwF8LXp8
-	Yg==
-Received: (qmail 3044531 invoked from network); 15 Jul 2025 22:59:57 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Jul 2025 22:59:57 +0200
-X-UD-Smtp-Session: l3s3148p1@ex4OD/45wo0ujnsR
-Date: Tue, 15 Jul 2025 22:59:57 +0200
-From: Wolfram Sang <wsa-dev@sang-engineering.com>
-To: kernel test robot <lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gHa8uKAv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752613600; x=1784149600;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=heVKCJwJfhpKufMzWyVfH9N6CXcoPK5SevbQ91zeNEU=;
+  b=gHa8uKAv3qBOwIqW1SzbPB+44eXyBFVJ4KSizkJmZIhUXi7zb41y+Q0u
+   NXjvuwDbNmhEpYp6UL4ZyKadqrCT0YKzeGWdQo/bT+5CYpyGDVUoPEcTJ
+   hjjJcSY6Prc8DoPkRurYh+iPeR+qWf8wgyDpQKAkjtHcZ01FBwVmc1WbJ
+   0CBp9Oxvk0VlOP3qyTh/getXPc+zTLm0ROrTiiXgMeeEtlnG7MUfjRyhS
+   W4rBs/wSXfzcLGM0DQELaNB2lQde6WzOK/pfdPw7xU8uGr/aqVE6zZ9gh
+   DxC3aNKF84LHHWj1dYxu7sHxdQaUeJjPuFcpl17K0hM7FTO40tfJ/h9/B
+   Q==;
+X-CSE-ConnectionGUID: /JVN8z/LThOJ+mmQX05LxA==
+X-CSE-MsgGUID: 3KTRu/CGTDi44rx+KcQPlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54784750"
+X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
+   d="scan'208";a="54784750"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 14:06:40 -0700
+X-CSE-ConnectionGUID: V4IdyWNiT/C8aEryldda9w==
+X-CSE-MsgGUID: O/O0dsmlT6GHSIRUL7LJLQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
+   d="scan'208";a="156732194"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 15 Jul 2025 14:06:38 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ubmrE-000BYB-1F;
+	Tue, 15 Jul 2025 21:06:36 +0000
+Date: Wed, 16 Jul 2025 05:05:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [wsa:renesas/g3s/i3c 7/19] drivers/i3c/internals.h:35:9: error:
- implicit declaration of function 'writesl'
-Message-ID: <aHbBTY5gJ15B-x98@shikoro>
-References: <202507150208.BZDzzJ5E-lkp@intel.com>
+Subject: [jolsa-perf:bpf/tracing_multi 6/22]
+ samples/ftrace/ftrace-direct.c:210:65: error: too few arguments to function
+ call, expected 3, have 2
+Message-ID: <202507160434.AbVo4o0Z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -45,20 +62,131 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202507150208.BZDzzJ5E-lkp@intel.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi
+head:   d0503d4013c49a3fde856947dfffe6c80c178eb1
+commit: 2db96f9d6613f7591f4b57cedee812b64b5a9f39 [6/22] ftrace: Use direct hash interface in direct functions
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250716/202507160434.AbVo4o0Z-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160434.AbVo4o0Z-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507160434.AbVo4o0Z-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> samples/ftrace/ftrace-direct.c:210:65: error: too few arguments to function call, expected 3, have 2
+     210 |         return register_ftrace_direct(&direct, (unsigned long) my_tramp);
+         |                ~~~~~~~~~~~~~~~~~~~~~~                                  ^
+   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
+     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
+         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   samples/ftrace/ftrace-direct.c:215:65: error: too few arguments to function call, expected 4, have 3
+     215 |         unregister_ftrace_direct(&direct, (unsigned long)my_tramp, true);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~                                       ^
+   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
+     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
+         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     541 |                              bool free_filters);
+         |                              ~~~~~~~~~~~~~~~~~
+   2 errors generated.
+--
+>> samples/ftrace/ftrace-direct-too.c:243:65: error: too few arguments to function call, expected 3, have 2
+     243 |         return register_ftrace_direct(&direct, (unsigned long) my_tramp);
+         |                ~~~~~~~~~~~~~~~~~~~~~~                                  ^
+   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
+     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
+         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   samples/ftrace/ftrace-direct-too.c:248:65: error: too few arguments to function call, expected 4, have 3
+     248 |         unregister_ftrace_direct(&direct, (unsigned long)my_tramp, true);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~                                       ^
+   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
+     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
+         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     541 |                              bool free_filters);
+         |                              ~~~~~~~~~~~~~~~~~
+   2 errors generated.
+--
+>> samples/ftrace/ftrace-direct-modify.c:305:48: error: too few arguments to function call, expected 4, have 2
+     305 |                 ret = modify_ftrace_direct(&direct, tramps[t]);
+         |                       ~~~~~~~~~~~~~~~~~~~~                   ^
+   include/linux/ftrace.h:542:5: note: 'modify_ftrace_direct' declared here
+     542 | int modify_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr, bool lock_direct_mutex);
+         |     ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   samples/ftrace/ftrace-direct-modify.c:321:48: error: too few arguments to function call, expected 3, have 2
+     321 |         ret = register_ftrace_direct(&direct, my_tramp);
+         |               ~~~~~~~~~~~~~~~~~~~~~~                  ^
+   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
+     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
+         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   samples/ftrace/ftrace-direct-modify.c:331:50: error: too few arguments to function call, expected 4, have 3
+     331 |         unregister_ftrace_direct(&direct, my_tramp, true);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~                        ^
+   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
+     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
+         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     541 |                              bool free_filters);
+         |                              ~~~~~~~~~~~~~~~~~
+   3 errors generated.
+--
+>> samples/ftrace/ftrace-direct-multi.c:228:65: error: too few arguments to function call, expected 3, have 2
+     228 |         return register_ftrace_direct(&direct, (unsigned long) my_tramp);
+         |                ~~~~~~~~~~~~~~~~~~~~~~                                  ^
+   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
+     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
+         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   samples/ftrace/ftrace-direct-multi.c:233:66: error: too few arguments to function call, expected 4, have 3
+     233 |         unregister_ftrace_direct(&direct, (unsigned long) my_tramp, true);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~                                        ^
+   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
+     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
+         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     541 |                              bool free_filters);
+         |                              ~~~~~~~~~~~~~~~~~
+   2 errors generated.
+--
+>> samples/ftrace/ftrace-direct-multi-modify.c:347:48: error: too few arguments to function call, expected 4, have 2
+     347 |                 ret = modify_ftrace_direct(&direct, tramps[t]);
+         |                       ~~~~~~~~~~~~~~~~~~~~                   ^
+   include/linux/ftrace.h:542:5: note: 'modify_ftrace_direct' declared here
+     542 | int modify_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr, bool lock_direct_mutex);
+         |     ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   samples/ftrace/ftrace-direct-multi-modify.c:365:48: error: too few arguments to function call, expected 3, have 2
+     365 |         ret = register_ftrace_direct(&direct, my_tramp);
+         |               ~~~~~~~~~~~~~~~~~~~~~~                  ^
+   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
+     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
+         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   samples/ftrace/ftrace-direct-multi-modify.c:375:50: error: too few arguments to function call, expected 4, have 3
+     375 |         unregister_ftrace_direct(&direct, my_tramp, true);
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~                        ^
+   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
+     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
+         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     541 |                              bool free_filters);
+         |                              ~~~~~~~~~~~~~~~~~
+   3 errors generated.
 
 
-> config: x86_64-buildonly-randconfig-003-20250714 (https://download.01.org/0day-ci/archive/20250715/202507150208.BZDzzJ5E-lkp@intel.com/config)
+vim +210 samples/ftrace/ftrace-direct.c
 
-I can't reproduce this with the above config.
+23edf48309b14a Florent Revest          2023-03-21  205  
+b06457c83af669 Steven Rostedt (VMware  2019-11-08  206) static int __init ftrace_direct_init(void)
+b06457c83af669 Steven Rostedt (VMware  2019-11-08  207) {
+23edf48309b14a Florent Revest          2023-03-21  208  	ftrace_set_filter_ip(&direct, (unsigned long) wake_up_process, 0, 0);
+23edf48309b14a Florent Revest          2023-03-21  209  
+da8bdfbd422333 Florent Revest          2023-03-21 @210  	return register_ftrace_direct(&direct, (unsigned long) my_tramp);
+b06457c83af669 Steven Rostedt (VMware  2019-11-08  211) }
+b06457c83af669 Steven Rostedt (VMware  2019-11-08  212) 
 
-> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150208.BZDzzJ5E-lkp@intel.com/reproduce)
+:::::: The code at line 210 was first introduced by commit
+:::::: da8bdfbd422333fbb7c85ac1d7f18592d17d6665 ftrace: Rename _ftrace_direct_multi APIs to _ftrace_direct APIs
 
-> >> drivers/i3c/internals.h:40:17: error: implicit declaration of function 'writel' [-Werror=implicit-function-declaration]
->       40 |                 writel(tmp, addr);
->          |                 ^~~~~~
+:::::: TO: Florent Revest <revest@chromium.org>
+:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
 
-But I added the 'linux/io.h' header to internals.h and will let the bot
-recheck my branch...
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
