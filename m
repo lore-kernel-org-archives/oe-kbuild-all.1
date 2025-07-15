@@ -1,192 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f73.google.com (mail-oo1-f73.google.com [209.85.161.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86C882376F8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 21:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD042652B6
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 21:16:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752613602; cv=none; b=GEl+cbOG4KZWzSRUsS5TWEse2FkIXFcugeBwcmqAdtT1Vs4/bKOtMJozc9IINmzrBvnT+PNUVFRX26B+4w3h05xIC19lM+hBx7ytUDnAt3uTN0+ufSiDV2Fsmecp7vvHxFApFOyG9FA0rRMKcvksNUjiTjQiXRsFt9V31nSthUs=
+	t=1752614215; cv=none; b=f2PEf2yA6ftZiMXRkFCVnkDCFIxsF3byI/5pkRMx7DIkXpemERu0/YWgmlafUs8e351NaNPA+V4pFGOJPnjA7rZV9xmgy8gMx8ZrcM7/xhbSXSCdv/eFGIMx0KceU8Vaf4s2qXOYiHFezgVp71k9JWsQlTUQzSyfB9yuuWYnnUo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752613602; c=relaxed/simple;
-	bh=heVKCJwJfhpKufMzWyVfH9N6CXcoPK5SevbQ91zeNEU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bvOdW1MZ0i8vVetDI+D6haYAaWyE+gfEvAi2r8sbbIqkmG2acawCCcL5KsTfnke6Wwvl3XsnLSMXkxp/UL2uprM/OfMIZyTDyB2EibXsQ/7k/ZPBpGqRASc3ScTNVDRGOK4TqW8YFQu2B7sjFncwhPBUMLE7TLg4i/LC2a8kZII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gHa8uKAv; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752614215; c=relaxed/simple;
+	bh=tOQO6BDvaHzehkXLuqrv7zmehstQBhotZEf5osv7fJ8=;
+	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=RaY/RWnRLwyzepDQBihyZIXgVnMnWt03lsdzVpUJqyux2qVJDClSgn9MljTYCOxqoWFFKlLtQw9EDwtCa3j7ZLvXUV1CDzPYDPBW7AR4OoUhPxOMgQgsxW2Q4WYikfx49XqN9uFaklP/sxXjSWKAeVCXw1mOXrNfFG+LdCavENw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U6wN28jf; arc=none smtp.client-ip=209.85.161.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gHa8uKAv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752613600; x=1784149600;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=heVKCJwJfhpKufMzWyVfH9N6CXcoPK5SevbQ91zeNEU=;
-  b=gHa8uKAv3qBOwIqW1SzbPB+44eXyBFVJ4KSizkJmZIhUXi7zb41y+Q0u
-   NXjvuwDbNmhEpYp6UL4ZyKadqrCT0YKzeGWdQo/bT+5CYpyGDVUoPEcTJ
-   hjjJcSY6Prc8DoPkRurYh+iPeR+qWf8wgyDpQKAkjtHcZ01FBwVmc1WbJ
-   0CBp9Oxvk0VlOP3qyTh/getXPc+zTLm0ROrTiiXgMeeEtlnG7MUfjRyhS
-   W4rBs/wSXfzcLGM0DQELaNB2lQde6WzOK/pfdPw7xU8uGr/aqVE6zZ9gh
-   DxC3aNKF84LHHWj1dYxu7sHxdQaUeJjPuFcpl17K0hM7FTO40tfJ/h9/B
-   Q==;
-X-CSE-ConnectionGUID: /JVN8z/LThOJ+mmQX05LxA==
-X-CSE-MsgGUID: 3KTRu/CGTDi44rx+KcQPlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54784750"
-X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
-   d="scan'208";a="54784750"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 14:06:40 -0700
-X-CSE-ConnectionGUID: V4IdyWNiT/C8aEryldda9w==
-X-CSE-MsgGUID: O/O0dsmlT6GHSIRUL7LJLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
-   d="scan'208";a="156732194"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 15 Jul 2025 14:06:38 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubmrE-000BYB-1F;
-	Tue, 15 Jul 2025 21:06:36 +0000
-Date: Wed, 16 Jul 2025 05:05:47 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi 6/22]
- samples/ftrace/ftrace-direct.c:210:65: error: too few arguments to function
- call, expected 3, have 2
-Message-ID: <202507160434.AbVo4o0Z-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U6wN28jf"
+Received: by mail-oo1-f73.google.com with SMTP id 006d021491bc7-6159bfd9bc1so422742eaf.3
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 14:16:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1752614212; x=1753219012; darn=lists.linux.dev;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=W3m+1hLOZ8hAFq4B95DKPtg5XMn2S7HOXjCLINFrtq0=;
+        b=U6wN28jf5SzJu9Kyr4pcOV+Oj08sJFEnHKy+EuG3Z6ZAVN0d4CGE56Y7j9161+jINo
+         tHT42LV1anFRiV0vPqBE8cpDQoWKACxRkSzt0H/8z3vQ68naUUY5mfdqVkuP4N+HuK7d
+         tex8WZZZ+4X1hGZjyIBcNAQ4VUJMkiSHpUKhhQP5QRVEe8KRAVjyRGSUOlSyQHTcx/oG
+         VkveamgxY5i4Yfbz5FSXmZLVDD6nPeYIFJxgdJW5AGl920Ypda6LdX/cYsyLAyyOEYNo
+         SMAwzlLL7vO10coyZ0pgOwhYUA5wB/0weqwEC9BWKcMs5k8uUIU61RLWMPotFNyuMt40
+         NXKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752614212; x=1753219012;
+        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=W3m+1hLOZ8hAFq4B95DKPtg5XMn2S7HOXjCLINFrtq0=;
+        b=M8m9+mgXVOrjPfN896+nWpq/vwx065TEXHg4VLMinbtK6/GmT60a78dSF2LfCyrAvf
+         slCgf8iXXgwh1xBv/O4aHMAGHU7Fm32Yj6EhRjwxAwEovzmpWuvppf/C1mNFVhch7laS
+         OOWFY7SKiqd3cBxY0FhPCYtgoQ+CHHDN4RqI5jmBwClREV18sqC2sSw5Tnxcynbr8OWk
+         9R/nFVLAgL5Sz1PEg87EHK2H1OznbFgb0HgofVBskViOoWhqxaddRAQOAqPuSe3fs9b1
+         N2dJ7Vo+og+OFbN6E1HmV5K49ms6NFgYJveH2XFaodt2zLIvD5zlQdlq+WLsbi7yyfII
+         7ALg==
+X-Forwarded-Encrypted: i=1; AJvYcCXGXhUPYOKmtXynkcuOGwg5WBtRj8AKZ5AoYnUFbFGf2cKv6Syf+tuYILtr1aBjnJIjfBaXf8qegggcE2ZX@lists.linux.dev
+X-Gm-Message-State: AOJu0YwSLhArXuLV2b9/Aq6XMk2UbOdOiesjQkL13GXUhUc9bKP1CCWv
+	z44QH77+/Gmev4i6oe7HaaXtVOfR2HpBc8+2wa+Qjp6NDHFEist31WlmWDX2yDq1ZhY1Zd1/cmg
+	iWPKOWdo2+SALIzCgRqVmIgSilA==
+X-Google-Smtp-Source: AGHT+IET2M3P36gkp3EjMv7BaUc9VYIy2qskuUCF22ILqTd3hhERB/uyQyetYE1K8s52+LEBtd/RipiSFpzH6qhMLA==
+X-Received: from oobic4.prod.google.com ([2002:a05:6820:6704:b0:613:872a:7b2b])
+ (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6820:418e:b0:615:7c7f:4aa6 with SMTP id 006d021491bc7-615a1f5b472mr11828eaf.3.1752614211817;
+ Tue, 15 Jul 2025 14:16:51 -0700 (PDT)
+Date: Tue, 15 Jul 2025 21:16:50 +0000
+In-Reply-To: <202507160129.vrvWpdVu-lkp@intel.com> (message from kernel test
+ robot on Wed, 16 Jul 2025 01:26:23 +0800)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Message-ID: <gsntv7nt9mt9.fsf@coltonlewis-kvm.c.googlers.com>
+Subject: Re: [PATCH v4 22/23] KVM: arm64: Add ioctl to partition the PMU when supported
+From: Colton Lewis <coltonlewis@google.com>
+To: kernel test robot <lkp@intel.com>
+Cc: kvm@vger.kernel.org, oe-kbuild-all@lists.linux.dev, pbonzini@redhat.com, 
+	corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, 
+	will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
+	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
+	mark.rutland@arm.com, skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi
-head:   d0503d4013c49a3fde856947dfffe6c80c178eb1
-commit: 2db96f9d6613f7591f4b57cedee812b64b5a9f39 [6/22] ftrace: Use direct hash interface in direct functions
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250716/202507160434.AbVo4o0Z-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160434.AbVo4o0Z-lkp@intel.com/reproduce)
+kernel test robot <lkp@intel.com> writes:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507160434.AbVo4o0Z-lkp@intel.com/
+> Hi Colton,
 
-All errors (new ones prefixed by >>):
+> kernel test robot noticed the following build errors:
 
->> samples/ftrace/ftrace-direct.c:210:65: error: too few arguments to function call, expected 3, have 2
-     210 |         return register_ftrace_direct(&direct, (unsigned long) my_tramp);
-         |                ~~~~~~~~~~~~~~~~~~~~~~                                  ^
-   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct.c:215:65: error: too few arguments to function call, expected 4, have 3
-     215 |         unregister_ftrace_direct(&direct, (unsigned long)my_tramp, true);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~                                       ^
-   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     541 |                              bool free_filters);
-         |                              ~~~~~~~~~~~~~~~~~
-   2 errors generated.
---
->> samples/ftrace/ftrace-direct-too.c:243:65: error: too few arguments to function call, expected 3, have 2
-     243 |         return register_ftrace_direct(&direct, (unsigned long) my_tramp);
-         |                ~~~~~~~~~~~~~~~~~~~~~~                                  ^
-   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-too.c:248:65: error: too few arguments to function call, expected 4, have 3
-     248 |         unregister_ftrace_direct(&direct, (unsigned long)my_tramp, true);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~                                       ^
-   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     541 |                              bool free_filters);
-         |                              ~~~~~~~~~~~~~~~~~
-   2 errors generated.
---
->> samples/ftrace/ftrace-direct-modify.c:305:48: error: too few arguments to function call, expected 4, have 2
-     305 |                 ret = modify_ftrace_direct(&direct, tramps[t]);
-         |                       ~~~~~~~~~~~~~~~~~~~~                   ^
-   include/linux/ftrace.h:542:5: note: 'modify_ftrace_direct' declared here
-     542 | int modify_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr, bool lock_direct_mutex);
-         |     ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-modify.c:321:48: error: too few arguments to function call, expected 3, have 2
-     321 |         ret = register_ftrace_direct(&direct, my_tramp);
-         |               ~~~~~~~~~~~~~~~~~~~~~~                  ^
-   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-modify.c:331:50: error: too few arguments to function call, expected 4, have 3
-     331 |         unregister_ftrace_direct(&direct, my_tramp, true);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~                        ^
-   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     541 |                              bool free_filters);
-         |                              ~~~~~~~~~~~~~~~~~
-   3 errors generated.
---
->> samples/ftrace/ftrace-direct-multi.c:228:65: error: too few arguments to function call, expected 3, have 2
-     228 |         return register_ftrace_direct(&direct, (unsigned long) my_tramp);
-         |                ~~~~~~~~~~~~~~~~~~~~~~                                  ^
-   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-multi.c:233:66: error: too few arguments to function call, expected 4, have 3
-     233 |         unregister_ftrace_direct(&direct, (unsigned long) my_tramp, true);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~                                        ^
-   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     541 |                              bool free_filters);
-         |                              ~~~~~~~~~~~~~~~~~
-   2 errors generated.
---
->> samples/ftrace/ftrace-direct-multi-modify.c:347:48: error: too few arguments to function call, expected 4, have 2
-     347 |                 ret = modify_ftrace_direct(&direct, tramps[t]);
-         |                       ~~~~~~~~~~~~~~~~~~~~                   ^
-   include/linux/ftrace.h:542:5: note: 'modify_ftrace_direct' declared here
-     542 | int modify_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr, bool lock_direct_mutex);
-         |     ^                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-multi-modify.c:365:48: error: too few arguments to function call, expected 3, have 2
-     365 |         ret = register_ftrace_direct(&direct, my_tramp);
-         |               ~~~~~~~~~~~~~~~~~~~~~~                  ^
-   include/linux/ftrace.h:539:5: note: 'register_ftrace_direct' declared here
-     539 | int register_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr);
-         |     ^                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   samples/ftrace/ftrace-direct-multi-modify.c:375:50: error: too few arguments to function call, expected 4, have 3
-     375 |         unregister_ftrace_direct(&direct, my_tramp, true);
-         |         ~~~~~~~~~~~~~~~~~~~~~~~~                        ^
-   include/linux/ftrace.h:540:5: note: 'unregister_ftrace_direct' declared here
-     540 | int unregister_ftrace_direct(struct ftrace_ops *ops, unsigned long ip, unsigned long addr,
-         |     ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     541 |                              bool free_filters);
-         |                              ~~~~~~~~~~~~~~~~~
-   3 errors generated.
+> [auto build test ERROR on 79150772457f4d45e38b842d786240c36bb1f97f]
+
+> url:     
+> https://github.com/intel-lab-lkp/linux/commits/Colton-Lewis/arm64-cpufeature-Add-cpucap-for-HPMN0/20250715-070741
+> base:   79150772457f4d45e38b842d786240c36bb1f97f
+> patch link:     
+> https://lore.kernel.org/r/20250714225917.1396543-23-coltonlewis%40google.com
+> patch subject: [PATCH v4 22/23] KVM: arm64: Add ioctl to partition the  
+> PMU when supported
+> config: arm64-randconfig-003-20250715  
+> (https://download.01.org/0day-ci/archive/20250716/202507160129.vrvWpdVu-lkp@intel.com/config)
+> compiler: aarch64-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build):  
+> (https://download.01.org/0day-ci/archive/20250716/202507160129.vrvWpdVu-lkp@intel.com/reproduce)
+
+> If you fix the issue in a separate patch/commit (i.e. not just a new  
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes:  
+> https://lore.kernel.org/oe-kbuild-all/202507160129.vrvWpdVu-lkp@intel.com/
+
+> All errors (new ones prefixed by >>):
+
+>     In file included from arch/arm64/include/asm/kvm_host.h:31,
+>                      from include/linux/kvm_host.h:45,
+>                      from arch/arm64/kernel/asm-offsets.c:15:
+>     arch/arm64/include/asm/kvm_pmu.h: In function 'kvm_pmu_is_partitioned':
+>>> arch/arm64/include/asm/kvm_pmu.h:301:43: error: parameter name omitted
+>      static inline bool kvm_pmu_is_partitioned(void *)
+>                                                ^~~~~~
+>     arch/arm64/include/asm/kvm_pmu.h: In  
+> function 'kvm_pmu_host_counter_mask':
+>     arch/arm64/include/asm/kvm_pmu.h:306:45: error: parameter name omitted
+>      static inline u64 kvm_pmu_host_counter_mask(void *)
+>                                                  ^~~~~~
+>     arch/arm64/include/asm/kvm_pmu.h: In  
+> function 'kvm_pmu_guest_counter_mask':
+>     arch/arm64/include/asm/kvm_pmu.h:311:46: error: parameter name omitted
+>      static inline u64 kvm_pmu_guest_counter_mask(void *)
+>                                                   ^~~~~~
+>     make[3]: *** [scripts/Makefile.build:182:  
+> arch/arm64/kernel/asm-offsets.s] Error 1 shuffle=21662191
+
+Same spot/declarations that triggered a build error on v2 and fixed in
+v3 but moved to void * in v4 rather than defining an empty arm_pmu
+struct due to v3 feedback.
+
+Notably I remembered to build this branch before sending this time but
+these definitions do not trigger an error or warning on gcc-14 with this
+.config and W=1. So I'm not sure how I could have reasonably caught this
+myself before sending.
+
+Anyway, I'll fix. It's nothing to give the parameters a name.
+
+>     make[3]: Target 'prepare' not remade because of errors.
+>     make[2]: *** [Makefile:1274: prepare0] Error 2 shuffle=21662191
+>     make[2]: Target 'prepare' not remade because of errors.
+>     make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=21662191
+>     make[1]: Target 'prepare' not remade because of errors.
+>     make: *** [Makefile:248: __sub-make] Error 2 shuffle=21662191
+>     make: Target 'prepare' not remade because of errors.
 
 
-vim +210 samples/ftrace/ftrace-direct.c
+> vim +301 arch/arm64/include/asm/kvm_pmu.h
 
-23edf48309b14a Florent Revest          2023-03-21  205  
-b06457c83af669 Steven Rostedt (VMware  2019-11-08  206) static int __init ftrace_direct_init(void)
-b06457c83af669 Steven Rostedt (VMware  2019-11-08  207) {
-23edf48309b14a Florent Revest          2023-03-21  208  	ftrace_set_filter_ip(&direct, (unsigned long) wake_up_process, 0, 0);
-23edf48309b14a Florent Revest          2023-03-21  209  
-da8bdfbd422333 Florent Revest          2023-03-21 @210  	return register_ftrace_direct(&direct, (unsigned long) my_tramp);
-b06457c83af669 Steven Rostedt (VMware  2019-11-08  211) }
-b06457c83af669 Steven Rostedt (VMware  2019-11-08  212) 
+>     300
+>   > 301	static inline bool kvm_pmu_is_partitioned(void *)
+>     302	{
+>     303		return false;
+>     304	}
+>     305
 
-:::::: The code at line 210 was first introduced by commit
-:::::: da8bdfbd422333fbb7c85ac1d7f18592d17d6665 ftrace: Rename _ftrace_direct_multi APIs to _ftrace_direct APIs
-
-:::::: TO: Florent Revest <revest@chromium.org>
-:::::: CC: Steven Rostedt (Google) <rostedt@goodmis.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
