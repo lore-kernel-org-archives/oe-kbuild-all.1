@@ -1,60 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CBDB4C81
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 20:45:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE2D94C81;
+	Tue, 15 Jul 2025 20:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752612340; cv=none; b=ONaaKHQw+u82YFeALKT9bu64TTJfmg+h3l9oPyAIBfiSV09MzONSmPrp3OyymqKpCL+ww4oyTa3eZuksPqIrX3TIbU/InUaDXDqjDcm/1ViPrVqdUq8wpNZudfcdhIlx5++wnOxAKyvS3LHjVphTNoa1/UGsoyWGClXea9YDB8U=
+	t=1752612342; cv=none; b=sqlvDJdWUVagI6QLpZqFMErMuPWnOushSsEurLX955eXQAqTM1YX7EGCnLTeyHVsXUIhZBRwDVYxRiaGeU/CAIJxsbaRNj6d5ESD38Cf6tQLsgkoz5PhQzg8Xp1C9OJdVtvc3DiYf8gfq/DMa6vXK+bz6/H8KZeeSoHsggbCVFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752612340; c=relaxed/simple;
-	bh=WcqW2e+R/93iJs+2rksdDJrQQcpnijtfc5dJXo4iCAA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ecYcCX55phpZKuce/HobbK4czsxJC+/k31YtWrbGG6rZm4tDqJ0cZJABzv27jt7Sws+Dm5E55QkzX6W4ughHK/BtcyEFZkyhjZqypEAUMpzFg4dNvThQ9EwYtYnIcknIR8CJAN1MB+F3PJkl8jRj3gDkHa9XNxIH9/VbdaCL7AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=garsUmmS; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1752612342; c=relaxed/simple;
+	bh=i0jIU5/DS4GdwKEU3LoAR0J+8jJlfbT9Pjilk9/G/wc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AEqB/f1UysQwTYsY1cKzJbU7q92EY4+y1ENXGAFQze/egOJwFy+1QhsVY7DpCNPdUKurZifEZOMIiMj0SQwKZ9cyF+MRrHItmyFLfR+MUkOqputibJTHHNBrQZ637saLuwhqpELwe6L4FcxPBsajTeAyCC9ol/rs+SYD8Uj3fbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CqfZwrWL; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="garsUmmS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CqfZwrWL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752612338; x=1784148338;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=WcqW2e+R/93iJs+2rksdDJrQQcpnijtfc5dJXo4iCAA=;
-  b=garsUmmSCX/XkbD+EUtkw/QDD3Wg/e36A2EyaWIg5hwmq7foNd7KvaAA
-   y7mt8fvTnuhoAFO0FhrVlZqwswsQMaXjVlmcLoaJlhwF+hMFTusMbI8JK
-   fNrL4MLmHnq1CemOVRBz0vYOqwDZIw8kS3RmaKU0xudyqBj6cRKlJvVng
-   cMPlBpE7ykQ3VKIM6zFuNsa3QQN2/gWmfubNMOdhQPynDQ4Kdw6iWONpd
-   cO93C3PY+AYAnNW4hsKxwEEAZj3vhqg/qs68D76KA8h1jyLTcxUTZNXk2
-   drT3F43yebuvomb+N9IWalxo1YOl59IQVmi9k1xdo/P5/6134BWV23O9H
-   A==;
-X-CSE-ConnectionGUID: eFbeOmFnQn6Mq/0O8APJGg==
-X-CSE-MsgGUID: 6NGto9oISwi9eHZycc9YTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54971595"
+  t=1752612341; x=1784148341;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=i0jIU5/DS4GdwKEU3LoAR0J+8jJlfbT9Pjilk9/G/wc=;
+  b=CqfZwrWLjftG8eeAQ3fw+jX/YBAHK5NRjsa/xXclBG8uAZ7EfAmlj17w
+   5paWBZIW68cETb6P3Tulp5xt62Yy9tQH4wPtUSLH/XGOlfqE+klP/n5DQ
+   7BHDnZTKWXWfw4ejGedbMo88x1iodO68oOwhW/+9+6LcE6X+fpQM0jHHi
+   3+DiLtVgyif7uQFCZ0aklSOBo+CfklGUtOJgdq3fYHxd6Yh2NedeLWBlZ
+   D2OLhYa0Ue41T6PN+YNV2/K4wpnUrxjOQPzU/MuCBCNKwvoO8G8qu1e3Z
+   nyG43qZDd7qJPC5PgI3oP501kQXwLHyy8JudqQjhpzsS0YhJMv5hH//qJ
+   Q==;
+X-CSE-ConnectionGUID: dwiq/TXbR+q5dWBk1QsYEw==
+X-CSE-MsgGUID: mD2FstyDQbyMjBGXDCEd7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="42476845"
 X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
-   d="scan'208";a="54971595"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 13:45:37 -0700
-X-CSE-ConnectionGUID: zWSs/+DJT9m7LdxwQorDpQ==
-X-CSE-MsgGUID: uGDiPJRZT02v9t3+7CUg9w==
+   d="scan'208";a="42476845"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 13:45:40 -0700
+X-CSE-ConnectionGUID: LLieUtQbSHu2EBMh8oD7ow==
+X-CSE-MsgGUID: L6tg7xQQR9Ws3Tb2pIwI1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
-   d="scan'208";a="157823863"
+   d="scan'208";a="188322879"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 15 Jul 2025 13:45:36 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 15 Jul 2025 13:45:36 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubmWs-000BWn-0m;
+	id 1ubmWs-000BWl-0g;
 	Tue, 15 Jul 2025 20:45:34 +0000
-Date: Wed, 16 Jul 2025 04:44:59 +0800
+Date: Wed, 16 Jul 2025 04:44:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android15-6.6-2024-08 36/36]
- arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb:
- system-cache-controller@9200000 (qcom,sc8180x-llcc): reg-names:4:
- 'llcc4_base' was expected
-Message-ID: <202507160430.2RyFNJ8n-lkp@intel.com>
+To: Xu Yilun <yilun.xu@linux.intel.com>, jgg@nvidia.com, jgg@ziepe.ca,
+	kevin.tian@intel.com, will@kernel.org, aneesh.kumar@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	iommu@lists.linux.dev, linux-kernel@vger.kernel.org,
+	joro@8bytes.org, robin.murphy@arm.com, shuah@kernel.org,
+	nicolinc@nvidia.com, aik@amd.com, dan.j.williams@intel.com,
+	baolu.lu@linux.intel.com, yilun.xu@intel.com
+Subject: Re: [PATCH v5 5/8] iommufd/vdevice: Remove struct device reference
+ from struct vdevice
+Message-ID: <202507160404.4hMp40iv-lkp@intel.com>
+References: <20250715063245.1799534-6-yilun.xu@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,68 +68,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250715063245.1799534-6-yilun.xu@linux.intel.com>
 
-tree:   https://android.googlesource.com/kernel/common android15-6.6-2024-08
-head:   b64c8a8cf865a837d7b16f8d32f56de627f77976
-commit: 74cf6675c35ec3034053a69926f4d98e52852eb0 [36/36] arm64: dts: qcom: sc8180x: Fix LLCC reg property
-config: arm64-randconfig-051-20250702 (https://download.01.org/0day-ci/archive/20250716/202507160430.2RyFNJ8n-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 3deed4211a46632a25b1b558b357273a5ce4ee96)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160430.2RyFNJ8n-lkp@intel.com/reproduce)
+Hi Xu,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 601b1d0d9395c711383452bd0d47037afbbb4bcf]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Xu-Yilun/iommufd-viommu-Roll-back-to-use-iommufd_object_alloc-for-vdevice/20250715-144326
+base:   601b1d0d9395c711383452bd0d47037afbbb4bcf
+patch link:    https://lore.kernel.org/r/20250715063245.1799534-6-yilun.xu%40linux.intel.com
+patch subject: [PATCH v5 5/8] iommufd/vdevice: Remove struct device reference from struct vdevice
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20250716/202507160404.4hMp40iv-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160404.4hMp40iv-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507160430.2RyFNJ8n-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507160404.4hMp40iv-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: phy@88ee000 (qcom,sc8180x-qmp-usb3-dp-phy): usb3-phy@88e9200: '#clock-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: phy@88ee000 (qcom,sc8180x-qmp-usb3-dp-phy): reg-names:0: 'usb' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: phy@88ee000 (qcom,sc8180x-qmp-usb3-dp-phy): reg-names: ['reg-base', 'dp_com'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb3-phy@88e9200: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000 (qcom,sc8180x-llcc): reg: [[0, 153092096, 0, 327680], [0, 153616384, 0, 327680], [0, 154140672, 0, 327680], [0, 154664960, 0, 327680], [0, 157286400, 0, 327680]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000 (qcom,sc8180x-llcc): reg-names:4: 'llcc4_base' was expected
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: system-cache-controller@9200000 (qcom,sc8180x-llcc): reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a6f8800 (qcom,sc8180x-dwc3): compatible:0: 'qcom,sc8180x-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8280xp-dwc3', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3']
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/usb@a6f8800: failed to match any schema with compatible: ['qcom,sc8180x-dwc3', 'qcom,dwc3']
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: usb@a8f8800 (qcom,sc8180x-dwc3): compatible:0: 'qcom,sc8180x-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8280xp-dwc3', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3']
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/usb@a8f8800: failed to match any schema with compatible: ['qcom,sc8180x-dwc3', 'qcom,dwc3']
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/mdss@ae00000: failed to match any schema with compatible: ['qcom,sc8180x-mdss']
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: /soc@0/mdss@ae00000/mdp@ae01000: failed to match any schema with compatible: ['qcom,sc8180x-dpu']
-   arch/arm64/boot/dts/qcom/sc8180x-lenovo-flex-5g.dtb: dsi@ae94000 (qcom,mdss-dsi-ctrl): interrupts: [[4], [4]] is too long
---
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: phy@88ee000 (qcom,sc8180x-qmp-usb3-dp-phy): usb3-phy@88e9200: '#clock-cells' is a required property
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: phy@88ee000 (qcom,sc8180x-qmp-usb3-dp-phy): reg-names:0: 'usb' was expected
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: phy@88ee000 (qcom,sc8180x-qmp-usb3-dp-phy): reg-names: ['reg-base', 'dp_com'] is too short
-   	from schema $id: http://devicetree.org/schemas/phy/qcom,sc7180-qmp-usb3-dp-phy.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb3-phy@88e9200: '#clock-cells' is a dependency of 'clock-output-names'
-   	from schema $id: http://devicetree.org/schemas/clock/clock.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000 (qcom,sc8180x-llcc): reg: [[0, 153092096, 0, 327680], [0, 153616384, 0, 327680], [0, 154140672, 0, 327680], [0, 154664960, 0, 327680], [0, 157286400, 0, 327680]] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000 (qcom,sc8180x-llcc): reg-names:4: 'llcc4_base' was expected
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
->> arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: system-cache-controller@9200000 (qcom,sc8180x-llcc): reg-names: ['llcc0_base', 'llcc1_base', 'llcc2_base', 'llcc3_base', 'llcc_broadcast_base'] is too short
-   	from schema $id: http://devicetree.org/schemas/cache/qcom,llcc.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a6f8800 (qcom,sc8180x-dwc3): compatible:0: 'qcom,sc8180x-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8280xp-dwc3', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3']
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/usb@a6f8800: failed to match any schema with compatible: ['qcom,sc8180x-dwc3', 'qcom,dwc3']
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: usb@a8f8800 (qcom,sc8180x-dwc3): compatible:0: 'qcom,sc8180x-dwc3' is not one of ['qcom,ipq4019-dwc3', 'qcom,ipq6018-dwc3', 'qcom,ipq8064-dwc3', 'qcom,ipq8074-dwc3', 'qcom,ipq9574-dwc3', 'qcom,msm8953-dwc3', 'qcom,msm8994-dwc3', 'qcom,msm8996-dwc3', 'qcom,msm8998-dwc3', 'qcom,qcm2290-dwc3', 'qcom,qcs404-dwc3', 'qcom,sa8775p-dwc3', 'qcom,sc7180-dwc3', 'qcom,sc7280-dwc3', 'qcom,sc8280xp-dwc3', 'qcom,sdm660-dwc3', 'qcom,sdm670-dwc3', 'qcom,sdm845-dwc3', 'qcom,sdx55-dwc3', 'qcom,sdx65-dwc3', 'qcom,sm4250-dwc3', 'qcom,sm6115-dwc3', 'qcom,sm6125-dwc3', 'qcom,sm6350-dwc3', 'qcom,sm6375-dwc3', 'qcom,sm8150-dwc3', 'qcom,sm8250-dwc3', 'qcom,sm8350-dwc3', 'qcom,sm8450-dwc3', 'qcom,sm8550-dwc3']
-   	from schema $id: http://devicetree.org/schemas/usb/qcom,dwc3.yaml#
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/usb@a8f8800: failed to match any schema with compatible: ['qcom,sc8180x-dwc3', 'qcom,dwc3']
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/mdss@ae00000: failed to match any schema with compatible: ['qcom,sc8180x-mdss']
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: /soc@0/mdss@ae00000/mdp@ae01000: failed to match any schema with compatible: ['qcom,sc8180x-dpu']
-   arch/arm64/boot/dts/qcom/sc8180x-primus.dtb: dsi@ae94000 (qcom,mdss-dsi-ctrl): interrupts: [[4], [4]] is too long
+All errors (new ones prefixed by >>):
+
+>> drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c:1221:64: error: incomplete definition of type 'struct iommufd_device'
+    1221 |         struct arm_smmu_master *master = dev_iommu_priv_get(vdev->idev->dev);
+         |                                                             ~~~~~~~~~~^
+   include/linux/iommufd.h:24:8: note: forward declaration of 'struct iommufd_device'
+      24 | struct iommufd_device;
+         |        ^
+   1 error generated.
+
+
+vim +1221 drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
+
+  1218	
+  1219	static int tegra241_vintf_init_vsid(struct iommufd_vdevice *vdev)
+  1220	{
+> 1221		struct arm_smmu_master *master = dev_iommu_priv_get(vdev->idev->dev);
+  1222		struct tegra241_vintf *vintf = viommu_to_vintf(vdev->viommu);
+  1223		struct tegra241_vintf_sid *vsid = vdev_to_vsid(vdev);
+  1224		struct arm_smmu_stream *stream = &master->streams[0];
+  1225		u64 virt_sid = vdev->virt_id;
+  1226		int sidx;
+  1227	
+  1228		if (virt_sid > UINT_MAX)
+  1229			return -EINVAL;
+  1230	
+  1231		WARN_ON_ONCE(master->num_streams != 1);
+  1232	
+  1233		/* Find an empty pair of SID_REPLACE and SID_MATCH */
+  1234		sidx = ida_alloc_max(&vintf->sids, vintf->cmdqv->num_sids_per_vintf - 1,
+  1235				     GFP_KERNEL);
+  1236		if (sidx < 0)
+  1237			return sidx;
+  1238	
+  1239		writel(stream->id, REG_VINTF(vintf, SID_REPLACE(sidx)));
+  1240		writel(virt_sid << 1 | 0x1, REG_VINTF(vintf, SID_MATCH(sidx)));
+  1241		dev_dbg(vintf->cmdqv->dev,
+  1242			"VINTF%u: allocated SID_REPLACE%d for pSID=%x, vSID=%x\n",
+  1243			vintf->idx, sidx, stream->id, (u32)virt_sid);
+  1244	
+  1245		vsid->idx = sidx;
+  1246		vsid->vintf = vintf;
+  1247		vsid->sid = stream->id;
+  1248	
+  1249		vdev->destroy = &tegra241_vintf_destroy_vsid;
+  1250		return 0;
+  1251	}
+  1252	
 
 -- 
 0-DAY CI Kernel Test Service
