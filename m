@@ -1,79 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADB4A2C032E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 22:07:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA6F2BE65E;
+	Tue, 15 Jul 2025 22:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752617275; cv=none; b=O3QNeVhq6/MDgnT+TCOEl39tuMp5fHNjbGT2EzAXIyWwoGKchRcRcV8dWGWQQDCeF8GIbHAfv8eljt/lBOEPQAVATttgc0JMYNQf0wuYHu46ZSThI//foL86jMwD3sagy+cXi8rNa1RXPuUAsYyLyP7lJpucu/FpTuRQi5wLa4k=
+	t=1752617931; cv=none; b=enrof4/IU/6AyFxdE8LvO8acwZp76vnIZ3cKcl7v9B2uU6So1NWXzWrTiwa+3UQ3XAFqZRrfXG06vmUszQzjWXRKKy6cvC4wejtHG8jrlwcO0SnW/GDk+FzcWu+wUY1Cofrc4QOG2fqc0MviBYddTTP0bWKEXYeuvu5ho1jjuts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752617275; c=relaxed/simple;
-	bh=Zd8zXCwF0hQTiVzyVbw1IEp0HkYJGefGxnsNS4GWNqE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I0wGvWMgzgBUlR5RrzonuX7ywTeSJjAv1XCzha/PpTzm9FRFSBTHu37KmYpOx2QIJmoSvrLYaa4xNq7qaXYrtCl9+A1pqdsfBnzcqraMAajv3gIDog352NeyDuk5Z3PtgykWE5opFjRoNpBUoOFNULNcV15jkiUl32O9jezMD0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hJxL1QV+; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1752617931; c=relaxed/simple;
+	bh=RrUG38UPoPx83mBx18hUOO16lRtjlEtzmrBZc9cW3Lo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Ln5XzYIoYapaI7Qj2Vgo/jCB5GGmA2bhmwzFY9peTTFqomVapll8DxHUCd+Lrzu4Sy3hksjuVUVNiqGXt+eT3XwUZIJanwN0PCm2vtur93ZlHZENmPPU1Adk5gtf1odwpJZT1g5awyKrJSeURxjRZVHClPNzL376TFynFdJLl8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I7yD0NXv; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hJxL1QV+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I7yD0NXv"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752617274; x=1784153274;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Zd8zXCwF0hQTiVzyVbw1IEp0HkYJGefGxnsNS4GWNqE=;
-  b=hJxL1QV+HcyChGetheMDP19YQ896IpEDKkHe+4L8kFBRdlQeQcyzdich
-   83n0FbvgHmfhEysMc7Ul731rOpFJ3UNTcYnLIFLKIsAIw+U8UzEVU7jSM
-   qGF0DoNoQolL7zbLUERuU3HaPNg9ivUKbcOUHoZdMD/6CsBafxfc0Sz16
-   YepXMYWeFKgmPGkLLUOspe5du070JBRdUdk9y2+OTAtJijKMkAabyVVgE
-   yM7Ppz8pUPjZs9cL7JrqywlOUWUjUDx88Pp6o9JP2F95vdBR0PVS7H86q
-   z0r+SOTNTYpy7FbBr+eBwj2JloZy6Kzv4BvRtj2od64MmLPZ/wGM5TUqv
+  t=1752617930; x=1784153930;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=RrUG38UPoPx83mBx18hUOO16lRtjlEtzmrBZc9cW3Lo=;
+  b=I7yD0NXv/eTVzJpO1Ng/umWjYHRGJRIK8EsbjUaBQ/7cYMNMQQCyEW6F
+   6oZggbdZGnzkyziBdrUyQri2FuVIT0c5VjoojA2yux6fk3iMyGUaiyV4F
+   FGLQD9gzMdXmPw0jWyu1Ngtq+qenYXzKbKmTlm6kDLrvoIfBFT/x62GRf
+   G17yzmDu+iwq3o+VRnxz/ZXE0YEVRZhZ6R2S1BWLtBrMPJV9df8yWJgTW
+   bwn4n3rz+d++q6boBNFSbyVkTlKTEuaDm1J9lC3PtxyvHbJsIay9UlyNJ
+   7fi90bHJH8tObkrI9dZEmXcW9E65F3G+UEoGMc8DgfZyEvgUK7vAK+7+m
    Q==;
-X-CSE-ConnectionGUID: +w78YwhWRmuMhUOgxikagA==
-X-CSE-MsgGUID: C7QjqzVrSIuQr1VQE7Bb9g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54826716"
+X-CSE-ConnectionGUID: Q5BJMvkpQZOKjFp2WmWiSA==
+X-CSE-MsgGUID: RFom+RPcREiX92NyYVr4fg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54976888"
 X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
-   d="scan'208";a="54826716"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 15:07:53 -0700
-X-CSE-ConnectionGUID: 2/CTSCq4QzqxTY/7962AOA==
-X-CSE-MsgGUID: h6UmUrYARBK8MvLyxd9OmQ==
+   d="scan'208";a="54976888"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 15:18:50 -0700
+X-CSE-ConnectionGUID: 9ZYQA1cvTqSbqbxZkPgg5A==
+X-CSE-MsgGUID: pf8kCVk5S3SqszxmLZWffg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
-   d="scan'208";a="156731421"
+   d="scan'208";a="194472790"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 15 Jul 2025 15:07:47 -0700
+  by orviesa001.jf.intel.com with ESMTP; 15 Jul 2025 15:18:48 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubnoO-000BaZ-1F;
-	Tue, 15 Jul 2025 22:07:44 +0000
-Date: Wed, 16 Jul 2025 06:06:56 +0800
+	id 1ubnz3-000Bb7-1L;
+	Tue, 15 Jul 2025 22:18:45 +0000
+Date: Wed, 16 Jul 2025 06:18:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aaron Kling <webgeek1234@gmail.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Nagarjuna Kristam <nkristam@nvidia.com>, JC Kuo <jckuo@nvidia.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Peter De Schrijver <pdeschrijver@nvidia.com>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-phy@lists.infradead.org, linux-usb@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	Aaron Kling <webgeek1234@gmail.com>
-Subject: Re: [PATCH 13/17] thermal: tegra: Add Tegra210B01 Support
-Message-ID: <202507160557.t7TfWvFP-lkp@intel.com>
-References: <20250714-t210b01-v1-13-e3f5f7de5dce@gmail.com>
+To: Marco Crivellari <marco.crivellari@suse.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+	"Maciej W. Rozycki" <macro@orcam.me.uk>
+Subject: <instantiation>:7:11: error: expected an immediate
+Message-ID: <202507160634.HuBB6qKT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -82,45 +63,44 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250714-t210b01-v1-13-e3f5f7de5dce@gmail.com>
 
-Hi Aaron,
+Hi Marco,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning still remains.
 
-[auto build test WARNING on 347e9f5043c89695b01e66b3ed111755afcf1911]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Kling/dt-bindings-arm-tegra-pmc-Document-Tegra210B01/20250715-160630
-base:   347e9f5043c89695b01e66b3ed111755afcf1911
-patch link:    https://lore.kernel.org/r/20250714-t210b01-v1-13-e3f5f7de5dce%40gmail.com
-patch subject: [PATCH 13/17] thermal: tegra: Add Tegra210B01 Support
-config: arm64-randconfig-003-20250716 (https://download.01.org/0day-ci/archive/20250716/202507160557.t7TfWvFP-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160557.t7TfWvFP-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   155a3c003e555a7300d156a5252c004c392ec6b0
+commit: 56651128e2fbad80f632f388d6bf1f39c928267a MIPS: Fix idle VS timer enqueue
+date:   3 months ago
+config: mips-rb532_defconfig (https://download.01.org/0day-ci/archive/20250716/202507160634.HuBB6qKT-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160634.HuBB6qKT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507160557.t7TfWvFP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507160634.HuBB6qKT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/thermal/tegra/tegra210-soctherm.c:47:49: warning: 'tegra210b01_tsensor_config' defined but not used [-Wunused-const-variable=]
-    static const struct tegra_tsensor_configuration tegra210b01_tsensor_config = {
-                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/tegra210b01_tsensor_config +47 drivers/thermal/tegra/tegra210-soctherm.c
-
-    46	
-  > 47	static const struct tegra_tsensor_configuration tegra210b01_tsensor_config = {
-    48		.tall = 16300,
-    49		.tiddq_en = 1,
-    50		.ten_count = 1,
-    51		.tsample = 240,
-    52		.tsample_ate = 480,
-    53	};
-    54	
+>> <instantiation>:7:11: error: expected an immediate
+    ori $26, r4k_wait_idle_size - 2
+             ^
+   <instantiation>:10:13: error: expected an immediate
+    addiu $26, r4k_wait_exit - r4k_wait_insn + 2
+               ^
+   <instantiation>:10:29: error: expected an immediate
+    addiu $26, r4k_wait_exit - r4k_wait_insn + 2
+                               ^
+>> <instantiation>:7:11: error: expected an immediate
+    ori $26, r4k_wait_idle_size - 2
+             ^
+   <instantiation>:10:13: error: expected an immediate
+    addiu $26, r4k_wait_exit - r4k_wait_insn + 2
+               ^
+   <instantiation>:10:29: error: expected an immediate
+    addiu $26, r4k_wait_exit - r4k_wait_insn + 2
+                               ^
 
 -- 
 0-DAY CI Kernel Test Service
