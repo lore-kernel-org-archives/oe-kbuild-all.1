@@ -1,156 +1,276 @@
-Received: from mail-oo1-f73.google.com (mail-oo1-f73.google.com [209.85.161.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAD042652B6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 21:16:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4480C34545;
+	Tue, 15 Jul 2025 21:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752614215; cv=none; b=f2PEf2yA6ftZiMXRkFCVnkDCFIxsF3byI/5pkRMx7DIkXpemERu0/YWgmlafUs8e351NaNPA+V4pFGOJPnjA7rZV9xmgy8gMx8ZrcM7/xhbSXSCdv/eFGIMx0KceU8Vaf4s2qXOYiHFezgVp71k9JWsQlTUQzSyfB9yuuWYnnUo=
+	t=1752614810; cv=none; b=OIs79ibefyoqBm9kA3nL5fqh+UUGS4awteLyIOcxQXjPF4qk1SWuO7ZY1Xyl5/o/70Fkv4h8UDAodAxcmsiL9Tp2/Bq9icMQxElSFkgdSQ+QRxT2LjKpXrDm0aKhXlU8xkSLMa1SyB28hM11vAd1loQDNCX90elkOLjvwBscFc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752614215; c=relaxed/simple;
-	bh=tOQO6BDvaHzehkXLuqrv7zmehstQBhotZEf5osv7fJ8=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=RaY/RWnRLwyzepDQBihyZIXgVnMnWt03lsdzVpUJqyux2qVJDClSgn9MljTYCOxqoWFFKlLtQw9EDwtCa3j7ZLvXUV1CDzPYDPBW7AR4OoUhPxOMgQgsxW2Q4WYikfx49XqN9uFaklP/sxXjSWKAeVCXw1mOXrNfFG+LdCavENw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=U6wN28jf; arc=none smtp.client-ip=209.85.161.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
+	s=arc-20240116; t=1752614810; c=relaxed/simple;
+	bh=OlznMYLmAQxxfhEiYWeclpiT0gG26yk458dH7fTrgf0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=q1wKf7h3VzPyREBXYAMdusPZDvgeg3fII+j7/gDb0gF2YsbsmLtQRXMjfO/sYlnVwREZKRYCBYBx82MXdOcVhZWUO2w5TXf8K2IxSE3/4wMSLH/9xHj75FYk2kn43K0DikPlTCqRAjXwwNPT2RPQQcPQibUgJ0PkTfXrnULAy6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IgmOSSz0; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="U6wN28jf"
-Received: by mail-oo1-f73.google.com with SMTP id 006d021491bc7-6159bfd9bc1so422742eaf.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 14:16:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1752614212; x=1753219012; darn=lists.linux.dev;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=W3m+1hLOZ8hAFq4B95DKPtg5XMn2S7HOXjCLINFrtq0=;
-        b=U6wN28jf5SzJu9Kyr4pcOV+Oj08sJFEnHKy+EuG3Z6ZAVN0d4CGE56Y7j9161+jINo
-         tHT42LV1anFRiV0vPqBE8cpDQoWKACxRkSzt0H/8z3vQ68naUUY5mfdqVkuP4N+HuK7d
-         tex8WZZZ+4X1hGZjyIBcNAQ4VUJMkiSHpUKhhQP5QRVEe8KRAVjyRGSUOlSyQHTcx/oG
-         VkveamgxY5i4Yfbz5FSXmZLVDD6nPeYIFJxgdJW5AGl920Ypda6LdX/cYsyLAyyOEYNo
-         SMAwzlLL7vO10coyZ0pgOwhYUA5wB/0weqwEC9BWKcMs5k8uUIU61RLWMPotFNyuMt40
-         NXKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752614212; x=1753219012;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=W3m+1hLOZ8hAFq4B95DKPtg5XMn2S7HOXjCLINFrtq0=;
-        b=M8m9+mgXVOrjPfN896+nWpq/vwx065TEXHg4VLMinbtK6/GmT60a78dSF2LfCyrAvf
-         slCgf8iXXgwh1xBv/O4aHMAGHU7Fm32Yj6EhRjwxAwEovzmpWuvppf/C1mNFVhch7laS
-         OOWFY7SKiqd3cBxY0FhPCYtgoQ+CHHDN4RqI5jmBwClREV18sqC2sSw5Tnxcynbr8OWk
-         9R/nFVLAgL5Sz1PEg87EHK2H1OznbFgb0HgofVBskViOoWhqxaddRAQOAqPuSe3fs9b1
-         N2dJ7Vo+og+OFbN6E1HmV5K49ms6NFgYJveH2XFaodt2zLIvD5zlQdlq+WLsbi7yyfII
-         7ALg==
-X-Forwarded-Encrypted: i=1; AJvYcCXGXhUPYOKmtXynkcuOGwg5WBtRj8AKZ5AoYnUFbFGf2cKv6Syf+tuYILtr1aBjnJIjfBaXf8qegggcE2ZX@lists.linux.dev
-X-Gm-Message-State: AOJu0YwSLhArXuLV2b9/Aq6XMk2UbOdOiesjQkL13GXUhUc9bKP1CCWv
-	z44QH77+/Gmev4i6oe7HaaXtVOfR2HpBc8+2wa+Qjp6NDHFEist31WlmWDX2yDq1ZhY1Zd1/cmg
-	iWPKOWdo2+SALIzCgRqVmIgSilA==
-X-Google-Smtp-Source: AGHT+IET2M3P36gkp3EjMv7BaUc9VYIy2qskuUCF22ILqTd3hhERB/uyQyetYE1K8s52+LEBtd/RipiSFpzH6qhMLA==
-X-Received: from oobic4.prod.google.com ([2002:a05:6820:6704:b0:613:872a:7b2b])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6820:418e:b0:615:7c7f:4aa6 with SMTP id 006d021491bc7-615a1f5b472mr11828eaf.3.1752614211817;
- Tue, 15 Jul 2025 14:16:51 -0700 (PDT)
-Date: Tue, 15 Jul 2025 21:16:50 +0000
-In-Reply-To: <202507160129.vrvWpdVu-lkp@intel.com> (message from kernel test
- robot on Wed, 16 Jul 2025 01:26:23 +0800)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IgmOSSz0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752614809; x=1784150809;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OlznMYLmAQxxfhEiYWeclpiT0gG26yk458dH7fTrgf0=;
+  b=IgmOSSz0WIS6xgwqNpCGp6AJtD2Q2FX5Gj3xKumCBETHo37CxO43Ndnt
+   EyCld+GtSG1VZR20tZLq4rYN0Z66KL8WZjKfPtdcYeKARUga7supW52RS
+   Ksd8NMzqcwqKV3SQ8iW36NihmfRdmAlL0cy00RDp0jGB6IkaIxGDqiexb
+   gnTL/rFSDPM++5Aj2oQpBIHeKAf8TfQ8KYF54YgzTxQ878CCZcA/lkOg0
+   aIOXdPhTkuGMUHuGGxlZ029LuFqz3+2Wt7wxBGhc7byCqpIspHMRCbFve
+   JwKJ+KDAD7cQV8u/pigsNv0HzX07ByljtTA7XxVJkqg4FnPxXoDa6y414
+   Q==;
+X-CSE-ConnectionGUID: X7Qiq2uzTW+f2EtL8IRkDA==
+X-CSE-MsgGUID: 6rcYG6yATDWXAHWmgPxP1w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="58503573"
+X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
+   d="scan'208";a="58503573"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 14:26:48 -0700
+X-CSE-ConnectionGUID: 8dKEjpy+TxGHE6dBg1uxyg==
+X-CSE-MsgGUID: L340yswlTS+NzQgQpGLfMg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
+   d="scan'208";a="157877270"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa008.fm.intel.com with ESMTP; 15 Jul 2025 14:26:45 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ubnAe-000BZ9-1m;
+	Tue, 15 Jul 2025 21:26:40 +0000
+Date: Wed, 16 Jul 2025 05:26:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi 13/22]
+ arch/s390/net/bpf_jit_comp.c:2503:33: error: no member named 'cookie' in
+ 'struct bpf_tramp_link'
+Message-ID: <202507160508.QXd3JPbZ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0
-Message-ID: <gsntv7nt9mt9.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v4 22/23] KVM: arm64: Add ioctl to partition the PMU when supported
-From: Colton Lewis <coltonlewis@google.com>
-To: kernel test robot <lkp@intel.com>
-Cc: kvm@vger.kernel.org, oe-kbuild-all@lists.linux.dev, pbonzini@redhat.com, 
-	corbet@lwn.net, linux@armlinux.org.uk, catalin.marinas@arm.com, 
-	will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, mizhang@google.com, 
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, 
-	mark.rutland@arm.com, skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-kernel test robot <lkp@intel.com> writes:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi
+head:   d0503d4013c49a3fde856947dfffe6c80c178eb1
+commit: d6d4068c9dbaa7c77d3fc2d3e0d8ae03a9eac775 [13/22] bpf: Add struct bpf_tramp_node object
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250716/202507160508.QXd3JPbZ-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160508.QXd3JPbZ-lkp@intel.com/reproduce)
 
-> Hi Colton,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507160508.QXd3JPbZ-lkp@intel.com/
 
-> kernel test robot noticed the following build errors:
+All errors (new ones prefixed by >>):
 
-> [auto build test ERROR on 79150772457f4d45e38b842d786240c36bb1f97f]
+>> arch/s390/net/bpf_jit_comp.c:2503:33: error: no member named 'cookie' in 'struct bpf_tramp_link'
+    2503 |         load_imm64(jit, REG_W0, tlink->cookie);
+         |                                 ~~~~~  ^
+   arch/s390/net/bpf_jit_comp.c:2591:14: warning: declaration of 'struct bpf_tramp_links' will not be visible outside of this function [-Wvisibility]
+    2591 |                                          struct bpf_tramp_links *tlinks,
+         |                                                 ^
+   arch/s390/net/bpf_jit_comp.c:2594:44: error: subscript of pointer to incomplete type 'struct bpf_tramp_links'
+    2594 |         struct bpf_tramp_links *fmod_ret = &tlinks[BPF_TRAMP_MODIFY_RETURN];
+         |                                             ~~~~~~^
+   arch/s390/net/bpf_jit_comp.c:2591:14: note: forward declaration of 'struct bpf_tramp_links'
+    2591 |                                          struct bpf_tramp_links *tlinks,
+         |                                                 ^
+   arch/s390/net/bpf_jit_comp.c:2595:42: error: subscript of pointer to incomplete type 'struct bpf_tramp_links'
+    2595 |         struct bpf_tramp_links *fentry = &tlinks[BPF_TRAMP_FENTRY];
+         |                                           ~~~~~~^
+   arch/s390/net/bpf_jit_comp.c:2591:14: note: forward declaration of 'struct bpf_tramp_links'
+    2591 |                                          struct bpf_tramp_links *tlinks,
+         |                                                 ^
+   arch/s390/net/bpf_jit_comp.c:2596:41: error: subscript of pointer to incomplete type 'struct bpf_tramp_links'
+    2596 |         struct bpf_tramp_links *fexit = &tlinks[BPF_TRAMP_FEXIT];
+         |                                          ~~~~~~^
+   arch/s390/net/bpf_jit_comp.c:2591:14: note: forward declaration of 'struct bpf_tramp_links'
+    2591 |                                          struct bpf_tramp_links *tlinks,
+         |                                                 ^
+   arch/s390/net/bpf_jit_comp.c:2760:24: error: incomplete definition of type 'struct bpf_tramp_links'
+    2760 |         for (i = 0; i < fentry->nr_links; i++)
+         |                         ~~~~~~^
+   arch/s390/net/bpf_jit_comp.c:2591:14: note: forward declaration of 'struct bpf_tramp_links'
+    2591 |                                          struct bpf_tramp_links *tlinks,
+         |                                                 ^
+   arch/s390/net/bpf_jit_comp.c:2761:38: error: incomplete definition of type 'struct bpf_tramp_links'
+    2761 |                 if (invoke_bpf_prog(tjit, m, fentry->links[i],
+         |                                              ~~~~~~^
+   arch/s390/net/bpf_jit_comp.c:2591:14: note: forward declaration of 'struct bpf_tramp_links'
+    2591 |                                          struct bpf_tramp_links *tlinks,
+         |                                                 ^
+   arch/s390/net/bpf_jit_comp.c:2765:14: error: incomplete definition of type 'struct bpf_tramp_links'
+    2765 |         if (fmod_ret->nr_links) {
+         |             ~~~~~~~~^
+   arch/s390/net/bpf_jit_comp.c:2591:14: note: forward declaration of 'struct bpf_tramp_links'
+    2591 |                                          struct bpf_tramp_links *tlinks,
+         |                                                 ^
+   arch/s390/net/bpf_jit_comp.c:2774:27: error: incomplete definition of type 'struct bpf_tramp_links'
+    2774 |                 for (i = 0; i < fmod_ret->nr_links; i++) {
+         |                                 ~~~~~~~~^
+   arch/s390/net/bpf_jit_comp.c:2591:14: note: forward declaration of 'struct bpf_tramp_links'
+    2591 |                                          struct bpf_tramp_links *tlinks,
+         |                                                 ^
+   arch/s390/net/bpf_jit_comp.c:2775:41: error: incomplete definition of type 'struct bpf_tramp_links'
+    2775 |                         if (invoke_bpf_prog(tjit, m, fmod_ret->links[i], true))
+         |                                                      ~~~~~~~~^
+   arch/s390/net/bpf_jit_comp.c:2591:14: note: forward declaration of 'struct bpf_tramp_links'
+    2591 |                                          struct bpf_tramp_links *tlinks,
+         |                                                 ^
+   arch/s390/net/bpf_jit_comp.c:2830:23: error: incomplete definition of type 'struct bpf_tramp_links'
+    2830 |         for (i = 0; i < fexit->nr_links; i++)
+         |                         ~~~~~^
+   arch/s390/net/bpf_jit_comp.c:2591:14: note: forward declaration of 'struct bpf_tramp_links'
+    2591 |                                          struct bpf_tramp_links *tlinks,
+         |                                                 ^
+   arch/s390/net/bpf_jit_comp.c:2831:37: error: incomplete definition of type 'struct bpf_tramp_links'
+    2831 |                 if (invoke_bpf_prog(tjit, m, fexit->links[i], false))
+         |                                              ~~~~~^
+   arch/s390/net/bpf_jit_comp.c:2591:14: note: forward declaration of 'struct bpf_tramp_links'
+    2591 |                                          struct bpf_tramp_links *tlinks,
+         |                                                 ^
+   arch/s390/net/bpf_jit_comp.c:2881:16: warning: declaration of 'struct bpf_tramp_links' will not be visible outside of this function [-Wvisibility]
+    2881 |                              struct bpf_tramp_links *tlinks, void *orig_call)
+         |                                     ^
+   arch/s390/net/bpf_jit_comp.c:2880:5: error: conflicting types for 'arch_bpf_trampoline_size'
+    2880 | int arch_bpf_trampoline_size(const struct btf_func_model *m, u32 flags,
+         |     ^
+   include/linux/bpf.h:1209:5: note: previous declaration is here
+    1209 | int arch_bpf_trampoline_size(const struct btf_func_model *m, u32 flags,
+         |     ^
+   arch/s390/net/bpf_jit_comp.c:2890:10: error: incompatible pointer types passing 'struct bpf_tramp_links *' to parameter of type 'struct bpf_tramp_links *' [-Werror,-Wincompatible-pointer-types]
+    2890 |                                             tlinks, orig_call);
+         |                                             ^~~~~~
+   arch/s390/net/bpf_jit_comp.c:2591:31: note: passing argument to parameter 'tlinks' here
+    2591 |                                          struct bpf_tramp_links *tlinks,
+         |                                                                  ^
+   arch/s390/net/bpf_jit_comp.c:2897:23: warning: declaration of 'struct bpf_tramp_links' will not be visible outside of this function [-Wvisibility]
+    2897 |                                 u32 flags, struct bpf_tramp_links *tlinks,
+         |                                                   ^
+   arch/s390/net/bpf_jit_comp.c:2895:5: error: conflicting types for 'arch_prepare_bpf_trampoline'
+    2895 | int arch_prepare_bpf_trampoline(struct bpf_tramp_image *im, void *image,
+         |     ^
+   include/linux/bpf.h:1202:5: note: previous declaration is here
+    1202 | int arch_prepare_bpf_trampoline(struct bpf_tramp_image *im, void *image, void *image_end,
+         |     ^
+   arch/s390/net/bpf_jit_comp.c:2906:10: error: incompatible pointer types passing 'struct bpf_tramp_links *' to parameter of type 'struct bpf_tramp_links *' [-Werror,-Wincompatible-pointer-types]
+    2906 |                                             tlinks, func_addr);
+         |                                             ^~~~~~
+   arch/s390/net/bpf_jit_comp.c:2591:31: note: passing argument to parameter 'tlinks' here
+    2591 |                                          struct bpf_tramp_links *tlinks,
+         |                                                                  ^
+   arch/s390/net/bpf_jit_comp.c:2920:10: error: incompatible pointer types passing 'struct bpf_tramp_links *' to parameter of type 'struct bpf_tramp_links *' [-Werror,-Wincompatible-pointer-types]
+    2920 |                                             tlinks, func_addr);
+         |                                             ^~~~~~
+   arch/s390/net/bpf_jit_comp.c:2591:31: note: passing argument to parameter 'tlinks' here
+    2591 |                                          struct bpf_tramp_links *tlinks,
 
-> url:     
-> https://github.com/intel-lab-lkp/linux/commits/Colton-Lewis/arm64-cpufeature-Add-cpucap-for-HPMN0/20250715-070741
-> base:   79150772457f4d45e38b842d786240c36bb1f97f
-> patch link:     
-> https://lore.kernel.org/r/20250714225917.1396543-23-coltonlewis%40google.com
-> patch subject: [PATCH v4 22/23] KVM: arm64: Add ioctl to partition the  
-> PMU when supported
-> config: arm64-randconfig-003-20250715  
-> (https://download.01.org/0day-ci/archive/20250716/202507160129.vrvWpdVu-lkp@intel.com/config)
-> compiler: aarch64-linux-gcc (GCC) 8.5.0
-> reproduce (this is a W=1 build):  
-> (https://download.01.org/0day-ci/archive/20250716/202507160129.vrvWpdVu-lkp@intel.com/reproduce)
 
-> If you fix the issue in a separate patch/commit (i.e. not just a new  
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes:  
-> https://lore.kernel.org/oe-kbuild-all/202507160129.vrvWpdVu-lkp@intel.com/
+vim +2503 arch/s390/net/bpf_jit_comp.c
 
-> All errors (new ones prefixed by >>):
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2487  
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2488  static int invoke_bpf_prog(struct bpf_tramp_jit *tjit,
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2489  			   const struct btf_func_model *m,
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2490  			   struct bpf_tramp_link *tlink, bool save_ret)
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2491  {
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2492  	struct bpf_jit *jit = &tjit->common;
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2493  	int cookie_off = tjit->run_ctx_off +
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2494  			 offsetof(struct bpf_tramp_run_ctx, bpf_cookie);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2495  	struct bpf_prog *p = tlink->link.prog;
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2496  	int patch;
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2497  
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2498  	/*
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2499  	 * run_ctx.cookie = tlink->cookie;
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2500  	 */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2501  
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2502  	/* %r0 = tlink->cookie */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29 @2503  	load_imm64(jit, REG_W0, tlink->cookie);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2504  	/* stg %r0,cookie_off(%r15) */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2505  	EMIT6_DISP_LH(0xe3000000, 0x0024, REG_W0, REG_0, REG_15, cookie_off);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2506  
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2507  	/*
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2508  	 * if ((start = __bpf_prog_enter(p, &run_ctx)) == 0)
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2509  	 *         goto skip;
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2510  	 */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2511  
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2512  	/* %r1 = __bpf_prog_enter */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2513  	load_imm64(jit, REG_1, (u64)bpf_trampoline_enter(p));
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2514  	/* %r2 = p */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2515  	load_imm64(jit, REG_2, (u64)p);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2516  	/* la %r3,run_ctx_off(%r15) */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2517  	EMIT4_DISP(0x41000000, REG_3, REG_15, tjit->run_ctx_off);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2518  	/* %r1() */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2519  	call_r1(jit);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2520  	/* ltgr %r7,%r2 */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2521  	EMIT4(0xb9020000, REG_7, REG_2);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2522  	/* brcl 8,skip */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2523  	patch = jit->prg;
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2524  	EMIT6_PCREL_RILC(0xc0040000, 8, 0);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2525  
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2526  	/*
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2527  	 * retval = bpf_func(args, p->insnsi);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2528  	 */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2529  
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2530  	/* %r1 = p->bpf_func */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2531  	load_imm64(jit, REG_1, (u64)p->bpf_func);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2532  	/* la %r2,bpf_args_off(%r15) */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2533  	EMIT4_DISP(0x41000000, REG_2, REG_15, tjit->bpf_args_off);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2534  	/* %r3 = p->insnsi */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2535  	if (!p->jited)
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2536  		load_imm64(jit, REG_3, (u64)p->insnsi);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2537  	/* %r1() */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2538  	call_r1(jit);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2539  	/* stg %r2,retval_off(%r15) */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2540  	if (save_ret) {
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2541  		if (sign_extend(jit, REG_2, m->ret_size, m->ret_flags))
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2542  			return -1;
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2543  		EMIT6_DISP_LH(0xe3000000, 0x0024, REG_2, REG_0, REG_15,
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2544  			      tjit->retval_off);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2545  	}
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2546  
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2547  	/* skip: */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2548  	if (jit->prg_buf)
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2549  		*(u32 *)&jit->prg_buf[patch + 2] = (jit->prg - patch) >> 1;
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2550  
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2551  	/*
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2552  	 * __bpf_prog_exit(p, start, &run_ctx);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2553  	 */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2554  
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2555  	/* %r1 = __bpf_prog_exit */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2556  	load_imm64(jit, REG_1, (u64)bpf_trampoline_exit(p));
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2557  	/* %r2 = p */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2558  	load_imm64(jit, REG_2, (u64)p);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2559  	/* lgr %r3,%r7 */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2560  	EMIT4(0xb9040000, REG_3, REG_7);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2561  	/* la %r4,run_ctx_off(%r15) */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2562  	EMIT4_DISP(0x41000000, REG_4, REG_15, tjit->run_ctx_off);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2563  	/* %r1() */
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2564  	call_r1(jit);
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2565  
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2566  	return 0;
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2567  }
+528eb2cb87bc135 Ilya Leoshkevich 2023-01-29  2568  
 
->     In file included from arch/arm64/include/asm/kvm_host.h:31,
->                      from include/linux/kvm_host.h:45,
->                      from arch/arm64/kernel/asm-offsets.c:15:
->     arch/arm64/include/asm/kvm_pmu.h: In function 'kvm_pmu_is_partitioned':
->>> arch/arm64/include/asm/kvm_pmu.h:301:43: error: parameter name omitted
->      static inline bool kvm_pmu_is_partitioned(void *)
->                                                ^~~~~~
->     arch/arm64/include/asm/kvm_pmu.h: In  
-> function 'kvm_pmu_host_counter_mask':
->     arch/arm64/include/asm/kvm_pmu.h:306:45: error: parameter name omitted
->      static inline u64 kvm_pmu_host_counter_mask(void *)
->                                                  ^~~~~~
->     arch/arm64/include/asm/kvm_pmu.h: In  
-> function 'kvm_pmu_guest_counter_mask':
->     arch/arm64/include/asm/kvm_pmu.h:311:46: error: parameter name omitted
->      static inline u64 kvm_pmu_guest_counter_mask(void *)
->                                                   ^~~~~~
->     make[3]: *** [scripts/Makefile.build:182:  
-> arch/arm64/kernel/asm-offsets.s] Error 1 shuffle=21662191
+:::::: The code at line 2503 was first introduced by commit
+:::::: 528eb2cb87bc1353235a6384696b4849bde8b0ba s390/bpf: Implement arch_prepare_bpf_trampoline()
 
-Same spot/declarations that triggered a build error on v2 and fixed in
-v3 but moved to void * in v4 rather than defining an empty arm_pmu
-struct due to v3 feedback.
+:::::: TO: Ilya Leoshkevich <iii@linux.ibm.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
-Notably I remembered to build this branch before sending this time but
-these definitions do not trigger an error or warning on gcc-14 with this
-.config and W=1. So I'm not sure how I could have reasonably caught this
-myself before sending.
-
-Anyway, I'll fix. It's nothing to give the parameters a name.
-
->     make[3]: Target 'prepare' not remade because of errors.
->     make[2]: *** [Makefile:1274: prepare0] Error 2 shuffle=21662191
->     make[2]: Target 'prepare' not remade because of errors.
->     make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=21662191
->     make[1]: Target 'prepare' not remade because of errors.
->     make: *** [Makefile:248: __sub-make] Error 2 shuffle=21662191
->     make: Target 'prepare' not remade because of errors.
-
-
-> vim +301 arch/arm64/include/asm/kvm_pmu.h
-
->     300
->   > 301	static inline bool kvm_pmu_is_partitioned(void *)
->     302	{
->     303		return false;
->     304	}
->     305
-
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
