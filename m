@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3EA9443
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 00:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65D426281;
+	Tue, 15 Jul 2025 00:12:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752537642; cv=none; b=u1bbsVFTpW0AuvLQpN3JsQ5ni+XysY8O4kOqcgRYHnNOXyFmvHiXOd+IvV5OPmIUajTP/XNRp0YzK62Z04Jb8t2y5oJr3t9/74g3I/MWOw5TESXWahmmLoNVqprqa2kV9VdhzTjBe3jAfEpcZWuoGsLZ83vny1yQiH3OZbcz+XQ=
+	t=1752538364; cv=none; b=mt6of4goDs3nV1uHuTMLUTPJYBI0sF9oOKafuTh+Hds1MjSfbfOZvAC+tIFPp7n453O/yqi5w2MNzv81A71bK4qRprhYypMEBLo+QcW0oz/SE5o+oTbJg4fXTsLhWkVwph/rO27fv4OazQ0CMpHMV4ahw8N/su3MynkMPv11kQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752537642; c=relaxed/simple;
-	bh=pWPDZWuzJAcb4UtE8e1F66u33hIBqAnjDtre40iR9l4=;
+	s=arc-20240116; t=1752538364; c=relaxed/simple;
+	bh=j9V2XeZ/WyEslZsdpjNSs69uSu0GwuWu57I/uXIFR/A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lwD2V1Kxezwc7zAgtb1Iho3wtcWe2S2Kdfc6oiLZzcQPhV+Tz0jWNN/KPX6o2MHVwSDB8ofITSdtyunyhW/sH/crIHDWnuwof78OI66j3fjRy3YCQrrwrRxyV/rvja0hoSQLLrHf15vVUylQ+EQU0WeY3Vted0qcyjsVGe0q+Vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BUqpLh03; arc=none smtp.client-ip=198.175.65.10
+	 Content-Disposition; b=hlkNiyWi+qnGU0/4SKebJ3eqiZ7F2WrhCc/BIa1wwX7ogK/rB2F+KrBC6pIG2A1Dm/+xb9Oqqq9DXJlHpP9XIEWzuA2t11XL06BJ5nkpFl75eGJrmwm70GXEFWF+DUi2Io1u1BYUvXmExx5F8UvfnCF0pB1byEuXUCMFomSaohA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H3jy/xvP; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BUqpLh03"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H3jy/xvP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752537641; x=1784073641;
+  t=1752538362; x=1784074362;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pWPDZWuzJAcb4UtE8e1F66u33hIBqAnjDtre40iR9l4=;
-  b=BUqpLh03pLkpx88NjbCYgRqOSfSz+IkfHCQWR6tEDxmLf2YJ/TtYp29U
-   Szotj4woJKDM8q8PHfVtenO29onkDr2NDUTqRYVnNrf8R1BMkqUmeuUaD
-   Y4mL0IocUTMJo1PaRLgkZ3cmpGhIVOS6Ihj1qsLvxigEJEuZaZpgOjwV9
-   SpQCqZ0BRN0lxpy97LDKCb5SWSztYSrKHqwfkWAumiqtxMuy2s4WjFO8o
-   oVHno9be2frG8bdJcWNrmtoWfqZ/FFgUT/KqUheEPr9AUj9uecHHI5xd5
-   jWopv5783VSghbfgV/seKC1CNxkL4rJNgu5F4JNxg+wfAXl6xzis5mifP
-   g==;
-X-CSE-ConnectionGUID: Ww2N1m0KQ8Gee4WXQZdTXQ==
-X-CSE-MsgGUID: SoSUEHt9SK+UJair8+vtBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="72193725"
+  bh=j9V2XeZ/WyEslZsdpjNSs69uSu0GwuWu57I/uXIFR/A=;
+  b=H3jy/xvPpsxsywCAcnXgoMclSa3UEb2tBxttiMvRZvp2MzzEdwviO21Z
+   XhVfN0hM9KtVDGE7a0LomsI6WZD2p0Gdh9eLKQ40N2mehf6ghqHvHVZ+8
+   wBkOd2VkTEpyjvhq+3dnX2BxKGSCQ908dJawUusBuQ8tlW6xeGppkKX7R
+   SdhZy1OOIEcgLK4t3QJtKTfYm0lYBS42YkMu1APUscRXpf8sFESjd6Kgt
+   Fqj1zfDgs1IPqRpl5n/+GpUCTQYzLygqcwiI/fveGeLZNyMyQHOy7V3fT
+   87oyBbSzNH2KMnNMo+2zjgVwUEsoCVoum5uTio3dyaMQ9es3E3yxfOIUI
+   w==;
+X-CSE-ConnectionGUID: Kd1EA89dSB2ScbuiroCgpA==
+X-CSE-MsgGUID: ADS3xD8aTc2WxsqH+nRJEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="53856483"
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="72193725"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 17:00:40 -0700
-X-CSE-ConnectionGUID: vp7XRqT0QCiLyKNH82GLpg==
-X-CSE-MsgGUID: k7Gaul6cTN24YydgvO+wZw==
+   d="scan'208";a="53856483"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 17:12:41 -0700
+X-CSE-ConnectionGUID: JWmWg0XzQ6GNgHUUw9DuEw==
+X-CSE-MsgGUID: nKOkFt9ERumjKLVciQ1OQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="194228058"
+   d="scan'208";a="156709230"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 14 Jul 2025 17:00:38 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 14 Jul 2025 17:12:39 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubT64-0009SJ-06;
-	Tue, 15 Jul 2025 00:00:36 +0000
-Date: Tue, 15 Jul 2025 08:00:11 +0800
+	id 1ubTHh-0009T9-1N;
+	Tue, 15 Jul 2025 00:12:37 +0000
+Date: Tue, 15 Jul 2025 08:11:40 +0800
 From: kernel test robot <lkp@intel.com>
-To: cros-kernel-buildreports@googlegroups.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [android-common:android14-6.1-2024-06 9/9]
- arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: ethernet@e6800000
- (renesas,etheravb-r8a779a0): compatible: 'oneOf' conditional failed, one
- must be fixed:
-Message-ID: <202507150736.3OdOxiFS-lkp@intel.com>
+To: Christian Eggers <ceggers@arri.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-bluetooth@vger.kernel.org,
+	Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
+Subject: [bluetooth-next:master 90/90] drivers/bluetooth/hci_ll.c:652:48:
+ error: no member named 'quirks' in 'struct hci_dev'
+Message-ID: <202507150810.nsWLqAW3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,91 +64,143 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://android.googlesource.com/kernel/common android14-6.1-2024-06
-head:   233cd6b58e4f649fb1ae02fb654ee3c7b0cea9f1
-commit: 1bd81d785dfc6b8d2e4911acc527c181a88a51d0 [9/9] dt-bindings: net: renesas,etheravb: R-Car V3U is R-Car Gen4
-config: arm64-randconfig-051-20250709 (https://download.01.org/0day-ci/archive/20250715/202507150736.3OdOxiFS-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150736.3OdOxiFS-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth-next.git master
+head:   be736f5f89d519e58057ee40c3e09fbfc711d4dc
+commit: be736f5f89d519e58057ee40c3e09fbfc711d4dc [90/90] Bluetooth: hci_dev: replace 'quirks' integer by 'quirk_flags' bitmap
+config: arm-randconfig-001-20250715 (https://download.01.org/0day-ci/archive/20250715/202507150810.nsWLqAW3-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150810.nsWLqAW3-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507150736.3OdOxiFS-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507150810.nsWLqAW3-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	'renesas,r8a779a0-cmt1' is not one of ['renesas,r8a774a1-cmt1', 'renesas,r8a774b1-cmt1', 'renesas,r8a774c0-cmt1', 'renesas,r8a774e1-cmt1', 'renesas,r8a7795-cmt1', 'renesas,r8a7796-cmt1', 'renesas,r8a77961-cmt1', 'renesas,r8a77965-cmt1', 'renesas,r8a77970-cmt1', 'renesas,r8a77980-cmt1', 'renesas,r8a77990-cmt1', 'renesas,r8a77995-cmt1']
-   	'renesas,r8a779a0-cmt1' is not one of ['renesas,r8a779a0-cmt0', 'renesas,r8a779f0-cmt0']
-   	'renesas,rcar-gen2-cmt0' was expected
-   	'renesas,rcar-gen2-cmt1' was expected
-   	'renesas,rcar-gen3-cmt0' was expected
-   	'renesas,rcar-gen4-cmt0' was expected
-   	'renesas,rcar-gen4-cmt1' was expected
-   	from schema $id: http://devicetree.org/schemas/timer/renesas,cmt.yaml#
-   arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: can@e6660000 (renesas,r8a779a0-canfd): Unevaluated properties are not allowed ('channel2', 'channel3', 'channel4', 'channel5', 'channel6', 'channel7' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/can/renesas,rcar-canfd.yaml#
->> arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: ethernet@e6800000 (renesas,etheravb-r8a779a0): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r8a7742', 'renesas,etheravb-r8a7743', 'renesas,etheravb-r8a7744', 'renesas,etheravb-r8a7745', 'renesas,etheravb-r8a77470', 'renesas,etheravb-r8a7790', 'renesas,etheravb-r8a7791', 'renesas,etheravb-r8a7792', 'renesas,etheravb-r8a7793', 'renesas,etheravb-r8a7794']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r8a774a1', 'renesas,etheravb-r8a774b1', 'renesas,etheravb-r8a774c0', 'renesas,etheravb-r8a774e1', 'renesas,etheravb-r8a7795', 'renesas,etheravb-r8a7796', 'renesas,etheravb-r8a77961', 'renesas,etheravb-r8a77965', 'renesas,etheravb-r8a77970', 'renesas,etheravb-r8a77980', 'renesas,etheravb-r8a77990', 'renesas,etheravb-r8a77995']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r9a09g011']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,r9a07g043-gbeth', 'renesas,r9a07g044-gbeth', 'renesas,r9a07g054-gbeth']
-   	'renesas,etheravb-rcar-gen2' was expected
-   	'renesas,etheravb-rcar-gen4' was expected
-   	'renesas,etheravb-rzv2m' was expected
-   	'renesas,rzg2l-gbeth' was expected
-   	from schema $id: http://devicetree.org/schemas/net/renesas,etheravb.yaml#
->> arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: ethernet@e6810000 (renesas,etheravb-r8a779a0): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r8a7742', 'renesas,etheravb-r8a7743', 'renesas,etheravb-r8a7744', 'renesas,etheravb-r8a7745', 'renesas,etheravb-r8a77470', 'renesas,etheravb-r8a7790', 'renesas,etheravb-r8a7791', 'renesas,etheravb-r8a7792', 'renesas,etheravb-r8a7793', 'renesas,etheravb-r8a7794']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r8a774a1', 'renesas,etheravb-r8a774b1', 'renesas,etheravb-r8a774c0', 'renesas,etheravb-r8a774e1', 'renesas,etheravb-r8a7795', 'renesas,etheravb-r8a7796', 'renesas,etheravb-r8a77961', 'renesas,etheravb-r8a77965', 'renesas,etheravb-r8a77970', 'renesas,etheravb-r8a77980', 'renesas,etheravb-r8a77990', 'renesas,etheravb-r8a77995']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r9a09g011']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,r9a07g043-gbeth', 'renesas,r9a07g044-gbeth', 'renesas,r9a07g054-gbeth']
-   	'renesas,etheravb-rcar-gen2' was expected
-   	'renesas,etheravb-rcar-gen4' was expected
-   	'renesas,etheravb-rzv2m' was expected
-   	'renesas,rzg2l-gbeth' was expected
-   	from schema $id: http://devicetree.org/schemas/net/renesas,etheravb.yaml#
->> arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: ethernet@e6820000 (renesas,etheravb-r8a779a0): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r8a7742', 'renesas,etheravb-r8a7743', 'renesas,etheravb-r8a7744', 'renesas,etheravb-r8a7745', 'renesas,etheravb-r8a77470', 'renesas,etheravb-r8a7790', 'renesas,etheravb-r8a7791', 'renesas,etheravb-r8a7792', 'renesas,etheravb-r8a7793', 'renesas,etheravb-r8a7794']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r8a774a1', 'renesas,etheravb-r8a774b1', 'renesas,etheravb-r8a774c0', 'renesas,etheravb-r8a774e1', 'renesas,etheravb-r8a7795', 'renesas,etheravb-r8a7796', 'renesas,etheravb-r8a77961', 'renesas,etheravb-r8a77965', 'renesas,etheravb-r8a77970', 'renesas,etheravb-r8a77980', 'renesas,etheravb-r8a77990', 'renesas,etheravb-r8a77995']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r9a09g011']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,r9a07g043-gbeth', 'renesas,r9a07g044-gbeth', 'renesas,r9a07g054-gbeth']
-   	'renesas,etheravb-rcar-gen2' was expected
-   	'renesas,etheravb-rcar-gen4' was expected
-   	'renesas,etheravb-rzv2m' was expected
-   	'renesas,rzg2l-gbeth' was expected
-   	from schema $id: http://devicetree.org/schemas/net/renesas,etheravb.yaml#
->> arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: ethernet@e6830000 (renesas,etheravb-r8a779a0): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r8a7742', 'renesas,etheravb-r8a7743', 'renesas,etheravb-r8a7744', 'renesas,etheravb-r8a7745', 'renesas,etheravb-r8a77470', 'renesas,etheravb-r8a7790', 'renesas,etheravb-r8a7791', 'renesas,etheravb-r8a7792', 'renesas,etheravb-r8a7793', 'renesas,etheravb-r8a7794']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r8a774a1', 'renesas,etheravb-r8a774b1', 'renesas,etheravb-r8a774c0', 'renesas,etheravb-r8a774e1', 'renesas,etheravb-r8a7795', 'renesas,etheravb-r8a7796', 'renesas,etheravb-r8a77961', 'renesas,etheravb-r8a77965', 'renesas,etheravb-r8a77970', 'renesas,etheravb-r8a77980', 'renesas,etheravb-r8a77990', 'renesas,etheravb-r8a77995']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r9a09g011']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,r9a07g043-gbeth', 'renesas,r9a07g044-gbeth', 'renesas,r9a07g054-gbeth']
-   	'renesas,etheravb-rcar-gen2' was expected
-   	'renesas,etheravb-rcar-gen4' was expected
-   	'renesas,etheravb-rzv2m' was expected
-   	'renesas,rzg2l-gbeth' was expected
-   	from schema $id: http://devicetree.org/schemas/net/renesas,etheravb.yaml#
->> arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: ethernet@e6840000 (renesas,etheravb-r8a779a0): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r8a7742', 'renesas,etheravb-r8a7743', 'renesas,etheravb-r8a7744', 'renesas,etheravb-r8a7745', 'renesas,etheravb-r8a77470', 'renesas,etheravb-r8a7790', 'renesas,etheravb-r8a7791', 'renesas,etheravb-r8a7792', 'renesas,etheravb-r8a7793', 'renesas,etheravb-r8a7794']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r8a774a1', 'renesas,etheravb-r8a774b1', 'renesas,etheravb-r8a774c0', 'renesas,etheravb-r8a774e1', 'renesas,etheravb-r8a7795', 'renesas,etheravb-r8a7796', 'renesas,etheravb-r8a77961', 'renesas,etheravb-r8a77965', 'renesas,etheravb-r8a77970', 'renesas,etheravb-r8a77980', 'renesas,etheravb-r8a77990', 'renesas,etheravb-r8a77995']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r9a09g011']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,r9a07g043-gbeth', 'renesas,r9a07g044-gbeth', 'renesas,r9a07g054-gbeth']
-   	'renesas,etheravb-rcar-gen2' was expected
-   	'renesas,etheravb-rcar-gen4' was expected
-   	'renesas,etheravb-rzv2m' was expected
-   	'renesas,rzg2l-gbeth' was expected
-   	from schema $id: http://devicetree.org/schemas/net/renesas,etheravb.yaml#
->> arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: ethernet@e6850000 (renesas,etheravb-r8a779a0): compatible: 'oneOf' conditional failed, one must be fixed:
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r8a7742', 'renesas,etheravb-r8a7743', 'renesas,etheravb-r8a7744', 'renesas,etheravb-r8a7745', 'renesas,etheravb-r8a77470', 'renesas,etheravb-r8a7790', 'renesas,etheravb-r8a7791', 'renesas,etheravb-r8a7792', 'renesas,etheravb-r8a7793', 'renesas,etheravb-r8a7794']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r8a774a1', 'renesas,etheravb-r8a774b1', 'renesas,etheravb-r8a774c0', 'renesas,etheravb-r8a774e1', 'renesas,etheravb-r8a7795', 'renesas,etheravb-r8a7796', 'renesas,etheravb-r8a77961', 'renesas,etheravb-r8a77965', 'renesas,etheravb-r8a77970', 'renesas,etheravb-r8a77980', 'renesas,etheravb-r8a77990', 'renesas,etheravb-r8a77995']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,etheravb-r9a09g011']
-   	'renesas,etheravb-r8a779a0' is not one of ['renesas,r9a07g043-gbeth', 'renesas,r9a07g044-gbeth', 'renesas,r9a07g054-gbeth']
-   	'renesas,etheravb-rcar-gen2' was expected
-   	'renesas,etheravb-rcar-gen4' was expected
-   	'renesas,etheravb-rzv2m' was expected
-   	'renesas,rzg2l-gbeth' was expected
-   	from schema $id: http://devicetree.org/schemas/net/renesas,etheravb.yaml#
-   arch/arm64/boot/dts/renesas/r8a779a0-falcon.dtb: mmc@ee140000 (renesas,sdhi-r8a779a0): compatible: 'oneOf' conditional failed, one must be fixed:
+All errors (new ones prefixed by >>):
+
+>> drivers/bluetooth/hci_ll.c:652:48: error: no member named 'quirks' in 'struct hci_dev'
+     652 |                 set_bit(HCI_QUIRK_INVALID_BDADDR, &hu->hdev->quirks);
+         |                                                    ~~~~~~~~  ^
+   arch/arm/include/asm/bitops.h:191:49: note: expanded from macro 'set_bit'
+     191 | #define set_bit(nr,p)                   ATOMIC_BITOP(set_bit,nr,p)
+         |                                                                 ^
+   arch/arm/include/asm/bitops.h:183:52: note: expanded from macro 'ATOMIC_BITOP'
+     183 |         (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(nr,p))
+         |                                                           ^
+>> drivers/bluetooth/hci_ll.c:652:48: error: no member named 'quirks' in 'struct hci_dev'
+     652 |                 set_bit(HCI_QUIRK_INVALID_BDADDR, &hu->hdev->quirks);
+         |                                                    ~~~~~~~~  ^
+   arch/arm/include/asm/bitops.h:191:49: note: expanded from macro 'set_bit'
+     191 | #define set_bit(nr,p)                   ATOMIC_BITOP(set_bit,nr,p)
+         |                                                                 ^
+   arch/arm/include/asm/bitops.h:183:68: note: expanded from macro 'ATOMIC_BITOP'
+     183 |         (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(nr,p))
+         |                                                                           ^
+   drivers/bluetooth/hci_ll.c:656:49: error: no member named 'quirks' in 'struct hci_dev'
+     656 |                         set_bit(HCI_QUIRK_INVALID_BDADDR, &hu->hdev->quirks);
+         |                                                            ~~~~~~~~  ^
+   arch/arm/include/asm/bitops.h:191:49: note: expanded from macro 'set_bit'
+     191 | #define set_bit(nr,p)                   ATOMIC_BITOP(set_bit,nr,p)
+         |                                                                 ^
+   arch/arm/include/asm/bitops.h:183:52: note: expanded from macro 'ATOMIC_BITOP'
+     183 |         (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(nr,p))
+         |                                                           ^
+   drivers/bluetooth/hci_ll.c:656:49: error: no member named 'quirks' in 'struct hci_dev'
+     656 |                         set_bit(HCI_QUIRK_INVALID_BDADDR, &hu->hdev->quirks);
+         |                                                            ~~~~~~~~  ^
+   arch/arm/include/asm/bitops.h:191:49: note: expanded from macro 'set_bit'
+     191 | #define set_bit(nr,p)                   ATOMIC_BITOP(set_bit,nr,p)
+         |                                                                 ^
+   arch/arm/include/asm/bitops.h:183:68: note: expanded from macro 'ATOMIC_BITOP'
+     183 |         (__builtin_constant_p(nr) ? ____atomic_##name(nr, p) : _##name(nr,p))
+         |                                                                           ^
+   4 errors generated.
+
+
+vim +652 drivers/bluetooth/hci_ll.c
+
+aa0993986932fe David Lechner 2017-12-12  607  
+371805522f8709 Rob Herring   2017-04-13  608  static int ll_setup(struct hci_uart *hu)
+371805522f8709 Rob Herring   2017-04-13  609  {
+371805522f8709 Rob Herring   2017-04-13  610  	int err, retry = 3;
+371805522f8709 Rob Herring   2017-04-13  611  	struct ll_device *lldev;
+371805522f8709 Rob Herring   2017-04-13  612  	struct serdev_device *serdev = hu->serdev;
+371805522f8709 Rob Herring   2017-04-13  613  	u32 speed;
+371805522f8709 Rob Herring   2017-04-13  614  
+371805522f8709 Rob Herring   2017-04-13  615  	if (!serdev)
+371805522f8709 Rob Herring   2017-04-13  616  		return 0;
+371805522f8709 Rob Herring   2017-04-13  617  
+371805522f8709 Rob Herring   2017-04-13  618  	lldev = serdev_device_get_drvdata(serdev);
+371805522f8709 Rob Herring   2017-04-13  619  
+aa0993986932fe David Lechner 2017-12-12  620  	hu->hdev->set_bdaddr = ll_set_bdaddr;
+aa0993986932fe David Lechner 2017-12-12  621  
+371805522f8709 Rob Herring   2017-04-13  622  	serdev_device_set_flow_control(serdev, true);
+371805522f8709 Rob Herring   2017-04-13  623  
+371805522f8709 Rob Herring   2017-04-13  624  	do {
+d54fdcf9244cec David Lechner 2017-12-02  625  		/* Reset the Bluetooth device */
+371805522f8709 Rob Herring   2017-04-13  626  		gpiod_set_value_cansleep(lldev->enable_gpio, 0);
+371805522f8709 Rob Herring   2017-04-13  627  		msleep(5);
+371805522f8709 Rob Herring   2017-04-13  628  		gpiod_set_value_cansleep(lldev->enable_gpio, 1);
+844c79bd599518 Xiaolei Wang  2020-11-10  629  		mdelay(100);
+d54fdcf9244cec David Lechner 2017-12-02  630  		err = serdev_device_wait_for_cts(serdev, true, 200);
+d54fdcf9244cec David Lechner 2017-12-02  631  		if (err) {
+d54fdcf9244cec David Lechner 2017-12-02  632  			bt_dev_err(hu->hdev, "Failed to get CTS");
+d54fdcf9244cec David Lechner 2017-12-02  633  			return err;
+d54fdcf9244cec David Lechner 2017-12-02  634  		}
+371805522f8709 Rob Herring   2017-04-13  635  
+371805522f8709 Rob Herring   2017-04-13  636  		err = download_firmware(lldev);
+371805522f8709 Rob Herring   2017-04-13  637  		if (!err)
+371805522f8709 Rob Herring   2017-04-13  638  			break;
+371805522f8709 Rob Herring   2017-04-13  639  
+371805522f8709 Rob Herring   2017-04-13  640  		/* Toggle BT_EN and retry */
+371805522f8709 Rob Herring   2017-04-13  641  		bt_dev_err(hu->hdev, "download firmware failed, retrying...");
+371805522f8709 Rob Herring   2017-04-13  642  	} while (retry--);
+371805522f8709 Rob Herring   2017-04-13  643  
+371805522f8709 Rob Herring   2017-04-13  644  	if (err)
+371805522f8709 Rob Herring   2017-04-13  645  		return err;
+371805522f8709 Rob Herring   2017-04-13  646  
+0e58d0cdb3eb6e David Lechner 2017-12-12  647  	/* Set BD address if one was specified at probe */
+0e58d0cdb3eb6e David Lechner 2017-12-12  648  	if (!bacmp(&lldev->bdaddr, BDADDR_NONE)) {
+0e58d0cdb3eb6e David Lechner 2017-12-12  649  		/* This means that there was an error getting the BD address
+0e58d0cdb3eb6e David Lechner 2017-12-12  650  		 * during probe, so mark the device as having a bad address.
+0e58d0cdb3eb6e David Lechner 2017-12-12  651  		 */
+0e58d0cdb3eb6e David Lechner 2017-12-12 @652  		set_bit(HCI_QUIRK_INVALID_BDADDR, &hu->hdev->quirks);
+0e58d0cdb3eb6e David Lechner 2017-12-12  653  	} else if (bacmp(&lldev->bdaddr, BDADDR_ANY)) {
+0e58d0cdb3eb6e David Lechner 2017-12-12  654  		err = ll_set_bdaddr(hu->hdev, &lldev->bdaddr);
+0e58d0cdb3eb6e David Lechner 2017-12-12  655  		if (err)
+0e58d0cdb3eb6e David Lechner 2017-12-12  656  			set_bit(HCI_QUIRK_INVALID_BDADDR, &hu->hdev->quirks);
+0e58d0cdb3eb6e David Lechner 2017-12-12  657  	}
+0e58d0cdb3eb6e David Lechner 2017-12-12  658  
+371805522f8709 Rob Herring   2017-04-13  659  	/* Operational speed if any */
+cef456cd354ef4 Adam Ford     2019-10-02  660  	if (hu->oper_speed)
+cef456cd354ef4 Adam Ford     2019-10-02  661  		speed = hu->oper_speed;
+cef456cd354ef4 Adam Ford     2019-10-02  662  	else if (hu->proto->oper_speed)
+cef456cd354ef4 Adam Ford     2019-10-02  663  		speed = hu->proto->oper_speed;
+cef456cd354ef4 Adam Ford     2019-10-02  664  	else
+cef456cd354ef4 Adam Ford     2019-10-02  665  		speed = 0;
+cef456cd354ef4 Adam Ford     2019-10-02  666  
+cef456cd354ef4 Adam Ford     2019-10-02  667  	if (speed) {
+cef456cd354ef4 Adam Ford     2019-10-02  668  		__le32 speed_le = cpu_to_le32(speed);
+cef456cd354ef4 Adam Ford     2019-10-02  669  		struct sk_buff *skb;
+7c6ca1201e5e87 David Lechner 2017-12-03  670  
+cef456cd354ef4 Adam Ford     2019-10-02  671  		skb = __hci_cmd_sync(hu->hdev, HCI_VS_UPDATE_UART_HCI_BAUDRATE,
+cef456cd354ef4 Adam Ford     2019-10-02  672  				     sizeof(speed_le), &speed_le,
+cef456cd354ef4 Adam Ford     2019-10-02  673  				     HCI_INIT_TIMEOUT);
+cef456cd354ef4 Adam Ford     2019-10-02  674  		if (!IS_ERR(skb)) {
+cef456cd354ef4 Adam Ford     2019-10-02  675  			kfree_skb(skb);
+cef456cd354ef4 Adam Ford     2019-10-02  676  			serdev_device_set_baudrate(serdev, speed);
+cef456cd354ef4 Adam Ford     2019-10-02  677  		}
+cef456cd354ef4 Adam Ford     2019-10-02  678  	}
+371805522f8709 Rob Herring   2017-04-13  679  
+371805522f8709 Rob Herring   2017-04-13  680  	return 0;
+371805522f8709 Rob Herring   2017-04-13  681  }
+371805522f8709 Rob Herring   2017-04-13  682  
+
+:::::: The code at line 652 was first introduced by commit
+:::::: 0e58d0cdb3eb6e06416bcc1af3605993c6a07656 Bluetooth: hci_ll: Add optional nvmem BD address source
+
+:::::: TO: David Lechner <david@lechnology.com>
+:::::: CC: Marcel Holtmann <marcel@holtmann.org>
 
 -- 
 0-DAY CI Kernel Test Service
