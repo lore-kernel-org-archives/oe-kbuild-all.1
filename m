@@ -1,68 +1,59 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4C101E5018
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 18:31:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2EEA1A2398
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 19:33:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752604294; cv=none; b=pqerpTccP+hmL13wUaPKWYU5F7AIKRGYF4hnrw2aJR7xBrBo72TYlL0sKDud39sntLz6oIqRjr0N7/i7wsw5K3oV/KsBujVv/hgB/ZvZLY1Vc70UBLdbvrHJpWyvWJkIEdAvzxDQSNhRS4JZbTOR1/CytlFq//25vwAgLc1O0hc=
+	t=1752608012; cv=none; b=qjq4CRtuXxIzJaYThmMWt35FaniGL3Y6jmr5tQlZO3WBkaiuXH3TNe9NxzDTh+q9eC+ypDfncbhrPw3uHhY/9TAXsiZEfBQTXnYRdAqQYacc5NWU36tfVUsiIIgqaQYtbc5qL8Lzo4xjdRvHdGj9nEsrv4OhW++ArjB7gZV9GNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752604294; c=relaxed/simple;
-	bh=gz8BJzu2wLOW/lZ9Zr0y7lhpnTbMYowrgJMDO8WCKgI=;
+	s=arc-20240116; t=1752608012; c=relaxed/simple;
+	bh=283y0Zg6Ue5PSynx5+V42R/AdbuoKDsW3xn9bIJ1zMM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OlBa8hb2GYx3UWPirfAVsUpfFb1nNLyy62UqDdkZqBRwu7+Aax2NqdygQOtGzBBzJ30KzCHGSKrYCX4/g4fnVlyD4GhGAYkuQkoLL5mjVLAxgH3/ZLGRKXkJ+4SbZhgerPhuwOCCbsNt6rwj1Wty+0ZLuKVr1qCiQ2sSB/o/KLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xxoOeF/5; arc=none smtp.client-ip=209.85.210.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Disposition; b=dnmXEJOylm25nuY6A10PTw/5obBT8tnUAbBqR8a0zoevSR5QTuDZHjGqooobFSzrymRlTgwIl2HOlSlvTZ6G3w9Sm/9FowB7NxC8IhVt+U9q2050dBllAuUZNzNQeV+v/7A1sre2va0Q3H7hW83qHpdFxsausy4ft4XmFq+FD7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aTCOiEDE; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xxoOeF/5"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-73e650f3c31so24015a34.3
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 11:31:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1752604292; x=1753209092; darn=lists.linux.dev;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QxIp2KPb/X68XS9Rue4+6vDNj1+Lo9Jr1cCgfoMzXtc=;
-        b=xxoOeF/5iMaKzrFoTvDk+O0TEaJzbMQH/kBZ4uFDLzhcCKhs/Xp0lZIMIs3GNWUIkh
-         qUlXm0C0OLzGnDlJArvB2mQ0rDKhXqlnUNpePtaV4H/PTXOWi1T5thIeL+sokMCdYpZG
-         4rRdcYS8x0L47fjLmbL0wnCoHpJwLMUv6NUpsPHKvZ2d5BqmgzCZk53BbbYCcRkj8TYx
-         IVH1nvSYbrsrkytnbTOrxXkL49DTYPn4bLcQRB3YsA5BcWTcbXnoDJhZvTutXYjSmD5e
-         uE6wnLKsDLIoQhK7s1X3LPDwwH2qYiF8KCCdbdq9XGbCmaKfcIDuuOvwC0yka9flwr3T
-         6zJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752604292; x=1753209092;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QxIp2KPb/X68XS9Rue4+6vDNj1+Lo9Jr1cCgfoMzXtc=;
-        b=ZSRWwq2u4H5Qgb3NB+hDbPlN/usSbhn/IsBP4PioFUxvUgv0N2Qj+zTutq8RQAgFVS
-         1WoeJue2TR4Au2c4BV+YpD0E3nJ35MfwgF9+sGpuGsCcYEbgpAllqMFPDFNCgBW+EDlu
-         UtS5LIEegLN2DKGZpRheR3K8C9R7A6sCgpmxkv3vsOwR8ZzBe6UfO6RGPKXSkQpvuUY6
-         47HFCdHRHT1q9cQ+t6wr5wsoVzQrI48EGWYBgS1PfAkXwv/iIw0yBwql7RvGAItCb9+P
-         3TomPohyAH7TT4JxUA1hmbHtcmQzH7rbbG6urU6Fv5Bs6luKdE+eNreUzQxGccMDBUoL
-         WnvA==
-X-Forwarded-Encrypted: i=1; AJvYcCUgvqOUn33vVncQQDgUWNW0SQ144LW3lMZRJBJetYbJC66Nb/OO+loa6eCvV+vEW7pztbpHzaEm7oxTXq14@lists.linux.dev
-X-Gm-Message-State: AOJu0YzTfNZMTzFnoMvPgKokhuty/jSEyFOHYEtPPtueGNTWZRzoNaJH
-	xg3F0weyr+ltrC8uQ3gf0XxI4vCjSLoZugsEeGaAcyVCjEDGcmjHQmAICalifpZuA6Q=
-X-Gm-Gg: ASbGncvKgT2r/5eEmuDhaim6peWUUoKFq8Arl3LCDvMtAYgde8xytrSGO+6+XvRvYWo
-	rhow2kgfqDoZWnT2RtP4hlNzLOg1W0OKbS2LxyksQZw+I6G2vSrzW26UHehglf+iJQyrHlAbxhJ
-	MmFSDVo04Vy6zjg/rkojBPjb1i9u9jeHRnu+2minN0CH8sTVFYqDdzDuU/fl3q0vtB86wkHAsoH
-	1bZU3NnrOq94DD/CqizEQOPOaukxWlBnj2GsT6atzjLgC60/zxbqJDZcmD43BwR07cyxrRpI4gO
-	KLwIhUvD7f2bprizG6QuOoT9u4lRDlAy0qrCkvAIo2jqSYWSMjsUYk209SIxx44ivRJ1NPxmn6Q
-	pIQZLbepTsIxznDfL5fTMUeOLtoEvfQ==
-X-Google-Smtp-Source: AGHT+IFW6SsYQowq8nq/SUuRTt5CC6bjZVIFjE5jGxHKdFy26L6Zm+gNV8L7T52XWaKhTcqtA47Y7w==
-X-Received: by 2002:a05:6808:190c:b0:41c:4dff:414f with SMTP id 5614622812f47-41cedf8a724mr95726b6e.9.1752604291612;
-        Tue, 15 Jul 2025 11:31:31 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700:b8f4:caf6:c9f1:614d])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-613d9f1bfb2sm1727397eaf.33.2025.07.15.11.31.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Jul 2025 11:31:31 -0700 (PDT)
-Date: Tue, 15 Jul 2025 21:31:29 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, "Rob Herring (Arm)" <robh@kernel.org>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev
-Subject: [robh:imx93-ethos-v2 34/40] drivers/accel/ethos/ethos_gem.c:184
- feat_matrix_length() warn: right shifting more than type allows 16 vs 30
-Message-ID: <ad676383-9eab-4320-a7d8-7daba1544978@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aTCOiEDE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752608011; x=1784144011;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=283y0Zg6Ue5PSynx5+V42R/AdbuoKDsW3xn9bIJ1zMM=;
+  b=aTCOiEDEEBlPl12ohIMgXgW4zWLIb77mdIsHBLyPs7MNimJmejNDg82n
+   kABE7PmF7bZP7q+gGFtOWTGIG8sbzhSb9geV3LSyQVTsvKzggbWJATPOp
+   4ihUJwNwLLZGzUsMl+HB1pH1oHqRiMuuhAiNqd3/9LtaGuRq6s8GHlHOm
+   qyqVXHFgFvhB/EIIJ16XJM1jauZek13K55xxWwyNvgL6JnS0NKlin76RU
+   RLmJMUQyB9GqksLS6NCi0blgRrena3oITJiQkPtNWRMI4H3QT4q3KHDjJ
+   apROV36qgV2s2c2jYix3XzUkkWNTA4LWofokHWNkWl7rwuZR5tDZn1NJ7
+   g==;
+X-CSE-ConnectionGUID: /OWkCZTFT9qMkVWq7T66hQ==
+X-CSE-MsgGUID: hDp3li1iQyuV3LqssILZYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="53954335"
+X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
+   d="scan'208";a="53954335"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 12:33:30 -0700
+X-CSE-ConnectionGUID: A1UOUqCYQZOvKq5URA4DTg==
+X-CSE-MsgGUID: x2kiMk1oR6ee96FBvhh46w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
+   d="scan'208";a="157661129"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 15 Jul 2025 12:33:29 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ublP5-000BUZ-0y;
+	Tue, 15 Jul 2025 19:33:27 +0000
+Date: Wed, 16 Jul 2025 03:32:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: jason.zeng@intel.com, lin.x.wang@intel.com, pei.p.jia@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bytedance:5.15-velinux 0/92] mm/hugetlb_background_clean.h:86:9:
+ error: implicit declaration of function 'clear_huge_page'; did you mean
+ 'clear_highpage'?
+Message-ID: <202507160359.GUTKn3ao-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,41 +63,43 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git imx93-ethos-v2
-head:   f2fd4883d04c3245bc2fdd061078823b49709c68
-commit: 9ef4a26117efe591b7044a19e5748ce5b23e1b14 [34/40] ethos: Add validation of initial state
-config: x86_64-randconfig-r073-20250714 (https://download.01.org/0day-ci/archive/20250715/202507151211.qVv3eQxO-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+Hi Frank,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/bytedance/kernel.git 5.15-velinux
+head:   c71e88ad12bfbc44f855b681ef923e1acc2e984a
+commit: c29bfa28e97ff02afd20b21fd89eb5e945a575d9 [0/92] bytedance: mm/hugetlb: optionally pre-zero hugetlb pages
+config: x86_64-buildonly-randconfig-001-20250715 (https://download.01.org/0day-ci/archive/20250716/202507160359.GUTKn3ao-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160359.GUTKn3ao-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202507151211.qVv3eQxO-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507160359.GUTKn3ao-lkp@intel.com/
 
-New smatch warnings:
-drivers/accel/ethos/ethos_gem.c:184 feat_matrix_length() warn: right shifting more than type allows 16 vs 30
+All errors (new ones prefixed by >>):
 
-vim +184 drivers/accel/ethos/ethos_gem.c
+   In file included from mm/memory_hotplug.c:40:
+   mm/hugetlb_background_clean.h: In function 'hugetlb_clear_huge_page':
+>> mm/hugetlb_background_clean.h:86:9: error: implicit declaration of function 'clear_huge_page'; did you mean 'clear_highpage'? [-Werror=implicit-function-declaration]
+      86 |         clear_huge_page(page, addr_hint, pages_per_huge_page);
+         |         ^~~~~~~~~~~~~~~
+         |         clear_highpage
+   cc1: some warnings being treated as errors
 
-93463a14b8df63 Rob Herring (Arm  2025-06-24  180) static u64 feat_matrix_length(struct ethos_validated_cmdstream_info *info,
-93463a14b8df63 Rob Herring (Arm  2025-06-24  181) 			      struct feat_matrix *fm,
-93463a14b8df63 Rob Herring (Arm  2025-06-24  182) 			      u32 x, u32 y, u32 c)
-93463a14b8df63 Rob Herring (Arm  2025-06-24  183) {
-9ef4a26117efe5 Rob Herring (Arm  2025-07-07 @184) 	int storage = fm->precision >> 30;
-                                                                      ^^^^^^^^^^^^^
-The warning implies that fm->precision is a u16.
 
-93463a14b8df63 Rob Herring (Arm  2025-06-24  185) 	int tile = 0;
-93463a14b8df63 Rob Herring (Arm  2025-06-24  186) 
-9ef4a26117efe5 Rob Herring (Arm  2025-07-07  187) 	if (fm->region < 0)
-9ef4a26117efe5 Rob Herring (Arm  2025-07-07  188) 		return U64_MAX;
-9ef4a26117efe5 Rob Herring (Arm  2025-07-07  189) 
-93463a14b8df63 Rob Herring (Arm  2025-06-24  190) 	switch (storage) {
-93463a14b8df63 Rob Herring (Arm  2025-06-24  191) 	case 0:
-93463a14b8df63 Rob Herring (Arm  2025-06-24  192) 		if (x >= fm->width0 + 1) {
+vim +86 mm/hugetlb_background_clean.h
+
+    82	
+    83	static inline void hugetlb_clear_huge_page(struct page *page,
+    84			unsigned long addr_hint, unsigned int pages_per_huge_page)
+    85	{
+  > 86		clear_huge_page(page, addr_hint, pages_per_huge_page);
+    87	}
+    88	
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
