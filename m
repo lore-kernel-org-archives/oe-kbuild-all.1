@@ -1,59 +1,61 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D4551DE2CF
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 05:34:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED04924678C;
+	Tue, 15 Jul 2025 05:34:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752557658; cv=none; b=D9+16WUILITby4Ve+Z6XTQUxOov6fNTo1u4CU4j4Yj7Eaqfj5I2W6OJSX7YvHBGgNKlhQwSKJA+WPKafaVHPHmzFZd2zNyG/mHa3AkzaY2BlvPdGvAHKYMPFvatjZdRBBGEMiMmaSGZ8pITjVf0uNeMaXO2o7H8M3aq+oXqwots=
+	t=1752557659; cv=none; b=kORuulc2sqwbMq83mm2eolm01HCBehX5wWSeaBmmgN65cSEZoY+fh3ROh9qPOR7/VrO4tr0AXuET7h3f0lHLXKmW5MNO2XbmiVP5MeUk/02s6HLanCh8IjONIIYXNt+rfJwcucOKtLhdx7AzidJgpM0BQJO7Z1ZvCE5Fkn7HyfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752557658; c=relaxed/simple;
-	bh=KPd/64noN0eZ5IOHvB2AEvhSytkelp0zjr2LkjZRt8w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Ev3TThoTICqli1s8itQKmbHIv1GxsAlbQKble8o1UrPp0fc4438IcDX9pWVuaFeujneKiY8vtf3Wul/pTd9d4675wHk9XxzcfuxwhhXdRthm+kbOHiK+RM+lLDDO/mQhnsXplfHsnbowdR0g895f6BQWOwSYsCADkRUuxiTxGL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lpq5X/oS; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1752557659; c=relaxed/simple;
+	bh=aqGFfl1twW0Qc1W6K4xwwVazkug9mWZPNSjbozdTJnk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=am44SMmX5ZT2gk8GavdPGjOAFUwHy5uu3fSfIKExWZEPQ2Ej3GojLX0kkaDAPkgTn8wZBQxu2/JMXbvsb6vcMR0UhnSFO3mz27WJuy3xnF3ET8fV3dt4b2hdT7wApXIjb7CitLiNsnBnYe5NAvBAzI74J1PvVCcM3eHfJOek5yg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PX/ce8ke; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lpq5X/oS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PX/ce8ke"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752557656; x=1784093656;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KPd/64noN0eZ5IOHvB2AEvhSytkelp0zjr2LkjZRt8w=;
-  b=lpq5X/oSsIzjhT73b3sZnUpATlpGOZcseB6o9TFfMgmyfWVKMnWzIh58
-   QLcMm8wVTfUqbCfvxylHj31+H8Reh+TbzbCvZoC/fwwV9CeSghytas6MP
-   mgC2troxbbk8GQeccXFzHaD4TFFUPCom38jmk+VY2qj8Y/0ri2MCx7iKI
-   tmC+hzqJIfCbGXnD3E+iOhw7yr456izAUysuE/Nv+1xo41RKpL6WzdpYG
-   gWBEX1o2hWg/lz6CwJSptyvTJJh7Y875enNChzEfcEv033riTW1ojyBfU
-   5QYQ71Mpi+OZe8LMlOvhY74TMsKYuvUSjTeegrkPQQMP5KFaPZv9lExdl
-   Q==;
-X-CSE-ConnectionGUID: KfMBsgWbRwyItCjjMVJ5qA==
-X-CSE-MsgGUID: b06cqp/ZSJS9nABssg5caw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="53985015"
+  t=1752557658; x=1784093658;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aqGFfl1twW0Qc1W6K4xwwVazkug9mWZPNSjbozdTJnk=;
+  b=PX/ce8ke0pXuR9kWnp5tc/cBOdPyVIZdJjnAvIrByRaOkKzk3OmUYlo/
+   yP+7hScGvtGYoxkLDu4AkXvCzBIGKIWY0GuDWmTYaoveZDgoKgZQ/67+j
+   O8mgELJGf6B+F6l4gqkdHk7gwsksPOoZUiy9Kl3vnowwVP0RA9s96SN2S
+   VRgFDp1qeDMVmqmE67DijpsosLdSx3bgusIkUsWDCV/NWvnuoimtdI4my
+   0doWZ2B3OM95dTWy1eWVlwMJl5H7glqVKGZUksIur29yYLnOlTAFnGZC6
+   iv2gQFtKs5MFWYuq+FB5GoC4qiV4xS3Spv2MraEs6jn/eNIwIoLcxRZjL
+   g==;
+X-CSE-ConnectionGUID: d7S0Rfa9QOumxWpVzd6IBA==
+X-CSE-MsgGUID: TzD2QqTBQ1u27yGGeRfueg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="53985018"
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="53985015"
+   d="scan'208";a="53985018"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 22:34:15 -0700
-X-CSE-ConnectionGUID: zQ9nB71pTv643XlHemtrhA==
-X-CSE-MsgGUID: KU8g1jSHQoiZet//USLR5w==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 22:34:16 -0700
+X-CSE-ConnectionGUID: u5tl5zjHRs2oXNJrKAwVpQ==
+X-CSE-MsgGUID: jLB3xuV4Q/yKpj0Iozv55A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="157483590"
+   d="scan'208";a="157483592"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
   by fmviesa009.fm.intel.com with ESMTP; 14 Jul 2025 22:34:13 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubYIt-0009gf-1d;
+	id 1ubYIt-0009gZ-1L;
 	Tue, 15 Jul 2025 05:34:11 +0000
 Date: Tue, 15 Jul 2025 13:34:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 1/1] include/net/ip6_fib.h:273:10:
- error: default initialization of an object of type 'typeof (f6i->expires)'
- (aka 'const unsigned long') leaves the object uninitialized
-Message-ID: <202507151322.RYo5pnBp-lkp@intel.com>
+To: John Ousterhout <ouster@cs.stanford.edu>, netdev@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, pabeni@redhat.com,
+	edumazet@google.com, horms@kernel.org, kuba@kernel.org,
+	John Ousterhout <ouster@cs.stanford.edu>
+Subject: Re: [PATCH net-next v11 15/15] net: homa: create Makefile and Kconfig
+Message-ID: <202507151339.DEc1Vydw-lkp@intel.com>
+References: <20250714044448.254-16-ouster@cs.stanford.edu>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,52 +64,74 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250714044448.254-16-ouster@cs.stanford.edu>
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   9117970143cf69ace484f08b1d545a03f57c69ff
-commit: f55326b5b36a104711ee86c851bd2a981cae61d0 [1/1] anolis: net: supports linkdata ethernet controllers
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250715/202507151322.RYo5pnBp-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507151322.RYo5pnBp-lkp@intel.com/reproduce)
+Hi John,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20250714-130009
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250714044448.254-16-ouster%40cs.stanford.edu
+patch subject: [PATCH net-next v11 15/15] net: homa: create Makefile and Kconfig
+config: um-allmodconfig (https://download.01.org/0day-ci/archive/20250715/202507151339.DEc1Vydw-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507151339.DEc1Vydw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507151322.RYo5pnBp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507151339.DEc1Vydw-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/linkdata/sxe/sxepf/sxe_netdev.c:16:
-   In file included from include/net/xfrm.h:26:
->> include/net/ip6_fib.h:273:10: error: default initialization of an object of type 'typeof (f6i->expires)' (aka 'const unsigned long') leaves the object uninitialized [-Werror,-Wdefault-const-init-var-unsafe]
-     273 |                 return time_after(jiffies, f6i->expires);
-         |                        ^
-   include/linux/jiffies.h:106:3: note: expanded from macro 'time_after'
-     106 |          typecheck(unsigned long, b) && \
-         |          ^
-   include/linux/typecheck.h:11:12: note: expanded from macro 'typecheck'
-      11 |         typeof(x) __dummy2; \
-         |                   ^
-   1 error generated.
+   In file included from net/homa/homa_incoming.c:5:
+   In file included from net/homa/homa_impl.h:13:
+   In file included from include/linux/icmp.h:16:
+   In file included from include/linux/skbuff.h:17:
+   In file included from include/linux/bvec.h:10:
+   In file included from include/linux/highmem.h:12:
+   In file included from include/linux/hardirq.h:11:
+   In file included from arch/um/include/asm/hardirq.h:5:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:12:
+   In file included from arch/um/include/asm/io.h:24:
+   include/asm-generic/io.h:1175:55: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+    1175 |         return (port > MMIO_UPPER_LIMIT) ? NULL : PCI_IOBASE + port;
+         |                                                   ~~~~~~~~~~ ^
+   In file included from net/homa/homa_incoming.c:5:
+>> net/homa/homa_impl.h:529:9: error: use of undeclared identifier 'cpu_khz'
+     529 |         return cpu_khz;
+         |                ^
+   net/homa/homa_impl.h:546:13: error: use of undeclared identifier 'cpu_khz'
+     546 |         tmp = ns * cpu_khz;
+         |                    ^
+   net/homa/homa_impl.h:565:16: error: use of undeclared identifier 'cpu_khz'
+     565 |         tmp = usecs * cpu_khz;
+         |                       ^
+   1 warning and 3 errors generated.
 
 
-vim +273 include/net/ip6_fib.h
+vim +/cpu_khz +529 net/homa/homa_impl.h
 
-1716a96101c491 Gao feng         2012-04-06  269  
-8d1c802b2815ed David Ahern      2018-04-17  270  static inline bool fib6_check_expired(const struct fib6_info *f6i)
-1716a96101c491 Gao feng         2012-04-06  271  {
-93c2fb253d177a David Ahern      2018-04-18  272  	if (f6i->fib6_flags & RTF_EXPIRES)
-14895687d36805 David Ahern      2018-04-17 @273  		return time_after(jiffies, f6i->expires);
-14895687d36805 David Ahern      2018-04-17  274  	return false;
-1716a96101c491 Gao feng         2012-04-06  275  }
-b197df4f0f3782 Martin KaFai Lau 2015-05-22  276  
-
-:::::: The code at line 273 was first introduced by commit
-:::::: 14895687d36805f051bb54014c32e48e5937f7e1 net/ipv6: move expires into rt6_info
-
-:::::: TO: David Ahern <dsahern@gmail.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+9ce7b7d7321e0e John Ousterhout 2025-07-13  520  
+9ce7b7d7321e0e John Ousterhout 2025-07-13  521  /**
+9ce7b7d7321e0e John Ousterhout 2025-07-13  522   * homa_clock_khz() - Return the frequency of the values returned by
+9ce7b7d7321e0e John Ousterhout 2025-07-13  523   * homa_clock, in units of KHz.
+9ce7b7d7321e0e John Ousterhout 2025-07-13  524   * Return: see above.
+9ce7b7d7321e0e John Ousterhout 2025-07-13  525   */
+9ce7b7d7321e0e John Ousterhout 2025-07-13  526  static inline u64 homa_clock_khz(void)
+9ce7b7d7321e0e John Ousterhout 2025-07-13  527  {
+9ce7b7d7321e0e John Ousterhout 2025-07-13  528  #ifdef CONFIG_X86_TSC
+9ce7b7d7321e0e John Ousterhout 2025-07-13 @529  	return cpu_khz;
+9ce7b7d7321e0e John Ousterhout 2025-07-13  530  #else
+9ce7b7d7321e0e John Ousterhout 2025-07-13  531  	return 1000000;
+9ce7b7d7321e0e John Ousterhout 2025-07-13  532  #endif /* CONFIG_X86_TSC */
+9ce7b7d7321e0e John Ousterhout 2025-07-13  533  }
+9ce7b7d7321e0e John Ousterhout 2025-07-13  534  
 
 -- 
 0-DAY CI Kernel Test Service
