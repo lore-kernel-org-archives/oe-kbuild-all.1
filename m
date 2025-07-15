@@ -1,74 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E711A23E320;
-	Tue, 15 Jul 2025 23:29:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C37E1F1537
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 23:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752622197; cv=none; b=KPbaCNpuKZZn0vTZmIyDqdTszQINP/+5Qi+xVTLKJaRKGMxtNgBhYZ1ONbyaBQQPzki1RC1J7I85rkXRdWqAjH7EaTpIrYS2BW3rFkzV4F4nik4f63Nxf/hu9vhW2y5aJ94Qb2JUFmTT857aa8/2hkvtg5PHi2i/pYeRZZutn2A=
+	t=1752622916; cv=none; b=aEGFUIEEM5CI+1m6/bx7HsXL2ihTrkVB9WxP5/l8Lacq7sQVqv80Ch7QZMQuPRg1TcHSaNL6sbbFHWs7gxe6izeRHUOHP6hLkow+0tAoO7txYEm4+F42a+YY7jr+XsBcEY8mOhj2YEkAf2YF+tZgzYiFZBak8x8GovOAJc4QijE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752622197; c=relaxed/simple;
-	bh=WF6bfUxp5mzXUlANjLVW9CB9l9Zbo4W0VbxjuCwHMNI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bdzc9o7r9XF5w/lAXXePWh/Ma+nhdQjXYUocuoAMYNMuUdHg7XY4DNKXDU+nr2gJ/uK0ezvrq/2N0u7OR8PTTLEdr+kmwidngizUJAsJE6f+4Wqs+szmTNdfF74+n+Bnpxtom7/5nIOSxY4+jlXAxYF7R+2YIIgm2xMZzLrIqQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=djrFmAT8; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1752622916; c=relaxed/simple;
+	bh=kLugsfffY4OQhMK+xzdAyEOOogUU76zOvcXRxRGXvFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=e2BDpxsv7PNVPJ8P/2dzgWjSV6+2WlAfSfqLvakmkiOTbsu5gXr+YkyUb4gT6I1643MAht47sK9fggqgmaPG1vvNwz1NDCWmfUYHlnwxT4wnZdExjiowQkfJNxNMIBeduy4E+PHSjc3YgJ+G2BEPhoPHbRBxqgmOcfmk7kDkXBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ckOzT/EB; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djrFmAT8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ckOzT/EB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752622196; x=1784158196;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WF6bfUxp5mzXUlANjLVW9CB9l9Zbo4W0VbxjuCwHMNI=;
-  b=djrFmAT8zqA1jozPIYjALnQM48dD01F3C3Dhc0TYpxvN1Wk2qqSW5bzC
-   O2XDMnIrwdUrB8z7w65ziNA+38tz2dr+OXAxs2egKWMWCRYkvzJdUDmtM
-   a5/H/4Bk/K7OlANxyxkYTsdUTfM32IqJF9aNh9a0czAq6EaNplLSOCbp9
-   OAoPf80rC0FZAZaMG8RSC6XDWWrfFCMop9XA0VPwjCCBKOMAIL4THT+L7
-   XkQ/UExAEQpkS4zOBM/8yMCU9nw3kbtiZPbrZIL9wM02v0GPrWxjaa3DD
-   /dJjCXBRlXmIwaXNIncH+E/cvzCgkj+i6sPYrs9XtOluPFBxrTH5cRhqT
-   A==;
-X-CSE-ConnectionGUID: W77MDGwrSbyftmHpjMGqJQ==
-X-CSE-MsgGUID: 3B1E/ZV3RLmQn+KC+S4XrQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="77390484"
+  t=1752622914; x=1784158914;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kLugsfffY4OQhMK+xzdAyEOOogUU76zOvcXRxRGXvFc=;
+  b=ckOzT/EBfO8sUzXLAI2uAAWX6ZbvFH4x2oGunJjR7CL8VAPTWihPH82i
+   NXU2VdNvYggFSLEDfKCDxD9xtTEyIs+VrIZD5tMtsYgTYntxvvqBRI7Gy
+   iY1A1P9iLqUjwbziyRXOacLXzSV0tv1EwteLBpJhFG7b9vzTI5F899+dy
+   WbCdb+fJQsvCf+GIcwaW/na99Er18u6cf7UQfkabqD120JokVZvI/Bh5w
+   795AC6itFdAykodSOOlCrChSL7eKPcTcRfSLNKJ1OpI8Yu+l7pQArO1TR
+   jiKAxL6EPwczdsjpiS965DJuPM4DkKbs2FMhKtW9+vJJpK42jcNtxaG8y
+   w==;
+X-CSE-ConnectionGUID: FrdQP2cgTcSITwoGP5MMHA==
+X-CSE-MsgGUID: YcbdzR0xTVGPLOVLTXXgfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="55003179"
 X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
-   d="scan'208";a="77390484"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 16:29:56 -0700
-X-CSE-ConnectionGUID: TyLvBkv8RS+hZD/PXNQh6Q==
-X-CSE-MsgGUID: 88xeL54PT/CpqFitAZAzDQ==
+   d="scan'208";a="55003179"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 16:41:53 -0700
+X-CSE-ConnectionGUID: FsNcgHqdQNSomliFeRBTYA==
+X-CSE-MsgGUID: XA7KGNinSVGzyWBLvLVo1Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,314,1744095600"; 
-   d="scan'208";a="181035286"
+   d="scan'208";a="157455582"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 15 Jul 2025 16:29:51 -0700
+  by orviesa007.jf.intel.com with ESMTP; 15 Jul 2025 16:41:52 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubp5o-000BfH-0z;
-	Tue, 15 Jul 2025 23:29:48 +0000
-Date: Wed, 16 Jul 2025 07:29:37 +0800
+	id 1ubpHR-000Bff-1W;
+	Tue, 15 Jul 2025 23:41:49 +0000
+Date: Wed, 16 Jul 2025 07:41:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: Aaron Lu <ziqianlu@bytedance.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Ben Segall <bsegall@google.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Josh Don <joshdon@google.com>, Ingo Molnar <mingo@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Xi Wang <xii@google.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Juri Lelli <juri.lelli@redhat.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>, Mel Gorman <mgorman@suse.de>,
-	Chuyi Zhou <zhouchuyi@bytedance.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Florian Bezdeka <florian.bezdeka@siemens.com>,
-	Songtang Liu <liusongtang@bytedance.com>
-Subject: Re: [PATCH v3 3/5] sched/fair: Switch to task based throttle model
-Message-ID: <202507160730.0cXkgs0S-lkp@intel.com>
-References: <20250715071658.267-4-ziqianlu@bytedance.com>
+To: Jiri Olsa <jolsa@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [jolsa-perf:bpf/tracing_multi 16/22]
+ drivers/i2c/i2c-core-smbus.c:650: multiple definition of
+ `__pfx_bpf_tracing_multi_attach';
+ drivers/i2c/i2c-core-base.o:drivers/i2c/i2c-core-base.c:2349: first defined
+ here
+Message-ID: <202507160750.JJCUHDaT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,140 +64,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250715071658.267-4-ziqianlu@bytedance.com>
 
-Hi Aaron,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on tip/sched/core]
-[also build test WARNING on next-20250715]
-[cannot apply to linus/master v6.16-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Lu/sched-fair-Add-related-data-structure-for-task-based-throttle/20250715-152307
-base:   tip/sched/core
-patch link:    https://lore.kernel.org/r/20250715071658.267-4-ziqianlu%40bytedance.com
-patch subject: [PATCH v3 3/5] sched/fair: Switch to task based throttle model
-config: i386-buildonly-randconfig-006-20250716 (https://download.01.org/0day-ci/archive/20250716/202507160730.0cXkgs0S-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160730.0cXkgs0S-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi
+head:   d0503d4013c49a3fde856947dfffe6c80c178eb1
+commit: 32063d40ee98cf6c450c02c5ed3cbfd86ff70c63 [16/22] bpf: Add support to create tracing multi link
+config: x86_64-randconfig-072-20250716 (https://download.01.org/0day-ci/archive/20250716/202507160750.JJCUHDaT-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160750.JJCUHDaT-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507160730.0cXkgs0S-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507160750.JJCUHDaT-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> kernel/sched/fair.c:5456:33: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-    5456 |                         cfs_rq->pelt_clock_throttled = 1;
-         |                                                      ^ ~
-   kernel/sched/fair.c:5971:32: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-    5971 |                 cfs_rq->pelt_clock_throttled = 1;
-         |                                              ^ ~
-   kernel/sched/fair.c:6014:20: warning: implicit truncation from 'int' to a one-bit wide bit-field changes value from 1 to -1 [-Wsingle-bit-bitfield-constant-conversion]
-    6014 |         cfs_rq->throttled = 1;
-         |                           ^ ~
-   3 warnings generated.
+   ld: drivers/i2c/i2c-core-smbus.o: in function `bpf_tracing_multi_attach':
+   include/linux/trace_events.h:837: multiple definition of `bpf_tracing_multi_attach'; drivers/i2c/i2c-core-base.o:include/linux/trace_events.h:837: first defined here
+   ld: drivers/i2c/i2c-core-smbus.o: in function `__pfx_bpf_tracing_multi_attach':
+>> drivers/i2c/i2c-core-smbus.c:650: multiple definition of `__pfx_bpf_tracing_multi_attach'; drivers/i2c/i2c-core-base.o:drivers/i2c/i2c-core-base.c:2349: first defined here
+   ld: drivers/i2c/i2c-core-slave.o: in function `bpf_tracing_multi_attach':
+   include/linux/trace_events.h:837: multiple definition of `bpf_tracing_multi_attach'; drivers/i2c/i2c-core-base.o:include/linux/trace_events.h:837: first defined here
+   ld: drivers/i2c/i2c-core-slave.o: in function `__pfx_bpf_tracing_multi_attach':
+   drivers/i2c/i2c-core-slave.c:127: multiple definition of `__pfx_bpf_tracing_multi_attach'; drivers/i2c/i2c-core-base.o:drivers/i2c/i2c-core-base.c:2349: first defined here
 
 
-vim +/int +5456 kernel/sched/fair.c
+vim +650 drivers/i2c/i2c-core-smbus.c
 
-  5372	
-  5373	static bool
-  5374	dequeue_entity(struct cfs_rq *cfs_rq, struct sched_entity *se, int flags)
-  5375	{
-  5376		bool sleep = flags & DEQUEUE_SLEEP;
-  5377		int action = UPDATE_TG;
-  5378	
-  5379		update_curr(cfs_rq);
-  5380		clear_buddies(cfs_rq, se);
-  5381	
-  5382		if (flags & DEQUEUE_DELAYED) {
-  5383			WARN_ON_ONCE(!se->sched_delayed);
-  5384		} else {
-  5385			bool delay = sleep;
-  5386			/*
-  5387			 * DELAY_DEQUEUE relies on spurious wakeups, special task
-  5388			 * states must not suffer spurious wakeups, excempt them.
-  5389			 */
-  5390			if (flags & DEQUEUE_SPECIAL)
-  5391				delay = false;
-  5392	
-  5393			WARN_ON_ONCE(delay && se->sched_delayed);
-  5394	
-  5395			if (sched_feat(DELAY_DEQUEUE) && delay &&
-  5396			    !entity_eligible(cfs_rq, se)) {
-  5397				update_load_avg(cfs_rq, se, 0);
-  5398				set_delayed(se);
-  5399				return false;
-  5400			}
-  5401		}
-  5402	
-  5403		if (entity_is_task(se) && task_on_rq_migrating(task_of(se)))
-  5404			action |= DO_DETACH;
-  5405	
-  5406		/*
-  5407		 * When dequeuing a sched_entity, we must:
-  5408		 *   - Update loads to have both entity and cfs_rq synced with now.
-  5409		 *   - For group_entity, update its runnable_weight to reflect the new
-  5410		 *     h_nr_runnable of its group cfs_rq.
-  5411		 *   - Subtract its previous weight from cfs_rq->load.weight.
-  5412		 *   - For group entity, update its weight to reflect the new share
-  5413		 *     of its group cfs_rq.
-  5414		 */
-  5415		update_load_avg(cfs_rq, se, action);
-  5416		se_update_runnable(se);
-  5417	
-  5418		update_stats_dequeue_fair(cfs_rq, se, flags);
-  5419	
-  5420		update_entity_lag(cfs_rq, se);
-  5421		if (sched_feat(PLACE_REL_DEADLINE) && !sleep) {
-  5422			se->deadline -= se->vruntime;
-  5423			se->rel_deadline = 1;
-  5424		}
-  5425	
-  5426		if (se != cfs_rq->curr)
-  5427			__dequeue_entity(cfs_rq, se);
-  5428		se->on_rq = 0;
-  5429		account_entity_dequeue(cfs_rq, se);
-  5430	
-  5431		/* return excess runtime on last dequeue */
-  5432		return_cfs_rq_runtime(cfs_rq);
-  5433	
-  5434		update_cfs_group(se);
-  5435	
-  5436		/*
-  5437		 * Now advance min_vruntime if @se was the entity holding it back,
-  5438		 * except when: DEQUEUE_SAVE && !DEQUEUE_MOVE, in this case we'll be
-  5439		 * put back on, and if we advance min_vruntime, we'll be placed back
-  5440		 * further than we started -- i.e. we'll be penalized.
-  5441		 */
-  5442		if ((flags & (DEQUEUE_SAVE | DEQUEUE_MOVE)) != DEQUEUE_SAVE)
-  5443			update_min_vruntime(cfs_rq);
-  5444	
-  5445		if (flags & DEQUEUE_DELAYED)
-  5446			finish_delayed_dequeue_entity(se);
-  5447	
-  5448		if (cfs_rq->nr_queued == 0) {
-  5449			update_idle_cfs_rq_clock_pelt(cfs_rq);
-  5450	#ifdef CONFIG_CFS_BANDWIDTH
-  5451			if (throttled_hierarchy(cfs_rq)) {
-  5452				struct rq *rq = rq_of(cfs_rq);
-  5453	
-  5454				list_del_leaf_cfs_rq(cfs_rq);
-  5455				cfs_rq->throttled_clock_pelt = rq_clock_pelt(rq);
-> 5456				cfs_rq->pelt_clock_throttled = 1;
-  5457			}
-  5458	#endif
-  5459		}
-  5460	
-  5461		return true;
-  5462	}
-  5463	
+22c78d1cce1040 Wolfram Sang 2017-05-23  621  
+22c78d1cce1040 Wolfram Sang 2017-05-23  622  /**
+22c78d1cce1040 Wolfram Sang 2017-05-23  623   * i2c_smbus_read_i2c_block_data_or_emulated - read block or emulate
+22c78d1cce1040 Wolfram Sang 2017-05-23  624   * @client: Handle to slave device
+22c78d1cce1040 Wolfram Sang 2017-05-23  625   * @command: Byte interpreted by slave
+22c78d1cce1040 Wolfram Sang 2017-05-23  626   * @length: Size of data block; SMBus allows at most I2C_SMBUS_BLOCK_MAX bytes
+22c78d1cce1040 Wolfram Sang 2017-05-23  627   * @values: Byte array into which data will be read; big enough to hold
+22c78d1cce1040 Wolfram Sang 2017-05-23  628   *	the data returned by the slave.  SMBus allows at most
+22c78d1cce1040 Wolfram Sang 2017-05-23  629   *	I2C_SMBUS_BLOCK_MAX bytes.
+22c78d1cce1040 Wolfram Sang 2017-05-23  630   *
+22c78d1cce1040 Wolfram Sang 2017-05-23  631   * This executes the SMBus "block read" protocol if supported by the adapter.
+22c78d1cce1040 Wolfram Sang 2017-05-23  632   * If block read is not supported, it emulates it using either word or byte
+22c78d1cce1040 Wolfram Sang 2017-05-23  633   * read protocols depending on availability.
+22c78d1cce1040 Wolfram Sang 2017-05-23  634   *
+22c78d1cce1040 Wolfram Sang 2017-05-23  635   * The addresses of the I2C slave device that are accessed with this function
+22c78d1cce1040 Wolfram Sang 2017-05-23  636   * must be mapped to a linear region, so that a block read will have the same
+22c78d1cce1040 Wolfram Sang 2017-05-23  637   * effect as a byte read. Before using this function you must double-check
+22c78d1cce1040 Wolfram Sang 2017-05-23  638   * if the I2C slave does support exchanging a block transfer with a byte
+22c78d1cce1040 Wolfram Sang 2017-05-23  639   * transfer.
+22c78d1cce1040 Wolfram Sang 2017-05-23  640   */
+22c78d1cce1040 Wolfram Sang 2017-05-23  641  s32 i2c_smbus_read_i2c_block_data_or_emulated(const struct i2c_client *client,
+22c78d1cce1040 Wolfram Sang 2017-05-23  642  					      u8 command, u8 length, u8 *values)
+22c78d1cce1040 Wolfram Sang 2017-05-23  643  {
+22c78d1cce1040 Wolfram Sang 2017-05-23  644  	u8 i = 0;
+22c78d1cce1040 Wolfram Sang 2017-05-23  645  	int status;
+22c78d1cce1040 Wolfram Sang 2017-05-23  646  
+22c78d1cce1040 Wolfram Sang 2017-05-23  647  	if (length > I2C_SMBUS_BLOCK_MAX)
+22c78d1cce1040 Wolfram Sang 2017-05-23  648  		length = I2C_SMBUS_BLOCK_MAX;
+22c78d1cce1040 Wolfram Sang 2017-05-23  649  
+22c78d1cce1040 Wolfram Sang 2017-05-23 @650  	if (i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_READ_I2C_BLOCK))
+22c78d1cce1040 Wolfram Sang 2017-05-23  651  		return i2c_smbus_read_i2c_block_data(client, command, length, values);
+22c78d1cce1040 Wolfram Sang 2017-05-23  652  
+22c78d1cce1040 Wolfram Sang 2017-05-23  653  	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_READ_BYTE_DATA))
+22c78d1cce1040 Wolfram Sang 2017-05-23  654  		return -EOPNOTSUPP;
+22c78d1cce1040 Wolfram Sang 2017-05-23  655  
+22c78d1cce1040 Wolfram Sang 2017-05-23  656  	if (i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_READ_WORD_DATA)) {
+22c78d1cce1040 Wolfram Sang 2017-05-23  657  		while ((i + 2) <= length) {
+22c78d1cce1040 Wolfram Sang 2017-05-23  658  			status = i2c_smbus_read_word_data(client, command + i);
+22c78d1cce1040 Wolfram Sang 2017-05-23  659  			if (status < 0)
+22c78d1cce1040 Wolfram Sang 2017-05-23  660  				return status;
+22c78d1cce1040 Wolfram Sang 2017-05-23  661  			values[i] = status & 0xff;
+22c78d1cce1040 Wolfram Sang 2017-05-23  662  			values[i + 1] = status >> 8;
+22c78d1cce1040 Wolfram Sang 2017-05-23  663  			i += 2;
+22c78d1cce1040 Wolfram Sang 2017-05-23  664  		}
+22c78d1cce1040 Wolfram Sang 2017-05-23  665  	}
+22c78d1cce1040 Wolfram Sang 2017-05-23  666  
+22c78d1cce1040 Wolfram Sang 2017-05-23  667  	while (i < length) {
+22c78d1cce1040 Wolfram Sang 2017-05-23  668  		status = i2c_smbus_read_byte_data(client, command + i);
+22c78d1cce1040 Wolfram Sang 2017-05-23  669  		if (status < 0)
+22c78d1cce1040 Wolfram Sang 2017-05-23  670  			return status;
+22c78d1cce1040 Wolfram Sang 2017-05-23  671  		values[i] = status;
+22c78d1cce1040 Wolfram Sang 2017-05-23  672  		i++;
+22c78d1cce1040 Wolfram Sang 2017-05-23  673  	}
+22c78d1cce1040 Wolfram Sang 2017-05-23  674  
+22c78d1cce1040 Wolfram Sang 2017-05-23  675  	return i;
+22c78d1cce1040 Wolfram Sang 2017-05-23  676  }
+22c78d1cce1040 Wolfram Sang 2017-05-23  677  EXPORT_SYMBOL(i2c_smbus_read_i2c_block_data_or_emulated);
+3c0a60bee1d157 Phil Reid    2017-08-24  678  
+
+:::::: The code at line 650 was first introduced by commit
+:::::: 22c78d1cce104072747023d2ae0351bf3f97d725 i2c: break out smbus support into separate file
+
+:::::: TO: Wolfram Sang <wsa@the-dreams.de>
+:::::: CC: Wolfram Sang <wsa@the-dreams.de>
 
 -- 
 0-DAY CI Kernel Test Service
