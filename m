@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A273207
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 00:22:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DEE0F9C1;
+	Tue, 15 Jul 2025 00:53:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752538970; cv=none; b=XvzbFFqRoLCgK3bIoUl0fY5cPREcvANA7u5kSNYA3hlkA0jQFeQPpblFsGDstkMEIts2gnolHpnpQRuyrfTOHKtnlJjIvrOswRVaPcit8VkMTi0JBi/aFoK9PkQg8KbE1YP9wKhSf47whpNDKMnJIcB5gIGQAKtsEo55vl5rxbg=
+	t=1752540828; cv=none; b=kTodzsiwyP4HFRZB/u8+55miKM13RvfWMGc50ci1ryv/KV8c7lmhTAuGDqSsF8Zara89pYKAV7f6uWMt64ChD1G5NruvKUeiMs5V7nxxm3R2ktvt1bsD9J/Tn9t2LB86xNgCjoO+z16+8ZlrLnEXLS5B3Y1Sva5gXNNdWOrSA2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752538970; c=relaxed/simple;
-	bh=eCmJOToBbUNkzzH7UoSQNgS/ofqXZX1DoVA8ZBxoLhU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EDdMVjh4U97olj3sepTCYfo61yQ3/itCP8yedJMXgyKllV+eGM5WeFw7vnFll+IZcXrmwuVAdEy4wuKBMVU0qDmA7D5f1VnlxaLXcojjgiFohm4WwNCQZaLyrrMpqVQ7kE3xJ6UhZ8eNA/AF6tMczqMb6h3Ej+o4u87Rym0hIuA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AAzUUi8D; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1752540828; c=relaxed/simple;
+	bh=UpFR44Wra6kXZ8rGAAZ0feXypfrgNBlUZhPw50/Mu7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AUswCayud+msNIS++J0DABoet7VHHgYCEc4hG4BXGlCY0XigtH5Z+CEsffZE4SVRauIA3qFNX+K861grZp6AihR6qAx2NxyKieNLaDpPouoZkwnJyx9COnMzChtgdvqIAZft1vvJmLe9qHDlWRB3TZ3SGq15S7/dX3o169fxCzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ku3P98g2; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AAzUUi8D"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ku3P98g2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752538968; x=1784074968;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eCmJOToBbUNkzzH7UoSQNgS/ofqXZX1DoVA8ZBxoLhU=;
-  b=AAzUUi8D4fpmDzv/MKpBIQXrzx6XkVryM8Bf4wV2nYu7T/qIywqmvPkf
-   w4fV7//5fxU38gBk8SMaJlQsPCChNFtjF4f56QE97RxxzUJGqkGa6TA+j
-   S7VSk6JPhtsQptmrnu2IRQMCU7scAnqOXjCfZNJ2kHcTn6qOhftjySfkN
-   sbUofIX/DILVqjvXlMQRDX2Wbm+JAwle1p9Q1ZqvMYItXRHLKWmKUBcKQ
-   j2kdOCmKMKq7Y4+j4NJfyirLMwCLu1CPWS19qYe/ZUogAi4QEQqmXiwE8
-   VZVSF99afVcRXMpbmY+RmS4SqqFObMl0v4umsmlLvlV5oD+1PBPpsEl00
+  t=1752540827; x=1784076827;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UpFR44Wra6kXZ8rGAAZ0feXypfrgNBlUZhPw50/Mu7c=;
+  b=ku3P98g2/dKdsvMUr9YLfIi35OXSPDv6X1IuYEoS2IRIQFb9R8rJaIO/
+   4WT6nkrxBQt2mxmE3E+4Gw6wIwgXEiWVzcRlonkFWUguuH3CqbbgLc4ek
+   fAm6/ixR2jiHgOuv0BDxoDJ2GwBBCDE33MQxhPReBbFUA9dV1YfBRlpIL
+   etmKnHiQdEahyU41NSgEYLz28TE+F5Smor/J1JVH/h/PH3fpezA+X8UdZ
+   tozJCxglseOGeqA4xLdRw7Vs/u1hoKUNWvUM8KnbxfXxUvpuSfxHfottY
+   MF14Bsgdm6b/hrrmSMEJIjpJXkq9geYMlsJNTdxdD3uETf3A4Q4YC874/
    w==;
-X-CSE-ConnectionGUID: NTROSv2oRh2WWq2JPp23tA==
-X-CSE-MsgGUID: q9F95NR0TJm639nSlsCHmw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="65004943"
+X-CSE-ConnectionGUID: TWqlG/MvTH6tSzi68Iyz9w==
+X-CSE-MsgGUID: xRuFeqmOQhqDmxpWqKBZ9Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="58515412"
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="65004943"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 17:22:47 -0700
-X-CSE-ConnectionGUID: kRCvcFopTcKF5xvCHT8KCw==
-X-CSE-MsgGUID: K/ijNkWDQXWMVDSUlv4+/A==
+   d="scan'208";a="58515412"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 17:53:46 -0700
+X-CSE-ConnectionGUID: HjzmXGC3RF2OM8jUeOgM3g==
+X-CSE-MsgGUID: dK4TXdFFQJG9kemY4z9rQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="157174679"
+   d="scan'208";a="157798092"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 14 Jul 2025 17:22:41 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 14 Jul 2025 17:53:44 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubTRO-0009Tb-18;
-	Tue, 15 Jul 2025 00:22:38 +0000
-Date: Tue, 15 Jul 2025 08:21:57 +0800
+	id 1ubTvR-0009UZ-2Z;
+	Tue, 15 Jul 2025 00:53:41 +0000
+Date: Tue, 15 Jul 2025 08:52:45 +0800
 From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <byungchul@sk.com>, willy@infradead.org,
-	netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, kernel_team@skhynix.com, almasrymina@google.com,
-	ilias.apalodimas@linaro.org, harry.yoo@oracle.com,
-	akpm@linux-foundation.org, andrew+netdev@lunn.ch,
-	asml.silence@gmail.com, toke@redhat.com, david@redhat.com,
-	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, linux-rdma@vger.kernel.org,
-	bpf@vger.kernel.org, vishal.moola@gmail.com, hannes@cmpxchg.org,
-	ziy@nvidia.com, jackmanb@google.com, wei.fang@nxp.com,
-	shenwei.wang@nxp.com, xiaoning.wang@nxp.com, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org
-Subject: Re: [PATCH net-next v10 12/12] libeth: xdp: access ->pp through
- netmem_desc instead of page
-Message-ID: <202507150748.9sVeInO8-lkp@intel.com>
-References: <20250714120047.35901-13-byungchul@sk.com>
+To: Mel Gorman <mgorman@suse.de>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [mel:sched-preemptnext-v1r8 2/2] kernel/sched/fair.c:8925:2:
+ warning: unannotated fall-through between switch labels
+Message-ID: <202507150807.0r5AqudU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,82 +61,191 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250714120047.35901-13-byungchul@sk.com>
 
-Hi Byungchul,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on c65d34296b2252897e37835d6007bbd01b255742]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/netmem-introduce-struct-netmem_desc-mirroring-struct-page/20250714-200214
-base:   c65d34296b2252897e37835d6007bbd01b255742
-patch link:    https://lore.kernel.org/r/20250714120047.35901-13-byungchul%40sk.com
-patch subject: [PATCH net-next v10 12/12] libeth: xdp: access ->pp through netmem_desc instead of page
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250715/202507150748.9sVeInO8-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150748.9sVeInO8-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mel/linux.git sched-preemptnext-v1r8
+head:   9b54b70265f4d8c913fa8c5c85bbb241524f92f5
+commit: 9b54b70265f4d8c913fa8c5c85bbb241524f92f5 [2/2] sched/fair: Reimplement NEXT_BUDDY to align with EEVDF goals
+config: arm-randconfig-001-20250715 (https://download.01.org/0day-ci/archive/20250715/202507150807.0r5AqudU-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150807.0r5AqudU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507150748.9sVeInO8-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507150807.0r5AqudU-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/intel/libeth/tx.c:6:
-   include/net/libeth/xdp.h: In function 'libeth_xdp_prepare_buff':
->> include/net/libeth/xdp.h:1295:44: warning: passing argument 1 of 'pp_page_to_nmdesc' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-    1295 |                          pp_page_to_nmdesc(page)->pp->p.offset, len, true);
-         |                                            ^~~~
-   In file included from include/linux/skbuff.h:41,
-                    from include/net/net_namespace.h:43,
-                    from include/linux/netdevice.h:38,
-                    from include/trace/events/xdp.h:8,
-                    from include/linux/bpf_trace.h:5,
-                    from include/net/libeth/xdp.h:7:
-   include/net/netmem.h:270:66: note: expected 'struct page *' but argument is of type 'const struct page *'
-     270 | static inline struct netmem_desc *pp_page_to_nmdesc(struct page *page)
-         |                                                     ~~~~~~~~~~~~~^~~~
+>> kernel/sched/fair.c:8925:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+    8925 |         case PREEMPT_BUDDY_RESCHED:
+         |         ^
+   kernel/sched/fair.c:8925:2: note: insert '__attribute__((fallthrough));' to silence this warning
+    8925 |         case PREEMPT_BUDDY_RESCHED:
+         |         ^
+         |         __attribute__((fallthrough)); 
+   kernel/sched/fair.c:8925:2: note: insert 'break;' to avoid fall-through
+    8925 |         case PREEMPT_BUDDY_RESCHED:
+         |         ^
+         |         break; 
+   kernel/sched/fair.c:484:20: warning: unused function 'list_del_leaf_cfs_rq' [-Wunused-function]
+     484 | static inline void list_del_leaf_cfs_rq(struct cfs_rq *cfs_rq)
+         |                    ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:505:19: warning: unused function 'tg_is_idle' [-Wunused-function]
+     505 | static inline int tg_is_idle(struct task_group *tg)
+         |                   ^~~~~~~~~~
+   kernel/sched/fair.c:1491:20: warning: unused function 'is_core_idle' [-Wunused-function]
+    1491 | static inline bool is_core_idle(int cpu)
+         |                    ^~~~~~~~~~~~
+   kernel/sched/fair.c:3768:20: warning: unused function 'account_numa_enqueue' [-Wunused-function]
+    3768 | static inline void account_numa_enqueue(struct rq *rq, struct task_struct *p)
+         |                    ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:3772:20: warning: unused function 'account_numa_dequeue' [-Wunused-function]
+    3772 | static inline void account_numa_dequeue(struct rq *rq, struct task_struct *p)
+         |                    ^~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:3776:20: warning: unused function 'update_scan_period' [-Wunused-function]
+    3776 | static inline void update_scan_period(struct task_struct *p, int new_cpu)
+         |                    ^~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5236:20: warning: unused function 'cfs_rq_is_decayed' [-Wunused-function]
+    5236 | static inline bool cfs_rq_is_decayed(struct cfs_rq *cfs_rq)
+         |                    ^~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:5251:20: warning: unused function 'remove_entity_load_avg' [-Wunused-function]
+    5251 | static inline void remove_entity_load_avg(struct sched_entity *se) {}
+         |                    ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:6820:20: warning: unused function 'sync_throttle' [-Wunused-function]
+    6820 | static inline void sync_throttle(struct task_group *tg, int cpu) {}
+         |                    ^~~~~~~~~~~~~
+   kernel/sched/fair.c:6833:19: warning: unused function 'throttled_lb_pair' [-Wunused-function]
+    6833 | static inline int throttled_lb_pair(struct task_group *tg,
+         |                   ^~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:6844:37: warning: unused function 'tg_cfs_bandwidth' [-Wunused-function]
+    6844 | static inline struct cfs_bandwidth *tg_cfs_bandwidth(struct task_group *tg)
+         |                                     ^~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:6848:20: warning: unused function 'destroy_cfs_bandwidth' [-Wunused-function]
+    6848 | static inline void destroy_cfs_bandwidth(struct cfs_bandwidth *cfs_b) {}
+         |                    ^~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:6849:20: warning: unused function 'update_runtime_enabled' [-Wunused-function]
+    6849 | static inline void update_runtime_enabled(struct rq *rq) {}
+         |                    ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:6850:20: warning: unused function 'unthrottle_offline_cfs_rqs' [-Wunused-function]
+    6850 | static inline void unthrottle_offline_cfs_rqs(struct rq *rq) {}
+         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:7279:28: warning: unused function 'cfs_h_nr_delayed' [-Wunused-function]
+    7279 | static inline unsigned int cfs_h_nr_delayed(struct rq *rq)
+         |                            ^~~~~~~~~~~~~~~~
+   16 warnings generated.
 
 
-vim +1295 include/net/libeth/xdp.h
+vim +8925 kernel/sched/fair.c
 
-  1263	
-  1264	bool libeth_xdp_buff_add_frag(struct libeth_xdp_buff *xdp,
-  1265				      const struct libeth_fqe *fqe,
-  1266				      u32 len);
-  1267	
-  1268	/**
-  1269	 * libeth_xdp_prepare_buff - fill &libeth_xdp_buff with head FQE data
-  1270	 * @xdp: XDP buffer to attach the head to
-  1271	 * @fqe: FQE containing the head buffer
-  1272	 * @len: buffer len passed from HW
-  1273	 *
-  1274	 * Internal, use libeth_xdp_process_buff() instead. Initializes XDP buffer
-  1275	 * head with the Rx buffer data: data pointer, length, headroom, and
-  1276	 * truesize/tailroom. Zeroes the flags.
-  1277	 * Uses faster single u64 write instead of per-field access.
-  1278	 */
-  1279	static inline void libeth_xdp_prepare_buff(struct libeth_xdp_buff *xdp,
-  1280						   const struct libeth_fqe *fqe,
-  1281						   u32 len)
-  1282	{
-  1283		const struct page *page = __netmem_to_page(fqe->netmem);
-  1284	
-  1285	#ifdef __LIBETH_WORD_ACCESS
-  1286		static_assert(offsetofend(typeof(xdp->base), flags) -
-  1287			      offsetof(typeof(xdp->base), frame_sz) ==
-  1288			      sizeof(u64));
-  1289	
-  1290		*(u64 *)&xdp->base.frame_sz = fqe->truesize;
-  1291	#else
-  1292		xdp_init_buff(&xdp->base, fqe->truesize, xdp->base.rxq);
-  1293	#endif
-  1294		xdp_prepare_buff(&xdp->base, page_address(page) + fqe->offset,
-> 1295				 pp_page_to_nmdesc(page)->pp->p.offset, len, true);
-  1296	}
-  1297	
+  8835	
+  8836	/*
+  8837	 * Preempt the current task with a newly woken task if needed:
+  8838	 */
+  8839	static void check_preempt_wakeup_fair(struct rq *rq, struct task_struct *p, int wake_flags)
+  8840	{
+  8841		struct task_struct *donor = rq->donor;
+  8842		struct sched_entity *se = &donor->se, *pse = &p->se;
+  8843		struct cfs_rq *cfs_rq = task_cfs_rq(donor);
+  8844		int cse_is_idle, pse_is_idle;
+  8845		bool did_short;
+  8846		s64 delta;
+  8847	
+  8848		if (unlikely(se == pse))
+  8849			return;
+  8850	
+  8851		/*
+  8852		 * This is possible from callers such as attach_tasks(), in which we
+  8853		 * unconditionally wakeup_preempt() after an enqueue (which may have
+  8854		 * lead to a throttle).  This both saves work and prevents false
+  8855		 * next-buddy nomination below.
+  8856		 */
+  8857		if (unlikely(throttled_hierarchy(cfs_rq_of(pse))))
+  8858			return;
+  8859	
+  8860		/*
+  8861		 * We can come here with TIF_NEED_RESCHED already set from new task
+  8862		 * wake up path.
+  8863		 *
+  8864		 * Note: this also catches the edge-case of curr being in a throttled
+  8865		 * group (e.g. via set_curr_task), since update_curr() (in the
+  8866		 * enqueue of curr) will have resulted in resched being set.  This
+  8867		 * prevents us from potentially nominating it as a false LAST_BUDDY
+  8868		 * below.
+  8869		 */
+  8870		if (test_tsk_need_resched(rq->curr))
+  8871			return;
+  8872	
+  8873		if (!sched_feat(WAKEUP_PREEMPTION))
+  8874			return;
+  8875	
+  8876		find_matching_se(&se, &pse);
+  8877		WARN_ON_ONCE(!pse);
+  8878	
+  8879		cse_is_idle = se_is_idle(se);
+  8880		pse_is_idle = se_is_idle(pse);
+  8881	
+  8882		/*
+  8883		 * Preempt an idle entity in favor of a non-idle entity (and don't preempt
+  8884		 * in the inverse case).
+  8885		 */
+  8886		if (cse_is_idle && !pse_is_idle) {
+  8887			/*
+  8888			 * When non-idle entity preempt an idle entity,
+  8889			 * don't give idle entity slice protection.
+  8890			 */
+  8891			cancel_protect_slice(se);
+  8892			goto preempt;
+  8893		}
+  8894	
+  8895		if (cse_is_idle != pse_is_idle)
+  8896			return;
+  8897	
+  8898		/*
+  8899		 * BATCH and IDLE tasks do not preempt others.
+  8900		 */
+  8901		if (unlikely(!normal_policy(p->policy)))
+  8902			return;
+  8903	
+  8904		cfs_rq = cfs_rq_of(se);
+  8905		delta = rq_clock_task(rq) - se->exec_start;
+  8906		update_curr(cfs_rq);
+  8907		/*
+  8908		 * If @p has a shorter slice than current and @p is eligible, override
+  8909		 * current's slice protection in order to allow preemption.
+  8910		 *
+  8911		 * Note that even if @p does not turn out to be the most eligible
+  8912		 * task at this moment, current's slice protection will be lost.
+  8913		 */
+  8914		did_short = do_preempt_short(cfs_rq, pse, se);
+  8915		if (did_short)
+  8916			cancel_protect_slice(se);
+  8917	
+  8918		switch (do_preempt_buddy(rq, cfs_rq, wake_flags, pse, se, delta, did_short)) {
+  8919		case PREEMPT_BUDDY_NONE:
+  8920			return;
+  8921			break;
+  8922		case PREEMPT_BUDDY_IMMEDIATE:
+  8923			cancel_protect_slice(se);
+  8924			;;
+> 8925		case PREEMPT_BUDDY_RESCHED:
+  8926			goto preempt;
+  8927			break;
+  8928		case PREEMPT_BUDDY_NEXT:
+  8929			break;
+  8930		}
+  8931	
+  8932		/*
+  8933		 * If @p has become the most eligible task, force preemption.
+  8934		 */
+  8935		if (pick_eevdf(cfs_rq) == pse)
+  8936			goto preempt;
+  8937	
+  8938		return;
+  8939	
+  8940	preempt:
+  8941		resched_curr_lazy(rq);
+  8942	}
+  8943	
 
 -- 
 0-DAY CI Kernel Test Service
