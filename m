@@ -1,67 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A612272E6F
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 07:49:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F336222FE0A;
+	Tue, 15 Jul 2025 08:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752565776; cv=none; b=QQN5KvRc/3vgUVJ81m/GXNP2TNmrqsO38th3f14ThbWrIeFWbzRHLAYkMPq9u5VbS4EszpObl+w3v+wMXTr3mAPZmWCkR35Vewy38HTpZf3Z1ouLIkpDL//udHI7MXge6LYVHN/SfC4Vd3r/f0G6h9/JPEiPFvHsk+dE7SiPFJs=
+	t=1752566959; cv=none; b=o47XLDUEypZJTBjMztqOWEpMNEMbye4I0SEBMlnpwIzv8vHSNkIh6EwWYyGZyBzraQpdlSfX5FRx18kixT4C2hiJQgxAd89F2jG5WwetqGWMCuo1icO8YU7YLrDat1u5HWPKgvhDBDTadv2h1ccWQcoiLsO8N5dTuwwQNYedVhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752565776; c=relaxed/simple;
-	bh=ncOaGHOLrKcO0FG9v/L44yQpuzOwu/hbJMUNcx7R1w0=;
+	s=arc-20240116; t=1752566959; c=relaxed/simple;
+	bh=uM50ySx9Kjkj0T8Mi2M3p5ShRWkdmqxZHE6SDBMnJoo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K5qtaODVDNvEAd9nqgS6fxZdj3TV3IzxfJMD8suNFH2MTOAbSklgoNWfwgsiaSoi8Vo4tojwZOuEyVni2vgkF32Y27dy2cme0e4mXRdRSFLRAxwjzjASNlivQog2moE6V/xivVJnUQNDoRXRKlXitmFrlQI8pvtGaT6KkVSxVfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZqILQ5Pc; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=AiRoH2o8sX1fsaOQhlPJlxi8Os4+E9Wnedkg4ROb7leVH6kOXhjLXfdM3kucXpDevEpi4Zp3An5WiB77yIRFlyy2Cru/AySTcP6MAlU7hz0ECmJiQy9IE9abEo5m/E27JhGj9BabqR9yyWM7va72wrBUJ9JtoTeqmWLe8g8cpUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iub0AfNx; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZqILQ5Pc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iub0AfNx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752565775; x=1784101775;
+  t=1752566958; x=1784102958;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ncOaGHOLrKcO0FG9v/L44yQpuzOwu/hbJMUNcx7R1w0=;
-  b=ZqILQ5PcJcAfAoNNBpkvXe+6xsD1Jgh3phtrk65KjWzHlx1/SesfKd09
-   Hvy9s5NZ1vmWA8oridr4IogZa2HHDKC8r1VQvEBXvqa5vzQahAhVmskcM
-   nefbvt+hwYRPKiuhUtZ3b6TDF2Euiv1Nlo0McKeBhKeohlujRuHRDlZ2f
-   qB9aFnJdFI/vsJRuoI+0H1ZFFElePSjA+QPHKmcQbbL6cNQA5VRh/XbZl
-   e+Dz9K33a6u4MfpediqOIGrBNzfpd0kFAijdNVXUrfWAnQp7nP+wQPimT
-   gNQefLk2QYkkyjc6ej55QPZvYvXqbThMZnry2hyR6PILEE4pWRs0CXVv6
-   g==;
-X-CSE-ConnectionGUID: JoUol0BYToOHFT4a69Hk4Q==
-X-CSE-MsgGUID: 6eH/A6ZNSv2vsc3IruO8uA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="54928514"
+  bh=uM50ySx9Kjkj0T8Mi2M3p5ShRWkdmqxZHE6SDBMnJoo=;
+  b=iub0AfNxZm6SmF4VBloL2un6RCqObyTuzejf5KWahWaRF/9J8etyZ5wM
+   iF7jD5nkgQBMspUf1c0Rh+nDza7rnh3qabEpRc90iKkjz8WlEO4PA0l3Z
+   hGaAYwAVkziIUSB9NqWTkf5mPBc3osxVUOHvO6aUxDRkcWelksuFxGn5p
+   fP92kCZCr7fi3HPv4ZsctprgIPbhqj6FoqRL+cJ7XdkNVjIkwCeDj9/KV
+   t0q53fWStIqHI9HNspJGC2RTnJ2+XhoAOJSyEvD4Phk9+aR0mYV71+va1
+   gaVMP6477x23Rdl0shNNoI3QdHj+R3YHuxDiyQ6ayv8HVbAi/F21lBw5F
+   A==;
+X-CSE-ConnectionGUID: ahyrdVM7Seym8HIeAPGSvw==
+X-CSE-MsgGUID: P6rCQBNsTiavQtZRQgXcEQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66135166"
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="54928514"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 00:49:34 -0700
-X-CSE-ConnectionGUID: uUcZuDCkR4iAoRcjWYQrsw==
-X-CSE-MsgGUID: bIP7DoUJTEKngzU6a57msg==
+   d="scan'208";a="66135166"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 01:09:17 -0700
+X-CSE-ConnectionGUID: QBGt5UhhTJOQEZE4rxikvw==
+X-CSE-MsgGUID: Us1vguXYRJC85Ok8RzRAhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="156802504"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 15 Jul 2025 00:49:31 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ubaPo-0009nv-2d;
-	Tue, 15 Jul 2025 07:49:28 +0000
-Date: Tue, 15 Jul 2025 15:49:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Luo Jie <quic_luoj@quicinc.com>, Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Luo Jie <quic_luoj@quicinc.com>
-Subject: Re: [PATCH net-next v2 2/3] net: phy: qcom: qca808x: Support PHY
- counter
-Message-ID: <202507151542.rdmfnV5H-lkp@intel.com>
-References: <20250714-qcom_phy_counter-v2-2-94dde9d9769f@quicinc.com>
+   d="scan'208";a="161702936"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 01:09:13 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1ubair-0000000Fam8-4B3M;
+	Tue, 15 Jul 2025 11:09:09 +0300
+Date: Tue, 15 Jul 2025 11:09:09 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev,
+	Remi Buisson via B4 Relay <devnull+remi.buisson.tdk.com@kernel.org>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, lkp@intel.com,
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	Remi Buisson <remi.buisson@tdk.com>
+Subject: Re: [PATCH v2 5/8] iio: imu: inv_icm45600: add I2C driver for
+ inv_icm45600 driver
+Message-ID: <aHYMpVIXJNuOfE55@smile.fi.intel.com>
+References: <20250710-add_newport_driver-v2-5-bf76d8142ef2@tdk.com>
+ <9d091fe4-3068-4e8b-8a9c-49c25036a216@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,31 +74,49 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250714-qcom_phy_counter-v2-2-94dde9d9769f@quicinc.com>
+In-Reply-To: <9d091fe4-3068-4e8b-8a9c-49c25036a216@suswa.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Luo,
+On Mon, Jul 14, 2025 at 11:21:17PM +0300, Dan Carpenter wrote:
+> Hi Remi,
+> 
+> kernel test robot noticed the following build warnings:
 
-kernel test robot noticed the following build errors:
+It looks like a false positive, but the code is fragile.
 
-[auto build test ERROR on b06c4311711c57c5e558bd29824b08f0a6e2a155]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Luo-Jie/net-phy-qcom-Add-PHY-counter-support/20250714-230346
-base:   b06c4311711c57c5e558bd29824b08f0a6e2a155
-patch link:    https://lore.kernel.org/r/20250714-qcom_phy_counter-v2-2-94dde9d9769f%40quicinc.com
-patch subject: [PATCH net-next v2 2/3] net: phy: qcom: qca808x: Support PHY counter
-config: i386-buildonly-randconfig-003-20250715 (https://download.01.org/0day-ci/archive/20250715/202507151542.rdmfnV5H-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507151542.rdmfnV5H-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507151542.rdmfnV5H-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "qcom_phy_get_stats" [drivers/net/phy/qcom/qca808x.ko] undefined!
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10   99  	unsigned int fifo_en = 0;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  100  	unsigned int sleep;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  101  	int ret;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  102  
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  103  	scoped_guard(mutex, &st->lock) {
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  104  		if (*scan_mask & BIT(INV_ICM45600_GYRO_SCAN_TEMP))
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  105  			fifo_en |= INV_ICM45600_SENSOR_TEMP;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  106  
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  107  		if (*scan_mask & (BIT(INV_ICM45600_GYRO_SCAN_X) |
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  108  				 BIT(INV_ICM45600_GYRO_SCAN_Y) |
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  109  				 BIT(INV_ICM45600_GYRO_SCAN_Z))) {
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  110  			/* enable gyro sensor */
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  111  			conf.mode = gyro_st->power_mode;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  112  			ret = inv_icm45600_set_gyro_conf(st, &conf, &sleep);
+> 
+> sleep isn't necessarily set if nothing changed.
+> 
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  113  			if (ret)
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  114  				return ret;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  115  			fifo_en |= INV_ICM45600_SENSOR_GYRO;
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  116  		}
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  117  		/* update data FIFO write */
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  118  		ret = inv_icm45600_buffer_set_fifo_en(st, fifo_en | st->fifo.en);
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  119  	}
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  120  	/* sleep required time */
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10 @121  	if (sleep)
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  122  		msleep(sleep);
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  123  
+> 1fb5c2bf7348d0 Remi Buisson 2025-07-10  124  	return ret;
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+With Best Regards,
+Andy Shevchenko
+
+
