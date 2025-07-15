@@ -1,66 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB602747B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 02:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4115827281C;
+	Tue, 15 Jul 2025 02:26:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752545817; cv=none; b=HxEAGoBSsPEdidMqIDZp6UNV1LreyqH2H24p9kh9ZpYgg20/p2lasmklTA55H+1sIARpugOSvYRyJZYo4SveVSTx7Uddm2VHM2H1iSqPxtx8WQVZJpMVtp9TROR0S1KiSDcBsNrHEplhDwTRgevN8PGLQODymboBVXrMeXOIbBc=
+	t=1752546418; cv=none; b=qJX38F/QKDlubQC7hchpsqwPsHRFJ4NY9iaE0dW2+Xh7TXmGl12k2v2+orY/Q1lLW+xKoy4+eOH1qgR8fSWce/nmo4o89i9bBJbFtOvPPBYPa4ecftE0vs9KcfC2pBR8+v/6xJbB7c43cfchcmAu0Lp20J22qAmlEMpT958xzXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752545817; c=relaxed/simple;
-	bh=jmxCqU7vT9wDGVqn13z5bf8xdfrCR0BgKtLcYkpE5QY=;
+	s=arc-20240116; t=1752546418; c=relaxed/simple;
+	bh=Ujnob99Q1tbnulMBj8KaddK7Fv/QJIO7q/kyxmWNnkE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pXOppAm0jOQYlB1Hdk9/zp8mwJO1Py7rix7bZtJGOxj2FXoaQG7ELz/CvXv6wlNLoiZFbc7ext7TRMT7QiNgvm4rzyN/tHPAfvZJvm9CLfUtMV2/xju3E9sni492+Rce+D6dwJlOXreXSV22O7OmI//fcDISTbAPRDnFUeD6cD0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAGiYCwz; arc=none smtp.client-ip=198.175.65.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=f6ko/v0cXDsZmiTJZ3DjzSBJxrwRBVgtHrVIxtGLgfv5hKX8/GlpQ9Dt1Kiny0u8vTVdg6MueMJ4JzL3I+L91NFMHFwHLcQvCylKAH2OtbRFFfG4EIu65rvxiZzP8/Yo0oQg3ami/AdMUS2SP4LXP79PNRvB/D37yQhf00dyLms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CKx0vpof; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAGiYCwz"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CKx0vpof"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752545816; x=1784081816;
+  t=1752546417; x=1784082417;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=jmxCqU7vT9wDGVqn13z5bf8xdfrCR0BgKtLcYkpE5QY=;
-  b=LAGiYCwzGEHHB2nZa1e5BHHfkfFy42PnnTh4xsk5tXvC3sl4LZPVZqSG
-   gOwsfz3uJhwg1kDnJpujK5EMmok9QM0kZ0wO0SVn341o3JmFZmkdQu/D/
-   MaS6ePgpkXdUIr8pmvLd2+mfFgXpED98yJ+POW/prYpeSd+5QwkoUiY4Y
-   Q7tORsdwq/TYTK0FDnbmyTwwd6hUdNhyZFJlteYjD3Yv5N2t4Jxn7h3D5
-   CpyGKL3qUUqf4W8gJTM86rxZ1c0seQQ9O7bQiJA7no2MwO+vAY3UIWcYR
-   Pr9ohq0CErp0qporiKn/HLgflcBiWmBkjiTu2NWoyeOzqOLa0R3dUBa9K
-   A==;
-X-CSE-ConnectionGUID: YeIAv1mqQJaFcSp1+9dC+g==
-X-CSE-MsgGUID: +IxrFiJLSAuliF2r6ScT0A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66202050"
+  bh=Ujnob99Q1tbnulMBj8KaddK7Fv/QJIO7q/kyxmWNnkE=;
+  b=CKx0vpofX0e0YhJ2FQXbvN37TKF+llqoa+03u69BAlG4/Y1DQtGbRw7n
+   oJajDZT6b/8uO7T5goPbG8dumO8pJ+Bqizq777KyX5XdWCDTtqSmudmpe
+   XKb0OGvRLM/xay20jY0kzaTd0O+l0mR4s5DkpboHvgoS2wGu88SyrsYc+
+   3YEMM4E2ead4ef5RF142m4seELIUj5eRAu4KFVIPlFP+IAS9jT7ecJ3fy
+   FFUw5FwxA2SjmdcU5y+QO4d6Y1BjbWNSzYUGBZdomD5DUYRjiTUSby0rv
+   ExDwm8qHeru659RRIrvCiZRms8sOIqicIWDqmE72M0fUiKmzNzfwh/4bj
+   Q==;
+X-CSE-ConnectionGUID: nmACjnCARSa81li51qetnw==
+X-CSE-MsgGUID: OKNAqSH/S+CU+QmY+BL7eA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="65820896"
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="66202050"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 19:16:56 -0700
-X-CSE-ConnectionGUID: YPJe4lDXQxS/h0wBLeMU/w==
-X-CSE-MsgGUID: M9YyJfrZSWqedUuQIlDCJw==
+   d="scan'208";a="65820896"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 19:26:56 -0700
+X-CSE-ConnectionGUID: 9uw3vWQIQwGO/ZRug3zguw==
+X-CSE-MsgGUID: Eva3mBvYT228wfLZ819tDA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="157813800"
+   d="scan'208";a="156509551"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 14 Jul 2025 19:16:52 -0700
+  by orviesa010.jf.intel.com with ESMTP; 14 Jul 2025 19:26:53 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubVDt-0009Y3-3C;
-	Tue, 15 Jul 2025 02:16:49 +0000
-Date: Tue, 15 Jul 2025 10:16:17 +0800
+	id 1ubVNa-0009YN-38;
+	Tue, 15 Jul 2025 02:26:50 +0000
+Date: Tue, 15 Jul 2025 10:26:34 +0800
 From: kernel test robot <lkp@intel.com>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-mediatek@lists.infradead.org
-Cc: oe-kbuild-all@lists.linux.dev, lee@kernel.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com, lgirdwood@gmail.com,
-	broonie@kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	kernel@collabora.com
-Subject: Re: [PATCH v2 4/8] regulator: Add support for MediaTek MT6363 SPMI
- PMIC Regulators
-Message-ID: <202507150934.VLFQsCyK-lkp@intel.com>
-References: <20250707134451.154346-5-angelogioacchino.delregno@collabora.com>
+To: aspeedyh <yh_chung@aspeedtech.com>, jk@codeconstruct.com.au,
+	matt@codeconstruct.com.au, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, bmc-sw@aspeedtech.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] net: mctp: Add MCTP PCIe VDM transport driver
+Message-ID: <202507151015.GPkeA21H-lkp@intel.com>
+References: <20250714062544.2612693-1-yh_chung@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,109 +66,106 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250707134451.154346-5-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250714062544.2612693-1-yh_chung@aspeedtech.com>
 
-Hi AngeloGioacchino,
+Hi aspeedyh,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on broonie-regulator/for-next]
-[also build test ERROR on lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes lee-leds/for-leds-next linus/master v6.16-rc6 next-20250714]
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v6.16-rc6 next-20250714]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-regulator-Document-MediaTek-MT6316-PMIC-Regulators/20250707-214911
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20250707134451.154346-5-angelogioacchino.delregno%40collabora.com
-patch subject: [PATCH v2 4/8] regulator: Add support for MediaTek MT6363 SPMI PMIC Regulators
-config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250715/202507150934.VLFQsCyK-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150934.VLFQsCyK-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/aspeedyh/net-mctp-Add-MCTP-PCIe-VDM-transport-driver/20250714-142656
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250714062544.2612693-1-yh_chung%40aspeedtech.com
+patch subject: [PATCH] net: mctp: Add MCTP PCIe VDM transport driver
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250715/202507151015.GPkeA21H-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507151015.GPkeA21H-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507150934.VLFQsCyK-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507151015.GPkeA21H-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/regulator/mt6363-regulator.c: In function 'mt6363_vemc_set_voltage_sel':
->> drivers/regulator/mt6363-regulator.c:457:23: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     457 |                 sel = FIELD_PREP(MT6363_RG_VEMC_VOSEL_1_MASK, sel);
-         |                       ^~~~~~~~~~
-   drivers/regulator/mt6363-regulator.c: In function 'mt6363_vemc_get_voltage_sel':
->> drivers/regulator/mt6363-regulator.c:489:23: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     489 |                 ret = FIELD_GET(MT6363_RG_VEMC_VOSEL_1_MASK, sel);
-         |                       ^~~~~~~~~
+>> drivers/net/mctp/mctp-pcie-vdm.c:491:4: warning: variable 'vdm_dev' is uninitialized when used here [-Wuninitialized]
+     491 |                  vdm_dev->ndev->name);
+         |                  ^~~~~~~
+   include/linux/printk.h:631:26: note: expanded from macro 'pr_debug'
+     631 |         dynamic_pr_debug(fmt, ##__VA_ARGS__)
+         |                                 ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:270:22: note: expanded from macro 'dynamic_pr_debug'
+     270 |                            pr_fmt(fmt), ##__VA_ARGS__)
+         |                                           ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:59: note: expanded from macro '_dynamic_func_call'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |                                                                  ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:248:65: note: expanded from macro '_dynamic_func_call_cls'
+     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
+         |                                                                        ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:15: note: expanded from macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   drivers/net/mctp/mctp-pcie-vdm.c:484:35: note: initialize the variable 'vdm_dev' to silence this warning
+     484 |         struct mctp_pcie_vdm_dev *vdm_dev;
+         |                                          ^
+         |                                           = NULL
+   1 warning generated.
 
 
-vim +/FIELD_PREP +457 drivers/regulator/mt6363-regulator.c
+vim +/vdm_dev +491 drivers/net/mctp/mctp-pcie-vdm.c
 
-   432	
-   433	static int mt6363_vemc_set_voltage_sel(struct regulator_dev *rdev, unsigned int sel)
-   434	{
-   435		const u16 tma_unlock_key = MT6363_TMA_UNLOCK_VALUE;
-   436		struct regmap *regmap = rdev->regmap;
-   437		unsigned int val;
-   438		u16 mask;
-   439		int ret;
-   440	
-   441		ret = regmap_read(rdev->regmap, MT6363_TOP_TRAP, &val);
-   442		if (ret)
-   443			return ret;
-   444	
-   445		if (val > 1)
-   446			return -EINVAL;
-   447	
-   448		/* Unlock TMA for writing */
-   449		ret = regmap_bulk_write(rdev->regmap, MT6363_TOP_TMA_KEY_L,
-   450					&tma_unlock_key, sizeof(tma_unlock_key));
-   451		if (ret)
-   452			return ret;
-   453	
-   454		/* If HW trapping value is 1, use VEMC_VOSEL_1 instead of VEMC_VOSEL_0 */
-   455		if (val == 1) {
-   456			mask = MT6363_RG_VEMC_VOSEL_1_MASK;
- > 457			sel = FIELD_PREP(MT6363_RG_VEMC_VOSEL_1_MASK, sel);
-   458		} else {
-   459			mask = rdev->desc->vsel_mask;
-   460		}
-   461	
-   462		/* Function must return the result of this write operation */
-   463		ret = regmap_update_bits(regmap, rdev->desc->vsel_reg, mask, sel);
-   464	
-   465		/* Unconditionally re-lock TMA */
-   466		val = 0;
-   467		regmap_bulk_write(rdev->regmap, MT6363_TOP_TMA_KEY_L, &val, 2);
-   468	
-   469		return ret;
-   470	}
-   471	
-   472	static int mt6363_vemc_get_voltage_sel(struct regulator_dev *rdev)
-   473	{
-   474		unsigned int sel, trap;
-   475		int ret;
-   476	
-   477		ret = regmap_read(rdev->regmap, rdev->desc->vsel_reg, &sel);
-   478		if (ret)
-   479			return ret;
-   480	
-   481		ret = regmap_read(rdev->regmap, MT6363_TOP_TRAP, &trap);
-   482		if (ret)
-   483			return ret;
-   484	
-   485		/* If HW trapping value is 1, use VEMC_VOSEL_1 instead of VEMC_VOSEL_0 */
-   486		if (trap > 1)
-   487			return -EINVAL;
-   488		else if (trap == 1)
- > 489			ret = FIELD_GET(MT6363_RG_VEMC_VOSEL_1_MASK, sel);
-   490		else
-   491			ret = sel & rdev->desc->vsel_mask;
+   481	
+   482	static void mctp_pcie_vdm_uninit(struct net_device *ndev)
+   483	{
+   484		struct mctp_pcie_vdm_dev *vdm_dev;
+   485	
+   486		struct mctp_pcie_vdm_route_info *route;
+   487		struct hlist_node *tmp;
+   488		int bkt;
+   489	
+   490		pr_debug("%s: uninitializing vdm_dev %s\n", __func__,
+ > 491			 vdm_dev->ndev->name);
    492	
-   493		return ret;
-   494	}
+   493		vdm_dev = netdev_priv(ndev);
+   494		vdm_dev->callback_ops->uninit(vdm_dev->dev);
    495	
+   496		hash_for_each_safe(vdm_dev->route_table, bkt, tmp, route, hnode) {
+   497			hash_del(&route->hnode);
+   498			kfree(route);
+   499		}
+   500	
+   501		if (vdm_dev->tx_thread) {
+   502			kthread_stop(vdm_dev->tx_thread);
+   503			vdm_dev->tx_thread = NULL;
+   504		}
+   505	
+   506		if (mctp_pcie_vdm_wq) {
+   507			cancel_work_sync(&vdm_dev->rx_work);
+   508			flush_workqueue(mctp_pcie_vdm_wq);
+   509			destroy_workqueue(mctp_pcie_vdm_wq);
+   510			mctp_pcie_vdm_wq = NULL;
+   511		}
+   512	
+   513		while (__ptr_ring_peek(&vdm_dev->tx_queue)) {
+   514			struct sk_buff *skb;
+   515	
+   516			skb = ptr_ring_consume(&vdm_dev->tx_queue);
+   517	
+   518			if (skb)
+   519				kfree_skb(skb);
+   520		}
+   521	
+   522		mutex_lock(&mctp_pcie_vdm_dev_mutex);
+   523		list_del(&vdm_dev->list);
+   524		mutex_unlock(&mctp_pcie_vdm_dev_mutex);
+   525	}
+   526	
 
 -- 
 0-DAY CI Kernel Test Service
