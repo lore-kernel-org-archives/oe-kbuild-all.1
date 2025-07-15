@@ -1,68 +1,70 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12C80286D46
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 17:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F764289377;
+	Tue, 15 Jul 2025 17:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752601047; cv=none; b=TLLYwjcD5z76Cx/YyBiKQhbZXL2LkGeePBFDUok0k3wXQvVJ1EmyrprYlW74pEbdht3QFbf0P1xihFosE+7Y5lDtBTxchnPrKhYYjwtq5J9lzJP+m4swD/kwqaWaCeDxUlz+40KJpFvpPFobb7IIcQpzZYX0KE6dNy6kXExT+iM=
+	t=1752602367; cv=none; b=PDj81tHZ6kJxu6ggjYt1LCW4QSrrQmKFmnvdWC7sQxfVcII0ylsQDJ5JvMRC8iM+14YrBpLprJZyNvQ04WZBJKtphIi9AUhh3+lERggAEuwS7coWnf4fN7i2FUG0se6IwJj8ZCxgHAJl7628f0wdm93qVk16k3gGmVSIPrakk5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752601047; c=relaxed/simple;
-	bh=8AgQS+Cb1TP+dRcSbrfn/4MUpirrtqrxKm9XtZ08b2c=;
+	s=arc-20240116; t=1752602367; c=relaxed/simple;
+	bh=pGWjgJnPdhc6fxanyYZ44FtDswTCW9PE9eD1cW30BAE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kmjz+/MWKAPLkn3DJRVUT95vRqSGjsxqwthG1hJ+dKyVaMg5wBfmXEoKfFNzEYSru1ZYblFag0S8JNWyjkI77tyRif5JtQ4hd5HFSvPb+oywNvAmdFryGsmf1IMqvta0mjm/c6rT50p8x1B4/RDhuv+LMJoOPc5tZXwBZKhq6bQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nA7UpD6y; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=GePeyNBtlfpaC0N/WTekde58t1h9wTLkzjlpr6r/ZIAXYv6rlarLuBAH+oeKm6bJ3wG9gfKt6g20DORW36Umj3EEkt62moQpJydvfUjXDVTAI991C9aClAeeLI0LYlHdm+gyxQVQvzgoagqw5bcAWS40pYOMncM1qzlcxrYAM+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IgVSePaI; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nA7UpD6y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IgVSePaI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752601046; x=1784137046;
+  t=1752602365; x=1784138365;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8AgQS+Cb1TP+dRcSbrfn/4MUpirrtqrxKm9XtZ08b2c=;
-  b=nA7UpD6yeQxh9qsHC3XTvaX7qiwBpLkbPTR2gjA3oeh5zPbBh+5u/ytR
-   hp018q1PVygKvkvXmnSuNgILfDX2c1u0vn5PFCVHoHdHBJOGgEJiOLrc+
-   sZVUCRBAaEDkxG8CvqLYT1KRek2C59Qf/mf4Amxfr7qfYP81ZkXBmqFgD
-   ylEFxQOCdtSu9Et/xukQtzbevjxo4s6sYIgIDJKLC+CPykYzaqqrvV1f4
-   0WmScwJK5ndc6ELW56ztyq7Q4IJiGprGqsNlA7m4wYavLuJlJPBO6yLHZ
-   ANLsD54cSDxS3HrEWKxfUPGlP3F0sklno+giQ5WSG0x8mEnhKEjt2drd+
-   g==;
-X-CSE-ConnectionGUID: 3m4h+1G7QTiPwvi6Ou4iCw==
-X-CSE-MsgGUID: V+sxJX6hR5ilEV5VE2ZMIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="53944865"
+  bh=pGWjgJnPdhc6fxanyYZ44FtDswTCW9PE9eD1cW30BAE=;
+  b=IgVSePaIrZ5zYk+ADsYR3JY8anq2cDIeU6whcrDWCzFiECvbXoF70yhw
+   g8ZdbfmO3u+NjWl06maQ2fQa++/TCtugkqghTPUI+hvshLcG+Nbpw80mF
+   wdo/MJaqTM9s1WkRraqBeRyrj8o0MiYLAyp3ZeMfvqW6Zu0IMMAtDzc1n
+   thTr6vlRtYbS4oGXLJyEltuKwaYrVcR8aiK78BYnCvEv736i9S6TLLTvr
+   epY5Je63pVCaxS8mJ2AAQ9ZSsBt0m8ObhE7uAsFC5izLMtUuqJfrq08ic
+   tHCcF6wyv64jUoiLQGLwgfP1ac0OTLYLPbOWqPlme2APW5s61NuJoyEmz
+   A==;
+X-CSE-ConnectionGUID: x86MfEPrTzauaFeXVc1rhw==
+X-CSE-MsgGUID: AUkeKLd2TfOyzWQJNFlsmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="58488320"
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="53944865"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 10:37:21 -0700
-X-CSE-ConnectionGUID: Ee+pO6bzQP+wYLSfxqj40w==
-X-CSE-MsgGUID: /3hacP+xQVGfCZekUD5Y5Q==
+   d="scan'208";a="58488320"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 10:59:25 -0700
+X-CSE-ConnectionGUID: zbQificGQ6SQHgfamneVcA==
+X-CSE-MsgGUID: Nr8pyyslSZW3SyFUOS5XWg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="158009571"
+   d="scan'208";a="161838950"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 15 Jul 2025 10:37:15 -0700
+  by orviesa004.jf.intel.com with ESMTP; 15 Jul 2025 10:59:19 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubjab-000BOJ-1X;
-	Tue, 15 Jul 2025 17:37:13 +0000
-Date: Wed, 16 Jul 2025 01:36:40 +0800
+	id 1ubjvw-000BPn-01;
+	Tue, 15 Jul 2025 17:59:16 +0000
+Date: Wed, 16 Jul 2025 01:58:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Mohsin Bashir <mohsin.bashr@gmail.com>, netdev@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, kuba@kernel.org, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	shuah@kernel.org, horms@kernel.org, cratiu@nvidia.com,
-	noren@nvidia.com, cjubran@nvidia.com, mbloch@nvidia.com,
-	mohsin.bashr@gmail.com, jdamato@fastly.com, gal@nvidia.com,
-	sdf@fomichev.me, ast@kernel.org, daniel@iogearbox.net,
-	hawk@kernel.org, john.fastabend@gmail.com, nathan@kernel.org,
-	nick.desaulniers+lkml@gmail.com, morbo@google.com,
-	justinstitt@google.com, bpf@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH net-next V4 1/5] net: netdevsim: hook in XDP handling
-Message-ID: <202507160103.dqVvaCEE-lkp@intel.com>
-References: <20250714210352.1115230-2-mohsin.bashr@gmail.com>
+To: Roman Kisel <romank@linux.microsoft.com>, alok.a.tiwari@oracle.com,
+	arnd@arndb.de, bp@alien8.de, corbet@lwn.net,
+	dave.hansen@linux.intel.com, decui@microsoft.com,
+	haiyangz@microsoft.com, hpa@zytor.com, kys@microsoft.com,
+	mhklinux@outlook.com, mingo@redhat.com, rdunlap@infradead.org,
+	tglx@linutronix.de, Tianyu.Lan@microsoft.com, wei.liu@kernel.org,
+	linux-arch@vger.kernel.org, linux-coco@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	linux-kernel@vger.kernel.org, x86@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, apais@microsoft.com,
+	benhill@microsoft.com, bperkins@microsoft.com,
+	sunilmut@microsoft.com
+Subject: Re: [PATCH hyperv-next v4 04/16] arch/x86: mshyperv: Trap on access
+ for some synthetic MSRs
+Message-ID: <202507160105.yQ34bnKl-lkp@intel.com>
+References: <20250714221545.5615-5-romank@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,77 +73,58 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250714210352.1115230-2-mohsin.bashr@gmail.com>
+In-Reply-To: <20250714221545.5615-5-romank@linux.microsoft.com>
 
-Hi Mohsin,
+Hi Roman,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on net-next/main]
+[auto build test ERROR on d9016a249be5316ec2476f9947356711e70a16ec]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mohsin-Bashir/net-netdevsim-hook-in-XDP-handling/20250715-050721
-base:   net-next/main
-patch link:    https://lore.kernel.org/r/20250714210352.1115230-2-mohsin.bashr%40gmail.com
-patch subject: [PATCH net-next V4 1/5] net: netdevsim: hook in XDP handling
-config: m68k-randconfig-r121-20250715 (https://download.01.org/0day-ci/archive/20250716/202507160103.dqVvaCEE-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250716/202507160103.dqVvaCEE-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Roman-Kisel/Documentation-hyperv-Confidential-VMBus/20250715-062125
+base:   d9016a249be5316ec2476f9947356711e70a16ec
+patch link:    https://lore.kernel.org/r/20250714221545.5615-5-romank%40linux.microsoft.com
+patch subject: [PATCH hyperv-next v4 04/16] arch/x86: mshyperv: Trap on access for some synthetic MSRs
+config: x86_64-buildonly-randconfig-002-20250715 (https://download.01.org/0day-ci/archive/20250716/202507160105.yQ34bnKl-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160105.yQ34bnKl-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507160103.dqVvaCEE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507160105.yQ34bnKl-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/netdevsim/netdev.c:342:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
-   drivers/net/netdevsim/netdev.c:342:20: sparse:    struct bpf_prog [noderef] __rcu *
-   drivers/net/netdevsim/netdev.c:342:20: sparse:    struct bpf_prog *
+All errors (new ones prefixed by >>):
 
-vim +342 drivers/net/netdevsim/netdev.c
+   ld: vmlinux.o: in function `hv_set_non_nested_msr':
+>> arch/x86/kernel/cpu/mshyperv.c:91: undefined reference to `vmbus_is_confidential'
 
-   331	
-   332	static int nsim_rcv(struct nsim_rq *rq, int budget)
-   333	{
-   334		struct net_device *dev = rq->napi.dev;
-   335		struct bpf_prog *xdp_prog;
-   336		struct netdevsim *ns;
-   337		struct sk_buff *skb;
-   338		unsigned int skblen;
-   339		int i, ret;
-   340	
-   341		ns = netdev_priv(dev);
- > 342		xdp_prog = rcu_dereference(ns->xdp.prog);
-   343	
-   344		for (i = 0; i < budget; i++) {
-   345			if (skb_queue_empty(&rq->skb_queue))
-   346				break;
-   347	
-   348			skb = skb_dequeue(&rq->skb_queue);
-   349	
-   350			if (xdp_prog) {
-   351				/* skb might be freed directly by XDP, save the len */
-   352				skblen = skb->len;
-   353	
-   354				ret = do_xdp_generic(xdp_prog, &skb);
-   355				if (ret != XDP_PASS) {
-   356					dev_dstats_rx_add(dev, skblen);
-   357					continue;
-   358				}
-   359			}
-   360	
-   361			/* skb might be discard at netif_receive_skb, save the len */
-   362			skblen = skb->len;
-   363			skb_mark_napi_id(skb, &rq->napi);
-   364			ret = netif_receive_skb(skb);
-   365			if (ret == NET_RX_SUCCESS)
-   366				dev_dstats_rx_add(dev, skblen);
-   367			else
-   368				dev_dstats_rx_dropped(dev);
-   369		}
-   370	
-   371		return i;
-   372	}
-   373	
+
+vim +91 arch/x86/kernel/cpu/mshyperv.c
+
+    79	
+    80	void hv_set_non_nested_msr(unsigned int reg, u64 value)
+    81	{
+    82		if (hv_is_synic_msr(reg) && ms_hyperv.paravisor_present) {
+    83			/* The hypervisor will get the intercept. */
+    84			hv_ivm_msr_write(reg, value);
+    85	
+    86			if (hv_is_sint_msr(reg)) {
+    87				/*
+    88				 * Write proxy bit in the case of non-confidential VMBus.
+    89				 * Using wrmsrq instruction so the following goes to the paravisor.
+    90				 */
+  > 91				u32 proxy = vmbus_is_confidential() ? 0 : 1;
+    92	
+    93				value |= (proxy << 20);
+    94				native_wrmsrq(reg, value);
+    95			}
+    96		} else {
+    97			native_wrmsrq(reg, value);
+    98		}
+    99	}
+   100	EXPORT_SYMBOL_GPL(hv_set_non_nested_msr);
+   101	
 
 -- 
 0-DAY CI Kernel Test Service
