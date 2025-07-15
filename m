@@ -1,82 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC1D1CAA9C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 13:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9A828F92E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 14:08:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752584901; cv=none; b=R3PzENu1PJlkGZ0OXkh0osEhVjq5AEENCOIy/8MXzBHtUvJq2d//LpM2botaHqNA7Jdf0EpBhEjZGkIKHL3Lg+Ex9TcfIJ4FR2zX5yEAQzv9CrX09U2qVhdpZb6AKNOLQHeIkVxcxhbhloq5h9TrfbS5j7VbbaHha1/bM/9i980=
+	t=1752588536; cv=none; b=m3fe3GsRApGiond87QoGhCN2z00PNR7oJFQJYgx1I5LGhzWmJSUsyVGyWo6QDVbCdSQFCLVrBpfY7eK6LGivzacqMphV7fJAIb+n4yn2Wq0h0qGWH68fbgrzg9GtXLCzHtpFbAtqE7thN438U5LN74L8uEMnHTP0MTmROIUF0lQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752584901; c=relaxed/simple;
-	bh=ERgqFp3dWEUt6TrdSa/YUzlMBzQe1R/D7z1fcvnBStk=;
+	s=arc-20240116; t=1752588536; c=relaxed/simple;
+	bh=iGwHdMx7YnUfsMLr6f7G2QpvZ6flc36YWO+ymAakJAQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VKEQi6NqozijY/3zB3/sSvKD/sF2KR94LvX8Iu+uPp9jeSA1JFUNQF5z+4OdzdxI6aKXz2jnlo6yDunDd7qwDChyGLAVzHGmssxfrGKx8DIPxTp25gwQ5HO9yqYKX23eprK0gtszMZZy5IZmzJZ0TZKQhHs3yhYAmemeCtTOmJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Myx2Goh5; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=qwu/0fWDTasIuvwEOTK5C3KWOI1xLU4MfD0e6bSr3GcSkGmRvkMrJqZXa6/sktBGfjNvhbmj/8ARPdAEn6E9lYQnArn1AeWE4W3dg/QZ3qu+vtDFY8i5LxbmEhxqGwPNauApnT3WBl7BhgaRXT13SxjeJcfRmaMdRmHZC1dRba8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h/QFnQPP; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Myx2Goh5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/QFnQPP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752584899; x=1784120899;
+  t=1752588534; x=1784124534;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ERgqFp3dWEUt6TrdSa/YUzlMBzQe1R/D7z1fcvnBStk=;
-  b=Myx2Goh5z5ruC3fY8eAkSaSuz/TKc6fdV4VNlO9eikFEw6ndC2LbsaoO
-   UWHIOA3wQGriXCYKezCAr2QWQooFu6mRKDrkdNR5nbXRv6HY+rLbgOHgs
-   gAm+jkRKE2OtqHnjhZk2iKBihridvvStyWxsBhZzteva5Z+E+WjIPkRxM
-   dNrwrSrxsd5GIGeHoiZQszjAkIsDsnL2Y0xCQewnjyK/LWZb7BO63sHiu
-   DCPQYDpu/lNcClsqbKxoUS138kn7zxh87OFjnUNqzVYRQaKMwKrniy1OW
-   O5UXnozFHEYylNjG8bCaKgRZjZgTYWiYmLJgO69iOtaG/+gY6d8Q2Rsdz
-   Q==;
-X-CSE-ConnectionGUID: 1KoJ8805T6eDe6aDwYqASg==
-X-CSE-MsgGUID: JV3KYkQ0QlC7AkNNUDTqwQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54740063"
+  bh=iGwHdMx7YnUfsMLr6f7G2QpvZ6flc36YWO+ymAakJAQ=;
+  b=h/QFnQPP6/n2sN95gqQW/YLzGzIoHZ1p+LdS5pNwL5c7op98QGG8FwgW
+   pLyJWhYFmSkf4u3hW80Aa1+WZHkWNJTvY20soX6cygeklSTepXB2Nopgb
+   b2s+ePl7ZJkzW0GVZJcqFnPUA2BX+i5v/USKsCQMQSfTNE/RpFMIW4LL8
+   D5drII321MABt0skK5+LBVPbGDi7m22w9HTgBELypxf+IPEsc4HBG/T/Y
+   UB2VM/PqKa9LfZN48DGL3ivMfP/t6WtIC9kTaEDjq9DKIUFzF0WNmWgLM
+   uqgZ27VZBpp2cBdASOKFA5Zp/cL0XNMR0awLlyCmtTgDJNCuWoJRwkO32
+   A==;
+X-CSE-ConnectionGUID: AgxrVHy6SQysUVmXPRS+Cw==
+X-CSE-MsgGUID: 9Bg9FVS/QnmDiGsDitgS7g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="66166894"
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="54740063"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 06:08:19 -0700
-X-CSE-ConnectionGUID: 1wcdqG34SWqIsJon1ARLKQ==
-X-CSE-MsgGUID: TP7UHK2CRpyZLxyiQtiKnw==
+   d="scan'208";a="66166894"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 07:08:54 -0700
+X-CSE-ConnectionGUID: wY3ged7VSAqwm8fXiFEAkQ==
+X-CSE-MsgGUID: HAw3qmz5Rcy23BXfm+gZ/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="157765105"
+   d="scan'208";a="162778934"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 15 Jul 2025 06:08:12 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 15 Jul 2025 07:08:53 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubfOD-000A51-2g;
-	Tue, 15 Jul 2025 13:08:09 +0000
-Date: Tue, 15 Jul 2025 21:07:15 +0800
+	id 1ubgKw-000B8h-2h;
+	Tue, 15 Jul 2025 14:08:50 +0000
+Date: Tue, 15 Jul 2025 22:08:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Joris Verhaegen <verhaegen@google.com>, Vinod Koul <vkoul@kernel.org>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Charles Keepax <ckeepax@opensource.cirrus.com>,
-	Richard Fitzgerald <rf@opensource.cirrus.com>,
-	David Rhodes <david.rhodes@cirrus.com>,
-	Cezary Rojewski <cezary.rojewski@intel.com>,
-	Peter Ujfalusi <peter.ujfalusi@linux.intel.com>,
-	Bard Liao <yung-chuan.liao@linux.intel.com>,
-	Ranjani Sridharan <ranjani.sridharan@linux.intel.com>,
-	Kai Vehmanen <kai.vehmanen@linux.intel.com>,
-	Pierre-Louis Bossart <pierre-louis.bossart@linux.dev>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Daniel Baluta <daniel.baluta@nxp.com>,
-	Orson Zhai <orsonzhai@gmail.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Chunyan Zhang <zhang.lyra@gmail.com>,
-	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
-	Masami Hiramatsu <mhiramat@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Joris Verhaegen <verhaegen@google.com>,
-	kernel-team@android.com, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org, patches@opensource.cirrus.com,
-	linux-arm-msm@vger.kernel.org, sound-open-firmware@alsa-project.org,
-	linux-arm-kernel@lists.infradead.org, David Li <dvdli@google.com>
-Subject: Re: [PATCH v2 4/4] ASoC: codecs: Implement 64-bit pointer operation
-Message-ID: <202507152054.EKID8Uop-lkp@intel.com>
-References: <20250711093636.28204-5-verhaegen@google.com>
+To: chuguangqing <chuguangqing@inspur.com>, Theodore Ts'o <tytso@mit.edu>,
+	Andreas Dilger <adilger.kernel@dilger.ca>
+Cc: oe-kbuild-all@lists.linux.dev, linux-ext4@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	chuguangqing <chuguangqing@inspur.com>
+Subject: Re: [PATCH 1/1] Add FALLOC_FL_ALLOCATE_RANGE to the set of supported
+ fallocate mode flags. This change improves code clarity and maintains by
+ explicitly showing this flag in the supported flags mask.
+Message-ID: <202507152101.0vyIZZfK-lkp@intel.com>
+References: <20250715031531.1693-2-chuguangqing@inspur.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -85,55 +67,133 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250711093636.28204-5-verhaegen@google.com>
+In-Reply-To: <20250715031531.1693-2-chuguangqing@inspur.com>
 
-Hi Joris,
+Hi chuguangqing,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on broonie-sound/for-next]
-[also build test ERROR on vkoul-dmaengine/next linus/master v6.16-rc6]
-[cannot apply to tiwai-sound/for-next tiwai-sound/for-linus next-20250714]
+[auto build test ERROR on next-20250714]
+[cannot apply to tytso-ext4/dev v6.16-rc6 v6.16-rc5 v6.16-rc4 linus/master v6.16-rc6]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Joris-Verhaegen/ALSA-compress_offload-Add-64-bit-safe-timestamp-infrastructure/20250711-174008
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-next
-patch link:    https://lore.kernel.org/r/20250711093636.28204-5-verhaegen%40google.com
-patch subject: [PATCH v2 4/4] ASoC: codecs: Implement 64-bit pointer operation
-config: i386-randconfig-141-20250714 (https://download.01.org/0day-ci/archive/20250715/202507152054.EKID8Uop-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507152054.EKID8Uop-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/chuguangqing/Add-FALLOC_FL_ALLOCATE_RANGE-to-the-set-of-supported-fallocate-mode-flags-This-change-improves-code-clarity-and-maintain/20250715-111753
+base:   next-20250714
+patch link:    https://lore.kernel.org/r/20250715031531.1693-2-chuguangqing%40inspur.com
+patch subject: [PATCH 1/1] Add FALLOC_FL_ALLOCATE_RANGE to the set of supported fallocate mode flags. This change improves code clarity and maintains by explicitly showing this flag in the supported flags mask.
+config: arc-randconfig-002-20250715 (https://download.01.org/0day-ci/archive/20250715/202507152101.0vyIZZfK-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 11.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507152101.0vyIZZfK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507152054.EKID8Uop-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507152101.0vyIZZfK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   ld: sound/soc/intel/atom/sst-mfld-platform-compress.o: in function `sst_platform_compr_pointer64':
->> sound/soc/intel/atom/sst-mfld-platform-compress.c:226: undefined reference to `__umoddi3'
+   fs/ext4/extents.c: In function 'ext4_fallocate':
+>> fs/ext4/extents.c:4787:22: error: 'FALL_C_FL_ALLOCATE_RANGE' undeclared (first use in this function); did you mean 'FALLOC_FL_ALLOCATE_RANGE'?
+    4787 |         if (mode & ~(FALL_C_FL_ALLOCATE_RANGE | FALLOC_FL_KEEP_SIZE |
+         |                      ^~~~~~~~~~~~~~~~~~~~~~~~
+         |                      FALLOC_FL_ALLOCATE_RANGE
+   fs/ext4/extents.c:4787:22: note: each undeclared identifier is reported only once for each function it appears in
 
 
-vim +226 sound/soc/intel/atom/sst-mfld-platform-compress.c
+vim +4787 fs/ext4/extents.c
 
-   216	
-   217	static int sst_platform_compr_pointer64(struct snd_soc_component *component,
-   218						struct snd_compr_stream *cstream,
-   219						struct snd_compr_tstamp64 *tstamp)
-   220	{
-   221		struct sst_runtime_stream *stream;
-   222	
-   223		stream = cstream->runtime->private_data;
-   224		stream->compr_ops->tstamp64(sst->dev, stream->id, tstamp);
-   225		tstamp->byte_offset =
- > 226			tstamp->copied_total % cstream->runtime->buffer_size;
-   227		pr_debug("calc bytes offset/copied bytes as %u\n", tstamp->byte_offset);
-   228		return 0;
-   229	}
-   230	
+  4755	
+  4756	/*
+  4757	 * preallocate space for a file. This implements ext4's fallocate file
+  4758	 * operation, which gets called from sys_fallocate system call.
+  4759	 * For block-mapped files, posix_fallocate should fall back to the method
+  4760	 * of writing zeroes to the required new blocks (the same behavior which is
+  4761	 * expected for file systems which do not support fallocate() system call).
+  4762	 */
+  4763	long ext4_fallocate(struct file *file, int mode, loff_t offset, loff_t len)
+  4764	{
+  4765		struct inode *inode = file_inode(file);
+  4766		struct address_space *mapping = file->f_mapping;
+  4767		int ret;
+  4768	
+  4769		/*
+  4770		 * Encrypted inodes can't handle collapse range or insert
+  4771		 * range since we would need to re-encrypt blocks with a
+  4772		 * different IV or XTS tweak (which are based on the logical
+  4773		 * block number).
+  4774		 */
+  4775		if (IS_ENCRYPTED(inode) &&
+  4776		    (mode & (FALLOC_FL_COLLAPSE_RANGE | FALLOC_FL_INSERT_RANGE)))
+  4777			return -EOPNOTSUPP;
+  4778		/*
+  4779		 * Don't allow writing zeroes if the underlying device does not
+  4780		 * enable the unmap write zeroes operation.
+  4781		 */
+  4782		if ((mode & FALLOC_FL_WRITE_ZEROES) &&
+  4783		    !bdev_write_zeroes_unmap_sectors(inode->i_sb->s_bdev))
+  4784			return -EOPNOTSUPP;
+  4785	
+  4786		/* Return error if mode is not supported */
+> 4787		if (mode & ~(FALL_C_FL_ALLOCATE_RANGE | FALLOC_FL_KEEP_SIZE |
+  4788			     FALLOC_FL_PUNCH_HOLE | FALLOC_FL_COLLAPSE_RANGE |
+  4789			     FALLOC_FL_ZERO_RANGE | FALLOC_FL_INSERT_RANGE))
+  4790			return -EOPNOTSUPP;
+  4791	
+  4792		inode_lock(inode);
+  4793		ret = ext4_convert_inline_data(inode);
+  4794		if (ret)
+  4795			goto out_inode_lock;
+  4796	
+  4797		/* Wait all existing dio workers, newcomers will block on i_rwsem */
+  4798		inode_dio_wait(inode);
+  4799	
+  4800		ret = file_modified(file);
+  4801		if (ret)
+  4802			goto out_inode_lock;
+  4803	
+  4804		if ((mode & FALLOC_FL_MODE_MASK) == FALLOC_FL_ALLOCATE_RANGE) {
+  4805			ret = ext4_do_fallocate(file, offset, len, mode);
+  4806			goto out_inode_lock;
+  4807		}
+  4808	
+  4809		/*
+  4810		 * Follow-up operations will drop page cache, hold invalidate lock
+  4811		 * to prevent page faults from reinstantiating pages we have
+  4812		 * released from page cache.
+  4813		 */
+  4814		filemap_invalidate_lock(mapping);
+  4815	
+  4816		ret = ext4_break_layouts(inode);
+  4817		if (ret)
+  4818			goto out_invalidate_lock;
+  4819	
+  4820		switch (mode & FALLOC_FL_MODE_MASK) {
+  4821		case FALLOC_FL_PUNCH_HOLE:
+  4822			ret = ext4_punch_hole(file, offset, len);
+  4823			break;
+  4824		case FALLOC_FL_COLLAPSE_RANGE:
+  4825			ret = ext4_collapse_range(file, offset, len);
+  4826			break;
+  4827		case FALLOC_FL_INSERT_RANGE:
+  4828			ret = ext4_insert_range(file, offset, len);
+  4829			break;
+  4830		case FALLOC_FL_ZERO_RANGE:
+  4831		case FALLOC_FL_WRITE_ZEROES:
+  4832			ret = ext4_zero_range(file, offset, len, mode);
+  4833			break;
+  4834		default:
+  4835			ret = -EOPNOTSUPP;
+  4836		}
+  4837	
+  4838	out_invalidate_lock:
+  4839		filemap_invalidate_unlock(mapping);
+  4840	out_inode_lock:
+  4841		inode_unlock(inode);
+  4842		return ret;
+  4843	}
+  4844	
 
 -- 
 0-DAY CI Kernel Test Service
