@@ -1,58 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89B086A8D2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 17:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF64A26B76A;
+	Tue, 15 Jul 2025 17:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752599784; cv=none; b=EiKnsdjTr+YN6/YlLihq8Bl/UIpU15fpzXSujKl/O/lFo/EENUUowLXqSh0fPRChMwecFm+mr8NE8GND5lR6g9Qoiv3mlGoOfNp0YOjUtFh3+yfk4DGIxsqPcXsI29+jx89ePUgfWAiAfdXVwHM/Q5BY+60jTdF7eoTT2mB3eqo=
+	t=1752600443; cv=none; b=JROvAwj/GZgW8H74E9CqbMy0REx7U01A9nX9SVEJO9jf8xh/EklU2uKIM0HnyHZN194Q6BldFocPH2f8F2351x5MucXOD4GQ6sOKR6gliAwCCOsNJAC+vLgzk5/C+poW7sh7pfRS5P9xsZUW+5QVveKqiwb0UVhpUX+gaATccms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752599784; c=relaxed/simple;
-	bh=PrU3Yqi4UGcPg0ATgVv4HWuQWw0VsqMPP+ZbF6q5EoM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rz/NESkl6lZgOeXp4I+hPmS4uvJUuajmvWvPxwkZqpaJmhnC1JBDTR6WY7+BSiYoPuYoeZs+2gxtmJDcZLbAW+Sf5Ov2VEMZd7zRy0W7WXTO2MUkDd/GOJHwgyZfE/9LIBBhmRH0rA9DvUGcTF7+n/ifePFxQ7XhRPNtHXMIVO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kh5TG3IX; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1752600443; c=relaxed/simple;
+	bh=ovPKG96PX8GRLMCJnscYphDbflIJz5ol2cbrtMEYKMU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fBF9xyu4KnzrVCKIQJmq4gLyX5BJY9se5kwu0ORlE3/Jg+9DZhE0IDk5aKPMCnVF8kW2sri1h8ll5Q/hXPra5JBDT+URJ/qEgvgTdVXQkcd2h54Vkr7FQuilII3SQsI5uk3BdqlCc8bEJt9e08sWkUMFJ0XzJ3VQsjygO0/15mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ASIAXXDf; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kh5TG3IX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ASIAXXDf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752599782; x=1784135782;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PrU3Yqi4UGcPg0ATgVv4HWuQWw0VsqMPP+ZbF6q5EoM=;
-  b=kh5TG3IXXFiDf9yNtqJmoeoYigchTVPBq5E+byTQwZAaQhX7fNtbofbg
-   w/0WJa1rIjtO4YfEi/eOXVo10aHFzEjYt/ZUt0u5PdzQlcPzVeBhiWHAp
-   a8nhakxaPcEUjrcQA63X9aJqTGXwaZCgOQTYsM6NNvuxVhp9kSRtGtCJq
-   by8OjRFDrAIALz4mXFuvSvyo2Jf+Y0+XuncnvMhNznRsb6vHkRnNOem8a
-   JFgzOCaAhddC55j4Ymic7lSKnVtENXTKVaZka/1pIV6Ay4TMg4iT6RJ2n
-   WKjP2zwXVQ+qsBSUrikdIbbSLnHR3iQ1r7w8EXtPcLd6HO+PEYMVic7QQ
-   g==;
-X-CSE-ConnectionGUID: bU8NZg/vTiKqnRliaXrBhw==
-X-CSE-MsgGUID: IF7/wMRqS1Osafxth9MMlg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="65528356"
+  t=1752600442; x=1784136442;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ovPKG96PX8GRLMCJnscYphDbflIJz5ol2cbrtMEYKMU=;
+  b=ASIAXXDfR4dIAnnBg1lb50ru05ofyavLYWbf6KaHN66add6mxTtUP/JS
+   mKlIp9qTSfCeFoPFSbkc3JhHGsdhDwjDJ/MrYF9MKhHwbqrCiW9OgFgFb
+   QWjMYaqaxbhrZj/3BXU3ks0eJEK34QthKDb5yJ5YMr+27jNm+WMg2ZbZf
+   dRTdtjF5eifaDsv1GH993YRmZleTwrwAf3+4/UnOQ1FTCOnSX6EOS/Q1B
+   TD95Ce1lT1Ggdhg5m5bACj1Nc5NpTuSAfFn2YkWQ6/xK5XGJCfTt8N6zY
+   fa6x70wBE2l/OTk1YF8ogn/pTHtV7BK4exJRG1LfOb0V4ksmD28pdoe9k
+   w==;
+X-CSE-ConnectionGUID: QWsY77JTRAOVlXxqj2jLMA==
+X-CSE-MsgGUID: PwWOh+p2SQGhMEQFEiARlw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54048314"
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="65528356"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 10:16:21 -0700
-X-CSE-ConnectionGUID: 2H01EHM8Q1qUqWJKtZJnbg==
-X-CSE-MsgGUID: oiVvFcGoTEGmnUOT+PXSHg==
+   d="scan'208";a="54048314"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 10:27:21 -0700
+X-CSE-ConnectionGUID: dJg+dbpVQYq+HakiiLMIUQ==
+X-CSE-MsgGUID: kn5/sUpZQIa1Yvs1bCgxAA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,313,1744095600"; 
-   d="scan'208";a="161834218"
+   d="scan'208";a="161605026"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 15 Jul 2025 10:16:20 -0700
+  by orviesa003.jf.intel.com with ESMTP; 15 Jul 2025 10:27:15 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubjGM-000BNb-0e;
-	Tue, 15 Jul 2025 17:16:18 +0000
-Date: Wed, 16 Jul 2025 01:16:07 +0800
+	id 1ubjQu-000BNn-1v;
+	Tue, 15 Jul 2025 17:27:12 +0000
+Date: Wed, 16 Jul 2025 01:26:23 +0800
 From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com, lin.x.wang@intel.com, pei.p.jia@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 0/92] mm/vmscan.c:186:38: error: macro
- "get_total_swap_pages" passed 1 arguments, but takes just 0
-Message-ID: <202507160133.BonSg8r7-lkp@intel.com>
+To: Colton Lewis <coltonlewis@google.com>, kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Russell King <linux@armlinux.org.uk>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Mingwei Zhang <mizhang@google.com>, Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Colton Lewis <coltonlewis@google.com>
+Subject: Re: [PATCH v4 22/23] KVM: arm64: Add ioctl to partition the PMU when
+ supported
+Message-ID: <202507160129.vrvWpdVu-lkp@intel.com>
+References: <20250714225917.1396543-23-coltonlewis@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,45 +77,62 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250714225917.1396543-23-coltonlewis@google.com>
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   c71e88ad12bfbc44f855b681ef923e1acc2e984a
-commit: 5291f45f705b03858f36c68bbdfdbdf7857e651b [0/92] bytedance: mm: add /proc knob for proactive swappiness
-config: x86_64-buildonly-randconfig-001-20250715 (https://download.01.org/0day-ci/archive/20250716/202507160133.BonSg8r7-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160133.BonSg8r7-lkp@intel.com/reproduce)
+Hi Colton,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 79150772457f4d45e38b842d786240c36bb1f97f]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Colton-Lewis/arm64-cpufeature-Add-cpucap-for-HPMN0/20250715-070741
+base:   79150772457f4d45e38b842d786240c36bb1f97f
+patch link:    https://lore.kernel.org/r/20250714225917.1396543-23-coltonlewis%40google.com
+patch subject: [PATCH v4 22/23] KVM: arm64: Add ioctl to partition the PMU when supported
+config: arm64-randconfig-003-20250715 (https://download.01.org/0day-ci/archive/20250716/202507160129.vrvWpdVu-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507160129.vrvWpdVu-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507160133.BonSg8r7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507160129.vrvWpdVu-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> mm/vmscan.c:186:38: error: macro "get_total_swap_pages" passed 1 arguments, but takes just 0
-     186 | inline long get_total_swap_pages(void)
-         |                                      ^
-   In file included from mm/vmscan.c:20:
-   include/linux/swap.h:565: note: macro "get_total_swap_pages" defined here
-     565 | #define get_total_swap_pages()                  0L
-         | 
->> mm/vmscan.c:187:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
-     187 | {
-         | ^
-   mm/vmscan.c: In function 'demote_page_list':
-   mm/vmscan.c:761:13: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-     761 |         int err;
-         |             ^~~
+   In file included from arch/arm64/include/asm/kvm_host.h:31,
+                    from include/linux/kvm_host.h:45,
+                    from arch/arm64/kernel/asm-offsets.c:15:
+   arch/arm64/include/asm/kvm_pmu.h: In function 'kvm_pmu_is_partitioned':
+>> arch/arm64/include/asm/kvm_pmu.h:301:43: error: parameter name omitted
+    static inline bool kvm_pmu_is_partitioned(void *)
+                                              ^~~~~~
+   arch/arm64/include/asm/kvm_pmu.h: In function 'kvm_pmu_host_counter_mask':
+   arch/arm64/include/asm/kvm_pmu.h:306:45: error: parameter name omitted
+    static inline u64 kvm_pmu_host_counter_mask(void *)
+                                                ^~~~~~
+   arch/arm64/include/asm/kvm_pmu.h: In function 'kvm_pmu_guest_counter_mask':
+   arch/arm64/include/asm/kvm_pmu.h:311:46: error: parameter name omitted
+    static inline u64 kvm_pmu_guest_counter_mask(void *)
+                                                 ^~~~~~
+   make[3]: *** [scripts/Makefile.build:182: arch/arm64/kernel/asm-offsets.s] Error 1 shuffle=21662191
+   make[3]: Target 'prepare' not remade because of errors.
+   make[2]: *** [Makefile:1274: prepare0] Error 2 shuffle=21662191
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=21662191
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=21662191
+   make: Target 'prepare' not remade because of errors.
 
 
-vim +/get_total_swap_pages +186 mm/vmscan.c
+vim +301 arch/arm64/include/asm/kvm_pmu.h
 
-   185	
- > 186	inline long get_total_swap_pages(void)
- > 187	{
-   188		return proactive_swappiness_enabled ? 0 : total_swap_pages;
-   189	}
-   190	
+   300	
+ > 301	static inline bool kvm_pmu_is_partitioned(void *)
+   302	{
+   303		return false;
+   304	}
+   305	
 
 -- 
 0-DAY CI Kernel Test Service
