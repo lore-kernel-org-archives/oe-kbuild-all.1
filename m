@@ -1,72 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 832642BEC41;
-	Tue, 15 Jul 2025 01:45:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDB602747B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 15 Jul 2025 02:16:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752543958; cv=none; b=Ug2nkGCpwio0z+snvO6DiPHtB16kkfSO065iy9zUGScL7s6XYHPo0lyvIipI87eLitsot4CyuiOxlWGOFpOHNSooNahUM0tNCx+s+AZIPnQsqQfQe6J/MdxViuKg9bVIG/wVwV2Xd4ulwpag5Wp8yVnR6i2ty6sz/oWQF9/9U7g=
+	t=1752545817; cv=none; b=HxEAGoBSsPEdidMqIDZp6UNV1LreyqH2H24p9kh9ZpYgg20/p2lasmklTA55H+1sIARpugOSvYRyJZYo4SveVSTx7Uddm2VHM2H1iSqPxtx8WQVZJpMVtp9TROR0S1KiSDcBsNrHEplhDwTRgevN8PGLQODymboBVXrMeXOIbBc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752543958; c=relaxed/simple;
-	bh=/swcXr2ss79nJxFip+SNNqYNuVuEmY4AkU1neU+GXDQ=;
+	s=arc-20240116; t=1752545817; c=relaxed/simple;
+	bh=jmxCqU7vT9wDGVqn13z5bf8xdfrCR0BgKtLcYkpE5QY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a/cHBex2ImmzWcbIaXzm6H4UpvJOLJIvgLGTvqTTnJkM1b0M7vhJWFwUH0Obx3uGAxkLF98rLiGuKvhZy7WsBVIZmO3rMyo2OuptSvZIBo6R/4KpxGTwJnmthEMAd6LPOXE/ZGZtz2lv5kkMA4jNuoroyOnxEOzwCt8lwgJUcIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VaYijqUi; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=pXOppAm0jOQYlB1Hdk9/zp8mwJO1Py7rix7bZtJGOxj2FXoaQG7ELz/CvXv6wlNLoiZFbc7ext7TRMT7QiNgvm4rzyN/tHPAfvZJvm9CLfUtMV2/xju3E9sni492+Rce+D6dwJlOXreXSV22O7OmI//fcDISTbAPRDnFUeD6cD0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LAGiYCwz; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VaYijqUi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LAGiYCwz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752543956; x=1784079956;
+  t=1752545816; x=1784081816;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=/swcXr2ss79nJxFip+SNNqYNuVuEmY4AkU1neU+GXDQ=;
-  b=VaYijqUi0xfEBYEfYfCe0jZMGPeCNnnSUAdY3gFX7lRTGO/QWmV4/5V9
-   EgwYbwoF9o0cVORYDFFc6oSkpfN2j1PWnZqe6HOlQRkhvLyMF40xEjz+r
-   CzES+N+eVCAzDuELcrvigNym6v5yRydGoPWdUOjaPRwdjQm19U55Kp87o
-   kjKzqH8da61s0LlR/1raEhvOPjkyJh9+RgS+OX31kNC+mxcEiyol1yk3t
-   NeTOK6mC1l8KKK4q51vX2A2GCJwVv45iJOCf7c3CszJPj5PMSRBgshcN0
-   0jUJeSeL99AgyzhGVMuiste+SyZjUZ6O+XTXGiaF6TCbB+0aYGyv0IBB9
+  bh=jmxCqU7vT9wDGVqn13z5bf8xdfrCR0BgKtLcYkpE5QY=;
+  b=LAGiYCwzGEHHB2nZa1e5BHHfkfFy42PnnTh4xsk5tXvC3sl4LZPVZqSG
+   gOwsfz3uJhwg1kDnJpujK5EMmok9QM0kZ0wO0SVn341o3JmFZmkdQu/D/
+   MaS6ePgpkXdUIr8pmvLd2+mfFgXpED98yJ+POW/prYpeSd+5QwkoUiY4Y
+   Q7tORsdwq/TYTK0FDnbmyTwwd6hUdNhyZFJlteYjD3Yv5N2t4Jxn7h3D5
+   CpyGKL3qUUqf4W8gJTM86rxZ1c0seQQ9O7bQiJA7no2MwO+vAY3UIWcYR
+   Pr9ohq0CErp0qporiKn/HLgflcBiWmBkjiTu2NWoyeOzqOLa0R3dUBa9K
    A==;
-X-CSE-ConnectionGUID: d7wi7Si/SFmEed7V2ScSww==
-X-CSE-MsgGUID: 8igI+hd6QjeoYxkRLMCdLA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="57360560"
+X-CSE-ConnectionGUID: YeIAv1mqQJaFcSp1+9dC+g==
+X-CSE-MsgGUID: +IxrFiJLSAuliF2r6ScT0A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11491"; a="66202050"
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="57360560"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 18:45:55 -0700
-X-CSE-ConnectionGUID: yu+/zp4GTtKNOp/AuwsKwA==
-X-CSE-MsgGUID: J3Rvn9+kRXemF9VDSSLEcg==
+   d="scan'208";a="66202050"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Jul 2025 19:16:56 -0700
+X-CSE-ConnectionGUID: YPJe4lDXQxS/h0wBLeMU/w==
+X-CSE-MsgGUID: M9YyJfrZSWqedUuQIlDCJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,312,1744095600"; 
-   d="scan'208";a="162633732"
+   d="scan'208";a="157813800"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 14 Jul 2025 18:45:48 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 14 Jul 2025 19:16:52 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubUjr-0009Wt-01;
-	Tue, 15 Jul 2025 01:45:47 +0000
-Date: Tue, 15 Jul 2025 09:45:38 +0800
+	id 1ubVDt-0009Y3-3C;
+	Tue, 15 Jul 2025 02:16:49 +0000
+Date: Tue, 15 Jul 2025 10:16:17 +0800
 From: kernel test robot <lkp@intel.com>
-To: Byungchul Park <byungchul@sk.com>, willy@infradead.org,
-	netdev@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	kernel_team@skhynix.com, almasrymina@google.com,
-	ilias.apalodimas@linaro.org, harry.yoo@oracle.com,
-	akpm@linux-foundation.org, andrew+netdev@lunn.ch,
-	asml.silence@gmail.com, toke@redhat.com, david@redhat.com,
-	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
-	surenb@google.com, mhocko@suse.com, linux-rdma@vger.kernel.org,
-	bpf@vger.kernel.org, vishal.moola@gmail.com, hannes@cmpxchg.org,
-	ziy@nvidia.com, jackmanb@google.com, wei.fang@nxp.com,
-	shenwei.wang@nxp.com, xiaoning.wang@nxp.com, davem@davemloft.net,
-	edumazet@google.com, kuba@kernel.org
-Subject: Re: [PATCH net-next v10 12/12] libeth: xdp: access ->pp through
- netmem_desc instead of page
-Message-ID: <202507150904.kGZOOZns-lkp@intel.com>
-References: <20250714120047.35901-13-byungchul@sk.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-mediatek@lists.infradead.org
+Cc: oe-kbuild-all@lists.linux.dev, lee@kernel.org, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com, lgirdwood@gmail.com,
+	broonie@kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	kernel@collabora.com
+Subject: Re: [PATCH v2 4/8] regulator: Add support for MediaTek MT6363 SPMI
+ PMIC Regulators
+Message-ID: <202507150934.VLFQsCyK-lkp@intel.com>
+References: <20250707134451.154346-5-angelogioacchino.delregno@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,77 +69,109 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250714120047.35901-13-byungchul@sk.com>
+In-Reply-To: <20250707134451.154346-5-angelogioacchino.delregno@collabora.com>
 
-Hi Byungchul,
+Hi AngeloGioacchino,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on c65d34296b2252897e37835d6007bbd01b255742]
+[auto build test ERROR on broonie-regulator/for-next]
+[also build test ERROR on lee-mfd/for-mfd-next lee-mfd/for-mfd-fixes lee-leds/for-leds-next linus/master v6.16-rc6 next-20250714]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/netmem-introduce-struct-netmem_desc-mirroring-struct-page/20250714-200214
-base:   c65d34296b2252897e37835d6007bbd01b255742
-patch link:    https://lore.kernel.org/r/20250714120047.35901-13-byungchul%40sk.com
-patch subject: [PATCH net-next v10 12/12] libeth: xdp: access ->pp through netmem_desc instead of page
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250715/202507150904.kGZOOZns-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150904.kGZOOZns-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/dt-bindings-regulator-Document-MediaTek-MT6316-PMIC-Regulators/20250707-214911
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
+patch link:    https://lore.kernel.org/r/20250707134451.154346-5-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v2 4/8] regulator: Add support for MediaTek MT6363 SPMI PMIC Regulators
+config: openrisc-allyesconfig (https://download.01.org/0day-ci/archive/20250715/202507150934.VLFQsCyK-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250715/202507150934.VLFQsCyK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507150904.kGZOOZns-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507150934.VLFQsCyK-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from drivers/net/ethernet/intel/libeth/tx.c:6:
->> include/net/libeth/xdp.h:1295:23: error: passing 'const struct page *' to parameter of type 'struct page *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
-    1295 |                          pp_page_to_nmdesc(page)->pp->p.offset, len, true);
-         |                                            ^~~~
-   include/net/netmem.h:270:66: note: passing argument to parameter 'page' here
-     270 | static inline struct netmem_desc *pp_page_to_nmdesc(struct page *page)
-         |                                                                  ^
-   1 error generated.
+   drivers/regulator/mt6363-regulator.c: In function 'mt6363_vemc_set_voltage_sel':
+>> drivers/regulator/mt6363-regulator.c:457:23: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+     457 |                 sel = FIELD_PREP(MT6363_RG_VEMC_VOSEL_1_MASK, sel);
+         |                       ^~~~~~~~~~
+   drivers/regulator/mt6363-regulator.c: In function 'mt6363_vemc_get_voltage_sel':
+>> drivers/regulator/mt6363-regulator.c:489:23: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+     489 |                 ret = FIELD_GET(MT6363_RG_VEMC_VOSEL_1_MASK, sel);
+         |                       ^~~~~~~~~
 
 
-vim +1295 include/net/libeth/xdp.h
+vim +/FIELD_PREP +457 drivers/regulator/mt6363-regulator.c
 
-  1263	
-  1264	bool libeth_xdp_buff_add_frag(struct libeth_xdp_buff *xdp,
-  1265				      const struct libeth_fqe *fqe,
-  1266				      u32 len);
-  1267	
-  1268	/**
-  1269	 * libeth_xdp_prepare_buff - fill &libeth_xdp_buff with head FQE data
-  1270	 * @xdp: XDP buffer to attach the head to
-  1271	 * @fqe: FQE containing the head buffer
-  1272	 * @len: buffer len passed from HW
-  1273	 *
-  1274	 * Internal, use libeth_xdp_process_buff() instead. Initializes XDP buffer
-  1275	 * head with the Rx buffer data: data pointer, length, headroom, and
-  1276	 * truesize/tailroom. Zeroes the flags.
-  1277	 * Uses faster single u64 write instead of per-field access.
-  1278	 */
-  1279	static inline void libeth_xdp_prepare_buff(struct libeth_xdp_buff *xdp,
-  1280						   const struct libeth_fqe *fqe,
-  1281						   u32 len)
-  1282	{
-  1283		const struct page *page = __netmem_to_page(fqe->netmem);
-  1284	
-  1285	#ifdef __LIBETH_WORD_ACCESS
-  1286		static_assert(offsetofend(typeof(xdp->base), flags) -
-  1287			      offsetof(typeof(xdp->base), frame_sz) ==
-  1288			      sizeof(u64));
-  1289	
-  1290		*(u64 *)&xdp->base.frame_sz = fqe->truesize;
-  1291	#else
-  1292		xdp_init_buff(&xdp->base, fqe->truesize, xdp->base.rxq);
-  1293	#endif
-  1294		xdp_prepare_buff(&xdp->base, page_address(page) + fqe->offset,
-> 1295				 pp_page_to_nmdesc(page)->pp->p.offset, len, true);
-  1296	}
-  1297	
+   432	
+   433	static int mt6363_vemc_set_voltage_sel(struct regulator_dev *rdev, unsigned int sel)
+   434	{
+   435		const u16 tma_unlock_key = MT6363_TMA_UNLOCK_VALUE;
+   436		struct regmap *regmap = rdev->regmap;
+   437		unsigned int val;
+   438		u16 mask;
+   439		int ret;
+   440	
+   441		ret = regmap_read(rdev->regmap, MT6363_TOP_TRAP, &val);
+   442		if (ret)
+   443			return ret;
+   444	
+   445		if (val > 1)
+   446			return -EINVAL;
+   447	
+   448		/* Unlock TMA for writing */
+   449		ret = regmap_bulk_write(rdev->regmap, MT6363_TOP_TMA_KEY_L,
+   450					&tma_unlock_key, sizeof(tma_unlock_key));
+   451		if (ret)
+   452			return ret;
+   453	
+   454		/* If HW trapping value is 1, use VEMC_VOSEL_1 instead of VEMC_VOSEL_0 */
+   455		if (val == 1) {
+   456			mask = MT6363_RG_VEMC_VOSEL_1_MASK;
+ > 457			sel = FIELD_PREP(MT6363_RG_VEMC_VOSEL_1_MASK, sel);
+   458		} else {
+   459			mask = rdev->desc->vsel_mask;
+   460		}
+   461	
+   462		/* Function must return the result of this write operation */
+   463		ret = regmap_update_bits(regmap, rdev->desc->vsel_reg, mask, sel);
+   464	
+   465		/* Unconditionally re-lock TMA */
+   466		val = 0;
+   467		regmap_bulk_write(rdev->regmap, MT6363_TOP_TMA_KEY_L, &val, 2);
+   468	
+   469		return ret;
+   470	}
+   471	
+   472	static int mt6363_vemc_get_voltage_sel(struct regulator_dev *rdev)
+   473	{
+   474		unsigned int sel, trap;
+   475		int ret;
+   476	
+   477		ret = regmap_read(rdev->regmap, rdev->desc->vsel_reg, &sel);
+   478		if (ret)
+   479			return ret;
+   480	
+   481		ret = regmap_read(rdev->regmap, MT6363_TOP_TRAP, &trap);
+   482		if (ret)
+   483			return ret;
+   484	
+   485		/* If HW trapping value is 1, use VEMC_VOSEL_1 instead of VEMC_VOSEL_0 */
+   486		if (trap > 1)
+   487			return -EINVAL;
+   488		else if (trap == 1)
+ > 489			ret = FIELD_GET(MT6363_RG_VEMC_VOSEL_1_MASK, sel);
+   490		else
+   491			ret = sel & rdev->desc->vsel_mask;
+   492	
+   493		return ret;
+   494	}
+   495	
 
 -- 
 0-DAY CI Kernel Test Service
