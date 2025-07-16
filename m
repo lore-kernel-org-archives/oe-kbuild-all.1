@@ -1,134 +1,274 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BFD32F5475
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Jul 2025 17:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017832E3715;
+	Wed, 16 Jul 2025 17:07:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752685235; cv=none; b=o6QrzutAg+nNEZCbXniivrPKFBtoW+7IfJu4MY3LmlwPCT4Ez3SplL6zN1hKWlRu2ra3bbffulWJYE6SZcFJmNvKWoVY1O0+mHZmAZZ2OaHtuatQnVZp6YEjlEQgkNUUTImBXB5yDByW2x85f4zAT8DOMWU0PBIGW4xZdZm6iB0=
+	t=1752685628; cv=none; b=CtsfjoFcPU+9CAypKOvjmzdG6tSLL9vf0GuWVTy+dCsRefEMioAx22ohdnEwlwZsWVp2ay8YwiWWVeK4+w4igvpjix5TwNhi9IN7IPenjOOpszV+PZgXU6bXS1+85ZkL3uwEMiiCS8fxMptVf8swrbxqGW/09cB+K+jVacj3k5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752685235; c=relaxed/simple;
-	bh=VT2e/D8TNHzCkI96xQbHOMePD40bqojitO9TYfZwJRU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l9WvY/QwCWNpWAru2wegxaNs8k21c5V+oECtYvwX7RiI7Bs3WNSCg6K31OxiUy7M+u/5c6Aub6+1YMmJvmC6Nk4x6dMi6fOynKQHYcR4JdbaCJr3fwsxmrmVs3r2DXUIfsL4xFudO4Wq2RdKf4iu23Y15Dkiup8w8HZFdnpxG34=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=EGW2SqND; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1752685628; c=relaxed/simple;
+	bh=ozLL/QFmo2pHoj2feRI+FxBikPSiw+DVoWzCKsX0F7w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kbIby4i5wldPE2UvQo8qUBOgnuLvkairofJL8Ilaus5LpfWb+tDROtepY+hbvJzvZihCB+4MMd5jPqhDPPunjVzV8iBYJaaBHx0OpQthtgBFpJys/PpABwjC9NGz5b/755uWi7sim9lTu2c9q3tzUPGdkurI9oOuATTeGD31myA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XYNDzC3e; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="EGW2SqND"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1752685232;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9bKE/0cNtoQ/CuczzprbbV3beLrr2MpjH/0TxwAvYDI=;
-	b=EGW2SqNDS+bbvfZeAe7m0XkeSE/5InZp+3e8Cm9971xBLykYMr0Id2ZKD6lhZf2L14cb7E
-	m/7j21puwycBSAL1z5yPa+WPPIcNV7qCtSSmndOl4e2MIfmaQBvEJL0v9ZDdhcEouARXw7
-	N1R7nTs676nXIO0KAIF44/eoIk4Gb3s=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-246-CN3gsIJqPT68DAcElHVEmA-1; Wed, 16 Jul 2025 13:00:31 -0400
-X-MC-Unique: CN3gsIJqPT68DAcElHVEmA-1
-X-Mimecast-MFC-AGG-ID: CN3gsIJqPT68DAcElHVEmA_1752685230
-Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-86cf803792dso23939f.3
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Jul 2025 10:00:31 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752685230; x=1753290030;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9bKE/0cNtoQ/CuczzprbbV3beLrr2MpjH/0TxwAvYDI=;
-        b=KG9meYpU2p5xDcafpgAKUQqzEimsBQiW9swc99rbY9ShZab1HLEVIXEs7iLjW9Am4x
-         3+hyOrXei7RUIDtWkqGBaFwVwgMXFa0+VGXYIMks5AN7Na2Nm8BqqSDLqWx3U04CXwpo
-         sWHO4GARsuwe1d4GxcogCF77CD0mN7uozEYePdkJTjZT5ObCsNiJ+jc7WjIKUFtNiWyI
-         PnFiblTuq16FDWqiILM13U1A7ZeQG5LTneYaibUfMlMnqcCFkBkC0TgtblKlkK4ujCF/
-         AhtYxYG8VPQInhs9oHrtWb1QPRDEZmOR3o3uDnhFkY3nSsStji6y6A3RzZudFXIuc5r9
-         JjoA==
-X-Forwarded-Encrypted: i=1; AJvYcCWhYhcnqr0L/4dG18+uziVF8cS7/Vu72ckFZAC7Dj43yjush+eF3Qq8gIV8jdHzEu9X1VMom/e3Yy4hFuP0@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyn/ZkkZEaOqunaQYfC09R9Ql91XNaW4wjWzREaUy41cUGZyNIb
-	QCEQWaqMhTlpn+UaQ2opwwJ6aE7Kic1UHCE5+DdnmgD3zdpwUpnvOGhAbl4I5x/25BHL5mxoQ8U
-	dRUHoaUrkCcW6t8ACtlzkIMGFHIfXwLXQT7kga8S1CxwnobBhyFElRWaP+VCYPwfeeB8=
-X-Gm-Gg: ASbGncu3Thz8xPuK9ooVSWDDfqXtIXFHd6U40WWOFz/IlGRS+XrU+8AGyD1GEUgTxd1
-	TeJJLqJLOGVoKC5mSuHGcH3u2dCNDBYzoqy11Lw3bCqwoHw5fO/9FEkDg4QltR/a1m/UikVzr8T
-	yClKwXGyb0bc+KaBrIFWnUPfQZydPsSgq8pnGtCUdIAz9DClv+l4ZiLgMfbs950m1Qy+sAIqw9Y
-	toyOHTanlfZNyI4fuW1Z5KFZLpt9DbB0Lk5avZ0aNyxW4rqvqWCJv1KXtVdzKmItR4vH+HHPwcL
-	ckE2rmElKqpUZgYTpo5dEqRM8JFlJgKd0yF+v4y5h+o=
-X-Received: by 2002:a05:6602:1690:b0:85e:12c1:fe90 with SMTP id ca18e2360f4ac-879c096efeamr126747539f.5.1752685229885;
-        Wed, 16 Jul 2025 10:00:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE+tZmWUIYwitvuBgGnxfswO12NMpp8mD2icMHkWg5+YtIZRRU8sqVvx4qLf0KrRuHgGBPToA==
-X-Received: by 2002:a05:6602:1690:b0:85e:12c1:fe90 with SMTP id ca18e2360f4ac-879c096efeamr126745539f.5.1752685229362;
-        Wed, 16 Jul 2025 10:00:29 -0700 (PDT)
-Received: from redhat.com ([38.15.36.11])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-505569d0e42sm3119302173.101.2025.07.16.10.00.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 10:00:28 -0700 (PDT)
-Date: Wed, 16 Jul 2025 11:00:27 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev,
- Ankit Agrawal <ankita@nvidia.com>, Brett Creeley <brett.creeley@amd.com>,
- Giovanni Cabiddu <giovanni.cabiddu@intel.com>, Kevin Tian
- <kevin.tian@intel.com>, kvm@vger.kernel.org, Longfang Liu
- <liulongfang@huawei.com>, qat-linux@intel.com, Shameer Kolothum
- <shameerali.kolothum.thodi@huawei.com>, virtualization@lists.linux.dev, Xin
- Zeng <xin.zeng@intel.com>, Yishai Hadas <yishaih@nvidia.com>,
- lkp@intel.com, oe-kbuild-all@lists.linux.dev, patches@lists.linux.dev
-Subject: Re: [PATCH v3] vfio/pci: Do vf_token checks for
- VFIO_DEVICE_BIND_IOMMUFD
-Message-ID: <20250716110027.7e94129f.alex.williamson@redhat.com>
-In-Reply-To: <20250715230618.GV2067380@nvidia.com>
-References: <0-v3-bdd8716e85fe+3978a-vfio_token_jgg@nvidia.com>
-	<76f27eb9-7f56-45e7-813e-e3f595f3b6e9@suswa.mountain>
-	<20250715230618.GV2067380@nvidia.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XYNDzC3e"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752685626; x=1784221626;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ozLL/QFmo2pHoj2feRI+FxBikPSiw+DVoWzCKsX0F7w=;
+  b=XYNDzC3eEMJcaGAMOMGq5b0YORD7YiutdPElcNYuc+wAHtUdJHmCQ9xj
+   g4YxQJeYIcaEWZj5d4J7icpnUvQXJvbBNwnx/x0loNODujFL1G2F2odLk
+   a+M2K4XnCX7dhOjr8Jl9zKy/oYHF/9dexqp7++jD2PTmwA8rYQEvBHGxc
+   G055GfJS/OsgsYOqY0JVrJGHfm97+pdkJvPoaXShgXSIEjVE717utLQf2
+   pY8cTjSnfVsKFoQvSanzBEKrOxnIAzBL1ClkGYNDZuoeteeIJYBDl2cR3
+   Ry/BIjxrp2np1WonbNwla7BFpRcTbYuA2p27jlMz5PkB76NDhOo2hPI4q
+   A==;
+X-CSE-ConnectionGUID: rJK5jMsxTM+pgbnHQZePNA==
+X-CSE-MsgGUID: S7A8XYcjSp6lpHIVUlZjBQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="55062033"
+X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
+   d="scan'208";a="55062033"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 10:07:05 -0700
+X-CSE-ConnectionGUID: zAyo8EnIQBKBo6vorC2p4g==
+X-CSE-MsgGUID: lnn9ExV0QgK+ytn/+P6euA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
+   d="scan'208";a="163188380"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 16 Jul 2025 10:07:01 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uc5as-000CfR-0h;
+	Wed, 16 Jul 2025 17:06:58 +0000
+Date: Thu, 17 Jul 2025 01:06:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Wei Gao <wegao@suse.com>, Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	"Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Penglei Jiang <superman.xpt@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Brahmajit Das <brahmajit.xyz@gmail.com>,
+	Andrei Vagin <avagin@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Ryan Roberts <ryan.roberts@arm.com>, linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Wei Gao <wegao@suse.com>
+Subject: Re: [PATCH] fs/proc: Use inode_get_dev() for device numbers in
+ procmap_query
+Message-ID: <202507170038.QWz19iZa-lkp@intel.com>
+References: <20250716142732.3385310-1-wegao@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-MFC-PROC-ID: QbDseL6mwHVZDzn_gGKil4ys4iVCnJj447Ymi3_HSjM_1752685230
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250716142732.3385310-1-wegao@suse.com>
 
-On Tue, 15 Jul 2025 20:06:18 -0300
-Jason Gunthorpe <jgg@nvidia.com> wrote:
+Hi Wei,
 
-> On Wed, Jul 16, 2025 at 01:55:45AM +0300, Dan Carpenter wrote:
-> > 5fcc26969a164e Yi Liu          2023-07-18  117  	mutex_lock(&device->dev_set->lock);
-> > 5fcc26969a164e Yi Liu          2023-07-18  118  	/* one device cannot be bound twice */
-> > 5fcc26969a164e Yi Liu          2023-07-18  119  	if (df->access_granted) {
-> > 5fcc26969a164e Yi Liu          2023-07-18  120  		ret = -EINVAL;
-> > 5fcc26969a164e Yi Liu          2023-07-18  121  		goto out_unlock;
-> > 5fcc26969a164e Yi Liu          2023-07-18  122  	}
-> > 5fcc26969a164e Yi Liu          2023-07-18  123  
-> > be2e70b96c3e54 Jason Gunthorpe 2025-07-14  124  	ret = vfio_df_check_token(device, &bind);
-> > be2e70b96c3e54 Jason Gunthorpe 2025-07-14  125  	if (ret)
-> > be2e70b96c3e54 Jason Gunthorpe 2025-07-14 @126  		return ret;
-> > 
-> > This needs to be a goto unlock.  
-> 
-> Oop yes, thank you
-> 
-> Alex can you fix it up when applying?
+kernel test robot noticed the following build errors:
 
-Yes, I'll apply with:
+[auto build test ERROR on brauner-vfs/vfs.all]
+[also build test ERROR on akpm-mm/mm-everything crng-random/master linus/master v6.16-rc6 next-20250716]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/drivers/vfio/device_cdev.c b/drivers/vfio/device_cdev.c
-index 53a602563f00..480cac3a0c27 100644
---- a/drivers/vfio/device_cdev.c
-+++ b/drivers/vfio/device_cdev.c
-@@ -123,7 +123,7 @@ long vfio_df_ioctl_bind_iommufd(struct vfio_device_file *df,
- 
- 	ret = vfio_df_check_token(device, &bind);
- 	if (ret)
--		return ret;
-+		goto out_unlock;
- 
- 	df->iommufd = iommufd_ctx_from_fd(bind.iommufd);
- 	if (IS_ERR(df->iommufd)) {
+url:    https://github.com/intel-lab-lkp/linux/commits/Wei-Gao/fs-proc-Use-inode_get_dev-for-device-numbers-in-procmap_query/20250716-103031
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250716142732.3385310-1-wegao%40suse.com
+patch subject: [PATCH] fs/proc: Use inode_get_dev() for device numbers in procmap_query
+config: i386-buildonly-randconfig-002-20250716 (https://download.01.org/0day-ci/archive/20250717/202507170038.QWz19iZa-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507170038.QWz19iZa-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507170038.QWz19iZa-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> fs/proc/task_mmu.c:521:26: error: call to undeclared function 'inode_get_dev'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     521 |                 karg.dev_major = MAJOR(inode_get_dev(inode));
+         |                                        ^
+   fs/proc/task_mmu.c:521:26: note: did you mean 'inode_get_bytes'?
+   include/linux/fs.h:3567:8: note: 'inode_get_bytes' declared here
+    3567 | loff_t inode_get_bytes(struct inode *inode);
+         |        ^
+   1 error generated.
+
+
+vim +/inode_get_dev +521 fs/proc/task_mmu.c
+
+   453	
+   454	static int do_procmap_query(struct proc_maps_private *priv, void __user *uarg)
+   455	{
+   456		struct procmap_query karg;
+   457		struct vm_area_struct *vma;
+   458		struct mm_struct *mm;
+   459		const char *name = NULL;
+   460		char build_id_buf[BUILD_ID_SIZE_MAX], *name_buf = NULL;
+   461		__u64 usize;
+   462		int err;
+   463	
+   464		if (copy_from_user(&usize, (void __user *)uarg, sizeof(usize)))
+   465			return -EFAULT;
+   466		/* argument struct can never be that large, reject abuse */
+   467		if (usize > PAGE_SIZE)
+   468			return -E2BIG;
+   469		/* argument struct should have at least query_flags and query_addr fields */
+   470		if (usize < offsetofend(struct procmap_query, query_addr))
+   471			return -EINVAL;
+   472		err = copy_struct_from_user(&karg, sizeof(karg), uarg, usize);
+   473		if (err)
+   474			return err;
+   475	
+   476		/* reject unknown flags */
+   477		if (karg.query_flags & ~PROCMAP_QUERY_VALID_FLAGS_MASK)
+   478			return -EINVAL;
+   479		/* either both buffer address and size are set, or both should be zero */
+   480		if (!!karg.vma_name_size != !!karg.vma_name_addr)
+   481			return -EINVAL;
+   482		if (!!karg.build_id_size != !!karg.build_id_addr)
+   483			return -EINVAL;
+   484	
+   485		mm = priv->mm;
+   486		if (!mm || !mmget_not_zero(mm))
+   487			return -ESRCH;
+   488	
+   489		err = query_vma_setup(mm);
+   490		if (err) {
+   491			mmput(mm);
+   492			return err;
+   493		}
+   494	
+   495		vma = query_matching_vma(mm, karg.query_addr, karg.query_flags);
+   496		if (IS_ERR(vma)) {
+   497			err = PTR_ERR(vma);
+   498			vma = NULL;
+   499			goto out;
+   500		}
+   501	
+   502		karg.vma_start = vma->vm_start;
+   503		karg.vma_end = vma->vm_end;
+   504	
+   505		karg.vma_flags = 0;
+   506		if (vma->vm_flags & VM_READ)
+   507			karg.vma_flags |= PROCMAP_QUERY_VMA_READABLE;
+   508		if (vma->vm_flags & VM_WRITE)
+   509			karg.vma_flags |= PROCMAP_QUERY_VMA_WRITABLE;
+   510		if (vma->vm_flags & VM_EXEC)
+   511			karg.vma_flags |= PROCMAP_QUERY_VMA_EXECUTABLE;
+   512		if (vma->vm_flags & VM_MAYSHARE)
+   513			karg.vma_flags |= PROCMAP_QUERY_VMA_SHARED;
+   514	
+   515		karg.vma_page_size = vma_kernel_pagesize(vma);
+   516	
+   517		if (vma->vm_file) {
+   518			const struct inode *inode = file_user_inode(vma->vm_file);
+   519	
+   520			karg.vma_offset = ((__u64)vma->vm_pgoff) << PAGE_SHIFT;
+ > 521			karg.dev_major = MAJOR(inode_get_dev(inode));
+   522			karg.dev_minor = MINOR(inode_get_dev(inode));
+   523			karg.inode = inode->i_ino;
+   524		} else {
+   525			karg.vma_offset = 0;
+   526			karg.dev_major = 0;
+   527			karg.dev_minor = 0;
+   528			karg.inode = 0;
+   529		}
+   530	
+   531		if (karg.build_id_size) {
+   532			__u32 build_id_sz;
+   533	
+   534			err = build_id_parse(vma, build_id_buf, &build_id_sz);
+   535			if (err) {
+   536				karg.build_id_size = 0;
+   537			} else {
+   538				if (karg.build_id_size < build_id_sz) {
+   539					err = -ENAMETOOLONG;
+   540					goto out;
+   541				}
+   542				karg.build_id_size = build_id_sz;
+   543			}
+   544		}
+   545	
+   546		if (karg.vma_name_size) {
+   547			size_t name_buf_sz = min_t(size_t, PATH_MAX, karg.vma_name_size);
+   548			const struct path *path;
+   549			const char *name_fmt;
+   550			size_t name_sz = 0;
+   551	
+   552			get_vma_name(vma, &path, &name, &name_fmt);
+   553	
+   554			if (path || name_fmt || name) {
+   555				name_buf = kmalloc(name_buf_sz, GFP_KERNEL);
+   556				if (!name_buf) {
+   557					err = -ENOMEM;
+   558					goto out;
+   559				}
+   560			}
+   561			if (path) {
+   562				name = d_path(path, name_buf, name_buf_sz);
+   563				if (IS_ERR(name)) {
+   564					err = PTR_ERR(name);
+   565					goto out;
+   566				}
+   567				name_sz = name_buf + name_buf_sz - name;
+   568			} else if (name || name_fmt) {
+   569				name_sz = 1 + snprintf(name_buf, name_buf_sz, name_fmt ?: "%s", name);
+   570				name = name_buf;
+   571			}
+   572			if (name_sz > name_buf_sz) {
+   573				err = -ENAMETOOLONG;
+   574				goto out;
+   575			}
+   576			karg.vma_name_size = name_sz;
+   577		}
+   578	
+   579		/* unlock vma or mmap_lock, and put mm_struct before copying data to user */
+   580		query_vma_teardown(mm, vma);
+   581		mmput(mm);
+   582	
+   583		if (karg.vma_name_size && copy_to_user(u64_to_user_ptr(karg.vma_name_addr),
+   584						       name, karg.vma_name_size)) {
+   585			kfree(name_buf);
+   586			return -EFAULT;
+   587		}
+   588		kfree(name_buf);
+   589	
+   590		if (karg.build_id_size && copy_to_user(u64_to_user_ptr(karg.build_id_addr),
+   591						       build_id_buf, karg.build_id_size))
+   592			return -EFAULT;
+   593	
+   594		if (copy_to_user(uarg, &karg, min_t(size_t, sizeof(karg), usize)))
+   595			return -EFAULT;
+   596	
+   597		return 0;
+   598	
+   599	out:
+   600		query_vma_teardown(mm, vma);
+   601		mmput(mm);
+   602		kfree(name_buf);
+   603		return err;
+   604	}
+   605	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
