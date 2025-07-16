@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E732ECD12;
-	Wed, 16 Jul 2025 21:41:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32882EE295
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Jul 2025 22:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752702101; cv=none; b=CIcKvD2dlm61CMg74K0sAjcps16HG5naldM9AzoXT/8UfS0AK5mUIzMGMmnxo5YsZOw2Glv3nDCLKOojw9QYT1TnmbiqgNHX4N1jxKuPs7KfZFxq9Z7gw5HUYUJ3AH0mKioxPq43uITuJPXYeDlEPaErXdna0XqWc4o7cc3stDs=
+	t=1752703908; cv=none; b=cIo+wTABBwodYlwPAsGSPk9PXkhyim1tQaIXjbszTFX4BYL6uCowsYEs0dtOky9Jkqp1byopXYxslyLx3kfDwmxnK6S0eMmoNh8dUjEZxviMX5/vKZCbA5lejGPtTjaK34C/wJT1ssMLBoTxYtoaKXn5rpYwe/gkZ+ccSo17WX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752702101; c=relaxed/simple;
-	bh=ejg2NgilfZsuVgEFKYoLPFPHlHYZj5/iFnKoONmMhKg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=bC6QkImQFGpz/4qZvUcY7H5xJd4w2llgnO0JgOq1xBKBWD13fNqY83QwYLS+u0dJnfLn+th9d98F8rk7lodBWw16GuC47sM/pr1TQ+KG9VvvcUBsb9NIR55Yxd6TsaffWm0sWWQz1XM0GtoB5Yw0RW0zQYGSlYbR7wxIGX2SvF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=d1mQIJ+Y; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1752703908; c=relaxed/simple;
+	bh=K2LjLva9PTXchgg36uerNQg8thmeshRb0DJSmmwW18Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UwyEyYmVWHUWYawrasoqXcQ0syFaK0dV6iw+evDWCLwvEeBliRXrfGXayNp6xp5mHQWudgAGIz+iqPiKTz7SeYFlQ32szcxBJ2Q6Ol+4Mzsk7wV7giZiZAnYFIkv4xDars2B2CT5N9NdCoge+CugtddDVX0l99Rek/jy4oNqCKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QQKGTL5m; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d1mQIJ+Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QQKGTL5m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752702100; x=1784238100;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ejg2NgilfZsuVgEFKYoLPFPHlHYZj5/iFnKoONmMhKg=;
-  b=d1mQIJ+YFNcHlc8aJFqjoIUM+cDjj8vQcspn6hOJyL7LLCQ+sxYFvz0B
-   3rYnN82GSRdWywEJHQIvJZw7Ur6Tal+E+e3zQQ2gACmKvG0uxmJqQnzNU
-   BhWPxsp1EoAanq2mkKVqxKhRdhSPMnWOadOQ39f2izWm0zPX+G5UISJbf
-   TeoqazqYCYABih410HFuaRHZdGoC4/QZGeLkeKONDHwTLOlLXQ7prLMG/
-   Im6FpqWRl0fi417bWhBgCGIGZZf1byYRGOnp3XsWbT/go89cfZCuH8+Le
-   mgkkiPav6z3uO89Evss8wnkTxoLhGqB+Z0znvxNBKqk0ZO+nf7zo7nVe6
-   w==;
-X-CSE-ConnectionGUID: YXM/z0OjT1Kr2XRUEtbivw==
-X-CSE-MsgGUID: yBD4bGFqSpGw0vURbbNX/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="58734943"
+  t=1752703907; x=1784239907;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=K2LjLva9PTXchgg36uerNQg8thmeshRb0DJSmmwW18Y=;
+  b=QQKGTL5miGKajjCw1hibh4qqm5QxsLI2Yz/ESoV16VN+CRsFGxltWmeI
+   gFMycDxTDMKgBeBA/I3wAO617K/vpPH1HjsZBvYTDxDJocot3uqWEXDoo
+   kSApoMg9EKM8Z4Sxw/tWpemkbAoj8peHa8VzDyZysj0rqds2i+3VrFQQN
+   KS2itEhR0LmYnzvgV6qnzyL7+Zex7A1CjCa81s2JWxZbmY9Hc7z483Cf5
+   Xe0MMPjDjZRPiHe9XCO6gbkcc8Db2ZSKgny3HPzAgorsYFKtDQwIwsi5z
+   0ihs+hx35LGvpinmle/NEU8blGoToY1bJaKj38gltrRpC06//GXRX2b4P
+   Q==;
+X-CSE-ConnectionGUID: 9vYKIckcTd+noo4vwFEFyA==
+X-CSE-MsgGUID: OH9iSEL9QYidVy+dJWZg3g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54828192"
 X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
-   d="scan'208";a="58734943"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 14:41:34 -0700
-X-CSE-ConnectionGUID: 82IF38aYQYCyYIQnQH3sJQ==
-X-CSE-MsgGUID: McomF0g2SXOr2Hp0Kq6nvQ==
+   d="scan'208";a="54828192"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 15:11:46 -0700
+X-CSE-ConnectionGUID: AYcx1IKVQHaPeeJolmvBMw==
+X-CSE-MsgGUID: cBEl46h5RLahIlUJEXaWcQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
-   d="scan'208";a="157285490"
+   d="scan'208";a="161934930"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 16 Jul 2025 14:41:32 -0700
+  by orviesa003.jf.intel.com with ESMTP; 16 Jul 2025 15:11:43 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uc9sY-000CsC-2C;
-	Wed, 16 Jul 2025 21:41:30 +0000
-Date: Thu, 17 Jul 2025 05:40:58 +0800
+	id 1ucALl-000Cu3-06;
+	Wed, 16 Jul 2025 22:11:41 +0000
+Date: Thu, 17 Jul 2025 06:11:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bo Liu <liubo03@inspur.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Xiang Gao <xiang@kernel.org>, linux-erofs@lists.ozlabs.org
-Subject: [xiang-erofs:dev-test 7/7] fs/erofs/internal.h:288:31: warning:
- shift count >= width of type
-Message-ID: <202507170506.Wzz1lR5I-lkp@intel.com>
+To: Tanmay Jagdale <tanmay@marvell.com>, davem@davemloft.net,
+	leon@kernel.org, horms@kernel.org, herbert@gondor.apana.org.au,
+	sgoutham@marvell.com, bbhushan2@marvell.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-crypto@vger.kernel.org,
+	netdev@vger.kernel.org, Kiran Kumar K <kirankumark@marvell.com>,
+	Nithin Dabilpuram <ndabilpuram@marvell.com>,
+	Tanmay Jagdale <tanmay@marvell.com>
+Subject: Re: [PATCH net-next v3 06/14] octeontx2-af: Add support for SPI to
+ SA index translation
+Message-ID: <202507170541.NbMPkGbC-lkp@intel.com>
+References: <20250711121317.340326-7-tanmay@marvell.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,103 +68,100 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250711121317.340326-7-tanmay@marvell.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
-head:   33656c801bc94615e8b02f01f36eff752dc5086b
-commit: 33656c801bc94615e8b02f01f36eff752dc5086b [7/7] erofs: implement metadata compression
-config: hexagon-randconfig-001-20250717 (https://download.01.org/0day-ci/archive/20250717/202507170506.Wzz1lR5I-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507170506.Wzz1lR5I-lkp@intel.com/reproduce)
+Hi Tanmay,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Tanmay-Jagdale/crypto-octeontx2-Share-engine-group-info-with-AF-driver/20250711-201723
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250711121317.340326-7-tanmay%40marvell.com
+patch subject: [PATCH net-next v3 06/14] octeontx2-af: Add support for SPI to SA index translation
+config: sparc-allmodconfig (https://download.01.org/0day-ci/archive/20250717/202507170541.NbMPkGbC-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507170541.NbMPkGbC-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507170506.Wzz1lR5I-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507170541.NbMPkGbC-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from fs/erofs/data.c:7:
->> fs/erofs/internal.h:288:31: warning: shift count >= width of type [-Wshift-count-overflow]
-     288 |         return EROFS_I(inode)->nid & BIT(EROFS_DIRENT_NID_METABOX_BIT);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^  ~~~~
-   In file included from fs/erofs/data.c:7:
-   fs/erofs/internal.h:294:45: warning: shift count >= width of type [-Wshift-count-overflow]
-     294 |         erofs_nid_t nid_lo = EROFS_I(inode)->nid & EROFS_DIRENT_NID_MASK;
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/erofs_fs.h:275:33: note: expanded from macro 'EROFS_DIRENT_NID_MASK'
-     275 | #define EROFS_DIRENT_NID_MASK           (BIT(EROFS_DIRENT_NID_METABOX_BIT) - 1)
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^  ~~~~
-   2 warnings generated.
---
-   In file included from fs/erofs/super.c:14:
-   In file included from fs/erofs/xattr.h:9:
->> fs/erofs/internal.h:288:31: warning: shift count >= width of type [-Wshift-count-overflow]
-     288 |         return EROFS_I(inode)->nid & BIT(EROFS_DIRENT_NID_METABOX_BIT);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^  ~~~~
-   In file included from fs/erofs/super.c:14:
-   In file included from fs/erofs/xattr.h:9:
-   fs/erofs/internal.h:294:45: warning: shift count >= width of type [-Wshift-count-overflow]
-     294 |         erofs_nid_t nid_lo = EROFS_I(inode)->nid & EROFS_DIRENT_NID_MASK;
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/erofs_fs.h:275:33: note: expanded from macro 'EROFS_DIRENT_NID_MASK'
-     275 | #define EROFS_DIRENT_NID_MASK           (BIT(EROFS_DIRENT_NID_METABOX_BIT) - 1)
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^  ~~~~
->> fs/erofs/super.c:327:26: warning: shift count >= width of type [-Wshift-count-overflow]
-     327 |                 if (sbi->metabox_nid & BIT(EROFS_DIRENT_NID_METABOX_BIT))
-         |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^  ~~~~
-   3 warnings generated.
---
-   In file included from fs/erofs/fscache.c:8:
->> fs/erofs/internal.h:288:31: warning: shift count >= width of type [-Wshift-count-overflow]
-     288 |         return EROFS_I(inode)->nid & BIT(EROFS_DIRENT_NID_METABOX_BIT);
-         |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^  ~~~~
-   In file included from fs/erofs/fscache.c:8:
-   fs/erofs/internal.h:294:45: warning: shift count >= width of type [-Wshift-count-overflow]
-     294 |         erofs_nid_t nid_lo = EROFS_I(inode)->nid & EROFS_DIRENT_NID_MASK;
-         |                                                    ^~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/erofs_fs.h:275:33: note: expanded from macro 'EROFS_DIRENT_NID_MASK'
-     275 | #define EROFS_DIRENT_NID_MASK           (BIT(EROFS_DIRENT_NID_METABOX_BIT) - 1)
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/vdso/bits.h:7:26: note: expanded from macro 'BIT'
-       7 | #define BIT(nr)                 (UL(1) << (nr))
-         |                                        ^  ~~~~
->> fs/erofs/fscache.c:277:46: error: too few arguments to function call, expected 4, have 3
-     277 |                 src = erofs_read_metabuf(&buf, sb, map.m_pa);
-         |                       ~~~~~~~~~~~~~~~~~~                   ^
-   fs/erofs/internal.h:400:7: note: 'erofs_read_metabuf' declared here
-     400 | void *erofs_read_metabuf(struct erofs_buf *buf, struct super_block *sb,
-         |       ^                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     401 |                          erofs_off_t offset, bool in_metabox);
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings and 1 error generated.
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_nix_spi.c: In function 'nix_spi_to_sa_index_check_duplicate':
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_nix_spi.c:25:21: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
+      25 |         spi_index = FIELD_GET(NIX_AF_SPI_TO_SA_SPI_INDEX_MASK, wkey);
+         |                     ^~~~~~~~~
+   drivers/net/ethernet/marvell/octeontx2/af/rvu_nix_spi.c: In function 'nix_spi_to_sa_index_table_update':
+>> drivers/net/ethernet/marvell/octeontx2/af/rvu_nix_spi.c:53:16: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
+      53 |         wkey = FIELD_PREP(NIX_AF_SPI_TO_SA_SPI_INDEX_MASK, req->spi_index);
+         |                ^~~~~~~~~~
 
 
-vim +288 fs/erofs/internal.h
+vim +/FIELD_GET +25 drivers/net/ethernet/marvell/octeontx2/af/rvu_nix_spi.c
 
-   285	
-   286	static inline bool erofs_inode_in_metabox(struct inode *inode)
-   287	{
- > 288		return EROFS_I(inode)->nid & BIT(EROFS_DIRENT_NID_METABOX_BIT);
-   289	}
-   290	
+     9	
+    10	static bool
+    11	nix_spi_to_sa_index_check_duplicate(struct rvu *rvu,
+    12					    struct nix_spi_to_sa_add_req *req,
+    13					    struct nix_spi_to_sa_add_rsp *rsp,
+    14					    int blkaddr, int16_t index, u8 way,
+    15					    bool *is_valid, int lfidx)
+    16	{
+    17		u32 spi_index;
+    18		u16 match_id;
+    19		bool valid;
+    20		u64 wkey;
+    21		u8 lfid;
+    22	
+    23		wkey = rvu_read64(rvu, blkaddr, NIX_AF_SPI_TO_SA_KEYX_WAYX(index, way));
+    24	
+  > 25		spi_index = FIELD_GET(NIX_AF_SPI_TO_SA_SPI_INDEX_MASK, wkey);
+    26		match_id = FIELD_GET(NIX_AF_SPI_TO_SA_MATCH_ID_MASK, wkey);
+    27		lfid = FIELD_GET(NIX_AF_SPI_TO_SA_LFID_MASK, wkey);
+    28		valid = FIELD_GET(NIX_AF_SPI_TO_SA_KEYX_WAYX_VALID, wkey);
+    29	
+    30		*is_valid = valid;
+    31		if (!valid)
+    32			return 0;
+    33	
+    34		if (req->spi_index == spi_index && req->match_id == match_id &&
+    35		    lfidx == lfid) {
+    36			rsp->hash_index = index;
+    37			rsp->way = way;
+    38			rsp->is_duplicate = true;
+    39			return 1;
+    40		}
+    41		return 0;
+    42	}
+    43	
+    44	static void  nix_spi_to_sa_index_table_update(struct rvu *rvu,
+    45						      struct nix_spi_to_sa_add_req *req,
+    46						      struct nix_spi_to_sa_add_rsp *rsp,
+    47						      int blkaddr, int16_t index,
+    48						      u8 way, int lfidx)
+    49	{
+    50		u64 wvalue;
+    51		u64 wkey;
+    52	
+  > 53		wkey = FIELD_PREP(NIX_AF_SPI_TO_SA_SPI_INDEX_MASK, req->spi_index);
+    54		wkey |= FIELD_PREP(NIX_AF_SPI_TO_SA_MATCH_ID_MASK, req->match_id);
+    55		wkey |= FIELD_PREP(NIX_AF_SPI_TO_SA_LFID_MASK, lfidx);
+    56		wkey |= FIELD_PREP(NIX_AF_SPI_TO_SA_KEYX_WAYX_VALID, req->valid);
+    57	
+    58		rvu_write64(rvu, blkaddr, NIX_AF_SPI_TO_SA_KEYX_WAYX(index, way),
+    59			    wkey);
+    60		wvalue = (req->sa_index & 0xFFFFFFFF);
+    61		rvu_write64(rvu, blkaddr, NIX_AF_SPI_TO_SA_VALUEX_WAYX(index, way),
+    62			    wvalue);
+    63		rsp->hash_index = index;
+    64		rsp->way = way;
+    65		rsp->is_duplicate = false;
+    66	}
+    67	
 
 -- 
 0-DAY CI Kernel Test Service
