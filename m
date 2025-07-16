@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CF8A26E6E8
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Jul 2025 20:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10725288520
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Jul 2025 21:41:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752698125; cv=none; b=mhPk0/RDEtv0mbh4hutH6aLBNGy+gZ2HqTUX7pZOstC8UdnXQrbwN6kBB2vja+mnz0Rwzmqhkr1KA4nDEMliuITjp/gQUjsk5tskuk1T+qKcGpayITP/oZPP0M7nsxlLCan3noZNu1RhWKvIIRz/bM81/KR/UwGHfOMIOBY72f8=
+	t=1752702099; cv=none; b=j7etuSA3NNZg5fi4BKNXAAVfGmhe19/h4Y3hMeclQUCAlX/nDn75bR7VZZ73IiNkdwRBa9eUSZHi0uxjsTImeqQZbTrwWKRVAMGBGt2wNLE5akYIlENo/1TsJVb7bRWjHZOldfXqb5+tvkdy8a6zj/UBwiFFsGezh3fSWriR/aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752698125; c=relaxed/simple;
-	bh=FYD0hTduT3dkDB00s4vIs6nr5wQbe/med6RXdgs1dNc=;
+	s=arc-20240116; t=1752702099; c=relaxed/simple;
+	bh=bPyWDybtxiIXDsQOutP6Ugd1kU7Qh/rouJ5vJEPlErs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=b9BXLAwq6CRzBGYKn4cpjQu185vX4h/Nqsicu2zfmYr6tp7xGr5A7UsoIlwy4/FJP30in/DG1jf4bIk0XQA0oKGLipeKyfwGCCW9tnrvz0Y+WZ6TitEVaDiV6Pd2hp9v/Z0u1xuQ/yVEbU5IyBrhNgj+iq7GoAT4ZuZBa4PRbUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kb5wqMZh; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=uVXblZE5y2eipZl8Wrys2eVJ3bpCukJr/mHpNQJfv5LWV/xE/il2Kx3xatDX4JmR+YEsViWWrpAgj/PV5DMXDLcSQM0pCPbsDzCzOZWjBy1Mx+DrFMa21BpwmZzdz6IJC2LMNMXJ3IkuZCBB3/Ibqeu96qiQ5+NtMixg9PZGL2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cRhaolpG; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kb5wqMZh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cRhaolpG"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752698125; x=1784234125;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=FYD0hTduT3dkDB00s4vIs6nr5wQbe/med6RXdgs1dNc=;
-  b=Kb5wqMZhtf5F6H3PF6bOaofu085RXJnSjBCktHq0gRB+jkXbycr5D7rV
-   SzK1knC1RBay8EyMBus3HIS57z6uXQhQB3YgIX29ZBuYl2nY4WbL4jA4c
-   cbn0Q4crw7Aiz67b5Xh6jEQFZBE9kia9JINx3pxznXAHgZRsgQrWwlgOn
-   aGUL1v7TvOHr8qjcYSMTXbkY600ceVA5H0JwwlGwqUcGgFnLraZg3ljm7
-   +pBqP0307RMLTkwUV78ixECzme1PTjt6MOxrdC/BCglsVSi0v1CN4kLWl
-   69g/WZdlvUKNsUn87vHynDcGgWsZ/gVZYSzGoMyyW14JjqD/f9Xu3Ofgo
-   g==;
-X-CSE-ConnectionGUID: zQHq+GCDTQS8wwckm638JA==
-X-CSE-MsgGUID: uD17q4yOTvqvTebBWaIE+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="77498225"
+  t=1752702098; x=1784238098;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=bPyWDybtxiIXDsQOutP6Ugd1kU7Qh/rouJ5vJEPlErs=;
+  b=cRhaolpGG8ryfTr0F1BmYiY0JZAzxE0HBdORzBykK70u0Tu5eX0smduE
+   ETL+Y2AuIX4OnGk95fDrZB+YlEPod/3WhSiD96zDfC46d4NxI1F3AThcW
+   JhXJdVve6WYtoPoljNdB/3Jt/7dR49qnAnN9y3dKW0CkRKH0G3uH7c5GC
+   UMXK+QjrzBbsrUNp4Z+q5pwazpQPQPOi4OSyM2EYR22e3Y3ZqO/Kyt/xU
+   jAXyn/72NS6ePPUDjbxa9qFfQ08N4SpBm8UFVAjmOSK9cIZGNLJcFjUXj
+   oRH/R85EAR6raON+xHxcdG3heX9SRGxC1Mbn2enuKWeJrw4YaYiITVGxF
+   Q==;
+X-CSE-ConnectionGUID: TEzBCQ/YRQKScHqTR4NY+g==
+X-CSE-MsgGUID: XSp6yBB9Som0OzgXCnJq7Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="58734940"
 X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
-   d="scan'208";a="77498225"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 13:35:24 -0700
-X-CSE-ConnectionGUID: kTg6g5QkSRyBWbfAnnoL1g==
-X-CSE-MsgGUID: inL/hzTQSiKOJr4oNyWfsg==
+   d="scan'208";a="58734940"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 14:41:34 -0700
+X-CSE-ConnectionGUID: 4RulU/OFTRSkXVR8hV9XWg==
+X-CSE-MsgGUID: Ge0fdliISNSKia8q3XHLSQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
-   d="scan'208";a="158316919"
+   d="scan'208";a="157285489"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 16 Jul 2025 13:35:22 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 16 Jul 2025 14:41:32 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uc8qW-000CoV-1G;
-	Wed, 16 Jul 2025 20:35:20 +0000
-Date: Thu, 17 Jul 2025 04:34:53 +0800
+	id 1uc9sY-000Cs9-26;
+	Wed, 16 Jul 2025 21:41:30 +0000
+Date: Thu, 17 Jul 2025 05:40:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sumanth Gavini <sumanth.gavini@yahoo.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH 6.1] HID: mcp2221: Set driver data before I2C adapter add
-Message-ID: <aHgM7XIAzGo8fgwN@32653d2b52f0>
+To: Bo Liu <liubo03@inspur.com>
+Cc: oe-kbuild-all@lists.linux.dev, Xiang Gao <xiang@kernel.org>,
+	linux-erofs@lists.ozlabs.org
+Subject: [xiang-erofs:dev-test 7/7] fs/erofs/fscache.c:277:23: error: too few
+ arguments to function 'erofs_read_metabuf'; expected 4, have 3
+Message-ID: <202507170548.rvm67YSU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,25 +62,193 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250716195316.176786-1-sumanth.gavini@yahoo.com>
 
-Hi,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev-test
+head:   33656c801bc94615e8b02f01f36eff752dc5086b
+commit: 33656c801bc94615e8b02f01f36eff752dc5086b [7/7] erofs: implement metadata compression
+config: arc-randconfig-002-20250717 (https://download.01.org/0day-ci/archive/20250717/202507170548.rvm67YSU-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507170548.rvm67YSU-lkp@intel.com/reproduce)
 
-Thanks for your patch.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507170548.rvm67YSU-lkp@intel.com/
 
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
+All error/warnings (new ones prefixed by >>):
 
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-3
+   In file included from include/linux/bits.h:6,
+                    from include/linux/ratelimit_types.h:5,
+                    from include/linux/printk.h:9,
+                    from include/asm-generic/bug.h:22,
+                    from arch/arc/include/asm/bug.h:30,
+                    from include/linux/bug.h:5,
+                    from include/linux/vfsdebug.h:5,
+                    from include/linux/fs.h:5,
+                    from fs/erofs/internal.h:10,
+                    from fs/erofs/xattr.h:9,
+                    from fs/erofs/inode.c:7:
+   fs/erofs/internal.h: In function 'erofs_inode_in_metabox':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/erofs/internal.h:288:38: note: in expansion of macro 'BIT'
+     288 |         return EROFS_I(inode)->nid & BIT(EROFS_DIRENT_NID_METABOX_BIT);
+         |                                      ^~~
+   fs/erofs/internal.h: In function 'erofs_iloc':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/erofs/erofs_fs.h:275:42: note: in expansion of macro 'BIT'
+     275 | #define EROFS_DIRENT_NID_MASK           (BIT(EROFS_DIRENT_NID_METABOX_BIT) - 1)
+         |                                          ^~~
+   fs/erofs/internal.h:294:52: note: in expansion of macro 'EROFS_DIRENT_NID_MASK'
+     294 |         erofs_nid_t nid_lo = EROFS_I(inode)->nid & EROFS_DIRENT_NID_MASK;
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from include/linux/bits.h:6,
+                    from include/linux/string_helpers.h:5,
+                    from include/linux/seq_file.h:7,
+                    from fs/erofs/super.c:8:
+   fs/erofs/internal.h: In function 'erofs_inode_in_metabox':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/erofs/internal.h:288:38: note: in expansion of macro 'BIT'
+     288 |         return EROFS_I(inode)->nid & BIT(EROFS_DIRENT_NID_METABOX_BIT);
+         |                                      ^~~
+   fs/erofs/internal.h: In function 'erofs_iloc':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/erofs/erofs_fs.h:275:42: note: in expansion of macro 'BIT'
+     275 | #define EROFS_DIRENT_NID_MASK           (BIT(EROFS_DIRENT_NID_METABOX_BIT) - 1)
+         |                                          ^~~
+   fs/erofs/internal.h:294:52: note: in expansion of macro 'EROFS_DIRENT_NID_MASK'
+     294 |         erofs_nid_t nid_lo = EROFS_I(inode)->nid & EROFS_DIRENT_NID_MASK;
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/super.c: In function 'erofs_read_superblock':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/erofs/super.c:327:40: note: in expansion of macro 'BIT'
+     327 |                 if (sbi->metabox_nid & BIT(EROFS_DIRENT_NID_METABOX_BIT))
+         |                                        ^~~
+--
+   In file included from include/linux/bits.h:6,
+                    from include/linux/bitops.h:6,
+                    from include/linux/kernel.h:23,
+                    from include/linux/fs_context.h:11,
+                    from include/linux/pseudo_fs.h:4,
+                    from fs/erofs/fscache.c:6:
+   fs/erofs/internal.h: In function 'erofs_inode_in_metabox':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/erofs/internal.h:288:38: note: in expansion of macro 'BIT'
+     288 |         return EROFS_I(inode)->nid & BIT(EROFS_DIRENT_NID_METABOX_BIT);
+         |                                      ^~~
+   fs/erofs/internal.h: In function 'erofs_iloc':
+>> include/vdso/bits.h:7:40: warning: left shift count >= width of type [-Wshift-count-overflow]
+       7 | #define BIT(nr)                 (UL(1) << (nr))
+         |                                        ^~
+   fs/erofs/erofs_fs.h:275:42: note: in expansion of macro 'BIT'
+     275 | #define EROFS_DIRENT_NID_MASK           (BIT(EROFS_DIRENT_NID_METABOX_BIT) - 1)
+         |                                          ^~~
+   fs/erofs/internal.h:294:52: note: in expansion of macro 'EROFS_DIRENT_NID_MASK'
+     294 |         erofs_nid_t nid_lo = EROFS_I(inode)->nid & EROFS_DIRENT_NID_MASK;
+         |                                                    ^~~~~~~~~~~~~~~~~~~~~
+   fs/erofs/fscache.c: In function 'erofs_fscache_data_read_slice':
+>> fs/erofs/fscache.c:277:23: error: too few arguments to function 'erofs_read_metabuf'; expected 4, have 3
+     277 |                 src = erofs_read_metabuf(&buf, sb, map.m_pa);
+         |                       ^~~~~~~~~~~~~~~~~~
+   In file included from fs/erofs/fscache.c:8:
+   fs/erofs/internal.h:400:7: note: declared here
+     400 | void *erofs_read_metabuf(struct erofs_buf *buf, struct super_block *sb,
+         |       ^~~~~~~~~~~~~~~~~~
 
-Rule: The upstream commit ID must be specified with a separate line above the commit text.
-Subject: [PATCH 6.1] HID: mcp2221: Set driver data before I2C adapter add
-Link: https://lore.kernel.org/stable/20250716195316.176786-1-sumanth.gavini%40yahoo.com
 
-Please ignore this mail if the patch is not relevant for upstream.
+vim +/erofs_read_metabuf +277 fs/erofs/fscache.c
+
+5375e7c8b0fef1 Jeffle Xu 2022-04-25  253  
+f2151df5743536 Jingbo Xu 2024-03-08  254  static int erofs_fscache_data_read_slice(struct erofs_fscache_rq *req)
+bd735bdaa62fb6 Jeffle Xu 2022-04-25  255  {
+f2151df5743536 Jingbo Xu 2024-03-08  256  	struct address_space *mapping = req->mapping;
+1ae9470c3e1462 Jingbo Xu 2022-09-22  257  	struct inode *inode = mapping->host;
+1ae9470c3e1462 Jingbo Xu 2022-09-22  258  	struct super_block *sb = inode->i_sb;
+f2151df5743536 Jingbo Xu 2024-03-08  259  	struct erofs_fscache_io *io;
+1ae9470c3e1462 Jingbo Xu 2022-09-22  260  	struct erofs_map_blocks map;
+1ae9470c3e1462 Jingbo Xu 2022-09-22  261  	struct erofs_map_dev mdev;
+f2151df5743536 Jingbo Xu 2024-03-08  262  	loff_t pos = req->start + req->submitted;
+1ae9470c3e1462 Jingbo Xu 2022-09-22  263  	size_t count;
+1ae9470c3e1462 Jingbo Xu 2022-09-22  264  	int ret;
+1ae9470c3e1462 Jingbo Xu 2022-09-22  265  
+1ae9470c3e1462 Jingbo Xu 2022-09-22  266  	map.m_la = pos;
+8b58f9f0216212 Jingbo Xu 2023-02-09  267  	ret = erofs_map_blocks(inode, &map);
+1ae9470c3e1462 Jingbo Xu 2022-09-22  268  	if (ret)
+1ae9470c3e1462 Jingbo Xu 2022-09-22  269  		return ret;
+1ae9470c3e1462 Jingbo Xu 2022-09-22  270  
+1ae9470c3e1462 Jingbo Xu 2022-09-22  271  	if (map.m_flags & EROFS_MAP_META) {
+bd735bdaa62fb6 Jeffle Xu 2022-04-25  272  		struct erofs_buf buf = __EROFS_BUF_INITIALIZER;
+f2151df5743536 Jingbo Xu 2024-03-08  273  		struct iov_iter iter;
+076d965eb812f2 Al Viro   2024-04-25  274  		size_t size = map.m_llen;
+1ae9470c3e1462 Jingbo Xu 2022-09-22  275  		void *src;
+bd735bdaa62fb6 Jeffle Xu 2022-04-25  276  
+296e7ef18fbd6e Gao Xiang 2025-07-14 @277  		src = erofs_read_metabuf(&buf, sb, map.m_pa);
+bd735bdaa62fb6 Jeffle Xu 2022-04-25  278  		if (IS_ERR(src))
+bd735bdaa62fb6 Jeffle Xu 2022-04-25  279  			return PTR_ERR(src);
+bd735bdaa62fb6 Jeffle Xu 2022-04-25  280  
+de4eda9de2d957 Al Viro   2022-09-15  281  		iov_iter_xarray(&iter, ITER_DEST, &mapping->i_pages, pos, PAGE_SIZE);
+076d965eb812f2 Al Viro   2024-04-25  282  		if (copy_to_iter(src, size, &iter) != size) {
+75e43355cbe4d5 Jingbo Xu 2022-11-04  283  			erofs_put_metabuf(&buf);
+1ae9470c3e1462 Jingbo Xu 2022-09-22  284  			return -EFAULT;
+75e43355cbe4d5 Jingbo Xu 2022-11-04  285  		}
+1ae9470c3e1462 Jingbo Xu 2022-09-22  286  		iov_iter_zero(PAGE_SIZE - size, &iter);
+bd735bdaa62fb6 Jeffle Xu 2022-04-25  287  		erofs_put_metabuf(&buf);
+f2151df5743536 Jingbo Xu 2024-03-08  288  		req->submitted += PAGE_SIZE;
+be62c519886115 Jingbo Xu 2022-12-01  289  		return 0;
+bd735bdaa62fb6 Jeffle Xu 2022-04-25  290  	}
+bd735bdaa62fb6 Jeffle Xu 2022-04-25  291  
+f2151df5743536 Jingbo Xu 2024-03-08  292  	count = req->len - req->submitted;
+1442b02b66ad2c Jeffle Xu 2022-04-25  293  	if (!(map.m_flags & EROFS_MAP_MAPPED)) {
+f2151df5743536 Jingbo Xu 2024-03-08  294  		struct iov_iter iter;
+f2151df5743536 Jingbo Xu 2024-03-08  295  
+de4eda9de2d957 Al Viro   2022-09-15  296  		iov_iter_xarray(&iter, ITER_DEST, &mapping->i_pages, pos, count);
+1ae9470c3e1462 Jingbo Xu 2022-09-22  297  		iov_iter_zero(count, &iter);
+f2151df5743536 Jingbo Xu 2024-03-08  298  		req->submitted += count;
+be62c519886115 Jingbo Xu 2022-12-01  299  		return 0;
+bd735bdaa62fb6 Jeffle Xu 2022-04-25  300  	}
+bd735bdaa62fb6 Jeffle Xu 2022-04-25  301  
+be62c519886115 Jingbo Xu 2022-12-01  302  	count = min_t(size_t, map.m_llen - (pos - map.m_la), count);
+e6d9f9ba111b56 Jingbo Xu 2022-11-04  303  	DBG_BUGON(!count || count % PAGE_SIZE);
+e6d9f9ba111b56 Jingbo Xu 2022-11-04  304  
+1442b02b66ad2c Jeffle Xu 2022-04-25  305  	mdev = (struct erofs_map_dev) {
+1442b02b66ad2c Jeffle Xu 2022-04-25  306  		.m_deviceid = map.m_deviceid,
+1442b02b66ad2c Jeffle Xu 2022-04-25  307  		.m_pa = map.m_pa,
+1442b02b66ad2c Jeffle Xu 2022-04-25  308  	};
+1442b02b66ad2c Jeffle Xu 2022-04-25  309  	ret = erofs_map_dev(sb, &mdev);
+1442b02b66ad2c Jeffle Xu 2022-04-25  310  	if (ret)
+1ae9470c3e1462 Jingbo Xu 2022-09-22  311  		return ret;
+1442b02b66ad2c Jeffle Xu 2022-04-25  312  
+f2151df5743536 Jingbo Xu 2024-03-08  313  	io = erofs_fscache_req_io_alloc(req);
+f2151df5743536 Jingbo Xu 2024-03-08  314  	if (!io)
+f2151df5743536 Jingbo Xu 2024-03-08  315  		return -ENOMEM;
+f2151df5743536 Jingbo Xu 2024-03-08  316  	iov_iter_xarray(&io->iter, ITER_DEST, &mapping->i_pages, pos, count);
+f8d920a402aec3 Gao Xiang 2024-12-13  317  	ret = erofs_fscache_read_io_async(mdev.m_dif->fscache->cookie,
+f2151df5743536 Jingbo Xu 2024-03-08  318  			mdev.m_pa + (pos - map.m_la), io);
+f2151df5743536 Jingbo Xu 2024-03-08  319  	erofs_fscache_req_io_put(io);
+d435d53228dd03 Xin Yin   2022-05-09  320  
+f2151df5743536 Jingbo Xu 2024-03-08  321  	req->submitted += count;
+be62c519886115 Jingbo Xu 2022-12-01  322  	return ret;
+5bd9628b784cc5 Sun Ke    2022-08-15  323  }
+d435d53228dd03 Xin Yin   2022-05-09  324  
+
+:::::: The code at line 277 was first introduced by commit
+:::::: 296e7ef18fbd6e85c8660f0ec94358ac4263cd57 erofs: remove need_kmap in erofs_read_metabuf()
+
+:::::: TO: Gao Xiang <hsiangkao@linux.alibaba.com>
+:::::: CC: Gao Xiang <hsiangkao@linux.alibaba.com>
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
-
-
-
