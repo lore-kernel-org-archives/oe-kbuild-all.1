@@ -1,71 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 705E454673
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Jul 2025 13:16:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69DE1CAA92
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Jul 2025 13:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752671789; cv=none; b=HFU3kZ8FcrrFV4jBDEMFdi37vzgIMhjD61/nj32AWKA48musPkLNAYinNTkmVc4Hrgf2J8Fai9JGAA2RR0PBFU79b1IKPc4cXDUFntj2IrSR2h1mIPfGcafGgj92CwAKrosvfMKLzW3beImPJpBrIg/H0wacW7AdKZAXb/8QVkU=
+	t=1752674254; cv=none; b=IrpiwWJYxlIXwLHM/bp3uHf7MnUtEJDJcFWoNQhOczNQ/NYs5dZl8J5H5zPBBwaYv/SIlVy1mWXVS5newsIG2SBmVuQ9iM0TcmB2rHxxotCOLbo3+57m2iLcs4dsVLxx6qKiuL+QMAp5SCv8QFbgmqRNmbrFbKgVUnZ0l/P08PQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752671789; c=relaxed/simple;
-	bh=T2m/oiuwjR2kBEt3SpOmzte4WJb1A9iDMDoZGf9vy1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HXWD6c5RqWcVBSpA56i7xhuxUH2v5uJ3JInnyD5fRKT3aljgcb6Dnz5DgYnFq2TDYgK0g3c7ICVyy9uGJD/IO3liSejJh+oxmv6vjqDA6WZ5Y/Ss8E6aupzQh/T47nT7LxICOeSdj53W/Al/U1gzZqNce/GoPUu8A1NCnOcgmnY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nIwWcKz4; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1752674254; c=relaxed/simple;
+	bh=2ggFBaz3U2EBKmDYdNHKV7G8TUKr8hsyoT4sqwbW3Go=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=NOfN0LVBshRZ2c+4YRKemsf0v1Q6IL4ukxkkCK3P2bSNqCtDmqjgOuStg2Z/3X5BvgSuPAZpqA4yFKiyhT+uCRS5XeOKUU/prTfNDSasICT1H5wBtljsesIcyRdMD/peHjf+g1fFu0Ixd9sm0BRGfs8kL99/5WmC+v3j+pK+EdI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JTsx+HML; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nIwWcKz4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JTsx+HML"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752671787; x=1784207787;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=T2m/oiuwjR2kBEt3SpOmzte4WJb1A9iDMDoZGf9vy1I=;
-  b=nIwWcKz49ieoEkD3iadhM1JVQl81JgV+CsIxZmgnNG120eDoHBl7nzA5
-   ughALHmlq91kUwkfCos3bi+URaC4r+VrxYrs3GasAmONqCYTqXMRJfEdV
-   Ue1TBMozu9PVmgEQlnbatCm1Hsva7GWy4UgzB3AgUk6sri8+AFj/FTWXc
-   srjahTDfLMGtDpqklH7UXsKAv9kB32BqhwIPg6ZZ0XgV75ITvl3uHSIUr
-   wMGT3Hv1dDWOyJ8Z2biWszcbpjrRadN4eeiIZlg3LUFgESdBdTf1BpPr3
-   jYw/TjINzv++FW6Y10Idat4wfMyJ1ezhVR8ugt8eYRyi3Trc9VRajDByD
-   A==;
-X-CSE-ConnectionGUID: 7xpjRjv4SM+wig4O32V4OQ==
-X-CSE-MsgGUID: hl6MNpysSo684pV8YtP4bw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="58685702"
+  t=1752674252; x=1784210252;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2ggFBaz3U2EBKmDYdNHKV7G8TUKr8hsyoT4sqwbW3Go=;
+  b=JTsx+HML2BwnWapXfc6wCAnfndJcndIiorxrL4v6l2xpBxXG6CPAwkxJ
+   cy26sWQWPQAinI0Jv97X443bdXBY1woDPYBGmFeWIozDbgC0zzU11jojJ
+   Jpi+6toRzEpVabBDMWP2zaOHu3IfIqAPandFgkdBI5ST3vKsemuO7MPkH
+   weSCjiWBgeYlImAispgIMQO8/IbtAcR7mfB3XaVhJp5/NbL8khWA2ZWVk
+   cS0qpUcxPp0DLGBuzzdiQ/t14YV5GCfrdBO62mCtEqlNgstdsJSd2Q117
+   vIVUNSGWrK/dWyYUT2u6gWsS02B3hAdFcNiOtMaRMyIvYqIJ16eQ90dox
+   g==;
+X-CSE-ConnectionGUID: CtJzJ2I+ScaGltQUoFJkIg==
+X-CSE-MsgGUID: BjxIj1eWTsCD9fxnvs/nnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54630275"
 X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
-   d="scan'208";a="58685702"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 06:16:26 -0700
-X-CSE-ConnectionGUID: e8YbxVzmQ7uhXb6J+nSkqQ==
-X-CSE-MsgGUID: g9WY1BjiTLuoz6pD7l1wYg==
+   d="scan'208";a="54630275"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 06:57:28 -0700
+X-CSE-ConnectionGUID: 0n91aItdRTm0AC+SaJBHJg==
+X-CSE-MsgGUID: IIJYSb5SS0O4XZ3FNZZsLQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
-   d="scan'208";a="156894575"
+   d="scan'208";a="163144658"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 16 Jul 2025 06:16:22 -0700
+  by orviesa005.jf.intel.com with ESMTP; 16 Jul 2025 06:57:28 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uc1zf-000CQl-1x;
-	Wed, 16 Jul 2025 13:16:19 +0000
-Date: Wed, 16 Jul 2025 21:15:43 +0800
+	id 1uc2dR-000CTL-0r;
+	Wed, 16 Jul 2025 13:57:25 +0000
+Date: Wed, 16 Jul 2025 21:56:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Arseniy Velikanov <me@adomerle.pw>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-clk@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	~postmarketos/upstreaming@lists.sr.ht,
-	Arseniy Velikanov <me@adomerle.pw>
-Subject: Re: [PATCH v1 2/2] clk: mediatek: Add MT6789 clock controllers
-Message-ID: <202507162133.0p74u7j1-lkp@intel.com>
-References: <20250715222221.29406-2-me@adomerle.pw>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.16-rc 63/72] kismet: WARNING: unmet direct
+ dependencies detected for FWNODE_PCS when selected by PCS_MTK_USXGMII
+Message-ID: <202507162144.vrcE23hy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -74,54 +61,24 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250715222221.29406-2-me@adomerle.pw>
 
-Hi Arseniy,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on clk/clk-next]
-[also build test ERROR on robh/for-next pza/reset/next linus/master v6.16-rc6 next-20250715]
-[cannot apply to pza/imx-drm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Arseniy-Velikanov/clk-mediatek-Add-MT6789-clock-controllers/20250716-062512
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-next
-patch link:    https://lore.kernel.org/r/20250715222221.29406-2-me%40adomerle.pw
-patch subject: [PATCH v1 2/2] clk: mediatek: Add MT6789 clock controllers
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250716/202507162133.0p74u7j1-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507162133.0p74u7j1-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.16-rc
+head:   def86e4a3f9b5c36f7f433880579fffc95488514
+commit: d6e1d526e77e020760387a7c7e79fa5b9a9cbeab [63/72] net: pcs: add driver for MediaTek USXGMII PCS
+config: i386-kismet-CONFIG_FWNODE_PCS-CONFIG_PCS_MTK_USXGMII-0-0 (https://download.01.org/0day-ci/archive/20250716/202507162144.vrcE23hy-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250716/202507162144.vrcE23hy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507162133.0p74u7j1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507162144.vrcE23hy-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   In file included from drivers/clk/mediatek/clk-mt6789-imp_iic_wrap.c:13:
->> drivers/clk/mediatek/clk-mt6789-imp_iic_wrap.c:33:27: error: 'CLK_IMP_IIC_WRAP_W_I2C0' undeclared here (not in a function); did you mean 'CLK_IMP_IIC_WRAP_W_I2C1'?
-      33 |         GATE_IMP_IIC_WRAP(CLK_IMP_IIC_WRAP_W_I2C0, "imp_iic_wrap_w_i2c0", "top_i2c", 0),
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/mediatek/clk-gate.h:41:23: note: in definition of macro 'GATE_MTK_FLAGS'
-      41 |                 .id = _id,                                      \
-         |                       ^~~
-   drivers/clk/mediatek/clk-mt6789-imp_iic_wrap.c:33:9: note: in expansion of macro 'GATE_IMP_IIC_WRAP'
-      33 |         GATE_IMP_IIC_WRAP(CLK_IMP_IIC_WRAP_W_I2C0, "imp_iic_wrap_w_i2c0", "top_i2c", 0),
-         |         ^~~~~~~~~~~~~~~~~
-
-
-vim +33 drivers/clk/mediatek/clk-mt6789-imp_iic_wrap.c
-
-    31	
-    32	static const struct mtk_gate imp_iic_wrap_w_clks[] = {
-  > 33		GATE_IMP_IIC_WRAP(CLK_IMP_IIC_WRAP_W_I2C0, "imp_iic_wrap_w_i2c0", "top_i2c", 0),
-    34		GATE_IMP_IIC_WRAP(CLK_IMP_IIC_WRAP_W_I2C1, "imp_iic_wrap_w_i2c1", "top_i2c", 1),
-    35	};
-    36	
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for FWNODE_PCS when selected by PCS_MTK_USXGMII
+   WARNING: unmet direct dependencies detected for FWNODE_PCS
+     Depends on [n]: NETDEVICES [=y] && (ACPI [=n] || OF [=n]) && PHYLINK [=y]
+     Selected by [y]:
+     - PCS_MTK_USXGMII [=y] && NETDEVICES [=y]
 
 -- 
 0-DAY CI Kernel Test Service
