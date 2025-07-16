@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 446A42E3715
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Jul 2025 04:41:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB45B249EB
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Jul 2025 05:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752640883; cv=none; b=mQcAPghYRFIwZBtmDq5YhRJuv7aEJQG6LCmXrcHCk/FZXnJW3maOCpIUgPEzOF9QKdp9zvVc2WvFP90lhJkZjXgFgnghIeJH2pf/2X90EyfvNb5hFioMm0BR23eB6KuaSZm72P3uQ5gu/5ICB8CCF7qwwVPMuRt5C42QJLoxiMA=
+	t=1752642883; cv=none; b=HZ15hWrDzPJb1uUX7PTh5PP2RLKl8n8yVJa1cVVM8ZClTnQRFhhEv8t9fK2CpdiilVw9czokonvScnMEb9nvUFKYH+wypYQnD668SB2YuOWp//FnKgGk5MzyeZSM4d+9KIL5xJSBV+uVLpQC+LmK8VQ5aNmkkzGQgGbQ0SmUBpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752640883; c=relaxed/simple;
-	bh=c4/BZ7HBe1vNifFmTVz1FQd8pMVcmUJZIMceojU7uWI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U26/VGQRD5wAcqk3qBiZaFwCZNU2GAbse+A8yTUwlJHqAYzAXP0n8ib2puBSflWLT4Suu18ZH0FqxIAQ8nS5A+5GBZ/XgANM/OuFjI7YSuznw7KWxL5jny9ifKGtxH1HSRnKyYZDihD0KpD9zK4fJwU+Ku7/L7jT7MB5SnK7ssM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EjOKb3Th; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1752642883; c=relaxed/simple;
+	bh=zaPIWiKkOjG4zU9eSUxzP+ONhIb3xwwH3H2x0zXworA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nztb9RAxhYAEdVSY4urenE6ZWVegIFaDF2TuF+VYGYQFgHtWvws/R0haFXhQiy/vU1Al8AvUzHD0/UYZq8UpArvnmTPxBM2qSVGUWCjOU8rsPvFJ22XoAIydk1QbGW1XLNQgQSseOhLzEd2BUbnbOIT2BlaHB+qAeoxOt5cwhjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aC+0/tDI; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EjOKb3Th"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aC+0/tDI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752640881; x=1784176881;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=c4/BZ7HBe1vNifFmTVz1FQd8pMVcmUJZIMceojU7uWI=;
-  b=EjOKb3ThA/AnEUaKor2PBOXfvNXojZFYbP1BCI+UigHJNqt4JMmc7FbP
-   cx2Q6zcV28ViB/EiQz2HkCFmArTHs5UbiQ50SPzN/quNFnqw2Wkq3SWlM
-   l0Nc/8P7XgE2HD8cuilPlLqRaAoxJPnDP8LmSnEeM0XkHEdCXc2DUTJIA
-   bxiZ7eaG1pDA2iuC/B+3BzN9/eGf6hdhLR4I/JOIplJYRkmEYTHpLQ/mp
-   BA+p2kGMuTt4jmXXB5Ww/xhGBejeydWLlaDlh/5xVtHuuRvpQcvxaKh/1
-   W0jXe+2fRUYl59jjrPGw0919IJNStdqdTp02EeD2/7JC2BjB61xDnEPmZ
+  t=1752642882; x=1784178882;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zaPIWiKkOjG4zU9eSUxzP+ONhIb3xwwH3H2x0zXworA=;
+  b=aC+0/tDIfX3UhOtV16BZcPqPOzw0uRx5VZhC8hBKdlcIMGWfg00NJq37
+   IKQQefbpTUm8xVfefBtrWCvamP8aheLmcy01qBoI6AKwDvf3DGXbH3++2
+   ErCSJpnoLF0SnCpXAynZxtGig+aYDR7XEplmV8R87DNR8eAiVGP5f/9Gl
+   PAxVuFFNoWqsfTMcvwIq/oE5uYREBOvGAoe4WibJrahvtLvSWuAc6Wgjq
+   xeEbmSTjLlhEEcq61y2V2cBUjdZsCEAX3NF/KnBMutrjgB0Tw1Sdyfg96
+   uBkfuUqTQuOVVqIWXtR++7UT+veYTSOkS0aj0atTkqR+nYTGsTHX+ZEEx
    w==;
-X-CSE-ConnectionGUID: JV0GJQ2zQtGO88TloLqfrQ==
-X-CSE-MsgGUID: GNNIlogTTkOGoNSSDPQYNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="65939260"
+X-CSE-ConnectionGUID: 7VVR6XQARcWxLV6lMYPhow==
+X-CSE-MsgGUID: 7AlE++CvQZ2F+uw/Nx5JqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="53986205"
 X-IronPort-AV: E=Sophos;i="6.16,315,1744095600"; 
-   d="scan'208";a="65939260"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 21:41:21 -0700
-X-CSE-ConnectionGUID: Y3gJvl19RKaT4thNbVTvMw==
-X-CSE-MsgGUID: 1BPvWuMRTEmOs6uFxS/wLQ==
+   d="scan'208";a="53986205"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jul 2025 22:14:26 -0700
+X-CSE-ConnectionGUID: GsMZ5fi9QMGvABkN4sCtPw==
+X-CSE-MsgGUID: EH8KzFxlSO6NXqi4RMIUlg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,315,1744095600"; 
-   d="scan'208";a="161942539"
+   d="scan'208";a="163045675"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 15 Jul 2025 21:41:20 -0700
+  by orviesa005.jf.intel.com with ESMTP; 15 Jul 2025 22:14:24 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ubtxF-000BtH-2W;
-	Wed, 16 Jul 2025 04:41:17 +0000
-Date: Wed, 16 Jul 2025 12:40:55 +0800
+	id 1ubuTF-000BvP-21;
+	Wed, 16 Jul 2025 05:14:21 +0000
+Date: Wed, 16 Jul 2025 13:13:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Steev Klimaszewski <steev@kali.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [steev:thinkpad-t14s-oled-6.16-rc6 53/58] qcom_battmgr.c:undefined
- reference to `__aeabi_uldivmod'
-Message-ID: <202507161209.qlWAl0nW-lkp@intel.com>
+To: Jakub Czapiga <czapiga@google.com>, Mark Brown <broonie@kernel.org>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Konrad Adamczyk <konrada@google.com>,
+	linux-spi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jakub Czapiga <czapiga@google.com>
+Subject: Re: [PATCH] spi: intel: Allow writeable MTD partition with module
+ param
+Message-ID: <202507161228.D92rDToS-lkp@intel.com>
+References: <20250715095007.896620-1-czapiga@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +66,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250715095007.896620-1-czapiga@google.com>
 
-tree:   https://github.com/steev/linux thinkpad-t14s-oled-6.16-rc6
-head:   433e4bec8b77d1fb190ad35b5f898d88885eeeab
-commit: c650ea2ac5a72bbd92e49a78c0519909cbb75ce5 [53/58] power: supply: qcom_battmgr: Report battery capacity
-config: arm-randconfig-002-20250716 (https://download.01.org/0day-ci/archive/20250716/202507161209.qlWAl0nW-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 12.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507161209.qlWAl0nW-lkp@intel.com/reproduce)
+Hi Jakub,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on broonie-spi/for-next]
+[also build test ERROR on broonie-sound/for-next westeri-thunderbolt/next linus/master v6.16-rc6 next-20250715]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jakub-Czapiga/spi-intel-Allow-writeable-MTD-partition-with-module-param/20250715-175230
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/spi.git for-next
+patch link:    https://lore.kernel.org/r/20250715095007.896620-1-czapiga%40google.com
+patch subject: [PATCH] spi: intel: Allow writeable MTD partition with module param
+config: arc-randconfig-001-20250716 (https://download.01.org/0day-ci/archive/20250716/202507161228.D92rDToS-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 13.4.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507161228.D92rDToS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507161209.qlWAl0nW-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507161228.D92rDToS-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arm-linux-gnueabi-ld: drivers/power/supply/qcom_battmgr.o: in function `qcom_battmgr_sc8280xp_callback':
->> qcom_battmgr.c:(.text+0x184): undefined reference to `__aeabi_uldivmod'
+>> drivers/spi/spi-intel.c:195:34: error: expected ')' before string constant
+     195 |         ignore_protection_status,
+         |                                  ^
+         |                                  )
+     196 |         "Do not block SPI flash chip write access even if it is write-protected (default=0)");
+         |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +195 drivers/spi/spi-intel.c
+
+   188	
+   189	static bool writeable;
+   190	module_param(writeable, bool, 0);
+   191	MODULE_PARM_DESC(writeable, "Enable write access to SPI flash chip (default=0)");
+   192	static bool ignore_protection_status;
+   193	module_param(ignore_protection_status, bool, 0);
+   194	MODULE_PARAM_DESC(
+ > 195		ignore_protection_status,
+   196		"Do not block SPI flash chip write access even if it is write-protected (default=0)");
+   197	
 
 -- 
 0-DAY CI Kernel Test Service
