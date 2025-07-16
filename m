@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C69DE1CAA92
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Jul 2025 13:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 971431E8331
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Jul 2025 14:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752674254; cv=none; b=IrpiwWJYxlIXwLHM/bp3uHf7MnUtEJDJcFWoNQhOczNQ/NYs5dZl8J5H5zPBBwaYv/SIlVy1mWXVS5newsIG2SBmVuQ9iM0TcmB2rHxxotCOLbo3+57m2iLcs4dsVLxx6qKiuL+QMAp5SCv8QFbgmqRNmbrFbKgVUnZ0l/P08PQ=
+	t=1752676782; cv=none; b=uzxPb9HYBSa56QK3Qj/4u9T5WuEYslSdGRgMjbj2e7TYQAlyHNyUd4U3nX1DZ9nthLmHIM8CZB/6KNW0sAtOYmzVwl4lRnZ4ktcFGuYfn1nsqR0jhENcErrESIyjJZI39k4rPX4MOucfUxsN/VcAVJZrj9fYDDOvRj2YY8Op3MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752674254; c=relaxed/simple;
-	bh=2ggFBaz3U2EBKmDYdNHKV7G8TUKr8hsyoT4sqwbW3Go=;
+	s=arc-20240116; t=1752676782; c=relaxed/simple;
+	bh=7F+7R+BHl0yUnu7rkVSVSNUSnx3UdUQdaVfzZ6xjwCI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=NOfN0LVBshRZ2c+4YRKemsf0v1Q6IL4ukxkkCK3P2bSNqCtDmqjgOuStg2Z/3X5BvgSuPAZpqA4yFKiyhT+uCRS5XeOKUU/prTfNDSasICT1H5wBtljsesIcyRdMD/peHjf+g1fFu0Ixd9sm0BRGfs8kL99/5WmC+v3j+pK+EdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JTsx+HML; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=eSIIFtRgCdf9oqOXYEJ9RQPHHwz8/PG3+DwmsbmsscjDbKL657bH+0OzkAAYUeVlEvdcVhxAc2nrAAg3yZfUxgFX05Tkf7PvLV6ppN7IkBCARZfCSy6cgo9H2xSffHdJMdBbtltU+LG1mxP6aMjHk+7bnqUFe4jXmKcBE8QWzI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B9tuqkLg; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JTsx+HML"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B9tuqkLg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752674252; x=1784210252;
+  t=1752676781; x=1784212781;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=2ggFBaz3U2EBKmDYdNHKV7G8TUKr8hsyoT4sqwbW3Go=;
-  b=JTsx+HML2BwnWapXfc6wCAnfndJcndIiorxrL4v6l2xpBxXG6CPAwkxJ
-   cy26sWQWPQAinI0Jv97X443bdXBY1woDPYBGmFeWIozDbgC0zzU11jojJ
-   Jpi+6toRzEpVabBDMWP2zaOHu3IfIqAPandFgkdBI5ST3vKsemuO7MPkH
-   weSCjiWBgeYlImAispgIMQO8/IbtAcR7mfB3XaVhJp5/NbL8khWA2ZWVk
-   cS0qpUcxPp0DLGBuzzdiQ/t14YV5GCfrdBO62mCtEqlNgstdsJSd2Q117
-   vIVUNSGWrK/dWyYUT2u6gWsS02B3hAdFcNiOtMaRMyIvYqIJ16eQ90dox
+  bh=7F+7R+BHl0yUnu7rkVSVSNUSnx3UdUQdaVfzZ6xjwCI=;
+  b=B9tuqkLgqcnTDNn8qOZ8AmxF4S+9V9zPf0LWQYFlHQVJClppT0hpEoU+
+   VPt8WINFCZ7jmj87YSxWRztr/074eIA1jIrbzgye+yx9nchae37zrO7co
+   gHzAOw/gWvuM3LEWStkj+ze8wlp8ZDNp4xdmW2ul1Fzy0DYoRIWC0H5sx
+   mgQHMMM3pnxOQrP6ZIKLz0nezkjqSEYKFb8naK4Fnt/gcTzpDnIb3BY9k
+   Gmc8rzULVFJCDLfE5w7MjqxicUjfN9S72VVJoHnDynbkqVxTqJ8CEbZEK
+   CK6uGEjWsl+5+R5puerzQW5llXaJKLIp4Cl1NIiUvbx+WvoTshqF/H1jK
    g==;
-X-CSE-ConnectionGUID: CtJzJ2I+ScaGltQUoFJkIg==
-X-CSE-MsgGUID: BjxIj1eWTsCD9fxnvs/nnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54630275"
+X-CSE-ConnectionGUID: 5ep5AhthSbiyIbdnYbqtQQ==
+X-CSE-MsgGUID: H67D+F/gRi6kae9BohXolg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="65622528"
 X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
-   d="scan'208";a="54630275"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 06:57:28 -0700
-X-CSE-ConnectionGUID: 0n91aItdRTm0AC+SaJBHJg==
-X-CSE-MsgGUID: IIJYSb5SS0O4XZ3FNZZsLQ==
+   d="scan'208";a="65622528"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 07:39:39 -0700
+X-CSE-ConnectionGUID: 6kBRLhtTSDaImQDAln2GVQ==
+X-CSE-MsgGUID: 7Uyrx3MSRz2C6IuKumIVUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,316,1744095600"; 
-   d="scan'208";a="163144658"
+   d="scan'208";a="157188908"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 16 Jul 2025 06:57:28 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 16 Jul 2025 07:39:37 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uc2dR-000CTL-0r;
-	Wed, 16 Jul 2025 13:57:25 +0000
-Date: Wed, 16 Jul 2025 21:56:25 +0800
+	id 1uc3IF-000CVf-2J;
+	Wed, 16 Jul 2025 14:39:35 +0000
+Date: Wed, 16 Jul 2025 22:38:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: kernel@openeuler.org, Pu Lehui <pulehui@huawei.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.16-rc 63/72] kismet: WARNING: unmet direct
- dependencies detected for FWNODE_PCS when selected by PCS_MTK_USXGMII
-Message-ID: <202507162144.vrcE23hy-lkp@intel.com>
+Subject: [openeuler:OLK-6.6 2519/2519] kernel/cgroup/ifs.c:400:6: warning:
+ variable 'start' set but not used
+Message-ID: <202507162216.3Q6gsro5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,23 +62,98 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.16-rc
-head:   def86e4a3f9b5c36f7f433880579fffc95488514
-commit: d6e1d526e77e020760387a7c7e79fa5b9a9cbeab [63/72] net: pcs: add driver for MediaTek USXGMII PCS
-config: i386-kismet-CONFIG_FWNODE_PCS-CONFIG_PCS_MTK_USXGMII-0-0 (https://download.01.org/0day-ci/archive/20250716/202507162144.vrcE23hy-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250716/202507162144.vrcE23hy-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
+head:   0a2a4d6188250982405816f6ee5b085bfb522721
+commit: bc298fe613e2a09d9b804de1212c31fb0d375a47 [2519/2519] interference: Add distribution histogram support
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250716/202507162216.3Q6gsro5-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250716/202507162216.3Q6gsro5-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507162144.vrcE23hy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507162216.3Q6gsro5-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for FWNODE_PCS when selected by PCS_MTK_USXGMII
-   WARNING: unmet direct dependencies detected for FWNODE_PCS
-     Depends on [n]: NETDEVICES [=y] && (ACPI [=n] || OF [=n]) && PHYLINK [=y]
-     Selected by [y]:
-     - PCS_MTK_USXGMII [=y] && NETDEVICES [=y]
+All warnings (new ones prefixed by >>):
+
+>> kernel/cgroup/ifs.c:400:6: warning: variable 'start' set but not used [-Wunused-but-set-variable]
+     400 |         u64 start;
+         |             ^
+   1 warning generated.
+
+
+vim +/start +400 kernel/cgroup/ifs.c
+
+   393	
+   394	static int print_hist_count(struct cgroup_ifs *ifs, struct seq_file *seq)
+   395	{
+   396		struct cgroup_ifs_hist *h;
+   397		struct ifs_tdesc *desc;
+   398		bool is_print_title;
+   399		const char *name;
+ > 400		u64 start;
+   401		int count;
+   402		int i, j;
+   403		int cpu;
+   404	
+   405		h = kzalloc(sizeof(struct cgroup_ifs_hist), GFP_KERNEL);
+   406		if (!h)
+   407			return -ENOMEM;
+   408	
+   409		for_each_possible_cpu(cpu) {
+   410			struct cgroup_ifs_cpu *ifsc = per_cpu_ptr(ifs->pcpu, cpu);
+   411	
+   412			for (i = 0; i < NR_IFS_TYPES; i++) {
+   413				if (!should_print(i))
+   414					continue;
+   415				for (j = 0; j < CGROUP_IFS_HIST_SLOTS; j++)
+   416					h->counts[i][j] += ifsc->hist.counts[i][j];
+   417			}
+   418		}
+   419	
+   420		for (i = 0; i < NR_IFS_TYPES; i++) {
+   421			name = ifs_type_name(i);
+   422			is_print_title = false;
+   423			start = 1ULL << 63;
+   424	
+   425			if (!should_print(i))
+   426				continue;
+   427	
+   428			if (i == IFS_SPINLOCK || i == IFS_MUTEX)
+   429				desc = &ifs_tdesc[IFS_TIMER_TSC];
+   430			else
+   431				desc = &ifs_tdesc[IFS_TIMER_CLK];
+   432	
+   433			count = 0;
+   434			for (j = 0; j < CGROUP_IFS_HIST_SLOTS; j++) {
+   435				if (j < desc->tdesc_num) {
+   436					count += h->counts[i][j];
+   437					continue;
+   438				} else if (j == desc->tdesc_num) {
+   439					count += h->counts[i][j];
+   440				} else {
+   441					count = h->counts[i][j];
+   442				}
+   443	
+   444				if (count) {
+   445					if (unlikely(!is_print_title)) {
+   446						is_print_title = true;
+   447						seq_printf(seq, "%s distribution\n", name);
+   448					}
+   449					seq_printf(seq, "%-24s: %d\n",
+   450						   desc->tdesc_str[j], count);
+   451				}
+   452				start /= 2;
+   453			}
+   454	
+   455			if (is_print_title)
+   456				seq_puts(seq, "\n");
+   457		}
+   458	
+   459		kfree(h);
+   460		return 0;
+   461	}
+   462	
 
 -- 
 0-DAY CI Kernel Test Service
