@@ -1,72 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35BCB1D5CC7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 04:24:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F21C1EB9E1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 04:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752726274; cv=none; b=V3UPh3NfRXvpInERhX0ATXe1qYBEuiFUbflhMUz4k4WEd3kkIhWl3b30ni7gC5606UkzXlRAIrZ8+94U/epHWddZS/TcJjGQSq5shRU0LYoMv8KltLka+qwbeBRXCV8au6jLdcf2UqmOy+Nv5SSmhKEAaq0LcqLaEfKaowSxVws=
+	t=1752726926; cv=none; b=eJlXearwMqkhmm9PueObtSzAx9tBoN+6FL4db3WOpxH9cRgaaiM/R8NyaaAZAXKgfRHkbQXl7PKC1YM7wxRbFltaCtZDQBpl2sa2sCJdOwQnSz1P/7GvbIyanVV46hIUS4LjhNeG2CWusIyIk8C0yM1W7d8GR3DtCasY3aYZ3+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752726274; c=relaxed/simple;
-	bh=8Nqdw3/HfcKmjZDTj/XnWKM593nFS8OTlMs5uI6WZnY=;
+	s=arc-20240116; t=1752726926; c=relaxed/simple;
+	bh=Y+GBUNYoFmTj3TRd9W9ZVegJYdDmPDpwQ7FrxZnbxTg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U3nCABp8Y7j8jThhtYKS/kniv8aiya3bbCKj4uQ3CQ7hoYjJg+hNvDgHvv3j/cbi+mt6UCwdQkKw1VAHnh8UoGDDHpzgKh6Szbc6xcU6rJWVNcPIRQqs29L+AJG9MUc9aNXARBwTrKRYEDeTKstV5pvYvFN+m9eIdfBXtWgz33c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kctkEfMH; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=jbW173suRjIbil89OZLvrV6cJCTOBC5V+1Uqay+Rf7+JPucHJ/TMPoz3bOEUf4Gc99lO7ulYVUT4bJ8SQ11NTKe7H57nVLp9nTuBBRUS4rrONJjQ5hJfGm//F0ivQDlgE7JSA2zIE3H5HajdXLALjJkoYHgiaVQFi1mms6pqiQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WTKbb0pp; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kctkEfMH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WTKbb0pp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752726271; x=1784262271;
+  t=1752726926; x=1784262926;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8Nqdw3/HfcKmjZDTj/XnWKM593nFS8OTlMs5uI6WZnY=;
-  b=kctkEfMHQ1IiP5WRH9tWaj/xg/0soUGkXLW9/aTfSw1XaAx28u5KWK/4
-   3Lo0ksZLyUxDSNPuY+n+pwi8myvH3xZnZ+bjWBmXNL48P/WnGbM41bYJW
-   XJoCe2keC+xzA80FtEz+S1r9qdm4gI2NTNKkhtTMcjJ68Z/6RmGuEwD2j
-   4auV0aUitilgo0+poGq6wHH4+CG68ln8cv85deYkKvTjhYoens6J5gmmR
-   za7Dvijz1SRpZrWToc8tw6uNEAt1b9WhPvYjn+4Y5vGd/n5vB8BdKHILH
-   hphGJ0vmAGCiCuGa3gX0Vjc2vtah5SQKhea1mJpLVZsiG/qHu5nDZDUz1
+  bh=Y+GBUNYoFmTj3TRd9W9ZVegJYdDmPDpwQ7FrxZnbxTg=;
+  b=WTKbb0ppLH6uupJ/elP4CJ9KHBKxT5SmpXAX7ue6V0hIFkSYLqB5f8c2
+   3ptRtzIbu0horZVcJwaDwcbBv0w9qEbIc4Q5RRDQf84nvrW5gHSAnqQKO
+   Ikw4DlzEEGI5XQSCs2+8knqGBpOpKvMlioX1vuY+TFDZsuJGqcl5J8tjU
+   AkECnz6lsvpHXtnCfzXNIBJLMbVO95mcQQx3nJRf7I3qXJD8eTIU3P9oW
+   11Hz1a+X2dNXqToZpt77ytQg3I8QqzHB/PGMbKu/BLMbRq+ahuWhJEfzZ
+   MBuAw4RHJh/ShD2ncZzGPrpu0ij5oOCfE5oTtcAKFoSpTwVfeoD/yRL+v
    A==;
-X-CSE-ConnectionGUID: nZEqrBiDREaNZ4MWW2gv0Q==
-X-CSE-MsgGUID: r2oFe0/YTUCPqDdED5pBfw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54863628"
+X-CSE-ConnectionGUID: RJMj/0/7SyunZqFJCqIjTQ==
+X-CSE-MsgGUID: y1EdyupxSRq0TQFwL8PY6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="58657218"
 X-IronPort-AV: E=Sophos;i="6.16,317,1744095600"; 
-   d="scan'208";a="54863628"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 21:24:30 -0700
-X-CSE-ConnectionGUID: RYtL8Cy9TVyTfOo/Ai4CiA==
-X-CSE-MsgGUID: uXWpqbBJRFGlBIQw6kQJrw==
+   d="scan'208";a="58657218"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 21:35:26 -0700
+X-CSE-ConnectionGUID: Je1JB7WrSSqDRS1vZcfHkA==
+X-CSE-MsgGUID: TJoyXuxaStKR0QRoE1Tzkw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,317,1744095600"; 
-   d="scan'208";a="194814598"
+   d="scan'208";a="158392716"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 16 Jul 2025 21:24:23 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 16 Jul 2025 21:35:23 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucGAN-000D8t-2e;
-	Thu, 17 Jul 2025 04:24:19 +0000
-Date: Thu, 17 Jul 2025 12:23:38 +0800
+	id 1ucGL2-000D9P-2j;
+	Thu, 17 Jul 2025 04:35:20 +0000
+Date: Thu, 17 Jul 2025 12:35:07 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bhupesh <bhupesh@igalia.com>, akpm@linux-foundation.org
-Cc: oe-kbuild-all@lists.linux.dev, bhupesh@igalia.com,
-	kernel-dev@igalia.com, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org, linux-perf-users@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
-	oliver.sang@intel.com, lkp@intel.com, laoar.shao@gmail.com,
-	pmladek@suse.com, rostedt@goodmis.org,
-	mathieu.desnoyers@efficios.com, arnaldo.melo@gmail.com,
-	alexei.starovoitov@gmail.com, andrii.nakryiko@gmail.com,
-	mirq-linux@rere.qmqm.pl, peterz@infradead.org, willy@infradead.org,
-	david@redhat.com, viro@zeniv.linux.org.uk, keescook@chromium.org,
-	ebiederm@xmission.com, brauner@kernel.org, jack@suse.cz,
-	mingo@redhat.com, juri.lelli@redhat.com, bsegall@google.com,
-	mgorman@suse.de
-Subject: Re: [PATCH v5 3/3] treewide: Switch from tsk->comm to tsk->comm_str
- which is 64 bytes long
-Message-ID: <202507171254.FobDRyqP-lkp@intel.com>
-References: <20250716123916.511889-4-bhupesh@igalia.com>
+To: Christoph Hellwig <hch@lst.de>, Trond Myklebust <trondmy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Anna Schumaker <anna@kernel.org>,
+	linux-nfs@vger.kernel.org
+Subject: Re: [PATCH 4/4] NFS: use a hash table for delegation lookup
+Message-ID: <202507171246.w67NRPWN-lkp@intel.com>
+References: <20250716132657.2167548-5-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,482 +63,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250716123916.511889-4-bhupesh@igalia.com>
+In-Reply-To: <20250716132657.2167548-5-hch@lst.de>
 
-Hi Bhupesh,
+Hi Christoph,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on next-20250715]
-[cannot apply to akpm-mm/mm-everything brauner-vfs/vfs.all tip/sched/core trace/for-next linus/master v6.16-rc6 v6.16-rc5 v6.16-rc4 v6.16-rc6]
+[auto build test ERROR on trondmy-nfs/linux-next]
+[also build test ERROR on linus/master v6.16-rc6 next-20250716]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bhupesh/exec-Remove-obsolete-comments/20250716-204047
-base:   next-20250715
-patch link:    https://lore.kernel.org/r/20250716123916.511889-4-bhupesh%40igalia.com
-patch subject: [PATCH v5 3/3] treewide: Switch from tsk->comm to tsk->comm_str which is 64 bytes long
-config: i386-buildonly-randconfig-001-20250717 (https://download.01.org/0day-ci/archive/20250717/202507171254.FobDRyqP-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/Christoph-Hellwig/NFS-move-the-delegation_watermark-module-parameter/20250716-222708
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+patch link:    https://lore.kernel.org/r/20250716132657.2167548-5-hch%40lst.de
+patch subject: [PATCH 4/4] NFS: use a hash table for delegation lookup
+config: i386-randconfig-013-20250717 (https://download.01.org/0day-ci/archive/20250717/202507171246.w67NRPWN-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507171254.FobDRyqP-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507171246.w67NRPWN-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507171254.FobDRyqP-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507171246.w67NRPWN-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from include/asm-generic/bug.h:28,
-                    from arch/x86/include/asm/bug.h:103,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/atomic.h:7,
-                    from include/linux/atomic.h:7,
-                    from include/linux/debug_locks.h:5,
-                    from kernel/panic.c:12:
-   kernel/panic.c: In function '__warn':
->> kernel/panic.c:818:58: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-     818 |                         raw_smp_processor_id(), current->comm, current->pid);
-         |                                                          ^~~~
-   include/linux/printk.h:486:33: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/panic.c:816:17: note: in expansion of macro 'pr_warn'
-     816 |                 pr_warn("WARNING: %s:%d at %pS, CPU#%d: %s/%d\n",
-         |                 ^~~~~~~
-   kernel/panic.c:822:58: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-     822 |                         raw_smp_processor_id(), current->comm, current->pid);
-         |                                                          ^~~~
-   include/linux/printk.h:486:33: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/panic.c:820:17: note: in expansion of macro 'pr_warn'
-     820 |                 pr_warn("WARNING: at %pS, CPU#%d: %s/%d\n",
-         |                 ^~~~~~~
---
-   In file included from include/asm-generic/bug.h:28,
-                    from arch/x86/include/asm/bug.h:103,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/segment.h:6,
-                    from arch/x86/include/asm/ptrace.h:5,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from include/linux/sched.h:13,
-                    from include/linux/ratelimit.h:6,
-                    from include/linux/dev_printk.h:16,
-                    from include/linux/device.h:15,
-                    from include/linux/node.h:18,
-                    from include/linux/cpu.h:17,
-                    from kernel/watchdog.c:15:
-   kernel/watchdog.c: In function 'watchdog_timer_fn':
->> kernel/watchdog.c:814:34: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-     814 |                         current->comm, task_pid_nr(current));
-         |                                  ^~~~
-   include/linux/printk.h:486:33: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:527:9: note: in expansion of macro 'printk'
-     527 |         printk(KERN_EMERG pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/watchdog.c:812:17: note: in expansion of macro 'pr_emerg'
-     812 |                 pr_emerg("BUG: soft lockup - CPU#%d stuck for %us! [%s:%d]\n",
-         |                 ^~~~~~~~
---
-   In file included from include/asm-generic/bug.h:28,
-                    from arch/x86/include/asm/bug.h:103,
-                    from arch/x86/include/asm/alternative.h:9,
-                    from arch/x86/include/asm/segment.h:6,
-                    from arch/x86/include/asm/ptrace.h:5,
-                    from arch/x86/include/asm/math_emu.h:5,
-                    from arch/x86/include/asm/processor.h:13,
-                    from include/linux/sched.h:13,
-                    from kernel/rseq.c:11:
-   kernel/rseq.c: In function 'rseq_validate_ro_fields':
->> kernel/rseq.c:65:36: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-      65 |                         t->pid, t->comm,
-         |                                    ^~~~
-   include/linux/printk.h:486:33: note: in definition of macro 'printk_index_wrap'
-     486 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
-         |                                 ^~~~~~~~~~~
-   include/linux/printk.h:567:9: note: in expansion of macro 'printk'
-     567 |         printk(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~
-   kernel/rseq.c:60:17: note: in expansion of macro 'pr_warn'
-      60 |                 pr_warn("Detected rseq corruption for pid: %d, name: %s\n"
-         |                 ^~~~~~~
---
-   In file included from include/trace/define_trace.h:132,
-                    from include/trace/events/task.h:98,
-                    from kernel/fork.c:121:
-   include/trace/events/task.h: In function 'do_trace_event_raw_event_task_newtask':
->> include/trace/events/task.h:24:45: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-      24 |                 memcpy(__entry->comm, task->comm, TASK_COMM_LEN);
-         |                                             ^~~~
-   include/trace/trace_events.h:427:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-     427 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:435:23: note: in expansion of macro 'PARAMS'
-     435 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/task.h:9:1: note: in expansion of macro 'TRACE_EVENT'
-       9 | TRACE_EVENT(task_newtask,
-         | ^~~~~~~~~~~
-   include/trace/events/task.h:22:9: note: in expansion of macro 'TP_fast_assign'
-      22 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/linux/fortify-string.h:690:26: note: in expansion of macro '__fortify_memcpy_chk'
-     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:691:35: note: in expansion of macro '__struct_size'
-     691 |                 __struct_size(p), __struct_size(q),                     \
-         |                                   ^~~~~~~~~~~~~
-   include/trace/events/task.h:24:17: note: in expansion of macro 'memcpy'
-      24 |                 memcpy(__entry->comm, task->comm, TASK_COMM_LEN);
-         |                 ^~~~~~
->> include/trace/events/task.h:24:45: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-      24 |                 memcpy(__entry->comm, task->comm, TASK_COMM_LEN);
-         |                                             ^~~~
-   include/trace/trace_events.h:427:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-     427 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:435:23: note: in expansion of macro 'PARAMS'
-     435 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/task.h:9:1: note: in expansion of macro 'TRACE_EVENT'
-       9 | TRACE_EVENT(task_newtask,
-         | ^~~~~~~~~~~
-   include/trace/events/task.h:22:9: note: in expansion of macro 'TP_fast_assign'
-      22 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/linux/fortify-string.h:690:26: note: in expansion of macro '__fortify_memcpy_chk'
-     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:692:35: note: in expansion of macro '__member_size'
-     692 |                 __member_size(p), __member_size(q),                     \
-         |                                   ^~~~~~~~~~~~~
-   include/trace/events/task.h:24:17: note: in expansion of macro 'memcpy'
-      24 |                 memcpy(__entry->comm, task->comm, TASK_COMM_LEN);
-         |                 ^~~~~~
->> include/trace/events/task.h:24:45: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-      24 |                 memcpy(__entry->comm, task->comm, TASK_COMM_LEN);
-         |                                             ^~~~
-   include/trace/trace_events.h:427:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-     427 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:435:23: note: in expansion of macro 'PARAMS'
-     435 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/task.h:9:1: note: in expansion of macro 'TRACE_EVENT'
-       9 | TRACE_EVENT(task_newtask,
-         | ^~~~~~~~~~~
-   include/trace/events/task.h:22:9: note: in expansion of macro 'TP_fast_assign'
-      22 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/linux/fortify-string.h:690:26: note: in expansion of macro '__fortify_memcpy_chk'
-     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   include/trace/events/task.h:24:17: note: in expansion of macro 'memcpy'
-      24 |                 memcpy(__entry->comm, task->comm, TASK_COMM_LEN);
-         |                 ^~~~~~
-   include/trace/events/task.h: In function 'do_trace_event_raw_event_task_rename':
-   include/trace/events/task.h:48:46: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-      48 |                 memcpy(entry->oldcomm, task->comm, TASK_COMM_LEN);
-         |                                              ^~~~
-   include/trace/trace_events.h:427:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-     427 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:435:23: note: in expansion of macro 'PARAMS'
-     435 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/task.h:35:1: note: in expansion of macro 'TRACE_EVENT'
-      35 | TRACE_EVENT(task_rename,
-         | ^~~~~~~~~~~
-   include/trace/events/task.h:47:9: note: in expansion of macro 'TP_fast_assign'
-      47 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/linux/fortify-string.h:690:26: note: in expansion of macro '__fortify_memcpy_chk'
-     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:691:35: note: in expansion of macro '__struct_size'
-     691 |                 __struct_size(p), __struct_size(q),                     \
-         |                                   ^~~~~~~~~~~~~
-   include/trace/events/task.h:48:17: note: in expansion of macro 'memcpy'
-      48 |                 memcpy(entry->oldcomm, task->comm, TASK_COMM_LEN);
-         |                 ^~~~~~
-   include/trace/events/task.h:48:46: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-      48 |                 memcpy(entry->oldcomm, task->comm, TASK_COMM_LEN);
-         |                                              ^~~~
-   include/trace/trace_events.h:427:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-     427 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:435:23: note: in expansion of macro 'PARAMS'
-     435 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/task.h:35:1: note: in expansion of macro 'TRACE_EVENT'
-      35 | TRACE_EVENT(task_rename,
-         | ^~~~~~~~~~~
-   include/trace/events/task.h:47:9: note: in expansion of macro 'TP_fast_assign'
-      47 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/linux/fortify-string.h:690:26: note: in expansion of macro '__fortify_memcpy_chk'
-     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:692:35: note: in expansion of macro '__member_size'
-     692 |                 __member_size(p), __member_size(q),                     \
-         |                                   ^~~~~~~~~~~~~
-   include/trace/events/task.h:48:17: note: in expansion of macro 'memcpy'
-      48 |                 memcpy(entry->oldcomm, task->comm, TASK_COMM_LEN);
-         |                 ^~~~~~
-   include/trace/events/task.h:48:46: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-      48 |                 memcpy(entry->oldcomm, task->comm, TASK_COMM_LEN);
-         |                                              ^~~~
-   include/trace/trace_events.h:427:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-     427 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/trace_events.h:435:23: note: in expansion of macro 'PARAMS'
-     435 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/task.h:35:1: note: in expansion of macro 'TRACE_EVENT'
-      35 | TRACE_EVENT(task_rename,
-         | ^~~~~~~~~~~
-   include/trace/events/task.h:47:9: note: in expansion of macro 'TP_fast_assign'
-      47 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/linux/fortify-string.h:690:26: note: in expansion of macro '__fortify_memcpy_chk'
-     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   include/trace/events/task.h:48:17: note: in expansion of macro 'memcpy'
-      48 |                 memcpy(entry->oldcomm, task->comm, TASK_COMM_LEN);
-         |                 ^~~~~~
-   In file included from include/trace/define_trace.h:133:
-   include/trace/events/task.h: In function 'do_perf_trace_task_newtask':
->> include/trace/events/task.h:24:45: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-      24 |                 memcpy(__entry->comm, task->comm, TASK_COMM_LEN);
-         |                                             ^~~~
-   include/trace/perf.h:51:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/perf.h:67:23: note: in expansion of macro 'PARAMS'
-      67 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/task.h:9:1: note: in expansion of macro 'TRACE_EVENT'
-       9 | TRACE_EVENT(task_newtask,
-         | ^~~~~~~~~~~
-   include/trace/events/task.h:22:9: note: in expansion of macro 'TP_fast_assign'
-      22 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/linux/fortify-string.h:690:26: note: in expansion of macro '__fortify_memcpy_chk'
-     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:691:35: note: in expansion of macro '__struct_size'
-     691 |                 __struct_size(p), __struct_size(q),                     \
-         |                                   ^~~~~~~~~~~~~
-   include/trace/events/task.h:24:17: note: in expansion of macro 'memcpy'
-      24 |                 memcpy(__entry->comm, task->comm, TASK_COMM_LEN);
-         |                 ^~~~~~
->> include/trace/events/task.h:24:45: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-      24 |                 memcpy(__entry->comm, task->comm, TASK_COMM_LEN);
-         |                                             ^~~~
-   include/trace/perf.h:51:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/perf.h:67:23: note: in expansion of macro 'PARAMS'
-      67 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/task.h:9:1: note: in expansion of macro 'TRACE_EVENT'
-       9 | TRACE_EVENT(task_newtask,
-         | ^~~~~~~~~~~
-   include/trace/events/task.h:22:9: note: in expansion of macro 'TP_fast_assign'
-      22 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/linux/fortify-string.h:690:26: note: in expansion of macro '__fortify_memcpy_chk'
-     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:692:35: note: in expansion of macro '__member_size'
-     692 |                 __member_size(p), __member_size(q),                     \
-         |                                   ^~~~~~~~~~~~~
-   include/trace/events/task.h:24:17: note: in expansion of macro 'memcpy'
-      24 |                 memcpy(__entry->comm, task->comm, TASK_COMM_LEN);
-         |                 ^~~~~~
->> include/trace/events/task.h:24:45: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-      24 |                 memcpy(__entry->comm, task->comm, TASK_COMM_LEN);
-         |                                             ^~~~
-   include/trace/perf.h:51:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/perf.h:67:23: note: in expansion of macro 'PARAMS'
-      67 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/task.h:9:1: note: in expansion of macro 'TRACE_EVENT'
-       9 | TRACE_EVENT(task_newtask,
-         | ^~~~~~~~~~~
-   include/trace/events/task.h:22:9: note: in expansion of macro 'TP_fast_assign'
-      22 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/linux/fortify-string.h:690:26: note: in expansion of macro '__fortify_memcpy_chk'
-     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   include/trace/events/task.h:24:17: note: in expansion of macro 'memcpy'
-      24 |                 memcpy(__entry->comm, task->comm, TASK_COMM_LEN);
-         |                 ^~~~~~
-   include/trace/events/task.h: In function 'do_perf_trace_task_rename':
-   include/trace/events/task.h:48:46: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-      48 |                 memcpy(entry->oldcomm, task->comm, TASK_COMM_LEN);
-         |                                              ^~~~
-   include/trace/perf.h:51:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/perf.h:67:23: note: in expansion of macro 'PARAMS'
-      67 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/task.h:35:1: note: in expansion of macro 'TRACE_EVENT'
-      35 | TRACE_EVENT(task_rename,
-         | ^~~~~~~~~~~
-   include/trace/events/task.h:47:9: note: in expansion of macro 'TP_fast_assign'
-      47 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/linux/fortify-string.h:690:26: note: in expansion of macro '__fortify_memcpy_chk'
-     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:691:35: note: in expansion of macro '__struct_size'
-     691 |                 __struct_size(p), __struct_size(q),                     \
-         |                                   ^~~~~~~~~~~~~
-   include/trace/events/task.h:48:17: note: in expansion of macro 'memcpy'
-      48 |                 memcpy(entry->oldcomm, task->comm, TASK_COMM_LEN);
-         |                 ^~~~~~
-   include/trace/events/task.h:48:46: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-      48 |                 memcpy(entry->oldcomm, task->comm, TASK_COMM_LEN);
-         |                                              ^~~~
-   include/trace/perf.h:51:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/perf.h:67:23: note: in expansion of macro 'PARAMS'
-      67 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-      44 |                              PARAMS(assign),                   \
-         |                              ^~~~~~
-   include/trace/events/task.h:35:1: note: in expansion of macro 'TRACE_EVENT'
-      35 | TRACE_EVENT(task_rename,
-         | ^~~~~~~~~~~
-   include/trace/events/task.h:47:9: note: in expansion of macro 'TP_fast_assign'
-      47 |         TP_fast_assign(
-         |         ^~~~~~~~~~~~~~
-   include/linux/fortify-string.h:690:26: note: in expansion of macro '__fortify_memcpy_chk'
-     690 | #define memcpy(p, q, s)  __fortify_memcpy_chk(p, q, s,                  \
-         |                          ^~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:692:35: note: in expansion of macro '__member_size'
-     692 |                 __member_size(p), __member_size(q),                     \
-         |                                   ^~~~~~~~~~~~~
-   include/trace/events/task.h:48:17: note: in expansion of macro 'memcpy'
-      48 |                 memcpy(entry->oldcomm, task->comm, TASK_COMM_LEN);
-         |                 ^~~~~~
-   include/trace/events/task.h:48:46: error: 'struct task_struct' has no member named 'comm'; did you mean 'mm'?
-      48 |                 memcpy(entry->oldcomm, task->comm, TASK_COMM_LEN);
-         |                                              ^~~~
-   include/trace/perf.h:51:11: note: in definition of macro '__DECLARE_EVENT_CLASS'
-      51 |         { assign; }                                                     \
-         |           ^~~~~~
-   include/trace/perf.h:67:23: note: in expansion of macro 'PARAMS'
-      67 |                       PARAMS(assign), PARAMS(print))                    \
-         |                       ^~~~~~
-   include/trace/trace_events.h:40:9: note: in expansion of macro 'DECLARE_EVENT_CLASS'
-      40 |         DECLARE_EVENT_CLASS(name,                              \
-         |         ^~~~~~~~~~~~~~~~~~~
-   include/trace/trace_events.h:44:30: note: in expansion of macro 'PARAMS'
-..
+   ld: fs/nfs/client.o: in function `nfs_clone_server':
+>> fs/nfs/client.c:1162: undefined reference to `nfs4_delegation_hash_alloc'
 
 
-vim +818 kernel/panic.c
+vim +1162 fs/nfs/client.c
 
-bd89bb29a01503 Arjan van de Ven         2008-11-28  807  
-2553b67a1fbe7b Josh Poimboeuf           2016-03-17  808  void __warn(const char *file, int line, void *caller, unsigned taint,
-2553b67a1fbe7b Josh Poimboeuf           2016-03-17  809  	    struct pt_regs *regs, struct warn_args *args)
-0f6f49a8cd0163 Linus Torvalds           2009-05-16  810  {
-4833794db61c8c Thomas Gleixner          2024-08-20  811  	nbcon_cpu_emergency_enter();
-4833794db61c8c Thomas Gleixner          2024-08-20  812  
-de7edd31457b62 Steven Rostedt (Red Hat  2013-06-14  813) 	disable_trace_on_warning();
-de7edd31457b62 Steven Rostedt (Red Hat  2013-06-14  814) 
-1d1c158ece6cb7 Ingo Molnar              2025-05-15  815  	if (file) {
-1d1c158ece6cb7 Ingo Molnar              2025-05-15  816  		pr_warn("WARNING: %s:%d at %pS, CPU#%d: %s/%d\n",
-1d1c158ece6cb7 Ingo Molnar              2025-05-15  817  			file, line, caller,
-1d1c158ece6cb7 Ingo Molnar              2025-05-15 @818  			raw_smp_processor_id(), current->comm, current->pid);
-1d1c158ece6cb7 Ingo Molnar              2025-05-15  819  	} else {
-1d1c158ece6cb7 Ingo Molnar              2025-05-15  820  		pr_warn("WARNING: at %pS, CPU#%d: %s/%d\n",
-1d1c158ece6cb7 Ingo Molnar              2025-05-15  821  			caller,
-1d1c158ece6cb7 Ingo Molnar              2025-05-15  822  			raw_smp_processor_id(), current->comm, current->pid);
-1d1c158ece6cb7 Ingo Molnar              2025-05-15  823  	}
-74853dba2f7a1a Arjan van de Ven         2008-11-28  824  
+  1135	
+  1136	/*
+  1137	 * Clone an NFS2, NFS3 or NFS4 server record
+  1138	 */
+  1139	struct nfs_server *nfs_clone_server(struct nfs_server *source,
+  1140					    struct nfs_fh *fh,
+  1141					    struct nfs_fattr *fattr,
+  1142					    rpc_authflavor_t flavor)
+  1143	{
+  1144		struct nfs_server *server;
+  1145		int error;
+  1146	
+  1147		server = nfs_alloc_server();
+  1148		if (!server)
+  1149			return ERR_PTR(-ENOMEM);
+  1150	
+  1151		server->cred = get_cred(source->cred);
+  1152	
+  1153		/* Copy data from the source */
+  1154		server->nfs_client = source->nfs_client;
+  1155		server->destroy = source->destroy;
+  1156		refcount_inc(&server->nfs_client->cl_count);
+  1157		nfs_server_copy_userdata(server, source);
+  1158	
+  1159		server->fsid = fattr->fsid;
+  1160	
+  1161		if (IS_ENABLED(CONFIG_NFS_V4) && server->delegation_hash_table) {
+> 1162			error = nfs4_delegation_hash_alloc(server);
+  1163			if (error)
+  1164				goto out_free_server;
+  1165		}
+  1166	
+  1167		nfs_sysfs_add_server(server);
+  1168	
+  1169		nfs_sysfs_link_rpc_client(server,
+  1170			server->nfs_client->cl_rpcclient, "_state");
+  1171	
+  1172		error = nfs_init_server_rpcclient(server,
+  1173				source->client->cl_timeout,
+  1174				flavor);
+  1175		if (error < 0)
+  1176			goto out_free_delegation_hash;
+  1177	
+  1178		/* probe the filesystem info for this server filesystem */
+  1179		error = nfs_probe_server(server, fh);
+  1180		if (error < 0)
+  1181			goto out_free_delegation_hash;
+  1182	
+  1183		if (server->namelen == 0 || server->namelen > NFS4_MAXNAMLEN)
+  1184			server->namelen = NFS4_MAXNAMLEN;
+  1185	
+  1186		error = nfs_start_lockd(server);
+  1187		if (error < 0)
+  1188			goto out_free_delegation_hash;
+  1189	
+  1190		nfs_server_insert_lists(server);
+  1191		server->mount_time = jiffies;
+  1192	
+  1193		return server;
+  1194	
+  1195	out_free_delegation_hash:
+  1196		kfree(server->delegation_hash_table);
+  1197	out_free_server:
+  1198		nfs_free_server(server);
+  1199		return ERR_PTR(error);
+  1200	}
+  1201	EXPORT_SYMBOL_GPL(nfs_clone_server);
+  1202	
 
 -- 
 0-DAY CI Kernel Test Service
