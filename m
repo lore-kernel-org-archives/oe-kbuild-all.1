@@ -1,59 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6223C18C31
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 17:01:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD2DC1F0E53
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 17:31:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752771680; cv=none; b=dSnjNR1qS+dwXOJZeN/8PGcc0H0CA8MUHoZMrvX7wfw+qKxXDvSevELBNQ/IIBeF9/ndayic+QSGXgqXhj9IyVlFTMPC8kh4V3pWLlImVLx/tiYlbm3DsN9G4oCCe5tAjRLppMlvAs3ndt8Vc8IW2NrJxehQRZ8jZeEeDBpqVFA=
+	t=1752773475; cv=none; b=cDiOEOaQxU3Xrdpyv25FMgDGa5mafbfatSKjn5Hq1XWzJckvfUhdKE+5iEfSmPj3jT8kvccgCfS9sb6ucuZSoEr+eknFWhHYSfjPpdGcFeJTCTV8N6a4FhED8hP9r+K3aLWKm2/LoDWXjSfiAjnI6rVA3hdNF5c1Y28VSfxAzWo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752771680; c=relaxed/simple;
-	bh=moiNvqj8rnaGNl3O6hzNIBMKUF6ZhJ1u9aEvEq1rNZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iWV2TU9sp14Gj/DxbOl9f3YwVeNhEDc/fPxNftWVj13r5Mg5MQxKURPO/1ScTFgEw8emuV7dMd+SvpqW+8KGc8gIQngiNaJ2bEuV3lwB9NQpbDMba56m7kpzX9hmjpB9UURXw1H03kO7rRq/bbcU7Ef7PJs0CF89RmbozAtv1pQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CoQRYM8g; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1752773475; c=relaxed/simple;
+	bh=mZlLBjEGt3eBWCZWYcB71kIeOMih/Nb65JEO3Sp72KY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eLaiWA+U910ZanPPgbK5okXXCL7EL7KX5fvnXbA1Ik657qGcOlt7qCIZTHYmeWt7j29y12p/Vg/hKKGJdQ+T7eZDt5Te5Ak8Gg4t2d7C2EMVZxM7Ts5inHy6XvdoxKmt4noRwOuRCN3C2c/ymDtQpojZ1/uduTAGaJMf1w5tE5I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X9/G+298; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CoQRYM8g"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X9/G+298"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752771678; x=1784307678;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=moiNvqj8rnaGNl3O6hzNIBMKUF6ZhJ1u9aEvEq1rNZA=;
-  b=CoQRYM8gxe+/iSWYxYv75ZSnFZpY+hbh7S4s5+QDcwWbRjZQiaQzdLoU
-   VY26nuKiq4UuInRDHtIsWeq8q+jim5txyChV4CdBwblbNMNxFxrSx3hZ9
-   P5/ScBHYU7ET77o7D+8XdDVRJS07WTYDPjpNB8ks05Oyo5vUXpnoMQqKY
-   eJivw7bExUbj0HAnAEVxWxGlMfygAh2ptUhrclbtHrUN2/sVRhJ2ubPIO
-   iHfqXwRQo9TTutTIZAA8hVtq2WBeyAdT+C3lQtdjIZeYBDRmyuSzH9JwT
-   b7NSO22ow+i8X7qM0FA60Z2+VIhkGskokvXe/0p3fqIdwhyVqgSUVqS2b
-   w==;
-X-CSE-ConnectionGUID: QkGKCh6hRjWYtve+X7PbHw==
-X-CSE-MsgGUID: e96QAv8STsuTF92dRLP2Mg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="65748738"
+  t=1752773474; x=1784309474;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mZlLBjEGt3eBWCZWYcB71kIeOMih/Nb65JEO3Sp72KY=;
+  b=X9/G+298VxVtPjwlq6AtruulqVmX6CyBz2oZvM9CPkwfnRc1bt949462
+   SxkEhMqfZ+8Gbp5zHL4XYRJbLL+QrTAVgUquGR5bxSejeU4ZnsCoaO/uG
+   9qEButzEah3fz+Csem91gSo31xJzsf3GG7x28damqUaJRbzKU/69b5KVz
+   poFCG5YtWmGNu83HolYWcBIkfQS+4oYS6D9nAn7wDJhlBD1j9JvCMpbhH
+   xlrQJGHSvxjpM55vS1Y51AqypEv9IkUf+zxRqZpWlKXaZ/IEjZyq0BQR7
+   RZUrbr3Wxn1wmbc+g4nPF0JJ3PZE9LyAOsFZL4mBWipESgvoRM/Gb8vQO
+   Q==;
+X-CSE-ConnectionGUID: MxdandMJRWKAqjhwTMk3uw==
+X-CSE-MsgGUID: HFjJb+QETwiSuTlh7F/ENg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="55205950"
 X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="65748738"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 10:01:10 -0700
-X-CSE-ConnectionGUID: crjw1lueSr6xu+rey1Sz8Q==
-X-CSE-MsgGUID: U/PBOgMeTXyM1cH0kHT+zg==
+   d="scan'208";a="55205950"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 10:31:13 -0700
+X-CSE-ConnectionGUID: Xh0G8rkiTmOBtDr9uo7KEw==
+X-CSE-MsgGUID: BB/HBUHIQoi0lTcuThjEjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="157234582"
+   d="scan'208";a="194986268"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 Jul 2025 10:01:08 -0700
+  by orviesa001.jf.intel.com with ESMTP; 17 Jul 2025 10:31:11 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucRyj-000Dr1-2g;
-	Thu, 17 Jul 2025 17:01:05 +0000
-Date: Fri, 18 Jul 2025 01:00:32 +0800
+	id 1ucSRo-000Dsl-1Z;
+	Thu, 17 Jul 2025 17:31:08 +0000
+Date: Fri, 18 Jul 2025 01:30:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Chao Yu <yuchao0@huawei.com>,
-	Chao Yu <chao@kernel.org>
-Subject: [chao:bugfix/common 5/5] fs/f2fs/data.c:1597:51: error: 'map' is a
- pointer; did you mean to use '->'?
-Message-ID: <202507180011.0xGXLBqu-lkp@intel.com>
+To: Matthew W Carlis <mattc@purestorage.com>, linux-pci@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bhelgaas@google.com,
+	ashishk@purestorage.com, macro@orcam.me.uk,
+	bamstadt@purestorage.com, msaggi@purestorage.com,
+	sconnor@purestorage.com, Matthew W Carlis <mattc@purestorage.com>
+Subject: Re: [PATCH 1/1] PCI: Add CONFIG_PCI_NOSPEED_QUIRK to remove
+ pcie_failed_link_retrain
+Message-ID: <202507180125.48CXWNxm-lkp@intel.com>
+References: <20250716190206.15269-2-mattc@purestorage.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,304 +66,102 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250716190206.15269-2-mattc@purestorage.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chao/linux.git bugfix/common
-head:   d98bac3cd94b6c0375a7b6e7728b8cf17cc080d0
-commit: d98bac3cd94b6c0375a7b6e7728b8cf17cc080d0 [5/5] f2fs: fix to avoid redundant allocation for dio write
-config: i386-buildonly-randconfig-002-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180011.0xGXLBqu-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507180011.0xGXLBqu-lkp@intel.com/reproduce)
+Hi Matthew,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on pci/next]
+[also build test ERROR on pci/for-linus linus/master v6.16-rc6 next-20250717]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Matthew-W-Carlis/PCI-Add-CONFIG_PCI_NOSPEED_QUIRK-to-remove-pcie_failed_link_retrain/20250717-030438
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git next
+patch link:    https://lore.kernel.org/r/20250716190206.15269-2-mattc%40purestorage.com
+patch subject: [PATCH 1/1] PCI: Add CONFIG_PCI_NOSPEED_QUIRK to remove pcie_failed_link_retrain
+config: sparc-randconfig-002-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180125.48CXWNxm-lkp@intel.com/config)
+compiler: sparc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507180125.48CXWNxm-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507180011.0xGXLBqu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507180125.48CXWNxm-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   fs/f2fs/data.c: In function 'f2fs_map_blocks':
->> fs/f2fs/data.c:1597:51: error: 'map' is a pointer; did you mean to use '->'?
-    1597 |                 !f2fs_is_pinned_file(inode) && map.m_last_pblk != blkaddr))) {
-         |                                                   ^
-         |                                                   ->
-   fs/f2fs/data.c: In function 'f2fs_iomap_begin':
->> fs/f2fs/data.c:4213:40: warning: assignment to 'void *' from 'block_t' {aka 'unsigned int'} makes pointer from integer without a cast [-Wint-conversion]
-    4213 |                         iomap->private = map.m_last_pblk;
-         |                                        ^
+   drivers/pci/probe.c: In function 'pci_device_add':
+>> drivers/pci/probe.c:2688:2: error: implicit declaration of function 'pcie_failed_link_retrain'; did you mean 'pci_enable_link_state'? [-Werror=implicit-function-declaration]
+     pcie_failed_link_retrain(dev);
+     ^~~~~~~~~~~~~~~~~~~~~~~~
+     pci_enable_link_state
+   cc1: some warnings being treated as errors
+--
+   drivers/pci/pci.c: In function 'pci_dev_wait':
+>> drivers/pci/pci.c:1325:9: error: implicit declaration of function 'pcie_failed_link_retrain'; did you mean 'pci_enable_link_state'? [-Werror=implicit-function-declaration]
+        if (pcie_failed_link_retrain(bridge) == 0) {
+            ^~~~~~~~~~~~~~~~~~~~~~~~
+            pci_enable_link_state
+   cc1: some warnings being treated as errors
 
 
-vim +1597 fs/f2fs/data.c
+vim +2688 drivers/pci/probe.c
 
-  1523	
-  1524	/*
-  1525	 * f2fs_map_blocks() tries to find or build mapping relationship which
-  1526	 * maps continuous logical blocks to physical blocks, and return such
-  1527	 * info via f2fs_map_blocks structure.
-  1528	 */
-  1529	int f2fs_map_blocks(struct inode *inode, struct f2fs_map_blocks *map, int flag)
-  1530	{
-  1531		unsigned int maxblocks = map->m_len;
-  1532		struct dnode_of_data dn;
-  1533		struct f2fs_sb_info *sbi = F2FS_I_SB(inode);
-  1534		int mode = map->m_may_create ? ALLOC_NODE : LOOKUP_NODE;
-  1535		pgoff_t pgofs, end_offset, end;
-  1536		int err = 0, ofs = 1;
-  1537		unsigned int ofs_in_node, last_ofs_in_node;
-  1538		blkcnt_t prealloc;
-  1539		block_t blkaddr;
-  1540		unsigned int start_pgofs;
-  1541		int bidx = 0;
-  1542		bool is_hole;
-  1543		bool lfs_dio_write;
-  1544	
-  1545		if (!maxblocks)
-  1546			return 0;
-  1547	
-  1548		lfs_dio_write = (flag == F2FS_GET_BLOCK_DIO && f2fs_lfs_mode(sbi) &&
-  1549					map->m_may_create);
-  1550	
-  1551		if (!map->m_may_create && f2fs_map_blocks_cached(inode, map, flag))
-  1552			goto out;
-  1553	
-  1554		map->m_bdev = inode->i_sb->s_bdev;
-  1555		map->m_multidev_dio =
-  1556			f2fs_allow_multi_device_dio(F2FS_I_SB(inode), flag);
-  1557	
-  1558		map->m_len = 0;
-  1559		map->m_flags = 0;
-  1560	
-  1561		/* it only supports block size == page size */
-  1562		pgofs =	(pgoff_t)map->m_lblk;
-  1563		end = pgofs + maxblocks;
-  1564	
-  1565	next_dnode:
-  1566		if (map->m_may_create)
-  1567			f2fs_map_lock(sbi, flag);
-  1568	
-  1569		/* When reading holes, we need its node page */
-  1570		set_new_dnode(&dn, inode, NULL, NULL, 0);
-  1571		err = f2fs_get_dnode_of_data(&dn, pgofs, mode);
-  1572		if (err) {
-  1573			if (flag == F2FS_GET_BLOCK_BMAP)
-  1574				map->m_pblk = 0;
-  1575			if (err == -ENOENT)
-  1576				err = f2fs_map_no_dnode(inode, map, &dn, pgofs);
-  1577			goto unlock_out;
-  1578		}
-  1579	
-  1580		start_pgofs = pgofs;
-  1581		prealloc = 0;
-  1582		last_ofs_in_node = ofs_in_node = dn.ofs_in_node;
-  1583		end_offset = ADDRS_PER_PAGE(dn.node_folio, inode);
-  1584	
-  1585	next_block:
-  1586		blkaddr = f2fs_data_blkaddr(&dn);
-  1587		is_hole = !__is_valid_data_blkaddr(blkaddr);
-  1588		if (!is_hole &&
-  1589		    !f2fs_is_valid_blkaddr(sbi, blkaddr, DATA_GENERIC_ENHANCE)) {
-  1590			err = -EFSCORRUPTED;
-  1591			goto sync_out;
-  1592		}
-  1593	
-  1594		/* use out-place-update for direct IO under LFS mode */
-  1595		if (map->m_may_create && (is_hole ||
-  1596			(flag == F2FS_GET_BLOCK_DIO && f2fs_lfs_mode(sbi) &&
-> 1597			!f2fs_is_pinned_file(inode) && map.m_last_pblk != blkaddr))) {
-  1598			if (unlikely(f2fs_cp_error(sbi))) {
-  1599				err = -EIO;
-  1600				goto sync_out;
-  1601			}
-  1602	
-  1603			switch (flag) {
-  1604			case F2FS_GET_BLOCK_PRE_AIO:
-  1605				if (blkaddr == NULL_ADDR) {
-  1606					prealloc++;
-  1607					last_ofs_in_node = dn.ofs_in_node;
-  1608				}
-  1609				break;
-  1610			case F2FS_GET_BLOCK_PRE_DIO:
-  1611			case F2FS_GET_BLOCK_DIO:
-  1612				err = __allocate_data_block(&dn, map->m_seg_type);
-  1613				if (err)
-  1614					goto sync_out;
-  1615				if (flag == F2FS_GET_BLOCK_PRE_DIO)
-  1616					file_need_truncate(inode);
-  1617				set_inode_flag(inode, FI_APPEND_WRITE);
-  1618				break;
-  1619			default:
-  1620				WARN_ON_ONCE(1);
-  1621				err = -EIO;
-  1622				goto sync_out;
-  1623			}
-  1624	
-  1625			blkaddr = dn.data_blkaddr;
-  1626			if (is_hole)
-  1627				map->m_flags |= F2FS_MAP_NEW;
-  1628		} else if (is_hole) {
-  1629			if (f2fs_compressed_file(inode) &&
-  1630			    f2fs_sanity_check_cluster(&dn)) {
-  1631				err = -EFSCORRUPTED;
-  1632				f2fs_handle_error(sbi,
-  1633						ERROR_CORRUPTED_CLUSTER);
-  1634				goto sync_out;
-  1635			}
-  1636	
-  1637			switch (flag) {
-  1638			case F2FS_GET_BLOCK_PRECACHE:
-  1639				goto sync_out;
-  1640			case F2FS_GET_BLOCK_BMAP:
-  1641				map->m_pblk = 0;
-  1642				goto sync_out;
-  1643			case F2FS_GET_BLOCK_FIEMAP:
-  1644				if (blkaddr == NULL_ADDR) {
-  1645					if (map->m_next_pgofs)
-  1646						*map->m_next_pgofs = pgofs + 1;
-  1647					goto sync_out;
-  1648				}
-  1649				break;
-  1650			case F2FS_GET_BLOCK_DIO:
-  1651				if (map->m_next_pgofs)
-  1652					*map->m_next_pgofs = pgofs + 1;
-  1653				break;
-  1654			default:
-  1655				/* for defragment case */
-  1656				if (map->m_next_pgofs)
-  1657					*map->m_next_pgofs = pgofs + 1;
-  1658				goto sync_out;
-  1659			}
-  1660		}
-  1661	
-  1662		if (flag == F2FS_GET_BLOCK_PRE_AIO)
-  1663			goto skip;
-  1664	
-  1665		if (map->m_multidev_dio)
-  1666			bidx = f2fs_target_device_index(sbi, blkaddr);
-  1667	
-  1668		if (map->m_len == 0) {
-  1669			/* reserved delalloc block should be mapped for fiemap. */
-  1670			if (blkaddr == NEW_ADDR)
-  1671				map->m_flags |= F2FS_MAP_DELALLOC;
-  1672			/* DIO READ and hole case, should not map the blocks. */
-  1673			if (!(flag == F2FS_GET_BLOCK_DIO && is_hole && !map->m_may_create))
-  1674				map->m_flags |= F2FS_MAP_MAPPED;
-  1675	
-  1676			map->m_pblk = blkaddr;
-  1677			map->m_len = 1;
-  1678	
-  1679			if (map->m_multidev_dio)
-  1680				map->m_bdev = FDEV(bidx).bdev;
-  1681	
-  1682			if (lfs_dio_write)
-  1683				map->m_last_pblk = NULL_ADDR;
-  1684		} else if (map_is_mergeable(sbi, map, blkaddr, flag, bidx, ofs)) {
-  1685			ofs++;
-  1686			map->m_len++;
-  1687		} else {
-  1688			if (lfs_dio_write && !f2fs_is_pinned_file(inode))
-  1689				map->m_last_pblk = blkaddr;
-  1690			goto sync_out;
-  1691		}
-  1692	
-  1693	skip:
-  1694		dn.ofs_in_node++;
-  1695		pgofs++;
-  1696	
-  1697		/* preallocate blocks in batch for one dnode page */
-  1698		if (flag == F2FS_GET_BLOCK_PRE_AIO &&
-  1699				(pgofs == end || dn.ofs_in_node == end_offset)) {
-  1700	
-  1701			dn.ofs_in_node = ofs_in_node;
-  1702			err = f2fs_reserve_new_blocks(&dn, prealloc);
-  1703			if (err)
-  1704				goto sync_out;
-  1705	
-  1706			map->m_len += dn.ofs_in_node - ofs_in_node;
-  1707			if (prealloc && dn.ofs_in_node != last_ofs_in_node + 1) {
-  1708				err = -ENOSPC;
-  1709				goto sync_out;
-  1710			}
-  1711			dn.ofs_in_node = end_offset;
-  1712		}
-  1713	
-  1714		if (lfs_dio_write) {
-  1715			/* the next block to be allocated may not be contiguous. */
-  1716			if (GET_SEGOFF_FROM_SEG0(sbi, blkaddr) % BLKS_PER_SEC(sbi) ==
-  1717			    CAP_BLKS_PER_SEC(sbi) - 1)
-  1718				goto sync_out;
-  1719		}
-  1720	
-  1721		if (pgofs >= end)
-  1722			goto sync_out;
-  1723		else if (dn.ofs_in_node < end_offset)
-  1724			goto next_block;
-  1725	
-  1726		if (flag == F2FS_GET_BLOCK_PRECACHE) {
-  1727			if (map->m_flags & F2FS_MAP_MAPPED) {
-  1728				unsigned int ofs = start_pgofs - map->m_lblk;
-  1729	
-  1730				f2fs_update_read_extent_cache_range(&dn,
-  1731					start_pgofs, map->m_pblk + ofs,
-  1732					map->m_len - ofs);
-  1733			}
-  1734		}
-  1735	
-  1736		f2fs_put_dnode(&dn);
-  1737	
-  1738		if (map->m_may_create) {
-  1739			f2fs_map_unlock(sbi, flag);
-  1740			f2fs_balance_fs(sbi, dn.node_changed);
-  1741		}
-  1742		goto next_dnode;
-  1743	
-  1744	sync_out:
-  1745	
-  1746		if (flag == F2FS_GET_BLOCK_DIO && map->m_flags & F2FS_MAP_MAPPED) {
-  1747			/*
-  1748			 * for hardware encryption, but to avoid potential issue
-  1749			 * in future
-  1750			 */
-  1751			f2fs_wait_on_block_writeback_range(inode,
-  1752							map->m_pblk, map->m_len);
-  1753	
-  1754			if (map->m_multidev_dio) {
-  1755				block_t blk_addr = map->m_pblk;
-  1756	
-  1757				bidx = f2fs_target_device_index(sbi, map->m_pblk);
-  1758	
-  1759				map->m_bdev = FDEV(bidx).bdev;
-  1760				map->m_pblk -= FDEV(bidx).start_blk;
-  1761	
-  1762				if (map->m_may_create)
-  1763					f2fs_update_device_state(sbi, inode->i_ino,
-  1764								blk_addr, map->m_len);
-  1765	
-  1766				f2fs_bug_on(sbi, blk_addr + map->m_len >
-  1767							FDEV(bidx).end_blk + 1);
-  1768			}
-  1769		}
-  1770	
-  1771		if (flag == F2FS_GET_BLOCK_PRECACHE) {
-  1772			if (map->m_flags & F2FS_MAP_MAPPED) {
-  1773				unsigned int ofs = start_pgofs - map->m_lblk;
-  1774	
-  1775				f2fs_update_read_extent_cache_range(&dn,
-  1776					start_pgofs, map->m_pblk + ofs,
-  1777					map->m_len - ofs);
-  1778			}
-  1779			if (map->m_next_extent)
-  1780				*map->m_next_extent = pgofs + 1;
-  1781		}
-  1782		f2fs_put_dnode(&dn);
-  1783	unlock_out:
-  1784		if (map->m_may_create) {
-  1785			f2fs_map_unlock(sbi, flag);
-  1786			f2fs_balance_fs(sbi, dn.node_changed);
-  1787		}
-  1788	out:
-  1789		trace_f2fs_map_blocks(inode, map, flag, err);
-  1790		return err;
-  1791	}
-  1792	
+44aa0c657e3e45 Marc Zyngier      2015-07-28  2670  
+96bde06a2df1b3 Sam Ravnborg      2007-03-26  2671  void pci_device_add(struct pci_dev *dev, struct pci_bus *bus)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2672  {
+4f535093cf8f6d Yinghai Lu        2013-01-21  2673  	int ret;
+4f535093cf8f6d Yinghai Lu        2013-01-21  2674  
+6cd33649fa83d9 Bjorn Helgaas     2014-08-27  2675  	pci_configure_device(dev);
+6cd33649fa83d9 Bjorn Helgaas     2014-08-27  2676  
+cdb9b9f730eac4 Paul Mackerras    2005-09-06  2677  	device_initialize(&dev->dev);
+cdb9b9f730eac4 Paul Mackerras    2005-09-06  2678  	dev->dev.release = pci_release_dev;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2679  
+7629d19a4df922 Yinghai Lu        2013-01-21  2680  	set_dev_node(&dev->dev, pcibus_to_node(bus));
+cdb9b9f730eac4 Paul Mackerras    2005-09-06  2681  	dev->dev.dma_mask = &dev->dma_mask;
+4d57cdfacaa1c2 FUJITA Tomonori   2008-02-04  2682  	dev->dev.dma_parms = &dev->dma_parms;
+cdb9b9f730eac4 Paul Mackerras    2005-09-06  2683  	dev->dev.coherent_dma_mask = 0xffffffffull;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2684  
+b0da3498c587c2 Christoph Hellwig 2018-10-09  2685  	dma_set_max_seg_size(&dev->dev, 65536);
+a6f44cf9f5cc60 Christoph Hellwig 2018-10-09  2686  	dma_set_seg_boundary(&dev->dev, 0xffffffff);
+4d57cdfacaa1c2 FUJITA Tomonori   2008-02-04  2687  
+a89c82249c3763 Maciej W. Rozycki 2023-06-11 @2688  	pcie_failed_link_retrain(dev);
+a89c82249c3763 Maciej W. Rozycki 2023-06-11  2689  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2690  	/* Fix up broken headers */
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2691  	pci_fixup_device(pci_fixup_header, dev);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2692  
+2069ecfbe14ebd Yinghai Lu        2012-02-15  2693  	pci_reassigndev_resource_alignment(dev);
+2069ecfbe14ebd Yinghai Lu        2012-02-15  2694  
+4b77b0a2ba27d6 Rafael J. Wysocki 2009-09-09  2695  	dev->state_saved = false;
+4b77b0a2ba27d6 Rafael J. Wysocki 2009-09-09  2696  
+201de56eb22f1f Zhao, Yu          2008-10-13  2697  	pci_init_capabilities(dev);
+eb9d0fe40e313c Rafael J. Wysocki 2008-07-07  2698  
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2699  	/*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2700  	 * Add the device to our list of discovered devices
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2701  	 * and the bus list for fixup functions, etc.
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2702  	 */
+d71374dafbba7e Zhang Yanmin      2006-06-02  2703  	down_write(&pci_bus_sem);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2704  	list_add_tail(&dev->bus_list, &bus->devices);
+d71374dafbba7e Zhang Yanmin      2006-06-02  2705  	up_write(&pci_bus_sem);
+4f535093cf8f6d Yinghai Lu        2013-01-21  2706  
+06dc660e6eb881 Oliver O'Halloran 2021-09-14  2707  	ret = pcibios_device_add(dev);
+4f535093cf8f6d Yinghai Lu        2013-01-21  2708  	WARN_ON(ret < 0);
+4f535093cf8f6d Yinghai Lu        2013-01-21  2709  
+3e466e2d3a04c7 Bjorn Helgaas     2017-11-30  2710  	/* Set up MSI IRQ domain */
+44aa0c657e3e45 Marc Zyngier      2015-07-28  2711  	pci_set_msi_domain(dev);
+44aa0c657e3e45 Marc Zyngier      2015-07-28  2712  
+4f535093cf8f6d Yinghai Lu        2013-01-21  2713  	/* Notifier could use PCI capabilities */
+4f535093cf8f6d Yinghai Lu        2013-01-21  2714  	ret = device_add(&dev->dev);
+4f535093cf8f6d Yinghai Lu        2013-01-21  2715  	WARN_ON(ret < 0);
+4e893545ef8712 Mariusz Tkaczyk   2024-09-04  2716  
+4e893545ef8712 Mariusz Tkaczyk   2024-09-04  2717  	pci_npem_create(dev);
+2311ab1820fed2 Alistair Francis  2025-03-06  2718  
+2311ab1820fed2 Alistair Francis  2025-03-06  2719  	pci_doe_sysfs_init(dev);
+cdb9b9f730eac4 Paul Mackerras    2005-09-06  2720  }
+cdb9b9f730eac4 Paul Mackerras    2005-09-06  2721  
 
 -- 
 0-DAY CI Kernel Test Service
