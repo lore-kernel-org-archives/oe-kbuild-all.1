@@ -1,193 +1,148 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7FD2FA64B
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 16:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752768011; cv=none; b=KoiX2WKRFaySyqIlxRJ57JKXZZNwUCaIrLqF3FReN4nvjU5b4m5pDNTBB13ds9u7wUqo73Kv3HKIA4cFJjtxRFlJYl3UHf/+EkbkcdUu5m1J9h6FW4enteCdUi7mU2TaGeT8aPRDzu2hqGuyMY1Inkgp2hVccmNudtrNlEKrlU8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752768011; c=relaxed/simple;
-	bh=ozatPYm8SkCRErUJZAqo7DV6TZZ+7eY1RkGwfl3kkqY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UBN2Vu9VdnqEMdU+kaIYVk08aUZ1VLLz3cGm/V5+a/dXFmvl9FpXtTDa4LVDK4HsVU/hUhfA3KZSe4drI7J7xXeV3EjcTNsxveV2o/+6WjiwwuuvPH7Pj+tHsImqS3jrcxjC6EETntdlk9jde7LpyGozmZGoG9NiYv5QzDrwln0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gBMpdII8; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DDA22FA624;
+	Thu, 17 Jul 2025 16:21:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1752769270; cv=pass; b=tDHIqEhgILaVDqGPyj62NAkv4uC2x67QLZN8n8Q1Q0IeSd51RLKh1sKIsJu5XLjxoRgokuS7Hf1P0ZMXZ54y1QdCTLT6vprfaQmPelv/vwiRje1lE1aysfZEXn5A369peJINVTpoos35MB7eob0PpxdoT4ln9Ldhv88XtbfCWdk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1752769270; c=relaxed/simple;
+	bh=xxLi7VZ6XfF9oiVfbnH3WcSEfX/GBfKqxLKORZPRKCE=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=hV5PUTqwIVtQPLeVU23Jlurn9KjvYPxP3b22DODlBXa9hpYDwwb1NYrZFvdIaf5eZeX9Hq48qHJjecv/s+6DOTWpAKpbFTiq3N9ZJeq7Xk+cfZNu8pOj8+JXG+EdLd7vaqXOS0+PZffIeQoQb9UDGRxNfW4Y/QLjpaMHbMVhQbA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=GYV33WQV; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gBMpdII8"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752768008; x=1784304008;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ozatPYm8SkCRErUJZAqo7DV6TZZ+7eY1RkGwfl3kkqY=;
-  b=gBMpdII8leJoqx20gWOm0EuFjd9CWG8e4hcSyECr8ZTM8StgkccOpdFR
-   GtbUpI2y909DxEb5SnvvYk0ZN80R4ZqsIe1x5joJY1LI7h87VpDNitki4
-   CjV5wRMYkVKt/hcQA9aLZaiFuVQQ5Co5pbXmBxezZkWPPecjviZQf2yil
-   pRIpXBvzBEsB20ozg34NjNC1n6Uf0s96qMmAFWqn5vNPNfVQ8fLUSM5rV
-   WmlDhWIFpZrgsvtOx3BNO+dYCe0P0D2c34KMMnpLPd2pQI12dUchpz2+N
-   rmoI012qH+d3Sv521yYRVs5JbLrAz6uIuDu3UfiVUP1lsyhBjCgSQz2l2
-   Q==;
-X-CSE-ConnectionGUID: E9gqab/YQaadD6K1ANJqvg==
-X-CSE-MsgGUID: ZEFfh5YHTz2MAW5olwsECA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="77585773"
-X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="77585773"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 09:00:07 -0700
-X-CSE-ConnectionGUID: r095Z+45RpqpTaJi1g3AEg==
-X-CSE-MsgGUID: Nm1YwRngSc+K7tDnca0fbg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="157501256"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 17 Jul 2025 09:00:01 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ucR1a-000Dmh-0F;
-	Thu, 17 Jul 2025 15:59:58 +0000
-Date: Thu, 17 Jul 2025 23:59:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexander Wilhelm <alexander.wilhelm@westermo.com>,
-	Jeff Johnson <jjohnson@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-wireless@vger.kernel.org,
-	ath12k@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH 07/11] wifi: ath12k: fix endianness handling in QMI bdf
- download
-Message-ID: <202507172333.LZcmFwWs-lkp@intel.com>
-References: <20250716075100.1447352-8-alexander.wilhelm@westermo.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="GYV33WQV"
+ARC-Seal: i=1; a=rsa-sha256; t=1752769242; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=hqHJaKVpcklVJ5ujh9TyZ1C2RwXLMFcCZzuhcZDDHBJI468tyUwj269ewOZWBRbKgJKTHuyiP0P56hXruY64UjCiVMmDnqKEbNISs6hrDCXNEF8RfvKvlNDojtg3IlnW9CF8p64u5rigVKZW2UH3uM4AqMwC1lkAsWgj4H+blvU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1752769242; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=cT2kqEKsp8nlH01nlREn5zAQtGgkfbFDvedreAfAxps=; 
+	b=Hd9LoJa7pXFft2ocoaDzl+jGNFnH2nOsFCiMpfr0i3pPP1fddApqggMjKEvx3CMuqFl5Pd/6Qu1mjpiWTpycdCqx1T0sj6XQLJjgzMtKL9WUrZfH+rjFoXL+iNp+nVWv1AbNNGnFCC3LvOePt0VuwGb2jcMHyhjBa2CDLhUt5cY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
+	dmarc=pass header.from=<daniel.almeida@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1752769242;
+	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
+	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
+	bh=cT2kqEKsp8nlH01nlREn5zAQtGgkfbFDvedreAfAxps=;
+	b=GYV33WQVtsv9ltqXLJYvexwmlcFEEFES7LzghTw2Qe6DI6JTfqNJOh4u1XQ9rqXt
+	igXxKt1gbYFWE/y9YrtYREOmmnqPRD/RzNuaBOkT+RyHpMArOrEJMkEi4qiZZllOXAL
+	SVmiU4w0ZVjJ3OwK+eSEc7iVQz8r7vBgmxJMvwCQ=
+Received: by mx.zohomail.com with SMTPS id 1752769238879669.4169784081596;
+	Thu, 17 Jul 2025 09:20:38 -0700 (PDT)
+Content-Type: text/plain;
+	charset=us-ascii
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250716075100.1447352-8-alexander.wilhelm@westermo.com>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.600.51.1.1\))
+Subject: Re: [PATCH v7 3/6] rust: irq: add support for non-threaded IRQs and
+ handlers
+From: Daniel Almeida <daniel.almeida@collabora.com>
+In-Reply-To: <202507170718.AVqYqRan-lkp@intel.com>
+Date: Thu, 17 Jul 2025 13:20:20 -0300
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+ Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>,
+ Gary Guo <gary@garyguo.net>,
+ =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Thomas Gleixner <tglx@linutronix.de>,
+ Bjorn Helgaas <helgaas@kernel.org>,
+ =?utf-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Benno Lossin <lossin@kernel.org>,
+ llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev,
+ linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org,
+ linux-pci@vger.kernel.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <9834736F-F70F-4290-9DE8-755A6D0D5EB8@collabora.com>
+References: <20250715-topics-tyr-request_irq2-v7-3-d469c0f37c07@collabora.com>
+ <202507170718.AVqYqRan-lkp@intel.com>
+To: kernel test robot <lkp@intel.com>
+X-Mailer: Apple Mail (2.3826.600.51.1.1)
+X-ZohoMailClient: External
 
-Hi Alexander,
 
-kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on ath/ath-next]
-[also build test WARNING on linus/master v6.16-rc6 next-20250717]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> On 16 Jul 2025, at 20:45, kernel test robot <lkp@intel.com> wrote:
+>=20
+> Hi Daniel,
+>=20
+> kernel test robot noticed the following build errors:
+>=20
+> [auto build test ERROR on 3964d07dd821efe9680e90c51c86661a98e60a0f]
+>=20
+> url:    =
+https://github.com/intel-lab-lkp/linux/commits/Daniel-Almeida/rust-irq-add=
+-irq-module/20250715-232121
+> base:   3964d07dd821efe9680e90c51c86661a98e60a0f
+> patch link:    =
+https://lore.kernel.org/r/20250715-topics-tyr-request_irq2-v7-3-d469c0f37c=
+07%40collabora.com
+> patch subject: [PATCH v7 3/6] rust: irq: add support for non-threaded =
+IRQs and handlers
+> config: x86_64-rhel-9.4-rust =
+(https://download.01.org/0day-ci/archive/20250717/202507170718.AVqYqRan-lk=
+p@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project =
+87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+> reproduce (this is a W=3D1 build): =
+(https://download.01.org/0day-ci/archive/20250717/202507170718.AVqYqRan-lk=
+p@intel.com/reproduce)
+>=20
+> If you fix the issue in a separate patch/commit (i.e. not just a new =
+version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: =
+https://lore.kernel.org/oe-kbuild-all/202507170718.AVqYqRan-lkp@intel.com/=
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Wilhelm/wifi-ath12k-fix-endianness-handling-in-QMI-host-capability-request/20250716-162058
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/ath/ath.git ath-next
-patch link:    https://lore.kernel.org/r/20250716075100.1447352-8-alexander.wilhelm%40westermo.com
-patch subject: [PATCH 07/11] wifi: ath12k: fix endianness handling in QMI bdf download
-config: alpha-randconfig-r122-20250717 (https://download.01.org/0day-ci/archive/20250717/202507172333.LZcmFwWs-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250717/202507172333.LZcmFwWs-lkp@intel.com/reproduce)
+>=20
+> All errors (new ones prefixed by >>):
+>=20
+>>> error[E0425]: cannot find value `SHARED` in module `flags`
+>   --> rust/doctests_kernel_generated.rs:4790:58
+>   |
+>   4790 |     let registration =3D Registration::new(request, =
+flags::SHARED, c_str!("my_device"), handler);
+>   |                                                          ^^^^^^ =
+not found in `flags`
+>   |
+>   help: consider importing this constant
+>   |
+>   3    + use kernel::mm::virt::flags::SHARED;
+>   |
+>   help: if you import `SHARED`, refer to it directly
+>   |
+>   4790 -     let registration =3D Registration::new(request, =
+flags::SHARED, c_str!("my_device"), handler);
+>   4790 +     let registration =3D Registration::new(request, SHARED, =
+c_str!("my_device"), handler);
+>   |
+>=20
+> --=20
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>=20
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507172333.LZcmFwWs-lkp@intel.com/
+This is a single character fix, so I am waiting for the discussion on =
+the cover
+letter [0] to advance before sending a new version.
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/wireless/ath/ath12k/qmi.c:2996:37: sparse: sparse: bad assignment (+=) to restricted __le32
-
-vim +2996 drivers/net/wireless/ath/ath12k/qmi.c
-
-  2919	
-  2920	static int ath12k_qmi_load_file_target_mem(struct ath12k_base *ab,
-  2921						   const u8 *data, u32 len, u8 type)
-  2922	{
-  2923		struct qmi_wlanfw_bdf_download_req_msg_v01 *req;
-  2924		struct qmi_wlanfw_bdf_download_resp_msg_v01 resp = {};
-  2925		struct qmi_txn txn;
-  2926		const u8 *temp = data;
-  2927		int ret = 0;
-  2928		u32 remaining = len;
-  2929	
-  2930		req = kzalloc(sizeof(*req), GFP_KERNEL);
-  2931		if (!req)
-  2932			return -ENOMEM;
-  2933	
-  2934		while (remaining) {
-  2935			req->valid = 1;
-  2936			req->file_id_valid = 1;
-  2937			req->file_id = cpu_to_le32(ab->qmi.target.board_id);
-  2938			req->total_size_valid = 1;
-  2939			req->total_size = cpu_to_le32(remaining);
-  2940			req->seg_id_valid = 1;
-  2941			req->data_valid = 1;
-  2942			req->bdf_type = type;
-  2943			req->bdf_type_valid = 1;
-  2944			req->end_valid = 1;
-  2945			req->end = 0;
-  2946	
-  2947			if (remaining > QMI_WLANFW_MAX_DATA_SIZE_V01) {
-  2948				req->data_len = cpu_to_le32(QMI_WLANFW_MAX_DATA_SIZE_V01);
-  2949			} else {
-  2950				req->data_len = cpu_to_le32(remaining);
-  2951				req->end = 1;
-  2952			}
-  2953	
-  2954			if (type == ATH12K_QMI_FILE_TYPE_EEPROM) {
-  2955				req->data_valid = 0;
-  2956				req->end = 1;
-  2957				req->data_len = cpu_to_le32(ATH12K_QMI_MAX_BDF_FILE_NAME_SIZE);
-  2958			} else {
-  2959				memcpy(req->data, temp, le32_to_cpu(req->data_len));
-  2960			}
-  2961	
-  2962			ret = qmi_txn_init(&ab->qmi.handle, &txn,
-  2963					   qmi_wlanfw_bdf_download_resp_msg_v01_ei,
-  2964					   &resp);
-  2965			if (ret < 0)
-  2966				goto out;
-  2967	
-  2968			ath12k_dbg(ab, ATH12K_DBG_QMI, "qmi bdf download req fixed addr type %d\n",
-  2969				   type);
-  2970	
-  2971			ret = qmi_send_request(&ab->qmi.handle, NULL, &txn,
-  2972					       QMI_WLANFW_BDF_DOWNLOAD_REQ_V01,
-  2973					       QMI_WLANFW_BDF_DOWNLOAD_REQ_MSG_V01_MAX_LEN,
-  2974					       qmi_wlanfw_bdf_download_req_msg_v01_ei, req);
-  2975			if (ret < 0) {
-  2976				qmi_txn_cancel(&txn);
-  2977				goto out;
-  2978			}
-  2979	
-  2980			ret = qmi_txn_wait(&txn, msecs_to_jiffies(ATH12K_QMI_WLANFW_TIMEOUT_MS));
-  2981			if (ret < 0)
-  2982				goto out;
-  2983	
-  2984			if (resp.resp.result != QMI_RESULT_SUCCESS_V01) {
-  2985				ath12k_warn(ab, "qmi BDF download failed, result: %d, err: %d\n",
-  2986					    resp.resp.result, resp.resp.error);
-  2987				ret = -EINVAL;
-  2988				goto out;
-  2989			}
-  2990	
-  2991			if (type == ATH12K_QMI_FILE_TYPE_EEPROM) {
-  2992				remaining = 0;
-  2993			} else {
-  2994				remaining -= le32_to_cpu(req->data_len);
-  2995				temp += le32_to_cpu(req->data_len);
-> 2996				req->seg_id += cpu_to_le32(1);
-  2997				ath12k_dbg(ab, ATH12K_DBG_QMI,
-  2998					   "qmi bdf download request remaining %i\n",
-  2999					   remaining);
-  3000			}
-  3001		}
-  3002	
-  3003	out:
-  3004		kfree(req);
-  3005		return ret;
-  3006	}
-  3007	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[0] https://lore.kernel.org/all/DBCQKJIBVGGM.1R0QNKO3TE4N0@kernel.org/#t=
