@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B257B2F2E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 04:03:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF91E2F2E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 04:14:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752725006; cv=none; b=t9vB0QT0OMPhJU5QikRUHmxLOX1Er6aoS6gPtRh7f/SGl9wpAW61ECZH89OJsDNPJ0yLNwHnE4145nvQ7VcvWssdo+BucpwmAH2iMEfJZ05eVe4LkOMyzPgERRr+n3zL60zBhDZq1d9ex7vZP1AeKVzNixrgwWMn2gNbxyIr5wk=
+	t=1752725664; cv=none; b=TFUJHkewsk73yULfJs5ijRokCfvxuLhgNLfHY1njua3qx7hsUbdcyDNMHOmdvGk4FmbgVpAjwPv2FsxKg6UVH0qE7FgSuW/B3Syiu3ulFiRKa6fR15IM1ycumUifTvA8Fn2FOQs1Kz8uzyjQC9Jv158K1mzyLpZDJbJdW+i68S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752725006; c=relaxed/simple;
-	bh=tnwJ0nfGdmO4kzHiCdsk8siEsbxTWszsH8I6n93yCl4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AF9w6x6HADQeBuvq9qr/i6S/u5bUJWwy2nsTtfkjRFSoCt9UkXro/YIq56E0VRm1kPUvtYDUxpzO/TIjWnEw8131I0Ett7N58AtQOKpO23iwfCrDevmvb41rrE/cGyPSy8nbKVHtiMaluXuM0R7tVLNBkKWAhIof1/7XcpjfQqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y4LMlswI; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1752725664; c=relaxed/simple;
+	bh=SHXl/mB4pyfhsdWIU0+bvAzLYsC6iqsMAmd1g0bV0xo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qaenUWQqtAM4M8u+xJNbPNm5ltZxpRsh1i+dpUMfahw6gyTLqsKMncsJx2U7HmAEF4TpANYRFDQvZuhpVSafmsZO0y1zixoxRtQhnUkBOibB/rcSamYK3noUYe+K8qAtsW7kAy+caLo7/addsLqnGECO6d6oWdzW7eyoHV1+J9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CZlauybU; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y4LMlswI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CZlauybU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752725005; x=1784261005;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tnwJ0nfGdmO4kzHiCdsk8siEsbxTWszsH8I6n93yCl4=;
-  b=Y4LMlswIJAA0clxVHM2VpBmoH3KKkQ/pSvD2frbbWktt2w0HyjDpq3D4
-   IP6jFXXyHN3Tpdfpip5LWRXzxrjOUEl+jK8WgaVC2P2DSBV7QsTZr0nTI
-   4V4S4dD93sIi7dsO5ef/++uobZLtEi8uQNrGCZuQpb9aY6Cwyl30czTwD
-   5yC2Y6Xv+qoxqUb+DvIvAQZ2wFXdcrN0YkR+9x5ys/WxjjhH/GycaFPsY
-   JaM97LC+pXBEN/94djos/1s2KKSZp7mwgnRNJK1SshUa3i4H+seKWtvlm
-   0HavT6L2B1JrAu/rPqG3FKLgR0wvSUjJHzuRjuWAcxif6OOSWMwRe0MXx
-   g==;
-X-CSE-ConnectionGUID: bx8cU5icQy26Yq7+2MHckw==
-X-CSE-MsgGUID: posJNezzReCQc9K9Ip9gaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="57596037"
+  t=1752725663; x=1784261663;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=SHXl/mB4pyfhsdWIU0+bvAzLYsC6iqsMAmd1g0bV0xo=;
+  b=CZlauybUQ9Qz5Uxr01QAb9Elf+9uYUZkJcPX89+kKcUHW0i+tBqe4QYM
+   2VjHfPAXO/mLuLyUCsyKhnbBd0Y6Eym/JdWLVeGOaITHIDOB9amhe7PfT
+   LNUBdsSP+Xngmgv27z9wzsqnpGgK5zYu1HfMzhFfaZADAPh7UdWIDWbEj
+   0PHECKnyZEKUDFPb5xoSnzdIrtWzutTjaayytjxQHayihoZ1iOkpjeh2r
+   OuYEhzmMEK+m89Dt5iemmizTbbtBy6inpKm5UOgkKxQZzIH1F7FyToXY9
+   F5IsMmTohArBUlV5cy8GOK0zNyJTHhUlg25iRgm8Sc22FozvpYDA/48SI
+   A==;
+X-CSE-ConnectionGUID: GWs6DGwMTES6lqkTKFIWcA==
+X-CSE-MsgGUID: 6SeWWThqQzqoRejzzM+Gcg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54846399"
 X-IronPort-AV: E=Sophos;i="6.16,317,1744095600"; 
-   d="scan'208";a="57596037"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 21:03:24 -0700
-X-CSE-ConnectionGUID: ADtF+glrTbmoNNNluCCIyQ==
-X-CSE-MsgGUID: NlxNpl7gStqD4fOCL/DkCg==
+   d="scan'208";a="54846399"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 21:14:22 -0700
+X-CSE-ConnectionGUID: 2+WKYbXVTf+RoH++jhQL/w==
+X-CSE-MsgGUID: vHw1oiR6QCi9s/2NtSytqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,317,1744095600"; 
-   d="scan'208";a="194810445"
+   d="scan'208";a="162219920"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 16 Jul 2025 21:03:20 -0700
+  by orviesa004.jf.intel.com with ESMTP; 16 Jul 2025 21:14:21 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucFq1-000D7z-2t;
-	Thu, 17 Jul 2025 04:03:17 +0000
-Date: Thu, 17 Jul 2025 12:03:01 +0800
+	id 1ucG0g-000D8R-2h;
+	Thu, 17 Jul 2025 04:14:18 +0000
+Date: Thu, 17 Jul 2025 12:13:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Yassine Ouaissa via B4 Relay <devnull+yassine.ouaissa.allegrodvt.com@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Tretter <m.tretter@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Michal Simek <monstr@monstr.eu>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Yassine OUAISSA <yassine.ouaissa@allegrodvt.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 4/4] media: allegro-dvt: Add Gen 3 IP stateful decoder
- driver
-Message-ID: <202507171125.Cy8G5dte-lkp@intel.com>
-References: <20250716-allegro_dvt_al300_dec_driver-v4-4-f87c01c9f7b5@allegrodvt.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.16-rsslro 82/87]
+ drivers/net/ethernet/mediatek/mtk_eth_dbg.c:33:5: sparse: sparse: symbol
+ 'hw_lro_agg_num_cnt' was not declared. Should it be static?
+Message-ID: <202507171241.kPoznzjL-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,74 +62,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250716-allegro_dvt_al300_dec_driver-v4-4-f87c01c9f7b5@allegrodvt.com>
 
-Hi Yassine,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 155a3c003e555a7300d156a5252c004c392ec6b0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yassine-Ouaissa-via-B4-Relay/media-allegro-dvt-Move-the-current-driver-to-a-subdirectory/20250716-225824
-base:   155a3c003e555a7300d156a5252c004c392ec6b0
-patch link:    https://lore.kernel.org/r/20250716-allegro_dvt_al300_dec_driver-v4-4-f87c01c9f7b5%40allegrodvt.com
-patch subject: [PATCH v4 4/4] media: allegro-dvt: Add Gen 3 IP stateful decoder driver
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250717/202507171125.Cy8G5dte-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507171125.Cy8G5dte-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.16-rsslro
+head:   05f94f4f1c1174f5bbb0e4311ee9c397bba69b87
+commit: 52257f5195119f5b4b79d5811367cd047af0bfd9 [82/87] net: mediatek: add proprietary debugfs
+config: arm-randconfig-r113-20250716 (https://download.01.org/0day-ci/archive/20250717/202507171241.kPoznzjL-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
+reproduce: (https://download.01.org/0day-ci/archive/20250717/202507171241.kPoznzjL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507171125.Cy8G5dte-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507171241.kPoznzjL-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:33:5: sparse: sparse: symbol 'hw_lro_agg_num_cnt' was not declared. Should it be static?
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:34:5: sparse: sparse: symbol 'hw_lro_agg_size_cnt' was not declared. Should it be static?
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:35:5: sparse: sparse: symbol 'hw_lro_tot_agg_cnt' was not declared. Should it be static?
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:36:5: sparse: sparse: symbol 'hw_lro_tot_flush_cnt' was not declared. Should it be static?
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:37:5: sparse: sparse: symbol 'hw_lro_agg_flush_cnt' was not declared. Should it be static?
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:38:5: sparse: sparse: symbol 'hw_lro_age_flush_cnt' was not declared. Should it be static?
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:39:5: sparse: sparse: symbol 'hw_lro_seq_flush_cnt' was not declared. Should it be static?
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:40:5: sparse: sparse: symbol 'hw_lro_timestamp_flush_cnt' was not declared. Should it be static?
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:41:5: sparse: sparse: symbol 'hw_lro_norule_flush_cnt' was not declared. Should it be static?
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:43:5: sparse: sparse: symbol 'dbg_show_level' was not declared. Should it be static?
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:54:16: sparse: sparse: symbol 'g_eth' was not declared. Should it be static?
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:435:31: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1075:48: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1132:48: sparse: sparse: Using plain integer as NULL pointer
+   drivers/net/ethernet/mediatek/mtk_eth_dbg.c:1420:49: sparse: sparse: Using plain integer as NULL pointer
+>> drivers/net/ethernet/mediatek/mtk_eth_dbg.c:2054:23: sparse: sparse: symbol 'proc_reg_dir' was not declared. Should it be static?
 
-   drivers/media/platform/allegro-dvt/al300/al_codec_util.c: In function 'al_codec_cmd_cleanup':
->> drivers/media/platform/allegro-dvt/al300/al_codec_util.c:149:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
-     149 |         kfree(cmd->reply);
-         |         ^~~~~
-   drivers/media/platform/allegro-dvt/al300/al_codec_util.c: In function 'al_codec_cmd_create':
->> drivers/media/platform/allegro-dvt/al300/al_codec_util.c:165:15: error: implicit declaration of function 'kmalloc'; did you mean 'mm_alloc'? [-Wimplicit-function-declaration]
-     165 |         cmd = kmalloc(sizeof(*cmd), GFP_KERNEL);
-         |               ^~~~~~~
-         |               mm_alloc
->> drivers/media/platform/allegro-dvt/al300/al_codec_util.c:165:13: error: assignment to 'struct al_codec_cmd *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     165 |         cmd = kmalloc(sizeof(*cmd), GFP_KERNEL);
-         |             ^
->> drivers/media/platform/allegro-dvt/al300/al_codec_util.c:169:20: error: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-     169 |         cmd->reply = kmalloc(reply_size, GFP_KERNEL);
-         |                    ^
+vim +/hw_lro_agg_num_cnt +33 drivers/net/ethernet/mediatek/mtk_eth_dbg.c
 
-
-vim +/kfree +149 drivers/media/platform/allegro-dvt/al300/al_codec_util.c
-
-   144	
-   145	static void al_codec_cmd_cleanup(struct kref *ref)
-   146	{
-   147		struct al_codec_cmd *cmd = container_of(ref, typeof(*cmd), refcount);
-   148	
- > 149		kfree(cmd->reply);
-   150		kfree(cmd);
-   151	}
-   152	
-   153	void al_codec_cmd_put(struct al_codec_cmd *cmd)
-   154	{
-   155		if (WARN_ON(!cmd))
-   156			return;
-   157	
-   158		kref_put(&cmd->refcount, al_codec_cmd_cleanup);
-   159	}
-   160	
-   161	struct al_codec_cmd *al_codec_cmd_create(int reply_size)
-   162	{
-   163		struct al_codec_cmd *cmd;
-   164	
- > 165		cmd = kmalloc(sizeof(*cmd), GFP_KERNEL);
-   166		if (!cmd)
-   167			return NULL;
-   168	
- > 169		cmd->reply = kmalloc(reply_size, GFP_KERNEL);
+    32	
+  > 33	u32 hw_lro_agg_num_cnt[MTK_MAX_RX_RING_NUM][MTK_HW_LRO_MAX_AGG_CNT + 1];
+  > 34	u32 hw_lro_agg_size_cnt[MTK_MAX_RX_RING_NUM][16];
+  > 35	u32 hw_lro_tot_agg_cnt[MTK_MAX_RX_RING_NUM];
+  > 36	u32 hw_lro_tot_flush_cnt[MTK_MAX_RX_RING_NUM];
+  > 37	u32 hw_lro_agg_flush_cnt[MTK_MAX_RX_RING_NUM];
+  > 38	u32 hw_lro_age_flush_cnt[MTK_MAX_RX_RING_NUM];
+  > 39	u32 hw_lro_seq_flush_cnt[MTK_MAX_RX_RING_NUM];
+  > 40	u32 hw_lro_timestamp_flush_cnt[MTK_MAX_RX_RING_NUM];
+  > 41	u32 hw_lro_norule_flush_cnt[MTK_MAX_RX_RING_NUM];
+    42	u32 mtk_hwlro_stats_ebl;
+  > 43	u32 dbg_show_level;
+    44	
+    45	static struct proc_dir_entry *proc_hw_lro_stats, *proc_hw_lro_auto_tlb;
+    46	typedef int (*mtk_lro_dbg_func) (int par);
+    47	
+    48	struct mtk_eth_debug {
+    49		struct dentry *root;
+    50		void __iomem *base;
+    51		int direct_access;
+    52	};
+    53	
+  > 54	struct mtk_eth *g_eth;
+    55	
 
 -- 
 0-DAY CI Kernel Test Service
