@@ -1,84 +1,70 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6661E0DD8
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 03:52:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B257B2F2E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 04:03:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752724376; cv=none; b=bmtjyXZ2gUBytk//XPo0erYw1MuUHP34v0qj8i9FQ0J43Qdu/1aS8vj/RtkeznMO7ZCeNabLcGsAkYNly4sG3FXTlabVAcHOi4WAPOGFsF/1JX7n1SarOs2RS+fATJbMXTof1rvSCmOzKHMdqf6DG2EAD+w3VxBxHeoVkbxdh6c=
+	t=1752725006; cv=none; b=t9vB0QT0OMPhJU5QikRUHmxLOX1Er6aoS6gPtRh7f/SGl9wpAW61ECZH89OJsDNPJ0yLNwHnE4145nvQ7VcvWssdo+BucpwmAH2iMEfJZ05eVe4LkOMyzPgERRr+n3zL60zBhDZq1d9ex7vZP1AeKVzNixrgwWMn2gNbxyIr5wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752724376; c=relaxed/simple;
-	bh=/z4GYwHjaobsFfMLWkEpzmAPQ7BYXuHIegjFwl/GFN0=;
+	s=arc-20240116; t=1752725006; c=relaxed/simple;
+	bh=tnwJ0nfGdmO4kzHiCdsk8siEsbxTWszsH8I6n93yCl4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m15fPpmNQ1pMW3BnnE7HuxZZezwv6avjzujvQrBVau0XJIFeKQZC/Q0V6lYkU1qsYaSrlxuq68ftCldLmNihumRudVIB+b1l6p3z9xASqHC7/gaRSyTJGigxtAgmUCUghcg5Hlb10MaBegZmeDPGznp2y5KbiDNiIEumSbzGafI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=Ppd2uxTB; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=AF9w6x6HADQeBuvq9qr/i6S/u5bUJWwy2nsTtfkjRFSoCt9UkXro/YIq56E0VRm1kPUvtYDUxpzO/TIjWnEw8131I0Ett7N58AtQOKpO23iwfCrDevmvb41rrE/cGyPSy8nbKVHtiMaluXuM0R7tVLNBkKWAhIof1/7XcpjfQqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y4LMlswI; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="Ppd2uxTB"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-31c4a546cc2so519460a91.2
-        for <oe-kbuild-all@lists.linux.dev>; Wed, 16 Jul 2025 20:52:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytedance.com; s=google; t=1752724374; x=1753329174; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=oG3EpdW9G1k+entmtME8v9DE+8iik/HrDmrP2Q0Le7k=;
-        b=Ppd2uxTBhOwC51YI9QmQO1lpD4ZXc7RJzRo6Oo98gSDUzZA1ksVLc4t3P7Di1WJ/wG
-         kJUwbijmiHF1L5napYMcxa5ekCsKv/7aiwgW84L+7eGBgEps/cQYpMwodattDfO8Ee5e
-         s3x7BJ2Q4xAxNlZOiTK7DTohkV2039cftHFlSfBSDXWgs6hfpRX5/j9sPdynz0qZx4RB
-         LBnWCZSX0MzFRA/X6JNr8QLwfFChq3Emsz/ANyw1pSDwHZgzLj0hY0LarXIo+vMnQImm
-         USjMKPY53/bB981X312ze0EPpKILO6QkWEluvmBoWH+4zkOt04rp7CEJfMa6QyTNOyCN
-         9PLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752724374; x=1753329174;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oG3EpdW9G1k+entmtME8v9DE+8iik/HrDmrP2Q0Le7k=;
-        b=ohWImO78BnMcUdq1jom+nQWeTuXJrPB+pTePgbQNYJRMAJGxO3O+1oH6vC/Ep1l+X+
-         Y+/j4+23JqYqUXcOPCrhDT8nwRfzn4ck5xfSgHFrudR4zQFGkYCDXmaERKANgBYVOk7p
-         PTMbUIChCW6w1eVXIagbpphZEObs7WoPSAlq/7sCNity/hAQoBgpENucxEJRMqvsdc9x
-         3sSSVt+5JnHbodmyWQuQV48MBYuXnSOHyYY9rizhxzMPsfnlTN6EptcjFPNepctyWjSK
-         QuBsY1CH0yI2quqI5cav6iR0faA5+Q6/DRtAbpV9xzQ6uMP1jchFLEqwC4vR2BetAMoW
-         SD3Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXglotkoqYiNagoBVTc3vD39ql3XXc61WcLISJEYlx9owwq30AzbqlcJ6CC9eeJQBI11+nmZ+kaoU9RO8WP@lists.linux.dev
-X-Gm-Message-State: AOJu0Yy4V9C0Nt/6GuaoimINFJzmrDCmma64mvmnlOASCSsGSbJTYaho
-	f0og3kZJCy9ctodUAma1O3tsr3knHNEZSC9xkZhcAov2PJ4tpcNFuCQs3VNgriOm9A==
-X-Gm-Gg: ASbGnctEvuqttb0Pzg0u8WBSOr7milGC6IvO+xcLwfG0/32gHgbq34zoj9jxn4DyHol
-	VX/CctgDTfNDuMRZpQ3S/5fi8onlCd1/fF6JkSm73Pby9BZv3CAergxLQ/Omv8hg40WTQ0Fr+2H
-	Sgm5VU0jW+G22vEnnDaA0QzMOaIpRmD5uxmo86FNjFsb3xVUmjqIqtZCAshD1IGYDFju7XSrR88
-	l3ER+KWFwGdrE4kRgvtxjVgLd9K7MziInbv+cR4yuoOqGrhjy/eN42QCOQe5u9IFYxyoEhTTMDR
-	Za16ZYFZxpblLEj1EU1TNzDcqnzwYZ/Agad8uAX30xnHNBNnehYytJBSLgrsApGIFNagM2xcD6v
-	2711ly92h4GpZZutC2rQfGQFl1Bm7sokKs3PHP8gUKcs=
-X-Google-Smtp-Source: AGHT+IELl7UWfL6ReDIoZqrYNbMcjyrb0hKdAQ12X0Ce9k4vgLuaUhoqNyvz4Zmk/h8IJ45JTVxenQ==
-X-Received: by 2002:a17:90b:3909:b0:311:e305:4e97 with SMTP id 98e67ed59e1d1-31c9f4a6b52mr6301277a91.19.1752724373988;
-        Wed, 16 Jul 2025 20:52:53 -0700 (PDT)
-Received: from bytedance ([61.213.176.56])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-31caf7aa70esm497490a91.6.2025.07.16.20.52.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Jul 2025 20:52:53 -0700 (PDT)
-Date: Thu, 17 Jul 2025 11:52:43 +0800
-From: Aaron Lu <ziqianlu@bytedance.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Valentin Schneider <vschneid@redhat.com>,
-	Ben Segall <bsegall@google.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Josh Don <joshdon@google.com>, Ingo Molnar <mingo@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Xi Wang <xii@google.com>, oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org, Juri Lelli <juri.lelli@redhat.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>, Mel Gorman <mgorman@suse.de>,
-	Chuyi Zhou <zhouchuyi@bytedance.com>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Florian Bezdeka <florian.bezdeka@siemens.com>,
-	Songtang Liu <liusongtang@bytedance.com>
-Subject: Re: [PATCH v3 3/5] sched/fair: Switch to task based throttle model
-Message-ID: <20250717035243.GC32@bytedance>
-References: <20250715071658.267-4-ziqianlu@bytedance.com>
- <202507162238.qiw7kyu0-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y4LMlswI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752725005; x=1784261005;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tnwJ0nfGdmO4kzHiCdsk8siEsbxTWszsH8I6n93yCl4=;
+  b=Y4LMlswIJAA0clxVHM2VpBmoH3KKkQ/pSvD2frbbWktt2w0HyjDpq3D4
+   IP6jFXXyHN3Tpdfpip5LWRXzxrjOUEl+jK8WgaVC2P2DSBV7QsTZr0nTI
+   4V4S4dD93sIi7dsO5ef/++uobZLtEi8uQNrGCZuQpb9aY6Cwyl30czTwD
+   5yC2Y6Xv+qoxqUb+DvIvAQZ2wFXdcrN0YkR+9x5ys/WxjjhH/GycaFPsY
+   JaM97LC+pXBEN/94djos/1s2KKSZp7mwgnRNJK1SshUa3i4H+seKWtvlm
+   0HavT6L2B1JrAu/rPqG3FKLgR0wvSUjJHzuRjuWAcxif6OOSWMwRe0MXx
+   g==;
+X-CSE-ConnectionGUID: bx8cU5icQy26Yq7+2MHckw==
+X-CSE-MsgGUID: posJNezzReCQc9K9Ip9gaQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="57596037"
+X-IronPort-AV: E=Sophos;i="6.16,317,1744095600"; 
+   d="scan'208";a="57596037"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jul 2025 21:03:24 -0700
+X-CSE-ConnectionGUID: ADtF+glrTbmoNNNluCCIyQ==
+X-CSE-MsgGUID: NlxNpl7gStqD4fOCL/DkCg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,317,1744095600"; 
+   d="scan'208";a="194810445"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 16 Jul 2025 21:03:20 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ucFq1-000D7z-2t;
+	Thu, 17 Jul 2025 04:03:17 +0000
+Date: Thu, 17 Jul 2025 12:03:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Yassine Ouaissa via B4 Relay <devnull+yassine.ouaissa.allegrodvt.com@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Michal Simek <monstr@monstr.eu>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Yassine OUAISSA <yassine.ouaissa@allegrodvt.com>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 4/4] media: allegro-dvt: Add Gen 3 IP stateful decoder
+ driver
+Message-ID: <202507171125.Cy8G5dte-lkp@intel.com>
+References: <20250716-allegro_dvt_al300_dec_driver-v4-4-f87c01c9f7b5@allegrodvt.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,44 +73,75 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202507162238.qiw7kyu0-lkp@intel.com>
+In-Reply-To: <20250716-allegro_dvt_al300_dec_driver-v4-4-f87c01c9f7b5@allegrodvt.com>
 
-On Wed, Jul 16, 2025 at 11:20:55PM +0800, kernel test robot wrote:
-> Hi Aaron,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on tip/sched/core]
-> [also build test WARNING on next-20250716]
-> [cannot apply to linus/master v6.16-rc6]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Lu/sched-fair-Add-related-data-structure-for-task-based-throttle/20250715-152307
-> base:   tip/sched/core
-> patch link:    https://lore.kernel.org/r/20250715071658.267-4-ziqianlu%40bytedance.com
-> patch subject: [PATCH v3 3/5] sched/fair: Switch to task based throttle model
-> config: xtensa-randconfig-r121-20250716 (https://download.01.org/0day-ci/archive/20250716/202507162238.qiw7kyu0-lkp@intel.com/config)
-> compiler: xtensa-linux-gcc (GCC) 8.5.0
-> reproduce: (https://download.01.org/0day-ci/archive/20250716/202507162238.qiw7kyu0-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507162238.qiw7kyu0-lkp@intel.com/
-> 
-> sparse warnings: (new ones prefixed by >>)
->    kernel/sched/core.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/thread_info.h, ...):
->    arch/xtensa/include/asm/processor.h:105:2: sparse: sparse: Unsupported xtensa ABI
->    arch/xtensa/include/asm/processor.h:135:2: sparse: sparse: Unsupported Xtensa ABI
->    kernel/sched/core.c: note: in included file:
-> >> kernel/sched/sched.h:741:44: sparse: sparse: dubious one-bit signed bitfield
+Hi Yassine,
 
-Same problem as last report.
+kernel test robot noticed the following build errors:
 
-I've downloaded this compiler from kernel.org and confirmed there is no
-such warnings after using bool.
+[auto build test ERROR on 155a3c003e555a7300d156a5252c004c392ec6b0]
 
-Thanks,
-Aaron
+url:    https://github.com/intel-lab-lkp/linux/commits/Yassine-Ouaissa-via-B4-Relay/media-allegro-dvt-Move-the-current-driver-to-a-subdirectory/20250716-225824
+base:   155a3c003e555a7300d156a5252c004c392ec6b0
+patch link:    https://lore.kernel.org/r/20250716-allegro_dvt_al300_dec_driver-v4-4-f87c01c9f7b5%40allegrodvt.com
+patch subject: [PATCH v4 4/4] media: allegro-dvt: Add Gen 3 IP stateful decoder driver
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250717/202507171125.Cy8G5dte-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507171125.Cy8G5dte-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507171125.Cy8G5dte-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/media/platform/allegro-dvt/al300/al_codec_util.c: In function 'al_codec_cmd_cleanup':
+>> drivers/media/platform/allegro-dvt/al300/al_codec_util.c:149:9: error: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
+     149 |         kfree(cmd->reply);
+         |         ^~~~~
+   drivers/media/platform/allegro-dvt/al300/al_codec_util.c: In function 'al_codec_cmd_create':
+>> drivers/media/platform/allegro-dvt/al300/al_codec_util.c:165:15: error: implicit declaration of function 'kmalloc'; did you mean 'mm_alloc'? [-Wimplicit-function-declaration]
+     165 |         cmd = kmalloc(sizeof(*cmd), GFP_KERNEL);
+         |               ^~~~~~~
+         |               mm_alloc
+>> drivers/media/platform/allegro-dvt/al300/al_codec_util.c:165:13: error: assignment to 'struct al_codec_cmd *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     165 |         cmd = kmalloc(sizeof(*cmd), GFP_KERNEL);
+         |             ^
+>> drivers/media/platform/allegro-dvt/al300/al_codec_util.c:169:20: error: assignment to 'void *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+     169 |         cmd->reply = kmalloc(reply_size, GFP_KERNEL);
+         |                    ^
+
+
+vim +/kfree +149 drivers/media/platform/allegro-dvt/al300/al_codec_util.c
+
+   144	
+   145	static void al_codec_cmd_cleanup(struct kref *ref)
+   146	{
+   147		struct al_codec_cmd *cmd = container_of(ref, typeof(*cmd), refcount);
+   148	
+ > 149		kfree(cmd->reply);
+   150		kfree(cmd);
+   151	}
+   152	
+   153	void al_codec_cmd_put(struct al_codec_cmd *cmd)
+   154	{
+   155		if (WARN_ON(!cmd))
+   156			return;
+   157	
+   158		kref_put(&cmd->refcount, al_codec_cmd_cleanup);
+   159	}
+   160	
+   161	struct al_codec_cmd *al_codec_cmd_create(int reply_size)
+   162	{
+   163		struct al_codec_cmd *cmd;
+   164	
+ > 165		cmd = kmalloc(sizeof(*cmd), GFP_KERNEL);
+   166		if (!cmd)
+   167			return NULL;
+   168	
+ > 169		cmd->reply = kmalloc(reply_size, GFP_KERNEL);
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
