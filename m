@@ -1,41 +1,59 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E000B2F85F7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 15:27:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C6E2F6F97
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 15:50:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752766038; cv=none; b=JqGP6pwD5hpDMNOokiChpwUA16eXdZRo22QxN/aOV8dYHTNogS6S3qiuavuLwysRIRX8iICiNPwxyWi7TeJDy2eH/un7lzpKQcE/LegBnFkVntDAZeZwC4XlhxtLFydebsH7C6YdofckfoWiFkUnw6eO0oYhj4wU3Mv32vo2+nI=
+	t=1752767413; cv=none; b=RScoxWjJxC7Y5+zqLsIgdDkgNqkzrNJbaKwJEIxMn5NPb0/H14xYTPLtaVvXqtS4s7aPoJuMpqJlRjaAiO1y38gvWx8rlydWl1Rd9Q3j663KdJztGALMIoB4vuhISxiBuCMqBJiISwqXgCzjIjr574d09uxyI5P3LMSWxYj0gvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752766038; c=relaxed/simple;
-	bh=7J8G45oQ4xeHh2ss0tQfrgjUhUJeRkbjYgyqO9ubUeA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S6FFnbhiAlo95ylcC+8/EAucaGxF7FS9fNXS3hiz5kim7CnUQyFg0yTHI0K/iOYowDLW8z/Kzwf7mxKIA47bit8utfPRnlK4+NnCLGsZqmJ2KsxKbwJU29RvKrbu8MoC7pDfn9EYwVGImLVW+/knariXNg/hXJOs/HvrkER1J0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xq8sSTHl; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1752767413; c=relaxed/simple;
+	bh=mFN+qt90NTLPVkK0n72bietqKRMIRyf13Q6LEEcHiSw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=nvH62bD6uwVhX5ZU/3xnqENjRqZ4y+p79qg1b0cwsOGUzSw0WNrceb+z+JXdN5QIn+ePBNaJCAreYE2med90FmA8g3fdU8jJhDxk0L9tkoOStkFEIHhaWi8+DbUBZkQVGey7DHKGVR4K3qe2QOfjkBNpm4STkX9osknkdDsdZHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SRMNtUkx; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xq8sSTHl"
-Date: Thu, 17 Jul 2025 11:27:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1752766023;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9dyCGmJt2sMCnlxw4U6M8uVDnpaSdcG0TbGVGnHlhHY=;
-	b=xq8sSTHloH6O64xc2vwGgurL+uEeiVlwKDu+snmZLqtRQbR1H0AEZjCuDDCyilC6ITfr8l
-	uvKOM7+SynwWJL9K++exzgsExwg5TUti4OPx9TXzECCG6qKwVgakEEp8PSuDX4TccSlMzA
-	A8BIrMTIyOMGogFl+jKidm59HEElaOE=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Kent Overstreet <kent.overstreet@linux.dev>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, linux-bcachefs@vger.kernel.org
-Subject: Re: [linux-next:master 10097/10441]
- fs/bcachefs/journal_reclaim.c:877 journal_flush_done() warn: missing error
- code? 'ret'
-Message-ID: <wdeo6locp7sa2fyuyr2mukq7bg6snlw7nk5atr74kd3yhpnjoq@sy5zecuqoykf>
-References: <3008994f-e84d-4763-a4db-9666555ce33f@suswa.mountain>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SRMNtUkx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752767409; x=1784303409;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=mFN+qt90NTLPVkK0n72bietqKRMIRyf13Q6LEEcHiSw=;
+  b=SRMNtUkxthiICg+jGqA/Mf82eyU/9GdL+fxJJs5dEPIuMUa8Rxuwz4x2
+   /HO+Ty96e+Mp+Yp2Qm4OchwdcBojFnSkMiz9ggixUkVsQ50+ZngE1FX30
+   ZQywfnOqqYZz8Ss6z0N1ap2azO0yfXfT10gGIp4zu/GTWz/h+TSDx4sNK
+   im6K6thoXwopj0Mm26x9YZgOOXWPSSu0hEUwr4JupSASApYpjWHaP0ABi
+   w6JbM8UQFqQYhclKEOtpDd/mgrq1iKpEMdTff8GLDoRWaiYIPkpYXo74F
+   jBfzVSOze4eDemSsk8mAS5lS1YtNe6cqz27m5eCYg0xfeGd4Nb/IFpKaf
+   w==;
+X-CSE-ConnectionGUID: hldAI8kDSmCg1GJnQPh2RQ==
+X-CSE-MsgGUID: KeEUiwb/SDCwDftQIbPJWQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="54923570"
+X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
+   d="scan'208";a="54923570"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 08:50:01 -0700
+X-CSE-ConnectionGUID: 0ZUu+b8nSHmVCRjcLwhShQ==
+X-CSE-MsgGUID: OPvAtDTARsqxX4AcXeekKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
+   d="scan'208";a="157932194"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa006.fm.intel.com with ESMTP; 17 Jul 2025 08:49:59 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ucQrs-000DmR-2j;
+	Thu, 17 Jul 2025 15:49:56 +0000
+Date: Thu, 17 Jul 2025 23:49:27 +0800
+From: kernel test robot <lkp@intel.com>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	x86@kernel.org, Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [tip:locking/futex 2/6] kernel/futex/core.c:1748:2-8: WARNING: NULL
+ check before some freeing functions is not needed.
+Message-ID: <202507172340.xrO8KXQq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -44,107 +62,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3008994f-e84d-4763-a4db-9666555ce33f@suswa.mountain>
-X-Migadu-Flow: FLOW_OUT
 
-On Thu, Jul 17, 2025 at 05:32:20PM +0300, Dan Carpenter wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   e8352908bdcd2d0bcf0aca8c69fae85fd5ea5edb
-> commit: 0e1d28c378988f28b773807c00e7f3be40f49bf3 [10097/10441] bcachefs: convert journal_reclaim.c to CLASS/guards
-> config: i386-randconfig-141-20250716 (https://download.01.org/0day-ci/archive/20250717/202507171850.10rxb3uq-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202507171850.10rxb3uq-lkp@intel.com/
-> 
-> smatch warnings:
-> fs/bcachefs/journal_reclaim.c:877 journal_flush_done() warn: missing error code? 'ret'
-> 
-> vim +/ret +877 fs/bcachefs/journal_reclaim.c
-> 
-> 039fc4c5221f74 Kent Overstreet 2020-05-28  861  static int journal_flush_done(struct journal *j, u64 seq_to_flush,
-> 039fc4c5221f74 Kent Overstreet 2020-05-28  862  			      bool *did_work)
-> 1c6fdbd8f2465d Kent Overstreet 2017-03-16  863  {
-> 35f5197009cae2 Kent Overstreet 2025-01-25  864  	int ret = 0;
-> 1c6fdbd8f2465d Kent Overstreet 2017-03-16  865  
-> 1c6fdbd8f2465d Kent Overstreet 2017-03-16  866  	ret = bch2_journal_error(j);
-> 1c6fdbd8f2465d Kent Overstreet 2017-03-16  867  	if (ret)
-> 1c6fdbd8f2465d Kent Overstreet 2017-03-16  868  		return ret;
-> 1c6fdbd8f2465d Kent Overstreet 2017-03-16  869  
-> 0e1d28c378988f Kent Overstreet 2025-07-14  870  	guard(mutex)(&j->reclaim_lock);
-> 000de45996c4b0 Kent Overstreet 2019-01-14  871  
-> 1e690efa72596a Kent Overstreet 2025-02-10  872  	for (int type = JOURNAL_PIN_TYPE_NR - 1;
-> 1e690efa72596a Kent Overstreet 2025-02-10  873  	     type >= 0;
-> 1e690efa72596a Kent Overstreet 2025-02-10  874  	     --type)
-> 1e690efa72596a Kent Overstreet 2025-02-10  875  		if (journal_flush_pins_or_still_flushing(j, seq_to_flush, BIT(type))) {
-> 35f5197009cae2 Kent Overstreet 2025-01-25  876  			*did_work = true;
-> 0e1d28c378988f Kent Overstreet 2025-07-14 @877  			return ret;
-> 
-> I think ret was intended to be the return value from
-> journal_flush_pins_or_still_flushing()?
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git locking/futex
+head:   7497e947bc1d3f761b46c2105c8ae37af98add54
+commit: 56180dd20c19e5b0fa34822997a9ac66b517e7b3 [2/6] futex: Use RCU-based per-CPU reference counting instead of rcuref_t
+config: microblaze-randconfig-r052-20250717 (https://download.01.org/0day-ci/archive/20250717/202507172340.xrO8KXQq-lkp@intel.com/config)
+compiler: microblaze-linux-gcc (GCC) 11.5.0
 
-It is a bit unusual, but not a bug.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507172340.xrO8KXQq-lkp@intel.com/
 
-If journal_flush_pins_or_still_flushing() returns true, then the flush
-hasn't complete and we must return 0; we want the outer
-closure_wait_event() in journal_flush_pins() to continue.
+cocci warnings: (new ones prefixed by >>)
+>> kernel/futex/core.c:1748:2-8: WARNING: NULL check before some freeing functions is not needed.
 
-The early return is there because we don't want to call
-journal_entry_close() until we've finished flushing all outstanding
-journal pins - otherwise seq_to_flush can be U64_MAX, and we'll close a
-bunch of journal entries and write tiny ones completely unnecessarily.
+vim +1748 kernel/futex/core.c
 
-Having the early return be in the loop where we loop over types is
-important, because flushing one journal pin can cause new journal pins
-to be added (even of the same type, btree node writes may generate more
-btree node writes, when updating the parent pointer has a full node and
-has to trigger a split/compact).
+56180dd20c19e5 Peter Zijlstra            2025-07-10  1739  
+80367ad01d93ac Sebastian Andrzej Siewior 2025-04-16  1740  void futex_hash_free(struct mm_struct *mm)
+80367ad01d93ac Sebastian Andrzej Siewior 2025-04-16  1741  {
+bd54df5ea7cada Sebastian Andrzej Siewior 2025-04-16  1742  	struct futex_private_hash *fph;
+bd54df5ea7cada Sebastian Andrzej Siewior 2025-04-16  1743  
+56180dd20c19e5 Peter Zijlstra            2025-07-10  1744  	free_percpu(mm->futex_ref);
+bd54df5ea7cada Sebastian Andrzej Siewior 2025-04-16  1745  	kvfree(mm->futex_phash_new);
+bd54df5ea7cada Sebastian Andrzej Siewior 2025-04-16  1746  	fph = rcu_dereference_raw(mm->futex_phash);
+56180dd20c19e5 Peter Zijlstra            2025-07-10  1747  	if (fph)
+bd54df5ea7cada Sebastian Andrzej Siewior 2025-04-16 @1748  		kvfree(fph);
+bd54df5ea7cada Sebastian Andrzej Siewior 2025-04-16  1749  }
+bd54df5ea7cada Sebastian Andrzej Siewior 2025-04-16  1750  
 
-This is part of our shutdown sequence, where order of flushing is
-important in order to make sure that it terminates...
+:::::: The code at line 1748 was first introduced by commit
+:::::: bd54df5ea7cadac520e346d5f0fe5d58e635b6ba futex: Allow to resize the private local hash
 
-Applying this...
+:::::: TO: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
-diff --git a/fs/bcachefs/journal_reclaim.c b/fs/bcachefs/journal_reclaim.c
-index be50455c7f13..f23e5ee9ad75 100644
---- a/fs/bcachefs/journal_reclaim.c
-+++ b/fs/bcachefs/journal_reclaim.c
-@@ -874,7 +874,34 @@ static int journal_flush_done(struct journal *j, u64 seq_to_flush,
- 	     --type)
- 		if (journal_flush_pins_or_still_flushing(j, seq_to_flush, BIT(type))) {
- 			*did_work = true;
--			return ret;
-+
-+			/*
-+			 * Question from Dan Carpenter, on the early return:
-+			 *
-+			 * If journal_flush_pins_or_still_flushing() returns
-+			 * true, then the flush hasn't complete and we must
-+			 * return 0; we want the outer closure_wait_event() in
-+			 * journal_flush_pins() to continue.
-+			 *
-+			 * The early return is there because we don't want to
-+			 * call journal_entry_close() until we've finished
-+			 * flushing all outstanding journal pins - otherwise
-+			 * seq_to_flush can be U64_MAX, and we'll close a bunch
-+			 * of journal entries and write tiny ones completely
-+			 * unnecessarily.
-+			 *
-+			 * Having the early return be in the loop where we loop
-+			 * over types is important, because flushing one journal
-+			 * pin can cause new journal pins to be added (even of
-+			 * the same type, btree node writes may generate more
-+			 * btree node writes, when updating the parent pointer
-+			 * has a full node and has to trigger a split/compact).
-+			 *
-+			 * This is part of our shutdown sequence, where order of
-+			 * flushing is important in order to make sure that it
-+			 * terminates...
-+			 */
-+			return 0;
- 		}
- 
- 	if (seq_to_flush > journal_cur_seq(j))
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
