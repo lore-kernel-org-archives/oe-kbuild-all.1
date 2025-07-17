@@ -1,58 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B7A289808
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 10:07:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B367128A700
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 10:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752746835; cv=none; b=XTwEZjzKc3NZdaWkuSmCCEgnCXufrAu/l76Q5QqhLNY2KPsgpnn1knzwlY8QKCDOzmE9Bw/gd+pCGPJDp/to4PzMb+Yum+6doHvtJ5GZg7SNwqNKRVXNj1UWx/1YW/nQzOYDDOuHcsEytD3j0j87kARQtzAj7MsZ5FPJjcZd/NA=
+	t=1752748766; cv=none; b=iVr1LC4S2ZtqQpCBq1iRlDjHSWL57dr8QkRGpqJflmD2J1DpV1nEJ8Xj1p96RlCioz1Ist/aAwpudj/wjHws7qejfNebc++apL5eDXUHRxIuBi4jWxaWAqF5YSNFsGCP9HPP+a80BlFlXxTLXqcfVC7EvCH8uGfv5WjW4OzegzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752746835; c=relaxed/simple;
-	bh=x2DrxX4hHNiUI9m8JnZfbnoIJ9wkxi9hQen7/ZVFQh0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FIAaatxQiSQwsycpTPDdmm0vpPPP6jzZwQ6DT+yLHK2ZbIj2r9ARddpmy7LOQCtkDreQiVHUbJIDwhsAIl3D1pp0gvFBnXajqzejVF1Vv04a/xGmgpx70ylQwQmipe76KcY64k+2OgX+3JHELa9OuEaKyhreuND20jUM5fXktqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R8l53Ira; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1752748766; c=relaxed/simple;
+	bh=ixTbXkNXU9v3LqguSktx9Vk85ORfuWDLrT3XQJVQH3A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UZxtFc90d1Ba4pi2SNFxJIbUz4MvPCk5bGN+6MloXjD3DCqByK7FPju1Vhh1Vgf1756l/VPkQCdneKuGreKNG21FxtbgB5SfMX/hNVBkq3gAZYxw56S+1+7dVaSfbUD5/kT2H1Pxq9Bl295qNM3/TRY86Y/IAeEhz2oZRafQLeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=igeXlC98; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R8l53Ira"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="igeXlC98"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752746834; x=1784282834;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=x2DrxX4hHNiUI9m8JnZfbnoIJ9wkxi9hQen7/ZVFQh0=;
-  b=R8l53IrakbUICUkApkRxwvCwCDLX4fsGJTHPpybWQjomoROpbntRaYLA
-   AuYMf7SrRIgX9NBqxqSIykE3uB3oRMSMd+SJdIXVS/MPUwYnJwUZwQD9D
-   euL863AjmIJyzEY0lQkpVlw3zWd6rZnCaizhINsAprInfbOj8Q+oHMFfZ
-   ARAh2+D6CBThg0x7rJxwaX43jKG8Un7ma/pEQlwxEZMeP4G3SE4ipB+ka
-   lIOmPj7lYUZudwgXkPKR5gpBQPGQomXTbGQOjCA0cdfI+3HOHgmiw5njK
-   2xeEqBFA8AYLC3+pyWYpVTrwriCkjfyMEHAu9/zNmGOAtuDNBX1T83uZc
+  t=1752748765; x=1784284765;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ixTbXkNXU9v3LqguSktx9Vk85ORfuWDLrT3XQJVQH3A=;
+  b=igeXlC98s+apY+QHkmXwoxPnVOkj2NkrlVkHvH6ngi2Ln3joJCBtZwHO
+   fXsPAY+ycdNLbRz+Vxmpf4JyIzFFCIKEH8bsceNK9hYNtG2PM9rnZs9FG
+   ZTOokkvY+DHyaohLwNTlbkzb3uN4lGiiEPffX0G7ALx0bqQWJiGNkGqev
+   VL+J7aqMnW48CgiMwTlnvOCJc+6p4sQ4dRFxcPnpLsJwJHPcyNeK8B+pG
+   sJfON1GNcB74TN7fJTF1XAkqTJzA4Q7vKGbt6LSWy8PM9b0f0prBBIuGd
+   nd2AtRaWuCsFIThiuk+UT/6EuubV3Cd5aowshw33C5DXbP6Z/oH5s59CY
    Q==;
-X-CSE-ConnectionGUID: Ki9mE7YWTCWynQ89Zz2d0A==
-X-CSE-MsgGUID: EInRxFTDTVyoep1tXLecSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="57628315"
+X-CSE-ConnectionGUID: giJE2c7NRWeFa3Y4/HPAEQ==
+X-CSE-MsgGUID: ZSayJxIYSiKxQ0K6oltqqw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54892895"
 X-IronPort-AV: E=Sophos;i="6.16,318,1744095600"; 
-   d="scan'208";a="57628315"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 03:07:13 -0700
-X-CSE-ConnectionGUID: bS5gGM07ReSZK/pIJI6aHA==
-X-CSE-MsgGUID: N82w3fqlQFyCW463ygZIzw==
+   d="scan'208";a="54892895"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 03:39:24 -0700
+X-CSE-ConnectionGUID: nsFMpp06Rhaj6pDiKfv1kw==
+X-CSE-MsgGUID: XCpSvSnZR2+chxWSjLRqaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,318,1744095600"; 
-   d="scan'208";a="157558458"
+   d="scan'208";a="157860301"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 17 Jul 2025 03:07:12 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 17 Jul 2025 03:39:21 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucLW9-000DVz-2C;
-	Thu, 17 Jul 2025 10:07:09 +0000
-Date: Thu, 17 Jul 2025 18:06:32 +0800
+	id 1ucM1G-000DX1-30;
+	Thu, 17 Jul 2025 10:39:18 +0000
+Date: Thu, 17 Jul 2025 18:39:15 +0800
 From: kernel test robot <lkp@intel.com>
-To: Palmer Dabbelt <palmer@dabbelt.com>
+To: aspeedyh <yh_chung@aspeedtech.com>, jk@codeconstruct.com.au,
+	matt@codeconstruct.com.au, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, bmc-sw@aspeedtech.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [palmer:wip-hwprobe 10/10] arch/riscv/kernel/sys_hwprobe.c:534:1:
- warning: no return statement in function returning non-void
-Message-ID: <202507171820.DomyM5Hp-lkp@intel.com>
+Subject: Re: [PATCH] net: mctp: Add MCTP PCIe VDM transport driver
+Message-ID: <202507171855.3WJVpX2l-lkp@intel.com>
+References: <20250714062544.2612693-1-yh_chung@aspeedtech.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,41 +66,55 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250714062544.2612693-1-yh_chung@aspeedtech.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git wip-hwprobe
-head:   4327171a587ac2af9620f085edb06605ab091884
-commit: 4327171a587ac2af9620f085edb06605ab091884 [10/10] WIP
-config: riscv-randconfig-001-20250717 (https://download.01.org/0day-ci/archive/20250717/202507171820.DomyM5Hp-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507171820.DomyM5Hp-lkp@intel.com/reproduce)
+Hi aspeedyh,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+[also build test WARNING on net/main linus/master v6.16-rc6 next-20250716]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/aspeedyh/net-mctp-Add-MCTP-PCIe-VDM-transport-driver/20250714-142656
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20250714062544.2612693-1-yh_chung%40aspeedtech.com
+patch subject: [PATCH] net: mctp: Add MCTP PCIe VDM transport driver
+config: powerpc64-randconfig-r122-20250717 (https://download.01.org/0day-ci/archive/20250717/202507171855.3WJVpX2l-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
+reproduce: (https://download.01.org/0day-ci/archive/20250717/202507171855.3WJVpX2l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507171820.DomyM5Hp-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507171855.3WJVpX2l-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/net/mctp/mctp-pcie-vdm.c:130:1: sparse: sparse: symbol 'mctp_pcie_vdm_dev_mutex' was not declared. Should it be static?
+>> drivers/net/mctp/mctp-pcie-vdm.c:131:1: sparse: sparse: symbol 'mctp_pcie_vdm_devs' was not declared. Should it be static?
+>> drivers/net/mctp/mctp-pcie-vdm.c:132:25: sparse: sparse: symbol 'mctp_pcie_vdm_wq' was not declared. Should it be static?
+>> drivers/net/mctp/mctp-pcie-vdm.c:343:9: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __be32 [usertype] @@
+   drivers/net/mctp/mctp-pcie-vdm.c:343:9: sparse:     expected unsigned int [usertype]
+   drivers/net/mctp/mctp-pcie-vdm.c:343:9: sparse:     got restricted __be32 [usertype]
+>> drivers/net/mctp/mctp-pcie-vdm.c:398:17: sparse: sparse: cast to restricted __be32
+>> drivers/net/mctp/mctp-pcie-vdm.c:398:17: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/net/mctp/mctp-pcie-vdm.c:398:17: sparse:     expected unsigned int [usertype]
+   drivers/net/mctp/mctp-pcie-vdm.c:398:17: sparse:     got restricted __le32 [usertype]
+   drivers/net/mctp/mctp-pcie-vdm.c:453:25: sparse: sparse: cast to restricted __be32
+   drivers/net/mctp/mctp-pcie-vdm.c:453:25: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int [usertype] @@     got restricted __le32 [usertype] @@
+   drivers/net/mctp/mctp-pcie-vdm.c:453:25: sparse:     expected unsigned int [usertype]
+   drivers/net/mctp/mctp-pcie-vdm.c:453:25: sparse:     got restricted __le32 [usertype]
 
-   arch/riscv/kernel/sys_hwprobe.c: In function 'init_hwprobe_vdso_data':
->> arch/riscv/kernel/sys_hwprobe.c:534:1: warning: no return statement in function returning non-void [-Wreturn-type]
-     534 | }
-         | ^
+vim +/mctp_pcie_vdm_dev_mutex +130 drivers/net/mctp/mctp-pcie-vdm.c
 
-
-vim +534 arch/riscv/kernel/sys_hwprobe.c
-
-   524	
-   525	static int __init init_hwprobe_vdso_data(void)
-   526	{
-   527		struct vdso_arch_data *avd = vdso_k_arch_data;
-   528	
-   529		/*
-   530		 * Prevent the vDSO cached values from being used, as they're not ready
-   531		 * yet.
-   532		 */
-   533		avd->ready = false;
- > 534	}
-   535	
+   128	
+   129	/* mutex for vdm_devs add/delete */
+ > 130	DEFINE_MUTEX(mctp_pcie_vdm_dev_mutex);
+ > 131	LIST_HEAD(mctp_pcie_vdm_devs);
+ > 132	struct workqueue_struct *mctp_pcie_vdm_wq;
+   133	
 
 -- 
 0-DAY CI Kernel Test Service
