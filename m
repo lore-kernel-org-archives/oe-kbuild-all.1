@@ -1,69 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6244145B27
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 11:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1284E275855
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 11:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752751296; cv=none; b=HgCFjshUv5Qa/RiRA9jnUPEp81faNsUS57nOwmvhjGbO/MLfZFvHDGz26r6tE4cF2aUPblyUvRzmi+wSxrJBFgKa3FzFuXRT8aDsgr/dWUffLKIf4u+rIfL2ezbZwMo2s+Mwlp+2TcxCg2rOci+nx5wKl3vYLfzp/yFP3Ir/ytU=
+	t=1752751956; cv=none; b=XDyw2g6Q5xry9Gnv07tlfkw8gSO5SjgTzbaoLbcdoTo6pkgIglH4VBgY9uQBVjqPRdk8est5RSfrzQt/E8Fug1HrOmXQ0uWw0L1dc6kcOE5i0Jz6IJNL7DVbmp9R0ozJNuKuFUvo2183j5CRbm9UbdeWmWlXhBc2L35fBdAunww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752751296; c=relaxed/simple;
-	bh=tp43p0GJ/val1nSF5m1mu7Vex9dTquwznl2UZ8uspK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QoWyAJPi3fKGF/CaGWcRAyJT/qkD4GjhM+WaspiIWdxMW8uZCDYBsutLh354TGdlrA1OmW/q9AbM4nCTt24jR5nG3uGddWXFK7lcgPHlN9rV7T7NoIVZYVvh2EOE7QmJjnfmB8qvn3gBre6lWI3+5pfBYqyojPLgCpGG+kQZu64=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EwR4nyvN; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1752751956; c=relaxed/simple;
+	bh=2TT99L4G5IH9cnJwkU3CK4yhpJA23/QaeRcMrDO2S04=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bgrXx247PwjvZKnALI8RTDYZSHa8Hsp/OTzWciYLYgXWxpH4g5D2Rq3J+aKdeuqOyJPBk4YAvt4I4G77STlM3ypUZQtyec2+Mb6CbvrXAnfngm7wW0kRJYn6v7xAQIwQ5Pu/UH+DqXPCnTXvdSE+JnezXTVH2MmZC2m4bwCpGbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0FZ7nha; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EwR4nyvN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0FZ7nha"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752751295; x=1784287295;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=tp43p0GJ/val1nSF5m1mu7Vex9dTquwznl2UZ8uspK4=;
-  b=EwR4nyvNeHbuYyyNO+pOEuSAh3bAHNlnE7h1IHgIkQKfWpVKOMlLyb+a
-   uVALtZLqVNpkBqB183dsikh+jOw4eEZajb5FAq59DtVeJgEPQShdC9T6Y
-   j2NTD1HKwy7JslSpRueIjg4TWRJJt+jpLeoyv1pmgWaGl9stX+q/+FUO8
-   Jk4ePdqotPoali7s5qU40J4VRRZT6hypRq8TMAFMom9NT83sN0P8DxASs
-   bbMfzInkYlewk5r7AsX45RBb3DWl8veKsjibPEhOSd3TslRXb4KBqaMH6
-   btbavQRw1+9SspYE3ri2LNfX6ek2sAsmBrqPPBKZwsPcMy11Wza68D7Ox
+  t=1752751955; x=1784287955;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=2TT99L4G5IH9cnJwkU3CK4yhpJA23/QaeRcMrDO2S04=;
+  b=K0FZ7nhacB4CtZI9NifAsYVQK75NkKa8lA97up+jpzBaYR5WIo8ULaNl
+   G7V9JmbP72eTqW5ZInK7mB4/7zWk0UvMjuJNQTCgTswWpu2yGVvm4tNAP
+   Z3fvnMLbCRKs95lsGc3fmzgj0Pfa89Q/j/ROza5DfqFZpRK9kB/RgdvtS
+   6Us+zm6TwSFV2ABi1pX60ja6B9KXmTxJ9CI/2nQlk+VM/ar1QDB2YSE1l
+   740nDjtZqlTDx6SOGHmfUgwoQX+hS4P2zB3Io2nf6zUJwQE/1eJrbtw/s
+   Ppgg5Zr4/8NRUKtWAsW5Ai9w3fxnOz2tNfv8HYRFTHY1UO6YAKYWbjeWh
    g==;
-X-CSE-ConnectionGUID: tO2cyTodQe6Sb28soJFrNQ==
-X-CSE-MsgGUID: AdzVUThURsqMa8em8dzoeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="54738564"
+X-CSE-ConnectionGUID: P2bHHfa7Roev6ZowWHFeXA==
+X-CSE-MsgGUID: lQhs4/GyRseF0d/ihtPEQg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11493"; a="55142214"
 X-IronPort-AV: E=Sophos;i="6.16,318,1744095600"; 
-   d="scan'208";a="54738564"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 04:21:34 -0700
-X-CSE-ConnectionGUID: j47l8CY8RwOJJZh5UBSNWw==
-X-CSE-MsgGUID: lakZtGCVQgGTgHw6kEiKZA==
+   d="scan'208";a="55142214"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 04:32:34 -0700
+X-CSE-ConnectionGUID: SRf4eC52RK6lTJp6tpjesg==
+X-CSE-MsgGUID: St/GHochSIaQaJuxizPyCw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,318,1744095600"; 
-   d="scan'208";a="157158832"
+   d="scan'208";a="157576051"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 17 Jul 2025 04:21:29 -0700
+  by orviesa009.jf.intel.com with ESMTP; 17 Jul 2025 04:32:30 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucMg3-000DZb-05;
-	Thu, 17 Jul 2025 11:21:27 +0000
-Date: Thu, 17 Jul 2025 19:20:58 +0800
+	id 1ucMqj-000DaX-1v;
+	Thu, 17 Jul 2025 11:32:29 +0000
+Date: Thu, 17 Jul 2025 19:31:47 +0800
 From: kernel test robot <lkp@intel.com>
-To: Youngjun Park <youngjun.park@lge.com>, akpm@linux-foundation.org,
-	hannes@cmpxchg.org
-Cc: oe-kbuild-all@lists.linux.dev, mhocko@kernel.org,
-	roman.gushchin@linux.dev, shakeel.butt@linux.dev,
-	muchun.song@linux.dev, shikemeng@huaweicloud.com,
-	kasong@tencent.com, nphamcs@gmail.com, bhe@redhat.com,
-	baohua@kernel.org, chrisl@kernel.org, cgroups@vger.kernel.org,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, gunho.lee@lge.com,
-	iamjoonsoo.kim@lge.com, taejoon.song@lge.com,
-	Youngjun Park <youngjun.park@lge.com>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
-Subject: Re: [PATCH 1/4] mm/swap, memcg: Introduce infrastructure for
- cgroup-based swap priority
-Message-ID: <202507171936.fGW4muEc-lkp@intel.com>
-References: <20250716202006.3640584-2-youngjun.park@lge.com>
+To: Carolina Jubran <cjubran@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	Cosmin Ratiu <cratiu@nvidia.com>, Jiri Pirko <jiri@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>
+Subject: [linux-next:master 5827/10441] net/devlink/rate.c:382:1: warning:
+ the frame size of 1472 bytes is larger than 1024 bytes
+Message-ID: <202507171943.W7DJcs6Y-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,111 +63,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250716202006.3640584-2-youngjun.park@lge.com>
 
-Hi Youngjun,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 347e9f5043c89695b01e66b3ed111755afcf1911]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Youngjun-Park/mm-swap-memcg-Introduce-infrastructure-for-cgroup-based-swap-priority/20250717-042648
-base:   347e9f5043c89695b01e66b3ed111755afcf1911
-patch link:    https://lore.kernel.org/r/20250716202006.3640584-2-youngjun.park%40lge.com
-patch subject: [PATCH 1/4] mm/swap, memcg: Introduce infrastructure for cgroup-based swap priority
-config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250717/202507171936.fGW4muEc-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507171936.fGW4muEc-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   e8352908bdcd2d0bcf0aca8c69fae85fd5ea5edb
+commit: 566e8f108fc7847f2a8676ec6a101d37b7dd0fb4 [5827/10441] devlink: Extend devlink rate API with traffic classes bandwidth management
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250717/202507171943.W7DJcs6Y-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507171943.W7DJcs6Y-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507171936.fGW4muEc-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507171943.W7DJcs6Y-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/memcontrol.c:5462:12: warning: variable 'id' is uninitialized when used here [-Wuninitialized]
-    5462 |                                 memcg, id, SWAP_PRIORITY_GLOBAL);
-         |                                        ^~
-   mm/memcontrol.c:5414:8: note: initialize the variable 'id' to silence this warning
-    5414 |         u64 id;
-         |               ^
-         |                = 0
-   1 warning generated.
+   net/devlink/rate.c: In function 'devlink_nl_rate_tc_bw_parse':
+>> net/devlink/rate.c:382:1: warning: the frame size of 1472 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+     382 | }
+         | ^
 
 
-vim +/id +5462 mm/memcontrol.c
+vim +382 net/devlink/rate.c
 
-  5408	
-  5409	#ifdef CONFIG_SWAP_CGROUP_PRIORITY
-  5410	static ssize_t swap_cgroup_priority_write(struct kernfs_open_file *of,
-  5411						  char *buf, size_t nbytes, loff_t off)
-  5412	{
-  5413		struct mem_cgroup *memcg = mem_cgroup_from_css(of_css(of));
-  5414		u64 id;
-  5415		int prio;
-  5416		int ret;
-  5417		char first_token[32];
-  5418		char second_token[32];
-  5419		char dummy[2];
-  5420		char *stripped_buf;
-  5421		int num_parsed;
-  5422	
-  5423		stripped_buf = strstrip(buf);
-  5424		num_parsed = sscanf(stripped_buf, "%31s %31s %1s", first_token,
-  5425				    second_token, dummy);
-  5426		if (num_parsed == 2) {
-  5427			if (strcmp(first_token, "default") == 0) {
-  5428				if (strcmp(second_token, "none") == 0)
-  5429					ret = apply_swap_cgroup_priority(
-  5430						memcg, DEFAULT_ID, SWAP_PRIORITY_GLOBAL);
-  5431				else if (strcmp(second_token, "disabled") == 0)
-  5432					ret = apply_swap_cgroup_priority(
-  5433						memcg, DEFAULT_ID, SWAP_PRIORITY_DISABLE);
-  5434				else
-  5435					ret = -EINVAL;
-  5436			} else {
-  5437				ret = kstrtoull(first_token, 10, &id);
-  5438				if (ret)
-  5439					return -EINVAL;
-  5440	
-  5441				if (strcmp(second_token, "none") == 0) {
-  5442					ret = apply_swap_cgroup_priority(
-  5443						memcg, id, SWAP_PRIORITY_GLOBAL);
-  5444				} else if (strcmp(second_token, "disabled") == 0) {
-  5445					ret = apply_swap_cgroup_priority(
-  5446						memcg, id, SWAP_PRIORITY_DISABLE);
-  5447				} else {
-  5448					ret = kstrtoint(second_token, 10, &prio);
-  5449					if (ret)
-  5450						return -EINVAL;
-  5451					if (prio == -1)
-  5452						return -EINVAL;
-  5453					else if (prio > SHRT_MAX || prio < SHRT_MIN)
-  5454						return -EINVAL;
-  5455					ret = apply_swap_cgroup_priority(memcg, id,
-  5456									 prio);
-  5457				}
-  5458			}
-  5459		} else if (num_parsed == 1) {
-  5460			if (strcmp(first_token, "none") == 0)
-  5461				ret = apply_swap_cgroup_priority(
-> 5462					memcg, id, SWAP_PRIORITY_GLOBAL);
-  5463			else if (strcmp(first_token, "disabled") == 0)
-  5464				ret = apply_swap_cgroup_priority(
-  5465					memcg, id, SWAP_PRIORITY_DISABLE);
-  5466			else
-  5467				ret = -EINVAL;
-  5468		} else {
-  5469			return -EINVAL;
-  5470		}
-  5471	
-  5472		if (ret)
-  5473			return ret;
-  5474	
-  5475		return nbytes;
-  5476	}
-  5477	
+   344	
+   345	static int devlink_nl_rate_tc_bw_parse(struct nlattr *parent_nest, u32 *tc_bw,
+   346					       unsigned long *bitmap,
+   347					       struct netlink_ext_ack *extack)
+   348	{
+   349		struct nlattr *tb[DEVLINK_ATTR_MAX + 1];
+   350		u8 tc_index;
+   351		int err;
+   352	
+   353		err = nla_parse_nested(tb, DEVLINK_ATTR_MAX, parent_nest,
+   354				       devlink_dl_rate_tc_bws_nl_policy, extack);
+   355		if (err)
+   356			return err;
+   357	
+   358		if (!tb[DEVLINK_ATTR_RATE_TC_INDEX]) {
+   359			NL_SET_ERR_ATTR_MISS(extack, parent_nest,
+   360					     DEVLINK_ATTR_RATE_TC_INDEX);
+   361			return -EINVAL;
+   362		}
+   363	
+   364		tc_index = nla_get_u8(tb[DEVLINK_ATTR_RATE_TC_INDEX]);
+   365	
+   366		if (!tb[DEVLINK_ATTR_RATE_TC_BW]) {
+   367			NL_SET_ERR_ATTR_MISS(extack, parent_nest,
+   368					     DEVLINK_ATTR_RATE_TC_BW);
+   369			return -EINVAL;
+   370		}
+   371	
+   372		if (test_and_set_bit(tc_index, bitmap)) {
+   373			NL_SET_ERR_MSG_FMT(extack,
+   374					   "Duplicate traffic class index specified (%u)",
+   375					   tc_index);
+   376			return -EINVAL;
+   377		}
+   378	
+   379		tc_bw[tc_index] = nla_get_u32(tb[DEVLINK_ATTR_RATE_TC_BW]);
+   380	
+   381		return 0;
+ > 382	}
+   383	
 
 -- 
 0-DAY CI Kernel Test Service
