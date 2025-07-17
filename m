@@ -1,58 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 789B32FE337
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 17:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E782FEE06
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 17 Jul 2025 17:43:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752773770; cv=none; b=ggM68hBo1iXTn6EZo/QRgK/dXuHdE9H8tbpMSJ2hNyWSFKKxstzvy03STniofcmkmH5GAbU49o4QPTixmATk4gFI/1wRb/+Q4/UGw2mC+/KkZ+Mq+ETY2zFYQyb7t+mjsib0LlZqZbwd/6G/fmYax0JgOmyMvlvG+L53mdogF7I=
+	t=1752774202; cv=none; b=MS1qep6f1kkA6zSVNhxL68giNIJsh7HpR+J0lxlnFS2pRnElVUUeB0sQyXg5H1gmIlB8T15tIfOeYYw7IO8yP05KUuZVyblmJUwR1uPlNt6ujJtBAkPsNh9Ok5cR+KkKTfDQnGXo1gHJoxD+B5yRZIbGI1oLQOkNbJKkF35uWlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752773770; c=relaxed/simple;
-	bh=Pwwnsf71m7xKM9k5av/y/8fdQy7wEPlCTWyOOjsHWkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iyhDE25SbghKdYxp1WXJlsCMEi5SvhsckhVttzOPDfoZQU2CcaNdB8JfcSCKQF+a/RClXfVcfBoc9wiM9SUS29Nwvm7eqN/XiR7Lu6w3E1h1xTamA6CRxgKn5KR3Rp492n8kHwxHm3kZ5s3GRHGfEDL2LyL5g8POGUI8P/gnPRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VwdGDBMx; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1752774202; c=relaxed/simple;
+	bh=CJiMS990dGVpX818rZi5HfVEMHg4R/B441K8j05I2uk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AVO4qxpvnYuoGrz/zSyGahvPSixMdFYWCTPtEI/rlWqHbwLnLLln9obTa9aMnNHs70NGNZh/mBDOMpWKbc+e/ns1vgbJiLi6Qqg85jK/bsQFQ7Keaadi1fBmfFHCyK+vJrVtzzOPY/16ZTJNjrjArtfoI+I7ocLUBhuBeDK1fcs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I5czFNKV; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VwdGDBMx"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I5czFNKV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752773768; x=1784309768;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Pwwnsf71m7xKM9k5av/y/8fdQy7wEPlCTWyOOjsHWkQ=;
-  b=VwdGDBMxpZZOt4SO1vPdx8mTCmhESCzp3E/HV4wW11btbi/y6qY+dK87
-   aEok20nkmNiMXq0S9Z1arIh3HUfECxu6LzHgf/AATs4zwyxTtzmD6a6UL
-   VQhJKyz/0spMehnUabgC4zQKKzfd4XR/9w5huGLYsaOr/7SyD7MOyfwyO
-   ucRcH13k+yhm01zktBvKJlrrjfL/xag0NEySY3WykMWvbpAxTkOAN0ifV
-   PLiiNDEYnrrSa4vEQiPu889E+kvzQ0N1HsErqnTQjOShvQ8zE8RNeN/NT
-   eZ6zYUFYs3B3Yi2gH4g6im7ULT2xiMOsZWyvUS0GgkeK5kkW1j+ByX4D8
-   w==;
-X-CSE-ConnectionGUID: RL03qItmQLes/LsE+4wsfw==
-X-CSE-MsgGUID: WOzBgcWsRWSI3N15k78Lkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="80507501"
+  t=1752774200; x=1784310200;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=CJiMS990dGVpX818rZi5HfVEMHg4R/B441K8j05I2uk=;
+  b=I5czFNKViqXY6+vOZ+8XWn0vtrHrjWmkuf+ZynNIDJ8zdMPN+BLsDrwJ
+   slLAV9RGNCbOQIUq14VttR450I2CNUOXyk60TUnKkV1F72grfcr+X0ZYC
+   ZCKHxsvCIrbBLudCqk+NT9C8217ls8HK/VS6XuGej6zZTQO/iVXIaknHP
+   Vn9F/QyFpGiEm25vu3UUgtjPBrjYiSBkf0R7eDlLl96JlLxsw1C6SgxW6
+   43R7N7ANQQAX5wqlutiRfg+T+5eqytR7Q6rw6Z7DUiIEyTBXlI955sIh8
+   E4GHzkf2jaUrIqk1RgdW6H3YDhsWCbM6Q6QI86hWzVm+TEJeGsTQzYYGl
+   g==;
+X-CSE-ConnectionGUID: 8X35q/uKT8+U+S8WYY/vUQ==
+X-CSE-MsgGUID: 0ZHZeb9yTeWSiz99BmF2fA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="57676287"
 X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="80507501"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 10:36:07 -0700
-X-CSE-ConnectionGUID: kdyzYw3jSkynZqDuMQpQKg==
-X-CSE-MsgGUID: /ZECJz9jQ2aYvCvIXSlYJg==
+   d="scan'208";a="57676287"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 10:43:19 -0700
+X-CSE-ConnectionGUID: /ir0co3QQLuVbQ5KkAzEKg==
+X-CSE-MsgGUID: kG+rBdFJQlKxmeQa6nHgEQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,319,1744095600"; 
-   d="scan'208";a="188835872"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8b57277650df) ([10.91.175.65])
-  by fmviesa001.fm.intel.com with ESMTP; 17 Jul 2025 10:36:07 -0700
-Received: from kbuild by 8b57277650df with local (Exim 4.96)
+   d="scan'208";a="162391839"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 17 Jul 2025 10:43:12 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucSWa-0000kP-20;
-	Thu, 17 Jul 2025 17:36:04 +0000
-Date: Thu, 17 Jul 2025 19:35:15 +0200
+	id 1ucSdR-000DtP-2v;
+	Thu, 17 Jul 2025 17:43:09 +0000
+Date: Fri, 18 Jul 2025 01:42:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jann Horn <jannh@google.com>
-Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>
-Subject: [linux-next:master 10146/10823] Warning: fs/eventpoll.c:2198
- function parameter 'ep' not described in 'ep_get_upwards_depth_proc'
-Message-ID: <202507171958.aMcW08Cn-lkp@intel.com>
+To: Byungchul Park <byungchul@sk.com>, willy@infradead.org,
+	netdev@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, kernel_team@skhynix.com, almasrymina@google.com,
+	ilias.apalodimas@linaro.org, harry.yoo@oracle.com,
+	akpm@linux-foundation.org, andrew+netdev@lunn.ch,
+	asml.silence@gmail.com, toke@redhat.com, david@redhat.com,
+	Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, linux-rdma@vger.kernel.org,
+	bpf@vger.kernel.org, vishal.moola@gmail.com, hannes@cmpxchg.org,
+	ziy@nvidia.com, jackmanb@google.com, wei.fang@nxp.com,
+	shenwei.wang@nxp.com, xiaoning.wang@nxp.com, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org
+Subject: Re: [Intel-wired-lan] [PATCH net-next v11 12/12] libeth: xdp: access
+ ->pp through netmem_desc instead of page
+Message-ID: <202507180111.jygqJHzk-lkp@intel.com>
+References: <20250717070052.6358-13-byungchul@sk.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,23 +74,103 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250717070052.6358-13-byungchul@sk.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
-commit: f2e467a48287c868818085aa35389a224d226732 [10146/10823] eventpoll: Fix semi-unbounded recursion
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250717/202507171958.aMcW08Cn-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250717/202507171958.aMcW08Cn-lkp@intel.com/reproduce)
+Hi Byungchul,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on c65d34296b2252897e37835d6007bbd01b255742]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Byungchul-Park/netmem-introduce-struct-netmem_desc-mirroring-struct-page/20250717-150253
+base:   c65d34296b2252897e37835d6007bbd01b255742
+patch link:    https://lore.kernel.org/r/20250717070052.6358-13-byungchul%40sk.com
+patch subject: [Intel-wired-lan] [PATCH net-next v11 12/12] libeth: xdp: access ->pp through netmem_desc instead of page
+config: arm-randconfig-r072-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180111.jygqJHzk-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507180111.jygqJHzk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507171958.aMcW08Cn-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507180111.jygqJHzk-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> Warning: fs/eventpoll.c:2198 function parameter 'ep' not described in 'ep_get_upwards_depth_proc'
->> Warning: fs/eventpoll.c:2198 function parameter 'depth' not described in 'ep_get_upwards_depth_proc'
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/timer.h:5,
+                    from include/linux/netdevice.h:24,
+                    from include/trace/events/xdp.h:8,
+                    from include/linux/bpf_trace.h:5,
+                    from include/net/libeth/xdp.h:7,
+                    from drivers/net/ethernet/intel/libeth/tx.c:6:
+   include/net/libeth/xdp.h: In function 'libeth_xdp_prepare_buff':
+>> include/net/libeth/xdp.h:1295:23: warning: passing argument 1 of 'page_pool_page_is_pp' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
+        pp_page_to_nmdesc(page)->pp->p.offset, len, true);
+                          ^~~~
+   include/linux/build_bug.h:30:63: note: in definition of macro 'BUILD_BUG_ON_INVALID'
+    #define BUILD_BUG_ON_INVALID(e) ((void)(sizeof((__force long)(e))))
+                                                                  ^
+   include/net/netmem.h:301:2: note: in expansion of macro 'DEBUG_NET_WARN_ON_ONCE'
+     DEBUG_NET_WARN_ON_ONCE(!page_pool_page_is_pp(p));  \
+     ^~~~~~~~~~~~~~~~~~~~~~
+   include/net/libeth/xdp.h:1295:5: note: in expansion of macro 'pp_page_to_nmdesc'
+        pp_page_to_nmdesc(page)->pp->p.offset, len, true);
+        ^~~~~~~~~~~~~~~~~
+   In file included from arch/arm/include/asm/cacheflush.h:10,
+                    from include/linux/cacheflush.h:5,
+                    from include/linux/highmem.h:8,
+                    from include/linux/bvec.h:10,
+                    from include/linux/skbuff.h:17,
+                    from include/net/net_namespace.h:43,
+                    from include/linux/netdevice.h:38,
+                    from include/trace/events/xdp.h:8,
+                    from include/linux/bpf_trace.h:5,
+                    from include/net/libeth/xdp.h:7,
+                    from drivers/net/ethernet/intel/libeth/tx.c:6:
+   include/linux/mm.h:4176:54: note: expected 'struct page *' but argument is of type 'const struct page *'
+    static inline bool page_pool_page_is_pp(struct page *page)
+                                            ~~~~~~~~~~~~~^~~~
+
+
+vim +1295 include/net/libeth/xdp.h
+
+  1263	
+  1264	bool libeth_xdp_buff_add_frag(struct libeth_xdp_buff *xdp,
+  1265				      const struct libeth_fqe *fqe,
+  1266				      u32 len);
+  1267	
+  1268	/**
+  1269	 * libeth_xdp_prepare_buff - fill &libeth_xdp_buff with head FQE data
+  1270	 * @xdp: XDP buffer to attach the head to
+  1271	 * @fqe: FQE containing the head buffer
+  1272	 * @len: buffer len passed from HW
+  1273	 *
+  1274	 * Internal, use libeth_xdp_process_buff() instead. Initializes XDP buffer
+  1275	 * head with the Rx buffer data: data pointer, length, headroom, and
+  1276	 * truesize/tailroom. Zeroes the flags.
+  1277	 * Uses faster single u64 write instead of per-field access.
+  1278	 */
+  1279	static inline void libeth_xdp_prepare_buff(struct libeth_xdp_buff *xdp,
+  1280						   const struct libeth_fqe *fqe,
+  1281						   u32 len)
+  1282	{
+  1283		const struct page *page = __netmem_to_page(fqe->netmem);
+  1284	
+  1285	#ifdef __LIBETH_WORD_ACCESS
+  1286		static_assert(offsetofend(typeof(xdp->base), flags) -
+  1287			      offsetof(typeof(xdp->base), frame_sz) ==
+  1288			      sizeof(u64));
+  1289	
+  1290		*(u64 *)&xdp->base.frame_sz = fqe->truesize;
+  1291	#else
+  1292		xdp_init_buff(&xdp->base, fqe->truesize, xdp->base.rxq);
+  1293	#endif
+  1294		xdp_prepare_buff(&xdp->base, page_address(page) + fqe->offset,
+> 1295				 pp_page_to_nmdesc(page)->pp->p.offset, len, true);
+  1296	}
+  1297	
 
 -- 
 0-DAY CI Kernel Test Service
