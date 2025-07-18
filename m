@@ -1,120 +1,134 @@
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940962DE1F0
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 15:27:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18BF2E54C2
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 15:50:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752852449; cv=none; b=aHXy9xAw5fd1M+tbvrLa8Pp/wDoHGc9WsIMMAGMQ2otfbYRGKRuIGJTsb3oFE+312wqJgTbkp0yRQQXoT0nMQHwz9Ab0O3kHM2A99yDRG4iYSJekrMCgtaeg3yc1gn8Oa9TH0uai0Nk1PH+zOkMVO9urvUjJ4njIIoVlmTAoOpc=
+	t=1752853848; cv=none; b=FPrxH9nO9PnmAFxDtZE6eyPrmWem6n9+/8QrqUITL6iXHCmH3i4UWtoOxMKeftfrNchZZa4jVL8fdWIRdOFA9ZBc/mvSMii1V7jI8EC5w8OPvfllJ/XIMIFcaHrfD//cNY6kwjm6nCEwABr5HM33NJuMxp5/KOOyS+qGzr3VgmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752852449; c=relaxed/simple;
-	bh=ok3ivDYRuNQPcJYkzQ/LOj7nL7uE52sAZj+wDl34c+M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YXJqaAk1kvj4SqGKvrR9NwAsaKGHVHo0NzLqYz6DoJDLnvY4FFUJMtdhDuPxsj5eaRYUxKt9Lcf2hkpLE/RMuRqnTwNpOm6DJ/Vs961r7wbZJ4oUZBmvWvXlw9gFT2CwKeR36uRQJtCgnMEo0VScwUByy0d4PJWkBSozZ+ehex4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MCAnU4xO; arc=none smtp.client-ip=209.85.128.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752853848; c=relaxed/simple;
+	bh=MJTqa2PCkQlD0thFjBaZ9MfCMwcFJZ4YgeF0xD959aw=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=SQjBDeAeRMTL4N404i1eL3xeqV2exLe2kAPBuJl6LAG3i5OLGhppyQzDZnn9+SR5DmowvT/tQV1FXex0d3PcCPFTvX63iajF0UbFjRCGJH/uIw52IaGTVFE/dORRtZbAxr4HLlKhVo3kl8vV5jfoxzsAPtiNHyXYV7xCKYxu9Tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Dn/7Q/pb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q/VIzxLz; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MCAnU4xO"
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-7086dcab64bso22074007b3.1
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 08:27:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752852446; x=1753457246; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F66N0wil7J+HbPwMNjuizTeNTbRlp/Sh4yJnp4lMFrY=;
-        b=MCAnU4xOgvUL4NTD5LtSu3vW2ldV2tKwoN41Mo2wbmn9o17RTgo0eeexjmNN7v+ahu
-         koFlxl+1sDK4TwGwJ6JlfFm6F569Yb10HbUiftrSAoYXEkr+PO6n3YPCP/MDNEZOOvpR
-         oVqE2or2fDfnW4I3khBjDSyQ9UrSXJplS8RRMxFWzBiMFt2t/Jr4rFEFX309Wbxotn3i
-         Ff/NcMUbqEK9LcvZYz6S5BSNeBvRqr3FCK/MEIwaJD7omGFKES6qHOKBL1EBW5wdggeF
-         x6rtAfGS0CDWUeEMeCPNBbFjqgnFV4B5fGq8ABTAL9Ayxw9dsYJqzKnNAHWPBP/jrmMO
-         ee6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752852446; x=1753457246;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=F66N0wil7J+HbPwMNjuizTeNTbRlp/Sh4yJnp4lMFrY=;
-        b=Fgjm5Pmi9DqjGhWVrGEDJU6TWn9JmGUCNdfkYIRj4bLD7gBI6zZNlPuERSlk+PEfXE
-         BjO7FBw3SZ1PafzJ8yVxhVUQq0qZR6f623NJ7ZoVaz+fDQ/oG54Vc3Mv2r3M7Q5Q3gbh
-         7yjwRrrDDs2OTIHLp7sXSaLYVB7VelucyhQFktmpiINcq7xlq4J3zPuwtJ0qrEKBRLql
-         FMr/jJ0mHOpoaIEtQCjRDIxndfTIVXso5B1sz1Im5Z9ODpBFW45orzGQcS7Y/PLR15v8
-         hoiG8A19EwkkPc6al+AyNThK6vsoSNxKdjlLg22bhDi164OBii3/yoLSRwduP7AMCejI
-         oAtg==
-X-Forwarded-Encrypted: i=1; AJvYcCUE1A2Tk6sF5ufwU36roxt6IyWtC2BnI2bcsZKiCpu0OmBDIMlVYiLGZiQn0kUqUGxmnVJZCEdQdMedsHnM@lists.linux.dev
-X-Gm-Message-State: AOJu0YwApdDIZisHMGXLGBCFgMA+QgcgdONnO6/XGBlX6VXOFdKE46oS
-	XcWB7Wc0L6b8sZk+209dETi4z/gq7zTDh1NUy31hzvLuetxhwz2tRNCC
-X-Gm-Gg: ASbGncuHusORVYlestRbzCc/0YL9VBRQcABkEM/xzJavsy+54QpSLcyrBzj9P7/sk88
-	WyozN4qeqxEjSEqboUfNLSJe/3T2fImX8ramE31JP5rRAn5uEXrQy0ZiKek0wvzH6yEVSr8Ud3t
-	CPYkXx5YGfxyNSC4ZBk3f6lSwSDzu46ESJGPOdQPjx/jy3CE1KUSgDh8foKJ88wzOeXyjZZOz3k
-	109iGd6FVbkacp8uSdIaqdCyqN61HEGqJjrJ/KkS0a1gZZKIraK+1OJPPiaYDt9MO+QXHehJ8TT
-	U8jBf7sLP45Ytlu6mwF2GKtZJUdJ04lcKkeR0O8l1ZqiC5sZLvsAoGoXEItA12BPIL29Pnit9zt
-	fiZuPyrvXDsoi2kQIoN/DWA==
-X-Google-Smtp-Source: AGHT+IEHt3k5CxyEPCwLRVQs6pZJ7u5eFljYq50VtW2JoGNL1uq6TN77Q4wUo1jx7bSmHFInqIZlnQ==
-X-Received: by 2002:a05:690c:9a0c:b0:712:e2b5:e61b with SMTP id 00721157ae682-71836ca03bbmr155585107b3.13.1752852446394;
-        Fri, 18 Jul 2025 08:27:26 -0700 (PDT)
-Received: from localhost ([2a03:2880:25ff:5f::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-719532c7e9bsm3683787b3.61.2025.07.18.08.27.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Jul 2025 08:27:25 -0700 (PDT)
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: kernel test robot <lkp@intel.com>
-Cc: Xiu Jianfeng <xiujianfeng@huawei.com>,
-	oe-kbuild-all@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: mm/hugetlb_cgroup.c:829:44: warning: '%s' directive output may be truncated writing up to 1623 bytes into a region of size between 32 and 63
-Date: Fri, 18 Jul 2025 08:27:23 -0700
-Message-ID: <20250718152724.1206447-1-joshua.hahnjy@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <202507181808.mpbc1F0r-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Dn/7Q/pb";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q/VIzxLz"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id C7A9F1D001ED;
+	Fri, 18 Jul 2025 11:50:44 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-05.internal (MEProxy); Fri, 18 Jul 2025 11:50:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1752853844;
+	 x=1752940244; bh=B16N1UWt6iI1JTHxVoLsWgotKo2IPYgHiuLE3m2G4PI=; b=
+	Dn/7Q/pb5YJQpcv4cvZ/nm7set+xYDxMgZdX/fWnpE3FenWIRcxe9ffGHGnl4G/k
+	+sO27FLT9QO+4G/slzpqXxo8qL1+SVd+PKYdsAu6Hs7SZs2FMsTBm7Otd986aUKc
+	8CJkGvTgqSYmG61oEZP5Nn2zOIklkBogunu/kR/AkJTSq6yTAPdLh/Iqrzhg1CSU
+	wn2QCEMpXNp3xtg7Cgjd8v3kCEvKqJSYrMacydwrxYsGT2GFbGyeVmmS8RKICNhA
+	I7AzzYNpR+1diqnFFRCfiNQTqPuQm6NX9XvL/95EJwnq0ofrzI4O2AEoFnnhs4yv
+	FItdel+69pNJaleb9TWcug==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1752853844; x=
+	1752940244; bh=B16N1UWt6iI1JTHxVoLsWgotKo2IPYgHiuLE3m2G4PI=; b=Q
+	/VIzxLzMMq+4TI8zzM+yncIBk/kpKL3ONauOw9kZetjvJ7odQwr44H/2++v2Vu76
+	sS8AUCJaIeFXN+1Gfb21O5F8oVCiyW5uQ2QuLnrZBadZLcEqDVPioYL85ehXq6nP
+	5sUauNXEnV1b9+S5kqP5LMMNYsQemEdOCX8/J0AvpLJ9BdlotHA436ZQpGk+BvIx
+	Wv5pvfSX5fyxEU5XyjE3qwdxkYk8m7sdEH2lEO+Rg0BK8EeoN3D1quGX9rfQ5fY9
+	HI4pFWKe2Qv9Fs00cY/DypwFpahlQL0h3DrKHGhRTdKq4P7Y1VBLbBlOZcoyoOiW
+	ByDZ5TtG58XQqtSModaJA==
+X-ME-Sender: <xms:VG16aM7qy8gpv9y5Ml07VJi49ShfdwOIout_4DAf9F-a2b4cpPtoPw>
+    <xme:VG16aN4pphWe_ZgaiHd6Bg9ptwdvUbW5mRqql9jWo1qqj3-PrnlnIA4A7Y-kM-CaX
+    k0GklXIniPGhGnoV6s>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeifeekjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
+    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+    hnpeefhfehteffuddvgfeigefhjeetvdekteekjeefkeekleffjeetvedvgefhhfeihfen
+    ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghp
+    thhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkphesihhnthgvlh
+    drtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphht
+    thhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtg
+    hpthhtoheptghkvggvphgrgiesohhpvghnshhouhhrtggvrdgtihhrrhhushdrtghomh
+X-ME-Proxy: <xmx:VG16aALI-5YYH9SzedsT0-iEZ001Y2y4XDap9TCOt2w1KB2k2gUbMQ>
+    <xmx:VG16aFgIqST71azyGFP_WaowQ3ybz_qQMXX_RzjhGd_9YAeMdsOUvA>
+    <xmx:VG16aA6ExJVIW6c2Iw59ipGzMjGnQaYIeO4V_Lwdt5xjr30tkaNQsA>
+    <xmx:VG16aNZgS9cL4P6W-7aOq1-vNrVkFg0kxeH3PpYmeN8dnUFjsQwdwQ>
+    <xmx:VG16aFGQweRVdxGrjeGUThhYUp-SlEtVINcJDd280iHXpTNdN4fKXTFU>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 413CE700068; Fri, 18 Jul 2025 11:50:44 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ThreadId: Teeaf69f6e19bae6a
+Date: Fri, 18 Jul 2025 17:50:23 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "kernel test robot" <lkp@intel.com>,
+ "Charles Keepax" <ckeepax@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, "Mark Brown" <broonie@kernel.org>
+Message-Id: <28f4b539-e88a-47b0-a7db-f04a20c7275d@app.fastmail.com>
+In-Reply-To: <202507182222.OLgOy9fX-lkp@intel.com>
+References: <202507182222.OLgOy9fX-lkp@intel.com>
+Subject: Re: [linux-next:master 8699/10823] sound/soc/sdca/sdca_interrupts.c:220:1:
+ warning: the frame size of 1264 bytes is larger than 1024 bytes
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Fri, 18 Jul 2025 16:39:59 +0800 kernel test robot <lkp@intel.com> wrote:
+On Fri, Jul 18, 2025, at 16:43, kernel test robot wrote:
+> First bad commit (maybe != root cause):
+> 
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
+> commit: 6894e49b7b62cdb0edbcaaa23ea0218edb3b02dd [8699/10823] ASoC: SDCA: Kconfig Makefile fixups
 
->    mm/hugetlb_cgroup.c: In function 'hugetlb_cgroup_file_init':
-> >> mm/hugetlb_cgroup.c:829:44: warning: '%s' directive output may be truncated writing up to 1623 bytes into a region of size between 32 and 63 [-Wformat-truncation=]
->      829 |   snprintf(cft->name, MAX_CFTYPE_NAME, "%s.%s", buf, tmpl->name);
->          |                                            ^~
->    mm/hugetlb_cgroup.c:829:3: note: 'snprintf' output between 2 and 1656 bytes into a destination of size 64
->      829 |   snprintf(cft->name, MAX_CFTYPE_NAME, "%s.%s", buf, tmpl->name);
->          |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    mm/hugetlb_cgroup.c:829:44: warning: '%s' directive output may be truncated writing up to 2087 bytes into a region of size between 32 and 63 [-Wformat-truncation=]
->      829 |   snprintf(cft->name, MAX_CFTYPE_NAME, "%s.%s", buf, tmpl->name);
->          |                                            ^~
->    mm/hugetlb_cgroup.c:829:3: note: 'snprintf' output between 2 and 2120 bytes into a destination of size 64
->      829 |   snprintf(cft->name, MAX_CFTYPE_NAME, "%s.%s", buf, tmpl->name);
->          |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The actual root cause was commit b9ab3b618241 ("ASoC: SDCA: Add some
+initial IRQ handlers"), which introduced the new interrupt handler.
 
-In theory,
+> If you fix the issue in a separate patch/commit (i.e. not just a new 
+> version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: 
+> https://lore.kernel.org/oe-kbuild-all/202507182222.OLgOy9fX-lkp@intel.com/
+>
+> All warnings (new ones prefixed by >>):
+>
+>    sound/soc/sdca/sdca_interrupts.c: In function 'detected_mode_handler':
+>>> sound/soc/sdca/sdca_interrupts.c:220:1: warning: the frame size of 1264 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+>      220 | }
+>          | ^
 
-#define MAX_CFTYPE_NAME = 64
-sizeof(cft->name) = MAX_CFTYPE_NAME
-sizeof(buf) = 32
-sizeof(tmpl->name) = MAX_CFTYPE_NAME
+I have not seen this one in my testing, but I have looked at
+a lot of similar issues recently.
 
-But in practice there should never really be an overflow, since the longest
-name so far "rsvd.max_usage_in_bytes" is 23 characters long and the longest
-hugepage size string is "64KB" or "32MB"...
 
-Unless someone makes a horrendously long name, I think we should be good.
-With that said, char *mem_fmt only returns strings of up to 4 characters long.
-Maybe we can shrink sizeof(buf) to be 4 and explicitly truncate the last
-5 bytes (account for '.') of tmpl->name? I can spin something up.
+The first thing I see is the "struct snd_ctl_elem_value" structure
+on the stack, which is about 700 bytes long. This is probably
+too big for the stack, but doesn't explain the warning by itself.
 
-Curious what others think though. Is this fix necessary? We really should
-never overflow anyways.
+Seeing that only a single integer (ucontrol.value.enumerated.item[0])
+is actually initialized in the structure that gets passed down,
+I wonder if it could just call a different interface instead that
+takes a u32 argument instead of the full ucontrol.
 
-Thank you Kernel Test Robot!
-Joshua
+Alternatively, the ucontrol could be preallocated, e.g. in
+struct sdca_interrupt, as there should be no concurrent callers
+of detect_mode_handler for a single sdca_interrupt.
 
-Sent using hkml (https://github.com/sjp38/hackermail)
+    Arnd
