@@ -1,134 +1,134 @@
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E18BF2E54C2
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 15:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFFC12E7E
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 16:02:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752853848; cv=none; b=FPrxH9nO9PnmAFxDtZE6eyPrmWem6n9+/8QrqUITL6iXHCmH3i4UWtoOxMKeftfrNchZZa4jVL8fdWIRdOFA9ZBc/mvSMii1V7jI8EC5w8OPvfllJ/XIMIFcaHrfD//cNY6kwjm6nCEwABr5HM33NJuMxp5/KOOyS+qGzr3VgmA=
+	t=1752854546; cv=none; b=ndxhblQ2AjULHFvQS2Ebd2AbwGdlbLuI8dmXgv5Wr8KARna5sZAI224xFfW4r5yhjArtPkpQ1jspPaMWmwslEM61E0Zotb0QT/f2PvZ1NAsDAqMt68i8LQSJgkywwPUSU94uSPN+gL8EMN+iSPvVgvH3+6c/HoPMfoYObRp30Ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752853848; c=relaxed/simple;
-	bh=MJTqa2PCkQlD0thFjBaZ9MfCMwcFJZ4YgeF0xD959aw=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=SQjBDeAeRMTL4N404i1eL3xeqV2exLe2kAPBuJl6LAG3i5OLGhppyQzDZnn9+SR5DmowvT/tQV1FXex0d3PcCPFTvX63iajF0UbFjRCGJH/uIw52IaGTVFE/dORRtZbAxr4HLlKhVo3kl8vV5jfoxzsAPtiNHyXYV7xCKYxu9Tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=Dn/7Q/pb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Q/VIzxLz; arc=none smtp.client-ip=202.12.124.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1752854546; c=relaxed/simple;
+	bh=IaEmvYuHftIpxxpDophQ9/SITMJe6ejLmv0il5gaoJk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=XAo2McWCr1N37FqgTJ2TGq0aAgQGeOTRib9A/od62tw0i2uUhoO1XqN9wYmS5/aYIZ36huY+L7Y3Cie+Q97RkpHaP3UJODVsZ807nMUMId4ry5EpoF1J5XXwgjRkmmbNN+WYgtH8aNpSOzp792lNAeFCWuEw74RVKghiHQMJYNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aVQB4nrd; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="Dn/7Q/pb";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Q/VIzxLz"
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.stl.internal (Postfix) with ESMTP id C7A9F1D001ED;
-	Fri, 18 Jul 2025 11:50:44 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-05.internal (MEProxy); Fri, 18 Jul 2025 11:50:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1752853844;
-	 x=1752940244; bh=B16N1UWt6iI1JTHxVoLsWgotKo2IPYgHiuLE3m2G4PI=; b=
-	Dn/7Q/pb5YJQpcv4cvZ/nm7set+xYDxMgZdX/fWnpE3FenWIRcxe9ffGHGnl4G/k
-	+sO27FLT9QO+4G/slzpqXxo8qL1+SVd+PKYdsAu6Hs7SZs2FMsTBm7Otd986aUKc
-	8CJkGvTgqSYmG61oEZP5Nn2zOIklkBogunu/kR/AkJTSq6yTAPdLh/Iqrzhg1CSU
-	wn2QCEMpXNp3xtg7Cgjd8v3kCEvKqJSYrMacydwrxYsGT2GFbGyeVmmS8RKICNhA
-	I7AzzYNpR+1diqnFFRCfiNQTqPuQm6NX9XvL/95EJwnq0ofrzI4O2AEoFnnhs4yv
-	FItdel+69pNJaleb9TWcug==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1752853844; x=
-	1752940244; bh=B16N1UWt6iI1JTHxVoLsWgotKo2IPYgHiuLE3m2G4PI=; b=Q
-	/VIzxLzMMq+4TI8zzM+yncIBk/kpKL3ONauOw9kZetjvJ7odQwr44H/2++v2Vu76
-	sS8AUCJaIeFXN+1Gfb21O5F8oVCiyW5uQ2QuLnrZBadZLcEqDVPioYL85ehXq6nP
-	5sUauNXEnV1b9+S5kqP5LMMNYsQemEdOCX8/J0AvpLJ9BdlotHA436ZQpGk+BvIx
-	Wv5pvfSX5fyxEU5XyjE3qwdxkYk8m7sdEH2lEO+Rg0BK8EeoN3D1quGX9rfQ5fY9
-	HI4pFWKe2Qv9Fs00cY/DypwFpahlQL0h3DrKHGhRTdKq4P7Y1VBLbBlOZcoyoOiW
-	ByDZ5TtG58XQqtSModaJA==
-X-ME-Sender: <xms:VG16aM7qy8gpv9y5Ml07VJi49ShfdwOIout_4DAf9F-a2b4cpPtoPw>
-    <xme:VG16aN4pphWe_ZgaiHd6Bg9ptwdvUbW5mRqql9jWo1qqj3-PrnlnIA4A7Y-kM-CaX
-    k0GklXIniPGhGnoV6s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgdeifeekjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
-    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
-    hnpeefhfehteffuddvgfeigefhjeetvdekteekjeefkeekleffjeetvedvgefhhfeihfen
-    ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghp
-    thhtohepgedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheplhhkphesihhnthgvlh
-    drtghomhdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphht
-    thhopehovgdqkhgsuhhilhguqdgrlhhlsehlihhsthhsrdhlihhnuhigrdguvghvpdhrtg
-    hpthhtoheptghkvggvphgrgiesohhpvghnshhouhhrtggvrdgtihhrrhhushdrtghomh
-X-ME-Proxy: <xmx:VG16aALI-5YYH9SzedsT0-iEZ001Y2y4XDap9TCOt2w1KB2k2gUbMQ>
-    <xmx:VG16aFgIqST71azyGFP_WaowQ3ybz_qQMXX_RzjhGd_9YAeMdsOUvA>
-    <xmx:VG16aA6ExJVIW6c2Iw59ipGzMjGnQaYIeO4V_Lwdt5xjr30tkaNQsA>
-    <xmx:VG16aNZgS9cL4P6W-7aOq1-vNrVkFg0kxeH3PpYmeN8dnUFjsQwdwQ>
-    <xmx:VG16aFGQweRVdxGrjeGUThhYUp-SlEtVINcJDd280iHXpTNdN4fKXTFU>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 413CE700068; Fri, 18 Jul 2025 11:50:44 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aVQB4nrd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752854545; x=1784390545;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=IaEmvYuHftIpxxpDophQ9/SITMJe6ejLmv0il5gaoJk=;
+  b=aVQB4nrdD/I+wRxnaMyud5ozJQvDyoBFegdBzY/kOACM0L11PbXwmMKE
+   LeTZR8ro9ODvHpVTgyaQwxedWC0wIhiA7VBgnGVvos3ObuKvWBFLlTuJo
+   sR7u6KhDLqGaXYDhdMmfcVLi6p6XecVoqYyN8jLHsK14hyWYMrWVIFeDP
+   Rem8BsoRm3P4fw7ATqQyfPdA1qfzerk4E8Rlt+yl1q4iKHUKBhAu/loYX
+   irbh9EkWZUx/tUG6VHAaZa6+yXoMWVuQZWq9HUoid76/EBvajv4jFVDoP
+   SPfg6X8a4J6KKcdsaRSfgBwFGXiob9aAVbQsOm7LSUpkxqRzVmm60f6jp
+   A==;
+X-CSE-ConnectionGUID: vIE0muZmRvOhiKEuDmm9Lw==
+X-CSE-MsgGUID: DB3YR0gTSd6uyWy7SHAa+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="77689638"
+X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
+   d="scan'208";a="77689638"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 09:02:24 -0700
+X-CSE-ConnectionGUID: iaiiuCNLRniAPPIJn8SM4g==
+X-CSE-MsgGUID: z7WHt6orQw28csiqUuPDRA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
+   d="scan'208";a="158442147"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8b57277650df) ([10.91.175.65])
+  by fmviesa009.fm.intel.com with ESMTP; 18 Jul 2025 09:02:23 -0700
+Received: from kbuild by 8b57277650df with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ucnXR-0000w5-0j;
+	Fri, 18 Jul 2025 16:02:21 +0000
+Date: Fri, 18 Jul 2025 18:01:41 +0200
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [linux-next:master 8067/11307]
+ arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb:
+ ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197,
+ 4], [0, 198, 4], [0, 199, 4]] is too short
+Message-ID: <202507181819.yDa5ApF5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-X-ThreadId: Teeaf69f6e19bae6a
-Date: Fri, 18 Jul 2025 17:50:23 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "kernel test robot" <lkp@intel.com>,
- "Charles Keepax" <ckeepax@opensource.cirrus.com>
-Cc: oe-kbuild-all@lists.linux.dev, "Mark Brown" <broonie@kernel.org>
-Message-Id: <28f4b539-e88a-47b0-a7db-f04a20c7275d@app.fastmail.com>
-In-Reply-To: <202507182222.OLgOy9fX-lkp@intel.com>
-References: <202507182222.OLgOy9fX-lkp@intel.com>
-Subject: Re: [linux-next:master 8699/10823] sound/soc/sdca/sdca_interrupts.c:220:1:
- warning: the frame size of 1264 bytes is larger than 1024 bytes
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Jul 18, 2025, at 16:43, kernel test robot wrote:
-> First bad commit (maybe != root cause):
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-> head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
-> commit: 6894e49b7b62cdb0edbcaaa23ea0218edb3b02dd [8699/10823] ASoC: SDCA: Kconfig Makefile fixups
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
+commit: 356dea0baf4c0903ac188bf18e8ff1af0866c930 [8067/11307] dt-bindings: net: mediatek,net: allow up to 8 IRQs
+config: arm64-randconfig-2051-20250717 (https://download.01.org/0day-ci/archive/20250718/202507181819.yDa5ApF5-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507181819.yDa5ApF5-lkp@intel.com/reproduce)
 
-The actual root cause was commit b9ab3b618241 ("ASoC: SDCA: Add some
-initial IRQ handlers"), which introduced the new interrupt handler.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507181819.yDa5ApF5-lkp@intel.com/
 
-> If you fix the issue in a separate patch/commit (i.e. not just a new 
-> version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: 
-> https://lore.kernel.org/oe-kbuild-all/202507182222.OLgOy9fX-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    sound/soc/sdca/sdca_interrupts.c: In function 'detected_mode_handler':
->>> sound/soc/sdca/sdca_interrupts.c:220:1: warning: the frame size of 1264 bytes is larger than 1024 bytes [-Wframe-larger-than=]
->      220 | }
->          | ^
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts:98.10-154.4: Warning (avoid_unnecessary_addr_size): /soc/spi@1100a000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb: ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: switch@31 (mediatek,mt7531): 'interrupts' is a dependency of 'interrupt-controller'
+   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: i2c-gpio-0 (i2c-gpio): $nodename:0: 'i2c-gpio-0' does not match '^i2c(@.+|-[a-z0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: i2c-gpio-0 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: i2c-gpio-1 (i2c-gpio): $nodename:0: 'i2c-gpio-1' does not match '^i2c(@.+|-[a-z0-9]+)?$'
+   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: i2c-gpio-1 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
+--
+   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt7986a-rfb.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986a-rfb.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7986a-rfb.dtb: ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+--
+   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt7986b-rfb.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+   arch/arm64/boot/dts/mediatek/mt7986b-rfb.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
+>> arch/arm64/boot/dts/mediatek/mt7986b-rfb.dtb: ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too short
+   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
 
-I have not seen this one in my testing, but I have looked at
-a lot of similar issues recently.
-
-
-The first thing I see is the "struct snd_ctl_elem_value" structure
-on the stack, which is about 700 bytes long. This is probably
-too big for the stack, but doesn't explain the warning by itself.
-
-Seeing that only a single integer (ucontrol.value.enumerated.item[0])
-is actually initialized in the structure that gets passed down,
-I wonder if it could just call a different interface instead that
-takes a u32 argument instead of the full ucontrol.
-
-Alternatively, the ucontrol could be preallocated, e.g. in
-struct sdca_interrupt, as there should be no concurrent callers
-of detect_mode_handler for a single sdca_interrupt.
-
-    Arnd
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
