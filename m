@@ -1,124 +1,141 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7891B215F42;
-	Fri, 18 Jul 2025 17:48:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EEBB17A2F5;
+	Fri, 18 Jul 2025 18:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752860921; cv=none; b=LPJEcGTfTC0Od8uThkwBM0cW2XEZdGA4/gKUQgEPslbwA0vFSHWQuYYx92/FAwcD5NT1+KOWu66qmdQYbKCJsGxGA0UF/9DSFsD1BxUlBuFz3DvEGk1qE6BtANrIXSlIYouxDG7ORIVAlpd2cDBM/DFyyisxXTPuCSk+9L27yF0=
+	t=1752862908; cv=none; b=PMDIGzNrv9SOmynPFCjs8tRKWJ+trfn+2GOc7w7EzafhGM6V2VXfzypstOCz1iixJxwI9ln4bzeZrMeAmeiXbliBByDx3EWS0QretgDIO++XGfD2Acap3VF1Q6g4l1/NFe4SnB1dU/1C5wMvZuk1nNbQ6V4MBNkF86vkrkvduSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752860921; c=relaxed/simple;
-	bh=v8T5FRW9a5xWeorlEEbTsdAktZOw8gv58Y8173uidTs=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=qWuhYek3o2Zt1osCEyZqUlCjdJdBVyQYEhfjQJw+eFoYXiy282uu71Bw7mToh9LytDZKqzVtMxdWqjmGRosSZXgGfhF+hIzhTVcjHTano9WzgVr5LHoYB+oxjc3TTVsWQKwTelw3CdS1xEMU8gWCh/8eARNq4wZFWQz+dEOVfBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bMn+id/V; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752862908; c=relaxed/simple;
+	bh=P+9EJz816VbmV7HS5BwOfxdEj45paRDrlxlwnAf6Jfs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=o8uEWxacMn6JFRy1aVzhDaMMPFR1eXCOE4pLUHhlAMLANaf1OONjKrUtErZUrEMMs1/QCcgwOTIYflKnB+lydJGH7pFH1zcoNVoNSJOSZnjOKFI9trQa0Wf5N6Waj9tFRSRpzyaRiPgktxMqO08gy63Mf7jBI7SKq2sLFNshue0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e0qxbY54; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bMn+id/V"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-60c4f796446so3539546a12.1;
-        Fri, 18 Jul 2025 10:48:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752860918; x=1753465718; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=yQsinGGb0R8L8jJTwwJcnr/G5uqejjnQRvAkIBc3hoI=;
-        b=bMn+id/VuyAHY7a+dRKrFfSPGPJr3Ch4iuFfSJ9saEKKcSI85xbXp1jvSgABk2VBWJ
-         bjIG7A1kYwirR+nH7CjQq6ZysLtemL/JW+BU9hX940tfUxQYFbw6fIPhHq/RosJONthV
-         UDtBcaZE2M3fDkH+JgrqoTKkcFYKtQx7ZwdTaUFWAcgJ9PjBW5WqDiRimrDGwZvso7N8
-         R6PNM5ictmpSS8IWWQsEQYezn8cpUjQdIQHeQt7PcHicxDTXeXN8HxlFm+oFBmSp+yRe
-         6EyMiClOQtDBWSWDS7VtrS4CAutXgSFc2dJ9o4f+eSdgzRgolwpp3MC+3gqtfGohr/KX
-         OFRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752860918; x=1753465718;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yQsinGGb0R8L8jJTwwJcnr/G5uqejjnQRvAkIBc3hoI=;
-        b=vR+/ChOVeyphc2x718RC9N2tj/Rz9Rtyo+ieNnopBJN+zbIJkVzooxkRQv8fEwoBLG
-         +L5mSMNW0GuiF5dqZWUeaGQlSTyJBwUEgM/QcXAtq2LHL1Zr1MtqEurf5yW47Rp2jJhP
-         iWZkKrRhmDbsUqPlBHpCjDwfcqjCJzkOQZzP4SMHk/U4VNQaM8J8Rop6C3wTKaso4MAg
-         nzjFMkdWbyOqwKjlh2DmNeY4ykeEYjmivxXH3PjJcLFmy0M8KwqkHRFTS7qV9L3Rtx9S
-         QLySfH658nXqTG8wX4NMue5zW9k24RmeKracUitSqpRUJeXoB7qgYHS5Eqb1c97qWDZQ
-         p9rw==
-X-Forwarded-Encrypted: i=1; AJvYcCVSTunG/kOEKVTJVAB9WkejPjA8bHJJL9DJ0I5YTcfCS59Ie6nqbPJVZ85vsKmxZTbWqjL32mE4y3P55WpV@lists.linux.dev, AJvYcCVbGyC50lOpSV9Si0cXLdoGgjWLOb4XfC/iXxOSD/yANvaPLDcks+1fbqAFmlKGBOnBpIvXYHmbJlnD@lists.linux.dev
-X-Gm-Message-State: AOJu0YwUpmxJWLKrLGFLEJfa6FhrpjHw3DJMHYD/rbaoKUI4Il15jHXO
-	osDCiGOxCU3Y2sOuR/NTThpgMUHl0ywAeILFtsyqkRyknvqBd4eAHffu
-X-Gm-Gg: ASbGncufSUlO8RAr4MvcJ/hjcJt5QEMwly6CjzY10qzN1OOdAVENpvW3+NH68Ws3w/w
-	yTFgpMyutipXL84Zvz1OqYDCo9I0dgAIVYHYO/Kh0QIxi4bgqkagFo8Bo4bOvlPtl69bSpHpnin
-	ByLodMMRfByGlRCjI8FvC+6xsIheMngWmyE1QRHUCaspnnsylV25tsRnyzo0xjJx1G9udfSF1p/
-	ewt2A0GJhqakCj07xMdT4K0o+NKT3azz+KMPuQZl7drfvu0veRAMqAAFYJoAW7Q0oTFvzbBJPGG
-	DrvbCMak1vzJueTNd6ml7CnjctqCPtBx/mtr6Wrysk8ZNO8lgLgH/l0Qq+SSoqH1HUxeElCvbP4
-	ft/4b7FctArRInqRAcS29EZkHuiktOsnj
-X-Google-Smtp-Source: AGHT+IEdM6+onEmsU7XdOhEVtfxGMk4LyeudtD8g5JVVTPTxNh44h7uxUcCQajOPjyfxtKx3jQfoqQ==
-X-Received: by 2002:a17:907:3e9f:b0:ae3:a812:a780 with SMTP id a640c23a62f3a-ae9c9ba7b98mr1109642166b.61.1752860917506;
-        Fri, 18 Jul 2025 10:48:37 -0700 (PDT)
-Received: from [192.168.8.100] ([148.252.141.246])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6c7d469fsm157859666b.55.2025.07.18.10.48.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Jul 2025 10:48:36 -0700 (PDT)
-Message-ID: <c269f7e1-25fc-47dc-82a5-ec331f8b7961@gmail.com>
-Date: Fri, 18 Jul 2025 18:50:05 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e0qxbY54"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752862906; x=1784398906;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=P+9EJz816VbmV7HS5BwOfxdEj45paRDrlxlwnAf6Jfs=;
+  b=e0qxbY54biluLcpa9o4kLwNBDHLd1EOa/h9PqEd9qQ3cIbS7Fnkf1otB
+   FgGkmtMuK+6Cpb4mF/lgp+lG7mHAGadqSt1g+ZCW5RkQ91ukjvEfJGCl7
+   2GuARQPg7eGIU8YNM6slhZXsddJlV1fZlO3pKQuJinEJjRVpn0sSeEWBw
+   emnvdjcqwPilqBHy0sQ7N6gSm89PgA2nRGJOUDD0QoTkak83oDZjqFLgo
+   /cjzvrbjU4bKsd7T7IO54uJZABx9bo56s5BNoTMc7lIk+YdTSMJLGFXk/
+   KhVY/tNAh58jnBsI0+A444ub6DnNfqlunIFDtgJ46mtqVDEpe8OBD0VUc
+   A==;
+X-CSE-ConnectionGUID: khFSaM9+Rmen2fxurloFEg==
+X-CSE-MsgGUID: aN2/OZSbS8uhURejFaFA5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="58947034"
+X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
+   d="scan'208";a="58947034"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 11:21:45 -0700
+X-CSE-ConnectionGUID: dfBBGi8hQAKPr27O9jgOyg==
+X-CSE-MsgGUID: 7AZntq2VQb+Ale4UkiYwyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
+   d="scan'208";a="162632303"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 18 Jul 2025 11:21:42 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ucpiG-000Ewp-1J;
+	Fri, 18 Jul 2025 18:21:40 +0000
+Date: Sat, 19 Jul 2025 02:20:46 +0800
+From: kernel test robot <lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:string-helper-2025-07-18 135/157]
+ drivers/md/dm-vdo/vdo.c:1376:36: error: call to undeclared function
+ 'str_enabled_disabled'; ISO C99 and later do not support implicit function
+ declarations
+Message-ID: <202507190253.z3mxU8Ux-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [linux-next:master 10555/10823] io_uring/zcrx.c:385
- io_zcrx_free_area() error: we previously assumed 'area->ifq' could be null
- (see line 380)
-From: Pavel Begunkov <asml.silence@gmail.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
-References: <f07001e5-021c-4695-8116-07b1a71665fb@suswa.mountain>
- <54d5026a-3563-4b49-9395-0c8ee3d71e18@gmail.com>
-Content-Language: en-US
-In-Reply-To: <54d5026a-3563-4b49-9395-0c8ee3d71e18@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 7/18/25 09:56, Pavel Begunkov wrote:
-> On 7/18/25 02:56, Dan Carpenter wrote:
->> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
->> head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
->> commit: 262ab205180d2ba3ab6110899a4dbe439c51dfaa [10555/10823] io_uring/zcrx: account area memory
->> config: x86_64-randconfig-161-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180628.gBxrOgqr-lkp@intel.com/config)
->> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
->>
->> If you fix the issue in a separate patch/commit (i.e. not just a new version of
->> the same patch/commit), kindly add following tags
->> | Reported-by: kernel test robot <lkp@intel.com>
->> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
->> | Closes: https://lore.kernel.org/r/202507180628.gBxrOgqr-lkp@intel.com/
->>
->> smatch warnings:
->> io_uring/zcrx.c:385 io_zcrx_free_area() error: we previously assumed 'area->ifq' could be null (see line 380)
->>
->> vim +385 io_uring/zcrx.c
->>
->> cf96310c5f9a0d David Wei      2025-02-14  378  static void io_zcrx_free_area(struct io_zcrx_area *area)
->> cf96310c5f9a0d David Wei      2025-02-14  379  {
->> 0ec33c81d9c734 Pavel Begunkov 2025-05-27 @380      if (area->ifq)
->>                                                      ^^^^^^^^^
->> This line assumes that area->ifq can be NULL
->>
->> db070446f5af8c Pavel Begunkov 2025-02-14  381          io_zcrx_unmap_area(area->ifq, area);
->> 782dfa329ac9d1 Pavel Begunkov 2025-05-01  382      io_release_area_mem(&area->mem);
->> db070446f5af8c Pavel Begunkov 2025-02-14  383
->> 262ab205180d2b Pavel Begunkov 2025-07-16  384      if (area->mem.account_pages)
->> 262ab205180d2b Pavel Begunkov 2025-07-16 @385          io_unaccount_mem(area->ifq->ctx, area->mem.account_pages);
->>                                                                           ^^^^^^^^^^^
->> But here it's dereferenced without checking
-> 
-> That's fine, the "if (account_pages)" above protects it. Nevertheless,
-> can be improved a bit.
+tree:   https://github.com/morimoto/linux string-helper-2025-07-18
+head:   ea52943b017c3b53f3f8c9ff679ccfb8eaae222a
+commit: 76ff9a5ac5f25b351b7ecc7743f4910aceb7bd1d [135/157] dm vdo: use string choices helper
+config: s390-randconfig-001-20250718 (https://download.01.org/0day-ci/archive/20250719/202507190253.z3mxU8Ux-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507190253.z3mxU8Ux-lkp@intel.com/reproduce)
 
-Taking another look, it's actually not fine. Thanks for the report,
-I'll patch it up.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507190253.z3mxU8Ux-lkp@intel.com/
+
+All error/warnings (new ones prefixed by >>):
+
+>> drivers/md/dm-vdo/vdo.c:1376:36: error: call to undeclared function 'str_enabled_disabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    1376 |         vdo_log_info("compression is %s", str_enabled_disabled(*enable));
+         |                                           ^
+>> drivers/md/dm-vdo/vdo.c:1376:36: warning: format specifies type 'char *' but the argument has type 'int' [-Wformat]
+    1376 |         vdo_log_info("compression is %s", str_enabled_disabled(*enable));
+         |                                      ~~   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                      %d
+   drivers/md/dm-vdo/logger.h:91:57: note: expanded from macro 'vdo_log_info'
+      91 | #define vdo_log_info(...) vdo_log_message(VDO_LOG_INFO, __VA_ARGS__)
+         |                                                         ^~~~~~~~~~~
+   drivers/md/dm-vdo/logger.h:84:55: note: expanded from macro 'vdo_log_message'
+      84 |         __vdo_log_message(priority, VDO_LOGGING_MODULE_NAME, __VA_ARGS__)
+         |                                                              ^~~~~~~~~~~
+   1 warning and 1 error generated.
+--
+>> drivers/md/dm-vdo/dm-vdo-target.c:2399:37: error: call to undeclared function 'str_enabled_disabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+    2399 |                 vdo_log_info("compression is %s", str_enabled_disabled(enable));
+         |                                                   ^
+>> drivers/md/dm-vdo/dm-vdo-target.c:2399:37: warning: format specifies type 'char *' but the argument has type 'int' [-Wformat]
+    2399 |                 vdo_log_info("compression is %s", str_enabled_disabled(enable));
+         |                                              ~~   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |                                              %d
+   drivers/md/dm-vdo/logger.h:91:57: note: expanded from macro 'vdo_log_info'
+      91 | #define vdo_log_info(...) vdo_log_message(VDO_LOG_INFO, __VA_ARGS__)
+         |                                                         ^~~~~~~~~~~
+   drivers/md/dm-vdo/logger.h:84:55: note: expanded from macro 'vdo_log_message'
+      84 |         __vdo_log_message(priority, VDO_LOGGING_MODULE_NAME, __VA_ARGS__)
+         |                                                              ^~~~~~~~~~~
+   1 warning and 1 error generated.
+
+
+vim +/str_enabled_disabled +1376 drivers/md/dm-vdo/vdo.c
+
+  1357	
+  1358	/**
+  1359	 * set_compression_callback() - Callback to turn compression on or off.
+  1360	 * @completion: The completion.
+  1361	 */
+  1362	static void set_compression_callback(struct vdo_completion *completion)
+  1363	{
+  1364		struct vdo *vdo = completion->vdo;
+  1365		bool *enable = completion->parent;
+  1366		bool was_enabled = vdo_get_compressing(vdo);
+  1367	
+  1368		if (*enable != was_enabled) {
+  1369			WRITE_ONCE(vdo->compressing, *enable);
+  1370			if (was_enabled) {
+  1371				/* Signal the packer to flush since compression has been disabled. */
+  1372				vdo_flush_packer(vdo->packer);
+  1373			}
+  1374		}
+  1375	
+> 1376		vdo_log_info("compression is %s", str_enabled_disabled(*enable));
+  1377		*enable = was_enabled;
+  1378		complete_synchronous_action(completion);
+  1379	}
+  1380	
 
 -- 
-Pavel Begunkov
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
