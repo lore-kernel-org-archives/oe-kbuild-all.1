@@ -1,60 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0984922539E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 22:52:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F362310957
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 23:23:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752879138; cv=none; b=cWt5SmI+snqMrgtNTSfa7grmqwmsdpVCZ4B7w4Z5JpFIIxtFCB0kUd/xiwpG38S22VuKqay8gi2kynZka8HbVU9jRUjXp4fchJIdoLcv+bAF9TpuoaT2MKq85+IMooUqrwchw+LrxL/DrU2CoQ2WsjQbaJ2AEaE1wfmTP+RgGqA=
+	t=1752880991; cv=none; b=Wqb2soLuFS95t2cwD8Uqak11n5aokEHV0V+C4H1wtRPw8/jZLa0iDlAaNvLYUP8Rbu6eU9uce/eDQ0VztkqI8RIMwbdM+NruiHo8quYhpaIPK6uOEfAFCVPk1zwKHomVcr1Qo3SO6LdwAHErX9t27fKowKjzVW83TLxo8UQvLn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752879138; c=relaxed/simple;
-	bh=rGICDkwyIeDiM7h6eh6cCN6EyWgB77CPOdybLhs/WdA=;
+	s=arc-20240116; t=1752880991; c=relaxed/simple;
+	bh=B5CAEHQ0jyo5HOngWl6o8FVMc6XVLxuL2VnyenfNi1A=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rbzbvBNg9DR0wzWb4jAvIy+Laumoq5KvIIF0/UXBe0HtWyZGAKmUrojiDaLQNpTsPPJJBN3YUZoPzf59HHMmrHiU5o8Ueh5vYBq8CVjo0TpH7bvRx2TSCneLg7H5OjZSFbHkctPmWobEVzh/WT4uXV0jYifxCAScgr3XFmUg/yY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Tn4IUFJG; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition; b=kkcEDy0fQaI2U48A6gJ/6TXDE4/1a7Kb2CzJOTx/S2wO81H4ccM6sSeCTzwuaOVvek7o0VzT3Lm8eICrnhPk6z5PJ+UzhQNuHAL1qlH65QKU/QR5tOFGXtdft/wAUaMj2pkeyakinGuDjw/ByBrZXqZ72o486cQaWpmsQNCj3Pc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jxNPVFCJ; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tn4IUFJG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jxNPVFCJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752879137; x=1784415137;
+  t=1752880990; x=1784416990;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rGICDkwyIeDiM7h6eh6cCN6EyWgB77CPOdybLhs/WdA=;
-  b=Tn4IUFJGBVWgC8LOwfvbuTclj8e3Gm89FvQVAzyOyewz8Z3EoiSaBmPz
-   VjZt3fhYtXT1wkPUb9vnHYQsIJ+Vzerd0F93j5YY/++9RlFvw02xMCTmb
-   4ELqdaQ4dSx5XgT4Q1I2m+iZgDHDYom1YEdL8IyE8gVKIW/MZZd4rlXAJ
-   ZmNNQzAVW3Xq2bF/xCipb30P1Hed+h11jDtu/Bs2TvWDpTU/w9+ftqLUS
-   FmOm+EWtMXXF3tAoqQ7Hp/99X2k1AJWS2x9aJRdsBWe/3gUh8VmKlS3N/
-   zpqYDgYZcR5XQtZU98p6xsAG6ryl8Xnb5P+DF2frePlrG60IaouhRkPHm
-   A==;
-X-CSE-ConnectionGUID: HUFYHl96RGiybLLRoGAp5A==
-X-CSE-MsgGUID: DqziPEr5Skq5YcIku+BePg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="54895109"
+  bh=B5CAEHQ0jyo5HOngWl6o8FVMc6XVLxuL2VnyenfNi1A=;
+  b=jxNPVFCJPFYRii9888Wus9zCj/CXwpOtsUrHLZJmoYD1tWVqgoKjF8Yl
+   iCxbO5SH0Tf0F2QBBPxIyHuXiRuj8ITysJBQXl4uYncIbiJj4JyISm1xm
+   zFAv8UbTLRGQNHRF1U4sdvl53ysCxnsdRJoCSqg3GYY84RyKjM6Xzhg5M
+   cc/hzv3LHjnaY4bCI60uSEfgK8ShSqxWqhIyD68s5HZEtD6mBAZbL/Zx0
+   /4P8SAiuYLr2kx9acYc1icy7vIc3TsC74JfGusPqQBZBxcKXhbarDEbou
+   sgUUCdf2y68n44UGKz0QN1+RAtrHMbSxpYaDdSJE5raFfn6bt3cZIhGeA
+   g==;
+X-CSE-ConnectionGUID: NXlna8QCQ3mlIuapoo98dg==
+X-CSE-MsgGUID: Z1H38S7kQH24d+Q4T8hkRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="77716879"
 X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
-   d="scan'208";a="54895109"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 15:52:08 -0700
-X-CSE-ConnectionGUID: d6aA9pmURCyPmQp0cnGpEQ==
-X-CSE-MsgGUID: CPkXmN9hQ2i8uFnELOUgVA==
+   d="scan'208";a="77716879"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 16:23:10 -0700
+X-CSE-ConnectionGUID: SMhFfUbiRG6hBjSnsgcZkw==
+X-CSE-MsgGUID: jNHR5zs3Su+hKpfPfPfEwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
-   d="scan'208";a="159023409"
+   d="scan'208";a="162886624"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Jul 2025 15:52:05 -0700
+  by orviesa004.jf.intel.com with ESMTP; 18 Jul 2025 16:23:08 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uctvu-000F6n-2Y;
-	Fri, 18 Jul 2025 22:52:02 +0000
-Date: Sat, 19 Jul 2025 06:51:25 +0800
+	id 1ucuPy-000F8H-07;
+	Fri, 18 Jul 2025 23:23:06 +0000
+Date: Sat, 19 Jul 2025 07:23:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sung-Chi Li <lschyi@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-hwmon@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>
-Subject: [groeck-staging:hwmon-next 30/31]
- drivers/hwmon/cros_ec_hwmon.c:49:16: error: variable 'req' has initializer
- but incomplete type
-Message-ID: <202507190650.w6es81CY-lkp@intel.com>
+To: Samuel Holland <samuel.holland@sifive.com>
+Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>
+Subject: [kvm-riscv:riscv_kvm_queue 21/25]
+ arch/riscv/include/asm/csr.h:211:29: warning: conversion from 'long long
+ unsigned int' to 'long unsigned int' changes value from '8589934592' to '0'
+Message-ID: <202507190732.hj0EAGDk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,301 +63,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-head:   3bea98137ca67f6a4458853f7065aa8cf44cacaf
-commit: dd083def7b441b0a7ecd430c156090920bbb4f71 [30/31] hwmon: (cros_ec) add PWM control over fans
-config: arm-randconfig-001-20250719 (https://download.01.org/0day-ci/archive/20250719/202507190650.w6es81CY-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507190650.w6es81CY-lkp@intel.com/reproduce)
+tree:   https://github.com/kvm-riscv/linux.git riscv_kvm_queue
+head:   9812ba1039cfd71015a27af90971b049fb70806c
+commit: 9f585bd8f40b05487a17efae772ff0bd172060d7 [21/25] RISC-V: KVM: Add support for SBI_FWFT_POINTER_MASKING_PMLEN
+config: riscv-randconfig-r072-20250719 (https://download.01.org/0day-ci/archive/20250719/202507190732.hj0EAGDk-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507190732.hj0EAGDk-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507190650.w6es81CY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507190732.hj0EAGDk-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/hwmon/cros_ec_hwmon.c: In function 'cros_ec_hwmon_read_pwm_value':
->> drivers/hwmon/cros_ec_hwmon.c:49:16: error: variable 'req' has initializer but incomplete type
-      49 |         struct ec_params_pwm_get_fan_duty req = {
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hwmon/cros_ec_hwmon.c:50:18: error: 'struct ec_params_pwm_get_fan_duty' has no member named 'fan_idx'
-      50 |                 .fan_idx = index,
-         |                  ^~~~~~~
->> drivers/hwmon/cros_ec_hwmon.c:50:28: warning: excess elements in struct initializer
-      50 |                 .fan_idx = index,
-         |                            ^~~~~
-   drivers/hwmon/cros_ec_hwmon.c:50:28: note: (near initialization for 'req')
->> drivers/hwmon/cros_ec_hwmon.c:49:43: error: storage size of 'req' isn't known
-      49 |         struct ec_params_pwm_get_fan_duty req = {
-         |                                           ^~~
->> drivers/hwmon/cros_ec_hwmon.c:52:45: error: storage size of 'resp' isn't known
-      52 |         struct ec_response_pwm_get_fan_duty resp;
-         |                                             ^~~~
->> drivers/hwmon/cros_ec_hwmon.c:56:27: error: 'EC_CMD_PWM_GET_FAN_DUTY' undeclared (first use in this function); did you mean 'EC_CMD_PWM_SET_FAN_DUTY'?
-      56 |                           EC_CMD_PWM_GET_FAN_DUTY, &req, sizeof(req), &resp, sizeof(resp));
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
-         |                           EC_CMD_PWM_SET_FAN_DUTY
-   drivers/hwmon/cros_ec_hwmon.c:56:27: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/hwmon/cros_ec_hwmon.c:52:45: warning: unused variable 'resp' [-Wunused-variable]
-      52 |         struct ec_response_pwm_get_fan_duty resp;
-         |                                             ^~~~
->> drivers/hwmon/cros_ec_hwmon.c:49:43: warning: unused variable 'req' [-Wunused-variable]
-      49 |         struct ec_params_pwm_get_fan_duty req = {
-         |                                           ^~~
-   drivers/hwmon/cros_ec_hwmon.c: In function 'cros_ec_hwmon_read_pwm_enable':
-   drivers/hwmon/cros_ec_hwmon.c:67:16: error: variable 'req' has initializer but incomplete type
-      67 |         struct ec_params_auto_fan_ctrl_v2 req = {
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/hwmon/cros_ec_hwmon.c:68:18: error: 'struct ec_params_auto_fan_ctrl_v2' has no member named 'cmd'
-      68 |                 .cmd = EC_AUTO_FAN_CONTROL_CMD_GET,
-         |                  ^~~
->> drivers/hwmon/cros_ec_hwmon.c:68:24: error: 'EC_AUTO_FAN_CONTROL_CMD_GET' undeclared (first use in this function); did you mean 'EC_CHARGE_CONTROL_CMD_GET'?
-      68 |                 .cmd = EC_AUTO_FAN_CONTROL_CMD_GET,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        EC_CHARGE_CONTROL_CMD_GET
-   drivers/hwmon/cros_ec_hwmon.c:68:24: warning: excess elements in struct initializer
-   drivers/hwmon/cros_ec_hwmon.c:68:24: note: (near initialization for 'req')
->> drivers/hwmon/cros_ec_hwmon.c:69:18: error: 'struct ec_params_auto_fan_ctrl_v2' has no member named 'fan_idx'
-      69 |                 .fan_idx = index,
-         |                  ^~~~~~~
-   drivers/hwmon/cros_ec_hwmon.c:69:28: warning: excess elements in struct initializer
-      69 |                 .fan_idx = index,
-         |                            ^~~~~
-   drivers/hwmon/cros_ec_hwmon.c:69:28: note: (near initialization for 'req')
-   drivers/hwmon/cros_ec_hwmon.c:67:43: error: storage size of 'req' isn't known
-      67 |         struct ec_params_auto_fan_ctrl_v2 req = {
-         |                                           ^~~
-   drivers/hwmon/cros_ec_hwmon.c:71:45: error: storage size of 'resp' isn't known
-      71 |         struct ec_response_auto_fan_control resp;
-         |                                             ^~~~
-   drivers/hwmon/cros_ec_hwmon.c:71:45: warning: unused variable 'resp' [-Wunused-variable]
-   drivers/hwmon/cros_ec_hwmon.c:67:43: warning: unused variable 'req' [-Wunused-variable]
-      67 |         struct ec_params_auto_fan_ctrl_v2 req = {
-         |                                           ^~~
-   drivers/hwmon/cros_ec_hwmon.c: In function 'cros_ec_hwmon_write_pwm_enable':
-   drivers/hwmon/cros_ec_hwmon.c:215:16: error: variable 'req' has initializer but incomplete type
-     215 |         struct ec_params_auto_fan_ctrl_v2 req = {
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/cros_ec_hwmon.c:216:18: error: 'struct ec_params_auto_fan_ctrl_v2' has no member named 'fan_idx'
-     216 |                 .fan_idx = index,
-         |                  ^~~~~~~
-   drivers/hwmon/cros_ec_hwmon.c:216:28: warning: excess elements in struct initializer
-     216 |                 .fan_idx = index,
-         |                            ^~~~~
-   drivers/hwmon/cros_ec_hwmon.c:216:28: note: (near initialization for 'req')
-   drivers/hwmon/cros_ec_hwmon.c:217:18: error: 'struct ec_params_auto_fan_ctrl_v2' has no member named 'cmd'
-     217 |                 .cmd = EC_AUTO_FAN_CONTROL_CMD_SET,
-         |                  ^~~
->> drivers/hwmon/cros_ec_hwmon.c:217:24: error: 'EC_AUTO_FAN_CONTROL_CMD_SET' undeclared (first use in this function); did you mean 'EC_CHARGE_CONTROL_CMD_SET'?
-     217 |                 .cmd = EC_AUTO_FAN_CONTROL_CMD_SET,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        EC_CHARGE_CONTROL_CMD_SET
-   drivers/hwmon/cros_ec_hwmon.c:217:24: warning: excess elements in struct initializer
-   drivers/hwmon/cros_ec_hwmon.c:217:24: note: (near initialization for 'req')
-   drivers/hwmon/cros_ec_hwmon.c:215:43: error: storage size of 'req' isn't known
-     215 |         struct ec_params_auto_fan_ctrl_v2 req = {
-         |                                           ^~~
-   drivers/hwmon/cros_ec_hwmon.c:215:43: warning: unused variable 'req' [-Wunused-variable]
-   drivers/hwmon/cros_ec_hwmon.c: In function 'cros_ec_hwmon_probe_fan_control_supported':
-   drivers/hwmon/cros_ec_hwmon.c:381:50: error: 'EC_CMD_PWM_GET_FAN_DUTY' undeclared (first use in this function); did you mean 'EC_CMD_PWM_SET_FAN_DUTY'?
-     381 |         return is_cros_ec_cmd_available(cros_ec, EC_CMD_PWM_GET_FAN_DUTY,
-         |                                                  ^~~~~~~~~~~~~~~~~~~~~~~
-         |                                                  EC_CMD_PWM_SET_FAN_DUTY
->> drivers/hwmon/cros_ec_hwmon.c:387:1: warning: control reaches end of non-void function [-Wreturn-type]
-     387 | }
-         | ^
+   In file included from arch/riscv/include/asm/ptrace.h:10,
+                    from arch/riscv/include/asm/processor.h:15,
+                    from arch/riscv/include/asm/cmpxchg.h:16,
+                    from arch/riscv/include/asm/barrier.h:14,
+                    from include/asm-generic/bitops/generic-non-atomic.h:7,
+                    from include/linux/bitops.h:28,
+                    from include/linux/thread_info.h:27,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/riscv/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from include/linux/alloc_tag.h:11,
+                    from include/linux/percpu.h:5,
+                    from include/linux/context_tracking_state.h:5,
+                    from include/linux/hardirq.h:5,
+                    from include/linux/kvm_host.h:7,
+                    from arch/riscv/kvm/vcpu_sbi_fwft.c:11:
+   arch/riscv/kvm/vcpu_sbi_fwft.c: In function 'kvm_sbi_fwft_pointer_masking_pmlen_supported':
+>> arch/riscv/include/asm/csr.h:211:29: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '8589934592' to '0' [-Woverflow]
+    #define ENVCFG_PMM_PMLEN_7  (_AC(0x2, ULL) << 32)
+                                ^~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/kvm/vcpu_sbi_fwft.c:119:41: note: in expansion of macro 'ENVCFG_PMM_PMLEN_7'
+     fwft->have_vs_pmlen_7 = try_to_set_pmm(ENVCFG_PMM_PMLEN_7);
+                                            ^~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/csr.h:212:30: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '12884901888' to '0' [-Woverflow]
+    #define ENVCFG_PMM_PMLEN_16  (_AC(0x3, ULL) << 32)
+                                 ^~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/kvm/vcpu_sbi_fwft.c:120:42: note: in expansion of macro 'ENVCFG_PMM_PMLEN_16'
+     fwft->have_vs_pmlen_16 = try_to_set_pmm(ENVCFG_PMM_PMLEN_16);
+                                             ^~~~~~~~~~~~~~~~~~~
+   arch/riscv/kvm/vcpu_sbi_fwft.c: In function 'kvm_sbi_fwft_set_pointer_masking_pmlen':
+>> arch/riscv/include/asm/csr.h:211:29: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '8589934592' to '0' [-Woverflow]
+    #define ENVCFG_PMM_PMLEN_7  (_AC(0x2, ULL) << 32)
+                                ^
+   arch/riscv/kvm/vcpu_sbi_fwft.c:135:9: note: in expansion of macro 'ENVCFG_PMM_PMLEN_7'
+      pmm = ENVCFG_PMM_PMLEN_7;
+            ^~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/csr.h:212:30: warning: conversion from 'long long unsigned int' to 'long unsigned int' changes value from '12884901888' to '0' [-Woverflow]
+    #define ENVCFG_PMM_PMLEN_16  (_AC(0x3, ULL) << 32)
+                                 ^
+   arch/riscv/kvm/vcpu_sbi_fwft.c:137:9: note: in expansion of macro 'ENVCFG_PMM_PMLEN_16'
+      pmm = ENVCFG_PMM_PMLEN_16;
+            ^~~~~~~~~~~~~~~~~~~
 
 
-vim +/req +49 drivers/hwmon/cros_ec_hwmon.c
+vim +211 arch/riscv/include/asm/csr.h
 
-    46	
-    47	static int cros_ec_hwmon_read_pwm_value(struct cros_ec_device *cros_ec, u8 index, u8 *pwm_value)
-    48	{
-  > 49		struct ec_params_pwm_get_fan_duty req = {
-  > 50			.fan_idx = index,
-    51		};
-  > 52		struct ec_response_pwm_get_fan_duty resp;
-    53		int ret;
-    54	
-    55		ret = cros_ec_cmd(cros_ec, CROS_EC_HWMON_PWM_GET_FAN_DUTY_CMD_VERSION,
-  > 56				  EC_CMD_PWM_GET_FAN_DUTY, &req, sizeof(req), &resp, sizeof(resp));
-    57		if (ret < 0)
-    58			return ret;
-    59	
-    60		*pwm_value = (u8)DIV_ROUND_CLOSEST(le32_to_cpu(resp.percent) * 255, 100);
-    61		return 0;
-    62	}
-    63	
-    64	static int cros_ec_hwmon_read_pwm_enable(struct cros_ec_device *cros_ec, u8 index,
-    65						 u8 *control_method)
-    66	{
-    67		struct ec_params_auto_fan_ctrl_v2 req = {
-  > 68			.cmd = EC_AUTO_FAN_CONTROL_CMD_GET,
-  > 69			.fan_idx = index,
-    70		};
-    71		struct ec_response_auto_fan_control resp;
-    72		int ret;
-    73	
-    74		ret = cros_ec_cmd(cros_ec, CROS_EC_HWMON_THERMAL_AUTO_FAN_CTRL_CMD_VERSION,
-    75				  EC_CMD_THERMAL_AUTO_FAN_CTRL, &req, sizeof(req), &resp, sizeof(resp));
-    76		if (ret < 0)
-    77			return ret;
-    78	
-    79		*control_method = resp.is_auto ? 2 : 1;
-    80		return 0;
-    81	}
-    82	
-    83	static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 index, u8 *temp)
-    84	{
-    85		unsigned int offset;
-    86		int ret;
-    87	
-    88		if (index < EC_TEMP_SENSOR_ENTRIES)
-    89			offset = EC_MEMMAP_TEMP_SENSOR + index;
-    90		else
-    91			offset = EC_MEMMAP_TEMP_SENSOR_B + index - EC_TEMP_SENSOR_ENTRIES;
-    92	
-    93		ret = cros_ec_cmd_readmem(cros_ec, offset, 1, temp);
-    94		if (ret < 0)
-    95			return ret;
-    96		return 0;
-    97	}
-    98	
-    99	static bool cros_ec_hwmon_is_error_fan(u16 speed)
-   100	{
-   101		return speed == EC_FAN_SPEED_NOT_PRESENT || speed == EC_FAN_SPEED_STALLED;
-   102	}
-   103	
-   104	static bool cros_ec_hwmon_is_error_temp(u8 temp)
-   105	{
-   106		return temp == EC_TEMP_SENSOR_NOT_PRESENT     ||
-   107		       temp == EC_TEMP_SENSOR_ERROR           ||
-   108		       temp == EC_TEMP_SENSOR_NOT_POWERED     ||
-   109		       temp == EC_TEMP_SENSOR_NOT_CALIBRATED;
-   110	}
-   111	
-   112	static long cros_ec_hwmon_temp_to_millicelsius(u8 temp)
-   113	{
-   114		return kelvin_to_millicelsius((((long)temp) + EC_TEMP_SENSOR_OFFSET));
-   115	}
-   116	
-   117	static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-   118				      u32 attr, int channel, long *val)
-   119	{
-   120		struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
-   121		int ret = -EOPNOTSUPP;
-   122		u8 control_method;
-   123		u8 pwm_value;
-   124		u16 speed;
-   125		u8 temp;
-   126	
-   127		if (type == hwmon_fan) {
-   128			if (attr == hwmon_fan_input) {
-   129				ret = cros_ec_hwmon_read_fan_speed(priv->cros_ec, channel, &speed);
-   130				if (ret == 0) {
-   131					if (cros_ec_hwmon_is_error_fan(speed))
-   132						ret = -ENODATA;
-   133					else
-   134						*val = speed;
-   135				}
-   136			} else if (attr == hwmon_fan_fault) {
-   137				ret = cros_ec_hwmon_read_fan_speed(priv->cros_ec, channel, &speed);
-   138				if (ret == 0)
-   139					*val = cros_ec_hwmon_is_error_fan(speed);
-   140			}
-   141		} else if (type == hwmon_pwm) {
-   142			if (attr == hwmon_pwm_enable) {
-   143				ret = cros_ec_hwmon_read_pwm_enable(priv->cros_ec, channel,
-   144								    &control_method);
-   145				if (ret == 0)
-   146					*val = control_method;
-   147			} else if (attr == hwmon_pwm_input) {
-   148				ret = cros_ec_hwmon_read_pwm_value(priv->cros_ec, channel, &pwm_value);
-   149				if (ret == 0)
-   150					*val = pwm_value;
-   151			}
-   152		} else if (type == hwmon_temp) {
-   153			if (attr == hwmon_temp_input) {
-   154				ret = cros_ec_hwmon_read_temp(priv->cros_ec, channel, &temp);
-   155				if (ret == 0) {
-   156					if (cros_ec_hwmon_is_error_temp(temp))
-   157						ret = -ENODATA;
-   158					else
-   159						*val = cros_ec_hwmon_temp_to_millicelsius(temp);
-   160				}
-   161			} else if (attr == hwmon_temp_fault) {
-   162				ret = cros_ec_hwmon_read_temp(priv->cros_ec, channel, &temp);
-   163				if (ret == 0)
-   164					*val = cros_ec_hwmon_is_error_temp(temp);
-   165			}
-   166		}
-   167	
-   168		return ret;
-   169	}
-   170	
-   171	static int cros_ec_hwmon_read_string(struct device *dev, enum hwmon_sensor_types type,
-   172					     u32 attr, int channel, const char **str)
-   173	{
-   174		struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
-   175	
-   176		if (type == hwmon_temp && attr == hwmon_temp_label) {
-   177			*str = priv->temp_sensor_names[channel];
-   178			return 0;
-   179		}
-   180	
-   181		return -EOPNOTSUPP;
-   182	}
-   183	
-   184	static int cros_ec_hwmon_set_fan_pwm_val(struct cros_ec_device *cros_ec, u8 index, u8 val)
-   185	{
-   186		struct ec_params_pwm_set_fan_duty_v1 req = {
-   187			.fan_idx = index,
-   188			.percent = DIV_ROUND_CLOSEST((uint32_t)val * 100, 255),
-   189		};
-   190		int ret;
-   191	
-   192		ret = cros_ec_cmd(cros_ec, CROS_EC_HWMON_PWM_SET_FAN_DUTY_CMD_VERSION,
-   193				  EC_CMD_PWM_SET_FAN_DUTY, &req, sizeof(req), NULL, 0);
-   194		if (ret < 0)
-   195			return ret;
-   196		return 0;
-   197	}
-   198	
-   199	static int cros_ec_hwmon_write_pwm_input(struct cros_ec_device *cros_ec, u8 index, u8 val)
-   200	{
-   201		u8 control_method;
-   202		int ret;
-   203	
-   204		ret = cros_ec_hwmon_read_pwm_enable(cros_ec, index, &control_method);
-   205		if (ret)
-   206			return ret;
-   207		if (control_method != 1)
-   208			return -EOPNOTSUPP;
-   209	
-   210		return cros_ec_hwmon_set_fan_pwm_val(cros_ec, index, val);
-   211	}
-   212	
-   213	static int cros_ec_hwmon_write_pwm_enable(struct cros_ec_device *cros_ec, u8 index, u8 val)
-   214	{
-   215		struct ec_params_auto_fan_ctrl_v2 req = {
-   216			.fan_idx = index,
- > 217			.cmd = EC_AUTO_FAN_CONTROL_CMD_SET,
-   218		};
-   219		int ret;
-   220	
-   221		/* No CrOS EC supports no fan speed control */
-   222		if (val == 0)
-   223			return -EOPNOTSUPP;
-   224	
-   225		req.set_auto = (val != 1) ? true : false;
-   226		ret = cros_ec_cmd(cros_ec, CROS_EC_HWMON_THERMAL_AUTO_FAN_CTRL_CMD_VERSION,
-   227				  EC_CMD_THERMAL_AUTO_FAN_CTRL, &req, sizeof(req), NULL, 0);
-   228		if (ret < 0)
-   229			return ret;
-   230		return 0;
-   231	}
-   232	
+d6f5f6e904be62 Anup Patel     2022-01-18  204  
+6bb2e00ea304ff Anup Patel     2022-07-29  205  /* xENVCFG flags */
+6bb2e00ea304ff Anup Patel     2022-07-29  206  #define ENVCFG_STCE			(_AC(1, ULL) << 63)
+6bb2e00ea304ff Anup Patel     2022-07-29  207  #define ENVCFG_PBMTE			(_AC(1, ULL) << 62)
+94a7734d0967e8 Yong-Xuan Wang 2024-07-26  208  #define ENVCFG_ADUE			(_AC(1, ULL) << 61)
+29eedc7d1587f4 Samuel Holland 2024-10-16  209  #define ENVCFG_PMM			(_AC(0x3, ULL) << 32)
+29eedc7d1587f4 Samuel Holland 2024-10-16  210  #define ENVCFG_PMM_PMLEN_0		(_AC(0x0, ULL) << 32)
+29eedc7d1587f4 Samuel Holland 2024-10-16 @211  #define ENVCFG_PMM_PMLEN_7		(_AC(0x2, ULL) << 32)
+29eedc7d1587f4 Samuel Holland 2024-10-16  212  #define ENVCFG_PMM_PMLEN_16		(_AC(0x3, ULL) << 32)
+6bb2e00ea304ff Anup Patel     2022-07-29  213  #define ENVCFG_CBZE			(_AC(1, UL) << 7)
+6bb2e00ea304ff Anup Patel     2022-07-29  214  #define ENVCFG_CBCFE			(_AC(1, UL) << 6)
+6bb2e00ea304ff Anup Patel     2022-07-29  215  #define ENVCFG_CBIE_SHIFT		4
+6bb2e00ea304ff Anup Patel     2022-07-29  216  #define ENVCFG_CBIE			(_AC(0x3, UL) << ENVCFG_CBIE_SHIFT)
+6bb2e00ea304ff Anup Patel     2022-07-29  217  #define ENVCFG_CBIE_ILL			_AC(0x0, UL)
+6bb2e00ea304ff Anup Patel     2022-07-29  218  #define ENVCFG_CBIE_FLUSH		_AC(0x1, UL)
+6bb2e00ea304ff Anup Patel     2022-07-29  219  #define ENVCFG_CBIE_INV			_AC(0x3, UL)
+6bb2e00ea304ff Anup Patel     2022-07-29  220  #define ENVCFG_FIOM			_AC(0x1, UL)
+6bb2e00ea304ff Anup Patel     2022-07-29  221  
+
+:::::: The code at line 211 was first introduced by commit
+:::::: 29eedc7d1587f42f33ae209be45c89c424ee9c00 riscv: Add CSR definitions for pointer masking
+
+:::::: TO: Samuel Holland <samuel.holland@sifive.com>
+:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
 
 -- 
 0-DAY CI Kernel Test Service
