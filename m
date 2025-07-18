@@ -1,132 +1,124 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 934FD1DF261
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 17:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7891B215F42;
+	Fri, 18 Jul 2025 17:48:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752859181; cv=none; b=j/9QoDeB5xVnEIC2LpjB9041AZThmjY4mEnvee8M5K4IY7VKSsaoUu7dAqhEp6pPIN1rGYPYK08nXFKyYdBku8hAYqMdrgyijZeZo0hstRXe2BULVDkCRXG30pZ4TC58duZxs6DKZzLovng2ubCcImomxN4A2mglwBXXGi3ygac=
+	t=1752860921; cv=none; b=LPJEcGTfTC0Od8uThkwBM0cW2XEZdGA4/gKUQgEPslbwA0vFSHWQuYYx92/FAwcD5NT1+KOWu66qmdQYbKCJsGxGA0UF/9DSFsD1BxUlBuFz3DvEGk1qE6BtANrIXSlIYouxDG7ORIVAlpd2cDBM/DFyyisxXTPuCSk+9L27yF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752859181; c=relaxed/simple;
-	bh=8r03fZg+8k+DNGYybwrnzbDbVCxZ8k9lrX0+EkMw0AU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Px475Kae6msqye0raAzS4F0VNgO/AfUSbHFucb5M6SGPxzS7TN51X22Uu81mSsbaI9BTpE37FLR3AM58iW1WYjiNkFts1qAv8D+fVCFGkdgBJLB9QiQbnK6mEcDr2CqqitlRG8BnwlwVrFiFf/5EW8s2lfCxRU7v9cIxdHnp79E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jownf+r1; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752860921; c=relaxed/simple;
+	bh=v8T5FRW9a5xWeorlEEbTsdAktZOw8gv58Y8173uidTs=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=qWuhYek3o2Zt1osCEyZqUlCjdJdBVyQYEhfjQJw+eFoYXiy282uu71Bw7mToh9LytDZKqzVtMxdWqjmGRosSZXgGfhF+hIzhTVcjHTano9WzgVr5LHoYB+oxjc3TTVsWQKwTelw3CdS1xEMU8gWCh/8eARNq4wZFWQz+dEOVfBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bMn+id/V; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jownf+r1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752859179; x=1784395179;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=8r03fZg+8k+DNGYybwrnzbDbVCxZ8k9lrX0+EkMw0AU=;
-  b=Jownf+r1Es7sXCNYyWkmTr5Y46oL+3mZ0285Ve/NeToRXbvNbVpjEgFL
-   m9E87qp3QoA/4bdB/f9qnbteGGMlI/J086A2WTP1jET3CsKv2x6AjYOcb
-   6KS4IYPBE66F92rqWn2zM2aEGWwco4niEkW3Bbe3BhL0/CfgDEnGH2/Ph
-   fCM2ayteGD9I5LOLOjR7itT7a+aJrW+WeJh6mHHn4nlTWBLvuvCHIEKxx
-   38qxXwSnOyAMLyUwldmSQxjDWRcdDzMIO3AJXN/L8cZPeIVF5qcJkXsCo
-   wA3xSnLbWR02b9D/ahcTLZIzE+eofxG7UEKUxoRt1XjuazkrkS57ILnhb
-   Q==;
-X-CSE-ConnectionGUID: xeyc5n17QYK1p6Bgv3WTeA==
-X-CSE-MsgGUID: p1FSpWV8QY61ePALJSSqgA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="58823715"
-X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
-   d="scan'208";a="58823715"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 10:19:39 -0700
-X-CSE-ConnectionGUID: r/7iTOvtQV+YZQhg6f3KXA==
-X-CSE-MsgGUID: hhxl+qW3Q8KrpnBRAzrNpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
-   d="scan'208";a="162136978"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 18 Jul 2025 10:19:38 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ucokB-000Euh-2T;
-	Fri, 18 Jul 2025 17:19:35 +0000
-Date: Sat, 19 Jul 2025 01:18:59 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [morimoto:string-helper-2025-07-18 13/157]
- arch/um/drivers/virtio_uml.c:1154:49: error: implicit declaration of
- function 'str_disabled_enabled'
-Message-ID: <202507190158.5yDEuDgu-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bMn+id/V"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-60c4f796446so3539546a12.1;
+        Fri, 18 Jul 2025 10:48:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1752860918; x=1753465718; darn=lists.linux.dev;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yQsinGGb0R8L8jJTwwJcnr/G5uqejjnQRvAkIBc3hoI=;
+        b=bMn+id/VuyAHY7a+dRKrFfSPGPJr3Ch4iuFfSJ9saEKKcSI85xbXp1jvSgABk2VBWJ
+         bjIG7A1kYwirR+nH7CjQq6ZysLtemL/JW+BU9hX940tfUxQYFbw6fIPhHq/RosJONthV
+         UDtBcaZE2M3fDkH+JgrqoTKkcFYKtQx7ZwdTaUFWAcgJ9PjBW5WqDiRimrDGwZvso7N8
+         R6PNM5ictmpSS8IWWQsEQYezn8cpUjQdIQHeQt7PcHicxDTXeXN8HxlFm+oFBmSp+yRe
+         6EyMiClOQtDBWSWDS7VtrS4CAutXgSFc2dJ9o4f+eSdgzRgolwpp3MC+3gqtfGohr/KX
+         OFRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752860918; x=1753465718;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yQsinGGb0R8L8jJTwwJcnr/G5uqejjnQRvAkIBc3hoI=;
+        b=vR+/ChOVeyphc2x718RC9N2tj/Rz9Rtyo+ieNnopBJN+zbIJkVzooxkRQv8fEwoBLG
+         +L5mSMNW0GuiF5dqZWUeaGQlSTyJBwUEgM/QcXAtq2LHL1Zr1MtqEurf5yW47Rp2jJhP
+         iWZkKrRhmDbsUqPlBHpCjDwfcqjCJzkOQZzP4SMHk/U4VNQaM8J8Rop6C3wTKaso4MAg
+         nzjFMkdWbyOqwKjlh2DmNeY4ykeEYjmivxXH3PjJcLFmy0M8KwqkHRFTS7qV9L3Rtx9S
+         QLySfH658nXqTG8wX4NMue5zW9k24RmeKracUitSqpRUJeXoB7qgYHS5Eqb1c97qWDZQ
+         p9rw==
+X-Forwarded-Encrypted: i=1; AJvYcCVSTunG/kOEKVTJVAB9WkejPjA8bHJJL9DJ0I5YTcfCS59Ie6nqbPJVZ85vsKmxZTbWqjL32mE4y3P55WpV@lists.linux.dev, AJvYcCVbGyC50lOpSV9Si0cXLdoGgjWLOb4XfC/iXxOSD/yANvaPLDcks+1fbqAFmlKGBOnBpIvXYHmbJlnD@lists.linux.dev
+X-Gm-Message-State: AOJu0YwUpmxJWLKrLGFLEJfa6FhrpjHw3DJMHYD/rbaoKUI4Il15jHXO
+	osDCiGOxCU3Y2sOuR/NTThpgMUHl0ywAeILFtsyqkRyknvqBd4eAHffu
+X-Gm-Gg: ASbGncufSUlO8RAr4MvcJ/hjcJt5QEMwly6CjzY10qzN1OOdAVENpvW3+NH68Ws3w/w
+	yTFgpMyutipXL84Zvz1OqYDCo9I0dgAIVYHYO/Kh0QIxi4bgqkagFo8Bo4bOvlPtl69bSpHpnin
+	ByLodMMRfByGlRCjI8FvC+6xsIheMngWmyE1QRHUCaspnnsylV25tsRnyzo0xjJx1G9udfSF1p/
+	ewt2A0GJhqakCj07xMdT4K0o+NKT3azz+KMPuQZl7drfvu0veRAMqAAFYJoAW7Q0oTFvzbBJPGG
+	DrvbCMak1vzJueTNd6ml7CnjctqCPtBx/mtr6Wrysk8ZNO8lgLgH/l0Qq+SSoqH1HUxeElCvbP4
+	ft/4b7FctArRInqRAcS29EZkHuiktOsnj
+X-Google-Smtp-Source: AGHT+IEdM6+onEmsU7XdOhEVtfxGMk4LyeudtD8g5JVVTPTxNh44h7uxUcCQajOPjyfxtKx3jQfoqQ==
+X-Received: by 2002:a17:907:3e9f:b0:ae3:a812:a780 with SMTP id a640c23a62f3a-ae9c9ba7b98mr1109642166b.61.1752860917506;
+        Fri, 18 Jul 2025 10:48:37 -0700 (PDT)
+Received: from [192.168.8.100] ([148.252.141.246])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6c7d469fsm157859666b.55.2025.07.18.10.48.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Jul 2025 10:48:36 -0700 (PDT)
+Message-ID: <c269f7e1-25fc-47dc-82a5-ec331f8b7961@gmail.com>
+Date: Fri, 18 Jul 2025 18:50:05 +0100
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [linux-next:master 10555/10823] io_uring/zcrx.c:385
+ io_zcrx_free_area() error: we previously assumed 'area->ifq' could be null
+ (see line 380)
+From: Pavel Begunkov <asml.silence@gmail.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>, oe-kbuild@lists.linux.dev
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, Jens Axboe <axboe@kernel.dk>
+References: <f07001e5-021c-4695-8116-07b1a71665fb@suswa.mountain>
+ <54d5026a-3563-4b49-9395-0c8ee3d71e18@gmail.com>
+Content-Language: en-US
+In-Reply-To: <54d5026a-3563-4b49-9395-0c8ee3d71e18@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/morimoto/linux string-helper-2025-07-18
-head:   ea52943b017c3b53f3f8c9ff679ccfb8eaae222a
-commit: d86137d04f7f273d2e266a7248b3745ebdfa44a3 [13/157] um: drivers: virtio: use string choices helper
-config: um-randconfig-001-20250718 (https://download.01.org/0day-ci/archive/20250719/202507190158.5yDEuDgu-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507190158.5yDEuDgu-lkp@intel.com/reproduce)
+On 7/18/25 09:56, Pavel Begunkov wrote:
+> On 7/18/25 02:56, Dan Carpenter wrote:
+>> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+>> head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
+>> commit: 262ab205180d2ba3ab6110899a4dbe439c51dfaa [10555/10823] io_uring/zcrx: account area memory
+>> config: x86_64-randconfig-161-20250717 (https://download.01.org/0day-ci/archive/20250718/202507180628.gBxrOgqr-lkp@intel.com/config)
+>> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+>> | Closes: https://lore.kernel.org/r/202507180628.gBxrOgqr-lkp@intel.com/
+>>
+>> smatch warnings:
+>> io_uring/zcrx.c:385 io_zcrx_free_area() error: we previously assumed 'area->ifq' could be null (see line 380)
+>>
+>> vim +385 io_uring/zcrx.c
+>>
+>> cf96310c5f9a0d David Wei      2025-02-14  378  static void io_zcrx_free_area(struct io_zcrx_area *area)
+>> cf96310c5f9a0d David Wei      2025-02-14  379  {
+>> 0ec33c81d9c734 Pavel Begunkov 2025-05-27 @380      if (area->ifq)
+>>                                                      ^^^^^^^^^
+>> This line assumes that area->ifq can be NULL
+>>
+>> db070446f5af8c Pavel Begunkov 2025-02-14  381          io_zcrx_unmap_area(area->ifq, area);
+>> 782dfa329ac9d1 Pavel Begunkov 2025-05-01  382      io_release_area_mem(&area->mem);
+>> db070446f5af8c Pavel Begunkov 2025-02-14  383
+>> 262ab205180d2b Pavel Begunkov 2025-07-16  384      if (area->mem.account_pages)
+>> 262ab205180d2b Pavel Begunkov 2025-07-16 @385          io_unaccount_mem(area->ifq->ctx, area->mem.account_pages);
+>>                                                                           ^^^^^^^^^^^
+>> But here it's dereferenced without checking
+> 
+> That's fine, the "if (account_pages)" above protects it. Nevertheless,
+> can be improved a bit.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507190158.5yDEuDgu-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   In file included from include/linux/device.h:15,
-                    from include/linux/platform_device.h:13,
-                    from arch/um/drivers/virtio_uml.c:25:
-   arch/um/drivers/virtio_uml.c: In function 'virtio_uml_set_no_vq_suspend':
->> arch/um/drivers/virtio_uml.c:1154:49: error: implicit declaration of function 'str_disabled_enabled' [-Werror=implicit-function-declaration]
-    1154 |         dev_info(&vdev->dev, "%s VQ suspend\n", str_disabled_enabled(no_vq_suspend));
-         |                                                 ^~~~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:37: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                                     ^~~~~~~~~~~
-   arch/um/drivers/virtio_uml.c:1154:9: note: in expansion of macro 'dev_info'
-    1154 |         dev_info(&vdev->dev, "%s VQ suspend\n", str_disabled_enabled(no_vq_suspend));
-         |         ^~~~~~~~
->> arch/um/drivers/virtio_uml.c:1154:30: warning: format '%s' expects argument of type 'char *', but argument 3 has type 'int' [-Wformat=]
-    1154 |         dev_info(&vdev->dev, "%s VQ suspend\n", str_disabled_enabled(no_vq_suspend));
-         |                              ^~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-         |                              ^~~
-   include/linux/dev_printk.h:160:58: note: in expansion of macro 'dev_fmt'
-     160 |         dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |                                                          ^~~~~~~
-   arch/um/drivers/virtio_uml.c:1154:9: note: in expansion of macro 'dev_info'
-    1154 |         dev_info(&vdev->dev, "%s VQ suspend\n", str_disabled_enabled(no_vq_suspend));
-         |         ^~~~~~~~
-   arch/um/drivers/virtio_uml.c:1154:32: note: format string is defined here
-    1154 |         dev_info(&vdev->dev, "%s VQ suspend\n", str_disabled_enabled(no_vq_suspend));
-         |                               ~^
-         |                                |
-         |                                char *
-         |                               %d
-   cc1: some warnings being treated as errors
-
-
-vim +/str_disabled_enabled +1154 arch/um/drivers/virtio_uml.c
-
-  1144	
-  1145	void virtio_uml_set_no_vq_suspend(struct virtio_device *vdev,
-  1146					  bool no_vq_suspend)
-  1147	{
-  1148		struct virtio_uml_device *vu_dev = to_virtio_uml_device(vdev);
-  1149	
-  1150		if (WARN_ON(vdev->config != &virtio_uml_config_ops))
-  1151			return;
-  1152	
-  1153		vu_dev->no_vq_suspend = no_vq_suspend;
-> 1154		dev_info(&vdev->dev, "%s VQ suspend\n", str_disabled_enabled(no_vq_suspend));
-  1155	}
-  1156	
+Taking another look, it's actually not fine. Thanks for the report,
+I'll patch it up.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Pavel Begunkov
+
