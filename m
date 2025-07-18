@@ -1,59 +1,86 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C9A116DEB3;
-	Fri, 18 Jul 2025 19:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5ABE5D517
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 20:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752867894; cv=none; b=E8lhMnaLX0L4kVKGFliOzsFTR9ZhfoAQkoXKj5i5GitLGI3Wf1VzUcsASGhMbsPFHt+Tcl2vm42ax+gs+IFmC1eUoLEjoj4p5FiNaVVti3HMZwkoZNv0shE0/HjESutTcHatrnykR0uGupigT8dnroPfjokoRDvJBxrFj9Ln/VU=
+	t=1752869221; cv=none; b=f6a8KgYcan+BLZZkZBN9nJtuxgZ0AmtOZOsZsv3wcu5s7haNs7v/LuWJQNrgub497ZyolO3CZsvFqGBNPxZ4kQDJ5b3bzeozwW0wB0lWY6Ot/YA77XO01KfjHTMWWsv0Y5AIZLt1UzPrA3bx3G9HwxyK2OFFBZKeJPI5WkAWYmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752867894; c=relaxed/simple;
-	bh=y5r+/ExJI/M/+UHzf0hOc+6M7O+w/G7e1WfHp03IAsc=;
+	s=arc-20240116; t=1752869221; c=relaxed/simple;
+	bh=/c6W0QCExdJulJjR99oOqjyhyrpY5+1p7AIoo66B7Z0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hOijNKvwgdPk36+zDae+RFSjwbubG6fLm1ShayA/0qlF3DRZKUwhU2Yn6jeQ5l9r8dYJ0xG0bXZq10ovtEE7i5geZN9+QqE+oqU0hXockoilomSK36esHTeJN5KLZJTLyJcQd0mwTh43AtvTsqHtG/na7sIeDckhbqpYmx8N/KM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QXms6k47; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=nqRchc3EvRhQTpspEiZKuI8DMO+UxV6m1rk1i/SN4bYjx8o3ljQwHbbPWkYixyrvQcm3R7PwzUxTfL1kN3AivOtwS/Z43iRHrtGZVBIGMdBqsCoFTaVfaNa/K97gCALOr+2LnNqamB4R0JfOoGNhJpCAqP7zLA1i1SjhgYLEHd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OgVQcSVo; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QXms6k47"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OgVQcSVo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752867892; x=1784403892;
+  t=1752869219; x=1784405219;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=y5r+/ExJI/M/+UHzf0hOc+6M7O+w/G7e1WfHp03IAsc=;
-  b=QXms6k47RinDschJ2lJvDG15uT7aVmp/59StUNIQxQyvS5QBFxZpKDgO
-   hphRv7uV6Zo7tyE+hNsxyu8jtayThdVC/mAFWTJKa/yumin+7+ktyt+D+
-   d+kGXkkoz060vA60ZmDpbV73ZPxZKtkCfDQQiGZfC5C+b7oNDnLof08CO
-   znpEP+DIjpo86x7Iik8Xfip2pyPTZYjKYyipB4FyUOuMOA0H4gx8nC7AN
-   M30ZT1e8HG5G4Tc1/gX++X3BP9FGENvMpyyBJ4Z/Mnz5cZ6jlGw4mkij6
-   rKBcnHso8R336EtIQ4COX5nr7413wtqkOjC7uiITH74DfTM9kyt6GNP5o
-   Q==;
-X-CSE-ConnectionGUID: ksIdjqJoSFizcVDaVT6Z0g==
-X-CSE-MsgGUID: Jf9J89/IQdmXcdQgpNWn0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="55256178"
+  bh=/c6W0QCExdJulJjR99oOqjyhyrpY5+1p7AIoo66B7Z0=;
+  b=OgVQcSVo4JjXefBqffr8YJgEwF79VybcKQNSbNBdg9wFKJaY1DqAyU8w
+   ZwFKemdQ3y9EMKwigCUbXMor3CMdltBGgs7PV/diPPIsYEwrdr98VDNR5
+   PM+33jyMkxa8jf40pl39DehJ/O2X6VxquuKT++HmSMTGqwLSicHRP8N+l
+   +hPZX+nw/UEaacm9J4o06lJINainPoMDF0dT4klFKu4WVUKaDLgjDavKd
+   wlbIbP7iunTTFcWNdj+Jj9F9rxKoFch68phhfGW9/oY8ex8uuE0gIpSrj
+   wl3mW2ZEqpFD6RK/oir6uLxX+0ZUvHbxzVID1/ORzMuQMM/5gotxgqBEl
+   A==;
+X-CSE-ConnectionGUID: ugA88T7ESvejSV/ZOnbRgA==
+X-CSE-MsgGUID: VEbbw7VGQ1SSV3y3AI3NZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="55024604"
 X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
-   d="scan'208";a="55256178"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 12:44:51 -0700
-X-CSE-ConnectionGUID: 7fmSRsjYRJmplAeBMwuu7w==
-X-CSE-MsgGUID: J1fPHincSRKqLumeZCjllg==
+   d="scan'208";a="55024604"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 13:06:58 -0700
+X-CSE-ConnectionGUID: kcMQmBCbTvaal1coT9H54Q==
+X-CSE-MsgGUID: 7ChANxMLRIu9oGcBVrE+Bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
-   d="scan'208";a="157508409"
+   d="scan'208";a="158239135"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 18 Jul 2025 12:44:49 -0700
+  by orviesa007.jf.intel.com with ESMTP; 18 Jul 2025 13:06:51 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucr0g-000Eyx-0L;
-	Fri, 18 Jul 2025 19:44:46 +0000
-Date: Sat, 19 Jul 2025 03:44:26 +0800
+	id 1ucrM0-000F0N-2E;
+	Fri, 18 Jul 2025 20:06:48 +0000
+Date: Sat, 19 Jul 2025 04:06:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sung-Chi Li via B4 Relay <devnull+lschyi.chromium.org@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v6 1/2] hwmon: (cros_ec) add PWM control over fans
-Message-ID: <202507190311.AMjh38Rm-lkp@intel.com>
-References: <20250718-cros_ec_fan-v6-1-8df018396b56@chromium.org>
+To: Ye Liu <ye.liu@linux.dev>, Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@redhat.com>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	Uladzislau Rezki <urezki@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Ye Liu <liuye@kylinos.cn>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>
+Subject: Re: [PATCH] mm: Replace (20 - PAGE_SHIFT) with common macros for
+ pages<->MB conversion
+Message-ID: <202507190319.0rqhQw5l-lkp@intel.com>
+References: <20250718024134.1304745-1-ye.liu@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,271 +89,98 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250718-cros_ec_fan-v6-1-8df018396b56@chromium.org>
+In-Reply-To: <20250718024134.1304745-1-ye.liu@linux.dev>
 
-Hi Sung-Chi,
+Hi Ye,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb]
+[auto build test WARNING on akpm-mm/mm-everything]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sung-Chi-Li-via-B4-Relay/hwmon-cros_ec-add-PWM-control-over-fans/20250718-151054
-base:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
-patch link:    https://lore.kernel.org/r/20250718-cros_ec_fan-v6-1-8df018396b56%40chromium.org
-patch subject: [PATCH v6 1/2] hwmon: (cros_ec) add PWM control over fans
-config: i386-buildonly-randconfig-006-20250719 (https://download.01.org/0day-ci/archive/20250719/202507190311.AMjh38Rm-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507190311.AMjh38Rm-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ye-Liu/mm-Replace-20-PAGE_SHIFT-with-common-macros-for-pages-MB-conversion/20250718-104347
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250718024134.1304745-1-ye.liu%40linux.dev
+patch subject: [PATCH] mm: Replace (20 - PAGE_SHIFT) with common macros for pages<->MB conversion
+config: arc-randconfig-001-20250719 (https://download.01.org/0day-ci/archive/20250719/202507190319.0rqhQw5l-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507190319.0rqhQw5l-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507190311.AMjh38Rm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507190319.0rqhQw5l-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/hwmon/cros_ec_hwmon.c:49:36: error: variable has incomplete type 'struct ec_params_pwm_get_fan_duty'
-      49 |         struct ec_params_pwm_get_fan_duty req = {
-         |                                           ^
-   drivers/hwmon/cros_ec_hwmon.c:49:9: note: forward declaration of 'struct ec_params_pwm_get_fan_duty'
-      49 |         struct ec_params_pwm_get_fan_duty req = {
-         |                ^
->> drivers/hwmon/cros_ec_hwmon.c:52:38: error: variable has incomplete type 'struct ec_response_pwm_get_fan_duty'
-      52 |         struct ec_response_pwm_get_fan_duty resp;
-         |                                             ^
-   drivers/hwmon/cros_ec_hwmon.c:52:9: note: forward declaration of 'struct ec_response_pwm_get_fan_duty'
-      52 |         struct ec_response_pwm_get_fan_duty resp;
-         |                ^
->> drivers/hwmon/cros_ec_hwmon.c:56:6: error: use of undeclared identifier 'EC_CMD_PWM_GET_FAN_DUTY'
-      56 |                           EC_CMD_PWM_GET_FAN_DUTY, &req, sizeof(req), &resp, sizeof(resp));
-         |                           ^
->> drivers/hwmon/cros_ec_hwmon.c:68:10: error: use of undeclared identifier 'EC_AUTO_FAN_CONTROL_CMD_GET'; did you mean 'EC_CHARGE_CONTROL_CMD_GET'?
-      68 |                 .cmd = EC_AUTO_FAN_CONTROL_CMD_GET,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        EC_CHARGE_CONTROL_CMD_GET
-   include/linux/platform_data/cros_ec_commands.h:3919:2: note: 'EC_CHARGE_CONTROL_CMD_GET' declared here
-    3919 |         EC_CHARGE_CONTROL_CMD_GET,
-         |         ^
->> drivers/hwmon/cros_ec_hwmon.c:67:36: error: variable has incomplete type 'struct ec_params_auto_fan_ctrl_v2'
-      67 |         struct ec_params_auto_fan_ctrl_v2 req = {
-         |                                           ^
-   drivers/hwmon/cros_ec_hwmon.c:67:9: note: forward declaration of 'struct ec_params_auto_fan_ctrl_v2'
-      67 |         struct ec_params_auto_fan_ctrl_v2 req = {
-         |                ^
->> drivers/hwmon/cros_ec_hwmon.c:71:38: error: variable has incomplete type 'struct ec_response_auto_fan_control'
-      71 |         struct ec_response_auto_fan_control resp;
-         |                                             ^
-   drivers/hwmon/cros_ec_hwmon.c:71:9: note: forward declaration of 'struct ec_response_auto_fan_control'
-      71 |         struct ec_response_auto_fan_control resp;
-         |                ^
->> drivers/hwmon/cros_ec_hwmon.c:217:10: error: use of undeclared identifier 'EC_AUTO_FAN_CONTROL_CMD_SET'; did you mean 'EC_CHARGE_CONTROL_CMD_SET'?
-     217 |                 .cmd = EC_AUTO_FAN_CONTROL_CMD_SET,
-         |                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                        EC_CHARGE_CONTROL_CMD_SET
-   include/linux/platform_data/cros_ec_commands.h:3918:2: note: 'EC_CHARGE_CONTROL_CMD_SET' declared here
-    3918 |         EC_CHARGE_CONTROL_CMD_SET = 0,
-         |         ^
-   drivers/hwmon/cros_ec_hwmon.c:215:36: error: variable has incomplete type 'struct ec_params_auto_fan_ctrl_v2'
-     215 |         struct ec_params_auto_fan_ctrl_v2 req = {
-         |                                           ^
-   drivers/hwmon/cros_ec_hwmon.c:215:9: note: forward declaration of 'struct ec_params_auto_fan_ctrl_v2'
-     215 |         struct ec_params_auto_fan_ctrl_v2 req = {
-         |                ^
-   drivers/hwmon/cros_ec_hwmon.c:381:43: error: use of undeclared identifier 'EC_CMD_PWM_GET_FAN_DUTY'
-     381 |         return is_cros_ec_cmd_available(cros_ec, EC_CMD_PWM_GET_FAN_DUTY,
-         |                                                  ^
-   9 errors generated.
+   In file included from arch/arc/kernel/asm-offsets.c:7:
+>> include/linux/mm.h:78:9: warning: "PAGES_TO_MB" redefined
+      78 | #define PAGES_TO_MB(pages) ((pages) >> (20 - PAGE_SHIFT))
+         |         ^~~~~~~~~~~
+   In file included from arch/arc/include/asm/irqflags-arcv2.h:9,
+                    from arch/arc/include/asm/irqflags.h:13,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/sched.h:2205,
+                    from arch/arc/kernel/asm-offsets.c:6:
+   arch/arc/include/asm/arcregs.h:155:9: note: this is the location of the previous definition
+     155 | #define PAGES_TO_MB(n_pages)    (PAGES_TO_KB(n_pages) >> 10)
+         |         ^~~~~~~~~~~
+--
+   In file included from arch/arc/include/asm/cacheflush.h:18,
+                    from include/linux/cacheflush.h:5,
+                    from include/linux/highmem.h:8,
+                    from include/linux/bvec.h:10,
+                    from include/linux/blk_types.h:10,
+                    from include/linux/blkdev.h:9,
+                    from fs/ufs/super.c:83:
+>> include/linux/mm.h:78:9: warning: "PAGES_TO_MB" redefined
+      78 | #define PAGES_TO_MB(pages) ((pages) >> (20 - PAGE_SHIFT))
+         |         ^~~~~~~~~~~
+   In file included from arch/arc/include/asm/irqflags-arcv2.h:9,
+                    from arch/arc/include/asm/irqflags.h:13,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/mmzone.h:8,
+                    from include/linux/gfp.h:7,
+                    from include/linux/umh.h:4,
+                    from include/linux/kmod.h:9,
+                    from include/linux/module.h:17,
+                    from fs/ufs/super.c:70:
+   arch/arc/include/asm/arcregs.h:155:9: note: this is the location of the previous definition
+     155 | #define PAGES_TO_MB(n_pages)    (PAGES_TO_KB(n_pages) >> 10)
+         |         ^~~~~~~~~~~
+   fs/ufs/super.c: In function 'ufs_reconfigure':
+   fs/ufs/super.c:1246:22: warning: variable 'ufstype' set but not used [-Wunused-but-set-variable]
+    1246 |         unsigned int ufstype;
+         |                      ^~~~~~~
+--
+   In file included from arch/arc/kernel/asm-offsets.c:7:
+>> include/linux/mm.h:78:9: warning: "PAGES_TO_MB" redefined
+      78 | #define PAGES_TO_MB(pages) ((pages) >> (20 - PAGE_SHIFT))
+         |         ^~~~~~~~~~~
+   In file included from arch/arc/include/asm/irqflags-arcv2.h:9,
+                    from arch/arc/include/asm/irqflags.h:13,
+                    from include/linux/irqflags.h:18,
+                    from include/linux/spinlock.h:59,
+                    from include/linux/sched.h:2205,
+                    from arch/arc/kernel/asm-offsets.c:6:
+   arch/arc/include/asm/arcregs.h:155:9: note: this is the location of the previous definition
+     155 | #define PAGES_TO_MB(n_pages)    (PAGES_TO_KB(n_pages) >> 10)
+         |         ^~~~~~~~~~~
 
 
-vim +49 drivers/hwmon/cros_ec_hwmon.c
+vim +/PAGES_TO_MB +78 include/linux/mm.h
 
-    46	
-    47	static int cros_ec_hwmon_read_pwm_value(struct cros_ec_device *cros_ec, u8 index, u8 *pwm_value)
-    48	{
-  > 49		struct ec_params_pwm_get_fan_duty req = {
-    50			.fan_idx = index,
-    51		};
-  > 52		struct ec_response_pwm_get_fan_duty resp;
-    53		int ret;
-    54	
-    55		ret = cros_ec_cmd(cros_ec, CROS_EC_HWMON_PWM_GET_FAN_DUTY_CMD_VERSION,
-  > 56				  EC_CMD_PWM_GET_FAN_DUTY, &req, sizeof(req), &resp, sizeof(resp));
-    57		if (ret < 0)
-    58			return ret;
-    59	
-    60		*pwm_value = (u8)DIV_ROUND_CLOSEST(le32_to_cpu(resp.percent) * 255, 100);
-    61		return 0;
-    62	}
-    63	
-    64	static int cros_ec_hwmon_read_pwm_enable(struct cros_ec_device *cros_ec, u8 index,
-    65						 u8 *control_method)
-    66	{
-  > 67		struct ec_params_auto_fan_ctrl_v2 req = {
-  > 68			.cmd = EC_AUTO_FAN_CONTROL_CMD_GET,
-    69			.fan_idx = index,
-    70		};
-  > 71		struct ec_response_auto_fan_control resp;
-    72		int ret;
-    73	
-    74		ret = cros_ec_cmd(cros_ec, CROS_EC_HWMON_THERMAL_AUTO_FAN_CTRL_CMD_VERSION,
-    75				  EC_CMD_THERMAL_AUTO_FAN_CTRL, &req, sizeof(req), &resp, sizeof(resp));
-    76		if (ret < 0)
-    77			return ret;
-    78	
-    79		*control_method = resp.is_auto ? 2 : 1;
-    80		return 0;
-    81	}
-    82	
-    83	static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 index, u8 *temp)
-    84	{
-    85		unsigned int offset;
-    86		int ret;
-    87	
-    88		if (index < EC_TEMP_SENSOR_ENTRIES)
-    89			offset = EC_MEMMAP_TEMP_SENSOR + index;
-    90		else
-    91			offset = EC_MEMMAP_TEMP_SENSOR_B + index - EC_TEMP_SENSOR_ENTRIES;
-    92	
-    93		ret = cros_ec_cmd_readmem(cros_ec, offset, 1, temp);
-    94		if (ret < 0)
-    95			return ret;
-    96		return 0;
-    97	}
-    98	
-    99	static bool cros_ec_hwmon_is_error_fan(u16 speed)
-   100	{
-   101		return speed == EC_FAN_SPEED_NOT_PRESENT || speed == EC_FAN_SPEED_STALLED;
-   102	}
-   103	
-   104	static bool cros_ec_hwmon_is_error_temp(u8 temp)
-   105	{
-   106		return temp == EC_TEMP_SENSOR_NOT_PRESENT     ||
-   107		       temp == EC_TEMP_SENSOR_ERROR           ||
-   108		       temp == EC_TEMP_SENSOR_NOT_POWERED     ||
-   109		       temp == EC_TEMP_SENSOR_NOT_CALIBRATED;
-   110	}
-   111	
-   112	static long cros_ec_hwmon_temp_to_millicelsius(u8 temp)
-   113	{
-   114		return kelvin_to_millicelsius((((long)temp) + EC_TEMP_SENSOR_OFFSET));
-   115	}
-   116	
-   117	static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-   118				      u32 attr, int channel, long *val)
-   119	{
-   120		struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
-   121		int ret = -EOPNOTSUPP;
-   122		u8 control_method;
-   123		u8 pwm_value;
-   124		u16 speed;
-   125		u8 temp;
-   126	
-   127		if (type == hwmon_fan) {
-   128			if (attr == hwmon_fan_input) {
-   129				ret = cros_ec_hwmon_read_fan_speed(priv->cros_ec, channel, &speed);
-   130				if (ret == 0) {
-   131					if (cros_ec_hwmon_is_error_fan(speed))
-   132						ret = -ENODATA;
-   133					else
-   134						*val = speed;
-   135				}
-   136			} else if (attr == hwmon_fan_fault) {
-   137				ret = cros_ec_hwmon_read_fan_speed(priv->cros_ec, channel, &speed);
-   138				if (ret == 0)
-   139					*val = cros_ec_hwmon_is_error_fan(speed);
-   140			}
-   141		} else if (type == hwmon_pwm) {
-   142			if (attr == hwmon_pwm_enable) {
-   143				ret = cros_ec_hwmon_read_pwm_enable(priv->cros_ec, channel,
-   144								    &control_method);
-   145				if (ret == 0)
-   146					*val = control_method;
-   147			} else if (attr == hwmon_pwm_input) {
-   148				ret = cros_ec_hwmon_read_pwm_value(priv->cros_ec, channel, &pwm_value);
-   149				if (ret == 0)
-   150					*val = pwm_value;
-   151			}
-   152		} else if (type == hwmon_temp) {
-   153			if (attr == hwmon_temp_input) {
-   154				ret = cros_ec_hwmon_read_temp(priv->cros_ec, channel, &temp);
-   155				if (ret == 0) {
-   156					if (cros_ec_hwmon_is_error_temp(temp))
-   157						ret = -ENODATA;
-   158					else
-   159						*val = cros_ec_hwmon_temp_to_millicelsius(temp);
-   160				}
-   161			} else if (attr == hwmon_temp_fault) {
-   162				ret = cros_ec_hwmon_read_temp(priv->cros_ec, channel, &temp);
-   163				if (ret == 0)
-   164					*val = cros_ec_hwmon_is_error_temp(temp);
-   165			}
-   166		}
-   167	
-   168		return ret;
-   169	}
-   170	
-   171	static int cros_ec_hwmon_read_string(struct device *dev, enum hwmon_sensor_types type,
-   172					     u32 attr, int channel, const char **str)
-   173	{
-   174		struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
-   175	
-   176		if (type == hwmon_temp && attr == hwmon_temp_label) {
-   177			*str = priv->temp_sensor_names[channel];
-   178			return 0;
-   179		}
-   180	
-   181		return -EOPNOTSUPP;
-   182	}
-   183	
-   184	static int cros_ec_hwmon_set_fan_pwm_val(struct cros_ec_device *cros_ec, u8 index, u8 val)
-   185	{
-   186		struct ec_params_pwm_set_fan_duty_v1 req = {
-   187			.fan_idx = index,
-   188			.percent = DIV_ROUND_CLOSEST((uint32_t)val * 100, 255),
-   189		};
-   190		int ret;
-   191	
-   192		ret = cros_ec_cmd(cros_ec, CROS_EC_HWMON_PWM_SET_FAN_DUTY_CMD_VERSION,
-   193				  EC_CMD_PWM_SET_FAN_DUTY, &req, sizeof(req), NULL, 0);
-   194		if (ret < 0)
-   195			return ret;
-   196		return 0;
-   197	}
-   198	
-   199	static int cros_ec_hwmon_write_pwm_input(struct cros_ec_device *cros_ec, u8 index, u8 val)
-   200	{
-   201		u8 control_method;
-   202		int ret;
-   203	
-   204		ret = cros_ec_hwmon_read_pwm_enable(cros_ec, index, &control_method);
-   205		if (ret)
-   206			return ret;
-   207		if (control_method != 1)
-   208			return -EOPNOTSUPP;
-   209	
-   210		return cros_ec_hwmon_set_fan_pwm_val(cros_ec, index, val);
-   211	}
-   212	
-   213	static int cros_ec_hwmon_write_pwm_enable(struct cros_ec_device *cros_ec, u8 index, u8 val)
-   214	{
-   215		struct ec_params_auto_fan_ctrl_v2 req = {
-   216			.fan_idx = index,
- > 217			.cmd = EC_AUTO_FAN_CONTROL_CMD_SET,
-   218		};
-   219		int ret;
-   220	
-   221		/* No CrOS EC supports no fan speed control */
-   222		if (val == 0)
-   223			return -EOPNOTSUPP;
-   224	
-   225		req.set_auto = (val != 1) ? true : false;
-   226		ret = cros_ec_cmd(cros_ec, CROS_EC_HWMON_THERMAL_AUTO_FAN_CTRL_CMD_VERSION,
-   227				  EC_CMD_THERMAL_AUTO_FAN_CTRL, &req, sizeof(req), NULL, 0);
-   228		if (ret < 0)
-   229			return ret;
-   230		return 0;
-   231	}
-   232	
+    71	
+    72	/*
+    73	 * Convert between pages and MB
+    74	 * 20 is the shift for 1MB (2^20 = 1MB)
+    75	 * PAGE_SHIFT is the shift for page size (e.g., 12 for 4KB pages)
+    76	 * So (20 - PAGE_SHIFT) converts between pages and MB
+    77	 */
+  > 78	#define PAGES_TO_MB(pages) ((pages) >> (20 - PAGE_SHIFT))
+    79	#define MB_TO_PAGES(mb)    ((mb) << (20 - PAGE_SHIFT))
+    80	
 
 -- 
 0-DAY CI Kernel Test Service
