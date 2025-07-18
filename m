@@ -1,76 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD7712BD5BB;
-	Fri, 18 Jul 2025 10:46:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9E02BD038
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 10:58:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752835619; cv=none; b=WE6vAOjkXqiotvmmvN7CpTnU+r/ok/jGtuAxE4Gr3s6d5wtdGcek7MspgtA/5db7Uvi7dD/tw/KS5s/MzIcHCyWllwVWNn+Rgy3XIPr4SvV5idOs/yD8kLcGlfo6Zl3agMXcpKb96+kcCAz7E0IhxWfFfr6lU4WRYKKM5afR/2M=
+	t=1752836288; cv=none; b=bYcMcv38RWUlA5ChSUkY3da9DcepDe7VqaNCQta4jFSXrZHNtc3O717vPvArIpS4pWtcjIaJLeDGZftSLG7WSQKQEYdrEXZBp7TT3LNHaePfgY/I4m9qLYb0ut5RgLUX7Ejm8G5Gnn4+XIdsepO73sJW50hfH7tCcrlrgmq+mro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752835619; c=relaxed/simple;
-	bh=V2u/KOLyQYJm4zca8JKpQcxFVXvlEbSp6+XWI+QNO88=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EebZNwu4JGTejjwV8xoNfPG5acOjBi4mpWX0O/TpXZ3TFvqArNnw9cwMY0QAMR0Kb7jkN2PyHspW/l6MvvxPWfDlcCaAvwJnn7+WqTPhkqEGZGkMV9IYN0ndR+xjSBkhzTUblo2Jcm7xuhT7a56iHq+OmhbULf0dLvI1mANEHHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y2H9IL4I; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1752836288; c=relaxed/simple;
+	bh=rWkOVF/P5Lum1uOKyhInuaCLGAOyCx8ngF+WBJs3k4o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OZcccjsvIbEl+11Si7hap5fFs4gd2hkin3bjNtJpDWdid0vG1/Ks4xfVczbs1qfAmoOky9xrFPaydHO9o8qXaeWbj5zmWJ6JZ8SCJD3A+tUq/CZq6kYn03S1Tv2h4zo804ng3L2XZ/de8zumavN+0KH7UIkrW4TqP9WCoIV4A2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDaxhDLw; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y2H9IL4I"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDaxhDLw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752835618; x=1784371618;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=V2u/KOLyQYJm4zca8JKpQcxFVXvlEbSp6+XWI+QNO88=;
-  b=Y2H9IL4ITz6JVXBXMrIyiME/vWYVerVgAp3FIHO1fdUoGtTUFgQvHFG8
-   AZ6C4LbqZJrZvnsDkeb8LQyxegBQprY/Wtmv/PFkqLZ/v16+W/t6QMxrA
-   WCtPG2sOiWPzhGMMb62zKQwPu1zMaE6XzZtMcinLRyYySMUZbCWVktjbX
-   qbOTv/6JsmZtjGur8vPdorEfevCk3NRp2YwGm/pKullIo7rs+r52nJodE
-   NDJUndwaFctdoIV8jgxgl3diGbPdh4qnDaTuIgYAtfBT9C/aLqqvFkjW/
-   h4Sb/8kRD/sVlhWNgXKZgsihSTyq22eI6dmGmEXzkxGVEGw4T87x+xFmu
-   g==;
-X-CSE-ConnectionGUID: 1lQE5mWOSUuCwqqL3PBsHg==
-X-CSE-MsgGUID: LpjijVj8TJ+LJV6lFzE/iw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="58907349"
+  t=1752836287; x=1784372287;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=rWkOVF/P5Lum1uOKyhInuaCLGAOyCx8ngF+WBJs3k4o=;
+  b=oDaxhDLwk2uJxqT7CdKIHLx/SBH0eq3cn98ielT4bVqNGfXr0nXq8z58
+   el/rFRCI8bU48laFQ5l72jOR7Nuru7yQjUKQ5bSXDNaMBcqhvstlz6td6
+   AxpwxdKwkmPP0Hog5aO9BV0EUgMfEfu9gBtfZHcxWkhoOm/6qg+5ktSgL
+   mAngMp+z1b8o1xIsglYwDfB9kacf4rYB0bDzTgTw9Do6PLBlhsm4l0nOC
+   rRicsDeD699uAaFYI/nm6M1zOKZOjfKkms+SIL/kgWXY4i8IMWAgijuI/
+   cnSmowPpAseB2/G4Vwn1+XEdt2Ih3wo/RxSjwkoo3yOVazuqUzBXFN9PC
+   Q==;
+X-CSE-ConnectionGUID: WQ+kbVveTVC2WdGOt7i1/g==
+X-CSE-MsgGUID: ppHfAA5DR9mdHLs4Kq63QA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="58908298"
 X-IronPort-AV: E=Sophos;i="6.16,321,1744095600"; 
-   d="scan'208";a="58907349"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 03:46:57 -0700
-X-CSE-ConnectionGUID: jXryNwtJR/GWJL+OfsXMZQ==
-X-CSE-MsgGUID: pfmBAjN7RzKl19/gMU4R8g==
+   d="scan'208";a="58908298"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 03:58:06 -0700
+X-CSE-ConnectionGUID: EbBOLQhNQFOhtb657pNayg==
+X-CSE-MsgGUID: FsS1dgnXQUitJXpCG/4WVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,321,1744095600"; 
-   d="scan'208";a="195157709"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Jul 2025 03:46:53 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+   d="scan'208";a="189015056"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8b57277650df) ([10.91.175.65])
+  by fmviesa001.fm.intel.com with ESMTP; 18 Jul 2025 03:58:05 -0700
+Received: from kbuild by 8b57277650df with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucic6-000EZ1-2I;
-	Fri, 18 Jul 2025 10:46:50 +0000
-Date: Fri, 18 Jul 2025 18:46:42 +0800
+	id 1ucimx-0000sb-0i;
+	Fri, 18 Jul 2025 10:58:03 +0000
+Date: Fri, 18 Jul 2025 12:57:33 +0200
 From: kernel test robot <lkp@intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH 11/26] media: videobuf2-v4l2: Support vb2_queue embedded
- in a context
-Message-ID: <202507181803.MKWlcVqu-lkp@intel.com>
-References: <20250717-multicontext-mainline-2025-v1-11-81ac18979c03@ideasonboard.com>
+To: Andy Yan <andy.yan@rock-chips.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dmitry Baryshkov <lumag@kernel.org>
+Subject: [linux-next:master 9014/10823] Warning:
+ drivers/gpu/drm/drm_bridge.c:1241 function parameter 'connector' not
+ described in 'drm_bridge_detect'
+Message-ID: <202507181219.jtWUsunB-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,81 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250717-multicontext-mainline-2025-v1-11-81ac18979c03@ideasonboard.com>
 
-Hi Jacopo,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on d968e50b5c26642754492dea23cbd3592bde62d8]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-mc-Add-per-file-handle-data-support/20250717-190546
-base:   d968e50b5c26642754492dea23cbd3592bde62d8
-patch link:    https://lore.kernel.org/r/20250717-multicontext-mainline-2025-v1-11-81ac18979c03%40ideasonboard.com
-patch subject: [PATCH 11/26] media: videobuf2-v4l2: Support vb2_queue embedded in a context
-config: x86_64-buildonly-randconfig-004-20250718 (https://download.01.org/0day-ci/archive/20250718/202507181803.MKWlcVqu-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507181803.MKWlcVqu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
+commit: 5d156a9c3d5ea3dbec192121259dee2c2f938fa1 [9014/10823] drm/bridge: Pass down connector to drm bridge detect hook
+config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250718/202507181219.jtWUsunB-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507181219.jtWUsunB-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507181803.MKWlcVqu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507181219.jtWUsunB-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/media/common/videobuf2/videobuf2-v4l2.c:1012:5: error: call to undeclared function 'video_device_context_from_file'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1012 |                                 video_device_context_from_file(file, vdev);
-         |                                 ^
->> drivers/media/common/videobuf2/videobuf2-v4l2.c:1011:31: error: incompatible integer to pointer conversion initializing 'struct video_device_context *' with an expression of type 'int' [-Wint-conversion]
-    1011 |         struct video_device_context *ctx =
-         |                                      ^
-    1012 |                                 video_device_context_from_file(file, vdev);
-         |                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/common/videobuf2/videobuf2-v4l2.c:1014:19: error: incomplete definition of type 'struct video_device_context'
-    1014 |         return ctx ? &ctx->queue
-         |                       ~~~^
-   include/media/v4l2-dev.h:288:9: note: forward declaration of 'struct video_device_context'
-     288 |         struct video_device_context *default_context;
-         |                ^
-   drivers/media/common/videobuf2/videobuf2-v4l2.c:1015:54: error: incomplete definition of type 'struct video_device_context'
-    1015 |                    : vdev->default_context ? &vdev->default_context->queue
-         |                                               ~~~~~~~~~~~~~~~~~~~~~^
-   include/media/v4l2-dev.h:288:9: note: forward declaration of 'struct video_device_context'
-     288 |         struct video_device_context *default_context;
-         |                ^
-   4 errors generated.
-
-
-vim +/video_device_context_from_file +1012 drivers/media/common/videobuf2/videobuf2-v4l2.c
-
-   992	
-   993	/*
-   994	 * The following functions are not part of the vb2 core API, but are helper
-   995	 * functions that plug into struct v4l2_ioctl_ops, struct v4l2_file_operations
-   996	 * and struct vb2_ops.
-   997	 * They contain boilerplate code that most if not all drivers have to do
-   998	 * and so they simplify the driver code.
-   999	 */
-  1000	
-  1001	/*
-  1002	 * Helper to get the vb2 queue either from:
-  1003	 * 1) The video context bound to the open file handle
-  1004	 * 2) The default context for context-aware drivers if userspace has not bound
-  1005	 *    a context to the file handle
-  1006	 * 3) From the video device for non-context aware drivers
-  1007	 */
-  1008	static struct vb2_queue *get_vb2_queue(struct file *file,
-  1009					       struct video_device *vdev)
-  1010	{
-> 1011		struct video_device_context *ctx =
-> 1012					video_device_context_from_file(file, vdev);
-  1013	
-> 1014		return ctx ? &ctx->queue
-  1015			   : vdev->default_context ? &vdev->default_context->queue
-  1016			   : vdev->queue;
-  1017	}
-  1018	
+>> Warning: drivers/gpu/drm/drm_bridge.c:1241 function parameter 'connector' not described in 'drm_bridge_detect'
 
 -- 
 0-DAY CI Kernel Test Service
