@@ -1,59 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB9E02BD038
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 10:58:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DB9F2D94A9
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 11:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752836288; cv=none; b=bYcMcv38RWUlA5ChSUkY3da9DcepDe7VqaNCQta4jFSXrZHNtc3O717vPvArIpS4pWtcjIaJLeDGZftSLG7WSQKQEYdrEXZBp7TT3LNHaePfgY/I4m9qLYb0ut5RgLUX7Ejm8G5Gnn4+XIdsepO73sJW50hfH7tCcrlrgmq+mro=
+	t=1752838211; cv=none; b=QENuWRKtr/GtR0Om1zgLxPMrRsVzzyPSQlzIzuEZHnBuSYSn1ko39wdHQ5RavfHDitvn6lOVRqWlOtZQXVQqVmAWpnyxrT2YNVZWXlMKQGF2u0WPjs1Jsg0sqLNeGxz6lPCPXVyygZAXZ0pi079u8mFAklZF9VNQGsxpPK/7UEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752836288; c=relaxed/simple;
-	bh=rWkOVF/P5Lum1uOKyhInuaCLGAOyCx8ngF+WBJs3k4o=;
+	s=arc-20240116; t=1752838211; c=relaxed/simple;
+	bh=BPbUAlJeerYAkvNnFfFDxbLSy0A5GgWirYFA+ufRVTI=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OZcccjsvIbEl+11Si7hap5fFs4gd2hkin3bjNtJpDWdid0vG1/Ks4xfVczbs1qfAmoOky9xrFPaydHO9o8qXaeWbj5zmWJ6JZ8SCJD3A+tUq/CZq6kYn03S1Tv2h4zo804ng3L2XZ/de8zumavN+0KH7UIkrW4TqP9WCoIV4A2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oDaxhDLw; arc=none smtp.client-ip=198.175.65.14
+	 Content-Disposition; b=ZaXGPaYl7/zFn8awampS+eq67Aha/15r5L+woOdCL/BA3g4eUHnEPXAfCAe5uuq9Ua9/KuNMPEmKINaRlZAyh3oeeVRzthyRAFnvZsMohqY6PuON4T1QI4u2UniMsxDxkpjIgj17UqXjcJm07ywxPPrS/ubFYBPGZYcxmeUzWzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LLoHWp7H; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oDaxhDLw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LLoHWp7H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752836287; x=1784372287;
+  t=1752838209; x=1784374209;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=rWkOVF/P5Lum1uOKyhInuaCLGAOyCx8ngF+WBJs3k4o=;
-  b=oDaxhDLwk2uJxqT7CdKIHLx/SBH0eq3cn98ielT4bVqNGfXr0nXq8z58
-   el/rFRCI8bU48laFQ5l72jOR7Nuru7yQjUKQ5bSXDNaMBcqhvstlz6td6
-   AxpwxdKwkmPP0Hog5aO9BV0EUgMfEfu9gBtfZHcxWkhoOm/6qg+5ktSgL
-   mAngMp+z1b8o1xIsglYwDfB9kacf4rYB0bDzTgTw9Do6PLBlhsm4l0nOC
-   rRicsDeD699uAaFYI/nm6M1zOKZOjfKkms+SIL/kgWXY4i8IMWAgijuI/
-   cnSmowPpAseB2/G4Vwn1+XEdt2Ih3wo/RxSjwkoo3yOVazuqUzBXFN9PC
-   Q==;
-X-CSE-ConnectionGUID: WQ+kbVveTVC2WdGOt7i1/g==
-X-CSE-MsgGUID: ppHfAA5DR9mdHLs4Kq63QA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="58908298"
+  bh=BPbUAlJeerYAkvNnFfFDxbLSy0A5GgWirYFA+ufRVTI=;
+  b=LLoHWp7HLw5NfV9zCe9W3ye4PsJyt6CzqUwmPwuTtwIbEaOZs0HcQd3m
+   TCG7u84kGRRDVvNMz7j02Olh2EIicnMC29OZj8tm3o1Q/337F63ILY7nF
+   x/70MT0aWn/09ig9U84VfDL3e5crlFoIb/577gTcQEP6WpvxiDWOc0fen
+   CRTyI6xNP2trBQBUL5R4fUuh3AFPlz7y4WXqXR2NrnE9f8wJ6JycyqNvK
+   cJ5eBoZ2JJjm5wVGvCjh8h3/9gXviZHZg5yPQ4lkBr5DwdG1MuHpona3S
+   bU7f8o0qzbt3fcwmT5L6/dleU4E9ERE/98ABnANiUyBeP+fZUyENNiWMX
+   A==;
+X-CSE-ConnectionGUID: yyRT+KZXRgKq/WawCQkFXw==
+X-CSE-MsgGUID: nyzxnvptTA6Cqs2LxDG6Tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="66478352"
 X-IronPort-AV: E=Sophos;i="6.16,321,1744095600"; 
-   d="scan'208";a="58908298"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 03:58:06 -0700
-X-CSE-ConnectionGUID: EbBOLQhNQFOhtb657pNayg==
-X-CSE-MsgGUID: FsS1dgnXQUitJXpCG/4WVg==
+   d="scan'208";a="66478352"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 04:30:09 -0700
+X-CSE-ConnectionGUID: Bui3AihmRYi8vrjFolEpkA==
+X-CSE-MsgGUID: MulrBua6QJC3Pv9WIYM1Ng==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,321,1744095600"; 
-   d="scan'208";a="189015056"
+   d="scan'208";a="162353319"
 Received: from igk-lkp-server01.igk.intel.com (HELO 8b57277650df) ([10.91.175.65])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Jul 2025 03:58:05 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 18 Jul 2025 04:30:07 -0700
 Received: from kbuild by 8b57277650df with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucimx-0000sb-0i;
-	Fri, 18 Jul 2025 10:58:03 +0000
-Date: Fri, 18 Jul 2025 12:57:33 +0200
+	id 1ucjHx-0000tR-1H;
+	Fri, 18 Jul 2025 11:30:05 +0000
+Date: Fri, 18 Jul 2025 13:29:45 +0200
 From: kernel test robot <lkp@intel.com>
-To: Andy Yan <andy.yan@rock-chips.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dmitry Baryshkov <lumag@kernel.org>
-Subject: [linux-next:master 9014/10823] Warning:
- drivers/gpu/drm/drm_bridge.c:1241 function parameter 'connector' not
- described in 'drm_bridge_detect'
-Message-ID: <202507181219.jtWUsunB-lkp@intel.com>
+To: Matthew Gerlach <matthew.gerlach@altera.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
+	Yanteng Si <siyanteng@cqsoftware.com.cn>
+Subject: [linux-next:master 7295/10823]
+ arch/arm64/boot/dts/altera/socfpga_stratix10_swvp.dtb: ethernet@ff802000
+ (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed
+ ('phy-addr' was unexpected)
+Message-ID: <202507181318.Tjt1juG6-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,19 +67,38 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
-commit: 5d156a9c3d5ea3dbec192121259dee2c2f938fa1 [9014/10823] drm/bridge: Pass down connector to drm bridge detect hook
-config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250718/202507181219.jtWUsunB-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507181219.jtWUsunB-lkp@intel.com/reproduce)
+commit: 8a00a173d1a43362ec11e47c09fc5c0b1aa92091 [7295/10823] dt-bindings: net: altr,socfpga-stmmac.yaml: add minItems to iommus
+config: arm64-randconfig-2051-20250717 (https://download.01.org/0day-ci/archive/20250718/202507181318.Tjt1juG6-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507181318.Tjt1juG6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507181219.jtWUsunB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507181318.Tjt1juG6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> Warning: drivers/gpu/drm/drm_bridge.c:1241 function parameter 'connector' not described in 'drm_bridge_detect'
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/altera/socfpga_stratix10.dtsi:581.10-630.5: Warning (simple_bus_reg): /soc@0/eccmgr: missing or empty reg/ranges property
+   arch/arm64/boot/dts/altera/socfpga_stratix10_swvp.dtb: cb-intosc-hs-div2-clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10_swvp.dtb: cb-intosc-ls-clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10_swvp.dtb: f2s-free-clk (fixed-clock): 'clock-frequency' is a required property
+   	from schema $id: http://devicetree.org/schemas/clock/fixed-clock.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10_swvp.dtb: ethernet@ff800000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml#
+>> arch/arm64/boot/dts/altera/socfpga_stratix10_swvp.dtb: ethernet@ff802000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10_swvp.dtb: ethernet@ff804000 (altr,socfpga-stmmac-a10-s10): Unevaluated properties are not allowed ('phy-addr' was unexpected)
+   	from schema $id: http://devicetree.org/schemas/net/altr,socfpga-stmmac.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10_swvp.dtb: rstmgr@ffd11000 (altr,stratix10-rst-mgr): altr,modrst-offset: False schema does not allow 32
+   	from schema $id: http://devicetree.org/schemas/reset/altr,rst-mgr.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10_swvp.dtb: rstmgr@ffd11000 (altr,stratix10-rst-mgr): compatible: 'oneOf' conditional failed, one must be fixed:
+   	['altr,stratix10-rst-mgr'] is too short
+   	'altr,rst-mgr' was expected
+   	from schema $id: http://devicetree.org/schemas/reset/altr,rst-mgr.yaml#
+   arch/arm64/boot/dts/altera/socfpga_stratix10_swvp.dtb: sysmgr@ffd12000 (altr,sys-mgr-s10): 'interrupts' does not match any of the regexes: '^pinctrl-[0-9]+$'
 
 -- 
 0-DAY CI Kernel Test Service
