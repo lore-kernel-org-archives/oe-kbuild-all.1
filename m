@@ -1,113 +1,136 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B1E1F4C85
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 09:31:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BDC0221F04;
+	Fri, 18 Jul 2025 09:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752831072; cv=none; b=Zq165Lkp/ax+QMLd92PTg/KfYizjZBKqnzPJMAftGEMAnR5YQlFc7nQre4EYh6F12/KjAUcUbD4G/MOkNzfymEqjQ3/EYCBSRtiGBombVPnxE7VnGyWBJcy33OsPkOLYV6ZprpjsLgO67R5Kc+DTeMxkk5yuFAHx+lA/ug5JrD8=
+	t=1752831292; cv=none; b=WrqIen+0JUWW/G5D5nhMU7T7oJTS7e3geudHFKGMD10gVhPQOIPG75UVpuP+heZnOC1KLCJSmPh2rAws+2VL7yDTri4jBnss+uO7aWqF02rJxANiSTjUnMhsRWZtE3P6zKwRIzoE3fKJm2oUE1B32LVhp7LA1Wn2TYiNILT/cjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752831072; c=relaxed/simple;
-	bh=bhe0zcLGy5GklMgwNIQG4xyAuKnkHHvNVTH7d7Uwzqs=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=lle26XuGb5IgOxvtCBi7BehheCUlB8AAsWtyDlM8WZQy5lnuO2XR1K8U2P6dGShum9OzGE86hJGh2xgh+dXjuRP1wT6BN0/HhBTKwxsn4VVvw/TWO2AhYpoM6j5Qyj1M69Qsnd3aWyfST4LG9Og6UZ3u2Rt8zUG04+nfePdqMmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lc6yO3Bv; arc=none smtp.client-ip=209.85.218.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1752831292; c=relaxed/simple;
+	bh=IRZ6eW/IHF7BaJPyLxlRyPGJhIBXJU4DVyfIU35NfdA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M+1vVOIGQJQpTLomO2SPeZsZOf2nbhtJ6pOscphcr4dZEHG6oUDzvk4zW7yKhKi7q4VjAyVoUbOoz17VoG8L8CXMcoi1APqk+Gssv94miFT/YSldsyv9vJs4ay6QezuSjGnkRyjPCQ0BKJquYlZqQ7zI8NAjjY6q2ispCgi/odQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DE2Rp8tW; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lc6yO3Bv"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ae0e0271d82so335663066b.3
-        for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 02:31:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1752831070; x=1753435870; darn=lists.linux.dev;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=XjU6nrqfbiw0u0TIKCSt6roZUluHkikf0/decEoYNJE=;
-        b=Lc6yO3Bvklv6Jx9+9ZwJXkhG2qPxBLF7RuA+4s1H388Tg0dcvL40R659mu2YWOCaZw
-         FaCdkLJU7TIajiOIMdll6Bh+cmZYSPslsrNz7zQ0dZaa71pe+jbL/PK9vGDdVJ3mNVYh
-         fqTJ+JjSRoErIFbzcEkZ2havyR0VJvhAUDT2w9ueQTCwp/l0Ey0R82xPKrBP5n7DVCVB
-         OjVYLPjo78iBc3FMxDTrQ18+eEeBHCFU+49U+urNEI04j1+sfpBN4XrIJyGutyxH0Mg0
-         A7isRNqlKo0Te4hEeqMhbfMP57UoMhXFjmZ7kqpAN/xxCpXLTHLe706b9B55b3JH8OJs
-         SNDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1752831070; x=1753435870;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XjU6nrqfbiw0u0TIKCSt6roZUluHkikf0/decEoYNJE=;
-        b=vOi/5ncZUk/bhdBkp/SwhrtxJ4XKXkt/+W1RUZ9EayZdVPUtEXtUdPcLbbOZNyo8JD
-         pdptkK/LEcXobTVOjNGlcbj56Y6H6OvlENaMAdW/0ljNRmXCiQToNJ7Zp15DGNBIzM+p
-         KfhCePO7P8XxX4fnCV1IjUbGslx4jxKfFhOjvu4PDUVnuLINcEoHerQtE4yJJykT5dV5
-         7FSwDk3WWhI15/iRyQW6OWgwsbR0wtUTjSsCVFiTccRY9em15M5tMSJE65l4YO7rRIPc
-         Xh1kzsCvPP6z88Ow6u2EIUXFWywYpTBd/LX26MwD2bt9vl3nBh0usoqJvGUN7xqlBikY
-         VwRg==
-X-Forwarded-Encrypted: i=1; AJvYcCUgXdGAch7bbVeoNwWbuTCmBQ8fwbfvBw4LLlJDIA0+XQqIsJbj4KF3cl3MBIDfc72RKCoEBkHg+H56Virz@lists.linux.dev
-X-Gm-Message-State: AOJu0Yw+3259KbsFUGb/pO5iGgu0yShi/Xk27kbWgKzBjfzHfungj/Vr
-	YzZElIJbcjlY70WS5Uu2zeWVXnNpkn9KHo/HMrxYibABenYik0E7iJqE
-X-Gm-Gg: ASbGnctyI5Cxi/0LUsYC/NOWWFm2Ez4pTQMMxlu79KgaPEQby0U1d61czm6be2Khfgi
-	3f+FaeHVs7vUgnt0OTvOVzGORRYRLx0q4QI70yaLeZt1NgbcLun2keLVKzeuXRn/GcShhIqP9VD
-	sryD4CXg1gaQvswT6UihG/aZjsewlEIjrhkjsuCf0edCuh35IJ4LKzurAPuSrAoo41TWM+nFdmh
-	PIs9J0bKDwL5AaloOvHniiAGzx0Vu5Nhr6kcegDakn81r82qbPSqmVqJgfgRRlZL0vATWr3tN00
-	FEufOCXWVHWLO+PcBlFAUpcaM3TTEDnpi7rLnFmvJ+hhi8EB8f9E5sH6wPQCuxlWr5N52FEcXvH
-	ss+tSBOiIJT+LHWabwvFqfzRIY56NE7Meryk=
-X-Google-Smtp-Source: AGHT+IFIqad+0hlUN3zY87QsZXaNiyLAJ+x0TZ9qnNxIHZCIsq6bsPaf5QF99Ci+hSan+dVtZ2on2A==
-X-Received: by 2002:a17:907:990c:b0:ae6:eff6:165c with SMTP id a640c23a62f3a-aec4fc41e91mr497084166b.48.1752831069432;
-        Fri, 18 Jul 2025 02:31:09 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c096:325::1ac? ([2620:10d:c092:600::1:6915])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6c7d46ffsm88380066b.42.2025.07.18.02.31.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Jul 2025 02:31:08 -0700 (PDT)
-Message-ID: <1fe747ea-56ce-4418-92cb-057d989e3732@gmail.com>
-Date: Fri, 18 Jul 2025 10:32:38 +0100
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DE2Rp8tW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752831291; x=1784367291;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=IRZ6eW/IHF7BaJPyLxlRyPGJhIBXJU4DVyfIU35NfdA=;
+  b=DE2Rp8tW5fQyi7w/6CIzDvxlBoFN60Csfa2OaXzCT2rOobWGKS1IkWmV
+   lmKAiRUJ9FH8gTwpWUiH0q1z+GfBKv+UEAUIj9lrbUxq+elBIbb/SV1wG
+   nTW9uK6CpgdAw9Sv2w7hR2clY9tSzYncTLiqkPlSh9Qtwb10DBssbN2Gq
+   h4szxrqbZu4+mhGB81LI6+UbCETrYwcXOV88LLVjDLDu8YNgxs109/v0e
+   M0Xfwf3hkeQ3wqOUU0geX5RlUgOKUI9hp5fPQVEFmDenEzERvoK3nm/6T
+   FxAqfBQKp1AJhGUs5MK7no1xTnaXhpBAGXRmYYVVWMelmQpypVrA4Ldql
+   g==;
+X-CSE-ConnectionGUID: V2cKRzZWRYW2CoIqs+oEdw==
+X-CSE-MsgGUID: kJkEA6B2RS2SzwvIUQsN2Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="42745802"
+X-IronPort-AV: E=Sophos;i="6.16,321,1744095600"; 
+   d="scan'208";a="42745802"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 02:34:51 -0700
+X-CSE-ConnectionGUID: 0Fen4lgZRp6H3IhGQ8OvOQ==
+X-CSE-MsgGUID: SFl6ENtfTHm7C6s1bpaAaQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,321,1744095600"; 
+   d="scan'208";a="158096101"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 18 Jul 2025 02:34:46 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uchUJ-000EVf-34;
+	Fri, 18 Jul 2025 09:34:43 +0000
+Date: Fri, 18 Jul 2025 17:33:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: Re: [PATCH 09/26] media: v4l2-dev: Add
+ video_device_context_from_file()
+Message-ID: <202507181702.W5iinHRF-lkp@intel.com>
+References: <20250717-multicontext-mainline-2025-v1-9-81ac18979c03@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Intel-wired-lan] [PATCH net-next v11 12/12] libeth: xdp: access
- ->pp through netmem_desc instead of page
-From: Pavel Begunkov <asml.silence@gmail.com>
-To: Byungchul Park <byungchul@sk.com>, kernel test robot <lkp@intel.com>
-Cc: willy@infradead.org, netdev@vger.kernel.org,
- oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, kernel_team@skhynix.com, almasrymina@google.com,
- ilias.apalodimas@linaro.org, harry.yoo@oracle.com,
- akpm@linux-foundation.org, andrew+netdev@lunn.ch, toke@redhat.com,
- david@redhat.com, Liam.Howlett@oracle.com, vbabka@suse.cz, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, linux-rdma@vger.kernel.org,
- bpf@vger.kernel.org, vishal.moola@gmail.com, hannes@cmpxchg.org,
- ziy@nvidia.com, jackmanb@google.com, wei.fang@nxp.com, shenwei.wang@nxp.com,
- xiaoning.wang@nxp.com, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org
-References: <20250717070052.6358-13-byungchul@sk.com>
- <202507180111.jygqJHzk-lkp@intel.com>
- <20250718004346.GA38833@system.software.com>
- <20250718011407.GB38833@system.software.com>
- <35592824-6749-4fa4-89d9-2de9caccc695@gmail.com>
-Content-Language: en-US
-In-Reply-To: <35592824-6749-4fa4-89d9-2de9caccc695@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250717-multicontext-mainline-2025-v1-9-81ac18979c03@ideasonboard.com>
 
-On 7/18/25 10:18, Pavel Begunkov wrote:
-> On 7/18/25 02:14, Byungchul Park wrote:
-...>>>>     include/linux/mm.h:4176:54: note: expected 'struct page *' but argument is of type 'const struct page *'
->>>>      static inline bool page_pool_page_is_pp(struct page *page)
->>>>                                              ~~~~~~~~~~~~~^~~~
->>>
->>> Oh.  page_pool_page_is_pp() in the mainline code already has this issue
->>> that the helper cannot take const struct page * as argument.
-> 
-> Probably not, and probably for wrong reasons. netmem_ref is define
-> as an integer, compilers cast away such const unlike const pointers.
+Hi Jacopo,
 
-Taking a look libeth, at least at the reported spot it does
-page->pp->p.offset, that should be fine. And your problem
-is caused by the is_pp check in pp_page_to_nmdesc().
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on d968e50b5c26642754492dea23cbd3592bde62d8]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jacopo-Mondi/media-mc-Add-per-file-handle-data-support/20250717-190546
+base:   d968e50b5c26642754492dea23cbd3592bde62d8
+patch link:    https://lore.kernel.org/r/20250717-multicontext-mainline-2025-v1-9-81ac18979c03%40ideasonboard.com
+patch subject: [PATCH 09/26] media: v4l2-dev: Add video_device_context_from_file()
+config: x86_64-buildonly-randconfig-004-20250718 (https://download.01.org/0day-ci/archive/20250718/202507181702.W5iinHRF-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507181702.W5iinHRF-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507181702.W5iinHRF-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/v4l2-core/v4l2-dev.c:1184:1: warning: no previous prototype for function 'video_device_context_from_file' [-Wmissing-prototypes]
+    1184 | video_device_context_from_file(struct file *filp, struct video_device *vfd)
+         | ^
+   drivers/media/v4l2-core/v4l2-dev.c:1183:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1183 | struct video_device_context *
+         | ^
+         | static 
+   1 warning generated.
+
+
+vim +/video_device_context_from_file +1184 drivers/media/v4l2-core/v4l2-dev.c
+
+  1182	
+  1183	struct video_device_context *
+> 1184	video_device_context_from_file(struct file *filp, struct video_device *vfd)
+  1185	{
+  1186		struct v4l2_fh *vfh =
+  1187			test_bit(V4L2_FL_USES_V4L2_FH, &vfd->flags) ? filp->private_data
+  1188								    : NULL;
+  1189	
+  1190		/* If the file handle has been bound to a context return it. */
+  1191		if (vfh && vfh->context)
+  1192			return vfh->context;
+  1193	
+  1194		return vfd->default_context;
+  1195	}
+  1196	EXPORT_SYMBOL_GPL(video_device_context_from_file);
+  1197	
 
 -- 
-Pavel Begunkov
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
