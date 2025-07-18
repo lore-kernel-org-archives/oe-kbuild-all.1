@@ -1,59 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1B42E36EF
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 00:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301935695;
+	Fri, 18 Jul 2025 00:26:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752798416; cv=none; b=K0JQdfAPsCPlL24A4CLc2+1wPP7VRHq+Q2TgqLQPjPUBtaCCd5l2nB4SWNAMtnZgVLWU3Cl5cohTB07Dw6hkwfWY69iuTbc/wwY4nt1QS1CDJZjIJ8lW6j16yUjoi12sJLVgCMUyfLAxPO0lIXG9iNNilYPNXwLp5HpURRp25ik=
+	t=1752798419; cv=none; b=mIjoLb3nVIueBwbFPNiRCx/lTp02qG5PvGcwYQyQN+jVSa68QBQzL7r9bCW/vyGnJDDM3WxgxVhOx5tAE7uyT20kqBPpJDlT8ON0FpHkY9sQnLxqubaJHrfX9hZ+fNCFs1o3mH+8FAOTA9W2UHQNGNPKgB7nlRDoKl29S7qWQzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752798416; c=relaxed/simple;
-	bh=wY/XceH3V0RI1WN6/+9yUeSkLlDs30zmQXSs9Adiyw8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=T5oCN7l8uJkr0Fo78vKsNX2jJYK1uMDC3z6Bv0/YxnE4WuLLJ0nzAbY1MSy8TuoP0QMKUqQP8aPmkofRe0HrK8q+gx0nqbeASznUNyZw/vG4hefoe8QCnsP2so3W7lMknBOhB7+vnYF1a7vct1cBrjJb7nTtpAD6uZqbTqCttb0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kwYEWyka; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1752798419; c=relaxed/simple;
+	bh=2s19iaScvlr4LwAAreqq4qXppS14HcVbmVXKdPkbTUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k+IEXNpCbswTLHEHb+teNv6RaKpTRw2BlM2aVTlevIZLhEI/jvX5jkisCq2j0NkYkkRMuHyUMKuc4+CcQOd00KKImS1T/widRl9MQ2P9bUD9CeT4470Y9JyymJRTyWxuzZRgi6NEyL8ehwZbv4ylPo31jEX9mHP0lZtmSSOkLJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wj7lh9G/; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kwYEWyka"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wj7lh9G/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752798415; x=1784334415;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=wY/XceH3V0RI1WN6/+9yUeSkLlDs30zmQXSs9Adiyw8=;
-  b=kwYEWykatb5JIgBUYVk39n3Fhk6GGI9QNLGsLbIypX8Rch74k2YfIrMw
-   ymDbs77ufcteloNS1NVN7YEv3T+z7tLNtiub7SX3s1d6suZxVUoVLk9Ub
-   yBmFf7pNJ1UcI6w8FAPrgEE8aul8WhUF8txMOd7Iyu+6DOX+ptAfFw/C1
-   u65T6JQwh+qrrB/hAbxRL/gMkGXA5VUnJfWQdVU4CO/A9ok89ieDwKfBR
-   tIj1craAWZD7cqyB9uMkVHjCmtQTwAq8bnBCVx2xZzgOssMxR67zuMHV/
-   ahXFg/qxB2Utce5te45WdKhJiDGOJUFjaodRsxmPhYP+Y7pul1iKRWVBW
-   Q==;
-X-CSE-ConnectionGUID: m/t95jl3Qx6B1UeVn9UFtw==
-X-CSE-MsgGUID: yvV8iuFjRPSOaQhridLrRA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="55175111"
+  t=1752798418; x=1784334418;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2s19iaScvlr4LwAAreqq4qXppS14HcVbmVXKdPkbTUI=;
+  b=Wj7lh9G/LBGq43Y+VNPkcvG6lqbjDJZhkBzpAIxNKz2nYd3tIs5PrVuA
+   mVsoW55T3ceNqhVLNXAD5KlFGrNAEIxLTMCyb8qJL4N4cGXrsaPHYdI8A
+   CW2WDdYWnt/bnkMLDzV17IvtFrx42jUnnXQa6CfLOQTxzmLn+W3HB1zaa
+   dCLONMfCmqTSIZfqFkAjrbQQ8hW1eercTER9+iL6r7rm0o4EYV+8yiedA
+   am5gVUmEcM/GCIuxNjch57454dE0CqqEPVRo1MXZkHzM9hYHH3s3Q0KN/
+   qh/qGp2S+gxtyiNFgwffrGfonIGiPn8mQHbhW40rmt5P6WVELTL0LyC3X
+   A==;
+X-CSE-ConnectionGUID: 70jz08NrRvSG34/qkhXWDA==
+X-CSE-MsgGUID: EvAsPCUqQNKhxWMSMFp9tA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11495"; a="54946767"
 X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; 
-   d="scan'208";a="55175111"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 17:26:54 -0700
-X-CSE-ConnectionGUID: 2z8B/H9DTV6KjhKMVQoJ+g==
-X-CSE-MsgGUID: nNAcUI1nSOOOcfDvsos7IQ==
+   d="scan'208";a="54946767"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jul 2025 17:26:57 -0700
+X-CSE-ConnectionGUID: xa/s9jE6RMq3L4doVCOfqA==
+X-CSE-MsgGUID: CgZsOIq0Ti2sZFV1e55NhQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,320,1744095600"; 
-   d="scan'208";a="162225289"
+   d="scan'208";a="181642955"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 17 Jul 2025 17:26:53 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 17 Jul 2025 17:26:53 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucYw7-000E9x-0B;
+	id 1ucYw7-000E9v-08;
 	Fri, 18 Jul 2025 00:26:51 +0000
-Date: Fri, 18 Jul 2025 08:25:56 +0800
+Date: Fri, 18 Jul 2025 08:25:55 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Yu Kuai <yukuai3@huawei.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1732/1732]
- block/blk-io-hierarchy/stats.o: warning: objtool: missing symbol for section
- .text
-Message-ID: <202507180811.hvccAQ89-lkp@intel.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Linus Walleij <linus.walleij@linaro.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	linux-gpio@vger.kernel.org
+Subject: Re: [PATCH v6 15/24] media: i2c: add Maxim GMSL2/3 serializer and
+ deserializer framework
+Message-ID: <202507180835.07NwogM6-lkp@intel.com>
+References: <20250716193111.942217-16-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,22 +78,42 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250716193111.942217-16-demonsingur@gmail.com>
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   700db19c02e9c8dcf291aa7a6a29337c97ea1805
-commit: 17e60c04404d52f58c2233ea5b72014f0d834e75 [1732/1732] block-io-hierarchy: core hierarchy stats implementation
-config: x86_64-buildonly-randconfig-006-20250718 (https://download.01.org/0day-ci/archive/20250718/202507180811.hvccAQ89-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507180811.hvccAQ89-lkp@intel.com/reproduce)
+Hi Cosmin,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on next-20250716]
+[also build test WARNING on v6.16-rc6]
+[cannot apply to robh/for-next staging/staging-testing staging/staging-next staging/staging-linus arm64/for-next/core linus/master v6.16-rc6 v6.16-rc5 v6.16-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Cosmin-Tanislav/media-mc-Add-INTERNAL-pad-flag/20250717-033901
+base:   next-20250716
+patch link:    https://lore.kernel.org/r/20250716193111.942217-16-demonsingur%40gmail.com
+patch subject: [PATCH v6 15/24] media: i2c: add Maxim GMSL2/3 serializer and deserializer framework
+config: nios2-kismet-CONFIG_I2C_ATR-CONFIG_VIDEO_MAXIM_SERDES-0-0 (https://download.01.org/0day-ci/archive/20250718/202507180835.07NwogM6-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250718/202507180835.07NwogM6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507180811.hvccAQ89-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507180835.07NwogM6-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
->> block/blk-io-hierarchy/stats.o: warning: objtool: missing symbol for section .text
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for I2C_ATR when selected by VIDEO_MAXIM_SERDES
+   WARNING: unmet direct dependencies detected for I2C_MUX
+     Depends on [n]: I2C [=n]
+     Selected by [y]:
+     - VIDEO_MAXIM_SERDES [=y] && MEDIA_SUPPORT [=y] && VIDEO_DEV [=y]
+   
+   WARNING: unmet direct dependencies detected for I2C_ATR
+     Depends on [n]: I2C [=n]
+     Selected by [y]:
+     - VIDEO_MAXIM_SERDES [=y] && MEDIA_SUPPORT [=y] && VIDEO_DEV [=y]
 
 -- 
 0-DAY CI Kernel Test Service
