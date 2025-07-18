@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 860013597E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 20:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F51E10957
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 20:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752870416; cv=none; b=L2Q1HLivRKkX5JGDg45GryRSjY2OAjX/LKOK1Hiwj7bTQOsC35JWnWRoNmsUogKvfzasvcrhTKvpwHPeiGrpEFWWaZNDdzx81rav0I6yafBr/phRxSp9PaV+vz0C29yn0fJh6szBAG7I4Z71dBU2bjnH8p8iECLlCGQqXmy6iUI=
+	t=1752871077; cv=none; b=d+il1P92KXD4QJVTi5q5Y0Zvd6AaB0A9grxGJYPqlthhw8v/bMrIN5tyPU66GhPf/GYy++EFMbMcmpNZUXbjJ8UKI6b/XlCYyab9qDbHfepOGXYFFUchv9V5qyDCz+2q06A9zMjSTetwERXScLVJFArHh7aKBP3Hkwk/RgZibFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752870416; c=relaxed/simple;
-	bh=4dj7+YE/KjD4uZoCZ4Cf+034NpLMo1jb0hZtLbyDP+c=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=W8SMfPeu2LFeaHCPpesxk89D8US0SERb4g1ifRtJZi9S8nztW+FBoRTEyolbRsD1rWsBqIqTG4E9BWm/qalK4gfxSeZaxzxunT8zSDqg7J43hO5+moag6z37nIAaw4VwEY6tG5QKQKoMPVvC7BznJwANa0IJBxNnHNsfuHL6e9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ce5tYgWY; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1752871077; c=relaxed/simple;
+	bh=/QFi4zfOH5H4go+JwRM+Pt4mkD81oyIAuJM7KFgUhww=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nt1ZzPf++rmLNVAyMBO8Xp4cOZZ6LWsh6BC/8vUlJ4/zEOwTH7VGPyG7QQJVRhSUziRaCL4tHLX7kIzNUII0FQGkxasSeNRH92YIKz4HDFWA1zdXnEqj2ZfeSz1UN9k8FJRLouZnpvUhvr5tK+izc7cv+zZoTRV5NyFN+VDs324=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g5OQEMcV; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ce5tYgWY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g5OQEMcV"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752870414; x=1784406414;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=4dj7+YE/KjD4uZoCZ4Cf+034NpLMo1jb0hZtLbyDP+c=;
-  b=Ce5tYgWYunRkQDMtZ5mdkmtXsT7l1AUKePHCiR4zla0DzkLKN+OFVTSn
-   NZGYOdNc9DC8MnuPGWsYtiOuTUq0qPmxerZgTLyCNEWUUvpRimYOVlT4O
-   6jeIOsQnxCjN5dUuu/BtxcnzmvDmwzJ4u/fwrO04GVB0HjQHJxuxJxRxF
-   v/0dKSs1Puzln4mYMG2LZGJIPMkGBQK4IInetdxz+rXi2BYXaySVQwJsH
-   nW/0LlqmiY6Qmd7ITEk2lEpny0GMeZTSmbZu0IihRKuvtWPMndI6iiL1G
-   xL0L2Sohhvh9kYY/ozSdGR27ZlDCZg7AJ3KtNHpRGg1yIwonw6qA1xO7e
+  t=1752871076; x=1784407076;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/QFi4zfOH5H4go+JwRM+Pt4mkD81oyIAuJM7KFgUhww=;
+  b=g5OQEMcVlPQCzpIF1zGcRNwDC3qAoI1nYYAvWrVoIMQF/UNA5GY3Gnm0
+   vmte0+Jx6XdYY5FxMKJU78b6YXIBRhJID7K4B0GtWo/1fzBjd+qOYnVDH
+   AS26ySiZuWGuCyR1aFd23i4Z531dbmjKgwbww/osXj1ZsJs8roWcIetna
+   jMrmYplu0KH5ist/BkwkvGnGMvussWJI0ddTOX1zxO9EUK2OrYY9RG0x8
+   ju9csGnDaDFk9DJhkyAJYsiDoraeTHEwtrylNbRt4PIbkCsLjX8pnILlT
+   LbyktsVT6ZgBgr5MqWkFItGjdP9VDZfkr4E7T3SzClJ0lfLt6x1T3qOPU
    g==;
-X-CSE-ConnectionGUID: S4tzenvyTxah+ca+E92d8w==
-X-CSE-MsgGUID: 3ZcfSEWqR/ObHcgK4vb74A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="65739069"
+X-CSE-ConnectionGUID: 9pklmxalTk6PLvmpm74OnQ==
+X-CSE-MsgGUID: wXfIYZwVRlaqJgN/8DfzFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="54884961"
 X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
-   d="scan'208";a="65739069"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 13:26:54 -0700
-X-CSE-ConnectionGUID: PIUbHf+pR9ucs0MDCsoe7A==
-X-CSE-MsgGUID: R6JZsoyaQqKvlcbgbv7rrg==
+   d="scan'208";a="54884961"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 13:37:55 -0700
+X-CSE-ConnectionGUID: 7hOQF/djQ4CdTkQ+4qRjYQ==
+X-CSE-MsgGUID: WgPXWD0yQbahli+fDJDMgg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
-   d="scan'208";a="162451319"
+   d="scan'208";a="158752694"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 18 Jul 2025 13:26:53 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 18 Jul 2025 13:37:53 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucrfO-000F1L-1M;
-	Fri, 18 Jul 2025 20:26:50 +0000
-Date: Sat, 19 Jul 2025 04:26:43 +0800
+	id 1ucrq3-000F1z-1o;
+	Fri, 18 Jul 2025 20:37:51 +0000
+Date: Sat, 19 Jul 2025 04:37:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Leon Romanovsky <leonro@nvidia.com>
+To: Nico Pache <npache@redhat.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [leon-rdma:dmabuf-vfio 18/24] drivers/pci/p2pdma.c:362:24: error:
- 'free_pool' undeclared; did you mean 'gen_pool'?
-Message-ID: <202507190446.ui51y84X-lkp@intel.com>
+Subject: Re: [PATCH v9 06/14] khugepaged: introduce collapse_scan_bitmap for
+ mTHP support
+Message-ID: <202507190444.84t25Ubg-lkp@intel.com>
+References: <20250714003207.113275-7-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,131 +63,107 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250714003207.113275-7-npache@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dmabuf-vfio
-head:   e39fa86301634c35591b37be2607abe30ea9c82b
-commit: 9147f5bd68db2266f9aedb6441dba4c0d0463da5 [18/24] PCI/P2PDMA: Separate global to device p2p initialization logic
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20250719/202507190446.ui51y84X-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507190446.ui51y84X-lkp@intel.com/reproduce)
+Hi Nico,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on akpm-mm/mm-everything]
+[also build test WARNING on next-20250718]
+[cannot apply to lwn/docs-next linus/master v6.16-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nico-Pache/khugepaged-rename-hpage_collapse_-to-collapse_/20250714-083735
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250714003207.113275-7-npache%40redhat.com
+patch subject: [PATCH v9 06/14] khugepaged: introduce collapse_scan_bitmap for mTHP support
+config: x86_64-rhel-9.4-kselftests (https://download.01.org/0day-ci/archive/20250719/202507190444.84t25Ubg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507190444.84t25Ubg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507190446.ui51y84X-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507190444.84t25Ubg-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   drivers/pci/p2pdma.c: In function 'pci_p2pdma_add_resource':
->> drivers/pci/p2pdma.c:362:24: error: 'free_pool' undeclared (first use in this function); did you mean 'gen_pool'?
-     362 |                 return free_pool;
-         |                        ^~~~~~~~~
-         |                        gen_pool
-   drivers/pci/p2pdma.c:362:24: note: each undeclared identifier is reported only once for each function it appears in
->> drivers/pci/p2pdma.c:400:9: error: implicit declaration of function 'sysfs_rmeove_group'; did you mean 'sysfs_remove_group'? [-Wimplicit-function-declaration]
-     400 |         sysfs_rmeove_group(&pdev->dev.kobj, &p2pmem_group);
-         |         ^~~~~~~~~~~~~~~~~~
-         |         sysfs_remove_group
->> drivers/pci/p2pdma.c:401:26: error: 'p2p' undeclared (first use in this function)
-     401 |         gen_pool_destroy(p2p->pool);
-         |                          ^~~
->> drivers/pci/p2pdma.c:399:1: warning: label 'free_pool' defined but not used [-Wunused-label]
-     399 | free_pool:
-         | ^~~~~~~~~
+   mm/khugepaged.c: In function '__collapse_huge_page_swapin':
+   mm/khugepaged.c:1051:48: error: 'MTHP_STAT_COLLAPSE_EXCEED_SWAP' undeclared (first use in this function)
+    1051 |                         count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SWAP);
+         |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/khugepaged.c:1051:48: note: each undeclared identifier is reported only once for each function it appears in
+   mm/khugepaged.c: At top level:
+>> mm/khugepaged.c:1301:12: warning: 'collapse_scan_bitmap' defined but not used [-Wunused-function]
+    1301 | static int collapse_scan_bitmap(struct mm_struct *mm, unsigned long address,
+         |            ^~~~~~~~~~~~~~~~~~~~
 
 
-vim +362 drivers/pci/p2pdma.c
+vim +/collapse_scan_bitmap +1301 mm/khugepaged.c
 
-   316	
-   317	/**
-   318	 * pci_p2pdma_add_resource - add memory for use as p2p memory
-   319	 * @pdev: the device to add the memory to
-   320	 * @bar: PCI BAR to add
-   321	 * @size: size of the memory to add, may be zero to use the whole BAR
-   322	 * @offset: offset into the PCI BAR
-   323	 *
-   324	 * The memory will be given ZONE_DEVICE struct pages so that it may
-   325	 * be used with any DMA request.
-   326	 */
-   327	int pci_p2pdma_add_resource(struct pci_dev *pdev, int bar, size_t size,
-   328				    u64 offset)
-   329	{
-   330		struct pci_p2pdma_pagemap *p2p_pgmap;
-   331		struct p2pdma_provider *mem;
-   332		struct dev_pagemap *pgmap;
-   333		struct pci_p2pdma *p2pdma;
-   334		void *addr;
-   335		int error;
-   336	
-   337		if (!(pci_resource_flags(pdev, bar) & IORESOURCE_MEM))
-   338			return -EINVAL;
-   339	
-   340		if (offset >= pci_resource_len(pdev, bar))
-   341			return -EINVAL;
-   342	
-   343		if (!size)
-   344			size = pci_resource_len(pdev, bar) - offset;
-   345	
-   346		if (size + offset > pci_resource_len(pdev, bar))
-   347			return -EINVAL;
-   348	
-   349		p2pdma = rcu_dereference_protected(pdev->p2pdma, 1);
-   350		if (!p2pdma) {
-   351			mem = pci_p2pdma_enable(pdev);
-   352			if (IS_ERR(mem))
-   353				return PTR_ERR(mem);
-   354	
-   355			error = pci_p2pdma_setup_pool(pdev);
-   356			if (error)
-   357				return error;
-   358		}
-   359	
-   360		p2p_pgmap = devm_kzalloc(&pdev->dev, sizeof(*p2p_pgmap), GFP_KERNEL);
-   361		if (!p2p_pgmap)
- > 362			return free_pool;
-   363	
-   364		pgmap = &p2p_pgmap->pgmap;
-   365		pgmap->range.start = pci_resource_start(pdev, bar) + offset;
-   366		pgmap->range.end = pgmap->range.start + size - 1;
-   367		pgmap->nr_range = 1;
-   368		pgmap->type = MEMORY_DEVICE_PCI_P2PDMA;
-   369		pgmap->ops = &p2pdma_pgmap_ops;
-   370		p2p_pgmap->mem = mem;
-   371	
-   372		addr = devm_memremap_pages(&pdev->dev, pgmap);
-   373		if (IS_ERR(addr)) {
-   374			error = PTR_ERR(addr);
-   375			goto pgmap_free;
-   376		}
-   377	
-   378		error = devm_add_action_or_reset(&pdev->dev, pci_p2pdma_unmap_mappings,
-   379						 p2p_pgmap);
-   380		if (error)
-   381			goto pages_free;
-   382	
-   383		error = gen_pool_add_owner(p2pdma->pool, (unsigned long)addr,
-   384				pci_bus_address(pdev, bar) + offset,
-   385				range_len(&pgmap->range), dev_to_node(&pdev->dev),
-   386				&pgmap->ref);
-   387		if (error)
-   388			goto pages_free;
-   389	
-   390		pci_info(pdev, "added peer-to-peer DMA memory %#llx-%#llx\n",
-   391			 pgmap->range.start, pgmap->range.end);
-   392	
-   393		return 0;
-   394	
-   395	pages_free:
-   396		devm_memunmap_pages(&pdev->dev, pgmap);
-   397	pgmap_free:
-   398		devm_kfree(&pdev->dev, p2p_pgmap);
- > 399	free_pool:
- > 400		sysfs_rmeove_group(&pdev->dev.kobj, &p2pmem_group);
- > 401		gen_pool_destroy(p2p->pool);
-   402		return error;
-   403	}
-   404	EXPORT_SYMBOL_GPL(pci_p2pdma_add_resource);
-   405	
+  1299	
+  1300	/* Recursive function to consume the bitmap */
+> 1301	static int collapse_scan_bitmap(struct mm_struct *mm, unsigned long address,
+  1302				int referenced, int unmapped, struct collapse_control *cc,
+  1303				bool *mmap_locked, unsigned long enabled_orders)
+  1304	{
+  1305		u8 order, next_order;
+  1306		u16 offset, mid_offset;
+  1307		int num_chunks;
+  1308		int bits_set, threshold_bits;
+  1309		int top = -1;
+  1310		int collapsed = 0;
+  1311		int ret;
+  1312		struct scan_bit_state state;
+  1313		bool is_pmd_only = (enabled_orders == (1 << HPAGE_PMD_ORDER));
+  1314	
+  1315		cc->mthp_bitmap_stack[++top] = (struct scan_bit_state)
+  1316			{ HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER, 0 };
+  1317	
+  1318		while (top >= 0) {
+  1319			state = cc->mthp_bitmap_stack[top--];
+  1320			order = state.order + KHUGEPAGED_MIN_MTHP_ORDER;
+  1321			offset = state.offset;
+  1322			num_chunks = 1 << (state.order);
+  1323			// Skip mTHP orders that are not enabled
+  1324			if (!test_bit(order, &enabled_orders))
+  1325				goto next;
+  1326	
+  1327			// copy the relavant section to a new bitmap
+  1328			bitmap_shift_right(cc->mthp_bitmap_temp, cc->mthp_bitmap, offset,
+  1329					  MTHP_BITMAP_SIZE);
+  1330	
+  1331			bits_set = bitmap_weight(cc->mthp_bitmap_temp, num_chunks);
+  1332			threshold_bits = (HPAGE_PMD_NR - khugepaged_max_ptes_none - 1)
+  1333					>> (HPAGE_PMD_ORDER - state.order);
+  1334	
+  1335			//Check if the region is "almost full" based on the threshold
+  1336			if (bits_set > threshold_bits || is_pmd_only
+  1337				|| test_bit(order, &huge_anon_orders_always)) {
+  1338				ret = collapse_huge_page(mm, address, referenced, unmapped, cc,
+  1339						mmap_locked, order, offset * KHUGEPAGED_MIN_MTHP_NR);
+  1340				if (ret == SCAN_SUCCEED) {
+  1341					collapsed += (1 << order);
+  1342					continue;
+  1343				}
+  1344			}
+  1345	
+  1346	next:
+  1347			if (state.order > 0) {
+  1348				next_order = state.order - 1;
+  1349				mid_offset = offset + (num_chunks / 2);
+  1350				cc->mthp_bitmap_stack[++top] = (struct scan_bit_state)
+  1351					{ next_order, mid_offset };
+  1352				cc->mthp_bitmap_stack[++top] = (struct scan_bit_state)
+  1353					{ next_order, offset };
+  1354				}
+  1355		}
+  1356		return collapsed;
+  1357	}
+  1358	
 
 -- 
 0-DAY CI Kernel Test Service
