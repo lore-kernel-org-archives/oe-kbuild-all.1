@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFFC12E7E
-	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 16:02:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E789813AD3F
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 16:15:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752854546; cv=none; b=ndxhblQ2AjULHFvQS2Ebd2AbwGdlbLuI8dmXgv5Wr8KARna5sZAI224xFfW4r5yhjArtPkpQ1jspPaMWmwslEM61E0Zotb0QT/f2PvZ1NAsDAqMt68i8LQSJgkywwPUSU94uSPN+gL8EMN+iSPvVgvH3+6c/HoPMfoYObRp30Ek=
+	t=1752855336; cv=none; b=UMGZe2r8HSW4oMsUkqGpjBTZ3DWn8WkZW3w0fg58TIEvX0A+VlItOYF5l1+fqNtE+TFibFmmeW/RWd37BCunKrIR+dz4JPCeq2pVnjf6TaoLAdKiVLEaugJlG1RN7GlAWDys7Z5Eky1vXFxRj8+iCg5coPBcoQRY+E1A9QqXTXA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752854546; c=relaxed/simple;
-	bh=IaEmvYuHftIpxxpDophQ9/SITMJe6ejLmv0il5gaoJk=;
+	s=arc-20240116; t=1752855336; c=relaxed/simple;
+	bh=yh2iTarpWYd+hEGdioPZMLP7L5r4AIJNP7jImp9V3Dw=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XAo2McWCr1N37FqgTJ2TGq0aAgQGeOTRib9A/od62tw0i2uUhoO1XqN9wYmS5/aYIZ36huY+L7Y3Cie+Q97RkpHaP3UJODVsZ807nMUMId4ry5EpoF1J5XXwgjRkmmbNN+WYgtH8aNpSOzp792lNAeFCWuEw74RVKghiHQMJYNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aVQB4nrd; arc=none smtp.client-ip=198.175.65.9
+	 Content-Disposition; b=IB1VQhSTJhBlGALH2i6T0CYOBdV6mpzCXY1VDWrLrrpHw75R+iRxhApE2Z2LgKLzxVmWwNxz+6+dAKjPMVYwu+SIC8Q2jz8um17muZefQbkfKn2OyPcucabr7C3z0GQfo+gXjALfIqbMVmCxPy3Qi6WWPWH9TX/R2O4IGmYYRI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nk/J7t5H; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aVQB4nrd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nk/J7t5H"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752854545; x=1784390545;
+  t=1752855334; x=1784391334;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=IaEmvYuHftIpxxpDophQ9/SITMJe6ejLmv0il5gaoJk=;
-  b=aVQB4nrdD/I+wRxnaMyud5ozJQvDyoBFegdBzY/kOACM0L11PbXwmMKE
-   LeTZR8ro9ODvHpVTgyaQwxedWC0wIhiA7VBgnGVvos3ObuKvWBFLlTuJo
-   sR7u6KhDLqGaXYDhdMmfcVLi6p6XecVoqYyN8jLHsK14hyWYMrWVIFeDP
-   Rem8BsoRm3P4fw7ATqQyfPdA1qfzerk4E8Rlt+yl1q4iKHUKBhAu/loYX
-   irbh9EkWZUx/tUG6VHAaZa6+yXoMWVuQZWq9HUoid76/EBvajv4jFVDoP
-   SPfg6X8a4J6KKcdsaRSfgBwFGXiob9aAVbQsOm7LSUpkxqRzVmm60f6jp
+  bh=yh2iTarpWYd+hEGdioPZMLP7L5r4AIJNP7jImp9V3Dw=;
+  b=nk/J7t5HVdi7GwSNuHEMVWXNed2aGy1U0MUTdKc1RZ8x1arhOg5ROiTz
+   MLnKIY5rxTqjuvd6D0hE9zMa192PHbpwTTyvs+uaxG4+wXgsRJWtOau6K
+   mxObdXNQ2p/vxS/DYTYDPGLkb1VKSNo6+f9Aj3RvAjf8i+pJG5nQvG1+V
+   Ly1Sif1IMP6kWYaSaxaJiz8MONVGfGX4NyEY5svJ9VlRQtg2wrEfa2fx2
+   txP+LezwvxZvKNH5F/R/FAq1vtdOd0EO+FRNBYDbZeKWjCcvGeLSSGjf+
+   XlpLqIyUSOOO0K1M929uqVEKZnPkMEZUrm8xhkEQ5cmLuy0GX6Mtm8bOL
    A==;
-X-CSE-ConnectionGUID: vIE0muZmRvOhiKEuDmm9Lw==
-X-CSE-MsgGUID: DB3YR0gTSd6uyWy7SHAa+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="77689638"
+X-CSE-ConnectionGUID: fm0QGZ71QmWGjwRiqVTo7Q==
+X-CSE-MsgGUID: 6AlBvILZQOexboYCMEJRlg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="55007021"
 X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
-   d="scan'208";a="77689638"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 09:02:24 -0700
-X-CSE-ConnectionGUID: iaiiuCNLRniAPPIJn8SM4g==
-X-CSE-MsgGUID: z7WHt6orQw28csiqUuPDRA==
+   d="scan'208";a="55007021"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 09:15:30 -0700
+X-CSE-ConnectionGUID: syCbtrJIRAKPTBMBK4ffJg==
+X-CSE-MsgGUID: O7A8McR5TGiIikqRMPU6bw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
-   d="scan'208";a="158442147"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8b57277650df) ([10.91.175.65])
-  by fmviesa009.fm.intel.com with ESMTP; 18 Jul 2025 09:02:23 -0700
-Received: from kbuild by 8b57277650df with local (Exim 4.96)
+   d="scan'208";a="158574534"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 18 Jul 2025 09:15:29 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucnXR-0000w5-0j;
-	Fri, 18 Jul 2025 16:02:21 +0000
-Date: Fri, 18 Jul 2025 18:01:41 +0200
+	id 1ucnk7-000Epf-0w;
+	Fri, 18 Jul 2025 16:15:27 +0000
+Date: Sat, 19 Jul 2025 00:15:13 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [linux-next:master 8067/11307]
- arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb:
- ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197,
- 4], [0, 198, 4], [0, 199, 4]] is too short
-Message-ID: <202507181819.yDa5ApF5-lkp@intel.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:string-helper-2025-07-18 157/157]
+ drivers/media/cec/usb/pulse8/pulse8-cec.c:698:3: error: implicit declaration
+ of function 'str_on_off'; did you mean 'tracing_off'?
+Message-ID: <202507190033.o5BAHIgq-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,69 +63,189 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
-commit: 356dea0baf4c0903ac188bf18e8ff1af0866c930 [8067/11307] dt-bindings: net: mediatek,net: allow up to 8 IRQs
-config: arm64-randconfig-2051-20250717 (https://download.01.org/0day-ci/archive/20250718/202507181819.yDa5ApF5-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250718/202507181819.yDa5ApF5-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux string-helper-2025-07-18
+head:   ea52943b017c3b53f3f8c9ff679ccfb8eaae222a
+commit: ea52943b017c3b53f3f8c9ff679ccfb8eaae222a [157/157] all
+config: nios2-randconfig-001-20250718 (https://download.01.org/0day-ci/archive/20250719/202507190033.o5BAHIgq-lkp@intel.com/config)
+compiler: nios2-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507190033.o5BAHIgq-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507181819.yDa5ApF5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507190033.o5BAHIgq-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts:98.10-154.4: Warning (avoid_unnecessary_addr_size): /soc/spi@1100a000/flash@0: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
-   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb: ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: switch@31 (mediatek,mt7531): 'interrupts' is a dependency of 'interrupt-controller'
-   	from schema $id: http://devicetree.org/schemas/net/dsa/mediatek,mt7530.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: i2c-gpio-0 (i2c-gpio): $nodename:0: 'i2c-gpio-0' does not match '^i2c(@.+|-[a-z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: i2c-gpio-0 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: i2c-gpio-1 (i2c-gpio): $nodename:0: 'i2c-gpio-1' does not match '^i2c(@.+|-[a-z0-9]+)?$'
-   	from schema $id: http://devicetree.org/schemas/i2c/i2c-gpio.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: i2c-gpio-1 (i2c-gpio): Unevaluated properties are not allowed ('#address-cells', '#size-cells' were unexpected)
---
-   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3-mini.dtb: ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7986a-rfb.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986a-rfb.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986a-rfb.dtb: ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
---
-   arch/arm64/boot/dts/mediatek/mt7986a.dtsi:431.19-445.5: Warning (simple_bus_reg): /soc/t-phy: missing or empty reg/ranges property
-   arch/arm64/boot/dts/mediatek/mt7986b-rfb.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupt-names: ['ring0', 'ring1', 'ring2', 'ring3'] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
-   arch/arm64/boot/dts/mediatek/mt7986b-rfb.dtb: crypto@10320000 (inside-secure,safexcel-eip97): interrupts: [[0, 116, 4], [0, 117, 4], [0, 118, 4], [0, 119, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/crypto/inside-secure,safexcel.yaml#
->> arch/arm64/boot/dts/mediatek/mt7986b-rfb.dtb: ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too short
-   	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
+All error/warnings (new ones prefixed by >>):
+
+   In file included from include/linux/device.h:15,
+                    from include/linux/serio.h:15,
+                    from drivers/media/cec/usb/pulse8/pulse8-cec.c:37:
+   drivers/media/cec/usb/pulse8/pulse8-cec.c: In function 'pulse8_setup':
+>> drivers/media/cec/usb/pulse8/pulse8-cec.c:698:3: error: implicit declaration of function 'str_on_off'; did you mean 'tracing_off'? [-Werror=implicit-function-declaration]
+      str_on_off(data[0]));
+      ^~~~~~~~~~
+   include/linux/dev_printk.h:139:35: note: in definition of macro 'dev_no_printk'
+       _dev_printk(level, dev, fmt, ##__VA_ARGS__); \
+                                      ^~~~~~~~~~~
+   drivers/media/cec/usb/pulse8/pulse8-cec.c:697:2: note: in expansion of macro 'dev_dbg'
+     dev_dbg(pulse8->dev, "Autonomous mode: %s",
+     ^~~~~~~
+>> drivers/media/cec/usb/pulse8/pulse8-cec.c:697:23: warning: format '%s' expects argument of type 'char *', but argument 4 has type 'int' [-Wformat=]
+     dev_dbg(pulse8->dev, "Autonomous mode: %s",
+                          ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:139:28: note: in definition of macro 'dev_no_printk'
+       _dev_printk(level, dev, fmt, ##__VA_ARGS__); \
+                               ^~~
+   include/linux/dev_printk.h:171:33: note: in expansion of macro 'dev_fmt'
+     dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                    ^~~~~~~
+   drivers/media/cec/usb/pulse8/pulse8-cec.c:697:2: note: in expansion of macro 'dev_dbg'
+     dev_dbg(pulse8->dev, "Autonomous mode: %s",
+     ^~~~~~~
+   drivers/media/cec/usb/pulse8/pulse8-cec.c:704:25: warning: format '%s' expects argument of type 'char *', but argument 4 has type 'int' [-Wformat=]
+       dev_dbg(pulse8->dev, "Auto Power On: %s",
+                            ^~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:139:28: note: in definition of macro 'dev_no_printk'
+       _dev_printk(level, dev, fmt, ##__VA_ARGS__); \
+                               ^~~
+   include/linux/dev_printk.h:171:33: note: in expansion of macro 'dev_fmt'
+     dev_no_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+                                    ^~~~~~~
+   drivers/media/cec/usb/pulse8/pulse8-cec.c:704:4: note: in expansion of macro 'dev_dbg'
+       dev_dbg(pulse8->dev, "Auto Power On: %s",
+       ^~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +698 drivers/media/cec/usb/pulse8/pulse8-cec.c
+
+   662	
+   663	static int pulse8_setup(struct pulse8 *pulse8, struct serio *serio,
+   664				struct cec_log_addrs *log_addrs, u16 *pa)
+   665	{
+   666		u8 *data = pulse8->data + 1;
+   667		u8 cmd[2];
+   668		int err;
+   669		time64_t date;
+   670	
+   671		pulse8->vers = 0;
+   672	
+   673		cmd[0] = MSGCODE_FIRMWARE_VERSION;
+   674		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 2);
+   675		if (err)
+   676			return err;
+   677		pulse8->vers = (data[0] << 8) | data[1];
+   678		dev_info(pulse8->dev, "Firmware version %04x\n", pulse8->vers);
+   679		if (pulse8->vers < 2) {
+   680			*pa = CEC_PHYS_ADDR_INVALID;
+   681			return 0;
+   682		}
+   683	
+   684		cmd[0] = MSGCODE_GET_BUILDDATE;
+   685		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 4);
+   686		if (err)
+   687			return err;
+   688		date = ((unsigned)data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
+   689		dev_info(pulse8->dev, "Firmware build date %ptT\n", &date);
+   690	
+   691		dev_dbg(pulse8->dev, "Persistent config:\n");
+   692		cmd[0] = MSGCODE_GET_AUTO_ENABLED;
+   693		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
+   694		if (err)
+   695			return err;
+   696		pulse8->autonomous = data[0];
+ > 697		dev_dbg(pulse8->dev, "Autonomous mode: %s",
+ > 698			str_on_off(data[0]));
+   699	
+   700		if (pulse8->vers >= 10) {
+   701			cmd[0] = MSGCODE_GET_AUTO_POWER_ON;
+   702			err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
+   703			if (!err)
+   704				dev_dbg(pulse8->dev, "Auto Power On: %s",
+   705					str_on_off(data[0]));
+   706		}
+   707	
+   708		cmd[0] = MSGCODE_GET_DEVICE_TYPE;
+   709		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
+   710		if (err)
+   711			return err;
+   712		log_addrs->primary_device_type[0] = data[0];
+   713		dev_dbg(pulse8->dev, "Primary device type: %d\n", data[0]);
+   714		switch (log_addrs->primary_device_type[0]) {
+   715		case CEC_OP_PRIM_DEVTYPE_TV:
+   716			log_addrs->log_addr_type[0] = CEC_LOG_ADDR_TYPE_TV;
+   717			log_addrs->all_device_types[0] = CEC_OP_ALL_DEVTYPE_TV;
+   718			break;
+   719		case CEC_OP_PRIM_DEVTYPE_RECORD:
+   720			log_addrs->log_addr_type[0] = CEC_LOG_ADDR_TYPE_RECORD;
+   721			log_addrs->all_device_types[0] = CEC_OP_ALL_DEVTYPE_RECORD;
+   722			break;
+   723		case CEC_OP_PRIM_DEVTYPE_TUNER:
+   724			log_addrs->log_addr_type[0] = CEC_LOG_ADDR_TYPE_TUNER;
+   725			log_addrs->all_device_types[0] = CEC_OP_ALL_DEVTYPE_TUNER;
+   726			break;
+   727		case CEC_OP_PRIM_DEVTYPE_PLAYBACK:
+   728			log_addrs->log_addr_type[0] = CEC_LOG_ADDR_TYPE_PLAYBACK;
+   729			log_addrs->all_device_types[0] = CEC_OP_ALL_DEVTYPE_PLAYBACK;
+   730			break;
+   731		case CEC_OP_PRIM_DEVTYPE_AUDIOSYSTEM:
+   732			log_addrs->log_addr_type[0] = CEC_LOG_ADDR_TYPE_PLAYBACK;
+   733			log_addrs->all_device_types[0] = CEC_OP_ALL_DEVTYPE_AUDIOSYSTEM;
+   734			break;
+   735		case CEC_OP_PRIM_DEVTYPE_SWITCH:
+   736			log_addrs->log_addr_type[0] = CEC_LOG_ADDR_TYPE_UNREGISTERED;
+   737			log_addrs->all_device_types[0] = CEC_OP_ALL_DEVTYPE_SWITCH;
+   738			break;
+   739		case CEC_OP_PRIM_DEVTYPE_PROCESSOR:
+   740			log_addrs->log_addr_type[0] = CEC_LOG_ADDR_TYPE_SPECIFIC;
+   741			log_addrs->all_device_types[0] = CEC_OP_ALL_DEVTYPE_SWITCH;
+   742			break;
+   743		default:
+   744			log_addrs->log_addr_type[0] = CEC_LOG_ADDR_TYPE_UNREGISTERED;
+   745			log_addrs->all_device_types[0] = CEC_OP_ALL_DEVTYPE_SWITCH;
+   746			dev_info(pulse8->dev, "Unknown Primary Device Type: %d\n",
+   747				 log_addrs->primary_device_type[0]);
+   748			break;
+   749		}
+   750	
+   751		cmd[0] = MSGCODE_GET_LOGICAL_ADDRESS_MASK;
+   752		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 2);
+   753		if (err)
+   754			return err;
+   755		log_addrs->log_addr_mask = (data[0] << 8) | data[1];
+   756		dev_dbg(pulse8->dev, "Logical address ACK mask: %x\n",
+   757			log_addrs->log_addr_mask);
+   758		if (log_addrs->log_addr_mask)
+   759			log_addrs->num_log_addrs = 1;
+   760	
+   761		cmd[0] = MSGCODE_GET_PHYSICAL_ADDRESS;
+   762		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
+   763		if (err)
+   764			return err;
+   765		*pa = (data[0] << 8) | data[1];
+   766		dev_dbg(pulse8->dev, "Physical address: %x.%x.%x.%x\n",
+   767			cec_phys_addr_exp(*pa));
+   768	
+   769		log_addrs->cec_version = CEC_OP_CEC_VERSION_1_4;
+   770		if (pulse8->vers < 10) {
+   771			cmd[0] = MSGCODE_GET_HDMI_VERSION;
+   772			err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
+   773			if (err)
+   774				return err;
+   775			log_addrs->cec_version = data[0];
+   776			dev_dbg(pulse8->dev, "CEC version: %d\n", log_addrs->cec_version);
+   777		}
+   778	
+   779		cmd[0] = MSGCODE_GET_OSD_NAME;
+   780		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 0);
+   781		if (err)
+   782			return err;
+   783		strscpy(log_addrs->osd_name, data, sizeof(log_addrs->osd_name));
+   784		dev_dbg(pulse8->dev, "OSD name: %s\n", log_addrs->osd_name);
+   785	
+   786		return 0;
+   787	}
+   788	
 
 -- 
 0-DAY CI Kernel Test Service
