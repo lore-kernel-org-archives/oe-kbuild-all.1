@@ -1,65 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0C5E2E336F;
-	Fri, 18 Jul 2025 16:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 651D02E6118
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 16:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752856057; cv=none; b=q/jrc33iG99iGZQnKVuaMkx8SNS7qv0Vu1pWLTRmlxxjXMTrTx+E1mRWC9LYj0drJS7f4XbJpvXqxlAEM93Ym+7ijsDQeIoCPIS8gvWk2608TpQC1osePsLqZ0cLRoLRpMnSfRVYuZGC73dw1e8gWJG5HPmwO+LT+bUm9n95EB8=
+	t=1752856058; cv=none; b=nwerN9IN13ZOLpI3ABMtm5kaN8q4V6mDZ4Kz10nsVwxASBwmtSIgG/oIFAJT7iEIxByb+Jw/UIkWaNP4m5pqCY7sycDdC312M1KhdmrwKPeUWpyv2cfelPWi7gzXvFyWfILt80+hlvmsR5vkHjlpSahoGsCX62gHdkue8KEkWfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752856057; c=relaxed/simple;
-	bh=sgPMbwJvnaL1alGhdQ3Wko/dR2pBLFkjVgHr0eRTfR8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VjlbZCqgIinSWyUlmwBQCW5cXnrq2X9LpA10tTekHb3/mi70u6VASpKX64JtvjhrdPjDXf2nzabSq78DZnBlxAKY1sZvn0B2TGdus7eMEsEGo35oUm3gPwsvZEFVZqcWzS097mhl3ETnG5cSBkD0ERCyOu7aLQQONZXTRr5dYUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QMZsfzoN; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1752856058; c=relaxed/simple;
+	bh=jjlnDnEvqq9IGza9KiVBktIyuO7nvtY3jpyGwInL6x0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JLGZRmh4akjKV4cJYhJnRuN4QC88ZMiDlhwWSf4bKkqlaiIttUYlQLYr1zyN8l5ltmMHJbCRE+GHzikV1rJeNk0lRVQkYp5LXRwNeEWVTiJhf8eEha1E4aY3nqrrPWNh9M6c65UqHV9Tx+PRYfI6pgtI7TzNFS2LI71nTHHdqzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KvwvIFgz; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QMZsfzoN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KvwvIFgz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752856055; x=1784392055;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sgPMbwJvnaL1alGhdQ3Wko/dR2pBLFkjVgHr0eRTfR8=;
-  b=QMZsfzoNGAyAjm887AT7hf21lsa8FgjdmXFVb5KfM7KVJT+gRBOCXm7M
-   hn6S8vzhK2Bhj5D7LlGmCR9vPU97CWbx90+CbDEVfGnLq4w9rwdR1ih0b
-   d4IADZuuJCr5/JGvbVAtpuK3Jkb3LVTTztBkymMaiJb56DdqGzFxpQ8Qb
-   pXCGbj2VtkCJjg/vAaTENsHb4NQKk3ArIUPAv2GhmsuxCKIBqeFeWj1Ad
-   X7sf2j0ecYG2bOUbskIOPqEBEq0ero6gTU4qAIdayBkvv1OJVWuVHwDlI
-   x0ThmB0ndkjjoTP6HaUJp9InuaiGTIrnXdakoOhOR/ph9gVZUm9BnIszx
-   Q==;
-X-CSE-ConnectionGUID: 7OpxP1LVTX+Tiq9wrfY4gg==
-X-CSE-MsgGUID: fPKLlp8QT4mHzGtSnAaEbw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="55009651"
+  t=1752856056; x=1784392056;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=jjlnDnEvqq9IGza9KiVBktIyuO7nvtY3jpyGwInL6x0=;
+  b=KvwvIFgz94LFyPWfgE35Kd3OUqfpB9AKdpwBsOuzs4YofTkeNQIrxSP5
+   2+XYqPpH9iPs0ZlfLnw663H5aXMc4MsvNdSFBy4PlOWc3sbavsVzC9EPO
+   08wAU00YaMDfsuF1cz7S0DE75SJhkTjMAfHkyTzaWDQJ1S1Zi2y4Ba/gZ
+   uK21N2YbyKhHsZlJX2s4N+v/RYKV3flJ79yLRWY6YjOOQRRHeDu9dTeC3
+   Veu/MqxegfduXl8p/vVks3YLv6hX5syuTcHAoHbHji/kWHt9fcSPZz2JC
+   uTxZuhVSxpS9KYV65i4hP3FNyRXXnJTupVXcN65bak791dHuLWkmiAcNy
+   g==;
+X-CSE-ConnectionGUID: f+3nhUwuRDmhQ/LNNAuhBQ==
+X-CSE-MsgGUID: 81TVZLwRSDaAkRgZipA58w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="66219287"
 X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
-   d="scan'208";a="55009651"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 09:27:34 -0700
-X-CSE-ConnectionGUID: 6So0Y9EzRUmt2UAE95XL+g==
-X-CSE-MsgGUID: HlQsLTziQVqSbrkQhss03Q==
+   d="scan'208";a="66219287"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 09:27:33 -0700
+X-CSE-ConnectionGUID: tf95AEP8SJu8Zu9fUJT2eA==
+X-CSE-MsgGUID: xxzQnEemTJK8Vj2NYHUgDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,322,1744095600"; 
-   d="scan'208";a="195228715"
+   d="scan'208";a="189050156"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 18 Jul 2025 09:27:32 -0700
+  by orviesa002.jf.intel.com with ESMTP; 18 Jul 2025 09:27:32 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucnvl-000EqZ-0L;
+	id 1ucnvl-000Eqd-0T;
 	Fri, 18 Jul 2025 16:27:29 +0000
-Date: Sat, 19 Jul 2025 00:26:55 +0800
+Date: Sat, 19 Jul 2025 00:26:56 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ignacio Encinas <ignacio@iencinas.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Alexandre Ghiti <alex@ghiti.fr>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-kernel-mentees@lists.linux.dev, skhan@linuxfoundation.org,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Ignacio Encinas <ignacio@iencinas.com>
-Subject: Re: [PATCH v5] riscv: introduce asm/swab.h
-Message-ID: <202507190051.ejnrjSs3-lkp@intel.com>
-References: <20250717-riscv-swab-v5-1-1d5bb7c42f38@iencinas.com>
+To: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [morimoto:string-helper-2025-07-18 120/157]
+ drivers/media/rc/rc-loopback.c:168:60: error: implicit declaration of
+ function 'str_enabling_disabling'
+Message-ID: <202507190032.M6yH0RaU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,483 +62,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250717-riscv-swab-v5-1-1d5bb7c42f38@iencinas.com>
 
-Hi Ignacio,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on 155a3c003e555a7300d156a5252c004c392ec6b0]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ignacio-Encinas/riscv-introduce-asm-swab-h/20250718-024715
-base:   155a3c003e555a7300d156a5252c004c392ec6b0
-patch link:    https://lore.kernel.org/r/20250717-riscv-swab-v5-1-1d5bb7c42f38%40iencinas.com
-patch subject: [PATCH v5] riscv: introduce asm/swab.h
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20250719/202507190051.ejnrjSs3-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507190051.ejnrjSs3-lkp@intel.com/reproduce)
+tree:   https://github.com/morimoto/linux string-helper-2025-07-18
+head:   ea52943b017c3b53f3f8c9ff679ccfb8eaae222a
+commit: db060bfe2b3ff750a7d9bd8d44e4eb14e2090b62 [120/157] media: rc: use string choices helper
+config: csky-randconfig-001-20250718 (https://download.01.org/0day-ci/archive/20250719/202507190032.M6yH0RaU-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507190032.M6yH0RaU-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507190051.ejnrjSs3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507190032.M6yH0RaU-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from lib/decompress_unlzo.c:28:
-   In file included from include/linux/decompress/mm.h:79:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
-   arch/riscv/include/asm/swab.h:53:9: warning: unknown option, expected 'push', 'pop', 'rvc', 'norvc', 'relax' or 'norelax' [-Winline-asm]
-           return ARCH_SWAB(16, value);
-                  ^
-   arch/riscv/include/asm/swab.h:40:11: note: expanded from macro 'ARCH_SWAB'
-                                 ".option arch,+zbb\n"                     \
-                                  ^
-   <inline asm>:2:9: note: instantiated into assembly here
-   .option arch,+zbb
-           ^
-   In file included from lib/decompress_unlzo.c:28:
-   In file included from include/linux/decompress/mm.h:79:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
->> arch/riscv/include/asm/swab.h:53:9: error: instruction requires the following: 'Zbb' (Basic Bit-Manipulation) or 'Zbkb' (Bitmanip instructions for Cryptography)
-           return ARCH_SWAB(16, value);
-                  ^
-   arch/riscv/include/asm/swab.h:41:11: note: expanded from macro 'ARCH_SWAB'
-                                 "rev8 %0, %1\n"                           \
-                                  ^
-   <inline asm>:3:1: note: instantiated into assembly here
-   rev8 a0, s1
-   ^
-   In file included from lib/decompress_unlzo.c:28:
-   In file included from include/linux/decompress/mm.h:79:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
-   arch/riscv/include/asm/swab.h:58:9: warning: unknown option, expected 'push', 'pop', 'rvc', 'norvc', 'relax' or 'norelax' [-Winline-asm]
-           return ARCH_SWAB(32, value);
-                  ^
-   arch/riscv/include/asm/swab.h:40:11: note: expanded from macro 'ARCH_SWAB'
-                                 ".option arch,+zbb\n"                     \
-                                  ^
-   <inline asm>:2:9: note: instantiated into assembly here
-   .option arch,+zbb
-           ^
-   In file included from lib/decompress_unlzo.c:28:
-   In file included from include/linux/decompress/mm.h:79:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
-   arch/riscv/include/asm/swab.h:58:9: error: instruction requires the following: 'Zbb' (Basic Bit-Manipulation) or 'Zbkb' (Bitmanip instructions for Cryptography)
-           return ARCH_SWAB(32, value);
-                  ^
-   arch/riscv/include/asm/swab.h:41:11: note: expanded from macro 'ARCH_SWAB'
-                                 "rev8 %0, %1\n"                           \
-                                  ^
-   <inline asm>:3:1: note: instantiated into assembly here
-   rev8 a0, s1
-   ^
-   In file included from lib/decompress_unlzo.c:28:
-   In file included from include/linux/decompress/mm.h:79:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
-   arch/riscv/include/asm/swab.h:58:9: warning: unknown option, expected 'push', 'pop', 'rvc', 'norvc', 'relax' or 'norelax' [-Winline-asm]
-           return ARCH_SWAB(32, value);
-                  ^
-   arch/riscv/include/asm/swab.h:40:11: note: expanded from macro 'ARCH_SWAB'
-                                 ".option arch,+zbb\n"                     \
-                                  ^
-   <inline asm>:2:9: note: instantiated into assembly here
-   .option arch,+zbb
-           ^
-   In file included from lib/decompress_unlzo.c:28:
-   In file included from include/linux/decompress/mm.h:79:
---
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
-   arch/riscv/include/asm/swab.h:58:9: warning: unknown option, expected 'push', 'pop', 'rvc', 'norvc', 'relax' or 'norelax' [-Winline-asm]
-           return ARCH_SWAB(32, value);
-                  ^
-   arch/riscv/include/asm/swab.h:40:11: note: expanded from macro 'ARCH_SWAB'
-                                 ".option arch,+zbb\n"                     \
-                                  ^
-   <inline asm>:2:9: note: instantiated into assembly here
-   .option arch,+zbb
-           ^
-   In file included from lib/vsprintf.c:22:
-   In file included from include/linux/clk.h:13:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
-   arch/riscv/include/asm/swab.h:58:9: error: instruction requires the following: 'Zbb' (Basic Bit-Manipulation) or 'Zbkb' (Bitmanip instructions for Cryptography)
-           return ARCH_SWAB(32, value);
-                  ^
-   arch/riscv/include/asm/swab.h:41:11: note: expanded from macro 'ARCH_SWAB'
-                                 "rev8 %0, %1\n"                           \
-                                  ^
-   <inline asm>:3:1: note: instantiated into assembly here
-   rev8 a0, s7
-   ^
-   In file included from lib/vsprintf.c:22:
-   In file included from include/linux/clk.h:13:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
-   arch/riscv/include/asm/swab.h:53:9: warning: unknown option, expected 'push', 'pop', 'rvc', 'norvc', 'relax' or 'norelax' [-Winline-asm]
-           return ARCH_SWAB(16, value);
-                  ^
-   arch/riscv/include/asm/swab.h:40:11: note: expanded from macro 'ARCH_SWAB'
-                                 ".option arch,+zbb\n"                     \
-                                  ^
-   <inline asm>:2:9: note: instantiated into assembly here
-   .option arch,+zbb
-           ^
-   In file included from lib/vsprintf.c:22:
-   In file included from include/linux/clk.h:13:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
->> arch/riscv/include/asm/swab.h:53:9: error: instruction requires the following: 'Zbb' (Basic Bit-Manipulation) or 'Zbkb' (Bitmanip instructions for Cryptography)
-           return ARCH_SWAB(16, value);
-                  ^
-   arch/riscv/include/asm/swab.h:41:11: note: expanded from macro 'ARCH_SWAB'
-                                 "rev8 %0, %1\n"                           \
-                                  ^
-   <inline asm>:3:1: note: instantiated into assembly here
-   rev8 a0, s2
-   ^
-   In file included from lib/vsprintf.c:22:
-   In file included from include/linux/clk.h:13:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
-   arch/riscv/include/asm/swab.h:53:9: warning: unknown option, expected 'push', 'pop', 'rvc', 'norvc', 'relax' or 'norelax' [-Winline-asm]
-           return ARCH_SWAB(16, value);
-                  ^
-   arch/riscv/include/asm/swab.h:40:11: note: expanded from macro 'ARCH_SWAB'
-                                 ".option arch,+zbb\n"                     \
-                                  ^
-   <inline asm>:2:9: note: instantiated into assembly here
-   .option arch,+zbb
-           ^
-   In file included from lib/vsprintf.c:22:
-   In file included from include/linux/clk.h:13:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
->> arch/riscv/include/asm/swab.h:53:9: error: instruction requires the following: 'Zbb' (Basic Bit-Manipulation) or 'Zbkb' (Bitmanip instructions for Cryptography)
-           return ARCH_SWAB(16, value);
-                  ^
-   arch/riscv/include/asm/swab.h:41:11: note: expanded from macro 'ARCH_SWAB'
-                                 "rev8 %0, %1\n"                           \
-                                  ^
-   <inline asm>:3:1: note: instantiated into assembly here
-   rev8 a0, s2
-   ^
-   In file included from lib/vsprintf.c:22:
-   In file included from include/linux/clk.h:13:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
-   arch/riscv/include/asm/swab.h:58:9: warning: unknown option, expected 'push', 'pop', 'rvc', 'norvc', 'relax' or 'norelax' [-Winline-asm]
-           return ARCH_SWAB(32, value);
-                  ^
-   arch/riscv/include/asm/swab.h:40:11: note: expanded from macro 'ARCH_SWAB'
-                                 ".option arch,+zbb\n"                     \
-                                  ^
-   <inline asm>:2:9: note: instantiated into assembly here
-   .option arch,+zbb
-           ^
-   In file included from lib/vsprintf.c:22:
-   In file included from include/linux/clk.h:13:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
-   arch/riscv/include/asm/swab.h:58:9: error: instruction requires the following: 'Zbb' (Basic Bit-Manipulation) or 'Zbkb' (Bitmanip instructions for Cryptography)
-           return ARCH_SWAB(32, value);
-                  ^
-   arch/riscv/include/asm/swab.h:41:11: note: expanded from macro 'ARCH_SWAB'
-                                 "rev8 %0, %1\n"                           \
-                                  ^
-   <inline asm>:3:1: note: instantiated into assembly here
-   rev8 a0, s1
-   ^
-   In file included from lib/vsprintf.c:22:
-   In file included from include/linux/clk.h:13:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
-   arch/riscv/include/asm/swab.h:53:9: warning: unknown option, expected 'push', 'pop', 'rvc', 'norvc', 'relax' or 'norelax' [-Winline-asm]
-           return ARCH_SWAB(16, value);
-                  ^
-   arch/riscv/include/asm/swab.h:40:11: note: expanded from macro 'ARCH_SWAB'
-                                 ".option arch,+zbb\n"                     \
-                                  ^
-   <inline asm>:2:9: note: instantiated into assembly here
-   .option arch,+zbb
-           ^
-   In file included from lib/vsprintf.c:22:
-   In file included from include/linux/clk.h:13:
-   In file included from include/linux/kernel.h:23:
-   In file included from include/linux/bitops.h:28:
-   In file included from include/asm-generic/bitops/generic-non-atomic.h:7:
-   In file included from arch/riscv/include/asm/barrier.h:14:
-   In file included from arch/riscv/include/asm/cmpxchg.h:9:
-   In file included from include/linux/bug.h:5:
-   In file included from arch/riscv/include/asm/bug.h:83:
-   In file included from include/asm-generic/bug.h:22:
-   In file included from include/linux/printk.h:9:
-   In file included from include/linux/ratelimit_types.h:7:
-   In file included from include/linux/spinlock_types_raw.h:7:
-   In file included from ./arch/riscv/include/generated/asm/spinlock_types.h:1:
-   In file included from include/asm-generic/spinlock_types.h:7:
-   In file included from include/asm-generic/qrwlock_types.h:6:
-   In file included from arch/riscv/include/uapi/asm/byteorder.h:10:
-   In file included from include/linux/byteorder/little_endian.h:5:
-   In file included from include/uapi/linux/byteorder/little_endian.h:14:
-   In file included from include/linux/swab.h:5:
-   In file included from include/uapi/linux/swab.h:8:
->> arch/riscv/include/asm/swab.h:53:9: error: instruction requires the following: 'Zbb' (Basic Bit-Manipulation) or 'Zbkb' (Bitmanip instructions for Cryptography)
-           return ARCH_SWAB(16, value);
-                  ^
-   arch/riscv/include/asm/swab.h:41:11: note: expanded from macro 'ARCH_SWAB'
-                                 "rev8 %0, %1\n"                           \
-                                  ^
-   <inline asm>:3:1: note: instantiated into assembly here
-   rev8 s1, s1
-   ^
-   7 warnings and 7 errors generated.
-..
+   In file included from include/linux/printk.h:623,
+                    from include/asm-generic/bug.h:28,
+                    from arch/csky/include/asm/bug.h:18,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/current.h:6,
+                    from ./arch/csky/include/generated/asm/current.h:1,
+                    from include/linux/sched.h:12,
+                    from include/linux/ratelimit.h:6,
+                    from include/linux/dev_printk.h:16,
+                    from include/linux/device.h:15,
+                    from drivers/media/rc/rc-loopback.c:12:
+   drivers/media/rc/rc-loopback.c: In function 'loop_set_carrier_report':
+>> drivers/media/rc/rc-loopback.c:168:60: error: implicit declaration of function 'str_enabling_disabling' [-Wimplicit-function-declaration]
+     168 |                 dev_dbg(&dev->dev, "%s carrier reports\n", str_enabling_disabling(enable));
+         |                                                            ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   drivers/media/rc/rc-loopback.c:168:17: note: in expansion of macro 'dev_dbg'
+     168 |                 dev_dbg(&dev->dev, "%s carrier reports\n", str_enabling_disabling(enable));
+         |                 ^~~~~~~
+>> drivers/media/rc/rc-loopback.c:168:36: warning: format '%s' expects argument of type 'char *', but argument 4 has type 'int' [-Wformat=]
+     168 |                 dev_dbg(&dev->dev, "%s carrier reports\n", str_enabling_disabling(enable));
+         |                                    ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:224:29: note: in definition of macro '__dynamic_func_call_cls'
+     224 |                 func(&id, ##__VA_ARGS__);                       \
+         |                             ^~~~~~~~~~~
+   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
+     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
+     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
+         |         ^~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |         ^~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:165:30: note: in expansion of macro 'dev_fmt'
+     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                              ^~~~~~~
+   drivers/media/rc/rc-loopback.c:168:17: note: in expansion of macro 'dev_dbg'
+     168 |                 dev_dbg(&dev->dev, "%s carrier reports\n", str_enabling_disabling(enable));
+         |                 ^~~~~~~
+   drivers/media/rc/rc-loopback.c:168:38: note: format string is defined here
+     168 |                 dev_dbg(&dev->dev, "%s carrier reports\n", str_enabling_disabling(enable));
+         |                                     ~^
+         |                                      |
+         |                                      char *
+         |                                     %d
 
 
-vim +53 arch/riscv/include/asm/swab.h
+vim +/str_enabling_disabling +168 drivers/media/rc/rc-loopback.c
 
-    50	
-    51	static __always_inline __u16 __arch_swab16(__u16 value)
-    52	{
-  > 53		return ARCH_SWAB(16, value);
-    54	}
-    55	
+   162	
+   163	static int loop_set_carrier_report(struct rc_dev *dev, int enable)
+   164	{
+   165		struct loopback_dev *lodev = dev->priv;
+   166	
+   167		if (lodev->carrierreport != enable) {
+ > 168			dev_dbg(&dev->dev, "%s carrier reports\n", str_enabling_disabling(enable));
+   169			lodev->carrierreport = !!enable;
+   170		}
+   171	
+   172		return 0;
+   173	}
+   174	
 
 -- 
 0-DAY CI Kernel Test Service
