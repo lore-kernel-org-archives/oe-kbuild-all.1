@@ -1,53 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D91BE186E40
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 18:46:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CB919F13F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 21:29:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752950814; cv=none; b=JI9dTyEZHgcdX9+s1fZEQI8e2cvGFrSOtF0MQty0oRnCGT9MNxFo0I+6iyPGAqTmFmnyqpg+GJy2rH8RYuLWdfpuWNHVvWouuVtwM8Ty+BR9sO2UIwXW+GHRfg1jkoyGKcI3d3jPnwELjyKOcqeED88dexhw2k8W+xs+s6sZuAQ=
+	t=1752960548; cv=none; b=gPBEGe//E3+FzAuiiI7nGtf0Wky2jBq0fIytbsTm/Fd8TeCUUIGrMc+rV6XcfESRgDZkPjS8eA7dS1l0CA5fI0kYNKKM923hORqDfI74ERcaDK32HwqhuhXe1wC1Y9HIkR4lwttsYLQT7dLdPiTcsMP06Ry9zmdDJUG96QKHCzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752950814; c=relaxed/simple;
-	bh=pbiY1fI0+GXcNCMxaeSTCJmmo0VQsgsF5nT9YCJ4SNk=;
+	s=arc-20240116; t=1752960548; c=relaxed/simple;
+	bh=S+IAogN4RSr4qVuiZ51VRNqMJuK8sEvXC5Of2Dn9YK8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fJKGOF1aK1zCa0eUH4KhlITx2bCTp7LN3TArSmrvrn28OEs5eWU1LRCg2SUcrWYzEqRgBk0zajiTlh3DlSs9WcFdDMfxdJF6WfvT6gUZJscx/4GFZSYMkyQLxi47svzCJ0tLW6hFpT5qCe4FLQob1HH4PSYCeGN8SO1+X82jepQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jYf0SilD; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=dMVVOJteyK/Gek/xPhMAqRz3gz7Zs1o9LHQSt87GfeFnoNio87vkEYuwU24oKuQqrO0Tphd6/Gq2Qq1pQ8+IjGNlBjZOlVX/2TLjsOBvOUs2dn3OdWJYu59BQYa2NdAUjEoabM6rQ5gSNsD2n8EHMvqP40BGq3ZHfMPPXdek/0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VGFGg6G6; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jYf0SilD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VGFGg6G6"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752950812; x=1784486812;
+  t=1752960546; x=1784496546;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pbiY1fI0+GXcNCMxaeSTCJmmo0VQsgsF5nT9YCJ4SNk=;
-  b=jYf0SilDtOckvBop32awlcRR7Pp5WOu4t/UwOFfKnC4oXQWd0B005AKm
-   pD9V9E8EBbnITb3hWacWWaRgJwWEr4lyFHmtjjKmYnDXI8/k3VGIkJ9iS
-   tLJaG54lcJv3Mw1sdG8YNfrua0e8SN3tvi3YAU1Fp7jImay0+3ejCzbXg
-   D//CnZ5mhnPY8Pd4hP+L64dcNDIITIY4AkJfYQARlY1LB86JjK9cSnGpS
-   0MN+v5flIHxJ90bWc5W4lGJAUdMA4rMPAdTwA59VU3e1bN5hCmycmTHbD
-   IyjRGIdkhl4A6xhaGoEnwSLJ4kO+EvphU31Gc6e0j2m/HFcc9twaakOV9
-   A==;
-X-CSE-ConnectionGUID: ucBghHnLQlOWx619KjPrHQ==
-X-CSE-MsgGUID: hlka28pGQyeK+lkvSDOdIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11497"; a="72782700"
-X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
-   d="scan'208";a="72782700"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 11:46:51 -0700
-X-CSE-ConnectionGUID: Rmoe0PGRS46RBB4Ti1+FJw==
-X-CSE-MsgGUID: LhSVHur1QzSINH6rBpVgmA==
+  bh=S+IAogN4RSr4qVuiZ51VRNqMJuK8sEvXC5Of2Dn9YK8=;
+  b=VGFGg6G6qtKGixNFNy4bXfF1mDwXHlC4pHcO5aUrFhYHCpd+iBvf1Usx
+   xHPQS6ok7/NCnJa6qBq5H1JfbYjgGFlGZFkpf5xrSZY8wq1eC/6VLqM6B
+   XiV44Vs69/IZXWT9S1L8QfF4WyAFMMRS05YPoQVe5g48YWlF24wDiTrYL
+   IUXoE/P3xSY4aHZDXdWCg7gEjxFXL/go96kSZ6P5cHFoBuJ9ZR0tNf7jc
+   lzCmxiFN0CMvD3XMM7nMN+9g4W3WckYxQegcsj3iRu+XR63wLwBgIl2ov
+   bBQ0xgr73wRa2aHmmt1sILgN3SbHn7CSNbx/CLCbEedzbbwrzatnGwSi7
+   g==;
+X-CSE-ConnectionGUID: +MRHX7pHQ+yQlYu1HLzm2g==
+X-CSE-MsgGUID: KcYMfS79TQ6sMh5F7Let4Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11497"; a="66570228"
+X-IronPort-AV: E=Sophos;i="6.16,325,1744095600"; 
+   d="scan'208";a="66570228"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 14:29:05 -0700
+X-CSE-ConnectionGUID: BGXElBXgRTCAEG1ImpsmqA==
+X-CSE-MsgGUID: EOvTOH1PR6ihuaTKCY7RAQ==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
-   d="scan'208";a="163982878"
+X-IronPort-AV: E=Sophos;i="6.16,325,1744095600"; 
+   d="scan'208";a="195575550"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Jul 2025 11:46:50 -0700
+  by orviesa001.jf.intel.com with ESMTP; 19 Jul 2025 14:29:04 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1udCa7-000FiZ-2O;
-	Sat, 19 Jul 2025 18:46:47 +0000
-Date: Sun, 20 Jul 2025 02:46:03 +0800
+	id 1udF77-000FnN-0m;
+	Sat, 19 Jul 2025 21:29:01 +0000
+Date: Sun, 20 Jul 2025 05:28:43 +0800
 From: kernel test robot <lkp@intel.com>
 To: jeff_chang@richtek.com, lgirdwood@gmail.com, broonie@kernel.org,
 	linux-kernel@vger.kernel.org
@@ -55,7 +55,7 @@ Cc: Paul Gazzillo <paul@pgazz.com>,
 	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
 	oe-kbuild-all@lists.linux.dev, jeff_chang@richtek.com
 Subject: Re: [PATCH v2] regulator: rt5133: Add RT5133 PMIC regulator Support
-Message-ID: <202507200210.ywA4tFPm-lkp@intel.com>
+Message-ID: <202507200505.u1UDlUuV-lkp@intel.com>
 References: <20250718081052.2685826-1-jeff_chang@richtek.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
@@ -81,16 +81,16 @@ url:    https://github.com/intel-lab-lkp/linux/commits/jeff_chang-richtek-com/re
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
 patch link:    https://lore.kernel.org/r/20250718081052.2685826-1-jeff_chang%40richtek.com
 patch subject: [PATCH v2] regulator: rt5133: Add RT5133 PMIC regulator Support
-config: alpha-kismet-CONFIG_GPIO_SYSCON-CONFIG_GPIO_SAMA5D2_PIOBU-0-0 (https://download.01.org/0day-ci/archive/20250720/202507200210.ywA4tFPm-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250720/202507200210.ywA4tFPm-lkp@intel.com/reproduce)
+config: alpha-kismet-CONFIG_MFD_STMFX-CONFIG_PINCTRL_STMFX-0-0 (https://download.01.org/0day-ci/archive/20250720/202507200505.u1UDlUuV-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250720/202507200505.u1UDlUuV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507200210.ywA4tFPm-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507200505.u1UDlUuV-lkp@intel.com/
 
 kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for GPIO_SYSCON when selected by GPIO_SAMA5D2_PIOBU
+>> kismet: WARNING: unmet direct dependencies detected for MFD_STMFX when selected by PINCTRL_STMFX
    WARNING: unmet direct dependencies detected for OF_GPIO
      Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
      Selected by [y]:
