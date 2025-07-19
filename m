@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3C4235055
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 09:06:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9B6220F36
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 10:10:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752916015; cv=none; b=BM+Q4p29/NKWlcMt5wAlvdRXfcqWtIPGsqecNHCa04hEJRjsaCYhEC0sYvjra0k7QSsq9GWcFFz2j+cRW04l/9ctfNva9oJx4oix7VUyvbNi1mITryMnAjEJF7YGoFkz1ax1Mzv5KK7l68R+Ab3a9MWOlPXFw18QJSzQapCe9QY=
+	t=1752919822; cv=none; b=Gfgy6Wvph7ihDcF/AfBj2ZJoSepJeMCCGYIBZdfdByYvA1Lp64gtmNaKSGicZKmGpROef3CtoD/QefsvpVbu7g1mC58ifn7JsuqbAQbmQdW/SyAAYt1pa341gKklpyO3hDtwPMeJc8O6yKgpRbG2XWCafXU8NkDW/UvG7X5fP1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752916015; c=relaxed/simple;
-	bh=nB/egk+KEP7FTyr2Qe2wrCq9n/uP/x5C8KVBZC8oARs=;
+	s=arc-20240116; t=1752919822; c=relaxed/simple;
+	bh=eo5tyQNZ55kEPzK5v8pNniLGhgnD4W5Y7oTf/9XzMXY=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=GK1BMJ1BLftjfSwGnRBWsDsIA7FQA6Z5mRxveTWcnUp7aF5c5F2cYlnOfCLJSKiM2Ifx2j6euE8udXQWPbgweff8mtP4hGPtKxH+IZDCFMcFvHBl9OuBcUmEWxoTyeYkQ6e5cpE+AySt9eC6iF2JOUSTuFHe3KpXa/WebDB4Qjk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YMvROrlo; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=Fd4bUcCuHkr26RU599eyhfkqBENTZE0hJMWsA638jQL1b5l0O0/KCeUnBY77LitDCnsiIkrRe5hkYddb6fLrlNLzUNy3w65xasCS8jetp9+sYQNjfcVytJJUJS+d+wHfwBNYrWCdL9oKOgqcJWhStRJARDIOJbgStu8jFLXeQ3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fndCOnNc; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YMvROrlo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fndCOnNc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752916014; x=1784452014;
+  t=1752919821; x=1784455821;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nB/egk+KEP7FTyr2Qe2wrCq9n/uP/x5C8KVBZC8oARs=;
-  b=YMvROrlo/ecZu/9mBYakqmMaY5FymoOezi4ZnGkPTIb5IaZEMqBxLyCi
-   AQotXBTxYChIJwOaJ4H163X8p6ZgFLW0/nO1715fscUPPsHsA2d4p0Ult
-   RJv7SADXqYoBiL004nJF3lJdNdOkxC3N7MwhFsGb2X5kGpd4RmxpJpUid
-   4RXCpx1TnehRJF93x5pb3ezfQsAMjKV3+wZrITMvI6SQeeTW+unFJ0R8H
-   2V19AyDifPqvYvhqF2oyhrdFG7Jw0FHI4PcpaHg0XOyEODWaxDNc+Z5u8
-   NopfpGOXzaROcPePs4uet+/p5vYp/N9onXwie3XmVnGb3nXNq3Zze8YSD
-   g==;
-X-CSE-ConnectionGUID: dJIwg/J4R0uLCBbWP6j6Pg==
-X-CSE-MsgGUID: iBm2rxENRYWJ+oekKdgpZQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="66265550"
+  bh=eo5tyQNZ55kEPzK5v8pNniLGhgnD4W5Y7oTf/9XzMXY=;
+  b=fndCOnNcqUAkLHgTuGWmXWO53kxtgkbLZKbI0l5tn/QANxfncpa3Z/qq
+   nRgf4Wh1bcuOleXKHO+nb3jHvNHhLCTW1Z/Pzvc0e05OZS30REOoQK5cg
+   z/hr/Lgs8343NVJJ8rCja0v9eZ+5MkaNXz+/Y/wCen8O6WOxHIs1tJjHy
+   ZFO4Koe83BBD6883Cni/B3s3p9l9K5gOqS/v0JxQyFmWI5Cr4zCE5DElC
+   L5uUg6W62tMrVWmB2fk3a8O6gu90Ke3sQbY6S3SW5JxaJBlDqSQY7cvPJ
+   z2EUS3fPcYZB3/AmySHCjm9ZDYZj2FvSh0wiYFYBGZmM+pw/lrMf9x+Ji
+   Q==;
+X-CSE-ConnectionGUID: WHVrozTsQf6M5jiZPlZWvA==
+X-CSE-MsgGUID: faZWp7huTMOx6toPpVtnAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="72655659"
 X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
-   d="scan'208";a="66265550"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 02:06:54 -0700
-X-CSE-ConnectionGUID: KL0g8mCGR82L1Dk8KAENTQ==
-X-CSE-MsgGUID: JlY5oe9kTaa/u7bpAMUTXw==
+   d="scan'208";a="72655659"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 03:09:26 -0700
+X-CSE-ConnectionGUID: jX/wQ3MTTyiYtht9DM1ttg==
+X-CSE-MsgGUID: GM804nurT/aVX6m8EM/eIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
-   d="scan'208";a="157738866"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 19 Jul 2025 02:06:52 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+   d="scan'208";a="189403676"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8b57277650df) ([10.91.175.65])
+  by orviesa002.jf.intel.com with ESMTP; 19 Jul 2025 03:09:25 -0700
+Received: from kbuild by 8b57277650df with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ud3Ws-000FNP-1E;
-	Sat, 19 Jul 2025 09:06:50 +0000
-Date: Sat, 19 Jul 2025 17:06:11 +0800
+	id 1ud4VO-00013l-12;
+	Sat, 19 Jul 2025 10:09:22 +0000
+Date: Sat, 19 Jul 2025 12:09:16 +0200
 From: kernel test robot <lkp@intel.com>
-To: Shivnandan Kumar <quic_kshivnan@quicinc.com>
-Cc: oe-kbuild-all@lists.linux.dev, Georgi Djakov <djakov@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: [linux-next:master 11000/11307]
- arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: pmu@240b3400
- (qcom,sm8750-cpu-bwmon): 'nonposted-mmio' does not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202507191709.6ljJtzlY-lkp@intel.com>
+To: FUJITA Tomonori <fujita.tomonori@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Alistair Popple <apopple@nvidia.com>,
+	Joel Fernandes <joelagnelf@nvidia.com>
+Subject: [jfern:nova/sequencer 38/85] warning: unresolved link to `fsleep`
+Message-ID: <202507191244.NU7vW6Eh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,25 +62,29 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
-commit: e8c2f20f594d67d8b33b29f237306d26b2351ff9 [11000/11307] arm64: dts: qcom: sm8750: Add BWMONs
-config: arm64-randconfig-051-20250718 (https://download.01.org/0day-ci/archive/20250719/202507191709.6ljJtzlY-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191709.6ljJtzlY-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/sequencer
+head:   efd8e94c58549652d19874d6aa484f3072fc2339
+commit: 0c2c9f57cdad9e1b2bcba12c5e2ceb74f5c058ff [38/85] rust: add delay abstraction
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250719/202507191244.NU7vW6Eh-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191244.NU7vW6Eh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507191709.6ljJtzlY-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507191244.NU7vW6Eh-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: pmu@240b3400 (qcom,sm8750-cpu-bwmon): 'nonposted-mmio' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,msm8998-bwmon.yaml#
---
->> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: pmu@240b3400 (qcom,sm8750-cpu-bwmon): 'nonposted-mmio' does not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,msm8998-bwmon.yaml#
+All warnings (new ones prefixed by >>):
+
+>> warning: unresolved link to `fsleep`
+   --> rust/kernel/delay.rs:11:34
+   |
+   11 | /// Equivalent to the kernel's [`fsleep`] function, internally calls `udelay`,
+   |                                  ^^^^^^ no item named `fsleep` in scope
+   |
+   = help: to escape `[` and `]` characters, add '' before them like `[` or `]`
+   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
 
 -- 
 0-DAY CI Kernel Test Service
