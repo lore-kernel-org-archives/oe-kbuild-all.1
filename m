@@ -1,108 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45F5EA926;
-	Sat, 19 Jul 2025 17:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E2A1865EE;
+	Sat, 19 Jul 2025 17:14:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752944801; cv=none; b=ciDd3ENKbYv+QfgCf+UK6U/WNqugh/CPEk1yHxu2C0SR/4mEyolM9sIAoNBe4XkHZQx9DLm2083nbEU2CKJ8bppTGb1zYzgxBJLIND/f3DZn3E0GJFqmjd+E2ZjHbXJVj5tJlovu9AF5TJFLhXfcijVmjuu5R7ixdiT1+FT/iic=
+	t=1752945285; cv=none; b=ojoGtEAlFVKuVDC6Z1XTrhFSXeBf79hQN/EovJtvHkd/P8Wt4ihnWMtfMhD1Q7OEWT/Fy54RF1njXjbde901eP5enQoHyV7iGTS2PS9Gje8yizy/Ov7jYXb6bo1Yy0StSXMmqvRWGiId0+d/2o97SrKD3j5WXQPrjTKLtUvmz4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752944801; c=relaxed/simple;
-	bh=cWZc5UfWhXbfgug9pQFdx0kQ1T/a5KG+5OsxJNnqaGY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bs2K6+WTHY4+YLOZfJ/AAQ53RDkeNN/6zB2lapH+yBiDkKfjZ1i+2WY0oN5ZhZ7jPfIxZbvLq1ni2Lhm2gabVU5dbd0LqB9x+oA4gi2PSarpPIezyecDE25wO7LqNoBvzyrTIt1XVskW4/SUG8zN72+iztasyo/zeKBDjW38T58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DZ5+Nvmm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1752945285; c=relaxed/simple;
+	bh=UfQcBFSWP95PUs/nVA/Kz8WApUEFDeSsM8pAew/vHMc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=MeASk4/wz0s42o9cqi3CD7tDag0CXcjCQUfXOJkprokfJUUeDuHPpdqHwYsBhyZGhDbwi/mzoBKfdbJtfZhQKxCudQkJbVTv8fUNq5hFE47PFtkb6njc7WkMNSNMYoroum/X0qB28NtVQLMjNoqzK3WGmwET1OFw4v3PIKKEwdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DSce1eaX; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DZ5+Nvmm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95D10C4CEE3;
-	Sat, 19 Jul 2025 17:06:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1752944800;
-	bh=cWZc5UfWhXbfgug9pQFdx0kQ1T/a5KG+5OsxJNnqaGY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DZ5+Nvmmgt5dC8CXL5vbXu6Tv37A51MjP26Xr41EAfbiomH1fa7M2jhYeS1dejV4i
-	 EBN99oBqs6RPDiPLKHhFZAomgeShjjduHBTmDnE1ZFIJXFoDosQgil6m0318S7vyGX
-	 OA6/zaCTwCJaPkQLEa9aqscdcjgCVfgtgTrYjqvpJ2BERNgVtgFrCubIXUxbCIVW9Y
-	 kfXIg56Zp9tSaTHS9blMoFC9x8g6co7gVSW2ybgNt5/oyvMQXskb4lHrjsNmo2gcOQ
-	 aoSnZWDJ2OqA7SHBW3M1a6CL765ck/mPXrx5z25vNgdCFiT+SZOe+41+gIm5cj7cbF
-	 uwa81VuQWGzwA==
-From: SeongJae Park <sj@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	llvm@lists.linux.dev,
-	oe-kbuild-all@lists.linux.dev
-Subject: Re: [sj:damon/next 52/104] mm/memory.c:6046:3: error: call to undeclared function 'damon_report_access'; ISO C99 and later do not support implicit function declarations
-Date: Sat, 19 Jul 2025 10:06:38 -0700
-Message-Id: <20250719170638.64999-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <202507192010.91NbXIjJ-lkp@intel.com>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DSce1eaX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1752945284; x=1784481284;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=UfQcBFSWP95PUs/nVA/Kz8WApUEFDeSsM8pAew/vHMc=;
+  b=DSce1eaXD24tjOMrySohNU2KpQ/80rcq3pEnidURyuHN02S8YAhvtF4l
+   /ZCz/a0JnX6MGgJBiW1LvFku6oNUFN/xzTqhBwJHfhknoNxuIQRcr3a58
+   KhIBkN/5tHov2saWDh6zZOCAHK7ylZIgLcb5P/mqNsi2gdyqPgZ+gvKQx
+   5xGQiGAoLhpS7/a8MGJajc8EjZJzVdI5Z/8nTipEhCg7LcVCuZH+zc8Ej
+   sEBCXyqSrLiPWnBuEeqc6+Qlt06hgDi1JxQit40przVesqu/FefAXDRkl
+   nbw/uI/1YzttwvCWtbxFnsJONHWiWzfNaNXnLckpVrroXI7ijlcAdLuPP
+   Q==;
+X-CSE-ConnectionGUID: OrYxhr+1QX+WJQm4EczqvA==
+X-CSE-MsgGUID: erHnCFRlRciUYFnC9LAkug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11497"; a="54422121"
+X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
+   d="scan'208";a="54422121"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 10:14:43 -0700
+X-CSE-ConnectionGUID: yYzlwDheQ+68C/u8J98ekA==
+X-CSE-MsgGUID: XLqkc5uSTQylYxA8XzX4Jg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
+   d="scan'208";a="195547031"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 19 Jul 2025 10:14:42 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1udB8x-000Ff9-2y;
+	Sat, 19 Jul 2025 17:14:39 +0000
+Date: Sun, 20 Jul 2025 01:14:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>
+Subject: ld.lld: warning: src/consumer/drivers/iio/accel/sca3000.c:1448:0:
+ stack frame size (8312) exceeds limit (8192) in function 'sca3000_probe'
+Message-ID: <202507200127.fScR1DwJ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   4871b7cb27f480f6ecce804f81d4b9ee27281dd2
+commit: 020d7f14489b8bc38c6bd4c5b3c25262e8b6de63 Revert "kbuild: make all file references relative to source root"
+date:   10 weeks ago
+config: x86_64-randconfig-075-20250719 (https://download.01.org/0day-ci/archive/20250720/202507200127.fScR1DwJ-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250720/202507200127.fScR1DwJ-lkp@intel.com/reproduce)
 
-On Sat, 19 Jul 2025 21:05:04 +0800 kernel test robot <lkp@intel.com> wrote:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507200127.fScR1DwJ-lkp@intel.com/
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-> head:   587ffe894dbc4bdb791e375c50e446a32fba081a
-> commit: cd52442f08196fc17179dc9a95b097df531203b7 [52/104] mm/memory: report fault information to DAMON
-> config: i386-buildonly-randconfig-001-20250719 (https://download.01.org/0day-ci/archive/20250719/202507192010.91NbXIjJ-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507192010.91NbXIjJ-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507192010.91NbXIjJ-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
-> >> mm/memory.c:6046:3: error: call to undeclared function 'damon_report_access'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     6046 |                 damon_report_access(&access_report);
->          |                 ^
->    mm/memory.c:6176:5: error: call to undeclared function 'damon_report_access'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->     6176 |                                 damon_report_access(&access_report);
->          |                                 ^
->    2 errors generated.
+All warnings (new ones prefixed by >>):
 
-Thank you for this report!  I just pushed below fix as
-http://git.kernel.org/sj/c/5559267d916c.
+>> ld.lld: warning: src/consumer/drivers/iio/accel/sca3000.c:1448:0: stack frame size (8312) exceeds limit (8192) in function 'sca3000_probe'
 
-
-Thanks,
-SJ
-
-===== >8 =====
-Author: SeongJae Park <sj@kernel.org>
-Date:   Sat Jul 19 09:58:13 2025 -0700
-
-    mm/damon: implement static inline fake damon_report_access for !CONFIG_DAMON
-
-    Reported-by: kernel test robot <lkp@intel.com>
-    Closes: https://lore.kernel.org/oe-kbuild-all/202507192010.91NbXIjJ-lkp@intel.com/
-    Signed-off-by: SeongJae Park <sj@kernel.org>
-
-diff --git a/include/linux/damon.h b/include/linux/damon.h
-index 8f6d370754c7..96f9d8c6fe0c 100644
---- a/include/linux/damon.h
-+++ b/include/linux/damon.h
-@@ -977,6 +977,13 @@ void damon_report_access(struct damon_access_report *report);
- int damon_set_region_biggest_system_ram_default(struct damon_target *t,
-                                unsigned long *start, unsigned long *end);
-
-+#else  /* CONFIG_DAMON */
-+
-+static inline void damon_report_access(struct damon_access_report *report)
-+{
-+       return;
-+}
-+
- #endif /* CONFIG_DAMON */
-
- #endif /* _DAMON_H */
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
