@@ -1,60 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7F0A920
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 04:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6851CAB3
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 04:43:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752898953; cv=none; b=Uc5IwMFI1A/2TwAH2ZGGZY5GohPAqdo2A1zP2hjCdqKYWksp1fjtr2jFhpLhOS5GgMV5aNLZTkpUP+Ht1qvd9uwm7YeGzZfMnzu47KRWPlT1pWk5ONzLSKq7hgFoIDUATblxi30gTx/KNNjkLMDxwk0XDzh/0J+s/1LczLG+EJ4=
+	t=1752900216; cv=none; b=l8UqPLm0GfQnN7F0s6HVO4mcwAOfl+BqWF02NmECLXt+yarca/WESQmEW/CdFMgRVT6T4iyEuwlXWcc9c2ddFqUlRMNzUBTFatkw8iDBgPWD40fx/IFoMr9ZWFOmBAuKk1XOyjNr2745iGDWD3dIDa0UZwAmaARkjbW1d1ZICy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752898953; c=relaxed/simple;
-	bh=yhc+XTY8/OAYR3+ee9PjKRtX5CaYO7Uzj25l/G5Affo=;
+	s=arc-20240116; t=1752900216; c=relaxed/simple;
+	bh=pZRItqq+Wjlm8BqTbqJ0ZqG35AOUDPJKTmLRilraD1o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XVe51XeyzZEJwX+435y36mPm4eGnV5S/C9e3y1l6nsrsyLBWWUCHGj1dCl4o6/3N181TNHFIkX7jHVYXvfBZFJh2vIXdZzl9wpVwvJp6QFADNot+dIksZalLd3st7nVCuvR6DrfJNcEfxGK2b6J5wSMf3jRHKWKTk5tsQe1TeeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lXuq4PbD; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=bX9jR3NYfFeJUtpuuJb3e8fcOYB5VbBGeUWQfkAr79zylOwM72Ejwws9cSA8t8HfMWJMho6FxOJyuacu73sEjwvQMi1EQnWmSAqYulkcBlxauRrIs5AarSGtY78Wjj8tP66opdCPw3rL8MLXmeYLnKSYdjEFgc4+gNzRy8dvhYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cgeRh5wB; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lXuq4PbD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cgeRh5wB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752898952; x=1784434952;
+  t=1752900215; x=1784436215;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=yhc+XTY8/OAYR3+ee9PjKRtX5CaYO7Uzj25l/G5Affo=;
-  b=lXuq4PbD1yrTU8RyaaMEbGfPTNP2qcx30wJDWy2wFHafUUT4OJwQ5vue
-   AA3jxrBtiYGk8x49RhlrLAHoKHWKtiUnHVMlpKs+tm4kBw/Z9EsFBmr0y
-   n3dKukg7my2NgSOpOvUhj0vpEWRn6QHhCgMo16uQse32/XETDqLsTsKf6
-   6qm87x0ZtCiilHt9hEtSeYCG3VjZIa8wIHF/k6lMRWFCnRrBBsywi9jP9
-   sMFsk34kjqaSQTvpf87zD+8CHVNATUI7moaz0ryiu7b0ClTigRtZqZ5jF
-   dqkH9nkH0lKohv1HRGHJ6i6R40QsJDacK9p+xYx4XLJH2deetFG7Q/njO
+  bh=pZRItqq+Wjlm8BqTbqJ0ZqG35AOUDPJKTmLRilraD1o=;
+  b=cgeRh5wBLe1Gs4h2mWQaXyjmt2BlfJps6mvRSqm2gOvTD+POpEZCRecJ
+   uGcqJlNbhKhUlaDpnQ2CDFPKBkiTFkMbv6gl64W+Xtvcnh/rKXBM6FCR9
+   hRvOFKFWmpBFG+XHP4Hk8WuRbnR84xoI4GvbVzMOwgkdk3JAHGA5bUC1N
+   kxZYVQqfcBr7NejTe1J/GWUmMw83RGdmiYHjLc1aNS7dAApqzZzanr6s8
+   C7n18EwqhZjxxxFNcvqHgFsfesgi27OeNsg6vWDRwbxj+rLOsd23qBfxM
+   rOf2liRL/JAijQY72s6ZLAIdfFjwbvJc9uNx4+h3H4xo0fAi06jvQAxSz
    g==;
-X-CSE-ConnectionGUID: ewX/zqCOQYKm5VJvTBFhvA==
-X-CSE-MsgGUID: sb1XFWHbQO++m6b1zPpicw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="55132510"
+X-CSE-ConnectionGUID: fsuhQH3oTEeVJTHnxmVF0w==
+X-CSE-MsgGUID: whg9exGEQ46TSq9AN+Wx+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="77727773"
 X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="55132510"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 21:22:31 -0700
-X-CSE-ConnectionGUID: 8pf9VGTyRDOIPfaKeTWNxA==
-X-CSE-MsgGUID: u9ivzaHPS+irQyA+JDzxWg==
+   d="scan'208";a="77727773"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 21:43:34 -0700
+X-CSE-ConnectionGUID: fbjtRcsQR1ui8yx7XIGa8w==
+X-CSE-MsgGUID: 7zYUqr1QSDy+xtLxqLpwVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="164027192"
+   d="scan'208";a="195464441"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 18 Jul 2025 21:22:30 -0700
+  by orviesa001.jf.intel.com with ESMTP; 18 Jul 2025 21:43:32 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ucz5g-000FEx-0K;
-	Sat, 19 Jul 2025 04:22:28 +0000
-Date: Sat, 19 Jul 2025 12:22:09 +0800
+	id 1uczQ1-000FFT-2x;
+	Sat, 19 Jul 2025 04:43:29 +0000
+Date: Sat, 19 Jul 2025 12:42:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <kees@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 10/13] init.h: Disable sanitizer coverage for __init
- and __head
-Message-ID: <202507191258.YeZXvo0U-lkp@intel.com>
-References: <20250717232519.2984886-10-kees@kernel.org>
+To: Darshan Rathod <darshanrathod475@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: b2c2: flexcop-eeprom: Fix assignment in if
+ condition
+Message-ID: <202507191200.uSwaI9wh-lkp@intel.com>
+References: <20250718125245.82910-1-darshanrathod475@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,38 +65,64 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250717232519.2984886-10-kees@kernel.org>
+In-Reply-To: <20250718125245.82910-1-darshanrathod475@gmail.com>
 
-Hi Kees,
+Hi Darshan,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on kees/for-next/hardening]
-[also build test ERROR on tip/x86/core arm64/for-next/core s390/features linus/master v6.16-rc6 next-20250718]
+[auto build test ERROR on linuxtv-media-pending/master]
+[also build test ERROR on sailus-media-tree/master linus/master media-tree/master sailus-media-tree/streams v6.16-rc6 next-20250718]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kees-Cook/stackleak-Rename-STACKLEAK-to-KSTACK_ERASE/20250718-072844
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/hardening
-patch link:    https://lore.kernel.org/r/20250717232519.2984886-10-kees%40kernel.org
-patch subject: [PATCH v3 10/13] init.h: Disable sanitizer coverage for __init and __head
-config: powerpc-randconfig-003-20250719 (https://download.01.org/0day-ci/archive/20250719/202507191258.YeZXvo0U-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 12.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191258.YeZXvo0U-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Darshan-Rathod/media-b2c2-flexcop-eeprom-Fix-assignment-in-if-condition/20250718-205456
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20250718125245.82910-1-darshanrathod475%40gmail.com
+patch subject: [PATCH] media: b2c2: flexcop-eeprom: Fix assignment in if condition
+config: i386-randconfig-002-20250719 (https://download.01.org/0day-ci/archive/20250719/202507191200.uSwaI9wh-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191200.uSwaI9wh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507191258.YeZXvo0U-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507191200.uSwaI9wh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   powerpc-linux-ld: drivers/char/hw_random/nomadik-rng.o: in function `nmk_rng_remove':
-   nomadik-rng.c:(.text+0x60): undefined reference to `amba_release_regions'
-   powerpc-linux-ld: drivers/char/hw_random/nomadik-rng.o: in function `nmk_rng_probe':
-   nomadik-rng.c:(.text+0x128): undefined reference to `amba_request_regions'
->> powerpc-linux-ld: nomadik-rng.c:(.text+0x1a4): undefined reference to `amba_release_regions'
+   drivers/media/common/b2c2/flexcop-eeprom.c: In function 'flexcop_eeprom_check_mac_addr':
+   drivers/media/common/b2c2/flexcop-eeprom.c:143:29: warning: operation on 'ret' may be undefined [-Wsequence-point]
+     143 |                         ret = ret = -EINVAL;
+>> drivers/media/common/b2c2/flexcop-eeprom.c:149:1: error: expected declaration or statement at end of input
+     149 | EXPORT_SYMBOL(flexcop_eeprom_check_mac_addr);
+         | ^~~~~~~~~~~~~
+   drivers/media/common/b2c2/flexcop-eeprom.c:150: warning: control reaches end of non-void function [-Wreturn-type]
+
+
+vim +149 drivers/media/common/b2c2/flexcop-eeprom.c
+
+2add87a95068d6 drivers/media/dvb/b2c2/flexcop-eeprom.c    Johannes Stezenbach   2005-05-16  130  
+2add87a95068d6 drivers/media/dvb/b2c2/flexcop-eeprom.c    Johannes Stezenbach   2005-05-16  131  /* JJ's comment about extended == 1: it is not presently used anywhere but was
+1589a993f07412 drivers/media/dvb/b2c2/flexcop-eeprom.c    Uwe Bugla             2009-03-29  132   * added to the low-level functions for possible support of EUI64 */
+2add87a95068d6 drivers/media/dvb/b2c2/flexcop-eeprom.c    Johannes Stezenbach   2005-05-16  133  int flexcop_eeprom_check_mac_addr(struct flexcop_device *fc, int extended)
+2add87a95068d6 drivers/media/dvb/b2c2/flexcop-eeprom.c    Johannes Stezenbach   2005-05-16  134  {
+2add87a95068d6 drivers/media/dvb/b2c2/flexcop-eeprom.c    Johannes Stezenbach   2005-05-16  135  	u8 buf[8];
+2add87a95068d6 drivers/media/dvb/b2c2/flexcop-eeprom.c    Johannes Stezenbach   2005-05-16  136  	int ret = 0;
+2add87a95068d6 drivers/media/dvb/b2c2/flexcop-eeprom.c    Johannes Stezenbach   2005-05-16  137  
+662f3e9a140301 drivers/media/common/b2c2/flexcop-eeprom.c Darshan Rathod        2025-07-18  138  	ret = flexcop_eeprom_lrc_read(fc, 0x3f8, buf, 8, 4);
+662f3e9a140301 drivers/media/common/b2c2/flexcop-eeprom.c Darshan Rathod        2025-07-18  139  
+662f3e9a140301 drivers/media/common/b2c2/flexcop-eeprom.c Darshan Rathod        2025-07-18  140  	if (ret == 0) {
+2add87a95068d6 drivers/media/dvb/b2c2/flexcop-eeprom.c    Johannes Stezenbach   2005-05-16  141  		if (extended != 0) {
+d9942ad0228a7e drivers/media/common/b2c2/flexcop-eeprom.c Mauro Carvalho Chehab 2016-10-18  142  			err("TODO: extended (EUI64) MAC addresses aren't completely supported yet");
+662f3e9a140301 drivers/media/common/b2c2/flexcop-eeprom.c Darshan Rathod        2025-07-18  143  			ret = ret = -EINVAL;
+662f3e9a140301 drivers/media/common/b2c2/flexcop-eeprom.c Darshan Rathod        2025-07-18  144  		} else {
+778241313819e1 drivers/media/dvb/b2c2/flexcop-eeprom.c    Johannes Stezenbach   2005-05-16  145  			memcpy(fc->dvb_adapter.proposed_mac, buf, 6);
+2add87a95068d6 drivers/media/dvb/b2c2/flexcop-eeprom.c    Johannes Stezenbach   2005-05-16  146  		}
+2add87a95068d6 drivers/media/dvb/b2c2/flexcop-eeprom.c    Johannes Stezenbach   2005-05-16  147  		return ret;
+2add87a95068d6 drivers/media/dvb/b2c2/flexcop-eeprom.c    Johannes Stezenbach   2005-05-16  148  }
+2add87a95068d6 drivers/media/dvb/b2c2/flexcop-eeprom.c    Johannes Stezenbach   2005-05-16 @149  EXPORT_SYMBOL(flexcop_eeprom_check_mac_addr);
 
 -- 
 0-DAY CI Kernel Test Service
