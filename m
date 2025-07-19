@@ -1,91 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE9B6220F36
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 10:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98F801F0E53
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 11:14:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752919822; cv=none; b=Gfgy6Wvph7ihDcF/AfBj2ZJoSepJeMCCGYIBZdfdByYvA1Lp64gtmNaKSGicZKmGpROef3CtoD/QefsvpVbu7g1mC58ifn7JsuqbAQbmQdW/SyAAYt1pa341gKklpyO3hDtwPMeJc8O6yKgpRbG2XWCafXU8NkDW/UvG7X5fP1g=
+	t=1752923653; cv=none; b=YStL9hCHSw2PdFnPU9gGc7afLMy83NiHoTClmly+XgPTMf83aQ4JgMizkwRSZFcmNuTyMbsjlgguSsJ5lH8E31foh4AvpTDRJieIsLPz6yB1r9xttLyleKoIqn+bc3Lnwg2SsZfxXpYkebUzfVmjrB6OllnstgqEmbnnWPlkFIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752919822; c=relaxed/simple;
-	bh=eo5tyQNZ55kEPzK5v8pNniLGhgnD4W5Y7oTf/9XzMXY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Fd4bUcCuHkr26RU599eyhfkqBENTZE0hJMWsA638jQL1b5l0O0/KCeUnBY77LitDCnsiIkrRe5hkYddb6fLrlNLzUNy3w65xasCS8jetp9+sYQNjfcVytJJUJS+d+wHfwBNYrWCdL9oKOgqcJWhStRJARDIOJbgStu8jFLXeQ3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fndCOnNc; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752923653; c=relaxed/simple;
+	bh=uc2gaQMiQ6JYdBFB8fExxQY/GOXGhsa+292f6sggT08=;
+	h=MIME-Version:Message-ID:From:To:Cc:Subject:Content-Type:Date:
+	 In-Reply-To:References; b=KEbx2qzeADRhPm5OBUBBShgterHN9WsGiDnJgAwyu4SJVM23tqx0+FvYk+9K+/Qc9ZTuSNoWVtjTKMkYQMjIz4/4BZFAhROsbOS3KT/XTHCYxIfsTeli742cojvyVQ/Z/UP5dKD9bncnr5vaDIDNWUq9iiajQD0C40ShmRk/VHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de; spf=pass smtp.mailfrom=public-files.de; dkim=pass (2048-bit key) header.d=public-files.de header.i=frank-w@public-files.de header.b=LiDr5DFH; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=public-files.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=public-files.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fndCOnNc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752919821; x=1784455821;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eo5tyQNZ55kEPzK5v8pNniLGhgnD4W5Y7oTf/9XzMXY=;
-  b=fndCOnNcqUAkLHgTuGWmXWO53kxtgkbLZKbI0l5tn/QANxfncpa3Z/qq
-   nRgf4Wh1bcuOleXKHO+nb3jHvNHhLCTW1Z/Pzvc0e05OZS30REOoQK5cg
-   z/hr/Lgs8343NVJJ8rCja0v9eZ+5MkaNXz+/Y/wCen8O6WOxHIs1tJjHy
-   ZFO4Koe83BBD6883Cni/B3s3p9l9K5gOqS/v0JxQyFmWI5Cr4zCE5DElC
-   L5uUg6W62tMrVWmB2fk3a8O6gu90Ke3sQbY6S3SW5JxaJBlDqSQY7cvPJ
-   z2EUS3fPcYZB3/AmySHCjm9ZDYZj2FvSh0wiYFYBGZmM+pw/lrMf9x+Ji
-   Q==;
-X-CSE-ConnectionGUID: WHVrozTsQf6M5jiZPlZWvA==
-X-CSE-MsgGUID: faZWp7huTMOx6toPpVtnAg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="72655659"
-X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
-   d="scan'208";a="72655659"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 03:09:26 -0700
-X-CSE-ConnectionGUID: jX/wQ3MTTyiYtht9DM1ttg==
-X-CSE-MsgGUID: GM804nurT/aVX6m8EM/eIw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
-   d="scan'208";a="189403676"
-Received: from igk-lkp-server01.igk.intel.com (HELO 8b57277650df) ([10.91.175.65])
-  by orviesa002.jf.intel.com with ESMTP; 19 Jul 2025 03:09:25 -0700
-Received: from kbuild by 8b57277650df with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ud4VO-00013l-12;
-	Sat, 19 Jul 2025 10:09:22 +0000
-Date: Sat, 19 Jul 2025 12:09:16 +0200
-From: kernel test robot <lkp@intel.com>
-To: FUJITA Tomonori <fujita.tomonori@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, Alistair Popple <apopple@nvidia.com>,
-	Joel Fernandes <joelagnelf@nvidia.com>
-Subject: [jfern:nova/sequencer 38/85] warning: unresolved link to `fsleep`
-Message-ID: <202507191244.NU7vW6Eh-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=public-files.de header.i=frank-w@public-files.de header.b="LiDr5DFH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=public-files.de;
+	s=s31663417; t=1752923639; x=1753528439; i=frank-w@public-files.de;
+	bh=XqKD/o2ZL6QMbJJDdKLlP4XkY7+Cx+jx+jQPOYN8M4E=;
+	h=X-UI-Sender-Class:MIME-Version:Message-ID:From:To:Cc:Subject:
+	 Content-Type:Date:In-Reply-To:References:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=LiDr5DFHZmYsAs0H8avZEV0eVxbnFfz39YgD3AsbKmnH6uArc7JSLsK2jbXdNAKV
+	 2yglNTB1utI9SSiZIpLawDqyYjTM1paHABst6Yh5j9hRHblbsnJMacUAagqzmpmQ4
+	 6s+lUHeV9mMs/quwq3FXrTp1XL7iWZw7dFo1MesMnIm676Kd4kr45NwvlV7g0mzJq
+	 rnr1ySsuOcSJ/o0zTYFRmZGf7Qo8G2ZaCVp9fWdPfumCJnMQpZqB9gP/tA7ep6Q2L
+	 REqCUppriRkFyAOjZfoJii6smZ2uGTCe5U8YfeXhahe48YqS1US0yOV8YDnHPsuPw
+	 7PU+2tiXxNX8cNiOfg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [100.65.254.167] ([100.65.254.167]) by
+ trinity-msg-rest-gmx-gmx-live-85885f45cf-52hzg (via HTTP); Sat, 19 Jul 2025
+ 11:13:58 +0000
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Message-ID: <trinity-17f89562-ce7b-49a7-af2b-742c8e5cd9c3-1752923638895@trinity-msg-rest-gmx-gmx-live-85885f45cf-52hzg>
+From: Frank Wunderlich <frank-w@public-files.de>
+To: lkp@intel.com
+Cc: oe-kbuild-all@lists.linux.dev, kuba@kernel.org, krzk@kernel.org
+Subject: Aw: [linux-next:master 8067/11307]
+ arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dtb:
+ ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197,
+ 4], [0, 198, 4], [0, 199, 4]] is too short
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 19 Jul 2025 11:13:58 +0000
+In-Reply-To: <202507181819.yDa5ApF5-lkp@intel.com>
+References: <202507181819.yDa5ApF5-lkp@intel.com>
+X-UI-CLIENT-META-MAIL-DROP: W10=
+X-Provags-ID: V03:K1:TrOJvLL2TqfzWz9AUyVUZ7l5HXn+6O96UNwqO9iO+mSJE+LkfIHLyEdtusMQOINnVhdcl
+ jRPBov7kmXUcDEzwl+kRnE9mcNvpAGl/GRoukJl5lsGjxjvhJTJcEbzs1DbzXVWhaokH7XaQEcnP
+ a3Fbq0mnWbMC7TCKBXXzySanm2aoNTReLhwJPekTO3L1vux+HQmr9KCumrGXnIslqGv8z6EO0lE6
+ Xr8taifwL2LjyhYp2E1EGaSkfxe+5ZEGAfIWrBmU+DXTE4o8N1WqjoiUDphzjhzNnepLUKvCHgYd
+ i1jTheibiPvq+IGtgMxH4UCfQe0utNqCXePE+FjP5Lx5EbnyaeieCFdiMLfbpEKtqE=
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:HkMkBfS2+4Y=;FKRIJQIrF5sSxvNWagVxArGwsDj
+ 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
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git nova/sequencer
-head:   efd8e94c58549652d19874d6aa484f3072fc2339
-commit: 0c2c9f57cdad9e1b2bcba12c5e2ceb74f5c058ff [38/85] rust: add delay abstraction
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250719/202507191244.NU7vW6Eh-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191244.NU7vW6Eh-lkp@intel.com/reproduce)
+Hi
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507191244.NU7vW6Eh-lkp@intel.com/
+this error occours because binding was applied and not the change for MT7986 dts adding the 4 RSS/LRO interrupts
 
-All warnings (new ones prefixed by >>):
+> >> arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dtb: ethernet@15100000 (mediatek,mt7986-eth): interrupts: [[0, 196, 4], [0, 197, 4], [0, 198, 4], [0, 199, 4]] is too short
+>    	from schema $id: http://devicetree.org/schemas/net/mediatek,net.yaml#
 
->> warning: unresolved link to `fsleep`
-   --> rust/kernel/delay.rs:11:34
-   |
-   11 | /// Equivalent to the kernel's [`fsleep`] function, internally calls `udelay`,
-   |                                  ^^^^^^ no item named `fsleep` in scope
-   |
-   = help: to escape `[` and `]` characters, add '' before them like `[` or `]`
-   = note: `#[warn(rustdoc::broken_intra_doc_links)]` on by default
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+regards Frank
