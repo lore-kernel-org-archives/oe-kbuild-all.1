@@ -1,61 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E32AC204C0C
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 04:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58A0C4C97;
+	Sat, 19 Jul 2025 05:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752900816; cv=none; b=r4MahEIV+ieBMlh8QUbyzNx7ZJJzyMIovvMfTiDUHZG21sDq6CsMsKnEJwDKr1InUZa+53py9Sv3WilQB6yy/oQcpVa2575prm9pfHldNLm6yCfN3M77BEBmWMxzOz+AAguo/zMco4IHkVk6jcMwJ6Rb1CDL47DC7N8bqJP8nEE=
+	t=1752903462; cv=none; b=DjFHVJare2Jk44t1CdY3BufP5VvHlmurTYBoPcglvT4wGPkGk+KD+iEadqhXSMn5cHWzIqPc42olP9eNO20j4mga+z1MoFO7cmXT/tQk5aJ1d5armsz0gdDgMysF1Fs+kOKLdkPK84rbm9iYVlJLzmvOOJn2esudUU5INBhcXnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752900816; c=relaxed/simple;
-	bh=KRpI6+KNROO/Fwjby4CU7lwzXK0T2ewW4CBhrMKjMAA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gTwNyWU1QNXTYRNy/nnsziYvv2jOVLQ21+KHWXdOW58HqFSDQdRpkOUV6qRqQveluE9EACeYflTaPQgOMQ52AqiQIsgOJ4KE+9Khjf8liVd4Pp/vR1NkOFwaV9TCT612NHTbhgo2Ch4U6sfqmHLTMO4nfUwcVptzskLAE7i6xv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NrR0BG9H; arc=none smtp.client-ip=198.175.65.11
+	s=arc-20240116; t=1752903462; c=relaxed/simple;
+	bh=MJon/TZYWADZmZDD9hceG9yEzZZXNwLvFdal03egBqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DhE+UIAG0+d27FuEUcK65w3QhE6CJJ/8jDYaRg59MvatrmXxzy455K7dm95spnWQX0gfnd82UMU/Jdy2nWvy2XzbFUCGf7xeoUbSnWpQHzw822xkOOsUmMfOY236f1cywsGFlqXcn5+IGizchxM1/W/dCso4qq/7OSHk1yp4CzU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ePvz9Fsz; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NrR0BG9H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ePvz9Fsz"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752900815; x=1784436815;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=KRpI6+KNROO/Fwjby4CU7lwzXK0T2ewW4CBhrMKjMAA=;
-  b=NrR0BG9HWQuYH0CPgdUsSWVwIh0gu5joKtW5JIsS1c4RmgacbR3aFHkX
-   B/nhZ23M7DaKrL/NT0mwpyp2+O+Z6EBJRLybNZI+jhQeNIHHMHOTHJB9Z
-   WICv4K6qPz+uPMtvcsQxH9nA4NQThjXLU++kdY0wlWXASQvTEOZx1DIZc
-   7PPKWL5rdmPbzngZDsBJyMcWt2SzlD1FzwLhqEC9hQD/hy0gfMdUVXYgZ
-   3gLxPynSXpN3hE7705P62usFWR5y7dCrjUcbMyuCrjhgmbJtgS4D9Ogxu
-   ZkocT5KuVRbtzX8YyFDB+HKuFAlzX3aIYY4QqqKarORMchudT1srqDOh7
+  t=1752903460; x=1784439460;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MJon/TZYWADZmZDD9hceG9yEzZZXNwLvFdal03egBqE=;
+  b=ePvz9FszYccziLjvBka58iTlF6iZpZbaxGFfWNAdJZd2prBnV06J6dXR
+   VS9ZSflmKv0zozcTkSwJZ+8nZw2X5/YF4F4PlwlqyY41DRncKXlrXuFlP
+   ThpDSYJNHpbDA81/x9Bp4fZBmuZignL/5srGWfq4giQZ0phPhYTwPnTy3
+   TQ4+/zrOUU3UHYE8qzO1hdR96QUoGg3A+TFqR14J8BTMLdtgxUsTG3xDn
+   RD7UzOnkfEWCx1pWkpS3eX03oNVH0vQhze8qkrYuTlnmSYJ+A+vMdohXV
+   TbIFX3DTLJEU8UhpLQ2oWr+ooosRLfeSIpdTljCvZTtnZ0K5pxDlUgKrL
    g==;
-X-CSE-ConnectionGUID: LVYyLscgQCicJGrvv/sGmA==
-X-CSE-MsgGUID: S0tgZPYGQ4aIua0Wte+BWw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="65454383"
+X-CSE-ConnectionGUID: GzRJx+49Tnm0NLozW4wPCg==
+X-CSE-MsgGUID: cVrfRKcLQtCU06CwS8ZN5A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="66544339"
 X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="65454383"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 21:53:35 -0700
-X-CSE-ConnectionGUID: 7m2/MUFUR6KiJZCOR3t4/g==
-X-CSE-MsgGUID: phgBqLOvTbO86WJvc/CVvQ==
+   d="scan'208";a="66544339"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 22:37:39 -0700
+X-CSE-ConnectionGUID: tGCe+fNpRMSY7yrO8L13EA==
+X-CSE-MsgGUID: NyrmdtgnTS2lacFieNxAJg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="159088466"
+   d="scan'208";a="189375078"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Jul 2025 21:53:33 -0700
+  by orviesa002.jf.intel.com with ESMTP; 18 Jul 2025 22:37:36 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uczZi-000FFf-1s;
-	Sat, 19 Jul 2025 04:53:30 +0000
-Date: Sat, 19 Jul 2025 12:53:05 +0800
+	id 1ud0GM-000FGd-1D;
+	Sat, 19 Jul 2025 05:37:34 +0000
+Date: Sat, 19 Jul 2025 13:37:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luca Weiss <luca.weiss@fairphone.com>
-Cc: oe-kbuild-all@lists.linux.dev, Bjorn Andersson <andersson@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: [linux-next:master 10906/11307]
- arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: /sound: failed to match
- any schema with compatible: ['fairphone,fp4-sndcard']
-Message-ID: <202507191215.XtOfM64r-lkp@intel.com>
+To: Abid Ali <dev.nuvorolabs@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Abid Ali <dev.nuvorolabs@gmail.com>
+Subject: Re: [PATCH] net: phy: Fix premature resume by a PHY driver
+Message-ID: <202507191322.YG6cNwF6-lkp@intel.com>
+References: <20250718-phy_resume-v1-1-9c6b59580bee@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,24 +69,60 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250718-phy_resume-v1-1-9c6b59580bee@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
-commit: 022926c8d2a3c56b703f8b3a8094356e94d494a7 [10906/11307] arm64: dts: qcom: sm7225-fairphone-fp4: Enable USB audio offload support
-config: arm64-randconfig-051-20250718 (https://download.01.org/0day-ci/archive/20250719/202507191215.XtOfM64r-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191215.XtOfM64r-lkp@intel.com/reproduce)
+Hi Abid,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 347e9f5043c89695b01e66b3ed111755afcf1911]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Abid-Ali/net-phy-Fix-premature-resume-by-a-PHY-driver/20250718-234858
+base:   347e9f5043c89695b01e66b3ed111755afcf1911
+patch link:    https://lore.kernel.org/r/20250718-phy_resume-v1-1-9c6b59580bee%40gmail.com
+patch subject: [PATCH] net: phy: Fix premature resume by a PHY driver
+config: i386-buildonly-randconfig-004-20250719 (https://download.01.org/0day-ci/archive/20250719/202507191322.YG6cNwF6-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191322.YG6cNwF6-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507191215.XtOfM64r-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507191322.YG6cNwF6-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: service@4 (qcom,q6afe): Unevaluated properties are not allowed ('usbd' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/qcom,q6afe.yaml#
->> arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dtb: /sound: failed to match any schema with compatible: ['fairphone,fp4-sndcard']
+All warnings (new ones prefixed by >>):
+
+>> drivers/net/phy/phy_device.c:1849:33: warning: '&&' within '||' [-Wlogical-op-parentheses]
+    1849 |         if (!phydrv || !phydrv->resume && phydev->suspended)
+         |                     ~~ ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/phy_device.c:1849:33: note: place parentheses around the '&&' expression to silence this warning
+    1849 |         if (!phydrv || !phydrv->resume && phydev->suspended)
+         |                                        ^                   
+         |                        (                                   )
+   1 warning generated.
+
+
+vim +1849 drivers/net/phy/phy_device.c
+
+  1841	
+  1842	int __phy_resume(struct phy_device *phydev)
+  1843	{
+  1844		const struct phy_driver *phydrv = phydev->drv;
+  1845		int ret;
+  1846	
+  1847		lockdep_assert_held(&phydev->lock);
+  1848	
+> 1849		if (!phydrv || !phydrv->resume && phydev->suspended)
+  1850			return 0;
+  1851	
+  1852		ret = phydrv->resume(phydev);
+  1853		if (!ret)
+  1854			phydev->suspended = false;
+  1855	
+  1856		return ret;
+  1857	}
+  1858	EXPORT_SYMBOL(__phy_resume);
+  1859	
 
 -- 
 0-DAY CI Kernel Test Service
