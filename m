@@ -1,119 +1,88 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 905A321D5A9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 23:33:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 068981CD1E4
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 23:38:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752967997; cv=none; b=Crj/OW466s0dEIoFNEqPVHdzGzNyPAavOdqFtScbXAp1g5z1P7yjcEw6fSxcFIphp1GIhmO51X0FbpoOrdmv4xLtCPvxG10PF3HNjMdGpxcPxwjI/4MCRLP/9c44cDEI/OFdIoQq2cIsut9sXA6zm/mG34Nz/dQ3RB3b0c7aZHo=
+	t=1752968289; cv=none; b=b7hM22k13kHaxygDdrIId79WlMpNuds+/XP00iSlIC9AzkAc3nqZB5cVj0G41PR7k9K/bhkuZ7RZmWtnbv+BzSoejS+zUIzWAQGcSdaM7TF4OuvJb224V3oF9+9lwzRMsNjIv3XcAKbMTP/9+EkXY3VKvD6PJr4iXkVwnrDxKO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752967997; c=relaxed/simple;
-	bh=Hkcfo0IKkyD5A7QFzFl7rBu/pNqfb8/o8DBVlpAhK4c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kcxeP8BXA7decJVClKv1qDG4/K9mYiwlY4pg6WEYccIMkqqIaOcbxAGuVsEXIGEzr051qd6VLmeYXVgfRMHVofbNSmKa7bwtdASilDMrBcpZsiQgm6A0fyWZU1sX+nx/jPLfaLygyOVvH1ZN5GPV1gtd7KgPE1ZBqG38PYBCJnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VwXh5p6G; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752968289; c=relaxed/simple;
+	bh=PaV4HcuG8Z9WXy5NHbKnBdf1/nYAFp4jEzTMozwL6Q4=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=UCjSMqQzr8hZzlbTmJ7tgYhj6PkYocOFK7sRpfSUWcZdYSfVcsEKS9OiadBMSedjsMiZEpESsDfHXcXi9iiNF2GxPxgivQcbrT6RISOiN5IhbUUr7ViTVwXnkEvURzleBYVfZ3/VRcSII8s6+MwF4rxU+s4JKfQFyJoZZtaBDkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=rF5ZMXi7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VwXh5p6G"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752967995; x=1784503995;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Hkcfo0IKkyD5A7QFzFl7rBu/pNqfb8/o8DBVlpAhK4c=;
-  b=VwXh5p6Gf11uVssyt3AbCohwJ9wVrILkC0lWJYwcj4g1LEOOaGuvRyyA
-   4LpkJYWhNa2Gzv8iq3PJvtQVzEy5uxQ06O5OJh6SpQ2SW2Bi7Htk0xdO6
-   zZ+5wc4XDW6h6aEcXP2EZzlER9Ernnh0R8OrJn18fCFkxEHkX8RjAegsl
-   uZk4NHn00q25QXEytI1ZVCzmXsKW0LSVFdAUZt9GZUl5pg7jCz0nhcAvG
-   psF0Dm64UkQTdh6ZeJQce8RCqDKRADBqlb7oNzbjo7+szbSTTkSyJV5eX
-   BoY5CU5j9Xf9X7/7v45zkIti/J8B1sXQlAVMLN/zdMuYdxFc8z3mKTI1Z
-   A==;
-X-CSE-ConnectionGUID: TrpPzJElTZelthbRMm8alQ==
-X-CSE-MsgGUID: 7I5QcUgkT8yYHHmYU1A2Lw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11497"; a="59012759"
-X-IronPort-AV: E=Sophos;i="6.16,325,1744095600"; 
-   d="scan'208";a="59012759"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 16:33:15 -0700
-X-CSE-ConnectionGUID: RGBL5xe5TVKBQO3eztAvDQ==
-X-CSE-MsgGUID: Dvsz0yNITWe2Jfo3X1qbxA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,325,1744095600"; 
-   d="scan'208";a="159210283"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 19 Jul 2025 16:33:12 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1udH3F-000FqD-2t;
-	Sat, 19 Jul 2025 23:33:09 +0000
-Date: Sun, 20 Jul 2025 07:32:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sami Tolvanen <samitolvanen@google.com>, bpf@vger.kernel.org,
-	Puranjay Mohan <puranjay@kernel.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	Maxwell Bland <mbland@motorola.com>,
-	Sami Tolvanen <samitolvanen@google.com>
-Subject: Re: [PATCH bpf-next v11 2/3] cfi: Move BPF CFI types and helpers to
- generic code
-Message-ID: <202507200719.dWqamnJW-lkp@intel.com>
-References: <20250718223345.1075521-7-samitolvanen@google.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="rF5ZMXi7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AFA9C4CEE3;
+	Sat, 19 Jul 2025 23:38:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1752968288;
+	bh=PaV4HcuG8Z9WXy5NHbKnBdf1/nYAFp4jEzTMozwL6Q4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=rF5ZMXi7XMfw526opy/XVRlsafUH4J8JA3+dYf50xsqNwtJaLcYSDv/t66z+fpE0S
+	 kFOfOrl4zKPlar3UgxBqlS3NHv4SBxUWJnDrxsyXOkAgSasDg3RHXi4BFbTNgRqIj2
+	 0IVaEuYIw/PFY2bTk+K3RKGzDztMSv5/O7Er/U5E=
+Date: Sat, 19 Jul 2025 16:38:07 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: kernel test robot <lkp@intel.com>, Ye Liu <ye.liu@linux.dev>, David
+ Hildenbrand <david@redhat.com>, Davidlohr Bueso <dave@stgolabs.net>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Josh Triplett
+ <josh@joshtriplett.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj
+ Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
+ <joelagnelf@nvidia.com>, Boqun Feng <boqun.feng@gmail.com>, Uladzislau
+ Rezki <urezki@gmail.com>, Ingo Molnar <mingo@redhat.com>, Peter Zijlstra
+ <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
+ <vincent.guittot@linaro.org>, oe-kbuild-all@lists.linux.dev, Linux Memory
+ Management List <linux-mm@kvack.org>, Ye Liu <liuye@kylinos.cn>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Steven Rostedt
+ <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
+ <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider
+ <vschneid@redhat.com>
+Subject: Re: [PATCH] mm: Replace (20 - PAGE_SHIFT) with common macros for
+ pages<->MB conversion
+Message-Id: <20250719163807.068d4cb349c6a3395183167b@linux-foundation.org>
+In-Reply-To: <87dff86f-94b8-47aa-b2e1-7560a9f60818@lucifer.local>
+References: <20250718024134.1304745-1-ye.liu@linux.dev>
+	<202507190319.0rqhQw5l-lkp@intel.com>
+	<87dff86f-94b8-47aa-b2e1-7560a9f60818@lucifer.local>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250718223345.1075521-7-samitolvanen@google.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Sami,
+On Sat, 19 Jul 2025 07:56:16 +0100 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> Ah yeah looks like this is already defined for arc only (!) in
+> arch/arc/include/asm/arcregs.h.
+> 
+> Maybe pop in a #ifndef PAGES_TO_MB ? It seems to be equivalent.
 
-[auto build test WARNING on 0ee30d937c147fc14c4b49535181d437cd2fde7a]
+Well, those arc helpers
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sami-Tolvanen/cfi-add-C-CFI-type-macro/20250719-063535
-base:   0ee30d937c147fc14c4b49535181d437cd2fde7a
-patch link:    https://lore.kernel.org/r/20250718223345.1075521-7-samitolvanen%40google.com
-patch subject: [PATCH bpf-next v11 2/3] cfi: Move BPF CFI types and helpers to generic code
-config: x86_64-randconfig-123-20250719 (https://download.01.org/0day-ci/archive/20250720/202507200719.dWqamnJW-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250720/202507200719.dWqamnJW-lkp@intel.com/reproduce)
+/* Helpers */
+#define TO_KB(bytes)		((bytes) >> 10)
+#define TO_MB(bytes)		(TO_KB(bytes) >> 10)
+#define PAGES_TO_KB(n_pages)	((n_pages) << (PAGE_SHIFT - 10))
+#define PAGES_TO_MB(n_pages)	(PAGES_TO_KB(n_pages) >> 10)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507200719.dWqamnJW-lkp@intel.com/
+are simply in the wrong place.
 
-sparse warnings: (new ones prefixed by >>)
->> kernel/cfi.c:39:24: sparse: sparse: symbol '__bpf_prog_runX' was not declared. Should it be static?
->> kernel/cfi.c:42:28: sparse: sparse: symbol '__bpf_callback_fn' was not declared. Should it be static?
+I was thinking move all four into mm.h (for the lack of a better
+place).  Then someone can make a career out of hunting down all the code
+sites which can use them.
 
-vim +/__bpf_prog_runX +39 kernel/cfi.c
+eg,
 
-    31	
-    32	/*
-    33	 * Declare two non-existent functions with types that match bpf_func_t and
-    34	 * bpf_callback_t pointers, and use DEFINE_CFI_TYPE to define type hash
-    35	 * variables for each function type. The cfi_bpf_* variables are used by
-    36	 * arch-specific BPF JIT implementations to ensure indirectly callable JIT
-    37	 * code has matching CFI type hashes.
-    38	 */
-  > 39	typeof(*(bpf_func_t)0) __bpf_prog_runX;
-    40	DEFINE_CFI_TYPE(cfi_bpf_hash, __bpf_prog_runX);
-    41	
-  > 42	typeof(*(bpf_callback_t)0) __bpf_callback_fn;
-    43	DEFINE_CFI_TYPE(cfi_bpf_subprog_hash, __bpf_callback_fn);
-    44	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+hp2:/usr/src/linux-6.16-rc5> fgrep -r ">> 10" . | wc -l
+886
