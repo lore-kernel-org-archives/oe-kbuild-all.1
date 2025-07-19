@@ -1,59 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB6A1D515
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 04:01:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331D478F39
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 04:18:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752897692; cv=none; b=MesdFzEhdyyUJPimz5EZ4td4B5KsxsRegnhYBz9SgG4/EATpUEPXKPp/xqh8B/x6crksIhcM3AcQ9BzIeKf2+7NswSAeIGVPD8ZCubfzvhsbAZ7ERGc48v89re3tb4+3QCJhX3ReC7PnBAzkGh+fnd7VdiE2DlfOvg69Mcg6QBA=
+	t=1752898723; cv=none; b=CA1nG5CS5rbKaXV4gRMjplTS5wmtc+YuaNuwWUhr5Cdg5ayUZJNhgcGLEkuYrycbZzb1WSxgsM0Z2AwEzWa/VXdRbitZdep3RK/zlidZXGWqT65Qt6N5XriY3nU2qYh0kurinquDrXPRx4dMGwGtUd8KxBnpDAOvWGuX0QKD6cg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752897692; c=relaxed/simple;
-	bh=N3RMiJV605oG38JSmV8wGrBUGo3AS+DlQ4wL7vfNLUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jfdeJoQCTWRHRXnNsU7tQUdCebUfujT9Zu/h1F/6/ay6efBTe4q7GKluYYeR9QRoGo6mCVednpHZ1eapSmRdUUm/rwT6Ts0Cx85VUf/XgWIbDQETNHvZSt42uLnrCBDox+4+ZBB/xqpPTQfpzfsZ7lb7RdY/t6CPh9gm04cuVDQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EM+3zz1h; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752898723; c=relaxed/simple;
+	bh=c0Y1dBP6mbjgqGJ4uzXIvrk1OvosVS1lhNOJ42PXLTg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Xc+MBaORErC7SeVnMBrmt6BfyZY68aQUbF22+uDIf3VEkzKVfRnipI1rJZhST6PGI++NUHQ1RQ/2D4OvDER7SgpGaPaEVD/ZKuGaVdJCQYfndLMT1cgvMioErOri85pD3Bi2DuwPkqY8UNGiw7SZIvyZFLDJ/Eo3vY7SsnyfKGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L4L4GAUv; arc=none smtp.client-ip=209.85.167.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EM+3zz1h"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752897690; x=1784433690;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=N3RMiJV605oG38JSmV8wGrBUGo3AS+DlQ4wL7vfNLUI=;
-  b=EM+3zz1hR8dEeP/KXxDBupq0sMIn0nnwTqauDBmUb2/b3m2VoICXpInB
-   cIBDxBmneziG1M/M9f4K3CxkIms9EBP1TfbNV/Akvd+uq/LBjrD8IyexB
-   ozx8R0qfLuXR3uEFxQ2THl93hC9V50TOLWP50yLXZpLek6gjxLEffvniG
-   sH+45ixSvOotsg5wWvnOam0Dv75FXBwEmTEdFlF467OkZzHw1Sg/BmZOv
-   3rhJ8+hxsWPsQ2N3M74oE8R5tgByqvI/+yhypBnlS1XaCrz5eeSpI+35n
-   U1aXg1A01B3pqEbohX9o4512hXg4GVly+3ckZh+PUiWpc9hQaicgL8RZb
-   A==;
-X-CSE-ConnectionGUID: KdaBWgxySUKRGhyg/n4GAw==
-X-CSE-MsgGUID: ft9SD/91SpKas5YnPOeJkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="54296149"
-X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="54296149"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jul 2025 21:01:29 -0700
-X-CSE-ConnectionGUID: 3IMm1fyQQzmlXBvEjFXUow==
-X-CSE-MsgGUID: UgFcJH2QSO+URTZHMGTYsg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="162415594"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 18 Jul 2025 21:01:28 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ucylK-000FEZ-21;
-	Sat, 19 Jul 2025 04:01:26 +0000
-Date: Sat, 19 Jul 2025 12:00:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: XingxingQiao <mnlife@126.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC] rt_ipc: a new IPC mechanism called rt_ipc (real-time IPC)
-Message-ID: <202507191133.7TvtRVM5-lkp@intel.com>
-References: <20250718060634.469032-1-mnlife@126.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L4L4GAUv"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-41eaf97412eso1372548b6e.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 18 Jul 2025 21:18:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1752898720; x=1753503520; darn=lists.linux.dev;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=N+BZHCELzgroZPkR4FxBQw6DLs08RrhPaFfaJBgCmTw=;
+        b=L4L4GAUvZpD4JHLcndnFimvphVDCRMUP2Z+wPuCPM69ulsBUGxdR9+uSlI1VN5mVig
+         8K62TpXp+kzLav0Nj4HCeayfnRGICjI/NiN8C/rz5qb1bK3gUL1mDnPC6fLUNdhd281z
+         77W+oW6t3Fav2Mom0UD90BdgtWe22YuqMbAbMybd3O9MpLmwB58sPy5aFmhH4iUoGLjg
+         LbnWqtOpn2fZZlX77mk7kuoVfLFb6ZPJO84v1cWdn9N61spkorMHlxH/ARwAWgDsUP6g
+         jYc8vI04gkUJjg4LsO/0XXjFR1/ZcECF9FOqAK1HBuKSfkJUg0M5YcXM8u44Y7wkri1X
+         h/9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1752898720; x=1753503520;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=N+BZHCELzgroZPkR4FxBQw6DLs08RrhPaFfaJBgCmTw=;
+        b=JBrUeRZ+0zcB9o5BXFDU6qaqimeIEPwu23IVev+H/JNGio+Aejv4mq2FYfPtSIuKUO
+         xmwbFsibZ35T76/M3UvfPWD5lUzeSErey+O2ulsMQEOpXwTzd0I1AwixFiOAPJYDPSm5
+         LWfWoB+6s/TPTXQrjOARjEObg6dMP7PH2EcTeBH44KrUR9txSMxbiwa7Ne15/P0hR+Kg
+         U4PaC+vX6t4wamvv1w0KLtVxqCigoYDPtTuag4h4XFKtzAYojZoN+RZelChl083gzj5S
+         Zq1erdxDrmOGSQq5rYrnI7sfcv3r+7gwdiX8Q1c8jTXF3k7rp7aA2+pRZO2l5ug1VCeG
+         3wsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUlNYxveKdNxx57dzrFzyU74lkzuHzZjupRCaMslUDr/NgtEurWKe6iA19o6sp0DG7/+wsBBQCGHhb8awNn@lists.linux.dev
+X-Gm-Message-State: AOJu0YwJyqnUrNkwn82dsVgOdjrjKjPQB2Ugtr2l7ehyd8gVwGEyA4ER
+	A7NgMmSHQD6lhOKOu8GvOl02milkCuEwp4HDFgClG9gpnXxIuJmPgfQWbJ45mxzKunA=
+X-Gm-Gg: ASbGnctBQvu82MMt/hVyNCeSEnvAZ862UuVwOrdYsrbfWmx+iNui1ZyAm1JQqjC3T11
+	5QkOH9tC6yrh2QYA1oobtPGJMp9DnbSA8XAJZQBybwPD1+GE4YCTcE41innOU9VnhH493eVUdHD
+	i8K2HCT0X8+d5kvlqo4/q0hfeJwlEdnWOvX2H/wuZcfeuentUJx/gr3HbZAcabBONa3Bkxf1u1U
+	GiBcIvzHE65ZtQYK2xFZhTOZ8fIoneRFtyGSFX4Vz25r8LqOyqgFGqEsVS7IrzRFxAP21xjzZKd
+	wqy6qO6fFUVlplJF+Sd2EEx95QYHeML6u3kmvhc4W7sY1YakNcr/1khSvaCvKfFBxQxA9cdrEBZ
+	qxreL14EdsbpOfF6MBd4dAw==
+X-Google-Smtp-Source: AGHT+IHE4UttwYLmhGGq1aSYcpzByA8NABM+J2odNl+m7q/H0Fuud2QipBzhprq2PRURBtpwaV4v0A==
+X-Received: by 2002:a05:6808:508b:b0:40b:1588:e005 with SMTP id 5614622812f47-41d037e362bmr8968994b6e.10.1752898719958;
+        Fri, 18 Jul 2025 21:18:39 -0700 (PDT)
+Received: from localhost ([2603:8080:b800:f700::17c0])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-41fd565d35csm945062b6e.40.2025.07.18.21.18.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Jul 2025 21:18:39 -0700 (PDT)
+Date: Sat, 19 Jul 2025 07:18:38 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Mengyuan Lou <mengyuanlou@net-swift.com>
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: [linux-next:master 7606/11307]
+ drivers/net/ethernet/wangxun/libwx/wx_vf_common.c:99
+ wx_request_msix_irqs_vf() warn: why call request_threaded_irq() with a NULL
+ thread
+Message-ID: <ada3c3a9-556f-4860-bff0-af0364a984b8@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,47 +74,73 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250718060634.469032-1-mnlife@126.com>
 
-Hi XingxingQiao,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/x86/core]
-[also build test ERROR on tip/sched/core linus/master v6.16-rc6]
-[cannot apply to sysctl/sysctl-next next-20250718]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/XingxingQiao/rt_ipc-a-new-IPC-mechanism-called-rt_ipc-real-time-IPC/20250718-140945
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20250718060634.469032-1-mnlife%40126.com
-patch subject: [RFC] rt_ipc: a new IPC mechanism called rt_ipc (real-time IPC)
-config: x86_64-buildonly-randconfig-004-20250719 (https://download.01.org/0day-ci/archive/20250719/202507191133.7TvtRVM5-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191133.7TvtRVM5-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
+commit: fd0a2e03bf6083354994c2efe2bd12e369c0c830 [7606/11307] net: txgbevf: init interrupts and request irqs
+config: parisc-randconfig-r071-20250719 (https://download.01.org/0day-ci/archive/20250719/202507191110.FWkwuVJQ-lkp@intel.com/config)
+compiler: hppa-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507191133.7TvtRVM5-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202507191110.FWkwuVJQ-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+drivers/net/ethernet/wangxun/libwx/wx_vf_common.c:99 wx_request_msix_irqs_vf() warn: why call request_threaded_irq() with a NULL thread
 
-   ld: arch/x86/entry/syscall_64.o: in function `x64_sys_call':
->> syscall_64.c:(.text+0x17): undefined reference to `__x64_sys_rt_ipc_return'
->> ld: syscall_64.c:(.text+0x1c): undefined reference to `__x64_sys_rt_ipc_invoke'
->> ld: syscall_64.c:(.text+0x21): undefined reference to `__x64_sys_rt_ipc_register'
-   ld: arch/x86/entry/syscall_64.o: in function `x32_sys_call':
-   syscall_64.c:(.text+0x80b): undefined reference to `__x64_sys_rt_ipc_return'
-   ld: syscall_64.c:(.text+0x810): undefined reference to `__x64_sys_rt_ipc_invoke'
-   ld: syscall_64.c:(.text+0x815): undefined reference to `__x64_sys_rt_ipc_register'
->> ld: arch/x86/entry/syscall_64.o:(.rodata+0x2e80): undefined reference to `__x64_sys_rt_ipc_register'
->> ld: arch/x86/entry/syscall_64.o:(.rodata+0x2e88): undefined reference to `__x64_sys_rt_ipc_invoke'
->> ld: arch/x86/entry/syscall_64.o:(.rodata+0x2e90): undefined reference to `__x64_sys_rt_ipc_return'
+vim +99 drivers/net/ethernet/wangxun/libwx/wx_vf_common.c
+
+eb4898fde1de8c Mengyuan Lou 2025-07-04   74  int wx_request_msix_irqs_vf(struct wx *wx)
+eb4898fde1de8c Mengyuan Lou 2025-07-04   75  {
+eb4898fde1de8c Mengyuan Lou 2025-07-04   76  	struct net_device *netdev = wx->netdev;
+eb4898fde1de8c Mengyuan Lou 2025-07-04   77  	int vector, err;
+eb4898fde1de8c Mengyuan Lou 2025-07-04   78  
+eb4898fde1de8c Mengyuan Lou 2025-07-04   79  	for (vector = 0; vector < wx->num_q_vectors; vector++) {
+eb4898fde1de8c Mengyuan Lou 2025-07-04   80  		struct wx_q_vector *q_vector = wx->q_vector[vector];
+eb4898fde1de8c Mengyuan Lou 2025-07-04   81  		struct msix_entry *entry = &wx->msix_q_entries[vector];
+eb4898fde1de8c Mengyuan Lou 2025-07-04   82  
+eb4898fde1de8c Mengyuan Lou 2025-07-04   83  		if (q_vector->tx.ring && q_vector->rx.ring)
+eb4898fde1de8c Mengyuan Lou 2025-07-04   84  			snprintf(q_vector->name, sizeof(q_vector->name) - 1,
+eb4898fde1de8c Mengyuan Lou 2025-07-04   85  				 "%s-TxRx-%d", netdev->name, entry->entry);
+eb4898fde1de8c Mengyuan Lou 2025-07-04   86  		else
+eb4898fde1de8c Mengyuan Lou 2025-07-04   87  			/* skip this unused q_vector */
+eb4898fde1de8c Mengyuan Lou 2025-07-04   88  			continue;
+eb4898fde1de8c Mengyuan Lou 2025-07-04   89  
+eb4898fde1de8c Mengyuan Lou 2025-07-04   90  		err = request_irq(entry->vector, wx_msix_clean_rings, 0,
+eb4898fde1de8c Mengyuan Lou 2025-07-04   91  				  q_vector->name, q_vector);
+eb4898fde1de8c Mengyuan Lou 2025-07-04   92  		if (err) {
+eb4898fde1de8c Mengyuan Lou 2025-07-04   93  			wx_err(wx, "request_irq failed for MSIX interrupt %s Error: %d\n",
+eb4898fde1de8c Mengyuan Lou 2025-07-04   94  			       q_vector->name, err);
+eb4898fde1de8c Mengyuan Lou 2025-07-04   95  			goto free_queue_irqs;
+eb4898fde1de8c Mengyuan Lou 2025-07-04   96  		}
+eb4898fde1de8c Mengyuan Lou 2025-07-04   97  	}
+eb4898fde1de8c Mengyuan Lou 2025-07-04   98  
+fd0a2e03bf6083 Mengyuan Lou 2025-07-04  @99  	err = request_threaded_irq(wx->msix_entry->vector, wx_msix_misc_vf,
+fd0a2e03bf6083 Mengyuan Lou 2025-07-04  100  				   NULL, IRQF_ONESHOT, netdev->name, wx);
+                                                                           ^^^^
+It's not a threaded IRQ if the thread is NULL.  You could just
+use request_irq().
+
+eb4898fde1de8c Mengyuan Lou 2025-07-04  101  	if (err) {
+eb4898fde1de8c Mengyuan Lou 2025-07-04  102  		wx_err(wx, "request_irq for msix_other failed: %d\n", err);
+eb4898fde1de8c Mengyuan Lou 2025-07-04  103  		goto free_queue_irqs;
+eb4898fde1de8c Mengyuan Lou 2025-07-04  104  	}
+eb4898fde1de8c Mengyuan Lou 2025-07-04  105  
+eb4898fde1de8c Mengyuan Lou 2025-07-04  106  	return 0;
+eb4898fde1de8c Mengyuan Lou 2025-07-04  107  
+eb4898fde1de8c Mengyuan Lou 2025-07-04  108  free_queue_irqs:
+eb4898fde1de8c Mengyuan Lou 2025-07-04  109  	while (vector) {
+eb4898fde1de8c Mengyuan Lou 2025-07-04  110  		vector--;
+eb4898fde1de8c Mengyuan Lou 2025-07-04  111  		free_irq(wx->msix_q_entries[vector].vector,
+eb4898fde1de8c Mengyuan Lou 2025-07-04  112  			 wx->q_vector[vector]);
+eb4898fde1de8c Mengyuan Lou 2025-07-04  113  	}
+eb4898fde1de8c Mengyuan Lou 2025-07-04  114  	wx_reset_interrupt_capability(wx);
+eb4898fde1de8c Mengyuan Lou 2025-07-04  115  	return err;
+eb4898fde1de8c Mengyuan Lou 2025-07-04  116  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
