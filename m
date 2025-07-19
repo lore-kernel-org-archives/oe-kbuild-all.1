@@ -1,76 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA75222AE75;
-	Sat, 19 Jul 2025 08:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3C4235055
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 09:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752913556; cv=none; b=rO5cgVxBjp80Yra3XI+yIBwVADAXa5wHTH5V7Dpf0mXQ92gOikyBx2ukOjdQPkxGNVsLPKOSoDQKF0VziICmh00lGavbgPjfJ1CwKI0HkXtWAx0o0PSF8n4Ea0ylzpocFnycuuWTX3LTJkUo3LE6vMXGtNzmwJZX6xzYMuQdV8Y=
+	t=1752916015; cv=none; b=BM+Q4p29/NKWlcMt5wAlvdRXfcqWtIPGsqecNHCa04hEJRjsaCYhEC0sYvjra0k7QSsq9GWcFFz2j+cRW04l/9ctfNva9oJx4oix7VUyvbNi1mITryMnAjEJF7YGoFkz1ax1Mzv5KK7l68R+Ab3a9MWOlPXFw18QJSzQapCe9QY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752913556; c=relaxed/simple;
-	bh=4eRGrkNw5Cb+IWU2kFLOeD/+YDj6S0Mo45vQlVKl17o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q6zGAsNIop7/EBpGTMSj9ATMJLbhafQDo492I+LQI3qNqWD/EJgl76BzbfN+JsxoxEWSIvGkf8HjqjLTGh9pqxQVH+wwb2+wsQZtY0pc004iigUwx2DBZ2VdyhfQsWBse4finsLAlYXe7HOe3tqDFg5kP9+Vt/12ZzOC8W0y32o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kI9y485Y; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1752916015; c=relaxed/simple;
+	bh=nB/egk+KEP7FTyr2Qe2wrCq9n/uP/x5C8KVBZC8oARs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=GK1BMJ1BLftjfSwGnRBWsDsIA7FQA6Z5mRxveTWcnUp7aF5c5F2cYlnOfCLJSKiM2Ifx2j6euE8udXQWPbgweff8mtP4hGPtKxH+IZDCFMcFvHBl9OuBcUmEWxoTyeYkQ6e5cpE+AySt9eC6iF2JOUSTuFHe3KpXa/WebDB4Qjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YMvROrlo; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kI9y485Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YMvROrlo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752913554; x=1784449554;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4eRGrkNw5Cb+IWU2kFLOeD/+YDj6S0Mo45vQlVKl17o=;
-  b=kI9y485YfUYeGp0VUmgCsC1WxyZVbBRCZ6yGpJmqDoPkZGHFrrvN3l9C
-   10mBheUmdSvX1nec2XKHQguiuDoZvLf+DEx9IUl/+BPd6I5FQbFhWK6wC
-   1I39nr24+cdQQ2zMzTa9cnCh83QZX0wubSo8syURqJ7krxK9VgaurNPy6
-   AhK32E11rv+UHwHuA/UIMqV9LS3URyONWs5K0n4EvQoFBI+MBLBXq2EJq
-   POHPy7kVhim6LRMkHiCxVV22hA8l/C2Rz9oZCU0uQd68NCYk54IuNO4ot
-   sstqHIZQYIGYx+FlxDC6g+LODhGnQ3FnsaJWzFCAFPVOfzOoRAd5TSW38
-   A==;
-X-CSE-ConnectionGUID: lHNFTAdNSg6+q4VTs02xPA==
-X-CSE-MsgGUID: 3USG3rRmQ32Xf7i65IqCAw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="59011634"
-X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="59011634"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 01:25:54 -0700
-X-CSE-ConnectionGUID: +7S6gRYbTFKNwAB/ImkwEw==
-X-CSE-MsgGUID: K0XQRP2vRl6ZkaKXZaYvSw==
+  t=1752916014; x=1784452014;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nB/egk+KEP7FTyr2Qe2wrCq9n/uP/x5C8KVBZC8oARs=;
+  b=YMvROrlo/ecZu/9mBYakqmMaY5FymoOezi4ZnGkPTIb5IaZEMqBxLyCi
+   AQotXBTxYChIJwOaJ4H163X8p6ZgFLW0/nO1715fscUPPsHsA2d4p0Ult
+   RJv7SADXqYoBiL004nJF3lJdNdOkxC3N7MwhFsGb2X5kGpd4RmxpJpUid
+   4RXCpx1TnehRJF93x5pb3ezfQsAMjKV3+wZrITMvI6SQeeTW+unFJ0R8H
+   2V19AyDifPqvYvhqF2oyhrdFG7Jw0FHI4PcpaHg0XOyEODWaxDNc+Z5u8
+   NopfpGOXzaROcPePs4uet+/p5vYp/N9onXwie3XmVnGb3nXNq3Zze8YSD
+   g==;
+X-CSE-ConnectionGUID: dJIwg/J4R0uLCBbWP6j6Pg==
+X-CSE-MsgGUID: iBm2rxENRYWJ+oekKdgpZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="66265550"
+X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
+   d="scan'208";a="66265550"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 02:06:54 -0700
+X-CSE-ConnectionGUID: KL0g8mCGR82L1Dk8KAENTQ==
+X-CSE-MsgGUID: JlY5oe9kTaa/u7bpAMUTXw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="164052562"
+X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
+   d="scan'208";a="157738866"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 19 Jul 2025 01:25:49 -0700
+  by orviesa010.jf.intel.com with ESMTP; 19 Jul 2025 02:06:52 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ud2t9-000FLL-05;
-	Sat, 19 Jul 2025 08:25:47 +0000
-Date: Sat, 19 Jul 2025 16:24:47 +0800
+	id 1ud3Ws-000FNP-1E;
+	Sat, 19 Jul 2025 09:06:50 +0000
+Date: Sat, 19 Jul 2025 17:06:11 +0800
 From: kernel test robot <lkp@intel.com>
-To: Macpaul Lin <macpaul.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Sean Wang <sean.wang@mediatek.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	openembedded-core@lists.openembedded.org, patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Bear Wang <bear.wang@mediatek.com>,
-	Pablo Sun <pablo.sun@mediatek.com>,
-	Ramax Lo <ramax.lo@mediatek.com>,
-	Macpaul Lin <macpaul.lin@mediatek.com>,
-	MediaTek Chromebook Upstream <Project_Global_Chrome_Upstream_Group@mediatek.com>
-Subject: Re: [PATCH 3/4] arm64: dts: mediatek: add device-tree for Genio 1200
- EVK UFS board
-Message-ID: <202507191640.Ghk47rXu-lkp@intel.com>
-References: <20250718083202.654568-3-macpaul.lin@mediatek.com>
+To: Shivnandan Kumar <quic_kshivnan@quicinc.com>
+Cc: oe-kbuild-all@lists.linux.dev, Georgi Djakov <djakov@kernel.org>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: [linux-next:master 11000/11307]
+ arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: pmu@240b3400
+ (qcom,sm8750-cpu-bwmon): 'nonposted-mmio' does not match any of the regexes:
+ '^pinctrl-[0-9]+$'
+Message-ID: <202507191709.6ljJtzlY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -79,36 +64,26 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250718083202.654568-3-macpaul.lin@mediatek.com>
 
-Hi Macpaul,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on robh/for-next]
-[also build test ERROR on arm64/for-next/core krzk/for-next linus/master v6.16-rc6]
-[cannot apply to next-20250718]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Macpaul-Lin/arm64-dts-mediatek-mt8395-genio-1200-evk-Move-common-parts-to-dtsi/20250718-163459
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250718083202.654568-3-macpaul.lin%40mediatek.com
-patch subject: [PATCH 3/4] arm64: dts: mediatek: add device-tree for Genio 1200 EVK UFS board
-config: arm64-randconfig-001-20250719 (https://download.01.org/0day-ci/archive/20250719/202507191640.Ghk47rXu-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191640.Ghk47rXu-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
+commit: e8c2f20f594d67d8b33b29f237306d26b2351ff9 [11000/11307] arm64: dts: qcom: sm8750: Add BWMONs
+config: arm64-randconfig-051-20250718 (https://download.01.org/0day-ci/archive/20250719/202507191709.6ljJtzlY-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191709.6ljJtzlY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507191640.Ghk47rXu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507191709.6ljJtzlY-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> Error: arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk-ufs.dts:10.1-8 Label or path ufshci not found
-   FATAL ERROR: Syntax error parsing input tree
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/qcom/sm8750-mtp.dtb: pmu@240b3400 (qcom,sm8750-cpu-bwmon): 'nonposted-mmio' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,msm8998-bwmon.yaml#
+--
+>> arch/arm64/boot/dts/qcom/sm8750-qrd.dtb: pmu@240b3400 (qcom,sm8750-cpu-bwmon): 'nonposted-mmio' does not match any of the regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/interconnect/qcom,msm8998-bwmon.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
