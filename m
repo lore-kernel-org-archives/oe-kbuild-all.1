@@ -1,62 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CB919F13F
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 21:29:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A3818A6DF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 23:22:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752960548; cv=none; b=gPBEGe//E3+FzAuiiI7nGtf0Wky2jBq0fIytbsTm/Fd8TeCUUIGrMc+rV6XcfESRgDZkPjS8eA7dS1l0CA5fI0kYNKKM923hORqDfI74ERcaDK32HwqhuhXe1wC1Y9HIkR4lwttsYLQT7dLdPiTcsMP06Ry9zmdDJUG96QKHCzY=
+	t=1752967336; cv=none; b=gjsGZ/Fu+aXrU9KZjqDNgRUvAwlcScGheGt/JlG7iS+vmL+ISrT3VU2+GhfdQaWrILizlWKhGZ5pnN7JKtQccZt6EpkjWO9GlnQxctrwjPPx1cc67iO6shotaMJQh0vkjREeDZoE2sm7+wPqBuwhfh2dUhX/v43WgDTxwYixrLs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752960548; c=relaxed/simple;
-	bh=S+IAogN4RSr4qVuiZ51VRNqMJuK8sEvXC5Of2Dn9YK8=;
+	s=arc-20240116; t=1752967336; c=relaxed/simple;
+	bh=592mduOSIIbjRo6QOG1O1f748urmA9UgcK+qaVVszxw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dMVVOJteyK/Gek/xPhMAqRz3gz7Zs1o9LHQSt87GfeFnoNio87vkEYuwU24oKuQqrO0Tphd6/Gq2Qq1pQ8+IjGNlBjZOlVX/2TLjsOBvOUs2dn3OdWJYu59BQYa2NdAUjEoabM6rQ5gSNsD2n8EHMvqP40BGq3ZHfMPPXdek/0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VGFGg6G6; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=IS4mvtO6IPHWA+7tahJmBKaA+czD2HtedT0QfG5gQE3e4Xy5WN5iZ9HTfZLZiktR2fZv8dNjHHD1+yHo97kHHbFqMPeNLxXuTV500M10BDiWSPtXvvyH1PsoKmveTNKeMQgeBXGpkLURp9V6jRCEswJksu7vknCAL04KNu7IgFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JowmF4+o; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VGFGg6G6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JowmF4+o"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752960546; x=1784496546;
+  t=1752967335; x=1784503335;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=S+IAogN4RSr4qVuiZ51VRNqMJuK8sEvXC5Of2Dn9YK8=;
-  b=VGFGg6G6qtKGixNFNy4bXfF1mDwXHlC4pHcO5aUrFhYHCpd+iBvf1Usx
-   xHPQS6ok7/NCnJa6qBq5H1JfbYjgGFlGZFkpf5xrSZY8wq1eC/6VLqM6B
-   XiV44Vs69/IZXWT9S1L8QfF4WyAFMMRS05YPoQVe5g48YWlF24wDiTrYL
-   IUXoE/P3xSY4aHZDXdWCg7gEjxFXL/go96kSZ6P5cHFoBuJ9ZR0tNf7jc
-   lzCmxiFN0CMvD3XMM7nMN+9g4W3WckYxQegcsj3iRu+XR63wLwBgIl2ov
-   bBQ0xgr73wRa2aHmmt1sILgN3SbHn7CSNbx/CLCbEedzbbwrzatnGwSi7
-   g==;
-X-CSE-ConnectionGUID: +MRHX7pHQ+yQlYu1HLzm2g==
-X-CSE-MsgGUID: KcYMfS79TQ6sMh5F7Let4Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11497"; a="66570228"
+  bh=592mduOSIIbjRo6QOG1O1f748urmA9UgcK+qaVVszxw=;
+  b=JowmF4+oMR7uc/bvahy8yNe8EWGt2QwNKwpPn6EixHr+bnwASfsWCXtj
+   kC1oa+grz2lRZg4OFLcLBSfK+FpyYJEYR0NLNFoPoJWkQuCNQzPAQb6Xr
+   k2byGpbJQEKV4MCRKe8zEO+nWDS6tdiYlV3rsMWS6KotpsGPXpxnagBip
+   5jYqpoofU0tp+rOykkU4fzvDLSC2N3MEY1ec+2RyppKy+3apkjrccsmFh
+   9QQkxt7VMjzbsA+MLG/XtP8/nVl4z2u2ATMia7/f0gc+NMs6xvfHiN54l
+   oG9SqFBV3rwpt+IWnJszYDWjzpchnRpfF61e0eTQ+LfJw7NgjaFrTQcXE
+   w==;
+X-CSE-ConnectionGUID: efZHpeOHRc6cNtwXb6m+Lg==
+X-CSE-MsgGUID: 88nMPnDoRNSfuV+9Vtcq/A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11497"; a="55105529"
 X-IronPort-AV: E=Sophos;i="6.16,325,1744095600"; 
-   d="scan'208";a="66570228"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 14:29:05 -0700
-X-CSE-ConnectionGUID: BGXElBXgRTCAEG1ImpsmqA==
-X-CSE-MsgGUID: EOvTOH1PR6ihuaTKCY7RAQ==
+   d="scan'208";a="55105529"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 16:22:15 -0700
+X-CSE-ConnectionGUID: DE2RZxVNR9maiV7c8OKcRw==
+X-CSE-MsgGUID: 5djQIU38Qxqxg9c80EihYA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,325,1744095600"; 
-   d="scan'208";a="195575550"
+   d="scan'208";a="158560564"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 19 Jul 2025 14:29:04 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 19 Jul 2025 16:22:11 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1udF77-000FnN-0m;
-	Sat, 19 Jul 2025 21:29:01 +0000
-Date: Sun, 20 Jul 2025 05:28:43 +0800
+	id 1udGsb-000Fpx-0q;
+	Sat, 19 Jul 2025 23:22:09 +0000
+Date: Sun, 20 Jul 2025 07:22:05 +0800
 From: kernel test robot <lkp@intel.com>
-To: jeff_chang@richtek.com, lgirdwood@gmail.com, broonie@kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, jeff_chang@richtek.com
-Subject: Re: [PATCH v2] regulator: rt5133: Add RT5133 PMIC regulator Support
-Message-ID: <202507200505.u1UDlUuV-lkp@intel.com>
-References: <20250718081052.2685826-1-jeff_chang@richtek.com>
+To: Mihai Moldovan <ionic@ionic.de>, linux-arm-msm@vger.kernel.org,
+	Manivannan Sadhasivam <mani@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Denis Kenzior <denkenz@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Willem de Bruijn <willemb@google.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v2 03/10] net: qrtr: support identical node ids
+Message-ID: <202507200739.pd0Gkp22-lkp@intel.com>
+References: <4d0fe1eab4b38fb85e2ec53c07289bc0843611a2.1752947108.git.ionic@ionic.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,46 +70,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250718081052.2685826-1-jeff_chang@richtek.com>
+In-Reply-To: <4d0fe1eab4b38fb85e2ec53c07289bc0843611a2.1752947108.git.ionic@ionic.de>
 
-Hi,
+Hi Mihai,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on broonie-regulator/for-next]
-[also build test WARNING on linus/master v6.16-rc6 next-20250718]
+[auto build test WARNING on mani-mhi/mhi-next]
+[also build test WARNING on net-next/main net/main linus/master v6.16-rc6 next-20250718]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/jeff_chang-richtek-com/regulator-rt5133-Add-RT5133-PMIC-regulator-Support/20250718-161216
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20250718081052.2685826-1-jeff_chang%40richtek.com
-patch subject: [PATCH v2] regulator: rt5133: Add RT5133 PMIC regulator Support
-config: alpha-kismet-CONFIG_MFD_STMFX-CONFIG_PINCTRL_STMFX-0-0 (https://download.01.org/0day-ci/archive/20250720/202507200505.u1UDlUuV-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250720/202507200505.u1UDlUuV-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Mihai-Moldovan/net-qrtr-ns-validate-msglen-before-ctrl_pkt-use/20250720-030426
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mani/mhi.git mhi-next
+patch link:    https://lore.kernel.org/r/4d0fe1eab4b38fb85e2ec53c07289bc0843611a2.1752947108.git.ionic%40ionic.de
+patch subject: [PATCH v2 03/10] net: qrtr: support identical node ids
+config: arc-randconfig-002-20250720 (https://download.01.org/0day-ci/archive/20250720/202507200739.pd0Gkp22-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250720/202507200739.pd0Gkp22-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507200505.u1UDlUuV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507200739.pd0Gkp22-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for MFD_STMFX when selected by PINCTRL_STMFX
-   WARNING: unmet direct dependencies detected for OF_GPIO
-     Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
-     Selected by [y]:
-     - REGULATOR_RT5133 [=y] && REGULATOR [=y] && I2C [=y] && GPIOLIB [=y]
-   
-   WARNING: unmet direct dependencies detected for MFD_STMFX
-     Depends on [n]: HAS_IOMEM [=y] && I2C [=y] && OF [=n]
-     Selected by [y]:
-     - PINCTRL_STMFX [=y] && PINCTRL [=y] && I2C [=y] && OF_GPIO [=y]
-   
-   WARNING: unmet direct dependencies detected for GPIO_SYSCON
-     Depends on [n]: GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF [=n]
-     Selected by [y]:
-     - GPIO_SAMA5D2_PIOBU [=y] && GPIOLIB [=y] && HAS_IOMEM [=y] && MFD_SYSCON [=y] && OF_GPIO [=y] && (ARCH_AT91 || COMPILE_TEST [=y])
+All warnings (new ones prefixed by >>):
+
+   net/qrtr/af_qrtr.c: In function 'qrtr_node_assign':
+>> net/qrtr/af_qrtr.c:429:36: warning: left shift count >= width of type [-Wshift-count-overflow]
+     key = (unsigned long)node->ep->id << 32 | nid;
+                                       ^~
+
+
+vim +429 net/qrtr/af_qrtr.c
+
+   412	
+   413	/* Assign node id to node.
+   414	 *
+   415	 * This is mostly useful for automatic node id assignment, based on
+   416	 * the source id in the incoming packet.
+   417	 */
+   418	static void qrtr_node_assign(struct qrtr_node *node, unsigned int nid)
+   419	{
+   420		unsigned long flags;
+   421		unsigned long key;
+   422	
+   423		if (nid == QRTR_EP_NID_AUTO)
+   424			return;
+   425	
+   426		spin_lock_irqsave(&qrtr_nodes_lock, flags);
+   427	
+   428		/* Always insert with the endpoint_id + node_id */
+ > 429		key = (unsigned long)node->ep->id << 32 | nid;
+   430		radix_tree_insert(&qrtr_nodes, key, node);
+   431	
+   432		if (!radix_tree_lookup(&qrtr_nodes, nid))
+   433			radix_tree_insert(&qrtr_nodes, nid, node);
+   434	
+   435		if (node->nid == QRTR_EP_NID_AUTO)
+   436			node->nid = nid;
+   437		spin_unlock_irqrestore(&qrtr_nodes_lock, flags);
+   438	}
+   439	
 
 -- 
 0-DAY CI Kernel Test Service
