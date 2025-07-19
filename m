@@ -1,64 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C529322A7E5
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 07:32:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6F122DFA3;
+	Sat, 19 Jul 2025 07:43:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752910370; cv=none; b=LufkDwDiN7bG1p6QDJx+ehVEHJeUutzH5zWBdOzmnMdwWoMfGhsC9y03JqexEdp6CdS0cq6oFlnvEWwY6tvlCCb6IUA8xYt1PMr8UZTtfQcjEPX9S/EAN+0v5/leXh2LXrDbM3GJq5UZL0V8hVwHyg2VNvWr3Rpp6XlAzRc9n6s=
+	t=1752911037; cv=none; b=hVMfdrXi1uAosnfLEttHn3azV60rIdDWKY+WOJvoCKSCVMReW6tgNvMjT9fsxN42ne4d187j/c+kea6Bryp/N9U2sMgenaJRO39iD2A+Tw02WMVBMZFOc+o0k5gHj+UAnctcKwVDbkuXa/0AH/dW7JSU62lS3kL+ZISCcApLO/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752910370; c=relaxed/simple;
-	bh=BWHip9Ob+Rbo7R8yQG563T+TiGK9qqPI2QgNU5+R2xI=;
+	s=arc-20240116; t=1752911037; c=relaxed/simple;
+	bh=ExeIcKQFSS1qmlfLTGq6NdRwBIsy7m51VTTE43vJJ1A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R9ihpkr8xf2W+QPpEas6GmBh1AFN6cmr9pwy2P9XjpGDqxA5Xq0Wi1mGdZnhmivdRygsF3JG+bJK3oh39QT3bzNjorCFjjEbVDz0cMromEki1xO5P2sbUFSrpuHN6jRSdVFHjn453yB6Ma8+uNMXXYqJoG8r0z9EiR8yvOma5u8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ATPA/r6N; arc=none smtp.client-ip=192.198.163.12
+	 Content-Type:Content-Disposition:In-Reply-To; b=jE+yinGjMRjQvrxNqmlGPVnUCnAQtUUXW2/kDcnAr0GnI5N5ztPe509u0kjYvzMdYIMBJC1NlfEWiAvnuAPJRl7WCSFcBRZVE01eiSnE0d0kHbXSf5eFOzrrP89V4FX3Fi49RBFJ4bXAm420u+YNjA179f1MY+vFPoLQ5m5TpWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XA6I82EQ; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ATPA/r6N"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XA6I82EQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752910368; x=1784446368;
+  t=1752911035; x=1784447035;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=BWHip9Ob+Rbo7R8yQG563T+TiGK9qqPI2QgNU5+R2xI=;
-  b=ATPA/r6Noz+i64ez+IZINarEQqoMcFAx7iGns+gS183JGVlnowHRej8Y
-   P9tazHWzgYwbCpUunL5Ti5PgyQrAkO4TI7STmXHf9y1OUSkQ6NzC5GEDa
-   UXe9OCwhH5c7OPJlWLLiNat+APtNmTPADHNq8qc8pnxwT0VbEqrE9lnWt
-   9WXh8Z1NrO9gUJ1xzEmxN7DGmWDG/RD1zo+J96KuDPdwSupvS9CR8kmo6
-   3owjgJGw+N4t/yaSg5/xWWAI0DhSTpNJQ6NShMJEzSg0RHeN6kSkTWk4Z
-   /RfCjWG3+gzY0977njy2mCTMoWguocvMVAyIYMMsXbSfMb7V4RqPst3jk
-   A==;
-X-CSE-ConnectionGUID: MCyHWzkBTeiEnOnGIP9TeQ==
-X-CSE-MsgGUID: ycwViaR2RZm8bkBdzHTnsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="59010258"
+  bh=ExeIcKQFSS1qmlfLTGq6NdRwBIsy7m51VTTE43vJJ1A=;
+  b=XA6I82EQk+ozlm26IKz38NoubQ1Zl/W1ZWH9mJmm+p4FAUjL20XGjLOw
+   f6a2O65Ontp3hwgyOUE8bnfG/HfjlFkuv7ZXiJXcNudVl6CpfN5CtpicD
+   +WzhJdJ06cccndeHSv6GhxpJixQi82w/nZTsBnEYFnoIH3rL6tQ5v8kQ5
+   GPwYVj1E2sytIwIc0Lhm8C0HIK/GeJGvP+dpzVtYkWQupclUHU5fFkh63
+   N8fi99OocH6v4TzmAT+7DKVulTn7I0R9KbWemX0SZtH1cEEXpZO90THVA
+   96Oc1fRIUv5yjL3mr79BNcQpQRb+pZEekRg0tG6bmdky8vKP9oqpNQhj9
+   Q==;
+X-CSE-ConnectionGUID: +7IC4KEESNebMpEt1OL0Rw==
+X-CSE-MsgGUID: VkVhxoeyTRu4/Ft/MeLqmA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11496"; a="72651130"
 X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="59010258"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 00:32:47 -0700
-X-CSE-ConnectionGUID: 0R3YABj+SL+PxeGyc1cErA==
-X-CSE-MsgGUID: uDXsMMRDRKqNlUa8DLZ7HQ==
+   d="scan'208";a="72651130"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 00:43:54 -0700
+X-CSE-ConnectionGUID: iaIxP5gRQweAL56B3D2Alw==
+X-CSE-MsgGUID: X3Qv0Y49S/O0oDqks2wQNg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,323,1744095600"; 
-   d="scan'208";a="195481924"
+   d="scan'208";a="158517427"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 19 Jul 2025 00:32:44 -0700
+  by orviesa007.jf.intel.com with ESMTP; 19 Jul 2025 00:43:46 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ud23m-000FJX-2O;
-	Sat, 19 Jul 2025 07:32:42 +0000
-Date: Sat, 19 Jul 2025 15:32:25 +0800
+	id 1ud2ER-000FJj-1P;
+	Sat, 19 Jul 2025 07:43:43 +0000
+Date: Sat, 19 Jul 2025 15:42:49 +0800
 From: kernel test robot <lkp@intel.com>
-To: Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>, airlied@gmail.com,
-	jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
-	simona@ffwll.ch, mripard@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, mairacanal@riseup.net,
-	Luiz Otavio Mello <luiz.mello@estudante.ufscar.br>
-Subject: Re: [PATCH] [PATCH v3] drm/i915: move struct_mutex from drm_device
- to drm_i915_private
-Message-ID: <202507191538.4n49mSm3-lkp@intel.com>
-References: <20250718195543.301391-1-luiz.mello@estudante.ufscar.br>
+To: Chaoyi Chen <kernel@airkyi.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, Sandy Huang <hjc@rock-chips.com>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Yubing Zhang <yubing.zhang@rock-chips.com>,
+	Frank Wang <frank.wang@rock-chips.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Amit Sunil Dhamne <amitsd@google.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chaoyi Chen <chaoyi.chen@rock-chips.com>,
+	Dragan Simic <dsimic@manjaro.org>, Johan Jonker <jbx6244@gmail.com>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Dmitry Baryshkov <lumag@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-phy@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 2/5] phy: rockchip: phy-rockchip-typec: Add
+ typec_mux/typec_switch support
+Message-ID: <202507191526.Ts6qTQJj-lkp@intel.com>
+References: <20250718062619.99-3-kernel@airkyi.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,96 +83,47 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250718195543.301391-1-luiz.mello@estudante.ufscar.br>
+In-Reply-To: <20250718062619.99-3-kernel@airkyi.com>
 
-Hi Luiz,
+Hi Chaoyi,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v6.16-rc6]
-[cannot apply to next-20250718]
+[auto build test ERROR on next-20250717]
+[also build test ERROR on linus/master v6.16-rc6]
+[cannot apply to robh/for-next rockchip/for-next krzk/for-next krzk-dt/for-next v6.16-rc6 v6.16-rc5 v6.16-rc4]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Luiz-Otavio-Mello/drm-i915-move-struct_mutex-from-drm_device-to-drm_i915_private/20250719-035710
-base:   linus/master
-patch link:    https://lore.kernel.org/r/20250718195543.301391-1-luiz.mello%40estudante.ufscar.br
-patch subject: [PATCH] [PATCH v3] drm/i915: move struct_mutex from drm_device to drm_i915_private
-config: arm-randconfig-001-20250719 (https://download.01.org/0day-ci/archive/20250719/202507191538.4n49mSm3-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191538.4n49mSm3-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Chaoyi-Chen/dt-bindings-phy-rockchip-rk3399-typec-phy-Support-mode-switch/20250718-142814
+base:   next-20250717
+patch link:    https://lore.kernel.org/r/20250718062619.99-3-kernel%40airkyi.com
+patch subject: [PATCH v2 2/5] phy: rockchip: phy-rockchip-typec: Add typec_mux/typec_switch support
+config: arm64-randconfig-004-20250719 (https://download.01.org/0day-ci/archive/20250719/202507191526.Ts6qTQJj-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507191526.Ts6qTQJj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507191538.4n49mSm3-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507191526.Ts6qTQJj-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   drivers/gpu/drm/drm_drv.c: In function 'drm_dev_init_release':
->> drivers/gpu/drm/drm_drv.c:686:27: error: 'struct drm_device' has no member named 'struct_mutex'
-     686 |         mutex_destroy(&dev->struct_mutex);
-         |                           ^~
-   In file included from include/linux/seqlock.h:19,
-                    from include/linux/dcache.h:11,
-                    from include/linux/fs.h:9,
-                    from include/linux/debugfs.h:15,
-                    from drivers/gpu/drm/drm_drv.c:31:
-   drivers/gpu/drm/drm_drv.c: In function 'drm_dev_init':
-   drivers/gpu/drm/drm_drv.c:727:24: error: 'struct drm_device' has no member named 'struct_mutex'
-     727 |         mutex_init(&dev->struct_mutex);
-         |                        ^~
-   include/linux/mutex.h:64:23: note: in definition of macro 'mutex_init'
-      64 |         __mutex_init((mutex), #mutex, &__key);                          \
-         |                       ^~~~~
-
-
-vim +686 drivers/gpu/drm/drm_drv.c
-
-31bbe16f6d8862 drivers/gpu/drm/drm_stub.c David Rheinsberg  2014-01-03  647  
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  648  /**
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  649   * DOC: component helper usage recommendations
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  650   *
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  651   * DRM drivers that drive hardware where a logical device consists of a pile of
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  652   * independent hardware blocks are recommended to use the :ref:`component helper
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  653   * library<component>`. For consistency and better options for code reuse the
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  654   * following guidelines apply:
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  655   *
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  656   *  - The entire device initialization procedure should be run from the
-4c8e84b8876dc7 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-09-02  657   *    &component_master_ops.master_bind callback, starting with
-4c8e84b8876dc7 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-09-02  658   *    devm_drm_dev_alloc(), then binding all components with
-4c8e84b8876dc7 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-09-02  659   *    component_bind_all() and finishing with drm_dev_register().
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  660   *
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  661   *  - The opaque pointer passed to all components through component_bind_all()
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  662   *    should point at &struct drm_device of the device instance, not some driver
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  663   *    specific private structure.
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  664   *
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  665   *  - The component helper fills the niche where further standardization of
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  666   *    interfaces is not practical. When there already is, or will be, a
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  667   *    standardized interface like &drm_bridge or &drm_panel, providing its own
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  668   *    functions to find such components at driver load time, like
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  669   *    drm_of_find_panel_or_bridge(), then the component helper should not be
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  670   *    used.
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  671   */
-86ab67dfcfc5a2 drivers/gpu/drm/drm_drv.c  Simona Vetter     2019-02-12  672  
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23  673  static void drm_dev_init_release(struct drm_device *dev, void *res)
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23  674  {
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23  675  	drm_fs_inode_free(dev->anon_inode);
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23  676  
-143ec8d3f93965 drivers/gpu/drm/drm_drv.c  Thomas Zimmermann 2025-03-07  677  	put_device(dev->dma_dev);
-143ec8d3f93965 drivers/gpu/drm/drm_drv.c  Thomas Zimmermann 2025-03-07  678  	dev->dma_dev = NULL;
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23  679  	put_device(dev->dev);
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23  680  	/* Prevent use-after-free in drm_managed_release when debugging is
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23  681  	 * enabled. Slightly awkward, but can't really be helped. */
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23  682  	dev->dev = NULL;
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23  683  	mutex_destroy(&dev->master_mutex);
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23  684  	mutex_destroy(&dev->clientlist_mutex);
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23  685  	mutex_destroy(&dev->filelist_mutex);
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23 @686  	mutex_destroy(&dev->struct_mutex);
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23  687  }
-2cbf7fc6718b94 drivers/gpu/drm/drm_drv.c  Simona Vetter     2020-03-23  688  
+>> ld.lld: error: undefined symbol: typec_mux_register
+   >>> referenced by phy-rockchip-typec.c
+   >>>               drivers/phy/rockchip/phy-rockchip-typec.o:(rockchip_typec_phy_probe) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: typec_mux_unregister
+   >>> referenced by phy-rockchip-typec.c
+   >>>               drivers/phy/rockchip/phy-rockchip-typec.o:(rockchip_typec_phy_probe) in archive vmlinux.a
+   >>> referenced by phy-rockchip-typec.c
+   >>>               drivers/phy/rockchip/phy-rockchip-typec.o:(tcphy_typec_mux_unregister) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: typec_mux_get_drvdata
+   >>> referenced by phy-rockchip-typec.c
+   >>>               drivers/phy/rockchip/phy-rockchip-typec.o:(tcphy_typec_mux_set) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
