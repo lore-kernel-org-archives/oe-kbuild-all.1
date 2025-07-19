@@ -1,59 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3A518C928;
-	Sat, 19 Jul 2025 13:05:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740BC19BBC
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 13:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752930319; cv=none; b=tiITx7CXTW+pV8lvYkJLUgq85O/DzpqF4NEq0sgRRksi2729sQQ0gJDmd1pXfjl/P4QTblCP3ZFu5hppoT5VsGaz7bqlorgzFzGnhke3IpSyL6sOLjVj0KChqwkXd7awzjPYjWPq65IUSgx4oT+EaWirsD7Pp+H9mlaZ13HRjnk=
+	t=1752933507; cv=none; b=lsRNEMpxUQoMOrouIgyN2ccA/XKcEcLAGBSoTMUoJn7oidfrUT+bJCmCIRKT6OiiShi9D4LsSY7/tyL47Axsx1CkcNxhaFoee8ljgmqXuj2UmzMqm9IoJn5PjZP8AgrUsnL3cwoV2hDhp3Eht0vxxz1+7u1W+zeYnJkXOLSuFCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752930319; c=relaxed/simple;
-	bh=NkyI4leJIWYsTc7GfFyBh7KECObbpWL5JEhiHZlaRBY=;
+	s=arc-20240116; t=1752933507; c=relaxed/simple;
+	bh=jpFTbjeGEalJENRLFRcW5hczYVfuoFcH52KfIEH8VQk=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=MRtmvsiBgReTosrMBXCJIgcWj3WxdBpjFAcK0Fg+Cu+IGpbPBH3Sn1ueH1abXdbImkovO3hWUvF+ICWuOGYsZkG1XPENQDDhIluIkR3fsT3DRFjrrr1zpWzwtx28KlHm+vI4UYeY2/Losq9hkIFk52oDlp99GQQSPcAUc1lcqvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=REkk2cyf; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=WnHcKLmzJUqmTdmhwnGuhkj1vLr2UvzPygZViHuCqclkFIyYBKG1LWezgchPwTuL9OPaG2u3CdPuybsb7U3d/dGmfJobIn0UnXevGK2/du7dDHGXrgWj0FRmj8tycXcpJg4JJY76z7iV7xrAx34wxFg6E/00sm5LR3DmONHHkR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=M8nODFEy; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="REkk2cyf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="M8nODFEy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752930317; x=1784466317;
+  t=1752933505; x=1784469505;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NkyI4leJIWYsTc7GfFyBh7KECObbpWL5JEhiHZlaRBY=;
-  b=REkk2cyfxw04yQ8e7uSQy88cWv3hSYgwM064ujAGyiomMn8inEhBZ//X
-   NNBOotGDgZsrjTCrxwrAWIzyPVvNjOXy2BRVza9OEfSQ/x1NwUyOwt/wE
-   QyjLdtUpvjPcd4GvY+wE+o3J03qwDyGLAWOxgTceoKM9V314SBw3gxtCo
-   YjdE3LUxdjj4BPssl27jP72ZWuPjJtglHKJo7J1hRikiw/jY709sPg18c
-   gD7CEUzr93Off4Wd7omPZh3KItsU1hMuwXWQg+aoRGF/Ak+3WCDxVFnkF
-   UZmxiJgo5cxmtXC60EmHOH62caJEYKsd5YtbUNEM3mEehOaFKG8JKrGIM
+  bh=jpFTbjeGEalJENRLFRcW5hczYVfuoFcH52KfIEH8VQk=;
+  b=M8nODFEyDXvrExERmw3JqNTeFKm04x8LQgyuylczUmbZRciLiJ/bE3iy
+   efgfkmh0WOdBYvCse+oybSlfQEdBVr9t3esWSlkjDiJd/W3J8b2sICMVh
+   HnEsDiJuRbgaBbYqi7s71F2H3o7EFyS5Y3Jw6wjITZvLVIQkaWXstQKR9
+   Qtx0WANSoaRLaYWDFp+AH1kOpFYKFj+B3rfSeQFSLRAmF3y3w0ak0NCGc
+   XkFoJubRtkLMqo+rr8o8D4CZB7YThmUn42bOR4+uJrgNJR7R781/7AW5V
+   llu4tHmwkqTIRssbaLBmj8WeKBWNLTf8FoKiZyXd4UtIQ7j5a98yINj0G
    g==;
-X-CSE-ConnectionGUID: 1w2ZiTDWTUieVzi9UDf2zA==
-X-CSE-MsgGUID: oCN14M3BSRqa/qEN8JOJ1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11497"; a="66271952"
+X-CSE-ConnectionGUID: teWIMkn2Q3GTCQFEFM8CSQ==
+X-CSE-MsgGUID: m3ev3/SdS4mNU7vUAfnkew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11497"; a="55297023"
 X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
-   d="scan'208";a="66271952"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 06:05:17 -0700
-X-CSE-ConnectionGUID: +Z5/pr21QYW5OoBmYHgRgw==
-X-CSE-MsgGUID: U1rdy/+GRGSzvCV7G1V4+g==
+   d="scan'208";a="55297023"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 06:58:25 -0700
+X-CSE-ConnectionGUID: OIghxARYQs632Z6prG1y0w==
+X-CSE-MsgGUID: DMBo9fxPRROqlxIMHNaWlA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,324,1744095600"; 
-   d="scan'208";a="162673676"
+   d="scan'208";a="162997246"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 19 Jul 2025 06:05:15 -0700
+  by orviesa004.jf.intel.com with ESMTP; 19 Jul 2025 06:58:24 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ud7FZ-000FVR-14;
-	Sat, 19 Jul 2025 13:05:13 +0000
-Date: Sat, 19 Jul 2025 21:05:04 +0800
+	id 1ud84y-000FX9-2o;
+	Sat, 19 Jul 2025 13:58:20 +0000
+Date: Sat, 19 Jul 2025 21:57:30 +0800
 From: kernel test robot <lkp@intel.com>
-To: SeongJae Park <sj@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [sj:damon/next 52/104] mm/memory.c:6046:3: error: call to undeclared
- function 'damon_report_access'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202507192010.91NbXIjJ-lkp@intel.com>
+To: Peter Ujfalusi <peter.ujfalusi@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Bard Liao <yung-chuan.liao@linux.intel.com>
+Subject: [broonie-ci:filePV9nOl 10/10]
+ sound/soc/sdw_utils/soc_sdw_utils.c:220:34: error: 'struct
+ asoc_sdw_dai_info' has no member named 'component_name'
+Message-ID: <202507192121.Dv2CQzKt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,142 +64,687 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
-head:   587ffe894dbc4bdb791e375c50e446a32fba081a
-commit: cd52442f08196fc17179dc9a95b097df531203b7 [52/104] mm/memory: report fault information to DAMON
-config: i386-buildonly-randconfig-001-20250719 (https://download.01.org/0day-ci/archive/20250719/202507192010.91NbXIjJ-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507192010.91NbXIjJ-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git filePV9nOl
+head:   b5ef74ca4ca8e4a4b517833fbe7c2e285944bcfb
+commit: b5ef74ca4ca8e4a4b517833fbe7c2e285944bcfb [10/10] ASoC: sdw_utils: Add missed component_name strings for speaker amps
+config: x86_64-rhel-9.4-kselftests (https://download.01.org/0day-ci/archive/20250719/202507192121.Dv2CQzKt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507192121.Dv2CQzKt-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507192010.91NbXIjJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507192121.Dv2CQzKt-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> mm/memory.c:6046:3: error: call to undeclared function 'damon_report_access'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    6046 |                 damon_report_access(&access_report);
-         |                 ^
-   mm/memory.c:6176:5: error: call to undeclared function 'damon_report_access'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    6176 |                                 damon_report_access(&access_report);
-         |                                 ^
-   2 errors generated.
+>> sound/soc/sdw_utils/soc_sdw_utils.c:220:34: error: 'struct asoc_sdw_dai_info' has no member named 'component_name'
+     220 |                                 .component_name = "rt1308",
+         |                                  ^~~~~~~~~~~~~~
+>> sound/soc/sdw_utils/soc_sdw_utils.c:220:51: warning: initialization of 'int' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+     220 |                                 .component_name = "rt1308",
+         |                                                   ^~~~~~~~
+   sound/soc/sdw_utils/soc_sdw_utils.c:220:51: note: (near initialization for 'codec_info_list[7].dais[0].dai_type')
+>> sound/soc/sdw_utils/soc_sdw_utils.c:220:51: error: initializer element is not computable at load time
+   sound/soc/sdw_utils/soc_sdw_utils.c:220:51: note: (near initialization for 'codec_info_list[7].dais[0].dai_type')
+   sound/soc/sdw_utils/soc_sdw_utils.c:241:34: error: 'struct asoc_sdw_dai_info' has no member named 'component_name'
+     241 |                                 .component_name = "rt1316",
+         |                                  ^~~~~~~~~~~~~~
+   sound/soc/sdw_utils/soc_sdw_utils.c:241:51: warning: initialization of 'int' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+     241 |                                 .component_name = "rt1316",
+         |                                                   ^~~~~~~~
+   sound/soc/sdw_utils/soc_sdw_utils.c:241:51: note: (near initialization for 'codec_info_list[8].dais[0].dai_type')
+   sound/soc/sdw_utils/soc_sdw_utils.c:241:51: error: initializer element is not computable at load time
+   sound/soc/sdw_utils/soc_sdw_utils.c:241:51: note: (near initialization for 'codec_info_list[8].dais[0].dai_type')
+   sound/soc/sdw_utils/soc_sdw_utils.c:261:34: error: 'struct asoc_sdw_dai_info' has no member named 'component_name'
+     261 |                                 .component_name = "rt1318",
+         |                                  ^~~~~~~~~~~~~~
+   sound/soc/sdw_utils/soc_sdw_utils.c:261:51: warning: initialization of 'int' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+     261 |                                 .component_name = "rt1318",
+         |                                                   ^~~~~~~~
+   sound/soc/sdw_utils/soc_sdw_utils.c:261:51: note: (near initialization for 'codec_info_list[9].dais[0].dai_type')
+   sound/soc/sdw_utils/soc_sdw_utils.c:261:51: error: initializer element is not computable at load time
+   sound/soc/sdw_utils/soc_sdw_utils.c:261:51: note: (near initialization for 'codec_info_list[9].dais[0].dai_type')
+   sound/soc/sdw_utils/soc_sdw_utils.c:374:34: error: 'struct asoc_sdw_dai_info' has no member named 'component_name'
+     374 |                                 .component_name = "rt721",
+         |                                  ^~~~~~~~~~~~~~
+   sound/soc/sdw_utils/soc_sdw_utils.c:374:51: warning: initialization of 'int' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+     374 |                                 .component_name = "rt721",
+         |                                                   ^~~~~~~
+   sound/soc/sdw_utils/soc_sdw_utils.c:374:51: note: (near initialization for 'codec_info_list[15].dais[1].dai_type')
+   sound/soc/sdw_utils/soc_sdw_utils.c:374:51: error: initializer element is not computable at load time
+   sound/soc/sdw_utils/soc_sdw_utils.c:374:51: note: (near initialization for 'codec_info_list[15].dais[1].dai_type')
+   sound/soc/sdw_utils/soc_sdw_utils.c:596:34: error: 'struct asoc_sdw_dai_info' has no member named 'component_name'
+     596 |                                 .component_name = "cs42l43",
+         |                                  ^~~~~~~~~~~~~~
+   sound/soc/sdw_utils/soc_sdw_utils.c:596:51: warning: initialization of 'int' from 'char *' makes integer from pointer without a cast [-Wint-conversion]
+     596 |                                 .component_name = "cs42l43",
+         |                                                   ^~~~~~~~~
+   sound/soc/sdw_utils/soc_sdw_utils.c:596:51: note: (near initialization for 'codec_info_list[23].dais[3].dai_type')
+   sound/soc/sdw_utils/soc_sdw_utils.c:596:51: error: initializer element is not computable at load time
+   sound/soc/sdw_utils/soc_sdw_utils.c:596:51: note: (near initialization for 'codec_info_list[23].dais[3].dai_type')
 
 
-vim +/damon_report_access +6046 mm/memory.c
+vim +220 sound/soc/sdw_utils/soc_sdw_utils.c
 
-  5975	
-  5976	/*
-  5977	 * These routines also need to handle stuff like marking pages dirty
-  5978	 * and/or accessed for architectures that don't do it in hardware (most
-  5979	 * RISC architectures).  The early dirtying is also good on the i386.
-  5980	 *
-  5981	 * There is also a hook called "update_mmu_cache()" that architectures
-  5982	 * with external mmu caches can use to update those (ie the Sparc or
-  5983	 * PowerPC hashed page tables that act as extended TLBs).
-  5984	 *
-  5985	 * We enter with non-exclusive mmap_lock (to exclude vma changes, but allow
-  5986	 * concurrent faults).
-  5987	 *
-  5988	 * The mmap_lock may have been released depending on flags and our return value.
-  5989	 * See filemap_fault() and __folio_lock_or_retry().
-  5990	 */
-  5991	static vm_fault_t handle_pte_fault(struct vm_fault *vmf)
-  5992	{
-  5993		pte_t entry;
-  5994		struct damon_access_report access_report = {
-  5995			.addr = vmf->address,
-  5996			.size = 1,
-  5997			.nr_accesses = 1,
-  5998		};
-  5999	
-  6000		if (unlikely(pmd_none(*vmf->pmd))) {
-  6001			/*
-  6002			 * Leave __pte_alloc() until later: because vm_ops->fault may
-  6003			 * want to allocate huge page, and if we expose page table
-  6004			 * for an instant, it will be difficult to retract from
-  6005			 * concurrent faults and from rmap lookups.
-  6006			 */
-  6007			vmf->pte = NULL;
-  6008			vmf->flags &= ~FAULT_FLAG_ORIG_PTE_VALID;
-  6009		} else {
-  6010			pmd_t dummy_pmdval;
-  6011	
-  6012			/*
-  6013			 * A regular pmd is established and it can't morph into a huge
-  6014			 * pmd by anon khugepaged, since that takes mmap_lock in write
-  6015			 * mode; but shmem or file collapse to THP could still morph
-  6016			 * it into a huge pmd: just retry later if so.
-  6017			 *
-  6018			 * Use the maywrite version to indicate that vmf->pte may be
-  6019			 * modified, but since we will use pte_same() to detect the
-  6020			 * change of the !pte_none() entry, there is no need to recheck
-  6021			 * the pmdval. Here we chooes to pass a dummy variable instead
-  6022			 * of NULL, which helps new user think about why this place is
-  6023			 * special.
-  6024			 */
-  6025			vmf->pte = pte_offset_map_rw_nolock(vmf->vma->vm_mm, vmf->pmd,
-  6026							    vmf->address, &dummy_pmdval,
-  6027							    &vmf->ptl);
-  6028			if (unlikely(!vmf->pte))
-  6029				return 0;
-  6030			vmf->orig_pte = ptep_get_lockless(vmf->pte);
-  6031			vmf->flags |= FAULT_FLAG_ORIG_PTE_VALID;
-  6032	
-  6033			if (pte_none(vmf->orig_pte)) {
-  6034				pte_unmap(vmf->pte);
-  6035				vmf->pte = NULL;
-  6036			}
-  6037		}
-  6038	
-  6039		if (!vmf->pte)
-  6040			return do_pte_missing(vmf);
-  6041	
-  6042		if (!pte_present(vmf->orig_pte))
-  6043			return do_swap_page(vmf);
-  6044	
-  6045		if (pte_protnone(vmf->orig_pte) && vma_is_accessible(vmf->vma)) {
-> 6046			damon_report_access(&access_report);
-  6047			return do_numa_page(vmf);
-  6048		}
-  6049	
-  6050		spin_lock(vmf->ptl);
-  6051		entry = vmf->orig_pte;
-  6052		if (unlikely(!pte_same(ptep_get(vmf->pte), entry))) {
-  6053			update_mmu_tlb(vmf->vma, vmf->address, vmf->pte);
-  6054			goto unlock;
-  6055		}
-  6056		if (vmf->flags & (FAULT_FLAG_WRITE|FAULT_FLAG_UNSHARE)) {
-  6057			if (!pte_write(entry))
-  6058				return do_wp_page(vmf);
-  6059			else if (likely(vmf->flags & FAULT_FLAG_WRITE))
-  6060				entry = pte_mkdirty(entry);
-  6061		}
-  6062		entry = pte_mkyoung(entry);
-  6063		if (ptep_set_access_flags(vmf->vma, vmf->address, vmf->pte, entry,
-  6064					vmf->flags & FAULT_FLAG_WRITE)) {
-  6065			update_mmu_cache_range(vmf, vmf->vma, vmf->address,
-  6066					vmf->pte, 1);
-  6067		} else {
-  6068			/* Skip spurious TLB flush for retried page fault */
-  6069			if (vmf->flags & FAULT_FLAG_TRIED)
-  6070				goto unlock;
-  6071			/*
-  6072			 * This is needed only for protection faults but the arch code
-  6073			 * is not yet telling us if this is a protection fault or not.
-  6074			 * This still avoids useless tlb flushes for .text page faults
-  6075			 * with threads.
-  6076			 */
-  6077			if (vmf->flags & FAULT_FLAG_WRITE)
-  6078				flush_tlb_fix_spurious_fault(vmf->vma, vmf->address,
-  6079							     vmf->pte);
-  6080		}
-  6081	unlock:
-  6082		pte_unmap_unlock(vmf->pte, vmf->ptl);
-  6083		return 0;
-  6084	}
-  6085	
+    59	
+    60	struct asoc_sdw_codec_info codec_info_list[] = {
+    61		{
+    62			.part_id = 0x700,
+    63			.dais = {
+    64				{
+    65					.direction = {true, true},
+    66					.dai_name = "rt700-aif1",
+    67					.dai_type = SOC_SDW_DAI_TYPE_JACK,
+    68					.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+    69					.rtd_init = asoc_sdw_rt700_rtd_init,
+    70					.controls = rt700_controls,
+    71					.num_controls = ARRAY_SIZE(rt700_controls),
+    72					.widgets = rt700_widgets,
+    73					.num_widgets = ARRAY_SIZE(rt700_widgets),
+    74				},
+    75			},
+    76			.dai_num = 1,
+    77		},
+    78		{
+    79			.part_id = 0x711,
+    80			.version_id = 3,
+    81			.dais = {
+    82				{
+    83					.direction = {true, true},
+    84					.dai_name = "rt711-sdca-aif1",
+    85					.dai_type = SOC_SDW_DAI_TYPE_JACK,
+    86					.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+    87					.init = asoc_sdw_rt_sdca_jack_init,
+    88					.exit = asoc_sdw_rt_sdca_jack_exit,
+    89					.rtd_init = asoc_sdw_rt_sdca_jack_rtd_init,
+    90					.controls = generic_jack_controls,
+    91					.num_controls = ARRAY_SIZE(generic_jack_controls),
+    92					.widgets = generic_jack_widgets,
+    93					.num_widgets = ARRAY_SIZE(generic_jack_widgets),
+    94				},
+    95			},
+    96			.dai_num = 1,
+    97		},
+    98		{
+    99			.part_id = 0x711,
+   100			.version_id = 2,
+   101			.dais = {
+   102				{
+   103					.direction = {true, true},
+   104					.dai_name = "rt711-aif1",
+   105					.dai_type = SOC_SDW_DAI_TYPE_JACK,
+   106					.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+   107					.init = asoc_sdw_rt711_init,
+   108					.exit = asoc_sdw_rt711_exit,
+   109					.rtd_init = asoc_sdw_rt711_rtd_init,
+   110					.controls = generic_jack_controls,
+   111					.num_controls = ARRAY_SIZE(generic_jack_controls),
+   112					.widgets = generic_jack_widgets,
+   113					.num_widgets = ARRAY_SIZE(generic_jack_widgets),
+   114				},
+   115			},
+   116			.dai_num = 1,
+   117		},
+   118		{
+   119			.part_id = 0x712,
+   120			.version_id = 3,
+   121			.dais =	{
+   122				{
+   123					.direction = {true, true},
+   124					.dai_name = "rt712-sdca-aif1",
+   125					.dai_type = SOC_SDW_DAI_TYPE_JACK,
+   126					.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+   127					.init = asoc_sdw_rt_sdca_jack_init,
+   128					.exit = asoc_sdw_rt_sdca_jack_exit,
+   129					.rtd_init = asoc_sdw_rt_sdca_jack_rtd_init,
+   130					.controls = generic_jack_controls,
+   131					.num_controls = ARRAY_SIZE(generic_jack_controls),
+   132					.widgets = generic_jack_widgets,
+   133					.num_widgets = ARRAY_SIZE(generic_jack_widgets),
+   134				},
+   135				{
+   136					.direction = {true, false},
+   137					.dai_name = "rt712-sdca-aif2",
+   138					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   139					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+   140					.init = asoc_sdw_rt_amp_init,
+   141					.exit = asoc_sdw_rt_amp_exit,
+   142					.rtd_init = asoc_sdw_rt_mf_sdca_spk_rtd_init,
+   143					.controls = generic_spk_controls,
+   144					.num_controls = ARRAY_SIZE(generic_spk_controls),
+   145					.widgets = generic_spk_widgets,
+   146					.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+   147				},
+   148				{
+   149					.direction = {false, true},
+   150					.dai_name = "rt712-sdca-aif3",
+   151					.dai_type = SOC_SDW_DAI_TYPE_MIC,
+   152					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+   153					.rtd_init = asoc_sdw_rt_dmic_rtd_init,
+   154				},
+   155			},
+   156			.dai_num = 3,
+   157		},
+   158		{
+   159			.part_id = 0x1712,
+   160			.version_id = 3,
+   161			.dais =	{
+   162				{
+   163					.direction = {false, true},
+   164					.dai_name = "rt712-sdca-dmic-aif1",
+   165					.dai_type = SOC_SDW_DAI_TYPE_MIC,
+   166					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+   167					.rtd_init = asoc_sdw_rt_dmic_rtd_init,
+   168				},
+   169			},
+   170			.dai_num = 1,
+   171		},
+   172		{
+   173			.part_id = 0x713,
+   174			.version_id = 3,
+   175			.dais =	{
+   176				{
+   177					.direction = {true, true},
+   178					.dai_name = "rt712-sdca-aif1",
+   179					.dai_type = SOC_SDW_DAI_TYPE_JACK,
+   180					.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+   181					.init = asoc_sdw_rt_sdca_jack_init,
+   182					.exit = asoc_sdw_rt_sdca_jack_exit,
+   183					.rtd_init = asoc_sdw_rt_sdca_jack_rtd_init,
+   184					.controls = generic_jack_controls,
+   185					.num_controls = ARRAY_SIZE(generic_jack_controls),
+   186					.widgets = generic_jack_widgets,
+   187					.num_widgets = ARRAY_SIZE(generic_jack_widgets),
+   188				},
+   189				{
+   190					.direction = {false, true},
+   191					.dai_name = "rt712-sdca-aif3",
+   192					.dai_type = SOC_SDW_DAI_TYPE_MIC,
+   193					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+   194					.rtd_init = asoc_sdw_rt_dmic_rtd_init,
+   195				},
+   196			},
+   197			.dai_num = 2,
+   198		},
+   199		{
+   200			.part_id = 0x1713,
+   201			.version_id = 3,
+   202			.dais =	{
+   203				{
+   204					.direction = {false, true},
+   205					.dai_name = "rt712-sdca-dmic-aif1",
+   206					.dai_type = SOC_SDW_DAI_TYPE_MIC,
+   207					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+   208					.rtd_init = asoc_sdw_rt_dmic_rtd_init,
+   209				},
+   210			},
+   211			.dai_num = 1,
+   212		},
+   213		{
+   214			.part_id = 0x1308,
+   215			.acpi_id = "10EC1308",
+   216			.dais = {
+   217				{
+   218					.direction = {true, false},
+   219					.dai_name = "rt1308-aif",
+ > 220					.component_name = "rt1308",
+   221					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   222					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+   223					.init = asoc_sdw_rt_amp_init,
+   224					.exit = asoc_sdw_rt_amp_exit,
+   225					.rtd_init = asoc_sdw_rt_amp_spk_rtd_init,
+   226					.controls = generic_spk_controls,
+   227					.num_controls = ARRAY_SIZE(generic_spk_controls),
+   228					.widgets = generic_spk_widgets,
+   229					.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+   230				},
+   231			},
+   232			.dai_num = 1,
+   233			.ops = &soc_sdw_rt1308_i2s_ops,
+   234		},
+   235		{
+   236			.part_id = 0x1316,
+   237			.dais = {
+   238				{
+   239					.direction = {true, true},
+   240					.dai_name = "rt1316-aif",
+   241					.component_name = "rt1316",
+   242					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   243					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_AMP_IN_DAI_ID},
+   244					.init = asoc_sdw_rt_amp_init,
+   245					.exit = asoc_sdw_rt_amp_exit,
+   246					.rtd_init = asoc_sdw_rt_amp_spk_rtd_init,
+   247					.controls = generic_spk_controls,
+   248					.num_controls = ARRAY_SIZE(generic_spk_controls),
+   249					.widgets = generic_spk_widgets,
+   250					.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+   251				},
+   252			},
+   253			.dai_num = 1,
+   254		},
+   255		{
+   256			.part_id = 0x1318,
+   257			.dais = {
+   258				{
+   259					.direction = {true, true},
+   260					.dai_name = "rt1318-aif",
+   261					.component_name = "rt1318",
+   262					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   263					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_AMP_IN_DAI_ID},
+   264					.init = asoc_sdw_rt_amp_init,
+   265					.exit = asoc_sdw_rt_amp_exit,
+   266					.rtd_init = asoc_sdw_rt_amp_spk_rtd_init,
+   267					.controls = generic_spk_controls,
+   268					.num_controls = ARRAY_SIZE(generic_spk_controls),
+   269					.widgets = generic_spk_widgets,
+   270					.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+   271				},
+   272			},
+   273			.dai_num = 1,
+   274		},
+   275		{
+   276			.part_id = 0x1320,
+   277			.dais = {
+   278				{
+   279					.direction = {true, false},
+   280					.dai_name = "rt1320-aif1",
+   281					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   282					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+   283					.init = asoc_sdw_rt_amp_init,
+   284					.exit = asoc_sdw_rt_amp_exit,
+   285					.rtd_init = asoc_sdw_rt_amp_spk_rtd_init,
+   286					.controls = generic_spk_controls,
+   287					.num_controls = ARRAY_SIZE(generic_spk_controls),
+   288					.widgets = generic_spk_widgets,
+   289					.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+   290				},
+   291			},
+   292			.dai_num = 1,
+   293		},
+   294		{
+   295			.part_id = 0x714,
+   296			.version_id = 3,
+   297			.ignore_internal_dmic = true,
+   298			.dais = {
+   299				{
+   300					.direction = {false, true},
+   301					.dai_name = "rt715-sdca-aif2",
+   302					.dai_type = SOC_SDW_DAI_TYPE_MIC,
+   303					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+   304					.rtd_init = asoc_sdw_rt_dmic_rtd_init,
+   305				},
+   306			},
+   307			.dai_num = 1,
+   308		},
+   309		{
+   310			.part_id = 0x715,
+   311			.version_id = 3,
+   312			.ignore_internal_dmic = true,
+   313			.dais = {
+   314				{
+   315					.direction = {false, true},
+   316					.dai_name = "rt715-sdca-aif2",
+   317					.dai_type = SOC_SDW_DAI_TYPE_MIC,
+   318					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+   319					.rtd_init = asoc_sdw_rt_dmic_rtd_init,
+   320				},
+   321			},
+   322			.dai_num = 1,
+   323		},
+   324		{
+   325			.part_id = 0x714,
+   326			.version_id = 2,
+   327			.ignore_internal_dmic = true,
+   328			.dais = {
+   329				{
+   330					.direction = {false, true},
+   331					.dai_name = "rt715-aif2",
+   332					.dai_type = SOC_SDW_DAI_TYPE_MIC,
+   333					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+   334					.rtd_init = asoc_sdw_rt_dmic_rtd_init,
+   335				},
+   336			},
+   337			.dai_num = 1,
+   338		},
+   339		{
+   340			.part_id = 0x715,
+   341			.version_id = 2,
+   342			.ignore_internal_dmic = true,
+   343			.dais = {
+   344				{
+   345					.direction = {false, true},
+   346					.dai_name = "rt715-aif2",
+   347					.dai_type = SOC_SDW_DAI_TYPE_MIC,
+   348					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+   349					.rtd_init = asoc_sdw_rt_dmic_rtd_init,
+   350				},
+   351			},
+   352			.dai_num = 1,
+   353		},
+   354		{
+   355			.part_id = 0x721,
+   356			.version_id = 3,
+   357			.dais = {
+   358				{
+   359					.direction = {true, true},
+   360					.dai_name = "rt721-sdca-aif1",
+   361					.dai_type = SOC_SDW_DAI_TYPE_JACK,
+   362					.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+   363					.init = asoc_sdw_rt_sdca_jack_init,
+   364					.exit = asoc_sdw_rt_sdca_jack_exit,
+   365					.rtd_init = asoc_sdw_rt_sdca_jack_rtd_init,
+   366					.controls = generic_jack_controls,
+   367					.num_controls = ARRAY_SIZE(generic_jack_controls),
+   368					.widgets = generic_jack_widgets,
+   369					.num_widgets = ARRAY_SIZE(generic_jack_widgets),
+   370				},
+   371				{
+   372					.direction = {true, false},
+   373					.dai_name = "rt721-sdca-aif2",
+   374					.component_name = "rt721",
+   375					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   376					/* No feedback capability is provided by rt721-sdca codec driver*/
+   377					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+   378					.init = asoc_sdw_rt_amp_init,
+   379					.exit = asoc_sdw_rt_amp_exit,
+   380					.rtd_init = asoc_sdw_rt_mf_sdca_spk_rtd_init,
+   381					.controls = generic_spk_controls,
+   382					.num_controls = ARRAY_SIZE(generic_spk_controls),
+   383					.widgets = generic_spk_widgets,
+   384					.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+   385				},
+   386				{
+   387					.direction = {false, true},
+   388					.dai_name = "rt721-sdca-aif3",
+   389					.dai_type = SOC_SDW_DAI_TYPE_MIC,
+   390					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+   391					.rtd_init = asoc_sdw_rt_dmic_rtd_init,
+   392				},
+   393			},
+   394			.dai_num = 3,
+   395		},
+   396		{
+   397			.part_id = 0x722,
+   398			.version_id = 3,
+   399			.dais = {
+   400				{
+   401					.direction = {true, true},
+   402					.dai_name = "rt722-sdca-aif1",
+   403					.dai_type = SOC_SDW_DAI_TYPE_JACK,
+   404					.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+   405					.init = asoc_sdw_rt_sdca_jack_init,
+   406					.exit = asoc_sdw_rt_sdca_jack_exit,
+   407					.rtd_init = asoc_sdw_rt_sdca_jack_rtd_init,
+   408					.controls = generic_jack_controls,
+   409					.num_controls = ARRAY_SIZE(generic_jack_controls),
+   410					.widgets = generic_jack_widgets,
+   411					.num_widgets = ARRAY_SIZE(generic_jack_widgets),
+   412				},
+   413				{
+   414					.direction = {true, false},
+   415					.dai_name = "rt722-sdca-aif2",
+   416					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   417					/* No feedback capability is provided by rt722-sdca codec driver*/
+   418					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+   419					.init = asoc_sdw_rt_amp_init,
+   420					.exit = asoc_sdw_rt_amp_exit,
+   421					.rtd_init = asoc_sdw_rt_mf_sdca_spk_rtd_init,
+   422					.controls = generic_spk_controls,
+   423					.num_controls = ARRAY_SIZE(generic_spk_controls),
+   424					.widgets = generic_spk_widgets,
+   425					.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+   426					.quirk = SOC_SDW_CODEC_SPKR,
+   427					.quirk_exclude = true,
+   428				},
+   429				{
+   430					.direction = {false, true},
+   431					.dai_name = "rt722-sdca-aif3",
+   432					.dai_type = SOC_SDW_DAI_TYPE_MIC,
+   433					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+   434					.rtd_init = asoc_sdw_rt_dmic_rtd_init,
+   435				},
+   436			},
+   437			.dai_num = 3,
+   438		},
+   439		{
+   440			.part_id = 0x8373,
+   441			.dais = {
+   442				{
+   443					.direction = {true, true},
+   444					.dai_name = "max98373-aif1",
+   445					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   446					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_AMP_IN_DAI_ID},
+   447					.init = asoc_sdw_maxim_init,
+   448					.rtd_init = asoc_sdw_maxim_spk_rtd_init,
+   449					.controls = maxim_controls,
+   450					.num_controls = ARRAY_SIZE(maxim_controls),
+   451					.widgets = maxim_widgets,
+   452					.num_widgets = ARRAY_SIZE(maxim_widgets),
+   453				},
+   454			},
+   455			.dai_num = 1,
+   456		},
+   457		{
+   458			.part_id = 0x8363,
+   459			.dais = {
+   460				{
+   461					.direction = {true, false},
+   462					.dai_name = "max98363-aif1",
+   463					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   464					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+   465					.init = asoc_sdw_maxim_init,
+   466					.rtd_init = asoc_sdw_maxim_spk_rtd_init,
+   467					.controls = maxim_controls,
+   468					.num_controls = ARRAY_SIZE(maxim_controls),
+   469					.widgets = maxim_widgets,
+   470					.num_widgets = ARRAY_SIZE(maxim_widgets),
+   471				},
+   472			},
+   473			.dai_num = 1,
+   474		},
+   475		{
+   476			.part_id = 0x5682,
+   477			.dais = {
+   478				{
+   479					.direction = {true, true},
+   480					.dai_name = "rt5682-sdw",
+   481					.dai_type = SOC_SDW_DAI_TYPE_JACK,
+   482					.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+   483					.rtd_init = asoc_sdw_rt5682_rtd_init,
+   484					.controls = generic_jack_controls,
+   485					.num_controls = ARRAY_SIZE(generic_jack_controls),
+   486					.widgets = generic_jack_widgets,
+   487					.num_widgets = ARRAY_SIZE(generic_jack_widgets),
+   488				},
+   489			},
+   490			.dai_num = 1,
+   491		},
+   492		{
+   493			.part_id = 0x3556,
+   494			.dais = {
+   495				{
+   496					.direction = {true, false},
+   497					.dai_name = "cs35l56-sdw1",
+   498					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   499					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+   500					.init = asoc_sdw_cs_amp_init,
+   501					.rtd_init = asoc_sdw_cs_spk_rtd_init,
+   502					.controls = generic_spk_controls,
+   503					.num_controls = ARRAY_SIZE(generic_spk_controls),
+   504					.widgets = generic_spk_widgets,
+   505					.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+   506				},
+   507				{
+   508					.direction = {false, true},
+   509					.dai_name = "cs35l56-sdw1c",
+   510					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   511					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_AMP_IN_DAI_ID},
+   512					.rtd_init = asoc_sdw_cs_spk_feedback_rtd_init,
+   513				},
+   514			},
+   515			.dai_num = 2,
+   516		},
+   517		{
+   518			.part_id = 0x3563,
+   519			.dais = {
+   520				{
+   521					.direction = {true, false},
+   522					.dai_name = "cs35l56-sdw1",
+   523					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   524					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+   525					.init = asoc_sdw_cs_amp_init,
+   526					.rtd_init = asoc_sdw_cs_spk_rtd_init,
+   527					.controls = generic_spk_controls,
+   528					.num_controls = ARRAY_SIZE(generic_spk_controls),
+   529					.widgets = generic_spk_widgets,
+   530					.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+   531				},
+   532				{
+   533					.direction = {false, true},
+   534					.dai_name = "cs35l56-sdw1c",
+   535					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   536					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_AMP_IN_DAI_ID},
+   537					.rtd_init = asoc_sdw_cs_spk_feedback_rtd_init,
+   538				},
+   539			},
+   540			.dai_num = 2,
+   541		},
+   542		{
+   543			.part_id = 0x4242,
+   544			.dais = {
+   545				{
+   546					.direction = {true, true},
+   547					.dai_name = "cs42l42-sdw",
+   548					.dai_type = SOC_SDW_DAI_TYPE_JACK,
+   549					.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+   550					.rtd_init = asoc_sdw_cs42l42_rtd_init,
+   551					.controls = generic_jack_controls,
+   552					.num_controls = ARRAY_SIZE(generic_jack_controls),
+   553					.widgets = generic_jack_widgets,
+   554					.num_widgets = ARRAY_SIZE(generic_jack_widgets),
+   555				},
+   556			},
+   557			.dai_num = 1,
+   558		},
+   559		{
+   560			.part_id = 0x4243,
+   561			.codec_name = "cs42l43-codec",
+   562			.count_sidecar = asoc_sdw_bridge_cs35l56_count_sidecar,
+   563			.add_sidecar = asoc_sdw_bridge_cs35l56_add_sidecar,
+   564			.dais = {
+   565				{
+   566					.direction = {true, false},
+   567					.dai_name = "cs42l43-dp5",
+   568					.dai_type = SOC_SDW_DAI_TYPE_JACK,
+   569					.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+   570					.rtd_init = asoc_sdw_cs42l43_hs_rtd_init,
+   571					.controls = generic_jack_controls,
+   572					.num_controls = ARRAY_SIZE(generic_jack_controls),
+   573					.widgets = generic_jack_widgets,
+   574					.num_widgets = ARRAY_SIZE(generic_jack_widgets),
+   575				},
+   576				{
+   577					.direction = {false, true},
+   578					.dai_name = "cs42l43-dp1",
+   579					.dai_type = SOC_SDW_DAI_TYPE_MIC,
+   580					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+   581					.rtd_init = asoc_sdw_cs42l43_dmic_rtd_init,
+   582					.widgets = generic_dmic_widgets,
+   583					.num_widgets = ARRAY_SIZE(generic_dmic_widgets),
+   584					.quirk = SOC_SDW_CODEC_MIC,
+   585					.quirk_exclude = true,
+   586				},
+   587				{
+   588					.direction = {false, true},
+   589					.dai_name = "cs42l43-dp2",
+   590					.dai_type = SOC_SDW_DAI_TYPE_JACK,
+   591					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+   592				},
+   593				{
+   594					.direction = {true, false},
+   595					.dai_name = "cs42l43-dp6",
+   596					.component_name = "cs42l43",
+   597					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   598					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+   599					.init = asoc_sdw_cs42l43_spk_init,
+   600					.rtd_init = asoc_sdw_cs42l43_spk_rtd_init,
+   601					.controls = generic_spk_controls,
+   602					.num_controls = ARRAY_SIZE(generic_spk_controls),
+   603					.widgets = generic_spk_widgets,
+   604					.num_widgets = ARRAY_SIZE(generic_spk_widgets),
+   605					.quirk = SOC_SDW_CODEC_SPKR | SOC_SDW_SIDECAR_AMPS,
+   606				},
+   607			},
+   608			.dai_num = 4,
+   609		},
+   610		{
+   611			.part_id = 0xaaaa, /* generic codec mockup */
+   612			.version_id = 0,
+   613			.dais = {
+   614				{
+   615					.direction = {true, true},
+   616					.dai_name = "sdw-mockup-aif1",
+   617					.dai_type = SOC_SDW_DAI_TYPE_JACK,
+   618					.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+   619				},
+   620				{
+   621					.direction = {true, false},
+   622					.dai_name = "sdw-mockup-aif1",
+   623					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   624					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_UNUSED_DAI_ID},
+   625				},
+   626				{
+   627					.direction = {false, true},
+   628					.dai_name = "sdw-mockup-aif1",
+   629					.dai_type = SOC_SDW_DAI_TYPE_MIC,
+   630					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+   631				},
+   632			},
+   633			.dai_num = 3,
+   634		},
+   635		{
+   636			.part_id = 0xaa55, /* headset codec mockup */
+   637			.version_id = 0,
+   638			.dais = {
+   639				{
+   640					.direction = {true, true},
+   641					.dai_name = "sdw-mockup-aif1",
+   642					.dai_type = SOC_SDW_DAI_TYPE_JACK,
+   643					.dailink = {SOC_SDW_JACK_OUT_DAI_ID, SOC_SDW_JACK_IN_DAI_ID},
+   644				},
+   645			},
+   646			.dai_num = 1,
+   647		},
+   648		{
+   649			.part_id = 0x55aa, /* amplifier mockup */
+   650			.version_id = 0,
+   651			.dais = {
+   652				{
+   653					.direction = {true, true},
+   654					.dai_name = "sdw-mockup-aif1",
+   655					.dai_type = SOC_SDW_DAI_TYPE_AMP,
+   656					.dailink = {SOC_SDW_AMP_OUT_DAI_ID, SOC_SDW_AMP_IN_DAI_ID},
+   657				},
+   658			},
+   659			.dai_num = 1,
+   660		},
+   661		{
+   662			.part_id = 0x5555,
+   663			.version_id = 0,
+   664			.dais = {
+   665				{
+   666					.dai_name = "sdw-mockup-aif1",
+   667					.direction = {false, true},
+   668					.dai_type = SOC_SDW_DAI_TYPE_MIC,
+   669					.dailink = {SOC_SDW_UNUSED_DAI_ID, SOC_SDW_DMIC_DAI_ID},
+   670				},
+   671			},
+   672			.dai_num = 1,
+   673		},
+   674	};
+   675	EXPORT_SYMBOL_NS(codec_info_list, "SND_SOC_SDW_UTILS");
+   676	
 
 -- 
 0-DAY CI Kernel Test Service
