@@ -1,101 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09A41C861E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 19 Jul 2025 23:54:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E360DF71;
+	Sun, 20 Jul 2025 00:04:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1752969258; cv=none; b=qYPM1kYaXtpoiIJ/Vfht3FVIOM4pE4Jrg7SGqz2MTvMKcAz0t28hMKy9SG1IxJ3FZPYJiycbwVcFDA4bsCwYj3yAPi06LQKf99YsnV2pZymuqw0M+E8kG3Gv/ol1xNLpeoTsBwO+e9CuFJoOUzy/Uvkfpqs2zZrBFaKhhhNQFAs=
+	t=1752969854; cv=none; b=b2wz0goUjjjo5nF+wzwbLo1XfvVjIj2LuM6akM79J+8to0yQC5cFmCs/ZtjBuzxN6EiICHBvZxJwOIk5jy+kNL4qq/oBLy//ObGTYix9C1OkDqGlUgMOPASP4JOPX33bc5o37v4UKs/olfEqLNN+3TZU40OTfKlA78UvtGGxAXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1752969258; c=relaxed/simple;
-	bh=k42ZPcELF09Ls0CPn8uX8PXyG0mSH6okYho0N+tutak=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M1BbCj7QwhEOpLNMI6I5SgIr4emFLhNqGv9jfvrrq3ztsyhUTwnA+Z1kvee8k1Qyl6C1N1pKSWYcPZIEP/wcVgL+YDQIgsDhd31E05movqStg7V/mL4a8/E42SBv2gWzSAvXfs/IwZAVwwtHzyDUPe9LnHj0jVzbU7kKXdHiWnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eJ40ujfB; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1752969854; c=relaxed/simple;
+	bh=CMdcwjdM+NEKwgCfs8II+AAktb6VqdiwswETRLmxqx4=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=KusoxWdwToxmA/UofJa9fb+9fL+Il5CUmctsN5WKv5AJBRF/LZLWwEgyhp42RFXO/rSNoFrdN1JU49zZQd2EDCd4AZLosOiC8jUyE4n87LTmVmUas9PU/hiLzcgIlpTfyzWs0lmgXRAT/2IfBWUu41jULL8DCWY2XDJqNUV9B3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=PJSWQe9o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJ40ujfB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1752969257; x=1784505257;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=k42ZPcELF09Ls0CPn8uX8PXyG0mSH6okYho0N+tutak=;
-  b=eJ40ujfBjwhwo4QYNoIGXgZyQ1Vc0rIHxh4AQiJR+24oAb8tnj9RP0u0
-   CbPlm6zbyz/8kzqZ6R93DNHhRx/gnyV/YSS+xd38q8P5AM4For4ol1pXb
-   yqO0FXWVNlJSUkBzGID1PEKjBhGb7ETmaLC3tCfKRlqNC2RZjA0hkslH9
-   5FSjiMv3jQkB2wzqGrZvbnZS3zKHXW3CaikrEtLSjPP0zMQf4HWFgJIKy
-   fDVFxUx0GGSketm2bZl3Gy3VBXph1kwjF/s9VJTla6Cg9nS4cIswCN+7d
-   gfZWZlWBkob+VuiUYfHiSFpOeZr0zgrfyWkzZ1nMKtreSk/CG0nl2jLQz
-   Q==;
-X-CSE-ConnectionGUID: v0Zug0anSoWKaTBOttLKKw==
-X-CSE-MsgGUID: MJJjfPQ3QhmWz3hNkxJ0/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11497"; a="59013249"
-X-IronPort-AV: E=Sophos;i="6.16,325,1744095600"; 
-   d="scan'208";a="59013249"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Jul 2025 16:54:16 -0700
-X-CSE-ConnectionGUID: ZwuDnb1nTeqYaxipw8Mp2g==
-X-CSE-MsgGUID: yfSCdcFWTWGwX7fLSqMdxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,325,1744095600"; 
-   d="scan'208";a="164009199"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 19 Jul 2025 16:54:14 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1udHNc-000Fqb-1F;
-	Sat, 19 Jul 2025 23:54:12 +0000
-Date: Sun, 20 Jul 2025 07:53:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: jeff_chang@richtek.com, lgirdwood@gmail.com, broonie@kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, jeff_chang@richtek.com
-Subject: Re: [PATCH v2] regulator: rt5133: Add RT5133 PMIC regulator Support
-Message-ID: <202507200730.Lj2qVDqU-lkp@intel.com>
-References: <20250718081052.2685826-1-jeff_chang@richtek.com>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="PJSWQe9o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7EE7C4CEE3;
+	Sun, 20 Jul 2025 00:04:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1752969853;
+	bh=CMdcwjdM+NEKwgCfs8II+AAktb6VqdiwswETRLmxqx4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=PJSWQe9oQQkTIo4LmKA/patMfkTxheJ1Z3wmno2dxAz6YrBKaQ8BUxi8nOZ6KS3A7
+	 VY8NoDCl1wSzC4oRF0vEZouiUvCC08IThmPVkV2gosNkuN1Ys2owbShruDUwenPtls
+	 kA/cX2d19uQQsDOu8H2usOKE4nypj+TyzZH3hSEg=
+Date: Sat, 19 Jul 2025 17:04:13 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Sabyrzhan Tasbolatov <snovitoll@gmail.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, Linux Memory Management List
+ <linux-mm@kvack.org>
+Subject: Re: [akpm-mm:mm-new 160/175] mm/kasan/tags.c:145:6: error:
+ redefinition of 'kasan_save_free_info'
+Message-Id: <20250719170413.9b64b9321c3ac082712348fe@linux-foundation.org>
+In-Reply-To: <202507190528.W6ndwfyg-lkp@intel.com>
+References: <202507190528.W6ndwfyg-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250718081052.2685826-1-jeff_chang@richtek.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Sat, 19 Jul 2025 05:28:51 +0800 kernel test robot <lkp@intel.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-new
+> head:   b0e07b9befa0558a80b281b7efcdb3717881c969
+> commit: 3d3c26eaf9f6e00779d27dd54d763c9bdc5dda3c [160/175] kasan: add shadow checks to wrappers and rename kasan_arch_is_ready
+> config: arm64-randconfig-001-20250719 (https://download.01.org/0day-ci/archive/20250719/202507190528.W6ndwfyg-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507190528.W6ndwfyg-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202507190528.W6ndwfyg-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> mm/kasan/tags.c:145:6: error: redefinition of 'kasan_save_free_info'
+>      145 | void kasan_save_free_info(struct kmem_cache *cache, void *object)
+>          |      ^
+>    mm/kasan/kasan.h:403:20: note: previous definition is here
+>      403 | static inline void kasan_save_free_info(struct kmem_cache *cache, void *object)
+>          |                    ^
+>    1 error generated.
 
-[auto build test WARNING on broonie-regulator/for-next]
-[also build test WARNING on linus/master v6.16-rc6 next-20250718]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I'll add this.   It should repair the build, at least?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/jeff_chang-richtek-com/regulator-rt5133-Add-RT5133-PMIC-regulator-Support/20250718-161216
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-patch link:    https://lore.kernel.org/r/20250718081052.2685826-1-jeff_chang%40richtek.com
-patch subject: [PATCH v2] regulator: rt5133: Add RT5133 PMIC regulator Support
-config: alpha-kismet-CONFIG_OF_GPIO-CONFIG_REGULATOR_RT5133-0-0 (https://download.01.org/0day-ci/archive/20250720/202507200730.Lj2qVDqU-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250720/202507200730.Lj2qVDqU-lkp@intel.com/reproduce)
+--- a/mm/kasan/tags.c~kasan-add-shadow-checks-to-wrappers-and-rename-kasan_arch_is_ready-fix
++++ a/mm/kasan/tags.c
+@@ -142,7 +142,7 @@ void kasan_save_alloc_info(struct kmem_c
+ 	save_stack_info(cache, object, flags, false);
+ }
+ 
+-void kasan_save_free_info(struct kmem_cache *cache, void *object)
++void __kasan_save_free_info(struct kmem_cache *cache, void *object)
+ {
+ 	save_stack_info(cache, object, 0, true);
+ }
+_
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507200730.Lj2qVDqU-lkp@intel.com/
-
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for OF_GPIO when selected by REGULATOR_RT5133
-   WARNING: unmet direct dependencies detected for OF_GPIO
-     Depends on [n]: GPIOLIB [=y] && OF [=n] && HAS_IOMEM [=y]
-     Selected by [y]:
-     - REGULATOR_RT5133 [=y] && REGULATOR [=y] && I2C [=y] && GPIOLIB [=y]
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
