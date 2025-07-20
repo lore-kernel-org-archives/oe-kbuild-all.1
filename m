@@ -1,40 +1,58 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6339E14883F;
-	Sun, 20 Jul 2025 13:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901151CA81
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Jul 2025 13:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753017013; cv=none; b=RmY30sCm0L4NXCimQx0OxK3EGDKdj0rab6QWmO8mbD0e0AeUJHESpd3mlnCuJLKdx8BVQhBebJFPtkvM3q2UYsUaS0lzfmrI8nu5XwRgtRpSYXp/HIHFqqLaU7rnw8dWZW7q+82BgOBcLhw+Vf2kwGGzwmmZxa4Z5Azgqo/8yhI=
+	t=1753017134; cv=none; b=IXiH8JwpYuLC/1yDuDQ+ThWFd0cAesVSY6vY5+vvwvN474NReZK52QHlW+X4lBAq6rpdsxzuBr3Fz7nIU0mhsr7WBZheJk/wps0HDwXgqkKse6yUAGaArWn4avq0rBT1ziaAjnTNPPadf3VEb8ATZ61L5bhChRBfaP83a9MDcuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753017013; c=relaxed/simple;
-	bh=LrvFxCv+1AQ+WO/3zsn/2a1P1a5OWslkk1EiDutur6c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RH6cAp9vlAq/ZbQj76/vJOv4mZpd9jiBXLOYCJ0HZ5n24pTedNrWY/2u96i49ydsQ+QsCVOg6Tk66VvKBw9e3c9LbSqzfrEo8Ps/XWYrr++wJghvLOpOPMU8a/Cu+Pcjdunq+9vsflV6z9CtvBkoY9AGBpAxexKAWyIiPnxACWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tdg+DZUt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753017134; c=relaxed/simple;
+	bh=6Tmbfn1P8+fkL3T+wXySqtSJd+47kjTHUG6q5ws8cu4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rXKKbvGgtNZ6DNch5e40vdd4zeVvXABw8SvldnHEuWScz4Cf8IQwCp77R90c8kYQtv5MPD7qgh7iL39m3CAVoUBmR6naRFO4JnAM2SSdm7ohwEARjvvkpzICIxftdjaUpgm8Ai5pwBsaoUjLhuRUCioQdQ9maogH8+d03nqrKHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CxMVl54P; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tdg+DZUt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65C91C4CEE7;
-	Sun, 20 Jul 2025 13:10:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753017012;
-	bh=LrvFxCv+1AQ+WO/3zsn/2a1P1a5OWslkk1EiDutur6c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Tdg+DZUtHDMqWtkVmvy9pK4T7tGtKmkBHO8KNxEYGgS/ft8Rhnc6WOlXMvz0tA3Ov
-	 FKXf8/DG240My46PIPunMOAOFqSTeqT9lh+iajOieFwzY09DF/hpTdFnmMmShj2BiE
-	 2NrcaichsAKLtkb2uuFXWWq192ccNBFccnChDPu5wYgghMTriaS8ZHpIum1NuMAxET
-	 Z385Vtx85RifgxFDS59hsNzpbsouuHcNUIuzs6mPgYBtJ6gEnP6c2fw8rdtz/GrWKd
-	 et5GWWxQz5xNsGKvWNBBoGl3BIYkuBQz2NFGw818EHyJm0dJdb8O1AhY0QUAp/DU9N
-	 5Ou5slRo2RoFQ==
-Date: Sun, 20 Jul 2025 16:10:08 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1 1/2] dma-mapping: prepare dma_map_ops to conversion to
- physical address
-Message-ID: <20250720131008.GJ402218@unreal>
-References: <184fc9bda626efc62c5022ace01a20b80d1dc93b.1753003879.git.leon@kernel.org>
- <202507201935.hwB4Ebxp-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CxMVl54P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753017133; x=1784553133;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=6Tmbfn1P8+fkL3T+wXySqtSJd+47kjTHUG6q5ws8cu4=;
+  b=CxMVl54POJDyxhpgdZC2CcR1TGzfAG2HDnv1sY17fpXfDWtVTpQSKYQg
+   Eok4VkTIpss8jq4NRDMByVcne5Hba7LILeqml1gxV4E+kYYzW2X/VarwH
+   DkPWd7eKMHTFhvafxV8FNiABdjhiBjHln6NA70owmuHKtFVgo4nzmkZd7
+   p50/z5hIOL1xrYyIlCfCjPg4RQPn9f8k2Q99SwvMuNo/7RFBipBnq1M0Y
+   rAfbdyg66UcQB34CQLH9cJGl5WkPX57F1mVlz/SqSEMuPm4lDpIFN0dBP
+   wxKZtcGFKE2lbFr4NuSIpIBsblknkENEX4tkIITzjiyqj41RgmoKwM4E2
+   g==;
+X-CSE-ConnectionGUID: xOtVY3rxQJi3xoeKY6N84w==
+X-CSE-MsgGUID: 0BaluZe1Sza87rqQrPIXmg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11498"; a="57863122"
+X-IronPort-AV: E=Sophos;i="6.16,326,1744095600"; 
+   d="scan'208";a="57863122"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2025 06:12:12 -0700
+X-CSE-ConnectionGUID: EjNTZoHeT/eVd88pp4kwsw==
+X-CSE-MsgGUID: xbveaBTlSmSRzJi5jkjVrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,326,1744095600"; 
+   d="scan'208";a="159323001"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 20 Jul 2025 06:12:11 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1udTpo-000G73-2n;
+	Sun, 20 Jul 2025 13:12:08 +0000
+Date: Sun, 20 Jul 2025 21:11:49 +0800
+From: kernel test robot <lkp@intel.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.16-dualmmc 79/79]
+ include/linux/module.h:131:49: error: redefinition of '__inittest'
+Message-ID: <202507202109.EfQo7mT7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -43,110 +61,244 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202507201935.hwB4Ebxp-lkp@intel.com>
 
-On Sun, Jul 20, 2025 at 07:28:05PM +0800, kernel test robot wrote:
-> Hi Leon,
-> 
-> kernel test robot noticed the following build warnings:
-> 
-> [auto build test WARNING on next-20250718]
-> [cannot apply to linus/master v6.16-rc6 v6.16-rc5 v6.16-rc4 v6.16-rc6]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Romanovsky/dma-mapping-prepare-dma_map_ops-to-conversion-to-physical-address/20250720-173726
-> base:   next-20250718
-> patch link:    https://lore.kernel.org/r/184fc9bda626efc62c5022ace01a20b80d1dc93b.1753003879.git.leon%40kernel.org
-> patch subject: [PATCH v1 1/2] dma-mapping: prepare dma_map_ops to conversion to physical address
-> config: s390-randconfig-001-20250720 (https://download.01.org/0day-ci/archive/20250720/202507201935.hwB4Ebxp-lkp@intel.com/config)
-> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250720/202507201935.hwB4Ebxp-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507201935.hwB4Ebxp-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> kernel/dma/mapping.c:192:12: warning: variable 'addr' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
->      192 |                 else if (ops->map_page)
->          |                          ^~~~~~~~~~~~~
->    kernel/dma/mapping.c:198:32: note: uninitialized use occurs here
->      198 |         trace_dma_map_phys(dev, phys, addr, size, dir, attrs);
->          |                                       ^~~~
->    kernel/dma/mapping.c:192:8: note: remove the 'if' if its condition is always true
->      192 |                 else if (ops->map_page)
->          |                      ^~~~~~~~~~~~~~~~~~
->      193 |                         addr = ops->map_page(dev, page, offset, size, dir,
->    kernel/dma/mapping.c:159:17: note: initialize the variable 'addr' to silence this warning
->      159 |         dma_addr_t addr;
->          |                        ^
->          |                         = 0
->    1 warning generated.
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.16-dualmmc
+head:   61605f260a207bbe9994a325ea9b2d33e29d62de
+commit: 61605f260a207bbe9994a325ea9b2d33e29d62de [79/79] msdc: driver changes for multi-slot mmc
+config: x86_64-buildonly-randconfig-003-20250720 (https://download.01.org/0day-ci/archive/20250720/202507202109.EfQo7mT7-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250720/202507202109.EfQo7mT7-lkp@intel.com/reproduce)
 
-Strange, I didn't get any warning about it for v1.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507202109.EfQo7mT7-lkp@intel.com/
 
-Thanks
+All errors (new ones prefixed by >>):
 
-> 
-> 
-> vim +192 kernel/dma/mapping.c
-> 
->    154	
->    155	dma_addr_t dma_map_phys(struct device *dev, phys_addr_t phys, size_t size,
->    156			enum dma_data_direction dir, unsigned long attrs)
->    157	{
->    158		const struct dma_map_ops *ops = get_dma_ops(dev);
->    159		dma_addr_t addr;
->    160	
->    161		BUG_ON(!valid_dma_direction(dir));
->    162	
->    163		if (WARN_ON_ONCE(!dev->dma_mask))
->    164			return DMA_MAPPING_ERROR;
->    165	
->    166		if (dma_map_direct(dev, ops) ||
->    167		    arch_dma_map_phys_direct(dev, phys + size))
->    168			addr = dma_direct_map_phys(dev, phys, size, dir, attrs);
->    169		else if (use_dma_iommu(dev))
->    170			addr = iommu_dma_map_phys(dev, phys, size, dir, attrs);
->    171		else {
->    172			struct page *page = phys_to_page(phys);
->    173			size_t offset = offset_in_page(phys);
->    174			bool is_pfn_valid = true;
->    175	
->    176			if (IS_ENABLED(CONFIG_DMA_API_DEBUG)) {
->    177				is_pfn_valid = pfn_valid(PHYS_PFN(phys));
->    178	
->    179				/* We shouldn't have both functions */
->    180				WARN_ON_ONCE(ops->map_page && ops->map_phys);
->    181			}
->    182	
->    183			if (unlikely(!is_pfn_valid))
->    184				return DMA_MAPPING_ERROR;
->    185	
->    186			/*
->    187			 * All platforms which implement .map_page() don't support
->    188			 * non-struct page backed addresses.
->    189			 */
->    190			if (ops->map_phys)
->    191				addr = ops->map_phys(dev, phys, size, dir, attrs);
->  > 192			else if (ops->map_page)
->    193				addr = ops->map_page(dev, page, offset, size, dir,
->    194						     attrs);
->    195		}
->    196	
->    197		kmsan_handle_dma(phys, size, dir);
->    198		trace_dma_map_phys(dev, phys, addr, size, dir, attrs);
->    199		debug_dma_map_phys(dev, phys, size, dir, addr, attrs);
->    200	
->    201		return addr;
->    202	}
->    203	EXPORT_SYMBOL_GPL(dma_map_phys);
->    204	
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+   In file included from drivers/mmc/host/mtk-sd.c:8:
+>> include/linux/module.h:131:49: error: redefinition of '__inittest'
+     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
+         |                                                 ^~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   drivers/mmc/host/mtk-sd.c:3352:1: note: in expansion of macro 'module_platform_driver'
+    3352 | module_platform_driver(mt_msdc_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:131:49: note: previous definition of '__inittest' with type 'int (*(void))(void)'
+     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
+         |                                                 ^~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   drivers/mmc/host/mtk-sd.c:3341:1: note: in expansion of macro 'module_platform_driver'
+    3341 | module_platform_driver(mt_msdc_slot_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/module.h:133:13: error: redefinition of 'init_module'
+     133 |         int init_module(void) __copy(initfn)                    \
+         |             ^~~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   drivers/mmc/host/mtk-sd.c:3352:1: note: in expansion of macro 'module_platform_driver'
+    3352 | module_platform_driver(mt_msdc_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:133:13: note: previous definition of 'init_module' with type 'int(void)'
+     133 |         int init_module(void) __copy(initfn)                    \
+         |             ^~~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   drivers/mmc/host/mtk-sd.c:3341:1: note: in expansion of macro 'module_platform_driver'
+    3341 | module_platform_driver(mt_msdc_slot_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/module.h:139:49: error: redefinition of '__exittest'
+     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
+         |                                                 ^~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   drivers/mmc/host/mtk-sd.c:3352:1: note: in expansion of macro 'module_platform_driver'
+    3352 | module_platform_driver(mt_msdc_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:139:49: note: previous definition of '__exittest' with type 'void (*(void))(void)'
+     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
+         |                                                 ^~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   drivers/mmc/host/mtk-sd.c:3341:1: note: in expansion of macro 'module_platform_driver'
+    3341 | module_platform_driver(mt_msdc_slot_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/module.h:141:14: error: redefinition of 'cleanup_module'
+     141 |         void cleanup_module(void) __copy(exitfn)                \
+         |              ^~~~~~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   drivers/mmc/host/mtk-sd.c:3352:1: note: in expansion of macro 'module_platform_driver'
+    3352 | module_platform_driver(mt_msdc_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:141:14: note: previous definition of 'cleanup_module' with type 'void(void)'
+     141 |         void cleanup_module(void) __copy(exitfn)                \
+         |              ^~~~~~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   drivers/mmc/host/mtk-sd.c:3341:1: note: in expansion of macro 'module_platform_driver'
+    3341 | module_platform_driver(mt_msdc_slot_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+--
+   In file included from mtk-sd.c:8:
+>> include/linux/module.h:131:49: error: redefinition of '__inittest'
+     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
+         |                                                 ^~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   mtk-sd.c:3352:1: note: in expansion of macro 'module_platform_driver'
+    3352 | module_platform_driver(mt_msdc_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:131:49: note: previous definition of '__inittest' with type 'int (*(void))(void)'
+     131 |         static inline initcall_t __maybe_unused __inittest(void)                \
+         |                                                 ^~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   mtk-sd.c:3341:1: note: in expansion of macro 'module_platform_driver'
+    3341 | module_platform_driver(mt_msdc_slot_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/module.h:133:13: error: redefinition of 'init_module'
+     133 |         int init_module(void) __copy(initfn)                    \
+         |             ^~~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   mtk-sd.c:3352:1: note: in expansion of macro 'module_platform_driver'
+    3352 | module_platform_driver(mt_msdc_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:133:13: note: previous definition of 'init_module' with type 'int(void)'
+     133 |         int init_module(void) __copy(initfn)                    \
+         |             ^~~~~~~~~~~
+   include/linux/device/driver.h:262:1: note: in expansion of macro 'module_init'
+     262 | module_init(__driver##_init); \
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   mtk-sd.c:3341:1: note: in expansion of macro 'module_platform_driver'
+    3341 | module_platform_driver(mt_msdc_slot_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/module.h:139:49: error: redefinition of '__exittest'
+     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
+         |                                                 ^~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   mtk-sd.c:3352:1: note: in expansion of macro 'module_platform_driver'
+    3352 | module_platform_driver(mt_msdc_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:139:49: note: previous definition of '__exittest' with type 'void (*(void))(void)'
+     139 |         static inline exitcall_t __maybe_unused __exittest(void)                \
+         |                                                 ^~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   mtk-sd.c:3341:1: note: in expansion of macro 'module_platform_driver'
+    3341 | module_platform_driver(mt_msdc_slot_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/module.h:141:14: error: redefinition of 'cleanup_module'
+     141 |         void cleanup_module(void) __copy(exitfn)                \
+         |              ^~~~~~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   mtk-sd.c:3352:1: note: in expansion of macro 'module_platform_driver'
+    3352 | module_platform_driver(mt_msdc_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/module.h:141:14: note: previous definition of 'cleanup_module' with type 'void(void)'
+     141 |         void cleanup_module(void) __copy(exitfn)                \
+         |              ^~~~~~~~~~~~~~
+   include/linux/device/driver.h:267:1: note: in expansion of macro 'module_exit'
+     267 | module_exit(__driver##_exit);
+         | ^~~~~~~~~~~
+   include/linux/platform_device.h:292:9: note: in expansion of macro 'module_driver'
+     292 |         module_driver(__platform_driver, platform_driver_register, \
+         |         ^~~~~~~~~~~~~
+   mtk-sd.c:3341:1: note: in expansion of macro 'module_platform_driver'
+    3341 | module_platform_driver(mt_msdc_slot_driver);
+         | ^~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/__inittest +131 include/linux/module.h
+
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  128  
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  129  /* Each module must use one module_init(). */
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  130  #define module_init(initfn)					\
+1f318a8bafcfba Arnd Bergmann  2017-02-01 @131  	static inline initcall_t __maybe_unused __inittest(void)		\
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  132  	{ return initfn; }					\
+cf68fffb66d60d Sami Tolvanen  2021-04-08 @133  	int init_module(void) __copy(initfn)			\
+cf68fffb66d60d Sami Tolvanen  2021-04-08  134  		__attribute__((alias(#initfn)));		\
+92efda8eb15295 Sami Tolvanen  2022-09-08  135  	___ADDRESSABLE(init_module, __initdata);
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  136  
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  137  /* This is only required if you want to be unloadable. */
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  138  #define module_exit(exitfn)					\
+1f318a8bafcfba Arnd Bergmann  2017-02-01 @139  	static inline exitcall_t __maybe_unused __exittest(void)		\
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  140  	{ return exitfn; }					\
+cf68fffb66d60d Sami Tolvanen  2021-04-08 @141  	void cleanup_module(void) __copy(exitfn)		\
+cf68fffb66d60d Sami Tolvanen  2021-04-08  142  		__attribute__((alias(#exitfn)));		\
+92efda8eb15295 Sami Tolvanen  2022-09-08  143  	___ADDRESSABLE(cleanup_module, __exitdata);
+0fd972a7d91d6e Paul Gortmaker 2015-05-01  144  
+
+:::::: The code at line 131 was first introduced by commit
+:::::: 1f318a8bafcfba9f0d623f4870c4e890fd22e659 modules: mark __inittest/__exittest as __maybe_unused
+
+:::::: TO: Arnd Bergmann <arnd@arndb.de>
+:::::: CC: Jessica Yu <jeyu@redhat.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
