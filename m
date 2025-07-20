@@ -1,134 +1,100 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3031E1AA786
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Jul 2025 18:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9EF0B661
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Jul 2025 18:14:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753034965; cv=none; b=W+F0sJviDbhRrvXnOTNJLSbfxj0Y6dTmik5oY9XDzdcwM8515269zbVfomXKbmXkjVY3vPlCKJ4/qTeZ6tgbJ2s8DE/pbPr1Ghsub+sUr7SleSWYdP8PnHbMFgh39VRyIieHcAW9oXU4TJV1YwuoS9MIj2InGnc+KfhosWi+oY4=
+	t=1753035292; cv=none; b=lUoPvlVFuEYgNGONomNkag7ZnBP4Jah7NoEcqbcmFxeh/FbafVXind+uBPEFNDqyoXSO54fG9LXPj5GfHEwD7EVNmz53jFDM/GaLYaMY6kdHQJJ+5no8IuofN7+FDJaqrv3rZKk7/zb9IWdBDyJ3WUllBsveRIoEnNR/a3BsqrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753034965; c=relaxed/simple;
-	bh=UgZW6E0tLXAqWBAe6bcg+nwvBZBAbFq/jebf70i9ZUo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=p7jl6bmXhLYYSld2VS/vVYTsZkOzZ63gy3SDAQdZIhkiShTdG+Vi/+JqUwhtSbu/3ettxPmxbtZvh7YaiEV31UwUFngYv1pYkdKzzTcjIk/cmTyqUBsXxKvXr9USffMdNVIotxR9qxzFLf4zSLNqQ6dU9JrIdmVexz3WnGrAeJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qIVNXeX9; arc=none smtp.client-ip=209.85.210.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1753035292; c=relaxed/simple;
+	bh=4j59W8Itm9rcumQgArm+6vGk9dokQyPHbbeRFqauc2o=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=XnIW8nyLHjMt0G6/J5gSkTJwNaWJI2IvbqNinMYpz6UGygsoMIrRs5Aaog4SR1RSjyEXBk4bCYsD6h2oJs33mi7XEPzsybf+/tojTHq6wSmxJIC8pF82y+P8XsG78X12dhvZe20vHEfkWtBSP5rxisWDWHobSvJ7GMruSlfdh5M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=Q0Mjwsfk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qIVNXeX9"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-73e810dbf5aso1517441a34.0
-        for <oe-kbuild-all@lists.linux.dev>; Sun, 20 Jul 2025 11:09:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753034962; x=1753639762; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=I3oeyMWOovcd12lQ3ZXa1ZAZl9gHnEtbWVtsJw7zMa0=;
-        b=qIVNXeX9E0NvEzKfrTPLH5sFjLlRYh1gfXXF26PO50ZRt/HSHxAhFCerQQs1teEJMQ
-         hPDAtQxPMUvOQXqWEOeos9IdeMwp6MMjwcxSEJufPTn6fbLGSZViVPw4v+tH/Dd4LU6U
-         OYIZpM4yExeNTCy2VqmwzoVpGZCkN4HvI2o+aqofiuthiWiP7JkM6BSe2V2xj9+SNTdD
-         z2vuUX/bN6AXQ49B2POy711iVpHOs+7qfS1q41Dy0jM6htg5InupLTGN/AyYYCunXwqD
-         jZa/jL8cy7JQQSb1BqQrt6X/VNfFSc7zyMgW0Z1wgCE8kS1gjJIuuAL8AXUr45fkYYQ1
-         GUOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753034962; x=1753639762;
-        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I3oeyMWOovcd12lQ3ZXa1ZAZl9gHnEtbWVtsJw7zMa0=;
-        b=eQTW6SYcGg28PiZ7Le6oCTyvQZIwo50orTVMdtxw9xyeA2NdCxmNa7Y7UpwF9blMXI
-         vpgwvAtVz8XaTXnxE6uiQFa7DP/4Y18KFTRYaLkhLNBeYhkICw2zd4+jB2EAWKgo6rSB
-         S5JdrFKyw6ZXQNHSneGcfo6n2ZS/AyNz/EAwN66MSxWKG//fm/yOSJ+iti/zZdVRIXMB
-         BMJuSLQGWuF37Iv9+7VGHH3nHe8lZHboJpVOVlNK7JlyQay/QhNf7GN9LzMTwePsj264
-         Ta0tQn18Jir6vjlod38idgZ4bva/stIqNTugqMfTvr1yksGaauQqsnLYXun8G9dlQ8El
-         Lsug==
-X-Forwarded-Encrypted: i=1; AJvYcCUhMobEgsj0LFP1EUNBUOryi957RjXOJNlhypM95W+dzfHNTCJZy5HkFkBkLD/Zbapongbw6DYSmKYtmh4t@lists.linux.dev
-X-Gm-Message-State: AOJu0YzIn+O4CaZWhHhMQvfhsFBwn03tj5HL9DuSXm+93AJ66yCpa/NX
-	TMzX85zzHJV1XTdxYZOwZQlM7QJ3BNgFdQQxAyExx4Dlj3H1ltbVG80zbCvVxdOD2bI=
-X-Gm-Gg: ASbGncuDenPr23Y0wUliRzCWUW7AQB7dA5EKg7BcOPLJNBAAm6mq9djSNW1m5R6FK/W
-	H497VWC1UlwbwR9TJA099ufBrZe0kqAMRTwHAM9kJBT8c1orqsyFvxLohHAgYBnbCGo7+5RLA6w
-	OYaLFPa5ckwhLG2VM9R0MjRXzMdbz6hVcs6p0j0aI56gn/jjRd7n+i2r1BEH5mA8wFmQkiaiWDt
-	AUGZmlUYjk1/4APkkddlTpbTL17SBeJ1vLm68y1mW+hpbqqvNOeSbpR9O4xhwtSpzNq5DNhrM05
-	KevvepuI49S9XH4a1hynqenoIaikDgariQcP20Id4RgHpp1QTdciVSA6dK1jpuIJLz6KUBKqK9K
-	8x2ODxnFhdGw=
-X-Google-Smtp-Source: AGHT+IHHMh2QyThIYM4S4Cqp/W3F21cycCG2+rVI38EbTeuflkBmq2oUSER3ansMmmQBq36/pIa9XQ==
-X-Received: by 2002:a05:6830:6484:b0:73e:9ee1:3d63 with SMTP id 46e09a7af769-73e9ee144b3mr2213384a34.9.1753034962320;
-        Sun, 20 Jul 2025 11:09:22 -0700 (PDT)
-Received: from localhost ([2603:8080:b800:f700::17c0])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-73e8a7edab2sm1927659a34.40.2025.07.20.11.09.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Jul 2025 11:09:21 -0700 (PDT)
-Date: Sun, 20 Jul 2025 21:09:19 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev, Abid Ali <dev.nuvorolabs@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Abid Ali <dev.nuvorolabs@gmail.com>
-Subject: Re: [PATCH] net: phy: Fix premature resume by a PHY driver
-Message-ID: <47495a5b-a3e5-44da-993d-5a7d3c19bd5c@suswa.mountain>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="Q0Mjwsfk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E77C4CEE7;
+	Sun, 20 Jul 2025 18:14:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1753035292;
+	bh=4j59W8Itm9rcumQgArm+6vGk9dokQyPHbbeRFqauc2o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Q0Mjwsfkt6E2H/udiafb4hIRELIOl18XM4OeiZUPgteXaOykHeNtm7DK1uheEldGN
+	 ELrloAZARvAzadG7X58rjz/6XuydQZT+9XtGMPZFkW6aXFEjeu3Tw0Tbx/xfnZUCmu
+	 Q02mwkgqtRil80TD4yjnA/ttbR8ZIaVnMm1z1JTM=
+Date: Sun, 20 Jul 2025 11:14:50 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: kernel test robot <lkp@intel.com>, Ye Liu <ye.liu@linux.dev>, David
+ Hildenbrand <david@redhat.com>, Davidlohr Bueso <dave@stgolabs.net>,
+ "Paul E. McKenney" <paulmck@kernel.org>, Josh Triplett
+ <josh@joshtriplett.org>, Frederic Weisbecker <frederic@kernel.org>, Neeraj
+ Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
+ <joelagnelf@nvidia.com>, Boqun Feng <boqun.feng@gmail.com>, Uladzislau
+ Rezki <urezki@gmail.com>, Ingo Molnar <mingo@redhat.com>, Peter Zijlstra
+ <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot
+ <vincent.guittot@linaro.org>, oe-kbuild-all@lists.linux.dev, Linux Memory
+ Management List <linux-mm@kvack.org>, Ye Liu <liuye@kylinos.cn>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan
+ <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Steven Rostedt
+ <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
+ <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin Schneider
+ <vschneid@redhat.com>
+Subject: Re: [PATCH] mm: Replace (20 - PAGE_SHIFT) with common macros for
+ pages<->MB conversion
+Message-Id: <20250720111450.71ce91f5354e63c975094452@linux-foundation.org>
+In-Reply-To: <3d459085-3b7f-4ba3-8197-832f7931bcc2@lucifer.local>
+References: <20250718024134.1304745-1-ye.liu@linux.dev>
+	<202507190319.0rqhQw5l-lkp@intel.com>
+	<87dff86f-94b8-47aa-b2e1-7560a9f60818@lucifer.local>
+	<20250719163807.068d4cb349c6a3395183167b@linux-foundation.org>
+	<3d459085-3b7f-4ba3-8197-832f7931bcc2@lucifer.local>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250718-phy_resume-v1-1-9c6b59580bee@gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Abid,
+On Sun, 20 Jul 2025 09:59:55 +0100 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
 
-kernel test robot noticed the following build warnings:
+> > /* Helpers */
+> > #define TO_KB(bytes)		((bytes) >> 10)
+> > #define TO_MB(bytes)		(TO_KB(bytes) >> 10)
+> > #define PAGES_TO_KB(n_pages)	((n_pages) << (PAGE_SHIFT - 10))
+> > #define PAGES_TO_MB(n_pages)	(PAGES_TO_KB(n_pages) >> 10)
+> >
+> > are simply in the wrong place.
+> >
+> > I was thinking move all four into mm.h (for the lack of a better
+> > place).  Then someone can make a career out of hunting down all the code
+> > sites which can use them.
+> >
+> > eg,
+> >
+> > hp2:/usr/src/linux-6.16-rc5> fgrep -r ">> 10" . | wc -l
+> > 886
+> 
+> Yeah I agree for sure, this is misplaced, but maybe one for a follow up
+> patch?
+> 
+> There's more work to be done here, I already have an idea for a patch to
+> fix another similar case...
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Abid-Ali/net-phy-Fix-premature-resume-by-a-PHY-driver/20250718-234858
-base:   347e9f5043c89695b01e66b3ed111755afcf1911
-patch link:    https://lore.kernel.org/r/20250718-phy_resume-v1-1-9c6b59580bee%40gmail.com
-patch subject: [PATCH] net: phy: Fix premature resume by a PHY driver
-config: sparc-randconfig-r071-20250719 (https://download.01.org/0day-ci/archive/20250720/202507200229.iOChX4Rp-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.3.0
+OK.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202507200229.iOChX4Rp-lkp@intel.com/
+I could put a couple of ifndefs in there to make this patch happy, but
+this patch is just a little cleanup and it's a very small part of any
+kernel-wide overhaul of these conversion operations.
 
-smatch warnings:
-drivers/net/phy/phy_device.c:1852 __phy_resume() error: we previously assumed 'phydrv->resume' could be null (see line 1849)
-
-vim +1852 drivers/net/phy/phy_device.c
-
-9c2c2e62df3fa3 Andrew Lunn           2018-02-27  1842  int __phy_resume(struct phy_device *phydev)
-481b5d938b4a60 Sebastian Hesselbarth 2013-12-13  1843  {
-0bd199fd9c19aa Russell King (Oracle  2024-02-02  1844) 	const struct phy_driver *phydrv = phydev->drv;
-8a8f8281e7e7a8 Heiner Kallweit       2020-03-26  1845  	int ret;
-481b5d938b4a60 Sebastian Hesselbarth 2013-12-13  1846  
-e6e918d4eb93f4 Heiner Kallweit       2021-01-06  1847  	lockdep_assert_held(&phydev->lock);
-f5e64032a799d4 Russell King          2017-12-12  1848  
-9421d84b1b3e16 Abid Ali              2025-07-18 @1849  	if (!phydrv || !phydrv->resume && phydev->suspended)
-                                                                       ^^^^^^^^^^^^^^^
-This checks for if the resume pointer is NULL, but if the resume is
-NULL but suspend is also NULL.  I'm surprised that the compiler allows
-us to write that comparison without adding parenthesis.  I thought that
-it would complain about && having higher precedence.
-
-8a8f8281e7e7a8 Heiner Kallweit       2020-03-26  1850  		return 0;
-8a477a6fb6a336 Florian Fainelli      2015-01-26  1851  
-8a8f8281e7e7a8 Heiner Kallweit       2020-03-26 @1852  	ret = phydrv->resume(phydev);
-                                                              ^^^^^^^^^^^^^^
-Then this will crash.
-
-8a8f8281e7e7a8 Heiner Kallweit       2020-03-26  1853  	if (!ret)
-8a477a6fb6a336 Florian Fainelli      2015-01-26  1854  		phydev->suspended = false;
-8a477a6fb6a336 Florian Fainelli      2015-01-26  1855  
-8a477a6fb6a336 Florian Fainelli      2015-01-26  1856  	return ret;
-481b5d938b4a60 Sebastian Hesselbarth 2013-12-13  1857  }
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+So for now I think I'll retain this patch in mm-new to prevent this
+linux-next build error.  I'll do this as a reminder until someone gets
+down and addresses all this in a broader fashion.
 
