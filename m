@@ -1,157 +1,122 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CE61FC0A
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 14:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9345D2DEA6B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 15:13:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753107465; cv=none; b=taPNIb2Xga5K0zez3M6tbSmIf8yq6F5Osq5EG4PlWh01e3hNheJqVlv9uxZgrpUVZLY9Btq+q1IDj3hSuepTGNPdJbvg2xl7j4Wh/wVP0j0XkCam3woZXdlMNTdxfJSeQCTxlUnGtpmkWHb/+lACCuxnWEUqyxe01LsYfjk9vdc=
+	t=1753110829; cv=none; b=IQ4rHZ9KUUitYJaqCRcqcIfqspU5VNLgTAuEFKqerGJFdf+25SPbKrzLzWt1Z43F1XaoMwe7UN/MQRXBHJBeELfBvfrcmEDw4WUBIk7IUj6j7B09PhxiODE14Mmlw7QkBXjn17nB5IwZiticmy4h9GkMV3w6qcRr/nHm9mqsWoo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753107465; c=relaxed/simple;
-	bh=jx62/zzI69MGOw6Q1ltR2MwUC388v3A5IGqMmpKVPmI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s3MCOr2oB9Ul7VhsrMG88SDTItHvzZR2lEbqsxvyatGmSjguyGtDEV7PVzgjjiQdDKe4b0Gl0pivHvIuAVSP8/05yBNvzsFmVWjgXbOr+aIDUzW3MgLamNRdGHwFP9jihPWmc1fDrVEfPIlsDx8BcybfiuUDanYujdn3SqxoCUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=v+/0tb6Z; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1753110829; c=relaxed/simple;
+	bh=7p5feEnSZgKWMQ5RGkpU1rou+ucez0lt3Bdawv+W/rE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pobx5oQckPpZggwmakkMLpkdxYfGpJMF6XliZ25AJzUtIstHyRQTHXl5Kv0dRdsm6sIkxQDdd1mCKNcyJfiNYj6/joETIV0P3gmBu8HjPQZ/PVtzjGaKGln+apVsk5Dj2F6Wi/UdfXMhCvsRkchP4aCE1vN5RSY+RYD4tcYDblI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B4i2/fe0; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="v+/0tb6Z"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4563cfac19cso33318535e9.2
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 07:17:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1753107462; x=1753712262; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aHTz2f/tCB5gJfHRUHusAnrHo0WkysiHKc8/HuxZcyk=;
-        b=v+/0tb6ZkOWMa+Iwrknj9TrI/LRPowoztR4Nd/ltXSzA3LD664zicum6EpsFVPa482
-         rhg3v316pr/I/D2agq/WQJPGIXhneBE1dOZLLoWPPGkveoB7M9Vo4HiYH8DzNXTrBeKM
-         c7HCwwffIEMZJbGucVeN0LiBPIzwad3zymxtH3yCOZd+QtWLm6cnJA3eUClwZbYlxlOQ
-         R7s/rb5HRdTF+QkXbikNXiVrK6K5/WI3XuvruKAqF8JMzC0M9eNLHnnTNnil2jj0DOWD
-         6vSA1bvDQOOQ+scXpQ+uQfhm+q7UBybhIto+SeDfGXGh8r6MVBKSPxHNJUkfOYJ4PirF
-         /xew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753107462; x=1753712262;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aHTz2f/tCB5gJfHRUHusAnrHo0WkysiHKc8/HuxZcyk=;
-        b=BWx+eI2GFh+G7YH/uIU2t+MbCUnLEA6QOKL+JXCcnb+CEjdwi99GysGCWMRaYr51XR
-         QkS6AwmVg0hHjhjeYLGXrGfDD7RnKXm1wcbEXByXkrJ5rCW57S/ByATRWgS8wmIhIje+
-         noNxwCILMyXor/iSB+9cG8IulcyUmCs5HgkTqFNkub1IvSLjfoqMrzv3WbJDP+3WPM25
-         stoPDBOZNK8FTaqszJt/d/qttbWuY/RLeMbGIcnEsdsLLJg1Q9Cih26yJesqgjoxxEYB
-         KD0KURns32vLifi/F1Sfto7VC4cLMqPIQU67qD//J7widmoTnUxa/AbFVHiXUhu+SUnW
-         PabQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXcA9tNL3TlJSYytD6MJkH+rSLNqlFrCHhupIEBj8Si9/Gmke4TlGmcM2U94qgVuTjgVbpm8DplRHwfkO31@lists.linux.dev
-X-Gm-Message-State: AOJu0YyxpismsoITSYnxgVg3An3HPc2WbT8629zu2RUMWj4Iy8162XNK
-	F3tHAVBGAL6+R9i3MHoLwVbVKrRYRiBbk+yg0FQm0qpjz7Jyr9N1EcH5gcDK7EYkCqvUTUR+GbY
-	lvVLSbYThH64Wxb6XRSvoEacyh8r/3qoi3BvZC5LY
-X-Gm-Gg: ASbGncsEIni/szOdyoYPbSrIU1DSxT8trmcTiZYoY2PNV02+OWIqS2FEOPVOkOlzrM2
-	3SspUMVQUB+OqopFF3XWEVOawzFfwad93enSsnvrYszqxjNGoANri2eGPtJFRowmZEE5NGM0L+j
-	IHRQLJVPGeebs81M2rZYZPbfLOXeO7U/oDfS03sfM850wilNcqw3uHDfN8N2KoZg+OFRGGoe1Qe
-	1T+Wu9YTylLLx/Nk2+JCT8cLhGClruM6qwpMg==
-X-Google-Smtp-Source: AGHT+IGjLzZ7/Km2FCbSNRsrArfXJV2GEMgIhjJN78UwwjSKkWJY+F2cHXQv40vfc3kSfYwQzfjjab4StDfPm4kGNEg=
-X-Received: by 2002:a05:600c:5253:b0:456:1efa:8fe9 with SMTP id
- 5b1f17b1804b1-4562e03a678mr216153965e9.2.1753107462190; Mon, 21 Jul 2025
- 07:17:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B4i2/fe0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753110828; x=1784646828;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7p5feEnSZgKWMQ5RGkpU1rou+ucez0lt3Bdawv+W/rE=;
+  b=B4i2/fe0D9Fn1h5MtBpo9PC4HC6k96DK9b6MI2Wmqy5qfBSne78teDFN
+   0NJnxSa+1Ius8zZ+o+K977BYht0n5fXzSeY9cWuBuSzt2pItoRND1KDvr
+   K0SaZ0EZzLvb0cGanHuAgAeliNNoHlXqokfS60tDcb3ZTGHR6J4EfIK1Y
+   YmIKsqAV2x39QdIs8bKHZB4TYpZuIlk7U6Pg+jWsLIhKLpkKFFWSOj7fR
+   8nRTf4EE+IAYPhrtw3DVMw0eLPIK25rwMVszyux3DrP97ZpOXnkWxoGht
+   7+7VGnpHuQM4+i/uQ6MTImJDIZVtR1ofo7cSY0w8YOtY4zIoNKnA1xoPT
+   A==;
+X-CSE-ConnectionGUID: dzjG+Qh1ST+c50/CkNDrgw==
+X-CSE-MsgGUID: C8xeBY4uQLuxqraP4jZYvg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="66018736"
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
+   d="scan'208";a="66018736"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 08:13:47 -0700
+X-CSE-ConnectionGUID: tWpQV+jnSkqFiGW4o2w4aQ==
+X-CSE-MsgGUID: OLI2gGAHSfShQmFVU8YyoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
+   d="scan'208";a="189856365"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 21 Jul 2025 08:13:41 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1udsCw-000Guj-1z;
+	Mon, 21 Jul 2025 15:13:38 +0000
+Date: Mon, 21 Jul 2025 23:13:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: Youngjun Park <youngjun.park@lge.com>, akpm@linux-foundation.org,
+	hannes@cmpxchg.org
+Cc: oe-kbuild-all@lists.linux.dev, mhocko@kernel.org,
+	roman.gushchin@linux.dev, shakeel.butt@linux.dev,
+	muchun.song@linux.dev, shikemeng@huaweicloud.com,
+	kasong@tencent.com, nphamcs@gmail.com, bhe@redhat.com,
+	baohua@kernel.org, chrisl@kernel.org, cgroups@vger.kernel.org,
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, gunho.lee@lge.com,
+	iamjoonsoo.kim@lge.com, taejoon.song@lge.com,
+	Youngjun Park <youngjun.park@lge.com>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>
+Subject: Re: [PATCH 1/4] mm/swap, memcg: Introduce infrastructure for
+ cgroup-based swap priority
+Message-ID: <202507212243.Lf8fSo0T-lkp@intel.com>
+References: <20250716202006.3640584-2-youngjun.park@lge.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250715-topics-tyr-request_irq2-v7-3-d469c0f37c07@collabora.com>
- <202507170718.AVqYqRan-lkp@intel.com> <9834736F-F70F-4290-9DE8-755A6D0D5EB8@collabora.com>
-In-Reply-To: <9834736F-F70F-4290-9DE8-755A6D0D5EB8@collabora.com>
-From: Alice Ryhl <aliceryhl@google.com>
-Date: Mon, 21 Jul 2025 16:17:29 +0200
-X-Gm-Features: Ac12FXzqc3WLYmS_rx0F_dtIhtQQ4LQMKVOtCM3xLb6rdTs9AmutrC95-1kYQiY
-Message-ID: <CAH5fLggfp36q0UmF_XNLCZKn+fc1xd2hMBsYX1UrtJqBFYrf+g@mail.gmail.com>
-Subject: Re: [PATCH v7 3/6] rust: irq: add support for non-threaded IRQs and handlers
-To: Daniel Almeida <daniel.almeida@collabora.com>
-Cc: kernel test robot <lkp@intel.com>, Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"Rafael J. Wysocki" <rafael@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
-	Bjorn Helgaas <helgaas@kernel.org>, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Benno Lossin <lossin@kernel.org>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-pci@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250716202006.3640584-2-youngjun.park@lge.com>
 
-On Thu, Jul 17, 2025 at 6:21=E2=80=AFPM Daniel Almeida
-<daniel.almeida@collabora.com> wrote:
->
->
->
-> > On 16 Jul 2025, at 20:45, kernel test robot <lkp@intel.com> wrote:
-> >
-> > Hi Daniel,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on 3964d07dd821efe9680e90c51c86661a98e60a0f]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Almeida/r=
-ust-irq-add-irq-module/20250715-232121
-> > base:   3964d07dd821efe9680e90c51c86661a98e60a0f
-> > patch link:    https://lore.kernel.org/r/20250715-topics-tyr-request_ir=
-q2-v7-3-d469c0f37c07%40collabora.com
-> > patch subject: [PATCH v7 3/6] rust: irq: add support for non-threaded I=
-RQs and handlers
-> > config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/2=
-0250717/202507170718.AVqYqRan-lkp@intel.com/config)
-> > compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87=
-f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> > rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20250717/202507170718.AVqYqRan-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202507170718.AVqYqRan-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >>> error[E0425]: cannot find value `SHARED` in module `flags`
-> >   --> rust/doctests_kernel_generated.rs:4790:58
-> >   |
-> >   4790 |     let registration =3D Registration::new(request, flags::SHA=
-RED, c_str!("my_device"), handler);
-> >   |                                                          ^^^^^^ not=
- found in `flags`
-> >   |
-> >   help: consider importing this constant
-> >   |
-> >   3    + use kernel::mm::virt::flags::SHARED;
-> >   |
-> >   help: if you import `SHARED`, refer to it directly
-> >   |
-> >   4790 -     let registration =3D Registration::new(request, flags::SHA=
-RED, c_str!("my_device"), handler);
-> >   4790 +     let registration =3D Registration::new(request, SHARED, c_=
-str!("my_device"), handler);
-> >   |
-> >
-> > --
-> > 0-DAY CI Kernel Test Service
-> > https://github.com/intel/lkp-tests/wiki
-> >
->
-> This is a single character fix, so I am waiting for the discussion on the=
- cover
-> letter [0] to advance before sending a new version.
->
-> [0] https://lore.kernel.org/all/DBCQKJIBVGGM.1R0QNKO3TE4N0@kernel.org/#t
+Hi Youngjun,
 
-My suggestion is to make the flags module private and re-export the
-Flags type from the irq module. That way you don't have to write
-use kernel::irq::flags::Flags;
+kernel test robot noticed the following build warnings:
 
-Alice
+[auto build test WARNING on 347e9f5043c89695b01e66b3ed111755afcf1911]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Youngjun-Park/mm-swap-memcg-Introduce-infrastructure-for-cgroup-based-swap-priority/20250717-042648
+base:   347e9f5043c89695b01e66b3ed111755afcf1911
+patch link:    https://lore.kernel.org/r/20250716202006.3640584-2-youngjun.park%40lge.com
+patch subject: [PATCH 1/4] mm/swap, memcg: Introduce infrastructure for cgroup-based swap priority
+config: loongarch-randconfig-r123-20250721 (https://download.01.org/0day-ci/archive/20250721/202507212243.Lf8fSo0T-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce: (https://download.01.org/0day-ci/archive/20250721/202507212243.Lf8fSo0T-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507212243.Lf8fSo0T-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> mm/swap_cgroup_priority.c:115:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/swap_cgroup_priority.c:115:16: sparse:    struct swap_cgroup_priority [noderef] __rcu *
+   mm/swap_cgroup_priority.c:115:16: sparse:    struct swap_cgroup_priority *
+   mm/swap_cgroup_priority.c:729:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/swap_cgroup_priority.c:729:9: sparse:    struct swap_cgroup_priority [noderef] __rcu *
+   mm/swap_cgroup_priority.c:729:9: sparse:    struct swap_cgroup_priority *
+   mm/swap_cgroup_priority.c:638:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   mm/swap_cgroup_priority.c:638:25: sparse:    struct swap_cgroup_priority [noderef] __rcu *
+   mm/swap_cgroup_priority.c:638:25: sparse:    struct swap_cgroup_priority *
+
+vim +115 mm/swap_cgroup_priority.c
+
+   108	
+   109	static struct swap_cgroup_priority *get_swap_cgroup_priority(
+   110		struct mem_cgroup *memcg)
+   111	{
+   112		if (!memcg)
+   113			return NULL;
+   114	
+ > 115		return rcu_dereference(memcg->swap_priority);
+   116	}
+   117	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
