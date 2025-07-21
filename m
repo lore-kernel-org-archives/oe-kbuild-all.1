@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F2E81E9B19
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 18:38:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D47BDDC3
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 18:48:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753123088; cv=none; b=E/hRPUXcrKrsg46ouFazIZT3x3lDeYE56TeQwoATy54icwMCZSFoaI1ZtFUk9vopg793DuIaDzHuJmSofz6weI7WvS/icxccmc3KNDWZHYWopqoZQFkxKfPcZ1LLpNnRU+YL2pifniRdpyI71i8KYhqbAgIhAopOQ5v+Qggxiyg=
+	t=1753123688; cv=none; b=W2smDL3o59zZt+MrgcZttccpWVeJSr9mDs/hD0C5pH1doYksXLvQZ+DSLOuICXvHTlHJmUtzmcY2QrSm3eLbRtGt2IAbakiwrCbG0xLwrGuCfppNQ9HXClqTceTCXlkmZr5KRsLt2t9zvOVVwGmRCI2m3cweUSi9Iw0PcsQ4fAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753123088; c=relaxed/simple;
-	bh=D/yJWSiXDqz0zJ1ihtBmadOUXlXpyjKIDNPPD4Q9cxg=;
+	s=arc-20240116; t=1753123688; c=relaxed/simple;
+	bh=TLHosF16Gj0uCrzLgD7uTSPXrjbXwzCuXp+6jJRrLMs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OatzOV/5vQ9cj9u2aQC/PPz8uP/qTpWdf4JW32H95Jx/LwoRWmYpS/c4DaKyWQDER1O1ha0NLcprqWfvjHU4f1wiXMLJ8a8AQN6BWtzyXOh5JndKeBji0GKsT1q8Lyw1AuRQl+UUAKKja9Emjwc9zGMq8mphBj+i58POWG9BeM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aW7rgKh4; arc=none smtp.client-ip=192.198.163.17
+	 Content-Disposition; b=gTu9xfVDOnpxlYI9RJ94x17Fk0hUlqVM++O5qbC6hpZI0NgihHAAo4ttBrUtCKjA7kT4alSN8+R2mBtVB42QGs4rkOS47mBEG9VvSqtBowuQvpSY0Avct7vOm1AYDa521HDhAk/TWfp6gqd1BXO5ofi9hME46USFqs+50v3TGn4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JdXlSQyq; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aW7rgKh4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JdXlSQyq"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753123086; x=1784659086;
+  t=1753123687; x=1784659687;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=D/yJWSiXDqz0zJ1ihtBmadOUXlXpyjKIDNPPD4Q9cxg=;
-  b=aW7rgKh4KkvAXXrvh61ojJQAEX3jV4p4OUNPQ6V38WI9hEWNecXpVu5J
-   IaM2g68wIL1rh7yGAHoWi1Rz54iDN2DPegvH+LqRcQQ3h8Tq/YDjGuODB
-   TWZ1vd8Te9yJ9Jb+eiQj2Q6GIYrGUWa3dU66/uayWfnwHiy2aqJDd6w5J
-   5MGSTa4DutjLIn23hLH5qYr8DRr8dPx29vCsvHVAhr5YXWKNLhRa0ajtY
-   7T7dB6T8ENCNUg+AjxoTaKAx4oLQ8a5jIrbS5YaQ3H1Kw8X+7NVOVPL75
-   RLgohmylS6/npwNtmFn7x+1INBXjUSmJwTvAXRO5OtEvAByfcQngv8VYC
-   Q==;
-X-CSE-ConnectionGUID: cW17v4pdT0elUyOKYcTfbw==
-X-CSE-MsgGUID: ufX1ZcJJTEeUG7Z8uRKOsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55293098"
+  bh=TLHosF16Gj0uCrzLgD7uTSPXrjbXwzCuXp+6jJRrLMs=;
+  b=JdXlSQyqVQpbetDlUOtIRKtq0Wmi8Ub8KAgN0H2o25EWIsYV0PkFpu7o
+   cvlB6Y0TxaUgOKUJUxP2jC0qqVfKpcIaQ9B+EYksRWZfi5+j+nA5fHQXL
+   Vwzu3FK/mzcE/hSpQPWlo1y6rgleV5epS6X6fmWEIWqcCVEUPGX7lOku5
+   KN/VIv42KdmmwyTeb15BoWeVR6AYioO9EzcG/pX1TkQll5KHUz2Ux1S5f
+   cOJ+uPoFZZsEceSvMDDFLWkYwAwyBA9nlGpSrcXW69OkflzyqEu94OV8t
+   qGd4V+muSL3jacBvBfXhbxhUVcN7Aa2RCHDFMuzwibRlGitDOD4PUsMu9
+   A==;
+X-CSE-ConnectionGUID: KMdCeJC8SUqeIJvjSBv2Jw==
+X-CSE-MsgGUID: vcUY8IVGQMO6g2j6Smj7kQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="66037870"
 X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="55293098"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 11:38:06 -0700
-X-CSE-ConnectionGUID: di11VSeCS8eGVn9K7LCCPg==
-X-CSE-MsgGUID: agioM4oFR62n/hV9wKRJRw==
+   d="scan'208";a="66037870"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 11:48:06 -0700
+X-CSE-ConnectionGUID: rwVAokZ/SpOv3bXX/Z/MNw==
+X-CSE-MsgGUID: /ZP+aw4tS4aBbD0nA5u9kA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="162963182"
+   d="scan'208";a="158217099"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 21 Jul 2025 11:38:04 -0700
+  by orviesa010.jf.intel.com with ESMTP; 21 Jul 2025 11:48:05 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1udvOk-000H4b-14;
-	Mon, 21 Jul 2025 18:38:02 +0000
-Date: Tue, 22 Jul 2025 02:37:34 +0800
+	id 1udvYR-000H5B-0Z;
+	Mon, 21 Jul 2025 18:48:03 +0000
+Date: Tue, 22 Jul 2025 02:47:59 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: oe-kbuild-all@lists.linux.dev, Anup Patel <anup@brainfault.org>,
-	Rahul Pathak <rpathak@ventanamicro.com>
-Subject: [linux-next:master 7333/11398]
- drivers/cpuidle/cpuidle-riscv-sbi.c:358:36: error: 'sbi_pd_providers'
- undeclared; did you mean 'sbi_pd_provider'?
-Message-ID: <202507220226.GNUKHJrr-lkp@intel.com>
+To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Subject: [linux-next:master 5905/11398]
+ arch/mips/boot/dts/mobileye/eyeq6h-epm6.dtb: sdhci@d8010000
+ (mobileye,eyeq-sd4hc): $nodename:0: 'sdhci@d8010000' does not match
+ '^mmc(@.*)?$'
+Message-ID: <202507220215.wVoUMK5B-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,155 +67,25 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   97987520025658f30bb787a99ffbd9bbff9ffc9d
-commit: ee766b0175861ef2b2e774d2c49eba9a6b38dc7a [7333/11398] cpuidle: riscv-sbi: Opt-out from genpd's common ->sync_state() support
-config: riscv-randconfig-002-20250721 (https://download.01.org/0day-ci/archive/20250722/202507220226.GNUKHJrr-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507220226.GNUKHJrr-lkp@intel.com/reproduce)
+commit: 71ad8d3c463ead1fc9392dfaff2fd977856c07d5 [5905/11398] MIPS: mobileye: dts: eyeq6h: add the emmc controller
+config: mips-randconfig-052-20250722 (https://download.01.org/0day-ci/archive/20250722/202507220215.wVoUMK5B-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507220215.wVoUMK5B-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507220226.GNUKHJrr-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507220215.wVoUMK5B-lkp@intel.com/
 
-Note: the linux-next/master HEAD 97987520025658f30bb787a99ffbd9bbff9ffc9d builds fine.
-      It may have been fixed somewhere.
-
-All errors (new ones prefixed by >>):
-
-   In file included from include/linux/alloc_tag.h:10,
-                    from include/linux/percpu.h:5,
-                    from include/linux/cpuidle.h:14,
-                    from drivers/cpuidle/cpuidle-riscv-sbi.c:13:
-   drivers/cpuidle/cpuidle-riscv-sbi.c: In function 'sbi_cpuidle_domain_sync_state':
->> drivers/cpuidle/cpuidle-riscv-sbi.c:358:36: error: 'sbi_pd_providers' undeclared (first use in this function); did you mean 'sbi_pd_provider'?
-     list_for_each_entry(pd_provider, &sbi_pd_providers, link)
-                                       ^~~~~~~~~~~~~~~~
-   include/linux/container_of.h:19:26: note: in definition of macro 'container_of'
-     void *__mptr = (void *)(ptr);     \
-                             ^~~
-   include/linux/list.h:612:2: note: in expansion of macro 'list_entry'
-     list_entry((ptr)->next, type, member)
-     ^~~~~~~~~~
-   include/linux/list.h:770:13: note: in expansion of macro 'list_first_entry'
-     for (pos = list_first_entry(head, typeof(*pos), member); \
-                ^~~~~~~~~~~~~~~~
-   drivers/cpuidle/cpuidle-riscv-sbi.c:358:2: note: in expansion of macro 'list_for_each_entry'
-     list_for_each_entry(pd_provider, &sbi_pd_providers, link)
-     ^~~~~~~~~~~~~~~~~~~
-   drivers/cpuidle/cpuidle-riscv-sbi.c:358:36: note: each undeclared identifier is reported only once for each function it appears in
-     list_for_each_entry(pd_provider, &sbi_pd_providers, link)
-                                       ^~~~~~~~~~~~~~~~
-   include/linux/container_of.h:19:26: note: in definition of macro 'container_of'
-     void *__mptr = (void *)(ptr);     \
-                             ^~~
-   include/linux/list.h:612:2: note: in expansion of macro 'list_entry'
-     list_entry((ptr)->next, type, member)
-     ^~~~~~~~~~
-   include/linux/list.h:770:13: note: in expansion of macro 'list_first_entry'
-     for (pos = list_first_entry(head, typeof(*pos), member); \
-                ^~~~~~~~~~~~~~~~
-   drivers/cpuidle/cpuidle-riscv-sbi.c:358:2: note: in expansion of macro 'list_for_each_entry'
-     list_for_each_entry(pd_provider, &sbi_pd_providers, link)
-     ^~~~~~~~~~~~~~~~~~~
-   In file included from include/linux/init.h:5,
-                    from include/linux/printk.h:6,
-                    from include/asm-generic/bug.h:22,
-                    from arch/riscv/include/asm/bug.h:83,
-                    from include/linux/bug.h:5,
-                    from include/linux/alloc_tag.h:8,
-                    from include/linux/percpu.h:5,
-                    from include/linux/cpuidle.h:14,
-                    from drivers/cpuidle/cpuidle-riscv-sbi.c:13:
->> include/linux/list.h:770:43: error: dereferencing pointer to incomplete type 'struct sbi_pd_provider'
-     for (pos = list_first_entry(head, typeof(*pos), member); \
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                                           ^~~~
-   include/linux/container_of.h:20:2: note: in expansion of macro 'static_assert'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-     ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:16: note: in expansion of macro '__same_type'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-                   ^~~~~~~~~~~
-   include/linux/list.h:601:2: note: in expansion of macro 'container_of'
-     container_of(ptr, type, member)
-     ^~~~~~~~~~~~
-   include/linux/list.h:612:2: note: in expansion of macro 'list_entry'
-     list_entry((ptr)->next, type, member)
-     ^~~~~~~~~~
-   include/linux/list.h:770:13: note: in expansion of macro 'list_first_entry'
-     for (pos = list_first_entry(head, typeof(*pos), member); \
-                ^~~~~~~~~~~~~~~~
-   drivers/cpuidle/cpuidle-riscv-sbi.c:358:2: note: in expansion of macro 'list_for_each_entry'
-     list_for_each_entry(pd_provider, &sbi_pd_providers, link)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:503:27: error: expression in static assertion is not an integer
-    #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                                           ^~~~
-   include/linux/container_of.h:20:2: note: in expansion of macro 'static_assert'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-     ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:16: note: in expansion of macro '__same_type'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-                   ^~~~~~~~~~~
-   include/linux/list.h:601:2: note: in expansion of macro 'container_of'
-     container_of(ptr, type, member)
-     ^~~~~~~~~~~~
-   include/linux/list.h:612:2: note: in expansion of macro 'list_entry'
-     list_entry((ptr)->next, type, member)
-     ^~~~~~~~~~
-   include/linux/list.h:770:13: note: in expansion of macro 'list_first_entry'
-     for (pos = list_first_entry(head, typeof(*pos), member); \
-                ^~~~~~~~~~~~~~~~
-   drivers/cpuidle/cpuidle-riscv-sbi.c:358:2: note: in expansion of macro 'list_for_each_entry'
-     list_for_each_entry(pd_provider, &sbi_pd_providers, link)
-     ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler_types.h:503:27: error: expression in static assertion is not an integer
-    #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
-    #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
-                                                           ^~~~
-   include/linux/container_of.h:20:2: note: in expansion of macro 'static_assert'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-     ^~~~~~~~~~~~~
-   include/linux/container_of.h:20:16: note: in expansion of macro '__same_type'
-     static_assert(__same_type(*(ptr), ((type *)0)->member) || \
-                   ^~~~~~~~~~~
-   include/linux/list.h:601:2: note: in expansion of macro 'container_of'
-     container_of(ptr, type, member)
-     ^~~~~~~~~~~~
-   include/linux/list.h:645:2: note: in expansion of macro 'list_entry'
-     list_entry((pos)->member.next, typeof(*(pos)), member)
-     ^~~~~~~~~~
-   include/linux/list.h:772:13: note: in expansion of macro 'list_next_entry'
-          pos = list_next_entry(pos, member))
-                ^~~~~~~~~~~~~~~
-   drivers/cpuidle/cpuidle-riscv-sbi.c:358:2: note: in expansion of macro 'list_for_each_entry'
-     list_for_each_entry(pd_provider, &sbi_pd_providers, link)
-     ^~~~~~~~~~~~~~~~~~~
-
-
-vim +358 drivers/cpuidle/cpuidle-riscv-sbi.c
-
-   347	
-   348	static void sbi_cpuidle_domain_sync_state(struct device *dev)
-   349	{
-   350		struct sbi_pd_provider *pd_provider;
-   351	
-   352		/*
-   353		 * All devices have now been attached/probed to the PM domain
-   354		 * topology, hence it's fine to allow domain states to be picked.
-   355		 */
-   356		sbi_cpuidle_pd_allow_domain_state = true;
-   357	
- > 358		list_for_each_entry(pd_provider, &sbi_pd_providers, link)
-   359			of_genpd_sync_state(pd_provider->node);
-   360	}
-   361	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/mips/boot/dts/mobileye/eyeq6h-epm6.dtb: sdhci@d8010000 (mobileye,eyeq-sd4hc): $nodename:0: 'sdhci@d8010000' does not match '^mmc(@.*)?$'
+   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml#
+   arch/mips/boot/dts/mobileye/eyeq6h-epm6.dtb: sdhci@d8010000 (mobileye,eyeq-sd4hc): compatible:0: 'mobileye,eyeq-sd4hc' is not one of ['amd,pensando-elba-sd4hc', 'microchip,mpfs-sd4hc', 'microchip,pic64gx-sd4hc', 'socionext,uniphier-sd4hc']
+   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml#
+   arch/mips/boot/dts/mobileye/eyeq6h-epm6.dtb: sdhci@d8010000 (mobileye,eyeq-sd4hc): Unevaluated properties are not allowed ('bus-width', 'compatible', 'max-frequency', 'mmc-ddr-1_8v', 'mmc-hs200-1_8v', 'mmc-hs400-1_8v', 'mmc-hs400-enhanced-strobe', 'sd-uhs-ddr50' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml#
+   arch/mips/boot/dts/mobileye/eyeq6h-epm6.dtb: /soc/sdhci@d8010000: failed to match any schema with compatible: ['mobileye,eyeq-sd4hc', 'cdns,sd4hc']
 
 -- 
 0-DAY CI Kernel Test Service
