@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6988E19C54E
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 03:18:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74471DF748;
+	Mon, 21 Jul 2025 03:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753067907; cv=none; b=l7TCh9vQnjtoGGENRl8lnmEjL7fDp1MvAH8Ek6lkQ9dDn7Qy/rbmPdNXASp45T8Cj8x6hqNtF7MijbzhCljVd+sexjZLJiQtFkt3Xtm5AGaEU4yNGUPkLdcStG+dFe4sI8KyHaFuGNoGO8lgGt7Nbn4Q9r490qaJC+LAqJUElhA=
+	t=1753067908; cv=none; b=mPTb3cDijCRetJDZVGK5kA7r8oNFzLyn3fJ7S5cI4HtyrCj2HIHT/5uta23F3167P9BKRZYdReGFLKqUzj1qE4CbIpcGKYjVauwnOmJmj7xbghdwx12Ue55DGBv5vi8XjGqt7yKgCjWE+f743g8HzyQrzf9or/WahBgmQD1cl7E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753067907; c=relaxed/simple;
-	bh=h8oaHQ3ddAO1zOz+q6HzcBITY2GwAMN8E26MClecSB0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=uQRIfKXctr3p7UyylRh4USjWn0bVt0bDcVaoOasgxIz72p0wa3ZvvOywKM+lOKMGHz9thcKMSdUVSc3N+ltEp3iHYePn3weDArzrkWJM43HdAcTYcLeMA/tAFsvwnuSWqhluwQ8RCzR99P7nvW6BJXPJj47HSSchX5jlIJ84NRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iQK1waCK; arc=none smtp.client-ip=198.175.65.9
+	s=arc-20240116; t=1753067908; c=relaxed/simple;
+	bh=NB/3g3CKXVMN+VyWjazs/iNfNp4t6kaGPAFZ6ryxo30=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q12IWtpYUeGnFP7SEqcbLxs4xpDvLJbsKJdYV7TTuGFkeeswZ7m+GzCVH/iibIpbJY6zz8VthUUBiY/eT4xxkxiDKqBubpCrbjem6aRpRt4D/V+PmWZkzJYrKZqseBAxTgvyZcneq87iXbA66mWt9zIXFy8rN5SBZ+MTsEkcGZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XcpofzTa; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iQK1waCK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XcpofzTa"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753067904; x=1784603904;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=h8oaHQ3ddAO1zOz+q6HzcBITY2GwAMN8E26MClecSB0=;
-  b=iQK1waCKi1rNyuNggvtlaKH7vnGw5nCY+al4H8tN5D2WgsvyLSlhCo8H
-   61GATclAYaIfeHcm9VdT3IHQ3SuHCXzR+WqNnD+xhcQnjm/V2FZ6Aax7b
-   zUxbbv2eo0P2R736kytrF1sqawmMGMsglUC1O9f61NW2yvI+tVytvpVEJ
-   8dLqLadYFZDZOntR8XY0M7/9/9FtXtPgPZR9SI8/HWfndQda6XfNNzUTA
-   NS2Po67qT4huxDWFIFBn9j/eHoC/pwUCVomRGggrGImg6ThljqZ45aROU
-   Az4vtqCqkSRuwummS3ODkDt+mMoCxMTrkpADTveLaHrIVy+xEtg0qh4bT
+  t=1753067906; x=1784603906;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NB/3g3CKXVMN+VyWjazs/iNfNp4t6kaGPAFZ6ryxo30=;
+  b=XcpofzTa61pICo2C0pGihZ/AQTruqaA0J8OE6lQILaOC11jJJunkxeqM
+   KhRwXB0xgIPmzCn0Djf3m0L9necarXOqVYM4WdZKKFT+bz6rxpDx0GLwf
+   gbZNKOVgOLAdu3PhtoklCW9IjB+hQ/U1wm6Tx5AYUuXAYMpZRXKd0yCQD
+   XletiPgihigxrGzJi0cWBUxs2WaIluYk/GOfEMavN3lxofcG/aizfq/W2
+   9hcOiwWPDK40sfU0K9h5l5s2qyJplGO6AslnjgraQdwjo6LGwNW/fZtpK
+   epoSych2ytW+qJaawH9B9Wq7BhjrqhGwqWua2Ilc5tfbh2t+w6tYmZSWK
    A==;
-X-CSE-ConnectionGUID: db+9YYaLQHeBle9twgTAhQ==
-X-CSE-MsgGUID: 3FDSOsSLSxCu7e4qcyIvVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11498"; a="77811274"
+X-CSE-ConnectionGUID: VShS3qTXQ7mo7Z9C1z/qzg==
+X-CSE-MsgGUID: bQB7+NuSR1qdk+FEAtBpXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11498"; a="55154515"
 X-IronPort-AV: E=Sophos;i="6.16,328,1744095600"; 
-   d="scan'208";a="77811274"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2025 20:18:24 -0700
-X-CSE-ConnectionGUID: Ys5Q1oOsSvy/EDaIkjQ+Eg==
-X-CSE-MsgGUID: tmW498W/SrSPdYCA8vAo3w==
+   d="scan'208";a="55154515"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2025 20:18:25 -0700
+X-CSE-ConnectionGUID: 21tY3aaWT2uX9lHI3haEKQ==
+X-CSE-MsgGUID: uatQ71rUTMe5O77rcYQr1w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,328,1744095600"; 
-   d="scan'208";a="195798389"
+   d="scan'208";a="163264139"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 20 Jul 2025 20:18:23 -0700
+  by orviesa004.jf.intel.com with ESMTP; 20 Jul 2025 20:18:23 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1udh2i-000GRD-22;
+	id 1udh2i-000GRB-1z;
 	Mon, 21 Jul 2025 03:18:20 +0000
-Date: Mon, 21 Jul 2025 11:18:11 +0800
+Date: Mon, 21 Jul 2025 11:18:18 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.16-dualmmc 78/79]
- arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000
- (mediatek,mt7988-mmc): pinctrl-names:0: 'default' was expected
-Message-ID: <202507211131.tZVB1kV6-lkp@intel.com>
+To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
+	linux-nvme@lists.infradead.org, hch@lst.de
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, axboe@kernel.dk,
+	leonro@nvidia.com, Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCHv2 6/7] blk-mq-dma: add support for mapping integrity
+ metadata
+Message-ID: <202507211037.lzkMQLrY-lkp@intel.com>
+References: <20250720184040.2402790-7-kbusch@meta.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,98 +65,133 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250720184040.2402790-7-kbusch@meta.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.16-dualmmc
-head:   61605f260a207bbe9994a325ea9b2d33e29d62de
-commit: efaf90e306d125cd0af3f603e1532b0607cc9178 [78/79] dts64: change mmc node and pinctrl
-config: arm64-randconfig-051-20250721 (https://download.01.org/0day-ci/archive/20250721/202507211131.tZVB1kV6-lkp@intel.com/config)
+Hi Keith,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on axboe-block/for-next]
+[cannot apply to linux-nvme/for-next hch-configfs/for-next linus/master v6.16-rc7 next-20250718]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/blk-mq-dma-move-the-bio-and-bvec_iter-to-blk_dma_iter/20250721-024616
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+patch link:    https://lore.kernel.org/r/20250720184040.2402790-7-kbusch%40meta.com
+patch subject: [PATCHv2 6/7] blk-mq-dma: add support for mapping integrity metadata
+config: riscv-randconfig-001-20250721 (https://download.01.org/0day-ci/archive/20250721/202507211037.lzkMQLrY-lkp@intel.com/config)
 compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250721/202507211131.tZVB1kV6-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250721/202507211037.lzkMQLrY-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507211131.tZVB1kV6-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507211037.lzkMQLrY-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: partition@200000 (linux,ubi): volumes:ubi-volume-ubootenv2:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'fixed-layout' was expected
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: partition@200000 (linux,ubi): Unevaluated properties are not allowed ('volumes' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/spi@11007000/flash@0/partitions/partition@200000/volumes/ubi-volume-ubootenv/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/spi@11007000/flash@0/partitions/partition@200000/volumes/ubi-volume-ubootenv2/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000 (mediatek,mt7988-mmc): pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000 (mediatek,mt7988-mmc): pinctrl-names:1: 'state_uhs' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000 (mediatek,mt7988-mmc): pinctrl-names:2: 'state_eint' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000 (mediatek,mt7988-mmc): pinctrl-names: ['emmc-default', 'emmc-state_uhs', 'sdcard-default', 'sdcard-state_uhs'] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000 (mediatek,mt7988-mmc): 'vmmc-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000 (mediatek,mt7988-mmc): 'vqmmc-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: mmc@11230000 (mediatek,mt7988-mmc): Unevaluated properties are not allowed ('pinctrl-3', 'pinctrl-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@0: failed to match any schema with compatible: ['mediatek,mmc-slot']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: card@0 (mmc-card): 'block' does not match any of the regexes: '^partitions(-boot[12]|-gp[14])?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-card.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@0/card@0/block: failed to match any schema with compatible: ['block-device']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@0/card@0/block/partitions/block-partition-env/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@1: failed to match any schema with compatible: ['mediatek,mmc-slot']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: card@0 (mmc-card): 'block' does not match any of the regexes: '^partitions(-boot[12]|-gp[14])?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-card.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@1/card@0/block: failed to match any schema with compatible: ['block-device']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: /soc/mmc@11230000/slot@1/card@0/block/partitions/block-partition-env/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: chosen: 'rootdisk-spim-nand' does not match any of the regexes: '^framebuffer', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/chosen.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4.dtb: gpio-keys (gpio-keys): 'wps' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
+All warnings (new ones prefixed by >>):
+
+   In file included from block/blk-mq.c:13:
+>> include/linux/blk-integrity.h:117:6: warning: no previous prototype for function 'blk_rq_integrity_dma_map_iter_start' [-Wmissing-prototypes]
+     117 | bool blk_rq_integrity_dma_map_iter_start(struct request *req,
+         |      ^
+   include/linux/blk-integrity.h:117:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     117 | bool blk_rq_integrity_dma_map_iter_start(struct request *req,
+         | ^
+         | static 
+>> include/linux/blk-integrity.h:123:6: warning: no previous prototype for function 'blk_rq_integrity_dma_map_iter_next' [-Wmissing-prototypes]
+     123 | bool blk_rq_integrity_dma_map_iter_next(struct request *req,
+         |      ^
+   include/linux/blk-integrity.h:123:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     123 | bool blk_rq_integrity_dma_map_iter_next(struct request *req,
+         | ^
+         | static 
+   2 warnings generated.
 --
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: partition@200000 (linux,ubi): volumes:ubi-volume-ubootenv2:nvmem-layout: 'oneOf' conditional failed, one must be fixed:
-   	'fixed-layout' was expected
-   	'kontron,sl28-vpd' was expected
-   	'onie,tlv-layout' was expected
-   	'u-boot,env-redundant-bool-layout' is not one of ['u-boot,env', 'u-boot,env-redundant-bool', 'u-boot,env-redundant-count', 'brcm,env']
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: partition@200000 (linux,ubi): Unevaluated properties are not allowed ('volumes' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mtd/partitions/linux,ubi.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/spi@11007000/flash@0/partitions/partition@200000/volumes/ubi-volume-ubootenv/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/spi@11007000/flash@0/partitions/partition@200000/volumes/ubi-volume-ubootenv2/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-redundant-bool-layout']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: mmc@11230000 (mediatek,mt7988-mmc): pinctrl-names:0: 'default' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: mmc@11230000 (mediatek,mt7988-mmc): pinctrl-names:1: 'state_uhs' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: mmc@11230000 (mediatek,mt7988-mmc): pinctrl-names:2: 'state_eint' was expected
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: mmc@11230000 (mediatek,mt7988-mmc): pinctrl-names: ['emmc-default', 'emmc-state_uhs', 'sdcard-default', 'sdcard-state_uhs'] is too long
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: mmc@11230000 (mediatek,mt7988-mmc): 'vmmc-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: mmc@11230000 (mediatek,mt7988-mmc): 'vqmmc-supply' is a required property
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: mmc@11230000 (mediatek,mt7988-mmc): Unevaluated properties are not allowed ('pinctrl-3', 'pinctrl-names' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/mtk-sd.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/mmc@11230000/slot@0: failed to match any schema with compatible: ['mediatek,mmc-slot']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: card@0 (mmc-card): 'block' does not match any of the regexes: '^partitions(-boot[12]|-gp[14])?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-card.yaml#
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/mmc@11230000/slot@0/card@0/block: failed to match any schema with compatible: ['block-device']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/mmc@11230000/slot@0/card@0/block/partitions/block-partition-env/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/mmc@11230000/slot@1: failed to match any schema with compatible: ['mediatek,mmc-slot']
->> arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: card@0 (mmc-card): 'block' does not match any of the regexes: '^partitions(-boot[12]|-gp[14])?$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mmc/mmc-card.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/mmc@11230000/slot@1/card@0/block: failed to match any schema with compatible: ['block-device']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: /soc/mmc@11230000/slot@1/card@0/block/partitions/block-partition-env/nvmem-layout: failed to match any schema with compatible: ['u-boot,env-layout']
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: chosen: 'rootdisk-spim-nand' does not match any of the regexes: '^framebuffer', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/chosen.yaml#
-   arch/arm64/boot/dts/mediatek/mt7988a-bananapi-bpi-r4-2g5.dtb: gpio-keys (gpio-keys): 'wps' does not match any of the regexes: '^(button|event|key|switch|(button|event|key|switch)-[a-z0-9-]+|[a-z0-9-]+-(button|event|key|switch))$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/input/gpio-keys.yaml#
+   In file included from block/blk-mq-dma.c:5:
+>> include/linux/blk-integrity.h:117:6: warning: no previous prototype for function 'blk_rq_integrity_dma_map_iter_start' [-Wmissing-prototypes]
+     117 | bool blk_rq_integrity_dma_map_iter_start(struct request *req,
+         |      ^
+   include/linux/blk-integrity.h:117:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     117 | bool blk_rq_integrity_dma_map_iter_start(struct request *req,
+         | ^
+         | static 
+>> include/linux/blk-integrity.h:123:6: warning: no previous prototype for function 'blk_rq_integrity_dma_map_iter_next' [-Wmissing-prototypes]
+     123 | bool blk_rq_integrity_dma_map_iter_next(struct request *req,
+         |      ^
+   include/linux/blk-integrity.h:123:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+     123 | bool blk_rq_integrity_dma_map_iter_next(struct request *req,
+         | ^
+         | static 
+   block/blk-mq-dma.c:23:27: error: no member named 'bi_integrity' in 'struct bio'
+      23 |                 iter->iter = iter->bio->bi_integrity->bip_iter;
+         |                              ~~~~~~~~~  ^
+   block/blk-mq-dma.c:24:27: error: no member named 'bi_integrity' in 'struct bio'
+      24 |                 iter->bvec = iter->bio->bi_integrity->bip_vec;
+         |                              ~~~~~~~~~  ^
+   2 warnings and 2 errors generated.
+
+
+vim +/blk_rq_integrity_dma_map_iter_start +117 include/linux/blk-integrity.h
+
+    90	
+    91	/*
+    92	 * Return the current bvec that contains the integrity data. bip_iter may be
+    93	 * advanced to iterate over the integrity data.
+    94	 */
+    95	static inline struct bio_vec rq_integrity_vec(struct request *rq)
+    96	{
+    97		return mp_bvec_iter_bvec(rq->bio->bi_integrity->bip_vec,
+    98					 rq->bio->bi_integrity->bip_iter);
+    99	}
+   100	#else /* CONFIG_BLK_DEV_INTEGRITY */
+   101	static inline int blk_rq_count_integrity_sg(struct request_queue *q,
+   102						    struct bio *b)
+   103	{
+   104		return 0;
+   105	}
+   106	static inline int blk_rq_map_integrity_sg(struct request *q,
+   107						  struct scatterlist *s)
+   108	{
+   109		return 0;
+   110	}
+   111	static inline int blk_rq_integrity_map_user(struct request *rq,
+   112						    void __user *ubuf,
+   113						    ssize_t bytes)
+   114	{
+   115		return -EINVAL;
+   116	}
+ > 117	bool blk_rq_integrity_dma_map_iter_start(struct request *req,
+   118			struct device *dma_dev,  struct dma_iova_state *state,
+   119			struct blk_dma_iter *iter)
+   120	{
+   121		return false;
+   122	}
+ > 123	bool blk_rq_integrity_dma_map_iter_next(struct request *req,
+   124			struct device *dma_dev, struct blk_dma_iter *iter)
+   125	{
+   126		return false;
+   127	}
+   128	static inline struct blk_integrity *bdev_get_integrity(struct block_device *b)
+   129	{
+   130		return NULL;
+   131	}
+   132	static inline struct blk_integrity *blk_get_integrity(struct gendisk *disk)
+   133	{
+   134		return NULL;
+   135	}
+   136	static inline bool
+   137	blk_integrity_queue_supports_integrity(struct request_queue *q)
+   138	{
+   139		return false;
+   140	}
+   141	static inline unsigned short
+   142	queue_max_integrity_segments(const struct request_queue *q)
+   143	{
+   144		return 0;
+   145	}
+   146	
 
 -- 
 0-DAY CI Kernel Test Service
