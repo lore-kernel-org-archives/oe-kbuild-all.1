@@ -1,98 +1,172 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818E129E0F7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 11:25:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02D0722D790
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 11:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753097128; cv=none; b=HuAZJomKGka07LVDCjqqwk1gm3zSUK8w+k/9TWxi3A4bj7ZbxL/nuKsgHnyG9hASDEjYaWX63RvFOA+9fqtAasngWQ525IEoqmhNKUnELtwMGSHY8fsfQ+X18ug7GbKhaXPNMfGqaJ0UUPinKND+HqMRX4S0bh/aaDbd6FdX+2M=
+	t=1753097480; cv=none; b=q7ZqPPLlMaS6bC++YTkRSSopJrAtARDdfcQb2o+TOH9OMic0qj6PUIc7nXxT3Wgc7r6h+E/SC8Qg7tgKNOFeXyDBOw6+yfyc9x/As0WWsVIyYSPLOJzQSruBexyhBrO5SDp39F02brIZIgO87dHc8qVMGZzhHOgYDWCWqfJ8JLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753097128; c=relaxed/simple;
-	bh=W0/z7OZ8d8m+/uECTv7I8WfYd0Bko5Re5wPMcOIO774=;
+	s=arc-20240116; t=1753097480; c=relaxed/simple;
+	bh=ni6NB75dBKeFo+kbnJ/UKz3oYO037eTbMmo0vF9YVBU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VxdB/2BUFYLSWtwXg7EN9AcMqwUCuLC+LPGIIQ7SEYZPzV50HcZZWsBdbfGvPyHxDGEpiT85Ki3itUjEr5OhcoKqQNSmaUql0kcvRoSowDzaE/zEsUAYP/JRVkoOigxuwWWbXhwlVxJRajoK170+CUCVAmDVcnEJg4TiRSp1ogU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Ct5Ud+96; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=O0FIz7RRNQohPO/WjPkpfDaoYtl+A9MDSzQQWZfdvYF4U8rdFilHVV3yw0fqhcJ+gU+OCjhEXo8c1ZUQxdiZA1J8qSS7pIL7MvzY/eYeHFoqNj/XK2I0kOwp1fiJ7aFWuR6xtz4NdG6yhrzfdPZ15/0zPlCPYLc91SdcQ8YucMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=djgJ2LvK; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Ct5Ud+96"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=W0/z
-	7OZ8d8m+/uECTv7I8WfYd0Bko5Re5wPMcOIO774=; b=Ct5Ud+96YlvDcm88ZiKC
-	/Oxeb62AzLjQEGtnwRDuSDlbR5Oz4BfdH3T8bdTMISaaBsk9mbKBgzX7MbXt88f9
-	851awrL8EKGoOHGjL84KaRiFvrk38V84YxTRF12ffbf6sC4bUvnrHOZruifVmj5H
-	lHE+G2l83EwMCHmBh3AZaoYkj+cVcOuUpBIjzNdS+MrC6+Y/cX2Ujvq39KuGoV0d
-	Kd3MVmrOi9IwIfHV97w6VBCCwokPwGmhWOprpt2kBownYwFFF45UXXfWPd/zKmIF
-	t+QxeuJT3yolfmDYmJxjLb0HFZT5u7QOz1Cb31vFK6xHXHv4n4/k7nSTsZB7fcs7
-	nQ==
-Received: (qmail 887508 invoked from network); 21 Jul 2025 13:25:19 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 21 Jul 2025 13:25:19 +0200
-X-UD-Smtp-Session: l3s3148p1@dT4Mu246UittKPBP
-Date: Mon, 21 Jul 2025 13:25:19 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: kernel test robot <lkp@intel.com>,
-	"oe-kbuild-all@lists.linux.dev" <oe-kbuild-all@lists.linux.dev>,
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
-Subject: Re: [PATCH RFC/RFT 1/2] mmc: tmio: Add 64-bit read/write support for
- SD_BUF0 in polling mode
-Message-ID: <aH4jnz0RPssZ7SfF@shikoro>
-References: <20250630081315.33288-2-biju.das.jz@bp.renesas.com>
- <202507010308.KUbUR1fM-lkp@intel.com>
- <TY3PR01MB1134662BDC486D781E5B263878641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djgJ2LvK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753097479; x=1784633479;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ni6NB75dBKeFo+kbnJ/UKz3oYO037eTbMmo0vF9YVBU=;
+  b=djgJ2LvKrhEBOkBwBQifO/Q/QyUzV3BLX2WA0XiRML+AGGw6k+xeQ9hv
+   02L6kQjt3FcTLMRwkB4s9EOYiwa3oZqQ2FVv/IB1dtmhDQyIV4H98V+Nx
+   DGmuSARZrSLI0M/yb337DiEmaSi6kxTJZxgrQHjzCooIZuUTnMsof/aon
+   i8jETXzTQZHaPZsCU3mlye1arKbc1Gy1cYz0wQI82mYDBTwaodKiN95Nw
+   NNCZL8ncZw6SiU5hqyTs5dYFiVAwygqtPPswMly2+4LxHYvkQYRS7mWeT
+   y4wuyE34PkLBqR32XFu9i+tA9KpOP113zOH+Gsq598lRMEkeMI00ptUP7
+   Q==;
+X-CSE-ConnectionGUID: i1ysfkpSQjaGiWfrFu9j8g==
+X-CSE-MsgGUID: 2D1CyvbORwySDkb8E8Asrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11498"; a="72877895"
+X-IronPort-AV: E=Sophos;i="6.16,328,1744095600"; 
+   d="scan'208";a="72877895"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 04:31:18 -0700
+X-CSE-ConnectionGUID: k3nqpQsRRV21/dckljTYhg==
+X-CSE-MsgGUID: IuA4pZulSxy2Xw8ORfd5PQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,328,1744095600"; 
+   d="scan'208";a="162855115"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 21 Jul 2025 04:31:13 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1udojf-000Gkz-0h;
+	Mon, 21 Jul 2025 11:31:11 +0000
+Date: Mon, 21 Jul 2025 19:30:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	sboyd@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, jic23@kernel.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, arnd@arndb.de,
+	gregkh@linuxfoundation.org, srini@kernel.org, vkoul@kernel.org,
+	kishon@kernel.org, sre@kernel.org, krzysztof.kozlowski@linaro.org,
+	u.kleine-koenig@baylibre.com,
+	angelogioacchino.delregno@collabora.com,
+	linux-arm-msm@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org,
+	linux-pm@vger.kernel.org, kernel@collabora.com, wenst@chromium.org
+Subject: Re: [PATCH v1 5/7] misc: qcom-coincell: Migrate to
+ devm_spmi_subdevice_alloc_and_add()
+Message-ID: <202507211953.9ai6l420-lkp@intel.com>
+References: <20250721075525.29636-6-angelogioacchino.delregno@collabora.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="hkKhgmnZWOSSLEQm"
-Content-Disposition: inline
-In-Reply-To: <TY3PR01MB1134662BDC486D781E5B263878641A@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-
-
---hkKhgmnZWOSSLEQm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250721075525.29636-6-angelogioacchino.delregno@collabora.com>
+
+Hi AngeloGioacchino,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on next-20250718]
+[cannot apply to jic23-iio/togreg sre-power-supply/for-next char-misc/char-misc-testing char-misc/char-misc-next char-misc/char-misc-linus linus/master v6.16-rc7 v6.16-rc6 v6.16-rc5 v6.16-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/AngeloGioacchino-Del-Regno/spmi-Implement-spmi_subdevice_alloc_and_add-and-devm-variant/20250721-155809
+base:   next-20250718
+patch link:    https://lore.kernel.org/r/20250721075525.29636-6-angelogioacchino.delregno%40collabora.com
+patch subject: [PATCH v1 5/7] misc: qcom-coincell: Migrate to devm_spmi_subdevice_alloc_and_add()
+config: x86_64-buildonly-randconfig-003-20250721 (https://download.01.org/0day-ci/archive/20250721/202507211953.9ai6l420-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250721/202507211953.9ai6l420-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507211953.9ai6l420-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   ld: vmlinux.o: in function `qcom_coincell_probe':
+>> drivers/misc/qcom-coincell.c:111: undefined reference to `devm_spmi_subdevice_alloc_and_add'
+>> ld: drivers/misc/qcom-coincell.c:115: undefined reference to `__devm_regmap_init_spmi_ext'
 
 
-> Maybe I can guard these functions/caller using CONFIG_ARM64 as it is appl=
-icable only to GEN3
-> Platforms. Similar issue seen on [1]??
->=20
-> [1] https://lkml.iu.edu/hypermail/linux/kernel/2209.2/04657.html
+vim +111 drivers/misc/qcom-coincell.c
 
-Maybe just use 64BIT as the guard? Seems a tad more precise to me.
+    83	
+    84	static int qcom_coincell_probe(struct platform_device *pdev)
+    85	{
+    86		struct regmap_config qcom_coincell_regmap_config = {
+    87			.reg_bits = 16,
+    88			.val_bits = 16,
+    89			.max_register = 0x100,
+    90			.fast_io = true
+    91		};
+    92		struct device_node *node = pdev->dev.of_node;
+    93		struct spmi_subdevice *sub_sdev;
+    94		struct spmi_device *sparent;
+    95		struct qcom_coincell chgr;
+    96		u32 rset = 0;
+    97		u32 vset = 0;
+    98		bool enable;
+    99		int rc;
+   100	
+   101		chgr.dev = &pdev->dev;
+   102	
+   103		rc = of_property_read_u32(node, "reg", &qcom_coincell_regmap_config.reg_base);
+   104		if (rc)
+   105			return rc;
+   106	
+   107		sparent = to_spmi_device(pdev->dev.parent);
+   108		if (!sparent)
+   109			return -ENODEV;
+   110	
+ > 111		sub_sdev = devm_spmi_subdevice_alloc_and_add(&pdev->dev, sparent);
+   112		if (IS_ERR(sub_sdev))
+   113			return PTR_ERR(sub_sdev);
+   114	
+ > 115		chgr.regmap = devm_regmap_init_spmi_ext(&sub_sdev->sdev,
+   116							&qcom_coincell_regmap_config);
+   117		if (!chgr.regmap) {
+   118			dev_err(chgr.dev, "Unable to get regmap\n");
+   119			return -EINVAL;
+   120		}
+   121	
+   122		enable = !of_property_read_bool(node, "qcom,charger-disable");
+   123	
+   124		if (enable) {
+   125			rc = of_property_read_u32(node, "qcom,rset-ohms", &rset);
+   126			if (rc) {
+   127				dev_err(chgr.dev,
+   128					"can't find 'qcom,rset-ohms' in DT block");
+   129				return rc;
+   130			}
+   131	
+   132			rc = of_property_read_u32(node, "qcom,vset-millivolts", &vset);
+   133			if (rc) {
+   134				dev_err(chgr.dev,
+   135				    "can't find 'qcom,vset-millivolts' in DT block");
+   136				return rc;
+   137			}
+   138		}
+   139	
+   140		return qcom_coincell_chgr_config(&chgr, rset, vset, enable);
+   141	}
+   142	
 
-Other than that, looks good to me:
-
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-
-Wasn't able to test this yet, though, sorry. I hope for tomorrow, but no
-promises.
-
-
---hkKhgmnZWOSSLEQm
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmh+I5sACgkQFA3kzBSg
-KbY7Yw/7BB2c/4UPWEH+JCLuSG6oRoQzwD7ptrcphUF0TICA2Gk+Y6YXLIykJbJ0
-k3KH3RoQmS/Q6rgH8Dc3dda+8a5kGgKGqvvIH2ELoFqSlfqbMkjJmjbURRZS1VNW
-LFJfpO/PmZ56/SSO0uk/GtcachTNGmxww36T/LwEXLTs/53RQkjjlex/AZ13Xjkg
-llXNn8lu9pS8zFDCUWa4PTYz9q/tVErPhPQKYje3AHS19hWbywehviZGfvBaio2Y
-WOlQfWz+VQOPxWLr+s7HQ6TJIp9OD6cVwkI6uziEbnFJ5D0sGEJVY0CsUSZhCCHQ
-CNNeXsOZ3f/Sr31NLYnuZUMRsDZzdxPiYQHEdjKbgjt5lq3/uKqCeX+zcr8DUpmm
-Bw+hG1+TcCg7zwbqZs7PTxWT3xEDhyjjUM3utWxPtd4fjs+xTbIHOmC2rVXdiVua
-iodH+dnY+xi1MHnd1lcCJQL9rqd0pVkYN71gGjaP1SUgYWFNgWHH1VZnRVvnfKE1
-maT3BKvvD7cUaKotOERgIsMMyHSUd/Jwgs2d152E8+4v2ra3oRR3X/IEwf43NZ6D
-KX8k0rs+MsWmghGXsHDXNDWbmqb92uharOHt168Sk/mgKXaeK8bliNTKVOwMcyxC
-Ub8GpPBY0RwWZF4J8pC2VEYgfJ6aq2RI4YjoJFhbs61EIHGVdK0=
-=+8h+
------END PGP SIGNATURE-----
-
---hkKhgmnZWOSSLEQm--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
