@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EEC2221277
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 19:30:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A23C19995E
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 20:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753126220; cv=none; b=XWRFNB5wTeh9CNT7vGa+1zSFjbN+j7YG5yNqwFGoF3MKYkAmOxRnN+lkSge2SPrwBzwMkbZZXmysEeh5fqjKhK9mnIDHzL4G0NTuTpr04l4LTicweMvutY59Hco4/LVJVSmGrHp/Rpni9tJdIndhyJp470cMh4Dq8lSLil8ReL4=
+	t=1753128134; cv=none; b=itarRTbcdtsUX8va5c1oQiV9LMWZJ501QbMK8NGjW25lGryI/wrh8FxiTYy01V3azH4B3h6tSG1azlyfTwGw2xnDFfEKtdIiWGaC5kRWIlOdSwxx3oGm9j8I1PAwMyHm6iEB0zQoRTo5B8KvOtsfq+b8FKD4y6LoSGnBaGnouHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753126220; c=relaxed/simple;
-	bh=JvJIOHG7ACly5KJEdbrw0RxiAf7kM2lV/ffE50DPwek=;
+	s=arc-20240116; t=1753128134; c=relaxed/simple;
+	bh=kjI5PzEv209MgqAo4qQG7b6i/dYC2rYzP87QtWJw05I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aeRDHG8MduHagKdPwI+BRmLkqHr4vgPkpg8xkercmLXRqv48gVBLnmSfzXTS6CpKotvQU+qdUzYXQNI5BPJMbt+OrMuNGwCNcDWD1ytG6hM5l3vjYGV1vfv1wV24/ZdGU+eFnmU9eMqBlJWYELNqsbcb8Pj5/Sf2JpdUKtRrDBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DYJbyuf4; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=ZZn0YbhE/1gPakddGwdEGD0C8oaf/u4MiRov2qiDN5s7HehXzn/sb+eqgpMl/ex2I53ERwkI8wRGLZwnlizB5ZYq6mONEN/O8tIA3ZJxdvVU6BdCrF+xgCLvuYnnAhQMN0JSW9ZEoYAgJ2fTBZH+hAgpJdnGEhOJpYitqZvhxyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R5ekemY9; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DYJbyuf4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R5ekemY9"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753126220; x=1784662220;
+  t=1753128133; x=1784664133;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=JvJIOHG7ACly5KJEdbrw0RxiAf7kM2lV/ffE50DPwek=;
-  b=DYJbyuf4OkQLI+v/BT58ulaLIRx6Eh1eOsqEa3qmpAuvGYNWzzLwHfwK
-   lk4QM/OrYF6wAfH9VZcgBGKUFjCZ0BgL2l1aNPVSmbFMZFNBzwB/hBYk0
-   ap6GAJfo3GPeJ8+wrnfYal2yoUeRgY89X1um010cUMAqyMaK2NV4rxf7p
-   8MgKy/CDmhVk6QeAp2NQ6oJCZu1RTIsps+TOesyDeaQH9SiDQL5RsiXj7
-   ApOpQCQrnBASTqUyxvcofIPGK8BhDZAZwmF2Z3zWgHz01QtLqHN5H9Y2v
-   /fL9YNBS+qKop5G/1pNvXCmvgrE+jPiIPKQJoWEs+T+4bvF/Vt8Engh6a
+  bh=kjI5PzEv209MgqAo4qQG7b6i/dYC2rYzP87QtWJw05I=;
+  b=R5ekemY97RjSGDZ21EZlYInzo4ayHDB0m33EH2X1l5uaVd6+NdHFGMPT
+   yXrPHIay0HTlM6c6ShD9qAJ+6OTW+1w68wi5t6m1UkBtL4zetsTu5q2zU
+   AZg9tdmwI/0CPGfcE89Rez9wlsJl6UCAlhbgYdhCoTmDGceoKLvvn2K1k
+   +PVxNA54wCEwPAr2X33pJaD3/SAUxjTW4yHXQVlWRTqXh5X+bxpn6nw0l
+   IKJo9BbJUCHGVjpOp913VK0aEOv8XYOEA0YO7VCIUDTrDIhaIyMttruqP
+   5IUv5lwY0McshZll8poP8R6q9oRAX1bqgysrQ+YlrIiNuPOShgG5HhM1z
    A==;
-X-CSE-ConnectionGUID: u+s45C4oT2CP+r0Yz+kQMA==
-X-CSE-MsgGUID: GCsAOXiGROyFxukvm6omtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55312172"
+X-CSE-ConnectionGUID: WYF9UPM0Q1SUO8i2nqVPCg==
+X-CSE-MsgGUID: iwnOQXB+SCSeMqN2SfH83Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="54456296"
 X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="55312172"
+   d="scan'208";a="54456296"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 12:30:19 -0700
-X-CSE-ConnectionGUID: Z0w4VIskThKtuD6tcfXfOg==
-X-CSE-MsgGUID: w8X/SVhxRoi+3TFBvuskPA==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 13:02:12 -0700
+X-CSE-ConnectionGUID: DzOS1Jv1RByCFQ0KPZpLPw==
+X-CSE-MsgGUID: qg4IV4JxRGSBWrV7QO/KbQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="164419390"
+   d="scan'208";a="164424473"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 21 Jul 2025 12:30:09 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 21 Jul 2025 13:02:12 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1udwD9-000H6X-09;
-	Mon, 21 Jul 2025 19:30:07 +0000
-Date: Tue, 22 Jul 2025 03:29:48 +0800
+	id 1udwiA-000H7d-0J;
+	Mon, 21 Jul 2025 20:02:10 +0000
+Date: Tue, 22 Jul 2025 04:01:33 +0800
 From: kernel test robot <lkp@intel.com>
-To: =?iso-8859-1?Q?Beno=EEt?= Monin <benoit.monin@bootlin.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: [linux-next:master 5907/11398]
- arch/mips/boot/dts/mobileye/eyeq5-epm5.dtb: sdhci@2200000
- (mobileye,eyeq-sd4hc): $nodename:0: 'sdhci@2200000' does not match
- '^mmc(@.*)?$'
-Message-ID: <202507220336.JhvVLL7k-lkp@intel.com>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [vbabka:sheaves-with-microbenchmark 2/13]
+ lib/tests/slub_kunit.c:10:10: fatal error: asm/tsc.h: No such file or
+ directory
+Message-ID: <202507220310.CoCvlBbO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,28 +63,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   97987520025658f30bb787a99ffbd9bbff9ffc9d
-commit: 2de84c70ffcd5dea6050fb343d1a61c0e22e2b5b [5907/11398] MIPS: mobileye: dts: eyeq5: add the emmc controller
-config: mips-randconfig-052-20250722 (https://download.01.org/0day-ci/archive/20250722/202507220336.JhvVLL7k-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507220336.JhvVLL7k-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vbabka/linux.git sheaves-with-microbenchmark
+head:   53a6c37b14b0985676c3e8e82faffb687df66240
+commit: 51a16612a9b2763f07222deaeba06a0be3985f10 [2/13] slub_kunit: microbenchmark
+config: arm-randconfig-003-20250722 (https://download.01.org/0day-ci/archive/20250722/202507220310.CoCvlBbO-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507220310.CoCvlBbO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507220336.JhvVLL7k-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507220310.CoCvlBbO-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/mips/boot/dts/mobileye/eyeq5.dtsi:53.17-73.5: Warning (avoid_unnecessary_addr_size): /reserved-memory/nvram@461fe00: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
->> arch/mips/boot/dts/mobileye/eyeq5-epm5.dtb: sdhci@2200000 (mobileye,eyeq-sd4hc): $nodename:0: 'sdhci@2200000' does not match '^mmc(@.*)?$'
-   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml#
-   arch/mips/boot/dts/mobileye/eyeq5-epm5.dtb: sdhci@2200000 (mobileye,eyeq-sd4hc): compatible:0: 'mobileye,eyeq-sd4hc' is not one of ['amd,pensando-elba-sd4hc', 'microchip,mpfs-sd4hc', 'microchip,pic64gx-sd4hc', 'socionext,uniphier-sd4hc']
-   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml#
-   arch/mips/boot/dts/mobileye/eyeq5-epm5.dtb: sdhci@2200000 (mobileye,eyeq-sd4hc): Unevaluated properties are not allowed ('bus-width', 'compatible', 'max-frequency', 'mmc-ddr-1_8v', 'mmc-hs200-1_8v', 'mmc-hs400-1_8v', 'mmc-hs400-enhanced-strobe', 'sd-uhs-ddr50' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/mmc/cdns,sdhci.yaml#
-   arch/mips/boot/dts/mobileye/eyeq5-epm5.dtb: /soc/sdhci@2200000: failed to match any schema with compatible: ['mobileye,eyeq-sd4hc', 'cdns,sd4hc']
+All errors (new ones prefixed by >>):
+
+>> lib/tests/slub_kunit.c:10:10: fatal error: asm/tsc.h: No such file or directory
+    #include <asm/tsc.h>
+             ^~~~~~~~~~~
+   compilation terminated.
+
+
+vim +10 lib/tests/slub_kunit.c
+
+  > 10	#include <asm/tsc.h>
+    11	#include "../mm/slab.h"
+    12	
 
 -- 
 0-DAY CI Kernel Test Service
