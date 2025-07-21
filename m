@@ -1,62 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED74B1DE8A4;
-	Sun, 20 Jul 2025 22:52:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD6A288AD
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 01:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753051923; cv=none; b=Ocp9P2t7LR6rgoLApQ5chHqmVCPZJ9IDpy1hsU4UZtYRCfPIGtGr1heEf9QeT9e/88SGiOoJ7RQQk7TvgahLDLvKB57qpdEeA4MaZG0SXSAzDAZV9NUeEvwk+qFyCJtmMUY1jR3rR9AIYimH+vfRmroQCqPucEoK2nl9+nldc0U=
+	t=1753059701; cv=none; b=GlDFvg5z/u8pKbWAQyV1bE6YR8Q3AR/a0l3DcfX7GMEejEPxzWyOPTlkTc1vSN7NMnsJ4wnFRwugcJXlGB87X4vqaz1Kds9+ZSGETgVSCJFewE5pJ17ePVcESi+7A6FWbhlQdxIm1P/mLX87Xe8S9E0v6vNUfE7t6SclRlL9fmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753051923; c=relaxed/simple;
-	bh=KccA/LZ+ZXZ6XajYWAUE1auUyN/plqJfyfdq6P7YW1o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NSk9WoBXxPIqiRt5wfBEoKxjf9L8801MLaZSSQPOn434AbGY28MiEanwI9jKnt+LmF0XZv7+TSsH7AynKZJkuL2fsK1lGFS9ssgsZZEr+mLsS8n+RPuOJGjnSNYb7vMF12KldibTNZuOQzg8YaOcTYssdYImPoMaqIfmhv770QI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IbEA5Fo2; arc=none smtp.client-ip=198.175.65.13
+	s=arc-20240116; t=1753059701; c=relaxed/simple;
+	bh=FdYn90X5x91d8lkUA1PCmaMAyg9G6CQ330FqZCzEQ3Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=SIs1lY+nFrHQeOENvd9200+VpPPTB2vRq/xa+BR78zckBEQ1rVI7XLLbXUygYmG5zPf9+wQADEBIV42ynZu0z0IQmPrwGhr7XxDOmNr2u/PCHqyzzb5Vp0+De0nThbzAPJwyZ7E2ESb+aatbq0bWTM2UheGv2dktqu50JCWlN9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wzrsjk/q; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IbEA5Fo2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wzrsjk/q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753051921; x=1784587921;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KccA/LZ+ZXZ6XajYWAUE1auUyN/plqJfyfdq6P7YW1o=;
-  b=IbEA5Fo2XjT5bxgLCvxAC9Ac9VBThWu9BnrcuQ57Zm+8IXMIPiQiW/Bn
-   YDIcOjYahdVJzIatUE0X6GEyS/55SEngOO+P0LPKzMkiod9PdWcLbNJwM
-   Njkgo0/dIjncX6B1iKdxgyaDumvkZfrg8O5CNl9QwEnKLHWAUh7JWPv6H
-   I4TMKKST/X1jR9CBvGBLUnz3DvYfVFOKRFZbUvbbxQzxlGvcnt3ShPCSa
-   gZmdbM2ZZesneP32FqbexbZx6idPGCnp+kYoHBs2TLaTU0vv/VQwlKHol
-   /5gtrGoOLoSjVdARb2Jmp3Ye4ppJAh5C3JsyEGJ0S0j+n+qy4nK0OOqAJ
-   A==;
-X-CSE-ConnectionGUID: tp2/LNZCRLmnS0GWDVCjvg==
-X-CSE-MsgGUID: a/Tlp7bLT8aWnWifi/hfkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11498"; a="66327323"
-X-IronPort-AV: E=Sophos;i="6.16,327,1744095600"; 
-   d="scan'208";a="66327323"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2025 15:52:00 -0700
-X-CSE-ConnectionGUID: 7+vZawjzRW+axfKtJ5xYhA==
-X-CSE-MsgGUID: Uyth4+W/SeeVPMlU+gBWuQ==
+  t=1753059699; x=1784595699;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=FdYn90X5x91d8lkUA1PCmaMAyg9G6CQ330FqZCzEQ3Y=;
+  b=Wzrsjk/qGha20sfysJ1kSVYp0dBSUwU3nf9Ik6eSIGFeSLtHEsxqgZWS
+   abmGfx8/HtGVnp3uI9ex59LKSoAqHbi9SLKXKCJ5Lv5e+EjYbodEtZp9e
+   HxD6GsRFpgPqWlwmXdVkoFaff4RJ6Erwh8YeNPUSaP8/zqnwWUegDAhuS
+   adoORK0W2Ac3TkagzvA+9AO8W8UTCVmiORm2aL5h02eVM1E5AziSqI8Qk
+   FlfjnZ37P4qy4fK8/j2qHwiZ8wkIuvqyAUpl/xast1sS+Owkvwu4v3MJC
+   sH/fB2gdLNNjGhSe7b6Z1dakVBNcawf3xQClBpLylpeuFqq2CC8HqQGQ6
+   w==;
+X-CSE-ConnectionGUID: FqBMR2mqQCiwSWMEWIU0hA==
+X-CSE-MsgGUID: JqBw+gleQEelNlMEaas5ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11498"; a="58928810"
+X-IronPort-AV: E=Sophos;i="6.16,328,1744095600"; 
+   d="scan'208";a="58928810"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2025 18:01:36 -0700
+X-CSE-ConnectionGUID: u/TKVAd0Qr6efrjX1jaYEA==
+X-CSE-MsgGUID: 4jC1HrKqQVK/UhKNOCHasg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,327,1744095600"; 
-   d="scan'208";a="159214763"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 20 Jul 2025 15:51:59 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+X-IronPort-AV: E=Sophos;i="6.16,328,1744095600"; 
+   d="scan'208";a="162918064"
+Received: from igk-lkp-server01.igk.intel.com (HELO 8b57277650df) ([10.91.175.65])
+  by orviesa003.jf.intel.com with ESMTP; 20 Jul 2025 18:01:34 -0700
+Received: from kbuild by 8b57277650df with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1udcsu-000GLR-2I;
-	Sun, 20 Jul 2025 22:51:56 +0000
-Date: Mon, 21 Jul 2025 06:51:21 +0800
+	id 1udeuK-0001K5-1u;
+	Mon, 21 Jul 2025 01:01:32 +0000
+Date: Mon, 21 Jul 2025 03:01:18 +0200
 From: kernel test robot <lkp@intel.com>
-To: Keith Busch <kbusch@meta.com>, linux-block@vger.kernel.org,
-	linux-nvme@lists.infradead.org, hch@lst.de
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, axboe@kernel.dk,
-	leonro@nvidia.com, Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCHv2 6/7] blk-mq-dma: add support for mapping integrity
- metadata
-Message-ID: <202507210629.vtm1boC0-lkp@intel.com>
-References: <20250720184040.2402790-7-kbusch@meta.com>
+To: Frank Wunderlich <frank-w@public-files.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [frank-w-bpi-r2-4.14:6.16-dualmmc 59/79]
+ drivers/net/pcs/pcs-airoha.c:2537:2: warning: unannotated fall-through
+ between switch labels
+Message-ID: <202507210301.B6NM09ms-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,56 +62,69 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250720184040.2402790-7-kbusch@meta.com>
 
-Hi Keith,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on axboe-block/for-next]
-[cannot apply to linux-nvme/for-next hch-configfs/for-next linus/master v6.16-rc6 next-20250718]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Keith-Busch/blk-mq-dma-move-the-bio-and-bvec_iter-to-blk_dma_iter/20250721-024616
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-patch link:    https://lore.kernel.org/r/20250720184040.2402790-7-kbusch%40meta.com
-patch subject: [PATCHv2 6/7] blk-mq-dma: add support for mapping integrity metadata
-config: um-randconfig-002-20250721 (https://download.01.org/0day-ci/archive/20250721/202507210629.vtm1boC0-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250721/202507210629.vtm1boC0-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.16-dualmmc
+head:   61605f260a207bbe9994a325ea9b2d33e29d62de
+commit: 65cc15faa14410dfb08f3a921b4ac794ec08f597 [59/79] net: pcs: airoha: add PCS driver for Airoha SoC
+config: x86_64-buildonly-randconfig-2001-20250721 (https://download.01.org/0day-ci/archive/20250721/202507210301.B6NM09ms-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250721/202507210301.B6NM09ms-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507210629.vtm1boC0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507210301.B6NM09ms-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> ld.lld: error: duplicate symbol: blk_rq_integrity_dma_map_iter_start
-   >>> defined at dm-table.c
-   >>>            drivers/md/dm-table.o:(blk_rq_integrity_dma_map_iter_start)
-   >>> defined at dm-io-rewind.c
-   >>>            drivers/md/dm-io-rewind.o:(.text+0x0)
---
->> ld.lld: error: duplicate symbol: blk_rq_integrity_dma_map_iter_next
-   >>> defined at dm-table.c
-   >>>            drivers/md/dm-table.o:(blk_rq_integrity_dma_map_iter_next)
-   >>> defined at dm-io-rewind.c
-   >>>            drivers/md/dm-io-rewind.o:(.text+0x13)
---
->> ld.lld: error: duplicate symbol: blk_rq_integrity_dma_map_iter_start
-   >>> defined at core.c
-   >>>            drivers/nvme/host/core.o:(blk_rq_integrity_dma_map_iter_start)
-   >>> defined at ioctl.c
-   >>>            drivers/nvme/host/ioctl.o:(.text+0x0)
---
->> ld.lld: error: duplicate symbol: blk_rq_integrity_dma_map_iter_next
-   >>> defined at core.c
-   >>>            drivers/nvme/host/core.o:(blk_rq_integrity_dma_map_iter_next)
-   >>> defined at ioctl.c
-   >>>            drivers/nvme/host/ioctl.o:(.text+0x13)
+>> drivers/net/pcs/pcs-airoha.c:2537:2: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
+    2537 |         default:
+         |         ^
+   drivers/net/pcs/pcs-airoha.c:2537:2: note: insert '__attribute__((fallthrough));' to silence this warning
+    2537 |         default:
+         |         ^
+         |         __attribute__((fallthrough)); 
+   drivers/net/pcs/pcs-airoha.c:2537:2: note: insert 'break;' to avoid fall-through
+    2537 |         default:
+         |         ^
+         |         break; 
+   1 warning generated.
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for FWNODE_PCS
+   Depends on [n]: NETDEVICES [=y] && (ACPI [=n] || OF [=n]) && PHYLINK [=m]
+   Selected by [y]:
+   - PCS_AIROHA [=y] && NETDEVICES [=y]
+
+
+vim +2537 drivers/net/pcs/pcs-airoha.c
+
+  2516	
+  2517	static void airoha_pcs_an_restart(struct phylink_pcs *pcs)
+  2518	{
+  2519		struct airoha_pcs_priv *priv = phylink_pcs_to_airoha_pcs_port(pcs);
+  2520	
+  2521		switch (priv->interface) {
+  2522		case PHY_INTERFACE_MODE_SGMII:
+  2523		case PHY_INTERFACE_MODE_1000BASEX:
+  2524		case PHY_INTERFACE_MODE_2500BASEX:
+  2525			regmap_set_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
+  2526					AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
+  2527			udelay(3);
+  2528			regmap_clear_bits(priv->hsgmii_an, AIROHA_PCS_HSGMII_AN_SGMII_REG_AN_0,
+  2529					  AIROHA_PCS_HSGMII_AN_SGMII_AN_RESTART);
+  2530			break;
+  2531		case PHY_INTERFACE_MODE_USXGMII:
+  2532			regmap_set_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
+  2533					AIROHA_PCS_USXGMII_AN_RESTART);
+  2534			udelay(3);
+  2535			regmap_clear_bits(priv->usxgmii_pcs, AIROHA_PCS_USXGMII_PCS_AN_CONTROL_0,
+  2536					  AIROHA_PCS_USXGMII_AN_RESTART);
+> 2537		default:
+  2538			return;
+  2539		}
+  2540	}
+  2541	
 
 -- 
 0-DAY CI Kernel Test Service
