@@ -1,83 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF2002DFF04
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 15:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B9E2DF3CC
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 16:06:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753112267; cv=none; b=suWQSTLl98AhP18ovCDfvZnol/sTSRPYy6FV23Lt7RPTBoqJtfvk29NGsyUmvZbPqXsXohxG5JV2uhkHASQraA2E0bzu9F4omizICUjwZ4h5hD+B4XwOefw1T6jdJ73YGDAOnPUH4mbWWBiYLxjzNc2iPVyom6RYTHy0sQMK5OE=
+	t=1753114008; cv=none; b=LzryISMQzwgUvTYAXpo7k5MnS/bomwtjhWTKxK5o72pWWYwCmeG1VKY0HeCmYCiEIe5xJTrwxgkpX5xpcSifGx7zI2VY3qTyiW1D7C0mq4G2gX5ieI5XHLEo0qzArb3c4tIUVgRrHW5SWInibfzO4swY/fehygM2+TUJx9eLsHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753112267; c=relaxed/simple;
-	bh=I6CweaXq/1T60CXfZ0M3luYNGim2F3bGuyRiuvxOjtw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=omC4nZGEhAPPC88VM71q3QOH8D6GIcF/jLtd18WNBJMCsp2cTlC6j0eCBS5+U/di6uOXMlX60V7rXRVTBxqlDy1t6j4tNglnCb0Oria39ruA9TjuCSjhRXrclCFiQJ1BvWNl8jZj6HFKBoGMFRvtoDMiu15YOaT4scB7f1HfXrM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WzNOqgWF; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753114008; c=relaxed/simple;
+	bh=ckRfEQFp4nWUivzsicNdLk73ZvBCFK71dcqQzwI6kW0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZYRI1U80VqVtjSRQrFYGf6zW/sotnN+pCyunHav55SAGOzgxZUKJjz9tjH6XeFwcQYt7SncbzGxIJ42REXGvHVWYdRTC+4zWknZCTpmnUJoBmmlQ2miQlYWldSARkVI2+Te7G4+6LCg8y0e/T4ofNAn7ji9mAaeW6G/oAA5+MYc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=BKLQL/HT; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WzNOqgWF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753112266; x=1784648266;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   in-reply-to;
-  bh=I6CweaXq/1T60CXfZ0M3luYNGim2F3bGuyRiuvxOjtw=;
-  b=WzNOqgWFVO2DyNFIvpBdf0+g6tG8HMi1Ret5HA3P9l9AvdwUKFDb9TX1
-   BkZDXmfB1iVobC4ZBhlb9idaTEZoZTm1PvGJCPtzD3uEuloN6+g9Q3Ccs
-   oJ7SBwl5MBF1cfgMQC6H7E4C/GQhjgsVJ3Pj5OeuOv8rSR6v/9Kj61zaX
-   l8G+KGb+lQZy1NLycK4FhlLZeRl7Y93zYIRKBbBD2s/yz6QLKWIyL3EHp
-   m+qC3Hu8yp74LPaoHmPJJ64Ct0D4Z1X+DrLdhrgs1IF0DaGUzh2BVTaRj
-   Cb5QRdM+8bIDKdmeYWVRhXs7rKMnCS0gsL52PHfHeOF8J9+IKMfZ6CdIb
-   A==;
-X-CSE-ConnectionGUID: zUYwW1m7SJG3+BO8HSVh9Q==
-X-CSE-MsgGUID: H54zxF09SM+VxzJxavvK/w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="54431868"
-X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="54431868"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 08:37:45 -0700
-X-CSE-ConnectionGUID: lltkx+lSQWiXCN3mZbd4JQ==
-X-CSE-MsgGUID: 2D+2+C0iQaS5mXQi5jmaOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="189862786"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 21 Jul 2025 08:37:44 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1udsaD-000Gvh-26;
-	Mon, 21 Jul 2025 15:37:41 +0000
-Date: Mon, 21 Jul 2025 23:37:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Thompson <davthompson@nvidia.com>
-Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v1] gpio-mlxbf2: only get IRQ for device instances 0 and 3
-Message-ID: <aH5exOfeBDhvR9oB@6f60a8441bb9>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="BKLQL/HT"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4aaaf1a63c1so34510291cf.3
+        for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 09:06:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1753114006; x=1753718806; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mOd3UEq1wUDaXyZJdeoQUzMxVytfD91oNEpksZRpWa0=;
+        b=BKLQL/HTlloyxxBfRUWqAxZgYhMqJ7XFCg0OWc4FjsbLMj2SH60rbLi1W9lH2vBTUZ
+         Yu3ODvrXHnbkeLNS+EIOvryKzpi8llcJbp9ZYQP2LL4v+pondpJKfZ2nYNKxCBEgr4QM
+         G5OIR+/pu54zoAY1J/oyiNGbFfwMYhXvDtrGkVrp5Y18AzoB2qlnWThq0Ech/1D3A4BP
+         RN9IorgM6K960hSFak1h20jANQl8lWtn6y2kyjUFxBXUYu2mIF4QtIEKpVVU9rWMdRIw
+         fT8FQQf0ZKkx/QEoFEm2IJ4cnKrGrSSZpK6znUFNYdh36+RpbjDZH/RvjU1G/hqN60Hg
+         AfDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753114006; x=1753718806;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mOd3UEq1wUDaXyZJdeoQUzMxVytfD91oNEpksZRpWa0=;
+        b=UZ+R5WKfPYdwhscTEw2FHgsF/TfZc29VbKhsHvN9M4m2CEF5iwL3XKxC7AmewvYQxu
+         1pqevENAqrUzNKPO06uEv4oEJAG/e6kEbl+MoTqrw2Kkt1wNIb5czVSb7CvQhmsMdPqf
+         Ww/Sm8d2FL78FrExShT+1x8Jr8ZQxLcg8TuOWnc/pTkvzl06dLN109/iEeBc9b0WVIcY
+         4whddIND1PfhbIt7XEixIi894lPGEO7AAtooQEXk3N/drVmkLZcvfYTrjhHmdsjXKB2W
+         kmusTitdUAc5KVAGpeo1RgBkqlM77jIJ4vPdEdbqpdwHxGt5WwqiNHUEYQKB9UgUZNKE
+         U03w==
+X-Forwarded-Encrypted: i=1; AJvYcCVWtxp2zsrAKAIoc/ylso4L7OMftJCL7IoQ0UGzYpe0oTYqrpETmdUnMByvCpLIlLmUUKQ6NoSqYV5hgBJs@lists.linux.dev
+X-Gm-Message-State: AOJu0YxDSuKzb0ltov5VZZgqXwPlHR8CFs9ew+yqvl1Lp8ryKmho8s6V
+	9fq1JAQuxdb1aV1pnY5of+9jU9KM+WoL7iUOdMrMudlaDg6DiHf2HpTSTig4Z91feSaG4hEbPXj
+	zJISN4TU4D554VgcrG2Gt6vgrS4O06fPGwGl01n7t
+X-Gm-Gg: ASbGncswz4EXaKyYTcSRqsM/Ek0Hd85DqbyD8NxiE3kmL2cZf4OMQIsrAZXiuYQqQG6
+	wJDZcMMcGc48gWuWcUFuMYHMdV6m0h6mJsaSGXRbAfiXcXxaaFvF6oNBthT96ofkO9wvawmAPAR
+	e5Ysn206v7LheQ8U6dp8TPWr9Qp8PGApSbWO4ftGhhgEdBWLBMQ2GAGJas9JeUNhwTt6+tlbYTw
+	CCWkP/Na3Ewee68Le4tViXpKonZaPuH00PpIw==
+X-Google-Smtp-Source: AGHT+IFj1pscYYUhcJuV1F8HJLXSMp0txYiqKFJNij7Hh1NCCAe/FXlP0ElhhDhIMJQGruaN9saxEe5ta2hhBHWDNn0=
+X-Received: by 2002:a05:622a:8e:b0:4a9:96b8:750e with SMTP id
+ d75a77b69052e-4ab93c50c48mr327951831cf.10.1753114005197; Mon, 21 Jul 2025
+ 09:06:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250721153523.29258-1-davthompson@nvidia.com>
+References: <20250714-support-forcepads-v1-11-71c7c05748c9@google.com>
+ <202507151942.94dhYylY-lkp@intel.com> <CAMCVhVNYePCuCw_SSTxwAdcastPP_azik44kG18o0_QK37OiZA@mail.gmail.com>
+ <aHmOZiQ7TAQ3TjpQ@rli9-mobl>
+In-Reply-To: <aHmOZiQ7TAQ3TjpQ@rli9-mobl>
+From: Jonathan Denose <jdenose@google.com>
+Date: Mon, 21 Jul 2025 11:06:33 -0500
+X-Gm-Features: Ac12FXw0e6ocTZ8KNGtxPAWELTre3ggLXjmb05tlAjrpnHYW1CCSdTseRrCefMw
+Message-ID: <CAMCVhVNTWKg89MhPJeVvKK5ZhXYy2WCJFBGJo2Hg5=aCUZz32A@mail.gmail.com>
+Subject: Re: [PATCH 11/11] HID: multitouch: add haptic multitouch support
+To: Philip Li <philip.li@intel.com>
+Cc: kernel test robot <lkp@intel.com>, Jiri Kosina <jikos@kernel.org>, 
+	Benjamin Tissoires <bentiss@kernel.org>, Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Henrik Rydberg <rydberg@bitmath.org>, oe-kbuild-all@lists.linux.dev, 
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Angela Czubak <aczubak@google.com>, 
+	"Sean O'Brien" <seobrien@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Thu, Jul 17, 2025 at 6:59=E2=80=AFPM Philip Li <philip.li@intel.com> wro=
+te:
+>
+> On Thu, Jul 17, 2025 at 01:43:28PM -0500, Jonathan Denose wrote:
+> > On Tue, Jul 15, 2025 at 6:36=E2=80=AFAM kernel test robot <lkp@intel.co=
+m> wrote:
+> > > kernel test robot noticed the following build errors:
+> > >
+> > > [auto build test ERROR on 86731a2a651e58953fc949573895f2fa6d456841]
+> > >
+> > > url:    https://github.com/intel-lab-lkp/linux/commits/Jonathan-Denos=
+e/HID-add-haptics-page-defines/20250714-231444
+> > > base:   86731a2a651e58953fc949573895f2fa6d456841
+> > > patch link:    https://lore.kernel.org/r/20250714-support-forcepads-v=
+1-11-71c7c05748c9%40google.com
+> > > patch subject: [PATCH 11/11] HID: multitouch: add haptic multitouch s=
+upport
+> > > config: hexagon-randconfig-r112-20250715 (https://download.01.org/0da=
+y-ci/archive/20250715/202507151942.94dhYylY-lkp@intel.com/config)
+> > > compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project =
+6009708b4367171ccdbf4b5905cb6a803753fe18)
+> > > reproduce: (https://download.01.org/0day-ci/archive/20250715/20250715=
+1942.94dhYylY-lkp@intel.com/reproduce)
+> >
+> > I'm having trouble reproducing this build error. I tried following the
+>
+> Sorry Jonathan, the reproduce step we provide is wrong, would you mind to=
+ give
+> a try similar to the steps in [1]? We will resolve the bug as early as po=
+ssible.
+>
+> [1] https://download.01.org/0day-ci/archive/20250717/202507170506.Wzz1lR5=
+I-lkp@intel.com/reproduce
+>
+> > steps in the linked reproduce file, but when running:
+> > COMPILER_INSTALL_PATH=3D$HOME/0day ~/lkp-tests/kbuild/make.cross C=3D1
+> > CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__ -fmax-errors=3Dunlimited
+> > -fmax-warnings=3Dunlimited' O=3Dbuild_dir ARCH=3Dhexagon olddefconfig
+> >
+> > I get the errors:
+> > 0day/gcc-4.6.1-nolibc/hexagon-linux/bin/hexagon-linux-gcc: unknown C co=
+mpiler
+> > scripts/Kconfig.include:45: Sorry, this C compiler is not supported.
+> >
+> > It looks to me like the hexagon-linux-gcc compiler is correctly
+> > installed at $HOME/0day so I'm not sure what to do from here. Can
+> > someone please assist me with this?
+> >
+> > --
+> > Jonathan
+> >
+Great! Thanks for providing the correct reproduce steps Phillip.
 
-Thanks for your patch.
-
-FYI: kernel test robot notices the stable kernel rule is not satisfied.
-
-The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
-
-Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
-Subject: [PATCH v1] gpio-mlxbf2: only get IRQ for device instances 0 and 3
-Link: https://lore.kernel.org/stable/20250721153523.29258-1-davthompson%40nvidia.com
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
-
-
-
+I tried them and both of the make.cross steps completed successfully.
+I am not getting the build errors that the test bot is reporting.
+--=20
+Jonathan
