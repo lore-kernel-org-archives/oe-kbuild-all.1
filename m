@@ -1,115 +1,127 @@
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5842C29C352
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 12:37:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A6E1F12F4
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 12:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753101464; cv=none; b=r8tQ1Vd4jNP4o5iOYjISWDIyyPE/RoAmlv9Hc4pyL3dMWAHJiXK7f1WgqAR6AhsHfsAIX/hy1oX73CB1nV11surIM+jwKgzd+m1rbQeIeMF8XNK3oPIzUzOju2npOEg923C6YmmXROLFI+bjFNRc9P8pzTiO7T1n6XlowQo7gH0=
+	t=1753101569; cv=none; b=f9Tii/JH/c0HB1yqPsYhiBt4MsRql83WQcy5n1YaXwiHncplIuHmmquhK2Yh2GCLeKaNR6evi8QEWcD3AjUd54AvdhK//+XL02h5CSc/m5f9/UDALvdwBp36n4Vw/jfpTFmi+TPIlnBHMfbumM5pfGACw588wWeFjPNwZ2IydbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753101464; c=relaxed/simple;
-	bh=JfZSEW0GdBwty6ngOsqe/zuGD7kfdShIAtNDFTeJpoY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fYqHfDMMyR++NMAuGNexVVTRkiimihgiEDhokOSA5bVE2jYiJC+MOUA0W41ExM4KqFXLECDIMF106g2I9JLqi3Ngb8/QxuhgKvGc6wdpNPDfmwzuSbKIfcBuhq5fwo958ZUp0/x1pKOXMu/W4e7gsf2+8Nva+OUR9Vo5xWfMgZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eluUDnri; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753101569; c=relaxed/simple;
+	bh=b3ULNAqMTaa3GycXLebSSB+FbJo2vAFaNs29OufAzvs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qXGc04l607aCyfaID1AiK8qZSkvqNZ1kRtYzRg4YI11qTtyn0njj7y1MIz6odwG6pLvcfx/TMl5GHVQjQ0pDyAfeb9+SlwqTiOYmviA5BqY1lZkrtSG2wwEqdvrAP8bbaWYcZc8GFTnKvuRMv83yHBcS5R4XlPkyOA7688LQXR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ik4oBaue; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eluUDnri"
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-32b8134ef6aso42839991fa.0
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 05:37:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753101460; x=1753706260; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LoGb4YAMQ6FyHi6JLW6yFVm+/wwMhQK+/vnKjJj89zo=;
-        b=eluUDnri9F8GNsSN/2oux25sfTTAa+ZV8kcsA+ATl4hPyqq6rwSRM8HzUfr6XnSkKh
-         9jSQRx9teMtlZvFhDXrC36ByTJJna/FK+7qnrJnf68ylgWdU21W/aqWKkOc6hqAJRQY4
-         Z23a0Aiv1OxUyvU4b2PjKdJB+stoaebKJi68PraTM8hjytyoLSL3W9YqH6A7CS+J0q1H
-         4Qg6nZdwGAuouQc+gRu/dtMOVmudb8aClCzvk0mnzsw5wcIKQVQLaQOrmkUyRQIpASnq
-         N56A0y3qk/JqFdP8ZEGrMzFuUSjqIX/jtOdXBcoyNmKkKUpIjmz4Beycz85124FiO9kM
-         Tkow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753101460; x=1753706260;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LoGb4YAMQ6FyHi6JLW6yFVm+/wwMhQK+/vnKjJj89zo=;
-        b=PBodA/wSTgpudEffkYfbc1vNCii/BCBPXEkmE+S+uf0z7oREsJxCFZ5zxBv7msbyPK
-         pHzUt2oWECBhv9eY9v6ADHSgi355CBIBw09BRz8ZwuImCZW6HKuASWnFUH7yOd559WDS
-         RPW9FR6J2Pe7Z2krmgAsmSt8vaYcLeN2Z8Uo+2lGK2+nPU81vRO53cDTRH541fQ5B3ve
-         LB1S/kZH5nYpre+SdFt5QVsytTxRbeWRS87rVZKBmz3DyVgGGGzLrojxgkYik8oc0k1z
-         H0zkA4mK1Uhnd1mfA709GvsbmXz3vDKJBkeJZyh4mqaZiavQF9DTnHS1UCBpVTpP2s06
-         QC5w==
-X-Gm-Message-State: AOJu0YxbQlem8cI9VgsgOfduRD74qexmFtS9+TZTORjmp2dt59lRFqMA
-	4jajIWn/QMVEz8bY0KIWk+NHHuABhjRm8PY2ZNyEZYc7NeSbCs1+XRXhDn0ZEZsTvN/FctlKM8k
-	o3gpoKmG7FQjDnaAcuqZHw7kOWCH8PSM=
-X-Gm-Gg: ASbGncsS2PAZXLvZWtMP7zvvRmL/RueaBQUFkAaUfnoGkKjmyc0l/iXRaViQ84/IFFD
-	RnlrtvEKkbi18aXZTXRYLPIDTwJEpO+Henb+AuaEtH+bergMoD6gslcBHg4keWqsg+KaOp34uOF
-	NlCyLr8a0SiKFhLZhex8HN0MvaJ1rhm7YEXw2pIWUUscqgueQYTg6Vriu8ir8lrnw5vgL5WPcbO
-	LnS7mw=
-X-Google-Smtp-Source: AGHT+IFbofx31oj1C5GJZvVqOKdzyl+BTzX6KFaJvKAxdmFWxpZEfQUo9zbxwWWFibek489wMWAH1dFxJSzHpbXa4jU=
-X-Received: by 2002:a2e:b88f:0:b0:30b:c980:c5b5 with SMTP id
- 38308e7fff4ca-3309a466631mr40337371fa.5.1753101459980; Mon, 21 Jul 2025
- 05:37:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ik4oBaue"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753101567; x=1784637567;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=b3ULNAqMTaa3GycXLebSSB+FbJo2vAFaNs29OufAzvs=;
+  b=Ik4oBaueXbiU8uj+oYTMKXnZ+N39I9Mz4DTxerI6UfwYpwUzML+pyZUX
+   +OT4wjLC2hA7YCwvHNf9jy+qNvZY7C9v4HNTot+JuhVJhMsFLmmpQSDg+
+   km/yNv2WLOad20IyqI4VHPvK+xVVYg+0Ai4+8rWf41H9luhGIMC/OkRXk
+   T1XmD/RhID+E4Wk5XL4jLXhY//1HKel3o7bZNYl7V2HcjaG3WupaDt/pR
+   PaOY/456tmBB7Zw+vQnr2WgrUB41YIRusoPy6x/AcszTfxYBEPVB5raxC
+   sBkJMfnEVUPfdSQyQo+UnJqyoOFdpC0txOX+3IE12z9EmE7e0aN+GreAd
+   Q==;
+X-CSE-ConnectionGUID: O/hsViaIQPyySREyLbPOuA==
+X-CSE-MsgGUID: wlqxmCxLQlutneca6mlHIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55164354"
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
+   d="scan'208";a="55164354"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 05:39:27 -0700
+X-CSE-ConnectionGUID: kbXYQnfiReC4rnUbkH0Quw==
+X-CSE-MsgGUID: YzXnD63/RmCeS8EgEgE4eA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
+   d="scan'208";a="159556599"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 21 Jul 2025 05:39:25 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1udpnd-000GnX-0Q;
+	Mon, 21 Jul 2025 12:39:21 +0000
+Date: Mon, 21 Jul 2025 20:38:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aleksa Sarai <cyphar@cyphar.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH RFC 1/4] pidns: move is-ancestor logic to helper
+Message-ID: <202507212041.ZFGAHv2Z-lkp@intel.com>
+References: <20250721-procfs-pidns-api-v1-1-5cd9007e512d@cyphar.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202507211807.ZEFVLJ7e-lkp@intel.com>
-In-Reply-To: <202507211807.ZEFVLJ7e-lkp@intel.com>
-From: Sabyrzhan Tasbolatov <snovitoll@gmail.com>
-Date: Mon, 21 Jul 2025 17:37:21 +0500
-X-Gm-Features: Ac12FXwsLRoAqQ5xNYPN6yPQbHHqhjMMEW4TOYTa9_e5dtD636U50woPeE7Buoc
-Message-ID: <CACzwLxicmky4CRdmABtN8m2cr2EpuMxLPqeF5Hk375cN2Kvu-Q@mail.gmail.com>
-Subject: Re: [akpm-mm:mm-new 111/126] WARNING: modpost: vmlinux: section
- mismatch in reference: kasan_init+0x3b (section: .ltext) ->
- kasan_init_generic (section: .init.text)
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250721-procfs-pidns-api-v1-1-5cd9007e512d@cyphar.com>
 
-On Mon, Jul 21, 2025 at 3:51=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-ne=
-w
-> head:   1b0686bd18c1aa9d7f01943829faa5befe6ab3d1
-> commit: 27a653bc6bbf595a1ed3817ecf37239cbb768ba7 [111/126] kasan/um: sele=
-ct ARCH_DEFER_KASAN and call kasan_init_generic
-> config: um-randconfig-r132-20250721 (https://download.01.org/0day-ci/arch=
-ive/20250721/202507211807.ZEFVLJ7e-lkp@intel.com/config)
-> compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd70=
-8029e0b2869e80abe31ddb175f7c35361f90)
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250721/202507211807.ZEFVLJ7e-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507211807.ZEFVLJ7e-lkp=
-@intel.com/
->
-> All warnings (new ones prefixed by >>, old ones prefixed by <<):
->
-> >> WARNING: modpost: vmlinux: section mismatch in reference: kasan_init+0=
-x3b (section: .ltext) -> kasan_init_generic (section: .init.text)
+Hi Aleksa,
 
-I've mentioned about this in [1] cover letter,
-it's due to the code in arch/um/kernel/mem.c, where kasan_init()
-is placed in own section ".kasan_init", which calls kasan_init_generic()
-which is marked with "__init".
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build warnings:
 
-[1] https://lore.kernel.org/all/20250717142732.292822-1-snovitoll@gmail.com=
-/
+[auto build test WARNING on 4c838c7672c39ec6ec48456c6ce22d14a68f4cda]
 
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/Aleksa-Sarai/pidns-move-is-ancestor-logic-to-helper/20250721-164648
+base:   4c838c7672c39ec6ec48456c6ce22d14a68f4cda
+patch link:    https://lore.kernel.org/r/20250721-procfs-pidns-api-v1-1-5cd9007e512d%40cyphar.com
+patch subject: [PATCH RFC 1/4] pidns: move is-ancestor logic to helper
+config: x86_64-buildonly-randconfig-002-20250721 (https://download.01.org/0day-ci/archive/20250721/202507212041.ZFGAHv2Z-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250721/202507212041.ZFGAHv2Z-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507212041.ZFGAHv2Z-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   kernel/pid_namespace.c: In function 'pidns_install':
+>> kernel/pid_namespace.c:410:31: warning: unused variable 'ancestor' [-Wunused-variable]
+     410 |         struct pid_namespace *ancestor, *new = to_pid_ns(ns);
+         |                               ^~~~~~~~
+
+
+vim +/ancestor +410 kernel/pid_namespace.c
+
+08d89b83697e22 Aleksa Sarai      2025-07-21  405  
+f2a8d52e0a4db9 Christian Brauner 2020-05-05  406  static int pidns_install(struct nsset *nsset, struct ns_common *ns)
+57e8391d327609 Eric W. Biederman 2010-03-07  407  {
+f2a8d52e0a4db9 Christian Brauner 2020-05-05  408  	struct nsproxy *nsproxy = nsset->nsproxy;
+57e8391d327609 Eric W. Biederman 2010-03-07  409  	struct pid_namespace *active = task_active_pid_ns(current);
+3c0411846118a5 Al Viro           2014-11-01 @410  	struct pid_namespace *ancestor, *new = to_pid_ns(ns);
+57e8391d327609 Eric W. Biederman 2010-03-07  411  
+5e4a08476b50fa Eric W. Biederman 2012-12-14  412  	if (!ns_capable(new->user_ns, CAP_SYS_ADMIN) ||
+f2a8d52e0a4db9 Christian Brauner 2020-05-05  413  	    !ns_capable(nsset->cred->user_ns, CAP_SYS_ADMIN))
+57e8391d327609 Eric W. Biederman 2010-03-07  414  		return -EPERM;
+57e8391d327609 Eric W. Biederman 2010-03-07  415  
+57e8391d327609 Eric W. Biederman 2010-03-07  416  	/*
+57e8391d327609 Eric W. Biederman 2010-03-07  417  	 * Only allow entering the current active pid namespace
+57e8391d327609 Eric W. Biederman 2010-03-07  418  	 * or a child of the current active pid namespace.
+57e8391d327609 Eric W. Biederman 2010-03-07  419  	 *
+57e8391d327609 Eric W. Biederman 2010-03-07  420  	 * This is required for fork to return a usable pid value and
+57e8391d327609 Eric W. Biederman 2010-03-07  421  	 * this maintains the property that processes and their
+57e8391d327609 Eric W. Biederman 2010-03-07  422  	 * children can not escape their current pid namespace.
+57e8391d327609 Eric W. Biederman 2010-03-07  423  	 */
+08d89b83697e22 Aleksa Sarai      2025-07-21  424  	if (!pidns_is_ancestor(new, active))
+57e8391d327609 Eric W. Biederman 2010-03-07  425  		return -EINVAL;
+57e8391d327609 Eric W. Biederman 2010-03-07  426  
+c2b1df2eb42978 Andy Lutomirski   2013-08-22  427  	put_pid_ns(nsproxy->pid_ns_for_children);
+c2b1df2eb42978 Andy Lutomirski   2013-08-22  428  	nsproxy->pid_ns_for_children = get_pid_ns(new);
+57e8391d327609 Eric W. Biederman 2010-03-07  429  	return 0;
+57e8391d327609 Eric W. Biederman 2010-03-07  430  }
+57e8391d327609 Eric W. Biederman 2010-03-07  431  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
