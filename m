@@ -1,464 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3503A2D0C82
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 12:12:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753099942; cv=none; b=Cf75ue0UMKdrkyF8ePhB//eo0/VRI4mh6TwakpPt4/PAdtVEzLQTIBK2Cr5VXlXA4bqdNtp8xOcj2CBIFkzx1IyEHAdENeRPXB/jFusihRuzPKceJYyz2uQOB73hkMU8iFo6zAZPECHcgfoxE9wQIEX9e0KNmsSDjO6+7zI9uvk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753099942; c=relaxed/simple;
-	bh=5PRsXo/IrfodUiHNDdknMSn3X/Czt7H4Tog+URgxaKY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kdLQXxgat/bOMXdYdGSWKaouwuDwRQXSEmrnPrfCpzpkds8KaOXsmro9p7hj4KkeSpTdLXuXYt+2ddUJP87NvqV3g90CpdzXvAiYR49hCgpDiFL2topmvg6X0KtEEVNB1VoOfaUtQJaOPI+Z1KBF3QpyBEEnO4tRZxYhSMDN2mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K4DpVx98; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91B6A1A3150
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 12:16:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753100170; cv=fail; b=YmqHVBLPfvrF6q/CfPmDn+yV4GAvIN/pudB6BeyAHz8wacTaPYZDYHx/tkBkD45aZE2XFCkTu9A4WPUJYD7pZkxW/UH8AmUWUAskn/+lNq1dpxy98YVAcEbVtqG1t6cBTllRXXyMd9y3TBlwR54gmVYFC/3PhfHQN+j5/5oJPX8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753100170; c=relaxed/simple;
+	bh=ZJMEvn9xA3UgQyg4SrdW06AqfD3w+RfJnc/VMhDCXJI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=bDTKg5RFiPGG4HkQBn84i5cEaZS/xPkZeI3tHhrMnCaTTVZADZxQllKvjauxGMn2e4oseBN7LVP8GELtq8m9YRfM1n0Hj5G0LWptPhjV9zM1iBVdXUiQS/TA0WSBuQEXBVSWR8yhUYpd4MKPouPVRVkkNyfRcnhOMqYEKVkiyxw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=pDK/mWCS; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=uuIdPqxc; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K4DpVx98"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753099940; x=1784635940;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=5PRsXo/IrfodUiHNDdknMSn3X/Czt7H4Tog+URgxaKY=;
-  b=K4DpVx98Pu6CK4wwEmOaky8YZzJfJ31XEm1myFeern6WBWuggblTe6bF
-   vnGk5BNDEmLvMS36oiQZ0Dw4IzG51+aexpzzIgJp3gBfE8a4LwY6vzh9E
-   QVa9LrQ+RQUKn5eGyM3/49UZv0tgudX4w98fwaYcrGwcRa4RurMU8Irp1
-   kbPhdXX3UGwQ0r+fviTc4yjKS+UJZ6VxHidDtJbsRs1Un/RE7Yycw64TA
-   G74A5a+t69djMX9jGcJIU0BwPhvvhRQO63l4RlsrqkpX3HudApU53LOGT
-   kboJX4KCaPU8kIE2fts6iiQ9eF4K/9UVL+FhHU28KG4e+YZEJ4ScUIrs1
-   A==;
-X-CSE-ConnectionGUID: Vyb2GaIrQwSHmQ6NF1+zuQ==
-X-CSE-MsgGUID: B3l+6sYOQWawHhYBGQURBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="66660986"
-X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="66660986"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 05:12:18 -0700
-X-CSE-ConnectionGUID: kUcdyTdtQRi2SHdcZxF9YA==
-X-CSE-MsgGUID: DAoLJVhITkS97wGfn7lgJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="159373079"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 21 Jul 2025 05:12:17 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1udpNO-000Gmb-2n;
-	Mon, 21 Jul 2025 12:12:14 +0000
-Date: Mon, 21 Jul 2025 20:11:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jolsa-perf:bpf/tracing_multi 13/22]
- arch/riscv/net/bpf_jit_comp64.c:1010:49: warning: 'struct bpf_tramp_links'
- declared inside parameter list will not be visible outside of this
- definition or declaration
-Message-ID: <202507212035.fgXzf5Ju-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="pDK/mWCS";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="uuIdPqxc"
+Received: from pps.filterd (m0246630.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 56LBBvDs009925;
+	Mon, 21 Jul 2025 12:15:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=ZJMEvn9xA3UgQyg4Sr
+	dW06AqfD3w+RfJnc/VMhDCXJI=; b=pDK/mWCSagiNiBhy/P7GCR7LtVsDNlk/xX
+	u1irkI2nBfUj3UQKku2K8Sv1rhUYlHhVAcN2aAj+K9Yv6loMmZWnQpwPPmeD1+Lk
+	HQSPT1Duv4eiuLwhfc1rggK3OEE/47T4GvamQsw9xkogcyZcbAUmxekirRlb08KE
+	9H0VCT9WnP5LHdLmVP6ntMMQJdjTScsHQCwnElgIvLXCw9zgNVlGwDmU4l7mtKcU
+	9PmPeUGH8nKI3j0VZxgj7UyiCb/0CIEx2S4BkTPMowFPjLQP6+a7LYaaWxKrTilz
+	5fO1XXNwsbr2oXv73vsZru3oGj8ktnlGnyj8t5s/YvLR95ft6KAg==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 480576jea5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 21 Jul 2025 12:15:38 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 56LALoCk014581;
+	Mon, 21 Jul 2025 12:15:38 GMT
+Received: from nam04-dm6-obe.outbound.protection.outlook.com (mail-dm6nam04on2043.outbound.protection.outlook.com [40.107.102.43])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4801te88qj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 21 Jul 2025 12:15:38 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=h0cwRKEM1x1auLn28fLL7fCGZ2m85vFig7bSzWJFxBnRHPyEHY8hKqIOif2YpetVgvP+G+o6eM3d/vW1r0fhoSqo51HxWPX1vwBfGIqjy1EdtNOcl0XD0fxA++5gq4UoLjVP4s+HeP5f8okMOOVi2SHex5DueelyjjtoiI6TC0EnZD6up7xfotjPdHpVVA9eY4TVeIexiKOe2gEvk2brT9fq81HQ9LY3fEzbuWA3Do4fE3Z9Q3r/YbkxGKbcUPC8x2Iz+oRNAdTrg9OsMq6sbsneooUWKiJ2zt4WKRaVZYZq6tGg9pBG604HrnXRmpltwz3sjalvLxeW5mr3oCt0fg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZJMEvn9xA3UgQyg4SrdW06AqfD3w+RfJnc/VMhDCXJI=;
+ b=WKSzSs//TqJUbN1Uw65gAthETxJPRfr7Mqa/x83McQdbIMIiX+Ye5NGuJ9fhgX86cZc3rV9GUfF25ioQBraXTRKxkqEy0gKwgxEbZ68InFwyQ4xg7E4q0ftN5Wjpr1ekZGmEjjSJyrTn1VUpRGkbzZqxnuKz0ZzGLqzB0+q5khIYQdv1f4V/Se1yq8OAFvU5SYTBFYO6v+3K1o7HlJMAy6+fUpnG8GHBDNzkrtrAt43SHoSQnd2JfYsP30XjM8FE5X3MJ7stukyvKZ/qGTuEic9d7OZQd2uAcgPilqxmOz9sq7IguH+M/eOTo750ysERjW9oRETC+FKeuzNzXyDx8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZJMEvn9xA3UgQyg4SrdW06AqfD3w+RfJnc/VMhDCXJI=;
+ b=uuIdPqxc0pQn+WhAKpIlOYY0Ioozp1e6xe3MHLyMEEb7yKmVmKQIYHUJcleUxRFY04H1coN396WflNUgWGY7YQjJJlgUrcrimm7gRvA9iwWoRtPYJJoa8kSTPDitCACVnKdkdg0570x+0JASoKbFqXVQUUzx1PxmJXE/yPqkCek=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by CH3PR10MB7929.namprd10.prod.outlook.com (2603:10b6:610:1ca::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8943.30; Mon, 21 Jul
+ 2025 12:15:35 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%4]) with mapi id 15.20.8943.029; Mon, 21 Jul 2025
+ 12:15:35 +0000
+Date: Mon, 21 Jul 2025 13:15:32 +0100
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Harry Yoo <harry.yoo@oracle.com>
+Cc: kernel test robot <lkp@intel.com>, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Dennis Zhou <dennis@kernel.org>, Tejun Heo <tj@kernel.org>,
+        Christoph Lameter <cl@linux-foundation.org>,
+        oe-kbuild-all@lists.linux.dev,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        "H . Peter Anvin" <hpa@zytor.com>,
+        Alexander Potapenko <glider@google.com>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Vincenzo Frascino <vincenzo.frascino@arm.com>,
+        Juergen Gross <jgross@suse.com>, Kevin Brodsky <kevin.brodsky@arm.com>,
+        Muchun Song <muchun.song@linux.dev>,
+        Oscar Salvador <osalvador@suse.de>,
+        Joao Martins <joao.m.martins@oracle.com>,
+        Jane Chu <jane.chu@oracle.com>, Alistair Popple <apopple@nvidia.com>,
+        Mike Rapoport <rppt@kernel.org>, David Hildenbrand <david@redhat.com>,
+        Gwan-gyeong Mun <gwan-gyeong.mun@intel.com>,
+        "Aneesh Kumar K . V" <aneesh.kumar@linux.ibm.com>
+Subject: Re: [PATCH v2 mm-hotfixes 1/5] mm: move page table sync declarations
+ to asm/pgalloc.h
+Message-ID: <6d7571ca-9b10-404a-8624-0b0be3afaa73@lucifer.local>
+References: <20250720234203.9126-2-harry.yoo@oracle.com>
+ <202507211129.Xbn2bAOg-lkp@intel.com>
+ <50acb1ec-7b36-4073-8604-3132ef1e0447@lucifer.local>
+ <aH4uPI306ITiot7P@harry>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aH4uPI306ITiot7P@harry>
+X-ClientProxiedBy: LO4P123CA0231.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a6::20) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|CH3PR10MB7929:EE_
+X-MS-Office365-Filtering-Correlation-Id: 53e05303-1216-45ee-b176-08ddc8504bff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?k2zV99V37FB5U2T5sUPcigzMjixEKLEzSilsmMF2bqIm+sCtT0a8LzdCJLVl?=
+ =?us-ascii?Q?su4wuXdRBX1KFLKscxvoUyAdlc7DaxW+KPLrbtYumgHVlj3B7WE300i7cT+P?=
+ =?us-ascii?Q?4dwprQvMWDU7ILEiSHhOdyZnqrPQFPYGKr2lKSiAsxviSGSKAmKO75nHO6W5?=
+ =?us-ascii?Q?agt+IaBRDWKNpoADE1jfTpMJYxXlBFN3CIpn1u/HEeXVViMq+Xbtz4kRsupM?=
+ =?us-ascii?Q?6H3eghmRTFsXg+ZIx9IubNfLMFVhAYwVtBG9jDATNS67O1yKsXNcwsVWsOzL?=
+ =?us-ascii?Q?EBDIwhJo0FacIYN97dLnYF2h7801OE3CZqUpVNRCMxZgH47253vExoh8ZUkp?=
+ =?us-ascii?Q?YaLqn3VPHhHaaAMKc6pLLA8kChHDpTXox4hK277m9uOF2xTbOcfmcz+vo+VB?=
+ =?us-ascii?Q?1dn9umHF7qvLfe77ZzsKgk2224CbGvuRl/HSZVbHa020otLqdGrnvlSSVI8K?=
+ =?us-ascii?Q?hy5ztuxv/BJQuhgnB0EFOpkwgKSzkpXoQmSHHzRYkw8+Y36JaNR4tslzmshI?=
+ =?us-ascii?Q?uqmk4pMlMXTwA/oGOFKkHujCpoPYVpn0rnaHrDNBYX8BpMw55Xo3OJXQ3Okv?=
+ =?us-ascii?Q?olaSRpOtS2QvLpkkZi1YMwbqO8jsZT67clV2LPbPBM5zQW1iSdiFUPCf6SHJ?=
+ =?us-ascii?Q?Jz1GnWAfXMfU8gvh+eeopA3cmhE9dBPOoOfY21Puv7fRom0KjBdkotdLTvYl?=
+ =?us-ascii?Q?OA+04VwcEVXiAsCna2IgDusQ8vS9hOzn0mywUczXUgqAb8h8tPyQDlN/ewd2?=
+ =?us-ascii?Q?AeZVjM38Z4fTLO8DGx1XAGfZgAY1Tj2eLilbZ8SfesxlaBAha9gc4GoUvch2?=
+ =?us-ascii?Q?N2Qd7Fi1NeudbcRfwk1tMy67xhl0RQ3muCAuvpZKlxzjS/2thLxoZfXbCEH5?=
+ =?us-ascii?Q?uf7w3yNaz1D/aQ7S+Og5edLJ6KwvFc+3EnP8ERN9fLeuMPRK7H3IdU/I8xDZ?=
+ =?us-ascii?Q?2ehyIunSTI+Tcio7oqhp9jdg7FbKVEjw8XQrdbpPtO/URBSydNtp6g0kHFkM?=
+ =?us-ascii?Q?/lEALLcnltQEGt0qXLKT2we0yJkY453PzgL71GDE58y6defuEjgpSX2r/+p4?=
+ =?us-ascii?Q?iao6lGN514jmUIGJzzys3JMBGgsHpEX+tO76As8PoCaHtbVs5/8cN7GS0sj+?=
+ =?us-ascii?Q?0tH6kxQu0yBjbbrXSr7aQ3TMaFoI3nySx+BKGob9ARnV7reeySUBWZvgQ72t?=
+ =?us-ascii?Q?gvwt25BQvRwrBSsXUO7nrqn6t8fnVq1k1+V/yxw4rGSGE6r0siYZxXloz+eJ?=
+ =?us-ascii?Q?VC4fIJpUwWqXo9VepJjSek7M8jVqzDt40jJgacC/KxngxsNy9nwveOAT+xsk?=
+ =?us-ascii?Q?4KtgmzMdel5Eq49/JjlNqzZIB9bW6Nfetgxl36Z3K4iD4J0P7+T4SoX3XwHD?=
+ =?us-ascii?Q?dMnYryMrnGjKOtem8Id4dbahPBdOLSsSjoHpGlZ8H8lGzUNwAwrTu1Q7XVyA?=
+ =?us-ascii?Q?org6+s9smxo=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?ZrhNG8mN9HVVx2RcvO1v0LtpxcF985rfgdGnSKsX2W/Bnpt7jWOzaG6sBTqV?=
+ =?us-ascii?Q?YOMBtULM5WLTs3oNYZhUbkuYpwofReLuHGCFAIDCtbFlFr3smxQSimySBRuc?=
+ =?us-ascii?Q?CRn0UgeygxNNZ3u47l+edIMluHNe6PNKoDveni+cwAC3r/9khuQ6nuqFV78K?=
+ =?us-ascii?Q?PtW/E8tDg38M4lTPT8jUk/2zOPv0LZqswGI8LDbR+iuiucbtYl6p83ZLcqRA?=
+ =?us-ascii?Q?iaUVBxc99dEzDx8nTAYYgi94f4PWQXjLlkQp7krZbHrWapa7xZtck3P9WsDi?=
+ =?us-ascii?Q?vzVaVwQZMzEwQCHHDDSN/yymvstyb5oVf+8O2i832C6lrWWlQ+bpBVczo4Xc?=
+ =?us-ascii?Q?wf3N/MC4ksaQmdvsAU2bYkRNeq/UlIlIiMXAwxcJ56AxXakUJFh2JK5I37Hf?=
+ =?us-ascii?Q?xdW5yKtZEw9F1ZeXn24UkO37/vgNPNYgVQ+cjZ49MYhommUJcdy1nyweJ9hJ?=
+ =?us-ascii?Q?q+wX5sEnBt1Pv3oUtvO/qXFscHsQm43RKDWEges1NkpBdRcz1J44sAyVinNB?=
+ =?us-ascii?Q?tjl9jzoZ3pGJOtNDp9k0AteTtLatihx6w3DpzMvDU+wMXsNo0cCl49/ijVsY?=
+ =?us-ascii?Q?rNq+AHJrNA9rL8EAMjSr95RwSXDNhUh8YbaAuDwPczjqnMh46D9FRcePZcJk?=
+ =?us-ascii?Q?NMpOG158KEIdvRl6zLBS+2OmcpWObcHWxu0f75g0znveK3Q1h3Y9GpM+G8/Q?=
+ =?us-ascii?Q?oCQ0AWtY5JjAK4WZ9GcdDovP0YWsfqtGC7NBcYgynE1FSyLZKaC7Wqa1tViD?=
+ =?us-ascii?Q?5zctMJx1BGTimjw1yJiNHr2Ej4GoxoprEw1F9MxGJYoCc4UqJ7xl1NzfkHFP?=
+ =?us-ascii?Q?mu8EJ7pbgLvfZKuTzmJQk+GPAohLsf8ZcGSnNdraPXGur4WboggE54nPHPZ9?=
+ =?us-ascii?Q?5kL269lH36MN9EBtB9WBFht6xzYwOoqJSoI3a5SgGBFmzd/iPcWyDtLajgyi?=
+ =?us-ascii?Q?3EHGRldBStAkJsRxnL5CR/FtLP6HZ8lSPBXr6cR5CbO+v4+84NwdH33ql30P?=
+ =?us-ascii?Q?XZlmKWYzPFdgpb3WiWvj3IHZUXOgeEo97zFN/Na3Vzea4dMbXb1teGd+mBQA?=
+ =?us-ascii?Q?VBj2xiYYe8rZFV8imcGWpKBYY0f8vGLt7Ihc8jiucbz/CVWSiRV4x7lylE8K?=
+ =?us-ascii?Q?ppr6YU0dW/1jEY7+PNJDtAdj3QKqRUElRRhRwVQRyFfw971z1W5AyN8fukp+?=
+ =?us-ascii?Q?b1ePtr8mE5h5/Kk5S94wHURVOEFsSkreh2oGGynpSjubaI0b5oPM5Sits73p?=
+ =?us-ascii?Q?9E6iLOKmdcaBvPbipJWZaJlURrA8ig5WH/1dnGuhU5FqtAO3cIaM0mvu8Ot6?=
+ =?us-ascii?Q?8RiVenR8hQYS2ClkET9BW6Z2Z2YD0Rtl9osRUQesyBvza3NKQu8HuqxBdPd/?=
+ =?us-ascii?Q?WMNjef5hitM6UeXOpUkNCMzvGj+HkCep/C3p3PptOHW4RHnRIwxERg6VWoj2?=
+ =?us-ascii?Q?rWyCSi0f2YCu7Jxja1FQhopxe3OYG07MwuISIrpUX7wdMzeJtIejKlNBgMiW?=
+ =?us-ascii?Q?yL2bVla9FzYaR0x5gCaCgaUnNVg1jiCw0wjg92uCybNm7MYOkYza/vUROYde?=
+ =?us-ascii?Q?ztPRsFaF6qu90crEqbqepiiXXcCBtmEEfJMcOn2mcPn4VUAmtQ+p52MJrH8r?=
+ =?us-ascii?Q?/g=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	/SwK96PUuBi0SXcoXalY8MM3uJ8u47y+ct89Q6c17NURo5EWbVTyzSX27U0t9eqFxz69mDT7eJS1YcYylSPmFq1Wg8nyQW5Ha68fK+m5/RlYdlhNNAzgt3zUycaqiyvD+35vHK/qpemws7tqIjkLxbNZof5YpfNm0meEPwDmGXqcSHuAh2gZLzcB6qZrfJ4TNuglf5WAyVpvdfhkmv/aJh73Z9sZNrbGSMZyEG2vocrjSLDrpEoLC8hukf76IAn2HF1cW/RI9xB1Hdbv2bfyQpJJwcAwlEZN+T99rL8lrAAMQWvF+LXTnmu47tWLcIsYd+clET4L8ku/2BJ1IuNN2ivJ8+cbvwnKgMMiGpd/p8Gao4JGso++2zVOdBEZOaVOuu1rPk6N4fk6w/e56hPE795xTj74LVeP6JSjJFB9cWs8bR8LUhCLg+qXSpPinmOBZik050IF9m9gMzaPDbKHa341qugwXujWsed1e8h767nnmYws5W+2Yms0DEy6+RCnpydgzhm8ObjafBdG+ip94e3NmrFBCXtuB+g2HXdTDFk60mukIh9Wbme6ZxryNwqOfNPGpvswQfXzUURRF7u8J0cMJDKItOi/6/NONkWVIEc=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53e05303-1216-45ee-b176-08ddc8504bff
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jul 2025 12:15:35.5242
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wGRRWhr3UIZSb0eNnxtI5hkmtWiXDiz1YXlowKy4QRhQjxUhnF40UdiT3rXJZC67NqeL3DSgLeyB4ipoTeNl+EG9NXf9nXMYbAfIKbQ7S3o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR10MB7929
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-07-21_03,2025-07-21_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 adultscore=0 bulkscore=0
+ suspectscore=0 mlxscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2505160000
+ definitions=main-2507210108
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNzIxMDEwOSBTYWx0ZWRfXyWvoT73+4uS6
+ UIHUg+qoo8m1LE6REvDTA8cFZ1PjdyCpkTeQKQtv+v6SojQyDqIGHka6lusxGyD4O3cP64bGYRm
+ RdeCrKblXnPbIV05AxbHYbCZ83J+PrpR6rjlTPutIk5j0QmKifyvOggIYoHb4vpkWE3QgU3GOBT
+ C4iOwlT+Pdh6MNLaXPd4lLEnGs5hX3Xlkn0Mn7wEpXwHtw12TL5fou/uwcs/JrT7oF/MV0215jg
+ QFOcHLF27t/k4cCRwqqEw/XEAJfMrKpYdwHWFpR3FwevWyt8C+bpMx+wPCB0kTKNzmDmMcNC5HI
+ 5W5hVK93FYu4HVCUdj3zZhuK14HYFdlg84B4uAnfjWDxKzw8Y/s9BQPwxiHrr3107j1WD0ORMoj
+ EtSRyiCVeui1IR1fgL6lzy08gEkWjW/EikYT/qGzODrhIoWnE9YFdKFsUuoX4V6FnFbzrEXA
+X-Authority-Analysis: v=2.4 cv=doDbC0g4 c=1 sm=1 tr=0 ts=687e2f6a b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Wb1JkmetP80A:10 a=GoEa3M9JfhUA:10
+ a=lEVoNo0Albt-7K44qIEA:9 a=CjuIK1q_8ugA:10 cc=ntf awl=host:12061
+X-Proofpoint-GUID: lNgYvocKS5hG26vk7_yJhp0ovW5SQmLn
+X-Proofpoint-ORIG-GUID: lNgYvocKS5hG26vk7_yJhp0ovW5SQmLn
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git bpf/tracing_multi
-head:   d0503d4013c49a3fde856947dfffe6c80c178eb1
-commit: d6d4068c9dbaa7c77d3fc2d3e0d8ae03a9eac775 [13/22] bpf: Add struct bpf_tramp_node object
-config: riscv-randconfig-r122-20250721 (https://download.01.org/0day-ci/archive/20250721/202507212035.fgXzf5Ju-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 15.1.0
-reproduce: (https://download.01.org/0day-ci/archive/20250721/202507212035.fgXzf5Ju-lkp@intel.com/reproduce)
+On Mon, Jul 21, 2025 at 09:10:36PM +0900, Harry Yoo wrote:
+> Yeah, I only tested it on x86-64 (with 4 & 5 level paging)..
+> I was unware that I was breaking x86-32.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507212035.fgXzf5Ju-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   arch/riscv/net/bpf_jit_comp64.c: In function 'invoke_bpf_prog':
-   arch/riscv/net/bpf_jit_comp64.c:951:14: error: 'struct bpf_tramp_link' has no member named 'cookie'
-     951 |         if (l->cookie) {
-         |              ^~
-   arch/riscv/net/bpf_jit_comp64.c:952:38: error: 'struct bpf_tramp_link' has no member named 'cookie'
-     952 |                 emit_imm(RV_REG_T1, l->cookie, ctx);
-         |                                      ^~
-   arch/riscv/net/bpf_jit_comp64.c: At top level:
->> arch/riscv/net/bpf_jit_comp64.c:1010:49: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
-    1010 |                                          struct bpf_tramp_links *tlinks,
-         |                                                 ^~~~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c: In function '__arch_prepare_bpf_trampoline':
-   arch/riscv/net/bpf_jit_comp64.c:1018:49: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1018 |         struct bpf_tramp_links *fentry = &tlinks[BPF_TRAMP_FENTRY];
-         |                                                 ^
-   arch/riscv/net/bpf_jit_comp64.c:1019:48: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1019 |         struct bpf_tramp_links *fexit = &tlinks[BPF_TRAMP_FEXIT];
-         |                                                ^
-   arch/riscv/net/bpf_jit_comp64.c:1020:51: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1020 |         struct bpf_tramp_links *fmod_ret = &tlinks[BPF_TRAMP_MODIFY_RETURN];
-         |                                                   ^
-   arch/riscv/net/bpf_jit_comp64.c:1163:31: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1163 |         for (i = 0; i < fentry->nr_links; i++) {
-         |                               ^~
-   arch/riscv/net/bpf_jit_comp64.c:1164:45: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1164 |                 ret = invoke_bpf_prog(fentry->links[i], args_off, retval_off, run_ctx_off,
-         |                                             ^~
-   arch/riscv/net/bpf_jit_comp64.c:1170:21: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1170 |         if (fmod_ret->nr_links) {
-         |                     ^~
-   In file included from include/linux/percpu.h:5,
-                    from include/linux/bpf.h:12,
-                    from arch/riscv/net/bpf_jit_comp64.c:9:
-   arch/riscv/net/bpf_jit_comp64.c:1171:48: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1171 |                 branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-         |                                                ^~
-   include/linux/alloc_tag.h:239:16: note: in definition of macro 'alloc_hooks_tag'
-     239 |         typeof(_do_alloc) _res;                                         \
-         |                ^~~~~~~~~
-   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
-     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:989:41: note: in expansion of macro 'kmalloc_array'
-     989 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1171:32: note: in expansion of macro 'kcalloc'
-    1171 |                 branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-         |                                ^~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1171:48: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1171 |                 branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-         |                                                ^~
-   include/linux/alloc_tag.h:243:24: note: in definition of macro 'alloc_hooks_tag'
-     243 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
-     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:989:41: note: in expansion of macro 'kmalloc_array'
-     989 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1171:32: note: in expansion of macro 'kcalloc'
-    1171 |                 branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-         |                                ^~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1171:48: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1171 |                 branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-         |                                                ^~
-   include/linux/alloc_tag.h:246:24: note: in definition of macro 'alloc_hooks_tag'
-     246 |                 _res = _do_alloc;                                       \
-         |                        ^~~~~~~~~
-   include/linux/slab.h:950:49: note: in expansion of macro 'alloc_hooks'
-     950 | #define kmalloc_array(...)                      alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
-         |                                                 ^~~~~~~~~~~
-   include/linux/slab.h:989:41: note: in expansion of macro 'kmalloc_array'
-     989 | #define kcalloc(n, size, flags)         kmalloc_array(n, size, (flags) | __GFP_ZERO)
-         |                                         ^~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1171:32: note: in expansion of macro 'kcalloc'
-    1171 |                 branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-         |                                ^~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1171:30: error: assignment to 'int *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1171 |                 branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-         |                              ^
-   arch/riscv/net/bpf_jit_comp64.c:1177:41: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1177 |                 for (i = 0; i < fmod_ret->nr_links; i++) {
-         |                                         ^~
-   arch/riscv/net/bpf_jit_comp64.c:1178:55: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1178 |                         ret = invoke_bpf_prog(fmod_ret->links[i], args_off, retval_off,
-         |                                                       ^~
-   arch/riscv/net/bpf_jit_comp64.c:1204:47: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1204 |         for (i = 0; ctx->insns && i < fmod_ret->nr_links; i++) {
-         |                                               ^~
-   arch/riscv/net/bpf_jit_comp64.c:1210:30: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1210 |         for (i = 0; i < fexit->nr_links; i++) {
-         |                              ^~
-   arch/riscv/net/bpf_jit_comp64.c:1211:44: error: invalid use of undefined type 'struct bpf_tramp_links'
-    1211 |                 ret = invoke_bpf_prog(fexit->links[i], args_off, retval_off,
-         |                                            ^~
-   arch/riscv/net/bpf_jit_comp64.c: At top level:
-   arch/riscv/net/bpf_jit_comp64.c:1267:37: warning: 'struct bpf_tramp_links' declared inside parameter list will not be visible outside of this definition or declaration
-    1267 |                              struct bpf_tramp_links *tlinks, void *func_addr)
-         |                                     ^~~~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c:1266:5: error: conflicting types for 'arch_bpf_trampoline_size'; have 'int(const struct btf_func_model *, u32,  struct bpf_tramp_links *, void *)' {aka 'int(const struct btf_func_model *, unsigned int,  struct bpf_tramp_links *, void *)'}
-    1266 | int arch_bpf_trampoline_size(const struct btf_func_model *m, u32 flags,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/bpf.h:1209:5: note: previous declaration of 'arch_bpf_trampoline_size' with type 'int(const struct btf_func_model *, u32,  struct bpf_tramp_nodes *, void *)' {aka 'int(const struct btf_func_model *, unsigned int,  struct bpf_tramp_nodes *, void *)'}
-    1209 | int arch_bpf_trampoline_size(const struct btf_func_model *m, u32 flags,
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   arch/riscv/net/bpf_jit_comp64.c: In function 'arch_bpf_trampoline_size':
-   arch/riscv/net/bpf_jit_comp64.c:1276:53: error: passing argument 3 of '__arch_prepare_bpf_trampoline' from incompatible pointer type [-Wincompatible-pointer-types]
-    1276 |         ret = __arch_prepare_bpf_trampoline(&im, m, tlinks, func_addr, flags, &ctx);
-
-
-vim +1010 arch/riscv/net/bpf_jit_comp64.c
-
-49b5e77ae3e214 Pu Lehui       2023-02-15  1007  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1008  static int __arch_prepare_bpf_trampoline(struct bpf_tramp_image *im,
-49b5e77ae3e214 Pu Lehui       2023-02-15  1009  					 const struct btf_func_model *m,
-49b5e77ae3e214 Pu Lehui       2023-02-15 @1010  					 struct bpf_tramp_links *tlinks,
-49b5e77ae3e214 Pu Lehui       2023-02-15  1011  					 void *func_addr, u32 flags,
-49b5e77ae3e214 Pu Lehui       2023-02-15  1012  					 struct rv_jit_context *ctx)
-49b5e77ae3e214 Pu Lehui       2023-02-15  1013  {
-49b5e77ae3e214 Pu Lehui       2023-02-15  1014  	int i, ret, offset;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1015  	int *branches_off = NULL;
-6801b0aef79db4 Pu Lehui       2024-07-02  1016  	int stack_size = 0, nr_arg_slots = 0;
-6801b0aef79db4 Pu Lehui       2024-07-02  1017  	int retval_off, args_off, nregs_off, ip_off, run_ctx_off, sreg_off, stk_arg_off;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1018  	struct bpf_tramp_links *fentry = &tlinks[BPF_TRAMP_FENTRY];
-49b5e77ae3e214 Pu Lehui       2023-02-15  1019  	struct bpf_tramp_links *fexit = &tlinks[BPF_TRAMP_FEXIT];
-49b5e77ae3e214 Pu Lehui       2023-02-15  1020  	struct bpf_tramp_links *fmod_ret = &tlinks[BPF_TRAMP_MODIFY_RETURN];
-1732ebc4a26181 Pu Lehui       2024-01-23  1021  	bool is_struct_ops = flags & BPF_TRAMP_F_INDIRECT;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1022  	void *orig_call = func_addr;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1023  	bool save_ret;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1024  	u32 insn;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1025  
-25ad10658dc106 Pu Lehui       2023-07-21  1026  	/* Two types of generated trampoline stack layout:
-25ad10658dc106 Pu Lehui       2023-07-21  1027  	 *
-25ad10658dc106 Pu Lehui       2023-07-21  1028  	 * 1. trampoline called from function entry
-25ad10658dc106 Pu Lehui       2023-07-21  1029  	 * --------------------------------------
-25ad10658dc106 Pu Lehui       2023-07-21  1030  	 * FP + 8	    [ RA to parent func	] return address to parent
-25ad10658dc106 Pu Lehui       2023-07-21  1031  	 *					  function
-25ad10658dc106 Pu Lehui       2023-07-21  1032  	 * FP + 0	    [ FP of parent func ] frame pointer of parent
-25ad10658dc106 Pu Lehui       2023-07-21  1033  	 *					  function
-25ad10658dc106 Pu Lehui       2023-07-21  1034  	 * FP - 8           [ T0 to traced func ] return address of traced
-25ad10658dc106 Pu Lehui       2023-07-21  1035  	 *					  function
-25ad10658dc106 Pu Lehui       2023-07-21  1036  	 * FP - 16	    [ FP of traced func ] frame pointer of traced
-25ad10658dc106 Pu Lehui       2023-07-21  1037  	 *					  function
-25ad10658dc106 Pu Lehui       2023-07-21  1038  	 * --------------------------------------
-49b5e77ae3e214 Pu Lehui       2023-02-15  1039  	 *
-25ad10658dc106 Pu Lehui       2023-07-21  1040  	 * 2. trampoline called directly
-25ad10658dc106 Pu Lehui       2023-07-21  1041  	 * --------------------------------------
-25ad10658dc106 Pu Lehui       2023-07-21  1042  	 * FP - 8	    [ RA to caller func ] return address to caller
-49b5e77ae3e214 Pu Lehui       2023-02-15  1043  	 *					  function
-25ad10658dc106 Pu Lehui       2023-07-21  1044  	 * FP - 16	    [ FP of caller func	] frame pointer of caller
-49b5e77ae3e214 Pu Lehui       2023-02-15  1045  	 *					  function
-25ad10658dc106 Pu Lehui       2023-07-21  1046  	 * --------------------------------------
-49b5e77ae3e214 Pu Lehui       2023-02-15  1047  	 *
-49b5e77ae3e214 Pu Lehui       2023-02-15  1048  	 * FP - retval_off  [ return value      ] BPF_TRAMP_F_CALL_ORIG or
-49b5e77ae3e214 Pu Lehui       2023-02-15  1049  	 *					  BPF_TRAMP_F_RET_FENTRY_RET
-49b5e77ae3e214 Pu Lehui       2023-02-15  1050  	 *                  [ argN              ]
-49b5e77ae3e214 Pu Lehui       2023-02-15  1051  	 *                  [ ...               ]
-49b5e77ae3e214 Pu Lehui       2023-02-15  1052  	 * FP - args_off    [ arg1              ]
-49b5e77ae3e214 Pu Lehui       2023-02-15  1053  	 *
-49b5e77ae3e214 Pu Lehui       2023-02-15  1054  	 * FP - nregs_off   [ regs count        ]
-49b5e77ae3e214 Pu Lehui       2023-02-15  1055  	 *
-49b5e77ae3e214 Pu Lehui       2023-02-15  1056  	 * FP - ip_off      [ traced func	] BPF_TRAMP_F_IP_ARG
-49b5e77ae3e214 Pu Lehui       2023-02-15  1057  	 *
-49b5e77ae3e214 Pu Lehui       2023-02-15  1058  	 * FP - run_ctx_off [ bpf_tramp_run_ctx ]
-49b5e77ae3e214 Pu Lehui       2023-02-15  1059  	 *
-49b5e77ae3e214 Pu Lehui       2023-02-15  1060  	 * FP - sreg_off    [ callee saved reg	]
-49b5e77ae3e214 Pu Lehui       2023-02-15  1061  	 *
-49b5e77ae3e214 Pu Lehui       2023-02-15  1062  	 *		    [ pads              ] pads for 16 bytes alignment
-6801b0aef79db4 Pu Lehui       2024-07-02  1063  	 *
-6801b0aef79db4 Pu Lehui       2024-07-02  1064  	 *		    [ stack_argN        ]
-6801b0aef79db4 Pu Lehui       2024-07-02  1065  	 *		    [ ...               ]
-6801b0aef79db4 Pu Lehui       2024-07-02  1066  	 * FP - stk_arg_off [ stack_arg1        ] BPF_TRAMP_F_CALL_ORIG
-49b5e77ae3e214 Pu Lehui       2023-02-15  1067  	 */
-49b5e77ae3e214 Pu Lehui       2023-02-15  1068  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1069  	if (flags & (BPF_TRAMP_F_ORIG_STACK | BPF_TRAMP_F_SHARE_IPMODIFY))
-49b5e77ae3e214 Pu Lehui       2023-02-15  1070  		return -ENOTSUPP;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1071  
-6801b0aef79db4 Pu Lehui       2024-07-02  1072  	if (m->nr_args > MAX_BPF_FUNC_ARGS)
-49b5e77ae3e214 Pu Lehui       2023-02-15  1073  		return -ENOTSUPP;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1074  
-6801b0aef79db4 Pu Lehui       2024-07-02  1075  	for (i = 0; i < m->nr_args; i++)
-6801b0aef79db4 Pu Lehui       2024-07-02  1076  		nr_arg_slots += round_up(m->arg_size[i], 8) / 8;
-6801b0aef79db4 Pu Lehui       2024-07-02  1077  
-25ad10658dc106 Pu Lehui       2023-07-21  1078  	/* room of trampoline frame to store return address and frame pointer */
-25ad10658dc106 Pu Lehui       2023-07-21  1079  	stack_size += 16;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1080  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1081  	save_ret = flags & (BPF_TRAMP_F_CALL_ORIG | BPF_TRAMP_F_RET_FENTRY_RET);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1082  	if (save_ret) {
-7112cd26e606c7 Björn Töpel    2023-10-04  1083  		stack_size += 16; /* Save both A5 (BPF R0) and A0 */
-49b5e77ae3e214 Pu Lehui       2023-02-15  1084  		retval_off = stack_size;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1085  	}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1086  
-6801b0aef79db4 Pu Lehui       2024-07-02  1087  	stack_size += nr_arg_slots * 8;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1088  	args_off = stack_size;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1089  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1090  	stack_size += 8;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1091  	nregs_off = stack_size;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1092  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1093  	if (flags & BPF_TRAMP_F_IP_ARG) {
-49b5e77ae3e214 Pu Lehui       2023-02-15  1094  		stack_size += 8;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1095  		ip_off = stack_size;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1096  	}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1097  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1098  	stack_size += round_up(sizeof(struct bpf_tramp_run_ctx), 8);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1099  	run_ctx_off = stack_size;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1100  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1101  	stack_size += 8;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1102  	sreg_off = stack_size;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1103  
-a5912c37faf723 Puranjay Mohan 2024-07-08  1104  	if ((flags & BPF_TRAMP_F_CALL_ORIG) && (nr_arg_slots - RV_MAX_REG_ARGS > 0))
-6801b0aef79db4 Pu Lehui       2024-07-02  1105  		stack_size += (nr_arg_slots - RV_MAX_REG_ARGS) * 8;
-6801b0aef79db4 Pu Lehui       2024-07-02  1106  
-e944fc8152744a Xiao Wang      2024-05-23  1107  	stack_size = round_up(stack_size, STACK_ALIGN);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1108  
-6801b0aef79db4 Pu Lehui       2024-07-02  1109  	/* room for args on stack must be at the top of stack */
-6801b0aef79db4 Pu Lehui       2024-07-02  1110  	stk_arg_off = stack_size;
-6801b0aef79db4 Pu Lehui       2024-07-02  1111  
-1732ebc4a26181 Pu Lehui       2024-01-23  1112  	if (!is_struct_ops) {
-25ad10658dc106 Pu Lehui       2023-07-21  1113  		/* For the trampoline called from function entry,
-25ad10658dc106 Pu Lehui       2023-07-21  1114  		 * the frame of traced function and the frame of
-25ad10658dc106 Pu Lehui       2023-07-21  1115  		 * trampoline need to be considered.
-25ad10658dc106 Pu Lehui       2023-07-21  1116  		 */
-25ad10658dc106 Pu Lehui       2023-07-21  1117  		emit_addi(RV_REG_SP, RV_REG_SP, -16, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1118  		emit_sd(RV_REG_SP, 8, RV_REG_RA, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1119  		emit_sd(RV_REG_SP, 0, RV_REG_FP, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1120  		emit_addi(RV_REG_FP, RV_REG_SP, 16, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1121  
-25ad10658dc106 Pu Lehui       2023-07-21  1122  		emit_addi(RV_REG_SP, RV_REG_SP, -stack_size, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1123  		emit_sd(RV_REG_SP, stack_size - 8, RV_REG_T0, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1124  		emit_sd(RV_REG_SP, stack_size - 16, RV_REG_FP, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1125  		emit_addi(RV_REG_FP, RV_REG_SP, stack_size, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1126  	} else {
-e63985ecd22681 Puranjay Mohan 2024-03-03  1127  		/* emit kcfi hash */
-e63985ecd22681 Puranjay Mohan 2024-03-03  1128  		emit_kcfi(cfi_get_func_hash(func_addr), ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1129  		/* For the trampoline called directly, just handle
-25ad10658dc106 Pu Lehui       2023-07-21  1130  		 * the frame of trampoline.
-25ad10658dc106 Pu Lehui       2023-07-21  1131  		 */
-25ad10658dc106 Pu Lehui       2023-07-21  1132  		emit_addi(RV_REG_SP, RV_REG_SP, -stack_size, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1133  		emit_sd(RV_REG_SP, stack_size - 8, RV_REG_RA, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1134  		emit_sd(RV_REG_SP, stack_size - 16, RV_REG_FP, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1135  		emit_addi(RV_REG_FP, RV_REG_SP, stack_size, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1136  	}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1137  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1138  	/* callee saved register S1 to pass start time */
-49b5e77ae3e214 Pu Lehui       2023-02-15  1139  	emit_sd(RV_REG_FP, -sreg_off, RV_REG_S1, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1140  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1141  	/* store ip address of the traced function */
-49b5e77ae3e214 Pu Lehui       2023-02-15  1142  	if (flags & BPF_TRAMP_F_IP_ARG) {
-49b5e77ae3e214 Pu Lehui       2023-02-15  1143  		emit_imm(RV_REG_T1, (const s64)func_addr, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1144  		emit_sd(RV_REG_FP, -ip_off, RV_REG_T1, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1145  	}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1146  
-6801b0aef79db4 Pu Lehui       2024-07-02  1147  	emit_li(RV_REG_T1, nr_arg_slots, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1148  	emit_sd(RV_REG_FP, -nregs_off, RV_REG_T1, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1149  
-6801b0aef79db4 Pu Lehui       2024-07-02  1150  	store_args(nr_arg_slots, args_off, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1151  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1152  	/* skip to actual body of traced function */
-49b5e77ae3e214 Pu Lehui       2023-02-15  1153  	if (flags & BPF_TRAMP_F_SKIP_FRAME)
-25ad10658dc106 Pu Lehui       2023-07-21  1154  		orig_call += RV_FENTRY_NINSNS * 4;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1155  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1156  	if (flags & BPF_TRAMP_F_CALL_ORIG) {
-9f1e16fb1fc982 Pu Lehui       2024-06-22  1157  		emit_imm(RV_REG_A0, ctx->insns ? (const s64)im : RV_MAX_COUNT_IMM, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1158  		ret = emit_call((const u64)__bpf_tramp_enter, true, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1159  		if (ret)
-49b5e77ae3e214 Pu Lehui       2023-02-15  1160  			return ret;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1161  	}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1162  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1163  	for (i = 0; i < fentry->nr_links; i++) {
-49b5e77ae3e214 Pu Lehui       2023-02-15  1164  		ret = invoke_bpf_prog(fentry->links[i], args_off, retval_off, run_ctx_off,
-49b5e77ae3e214 Pu Lehui       2023-02-15  1165  				      flags & BPF_TRAMP_F_RET_FENTRY_RET, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1166  		if (ret)
-49b5e77ae3e214 Pu Lehui       2023-02-15  1167  			return ret;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1168  	}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1169  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1170  	if (fmod_ret->nr_links) {
-49b5e77ae3e214 Pu Lehui       2023-02-15  1171  		branches_off = kcalloc(fmod_ret->nr_links, sizeof(int), GFP_KERNEL);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1172  		if (!branches_off)
-49b5e77ae3e214 Pu Lehui       2023-02-15  1173  			return -ENOMEM;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1174  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1175  		/* cleanup to avoid garbage return value confusion */
-49b5e77ae3e214 Pu Lehui       2023-02-15  1176  		emit_sd(RV_REG_FP, -retval_off, RV_REG_ZERO, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1177  		for (i = 0; i < fmod_ret->nr_links; i++) {
-49b5e77ae3e214 Pu Lehui       2023-02-15  1178  			ret = invoke_bpf_prog(fmod_ret->links[i], args_off, retval_off,
-49b5e77ae3e214 Pu Lehui       2023-02-15  1179  					      run_ctx_off, true, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1180  			if (ret)
-49b5e77ae3e214 Pu Lehui       2023-02-15  1181  				goto out;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1182  			emit_ld(RV_REG_T1, -retval_off, RV_REG_FP, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1183  			branches_off[i] = ctx->ninsns;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1184  			/* nop reserved for conditional jump */
-49b5e77ae3e214 Pu Lehui       2023-02-15  1185  			emit(rv_nop(), ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1186  		}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1187  	}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1188  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1189  	if (flags & BPF_TRAMP_F_CALL_ORIG) {
-6801b0aef79db4 Pu Lehui       2024-07-02  1190  		restore_args(min_t(int, nr_arg_slots, RV_MAX_REG_ARGS), args_off, ctx);
-6801b0aef79db4 Pu Lehui       2024-07-02  1191  		restore_stack_args(nr_arg_slots - RV_MAX_REG_ARGS, args_off, stk_arg_off, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1192  		ret = emit_call((const u64)orig_call, true, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1193  		if (ret)
-49b5e77ae3e214 Pu Lehui       2023-02-15  1194  			goto out;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1195  		emit_sd(RV_REG_FP, -retval_off, RV_REG_A0, ctx);
-7112cd26e606c7 Björn Töpel    2023-10-04  1196  		emit_sd(RV_REG_FP, -(retval_off - 8), regmap[BPF_REG_0], ctx);
-2382a405c581ae Pu Lehui       2024-06-22  1197  		im->ip_after_call = ctx->ro_insns + ctx->ninsns;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1198  		/* 2 nops reserved for auipc+jalr pair */
-49b5e77ae3e214 Pu Lehui       2023-02-15  1199  		emit(rv_nop(), ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1200  		emit(rv_nop(), ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1201  	}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1202  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1203  	/* update branches saved in invoke_bpf_mod_ret with bnez */
-49b5e77ae3e214 Pu Lehui       2023-02-15  1204  	for (i = 0; ctx->insns && i < fmod_ret->nr_links; i++) {
-49b5e77ae3e214 Pu Lehui       2023-02-15  1205  		offset = ninsns_rvoff(ctx->ninsns - branches_off[i]);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1206  		insn = rv_bne(RV_REG_T1, RV_REG_ZERO, offset >> 1);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1207  		*(u32 *)(ctx->insns + branches_off[i]) = insn;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1208  	}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1209  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1210  	for (i = 0; i < fexit->nr_links; i++) {
-49b5e77ae3e214 Pu Lehui       2023-02-15  1211  		ret = invoke_bpf_prog(fexit->links[i], args_off, retval_off,
-49b5e77ae3e214 Pu Lehui       2023-02-15  1212  				      run_ctx_off, false, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1213  		if (ret)
-49b5e77ae3e214 Pu Lehui       2023-02-15  1214  			goto out;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1215  	}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1216  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1217  	if (flags & BPF_TRAMP_F_CALL_ORIG) {
-2382a405c581ae Pu Lehui       2024-06-22  1218  		im->ip_epilogue = ctx->ro_insns + ctx->ninsns;
-9f1e16fb1fc982 Pu Lehui       2024-06-22  1219  		emit_imm(RV_REG_A0, ctx->insns ? (const s64)im : RV_MAX_COUNT_IMM, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1220  		ret = emit_call((const u64)__bpf_tramp_exit, true, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1221  		if (ret)
-49b5e77ae3e214 Pu Lehui       2023-02-15  1222  			goto out;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1223  	}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1224  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1225  	if (flags & BPF_TRAMP_F_RESTORE_REGS)
-6801b0aef79db4 Pu Lehui       2024-07-02  1226  		restore_args(min_t(int, nr_arg_slots, RV_MAX_REG_ARGS), args_off, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1227  
-7112cd26e606c7 Björn Töpel    2023-10-04  1228  	if (save_ret) {
-49b5e77ae3e214 Pu Lehui       2023-02-15  1229  		emit_ld(RV_REG_A0, -retval_off, RV_REG_FP, ctx);
-7112cd26e606c7 Björn Töpel    2023-10-04  1230  		emit_ld(regmap[BPF_REG_0], -(retval_off - 8), RV_REG_FP, ctx);
-7112cd26e606c7 Björn Töpel    2023-10-04  1231  	}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1232  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1233  	emit_ld(RV_REG_S1, -sreg_off, RV_REG_FP, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1234  
-1732ebc4a26181 Pu Lehui       2024-01-23  1235  	if (!is_struct_ops) {
-25ad10658dc106 Pu Lehui       2023-07-21  1236  		/* trampoline called from function entry */
-25ad10658dc106 Pu Lehui       2023-07-21  1237  		emit_ld(RV_REG_T0, stack_size - 8, RV_REG_SP, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1238  		emit_ld(RV_REG_FP, stack_size - 16, RV_REG_SP, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1239  		emit_addi(RV_REG_SP, RV_REG_SP, stack_size, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1240  
-25ad10658dc106 Pu Lehui       2023-07-21  1241  		emit_ld(RV_REG_RA, 8, RV_REG_SP, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1242  		emit_ld(RV_REG_FP, 0, RV_REG_SP, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1243  		emit_addi(RV_REG_SP, RV_REG_SP, 16, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1244  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1245  		if (flags & BPF_TRAMP_F_SKIP_FRAME)
-25ad10658dc106 Pu Lehui       2023-07-21  1246  			/* return to parent function */
-25ad10658dc106 Pu Lehui       2023-07-21  1247  			emit_jalr(RV_REG_ZERO, RV_REG_RA, 0, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1248  		else
-25ad10658dc106 Pu Lehui       2023-07-21  1249  			/* return to traced function */
-25ad10658dc106 Pu Lehui       2023-07-21  1250  			emit_jalr(RV_REG_ZERO, RV_REG_T0, 0, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1251  	} else {
-25ad10658dc106 Pu Lehui       2023-07-21  1252  		/* trampoline called directly */
-25ad10658dc106 Pu Lehui       2023-07-21  1253  		emit_ld(RV_REG_RA, stack_size - 8, RV_REG_SP, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1254  		emit_ld(RV_REG_FP, stack_size - 16, RV_REG_SP, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1255  		emit_addi(RV_REG_SP, RV_REG_SP, stack_size, ctx);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1256  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1257  		emit_jalr(RV_REG_ZERO, RV_REG_RA, 0, ctx);
-25ad10658dc106 Pu Lehui       2023-07-21  1258  	}
-49b5e77ae3e214 Pu Lehui       2023-02-15  1259  
-49b5e77ae3e214 Pu Lehui       2023-02-15  1260  	ret = ctx->ninsns;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1261  out:
-49b5e77ae3e214 Pu Lehui       2023-02-15  1262  	kfree(branches_off);
-49b5e77ae3e214 Pu Lehui       2023-02-15  1263  	return ret;
-49b5e77ae3e214 Pu Lehui       2023-02-15  1264  }
-49b5e77ae3e214 Pu Lehui       2023-02-15  1265  
-
-:::::: The code at line 1010 was first introduced by commit
-:::::: 49b5e77ae3e214acff4728595b4ac7bf776693ca riscv, bpf: Add bpf trampoline support for RV64
-
-:::::: TO: Pu Lehui <pulehui@huawei.com>
-:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+32-bit kernels need to die...
