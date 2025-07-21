@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36DC22EF5
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 12:02:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6705C1D54FE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 12:02:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753099339; cv=none; b=h+00oZworXzNs/HntVzS/+1kqFi2P0sR+RQLOiWsntY/ia1wjHheBM9K2kxnbOXE0pYM/8eWrzqhOuuZsb4OIIq+Etoqz1Q0UinFE01RMQGsC5ibllbTQM6Jek8OFsmURLbmb/Skz5lyqOPu0dluhKLDsYzkQ5hlSfjJfod/eao=
+	t=1753099340; cv=none; b=GNwto19G7+4GVbzEQyQviOrSWovFCKw6cK8JZlwKwvPQ0ZnAay9xZSlwte9z9r4ZB0pwWhR/Xc74w4UxNO5Uy2qG52YuSImcetds6kRXhkNZUqolS5kNqwC7VDChd0quAO1opjhQoYdy4YBb7U5x+NygJ55OWicvN0gvu+il48Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753099339; c=relaxed/simple;
-	bh=U0jYeUNL41sNYTfaMJOCjc2UAUxt7pvi0qdom4qstDc=;
+	s=arc-20240116; t=1753099340; c=relaxed/simple;
+	bh=B82JVSNufpUcHv8y7EcvXvZhjOuMdlK93Oe87oDHeJ0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=DWPVZlJziC0E/yRAVPFU63iXNJSw8BGXmQXjOWL7rg9CTnwqC0NvTQzMx9/t6T7gDm3yG6phyc4UTxda7k2KA4OEalzirrgO04kGeo+8Rxn4RbNZgcITDdy7439dBhAMLWmwx3ZTo/KYY5r2mTsJEFoq7zP86xckLkHTDY9NNA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YFBMn/V/; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=VGhi/zfge8CSz01ejOz2MmvSTjP7jfZNHtCWXZBRfQwyCbFlQW47COud7Dpd27LriVjzaCo949eD5k/g4ivOBBs3/ZzubAND0utrPTw4mun3b9SQ5zBdus1NWLEOJ3RJhLmFrLRp+ngF+jYOWUTYDMVQW56QzueAfHjhre7RZLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i7cs6xuw; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YFBMn/V/"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i7cs6xuw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1753099338; x=1784635338;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U0jYeUNL41sNYTfaMJOCjc2UAUxt7pvi0qdom4qstDc=;
-  b=YFBMn/V/o5LvqV133daKQuX5PKXMP3o+GGRikP1TpfZycmVsrX0I/EbK
-   M9vcGOHjVC0pHMpS1G+oDvXlZm3Ecb1B4yikZT2pWFu493b5tLklkGwcX
-   i+ffj4nm9IYbmwEh6r1e4eHI/3929ri1Lbdzn5Qz9cN9vEOZRLOjwT54T
-   qGkAdP9i6jmq//q50O1KbS3Bbl/ZtTK1grrK9wS2mxGLbf1skYbIjZmdb
-   KASRG8/q5gO+EMsFyw8XIl/PjW9TfZ6LQQczzNeE21vbNOD1MkmnsCew4
-   7uXwNjFzl3m13MHtxr7KJ+PSP+GqxIpWep8Ks3JkgDuB7SzQIiRFOwK3g
+  bh=B82JVSNufpUcHv8y7EcvXvZhjOuMdlK93Oe87oDHeJ0=;
+  b=i7cs6xuwMa9z4GqBJ4EWCOy+65hD81OixUgccrBR6fBTHhrHKzdzD13+
+   TCNIVyhUgyjggpmo61w2xwt4WkeSlr5MDdKwVEaGMfSDIYT4u9oqxcK+F
+   bVO8wrOOLgrUHlYLcwHVOZ5k9WPmnkbDT9SCw9K+zPxojk+zTZ7+J9N44
+   MqkQ/4e3C9frmRfnd/YhVipXmtqr/xxbSE72tv3t5POOXgq+dQQo3oYpE
+   7QwdR4q00mDtHiqlp5DdxuBsNZCrZkD0p8BBrktnXqZFjBfdK667CGabj
+   nuodCa7wM+xGHybp7JV2PqbiAxvZy9GkD7mn1yX09C4RqRM1lxFzJ4eph
    g==;
-X-CSE-ConnectionGUID: aAi1qTRnRWKwTVW9KNqJSA==
-X-CSE-MsgGUID: muTYQn23SOqkej9m5tlyUg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="42932726"
+X-CSE-ConnectionGUID: UyLMzI1/QE6c2FA+HqRWZQ==
+X-CSE-MsgGUID: F+Xn9eFXQXqkd+HVzvUS2A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55461179"
 X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="42932726"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 05:02:17 -0700
-X-CSE-ConnectionGUID: bkYwQnbtTAmT16jSmsKEcQ==
-X-CSE-MsgGUID: Cmih0uxnQciRtGTrl0ztcw==
+   d="scan'208";a="55461179"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 05:02:18 -0700
+X-CSE-ConnectionGUID: 1Zj9NvkuQmu0fiVUmMjKuQ==
+X-CSE-MsgGUID: Jz6FNRXrR2ac+c1yV96MGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,329,1744095600"; 
-   d="scan'208";a="163120586"
+   d="scan'208";a="158927031"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 21 Jul 2025 05:02:16 -0700
+  by orviesa007.jf.intel.com with ESMTP; 21 Jul 2025 05:02:17 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1udpDi-000GmN-0v;
+	id 1udpDi-000GmL-0q;
 	Mon, 21 Jul 2025 12:02:14 +0000
-Date: Mon, 21 Jul 2025 20:01:23 +0800
+Date: Mon, 21 Jul 2025 20:01:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [palmer:wip-hwprobe 9/10]
- arch/riscv/kernel/traps_misaligned.c:605:2: error: unknown register name
- 'v0' in 'asm'
-Message-ID: <202507211922.MfnXVhgM-lkp@intel.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: [brgl:gpio/devel /3] drivers/soc/fsl/qe/gpio.c:322:19: error:
+ 'struct gpio_chip' has no member named 'set_rv'
+Message-ID: <202507211919.5Oks2bl4-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,55 +62,71 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/palmer/linux.git wip-hwprobe
-head:   4327171a587ac2af9620f085edb06605ab091884
-commit: 3db02a78faf494fd44a2a9a29d3b159704ab00d0 [9/10] RISC-V: Add the mising clobbers while probing vector misaligned access
-config: riscv-randconfig-r063-20250721 (https://download.01.org/0day-ci/archive/20250721/202507211922.MfnXVhgM-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250721/202507211922.MfnXVhgM-lkp@intel.com/reproduce)
+Hi Bartosz,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/devel
+head:   ab43c98c938b0a53d7a5220d9e42e7db30961a47
+commit: a905b526122df26d14f16b245cc0d5bd6a073e5f [/3] treewide: rename GPIO callbacks
+config: powerpc-randconfig-001-20250721 (https://download.01.org/0day-ci/archive/20250721/202507211919.5Oks2bl4-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 12.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250721/202507211919.5Oks2bl4-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507211922.MfnXVhgM-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507211919.5Oks2bl4-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   arch/riscv/kernel/traps_misaligned.c: In function 'check_vector_unaligned_access_emulated':
->> arch/riscv/kernel/traps_misaligned.c:605:2: error: unknown register name 'v0' in 'asm'
-     605 |  __asm__ __volatile__ (
-         |  ^~~~~~~
+   drivers/soc/fsl/qe/gpio.c: In function 'qe_add_gpiochips':
+>> drivers/soc/fsl/qe/gpio.c:322:19: error: 'struct gpio_chip' has no member named 'set_rv'
+     322 |                 gc->set_rv = qe_gpio_set;
+         |                   ^~
+>> drivers/soc/fsl/qe/gpio.c:323:34: error: assignment to 'int (*)(struct gpio_chip *, long unsigned int *, long unsigned int *)' from incompatible pointer type 'void (*)(struct gpio_chip *, long unsigned int *, long unsigned int *)' [-Werror=incompatible-pointer-types]
+     323 |                 gc->set_multiple = qe_gpio_set_multiple;
+         |                                  ^
+   cc1: some warnings being treated as errors
 
 
-vim +605 arch/riscv/kernel/traps_misaligned.c
+vim +322 drivers/soc/fsl/qe/gpio.c
 
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  595  
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  596  #ifdef CONFIG_RISCV_VECTOR_MISALIGNED
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  597  void check_vector_unaligned_access_emulated(struct work_struct *work __always_unused)
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  598  {
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  599  	long *mas_ptr = this_cpu_ptr(&vector_misaligned_access);
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  600  	unsigned long tmp_var;
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  601  
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  602  	*mas_ptr = RISCV_HWPROBE_MISALIGNED_VECTOR_UNKNOWN;
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  603  
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  604  	kernel_vector_begin();
-d1703dc7bc8ec7 Jesse Taube    2024-10-17 @605  	__asm__ __volatile__ (
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  606  		".balign 4\n\t"
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  607  		".option push\n\t"
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  608  		".option arch, +zve32x\n\t"
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  609  		"       vsetivli zero, 1, e16, m1, ta, ma\n\t"	// Vectors of 16b
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  610  		"       vle16.v v0, (%[ptr])\n\t"		// Load bytes
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  611  		".option pop\n\t"
-3db02a78faf494 Palmer Dabbelt 2025-07-16  612  		: : [ptr] "r" ((u8 *)&tmp_var + 1) : CLOBBER_V0 );
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  613  	kernel_vector_end();
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  614  }
-d1703dc7bc8ec7 Jesse Taube    2024-10-17  615  
+1b9e89046c31fd3 arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-12-03  295  
+d14b3dd6190af7c arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-06-12  296  static int __init qe_add_gpiochips(void)
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  297  {
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  298  	struct device_node *np;
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  299  
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  300  	for_each_compatible_node(np, NULL, "fsl,mpc8323-qe-pario-bank") {
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  301  		int ret;
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  302  		struct qe_gpio_chip *qe_gc;
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  303  		struct of_mm_gpio_chip *mm_gc;
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  304  		struct gpio_chip *gc;
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  305  
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  306  		qe_gc = kzalloc(sizeof(*qe_gc), GFP_KERNEL);
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  307  		if (!qe_gc) {
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  308  			ret = -ENOMEM;
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  309  			goto err;
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  310  		}
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  311  
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  312  		spin_lock_init(&qe_gc->lock);
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  313  
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  314  		mm_gc = &qe_gc->mm_gc;
+a19e3da5bc5fc6c arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2010-06-08  315  		gc = &mm_gc->gc;
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  316  
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  317  		mm_gc->save_regs = qe_gpio_save_regs;
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  318  		gc->ngpio = QE_PIO_PINS;
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  319  		gc->direction_input = qe_gpio_dir_in;
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  320  		gc->direction_output = qe_gpio_dir_out;
+32def337aafee0b arch/powerpc/sysdev/qe_lib/gpio.c Anton Vorontsov     2008-05-19  321  		gc->get = qe_gpio_get;
+5901111498f7660 drivers/soc/fsl/qe/gpio.c         Bartosz Golaszewski 2025-06-10 @322  		gc->set_rv = qe_gpio_set;
+1c0b7df5d333b0b drivers/soc/fsl/qe/gpio.c         Joakim Tjernlund    2018-06-19 @323  		gc->set_multiple = qe_gpio_set_multiple;
 
-:::::: The code at line 605 was first introduced by commit
-:::::: d1703dc7bc8ec7adb91f5ceaf1556ff1ed212858 RISC-V: Detect unaligned vector accesses supported
+:::::: The code at line 322 was first introduced by commit
+:::::: 5901111498f766024b4e4146a7a660618af6abf3 soc: fsl: qe: use new GPIO line value setter callbacks
 
-:::::: TO: Jesse Taube <jesse@rivosinc.com>
-:::::: CC: Palmer Dabbelt <palmer@rivosinc.com>
+:::::: TO: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+:::::: CC: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
 -- 
 0-DAY CI Kernel Test Service
