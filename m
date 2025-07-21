@@ -1,106 +1,120 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DB7678F3B;
-	Mon, 21 Jul 2025 01:20:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CF278F3B
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 21 Jul 2025 01:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753060845; cv=none; b=KHPyQ9NnkLDe+QnlwCTRokl9sUhNYxPabP8w5jw4f0+bK1AM9r2/QVgKnmw28yDX/jgxzu5EyNeiBQycMkU2FrUo7I6Td4wBVd8Olm9qpMUSIFWl8uiXi0Kz/0umIJYj+5BAI89hBEMs/uvXuMEraitLDZf9lcKAqA5lHK1cSP8=
+	t=1753061178; cv=none; b=IebnvOPstF9MgC9WKf16RlBnHHkMIgwwWQkEY2U1uBvTGoIybERi+HvRjq904GAyT6ArpoQ//vGykv8GlWsMUZcYLgrkvJJ+MEceuXrF0Ghd441U2hARU3lTMPUt5hK78sGpw392s6yXIOyrxsiIm69a9N+hGPDYiv4X+5dNuxA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753060845; c=relaxed/simple;
-	bh=BNkQIjOZSKu9ZGwc4tHzEhkbq/LUxVSJG18QsLj5xUE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m775I5vrPMMSb9P8rBE2MtSub9R9CmkJ77L+zdI0qP9k6eloIu5+r+n7+vZEKXxl+m0/9YglDobaeqAbPaqx+2aDyzL5N8Bk6XwEqckhvCpZC5xmEUNr04D/NeyKxWNwfQR/0JV3Ew4ywm/Xn6egqpngnx0nHojPJVeaLCqph7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.235])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4bljJL4ZNGzKHMX3;
-	Mon, 21 Jul 2025 09:20:34 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id 52C711A0C3D;
-	Mon, 21 Jul 2025 09:20:33 +0800 (CST)
-Received: from [10.174.176.88] (unknown [10.174.176.88])
-	by APP4 (Coremail) with SMTP id gCh0CgDnYhPblX1o4WHSAw--.16917S3;
-	Mon, 21 Jul 2025 09:20:29 +0800 (CST)
-Message-ID: <b60e4ef2-0128-4e56-a15f-ea85194a3af0@huaweicloud.com>
-Date: Mon, 21 Jul 2025 09:20:27 +0800
+	s=arc-20240116; t=1753061178; c=relaxed/simple;
+	bh=pvhRCHGIucYdujSap+8QzPuzACWS4wsHi36ZbyRIfzU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r6NEHfH1lxjo2i+TazUQhorRI0KN7kvwUt7I+CpOV8LiM+RtKLWWJ9O3DVLLxLDZikl7vndxDTnGragow3HDAApXIVddzNVnDSUgL0d3HtLIoi5J9tAjQ7FKhbRFuNcni5p+nNZ6/Nec9d7aoLQYoEk2nFojpI5OTtRKoj/qQ5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Om70YqmI; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Om70YqmI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753061176; x=1784597176;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pvhRCHGIucYdujSap+8QzPuzACWS4wsHi36ZbyRIfzU=;
+  b=Om70YqmIyM/YEoCrh19E7sUh/Ru6u0KnWZUv6nfmn+k8x1uHo3DWkaLT
+   y9mQTfNGXqDpjFzVgIiZ3Iy/Rgbpu2la7HS97Ia/2XsL0LM4h5A5mvH3m
+   6ii8ZCYGNuPdX412VNSM2uOuiUKdwRB08A8+9lgrFfYYwVxaDYEurYOOu
+   aLP3TJOdIFHsumdtNfaiBW8DhHW9Al21zFU8lMz7e2zFywrkJOdvX5V21
+   OmptQjH7RSZULpoZwZpg5c2b23mkoz6kB3bIuuUTLZ5kREEvKzwjYmNRu
+   E6fz606x9DP6Q3Cd/5jJZGUFROUTdG2yjzNZq0D1gPiLznSdI7DA6Ugig
+   Q==;
+X-CSE-ConnectionGUID: 81ftF8B6QZ6yXeLjaxiPPg==
+X-CSE-MsgGUID: 4CtE0f2eSQScblUfnZ80jA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11498"; a="72838313"
+X-IronPort-AV: E=Sophos;i="6.16,328,1744095600"; 
+   d="scan'208";a="72838313"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jul 2025 18:26:16 -0700
+X-CSE-ConnectionGUID: yx9QBkAFRLO48bxGjUoV0A==
+X-CSE-MsgGUID: cBbe1sc/RRGUKZYvF5ur8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,328,1744095600"; 
+   d="scan'208";a="162920814"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 20 Jul 2025 18:26:13 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1udfIA-000GOD-0D;
+	Mon, 21 Jul 2025 01:26:10 +0000
+Date: Mon, 21 Jul 2025 09:25:53 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sami Tolvanen <samitolvanen@google.com>, bpf@vger.kernel.org,
+	Puranjay Mohan <puranjay@kernel.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>
+Cc: oe-kbuild-all@lists.linux.dev,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Andrii Nakryiko <andrii@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Maxwell Bland <mbland@motorola.com>,
+	Sami Tolvanen <samitolvanen@google.com>
+Subject: Re: [PATCH bpf-next v11 2/3] cfi: Move BPF CFI types and helpers to
+ generic code
+Message-ID: <202507210919.wPRFLcKb-lkp@intel.com>
+References: <20250718223345.1075521-7-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs: Add additional checks for block devices during mount
-To: kernel test robot <lkp@intel.com>, viro@zeniv.linux.org.uk,
- jack@suse.com, brauner@kernel.org, axboe@kernel.dk, hch@lst.de
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
- yukuai3@huawei.com, yangerkun@huawei.com
-References: <20250719024403.3452285-1-wozizhi@huawei.com>
- <202507192025.N75TF4Gp-lkp@intel.com>
-From: Zizhi Wo <wozizhi@huaweicloud.com>
-In-Reply-To: <202507192025.N75TF4Gp-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:gCh0CgDnYhPblX1o4WHSAw--.16917S3
-X-Coremail-Antispam: 1UD129KBjvJXoW7uFyxuFW8XF15AFy8Ww18Grg_yoW8ZFyDpa
-	yrC39xtryrWr1rWa97KrWq9w1Yqws5JwnxGF18Cw47ZFWqvF17WrWI9r43Jryqqr1vgrWU
-	Jr9rurykKw1UAaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv0b4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26r1q6r43MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8
-	ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x
-	0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_
-	Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU1
-	7KsUUUUUU==
-X-CM-SenderInfo: pzr2x6tkl6x35dzhxuhorxvhhfrp/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250718223345.1075521-7-samitolvanen@google.com>
 
+Hi Sami,
 
+kernel test robot noticed the following build errors:
 
-在 2025/7/19 20:32, kernel test robot 写道:
-> Hi Zizhi,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on brauner-vfs/vfs.all]
-> [also build test ERROR on jack-fs/for_next linus/master v6.16-rc6 next-20250718]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Zizhi-Wo/fs-Add-additional-checks-for-block-devices-during-mount/20250719-105053
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-> patch link:    https://lore.kernel.org/r/20250719024403.3452285-1-wozizhi%40huawei.com
-> patch subject: [PATCH] fs: Add additional checks for block devices during mount
-> config: i386-buildonly-randconfig-001-20250719 (https://download.01.org/0day-ci/archive/20250719/202507192025.N75TF4Gp-lkp@intel.com/config)
-> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250719/202507192025.N75TF4Gp-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507192025.N75TF4Gp-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>):
-> 
->>> ld.lld: error: undefined symbol: disk_live
->     >>> referenced by super.c:1385 (fs/super.c:1385)
->     >>>               fs/super.o:(super_s_dev_test) in archive vmlinux.a
-> 
+[auto build test ERROR on 0ee30d937c147fc14c4b49535181d437cd2fde7a]
 
-Sorry, disk_live() is only declared but not defined when CONFIG_BLOCK is
-not set...
+url:    https://github.com/intel-lab-lkp/linux/commits/Sami-Tolvanen/cfi-add-C-CFI-type-macro/20250719-063535
+base:   0ee30d937c147fc14c4b49535181d437cd2fde7a
+patch link:    https://lore.kernel.org/r/20250718223345.1075521-7-samitolvanen%40google.com
+patch subject: [PATCH bpf-next v11 2/3] cfi: Move BPF CFI types and helpers to generic code
+config: arm-randconfig-r072-20250721 (https://download.01.org/0day-ci/archive/20250721/202507210919.wPRFLcKb-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 16534d19bf50bde879a83f0ae62875e2c5120e64)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250721/202507210919.wPRFLcKb-lkp@intel.com/reproduce)
 
-Perhaps, as hch suggests, it can be verified through GD_DEAD?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507210919.wPRFLcKb-lkp@intel.com/
 
-Thanks,
-Zizhi Wo
+All errors (new ones prefixed by >>):
 
+>> <inline asm>:2:41: error: expected '%<type>' or "<type>"
+       2 |         .pushsection    .data..ro_after_init,"aw",@progbits     
+         |                                                   ^
+>> <inline asm>:3:21: error: expected STT_<TYPE_IN_UPPER_CASE>, '#<type>', '%<type>' or "<type>"
+       3 |         .type   cfi_bpf_hash,@object                            
+         |                              ^
+>> <inline asm>:9:19: error: .popsection without corresponding .pushsection
+       9 |         .popsection                                             
+         |                                                                 ^
+   <inline asm>:10:41: error: expected '%<type>' or "<type>"
+      10 |         .pushsection    .data..ro_after_init,"aw",@progbits     
+         |                                                   ^
+   <inline asm>:11:29: error: expected STT_<TYPE_IN_UPPER_CASE>, '#<type>', '%<type>' or "<type>"
+      11 |         .type   cfi_bpf_subprog_hash,@object                            
+         |                                      ^
+   <inline asm>:17:19: error: .popsection without corresponding .pushsection
+      17 |         .popsection                                             
+         |                                                                 ^
+   6 errors generated.
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
