@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BD48223339;
-	Tue, 22 Jul 2025 21:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19F3238C1F
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 21:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753219189; cv=none; b=ANKDamnQ0F3oDfB+JxuaHb6TjfHK7xrz1FtzfLOwXiTR9gWPklwJ1dhgaiLreTmq6jKaC/EttRrp1/vnicq/os+IsYoJfWn6BK69gTVJl/V4OnnJ8QYZ17afHD8fx5qHvDiBusM97Jy9XSRQf2EfNeDB7FkZLx0wuwL3a0qDZEU=
+	t=1753219847; cv=none; b=Zi7Jspsc+XqZWKdHTtKiERt8R8h0bvpHddNOmsUvfGpA9NEBzqWV68Lf1mWYVAD95Tr5bd+4pyKLqt1sgCP52qkN1Y1bKZqRuvMxxiomWYUqaHsJVtdXdkD9Tq8VDaYlTtYE6qwQoiK16qaZAd8C4A5vv4dljw6eykMVw9Hkoew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753219189; c=relaxed/simple;
-	bh=VAFhRCJQknowV+AypDyaME1Ab2ilgI4tc2/Wbqr0Ux0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LjkuF2JYJkAOTKEML0zUE8nPhuBgd3RTkn1sa1zPGz5UbgoSoGH8T11iAkvCMEDHzP2hCmUZIGbAex3rNJfPmACgFIwdS3t7+rqrgv/ykn2bwtrBw3huwzoPtsdfJ90YnobZ2N295VVj+oIACk1Ouwc+VjUlrNdwtbYYz/jV/Kc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B68YggWD; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1753219847; c=relaxed/simple;
+	bh=M5+Zj9n17yyz0OHeAQv2mHpMzaAvyxSt0SOuXeta3NA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hN7Dn9YY2MlsNdvpsiqTmPwd90gF6xU0olfdK3/jULLC+Nu3zeJO9XUkXG6jaiGeN+UVtqaesEdfDxm15Um8hNV+lTM1NkZ0UBuu5gZi//Q63l7y/Qx9qXP8sNnBGmIQ3pq1Kxndfl8mL7o5r7YcYHyM0yRm7FLaIV23vPegtRM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b4QDs15N; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B68YggWD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b4QDs15N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753219188; x=1784755188;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VAFhRCJQknowV+AypDyaME1Ab2ilgI4tc2/Wbqr0Ux0=;
-  b=B68YggWDuPpolK0rp2pSFGGJADj69vLqhCmXvt7kuIfk/MlIaazVmf07
-   SSnLsccWbHvv/IePxu6lNCja9mRg0mKGKiTrNLriaiPU3FW7BT2bT6knn
-   7Tesh3rt0RryAaz3Me22Pb1jbsY0lnmi8s7aaWPx3v7maJr3H5WVsWeMZ
-   AtHWHxeFJjAFNtmq9Ga9lL83oQNL045itWq5xg4/HjUdyafRI2Wgr3xnf
-   x586rgks7pKusaYANCtG5jgIZF40bnYD518z00i6KUOO7t1S7hxBkBht3
-   4RimUUSYh8VPLewHIiqM88lrqZr2v0EB2j7RNJAv7AOaSj5RCeu8+RcDZ
-   Q==;
-X-CSE-ConnectionGUID: 6UEuobknQPSKSNT8wsKAzw==
-X-CSE-MsgGUID: BGoRZHoDSfScjI1sMIPUkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="59286775"
+  t=1753219846; x=1784755846;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=M5+Zj9n17yyz0OHeAQv2mHpMzaAvyxSt0SOuXeta3NA=;
+  b=b4QDs15NNhh7k3SCQeYR8ZO1FwUAa3foFDHpTHKMuqzKAGDWCoYdA7yF
+   j12XoLLQL/vXwVu/Lq0MGmpVoqf08eHjk/dfj/hEVL7EwEcJVt6K5Urrm
+   s75uscg5xQQeEjeONd1XCxQQ0ibxLFaCI4iDRG3617kAfdqvrTMi9jiZ/
+   WucCerOJVFYGNX5q3RUN+HuuTF8YLLYRZRxiTg1YYroKaNSiTM11+RtzC
+   H2esY0mQCgzuqBP7CK08aZIspo4bq+hPQM2suq1EHu5xGmHWDdmjX8JU8
+   /e145C6olGhRcB5IfBYAXvHEN9lUfJp9q8CdPhf4W6tvWBo/pM9Ns/W0S
+   g==;
+X-CSE-ConnectionGUID: 5YqTWPFjTiOWgNGXZEVbYQ==
+X-CSE-MsgGUID: S8RY0YYATASyVvkISU7fWg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="55335787"
 X-IronPort-AV: E=Sophos;i="6.16,332,1744095600"; 
-   d="scan'208";a="59286775"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 14:19:46 -0700
-X-CSE-ConnectionGUID: QPx254goTECh3UVjxe55jg==
-X-CSE-MsgGUID: BMGHljmHRY+SotKzCX9Gdw==
+   d="scan'208";a="55335787"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 14:30:46 -0700
+X-CSE-ConnectionGUID: M377sfYoQFib7m6NWqqeow==
+X-CSE-MsgGUID: GkA3+WLJRH+MhoNEIvzC6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,332,1744095600"; 
-   d="scan'208";a="190217200"
+   d="scan'208";a="163520596"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 22 Jul 2025 14:19:44 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 22 Jul 2025 14:30:44 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ueKOj-000IiB-05;
-	Tue, 22 Jul 2025 21:19:41 +0000
-Date: Wed, 23 Jul 2025 05:19:40 +0800
+	id 1ueKZO-000Iit-0e;
+	Tue, 22 Jul 2025 21:30:42 +0000
+Date: Wed, 23 Jul 2025 05:29:52 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dave Airlie <airlied@gmail.com>, dri-devel@lists.freedesktop.org,
-	linux-mm@kvack.org, Johannes Weiner <hannes@cmpxchg.org>,
-	Christian Koenig <christian.koenig@amd.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Dave Chinner <david@fromorbit.com>,
-	Kairui Song <kasong@tencent.com>, Dave Airlie <airlied@redhat.com>
-Subject: Re: [PATCH 11/15] ttm/pool: enable memcg tracking and shrinker. (v2)
-Message-ID: <202507230300.pUkL5SQT-lkp@intel.com>
-References: <20250722014942.1878844-12-airlied@gmail.com>
+To: ckkim <changkon12@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-6.16.y 19/44]
+ arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: /odroid-reboot: failed to
+ match any schema with compatible: ['odroid,reboot']
+Message-ID: <202507230505.ZMfmyC4D-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,121 +62,27 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250722014942.1878844-12-airlied@gmail.com>
 
-Hi Dave,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on drm/drm-next]
-[cannot apply to akpm-mm/mm-everything linus/master v6.16-rc7 next-20250722]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dave-Airlie/drm-ttm-use-gpu-mm-stats-to-track-gpu-memory-allocations-v4/20250722-104402
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20250722014942.1878844-12-airlied%40gmail.com
-patch subject: [PATCH 11/15] ttm/pool: enable memcg tracking and shrinker. (v2)
-config: i386-buildonly-randconfig-006-20250722 (https://download.01.org/0day-ci/archive/20250723/202507230300.pUkL5SQT-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507230300.pUkL5SQT-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-6.16.y
+head:   ac46a60ec2fb958f1dc2e5871e122abb98ac0da9
+commit: 03d860d837c215500c150163bd3904ce12323f4c [19/44] ODROID-N2/C4: arm64:dts: reboot/power off support for ODROID-N2/N2Plus/C4
+config: arm64-randconfig-051-20250722 (https://download.01.org/0day-ci/archive/20250723/202507230505.ZMfmyC4D-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507230505.ZMfmyC4D-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507230300.pUkL5SQT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507230505.ZMfmyC4D-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> drivers/gpu/drm/ttm/ttm_pool.c:665:7: error: no member named 'memcg_data' in 'struct page'
-     665 |                         p->memcg_data = 0;
-         |                         ~  ^
-   drivers/gpu/drm/ttm/ttm_pool.c:1132:11: error: no member named 'memcg_data' in 'struct page'
-    1132 |                                 page->memcg_data = 0;
-         |                                 ~~~~  ^
-   2 errors generated.
-
-
-vim +665 drivers/gpu/drm/ttm/ttm_pool.c
-
-   617	
-   618	/*
-   619	 * When restoring, restore backed-up content to the newly allocated page and
-   620	 * if successful, populate the page-table and dma-address arrays.
-   621	 */
-   622	static int ttm_pool_restore_commit(struct ttm_pool_tt_restore *restore,
-   623					   struct file *backup,
-   624					   const struct ttm_operation_ctx *ctx,
-   625					   struct ttm_pool_alloc_state *alloc)
-   626	
-   627	{
-   628		pgoff_t i, nr = 1UL << restore->order;
-   629		struct page **first_page = alloc->pages;
-   630		struct page *p;
-   631		int ret = 0;
-   632	
-   633		for (i = restore->restored_pages; i < nr; ++i) {
-   634			p = first_page[i];
-   635			if (ttm_backup_page_ptr_is_handle(p)) {
-   636				unsigned long handle = ttm_backup_page_ptr_to_handle(p);
-   637	
-   638				if (IS_ENABLED(CONFIG_FAULT_INJECTION) && ctx->interruptible &&
-   639				    should_fail(&backup_fault_inject, 1)) {
-   640					ret = -EINTR;
-   641					break;
-   642				}
-   643	
-   644				if (handle == 0) {
-   645					restore->restored_pages++;
-   646					continue;
-   647				}
-   648	
-   649				ret = ttm_backup_copy_page(backup, restore->alloced_page + i,
-   650							   handle, ctx->interruptible);
-   651				if (ret)
-   652					break;
-   653	
-   654				ttm_backup_drop(backup, handle);
-   655			} else if (p) {
-   656				/*
-   657				 * We could probably avoid splitting the old page
-   658				 * using clever logic, but ATM we don't care, as
-   659				 * we prioritize releasing memory ASAP. Note that
-   660				 * here, the old retained page is always write-back
-   661				 * cached.
-   662				 */
-   663				ttm_pool_split_for_swap(restore->pool, p);
-   664				copy_highpage(restore->alloced_page + i, p);
- > 665				p->memcg_data = 0;
-   666				__free_pages(p, 0);
-   667			}
-   668	
-   669			restore->restored_pages++;
-   670			first_page[i] = ttm_backup_handle_to_page_ptr(0);
-   671		}
-   672	
-   673		if (ret) {
-   674			if (!restore->restored_pages) {
-   675				dma_addr_t *dma_addr = alloc->dma_addr ? &restore->first_dma : NULL;
-   676	
-   677				ttm_pool_unmap_and_free(restore->pool, restore->alloced_page,
-   678							dma_addr, restore->page_caching);
-   679				restore->restored_pages = nr;
-   680			}
-   681			return ret;
-   682		}
-   683	
-   684		ttm_pool_allocated_page_commit(restore->alloced_page, restore->first_dma,
-   685					       alloc, nr);
-   686		if (restore->page_caching == alloc->tt_caching || PageHighMem(restore->alloced_page))
-   687			alloc->caching_divide = alloc->pages;
-   688		restore->snapshot_alloc = *alloc;
-   689		restore->alloced_pages += nr;
-   690	
-   691		return 0;
-   692	}
-   693	
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:271.33-1545.7: Warning (unit_address_vs_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:1759.27-2031.6: Warning (unit_address_vs_reg): /soc/bus@ff800000/pinctrl@14: node has a unit name, but no reg or ranges property
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:271.33-1545.7: Warning (simple_bus_reg): /soc/bus@ff600000/bus@34400/pinctrl@40: missing or empty reg/ranges property
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:1759.27-2031.6: Warning (simple_bus_reg): /soc/bus@ff800000/pinctrl@14: missing or empty reg/ranges property
+   arch/arm64/boot/dts/amlogic/meson-g12-common.dtsi:2230.23-2270.6: Warning (avoid_unnecessary_addr_size): /soc/bus@ffd00000/dsi@7000: unnecessary #address-cells/#size-cells without "ranges", "dma-ranges" or child "reg" property
+>> arch/arm64/boot/dts/amlogic/meson64_odroidc4.dtb: /odroid-reboot: failed to match any schema with compatible: ['odroid,reboot']
 
 -- 
 0-DAY CI Kernel Test Service
