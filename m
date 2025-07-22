@@ -1,98 +1,132 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8C81422DD;
-	Tue, 22 Jul 2025 15:56:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3602D25B1CE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 16:12:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753199790; cv=none; b=gJsed2ctW2bVwryxWaytoCkuMJ04yTuNQFRUluoUa9D9BXj89yBnmZ8HOEMAm/gEIDOMkkRqqOogxro1Rkeoglo1SidVLxGgTMVwggu+jHhHiRwNrgOmKtM7vn1XuyjbLYamD+HKJZo9dcp66mFRYnP7RnGiVTiSJvISe0wcu6k=
+	t=1753200728; cv=none; b=nmjaF8R2+9yHsntX/IXrFNFEJfBJTL3AIS705y0PNAzSU4GH9u5kwHy/uyiURm6MnJ3mzqN2xsMKzUqjtl9SRWTwLq10IXJuMpmEh7RwMBlq2QY2ubPBWzquLRAy1jJHKqTUbB56piykaK+ZXBJ/Hjxc9xWhAQ3glePY0CMWMnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753199790; c=relaxed/simple;
-	bh=ehonnbedT4DZldR5JroAFWGY9SqxMYm2QDP/tjyZQeA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=XGsuqsuokCwDnvS6EQIABsdrC/sGBk7MNctKXKtGLsEP5NIzzrCnmCoJmLsXOISW7p2LtkiUtjmkel0lJhpYDE49zUxFru7WJcwpe8OJig9NjBt9Azz+osdzzU8SJ/AVfvwaaisymaF4AIMyC2lm1dBgWfYOIugnCRu/la52oLg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=gnZ1XUG9; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=HnYfVNio; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1753200728; c=relaxed/simple;
+	bh=/Ef6Hw+X+c1nsb6o0jyKp9JO0TX1XY+WPAVatK4S1Ck=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=E00u9i9o3QSjirMkGUlgi6l3uf2BxTobJspsZ/SYg2pqYBpO1Y25PalN9n+vMlWu0MwwT7vWWgLuwWDmgFgdHbg4Qv4Ibo1wW2wSH0iETVIispUXdY4twB5E01qTxFb92a01BmFi1MWxRHePefJcu9UcxrB7VDpkh4mcoyfgRyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GDFeXNjq; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="gnZ1XUG9";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="HnYfVNio"
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1753199786;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZkEw/lTmafJr2SSwmjCrpMZhRZR91UCU4u4JDdbQoLQ=;
-	b=gnZ1XUG9t4b5lhL+OjoV8CtdguTP0aTMm7UTaZVmxRBHwchR9i/fTO93JR5u+sxSptwdxa
-	pKn2sjVcYLgkcu/0JBmqNM0xctHWBsNKzFNYqDH/0byKvqe3qWp65lmkj/KilHRTYKpxWw
-	eCB+NqzMLbjzAUQwXHWCfvIe73yq2mPOen6lwpa1X9828azVQFuw+Us1RSdeZ8t+jF/gKV
-	fTW1uKva2W8B+te4zQXOQi8/NyogAI+lHpVfq4pbLVF9Meb39Po5Dw+ICfXegEJOq7MXk+
-	9YPQUV8/ikJ0ar/oXZcGobR4i2RraAQ7VytF44VKRQE5PoFwD5/VniQWcMTSsw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1753199786;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ZkEw/lTmafJr2SSwmjCrpMZhRZR91UCU4u4JDdbQoLQ=;
-	b=HnYfVNiouLI/UrUTVrH5vXV03Mh01KEYd2ZsEEztUAEaCOxN+aucJHMnX5YH6MJibflEdh
-	6q4uJOC3ORTvtUCw==
-To: kernel test robot <lkp@intel.com>, Ian Rogers <irogers@google.com>, Eric
- Biggers <ebiggers@google.com>, Yuzhuo Jing <yuzhuo@google.com>, Andy
- Lutomirski <luto@kernel.org>, Vincenzo Frascino
- <vincenzo.frascino@arm.com>, Arnaldo Carvalho de Melo <acme@redhat.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, Ian Rogers
- <irogers@google.com>
-Subject: Re: [PATCH v3 1/3] vdso: Switch get/put unaligned from packed
- struct to memcpy
-In-Reply-To: <202507050736.b4hX0Xks-lkp@intel.com>
-References: <20250626054826.433453-2-irogers@google.com>
- <202507050736.b4hX0Xks-lkp@intel.com>
-Date: Tue, 22 Jul 2025 17:56:25 +0200
-Message-ID: <87o6tcrzh2.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GDFeXNjq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753200727; x=1784736727;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=/Ef6Hw+X+c1nsb6o0jyKp9JO0TX1XY+WPAVatK4S1Ck=;
+  b=GDFeXNjqeLwxL+zwUgSuhaydKLFFaisEdo9Ffo2h9cntviTREO9dSleJ
+   bawSg5Ft5Ii0JnLv0IL6Oj7cn/jGKYd5yM5407wS/sSsgbmvUbPlbPbx3
+   g/N+qPVXP4FAGULb2zF40vKTaNoAWE2dwRGRs3jV5rBygImiQwjVqJLjF
+   H2kmkmCb3N2ItIO5nmWufb42/CHaoCb4FLHfKoy1jT1lkPWyTweWSLdnP
+   yLG+J6B7aWdetPcSZWF2EoAWkMrlsxnyyJlBaaw0XJrAyKpz9EJJZjv24
+   ZXSSk+/4UcWvRX9qaWEHzfS89QzvBiZpOnC34B/d+hARKZgeHWWBFjCgR
+   g==;
+X-CSE-ConnectionGUID: L3COnMFTRrOorlIRRgSDqw==
+X-CSE-MsgGUID: AiYjJkjhRTm5t665V/bLAA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="65724470"
+X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
+   d="scan'208";a="65724470"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 09:12:06 -0700
+X-CSE-ConnectionGUID: d1i0gEEZTcC84MRYxg26tA==
+X-CSE-MsgGUID: QSxWqAs1RWqxtURHfJKDVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
+   d="scan'208";a="159922198"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 22 Jul 2025 09:12:04 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ueFb0-000IVV-25;
+	Tue, 22 Jul 2025 16:12:02 +0000
+Date: Wed, 23 Jul 2025 00:11:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 0/9] mm/khugepaged.c:109: warning:
+ Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
+Message-ID: <202507230004.i9Bn5EWu-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Ian!
+Hi Xu,
 
-On Sat, Jul 05 2025 at 08:05, kernel test robot wrote:
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on linus/master]
-> [also build test WARNING on tip/timers/vdso v6.16-rc4 next-20250704]
-> [cannot apply to acme/perf/core]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Rogers/vdso-Switch-get-put-unaligned-from-packed-struct-to-memcpy/20250626-135005
-> base:   linus/master
-> patch link:    https://lore.kernel.org/r/20250626054826.433453-2-irogers%40google.com
-> patch subject: [PATCH v3 1/3] vdso: Switch get/put unaligned from packed struct to memcpy
-> config: s390-randconfig-002-20250705 (https://download.01.org/0day-ci/archive/20250705/202507050736.b4hX0Xks-lkp@intel.com/config)
-> compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project 61529d9e36fa86782a2458e6bdeedf7f376ef4b5)
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250705/202507050736.b4hX0Xks-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507050736.b4hX0Xks-lkp@intel.com/
->
-> All warnings (new ones prefixed by >>):
->
->    In file included from arch/s390/boot/decompressor.c:48:
->    In file included from arch/s390/include/uapi/../../../../lib/decompress_unlz4.c:10:
->    In file included from arch/s390/include/uapi/../../../../lib/lz4/lz4_decompress.c:36:
->>> arch/s390/include/uapi/../../../../lib/lz4/lz4defs.h:109:9: warning: default initialization of an object of type 'typeof (*((const U16 *)ptr))' (aka 'const unsigned short') leaves the object uninitialized [-Wdefault-const-init-var-unsafe]
->      109 |         return get_unaligned((const U16 *)ptr);
->          |                ^
+FYI, the error/warning still remains.
 
-Any update on this one?
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   98170019bf7a4069eb0c41aba1bad66e55c20835
+commit: 5c3c3afed0fd68c32fca885daf7c6fbf46007a25 [0/9] anolis: mm, thp: hugetext: accelerate khugepaged for hugetext vma
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250723/202507230004.i9Bn5EWu-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507230004.i9Bn5EWu-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507230004.i9Bn5EWu-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   mm/khugepaged.c:109: warning: Function parameter or member 'nr_pte_mapped_thp' not described in 'mm_slot'
+   mm/khugepaged.c:109: warning: Function parameter or member 'pte_mapped_thp' not described in 'mm_slot'
+>> mm/khugepaged.c:109: warning: Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
+>> mm/khugepaged.c:109: warning: Function parameter or member 'exec_vma' not described in 'mm_slot'
+   mm/khugepaged.c:1493: warning: Function parameter or member 'mm' not described in 'collapse_pte_mapped_thp'
+   mm/khugepaged.c:1493: warning: Function parameter or member 'addr' not described in 'collapse_pte_mapped_thp'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'mm' not described in 'collapse_file'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'file' not described in 'collapse_file'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'start' not described in 'collapse_file'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'hpage' not described in 'collapse_file'
+   mm/khugepaged.c:1695: warning: Function parameter or member 'node' not described in 'collapse_file'
+
+
+vim +109 mm/khugepaged.c
+
+27e1f8273113ad Song Liu           2019-09-23   87  
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   88  /**
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   89   * struct mm_slot - hash lookup from mm to mm_slot
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   90   * @hash: hash collision list
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   91   * @mm_node: khugepaged scan list headed in khugepaged_scan.mm_head
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   92   * @mm: the mm that this information is valid for
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   93   */
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   94  struct mm_slot {
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   95  	struct hlist_node hash;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   96  	struct list_head mm_node;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26   97  	struct mm_struct *mm;
+27e1f8273113ad Song Liu           2019-09-23   98  
+27e1f8273113ad Song Liu           2019-09-23   99  	/* pte-mapped THP in this mm */
+27e1f8273113ad Song Liu           2019-09-23  100  	int nr_pte_mapped_thp;
+27e1f8273113ad Song Liu           2019-09-23  101  	unsigned long pte_mapped_thp[MAX_PTE_MAPPED_THP];
+5c3c3afed0fd68 Xu Yu              2021-08-19  102  
+5c3c3afed0fd68 Xu Yu              2021-08-19  103  #ifdef CONFIG_HUGETEXT
+5c3c3afed0fd68 Xu Yu              2021-08-19  104  #define MAX_EXEC_VMA       8
+5c3c3afed0fd68 Xu Yu              2021-08-19  105  	/* exec vma vm_start in this mm */
+5c3c3afed0fd68 Xu Yu              2021-08-19  106  	int nr_exec_vma;
+5c3c3afed0fd68 Xu Yu              2021-08-19  107  	unsigned long exec_vma[MAX_EXEC_VMA];
+5c3c3afed0fd68 Xu Yu              2021-08-19  108  #endif
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26 @109  };
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  110  
+
+:::::: The code at line 109 was first introduced by commit
+:::::: b46e756f5e47031c67658ff036e5ffe27062fa43 thp: extract khugepaged from mm/huge_memory.c
+
+:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
