@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC3571A5BA0
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 01:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3370F2576
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 02:42:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753148451; cv=none; b=MVQcnLnVW0HSMt99w/Q6Pd8Yvd2d2Ppt/uRVxoeOUi/1o8pk//y1x1B75mLq7cyhzENCITxNXp7s9glwAvfF8RoZ3J6Q0VXI5rn0WeNIHzMf3pib6PdCmI16brHL04prj9Yigd9QJ/W/i0gcS8MR7fJ2YfNv1oiGKmQPHFm6xaU=
+	t=1753152177; cv=none; b=UFZYn5YMDJdg3voNWPwmw3zD5KnCkENyixZv5JqAPCM05cF8dprJHwnSCa1Gde9vtOR6/GJ4iGfeGbPtopKhEnePprR+HstPi7VuvMXDUeAduE/8ZTNQ4OCiKdlQuNswjEq9Xs0UMNajte0ZZpy226AxUskVqeC4b5wu89kjfkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753148451; c=relaxed/simple;
-	bh=T3VEyQlpJFPbNu3GFIK7/xckMTz7CThd92MMz22su4A=;
+	s=arc-20240116; t=1753152177; c=relaxed/simple;
+	bh=P/4TdZzBqDtyh6a05qwX1g3SmQwiiAQxyiza93f7nQs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=HGQQUX/mVlkriXchfxIueb5dmySHjVM3adP+sMsbeXtnOhBay/R+8mTnzUk8aiAILiUh9Zmk/9MIpuptokXxjvTUuZ2bKmRTd8NAMtimKU3iBRb2GKoYc8E6gg11cZUaZ0JM4UTg9PXk+WioQc6dHQC1nnVQoQzO6lTNY2yjBqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DaoAGcmW; arc=none smtp.client-ip=192.198.163.14
+	 Content-Disposition; b=PLCDuwtlEP/Vh9m3U0bU1wmWyiDOkcXmSPuMXXzTijfsmf6TQ7SGC2+LUkAujOdLqKdvRjEQt53AZ9OSkZQIPcyoSAszDpqku6/6Qm70s2jsbeCxB8gwbj5VL+8lc/vu2ElNwT4XkiUWAQdkpDY3ypNOT/PakrCTiqZbVU8LGRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bcpV5EWK; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DaoAGcmW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bcpV5EWK"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753148450; x=1784684450;
+  t=1753152175; x=1784688175;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=T3VEyQlpJFPbNu3GFIK7/xckMTz7CThd92MMz22su4A=;
-  b=DaoAGcmWzUJDCB5iJiM1FtR/DUMKDyT8AGOIpSyBppzlxVW/8iGwSxAF
-   EFJy+1mDc312lSmXptAUisaFzEjXDqmEQwhwfh5S/EH3NrMWpjfxJAH9S
-   ArcHaxQpk68zAU3UY7VssOPIvJ3zb7lYLct8dYGs3D+Gj59ih7FWknqIs
-   MXuO2iHOQKFx/KxkWiouQ6NZ9oo3HRiKcWuhKuhQc1BzvaCQcGmwYK2hH
-   J1N7UHD3OTJRuTAUQCa/cl6IHiQyBWxbUFn77NggqHGy1f//+tUHiWbGq
-   1OdSeo1jHcRO7tUXtDNXKEjH7bA9kiDGZi+LoT6TcXps+UE/TTxdbmek2
-   g==;
-X-CSE-ConnectionGUID: kgSOSYdXQE+DHuDl8uz2BQ==
-X-CSE-MsgGUID: ISxIbT2pTBuP+z8e8qmZcg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55470538"
+  bh=P/4TdZzBqDtyh6a05qwX1g3SmQwiiAQxyiza93f7nQs=;
+  b=bcpV5EWKq0ory5RgyDG+yMgDZHD83kWD76XNOZLSaaEFO1pAtgXohwvK
+   3dgUycEqY90irSBKBukqfoFBjGVrJAgqgScSpDNpvDggsoVtJoJHVlWm7
+   AoBAYrpn4MXk/Bm+LxKUIqbj+rYmof/Y2/6dK6Ebgw8kwQ7n7Lo37FL7r
+   TumzqdLaesT2PlJIHlSQyE4dlzzsvu3Vj/cJODe/addhlIdruYzkAPSGn
+   7d7N4shEtpwwunrgyTxL9Rt50L+uK0RSSAAeF8byU5R+TUtEdIaws7iHr
+   tQHGnsoxeLduP+EQTNctJzytHjBzNNytZ1Ghc5bPUk7GoXXvCGziWeO3k
+   A==;
+X-CSE-ConnectionGUID: 07+QXG7mRWKc07fJIhYPHw==
+X-CSE-MsgGUID: akxD4qrSQOiYR6ZDOCblew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="54600922"
 X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
-   d="scan'208";a="55470538"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 18:40:49 -0700
-X-CSE-ConnectionGUID: fbbM3t+JSGmJzds9GJiHlg==
-X-CSE-MsgGUID: 9E5c6VjITcGNfJGl6z0N2A==
+   d="scan'208";a="54600922"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 19:42:55 -0700
+X-CSE-ConnectionGUID: vqREAZnRTW2o9bajJRb3og==
+X-CSE-MsgGUID: 8RGxadM7QSKWZCdbXwLhVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
-   d="scan'208";a="196077113"
+   d="scan'208";a="158665042"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 21 Jul 2025 18:40:47 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 21 Jul 2025 19:42:53 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ue1zp-000HKH-0W;
-	Tue, 22 Jul 2025 01:40:45 +0000
-Date: Tue, 22 Jul 2025 09:39:57 +0800
+	id 1ue2xv-000HMb-1c;
+	Tue, 22 Jul 2025 02:42:51 +0000
+Date: Tue, 22 Jul 2025 10:42:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Taniya Das <quic_tdas@quicinc.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Dmitry Baryshkov <lumag@kernel.org>
-Subject: [linux-next:master 10114/11398] kismet: WARNING: unmet direct
- dependencies detected for QCS_GCC_615 when selected by QCS_VIDEOCC_615
-Message-ID: <202507220927.C6zNUJt7-lkp@intel.com>
+To: Shuming Fan <shumingf@realtek.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	Charles Keepax <ckeepax@opensource.cirrus.com>
+Subject: [linux-next:master 3351/11398] sound/soc/sdca/sdca_hid.c:27:15:
+ sparse: sparse: incorrect type in assignment (different base types)
+Message-ID: <202507221024.M18hWD6q-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,26 +65,46 @@ Content-Disposition: inline
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
 head:   97987520025658f30bb787a99ffbd9bbff9ffc9d
-commit: f6a8abe0cc16c44eda30712a8922261363d6d3ac [10114/11398] clk: qcom: videocc-qcs615: Add QCS615 video clock controller driver
-config: arm-kismet-CONFIG_QCS_GCC_615-CONFIG_QCS_VIDEOCC_615-0-0 (https://download.01.org/0day-ci/archive/20250722/202507220927.C6zNUJt7-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250722/202507220927.C6zNUJt7-lkp@intel.com/reproduce)
+commit: ac558015dfd803626622bd0ba9645d58a3ed16b1 [3351/11398] ASoC: SDCA: add a HID device for HIDE entity
+config: i386-randconfig-061-20250722 (https://download.01.org/0day-ci/archive/20250722/202507221024.M18hWD6q-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507221024.M18hWD6q-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507220927.C6zNUJt7-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507221024.M18hWD6q-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for QCS_GCC_615 when selected by QCS_VIDEOCC_615
-   WARNING: unmet direct dependencies detected for SM_GCC_6350
-     Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
-     Selected by [y]:
-     - SM_VIDEOCC_6350 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
-   
-   WARNING: unmet direct dependencies detected for QCS_GCC_615
-     Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
-     Selected by [y]:
-     - QCS_VIDEOCC_615 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
+sparse warnings: (new ones prefixed by >>)
+>> sound/soc/sdca/sdca_hid.c:27:15: sparse: sparse: incorrect type in assignment (different base types) @@     expected unsigned int rsize @@     got restricted __le16 [usertype] wDescriptorLength @@
+   sound/soc/sdca/sdca_hid.c:27:15: sparse:     expected unsigned int rsize
+   sound/soc/sdca/sdca_hid.c:27:15: sparse:     got restricted __le16 [usertype] wDescriptorLength
+
+vim +27 sound/soc/sdca/sdca_hid.c
+
+    20	
+    21	static int sdwhid_parse(struct hid_device *hid)
+    22	{
+    23		struct sdca_entity *entity = hid->driver_data;
+    24		unsigned int rsize;
+    25		int ret;
+    26	
+  > 27		rsize = entity->hide.hid_desc.rpt_desc.wDescriptorLength;
+    28	
+    29		if (!rsize || rsize > HID_MAX_DESCRIPTOR_SIZE) {
+    30			dev_err(&hid->dev, "invalid size of report descriptor (%u)\n", rsize);
+    31			return -EINVAL;
+    32		}
+    33	
+    34		ret = hid_parse_report(hid, entity->hide.hid_report_desc, rsize);
+    35	
+    36		if (!ret)
+    37			return 0;
+    38	
+    39		dev_err(&hid->dev, "parsing report descriptor failed\n");
+    40		return ret;
+    41	}
+    42	
 
 -- 
 0-DAY CI Kernel Test Service
