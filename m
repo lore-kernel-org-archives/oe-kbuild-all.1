@@ -1,95 +1,114 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E42381754B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 00:38:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C47D013A265;
+	Tue, 22 Jul 2025 01:33:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753144724; cv=none; b=PVEdPUO3cnMDh1FXsg/7XGFmmgvhAoMLOnFHenhvRYAOScjQkCxSklaheln5KPCk1peHnt7F//qUAZHgn0wd+3AcNpnfE9Z8WEhj82ZlK6Pzfaz72+Mc8UEjuUwsMJJPa0bwLIz6vvUYZpEaBkGsDmHqyI/km7DKz0THkU28i54=
+	t=1753148029; cv=none; b=VO5UPmlTjr4fQwaht/m8Bfnf7RhLiroLW6DBJkp6n6Vz7wZzNiUlkTMGpyxOksZr/X6p9EsVobPPgFUl4HoFUxGcTjjviARAsCMqsRktLeMfCRrXxyN3yYJhZon4BOUBmUVPBWSpWqrv4gUTOpnet7gfPFrdyvka3mctixSwP9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753144724; c=relaxed/simple;
-	bh=E5UNj7ieYnULkC1N1JDf2GFNmzQ2UZTp7aDt859BTcg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Qb24mVLc0gaL+FEpdkcM4N8pNE+79hCw42Xu1HnxD6IPU4f/xJDJCQi1wt/IwNXEzuEAchtVnoa2P2qD8NLYWcily1pfDLR58tAJqNwyCXp/MW9fFlrvPD+gCYBvu3F5R2ltAcqjbREErJwE8vpLg3aUsxwWZlZQzy7jcx9I970=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jxm6kexW; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jxm6kexW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753144723; x=1784680723;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=E5UNj7ieYnULkC1N1JDf2GFNmzQ2UZTp7aDt859BTcg=;
-  b=jxm6kexWkWkMldW78A27wZPkUpMXOH+agY++6kgcK/ZK/mLXSeZEMkoV
-   mV8vufjgXtqksv4iz1YME9N13K00gRPCy0utCIM+z9FGq39OeQBl7M1YT
-   aEjIePGlr1B8neu6v7hBXloZ2Ys1ADR8m+UlbHOS9l0+lHdj2j6paBbKj
-   MfAi8tbPJ+H0ffWyNptHLLp2gmr64PBFXnc0ivnglIDHSyTpQdNIaa+6L
-   Zdr3HhqihGWQVqvvZhietRplr0SJAlLJspDDwBxpDPQbXkaJJbF8cyeWq
-   tlHeU0LUX1rIe6q2bV61hsGw4HLdMIf/POOPvDUiNNi4FIY+ZSM0PJPQF
-   A==;
-X-CSE-ConnectionGUID: AHHzGwu8QGSVAAMu9zU08g==
-X-CSE-MsgGUID: +u4Yk+XwTdqzCTzImBveeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="59039387"
-X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
-   d="scan'208";a="59039387"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 17:38:42 -0700
-X-CSE-ConnectionGUID: mgrne18eS5SiDFfD/uSiCA==
-X-CSE-MsgGUID: TIry5wS4SSGfgq8ptKntEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
-   d="scan'208";a="159389365"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 21 Jul 2025 17:38:40 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ue11h-000HHx-2s;
-	Tue, 22 Jul 2025 00:38:37 +0000
-Date: Tue, 22 Jul 2025 08:38:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Taniya Das <quic_tdas@quicinc.com>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev,
-	Bjorn Andersson <andersson@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: [linux-next:master 10112/11398] kismet: WARNING: unmet direct
- dependencies detected for QCS_GCC_615 when selected by QCS_GPUCC_615
-Message-ID: <202507220802.0Iz9U37j-lkp@intel.com>
+	s=arc-20240116; t=1753148029; c=relaxed/simple;
+	bh=wp8zq+CwqXM4wW1l/Z2citGvtshsWLFeNika/T5VD7M=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=uFo9rWEk0pAnBxWa3fMzJopu8YrGD4RkyWPXa6dCitsqxAJ9B2yAy2Wn5ZkRogOJEo7fe6mOmwxERipintyQfc0it3/eescl+59sLPpmkBgGhz/ZYXmh4reYCai9mE47GspkfxTJBZWU/22lTjZNDDE9k8Fs3R/4XgMKQn5C2Ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.62])
+	by gateway (Coremail) with SMTP id _____8CxNHBt6n5o0EQvAQ--.30100S3;
+	Tue, 22 Jul 2025 09:33:33 +0800 (CST)
+Received: from [10.20.42.62] (unknown [10.20.42.62])
+	by front1 (Coremail) with SMTP id qMiowJBxpeRm6n5oHzQhAA--.42270S3;
+	Tue, 22 Jul 2025 09:33:28 +0800 (CST)
+Subject: Re: [PATCH v2] LoongArch: Implement physical address with ELF program
+ header
+To: kernel test robot <lkp@intel.com>, Huacai Chen <chenhuacai@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ WANG Xuerui <kernel@xen0n.name>, Xi Ruoyao <xry111@xry111.site>,
+ loongarch@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20250721091248.3896152-1-maobibo@loongson.cn>
+ <202507220309.mDl9W32Y-lkp@intel.com>
+From: Bibo Mao <maobibo@loongson.cn>
+Message-ID: <7a5789f1-d6a5-3892-98c1-2c4b8515459d@loongson.cn>
+Date: Tue, 22 Jul 2025 09:31:47 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <202507220309.mDl9W32Y-lkp@intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJBxpeRm6n5oHzQhAA--.42270S3
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxJFyktw13Xw4fKr1DKrykJFc_yoW5KryUpr
+	n5A3yqqr4jgr93Xw1DKF9ag34qqrnxWr42qa45J3Z3CFy7XF1jv3s7Cr9rWa42q34UKa10
+	gFyrGayjya4UG3cCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
+	xVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx
+	1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv
+	67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7I2V7IY0VAS07
+	AlzVAYIcxG8wCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02
+	F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GF
+	ylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7Cj
+	xVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r
+	1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU1CP
+	fJUUUUU==
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   97987520025658f30bb787a99ffbd9bbff9ffc9d
-commit: f4b5b40805ab116aad57ee7042359f97d065bd70 [10112/11398] clk: qcom: gpucc-qcs615: Add QCS615 graphics clock controller driver
-config: arm-kismet-CONFIG_QCS_GCC_615-CONFIG_QCS_GPUCC_615-0-0 (https://download.01.org/0day-ci/archive/20250722/202507220802.0Iz9U37j-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250722/202507220802.0Iz9U37j-lkp@intel.com/reproduce)
+Oops, it is the obvious compile issue. And I am messed with parallel 
+tasks and do not notice this, what I test is old kernel.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507220802.0Iz9U37j-lkp@intel.com/
+Regards
+Bibo Mao
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for QCS_GCC_615 when selected by QCS_GPUCC_615
-   WARNING: unmet direct dependencies detected for SM_GCC_6350
-     Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
-     Selected by [y]:
-     - SM_VIDEOCC_6350 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
-   
-   WARNING: unmet direct dependencies detected for QCS_GCC_615
-     Depends on [n]: COMMON_CLK [=y] && COMMON_CLK_QCOM [=y] && (ARM64 || COMPILE_TEST [=n])
-     Selected by [y]:
-     - QCS_GPUCC_615 [=y] && COMMON_CLK [=y] && COMMON_CLK_QCOM [=y]
+On 2025/7/22 上午3:19, kernel test robot wrote:
+> Hi Bibo,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on 89be9a83ccf1f88522317ce02f854f30d6115c41]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-Implement-physical-address-with-ELF-program-header/20250721-171418
+> base:   89be9a83ccf1f88522317ce02f854f30d6115c41
+> patch link:    https://lore.kernel.org/r/20250721091248.3896152-1-maobibo%40loongson.cn
+> patch subject: [PATCH v2] LoongArch: Implement physical address with ELF program header
+> config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20250722/202507220309.mDl9W32Y-lkp@intel.com/config)
+> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507220309.mDl9W32Y-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202507220309.mDl9W32Y-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>>> ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:15: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:18: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:33: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:34: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:41: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:46: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:47: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:50: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>     ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
