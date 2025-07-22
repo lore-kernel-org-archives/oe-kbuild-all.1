@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051592236E8
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 09:07:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFEFD2D5437
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 09:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753175258; cv=none; b=pjonJ1uUvO1hWOjtfVKwXBf1mkl3tiR8glIVVLNpSOjJ5A9TNrHoocyvakibYKyZGq7jM2QZraerKQA0W4mVa9AJJmfrOXzCvES8LBWkFp6vdtzbE6QgMWv/ioksasCdzNYNUn6iB2zvCYhuqgURcPNqUnEyedei3XtUUQ0iiBA=
+	t=1753176460; cv=none; b=tbJRz/DW+gzM/JMm5SIxcEHegSwFPwSJ7tRAsKT7BeAKD3ai4Z9hbrVnDUV6rYoFv6T3hNosq1oshDUUTa/xBMAW5yQqNUoYlCRyWWG9fotoeDh0utr0qgkkOj2aT6DOVT3T1nV84yzHkos5UbF3rxLExoYXURGFH8iotqOBRPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753175258; c=relaxed/simple;
-	bh=NOzURWAKPVStmnQoq7qCw5XeoCrVnyzlEV6rsr2Uj4I=;
+	s=arc-20240116; t=1753176460; c=relaxed/simple;
+	bh=59EskhLYP2PVmhePzfuAsSFfKfxvnDCQI9PXqgRHthU=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=M2zy+x+3QSIC+pLZO4otUf+A6oj9AezGr3MzF8mRl942xBDpAJceQDf0ptPSQ8r15g1GeuiQwzhik/9yZwAWrANawyPGY4E/86uWFdYZPxULEEiLcXWBSyUWNCbuv1Mi8VevmJSVOO9auKyiCVJuKjqDr9PZZDIiv1VzUbtMjeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E12dTrzu; arc=none smtp.client-ip=192.198.163.16
+	 Content-Disposition; b=dzufblKC/CpzPDk17RjNO5eavJ4yc4/o81i/TqF2Ng6iS9cPNB1iJPZU6prTejT77S0llIb2sfYEaGnKSZ/5pooImALes3NuO93dfgAUix8kZyL4yuSFR60vyuFiJV6Q4dlfyWMsm6XCdCZ4Bu2PIm5VEpeRNWBZDCeAgD11x/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OtXyvF2J; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E12dTrzu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OtXyvF2J"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753175256; x=1784711256;
+  t=1753176458; x=1784712458;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=NOzURWAKPVStmnQoq7qCw5XeoCrVnyzlEV6rsr2Uj4I=;
-  b=E12dTrzudOcLwgudPhdBC9/ePXa6bFPPqx20PaCv8kJ7EtdG35PEjM9Q
-   csngYbkNZTwLr+IHaIy9vyfrrzWg+kpO8uTjoVyyfVbVubk2A3QRn2Hl1
-   njIFwCEkJSGOS+dFAAcygIrqO0MD7jCK4PJHl2oQ2sDm2lBp3QeDEB2TS
-   O2WW7wtLjoc6sGq9Btb5F5y8r3q+0vk8p49E+s1RpOfMKW0TBHoJy5XeE
-   enMJYbzWm10AgZn2plT8/Fbr9UVD2aVZydSW0lYFLKEeA09IB9srESDFN
-   XnpMi5xp2RvVDxXe/6jkw/Swp1y/HIpQvEuKALz+fKikCOZzEsYDUbMzK
+  bh=59EskhLYP2PVmhePzfuAsSFfKfxvnDCQI9PXqgRHthU=;
+  b=OtXyvF2JCAK4p8KHFUS+yqbl/3fHvv/Tajnqn+G2366V30leeEPBVA3s
+   /9qYYEvYfq1TmAa+rnagFkMPv1UYi33VyrYa5RUKCbLIwewC8iseFzCGC
+   7T9jKsOFshMoHSSg0tU33PDqxszS/T6Wg+HkDo7sUErwnuKxdLVsuUm2o
+   DbdMC40bfw4aTMf2D6SepEoH2zVO038mCYkY6G3x79G6RxjquZzyE1LoG
+   m5GGS5KBKuXE8VAXyAZhDYBGBeZOlV1NPmVwKc/8CwtY5O77mx7Yj1Um5
+   Q8FWfiuISxT581LbAwfz18kauIrf30LcEvHyVs6vDph6jzFugQf6Hgf8c
    Q==;
-X-CSE-ConnectionGUID: 7msWW/AASQOIszvXGHl6jA==
-X-CSE-MsgGUID: SA+jwM4lQlawlxyd+DLi8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="43037983"
+X-CSE-ConnectionGUID: O4zrENfrQaO9hqwqC3aMUw==
+X-CSE-MsgGUID: MOaVijTxTNiDuVvrA4Izdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55504500"
 X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="43037983"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 02:07:35 -0700
-X-CSE-ConnectionGUID: 8Uh9hx0EQcKh0v1HL1Nbbw==
-X-CSE-MsgGUID: 8UQBGl0MTFyUGQQy3rhK5w==
+   d="scan'208";a="55504500"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 02:27:38 -0700
+X-CSE-ConnectionGUID: yBbkizhvTOSjjRh3VtZpzw==
+X-CSE-MsgGUID: tL3EOuHnRCSm9j/Ftu21Mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="163635287"
+   d="scan'208";a="164764702"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 22 Jul 2025 02:07:34 -0700
+  by orviesa005.jf.intel.com with ESMTP; 22 Jul 2025 02:27:36 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ue8yC-000HdP-1X;
-	Tue, 22 Jul 2025 09:07:32 +0000
-Date: Tue, 22 Jul 2025 17:06:32 +0800
+	id 1ue9Ha-000HeN-0i;
+	Tue, 22 Jul 2025 09:27:34 +0000
+Date: Tue, 22 Jul 2025 17:26:56 +0800
 From: kernel test robot <lkp@intel.com>
 To: aubrey.li@linux.intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-6.6 34/34] mm/memcg_zombie_reaper.c:47:6:
- warning: no previous prototype for 'memcg_reap_background_set'
-Message-ID: <202507221753.jdLirslx-lkp@intel.com>
+Subject: [anolis-intel-cloud:devel-5.10 0/9] mm/memcg_zombie_reaper.c:47:6:
+ warning: no previous prototype for function 'memcg_reap_background_set'
+Message-ID: <202507221744.Wv2ZHTad-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,26 +66,36 @@ Hi Xu,
 
 FYI, the error/warning still remains.
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
-head:   7c51bc02ec5b3728140f3a1cd74cf21c8566be5c
-commit: 67960246d7b8e4034d9a6ef1f75aaa35353ed21e [34/34] anolis: mm, memcg: introduce per memcg switch to reap zombie background
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250722/202507221753.jdLirslx-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507221753.jdLirslx-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   98170019bf7a4069eb0c41aba1bad66e55c20835
+commit: 33bbe281782b11cc34512292d2957e86a0b2cc21 [0/9] ck: mm, memcg: introduce per memcg switch to reap zombie background
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250722/202507221744.Wv2ZHTad-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507221744.Wv2ZHTad-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507221753.jdLirslx-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507221744.Wv2ZHTad-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> mm/memcg_zombie_reaper.c:47:6: warning: no previous prototype for 'memcg_reap_background_set' [-Wmissing-prototypes]
+>> mm/memcg_zombie_reaper.c:47:6: warning: no previous prototype for function 'memcg_reap_background_set' [-Wmissing-prototypes]
       47 | void memcg_reap_background_set(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~
->> mm/memcg_zombie_reaper.c:53:6: warning: no previous prototype for 'memcg_reap_background_clear' [-Wmissing-prototypes]
+         |      ^
+   mm/memcg_zombie_reaper.c:47:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      47 | void memcg_reap_background_set(void)
+         | ^
+         | static 
+>> mm/memcg_zombie_reaper.c:53:6: warning: no previous prototype for function 'memcg_reap_background_clear' [-Wmissing-prototypes]
       53 | void memcg_reap_background_clear(void)
-         |      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+         |      ^
+   mm/memcg_zombie_reaper.c:53:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      53 | void memcg_reap_background_clear(void)
+         | ^
+         | static 
+   2 warnings generated.
 
 
 vim +/memcg_reap_background_set +47 mm/memcg_zombie_reaper.c
