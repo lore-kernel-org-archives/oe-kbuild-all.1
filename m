@@ -1,61 +1,69 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3F9372;
-	Tue, 22 Jul 2025 00:07:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659FD15C0
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 00:07:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753142860; cv=none; b=qAECr2iNn6MknsCVi5h9DwRRdWRVW3AZuHTU2z4imQWUSgy8sbp+UY29VEB7OjlstVJFH2TE1+ej9W8XRrHTYKRnfcnt/JJ18zjtVeIxZ4WlBy0s/NubA0uCzAmKSPheHgoO3nbK8w6W+MKf6nRF2Q8s5Q+8+egkHhDp/thHAMU=
+	t=1753142861; cv=none; b=i3Va2+a7L6MqLFTVhvgOVLMz5K9tQzaEVGgN7AvVYycNYU8KpBe851X4/x/qFRh9nk8pwALzP4ZultL6abbhP5C+pUY4Wq6NrPmtAQm/eCJIgnAdk3d0q7AtNAnjLmHeybgHQGtwywEJ3BgdzsbiNOdrD6fT8hdzsN8cTikqBcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753142860; c=relaxed/simple;
-	bh=r5JTRxD1YVK+h8+f13Ea98yoby+ZTTYZME4YT5f4g+I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=CzOwVXk8DME8TRR/Ra9ssXx1CfsXeWPrcWfdg2g8WS2SUT/qIYa/5+3aIdA1lap3zHPt6FnkFlkV+Rt5OPiYSuMMha7yR5qE632j2DuUBe09aNLvQ33Yxz+J+3INeivUKlHWHSs9Fbp+8mp6vexyxRCoBLv2dAsbmjO9wm9V934=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=J/SRwLQ3; arc=none smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1753142861; c=relaxed/simple;
+	bh=6Wgm20X6bLSHSSJRuj/iLzXcql7q1mqAyxGSA2B3GSI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BI4VBsjdaCgp70KHyLly9a15yoE85Z+DUlAWIE2i6emRvQPhtIoDwtpVaYB3dQ4p0FRM/1RdHjVUI+mpLKhMDisDQ958GhJcgHTJN7/APpwiVFafEZ3tGXtnzRegwrewX+QIcBfdbyoVxRgIw8gQr1o1WORhOHPQ/QK/4SAvVdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EZ1r3Zlo; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J/SRwLQ3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EZ1r3Zlo"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753142858; x=1784678858;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=r5JTRxD1YVK+h8+f13Ea98yoby+ZTTYZME4YT5f4g+I=;
-  b=J/SRwLQ33EMG9V3xUX5LhSNVj/YWu0by+etzWhSOQJoLTqAbJLLwCspp
-   TW7rWiVy20GSEM+rTucGsA1dy4vpTCtQIIa9B1MkyvcqwwpLa1qywPWjL
-   jZYXUMUzSSVZigdFN/Q4Ywpcp7qQC3s27Eke8jPyoW9LO1P3ySgeAkACW
-   IQ21AwT3u9XrOaFHVrbvhf/ZKu/qtK17Gdxm49Kw4V5An1hzJv2XJk8n7
-   Yl77HRqBHQ8Ivo2dlUmvbO/TFSLLUVEKmnoMkaZpt34CdHy8FkDSPPdtj
-   oawZWsb8ahbllpO2rptrpgnvWQlXiN5qemgtbrdqPunGF6tIA8XbTkf2S
-   Q==;
-X-CSE-ConnectionGUID: X8iXJLXdRa2VJ48fq8nqKQ==
-X-CSE-MsgGUID: stw1qzcMTBKxSlMw6skYsQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="66721016"
+  t=1753142860; x=1784678860;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6Wgm20X6bLSHSSJRuj/iLzXcql7q1mqAyxGSA2B3GSI=;
+  b=EZ1r3ZloLzNgKe189OqSzAunQqBOUGSsmIt0oqAKSPtHAEiLAXJ/7US/
+   X1j4zsPgZKYY5ToaRt9uqVe5J+1ODjOZ2vuR7lEAcjDpOP84mVOH5QoaU
+   58ZbRurcGv6VKkqdRka9GtaMqRjnDbvcJr3YchQfLD8dqfhbmrI7m+/dA
+   Wtziyi/naGIAjRaWqcXXpGBB9sta4ywlNH3u8QEmYyGyaRlWz8Jm5P0Wr
+   wVACFGrj0QaRfJIh8UDIJthVVs7yHn7DWCmwfARpfmtAQd2psncUO6Tly
+   hGILQSfrzc3QpIBXq1AoOLtXnvoLt3xHDH1fFIyMbcD/piz/4nS3zwFXZ
+   w==;
+X-CSE-ConnectionGUID: Wd41FETWR2yUzyXDJqjwxQ==
+X-CSE-MsgGUID: zJCV+EY1S3q7L6nT168iXQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="66721022"
 X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
-   d="scan'208";a="66721016"
+   d="scan'208";a="66721022"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 17:07:38 -0700
-X-CSE-ConnectionGUID: JmMHtf1ZRM6Kxh6KSbnaIQ==
-X-CSE-MsgGUID: f6T5QTbWSx2MWYIIzE7SoA==
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 17:07:40 -0700
+X-CSE-ConnectionGUID: OhHBJctLQieyKNZ2bmpKlA==
+X-CSE-MsgGUID: 2Tg6ofyzQGGibCJEYS6F4A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
-   d="scan'208";a="159026289"
+   d="scan'208";a="159026288"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
   by fmviesa006.fm.intel.com with ESMTP; 21 Jul 2025 17:07:37 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ue0Xe-000HGl-3A;
+	id 1ue0Xe-000HGj-34;
 	Tue, 22 Jul 2025 00:07:34 +0000
-Date: Tue, 22 Jul 2025 08:07:26 +0800
+Date: Tue, 22 Jul 2025 08:07:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-gpio@vger.kernel.org
-Subject: [brgl:gpio/devel 4/4] arch/arm/common/sa1111.c:619:26: error:
- incompatible function pointer types assigning to 'int (*)(struct gpio_chip
- *, unsigned long *, unsigned long *)' from 'void (struct gpio_chip *,
- unsigned long *, unsigned long *)'
-Message-ID: <202507220807.48h0ne5W-lkp@intel.com>
+To: Yuri Andriaccio <yurand2000@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Luca Abeni <luca.abeni@santannapisa.it>,
+	Yuri Andriaccio <yuri.andriaccio@santannapisa.it>
+Subject: Re: [PATCH] sched/deadline: Remove fair-servers from real-time
+ task's bandwidth accounting
+Message-ID: <202507220727.BmA1Osdg-lkp@intel.com>
+References: <20250721111131.309388-1-yurand2000@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,58 +72,80 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250721111131.309388-1-yurand2000@gmail.com>
 
-Hi Bartosz,
+Hi Yuri,
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+kernel test robot noticed the following build errors:
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/devel
-head:   c52c31b44884586b6486590691c444ac990f1f56
-commit: c52c31b44884586b6486590691c444ac990f1f56 [4/4] treewide: rename GPIO set callbacks back to their original names
-config: arm-jornada720_defconfig (https://download.01.org/0day-ci/archive/20250722/202507220807.48h0ne5W-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507220807.48h0ne5W-lkp@intel.com/reproduce)
+[auto build test ERROR on tip/sched/core]
+[also build test ERROR on tip/master peterz-queue/sched/core next-20250721]
+[cannot apply to tip/auto-latest linus/master v6.16-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Yuri-Andriaccio/sched-deadline-Remove-fair-servers-from-real-time-task-s-bandwidth-accounting/20250721-191333
+base:   tip/sched/core
+patch link:    https://lore.kernel.org/r/20250721111131.309388-1-yurand2000%40gmail.com
+patch subject: [PATCH] sched/deadline: Remove fair-servers from real-time task's bandwidth accounting
+config: i386-buildonly-randconfig-001-20250722 (https://download.01.org/0day-ci/archive/20250722/202507220727.BmA1Osdg-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507220727.BmA1Osdg-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507220807.48h0ne5W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507220727.BmA1Osdg-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> arch/arm/common/sa1111.c:619:26: error: incompatible function pointer types assigning to 'int (*)(struct gpio_chip *, unsigned long *, unsigned long *)' from 'void (struct gpio_chip *, unsigned long *, unsigned long *)' [-Wincompatible-function-pointer-types]
-     619 |         sachip->gc.set_multiple = sa1111_gpio_set_multiple;
-         |                                 ^ ~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   ld: kernel/sched/build_policy.o: in function `dl_server_apply_params':
+>> kernel/sched/deadline.c:1693: undefined reference to `__udivdi3'
 
 
-vim +619 arch/arm/common/sa1111.c
+vim +1693 kernel/sched/deadline.c
 
-17cf50116e10af Russell King        2016-08-31  608  
-17cf50116e10af Russell King        2016-08-31  609  static int sa1111_setup_gpios(struct sa1111 *sachip)
-17cf50116e10af Russell King        2016-08-31  610  {
-17cf50116e10af Russell King        2016-08-31  611  	sachip->gc.label = "sa1111";
-17cf50116e10af Russell King        2016-08-31  612  	sachip->gc.parent = sachip->dev;
-17cf50116e10af Russell King        2016-08-31  613  	sachip->gc.owner = THIS_MODULE;
-17cf50116e10af Russell King        2016-08-31  614  	sachip->gc.get_direction = sa1111_gpio_get_direction;
-17cf50116e10af Russell King        2016-08-31  615  	sachip->gc.direction_input = sa1111_gpio_direction_input;
-17cf50116e10af Russell King        2016-08-31  616  	sachip->gc.direction_output = sa1111_gpio_direction_output;
-17cf50116e10af Russell King        2016-08-31  617  	sachip->gc.get = sa1111_gpio_get;
-c52c31b4488458 Bartosz Golaszewski 2025-07-17  618  	sachip->gc.set = sa1111_gpio_set;
-17cf50116e10af Russell King        2016-08-31 @619  	sachip->gc.set_multiple = sa1111_gpio_set_multiple;
-17cf50116e10af Russell King        2016-08-31  620  	sachip->gc.to_irq = sa1111_gpio_to_irq;
-17cf50116e10af Russell King        2016-08-31  621  	sachip->gc.base = -1;
-17cf50116e10af Russell King        2016-08-31  622  	sachip->gc.ngpio = 18;
-17cf50116e10af Russell King        2016-08-31  623  
-17cf50116e10af Russell King        2016-08-31  624  	return devm_gpiochip_add_data(sachip->dev, &sachip->gc, sachip);
-17cf50116e10af Russell King        2016-08-31  625  }
-17cf50116e10af Russell King        2016-08-31  626  
-
-:::::: The code at line 619 was first introduced by commit
-:::::: 17cf50116e10affaadfee9af2253c841f7ac0623 ARM: sa1111: implement a gpio_chip for SA1111 GPIOs
-
-:::::: TO: Russell King <rmk+kernel@armlinux.org.uk>
-:::::: CC: Russell King <rmk+kernel@armlinux.org.uk>
+  1677	
+  1678	int dl_server_apply_params(struct sched_dl_entity *dl_se, u64 runtime, u64 period, bool init)
+  1679	{
+  1680		u64 max_bw, new_bw = to_ratio(period, runtime);
+  1681		struct rq *rq = dl_se->rq;
+  1682		int cpu = cpu_of(rq);
+  1683		struct dl_bw *dl_b;
+  1684		unsigned long cap;
+  1685		int retval = 0;
+  1686		int cpus;
+  1687	
+  1688		dl_b = dl_bw_of(cpu);
+  1689		guard(raw_spinlock)(&dl_b->lock);
+  1690	
+  1691		cpus = dl_bw_cpus(cpu);
+  1692		cap = dl_bw_capacity(cpu);
+> 1693		max_bw = cap_scale(BW_UNIT - dl_b->bw, cap) / cpus;
+  1694	
+  1695		if (new_bw > max_bw)
+  1696			return -EBUSY;
+  1697	
+  1698		if (init) {
+  1699			__add_rq_bw(new_bw, &rq->dl);
+  1700		} else {
+  1701			dl_rq_change_utilization(rq, dl_se, new_bw);
+  1702		}
+  1703	
+  1704		dl_se->dl_runtime = runtime;
+  1705		dl_se->dl_deadline = period;
+  1706		dl_se->dl_period = period;
+  1707	
+  1708		dl_se->runtime = 0;
+  1709		dl_se->deadline = 0;
+  1710	
+  1711		dl_se->dl_bw = to_ratio(dl_se->dl_period, dl_se->dl_runtime);
+  1712		dl_se->dl_density = to_ratio(dl_se->dl_deadline, dl_se->dl_runtime);
+  1713	
+  1714		return retval;
+  1715	}
+  1716	
 
 -- 
 0-DAY CI Kernel Test Service
