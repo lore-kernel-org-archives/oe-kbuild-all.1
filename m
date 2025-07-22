@@ -1,84 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1647727FB2E
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 17:23:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07972B644
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 19:16:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753205006; cv=none; b=r0YzuyHocnEnz5lhydU9Sw13aMzz4k95B54kUfthF2eMaeE9BAoyn8W47viTE8DXlJLIocz1z0rz+Tkam144Nb7nWRHmrW7RNydf9lqKWUF15SrtSaoC6w/0pa09uvYGMvxS7RnTBIU1Yz7fJxUX1ELLFId4KpH8MUJe/XN25xE=
+	t=1753211793; cv=none; b=YddLnLpmh8oRqFHE+u39pen5PSwAS7ITN1A8U17HVwV4fff/ya6AC2mIb9hxXiGMaS/BMNt898VewCLMgW6iPlQgfsOy2Vp+6+768Cr04Ybc+aoLIBKeNVHMsuMzyGItmpBGS2sjlCTL0qKOc2YUroNVEjS4FUJ/L2IXNOtCugU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753205006; c=relaxed/simple;
-	bh=iY8DNW2TAKM17+S3GE59sF3ZE1JUQqgmoNS4oXSaDTI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MKCoQBvZyITYAApfYhyGWUeqPr/HuA3GnTRe1UdhFWIgl7DkhX59ME+AwcvVzHXYsqTJttj1D5vkqNzidpLE8+dc06wtLXzwN1rgg7z/EoZXN1jGt8ek5muVvFKg1345D+IDj8HVqtNSCpPVe687awYFzBUNIA65OlYSCJnUB2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WifWnkxB; arc=none smtp.client-ip=192.198.163.18
+	s=arc-20240116; t=1753211793; c=relaxed/simple;
+	bh=OvBL/Vs7lgDawPWzd2FZxtUmGMZppbUUfmWOgdoxTtE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ij1WhVUo6opys9lVrpKLy7sONieeCSbMok59J6KA3VswLzG2YS5PhZVjs0PKnvJSX/RbdMX6IPYJQvoSrJPq5b1w9rz8CVEAsEWnvHCro1Mr08dFxZzUmizkpnmVP+r62+HcD5vqeCh7Z8BWHFbUplvNjn6jCCv98kS/ewXMIe0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CQsL5xfi; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WifWnkxB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CQsL5xfi"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753205005; x=1784741005;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=iY8DNW2TAKM17+S3GE59sF3ZE1JUQqgmoNS4oXSaDTI=;
-  b=WifWnkxBen5bDamG5U4akMA3VSuugCaOU26drWI36o/T5/ato0QRKLPa
-   TULOyihOf13ZUWSmeaOt0+vuUm8NxMyYAyTWtGw9MetKRFxz5O8l7QD2y
-   8eFPez5kOWdIO+Grcev7XAZtCBLveYaGIH516u6sV+oSKboyENT8ZF6D7
-   gH50r3qYEd1I/jAu4AX63lSKBRgGUeCw+P5KMGiI5U1zq4YTJUnCwgJRl
-   IFnJwr2yWKnsHZTmGaLixAAajchXXTG6Jj+d0HDBl/4Jf2mi4a2BuqSY8
-   o1OX7Yw+GvBpQA2mVyFPe6UNhCikbLMs9opk+kig2N5YlNl0s7UhZJg5F
-   w==;
-X-CSE-ConnectionGUID: mh8Xe30MS8CjpN/CusEV1w==
-X-CSE-MsgGUID: yNgaNNvVT3SUk/OjbAw4ng==
-X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="54686978"
+  t=1753211792; x=1784747792;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=OvBL/Vs7lgDawPWzd2FZxtUmGMZppbUUfmWOgdoxTtE=;
+  b=CQsL5xfisJzbAChh7rrYpRmgiEGi0SJhJg2RrIBewShzLb5XSmbBfeXI
+   eNRIgLCD5AegIBx+tAR7nxtj+pkIlTnqxCrjKDIscDBV7sxWSgdPASNLs
+   lCL2y2CTULbI5BogIqx2eLQ6zeJxnC+BiCi3G7SgBRbE3JZJcPNQd1xjF
+   s19pbuEk4gSEX9vcCYWX3k1EtPdkP+v9VqtuXeSFr4NouqDewdB4WyHGJ
+   BJR2+q5P6EQFoZy3pa6DajJCXZktMGZaZ11g7/aCvGlFLE0Q8yUES9z0o
+   zw+36QIQSoBjDWQf1TF0tG/v2XDweTwDyHnzlBPDuMnLnLTdxmEcsSQnn
+   Q==;
+X-CSE-ConnectionGUID: uHjlMVuxTSOw6KjXa5MRpg==
+X-CSE-MsgGUID: 3gQw32qPSVCyEc4NvcBOUA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="66546677"
 X-IronPort-AV: E=Sophos;i="6.16,332,1744095600"; 
-   d="scan'208";a="54686978"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 10:23:24 -0700
-X-CSE-ConnectionGUID: uaWWmbRTSpWBbZdK7pVGwA==
-X-CSE-MsgGUID: lepFhLzqSUi9A8Qk/GF6wQ==
+   d="scan'208";a="66546677"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 12:16:32 -0700
+X-CSE-ConnectionGUID: 6kIAalx/Tkib1U9U5fJo7Q==
+X-CSE-MsgGUID: 9aEInDRTR7+H7Mg/BASwRA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,332,1744095600"; 
-   d="scan'208";a="163750882"
+   d="scan'208";a="159960614"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 22 Jul 2025 10:23:18 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 22 Jul 2025 12:16:30 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ueGhv-000IaB-1e;
-	Tue, 22 Jul 2025 17:23:15 +0000
-Date: Wed, 23 Jul 2025 01:22:57 +0800
+	id 1ueITU-000Idb-2D;
+	Tue, 22 Jul 2025 19:16:28 +0000
+Date: Wed, 23 Jul 2025 03:15:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, Rob Herring <robh@kernel.org>,
-	Sudeep Holla <sudeep.holla@arm.com>,
-	Souvik Chakravarty <Souvik.Chakravarty@arm.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	cros-qcom-dts-watchers@chromium.org, Vinod Koul <vkoul@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Florian Fainelli <florian.fainelli@broadcom.com>
-Cc: oe-kbuild-all@lists.linux.dev, Dmitry Baryshkov <lumag@kernel.org>,
-	Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
-	Stephen Boyd <swboyd@chromium.org>,
-	Andre Draszik <andre.draszik@linaro.org>, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	Elliot Berman <quic_eberman@quicinc.com>,
-	Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>,
-	Srinivas Kandagatla <srini@kernel.org>
-Subject: Re: [PATCH v12 8/8] power: reset: reboot-mode: Expose sysfs for
- registered reboot_modes
-Message-ID: <202507230101.w90DnJxJ-lkp@intel.com>
-References: <20250721-arm-psci-system_reset2-vendor-reboots-v12-8-87bac3ec422e@oss.qualcomm.com>
+To: ckkim <changkon12@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Dongjin Kim <tobetter@gmail.com>
+Subject: [tobetter:odroid-6.16.y 8/44]
+ drivers/power/reset/odroid-reboot.c:141:17: error: 'arm_pm_restart'
+ undeclared
+Message-ID: <202507230322.mHt3DKH7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -87,57 +62,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250721-arm-psci-system_reset2-vendor-reboots-v12-8-87bac3ec422e@oss.qualcomm.com>
 
-Hi Shivendra,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 97987520025658f30bb787a99ffbd9bbff9ffc9d]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shivendra-Pratap/power-reset-reboot-mode-Add-device-tree-node-based-registration/20250722-023323
-base:   97987520025658f30bb787a99ffbd9bbff9ffc9d
-patch link:    https://lore.kernel.org/r/20250721-arm-psci-system_reset2-vendor-reboots-v12-8-87bac3ec422e%40oss.qualcomm.com
-patch subject: [PATCH v12 8/8] power: reset: reboot-mode: Expose sysfs for registered reboot_modes
-config: arc-randconfig-r111-20250722 (https://download.01.org/0day-ci/archive/20250723/202507230101.w90DnJxJ-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250723/202507230101.w90DnJxJ-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-6.16.y
+head:   ac46a60ec2fb958f1dc2e5871e122abb98ac0da9
+commit: ae8f39e1d572c4a923777ad79a242261a2dc6fe2 [8/44] ODROID-COMMON: power:reset: Add odroid support
+config: arm-allyesconfig (https://download.01.org/0day-ci/archive/20250723/202507230322.mHt3DKH7-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507230322.mHt3DKH7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507230101.w90DnJxJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507230322.mHt3DKH7-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/power/reset/reboot-mode.c:82:76: sparse: sparse: Using plain integer as NULL pointer
+All errors (new ones prefixed by >>):
 
-vim +82 drivers/power/reset/reboot-mode.c
+   drivers/power/reset/odroid-reboot.c:63:6: warning: no previous prototype for 'odroid_card_reset' [-Wmissing-prototypes]
+      63 | void odroid_card_reset(void)
+         |      ^~~~~~~~~~~~~~~~~
+   drivers/power/reset/odroid-reboot.c: In function 'odroid_restart_probe':
+>> drivers/power/reset/odroid-reboot.c:141:17: error: 'arm_pm_restart' undeclared (first use in this function)
+     141 |                 arm_pm_restart = do_odroid_restart;
+         |                 ^~~~~~~~~~~~~~
+   drivers/power/reset/odroid-reboot.c:141:17: note: each undeclared identifier is reported only once for each function it appears in
 
-    74	
-    75	static ssize_t reboot_modes_show(struct device *dev, struct device_attribute *attr, char *buf)
-    76	{
-    77		struct reboot_mode_driver **devres_reboot;
-    78		struct reboot_mode_driver *reboot;
-    79		struct mode_info *info;
-    80		ssize_t size = 0;
-    81	
-  > 82		devres_reboot = devres_find(dev, release_reboot_mode_device, NULL, 0);
-    83		reboot = *devres_reboot;
-    84		mutex_lock(&reboot->rb_lock);
-    85		list_for_each_entry(info, &reboot->head, list) {
-    86			size += sprintf(buf + size, "%s,", info->mode);
-    87		}
-    88		mutex_unlock(&reboot->rb_lock);
-    89	
-    90		if (size) {
-    91			size += sprintf(buf + size - 1, "\n");
-    92			return size;
-    93		}
-    94	
-    95		return -ENODATA;
-    96	}
-    97	static DEVICE_ATTR_RO(reboot_modes);
-    98	
+
+vim +/arm_pm_restart +141 drivers/power/reset/odroid-reboot.c
+
+   133	
+   134	static int odroid_restart_probe(struct platform_device *pdev)
+   135	{
+   136		struct device_node *of_node;
+   137		u32 id;
+   138	
+   139		if (!of_property_read_u32(pdev->dev.of_node, "sys_reset", &id)) {
+   140			psci_function_id_restart = id;
+ > 141			arm_pm_restart = do_odroid_restart;
+   142		}
+   143	
+   144		if (!of_property_read_u32(pdev->dev.of_node, "sys_poweroff", &id)) {
+   145			psci_function_id_poweroff = id;
+   146			pm_power_off = do_odroid_poweroff;
+   147		}
+   148	
+   149		of_node = pdev->dev.of_node;
+   150	
+   151		sd_vqsw = of_get_named_gpio(of_node, "sd-vqsw", 0);
+   152		if (!gpio_is_valid(sd_vqsw)) sd_vqsw = 0;
+   153	
+   154		sd_vmmc = of_get_named_gpio(of_node, "sd-vmmc", 0);
+   155		if (!gpio_is_valid(sd_vmmc)) sd_vmmc = 0;
+   156	
+   157		sd_vqen = of_get_named_gpio(of_node, "sd-vqen", 0);
+   158		if (!gpio_is_valid(sd_vqen)) sd_vqen = 0;
+   159	
+   160		return 0;
+   161	}
+   162	
 
 -- 
 0-DAY CI Kernel Test Service
