@@ -1,178 +1,140 @@
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB372AF19;
-	Tue, 22 Jul 2025 02:48:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62340EEDE;
+	Tue, 22 Jul 2025 03:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753152543; cv=none; b=iugSgaL2fsDQYbLynkWGQ5tCi3dp5FBWG77xJF6ft2jDbHiiOZne2xDKneKioPikcMTEwVUeREcVx9q2DfwZyu8ZrvRKxycaw4eBNrTz+ue07Vkt0HnwqU69PQJZI7Zvg2pxiB1M1MVIP5NSHeP62LfUwTiEBkN8nQ1tNeQdVBM=
+	t=1753155182; cv=none; b=XHxaPIomW1AnojEIiX2SttIxZdiABzVdOMgOYd6jJL9LtB75+PB+L4R8Ufpw4twh7qtu5X3pISbilZhnYlqFe2JxLu+M3XEBjo+p1js8534y4OagHvhXGOckhxTS/P9WrPyBLXOg2Z+AX6FppG6vJy3G9Dr+9Oj9Zyev7ooHNd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753152543; c=relaxed/simple;
-	bh=9J99+paIOjgsfN7RjGyOlgJSazMYPFDxkztxwc2Lp20=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=cO1kIBVOAEjsOD7hIs/xUZK8HIYx4WuJJH2FL7CTndX4GeMA0rQgoBMDl+sE9rmOZfNNga1WUKHHwMXGX1gMuTCgQKZN4ZEZwQKyw/5w2WRGBCaqY7H+KRYyYrr9NlOPgiGa+4DISipnk8jPDRve6PC+7+ntAADO2TckfKm6llU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=net-swift.com; spf=pass smtp.mailfrom=net-swift.com; arc=none smtp.client-ip=54.254.200.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=net-swift.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=net-swift.com
-X-QQ-mid: zesmtpsz3t1753152494t57810750
-X-QQ-Originating-IP: puccBWfF/Orvo5AWHvH+Ko9BdKvW8qzebvwg9Fyk7Zs=
-Received: from smtpclient.apple ( [36.24.205.22])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 22 Jul 2025 10:48:12 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 11290490953618489811
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1753155182; c=relaxed/simple;
+	bh=O+ii7kVyc307LUKZ0QVkEtNuXbxVGlKN4h9Vz4lya1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=HsYgfKLtxe6M3coSrZc8qibvdxy8w0gyD0uyrJwcimogggTNJIL7gYN0zk7YYeVsF2MBFFxlMdBpg1PqYwUAPtxn9I5TDNqrjE86zAw+feZxp7DEY37C8lj7xrR7YB8BwTaaoL8+pC1QatbeaW6EzwRW4pY50TAhHS+KkkJDHNg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EfRuDDs4; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EfRuDDs4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753155181; x=1784691181;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=O+ii7kVyc307LUKZ0QVkEtNuXbxVGlKN4h9Vz4lya1A=;
+  b=EfRuDDs44dOzaR4v9B0Gjbp39/FGYtyDNYYI8cRSS88R617XYxmJ6zM4
+   OOVKhLqmsbJ6usQ1yaC27gE86OaOgHCrGAs7W9eLmvt253YityYKRF0j6
+   RnDOejzI82A3UXdykfQSIWlZmM/7K/7rq9zEziEW1CsY74UgxiIZ8QILu
+   V8LRsJFgYgm6UeWO0ic8ELApmjcsfrvRLl4VyZu06KyvN9reTMkWjV9f7
+   fK412V22YlTxXO0qHQ12zW1SJNFQmRnm6o15fX6oQXNmlgGfu5W+piq4V
+   UtzrZjcSzc9yxHGSS0zoiiengFHGCDZ6MbwO21mYsbktZF2s34fPbxikS
+   g==;
+X-CSE-ConnectionGUID: upYCLoyuSN2Cvcr3HPAfgg==
+X-CSE-MsgGUID: abF9wZyYT/q+XaYx41zcpw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55501761"
+X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
+   d="scan'208";a="55501761"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 20:33:00 -0700
+X-CSE-ConnectionGUID: IacLddW1SryxXIaIJkRO0w==
+X-CSE-MsgGUID: ivkqOrVmQe+sBSGwsJ2Aww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
+   d="scan'208";a="190003965"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 21 Jul 2025 20:32:59 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ue3kN-000HOf-2I;
+	Tue, 22 Jul 2025 03:32:55 +0000
+Date: Tue, 22 Jul 2025 11:32:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: George Abraham P <george.abraham.p@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Suman Kumar Chakraborty <suman.kumar.chakraborty@intel.com>,
+	Giovanni Cabiddu <giovanni.cabiddu@intel.com>
+Subject: [linux-next:master 10722/11398] include/linux/sprintf.h:11:54:
+ error: type specifier missing, defaults to 'int'; ISO C99 and later do not
+ support implicit int
+Message-ID: <202507221115.Oel7jhRg-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: [linux-next:master 7606/11307]
- drivers/net/ethernet/wangxun/libwx/wx_vf_common.c:99
- wx_request_msix_irqs_vf() warn: why call request_threaded_irq() with a NULL
- thread
-From: "mengyuanlou@net-swift.com" <mengyuanlou@net-swift.com>
-In-Reply-To: <ada3c3a9-556f-4860-bff0-af0364a984b8@suswa.mountain>
-Date: Tue, 22 Jul 2025 10:48:00 +0800
-Cc: oe-kbuild@lists.linux.dev,
- lkp@intel.com,
- oe-kbuild-all@lists.linux.dev,
- Jakub Kicinski <kuba@kernel.org>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <C2F07D3D-DB95-4E42-948F-ADE4025FDCB9@net-swift.com>
-References: <ada3c3a9-556f-4860-bff0-af0364a984b8@suswa.mountain>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-X-Mailer: Apple Mail (2.3826.400.131.1.6)
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpsz:net-swift.com:qybglogicsvrsz:qybglogicsvrsz4a-0
-X-QQ-XMAILINFO: N0mS+7D7RQfjlhSJKSbnUOMgXCTAs1zbfUjsRVO2Tq65+RBZepv5nqHO
-	BbKFtQunb3MQbRmwXEdhJZISB29TIv+Srt4KUuNercUoWhq6Bv6InkWQH9eRiTPkiJuHm/q
-	jf/KxujTVWQ/F1tSQeFNK1N/U0jQARQodruil2fuH5YZoapSDaqmXjak6RUCYMOiHi0pmBz
-	wS61YHZ+ZrKKrmh9W/pg9DY+LOT5oABLegQqylbPKWe3s7KleaRiqbGqGW7nE0cQmhOljtw
-	ldgyJ/F7BAS7szpJnHhwhC6Ncn4j49Hl8zSGIqTDXI2c5edhWleZL40Ox4SBjOdAClhS0+O
-	epzG2uCrB7xilVgKp/M3SsdYAl0pH15LDv6uLdvTlpcF3hnKYppYfGk++TeS2KwnBx+HvvE
-	j1pPBtv2M9u5LP3gdXkzpdqXVJc1XqALZYUKOGGAdP5IVPySQp6uXEnWAnhZk3UJJU4rz0a
-	VcrdyZjL5b7xNDvjaC7Pb3G58oMVAt64Z6d9LtRGyR1QMLWbwNO8yU3nu+qoLtUmy01oWyK
-	HQskqLwKq5sjtWd+/ZL3XpNKbltUelHr60Mq/8tEnWV8NwOkWjoxb/F2rH88Tbv/Mu6EXon
-	qOTnTA2MelqY1gd4BjcaiNEpRYWoZ5aIY267GvjV+9XBkY0UbJySgOiAij3E4mXf7qVSybc
-	sHKOqcieE/haQhDRe8wCd2WECWUvHKTM/2k6IN9+04dMeMIzJvfoziF0vNyYgMhNkibe2m+
-	EPqjxGpjsg6wDTlvacJSb4fx5ERJZFNwD3I7Hf2qY+pqUxJz5wScisk+i4t1RoGD52AbMQ3
-	6k+1iMMYgjer8jI2sHcWX0HMLvIcl+PZsV6eVRSVAFmgzc7O9vLeVbyoZotpk7xzQxz+P+z
-	Woz/T+3TO4e0l1XC1Dq5ZACy2vR+51nekz+PD1VOrjTICu5nWIcMGoS2Plb21wzdQjJNFvJ
-	JCg/IeJafeK2tZvGG701AJ7PGH3/sNNuNOKOsCyQLBXOMOPJsCvBmFbl2G4AxmqxuAgRJHV
-	UzM2kPI4OQCTPU0+MlVbF2ZRXTUFc=
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-X-QQ-RECHKSPAM: 0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   97987520025658f30bb787a99ffbd9bbff9ffc9d
+commit: 7c68005a46108ffaa598e91f1571e5f7f9acb6dc [10722/11398] crypto: qat - relocate power management debugfs helper APIs
+config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250722/202507221115.Oel7jhRg-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507221115.Oel7jhRg-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507221115.Oel7jhRg-lkp@intel.com/
+
+Note: the linux-next/master HEAD 97987520025658f30bb787a99ffbd9bbff9ffc9d builds fine.
+      It may have been fixed somewhere.
+
+All errors (new ones prefixed by >>):
+
+   In file included from drivers/crypto/intel/qat/qat_common/adf_pm_dbgfs_utils.c:4:
+>> include/linux/sprintf.h:11:54: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      11 | __printf(2, 0) int vsprintf(char *buf, const char *, va_list);
+         |                                                      ^
+         |                                                      int
+   include/linux/sprintf.h:11:20: warning: incompatible redeclaration of library function 'vsprintf' [-Wincompatible-library-redeclaration]
+      11 | __printf(2, 0) int vsprintf(char *buf, const char *, va_list);
+         |                    ^
+   include/linux/sprintf.h:11:20: note: 'vsprintf' is a builtin with type 'int (char *restrict, const char *restrict, __builtin_va_list)'
+>> include/linux/sprintf.h:13:71: error: unknown type name 'va_list'
+      13 | __printf(3, 0) int vsnprintf(char *buf, size_t size, const char *fmt, va_list args);
+         |                                                                       ^
+   include/linux/sprintf.h:15:72: error: unknown type name 'va_list'
+      15 | __printf(3, 0) int vscnprintf(char *buf, size_t size, const char *fmt, va_list args);
+         |                                                                        ^
+   include/linux/sprintf.h:17:70: error: unknown type name 'va_list'
+      17 | __printf(2, 0) __malloc char *kvasprintf(gfp_t gfp, const char *fmt, va_list args);
+         |                                                                      ^
+   include/linux/sprintf.h:18:73: error: unknown type name 'va_list'
+      18 | __printf(2, 0) const char *kvasprintf_const(gfp_t gfp, const char *fmt, va_list args);
+         |                                                                         ^
+   include/linux/sprintf.h:21:55: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
+      21 | __scanf(2, 0) int vsscanf(const char *, const char *, va_list);
+         |                                                       ^
+         |                                                       int
+   include/linux/sprintf.h:21:19: warning: incompatible redeclaration of library function 'vsscanf' [-Wincompatible-library-redeclaration]
+      21 | __scanf(2, 0) int vsscanf(const char *, const char *, va_list);
+         |                   ^
+   include/linux/sprintf.h:21:19: note: 'vsscanf' is a builtin with type 'int (const char *restrict, const char *restrict, __builtin_va_list)'
+   2 warnings and 6 errors generated.
 
 
+vim +/int +11 include/linux/sprintf.h
 
-> 2025=E5=B9=B47=E6=9C=8819=E6=97=A5 12:18=EF=BC=8CDan Carpenter =
-<dan.carpenter@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A
->=20
-> tree:   =
-https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git =
-master
-> head:   d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
-> commit: fd0a2e03bf6083354994c2efe2bd12e369c0c830 [7606/11307] net: =
-txgbevf: init interrupts and request irqs
-> config: parisc-randconfig-r071-20250719 =
-(https://download.01.org/0day-ci/archive/20250719/202507191110.FWkwuVJQ-lk=
-p@intel.com/config)
-> compiler: hppa-linux-gcc (GCC) 8.5.0
->=20
-> If you fix the issue in a separate patch/commit (i.e. not just a new =
-version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: =
-https://lore.kernel.org/r/202507191110.FWkwuVJQ-lkp@intel.com/
->=20
-> smatch warnings:
-> drivers/net/ethernet/wangxun/libwx/wx_vf_common.c:99 =
-wx_request_msix_irqs_vf() warn: why call request_threaded_irq() with a =
-NULL thread
->=20
-> vim +99 drivers/net/ethernet/wangxun/libwx/wx_vf_common.c
->=20
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   74  int =
-wx_request_msix_irqs_vf(struct wx *wx)
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   75  {
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   76   struct net_device =
-*netdev =3D wx->netdev;
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   77   int vector, err;
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   78 =20
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   79   for (vector =3D 0; =
-vector < wx->num_q_vectors; vector++) {
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   80   struct wx_q_vector =
-*q_vector =3D wx->q_vector[vector];
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   81   struct msix_entry *entry =
-=3D &wx->msix_q_entries[vector];
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   82 =20
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   83   if (q_vector->tx.ring && =
-q_vector->rx.ring)
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   84   snprintf(q_vector->name, =
-sizeof(q_vector->name) - 1,
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   85   "%s-TxRx-%d", =
-netdev->name, entry->entry);
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   86   else
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   87   /* skip this unused =
-q_vector */
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   88   continue;
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   89 =20
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   90   err =3D =
-request_irq(entry->vector, wx_msix_clean_rings, 0,
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   91    q_vector->name, =
-q_vector);
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   92   if (err) {
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   93   wx_err(wx, "request_irq =
-failed for MSIX interrupt %s Error: %d\n",
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   94         q_vector->name, =
-err);
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   95   goto free_queue_irqs;
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   96   }
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   97   }
-> eb4898fde1de8c Mengyuan Lou 2025-07-04   98 =20
-> fd0a2e03bf6083 Mengyuan Lou 2025-07-04  @99   err =3D =
-request_threaded_irq(wx->msix_entry->vector, wx_msix_misc_vf,
-> fd0a2e03bf6083 Mengyuan Lou 2025-07-04  100     NULL, IRQF_ONESHOT, =
-netdev->name, wx);
->                                                                        =
-   ^^^^
-> It's not a threaded IRQ if the thread is NULL.  You could just
-> use request_irq().
+39ced19b9e60f6f Andy Shevchenko 2023-08-14   9  
+39ced19b9e60f6f Andy Shevchenko 2023-08-14  10  __printf(2, 3) int sprintf(char *buf, const char * fmt, ...);
+39ced19b9e60f6f Andy Shevchenko 2023-08-14 @11  __printf(2, 0) int vsprintf(char *buf, const char *, va_list);
+39ced19b9e60f6f Andy Shevchenko 2023-08-14  12  __printf(3, 4) int snprintf(char *buf, size_t size, const char *fmt, ...);
+39ced19b9e60f6f Andy Shevchenko 2023-08-14 @13  __printf(3, 0) int vsnprintf(char *buf, size_t size, const char *fmt, va_list args);
+39ced19b9e60f6f Andy Shevchenko 2023-08-14  14  __printf(3, 4) int scnprintf(char *buf, size_t size, const char *fmt, ...);
+39ced19b9e60f6f Andy Shevchenko 2023-08-14  15  __printf(3, 0) int vscnprintf(char *buf, size_t size, const char *fmt, va_list args);
+39ced19b9e60f6f Andy Shevchenko 2023-08-14  16  __printf(2, 3) __malloc char *kasprintf(gfp_t gfp, const char *fmt, ...);
+39ced19b9e60f6f Andy Shevchenko 2023-08-14  17  __printf(2, 0) __malloc char *kvasprintf(gfp_t gfp, const char *fmt, va_list args);
+39ced19b9e60f6f Andy Shevchenko 2023-08-14  18  __printf(2, 0) const char *kvasprintf_const(gfp_t gfp, const char *fmt, va_list args);
+39ced19b9e60f6f Andy Shevchenko 2023-08-14  19  
 
-Thanks, I got it.
+:::::: The code at line 11 was first introduced by commit
+:::::: 39ced19b9e60f6f5b80db6b72965a8cf1982439d lib/vsprintf: split out sprintf() and friends
 
-Mengyuan Lou
+:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+:::::: CC: Andrew Morton <akpm@linux-foundation.org>
 
->=20
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  101   if (err) {
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  102   wx_err(wx, "request_irq =
-for msix_other failed: %d\n", err);
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  103   goto free_queue_irqs;
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  104   }
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  105 =20
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  106   return 0;
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  107 =20
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  108  free_queue_irqs:
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  109   while (vector) {
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  110   vector--;
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  111   =
-free_irq(wx->msix_q_entries[vector].vector,
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  112   wx->q_vector[vector]);
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  113   }
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  114   =
-wx_reset_interrupt_capability(wx);
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  115   return err;
-> eb4898fde1de8c Mengyuan Lou 2025-07-04  116  }
->=20
-> --=20
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->=20
->=20
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
