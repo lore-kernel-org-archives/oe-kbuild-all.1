@@ -1,129 +1,200 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C739248F60
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 16:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15CD27CB04
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 16:44:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753202541; cv=none; b=u8lVoCjkYYLkBvNgfG7KD+Vzv+TiMPqSly6SR2N/XZyljPvV+k+fp+xdN5bpwO/SXojOtf7IOpz1HRNpguYLG8Gh1is1aQ2ZQ8xrTtxknXJ910fFIE+RdkCZmuSvdQJWbiZWB+xPB0LtgD9afiLRBlVWSSTHf3t0l2zZ1kZURUs=
+	t=1753202666; cv=none; b=U3gaZn7uhnFSmUAZfDL5m9yhIMb0P/nSELp3XLPgbYRzfDZIiOVFbloe6IhapmQBxBb5ngt5Zy1/Cy/pVvK3zPzUWuWqAJhX8K6F/O1tvQrzuhLk955iSKw6PC+c9srITQuLjKi1+6jCSepZJWVeXYNBfeFZk5II6mUz4Xfpnxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753202541; c=relaxed/simple;
-	bh=RaJ+Jpxw4Z1gkEyO0AntIYQXlU/FNtY01F1LH3AHnLs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZBBhQIlwTB334Hm6jIVNCUuC+H0HrxAZeSenAjL7BPGRqoEK1LTL+R8WS+IDLIKPPmSOIJqmJdt8WqKrXNsggzbftaF+EpAkvBJQSmiTGtyWa9Oo40jnbM6rJLRCX562GzAAeT7lUnyIuL41Otzd3JX+nLikgTWn4iCeABgKTCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ixj52MEL; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753202666; c=relaxed/simple;
+	bh=OIgAdLuErVs2/A6r/aGC/cMTM9FQgoTIcHs9dhoSMGI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XrNv0dCK/VJptj6BDAPxJYfS90t5x87v8Nv6DBdzh4XqQOKsPtUVkG7Qe0wLYHFO52x1INFbWF4Kx3qLUT5rDD9oG0hU6xXDXlbzETAjTfWQzXk6NNhAXV5JvlVg7l9I4LIi5RGOCqBGOzh8RBvwgZ5JMQ0jgqLPVwPLVXW/+nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KWR2V2TL; arc=none smtp.client-ip=209.85.166.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ixj52MEL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753202540; x=1784738540;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RaJ+Jpxw4Z1gkEyO0AntIYQXlU/FNtY01F1LH3AHnLs=;
-  b=Ixj52MELiLFiYJqcUOFrnR23NGR5s4F+4zklKQ79zP/OetOPUM8hhqTl
-   yOVMZZY9iJXYCD8DAKcI7l7zvbW2WlSeWFy9SIsdMi2/3suMEoUkcp7TA
-   0OHaOgwgNwk5taNZ1uVU7uRX1H8e7LkK1MZCFP56o2Sy9eg79s5RAWpoa
-   Mk86cfwbVUzYTg3oMf6CYgMial2XuohxyzMPVDtv+Ivdbi16QiNt/OD8D
-   aF4+RnD/zdlZ1lfHL2A2S+228D5OIMXe/m6YPhjCVqqhIgf8f80sPcbuf
-   HHGOk86f7DH9VWnkW7g9+TtgemBWMRiB/GiEJG+FZLaPPy7zcpPSZk4TK
-   A==;
-X-CSE-ConnectionGUID: ze2nObVJS6OpqeCW7IBvYA==
-X-CSE-MsgGUID: 2Nb4qCA/Thq/UlHWgdGTxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="55611978"
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="55611978"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 09:42:20 -0700
-X-CSE-ConnectionGUID: QdnwgSZkTSWNugI+qCkkpw==
-X-CSE-MsgGUID: OnyzoUzLQze6vfH2jpY8cQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="163430987"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 22 Jul 2025 09:42:12 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ueG49-000IXj-0d;
-	Tue, 22 Jul 2025 16:42:09 +0000
-Date: Wed, 23 Jul 2025 00:42:08 +0800
-From: kernel test robot <lkp@intel.com>
-To: Pingfan Liu <piliu@redhat.com>, bpf@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Pingfan Liu <piliu@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jeremy Linton <jeremy.linton@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
-	Simon Horman <horms@kernel.org>, Gerd Hoffmann <kraxel@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Philipp Rudo <prudo@redhat.com>, Viktor Malik <vmalik@redhat.com>,
-	Jan Hendrik Farr <kernel@jfarr.cc>, Baoquan He <bhe@redhat.com>,
-	Dave Young <dyoung@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	kexec@lists.infradead.org, KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>
-Subject: Re: [PATCHv4 03/12] bpf: Introduce bpf_copy_to_kernel() to buffer
- the content from bpf-prog
-Message-ID: <202507230035.9xLXz9Js-lkp@intel.com>
-References: <20250722020319.5837-4-piliu@redhat.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KWR2V2TL"
+Received: by mail-il1-f179.google.com with SMTP id e9e14a558f8ab-3e2429bd4b3so395ab.1
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 09:44:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1753202664; x=1753807464; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=u/J9c44B2rfUEXqOaK5vBmjRcGZBEhOA4d7CmtYKTbM=;
+        b=KWR2V2TLzmaM4UUmBskEgH7LVrHDZNRIRWyyR38CVuZL6kmeTZ77fobx6SOuRjpPii
+         Ta9/R388bchNJDs9kIDu/OhJ3LTeNu7Eo3InwQwqR2pMx8BDnVeApazgLII9zKaSZ2uc
+         0+pZHlukMQammSwCarERnMLOEQABPoOM8dsSYZgyxRiY6becOVRFBg7XpodKH3HGVUO/
+         FhbezUUR05AJtdYr7s/VhKbffuS4EYoqW8TT+wzCk6tDiwOaDXdmeSf7mD7nmJWFSg0N
+         S+f6go1CloypOJL7vOeXj2uGFgRf/roqNrkUK3P3jXzD4RQS9mVJREX2JAZACz/TThI6
+         KVBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753202664; x=1753807464;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=u/J9c44B2rfUEXqOaK5vBmjRcGZBEhOA4d7CmtYKTbM=;
+        b=n8tA2iBt8Kow6oYeim1P9Pgo93aYn5nsdk0ksfTJF2eoNs3nIfPETEHHUutSmIcBiy
+         vk/oHco39Zzw7FcybdKiasnJVzL3O5K59ydPo/FQZDgQzUALr+yrFkA5dPhGWCrSWNe/
+         ywMvo9fCiC6DK07UJwCBqejel22Xu+KTFEcn9A0RJCcant+COSsvlnOXfWK/u9vdMY/n
+         EUV0YIwWx9Pcp8c/btZx3kZq+gct7e+ZHQjKqDuzmfvkOJYNk+xMbIuwkIb+VT5w+WsJ
+         oWYq5f0bp2nSgyusPDyFwOwXQ+AypEHpqB+9XZSZzwaJcbTX7mQgXbMCafjqkd+l9DKz
+         UZkA==
+X-Forwarded-Encrypted: i=1; AJvYcCXM7LWXG6bLE5nXB54ZkAhE2xStAHTAX2JEXidaahfu5cxFiECB9n5nQ7dMcvQC73S29ntMg7ev6s/sY8jJ@lists.linux.dev
+X-Gm-Message-State: AOJu0Yx3U8TBiXEOvylqmkrpq9xL2p50H4+FDuhZ9IYSDZhRP7JKAtfJ
+	4z6K4CmdZjhh3SZSuuE1jAtl4Ci48p1zDqQ9Vi2VxkqzEYomcI3mYiFw3H1cxmanWTPAcjcSm/S
+	acs6p9Ydb/E9Dt/XzIA8ZbY5viYx5xQMSVPnz4uAO
+X-Gm-Gg: ASbGnctM2SBv4xF/AAAPeMJI9UmR9xaoBY13Xl4PXMBVyQsImSg9tHPqVexzwvOvT7G
+	c09KheaYfWrzFsEbfis3BBWkbcK+KzYN9NNSR+S/5OrKUpIjfyk1vCQQG9FE8aqxplS6FEi6fty
+	MxZFP9ZMyL8jYQg2VvGUpvx2XF/0szyKFHdAN23W8G4XSzY33p5hpkWBb5f5BuvmVwdbCR/VsK/
+	mRmcdrXRxZAojAcPkBYpEZAP8hMMRvVjpo6
+X-Google-Smtp-Source: AGHT+IGfEYLYe5Io1K4VZvSr4/cF5bO7gX7epuRu2YdmefaHtqEtYNEemlXzdWnjClvSJUyhPU3cExio1XvDmsqvslw=
+X-Received: by 2002:a05:6e02:214c:b0:3e0:51fc:6e8 with SMTP id
+ e9e14a558f8ab-3e2c043f895mr3953445ab.15.1753202663337; Tue, 22 Jul 2025
+ 09:44:23 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250722020319.5837-4-piliu@redhat.com>
+References: <20250626054826.433453-2-irogers@google.com> <202507050736.b4hX0Xks-lkp@intel.com>
+ <87o6tcrzh2.ffs@tglx>
+In-Reply-To: <87o6tcrzh2.ffs@tglx>
+From: Ian Rogers <irogers@google.com>
+Date: Tue, 22 Jul 2025 09:44:11 -0700
+X-Gm-Features: Ac12FXy6DPlRgmtRMXwfgDfN-fUO2i-M22mO1ZiFnmHJ37c6WMrgsL94ksjwfgo
+Message-ID: <CAP-5=fWbmo3ejmeWbweSk5waPtS2VTc1obtaWiibZC3cVmvVvg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/3] vdso: Switch get/put unaligned from packed struct
+ to memcpy
+To: Thomas Gleixner <tglx@linutronix.de>
+Cc: kernel test robot <lkp@intel.com>, Eric Biggers <ebiggers@google.com>, Yuzhuo Jing <yuzhuo@google.com>, 
+	Andy Lutomirski <luto@kernel.org>, Vincenzo Frascino <vincenzo.frascino@arm.com>, 
+	Arnaldo Carvalho de Melo <acme@redhat.com>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Christophe Leroy <christophe.leroy@csgroup.eu>, "Jason A. Donenfeld" <Jason@zx2c4.com>, 
+	linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Pingfan,
+On Tue, Jul 22, 2025 at 8:56=E2=80=AFAM Thomas Gleixner <tglx@linutronix.de=
+> wrote:
+>
+> Ian!
+>
+> On Sat, Jul 05 2025 at 08:05, kernel test robot wrote:
+> > kernel test robot noticed the following build warnings:
+> >
+> > [auto build test WARNING on linus/master]
+> > [also build test WARNING on tip/timers/vdso v6.16-rc4 next-20250704]
+> > [cannot apply to acme/perf/core]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Ian-Rogers/vdso-=
+Switch-get-put-unaligned-from-packed-struct-to-memcpy/20250626-135005
+> > base:   linus/master
+> > patch link:    https://lore.kernel.org/r/20250626054826.433453-2-iroger=
+s%40google.com
+> > patch subject: [PATCH v3 1/3] vdso: Switch get/put unaligned from packe=
+d struct to memcpy
+> > config: s390-randconfig-002-20250705 (https://download.01.org/0day-ci/a=
+rchive/20250705/202507050736.b4hX0Xks-lkp@intel.com/config)
+> > compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project=
+ 61529d9e36fa86782a2458e6bdeedf7f376ef4b5)
+> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
+hive/20250705/202507050736.b4hX0Xks-lkp@intel.com/reproduce)
+> >
+> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
+rsion of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202507050736.b4hX0Xks-l=
+kp@intel.com/
+> >
+> > All warnings (new ones prefixed by >>):
+> >
+> >    In file included from arch/s390/boot/decompressor.c:48:
+> >    In file included from arch/s390/include/uapi/../../../../lib/decompr=
+ess_unlz4.c:10:
+> >    In file included from arch/s390/include/uapi/../../../../lib/lz4/lz4=
+_decompress.c:36:
+> >>> arch/s390/include/uapi/../../../../lib/lz4/lz4defs.h:109:9: warning: =
+default initialization of an object of type 'typeof (*((const U16 *)ptr))' =
+(aka 'const unsigned short') leaves the object uninitialized [-Wdefault-con=
+st-init-var-unsafe]
+> >      109 |         return get_unaligned((const U16 *)ptr);
+> >          |                ^
+>
+> Any update on this one?
 
-kernel test robot noticed the following build errors:
+Hi Thomas!
 
-[auto build test ERROR on bpf-next/net]
-[also build test ERROR on bpf/master arm64/for-next/core linus/master v6.16-rc7]
-[cannot apply to bpf-next/master next-20250722]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks for the interest. I'm not sure how to resolve this.
+Basically the story in the code is:
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Pingfan-Liu/kexec_file-Make-kexec_image_load_default-global-visible/20250722-100843
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git net
-patch link:    https://lore.kernel.org/r/20250722020319.5837-4-piliu%40redhat.com
-patch subject: [PATCHv4 03/12] bpf: Introduce bpf_copy_to_kernel() to buffer the content from bpf-prog
-config: x86_64-buildonly-randconfig-003-20250722 (https://download.01.org/0day-ci/archive/20250723/202507230035.9xLXz9Js-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507230035.9xLXz9Js-lkp@intel.com/reproduce)
+  get_unaligned((const U16 *)ptr);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507230035.9xLXz9Js-lkp@intel.com/
+is being expanded by:
 
-All error/warnings (new ones prefixed by >>):
+  #define get_unaligned(ptr)      __get_unaligned_t(typeof(*(ptr)), (ptr))
+  #define __get_unaligned_t(type, ptr) ({
+          \
+       type __get_unaligned_ctrl_type __always_unused;                 \
+       __unqual_scalar_typeof(__get_unaligned_ctrl_type) __get_unaligned_va=
+l; \
+       __builtin_memcpy(&__get_unaligned_val, (void *)(ptr),           \
+                        sizeof(__get_unaligned_val));                  \
+       __get_unaligned_val;                                            \
+  })
 
-   kernel/bpf/helpers_carrier.c:84:17: warning: no previous prototype for 'bpf_mem_range_result_put' [-Wmissing-prototypes]
-      84 | __bpf_kfunc int bpf_mem_range_result_put(struct mem_range_result *result)
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers_carrier.c:93:17: warning: no previous prototype for 'bpf_copy_to_kernel' [-Wmissing-prototypes]
-      93 | __bpf_kfunc int bpf_copy_to_kernel(const char *name, char *buf, int size)
-         |                 ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/helpers_carrier.c: In function 'bpf_copy_to_kernel':
->> kernel/bpf/helpers_carrier.c:124:9: warning: enumeration value 'TYPE_VMAP' not handled in switch [-Wswitch]
-     124 |         switch (alloc_type) {
-         |         ^~~~~~
---
->> ld: mm/mmu_notifier.o:mm/mmu_notifier.c:25: multiple definition of `__pcpu_unique_srcu_srcu_data'; kernel/bpf/helpers_carrier.o:kernel/bpf/helpers_carrier.c:13: first defined here
+to:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+  ({
+  const U16 __get_unaligned_ctrl_type __always_unused;
+  __unqual_scalar_typeof(__get_unaligned_ctrl_type) __get_unaligned_val;
+  __builtin_memcpy(&__get_unaligned_val, (void *)(ptr),
+   sizeof(__get_unaligned_val));
+  __get_unaligned_val;
+  })
+
+which is then expanded to:
+
+  ({
+  const U16 __get_unaligned_ctrl_type __always_unused;
+  U16 __get_unaligned_val;
+  __builtin_memcpy(&__get_unaligned_val, (void *)(ptr),
+   sizeof(__get_unaligned_val));
+  __get_unaligned_val;
+  })
+
+so the analysis is correct that __get_unaligned_ctrl_type is
+unused, however, I've also put __always_unused on the variable.
+The purpose of that variable is for __unqual_scalar_typeof that
+passes the value to _Generic. I truly don't care about that
+variable but I care about it causing _Generic to get the correct
+type for __get_unaligned_val (that value can't be const as it is
+the destination of the memcpy). Why even declare
+__get_unaligned_ctrl_type? Well we want the result of __get_unaligned_t to
+match its type argument which needn't match the dereference of
+its pointer argument (*ptr) - I accept that in many cases it
+will. The value passed to _Generic is an expression and not a
+type, so declaring the variable and using the variable for
+_Generic allows this.
+
+My feeling is that my patch is correct and I'm not clear how to
+improve upon it. I believe it is a weakness in the analysis that
+the __always_unused isn't having an effect.
+
+Should adding new warnings for analysis on the code base be
+allowed for this patch? Well the upside to the patch is getting
+closer to not requiring -fno-strict-aliasing, or not introducing
+requiring that flag for things in the tools directory. I think
+the upside is good, I don't know how to mitigate the downside
+with poor analysis by certain tools.
+
+Thanks,
+Ian
