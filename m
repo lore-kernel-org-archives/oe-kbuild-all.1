@@ -1,189 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A03F1DF267;
-	Tue, 22 Jul 2025 10:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2378723F413
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 10:25:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753179589; cv=none; b=hR4jFifrAzIXznD3cWsNo/UYPZ8JEC3HVu+APqEULrgbAnj58AVtTwPpUQUAYTLzNd9HQo4M7rwwVyIQ4+/FEoc6PyKdlMiTXBk0qgfdEspTSHTrsK7ZkrvCUwS3YZIZRc6R9HX1zIzTuhmssj/9pS2Mu245mnN5Ur5zacTch74=
+	t=1753179954; cv=none; b=shz3FPeHx7ShFS9ewsAqQS/XJGdmvbL2QizppWxBlpJRL3ayBMkwMMgJYWaOTI+m1FhtAucNXfROsxQXpIFgbO+4rW3WyzSar/FlDUhXJ1Ru1U+D5vuLCDgR5m7venyA0xhZFNEYi1+XHFMU1Up89mqjt1spwH2cdRQCOCEmtuY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753179589; c=relaxed/simple;
-	bh=Tz5n3cJgHCeCA+szGpMErb/vCpyRhzAIpcTVreqonGA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WM/ponSvpAnd5zzzXl+zf37glEUl6ojk2Y/xeElUWt0uwdkQHTjfsZ4CHqUCPl8BhVhexlDwsFWyyy/ffzf/33f6MBJJmJyYUQMgzl1OYuEnggCk2Trgw/vrNSZUdQMQMob4ggpYALbuaL/zm/SUsG1fb1l/8g+WYA/6dDLz75I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Czb51UGD; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753179954; c=relaxed/simple;
+	bh=RPWhTt5rZn7LXWeHcGmNjx99BQQhTjwyos/BUEa8C7o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JbyuTnjW/+EK7pIkmjsRCKhgsh2Ib0vMgcSBVE79fN3wwWbhrwJCmLOGFGMmSGcAYtYYET0Jo3uTwSunWUA2l3k8arAt/5/BfE/szz4suy7Ddpcxgl75LNOheIBANnknSYgjmWIG8aXHtD+y8+tHp8HE4r82/dvnMjcq5PYTjoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=d26HkUZj; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Czb51UGD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753179587; x=1784715587;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Tz5n3cJgHCeCA+szGpMErb/vCpyRhzAIpcTVreqonGA=;
-  b=Czb51UGDOmZVjlviP0zDnzXjDrqL6SXve5kCNCm8a7ciK8kKI8ZKxmHF
-   R9K/KCHoahgw0wJF3uz53/Zj7ix8KE3OrbJXSHiQ2onZkd+azeVqeq1sg
-   zmBY+rWhZVV9N3FkfuRMfLzaLI2ll8JTQF0ESCF4KzsL8aB+pd6jiaWZQ
-   cCybhRCGVNbMTBp1JhK1tHKsmilj8hTKMyvFRQWqis9zn+UTFWqSsA9K5
-   nVnhVVswym950AO7l66C8c+ayyyjSurTZXZU5CSdzww3XGHN2RouYaKIK
-   zi4DNLkDbQ3RlJvOOGX5Olrcw5K6k8AZL6cvzHshv3amVlVHL2x2XYkIo
-   Q==;
-X-CSE-ConnectionGUID: c4gxLSziSOiIKt4vwJh5Ug==
-X-CSE-MsgGUID: ++h42jAmRpGUYkaCQIvEOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55533098"
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="55533098"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 03:19:46 -0700
-X-CSE-ConnectionGUID: 0IiCCiNSSCaxhbb+aeEcTA==
-X-CSE-MsgGUID: TcLhLlinTMm+abtXnqB9JA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="163650163"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 22 Jul 2025 03:19:42 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ueA5z-000HgZ-2a;
-	Tue, 22 Jul 2025 10:19:39 +0000
-Date: Tue, 22 Jul 2025 18:19:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Joy Zou <joy.zou@nxp.com>, Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	Frank Li <Frank.Li@nxp.com>, Ye Li <ye.li@nxp.com>,
-	Jacky Bai <ping.bai@nxp.com>, Dong Aisheng <aisheng.dong@nxp.com>,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 2/2] regulator: pf0900: Add PMIC PF0900 support
-Message-ID: <202507221720.jxsGRfcE-lkp@intel.com>
-References: <20250721-b4-pf09-v2-v2-2-e2c568548032@nxp.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="d26HkUZj"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-609b169834cso10272a12.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 03:25:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1753179951; x=1753784751; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FzUZBHqh4RF7ixQsRaw2VmTkB6H4HTTZmxKSbEek0S0=;
+        b=d26HkUZjRQKsCfaZVe/fzuB4q0yqrZgvj86KK1gbQhwNcKezjwA625dNgH1Zq0FYXx
+         jGhbtQQPB0cbAssvMF3R2l9/EOeWF1bpGy6B24tmaObANiU+Bsv6nRnmXNc3iZAy2SOp
+         CvSABPwn+aCj5XO6XbaZaitYZxsm25P5lmqjJICTZSje1JcXRnESI0cZZ5xYW+bCN5P7
+         qwdfXk2TflZFzGACA79E4KZDJTtR9j+QpTXb/oNyrcy47CTSBI4JFyKQk6bdCaQaHAsc
+         LW9feOPrpkf3wAvngLciFaiizOV/pHasSIb9j4+jneDyXDplgYo4xpk9184rNGecpWMQ
+         nSEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753179951; x=1753784751;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FzUZBHqh4RF7ixQsRaw2VmTkB6H4HTTZmxKSbEek0S0=;
+        b=eJ09uSCbv9uMC8I088qTp5T2NIQjrnAJutBk06lOLP2FaVE+O4NS76jkkoJrJ2zvxZ
+         VGbyray4ub1laZIOdY83QcEpZBm1JjmRyYcg4OvYKQIPb4W+BsbJScrA8wFrhPfKPm/K
+         moyEH21rJ2u6uT6uvw7kSzHebkBmUdC0sPkCnchb47S8rDYaOoQt/0LQNHFR3gONuc1L
+         QowNjdr3imYGA/FOVgCSfCkMKElvLqMSmeEZsJwWzX0D6UBUGKr3CiiJWypNUT5f8EXo
+         88+JYVC3XkHnQdNk50qkt6Aenavun1BVqjVkPJ7n9nf7Tz6r/jDgz8p3FTyZvgsqLOqR
+         9fsQ==
+X-Gm-Message-State: AOJu0Yz6IXqHwv+te7uqPoqP8FssjPxggi/7/L2lGH/teeDSkehW8GEo
+	5YqI3Uret6usqznGgjRtnLzkYGE2o16YV5Y1awSZvD7EPxuu+K0SdmeqlUJokhX06htyhWPxDYF
+	E8DTvX8136Pdi0sSnQ7jS9y2JcF1VD4y8G1vagVIK
+X-Gm-Gg: ASbGncu+aATYuJ5nYwtsJ/7zkM555xj0CI2t8DnkgfqD+Obwtk23X7nxea2QC2rGnRx
+	tVFQwssQMmtHsxHtwV3Rmz3OMwD86yAIfdabpF5ykoKBUsyP3QrL4uZ3ZskomTe63QjV3qwVE49
+	ORhAo0kNqspP5J72fGf4bN/L+rS58za7J8Shw6xq1hjlqWFyef6Ny6/Xc+GAcKB/DQutwOEApIQ
+	ulY1vXn1EMPDg2dB584w9eYtCCNAU+4MuRg
+X-Google-Smtp-Source: AGHT+IEQ9zzqR3ceJkxj8dH+Ts15zQ9zVzmuFTRE7CuXYmFN16kpPtRnvmu6fa4avTmLwjuNBqv5uMPq30r9AEmWZBs=
+X-Received: by 2002:a05:6402:5c6:b0:612:e537:f075 with SMTP id
+ 4fb4d7f45d1cf-6134ded972amr55322a12.7.1753179950531; Tue, 22 Jul 2025
+ 03:25:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250721-b4-pf09-v2-v2-2-e2c568548032@nxp.com>
+References: <202507171958.aMcW08Cn-lkp@intel.com>
+In-Reply-To: <202507171958.aMcW08Cn-lkp@intel.com>
+From: Jann Horn <jannh@google.com>
+Date: Tue, 22 Jul 2025 12:25:14 +0200
+X-Gm-Features: Ac12FXxbIMw3uSIsf8m3VWga60a8_7M6Qm6wh7dmZ0C9Ui7YIc5p7KSWgo_IVWQ
+Message-ID: <CAG48ez2e0dn9q5i1XLKeLJDXg0KE+-8n=dXNCo+8EAGkA2j8cw@mail.gmail.com>
+Subject: Re: [linux-next:master 10146/10823] Warning: fs/eventpoll.c:2198
+ function parameter 'ep' not described in 'ep_get_upwards_depth_proc'
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, Christian Brauner <brauner@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Joy,
+On Thu, Jul 17, 2025 at 7:36=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it master
+> head:   024e09e444bd2b06aee9d1f3fe7b313c7a2df1bb
+> commit: f2e467a48287c868818085aa35389a224d226732 [10146/10823] eventpoll:=
+ Fix semi-unbounded recursion
+> config: x86_64-rhel-9.4 (https://download.01.org/0day-ci/archive/20250717=
+/202507171958.aMcW08Cn-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
+ve/20250717/202507171958.aMcW08Cn-lkp@intel.com/reproduce)
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202507171958.aMcW08Cn-lkp=
+@intel.com/
 
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on d086c886ceb9f59dea6c3a9dae7eb89e780a20c9]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Joy-Zou/dt-bindings-regulator-add-PF0900-regulator-yaml/20250721-151818
-base:   d086c886ceb9f59dea6c3a9dae7eb89e780a20c9
-patch link:    https://lore.kernel.org/r/20250721-b4-pf09-v2-v2-2-e2c568548032%40nxp.com
-patch subject: [PATCH v2 2/2] regulator: pf0900: Add PMIC PF0900 support
-config: sh-allmodconfig (https://download.01.org/0day-ci/archive/20250722/202507221720.jxsGRfcE-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507221720.jxsGRfcE-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507221720.jxsGRfcE-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/regulator/pf0900-regulator.c: In function 'pf0900_regmap_read':
->> drivers/regulator/pf0900-regulator.c:377:64: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     377 |                 crc = crc8_j1850(pf0900->addr << 1 | 0x1, reg, FIELD_GET(GENMASK(7, 0), *val));
-         |                                                                ^~~~~~~~~
-   drivers/regulator/pf0900-regulator.c: In function 'pf0900_regmap_write':
->> drivers/regulator/pf0900-regulator.c:416:23: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-     416 |                 val = FIELD_PREP(GENMASK(15, 8), data[1]) | data[0];
-         |                       ^~~~~~~~~~
-
-
-vim +/FIELD_GET +377 drivers/regulator/pf0900-regulator.c
-
-   351	
-   352	static int pf0900_regmap_read(void *context, unsigned int reg,
-   353				      unsigned int *val)
-   354	{
-   355		struct device *dev = context;
-   356		struct i2c_client *i2c = to_i2c_client(dev);
-   357		struct pf0900 *pf0900 = dev_get_drvdata(dev);
-   358		int ret;
-   359		u8 crc;
-   360	
-   361		if (!pf0900 || !pf0900->dev)
-   362			return -EINVAL;
-   363	
-   364		if (reg >= PF0900_MAX_REGISTER) {
-   365			dev_err(pf0900->dev, "Invalid register address: 0x%x\n", reg);
-   366			return -EINVAL;
-   367		}
-   368	
-   369		if (pf0900->crc_en) {
-   370			ret = i2c_smbus_read_word_data(i2c, reg);
-   371			if (ret < 0) {
-   372				dev_err(pf0900->dev, "Read error at reg=0x%x: %d\n", reg, ret);
-   373				return ret;
-   374			}
-   375	
-   376			*val = (u16)ret;
- > 377			crc = crc8_j1850(pf0900->addr << 1 | 0x1, reg, FIELD_GET(GENMASK(7, 0), *val));
-   378			if (crc != FIELD_GET(GENMASK(15, 8), *val)) {
-   379				dev_err(pf0900->dev, "Crc check error!\n");
-   380				return -EINVAL;
-   381			}
-   382			*val = FIELD_GET(GENMASK(7, 0), *val);
-   383		} else {
-   384			ret = i2c_smbus_read_byte_data(i2c, reg);
-   385			if (ret < 0) {
-   386				dev_err(pf0900->dev, "Read error at reg=0x%x: %d\n", reg, ret);
-   387				return ret;
-   388			}
-   389			*val = ret;
-   390		}
-   391	
-   392		return 0;
-   393	}
-   394	
-   395	static int pf0900_regmap_write(void *context, unsigned int reg,
-   396				       unsigned int val)
-   397	{
-   398		struct device *dev = context;
-   399		struct i2c_client *i2c = to_i2c_client(dev);
-   400		struct pf0900 *pf0900 = dev_get_drvdata(dev);
-   401		uint8_t data[2];
-   402		int ret;
-   403	
-   404		if (!pf0900 || !pf0900->dev)
-   405			return -EINVAL;
-   406	
-   407		if (reg >= PF0900_MAX_REGISTER) {
-   408			dev_err(pf0900->dev, "Invalid register address: 0x%x\n", reg);
-   409			return -EINVAL;
-   410		}
-   411	
-   412		data[0] = val;
-   413		if (pf0900->crc_en) {
-   414			/* Get CRC */
-   415			data[1] = crc8_j1850(pf0900->addr << 1, reg, data[0]);
- > 416			val = FIELD_PREP(GENMASK(15, 8), data[1]) | data[0];
-   417			ret = i2c_smbus_write_word_data(i2c, reg, val);
-   418		} else {
-   419			ret = i2c_smbus_write_byte_data(i2c, reg, data[0]);
-   420		}
-   421	
-   422		if (ret) {
-   423			dev_err(pf0900->dev, "Write reg=0x%x error!\n", reg);
-   424			return ret;
-   425		}
-   426	
-   427		return 0;
-   428	}
-   429	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks for letting me know, I've sent
+https://lore.kernel.org/all/20250721-epoll-sphinx-fix-v1-1-b695c92bf009@goo=
+gle.com/
+to fix this.
