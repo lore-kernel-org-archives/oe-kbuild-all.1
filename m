@@ -1,85 +1,157 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D5DB2D3EF6
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 08:56:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2798EAC6;
+	Tue, 22 Jul 2025 09:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753174597; cv=none; b=VoOG94OyFwWo2vF1Q7rU2HlN2QRxcBjgWVMC0qEx6P/G71j5eOZRUsy5w4C3OQa/WvjayEe/Ax858uqAUNgpb2f6J1FQBpeUpoYC6hdY213YvSb93rrXv8qQ1uZl26E2K0QnDNbwraMX7+0MggMnF97+afkd2sfcywTIsWIdP2g=
+	t=1753175249; cv=none; b=oYmv4j3y80W680HfTleeTgyOpMqKXKrSBSQiug6Qme5TBD2TpnhoPoHzTBy0VwIMgU9e4dQdZCMkGtfj4SHpjBi42o2J6A+7uok/a7MtetYs9KjNe072knqZeryXkmtALHKz+QYzUNvencHz1mMqADunpYOX+uSVO8lBKel4BNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753174597; c=relaxed/simple;
-	bh=n7GUxQI6ER9wlHaWQtYe+vTBqL8DUM9eAk6/oAER8so=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aKazFSoICV+1vu+rK9TpKcdbMRgDDXjztAZymRxDOsuaS06p3Ei/M5dD6MK6PyPNUjP2gHH8EJQc2KX81uC7nMGdN2ZmiZen20sqUsG4LZlLpJAzPsO446TOeNsBgLCAHGaNcGvIgSqzMjMfvl5Vg2aLqr81JTXDgbZPuN0fhnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fptPy8Rf; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fptPy8Rf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753174595; x=1784710595;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=n7GUxQI6ER9wlHaWQtYe+vTBqL8DUM9eAk6/oAER8so=;
-  b=fptPy8RfCB+ABxWZyLaFyy9ltDkT0XXNlGgtS+uXSTdfqt2uNZ0UB6e7
-   hxxA0KAXPY75Y3d7EryhPZtMh6K/xtW6P3sgp4zRdS2nNrHs2r8+TYkCg
-   dn7gbp2Azi6or3Zo/O9bWn+6DZUcWPB+WEtLWsMqD1BC98oWfJKl8+xPW
-   tyMHOQ3yWOULSQQMGY25dwPmHC1ezWl8zcNcHPVGkR+eXRGWmETKanyyr
-   GaHTsfe2zX04Mks2duGcjVo7pyTNY8bvteV0P5wocDHPNoEd3cst6kz1J
-   MaccJUnEqyiLzeSGQMoQFErfdW9lHzu6ckkPumcAd5eYDLgfUJXJLcqP3
-   Q==;
-X-CSE-ConnectionGUID: QlAg/VjwTUKwl5UsMbHdLQ==
-X-CSE-MsgGUID: R9T9fiRFSHue4cJurxY69A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="55357781"
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="55357781"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 01:56:34 -0700
-X-CSE-ConnectionGUID: 64ADGsFhQDW1EFF5IIYxDw==
-X-CSE-MsgGUID: U4iMy9kqQPSU48IrQyEXcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,331,1744095600"; 
-   d="scan'208";a="159170291"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 22 Jul 2025 01:56:34 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ue8nX-000HcV-0t;
-	Tue, 22 Jul 2025 08:56:31 +0000
-Date: Tue, 22 Jul 2025 16:56:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 9/9] kismet: WARNING: unmet direct
- dependencies detected for SPI_PHYTIUM when selected by SPI_PHYTIUM_PLAT
-Message-ID: <202507221627.whuLvNav-lkp@intel.com>
+	s=arc-20240116; t=1753175249; c=relaxed/simple;
+	bh=uu7YEV+sBYy0lZ9HJM6cHIKZrL33VDKt+RK+6r+PsbI=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=TYpgD5YC4TsDbx10Gn6V03FeMc4bSVuoEQgg1QR57GJjDa5qoOD3x02+M5rAvA+8O/Yv7B/skSSlzZLdwZ2pRzWN8URyT3kv1AHV4F0o09C1zaTfpOnc2bi3dLEgm9suRic7bYno9297xVo09decH3Sn75w61no4c/wmM9p0F2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.62])
+	by gateway (Coremail) with SMTP id _____8BxjazDVH9oZX4vAQ--.63058S3;
+	Tue, 22 Jul 2025 17:07:15 +0800 (CST)
+Received: from [10.20.42.62] (unknown [10.20.42.62])
+	by front1 (Coremail) with SMTP id qMiowJAxE+S4VH9ohbEhAA--.44151S3;
+	Tue, 22 Jul 2025 17:07:06 +0800 (CST)
+Subject: Re: [PATCH v2] LoongArch: Implement physical address with ELF program
+ header
+To: Huacai Chen <chenhuacai@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+ oe-kbuild-all@lists.linux.dev, WANG Xuerui <kernel@xen0n.name>,
+ Xi Ruoyao <xry111@xry111.site>, loongarch@lists.linux.dev,
+ linux-kernel@vger.kernel.org
+References: <20250721091248.3896152-1-maobibo@loongson.cn>
+ <202507220309.mDl9W32Y-lkp@intel.com>
+ <7a5789f1-d6a5-3892-98c1-2c4b8515459d@loongson.cn>
+ <CAAhV-H74EpbKsPpc_ToGqP6LKx04z+Dvyuw52u-1A4nQ-wr6WQ@mail.gmail.com>
+From: Bibo Mao <maobibo@loongson.cn>
+Message-ID: <d6b6aaa8-06f2-1b0d-5ebc-e7a71a20dd7a@loongson.cn>
+Date: Tue, 22 Jul 2025 17:05:24 +0800
+User-Agent: Mozilla/5.0 (X11; Linux loongarch64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <CAAhV-H74EpbKsPpc_ToGqP6LKx04z+Dvyuw52u-1A4nQ-wr6WQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowJAxE+S4VH9ohbEhAA--.44151S3
+X-CM-SenderInfo: xpdruxter6z05rqj20fqof0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxXw1xGw4kAF4UZFW8JF13GFX_yoWrZw43pr
+	n5AayqqF4UKr93X34DKFn0gw1qqrnxWr42qa98J3WfCFy7XF18Z3s7Gr9ruasFq34UK3W0
+	gFyrGayjya4Ut3cCm3ZEXasCq-sJn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v2
+	6F4UJVW0owAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
+	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxk0xIA0c2IEe2xFo4
+	CEbIxvr21l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG
+	67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MI
+	IYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E
+	14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJV
+	W8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU24So
+	DUUUU
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   98170019bf7a4069eb0c41aba1bad66e55c20835
-commit: 3aecfb5d583a915dc68f9fb5b5bc7dd643d5016d [9/9] anolis: spi: add support for Phytium SPI
-config: x86_64-kismet-CONFIG_SPI_PHYTIUM-CONFIG_SPI_PHYTIUM_PLAT-0-0 (https://download.01.org/0day-ci/archive/20250722/202507221627.whuLvNav-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250722/202507221627.whuLvNav-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507221627.whuLvNav-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for SPI_PHYTIUM when selected by SPI_PHYTIUM_PLAT
-   WARNING: unmet direct dependencies detected for SPI_PHYTIUM
-     Depends on [n]: SPI [=y] && SPI_MASTER [=y] && (ARCH_PHYTIUM || COMPILE_TEST [=n])
-     Selected by [y]:
-     - SPI_PHYTIUM_PLAT [=y] && SPI [=y] && SPI_MASTER [=y]
+On 2025/7/22 下午12:58, Huacai Chen wrote:
+> On Tue, Jul 22, 2025 at 9:33 AM Bibo Mao <maobibo@loongson.cn> wrote:
+>>
+>> Oops, it is the obvious compile issue. And I am messed with parallel
+>> tasks and do not notice this, what I test is old kernel.
+>>
+>> Regards
+>> Bibo Mao
+> Add this part to the patch is enough.
+> 
+> diff --git a/arch/loongarch/include/asm/addrspace.h
+> b/arch/loongarch/include/asm/addrspace.h
+> index fe198b473f84..babcc1c6c820 100644
+> --- a/arch/loongarch/include/asm/addrspace.h
+> +++ b/arch/loongarch/include/asm/addrspace.h
+> @@ -18,11 +18,20 @@
+>   /*
+>    * This gives the physical RAM offset.
+>    */
+> -#ifndef __ASSEMBLER__
+> +#ifdef __ASSEMBLER__
+> +
+> +#ifndef PHYS_OFFSET
+> +#define PHYS_OFFSET    0
+> +#endif
+> +
+> +#else
+> +
+>   #ifndef PHYS_OFFSET
+>   #define PHYS_OFFSET    _UL(0)
+>   #endif
+> +
+>   extern unsigned long vm_map_base;
+> +
+>   #endif /* __ASSEMBLER__ */
+> 
+>   #ifndef IO_BASE
+sure, will do in this way.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards
+Bibo Mao
+> 
+>>
+>> On 2025/7/22 上午3:19, kernel test robot wrote:
+>>> Hi Bibo,
+>>>
+>>> kernel test robot noticed the following build errors:
+>>>
+>>> [auto build test ERROR on 89be9a83ccf1f88522317ce02f854f30d6115c41]
+>>>
+>>> url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongArch-Implement-physical-address-with-ELF-program-header/20250721-171418
+>>> base:   89be9a83ccf1f88522317ce02f854f30d6115c41
+>>> patch link:    https://lore.kernel.org/r/20250721091248.3896152-1-maobibo%40loongson.cn
+>>> patch subject: [PATCH v2] LoongArch: Implement physical address with ELF program header
+>>> config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/20250722/202507220309.mDl9W32Y-lkp@intel.com/config)
+>>> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+>>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507220309.mDl9W32Y-lkp@intel.com/reproduce)
+>>>
+>>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>>> the same patch/commit), kindly add following tags
+>>> | Reported-by: kernel test robot <lkp@intel.com>
+>>> | Closes: https://lore.kernel.org/oe-kbuild-all/202507220309.mDl9W32Y-lkp@intel.com/
+>>>
+>>> All errors (new ones prefixed by >>):
+>>>
+>>>>> ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:15: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:18: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:33: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:34: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:41: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:46: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:47: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:50: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not found: PHYS_OFFSET
+>>>      ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
+>>>
+>>
+
