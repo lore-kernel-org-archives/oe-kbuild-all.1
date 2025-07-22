@@ -1,173 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9CC1DF270;
-	Tue, 22 Jul 2025 04:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BF81754B
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 05:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753160335; cv=none; b=hi1wDFuFacPCki9GSKakIUsTOIHCpZTNMYtfcWM2T9abKNe9n/bQHgOkjtTsKYenIYOVZ7iy2qjuqk1pPsyThKpr+x5bdZzB5VNDnvO+ukf0SEhuoSD+DffSV5j3CaICfsbZn29vvu9kXGnM0Js4+W2KSjYwR7f29GpDBSDw6eA=
+	t=1753161133; cv=none; b=VOs0mGWT9TtAhRSelxSCUGkLEz39a9rLq1sa5deGm+qzjtZYG/JBUH4qSnbPmMWzimW9Yv021Difcf8drlaxUbX+KQMsXLDX43XNJYiyX/LFNXkE/k80H3nwtsKqhNQRpTEAoHbBIi7ez51wnX+8Fa2fotJnGyxpiYz8tuEJKvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753160335; c=relaxed/simple;
-	bh=IK8le6k75swK3scgq7snJYPoekkdezXHD9o2Jp9yvhM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BjvcRMaWDFhieocqDdyjWyR9C34w/wyv6h8AI0OpgXk3J6VqoZau/yrU+PV3+FcSgDAidGcIq4J8oozKAddr0NRt1sgJwTRyaofPOw8EEx4N7FSpOoyiPDMQaWpZsrxFWFYL+GdFt69iFSvJffKH69Pwrp4SK9a6bn56wkYFw8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PwIIUxEI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1753161133; c=relaxed/simple;
+	bh=8xaFiM6JrdeVcCIzALhDcRwTycCoUDXhCLgRF0vXgis=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=C224Ba0qkeKjUdP8203Y6CculjoC3qC0jN6W761FJ7GCaqAnRHnod7wRvCZo+oFb+RBvi/C0P+TjLn2K6Olf/H1NX3tjVOBklNfgzrl6HFYWf2nS2T5JzWQW/KiU7smIlVAJgJ3XOW5xEQk/czqgZjcOu4IjPL1Q/3eRI0grW5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I77f9k73; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PwIIUxEI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77E94C4CEF5;
-	Tue, 22 Jul 2025 04:58:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753160335;
-	bh=IK8le6k75swK3scgq7snJYPoekkdezXHD9o2Jp9yvhM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=PwIIUxEIE89S5x9ASf7H6mH1xtEXLYHTQKlY9flLDnjkTYgBhmA0y4Q4azQWlnKMF
-	 ufBn7As/HpLZfUBPmeB+hxVJcwE9czQOYJotchFnL16DDpRIerPe65JsqBVAfQJ0kt
-	 yJRfQcgYdOFgX4KrnEo/k6rNlHTtsCEcoS5VotB6BkqSIAU6XaxM+xDeQy323lDQQr
-	 gf9+GnE4nGhUOIXJ7VghPxeDpJbziKcwAsNN+BjE0RyLDsKpz/vQ0Kw45STezJqJHc
-	 9nsd7lLYc/giXV3l2cjU93r+j8kAj1NeGehw6Io9pIh63GRCgxPCoYcRIKZXysQLhT
-	 ArP/vc+DIudrg==
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6097d144923so10826162a12.1;
-        Mon, 21 Jul 2025 21:58:55 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUQ3xuyjryiuYJ4UpOxWygqEJ+onsRUF307SeZh78vHe1+hEpwRv7X6/yvLDEdsq1OI1fFT6bNq32IPhrvlGA==@lists.linux.dev, AJvYcCUuG0MgFHS4bkAuY4+k6ClhGHyWHvh6zVAYOlZXO2sXzOQ5tQsGq6GqBYtLT6FlBGDDkcqnfnf0N8Lo@lists.linux.dev, AJvYcCXK9FiGiGMOTmC6FBPBDWE3HyJjVNbgL0gdhufQWYJb9s7J39scxB9YrVTrYP2vN7Fwv61r@lists.linux.dev
-X-Gm-Message-State: AOJu0YyAh+g32opB4n4bRjT3GSsgQA/z/La2SVrZw9sQGFtT4+9IYw1o
-	OGX3YSwGxxiwJq/01x9qUKCB19retuabpqeh7Lj9QkKBgrcsTW1/HiXm7vOIQFqbEldjLXsf+6I
-	EAvga1ZWhEewqK63klNagPyRpTTHmfIc=
-X-Google-Smtp-Source: AGHT+IGJAiPrgU0A02RgZ+fnnEhGK/Lib3wpGhcGaOt7UgsgJacrpCB2KGGqNf90d5UD4zkiGS8L53pBwVC5c3EZx/8=
-X-Received: by 2002:a05:6402:210f:b0:601:d0ec:fea0 with SMTP id
- 4fb4d7f45d1cf-61346cae52bmr1700396a12.5.1753160334048; Mon, 21 Jul 2025
- 21:58:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I77f9k73"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753161132; x=1784697132;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8xaFiM6JrdeVcCIzALhDcRwTycCoUDXhCLgRF0vXgis=;
+  b=I77f9k738YrmUoKqdkrzTisPQHdfHjmPhJuW1NKQRk9wQH4Mi8M2JWWZ
+   hUKrpambpjkZgzqwaPeSG92wBm8mKugQ0P0xKtd6eeDJNk6qff8swhyRA
+   H0LxQ0SPz+4iv0pY4+hjKkitwRZD2UTIsvXvZfofhrbb8XPKL2h0gIylu
+   I1OzXIj6p/OJY0Amc06D12vt/Q/sVoDx8kzeM28h8P8xdTT7eGW9MDlY7
+   scYNXVTiWJIk9QoL0cH1y6rl7lJ7qDAUz07GqppK6QT/FuCFcGK8l5K9n
+   SK+oOEa+I9Khde8OSBhl9UUAGm3bFW/xJZkoOTMPSRL8Lq3KPaH9ICeSA
+   Q==;
+X-CSE-ConnectionGUID: H5qR8AHYTS63BqXujDYgQQ==
+X-CSE-MsgGUID: BAlpxBh9TvWxWRwmSQsqyQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11499"; a="59054323"
+X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
+   d="scan'208";a="59054323"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Jul 2025 22:12:11 -0700
+X-CSE-ConnectionGUID: AzNTS/19SvOmZlCaa/DFmQ==
+X-CSE-MsgGUID: pIQEdWlnTDyr6pbFrgtzlg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,330,1744095600"; 
+   d="scan'208";a="163320118"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 21 Jul 2025 22:12:10 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ue5IN-000HSx-0p;
+	Tue, 22 Jul 2025 05:12:07 +0000
+Date: Tue, 22 Jul 2025 13:12:03 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 34/34] mm/ksm.c:146: warning: Function
+ parameter or member 'CK_KABI_RESERVE(1' not described in 'ksm_scan'
+Message-ID: <202507221259.LAbTGZsC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250721091248.3896152-1-maobibo@loongson.cn> <202507220309.mDl9W32Y-lkp@intel.com>
- <7a5789f1-d6a5-3892-98c1-2c4b8515459d@loongson.cn>
-In-Reply-To: <7a5789f1-d6a5-3892-98c1-2c4b8515459d@loongson.cn>
-From: Huacai Chen <chenhuacai@kernel.org>
-Date: Tue, 22 Jul 2025 12:58:41 +0800
-X-Gmail-Original-Message-ID: <CAAhV-H74EpbKsPpc_ToGqP6LKx04z+Dvyuw52u-1A4nQ-wr6WQ@mail.gmail.com>
-X-Gm-Features: Ac12FXxHedyRjuOtLS-BqEO_BeAoXt0_uydR3h_DoVHDdGqUy-3erBCL5QUVgpU
-Message-ID: <CAAhV-H74EpbKsPpc_ToGqP6LKx04z+Dvyuw52u-1A4nQ-wr6WQ@mail.gmail.com>
-Subject: Re: [PATCH v2] LoongArch: Implement physical address with ELF program header
-To: Bibo Mao <maobibo@loongson.cn>
-Cc: kernel test robot <lkp@intel.com>, llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	WANG Xuerui <kernel@xen0n.name>, Xi Ruoyao <xry111@xry111.site>, loongarch@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Jul 22, 2025 at 9:33=E2=80=AFAM Bibo Mao <maobibo@loongson.cn> wrot=
-e:
->
-> Oops, it is the obvious compile issue. And I am messed with parallel
-> tasks and do not notice this, what I test is old kernel.
->
-> Regards
-> Bibo Mao
-Add this part to the patch is enough.
+Hi Guixin,
 
-diff --git a/arch/loongarch/include/asm/addrspace.h
-b/arch/loongarch/include/asm/addrspace.h
-index fe198b473f84..babcc1c6c820 100644
---- a/arch/loongarch/include/asm/addrspace.h
-+++ b/arch/loongarch/include/asm/addrspace.h
-@@ -18,11 +18,20 @@
- /*
-  * This gives the physical RAM offset.
-  */
--#ifndef __ASSEMBLER__
-+#ifdef __ASSEMBLER__
-+
-+#ifndef PHYS_OFFSET
-+#define PHYS_OFFSET    0
-+#endif
-+
-+#else
-+
- #ifndef PHYS_OFFSET
- #define PHYS_OFFSET    _UL(0)
- #endif
-+
- extern unsigned long vm_map_base;
-+
- #endif /* __ASSEMBLER__ */
+FYI, the error/warning still remains.
 
- #ifndef IO_BASE
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   7c51bc02ec5b3728140f3a1cd74cf21c8566be5c
+commit: 6213df05e6a41c4359febd123367d169fd284683 [34/34] anolis: kabi: reserve some space for kABI
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250722/202507221259.LAbTGZsC-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250722/202507221259.LAbTGZsC-lkp@intel.com/reproduce)
 
->
-> On 2025/7/22 =E4=B8=8A=E5=8D=883:19, kernel test robot wrote:
-> > Hi Bibo,
-> >
-> > kernel test robot noticed the following build errors:
-> >
-> > [auto build test ERROR on 89be9a83ccf1f88522317ce02f854f30d6115c41]
-> >
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Bibo-Mao/LoongAr=
-ch-Implement-physical-address-with-ELF-program-header/20250721-171418
-> > base:   89be9a83ccf1f88522317ce02f854f30d6115c41
-> > patch link:    https://lore.kernel.org/r/20250721091248.3896152-1-maobi=
-bo%40loongson.cn
-> > patch subject: [PATCH v2] LoongArch: Implement physical address with EL=
-F program header
-> > config: loongarch-allnoconfig (https://download.01.org/0day-ci/archive/=
-20250722/202507220309.mDl9W32Y-lkp@intel.com/config)
-> > compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project=
- 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
-> > reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/arc=
-hive/20250722/202507220309.mDl9W32Y-lkp@intel.com/reproduce)
-> >
-> > If you fix the issue in a separate patch/commit (i.e. not just a new ve=
-rsion of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202507220309.mDl9W32Y-l=
-kp@intel.com/
-> >
-> > All errors (new ones prefixed by >>):
-> >
-> >>> ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:15: symbol not fou=
-nd: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:18: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:33: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:34: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:41: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:46: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:47: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:50: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: ./arch/loongarch/kernel/vmlinux.lds:57: symbol not f=
-ound: PHYS_OFFSET
-> >     ld.lld: error: too many errors emitted, stopping now (use --error-l=
-imit=3D0 to see all errors)
-> >
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507221259.LAbTGZsC-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> mm/ksm.c:146: warning: Function parameter or member 'CK_KABI_RESERVE(1' not described in 'ksm_scan'
+
+
+vim +146 mm/ksm.c
+
+31dbd01f314364b Izik Eidus   2009-09-21  128  
+31dbd01f314364b Izik Eidus   2009-09-21  129  /**
+31dbd01f314364b Izik Eidus   2009-09-21  130   * struct ksm_scan - cursor for scanning
+31dbd01f314364b Izik Eidus   2009-09-21  131   * @mm_slot: the current mm_slot we are scanning
+31dbd01f314364b Izik Eidus   2009-09-21  132   * @address: the next address inside that to be scanned
+6514d511dbe5a77 Hugh Dickins 2009-12-14  133   * @rmap_list: link to the next rmap to be scanned in the rmap_list
+31dbd01f314364b Izik Eidus   2009-09-21  134   * @seqnr: count of completed full scans (needed when removing unstable node)
+31dbd01f314364b Izik Eidus   2009-09-21  135   *
+31dbd01f314364b Izik Eidus   2009-09-21  136   * There is only the one ksm_scan instance of this cursor structure.
+31dbd01f314364b Izik Eidus   2009-09-21  137   */
+31dbd01f314364b Izik Eidus   2009-09-21  138  struct ksm_scan {
+21fbd59136e0773 Qi Zheng     2022-08-31  139  	struct ksm_mm_slot *mm_slot;
+31dbd01f314364b Izik Eidus   2009-09-21  140  	unsigned long address;
+21fbd59136e0773 Qi Zheng     2022-08-31  141  	struct ksm_rmap_item **rmap_list;
+31dbd01f314364b Izik Eidus   2009-09-21  142  	unsigned long seqnr;
+6213df05e6a41c4 Guixin Liu   2024-08-26  143  
+6213df05e6a41c4 Guixin Liu   2024-08-26  144  	CK_KABI_RESERVE(1)
+6213df05e6a41c4 Guixin Liu   2024-08-26  145  	CK_KABI_RESERVE(2)
+31dbd01f314364b Izik Eidus   2009-09-21 @146  };
+31dbd01f314364b Izik Eidus   2009-09-21  147  
+
+:::::: The code at line 146 was first introduced by commit
+:::::: 31dbd01f314364b70c2e026a5793a29a4da8a9dc ksm: Kernel SamePage Merging
+
+:::::: TO: Izik Eidus <ieidus@redhat.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
