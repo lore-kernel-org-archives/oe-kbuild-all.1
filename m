@@ -1,70 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA6D82C60
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 19:31:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9335D1E9B2A;
+	Wed, 23 Jul 2025 21:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753299065; cv=none; b=eCBtmUXxyDWQ4QDhr81CRMxCJ/Yw8pBFXMWsjVvAF5k3YYs8xf2j8kYdZgAudeacK3vsqqRyYPqbr1hYFHWqxLGNvC49X7lJBVRRj+vFe9VB9eTpkIVxVZbd8WwNQyeFvo/7PfUX69/Hzn3la13OL1Ry+TjG97JaBvRae8oOQ7Y=
+	t=1753306160; cv=none; b=BfCgfNonYSTXOPlAAgdo3MHoLYgsPc4+saaRQXaJj+HNAiHcebvCOOgqJX005CxWOotSqQd2ijcUjAlBt2PaigNFH/lnuHCaBn47XFDnx92obTrSf91EY8egjtryBz1QhFcsyod3VFzMFi1gYyfO/qt3YOQaw6N0JSb0oGH45OA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753299065; c=relaxed/simple;
-	bh=LkOz38MhnKC7F/1ZpVoBGtSBfVOA/gBncZyaq92bCQM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mj/ommfvME1bWmKxs1e+4ld6lcoih3kHqj3D7IUoE/eQCmPj0jBk6RiavJSse4lGP4KD7P05qmAvervhlps3GXkWOKr7x7Edvk74P1ZQtWConJhzD0H5HfRdtSkuWlDzq+j4PG69Gm9WugjqpI1u7lykVCE4OqHzAIueWuTsv1s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AqgJKdzN; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1753306160; c=relaxed/simple;
+	bh=zAWAhhvWXU+oi3yWc/SqgqYpYzEUylCz+ZcMCl+21wc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=rJhb5cZ4N/sem1z8uTjKVfRJ500eothlnDX8gSpg18NcGGstak4Jp9QeUKHR6f8YyLreZEsCGqpMRhjRnbEl4ATPWjWUz7/58DjXG266UjPz9plc2ai6RwVXugNP7gTSbm7EbZnqHE6Irvx45f6PEUn30WpHKkSsUhO13k1u3ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V24t4nEL; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AqgJKdzN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V24t4nEL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753299064; x=1784835064;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LkOz38MhnKC7F/1ZpVoBGtSBfVOA/gBncZyaq92bCQM=;
-  b=AqgJKdzNcmU3CZpKM520Mku25NHatlFA1HHJIpiR3KMEUT+kErrX1YEB
-   Dy0QDazptm/nNMJG/Gxw9HnI1TVUQFNa10RlJvLe6NZqLvxHKO6wf4oND
-   Nd/W9EoYc6aNVw7k9xtnG5wTFOspTZTnWn/wQlCplNDlNh6rss3WpqJ31
-   aXwlzHBYbZ09fhkVGnHYF478l7+e+YVZxxB8FcuurnBdIdckvNRV7tq7I
-   jSw181EJpXUmxv8X998f1JMI7VbLFLWmhyWZvUHqEfMyDkrtmEyahwm8G
-   cORE6AC8a7n98qwqK+WXvB3M7Yiyo+CuKpGCjpfJnhV10HimIw1Ow3Ozn
-   g==;
-X-CSE-ConnectionGUID: i4dbGYt7SByz0nOolLe+ww==
-X-CSE-MsgGUID: oHtp/UtXR8CD4OuAezMRwA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55692359"
+  t=1753306159; x=1784842159;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=zAWAhhvWXU+oi3yWc/SqgqYpYzEUylCz+ZcMCl+21wc=;
+  b=V24t4nELze3CNL5nqyZykR/cMtp+9tDA7TQpt3EhJ+dMp8QrPjqymXgF
+   cMRjZYlR3KvdmkC1cKTEfFLCuTADX8BVkONzaOduoI9J3Uk2JH/ZxGsXP
+   qcvYHKt4k6PQYk3iR6Ea5o5DXyVPYXtjJ4QYv7NtFxfURVwd7UBbnduty
+   YtCsYfdcAcRHatRC2aA5txEOeMC3sYtdu3Md9r5EicK6TCQG9WnWFyHOR
+   tOk8p1WpYlHEpEOMxZVpVT28XxUvpFFls+9GH6dIRdBa/OES/vbbMurdN
+   OaPGO0cancJQOqohf5O08/uD/p736DKpmd29pDTUiX8rFc48OuZi5rB5j
+   Q==;
+X-CSE-ConnectionGUID: sP434F2MRumaTC+2/FrZfg==
+X-CSE-MsgGUID: OaUbqkcARQaBHWaLfJKnfg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="78140987"
 X-IronPort-AV: E=Sophos;i="6.16,335,1744095600"; 
-   d="scan'208";a="55692359"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 12:31:03 -0700
-X-CSE-ConnectionGUID: FifCLr7RSom6B/Svb2aXQg==
-X-CSE-MsgGUID: YStQdyFBSp66BT9qy2zqoA==
+   d="scan'208";a="78140987"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 14:29:18 -0700
+X-CSE-ConnectionGUID: wU6TqcFgRtONveESPBV9+Q==
+X-CSE-MsgGUID: AqQSKtu7SXyOb8j8d9qHDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,335,1744095600"; 
-   d="scan'208";a="196813932"
+   d="scan'208";a="160470109"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 23 Jul 2025 12:30:58 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 23 Jul 2025 14:29:16 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uefB1-000Jix-1A;
-	Wed, 23 Jul 2025 19:30:55 +0000
-Date: Thu, 24 Jul 2025 03:30:17 +0800
+	id 1ueh1W-000JoH-22;
+	Wed, 23 Jul 2025 21:29:14 +0000
+Date: Thu, 24 Jul 2025 05:28:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shuai Xue <xueshuai@linux.alibaba.com>, rostedt@goodmis.org,
-	lukas@wunner.de, linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, helgaas@kernel.org,
-	ilpo.jarvinen@linux.intel.com, mattc@purestorage.com,
-	Jonathan.Cameron@huawei.com
-Cc: oe-kbuild-all@lists.linux.dev, bhelgaas@google.com, tony.luck@intel.com,
-	bp@alien8.de, xueshuai@linux.alibaba.com, mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com, oleg@redhat.com, naveen@kernel.org,
-	davem@davemloft.net, anil.s.keshavamurthy@intel.com,
-	mark.rutland@arm.com, peterz@infradead.org,
-	tianruidong@linux.alibaba.com
-Subject: Re: [PATCH v9 2/2] PCI: trace: Add a RAS tracepoint to monitor link
- speed changes
-Message-ID: <202507240322.nJGdyXsy-lkp@intel.com>
-References: <20250723033108.61587-3-xueshuai@linux.alibaba.com>
+To: Herbert Xu <herbert@gondor.apana.org.au>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: crypto/hmac.c:251:12: warning: stack frame size (1152) exceeds limit
+ (1024) in 'hmac_setkey_ahash'
+Message-ID: <202507240507.5fyAWOKF-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,38 +62,87 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250723033108.61587-3-xueshuai@linux.alibaba.com>
 
-Hi Shuai,
+Hi Herbert,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on pci/for-linus]
-[also build test ERROR on trace/for-next linus/master v6.16-rc7 next-20250723]
-[cannot apply to pci/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Shuai-Xue/PCI-trace-Add-a-generic-RAS-tracepoint-for-hotplug-event/20250723-113454
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git for-linus
-patch link:    https://lore.kernel.org/r/20250723033108.61587-3-xueshuai%40linux.alibaba.com
-patch subject: [PATCH v9 2/2] PCI: trace: Add a RAS tracepoint to monitor link speed changes
-config: sparc-sparc64_defconfig (https://download.01.org/0day-ci/archive/20250724/202507240322.nJGdyXsy-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507240322.nJGdyXsy-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   01a412d06bc5786eb4e44a6c8f0f4659bd4c9864
+commit: c3103416d5217655d707d9417aaf66f184e3d72f crypto: hmac - Add ahash support
+date:   9 weeks ago
+config: mips-eyeq6_defconfig (https://download.01.org/0day-ci/archive/20250724/202507240507.5fyAWOKF-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507240507.5fyAWOKF-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507240322.nJGdyXsy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507240507.5fyAWOKF-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   sparc64-linux-ld: drivers/pci/probe.o: in function `pcie_update_link_speed':
->> probe.c:(.text+0x370): undefined reference to `__tracepoint_pcie_link_event'
->> sparc64-linux-ld: probe.c:(.text+0x37c): undefined reference to `__tracepoint_pcie_link_event'
->> sparc64-linux-ld: probe.c:(.text+0x3dc): undefined reference to `__traceiter_pcie_link_event'
+>> crypto/hmac.c:251:12: warning: stack frame size (1152) exceeds limit (1024) in 'hmac_setkey_ahash' [-Wframe-larger-than]
+     251 | static int hmac_setkey_ahash(struct crypto_ahash *parent,
+         |            ^
+   1 warning generated.
+
+
+vim +/hmac_setkey_ahash +251 crypto/hmac.c
+
+   250	
+ > 251	static int hmac_setkey_ahash(struct crypto_ahash *parent,
+   252				     const u8 *inkey, unsigned int keylen)
+   253	{
+   254		struct ahash_hmac_ctx *tctx = crypto_ahash_ctx(parent);
+   255		struct crypto_ahash *fb = crypto_ahash_fb(tctx->hash);
+   256		int ds = crypto_ahash_digestsize(parent);
+   257		int bs = crypto_ahash_blocksize(parent);
+   258		int ss = crypto_ahash_statesize(parent);
+   259		HASH_REQUEST_ON_STACK(req, fb);
+   260		u8 *opad = &tctx->pads[ss];
+   261		u8 *ipad = &tctx->pads[0];
+   262		int err, i;
+   263	
+   264		if (fips_enabled && (keylen < 112 / 8))
+   265			return -EINVAL;
+   266	
+   267		ahash_request_set_callback(req, 0, NULL, NULL);
+   268	
+   269		if (keylen > bs) {
+   270			ahash_request_set_virt(req, inkey, ipad, keylen);
+   271			err = crypto_ahash_digest(req);
+   272			if (err)
+   273				goto out_zero_req;
+   274	
+   275			keylen = ds;
+   276		} else
+   277			memcpy(ipad, inkey, keylen);
+   278	
+   279		memset(ipad + keylen, 0, bs - keylen);
+   280		memcpy(opad, ipad, bs);
+   281	
+   282		for (i = 0; i < bs; i++) {
+   283			ipad[i] ^= HMAC_IPAD_VALUE;
+   284			opad[i] ^= HMAC_OPAD_VALUE;
+   285		}
+   286	
+   287		ahash_request_set_virt(req, ipad, NULL, bs);
+   288		err = crypto_ahash_init(req) ?:
+   289		      crypto_ahash_update(req) ?:
+   290		      crypto_ahash_export(req, ipad);
+   291	
+   292		ahash_request_set_virt(req, opad, NULL, bs);
+   293		err = err ?:
+   294		      crypto_ahash_init(req) ?:
+   295		      crypto_ahash_update(req) ?:
+   296		      crypto_ahash_export(req, opad);
+   297	
+   298	out_zero_req:
+   299		HASH_REQUEST_ZERO(req);
+   300		return err;
+   301	}
+   302	
 
 -- 
 0-DAY CI Kernel Test Service
