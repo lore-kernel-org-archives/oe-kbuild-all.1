@@ -1,219 +1,251 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E435C279788
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 08:08:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753258084; cv=none; b=O8nd40KtVfcbB/AtV7ivl8kXt8YsBfLhxpliN5d1cI3Fn6ZOqoZ5YtcFr6leSz/N0cihoc3ZACdROp8hZuWCT5mg1/+oi8FDZ1h0P49sBdk/MGCFCFj9DW83rk0QjGd+BZ6HV7quob2t0O9gCbdJos69rK4KnCP/X7BW5J0yvm8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753258084; c=relaxed/simple;
-	bh=sbMO8C93rYkEIntQZh269V1mk7T3M83uPQJf7Ajwnho=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=jCITygdd1sGWWR4z8L/Fhr9qb+HKnnYrlMmcg9jgONWOpgUVch5Czju7lNIQVGhbBFPFaSGzo/g3JG0higWlpfjauUetNGcmS5DCTAgOSCZQXlr6DZ0YO5x1L5+sYZIZD79YX7v9moK4KPIBeR2Rj9C45HptQjD4u2F/vu8nmGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rfn8W1Wk; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF351272E57
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 08:22:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1753258940; cv=fail; b=Ims5k5RZaB0M9PpJqzTIb5A9OehagbsZRrEhgMFQdj/JoVPSJO5a/2ymNWOsxvr0X86sAaBK2d+lEVpcbgZ8WMK2iEza4dLeTFGU7hPo3cQPHd4ZLoad6U18bOCuonzsPNxE74S5Su5ftlMkwY9EBuEdibgTSA9yIU4GozadwHA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1753258940; c=relaxed/simple;
+	bh=1USbomSoUl7UpKNT46xQob7Ur7GRIX3+vZ9t/RwiuSk=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=VVIYuQxXooTBeYczlr98u9x6SHcuosH0uIh+zHghabhhxkR0eIEBlkIvNOd0IUWq2RrFZY3u/Wdvwm45e7pWhtjtT3ZwfDewt1dokqQrv5kIwghFD1ccAXcMGKuTC79+nqH52KdaIqgXcx93ZD/oXUuitr0UqEdJihyuibvVjSQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z2IXQHQ1; arc=fail smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rfn8W1Wk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z2IXQHQ1"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753258082; x=1784794082;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sbMO8C93rYkEIntQZh269V1mk7T3M83uPQJf7Ajwnho=;
-  b=Rfn8W1WkhLmCsn9eefHe4+NOvNkfpKMEr02iqZdpzSToaeTxmGjPJvFs
-   Ad41mKnP+csZgdVyd9D/xUPg5rla2VjKIlTbfieTVk/ECfcRCkG5XGzkT
-   tzVu64H4oRlt0UTo0/s6XAX6/dlj7/kR+MJt1rG3KORXZwTVUnavDWizx
-   yH9aGsIXCpPy6KDH15fjEbC0gOs16sBh+4t+/jqLZEXPGLDma+KMsOX+g
-   0oHLps2XliYI0bHx+52sb9I7/UNoc9vwruy9lOnuwygOzPdxr15STstv6
-   ACQMRiKQvrdO1nfk4LMZwaXB7VWAHFtki4ed4d+8qsZWm7kTt9VGgb7vr
-   w==;
-X-CSE-ConnectionGUID: FSUATJP0T+62PDM6nZmKgA==
-X-CSE-MsgGUID: 1HMQmJznSL2YWEsDw2NkHg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="55485583"
+  t=1753258939; x=1784794939;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=1USbomSoUl7UpKNT46xQob7Ur7GRIX3+vZ9t/RwiuSk=;
+  b=Z2IXQHQ1WukLBeCI6TTQFnz7MemUmUlWseXXkJ/KkEUO8VRtTaeguPpJ
+   tpTzIhfKWfVgJa5k5+LFa8kPdPuK2AG4eY0xQnBpVo+xEwDA8NcjE1eRP
+   H8IvPrw09gkI2ZX8sOCsFqlLysHI+pmkUESD0NGbSHo+Sn1uC/ViIATfd
+   NBtcNXoFqg0sWShzxW1p3hPaMLZulrEoL7jUbnyeI0QyNXkuXShcZTBTS
+   5NAA34FmUO34OJfGzQ21mK7+NDWDQmWKta5bNdhRiTvKNOA4+GVcyoTap
+   u2WAogMrmRUQo1mxvLen4QI2xFz5YqxX/RTS32yiuO2/iMYixT4SMEaFi
+   Q==;
+X-CSE-ConnectionGUID: N8kVsRYXRL6QkkVoeRBZ3Q==
+X-CSE-MsgGUID: fQDjFURaS/+KT0NKI6F4ew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="55474467"
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="55485583"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 01:08:00 -0700
-X-CSE-ConnectionGUID: j5Y0R4JSR6Gbwr7haPO03Q==
-X-CSE-MsgGUID: BeLDF2nsQpOSYl+pA7IUag==
+   d="scan'208";a="55474467"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 01:22:18 -0700
+X-CSE-ConnectionGUID: SfomL8elSRG6tnU5rGNqEQ==
+X-CSE-MsgGUID: tw6RfFCzSVaCMwnHzuH0tw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="159675626"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Jul 2025 01:07:59 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ueUW4-000J6t-1q;
-	Wed, 23 Jul 2025 08:07:56 +0000
-Date: Wed, 23 Jul 2025 16:07:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [arnd-playground:to-build 14/14] drivers/mfd/si476x-i2c.c:133:21:
- error: implicit declaration of function 'gpio_is_valid'; did you mean
- 'uuid_is_valid'?
-Message-ID: <202507231653.UFlH2dMO-lkp@intel.com>
+   d="scan'208";a="159475690"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 01:22:18 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Wed, 23 Jul 2025 01:22:17 -0700
+Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26 via Frontend Transport; Wed, 23 Jul 2025 01:22:17 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (40.107.102.58)
+ by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Wed, 23 Jul 2025 01:22:16 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UKk+g3znDSW6dmLFKNpL1lw5hOY+sKSsnd15cb9LSjEdsSN3WE8mSle5nLqtpJ8cMkjaK1eJQ4asoYFz7v8z68eZ3duRogZsSWLyesIXFAlkvMbLFI/nlTbBi8/HupuGxch+WdKiq8UX8eahkWq762k2kQE+QlH5+nPT0QB/770y7JTIegNiroT7JLso87eTpWvfYMmkDOaC/aOv4mro7fBN5TO01lgTe3hethaBDfQhkuze8tUhDjCyu/vW7Ut5tY/P7keq3FLYkU+F0/zUpBHP2j44gv21hZbWVPGoLJ708vTJtEB8j7UI29uslAkUVzxc8+wRi3wLngf2C7lt2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NHuyWOOtbbJmJCcX/ZkjjOjYmKsYzA64d4ScUBHL6zo=;
+ b=xDyzd8rM+2j0+h+tWEBdDG5XRqkDAJA1AgMrmZcGffiXxq59Ae1Fyp9j6siDo3qEleyKzF2vtC016riHtCMekXrkJJqXA7wjuFbK1DRWBc1PTIfrePyWFUnntuvHZyq0WndgAAHQ43HxgCILlfobSOayFRGRZ/Zh+py6cI8WQHixgnOVlcuhFlmfOIiUgRonxqjAzMY3HE06ifk0LRQDfXDMjdlikrtEHUuGa0VOqZoBtD9EWEOs2ztK/4lCPIEOTX4P3dVyFDsjsEBvMg99YrkttRPRJ4RkBYxyHOAPaIcPxZqyBPJOw+nC/jKxKduYUugRq4aVpQpH94tZfjrAcQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
+ by LV3PR11MB8744.namprd11.prod.outlook.com (2603:10b6:408:215::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8901.27; Wed, 23 Jul
+ 2025 08:22:13 +0000
+Received: from LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c]) by LV3PR11MB8603.namprd11.prod.outlook.com
+ ([fe80::4622:29cf:32b:7e5c%3]) with mapi id 15.20.8943.029; Wed, 23 Jul 2025
+ 08:22:13 +0000
+Date: Wed, 23 Jul 2025 16:21:59 +0800
+From: Oliver Sang <oliver.sang@intel.com>
+To: Aaron Lu <ziqianlu@bytedance.com>
+CC: kernel test robot <lkp@intel.com>, Valentin Schneider
+	<vschneid@redhat.com>, Ben Segall <bsegall@google.com>, K Prateek Nayak
+	<kprateek.nayak@amd.com>, Peter Zijlstra <peterz@infradead.org>, "Chengming
+ Zhou" <chengming.zhou@linux.dev>, Josh Don <joshdon@google.com>, Ingo Molnar
+	<mingo@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, Xi Wang
+	<xii@google.com>, <oe-kbuild-all@lists.linux.dev>,
+	<linux-kernel@vger.kernel.org>, Juri Lelli <juri.lelli@redhat.com>, "Dietmar
+ Eggemann" <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>,
+	Mel Gorman <mgorman@suse.de>, Chuyi Zhou <zhouchuyi@bytedance.com>, "Jan
+ Kiszka" <jan.kiszka@siemens.com>, Florian Bezdeka
+	<florian.bezdeka@siemens.com>, Songtang Liu <liusongtang@bytedance.com>,
+	<oliver.sang@intel.com>
+Subject: Re: [PATCH v3 3/5] sched/fair: Switch to task based throttle model
+Message-ID: <aICbpytNfGRRrqq3@xsang-OptiPlex-9020>
+References: <20250715071658.267-4-ziqianlu@bytedance.com>
+ <202507162238.qiw7kyu0-lkp@intel.com>
+ <20250717035243.GC32@bytedance>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250717035243.GC32@bytedance>
+X-ClientProxiedBy: SGAP274CA0020.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:b6::32)
+ To LV3PR11MB8603.namprd11.prod.outlook.com (2603:10b6:408:1b6::9)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8603:EE_|LV3PR11MB8744:EE_
+X-MS-Office365-Filtering-Correlation-Id: 63ba6b86-9618-4580-ce08-08ddc9c2068f
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?qG/PEnDFvWHBFATXVTAH0ILtNBIPEJVBSUW8COHYUJwp0YiflACDuzxl7YzO?=
+ =?us-ascii?Q?G9kn9lRGgEfR2j9ysfaporUixuMXV7FiCINE7tASxUMQqNHmm+zX8w+bkzWu?=
+ =?us-ascii?Q?2SI2rmjlSTXUxUQKDHL0j60QtdOjJNaYp99s3XjB9+AC9vQjO1uoOS8zCIz7?=
+ =?us-ascii?Q?LaL45Of+KdWQ3nedbr0FlhF6+QqnUbEV16CZXdTvyLbQZzRbFrjcubNDvIGJ?=
+ =?us-ascii?Q?l9w00xJHXMeBZaB0VmdzXQf9RpNozuaP0fwEB2sQIHkZ99z3nVhpzek8pdGn?=
+ =?us-ascii?Q?avm2JbwDdW1XxdCp7yah+fMuNBYpAknnG4KpC6yeFZbU+r3+w/+yIfMgzM5U?=
+ =?us-ascii?Q?epEUwuRdn385G7Jp/xyIzqEbkdUcOMyVYQVDc2MFYyZUM5n6jr7UyFfmhuep?=
+ =?us-ascii?Q?L/0wuwxF53PArvm5uYhibKxSDvyDpDrE74UxFmeGtK7VQqgZLmRXiTly6fRH?=
+ =?us-ascii?Q?CwlhwpOcR6lg2g9q0oafzEqxyXR8o5CvdC7Rf2L/3PaCJAHK6vcLviR8/ICU?=
+ =?us-ascii?Q?lCvJVmBwnSWV+AT0yAJ1IRZIdiqnS9rJa1Gm05lQJ7wNj5VC6X1aODUaicrp?=
+ =?us-ascii?Q?RYcZyVafoCkVKeF/QcvK7C/39ecB8dX73lbTwqA+kovpqCdRsq+h0r42G6no?=
+ =?us-ascii?Q?9J/EDRL0EPz0A5woUirjgjqlMBVIEgug3THeiNuJCVhPJ2nohb3/IKE3L1Qw?=
+ =?us-ascii?Q?/6GgYZdVkfRBcQ5vnmWzxM+57sF7k/cGqrHec4JzhCPbXLmJCK/9FMqt9Wx2?=
+ =?us-ascii?Q?WEtzPjSRZpAwLWmN79WhmWq6JGq7mVmgZ/TcXJ1gxf84a0y40FDb9WDVFsBd?=
+ =?us-ascii?Q?J8YDy5A1ZqXoFXrosTjK84H/Y35QQXVvp3WnW9pAV8ah3vzI3zIcz4exmVgp?=
+ =?us-ascii?Q?vh8XoEuQIbDpaSjh13A1YMn7d1ONFCETUJ+JZzTsQIXpVYhh4fObGgK/A+iC?=
+ =?us-ascii?Q?RTcnXYJZKndCxJAHye82cdTDBeKRguK5Buz2o9oghXMBPCVszXxClxl4NKz7?=
+ =?us-ascii?Q?Vo8s8VDXxUvxa37FkedosSZIR6RI6ERnff2Uup5jT5VR6cbAaZXkSJFPNd+O?=
+ =?us-ascii?Q?THFzEfWh89Nb27g1fqZFhwy/pVUM3VMceFJiBlgcd4W1hp0M3TEcU0qIJZ1H?=
+ =?us-ascii?Q?KS8V37Cg0uWDxcS/brl3mXNP0aQXnLB5jE/V/0PD/fcwK6+ktQIHSDvOhtBW?=
+ =?us-ascii?Q?z6dOQ2EU/iJ5vvkf0t84jw0OXKZYsMtqLuIIGZb7SzuIQ36XL0vc3aXLkmMi?=
+ =?us-ascii?Q?Kb+VwSnGCIiDj4xRSFb4bBXIJ78dS/VoQ9TsaJ6EE4pcBMcOtYuVzEuvENFE?=
+ =?us-ascii?Q?lRzHiDdfGr8dUrCDBap1gHEONiIuRHRv7bnnp/yhxObQd4LAlB6uaN41aOjW?=
+ =?us-ascii?Q?F1IQFQA86hyhWi4QaiYF2zarPdLN?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8603.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?k9oxFIJmv7B8dk37lGNH94Aya6D2/ZBEOxEfIK8pqS/KjjoIcOozl+2sfMY8?=
+ =?us-ascii?Q?DRnI/5NRHqC3tHuFdfckbBsO8osdPqkdK/ZrdiY7TVAK9XRmipsThKIi8wtk?=
+ =?us-ascii?Q?9dJIwRJQ0yA8kXJAu5nfLJT1/UtKTTlKTKcBbedRoFdbCFTe1is14Gvu2JJ7?=
+ =?us-ascii?Q?8gwL7H7+WZIH4pTXHrbi/ajxIdsvG2WlFRri1835LlH4B61D267O8cp16+uF?=
+ =?us-ascii?Q?TsJDLojr5h4gX2KxnBZSqD52L86DP9PjEQnfnCy/QoQ6654swGOWht8Od1JG?=
+ =?us-ascii?Q?xakLO6VHZeW0NfJznrzSVJTbWqu+NJfHhMx3gmyPawQgWmzT+i3lPPCMtypA?=
+ =?us-ascii?Q?Y6/ca93+ThtO+yj33PLVEySa+ZnhMEVej5soa/sn+0qB7JPglqXQ6gVoyj1S?=
+ =?us-ascii?Q?wRlNX0GZgxQ5xTUrZVybZswmDfTojct4/eJZ6I0Zk+VJGWAaGO4pIBRP3oHV?=
+ =?us-ascii?Q?IJIszBWZp2gWE/JpNVEUxtQaMZhO7pp91ENE0bLzgh7V7k8gnq9e/nuDlgmW?=
+ =?us-ascii?Q?inrp/hOoyVUnf4gxxSEBm9X3qoiOEKn7JWHCfNC+McPcs6bmUPhoSaeFl49w?=
+ =?us-ascii?Q?0oxof+hlvlhv9gbreQUe2INEsPIdldYi6e092IWJMMrV1saVE4Fc65vmqeLc?=
+ =?us-ascii?Q?u2JsrlyrG/HTvIj2mbTVNhxBhnl09hRs29NSRChP8gECxVnb5tY4Ln5+WPx6?=
+ =?us-ascii?Q?t4kD9olocoIXJHyZvOmfHMHQJai/F4OeoW9Sq8AwKBnn8b6SOE22QX4BZzVM?=
+ =?us-ascii?Q?3Eqe+DHxh2z6T/Zfy8Quh0dIYElYBbJh4VAA9PUGsZWG9Y7o2D6kc80Hr8Dw?=
+ =?us-ascii?Q?B2Eolzxs3uRS1lHUvUOP/3Ua5wsrsNN6de8LjIz8Nzd/EOKMYFDzqA5LqBw+?=
+ =?us-ascii?Q?Vd9b3iD4bQiWk7yp4zr+8xAimERij5su/JBD/kh5kdhR33Vvfx1F6Dc0WryM?=
+ =?us-ascii?Q?tUoVOjLFUxwA/SLUEIxv3PFWkYR/VLhbIis7UW558gYpKsjf0+5XV5ucgCyz?=
+ =?us-ascii?Q?TjdMAHddVamyvvDIAWpVigPTt3NZ8BW3hLYa4eOpMEZ9nONGMxDOkwYI+zSY?=
+ =?us-ascii?Q?CsOpe2hs4r9nf4sACiBXvTTSa0QRyi8kaBoAKsPxP4uzMhJdR42xBuz3mHRS?=
+ =?us-ascii?Q?7pWYwIccoHWgt2gdHOBayiDHhWYJMovByzlxtADZPtmgQ5TGBxOFNxDS70Zp?=
+ =?us-ascii?Q?MM1ur/VfYoBXMom5StZT0YyVFC1AdU2t09ASXXDLjL1z38TIHkRjABdDoaLN?=
+ =?us-ascii?Q?Ptob5tLFiIrbBiDhlkIEWdcTaVMM7GkcoJnQteCaO52z+NZUeyBF5O5Vk0P2?=
+ =?us-ascii?Q?G39lYDXwvU5l2REeZRPIJSI6BaxZtVY0wg4/hoM9qvIV3kSKNvG5QQmCCxDD?=
+ =?us-ascii?Q?PbmP16rdJqmiKJgF3UkjKD68C/pYNplJZgIRU0ErD9U3qpx7AVfbPr+Snqf/?=
+ =?us-ascii?Q?TDtR2O4a6PP5TyARSbGZlwnySuuyTZCuDe/5wpD/84bCUPvv5NxK8eV4HV5t?=
+ =?us-ascii?Q?4zeY8lR3OAABVkFSYSqt5Izukhs3D0HncndWvAmxlfZ2J3Hs4lwYbzoiwzwn?=
+ =?us-ascii?Q?pvib1epmjHNDEPGB0eurCDlNLSLW651XJQIyNSPryZ187JRHqNAK00bufJe6?=
+ =?us-ascii?Q?KA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63ba6b86-9618-4580-ce08-08ddc9c2068f
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8603.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jul 2025 08:22:12.9987
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0xWFFisLi5FUP3+Ed2CWZ253v/fPHOcbYztoEZkENsGtsInyKIRzl+mR6bSVLOJHKbw5xgOpXobTHVpQ0qYuvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8744
+X-OriginatorOrg: intel.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git to-build
-head:   ec6a6b690caeb0e6a10757890c166bc226b799f5
-commit: ec6a6b690caeb0e6a10757890c166bc226b799f5 [14/14] gpiolib: turn off legacy interface by default
-config: x86_64-buildonly-randconfig-003-20250723 (https://download.01.org/0day-ci/archive/20250723/202507231653.UFlH2dMO-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507231653.UFlH2dMO-lkp@intel.com/reproduce)
+hi, Aaron,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507231653.UFlH2dMO-lkp@intel.com/
+On Thu, Jul 17, 2025 at 11:52:43AM +0800, Aaron Lu wrote:
+> On Wed, Jul 16, 2025 at 11:20:55PM +0800, kernel test robot wrote:
+> > Hi Aaron,
+> > 
+> > kernel test robot noticed the following build warnings:
+> > 
+> > [auto build test WARNING on tip/sched/core]
+> > [also build test WARNING on next-20250716]
+> > [cannot apply to linus/master v6.16-rc6]
+> > [If your patch is applied to the wrong git tree, kindly drop us a note.
+> > And when submitting patch, we suggest to use '--base' as documented in
+> > https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> > 
+> > url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Lu/sched-fair-Add-related-data-structure-for-task-based-throttle/20250715-152307
+> > base:   tip/sched/core
+> > patch link:    https://lore.kernel.org/r/20250715071658.267-4-ziqianlu%40bytedance.com
+> > patch subject: [PATCH v3 3/5] sched/fair: Switch to task based throttle model
+> > config: xtensa-randconfig-r121-20250716 (https://download.01.org/0day-ci/archive/20250716/202507162238.qiw7kyu0-lkp@intel.com/config)
+> > compiler: xtensa-linux-gcc (GCC) 8.5.0
+> > reproduce: (https://download.01.org/0day-ci/archive/20250716/202507162238.qiw7kyu0-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202507162238.qiw7kyu0-lkp@intel.com/
+> > 
+> > sparse warnings: (new ones prefixed by >>)
+> >    kernel/sched/core.c: note: in included file (through arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/thread_info.h, ...):
+> >    arch/xtensa/include/asm/processor.h:105:2: sparse: sparse: Unsupported xtensa ABI
+> >    arch/xtensa/include/asm/processor.h:135:2: sparse: sparse: Unsupported Xtensa ABI
+> >    kernel/sched/core.c: note: in included file:
+> > >> kernel/sched/sched.h:741:44: sparse: sparse: dubious one-bit signed bitfield
+> 
+> Same problem as last report.
+> 
+> I've downloaded this compiler from kernel.org and confirmed there is no
+> such warnings after using bool.
 
-All errors (new ones prefixed by >>):
 
-   drivers/mfd/si476x-i2c.c: In function 'si476x_core_start':
->> drivers/mfd/si476x-i2c.c:133:21: error: implicit declaration of function 'gpio_is_valid'; did you mean 'uuid_is_valid'? [-Werror=implicit-function-declaration]
-     133 |                 if (gpio_is_valid(core->gpio_reset))
-         |                     ^~~~~~~~~~~~~
-         |                     uuid_is_valid
->> drivers/mfd/si476x-i2c.c:134:25: error: implicit declaration of function 'gpio_set_value_cansleep'; did you mean 'gpiod_set_value_cansleep'? [-Werror=implicit-function-declaration]
-     134 |                         gpio_set_value_cansleep(core->gpio_reset, 1);
-         |                         ^~~~~~~~~~~~~~~~~~~~~~~
-         |                         gpiod_set_value_cansleep
-   drivers/mfd/si476x-i2c.c: In function 'si476x_core_probe':
->> drivers/mfd/si476x-i2c.c:723:32: error: implicit declaration of function 'gpio_request' [-Werror=implicit-function-declaration]
-     723 |                         rval = gpio_request(pdata->gpio_reset, "si476x reset");
-         |                                ^~~~~~~~~~~~
->> drivers/mfd/si476x-i2c.c:730:25: error: implicit declaration of function 'gpio_direction_output'; did you mean 'gpiod_direction_output'? [-Werror=implicit-function-declaration]
-     730 |                         gpio_direction_output(core->gpio_reset, 0);
-         |                         ^~~~~~~~~~~~~~~~~~~~~
-         |                         gpiod_direction_output
->> drivers/mfd/si476x-i2c.c:833:17: error: implicit declaration of function 'gpio_free'; did you mean 'kfifo_free'? [-Werror=implicit-function-declaration]
-     833 |                 gpio_free(core->gpio_reset);
-         |                 ^~~~~~~~~
-         |                 kfifo_free
-   cc1: some warnings being treated as errors
+want to confirm, do you mean you can reproduce the build sparse error
+> kernel/sched/sched.h:741:44: sparse: sparse: dubious one-bit signed bitfield
 
 
-vim +133 drivers/mfd/si476x-i2c.c
+then after doing below change:
 
-730a30ab7fba60 Andrey Smirnov 2013-04-18  103  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  104  /**
-730a30ab7fba60 Andrey Smirnov 2013-04-18  105   * si476x_core_start() - early chip startup function
-730a30ab7fba60 Andrey Smirnov 2013-04-18  106   * @core: Core device structure
-730a30ab7fba60 Andrey Smirnov 2013-04-18  107   * @soft: When set, this flag forces "soft" startup, where "soft"
-730a30ab7fba60 Andrey Smirnov 2013-04-18  108   * power down is the one done by sending appropriate command instead
-730a30ab7fba60 Andrey Smirnov 2013-04-18  109   * of using reset pin of the tuner
-730a30ab7fba60 Andrey Smirnov 2013-04-18  110   *
-730a30ab7fba60 Andrey Smirnov 2013-04-18  111   * Perform required startup sequence to correctly power
-730a30ab7fba60 Andrey Smirnov 2013-04-18  112   * up the chip and perform initial configuration. It does the
-730a30ab7fba60 Andrey Smirnov 2013-04-18  113   * following sequence of actions:
-730a30ab7fba60 Andrey Smirnov 2013-04-18  114   *       1. Claims and enables the power supplies VD and VIO1 required
-730a30ab7fba60 Andrey Smirnov 2013-04-18  115   *          for I2C interface of the chip operation.
-730a30ab7fba60 Andrey Smirnov 2013-04-18  116   *       2. Waits for 100us, pulls the reset line up, enables irq,
-730a30ab7fba60 Andrey Smirnov 2013-04-18  117   *          waits for another 100us as it is specified by the
-730a30ab7fba60 Andrey Smirnov 2013-04-18  118   *          datasheet.
-730a30ab7fba60 Andrey Smirnov 2013-04-18  119   *       3. Sends 'POWER_UP' command to the device with all provided
-730a30ab7fba60 Andrey Smirnov 2013-04-18  120   *          information about power-up parameters.
-730a30ab7fba60 Andrey Smirnov 2013-04-18  121   *       4. Configures, pin multiplexor, disables digital audio and
-730a30ab7fba60 Andrey Smirnov 2013-04-18  122   *          configures interrupt sources.
-730a30ab7fba60 Andrey Smirnov 2013-04-18  123   *
-730a30ab7fba60 Andrey Smirnov 2013-04-18  124   * The function returns zero in case of succes or negative error code
-730a30ab7fba60 Andrey Smirnov 2013-04-18  125   * otherwise.
-730a30ab7fba60 Andrey Smirnov 2013-04-18  126   */
-730a30ab7fba60 Andrey Smirnov 2013-04-18  127  int si476x_core_start(struct si476x_core *core, bool soft)
-730a30ab7fba60 Andrey Smirnov 2013-04-18  128  {
-730a30ab7fba60 Andrey Smirnov 2013-04-18  129  	struct i2c_client *client = core->client;
-730a30ab7fba60 Andrey Smirnov 2013-04-18  130  	int err;
-730a30ab7fba60 Andrey Smirnov 2013-04-18  131  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  132  	if (!soft) {
-730a30ab7fba60 Andrey Smirnov 2013-04-18 @133  		if (gpio_is_valid(core->gpio_reset))
-730a30ab7fba60 Andrey Smirnov 2013-04-18 @134  			gpio_set_value_cansleep(core->gpio_reset, 1);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  135  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  136  		if (client->irq)
-730a30ab7fba60 Andrey Smirnov 2013-04-18  137  			enable_irq(client->irq);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  138  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  139  		udelay(100);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  140  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  141  		if (!client->irq) {
-730a30ab7fba60 Andrey Smirnov 2013-04-18  142  			atomic_set(&core->is_alive, 1);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  143  			si476x_core_schedule_polling_work(core);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  144  		}
-730a30ab7fba60 Andrey Smirnov 2013-04-18  145  	} else {
-730a30ab7fba60 Andrey Smirnov 2013-04-18  146  		if (client->irq)
-730a30ab7fba60 Andrey Smirnov 2013-04-18  147  			enable_irq(client->irq);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  148  		else {
-730a30ab7fba60 Andrey Smirnov 2013-04-18  149  			atomic_set(&core->is_alive, 1);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  150  			si476x_core_schedule_polling_work(core);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  151  		}
-730a30ab7fba60 Andrey Smirnov 2013-04-18  152  	}
-730a30ab7fba60 Andrey Smirnov 2013-04-18  153  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  154  	err = si476x_core_cmd_power_up(core,
-730a30ab7fba60 Andrey Smirnov 2013-04-18  155  				       &core->power_up_parameters);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  156  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  157  	if (err < 0) {
-730a30ab7fba60 Andrey Smirnov 2013-04-18  158  		dev_err(&core->client->dev,
-730a30ab7fba60 Andrey Smirnov 2013-04-18  159  			"Power up failure(err = %d)\n",
-730a30ab7fba60 Andrey Smirnov 2013-04-18  160  			err);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  161  		goto disable_irq;
-730a30ab7fba60 Andrey Smirnov 2013-04-18  162  	}
-730a30ab7fba60 Andrey Smirnov 2013-04-18  163  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  164  	if (client->irq)
-730a30ab7fba60 Andrey Smirnov 2013-04-18  165  		atomic_set(&core->is_alive, 1);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  166  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  167  	err = si476x_core_config_pinmux(core);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  168  	if (err < 0) {
-730a30ab7fba60 Andrey Smirnov 2013-04-18  169  		dev_err(&core->client->dev,
-730a30ab7fba60 Andrey Smirnov 2013-04-18  170  			"Failed to configure pinmux(err = %d)\n",
-730a30ab7fba60 Andrey Smirnov 2013-04-18  171  			err);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  172  		goto disable_irq;
-730a30ab7fba60 Andrey Smirnov 2013-04-18  173  	}
-730a30ab7fba60 Andrey Smirnov 2013-04-18  174  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  175  	if (client->irq) {
-730a30ab7fba60 Andrey Smirnov 2013-04-18  176  		err = regmap_write(core->regmap,
-730a30ab7fba60 Andrey Smirnov 2013-04-18  177  				   SI476X_PROP_INT_CTL_ENABLE,
-730a30ab7fba60 Andrey Smirnov 2013-04-18  178  				   SI476X_RDSIEN |
-730a30ab7fba60 Andrey Smirnov 2013-04-18  179  				   SI476X_STCIEN |
-730a30ab7fba60 Andrey Smirnov 2013-04-18  180  				   SI476X_CTSIEN);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  181  		if (err < 0) {
-730a30ab7fba60 Andrey Smirnov 2013-04-18  182  			dev_err(&core->client->dev,
-730a30ab7fba60 Andrey Smirnov 2013-04-18  183  				"Failed to configure interrupt sources"
-730a30ab7fba60 Andrey Smirnov 2013-04-18  184  				"(err = %d)\n", err);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  185  			goto disable_irq;
-730a30ab7fba60 Andrey Smirnov 2013-04-18  186  		}
-730a30ab7fba60 Andrey Smirnov 2013-04-18  187  	}
-730a30ab7fba60 Andrey Smirnov 2013-04-18  188  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  189  	return 0;
-730a30ab7fba60 Andrey Smirnov 2013-04-18  190  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  191  disable_irq:
-730a30ab7fba60 Andrey Smirnov 2013-04-18  192  	if (err == -ENODEV)
-730a30ab7fba60 Andrey Smirnov 2013-04-18  193  		atomic_set(&core->is_alive, 0);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  194  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  195  	if (client->irq)
-730a30ab7fba60 Andrey Smirnov 2013-04-18  196  		disable_irq(client->irq);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  197  	else
-730a30ab7fba60 Andrey Smirnov 2013-04-18  198  		cancel_delayed_work_sync(&core->status_monitor);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  199  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  200  	if (gpio_is_valid(core->gpio_reset))
-730a30ab7fba60 Andrey Smirnov 2013-04-18  201  		gpio_set_value_cansleep(core->gpio_reset, 0);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  202  
-730a30ab7fba60 Andrey Smirnov 2013-04-18  203  	return err;
-730a30ab7fba60 Andrey Smirnov 2013-04-18  204  }
-730a30ab7fba60 Andrey Smirnov 2013-04-18  205  EXPORT_SYMBOL_GPL(si476x_core_start);
-730a30ab7fba60 Andrey Smirnov 2013-04-18  206  
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index 3c3ea0089b0b5..6eb15b00edccd 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -738,7 +738,7 @@ struct cfs_rq {
+        u64                     throttled_clock_pelt_time;
+        u64                     throttled_clock_self;
+        u64                     throttled_clock_self_time;
+-       int                     throttled:1;
++       bool                    throttled:1;
+        int                     pelt_clock_throttled:1;
+        int                     throttle_count;
+        struct list_head        throttled_list;
 
-:::::: The code at line 133 was first introduced by commit
-:::::: 730a30ab7fba60c986e0e4a362bb21d2ed196a29 mfd: si476x: Add the bulk of the core driver
 
-:::::: TO: Andrey Smirnov <andreysm@charmander.(none)>
-:::::: CC: Samuel Ortiz <sameo@linux.intel.com>
+the issue will disappear?
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+> 
+> Thanks,
+> Aaron
+> 
