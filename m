@@ -1,58 +1,67 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29FCC23BD1F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 14:39:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9610F1DF24F;
+	Wed, 23 Jul 2025 15:36:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753281564; cv=none; b=qqZvsZKdGbynkUOInjZ406Wxj4WMrFUbMSujWhT5K30LxOcFjnOkdN3ZdR/8I7hWSEDhkOU1qd9fQ5GqrGwcY7FLRC1xOzXvJfdyKPByf5nXZmVIMVOneXEwzk18+MkEczzwZfI/My5iY/63Ls2bbtgj1CIp8P7w+CrJcTwjZe0=
+	t=1753285020; cv=none; b=DS5yKbeIbQr5obTcCYPEdWxawSaqlRboDcnXYBInRiqIQNiRLtLlxA0PcGMIyJBfGDNmVl8m4DBBuKbT1EmbR8EyVyUfhP1i2+MbrI7xzoG8t0a/PLLpG4jl70ymZwF5CyjqrnkUZg97kamQM1wXttoTT0LV1RA56Es00UHRmIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753281564; c=relaxed/simple;
-	bh=UeSr3FQEEdS2EzQzQlKwW1K+b6fD1vIqeg4j4iftx1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iS92kJbuUnb+g8Bem2hzyZh+BHoFysfGrauXs9n4vpgnjpgtsIlOwRPUR1YcDc0LaZa3RX+Vc2Uf6G6JbYygx29ncAPaRoGKHleEqJszB25o62sDDT3PzFcjGjzsJZGXV3obbbI3mIoD9OU1+R4/U8RoVeCO7S60+KzWk5Qj1i8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IRXKY2dj; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IRXKY2dj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753281563; x=1784817563;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=UeSr3FQEEdS2EzQzQlKwW1K+b6fD1vIqeg4j4iftx1g=;
-  b=IRXKY2djHyQL3QVQcA7PGTDA5OZuY2C60zAJowgna0fO50B64pIrlnS3
-   Q7X+GOt6PNY9uXLlRL0erB99DIwqCkAUP37ireQZfqXtLzFSKOHMN5zZ+
-   c6u/xGsg1duTlSdtxCYis0H3/kYu/oy7rz3+N7MOBJYDQXe5kiCBqPmX3
-   A8DduoBAKPBJ+3MakFnDDGAUktF04Mf6XhRl8xKXw2hlv185zCrN9yE31
-   pwUH1F7gjDH3076Zq4xjS5GOXikxyonZdG2l0kheZqP4m/6Po51PMYZkg
-   BfqICU5rhIpN0kP6iiM99dKvakUEWxE3u1Q3QMr0NzbwEIB7UnuTh8Qhg
-   w==;
-X-CSE-ConnectionGUID: gE+18m1zTjarb0vH2mGSxQ==
-X-CSE-MsgGUID: bb9mILrMTmu45mdKuoNnjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55509098"
-X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="55509098"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 07:39:23 -0700
-X-CSE-ConnectionGUID: IWPpSpEfT5KkTAAjiL/Zuw==
-X-CSE-MsgGUID: naxI0VSqQGKkcAIADwiwUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="165186035"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 23 Jul 2025 07:39:22 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ueacp-000JRX-0x;
-	Wed, 23 Jul 2025 14:39:19 +0000
-Date: Wed, 23 Jul 2025 22:38:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: aubrey.li@linux.intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [anolis-intel-cloud:devel-5.10 0/9] mm/khugepaged.c:152: warning:
- Function parameter or member 'evict_timestamp' not described in 'mm_slot'
-Message-ID: <202507232245.k4uihdv0-lkp@intel.com>
+	s=arc-20240116; t=1753285020; c=relaxed/simple;
+	bh=+ER8pn1/f3NYVV2anIhl2ZioKi8MBMvlAz4WwMCtweQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DWMtNVJGNRRJFYW5U66XXhmNimSWJE+WPewaL5v1ZHfndRwBLeEIc/e0Ri8D5+1bzy5NMCyFTrMzwYXzDvvhnChlPBBN/1NCBtzu0lSJa8PHso/aflEEZpkXMMDGdTNh6+ov8ECc4+hsTY7LAhmotE7Uy17meaQ8cTBdfaS1/V0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ae708b0e83eso1235077866b.2;
+        Wed, 23 Jul 2025 08:36:58 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753285017; x=1753889817;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hxQ3M1WeHEo+nA3pDBj1z9ZXTmnmq5hk8Qm0uzS3eUY=;
+        b=IHMQ5Gv5IpdQN99T1PeJsVwCnxisJY1UmDtIvpl3bA1a9gJ1oYDQzJumzZfJQ6bOUu
+         TZYNEb32Q0VXfdOtKgwZAFHuENSKzytge19td+mBv7xz7doAA0r8BoKufCbPqbkL3mJb
+         AxdEeoHDsVGAacV/YlrdoEOdXndVe/PwHVcKIIZsJhpqWF9PdqhL2T/NntMzAt141NtE
+         iragcA3Byhs+yaLs41O/gA2ZpTNGaHzBTnRMFRb8PvNQG2bjjRAe82/dRXXtAAXPa8be
+         GXkKITaM7yWEtP2/wYbMVrWcu5j2eYnjSjMq7EQyxdhtEUYT9LcNku2dcfoXpSl3rMXO
+         uCOg==
+X-Forwarded-Encrypted: i=1; AJvYcCVDCDdDKulw8iYXkKRPBsWtjAkEC/T28lVwq+dGn5glyni3RvT1zm4if8AaVhgpoYV/fc0iYC+V51GiiSmM6w==@lists.linux.dev, AJvYcCWsrCWoFfiOvST2UYeea3AddhTdOkXImPwxbBD+NEBc1Bc1MnzhS4UUPdPu9cKEIH1UuBNwD5k/0MmnqkU=@lists.linux.dev
+X-Gm-Message-State: AOJu0YyhUPPYQQQdKHPYaK69GbdVM/kR4XfpaW6ZlS2YamdLRFKW0MuE
+	/SNIwT6UuQKrooPY1EcH4PwCul3WlZWauXVN4GzADDGiU9c01waDq/UN
+X-Gm-Gg: ASbGncu41UBL+FMD9cc0FDTdfjIBv9INJiK9cuskmndPYCt9ytdVQG7FL0MpP/sdOpC
+	FdFVSLuP5OIalIPK1zgDt6WdNy/Kc+JXYI+haIvLm/vCVnU91YxpyULFxQwFcEsb3u6H4VGwu1g
+	mkVjpCYiStwbGpUJvqHRRyjr0TRYjJwacgGx6agGuS3so5kOQKr3xOswyPMCsrsy6olBKwCVeIa
+	j2HaS9ke2XLp6Ou2QOlJo3FnKo32nNdvYobTSh1CPVBeAQGktakvehNJQTwNGr1ZWShnam9Ss86
+	T1oS1Sp/I/GxscsrxI5/7HyElLu6sA1cUZifeM+cE9/QVNbFO9aqvpmIbUeLg54TQHaDN71uYL5
+	M7gzK3daMltKk3g==
+X-Google-Smtp-Source: AGHT+IETRaOgydL5D9alhTF8zO82hzgDecgDyn/Edc5pZ0K0bOUQXLbkxv/O/N+5sE2Ilhir+6nemA==
+X-Received: by 2002:a17:907:74a:b0:ad8:a935:b905 with SMTP id a640c23a62f3a-af2f6c0c6a1mr324567566b.22.1753285016210;
+        Wed, 23 Jul 2025 08:36:56 -0700 (PDT)
+Received: from gmail.com ([2a03:2880:30ff:70::])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aec6ca7bc99sm1068454266b.109.2025.07.23.08.36.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Jul 2025 08:36:55 -0700 (PDT)
+Date: Wed, 23 Jul 2025 08:36:52 -0700
+From: Breno Leitao <leitao@debian.org>
+To: kernel test robot <lkp@intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	James Morse <james.morse@arm.com>, Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>, 
+	Robert Moore <robert.moore@intel.com>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Hanjun Guo <guohanjun@huawei.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>, 
+	Oliver O'Halloran <oohall@gmail.com>, Bjorn Helgaas <helgaas@kernel.org>, 
+	oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev, osandov@osandov.com, 
+	xueshuai@linux.alibaba.com, konrad.wilk@oracle.com, linux-edac@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v3] vmcoreinfo: Track and log recoverable hardware errors
+Message-ID: <cdlrppnrheyq7z3gmwmwsmktpmoiwq7g5hxa67rcx4iem5i6ge@jksa5o5use4w>
+References: <20250722-vmcore_hw_error-v3-1-ff0683fc1f17@debian.org>
+ <202507232209.GrgpSr47-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,87 +70,41 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202507232209.GrgpSr47-lkp@intel.com>
 
-Hi Rongwei,
+On Wed, Jul 23, 2025 at 10:28:29PM +0800, kernel test robot wrote:
+> Hi Breno,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on 97987520025658f30bb787a99ffbd9bbff9ffc9d]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/vmcoreinfo-Track-and-log-recoverable-hardware-errors/20250723-005950
+> base:   97987520025658f30bb787a99ffbd9bbff9ffc9d
+> patch link:    https://lore.kernel.org/r/20250722-vmcore_hw_error-v3-1-ff0683fc1f17%40debian.org
+> patch subject: [PATCH v3] vmcoreinfo: Track and log recoverable hardware errors
+> config: x86_64-buildonly-randconfig-001-20250723 (https://download.01.org/0day-ci/archive/20250723/202507232209.GrgpSr47-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507232209.GrgpSr47-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202507232209.GrgpSr47-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> vmlinux.o: warning: objtool: do_machine_check+0x5cc: call to hwerr_log_error_type() leaves .noinstr.text section
 
-FYI, the error/warning still remains.
+Oh, it seems a real issue.
 
-tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
-head:   7fc3abd8b21f1ef01108269b858d36abd6b95372
-commit: bf2c1d13d55c0fdac556938a3cde016341d985ec [0/9] anolis: mm: hugetext: Update adaptive entries
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250723/202507232245.k4uihdv0-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
-rustc: rustc 1.58.0 (02072b482 2022-01-11)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507232245.k4uihdv0-lkp@intel.com/reproduce)
+Basically there are two approaches, from what I understand:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507232245.k4uihdv0-lkp@intel.com/
+	1) mark do_machine_check() as noinstr
 
-All warnings (new ones prefixed by >>):
+	2) Move hwerr_log_error_type() earlier inside the
+	instrumentation_begin() area.
 
-   mm/khugepaged.c:152: warning: Function parameter or member 'nr_pte_mapped_thp' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'pte_mapped_thp' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'exec_vma' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'nr_adapt_vma' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'adapt_vmas' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'adaptive_regions' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'work' not described in 'mm_slot'
->> mm/khugepaged.c:152: warning: Function parameter or member 'evict_timestamp' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'state' not described in 'mm_slot'
-   mm/khugepaged.c:152: warning: Function parameter or member 'nr_hugetext' not described in 'mm_slot'
-   mm/khugepaged.c:1855: warning: Function parameter or member 'mm' not described in 'collapse_pte_mapped_thp'
-   mm/khugepaged.c:1855: warning: Function parameter or member 'addr' not described in 'collapse_pte_mapped_thp'
-   mm/khugepaged.c:2057: warning: Function parameter or member 'mm' not described in 'collapse_file'
-   mm/khugepaged.c:2057: warning: Function parameter or member 'file' not described in 'collapse_file'
-   mm/khugepaged.c:2057: warning: Function parameter or member 'start' not described in 'collapse_file'
-   mm/khugepaged.c:2057: warning: Function parameter or member 'hpage' not described in 'collapse_file'
-   mm/khugepaged.c:2057: warning: Function parameter or member 'node' not described in 'collapse_file'
-
-
-vim +152 mm/khugepaged.c
-
-b188234c53aafe Rongwei Wang       2022-11-26  122  
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  123  /**
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  124   * struct mm_slot - hash lookup from mm to mm_slot
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  125   * @hash: hash collision list
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  126   * @mm_node: khugepaged scan list headed in khugepaged_scan.mm_head
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  127   * @mm: the mm that this information is valid for
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  128   */
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  129  struct mm_slot {
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  130  	struct hlist_node hash;
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  131  	struct list_head mm_node;
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  132  	struct mm_struct *mm;
-27e1f8273113ad Song Liu           2019-09-23  133  
-27e1f8273113ad Song Liu           2019-09-23  134  	/* pte-mapped THP in this mm */
-27e1f8273113ad Song Liu           2019-09-23  135  	int nr_pte_mapped_thp;
-27e1f8273113ad Song Liu           2019-09-23  136  	unsigned long pte_mapped_thp[MAX_PTE_MAPPED_THP];
-5c3c3afed0fd68 Xu Yu              2021-08-19  137  
-5c3c3afed0fd68 Xu Yu              2021-08-19  138  #ifdef CONFIG_HUGETEXT
-5c3c3afed0fd68 Xu Yu              2021-08-19  139  #define MAX_EXEC_VMA       8
-5c3c3afed0fd68 Xu Yu              2021-08-19  140  	/* exec vma vm_start in this mm */
-5c3c3afed0fd68 Xu Yu              2021-08-19  141  	int nr_exec_vma;
-5c3c3afed0fd68 Xu Yu              2021-08-19  142  	unsigned long exec_vma[MAX_EXEC_VMA];
-b188234c53aafe Rongwei Wang       2022-11-26  143  	int nr_adapt_vma;
-b188234c53aafe Rongwei Wang       2022-11-26  144  	struct adapt_vma_t adapt_vmas[MAX_EXEC_VMA];
-b188234c53aafe Rongwei Wang       2022-11-26  145  	struct xarray adaptive_regions;
-b188234c53aafe Rongwei Wang       2022-11-26  146  	struct delayed_work work;
-bf2c1d13d55c0f Rongwei Wang       2022-11-26  147  	unsigned long evict_timestamp;
-b188234c53aafe Rongwei Wang       2022-11-26  148  	/* Current state of adapt vma */
-b188234c53aafe Rongwei Wang       2022-11-26  149  	atomic_t state;
-b188234c53aafe Rongwei Wang       2022-11-26  150  	int nr_hugetext;
-5c3c3afed0fd68 Xu Yu              2021-08-19  151  #endif
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26 @152  };
-b46e756f5e4703 Kirill A. Shutemov 2016-07-26  153  
-
-:::::: The code at line 152 was first introduced by commit
-:::::: b46e756f5e47031c67658ff036e5ffe27062fa43 thp: extract khugepaged from mm/huge_memory.c
-
-:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Probably option 1 might be more flexible, given that
+hwerr_log_error_type() doesn't seem a function that anyone wants to
+instrument?!
