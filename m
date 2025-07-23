@@ -1,61 +1,73 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845131F1909
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 22:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D51F33D81
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 22:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753310015; cv=none; b=e52NgGZtci9T9OLiQLFRrKkpxKiYZ9y4qYDJ+1hJ3kR6zpn8zbgZI24cZrwZYj79ouyq9UY7AfZe0E5ajgCbgOREx2viHiTlinOdgyPRbH3Z/9apXgerhl8/FlAo44gSPLP9C+wNn06NcjlODc+18+7nMagf0rZsCG0d0fnouks=
+	t=1753310614; cv=none; b=PZGHYUdGCZMQvScCR3RAOv3OVi4+XGJF1qFSCleK1eiXCY7tt1pr2Rq+JeJXs6DAwnJ3CPwpPYw5mYHdkqxL7uGQT68qESVdFmR2j1zVSHLnVTg0UaZoqNmg/m2HMBvfAB4w3pdiVpjlVNTkDcH+bDrbvgU1aD1zu5Q7tDr8Ef4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753310015; c=relaxed/simple;
-	bh=nncZDrpOvKqn5x5qZyNl+Xh4fLmSJcj9dkm+lxjIJMI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ceFg3uTw7+DYOpUh82MVN7PmzmKupUQM7ABrD31NWV8ol+ObIFbvChqlJCTLBLNdAQyTu8curWf3IRw/TKLgEYI7MHYqwDOJ7Q2EDt85Ldp619MxPTvtuibsJxu7KLihwtBQdf0Hs4Hogmr2DW+flPqo6q8SSJNNys1N+5D9oQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V2RGWV01; arc=none smtp.client-ip=192.198.163.16
+	s=arc-20240116; t=1753310614; c=relaxed/simple;
+	bh=AB2be7bdlGypmACU4zZ0a1wnOFT1GBNtcZel1TManbs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QbqS05WVPvXUHOpKfUxRjOMq3tAjpX1362FzBF78umixEGGo4m9pootf3xjh6Wj5zVTxea34KSvp8o4O3T++YFw8wyAdEXAj3ddexomLMfm1aO1gaXhiVkBgUId930U6DEuOi/2p/oXJzRy5oXvqPtsVFlAtsFbzVGh9G7UsdB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T4kmCAI4; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V2RGWV01"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T4kmCAI4"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753310014; x=1784846014;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=nncZDrpOvKqn5x5qZyNl+Xh4fLmSJcj9dkm+lxjIJMI=;
-  b=V2RGWV01yP/ZFJDiqGxWE6Z18w884B8i0dnYpH8IoUvIGvkB9Sy9YiYE
-   H45PDine2Qd2xFMjgWCnpkZd5qVEwLNB0O7NIXpBLMTOtszPi7WKqJYyG
-   AaD6kQavoGcNeQN3arRApzV1Fd1oUqy4OpSl/50z2e1IXWEeLr656+tOp
-   0OLS6D/rhy/RH9qIOMenbH1hcTXVzIPzo9JYQgCHTXCbFrw8W81vNE1Cy
-   JYXkp0c61PhTWckkDolVJuGYw46VoNCwzB9JEz6tSP1tVUOlpLbT+jHM0
-   8RmxaRMLnWTv3D335MKm0quCm18tI9Y/roc5frWKnbeVQAqmBqn4aSPn2
-   g==;
-X-CSE-ConnectionGUID: BWDPE5JtQbKOz8m3vB5SMw==
-X-CSE-MsgGUID: 4+9qdfXLQr+p+yCO1p4Zeg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="43225118"
+  t=1753310613; x=1784846613;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AB2be7bdlGypmACU4zZ0a1wnOFT1GBNtcZel1TManbs=;
+  b=T4kmCAI4ezs1tii3zpNKI33/ss1aRp1tqWlKi/lQiOn+OBInQp0FmiJO
+   bkXEtrgVisZuREpnaEG06e7aSi0vKgJsgCQCXPi0pQLaWSJtmB7vOAbRS
+   jDN1NKRc+VGHHIEQercDOeZQEZmlhBUe8pxXK3yOu+amuTYuXoxUg/1Dj
+   dbkZZDPdv9md7vDjdfjgQs4pTXPxeXyfOozueJlxPHb0cFsiHdlb7s9rA
+   uupz54+lEX2hHZPAMtZ6Q0JLayz3lxGHWMx3e/ZKDL5K/GiahkDTiuHQ2
+   JsPQ59LQM3gRyvnS0FSY3l7CCPy+Csb4h7uyyXCAWnqb6spriaVUMUBFg
+   A==;
+X-CSE-ConnectionGUID: YrDDTbvRTC21+TPz/8Tyfw==
+X-CSE-MsgGUID: 8FORzWl1QC+oWHxUiuSefA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55551142"
 X-IronPort-AV: E=Sophos;i="6.16,335,1744095600"; 
-   d="scan'208";a="43225118"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 15:33:29 -0700
-X-CSE-ConnectionGUID: aFy6nzkMSb62VwUamiRcmA==
-X-CSE-MsgGUID: erMXicQsQeqfLlbkAskXrA==
+   d="scan'208";a="55551142"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 15:43:32 -0700
+X-CSE-ConnectionGUID: 70TgYBp0R+So1kNDZjPRHg==
+X-CSE-MsgGUID: gGNfpaRzTpeqI3mV40pCAw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,335,1744095600"; 
-   d="scan'208";a="160496792"
+   d="scan'208";a="190751334"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 23 Jul 2025 15:33:26 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 23 Jul 2025 15:43:29 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uei1b-000JqN-2k;
-	Wed, 23 Jul 2025 22:33:23 +0000
-Date: Thu, 24 Jul 2025 06:32:56 +0800
+	id 1ueiBK-000Jr9-1n;
+	Wed, 23 Jul 2025 22:43:26 +0000
+Date: Thu, 24 Jul 2025 06:43:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Greg Ungerer <gerg@linux-m68k.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-	uclinux-dev@uclinux.org
-Subject: [gerg-m68knommu:dt 11/14] kismet: WARNING: unmet direct dependencies
- detected for OF_EARLY_FLATTREE when selected by BUILTIN_DTB
-Message-ID: <202507240640.HUof1qoU-lkp@intel.com>
+To: Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Orson Zhai <orsonzhai@gmail.com>,
+	Baolin Wang <baolin.wang@linux.alibaba.com>,
+	Chunyan Zhang <zhang.lyra@gmail.com>,
+	Kevin Tang <kevin.tang@unisoc.com>
+Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Otto =?iso-8859-1?Q?Pfl=FCger?= <otto.pflueger@abscue.de>
+Subject: Re: [PATCH v2 14/15] drm: sprd: implement IOMMU-based buffer
+ management
+Message-ID: <202507240607.WFI08aBs-lkp@intel.com>
+References: <20250722-ums9230-drm-v2-14-054276ec213d@abscue.de>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,24 +76,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250722-ums9230-drm-v2-14-054276ec213d@abscue.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git dt
-head:   27df60f03ea91cb3f494cf3821d6b0859275bb0a
-commit: ea4243b0b16a64a1f6c5c32276e692590fae11d4 [11/14] m68k: implement a builtin devicetree for nonmmu
-config: m68k-kismet-CONFIG_OF_EARLY_FLATTREE-CONFIG_BUILTIN_DTB-0-0 (https://download.01.org/0day-ci/archive/20250724/202507240640.HUof1qoU-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250724/202507240640.HUof1qoU-lkp@intel.com/reproduce)
+Hi Otto,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 05adbee3ad528100ab0285c15c91100e19e10138]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Otto-Pfl-ger/dt-bindings-display-sprd-adapt-for-UMS9230-support/20250722-224414
+base:   05adbee3ad528100ab0285c15c91100e19e10138
+patch link:    https://lore.kernel.org/r/20250722-ums9230-drm-v2-14-054276ec213d%40abscue.de
+patch subject: [PATCH v2 14/15] drm: sprd: implement IOMMU-based buffer management
+config: hexagon-randconfig-r132-20250724 (https://download.01.org/0day-ci/archive/20250724/202507240607.WFI08aBs-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+reproduce: (https://download.01.org/0day-ci/archive/20250724/202507240607.WFI08aBs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507240640.HUof1qoU-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507240607.WFI08aBs-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for OF_EARLY_FLATTREE when selected by BUILTIN_DTB
-   WARNING: unmet direct dependencies detected for OF_EARLY_FLATTREE
-     Depends on [n]: OF [=n]
-     Selected by [y]:
-     - BUILTIN_DTB [=y]
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/sprd/sprd_gem.c:157:16: sparse: sparse: Using plain integer as NULL pointer
+
+vim +157 drivers/gpu/drm/sprd/sprd_gem.c
+
+   135	
+   136	static struct sg_table *sprd_gem_object_get_sg_table(struct drm_gem_object *obj)
+   137	{
+   138		struct sprd_gem_obj *sprd_gem = to_sprd_gem_obj(obj);
+   139		struct sg_table *sgt;
+   140		int ret;
+   141	
+   142		if (sprd_gem->pages)
+   143			return drm_prime_pages_to_sg(obj->dev, sprd_gem->pages,
+   144						     obj->size >> PAGE_SHIFT);
+   145	
+   146		sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
+   147		if (!sgt)
+   148			return ERR_PTR(-ENOMEM);
+   149	
+   150		ret = dma_get_sgtable(obj->dev->dev, sgt, sprd_gem->vaddr,
+   151				      sprd_gem->dma_addr, obj->size);
+   152		if (ret < 0) {
+   153			kfree(sgt);
+   154			return ERR_PTR(ret);
+   155		}
+   156	
+ > 157		return 0;
+   158	}
+   159	
 
 -- 
 0-DAY CI Kernel Test Service
