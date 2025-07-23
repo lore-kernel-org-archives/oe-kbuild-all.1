@@ -1,59 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C08C2EB5D3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 13:58:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325552EF2B4;
+	Wed, 23 Jul 2025 14:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753279100; cv=none; b=RjrROxR7V2HPCcNU62VP6k0z0AkXOuNPgOpfEU0IgBWF8vP6FHXiz6StrFj5s3llbfv45Ui4SPpvj38BqeAs/4XjjexFOnPDS7cgNkvNS05SN+7J0I98vpQQtbK3biVHJGIW5QIVC5hPs/flv1V3BqHCwFmcPzkyt3aXIEopGtU=
+	t=1753280968; cv=none; b=u3d+VwrcEbUxQo9j1HTk3gTrMkN1hRbztCECVl3cCoL9j2etPznHSyHa4OqATMRE7DtR65ZgeD4vnXCC5inCaQnb+IcQg4a0Gczp8UB/vQ7wdf4JhM9X8bRsb9wevvVXVScxEfD2vBRakseY2EZ/9/JroqGEvr1uXFpLqJcUvAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753279100; c=relaxed/simple;
-	bh=eW8zAUwQha7I5GAJdrCG+C3VCZC9dyaaMwtU41wahfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gKW5XoJoHDh6Lvcw9sDrnVx/ECO7t98Nq+o9eunGWJ8aMT4Zt5eZcKchJGODguQcbg9XA3hGWT0OJ7wav3K+qG1q1QyjhvhwFigYy04e1M26QpMsUzt0vQRtee/WJzcYQFeIR8ucYSLHYR7w9RR3+QMdNEhafLTW6ShJqrK+eio=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cEMjTUtX; arc=none smtp.client-ip=198.175.65.21
+	s=arc-20240116; t=1753280968; c=relaxed/simple;
+	bh=JnPfz05COLFbrti4eA0oit4iSLVZ3XvOremqEbmexSk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OH/3G9aImvnRFstvLjFDVPZQ/XVi1yW0EtlNWalN4iESPwoRIx/JAtMnRuEYHr2DPRqVcSUZEGU57lmtQcvPwIPP1mrMH9W06J8Lb95YF5HVM2zk3bYi9L/WJp1mGs/IkejYIl3FuIBbGfbNf3/0MkV5ZZsQKOh3wsnRypVv50I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JjM8tild; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cEMjTUtX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JjM8tild"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753279098; x=1784815098;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=eW8zAUwQha7I5GAJdrCG+C3VCZC9dyaaMwtU41wahfQ=;
-  b=cEMjTUtXVv2lzupnz/YejEp6ftIWJ7V+hAjBS9YH8Vs49ARGPRlnRh4+
-   SklsG3l0bb0m4sTKNf7KuTytX2j18jeanpkihTfHByGOwe0N8SVFK6FXZ
-   o1QXqa2rnx7veEXRNAZn41F5C9Rb17LKmsmdDLxh69WJjyk2JM0rfqlYW
-   60JyOpaS3tv1OS4dLOMBZDqmwsKS0KutX9tdCkx+4OrXHfsgzicmy+Yyf
-   U9es/I4Jzf+WHoNr4SAqQ4YP3pWVxFvt+CNjKaApH/tvYejweNhWRHhTm
-   P4IhMsBOJ1hP//NSDDetK2smK88XRRPnrXFqhERvRAOYV72GVTwu9dFVg
-   g==;
-X-CSE-ConnectionGUID: Z4dcdEI5TxC6wi5hqjACnQ==
-X-CSE-MsgGUID: 7IkAnuDHSuKEZS8IvR48Tw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55440915"
+  t=1753280967; x=1784816967;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JnPfz05COLFbrti4eA0oit4iSLVZ3XvOremqEbmexSk=;
+  b=JjM8tildqKRdGU+ADVYHW+mOMr9p/te3fMCwzPvfyPp1NXLk6NLdjMb8
+   z9GLBn367lEZjkO0/5a468HPqLfxNkSWvlzC6+E5b1CEu1kkYaJ83F/2k
+   yLQsVbE6Y+6CJwcRC9FiQLfsDeN9jUbY49eiycaSxKNbsIyl2hkI8j+eF
+   qrS0dnDtJ+bqU8Vo6RvZCnvCehSRtvv8b5T/T7pRWuDB9866WGjPkSD1I
+   jlmADsLUkVwylXgTQ71RCZVp/UisXD2lxigGr2Cszp51KwfRT2aqt/hAg
+   dye6sddHElwghIKdaM0pgoBtuMJ9OKePWHCiDelkplG2vfnJr1USdS6u8
+   A==;
+X-CSE-ConnectionGUID: jLtxZqaMSeqC7et937tjsg==
+X-CSE-MsgGUID: a+YFSyTlQSeQvIWt0Spdxw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="58180466"
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="55440915"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 06:58:17 -0700
-X-CSE-ConnectionGUID: 7C5J038gQYmXHwGD8A2EQA==
-X-CSE-MsgGUID: f1ZxmwejQX2A63WxzatM8w==
+   d="scan'208";a="58180466"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 07:29:26 -0700
+X-CSE-ConnectionGUID: bLMBwyrWRkeAJvKC8iopDQ==
+X-CSE-MsgGUID: UZkMCzLeRXqiwiq1mUGeIw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="164007646"
+   d="scan'208";a="159562699"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 23 Jul 2025 06:58:17 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 23 Jul 2025 07:29:21 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ueZz4-000JPn-0T;
-	Wed, 23 Jul 2025 13:58:14 +0000
-Date: Wed, 23 Jul 2025 21:58:01 +0800
+	id 1ueaT8-000JRD-1n;
+	Wed, 23 Jul 2025 14:29:18 +0000
+Date: Wed, 23 Jul 2025 22:28:29 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lukas Wunner <lukas@wunner.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [l1k:aer_reset_v1 4/7] drivers/infiniband/hw/hfi1/pcie.c:569:3:
- warning: ignoring return value of function declared with
- 'warn_unused_result' attribute
-Message-ID: <202507232117.pPyrrytf-lkp@intel.com>
+To: Breno Leitao <leitao@debian.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, James Morse <james.morse@arm.com>,
+	Tony Luck <tony.luck@intel.com>, Borislav Petkov <bp@alien8.de>,
+	Robert Moore <robert.moore@intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Hanjun Guo <guohanjun@huawei.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
+	Oliver O'Halloran <oohall@gmail.com>,
+	Bjorn Helgaas <helgaas@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	acpica-devel@lists.linux.dev, osandov@osandov.com,
+	xueshuai@linux.alibaba.com, konrad.wilk@oracle.com,
+	linux-edac@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	linux-pci@vger.kernel.org, kernel-team@meta.com,
+	Breno Leitao <leitao@debian.org>
+Subject: Re: [PATCH v3] vmcoreinfo: Track and log recoverable hardware errors
+Message-ID: <202507232209.GrgpSr47-lkp@intel.com>
+References: <20250722-vmcore_hw_error-v3-1-ff0683fc1f17@debian.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,52 +80,30 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250722-vmcore_hw_error-v3-1-ff0683fc1f17@debian.org>
 
-tree:   https://github.com/l1k/linux aer_reset_v1
-head:   aa7d1cb67ab66436de55f08005a7130768067322
-commit: d3a669b8ded4ab05c102071648f1a737062fdab2 [4/7] IB/hfi1: Fix PCIe error handling
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250723/202507232117.pPyrrytf-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507232117.pPyrrytf-lkp@intel.com/reproduce)
+Hi Breno,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 97987520025658f30bb787a99ffbd9bbff9ffc9d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Breno-Leitao/vmcoreinfo-Track-and-log-recoverable-hardware-errors/20250723-005950
+base:   97987520025658f30bb787a99ffbd9bbff9ffc9d
+patch link:    https://lore.kernel.org/r/20250722-vmcore_hw_error-v3-1-ff0683fc1f17%40debian.org
+patch subject: [PATCH v3] vmcoreinfo: Track and log recoverable hardware errors
+config: x86_64-buildonly-randconfig-001-20250723 (https://download.01.org/0day-ci/archive/20250723/202507232209.GrgpSr47-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507232209.GrgpSr47-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507232117.pPyrrytf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507232209.GrgpSr47-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/infiniband/hw/hfi1/pcie.c:569:3: warning: ignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]
-     569 |                 pci_enable_device(pdev);
-         |                 ^~~~~~~~~~~~~~~~~ ~~~~
-   1 warning generated.
-
-
-vim +/warn_unused_result +569 drivers/infiniband/hw/hfi1/pcie.c
-
-   560	
-   561	static pci_ers_result_t
-   562	pci_slot_reset(struct pci_dev *pdev)
-   563	{
-   564		struct hfi1_devdata *dd = pci_get_drvdata(pdev);
-   565	
-   566		dd_dev_info(dd, "HFI1 slot_reset function called\n");
-   567	
-   568		if (pdev->error_state == pci_channel_io_frozen)
- > 569			pci_enable_device(pdev);
-   570	
-   571		/*
-   572		 * Running jobs will fail, since it's asynchronous
-   573		 * unlike sysfs-requested reset.   Better than
-   574		 * doing nothing.
-   575		 */
-   576		if (hfi1_init(dd, 1)) /* same as re-init after reset */
-   577			return PCI_ERS_RESULT_DISCONNECT;
-   578	
-   579		return PCI_ERS_RESULT_RECOVERED;
-   580	}
-   581	
+>> vmlinux.o: warning: objtool: do_machine_check+0x5cc: call to hwerr_log_error_type() leaves .noinstr.text section
 
 -- 
 0-DAY CI Kernel Test Service
