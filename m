@@ -1,60 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE8A19E7E2
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 03:49:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3839A1D5CE5
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 04:10:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753242565; cv=none; b=hnK6JkmRlNob1LJknlaRQ2+ZQaRBCjZ60Kb1nhfglWsXQzOghqnSfPXlZljiPBItI0mnLyPmYuh6JhBc9yG8/5rjPYvGlDyYemBYXZnIJIefhzjBiDXfcjln90W1I6GtC/jhy8xvbFIAvsJFTetpEZtYNWuPs3ieIJMqWio/OJQ=
+	t=1753243840; cv=none; b=q+9klRnR/dncwEZgkt5rHl40+rOQlQEieeriwnk4zXvB1VXtY58z2pTMw5DxurtFmL14dO9EqNa9eXgKUzpiBXCYK3y3Lu9UU/rjtbBcPvE5yaS2C5NwbbJA5wBFfTlt4fVxCB3Jy407JD/609yib1EhmZw1xuYQrcFkTZrMrOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753242565; c=relaxed/simple;
-	bh=6aRhEMaANS7oSdHZaoh2TDytS+D+X2CyXgkFMhKe4SA=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=F0NZoAheg+J6+L7NIhpkdXCo9+1L9TxfzZ41++zVdWlXCQ7/Vk7LX5WHUzHgnTDwoupcKoUuYpX7gAU/sNVDajp2EWVwEncozdSEfAIlf5bi0dB1nvCMass4cAfnGJ9BbQI7f6+UoLwjdz4gEouM/86lv5mueH9akgd7DgdNXKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kBScxs2f; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1753243840; c=relaxed/simple;
+	bh=buoD5V+ZyyD7Y7yMlN5Z6j4U11ilG7IxHxBfFpfLLN4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=idkHfETezWGJmnv8Iq1+op22nLntRNfUR9C3DsHtVWa9rD6DrJdcEXez+jPVzkWwnGnrEEaf8HlsJmt8RB5Ptfi39gNr0qri+eQKu1N7sM8oDj6pGbV7IhAoZZ8t4zCNR659XdK9GAYfWyHm5nA9ZSXZwDmDmdhwZDHHoJSF/ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W7b6osTy; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kBScxs2f"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W7b6osTy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753242564; x=1784778564;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=6aRhEMaANS7oSdHZaoh2TDytS+D+X2CyXgkFMhKe4SA=;
-  b=kBScxs2fLMFfUQ5GAfl8vSK46phQ27W6b8po5CKcGQKxf9pzOap90s/t
-   2DIWDOn3kCJ0K5KWcjsd7MlR7fjWzDfSo0rnuTem0KQufAxC4BXVDCRzn
-   Fp3X/cOxh60Hmnaxm/zDQOseCPz0guRQdOWaJ2mxCMJdunaIak6MkcSwI
-   5t/S7z6DrfH1h+jFy8ay0vEejaswtQr1LZqn4mhmxmEupIdt9Fv19Otsb
-   XGRS1jnmCzfdcuGpaoRd4pHHbFiCaELSo0O2ikf1kHBeL6m1FQRC9BGUG
-   QN+kgKHiHG/PUZAVp566yq35g3OBC7zMJmvbkFNj3C4wqCvTliTGSldvG
-   A==;
-X-CSE-ConnectionGUID: Xc5VX+5ARrumDZLku4c5MA==
-X-CSE-MsgGUID: 9OFD7E/fRPy6QawnzNgzDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="59312436"
+  t=1753243838; x=1784779838;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=buoD5V+ZyyD7Y7yMlN5Z6j4U11ilG7IxHxBfFpfLLN4=;
+  b=W7b6osTyz8wPnj1w36IIhc0CLvlOaIS02cVGnJ9Niu1JtkOKINvvgqVX
+   ZQuZg93pRmxf4mKrIaGzhOSinLyYZjFJNqjyyEQYT8umK98OwDSgKhglh
+   0GqdlgtmYVtd1Iw2/XOV/AP+z/R83fAFgC81LVFPn3Q7duFVxZywBbk5c
+   rqq50ThwVjk0m/xPnzJzuo6O7AjrNubCdew46eYK6wvsNLRrodfEU4WGH
+   Zp9Z3NZEuT9BW05HFtbNdYYt56auP1iVMt6HIGK+D0y8HysDflqljpYLg
+   6YFzuDuSUFg1/BWyNNonNV3UGwNKgbwUXodTqG/o2uN8McABUUfxwmCdi
+   w==;
+X-CSE-ConnectionGUID: YYXocyAtQPmXHdwp5zffpw==
+X-CSE-MsgGUID: pzr5gxKnSt+i/UWYf7AfuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="55467135"
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="59312436"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 20:49:22 -0700
-X-CSE-ConnectionGUID: E2mDjykyQW22y8ZI8UHknw==
-X-CSE-MsgGUID: f8FK6bIIQtu7K4SvcXpvcw==
+   d="scan'208";a="55467135"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 21:10:31 -0700
+X-CSE-ConnectionGUID: eyQkBivjScmxeT8iO7gHXQ==
+X-CSE-MsgGUID: ShXgGVTXT4W4KQREnyq35g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="163592288"
+   d="scan'208";a="163367128"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 22 Jul 2025 20:49:21 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 22 Jul 2025 21:10:26 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ueQTm-000Ivn-1m;
-	Wed, 23 Jul 2025 03:49:18 +0000
-Date: Wed, 23 Jul 2025 11:49:07 +0800
+	id 1ueQoB-000Iwt-2f;
+	Wed, 23 Jul 2025 04:10:23 +0000
+Date: Wed, 23 Jul 2025 12:09:24 +0800
 From: kernel test robot <lkp@intel.com>
-To: Ian Rogers <irogers@google.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Subject: [thomas-weissschuh:vdso/unaligned 1/3]
- include/vdso/unaligned.h:21:9: warning: '__builtin_memcpy' reading 4 bytes
- from a region of size 1
-Message-ID: <202507231135.OtEGYfnQ-lkp@intel.com>
+To: Jason Xing <kerneljasonxing@gmail.com>, anthony.l.nguyen@intel.com,
+	przemyslaw.kitszel@intel.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+	pabeni@redhat.com, bjorn@kernel.org, magnus.karlsson@intel.com,
+	maciej.fijalkowski@intel.com, jonathan.lemon@gmail.com,
+	sdf@fomichev.me, ast@kernel.org, daniel@iogearbox.net,
+	hawk@kernel.org, john.fastabend@gmail.com,
+	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com,
+	bpf@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+	netdev@vger.kernel.org, Jason Xing <kernelxing@tencent.com>
+Subject: Re: [Intel-wired-lan] [PATCH net v2 1/2] stmmac: xsk: fix underflow
+ of budget in zerocopy mode
+Message-ID: <202507231150.Gbhu52dL-lkp@intel.com>
+References: <20250722135057.85386-2-kerneljasonxing@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,78 +72,210 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250722135057.85386-2-kerneljasonxing@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git vdso/unaligned
-head:   d826530fc107faa320a7a88b939b72fa5f6734b5
-commit: 3e7bf09e7bd5dce36df14f6770211fd1bc98a538 [1/3] vdso: Switch get/put unaligned from packed struct to memcpy
-config: parisc-randconfig-002-20250723 (https://download.01.org/0day-ci/archive/20250723/202507231135.OtEGYfnQ-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507231135.OtEGYfnQ-lkp@intel.com/reproduce)
+Hi Jason,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/stmmac-xsk-fix-underflow-of-budget-in-zerocopy-mode/20250722-215348
+base:   net/main
+patch link:    https://lore.kernel.org/r/20250722135057.85386-2-kerneljasonxing%40gmail.com
+patch subject: [Intel-wired-lan] [PATCH net v2 1/2] stmmac: xsk: fix underflow of budget in zerocopy mode
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250723/202507231150.Gbhu52dL-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507231150.Gbhu52dL-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507231135.OtEGYfnQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507231150.Gbhu52dL-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
-   In file included from include/linux/swab.h:5,
-                    from include/uapi/linux/byteorder/big_endian.h:14,
-                    from include/linux/byteorder/big_endian.h:5,
-                    from arch/parisc/include/uapi/asm/byteorder.h:5,
-                    from arch/parisc/include/asm/bitops.h:11,
-                    from include/linux/bitops.h:67,
-                    from include/linux/kernel.h:23,
-                    from arch/parisc/include/asm/bug.h:5,
-                    from include/linux/bug.h:5,
-                    from include/linux/thread_info.h:13,
-                    from include/linux/sched.h:14,
-                    from include/linux/uaccess.h:9,
-                    from arch/parisc/boot/compressed/misc.c:7:
-   In function 'get_unaligned_le32',
-       inlined from 'decompress_kernel' at arch/parisc/boot/compressed/misc.c:312:16:
->> include/vdso/unaligned.h:21:9: warning: '__builtin_memcpy' reading 4 bytes from a region of size 1 [-Wstringop-overread]
-      21 |         __builtin_memcpy(&__get_unaligned_val, (void *)(ptr),           \
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      22 |                          sizeof(__get_unaligned_val));                  \
-         |                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/uapi/linux/swab.h:120:19: note: in definition of macro '__swab32'
-     120 |         __fswab32(x))
-         |                   ^
-   include/linux/byteorder/generic.h:89:21: note: in expansion of macro '__le32_to_cpu'
-      89 | #define le32_to_cpu __le32_to_cpu
-         |                     ^~~~~~~~~~~~~
-   include/linux/unaligned.h:23:28: note: in expansion of macro '__get_unaligned_t'
-      23 |         return le32_to_cpu(__get_unaligned_t(__le32, p));
-         |                            ^~~~~~~~~~~~~~~~~
-   arch/parisc/boot/compressed/misc.c: In function 'decompress_kernel':
-   arch/parisc/boot/compressed/misc.c:29:13: note: source object 'output_len' of size 1
-      29 | extern char output_len;
-         |             ^~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: In function 'stmmac_xdp_xmit_zc':
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2600:17: error: expected expression before 'struct'
+    2600 |                 struct stmmac_metadata_request meta_req;
+         |                 ^~~~~~
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2599:9: warning: this 'for' clause does not guard... [-Wmisleading-indentation]
+    2599 |         for (; budget > 0; budget--)
+         |         ^~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2601:17: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'
+    2601 |                 struct xsk_tx_metadata *meta = NULL;
+         |                 ^~~~~~
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2611:25: error: break statement not within loop or switch
+    2611 |                         break;
+         |                         ^~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2615:25: error: break statement not within loop or switch
+    2615 |                         break;
+         |                         ^~~~~
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2621:25: error: continue statement not within a loop
+    2621 |                         continue;
+         |                         ^~~~~~~~
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2660:17: error: 'meta_req' undeclared (first use in this function); did you mean 'net_eq'?
+    2660 |                 meta_req.priv = priv;
+         |                 ^~~~~~~~
+         |                 net_eq
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2660:17: note: each undeclared identifier is reported only once for each function it appears in
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2591:14: warning: variable 'work_done' set but not used [-Wunused-but-set-variable]
+    2591 |         bool work_done = true;
+         |              ^~~~~~~~~
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2586:34: warning: unused variable 'txq_stats' [-Wunused-variable]
+    2586 |         struct stmmac_txq_stats *txq_stats = &priv->xstats.txq_stats[queue];
+         |                                  ^~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: At top level:
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2685:32: error: expected declaration specifiers or '...' before '&' token
+    2685 |         u64_stats_update_begin(&txq_stats->napi_syncp);
+         |                                ^
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2686:23: error: expected declaration specifiers or '...' before '&' token
+    2686 |         u64_stats_add(&txq_stats->napi.tx_set_ic_bit, tx_set_ic_bit);
+         |                       ^
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2686:55: error: unknown type name 'tx_set_ic_bit'
+    2686 |         u64_stats_add(&txq_stats->napi.tx_set_ic_bit, tx_set_ic_bit);
+         |                                                       ^~~~~~~~~~~~~
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2687:30: error: expected declaration specifiers or '...' before '&' token
+    2687 |         u64_stats_update_end(&txq_stats->napi_syncp);
+         |                              ^
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2689:9: error: expected identifier or '(' before 'if'
+    2689 |         if (tx_desc) {
+         |         ^~
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2699:9: error: expected identifier or '(' before 'return'
+    2699 |         return !!budget && work_done;
+         |         ^~~~~~
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2700:1: error: expected identifier or '(' before '}' token
+    2700 | }
+         | ^
+   drivers/net/ethernet/stmicro/stmmac/stmmac_main.c: In function 'stmmac_xdp_xmit_zc':
+>> drivers/net/ethernet/stmicro/stmmac/stmmac_main.c:2684:9: warning: control reaches end of non-void function [-Wreturn-type]
+    2684 |         }
+         |         ^
 
 
-vim +/__builtin_memcpy +21 include/vdso/unaligned.h
+vim +/struct +2600 drivers/net/ethernet/stmicro/stmmac/stmmac_main.c
 
-     6	
-     7	/**
-     8	 * __get_unaligned_t - read an unaligned value from memory.
-     9	 * @type:	the type to load from the pointer.
-    10	 * @ptr:	the pointer to load from.
-    11	 *
-    12	 * Use memcpy to affect an unaligned type sized load avoiding undefined behavior
-    13	 * from approaches like type punning that require -fno-strict-aliasing in order
-    14	 * to be correct. As type may be const, use __unqual_scalar_typeof to map to a
-    15	 * non-const type - you can't memcpy into a const type. The void* cast silences
-    16	 * ubsan warnings.
-    17	 */
-    18	#define __get_unaligned_t(type, ptr) ({					\
-    19		type __get_unaligned_ctrl_type __always_unused = { 0 };			\
-    20		__unqual_scalar_typeof(__get_unaligned_ctrl_type) __get_unaligned_val; \
-  > 21		__builtin_memcpy(&__get_unaligned_val, (void *)(ptr),		\
-    22				 sizeof(__get_unaligned_val));			\
-    23		__get_unaligned_val;						\
-    24	})
-    25	
+1347b419318d6a Song Yoong Siang  2023-11-27  2581  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2582  static bool stmmac_xdp_xmit_zc(struct stmmac_priv *priv, u32 queue, u32 budget)
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2583  {
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2584  	struct netdev_queue *nq = netdev_get_tx_queue(priv->dev, queue);
+8531c80800c10e Christian Marangi 2022-07-23  2585  	struct stmmac_tx_queue *tx_q = &priv->dma_conf.tx_queue[queue];
+8070274b472e2e Jisheng Zhang     2023-09-18 @2586  	struct stmmac_txq_stats *txq_stats = &priv->xstats.txq_stats[queue];
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2587  	struct xsk_buff_pool *pool = tx_q->xsk_pool;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2588  	unsigned int entry = tx_q->cur_tx;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2589  	struct dma_desc *tx_desc = NULL;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2590  	struct xdp_desc xdp_desc;
+132c32ee5bc09b Ong Boon Leong    2021-04-13 @2591  	bool work_done = true;
+133466c3bbe171 Jisheng Zhang     2023-07-18  2592  	u32 tx_set_ic_bit = 0;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2593  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2594  	/* Avoids TX time-out as we are sharing with slow path */
+e92af33e472cf3 Alexander Lobakin 2021-11-17  2595  	txq_trans_cond_update(nq);
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2596  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2597  	budget = min(budget, stmmac_tx_avail(priv, queue));
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2598  
+9074ec4e205d86 Jason Xing        2025-07-22 @2599  	for (; budget > 0; budget--)
+1347b419318d6a Song Yoong Siang  2023-11-27 @2600  		struct stmmac_metadata_request meta_req;
+1347b419318d6a Song Yoong Siang  2023-11-27  2601  		struct xsk_tx_metadata *meta = NULL;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2602  		dma_addr_t dma_addr;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2603  		bool set_ic;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2604  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2605  		/* We are sharing with slow path and stop XSK TX desc submission when
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2606  		 * available TX ring is less than threshold.
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2607  		 */
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2608  		if (unlikely(stmmac_tx_avail(priv, queue) < STMMAC_TX_XSK_AVAIL) ||
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2609  		    !netif_carrier_ok(priv->dev)) {
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2610  			work_done = false;
+132c32ee5bc09b Ong Boon Leong    2021-04-13 @2611  			break;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2612  		}
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2613  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2614  		if (!xsk_tx_peek_desc(pool, &xdp_desc))
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2615  			break;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2616  
+bd17382ac36ed9 Xiaolei Wang      2024-05-13  2617  		if (priv->est && priv->est->enable &&
+bd17382ac36ed9 Xiaolei Wang      2024-05-13  2618  		    priv->est->max_sdu[queue] &&
+bd17382ac36ed9 Xiaolei Wang      2024-05-13  2619  		    xdp_desc.len > priv->est->max_sdu[queue]) {
+c5c3e1bfc9e0ee Rohan G Thomas    2024-01-27  2620  			priv->xstats.max_sdu_txq_drop[queue]++;
+c5c3e1bfc9e0ee Rohan G Thomas    2024-01-27 @2621  			continue;
+c5c3e1bfc9e0ee Rohan G Thomas    2024-01-27  2622  		}
+c5c3e1bfc9e0ee Rohan G Thomas    2024-01-27  2623  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2624  		if (likely(priv->extend_desc))
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2625  			tx_desc = (struct dma_desc *)(tx_q->dma_etx + entry);
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2626  		else if (tx_q->tbs & STMMAC_TBS_AVAIL)
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2627  			tx_desc = &tx_q->dma_entx[entry].basic;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2628  		else
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2629  			tx_desc = tx_q->dma_tx + entry;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2630  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2631  		dma_addr = xsk_buff_raw_get_dma(pool, xdp_desc.addr);
+1347b419318d6a Song Yoong Siang  2023-11-27  2632  		meta = xsk_buff_get_metadata(pool, xdp_desc.addr);
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2633  		xsk_buff_raw_dma_sync_for_device(pool, dma_addr, xdp_desc.len);
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2634  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2635  		tx_q->tx_skbuff_dma[entry].buf_type = STMMAC_TXBUF_T_XSK_TX;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2636  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2637  		/* To return XDP buffer to XSK pool, we simple call
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2638  		 * xsk_tx_completed(), so we don't need to fill up
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2639  		 * 'buf' and 'xdpf'.
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2640  		 */
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2641  		tx_q->tx_skbuff_dma[entry].buf = 0;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2642  		tx_q->xdpf[entry] = NULL;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2643  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2644  		tx_q->tx_skbuff_dma[entry].map_as_page = false;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2645  		tx_q->tx_skbuff_dma[entry].len = xdp_desc.len;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2646  		tx_q->tx_skbuff_dma[entry].last_segment = true;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2647  		tx_q->tx_skbuff_dma[entry].is_jumbo = false;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2648  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2649  		stmmac_set_desc_addr(priv, tx_desc, dma_addr);
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2650  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2651  		tx_q->tx_count_frames++;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2652  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2653  		if (!priv->tx_coal_frames[queue])
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2654  			set_ic = false;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2655  		else if (tx_q->tx_count_frames % priv->tx_coal_frames[queue] == 0)
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2656  			set_ic = true;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2657  		else
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2658  			set_ic = false;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2659  
+1347b419318d6a Song Yoong Siang  2023-11-27 @2660  		meta_req.priv = priv;
+1347b419318d6a Song Yoong Siang  2023-11-27  2661  		meta_req.tx_desc = tx_desc;
+1347b419318d6a Song Yoong Siang  2023-11-27  2662  		meta_req.set_ic = &set_ic;
+04f64dea13640f Song Yoong Siang  2025-02-16  2663  		meta_req.tbs = tx_q->tbs;
+04f64dea13640f Song Yoong Siang  2025-02-16  2664  		meta_req.edesc = &tx_q->dma_entx[entry];
+1347b419318d6a Song Yoong Siang  2023-11-27  2665  		xsk_tx_metadata_request(meta, &stmmac_xsk_tx_metadata_ops,
+1347b419318d6a Song Yoong Siang  2023-11-27  2666  					&meta_req);
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2667  		if (set_ic) {
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2668  			tx_q->tx_count_frames = 0;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2669  			stmmac_set_tx_ic(priv, tx_desc);
+133466c3bbe171 Jisheng Zhang     2023-07-18  2670  			tx_set_ic_bit++;
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2671  		}
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2672  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2673  		stmmac_prepare_tx_desc(priv, tx_desc, 1, xdp_desc.len,
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2674  				       true, priv->mode, true, true,
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2675  				       xdp_desc.len);
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2676  
+ad72f783de0682 Yanteng Si        2024-08-07  2677  		stmmac_enable_dma_transmission(priv, priv->ioaddr, queue);
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2678  
+1347b419318d6a Song Yoong Siang  2023-11-27  2679  		xsk_tx_metadata_to_compl(meta,
+1347b419318d6a Song Yoong Siang  2023-11-27  2680  					 &tx_q->tx_skbuff_dma[entry].xsk_meta);
+1347b419318d6a Song Yoong Siang  2023-11-27  2681  
+8531c80800c10e Christian Marangi 2022-07-23  2682  		tx_q->cur_tx = STMMAC_GET_ENTRY(tx_q->cur_tx, priv->dma_conf.dma_tx_size);
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2683  		entry = tx_q->cur_tx;
+132c32ee5bc09b Ong Boon Leong    2021-04-13 @2684  	}
+38cc3c6dcc09dc Petr Tesarik      2024-02-03 @2685  	u64_stats_update_begin(&txq_stats->napi_syncp);
+38cc3c6dcc09dc Petr Tesarik      2024-02-03 @2686  	u64_stats_add(&txq_stats->napi.tx_set_ic_bit, tx_set_ic_bit);
+38cc3c6dcc09dc Petr Tesarik      2024-02-03  2687  	u64_stats_update_end(&txq_stats->napi_syncp);
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2688  
+132c32ee5bc09b Ong Boon Leong    2021-04-13 @2689  	if (tx_desc) {
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2690  		stmmac_flush_tx_descriptors(priv, queue);
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2691  		xsk_tx_release(pool);
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2692  	}
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2693  
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2694  	/* Return true if all of the 3 conditions are met
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2695  	 *  a) TX Budget is still available
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2696  	 *  b) work_done = true when XSK TX desc peek is empty (no more
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2697  	 *     pending XSK TX for transmission)
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2698  	 */
+132c32ee5bc09b Ong Boon Leong    2021-04-13 @2699  	return !!budget && work_done;
+132c32ee5bc09b Ong Boon Leong    2021-04-13 @2700  }
+132c32ee5bc09b Ong Boon Leong    2021-04-13  2701  
 
 -- 
 0-DAY CI Kernel Test Service
