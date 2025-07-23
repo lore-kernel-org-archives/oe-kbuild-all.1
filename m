@@ -1,131 +1,88 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366011EF0A6;
-	Wed, 23 Jul 2025 22:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845131F1909
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 22:33:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753308848; cv=none; b=FundIB++CYwNnqQn4aM6yZ0Pl1Cp4+zZAMjaG/pOtOcz1BAf1xCzjspEkrp11BbXvPUxnrqQcPOVRNixdKSz4Idct99HjVFap8KJEoCOGgpcoBSdgzjSk7HR/APkQ6UbxKqhH/VpUhxxHz9u3WWMOMk3txOmF4Q68CGukss5o9Q=
+	t=1753310015; cv=none; b=e52NgGZtci9T9OLiQLFRrKkpxKiYZ9y4qYDJ+1hJ3kR6zpn8zbgZI24cZrwZYj79ouyq9UY7AfZe0E5ajgCbgOREx2viHiTlinOdgyPRbH3Z/9apXgerhl8/FlAo44gSPLP9C+wNn06NcjlODc+18+7nMagf0rZsCG0d0fnouks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753308848; c=relaxed/simple;
-	bh=1n2X3dSDnt+iiB9SB7H1HStj19tGyqnSrPupfMGdvpE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Ct8hKbaAG6t0uW+sTa9IaObbblRyN8SgxWo299DL3xpYBMG1JA4pa0PtWKEBQv1rRosGQxnPTVeKLcdz6CPPbG8l/olhWrB9SY+AWWGuNZEPRTzpOvyALiiefTRyokZMyGgbAQ6iL5a1wUqIi8rhg2OFp003oZ9/7dKsvzyXX2k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IYhUAkjL; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753310015; c=relaxed/simple;
+	bh=nncZDrpOvKqn5x5qZyNl+Xh4fLmSJcj9dkm+lxjIJMI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ceFg3uTw7+DYOpUh82MVN7PmzmKupUQM7ABrD31NWV8ol+ObIFbvChqlJCTLBLNdAQyTu8curWf3IRw/TKLgEYI7MHYqwDOJ7Q2EDt85Ldp619MxPTvtuibsJxu7KLihwtBQdf0Hs4Hogmr2DW+flPqo6q8SSJNNys1N+5D9oQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V2RGWV01; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IYhUAkjL"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-45555e3317aso1642375e9.3;
-        Wed, 23 Jul 2025 15:14:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753308845; x=1753913645; darn=lists.linux.dev;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dcxr9WChsXfgQ3Y6J1Tmdhs3S3jUnpYIY2ntdf391WI=;
-        b=IYhUAkjLP6LR8z1YdUuhlT69AqZUCiarWun1DspvwOa7SLcMWQfaPMHQysihH1YMH8
-         nrk1GDE41ZSsMWoNYMQDFylS3KWNp0blv3XIF5fYP1n/9XSdUEzDb6HiBK9QLUpXIRTj
-         3F/vO9QNFeLlJy+mNwPEvcKLHSRvfMPqZ4GiBhKJSO9CGumy579Ci/7ObDF75YTLqJqI
-         bgga/tShVn2VeGo9skgMVq/nIvy2mM1rx8BoSgQubymRynSx1TjzhooTaJjYQe8jHJjw
-         pvhziLuA5DbhkTZdiMY1UFSuOKD2n08+ijco2rtEO3UcpxYHarf+h8Jv0wYPpbGO0PV0
-         aeoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753308845; x=1753913645;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Dcxr9WChsXfgQ3Y6J1Tmdhs3S3jUnpYIY2ntdf391WI=;
-        b=D8c8V4j/Mfa/fIyoh/Z1r4bBqbzNyxQKPz8vPWeZieuhmB36elsjoxYnReTnptBwfm
-         Q65kGEDU1Ns+IkR2xVE2t9Dfv6o8vO/VYM7m/DuUPQc+W2l3a/NEqYCrNIPe2gO0Vuvc
-         c84+xkYFVVEe+dMjJC3htvZsMGUzUjyqjW5nme2L8r0qjw9jDYKHL1hTjSSuoUYu/kbp
-         aZF6NQ6/Y7fEWxYyuyS79XefIubqvIP+/x9w+ZlxJgJ4a6d2RMTtq2oG3C/uBghBRqeV
-         ORBYFJCglZ1tZXTHuZbzpHG3X4R/ziw3ckqI6CWoc2XvBBS5UeFy2tHx3eGfREEckuZS
-         TRpw==
-X-Forwarded-Encrypted: i=1; AJvYcCV5m6TkIYCjDjVtjnAkl66PUeP4rsBVq0X2ZndtnztsUMFwhZK/+h00QF8w7Jy9Xf6/+8Oo@lists.linux.dev, AJvYcCXIK20L0GEHO01/hNkxPGwVCpjlDNesTqu1zqGoqAfRVh6lvISQop/zoLgwU1Hmsq//n3Oh2qHUzZFSmbiOBA==@lists.linux.dev
-X-Gm-Message-State: AOJu0YzS7D5iGTUcIkcgkAlRewOnLMsvlb7ZBY4qOpZyGTgEzCRjvgA4
-	GhjgKKR+7oIXMBqKKcAGEi66pMpobERZqoL4u9JjXY1rdnKwGgeReu/M
-X-Gm-Gg: ASbGncv4pONB7JG3ZWmi/gbSFqNsCppvVIhmqbIWSHJdFu9NgG1GXd12IDQ0FWHOtrt
-	Jf8oaFX7sB50EYORB8HbHkHM20/dp7yIfLaGfTEcmJLSDvocq7RQMQfmpb3qegsNztF+0EDWnsD
-	lQ7v8NBrng7I3fnXBPQ/2EBVVjn1qJepOtMlHtNKsYfogA64Bb4JKxi0FaKymiFcpL8wDKtJdkJ
-	n6Io3Fo9Jtkn0z9+Na/366i4BIM9CnhLoPv+LIWrbxNfxOAzcJYZONHi24GnY/pp6jExeIFP8qm
-	zt/Ktb3cIDlmPA0SXU7+qTC7vbJ8Gbrb4sbH71wFXh/xcFVVPJ0sTX6Nwpw0G3lKkDBTd9S65VR
-	VfFPNP7F8EDpW31UCbdpv26zmlRdtrZrbmFft7xLk3vuA27Hg5OURMkVZFzsX
-X-Google-Smtp-Source: AGHT+IEHu4yEUwkN54fD2xw9nPvwgj8fXax3ltxH3jc2G3S4Abiw8N8eyK0gVyU28RXmmWI5cYhJwA==
-X-Received: by 2002:a05:600c:3b1a:b0:43c:f8fc:f697 with SMTP id 5b1f17b1804b1-45868c8d67amr44059195e9.9.1753308845293;
-        Wed, 23 Jul 2025 15:14:05 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4586f433c0asm1824735e9.30.2025.07.23.15.14.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Jul 2025 15:14:05 -0700 (PDT)
-Date: Wed, 23 Jul 2025 23:14:03 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Ian Rogers <irogers@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, kernel test robot <lkp@intel.com>,
- Eric Biggers <ebiggers@google.com>, Yuzhuo Jing <yuzhuo@google.com>, Andy
- Lutomirski <luto@kernel.org>, Vincenzo Frascino
- <vincenzo.frascino@arm.com>, Arnaldo Carvalho de Melo <acme@redhat.com>, Al
- Viro <viro@zeniv.linux.org.uk>, Christophe Leroy
- <christophe.leroy@csgroup.eu>, "Jason A. Donenfeld" <Jason@zx2c4.com>,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v3 1/3] vdso: Switch get/put unaligned from packed
- struct to memcpy
-Message-ID: <20250723231403.6ef5c162@pumpkin>
-In-Reply-To: <CAP-5=fWeK4RnL8=BQm3o3u0KoONYEptwEYFBC5_DkJTbgpbx9g@mail.gmail.com>
-References: <20250626054826.433453-2-irogers@google.com>
-	<202507050736.b4hX0Xks-lkp@intel.com>
-	<87o6tcrzh2.ffs@tglx>
-	<CAP-5=fWbmo3ejmeWbweSk5waPtS2VTc1obtaWiibZC3cVmvVvg@mail.gmail.com>
-	<CAP-5=fWeK4RnL8=BQm3o3u0KoONYEptwEYFBC5_DkJTbgpbx9g@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V2RGWV01"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753310014; x=1784846014;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nncZDrpOvKqn5x5qZyNl+Xh4fLmSJcj9dkm+lxjIJMI=;
+  b=V2RGWV01yP/ZFJDiqGxWE6Z18w884B8i0dnYpH8IoUvIGvkB9Sy9YiYE
+   H45PDine2Qd2xFMjgWCnpkZd5qVEwLNB0O7NIXpBLMTOtszPi7WKqJYyG
+   AaD6kQavoGcNeQN3arRApzV1Fd1oUqy4OpSl/50z2e1IXWEeLr656+tOp
+   0OLS6D/rhy/RH9qIOMenbH1hcTXVzIPzo9JYQgCHTXCbFrw8W81vNE1Cy
+   JYXkp0c61PhTWckkDolVJuGYw46VoNCwzB9JEz6tSP1tVUOlpLbT+jHM0
+   8RmxaRMLnWTv3D335MKm0quCm18tI9Y/roc5frWKnbeVQAqmBqn4aSPn2
+   g==;
+X-CSE-ConnectionGUID: BWDPE5JtQbKOz8m3vB5SMw==
+X-CSE-MsgGUID: 4+9qdfXLQr+p+yCO1p4Zeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="43225118"
+X-IronPort-AV: E=Sophos;i="6.16,335,1744095600"; 
+   d="scan'208";a="43225118"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 15:33:29 -0700
+X-CSE-ConnectionGUID: aFy6nzkMSb62VwUamiRcmA==
+X-CSE-MsgGUID: erMXicQsQeqfLlbkAskXrA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,335,1744095600"; 
+   d="scan'208";a="160496792"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 23 Jul 2025 15:33:26 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uei1b-000JqN-2k;
+	Wed, 23 Jul 2025 22:33:23 +0000
+Date: Thu, 24 Jul 2025 06:32:56 +0800
+From: kernel test robot <lkp@intel.com>
+To: Greg Ungerer <gerg@linux-m68k.org>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+	uclinux-dev@uclinux.org
+Subject: [gerg-m68knommu:dt 11/14] kismet: WARNING: unmet direct dependencies
+ detected for OF_EARLY_FLATTREE when selected by BUILTIN_DTB
+Message-ID: <202507240640.HUof1qoU-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 22 Jul 2025 10:00:51 -0700
-Ian Rogers <irogers@google.com> wrote:
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gerg/m68knommu.git dt
+head:   27df60f03ea91cb3f494cf3821d6b0859275bb0a
+commit: ea4243b0b16a64a1f6c5c32276e692590fae11d4 [11/14] m68k: implement a builtin devicetree for nonmmu
+config: m68k-kismet-CONFIG_OF_EARLY_FLATTREE-CONFIG_BUILTIN_DTB-0-0 (https://download.01.org/0day-ci/archive/20250724/202507240640.HUof1qoU-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250724/202507240640.HUof1qoU-lkp@intel.com/reproduce)
 
-...
-> Oh, the actual warning is "leaves the object uninitialized". It is
-> possible to silence this by changing:
-> 
->   const U16 __get_unaligned_ctrl_type __always_unused;
-> 
-> to something like:
-> 
->   const U16 __get_unaligned_ctrl_type __always_unused = 0;
-> 
-> You then get complained at that the code is using 0 instead of NULL
-> when instead of U16 the type of the __get_unaligned_t is a pointer.
-> Basically I've entered into an analysis tool wac-a-mole and I don't
-> have a combination to make them all happy.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507240640.HUof1qoU-lkp@intel.com/
 
-Can you embed the variable inside a struct and then initialise with {} ?
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for OF_EARLY_FLATTREE when selected by BUILTIN_DTB
+   WARNING: unmet direct dependencies detected for OF_EARLY_FLATTREE
+     Depends on [n]: OF [=n]
+     Selected by [y]:
+     - BUILTIN_DTB [=y]
 
-Does this code actually work all the time?
-There have always been 'problems' because gcc remembers the alignment
-of pointers through (void *) casts.
-So if your misaligned pointer has a type that should be aligned
-them memcpy(&dest, (void *)misaligned_int_ptr, 4) will still do an
-aligned read.
-
-You also really need the compiler to optimise the memcpy into two
-memory reads, some shifts, masks and ors, and a single write to a
-register.
-I'm not at all sure that is going to happen.
-(Especially since I've never seen it optimised to only two reads
-even when reading 'packed' variables.
-
-	David
-
-> 
-> Thanks,
-> Ian
-> 
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
