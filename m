@@ -1,64 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939501F541E
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 16:33:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C90D205AD7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 16:53:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753288423; cv=none; b=rN8zL1B4bF5IzpuxqwQq1Hlb/BpeqOnncE8+vBtYfp6m9xgCszFvHO0ewp3audlfz0RmKq5l4ONhnzEqMsrFG0d3+nn9VzuCJhkJYOMYSAqvX49EiTAZA6rg1vHr3Z171JNqUi4kEffc2kqt4RmyM/xWy6bTcxuRUBbYg0FCkec=
+	t=1753289623; cv=none; b=LNaoM/hpZVykRwZ9Z83ymejf1eWEtJ3XRusoaWaImX4eh413Epga0js8/X2fu50NT6rfXdFkX9ctphyaJd8IdO4gAKjQHlYz1T7jZ2i5Ccsh3jji4evhH7ZogNSOG8AHncGxonkeUZoHXua/QjEbsM5xUsg2658owgL51Xl+dK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753288423; c=relaxed/simple;
-	bh=oF1i5b2lTL96fJ4t2ke7yLrfadoHxz5fZwaCgJOdC0U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oL/RqzXOxNa1kex7BSo4/xct9hDVDx+Qsawu/CwZKJ3ejIuM3xzILAiebMchD3cA2+ROalQ6fyj+gzhq/v0SkXAKsBTbwwNKDDoQCtQsFScYZklHqj+rKu9kO6IMojxqO40uIKdI7PH8H29CBt4WH0t4OBPttCZvH++ZvI41HXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UBevyuAE; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1753289623; c=relaxed/simple;
+	bh=yagcy7PAKz7Wxjqn+AhlXuJqSsJzHX3ZPx5ihXHPIKg=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=vGHg2WCUU6MfBQ6v7oRGIES6y9vQHNS5rUu+hPqSg4gNiggiXGnolJceNCiaEvPY7Q5s7RebfrMhLBvK8OHp+g/L0FoejcYtSXLWDPCTN6kPzIVhLMyC50ud7s4T0Fy5cLh8A0iT4bRvxtIU6y6FvKS9jgHksUYzjhs8cDNy4EU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bOp/JH9V; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UBevyuAE"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bOp/JH9V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753288422; x=1784824422;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oF1i5b2lTL96fJ4t2ke7yLrfadoHxz5fZwaCgJOdC0U=;
-  b=UBevyuAEbxqYxBgzG8ALiHo1XRDxikCIthY1Jjm6LALwLMMpdKEp8miK
-   bX8kSlc1aMtwECrJas4u7yyYLGJCWMnSqNkfd0ZxgR5V52tHLnb4cDy+7
-   R1a561fXFQPujfGTAj48Bxt+fVqY5NwnAjDe/HjGWvyZjSPLka44GgwQL
-   9JIrWFiUUMquXtQgb0xvLH5mq9EDzvKa5DYMHx1zvrR4XKlMjot97+Mr4
-   /lkSUf92jAam3mSnnrVCOeJ7LSjaAY4cODW5H+2EA+czYJCzD8LcnIVFI
-   B8lKsUlx6AeyZ3990xzQ34VchfKD5DRthYU7jN2LkaCAGHnBa1PJWEDI3
-   g==;
-X-CSE-ConnectionGUID: 7DfY9mRhQgOD7rZ0QQkwUg==
-X-CSE-MsgGUID: RYqz4jAMTAayffDzGtRgOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55537351"
+  t=1753289621; x=1784825621;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yagcy7PAKz7Wxjqn+AhlXuJqSsJzHX3ZPx5ihXHPIKg=;
+  b=bOp/JH9VEIbIdFmCCm5MQVIu/wDJ1FV8ScGEB4FjSspsXSugRLAu6xvN
+   d9V/pi/4b3w4Dwx9lFk8EnhoTQzwbQAKtKKj/fDePcYKKkYhQTIUz7GwU
+   M4UcM8/JYeGnfITT7YfNlJLeHGWYFU1+PEL6dr/nGShaLOjRsqMTanAfF
+   5S3IDZdOGURGlSxQcJ4drc8azC/1BwnPqDmqhHwfugH9nIwFtWbw9FVLZ
+   MEvQP6fJKS4HnxRot6VMYbf2x85pVN400d05GaSTpLfo7YUHKqPA9uoou
+   pCOj2p/4gJTmA2NclxSJ45QgYJfV0epeH6gLS3QAoVCTKsrk+DTYytb+t
+   w==;
+X-CSE-ConnectionGUID: LKu0WVRPT+O3n5gwpi0R/A==
+X-CSE-MsgGUID: ly+OaqcsTMeInND5Eg3RkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55540205"
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="55537351"
+   d="scan'208";a="55540205"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 09:33:40 -0700
-X-CSE-ConnectionGUID: FqMn6sH4SGelAGq6LGv3fA==
-X-CSE-MsgGUID: ILIvTBsoQ4iGXcIR8Cj42g==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 09:53:41 -0700
+X-CSE-ConnectionGUID: kvG+qd8BRtu4hSWfLdmBzg==
+X-CSE-MsgGUID: ozDmmze3Q5q0ZoZhRjFadA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="159628874"
+   d="scan'208";a="159634092"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 23 Jul 2025 09:33:37 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 23 Jul 2025 09:53:39 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uecPO-000JZ9-1h;
-	Wed, 23 Jul 2025 16:33:34 +0000
-Date: Thu, 24 Jul 2025 00:33:11 +0800
+	id 1uecin-000JbH-1e;
+	Wed, 23 Jul 2025 16:53:37 +0000
+Date: Thu, 24 Jul 2025 00:53:31 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hogan Wang <hogan.wang@huawei.com>, x86@kernel.org,
-	dave.hansen@linux.intel.com, kvm@vger.kernel.org,
-	alex.williamson@redhat.com
-Cc: oe-kbuild-all@lists.linux.dev, weidong.huang@huawei.com,
-	yechuan@huawei.com, hogan.wang@huawei.com,
-	wangxinxin.wang@huawei.com, jianjay.zhou@huawei.com,
-	wangjie88@huawei.com
-Subject: Re: [PATCH] x86/irq: introduce repair_irq try to repair CPU vector
-Message-ID: <202507240030.11iG6frT-lkp@intel.com>
-References: <20250723015045.1701-1-hogan.wang@huawei.com>
+To: kernel@openeuler.org, zhangchangzhong <zhangchangzhong@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1668/1668] kernel/sched/core.c:5976:22:
+ error: use of undeclared identifier 'root_task_group'; did you mean
+ 'task_group'?
+Message-ID: <202507240004.EXSTt6VO-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,62 +62,97 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250723015045.1701-1-hogan.wang@huawei.com>
 
-Hi Hogan,
+Hi Hui,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on tip/irq/core]
-[also build test ERROR on tip/master tip/x86/core awilliam-vfio/next linus/master v6.16-rc7 next-20250723]
-[cannot apply to tip/auto-latest awilliam-vfio/for-linus]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Hogan-Wang/x86-irq-introduce-repair_irq-try-to-repair-CPU-vector/20250723-095327
-base:   tip/irq/core
-patch link:    https://lore.kernel.org/r/20250723015045.1701-1-hogan.wang%40huawei.com
-patch subject: [PATCH] x86/irq: introduce repair_irq try to repair CPU vector
-config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20250724/202507240030.11iG6frT-lkp@intel.com/config)
-compiler: or1k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507240030.11iG6frT-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   ec206d272f0e39511777d67fe7995c8b6fd1681b
+commit: 713cfd2684fa5ea08b144d92b9858b932c0f1705 [1668/1668] sched: Introduce smart grid scheduling strategy for cfs
+config: x86_64-buildonly-randconfig-006-20250620 (https://download.01.org/0day-ci/archive/20250724/202507240004.EXSTt6VO-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507240004.EXSTt6VO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507240030.11iG6frT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507240004.EXSTt6VO-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   kernel/irq/manage.c: In function 'repair_irq':
->> kernel/irq/manage.c:1431:9: error: implicit declaration of function 'irq_domain_repair_irq'; did you mean 'irq_domain_free_irqs'? [-Wimplicit-function-declaration]
-    1431 |         irq_domain_repair_irq(irq_desc_get_irq_data(desc));
-         |         ^~~~~~~~~~~~~~~~~~~~~
-         |         irq_domain_free_irqs
+   kernel/sched/core.c:1587:6: warning: no previous prototype for function 'sched_set_stop_task' [-Wmissing-prototypes]
+    1587 | void sched_set_stop_task(int cpu, struct task_struct *stop)
+         |      ^
+   kernel/sched/core.c:1587:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    1587 | void sched_set_stop_task(int cpu, struct task_struct *stop)
+         | ^
+         | static 
+   kernel/sched/core.c:3771:35: warning: no previous prototype for function 'preempt_schedule_irq' [-Wmissing-prototypes]
+    3771 | asmlinkage __visible void __sched preempt_schedule_irq(void)
+         |                                   ^
+   kernel/sched/core.c:3771:22: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    3771 | asmlinkage __visible void __sched preempt_schedule_irq(void)
+         |                      ^
+         |                      static 
+   kernel/sched/core.c:5845:2: error: implicit declaration of function 'tg_update_affinity_domains' [-Werror,-Wimplicit-function-declaration]
+    5845 |         tg_update_affinity_domains(cpu, 1);
+         |         ^
+   kernel/sched/core.c:5904:2: error: implicit declaration of function 'tg_update_affinity_domains' [-Werror,-Wimplicit-function-declaration]
+    5904 |         tg_update_affinity_domains(cpu, 0);
+         |         ^
+   kernel/sched/core.c:5976:2: error: implicit declaration of function 'init_auto_affinity' [-Werror,-Wimplicit-function-declaration]
+    5976 |         init_auto_affinity(&root_task_group);
+         |         ^
+   kernel/sched/core.c:5976:2: note: did you mean 'irq_set_affinity'?
+   include/linux/interrupt.h:292:1: note: 'irq_set_affinity' declared here
+     292 | irq_set_affinity(unsigned int irq, const struct cpumask *cpumask)
+         | ^
+>> kernel/sched/core.c:5976:22: error: use of undeclared identifier 'root_task_group'; did you mean 'task_group'?
+    5976 |         init_auto_affinity(&root_task_group);
+         |                             ^~~~~~~~~~~~~~~
+         |                             task_group
+   kernel/sched/sched.h:1444:34: note: 'task_group' declared here
+    1444 | static inline struct task_group *task_group(struct task_struct *p)
+         |                                  ^
+   kernel/sched/core.c:6029:32: warning: variable 'ptr' set but not used [-Wunused-but-set-variable]
+    6029 |         unsigned long alloc_size = 0, ptr;
+         |                                       ^
+   3 warnings and 4 errors generated.
 
 
-vim +1431 kernel/irq/manage.c
+vim +5976 kernel/sched/core.c
 
-  1420	
-  1421	
-  1422	void repair_irq(unsigned int irq)
-  1423	{
-  1424		struct irq_desc *desc = irq_to_desc(irq);
-  1425		unsigned long flags;
-  1426	
-  1427		mutex_lock(&desc->request_mutex);
-  1428		chip_bus_lock(desc);
-  1429		raw_spin_lock_irqsave(&desc->lock, flags);
-  1430	
-> 1431		irq_domain_repair_irq(irq_desc_get_irq_data(desc));
-  1432	
-  1433		raw_spin_unlock_irqrestore(&desc->lock, flags);
-  1434		chip_bus_sync_unlock(desc);
-  1435		mutex_unlock(&desc->request_mutex);
-  1436	}
-  1437	EXPORT_SYMBOL(repair_irq);
-  1438	
+  5949	
+  5950	void __init sched_init_smp(void)
+  5951	{
+  5952		sched_init_numa();
+  5953	
+  5954		/*
+  5955		 * There's no userspace yet to cause hotplug operations; hence all the
+  5956		 * CPU masks are stable and all blatant races in the below code cannot
+  5957		 * happen. The hotplug lock is nevertheless taken to satisfy lockdep,
+  5958		 * but there won't be any contention on it.
+  5959		 */
+  5960		cpus_read_lock();
+  5961		mutex_lock(&sched_domains_mutex);
+  5962		sched_init_domains(cpu_active_mask);
+  5963		mutex_unlock(&sched_domains_mutex);
+  5964		cpus_read_unlock();
+  5965	
+  5966		/* Move init over to a non-isolated CPU */
+  5967		if (set_cpus_allowed_ptr(current, housekeeping_cpumask(HK_FLAG_DOMAIN)) < 0)
+  5968			BUG();
+  5969		sched_init_granularity();
+  5970	
+  5971		init_sched_rt_class();
+  5972		init_sched_dl_class();
+  5973	
+  5974		sched_smp_initialized = true;
+  5975	
+> 5976		init_auto_affinity(&root_task_group);
+  5977	}
+  5978	
 
 -- 
 0-DAY CI Kernel Test Service
