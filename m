@@ -1,120 +1,118 @@
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com [209.85.166.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2BD1E5714
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 04:17:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB79020FAB4
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 04:20:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753244222; cv=none; b=VvzenHokqz0sXpLSetthClOJdldm2pO1bt70iW0+Buv1HrZC7gx3OOay3Mhbgb/+/Uhy3sY35jhaMOtviTllcUIKfIxxOHplDNLIkBeRTa5w0MWctBtHeQ3PsTUfP3VbSPYO2CKtoUG3Cnz3V+1Gwl5h2cT28UpTP0L2SacUKkI=
+	t=1753244430; cv=none; b=pOMeMSt1CuXEPgetjhfjNXcn6mkCXSnl3/iz9K5FeQDkKf5z27ZlrZ7inNG8Qmx+br4sCN5c6dt1TqfGgJNVrnejTL1gDZ9EeotjuGmBKUKiu1eqD1A1lQB4WfTyKsGstVFOAuopVcHiMCCYfAHuIBeKMasyGw3LIPhKTftJeMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753244222; c=relaxed/simple;
-	bh=rO8BKGvvMlEuijkHKs646XcLGMqSqCI7FfAGICzFfNs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eGx0uA+3vabPJAdMXlf/HO3XPn+RmLSJJ8zpto7UOYHVR65s1kqUUADJap2Di+IxBnHTi5e5fJZEYvRXu1JK4ePGG4wLMjFgHj62utNWQonoKpjlOOxbsT5Y4NvOOMqZB3j9hrqpmnTgOfMn/myb3IuVuMBjsVMoIyN+F+HLrLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=foU/rCda; arc=none smtp.client-ip=209.85.166.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753244430; c=relaxed/simple;
+	bh=yJ2QhLq7VcizGH3DZlRfLUCqJ5bAIcxZXPaaNSEO/RA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Vqc+Zav8j5jMu9GBmZXl6DH7Zd2DRdyGujl9orgV1+xH8hQDgsBq0zOO0fnqv1QWbS3BPkdtPFdbPUb1HlrrNY586FdesMW8zR2HVwAU1S2ue2l80rYcOT9t9zRkCBisgmhBwCz+cVz68Cr49ZXLu4hzdtfLebPm/vsQ+mQp3P8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jX48zKm0; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="foU/rCda"
-Received: by mail-il1-f181.google.com with SMTP id e9e14a558f8ab-3e28bf4a350so32749985ab.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 22 Jul 2025 21:17:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753244220; x=1753849020; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C8oFT6sPKOg8VRT9sf+f9nquc2yr6H2/i1A3wu9QYuo=;
-        b=foU/rCdaKfSyvh+mM8pbFPLGHjSjZXOJdB3nGgr42+N0I/N2dfqmUcRdunA4/NxEep
-         CYER3+0vwyze3oBOJfwCsJqbfoatesbyqXF5HRwAQUEfm9oIH/UHbHJSDg0/kvAy8b0Q
-         qP/nb0rheLsCKcBfv7N4G7Jq2dWzL92AKG+QZnkIbwN816qr9r1F9w5qMMgO9ft8EE5y
-         dbSk2nwZ1kCYPN9nLCyPQGg1APHrr+OSOj9AZgjrczOVWt12whIJlxZLNFGo8cL9D3iu
-         hIcYEmiQXMg/HJ3juxyBxdUmiUwHvNM7J6Ib3Y29y8YnlbGMHL+wA+WHt7nvaxUJ4Te7
-         o9zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753244220; x=1753849020;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C8oFT6sPKOg8VRT9sf+f9nquc2yr6H2/i1A3wu9QYuo=;
-        b=InsdhKPgLfwUXKjJzsNoMjxT6hHNIx7fqy5y66H8f4+JgEm4Ba+rIdqclmJVr+bXY9
-         QUy7Ezyr5zwG6zrhi0xPobPfx9oV8HNE5s1ack03jiaLgfSqq8FqMNM+EP2Q/R/eBLiW
-         PjASm9yY+V6RaD3wmvs6vrCRpd53L3IaWuPaAvTBFEI5XZNv2wtazP2C5WLuP6VyTBGX
-         fXJFfJXjREX0xRvnMmiJzR+qug2pSEbRE7Qzs8qylUKKMNFbD4dy0ga3UA/pkgVKoMJa
-         Qd6Al1AprchzBWcDq3h30UBVnAA1gjrG1zS6HQhSIqFbLlHSAVqvorxTXkmO//4UDUPJ
-         2R2Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVAYYSxtxB1mYsnH3Cfh8rI+ldcm3Oi7E5SEYnjH0nhIbmGczdFy8aEqGcqIwkywnWDuAbc8B3YS67ua/k/@lists.linux.dev
-X-Gm-Message-State: AOJu0YyvrRT3ZaYEbRR8hV1ijrRtGea86TSP87SIWn+qURbsBfT9d2HQ
-	NEOuUc2qO1ewJcCHPnjuw2RXgOtkqNGb3Ru+3TmAwmxcd+Bq4M3JM2wJoZj4OGk8xYoQbnegsu5
-	rdqnhr1mdzEx7YQPO9KL9ivdz8WRXonE=
-X-Gm-Gg: ASbGncu/Obw2W4ez74DNXA7pTsw34z1SQ21RFTTJ++6Km7S5v1Hnfe09PGvwmB/I43W
-	YLjVT0oSJF+HGig6sTByS3AY2imSLG5xvYxSJv6jfTw44qosF8Nj1CfHA3XYZAVEopjOrAMDuhf
-	2tyD+Umaf6lBPkYuadT0cpj3b2jED0MKousAy9KYksZ7dqbNFWnd57HlLlEaaarcngkCJkiB89J
-	5F0lMI=
-X-Google-Smtp-Source: AGHT+IHvfG4gDNwxiFwAV4bkIuvs3peWQ+Qchh4FuAeT25UrF8Y7hoMYUkFqbB0L8ENMUaL069TQE5i6aezBop5KoF4=
-X-Received: by 2002:a05:6e02:3604:b0:3e2:a749:250b with SMTP id
- e9e14a558f8ab-3e32fc9ac94mr29841885ab.14.1753244220095; Tue, 22 Jul 2025
- 21:17:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jX48zKm0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753244428; x=1784780428;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=yJ2QhLq7VcizGH3DZlRfLUCqJ5bAIcxZXPaaNSEO/RA=;
+  b=jX48zKm0fH/qEKSPMdfe4WTdzUfQwmNe2ghiTMB30eTdNgszDzkkd2I7
+   INCt1t/ORUpBKitWyfYJXSzQJLcgcupy2Y5Yld58ZzIz4NA3yZ3pqpmsw
+   gwEJn4mJwd6dhyfHzf/uPiN7llQEA4IUjwrZHfvdGxIc+fReomEWhAHCK
+   Lw/NuzylmucyEsKULOWJUQYJn4K5QCrSVTYOj5ZmORUWtadfKA4TR4ebs
+   zrg9zJZMVOIquz4/rXM0gozTL/O/fA5Ls/kLyjTwPkYZGgSCZNadtHk/u
+   QuVDA/3mUqQQpubTsxKgbgR3re0EsSw8Yb07DyTLR4njSBArQ0ytoEhjL
+   g==;
+X-CSE-ConnectionGUID: tUgCNVf6Q5WP3TOvaB+tQA==
+X-CSE-MsgGUID: 6Kidg7GBS+CPrqIWrel+dg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="55622965"
+X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
+   d="scan'208";a="55622965"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jul 2025 21:20:28 -0700
+X-CSE-ConnectionGUID: LL7H5bFuRju81BAHE6raHQ==
+X-CSE-MsgGUID: 0KADEK18S42tqlrEjsiLNQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
+   d="scan'208";a="190315294"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 22 Jul 2025 21:20:26 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ueQxs-000Ix5-1p;
+	Wed, 23 Jul 2025 04:20:24 +0000
+Date: Wed, 23 Jul 2025 12:19:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 0/9] mm/memory.c:3334: warning:
+ Excess function parameter 'start' description in 'unmap_mapping_zeropages'
+Message-ID: <202507231256.VKBzpBLH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250722135057.85386-2-kerneljasonxing@gmail.com> <202507231150.Gbhu52dL-lkp@intel.com>
-In-Reply-To: <202507231150.Gbhu52dL-lkp@intel.com>
-From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Wed, 23 Jul 2025 12:16:23 +0800
-X-Gm-Features: Ac12FXxDJjAyfkHJ_DUda-RuAy-76P36wJK7-IwcJ40FektM2wOf1EwR8GjRFSQ
-Message-ID: <CAL+tcoBj6sqKzHzmLte2uvrD4JWB=QC3U8OM0NpX2oJAyw7UmQ@mail.gmail.com>
-Subject: Re: [Intel-wired-lan] [PATCH net v2 1/2] stmmac: xsk: fix underflow
- of budget in zerocopy mode
-To: kernel test robot <lkp@intel.com>
-Cc: anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com, 
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, bjorn@kernel.org, 
-	magnus.karlsson@intel.com, maciej.fijalkowski@intel.com, 
-	jonathan.lemon@gmail.com, sdf@fomichev.me, ast@kernel.org, 
-	daniel@iogearbox.net, hawk@kernel.org, john.fastabend@gmail.com, 
-	mcoquelin.stm32@gmail.com, alexandre.torgue@foss.st.com, 
-	oe-kbuild-all@lists.linux.dev, linux-stm32@st-md-mailman.stormreply.com, 
-	bpf@vger.kernel.org, intel-wired-lan@lists.osuosl.org, netdev@vger.kernel.org, 
-	Jason Xing <kernelxing@tencent.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Jul 23, 2025 at 12:10=E2=80=AFPM kernel test robot <lkp@intel.com> =
-wrote:
->
-> Hi Jason,
->
-> kernel test robot noticed the following build errors:
->
-> [auto build test ERROR on net/main]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Jason-Xing/stmmac-=
-xsk-fix-underflow-of-budget-in-zerocopy-mode/20250722-215348
-> base:   net/main
-> patch link:    https://lore.kernel.org/r/20250722135057.85386-2-kerneljas=
-onxing%40gmail.com
-> patch subject: [Intel-wired-lan] [PATCH net v2 1/2] stmmac: xsk: fix unde=
-rflow of budget in zerocopy mode
-> config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250=
-723/202507231150.Gbhu52dL-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 15.1.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250723/202507231150.Gbhu52dL-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507231150.Gbhu52dL-lkp=
-@intel.com/
+Hi Kaihao,
 
-Oops, I posted a wrong version which missed one '{' after the 'for' stateme=
-nt.
+FYI, the error/warning still remains.
 
-Will post a correct version.
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   7fc3abd8b21f1ef01108269b858d36abd6b95372
+commit: 09797fd32d329b879a57e99f74d83d5704511ea4 [0/9] anolis: mm: add switch for file zero page
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250723/202507231256.VKBzpBLH-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507231256.VKBzpBLH-lkp@intel.com/reproduce)
 
-Thanks,
-Jason
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507231256.VKBzpBLH-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> mm/memory.c:3334: warning: Excess function parameter 'start' description in 'unmap_mapping_zeropages'
+>> mm/memory.c:3334: warning: Excess function parameter 'nr' description in 'unmap_mapping_zeropages'
+
+
+vim +3334 mm/memory.c
+
+  3323	
+  3324	/**
+  3325	 * unmap_mapping_zeropages() - Unmap zeropages from processes.
+  3326	 * @mapping: The address space containing pages to be unmapped.
+  3327	 * @start: Index of first page to be unmapped.
+  3328	 * @nr: Number of pages to be unmapped.  0 to unmap to end of file.
+  3329	 *
+  3330	 * Unmap the zero pages in this address space from any userspace process which
+  3331	 * has them mmaped.
+  3332	 */
+  3333	void unmap_mapping_zeropages(struct address_space *mapping)
+> 3334	{
+  3335		struct zap_details details = { };
+  3336	
+  3337		details.check_mapping = mapping;
+  3338		details.first_index = 0;
+  3339		details.last_index = ULONG_MAX;
+  3340		details.flags = ZAP_ZEROPAGE;
+  3341	
+  3342		i_mmap_lock_write(mapping);
+  3343		if (unlikely(!RB_EMPTY_ROOT(&mapping->i_mmap.rb_root)))
+  3344			unmap_mapping_range_tree(&mapping->i_mmap, &details);
+  3345		i_mmap_unlock_write(mapping);
+  3346	}
+  3347	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
