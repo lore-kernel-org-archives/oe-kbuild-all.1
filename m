@@ -1,140 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A162E49A6;
-	Wed, 23 Jul 2025 11:35:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A7512E6115
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 12:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753270510; cv=none; b=e2MQacE0WnrqsOoydjKkREqgWxcJKAthPb55OhkQJ1t8CTYK2FybYd0TCJoXIMwIVGMpbAOkRrLyCxLuMs/vC9CB4Rk446GO0v3G6Y3MMV5ebNuo+dKemcAjpHSiH/EsCbZX7nAig+t3xx6W5tDiJ1YNzQxL5lddjp2S6zhM96s=
+	t=1753272368; cv=none; b=XikR6ybhok8/L1xs/hoPwp9/lpQ5LeLtjlIXdixvZ9COtFWniqwZPV+hU2ACY4n4wZAO4njdW8U6KQzUk3SQFcIyrqKSGA2DhxHuuYaqFGZvFNp+zl3m9uwuk7a4PhPRHiJIOGhvdRdKwNQTDsBMM0mPHlRjLdArZMoqq486KAY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753270510; c=relaxed/simple;
-	bh=NaqnBjwkXIQgRY6bvzvyQHA4TyoMVW07CLlzipyiNSc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u3RLFY5zMqv4qy2a57/h70YpJ+FGsV7m7KYa360rKT1EEBD+qFb9Q1GHSVU2Gv12oOyHNCI5IEOYSryCivz7KrD54axmabJaIUqlU451yHOutEKqyxyBVG58Uvw6aeuEOIeTS9G9dGASB4H85wYrWK7MmKG+n4RKbaW5gMSHZu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kjcah5zH; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1753272368; c=relaxed/simple;
+	bh=/PowYM3IOHXhpytU6Eo+szs8B4IIx3sO3g3msS7Lw1Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tFEoq5Ds18XbtWEre/25z5pLyHvSm8qRAMHDh6y0+wC1Glj0kW2tqWFE2u6yomRphS9oya82hDknCnBBNmDjwpLH8PFxf8es5hjgP6JUIZpI2QzMy6xpVJGnHctuoJ2mlmbQ0VcTMnzaskv5Mu+eRZMUHvGHJIkUxQ9//ihcZco=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U38SbuA8; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kjcah5zH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U38SbuA8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753270510; x=1784806510;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=NaqnBjwkXIQgRY6bvzvyQHA4TyoMVW07CLlzipyiNSc=;
-  b=Kjcah5zHwh6bN0B6C76Q32zBPhG8lGgwHihSm0NyBRZncs0mk1oX9Tbt
-   Ge2Xv20ykJYMR706t/9g00Ak6PxSvncOxLv/tGyj1Gf4jroSBAsPogOpQ
-   6FX51/cfY6kJT2R1TXiIO/1Y2EA/AQHvmChmLxrjWruIRLf5i9h1F7A6b
-   +DrrHkJSN0bDBJJS+OMmFGv+Hq9/Pe74wdorUhyalZEHuAhlfzg4W8sIs
-   k4bHuz30ucRHbBwyqBIgIP6f6ebJuKwJxxgtnNmxJ2aaJlBt0zJX6HouH
-   VwGKuaXP+4rstH/hQ2pCQC9PD7PXEUmKqzGV8sThaWp0xoPUaY/5d2RDe
-   w==;
-X-CSE-ConnectionGUID: i5ufZoevQ52sxF8yMXJCbQ==
-X-CSE-MsgGUID: DpoA1c2LT2W/4Y7OiByk7Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11500"; a="55504999"
+  t=1753272367; x=1784808367;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/PowYM3IOHXhpytU6Eo+szs8B4IIx3sO3g3msS7Lw1Q=;
+  b=U38SbuA8I1BzSrhEf7qwstir8NA86zkY41ZpQTktbC0+nDV0MUAWv3Gc
+   tRfF2KYeS+tLadaijGv0jJ5wTOnCNbFcZA2VKViQd66wJ31uu/tnj1HbR
+   3KPjT+EJkZiPyIizIlfcMD0nRxMjOXNN1A9Hya8slzYFH9B5M/nOdLf6c
+   4N+0CYJZVEMSXzQhJzYk4r4ZO/yDJ4cYIIF6P/3U9I+sxDp1m39HmQGOg
+   7SpziK+qQKLFwjeGlWSWDO7Vb6sn8LfBvvKgXU8EvxW25j6xeX+0WqJ80
+   zEG3QOPqffyEDjSVI3d574Ct3NxlOIb59Myhrw0kDvmVzg/JJcsZQbZqt
+   Q==;
+X-CSE-ConnectionGUID: 5WcfS1BcSV2Ak23W+NK2SA==
+X-CSE-MsgGUID: kgWJJWr0S6CCKFD92p4GrA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="66983307"
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="55504999"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 04:35:09 -0700
-X-CSE-ConnectionGUID: TR6FWWC9SVmfojcgdHvLRg==
-X-CSE-MsgGUID: AsjbwzVhTyeUC7pzLlASzg==
+   d="scan'208";a="66983307"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 05:06:06 -0700
+X-CSE-ConnectionGUID: Mrieh1EGQrKu8Nmy8kJt/g==
+X-CSE-MsgGUID: kdRgJN2XSRGawPvYMF+wHA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,333,1744095600"; 
-   d="scan'208";a="164892580"
+   d="scan'208";a="163525652"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Jul 2025 04:35:02 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 23 Jul 2025 05:06:04 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ueXkS-000JJx-17;
-	Wed, 23 Jul 2025 11:35:00 +0000
-Date: Wed, 23 Jul 2025 19:34:58 +0800
+	id 1ueYEU-000JKh-2H;
+	Wed, 23 Jul 2025 12:06:02 +0000
+Date: Wed, 23 Jul 2025 20:05:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
-	Xin Guo <guoxin09@huawei.com>,
-	Shen Chenyang <shenchenyang1@hisilicon.com>,
-	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
-	Shi Jing <shijing34@huawei.com>,
-	Fu Guiming <fuguiming@h-partners.com>,
-	Meny Yossefi <meny.yossefi@huawei.com>,
-	Gur Stavi <gur.stavi@huawei.com>, Lee Trager <lee@trager.us>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Suman Ghosh <sumang@marvell.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Joe Damato <jdamato@fastly.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: Re: [PATCH net-next v10 1/8] hinic3: Async Event Queue interfaces
-Message-ID: <202507231813.7ti3bdJj-lkp@intel.com>
-References: <bea50c6c329c5ffb77cfe059e07eeed187619346.1753152592.git.zhuyikai1@h-partners.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 9/9] fs/erofs/data.c:27:10: warning:
+ variable 'index' set but not used
+Message-ID: <202507232016.XsEEV6eQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <bea50c6c329c5ffb77cfe059e07eeed187619346.1753152592.git.zhuyikai1@h-partners.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Fan,
+Hi Gao,
 
-kernel test robot noticed the following build warnings:
+First bad commit (maybe != root cause):
 
-[auto build test WARNING on 5e95c0a3a55aea490420bd6994805edb050cc86b]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Fan-Gong/hinic3-Async-Event-Queue-interfaces/20250722-152434
-base:   5e95c0a3a55aea490420bd6994805edb050cc86b
-patch link:    https://lore.kernel.org/r/bea50c6c329c5ffb77cfe059e07eeed187619346.1753152592.git.zhuyikai1%40h-partners.com
-patch subject: [PATCH net-next v10 1/8] hinic3: Async Event Queue interfaces
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20250723/202507231813.7ti3bdJj-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507231813.7ti3bdJj-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   7fc3abd8b21f1ef01108269b858d36abd6b95372
+commit: fddff2670c3a8d69b1d05e94eba0b72ba388daf5 [9/9] erofs: keep meta inode into erofs_buf
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250723/202507232016.XsEEV6eQ-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250723/202507232016.XsEEV6eQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507231813.7ti3bdJj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507232016.XsEEV6eQ-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c:77:17: warning: variable 'cb_state' set but not used [-Wunused-but-set-variable]
-      77 |         unsigned long *cb_state;
-         |                        ^
-   drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c:91:17: warning: variable 'cb_state' set but not used [-Wunused-but-set-variable]
-      91 |         unsigned long *cb_state;
-         |                        ^
-   drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c:127:17: warning: variable 'cb_state' set but not used [-Wunused-but-set-variable]
-     127 |         unsigned long *cb_state;
-         |                        ^
+>> fs/erofs/data.c:27:10: warning: variable 'index' set but not used [-Wunused-but-set-variable]
+      27 |         pgoff_t index;
+         |                 ^
+   fs/erofs/data.c:51:7: warning: no previous prototype for function '__erofs_bread' [-Wmissing-prototypes]
+      51 | void *__erofs_bread(struct super_block *sb, struct erofs_buf *buf,
+         |       ^
+   fs/erofs/data.c:51:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+      51 | void *__erofs_bread(struct super_block *sb, struct erofs_buf *buf,
+         | ^
+         | static 
+   fs/erofs/data.c:262:26: warning: variable 'length' set but not used [-Wunused-but-set-variable]
+     262 |                         erofs_off_t startoff, length;
+         |                                               ^
    3 warnings generated.
 
 
-vim +/cb_state +77 drivers/net/ethernet/huawei/hinic3/hinic3_eqs.c
+vim +/index +27 fs/erofs/data.c
 
-    71	
-    72	int hinic3_aeq_register_cb(struct hinic3_hwdev *hwdev,
-    73				   enum hinic3_aeq_type event,
-    74				   hinic3_aeq_event_cb hwe_cb)
-    75	{
-    76		struct hinic3_aeqs *aeqs;
-  > 77		unsigned long *cb_state;
-    78	
-    79		aeqs = hwdev->aeqs;
-    80		cb_state = &aeqs->aeq_cb_state[event];
-    81		aeqs->aeq_cb[event] = hwe_cb;
-    82		spin_lock_init(&aeqs->aeq_lock);
-    83	
-    84		return 0;
-    85	}
-    86	
+5af84129f73c55 Gao Xiang 2022-01-02  24  
+5af84129f73c55 Gao Xiang 2022-01-02  25  void erofs_put_metabuf(struct erofs_buf *buf)
+5af84129f73c55 Gao Xiang 2022-01-02  26  {
+cc28d7800c8310 Liu Bo    2023-06-14 @27  	pgoff_t index;
+cc28d7800c8310 Liu Bo    2023-06-14  28  
+5af84129f73c55 Gao Xiang 2022-01-02  29  	if (!buf->page)
+5af84129f73c55 Gao Xiang 2022-01-02  30  		return;
+5af84129f73c55 Gao Xiang 2022-01-02  31  	erofs_unmap_metabuf(buf);
+cc28d7800c8310 Liu Bo    2023-06-14  32  
+cc28d7800c8310 Liu Bo    2023-06-14  33  	index = buf->page->index;
+5af84129f73c55 Gao Xiang 2022-01-02  34  	put_page(buf->page);
+5af84129f73c55 Gao Xiang 2022-01-02  35  	buf->page = NULL;
+cc28d7800c8310 Liu Bo    2023-06-14  36  
+
+:::::: The code at line 27 was first introduced by commit
+:::::: cc28d7800c831030e86e5902c6305f08ef04f911 anolis: dax: add dax_read_one_pfn helper
+
+:::::: TO: Liu Bo <bo.liu@linux.alibaba.com>
+:::::: CC: 小龙 <sam.zyc@alibaba-inc.com>
 
 -- 
 0-DAY CI Kernel Test Service
