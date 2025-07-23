@@ -1,105 +1,149 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A6AA221F2F;
-	Wed, 23 Jul 2025 18:59:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E920521A42F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 23 Jul 2025 19:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753297172; cv=none; b=k+rFJWC6axCMtsw2JM62oip/t60jxUXll2Yfk6oxG6ppq6Wsypmk8l2YQY/YdZzrv6FQcj1C+5dAoHhsh2emcjOnR1Qpe3HIs1ZuSkIe+6dJw3eR1smbHS/pSe1+FHqkRi7VOY0qtKrIh4oJib7U2CLVUYsOG3CwF9W5F1ZuU0Y=
+	t=1753297798; cv=none; b=eCxKqKHXTInIQIQ9wRYFnrAIHa6M/muDTNMesg76dr2DeKOiVLX8KxHrNvSpMVQe8zZIRjT/8ty4W//My3xGwpYcGfjypilLLMNWU+VOwTLL/dAoNiPNvXgAqNGmNBPns1E4p3eNZYbe+D18DL6AdPpe6KiA1HZpTUTWrmsy1cM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753297172; c=relaxed/simple;
-	bh=YMmKd8UC5P21tTrV/oIf5AKV3dDkkV89/6bPT5QQSlo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nxFQ0i7iZHMVLwkIjECTSrGdgR1yb3ZdTIaDkwTv3cwx0iAX6PPJZzdOJ4SIXFse23wIptE+Ra57TfjqXflYCLf1aVZMgPrZsKM+Kb9cxUegRrQPkHYQqEumZa6Kp5iTC9M7NezCzzrlCeSxUP7yTSh+ThBusLICWIFFnfvmskI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=WNhhE56j; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1753297798; c=relaxed/simple;
+	bh=G4c6/ZBDkM1u7b35ZpACz9m8yf1Lyz9LyUrQojvSkSE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=liJ3uM1HyoYDKfY2hmcjPsZYGViZ5NPMl5j5HU6GmFmy91ZhNFQjt1IEw29z4ZUW3YAro8qzwkNhBvmgZwv5s49MeWQYfRfy9/FduAbQWm+35sYZ1DdZyozGApEhQ4lI/7Y5r0XmGesRBm4MHxZ8FXaLwrPZMVyBlkEZmDgbGE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fwPujnSi; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="WNhhE56j"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id C1C1740E0163;
-	Wed, 23 Jul 2025 18:59:20 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id NV1TOurcSxM6; Wed, 23 Jul 2025 18:59:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1753297157; bh=3/iUg3kpzsiZrZyEgEoQDrYxpq8863x42bI2MvnPvd8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WNhhE56jaVQu8KmDXYrC1yQdKtIH4nMnxxKq6HHMfPn3KWLUYHkITgL5pmZOmECm2
-	 qIx5yZsp9NhxWPtrmSuKgpzrdK+6tDoipIeQAsybPeBFHe8nsxHbu9eGiRUwKvN35I
-	 moWd3v49g+xVRScU8E2A1IRcf9nJuTnXJf0IoCcR5ViZ97oHkY2LPBNpggxXfI8909
-	 KElCdwzek1ygeNaV95IzQSFtsYmW6y8EmMOZaOMj7eOAXvijsv9rBOh2DZ3mFNzXuu
-	 ZF+l+TxcKo2TiX2+lIhI3pFmBVZA83e5J1tRBwTLfOopbAJnkvNL9m60r/t253U8pg
-	 q/8ZlCL3IKF5Fg+PYg5+iDhJ3zt+Grhz4SPpVg3gvV2nq1fO3tKXzlnUZTy76DuQqZ
-	 8w5WlekiffnTR7PRFrECf+uRApDOGb6dhTBLovo+ph+FCh/pMiKZbcADaVPA9P6JDc
-	 pDVpuaKA19Snh/y1Uoa6TATlcEZ6FfJ1U2zkredBLcHM+xaX/TaPvBxUquapEQtLZw
-	 bz3KciijHf7kc2P7gju5ur8KnwqmE+AAwyZx7tJYAGWAqA7ro+T4GvvI9YCkERW2Or
-	 kRbhhGcn+OTYKMO/PQ2vTfHBNSTB5iEv+4o44KOwVfGCIiShLJhDiCKGmo+1U0Em4x
-	 mws8PKuTNcbxgVonXq9TlbUc=
-Received: from rn.tnic (unknown [78.130.214.207])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id C25CE40E0254;
-	Wed, 23 Jul 2025 18:58:47 +0000 (UTC)
-Date: Wed, 23 Jul 2025 21:00:48 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Breno Leitao <leitao@debian.org>
-Cc: kernel test robot <lkp@intel.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, James Morse <james.morse@arm.com>,
-	Tony Luck <tony.luck@intel.com>,
-	Robert Moore <robert.moore@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Hanjun Guo <guohanjun@huawei.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mahesh J Salgaonkar <mahesh@linux.ibm.com>,
-	Oliver O'Halloran <oohall@gmail.com>,
-	Bjorn Helgaas <helgaas@kernel.org>, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-kernel@vger.kernel.org, acpica-devel@lists.linux.dev,
-	osandov@osandov.com, xueshuai@linux.alibaba.com,
-	konrad.wilk@oracle.com, linux-edac@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, linux-pci@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH v3] vmcoreinfo: Track and log recoverable hardware errors
-Message-ID: <20250723190048.GBaIExYJYiHWnSBFye@renoirsky.local>
-References: <20250722-vmcore_hw_error-v3-1-ff0683fc1f17@debian.org>
- <202507232209.GrgpSr47-lkp@intel.com>
- <cdlrppnrheyq7z3gmwmwsmktpmoiwq7g5hxa67rcx4iem5i6ge@jksa5o5use4w>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fwPujnSi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753297796; x=1784833796;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=G4c6/ZBDkM1u7b35ZpACz9m8yf1Lyz9LyUrQojvSkSE=;
+  b=fwPujnSiEK1l+gNz1Udr21XTyf6b8876whHsaP6WvyZwtDRAwePF84tK
+   um/+jNAf6i26VhvJK2XVIIr/3sD+eVBQIHI7JeFHifDkg/vT11jc/HqKK
+   7Fp2Bzn0GHEfL+DJ8Zh3ja8hTTIvsKfQr223RPKh8mBPxvtA3v+UjTgQw
+   g7eK5dPxSxLfXM9EdwR+wk7ImjEeKSPEO4aGFwmv9yHe1VyX8MYzqydXw
+   2EOnH4+FkLq8aqqc9vG6B9xGBigRQQyC47ifPhDOUXGA2WEXjR6sHzQ1j
+   lslr2KCPvRQX8871ExBs+lZr31DiwnFVtFl3ihtusazRRuoz+NOR2z7WF
+   w==;
+X-CSE-ConnectionGUID: qy5BBtbvTAiKaLn3TPaWpw==
+X-CSE-MsgGUID: NUsLjxIdQgKdsBJYGtklsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="66292878"
+X-IronPort-AV: E=Sophos;i="6.16,335,1744095600"; 
+   d="scan'208";a="66292878"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 12:09:55 -0700
+X-CSE-ConnectionGUID: dJnhYmVyRsGr/BO/fJQE6Q==
+X-CSE-MsgGUID: 6aiHIUDuQ4Wklob85LZV4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,335,1744095600"; 
+   d="scan'208";a="163963166"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 23 Jul 2025 12:09:55 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ueeqe-000Ji3-2Z;
+	Wed, 23 Jul 2025 19:09:52 +0000
+Date: Thu, 24 Jul 2025 03:09:19 +0800
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-5.10 0/9] mm/khugepaged.c:153: warning:
+ Function parameter or member 'recheck_hugetext' not described in 'mm_slot'
+Message-ID: <202507240319.36SLLT9z-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cdlrppnrheyq7z3gmwmwsmktpmoiwq7g5hxa67rcx4iem5i6ge@jksa5o5use4w>
 
-On Wed, Jul 23, 2025 at 08:36:52AM -0700, Breno Leitao wrote:
-> Basically there are two approaches, from what I understand:
-> 
-> 	1) mark do_machine_check() as noinstr
+Hi Rongwei,
 
-do_machine_check is already noinstr. I think you mean mark
-hwerr_log_error_type() noinstr.
+FYI, the error/warning still remains.
 
-And yes, you can mark it. hwerr_log_error_type() is not that fascinating
-to allow instrumentation for it.
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-5.10
+head:   7fc3abd8b21f1ef01108269b858d36abd6b95372
+commit: f835999265e7e2bab5dcadbe2347c28d35e52c94 [0/9] anolis: mm: hugetext: Split cold adaptive thp
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250724/202507240319.36SLLT9z-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507240319.36SLLT9z-lkp@intel.com/reproduce)
 
-> 	2) Move hwerr_log_error_type() earlier inside the
-> 	instrumentation_begin() area.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507240319.36SLLT9z-lkp@intel.com/
 
-Or you can do that - that looks like less of an effort btw.
+All warnings (new ones prefixed by >>):
+
+   mm/khugepaged.c:153: warning: Function parameter or member 'nr_pte_mapped_thp' not described in 'mm_slot'
+   mm/khugepaged.c:153: warning: Function parameter or member 'pte_mapped_thp' not described in 'mm_slot'
+   mm/khugepaged.c:153: warning: Function parameter or member 'nr_exec_vma' not described in 'mm_slot'
+   mm/khugepaged.c:153: warning: Function parameter or member 'exec_vma' not described in 'mm_slot'
+   mm/khugepaged.c:153: warning: Function parameter or member 'nr_adapt_vma' not described in 'mm_slot'
+   mm/khugepaged.c:153: warning: Function parameter or member 'adapt_vmas' not described in 'mm_slot'
+   mm/khugepaged.c:153: warning: Function parameter or member 'adaptive_regions' not described in 'mm_slot'
+   mm/khugepaged.c:153: warning: Function parameter or member 'work' not described in 'mm_slot'
+   mm/khugepaged.c:153: warning: Function parameter or member 'evict_timestamp' not described in 'mm_slot'
+   mm/khugepaged.c:153: warning: Function parameter or member 'state' not described in 'mm_slot'
+>> mm/khugepaged.c:153: warning: Function parameter or member 'recheck_hugetext' not described in 'mm_slot'
+   mm/khugepaged.c:153: warning: Function parameter or member 'nr_hugetext' not described in 'mm_slot'
+   mm/khugepaged.c:1856: warning: Function parameter or member 'mm' not described in 'collapse_pte_mapped_thp'
+   mm/khugepaged.c:1856: warning: Function parameter or member 'addr' not described in 'collapse_pte_mapped_thp'
+   mm/khugepaged.c:2058: warning: Function parameter or member 'mm' not described in 'collapse_file'
+   mm/khugepaged.c:2058: warning: Function parameter or member 'file' not described in 'collapse_file'
+   mm/khugepaged.c:2058: warning: Function parameter or member 'start' not described in 'collapse_file'
+   mm/khugepaged.c:2058: warning: Function parameter or member 'hpage' not described in 'collapse_file'
+   mm/khugepaged.c:2058: warning: Function parameter or member 'node' not described in 'collapse_file'
+
+
+vim +153 mm/khugepaged.c
+
+b188234c53aafe Rongwei Wang       2022-11-26  122  
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  123  /**
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  124   * struct mm_slot - hash lookup from mm to mm_slot
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  125   * @hash: hash collision list
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  126   * @mm_node: khugepaged scan list headed in khugepaged_scan.mm_head
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  127   * @mm: the mm that this information is valid for
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  128   */
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  129  struct mm_slot {
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  130  	struct hlist_node hash;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  131  	struct list_head mm_node;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  132  	struct mm_struct *mm;
+27e1f8273113ad Song Liu           2019-09-23  133  
+27e1f8273113ad Song Liu           2019-09-23  134  	/* pte-mapped THP in this mm */
+27e1f8273113ad Song Liu           2019-09-23  135  	int nr_pte_mapped_thp;
+27e1f8273113ad Song Liu           2019-09-23  136  	unsigned long pte_mapped_thp[MAX_PTE_MAPPED_THP];
+5c3c3afed0fd68 Xu Yu              2021-08-19  137  
+5c3c3afed0fd68 Xu Yu              2021-08-19  138  #ifdef CONFIG_HUGETEXT
+5c3c3afed0fd68 Xu Yu              2021-08-19  139  #define MAX_EXEC_VMA       8
+5c3c3afed0fd68 Xu Yu              2021-08-19  140  	/* exec vma vm_start in this mm */
+5c3c3afed0fd68 Xu Yu              2021-08-19  141  	int nr_exec_vma;
+5c3c3afed0fd68 Xu Yu              2021-08-19  142  	unsigned long exec_vma[MAX_EXEC_VMA];
+b188234c53aafe Rongwei Wang       2022-11-26  143  	int nr_adapt_vma;
+b188234c53aafe Rongwei Wang       2022-11-26  144  	struct adapt_vma_t adapt_vmas[MAX_EXEC_VMA];
+b188234c53aafe Rongwei Wang       2022-11-26  145  	struct xarray adaptive_regions;
+b188234c53aafe Rongwei Wang       2022-11-26  146  	struct delayed_work work;
+bf2c1d13d55c0f Rongwei Wang       2022-11-26  147  	unsigned long evict_timestamp;
+b188234c53aafe Rongwei Wang       2022-11-26  148  	/* Current state of adapt vma */
+b188234c53aafe Rongwei Wang       2022-11-26  149  	atomic_t state;
+f835999265e7e2 Rongwei Wang       2022-11-26  150  	int recheck_hugetext;
+b188234c53aafe Rongwei Wang       2022-11-26  151  	int nr_hugetext;
+5c3c3afed0fd68 Xu Yu              2021-08-19  152  #endif
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26 @153  };
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  154  
+
+:::::: The code at line 153 was first introduced by commit
+:::::: b46e756f5e47031c67658ff036e5ffe27062fa43 thp: extract khugepaged from mm/huge_memory.c
+
+:::::: TO: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 -- 
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
