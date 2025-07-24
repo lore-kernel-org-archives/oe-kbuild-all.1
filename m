@@ -1,113 +1,130 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9C7A1DF247;
-	Thu, 24 Jul 2025 16:41:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869A92EAB91
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 17:10:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753375311; cv=none; b=Fcpbxtj9DfLErFKfAOzbjRuW2V/zQbOFuN+YaKQVvTpq2IlPhTvGWh9aCE5lt6rd+l/0ln63zjKepyV68kg004UDqsfPMWSeyik9KqmNOk+8a1MnWhnXNUf9PkZWCDOl/TNZPt/m7F0uvNFbk1+F0G1STkYDxM5iuuj1gGWqlX8=
+	t=1753377030; cv=none; b=igboL741gJXxSDRWWoew0OznSc797O63XyUZlX+ARA9OsW+rlEYus+q7w9654B3VGjdxPhXKb0eFdla8EiNbyr6Ik8ej4SBqJ5CQAoz4N+ZPUvZrN/pXKZIbYSTjD3cuQgCLcl3Jl1Qkrz5nMgQB58+HQlhEkniQpl9u+GduUso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753375311; c=relaxed/simple;
-	bh=GJ7oPGiI/+5Cg12azq2uSL0OHujgc0U//kiVeas2jMI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R7mKvzSVDT24WwzctqoXgts0Afk5Zk7aOMom9RDeQQkle3EMPtl52eMYu73cVQs29DV5LfmsQG5cMuJubDRJWFMnuUot7UqzwsK8kbSJqp1uLm9npr99hSy1SECAkpWFnOGcxfz6pzQ8JhQ48b/209Bl2Ng9amBg0wJ3FVZKhuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nrRaoxe3; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753377030; c=relaxed/simple;
+	bh=BXxKQvzobe5wQ3xYmuCvC8UMynXnntS8L6QJrFyzNtU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=E0cEYbXYMyePgf76D36wNXXfS538tIvHtNAB849wsZpSusgRFgMlwv5kB5aX00xtnfiVeKq4TR4ncgEasnXfD7UvHuBUiQGUfZL52CPfggTHKMi69R3oevojUynh/Unu7ZNPwQJg9EbmUCIUfogLep23xTRYkKj4eO7yvgx9g5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tCuyOLzB; arc=none smtp.client-ip=209.85.166.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nrRaoxe3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753375310; x=1784911310;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GJ7oPGiI/+5Cg12azq2uSL0OHujgc0U//kiVeas2jMI=;
-  b=nrRaoxe3hD2jaQdzIqhpTrXWz9pyX0jgZNK2dnz/xeTCBQHa80wE3KDg
-   GKXDyRZdPsAFK3ADUWeSA1aLH4CJuNIXebl4NP7M2DNUNEhNfoei49evC
-   zSmsg8V17oFmFJU3bELvBwM6ieAvQB9G1hH7iYeqVR+f6IY9ByOAKAVd3
-   UZxxn2IheoNxAyok/QTMEdby4kl8EPtjpyt5xiL5W3LLz91arw2OZi4ul
-   R4Tu2SL8xrk1GXoyt3j5XkhHHCduZzM4d4a3Y2i6jwX+OFOTxHee9d5zp
-   dBMeUrqGw8nfERi+bp5H/nRxpLahhPoSglzN6DZLNnHa15e3M5UgXVeDH
-   g==;
-X-CSE-ConnectionGUID: AnmjnHO9QFG2Mq1+uiGmow==
-X-CSE-MsgGUID: yuy4vWVWQyWqHWi2DTxpyA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="58322807"
-X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="58322807"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 09:41:49 -0700
-X-CSE-ConnectionGUID: kbR/YZUgRpGnkRP9NRGpww==
-X-CSE-MsgGUID: 7yCD/4uhRS+IRX2C8Brupg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="164860147"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 24 Jul 2025 09:41:45 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uez0o-000Kdd-0x;
-	Thu, 24 Jul 2025 16:41:42 +0000
-Date: Fri, 25 Jul 2025 00:40:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Henrik Grimler <henrik@grimler.se>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maciej Purski <m.purski@samsung.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-samsung-soc@vger.kernel.org,
-	~postmarketos/upstreaming@lists.sr.ht, replicant@osuosl.org,
-	linux-kernel@vger.kernel.org, Henrik Grimler <henrik@grimler.se>
-Subject: Re: [PATCH 3/3] drm/bridge: sii9234: use extcon cable detection
- logic to detect MHL
-Message-ID: <202507250036.RXWSmKW2-lkp@intel.com>
-References: <20250721-exynos4-sii9234-driver-v1-3-2e47ed02f677@grimler.se>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tCuyOLzB"
+Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3e283b2d065so6075ab.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 10:10:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1753377026; x=1753981826; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VLgUSpYw53cKLUDxe40QFSqFx9VHdgfTQvYmq7qO0B8=;
+        b=tCuyOLzB1Mzql0JFc663wdZmlBXeQy7+tSJnsPma/BwlLD1jQdNtTUuJnXikBubFTy
+         2HB4By7rV38d8Pt0WrXLqSg/j06OxW6F23998oFxL77EJwyuKUbq5gRBd14Dl589kNnW
+         k76ehCmeK7jpiDfecn9tnug+dWdkSI9FYBaN/pqV2It+b1DbvZnnG8xp6JEnlUoLjkkh
+         QzlndNpOML+PwPjeig9RQo+g+Bh3pI9VeqRkwi7w9B79SQhKixqJvA+i12u4OPXuC6lM
+         aipWoJr5zl1JckfZjfszV5Fo3jrTOWT9+91NxowYp+0HL6PdcDGMzcPWdY7QIeyZCUmM
+         yuTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753377026; x=1753981826;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VLgUSpYw53cKLUDxe40QFSqFx9VHdgfTQvYmq7qO0B8=;
+        b=ZM/yfQ50F+EkdGyRLhcMmAcb257xNRFTxZA5wV0Vs1+MwZeYynePdR/du2qiRfhXj7
+         wCj4PyI3JJewBb0xAtpqF8LSywV19MuBeDbQZxlXJNUH6L2Yi2V4dcNEL37iyFZZgcTd
+         Q+FbtJJJj/9YkCV7AlFa93DFZaB93hyerVY+JpKcGJPjzZ6LgxWQJo6kgZOIWiFYH5J8
+         jiU/ceSToNvF5zLxqKGIVCqg11zhP/JadJ671X4faYFcsx1/jBRDsi7GHm1rCZGqqpKr
+         YFwuXbxNhxEX2nRPYl6evv8WerY1UhvMnCe0rkOdIbjFKiPuMy/ZQpyiTYgx4eko3K3s
+         xt/w==
+X-Forwarded-Encrypted: i=1; AJvYcCWPYalJpvqYkOXIRbrTaQDWZT4xQcfPrMGZK8wocxpJFwG8yruriPyfgaEDHmyzC+Z96o4Ff36yXrNlU4+k@lists.linux.dev
+X-Gm-Message-State: AOJu0YzPxq1Wi95B4zDPoxV3Sd9ROzs9cwxZkenZAU64vd09ATq6jLew
+	L05WHlVICEhZ35HdTtHux+DytZOVaQdmCzC8G61KQhnA49KGJsO2khl1LhjwS7Y7K7WsSRHXPJO
+	lSIt85FU22r1zur965Hbsu/eflnR0ghboWe5L4VFT
+X-Gm-Gg: ASbGnctAgGnEBWK7bVZj8ZxUINa4k56kD6wdmgnEI8h9ZauZu+jabUPt3lqJwl5Sc2l
+	BD5+GZvFvEsoPxuGqNBFtUcWzDX3IF7Up8ETZbYYpEEk1p5NEOCKxnPzDgmZBYVA9AIZFh3Zdzd
+	HELG3Z+Y65erc6uL65P7EsPaSog+N3up3Iexd14B+Em6o1oEa0Mj70+o98+Q46/pyRwz1qbTirb
+	zxVBEdxUBpU02AbTnJLdI7NBPLMGcQtHTj6
+X-Google-Smtp-Source: AGHT+IE8b1+9raOGesHfGm8k94AzrKSvF5YlDcl6t0VjEks3fbr8R8bSxUctdy4iwWVOqk6bssyVAo2+k1XA8p4oSsk=
+X-Received: by 2002:a05:6e02:9:b0:3e0:4f95:13e5 with SMTP id
+ e9e14a558f8ab-3e3b64c0bfcmr5891225ab.24.1753377026297; Thu, 24 Jul 2025
+ 10:10:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250721-exynos4-sii9234-driver-v1-3-2e47ed02f677@grimler.se>
+References: <202507231135.OtEGYfnQ-lkp@intel.com> <CAP-5=fWXcGiWXeb8=165tCVtEAYX7qkVUpanbpmg=Db=kwEP0g@mail.gmail.com>
+ <2923e512-36f6-4cf3-9606-18031167a93a@gmx.de>
+In-Reply-To: <2923e512-36f6-4cf3-9606-18031167a93a@gmx.de>
+From: Ian Rogers <irogers@google.com>
+Date: Thu, 24 Jul 2025 10:10:14 -0700
+X-Gm-Features: Ac12FXyR-7lBitRsNkqVgrna1c0hkaAl18mvxhank8-IiRE-018c4PqLhz59BRM
+Message-ID: <CAP-5=fUiF26Ay+W+fUTRe7EOjEJXk5k_eNe6Yh7SD=GSYAssVQ@mail.gmail.com>
+Subject: Re: [thomas-weissschuh:vdso/unaligned 1/3] include/vdso/unaligned.h:21:9:
+ warning: '__builtin_memcpy' reading 4 bytes from a region of size 1
+To: Helge Deller <deller@gmx.de>
+Cc: "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
+	Al Viro <viro@zeniv.linux.org.uk>, linux-parisc@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
+	kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Henrik,
+On Thu, Jul 24, 2025 at 9:15=E2=80=AFAM Helge Deller <deller@gmx.de> wrote:
+>
+> On 7/23/25 18:11, Ian Rogers wrote:
+> > https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
+tree/arch/parisc/boot/compressed/misc.c#n28
+> >    /* output_len is inserted by the linker possibly at an unaligned add=
+ress */
+> >    extern char output_len;
+> > ...
+> > https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
+tree/arch/parisc/boot/compressed/misc.c#n312
+> >    vmlinux_len =3D get_unaligned_le32(&output_len);
+> >
+> > is reading a char as an le32, so a 1 byte value as a 4-byte le32. It
+> > appears the code didn't originally declare output_len this way but it
+> > was changed in commit  c42813b71a06 ("parisc: Fix unaligned-access
+> > crash in bootloader"):
+> > https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
+commit/arch/parisc/boot/compressed/misc.c?id=3Dc42813b71a06a2ff4a155aa87ac6=
+09feeab76cf3
+> > -extern __le32 output_len __aligned(1);
+> > +extern char output_len;
+> >
+> > Using __builtin_memcpy for unaligned values is sound. I'm not clear
+> > what the appropriate parisc fix would be nor how I could test it for
+> > the "unalignment-exception" reported in commit c42813b71a06. I suspect
+> > the fix is to revert that commit. I believe we're seeing this warning
+> > now as the casts of the previous __get_unaligned_t would hide the
+> > issue.
+>
+> I'm afraid that if you revert my patch, the compiler may again "optimize"
+> __builtin_memcpy() to a single-memory-access assembler instruction, which
+> then will fail again if the variable output_len was stored at an unaligne=
+d address.
+> So the same issue as described in commit c42813b71a06.
+> Please note, that this is the boot loader, where an in-kernel
+> unalignment handler isn't functional yet.
+>
+> My proposal to fix this is to avoid -Wstringop-overread when compiling
+> this file. Maybe some Makefile logic as done with CFLAGS_REMOVE_fpudispat=
+ch.o
+> in arch/parisc/math-emu/Makefile can be added
 
-kernel test robot noticed the following build errors:
+It is probably easier to add #pragmas. Is there a concern that the
+compiler may detect undefined behavior and just do something garbage?
 
-[auto build test ERROR on ca2a6abdaee43808034cdb218428d2ed85fd3db8]
+Thanks,
+Ian
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Henrik-Grimler/drm-bridge-sii9234-fix-some-typos-in-comments-and-messages/20250721-174814
-base:   ca2a6abdaee43808034cdb218428d2ed85fd3db8
-patch link:    https://lore.kernel.org/r/20250721-exynos4-sii9234-driver-v1-3-2e47ed02f677%40grimler.se
-patch subject: [PATCH 3/3] drm/bridge: sii9234: use extcon cable detection logic to detect MHL
-config: arm64-randconfig-002-20250724 (https://download.01.org/0day-ci/archive/20250725/202507250036.RXWSmKW2-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250725/202507250036.RXWSmKW2-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507250036.RXWSmKW2-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> ld.lld: error: undefined symbol: extcon_register_notifier
-   >>> referenced by sii9234.c:928 (drivers/gpu/drm/bridge/sii9234.c:928)
-   >>>               drivers/gpu/drm/bridge/sii9234.o:(sii9234_probe) in archive vmlinux.a
---
->> ld.lld: error: undefined symbol: extcon_unregister_notifier
-   >>> referenced by sii9234.c:1009 (drivers/gpu/drm/bridge/sii9234.c:1009)
-   >>>               drivers/gpu/drm/bridge/sii9234.o:(sii9234_remove) in archive vmlinux.a
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> Helge
