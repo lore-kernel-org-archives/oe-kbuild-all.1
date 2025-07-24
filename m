@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC341B4F0A;
-	Thu, 24 Jul 2025 17:52:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215061F872D
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 18:08:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753379576; cv=none; b=RhxLZit+9miCb/Vi6uqNGbKcraORKdG5C7RwGNj6ABBA0+C07AaugMKiR0CikaR29y30jOQMTFdMqSpPzEWAnrATl38Emy3NE75H3WXSDjBtTQegp0qZ0xksaNOYnT4J01WvhuMQqZjDWMkgacYkBMHJfmeXeMgeZTVa5rug+dY=
+	t=1753380494; cv=none; b=Chha56BxD2xR1MLiNLvHlCdDFs/J5VmdJlGo+BSwiXM5Rbo0NLHWTsw1AwXqY9uZZuDV2uLxvTe0NILre1r6Ch/noQNMhJrMvKtqKWlMond2ztqUSDX9q+oPCMEo80ZVivdpO87pUs9Ix/ja+DQV/xz7R3oT477SilzaRnulHyk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753379576; c=relaxed/simple;
-	bh=gxDP/x72vErdUhHDu7ZYb3KxsYEkC9jJpG8VMxaDJ/0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WYtPWcBvOsV3RxKUWB6Kk/DHF1p0pJdP7+kW5n/ebhIgs1RE1Ph4x/IMk4/yz92kc6Zou7xLcrydW9xmvgU8hNMPN0t1Uhd/OCai7FUeQmIeiJvoHZj3OER7qwfCFl3zIydsjEZTUcygwk8e0oOobGgXBTapd6UzjVUDLdVTlkY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/s3NRoj; arc=none smtp.client-ip=198.175.65.14
+	s=arc-20240116; t=1753380494; c=relaxed/simple;
+	bh=LTuJw3X+NfowN/EnyzrAibJ8QGzl3C8GyxR61fGznrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=X+8GkhhzkF96dY9MfPRq7aGeEKMrFvISo2LJwlZtVoWUZnECf2R+PVhzuMaBuj8FWZf3jwxBjnoL2xl09RsQyjBy9cc9jFffnSyV45nZ7J0VyXkbWL/x2UxNJJs/LWXv3n+gOlPYeUFll4CXiqZ7T4VYkHJ2ddYq4KxoK6eDEtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fMhpc6CZ; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/s3NRoj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fMhpc6CZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753379574; x=1784915574;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gxDP/x72vErdUhHDu7ZYb3KxsYEkC9jJpG8VMxaDJ/0=;
-  b=K/s3NRojgbP8hqXyfqQwDzYWLuG/aQ0/DrPmbbQeJGXdqZXm5IdfRHEr
-   dX4qyuiEadd5LBfGSByOVJR59jxWs7QeiMxAZFJ6G8AoUOXhae+ExxFqF
-   eftG+jZA3pEqprFUeKWUwEfDR2Lf4AO5y3Me1jNwpgKimcTM3/y5P+fK9
-   Tg6nbo2mR1sMFhgmSYfcfxL4KqhDsxLt0KgczzlMrkgFnUJp6dVL4zP55
-   R7ODQW/LPmF8AWVSsQRiEGz4T6G2Rny3zW5268CNS027KBWPQVozyhNfy
-   u+lTX4PGtT2TLzvg2W6a4qk7NOR0NxCVZioOVmfiY3aODSrzL/oXia/hO
-   Q==;
-X-CSE-ConnectionGUID: +7DTkuHgTlqGS7ztGWE0mA==
-X-CSE-MsgGUID: J4N8TXnGQzKou/pNv0nmRQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="59513946"
+  t=1753380492; x=1784916492;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LTuJw3X+NfowN/EnyzrAibJ8QGzl3C8GyxR61fGznrA=;
+  b=fMhpc6CZVBMpstjIEDFChlWRtK8ZosbZtGurDII4pSRn/0iM7gzXW9Ft
+   9YNcsBpuSDRlhOfCDE1Rdi8JjSuviS6gEjbqvmMyIZQocYR59hzBsLwjl
+   itd06PRxXaUJmoHDWRVL/b7RpfFT6DTJK+BENPeeY+gdfZNF6um2N8dNW
+   sLPfz69tDzXncJ8ct1aJTH5MLClF7gXdo8x5qknqx4xP14rJiaKe2W0EM
+   fINug/Iy7lYPD9PAyJxbk2m4MRAroOGp1XgtSCcTEJqFAM29NpvdCnjy5
+   3TWYY9O2koNXza230VFTuPTJAi4QfPQO06sUo5Dc/Xn7DnYr0sMbvuY90
+   w==;
+X-CSE-ConnectionGUID: eUx7IK6aRSWxHBijz0h2Pg==
+X-CSE-MsgGUID: /Wanik/sRvKwYU+jdTo58w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55567032"
 X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="59513946"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 10:52:54 -0700
-X-CSE-ConnectionGUID: v0GAKouXT6Wjl/qSpXusPg==
-X-CSE-MsgGUID: /mxl6SAJSDW+5F9O94puxg==
+   d="scan'208";a="55567032"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 11:08:09 -0700
+X-CSE-ConnectionGUID: HTsdSXDHRX6+5vtp8VS/mA==
+X-CSE-MsgGUID: 3/Tvpo4uTduysjSTfigvYg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="184052772"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Jul 2025 10:52:51 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+   d="scan'208";a="159966701"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa007.fm.intel.com with ESMTP; 24 Jul 2025 11:08:08 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uf07d-000Khb-01;
-	Thu, 24 Jul 2025 17:52:49 +0000
-Date: Fri, 25 Jul 2025 01:52:39 +0800
+	id 1uf0MP-00005D-1Z;
+	Thu, 24 Jul 2025 18:08:05 +0000
+Date: Thu, 24 Jul 2025 20:07:08 +0200
 From: kernel test robot <lkp@intel.com>
-To: Ajay Neeli <ajay.neeli@amd.com>, git@amd.com, andi.shyti@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	michal.simek@amd.com, srinivas.goud@amd.com,
-	radhey.shyam.pandey@amd.com, Ajay Neeli <ajay.neeli@amd.com>
-Subject: Re: [PATCH v2] i2c: cadence: Add shutdown handler
-Message-ID: <202507250134.05RWuclB-lkp@intel.com>
-References: <20250724051243.22051-1-ajay.neeli@amd.com>
+To: Roman Gushchin <roman.gushchin@linux.dev>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [rgushchin:lru_note_cost.1 1/1] mm/vmscan.c:2076:27: error:
+ incompatible pointer types passing 'struct scan_control **' to parameter of
+ type 'struct scan_control *'; remove &
+Message-ID: <202507242052.y0d0fxLh-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,177 +62,150 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250724051243.22051-1-ajay.neeli@amd.com>
 
-Hi Ajay,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on andi-shyti/i2c/i2c-host]
-[also build test ERROR on soc/for-next linus/master v6.16-rc7 next-20250724]
-[cannot apply to xilinx-xlnx/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Ajay-Neeli/i2c-cadence-Add-shutdown-handler/20250724-131658
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20250724051243.22051-1-ajay.neeli%40amd.com
-patch subject: [PATCH v2] i2c: cadence: Add shutdown handler
-config: x86_64-buildonly-randconfig-002-20250724 (https://download.01.org/0day-ci/archive/20250725/202507250134.05RWuclB-lkp@intel.com/config)
+tree:   https://github.com/rgushchin/linux.git lru_note_cost.1
+head:   d5e513cdf1ec233fa62389576f6ddb1c730d9994
+commit: d5e513cdf1ec233fa62389576f6ddb1c730d9994 [1/1] mm: skip lru_note_cost() when scanning only file or anon
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250724/202507242052.y0d0fxLh-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250725/202507250134.05RWuclB-lkp@intel.com/reproduce)
+rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507242052.y0d0fxLh-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507250134.05RWuclB-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507242052.y0d0fxLh-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
->> drivers/i2c/busses/i2c-cadence.c:1608:53: error: use of undeclared identifier 'irq'
-    1608 |                  id->i2c_clk / 1000, (unsigned long)r_mem->start, irq);
-         |                                                                   ^
-   1 error generated.
+>> mm/vmscan.c:2076:27: error: incompatible pointer types passing 'struct scan_control **' to parameter of type 'struct scan_control *'; remove & [-Werror,-Wincompatible-pointer-types]
+    2076 |         if (!scan_balance_biased(&sc))
+         |                                  ^~~
+   mm/vmscan.c:1999:54: note: passing argument to parameter 'sc' here
+    1999 | static bool scan_balance_biased(struct scan_control *sc)
+         |                                                      ^
+   mm/vmscan.c:2226:41: error: incompatible pointer types passing 'struct scan_control **' to parameter of type 'struct scan_control *'; remove & [-Werror,-Wincompatible-pointer-types]
+    2226 |         if (nr_rotated && !scan_balance_biased(&sc))
+         |                                                ^~~
+   mm/vmscan.c:1999:54: note: passing argument to parameter 'sc' here
+    1999 | static bool scan_balance_biased(struct scan_control *sc)
+         |                                                      ^
+   2 errors generated.
 
 
-vim +/irq +1608 drivers/i2c/busses/i2c-cadence.c
+vim +2076 mm/vmscan.c
 
-ba064873ce5d19 Lars-Peter Clausen   2023-03-17  1485  
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1486  /**
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1487   * cdns_i2c_probe - Platform registration call
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1488   * @pdev:	Handle to the platform device structure
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1489   *
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1490   * This function does all the memory allocation and registration for the i2c
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1491   * device. User can modify the address mode to 10 bit address mode using the
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1492   * ioctl call with option I2C_TENBIT.
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1493   *
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1494   * Return: 0 on success, negative error otherwise
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1495   */
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1496  static int cdns_i2c_probe(struct platform_device *pdev)
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1497  {
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1498  	struct resource *r_mem;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1499  	struct cdns_i2c *id;
-a11a46d7bd0877 Ajay Neeli           2025-07-24  1500  	int ret;
-63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1501  	const struct of_device_id *match;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1502  
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1503  	id = devm_kzalloc(&pdev->dev, sizeof(*id), GFP_KERNEL);
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1504  	if (!id)
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1505  		return -ENOMEM;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1506  
-7fa32329ca0314 Shubhrajyoti Datta   2015-11-24  1507  	id->dev = &pdev->dev;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1508  	platform_set_drvdata(pdev, id);
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1509  
-63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1510  	match = of_match_node(cdns_i2c_of_match, pdev->dev.of_node);
-63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1511  	if (match && match->data) {
-63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1512  		const struct cdns_platform_data *data = match->data;
-63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1513  		id->quirks = data->quirks;
-63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1514  	}
-63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1515  
-58b924241d0a23 Shubhrajyoti Datta   2022-07-28  1516  	id->rinfo.pinctrl = devm_pinctrl_get(&pdev->dev);
-58b924241d0a23 Shubhrajyoti Datta   2022-07-28  1517  	if (IS_ERR(id->rinfo.pinctrl)) {
-8bfd4ec726945c Carsten Haitzler     2022-11-28  1518  		int err = PTR_ERR(id->rinfo.pinctrl);
-8bfd4ec726945c Carsten Haitzler     2022-11-28  1519  
-58b924241d0a23 Shubhrajyoti Datta   2022-07-28  1520  		dev_info(&pdev->dev, "can't get pinctrl, bus recovery not supported\n");
-8bfd4ec726945c Carsten Haitzler     2022-11-28  1521  		if (err != -ENODEV)
-8bfd4ec726945c Carsten Haitzler     2022-11-28  1522  			return err;
-8bfd4ec726945c Carsten Haitzler     2022-11-28  1523  	} else {
-8bfd4ec726945c Carsten Haitzler     2022-11-28  1524  		id->adap.bus_recovery_info = &id->rinfo;
-58b924241d0a23 Shubhrajyoti Datta   2022-07-28  1525  	}
-58b924241d0a23 Shubhrajyoti Datta   2022-07-28  1526  
-c02fb2b8067a4b Dejin Zheng          2020-04-14  1527  	id->membase = devm_platform_get_and_ioremap_resource(pdev, 0, &r_mem);
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1528  	if (IS_ERR(id->membase))
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1529  		return PTR_ERR(id->membase);
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1530  
-a11a46d7bd0877 Ajay Neeli           2025-07-24  1531  	id->irq = platform_get_irq(pdev, 0);
-a11a46d7bd0877 Ajay Neeli           2025-07-24  1532  	if (id->irq < 0)
-a11a46d7bd0877 Ajay Neeli           2025-07-24  1533  		return id->irq;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1534  
-a1f64317bbf5fe Masahiro Yamada      2015-07-21  1535  	id->adap.owner = THIS_MODULE;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1536  	id->adap.dev.of_node = pdev->dev.of_node;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1537  	id->adap.algo = &cdns_i2c_algo;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1538  	id->adap.timeout = CDNS_I2C_TIMEOUT;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1539  	id->adap.retries = 3;		/* Default retry value. */
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1540  	id->adap.algo_data = id;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1541  	id->adap.dev.parent = &pdev->dev;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1542  	init_completion(&id->xfer_done);
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1543  	snprintf(id->adap.name, sizeof(id->adap.name),
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1544  		 "Cadence I2C at %08lx", (unsigned long)r_mem->start);
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1545  
-3d36dd1161ca31 Michal Simek         2025-02-06  1546  	id->clk = devm_clk_get_enabled(&pdev->dev, NULL);
-2d1a83a4f36f1a Krzysztof Kozlowski  2020-09-02  1547  	if (IS_ERR(id->clk))
-2d1a83a4f36f1a Krzysztof Kozlowski  2020-09-02  1548  		return dev_err_probe(&pdev->dev, PTR_ERR(id->clk),
-2d1a83a4f36f1a Krzysztof Kozlowski  2020-09-02  1549  				     "input clock not found.\n");
-2d1a83a4f36f1a Krzysztof Kozlowski  2020-09-02  1550  
-0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1551  	id->reset = devm_reset_control_get_optional_shared(&pdev->dev, NULL);
-0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1552  	if (IS_ERR(id->reset))
-0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1553  		return dev_err_probe(&pdev->dev, PTR_ERR(id->reset),
-0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1554  				     "Failed to request reset.\n");
-0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1555  
-0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1556  	ret = reset_control_deassert(id->reset);
-3d36dd1161ca31 Michal Simek         2025-02-06  1557  	if (ret)
-3d36dd1161ca31 Michal Simek         2025-02-06  1558  		return dev_err_probe(&pdev->dev, ret,
-0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1559  				     "Failed to de-assert reset.\n");
-0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1560  
-7fa32329ca0314 Shubhrajyoti Datta   2015-11-24  1561  	pm_runtime_set_autosuspend_delay(id->dev, CNDS_I2C_PM_TIMEOUT);
-7fa32329ca0314 Shubhrajyoti Datta   2015-11-24  1562  	pm_runtime_use_autosuspend(id->dev);
-7fa32329ca0314 Shubhrajyoti Datta   2015-11-24  1563  	pm_runtime_set_active(id->dev);
-db3fad841d9bf5 Topi Kuutela         2019-12-09  1564  	pm_runtime_enable(id->dev);
-7fa32329ca0314 Shubhrajyoti Datta   2015-11-24  1565  
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1566  	id->clk_rate_change_nb.notifier_call = cdns_i2c_clk_notifier_cb;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1567  	if (clk_notifier_register(id->clk, &id->clk_rate_change_nb))
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1568  		dev_warn(&pdev->dev, "Unable to register clock notifier.\n");
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1569  	id->input_clk = clk_get_rate(id->clk);
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1570  
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1571  	ret = of_property_read_u32(pdev->dev.of_node, "clock-frequency",
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1572  			&id->i2c_clk);
-90224e6468e15d Andy Shevchenko      2020-03-24  1573  	if (ret || (id->i2c_clk > I2C_MAX_FAST_MODE_FREQ))
-90224e6468e15d Andy Shevchenko      2020-03-24  1574  		id->i2c_clk = I2C_MAX_STANDARD_MODE_FREQ;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1575  
-1a351b10b9671f Radu Pirea           2020-01-06  1576  #if IS_ENABLED(CONFIG_I2C_SLAVE)
-1a351b10b9671f Radu Pirea           2020-01-06  1577  	/* Set initial mode to master */
-1a351b10b9671f Radu Pirea           2020-01-06  1578  	id->dev_mode = CDNS_I2C_MODE_MASTER;
-1a351b10b9671f Radu Pirea           2020-01-06  1579  	id->slave_state = CDNS_I2C_SLAVE_STATE_IDLE;
-1a351b10b9671f Radu Pirea           2020-01-06  1580  #endif
-8b51a8e64443b9 Shubhrajyoti Datta   2021-07-13  1581  	id->ctrl_reg = CDNS_I2C_CR_ACK_EN | CDNS_I2C_CR_NEA | CDNS_I2C_CR_MS;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1582  
-a069fcd9fa1822 Lars-Peter Clausen   2023-03-17  1583  	id->fifo_depth = CDNS_I2C_FIFO_DEPTH_DEFAULT;
-a069fcd9fa1822 Lars-Peter Clausen   2023-03-17  1584  	of_property_read_u32(pdev->dev.of_node, "fifo-depth", &id->fifo_depth);
-a069fcd9fa1822 Lars-Peter Clausen   2023-03-17  1585  
-ba064873ce5d19 Lars-Peter Clausen   2023-03-17  1586  	cdns_i2c_detect_transfer_size(id);
-ba064873ce5d19 Lars-Peter Clausen   2023-03-17  1587  
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1588  	ret = cdns_i2c_setclk(id->input_clk, id);
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1589  	if (ret) {
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1590  		dev_err(&pdev->dev, "invalid SCL clock: %u Hz\n", id->i2c_clk);
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1591  		ret = -EINVAL;
-0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1592  		goto err_clk_notifier_unregister;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1593  	}
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1594  
-a11a46d7bd0877 Ajay Neeli           2025-07-24  1595  	ret = devm_request_irq(&pdev->dev, id->irq, cdns_i2c_isr, 0,
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1596  				 DRIVER_NAME, id);
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1597  	if (ret) {
-a11a46d7bd0877 Ajay Neeli           2025-07-24  1598  		dev_err(&pdev->dev, "cannot get irq %d\n", id->irq);
-0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1599  		goto err_clk_notifier_unregister;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1600  	}
-8b51a8e64443b9 Shubhrajyoti Datta   2021-07-13  1601  	cdns_i2c_init(id);
-681d15a0f527af Vishnu Motghare      2014-12-03  1602  
-0e1929dedea367 Mike Looijmans       2017-01-16  1603  	ret = i2c_add_adapter(&id->adap);
-0e1929dedea367 Mike Looijmans       2017-01-16  1604  	if (ret < 0)
-0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1605  		goto err_clk_notifier_unregister;
-0e1929dedea367 Mike Looijmans       2017-01-16  1606  
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1607  	dev_info(&pdev->dev, "%u kHz mmio %08lx irq %d\n",
-2264997254ca11 Lars-Peter Clausen   2023-01-07 @1608  		 id->i2c_clk / 1000, (unsigned long)r_mem->start, irq);
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1609  
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1610  	return 0;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1611  
-0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1612  err_clk_notifier_unregister:
-3501f0c6630635 Satish Nagireddy     2022-06-28  1613  	clk_notifier_unregister(id->clk, &id->clk_rate_change_nb);
-7fa32329ca0314 Shubhrajyoti Datta   2015-11-24  1614  	pm_runtime_disable(&pdev->dev);
-db3fad841d9bf5 Topi Kuutela         2019-12-09  1615  	pm_runtime_set_suspended(&pdev->dev);
-61b804548e1744 Manikanta Guntupalli 2025-02-06  1616  	reset_control_assert(id->reset);
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1617  	return ret;
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1618  }
-df8eb5691c48d3 Soren Brinkmann      2014-04-04  1619  
+  2009	
+  2010	/*
+  2011	 * shrink_inactive_list() is a helper for shrink_node().  It returns the number
+  2012	 * of reclaimed pages
+  2013	 */
+  2014	static unsigned long shrink_inactive_list(unsigned long nr_to_scan,
+  2015			struct lruvec *lruvec, struct scan_control *sc,
+  2016			enum lru_list lru)
+  2017	{
+  2018		LIST_HEAD(folio_list);
+  2019		unsigned long nr_scanned;
+  2020		unsigned int nr_reclaimed = 0;
+  2021		unsigned long nr_taken;
+  2022		struct reclaim_stat stat;
+  2023		bool file = is_file_lru(lru);
+  2024		enum vm_event_item item;
+  2025		struct pglist_data *pgdat = lruvec_pgdat(lruvec);
+  2026		bool stalled = false;
+  2027	
+  2028		while (unlikely(too_many_isolated(pgdat, file, sc))) {
+  2029			if (stalled)
+  2030				return 0;
+  2031	
+  2032			/* wait a bit for the reclaimer. */
+  2033			stalled = true;
+  2034			reclaim_throttle(pgdat, VMSCAN_THROTTLE_ISOLATED);
+  2035	
+  2036			/* We are about to die and free our memory. Return now. */
+  2037			if (fatal_signal_pending(current))
+  2038				return SWAP_CLUSTER_MAX;
+  2039		}
+  2040	
+  2041		lru_add_drain();
+  2042	
+  2043		spin_lock_irq(&lruvec->lru_lock);
+  2044	
+  2045		nr_taken = isolate_lru_folios(nr_to_scan, lruvec, &folio_list,
+  2046					     &nr_scanned, sc, lru);
+  2047	
+  2048		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, nr_taken);
+  2049		item = PGSCAN_KSWAPD + reclaimer_offset(sc);
+  2050		if (!cgroup_reclaim(sc))
+  2051			__count_vm_events(item, nr_scanned);
+  2052		count_memcg_events(lruvec_memcg(lruvec), item, nr_scanned);
+  2053		__count_vm_events(PGSCAN_ANON + file, nr_scanned);
+  2054	
+  2055		spin_unlock_irq(&lruvec->lru_lock);
+  2056	
+  2057		if (nr_taken == 0)
+  2058			return 0;
+  2059	
+  2060		nr_reclaimed = shrink_folio_list(&folio_list, pgdat, sc, &stat, false,
+  2061						 lruvec_memcg(lruvec));
+  2062	
+  2063		spin_lock_irq(&lruvec->lru_lock);
+  2064		move_folios_to_lru(lruvec, &folio_list);
+  2065	
+  2066		__mod_lruvec_state(lruvec, PGDEMOTE_KSWAPD + reclaimer_offset(sc),
+  2067						stat.nr_demoted);
+  2068		__mod_node_page_state(pgdat, NR_ISOLATED_ANON + file, -nr_taken);
+  2069		item = PGSTEAL_KSWAPD + reclaimer_offset(sc);
+  2070		if (!cgroup_reclaim(sc))
+  2071			__count_vm_events(item, nr_reclaimed);
+  2072		count_memcg_events(lruvec_memcg(lruvec), item, nr_reclaimed);
+  2073		__count_vm_events(PGSTEAL_ANON + file, nr_reclaimed);
+  2074		spin_unlock_irq(&lruvec->lru_lock);
+  2075	
+> 2076		if (!scan_balance_biased(&sc))
+  2077			lru_note_cost(lruvec, file, stat.nr_pageout,
+  2078				      nr_scanned - nr_reclaimed);
+  2079	
+  2080		/*
+  2081		 * If dirty folios are scanned that are not queued for IO, it
+  2082		 * implies that flushers are not doing their job. This can
+  2083		 * happen when memory pressure pushes dirty folios to the end of
+  2084		 * the LRU before the dirty limits are breached and the dirty
+  2085		 * data has expired. It can also happen when the proportion of
+  2086		 * dirty folios grows not through writes but through memory
+  2087		 * pressure reclaiming all the clean cache. And in some cases,
+  2088		 * the flushers simply cannot keep up with the allocation
+  2089		 * rate. Nudge the flusher threads in case they are asleep.
+  2090		 */
+  2091		if (stat.nr_unqueued_dirty == nr_taken) {
+  2092			wakeup_flusher_threads(WB_REASON_VMSCAN);
+  2093			/*
+  2094			 * For cgroupv1 dirty throttling is achieved by waking up
+  2095			 * the kernel flusher here and later waiting on folios
+  2096			 * which are in writeback to finish (see shrink_folio_list()).
+  2097			 *
+  2098			 * Flusher may not be able to issue writeback quickly
+  2099			 * enough for cgroupv1 writeback throttling to work
+  2100			 * on a large system.
+  2101			 */
+  2102			if (!writeback_throttling_sane(sc))
+  2103				reclaim_throttle(pgdat, VMSCAN_THROTTLE_WRITEBACK);
+  2104		}
+  2105	
+  2106		sc->nr.dirty += stat.nr_dirty;
+  2107		sc->nr.congested += stat.nr_congested;
+  2108		sc->nr.unqueued_dirty += stat.nr_unqueued_dirty;
+  2109		sc->nr.writeback += stat.nr_writeback;
+  2110		sc->nr.immediate += stat.nr_immediate;
+  2111		sc->nr.taken += nr_taken;
+  2112		if (file)
+  2113			sc->nr.file_taken += nr_taken;
+  2114	
+  2115		trace_mm_vmscan_lru_shrink_inactive(pgdat->node_id,
+  2116				nr_scanned, nr_reclaimed, &stat, sc->priority, file);
+  2117		return nr_reclaimed;
+  2118	}
+  2119	
 
 -- 
 0-DAY CI Kernel Test Service
