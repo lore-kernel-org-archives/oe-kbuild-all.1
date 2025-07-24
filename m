@@ -1,63 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6FE1A3BD7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 02:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E25713D521
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 02:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753324823; cv=none; b=AWO9eu/5eXuLcIT2Hp0chRtb31pEVzpysnzfHf+QKz1Dp5ZZvoHzAAtT8LZWZI0yAG8WUFmIgvkpE6LuExNEOofuZkz9YeZEAv/PL5t0TmT6ynlAnOZ+IYVv2c64TfpbeIqGZL6mMZ+gfs3WdHSnv5Caj1F9bL+P43IP6JxdPGA=
+	t=1753325423; cv=none; b=c1vD0oQXP0NK0Adj0LKb/Fv7g20oe3ealzBQWbae+3jYAIrcFDxo2811kGAm2+O0wybGo3gDnJXZPf1n9K1N5GqjosluWqyWuZHp0vl+2ePBEbH6d0RytxFwCTQF+mGtMHIuFobswyOJ/wDpHOC+QtAJa+jfs2q67DJg7RW2Ax0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753324823; c=relaxed/simple;
-	bh=e1IWKLfwf+Gm+vS9RnjIYq35KCV+QHS/5qqAru5oyLM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YMawFMCVI8D+veaK4WJP2X+I9awM6MgHQZIWe2jLhqyWPmw9sehhIqqjC9OlTSVwJ8aXqL1GB4klm9UaqFjVhVvpSqbk2fl9EADkKqcpcp+XxrE4W0mnBhzUTO4XISv/NBD26Sl2fM4WWC32Is1wHcUiAHlscT1ngEpvZhGWyS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kig69IgF; arc=none smtp.client-ip=198.175.65.15
+	s=arc-20240116; t=1753325423; c=relaxed/simple;
+	bh=8Oz/CvEqGOMHqBMBpA/so9roVuRSVxu+S/hQvEnUTwE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hecwu+PsLOuKGiRMKZ0VM6iqgy+H138RxvvtA6d4yiKyMXOGuvLaFwA5U9L9q26fUBPKCx4DCrT+QgslsdbzTCv6aPGtAOFxi7XXRGHT2VGv5MwlYvK0mYFqLDnJG2ER6fFJoM5toelaB4PtKf0iI2XTBXpTi87MDPCJuxIzVJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l1CN/W4m; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kig69IgF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l1CN/W4m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753324821; x=1784860821;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e1IWKLfwf+Gm+vS9RnjIYq35KCV+QHS/5qqAru5oyLM=;
-  b=Kig69IgF1FyvyLZ0VQmgrC2bcMsyI1jQWj00jx38hothNyGrUswMKM7/
-   BgSIDcUaUdGDktDdxACwynNe1pQlbdBAibUy6p8BEwlFDWRdWDTwOrU6l
-   VgRValcEezVHgc2zfOEcrwkZY/t748nZRMqD0SR74balh/Ss1xQ5pMj7I
-   sLpIENtsHLozcf7F+aTrj0GCthliGcaQPOJKtFGEyHSHI3sZId8ms7V/y
-   HJPlGU7WkQ2E0wEe1qJ5sj3UvBHrP94G7kk23ICd8LBJuCYVSPFRK6yTm
-   C5aWlqjLV90wNriP2Zu5p+WPr/623/p4RXAsxcsn4BZzkZ8q1/C4BfHQY
-   g==;
-X-CSE-ConnectionGUID: xPceuykXQLyJYnAH/cpTgw==
-X-CSE-MsgGUID: Iz5pIQ8GQuCyB4JdYs7VGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="59280764"
+  t=1753325422; x=1784861422;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=8Oz/CvEqGOMHqBMBpA/so9roVuRSVxu+S/hQvEnUTwE=;
+  b=l1CN/W4marvZ0NDAE7fRyA8sVJ3Wi33c8SfzpVT9tzLVIqzOufup98rH
+   9mTRtIh0oBWkTxeBs/sQOPXpULp/icEiE8YNCci8zQ5J8H9E8NjlvKprs
+   dUtummz7BF+acKhfpG9zACbXk2E+SzKOXwbselVilWOOQ5zybBNoXZBYI
+   70AbM9v8frdptDCc4ye2reBUVhNlOs7hp7Lv9EZ/yZNhAt6uO0HqV/YvT
+   GFNtnm1ZF61stOWbOrEs0QvA3JiUaINwsUlN5XhA8SbKg5sgWlXB3/mpp
+   Kx9PDYxo0PqogXQR5tSDC5VvDPpaGenrAFVD/GaOqJsU4K+u2Qn40OhrW
+   Q==;
+X-CSE-ConnectionGUID: eUHPRaMBSZ+e+O4aDxORmQ==
+X-CSE-MsgGUID: zhrRjElIQuSFSG9Rn6wFAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55500073"
 X-IronPort-AV: E=Sophos;i="6.16,336,1744095600"; 
-   d="scan'208";a="59280764"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 19:40:21 -0700
-X-CSE-ConnectionGUID: K5b91yXgSJm5kM4pKUbkdw==
-X-CSE-MsgGUID: /7sTt8BpTLi1waAcTH2B2w==
+   d="scan'208";a="55500073"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jul 2025 19:50:21 -0700
+X-CSE-ConnectionGUID: 4JlQxpkuTMOhHIAH4mFaGA==
+X-CSE-MsgGUID: kxtA0iVISZyOqr+Ok4Kk0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,336,1744095600"; 
-   d="scan'208";a="159647355"
+   d="scan'208";a="164170857"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 23 Jul 2025 19:40:19 -0700
+  by orviesa003.jf.intel.com with ESMTP; 23 Jul 2025 19:50:20 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uelsW-000K15-2k;
-	Thu, 24 Jul 2025 02:40:16 +0000
-Date: Thu, 24 Jul 2025 10:39:38 +0800
+	id 1uem2D-000K1T-1v;
+	Thu, 24 Jul 2025 02:50:17 +0000
+Date: Thu, 24 Jul 2025 10:49:57 +0800
 From: kernel test robot <lkp@intel.com>
-To: Nam Cao <namcao@linutronix.de>, Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, Nam Cao <namcao@linutronix.de>
-Subject: Re: [PATCH v2 5/5] rv: Remove struct rv_monitor::reacting
-Message-ID: <202507241015.Qun68uPH-lkp@intel.com>
-References: <58c63faec76ffb36552fcd1fdcc4b9dd841efd94.1753252872.git.namcao@linutronix.de>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2025-03 1/1]
+ include/trace/hooks/perf.h:18:1: sparse: sparse: incorrect type in
+ assignment (different address spaces)
+Message-ID: <202507241027.8v9fHaST-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,101 +62,151 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <58c63faec76ffb36552fcd1fdcc4b9dd841efd94.1753252872.git.namcao@linutronix.de>
 
-Hi Nam,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on trace/for-next]
-[also build test WARNING on next-20250723]
-[cannot apply to linus/master v6.16-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Cao/rv-Remove-unused-field-in-struct-rv_monitor_def/20250723-144825
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/58c63faec76ffb36552fcd1fdcc4b9dd841efd94.1753252872.git.namcao%40linutronix.de
-patch subject: [PATCH v2 5/5] rv: Remove struct rv_monitor::reacting
-config: arc-randconfig-002-20250724 (https://download.01.org/0day-ci/archive/20250724/202507241015.Qun68uPH-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507241015.Qun68uPH-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-03
+head:   68699ccd4e7fed426009d5f8b6cc762627ad2ea1
+commit: eec127b5484d09fef414b9914710cd1faa7be1bc [1/1] ANDROID: vendor_hooks:vendor hook for perf
+config: i386-randconfig-r133-20250724 (https://download.01.org/0day-ci/archive/20250724/202507241027.8v9fHaST-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507241027.8v9fHaST-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507241015.Qun68uPH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507241027.8v9fHaST-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   kernel/events/core.c:1386:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1386:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1386:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:1399:28: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:1399:28: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:1399:28: sparse:    struct perf_event_context *
+   kernel/events/core.c:3504:20: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3504:20: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3504:20: sparse:    struct perf_event_context *
+   kernel/events/core.c:3508:18: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3508:18: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3508:18: sparse:    struct perf_event_context *
+   kernel/events/core.c:3509:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3509:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3509:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:3558:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3558:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3558:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:3559:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3559:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3559:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:3946:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:3946:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:3946:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:4340:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4340:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4340:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:4820:25: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:4820:25: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:4820:25: sparse:    struct perf_event_context *
+   kernel/events/core.c:6229:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6229:9: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6229:9: sparse:    struct perf_buffer *
+   kernel/events/core.c:5701:24: sparse: sparse: incorrect type in assignment (different base types) @@     expected restricted __poll_t [usertype] events @@     got int @@
+   kernel/events/core.c:5945:22: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:5945:22: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:5945:22: sparse:    struct perf_buffer *
+   kernel/events/core.c:6069:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6069:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6069:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6102:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6102:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6102:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6159:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6159:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6159:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6250:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6250:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6250:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:6266:14: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:6266:14: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:6266:14: sparse:    struct perf_buffer *
+   kernel/events/core.c:7991:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:7991:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:7991:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:8078:13: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:8078:13: sparse:    struct perf_buffer [noderef] __rcu *
+   kernel/events/core.c:8078:13: sparse:    struct perf_buffer *
+   kernel/events/core.c:8182:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/events/core.c:8182:61: sparse:     expected struct task_struct *p
+   kernel/events/core.c:8182:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/events/core.c:8184:61: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected struct task_struct *p @@     got struct task_struct [noderef] __rcu *real_parent @@
+   kernel/events/core.c:8184:61: sparse:     expected struct task_struct *p
+   kernel/events/core.c:8184:61: sparse:     got struct task_struct [noderef] __rcu *real_parent
+   kernel/events/core.c:8872:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:8872:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:8872:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:9912:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9912:9: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9912:9: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9951:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9951:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9951:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:10226:23: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:10226:23: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:10226:23: sparse:    struct perf_event_context *
+   kernel/events/core.c:11339:1: sparse: sparse: symbol 'dev_attr_nr_addr_filters' was not declared. Should it be static?
+   kernel/events/core.c:13106:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:13106:9: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:13106:9: sparse:    struct perf_event_context *
+   kernel/events/core.c:13200:15: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:13200:15: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:13200:15: sparse:    struct perf_event_context *
+   kernel/events/core.c:13212:9: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:13212:9: sparse:    struct perf_event_context [noderef] __rcu *
+   kernel/events/core.c:13212:9: sparse:    struct perf_event_context *
+   kernel/events/core.c:13635:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:13635:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:13635:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:162:9: sparse: sparse: context imbalance in 'perf_ctx_lock' - wrong count at exit
+   kernel/events/core.c:170:17: sparse: sparse: context imbalance in 'perf_ctx_unlock' - unexpected unlock
+   kernel/events/core.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h):
+   include/linux/rcupdate.h:815:9: sparse: sparse: context imbalance in 'perf_lock_task_context' - different lock contexts for basic block
+   kernel/events/core.c:1433:17: sparse: sparse: context imbalance in 'perf_pin_task_context' - unexpected unlock
+   kernel/events/core.c:2813:9: sparse: sparse: context imbalance in '__perf_install_in_context' - wrong count at exit
+   kernel/events/core.c: note: in included file:
+>> include/trace/hooks/perf.h:18:1: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected struct tracepoint_func *it_func_ptr @@     got struct tracepoint_func [noderef] __rcu *funcs @@
+   kernel/events/core.c:4794:17: sparse: sparse: context imbalance in 'find_get_context' - unexpected unlock
+   kernel/events/core.c: note: in included file:
+   kernel/events/internal.h:209:1: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void const [noderef] __user *from @@     got void const *buf @@
+   kernel/events/core.c: note: in included file (through include/linux/rculist.h, include/linux/dcache.h, include/linux/fs.h):
+   include/linux/rcupdate.h:817:9: sparse: sparse: context imbalance in 'perf_get_pgtable_size' - unexpected unlock
+   kernel/events/core.c:9761:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9761:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9761:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9781:17: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9781:17: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9781:17: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9901:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9901:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist *
+   kernel/events/core.c:9901:16: sparse: sparse: incompatible types in comparison expression (different address spaces):
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist [noderef] __rcu *
+   kernel/events/core.c:9901:16: sparse:    struct swevent_hlist *
 
-   kernel/trace/rv/rv_reactors.c: In function 'monitor_reactors_write':
->> kernel/trace/rv/rv_reactors.c:211:14: warning: variable 'enable' set but not used [-Wunused-but-set-variable]
-     211 |         bool enable;
-         |              ^~~~~~
+vim +18 include/trace/hooks/perf.h
 
-
-vim +/enable +211 kernel/trace/rv/rv_reactors.c
-
-cb85c660fcd4b3a Gabriele Monaco            2025-03-05  201  
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  202  static ssize_t
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  203  monitor_reactors_write(struct file *file, const char __user *user_buf,
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  204  		      size_t count, loff_t *ppos)
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  205  {
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  206  	char buff[MAX_RV_REACTOR_NAME_SIZE + 2];
-98b2531fbe93031 Nam Cao                    2025-07-23  207  	struct rv_monitor *mon;
-aef8790cfb7b07f Nam Cao                    2025-07-23  208  	struct rv_reactor *reactor;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  209  	struct seq_file *seq_f;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  210  	int retval = -EINVAL;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29 @211  	bool enable;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  212  	char *ptr;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  213  	int len;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  214  
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  215  	if (count < 1 || count > MAX_RV_REACTOR_NAME_SIZE + 1)
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  216  		return -EINVAL;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  217  
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  218  	memset(buff, 0, sizeof(buff));
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  219  
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  220  	retval = simple_write_to_buffer(buff, sizeof(buff) - 1, ppos, user_buf, count);
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  221  	if (retval < 0)
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  222  		return -EFAULT;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  223  
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  224  	ptr = strim(buff);
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  225  
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  226  	len = strlen(ptr);
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  227  	if (!len)
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  228  		return count;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  229  
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  230  	/*
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  231  	 * See monitor_reactors_open()
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  232  	 */
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  233  	seq_f = file->private_data;
-98b2531fbe93031 Nam Cao                    2025-07-23  234  	mon = seq_f->private;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  235  
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  236  	mutex_lock(&rv_interface_lock);
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  237  
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  238  	retval = -EINVAL;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  239  
-aef8790cfb7b07f Nam Cao                    2025-07-23  240  	list_for_each_entry(reactor, &rv_reactors_list, list) {
-aef8790cfb7b07f Nam Cao                    2025-07-23  241  		if (strcmp(ptr, reactor->name) != 0)
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  242  			continue;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  243  
-aef8790cfb7b07f Nam Cao                    2025-07-23  244  		if (strcmp(reactor->name, "nop"))
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  245  			enable = false;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  246  		else
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  247  			enable = true;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  248  
-a96356e99938184 Nam Cao                    2025-07-23  249  		monitor_swap_reactors(mon, reactor);
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  250  
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  251  		retval = count;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  252  		break;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  253  	}
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  254  
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  255  	mutex_unlock(&rv_interface_lock);
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  256  
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  257  	return retval;
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  258  }
-04acadcb4453cf8 Daniel Bristot de Oliveira 2022-07-29  259  
+    11	
+    12	struct perf_event;
+    13	DECLARE_RESTRICTED_HOOK(android_rvh_armv8pmu_counter_overflowed,
+    14		TP_PROTO(struct perf_event *event),
+    15		TP_ARGS(event), 1);
+    16	
+    17	struct perf_cpu_pmu_context;
+  > 18	DECLARE_RESTRICTED_HOOK(android_rvh_perf_rotate_context,
+    19		TP_PROTO(struct perf_cpu_pmu_context *cpc),
+    20		TP_ARGS(cpc), 1);
+    21	
 
 -- 
 0-DAY CI Kernel Test Service
