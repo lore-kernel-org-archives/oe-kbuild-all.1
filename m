@@ -1,61 +1,47 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34FE26D4E5
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 14:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D582797B1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 15:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753367196; cv=none; b=idQRHQw+jNyOtNqtnQQYh0wjXzXP1kTjnSgJj8jVSBswt6mfdGCAYVmV0v5XfIqch6RvUWsSyIu/LaamruZrQIto5gZA4E684sEjqHDw3nVwuGFkSenWkoje7G3J0p1NpGrdPAba3fxDNd2y2Kw3Abj74xd3hO62VYzQOgSHpNw=
+	t=1753370423; cv=none; b=VS71ojFUIxf8+RGlAXyRwa9O2hA8VH4iBMBi+1Xym037z/OJkfV/kQF2WjaTejHxSYWQeZgLj8r/lAZDY5GilN04TQfQcpVOLoQ17c4T9m6SqoggW6h8rFqpDE8EEmifXcP5pyuy510Z2Gwykfr7UFWxwQSxYAzmC1Bws+Ap1ys=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753367196; c=relaxed/simple;
-	bh=3CSY5vdms7jSUG4+v5OJbEWth23RsnZgcHvbkL+j4oM=;
+	s=arc-20240116; t=1753370423; c=relaxed/simple;
+	bh=XUwEGUR+Skvul7f5TQjOGAt3PIXLSpzysS0q/D/UE4M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ApKi0p0I4MBsckmcDg0hhJuGGPTB/wE5KUJTXBPAUypBmvOfanmyPhHrQW9N8AzNh70vyFps0EbZmrwlahn2bR3iICfBCv83irCrzvT17DP3fAHkWy2pkBIhRnP5nI3qyY5FHG/o3akkC3xChmJd0FO86HtEwUGH6XD0B5iLld0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LykvnjH1; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=AnQjCNFpoe/rgcrDpHUkdv8k+l6/FGc9mirr8gooc5HCD42Bc1lE0dSD7imEAREH7djhByghM7u+cXfgMDRUpjatSTQfKEgTChvJ7p26rtGYcmmvWvOYdCO1R+XEGHbWOsqaODYzrUONNVxeepvl835bzLYKEiZ5FBGpt4Cpk9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lV0RNaG9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LykvnjH1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753367194; x=1784903194;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=3CSY5vdms7jSUG4+v5OJbEWth23RsnZgcHvbkL+j4oM=;
-  b=LykvnjH1GFO5Ss679IcQ8iBp0jQRuNiec3QT+hioOHlEiE6M0pYzRdTE
-   RdGLB2RWrNB27LyKl0Ahkr0AzD2K6+JmxPAd8T4UeZUMbPIf92MJav2XW
-   2AXtU7mA12pxxcSB8aDqwdag/tM5bj7WPEq6ZkxaWHHbO6wdeKMePVqgG
-   xf1EILdYj2gB4czfES3rY0UJi77D8q0pJbWa3mVQBIygUXSUnr9OhtHaQ
-   VyITuV5qMtq+9ukB+94P5hEYAz5GckEH4x4+qH3/sezo9umYmPK09HP6v
-   3P+pTanB10fBHjm8C5vhu+vZSwbkf1TBA/Iua6odnlIlezBFF1ZCwuE63
-   Q==;
-X-CSE-ConnectionGUID: /pB1670hTwK5GkH81WsqYw==
-X-CSE-MsgGUID: /9wVHJcWS1SsPe9kR+eASg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="59489155"
-X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="59489155"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 07:26:34 -0700
-X-CSE-ConnectionGUID: uVv4DPLUQMundO0upcPk0A==
-X-CSE-MsgGUID: 2HqY5NtaQCy4Rw2QcF2oOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="160568627"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 24 Jul 2025 07:26:31 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uewtx-000KWN-1u;
-	Thu, 24 Jul 2025 14:26:29 +0000
-Date: Thu, 24 Jul 2025 22:26:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mike Christie <michael.christie@oracle.com>, martin.petersen@oracle.com,
-	linux-scsi@vger.kernel.org, target-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev,
-	Mike Christie <michael.christie@oracle.com>
-Subject: Re: [PATCH 1/1] scsi: target: Move LUN stats to per CPU
-Message-ID: <202507242247.rt3StU9U-lkp@intel.com>
-References: <20250724004558.40993-1-michael.christie@oracle.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lV0RNaG9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D9F3C4CEED;
+	Thu, 24 Jul 2025 15:20:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753370422;
+	bh=XUwEGUR+Skvul7f5TQjOGAt3PIXLSpzysS0q/D/UE4M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lV0RNaG9Y6W+WkZB/W6CSe2pS55gvZAfPXF5jTBH5d2N5wT01wtnORnTeYL/rVOz5
+	 m7myJBximU8L3nN/0mD33MbXcCTm6SXxe5N9XKxu1mGQwc3vA1k7n3ti5o1B9lVc+5
+	 v7OHMFISCcl7iUZFOEwiKdtbeVmY8kBTN/jnFrgvVfF2M3Q145GkJXR8359Sg7+268
+	 uDP6v2RGeLP1+KtIS/xKA+DrLdYb3w9zHgSACKOR91Pli10dwXnz90ua3OvYVTdMMZ
+	 vwji0vfCCzz2jcLLwSrjNSlMvsgudXRhwO1E0WZxJ+wpuJ+mnFQDNSZPRK60e6rvEQ
+	 +NKnivkA5CAzQ==
+Date: Thu, 24 Jul 2025 17:20:18 +0200
+From: Carlos Maiolino <cem@kernel.org>
+To: Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: kernel test robot <lkp@intel.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, oe-kbuild-all@lists.linux.dev, Christoph Hellwig <hch@lst.de>, 
+	"Darrick J. Wong" <djwong@kernel.org>
+Subject: Re: [linux-next:master 11803/12139] fs/xfs/xfs_qm.c:506:17: error:
+ implicit declaration of function 'trace_xfs_dqreclaim_dirty'; did you mean
+ 'trace_xfs_dqreclaim_done'?
+Message-ID: <puo7tygla3sr5d2brmjeal33lmvnzq7cmcm2flvestsbgm7m2g@q67blr74tcbo>
+References: <Nk-H2GdoynYmAv3_b2PyJSULw3sGMOU6eBOzBYWOfHMmIJXl_FrPPUp6oLSDTOBeJA6xZDe8i5EISmnsCwgohA==@protonmail.internalid>
+ <202507241747.dwTWz8Ig-lkp@intel.com>
+ <bwmvu3t3uw7qo5kcv7uwrrcvkhyhyb7ys57qcgsgpal7r3hixy@qjxiqn2ef4ni>
+ <uncwpbkjp5ymdrk76augrq3bxjvqsciyjcg47dvp5fo4px5o4w@vt6psvbnoqa3>
+ <4q6XjaFW-KWtsBKnTX_ocW9kn9vdTNCLqycadIBcyl-uSP8vkNiUnKr0-Ygo8NlzyogQpnnKOHJbJ0GfUnfqKA==@protonmail.internalid>
+ <20250725001445.552b09ee@canb.auug.org.au>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,82 +50,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250724004558.40993-1-michael.christie@oracle.com>
+In-Reply-To: <20250725001445.552b09ee@canb.auug.org.au>
 
-Hi Mike,
+On Fri, Jul 25, 2025 at 12:14:45AM +1000, Stephen Rothwell wrote:
+> Hi Carlos,
+> 
+> On Thu, 24 Jul 2025 13:58:02 +0200 Carlos Maiolino <cem@kernel.org> wrote:
+> >
+> > So yesterday I made sure xfs-linux/for-next had all dependencies before pushing
+> > it  and make it available for linux-next. I'm not exactly sure how this
+> > build failed. If the patches were applied out-of-order, then it sure
+> > would fail.
+> > 
+> > Does the bot make builds out of order? Because the HEAD mentioned above
+> > points to the same commit described belo at linux-next/master, which the
+> > bot says it correctly built.
+> > 
+> > I'm not exactly sure what the bot did here.
+> > 
+> > Stephen, perhaps you might know what the bot did here?
+> 
+> So, I don't know how this bot actually works, but it looks like to
+> tries to build after checking out each commit, so (as you say) if the
+> patches were applied in the wrong order, then you might get a failure
+> part pay through the tree that you don't get for the tree as a whole.
+> 
+> In this case if you checkout that commit (1edc170bb240), you end up
+> with a tree that has the call to trace_xfs_dqreclaim_dirty() still
+> present.
+> 
+> The commit that removes the trace_xfs_dqreclaim_dirty() call is in
+> v6.16-rc5, but commit 1edc170bb240 is based on v6.16-rc2 ... so you
+> probably want to rebase the patch seires from Steven Rostedt
+> <rostedt@goodmis.org> (1edc170bb240^..10a957e43f28) on v6.16-rc5 and
+> then merge it.  And, in fact, commit 1edc170bb240 has this:
+> 
+> Fixes: d62016b1a2df ("xfs: avoid dquot buffer pin deadlock")
+> 
+> So needed to be applied to a descendant of d62016b1a2df.
 
-kernel test robot noticed the following build warnings:
+Thanks for looking into it Stephen. Yes, they are dependent. Those
+patches from Rosted are planned for the merge window, I didn't want to
+actually rebase them on top of current code to not change their hashes,
+but well. Seems like it will be better to do that than face some of
+those spurious failures in the future, I'll do it today.
 
-[auto build test WARNING on mkp-scsi/for-next]
-[also build test WARNING on jejb-scsi/for-next linus/master v6.16-rc7 next-20250724]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks again for looking closer into it.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mike-Christie/scsi-target-Move-LUN-stats-to-per-CPU/20250724-084852
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20250724004558.40993-1-michael.christie%40oracle.com
-patch subject: [PATCH 1/1] scsi: target: Move LUN stats to per CPU
-config: sparc64-randconfig-001-20250724 (https://download.01.org/0day-ci/archive/20250724/202507242247.rt3StU9U-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507242247.rt3StU9U-lkp@intel.com/reproduce)
+Carlos
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507242247.rt3StU9U-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/target/target_core_tpg.c: In function 'core_tpg_alloc_lun':
->> drivers/target/target_core_tpg.c:612:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-     int ret;
-         ^~~
+> -- 
+> Cheers,
+> Stephen Rothwell
 
 
-vim +/ret +612 drivers/target/target_core_tpg.c
-
-   606	
-   607	struct se_lun *core_tpg_alloc_lun(
-   608		struct se_portal_group *tpg,
-   609		u64 unpacked_lun)
-   610	{
-   611		struct se_lun *lun;
- > 612		int ret;
-   613	
-   614		lun = kzalloc(sizeof(*lun), GFP_KERNEL);
-   615		if (!lun) {
-   616			pr_err("Unable to allocate se_lun memory\n");
-   617			return ERR_PTR(-ENOMEM);
-   618		}
-   619	
-   620		lun->lun_stats = alloc_percpu(struct scsi_port_stats);
-   621		if (!lun->lun_stats) {
-   622			pr_err("Unable to allocate se_lun stats memory\n");
-   623			ret = -ENOMEM;
-   624			goto free_lun;
-   625		}
-   626	
-   627		lun->unpacked_lun = unpacked_lun;
-   628		atomic_set(&lun->lun_acl_count, 0);
-   629		init_completion(&lun->lun_shutdown_comp);
-   630		INIT_LIST_HEAD(&lun->lun_deve_list);
-   631		INIT_LIST_HEAD(&lun->lun_dev_link);
-   632		atomic_set(&lun->lun_tg_pt_secondary_offline, 0);
-   633		spin_lock_init(&lun->lun_deve_lock);
-   634		mutex_init(&lun->lun_tg_pt_md_mutex);
-   635		INIT_LIST_HEAD(&lun->lun_tg_pt_gp_link);
-   636		spin_lock_init(&lun->lun_tg_pt_gp_lock);
-   637		lun->lun_tpg = tpg;
-   638	
-   639		return lun;
-   640	
-   641	free_lun:
-   642		kfree(lun);
-   643		return ERR_PTR(-ENOMEM);
-   644	}
-   645	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
