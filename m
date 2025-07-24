@@ -1,130 +1,243 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869A92EAB91
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 17:10:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC341B4F0A;
+	Thu, 24 Jul 2025 17:52:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753377030; cv=none; b=igboL741gJXxSDRWWoew0OznSc797O63XyUZlX+ARA9OsW+rlEYus+q7w9654B3VGjdxPhXKb0eFdla8EiNbyr6Ik8ej4SBqJ5CQAoz4N+ZPUvZrN/pXKZIbYSTjD3cuQgCLcl3Jl1Qkrz5nMgQB58+HQlhEkniQpl9u+GduUso=
+	t=1753379576; cv=none; b=RhxLZit+9miCb/Vi6uqNGbKcraORKdG5C7RwGNj6ABBA0+C07AaugMKiR0CikaR29y30jOQMTFdMqSpPzEWAnrATl38Emy3NE75H3WXSDjBtTQegp0qZ0xksaNOYnT4J01WvhuMQqZjDWMkgacYkBMHJfmeXeMgeZTVa5rug+dY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753377030; c=relaxed/simple;
-	bh=BXxKQvzobe5wQ3xYmuCvC8UMynXnntS8L6QJrFyzNtU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=E0cEYbXYMyePgf76D36wNXXfS538tIvHtNAB849wsZpSusgRFgMlwv5kB5aX00xtnfiVeKq4TR4ncgEasnXfD7UvHuBUiQGUfZL52CPfggTHKMi69R3oevojUynh/Unu7ZNPwQJg9EbmUCIUfogLep23xTRYkKj4eO7yvgx9g5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tCuyOLzB; arc=none smtp.client-ip=209.85.166.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1753379576; c=relaxed/simple;
+	bh=gxDP/x72vErdUhHDu7ZYb3KxsYEkC9jJpG8VMxaDJ/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WYtPWcBvOsV3RxKUWB6Kk/DHF1p0pJdP7+kW5n/ebhIgs1RE1Ph4x/IMk4/yz92kc6Zou7xLcrydW9xmvgU8hNMPN0t1Uhd/OCai7FUeQmIeiJvoHZj3OER7qwfCFl3zIydsjEZTUcygwk8e0oOobGgXBTapd6UzjVUDLdVTlkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/s3NRoj; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tCuyOLzB"
-Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3e283b2d065so6075ab.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 10:10:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1753377026; x=1753981826; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VLgUSpYw53cKLUDxe40QFSqFx9VHdgfTQvYmq7qO0B8=;
-        b=tCuyOLzB1Mzql0JFc663wdZmlBXeQy7+tSJnsPma/BwlLD1jQdNtTUuJnXikBubFTy
-         2HB4By7rV38d8Pt0WrXLqSg/j06OxW6F23998oFxL77EJwyuKUbq5gRBd14Dl589kNnW
-         k76ehCmeK7jpiDfecn9tnug+dWdkSI9FYBaN/pqV2It+b1DbvZnnG8xp6JEnlUoLjkkh
-         QzlndNpOML+PwPjeig9RQo+g+Bh3pI9VeqRkwi7w9B79SQhKixqJvA+i12u4OPXuC6lM
-         aipWoJr5zl1JckfZjfszV5Fo3jrTOWT9+91NxowYp+0HL6PdcDGMzcPWdY7QIeyZCUmM
-         yuTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753377026; x=1753981826;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VLgUSpYw53cKLUDxe40QFSqFx9VHdgfTQvYmq7qO0B8=;
-        b=ZM/yfQ50F+EkdGyRLhcMmAcb257xNRFTxZA5wV0Vs1+MwZeYynePdR/du2qiRfhXj7
-         wCj4PyI3JJewBb0xAtpqF8LSywV19MuBeDbQZxlXJNUH6L2Yi2V4dcNEL37iyFZZgcTd
-         Q+FbtJJJj/9YkCV7AlFa93DFZaB93hyerVY+JpKcGJPjzZ6LgxWQJo6kgZOIWiFYH5J8
-         jiU/ceSToNvF5zLxqKGIVCqg11zhP/JadJ671X4faYFcsx1/jBRDsi7GHm1rCZGqqpKr
-         YFwuXbxNhxEX2nRPYl6evv8WerY1UhvMnCe0rkOdIbjFKiPuMy/ZQpyiTYgx4eko3K3s
-         xt/w==
-X-Forwarded-Encrypted: i=1; AJvYcCWPYalJpvqYkOXIRbrTaQDWZT4xQcfPrMGZK8wocxpJFwG8yruriPyfgaEDHmyzC+Z96o4Ff36yXrNlU4+k@lists.linux.dev
-X-Gm-Message-State: AOJu0YzPxq1Wi95B4zDPoxV3Sd9ROzs9cwxZkenZAU64vd09ATq6jLew
-	L05WHlVICEhZ35HdTtHux+DytZOVaQdmCzC8G61KQhnA49KGJsO2khl1LhjwS7Y7K7WsSRHXPJO
-	lSIt85FU22r1zur965Hbsu/eflnR0ghboWe5L4VFT
-X-Gm-Gg: ASbGnctAgGnEBWK7bVZj8ZxUINa4k56kD6wdmgnEI8h9ZauZu+jabUPt3lqJwl5Sc2l
-	BD5+GZvFvEsoPxuGqNBFtUcWzDX3IF7Up8ETZbYYpEEk1p5NEOCKxnPzDgmZBYVA9AIZFh3Zdzd
-	HELG3Z+Y65erc6uL65P7EsPaSog+N3up3Iexd14B+Em6o1oEa0Mj70+o98+Q46/pyRwz1qbTirb
-	zxVBEdxUBpU02AbTnJLdI7NBPLMGcQtHTj6
-X-Google-Smtp-Source: AGHT+IE8b1+9raOGesHfGm8k94AzrKSvF5YlDcl6t0VjEks3fbr8R8bSxUctdy4iwWVOqk6bssyVAo2+k1XA8p4oSsk=
-X-Received: by 2002:a05:6e02:9:b0:3e0:4f95:13e5 with SMTP id
- e9e14a558f8ab-3e3b64c0bfcmr5891225ab.24.1753377026297; Thu, 24 Jul 2025
- 10:10:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/s3NRoj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753379574; x=1784915574;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gxDP/x72vErdUhHDu7ZYb3KxsYEkC9jJpG8VMxaDJ/0=;
+  b=K/s3NRojgbP8hqXyfqQwDzYWLuG/aQ0/DrPmbbQeJGXdqZXm5IdfRHEr
+   dX4qyuiEadd5LBfGSByOVJR59jxWs7QeiMxAZFJ6G8AoUOXhae+ExxFqF
+   eftG+jZA3pEqprFUeKWUwEfDR2Lf4AO5y3Me1jNwpgKimcTM3/y5P+fK9
+   Tg6nbo2mR1sMFhgmSYfcfxL4KqhDsxLt0KgczzlMrkgFnUJp6dVL4zP55
+   R7ODQW/LPmF8AWVSsQRiEGz4T6G2Rny3zW5268CNS027KBWPQVozyhNfy
+   u+lTX4PGtT2TLzvg2W6a4qk7NOR0NxCVZioOVmfiY3aODSrzL/oXia/hO
+   Q==;
+X-CSE-ConnectionGUID: +7DTkuHgTlqGS7ztGWE0mA==
+X-CSE-MsgGUID: J4N8TXnGQzKou/pNv0nmRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="59513946"
+X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
+   d="scan'208";a="59513946"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 10:52:54 -0700
+X-CSE-ConnectionGUID: v0GAKouXT6Wjl/qSpXusPg==
+X-CSE-MsgGUID: /mxl6SAJSDW+5F9O94puxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
+   d="scan'208";a="184052772"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 24 Jul 2025 10:52:51 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uf07d-000Khb-01;
+	Thu, 24 Jul 2025 17:52:49 +0000
+Date: Fri, 25 Jul 2025 01:52:39 +0800
+From: kernel test robot <lkp@intel.com>
+To: Ajay Neeli <ajay.neeli@amd.com>, git@amd.com, andi.shyti@kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	michal.simek@amd.com, srinivas.goud@amd.com,
+	radhey.shyam.pandey@amd.com, Ajay Neeli <ajay.neeli@amd.com>
+Subject: Re: [PATCH v2] i2c: cadence: Add shutdown handler
+Message-ID: <202507250134.05RWuclB-lkp@intel.com>
+References: <20250724051243.22051-1-ajay.neeli@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202507231135.OtEGYfnQ-lkp@intel.com> <CAP-5=fWXcGiWXeb8=165tCVtEAYX7qkVUpanbpmg=Db=kwEP0g@mail.gmail.com>
- <2923e512-36f6-4cf3-9606-18031167a93a@gmx.de>
-In-Reply-To: <2923e512-36f6-4cf3-9606-18031167a93a@gmx.de>
-From: Ian Rogers <irogers@google.com>
-Date: Thu, 24 Jul 2025 10:10:14 -0700
-X-Gm-Features: Ac12FXyR-7lBitRsNkqVgrna1c0hkaAl18mvxhank8-IiRE-018c4PqLhz59BRM
-Message-ID: <CAP-5=fUiF26Ay+W+fUTRe7EOjEJXk5k_eNe6Yh7SD=GSYAssVQ@mail.gmail.com>
-Subject: Re: [thomas-weissschuh:vdso/unaligned 1/3] include/vdso/unaligned.h:21:9:
- warning: '__builtin_memcpy' reading 4 bytes from a region of size 1
-To: Helge Deller <deller@gmx.de>
-Cc: "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	Al Viro <viro@zeniv.linux.org.uk>, linux-parisc@vger.kernel.org, 
-	oe-kbuild-all@lists.linux.dev, =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
-	kernel test robot <lkp@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250724051243.22051-1-ajay.neeli@amd.com>
 
-On Thu, Jul 24, 2025 at 9:15=E2=80=AFAM Helge Deller <deller@gmx.de> wrote:
->
-> On 7/23/25 18:11, Ian Rogers wrote:
-> > https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-tree/arch/parisc/boot/compressed/misc.c#n28
-> >    /* output_len is inserted by the linker possibly at an unaligned add=
-ress */
-> >    extern char output_len;
-> > ...
-> > https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-tree/arch/parisc/boot/compressed/misc.c#n312
-> >    vmlinux_len =3D get_unaligned_le32(&output_len);
-> >
-> > is reading a char as an le32, so a 1 byte value as a 4-byte le32. It
-> > appears the code didn't originally declare output_len this way but it
-> > was changed in commit  c42813b71a06 ("parisc: Fix unaligned-access
-> > crash in bootloader"):
-> > https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-commit/arch/parisc/boot/compressed/misc.c?id=3Dc42813b71a06a2ff4a155aa87ac6=
-09feeab76cf3
-> > -extern __le32 output_len __aligned(1);
-> > +extern char output_len;
-> >
-> > Using __builtin_memcpy for unaligned values is sound. I'm not clear
-> > what the appropriate parisc fix would be nor how I could test it for
-> > the "unalignment-exception" reported in commit c42813b71a06. I suspect
-> > the fix is to revert that commit. I believe we're seeing this warning
-> > now as the casts of the previous __get_unaligned_t would hide the
-> > issue.
->
-> I'm afraid that if you revert my patch, the compiler may again "optimize"
-> __builtin_memcpy() to a single-memory-access assembler instruction, which
-> then will fail again if the variable output_len was stored at an unaligne=
-d address.
-> So the same issue as described in commit c42813b71a06.
-> Please note, that this is the boot loader, where an in-kernel
-> unalignment handler isn't functional yet.
->
-> My proposal to fix this is to avoid -Wstringop-overread when compiling
-> this file. Maybe some Makefile logic as done with CFLAGS_REMOVE_fpudispat=
-ch.o
-> in arch/parisc/math-emu/Makefile can be added
+Hi Ajay,
 
-It is probably easier to add #pragmas. Is there a concern that the
-compiler may detect undefined behavior and just do something garbage?
+kernel test robot noticed the following build errors:
 
-Thanks,
-Ian
+[auto build test ERROR on andi-shyti/i2c/i2c-host]
+[also build test ERROR on soc/for-next linus/master v6.16-rc7 next-20250724]
+[cannot apply to xilinx-xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
->
-> Helge
+url:    https://github.com/intel-lab-lkp/linux/commits/Ajay-Neeli/i2c-cadence-Add-shutdown-handler/20250724-131658
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
+patch link:    https://lore.kernel.org/r/20250724051243.22051-1-ajay.neeli%40amd.com
+patch subject: [PATCH v2] i2c: cadence: Add shutdown handler
+config: x86_64-buildonly-randconfig-002-20250724 (https://download.01.org/0day-ci/archive/20250725/202507250134.05RWuclB-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250725/202507250134.05RWuclB-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507250134.05RWuclB-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/i2c/busses/i2c-cadence.c:1608:53: error: use of undeclared identifier 'irq'
+    1608 |                  id->i2c_clk / 1000, (unsigned long)r_mem->start, irq);
+         |                                                                   ^
+   1 error generated.
+
+
+vim +/irq +1608 drivers/i2c/busses/i2c-cadence.c
+
+ba064873ce5d19 Lars-Peter Clausen   2023-03-17  1485  
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1486  /**
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1487   * cdns_i2c_probe - Platform registration call
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1488   * @pdev:	Handle to the platform device structure
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1489   *
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1490   * This function does all the memory allocation and registration for the i2c
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1491   * device. User can modify the address mode to 10 bit address mode using the
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1492   * ioctl call with option I2C_TENBIT.
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1493   *
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1494   * Return: 0 on success, negative error otherwise
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1495   */
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1496  static int cdns_i2c_probe(struct platform_device *pdev)
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1497  {
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1498  	struct resource *r_mem;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1499  	struct cdns_i2c *id;
+a11a46d7bd0877 Ajay Neeli           2025-07-24  1500  	int ret;
+63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1501  	const struct of_device_id *match;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1502  
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1503  	id = devm_kzalloc(&pdev->dev, sizeof(*id), GFP_KERNEL);
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1504  	if (!id)
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1505  		return -ENOMEM;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1506  
+7fa32329ca0314 Shubhrajyoti Datta   2015-11-24  1507  	id->dev = &pdev->dev;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1508  	platform_set_drvdata(pdev, id);
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1509  
+63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1510  	match = of_match_node(cdns_i2c_of_match, pdev->dev.of_node);
+63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1511  	if (match && match->data) {
+63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1512  		const struct cdns_platform_data *data = match->data;
+63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1513  		id->quirks = data->quirks;
+63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1514  	}
+63cab195bf4986 Anurag Kumar Vulisha 2015-07-10  1515  
+58b924241d0a23 Shubhrajyoti Datta   2022-07-28  1516  	id->rinfo.pinctrl = devm_pinctrl_get(&pdev->dev);
+58b924241d0a23 Shubhrajyoti Datta   2022-07-28  1517  	if (IS_ERR(id->rinfo.pinctrl)) {
+8bfd4ec726945c Carsten Haitzler     2022-11-28  1518  		int err = PTR_ERR(id->rinfo.pinctrl);
+8bfd4ec726945c Carsten Haitzler     2022-11-28  1519  
+58b924241d0a23 Shubhrajyoti Datta   2022-07-28  1520  		dev_info(&pdev->dev, "can't get pinctrl, bus recovery not supported\n");
+8bfd4ec726945c Carsten Haitzler     2022-11-28  1521  		if (err != -ENODEV)
+8bfd4ec726945c Carsten Haitzler     2022-11-28  1522  			return err;
+8bfd4ec726945c Carsten Haitzler     2022-11-28  1523  	} else {
+8bfd4ec726945c Carsten Haitzler     2022-11-28  1524  		id->adap.bus_recovery_info = &id->rinfo;
+58b924241d0a23 Shubhrajyoti Datta   2022-07-28  1525  	}
+58b924241d0a23 Shubhrajyoti Datta   2022-07-28  1526  
+c02fb2b8067a4b Dejin Zheng          2020-04-14  1527  	id->membase = devm_platform_get_and_ioremap_resource(pdev, 0, &r_mem);
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1528  	if (IS_ERR(id->membase))
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1529  		return PTR_ERR(id->membase);
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1530  
+a11a46d7bd0877 Ajay Neeli           2025-07-24  1531  	id->irq = platform_get_irq(pdev, 0);
+a11a46d7bd0877 Ajay Neeli           2025-07-24  1532  	if (id->irq < 0)
+a11a46d7bd0877 Ajay Neeli           2025-07-24  1533  		return id->irq;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1534  
+a1f64317bbf5fe Masahiro Yamada      2015-07-21  1535  	id->adap.owner = THIS_MODULE;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1536  	id->adap.dev.of_node = pdev->dev.of_node;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1537  	id->adap.algo = &cdns_i2c_algo;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1538  	id->adap.timeout = CDNS_I2C_TIMEOUT;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1539  	id->adap.retries = 3;		/* Default retry value. */
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1540  	id->adap.algo_data = id;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1541  	id->adap.dev.parent = &pdev->dev;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1542  	init_completion(&id->xfer_done);
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1543  	snprintf(id->adap.name, sizeof(id->adap.name),
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1544  		 "Cadence I2C at %08lx", (unsigned long)r_mem->start);
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1545  
+3d36dd1161ca31 Michal Simek         2025-02-06  1546  	id->clk = devm_clk_get_enabled(&pdev->dev, NULL);
+2d1a83a4f36f1a Krzysztof Kozlowski  2020-09-02  1547  	if (IS_ERR(id->clk))
+2d1a83a4f36f1a Krzysztof Kozlowski  2020-09-02  1548  		return dev_err_probe(&pdev->dev, PTR_ERR(id->clk),
+2d1a83a4f36f1a Krzysztof Kozlowski  2020-09-02  1549  				     "input clock not found.\n");
+2d1a83a4f36f1a Krzysztof Kozlowski  2020-09-02  1550  
+0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1551  	id->reset = devm_reset_control_get_optional_shared(&pdev->dev, NULL);
+0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1552  	if (IS_ERR(id->reset))
+0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1553  		return dev_err_probe(&pdev->dev, PTR_ERR(id->reset),
+0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1554  				     "Failed to request reset.\n");
+0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1555  
+0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1556  	ret = reset_control_deassert(id->reset);
+3d36dd1161ca31 Michal Simek         2025-02-06  1557  	if (ret)
+3d36dd1161ca31 Michal Simek         2025-02-06  1558  		return dev_err_probe(&pdev->dev, ret,
+0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1559  				     "Failed to de-assert reset.\n");
+0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1560  
+7fa32329ca0314 Shubhrajyoti Datta   2015-11-24  1561  	pm_runtime_set_autosuspend_delay(id->dev, CNDS_I2C_PM_TIMEOUT);
+7fa32329ca0314 Shubhrajyoti Datta   2015-11-24  1562  	pm_runtime_use_autosuspend(id->dev);
+7fa32329ca0314 Shubhrajyoti Datta   2015-11-24  1563  	pm_runtime_set_active(id->dev);
+db3fad841d9bf5 Topi Kuutela         2019-12-09  1564  	pm_runtime_enable(id->dev);
+7fa32329ca0314 Shubhrajyoti Datta   2015-11-24  1565  
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1566  	id->clk_rate_change_nb.notifier_call = cdns_i2c_clk_notifier_cb;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1567  	if (clk_notifier_register(id->clk, &id->clk_rate_change_nb))
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1568  		dev_warn(&pdev->dev, "Unable to register clock notifier.\n");
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1569  	id->input_clk = clk_get_rate(id->clk);
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1570  
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1571  	ret = of_property_read_u32(pdev->dev.of_node, "clock-frequency",
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1572  			&id->i2c_clk);
+90224e6468e15d Andy Shevchenko      2020-03-24  1573  	if (ret || (id->i2c_clk > I2C_MAX_FAST_MODE_FREQ))
+90224e6468e15d Andy Shevchenko      2020-03-24  1574  		id->i2c_clk = I2C_MAX_STANDARD_MODE_FREQ;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1575  
+1a351b10b9671f Radu Pirea           2020-01-06  1576  #if IS_ENABLED(CONFIG_I2C_SLAVE)
+1a351b10b9671f Radu Pirea           2020-01-06  1577  	/* Set initial mode to master */
+1a351b10b9671f Radu Pirea           2020-01-06  1578  	id->dev_mode = CDNS_I2C_MODE_MASTER;
+1a351b10b9671f Radu Pirea           2020-01-06  1579  	id->slave_state = CDNS_I2C_SLAVE_STATE_IDLE;
+1a351b10b9671f Radu Pirea           2020-01-06  1580  #endif
+8b51a8e64443b9 Shubhrajyoti Datta   2021-07-13  1581  	id->ctrl_reg = CDNS_I2C_CR_ACK_EN | CDNS_I2C_CR_NEA | CDNS_I2C_CR_MS;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1582  
+a069fcd9fa1822 Lars-Peter Clausen   2023-03-17  1583  	id->fifo_depth = CDNS_I2C_FIFO_DEPTH_DEFAULT;
+a069fcd9fa1822 Lars-Peter Clausen   2023-03-17  1584  	of_property_read_u32(pdev->dev.of_node, "fifo-depth", &id->fifo_depth);
+a069fcd9fa1822 Lars-Peter Clausen   2023-03-17  1585  
+ba064873ce5d19 Lars-Peter Clausen   2023-03-17  1586  	cdns_i2c_detect_transfer_size(id);
+ba064873ce5d19 Lars-Peter Clausen   2023-03-17  1587  
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1588  	ret = cdns_i2c_setclk(id->input_clk, id);
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1589  	if (ret) {
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1590  		dev_err(&pdev->dev, "invalid SCL clock: %u Hz\n", id->i2c_clk);
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1591  		ret = -EINVAL;
+0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1592  		goto err_clk_notifier_unregister;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1593  	}
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1594  
+a11a46d7bd0877 Ajay Neeli           2025-07-24  1595  	ret = devm_request_irq(&pdev->dev, id->irq, cdns_i2c_isr, 0,
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1596  				 DRIVER_NAME, id);
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1597  	if (ret) {
+a11a46d7bd0877 Ajay Neeli           2025-07-24  1598  		dev_err(&pdev->dev, "cannot get irq %d\n", id->irq);
+0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1599  		goto err_clk_notifier_unregister;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1600  	}
+8b51a8e64443b9 Shubhrajyoti Datta   2021-07-13  1601  	cdns_i2c_init(id);
+681d15a0f527af Vishnu Motghare      2014-12-03  1602  
+0e1929dedea367 Mike Looijmans       2017-01-16  1603  	ret = i2c_add_adapter(&id->adap);
+0e1929dedea367 Mike Looijmans       2017-01-16  1604  	if (ret < 0)
+0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1605  		goto err_clk_notifier_unregister;
+0e1929dedea367 Mike Looijmans       2017-01-16  1606  
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1607  	dev_info(&pdev->dev, "%u kHz mmio %08lx irq %d\n",
+2264997254ca11 Lars-Peter Clausen   2023-01-07 @1608  		 id->i2c_clk / 1000, (unsigned long)r_mem->start, irq);
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1609  
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1610  	return 0;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1611  
+0cbc9a2c62d267 Lars-Peter Clausen   2023-04-06  1612  err_clk_notifier_unregister:
+3501f0c6630635 Satish Nagireddy     2022-06-28  1613  	clk_notifier_unregister(id->clk, &id->clk_rate_change_nb);
+7fa32329ca0314 Shubhrajyoti Datta   2015-11-24  1614  	pm_runtime_disable(&pdev->dev);
+db3fad841d9bf5 Topi Kuutela         2019-12-09  1615  	pm_runtime_set_suspended(&pdev->dev);
+61b804548e1744 Manikanta Guntupalli 2025-02-06  1616  	reset_control_assert(id->reset);
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1617  	return ret;
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1618  }
+df8eb5691c48d3 Soren Brinkmann      2014-04-04  1619  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
