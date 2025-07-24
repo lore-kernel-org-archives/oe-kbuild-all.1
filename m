@@ -1,64 +1,67 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43C6D24FBFF;
-	Thu, 24 Jul 2025 12:00:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D31902BEC23;
+	Thu, 24 Jul 2025 12:00:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753358425; cv=none; b=ga0iCt9VWRB1Dy8N64WIO4p43nfMun1FIvEsXDiklcBvYhVXLtQYtZWLeXMJ7TMfIsgIyUVPSvc0Dm7VdWLdSIC1QgUNf/9ol8OQnHYYRVYFjVpqQKhVvXRHja3ptXKZpla83dz5LwYAgKHtxL9RIPNyYBOPB6+ozkdH/5eTXOQ=
+	t=1753358426; cv=none; b=Z2N5qTt0+rim6sFIK3G/Mou6XS00ZTeDdI8Y7UuR25p1LBHMdtb/l3L+taF/NfcXL3IIe7dQJyMbiuQBMxrr1Kx6lUO45qHtUd80S7aQxuCTX/C0r7J0Ce6cLKJbeFhA2gYbfu5K6sG4X4ocEycuYoKoVoXi2bFA/AXzoZaO61Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753358425; c=relaxed/simple;
-	bh=neWN+RsKK5xahj60EuUIzVaJh8Zt6T4jsM98KeOqU5g=;
+	s=arc-20240116; t=1753358426; c=relaxed/simple;
+	bh=E959aFyB7Fz7wM1ihx+E3PvvcL2j2BmEZFA2aVmLOhc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DnsgfGxcL4BqoKmiltSnt/EQvLUGvR64SWWRhcXfAOFmgunYAQW1uR7jalbpcBy1Q8P2LeNikOMf+p6/g1rlMLAzEI4oSuNpJdZxYvxSeebfWTUx+Oys0PnMtyoXTnoy+2Lx/T1ta4jDEwSP5Obtaj0zSVVtsRYZ2C1QDqQG9+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RWf7D9Kl; arc=none smtp.client-ip=198.175.65.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=dwpYeKvSnH2I3n7o3ARYFbW2UYk4HMLZmFvra7p1QE9ZD4EYeEhbz/9LK5MJ+VgTbZO3YQQ3g+zR4iqw9deLR13pwAhtMQ5/scrgw7PdmLMITvYAWooJ1SgACjjQJ1RN0X73IRHxRPo+ftJkkl7Y5cIxWWmEwlBQuwhy8hP4t+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=No4s5Z+m; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RWf7D9Kl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="No4s5Z+m"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753358421; x=1784894421;
+  t=1753358423; x=1784894423;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=neWN+RsKK5xahj60EuUIzVaJh8Zt6T4jsM98KeOqU5g=;
-  b=RWf7D9KllCv6d3ZQ4GPAIcx2BIpjcPwReHgSix6/keY39Cw0UbsZf6ec
-   5cryeAz1T5se9d8TSXs9TE7bRz8GA+JputPFyQUOUjNbgiynMFGNub88i
-   dWCf70Y8wx7B1dE5x4FErUR4xe7sMRmYZsIsyozRNo8icxr4p6oyd8Juh
-   x2TJG8A6Jdx7xl57s8YPssBMjM5lTqqvC34PqdWSyfFViOSw93e1IB5gD
-   8M6dEKJ2DpaGOBdJYmLdTuDSEHxEarn5UmQiqtwcoi7NWsTYVWKRsrHgI
-   L7jCLqjRZZecpAVUCOJqOATRZcI86prB/6LNkLdWIpdlv0jALspP1G4Js
+  bh=E959aFyB7Fz7wM1ihx+E3PvvcL2j2BmEZFA2aVmLOhc=;
+  b=No4s5Z+muSMzeoJ0O9Dp2FEtkbJDVvTWxK7YSvSmcBnfzna6LO6RiHjE
+   lCMucQTcanfVIF75dXcB7lE6dmwV4Ir017eVlrADMztQtHFRkyOAn7QeE
+   0jO23TprDZW5vVrifOQcPReT66MtbjattOzdj7Am8ifoUp970YjsZ8B9e
+   DtZUwQ0HSmCYIE9hgtAGLCnJcPSvViaaNCQbgxrqG5UZeZDuoK83r6QsS
+   RV9KSrz21de+Jg3z4EOR2v6iYL3Tmi+j7CFBM/x5knfKRRimvygBMusTE
+   xqUqfybuQAozHBJDSuS1pf6h3YDEJxt0iPI2CJAFRsEpjp59HwePSJYc3
    w==;
-X-CSE-ConnectionGUID: o9hiDXqsRj+LKE1ykQ+QzA==
-X-CSE-MsgGUID: Z+D3IhZFRCWGTKGTYFhkHA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55635935"
+X-CSE-ConnectionGUID: wDgPmQDVQ7WpaDNMBbY8MQ==
+X-CSE-MsgGUID: kHsx7dnxQuOxmqPtLYKYJw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55635949"
 X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="55635935"
+   d="scan'208";a="55635949"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 05:00:21 -0700
-X-CSE-ConnectionGUID: vOmJbI0aThK7xtPKnB5sYw==
-X-CSE-MsgGUID: jDlK+BZLQmiVJlB7l67yww==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 05:00:22 -0700
+X-CSE-ConnectionGUID: um94yLrvQkeieesPNbWB8Q==
+X-CSE-MsgGUID: 58mHhrkeTRuAwGrnTU6UFw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="165734121"
+   d="scan'208";a="165734118"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
   by orviesa005.jf.intel.com with ESMTP; 24 Jul 2025 05:00:19 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ueucR-000KP5-3A;
-	Thu, 24 Jul 2025 12:00:15 +0000
-Date: Thu, 24 Jul 2025 20:00:02 +0800
+	id 1ueucS-000KP7-03;
+	Thu, 24 Jul 2025 12:00:16 +0000
+Date: Thu, 24 Jul 2025 20:00:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kees Cook <kees@kernel.org>, Jakub Kicinski <kuba@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kees Cook <kees@kernel.org>, Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org
-Subject: Re: [PATCH 4/6 net-next] net: Convert proto_ops connect() callbacks
- to use sockaddr_unspec
-Message-ID: <202507241955.kFMs4J5b-lkp@intel.com>
-References: <20250723231921.2293685-4-kees@kernel.org>
+To: Ashish Kalra <Ashish.Kalra@amd.com>, joro@8bytes.org,
+	suravee.suthikulpanit@amd.com, thomas.lendacky@amd.com,
+	Sairaj.ArunKodilkar@amd.com, Vasant.Hegde@amd.com,
+	herbert@gondor.apana.org.au
+Cc: oe-kbuild-all@lists.linux.dev, seanjc@google.com, pbonzini@redhat.com,
+	will@kernel.org, robin.murphy@arm.com, john.allen@amd.com,
+	davem@davemloft.net, michael.roth@amd.com, iommu@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-crypto@vger.kernel.org,
+	kvm@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] iommu/amd: Add support to remap/unmap IOMMU
+ buffers for kdump
+Message-ID: <202507241929.76UExdsw-lkp@intel.com>
+References: <6a48567cd99a0ef915862b3c6590d1415d287870.1753133022.git.ashish.kalra@amd.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,65 +70,65 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250723231921.2293685-4-kees@kernel.org>
+In-Reply-To: <6a48567cd99a0ef915862b3c6590d1415d287870.1753133022.git.ashish.kalra@amd.com>
 
-Hi Kees,
+Hi Ashish,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on next-20250723]
-[cannot apply to net-next/main bluetooth-next/master bluetooth/master brauner-vfs/vfs.all mkl-can-next/testing mptcp/export mptcp/export-net trondmy-nfs/linux-next linus/master v6.16-rc7 v6.16-rc6 v6.16-rc5 v6.16-rc7]
+[auto build test WARNING on herbert-cryptodev-2.6/master]
+[also build test WARNING on herbert-crypto-2.6/master linus/master v6.16-rc7 next-20250724]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Kees-Cook/net-uapi-Add-__kernel_sockaddr_unspec-for-sockaddr-of-unknown-length/20250724-072218
-base:   next-20250723
-patch link:    https://lore.kernel.org/r/20250723231921.2293685-4-kees%40kernel.org
-patch subject: [PATCH 4/6 net-next] net: Convert proto_ops connect() callbacks to use sockaddr_unspec
-config: x86_64-buildonly-randconfig-005-20250724 (https://download.01.org/0day-ci/archive/20250724/202507241955.kFMs4J5b-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507241955.kFMs4J5b-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Ashish-Kalra/iommu-amd-Add-support-to-remap-unmap-IOMMU-buffers-for-kdump/20250722-055642
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2.6.git master
+patch link:    https://lore.kernel.org/r/6a48567cd99a0ef915862b3c6590d1415d287870.1753133022.git.ashish.kalra%40amd.com
+patch subject: [PATCH v4 1/4] iommu/amd: Add support to remap/unmap IOMMU buffers for kdump
+config: x86_64-randconfig-r133-20250724 (https://download.01.org/0day-ci/archive/20250724/202507241929.76UExdsw-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507241929.76UExdsw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507241955.kFMs4J5b-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507241929.76UExdsw-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+>> drivers/iommu/amd/init.c:723:41: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   drivers/iommu/amd/init.c:723:41: sparse:     expected void *
+   drivers/iommu/amd/init.c:723:41: sparse:     got void [noderef] __iomem *
+>> drivers/iommu/amd/init.c:723:41: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   drivers/iommu/amd/init.c:723:41: sparse:     expected void *
+   drivers/iommu/amd/init.c:723:41: sparse:     got void [noderef] __iomem *
+>> drivers/iommu/amd/init.c:723:41: sparse: sparse: incorrect type in return expression (different address spaces) @@     expected void * @@     got void [noderef] __iomem * @@
+   drivers/iommu/amd/init.c:723:41: sparse:     expected void *
+   drivers/iommu/amd/init.c:723:41: sparse:     got void [noderef] __iomem *
 
->> net/mctp/af_mctp.c:632:13: error: incompatible function pointer types initializing 'int (*)(struct socket *, struct __kernel_sockaddr_unspec *, int, int)' with an expression of type 'int (struct socket *, struct sockaddr *, int, int)' [-Wincompatible-function-pointer-types]
-     632 |         .connect        = mctp_connect,
-         |                           ^~~~~~~~~~~~
-   1 error generated.
+vim +723 drivers/iommu/amd/init.c
 
-
-vim +632 net/mctp/af_mctp.c
-
-63ed1aab3d40aa Matt Johnston 2022-02-09  627  
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  628  static const struct proto_ops mctp_dgram_ops = {
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  629  	.family		= PF_MCTP,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  630  	.release	= mctp_release,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  631  	.bind		= mctp_bind,
-3549eb08e55058 Matt Johnston 2025-07-10 @632  	.connect	= mctp_connect,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  633  	.socketpair	= sock_no_socketpair,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  634  	.accept		= sock_no_accept,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  635  	.getname	= sock_no_getname,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  636  	.poll		= datagram_poll,
-63ed1aab3d40aa Matt Johnston 2022-02-09  637  	.ioctl		= mctp_ioctl,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  638  	.gettstamp	= sock_gettstamp,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  639  	.listen		= sock_no_listen,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  640  	.shutdown	= sock_no_shutdown,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  641  	.setsockopt	= mctp_setsockopt,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  642  	.getsockopt	= mctp_getsockopt,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  643  	.sendmsg	= mctp_sendmsg,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  644  	.recvmsg	= mctp_recvmsg,
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  645  	.mmap		= sock_no_mmap,
-63ed1aab3d40aa Matt Johnston 2022-02-09  646  #ifdef CONFIG_COMPAT
-63ed1aab3d40aa Matt Johnston 2022-02-09  647  	.compat_ioctl	= mctp_compat_ioctl,
-63ed1aab3d40aa Matt Johnston 2022-02-09  648  #endif
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  649  };
-8f601a1e4f8c84 Jeremy Kerr   2021-07-29  650  
+   707	
+   708	static inline void *iommu_memremap(unsigned long paddr, size_t size)
+   709	{
+   710		phys_addr_t phys;
+   711	
+   712		if (!paddr)
+   713			return NULL;
+   714	
+   715		/*
+   716		 * Obtain true physical address in kdump kernel when SME is enabled.
+   717		 * Currently, previous kernel with SME enabled and kdump kernel
+   718		 * with SME support disabled is not supported.
+   719		 */
+   720		phys = __sme_clr(paddr);
+   721	
+   722		if (cc_platform_has(CC_ATTR_HOST_MEM_ENCRYPT))
+ > 723			return ioremap_encrypted(phys, size);
+   724		else
+   725			return memremap(phys, size, MEMREMAP_WB);
+   726	}
+   727	
 
 -- 
 0-DAY CI Kernel Test Service
