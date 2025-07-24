@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BFE26560D;
-	Thu, 24 Jul 2025 08:20:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F194925D1E9;
+	Thu, 24 Jul 2025 09:02:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753345202; cv=none; b=i/+SbbxOAUnCkBKYnhar8i6ZoHTGJrerClqLrkXgOsJBfvClbTqgvIEM8hl8IwcE3VNnu7nh4eeQ4MTG14Bm7l4CunrLGbm/J3YHp52UDOcXLxhVOSeZMMGww+Qg27kkPM0jJsVSZOFhIQ9/zQqCUWx90b82Y7TbbZBktBlQ/BA=
+	t=1753347725; cv=none; b=MdTdAh9k8rMRyx1oeTAwLQcCeclwAMwYoeiz+HeVkjIivIKwlwYoyChbRf0TJsAMxH1pZY+d0ULYI3eOHdT+5ik9SqV5Oj2rh/TiT2Cob4OyRDV/1wHbpIQBs8uRWrGWa4O21gjHGDkIbuTxoko+LQWox0lJM2pkuhIh4bzWKho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753345202; c=relaxed/simple;
-	bh=GPDvqI9AvDaBf6pFc5E7uhO2SAdwewG5nqXm33wh0/Y=;
+	s=arc-20240116; t=1753347725; c=relaxed/simple;
+	bh=0dO2URZl4K45DKG7qPNIIkutRDdHG7Ce2Rokv//r5Zs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=j2ra9awJQk6P1iuWJvAiAv3Y8w9w7Zgl94jaqCI2uEYHtTRYvcSWrwpjARjPzDk8IxvSsCMSIIzzVb72447fKPkdO4S0LGeIARk13Hzd6mMiGtU+2M3h538xVKDtHNKFckMyzhVN8E3DuTnGfnQQkHfi79noD2azV0g7BCJGkQg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P0VbccSs; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=uhuutCxU0hpQoS70iPK+WrtP5tqqtgCvAy8Xf8P/vdU/esr4PTh3IXNd8ET1rMcDaXt5CCQPvuL1zbhfSHejAGTHq/ruFnRvhtN8a/3xQ+5fagLt4Rn/nNs5ZxZKfXckjlCGwcJujIYwm7UyQJbudexUGj1fIi83PCGq+iHu/Uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KBb/bNOl; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P0VbccSs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KBb/bNOl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753345201; x=1784881201;
+  t=1753347724; x=1784883724;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GPDvqI9AvDaBf6pFc5E7uhO2SAdwewG5nqXm33wh0/Y=;
-  b=P0VbccSsr8eP2oTfKk6gzeIg1EKOTQfokO3OcnLXnxOwXtO4U4u9Jlw3
-   h8Oz7E0SxXDmxgb9dC5DKAvpEAdwKrEEtlT78fNqWKxk1I+7wXp2RGcj0
-   OPoNtOWtA+LZ238nFIDHWaRkER+vzugpCm1aJc4k+xZtoKI3GH9Qs7niD
-   2FW0kdutOwsWgZ+8VVhTC2XV7ZuofYj2sKnOVZ1xvtXzcyP45G5e2qhri
-   /gH1+lpGRiVK6FJBv79mcJRO7jsa6Geh/Q1xRCuV/2F5pwCuDBPljU36L
-   OC3cpjeuwJXFaJ/O1ef32widTkvTd7vHGokoPZWyZxgxjVF45fFBOJbJc
-   Q==;
-X-CSE-ConnectionGUID: 5dZelzE1RNyhv3r4JZom6A==
-X-CSE-MsgGUID: muWmr6D+QSqrQf/K0Ky8ew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="66343826"
+  bh=0dO2URZl4K45DKG7qPNIIkutRDdHG7Ce2Rokv//r5Zs=;
+  b=KBb/bNOlhrsQjQB72xNg5xA1GkR8CVVeTge09xyt8Nu38VzgVF4ZuDEt
+   BMm843w5SnUedBZNGLcVnkuleDdB7NKj8n/4mVMzTb8kf4AuhLIaz0Tyk
+   bHz03he4AcZ5RjOXRVA2b+lRrZ6GuVwxjdifppuXuO5hQ/SvlznMPxxEn
+   PKV8ausHjX8u9q+PVlFN8cVEPUPXzr6XnngygxvUqx9KxI35q/KnLqNSl
+   syArz4nSOOt4dCQQP2ipBEhktnekC35F158Z9Or10EEBXzsRBfjfNXf3C
+   j+n7UL48kf+A6e8CU7lxiZdzKxvPHHQyBHOlb7aPHGNJnVmLzMcWgQjTd
+   w==;
+X-CSE-ConnectionGUID: 183pqAKsRPqxIaMMpFIlDg==
+X-CSE-MsgGUID: VfG9IkjpRLiAf2EOzggIQw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="67084961"
 X-IronPort-AV: E=Sophos;i="6.16,336,1744095600"; 
-   d="scan'208";a="66343826"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 01:20:00 -0700
-X-CSE-ConnectionGUID: qF7h7IpUTDqmWqueSrO5Tw==
-X-CSE-MsgGUID: rkABhtl7ScSLiB7jDMShsQ==
+   d="scan'208";a="67084961"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 02:02:04 -0700
+X-CSE-ConnectionGUID: Zn6rqp3WT+qy64XPPUg8vg==
+X-CSE-MsgGUID: lH4AIpsZSt6t4H8j1QZqqA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,336,1744095600"; 
-   d="scan'208";a="159319614"
+   d="scan'208";a="160378942"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 24 Jul 2025 01:19:59 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 24 Jul 2025 02:02:02 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uerBE-000KDj-2G;
-	Thu, 24 Jul 2025 08:19:56 +0000
-Date: Thu, 24 Jul 2025 16:19:23 +0800
+	id 1uerpw-000KG3-1c;
+	Thu, 24 Jul 2025 09:02:00 +0000
+Date: Thu, 24 Jul 2025 17:01:10 +0800
 From: kernel test robot <lkp@intel.com>
-To: Antoni Pokusinski <apokusinski01@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: [linux-next:master 11884/12139] drivers/rtc/rtc-pcf85063.c:566:37:
- warning: unused variable 'config_rv8063'
-Message-ID: <202507241607.dmz2qrO5-lkp@intel.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [davidhildenbrand:vm_normal_page_pud 6/10]
+ include/linux/pgtable.h:2099:21: error: invalid register name
+Message-ID: <202507241656.X2gQNivK-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,41 +62,57 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   9ee814bd78e315e4551223ca7548dd3f6bdcf1ae
-commit: a3c7f7e16ea8f1c8a34227c7ea08a7e002c2608b [11884/12139] rtc: pcf85063: add support for RV8063
-config: hexagon-randconfig-001-20250724 (https://download.01.org/0day-ci/archive/20250724/202507241607.dmz2qrO5-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507241607.dmz2qrO5-lkp@intel.com/reproduce)
+tree:   https://github.com/davidhildenbrand/linux vm_normal_page_pud
+head:   003d8c09bad32ddd03332b6356751f332e161659
+commit: fa859b2c9755a46929caa5414f8594cc8ef3f40f [6/10] mm/rmap: convert rmap_level to generic pgtable_level
+config: x86_64-buildonly-randconfig-002-20250724 (https://download.01.org/0day-ci/archive/20250724/202507241656.X2gQNivK-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507241656.X2gQNivK-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507241607.dmz2qrO5-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507241656.X2gQNivK-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/rtc/rtc-pcf85063.c:566:37: warning: unused variable 'config_rv8063' [-Wunused-const-variable]
-     566 | static const struct pcf85063_config config_rv8063 = {
-         |                                     ^~~~~~~~~~~~~
-   1 warning generated.
+>> include/linux/pgtable.h:2099:21: error: invalid register name
+   enum pgtable_level {
+                       ^
+>> include/linux/pgtable.h:2099:21: error: Expected an op-mask register at this point
+   enum pgtable_level {
+                       ^
+>> include/linux/pgtable.h:2100:23: error: expected newline
+    PGTABLE_LEVEL_PTE = 0,
+                         ^
+>> include/linux/pgtable.h:2101:19: error: unknown token in expression
+    PGTABLE_LEVEL_PMD,
+                     ^
+   include/linux/pgtable.h:2102:19: error: unknown token in expression
+    PGTABLE_LEVEL_PUD,
+                     ^
+   include/linux/pgtable.h:2103:19: error: unknown token in expression
+    PGTABLE_LEVEL_P4D,
+                     ^
+   include/linux/pgtable.h:2104:19: error: unknown token in expression
+    PGTABLE_LEVEL_PGD,
+                     ^
+>> include/linux/pgtable.h:2105:1: error: invalid instruction mnemonic '}'
+   };
+   ^
 
 
-vim +/config_rv8063 +566 drivers/rtc/rtc-pcf85063.c
+vim +2099 include/linux/pgtable.h
 
-   565	
- > 566	static const struct pcf85063_config config_rv8063 = {
-   567		.regmap = {
-   568			.reg_bits = 8,
-   569			.val_bits = 8,
-   570			.max_register = 0x11,
-   571			.read_flag_mask = BIT(7) | BIT(5),
-   572			.write_flag_mask = BIT(5),
-   573		},
-   574		.has_alarms = 1,
-   575		.force_cap_7000 = 1,
-   576	};
-   577	
+  2098	
+> 2099	enum pgtable_level {
+> 2100		PGTABLE_LEVEL_PTE = 0,
+> 2101		PGTABLE_LEVEL_PMD,
+> 2102		PGTABLE_LEVEL_PUD,
+  2103		PGTABLE_LEVEL_P4D,
+  2104		PGTABLE_LEVEL_PGD,
+> 2105	};
+  2106	
 
 -- 
 0-DAY CI Kernel Test Service
