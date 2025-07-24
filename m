@@ -1,61 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41C81B4F0A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 21:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08153239E8A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 21:40:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753392553; cv=none; b=Ui5r/uQcEh81YkmEcagfIc29lyklrmqvW1XAn9AXciXuBVHvSVp/BzPiD12sKROiEO8u58B3TglZeJ158hib+BQGYOe7nxJ7iIusuO1wpsASTThsSeu0Za4AGsapSX1nakLZZzQZse8A+xChiettcOgsmz3HrJzN/scFOxs7IbU=
+	t=1753393218; cv=none; b=SPzIEectOTdva/YF5cntlzoIR8Q8wEiE/H12ZdHgVAqPX2vtZLQu6t5EGTpBKW/BuHD9U1MvGvI3NF/lG0hb0B6tbyumKBtPqkYZNsGcYVRw1vY8Sj3ngDzxU5+1Jb43Ity+IU6s8XvpAQ3EVm5P24Y49Gs5pZ804koLyw/XOpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753392553; c=relaxed/simple;
-	bh=Qzlk8ZMqYXj7hNnXQEdGvGw9ThmIx9DaiqS5uHORsQ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=STeKNS0OHMuqFIwOCKSP+mjnJ/axwdjW3EW2Pp3IEsj0Si9n1bAGYYGLB+5w+dnusoyaPM7iB9375PJpPNU3M/2MG6aXQeEXa4pPx92BFa7QSw6VMbRXVfk901I22ocXdU7ONmZTsdRL1fvGfw5Ii+QKB0Sfv1X0nuyGJwAMPoc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X+QKO8X3; arc=none smtp.client-ip=198.175.65.12
+	s=arc-20240116; t=1753393218; c=relaxed/simple;
+	bh=neZ4nhTci/OztAR0grO1PqnyUkXOKJlgcFsWnc1vRHY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oHJeaaQexX721vm6zikF0YBQ7lbIlTgbhKhbwK0slf50ZjrMumOEfmmhMuEBbvAm31oqPWDA5vOnpusMjdygrpZYAn2WzHrZdkTnH5/1kXN7CUzUHJrH1dTBbSf1Wvzs/QFr6KvIu4TfAvHJDGNVwFd4vOmFGsnY7uKUX1S93hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cfjQx0Pu; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X+QKO8X3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfjQx0Pu"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753392552; x=1784928552;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Qzlk8ZMqYXj7hNnXQEdGvGw9ThmIx9DaiqS5uHORsQ8=;
-  b=X+QKO8X3Oyle0hn40UCgo6lOeonh3q4CdWY4q9shu6G3H8VH46Zdbwrg
-   9rgrkadIGVD9QHHDKxfthptP0FwC/pSQcZGrKHf4A1PpbBFE5qvKUUGwS
-   vOdAnCPiEOx7eNR4oCrn7BlZH1hkuECjcUHNaLg0eSTCaoz1TRsM2Eujg
-   WGcvL+CTK0GFTcjVzZUM4KEtAg1rprQunXwXv9jlyHW22oaj19qhWEjuJ
-   A+eIEoV2EnqwvHdpbGHDXha2g2SEc9LPn2XQb8VEGKyl3TnLvUSWeWHI2
-   CONhStag5xt1Xuddtf3neg1xjByyeU4U64JjiKqYKIC43r/XuAYbrRoxl
+  t=1753393217; x=1784929217;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=neZ4nhTci/OztAR0grO1PqnyUkXOKJlgcFsWnc1vRHY=;
+  b=cfjQx0Pup2NGYN0uH5Ca6kV2GvOyfBsO52XQILmQycnuZQS3AD7ooiMT
+   x9+rCu0nYRsmb5i43etDVfo1/xdVykkgzIbcVaHr4FKmrEL6yiL/bPjpC
+   dt3DkgaPl6Enw2YiPjyp9sliJ/GC7nipO3woSpXdqT+DX3PSusoi2lg0/
+   zHgAksXrYG8Ekt3sQx7Mhitygr638cYAdAMdxL4yoQcpnEBNqYmDLsg1x
+   IhF2cgnAcKv8D6bkj+tFmo47tNiPvoLTXBWJTBpA8ovOvGVrb0z1Sbsxg
+   u72SM2a1DmLy4e2//MLzkDMc1ghuwFSJqqUy6AoSO2YYy9Nr3NeO08QaK
    g==;
-X-CSE-ConnectionGUID: MJN9F15ET2uMlusKxQggxQ==
-X-CSE-MsgGUID: AKoaIo1vQGKF3GPRx2yUIg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="67162679"
+X-CSE-ConnectionGUID: TxknKd15RM+NSM0HWf8Wcg==
+X-CSE-MsgGUID: j90CrBJDQWGGYxgkGXMqJg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="67078133"
 X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="67162679"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 14:29:11 -0700
-X-CSE-ConnectionGUID: wryXTm0eRESFRezciUzTGA==
-X-CSE-MsgGUID: BRLNeTiFSRCClvKbhKhijw==
+   d="scan'208";a="67078133"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 14:40:16 -0700
+X-CSE-ConnectionGUID: am3gpL4CTQ+F++tC4OhfVw==
+X-CSE-MsgGUID: GKXt7Mp8RxCertJvEzhVlQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="164502851"
+   d="scan'208";a="164728880"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 24 Jul 2025 14:29:10 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 24 Jul 2025 14:40:12 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uf3Uy-000Kq3-1O;
-	Thu, 24 Jul 2025 21:29:08 +0000
-Date: Fri, 25 Jul 2025 05:28:51 +0800
+	id 1uf3fd-000KqZ-15;
+	Thu, 24 Jul 2025 21:40:09 +0000
+Date: Fri, 25 Jul 2025 05:39:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dongjin Kim <tobetter@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [tobetter:odroid-6.16.y 44/45]
- arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: sound
- (audio-graph-card): Unevaluated properties are not allowed
- ('simple-audio-card,bitclock-master', 'simple-audio-card,codec',
- 'simple-audio-card,cpu', 'simple-audio-card,format', 'simple-audio-card,f...
-Message-ID: <202507250529.Rw0elmQj-lkp@intel.com>
+To: Lakshay Piplani <lakshay.piplani@nxp.com>, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, jic23@kernel.org, dlechner@baylibre.com,
+	nuno.sa@analog.com, andy@kernel.org, marcelo.schmitt1@gmail.com,
+	gregkh@linuxfoundation.org, viro@zeniv.linux.org.uk,
+	peterz@infradead.org, jstephan@baylibre.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, vikash.bansal@nxp.com,
+	priyanka.jain@nxp.com, shashank.rebbapragada@nxp.com,
+	Frank.Li@nxp.com, carlos.song@nxp.com, xiaoning.wang@nxp.com,
+	haibo.chen@nxp.com, Lakshay Piplani <lakshay.piplani@nxp.com>
+Subject: Re: [PATCH 1/2] dt-bindings: iio: temperature: Add NXP P3T175x
+ support.
+Message-ID: <202507250514.dtLcgKZ2-lkp@intel.com>
+References: <20250724083951.2273717-1-lakshay.piplani@nxp.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,23 +71,37 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250724083951.2273717-1-lakshay.piplani@nxp.com>
 
-tree:   https://github.com/tobetter/linux odroid-6.16.y
-head:   5970e23fb597e5a60b1284c83332aee45fb222d0
-commit: ac46a60ec2fb958f1dc2e5871e122abb98ac0da9 [44/45] ODROID-M2: Add support audio output
-config: arm64-randconfig-052-20250722 (https://download.01.org/0day-ci/archive/20250725/202507250529.Rw0elmQj-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
+Hi Lakshay,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on jic23-iio/togreg]
+[also build test WARNING on linus/master v6.16-rc7 next-20250724]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Lakshay-Piplani/iio-temperature-Add-driver-for-NXP-P3T175x-temperature-sensor/20250724-165936
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+patch link:    https://lore.kernel.org/r/20250724083951.2273717-1-lakshay.piplani%40nxp.com
+patch subject: [PATCH 1/2] dt-bindings: iio: temperature: Add NXP P3T175x support.
+config: arc-randconfig-052-20250725 (https://download.01.org/0day-ci/archive/20250725/202507250514.dtLcgKZ2-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
 dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250725/202507250529.Rw0elmQj-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250725/202507250514.dtLcgKZ2-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507250529.Rw0elmQj-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507250514.dtLcgKZ2-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
->> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: sound (audio-graph-card): Unevaluated properties are not allowed ('simple-audio-card,bitclock-master', 'simple-audio-card,codec', 'simple-audio-card,cpu', 'simple-audio-card,format', 'simple-audio-card,frame-master', 'simple-audio-card,mclk-fs', 'simple-audio-card,name' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/audio-graph-card.yaml#
+All warnings (new ones prefixed by >>):
+
+>> Warning: Duplicate compatible "nxp,p3t1755" found in schemas matching "$id":
+   	http://devicetree.org/schemas/iio/temperature/nxp,p3t1755.yaml#
+   	http://devicetree.org/schemas/hwmon/lm75.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
