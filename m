@@ -1,62 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDAE62C15A0
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 21:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E41C81B4F0A
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 21:29:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753391953; cv=none; b=lxM33WFrk+S5eBorfi6rrj5Csm4ArjMb+cpD5vDLbC6CEOmC9D+hYWA03qG3TbpbUzrGi/iyCfywpi7RKFE5AhwzbH9W3Bf4D0gc+ySSLXlyqGrJJ0rXLJXD/zNVUi5QZ/wVWWJTYLTN/3NNWMhO4cnKGLwiYjVoVjDrMS+3OtM=
+	t=1753392553; cv=none; b=Ui5r/uQcEh81YkmEcagfIc29lyklrmqvW1XAn9AXciXuBVHvSVp/BzPiD12sKROiEO8u58B3TglZeJ158hib+BQGYOe7nxJ7iIusuO1wpsASTThsSeu0Za4AGsapSX1nakLZZzQZse8A+xChiettcOgsmz3HrJzN/scFOxs7IbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753391953; c=relaxed/simple;
-	bh=ieq4S9crPzpTW54dH5MLqF1gbivlHx8Y+Qa8kHz/yu8=;
+	s=arc-20240116; t=1753392553; c=relaxed/simple;
+	bh=Qzlk8ZMqYXj7hNnXQEdGvGw9ThmIx9DaiqS5uHORsQ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Q2vZ+tgu2ac2tDSE4CkwbRPWpA67AyPTa3bYrp0wLNBDMP0D/lJi75vTNGpI4DTN5HA7WbfMCB7sXDwY63bzAUDIYWXK/567VKDjR8+JBqMKbhC1c7NiNQgPBDvZ4slUnWRqIIG+pnESPmLXXv7T1XH0LY7XeT8uKRqiqRAmqPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e1t8c5Y6; arc=none smtp.client-ip=198.175.65.11
+	 Content-Disposition; b=STeKNS0OHMuqFIwOCKSP+mjnJ/axwdjW3EW2Pp3IEsj0Si9n1bAGYYGLB+5w+dnusoyaPM7iB9375PJpPNU3M/2MG6aXQeEXa4pPx92BFa7QSw6VMbRXVfk901I22ocXdU7ONmZTsdRL1fvGfw5Ii+QKB0Sfv1X0nuyGJwAMPoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X+QKO8X3; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e1t8c5Y6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X+QKO8X3"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753391951; x=1784927951;
+  t=1753392552; x=1784928552;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=ieq4S9crPzpTW54dH5MLqF1gbivlHx8Y+Qa8kHz/yu8=;
-  b=e1t8c5Y6KC9mdcMQyz9h9sCtvWF1joyDdybfxTSDwD5wnleJ1zYAqaXJ
-   1cWZn0NFYvkVQJw+5vLzwnCDq1Jz3Lcv+uRqKaJigpXPTMxpiAQ9orYhj
-   7whTiQqE1B3/gvM0IvEG6OhmhnbmzCTpRV8rGcn3WQvqlV0SGmcDRspb8
-   bhdrVTK8rA+kdV0O01xUoIWH+Xm51mxSdPMqJJJg6UoDDQ1SJEoxn5+Sb
-   eK2sawu6xznHh3CNcXDbufbqeFPDrLUgLP+581wI7iChvAu1VZxjXEWg6
-   VnCLsjZCYrgeaRxK4og6jf9VsUlsx19XPwO2HfzvOjNbIPMU6qgfkfEzQ
-   w==;
-X-CSE-ConnectionGUID: 7IeHzsk6QD6mFvgFv7iW3w==
-X-CSE-MsgGUID: HBg83ip+S5KOWlngeUtWxA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="65984585"
+  bh=Qzlk8ZMqYXj7hNnXQEdGvGw9ThmIx9DaiqS5uHORsQ8=;
+  b=X+QKO8X3Oyle0hn40UCgo6lOeonh3q4CdWY4q9shu6G3H8VH46Zdbwrg
+   9rgrkadIGVD9QHHDKxfthptP0FwC/pSQcZGrKHf4A1PpbBFE5qvKUUGwS
+   vOdAnCPiEOx7eNR4oCrn7BlZH1hkuECjcUHNaLg0eSTCaoz1TRsM2Eujg
+   WGcvL+CTK0GFTcjVzZUM4KEtAg1rprQunXwXv9jlyHW22oaj19qhWEjuJ
+   A+eIEoV2EnqwvHdpbGHDXha2g2SEc9LPn2XQb8VEGKyl3TnLvUSWeWHI2
+   CONhStag5xt1Xuddtf3neg1xjByyeU4U64JjiKqYKIC43r/XuAYbrRoxl
+   g==;
+X-CSE-ConnectionGUID: MJN9F15ET2uMlusKxQggxQ==
+X-CSE-MsgGUID: AKoaIo1vQGKF3GPRx2yUIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="67162679"
 X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="65984585"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 14:19:11 -0700
-X-CSE-ConnectionGUID: jUkyI0RQQ3O4csMXNcXLhg==
-X-CSE-MsgGUID: 9C0S0yJ8QsmjQ+iTqoTNzQ==
+   d="scan'208";a="67162679"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 14:29:11 -0700
+X-CSE-ConnectionGUID: wryXTm0eRESFRezciUzTGA==
+X-CSE-MsgGUID: BRLNeTiFSRCClvKbhKhijw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="164973592"
+   d="scan'208";a="164502851"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 24 Jul 2025 14:19:10 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 24 Jul 2025 14:29:10 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uf3LH-000Kpg-28;
-	Thu, 24 Jul 2025 21:19:07 +0000
-Date: Fri, 25 Jul 2025 05:18:38 +0800
+	id 1uf3Uy-000Kq3-1O;
+	Thu, 24 Jul 2025 21:29:08 +0000
+Date: Fri, 25 Jul 2025 05:28:51 +0800
 From: kernel test robot <lkp@intel.com>
-To: Huy Bui <huy.bui.wm@renesas.com>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Khanh Le <khanh.le.xr@renesas.com>,
-	Hai Pham <hai.pham.ud@renesas.com>
-Subject: [morimoto:x5h-upstream-2025-07-24 13/16]
- drivers/pinctrl/renesas/pinctrl.c:569:42: error: implicit declaration of
- function 'FIELD_GET'
-Message-ID: <202507250556.1WoR0anb-lkp@intel.com>
+To: Dongjin Kim <tobetter@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [tobetter:odroid-6.16.y 44/45]
+ arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: sound
+ (audio-graph-card): Unevaluated properties are not allowed
+ ('simple-audio-card,bitclock-master', 'simple-audio-card,codec',
+ 'simple-audio-card,cpu', 'simple-audio-card,format', 'simple-audio-card,f...
+Message-ID: <202507250529.Rw0elmQj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,55 +65,22 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/morimoto/linux x5h-upstream-2025-07-24
-head:   9c22a4a6bddbc7e8547038f75c046cee59577aea
-commit: fd8a1c6431825e97be2b0a8bed2561d69fad4aff [13/16] LOCAL: pinctrl: renesas: Initial R8A78000 (R-Car X5H) PFC support
-config: i386-buildonly-randconfig-001-20250725 (https://download.01.org/0day-ci/archive/20250725/202507250556.1WoR0anb-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250725/202507250556.1WoR0anb-lkp@intel.com/reproduce)
+tree:   https://github.com/tobetter/linux odroid-6.16.y
+head:   5970e23fb597e5a60b1284c83332aee45fb222d0
+commit: ac46a60ec2fb958f1dc2e5871e122abb98ac0da9 [44/45] ODROID-M2: Add support audio output
+config: arm64-randconfig-052-20250722 (https://download.01.org/0day-ci/archive/20250725/202507250529.Rw0elmQj-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 8.5.0
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250725/202507250529.Rw0elmQj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507250556.1WoR0anb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507250529.Rw0elmQj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
-   drivers/pinctrl/renesas/pinctrl.c: In function 'gen5_pinconf_set_drive_strength':
->> drivers/pinctrl/renesas/pinctrl.c:569:42: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     569 |         gen5_pinconf_write_bit(pfc, bit, FIELD_GET(GENMASK(0, 0), strength), reg->drvctrl0);
-         |                                          ^~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/FIELD_GET +569 drivers/pinctrl/renesas/pinctrl.c
-
-   550	
-   551	int gen5_pinconf_set_drive_strength(struct sh_pfc *pfc,
-   552					    unsigned int pin, u16 strength)
-   553	{
-   554		unsigned int bank = pin / 32;
-   555		unsigned int bit = pin % 32;
-   556		const struct gen5_pinmux_drive_reg *reg = &pfc->info->drive_regs_gen5[bank];
-   557	
-   558		if (reg->pins[bit] != pin)
-   559			return -EINVAL;
-   560	
-   561		if (strength < 3 || strength > 24)
-   562			return -EINVAL;
-   563	
-   564		/* Convert the value from mA based on a full drive strength value of
-   565		 * 24mA. We can make the full value configurable later if needed.
-   566		 */
-   567		strength = strength / 3 - 1;
-   568	
- > 569		gen5_pinconf_write_bit(pfc, bit, FIELD_GET(GENMASK(0, 0), strength), reg->drvctrl0);
-   570		gen5_pinconf_write_bit(pfc, bit, FIELD_GET(GENMASK(1, 1), strength), reg->drvctrl1);
-   571		gen5_pinconf_write_bit(pfc, bit, FIELD_GET(GENMASK(2, 2), strength), reg->drvctrl2);
-   572	
-   573		return 0;
-   574	}
-   575	
+dtcheck warnings: (new ones prefixed by >>)
+>> arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: sound (audio-graph-card): Unevaluated properties are not allowed ('simple-audio-card,bitclock-master', 'simple-audio-card,codec', 'simple-audio-card,cpu', 'simple-audio-card,format', 'simple-audio-card,frame-master', 'simple-audio-card,mclk-fs', 'simple-audio-card,name' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/sound/audio-graph-card.yaml#
 
 -- 
 0-DAY CI Kernel Test Service
