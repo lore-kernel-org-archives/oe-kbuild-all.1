@@ -1,119 +1,87 @@
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F422D5C97
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 14:14:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5DF426C3A9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 14:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753366495; cv=none; b=UrJOtWPpw5wN/ruQk8kZ3H3fyn/Gc92HCHuHAhgSmKwqqjZNbHRU/Mv1V8hlwBXn5cDrMJLCY2F+NxVI2En23NGG7og1KAQ8m7diQCIuCefvTd3dRnBL7vfA6z+01HCD+eeIKuYZMNLYPm5yRWnqlsnk525eeKZv/OTUJBiaksg=
+	t=1753366534; cv=none; b=Ja/mu1G3rPb+VqO405pmRmNkzMbrEDU5Eav8n3Gv3PoIZdEU4usCm+AxZ1XB8nC3KoKYylJGO/Xa+XKm0ovFs0F73CbDYw763ZRA5gr07Cg8w9hPjX2HDxiYz5f7wz0BbRaIqnfZImAGWGEvQdfNrVu0dJSKSK5cHot7+td3kyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753366495; c=relaxed/simple;
-	bh=Asb5cZNPrho+8Hb9XBJfdBFkV+TeOHxFbPRHAGORCxY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MK/YChbbc4ag3MB7LiIaWb+oszkx3TqSinu3LW3B02RWC2jZa5+CJfs1V/JXAYtIYnmFTWYl5/PM+4jNzofHxJ6Pg/s/rj+0Bfef1WGaYhesY+ZiHQLXU/7ovGKc4aNUNgD5dj03Cpf/Jz4FonwYMwcKGVYonBfoaY9XOLB91ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=OjGIfwMh; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
+	s=arc-20240116; t=1753366534; c=relaxed/simple;
+	bh=WZcyrgry5S1vq+cTIQbg7pHE7rLoyMN5oTD0QSHgtDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=drXhHT8J8aIYxXgtBogSz9LeyQjq/RnFn6B76iG7xP0iBF/hcr0zbuU6SUYSQ/xEVd7XyknZFOUvEj77v/pogIZFz2ItcUkDtMMd6WaUi2EhxQajVfvw3X4E/zsvNTrj31eln+bLUkenTlUeHcG9WZhPh0O6KahfqJ/NkZ4sA8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SZ6pdbpX; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="OjGIfwMh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=202503; t=1753366314;
-	bh=KdQt8Nxgh2aN9YSityNLusuZDY0zAH8Q6g+ZVkIVo84=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OjGIfwMheC0coMfpBj6d4+WLFsXxcxD0P9M9JCSl+Yuygd8mvGSjlg+slTirBtJcY
-	 IhLlx8a0rRsazxdMi56LUkAwP1kXPhNQXDn+7/e13zOR7f7xTcG2hiP65uxJAhy8Xe
-	 FBsOYWiMtzMRQKYFxOaW2n1ySbyXQRaJc8vT482VpFeigf5hXkhg/bzghkXkR45EUX
-	 Wukku9/L2ZBrNdITh48MupGyIZT7YD1nUaPCSOOam9IJNBvknuOF8td+Yj026QAGS0
-	 3yDtuBioB0x4BEuzFLAofxhnTahbcujEG4TSQN9f0OJvMhq6ZUvNR2GmBbSDVvOvSE
-	 VBmJZ8axDZogQ==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4bntGx0Mnkz4w2H;
-	Fri, 25 Jul 2025 00:11:52 +1000 (AEST)
-Date: Fri, 25 Jul 2025 00:14:45 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Carlos Maiolino <cem@kernel.org>
-Cc: kernel test robot <lkp@intel.com>, Steven Rostedt <rostedt@goodmis.org>,
- oe-kbuild-all@lists.linux.dev, Christoph Hellwig <hch@lst.de>, "Darrick J.
- Wong" <djwong@kernel.org>
-Subject: Re: [linux-next:master 11803/12139] fs/xfs/xfs_qm.c:506:17: error:
- implicit declaration of function 'trace_xfs_dqreclaim_dirty'; did you mean
- 'trace_xfs_dqreclaim_done'?
-Message-ID: <20250725001445.552b09ee@canb.auug.org.au>
-In-Reply-To: <uncwpbkjp5ymdrk76augrq3bxjvqsciyjcg47dvp5fo4px5o4w@vt6psvbnoqa3>
-References: <Nk-H2GdoynYmAv3_b2PyJSULw3sGMOU6eBOzBYWOfHMmIJXl_FrPPUp6oLSDTOBeJA6xZDe8i5EISmnsCwgohA==@protonmail.internalid>
-	<202507241747.dwTWz8Ig-lkp@intel.com>
-	<bwmvu3t3uw7qo5kcv7uwrrcvkhyhyb7ys57qcgsgpal7r3hixy@qjxiqn2ef4ni>
-	<uncwpbkjp5ymdrk76augrq3bxjvqsciyjcg47dvp5fo4px5o4w@vt6psvbnoqa3>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SZ6pdbpX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753366533; x=1784902533;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=WZcyrgry5S1vq+cTIQbg7pHE7rLoyMN5oTD0QSHgtDQ=;
+  b=SZ6pdbpX/BpH48hNJwI+HaKgylwC0caXhIRpnea/7q/glsM24ZYs/itR
+   UtBgQWiMBBoHCO0fTcr3LyzxmpI7nyXweiHwUDGLr8dNFhWVwwTSHZfyH
+   +WjvvUmS5tRk7XBagj9VHbyLVZBnGpXXE6jJ9Zl9iGG817nummvKtx41s
+   BSlcXH76JuQ262s1lNlbDAl+PETcNQv2nJfEgAc5DfZFZKq90yWQMXy/a
+   dOPUaszpr785BAaiPBADuTATdbAFWU4ECJWYxNY/TGBFmgpxZ+K8JIM9z
+   W2BogpmenxB/iMUhwtxSqnaIuxgEYsaoxJaZ9qTkiPcgHs+0My7Ru6iwT
+   g==;
+X-CSE-ConnectionGUID: QZKcCnpfRJSjt3UdvbKVSQ==
+X-CSE-MsgGUID: QkwLP52SRaK8Z3wdguG01A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55773472"
+X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
+   d="scan'208";a="55773472"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 07:15:32 -0700
+X-CSE-ConnectionGUID: fJOkMcAXRk+Lh7x8OQER3g==
+X-CSE-MsgGUID: WxQ9DmC8SDeJYQov6cM7/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
+   d="scan'208";a="160997125"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 24 Jul 2025 07:15:31 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uewjI-000KW7-2m;
+	Thu, 24 Jul 2025 14:15:28 +0000
+Date: Thu, 24 Jul 2025 22:14:48 +0800
+From: kernel test robot <lkp@intel.com>
+To: Robert Marko <robert.marko@sartura.hr>
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, Lee Jones <lee@kernel.org>
+Subject: [linux-next:master 11714/12139] kismet: WARNING: unmet direct
+ dependencies detected for MFD_AT91_USART when selected by SERIAL_ATMEL
+Message-ID: <202507242212.lrePIIjT-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/TNLw+Aqks7RtB=9buhaCNjW";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---Sig_/TNLw+Aqks7RtB=9buhaCNjW
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   9ee814bd78e315e4551223ca7548dd3f6bdcf1ae
+commit: ef37a1e2485724f5287db1584d8aba48e8ba3f41 [11714/12139] mfd: at91-usart: Make it selectable for ARCH_MICROCHIP
+config: arm-kismet-CONFIG_MFD_AT91_USART-CONFIG_SERIAL_ATMEL-0-0 (https://download.01.org/0day-ci/archive/20250724/202507242212.lrePIIjT-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250724/202507242212.lrePIIjT-lkp@intel.com/reproduce)
 
-Hi Carlos,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507242212.lrePIIjT-lkp@intel.com/
 
-On Thu, 24 Jul 2025 13:58:02 +0200 Carlos Maiolino <cem@kernel.org> wrote:
->
-> So yesterday I made sure xfs-linux/for-next had all dependencies before p=
-ushing
-> it  and make it available for linux-next. I'm not exactly sure how this
-> build failed. If the patches were applied out-of-order, then it sure
-> would fail.
->=20
-> Does the bot make builds out of order? Because the HEAD mentioned above
-> points to the same commit described belo at linux-next/master, which the
-> bot says it correctly built.
->=20
-> I'm not exactly sure what the bot did here.
->=20
-> Stephen, perhaps you might know what the bot did here?
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for MFD_AT91_USART when selected by SERIAL_ATMEL
+   WARNING: unmet direct dependencies detected for MFD_AT91_USART
+     Depends on [n]: HAS_IOMEM [=y] && (ARCH_MICROCHIP || COMPILE_TEST [=n])
+     Selected by [y]:
+     - SERIAL_ATMEL [=y] && TTY [=y] && HAS_IOMEM [=y] && COMMON_CLK [=y] && (ARCH_AT91 [=y] || ARCH_LAN969X || COMPILE_TEST [=n])
 
-So, I don't know how this bot actually works, but it looks like to
-tries to build after checking out each commit, so (as you say) if the
-patches were applied in the wrong order, then you might get a failure
-part pay through the tree that you don't get for the tree as a whole.
-
-In this case if you checkout that commit (1edc170bb240), you end up
-with a tree that has the call to trace_xfs_dqreclaim_dirty() still
-present.
-
-The commit that removes the trace_xfs_dqreclaim_dirty() call is in
-v6.16-rc5, but commit 1edc170bb240 is based on v6.16-rc2 ... so you
-probably want to rebase the patch seires from Steven Rostedt
-<rostedt@goodmis.org> (1edc170bb240^..10a957e43f28) on v6.16-rc5 and
-then merge it.  And, in fact, commit 1edc170bb240 has this:
-
-Fixes: d62016b1a2df ("xfs: avoid dquot buffer pin deadlock")
-
-So needed to be applied to a descendant of d62016b1a2df.
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/TNLw+Aqks7RtB=9buhaCNjW
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmiCP9UACgkQAVBC80lX
-0GzM0Af/ebhyaFIPDvKP1gzYFMgRcgxHphvCpaDPs+zbUyWEIwbucLrE8J5PA+Mg
-weDbb/wSF7kwnxP2j2AWAiOO5mu2Aig9QXG6OwflvAJjfDadW7MZyHbcQ4fsOJoz
-8LI69ebuoUvElHqKa3kwh/uWwTCzOG2mx73Vuj52mgyZhJOf+6WZLDz79PCviFKl
-MZ5cxQ92eLQf0eITc6I+ZkMVjYFvFeHBkzhR81LZxMGpxVHex77nBcGaqK13MFZo
-TsTW9WSiCMF48IGjdQcWmouZooZZYeUMwFDS3homIqOHET7mkV0O2T1kLP7gMmb7
-j9Dsf7KLtL8fUzmix84Rxg4U4h/hNQ==
-=xwee
------END PGP SIGNATURE-----
-
---Sig_/TNLw+Aqks7RtB=9buhaCNjW--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
