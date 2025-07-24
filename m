@@ -1,150 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D7D184
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 13:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99082D8DA6;
+	Thu, 24 Jul 2025 13:31:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753362209; cv=none; b=a0AxS7su4QG922S7sD4AO+W+ZmlkgFiV6Lgx3Fudd5XYwBRF42LfHqOLCjHck/IAzmuUKreJw85FbidUbPhv4i3qDBrDyRRYOdBYmvyoH2hdlFNecXfWlXLWPqH7Sq1dGVZnz04FTKVuY24FxOayCdMoEPXObjJeDVmcntzyZZI=
+	t=1753363915; cv=none; b=psWcJ5br4yXtYvxiDthAoKkDPH3tB5iYQXush7oUiE+VOwf1w4sOX6W2DIDig83M+7GxhHYdM2o2eR8RHulqNAl7JdW7hSlbo0OF3MRBBtv0efysasc9ypNBc3v/UGyiWvclF/f/z5e75y9IFaUeojTBa34tpnvdaLxuQJTnShs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753362209; c=relaxed/simple;
-	bh=Z9yx0Znel3PZgr0veP+u6wAz+0Rq+E1+JLEXc+hdjsc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kbNSWQKPdycdQAR8BiDGMEGSdXF66hzHOYL3Fs8sb2apZphTATSqzreZL1/po1bIyabuwsBr+98liYAvEkKpNUq2tP8z/QeL94aIKrSXs+NV1wkJGQmRg75ojM5Dv70AWq35O4V8tjd2ovfDVXPJEk9653vKc8SgsDZF5bTwNLA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bWV9ECM9; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753363915; c=relaxed/simple;
+	bh=FcD7CZDSoIc+qE94jXhoSUnNH0lTvdXvQcs5snIJchk=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=ZZbwY6rb1RmVThc8+KF/tA27KZrxQ53hMouomWMef53xccJFZsw8HQpfHAgG5XTLDZ+5IWP9sLvOchhfcnRv0hdprjoG5a2T7R2I7gQXECp41oYkKuohIG9mQEaJy7uXhb5tS276N9nZsmRR9sX7rXNbeHkJ47PGcAxDpHN3fSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4vRD5eu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bWV9ECM9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753362207; x=1784898207;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Z9yx0Znel3PZgr0veP+u6wAz+0Rq+E1+JLEXc+hdjsc=;
-  b=bWV9ECM9Ur5xB89dQzRFEwJ/PacL+ilxmHNnik/gCgzTeMbZL6WGUeBp
-   q6PFNI5N7bivNBMGPKX7cV0DG7nOIKDAIvbRBpJExTVKlf14Kptye0Qzp
-   2Ee/abuGzFxmEDkd40dLab2zxPbNlASqcpQ9FUoT3pBQuU5i2T88OOpiN
-   Xl4xxJsYmzbaf1VbLhPhZm1S+rzcV1bJEy8AXyLPLgTjvWGQb5at03r3y
-   uZOORBtn3RP3BHjGY6pPCGkhKY00gRWhjWLvHB4gxFdPSQdCzKolawpQh
-   kx+7oKV3+Nakwyx+coaZt9jgCorWufXt5zTm7gADRTXBkGaSdhN3XcMG3
-   Q==;
-X-CSE-ConnectionGUID: oykIM1eWTeWocqthAas3aw==
-X-CSE-MsgGUID: WF4ZzR+7Q+iX8GNCBnuqGw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55524713"
-X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="55524713"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 06:03:26 -0700
-X-CSE-ConnectionGUID: qpFF78SRRAqtYYzAokPyjA==
-X-CSE-MsgGUID: ARtbnSpRRXOw8IE+ng+FtQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="160515373"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 24 Jul 2025 06:03:24 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uevbW-000KS7-08;
-	Thu, 24 Jul 2025 13:03:22 +0000
-Date: Thu, 24 Jul 2025 21:02:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kees Cook <kees@kernel.org>, Jakub Kicinski <kuba@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Kees Cook <kees@kernel.org>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Willem de Bruijn <willemb@google.com>, netdev@vger.kernel.org
-Subject: Re: [PATCH 3/6 net-next] net: Convert proto_ops bind() callbacks to
- use sockaddr_unspec
-Message-ID: <202507242032.e0sbPWI4-lkp@intel.com>
-References: <20250723231921.2293685-3-kees@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4vRD5eu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37914C4CEED;
+	Thu, 24 Jul 2025 13:31:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753363915;
+	bh=FcD7CZDSoIc+qE94jXhoSUnNH0lTvdXvQcs5snIJchk=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=O4vRD5eucG3AGDGbo+8WaLkh72BU6+GviiIrbPSQV7DFLwBdCGRPK+wJdNSzA+SMo
+	 9vyzfq+BhqZjhAB/1AIjy0QdWeUW0yEqhpeJkr+B6nu+HKsqGxwhPb2t/kwxkyCiPw
+	 YJHlqWDJimFjfh1L50ZYWXOuky0eDMIr+P4orCjUyYSBNHdPjgFEYQMIA1hAZFbo3P
+	 rTGYja8zukCqEag0fal+k5ySAswhMqLjIqEpbhXQg5LAzp99RrG2g+T/YtP+NJ8cTS
+	 s0s0Fx8VvlL3LksBHkMjdnrkcNqKj/M+r5NjTPgUqN2sURmRAXjtQGw6OgoUUs8aTq
+	 6MeogXobdx81w==
+Date: Thu, 24 Jul 2025 06:31:52 -0700
+From: Kees Cook <kees@kernel.org>
+To: kernel test robot <lkp@intel.com>, Jakub Kicinski <kuba@kernel.org>
+CC: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Kuniyuki Iwashima <kuniyu@google.com>, Willem de Bruijn <willemb@google.com>,
+ netdev@vger.kernel.org
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_3/6_net-next=5D_net=3A_Convert_proto?=
+ =?US-ASCII?Q?=5Fops_bind=28=29_callbacks_to_use_sockaddr=5Funspec?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <202507241955.LuEWrXAU-lkp@intel.com>
+References: <20250723231921.2293685-3-kees@kernel.org> <202507241955.LuEWrXAU-lkp@intel.com>
+Message-ID: <2B9D5F9B-2AAD-4578-B87F-3ADD67EDA6BF@kernel.org>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250723231921.2293685-3-kees@kernel.org>
-
-Hi Kees,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on next-20250723]
-[also build test ERROR on v6.16-rc7]
-[cannot apply to net-next/main bluetooth-next/master bluetooth/master brauner-vfs/vfs.all mkl-can-next/testing mptcp/export mptcp/export-net trondmy-nfs/linux-next linus/master v6.16-rc7 v6.16-rc6 v6.16-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Kees-Cook/net-uapi-Add-__kernel_sockaddr_unspec-for-sockaddr-of-unknown-length/20250724-072218
-base:   next-20250723
-patch link:    https://lore.kernel.org/r/20250723231921.2293685-3-kees%40kernel.org
-patch subject: [PATCH 3/6 net-next] net: Convert proto_ops bind() callbacks to use sockaddr_unspec
-config: x86_64-buildonly-randconfig-003-20250724 (https://download.01.org/0day-ci/archive/20250724/202507242032.e0sbPWI4-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507242032.e0sbPWI4-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507242032.e0sbPWI4-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   net/packet/af_packet.c: In function 'packet_bind_spkt':
->> net/packet/af_packet.c:3340:33: error: 'struct __kernel_sockaddr_unspec' has no member named 'sa_data_min'; did you mean 'sa_data'?
-    3340 |         char name[sizeof(uaddr->sa_data_min) + 1];
-         |                                 ^~~~~~~~~~~
-         |                                 sa_data
-   net/packet/af_packet.c:3351:52: error: 'struct __kernel_sockaddr_unspec' has no member named 'sa_data_min'; did you mean 'sa_data'?
-    3351 |         memcpy(name, uaddr->sa_data, sizeof(uaddr->sa_data_min));
-         |                                                    ^~~~~~~~~~~
-         |                                                    sa_data
-   net/packet/af_packet.c:3352:28: error: 'struct __kernel_sockaddr_unspec' has no member named 'sa_data_min'; did you mean 'sa_data'?
-    3352 |         name[sizeof(uaddr->sa_data_min)] = 0;
-         |                            ^~~~~~~~~~~
-         |                            sa_data
-   net/packet/af_packet.c:3340:14: warning: unused variable 'name' [-Wunused-variable]
-    3340 |         char name[sizeof(uaddr->sa_data_min) + 1];
-         |              ^~~~
-   net/packet/af_packet.c:3355:1: warning: control reaches end of non-void function [-Wreturn-type]
-    3355 | }
-         | ^
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
 
-vim +3340 net/packet/af_packet.c
 
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3331  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3332  /*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3333   *	Bind a packet socket to a device
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3334   */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3335  
-40570133fbb3ba Kees Cook           2025-07-23  3336  static int packet_bind_spkt(struct socket *sock, struct sockaddr_unspec *uaddr,
-40d4e3dfc2f56a Eric Dumazet        2009-07-21  3337  			    int addr_len)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3338  {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3339  	struct sock *sk = sock->sk;
-b5f0de6df6dce8 Kees Cook           2022-10-18 @3340  	char name[sizeof(uaddr->sa_data_min) + 1];
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3341  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3342  	/*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3343  	 *	Check legality
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3344  	 */
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3345  
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3346  	if (addr_len != sizeof(struct sockaddr))
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3347  		return -EINVAL;
-540e2894f79055 Alexander Potapenko 2017-03-01  3348  	/* uaddr->sa_data comes from the userspace, it's not guaranteed to be
-540e2894f79055 Alexander Potapenko 2017-03-01  3349  	 * zero-terminated.
-540e2894f79055 Alexander Potapenko 2017-03-01  3350  	 */
-b5f0de6df6dce8 Kees Cook           2022-10-18  3351  	memcpy(name, uaddr->sa_data, sizeof(uaddr->sa_data_min));
-b5f0de6df6dce8 Kees Cook           2022-10-18  3352  	name[sizeof(uaddr->sa_data_min)] = 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3353  
-6ffc57ea004234 Eric Dumazet        2023-05-26  3354  	return packet_do_bind(sk, name, 0, 0);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3355  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  3356  
+On July 24, 2025 4:29:15 AM PDT, kernel test robot <lkp@intel=2Ecom> wrote=
+:
+>Hi Kees,
+>
+>kernel test robot noticed the following build warnings:
+>
+>[auto build test WARNING on next-20250723]
+>[also build test WARNING on v6=2E16-rc7]
+>[cannot apply to net-next/main bluetooth-next/master bluetooth/master bra=
+uner-vfs/vfs=2Eall mkl-can-next/testing mptcp/export mptcp/export-net trond=
+my-nfs/linux-next linus/master v6=2E16-rc7 v6=2E16-rc6 v6=2E16-rc5]
+>[If your patch is applied to the wrong git tree, kindly drop us a note=2E
+>And when submitting patch, we suggest to use '--base' as documented in
+>https://git-scm=2Ecom/docs/git-format-patch#_base_tree_information]
+>
+>url:    https://github=2Ecom/intel-lab-lkp/linux/commits/Kees-Cook/net-ua=
+pi-Add-__kernel_sockaddr_unspec-for-sockaddr-of-unknown-length/20250724-072=
+218
+>base:   next-20250723
+>patch link:    https://lore=2Ekernel=2Eorg/r/20250723231921=2E2293685-3-k=
+ees%40kernel=2Eorg
+>patch subject: [PATCH 3/6 net-next] net: Convert proto_ops bind() callbac=
+ks to use sockaddr_unspec
+>config: x86_64-buildonly-randconfig-003-20250724 (https://download=2E01=
+=2Eorg/0day-ci/archive/20250724/202507241955=2ELuEWrXAU-lkp@intel=2Ecom/con=
+fig)
+>compiler: gcc-12 (Debian 12=2E2=2E0-14+deb12u1) 12=2E2=2E0
+>reproduce (this is a W=3D1 build): (https://download=2E01=2Eorg/0day-ci/a=
+rchive/20250724/202507241955=2ELuEWrXAU-lkp@intel=2Ecom/reproduce)
+>
+>If you fix the issue in a separate patch/commit (i=2Ee=2E not just a new =
+version of
+>the same patch/commit), kindly add following tags
+>| Reported-by: kernel test robot <lkp@intel=2Ecom>
+>| Closes: https://lore=2Ekernel=2Eorg/oe-kbuild-all/202507241955=2ELuEWrX=
+AU-lkp@intel=2Ecom/
+>
+>All warnings (new ones prefixed by >>):
+>
+>   net/packet/af_packet=2Ec: In function 'packet_bind_spkt':
+>   net/packet/af_packet=2Ec:3340:33: error: 'struct __kernel_sockaddr_uns=
+pec' has no member named 'sa_data_min'; did you mean 'sa_data'?
+>    3340 |         char name[sizeof(uaddr->sa_data_min) + 1];
+>         |                                 ^~~~~~~~~~~
+>         |                                 sa_data
+>   net/packet/af_packet=2Ec:3351:52: error: 'struct __kernel_sockaddr_uns=
+pec' has no member named 'sa_data_min'; did you mean 'sa_data'?
+>    3351 |         memcpy(name, uaddr->sa_data, sizeof(uaddr->sa_data_min=
+));
+>         |                                                    ^~~~~~~~~~~
+>         |                                                    sa_data
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Hmpf=2E My mistake -- I've been trying to send out subsets of these patche=
+s so I don't spam netdev with 100 patches and I had the "make sockaddr a fi=
+xed size" patch earlier in my larger series=2E I will get this adjusted and=
+ retested=2E I'll wait for design feedback first, though=2E :)
+
+
+--=20
+Kees Cook
