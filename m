@@ -1,113 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C99082D8DA6;
-	Thu, 24 Jul 2025 13:31:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30933A1DB
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 14:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753363915; cv=none; b=psWcJ5br4yXtYvxiDthAoKkDPH3tB5iYQXush7oUiE+VOwf1w4sOX6W2DIDig83M+7GxhHYdM2o2eR8RHulqNAl7JdW7hSlbo0OF3MRBBtv0efysasc9ypNBc3v/UGyiWvclF/f/z5e75y9IFaUeojTBa34tpnvdaLxuQJTnShs=
+	t=1753366030; cv=none; b=HawwYFyZ+uRPrmEfwdUFUlWtWiHbfTYjLD5jbxyFWmED8MNEd5apAfYqGxi8UtmpZGBwq6ALrFJ86rYu0mR6X1pO0rJCRaZkKu6s6pVhw0OeILUjP2fZaAJl8sYhm3F97lX1UT+A3kj89CMGhU0II+69X9eekdnzbrPqeplvwQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753363915; c=relaxed/simple;
-	bh=FcD7CZDSoIc+qE94jXhoSUnNH0lTvdXvQcs5snIJchk=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=ZZbwY6rb1RmVThc8+KF/tA27KZrxQ53hMouomWMef53xccJFZsw8HQpfHAgG5XTLDZ+5IWP9sLvOchhfcnRv0hdprjoG5a2T7R2I7gQXECp41oYkKuohIG9mQEaJy7uXhb5tS276N9nZsmRR9sX7rXNbeHkJ47PGcAxDpHN3fSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O4vRD5eu; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O4vRD5eu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37914C4CEED;
-	Thu, 24 Jul 2025 13:31:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753363915;
-	bh=FcD7CZDSoIc+qE94jXhoSUnNH0lTvdXvQcs5snIJchk=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=O4vRD5eucG3AGDGbo+8WaLkh72BU6+GviiIrbPSQV7DFLwBdCGRPK+wJdNSzA+SMo
-	 9vyzfq+BhqZjhAB/1AIjy0QdWeUW0yEqhpeJkr+B6nu+HKsqGxwhPb2t/kwxkyCiPw
-	 YJHlqWDJimFjfh1L50ZYWXOuky0eDMIr+P4orCjUyYSBNHdPjgFEYQMIA1hAZFbo3P
-	 rTGYja8zukCqEag0fal+k5ySAswhMqLjIqEpbhXQg5LAzp99RrG2g+T/YtP+NJ8cTS
-	 s0s0Fx8VvlL3LksBHkMjdnrkcNqKj/M+r5NjTPgUqN2sURmRAXjtQGw6OgoUUs8aTq
-	 6MeogXobdx81w==
-Date: Thu, 24 Jul 2025 06:31:52 -0700
-From: Kees Cook <kees@kernel.org>
-To: kernel test robot <lkp@intel.com>, Jakub Kicinski <kuba@kernel.org>
-CC: oe-kbuild-all@lists.linux.dev, Eric Dumazet <edumazet@google.com>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Kuniyuki Iwashima <kuniyu@google.com>, Willem de Bruijn <willemb@google.com>,
- netdev@vger.kernel.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_3/6_net-next=5D_net=3A_Convert_proto?=
- =?US-ASCII?Q?=5Fops_bind=28=29_callbacks_to_use_sockaddr=5Funspec?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <202507241955.LuEWrXAU-lkp@intel.com>
-References: <20250723231921.2293685-3-kees@kernel.org> <202507241955.LuEWrXAU-lkp@intel.com>
-Message-ID: <2B9D5F9B-2AAD-4578-B87F-3ADD67EDA6BF@kernel.org>
+	s=arc-20240116; t=1753366030; c=relaxed/simple;
+	bh=OkQND1FA8Zgiq+fCIXVzxfpptSSlpHzvRjGUS3FX33M=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=turGNjlXy+1X1USgxCKf1TBC95IOx/PuXGJUspb9lKeldQ9sCzkkSPRnBF65wbsykMfJ6VyH44cIdrjgGtsw+Yt14mL/7F/97+cHsEbDYroYCVAA4hunK17JL7BXnKiPMXhtpnPzOsrLw32QvqpaN8ecCi6AEZA+ut55Z6jv+B8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id C93A61DA939;
+	Thu, 24 Jul 2025 14:07:05 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf19.hostedemail.com (Postfix) with ESMTPA id DE9FD20031;
+	Thu, 24 Jul 2025 14:07:00 +0000 (UTC)
+Date: Thu, 24 Jul 2025 10:06:59 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: kernel test robot <lkp@intel.com>
+Cc: Shuai Xue <xueshuai@linux.alibaba.com>, lukas@wunner.de,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-edac@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ helgaas@kernel.org, ilpo.jarvinen@linux.intel.com, mattc@purestorage.com,
+ Jonathan.Cameron@huawei.com, oe-kbuild-all@lists.linux.dev,
+ bhelgaas@google.com, tony.luck@intel.com, bp@alien8.de,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com, oleg@redhat.com,
+ naveen@kernel.org, davem@davemloft.net, anil.s.keshavamurthy@intel.com,
+ mark.rutland@arm.com, peterz@infradead.org, tianruidong@linux.alibaba.com
+Subject: Re: [PATCH v9 2/2] PCI: trace: Add a RAS tracepoint to monitor link
+ speed changes
+Message-ID: <20250724100659.697b5972@batman.local.home>
+In-Reply-To: <202507240322.nJGdyXsy-lkp@intel.com>
+References: <20250723033108.61587-3-xueshuai@linux.alibaba.com>
+	<202507240322.nJGdyXsy-lkp@intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: sj9jeatpcmgk3dhhg1j4rmu7omcno6er
+X-Rspamd-Server: rspamout03
+X-Rspamd-Queue-Id: DE9FD20031
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX19yykztU+ewahSgXtlShevzjICByiY4Pc0=
+X-HE-Tag: 1753366020-125808
+X-HE-Meta: U2FsdGVkX1+TEXuVgYhshrbY4gdIu46q7I1W9e0mKfeNI4eMYQUVJZpoHvrdSo361H5fZTwriFyQm9cGE275G//RCB7TOVItLCTRulhEsmdN7+LyWt6m5pwcSy6OnZXg3zHNWwKc/9Fb2DgNjW3uizrNmcCJ9AH2ZVRJLHmHMtCFECwCKURhar6iqTUabZCYm2MqOJysS+9ckxENYuxHxICNHsZd3zOsbqYsxF72SfWePz5NTMKiukyzLPbFBKd4COZbrBeTsg4hzVM8bRiB261Ip+XuIxyWFX/svazljEli/DuBbFmukYshzY0skaoB9agmZtxki2a4QPYF6Ty+escxqP/FJ4n57uGO7z9h4FeaTRgKEARY5QIrJK9dtsGyCG8FJ8GzVSsLsxG/hhL5NFJZRwXJFHdxL6DmA9egTDjGNkBCg2YqrFzsKdv10imfDJZRMaytYkpBcl+VQJRbK2y/4R0/yvDD
 
+On Thu, 24 Jul 2025 03:30:17 +0800
+kernel test robot <lkp@intel.com> wrote:
 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Shuai-Xue/PCI-trace-Add-a-generic-RAS-tracepoint-for-hotplug-event/20250723-113454
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git for-linus
+> patch link:    https://lore.kernel.org/r/20250723033108.61587-3-xueshuai%40linux.alibaba.com
+> patch subject: [PATCH v9 2/2] PCI: trace: Add a RAS tracepoint to monitor link speed changes
+> config: sparc-sparc64_defconfig (https://download.01.org/0day-ci/archive/20250724/202507240322.nJGdyXsy-lkp@intel.com/config)
+> compiler: sparc64-linux-gcc (GCC) 15.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507240322.nJGdyXsy-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202507240322.nJGdyXsy-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    sparc64-linux-ld: drivers/pci/probe.o: in function `pcie_update_link_speed':
+> >> probe.c:(.text+0x370): undefined reference to `__tracepoint_pcie_link_event'
+> >> sparc64-linux-ld: probe.c:(.text+0x37c): undefined reference to `__tracepoint_pcie_link_event'
+> >> sparc64-linux-ld: probe.c:(.text+0x3dc): undefined reference to `__traceiter_pcie_link_event'  
 
-On July 24, 2025 4:29:15 AM PDT, kernel test robot <lkp@intel=2Ecom> wrote=
-:
->Hi Kees,
->
->kernel test robot noticed the following build warnings:
->
->[auto build test WARNING on next-20250723]
->[also build test WARNING on v6=2E16-rc7]
->[cannot apply to net-next/main bluetooth-next/master bluetooth/master bra=
-uner-vfs/vfs=2Eall mkl-can-next/testing mptcp/export mptcp/export-net trond=
-my-nfs/linux-next linus/master v6=2E16-rc7 v6=2E16-rc6 v6=2E16-rc5]
->[If your patch is applied to the wrong git tree, kindly drop us a note=2E
->And when submitting patch, we suggest to use '--base' as documented in
->https://git-scm=2Ecom/docs/git-format-patch#_base_tree_information]
->
->url:    https://github=2Ecom/intel-lab-lkp/linux/commits/Kees-Cook/net-ua=
-pi-Add-__kernel_sockaddr_unspec-for-sockaddr-of-unknown-length/20250724-072=
-218
->base:   next-20250723
->patch link:    https://lore=2Ekernel=2Eorg/r/20250723231921=2E2293685-3-k=
-ees%40kernel=2Eorg
->patch subject: [PATCH 3/6 net-next] net: Convert proto_ops bind() callbac=
-ks to use sockaddr_unspec
->config: x86_64-buildonly-randconfig-003-20250724 (https://download=2E01=
-=2Eorg/0day-ci/archive/20250724/202507241955=2ELuEWrXAU-lkp@intel=2Ecom/con=
-fig)
->compiler: gcc-12 (Debian 12=2E2=2E0-14+deb12u1) 12=2E2=2E0
->reproduce (this is a W=3D1 build): (https://download=2E01=2Eorg/0day-ci/a=
-rchive/20250724/202507241955=2ELuEWrXAU-lkp@intel=2Ecom/reproduce)
->
->If you fix the issue in a separate patch/commit (i=2Ee=2E not just a new =
-version of
->the same patch/commit), kindly add following tags
->| Reported-by: kernel test robot <lkp@intel=2Ecom>
->| Closes: https://lore=2Ekernel=2Eorg/oe-kbuild-all/202507241955=2ELuEWrX=
-AU-lkp@intel=2Ecom/
->
->All warnings (new ones prefixed by >>):
->
->   net/packet/af_packet=2Ec: In function 'packet_bind_spkt':
->   net/packet/af_packet=2Ec:3340:33: error: 'struct __kernel_sockaddr_uns=
-pec' has no member named 'sa_data_min'; did you mean 'sa_data'?
->    3340 |         char name[sizeof(uaddr->sa_data_min) + 1];
->         |                                 ^~~~~~~~~~~
->         |                                 sa_data
->   net/packet/af_packet=2Ec:3351:52: error: 'struct __kernel_sockaddr_uns=
-pec' has no member named 'sa_data_min'; did you mean 'sa_data'?
->    3351 |         memcpy(name, uaddr->sa_data, sizeof(uaddr->sa_data_min=
-));
->         |                                                    ^~~~~~~~~~~
->         |                                                    sa_data
+The config has:
 
-Hmpf=2E My mistake -- I've been trying to send out subsets of these patche=
-s so I don't spam netdev with 100 patches and I had the "make sockaddr a fi=
-xed size" patch earlier in my larger series=2E I will get this adjusted and=
- retested=2E I'll wait for design feedback first, though=2E :)
+# CONFIG_CPU_HOTPLUG_STATE_CONTROL is not set
 
+Which looks to me from the first patch, would enable the code that
+defines the trace events via the:
 
---=20
-Kees Cook
++#define CREATE_TRACE_POINTS
++#include <trace/events/pci.h>
+
+Thus, without compiling that file, the tracepoints would not be created
+and you would get the above errors.
+
+-- Steve
