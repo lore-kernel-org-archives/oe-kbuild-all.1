@@ -1,135 +1,139 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32EA718027;
-	Fri, 25 Jul 2025 02:27:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA1AB54F81
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Jul 2025 02:31:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753410460; cv=none; b=lpn8UjYT1SaGeFn6Vfhvpb/+rQ2/DqVX//nSxrfeh8kHEA2BWakofMllK96VxWfRrux0Rg/x45aI2aEFrciHlXDtYsQiHFV3RCI83GaHleFAHh365GfPmmeGOeBaDx4inPeOg86GYxY2+8hnWpKHwFmiXRM2qDQctxVzEiQEj6I=
+	t=1753410719; cv=none; b=HBwHK4KYf+vaqHjvVC4LuFYaUpvu6/6qjtR2CMsmpG/nNgfaTC+hyVj/gmt1WtnjUdd+YS+pndJhGBVWJUyHh8Wc6uBnbgtIVu+clMxW/L8rbZtLF29ndB7b8EZzpbPvon5cyVqMKrXxau5Rxp9ir9MmF5HPjUMPC1iNaoKqtRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753410460; c=relaxed/simple;
-	bh=Khfr6GJFMEPyxoF5TtbNyRQfS0y6Twazz2yM+2molDY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TUkIZ0rS/vGLpZA4OViWBHv9PrpgGNONFA++6ETk8IrYsydPgByu+7V91X9JDPMWMbLinJ6qwUEVKNm0yGlrIMbPPq7WHGp5OYlhoYkDo+tv52S+tZhXU16YaIdsccJ/05Iu347GeiTFjQ5DfqdGxRF1zwi5b7feBMUHmO739Ps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Lh9r7jr/; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753410719; c=relaxed/simple;
+	bh=qw22ZWveSnNXYOvVUnPPp98LlSg6iUvGggEgz0HG03Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kckv0zxYxXHrW7VVOx0ZU+tnTL9dWsa5hiBGZT8ZqvrHt6pdIqtkdWvp+Rcm0SIf7IvvA2RFlYx8IPO7K4fqyZB5H3Bs9FeBXKaOlJ4eUdE8xHYpl22Bnr9j/9GtRm5na4VX9kVZDxxYLF0tZM0w449lHVFCJxZXn42/X4m50dM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=cBMlU+YI; arc=none smtp.client-ip=115.124.30.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Lh9r7jr/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753410459; x=1784946459;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Khfr6GJFMEPyxoF5TtbNyRQfS0y6Twazz2yM+2molDY=;
-  b=Lh9r7jr/DubdmVjebTXg4vwbPAXesuoFlT9XsSkWk6ETSY/rBSfMpw3v
-   Pt9OyY1vmpe4KWS8c2KezZDvlhyUAvsnMVfnEsuZyFTZDlQPKjUUcXz2K
-   wq+bI9EzoU8OuLPpk5e1aP+PVQ40/1/GZqrueoI0xVEG8WzxBr6W3xns9
-   exFfA3XzqwuCP94KCQoMc4XBzG52WOqFLBayHbTJrKtwYgC9P8KN1brAX
-   6vrGXmCjwPVhYiEFKcwEmyDvdYlFjPBcoZIgDpaFDX/Pg6G9G+iqhggFY
-   5Be0ZSYUl5DH+FG2lPP9/cj4NchcYD7orlzmDjaj4+m+BsjzgBsg6tZfu
-   w==;
-X-CSE-ConnectionGUID: ARhBREpcS6yBvr7SFoxgxA==
-X-CSE-MsgGUID: 4EabJzqlT4a5afCWO4bkvw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="43352929"
-X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; 
-   d="scan'208";a="43352929"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 19:27:39 -0700
-X-CSE-ConnectionGUID: bLSRn50RQC6VQhsJrY0bkA==
-X-CSE-MsgGUID: qPdZrQ5FRW2cHtvxPARCvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,338,1744095600"; 
-   d="scan'208";a="164883627"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Jul 2025 19:27:33 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uf89i-000KzD-0K;
-	Fri, 25 Jul 2025 02:27:30 +0000
-Date: Fri, 25 Jul 2025 10:26:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Damon Ding <damon.ding@rock-chips.com>, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	simona@ffwll.ch, jingoohan1@gmail.com, inki.dae@samsung.com,
-	sw0312.kim@samsung.com, kyungmin.park@samsung.com, krzk@kernel.org,
-	alim.akhtar@samsung.com, hjc@rock-chips.com, heiko@sntech.de,
-	andy.yan@rock-chips.com, dmitry.baryshkov@oss.qualcomm.com,
-	l.stach@pengutronix.de, dianders@chromium.org,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	Damon Ding <damon.ding@rock-chips.com>
-Subject: Re: [PATCH v3 08/14] drm/bridge: analogix_dp: Apply
- drm_bridge_connector helper
-Message-ID: <202507251021.A6WmQ4di-lkp@intel.com>
-References: <20250724080304.3572457-9-damon.ding@rock-chips.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="cBMlU+YI"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1753410709; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=btxZweO/rGd+0DSVVWK88KFtafqY/KJF2asyq9ovbKU=;
+	b=cBMlU+YImIMUMoTyGIMGUFdjRDGGTrSXDcADa/GpI89BuiXGSZaibZC6GXuFrKP4A1mg5GBwI6N1wQkiMbxMN5nMym1kyXjW19KrMGg0L5NAfcR+0dsqPOsGJPvwWZK+o0cIg80zZVr59K9rACVvi2MC6Erwcq6lkukJgQJlBYc=
+Received: from 30.246.181.19(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0WjuqHYV_1753410706 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 25 Jul 2025 10:31:47 +0800
+Message-ID: <4b41e3e2-ebac-48c3-b1a3-ce24a5bed475@linux.alibaba.com>
+Date: Fri, 25 Jul 2025 10:31:45 +0800
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250724080304.3572457-9-damon.ding@rock-chips.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 2/2] PCI: trace: Add a RAS tracepoint to monitor link
+ speed changes
+To: Steven Rostedt <rostedt@goodmis.org>, kernel test robot <lkp@intel.com>,
+ Bjorn Helgaas <bhelgaas@google.com>
+Cc: lukas@wunner.de, linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-edac@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ helgaas@kernel.org, ilpo.jarvinen@linux.intel.com, mattc@purestorage.com,
+ Jonathan.Cameron@huawei.com, oe-kbuild-all@lists.linux.dev,
+ tony.luck@intel.com, bp@alien8.de, mhiramat@kernel.org,
+ mathieu.desnoyers@efficios.com, oleg@redhat.com, naveen@kernel.org,
+ davem@davemloft.net, anil.s.keshavamurthy@intel.com, mark.rutland@arm.com,
+ peterz@infradead.org, tianruidong@linux.alibaba.com
+References: <20250723033108.61587-3-xueshuai@linux.alibaba.com>
+ <202507240322.nJGdyXsy-lkp@intel.com>
+ <20250724100659.697b5972@batman.local.home>
+From: Shuai Xue <xueshuai@linux.alibaba.com>
+In-Reply-To: <20250724100659.697b5972@batman.local.home>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Damon,
+Hi, Steven,
 
-kernel test robot noticed the following build errors:
+在 2025/7/24 22:06, Steven Rostedt 写道:
+> On Thu, 24 Jul 2025 03:30:17 +0800
+> kernel test robot <lkp@intel.com> wrote:
+> 
+>> url:    https://github.com/intel-lab-lkp/linux/commits/Shuai-Xue/PCI-trace-Add-a-generic-RAS-tracepoint-for-hotplug-event/20250723-113454
+>> base:   https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git for-linus
+>> patch link:    https://lore.kernel.org/r/20250723033108.61587-3-xueshuai%40linux.alibaba.com
+>> patch subject: [PATCH v9 2/2] PCI: trace: Add a RAS tracepoint to monitor link speed changes
+>> config: sparc-sparc64_defconfig (https://download.01.org/0day-ci/archive/20250724/202507240322.nJGdyXsy-lkp@intel.com/config)
+>> compiler: sparc64-linux-gcc (GCC) 15.1.0
+>> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250724/202507240322.nJGdyXsy-lkp@intel.com/reproduce)
+>>
+>> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+>> the same patch/commit), kindly add following tags
+>> | Reported-by: kernel test robot <lkp@intel.com>
+>> | Closes: https://lore.kernel.org/oe-kbuild-all/202507240322.nJGdyXsy-lkp@intel.com/
+>>
+>> All errors (new ones prefixed by >>):
+>>
+>>     sparc64-linux-ld: drivers/pci/probe.o: in function `pcie_update_link_speed':
+>>>> probe.c:(.text+0x370): undefined reference to `__tracepoint_pcie_link_event'
+>>>> sparc64-linux-ld: probe.c:(.text+0x37c): undefined reference to `__tracepoint_pcie_link_event'
+>>>> sparc64-linux-ld: probe.c:(.text+0x3dc): undefined reference to `__traceiter_pcie_link_event'
+> 
+> The config has:
+> 
+> # CONFIG_CPU_HOTPLUG_STATE_CONTROL is not set
+> 
+> Which looks to me from the first patch, would enable the code that
+> defines the trace events via the:
+> 
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/pci.h>
+> 
+> Thus, without compiling that file, the tracepoints would not be created
+> and you would get the above errors.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on next-20250724]
-[cannot apply to drm-exynos/exynos-drm-next rockchip/for-next linus/master v6.16-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Thanks for the detailed analysis! You're absolutely right about the root
+cause.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Damon-Ding/drm-bridge-analogix_dp-Formalize-the-struct-analogix_dp_device/20250724-160804
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20250724080304.3572457-9-damon.ding%40rock-chips.com
-patch subject: [PATCH v3 08/14] drm/bridge: analogix_dp: Apply drm_bridge_connector helper
-config: x86_64-buildonly-randconfig-003-20250725 (https://download.01.org/0day-ci/archive/20250725/202507251021.A6WmQ4di-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250725/202507251021.A6WmQ4di-lkp@intel.com/reproduce)
+The issue is that I have the tracepoint usage in drivers/pci/probe.c
+(which is always compiled), but the tracepoint definition with:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507251021.A6WmQ4di-lkp@intel.com/
+#define CREATE_TRACE_POINTS
+#include<trace/events/pci.h>
 
-All errors (new ones prefixed by >>):
+is in drivers/pci/hotplug/pciehp_ctrl.c that's conditionally compiled
+based on CONFIG_HOTPLUG_PCI_PCIE=y, creating the undefined reference
+when that config is not set.
 
->> drivers/gpu/drm/bridge/analogix/analogix_dp_core.c:1346:12: error: incompatible function pointer types initializing 'enum drm_connector_status (*)(struct drm_bridge *, struct drm_connector *)' with an expression of type 'enum drm_connector_status (struct drm_bridge *)' [-Wincompatible-function-pointer-types]
-    1346 |         .detect = analogix_dp_bridge_detect,
-         |                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+I can see a few ways to fix this:
+
+- Move tracepoint definition to always-compiled code - Create a dedicated drivers/pci/trace.c that always defines the PCI tracepoints
+- Make the tracepoint usage conditional - Wrap the trace calls with the same config dependency
+- Create a PCI-specific trace config - Add a CONFIG_PCI_TRACE option
+
+I'm leaning toward option 1 (dedicated trace.c file) as it's the
+cleanest approach and follows the pattern used in other subsystems. Does
+that sound reasonable to you?
+
+> 
+> -- Steve
+
+Thanks for valuable feedback.
+
+Best Regards,
+Shuai
 
 
-vim +1346 drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
 
-  1333	
-  1334	static const struct drm_bridge_funcs analogix_dp_bridge_funcs = {
-  1335		.atomic_duplicate_state = drm_atomic_helper_bridge_duplicate_state,
-  1336		.atomic_destroy_state = drm_atomic_helper_bridge_destroy_state,
-  1337		.atomic_reset = drm_atomic_helper_bridge_reset,
-  1338		.atomic_pre_enable = analogix_dp_bridge_atomic_pre_enable,
-  1339		.atomic_enable = analogix_dp_bridge_atomic_enable,
-  1340		.atomic_disable = analogix_dp_bridge_atomic_disable,
-  1341		.atomic_post_disable = analogix_dp_bridge_atomic_post_disable,
-  1342		.atomic_check = analogix_dp_bridge_atomic_check,
-  1343		.attach = analogix_dp_bridge_attach,
-  1344		.get_modes = analogix_dp_bridge_get_modes,
-  1345		.edid_read = analogix_dp_bridge_edid_read,
-> 1346		.detect = analogix_dp_bridge_detect,
-  1347	};
-  1348	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+
+
+
+
+
+
+
+
+
+
