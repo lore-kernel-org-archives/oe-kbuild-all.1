@@ -1,68 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08153239E8A
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 24 Jul 2025 21:40:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0F9A41;
+	Fri, 25 Jul 2025 00:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753393218; cv=none; b=SPzIEectOTdva/YF5cntlzoIR8Q8wEiE/H12ZdHgVAqPX2vtZLQu6t5EGTpBKW/BuHD9U1MvGvI3NF/lG0hb0B6tbyumKBtPqkYZNsGcYVRw1vY8Sj3ngDzxU5+1Jb43Ity+IU6s8XvpAQ3EVm5P24Y49Gs5pZ804koLyw/XOpg=
+	t=1753402408; cv=none; b=JJgomXE0Z/7+RVP3JogyVad9X9BNjHlkJNxZrK67F+moeWajAMRPIQkzL1W9d8CtIkSkbbElLZn8hg9a0bKTSOgKHIF+c/lKtnqHt7q3cCLkJuAR2WoCP6Wg5c2LxdTxOSmvGyCa6aSIpPRxKGIfdn5jqbW3vLBhSro5qt5g0uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753393218; c=relaxed/simple;
-	bh=neZ4nhTci/OztAR0grO1PqnyUkXOKJlgcFsWnc1vRHY=;
+	s=arc-20240116; t=1753402408; c=relaxed/simple;
+	bh=CXrAspAWhi8AJ8qkfxe1BgPkB+iop70T0nW+wL1a69U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oHJeaaQexX721vm6zikF0YBQ7lbIlTgbhKhbwK0slf50ZjrMumOEfmmhMuEBbvAm31oqPWDA5vOnpusMjdygrpZYAn2WzHrZdkTnH5/1kXN7CUzUHJrH1dTBbSf1Wvzs/QFr6KvIu4TfAvHJDGNVwFd4vOmFGsnY7uKUX1S93hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cfjQx0Pu; arc=none smtp.client-ip=192.198.163.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kz48BTVS7nVULdrooyJgRI6SxEhEJresKxR7Z3FJ4i7yRU2epAkQl6w3c1ZFm2VzelxcMOMMvYbfS7PKq8BpB9vYiPxXPnI9V7ttUe9i/ch4l64/cuywhCiEXONVKwBdFXhYyh4XDPttueQT/CyA56xD7vPIg9qRrOaN10fFDlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jIJ5JLKN; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfjQx0Pu"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jIJ5JLKN"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753393217; x=1784929217;
+  t=1753402407; x=1784938407;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=neZ4nhTci/OztAR0grO1PqnyUkXOKJlgcFsWnc1vRHY=;
-  b=cfjQx0Pup2NGYN0uH5Ca6kV2GvOyfBsO52XQILmQycnuZQS3AD7ooiMT
-   x9+rCu0nYRsmb5i43etDVfo1/xdVykkgzIbcVaHr4FKmrEL6yiL/bPjpC
-   dt3DkgaPl6Enw2YiPjyp9sliJ/GC7nipO3woSpXdqT+DX3PSusoi2lg0/
-   zHgAksXrYG8Ekt3sQx7Mhitygr638cYAdAMdxL4yoQcpnEBNqYmDLsg1x
-   IhF2cgnAcKv8D6bkj+tFmo47tNiPvoLTXBWJTBpA8ovOvGVrb0z1Sbsxg
-   u72SM2a1DmLy4e2//MLzkDMc1ghuwFSJqqUy6AoSO2YYy9Nr3NeO08QaK
-   g==;
-X-CSE-ConnectionGUID: TxknKd15RM+NSM0HWf8Wcg==
-X-CSE-MsgGUID: j90CrBJDQWGGYxgkGXMqJg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="67078133"
+  bh=CXrAspAWhi8AJ8qkfxe1BgPkB+iop70T0nW+wL1a69U=;
+  b=jIJ5JLKND5U7p58nrmrVQL1ADcj14jtkxHO7dRI2OCc3vuKWJvJfpl+M
+   iX5wk418yVsAS248rkxKKGHwl4D/8teqDp2unvG38WkVT+i+E0zKSZm/7
+   N07pD9xQ5JBIuYa86xQ4PfHtc4DU7HqhdhmTYbOyC31asmXYJ9lHYNNvs
+   c2Kii/fiZBdjRzVUafr8k+rreH85igM6lnd8RtAZE90MgJOk3IQebPEIy
+   tQIu89L49nMl81UCTvGzU4mMI2GTm0IWO7mdTzWJ8cCpvwlnH2LMNEo/9
+   wgpZOP0eWK88nUd/dkJ2l+Ckyva0M2Pk/6kdR/kbIu9d8WYnEa8BmwrgZ
+   w==;
+X-CSE-ConnectionGUID: OqFjt3RjQMaznfIQ28WYKg==
+X-CSE-MsgGUID: x8LaXBMET9K7TIWxdVYEfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="55615032"
 X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="67078133"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 14:40:16 -0700
-X-CSE-ConnectionGUID: am3gpL4CTQ+F++tC4OhfVw==
-X-CSE-MsgGUID: GKXt7Mp8RxCertJvEzhVlQ==
+   d="scan'208";a="55615032"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jul 2025 17:13:27 -0700
+X-CSE-ConnectionGUID: y8Pjs+C5QnihHKhqOoZedQ==
+X-CSE-MsgGUID: zr67EXbhRM2JktGqIybxHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,337,1744095600"; 
-   d="scan'208";a="164728880"
+   d="scan'208";a="184207449"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 24 Jul 2025 14:40:12 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 24 Jul 2025 17:13:23 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uf3fd-000KqZ-15;
-	Thu, 24 Jul 2025 21:40:09 +0000
-Date: Fri, 25 Jul 2025 05:39:09 +0800
+	id 1uf63s-000Kvz-25;
+	Fri, 25 Jul 2025 00:13:20 +0000
+Date: Fri, 25 Jul 2025 08:13:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lakshay Piplani <lakshay.piplani@nxp.com>, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, jic23@kernel.org, dlechner@baylibre.com,
-	nuno.sa@analog.com, andy@kernel.org, marcelo.schmitt1@gmail.com,
-	gregkh@linuxfoundation.org, viro@zeniv.linux.org.uk,
-	peterz@infradead.org, jstephan@baylibre.com, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, devicetree@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, vikash.bansal@nxp.com,
-	priyanka.jain@nxp.com, shashank.rebbapragada@nxp.com,
-	Frank.Li@nxp.com, carlos.song@nxp.com, xiaoning.wang@nxp.com,
-	haibo.chen@nxp.com, Lakshay Piplani <lakshay.piplani@nxp.com>
-Subject: Re: [PATCH 1/2] dt-bindings: iio: temperature: Add NXP P3T175x
- support.
-Message-ID: <202507250514.dtLcgKZ2-lkp@intel.com>
-References: <20250724083951.2273717-1-lakshay.piplani@nxp.com>
+To: Tarang Raval <tarang.raval@siliconsignals.io>,
+	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+	hverkuil@xs4all.nl
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Tarang Raval <tarang.raval@siliconsignals.io>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>,
+	Hans de Goede <hansg@kernel.org>, Yunke Cao <yunkec@google.com>,
+	James Cowgill <james.cowgill@blaize.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/4] media: v4l: async: Add
+ devm_v4l2_async_register_subdev_sensor() helper
+Message-ID: <202507250804.YlLveyKO-lkp@intel.com>
+References: <20250723102515.64585-3-tarang.raval@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -71,37 +74,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250724083951.2273717-1-lakshay.piplani@nxp.com>
+In-Reply-To: <20250723102515.64585-3-tarang.raval@siliconsignals.io>
 
-Hi Lakshay,
+Hi Tarang,
 
-kernel test robot noticed the following build warnings:
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on jic23-iio/togreg]
-[also build test WARNING on linus/master v6.16-rc7 next-20250724]
+[auto build test ERROR on sailus-media-tree/master]
+[also build test ERROR on linus/master v6.16-rc7 next-20250724]
+[cannot apply to sailus-media-tree/streams]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lakshay-Piplani/iio-temperature-Add-driver-for-NXP-P3T175x-temperature-sensor/20250724-165936
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
-patch link:    https://lore.kernel.org/r/20250724083951.2273717-1-lakshay.piplani%40nxp.com
-patch subject: [PATCH 1/2] dt-bindings: iio: temperature: Add NXP P3T175x support.
-config: arc-randconfig-052-20250725 (https://download.01.org/0day-ci/archive/20250725/202507250514.dtLcgKZ2-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250725/202507250514.dtLcgKZ2-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Tarang-Raval/media-mc-Add-devm_media_entity_pads_init-helper/20250723-182930
+base:   git://linuxtv.org/sailus/media_tree.git master
+patch link:    https://lore.kernel.org/r/20250723102515.64585-3-tarang.raval%40siliconsignals.io
+patch subject: [PATCH 2/4] media: v4l: async: Add devm_v4l2_async_register_subdev_sensor() helper
+config: hexagon-randconfig-002-20250725 (https://download.01.org/0day-ci/archive/20250725/202507250804.YlLveyKO-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250725/202507250804.YlLveyKO-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507250514.dtLcgKZ2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507250804.YlLveyKO-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
->> Warning: Duplicate compatible "nxp,p3t1755" found in schemas matching "$id":
-   	http://devicetree.org/schemas/iio/temperature/nxp,p3t1755.yaml#
-   	http://devicetree.org/schemas/hwmon/lm75.yaml#
+>> ERROR: modpost: "v4l2_async_register_subdev_sensor" [drivers/media/v4l2-core/v4l2-async.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
