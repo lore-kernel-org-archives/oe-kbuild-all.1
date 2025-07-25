@@ -1,72 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA1720E023;
-	Fri, 25 Jul 2025 11:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F56A283FDD
+	for <oe-kbuild-all@lists.linux.dev>; Fri, 25 Jul 2025 12:31:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753441587; cv=none; b=RNwolRrR1Rrx21o+KZJBB4XubsgU9jRF725ycYgVxegUQF14FzA8wztegfOz+81L+P6NyyYPMr89b8w1BM1ngUe/M3SxzEqoH5cdnlAUP9kyuCjRA0NxOAdy10TMth9aY43eXq5ahrfxch6dMky1bQz4VXtkg2rz/H3ou/EPth4=
+	t=1753446692; cv=none; b=G3p35TcfyIM4QF9v9AwzvRGktQS+b9qDucNXY2Rl8YZEV9NRS2HRd2dJUqxj6YcMufCriaN9wehCRHAZrIOjXFFCvNAzLVuZWTrO2hZ2IXmCVQjpFqjS3vobktFpPsiGi1K42sDkKDH9iXcB7cG2G03uRIh8p5wLKa1+NYDvHdw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753441587; c=relaxed/simple;
-	bh=4ODTp0UV/5yld+rfWin+qb9F8EdCt5NLU8TsGWCsgrM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d/OXTiMoniGVq/PncIxi+Y9EyfAsCzmC7+EE/dXtA7R8dbb35Xoag5A/vlzwjcEQ84LrlHdMvbGSKEMshWUr42Fw7rwgaNWVhiZMKfi0I2afm2iS6sn29I0KXRGnWqusW3QvmE2prkeQg/FYrtmPVPxCAwdLbPIrvdJHTr6vR00=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N7W6UML2; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1753446692; c=relaxed/simple;
+	bh=QuhtXEF558ISpH8qAP+o4qrzE6+/pt/sBl9bxWrr+fQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=fVNBDceZYnWlJGgHL0h79FpbIpJmSqoo9ltEEyw1AZ24qukWsqByNiA1dJbSS5iWPTvWbdx9jg9FV8f7m+MfJZ4Smc49JDbSvezXMDITmCUibCkH50zkt6IBo/1ddXn1z/a6WQfgaTl4fW16cZ0RS3pFt0yb23C/fGc7OoyQgE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ukk25p1V; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N7W6UML2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ukk25p1V"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753441586; x=1784977586;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4ODTp0UV/5yld+rfWin+qb9F8EdCt5NLU8TsGWCsgrM=;
-  b=N7W6UML2ztUZTEHyCft2dCh8aNbm34grXdmu0y0oQxoz79peKge0D46W
-   xRW0CoNvqgcQYuShaNPfs1Do9CbCtBbTew9yhNZhbJLmXCNh/Ftz25Sl9
-   8xLvxo6d+VNnTFaibVqVR6BdqUwL+jO/5pzuXYITH5AOQpfN9yHI8aaAa
-   AZvzYEa2Sr/D5y3sJBydJz2hca7XNKe94McWIEPEjXlNQoGaYDDr0jePq
-   dpeLJsnbjm+aZsFHpqmTqWhaqbIjMHSxqNp+LxfKwT3caSovdTHIbMNaN
-   Pu2AyNRqqXyedUtAF2X0zBVGLzjuVRMMf6nFeI9bGwIjauO4FIX8szndd
-   w==;
-X-CSE-ConnectionGUID: E7WHhcOERu6f+odrRJKQ7A==
-X-CSE-MsgGUID: TXzk91+bRniSMY4kkjCNHQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11501"; a="73355868"
+  t=1753446691; x=1784982691;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=QuhtXEF558ISpH8qAP+o4qrzE6+/pt/sBl9bxWrr+fQ=;
+  b=Ukk25p1VpaL7h7lGbVjblI4m0RbYoj3ocl9VuogNjW/ozPH5B0vURcBX
+   3EPVIN64x00P6ox7Wh0ReZBMeLsPGKhpIBB1VsoHdMvUyWJaYyQWDqapj
+   cKolfJ9LM8JIuOEkopMtgfC2aoqkxsb57AALVWrgE3Cge6oXOSQe0E1CR
+   NjP+o5BCWHurusGVwM4ni0nlSAWDUcrOORZaTCR/rTGRaSoVWxbmUdaKn
+   MoOvH2P0+cDjQeSqWzwvD/7/N7fOHHv8mXfbYZU13M49iVME30gPse7KX
+   u/hGXvAmhMPNpe4IHnZX9VeUSkKAwcONKRNRPUiwkBCrGkTo1qxQDWw+0
+   g==;
+X-CSE-ConnectionGUID: 6QJMGHieQ9+z5VOjp4DRoA==
+X-CSE-MsgGUID: Za8TDq9MQ3ylyzuwE4lVAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="78329820"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="73355868"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2025 04:06:25 -0700
-X-CSE-ConnectionGUID: 4dpPtvj9S5OlyM73/KA5iw==
-X-CSE-MsgGUID: DbED2/rCRkSTnILVrQc1Vg==
+   d="scan'208";a="78329820"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2025 05:31:27 -0700
+X-CSE-ConnectionGUID: 5gekBHuPS0eaAhaNPfp+qA==
+X-CSE-MsgGUID: uATsL25sQ9iS/IC6ZRVaKw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="161593680"
+   d="scan'208";a="166310356"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 25 Jul 2025 04:06:18 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 25 Jul 2025 05:31:25 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ufGFk-000LGp-1A;
-	Fri, 25 Jul 2025 11:06:16 +0000
-Date: Fri, 25 Jul 2025 19:06:04 +0800
+	id 1ufHa7-000LJf-1i;
+	Fri, 25 Jul 2025 12:31:23 +0000
+Date: Fri, 25 Jul 2025 20:30:35 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	simona@ffwll.ch, lumag@kernel.org, dianders@chromium.org,
-	cristian.ciocaltea@collabora.com, luca.ceresoli@bootlin.com,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	victor.liu@nxp.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org, p.zabel@pengutronix.de,
-	devicetree@vger.kernel.org, l.stach@pengutronix.de
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v2 5/6] drm/bridge: imx: add driver for HDMI TX Parallel
- Audio Interface
-Message-ID: <202507251859.rtsTHw8u-lkp@intel.com>
-References: <20250724072248.1517569-6-shengjiu.wang@nxp.com>
+To: Petr Vaganov <p.vaganov@ideco.ru>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] scsi: fill in DMA padding bytes in scsi_alloc_sgtables
+Message-ID: <aIN466I95rNVIhIj@eafdfd67401a>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,121 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250724072248.1517569-6-shengjiu.wang@nxp.com>
+In-Reply-To: <20250725122202.77199-1-p.vaganov@ideco.ru>
 
-Hi Shengjiu,
+Hi,
 
-kernel test robot noticed the following build errors:
+Thanks for your patch.
 
-[auto build test ERROR on shawnguo/for-next]
-[also build test ERROR on robh/for-next tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.16-rc7 next-20250725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shengjiu-Wang/dt-bindings-display-imx-add-HDMI-PAI-for-i-MX8MP/20250724-152710
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20250724072248.1517569-6-shengjiu.wang%40nxp.com
-patch subject: [PATCH v2 5/6] drm/bridge: imx: add driver for HDMI TX Parallel Audio Interface
-config: nios2-randconfig-002-20250725 (https://download.01.org/0day-ci/archive/20250725/202507251859.rtsTHw8u-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250725/202507251859.rtsTHw8u-lkp@intel.com/reproduce)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507251859.rtsTHw8u-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c: In function 'imx8mp_hdmi_pai_enable':
->> drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c:20:26: error: implicit declaration of function 'FIELD_PREP' [-Werror=implicit-function-declaration]
-    #define   WTMK_HIGH(n)   FIELD_PREP(WTMK_HIGH_MASK, (n))
-                             ^~~~~~~~~~
-   drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c:53:9: note: in expansion of macro 'WTMK_HIGH'
-     val =  WTMK_HIGH(3) | WTMK_LOW(3);
-            ^~~~~~~~~
->> drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c:59:9: error: implicit declaration of function 'FIELD_PREP_CONST'; did you mean 'FILE_REF_NOREF'? [-Werror=implicit-function-declaration]
-      val = FIELD_PREP_CONST(P_SEL,
-            ^~~~~~~~~~~~~~~~
-            FILE_REF_NOREF
->> drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c:60:12: error: implicit declaration of function '__bf_shf'; did you mean '__ffs64'? [-Werror=implicit-function-declaration]
-               __bf_shf(IEC958_SUBFRAME_PARITY));
-               ^~~~~~~~
-               __ffs64
-   cc1: some warnings being treated as errors
-
-
-vim +/FIELD_PREP +20 drivers/gpu/drm/bridge/imx/imx8mp-hdmi-pai.c
-
-    15	
-    16	#define HTX_PAI_CTRL_EXT		0x04
-    17	#define   WTMK_HIGH_MASK		GENMASK(31, 24)
-    18	#define   WTMK_LOW_MASK			GENMASK(23, 16)
-    19	#define   NUM_CH_MASK			GENMASK(10, 8)
-  > 20	#define   WTMK_HIGH(n)			FIELD_PREP(WTMK_HIGH_MASK, (n))
-    21	#define   WTMK_LOW(n)			FIELD_PREP(WTMK_LOW_MASK, (n))
-    22	
-    23	#define HTX_PAI_FIELD_CTRL		0x08
-    24	#define   B_FILT			BIT(31)
-    25	#define   PARITY_EN			BIT(30)
-    26	#define   END_SEL			BIT(29)
-    27	#define   PRE_SEL			GENMASK(28, 24)
-    28	#define   D_SEL				GENMASK(23, 20)
-    29	#define   V_SEL				GENMASK(19, 15)
-    30	#define   U_SEL				GENMASK(14, 10)
-    31	#define   C_SEL				GENMASK(9, 5)
-    32	#define   P_SEL				GENMASK(4, 0)
-    33	
-    34	#define HTX_PAI_STAT			0x0c
-    35	#define HTX_PAI_IRQ_NOMASK		0x10
-    36	#define HTX_PAI_IRQ_MASKED		0x14
-    37	#define HTX_PAI_IRQ_MASK		0x18
-    38	
-    39	struct imx8mp_hdmi_pai {
-    40		struct device	*dev;
-    41		struct regmap	*regmap;
-    42	};
-    43	
-    44	static void imx8mp_hdmi_pai_enable(struct dw_hdmi *dw_hdmi, int channel,
-    45					   int width, int rate, int non_pcm,
-    46					   int iec958)
-    47	{
-    48		const struct dw_hdmi_plat_data *pdata = dw_hdmi_to_plat_data(dw_hdmi);
-    49		struct imx8mp_hdmi_pai *hdmi_pai = (struct imx8mp_hdmi_pai *)pdata->priv_audio;
-    50		int val;
-    51	
-    52		/* PAI set control extended */
-    53		val =  WTMK_HIGH(3) | WTMK_LOW(3);
-    54		val |= FIELD_PREP(NUM_CH_MASK, channel - 1);
-    55		regmap_write(hdmi_pai->regmap, HTX_PAI_CTRL_EXT, val);
-    56	
-    57		/* IEC60958 format */
-    58		if (iec958) {
-  > 59			val = FIELD_PREP_CONST(P_SEL,
-  > 60					       __bf_shf(IEC958_SUBFRAME_PARITY));
-    61			val |= FIELD_PREP_CONST(C_SEL,
-    62						__bf_shf(IEC958_SUBFRAME_CHANNEL_STATUS));
-    63			val |= FIELD_PREP_CONST(U_SEL,
-    64						__bf_shf(IEC958_SUBFRAME_USER_DATA));
-    65			val |= FIELD_PREP_CONST(V_SEL,
-    66						__bf_shf(IEC958_SUBFRAME_VALIDITY));
-    67			val |= FIELD_PREP_CONST(D_SEL,
-    68						__bf_shf(IEC958_SUBFRAME_SAMPLE_24_MASK));
-    69			val |= FIELD_PREP_CONST(PRE_SEL,
-    70						__bf_shf(IEC958_SUBFRAME_PREAMBLE_MASK));
-    71		} else {
-    72			/* PCM choose 24bit*/
-    73			val = FIELD_PREP(D_SEL, width - 24);
-    74		}
-    75	
-    76		regmap_write(hdmi_pai->regmap, HTX_PAI_FIELD_CTRL, val);
-    77	
-    78		/* PAI start running */
-    79		regmap_write(hdmi_pai->regmap, HTX_PAI_CTRL, ENABLE);
-    80	}
-    81	
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] scsi: fill in DMA padding bytes in scsi_alloc_sgtables
+Link: https://lore.kernel.org/stable/20250725122202.77199-1-p.vaganov%40ideco.ru
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
