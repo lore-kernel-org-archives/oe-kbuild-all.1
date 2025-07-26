@@ -1,65 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DD04245020
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 12:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCBC4217709
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 12:16:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753531602; cv=none; b=aYVBIL4rMYE1bu8LPT2zz3M91//TT2fZjG5x2QbOYc1lkynTjqb8y9d+kuEznynxjYJ0b2+6kUXlhrKklcFNhWw/Qoxg98rzze1ENDfy5d74jlFhc1dCFHbM4DQolN+FaJKzcF+dCkAf1AcrP+WaklLFoxk1Edr76AEUMgWfDUU=
+	t=1753532203; cv=none; b=MuVd48Sf5q+55uGfGACosAIyC1VlHGApLP89CoOlbFCYuOmIeuRYYhvRJO6LDsyRYW+KeGJOIUB9STaGSq44oqFwwEM/EHxg3TvPEDybCVSeDANYomUEmYy3rhW8Fwfo35Sq+QVUeD0ZdbtjZqvx9xUH80vdChAeyJ5qz5XM9R0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753531602; c=relaxed/simple;
-	bh=566pX6VH1r+Sd8KvPjLi/b2Yl5tbJepe2oJQbZ/onys=;
+	s=arc-20240116; t=1753532203; c=relaxed/simple;
+	bh=FGgVTnl76TJcRwb29ehO7zC6zieQl2jZzI6k8/izKi4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oueL+O2EWpFoC/l0cTOn9kOyHFFwrkqLO4LvDOXovIKQuk0Mft+3PKvEYNrSgSpy+H0wRvrXOBsLxMKDtivDpL7cD22ZAGMYnGIzMI8KYL0s4Haja3ox6bRmYZMV95ABcGuMalzPGvK+bMZlXlNd9bdjRQBHKBbi5jFqu6niZHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eR/jyxHP; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=IPvxw8Kld+HgLHZW0qCw8ydfYhxAfJv5ooReAKcarUJLDarB+Lgt7Bm60e0aFnMFUyi3omEgAPfp4vfu/hgwdecacq9bUDvuztmM/boua+LBSFWJMsL+mROFChn7CECrGsVj0wcqXd1TvqVMjVCdcFpYfO27Old6kHntYyFh/Lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fZVjZwVP; arc=none smtp.client-ip=198.175.65.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eR/jyxHP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fZVjZwVP"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753531601; x=1785067601;
+  t=1753532201; x=1785068201;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=566pX6VH1r+Sd8KvPjLi/b2Yl5tbJepe2oJQbZ/onys=;
-  b=eR/jyxHPPewnhitoBsB7Gp/nXZKUmBed74POuCsQFId0oooVKzkJvSqw
-   2iAXyk0USwCgwrNsOZHJdn9oCR7QuAxBNPaXEx4C+vuMo02HhmSoVnBvG
-   33Oxwe78/SMFyvnPKamqTr2CIHL59F+brhiYkuGfqSlCltwzlsqzPS+e1
-   DNRsBZZwWGQFjFNZG3FQk5qkv+Qx7DC3+x9mrwDwTrUQoLQm0wLAc2llW
-   CxOplJI0Gb1d43XZgBRS3AINFC953UncK6tUXnvqXe/XZzD4H5uDn3fhv
-   2ZXAAMONIVk7J+QUrbc0WaLM5wSqQbhPo/MyI86c9v5Nxd3YTowK7o++T
-   w==;
-X-CSE-ConnectionGUID: YfsWbvXmSjWllqZjFIBmug==
-X-CSE-MsgGUID: Ge+eQJM+QjSwFzzpDQl94A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="66114154"
+  bh=FGgVTnl76TJcRwb29ehO7zC6zieQl2jZzI6k8/izKi4=;
+  b=fZVjZwVPY2s92fPs38gVUPSn+ZoC38WiKfa/n+RWu1NfXrue1mUWCtMU
+   gHbr7wNC4MITx/g6zCSDJtIEWSpNltIRWJB3lJQeiC+oyxy1oK3IHZOMJ
+   wUiGQY+vNdTQbvQD09LAOtLINsGHvmm21Vu72zEeZyNnH4yrf41Hxq6Zc
+   xP5WeH6JVCtob6xaje1ydhV3xv2kbsh6BBy6MWug7x5+zcwCy3DwH0mUv
+   aEjCFVOTD2pnJkRQ4MDh3d65d/j5YuYq3y/x6F6EZxTNKWVuvHA3JGz7U
+   f4oMgmHEox2RTdmaMel3xzeltyaGeDbVaopaIhlzMsuwucqyOAb6N/8JG
+   A==;
+X-CSE-ConnectionGUID: pYgzYWyAQLOWJeI3bkTOKQ==
+X-CSE-MsgGUID: IZtGtG35TeCqvZcb6YU1xg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="55707252"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="66114154"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 05:06:41 -0700
-X-CSE-ConnectionGUID: Lsn1vMt4Ro+eR9d28RzJ1Q==
-X-CSE-MsgGUID: mZNLFnzKQvuq+5H+n0+gJA==
+   d="scan'208";a="55707252"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 05:16:40 -0700
+X-CSE-ConnectionGUID: jABjgCCHRMevHHKpgmcTAQ==
+X-CSE-MsgGUID: yi6q9dL5SCG/rFF6/deEDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="166962948"
+   d="scan'208";a="160809401"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 26 Jul 2025 05:06:38 -0700
+  by orviesa010.jf.intel.com with ESMTP; 26 Jul 2025 05:16:39 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ufdfe-000Lxv-3B;
-	Sat, 26 Jul 2025 12:06:34 +0000
-Date: Sat, 26 Jul 2025 20:06:10 +0800
+	id 1ufdpM-000LyZ-26;
+	Sat, 26 Jul 2025 12:16:36 +0000
+Date: Sat, 26 Jul 2025 20:16:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH 1/4] platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
-Message-ID: <202507261928.2I5G2r8J-lkp@intel.com>
-References: <20250725004533.63537-1-derekjohn.clark@gmail.com>
+To: James Bottomley <James.Bottomley@hansenpartnership.com>,
+	bpf@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Roberto Sassu <roberto.sassu@huawei.com>
+Subject: Re: [PATCH 2/3] bpf: remove bpf_key reference
+Message-ID: <202507262040.o1RZHQvf-lkp@intel.com>
+References: <20250724143428.4416-3-James.Bottomley@HansenPartnership.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,98 +63,70 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250725004533.63537-1-derekjohn.clark@gmail.com>
+In-Reply-To: <20250724143428.4416-3-James.Bottomley@HansenPartnership.com>
 
-Hi Derek,
+Hi James,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on groeck-staging/hwmon-next]
-[also build test ERROR on linus/master v6.16-rc7 next-20250725]
+[auto build test WARNING on bpf-next/master]
+[also build test WARNING on bpf/master linus/master v6.16-rc7 next-20250725]
+[cannot apply to bpf-next/net]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/platform-x86-ayn-ec-Add-Temperature-Sensors/20250725-084850
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20250725004533.63537-1-derekjohn.clark%40gmail.com
-patch subject: [PATCH 1/4] platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
-config: i386-randconfig-007-20250726 (https://download.01.org/0day-ci/archive/20250726/202507261928.2I5G2r8J-lkp@intel.com/config)
+url:    https://github.com/intel-lab-lkp/linux/commits/James-Bottomley/bpf-make-bpf_key-an-opaque-type/20250724-224304
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250724143428.4416-3-James.Bottomley%40HansenPartnership.com
+patch subject: [PATCH 2/3] bpf: remove bpf_key reference
+config: i386-randconfig-002-20250725 (https://download.01.org/0day-ci/archive/20250726/202507262040.o1RZHQvf-lkp@intel.com/config)
 compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507261928.2I5G2r8J-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507262040.o1RZHQvf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507261928.2I5G2r8J-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507262040.o1RZHQvf-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   ld: drivers/platform/x86/ayn-ec.o: in function `read_from_ec':
->> drivers/platform/x86/ayn-ec.c:99: undefined reference to `ec_read'
-   ld: drivers/platform/x86/ayn-ec.o: in function `write_to_ec':
->> drivers/platform/x86/ayn-ec.c:128: undefined reference to `ec_write'
+   kernel/trace/bpf_trace.c: In function '____bpf_trace_printk':
+   kernel/trace/bpf_trace.c:378:9: warning: function '____bpf_trace_printk' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     378 |         ret = bstr_printf(data.buf, MAX_BPRINTF_BUF, fmt, data.bin_args);
+         |         ^~~
+   kernel/trace/bpf_trace.c: In function '____bpf_trace_vprintk':
+   kernel/trace/bpf_trace.c:434:9: warning: function '____bpf_trace_vprintk' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     434 |         ret = bstr_printf(data.buf, MAX_BPRINTF_BUF, fmt, data.bin_args);
+         |         ^~~
+   kernel/trace/bpf_trace.c: In function '____bpf_seq_printf':
+   kernel/trace/bpf_trace.c:476:9: warning: function '____bpf_seq_printf' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+     476 |         seq_bprintf(m, fmt, data.bin_args);
+         |         ^~~~~~~~~~~
+   kernel/trace/bpf_trace.c: In function 'bpf_key_put':
+>> kernel/trace/bpf_trace.c:1349:37: warning: cast from pointer to integer of different size [-Wpointer-to-int-cast]
+    1349 |         if (system_keyring_id_check((u64)bkey->key) < 0)
+         |                                     ^
 
 
-vim +99 drivers/platform/x86/ayn-ec.c
+vim +1349 kernel/trace/bpf_trace.c
 
-    79	
-    80	/**
-    81	 * read_from_ec() - Reads a value from the embedded controller.
-    82	 *
-    83	 * @reg: The register to start the read from.
-    84	 * @size: The number of sequential registers the data is contained in.
-    85	 * @val: Pointer to return the data with.
-    86	 *
-    87	 * Return: 0, or an error.
-    88	 */
-    89	static int read_from_ec(u8 reg, int size, long *val)
-    90	{
-    91		int ret, i;
-    92		u8 buf;
-    93	
-    94		if (!lock_global_acpi_lock())
-    95			return -EBUSY;
-    96	
-    97		*val = 0;
-    98		for (i = 0; i < size; i++) {
-  > 99			ret = ec_read(reg + i, &buf);
-   100			if (ret)
-   101				return ret;
-   102			*val <<= i * 8;
-   103			*val += buf;
-   104		}
-   105	
-   106		if (!unlock_global_acpi_lock())
-   107			return -EBUSY;
-   108	
-   109		return 0;
-   110	}
-   111	
-   112	/**
-   113	 * write_to_ec() - Writes a value to the embedded controller.
-   114	 *
-   115	 * @reg: The register to write to.
-   116	 * @val: Value to write
-   117	 *
-   118	 * Return: 0, or an error.
-   119	 */
-   120	static int write_to_ec(u8 reg, u8 val)
-   121	{
-   122		int ret;
-   123	
-   124		if (!lock_global_acpi_lock())
-   125			return -EBUSY;
-   126	
-   127		pr_info("Writing EC value %d to register %u\n", val, reg);
- > 128		ret = ec_write(reg, val);
-   129	
-   130		if (!unlock_global_acpi_lock())
-   131			return -EBUSY;
-   132	
-   133		return ret;
-   134	}
-   135	
+  1339	
+  1340	/**
+  1341	 * bpf_key_put - decrement key reference count if key is valid and free bpf_key
+  1342	 * @bkey: bpf_key structure
+  1343	 *
+  1344	 * Decrement the reference count of the key inside *bkey*, if the pointer
+  1345	 * is valid, and free *bkey*.
+  1346	 */
+  1347	__bpf_kfunc void bpf_key_put(struct bpf_key *bkey)
+  1348	{
+> 1349		if (system_keyring_id_check((u64)bkey->key) < 0)
+  1350			key_put(bkey->key);
+  1351	
+  1352		kfree(bkey);
+  1353	}
+  1354	
 
 -- 
 0-DAY CI Kernel Test Service
