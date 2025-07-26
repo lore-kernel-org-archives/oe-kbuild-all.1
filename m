@@ -1,148 +1,105 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07F4223DE9
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 12:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD84F23BF91
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 12:28:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753532651; cv=none; b=Y+JuC5PEvkFMZD5G0AhC6A4ejP7EZbqbg4W1wd733g+FlPOz2lmrtWjk81YL+YZYVqvbrCE5DiBSAWzqD1FL6Q7zM8A7kTK7xhcrj3VsZ5+i24kTAjgPQPf1G+Xo9rkjV2ltKtENGn0HGDFhyk5LRcRfH8zg+Vq5JlZr1xaNOKY=
+	t=1753532923; cv=none; b=cT80DxYfd6ZbXq2oZYRaqKH8tofoBi+WVVMAbPVD0jDTqyy0UB28cyAATTCJY8yr53a5rjZjjy+zPZMquj0ozlUTvwmTlL3ChXqOsOGTQGE/zXC/OvUYvJgMo19YEedJ8d6QlzQgZMo8rE8ssBM/gGVlY64yTCcvywfCSGnRWog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753532651; c=relaxed/simple;
-	bh=4RO+X0MCjEa+OKFRKc8CjfHHv0wAiDV9NUkqZ6BX2Ro=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nZjSD6D1NrHEkv9SVyClkn8MYEFRKW/eshD/pBACJOnOD2I3EdcTVPoph9X1viMXN76yMbRlMLXd5dTAxDGGQlxYRC2i8Wru6DOaCv7cYFbPucuKjxRZedowrUWVYIE43K53qoiSCsDwufgLqd7yShaLOI7WEyhaJhZd30jknzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=t4u567UQ; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+	s=arc-20240116; t=1753532923; c=relaxed/simple;
+	bh=YuehmxuRyrlOSFHFQ1Yaiwvs0V5J3xcKU5wtDYfuFD8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FCxD3bntuLm8oa8IqO29S71lCcO1p2nK1Y+kDoNxFWXNdXy+IIHtLmc3Tl+AJIR5LRYw6aoTZlfXrngVu0hzsBUlTLx2qke5QCkvWXTiY5d1E6sxU6mBVk18oz2x4Zce2M3xpVfQowCrj3PSTVDNWDgFEjAPKuGJCvdim5N86fA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cRDDVga0; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="t4u567UQ"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-55a27e6da1cso2483748e87.3
-        for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 05:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1753532648; x=1754137448; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JZamO6uSuYHqsGewjp3Z4H8PqpofAIlsY9yfSvX7Viw=;
-        b=t4u567UQF0eHf4ZuJV0I5Ylb8GoBv9HnOdzVkFT7uncmINbvrQcBEtOT5KZtvVm0Kr
-         BkaP1M9ABoG5O1NjtI2VPba4+sfM/nIFZ7qwO7C2mIRqKHxw6k8cQjL73C5Ll5YJ068k
-         DOG3tAwvuBkafcg87Hsgz9rffdP1gp5j4BnYifj6T7sMwVe+8jphMOmnSfwPIyWtwcEU
-         394vpIb++AkggdNSdpKWe3ufAf0qA23CwbSFDLEfd9plJnHXTSEF26ViZSPNZWuTVp23
-         cT+eB6rfzQaB36XM4j3sCBnn2v7FNNRCRGgYpgsByRNqUEH5u3x6/bU3EUBWgk0i7IhW
-         2Y7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753532648; x=1754137448;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JZamO6uSuYHqsGewjp3Z4H8PqpofAIlsY9yfSvX7Viw=;
-        b=WkQIVYFJMsz4tqsTRn++AtUBZH85jJiWmrTFI/+Llh4+tLrwhCgCSWgx53+3UGHMDi
-         6ERnyqh+Ots2DLJd+DMYyjRTRwnSzLsxQ5zWIj4/YJQrYP0jd5XHCfXh/sAlgBNauvRM
-         XBaUCEg6Bdf1DteoC77Zo+yNJbjcjUxJ5vODLjw35TSM8HG2jws+pmH4ODdX1cG7Ihma
-         1msdDQ7uqgIOIA6JSYFEV62I4synJ12rPJKEHcLUH7yRIBmsHK/aBAD6HhGhkYGdgmVD
-         UywdFmRBElKEc7a/nSwVMMXcXt928LLn9NqdI3M3Lag/xz5Ke7bHM8KZo2q5WiZElHo0
-         Ta0g==
-X-Forwarded-Encrypted: i=1; AJvYcCVCxrIFIgDVNxlGhuHETuej/59/u7gEzQGg8K+i3iU1P9kzq0uzc9qAvDtFswyCtS2gXcH4Nphv7JSntcN3@lists.linux.dev
-X-Gm-Message-State: AOJu0YyMiH3SwratHavt1+H9+JvYlJNQfSnr1C3Q0dMkT7HVOnD7PJx1
-	Qwm9YGgvQEsBy+KEx2dg+LreFjbroBP9mRiGybB1fg7am/ADQrJyfy4K8tdyuvvNNaqvXB/rw6e
-	nGGX1Pkkur5vhtEi3lPx9vF6CoxhrgyY7ZGhICD4NNg==
-X-Gm-Gg: ASbGncuWrcKtBV/1aU89zlA4pE1T34k3w0vCXufPZfAxf0k68zVGjG1CETf1xIEtZSX
-	CePgye9RN6cnQG9vEIHd/dM1Psb0hJf7MRDIzxaozS4uB+d5/jWNBbVjWxNmsW4t9kDCitMndSn
-	PZQMiz1TXQRKfnhcxRkffJLNtTxYpt8mTfmFoCEk2sOLidjMzySU9dx8c18khrV139N5iWBX7rD
-	RzysGlugYzf3pQlXPM749MxqmnOz2bQeg6z
-X-Google-Smtp-Source: AGHT+IHAO2HpUiicTjB/e7lp5YYcq+3bearETShDDIE2Hj4VKla6gTWJ399wpgZnZHYCukcyPgZ0pyiK6hL5SLKjmvU=
-X-Received: by 2002:a05:6512:3ba5:b0:553:202e:a41c with SMTP id
- 2adb3069b0e04-55b5f4c86c2mr1359964e87.28.1753532647715; Sat, 26 Jul 2025
- 05:24:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cRDDVga0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753532922; x=1785068922;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YuehmxuRyrlOSFHFQ1Yaiwvs0V5J3xcKU5wtDYfuFD8=;
+  b=cRDDVga0+ws+iHE8oXbt45lrhdK4kO3xwPYplUgEftc2gGSuLAPocoMe
+   vsXT718dKN8zdV/iQ6IHDGadIjDvdBM/B9deeGLq64r0QFN/fvTgN8Q6d
+   Z65vaQy1QY5fjXUIyByimipAzaSeDpTRR4Zt3WMODNAnOlP/EVnWwCjQe
+   RAFDv1KMbDPDIbSdXEtb0shi82qBDdqQB1OycyySOJDmYtS5RGUBUKEiD
+   z5QGPdwEcfFiAeCTjDZdg4BIVymWPbk4HWWBZ0ZJxPySbzWfZmpn2a5HA
+   LZd3bk/Vc7tXwF+i6ypRXAC5Wj1x2G/kiAx20ptQ66oct5C7GZv9rNPKB
+   Q==;
+X-CSE-ConnectionGUID: yINBqYIPR+qkKxmJf68u/g==
+X-CSE-MsgGUID: bgdxVKq0Qay78IFeUhlB/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="55728705"
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="55728705"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 05:28:42 -0700
+X-CSE-ConnectionGUID: 5Uj/GCTgTZixDUFLlL6+dA==
+X-CSE-MsgGUID: xm1IdLMtToyO/jjJ0uKqVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="185223609"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 26 Jul 2025 05:28:40 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ufe0z-000Lyx-1i;
+	Sat, 26 Jul 2025 12:28:37 +0000
+Date: Sat, 26 Jul 2025 20:27:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jia He <justin.he@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Jia He <justin.he@arm.com>
+Subject: Re: [PATCH] mm: percpu: Introduce normalized CPU-to-NUMA node
+ mapping to  reduce max_distance
+Message-ID: <202507262015.sw4niVFQ-lkp@intel.com>
+References: <20250722041418.2024870-1-justin.he@arm.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <202507261934.yIHeUuEQ-lkp@intel.com>
-In-Reply-To: <202507261934.yIHeUuEQ-lkp@intel.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Sat, 26 Jul 2025 14:23:56 +0200
-X-Gm-Features: Ac12FXxav7BPVEwUSpS3g008iRm910sqnc5pYM_YTF74VKIYK1ExRFPB-KnDvhw
-Message-ID: <CAMRc=Mc95SMBBjndi9EPUd+d0AftGaovfn0-uhoWQ+cf7SJ9Bw@mail.gmail.com>
-Subject: Re: [brgl:gpio/for-next 4/5] drivers/nfc/s3fwrn5/uart.c:147:15:
- error: implicit declaration of function 'devm_gpio_request_one'
-To: kernel test robot <lkp@intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, oe-kbuild-all@lists.linux.dev, 
-	linux-gpio@vger.kernel.org, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, 
-	Alexander Sverdlin <alexander.sverdlin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250722041418.2024870-1-justin.he@arm.com>
 
-On Sat, Jul 26, 2025 at 1:10=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gp=
-io/for-next
-> head:   4740e1e2f320061c2f0dbadc0dd3dfb58df986d5
-> commit: 678bae2eaa812662929a83b3de399645e9de93ad [4/5] gpiolib: make lega=
-cy interfaces optional
-> config: um-randconfig-002-20250726 (https://download.01.org/0day-ci/archi=
-ve/20250726/202507261934.yIHeUuEQ-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-> reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archi=
-ve/20250726/202507261934.yIHeUuEQ-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507261934.yIHeUuEQ-lkp=
-@intel.com/
->
-> All errors (new ones prefixed by >>):
->
->    drivers/nfc/s3fwrn5/uart.c: In function 's3fwrn82_uart_parse_dt':
-> >> drivers/nfc/s3fwrn5/uart.c:100:14: error: implicit declaration of func=
-tion 'gpio_is_valid'; did you mean 'uuid_is_valid'? [-Werror=3Dimplicit-fun=
-ction-declaration]
->      100 |         if (!gpio_is_valid(phy->common.gpio_en))
->          |              ^~~~~~~~~~~~~
->          |              uuid_is_valid
->    drivers/nfc/s3fwrn5/uart.c: In function 's3fwrn82_uart_probe':
-> >> drivers/nfc/s3fwrn5/uart.c:147:15: error: implicit declaration of func=
-tion 'devm_gpio_request_one' [-Werror=3Dimplicit-function-declaration]
->      147 |         ret =3D devm_gpio_request_one(&phy->ser_dev->dev, phy-=
->common.gpio_en,
->          |               ^~~~~~~~~~~~~~~~~~~~~
-> >> drivers/nfc/s3fwrn5/uart.c:148:37: error: 'GPIOF_OUT_INIT_HIGH' undecl=
-ared (first use in this function)
->      148 |                                     GPIOF_OUT_INIT_HIGH, "s3fw=
-rn82_en");
->          |                                     ^~~~~~~~~~~~~~~~~~~
->    drivers/nfc/s3fwrn5/uart.c:148:37: note: each undeclared identifier is=
- reported only once for each function it appears in
-> >> drivers/nfc/s3fwrn5/uart.c:154:37: error: 'GPIOF_OUT_INIT_LOW' undecla=
-red (first use in this function)
->      154 |                                     GPIOF_OUT_INIT_LOW, "s3fwr=
-n82_fw_wake");
->          |                                     ^~~~~~~~~~~~~~~~~~
->    cc1: some warnings being treated as errors
-> --
->    drivers/nfc/s3fwrn5/phy_common.c: In function 's3fwrn5_phy_set_wake':
-> >> drivers/nfc/s3fwrn5/phy_common.c:22:9: error: implicit declaration of =
-function 'gpio_set_value'; did you mean 'pte_set_val'? [-Werror=3Dimplicit-=
-function-declaration]
->       22 |         gpio_set_value(phy->gpio_fw_wake, wake);
->          |         ^~~~~~~~~~~~~~
->          |         pte_set_val
->    cc1: some warnings being treated as errors
->
->
-> vim +/devm_gpio_request_one +147 drivers/nfc/s3fwrn5/uart.c
->
+Hi Jia,
 
-Hi Arnd!
+kernel test robot noticed the following build warnings:
 
-Will you be able to address it quickly or should I drop this patch
-from my queue? I would like to send my PR to Torvalds early next week,
-Wednesday at the latest.
+[auto build test WARNING on akpm-mm/mm-everything]
 
-Bartosz
+url:    https://github.com/intel-lab-lkp/linux/commits/Jia-He/mm-percpu-Introduce-normalized-CPU-to-NUMA-node-mapping-to-reduce-max_distance/20250722-121559
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250722041418.2024870-1-justin.he%40arm.com
+patch subject: [PATCH] mm: percpu: Introduce normalized CPU-to-NUMA node mapping to  reduce max_distance
+config: arm64-randconfig-r113-20250725 (https://download.01.org/0day-ci/archive/20250726/202507262015.sw4niVFQ-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250726/202507262015.sw4niVFQ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507262015.sw4niVFQ-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/base/arch_numa.c:154:12: sparse: sparse: symbol 'early_cpu_to_norm_node' was not declared. Should it be static?
+
+vim +/early_cpu_to_norm_node +154 drivers/base/arch_numa.c
+
+   153	
+ > 154	int __init early_cpu_to_norm_node(int cpu)
+   155	{
+   156		return cpu_to_norm_node_map[cpu];
+   157	}
+   158	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
