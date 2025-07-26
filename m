@@ -1,66 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C093C286D56;
-	Sat, 26 Jul 2025 16:29:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA90C1D79BE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 16:39:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753547346; cv=none; b=kA9ApkEb22fAznBdfWkb7n4E+5Kj4hfEURU3V9/sSe5NcaqktYntaqc5+LV/ceRsMF1+iSMgnrZd33A6pf1ibSFcMsyJRwH69qfIzbHKi2pVSaR1krIESqA4iif7sBOxpinAgllvT0YFKZQd+S8nup9B48Dr6zCkzalbrgENxwI=
+	t=1753547943; cv=none; b=ltqfquq+upb/xu4Crq5beLTckH/6GnqDvpLM0FSbS6qoYZ/d3P5r8eY+A3opYFFsRaMSu89q8Ixp5qE/8Q/j5Z5L834nT9HlQDoMEZ/CPg8BAwcQM14wYzsj/3lEfAkH8tZyCb+5JlzDPC+ueyPOo5V7knw+jzenVWUCf/b6sjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753547346; c=relaxed/simple;
-	bh=4nJ5EbKqFFx2lpy8dOJoVhsWwHjeidGSjgGMiaPauwQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pqr5o6avtpRem3/elRXgZD/0eCAtmSV95hvu3GHaCidqfkd61vNYj7ud+/7ehS4Se5YgcVRdawPk8QJqH9OEQz6M9uqwo4uwlacfuk0ucj7ut7857FjvU7h3wRqWLbFEgTESc0o69ZogkAWTtUFDaOaVs0l/UaQs6BE98uLhKgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n+E1PWCA; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1753547943; c=relaxed/simple;
+	bh=nEWWgWmfDvAuxJeLH5g0qpdZUmAxeF/o0qIWYnNEzE8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Qj+jbNFVuOQwhWNgYyDkTo7Vd0ksfMhoRXXG0jEvwABidD31T9JT3XGTmr/2sJNTGvTfLglkcmNAbbg4cAEqlGUYt7uuvutLh6D0FqaGTqZjeL+ga/qoAUr7FGX7tvvIwUzjANnxceA9jrRE5zaVV44BqwlxDwDmhwIPdQVJUkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ku3q3JsJ; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n+E1PWCA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ku3q3JsJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753547345; x=1785083345;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4nJ5EbKqFFx2lpy8dOJoVhsWwHjeidGSjgGMiaPauwQ=;
-  b=n+E1PWCAeFb0jkN+FgHRHCUHb7226b1xafxAZ8lXIsXf6gAfzqnwMvbL
-   TnUwVEV+ZgO//89L2SWcUDHnxlmjyO4Zrjq9So1ROVo7aBA44uHg7uzsg
-   nHK6LzkLwmEynkDzJtJYLJEEqaW3HjH8HvzpjwRvcIoxEuP27DGZmmmnQ
-   w9h54JEnR7cp/naW30dFC/cf6M4Ekdbpa7a5n/tivk5lS1jwsiuVU9Es3
-   jVvTcjXrdNG4Tu/A2SxEO6XjuIRjUzhk6PFsODIa4BXHf6JYa9eDyTx6Z
-   6Q6AOEx9hQMkF7l6e2y/ZDHc/oLGHaSrZOo0A8bdqx4QXyMYh2c/pTvyy
+  t=1753547942; x=1785083942;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=nEWWgWmfDvAuxJeLH5g0qpdZUmAxeF/o0qIWYnNEzE8=;
+  b=Ku3q3JsJr1cXEDQ55ELGnxBCtP+/FTKl8EC8KpmJUGZ4WLKXoHoIZQaL
+   vZjZcgMjI3Jz+VMEKpnIq5AAtN+oOuFKcCuteBaugJ0JKZ0aYb7a87pmJ
+   tqpCMC033Hlv+DhXIieTVOGkJFvB3A7l7Xrhss4GpSmy0xMUF74slaAkh
+   Ytrgfqrfy+3HqrqF4hbXene9fMy2v8VIvrjljJQQUaFAlavm0e8npo9+t
+   Q3AUb+Y8NtavUsUtd8VMSfNUPrqmjoQ4BJWXwy7WxglyeBVnUv01Qqf63
+   ENk9+FM7SJp3+/T3gIuaYX5vhlQbAOCnljEQup39xLjPbUB6YZYMOM6gm
    g==;
-X-CSE-ConnectionGUID: WZAhnV3bRPOWCqu/XP3dGg==
-X-CSE-MsgGUID: X3sr/vGOTjq49kW7jnorQQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="56007410"
+X-CSE-ConnectionGUID: /yziC0k7SjmVhYb93rsHSA==
+X-CSE-MsgGUID: 8KSj4ycyT5OfzckmQVYmPQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55067057"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="56007410"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 09:29:02 -0700
-X-CSE-ConnectionGUID: zHESocjQSLSM6H11QMoi3w==
-X-CSE-MsgGUID: 1fwaTo3oQ6mzp4p/9dJsJg==
+   d="scan'208";a="55067057"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 09:39:01 -0700
+X-CSE-ConnectionGUID: DLgs3Nh8SZaQSL3Wj6zk/Q==
+X-CSE-MsgGUID: A4LHBjieSte+/wA2DehU5g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="161531068"
+   d="scan'208";a="165866894"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Jul 2025 09:28:59 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 26 Jul 2025 09:39:01 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ufhlY-000M6J-2J;
-	Sat, 26 Jul 2025 16:28:56 +0000
-Date: Sun, 27 Jul 2025 00:28:28 +0800
+	id 1ufhvG-000M7b-08;
+	Sat, 26 Jul 2025 16:38:58 +0000
+Date: Sun, 27 Jul 2025 00:38:46 +0800
 From: kernel test robot <lkp@intel.com>
-To: Dmitry Baryshkov <lumag@kernel.org>, Amit Kucheria <amitk@kernel.org>,
-	Thara Gopinath <thara.gopinath@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Jackie Liu <liuyun01@kylinos.cn>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-arm-msm@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] thermal: qcom: make LMH select QCOM_SCM
-Message-ID: <202507270052.BYR6Xdlk-lkp@intel.com>
-References: <20250725-lmh-scm-v1-1-84246981f435@oss.qualcomm.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android12-5.4 1/1]
+ drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c:3834:36: warning: mixing
+ declarations and code is a C99 extension
+Message-ID: <202507270013.rWQCuudj-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -69,270 +62,287 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250725-lmh-scm-v1-1-84246981f435@oss.qualcomm.com>
 
-Hi Dmitry,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on a933d3dc1968fcfb0ab72879ec304b1971ed1b9a]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Dmitry-Baryshkov/thermal-qcom-make-LMH-select-QCOM_SCM/20250725-215843
-base:   a933d3dc1968fcfb0ab72879ec304b1971ed1b9a
-patch link:    https://lore.kernel.org/r/20250725-lmh-scm-v1-1-84246981f435%40oss.qualcomm.com
-patch subject: [PATCH] thermal: qcom: make LMH select QCOM_SCM
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250727/202507270052.BYR6Xdlk-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507270052.BYR6Xdlk-lkp@intel.com/reproduce)
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   dfb47b62b1aef0172343a538bc12970a635fb542
+commit: dc796cdae6dd826a01cb0b048d774caf01b69c7c [1/1] drm/vmwgfx: Add seqno waiter for sync_files
+config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250727/202507270013.rWQCuudj-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+rustc: rustc 1.58.0 (02072b482 2022-01-11)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507270013.rWQCuudj-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507270052.BYR6Xdlk-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507270013.rWQCuudj-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/thermal/qcom/lmh.c:46:3: error: call to undeclared function 'generic_handle_irq'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      46 |                 generic_handle_irq(irq);
-         |                 ^
->> drivers/thermal/qcom/lmh.c:53:33: error: call to undeclared function 'irq_data_get_irq_chip_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      53 |         struct lmh_hw_data *lmh_data = irq_data_get_irq_chip_data(d);
-         |                                        ^
->> drivers/thermal/qcom/lmh.c:53:22: error: incompatible integer to pointer conversion initializing 'struct lmh_hw_data *' with an expression of type 'int' [-Wint-conversion]
-      53 |         struct lmh_hw_data *lmh_data = irq_data_get_irq_chip_data(d);
-         |                             ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/thermal/qcom/lmh.c:56:2: error: call to undeclared function 'writel'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      56 |         writel(0xff, lmh_data->base + LMH_REG_DCVS_INTR_CLR);
-         |         ^
-   drivers/thermal/qcom/lmh.c:62:33: error: call to undeclared function 'irq_data_get_irq_chip_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      62 |         struct lmh_hw_data *lmh_data = irq_data_get_irq_chip_data(d);
-         |                                        ^
-   drivers/thermal/qcom/lmh.c:62:22: error: incompatible integer to pointer conversion initializing 'struct lmh_hw_data *' with an expression of type 'int' [-Wint-conversion]
-      62 |         struct lmh_hw_data *lmh_data = irq_data_get_irq_chip_data(d);
-         |                             ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/thermal/qcom/lmh.c:67:24: error: variable has incomplete type 'struct irq_chip'
-      67 | static struct irq_chip lmh_irq_chip = {
-         |                        ^
-   include/linux/irqdomain.h:21:8: note: forward declaration of 'struct irq_chip'
-      21 | struct irq_chip;
-         |        ^
->> drivers/thermal/qcom/lmh.c:83:2: error: call to undeclared function 'irq_set_lockdep_class'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      83 |         irq_set_lockdep_class(irq, &lmh_lock_key, &lmh_request_key);
-         |         ^
->> drivers/thermal/qcom/lmh.c:84:2: error: call to undeclared function 'irq_set_chip_and_handler'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      84 |         irq_set_chip_and_handler(irq, &lmh_irq_chip, handle_simple_irq);
-         |         ^
->> drivers/thermal/qcom/lmh.c:84:47: error: use of undeclared identifier 'handle_simple_irq'
-      84 |         irq_set_chip_and_handler(irq, &lmh_irq_chip, handle_simple_irq);
-         |                                                      ^
->> drivers/thermal/qcom/lmh.c:85:2: error: call to undeclared function 'irq_set_chip_data'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      85 |         irq_set_chip_data(irq, lmh_data);
-         |         ^
->> drivers/thermal/qcom/lmh.c:219:2: error: call to undeclared function 'irq_set_status_flags'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     219 |         irq_set_status_flags(lmh_data->irq, IRQ_NOAUTOEN);
-         |         ^
->> drivers/thermal/qcom/lmh.c:219:38: error: use of undeclared identifier 'IRQ_NOAUTOEN'
-     219 |         irq_set_status_flags(lmh_data->irq, IRQ_NOAUTOEN);
-         |                                             ^
-   13 errors generated.
+>> drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c:3834:36: warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+    3834 |                         struct seqno_waiter_rm_context *ctx =
+         |                                                         ^
+   1 warning generated.
 
 
-vim +/generic_handle_irq +46 drivers/thermal/qcom/lmh.c
+vim +3834 drivers/gpu/drm/vmwgfx/vmwgfx_execbuf.c
 
-53bca371cdf7ad Thara Gopinath    2021-08-09   38  
-53bca371cdf7ad Thara Gopinath    2021-08-09   39  static irqreturn_t lmh_handle_irq(int hw_irq, void *data)
-53bca371cdf7ad Thara Gopinath    2021-08-09   40  {
-53bca371cdf7ad Thara Gopinath    2021-08-09   41  	struct lmh_hw_data *lmh_data = data;
-53bca371cdf7ad Thara Gopinath    2021-08-09   42  	int irq = irq_find_mapping(lmh_data->domain, 0);
-53bca371cdf7ad Thara Gopinath    2021-08-09   43  
-53bca371cdf7ad Thara Gopinath    2021-08-09   44  	/* Call the cpufreq driver to handle the interrupt */
-53bca371cdf7ad Thara Gopinath    2021-08-09   45  	if (irq)
-53bca371cdf7ad Thara Gopinath    2021-08-09  @46  		generic_handle_irq(irq);
-53bca371cdf7ad Thara Gopinath    2021-08-09   47  
-46a891e45be97c Bjorn Andersson   2022-03-16   48  	return IRQ_HANDLED;
-53bca371cdf7ad Thara Gopinath    2021-08-09   49  }
-53bca371cdf7ad Thara Gopinath    2021-08-09   50  
-53bca371cdf7ad Thara Gopinath    2021-08-09   51  static void lmh_enable_interrupt(struct irq_data *d)
-53bca371cdf7ad Thara Gopinath    2021-08-09   52  {
-53bca371cdf7ad Thara Gopinath    2021-08-09  @53  	struct lmh_hw_data *lmh_data = irq_data_get_irq_chip_data(d);
-53bca371cdf7ad Thara Gopinath    2021-08-09   54  
-53bca371cdf7ad Thara Gopinath    2021-08-09   55  	/* Clear the existing interrupt */
-53bca371cdf7ad Thara Gopinath    2021-08-09  @56  	writel(0xff, lmh_data->base + LMH_REG_DCVS_INTR_CLR);
-53bca371cdf7ad Thara Gopinath    2021-08-09   57  	enable_irq(lmh_data->irq);
-53bca371cdf7ad Thara Gopinath    2021-08-09   58  }
-53bca371cdf7ad Thara Gopinath    2021-08-09   59  
-53bca371cdf7ad Thara Gopinath    2021-08-09   60  static void lmh_disable_interrupt(struct irq_data *d)
-53bca371cdf7ad Thara Gopinath    2021-08-09   61  {
-53bca371cdf7ad Thara Gopinath    2021-08-09   62  	struct lmh_hw_data *lmh_data = irq_data_get_irq_chip_data(d);
-53bca371cdf7ad Thara Gopinath    2021-08-09   63  
-53bca371cdf7ad Thara Gopinath    2021-08-09   64  	disable_irq_nosync(lmh_data->irq);
-53bca371cdf7ad Thara Gopinath    2021-08-09   65  }
-53bca371cdf7ad Thara Gopinath    2021-08-09   66  
-53bca371cdf7ad Thara Gopinath    2021-08-09  @67  static struct irq_chip lmh_irq_chip = {
-53bca371cdf7ad Thara Gopinath    2021-08-09   68  	.name           = "lmh",
-53bca371cdf7ad Thara Gopinath    2021-08-09   69  	.irq_enable	= lmh_enable_interrupt,
-53bca371cdf7ad Thara Gopinath    2021-08-09   70  	.irq_disable	= lmh_disable_interrupt
-53bca371cdf7ad Thara Gopinath    2021-08-09   71  };
-53bca371cdf7ad Thara Gopinath    2021-08-09   72  
-53bca371cdf7ad Thara Gopinath    2021-08-09   73  static int lmh_irq_map(struct irq_domain *d, unsigned int irq, irq_hw_number_t hw)
-53bca371cdf7ad Thara Gopinath    2021-08-09   74  {
-53bca371cdf7ad Thara Gopinath    2021-08-09   75  	struct lmh_hw_data *lmh_data = d->host_data;
-f16beaaee248ea Dmitry Baryshkov  2024-10-11   76  	static struct lock_class_key lmh_lock_key;
-f16beaaee248ea Dmitry Baryshkov  2024-10-11   77  	static struct lock_class_key lmh_request_key;
-53bca371cdf7ad Thara Gopinath    2021-08-09   78  
-f16beaaee248ea Dmitry Baryshkov  2024-10-11   79  	/*
-f16beaaee248ea Dmitry Baryshkov  2024-10-11   80  	 * This lock class tells lockdep that GPIO irqs are in a different
-f16beaaee248ea Dmitry Baryshkov  2024-10-11   81  	 * category than their parents, so it won't report false recursion.
-f16beaaee248ea Dmitry Baryshkov  2024-10-11   82  	 */
-f16beaaee248ea Dmitry Baryshkov  2024-10-11  @83  	irq_set_lockdep_class(irq, &lmh_lock_key, &lmh_request_key);
-53bca371cdf7ad Thara Gopinath    2021-08-09  @84  	irq_set_chip_and_handler(irq, &lmh_irq_chip, handle_simple_irq);
-53bca371cdf7ad Thara Gopinath    2021-08-09  @85  	irq_set_chip_data(irq, lmh_data);
-53bca371cdf7ad Thara Gopinath    2021-08-09   86  
-53bca371cdf7ad Thara Gopinath    2021-08-09   87  	return 0;
-53bca371cdf7ad Thara Gopinath    2021-08-09   88  }
-53bca371cdf7ad Thara Gopinath    2021-08-09   89  
-53bca371cdf7ad Thara Gopinath    2021-08-09   90  static const struct irq_domain_ops lmh_irq_ops = {
-53bca371cdf7ad Thara Gopinath    2021-08-09   91  	.map = lmh_irq_map,
-53bca371cdf7ad Thara Gopinath    2021-08-09   92  	.xlate = irq_domain_xlate_onecell,
-53bca371cdf7ad Thara Gopinath    2021-08-09   93  };
-53bca371cdf7ad Thara Gopinath    2021-08-09   94  
-53bca371cdf7ad Thara Gopinath    2021-08-09   95  static int lmh_probe(struct platform_device *pdev)
-53bca371cdf7ad Thara Gopinath    2021-08-09   96  {
-53bca371cdf7ad Thara Gopinath    2021-08-09   97  	struct device *dev = &pdev->dev;
-53bca371cdf7ad Thara Gopinath    2021-08-09   98  	struct device_node *np = dev->of_node;
-53bca371cdf7ad Thara Gopinath    2021-08-09   99  	struct device_node *cpu_node;
-53bca371cdf7ad Thara Gopinath    2021-08-09  100  	struct lmh_hw_data *lmh_data;
-53bca371cdf7ad Thara Gopinath    2021-08-09  101  	int temp_low, temp_high, temp_arm, cpu_id, ret;
-cf0c54db636c91 Thara Gopinath    2022-01-06  102  	unsigned int enable_alg;
-53bca371cdf7ad Thara Gopinath    2021-08-09  103  	u32 node_id;
-53bca371cdf7ad Thara Gopinath    2021-08-09  104  
-d9d3490c48df57 Konrad Dybcio     2024-03-09  105  	if (!qcom_scm_is_available())
-d9d3490c48df57 Konrad Dybcio     2024-03-09  106  		return -EPROBE_DEFER;
-d9d3490c48df57 Konrad Dybcio     2024-03-09  107  
-53bca371cdf7ad Thara Gopinath    2021-08-09  108  	lmh_data = devm_kzalloc(dev, sizeof(*lmh_data), GFP_KERNEL);
-53bca371cdf7ad Thara Gopinath    2021-08-09  109  	if (!lmh_data)
-53bca371cdf7ad Thara Gopinath    2021-08-09  110  		return -ENOMEM;
-53bca371cdf7ad Thara Gopinath    2021-08-09  111  
-53bca371cdf7ad Thara Gopinath    2021-08-09  112  	lmh_data->base = devm_platform_ioremap_resource(pdev, 0);
-53bca371cdf7ad Thara Gopinath    2021-08-09  113  	if (IS_ERR(lmh_data->base))
-53bca371cdf7ad Thara Gopinath    2021-08-09  114  		return PTR_ERR(lmh_data->base);
-53bca371cdf7ad Thara Gopinath    2021-08-09  115  
-53bca371cdf7ad Thara Gopinath    2021-08-09  116  	cpu_node = of_parse_phandle(np, "cpus", 0);
-53bca371cdf7ad Thara Gopinath    2021-08-09  117  	if (!cpu_node)
-53bca371cdf7ad Thara Gopinath    2021-08-09  118  		return -EINVAL;
-53bca371cdf7ad Thara Gopinath    2021-08-09  119  	cpu_id = of_cpu_node_to_id(cpu_node);
-53bca371cdf7ad Thara Gopinath    2021-08-09  120  	of_node_put(cpu_node);
-53bca371cdf7ad Thara Gopinath    2021-08-09  121  
-53bca371cdf7ad Thara Gopinath    2021-08-09  122  	ret = of_property_read_u32(np, "qcom,lmh-temp-high-millicelsius", &temp_high);
-53bca371cdf7ad Thara Gopinath    2021-08-09  123  	if (ret) {
-53bca371cdf7ad Thara Gopinath    2021-08-09  124  		dev_err(dev, "missing qcom,lmh-temp-high-millicelsius property\n");
-53bca371cdf7ad Thara Gopinath    2021-08-09  125  		return ret;
-53bca371cdf7ad Thara Gopinath    2021-08-09  126  	}
-53bca371cdf7ad Thara Gopinath    2021-08-09  127  
-53bca371cdf7ad Thara Gopinath    2021-08-09  128  	ret = of_property_read_u32(np, "qcom,lmh-temp-low-millicelsius", &temp_low);
-53bca371cdf7ad Thara Gopinath    2021-08-09  129  	if (ret) {
-53bca371cdf7ad Thara Gopinath    2021-08-09  130  		dev_err(dev, "missing qcom,lmh-temp-low-millicelsius property\n");
-53bca371cdf7ad Thara Gopinath    2021-08-09  131  		return ret;
-53bca371cdf7ad Thara Gopinath    2021-08-09  132  	}
-53bca371cdf7ad Thara Gopinath    2021-08-09  133  
-53bca371cdf7ad Thara Gopinath    2021-08-09  134  	ret = of_property_read_u32(np, "qcom,lmh-temp-arm-millicelsius", &temp_arm);
-53bca371cdf7ad Thara Gopinath    2021-08-09  135  	if (ret) {
-53bca371cdf7ad Thara Gopinath    2021-08-09  136  		dev_err(dev, "missing qcom,lmh-temp-arm-millicelsius property\n");
-53bca371cdf7ad Thara Gopinath    2021-08-09  137  		return ret;
-53bca371cdf7ad Thara Gopinath    2021-08-09  138  	}
-53bca371cdf7ad Thara Gopinath    2021-08-09  139  
-53bca371cdf7ad Thara Gopinath    2021-08-09  140  	/*
-53bca371cdf7ad Thara Gopinath    2021-08-09  141  	 * Only sdm845 has lmh hardware currently enabled from hlos. If this is needed
-53bca371cdf7ad Thara Gopinath    2021-08-09  142  	 * for other platforms, revisit this to check if the <cpu-id, node-id> should be part
-53bca371cdf7ad Thara Gopinath    2021-08-09  143  	 * of a dt match table.
-53bca371cdf7ad Thara Gopinath    2021-08-09  144  	 */
-53bca371cdf7ad Thara Gopinath    2021-08-09  145  	if (cpu_id == 0) {
-53bca371cdf7ad Thara Gopinath    2021-08-09  146  		node_id = LMH_CLUSTER0_NODE_ID;
-53bca371cdf7ad Thara Gopinath    2021-08-09  147  	} else if (cpu_id == 4) {
-53bca371cdf7ad Thara Gopinath    2021-08-09  148  		node_id = LMH_CLUSTER1_NODE_ID;
-53bca371cdf7ad Thara Gopinath    2021-08-09  149  	} else {
-53bca371cdf7ad Thara Gopinath    2021-08-09  150  		dev_err(dev, "Wrong CPU id associated with LMh node\n");
-53bca371cdf7ad Thara Gopinath    2021-08-09  151  		return -EINVAL;
-53bca371cdf7ad Thara Gopinath    2021-08-09  152  	}
-53bca371cdf7ad Thara Gopinath    2021-08-09  153  
-53bca371cdf7ad Thara Gopinath    2021-08-09  154  	if (!qcom_scm_lmh_dcvsh_available())
-53bca371cdf7ad Thara Gopinath    2021-08-09  155  		return -EINVAL;
-53bca371cdf7ad Thara Gopinath    2021-08-09  156  
-cf0c54db636c91 Thara Gopinath    2022-01-06  157  	enable_alg = (uintptr_t)of_device_get_match_data(dev);
-cf0c54db636c91 Thara Gopinath    2022-01-06  158  
-cf0c54db636c91 Thara Gopinath    2022-01-06  159  	if (enable_alg) {
-53bca371cdf7ad Thara Gopinath    2021-08-09  160  		ret = qcom_scm_lmh_dcvsh(LMH_SUB_FN_CRNT, LMH_ALGO_MODE_ENABLE, 1,
-53bca371cdf7ad Thara Gopinath    2021-08-09  161  					 LMH_NODE_DCVS, node_id, 0);
-53bca371cdf7ad Thara Gopinath    2021-08-09  162  		if (ret)
-53bca371cdf7ad Thara Gopinath    2021-08-09  163  			dev_err(dev, "Error %d enabling current subfunction\n", ret);
-53bca371cdf7ad Thara Gopinath    2021-08-09  164  
-53bca371cdf7ad Thara Gopinath    2021-08-09  165  		ret = qcom_scm_lmh_dcvsh(LMH_SUB_FN_REL, LMH_ALGO_MODE_ENABLE, 1,
-53bca371cdf7ad Thara Gopinath    2021-08-09  166  					 LMH_NODE_DCVS, node_id, 0);
-53bca371cdf7ad Thara Gopinath    2021-08-09  167  		if (ret)
-53bca371cdf7ad Thara Gopinath    2021-08-09  168  			dev_err(dev, "Error %d enabling reliability subfunction\n", ret);
-53bca371cdf7ad Thara Gopinath    2021-08-09  169  
-53bca371cdf7ad Thara Gopinath    2021-08-09  170  		ret = qcom_scm_lmh_dcvsh(LMH_SUB_FN_BCL, LMH_ALGO_MODE_ENABLE, 1,
-53bca371cdf7ad Thara Gopinath    2021-08-09  171  					 LMH_NODE_DCVS, node_id, 0);
-53bca371cdf7ad Thara Gopinath    2021-08-09  172  		if (ret)
-53bca371cdf7ad Thara Gopinath    2021-08-09  173  			dev_err(dev, "Error %d enabling BCL subfunction\n", ret);
-53bca371cdf7ad Thara Gopinath    2021-08-09  174  
-53bca371cdf7ad Thara Gopinath    2021-08-09  175  		ret = qcom_scm_lmh_dcvsh(LMH_SUB_FN_THERMAL, LMH_ALGO_MODE_ENABLE, 1,
-53bca371cdf7ad Thara Gopinath    2021-08-09  176  					 LMH_NODE_DCVS, node_id, 0);
-53bca371cdf7ad Thara Gopinath    2021-08-09  177  		if (ret) {
-53bca371cdf7ad Thara Gopinath    2021-08-09  178  			dev_err(dev, "Error %d enabling thermal subfunction\n", ret);
-53bca371cdf7ad Thara Gopinath    2021-08-09  179  			return ret;
-53bca371cdf7ad Thara Gopinath    2021-08-09  180  		}
-53bca371cdf7ad Thara Gopinath    2021-08-09  181  
-53bca371cdf7ad Thara Gopinath    2021-08-09  182  		ret = qcom_scm_lmh_profile_change(0x1);
-53bca371cdf7ad Thara Gopinath    2021-08-09  183  		if (ret) {
-53bca371cdf7ad Thara Gopinath    2021-08-09  184  			dev_err(dev, "Error %d changing profile\n", ret);
-53bca371cdf7ad Thara Gopinath    2021-08-09  185  			return ret;
-53bca371cdf7ad Thara Gopinath    2021-08-09  186  		}
-cf0c54db636c91 Thara Gopinath    2022-01-06  187  	}
-53bca371cdf7ad Thara Gopinath    2021-08-09  188  
-53bca371cdf7ad Thara Gopinath    2021-08-09  189  	/* Set default thermal trips */
-53bca371cdf7ad Thara Gopinath    2021-08-09  190  	ret = qcom_scm_lmh_dcvsh(LMH_SUB_FN_THERMAL, LMH_TH_ARM_THRESHOLD, temp_arm,
-53bca371cdf7ad Thara Gopinath    2021-08-09  191  				 LMH_NODE_DCVS, node_id, 0);
-53bca371cdf7ad Thara Gopinath    2021-08-09  192  	if (ret) {
-53bca371cdf7ad Thara Gopinath    2021-08-09  193  		dev_err(dev, "Error setting thermal ARM threshold%d\n", ret);
-53bca371cdf7ad Thara Gopinath    2021-08-09  194  		return ret;
-53bca371cdf7ad Thara Gopinath    2021-08-09  195  	}
-53bca371cdf7ad Thara Gopinath    2021-08-09  196  
-53bca371cdf7ad Thara Gopinath    2021-08-09  197  	ret = qcom_scm_lmh_dcvsh(LMH_SUB_FN_THERMAL, LMH_TH_HI_THRESHOLD, temp_high,
-53bca371cdf7ad Thara Gopinath    2021-08-09  198  				 LMH_NODE_DCVS, node_id, 0);
-53bca371cdf7ad Thara Gopinath    2021-08-09  199  	if (ret) {
-53bca371cdf7ad Thara Gopinath    2021-08-09  200  		dev_err(dev, "Error setting thermal HI threshold%d\n", ret);
-53bca371cdf7ad Thara Gopinath    2021-08-09  201  		return ret;
-53bca371cdf7ad Thara Gopinath    2021-08-09  202  	}
-53bca371cdf7ad Thara Gopinath    2021-08-09  203  
-53bca371cdf7ad Thara Gopinath    2021-08-09  204  	ret = qcom_scm_lmh_dcvsh(LMH_SUB_FN_THERMAL, LMH_TH_LOW_THRESHOLD, temp_low,
-53bca371cdf7ad Thara Gopinath    2021-08-09  205  				 LMH_NODE_DCVS, node_id, 0);
-53bca371cdf7ad Thara Gopinath    2021-08-09  206  	if (ret) {
-53bca371cdf7ad Thara Gopinath    2021-08-09  207  		dev_err(dev, "Error setting thermal ARM threshold%d\n", ret);
-53bca371cdf7ad Thara Gopinath    2021-08-09  208  		return ret;
-53bca371cdf7ad Thara Gopinath    2021-08-09  209  	}
-53bca371cdf7ad Thara Gopinath    2021-08-09  210  
-53bca371cdf7ad Thara Gopinath    2021-08-09  211  	lmh_data->irq = platform_get_irq(pdev, 0);
-7ee2c3c0dac372 Jiri Slaby (SUSE  2025-06-11  212) 	lmh_data->domain = irq_domain_create_linear(dev_fwnode(dev), 1, &lmh_irq_ops, lmh_data);
-53bca371cdf7ad Thara Gopinath    2021-08-09  213  	if (!lmh_data->domain) {
-53bca371cdf7ad Thara Gopinath    2021-08-09  214  		dev_err(dev, "Error adding irq_domain\n");
-53bca371cdf7ad Thara Gopinath    2021-08-09  215  		return -EINVAL;
-53bca371cdf7ad Thara Gopinath    2021-08-09  216  	}
-53bca371cdf7ad Thara Gopinath    2021-08-09  217  
-53bca371cdf7ad Thara Gopinath    2021-08-09  218  	/* Disable the irq and let cpufreq enable it when ready to handle the interrupt */
-53bca371cdf7ad Thara Gopinath    2021-08-09 @219  	irq_set_status_flags(lmh_data->irq, IRQ_NOAUTOEN);
-53bca371cdf7ad Thara Gopinath    2021-08-09  220  	ret = devm_request_irq(dev, lmh_data->irq, lmh_handle_irq,
-53bca371cdf7ad Thara Gopinath    2021-08-09  221  			       IRQF_ONESHOT | IRQF_NO_SUSPEND,
-53bca371cdf7ad Thara Gopinath    2021-08-09  222  			       "lmh-irq", lmh_data);
-53bca371cdf7ad Thara Gopinath    2021-08-09  223  	if (ret) {
-53bca371cdf7ad Thara Gopinath    2021-08-09  224  		dev_err(dev, "Error %d registering irq %x\n", ret, lmh_data->irq);
-53bca371cdf7ad Thara Gopinath    2021-08-09  225  		irq_domain_remove(lmh_data->domain);
-53bca371cdf7ad Thara Gopinath    2021-08-09  226  		return ret;
-53bca371cdf7ad Thara Gopinath    2021-08-09  227  	}
-53bca371cdf7ad Thara Gopinath    2021-08-09  228  
-53bca371cdf7ad Thara Gopinath    2021-08-09  229  	return 0;
-53bca371cdf7ad Thara Gopinath    2021-08-09  230  }
-53bca371cdf7ad Thara Gopinath    2021-08-09  231  
+  3640	
+  3641	int vmw_execbuf_process(struct drm_file *file_priv,
+  3642				struct vmw_private *dev_priv,
+  3643				void __user *user_commands, void *kernel_commands,
+  3644				uint32_t command_size, uint64_t throttle_us,
+  3645				uint32_t dx_context_handle,
+  3646				struct drm_vmw_fence_rep __user *user_fence_rep,
+  3647				struct vmw_fence_obj **out_fence, uint32_t flags)
+  3648	{
+  3649		struct vmw_sw_context *sw_context = &dev_priv->ctx;
+  3650		struct vmw_fence_obj *fence = NULL;
+  3651		struct vmw_cmdbuf_header *header;
+  3652		uint32_t handle = 0;
+  3653		int ret;
+  3654		int32_t out_fence_fd = -1;
+  3655		struct sync_file *sync_file = NULL;
+  3656		DECLARE_VAL_CONTEXT(val_ctx, &sw_context->res_ht, 1);
+  3657	
+  3658		vmw_validation_set_val_mem(&val_ctx, &dev_priv->vvm);
+  3659	
+  3660		if (flags & DRM_VMW_EXECBUF_FLAG_EXPORT_FENCE_FD) {
+  3661			out_fence_fd = get_unused_fd_flags(O_CLOEXEC);
+  3662			if (out_fence_fd < 0) {
+  3663				VMW_DEBUG_USER("Failed to get a fence fd.\n");
+  3664				return out_fence_fd;
+  3665			}
+  3666		}
+  3667	
+  3668		if (throttle_us) {
+  3669			ret = vmw_wait_lag(dev_priv, &dev_priv->fifo.marker_queue,
+  3670					   throttle_us);
+  3671	
+  3672			if (ret)
+  3673				goto out_free_fence_fd;
+  3674		}
+  3675	
+  3676		kernel_commands = vmw_execbuf_cmdbuf(dev_priv, user_commands,
+  3677						     kernel_commands, command_size,
+  3678						     &header);
+  3679		if (IS_ERR(kernel_commands)) {
+  3680			ret = PTR_ERR(kernel_commands);
+  3681			goto out_free_fence_fd;
+  3682		}
+  3683	
+  3684		ret = mutex_lock_interruptible(&dev_priv->cmdbuf_mutex);
+  3685		if (ret) {
+  3686			ret = -ERESTARTSYS;
+  3687			goto out_free_header;
+  3688		}
+  3689	
+  3690		sw_context->kernel = false;
+  3691		if (kernel_commands == NULL) {
+  3692			ret = vmw_resize_cmd_bounce(sw_context, command_size);
+  3693			if (unlikely(ret != 0))
+  3694				goto out_unlock;
+  3695	
+  3696			ret = copy_from_user(sw_context->cmd_bounce, user_commands,
+  3697					     command_size);
+  3698			if (unlikely(ret != 0)) {
+  3699				ret = -EFAULT;
+  3700				VMW_DEBUG_USER("Failed copying commands.\n");
+  3701				goto out_unlock;
+  3702			}
+  3703	
+  3704			kernel_commands = sw_context->cmd_bounce;
+  3705		} else if (!header) {
+  3706			sw_context->kernel = true;
+  3707		}
+  3708	
+  3709		sw_context->fp = vmw_fpriv(file_priv);
+  3710		INIT_LIST_HEAD(&sw_context->ctx_list);
+  3711		sw_context->cur_query_bo = dev_priv->pinned_bo;
+  3712		sw_context->last_query_ctx = NULL;
+  3713		sw_context->needs_post_query_barrier = false;
+  3714		sw_context->dx_ctx_node = NULL;
+  3715		sw_context->dx_query_mob = NULL;
+  3716		sw_context->dx_query_ctx = NULL;
+  3717		memset(sw_context->res_cache, 0, sizeof(sw_context->res_cache));
+  3718		INIT_LIST_HEAD(&sw_context->res_relocations);
+  3719		INIT_LIST_HEAD(&sw_context->bo_relocations);
+  3720	
+  3721		if (sw_context->staged_bindings)
+  3722			vmw_binding_state_reset(sw_context->staged_bindings);
+  3723	
+  3724		if (!sw_context->res_ht_initialized) {
+  3725			ret = drm_ht_create(&sw_context->res_ht, VMW_RES_HT_ORDER);
+  3726			if (unlikely(ret != 0))
+  3727				goto out_unlock;
+  3728	
+  3729			sw_context->res_ht_initialized = true;
+  3730		}
+  3731	
+  3732		INIT_LIST_HEAD(&sw_context->staged_cmd_res);
+  3733		sw_context->ctx = &val_ctx;
+  3734		ret = vmw_execbuf_tie_context(dev_priv, sw_context, dx_context_handle);
+  3735		if (unlikely(ret != 0))
+  3736			goto out_err_nores;
+  3737	
+  3738		ret = vmw_cmd_check_all(dev_priv, sw_context, kernel_commands,
+  3739					command_size);
+  3740		if (unlikely(ret != 0))
+  3741			goto out_err_nores;
+  3742	
+  3743		ret = vmw_resources_reserve(sw_context);
+  3744		if (unlikely(ret != 0))
+  3745			goto out_err_nores;
+  3746	
+  3747		ret = vmw_validation_bo_reserve(&val_ctx, true);
+  3748		if (unlikely(ret != 0))
+  3749			goto out_err_nores;
+  3750	
+  3751		ret = vmw_validation_bo_validate(&val_ctx, true);
+  3752		if (unlikely(ret != 0))
+  3753			goto out_err;
+  3754	
+  3755		ret = vmw_validation_res_validate(&val_ctx, true);
+  3756		if (unlikely(ret != 0))
+  3757			goto out_err;
+  3758	
+  3759		vmw_validation_drop_ht(&val_ctx);
+  3760	
+  3761		ret = mutex_lock_interruptible(&dev_priv->binding_mutex);
+  3762		if (unlikely(ret != 0)) {
+  3763			ret = -ERESTARTSYS;
+  3764			goto out_err;
+  3765		}
+  3766	
+  3767		if (dev_priv->has_mob) {
+  3768			ret = vmw_rebind_contexts(sw_context);
+  3769			if (unlikely(ret != 0))
+  3770				goto out_unlock_binding;
+  3771		}
+  3772	
+  3773		if (!header) {
+  3774			ret = vmw_execbuf_submit_fifo(dev_priv, kernel_commands,
+  3775						      command_size, sw_context);
+  3776		} else {
+  3777			ret = vmw_execbuf_submit_cmdbuf(dev_priv, header, command_size,
+  3778							sw_context);
+  3779			header = NULL;
+  3780		}
+  3781		mutex_unlock(&dev_priv->binding_mutex);
+  3782		if (ret)
+  3783			goto out_err;
+  3784	
+  3785		vmw_query_bo_switch_commit(dev_priv, sw_context);
+  3786		ret = vmw_execbuf_fence_commands(file_priv, dev_priv, &fence,
+  3787						 (user_fence_rep) ? &handle : NULL);
+  3788		/*
+  3789		 * This error is harmless, because if fence submission fails,
+  3790		 * vmw_fifo_send_fence will sync. The error will be propagated to
+  3791		 * user-space in @fence_rep
+  3792		 */
+  3793		if (ret != 0)
+  3794			VMW_DEBUG_USER("Fence submission error. Syncing.\n");
+  3795	
+  3796		vmw_execbuf_bindings_commit(sw_context, false);
+  3797		vmw_bind_dx_query_mob(sw_context);
+  3798		vmw_validation_res_unreserve(&val_ctx, false);
+  3799	
+  3800		vmw_validation_bo_fence(sw_context->ctx, fence);
+  3801	
+  3802		if (unlikely(dev_priv->pinned_bo != NULL && !dev_priv->query_cid_valid))
+  3803			__vmw_execbuf_release_pinned_bo(dev_priv, fence);
+  3804	
+  3805		/*
+  3806		 * If anything fails here, give up trying to export the fence and do a
+  3807		 * sync since the user mode will not be able to sync the fence itself.
+  3808		 * This ensures we are still functionally correct.
+  3809		 */
+  3810		if (flags & DRM_VMW_EXECBUF_FLAG_EXPORT_FENCE_FD) {
+  3811	
+  3812			sync_file = sync_file_create(&fence->base);
+  3813			if (!sync_file) {
+  3814				VMW_DEBUG_USER("Sync file create failed for fence\n");
+  3815				put_unused_fd(out_fence_fd);
+  3816				out_fence_fd = -1;
+  3817	
+  3818				(void) vmw_fence_obj_wait(fence, false, false,
+  3819							  VMW_FENCE_WAIT_TIMEOUT);
+  3820			}
+  3821		}
+  3822	
+  3823		ret = vmw_execbuf_copy_fence_user(dev_priv, vmw_fpriv(file_priv), ret,
+  3824					    user_fence_rep, fence, handle, out_fence_fd);
+  3825	
+  3826		if (sync_file) {
+  3827			if (ret) {
+  3828				/* usercopy of fence failed, put the file object */
+  3829				fput(sync_file->file);
+  3830				put_unused_fd(out_fence_fd);
+  3831			} else {
+  3832				/* Link the fence with the FD created earlier */
+  3833				fd_install(out_fence_fd, sync_file->file);
+> 3834				struct seqno_waiter_rm_context *ctx =
+  3835					kmalloc(sizeof(*ctx), GFP_KERNEL);
+  3836				ctx->dev_priv = dev_priv;
+  3837				vmw_seqno_waiter_add(dev_priv);
+  3838				if (dma_fence_add_callback(&fence->base, &ctx->base,
+  3839							   seqno_waiter_rm_cb) < 0) {
+  3840					vmw_seqno_waiter_remove(dev_priv);
+  3841					kfree(ctx);
+  3842				}
+  3843			}
+  3844		}
+  3845	
+  3846		/* Don't unreference when handing fence out */
+  3847		if (unlikely(out_fence != NULL)) {
+  3848			*out_fence = fence;
+  3849			fence = NULL;
+  3850		} else if (likely(fence != NULL)) {
+  3851			vmw_fence_obj_unreference(&fence);
+  3852		}
+  3853	
+  3854		vmw_cmdbuf_res_commit(&sw_context->staged_cmd_res);
+  3855		mutex_unlock(&dev_priv->cmdbuf_mutex);
+  3856	
+  3857		/*
+  3858		 * Unreference resources outside of the cmdbuf_mutex to avoid deadlocks
+  3859		 * in resource destruction paths.
+  3860		 */
+  3861		vmw_validation_unref_lists(&val_ctx);
+  3862	
+  3863		return ret;
+  3864	
+  3865	out_unlock_binding:
+  3866		mutex_unlock(&dev_priv->binding_mutex);
+  3867	out_err:
+  3868		vmw_validation_bo_backoff(&val_ctx);
+  3869	out_err_nores:
+  3870		vmw_execbuf_bindings_commit(sw_context, true);
+  3871		vmw_validation_res_unreserve(&val_ctx, true);
+  3872		vmw_resource_relocations_free(&sw_context->res_relocations);
+  3873		vmw_free_relocations(sw_context);
+  3874		if (unlikely(dev_priv->pinned_bo != NULL && !dev_priv->query_cid_valid))
+  3875			__vmw_execbuf_release_pinned_bo(dev_priv, NULL);
+  3876	out_unlock:
+  3877		vmw_cmdbuf_res_revert(&sw_context->staged_cmd_res);
+  3878		vmw_validation_drop_ht(&val_ctx);
+  3879		WARN_ON(!list_empty(&sw_context->ctx_list));
+  3880		mutex_unlock(&dev_priv->cmdbuf_mutex);
+  3881	
+  3882		/*
+  3883		 * Unreference resources outside of the cmdbuf_mutex to avoid deadlocks
+  3884		 * in resource destruction paths.
+  3885		 */
+  3886		vmw_validation_unref_lists(&val_ctx);
+  3887	out_free_header:
+  3888		if (header)
+  3889			vmw_cmdbuf_header_free(header);
+  3890	out_free_fence_fd:
+  3891		if (out_fence_fd >= 0)
+  3892			put_unused_fd(out_fence_fd);
+  3893	
+  3894		return ret;
+  3895	}
+  3896	
 
 -- 
 0-DAY CI Kernel Test Service
