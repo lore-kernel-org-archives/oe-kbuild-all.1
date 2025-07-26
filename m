@@ -1,74 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68809220F22;
-	Sat, 26 Jul 2025 21:50:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135D2262BE
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 22:32:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753566635; cv=none; b=s1qjNOmGyKHLXjW0JxcMnrkYKpowodJR0i/wvVEiTSR+3/hI5uCw9Tvw3gM6SG+uadLGnFjEcgy2G2U7Nve/g4tsRvpZophnqtxO/KHcP/KHmutiSjDeZP8xh7QZxSWkgUWQYFXK1NbnJryweDIxpqk5dKtBUe/BB60inyP5f2Q=
+	t=1753569167; cv=none; b=ASOMMuoNScx+iYCxYyYUPSloS5jRMXmiL2VF0cyzWoLDgximr2ec8xAmCMd+xF0bB4O/RTGHPIar7PXKlKgMJ0TERzBHzOSiuP27frV5BcPQUKa4rOjw/BIzSbQ17CgnqIFAsRLy6qahNGTGG0A5wtqFlCMuUPJa0EJSBgDto+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753566635; c=relaxed/simple;
-	bh=hSbqujNyJtfgoVzH7Vax+KT9pmAhM1E22Hv7yYf+bQ0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OB3z7H0kKX0IardTUCFOqZZkMeyoWdYmbUaOUvacnikxaiPvy6hg5DoZgofsTmgG/78mUMTx6zjylmG6ZFjZNu/7cQun7GXUms40qZwt5mJZ26Maps0LZqR80MLqrNOn5zlqPklcLIaQDqxaXOQMjSlk0B4k2wyjRDtSz0XqdFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kRu/PbZN; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1753569167; c=relaxed/simple;
+	bh=reADTfndVzI2+z9W9/esvxdERdYDZRmhL1BAFMyyizU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=tbi/hUBljlE50y0SQ0iZUjz9tV/PzMn9krKN33hE9CC3fVzwJ0AZIuerGqC4WdR8RwDgJnwyBI6l/A+DWzQh7YBwPtIK8YSQvu+Y/Sjh3+VUTDbBU+wcgYzd0EjkIv1WguO8AHuRitaMYUoa66/tqbVm6EmhQn/U+Tcxvx/aNT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hM6yCRuy; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kRu/PbZN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hM6yCRuy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753566635; x=1785102635;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hSbqujNyJtfgoVzH7Vax+KT9pmAhM1E22Hv7yYf+bQ0=;
-  b=kRu/PbZN9ATlJCM6RgFcm1KZXVu8/K1qDjSdStQA+7hQFj2vX853tDwQ
-   b1Inm0JXVsImfUPmiYHU3wxJsYAC0JOst1ZcD0CVvTWPX9d6LLXoZVgET
-   GShMDfaz9J75+4gtWoWs9qckDXsO0Sq152BE8NcklaOfy3M0kc21wTOYe
-   O+iuDAlX+585YuLoL39yo65ynCI8q16Mz3st1sar76A/R0rd4WtbWBQLq
-   ML2udDvaUKmbt8p15XHzBuyCpWYdjtWRfOnM4J1J94k+kXFUDkDo40Em0
-   j/BZ7D9dhVm5r2+sfCjnU4SRiOHmvtX2HnU3kB5hZe3fZtAI7igWvzBh3
-   w==;
-X-CSE-ConnectionGUID: BXP0/iBkSHWU6wnsP0OCWQ==
-X-CSE-MsgGUID: o3mEF4HfQOW4gSBlVYwzBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55721668"
+  t=1753569165; x=1785105165;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=reADTfndVzI2+z9W9/esvxdERdYDZRmhL1BAFMyyizU=;
+  b=hM6yCRuy4HK10Wln4yzfpfMvEQ9VQtxB8sapK6Vk4mVumgZmqPMoh0eo
+   X2/EUX9RPSB6X6W9flinTLFz6LT5rnD5MbU52xWUaZrIdH8AUKVVeB0e3
+   qxi+8Q3TbHuvLmFpHYLAFMqkQW9le8zJWz6rozhH70uqbiTTy/jkfPPP/
+   sleiHd7UTww3ehdAheOxagFoPFxU+B9nJ2fAhvVIyyWvxQ8gKp6Fh18OQ
+   14AMlDpHHjbexz+MizfWbi7yijpigS3PMoNX8DW24ZdWswq0ERKlh67vS
+   kgkqER2bzUnSnlB6njg0Y0uTuVBGh77eNr8N4Wt9nqlb+j3Gqr0GRfFY4
+   g==;
+X-CSE-ConnectionGUID: +p0eepGQRmGz+1TlhuqqwA==
+X-CSE-MsgGUID: hF9JfRmARru7OZHW4TurkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55803726"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="55721668"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 14:50:34 -0700
-X-CSE-ConnectionGUID: YUbCUJRlSDSYtBKh9alZxQ==
-X-CSE-MsgGUID: msO8MjvYQuO0CppyXIzicw==
+   d="scan'208";a="55803726"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 15:32:45 -0700
+X-CSE-ConnectionGUID: H44uPCa4TYeMcKyPLztTYw==
+X-CSE-MsgGUID: /qgamkR/TBSzg3dQggTxtw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="192644434"
+   d="scan'208";a="185431246"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Jul 2025 14:50:29 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 26 Jul 2025 15:31:31 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ufmmg-000MJH-2B;
-	Sat, 26 Jul 2025 21:50:26 +0000
-Date: Sun, 27 Jul 2025 05:50:14 +0800
+	id 1ufnQP-000MJn-06;
+	Sat, 26 Jul 2025 22:31:29 +0000
+Date: Sun, 27 Jul 2025 06:30:54 +0800
 From: kernel test robot <lkp@intel.com>
-To: Maud Spierings via B4 Relay <devnull+maudspierings.gocontroll.com@kernel.org>,
-	Lee Jones <lee@kernel.org>, Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Helge Deller <deller@gmx.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	dri-devel@lists.freedesktop.org, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	Maud Spierings <maudspierings@gocontroll.com>,
-	MaudSpieringsmaudspierings@gocontroll.com
-Subject: Re: [PATCH 2/4] backlight: add max25014atg backlight
-Message-ID: <202507270543.G0TT6f25-lkp@intel.com>
-References: <20250725-max25014-v1-2-0e8cce92078e@gocontroll.com>
+To: Steev Klimaszewski <steev@kali.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [steev:thinkpad-t14s-oled-6.16-rc7 82/91]
+ kernel/sched/debug.c:557:71: error: 'sched_min_base_slice_fops' undeclared;
+ did you mean 'sched_verbose_fops'?
+Message-ID: <202507270605.OzrFMI5W-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,59 +62,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250725-max25014-v1-2-0e8cce92078e@gocontroll.com>
 
-Hi Maud,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on d7af19298454ed155f5cf67201a70f5cf836c842]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Maud-Spierings-via-B4-Relay/dt-bindings-backlight-Add-max25014-bindings/20250725-191221
-base:   d7af19298454ed155f5cf67201a70f5cf836c842
-patch link:    https://lore.kernel.org/r/20250725-max25014-v1-2-0e8cce92078e%40gocontroll.com
-patch subject: [PATCH 2/4] backlight: add max25014atg backlight
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250727/202507270543.G0TT6f25-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507270543.G0TT6f25-lkp@intel.com/reproduce)
+tree:   https://github.com/steev/linux thinkpad-t14s-oled-6.16-rc7
+head:   d146b94d36c03f181f3bfb8abb88e849da974e58
+commit: e6aea2db083fdaa92d663258d1eb50d7eeaccfdf [82/91] linux6.16-rc5-bore-6.1.0
+config: arc-randconfig-001-20250727 (https://download.01.org/0day-ci/archive/20250727/202507270605.OzrFMI5W-lkp@intel.com/config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507270605.OzrFMI5W-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507270543.G0TT6f25-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507270605.OzrFMI5W-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/video/backlight/max25014.c:86:4: warning: variable 'res' is uninitialized when used here [-Wuninitialized]
-      86 |                         res |= 1 << i;
-         |                         ^~~
-   drivers/video/backlight/max25014.c:82:13: note: initialize the variable 'res' to silence this warning
-      82 |         uint8_t res, i;
-         |                    ^
-         |                     = '\0'
-   1 warning generated.
+   In file included from kernel/sched/build_utility.c:26:
+   kernel/sched/debug.c: In function 'sched_init_debug':
+>> kernel/sched/debug.c:557:71: error: 'sched_min_base_slice_fops' undeclared (first use in this function); did you mean 'sched_verbose_fops'?
+     debugfs_create_file("min_base_slice_ns", 0644, debugfs_sched, NULL, &sched_min_base_slice_fops);
+                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/debugfs.h:126:11: note: in definition of macro 'debugfs_create_file'
+     _Generic(fops,        \
+              ^~~~
+   kernel/sched/debug.c:557:71: note: each undeclared identifier is reported only once for each function it appears in
+     debugfs_create_file("min_base_slice_ns", 0644, debugfs_sched, NULL, &sched_min_base_slice_fops);
+                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/debugfs.h:126:11: note: in definition of macro 'debugfs_create_file'
+     _Generic(fops,        \
+              ^~~~
 
 
-vim +/res +86 drivers/video/backlight/max25014.c
+vim +557 kernel/sched/debug.c
 
-    73	
-    74	/**
-    75	 * @brief get the bit mask for the DISABLE register.
-    76	 *
-    77	 * @param strings the led string configuration array.
-    78	 * @return uint8_t bits to set in the register.
-    79	 */
-    80	static uint8_t strings_mask(struct max25014 *maxim)
-    81	{
-    82		uint8_t res, i;
-    83	
-    84		for (i = 0; i < 4; i++) {
-    85			if (maxim->pdata->strings[i] == 0)
-  > 86				res |= 1 << i;
-    87		}
-    88		return res;
-    89	}
-    90	
+   555	
+   556	#ifdef CONFIG_SCHED_BORE
+ > 557		debugfs_create_file("min_base_slice_ns", 0644, debugfs_sched, NULL, &sched_min_base_slice_fops);
+   558		debugfs_create_u32("base_slice_ns", 0444, debugfs_sched, &sysctl_sched_base_slice);
+   559	#else // !CONFIG_SCHED_BORE
+   560		debugfs_create_u32("base_slice_ns", 0644, debugfs_sched, &sysctl_sched_base_slice);
+   561	#endif // CONFIG_SCHED_BORE
+   562	
+   563		debugfs_create_u32("latency_warn_ms", 0644, debugfs_sched, &sysctl_resched_latency_warn_ms);
+   564		debugfs_create_u32("latency_warn_once", 0644, debugfs_sched, &sysctl_resched_latency_warn_once);
+   565	
 
 -- 
 0-DAY CI Kernel Test Service
