@@ -1,64 +1,66 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD84F23BF91
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 12:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E65339A8
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 13:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753532923; cv=none; b=cT80DxYfd6ZbXq2oZYRaqKH8tofoBi+WVVMAbPVD0jDTqyy0UB28cyAATTCJY8yr53a5rjZjjy+zPZMquj0ozlUTvwmTlL3ChXqOsOGTQGE/zXC/OvUYvJgMo19YEedJ8d6QlzQgZMo8rE8ssBM/gGVlY64yTCcvywfCSGnRWog=
+	t=1753535448; cv=none; b=J3jaR64z59cG9e//E+pY1xVvL+bTvPuoAj4J9wuVkmZ0xqPKA5XzUWMrT/Xc/yWN2Uw5g2EhNm6KqasFTGudcuvFTbTPXa/KsSJlF2LyHzclc6UyaD8E0aokRYTwsPDBFYte/q00DQFwtU3KEDa5yShq3dqMgvQ9CAv2RRiic9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753532923; c=relaxed/simple;
-	bh=YuehmxuRyrlOSFHFQ1Yaiwvs0V5J3xcKU5wtDYfuFD8=;
+	s=arc-20240116; t=1753535448; c=relaxed/simple;
+	bh=MUr2pfCRzwQv/cxIlfRNNx5NuIqzQZytUjrYtJlln3Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FCxD3bntuLm8oa8IqO29S71lCcO1p2nK1Y+kDoNxFWXNdXy+IIHtLmc3Tl+AJIR5LRYw6aoTZlfXrngVu0hzsBUlTLx2qke5QCkvWXTiY5d1E6sxU6mBVk18oz2x4Zce2M3xpVfQowCrj3PSTVDNWDgFEjAPKuGJCvdim5N86fA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cRDDVga0; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=snizNSzT0M7e5DDrBxx1BBOo5dAczNRa80E2rY/2gnCflZulz8357fPLHytFuk9KSdtKVu+kQa5Tm6muVLBKjGLGZfZi0AG7Y7yNzVdlWG6JKS3niBtigk1C0ttpBwOWubQrU9dvfFKfqG4a0xcTvWAGqYjwEZrMY89vmL+KhGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lEQTZKkg; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cRDDVga0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lEQTZKkg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753532922; x=1785068922;
+  t=1753535447; x=1785071447;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=YuehmxuRyrlOSFHFQ1Yaiwvs0V5J3xcKU5wtDYfuFD8=;
-  b=cRDDVga0+ws+iHE8oXbt45lrhdK4kO3xwPYplUgEftc2gGSuLAPocoMe
-   vsXT718dKN8zdV/iQ6IHDGadIjDvdBM/B9deeGLq64r0QFN/fvTgN8Q6d
-   Z65vaQy1QY5fjXUIyByimipAzaSeDpTRR4Zt3WMODNAnOlP/EVnWwCjQe
-   RAFDv1KMbDPDIbSdXEtb0shi82qBDdqQB1OycyySOJDmYtS5RGUBUKEiD
-   z5QGPdwEcfFiAeCTjDZdg4BIVymWPbk4HWWBZ0ZJxPySbzWfZmpn2a5HA
-   LZd3bk/Vc7tXwF+i6ypRXAC5Wj1x2G/kiAx20ptQ66oct5C7GZv9rNPKB
-   Q==;
-X-CSE-ConnectionGUID: yINBqYIPR+qkKxmJf68u/g==
-X-CSE-MsgGUID: bgdxVKq0Qay78IFeUhlB/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="55728705"
+  bh=MUr2pfCRzwQv/cxIlfRNNx5NuIqzQZytUjrYtJlln3Q=;
+  b=lEQTZKkgDwfGQowJA0tulFmQG42fkBSBV+DNVLRWnjqW7Rkw4UIIvNGm
+   924nYsbIgqSQmDt1YTLva7+f9fOmEsfUy/fyEi3lvTXl59L+O+QnuauqY
+   vUSLpGCAxn2RrdEQzUNM5BtzfGQJiqDCWrX8hnj/nqvjrd6foQn4Pm0QA
+   WnP67gCiJI9sMcfZR6veBBgmtGRGyqMwiY4N1FmPy4m7GwvCvg9JogUVi
+   KZDTBTbDx65sCbixbzgIzQhA/fJ1bum+ZOXBLBqDbpSwWVCK03BoxTDjH
+   UDJ2cxiOxPwYGhb1zxtQVTAD/qzXu2f5YJIS8AYFzLMtypVxKZMBNbsFc
+   g==;
+X-CSE-ConnectionGUID: 7w/AIFcfQ8WZR6AXaldi0Q==
+X-CSE-MsgGUID: 4XesXcx5R/Of/EbsZ7tKDQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="56000834"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="55728705"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 05:28:42 -0700
-X-CSE-ConnectionGUID: 5Uj/GCTgTZixDUFLlL6+dA==
-X-CSE-MsgGUID: xm1IdLMtToyO/jjJ0uKqVg==
+   d="scan'208";a="56000834"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 06:10:45 -0700
+X-CSE-ConnectionGUID: +D4fztZ9S2mnFjl5+0kjmA==
+X-CSE-MsgGUID: jzqKvswbSSeFtzKVh8YE1A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="185223609"
+   d="scan'208";a="162356963"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 26 Jul 2025 05:28:40 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 26 Jul 2025 06:10:42 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ufe0z-000Lyx-1i;
-	Sat, 26 Jul 2025 12:28:37 +0000
-Date: Sat, 26 Jul 2025 20:27:51 +0800
+	id 1ufefg-000Lzj-1H;
+	Sat, 26 Jul 2025 13:10:40 +0000
+Date: Sat, 26 Jul 2025 21:10:04 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jia He <justin.he@arm.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Jia He <justin.he@arm.com>
-Subject: Re: [PATCH] mm: percpu: Introduce normalized CPU-to-NUMA node
- mapping to  reduce max_distance
-Message-ID: <202507262015.sw4niVFQ-lkp@intel.com>
-References: <20250722041418.2024870-1-justin.he@arm.com>
+To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Leo Li <sunpeng.li@amd.com>, Alex Hung <alex.hung@amd.com>,
+	Shankar@kaveri.local, Uma <uma.shankar@intel.com>,
+	Xaver Hugl <xaver.hugl@kde.org>, victoria@system76.com,
+	David Turner <david.turner@raspberrypi.com>
+Cc: oe-kbuild-all@lists.linux.dev, amd-gfx@lists.freedesktop.org,
+	dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH 3/4] drm: Add HW_DONE_DEADLINE immutable atomic CRTC
+ property
+Message-ID: <202507262035.wxgiJwAZ-lkp@intel.com>
+References: <20250724165220.1189129-4-michel@daenzer.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,38 +69,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250722041418.2024870-1-justin.he@arm.com>
+In-Reply-To: <20250724165220.1189129-4-michel@daenzer.net>
 
-Hi Jia,
+Hi Michel,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on akpm-mm/mm-everything]
+[auto build test WARNING on drm-exynos/exynos-drm-next]
+[also build test WARNING on linus/master v6.16-rc7 next-20250725]
+[cannot apply to drm/drm-next drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jia-He/mm-percpu-Introduce-normalized-CPU-to-NUMA-node-mapping-to-reduce-max_distance/20250722-121559
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250722041418.2024870-1-justin.he%40arm.com
-patch subject: [PATCH] mm: percpu: Introduce normalized CPU-to-NUMA node mapping to  reduce max_distance
-config: arm64-randconfig-r113-20250725 (https://download.01.org/0day-ci/archive/20250726/202507262015.sw4niVFQ-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250726/202507262015.sw4niVFQ-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Michel-D-nzer/drm-kms-Add-DRM_EVENT_ATOMIC_HW_DONE-event-type/20250725-010202
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-next
+patch link:    https://lore.kernel.org/r/20250724165220.1189129-4-michel%40daenzer.net
+patch subject: [PATCH 3/4] drm: Add HW_DONE_DEADLINE immutable atomic CRTC property
+config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20250726/202507262035.wxgiJwAZ-lkp@intel.com/config)
+compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507262035.wxgiJwAZ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507262015.sw4niVFQ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507262035.wxgiJwAZ-lkp@intel.com/
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/base/arch_numa.c:154:12: sparse: sparse: symbol 'early_cpu_to_norm_node' was not declared. Should it be static?
+All warnings (new ones prefixed by >>):
 
-vim +/early_cpu_to_norm_node +154 drivers/base/arch_numa.c
-
-   153	
- > 154	int __init early_cpu_to_norm_node(int cpu)
-   155	{
-   156		return cpu_to_norm_node_map[cpu];
-   157	}
-   158	
+>> Warning: drivers/gpu/drm/drm_crtc.c:963 function parameter 'deadline' not described in 'drm_crtc_set_hw_done_deadline_property'
+   Warning: drivers/gpu/drm/drm_crtc.c:963 Excess function parameter 'capable' description in 'drm_crtc_set_hw_done_deadline_property'
 
 -- 
 0-DAY CI Kernel Test Service
