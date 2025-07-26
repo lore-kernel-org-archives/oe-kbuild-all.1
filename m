@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369551BCA0E
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 01:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5334EAF9;
+	Sat, 26 Jul 2025 01:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753493640; cv=none; b=ayUznHn7FSqEPnPn1wshQbrpTHTvDivGQjzcCLoEXZxXgGJtQS02AqlXmz+26oOXv9Iyp9T31yjgHV4W4oWCyZ6CVeOgefk133zAEDI9gYdbLv4V3+LiOaRoThD+e5vGPkm5gQmVb4fHgP3ymHTq2H+GzUz9YD42zS8nB7LDZRg=
+	t=1753494000; cv=none; b=lz3dXJ9eje7a7wKVtofZzbxi7huM88eDBBeWUhzXZ22HUoUtvnUUCJYG00cGlOimhrq4ui4AQHaQM85w4fnMO6Sytr9pzUQ/li9cwavZlGzarRxx6io5rUDyEU0JXKWAME8iE/pBfJO++//Sg3VKU9rtTp9DztST80fzjB8dJ20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753493640; c=relaxed/simple;
-	bh=Thj/9jcqD/uePigPKqqdDixVt5Pe22s47POE0yQv8b4=;
+	s=arc-20240116; t=1753494000; c=relaxed/simple;
+	bh=Pg/bwK4zrTPqqa3qHUJR8CVYUnv5SunIF65yT5efa3c=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WqRcd5BNxQCe2I9kKeJ0Ri8ezeOUKvfaZqtVcxgSjLfE6o7uObONqgfppTEYGCBmLYZnfc/yODkSm596t6JEkjrv5FY69wXo7U79fmvtmjshYowPpWi9sphy4L0wtWGGSIT7h/9R2IFL1c73A/nxpwjyIHvzRnF490lHs8RzNks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UuUBi5P+; arc=none smtp.client-ip=198.175.65.19
+	 Content-Disposition; b=d9ZGPD3XDpsaZz+MMuMmEkPIekMOI09xuQ2+6wJppycChSNs8a6G0vNVBDsdkzDHeBZ4dPYt0urGJnF4yEh9ltWFEWQVKZA/WeXS2EGHubTjjOjGzkNt84t+EDA3hfjOKmvH67zv5oitnytJ9ya0xSEUX8qJa5D3Ovd3pCjEVnE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=epPDAdX+; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UuUBi5P+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="epPDAdX+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753493639; x=1785029639;
+  t=1753493999; x=1785029999;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Thj/9jcqD/uePigPKqqdDixVt5Pe22s47POE0yQv8b4=;
-  b=UuUBi5P+obt92kk3q7yeIa1yK/ZBHgewyo6vX4JNZ71bbcBhyy54bzto
-   wF2mj6NZvbVZvh98hJpaPOLIV82SWbqCHpgxtz/GPYF0/F1hNS39vwKRg
-   1Q/6btAeTnKPLFSPY1yTSmm2QZcCDyB9LhRv/VIk3YLD7T3xi4bqm7din
-   CnYV0uEfUbZRi2H+iSIGD3PJg+t+XOemeX7UHlW1UId7d31q7CvbXZlUp
-   4duD2llnhEXnmjolMN7qtEKyrJyN9dDYER4d3Qd+AChgD2a+5Aip37Iww
-   uOkDEJ9CCNTDSplhqF8uLZUwkGVIuj2cTPcMvBbLIYHMQtm9vFEVXTtHZ
-   w==;
-X-CSE-ConnectionGUID: OQREBzcEQT+0JiFkLyEe/A==
-X-CSE-MsgGUID: pWYNO3xtQPmks6qIBzJECw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="55687694"
+  bh=Pg/bwK4zrTPqqa3qHUJR8CVYUnv5SunIF65yT5efa3c=;
+  b=epPDAdX+IAqlde20UeBCrLZSBXKjPmAom18tFlj2zaSMSWcOt4JPyvff
+   vihPuhn7ughcPpOYCEySWTmS6FHBQ7Om2QiS/gpc5IjVVb+BPEJo81Nl3
+   phRjdwqQz8ASD3pzzXr3LypcabDnrxprpVHRlBOSxGb/RZtyR7EfWkWvD
+   OZMw7ch9sj4jfnQ5pcEjAZ2Y9qnGDjBPX8IdIpDQAmRTdUUee11c0TyeQ
+   ZJq5HbLa4iHd1ttgwUI79ALEV+wQD7tlbS7C6//+/Mi8hxaFTpqNu+qrD
+   kcygBAazejY2FnR6CqkVjOnqXkcPCWC6z5yN4JTSMSVJ2JVMiIvvlW2GJ
+   A==;
+X-CSE-ConnectionGUID: yY+BmibYSO62IRLHAjwWLw==
+X-CSE-MsgGUID: AZo1fJ17Qti0w+kNq7DsPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="55712089"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="55687694"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2025 18:33:58 -0700
-X-CSE-ConnectionGUID: mhc2TZtfRqaD0PRTetPlAA==
-X-CSE-MsgGUID: iTN93s/CS+6l7rQEQGiKjQ==
+   d="scan'208";a="55712089"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2025 18:39:59 -0700
+X-CSE-ConnectionGUID: GcswZvP2TBi8MHn9Hm7lmw==
+X-CSE-MsgGUID: 8l/HpTtyQHae5LsUAbetGw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="160427255"
+   d="scan'208";a="192220868"
 Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa006.jf.intel.com with ESMTP; 25 Jul 2025 18:33:57 -0700
+  by fmviesa001.fm.intel.com with ESMTP; 25 Jul 2025 18:39:56 -0700
 Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ufTnN-0000D9-31;
-	Sat, 26 Jul 2025 01:33:53 +0000
-Date: Sat, 26 Jul 2025 03:33:38 +0200
+	id 1ufTtC-0000DD-0q;
+	Sat, 26 Jul 2025 01:39:54 +0000
+Date: Sat, 26 Jul 2025 03:39:38 +0200
 From: kernel test robot <lkp@intel.com>
-To: David Sterba <dsterba@suse.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: fs/btrfs/ioctl.c:5146:21: warning: 'root_flags' may be used
- uninitialized in this function
-Message-ID: <202507260324.SWZCjXH8-lkp@intel.com>
+To: Hector Martin <marcan@marcan.st>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Janne Grunau <j@jannau.net>
+Subject: [asahilinux:bits/020-dart 17/24] drivers/iommu/apple-dart.c:749:16:
+ warning: implicit conversion from 'unsigned long long' to 'dma_addr_t' (aka
+ 'unsigned int') changes value from 18446744073709551615 to 4294967295
+Message-ID: <202507260323.iSvkCkNs-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,159 +64,133 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   5f33ebd2018ced2600b3fad2f8e2052498eb4072
-commit: 6c83d153ed86eb17c46eafe4e78af4ce2071a052 btrfs: add new ioctl to wait for cleaned subvolumes
-date:   9 months ago
-config: sparc-randconfig-2006-20250726 (https://download.01.org/0day-ci/archive/20250726/202507260324.SWZCjXH8-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507260324.SWZCjXH8-lkp@intel.com/reproduce)
+tree:   https://github.com/AsahiLinux/linux bits/020-dart
+head:   f5bb87e56b1abc21a7670d8bab309bae691f831e
+commit: f4b95669250447d37fee23fb9a58179be99cd47e [17/24] iommu: apple-dart: Support specifying the DMA aperture in the DT
+config: i386-buildonly-randconfig-2002-20250720 (https://download.01.org/0day-ci/archive/20250726/202507260323.iSvkCkNs-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507260323.iSvkCkNs-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507260324.SWZCjXH8-lkp@intel.com/
-
-Note: it may well be a FALSE warning. FWIW you are at least aware of it now.
-http://gcc.gnu.org/wiki/Better_Uninitialized_Warnings
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507260323.iSvkCkNs-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   fs/btrfs/ioctl.c: In function 'btrfs_ioctl_subvol_sync':
->> fs/btrfs/ioctl.c:5146:21: warning: 'root_flags' may be used uninitialized in this function [-Wmaybe-uninitialized]
-      ASSERT(root_flags & BTRFS_ROOT_SUBVOL_DEAD);
-                        ^
+>> drivers/iommu/apple-dart.c:749:16: warning: implicit conversion from 'unsigned long long' to 'dma_addr_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+     749 |                                         dma_max = DMA_BIT_MASK(pgtbl_cfg.ias);
+         |                                                 ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:73:40: note: expanded from macro 'DMA_BIT_MASK'
+      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                        ^~~~~
+   drivers/iommu/apple-dart.c:1388:18: warning: implicit conversion from 'unsigned long long' to 'dma_addr_t' (aka 'unsigned int') changes value from 18446744073709551615 to 4294967295 [-Wconstant-conversion]
+    1388 |         dart->dma_max = DMA_BIT_MASK(dart->ias);
+         |                       ~ ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dma-mapping.h:73:40: note: expanded from macro 'DMA_BIT_MASK'
+      73 | #define DMA_BIT_MASK(n) (((n) == 64) ? ~0ULL : ((1ULL<<(n))-1))
+         |                                        ^~~~~
+   2 warnings generated.
 
 
-vim +/root_flags +5146 fs/btrfs/ioctl.c
+vim +749 drivers/iommu/apple-dart.c
 
-  5029	
-  5030	static int btrfs_ioctl_subvol_sync(struct btrfs_fs_info *fs_info, void __user *argp)
-  5031	{
-  5032		struct btrfs_root *root;
-  5033		struct btrfs_ioctl_subvol_wait args = { 0 };
-  5034		signed long sched_ret;
-  5035		int refs;
-  5036		u64 root_flags;
-  5037		bool wait_for_deletion = false;
-  5038		bool found = false;
-  5039	
-  5040		if (copy_from_user(&args, argp, sizeof(args)))
-  5041			return -EFAULT;
-  5042	
-  5043		switch (args.mode) {
-  5044		case BTRFS_SUBVOL_SYNC_WAIT_FOR_QUEUED:
-  5045			/*
-  5046			 * Wait for the first one deleted that waits until all previous
-  5047			 * are cleaned.
-  5048			 */
-  5049			spin_lock(&fs_info->trans_lock);
-  5050			if (!list_empty(&fs_info->dead_roots)) {
-  5051				root = list_last_entry(&fs_info->dead_roots,
-  5052						       struct btrfs_root, root_list);
-  5053				args.subvolid = btrfs_root_id(root);
-  5054				found = true;
-  5055			}
-  5056			spin_unlock(&fs_info->trans_lock);
-  5057			if (!found)
-  5058				return -ENOENT;
-  5059	
-  5060			fallthrough;
-  5061		case BTRFS_SUBVOL_SYNC_WAIT_FOR_ONE:
-  5062			if ((0 < args.subvolid && args.subvolid < BTRFS_FIRST_FREE_OBJECTID) ||
-  5063			    BTRFS_LAST_FREE_OBJECTID < args.subvolid)
-  5064				return -EINVAL;
-  5065			break;
-  5066		case BTRFS_SUBVOL_SYNC_COUNT:
-  5067			spin_lock(&fs_info->trans_lock);
-  5068			args.count = list_count_nodes(&fs_info->dead_roots);
-  5069			spin_unlock(&fs_info->trans_lock);
-  5070			if (copy_to_user(argp, &args, sizeof(args)))
-  5071				return -EFAULT;
-  5072			return 0;
-  5073		case BTRFS_SUBVOL_SYNC_PEEK_FIRST:
-  5074			spin_lock(&fs_info->trans_lock);
-  5075			/* Last in the list was deleted first. */
-  5076			if (!list_empty(&fs_info->dead_roots)) {
-  5077				root = list_last_entry(&fs_info->dead_roots,
-  5078						       struct btrfs_root, root_list);
-  5079				args.subvolid = btrfs_root_id(root);
-  5080			} else {
-  5081				args.subvolid = 0;
-  5082			}
-  5083			spin_unlock(&fs_info->trans_lock);
-  5084			if (copy_to_user(argp, &args, sizeof(args)))
-  5085				return -EFAULT;
-  5086			return 0;
-  5087		case BTRFS_SUBVOL_SYNC_PEEK_LAST:
-  5088			spin_lock(&fs_info->trans_lock);
-  5089			/* First in the list was deleted last. */
-  5090			if (!list_empty(&fs_info->dead_roots)) {
-  5091				root = list_first_entry(&fs_info->dead_roots,
-  5092							struct btrfs_root, root_list);
-  5093				args.subvolid = btrfs_root_id(root);
-  5094			} else {
-  5095				args.subvolid = 0;
-  5096			}
-  5097			spin_unlock(&fs_info->trans_lock);
-  5098			if (copy_to_user(argp, &args, sizeof(args)))
-  5099				return -EFAULT;
-  5100			return 0;
-  5101		default:
-  5102			return -EINVAL;
-  5103		}
-  5104	
-  5105		/* 32bit limitation: fs_roots_radix key is not wide enough. */
-  5106		if (sizeof(unsigned long) != sizeof(u64) && args.subvolid > U32_MAX)
-  5107			return -EOVERFLOW;
-  5108	
-  5109		while (1) {
-  5110			/* Wait for the specific one. */
-  5111			if (down_read_interruptible(&fs_info->subvol_sem) == -EINTR)
-  5112				return -EINTR;
-  5113			refs = -1;
-  5114			spin_lock(&fs_info->fs_roots_radix_lock);
-  5115			root = radix_tree_lookup(&fs_info->fs_roots_radix,
-  5116						 (unsigned long)args.subvolid);
-  5117			if (root) {
-  5118				spin_lock(&root->root_item_lock);
-  5119				refs = btrfs_root_refs(&root->root_item);
-  5120				root_flags = btrfs_root_flags(&root->root_item);
-  5121				spin_unlock(&root->root_item_lock);
-  5122			}
-  5123			spin_unlock(&fs_info->fs_roots_radix_lock);
-  5124			up_read(&fs_info->subvol_sem);
-  5125	
-  5126			/* Subvolume does not exist. */
-  5127			if (!root)
-  5128				return -ENOENT;
-  5129	
-  5130			/* Subvolume not deleted at all. */
-  5131			if (refs > 0)
-  5132				return -EEXIST;
-  5133			/* We've waited and now the subvolume is gone. */
-  5134			if (wait_for_deletion && refs == -1) {
-  5135				/* Return the one we waited for as the last one. */
-  5136				if (copy_to_user(argp, &args, sizeof(args)))
-  5137					return -EFAULT;
-  5138				return 0;
-  5139			}
-  5140	
-  5141			/* Subvolume not found on the first try (deleted or never existed). */
-  5142			if (refs == -1)
-  5143				return -ENOENT;
-  5144	
-  5145			wait_for_deletion = true;
-> 5146			ASSERT(root_flags & BTRFS_ROOT_SUBVOL_DEAD);
-  5147			sched_ret = schedule_timeout_interruptible(HZ);
-  5148			/* Early wake up or error. */
-  5149			if (sched_ret != 0)
-  5150				return -EINTR;
-  5151		}
-  5152	
-  5153		return 0;
-  5154	}
-  5155	
+   690	
+   691	static int apple_dart_finalize_domain(struct apple_dart_domain *dart_domain,
+   692					      struct apple_dart_master_cfg *cfg)
+   693	{
+   694		struct apple_dart *dart = cfg->stream_maps[0].dart;
+   695		struct io_pgtable_cfg pgtbl_cfg;
+   696		dma_addr_t dma_max = dart->dma_max;
+   697		u32 ias = min_t(u32, dart->ias, fls64(dma_max));
+   698		int ret = 0;
+   699		int i, j;
+   700	
+   701		if (dart->pgsize > PAGE_SIZE)
+   702			return -EINVAL;
+   703	
+   704		mutex_lock(&dart_domain->init_lock);
+   705	
+   706		if (dart_domain->finalized)
+   707			goto done;
+   708	
+   709		for (i = 0; i < MAX_DARTS_PER_DEVICE; ++i) {
+   710			dart_domain->stream_maps[i].dart = cfg->stream_maps[i].dart;
+   711			for (j = 0; j < BITS_TO_LONGS(dart->num_streams); j++)
+   712				atomic_long_set(&dart_domain->stream_maps[i].sidmap[j],
+   713						cfg->stream_maps[i].sidmap[j]);
+   714		}
+   715	
+   716		pgtbl_cfg = (struct io_pgtable_cfg){
+   717			.pgsize_bitmap = dart->pgsize,
+   718			.ias = ias,
+   719			.oas = dart->oas,
+   720			.coherent_walk = 1,
+   721			.iommu_dev = dart->dev,
+   722		};
+   723	
+   724		if (dart->locked) {
+   725			unsigned long *sidmap;
+   726			int sid;
+   727			u32 ttbr;
+   728	
+   729			/* Locked DARTs can only have a single stream bound */
+   730			sidmap = cfg->stream_maps[0].sidmap;
+   731			sid = find_first_bit(sidmap, dart->num_streams);
+   732	
+   733			WARN_ON((sid < 0) || bitmap_weight(sidmap, dart->num_streams) > 1);
+   734			ttbr = readl(dart->regs + DART_TTBR(dart, sid, 0));
+   735	
+   736			WARN_ON(!(ttbr & dart->hw->ttbr_valid));
+   737	
+   738			/* If the DART is locked, we need to keep the translation level count. */
+   739			if (dart->hw->tcr_4level && dart->ias > 36) {
+   740				if (readl(dart->regs + DART_TCR(dart, sid)) & dart->hw->tcr_4level) {
+   741					if (ias < 37) {
+   742						dev_info(dart->dev, "Expanded to ias=37 due to lock\n");
+   743						pgtbl_cfg.ias = 37;
+   744					}
+   745				} else if (ias > 36) {
+   746					dev_info(dart->dev, "Limited to ias=36 due to lock\n");
+   747					pgtbl_cfg.ias = 36;
+   748					if (dart->dma_min == 0 && dma_max == DMA_BIT_MASK(dart->ias)) {
+ > 749						dma_max = DMA_BIT_MASK(pgtbl_cfg.ias);
+   750					} else if ((dart->dma_min ^ dma_max) & ~DMA_BIT_MASK(36)) {
+   751						dev_err(dart->dev,
+   752							"Invalid DMA range for locked 3-level PT\n");
+   753						ret = -ENOMEM;
+   754						goto done;
+   755					}
+   756				}
+   757			}
+   758		}
+   759	
+   760		dart_domain->pgtbl_ops = alloc_io_pgtable_ops(dart->hw->fmt, &pgtbl_cfg,
+   761							      &dart_domain->domain);
+   762		if (!dart_domain->pgtbl_ops) {
+   763			ret = -ENOMEM;
+   764			goto done;
+   765		}
+   766	
+   767		if (pgtbl_cfg.pgsize_bitmap == SZ_4K)
+   768			dart_domain->mask = DMA_BIT_MASK(min_t(u32, dart->ias, 32));
+   769		else if (pgtbl_cfg.apple_dart_cfg.n_levels == 3)
+   770			dart_domain->mask = DMA_BIT_MASK(min_t(u32, dart->ias, 36));
+   771		else if (pgtbl_cfg.apple_dart_cfg.n_levels == 4)
+   772			dart_domain->mask = DMA_BIT_MASK(min_t(u32, dart->ias, 47));
+   773	
+   774		dart_domain->domain.pgsize_bitmap = pgtbl_cfg.pgsize_bitmap;
+   775		dart_domain->domain.geometry.aperture_start = dart->dma_min;
+   776		dart_domain->domain.geometry.aperture_end = dma_max;
+   777		dart_domain->domain.geometry.force_aperture = true;
+   778	
+   779		dart_domain->finalized = true;
+   780	
+   781	done:
+   782		mutex_unlock(&dart_domain->init_lock);
+   783		return ret;
+   784	}
+   785	
 
 -- 
 0-DAY CI Kernel Test Service
