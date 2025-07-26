@@ -1,142 +1,124 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E4B128935E;
-	Sat, 26 Jul 2025 19:29:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE83E215F7C;
+	Sat, 26 Jul 2025 20:39:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753558164; cv=none; b=k/ixxEhUL1Ud9w40CPrRZW5IXRSYlwrCJ5c/lZcfM3LkG+8/w2Esa/Hm1uK20kgqmvBLeP20OllcDbjYXi0gEUYgVfoSQlfUb5EbCI1U+OlIrFm24MIAxG8OgwdJWOdQeU2ii2W0bALH6v/PLPVCFF3yN3k7Bjf/3GxWFswpPBQ=
+	t=1753562366; cv=none; b=OWNx/WcgkQEDSy4fOjX7Sr5ed81QeG2DQRgZUlEncixFrIrJHMie4QPPcm7nEkYSooKDkz9jVAqT965okZKCSs1AbEKQ9JzoMQVmEei+4bHD+5/1XobZzDO4qY1h0wd5g0dNET3vYL5D6n0r9pa+CEGTibrXdwF8GUY3sjaiTpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753558164; c=relaxed/simple;
-	bh=p6vlzBxPmTlXQOH312nXUMfon36HwQd45uPGmrT2Fl8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=caOVGv+tGik9na7ke1ujS6Txef+b5j0EWQYfvfPIbQ6xbC1r7rOB37G2BZqao5rC1y7DLJne4FltvA2wD3mdaz4S2LLHJU+nxPYvx/iF4iK7ILmEw8lAQe3Mky0XHvf/n3Yit/1uQxZdWEdFIULE9tLQxoH7vv3ogHFxzs+/sUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ldE/ZkUY; arc=none smtp.client-ip=209.85.218.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753562366; c=relaxed/simple;
+	bh=ACa4Q4L93Qc5PpnKOItLTHQAxADoXnbi55ttk8gIe8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JDWGqZC3Yu3PAqupjAhoXzV6n1W6VnEyy1yms+4Hz8w7zUXFWgpg9i0zDKRpEBNr9m/WLfPDRvKbVc2JfdyVYDGsqjzIzNZt0KVrkcbeogUWapTKmN+v/FjH1WLhZEXYRWB0v1xyyWyAnfFBy3CWS6O3ypexA+6JrwnV/C9hviY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dBTimyJT; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ldE/ZkUY"
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-af0dc229478so451167166b.1;
-        Sat, 26 Jul 2025 12:29:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753558162; x=1754162962; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8vvSfKTsgW67UgHTjYSpiHoW4cS1GZJhJf8MDOP7W80=;
-        b=ldE/ZkUYgB8VgxYvTmzwGPH9ExVpyj0YY0v3QNtsl9bxf1OQwWmvSWhwK/AC5yawqk
-         8ZyRpwgRPcAtbgF0rKN6sPuTuhdQvrD5F+LnwMJegY4ny+gi8HIP95tNDDZ+rUAZP6b8
-         d8ZVVPDbRJcFarBtCE92ceBcxBEEw5pYq+4X7oDmlYl/jLg0dxdGj5a8YR+qwgyBOVOZ
-         LP9wTdQeXa5orj9qhI1raEnrRJsAPxP67/qkiFuB/bkcrvJgZih3PWEdDUSim5NNqRCj
-         uM2AaoTCYxjXmV5XIHgjv3wrbQHtkC31oJUXrCjoPZMyM9i1KRR/aR9/j6KJJfH1a5N0
-         QzoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753558162; x=1754162962;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8vvSfKTsgW67UgHTjYSpiHoW4cS1GZJhJf8MDOP7W80=;
-        b=lFqbzUqoqJC4bcRzhoVqAYvVVJLWocFyQagys7no2gaQ3KCvfKcLfT5/wv58W8tHB5
-         1DzeP+oRBTJuNWoi5a5vgmIIqbZcTfG2irwNkbEJcnkMvAsh/PlXouYLTadMp6xEjUus
-         gp6NHSAkI6qA1MoqSnGesOFfFcfJUObrgzt2ZsDwyy1HzWYZSvSl8tGZkapBx4cKCjPR
-         Vo3hmoR+VMyoqjlm7SyyuRDIdlvMw7lkugs80mSknNfjpA8i/c+uYspEdrLNRBOQMyTW
-         iRYdd4kFv9b9oDwaspRtjUTFDQ8LDOuFsBvGcffzb/bNrsWbkJnrDYl3vYUJ0hwJjnIc
-         lWiw==
-X-Forwarded-Encrypted: i=1; AJvYcCUrZSwmp6+CkhtVyDlaGfUlDZCL2QYCCldeG3Oy3KLxnxqbyoRz01AokWo5K52W2g0ot3rS@lists.linux.dev, AJvYcCWXDPzPenNSejT3CDwSA8PvfnC07Z/qTw8RdL4KJwOBI/lbqO5aWTx5xz8jREbJr2ma3LCpgma9Z8u4mMmOog==@lists.linux.dev
-X-Gm-Message-State: AOJu0YwYJRpmjMnxVHYagwrgl+HCJgq8c6TnswRf/zTo5Z8ThvALzkkq
-	C7FA7dEYkz6p4Y3ZsP1DOOY3mRDUhLhwiK4f/2hLR883cFFJg5YgpycCAe+9bAV5E4pnC2Wi/vA
-	r6Vxb3EmEIkYQBwqQj6NURN7AAvV1aNw=
-X-Gm-Gg: ASbGncv7s/elw4Txb6PaS/tjnglrBMLQ02RDgJlCM8r5s/9jlFaxcWzz4NAFONCIe/Y
-	iowdXPfpXd6ACb9nlnQZQX41cnMEjmqNWiFQa/oDM+SdfLeX/k9oenNdcUlGKeo9wvMkNqDxfpd
-	IM7bwRgM5ctKg7Ga96rBQyhX41/j0GzJCwqo+QvOp7uzt4gmT/Zc8+AKQp8YXNFUJ+bGilmi+RI
-	f75bEV2rg==
-X-Google-Smtp-Source: AGHT+IEX2WYBlju4aPOw0uNBG3Cx6m8n5OfxEhWAzTw7+nGHo7bYaFwlNoIWJ6wm4TCiyIXLTDzfL3Tt7hprvcOBWB0=
-X-Received: by 2002:a17:907:2dac:b0:ae3:c968:370 with SMTP id
- a640c23a62f3a-af61e9224d7mr644269966b.59.1753558161391; Sat, 26 Jul 2025
- 12:29:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dBTimyJT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753562364; x=1785098364;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ACa4Q4L93Qc5PpnKOItLTHQAxADoXnbi55ttk8gIe8Y=;
+  b=dBTimyJToOyOgQ5uNN75keI+aZsA+2oTUtvZVa3XR6u+1cG+1OM7Vp0M
+   0zAfX27AIFD5UFJNx2Egm5Khph6o2p67IBwqd45bqwHltaWGaNKiKlKGG
+   ztzVBdcrGhC/JwPkjeVqJsJ4ObdOfIyFzKNhR+tHe9B8LD361F+qTfOIS
+   LglN4pdPRN+i5wQeIHsEuYrF96WZMtOygOW51j16wRcWjD4COhwbmImMZ
+   jevJ5U8hpAlTfHiti8VRAXW2kW2YC/KMQzOM8Qu4i0Z72Jn2F90u3ObqR
+   h1mCWFYBwMGdGZAKfXJUGL7pqZvTxA2YVg3PihSHBpyYM76SVHC5WD7JY
+   Q==;
+X-CSE-ConnectionGUID: 7jn9YUoXRqaCZ+CPMcvYfw==
+X-CSE-MsgGUID: j+IYHY7yQpaUHWxkW4fiSA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="56013146"
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="56013146"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 13:39:24 -0700
+X-CSE-ConnectionGUID: f9sQQltCSz+dYs/H/yTXaw==
+X-CSE-MsgGUID: TmrF0ZqsTzm2R1eWpDK5sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="165869149"
+Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
+  by orviesa003.jf.intel.com with ESMTP; 26 Jul 2025 13:39:23 -0700
+Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uflfr-000MGR-2h;
+	Sat, 26 Jul 2025 20:39:19 +0000
+Date: Sun, 27 Jul 2025 04:38:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Suchit Karunakaran <suchitkarunakaran@gmail.com>, masahiroy@kernel.org,
+	nicolas.schier@linux.dev, linux-kbuild@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, skhan@linuxfoundation.org,
+	linux-kernel-mentees@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Suchit Karunakaran <suchitkarunakaran@gmail.com>
+Subject: Re: [PATCH] kconfig: replace strcpy() with strlcpy() in symbol.c
+Message-ID: <202507270411.j9vfofzH-lkp@intel.com>
+References: <20250726191515.171012-1-suchitkarunakaran@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250724-pinctrl-gpio-pinfuncs-v3-10-af4db9302de4@linaro.org> <202507261937.Txq9shpv-lkp@intel.com>
-In-Reply-To: <202507261937.Txq9shpv-lkp@intel.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 26 Jul 2025 21:28:42 +0200
-X-Gm-Features: Ac12FXymY6tdOYJ4GtKwZ6wBh8I0rBJpt99EqCkKrn08JeG_YAOQylRsmRomyC4
-Message-ID: <CAHp75VcrL56_8uKNrmLj9sk+t7qZfKNi6-W-yAKNZ+mSCXU8zw@mail.gmail.com>
-Subject: Re: [PATCH v3 10/15] pinctrl: make struct pinfunction a pointer in
- struct function_desc
-To: kernel test robot <lkp@intel.com>
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Alexey Klimov <alexey.klimov@linaro.org>, Lorenzo Bianconi <lorenzo@kernel.org>, 
-	Sean Wang <sean.wang@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>, 
-	Andy Shevchenko <andy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
-	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP S32 Linux Team <s32@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Tony Lindgren <tony@atomide.com>, 
-	Haojian Zhuang <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
-	Linux Memory Management List <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250726191515.171012-1-suchitkarunakaran@gmail.com>
 
-On Sat, Jul 26, 2025 at 1:31=E2=80=AFPM kernel test robot <lkp@intel.com> w=
-rote:
->
-> Hi Bartosz,
->
-> kernel test robot noticed the following build warnings:
->
+Hi Suchit,
 
-> All warnings (new ones prefixed by >>):
->
-> >> drivers/pinctrl/pinmux.c:917:7: warning: cast from 'void (*)(const voi=
-d *)' to 'void (*)(void *)' converts to incompatible function type [-Wcast-=
-function-type-strict]
->      917 |                                          (void (*)(void *))kfr=
-ee_const,
->          |                                          ^~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
->    include/linux/device/devres.h:166:34: note: expanded from macro 'devm_=
-add_action_or_reset'
->      166 |         __devm_add_action_or_reset(dev, action, data, #action)
->          |                                         ^~~~~~
->    1 warning generated.
+kernel test robot noticed the following build errors:
 
-Good catch, LKP!
+[auto build test ERROR on masahiroy-kbuild/kbuild]
+[also build test ERROR on linus/master v6.16-rc7 next-20250725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-...
+url:    https://github.com/intel-lab-lkp/linux/commits/Suchit-Karunakaran/kconfig-replace-strcpy-with-strlcpy-in-symbol-c/20250727-031729
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
+patch link:    https://lore.kernel.org/r/20250726191515.171012-1-suchitkarunakaran%40gmail.com
+patch subject: [PATCH] kconfig: replace strcpy() with strlcpy() in symbol.c
+config: arc-randconfig-002-20250727 (attached as .config)
+compiler: arc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507270411.j9vfofzH-lkp@intel.com/reproduce)
 
->    910          /*
->    911           * FIXME: It's generally a bad idea to use devres in subs=
-ystem core
->    912           * code - managed interfaces are aimed at drivers - but p=
-inctrl already
->    913           * uses it all over the place so it's a larger piece of t=
-echnical debt
->    914           * to fix.
->    915           */
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507270411.j9vfofzH-lkp@intel.com/
 
-Indeed, this has to be addressed first, and IIRC I also got something
-like this in the past.
+All error/warnings (new ones prefixed by >>):
 
->    916          error =3D devm_add_action_or_reset(pctldev->dev,
->  > 917                                           (void (*)(void *))kfree_=
-const,
->    918                                           (void *)function->func);
->    919          if (error)
->    920                  return error;
+   /usr/bin/ld: scripts/kconfig/symbol.o: in function `sym_set_string_value':
+>> symbol.c:(.text+0x14cb): undefined reference to `strlcpy'
+   collect2: error: ld returned 1 exit status
+   make[3]: *** [scripts/Makefile.host:123: scripts/kconfig/conf] Error 1 shuffle=618416945
+   make[3]: Target 'oldconfig' not remade because of errors.
+   make[2]: *** [Makefile:735: oldconfig] Error 2 shuffle=618416945
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=618416945
+   make[1]: Target 'oldconfig' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=618416945
+   make: Target 'oldconfig' not remade because of errors.
+--
+   scripts/kconfig/symbol.c: In function 'sym_set_string_value':
+>> scripts/kconfig/symbol.c:780:9: warning: implicit declaration of function 'strlcpy'; did you mean 'strncpy'? [-Wimplicit-function-declaration]
+     780 |         strlcpy(val, newval, size);
+         |         ^~~~~~~
+         |         strncpy
+   /usr/bin/ld: scripts/kconfig/symbol.o: in function `sym_set_string_value':
+>> symbol.c:(.text+0x14cb): undefined reference to `strlcpy'
+   collect2: error: ld returned 1 exit status
+   make[3]: *** [scripts/Makefile.host:123: scripts/kconfig/conf] Error 1 shuffle=618416945
+   make[3]: Target 'olddefconfig' not remade because of errors.
+   make[2]: *** [Makefile:735: olddefconfig] Error 2 shuffle=618416945
+   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=618416945
+   make[1]: Target 'olddefconfig' not remade because of errors.
+   make: *** [Makefile:248: __sub-make] Error 2 shuffle=618416945
+   make: Target 'olddefconfig' not remade because of errors.
 
-
---=20
-With Best Regards,
-Andy Shevchenko
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
