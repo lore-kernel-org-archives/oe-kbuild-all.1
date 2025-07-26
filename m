@@ -1,116 +1,202 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E6511096F;
-	Sat, 26 Jul 2025 10:16:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4EE623E324;
+	Sat, 26 Jul 2025 10:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753524989; cv=none; b=BfhSjyNH9o5SC9JxNvdVM2xc0k6skonv/qQjXpLWLdFWlQOjmZiL5P0bHpn5PfGZNbZuFsE2AdLOXVXe0sN4L5Q/NfJt47GmVGrRf622BElLvo2pkPl234vagjTS8mI0PuWsMHwTbGYZ+R7h67EZJrXqssXPrhsodyDHlbaW7Lg=
+	t=1753525589; cv=none; b=q67cQ1QE62ziCJ1e1D3gQoFC9h7o4PVqzDVZgTF0XHFOUSQ8VZ0iVfMRqYMP+nTV5SXPCeHPrFQZARrxAhvx+XvyFRJmWH+s8F1qybr47hzEZ+5iwNM/8kpL9plFW0xHQ9EBP4AntMdx9OlBzmqixCJRH4yUlY9eN6U20vdzdEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753524989; c=relaxed/simple;
-	bh=W1nUY5JRvORjm+vb1XNGGtov6ZtefmvCdZ1mHgN2mlk=;
+	s=arc-20240116; t=1753525589; c=relaxed/simple;
+	bh=mXm6wcwBc4Kd8D2LPcQhshcnfpgL/tU2/Tl8OI1xRhw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dyBFaKy0yan8Aoo6IuVN9MLp0tnFIXuFLIOGFoDuuaOt+4KoUjlbhzVOp/lmzcLhQ6VVrk23JVH8VAHprV7kQV3Bu2zOugIBz98ein6mKIyR8kXO44JQNIXzrADM/CNix9+RWbzkZf0lICh6vai2D5hIaZ9JJalWXs8+UG4rm7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ffhD4u/C; arc=none smtp.client-ip=198.175.65.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=K2znAtYwi/oKb7mwYklQjylZi49MBp8J7CvFkUdFAIf2+c1HdJjNbbV1SlkYqfZbrOfKEInBuePcuwUmmd3C2ZRIUddfY1u1gOs7BTh1E4NPYZa6cA1KPT1sXihQY38tmVVeH4Rzqi0DAfNhKhCF83EL8zbGyQv1Hk8ZXERspvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JtNu1I/U; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ffhD4u/C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JtNu1I/U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753524989; x=1785060989;
+  t=1753525588; x=1785061588;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=W1nUY5JRvORjm+vb1XNGGtov6ZtefmvCdZ1mHgN2mlk=;
-  b=ffhD4u/CZfRDQng4+gtNNMh+BZULo4d6xtJrvgsa6vwh75+5rxpfYWHK
-   ynnMUvw4JDQ6yAlVOZZ4gxbDN7bmqqEeqo9qhOuggxXnulSGL/2zf77wq
-   YUxdcniB/hvOxOH1WFMFwWAM0RWGTFkvGR6Q9ST7Z2/3SxkFo1xvGDizg
-   hyKDvEBt05oFq7Wkxf299FSim8wuDAJxgoEFKlkTblvzUl3iPRLEoOZyU
-   10iCIkSlzvf2VQ+ju67pCbUlqMmOtFd9HD1l4w9Vul9Y3d0jZ8jB3T1sc
-   izsOaHA5+7OqKtbWh+6VhuYQt0c/QU6Y7GMjToHA7auvcbztxj+JX1nyT
-   w==;
-X-CSE-ConnectionGUID: JsBjwlLiTgOwOL9WUIBYEw==
-X-CSE-MsgGUID: pAFhBt+aSBOXak7+STn4eQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="59646442"
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=mXm6wcwBc4Kd8D2LPcQhshcnfpgL/tU2/Tl8OI1xRhw=;
+  b=JtNu1I/UTWqv2KA35ks1Wtw6C2kYEp1AQ00NOXh2Tw7P1WHvI3FdvaAr
+   wBLh78KLLPZ/Upwlea3TFYvzgq2h47y7t0xYDcf7qKrHjIMJAivIHwnVs
+   1NbNMoj3Wqtgt3EpkTOx8kQV1D2/P82NsM3n91fUfJKy2GTfUo6/x3LC+
+   sKVjehMUrBr72y41RwaUzBX6F6pUjqPIkEJlFbZqDb9i1bIakQXiY7tKC
+   7wCRjTxwkVvvrKt3TX001O1l3krw/of35k7J55bhdiFjMoY6TggI8Zff9
+   X9vMgmXhpPeCKvUq6Io6LaG7ZQJEsbK/L3bsm4wAyQFck6GRyHl3JfV/y
+   Q==;
+X-CSE-ConnectionGUID: gdS1p8uURUuqjTUKaZL8EQ==
+X-CSE-MsgGUID: Fj676iihQV6LYEq6i2RCSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="59497445"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="59646442"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 03:16:28 -0700
-X-CSE-ConnectionGUID: qT0WqMIBTVuDvvUSqVicjQ==
-X-CSE-MsgGUID: A02kl49eTdGcIXBoeLSxSA==
+   d="scan'208";a="59497445"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 03:26:28 -0700
+X-CSE-ConnectionGUID: zpUvcUdoQXOjVxzv/rcSRA==
+X-CSE-MsgGUID: AFp1f55pRKOvFvlm/dPC3w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="161180536"
+   d="scan'208";a="185141884"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 26 Jul 2025 03:16:24 -0700
+  by fmviesa002.fm.intel.com with ESMTP; 26 Jul 2025 03:26:26 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ufbwz-000Lrb-2T;
-	Sat, 26 Jul 2025 10:16:21 +0000
-Date: Sat, 26 Jul 2025 18:15:44 +0800
+	id 1ufc6h-000LsA-2b;
+	Sat, 26 Jul 2025 10:26:23 +0000
+Date: Sat, 26 Jul 2025 18:26:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	David Hildenbrand <david@redhat.com>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] mm: remove io-mapping
-Message-ID: <202507261811.4FJjX1bu-lkp@intel.com>
-References: <20250724145313.65920-1-lorenzo.stoakes@oracle.com>
+To: samiksha.palav27@gmail.com, gregkh@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-staging@lists.linux.dev,
+	linux-kernel@vger.kernel.org, shdwcodr <samiksha.palav27@gmail.com>
+Subject: Re: [PATCH] staging: sm750fb: Add hardware acceleration for 16bpp
+ imageblit
+Message-ID: <202507261818.EFdmyMEX-lkp@intel.com>
+References: <20250724105254.3926-2-samiksha.palav27@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250724145313.65920-1-lorenzo.stoakes@oracle.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250724105254.3926-2-samiksha.palav27@gmail.com>
 
-Hi Lorenzo,
+Hi,
 
 kernel test robot noticed the following build errors:
 
-[auto build test ERROR on akpm-mm/mm-everything]
+[auto build test ERROR on staging/staging-linus]
+[also build test ERROR on linus/master v6.16-rc7]
+[cannot apply to staging/staging-testing staging/staging-next next-20250725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lorenzo-Stoakes/mm-remove-io-mapping/20250724-225556
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250724145313.65920-1-lorenzo.stoakes%40oracle.com
-patch subject: [PATCH] mm: remove io-mapping
-config: x86_64-buildonly-randconfig-003-20250725 (https://download.01.org/0day-ci/archive/20250726/202507261811.4FJjX1bu-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507261811.4FJjX1bu-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/samiksha-palav27-gmail-com/staging-sm750fb-Add-hardware-acceleration-for-16bpp-imageblit/20250724-185607
+base:   staging/staging-linus
+patch link:    https://lore.kernel.org/r/20250724105254.3926-2-samiksha.palav27%40gmail.com
+patch subject: [PATCH] staging: sm750fb: Add hardware acceleration for 16bpp imageblit
+config: sparc64-randconfig-001-20250725 (https://download.01.org/0day-ci/archive/20250726/202507261818.EFdmyMEX-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507261818.EFdmyMEX-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507261811.4FJjX1bu-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507261818.EFdmyMEX-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All error/warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/mellanox/mlx4/main.c:43:10: fatal error: 'linux/io-mapping.h' file not found
-      43 | #include <linux/io-mapping.h>
-         |          ^~~~~~~~~~~~~~~~~~~~
-   1 error generated.
---
->> drivers/net/ethernet/mellanox/mlx4/pd.c:36:10: fatal error: 'linux/io-mapping.h' file not found
-      36 | #include <linux/io-mapping.h>
-         |          ^~~~~~~~~~~~~~~~~~~~
-   1 error generated.
+   drivers/staging/sm750fb/sm750.c: In function 'lynxfb_ops_imageblit':
+>> drivers/staging/sm750fb/sm750.c:252:14: error: invalid storage class for function 'write_pixel'
+     static void write_pixel(struct fb_info *info, int x, int y, u32 color)
+                 ^~~~~~~~~~~
+   At top level:
+>> drivers/staging/sm750fb/sm750.c:270:7: warning: 'sm750fb_imageblit' defined but not used [-Wunused-function]
+     void sm750fb_imageblit(struct fb_info *info, const struct fb_image *image)
+          ^~~~~~~~~~~~~~~~~
 
 
-vim +43 drivers/net/ethernet/mellanox/mlx4/main.c
+vim +/write_pixel +252 drivers/staging/sm750fb/sm750.c
 
-c1b43dca137f21 drivers/net/mlx4/main.c                   Eli Cohen        2011-03-22 @43  #include <linux/io-mapping.h>
-ab9c17a009ee8e drivers/net/ethernet/mellanox/mlx4/main.c Jack Morgenstein 2011-12-13  44  #include <linux/delay.h>
-10b1c04e92229e drivers/net/ethernet/mellanox/mlx4/main.c Jack Morgenstein 2016-12-29  45  #include <linux/etherdevice.h>
-09d4d087cd4869 drivers/net/ethernet/mellanox/mlx4/main.c Jiri Pirko       2016-02-26  46  #include <net/devlink.h>
-225c7b1feef1b4 drivers/net/mlx4/main.c                   Roland Dreier    2007-05-08  47  
+   233	
+   234	static void lynxfb_ops_imageblit(struct fb_info *info,
+   235					 const struct fb_image *image)
+   236	{
+   237		unsigned int base, pitch, Bpp;
+   238		unsigned int fgcol, bgcol;
+   239		struct lynxfb_par *par;
+   240		struct sm750_dev *sm750_dev;
+   241	
+   242		par = info->par;
+   243		sm750_dev = par->dev;
+   244		/*
+   245		 * each time 2d function begin to work,below three variable always need
+   246		 * be set, seems we can put them together in some place
+   247		 */
+   248		base = par->crtc.o_screen;
+   249		pitch = info->fix.line_length;
+   250		Bpp = info->var.bits_per_pixel >> 3;
+   251	
+ > 252		static void write_pixel(struct fb_info *info, int x, int y, u32 color)
+   253	
+   254		{
+   255			u32 location;
+   256			u8 *fb_ptr = (u8 *)info->screen_base;
+   257	
+   258			location = (y * info->fix.line_length) + (x * (info->var.bits_per_pixel / 8));
+   259	
+   260			if (info->var.bits_per_pixel == 16) {
+   261				u16 c = ((color >> 8) & 0xF800) |
+   262					((color >> 5) & 0x07E0) |
+   263					((color >> 3) & 0x001F); // Convert 24-bit RGB to RGB565
+   264				*((u16 *)(fb_ptr + location)) = c;
+   265			} else if (info->var.bits_per_pixel == 32) {
+   266				*((u32 *)(fb_ptr + location)) = color;
+   267			}
+   268		}
+   269	
+ > 270		void sm750fb_imageblit(struct fb_info *info, const struct fb_image *image)
+   271	
+   272		{
+   273			/*
+   274			 * TODO: Add hardware-accelerated support for more image depths
+   275			 * Currently only 16-bit (RGB565) images are handled in fast path.
+   276			 */
+   277			if (image->depth != 16) {
+   278				cfb_imageblit(info, image);
+   279				return;
+   280			}
+   281	
+   282			/* Accelerated rendering for 16-bit (RGB565) images */
+   283			const u16 *src = (const u16 *)image->data;
+   284	
+   285			u32 fg_color = ((image->fg_color & 0xF800) << 8) |
+   286				       ((image->fg_color & 0x07E0) << 5) |
+   287				       ((image->fg_color & 0x001F) << 3); // RGB565 → RGB888
+   288	
+   289			for (int j = 0; j < image->height; j++) {
+   290				for (int i = 0; i < image->width; i++) {
+   291					u16 pixel = src[j * image->width + i];
+   292	
+   293					if (pixel) // Draw only non-zero (foreground) pixels
+   294						write_pixel(info, image->dx + i, image->dy + j, fg_color);
+   295				}
+   296			}
+   297		}
+   298	
+   299		if (info->fix.visual == FB_VISUAL_TRUECOLOR ||
+   300		    info->fix.visual == FB_VISUAL_DIRECTCOLOR) {
+   301			fgcol = ((u32 *)info->pseudo_palette)[image->fg_color];
+   302			bgcol = ((u32 *)info->pseudo_palette)[image->bg_color];
+   303		} else {
+   304			fgcol = image->fg_color;
+   305			bgcol = image->bg_color;
+   306		}
+   307	
+   308		/*
+   309		 * If not use spin_lock, system will die if user load driver
+   310		 * and immediately unload driver frequently (dual)
+   311		 * since they fb_count could change during the lifetime of
+   312		 * this lock, we are holding it for all cases.
+   313		 */
+   314		spin_lock(&sm750_dev->slock);
+   315	
+   316		sm750_dev->accel.de_imageblit(&sm750_dev->accel,
+   317					      image->data, image->width >> 3, 0,
+   318					      base, pitch, Bpp,
+   319					      image->dx, image->dy,
+   320					      image->width, image->height,
+   321					      fgcol, bgcol, HW_ROP2_COPY);
+   322		spin_unlock(&sm750_dev->slock);
+   323	}
+   324	
 
 -- 
 0-DAY CI Kernel Test Service
