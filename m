@@ -1,64 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9549021348;
-	Sat, 26 Jul 2025 16:06:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05FF419307F
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 16:16:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753546021; cv=none; b=hjCC8kxc/veyMUa53l57eZeKVp4GDpxCeXo88yRz1C/o7KhC8Brl3KFXs3W+sldb7/4pXuVDnwGV6I6K9dB8jUdOXHyo1oAo5Ld14Xd7Hd0XtYMr1S8fTIlcZqlxsYwUG0rviHISGJwXYQw0Um/1QK5yqEU6PonEpc2VWnmc2Mo=
+	t=1753546620; cv=none; b=OaLsTiMTN4s+DhailX+4KgUbHR4fap3KNAm1DVhZp3lRn9rQavakBGNh/0tAsAGWaEenH05E5iagyO4Nb7v6GNoHjFi8st1qcyVlptqAFrvbNbYiBI9BqghjdPF+39THEjMwmlkXBWLGBq6lx0J+if88+/D3R4qrQEdSGEi+3Ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753546021; c=relaxed/simple;
-	bh=97n7TGLjg/+mTPjK/3JeoW9Y0kyNUgwCatu2/1JDmYM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vp3Q2QPE/WWM81SwonA7DYfj3zkL2gu3MzTGkVc5mDoknBMbLAoOxLSXqeLigFw+is+IagNFF5Q/xfPvB8VHx5t3PFELkD8eAC/247Izr9ACRFJQCKagSN+1Vv3aaQBRCCSyLiEM+kMBE4PHiM9cLQQauVCheLdMvLyCMfw5wRU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IzJbThb+; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1753546620; c=relaxed/simple;
+	bh=gwD7DHpQBgMDuc3bfD/prvhp2pGt6jNpqO6iPkcVgIw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=IAJu6WH1xkgL8gSV76f+N1eRe+mkspqPMoYEZ2hioTv9PxFC/SIYPcG7cb2t/m4z7UZNZOVpBeoyXxviMjOmdUUnx8rzoz8XlO6WHrPM2h1Rm03bVsIWKTm3gKeZPV6lEv/5rqL8cHGDk9BH0l6udaE5mQ4tKYpZo8EknXFNo/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mulnXrX0; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IzJbThb+"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mulnXrX0"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753546020; x=1785082020;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=97n7TGLjg/+mTPjK/3JeoW9Y0kyNUgwCatu2/1JDmYM=;
-  b=IzJbThb+MGOWXWfu5seeRjUDDmc5j5UHXqsUYHatI9mKbgkb++E2GU8V
-   b7Zp5QzxZvptA2/d+8oyLgzvdFoa1Ptwgz9TRjLfn/5XaK8QFVTdblDO0
-   nMfSz6ftMiR9rgmQpcpjjxEXAwYNlZq3NrFqIrQYPD5ZR4uV9UVUx8o4b
-   Lj2t8RnzDmithp/kOMageLkBAQn4W2K9IsuH41fuMK1v3tx7uPKQVQxC2
-   OiDOe3NAGua60S2MpOrijAxl2Vg7KiRvzUSk8ndVTYNzpVMq7n7LPvQfu
-   nKgBD0SyODy9pk20OYdsBIk7aqIL1zhc0gnZbqX2/uxua4q0rYdiSZcYs
+  t=1753546619; x=1785082619;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=gwD7DHpQBgMDuc3bfD/prvhp2pGt6jNpqO6iPkcVgIw=;
+  b=mulnXrX0G0dXCBVgGr5qbj+7l3Jf8QpQK6nS+XHu2yBKgTHUmw3R1yIC
+   OP8W+gr1mwsVErPjJZ7Ka6P2l+SQGIlmGth3qTLjIxEC02k4+UQwMK80S
+   EO9teC6okQCS835L/QleYjE9MJ8mGEpVzoG8w7EL93iZqpuJNh3qP21bm
+   i37uuhEBRkcW0OUUspJBy3TJjJEg7ZAjtvHd/y7GOFMCqto8i5AEeqVwv
+   zUJtPUl1WoW8PgGZnUnWGePdW5rjmfvsf7pvu/sfNYfsEQBqG7ysJpq9e
+   ey90vpwEvRYrbY0Z5Xg5Ijvczy2419lEdJJQOYXQ1cpwFniwtzLymMJu9
    g==;
-X-CSE-ConnectionGUID: Sdsh7KR8T96yQ2MLrzQe6A==
-X-CSE-MsgGUID: Hl8OIn3SRM26iWw0jUbRFA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55938556"
+X-CSE-ConnectionGUID: 3/c9UoQGQQ63u+pZRrpnog==
+X-CSE-MsgGUID: hRt2iPx9SwuP/Fr2pfFnbg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55555484"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="55938556"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 09:06:59 -0700
-X-CSE-ConnectionGUID: 9he2HELvTgKI8xLuQ6s9cQ==
-X-CSE-MsgGUID: IohRdLb2STuEB34Px0zTTw==
+   d="scan'208";a="55555484"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 09:16:59 -0700
+X-CSE-ConnectionGUID: Zinm4pPUTnavlxtV6zJF3w==
+X-CSE-MsgGUID: a/h/odBuQE6GXk6TnzyF6w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="198783985"
+   d="scan'208";a="166979048"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 26 Jul 2025 09:06:57 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 26 Jul 2025 09:16:57 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ufhQE-000M5D-0l;
-	Sat, 26 Jul 2025 16:06:54 +0000
-Date: Sun, 27 Jul 2025 00:06:25 +0800
+	id 1ufhZv-000M5i-1j;
+	Sat, 26 Jul 2025 16:16:55 +0000
+Date: Sun, 27 Jul 2025 00:16:38 +0800
 From: kernel test robot <lkp@intel.com>
-To: Suraj Kandpal <suraj.kandpal@intel.com>,
-	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	intel-gfx@lists.freedesktop.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com,
-	uma.shankar@intel.com, Suraj Kandpal <suraj.kandpal@intel.com>
-Subject: Re: [PATCH 27/28] drm/i915/writeback: Make exception for writeback
- connector
-Message-ID: <202507262326.1J1VnzbD-lkp@intel.com>
-References: <20250725050409.2687242-28-suraj.kandpal@intel.com>
+To: Mengyuan Lou <mengyuanlou@net-swift.com>
+Cc: oe-kbuild-all@lists.linux.dev, Jakub Kicinski <kuba@kernel.org>
+Subject: [linux-next:master 7353/12319] ld.lld: error: undefined symbol:
+ phylink_ethtool_nway_reset
+Message-ID: <202507270058.x20NW84b-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,144 +61,40 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250725050409.2687242-28-suraj.kandpal@intel.com>
 
-Hi Suraj,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on next-20250725]
-[cannot apply to linus/master v6.16-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-writeback-Add-function-that-takes-preallocated-connector/20250725-133017
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-patch link:    https://lore.kernel.org/r/20250725050409.2687242-28-suraj.kandpal%40intel.com
-patch subject: [PATCH 27/28] drm/i915/writeback: Make exception for writeback connector
-config: i386-buildonly-randconfig-006-20250725 (https://download.01.org/0day-ci/archive/20250726/202507262326.1J1VnzbD-lkp@intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d7af19298454ed155f5cf67201a70f5cf836c842
+commit: a0008a3658a34a54e77f2568bdaa2626233b1459 [7353/12319] net: wangxun: add ngbevf build
+config: x86_64-randconfig-104-20250725 (https://download.01.org/0day-ci/archive/20250727/202507270058.x20NW84b-lkp@intel.com/config)
 compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507262326.1J1VnzbD-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507270058.x20NW84b-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507262326.1J1VnzbD-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507270058.x20NW84b-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/gpu/drm/i915/display/intel_display.c:3785:4: warning: variable 'trans_pipe' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
-    3785 |                         default:
-         |                         ^~~~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:3819:7: note: uninitialized use occurs here
-    3819 |                 if (trans_pipe == crtc->pipe)
-         |                     ^~~~~~~~~~
-   drivers/gpu/drm/i915/display/intel_display.c:3760:3: note: variable 'trans_pipe' is declared here
-    3760 |                 enum pipe trans_pipe;
-         |                 ^
-   1 warning generated.
-
-
-vim +/trans_pipe +3785 drivers/gpu/drm/i915/display/intel_display.c
-
-  3743	
-  3744	static u8 hsw_enabled_transcoders(struct intel_crtc *crtc)
-  3745	{
-  3746		struct intel_display *display = to_intel_display(crtc);
-  3747		u8 panel_transcoder_mask = hsw_panel_transcoders(display);
-  3748		enum transcoder cpu_transcoder;
-  3749		u8 primary_pipe, secondary_pipes;
-  3750		u8 enabled_transcoders = 0;
-  3751	
-  3752		/*
-  3753		 * XXX: Do intel_display_power_get_if_enabled before reading this (for
-  3754		 * consistency and less surprising code; it's in always on power).
-  3755		 */
-  3756		for_each_cpu_transcoder_masked(display, cpu_transcoder,
-  3757					       panel_transcoder_mask) {
-  3758			enum intel_display_power_domain power_domain;
-  3759			intel_wakeref_t wakeref;
-  3760			enum pipe trans_pipe;
-  3761			u32 tmp = 0;
-  3762	
-  3763			power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
-  3764			if (cpu_transcoder == TRANSCODER_WD_0 ||
-  3765			    cpu_transcoder == TRANSCODER_WD_1) {
-  3766				with_intel_display_power_if_enabled(display, power_domain, wakeref)
-  3767					tmp = intel_de_read(display,
-  3768							    WD_TRANS_FUNC_CTL(cpu_transcoder));
-  3769				if (!(tmp & TRANS_WD_FUNC_ENABLE))
-  3770					continue;
-  3771	
-  3772				switch (tmp & WD_INPUT_SELECT_MASK) {
-  3773				case WD_INPUT_PIPE_A:
-  3774					trans_pipe = PIPE_A;
-  3775					break;
-  3776				case WD_INPUT_PIPE_B:
-  3777					trans_pipe = PIPE_B;
-  3778					break;
-  3779				case WD_INPUT_PIPE_C:
-  3780					trans_pipe = PIPE_C;
-  3781					break;
-  3782				case WD_INPUT_PIPE_D:
-  3783					trans_pipe = PIPE_D;
-  3784					break;
-> 3785				default:
-  3786					MISSING_CASE(tmp & WD_INPUT_SELECT_MASK);
-  3787					break;
-  3788				}
-  3789			} else {
-  3790				with_intel_display_power_if_enabled(display, power_domain, wakeref)
-  3791					tmp = intel_de_read(display,
-  3792							    TRANS_DDI_FUNC_CTL(display, cpu_transcoder));
-  3793	
-  3794				if (!(tmp & TRANS_DDI_FUNC_ENABLE))
-  3795					continue;
-  3796	
-  3797				switch (tmp & TRANS_DDI_EDP_INPUT_MASK) {
-  3798				default:
-  3799					drm_WARN(display->drm, 1,
-  3800						 "unknown pipe linked to transcoder %s\n",
-  3801						 transcoder_name(cpu_transcoder));
-  3802					fallthrough;
-  3803				case TRANS_DDI_EDP_INPUT_A_ONOFF:
-  3804				case TRANS_DDI_EDP_INPUT_A_ON:
-  3805					trans_pipe = PIPE_A;
-  3806					break;
-  3807				case TRANS_DDI_EDP_INPUT_B_ONOFF:
-  3808					trans_pipe = PIPE_B;
-  3809					break;
-  3810				case TRANS_DDI_EDP_INPUT_C_ONOFF:
-  3811					trans_pipe = PIPE_C;
-  3812					break;
-  3813				case TRANS_DDI_EDP_INPUT_D_ONOFF:
-  3814					trans_pipe = PIPE_D;
-  3815					break;
-  3816				}
-  3817			}
-  3818	
-  3819			if (trans_pipe == crtc->pipe)
-  3820				enabled_transcoders |= BIT(cpu_transcoder);
-  3821		}
-  3822	
-  3823		/* single pipe or joiner primary */
-  3824		cpu_transcoder = (enum transcoder) crtc->pipe;
-  3825		if (transcoder_ddi_func_is_enabled(display, cpu_transcoder))
-  3826			enabled_transcoders |= BIT(cpu_transcoder);
-  3827	
-  3828		/* joiner secondary -> consider the primary pipe's transcoder as well */
-  3829		enabled_joiner_pipes(display, crtc->pipe, &primary_pipe, &secondary_pipes);
-  3830		if (secondary_pipes & BIT(crtc->pipe)) {
-  3831			cpu_transcoder = (enum transcoder)ffs(primary_pipe) - 1;
-  3832			if (transcoder_ddi_func_is_enabled(display, cpu_transcoder))
-  3833				enabled_transcoders |= BIT(cpu_transcoder);
-  3834		}
-  3835	
-  3836		return enabled_transcoders;
-  3837	}
-  3838	
+>> ld.lld: error: undefined symbol: phylink_ethtool_nway_reset
+   >>> referenced by wx_ethtool.c:225 (drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:225)
+   >>>               drivers/net/ethernet/wangxun/libwx/wx_ethtool.o:(wx_nway_reset) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: phylink_ethtool_ksettings_get
+   >>> referenced by wx_ethtool.c:234 (drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:234)
+   >>>               drivers/net/ethernet/wangxun/libwx/wx_ethtool.o:(wx_get_link_ksettings) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: phylink_ethtool_ksettings_set
+   >>> referenced by wx_ethtool.c:246 (drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:246)
+   >>>               drivers/net/ethernet/wangxun/libwx/wx_ethtool.o:(wx_set_link_ksettings) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: phylink_ethtool_get_pauseparam
+   >>> referenced by wx_ethtool.c:258 (drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:258)
+   >>>               drivers/net/ethernet/wangxun/libwx/wx_ethtool.o:(wx_get_pauseparam) in archive vmlinux.a
+--
+>> ld.lld: error: undefined symbol: phylink_ethtool_set_pauseparam
+   >>> referenced by wx_ethtool.c:270 (drivers/net/ethernet/wangxun/libwx/wx_ethtool.c:270)
+   >>>               drivers/net/ethernet/wangxun/libwx/wx_ethtool.o:(wx_set_pauseparam) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
