@@ -1,67 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC10428642B
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 17:21:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B471418A6CF
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 17:32:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753550470; cv=none; b=S5L2OnAWtPwRubPfSD/ISWIcwAQ/2OzAdndNIsu3gZ9VUfBabHlEa9RQoO41uDm1ttShMsOlC04QIkc9wAQ7pwYGPS4U3ytqIY0mbLWcoA0EKQQQFG/QUmKVWiV9sY1JbB096jUhEyTfd1bsBV2DEoW+wJV6eu2EgxSdW2mTMGA=
+	t=1753551130; cv=none; b=pjNXHwqMQJpDyvmX2v5O6aS6MHl1mxxWTtn1Mnw3AgsUEmfwv3xJxGtAZK8h99qVjzj5Q7dnkunqoOqqSqqNeUlmu0T3J6t9J6HZA//+/NMm0PCsJ3jdUl5sq9Owo19IVH+F3c9DOD2uRjGI6tOolrMwY9RzBwwEPUBbVjD6/B0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753550470; c=relaxed/simple;
-	bh=FYGrziCeFzNuZvhSRlcgFhj9eG/pzlrsTbVj34x+dbA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VqUB88lGihnu8xI9Aan65gSTMJZOIA6Il69FzNMOcgJRJd5Osvpj6xcf1QmPceLBVoW7RiR/6uAj4FRoJRgggkI5MdzdscAZZPGym3hZLL7fFKyIKFAPkcCK67MHx7zE6Tvw9DaYRDVOjEVfyGDWeGGLFC54hPSd1/nBISbIdNQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m4I15Lb2; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1753551130; c=relaxed/simple;
+	bh=7skZem+ZAUvC1olgqzjCgVaStfzkaYce5ZlkrKzeHZQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gNivnJOg0RCtDYL50xs4xXgxstaeG7FafNQlyOXGfx8nUlYNQsDI+7junBXzjHM2uELPC0MrbfJhIfVpm+XpfQrgDQVf/9Pl4cwOnSx/f/nbrer1049HQYK8cKtlcLiPs2BdLzWS1j3tThXJEsrMsTqfMn9dXXPVskJ/Dg6syuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Id9nJQ2S; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m4I15Lb2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Id9nJQ2S"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753550469; x=1785086469;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FYGrziCeFzNuZvhSRlcgFhj9eG/pzlrsTbVj34x+dbA=;
-  b=m4I15Lb2PzOkGq7Fh6j54jdnv8u2OmYQF7OExDDZHth06Zoz6pXfmr3f
-   cuRE3N0gKXoKohnG0HbA0IqWdYwzV7vCcnnCA6unE6elItupnufIwwXn1
-   YRiMIID2H5MYWAuebuhXdbH3L//y2cO+EeoWzmk76REAEgeGwq08EVXbK
-   q6sxUWysvp0UCfvfnuW6leKzAu9tHYq6cEc52b3divuGtapzOkV/GtwhO
-   T/gn7lASCQZlNhkOrxTvhFXOARsLNGlo12WfmTU/M6KwjKEzxPjPbGvUt
-   S4YHoU1tcJI+NtlV4dGrV7oV92KLhtHQiHtKd81S9ZG4iYENWRTdVykAB
-   Q==;
-X-CSE-ConnectionGUID: d7FThPXYT7aRCQ7/9Rv9FA==
-X-CSE-MsgGUID: YMFfHX1IT7m4BnFDIsev9Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55822565"
+  t=1753551129; x=1785087129;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=7skZem+ZAUvC1olgqzjCgVaStfzkaYce5ZlkrKzeHZQ=;
+  b=Id9nJQ2SOyi2C1JCJ0l4oQkrKPRcYaaGiFODTjI290yE/Q3WcY+v0SFo
+   ynH8wxpppQOFvYKJYjQZhqAM7YIBZqa0zD/BPfdLreEkQ5euikYIq7CeX
+   LYd9AWC3i+PqZZTvq8uzhY3d2363nynMc9qlZOTYFEHNyijTIPm5GIKo9
+   xmAGp0H6bOujFadneoZiCd9upFUm90XRGlJe+Et3fQQORzwErq63oUwZZ
+   4h48p3tJMFuUHqpdwIZAlEEaPtH/kK/mNjimF7rx4Vq5WsFnU7oTnMmat
+   lOCcAn7pIohEABfKEs1qUBI0lmpCrRFts2vXFirdPgwIgrRawfl7/ID4x
+   A==;
+X-CSE-ConnectionGUID: wKLkcJ2CQ3+h8BhjwWwUBg==
+X-CSE-MsgGUID: ElGn1jz8Rh+Gr1NHQUipug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="73441334"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="55822565"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 10:21:08 -0700
-X-CSE-ConnectionGUID: aORf0ttfRyS2t+7wKEuHIQ==
-X-CSE-MsgGUID: y+Pk7nMORK2wa7WBA7tGig==
+   d="scan'208";a="73441334"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 10:32:08 -0700
+X-CSE-ConnectionGUID: nOpb7g/2SRyWb0P/2YMwZg==
+X-CSE-MsgGUID: DhgEs/D0Q7+7U6X1c4Zwrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="167114307"
+   d="scan'208";a="160952040"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa005.jf.intel.com with ESMTP; 26 Jul 2025 10:21:05 -0700
+  by orviesa010.jf.intel.com with ESMTP; 26 Jul 2025 10:32:07 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ufiZz-000M9r-1f;
-	Sat, 26 Jul 2025 17:21:03 +0000
-Date: Sun, 27 Jul 2025 01:21:01 +0800
+	id 1ufike-000MA3-1d;
+	Sat, 26 Jul 2025 17:32:04 +0000
+Date: Sun, 27 Jul 2025 01:31:16 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH 1/4] platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
-Message-ID: <202507270148.ZrFnYWlb-lkp@intel.com>
-References: <20250725004533.63537-1-derekjohn.clark@gmail.com>
+To: Kundan Kumar <kundan.kumar@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev, Luis Chamberlain <mcgrof@kernel.org>,
+	Anuj Gupta <anuj20.g@samsung.com>
+Subject: [mcgrof:20250723-migrate-folio-stats 2/16]
+ mm/backing-dev.c:1029:19-43: WARNING: casting value returned by memory
+ allocation function to (struct bdi_writeback_ctx *) is useless.
+Message-ID: <202507270157.5d8tctXb-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,48 +63,50 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250725004533.63537-1-derekjohn.clark@gmail.com>
 
-Hi Derek,
+Hi Kundan,
 
-kernel test robot noticed the following build warnings:
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.16-rc7 next-20250725]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/platform-x86-ayn-ec-Add-Temperature-Sensors/20250725-084850
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20250725004533.63537-1-derekjohn.clark%40gmail.com
-patch subject: [PATCH 1/4] platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
-config: i386-kismet-CONFIG_LEDS_TRIGGERS-CONFIG_IWLEGACY-0-0 (https://download.01.org/0day-ci/archive/20250727/202507270148.ZrFnYWlb-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250727/202507270148.ZrFnYWlb-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux.git 20250723-migrate-folio-stats
+head:   e857aaf49afadc31be5f460664cd176bfd972ffe
+commit: f229eb84613087d77c04907f927703025096ef0e [2/16] writeback: add infra for parallel writeback
+config: hexagon-randconfig-r064-20250726 (https://download.01.org/0day-ci/archive/20250727/202507270157.5d8tctXb-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507270148.ZrFnYWlb-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507270157.5d8tctXb-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for LEDS_TRIGGERS when selected by IWLEGACY
-   WARNING: unmet direct dependencies detected for LEDS_CLASS
-     Depends on [n]: NEW_LEDS [=n]
-     Selected by [y]:
-     - AYN_EC [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y] && HWMON [=y]
-   
-   WARNING: unmet direct dependencies detected for LEDS_CLASS_MULTICOLOR
-     Depends on [n]: NEW_LEDS [=n] && LEDS_CLASS [=y]
-     Selected by [y]:
-     - AYN_EC [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y] && HWMON [=y]
-   
-   WARNING: unmet direct dependencies detected for LEDS_TRIGGERS
-     Depends on [n]: NEW_LEDS [=n] && LEDS_CLASS [=y]
-     Selected by [y]:
-     - MAC80211_LEDS [=y] && NET [=y] && WIRELESS [=y] && MAC80211 [=y] && (LEDS_CLASS [=y]=y [=y] || LEDS_CLASS [=y]=MAC80211 [=y])
-     - IWLEGACY [=y] && NETDEVICES [=y] && WLAN [=y] && WLAN_VENDOR_INTEL [=y]
-     - IWLWIFI_LEDS [=y] && NETDEVICES [=y] && WLAN [=y] && WLAN_VENDOR_INTEL [=y] && IWLWIFI [=y] && (LEDS_CLASS [=y]=y [=y] || LEDS_CLASS [=y]=MAC80211 [=y]) && (IWLMVM [=n] || IWLDVM [=y])
+cocci warnings: (new ones prefixed by >>)
+>> mm/backing-dev.c:1029:19-43: WARNING: casting value returned by memory allocation function to (struct bdi_writeback_ctx *) is useless.
+
+vim +1029 mm/backing-dev.c
+
+  1015	
+  1016	int bdi_init(struct backing_dev_info *bdi)
+  1017	{
+  1018		bdi->dev = NULL;
+  1019	
+  1020		kref_init(&bdi->refcnt);
+  1021		bdi->min_ratio = 0;
+  1022		bdi->max_ratio = 100 * BDI_RATIO_SCALE;
+  1023		bdi->max_prop_frac = FPROP_FRAC_BASE;
+  1024		bdi->nr_wb_ctx = 1;
+  1025		bdi->wb_ctx = kcalloc(bdi->nr_wb_ctx,
+  1026					  sizeof(struct bdi_writeback_ctx *),
+  1027					  GFP_KERNEL);
+  1028		INIT_LIST_HEAD(&bdi->bdi_list);
+> 1029		bdi->wb_ctx[0] = (struct bdi_writeback_ctx *)
+  1030				kzalloc(sizeof(struct bdi_writeback_ctx), GFP_KERNEL);
+  1031		INIT_LIST_HEAD(&bdi->wb_ctx[0]->wb_list);
+  1032		init_waitqueue_head(&bdi->wb_ctx[0]->wb_waitq);
+  1033		bdi->last_bdp_sleep = jiffies;
+  1034	
+  1035		return cgwb_bdi_init(bdi);
+  1036	}
+  1037	
 
 -- 
 0-DAY CI Kernel Test Service
