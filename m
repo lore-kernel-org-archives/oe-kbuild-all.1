@@ -1,59 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60D6C19E968
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 04:45:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B95B3166F0C
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 05:56:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753505111; cv=none; b=h7nHx9d8qwwEu9kqHe5KCmCdCPIvj85gzm7NB97sLGYR/SDY+t9nPYRNXgG6RsokES2+FiafbYlHYSwC0HkL6NC5ln3uR9j71RM2455t5iFH7fY1dKxTQm1nLIo5/s1PBcOtVysd2rbJ3jAWODhzJHIES5P7kld/qcIo4aq1V74=
+	t=1753509376; cv=none; b=uskd9xzk6UXCPPg39OosGVV0d1plxD7XwTAEPyZCPW4ewyCJD3X8ESmdzjXdl2Ad12cmP+e9XZi+RVFTPXY8GU4a3v7FqtMiDGn/0kZnbZCB5ZitogTKqpnDGkAaMMQVpoH8t33waj0Vrv6vPTJQ1TWXNNJ/KtJeHNUJyXmyDoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753505111; c=relaxed/simple;
-	bh=TxqBeSRo2Mw1goOvku/w+9p1ilOgD8xv9mEvep0TlOM=;
+	s=arc-20240116; t=1753509376; c=relaxed/simple;
+	bh=sIJ/A7bcJffoWQBBI/JsxDAzMfQr3nDI3QrPShmYd0o=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=pzxryGsuVeywIZ7xnzEomRKh4fmsH0QoAKiN4OR0M8cOSa8POqX3K1qsIIjlub4iBBx7q/GK7L8F45O9vtIpsyzDFNMNxs1y+xwa8GlizJSwUL+AhFywb+CLkVONUZhSe8KgMfEC8p6YNj7YTWkw3hyZ03p2NSgLgfi4lsSPmYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jqN0AxNd; arc=none smtp.client-ip=198.175.65.13
+	 Content-Disposition; b=JbhIFBkKEB+XJBLGKHOXtd4XDh6eH3yyFj9WaEoDVatcqUJPH1R1UeTFOGi1yBCnrBkLm5wASo+kG5awrrWwM0USxl/igg7apPx+XPTALHb32X8DxA3ypDYbk0l+SDpq3K73d9iX8tvs196wMzSy4esgi8SjyipaGPYuq/IUIo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f9ETWZJb; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jqN0AxNd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f9ETWZJb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753505109; x=1785041109;
+  t=1753509375; x=1785045375;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=TxqBeSRo2Mw1goOvku/w+9p1ilOgD8xv9mEvep0TlOM=;
-  b=jqN0AxNd3gflYSeIONeWDn5P9IrT8aO3GQK7Tt7lKvhcLvU60w0OHhdR
-   ockJ9TPrmXFP3tj4N4jMEnBNDGvNFoHYyxKYiE2fTGP3IAB6EHyGMtYV+
-   UAm4g7/tpVa1Dj7xX2X4tOpnulhvlNOBNdf9YIwo5rmpzVwCoRL9bbe7d
-   p/iEkVCdgRmKHnu5e6dIvqaZMqP/0hNNV/l22V24xCCSgmkmaGqbpJyBR
-   Npkhh/AkhkKpcuB1Ls4g9zDPC7jFeEAT/EVUAZr1+99SvFjZzhP8NlxDG
-   r7LyFVjCtyAcBer4xc/zbp+1utJVqXu4I+rmiJtdcUV0Gn0FmLmEGBdoF
-   Q==;
-X-CSE-ConnectionGUID: fUHlcisWRg2H2FZyKjoLww==
-X-CSE-MsgGUID: U9pOzQUJT1aKkuMN5jhW1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="66915246"
+  bh=sIJ/A7bcJffoWQBBI/JsxDAzMfQr3nDI3QrPShmYd0o=;
+  b=f9ETWZJb5tBL2qtUYuMamwWxAMJaUojn6bBP5/P19X61jgz5+YRQKDJR
+   HMgXRH5/bWtQ+l7NuT7WPUvD6VEMw85AiidmQNaxxs89QVC/IW9yxXj2K
+   rm+rm0TcGZFqxp3hFNgncTRkefqbXDtgE1iaKqdwEX4jNxzAA7/ndCsqQ
+   W+mF9cdl2mnpa/Etu9g73elnmBGRMQUQESJElKMtNYZHxdPHZWIo7xVTK
+   T6G/4i1JXG2cYWul6bZateZkXAOUuzeLm9EDAK8aWAyweTkFYZzcdKh5d
+   wo4wVho1gAK4Fd+iRks8FJROTay7/96lc2S03nuT27bDU0UzUS4DQ/rhO
+   A==;
+X-CSE-ConnectionGUID: u+TgW1wxQcCyiEfe8n3uiA==
+X-CSE-MsgGUID: QLVEKkIzTnyWXlSU9OsttQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="66916801"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="66915246"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2025 21:45:08 -0700
-X-CSE-ConnectionGUID: txCbtRbzQ9OYEZu6+jxsXg==
-X-CSE-MsgGUID: V/ZF22nHRoub+awFDOUqag==
+   d="scan'208";a="66916801"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Jul 2025 22:56:13 -0700
+X-CSE-ConnectionGUID: CmMOdigRTFaQ0hHLsKWBGg==
+X-CSE-MsgGUID: KXJ8aYTgRw6TcI5WZogNog==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="166703949"
+   d="scan'208";a="192263628"
 Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by fmviesa004.fm.intel.com with ESMTP; 25 Jul 2025 21:45:07 -0700
+  by orviesa002.jf.intel.com with ESMTP; 25 Jul 2025 22:56:12 -0700
 Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ufWmP-0000EF-0A;
-	Sat, 26 Jul 2025 04:45:05 +0000
-Date: Sat, 26 Jul 2025 06:44:52 +0200
+	id 1ufXtB-0000Et-1Q;
+	Sat, 26 Jul 2025 05:56:09 +0000
+Date: Sat, 26 Jul 2025 07:55:52 +0200
 From: kernel test robot <lkp@intel.com>
 To: Jason Gunthorpe <jgg@nvidia.com>
 Cc: oe-kbuild-all@lists.linux.dev, Leon Romanovsky <leon@kernel.org>
-Subject: [leon-rdma:rdma-next 90/112] drivers/iommu/iommu.c:1619:12: warning:
- assignment to 'struct pci_dev *' from 'int' makes pointer from integer
- without a cast
-Message-ID: <202507260636.eeHS4uo9-lkp@intel.com>
+Subject: [leon-rdma:rdma-next 90/112] drivers/iommu/iommu.c:1619:14: error:
+ implicit declaration of function 'pci_real_dma_dev'; did you mean
+ 'pci_alloc_dev'?
+Message-ID: <202507260737.Va4cNtBf-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,16 +66,16 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git rdma-next
 head:   aea452cc27ca9e5169f7279d7b524190c39e7260
 commit: b6ad3735a7afc29ce93ff75fbd98aac2466749be [90/112] iommu: Compute iommu_groups properly for PCIe switches
-config: arm-randconfig-2002-20250720 (https://download.01.org/0day-ci/archive/20250726/202507260636.eeHS4uo9-lkp@intel.com/config)
+config: arm-randconfig-2002-20250720 (https://download.01.org/0day-ci/archive/20250726/202507260737.Va4cNtBf-lkp@intel.com/config)
 compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507260636.eeHS4uo9-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507260737.Va4cNtBf-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507260636.eeHS4uo9-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507260737.Va4cNtBf-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
    In file included from drivers/iommu/iommu.c:24:
    include/linux/pci.h:2066:24: warning: no previous prototype for 'pci_bus_isolated' [-Wmissing-prototypes]
@@ -88,11 +88,11 @@ All warnings (new ones prefixed by >>):
              PCIE_NON_ISOLATED
    include/linux/pci.h:2067:10: note: each undeclared identifier is reported only once for each function it appears in
    drivers/iommu/iommu.c: In function 'pci_device_group':
-   drivers/iommu/iommu.c:1619:14: error: implicit declaration of function 'pci_real_dma_dev'; did you mean 'pci_alloc_dev'? [-Werror=implicit-function-declaration]
+>> drivers/iommu/iommu.c:1619:14: error: implicit declaration of function 'pci_real_dma_dev'; did you mean 'pci_alloc_dev'? [-Werror=implicit-function-declaration]
      real_pdev = pci_real_dma_dev(pdev);
                  ^~~~~~~~~~~~~~~~
                  pci_alloc_dev
->> drivers/iommu/iommu.c:1619:12: warning: assignment to 'struct pci_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+   drivers/iommu/iommu.c:1619:12: warning: assignment to 'struct pci_dev *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
      real_pdev = pci_real_dma_dev(pdev);
                ^
    In file included from drivers/iommu/iommu.c:24:
