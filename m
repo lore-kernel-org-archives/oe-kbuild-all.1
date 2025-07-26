@@ -1,86 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009EE2E3700;
-	Sat, 26 Jul 2025 11:31:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D571621FF2D
+	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 11:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753529503; cv=none; b=qBipHPGDvj6ITzPvBLotoqNfl/s1etMy6VoUT3/7pvCJx4cXZjE0muozsolMue81EK4wxkWiOLdY0PJ0156aOY4rj8eXxos8Uo8QeeAv4/ge1G9YG0en6Y+mIVucgr/lCGR+qfk5Xjut5WF+oxPX0OMmhu6UlQXEeow0p6inRHc=
+	t=1753530279; cv=none; b=qX9ghWLpTKNPFqTpeeFBq6K8LqTUNx4lNxK/oBefOokQHMKIT2xRwnkrf1OKIrwUGXI685aPjcRqTPqHgPIPy3/gq9FRHVKzYiYa3P2DsP831xtBSwcwE5OlxJxGHgAnFeEujj1AMf7PJTYvBUlhS4iKnTpINccSb3N2I0Me8yA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753529503; c=relaxed/simple;
-	bh=x5ftixc4aZ/+5TD+y+Aes85jYKYNSbOyuX7QDNVsBd8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jURSeRZTljRU20VRLAP83+it8HZI3wda+fEcxDH0TeKCT8N2eFg26V51GeBCRNtZHsM4dfig1hncVCQRLRaQWYr0t1XgnPrnkP8O6tIzqncnof1HslziW58fXRS3dLH8iAaSxv4BtqoawYP24zGtCWBkP2ddkxVDXYmqMmkS3rE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=euKqhM5E; arc=none smtp.client-ip=198.175.65.19
+	s=arc-20240116; t=1753530279; c=relaxed/simple;
+	bh=MV6++QthUMub01RcMWTpNpGOQeuB+uJoIsbEdqh8jxM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=KbnrG8CdiiekZHN42gNFIdcLzF/3Wj3GYfC9cuYwdQEXMfmATMK1+UKgmgmqT5M8e41/aVLr2t4CJfE4GlcZFSWN7xyKTXNXX3VM7JYIIY3sngiv0U9bDxu6jtjobNY0+PRZpkJvG4vucvAsu3WOM/hDSrg2j+kaFcLR2cdPuAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nwXgkIkl; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="euKqhM5E"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nwXgkIkl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753529502; x=1785065502;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x5ftixc4aZ/+5TD+y+Aes85jYKYNSbOyuX7QDNVsBd8=;
-  b=euKqhM5E+xtaaQVoUcg6cCD0emA61HaRWv04yn5N1Mg+moYcUw9bg6Lz
-   q4mQi/Ow4HABTCroPRdNqE3zF+JydpGaCdDjj20k4NiCwXNgqc0W8p7Ly
-   9cSMb8/FA/hI1aabE8PfyzkL4otkxNzEQeNHp3N16IH/KBaka6PFOmMAr
-   Y5o42FrHJoUfRtaZsEM/8dKApuB6Gb8gsugmbE+t5vNDbULuUunegTbKF
-   aAYdtIX/xZDBVCgW9U3I+trKE/jTmQtj+U7kvu326cLapn5Mz0A4hp2YY
-   D9P8kKyhz5Wed6Ty1FniPJYsa7klHC+18t/Abl4KjGYHRCKGZgpFch4t0
+  t=1753530278; x=1785066278;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=MV6++QthUMub01RcMWTpNpGOQeuB+uJoIsbEdqh8jxM=;
+  b=nwXgkIklwMmjKCsJPSjRJiy6JFvd+CSzK+yR+/SP7UkA0pZOCv+SqCxL
+   Fz96L/fONtvzpaqi3Wf0wF98AzWiQlgqPJfRmsdYLDrpxLYSoVQK0fDwR
+   h6y+twMVd6q5McLGwz2IQrSG0Qyl0lNXGqg8v18cC8GxXhhLbiAqp73sX
+   sjaC6rEQUG62hdVYchhs9/rRdPSm2DHPluXmyBKSWfiteOcf2uF0W54hK
+   tEVp5K4zTNwWhY1am4iaJblFQ6N5H00THGRbBpN3toCQCxgW3/5EnhIel
+   8OBu5Ve6can4Ll3tjD/3rkNO2JAMbOCQeFEhBcCShU7X/F0606vgm5c3x
    A==;
-X-CSE-ConnectionGUID: ZKYBXvmWRhip4QaPlYuKjw==
-X-CSE-MsgGUID: ISi+doS/Rv2U4p4DX9UjkQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="55705713"
+X-CSE-ConnectionGUID: ZXwh/FchSPStnFDWamHH1g==
+X-CSE-MsgGUID: hgTLFPl8QS2z6nbrlboocA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11503"; a="78399352"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="55705713"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 04:31:41 -0700
-X-CSE-ConnectionGUID: pR4kffSwRjy1c2IEc26nyw==
-X-CSE-MsgGUID: cFu3aEPNSiGqjJr475Nxqg==
+   d="scan'208";a="78399352"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 04:44:36 -0700
+X-CSE-ConnectionGUID: 05R0wGsYQ/6cHFSfZfBLYQ==
+X-CSE-MsgGUID: QlvWnxnhRDiAqJT8rG5n/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="160800593"
+   d="scan'208";a="161854315"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 26 Jul 2025 04:31:34 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 26 Jul 2025 04:44:35 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ufd7j-000Lvz-1t;
-	Sat, 26 Jul 2025 11:31:31 +0000
-Date: Sat, 26 Jul 2025 19:30:54 +0800
+	id 1ufdKK-000LwP-1o;
+	Sat, 26 Jul 2025 11:44:32 +0000
+Date: Sat, 26 Jul 2025 19:43:58 +0800
 From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Alexey Klimov <alexey.klimov@linaro.org>,
-	Lorenzo Bianconi <lorenzo@kernel.org>,
-	Sean Wang <sean.wang@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@redhat.com>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Dong Aisheng <aisheng.dong@nxp.com>,
-	Fabio Estevam <festevam@gmail.com>, Shawn Guo <shawnguo@kernel.org>,
-	Jacky Bai <ping.bai@nxp.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	NXP S32 Linux Team <s32@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Tony Lindgren <tony@atomide.com>,
-	Haojian Zhuang <haojian.zhuang@linaro.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>
-Subject: Re: [PATCH v3 10/15] pinctrl: make struct pinfunction a pointer in
- struct function_desc
-Message-ID: <202507261937.Txq9shpv-lkp@intel.com>
-References: <20250724-pinctrl-gpio-pinfuncs-v3-10-af4db9302de4@linaro.org>
+To: Kees Cook <kees@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [linux-next:master 12137/12319] include/linux/kstack_erase.h:29:37:
+ error: passing 'const struct task_struct *' to parameter of type 'struct
+ task_struct *' discards qualifiers
+Message-ID: <202507261908.eBMSznZw-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -89,91 +62,53 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250724-pinctrl-gpio-pinfuncs-v3-10-af4db9302de4@linaro.org>
 
-Hi Bartosz,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on 05adbee3ad528100ab0285c15c91100e19e10138]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/lib-provide-kmemdup_const/20250724-172620
-base:   05adbee3ad528100ab0285c15c91100e19e10138
-patch link:    https://lore.kernel.org/r/20250724-pinctrl-gpio-pinfuncs-v3-10-af4db9302de4%40linaro.org
-patch subject: [PATCH v3 10/15] pinctrl: make struct pinfunction a pointer in struct function_desc
-config: x86_64-buildonly-randconfig-002-20250725 (https://download.01.org/0day-ci/archive/20250726/202507261937.Txq9shpv-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507261937.Txq9shpv-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   d7af19298454ed155f5cf67201a70f5cf836c842
+commit: 897627bc44d228f00cc8595c9b2fa747d3e8c64f [12137/12319] kstack_erase: Support Clang stack depth tracking
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20250726/202507261908.eBMSznZw-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507261908.eBMSznZw-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507261937.Txq9shpv-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507261908.eBMSznZw-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/pinctrl/pinmux.c:917:7: warning: cast from 'void (*)(const void *)' to 'void (*)(void *)' converts to incompatible function type [-Wcast-function-type-strict]
-     917 |                                          (void (*)(void *))kfree_const,
-         |                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device/devres.h:166:34: note: expanded from macro 'devm_add_action_or_reset'
-     166 |         __devm_add_action_or_reset(dev, action, data, #action)
-         |                                         ^~~~~~
-   1 warning generated.
+   In file included from kernel/fork.c:96:
+>> include/linux/kstack_erase.h:29:37: error: passing 'const struct task_struct *' to parameter of type 'struct task_struct *' discards qualifiers [-Werror,-Wincompatible-pointer-types-discards-qualifiers]
+      29 |         return (unsigned long)end_of_stack(tsk) + sizeof(unsigned long);
+         |                                            ^~~
+   include/linux/sched/task_stack.h:56:63: note: passing argument to parameter 'p' here
+      56 | static inline unsigned long *end_of_stack(struct task_struct *p)
+         |                                                               ^
+   1 error generated.
 
 
-vim +917 drivers/pinctrl/pinmux.c
+vim +29 include/linux/kstack_erase.h
 
-   883	
-   884	/**
-   885	 * pinmux_generic_add_pinfunction() - adds a function group
-   886	 * @pctldev: pin controller device
-   887	 * @func: pinfunction structure describing the function group
-   888	 * @data: pin controller driver specific data
-   889	 */
-   890	int pinmux_generic_add_pinfunction(struct pinctrl_dev *pctldev,
-   891					   const struct pinfunction *func, void *data)
-   892	{
-   893		struct function_desc *function;
-   894		int selector, error;
-   895	
-   896		selector = pinmux_func_name_to_selector(pctldev, func->name);
-   897		if (selector >= 0)
-   898			return selector;
-   899	
-   900		selector = pctldev->num_functions;
-   901	
-   902		function = devm_kzalloc(pctldev->dev, sizeof(*function), GFP_KERNEL);
-   903		if (!function)
-   904			return -ENOMEM;
-   905	
-   906		function->func = kmemdup_const(func, sizeof(*func), GFP_KERNEL);
-   907		if (!function->func)
-   908			return -ENOMEM;
-   909	
-   910		/*
-   911		 * FIXME: It's generally a bad idea to use devres in subsystem core
-   912		 * code - managed interfaces are aimed at drivers - but pinctrl already
-   913		 * uses it all over the place so it's a larger piece of technical debt
-   914		 * to fix.
-   915		 */
-   916		error = devm_add_action_or_reset(pctldev->dev,
- > 917						 (void (*)(void *))kfree_const,
-   918						 (void *)function->func);
-   919		if (error)
-   920			return error;
-   921	
-   922		function->data = data;
-   923	
-   924		error = radix_tree_insert(&pctldev->pin_function_tree, selector, function);
-   925		if (error)
-   926			return error;
-   927	
-   928		pctldev->num_functions++;
-   929	
-   930		return selector;
-   931	}
-   932	EXPORT_SYMBOL_GPL(pinmux_generic_add_pinfunction);
-   933	
+afaef01c001537 include/linux/stackleak.h Alexander Popov 2018-08-17  18  
+9ec79840d6afaf include/linux/stackleak.h Mark Rutland    2022-04-27  19  /*
+9ec79840d6afaf include/linux/stackleak.h Mark Rutland    2022-04-27  20   * The lowest address on tsk's stack which we can plausibly erase.
+9ec79840d6afaf include/linux/stackleak.h Mark Rutland    2022-04-27  21   */
+9ec79840d6afaf include/linux/stackleak.h Mark Rutland    2022-04-27  22  static __always_inline unsigned long
+9ec79840d6afaf include/linux/stackleak.h Mark Rutland    2022-04-27  23  stackleak_task_low_bound(const struct task_struct *tsk)
+9ec79840d6afaf include/linux/stackleak.h Mark Rutland    2022-04-27  24  {
+9ec79840d6afaf include/linux/stackleak.h Mark Rutland    2022-04-27  25  	/*
+9ec79840d6afaf include/linux/stackleak.h Mark Rutland    2022-04-27  26  	 * The lowest unsigned long on the task stack contains STACK_END_MAGIC,
+9ec79840d6afaf include/linux/stackleak.h Mark Rutland    2022-04-27  27  	 * which we must not corrupt.
+9ec79840d6afaf include/linux/stackleak.h Mark Rutland    2022-04-27  28  	 */
+9ec79840d6afaf include/linux/stackleak.h Mark Rutland    2022-04-27 @29  	return (unsigned long)end_of_stack(tsk) + sizeof(unsigned long);
+9ec79840d6afaf include/linux/stackleak.h Mark Rutland    2022-04-27  30  }
+9ec79840d6afaf include/linux/stackleak.h Mark Rutland    2022-04-27  31  
+
+:::::: The code at line 29 was first introduced by commit
+:::::: 9ec79840d6afaf472294588a6bbe145bcdffa28b stackleak: rework stack low bound handling
+
+:::::: TO: Mark Rutland <mark.rutland@arm.com>
+:::::: CC: Kees Cook <keescook@chromium.org>
 
 -- 
 0-DAY CI Kernel Test Service
