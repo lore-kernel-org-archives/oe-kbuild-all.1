@@ -1,67 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 691F71E3DC8
-	for <oe-kbuild-all@lists.linux.dev>; Sat, 26 Jul 2025 15:34:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9549021348;
+	Sat, 26 Jul 2025 16:06:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753544099; cv=none; b=Gr+SayhcaAakiuEUcpRu+XXRUM1KiZb+t3wx7vWT2cDId7yp5Zfeol9lzabjvxzhZn2d13j2L3emB5YU9bdkY4iarJfRYGpXliJTuyYPlW54cvPLFsACgRcjQNvSpCqAIbv5KjM5dmY7nXmbnYOZPD9t5F373v52s1TQkdBgqkg=
+	t=1753546021; cv=none; b=hjCC8kxc/veyMUa53l57eZeKVp4GDpxCeXo88yRz1C/o7KhC8Brl3KFXs3W+sldb7/4pXuVDnwGV6I6K9dB8jUdOXHyo1oAo5Ld14Xd7Hd0XtYMr1S8fTIlcZqlxsYwUG0rviHISGJwXYQw0Um/1QK5yqEU6PonEpc2VWnmc2Mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753544099; c=relaxed/simple;
-	bh=xY9+wPXn1/lg9kag6B/JWHLkOJaNNB7YX2ktYzlQODc=;
+	s=arc-20240116; t=1753546021; c=relaxed/simple;
+	bh=97n7TGLjg/+mTPjK/3JeoW9Y0kyNUgwCatu2/1JDmYM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jpt1kjWUFKRmOKXsk3IWgfw4pzJERvs59pHAkwfFaItz2xteDg8vbytX06W6yYj0kladEf+eFVE5X4RLO/UOD6iRkkl9advNdD3lVO++GypyeB7jqIGOH7hm8J4F22lI8EL4Md81SrXezngyw3T5b/6olv7TXOcwcN8e9JLuPCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jEWO2ZFT; arc=none smtp.client-ip=192.198.163.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vp3Q2QPE/WWM81SwonA7DYfj3zkL2gu3MzTGkVc5mDoknBMbLAoOxLSXqeLigFw+is+IagNFF5Q/xfPvB8VHx5t3PFELkD8eAC/247Izr9ACRFJQCKagSN+1Vv3aaQBRCCSyLiEM+kMBE4PHiM9cLQQauVCheLdMvLyCMfw5wRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IzJbThb+; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jEWO2ZFT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IzJbThb+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753544097; x=1785080097;
+  t=1753546020; x=1785082020;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=xY9+wPXn1/lg9kag6B/JWHLkOJaNNB7YX2ktYzlQODc=;
-  b=jEWO2ZFT7zpzN6Mf8GZxDKVzRzILuFjlwl4baGMi3EXiebaD6R/1WGa5
-   fa6dh/W2HAgEHsTlMdzRNhcV9otQSE0uX5L7pc1AABM0aUCLq/lkrPOfv
-   AdXfq3/2ydekhhnhNR5srID5+ot9e0qfymd0s+0YD0SloAXPXLBDjFhhH
-   bHgJMqS2P+z5ZGTTxIjn3SE03nzAM1gqE3lCPPOCaRU3WeTV4r/yll7+P
-   UTtnHn7oJpz8oSSZBhbvnbDSZVzZTjBiMs7LLTjBxddeGpxbyf+hDbGqK
-   cgUD0xnm3uijr/VNyiOGmcH0iQRnWkNqatE2nZme9rcnHKRuruMUtpkfw
-   Q==;
-X-CSE-ConnectionGUID: c/B5XuU2Q5euLF9WjQ2Oeg==
-X-CSE-MsgGUID: fHpznimbRN6CvjAJ/hgTNQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55065318"
+  bh=97n7TGLjg/+mTPjK/3JeoW9Y0kyNUgwCatu2/1JDmYM=;
+  b=IzJbThb+MGOWXWfu5seeRjUDDmc5j5UHXqsUYHatI9mKbgkb++E2GU8V
+   b7Zp5QzxZvptA2/d+8oyLgzvdFoa1Ptwgz9TRjLfn/5XaK8QFVTdblDO0
+   nMfSz6ftMiR9rgmQpcpjjxEXAwYNlZq3NrFqIrQYPD5ZR4uV9UVUx8o4b
+   Lj2t8RnzDmithp/kOMageLkBAQn4W2K9IsuH41fuMK1v3tx7uPKQVQxC2
+   OiDOe3NAGua60S2MpOrijAxl2Vg7KiRvzUSk8ndVTYNzpVMq7n7LPvQfu
+   nKgBD0SyODy9pk20OYdsBIk7aqIL1zhc0gnZbqX2/uxua4q0rYdiSZcYs
+   g==;
+X-CSE-ConnectionGUID: Sdsh7KR8T96yQ2MLrzQe6A==
+X-CSE-MsgGUID: Hl8OIn3SRM26iWw0jUbRFA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55938556"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="55065318"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 08:34:57 -0700
-X-CSE-ConnectionGUID: L3ULkAalT3K8GoBPRFNcCQ==
-X-CSE-MsgGUID: YCrCAQXgQi6E8SILg2A9Sg==
+   d="scan'208";a="55938556"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 09:06:59 -0700
+X-CSE-ConnectionGUID: 9he2HELvTgKI8xLuQ6s9cQ==
+X-CSE-MsgGUID: IohRdLb2STuEB34Px0zTTw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="161257276"
+   d="scan'208";a="198783985"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 26 Jul 2025 08:34:54 -0700
+  by orviesa001.jf.intel.com with ESMTP; 26 Jul 2025 09:06:57 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ufgvD-000M4R-2z;
-	Sat, 26 Jul 2025 15:34:51 +0000
-Date: Sat, 26 Jul 2025 23:34:46 +0800
+	id 1ufhQE-000M5D-0l;
+	Sat, 26 Jul 2025 16:06:54 +0000
+Date: Sun, 27 Jul 2025 00:06:25 +0800
 From: kernel test robot <lkp@intel.com>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org
-Subject: Re: [PATCH 1/4] platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
-Message-ID: <202507262209.8s76hPFo-lkp@intel.com>
-References: <20250725004533.63537-1-derekjohn.clark@gmail.com>
+To: Suraj Kandpal <suraj.kandpal@intel.com>,
+	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	ankit.k.nautiyal@intel.com, arun.r.murthy@intel.com,
+	uma.shankar@intel.com, Suraj Kandpal <suraj.kandpal@intel.com>
+Subject: Re: [PATCH 27/28] drm/i915/writeback: Make exception for writeback
+ connector
+Message-ID: <202507262326.1J1VnzbD-lkp@intel.com>
+References: <20250725050409.2687242-28-suraj.kandpal@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -70,46 +67,144 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250725004533.63537-1-derekjohn.clark@gmail.com>
+In-Reply-To: <20250725050409.2687242-28-suraj.kandpal@intel.com>
 
-Hi Derek,
+Hi Suraj,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on linus/master v6.16-rc7 next-20250725]
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on next-20250725]
+[cannot apply to linus/master v6.16-rc7]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/platform-x86-ayn-ec-Add-Temperature-Sensors/20250725-084850
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20250725004533.63537-1-derekjohn.clark%40gmail.com
-patch subject: [PATCH 1/4] platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
-config: i386-kismet-CONFIG_LEDS_GPIO-CONFIG_MERAKI_MX100-0-0 (https://download.01.org/0day-ci/archive/20250726/202507262209.8s76hPFo-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250726/202507262209.8s76hPFo-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Suraj-Kandpal/drm-writeback-Add-function-that-takes-preallocated-connector/20250725-133017
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+patch link:    https://lore.kernel.org/r/20250725050409.2687242-28-suraj.kandpal%40intel.com
+patch subject: [PATCH 27/28] drm/i915/writeback: Make exception for writeback connector
+config: i386-buildonly-randconfig-006-20250725 (https://download.01.org/0day-ci/archive/20250726/202507262326.1J1VnzbD-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250726/202507262326.1J1VnzbD-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507262209.8s76hPFo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507262326.1J1VnzbD-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for LEDS_GPIO when selected by MERAKI_MX100
-   WARNING: unmet direct dependencies detected for LEDS_CLASS
-     Depends on [n]: NEW_LEDS [=n]
-     Selected by [y]:
-     - AYN_EC [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y] && HWMON [=y]
-   
-   WARNING: unmet direct dependencies detected for LEDS_CLASS_MULTICOLOR
-     Depends on [n]: NEW_LEDS [=n] && LEDS_CLASS [=y]
-     Selected by [y]:
-     - AYN_EC [=y] && X86_PLATFORM_DEVICES [=y] && ACPI [=y] && HWMON [=y]
-   
-   WARNING: unmet direct dependencies detected for LEDS_GPIO
-     Depends on [n]: NEW_LEDS [=n] && LEDS_CLASS [=y] && (GPIOLIB [=y] || COMPILE_TEST [=y])
-     Selected by [y]:
-     - MERAKI_MX100 [=y] && X86_PLATFORM_DEVICES [=y] && GPIOLIB [=y] && GPIO_ICH [=y] && LEDS_CLASS [=y]
+All warnings (new ones prefixed by >>):
+
+>> drivers/gpu/drm/i915/display/intel_display.c:3785:4: warning: variable 'trans_pipe' is used uninitialized whenever switch default is taken [-Wsometimes-uninitialized]
+    3785 |                         default:
+         |                         ^~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3819:7: note: uninitialized use occurs here
+    3819 |                 if (trans_pipe == crtc->pipe)
+         |                     ^~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_display.c:3760:3: note: variable 'trans_pipe' is declared here
+    3760 |                 enum pipe trans_pipe;
+         |                 ^
+   1 warning generated.
+
+
+vim +/trans_pipe +3785 drivers/gpu/drm/i915/display/intel_display.c
+
+  3743	
+  3744	static u8 hsw_enabled_transcoders(struct intel_crtc *crtc)
+  3745	{
+  3746		struct intel_display *display = to_intel_display(crtc);
+  3747		u8 panel_transcoder_mask = hsw_panel_transcoders(display);
+  3748		enum transcoder cpu_transcoder;
+  3749		u8 primary_pipe, secondary_pipes;
+  3750		u8 enabled_transcoders = 0;
+  3751	
+  3752		/*
+  3753		 * XXX: Do intel_display_power_get_if_enabled before reading this (for
+  3754		 * consistency and less surprising code; it's in always on power).
+  3755		 */
+  3756		for_each_cpu_transcoder_masked(display, cpu_transcoder,
+  3757					       panel_transcoder_mask) {
+  3758			enum intel_display_power_domain power_domain;
+  3759			intel_wakeref_t wakeref;
+  3760			enum pipe trans_pipe;
+  3761			u32 tmp = 0;
+  3762	
+  3763			power_domain = POWER_DOMAIN_TRANSCODER(cpu_transcoder);
+  3764			if (cpu_transcoder == TRANSCODER_WD_0 ||
+  3765			    cpu_transcoder == TRANSCODER_WD_1) {
+  3766				with_intel_display_power_if_enabled(display, power_domain, wakeref)
+  3767					tmp = intel_de_read(display,
+  3768							    WD_TRANS_FUNC_CTL(cpu_transcoder));
+  3769				if (!(tmp & TRANS_WD_FUNC_ENABLE))
+  3770					continue;
+  3771	
+  3772				switch (tmp & WD_INPUT_SELECT_MASK) {
+  3773				case WD_INPUT_PIPE_A:
+  3774					trans_pipe = PIPE_A;
+  3775					break;
+  3776				case WD_INPUT_PIPE_B:
+  3777					trans_pipe = PIPE_B;
+  3778					break;
+  3779				case WD_INPUT_PIPE_C:
+  3780					trans_pipe = PIPE_C;
+  3781					break;
+  3782				case WD_INPUT_PIPE_D:
+  3783					trans_pipe = PIPE_D;
+  3784					break;
+> 3785				default:
+  3786					MISSING_CASE(tmp & WD_INPUT_SELECT_MASK);
+  3787					break;
+  3788				}
+  3789			} else {
+  3790				with_intel_display_power_if_enabled(display, power_domain, wakeref)
+  3791					tmp = intel_de_read(display,
+  3792							    TRANS_DDI_FUNC_CTL(display, cpu_transcoder));
+  3793	
+  3794				if (!(tmp & TRANS_DDI_FUNC_ENABLE))
+  3795					continue;
+  3796	
+  3797				switch (tmp & TRANS_DDI_EDP_INPUT_MASK) {
+  3798				default:
+  3799					drm_WARN(display->drm, 1,
+  3800						 "unknown pipe linked to transcoder %s\n",
+  3801						 transcoder_name(cpu_transcoder));
+  3802					fallthrough;
+  3803				case TRANS_DDI_EDP_INPUT_A_ONOFF:
+  3804				case TRANS_DDI_EDP_INPUT_A_ON:
+  3805					trans_pipe = PIPE_A;
+  3806					break;
+  3807				case TRANS_DDI_EDP_INPUT_B_ONOFF:
+  3808					trans_pipe = PIPE_B;
+  3809					break;
+  3810				case TRANS_DDI_EDP_INPUT_C_ONOFF:
+  3811					trans_pipe = PIPE_C;
+  3812					break;
+  3813				case TRANS_DDI_EDP_INPUT_D_ONOFF:
+  3814					trans_pipe = PIPE_D;
+  3815					break;
+  3816				}
+  3817			}
+  3818	
+  3819			if (trans_pipe == crtc->pipe)
+  3820				enabled_transcoders |= BIT(cpu_transcoder);
+  3821		}
+  3822	
+  3823		/* single pipe or joiner primary */
+  3824		cpu_transcoder = (enum transcoder) crtc->pipe;
+  3825		if (transcoder_ddi_func_is_enabled(display, cpu_transcoder))
+  3826			enabled_transcoders |= BIT(cpu_transcoder);
+  3827	
+  3828		/* joiner secondary -> consider the primary pipe's transcoder as well */
+  3829		enabled_joiner_pipes(display, crtc->pipe, &primary_pipe, &secondary_pipes);
+  3830		if (secondary_pipes & BIT(crtc->pipe)) {
+  3831			cpu_transcoder = (enum transcoder)ffs(primary_pipe) - 1;
+  3832			if (transcoder_ddi_func_is_enabled(display, cpu_transcoder))
+  3833				enabled_transcoders |= BIT(cpu_transcoder);
+  3834		}
+  3835	
+  3836		return enabled_transcoders;
+  3837	}
+  3838	
 
 -- 
 0-DAY CI Kernel Test Service
