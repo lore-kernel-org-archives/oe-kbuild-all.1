@@ -1,60 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD3C41EA80
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Jul 2025 04:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB06019D09C
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Jul 2025 06:28:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753590902; cv=none; b=pQ+HhjFdi4FAhj78BduGqQbbojGatMUn3o78P8sKPJqCVCnbchvpFGUwzFehVamekHGnZRf5euPjdkiTFwEagoO4+1G8b6sH3zWDMRAXgBI+WO//lX7ak6XGIHAg6CMLv+l/c3exMpfOiavvMYxncQXEEPwMRfmizR6Rw+X5PxA=
+	t=1753597690; cv=none; b=rZPB1fkWxfEkTk5jo4AX2f3xCVkaweNF8keZazT9H4lAHQbH1uPG4OcmKKZJVq2y03MfTKTH6vnR1s1bRH4WOXiqfWUoFkGqmgDbMalkfKaseSTs6jHxEK/goMjw6dgbiHMgavbWPWccNMD1ojg8VuJGM6M2c8lSSwgypHAUkxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753590902; c=relaxed/simple;
-	bh=G71H9glQA+gcSEjmsoN4qpLiJcO2mHWrXo3w/O8T3ZY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=lBUzHL7/9MPRGn+UIEysrOTi1GmLgNPcKQcEkcTL/M8ZXL17nWL0U29wYQjIh9s3l26SmQmRRpYylB97JpgaupxPBxrqnAqh1picz1Gjm0vNe+kqhRd4hwQfb7tPBTgxIeqJHkkczXr6MU84z3kDWxNfyu3KcuO16lpvyUz3Gwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iEEOvAmm; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1753597690; c=relaxed/simple;
+	bh=8bDs7/nmrx6/JwfpaRk3Tn4ceZ8xNxurOefdIIXumpc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kf4F0W7WVKmyaPtCsluxGNMxJIPqoyhNB5mk52FnPS1lUsWvRVN2MczdCJJ8kKXin6xBDU74YhjeQFQeKyBTO3wuPi+ieG9TNxmKvjxNWomj73uFiYUfgJytZYX8A6Uyv9YnG2rp/abzIhgPkJenJq+iDYO6AF35bSzPMZo4gJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N3LXZ+cD; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iEEOvAmm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N3LXZ+cD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753590901; x=1785126901;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=G71H9glQA+gcSEjmsoN4qpLiJcO2mHWrXo3w/O8T3ZY=;
-  b=iEEOvAmm0FRizjF7fM/ShY7x0IJj8OeN55YXgnZCccEhzHtW8uDl3Vc4
-   1GYwIQaYu1Hns2eDoXGwVrHxyZGmM/nXHf6JRdinMI6vqvC5xYl2IxS3D
-   zEcViM8IrCovl3Swdbp+rjUAjzdUrY20AigVEjccPOH528mFFnB4eEY8R
-   gSFLrBkF7dcrj0YtylsfiRmgqz6TH7PQWAcscbdPy/XfYV0nwP3EGSVtF
-   mZxVY4u/VXKc/H+1EYkbNIbFy2iek2NNURqodV9wBrEWkeZDaQEEOwJvZ
-   I1NLxe4EFXgDRa6iv7dFzeGpFuXYiwblmk3YXKioKkNYNlwBp0HNi1P7P
+  t=1753597688; x=1785133688;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8bDs7/nmrx6/JwfpaRk3Tn4ceZ8xNxurOefdIIXumpc=;
+  b=N3LXZ+cD8/YTvyM0/BrKN8PZ5Th5InAj3bjtVX3T1y9El/7vgWRagXsV
+   clFraMKh8wVgYxod97d+HER7+cDwjyNqKED2YGeSwJD/37xN1GO//vXFM
+   sLvRpm7zbybFqZQLA1ov/3a2p0hyTNX6zJrFhtL7Ob/MmhbENoq2iJv4x
+   tgUyn9be4bcbyWd3F96AcIyxRQ+95WKOtjK+H/hJb7egJJaB+zfbYUpGP
+   29ugO0Y4vhQtZU/UIFwPXU3rNLSPcpATZyY2XlR5KbXJhdWApr5GRy1TB
+   8jxrDkvGuEWgEJy8PBLkiilPOmlmZJcn5hKbusK7991Mio2KDGpSkYECt
    A==;
-X-CSE-ConnectionGUID: 6qEwtW6tTJqMZnS5hJWDfg==
-X-CSE-MsgGUID: k3hR0OcpTImiHgEXdfZErA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="73324782"
+X-CSE-ConnectionGUID: TNy0DFDCTsGTLF8vuraqWA==
+X-CSE-MsgGUID: +D0jhFFNSyW1c+oHkwv1Hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="66142922"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="73324782"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 21:35:00 -0700
-X-CSE-ConnectionGUID: 6AkfX2fMRAij7Aswq5xVdA==
-X-CSE-MsgGUID: abAiW891Qsq9UhpISklwhw==
+   d="scan'208";a="66142922"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jul 2025 23:28:08 -0700
+X-CSE-ConnectionGUID: yD55kSz9TeayH/ISabCJbQ==
+X-CSE-MsgGUID: 0S4eF2+cQMCmBOUFUXEmwQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="192830928"
+   d="scan'208";a="161273878"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Jul 2025 21:34:59 -0700
+  by orviesa010.jf.intel.com with ESMTP; 26 Jul 2025 23:28:07 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uft69-000MT5-0C;
-	Sun, 27 Jul 2025 04:34:57 +0000
-Date: Sun, 27 Jul 2025 12:34:10 +0800
+	id 1ufurd-000MV9-01;
+	Sun, 27 Jul 2025 06:28:05 +0000
+Date: Sun, 27 Jul 2025 14:27:22 +0800
 From: kernel test robot <lkp@intel.com>
-To: Lee Jones <lee@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [linux-next:master 12241/12319]
- arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: pmic@2d (ti,tps65911):
- 'pmic-sleep-hog', 'wakeup-source' do not match any of the regexes:
- '^(vcc(io|[1-7])-supply)$', '^pinctrl-[0-9]+$'
-Message-ID: <202507271211.hvhQM36m-lkp@intel.com>
+To: Ignacio =?iso-8859-1?Q?Pe=F1a?= <ignacio.pena87@gmail.com>,
+	linux-kernel@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, Ignacio Pena <ignacio.pena87@gmail.com>
+Subject: Re: [PATCH] net/tipc: Fix typo 'retrun' -> 'return'
+Message-ID: <202507271435.9am5IiZM-lkp@intel.com>
+References: <20250727023309.82920-1-ignacio.pena87@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,41 +63,34 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250727023309.82920-1-ignacio.pena87@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d7af19298454ed155f5cf67201a70f5cf836c842
-commit: 74d46cdd1bf2546772b9a70828cf1c3c84f23f4d [12241/12319] Merge branch 'for-mfd-next' of git://git.kernel.org/pub/scm/linux/kernel/git/lee/mfd.git
-config: arm-randconfig-051-20250725 (https://download.01.org/0day-ci/archive/20250727/202507271211.hvhQM36m-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507271211.hvhQM36m-lkp@intel.com/reproduce)
+Hi Ignacio,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.16-rc7 next-20250725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ignacio-Pe-a/net-tipc-Fix-typo-retrun-return/20250727-103804
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250727023309.82920-1-ignacio.pena87%40gmail.com
+patch subject: [PATCH] net/tipc: Fix typo 'retrun' -> 'return'
+config: arm-randconfig-004-20250727 (https://download.01.org/0day-ci/archive/20250727/202507271435.9am5IiZM-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507271435.9am5IiZM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507271211.hvhQM36m-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507271435.9am5IiZM-lkp@intel.com/
 
-dtcheck warnings: (new ones prefixed by >>)
-   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-hdmi.yaml#
-   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: hdmi@54280000 (nvidia,tegra30-hdmi): 'nvidia,hpd-gpio' is a required property
-   	from schema $id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-hdmi.yaml#
-   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: /gmi@70009000: failed to match any schema with compatible: ['nvidia,tegra30-gmi']
-   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: audio-codec@1c (realtek,rt5640): 'oneOf' conditional failed, one must be fixed:
-   	'interrupts' is a required property
-   	'interrupts-extended' is a required property
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
-   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: audio-codec@1c (realtek,rt5640): Unevaluated properties are not allowed ('clock-names', 'clocks', 'realtek,ldo1-en-gpios' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5640.yaml#
->> arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: pmic@2d (ti,tps65911): 'pmic-sleep-hog', 'wakeup-source' do not match any of the regexes: '^(vcc(io|[1-7])-supply)$', '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml#
->> arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: pmic@2d (ti,tps65911): regulators:vddctrl: Unevaluated properties are not allowed ('nvidia,tegra-cpu-regulator' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/mfd/ti,tps65910.yaml#
-   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: core-regulator@60 (ti,tps62361): Unevaluated properties are not allowed ('nvidia,tegra-core-regulator' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/regulator/ti,tps62360.yaml#
-   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: /kbc@7000e200: failed to match any schema with compatible: ['nvidia,tegra30-kbc', 'nvidia,tegra20-kbc']
-   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: /ahub@70080000: failed to match any schema with compatible: ['nvidia,tegra30-ahub']
-   arch/arm/boot/dts/nvidia/tegra30-asus-p1801-t.dtb: /bridge: failed to match any schema with compatible: ['mstar,tsumu88adt3-lf-1']
+All errors (new ones prefixed by >>):
+
+>> arm-linux-gnueabi-ld: net/tipc/sysctl.o:(.data.tipc_table+0xa4): undefined reference to `sysctl_tipc_bc_retruni'
 
 -- 
 0-DAY CI Kernel Test Service
