@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C14B33E7;
-	Sun, 27 Jul 2025 15:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82DB1FC3
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Jul 2025 15:32:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753628448; cv=none; b=Ef9V/mxummtTDTd8aotdY1Y+G5dVaG9n3qKZGzFw8foCUHiY68TJQ6WoGnA9+VJPtWPwutDqe3k6VRFHOFE4eWHi8Zt2AYkE/NGhw9orVnJnIIJymr8PTAUPlL7p2O+yQlCA5FLqDurZbrH0JUC+M1wWB95hLO4Utv3V+H6pE9M=
+	t=1753630369; cv=none; b=VkAvEk9zb/hVVPiwgpN1sG2T/AAvOsdR+hPlXzba64Zb6AJEksBXxBAvMfqzaV7m6PV6R2mgZwSXduGvp1cwzn/DiJax3HDcn4D5UeCygXopCcffNYaWtcns7yDj/KGzi6cXAepxzP5PX2cUs/+6BXxWRWoHi6Hn+IvTP6+F5Yk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753628448; c=relaxed/simple;
-	bh=lCdVGCM3A4g9UKpDhfCJb3xc2Ua2vXh2iJqFW7Srnzs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MXHbKOAcOmDZtmZ/OtK3qb4X6vLgo+B5BhC5vO1YQw3cHojnv+c4ZwKrImZp1HRXWhml2ii8NEp80rLwnlxWRfuDvekUSMmNZgveu3eqRr0ry7o/LLhc6qNoCpkQUoY9cz20Orok/ZawLskcjaiGqABdnLC8tNbn3FeAAcLVgQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O9T2NC4h; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1753630369; c=relaxed/simple;
+	bh=3MJZg0S1KBgIcxCUDBRkJw8mA0RsOv2NMGZrdW8Ct0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=qNpGqF/wtLzJkxcSJKPXgGHYWWnPFfnMaC0L9RN5vEOF8CYAR1DQtStMDTRxNyG7WpOFgiNS4z1jm6PKUW42MjzbGOWajEmD2c9wTvoaws07OhQJgZAGGtkFV/er0czdjk1lPRx1aZVh6DUBdjw9tAX0ofwMCw/aE6cY16UmGpY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AwmdOdzg; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O9T2NC4h"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AwmdOdzg"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753628447; x=1785164447;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lCdVGCM3A4g9UKpDhfCJb3xc2Ua2vXh2iJqFW7Srnzs=;
-  b=O9T2NC4hqOa21CjUbZ2RBo9T3gJlIH9FbrNi39ty3SWC7nzv80T64o3b
-   KYjI6FtTN7flvE+BPoSNDBtA+TMZi+qCQQDdWKc+EjcykbskEyA0AbWM8
-   +t0MOOJ+oUVvd++tgkTWqdySQ86GQyaLGoNCXx0DuREsaphkUWwglE/lN
-   oCcYls9q4uUcUQ1ZPyqaM+mYctpQNAM7oc3D75q6s/Y5N+/dOrVWQdN0t
-   g7pQHOYlQcGhb+05dakvhL5BPwaIPc58Nag2Q9c5rj66IApupPDaKFdK7
-   +DxboThFamAaO+SQWxeduv6LVrjE6ZsTPd2v1psu5eZ1zRl05iDWiPByV
-   w==;
-X-CSE-ConnectionGUID: Vzoo+jJfRKC5MZXM0kYXyQ==
-X-CSE-MsgGUID: 1XVH66liSdK4ejwpGJWqDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55857625"
+  t=1753630368; x=1785166368;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=3MJZg0S1KBgIcxCUDBRkJw8mA0RsOv2NMGZrdW8Ct0w=;
+  b=AwmdOdzg/sA1DbiC0XrdOXrHerc3/b1Hjlrt0KZuuPEeogxBgDKn2gzn
+   bszZlwPknrfP5wNAvAl1yR5JTKNvjeDvxnuVngz7kidbOQG2dBEhrMk/J
+   SZ0KDhA4eegXZNioOoJ3JylBHJfzk7cqtuqRTAFi9mW0EcOypKThjwKGS
+   vlmPzJT5SXaoFY55y7w19HjXssHlw8xOI8RKnjtzB593XYBmzjR1NNrwN
+   M3BZKIUnq6fua9TJL1pOjjuJSCM16/yh5j/QkoDHp7QA2u7zuIXzc0iYy
+   Xbvu0/8+yH1lJ6TiI4EvsLSge3fkkUmHxgljqdO9bXRr9QP3cOqtPFpCk
+   A==;
+X-CSE-ConnectionGUID: fsks4nDhRoicGlV3ea+Now==
+X-CSE-MsgGUID: kkOX6brPQWyZAjZCC4OHTQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="54970370"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="55857625"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 08:00:45 -0700
-X-CSE-ConnectionGUID: 8chhQj0pQeSpykHR40O8YA==
-X-CSE-MsgGUID: V5rx8A3BRn6c2r1A2842Ug==
+   d="scan'208";a="54970370"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 08:32:47 -0700
+X-CSE-ConnectionGUID: tOzW5fv+QvSVgfofsiIK2g==
+X-CSE-MsgGUID: 0F2iF6VfRoWHx5Q7sudnrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="162256959"
+   d="scan'208";a="162968772"
 Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 27 Jul 2025 08:00:45 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 27 Jul 2025 08:32:46 -0700
 Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ug2ri-000MfL-1D;
-	Sun, 27 Jul 2025 15:00:42 +0000
-Date: Sun, 27 Jul 2025 23:00:27 +0800
+	id 1ug3Mi-000MgB-1j;
+	Sun, 27 Jul 2025 15:32:44 +0000
+Date: Sun, 27 Jul 2025 23:32:12 +0800
 From: kernel test robot <lkp@intel.com>
-To: Tianyu Lan <ltykernel@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC PATCH V4 2/4] drivers/hv: Allow vmbus message synic
- interrupt injected from Hyper-V
-Message-ID: <202507272216.AfSHsOMV-lkp@intel.com>
-References: <20250726134250.4414-3-ltykernel@gmail.com>
+To: Jens Axboe <axboe@kernel.dk>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [axboe-block:io_uring-chan 5/8] io_uring/chan.c:41:6-25: WARNING:
+ atomic_dec_and_test variation before object free at line 42.
+Message-ID: <202507272308.X66QwCtR-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,53 +61,39 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250726134250.4414-3-ltykernel@gmail.com>
 
-Hi Tianyu,
-
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on tip/x86/core]
-[also build test ERROR on tip/master linus/master v6.16-rc7 next-20250725]
-[cannot apply to tip/auto-latest]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Tianyu-Lan/x86-hyperv-Don-t-use-hv-apic-driver-when-Secure-AVIC-is-available/20250726-214638
-base:   tip/x86/core
-patch link:    https://lore.kernel.org/r/20250726134250.4414-3-ltykernel%40gmail.com
-patch subject: [RFC PATCH V4 2/4] drivers/hv: Allow vmbus message synic interrupt injected from Hyper-V
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250727/202507272216.AfSHsOMV-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507272216.AfSHsOMV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-chan
+head:   2a5cc11d9adcadc5858cf66560d43d160a042d84
+commit: f5f2e7456b712969ef09eb7389d1bcb6d2a17aba [5/8] io_uring/register: add support for ring -> ring channels
+config: riscv-randconfig-r051-20250727 (https://download.01.org/0day-ci/archive/20250727/202507272308.X66QwCtR-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507272216.AfSHsOMV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507272308.X66QwCtR-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+cocci warnings: (new ones prefixed by >>)
+>> io_uring/chan.c:41:6-25: WARNING: atomic_dec_and_test variation before object free at line 42.
+   io_uring/chan.c:41:6-25: WARNING: atomic_dec_and_test variation before object free at line 44.
 
->> arch/x86/hyperv/hv_apic.c:58:2: error: call to undeclared function 'apic_update_vector'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-      58 |         apic_update_vector(cpu, vector, set);
-         |         ^
-   arch/x86/hyperv/hv_apic.c:301:22: error: use of undeclared identifier 'CC_ATTR_SNP_SECURE_AVIC'
-     301 |         if (cc_platform_has(CC_ATTR_SNP_SECURE_AVIC))
-         |                             ^
-   2 errors generated.
+vim +41 io_uring/chan.c
 
-
-vim +/apic_update_vector +58 arch/x86/hyperv/hv_apic.c
-
-    55	
-    56	void hv_enable_coco_interrupt(unsigned int cpu, unsigned int vector, bool set)
-    57	{
-  > 58		apic_update_vector(cpu, vector, set);
-    59	}
-    60	
+    32	
+    33	void io_unregister_queue_chans(struct io_ring_ctx *ctx)
+    34	{
+    35		struct io_queue_chan *c;
+    36		unsigned long index;
+    37	
+    38		lockdep_assert_held(&ctx->uring_lock);
+    39	
+    40		xa_for_each(&ctx->xa_chan, index, c) {
+  > 41			if (atomic_dec_and_test(&c->refs))
+  > 42				kfree_rcu(c, rcu_head);
+    43		}
+    44		xa_destroy(&ctx->xa_chan);
+    45	}
+    46	
 
 -- 
 0-DAY CI Kernel Test Service
