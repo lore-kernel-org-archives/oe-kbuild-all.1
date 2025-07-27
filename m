@@ -1,59 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39372205E25
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Jul 2025 20:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA569460
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Jul 2025 22:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753648646; cv=none; b=EZM8yjhkDwYBlX5kIYZAHgwFMKiS/XsaJmvdfF1/uxBPetz596P0kn52qLLRs0tS1AIoUldsZIASbGLIwdZlmSz1aP+BT5i1ih2UL4sxEeaJYDmzP2OL2xPckfiPhFeyPhCowVtxrAwFEqOFp4EvVDLX5/ficuFSmZwui2RtXIE=
+	t=1753653631; cv=none; b=ViskbVXuzXuNFjD53pCQgyqqCXnQngkZK/gN8cR2Cf8s1vCRpcjS6X4KNd2vjva5okuhwpcl61vB1X+1idXsuYh6oK/IUOBF839Bma0lJpQCEuep4+bf0Gjsu3lElHoOneIvTgfgSRsLIwXkff+JGhnqpxFJceQBX7txBGGsprA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753648646; c=relaxed/simple;
-	bh=hACBl/PivNlMiRzizaEYjbtTUn3ZfvpUeEpLEhM+pqs=;
+	s=arc-20240116; t=1753653631; c=relaxed/simple;
+	bh=U6ykNCIbhA/9QERLknfL1WIMn9k/Y0X9EoeMDG4hjaM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=tUCfGLxFKdzjcOFcZ3C2eqY8JeuJ3BaAcAin2AKqSuxvEX+5IhEAgI4YzMII/FycmPTPIjvcFd17TJW8Zn8cnOhH01R9658EF/fpSOCN7vxFX/gHALd0c7+DDy0iSB+UXK1gF5xVLcaao6/hEsxOgCgvpv8W6sRmpUzAk3LxJX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZqJ6PM7y; arc=none smtp.client-ip=192.198.163.7
+	 Content-Disposition; b=IFC1b9bsvrDERKqNllfn/AOZN1FH8uXYsR06U6V1BZERn313DqtpQ1tfqYo6U4LPYWT7sLxztgp50DxftKwa/T2T8OtmPZIG4X2jP/0Svgc3xVppvYMznXMlVWjJ0VE7aq2sPQzneCovJddLERYGjBHwftMTob14fc6GnV7c7Vs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjwSYxSt; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZqJ6PM7y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjwSYxSt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753648645; x=1785184645;
+  t=1753653630; x=1785189630;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=hACBl/PivNlMiRzizaEYjbtTUn3ZfvpUeEpLEhM+pqs=;
-  b=ZqJ6PM7yT4SZJnJrrKJmDUMwPcAYjPWcKzfspF7Y/8GqIMz67qlQBRAR
-   s7Rb8PDvzBnKMc/OOX0yC1hqKMIYLk8B1/DcpC+/9JbxSXi3raqfOwgGO
-   oiwnsAa173fzpOW1EwPUNGIvdNm1bqBW+dx10q+PsfdV8So7wdmDaBlay
-   xmY6aXE9CNypBepYnHi1eCNAfj7UIjSwWlGWr1bRk6NJvS8svC6rSuk48
-   9+niPXQqP8QvvfwELhajY4AapJdgJvDg+t341PVbZinVDK/bgUrVp1ivu
-   IMvtabdDI+cc9FsxqBPKGyqUecKiu5UCjyGmBx+gn/OhZcgolHN/K9t/7
-   w==;
-X-CSE-ConnectionGUID: WWKNB4+3TPGpbGkqHIW5cQ==
-X-CSE-MsgGUID: hqgy+Xb+T0Oo15x3Etw9aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="81346320"
+  bh=U6ykNCIbhA/9QERLknfL1WIMn9k/Y0X9EoeMDG4hjaM=;
+  b=LjwSYxStzxQexwNp3GE6rveAR4zgJb6aUFaWT4FPcZk7s3SUro4IKsK5
+   dEbvxDCOvpaCiIerInKnyu3Mw9+1m/u7dgVH6Gq/iu01O8GEZgz7XGEmj
+   1o5D3jfz6wyhAYU3XvxFyDjIr8WYhhbvHrci9Wb10YlqNyr4BpJUANVJX
+   SbDc3jaNfnhTUpOMePxD5OKuDQgW4ztJVwDu5s5SxFEsK13QoeGX/Axp4
+   gAJIbDWegzOEojqL9nlE83Rk4yEcyx2Uxykc0pbnEPokr1fUG7wNIInLU
+   d9J6+gyHJgCgs8gu3is5vyMlgG/4cVc/Bgk8gY6Wu/XDtp8BYmNOVgmtk
+   g==;
+X-CSE-ConnectionGUID: D/r2Z0WZROuFDzhIe9atxw==
+X-CSE-MsgGUID: +9lQML/0THy9YLw9cFgI6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55995080"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="81346320"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 13:37:24 -0700
-X-CSE-ConnectionGUID: 26gpmQOaQoSF9TQOCu/GJA==
-X-CSE-MsgGUID: tzA3hCjOTEqIvpWr+fe8NA==
+   d="scan'208";a="55995080"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 15:00:29 -0700
+X-CSE-ConnectionGUID: tWGKpFExSKipKf4OvR57lw==
+X-CSE-MsgGUID: wHu8WL2RRLun86BUHpqYtA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="199377858"
+   d="scan'208";a="166422545"
 Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa001.jf.intel.com with ESMTP; 27 Jul 2025 13:37:23 -0700
+  by orviesa003.jf.intel.com with ESMTP; 27 Jul 2025 15:00:28 -0700
 Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ug87V-0000Rz-13;
-	Sun, 27 Jul 2025 20:37:21 +0000
-Date: Sun, 27 Jul 2025 22:36:47 +0200
+	id 1ug9Pu-0000S7-0O;
+	Sun, 27 Jul 2025 22:00:26 +0000
+Date: Mon, 28 Jul 2025 00:00:20 +0200
 From: kernel test robot <lkp@intel.com>
 To: jason.zeng@intel.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 92/92]
- arch/arm64/kernel/stacktrace.c:161:13: warning: no previous prototype for
- 'walk_stackframe_reliable'
-Message-ID: <202507272231.H7Hl2f1Z-lkp@intel.com>
+Subject: [bytedance:5.15-velinux 92/92] kernel/sched/fair.c:1432:14: warning:
+ no previous prototype for 'bpf_should_numa_migrate'
+Message-ID: <202507280004.VODxmgMH-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,59 +64,56 @@ Content-Disposition: inline
 
 tree:   https://github.com/bytedance/kernel.git 5.15-velinux
 head:   c71e88ad12bfbc44f855b681ef923e1acc2e984a
-commit: f6c94c34964ebf155b3188788a086805d33bcbf3 [92/92] bytedance: arm64: introduce reliable stacktraces
-config: arm64-randconfig-2005-20250719 (https://download.01.org/0day-ci/archive/20250727/202507272231.H7Hl2f1Z-lkp@intel.com/config)
+commit: 8ab508cd4a0d43a39fb35ed59cc74b23bc2ec452 [92/92] bytedance: mm: numa-balance: Introduce new numa balance bpf hook
+config: arm64-randconfig-2005-20250719 (https://download.01.org/0day-ci/archive/20250728/202507280004.VODxmgMH-lkp@intel.com/config)
 compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507272231.H7Hl2f1Z-lkp@intel.com/reproduce)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250728/202507280004.VODxmgMH-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507272231.H7Hl2f1Z-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507280004.VODxmgMH-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> arch/arm64/kernel/stacktrace.c:161:13: warning: no previous prototype for 'walk_stackframe_reliable' [-Wmissing-prototypes]
-     161 | int notrace walk_stackframe_reliable(struct task_struct *tsk, struct stackframe *frame,
-         |             ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'update_curr':
+   kernel/sched/fair.c:841:28: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
+     841 |   struct sched_statistics *stats;
+         |                            ^~~~~
+   kernel/sched/fair.c: In function 'update_stats_wait_start':
+   kernel/sched/fair.c:874:27: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
+     874 |  struct sched_statistics *stats;
+         |                           ^~~~~
+   kernel/sched/fair.c: In function 'update_stats_wait_end':
+   kernel/sched/fair.c:894:27: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
+     894 |  struct sched_statistics *stats;
+         |                           ^~~~~
+   kernel/sched/fair.c: In function 'update_stats_enqueue_sleeper':
+   kernel/sched/fair.c:938:27: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
+     938 |  struct sched_statistics *stats;
+         |                           ^~~~~
+   kernel/sched/fair.c: At top level:
+>> kernel/sched/fair.c:1432:14: warning: no previous prototype for 'bpf_should_numa_migrate' [-Wmissing-prototypes]
+    1432 | noinline int bpf_should_numa_migrate(struct task_struct *p, int nodes)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~
+>> kernel/sched/fair.c:2138:14: warning: no previous prototype for 'bpf_disable_migrate_preferred' [-Wmissing-prototypes]
+    2138 | noinline int bpf_disable_migrate_preferred(struct task_struct *p)
+         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c: In function 'set_next_entity':
+   kernel/sched/fair.c:4729:28: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
+    4729 |   struct sched_statistics *stats;
+         |                            ^~~~~
 
 
-vim +/walk_stackframe_reliable +161 arch/arm64/kernel/stacktrace.c
+vim +/bpf_should_numa_migrate +1432 kernel/sched/fair.c
 
-   160	
- > 161	int notrace walk_stackframe_reliable(struct task_struct *tsk, struct stackframe *frame,
-   162				bool (*fn)(void *, unsigned long), void *data)
-   163	{
-   164		int ret = 0;
-   165	
-   166		if (!tsk)
-   167			tsk = current;
-   168	
-   169		do {
-   170			/* Final frame for kthread; nothing to unwind */
-   171			if ((frame->fp == (unsigned long)task_pt_regs(tsk)->stackframe)
-   172				&& ptrauth_strip_insn_pac(frame->pc) == (unsigned long)&kthread_return_to_user)
-   173				return 0;
-   174	
-   175			if (!unwind_state_is_reliable(frame))
-   176				return -EINVAL;
-   177	
-   178			ret = fn(data, ptrauth_strip_insn_pac(frame->pc));
-   179			if (!ret)
-   180				return ret;
-   181	
-   182			ret = unwind_frame(tsk, frame);
-   183			if (ret < 0)
-   184				break;
-   185		} while (1);
-   186	
-   187		if (ret == -ENOENT)
-   188			ret = 0;
-   189	
-   190		return ret;
-   191	}
-   192	NOKPROBE_SYMBOL(walk_stackframe_reliable);
-   193	
+  1431	
+> 1432	noinline int bpf_should_numa_migrate(struct task_struct *p, int nodes)
+  1433	{
+  1434		return BPF_MIGRATE_DEFAULT;
+  1435	}
+  1436	ALLOW_ERROR_INJECTION(bpf_should_numa_migrate, ERRNO);
+  1437	
 
 -- 
 0-DAY CI Kernel Test Service
