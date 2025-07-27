@@ -1,58 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBA569460
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Jul 2025 22:00:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 515C6225788
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Jul 2025 22:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753653631; cv=none; b=ViskbVXuzXuNFjD53pCQgyqqCXnQngkZK/gN8cR2Cf8s1vCRpcjS6X4KNd2vjva5okuhwpcl61vB1X+1idXsuYh6oK/IUOBF839Bma0lJpQCEuep4+bf0Gjsu3lElHoOneIvTgfgSRsLIwXkff+JGhnqpxFJceQBX7txBGGsprA=
+	t=1753654476; cv=none; b=hvDcMVdOLXo0vSRQ+cM0iO0Ao5vBeTyKpp0AIYU1k938CtzCmiMjtFSwuTZInKVjQdF3CxUex/HBM1DbEm8lbE6wqF8bP9/QC7agQ7hxF/3voYjS0LWteP2Tcq76wENCum7v4VkOk4jwOXgF5xkg3m067SX7y5V7xqXEMr/1nj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753653631; c=relaxed/simple;
-	bh=U6ykNCIbhA/9QERLknfL1WIMn9k/Y0X9EoeMDG4hjaM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IFC1b9bsvrDERKqNllfn/AOZN1FH8uXYsR06U6V1BZERn313DqtpQ1tfqYo6U4LPYWT7sLxztgp50DxftKwa/T2T8OtmPZIG4X2jP/0Svgc3xVppvYMznXMlVWjJ0VE7aq2sPQzneCovJddLERYGjBHwftMTob14fc6GnV7c7Vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LjwSYxSt; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1753654476; c=relaxed/simple;
+	bh=DRFeWCYkK16WIJjq0z7TSoJRJlulkm0mS5UDyr+cQyM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZgT090H7fop+67Vdc+y7SsdhZAKwXKSLB/o8tPwqQ4ThvjQjlIplcNfqIjHgssWKaz6AhpxIkeqURAmWyA5+pIXj8g4Dpm55wm2370eFKDgnccZH9G802xJ7Y5X5h3lDG53aNYH3dgNuxmAXkfrAKd2Bme7bAWDTsmcSCvJCvKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ceq4OGpw; arc=none smtp.client-ip=198.175.65.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LjwSYxSt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ceq4OGpw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753653630; x=1785189630;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=U6ykNCIbhA/9QERLknfL1WIMn9k/Y0X9EoeMDG4hjaM=;
-  b=LjwSYxStzxQexwNp3GE6rveAR4zgJb6aUFaWT4FPcZk7s3SUro4IKsK5
-   dEbvxDCOvpaCiIerInKnyu3Mw9+1m/u7dgVH6Gq/iu01O8GEZgz7XGEmj
-   1o5D3jfz6wyhAYU3XvxFyDjIr8WYhhbvHrci9Wb10YlqNyr4BpJUANVJX
-   SbDc3jaNfnhTUpOMePxD5OKuDQgW4ztJVwDu5s5SxFEsK13QoeGX/Axp4
-   gAJIbDWegzOEojqL9nlE83Rk4yEcyx2Uxykc0pbnEPokr1fUG7wNIInLU
-   d9J6+gyHJgCgs8gu3is5vyMlgG/4cVc/Bgk8gY6Wu/XDtp8BYmNOVgmtk
+  t=1753654475; x=1785190475;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=DRFeWCYkK16WIJjq0z7TSoJRJlulkm0mS5UDyr+cQyM=;
+  b=ceq4OGpwyk5KZVBgO9oXVfVvnt+0sDVW57I/A8ZblgvGFYjX1IdIkcH2
+   6TmR/TBqGYaQf+dn+fVUEx+Ee9FFyHYs0f5PRz5qUJ+f1x3yNE12S2l6W
+   AamwF3mkju4lYRafDbDzbZZ5C1HMYx1HeZ26/HWkiGhHq7uELuxrCLNAB
+   mvwMC8vKXbBcW5c272OtxYoCnYLft1OPdt77Ml7veZByqN8OrQUdO6bBg
+   Ekc/bjfU1Ex+K+MMo9ezcLg034AspJlSG3xdX5OJYuXdbqLhebQAAh5x0
+   MCEEnGIJgTcJwhvdqHgfVj/bdUC/5Re88nfazV81d96VdSx0BhWRU1Ba5
    g==;
-X-CSE-ConnectionGUID: D/r2Z0WZROuFDzhIe9atxw==
-X-CSE-MsgGUID: +9lQML/0THy9YLw9cFgI6Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55995080"
+X-CSE-ConnectionGUID: fhN/1wqdTaOpOYBWjB/LYw==
+X-CSE-MsgGUID: HLYmVxryQd2SAFaA5H2aVQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="56051310"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="55995080"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 15:00:29 -0700
-X-CSE-ConnectionGUID: tWGKpFExSKipKf4OvR57lw==
-X-CSE-MsgGUID: wHu8WL2RRLun86BUHpqYtA==
+   d="scan'208";a="56051310"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 15:14:34 -0700
+X-CSE-ConnectionGUID: QIXOHlJ0SiG0jx/4nb14ig==
+X-CSE-MsgGUID: e/o//1vbQ7avM5mEDJYj/A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="166422545"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa003.jf.intel.com with ESMTP; 27 Jul 2025 15:00:28 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="185874775"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 27 Jul 2025 15:14:33 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ug9Pu-0000S7-0O;
-	Sun, 27 Jul 2025 22:00:26 +0000
-Date: Mon, 28 Jul 2025 00:00:20 +0200
+	id 1ug9dW-00003r-1G;
+	Sun, 27 Jul 2025 22:14:30 +0000
+Date: Mon, 28 Jul 2025 06:13:44 +0800
 From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com
+To: Ujwal Kundur <ujwal.kundur@gmail.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 92/92] kernel/sched/fair.c:1432:14: warning:
- no previous prototype for 'bpf_should_numa_migrate'
-Message-ID: <202507280004.VODxmgMH-lkp@intel.com>
+Subject: Re: [RFC PATCH] net: team: switch to spinlock in team_change_rx_flags
+Message-ID: <202507280629.YWlCmGhM-lkp@intel.com>
+References: <20250727180921.360-1-ujwal.kundur@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,59 +62,84 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250727180921.360-1-ujwal.kundur@gmail.com>
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   c71e88ad12bfbc44f855b681ef923e1acc2e984a
-commit: 8ab508cd4a0d43a39fb35ed59cc74b23bc2ec452 [92/92] bytedance: mm: numa-balance: Introduce new numa balance bpf hook
-config: arm64-randconfig-2005-20250719 (https://download.01.org/0day-ci/archive/20250728/202507280004.VODxmgMH-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250728/202507280004.VODxmgMH-lkp@intel.com/reproduce)
+Hi Ujwal,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on net/main]
+[also build test ERROR on linus/master v6.16-rc7]
+[cannot apply to net-next/main horms-ipvs/master next-20250725]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Ujwal-Kundur/net-team-switch-to-spinlock-in-team_change_rx_flags/20250728-021215
+base:   net/main
+patch link:    https://lore.kernel.org/r/20250727180921.360-1-ujwal.kundur%40gmail.com
+patch subject: [RFC PATCH] net: team: switch to spinlock in team_change_rx_flags
+config: sparc-randconfig-002-20250728 (https://download.01.org/0day-ci/archive/20250728/202507280629.YWlCmGhM-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 14.3.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250728/202507280629.YWlCmGhM-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507280004.VODxmgMH-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507280629.YWlCmGhM-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   kernel/sched/fair.c: In function 'update_curr':
-   kernel/sched/fair.c:841:28: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
-     841 |   struct sched_statistics *stats;
-         |                            ^~~~~
-   kernel/sched/fair.c: In function 'update_stats_wait_start':
-   kernel/sched/fair.c:874:27: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
-     874 |  struct sched_statistics *stats;
-         |                           ^~~~~
-   kernel/sched/fair.c: In function 'update_stats_wait_end':
-   kernel/sched/fair.c:894:27: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
-     894 |  struct sched_statistics *stats;
-         |                           ^~~~~
-   kernel/sched/fair.c: In function 'update_stats_enqueue_sleeper':
-   kernel/sched/fair.c:938:27: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
-     938 |  struct sched_statistics *stats;
-         |                           ^~~~~
-   kernel/sched/fair.c: At top level:
->> kernel/sched/fair.c:1432:14: warning: no previous prototype for 'bpf_should_numa_migrate' [-Wmissing-prototypes]
-    1432 | noinline int bpf_should_numa_migrate(struct task_struct *p, int nodes)
-         |              ^~~~~~~~~~~~~~~~~~~~~~~
->> kernel/sched/fair.c:2138:14: warning: no previous prototype for 'bpf_disable_migrate_preferred' [-Wmissing-prototypes]
-    2138 | noinline int bpf_disable_migrate_preferred(struct task_struct *p)
-         |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c: In function 'set_next_entity':
-   kernel/sched/fair.c:4729:28: warning: variable 'stats' set but not used [-Wunused-but-set-variable]
-    4729 |   struct sched_statistics *stats;
-         |                            ^~~~~
+   drivers/net/team/team_core.c: In function 'team_change_rx_flags':
+>> drivers/net/team/team_core.c:1781:19: error: passing argument 1 of 'spin_lock' from incompatible pointer type [-Wincompatible-pointer-types]
+    1781 |         spin_lock(&team->lock);
+         |                   ^~~~~~~~~~~
+         |                   |
+         |                   struct mutex *
+   In file included from include/linux/kref.h:16,
+                    from include/linux/mm_types.h:8,
+                    from include/linux/uio.h:9,
+                    from include/linux/socket.h:8,
+                    from include/linux/compat.h:15,
+                    from include/linux/ethtool.h:17,
+                    from drivers/net/team/team_core.c:7:
+   include/linux/spinlock.h:349:51: note: expected 'spinlock_t *' {aka 'struct spinlock *'} but argument is of type 'struct mutex *'
+     349 | static __always_inline void spin_lock(spinlock_t *lock)
+         |                                       ~~~~~~~~~~~~^~~~
+>> drivers/net/team/team_core.c:1792:21: error: passing argument 1 of 'spin_unlock' from incompatible pointer type [-Wincompatible-pointer-types]
+    1792 |         spin_unlock(&team->lock);
+         |                     ^~~~~~~~~~~
+         |                     |
+         |                     struct mutex *
+   include/linux/spinlock.h:389:53: note: expected 'spinlock_t *' {aka 'struct spinlock *'} but argument is of type 'struct mutex *'
+     389 | static __always_inline void spin_unlock(spinlock_t *lock)
+         |                                         ~~~~~~~~~~~~^~~~
 
 
-vim +/bpf_should_numa_migrate +1432 kernel/sched/fair.c
+vim +/spin_lock +1781 drivers/net/team/team_core.c
 
-  1431	
-> 1432	noinline int bpf_should_numa_migrate(struct task_struct *p, int nodes)
-  1433	{
-  1434		return BPF_MIGRATE_DEFAULT;
-  1435	}
-  1436	ALLOW_ERROR_INJECTION(bpf_should_numa_migrate, ERRNO);
-  1437	
+  1774	
+  1775	static void team_change_rx_flags(struct net_device *dev, int change)
+  1776	{
+  1777		struct team *team = netdev_priv(dev);
+  1778		struct team_port *port;
+  1779		int inc;
+  1780	
+> 1781		spin_lock(&team->lock);
+  1782		list_for_each_entry(port, &team->port_list, list) {
+  1783			if (change & IFF_PROMISC) {
+  1784				inc = dev->flags & IFF_PROMISC ? 1 : -1;
+  1785				dev_set_promiscuity(port->dev, inc);
+  1786			}
+  1787			if (change & IFF_ALLMULTI) {
+  1788				inc = dev->flags & IFF_ALLMULTI ? 1 : -1;
+  1789				dev_set_allmulti(port->dev, inc);
+  1790			}
+  1791		}
+> 1792		spin_unlock(&team->lock);
+  1793	}
+  1794	
 
 -- 
 0-DAY CI Kernel Test Service
