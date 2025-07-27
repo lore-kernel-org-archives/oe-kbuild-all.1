@@ -1,104 +1,99 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E2062E3715
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Jul 2025 19:03:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3056E21ADB9
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Jul 2025 20:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753643001; cv=none; b=o5y/fj6YZQWkcA8ZCQSk4xVumy+yn1+6KUn7KVtYu00JuHQUHJIV2/GMVJDL3HmzUt2iCkwhK3vscJ61bcqbS6GPBIL2jKX7zEFwk9e3hI3qKAFp/p4dqvKJqpghfu0ZGYBcwBA3l3M21UyhIdYGe/2Zk/awrL7rM3gBJbJI0gs=
+	t=1753647191; cv=none; b=pbwfgilVhIuLJLbLZgU1Mm2HH15/1GG0GMKzA8lJZLIqzD5RAzPKVngmEC3h3dlqtR2cxozQ3CTWVe+F5ZEPzknA6DND7IJejPHIYyPPEcET54duFCSlNHEICI8wagCBtgBuYhFLKW0LqzjNRTVKFO7dvTYoP1esVwqgNgb14pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753643001; c=relaxed/simple;
-	bh=/tjdoS2ly7+qx5m6diVctJtfyRjYa8yZS0YSPj1i3X0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=XMyrEwBFWPrYkJRiAj4v5pJQhCCIDS9Tt6OW2epuFPgTRInrLK5x8Xg316dDUe6gYxuFf6wgFVCQGkWBTN2HrbJTUmxqVXyiN39Gr+Bdeg0smiokf3p2syUPhrfKgeN933vVdcCc3E+bwUfpdGicG8z7jdLlXcicVjSqILOz6F8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NkeoYOHm; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753647191; c=relaxed/simple;
+	bh=KQIe7Ezhuc+FxJ0GEcxeweEgfbpNvznzirT+6jH9tJA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=jVkJaxzquBOw4El+Zyg1N1ODv9zfCDFBBykQgQcqZ1nmdnUNF6/wvGQYJW4tL1hQNtmddLAuig+Akx7YeJpYQT3nKa1esRuQhiWG0rg//zipc+KHQ0QsGMOzUo+Jchk+CTPp4pl3B4vtLdjlU2J67ZF+uY84nPm8X17YjM7OAt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vHv7SN8r; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NkeoYOHm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753643000; x=1785179000;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=/tjdoS2ly7+qx5m6diVctJtfyRjYa8yZS0YSPj1i3X0=;
-  b=NkeoYOHmMBU6RD+VYkq88ux89jVYS1uGgsKvN/Wtd7tHga7pPLckeIvL
-   yueaSKA5c04K3cruyV8CcZEBxio5EqcDqsuS532CzTSnYaI6IsjtW4/jn
-   P7TUI0Kb73MpSFrpDg1cmEz1EdGvw65eS7mYSiTBnJzSwnAUEoWzzPG1E
-   OQgt9QcgKenjrAzslELZ4dG+oaT9E2YNh3J3zhl+r/YQ5wXgsm1KOPZiF
-   Et9wNpjGw3x/5s99yE0byMPTps70xpiKlTHJnz8aqcJakrNmBcogsJpQl
-   mFWZguoq92MhgWrpFQgenK1PuX7aopnxkCjODCDnldaX2wNn/01qvpZcE
-   w==;
-X-CSE-ConnectionGUID: SWJ0VtfhQHKP04WkSmMuxQ==
-X-CSE-MsgGUID: +Ur03fHtSB2p2PQSwtGV6w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="67246084"
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="67246084"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 12:03:19 -0700
-X-CSE-ConnectionGUID: ujzkwNdhTFeiJqGh4i8pDQ==
-X-CSE-MsgGUID: 1EgXFSAYSQKXAfc0UTdUsw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="162997789"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Jul 2025 12:03:18 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ug6eR-0000RX-2c;
-	Sun, 27 Jul 2025 19:03:15 +0000
-Date: Sun, 27 Jul 2025 21:02:29 +0200
-From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 92/92] drivers/vhost/vringh.c:1323: warning:
- Function parameter or member 'idx' not described in
- 'vringh_recover_desc_iotlb'
-Message-ID: <202507272100.hiQEWc17-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vHv7SN8r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D0A7C4CEEB;
+	Sun, 27 Jul 2025 20:13:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753647190;
+	bh=KQIe7Ezhuc+FxJ0GEcxeweEgfbpNvznzirT+6jH9tJA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=vHv7SN8r2+EJ+L64YFaggrmMrZZydENog1JOijWcikotl+u9nrKAfCrz/HXDT5H49
+	 jy0bxUc5WFKMbcnQJMI+Qob37e2EDalmbxPx05uBNqlicdPxE1aGhGc5r42jLva0Ks
+	 2HEwwBpWIHeG/r/fi2l1/ZZ4i+6xnkH4TEAsbr0ghBEW6E57csU15eRAg5SFHdbAlk
+	 GOdGaTbm+XVJKVTj+R2EgpfK+GRNMGKdjCr72GKCHBs/+XtYfOZY2HjWhoN91K3Bwq
+	 VQETSUinKAiDsVshEmf1G6KcRx46XjJ6kE0xDZxhj6xodQFzXrWsB9SCa+9+UKX1/H
+	 RrwaH90BFI7Bw==
+From: SeongJae Park <sj@kernel.org>
+To: SeongJae Park <sj@kernel.org>
+Cc: kernel test robot <lkp@intel.com>,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [sj:damon/next 34/101] mm/mprotect.c:726:13: error: 'PAGE_NONE' undeclared; did you mean 'PAGE_U_NONE'?
+Date: Sun, 27 Jul 2025 13:13:07 -0700
+Message-Id: <20250727201307.53385-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250727174544.63218-1-sj@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   c71e88ad12bfbc44f855b681ef923e1acc2e984a
-commit: 11d476e933635a37851ac05f919142a29b03ed6a [92/92] bytedance: vduse: Add mmap() interface to support inflight I/O tracking
-config: arm64-randconfig-2005-20250719 (https://download.01.org/0day-ci/archive/20250727/202507272100.hiQEWc17-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507272100.hiQEWc17-lkp@intel.com/reproduce)
+On Sun, 27 Jul 2025 10:45:44 -0700 SeongJae Park <sj@kernel.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507272100.hiQEWc17-lkp@intel.com/
+> On Sun, 27 Jul 2025 08:16:01 +0800 kernel test robot <lkp@intel.com> wrote:
+> 
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> > head:   de1df744d5c68470ace629863436a2b0b7360254
+> > commit: af1d8aa70d3ae773ee9c7b9782ccfef1876bb027 [34/101] mm/mprotect: use PAGE_NONE for change_protection(..., MM_CP_PROT_DAMON)
+> > config: arc-randconfig-001-20250727 (https://download.01.org/0day-ci/archive/20250727/202507270855.YvsYlfrv-lkp@intel.com/config)
+> > compiler: arc-linux-gcc (GCC) 8.5.0
+> > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507270855.YvsYlfrv-lkp@intel.com/reproduce)
+> > 
+> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > the same patch/commit), kindly add following tags
+> > | Reported-by: kernel test robot <lkp@intel.com>
+> > | Closes: https://lore.kernel.org/oe-kbuild-all/202507270855.YvsYlfrv-lkp@intel.com/
+> > 
+> > All errors (new ones prefixed by >>):
+> > 
+> >    In file included from include/linux/pagewalk.h:5,
+> >                     from mm/mprotect.c:12:
+> >    include/linux/mm.h:78: warning: "PAGES_TO_MB" redefined
+> >     #define PAGES_TO_MB(pages) ((pages) >> (20 - PAGE_SHIFT))
+> >     
+> >    In file included from arch/arc/include/asm/irqflags-compact.h:16,
+> >                     from arch/arc/include/asm/irqflags.h:11,
+> >                     from include/linux/irqflags.h:18,
+> >                     from include/linux/spinlock.h:59,
+> >                     from include/linux/mmzone.h:8,
+> >                     from include/linux/gfp.h:7,
+> >                     from include/linux/mm.h:7,
+> >                     from include/linux/pagewalk.h:5,
+> >                     from mm/mprotect.c:12:
+> >    arch/arc/include/asm/arcregs.h:155: note: this is the location of the previous definition
+> >     #define PAGES_TO_MB(n_pages) (PAGES_TO_KB(n_pages) >> 10)
+> >     
+> >    mm/mprotect.c: In function 'change_protection':
+> > >> mm/mprotect.c:726:13: error: 'PAGE_NONE' undeclared (first use in this function); did you mean 'PAGE_U_NONE'?
+> >       newprot = PAGE_NONE;
+> >                 ^~~~~~~~~
+> >                 PAGE_U_NONE
+> >    mm/mprotect.c:726:13: note: each undeclared identifier is reported only once for each function it appears in
+> 
+> Thank you for this report!  I just pushed a fix:
+> https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/commit/?h=damon/next&id=bbc588c9166d6ff4ac9b270929732760215a94c3
 
-All warnings (new ones prefixed by >>):
-
->> drivers/vhost/vringh.c:1323: warning: Function parameter or member 'idx' not described in 'vringh_recover_desc_iotlb'
->> drivers/vhost/vringh.c:1323: warning: Function parameter or member 'head' not described in 'vringh_recover_desc_iotlb'
+There was a silly typo, sorry.  Pushed another fix for that:
+https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/commit/?h=damon/next&id=7e65eab68ae7ff67bcaaa0466278aab7ec966604
 
 
-vim +1323 drivers/vhost/vringh.c
+Thanks,
+SJ
 
-  1315	
-  1316	/**
-  1317	 * vringh_recover_desc_iotlb - recover desc head.
-  1318	 * @vrh: the vringh to initialize.
-  1319	 *
-  1320	 * Returns an error if recovery fail.
-  1321	 */
-  1322	int vringh_recover_desc_iotlb(struct vringh *vrh, u16 idx, u16 head)
-> 1323	{
-  1324		idx = idx & (vrh->vring.num - 1);
-  1325	
-  1326		return putu16_iotlb(vrh, &vrh->vring.avail->ring[idx], head);
-  1327	}
-  1328	EXPORT_SYMBOL(vringh_recover_desc_iotlb);
-  1329	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[...]
