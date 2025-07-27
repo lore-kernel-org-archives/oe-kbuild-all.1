@@ -1,100 +1,105 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82DB1FC3
-	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Jul 2025 15:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6621D2E36E4
+	for <oe-kbuild-all@lists.linux.dev>; Sun, 27 Jul 2025 17:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753630369; cv=none; b=VkAvEk9zb/hVVPiwgpN1sG2T/AAvOsdR+hPlXzba64Zb6AJEksBXxBAvMfqzaV7m6PV6R2mgZwSXduGvp1cwzn/DiJax3HDcn4D5UeCygXopCcffNYaWtcns7yDj/KGzi6cXAepxzP5PX2cUs/+6BXxWRWoHi6Hn+IvTP6+F5Yk=
+	t=1753638347; cv=none; b=gLGuVoNJZ8681j/FeokMjFcEQ+bwD3bBmUvv//xCPHggoR0EMh7Zy2cTJUPjCkzgOZXOaBBy/XDs59r5YIP0yWyfzm1tSvU1XnG0NNEAEP1/uJALhzngcLnYEXY15UwENM/Rzl/WsxldHddvFtn14hS3xhoexsxz5Wdo1D7DdA4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753630369; c=relaxed/simple;
-	bh=3MJZg0S1KBgIcxCUDBRkJw8mA0RsOv2NMGZrdW8Ct0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=qNpGqF/wtLzJkxcSJKPXgGHYWWnPFfnMaC0L9RN5vEOF8CYAR1DQtStMDTRxNyG7WpOFgiNS4z1jm6PKUW42MjzbGOWajEmD2c9wTvoaws07OhQJgZAGGtkFV/er0czdjk1lPRx1aZVh6DUBdjw9tAX0ofwMCw/aE6cY16UmGpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AwmdOdzg; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753638347; c=relaxed/simple;
+	bh=ex5JEccYsk0QDtr4tii0bb5/IAi3owE10Klxt6g2vsc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=KGn79lkseyac+y6OEcTUnB050wVxU4fzGc4dpBlmRd0V8i8Ms5H+2ZROB7+DA2IrzwJnAiOiVZ5y8MB6aNKosYAgKRJuYkADt6abq1k24Mi4GGQRwDsOzQDW2/L+TN1Ym37uC2mHJsCJ/IMNd3mIo/Oo5/WHE+Ug1yuinkDxGxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AsezkBq1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AwmdOdzg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753630368; x=1785166368;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3MJZg0S1KBgIcxCUDBRkJw8mA0RsOv2NMGZrdW8Ct0w=;
-  b=AwmdOdzg/sA1DbiC0XrdOXrHerc3/b1Hjlrt0KZuuPEeogxBgDKn2gzn
-   bszZlwPknrfP5wNAvAl1yR5JTKNvjeDvxnuVngz7kidbOQG2dBEhrMk/J
-   SZ0KDhA4eegXZNioOoJ3JylBHJfzk7cqtuqRTAFi9mW0EcOypKThjwKGS
-   vlmPzJT5SXaoFY55y7w19HjXssHlw8xOI8RKnjtzB593XYBmzjR1NNrwN
-   M3BZKIUnq6fua9TJL1pOjjuJSCM16/yh5j/QkoDHp7QA2u7zuIXzc0iYy
-   Xbvu0/8+yH1lJ6TiI4EvsLSge3fkkUmHxgljqdO9bXRr9QP3cOqtPFpCk
-   A==;
-X-CSE-ConnectionGUID: fsks4nDhRoicGlV3ea+Now==
-X-CSE-MsgGUID: kkOX6brPQWyZAjZCC4OHTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="54970370"
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="54970370"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 08:32:47 -0700
-X-CSE-ConnectionGUID: tOzW5fv+QvSVgfofsiIK2g==
-X-CSE-MsgGUID: 0F2iF6VfRoWHx5Q7sudnrw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="162968772"
-Received: from lkp-server01.sh.intel.com (HELO 9ee84586c615) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 27 Jul 2025 08:32:46 -0700
-Received: from kbuild by 9ee84586c615 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ug3Mi-000MgB-1j;
-	Sun, 27 Jul 2025 15:32:44 +0000
-Date: Sun, 27 Jul 2025 23:32:12 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jens Axboe <axboe@kernel.dk>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [axboe-block:io_uring-chan 5/8] io_uring/chan.c:41:6-25: WARNING:
- atomic_dec_and_test variation before object free at line 42.
-Message-ID: <202507272308.X66QwCtR-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AsezkBq1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD8FDC4CEEB;
+	Sun, 27 Jul 2025 17:45:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753638346;
+	bh=ex5JEccYsk0QDtr4tii0bb5/IAi3owE10Klxt6g2vsc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=AsezkBq1tkFhO5+SU12JxXhqFcQPmyq+eHp/mEAgVb4zZyOUQKv86Xji5tGjRHYvj
+	 AD2bLNMiXtJxeoUCmW1uHo5r40ARxIVcDYC3ajvnIOcZvro5GPZ5MQy1wkfBXix1Vn
+	 brUwpsR7KSnDt5iylQ0E5yhi++QkNePK6DxFXjJXugtLxU6EJe7iRQ+M646xS3vbMW
+	 63L7Uu9f95SK4b2qxQd7naLGNXV12V51VXX8XOUlK+T/V6//IcedLStZtUR693+xnm
+	 GUXdFVIeYHdC4Q2anosx9TH4lib3U076O/GBtZLawTpCME8x1CIlT79Cg+n08JAVE9
+	 3xqew2iBLg+vA==
+From: SeongJae Park <sj@kernel.org>
+To: kernel test robot <lkp@intel.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	oe-kbuild-all@lists.linux.dev
+Subject: Re: [sj:damon/next 34/101] mm/mprotect.c:726:13: error: 'PAGE_NONE' undeclared; did you mean 'PAGE_U_NONE'?
+Date: Sun, 27 Jul 2025 10:45:44 -0700
+Message-Id: <20250727174544.63218-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <202507270855.YvsYlfrv-lkp@intel.com>
+References: 
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git io_uring-chan
-head:   2a5cc11d9adcadc5858cf66560d43d160a042d84
-commit: f5f2e7456b712969ef09eb7389d1bcb6d2a17aba [5/8] io_uring/register: add support for ring -> ring channels
-config: riscv-randconfig-r051-20250727 (https://download.01.org/0day-ci/archive/20250727/202507272308.X66QwCtR-lkp@intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 8.5.0
+On Sun, 27 Jul 2025 08:16:01 +0800 kernel test robot <lkp@intel.com> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507272308.X66QwCtR-lkp@intel.com/
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git damon/next
+> head:   de1df744d5c68470ace629863436a2b0b7360254
+> commit: af1d8aa70d3ae773ee9c7b9782ccfef1876bb027 [34/101] mm/mprotect: use PAGE_NONE for change_protection(..., MM_CP_PROT_DAMON)
+> config: arc-randconfig-001-20250727 (https://download.01.org/0day-ci/archive/20250727/202507270855.YvsYlfrv-lkp@intel.com/config)
+> compiler: arc-linux-gcc (GCC) 8.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507270855.YvsYlfrv-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202507270855.YvsYlfrv-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    In file included from include/linux/pagewalk.h:5,
+>                     from mm/mprotect.c:12:
+>    include/linux/mm.h:78: warning: "PAGES_TO_MB" redefined
+>     #define PAGES_TO_MB(pages) ((pages) >> (20 - PAGE_SHIFT))
+>     
+>    In file included from arch/arc/include/asm/irqflags-compact.h:16,
+>                     from arch/arc/include/asm/irqflags.h:11,
+>                     from include/linux/irqflags.h:18,
+>                     from include/linux/spinlock.h:59,
+>                     from include/linux/mmzone.h:8,
+>                     from include/linux/gfp.h:7,
+>                     from include/linux/mm.h:7,
+>                     from include/linux/pagewalk.h:5,
+>                     from mm/mprotect.c:12:
+>    arch/arc/include/asm/arcregs.h:155: note: this is the location of the previous definition
+>     #define PAGES_TO_MB(n_pages) (PAGES_TO_KB(n_pages) >> 10)
+>     
+>    mm/mprotect.c: In function 'change_protection':
+> >> mm/mprotect.c:726:13: error: 'PAGE_NONE' undeclared (first use in this function); did you mean 'PAGE_U_NONE'?
+>       newprot = PAGE_NONE;
+>                 ^~~~~~~~~
+>                 PAGE_U_NONE
+>    mm/mprotect.c:726:13: note: each undeclared identifier is reported only once for each function it appears in
 
-cocci warnings: (new ones prefixed by >>)
->> io_uring/chan.c:41:6-25: WARNING: atomic_dec_and_test variation before object free at line 42.
-   io_uring/chan.c:41:6-25: WARNING: atomic_dec_and_test variation before object free at line 44.
+Thank you for this report!  I just pushed a fix:
+https://git.kernel.org/pub/scm/linux/kernel/git/sj/linux.git/commit/?h=damon/next&id=bbc588c9166d6ff4ac9b270929732760215a94c3
 
-vim +41 io_uring/chan.c
+Reproducing the error on my own failed as below, though, so I was unable to
+verify the fix on my own.  Please let me know if anything wrong.
 
-    32	
-    33	void io_unregister_queue_chans(struct io_ring_ctx *ctx)
-    34	{
-    35		struct io_queue_chan *c;
-    36		unsigned long index;
-    37	
-    38		lockdep_assert_held(&ctx->uring_lock);
-    39	
-    40		xa_for_each(&ctx->xa_chan, index, c) {
-  > 41			if (atomic_dec_and_test(&c->refs))
-  > 42				kfree_rcu(c, rcu_head);
-    43		}
-    44		xa_destroy(&ctx->xa_chan);
-    45	}
-    46	
+    $ COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-8.5.0 ~/lkp-tests/kbuild/make.cross W=1 O=../linux.out/ ARCH=arc SHELL=/bin/bash mm/
+    Compiler will be installed in ~/0day
+    lftpget -c https://cdn.kernel.org/pub/tools/crosstool/files/bin/x86_64/./8.5.0/x86_64-gcc-8.5.0-nolibc-sparc-linux.tar.xz
+    ~
+    tar Jxf ~/0day/8.5.0/x86_64-gcc-8.5.0-nolibc-sparc-linux.tar.xz -C ~/0day
+    No gcc cross compiler for arc
+    setup_crosstool failed
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+Thanks,
+SJ
+
+[...]
