@@ -1,126 +1,96 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7C211482E7
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Jul 2025 05:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1656219F40A
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Jul 2025 06:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753678915; cv=none; b=NKXelVOCmlbONFXW/BwxcxRpyfLm5YRQr6eDJlwdxpUUTjeB8C6ROqFmdRe7rpTWn6I6oLqhgj0lPZb/cNEAncfaJQEb0kYY/MNVY57bSEKCrHKPavrx741RLIhi17AVs6qJEjQdwt+9H94IFK637+hbbO5JVgVihZeVFEbsILQ=
+	t=1753682653; cv=none; b=sEboUYr6Ii2QnahhxgNUZN7A24OZGvQj+1KQnuWPq3CVBRnA0KGApwDl/oxHqprzfqpkCAnnaFEccW6/Loh7kB82F2dT2pFYsmQCZufvu1HReyYuHCGpuWy1KGQKKiTOzq8BYBihecrhOLaoml9vh/rC05BtsuGfQLZB6AvGLVs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753678915; c=relaxed/simple;
-	bh=HxRpH8pHeawvUPl9lMUlmGtO4bfTumyM7N4TamXAmMc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=JRXCvVN+eoPMdtuFaKJlv9DQCYSt7dveeNON4XQ6mS4uNmTsA9EBpeOMY0PVgmpNv/3Xru4xfnbCBPSwJsX1rTgrDTXBYRnWI5lwag12ssg4RlSi4AQnHTvMOi9Jrc7Vqb8515azXz3izjiunW0RqLzBmW7K2tI4oLQEDc8P9io=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aFa59riU; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753682653; c=relaxed/simple;
+	bh=+ulns0s/bpAdIFecdyr5mmbCt4ova4eNpbdc5rUXdjQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h6ErnNwCsibvDGk/9RvM+PNjB+HUiM5DexCBI0IsntZBIC9+XqSft5z56UoMTcR9GPaZUYvoejPNZp+1nYdn70aJx74pEY/nTH3tA8QbA1tIHlTN5iOHr5OtSRZU5acG66ZzbX6v9saxumZ5Ge7VB52V6jcItISB9Oo95KWlt1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rwt1NJd/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aFa59riU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753678914; x=1785214914;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=HxRpH8pHeawvUPl9lMUlmGtO4bfTumyM7N4TamXAmMc=;
-  b=aFa59riUvLhqutrqUxa2ngx6y7dtKzwXeUohkvApfo/b1Ad5AGGD04OV
-   TprFrAExLgu5dY7GlWhbGQPNCDA0GcvUunQBREHKNL0Yt52XksRqGcW+H
-   PO6UQD0Y6T09CDiZmoVsnoXWiR2JdbXUDVnJEXIrMQLd0G3AqjHqwWnP2
-   vz10KBp82is774K5koSrlZz6DtElKPSlpLNh1F1iFfh4kBECOZsNrpJ4P
-   xiWI2N4R2vkgzIljs1YNNIhd5o/a/EdOeb9WqxOBvT8eErzPzMsGo4KQi
-   ZG4J1GkJ9taA3f/TALIjLvLZnrv+KKjzAIQeaIgkluRROK3Pw3qatdnnR
-   w==;
-X-CSE-ConnectionGUID: jq4snX8tTJeVGHka2KFk5Q==
-X-CSE-MsgGUID: rNqibu9fT+amrI2X15yECQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="73369622"
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="73369622"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 22:01:54 -0700
-X-CSE-ConnectionGUID: +het22chT1K12unEsLm+aw==
-X-CSE-MsgGUID: B/nJ+5DPRnWr+aDlNb4OmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="199456862"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa001.jf.intel.com with ESMTP; 27 Jul 2025 22:01:52 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ugFzi-0000UR-0Y;
-	Mon, 28 Jul 2025 05:01:50 +0000
-Date: Mon, 28 Jul 2025 07:01:15 +0200
-From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rwt1NJd/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3B17C4CEE7;
+	Mon, 28 Jul 2025 06:04:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753682652;
+	bh=+ulns0s/bpAdIFecdyr5mmbCt4ova4eNpbdc5rUXdjQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rwt1NJd/K7JmdLcdB1qcKbEgAt+Cg4A4oVhanzFdRUR5oan0PfmZjAxyfFNCFg8Ly
+	 +94Rh2YXSpuvg0VHo+fnt64O+iZlNLqvV2bMpaqd8cT+dtHdycMCMav8oJLdMA5QPV
+	 Z+JYQgswwA4Gu0Qjjjy/GCzLgwH8e0bt4aeVYK0G3/x2ztJj6YzO2R5qd+vhZjB73a
+	 yDNuJX88irytx36/oj8bMi2M/1gKQ3XBld0YzvahEQIuj+etv8sbkiQiKuH/m5OSXm
+	 0YGY4qxQBhcpxqvOeEYJQej1ctpHKzeJyjGdowUw3PLjxzpum2p0Bsx/QT2aOutCul
+	 HJnN06HipY5uQ==
+Date: Sun, 27 Jul 2025 23:04:12 -0700
+From: Kees Cook <kees@kernel.org>
+To: kernel test robot <lkp@intel.com>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 92/92] mm/memory.c:1718: warning: Function
- parameter or member 'details' not described in 'zap_page_range'
-Message-ID: <202507280748.Q4H9dLLn-lkp@intel.com>
+Subject: Re: [linux-next:master 12136/12319] drivers/firmware/dmi_scan.c:692:
+ undefined reference to `efi'
+Message-ID: <202507272255.50254C0C@keescook>
+References: <202507270258.neWuiXLd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <202507270258.neWuiXLd-lkp@intel.com>
 
-Hi Qi,
+On Sun, Jul 27, 2025 at 03:04:55AM +0800, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+> head:   d7af19298454ed155f5cf67201a70f5cf836c842
+> commit: 1ad483981776ff67e2b37bb6951412e608c55adb [12136/12319] init.h: Disable sanitizer coverage for __init and __head
+> config: x86_64-randconfig-077-20250726 (https://download.01.org/0day-ci/archive/20250727/202507270258.neWuiXLd-lkp@intel.com/config)
+> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250727/202507270258.neWuiXLd-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202507270258.neWuiXLd-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    ld: vmlinux.o: in function `setup_arch':
+>    arch/x86/kernel/setup.c:987: undefined reference to `efi_init'
+>    ld: arch/x86/kernel/setup.c:971: undefined reference to `efi_memblock_x86_reserve_range'
+>    ld: vmlinux.o: in function `ms_hyperv_init_platform':
+>    arch/x86/kernel/cpu/mshyperv.c:496: undefined reference to `isolation_type_tdx'
+>    ld: arch/x86/kernel/cpu/mshyperv.c:494: undefined reference to `isolation_type_snp'
+>    ld: vmlinux.o: in function `acpi_os_get_root_pointer':
+>    drivers/acpi/osl.c:210: undefined reference to `efi'
+>    ld: drivers/acpi/osl.c:210: undefined reference to `efi'
+>    ld: drivers/acpi/osl.c:212: undefined reference to `efi'
+>    ld: drivers/acpi/osl.c:212: undefined reference to `efi'
+>    ld: vmlinux.o: in function `dmi_scan_machine':
+> >> drivers/firmware/dmi_scan.c:692: undefined reference to `efi'
+>    ld: vmlinux.o:drivers/firmware/dmi_scan.c:692: more undefined references to `efi' follow
 
-FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+This looks like a GCC bug that was fixed after GCC 12.
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   c71e88ad12bfbc44f855b681ef923e1acc2e984a
-commit: 41aa13e68be21943e440b9f8df819ce65301fd26 [92/92] bytedance: add details parameter for zap_page_range()
-config: arm64-randconfig-2005-20250719 (https://download.01.org/0day-ci/archive/20250728/202507280748.Q4H9dLLn-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250728/202507280748.Q4H9dLLn-lkp@intel.com/reproduce)
+All the efi references are present even though CONFIG_EFI is not set in
+the .config (all the checks are already wrapped in efi_enabled() calls,
+which _should_ get DCEd by the compiler and leave no references to "efi"
+nor "efi_init" behind.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507280748.Q4H9dLLn-lkp@intel.com/
+i.e., with gcc 12:
 
-All warnings (new ones prefixed by >>):
+$ nm gcc-bug/drivers/firmware/dmi_scan.o |grep efi
+                 U efi
 
->> mm/memory.c:1718: warning: Function parameter or member 'details' not described in 'zap_page_range'
+with gcc (Ubuntu 14.2.0-19ubuntu2) 14.2.0:
 
+$ nm gcc-bug/drivers/firmware/dmi_scan.o |grep efi | wc -l
+0
 
-vim +1718 mm/memory.c
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1707  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1708  /**
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1709   * zap_page_range - remove user pages in a given range
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1710   * @vma: vm_area_struct holding the applicable pages
-eb4546bbbdb160 Randy Dunlap   2012-06-20  1711   * @start: starting address of pages to zap
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1712   * @size: number of bytes to zap
-f5cc4eef9987d0 Al Viro        2012-03-05  1713   *
-f5cc4eef9987d0 Al Viro        2012-03-05  1714   * Caller must protect the VMA list
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1715   */
-7e027b14d53e97 Linus Torvalds 2012-05-06  1716  void zap_page_range(struct vm_area_struct *vma, unsigned long start,
-41aa13e68be219 Qi Zheng       2025-04-01  1717  		unsigned long size, struct zap_details *details)
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @1718  {
-ac46d4f3c43241 Jérôme Glisse  2018-12-28  1719  	struct mmu_notifier_range range;
-d16dfc550f5326 Peter Zijlstra 2011-05-24  1720  	struct mmu_gather tlb;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1721  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1722  	lru_add_drain();
-7269f999934b28 Jérôme Glisse  2019-05-13  1723  	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, vma, vma->vm_mm,
-6f4f13e8d9e27c Jérôme Glisse  2019-05-13  1724  				start, start + size);
-a72afd873089c6 Will Deacon    2021-01-27  1725  	tlb_gather_mmu(&tlb, vma->vm_mm);
-ac46d4f3c43241 Jérôme Glisse  2018-12-28  1726  	update_hiwater_rss(vma->vm_mm);
-ac46d4f3c43241 Jérôme Glisse  2018-12-28  1727  	mmu_notifier_invalidate_range_start(&range);
-ac46d4f3c43241 Jérôme Glisse  2018-12-28  1728  	for ( ; vma && vma->vm_start < range.end; vma = vma->vm_next)
-41aa13e68be219 Qi Zheng       2025-04-01  1729  		unmap_single_vma(&tlb, vma, start, range.end, details);
-ac46d4f3c43241 Jérôme Glisse  2018-12-28  1730  	mmu_notifier_invalidate_range_end(&range);
-ae8eba8b5d723a Will Deacon    2021-01-27  1731  	tlb_finish_mmu(&tlb);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1732  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1733  
-
-:::::: The code at line 1718 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Kees Cook
