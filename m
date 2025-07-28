@@ -1,58 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53BA22F56
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Jul 2025 00:51:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5CC635;
+	Mon, 28 Jul 2025 01:32:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753663901; cv=none; b=KMJrZQYa3FVOjqmCraBSQHim+go/7ELYV+paBc8qEbZh9MTJ/OVsufl+cdpn+WA7uaZs9T8/vxZMJ3jWzwRWHKI+axD7rQVKMIvSf7asv+++V2RaUfkbRhrxA2kRGiGcEquZX/RpGRozYI6qweo8goK8gYyA2jh4NOAd+Utib/o=
+	t=1753666325; cv=none; b=EW4OWHwzJ033L8AJss1tyvdgSkbc/1Mvd5Q7NayiRr64yaWY5AChjYQfqrS1HY9q+1V9/Gd7N7UjaoRe1ap3mj6SQvFxgTYLK+zVhQ/dTKn1T43W/n9kQ33ClqL+UX+zV40zFM5vmTrkAcnUCpaLlqbu/pxnpe3xipJT8Lia5Zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753663901; c=relaxed/simple;
-	bh=BNKDYEs4uo1Oy2Fjac+G0WYREMa6z56/pkLNnnM6gu4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Sc5FTEgb/38w4zrqpDoccrwL36m/ODt/qzyp/9r/InohYC1QPN69FAqT8NXBPYCY0PzEVPMOhq+gRZIHyL5gwIgBtf57wOCV/9bl4OskuFbx8nu47WRtBvMMGNDsPefUrAB8CbZHKS8id/sJoiuZ4gUelt5Sm/48ANiNZBUyGMw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=As9mmT6J; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1753666325; c=relaxed/simple;
+	bh=1+JKE2iPg0Q81HZUjpfT6uxTsIImsKvoEz92D3a/8L4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jbFOlJ3JQ1/f0CAI050aqtBm/XBSRQp+OXaG8pmw+l7NKJEXFq94aSnwbSgqFPh9d4WxGdBYoXCFFKrqfm04iO+f5zbb0GOorZGCP/D2WSBZiEayR5t9FwuRpoCdhsb7pwzr9sMW/1Tf0veq2iGXaJgaE8LL3A21xTxACblIfWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mwEBu+cy; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="As9mmT6J"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mwEBu+cy"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753663899; x=1785199899;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=BNKDYEs4uo1Oy2Fjac+G0WYREMa6z56/pkLNnnM6gu4=;
-  b=As9mmT6JI7gWrUQmuaYu2FgfP07DWt69ArNAo/M+zScx8us2ZROc//6n
-   0hIBcddA91Jk5YCfOryaRW7gLOQx+3LQeyJ6ATIClQmoLzadCsa8o542s
-   mTOL4+x1125lXhyd97K5JBpcj/8GkJTCaQK/ury/xW+WRzNiRrK367T9g
-   nqlw+Ki/JW59lATLqA0fZYQAsTISTw031nDcfgthMuZ4IPAWcLFfZ3N2W
-   +l+Pm4s3zdPkgfBDXbZnJXDqX/hM5wsCNQQfewsh8RrU4EWGKLwmoAsz+
-   Tft0nO4MqI0HXwHhwNVXMjHS1eC5//nBVhXIvrNCv4utqtxsX0MXQvkwX
-   Q==;
-X-CSE-ConnectionGUID: rVyqAK25Sq2CyVL6l3vLUA==
-X-CSE-MsgGUID: Z3jePHAHQfaTWSgig6rQMQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55873119"
+  t=1753666322; x=1785202322;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1+JKE2iPg0Q81HZUjpfT6uxTsIImsKvoEz92D3a/8L4=;
+  b=mwEBu+cyOEEcraxCJ/YApN8fqEeUAL83dmLkAOQ9Rp7rLsLIdx6CAT/m
+   BQYYkV7wmR5OO2pkO1loJNgDa0sncx21e/X2hxG58xy7qUi2YPknYmbAn
+   Sl3mblHkD6YpxdsN2TJL+fDxV5Hxbeegmn5WUI4y+gpq4zd+yFK1fpcm3
+   8I/upm+RNzY2XKoZBdMcDETdRUAvqXo+lghB1IxxiBwUYeuFiroMD7pA6
+   PJ0bAp6q6Co7DjpMMCszKd/VY4TBjl4Uf/NLojCbe2XPg0fKwDbll0K46
+   hlaUxtL0xx0/daOaPNM2h7A1prrl/hsAVcW2zmti/ivW3RmV2IoItXbYj
+   A==;
+X-CSE-ConnectionGUID: n5xsc0SzR/K6UL92bj4XPg==
+X-CSE-MsgGUID: tGwUYdZYSiKSSbql+0SrlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="66176908"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="55873119"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 17:51:38 -0700
-X-CSE-ConnectionGUID: dWWoIsXmQ6iXlR9OhG9jfw==
-X-CSE-MsgGUID: gnKQG547TEu+HuPDWWtyBA==
+   d="scan'208";a="66176908"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 18:32:01 -0700
+X-CSE-ConnectionGUID: n0RcUT1rQb6jF1SEzpIjnQ==
+X-CSE-MsgGUID: RilZvfzJTxix+hnUEmtrTA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="162731331"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by fmviesa008.fm.intel.com with ESMTP; 27 Jul 2025 17:51:37 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="162344083"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 27 Jul 2025 18:32:00 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ugC5X-0000TL-2K;
-	Mon, 28 Jul 2025 00:51:35 +0000
-Date: Mon, 28 Jul 2025 02:51:06 +0200
+	id 1ugCib-000075-2Z;
+	Mon, 28 Jul 2025 01:31:57 +0000
+Date: Mon, 28 Jul 2025 09:31:32 +0800
 From: kernel test robot <lkp@intel.com>
-To: jason.zeng@intel.com
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [bytedance:5.15-velinux 92/92] lib/find_bit.c:46:15: warning: no
- previous prototype for '__find_nth_bit'
-Message-ID: <202507280252.VIQgLAMo-lkp@intel.com>
+To: Daniel Borkmann <daniel@iogearbox.net>, ast@kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, andrii@kernel.org,
+	bpf@vger.kernel.org
+Subject: Re: [PATCH bpf-next 3/4] bpf: Move cgroup iterator helpers to bpf.h
+Message-ID: <202507280945.m9sXKC5J-lkp@intel.com>
+References: <20250727223223.510058-3-daniel@iogearbox.net>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,59 +63,76 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250727223223.510058-3-daniel@iogearbox.net>
 
-Hi Yury,
+Hi Daniel,
 
-FYI, the error/warning still remains.
+kernel test robot noticed the following build warnings:
 
-tree:   https://github.com/bytedance/kernel.git 5.15-velinux
-head:   c71e88ad12bfbc44f855b681ef923e1acc2e984a
-commit: 8b9a759b54b442fb86b9fe4182c933103c12bebb [92/92] lib: add find_nth{,_and,_andnot}_bit()
-config: arm64-randconfig-2005-20250719 (https://download.01.org/0day-ci/archive/20250728/202507280252.VIQgLAMo-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250728/202507280252.VIQgLAMo-lkp@intel.com/reproduce)
+[auto build test WARNING on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Daniel-Borkmann/bpf-Move-bpf-map-owner-out-of-common-struct/20250728-063408
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250727223223.510058-3-daniel%40iogearbox.net
+patch subject: [PATCH bpf-next 3/4] bpf: Move cgroup iterator helpers to bpf.h
+config: hexagon-randconfig-001-20250728 (https://download.01.org/0day-ci/archive/20250728/202507280945.m9sXKC5J-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250728/202507280945.m9sXKC5J-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507280252.VIQgLAMo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507280945.m9sXKC5J-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> lib/find_bit.c:46:15: warning: no previous prototype for '__find_nth_bit' [-Wmissing-prototypes]
-      46 | unsigned long __find_nth_bit(const unsigned long *addr, unsigned long size, unsigned long n)
-         |               ^~~~~~~~~~~~~~
->> lib/find_bit.c:52:15: warning: no previous prototype for '__find_nth_and_bit' [-Wmissing-prototypes]
-      52 | unsigned long __find_nth_and_bit(const unsigned long *addr1, const unsigned long *addr2,
-         |               ^~~~~~~~~~~~~~~~~~
->> lib/find_bit.c:59:15: warning: no previous prototype for '__find_nth_andnot_bit' [-Wmissing-prototypes]
-      59 | unsigned long __find_nth_andnot_bit(const unsigned long *addr1, const unsigned long *addr2,
-         |               ^~~~~~~~~~~~~~~~~~~~~
+   In file included from net/socket.c:55:
+>> include/linux/bpf-cgroup.h:510:9: warning: 'for_each_cgroup_storage_type' macro redefined [-Wmacro-redefined]
+     510 | #define for_each_cgroup_storage_type(stype) for (; false; )
+         |         ^
+   include/linux/bpf.h:218:9: note: previous definition is here
+     218 | #define for_each_cgroup_storage_type(stype) \
+         |         ^
+   1 warning generated.
 
 
-vim +/__find_nth_bit +46 lib/find_bit.c
+vim +/for_each_cgroup_storage_type +510 include/linux/bpf-cgroup.h
 
-    45	
-  > 46	unsigned long __find_nth_bit(const unsigned long *addr, unsigned long size, unsigned long n)
-    47	{
-    48		return FIND_NTH_BIT(addr[idx], size, n);
-    49	}
-    50	EXPORT_SYMBOL(__find_nth_bit);
-    51	
-  > 52	unsigned long __find_nth_and_bit(const unsigned long *addr1, const unsigned long *addr2,
-    53					 unsigned long size, unsigned long n)
-    54	{
-    55		return FIND_NTH_BIT(addr1[idx] & addr2[idx], size, n);
-    56	}
-    57	EXPORT_SYMBOL(__find_nth_and_bit);
-    58	
-  > 59	unsigned long __find_nth_andnot_bit(const unsigned long *addr1, const unsigned long *addr2,
-    60					 unsigned long size, unsigned long n)
-    61	{
-    62		return FIND_NTH_BIT(addr1[idx] & ~addr2[idx], size, n);
-    63	}
-    64	EXPORT_SYMBOL(__find_nth_andnot_bit);
-    65	
+de9cbbaadba5ad Roman Gushchin     2018-08-02  477  
+6fc88c354f3af8 Dave Marchevsky    2021-08-19  478  #define cgroup_bpf_enabled(atype) (0)
+fefba7d1ae198d Daan De Meyer      2023-10-11  479  #define BPF_CGROUP_RUN_SA_PROG_LOCK(sk, uaddr, uaddrlen, atype, t_ctx) ({ 0; })
+fefba7d1ae198d Daan De Meyer      2023-10-11  480  #define BPF_CGROUP_RUN_SA_PROG(sk, uaddr, uaddrlen, atype) ({ 0; })
+d74bad4e74ee37 Andrey Ignatov     2018-03-30  481  #define BPF_CGROUP_PRE_CONNECT_ENABLED(sk) (0)
+3007098494bec6 Daniel Mack        2016-11-23  482  #define BPF_CGROUP_RUN_PROG_INET_INGRESS(sk,skb) ({ 0; })
+3007098494bec6 Daniel Mack        2016-11-23  483  #define BPF_CGROUP_RUN_PROG_INET_EGRESS(sk,skb) ({ 0; })
+61023658760032 David Ahern        2016-12-01  484  #define BPF_CGROUP_RUN_PROG_INET_SOCK(sk) ({ 0; })
+f5836749c9c04a Stanislav Fomichev 2020-07-06  485  #define BPF_CGROUP_RUN_PROG_INET_SOCK_RELEASE(sk) ({ 0; })
+fefba7d1ae198d Daan De Meyer      2023-10-11  486  #define BPF_CGROUP_RUN_PROG_INET_BIND_LOCK(sk, uaddr, uaddrlen, atype, flags) ({ 0; })
+aac3fc320d9404 Andrey Ignatov     2018-03-30  487  #define BPF_CGROUP_RUN_PROG_INET4_POST_BIND(sk) ({ 0; })
+aac3fc320d9404 Andrey Ignatov     2018-03-30  488  #define BPF_CGROUP_RUN_PROG_INET6_POST_BIND(sk) ({ 0; })
+fefba7d1ae198d Daan De Meyer      2023-10-11  489  #define BPF_CGROUP_RUN_PROG_INET4_CONNECT(sk, uaddr, uaddrlen) ({ 0; })
+fefba7d1ae198d Daan De Meyer      2023-10-11  490  #define BPF_CGROUP_RUN_PROG_INET4_CONNECT_LOCK(sk, uaddr, uaddrlen) ({ 0; })
+fefba7d1ae198d Daan De Meyer      2023-10-11  491  #define BPF_CGROUP_RUN_PROG_INET6_CONNECT(sk, uaddr, uaddrlen) ({ 0; })
+fefba7d1ae198d Daan De Meyer      2023-10-11  492  #define BPF_CGROUP_RUN_PROG_INET6_CONNECT_LOCK(sk, uaddr, uaddrlen) ({ 0; })
+859051dd165ec6 Daan De Meyer      2023-10-11  493  #define BPF_CGROUP_RUN_PROG_UNIX_CONNECT_LOCK(sk, uaddr, uaddrlen) ({ 0; })
+fefba7d1ae198d Daan De Meyer      2023-10-11  494  #define BPF_CGROUP_RUN_PROG_UDP4_SENDMSG_LOCK(sk, uaddr, uaddrlen, t_ctx) ({ 0; })
+fefba7d1ae198d Daan De Meyer      2023-10-11  495  #define BPF_CGROUP_RUN_PROG_UDP6_SENDMSG_LOCK(sk, uaddr, uaddrlen, t_ctx) ({ 0; })
+859051dd165ec6 Daan De Meyer      2023-10-11  496  #define BPF_CGROUP_RUN_PROG_UNIX_SENDMSG_LOCK(sk, uaddr, uaddrlen, t_ctx) ({ 0; })
+fefba7d1ae198d Daan De Meyer      2023-10-11  497  #define BPF_CGROUP_RUN_PROG_UDP4_RECVMSG_LOCK(sk, uaddr, uaddrlen) ({ 0; })
+fefba7d1ae198d Daan De Meyer      2023-10-11  498  #define BPF_CGROUP_RUN_PROG_UDP6_RECVMSG_LOCK(sk, uaddr, uaddrlen) ({ 0; })
+859051dd165ec6 Daan De Meyer      2023-10-11  499  #define BPF_CGROUP_RUN_PROG_UNIX_RECVMSG_LOCK(sk, uaddr, uaddrlen) ({ 0; })
+40304b2a1567fe Lawrence Brakmo    2017-06-30  500  #define BPF_CGROUP_RUN_PROG_SOCK_OPS(sock_ops) ({ 0; })
+6fc88c354f3af8 Dave Marchevsky    2021-08-19  501  #define BPF_CGROUP_RUN_PROG_DEVICE_CGROUP(atype, major, minor, access) ({ 0; })
+32927393dc1ccd Christoph Hellwig  2020-04-24  502  #define BPF_CGROUP_RUN_PROG_SYSCTL(head,table,write,buf,count,pos) ({ 0; })
+0d01da6afc5402 Stanislav Fomichev 2019-06-27  503  #define BPF_CGROUP_RUN_PROG_GETSOCKOPT(sock, level, optname, optval, \
+0d01da6afc5402 Stanislav Fomichev 2019-06-27  504  				       optlen, max_optlen, retval) ({ retval; })
+9cacf81f816111 Stanislav Fomichev 2021-01-15  505  #define BPF_CGROUP_RUN_PROG_GETSOCKOPT_KERN(sock, level, optname, optval, \
+9cacf81f816111 Stanislav Fomichev 2021-01-15  506  					    optlen, retval) ({ retval; })
+0d01da6afc5402 Stanislav Fomichev 2019-06-27  507  #define BPF_CGROUP_RUN_PROG_SETSOCKOPT(sock, level, optname, optval, optlen, \
+0d01da6afc5402 Stanislav Fomichev 2019-06-27  508  				       kernel_optval) ({ 0; })
+3007098494bec6 Daniel Mack        2016-11-23  509  
+8bad74f9840f87 Roman Gushchin     2018-09-28 @510  #define for_each_cgroup_storage_type(stype) for (; false; )
+8bad74f9840f87 Roman Gushchin     2018-09-28  511  
 
 -- 
 0-DAY CI Kernel Test Service
