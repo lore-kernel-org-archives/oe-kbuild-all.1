@@ -1,78 +1,67 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 204A82673B9
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Jul 2025 15:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4731D1E4AE
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Jul 2025 16:32:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753718396; cv=none; b=mIRpquVKvDfc5kLn4Jbu9pWcTl8dK7FTSNVJqZb9Ip4PQ/+4Cb7t6SFOaIAXkkCyhkpkiBhw47s3rYlLoS5LxFl4v5eKOIzvCS6VzSWkBwa0n/F6tB1l1HelwFy0Ea+u49OScGjYeC82zVx/klwHK0U2I4r+IRH5DRpeyNKi/Jc=
+	t=1753720346; cv=none; b=jrMRFaqByGz46x5QVxbsMTOtgxCOwVLfePYnHMg4p+x12LEf9dYjJOVWvS6Kkqm1Y0X7V3GNwdQWLg4prxtEjkj/nzGDW7SK2mihovs+ZXwKjngrxbtTfpCuWfaDCZQGLPvBtfCwR6s6NDIhvOaGcGpAmeuA0lvGHI3EoVPTlY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753718396; c=relaxed/simple;
-	bh=dNfaG4D18D9CjOcgvaBVkHp+jyn6+cieep0hDJfD19Y=;
+	s=arc-20240116; t=1753720346; c=relaxed/simple;
+	bh=/eUcfZ2MqgwVLNwIK09gIw7s9T8A3iFU9L3OUUHRTYE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QrJESwKPEa0rXCvKmBm4WOHylWkpKo/d0agB82Oy89HnZi6m0y1EpUhYa/gIMWg/h95rhIe4i8AV62bov3oIYUiiOzCESlOxw/+nQIHZmX3yBZinh7rIf5rds2MJ+KZDdgCGOtnO/dh3OdqmaFuJ930vimR8/eJ7fFHyvUniEU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h1Lyvseu; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=UFeWnv9N0kdzAIbp/MGAgE9yy9+2mIntM3iBEeJ7aFXuMC6YTpeInBZZ4beWwDpS+QW+uXjYV4L5dN72sA/jsE+Lbm/sXsBOjUX7Yx+zvMgzA6BOe7J7rpqdCm5MUFdmfapqqsqpELWfxHpoklePN5cgTeyPh1VUS/gaFvV3Fa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Nr4Tskh4; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h1Lyvseu"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3b783ea502eso35092f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Jul 2025 08:59:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753718393; x=1754323193; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=tjx13zWedBGyIKTA7New5uvsNC41+GLmdqfifANAW9s=;
-        b=h1Lyvseu8GoD2HG8vuFA7FnP+7DEjQEq5V8nUlNDW7SxfdJxchny0vGNTjKUAYlmiD
-         9wsRDxuHLIZuqlperohIyP/MTIwoFa/nzJY/tmvJ0A6Qfebliap2ueN1oEnA8u8XFPI4
-         zOxdltD48VAr/SPhTQjoy/glD6WSvycD+HeocgzxXbstd9SZf5Y1hkwIPHPpm4vuEH8l
-         pbHNrvb46db6+ON+cKamSOFIl4eC6uga+ew9TLmxDq5NaXE9ktftnN9u+fjcrOJ3UedD
-         hFkMKV8FatdgE88+k6/SNGY74hQDAxX39SjN2NGNFTNoQJgxIuAg0G5XnX2+QJbMMgTz
-         lJUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753718393; x=1754323193;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tjx13zWedBGyIKTA7New5uvsNC41+GLmdqfifANAW9s=;
-        b=PfRFXNYFlc6+cNMTa8+X4eRq4z5JS9vtJbg4x7L6wDUox+w2mhTon5asct9kbK3oTY
-         kkDZnN/sGqbNGHC7HEnOtkjRlmBAznsphqgXzISNd7nxuLvdq/nymBMDbfmiF7vhyCWQ
-         yBcuFmW9fw5ZbiFljArZYu/jGLRD5OId7nvTOz+aKXuJPYcK+nKr81IjlC9Sm2+0ckyG
-         79NdYFyeg4qZxaVTYxokN8ZYCQqkyScX3oEWs204cdNuua27feGVT5ISEyMkSioHgiAb
-         GK31tJkmGYQ7YsNifEDdcjWTrmsRnt7P0jh2kKSt3QBqb9mL9jujDWkvwLtcUwUt1YYi
-         4hPg==
-X-Forwarded-Encrypted: i=1; AJvYcCWcX1BcgSupLK/E+GG2Sdu57MF+CHT4c6bVPYTeHpcY4TPxy77rla3zDTdYcQ71ubicDZCg4v5yJiC0zBhc@lists.linux.dev
-X-Gm-Message-State: AOJu0YzTmrKiy000V8Ka9AYVc5pfS35/fO5l1zVE3Ouh4XYfnZxG5RDP
-	6rNT0wezYWARj/8PDWFpMlOdUffi/j1h+KsKzX1Y5EAwNXmjhFj1urJT
-X-Gm-Gg: ASbGncvWo/HjTfF8e++v6m9h7hBfU5LWx1xV16M8Sud1MebdINOeulaobbhxaE8Sh1D
-	sWLixdi1Rr8D/v5t/UvAjC/dTF70hNosILeLw2mkDQsCsLR6yhV3wpAYC2WsdUBpS1HoqziiriL
-	lcXNiSngCzz6DQc/iEbhorE2iqpEhS1aJCeviyyutk0McP06640p5vXli4bqjefgW2IMHBs6ja5
-	kAk6rDeZf8rwwDG/Ow97lnPy7WFhSrGr2xb5g9ZnDJ7ypk2x5ZF6EX94+QxmV5cuqO3CNTbqGmw
-	oqcU/aiCoZV4h9e5a206RyBgjHoBtWdPcPNcEN/NfwLqsZzJ+aoReaOty4NkFrLEvY13xOpb69a
-	4buJ5prhKomaZ+I1fCHmEP22TguGmVIbushtG2+kCrWgQH0z9UZ4cSjiLDGS0s2Uv6w==
-X-Google-Smtp-Source: AGHT+IHt942cS6W+rTZ71qArgtk78wyYddcCFyLJ6WkmhpsfPuo0O6TXSbk1FwgDtS4bjvFjnrZW7w==
-X-Received: by 2002:a05:6000:459a:b0:3b7:76ac:8b9f with SMTP id ffacd0b85a97d-3b78e60fa69mr61150f8f.25.1753718393105;
-        Mon, 28 Jul 2025 08:59:53 -0700 (PDT)
-Received: from gmail.com (deskosmtp.auranext.com. [195.134.167.217])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b778f04009sm9336711f8f.38.2025.07.28.08.59.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Jul 2025 08:59:52 -0700 (PDT)
-Date: Mon, 28 Jul 2025 17:59:50 +0200
-From: Mahe Tardy <mahe.tardy@gmail.com>
-To: Yonghong Song <yonghong.song@linux.dev>
-Cc: lkp@intel.com, alexei.starovoitov@gmail.com, andrii@kernel.org,
-	ast@kernel.org, bpf@vger.kernel.org, coreteam@netfilter.org,
-	daniel@iogearbox.net, fw@strlen.de, john.fastabend@gmail.com,
-	martin.lau@linux.dev, netdev@vger.kernel.org,
-	netfilter-devel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	pablo@netfilter.org
-Subject: Re: [PATCH bpf-next v3 4/4] selftests/bpf: add icmp_send_unreach
- kfunc tests
-Message-ID: <aIeedqGvdfO641Ht@gmail.com>
-References: <202507270940.kXGmRbg5-lkp@intel.com>
- <20250728094345.46132-1-mahe.tardy@gmail.com>
- <20250728094345.46132-5-mahe.tardy@gmail.com>
- <356fe0b5-b66e-475b-b914-919339bb441a@linux.dev>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Nr4Tskh4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753720345; x=1785256345;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/eUcfZ2MqgwVLNwIK09gIw7s9T8A3iFU9L3OUUHRTYE=;
+  b=Nr4Tskh4yuLxqFh2ah6NhzLN4C1fp6pV82UfWtJ/LI4slr9nRKRt0M2W
+   6gECgdCoIUbiaieIzkHI35Ak1mn/crsq01Y6vbkIU9iC58K5Xu9GoAdkz
+   o3tm0zR4ibNZtItCcoYVgFG1jvZFTMUPDl6khp+kzjyZEpWvYrtXTtMHv
+   zISkbgRgzvTyRBpfkI02tXDeFlWX82Uo9UaBd/lJXul7Y6FdoopWX+nJq
+   G6R7gRzFq6Tjp0QunAQ4zJ0r/bFBuG11+OsO8YQICvt88gNLxVIp/RPO5
+   tCNKmrgdUf/9prqZBvdJYSC5t+zdYItVOXFMbunNlFWvPQX/W5UDLXKsn
+   A==;
+X-CSE-ConnectionGUID: IkbXYPBcRw2vVigCpgc1xQ==
+X-CSE-MsgGUID: 7trpaydMROWJr3Vjk6EElw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="59797039"
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="59797039"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 09:32:22 -0700
+X-CSE-ConnectionGUID: mGMB5dIPRrWwWGNTnc7Z/g==
+X-CSE-MsgGUID: TZaWB7G9SVChLWy3JNAA1g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
+   d="scan'208";a="166946244"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 28 Jul 2025 09:32:16 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ugQlp-0000aP-1G;
+	Mon, 28 Jul 2025 16:32:13 +0000
+Date: Tue, 29 Jul 2025 00:31:47 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Alok Tiwari <alok.a.tiwari@oracle.com>,
+	David Box <david.e.box@linux.intel.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
+Message-ID: <202507290022.MIp5QCIp-lkp@intel.com>
+References: <20250726204041.516440-2-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -81,85 +70,36 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <356fe0b5-b66e-475b-b914-919339bb441a@linux.dev>
+In-Reply-To: <20250726204041.516440-2-derekjohn.clark@gmail.com>
 
-On Mon, Jul 28, 2025 at 08:40:49AM -0700, Yonghong Song wrote:
-> 
-> 
-> On 7/28/25 2:43 AM, Mahe Tardy wrote:
+Hi Derek,
 
-[...]
+kernel test robot noticed the following build errors:
 
-> > +
-> > +void test_icmp_send_unreach_kfunc(void)
-> > +{
-> > +	struct icmp_send_unreach *skel;
-> > +	int cgroup_fd = -1, client_fd = 1, srv_fd = -1;
-> 
-> Should set client_fd = -1? See below ...
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on linus/master v6.16 next-20250728]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Well spotted yes, it's a typo, thank you.
+url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/platform-x86-ayn-ec-Add-PWM-Fan-HWMON-Interface/20250727-044332
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250726204041.516440-2-derekjohn.clark%40gmail.com
+patch subject: [PATCH v3 1/4] platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
+config: i386-randconfig-004-20250728 (https://download.01.org/0day-ci/archive/20250729/202507290022.MIp5QCIp-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250729/202507290022.MIp5QCIp-lkp@intel.com/reproduce)
 
-> > +	int *code;
-> > +
-> > +	skel = icmp_send_unreach__open_and_load();
-> > +	if (!ASSERT_OK_PTR(skel, "skel_open"))
-> > +		goto cleanup;
-> > +
-> > +	cgroup_fd = test__join_cgroup("/icmp_send_unreach_cgroup");
-> > +	if (!ASSERT_GE(cgroup_fd, 0, "join_cgroup"))
-> > +		goto cleanup;
-> > +
-> > +	skel->links.egress =
-> > +		bpf_program__attach_cgroup(skel->progs.egress, cgroup_fd);
-> > +	if (!ASSERT_OK_PTR(skel->links.egress, "prog_attach_cgroup"))
-> > +		goto cleanup;
-> > +
-> > +	code = &skel->bss->unreach_code;
-> > +
-> > +	for (*code = 0; *code <= NR_ICMP_UNREACH; (*code)++) {
-> > +		// The TCP stack reacts differently when asking for
-> > +		// fragmentation, let's ignore it for now
-> > +		if (*code == ICMP_FRAG_NEEDED)
-> > +			continue;
-> > +
-> > +		skel->bss->kfunc_ret = -1;
-> > +
-> > +		srv_fd = start_server(AF_INET, SOCK_STREAM, "127.0.0.1",
-> > +				      SRV_PORT, TIMEOUT_MS);
-> > +		if (!ASSERT_GE(srv_fd, 0, "start_server"))
-> > +			goto for_cleanup;
-> 
-> Otherwise if client_fd = 1, goto for_cleanup will close(1).
-> 
-> > +
-> > +		client_fd = socket(AF_INET, SOCK_STREAM, 0);
-> > +		ASSERT_GE(client_fd, 0, "client_socket");
-> 
-> The above two lines are not necessary since client_fd is
-> actually set in the below.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507290022.MIp5QCIp-lkp@intel.com/
 
-Yep, must have been a leftover from when I was discovering the
-network_helpers, oops!
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-> > +
-> > +		client_fd = connect_to_fd(srv_fd, 0);
-> > +		if (!ASSERT_GE(client_fd, 0, "client_connect"))
-> > +			goto for_cleanup;
-> > +
-> > +		read_icmp_errqueue(client_fd, *code);
-> > +
-> > +		ASSERT_EQ(skel->bss->kfunc_ret, SK_DROP, "kfunc_ret");
-> > +for_cleanup:
-> > +		close(client_fd);
-> > +		close(srv_fd);
-> > +	}
-> > +
-> > +cleanup:
-> > +	icmp_send_unreach__destroy(skel);
-> > +	close(cgroup_fd);
-> > +}
-> [...]
+>> ERROR: modpost: "ec_read" [drivers/platform/x86/ayn-ec.ko] undefined!
+>> ERROR: modpost: "ec_write" [drivers/platform/x86/ayn-ec.ko] undefined!
 
-I'm sending a v4 with those fixed + fixing the builds error when IPv6 is
-built as a module from the kfunc patch. Thanks for the review.
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
