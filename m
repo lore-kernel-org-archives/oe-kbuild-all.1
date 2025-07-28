@@ -1,61 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2721E1E492;
-	Mon, 28 Jul 2025 03:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80D449620
+	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Jul 2025 03:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753673150; cv=none; b=bCgr9T2yAZm52cYmHV+u8UYkk00FX5I/zgB+qbSxMQp9YfpbKHQRgeqUKNc64Ayxxk0QXctwfXvwaVlAUzcFHIMVp7toCG8jODcavW2I4A66phn/E5+2jw7UDPj+l5OWc7J8Fq8q8NWs1od9rqie1ZMz4AwBLnUCrhOfE2/BaSs=
+	t=1753674651; cv=none; b=iXrfwNsCYihxd5pqxp5cCqmep8knsZ4zqJB8y8jBMr6rLhTIGXJ+lRN81k0WoViV/jqG/yI0EHzACVWhLfYtQ4/h+Y2xejgBYkINFExV519/tuypr7WU9Je8snYj8+NK8lMYPri3KsfVQzc8FkoCo2eUgikdI7qxrAdBl/EtfAM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753673150; c=relaxed/simple;
-	bh=LzgrEov8CSNa3SuW5cKo1jXscg8fIHoPiTUNmncJ84k=;
+	s=arc-20240116; t=1753674651; c=relaxed/simple;
+	bh=sHAzYD2F7uAjrO1AwUsjnM8OGikRWeeQ/Yi6Xe5GVfc=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UMqc5dcR5El9dUPxqNvBeqyNbZ/nVaItJGcs7oS0SS2RCZWRmsIi1iqGeYII4Y93lwGtOWFOEs9KGPVCoWnDLp680Wfz+di+dEsTKwT225pdcqpSEVYTUS6wOyfJFQJM0/tzpLAN5ZG271WbKPxAXGlbfVBlH96YOsdrH57eNVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Qz9r6TmJ; arc=none smtp.client-ip=192.198.163.10
+	 Content-Disposition; b=isp4N1QwdkIhgE4ebZ9VUiQ/Ut0iYrgPv0iTD3s00kBs70fg2swLGxg8AijFoxFpz1pCh9slSBFSQBhTXNOeTpu8VXHik6sYhePjzywLzIt3tLVKfQ39VlXgWPbz4K++Ui++JSrg+oGj0rjCIlkI82Ny4yOb3k+8+MUr28H1LO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JK2znDBX; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Qz9r6TmJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JK2znDBX"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753673149; x=1785209149;
+  t=1753674651; x=1785210651;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=LzgrEov8CSNa3SuW5cKo1jXscg8fIHoPiTUNmncJ84k=;
-  b=Qz9r6TmJ/yhgDb9b6r3zsCnxPTrtO3eKtBGU2i36bXzs4KtjFPQ8/cCH
-   zhi9Uwg+GlkS69yH7nJwjG7wxGRg9NDnkPSTYZmj7vuKpckFOZTPI13Hm
-   EyP5Ycg9LYQAvDUJqOTYA0WGIUOEgoczfxSXKYVUsdo8ZCN7Yv+yKkOLW
-   0kFCsL2xh3ifaErXk3tcypQS6+2qFocXrNEcYsvvWcynAnHKrBtrrFqA0
-   kokvlcPqh0xLdDW7weVPIzZHQX5DMcXFYX6Y6rf2lA6SaHuOCHMf2xZ6M
-   n/dOA8iewl8VmmCNOKLIPzKlbybxDv6oqkGyPp3rLHk/rm8y+l7IWN/Sk
+  bh=sHAzYD2F7uAjrO1AwUsjnM8OGikRWeeQ/Yi6Xe5GVfc=;
+  b=JK2znDBXrQHCd3bA+uFl61ZTId8wcoxR7ML3Tn4HJCvb5RlYpPxVoKJ9
+   6YbxOiUcup2zS7H5dr1ajcC2Z0YZdPXdWNjMY+Vs8cFn1IswceC2IfBoH
+   joZaxUbBIAcVIdpDVtSvm1v/S1TOhahff6iXWVkXvXcvrXgAHLBKZWPPj
+   KfFHivJ/UDHmmtF9QZxuQR2gdbv8uAW3v/ggdUgT37UpB6McMpYKp+4+A
+   XBmLTU1fU+YDscD4rI3rG9AO66GIIvMGabEQLJ2wUbBGN4ZnOS3ZnpQey
+   F10yCfAT20RN6qmY3abR6pMBDxQ9jlFMRy+OSDZ6Pg6TWjCOQyzMSv4QU
    g==;
-X-CSE-ConnectionGUID: efiLPdRVT4aa2bssIY7ejg==
-X-CSE-MsgGUID: POaDW8wFQXy/GHmtq8tLyw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="67264694"
+X-CSE-ConnectionGUID: AONxbiuYSWiYiLzNX+ng2w==
+X-CSE-MsgGUID: VuPXJXhXR7y/l2O456+aew==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="55614984"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="67264694"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 20:25:48 -0700
-X-CSE-ConnectionGUID: JW92bUTmQECAg1iapQ7bQg==
-X-CSE-MsgGUID: mHq75zdqTRGHr5mToXtQEw==
+   d="scan'208";a="55614984"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Jul 2025 20:50:50 -0700
+X-CSE-ConnectionGUID: Pe8QX50NRfqhcoicOuaZ9Q==
+X-CSE-MsgGUID: RDfYoZkWSaqrNnn9SpWe7g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="162177815"
+   d="scan'208";a="167643551"
 Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by fmviesa006.fm.intel.com with ESMTP; 27 Jul 2025 20:25:47 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 27 Jul 2025 20:50:48 -0700
 Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ugEUi-0000U7-2K;
-	Mon, 28 Jul 2025 03:25:44 +0000
-Date: Mon, 28 Jul 2025 05:25:27 +0200
+	id 1ugEsw-0000UB-0h;
+	Mon, 28 Jul 2025 03:50:46 +0000
+Date: Mon, 28 Jul 2025 05:50:23 +0200
 From: kernel test robot <lkp@intel.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>
-Subject: [linux-next:master 8316/12319] ld.lld: error: undefined symbol:
- devm_iio_dmaengine_buffer_setup_with_handle
-Message-ID: <202507280508.NTndvTIT-lkp@intel.com>
+To: jason.zeng@intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [bytedance:5.15-velinux 92/92] include/linux/hugetlb.h:261:1:
+ warning: no return statement in function returning non-void
+Message-ID: <202507280509.ZGPb4BId-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,26 +62,75 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   d7af19298454ed155f5cf67201a70f5cf836c842
-commit: 219da3ea842a156e5808176e11db256db9798f6c [8316/12319] iio: adc: ad_sigma_delta: add SPI offload support
-config: i386-buildonly-randconfig-2001-20250728 (https://download.01.org/0day-ci/archive/20250728/202507280508.NTndvTIT-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250728/202507280508.NTndvTIT-lkp@intel.com/reproduce)
+Hi Mike,
+
+FYI, the error/warning still remains.
+
+tree:   https://github.com/bytedance/kernel.git 5.15-velinux
+head:   c71e88ad12bfbc44f855b681ef923e1acc2e984a
+commit: ae1584fe66d0d69c4ae034d6afa8abc3c8948614 [92/92] hugetlb: simplify hugetlb handling in follow_page_mask
+config: arm64-randconfig-2005-20250719 (https://download.01.org/0day-ci/archive/20250728/202507280509.ZGPb4BId-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250728/202507280509.ZGPb4BId-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507280508.NTndvTIT-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507280509.ZGPb4BId-lkp@intel.com/
 
-Note: the linux-next/master HEAD d7af19298454ed155f5cf67201a70f5cf836c842 builds fine.
-      It may have been fixed somewhere.
+All warnings (new ones prefixed by >>):
 
-All errors (new ones prefixed by >>):
+   In file included from include/linux/migrate.h:8,
+                    from mm/vmscan.c:43:
+   include/linux/hugetlb.h: In function 'hugetlb_follow_page_mask':
+>> include/linux/hugetlb.h:261:1: warning: no return statement in function returning non-void [-Wreturn-type]
+     261 | }
+         | ^
+   mm/vmscan.c: At top level:
+   mm/vmscan.c:191:38: error: macro "get_total_swap_pages" passed 1 arguments, but takes just 0
+     191 | inline long get_total_swap_pages(void)
+         |                                      ^
+   In file included from mm/vmscan.c:20:
+   include/linux/swap.h:568: note: macro "get_total_swap_pages" defined here
+     568 | #define get_total_swap_pages()   0L
+         | 
+   mm/vmscan.c:192:1: error: expected '=', ',', ';', 'asm' or '__attribute__' before '{' token
+     192 | {
+         | ^
+   mm/vmscan.c: In function 'demote_page_list':
+   mm/vmscan.c:778:6: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+     778 |  int err;
+         |      ^~~
+--
+   In file included from include/linux/migrate.h:8,
+                    from include/linux/balloon_compaction.h:41,
+                    from mm/balloon_compaction.c:12:
+   include/linux/hugetlb.h: In function 'hugetlb_follow_page_mask':
+>> include/linux/hugetlb.h:261:1: warning: no return statement in function returning non-void [-Wreturn-type]
+     261 | }
+         | ^
+--
+   In file included from include/linux/migrate.h:8,
+                    from mm/page_alloc.c:62:
+   include/linux/hugetlb.h: In function 'hugetlb_follow_page_mask':
+>> include/linux/hugetlb.h:261:1: warning: no return statement in function returning non-void [-Wreturn-type]
+     261 | }
+         | ^
+   mm/page_alloc.c: At top level:
+   mm/page_alloc.c:3986:15: warning: no previous prototype for 'should_fail_alloc_page' [-Wmissing-prototypes]
+    3986 | noinline bool should_fail_alloc_page(gfp_t gfp_mask, unsigned int order)
+         |               ^~~~~~~~~~~~~~~~~~~~~~
 
->> ld.lld: error: undefined symbol: devm_iio_dmaengine_buffer_setup_with_handle
-   >>> referenced by ad_sigma_delta.c:820 (drivers/iio/adc/ad_sigma_delta.c:820)
-   >>>               drivers/iio/adc/ad_sigma_delta.o:(devm_ad_sd_setup_buffer_and_trigger) in archive vmlinux.a
+
+vim +261 include/linux/hugetlb.h
+
+   256	
+   257	static inline struct page *hugetlb_follow_page_mask(struct vm_area_struct *vma,
+   258					unsigned long address, unsigned int flags)
+   259	{
+   260		BUILD_BUG(); /* should never be compiled in if !CONFIG_HUGETLB_PAGE*/
+ > 261	}
+   262	
 
 -- 
 0-DAY CI Kernel Test Service
