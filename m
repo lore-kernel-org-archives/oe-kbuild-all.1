@@ -1,61 +1,69 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FABC22FE02
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Jul 2025 07:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A63F190676;
+	Mon, 28 Jul 2025 07:38:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753687054; cv=none; b=ZWxhIRVpJhaj8UZGsxpbVIOytx4TYVa1up9Wu+b6hVOttLZrydF7qXU/gA2OHicy6kKWA/1t3iCvT02r/I5SPThO8W80bpzgGmdriKt6UgwO5dyESKJby5Yqq9EgvXQOcey6oV6qsr1uV8B89ADDCk5YjVo66HtX2Ikkfd78yTc=
+	t=1753688319; cv=none; b=TwzUVWAfuZdYpZ3omdX+FTNRyf1LilqJjnPaNyxk7L5jQe2pNwY0HXjpdCRZGgJI6EnoP2um4+sxZKT+TcEdOCIKxbpo6Bhm/D6o+eI5G9xte0LMKoAbtz4Lm8iFe2CpfPVWFfdgZMHqNOjpq3JVH478ZXVg2gcNvt1fG7BKggU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753687054; c=relaxed/simple;
-	bh=FI8rHfaFKuwN+SfXXor/B3kscyjTORxXZ54WjeZWqEw=;
+	s=arc-20240116; t=1753688319; c=relaxed/simple;
+	bh=Atv+h1zy3lGlRpGsaTZb5bGl9bBfscVo1QdxCp3Ycio=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wmgo20wqIh+4z9JniXciTVSxoURA6Qeju1y1JdtEEA+XK9/bYdwdVZIgUQXrFyZK7SDtIm5pFT66QpikX+b0j8m39FNvPKa7gFdj3bWOa6UDkXXZ7uNjmaXoHOGOHIDNpNy0RF5AX0GPeio45Ofxody0V1UNCVVVkN3L9Jedg/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bgu/Hmh3; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=fA8uv6xxh+08m67f5elt4+cok7W13wI/1LI+2xIQqp8o6b9VUPE4JVFuvL7Od8Ovw5ZiFXO2fF9rnsFMq6gFR2XmTuutWq8yLBPv/fJP9qQlRKnpu4KcAlV0kEu65DT/nr5aAM0t29LFE58/UaQnXKWaDpR/UyQFOj93ueB9SoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YidYqouM; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bgu/Hmh3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YidYqouM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753687052; x=1785223052;
+  t=1753688317; x=1785224317;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=FI8rHfaFKuwN+SfXXor/B3kscyjTORxXZ54WjeZWqEw=;
-  b=Bgu/Hmh3CDc0Dt85GCxJSgJKK0Z+THavePoIOjLomfiqbZTIt0W3yZGm
-   Fk67KJ6DTcAcak+Vw9PytqfqI0igLTRSB/GukGtcnsLPm6EG/lOgwG41d
-   yeQDMhlqtZ5n4UcM2ZipQx/Tp4fVhr0UeMXX3E36iqLrcvRUYLDssu429
-   k0NYLa5M8pFMEiWZf76oVmorrdRgHouNSPv7scCgwk47DF+4e3R8J9Z0X
-   oGSWBXacjS3lWhI4ftuFB+zc6VfUV2UMExHusDzj/+WefR4Zo3KwkZFaU
-   0R03jQUbwQHet2ffbTiqCz6soLBNSkJd0ZSWWha0A14q2Dm4hmiUgpDzX
-   w==;
-X-CSE-ConnectionGUID: ooowLvTOSnS86m/PJdRcWA==
-X-CSE-MsgGUID: oabYPpt4QSih7RT6nMTUxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="81372873"
+  bh=Atv+h1zy3lGlRpGsaTZb5bGl9bBfscVo1QdxCp3Ycio=;
+  b=YidYqouMh45FHZEsU2SdUX/UgX7ieWDU9cwq4XKaeAaaG/+BRChlMHa/
+   mvpM7+AXTwOyB38keC9LAm1y2tidnsIxp55GJPS0xLlfQJKF+JiDlaPaJ
+   TYW34SkxFqp498/oZc9eXSVP942EORVCKGX5zfToey8buv7rlXW5m/ZaV
+   yhpJExW7hU9erDp2ZA1PYI+jwRJU99ie2vlQvRatk/YwhiY12HOtpGSsR
+   bjQN31X1PpiKAWq45Osl+oew+UjBQ3CazIlWqS7/8eRMxI2ZXxaz/auAo
+   jWcZo97YRSvkGu++zBFRawdkLCq1niSlSXqm0VlfbXEV71gmNpli1LAeg
+   g==;
+X-CSE-ConnectionGUID: i0b+nAxbSKOrhNePRGbdVA==
+X-CSE-MsgGUID: dpAZIgRYQhG+wOONTFYNoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11504"; a="67007805"
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="81372873"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 00:17:32 -0700
-X-CSE-ConnectionGUID: Y3m4DNQeTWupRqRDmqZYaA==
-X-CSE-MsgGUID: Z7N+HkB7Tpev1VQOovkcgw==
+   d="scan'208";a="67007805"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 00:38:36 -0700
+X-CSE-ConnectionGUID: 7fHWNrH9SCKEyS77FrHOWg==
+X-CSE-MsgGUID: FLqVuymaRu2UlNmoWUzs0g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,339,1744095600"; 
-   d="scan'208";a="166820928"
+   d="scan'208";a="166517711"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 28 Jul 2025 00:17:29 -0700
+  by fmviesa003.fm.intel.com with ESMTP; 28 Jul 2025 00:38:32 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ugI6x-0000I7-1P;
-	Mon, 28 Jul 2025 07:17:27 +0000
-Date: Mon, 28 Jul 2025 15:17:18 +0800
+	id 1ugIRJ-0000Il-1J;
+	Mon, 28 Jul 2025 07:38:29 +0000
+Date: Mon, 28 Jul 2025 15:37:36 +0800
 From: kernel test robot <lkp@intel.com>
-To: Shaun Brady <brady.1345@gmail.com>, netfilter-devel@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, ppwaskie@kernel.org, fw@strlen.de,
-	pablo@netfilter.org
-Subject: Re: [PATCH v6 1/2] netfilter: nf_tables: Implement jump limit for
- nft_table_validate
-Message-ID: <202507281408.4TSYx6Hl-lkp@intel.com>
-References: <20250728040315.1014454-1-brady.1345@gmail.com>
+To: Alex Elder <elder@riscstar.com>, lee@kernel.org, lgirdwood@gmail.com,
+	broonie@kernel.org, alexandre.belloni@bootlin.com, robh@kernel.org,
+	krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: Paul Gazzillo <paul@pgazz.com>,
+	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
+	oe-kbuild-all@lists.linux.dev, mat.jonczyk@o2.pl, dlan@gentoo.org,
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+	alex@ghiti.fr, linux.amoon@gmail.com, troymitchell988@gmail.com,
+	guodong@riscstar.com, linux-rtc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+	spacemit@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v10 4/8] regulator: spacemit: support SpacemiT P1
+ regulators
+Message-ID: <202507281558.lZ0NYtth-lkp@intel.com>
+References: <20250726131003.3137282-5-elder@riscstar.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,154 +72,32 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250728040315.1014454-1-brady.1345@gmail.com>
+In-Reply-To: <20250726131003.3137282-5-elder@riscstar.com>
 
-Hi Shaun,
+Hi Alex,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on netfilter-nf/main]
-[also build test WARNING on linus/master v6.16 next-20250725]
-[cannot apply to nf-next/master horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[auto build test WARNING on d7af19298454ed155f5cf67201a70f5cf836c842]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shaun-Brady/Add-test-for-nft_max_table_jumps_netns-sysctl/20250728-120528
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/netfilter/nf.git main
-patch link:    https://lore.kernel.org/r/20250728040315.1014454-1-brady.1345%40gmail.com
-patch subject: [PATCH v6 1/2] netfilter: nf_tables: Implement jump limit for nft_table_validate
-config: csky-randconfig-001-20250728 (https://download.01.org/0day-ci/archive/20250728/202507281408.4TSYx6Hl-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250728/202507281408.4TSYx6Hl-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Elder/dt-bindings-mfd-add-support-the-SpacemiT-P1-PMIC/20250726-211530
+base:   d7af19298454ed155f5cf67201a70f5cf836c842
+patch link:    https://lore.kernel.org/r/20250726131003.3137282-5-elder%40riscstar.com
+patch subject: [PATCH v10 4/8] regulator: spacemit: support SpacemiT P1 regulators
+config: alpha-kismet-CONFIG_MFD_SPACEMIT_P1-CONFIG_REGULATOR_SPACEMIT_P1-0-0 (https://download.01.org/0day-ci/archive/20250728/202507281558.lZ0NYtth-lkp@intel.com/config)
+reproduce: (https://download.01.org/0day-ci/archive/20250728/202507281558.lZ0NYtth-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507281408.4TSYx6Hl-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507281558.lZ0NYtth-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/net/net_namespace.h:25,
-                    from include/linux/inet.h:42,
-                    from fs/nfs/localio.c:15:
->> include/net/netns/netfilter.h:37:2: warning: 'unused' attribute ignored [-Wattributes]
-      37 |  u32 nf_max_table_jumps_netns __maybe_unused;
-         |  ^~~
---
-   In file included from include/net/net_namespace.h:25,
-                    from include/linux/inet.h:42,
-                    from include/linux/sunrpc/msg_prot.h:205,
-                    from include/linux/sunrpc/clnt.h:19,
-                    from fs/nfs/nfs4proc.c:45:
->> include/net/netns/netfilter.h:37:2: warning: 'unused' attribute ignored [-Wattributes]
-      37 |  u32 nf_max_table_jumps_netns __maybe_unused;
-         |  ^~~
-   fs/nfs/nfs4proc.c: In function 'nfs4_proc_create_session':
-   fs/nfs/nfs4proc.c:9534:12: warning: variable 'ptr' set but not used [-Wunused-but-set-variable]
-    9534 |  unsigned *ptr;
-         |            ^~~
---
-   In file included from include/net/net_namespace.h:25,
-                    from include/linux/inet.h:42,
-                    from include/linux/sunrpc/msg_prot.h:205,
-                    from include/linux/sunrpc/auth.h:14,
-                    from include/linux/nfs_fs.h:31,
-                    from fs/nfs/flexfilelayout/flexfilelayout.c:10:
->> include/net/netns/netfilter.h:37:2: warning: 'unused' attribute ignored [-Wattributes]
-      37 |  u32 nf_max_table_jumps_netns __maybe_unused;
-         |  ^~~
-   fs/nfs/flexfilelayout/flexfilelayout.c: In function 'ff_layout_io_track_ds_error':
-   fs/nfs/flexfilelayout/flexfilelayout.c:1312:6: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-    1312 |  int err;
-         |      ^~~
---
-   In file included from include/net/net_namespace.h:25,
-                    from include/linux/inet.h:42,
-                    from include/linux/sunrpc/msg_prot.h:205,
-                    from include/linux/sunrpc/auth.h:14,
-                    from include/linux/nfs_fs.h:31,
-                    from fs/nfs/flexfilelayout/flexfilelayoutdev.c:10:
->> include/net/netns/netfilter.h:37:2: warning: 'unused' attribute ignored [-Wattributes]
-      37 |  u32 nf_max_table_jumps_netns __maybe_unused;
-         |  ^~~
-   fs/nfs/flexfilelayout/flexfilelayoutdev.c: In function 'nfs4_ff_alloc_deviceid_node':
-   fs/nfs/flexfilelayout/flexfilelayoutdev.c:56:9: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-      56 |  int i, ret = -ENOMEM;
-         |         ^~~
---
-   In file included from include/net/net_namespace.h:25,
-                    from include/linux/inet.h:42,
-                    from include/linux/sunrpc/msg_prot.h:205,
-                    from include/linux/sunrpc/clnt.h:19,
-                    from nfs4proc.c:45:
->> include/net/netns/netfilter.h:37:2: warning: 'unused' attribute ignored [-Wattributes]
-      37 |  u32 nf_max_table_jumps_netns __maybe_unused;
-         |  ^~~
-   nfs4proc.c: In function 'nfs4_proc_create_session':
-   nfs4proc.c:9534:12: warning: variable 'ptr' set but not used [-Wunused-but-set-variable]
-    9534 |  unsigned *ptr;
-         |            ^~~
---
-   In file included from include/net/net_namespace.h:25,
-                    from include/linux/inet.h:42,
-                    from include/linux/sunrpc/msg_prot.h:205,
-                    from include/linux/sunrpc/auth.h:14,
-                    from include/linux/nfs_fs.h:31,
-                    from flexfilelayout/flexfilelayout.c:10:
->> include/net/netns/netfilter.h:37:2: warning: 'unused' attribute ignored [-Wattributes]
-      37 |  u32 nf_max_table_jumps_netns __maybe_unused;
-         |  ^~~
-   flexfilelayout/flexfilelayout.c: In function 'ff_layout_io_track_ds_error':
-   flexfilelayout/flexfilelayout.c:1312:6: warning: variable 'err' set but not used [-Wunused-but-set-variable]
-    1312 |  int err;
-         |      ^~~
---
-   In file included from include/net/net_namespace.h:25,
-                    from include/linux/inet.h:42,
-                    from include/linux/sunrpc/msg_prot.h:205,
-                    from include/linux/sunrpc/auth.h:14,
-                    from include/linux/nfs_fs.h:31,
-                    from flexfilelayout/flexfilelayoutdev.c:10:
->> include/net/netns/netfilter.h:37:2: warning: 'unused' attribute ignored [-Wattributes]
-      37 |  u32 nf_max_table_jumps_netns __maybe_unused;
-         |  ^~~
-   flexfilelayout/flexfilelayoutdev.c: In function 'nfs4_ff_alloc_deviceid_node':
-   flexfilelayout/flexfilelayoutdev.c:56:9: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
-      56 |  int i, ret = -ENOMEM;
-         |         ^~~
-
-
-vim +/unused +37 include/net/netns/netfilter.h
-
-    10	
-    11	struct netns_nf {
-    12	#if defined CONFIG_PROC_FS
-    13		struct proc_dir_entry *proc_netfilter;
-    14	#endif
-    15		const struct nf_logger __rcu *nf_loggers[NFPROTO_NUMPROTO];
-    16	#ifdef CONFIG_SYSCTL
-    17		struct ctl_table_header *nf_log_dir_header;
-    18		struct ctl_table_header *nf_limit_control_dir_header;
-    19	#ifdef CONFIG_LWTUNNEL
-    20		struct ctl_table_header *nf_lwtnl_dir_header;
-    21	#endif
-    22	#endif
-    23		struct nf_hook_entries __rcu *hooks_ipv4[NF_INET_NUMHOOKS];
-    24		struct nf_hook_entries __rcu *hooks_ipv6[NF_INET_NUMHOOKS];
-    25	#ifdef CONFIG_NETFILTER_FAMILY_ARP
-    26		struct nf_hook_entries __rcu *hooks_arp[NF_ARP_NUMHOOKS];
-    27	#endif
-    28	#ifdef CONFIG_NETFILTER_FAMILY_BRIDGE
-    29		struct nf_hook_entries __rcu *hooks_bridge[NF_INET_NUMHOOKS];
-    30	#endif
-    31	#if IS_ENABLED(CONFIG_NF_DEFRAG_IPV4)
-    32		unsigned int defrag_ipv4_users;
-    33	#endif
-    34	#if IS_ENABLED(CONFIG_NF_DEFRAG_IPV6)
-    35		unsigned int defrag_ipv6_users;
-    36	#endif
-  > 37		u32 nf_max_table_jumps_netns __maybe_unused;
+kismet warnings: (new ones prefixed by >>)
+>> kismet: WARNING: unmet direct dependencies detected for MFD_SPACEMIT_P1 when selected by REGULATOR_SPACEMIT_P1
+   WARNING: unmet direct dependencies detected for MFD_SPACEMIT_P1
+     Depends on [n]: HAS_IOMEM [=y] && I2C [=n]
+     Selected by [y]:
+     - REGULATOR_SPACEMIT_P1 [=y] && REGULATOR [=y] && (ARCH_SPACEMIT || COMPILE_TEST [=y])
 
 -- 
 0-DAY CI Kernel Test Service
