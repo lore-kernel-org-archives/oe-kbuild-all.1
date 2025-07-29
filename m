@@ -1,63 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4887B2882A2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 09:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090AE287277
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 09:53:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753781945; cv=none; b=SG9eVeY3OXN6plzLBzaeT9figWrsXZhzY8vtsTUQ+x3apF5aIiVZGBN3+mnq23oDWFYTxRBDB8t5v/6PW6v4QDAeAjOIrLpXvqAeG9D6+K7AtBLSv7kkdFozonvDfCshSX7pGGNq3jV44XK0R9YcAIPH/VHG1/bfaSe8XZpxnf4=
+	t=1753782798; cv=none; b=JC67klykde652A/yDhSQgjO4742jYjtSvMRW2VQ9CMKhVv1fI38DU+mYAG34o4JLfHWlc6SzzgMGm0cR9i6zKKLtoShknA/1zLn0BkCK4LINFRr0zmcTficodqWiZcvdT2kavIcaY8a2cfg13aI99aGCxmvNI6AzN5qBliEyGZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753781945; c=relaxed/simple;
-	bh=6mJ0tinGIWuX9vzpnywv9jn5YAwMPCKDvqgCsfTONzQ=;
+	s=arc-20240116; t=1753782798; c=relaxed/simple;
+	bh=rlndRviMl0UcHdaxHRoggsqdCQNzmSzMZrAcRGb5hqQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C+lGXHfH3D/dSUFknnzwrFV76H/w70VstKDqsqGPlydaCtUAoaHH/pjVZuiGvbCDP1QvRY+OPSDzTdvPtU2AlGzdxY9C/JoA9Z7uCs+HRlF0ZZuy9+I2Ep2QZZMTmTcZPYhbbirVogLWj80QWeOIzFyDOu9lAc+EFiZb+/ihA/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Clurev6N; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=bIftiBEKeCOebATaGrDz4g9CXzEyqphXQPf7uK4mQ8Qlm0bDz4q7qACQ3m8bHBA5KulZ49fvqnxpbo+Mlj8t82cmoHnnovXEEkU3SXfM9g+N/G0CLZR3LjChIUgKv26/ZspMPYqLt6dKz/ySt+qfvqeBSis+Au37id014w8QzxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bOU7lziM; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Clurev6N"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753781943; x=1785317943;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6mJ0tinGIWuX9vzpnywv9jn5YAwMPCKDvqgCsfTONzQ=;
-  b=Clurev6N9TIIh+qhlyBOmHPfsxF2Z0ej4glab/t33HNapwDfXfSAanf+
-   BZbgPXmtFrNexL3NiCLCgfDvVViqvY3aIg3EYe8ejPOxixZ6M8Ai70/Ch
-   4Z14Xt779QInTp1tyeErakhfSH3Bu8GFAh5VHMUsRXM1mSIFavIImXnam
-   IkFRoE46bP8q8wHMniNfVOaHML0YnUPDNKppdiA/lvssvNVUOnJSfL2/j
-   cl1d71tIhQuNCPiruXnKZYJb/wSK3YXUpQX8xaQmwDRZfmVPoxMNQ7WPE
-   5SCLVl3hDAUJEGElB3TkvlKLvIL5vQkGYBkgJjE76QbdefHwDazB9jrqH
-   w==;
-X-CSE-ConnectionGUID: 4tCW8Q10TLuXrPhhLX2UvQ==
-X-CSE-MsgGUID: Bw1jElRDTTuvCWOR8Pg3jg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="55253502"
-X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="55253502"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 02:39:02 -0700
-X-CSE-ConnectionGUID: j+ObINSRRxaWjdkgOpWOWA==
-X-CSE-MsgGUID: 94cCGuZvQu2NCZ2KC6S4bg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="199797228"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 29 Jul 2025 02:39:00 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uggnS-0001AN-1n;
-	Tue, 29 Jul 2025 09:38:58 +0000
-Date: Tue, 29 Jul 2025 17:38:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Darshan R." <rathod.darshan.0896@gmail.com>, jdelvare@suse.com,
-	andi.shyti@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Darshan R." <rathod.darshan.0896@gmail.com>
-Subject: Re: [PATCH] i2c: sis96x: Refactor for readability and style
- improvements
-Message-ID: <202507291702.7DUZcvW4-lkp@intel.com>
-References: <20250728131418.9424-1-rathod.darshan.0896@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bOU7lziM"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45619d70c72so5864895e9.0
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 02:53:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753782795; x=1754387595; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EE9S7KbhSao+VXArHjxBh/cgveFNCFgRdGsc9h/clf8=;
+        b=bOU7lziMhMWjF74Rw8lG6TPlNep0Vh9tUe/MW65hWUHGE9J3Lm0xhHtH844ngpgQ7+
+         uQrvLQ48saJOtSS+WO71iHQ9Uk6zLMG3qeY2rv8Esa5o2bsGgirTNo7IAZb6zNGovXUx
+         ZdotLzd47rlGPTOvJvOYXuPhyqi00SvaaoI8IfGo01VOM6mOvNeYOE13uhz8h11BUwWN
+         Rd4Ee1s6JHTQgv1XBnQXKycQkG4qPmg0JgdvlipaLm3hZ1hFqQ5Scv7ZUn9lbfBdhrM2
+         l7kxiMe0SjEZiEXNpRKxrX5qQbNIxoFz8IDtLRbXfW23Xp5auU11HG8MEhgUlhn5vnJE
+         PNMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753782795; x=1754387595;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EE9S7KbhSao+VXArHjxBh/cgveFNCFgRdGsc9h/clf8=;
+        b=M6IjyCptqOBngBEgGqoyrYMBn71txeH6zvqChPEds6NAe9LKF+al4ufaIFql/7x+QV
+         /dkRNocFRH+GlB/1x10mzcaq8e7LsJND+oqWWNi/OG01+EYaUvxAue/QuEr5usGds8no
+         fPNN4ErXoJy3kZ9ddDFG7UXhjvP7Sp+rGzVKCkkgLIwK2Lq8z4bxFb8z/YXcJ6x7SNjo
+         nV45UbzAE3mZIH7gj1qYOV1SiFQSrMqVDJnm7w6sDCKH+xCWKU8MbIZbdvZVgQB0pU1g
+         Chthf60HTEgsFxbmHB+eZyz3I13QzaWo5NMaUP+5kvHTtenV9vwkvpP6YA5BtDbXmu+J
+         BisA==
+X-Forwarded-Encrypted: i=1; AJvYcCU80I0JlOh2kp74ozK1L7SzZsXNRSg1swN6aXOXV/0TNNTFEVfbFEkKMnacnXlSGqsNNX/8P2CFpIUaudRM@lists.linux.dev
+X-Gm-Message-State: AOJu0YzbzFgHTEOhxqCK1WR5OB6NC6wnUBKDjja9i2swbEjKCDXc3E9t
+	+J38KOaS86TOXxSwusrCg4pIhvokQ1goiW5TKk2eJOohNaIfYusik0wgMncYY4fT
+X-Gm-Gg: ASbGnctvMDpsZ+t1pWkPSKyJd01zbGg885KbSwqgM8LyaVugsbKdj7VuRL3yi2qfWLl
+	7bSsDzzZ3b5whjpvgox8kWV/v777iSGmq+nIGdSgng0gIyU9JngRq+Ci5JBo2LearGDwWFt5eD+
+	4P9GMO5gFJdDH0+m2ba1adg41mogebhbMVFVubnHTFFoF/vBUaDkXyo5hA5uFxPrnHocuxs3c9M
+	vHMBV9PMNJoWSWy5q6cRF/2ZmW/Xb9/CMJPCBwKahsSzBmh4bNNg5XAImABD+2MTDyKIGTML8Rl
+	VylwwRIwwqDk4M78oFAWujXnTm2JV8ItHSkmOHFY4wsdHP7ueiycHWUYjf7iDeCfWNKdZs0Sl78
+	H74yAFpPopFhRMCrcrTTRCdBjkIpt+BnHRklM1C8dehGzZn2V68eyUsg=
+X-Google-Smtp-Source: AGHT+IGZrlB2YEoAZYXWNimrkcTKG3bFP6Bf59CEiAeLziQfIZ6sdzcDPoKMp80H8l0VyK0C7TQmsQ==
+X-Received: by 2002:a05:6000:240b:b0:3a5:1388:9a55 with SMTP id ffacd0b85a97d-3b78e3d5ac2mr2135420f8f.5.1753782795107;
+        Tue, 29 Jul 2025 02:53:15 -0700 (PDT)
+Received: from gmail.com (deskosmtp.auranext.com. [195.134.167.217])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-458705bcb96sm196872745e9.21.2025.07.29.02.53.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Jul 2025 02:53:14 -0700 (PDT)
+Date: Tue, 29 Jul 2025 11:53:11 +0200
+From: Mahe Tardy <mahe.tardy@gmail.com>
+To: Martin KaFai Lau <martin.lau@linux.dev>
+Cc: alexei.starovoitov@gmail.com, andrii@kernel.org, ast@kernel.org,
+	bpf@vger.kernel.org, coreteam@netfilter.org, daniel@iogearbox.net,
+	fw@strlen.de, john.fastabend@gmail.com, netdev@vger.kernel.org,
+	netfilter-devel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	pablo@netfilter.org, lkp@intel.com
+Subject: Re: [PATCH bpf-next v3 0/4] bpf: add icmp_send_unreach kfunc
+Message-ID: <aIiaB2QUxKmhvPlx@gmail.com>
+References: <202507270940.kXGmRbg5-lkp@intel.com>
+ <20250728094345.46132-1-mahe.tardy@gmail.com>
+ <b36532a2-506b-4ba5-b6a3-a089386a190e@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,68 +78,66 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250728131418.9424-1-rathod.darshan.0896@gmail.com>
+In-Reply-To: <b36532a2-506b-4ba5-b6a3-a089386a190e@linux.dev>
 
-Hi Darshan,
+On Mon, Jul 28, 2025 at 06:21:50PM -0700, Martin KaFai Lau wrote:
+> On 7/28/25 2:43 AM, Mahe Tardy wrote:
+> > Hello,
+> > 
+> > This is v3 of adding the icmp_send_unreach kfunc, as suggested during
+> > LSF/MM/BPF 2025[^1]. The goal is to allow cgroup_skb programs to
+> > actively reject east-west traffic, similarly to what is possible to do
+> > with netfilter reject target.
+> > 
+> > The first step to implement this is using ICMP control messages, with
+> > the ICMP_DEST_UNREACH type with various code ICMP_NET_UNREACH,
+> > ICMP_HOST_UNREACH, ICMP_PROT_UNREACH, etc. This is easier to implement
+> > than a TCP RST reply and will already hint the client TCP stack to abort
+> > the connection and not retry extensively.
+> > 
+> > Note that this is different than the sock_destroy kfunc, that along
+> > calls tcp_abort and thus sends a reset, destroying the underlying
+> > socket.
+> > 
+> > Caveats of this kfunc design are that a cgroup_skb program can call this
+> > function N times, thus send N ICMP unreach control messages and that the
+> > program can return from the BPF filter with SK_PASS leading to a
+> > potential confusing situation where the TCP connection was established
+> > while the client received ICMP_DEST_UNREACH messages.
+> > 
+> > Another more sophisticated design idea would be for the kfunc to set the
+> > kernel to send an ICMP_HOST_UNREACH control message with the appropriate
+> > code when the cgroup_skb program terminates with SK_DROP. Creating a new
+> > 'SK_REJECT' return code for cgroup_skb program was generally rejected
+> > and would be too limited for other program types support.
+> > 
+> > We should bear in mind that we want to add a TCP reset kfunc next and
+> > also could extend this kfunc to other program types if wanted.
+> 
+> Some high level questions.
+> 
+> Which other program types do you need this kfunc to send icmp and the future
+> tcp rst?
 
-kernel test robot noticed the following build warnings:
+I don't really know, I mostly need this in cgroup_skb for my use case
+but I could see other programs type using this either for simplification
+(for progs that can already rewrite the packet, like tc) or other
+programs types like cgroup_skb, because they can't touch the packet
+themselves.
 
-[auto build test WARNING on andi-shyti/i2c/i2c-host]
-[also build test WARNING on linus/master v6.16 next-20250729]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> This cover letter mentioned sending icmp unreach is easier than sending tcp
+> rst. What problems do you see in sending tcp rst?
+> 
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Darshan-R/i2c-sis96x-Refactor-for-readability-and-style-improvements/20250728-213139
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/andi.shyti/linux.git i2c/i2c-host
-patch link:    https://lore.kernel.org/r/20250728131418.9424-1-rathod.darshan.0896%40gmail.com
-patch subject: [PATCH] i2c: sis96x: Refactor for readability and style improvements
-config: i386-randconfig-r071-20250729 (https://download.01.org/0day-ci/archive/20250729/202507291702.7DUZcvW4-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+Yes, I based these patches on what net/ipv4/netfilter/ipt_REJECT.c's
+'reject_tg' function does. In the case of sending ICMP unreach
+'nf_send_unreach', the routing step is quite straighforward as they are
+only inverting the daddr and the saddr (that's what my renamed/moved
+ip_route_reply_fetch_dst helper does).
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507291702.7DUZcvW4-lkp@intel.com/
-
-smatch warnings:
-drivers/i2c/busses/i2c-sis96x.c:94 sis96x_transaction() warn: inconsistent indenting
-
-vim +94 drivers/i2c/busses/i2c-sis96x.c
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16   75  
-^1da177e4c3f41 Linus Torvalds 2005-04-16   76  /* Execute a SMBus transaction.
-^1da177e4c3f41 Linus Torvalds 2005-04-16   77     int size is from SIS96x_QUICK to SIS96x_BLOCK_DATA
-^1da177e4c3f41 Linus Torvalds 2005-04-16   78   */
-^1da177e4c3f41 Linus Torvalds 2005-04-16   79  static int sis96x_transaction(int size)
-^1da177e4c3f41 Linus Torvalds 2005-04-16   80  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16   81  	int temp;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   82  	int result = 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   83  	int timeout = 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16   84  
-^1da177e4c3f41 Linus Torvalds 2005-04-16   85  	dev_dbg(&sis96x_adapter.dev, "SMBus transaction %d\n", size);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   86  
-^1da177e4c3f41 Linus Torvalds 2005-04-16   87  	/* Make sure the SMBus host is ready to start transmitting */
-1f3ce966edb415 Darshan R      2025-07-28   88  	temp = sis96x_read(SMB_CNT);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   89  
-1f3ce966edb415 Darshan R      2025-07-28   90  	if ((temp & 0x03) != 0x00) {
-1f3ce966edb415 Darshan R      2025-07-28   91  		dev_dbg(&sis96x_adapter.dev, "SMBus busy (0x%02x). Resetting...\n", temp);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   92  
-^1da177e4c3f41 Linus Torvalds 2005-04-16   93  	/* kill the transaction */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  @94  	sis96x_write(SMB_HOST_CNT, 0x20);
-^1da177e4c3f41 Linus Torvalds 2005-04-16   95  
-^1da177e4c3f41 Linus Torvalds 2005-04-16   96  	/* check it again */
-1f3ce966edb415 Darshan R      2025-07-28   97  	temp = sis96x_read(SMB_CNT);
-1f3ce966edb415 Darshan R      2025-07-28   98  
-1f3ce966edb415 Darshan R      2025-07-28   99  	if ((temp & 0x03) != 0x00) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  100  		dev_dbg(&sis96x_adapter.dev, "Failed (0x%02x)\n", temp);
-97140342e69d47 David Brownell 2008-07-14  101  		return -EBUSY;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  102  	} else {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  103  		dev_dbg(&sis96x_adapter.dev, "Successful\n");
-^1da177e4c3f41 Linus Torvalds 2005-04-16  104  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  105  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  106  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+In the case of sending RST 'nf_send_reset', there are extra steps, first
+the same routing mechanism is done by just inverting the daddr and the
+saddr but later 'ip_route_me_harder' is called which is doing a lot
+more. I'm currently not sure which parts of this must be ported to work
+in our BPF use case so I wanted to start with unreach.
