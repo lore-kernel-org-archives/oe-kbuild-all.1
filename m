@@ -1,61 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F4642566D3
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 06:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2C0187326
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 07:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753769206; cv=none; b=SSM6yfO/5hH8ACtIicQuYpQ3IYCLkr8XTaXBl6xnMCy2GeE0oubRYsmRo55Ez6Gdn8y3RLwgjVN4y2tQua5ZOWxt4Y57FkjD4oLG4Ilyt4SPcDcDn8vCUT72jWfGx0FYmmwQztAxRUn+nD7IdFAebA0B0dEOaBZHRZwM3POTjro=
+	t=1753774254; cv=none; b=SsEt/d7UGRFwEN5zmgZF4FBGWILlKao8mhGh1vOXppB/AAZDv3hGa346zNX3JxpYR9Me3c4eViZX3f7vWB32VjL98pS6n3vkYZfmcYX7DJRWbGMgeKlthkeSPCdl067h+g7w9daaVRincU8tGhHfdwJsKUP3jqW5/aFg1cJdb4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753769206; c=relaxed/simple;
-	bh=Bl/fNTkig+CIWaWN8mZbPmPTpdVQHEHftYHWyS67TFw=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=eoiiTrq9q4eV7p0ZEjuzY3TEvju9l1zc30L9GUZgSCXHaEYtmy/osUrBH5n+LpUtR98ldR/ogfbHs1I3L7EES3ptj0zub4PUzVQfRXoypf71jlDvC81ro3aMUuRNnlCdPvO24YlafIxoQIGfS/q2vU0I2J2uZCh861s096ihIRY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mb0FBu40; arc=none smtp.client-ip=198.175.65.18
+	s=arc-20240116; t=1753774254; c=relaxed/simple;
+	bh=lUhap1EjQHUB+qogjc7azCKG++yvozXP/Rs6ISomUxY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PPp+DUpJ1HPqPyjPwEnf/IxGpJlvoJXhlSw41zKZKLHrW52NGskapPlSzDx7mmpcrjLK5hpUswdWMEE1MHIerFo2G4TBXzzny1lyVRD3xzGIFTKuJdyBZx+DuJ/Ay7+s979bdAeL2mo5m4J23u6QXp405bwML6jo9wWGwiDlbIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VYpHpmfE; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mb0FBu40"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VYpHpmfE"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753769204; x=1785305204;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Bl/fNTkig+CIWaWN8mZbPmPTpdVQHEHftYHWyS67TFw=;
-  b=mb0FBu40jVU3EGolpEfaiQH3kJt//Iv52Vz+YgZ6280DnFYIsP1TizZL
-   /DKYVBhJfgZf8WiASMcKnV0+0pslYPLlkZ4J3Z25zei0c7rFRV3+PHw+o
-   b6jpaeXOopWqVRKJnwVw8k0fGyn5t3I5vregD9WLPMmu7yMCkNKq5r1bx
-   ZtoNkNWsm76f2mJwyK+Sxsk2I2HhfQczndcnPfBo0Oetih6m+QrRNeLML
-   rBAp4XZ6sMe0M2Tde27+3PNEnEebOmGkSwEusZjpKF+UiTHM21+la6VHW
-   7Yhiv+O1M1QAY0M1ehU/AGrz7jcLaxAPg7sMX1rMCWJcrJbh+G021tJd8
-   g==;
-X-CSE-ConnectionGUID: tv9MI8KQQvqPKJ0pQB6zwg==
-X-CSE-MsgGUID: sUlJcxwAQhCAEaEKPbgyXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="56117600"
+  t=1753774253; x=1785310253;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lUhap1EjQHUB+qogjc7azCKG++yvozXP/Rs6ISomUxY=;
+  b=VYpHpmfE+jNS7RqM7Jw1skI3Cs6Tgek2LImFoFZliup2StzAniKu5Geo
+   cpaawqvYg5ZmRgZF5cabcXH8gmczcPI3Sl2KH+pqIV8wK2+W8qJYNm/th
+   YIHPX2MWiJIpWOl7xg6NmOsaE6xGeCQImZ6lq64byCZNYfxekbV8U3+Zh
+   DE8wRmxSDOsKpdGsuU4PQPbR96b8bnJUXNnROD0/pS8A1PYh5/gHfDjcK
+   ghlM0S8y7cCuhcIsLjXiKnO3pvmJP2brhlMK2QNveqi/BDsDtQsgeU++k
+   mNzPhqvHRuyNFyGc7X4X6ihzjxWvPwdG8BmMCeksiEZKgTwYyYE3WvmAu
+   Q==;
+X-CSE-ConnectionGUID: i5MnT7VqRNSJYeXPYSIKew==
+X-CSE-MsgGUID: ngdmTw1sS5eK7vy2kw7TeA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="55972156"
 X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="56117600"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 23:06:44 -0700
-X-CSE-ConnectionGUID: a3ugEmSJQMC/Xq/JHlE7FQ==
-X-CSE-MsgGUID: TTMxe9XwRjaBDBKf5P1Afw==
+   d="scan'208";a="55972156"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 00:30:52 -0700
+X-CSE-ConnectionGUID: p2ftCgCOSTeYFQQAfJfzWA==
+X-CSE-MsgGUID: XqI/ZmteQXy4E8WlMJVolw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="162954614"
+   d="scan'208";a="162666154"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 28 Jul 2025 23:06:42 -0700
+  by orviesa007.jf.intel.com with ESMTP; 29 Jul 2025 00:30:49 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ugdU0-00012t-0M;
-	Tue, 29 Jul 2025 06:06:40 +0000
-Date: Tue, 29 Jul 2025 14:06:39 +0800
+	id 1ugenP-00015X-25;
+	Tue, 29 Jul 2025 07:30:47 +0000
+Date: Tue, 29 Jul 2025 15:30:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Caleb James DeLisle <cjd@cjdns.fr>
-Cc: Paul Gazzillo <paul@pgazz.com>,
-	Necip Fazil Yildiran <fazilyildiran@gmail.com>,
-	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Subject: kismet: WARNING: unmet direct dependencies detected for
- EARLY_PRINTK_8250 when selected by ECONET
-Message-ID: <202507291418.bJ3Xc6L2-lkp@intel.com>
+To: Nikolay Borisov <nik.borisov@suse.com>,
+	linux-security-module@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	paul@paul-moore.com, serge@hallyn.com, jmorris@namei.org,
+	dan.j.williams@intel.com, Nikolay Borisov <nik.borisov@suse.com>
+Subject: Re: [PATCH v2 2/3] lockdown/kunit: Introduce kunit tests
+Message-ID: <202507291419.PQ4uKtRo-lkp@intel.com>
+References: <20250728111517.134116-3-nik.borisov@suse.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -64,30 +65,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250728111517.134116-3-nik.borisov@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   ae388edd4a8f0226f3ef7b102c34f78220756c3d
-commit: 35fb26f94dfa1b291086b84b2421f957214824d1 mips: Add EcoNet MIPS platform support
-date:   2 months ago
-config: mips-kismet-CONFIG_EARLY_PRINTK_8250-CONFIG_ECONET-0-0 (https://download.01.org/0day-ci/archive/20250729/202507291418.bJ3Xc6L2-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250729/202507291418.bJ3Xc6L2-lkp@intel.com/reproduce)
+Hi Nikolay,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on linus/master]
+[also build test ERROR on v6.16 next-20250728]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Nikolay-Borisov/lockdown-Switch-implementation-to-using-bitmap/20250728-191807
+base:   linus/master
+patch link:    https://lore.kernel.org/r/20250728111517.134116-3-nik.borisov%40suse.com
+patch subject: [PATCH v2 2/3] lockdown/kunit: Introduce kunit tests
+config: i386-randconfig-004-20250729 (https://download.01.org/0day-ci/archive/20250729/202507291419.PQ4uKtRo-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250729/202507291419.PQ4uKtRo-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507291418.bJ3Xc6L2-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507291419.PQ4uKtRo-lkp@intel.com/
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for EARLY_PRINTK_8250 when selected by ECONET
-   WARNING: unmet direct dependencies detected for EARLY_PRINTK_8250
-     Depends on [n]: EARLY_PRINTK [=n] && USE_GENERIC_EARLY_PRINTK_8250 [=y]
-     Selected by [y]:
-     - ECONET [=y]
-   
-   WARNING: unmet direct dependencies detected for SERIAL_OF_PLATFORM
-     Depends on [n]: TTY [=n] && HAS_IOMEM [=y] && SERIAL_8250 [=n] && OF [=y]
-     Selected by [y]:
-     - ECONET [=y]
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+WARNING: modpost: missing MODULE_DESCRIPTION() in security/lockdown/lockdown_test.o
+>> ERROR: modpost: "lock_kernel_down" [security/lockdown/lockdown_test.ko] undefined!
 
 -- 
 0-DAY CI Kernel Test Service
