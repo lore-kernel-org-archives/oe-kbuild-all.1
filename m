@@ -1,148 +1,153 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3F6623507F
-	for <oe-kbuild-all@lists.linux.dev>; Mon, 28 Jul 2025 23:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369A23C38
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 01:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753745879; cv=none; b=iaZ5KZ6aFGNNf1SAjWXDrex2xPoCj7lxIeAWjgQIl2Lc1lebhekwux0vTyGUodCHHk25UXbx+YtPgoBJTPfP1F2KUHPZlPVWbquRZ7KSPTLeOhMApUkjkvQCIJcr3ilIYqIyh7sdAD5Mm6ZxPtE6e6sjlmBQ2oiLPev6E9wk+Ms=
+	t=1753751138; cv=none; b=dlXl9E9vrAgszBc1njs11Fmc5vVShpIksu8iaQeIXK50jti1EmQ/aseBetv2p+647ED9AAGAIIhywq16QjUiR2laFGemke3ZjPq1yN/EUJuDj9quGXnSnrRvPbJg4paXH+R+3HdHBaDGVTdzAqHPVcNswNWk5ipO37YAgl9rDmo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753745879; c=relaxed/simple;
-	bh=d5USwsfIDWjUBX0yYghQYpQ7tSx0AvWQrT43SCi54vY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kPTthVKe4YPOIc2dztiTX3j0RmKvxDpO6IX9aJy7uuJBUXWmK9wypa0X6nyZBwnkGmvihorr8+JkihtEOuzZcXuSDZom34qzCHfO1EVNEjTPDKghw1VeDi69ppAPl16cdDODBeX95eVQYCJA8uo3Zz95PSjpr7TLBjGUaYglQA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mepl0Yku; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753751138; c=relaxed/simple;
+	bh=7VKZ22ymvE1qR2Je4hYimjGdZHOaHj6ErYIB16GKhT0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Iim5htMN70iMuIA5dYXSULsay0E4mNhCWYM5duewNDGxFaD9jXDw9O0bNmrr9UCf0y8dWkmLNFKi8sDO6i/xOl8pcDAmuPBHxtPIMVipwPJUPVMQsoY79dCYly3TppFH8msGGWOrHkEmUE35IV+fDENfs0fwvz+DXRvrkhItAug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=C5+sfeZd; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mepl0Yku"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753745878; x=1785281878;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=d5USwsfIDWjUBX0yYghQYpQ7tSx0AvWQrT43SCi54vY=;
-  b=mepl0YkuL7ghHW+OrAFG35gILlhBWtTgbPQMe36D6NFYF5tAK4j+5/Sb
-   CGoK5KT/ULq9PLfpU1JM8ffZSIxBuGyO6zMqTRVOMuVAjDnrr/zBE0p0f
-   sBKQYPD/0zvbdrf+3r392YsiLx4co1rKy4rRlfKMY799GlWTf4Fp1Ekln
-   0VnLk97OBz3pmwsqByXNsSY6SS/ObBdYZpda9KfWumxvoeUKiNfvKpxe4
-   ktTrypIV7fqeoxtF3KBdACG2/tcKaXFf5T1LDRuS8n5v4NzI853xXlcIo
-   kYS8TfF1vfmLnejaDZ0Z7gg1j+GYJjbFlfcCCNvxUFh4appCwFowVHmkS
-   Q==;
-X-CSE-ConnectionGUID: MCde+7QZTbanLNeJDgLqUw==
-X-CSE-MsgGUID: fP8j4B9wQX+e9pQloU8I9A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="78557786"
-X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="78557786"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 16:37:56 -0700
-X-CSE-ConnectionGUID: gPjxMOclSPOq9M8U0Ti/9w==
-X-CSE-MsgGUID: t41SLsw+RuOpoDAEchBjlw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="162113820"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 28 Jul 2025 16:37:52 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ugXPi-0000pH-0i;
-	Mon, 28 Jul 2025 23:37:50 +0000
-Date: Tue, 29 Jul 2025 07:36:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nam Tran <trannamatk@gmail.com>, lee@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, pavel@kernel.org, rdunlap@infradead.org,
-	christophe.jaillet@wanadoo.fr, krzk+dt@kernel.org, robh@kernel.org,
-	conor+dt@kernel.org, corbet@lwn.net, linux-leds@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, Nam Tran <trannamatk@gmail.com>
-Subject: Re: [PATCH v12 2/4] leds: add basic support for TI/National
- Semiconductor LP5812 LED Driver
-Message-ID: <202507290749.YxykcKRV-lkp@intel.com>
-References: <20250728065814.120769-3-trannamatk@gmail.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="C5+sfeZd"
+Message-ID: <b3f25e61-7b0c-4576-baae-9b498c3b8748@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1753751133;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+IYY06TwHJU1yH0y4CfYISRGqhDcJ8AL5MaZbCvCfeA=;
+	b=C5+sfeZdfJYiqsUIVtzNbtOitLfUP0dsF/S2g34I0zqcTQJxNDmTjxNlTwkldEu2DKXz+S
+	FtE4wg+Ldb7KzrvNDfFWfb4g7ki3YCVA44vM/8jGQ5PFEBGrMKI8IPHC5X/gx4jPUxrqJo
+	SVu9k2n8jeVvsmM+3N3KtrueN1SWB1s=
+Date: Mon, 28 Jul 2025 18:05:26 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250728065814.120769-3-trannamatk@gmail.com>
+Subject: Re: [PATCH bpf-next v3 3/4] bpf: add bpf_icmp_send_unreach cgroup_skb
+ kfunc
+To: Mahe Tardy <mahe.tardy@gmail.com>
+Cc: alexei.starovoitov@gmail.com, andrii@kernel.org, ast@kernel.org,
+ bpf@vger.kernel.org, coreteam@netfilter.org, daniel@iogearbox.net,
+ fw@strlen.de, john.fastabend@gmail.com, netdev@vger.kernel.org,
+ netfilter-devel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+ pablo@netfilter.org, lkp@intel.com
+References: <202507270940.kXGmRbg5-lkp@intel.com>
+ <20250728094345.46132-1-mahe.tardy@gmail.com>
+ <20250728094345.46132-4-mahe.tardy@gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+In-Reply-To: <20250728094345.46132-4-mahe.tardy@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Nam,
+On 7/28/25 2:43 AM, Mahe Tardy wrote:
+> This is needed in the context of Tetragon to provide improved feedback
+> (in contrast to just dropping packets) to east-west traffic when blocked
+> by policies using cgroup_skb programs.
+> 
+> This reuse concepts from netfilter reject target codepath with the
+> differences that:
+> * Packets are cloned since the BPF user can still return SK_PASS from
+>    the cgroup_skb progs and the current skb need to stay untouched
 
-kernel test robot noticed the following build warnings:
+This needs more details. Which field(s) of the skb are changed by the kfunc, the 
+skb_dst_set in ip[6]_route_reply_fetch_dst() and/or the code path in the 
+icmp[v6]_send() ?
 
-[auto build test WARNING on f09079bd04a924c72d555cd97942d5f8d7eca98c]
+>    (cgroup_skb hooks only allow read-only skb payload).
+> * Since cgroup_skb programs are called late in the stack, checksums do
+>    not need to be computed or verified, and IPv4 fragmentation does not
+>    need to be checked (ip_local_deliver should take care of that
+>    earlier).
+> 
+> Signed-off-by: Mahe Tardy <mahe.tardy@gmail.com>
+> ---
+>   net/core/filter.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++
+>   1 file changed, 61 insertions(+)
+> 
+> diff --git a/net/core/filter.c b/net/core/filter.c
+> index 7a72f766aacf..050872324575 100644
+> --- a/net/core/filter.c
+> +++ b/net/core/filter.c
+> @@ -85,6 +85,10 @@
+>   #include <linux/un.h>
+>   #include <net/xdp_sock_drv.h>
+>   #include <net/inet_dscp.h>
+> +#include <linux/icmp.h>
+> +#include <net/icmp.h>
+> +#include <net/route.h>
+> +#include <net/ip6_route.h>
+> 
+>   #include "dev.h"
+> 
+> @@ -12148,6 +12152,53 @@ __bpf_kfunc int bpf_sock_ops_enable_tx_tstamp(struct bpf_sock_ops_kern *skops,
+>   	return 0;
+>   }
+> 
+> +__bpf_kfunc int bpf_icmp_send_unreach(struct __sk_buff *__skb, int code)
+> +{
+> +	struct sk_buff *skb = (struct sk_buff *)__skb;
+> +	struct sk_buff *nskb;
+> +
+> +	switch (skb->protocol) {
+> +	case htons(ETH_P_IP):
+> +		if (code < 0 || code > NR_ICMP_UNREACH)
+> +			return -EINVAL;
+> +
+> +		nskb = skb_clone(skb, GFP_ATOMIC);
+> +		if (!nskb)
+> +			return -ENOMEM;
+> +
+> +		if (ip_route_reply_fetch_dst(nskb) < 0) {
+> +			kfree_skb(nskb);
+> +			return -EHOSTUNREACH;
+> +		}
+> +
+> +		icmp_send(nskb, ICMP_DEST_UNREACH, code, 0);
+> +		kfree_skb(nskb);
+> +		break;
+> +#if IS_ENABLED(CONFIG_IPV6)
+> +	case htons(ETH_P_IPV6):
+> +		if (code < 0 || code > ICMPV6_REJECT_ROUTE)
+> +			return -EINVAL;
+> +
+> +		nskb = skb_clone(skb, GFP_ATOMIC);
+> +		if (!nskb)
+> +			return -ENOMEM;
+> +
+> +		if (ip6_route_reply_fetch_dst(nskb) < 0) {
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nam-Tran/dt-bindings-leds-add-TI-National-Semiconductor-LP5812-LED-Driver/20250728-150224
-base:   f09079bd04a924c72d555cd97942d5f8d7eca98c
-patch link:    https://lore.kernel.org/r/20250728065814.120769-3-trannamatk%40gmail.com
-patch subject: [PATCH v12 2/4] leds: add basic support for TI/National Semiconductor LP5812 LED Driver
-config: hexagon-randconfig-r073-20250729 (https://download.01.org/0day-ci/archive/20250729/202507290749.YxykcKRV-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 1b4db78d2eaa070b3f364a2d2b2b826a5439b892)
+ From a very quick look at icmpv6_send(), it does its own route lookup. I 
+haven't looked at the v4 yet.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507290749.YxykcKRV-lkp@intel.com/
+I am likely missing some details. Can you explain why it needs to do a lookup 
+before calling icmpv6_send()?
 
-New smatch warnings:
-drivers/leds/rgb/leds-lp5812.c:920 lp5812_probe() warn: inconsistent indenting
-
-Old smatch warnings:
-drivers/leds/rgb/leds-lp5812.c:467 lp5812_multicolor_brightness() error: uninitialized symbol 'ret'.
-
-vim +920 drivers/leds/rgb/leds-lp5812.c
-
-   903	
-   904	static int lp5812_probe(struct i2c_client *client)
-   905	{
-   906		struct lp5812_chip *chip;
-   907		struct device_node *np = dev_of_node(&client->dev);
-   908		struct lp5812_led *led;
-   909		int ret;
-   910	
-   911		if (!np)
-   912			return -EINVAL;
-   913	
-   914		chip = devm_kzalloc(&client->dev, sizeof(*chip), GFP_KERNEL);
-   915		if (!chip)
-   916			return -ENOMEM;
-   917	
-   918		chip->cfg = i2c_get_match_data(client);
-   919		ret = lp5812_of_populate_pdata(&client->dev, np, chip);
- > 920			if (ret)
-   921				return ret;
-   922	
-   923		led = devm_kcalloc(&client->dev, chip->num_channels, sizeof(*led), GFP_KERNEL);
-   924		if (!led)
-   925			return -ENOMEM;
-   926	
-   927		chip->client = client;
-   928		mutex_init(&chip->lock);
-   929		i2c_set_clientdata(client, led);
-   930	
-   931		ret = lp5812_init_device(chip);
-   932		if (ret)
-   933			return ret;
-   934	
-   935		ret = lp5812_register_leds(led, chip);
-   936		if (ret)
-   937			goto err_out;
-   938	
-   939		ret = lp5812_register_sysfs(chip);
-   940		if (ret)
-   941			goto err_out;
-   942	
-   943		return 0;
-   944	
-   945	err_out:
-   946		lp5812_deinit_device(chip);
-   947		return ret;
-   948	}
-   949	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> +			kfree_skb(nskb);
+> +			return -EHOSTUNREACH;
+> +		}
+> +
+> +		icmpv6_send(nskb, ICMPV6_DEST_UNREACH, code, 0);
+> +		kfree_skb(nskb);
+> +		break;
+> +#endif
+> +	default:
+> +		return -EPROTONOSUPPORT;
+> +	}
+> +
+> +	return SK_DROP;
+> +}
+> +
