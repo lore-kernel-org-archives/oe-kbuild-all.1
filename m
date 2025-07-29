@@ -1,61 +1,60 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50A921FF36
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 22:04:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E418A2253A1
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 22:15:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753826657; cv=none; b=pK+VF6HW7ZS1xBxitXGusgp7NclahMs9UJoYsZ0hprmMgRkiEjb3uLszUxaPwQ2wYxCQhoJM9xegBTvE36huWxJowwsU6Et38f7q3dzv2o5btQSfg2guNuWw8xL3yCkvE8Xi8aL/AV6rsnwVtBz3EaSak2Flt1sSGfXMR7HwhBs=
+	t=1753827318; cv=none; b=OwIj1B6LJzKDcSgbV9ea+vLly83NTdIvapfjcXaOZxciP70CpLasZIXNKs0UQC7OTCWnLeCmgdb+iweSyoXfEvVif8l0JiGI6fOMrvVR7aHgItcfcF7BLqVX/2Ne++NZZuKScIClgjICNFrkciVUBfZ8DFQVGVRE2iGTledeKyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753826657; c=relaxed/simple;
-	bh=Yj6Uw7XZYwabKay4EUz5CpSYhnTflDXam2A4Y3mNxvM=;
+	s=arc-20240116; t=1753827318; c=relaxed/simple;
+	bh=qE1irq/pkCQwmhZPfMF3CXokwHdwGrZidyftnMHCe8I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dbocEr1dIbYdr0ditItF1fOD76xNEihlGu8fUmZIzcyXqEWQBHrjWCFFjWLJPUwfDnlhBviwwWt3IH2rcbD+DnRBpL66RC3qE2hZloJNmS8TN7QQ3TrHPqPT/ZIH+6EonfJdQAMNJPKTbLZer5h+Uh+tuZHvuvzR4930WddbfTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R1Vk+a50; arc=none smtp.client-ip=192.198.163.18
+	 Content-Disposition; b=cWlks8tJH7JmL+n4VplSPuwXprAPdjfvLRrO41b4Ukj83uIWyvyR4B6Zb8U6zXtmI0ZLwiidFUdllF0sSVf8yt7xM/UQ3+YKAD6ZLmenihkFjXKOXfu121fjqNpvx380Lw0C+N5h6ISQwO+YLFmNOz9lQizzzlHkUlyv7PWQZNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMqyfP0Z; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R1Vk+a50"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMqyfP0Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753826655; x=1785362655;
+  t=1753827316; x=1785363316;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=Yj6Uw7XZYwabKay4EUz5CpSYhnTflDXam2A4Y3mNxvM=;
-  b=R1Vk+a50/Q3YeUYQv9cb194j0Vk6VrJwIuFIh/92EKaLHHrs/lOSg+aj
-   ns/tn8K5YDA4Go+Z3LKE+rJnqhX22KmazbkbfMhGtcg4cpMlEoPIUAkgm
-   Syh0srVnhK4lR5oG+FXlccK/Mo5JoAjzYJw8+QH1EpsWHDJGAAWhvqz5b
-   ZGcOTaNtpiDZ9Uy/KNX+e9huzR0e95CRW2X+nosK4ASZLQ4uBTs9rx6rw
-   XW6SZSeLVdSgPIYFM/IVuF8dqre8ba5FxPSvydO98ETKhHi0TLD/9nyDC
-   Cx2dv/VMcKoG/7rrt5Vh7NdqNlLUd4b1yMZxDG8ztrFntoCHlq9ZwEcdl
-   A==;
-X-CSE-ConnectionGUID: 4RnEgGWPTCKx12FRM7OO2Q==
-X-CSE-MsgGUID: VPr6dC8OQTOGGXlheS5KIQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="55324822"
+  bh=qE1irq/pkCQwmhZPfMF3CXokwHdwGrZidyftnMHCe8I=;
+  b=EMqyfP0ZEik33fLjh5uUUgSWbQ2QGpMciZc1FH4qwPzwq9rKwTZn1QrF
+   Ly/TvvVtuEFGhDa78af1MqctYKaQrOrYo09kF/1Ykhck8a2/ZGMP29U1x
+   LPGuriYeSrWJBMUpfxdiEUi503clXzRk/GO2iWFABOWmL9CKOUKjpWgy+
+   Z2r4qbB8m2pJHgs+fd+rQwIEetnH373qwTGIO+laEBAYFvfWAsVd9tPhB
+   7wF+diYn8oyTE3kduHJ7THHLNTlJQgHTy+3PQZK5A0ccXD82SXPwImhHJ
+   CURgyAKnJjKmsRlzvEnwiA8/knJIrZr3cW+fFB3o35hyO+t+CADuSy33w
+   w==;
+X-CSE-ConnectionGUID: JYjv9pBhRLKSLVOfcLQ2ig==
+X-CSE-MsgGUID: roedn7juSCaQ0kCTYF/wGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="55325440"
 X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="55324822"
+   d="scan'208";a="55325440"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 15:04:14 -0700
-X-CSE-ConnectionGUID: I8pQO0sUQyGv0wBnn4tHIA==
-X-CSE-MsgGUID: k/A3GetoQxSTTFezBkx0dg==
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 15:15:15 -0700
+X-CSE-ConnectionGUID: FPF3SlkNRIy0/qGZEhLtig==
+X-CSE-MsgGUID: +CUeqjg2ROGcCmtrwDNOXQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="167026945"
+   d="scan'208";a="167028736"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 Jul 2025 15:04:12 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 Jul 2025 15:15:14 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ugsQc-0001jH-1w;
-	Tue, 29 Jul 2025 22:04:10 +0000
-Date: Wed, 30 Jul 2025 06:03:37 +0800
+	id 1ugsbH-0001jP-2M;
+	Tue, 29 Jul 2025 22:15:11 +0000
+Date: Wed, 30 Jul 2025 06:15:05 +0800
 From: kernel test robot <lkp@intel.com>
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
 	Jeff Hugo <jeff.hugo@oss.qualcomm.com>
 Subject: [drm-exynos:exynos-drm-misc-next 1286/1301]
- drivers/accel/rocket/rocket_job.c:393:16: error:
- 'DRM_GPU_SCHED_STAT_NOMINAL' undeclared; did you mean
- 'DRM_GPU_SCHED_STAT_NO_HANG'?
-Message-ID: <202507300607.O0gDZwRJ-lkp@intel.com>
+ drivers/accel/rocket/rocket_job.c:394:1: warning: control reaches end of
+ non-void function
+Message-ID: <202507300648.T4M5aAzS-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -68,25 +67,25 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-misc-next
 head:   01ac6e4e53b6351df42c97d217b0d2dbeef5c917
 commit: 0810d5ad88a18f1e6d549853a388ad0316f74e36 [1286/1301] accel/rocket: Add job submission IOCTL
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20250730/202507300607.O0gDZwRJ-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507300607.O0gDZwRJ-lkp@intel.com/reproduce)
+config: um-allyesconfig (https://download.01.org/0day-ci/archive/20250730/202507300648.T4M5aAzS-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507300648.T4M5aAzS-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507300607.O0gDZwRJ-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507300648.T4M5aAzS-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
    drivers/accel/rocket/rocket_job.c: In function 'rocket_job_timedout':
->> drivers/accel/rocket/rocket_job.c:393:16: error: 'DRM_GPU_SCHED_STAT_NOMINAL' undeclared (first use in this function); did you mean 'DRM_GPU_SCHED_STAT_NO_HANG'?
+   drivers/accel/rocket/rocket_job.c:393:16: error: 'DRM_GPU_SCHED_STAT_NOMINAL' undeclared (first use in this function); did you mean 'DRM_GPU_SCHED_STAT_NO_HANG'?
      393 |         return DRM_GPU_SCHED_STAT_NOMINAL;
          |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
          |                DRM_GPU_SCHED_STAT_NO_HANG
    drivers/accel/rocket/rocket_job.c:393:16: note: each undeclared identifier is reported only once for each function it appears in
    drivers/accel/rocket/rocket_job.c: In function 'rocket_ioctl_submit_job':
->> drivers/accel/rocket/rocket_job.c:553:15: error: too few arguments to function 'drm_sched_job_init'; expected 5, have 4
+   drivers/accel/rocket/rocket_job.c:553:15: error: too few arguments to function 'drm_sched_job_init'
      553 |         ret = drm_sched_job_init(&rjob->base,
          |               ^~~~~~~~~~~~~~~~~~
    In file included from drivers/accel/rocket/rocket_core.h:7,
@@ -94,9 +93,13 @@ All errors (new ones prefixed by >>):
    include/drm/gpu_scheduler.h:655:5: note: declared here
      655 | int drm_sched_job_init(struct drm_sched_job *job,
          |     ^~~~~~~~~~~~~~~~~~
+   drivers/accel/rocket/rocket_job.c: In function 'rocket_job_timedout':
+>> drivers/accel/rocket/rocket_job.c:394:1: warning: control reaches end of non-void function [-Wreturn-type]
+     394 | }
+         | ^
 
 
-vim +393 drivers/accel/rocket/rocket_job.c
+vim +394 drivers/accel/rocket/rocket_job.c
 
    381	
    382	static enum drm_gpu_sched_stat rocket_job_timedout(struct drm_sched_job *sched_job)
@@ -110,205 +113,9 @@ vim +393 drivers/accel/rocket/rocket_job.c
    390		atomic_set(&core->reset.pending, 1);
    391		rocket_reset(core, sched_job);
    392	
- > 393		return DRM_GPU_SCHED_STAT_NOMINAL;
-   394	}
+   393		return DRM_GPU_SCHED_STAT_NOMINAL;
+ > 394	}
    395	
-   396	static void rocket_reset_work(struct work_struct *work)
-   397	{
-   398		struct rocket_core *core;
-   399	
-   400		core = container_of(work, struct rocket_core, reset.work);
-   401		rocket_reset(core, NULL);
-   402	}
-   403	
-   404	static const struct drm_sched_backend_ops rocket_sched_ops = {
-   405		.run_job = rocket_job_run,
-   406		.timedout_job = rocket_job_timedout,
-   407		.free_job = rocket_job_free
-   408	};
-   409	
-   410	static irqreturn_t rocket_job_irq_handler_thread(int irq, void *data)
-   411	{
-   412		struct rocket_core *core = data;
-   413	
-   414		rocket_job_handle_irq(core);
-   415	
-   416		return IRQ_HANDLED;
-   417	}
-   418	
-   419	static irqreturn_t rocket_job_irq_handler(int irq, void *data)
-   420	{
-   421		struct rocket_core *core = data;
-   422		u32 raw_status = rocket_pc_readl(core, INTERRUPT_RAW_STATUS);
-   423	
-   424		WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
-   425		WARN_ON(raw_status & PC_INTERRUPT_RAW_STATUS_DMA_READ_ERROR);
-   426	
-   427		if (!(raw_status & PC_INTERRUPT_RAW_STATUS_DPU_0 ||
-   428		      raw_status & PC_INTERRUPT_RAW_STATUS_DPU_1))
-   429			return IRQ_NONE;
-   430	
-   431		rocket_pc_writel(core, INTERRUPT_MASK, 0x0);
-   432	
-   433		return IRQ_WAKE_THREAD;
-   434	}
-   435	
-   436	int rocket_job_init(struct rocket_core *core)
-   437	{
-   438		struct drm_sched_init_args args = {
-   439			.ops = &rocket_sched_ops,
-   440			.num_rqs = DRM_SCHED_PRIORITY_COUNT,
-   441			.credit_limit = 1,
-   442			.timeout = msecs_to_jiffies(JOB_TIMEOUT_MS),
-   443			.name = dev_name(core->dev),
-   444			.dev = core->dev,
-   445		};
-   446		int ret;
-   447	
-   448		INIT_WORK(&core->reset.work, rocket_reset_work);
-   449		spin_lock_init(&core->fence_lock);
-   450		mutex_init(&core->job_lock);
-   451	
-   452		core->irq = platform_get_irq(to_platform_device(core->dev), 0);
-   453		if (core->irq < 0)
-   454			return core->irq;
-   455	
-   456		ret = devm_request_threaded_irq(core->dev, core->irq,
-   457						rocket_job_irq_handler,
-   458						rocket_job_irq_handler_thread,
-   459						IRQF_SHARED, dev_name(core->dev),
-   460						core);
-   461		if (ret) {
-   462			dev_err(core->dev, "failed to request job irq");
-   463			return ret;
-   464		}
-   465	
-   466		core->reset.wq = alloc_ordered_workqueue("rocket-reset-%d", 0, core->index);
-   467		if (!core->reset.wq)
-   468			return -ENOMEM;
-   469	
-   470		core->fence_context = dma_fence_context_alloc(1);
-   471	
-   472		args.timeout_wq = core->reset.wq;
-   473		ret = drm_sched_init(&core->sched, &args);
-   474		if (ret) {
-   475			dev_err(core->dev, "Failed to create scheduler: %d.", ret);
-   476			goto err_sched;
-   477		}
-   478	
-   479		return 0;
-   480	
-   481	err_sched:
-   482		drm_sched_fini(&core->sched);
-   483	
-   484		destroy_workqueue(core->reset.wq);
-   485		return ret;
-   486	}
-   487	
-   488	void rocket_job_fini(struct rocket_core *core)
-   489	{
-   490		drm_sched_fini(&core->sched);
-   491	
-   492		cancel_work_sync(&core->reset.work);
-   493		destroy_workqueue(core->reset.wq);
-   494	}
-   495	
-   496	int rocket_job_open(struct rocket_file_priv *rocket_priv)
-   497	{
-   498		struct rocket_device *rdev = rocket_priv->rdev;
-   499		struct drm_gpu_scheduler **scheds = kmalloc_array(rdev->num_cores, sizeof(scheds),
-   500								  GFP_KERNEL);
-   501		unsigned int core;
-   502		int ret;
-   503	
-   504		for (core = 0; core < rdev->num_cores; core++)
-   505			scheds[core] = &rdev->cores[core].sched;
-   506	
-   507		ret = drm_sched_entity_init(&rocket_priv->sched_entity,
-   508					    DRM_SCHED_PRIORITY_NORMAL,
-   509					    scheds,
-   510					    rdev->num_cores, NULL);
-   511		if (WARN_ON(ret))
-   512			return ret;
-   513	
-   514		return 0;
-   515	}
-   516	
-   517	void rocket_job_close(struct rocket_file_priv *rocket_priv)
-   518	{
-   519		struct drm_sched_entity *entity = &rocket_priv->sched_entity;
-   520	
-   521		kfree(entity->sched_list);
-   522		drm_sched_entity_destroy(entity);
-   523	}
-   524	
-   525	int rocket_job_is_idle(struct rocket_core *core)
-   526	{
-   527		/* If there are any jobs in this HW queue, we're not idle */
-   528		if (atomic_read(&core->sched.credit_count))
-   529			return false;
-   530	
-   531		return true;
-   532	}
-   533	
-   534	static int rocket_ioctl_submit_job(struct drm_device *dev, struct drm_file *file,
-   535					   struct drm_rocket_job *job)
-   536	{
-   537		struct rocket_device *rdev = to_rocket_device(dev);
-   538		struct rocket_file_priv *file_priv = file->driver_priv;
-   539		struct rocket_job *rjob = NULL;
-   540		int ret = 0;
-   541	
-   542		if (job->task_count == 0)
-   543			return -EINVAL;
-   544	
-   545		rjob = kzalloc(sizeof(*rjob), GFP_KERNEL);
-   546		if (!rjob)
-   547			return -ENOMEM;
-   548	
-   549		kref_init(&rjob->refcount);
-   550	
-   551		rjob->rdev = rdev;
-   552	
- > 553		ret = drm_sched_job_init(&rjob->base,
-   554					 &file_priv->sched_entity,
-   555					 1, NULL);
-   556		if (ret)
-   557			goto out_put_job;
-   558	
-   559		ret = rocket_copy_tasks(dev, file, job, rjob);
-   560		if (ret)
-   561			goto out_cleanup_job;
-   562	
-   563		ret = drm_gem_objects_lookup(file, u64_to_user_ptr(job->in_bo_handles),
-   564					     job->in_bo_handle_count, &rjob->in_bos);
-   565		if (ret)
-   566			goto out_cleanup_job;
-   567	
-   568		rjob->in_bo_count = job->in_bo_handle_count;
-   569	
-   570		ret = drm_gem_objects_lookup(file, u64_to_user_ptr(job->out_bo_handles),
-   571					     job->out_bo_handle_count, &rjob->out_bos);
-   572		if (ret)
-   573			goto out_cleanup_job;
-   574	
-   575		rjob->out_bo_count = job->out_bo_handle_count;
-   576	
-   577		rjob->domain = rocket_iommu_domain_get(file_priv);
-   578	
-   579		ret = rocket_job_push(rjob);
-   580		if (ret)
-   581			goto out_cleanup_job;
-   582	
-   583	out_cleanup_job:
-   584		if (ret)
-   585			drm_sched_job_cleanup(&rjob->base);
-   586	out_put_job:
-   587		rocket_job_put(rjob);
-   588	
-   589		return ret;
-   590	}
-   591	
 
 -- 
 0-DAY CI Kernel Test Service
