@@ -1,122 +1,104 @@
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7F4280A4B
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 12:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB064288CC;
+	Tue, 29 Jul 2025 12:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753791797; cv=none; b=tw63da13MoLXrXoVWwPLls+2IYYBMvdhXredrUs0/kaGDAle7w7LE++9+TJj3Qn35xNYAs83joHs+i/35KZDE6Ag73h+6ZmRH4CL7wL2SNi4yg9N0hVFPXLDXNUtnhe54s31VBjCIvrwAYNZeEZ5cuSsV2YghBmvJi7VKYI9ndg=
+	t=1753793181; cv=none; b=fKHw9fOYSWqA2mdsz6sZBrENUi/7zdRexoqJJ6TxBXqSBNitR+rkLLu/ePRE84NSPV2uB57pjGhZ9cwCgMgCm2c5JtooHuu+DJQ4iqLLZe/67Hc1dt/nFsmogiTK/MVWiLLtDuUe+jCEJffRWXhnELkFlrc3smq9vkYO243hjt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753791797; c=relaxed/simple;
-	bh=c5ql2LwbSyC1j3Y9FvlSg+2VJwZHQ/nuHeE6q7BYeUA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OsHLJ1+YbZUeNEp7c41bj5HX8j3pPCxJPVeu7oyohA9x0dg+hji+3LCAIRUos7G1PvsLS4SRM/2aJhEttoGrCBFn+MSX2AopmpvmUCr3vanbXtR6s+ajCWGf8S9cYpIocepl6FqEWcEvhkjXu4MZlPuEwbxAZd2ScOaglU44J5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=DWuZ/1XI; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1753793181; c=relaxed/simple;
+	bh=n+DyNlCVJvJMlCe4zS5352sTVpW1xx9oNFAud80lWzc=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=JnK8GCKvxbffLTJTI1PGC92VRak6Pv7DCFfMxGqgJmnHUCITxVZnUAhkcA6qOLvyPhm+htfCNO2QIqC9Eg2HAXnXbKrEAnxwL3s4spYP5WEl/bLPLa8D1X+nHYiNLfGdo5lw9ralDsxII8cYvY4a5/PexNXxxsmpj1oIbeFLbnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eeZbefuY; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="DWuZ/1XI"
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56TCMl4J2961788;
-	Tue, 29 Jul 2025 07:22:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1753791767;
-	bh=e3nvlVKCBTyX8mAmnTYnSsQqdWgC+ufyRK3D5Obt8JY=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=DWuZ/1XIfjmPZlUOl94+pdKxZ5J8e0VklOebRtp4dV9VdOR1CGD05BddmBEALqrkE
-	 lYjxNdc2sCoVe0VPs287oEBFNlm/3G0VgwRR3CtGHiRA8yvSUGmipwLOtn2M8Y7W/7
-	 DsiYjKClx2INZc4J7KZLZZQ1DSL/Pn4L3hhU1ZXA=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56TCMlRP1804735
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Tue, 29 Jul 2025 07:22:47 -0500
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 29
- Jul 2025 07:22:46 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 29 Jul 2025 07:22:46 -0500
-Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56TCMkDw3701653;
-	Tue, 29 Jul 2025 07:22:46 -0500
-Date: Tue, 29 Jul 2025 07:22:46 -0500
-From: Nishanth Menon <nm@ti.com>
-To: <huaqian.li@siemens.com>
-CC: <lkp@intel.com>, <baocheng.su@siemens.com>, <bhelgaas@google.com>,
-        <christophe.jaillet@wanadoo.fr>, <conor+dt@kernel.org>,
-        <devicetree@vger.kernel.org>, <diogo.ivo@siemens.com>,
-        <helgaas@kernel.org>, <jan.kiszka@siemens.com>, <kristo@kernel.org>,
-        <krzk+dt@kernel.org>, <kw@linux.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pci@vger.kernel.org>, <lpieralisi@kernel.org>,
-        <oe-kbuild-all@lists.linux.dev>, <robh@kernel.org>,
-        <s-vadapalli@ti.com>, <ssantosh@kernel.org>, <vigneshr@ti.com>
-Subject: Re: [PATCH v12 3/7] soc: ti: Add IOMMU-like PVU driver
-Message-ID: <20250729122246.o7upnxvqnp7nltdo@harmonize>
-References: <20250728023701.116963-1-huaqian.li@siemens.com>
- <20250728023701.116963-4-huaqian.li@siemens.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eeZbefuY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753793180; x=1785329180;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=n+DyNlCVJvJMlCe4zS5352sTVpW1xx9oNFAud80lWzc=;
+  b=eeZbefuYwxaHfn1XubsBimyqTphOG3MxdMZxyc4FhX1fK8c8qtmJrTF7
+   gNv/5ysY1B+PiVLTCGmOfjXgma3qrXgk0TxluAaJq3ErWKRgegA6G59Ut
+   7FRujUzd/TVr1L07HwS2sshy2DHp7jqWwb3NgUabMvFS3F5zPx+SQRDCj
+   qWgkLDZHI/jmPUwAgnOGrUDTWljeDMmoxe+vJ3pbSFvpLyEGuJjp7b7Ih
+   1hc3nzOgNftzsHW19JS3kJMIT2MRs5taN15wjBR4uFddHPO7Snq+72juK
+   +2Y7xn4eDo6d4OcpgDjR7v7ki8jJ7/IEWrOIaJW535tcBpSKV6LXVwd3i
+   A==;
+X-CSE-ConnectionGUID: /maQtQJuSq6YYhWf4FkeZg==
+X-CSE-MsgGUID: ja+zdxUoQy++uWKgMm0Tpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="55943393"
+X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
+   d="scan'208";a="55943393"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 05:46:20 -0700
+X-CSE-ConnectionGUID: yhHLyINBRR+qjenaZ/pEDQ==
+X-CSE-MsgGUID: Iloppt18Q2++fehcOPLQlQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,349,1744095600"; 
+   d="scan'208";a="166866255"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 29 Jul 2025 05:46:18 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ugjih-0001Hv-2s;
+	Tue, 29 Jul 2025 12:46:15 +0000
+Date: Tue, 29 Jul 2025 20:45:31 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sean Christopherson <seanjc@google.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [sean-jc:x86/kvm_exports_for_kvm 20/20]
+ include/linux/kvm_types.h:9:10: fatal error: 'asm/kvm_types.h' file not
+ found
+Message-ID: <202507292016.G4NJfddl-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250728023701.116963-4-huaqian.li@siemens.com>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On 10:36-20250728, huaqian.li@siemens.com wrote:
-> From: Jan Kiszka <jan.kiszka@siemens.com>
-> 
-> The TI Peripheral Virtualization Unit (PVU) permits to define a limited
-> set of mappings for DMA requests on the system memory. Unlike with an
-> IOMMU, there is no fallback to a memory-backed page table, only a fixed
-> set of register-backed TLBs. Emulating an IOMMU behavior appears to be
-> the more fragile the more fragmentation of pending requests occur.
-> 
-> Therefore, this driver does not expose the PVU as an IOMMU. It rather
-> introduces a simple, static interface to devices that are under
-> restricted-dma-pool constraints. They can register their pools with the
-> PVUs, enabling only those pools to work for DMA. As also MSI is issued
-> as DMA, the PVU already register the related translator region of the
-> AM654 as valid DMA target.
-> 
-> This driver is the essential building block for limiting DMA from
-> untrusted devices to clearly defined memory regions in the absence of a
-> real IOMMU (SMMU).
-> 
-> Co-developed-by: Diogo Ivo <diogo.ivo@siemens.com>
-> Signed-off-by: Diogo Ivo <diogo.ivo@siemens.com>
-> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
-> Signed-off-by: Li Hua Qian <huaqian.li@siemens.com>
-> ---
->  drivers/soc/ti/Kconfig  |   4 +
->  drivers/soc/ti/Makefile |   1 +
->  drivers/soc/ti/ti-pvu.c | 500 ++++++++++++++++++++++++++++++++++++++++
->  include/linux/ti-pvu.h  |  32 +++
->  4 files changed, 537 insertions(+)
->  create mode 100644 drivers/soc/ti/ti-pvu.c
->  create mode 100644 include/linux/ti-pvu.h
-> 
-> diff --git a/drivers/soc/ti/Kconfig b/drivers/soc/ti/Kconfig
-> index 1a93001c9e36..af7173ad84de 100644
-> --- a/drivers/soc/ti/Kconfig
-> +++ b/drivers/soc/ti/Kconfig
-> @@ -82,6 +82,10 @@ config TI_PRUSS
->  	  processors on various TI SoCs. It's safe to say N here if you're
->  	  not interested in the PRU or if you are unsure.
->  
-> +config TI_PVU
-> +	bool "TI Peripheral Virtualization Unit driver"
+tree:   https://github.com/sean-jc/linux x86/kvm_exports_for_kvm
+head:   ad35ef8ce42f860d08d8f651d3cbafcede4f8275
+commit: ad35ef8ce42f860d08d8f651d3cbafcede4f8275 [20/20] x86: Restrict KVM-induced symbol exports to KVM modules where obvious/possible
+config: arm-randconfig-002-20250729 (https://download.01.org/0day-ci/archive/20250729/202507292016.G4NJfddl-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250729/202507292016.G4NJfddl-lkp@intel.com/reproduce)
 
-tristate please? Prefer to make this as a module.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507292016.G4NJfddl-lkp@intel.com/
 
+All errors (new ones prefixed by >>):
+
+   In file included from kernel/events/core.c:29:
+>> include/linux/kvm_types.h:9:10: fatal error: 'asm/kvm_types.h' file not found
+       9 | #include <asm/kvm_types.h>
+         |          ^~~~~~~~~~~~~~~~~
+   1 error generated.
+
+
+vim +9 include/linux/kvm_types.h
+
+d77a39d982431ef drivers/kvm/types.h       Hollis Blanchard    2007-12-03   5  
+eeecbf904ba24bd include/linux/kvm_types.h Sean Christopherson 2025-06-20   6  #include <linux/bits.h>
+eeecbf904ba24bd include/linux/kvm_types.h Sean Christopherson 2025-06-20   7  #include <linux/export.h>
+eeecbf904ba24bd include/linux/kvm_types.h Sean Christopherson 2025-06-20   8  #include <linux/types.h>
+eeecbf904ba24bd include/linux/kvm_types.h Sean Christopherson 2025-06-20  @9  #include <asm/kvm_types.h>
+eeecbf904ba24bd include/linux/kvm_types.h Sean Christopherson 2025-06-20  10  
+
+:::::: The code at line 9 was first introduced by commit
+:::::: eeecbf904ba24bd3aebf40fd37fadfbf7ca43c3d KVM: Export KVM-internal symbols for sub-modules only
+
+:::::: TO: Sean Christopherson <seanjc@google.com>
+:::::: CC: Sean Christopherson <seanjc@google.com>
 
 -- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
-https://ti.com/opensource
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
