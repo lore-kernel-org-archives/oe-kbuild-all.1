@@ -1,122 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E418A2253A1
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 22:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 618FA280CCE
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 23:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753827318; cv=none; b=OwIj1B6LJzKDcSgbV9ea+vLly83NTdIvapfjcXaOZxciP70CpLasZIXNKs0UQC7OTCWnLeCmgdb+iweSyoXfEvVif8l0JiGI6fOMrvVR7aHgItcfcF7BLqVX/2Ne++NZZuKScIClgjICNFrkciVUBfZ8DFQVGVRE2iGTledeKyo=
+	t=1753830796; cv=none; b=twOHlWMUbIkvSdfOUCR/WwLr2UEG9adhL7XKDERdEutuGC+FMjs+dSSwMTDAQ457HppIs8gyoyUAS1YdvDX8fjV/2BnM6M2w1YrA2+3L41xJ4LAHbwgEe7iC0kdMD6WsUoSaUjCtUZ0S5WEGPjdsF0sTWuggAzWvpx1M90VK4YY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753827318; c=relaxed/simple;
-	bh=qE1irq/pkCQwmhZPfMF3CXokwHdwGrZidyftnMHCe8I=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cWlks8tJH7JmL+n4VplSPuwXprAPdjfvLRrO41b4Ukj83uIWyvyR4B6Zb8U6zXtmI0ZLwiidFUdllF0sSVf8yt7xM/UQ3+YKAD6ZLmenihkFjXKOXfu121fjqNpvx380Lw0C+N5h6ISQwO+YLFmNOz9lQizzzlHkUlyv7PWQZNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMqyfP0Z; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753830796; c=relaxed/simple;
+	bh=WxvGFF87EU5ki9LEBULBMG8gjNsmrJZkd22aGwiMvlk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ILJUoZZjL6gzJUlg/aDtolvtvMCpbfXWpMItbpq8SUcv5PWpKIlgDinbtR4QwL9G25bS3RJ70n5bKC3d6VZHKmfjJcwfesUk7Y6by0e+7r9E+csU6IaWOfW6i6kzsiODJJz9F6+ge8C5PFbNJA6YnxgUCONLomCpB/qasp3DIMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=BiEAl4Qm; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMqyfP0Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753827316; x=1785363316;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qE1irq/pkCQwmhZPfMF3CXokwHdwGrZidyftnMHCe8I=;
-  b=EMqyfP0ZEik33fLjh5uUUgSWbQ2QGpMciZc1FH4qwPzwq9rKwTZn1QrF
-   Ly/TvvVtuEFGhDa78af1MqctYKaQrOrYo09kF/1Ykhck8a2/ZGMP29U1x
-   LPGuriYeSrWJBMUpfxdiEUi503clXzRk/GO2iWFABOWmL9CKOUKjpWgy+
-   Z2r4qbB8m2pJHgs+fd+rQwIEetnH373qwTGIO+laEBAYFvfWAsVd9tPhB
-   7wF+diYn8oyTE3kduHJ7THHLNTlJQgHTy+3PQZK5A0ccXD82SXPwImhHJ
-   CURgyAKnJjKmsRlzvEnwiA8/knJIrZr3cW+fFB3o35hyO+t+CADuSy33w
-   w==;
-X-CSE-ConnectionGUID: JYjv9pBhRLKSLVOfcLQ2ig==
-X-CSE-MsgGUID: roedn7juSCaQ0kCTYF/wGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="55325440"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="55325440"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 15:15:15 -0700
-X-CSE-ConnectionGUID: FPF3SlkNRIy0/qGZEhLtig==
-X-CSE-MsgGUID: +CUeqjg2ROGcCmtrwDNOXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="167028736"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 Jul 2025 15:15:14 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ugsbH-0001jP-2M;
-	Tue, 29 Jul 2025 22:15:11 +0000
-Date: Wed, 30 Jul 2025 06:15:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Subject: [drm-exynos:exynos-drm-misc-next 1286/1301]
- drivers/accel/rocket/rocket_job.c:394:1: warning: control reaches end of
- non-void function
-Message-ID: <202507300648.T4M5aAzS-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="BiEAl4Qm"
+Message-ID: <df4b0996-3e88-4ea4-983b-82866455a6fc@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1753830792;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yjZl9PRQAkl316Uaa6TzM+hjGmhIkh7ZeU0G7I1jd4M=;
+	b=BiEAl4Qm3PbuOsjicsutjMzchEM7XKBSfoLzdFyUpBR9uGvso774O5UyFJNIOtd2NwzlTT
+	Bcic+Ln0G48LIKHqwWhrCKJ23M07E4r1AmTtIaFcd3/AKrVWpQ99+dyepcr85P1eTuC0WQ
+	sUe6tM/IXZbQhTTvtgXsCgAFVqinD6E=
+Date: Tue, 29 Jul 2025 16:13:06 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Subject: Re: [PATCH bpf-next v3 3/4] bpf: add bpf_icmp_send_unreach cgroup_skb
+ kfunc
+To: Mahe Tardy <mahe.tardy@gmail.com>
+Cc: alexei.starovoitov@gmail.com, andrii@kernel.org, ast@kernel.org,
+ bpf@vger.kernel.org, coreteam@netfilter.org, daniel@iogearbox.net,
+ fw@strlen.de, john.fastabend@gmail.com, netdev@vger.kernel.org,
+ netfilter-devel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+ pablo@netfilter.org, lkp@intel.com
+References: <202507270940.kXGmRbg5-lkp@intel.com>
+ <20250728094345.46132-1-mahe.tardy@gmail.com>
+ <20250728094345.46132-4-mahe.tardy@gmail.com>
+ <b3f25e61-7b0c-4576-baae-9b498c3b8748@linux.dev> <aIidIq2EM--Ugp6f@gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+In-Reply-To: <aIidIq2EM--Ugp6f@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/daeinki/drm-exynos.git exynos-drm-misc-next
-head:   01ac6e4e53b6351df42c97d217b0d2dbeef5c917
-commit: 0810d5ad88a18f1e6d549853a388ad0316f74e36 [1286/1301] accel/rocket: Add job submission IOCTL
-config: um-allyesconfig (https://download.01.org/0day-ci/archive/20250730/202507300648.T4M5aAzS-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507300648.T4M5aAzS-lkp@intel.com/reproduce)
+On 7/29/25 3:06 AM, Mahe Tardy wrote:
+> On Mon, Jul 28, 2025 at 06:05:26PM -0700, Martin KaFai Lau wrote:
+>> On 7/28/25 2:43 AM, Mahe Tardy wrote:
+>>> This is needed in the context of Tetragon to provide improved feedback
+>>> (in contrast to just dropping packets) to east-west traffic when blocked
+>>> by policies using cgroup_skb programs.
+>>>
+>>> This reuse concepts from netfilter reject target codepath with the
+>>> differences that:
+>>> * Packets are cloned since the BPF user can still return SK_PASS from
+>>>     the cgroup_skb progs and the current skb need to stay untouched
+>>
+>> This needs more details. Which field(s) of the skb are changed by the kfunc,
+>> the skb_dst_set in ip[6]_route_reply_fetch_dst() and/or the code path in the
+>> icmp[v6]_send() ?
+> 
+> Okay I can add that: "ip[6]_route_reply_fetch_dst set the dst of the skb
+> by using the saddr as a daddr and routing it", I don't think
+> icmp[v6]_send touches the skb?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507300648.T4M5aAzS-lkp@intel.com/
+I also don't think icmp[v6]_send touches the skb. I am still not sure if 
+ip[6]_route_reply_fetch_dst is needed.
 
-All warnings (new ones prefixed by >>):
+> 
+>>
+>>>     (cgroup_skb hooks only allow read-only skb payload).
+>>> * Since cgroup_skb programs are called late in the stack, checksums do
+>>>     not need to be computed or verified, and IPv4 fragmentation does not
+>>>     need to be checked (ip_local_deliver should take care of that
+>>>     earlier).
+>>>
+>>> Signed-off-by: Mahe Tardy <mahe.tardy@gmail.com>
+>>> ---
+>>>    net/core/filter.c | 61 +++++++++++++++++++++++++++++++++++++++++++++++
+>>>    1 file changed, 61 insertions(+)
+>>>
+>>> diff --git a/net/core/filter.c b/net/core/filter.c
+>>> index 7a72f766aacf..050872324575 100644
+>>> --- a/net/core/filter.c
+>>> +++ b/net/core/filter.c
+>>> @@ -85,6 +85,10 @@
+>>>    #include <linux/un.h>
+>>>    #include <net/xdp_sock_drv.h>
+>>>    #include <net/inet_dscp.h>
+>>> +#include <linux/icmp.h>
+>>> +#include <net/icmp.h>
+>>> +#include <net/route.h>
+>>> +#include <net/ip6_route.h>
+>>>
+>>>    #include "dev.h"
+>>>
+>>> @@ -12148,6 +12152,53 @@ __bpf_kfunc int bpf_sock_ops_enable_tx_tstamp(struct bpf_sock_ops_kern *skops,
+>>>    	return 0;
+>>>    }
+>>>
+>>> +__bpf_kfunc int bpf_icmp_send_unreach(struct __sk_buff *__skb, int code)
+>>> +{
+>>> +	struct sk_buff *skb = (struct sk_buff *)__skb;
+>>> +	struct sk_buff *nskb;
+>>> +
+>>> +	switch (skb->protocol) {
+>>> +	case htons(ETH_P_IP):
+>>> +		if (code < 0 || code > NR_ICMP_UNREACH)
+>>> +			return -EINVAL;
+>>> +
+>>> +		nskb = skb_clone(skb, GFP_ATOMIC);
+>>> +		if (!nskb)
+>>> +			return -ENOMEM;
+>>> +
+>>> +		if (ip_route_reply_fetch_dst(nskb) < 0) {
+>>> +			kfree_skb(nskb);
+>>> +			return -EHOSTUNREACH;
+>>> +		}
+>>> +
+>>> +		icmp_send(nskb, ICMP_DEST_UNREACH, code, 0);
+>>> +		kfree_skb(nskb);
+>>> +		break;
+>>> +#if IS_ENABLED(CONFIG_IPV6)
+>>> +	case htons(ETH_P_IPV6):
+>>> +		if (code < 0 || code > ICMPV6_REJECT_ROUTE)
+>>> +			return -EINVAL;
+>>> +
+>>> +		nskb = skb_clone(skb, GFP_ATOMIC);
+>>> +		if (!nskb)
+>>> +			return -ENOMEM;
+>>> +
+>>> +		if (ip6_route_reply_fetch_dst(nskb) < 0) {
+>>
+>>  From a very quick look at icmpv6_send(), it does its own route lookup. I
+>> haven't looked at the v4 yet.
+>>
+>> I am likely missing some details. Can you explain why it needs to do a
+>> lookup before calling icmpv6_send()?
+> 
+>  From my understanding, I need to do this to invert the daddr with the
+> saddr to send the unreach message back to the sender.
 
-   drivers/accel/rocket/rocket_job.c: In function 'rocket_job_timedout':
-   drivers/accel/rocket/rocket_job.c:393:16: error: 'DRM_GPU_SCHED_STAT_NOMINAL' undeclared (first use in this function); did you mean 'DRM_GPU_SCHED_STAT_NO_HANG'?
-     393 |         return DRM_GPU_SCHED_STAT_NOMINAL;
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                DRM_GPU_SCHED_STAT_NO_HANG
-   drivers/accel/rocket/rocket_job.c:393:16: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/accel/rocket/rocket_job.c: In function 'rocket_ioctl_submit_job':
-   drivers/accel/rocket/rocket_job.c:553:15: error: too few arguments to function 'drm_sched_job_init'
-     553 |         ret = drm_sched_job_init(&rjob->base,
-         |               ^~~~~~~~~~~~~~~~~~
-   In file included from drivers/accel/rocket/rocket_core.h:7,
-                    from drivers/accel/rocket/rocket_job.c:15:
-   include/drm/gpu_scheduler.h:655:5: note: declared here
-     655 | int drm_sched_job_init(struct drm_sched_job *job,
-         |     ^~~~~~~~~~~~~~~~~~
-   drivers/accel/rocket/rocket_job.c: In function 'rocket_job_timedout':
->> drivers/accel/rocket/rocket_job.c:394:1: warning: control reaches end of non-void function [-Wreturn-type]
-     394 | }
-         | ^
+ From looking at how fl6.{daddr,saddr} are filled and passed to 
+icmpv6_route_lookup in icmpv6_send(), the icmpv6_send() should have done the 
+reverse/invert route lookup. I also don't see icmpv6_send uses the skb_dst() of 
+the original skb. Did I misread the code? The kfunc does not work without 
+ip[6]_route_reply_fetch_dst()? Again, I have not checked the v4 icmp_send. fwiw, 
+the selftest should have both v4 and v6 test.
 
+Note that at cgroup/egress, the skb->_skb_refdst should have been set.
 
-vim +394 drivers/accel/rocket/rocket_job.c
+The same should be true for cgroup/ingress for inet proto but it seems 
+BPF_CGROUP_RUN_PROG_"INET"_INGRESS is not called from INET only now. e.g. 
+sk_filter() can be called from af_netlink. It seems like there is a bug.
 
-   381	
-   382	static enum drm_gpu_sched_stat rocket_job_timedout(struct drm_sched_job *sched_job)
-   383	{
-   384		struct rocket_job *job = to_rocket_job(sched_job);
-   385		struct rocket_device *rdev = job->rdev;
-   386		struct rocket_core *core = sched_to_core(rdev, sched_job->sched);
-   387	
-   388		dev_err(core->dev, "NPU job timed out");
-   389	
-   390		atomic_set(&core->reset.pending, 1);
-   391		rocket_reset(core, sched_job);
-   392	
-   393		return DRM_GPU_SCHED_STAT_NOMINAL;
- > 394	}
-   395	
+> 
+>>
+>>> +			kfree_skb(nskb);
+>>> +			return -EHOSTUNREACH;
+>>> +		}
+>>> +
+>>> +		icmpv6_send(nskb, ICMPV6_DEST_UNREACH, code, 0);
+>>> +		kfree_skb(nskb);
+>>> +		break;
+>>> +#endif
+>>> +	default:
+>>> +		return -EPROTONOSUPPORT;
+>>> +	}
+>>> +
+>>> +	return SK_DROP;
+>>> +}
+>>> +
+> 
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
