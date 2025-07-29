@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E071221737;
-	Tue, 29 Jul 2025 03:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95F391FE44D
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 03:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753760606; cv=none; b=q4BO6E8+MFUk2+5Nk3k3sDWf2e4iJWVoqr6NpNY9XaonfjMAo/ZRnyUeKJLcxAA+9VXYPC3fw9r5muoBVybmMPDnzBRM44SYltllisADW8zM0KXB9nmzEebtbuZbqfrb8zju8AkhPA1oVn6/sxccdgyqIMP8bAV24KgwfyCgUBw=
+	t=1753761213; cv=none; b=AB0zmlmN6VIg6UvecpspfJgVzVUKs2Oaz2VEEVX4JdgfERS72m7s+MXreMpgcGVL9SlhoDV3vF6Dv0mKAohcp1MybgMMLQo7xhFyRH+UGSNTNqHPPhXPGMfKRGSLa1f4qjRA3Gw92ZobiLDBzlbpqfo3C7myKOkv1Xgha5PUAPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753760606; c=relaxed/simple;
-	bh=MSHUoTMwY9oyY7Q1By+Pt8D/32X7z1oJYuHmG752vAk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EXsrigztrgx2qryTOMxOutyyioZQakzKPuMNM4GDHJqS4MjKj8oYcB78vOTjeetha08hT77+pF5n+0RjVP0XHzZaMQkrpXH+CPMD2Vx95jSSMpQKgJ6dUvXSdUvK/1y/jolkqkxZCtrtwUsRLa83mjRknn3TCEu8RlgY0wWzhqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KXnVZKJd; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1753761213; c=relaxed/simple;
+	bh=YjEML0PbjaznciIA66W7SLSfI1fkvNFPDDax1CCFlEU=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=iWZeauaWPI7BIrz/XzszpaF0lTf3Nv0EeYsdMqm0xlhlHdoUUgIsARVx6ScBMeFCbGcsiZzyMzbWVBTL5KXJhN5cZieMoOeybFbsDyf0N4DW4vIwZr7eHvQ5oszOxU63SfNmTKYotpFx45pbgMQroLEJ1cDTIxo9pI0MZOkDQmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j8OkQ1e5; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KXnVZKJd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j8OkQ1e5"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753760605; x=1785296605;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=MSHUoTMwY9oyY7Q1By+Pt8D/32X7z1oJYuHmG752vAk=;
-  b=KXnVZKJduo1izaWZ6KJGoChfgyx7AL7YF+5a7lRCvS7q5Tl8Fi8Y0ZRF
-   XkA8swUlpSZR3L4BQ9mWo6JQUpYl4xQiuJKrfGxxxet9WGIA3kuyuVaZ1
-   Ax3AAdi5YnwfygZn0hRAHaNC3v1lPdcXJjAcTyqTKTL4dpIadjU9jLyMm
-   aJtoMc4DNL0losDTW6b8IGqqHpd8OjHgP1EC8C7rNv0DdwDxKuQIHWxjB
-   omkT/snzPxpo3rX88eiJgFcH8ukGhHAp7T4yEfGKTgD7qwawKxizNaKSQ
-   tfNItF4CWrmEBX3iAlB4gp6QKuGVucAZ0QhjJttiOqGONFKc5EJyT9/Dv
-   g==;
-X-CSE-ConnectionGUID: R7ygtCGxS4KX83XGu+vLXg==
-X-CSE-MsgGUID: g+3zxfeUTme9K0dmyBSMnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="56169092"
+  t=1753761212; x=1785297212;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=YjEML0PbjaznciIA66W7SLSfI1fkvNFPDDax1CCFlEU=;
+  b=j8OkQ1e52Qx5zsNlsSlOTvym2al0YQCdiuhSc+DAi7XFZVxWOZNe0MEb
+   /N8THlHBhB6JRkMZgAuAOS8L3Y1W3hjdeN4NHOBMYtdecE//NHOYxYQNT
+   25D0HMidiuBFI9ersLnKAUyDe1N8VxCYymVAiV60q2mi4vwBuWzOHLcDb
+   SkQRZNH5s/mEDKBuWSSG7MbnuEIAO58706czTbpH+gKBxvbl3hnF8NPJZ
+   FPw1ARPQfjtPimV4J7f/xfdjUJvOu6J7pxhWTDwkeppEEdTBidAteA2MD
+   OzM2ax50n+6RJcMbuAmxSXAg0q/Ta8TOWBdrmWV0nL10/KyMW508FOj2b
+   A==;
+X-CSE-ConnectionGUID: k0fK/BpvQL6Y6b3ktvFgdg==
+X-CSE-MsgGUID: /DSXGXsXQaWzkEttpKPHIg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="73469308"
 X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="56169092"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 20:43:24 -0700
-X-CSE-ConnectionGUID: SXW922UHQ2KYmkp/06qCFA==
-X-CSE-MsgGUID: ObdttVA4S2SxFdfQh85pxQ==
+   d="scan'208";a="73469308"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 20:53:31 -0700
+X-CSE-ConnectionGUID: H6xkPzyzRdmdAZFDsTXkhg==
+X-CSE-MsgGUID: zYHq2XzFR+2wuDoEI6Gmxg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="186235766"
+   d="scan'208";a="163032338"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa002.fm.intel.com with ESMTP; 28 Jul 2025 20:43:21 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 28 Jul 2025 20:53:30 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ugbFH-0000xL-2p;
-	Tue, 29 Jul 2025 03:43:19 +0000
-Date: Tue, 29 Jul 2025 11:43:12 +0800
+	id 1ugbP5-0000xn-2p;
+	Tue, 29 Jul 2025 03:53:27 +0000
+Date: Tue, 29 Jul 2025 11:53:26 +0800
 From: kernel test robot <lkp@intel.com>
-To: Menglong Dong <menglong8.dong@gmail.com>, alexei.starovoitov@gmail.com,
-	mhiramat@kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	rostedt@goodmis.org, mathieu.desnoyers@efficios.com,
-	hca@linux.ibm.com, revest@chromium.org,
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	bpf@vger.kernel.org
-Subject: Re: [PATCH bpf-next 1/4] fprobe: use rhashtable
-Message-ID: <202507291147.Fov8pl4N-lkp@intel.com>
-References: <20250728041252.441040-2-dongml2@chinatelecom.cn>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:devel-6.6 35/35] mm/shrinker.c:698: warning:
+ This comment starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202507291110.bTFrwdmE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,79 +62,35 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250728041252.441040-2-dongml2@chinatelecom.cn>
 
-Hi Menglong,
+Hi Qi,
 
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on bpf-next/master]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Menglong-Dong/fprobe-use-rhashtable/20250728-121631
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250728041252.441040-2-dongml2%40chinatelecom.cn
-patch subject: [PATCH bpf-next 1/4] fprobe: use rhashtable
-config: loongarch-allmodconfig (https://download.01.org/0day-ci/archive/20250729/202507291147.Fov8pl4N-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250729/202507291147.Fov8pl4N-lkp@intel.com/reproduce)
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git devel-6.6
+head:   f5139a8dd3c12cb0a4d854039d7c6ae10a89a87f
+commit: b3e9f57966dfb560c0430ca84ce86076206ebf4e [35/35] drm/ttm: introduce pool_shrink_rwsem
+config: x86_64-anolis-intel-cloud-devel-6.6 (https://download.01.org/0day-ci/archive/20250729/202507291110.bTFrwdmE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250729/202507291110.bTFrwdmE-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507291147.Fov8pl4N-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507291110.bTFrwdmE-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
-   In file included from kernel/trace/fprobe.c:8:
->> include/linux/fprobe.h:29:20: error: field has incomplete type 'struct rhash_head'
-      29 |         struct rhash_head       hlist;
-         |                                 ^
-   include/linux/fprobe.h:29:9: note: forward declaration of 'struct rhash_head'
-      29 |         struct rhash_head       hlist;
-         |                ^
->> kernel/trace/fprobe.c:71:17: error: initializer element is not a compile-time constant
-      71 |         .key_offset             = offsetof(struct fprobe_hlist_node, addr),
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/stddef.h:16:32: note: expanded from macro 'offsetof'
-      16 | #define offsetof(TYPE, MEMBER)  __builtin_offsetof(TYPE, MEMBER)
-         |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
---
-   In file included from kernel/trace/trace_fprobe.c:9:
->> include/linux/fprobe.h:29:20: error: field has incomplete type 'struct rhash_head'
-      29 |         struct rhash_head       hlist;
-         |                                 ^
-   include/linux/fprobe.h:29:9: note: forward declaration of 'struct rhash_head'
-      29 |         struct rhash_head       hlist;
-         |                ^
-   1 error generated.
+>> mm/shrinker.c:698: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+    * Keep synchronize_shrinkers() here only to keep KAPI compatibility,
 
 
-vim +29 include/linux/fprobe.h
+vim +698 mm/shrinker.c
 
-    11	
-    12	struct fprobe;
-    13	typedef int (*fprobe_entry_cb)(struct fprobe *fp, unsigned long entry_ip,
-    14				       unsigned long ret_ip, struct ftrace_regs *regs,
-    15				       void *entry_data);
-    16	
-    17	typedef void (*fprobe_exit_cb)(struct fprobe *fp, unsigned long entry_ip,
-    18				       unsigned long ret_ip, struct ftrace_regs *regs,
-    19				       void *entry_data);
-    20	
-    21	/**
-    22	 * struct fprobe_hlist_node - address based hash list node for fprobe.
-    23	 *
-    24	 * @hlist: The hlist node for address search hash table.
-    25	 * @addr: One of the probing address of @fp.
-    26	 * @fp: The fprobe which owns this.
-    27	 */
-    28	struct fprobe_hlist_node {
-  > 29		struct rhash_head	hlist;
-    30		unsigned long		addr;
-    31		struct fprobe		*fp;
-    32	};
-    33	
+   695	
+   696	
+   697	/**
+ > 698	 * Keep synchronize_shrinkers() here only to keep KAPI compatibility,
 
 -- 
 0-DAY CI Kernel Test Service
