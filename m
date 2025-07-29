@@ -1,99 +1,123 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CFA6DDAD;
-	Tue, 29 Jul 2025 03:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9061220F4C;
+	Tue, 29 Jul 2025 03:43:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753760360; cv=none; b=HvMiC7vvVt5u2FQHE+Md0rhe8BVB0irIo2z4VTqC1A2fWNtKopDTnru2H0gLX1S0oQoCn8jd8h5c09xZVY21CgNiZ5OPA3nFl+wQd5r1B3ZeOxalsQg5TamiQM3ELnHR1OYXUa7oCryKu4Gow0AqQ7CemIzlcH/XmDWHKgEPYdE=
+	t=1753760605; cv=none; b=rmzBA2U/XJ6B9/9PtxoQFIRh0EKWePWMGIPRsqUKQLxtd4Z2BCoEWzqxg885mOUYs198DY2aueRBdXcTD+/SQE2Api1El5/7izJOSAH2rO8a8PmXa9uG8FuT8QFiUWB5UD3dItD/iCiOvO+wnKCC/m0KZf5lh7TIQfl2CV7rit8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753760360; c=relaxed/simple;
-	bh=+fRZzJ1pu67g9KHLNxQ3jpr84tD0RNMl/F+xLKkO6oA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cZRTjJJUWttNenf3RG12/CtNtYpWSSo25OvO9uzq3DtkfHkkxPN2LK9psuveYBHbNh/i2dY8JjgtZcm2dsAOIyv/JNmyAezOkM168a+grqq7mpJBmx0BZfGW/UDe85dE2kULKaRr34nX90Pz2l2Ps5s1oyT3zCb8fO6YXMLv3EM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=EeUtus7E; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1753760605; c=relaxed/simple;
+	bh=lfow2nKo483GnK8aqGoaa98ibrQ0nshuY2+yq7pc0F4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yp0Z0Vi2XB8IhjAZDEIADZNmSeczEdsE+c3qdcm/hjr2mU+/RvWK4KMAHHgYU73vryXO9yTQdJJ4vRIDEaNR7i0XF+Q7pErk/ZZ112moxmrJoaZT5UgHxfv9Iq6MlDqNoj2UIqphkbeC2Z+vSlE5NhedxF6ui3+1EzkHD4to9Bo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MSec8DAG; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="EeUtus7E"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=t/XS/3PTCMm0S3QcbaBTHk9W6SFZ4M0isoxxK1P40rA=; b=EeUtus7EGzqjVhpchsIz5g/lVn
-	hSDLcMZq2mUG5bd2T8NU7Hc7HoguICNtiqLEdjNncZ/39JqzWst5IM/VpbC7Tm+mXsBMmYTw3a0MM
-	uqhI16JQVuEpO3FrEFQVozugNc6FulORAy4MwjVr9oMcBZLPLbrnq/8eJK/pQU4Xb0JM9TWvBpqs6
-	2sQq0aZBMQaMWqX3S+qAdxwt/tNiZuKB1m7E1uWMmcad425qJoOQunlETXb59v2qAXqAA9+AE6D7Y
-	WTnaS3hVtGesd3b+I1Rj2P0dsnnyt7GBmSgBfMFLU3cHpZBmP+TXX95RNWPdqhcKeUgn7TqRbvEL0
-	UR1QHcQA==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1ugbBM-0000000Fr49-3FRo;
-	Tue, 29 Jul 2025 03:39:16 +0000
-Message-ID: <cbe025e7-a769-4132-98c4-167d95c95139@infradead.org>
-Date: Mon, 28 Jul 2025 20:39:15 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MSec8DAG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753760604; x=1785296604;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lfow2nKo483GnK8aqGoaa98ibrQ0nshuY2+yq7pc0F4=;
+  b=MSec8DAGZ5RxxmlV9LY+bhJr01i1iTa7EBvchY6p4pl+xx0gz8UBpH7z
+   Z4jf9cLf2wCPnPvS1ZtgRGigfczPqyo/lvWVYOw5ORtJA9BMIo5SMI1qs
+   kaop8uRRpZ5/Uw24L1S5m303bvsIITgFI2kZwIMt9FVCE6qKIHu5vqJWj
+   BRGPy0cX7yoJjP/2hY2mhDe0PVf5WwBSfvhJfHJrfGYN5U6wdBrEIBmDY
+   4BIWe+cfjy8lnkwVNxe2SCV9+2BrMivTkTDYF3PCyvTuGac66YJsOODXN
+   m7peksJ8XGZ2wVhX1tqycLI3+VjLQ6FQ8Z6yYq5jwm+g5zgIUaiRUMOir
+   g==;
+X-CSE-ConnectionGUID: FYkIdhrzQPe5WSHqRGTRgg==
+X-CSE-MsgGUID: gFezAl9HQuugqdj2G7jAqQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="56169090"
+X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
+   d="scan'208";a="56169090"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Jul 2025 20:43:23 -0700
+X-CSE-ConnectionGUID: kZXigimBSFmJAashtomMKQ==
+X-CSE-MsgGUID: aQBrMxHFSjaEr5ba4k2S5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
+   d="scan'208";a="186235765"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 28 Jul 2025 20:43:21 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ugbFH-0000xN-2t;
+	Tue, 29 Jul 2025 03:43:19 +0000
+Date: Tue, 29 Jul 2025 11:43:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Leon Hwang <leon.hwang@linux.dev>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH bpf-next 1/5] bpf: Extend bpf syscall with common
+ attributes support
+Message-ID: <202507291146.0df0CQq9-lkp@intel.com>
+References: <20250728142346.95681-2-leon.hwang@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
-To: kernel test robot <lkp@intel.com>,
- "Derek J. Clark" <derekjohn.clark@gmail.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Hans de Goede <hansg@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, Jean Delvare <jdelvare@suse.com>,
- Guenter Roeck <linux@roeck-us.net>, Alok Tiwari <alok.a.tiwari@oracle.com>,
- David Box <david.e.box@linux.intel.com>,
- platform-driver-x86@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250726204041.516440-2-derekjohn.clark@gmail.com>
- <202507290022.MIp5QCIp-lkp@intel.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <202507290022.MIp5QCIp-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250728142346.95681-2-leon.hwang@linux.dev>
+
+Hi Leon,
+
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on bpf-next/master]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Leon-Hwang/bpf-Extend-bpf-syscall-with-common-attributes-support/20250728-222848
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250728142346.95681-2-leon.hwang%40linux.dev
+patch subject: [RFC PATCH bpf-next 1/5] bpf: Extend bpf syscall with common attributes support
+config: arm-randconfig-002-20250729 (https://download.01.org/0day-ci/archive/20250729/202507291146.0df0CQq9-lkp@intel.com/config)
+compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250729/202507291146.0df0CQq9-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507291146.0df0CQq9-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> kernel/bpf/syscall.c:6140:1: error: conflicting types for 'sys_bpf'
+    6140 | SYSCALL_DEFINE5(bpf, int, cmd, union bpf_attr __user *, uattr, unsigned int, size,
+         | ^
+   include/linux/syscalls.h:228:36: note: expanded from macro 'SYSCALL_DEFINE5'
+     228 | #define SYSCALL_DEFINE5(name, ...) SYSCALL_DEFINEx(5, _##name, __VA_ARGS__)
+         |                                    ^
+   include/linux/syscalls.h:235:2: note: expanded from macro 'SYSCALL_DEFINEx'
+     235 |         __SYSCALL_DEFINEx(x, sname, __VA_ARGS__)
+         |         ^
+   include/linux/syscalls.h:249:18: note: expanded from macro '__SYSCALL_DEFINEx'
+     249 |         asmlinkage long sys##name(__MAP(x,__SC_DECL,__VA_ARGS__))       \
+         |                         ^
+   <scratch space>:50:1: note: expanded from here
+      50 | sys_bpf
+         | ^
+   include/linux/syscalls.h:929:17: note: previous declaration is here
+     929 | asmlinkage long sys_bpf(int cmd, union bpf_attr __user *attr, unsigned int size);
+         |                 ^
+   1 error generated.
 
 
+vim +/sys_bpf +6140 kernel/bpf/syscall.c
 
-On 7/28/25 9:31 AM, kernel test robot wrote:
-> Hi Derek,
-> 
-> kernel test robot noticed the following build errors:
-> 
-> [auto build test ERROR on groeck-staging/hwmon-next]
-> [also build test ERROR on linus/master v6.16 next-20250728]
-> [If your patch is applied to the wrong git tree, kindly drop us a note.
-> And when submitting patch, we suggest to use '--base' as documented in
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
-> 
-> url:    https://github.com/intel-lab-lkp/linux/commits/Derek-J-Clark/platform-x86-ayn-ec-Add-PWM-Fan-HWMON-Interface/20250727-044332
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-> patch link:    https://lore.kernel.org/r/20250726204041.516440-2-derekjohn.clark%40gmail.com
-> patch subject: [PATCH v3 1/4] platform/x86: (ayn-ec) Add PWM Fan HWMON Interface
-> config: i386-randconfig-004-20250728 (https://download.01.org/0day-ci/archive/20250729/202507290022.MIp5QCIp-lkp@intel.com/config)
-> compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250729/202507290022.MIp5QCIp-lkp@intel.com/reproduce)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507290022.MIp5QCIp-lkp@intel.com/
-> 
-> All errors (new ones prefixed by >>, old ones prefixed by <<):
-> 
->>> ERROR: modpost: "ec_read" [drivers/platform/x86/ayn-ec.ko] undefined!
->>> ERROR: modpost: "ec_write" [drivers/platform/x86/ayn-ec.ko] undefined!
-> 
-
-	depends on ACPI_EC
-instead of
-	depends on ACPI
-
+  6139	
+> 6140	SYSCALL_DEFINE5(bpf, int, cmd, union bpf_attr __user *, uattr, unsigned int, size,
+  6141			struct bpf_common_attr __user *, uattr_common, unsigned int, size_common)
+  6142	{
+  6143		return __sys_bpf(cmd, USER_BPFPTR(uattr), size, USER_BPFPTR(uattr_common), size_common);
+  6144	}
+  6145	
 
 -- 
-~Randy
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
