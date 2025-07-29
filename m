@@ -1,70 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18381287265
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 09:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6182286D7C
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 09:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753780086; cv=none; b=dkW3O/to6a7YXGBVa1Kgm9EYFeEgkfhAo55GQKrBLkKH5if7w1XNexCvWITIeVF99JdClSdZSyAxhQs7Y33vyIbEZl80qG0yxtRlLHyyFOsT6LYapWnCWi3Qt5jlPDBVhfzlgKdEce9rGeBDWjqG2RU1tU/z7FVZfWmhna9V4wo=
+	t=1753780204; cv=none; b=YinPTliV8Ny2RNC1v2waUQiD6gsEmsHO17+CCEASd8pZNDGzok0+ALx2wYmgl3gFtfU8XDdbrUWNzLQWIBan5WS0B4L9GglTPp7M++Jyh+PI96gTkMlV/7mkzoXmTkfKiOjrSxz+9qXSHs1XfEBMfFykR9AGilpsP8T5RmEdkcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753780086; c=relaxed/simple;
-	bh=6xqd3ZGPvMT14nG70kPsq5tJ9sNdsKyLjJnQfae58F8=;
+	s=arc-20240116; t=1753780204; c=relaxed/simple;
+	bh=9LilFwsyzXEBNISNDgSQr3EDtxWlqZW1O/7Hpct2THM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VBL/IntGHwbfhzpJKvj11KDbOqI14CrRFDqzjw9AQ8cPM4cIfAUr1gIp71Q12uJBVZK2dJ0USxtowBOdr1GePWkBbXaipzCk2/ZDiQYkuoIh2Nv0FkY7dqNxlYIF1MqHHpyH/GKKwehTiDp7ERN76TRjRHD1CMZFww42yWSzFTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UPzNxM0L; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=S9MvwYNc0oHDzMQsxzxxDI1LDKAYrxgTYDqcRW0QGA5YuUJGatNo/JWbGGYAqXaXbkLwjD8G4DOyVy1TUC3nVO7KmgofGDm1pDdcqeXPA8HEmP17INsplDs6OA7kxGPU2KA9xqeiZKj2VhOWSFiUgQ2CmfLG9QVu1acNNxiI5uo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kl2mNktW; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UPzNxM0L"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753780085; x=1785316085;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6xqd3ZGPvMT14nG70kPsq5tJ9sNdsKyLjJnQfae58F8=;
-  b=UPzNxM0LGl5vFmyGzw4zOgIGAcGN6g1ybLDrwoMKLiGlvz2HmPkDfG4n
-   BiUUzRWoc+iqhReLT2P1YzObujbNk8DHcrh+ChPhvkWyftCJ1H4vBXtnn
-   o8w+eIStji9gmF1dxQ9RlmTZTexWgwobZV9Jm43HM6DvVxDfQpIVS0b58
-   xb+yel4Oi22l+zpAbQpLHTijOhiE8Wso1bIulHjLXW49Fnx8rkVWoQeV9
-   5irpip1RJeBdvRo0VtsP32iiIKHuzvEAD6THwdxYikKQDPmvfZUy//Hp3
-   D3JncGUDq0jUg3gBo+xBvWgiEAEdPM53A16IaNMUdL6e2WviO8J/PsYFl
-   A==;
-X-CSE-ConnectionGUID: TUomicPGRFSkWCWLjde9Cw==
-X-CSE-MsgGUID: Y5aLG6XXTvW1vllcF6Q4ow==
-X-IronPort-AV: E=McAfee;i="6800,10657,11505"; a="55980647"
-X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="55980647"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 02:08:02 -0700
-X-CSE-ConnectionGUID: TyZw7sn9S422x4l1rFBgQA==
-X-CSE-MsgGUID: s8Ah/v+2SsKq8DjNu4eM7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,348,1744095600"; 
-   d="scan'208";a="162360901"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa009.jf.intel.com with ESMTP; 29 Jul 2025 02:07:59 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uggJP-00018t-1o;
-	Tue, 29 Jul 2025 09:07:55 +0000
-Date: Tue, 29 Jul 2025 17:07:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Rob Clark <robin.clark@oss.qualcomm.com>,
-	dri-devel@lists.freedesktop.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	Akhil P Oommen <akhilpo@oss.qualcomm.com>,
-	Rob Clark <robin.clark@oss.qualcomm.com>,
-	Sean Paul <sean@poorly.run>, Konrad Dybcio <konradybcio@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 5/7] drm/msm: Fix a7xx debugbus read
-Message-ID: <202507291635.fl7cCAyl-lkp@intel.com>
-References: <20250728203412.22573-6-robin.clark@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kl2mNktW"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3b785a69454so1420546f8f.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 02:10:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1753780201; x=1754385001; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=WDxjHKxEk4bzUf242dYSPxRTJXLTbFhf7MDZw//NVfw=;
+        b=Kl2mNktWKsBrDz260r/jdakin4IQONgWjo5M7RxXnMd/0ylV6NXPscpHOaxKAqAJ08
+         FYwErfOYcNGN9YrzEu3IEO60o4eDW/GytgJrgfi4fO2fKv4A3Xu1hcf2UtAMXyIP5ocQ
+         BlgppjbfT+xCpJ9wvJlTsdLyJtU0wfyn3GlJk2mMcRL44g8+GCZph6HNeeJkrjTPzEiu
+         E59vHjSAkioPLbMC3xCbZTWfXOmB6Iq7icPhlJ20zdDs3r2Lup4I22fr6+1tEQGuAI0x
+         bF4e3rW2CI5R7F7xTYQxuG0U2C9/pcddGDI/tS7TSD9aC/DK9nNLSsgxkz1hBLo3ASCc
+         tCEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753780201; x=1754385001;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WDxjHKxEk4bzUf242dYSPxRTJXLTbFhf7MDZw//NVfw=;
+        b=bJVeQC2NHy+0R7i0GPiwRHZWH9kni+/mgahbPHEq1SMaTP2lBIOFBYmKjd1cx4gUJS
+         V8nmpJsMF/FfpEk+Gt4/Pq1ZuPJxXLxbQoTAlQc/iGnz6HjEbMp3FTxLo6bR2hYwb1F+
+         VZmKq73j9oxpEIthDlMd0q31VUFhECSp+mimGb9O3d1F1xFEwDgZL+AOYshnkB0mKmMk
+         JUAJ+pzFgAgKe1ZkgAhTlvTWpjt8i0rA4CFQW1BfIpoRskMa3FW9hRU8ffO3vL9A683O
+         hpfOZR/EPgJP4CwNEyqP/QhmY4JQMXV1qU33yg8FVEllUxwUha83ahpxMIKYHjp0Ux3K
+         QiEg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhY1h2H1OTNfZ+/PzX69mBqnpH3NzxwHAOGLP4snNwkOTBEppH7z7dPz9hCB3aXZsiogxDAw+O5kSG6TEJ@lists.linux.dev
+X-Gm-Message-State: AOJu0YwjC5HER02LHtltRVKVMNe21DCG38Tl8yFa8UYrqfjwT9TXHQI4
+	timvFKdRMi+rI1F3XNdrJiZyAJyDMamFn8l+GuT3iJ6ZbhOhkxDH9vbj
+X-Gm-Gg: ASbGncsL8h9ijxZ4Rac+1UyhHfA3eiqK8hjoTCX/puhrENurw3zaF6Q39VAUZ61WKUq
+	qZ2aE2SXmEnNexm5vZ749K3dMH7verH4zDB1cHaNzLhC2gUoxHhpnlAqfUwUCYCfNz8p9WQUJCF
+	9d1hK+dScd8uU5Amu9fR9valWb7I6lOAQKnLiHJaZLgMLeGcZCeUFEXHWe4T6N5VTSSBzQ5WBbF
+	cXXhlEvvwC74Z7dGKJo6Fjz29aaAuVLAUe75oGkUBO0XZXaWcykWi0CZP1swk7i7gFYU616mNir
+	0LDC2+1fNcFfmY+J3jqFwLpFKqlzFNRf9mM0hL3lbFN0cRYLUZaMB174qX+Ulfm4eYoW8m6pg67
+	ZTPYDqtdR1Me6rfCQXLxt9NUrpfjRDULXYq5W8WCuDBxyQCs7OiUA/QBjUADqpTJjfw==
+X-Google-Smtp-Source: AGHT+IHH8+al9qv6iocTAD7WJesBvsnSwWK7+DrhIw3/VbdqC+a5NBS2dU6E/8+5gIjse9mgfZInQg==
+X-Received: by 2002:a05:6000:4a1b:b0:3b7:78c8:93d1 with SMTP id ffacd0b85a97d-3b778c89877mr11705436f8f.21.1753780200926;
+        Tue, 29 Jul 2025 02:10:00 -0700 (PDT)
+Received: from gmail.com (deskosmtp.auranext.com. [195.134.167.217])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b78dd6cb0fsm2373722f8f.29.2025.07.29.02.10.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Jul 2025 02:10:00 -0700 (PDT)
+Date: Tue, 29 Jul 2025 11:09:58 +0200
+From: Mahe Tardy <mahe.tardy@gmail.com>
+To: Martin KaFai Lau <martin.lau@linux.dev>
+Cc: alexei.starovoitov@gmail.com, andrii@kernel.org, ast@kernel.org,
+	bpf@vger.kernel.org, coreteam@netfilter.org, daniel@iogearbox.net,
+	fw@strlen.de, john.fastabend@gmail.com, netdev@vger.kernel.org,
+	netfilter-devel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+	pablo@netfilter.org, lkp@intel.com
+Subject: Re: [PATCH bpf-next v3 4/4] selftests/bpf: add icmp_send_unreach
+ kfunc tests
+Message-ID: <aIiP5l24ihrS2x-u@gmail.com>
+References: <202507270940.kXGmRbg5-lkp@intel.com>
+ <20250728094345.46132-1-mahe.tardy@gmail.com>
+ <20250728094345.46132-5-mahe.tardy@gmail.com>
+ <382ff228-704c-4e0c-9df3-2eb178adcba8@linux.dev>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -73,74 +80,45 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250728203412.22573-6-robin.clark@oss.qualcomm.com>
+In-Reply-To: <382ff228-704c-4e0c-9df3-2eb178adcba8@linux.dev>
 
-Hi Rob,
+On Mon, Jul 28, 2025 at 06:18:11PM -0700, Martin KaFai Lau wrote:
+> On 7/28/25 2:43 AM, Mahe Tardy wrote:
+> > +SEC("cgroup_skb/egress")
+> > +int egress(struct __sk_buff *skb)
+> > +{
+> > +	void *data = (void *)(long)skb->data;
+> > +	void *data_end = (void *)(long)skb->data_end;
+> > +	struct iphdr *iph;
+> > +	struct tcphdr *tcph;
+> > +
+> > +	iph = data;
+> > +	if ((void *)(iph + 1) > data_end || iph->version != 4 ||
+> > +	    iph->protocol != IPPROTO_TCP || iph->daddr != bpf_htonl(SERVER_IP))
+> > +		return SK_PASS;
+> > +
+> > +	tcph = (void *)iph + iph->ihl * 4;
+> > +	if ((void *)(tcph + 1) > data_end ||
+> > +	    tcph->dest != bpf_htons(SERVER_PORT))
+> > +		return SK_PASS;
+> > +
+> > +	kfunc_ret = bpf_icmp_send_unreach(skb, unreach_code);
+> > +
+> > +	/* returns SK_PASS to execute the test case quicker */
+> 
+> Do you know why the user space is slower if 0 (SK_DROP) is used?
 
-kernel test robot noticed the following build errors:
+I tried to write my understanding of this in the commit description:
 
-[auto build test ERROR on drm/drm-next]
-[also build test ERROR on next-20250729]
-[cannot apply to drm-exynos/exynos-drm-next linus/master drm-intel/for-linux-next drm-intel/for-linux-next-fixes drm-misc/drm-misc-next drm-tip/drm-tip v6.16]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+"Note that the BPF program returns SK_PASS to let the connection being
+established to finish the test cases quicker. Otherwise, you have to
+wait for the TCP three-way handshake to timeout in the kernel and
+retrieve the errno translated from the unreach code set by the ICMP
+control message."
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Rob-Clark/drm-msm-Add-missing-location-s-to-devcoredump/20250729-043615
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-patch link:    https://lore.kernel.org/r/20250728203412.22573-6-robin.clark%40oss.qualcomm.com
-patch subject: [PATCH 5/7] drm/msm: Fix a7xx debugbus read
-config: powerpc-randconfig-002-20250729 (https://download.01.org/0day-ci/archive/20250729/202507291635.fl7cCAyl-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250729/202507291635.fl7cCAyl-lkp@intel.com/reproduce)
+I added this comment because I already had some (offline) feedback that
+this looked off, maybe I should develop and put this here directly.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507291635.fl7cCAyl-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c: In function 'debugbus_read':
->> drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c:180:9: error: implicit declaration of function 'FIELD_PREP'; did you mean 'FIELD'? [-Werror=implicit-function-declaration]
-      reg = FIELD_PREP(GENMASK(7, 0), offset) |
-            ^~~~~~~~~~
-            FIELD
-   cc1: some warnings being treated as errors
-
-
-vim +180 drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c
-
-   172	
-   173	/* read a value from the GX debug bus */
-   174	static int debugbus_read(struct msm_gpu *gpu, u32 block, u32 offset,
-   175			u32 *data)
-   176	{
-   177		u32 reg;
-   178	
-   179		if (to_adreno_gpu(gpu)->info->family >= ADRENO_7XX_GEN1) {
- > 180			reg = FIELD_PREP(GENMASK(7, 0), offset) |
-   181				FIELD_PREP(GENMASK(24, 16), block);
-   182		} else {
-   183			reg = A6XX_DBGC_CFG_DBGBUS_SEL_D_PING_INDEX(offset) |
-   184				A6XX_DBGC_CFG_DBGBUS_SEL_D_PING_BLK_SEL(block);
-   185		}
-   186	
-   187		gpu_write(gpu, REG_A6XX_DBGC_CFG_DBGBUS_SEL_A, reg);
-   188		gpu_write(gpu, REG_A6XX_DBGC_CFG_DBGBUS_SEL_B, reg);
-   189		gpu_write(gpu, REG_A6XX_DBGC_CFG_DBGBUS_SEL_C, reg);
-   190		gpu_write(gpu, REG_A6XX_DBGC_CFG_DBGBUS_SEL_D, reg);
-   191	
-   192		/* Wait 1 us to make sure the data is flowing */
-   193		udelay(1);
-   194	
-   195		data[0] = gpu_read(gpu, REG_A6XX_DBGC_CFG_DBGBUS_TRACE_BUF2);
-   196		data[1] = gpu_read(gpu, REG_A6XX_DBGC_CFG_DBGBUS_TRACE_BUF1);
-   197	
-   198		return 2;
-   199	}
-   200	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> > +	return SK_PASS;
+> 
