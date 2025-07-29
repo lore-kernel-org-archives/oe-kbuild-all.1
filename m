@@ -1,124 +1,158 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6182286D7C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 09:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA94128688E
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 09:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753780204; cv=none; b=YinPTliV8Ny2RNC1v2waUQiD6gsEmsHO17+CCEASd8pZNDGzok0+ALx2wYmgl3gFtfU8XDdbrUWNzLQWIBan5WS0B4L9GglTPp7M++Jyh+PI96gTkMlV/7mkzoXmTkfKiOjrSxz+9qXSHs1XfEBMfFykR9AGilpsP8T5RmEdkcI=
+	t=1753781278; cv=none; b=eGEyzEyP+LKet/kau4zxN3FgNyV6wmMq8g3ol/hQswF2t+Ah6lCI54G/B2JgXdKOpMkzQ2NOLm//FPn9wFnXBVs0HrSBkx9M3s3j0+5WZSHNcTARS3YSUeiaj1wrgveNTfFZKvrzsM6iigIkvro+aU9AqMep49EqfQ8PlhMfKP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753780204; c=relaxed/simple;
-	bh=9LilFwsyzXEBNISNDgSQr3EDtxWlqZW1O/7Hpct2THM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S9MvwYNc0oHDzMQsxzxxDI1LDKAYrxgTYDqcRW0QGA5YuUJGatNo/JWbGGYAqXaXbkLwjD8G4DOyVy1TUC3nVO7KmgofGDm1pDdcqeXPA8HEmP17INsplDs6OA7kxGPU2KA9xqeiZKj2VhOWSFiUgQ2CmfLG9QVu1acNNxiI5uo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Kl2mNktW; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1753781278; c=relaxed/simple;
+	bh=UVxbONYMenZ2G62xj1Ajze9L88dIaFIhF2FAPvq5IM8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oki7dtA/QNT5DMwk8iBOObRYa/vLaGz9H8jtgzR9GZIaENVgXAKwJ/sf07/Vy+4Z/ovcE14x9jqVLzpADbBy4Q0H109TfOpxePjMl+rRInirU3r8G2SFoDNavYFadKiSL0HSEfcMS3p3zNzjWEIJGCp3URQFmFF9ThkaNy6kh4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=SlyZNI9v; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Kl2mNktW"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3b785a69454so1420546f8f.2
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 02:10:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="SlyZNI9v"
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-55b733911b3so1074283e87.2
+        for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 02:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1753780201; x=1754385001; darn=lists.linux.dev;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WDxjHKxEk4bzUf242dYSPxRTJXLTbFhf7MDZw//NVfw=;
-        b=Kl2mNktWKsBrDz260r/jdakin4IQONgWjo5M7RxXnMd/0ylV6NXPscpHOaxKAqAJ08
-         FYwErfOYcNGN9YrzEu3IEO60o4eDW/GytgJrgfi4fO2fKv4A3Xu1hcf2UtAMXyIP5ocQ
-         BlgppjbfT+xCpJ9wvJlTsdLyJtU0wfyn3GlJk2mMcRL44g8+GCZph6HNeeJkrjTPzEiu
-         E59vHjSAkioPLbMC3xCbZTWfXOmB6Iq7icPhlJ20zdDs3r2Lup4I22fr6+1tEQGuAI0x
-         bF4e3rW2CI5R7F7xTYQxuG0U2C9/pcddGDI/tS7TSD9aC/DK9nNLSsgxkz1hBLo3ASCc
-         tCEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753780201; x=1754385001;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1753781275; x=1754386075; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WDxjHKxEk4bzUf242dYSPxRTJXLTbFhf7MDZw//NVfw=;
-        b=bJVeQC2NHy+0R7i0GPiwRHZWH9kni+/mgahbPHEq1SMaTP2lBIOFBYmKjd1cx4gUJS
-         V8nmpJsMF/FfpEk+Gt4/Pq1ZuPJxXLxbQoTAlQc/iGnz6HjEbMp3FTxLo6bR2hYwb1F+
-         VZmKq73j9oxpEIthDlMd0q31VUFhECSp+mimGb9O3d1F1xFEwDgZL+AOYshnkB0mKmMk
-         JUAJ+pzFgAgKe1ZkgAhTlvTWpjt8i0rA4CFQW1BfIpoRskMa3FW9hRU8ffO3vL9A683O
-         hpfOZR/EPgJP4CwNEyqP/QhmY4JQMXV1qU33yg8FVEllUxwUha83ahpxMIKYHjp0Ux3K
-         QiEg==
-X-Forwarded-Encrypted: i=1; AJvYcCUhY1h2H1OTNfZ+/PzX69mBqnpH3NzxwHAOGLP4snNwkOTBEppH7z7dPz9hCB3aXZsiogxDAw+O5kSG6TEJ@lists.linux.dev
-X-Gm-Message-State: AOJu0YwjC5HER02LHtltRVKVMNe21DCG38Tl8yFa8UYrqfjwT9TXHQI4
-	timvFKdRMi+rI1F3XNdrJiZyAJyDMamFn8l+GuT3iJ6ZbhOhkxDH9vbj
-X-Gm-Gg: ASbGncsL8h9ijxZ4Rac+1UyhHfA3eiqK8hjoTCX/puhrENurw3zaF6Q39VAUZ61WKUq
-	qZ2aE2SXmEnNexm5vZ749K3dMH7verH4zDB1cHaNzLhC2gUoxHhpnlAqfUwUCYCfNz8p9WQUJCF
-	9d1hK+dScd8uU5Amu9fR9valWb7I6lOAQKnLiHJaZLgMLeGcZCeUFEXHWe4T6N5VTSSBzQ5WBbF
-	cXXhlEvvwC74Z7dGKJo6Fjz29aaAuVLAUe75oGkUBO0XZXaWcykWi0CZP1swk7i7gFYU616mNir
-	0LDC2+1fNcFfmY+J3jqFwLpFKqlzFNRf9mM0hL3lbFN0cRYLUZaMB174qX+Ulfm4eYoW8m6pg67
-	ZTPYDqtdR1Me6rfCQXLxt9NUrpfjRDULXYq5W8WCuDBxyQCs7OiUA/QBjUADqpTJjfw==
-X-Google-Smtp-Source: AGHT+IHH8+al9qv6iocTAD7WJesBvsnSwWK7+DrhIw3/VbdqC+a5NBS2dU6E/8+5gIjse9mgfZInQg==
-X-Received: by 2002:a05:6000:4a1b:b0:3b7:78c8:93d1 with SMTP id ffacd0b85a97d-3b778c89877mr11705436f8f.21.1753780200926;
-        Tue, 29 Jul 2025 02:10:00 -0700 (PDT)
-Received: from gmail.com (deskosmtp.auranext.com. [195.134.167.217])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b78dd6cb0fsm2373722f8f.29.2025.07.29.02.10.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Jul 2025 02:10:00 -0700 (PDT)
-Date: Tue, 29 Jul 2025 11:09:58 +0200
-From: Mahe Tardy <mahe.tardy@gmail.com>
-To: Martin KaFai Lau <martin.lau@linux.dev>
-Cc: alexei.starovoitov@gmail.com, andrii@kernel.org, ast@kernel.org,
-	bpf@vger.kernel.org, coreteam@netfilter.org, daniel@iogearbox.net,
-	fw@strlen.de, john.fastabend@gmail.com, netdev@vger.kernel.org,
-	netfilter-devel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
-	pablo@netfilter.org, lkp@intel.com
-Subject: Re: [PATCH bpf-next v3 4/4] selftests/bpf: add icmp_send_unreach
- kfunc tests
-Message-ID: <aIiP5l24ihrS2x-u@gmail.com>
-References: <202507270940.kXGmRbg5-lkp@intel.com>
- <20250728094345.46132-1-mahe.tardy@gmail.com>
- <20250728094345.46132-5-mahe.tardy@gmail.com>
- <382ff228-704c-4e0c-9df3-2eb178adcba8@linux.dev>
+        bh=QuYSK4gM34dvKj46U2AHyFVlRRjXrZ8f8iJud63I7rk=;
+        b=SlyZNI9vH4T5zKnXU+4wuzr1U579ZfhFikxCyXwXh0krPRR6UADCcWMTKWKbO1XX/f
+         9M6CqLLxbpY0FB+oHA+DU0FTGJwf4n6cunXn6E6x7wUMzINAFxYD8G5DqXhJCmuKeHUE
+         YZch5laxk6ZbhXypE9ewR5zeRZGNwLv9D1Lpz3x+aoiwwjsRf8JJoW/EJQkiS1P9dKmM
+         HveG5AvD2tR16mZeBWBVg9gLgvwQFgFX3nqXamjVrxmhxOraPS8EjqwxHF7ld3MQKuKj
+         RFcHzdrRKWsoRby+PfbSOCOOkXeyDl1yJQABpEsSQll141oq+YU8qzsX/aSJCjM6G/iG
+         cFyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753781275; x=1754386075;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QuYSK4gM34dvKj46U2AHyFVlRRjXrZ8f8iJud63I7rk=;
+        b=MelNE4d5C4nB8ee0zYzyV0o4il2TeGF49+Ptjbc+IXHDuRkL02pjm6DvWiyOvp37/k
+         viITIHxfursFOAW0kZWaiud5qAkYcVWgDiRTjenqcMsUBpi4AIviPcc51ZdOHftbopeh
+         8Q7xouFewGMW4r3NV8xRN02wt9DfmmeKhrP0bugoBO24lNAmJc5L9yH2LDlYJ266ALNC
+         Av6eGBwkrR92NPB1ZYVZEeooSIkFekL9O0FI2lXveuyAZR+TF0k+ATsRseFqHks/w/VA
+         snuN7B3L1Nw++6p7OJL1lLynSVbLbRaiOmmvmuF6JRk7lQ4NEdNqogC25Roih+DYmQZh
+         6Nsg==
+X-Forwarded-Encrypted: i=1; AJvYcCXG6lxlQvXu26kGO1PrbJL+QK5AzojtLX4RhmtlzBPjrWwIK+IIJzI2iLxMPhmIDPnOR7vtyfDF5W/uIgeP@lists.linux.dev
+X-Gm-Message-State: AOJu0Yy2HoI9AppSqWXOV0B/19UDdapi4WeCUqPnpvjASQG/WVu7r4VS
+	M7SoiWpQdOifUD6eDuE6E3OCwINsz9hp+eOtB9cWDKSMBbmwPUr333isKqqfoZ0lWDUuBG+opZY
+	MCSzIGs4vCekDU3q0p8nAIiGq6Jql58pPc9vePAI9DA==
+X-Gm-Gg: ASbGnctwuub1Hf3e4U72uzGYnJz2jcbuyfkMVMCwtZdXQqrYwzc4MljFd0dyca1wanf
+	yZSKrDK0ay7gULVKJPvjFJ35QXnf+IvvNfy1dK0G5GB0nUQdGXhDnqI59l14K5qJXKqSgBFmrEU
+	XuJj/seQLuSIt6rt1320VOG1wjW21Rdlc8/Qo03U0nRZ4kndq/rOXQ8FzqhTmgIDFM0pdsyyk7U
+	ZreLSfvk1qR3rMyT2xaDunHZVH9UaKbUtHgGDI=
+X-Google-Smtp-Source: AGHT+IH1xjV/IusjYm7wD8jJwivk100eFvhpmAtG34em5DQvAFyq0WxlVADr0UXhPPNReVxqcy9+hVN8vSu0g22pdSc=
+X-Received: by 2002:a05:6512:1245:b0:55a:26ae:56e1 with SMTP id
+ 2adb3069b0e04-55b5f480918mr3865559e87.27.1753781274688; Tue, 29 Jul 2025
+ 02:27:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <382ff228-704c-4e0c-9df3-2eb178adcba8@linux.dev>
+References: <20250724-pinctrl-gpio-pinfuncs-v3-10-af4db9302de4@linaro.org>
+ <202507261937.Txq9shpv-lkp@intel.com> <CAHp75VcrL56_8uKNrmLj9sk+t7qZfKNi6-W-yAKNZ+mSCXU8zw@mail.gmail.com>
+In-Reply-To: <CAHp75VcrL56_8uKNrmLj9sk+t7qZfKNi6-W-yAKNZ+mSCXU8zw@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 29 Jul 2025 11:27:43 +0200
+X-Gm-Features: Ac12FXzctTCjvP8s5v8QO4Q26z9E9jC3m2QKR1Qn8JCLGwl_tkRpE49-qECZAkg
+Message-ID: <CAMRc=MdfMEAjgkTNENZejzRPN4svCiy4VZS9Y5HG7Ht5XwqUgA@mail.gmail.com>
+Subject: Re: [PATCH v3 10/15] pinctrl: make struct pinfunction a pointer in
+ struct function_desc
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: kernel test robot <lkp@intel.com>, Linus Walleij <linus.walleij@linaro.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	Alexey Klimov <alexey.klimov@linaro.org>, Lorenzo Bianconi <lorenzo@kernel.org>, 
+	Sean Wang <sean.wang@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Kees Cook <kees@kernel.org>, 
+	Andy Shevchenko <andy@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@redhat.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@suse.cz>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Dong Aisheng <aisheng.dong@nxp.com>, Fabio Estevam <festevam@gmail.com>, 
+	Shawn Guo <shawnguo@kernel.org>, Jacky Bai <ping.bai@nxp.com>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, NXP S32 Linux Team <s32@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Tony Lindgren <tony@atomide.com>, 
+	Haojian Zhuang <haojian.zhuang@linaro.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev, 
+	Linux Memory Management List <linux-mm@kvack.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jul 28, 2025 at 06:18:11PM -0700, Martin KaFai Lau wrote:
-> On 7/28/25 2:43 AM, Mahe Tardy wrote:
-> > +SEC("cgroup_skb/egress")
-> > +int egress(struct __sk_buff *skb)
-> > +{
-> > +	void *data = (void *)(long)skb->data;
-> > +	void *data_end = (void *)(long)skb->data_end;
-> > +	struct iphdr *iph;
-> > +	struct tcphdr *tcph;
-> > +
-> > +	iph = data;
-> > +	if ((void *)(iph + 1) > data_end || iph->version != 4 ||
-> > +	    iph->protocol != IPPROTO_TCP || iph->daddr != bpf_htonl(SERVER_IP))
-> > +		return SK_PASS;
-> > +
-> > +	tcph = (void *)iph + iph->ihl * 4;
-> > +	if ((void *)(tcph + 1) > data_end ||
-> > +	    tcph->dest != bpf_htons(SERVER_PORT))
-> > +		return SK_PASS;
-> > +
-> > +	kfunc_ret = bpf_icmp_send_unreach(skb, unreach_code);
-> > +
-> > +	/* returns SK_PASS to execute the test case quicker */
-> 
-> Do you know why the user space is slower if 0 (SK_DROP) is used?
+On Sat, Jul 26, 2025 at 9:29=E2=80=AFPM Andy Shevchenko
+<andy.shevchenko@gmail.com> wrote:
+>
+> On Sat, Jul 26, 2025 at 1:31=E2=80=AFPM kernel test robot <lkp@intel.com>=
+ wrote:
+> >
+> > Hi Bartosz,
+> >
+> > kernel test robot noticed the following build warnings:
+> >
+>
+> > All warnings (new ones prefixed by >>):
+> >
+> > >> drivers/pinctrl/pinmux.c:917:7: warning: cast from 'void (*)(const v=
+oid *)' to 'void (*)(void *)' converts to incompatible function type [-Wcas=
+t-function-type-strict]
+> >      917 |                                          (void (*)(void *))k=
+free_const,
+> >          |                                          ^~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~
+> >    include/linux/device/devres.h:166:34: note: expanded from macro 'dev=
+m_add_action_or_reset'
+> >      166 |         __devm_add_action_or_reset(dev, action, data, #actio=
+n)
+> >          |                                         ^~~~~~
+> >    1 warning generated.
+>
+> Good catch, LKP!
+>
 
-I tried to write my understanding of this in the commit description:
+Ah, strict function type cast...
 
-"Note that the BPF program returns SK_PASS to let the connection being
-established to finish the test cases quicker. Otherwise, you have to
-wait for the TCP three-way handshake to timeout in the kernel and
-retrieve the errno translated from the unreach code set by the ICMP
-control message."
+> ...
+>
+> >    910          /*
+> >    911           * FIXME: It's generally a bad idea to use devres in su=
+bsystem core
+> >    912           * code - managed interfaces are aimed at drivers - but=
+ pinctrl already
+> >    913           * uses it all over the place so it's a larger piece of=
+ technical debt
+> >    914           * to fix.
+> >    915           */
+>
+> Indeed, this has to be addressed first, and IIRC I also got something
+> like this in the past.
+>
 
-I added this comment because I already had some (offline) feedback that
-this looked off, maybe I should develop and put this here directly.
+I mean, it doesn't have to be addressed first really, it's another big
+chunk of technical debt but we can live with it for now and address it
+in parallel.
 
-> 
-> > +	return SK_PASS;
-> 
+Bart
+
+> >    916          error =3D devm_add_action_or_reset(pctldev->dev,
+> >  > 917                                           (void (*)(void *))kfre=
+e_const,
+> >    918                                           (void *)function->func=
+);
+> >    919          if (error)
+> >    920                  return error;
+>
+>
+> --
+> With Best Regards,
+> Andy Shevchenko
