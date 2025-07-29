@@ -1,135 +1,116 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20E272264D3;
-	Tue, 29 Jul 2025 16:37:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB771296141
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 17:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753807047; cv=none; b=QgBYUFbXnNcXqwKhfGV71IqkfCU1Gpr/irolFjxCnr05le7j9PILFIvvAPvp7JF+sIOT7KZV8orPMEf6P0TTcN+w4IbDtp9ecCaN3d7bJ1YuYAcLIGrHVmgc9Sn+g303Kyj8m5NXSY1R7ampBzki4YAfROYFHWy/s44slRmNPRY=
+	t=1753811695; cv=none; b=CqYSGwLr5Q0r7j6k7s7PhQ0S9DdkRYdOE8g6l9LXS99Vuw3JnixVZdACrc825CRf/MzA3DrAdPGamdjdAS1yQ2ocl9ctLrmwrFK5BMQSeWIQSSCPQPaGJjcRlCVL/1dkINa4OdrzztApumynLUDnpWF+Z+A1kxxALISKP+h1u8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753807047; c=relaxed/simple;
-	bh=hYy6sxijyS2b/WJms3vVbD+SH5wQt5JHpfZtAvgSiwA=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e0eXEdzOLYjiEB/ZVQmJDOB/4knYrTAzYrndJEukxHlC3acl6AjGg/NIGKuhwHBXnBgQGOAJMB1shqYRXLaWXSKashr71OcmAbjUrzGorIKU3azrahreFUBfNq4Rjr9OgQCygjKFBbAalVTzvsEriaAps3Zynb8gkG/gCQg2Qvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ra0usx3K; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1753811695; c=relaxed/simple;
+	bh=6KIbPA/EaHB5zy//h0D6S9v9PCr7IQU7sflH936pN20=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=F5me6z1pfZNBsaeXUpR7rkMVvdAOVrAlrhL1c84OWnz+ZnM1hUCJFTEYQ9xzss4RMxaUNazCwT1lVrCZJBxCxsJS+xbGqqMPgetZUloeeHx8yF6PklIlgZwNZyWzwgjMpWpF1Lt4COOrMdn3Fk03iV+gHmaEop9/bpkrhzpJlu8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nyMNSaUn; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ra0usx3K"
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 56TGNdFC2561302;
-	Tue, 29 Jul 2025 11:23:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1753806219;
-	bh=P3a8N7GGRYeSHSllhgnuhQKsscziar9Xg6190x1fyKo=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=ra0usx3KRW+fLu8oZYORUDkvuKkHaa+Sdu14m3BzyQM67DiV4QMTAW7AO6DHTdBYW
-	 ayR5EffXTF+qK1vl1Pf0L94NCHnIuVbsylUdhSbh1ALBfJ82HauMnp+LLODItFacqu
-	 Khta69na9dF2jI2AEaLASntQ3HH9UId24X3vcv04=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 56TGNdTX1239402
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Tue, 29 Jul 2025 11:23:39 -0500
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 29
- Jul 2025 11:23:38 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Tue, 29 Jul 2025 11:23:38 -0500
-Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 56TGNc6U3708765;
-	Tue, 29 Jul 2025 11:23:38 -0500
-Date: Tue, 29 Jul 2025 11:23:38 -0500
-From: Nishanth Menon <nm@ti.com>
-To: Jan Kiszka <jan.kiszka@siemens.com>
-CC: <huaqian.li@siemens.com>, <lkp@intel.com>, <baocheng.su@siemens.com>,
-        <bhelgaas@google.com>, <christophe.jaillet@wanadoo.fr>,
-        <conor+dt@kernel.org>, <devicetree@vger.kernel.org>,
-        <diogo.ivo@siemens.com>, <helgaas@kernel.org>, <kristo@kernel.org>,
-        <krzk+dt@kernel.org>, <kw@linux.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-pci@vger.kernel.org>, <lpieralisi@kernel.org>,
-        <oe-kbuild-all@lists.linux.dev>, <robh@kernel.org>,
-        <s-vadapalli@ti.com>, <ssantosh@kernel.org>, <vigneshr@ti.com>
-Subject: Re: [PATCH v12 3/7] soc: ti: Add IOMMU-like PVU driver
-Message-ID: <20250729162338.so7evngndnysg4ui@cinnamon>
-References: <20250728023701.116963-1-huaqian.li@siemens.com>
- <20250728023701.116963-4-huaqian.li@siemens.com>
- <20250729122246.o7upnxvqnp7nltdo@harmonize>
- <bdb5a5e2-3a7e-4050-bf25-c95dfa05138a@siemens.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nyMNSaUn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753811694; x=1785347694;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6KIbPA/EaHB5zy//h0D6S9v9PCr7IQU7sflH936pN20=;
+  b=nyMNSaUn3cD3nq7d/BnNoBGWyQpqcgZFPyIov0ACIoZXj413Hn0xHWex
+   EUcXm1RTo7K5Kx+9Vw+b7Uexg234rjMEN9KUjG4oiA6i/xka2xaunVq1S
+   gy7C4xEpAOYHjLPjiQdQsx/eWBZxVgGnL8nfCyWqSOBEJJirvjNgvbjV0
+   dPluybak/ZKPoR/1P28rMvL3KPOMtc5o4/ez9tyRw2J2RCkmHye9ZA2aG
+   /ncUPsZtouvdNYc0P1XxVJHNOotsTk2D2NsHGCT0XEzvI+5kRIuGCQjYb
+   e0SIEGfOaPn2+4SRaTFniWTZlNmSbQH22zL2QxfT0lz2B0rnd2f8q4DCd
+   Q==;
+X-CSE-ConnectionGUID: YQhWG3IZRhKHlffMD/0pJw==
+X-CSE-MsgGUID: va3xr93yRV6feRkt+ZcB5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="58719599"
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
+   d="scan'208";a="58719599"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 10:54:53 -0700
+X-CSE-ConnectionGUID: hKsGkZjiR5yd2xZ2OXwKsg==
+X-CSE-MsgGUID: NIeHohyJTjWA/hm3kYBUAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
+   d="scan'208";a="167024455"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 29 Jul 2025 10:54:49 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ugoXG-0001XT-2S;
+	Tue, 29 Jul 2025 17:54:46 +0000
+Date: Wed, 30 Jul 2025 01:54:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sami Tolvanen <samitolvanen@google.com>, bpf@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sami Tolvanen <samitolvanen@google.com>
+Subject: Re: [PATCH bpf-next v3 1/4] bpf: crypto: Use the correct destructor
+ kfunc type
+Message-ID: <202507300122.RpqIKqFR-lkp@intel.com>
+References: <20250728202656.559071-7-samitolvanen@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bdb5a5e2-3a7e-4050-bf25-c95dfa05138a@siemens.com>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+In-Reply-To: <20250728202656.559071-7-samitolvanen@google.com>
 
-On 18:11-20250729, Jan Kiszka wrote:
-> On 29.07.25 14:22, Nishanth Menon wrote:
-> > On 10:36-20250728, huaqian.li@siemens.com wrote:
-> >> From: Jan Kiszka <jan.kiszka@siemens.com>
-> >>
-> >> The TI Peripheral Virtualization Unit (PVU) permits to define a limited
-> >> set of mappings for DMA requests on the system memory. Unlike with an
-> >> IOMMU, there is no fallback to a memory-backed page table, only a fixed
-> >> set of register-backed TLBs. Emulating an IOMMU behavior appears to be
-> >> the more fragile the more fragmentation of pending requests occur.
-> >>
-> >> Therefore, this driver does not expose the PVU as an IOMMU. It rather
-> >> introduces a simple, static interface to devices that are under
-> >> restricted-dma-pool constraints. They can register their pools with the
-> >> PVUs, enabling only those pools to work for DMA. As also MSI is issued
-> >> as DMA, the PVU already register the related translator region of the
-> >> AM654 as valid DMA target.
-> >>
-> >> This driver is the essential building block for limiting DMA from
-> >> untrusted devices to clearly defined memory regions in the absence of a
-> >> real IOMMU (SMMU).
-> >>
-> >> Co-developed-by: Diogo Ivo <diogo.ivo@siemens.com>
-> >> Signed-off-by: Diogo Ivo <diogo.ivo@siemens.com>
-> >> Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com>
-> >> Signed-off-by: Li Hua Qian <huaqian.li@siemens.com>
-> >> ---
-> >>  drivers/soc/ti/Kconfig  |   4 +
-> >>  drivers/soc/ti/Makefile |   1 +
-> >>  drivers/soc/ti/ti-pvu.c | 500 ++++++++++++++++++++++++++++++++++++++++
-> >>  include/linux/ti-pvu.h  |  32 +++
-> >>  4 files changed, 537 insertions(+)
-> >>  create mode 100644 drivers/soc/ti/ti-pvu.c
-> >>  create mode 100644 include/linux/ti-pvu.h
-> >>
-> >> diff --git a/drivers/soc/ti/Kconfig b/drivers/soc/ti/Kconfig
-> >> index 1a93001c9e36..af7173ad84de 100644
-> >> --- a/drivers/soc/ti/Kconfig
-> >> +++ b/drivers/soc/ti/Kconfig
-> >> @@ -82,6 +82,10 @@ config TI_PRUSS
-> >>  	  processors on various TI SoCs. It's safe to say N here if you're
-> >>  	  not interested in the PRU or if you are unsure.
-> >>  
-> >> +config TI_PVU
-> >> +	bool "TI Peripheral Virtualization Unit driver"
-> > 
-> > tristate please? Prefer to make this as a module.
-> > 
-> > 
-> 
-> PCI_KEYSTONE is bool and needs this (if enabled). So this won't be a
-> module in practice.
-> 
+Hi Sami,
 
-Something of the form of
-https://lore.kernel.org/all/20250307103128.3287497-1-s-vadapalli@ti.com/
-will need to be done then.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 5b4c54ac49af7f486806d79e3233fc8a9363961c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sami-Tolvanen/bpf-crypto-Use-the-correct-destructor-kfunc-type/20250729-042936
+base:   5b4c54ac49af7f486806d79e3233fc8a9363961c
+patch link:    https://lore.kernel.org/r/20250728202656.559071-7-samitolvanen%40google.com
+patch subject: [PATCH bpf-next v3 1/4] bpf: crypto: Use the correct destructor kfunc type
+config: alpha-randconfig-r111-20250729 (https://download.01.org/0day-ci/archive/20250730/202507300122.RpqIKqFR-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250730/202507300122.RpqIKqFR-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507300122.RpqIKqFR-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> kernel/bpf/crypto.c:264:18: sparse: sparse: symbol 'bpf_crypto_ctx_release_dtor' was not declared. Should it be static?
+
+vim +/bpf_crypto_ctx_release_dtor +264 kernel/bpf/crypto.c
+
+   263	
+ > 264	__bpf_kfunc void bpf_crypto_ctx_release_dtor(void *ctx)
+   265	{
+   266		bpf_crypto_ctx_release(ctx);
+   267	}
+   268	CFI_NOSEAL(bpf_crypto_ctx_release_dtor);
+   269	
 
 -- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
-https://ti.com/opensource
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
