@@ -1,131 +1,221 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEBF14884C
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 18:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CA331B4257
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 18:46:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753813065; cv=none; b=R3bxcak7F8fx1iWP7HisIeMg9lz7xMfLurcjY6+hevCjnX2axV/smekPAge4DfmQ/FtByKs7hB9UELf6AY1PpZdPTp0h0q8pcKPLsE5EWwnq8OxGFn0bWZRsbDZdw0suOcJebIp3GhNtX4ywJoKGviHuHaIH8YPOPFPYUIKyb8g=
+	t=1753814818; cv=none; b=LD1fSCP5ZuZK18Bn0UrAA/L86IJrbl9o/Cyg/Z4KUiGDo8su0gLYGJqDJ5qBlvCNfz3e54+H56nxqA/f0aGRNSJFDIfT+zUkOzl4tWopeYBespnqGpkr6pTyn/9O7q0S080y5/uvYMOdhP8w4yDdLmG+URnwj81YseUEbmQmgXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753813065; c=relaxed/simple;
-	bh=90zZj2Wi/jSSStHprtwOYJEKOACLou5BBOJZbWY93Rc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ut+zzdZ7wSFVB6NPT57j0mq90nxxeWIqeZG5557XQnBHPekwqPA7J7FiR/vzH+68/62g2wd9lLs0iR5laRkLcBjBjR/poc/eJucm425WqsfWaxjskMThiruxA/GMaYd68XSZrb+Iy1ctZjMQ69qJnDoUsKlIkYXBEWDYnGsfKQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VR6tZZ1S; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1753814818; c=relaxed/simple;
+	bh=B0gA/6XcYdeSxe21pfe+YQSfBHRV91GfUTRfdkiTwP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=gKMFeneD3R6z0ALsZjTkWAhqmrpC9yK+3TkG2vjCKKDvOGplY/PbSW4tfexoNdqQQBBSDFL5/zlWhKZhITDOXNY7r8flbTdxQppP256f99+7bsuCHmlVecTuxyeLIOvZKRPfFvlvhkc6ewJpGWGA87Id1G6lh/psY9MSORmHYFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F/Rq0JaR; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VR6tZZ1S"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-240708ba498so23475ad.1
-        for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 11:17:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1753813063; x=1754417863; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WrELFtAsQyNIYUQCqV5rIFM2vQCd45+6wkPo96+Xm4M=;
-        b=VR6tZZ1SPzoIOX9QKOtj20Vcz1RSP5blTwuWpxw7ZjHOnl4k6Yw1uUovNMEiMJqJxZ
-         iarxWgm2KBBkzY6SHe12FSsPHtMqZ9MSm7CLfbTxRgRGLqqYa5s9/Rwo3gmGMjxRQoVA
-         AiQ7mfboVccyvNeoxja42V8oMetkYxERPpCXzBGQrnEPzqRj20wvBhxeoHUg48nYGL2N
-         EMceVv0SM1wGIVpL9MhoWtBNNFSomC1CS69LTx/f2KrO6Lj+M8tCspTZjGLOQOHuQ93t
-         EywvahG2x2L1A62dKcxcKslRXZO9E5GzYLGzZV4bUAjPteYMxE5bzilWSUVlz4SeZtN0
-         gV4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753813063; x=1754417863;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WrELFtAsQyNIYUQCqV5rIFM2vQCd45+6wkPo96+Xm4M=;
-        b=Ldzq4HGMq5GrXw9zlOCJTXnZXQUIDHD81CHE0Co9CNcF3YJ7CChO1VGGj49OoDvDh0
-         Xz8sjr/K19KlxsrND+8u/BspFowGJsXEDFX6Ftm3Aox/vj85+UhEWL1Ashpph7W5Vtrc
-         /oZQZ4mMUYOqIb1lUlRmKnaIIqH3eknm7/O0J4suOioQWCPcRCrMP3AqyRBGgQe1GaHR
-         89PGsftxZU5aobcsT3FMqtJHkd6k2IBCNIufXUKtFa7XUb0/W8xLjpYZTyXG68rkQ15B
-         EczZ6ELo6HO7XZJoEwN6JQ+5L5EFx6LB2oDrfhD3SPMYTZKGbUi0HRmytz/oAGtoesdn
-         M7Eg==
-X-Forwarded-Encrypted: i=1; AJvYcCWG8uKGvU/6/2LaT6Qs3oD6pCxx40SbK/qF2l1mAJZ4x/b+tKQuFiO5UD8ugeocVzz2DpQCYVLyiVWKK5Id@lists.linux.dev
-X-Gm-Message-State: AOJu0YwkuoAa9XwxdBDfXo7Jyk/dhVKLi5BLLAd/Vb6CL5Ovpt4mp/te
-	va8ch6xEFAz9NalxjQovkE+l4S6LYbyGSi9x6yksa3U5gu08rZZqfrDfcvtiPjamU83lNS3fg+d
-	z3xQTMRKqgg7esbw8Pltd0S9hcAOHWV/qfbSxRhOl
-X-Gm-Gg: ASbGncvM8YT2hPXeQIl7zCbzwRyBYFJQVNNuLCNBKl4nsROodhJZyn4ZHvdE9DKNPRO
-	+zSxyIW/wTMV2oHfIrtGJ0cV82Ot7lOrPqcGgH3IJJZGqWu5YRGgtx+DxT3dZdZeZOTxuZiUp3r
-	iXJedONjlDhnpHnShkuyBrF/StGfzEkLVRxKxirv145iP9hHVlZow7Q1gb+JQKufjMJYEHaM6j0
-	t/v
-X-Google-Smtp-Source: AGHT+IH/JGiXh5XiKWwlu4CDnIGhqRo+jwrPA9qHfnd8CZIjwn6cTGQgk7e/thnN52vXlk8rPFqbbZX1d9enm1CVFgo=
-X-Received: by 2002:a17:902:e80d:b0:240:469a:7e23 with SMTP id
- d9443c01a7336-2409a044697mr269765ad.20.1753813063049; Tue, 29 Jul 2025
- 11:17:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F/Rq0JaR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753814817; x=1785350817;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=B0gA/6XcYdeSxe21pfe+YQSfBHRV91GfUTRfdkiTwP8=;
+  b=F/Rq0JaRCNjRSMlmDZj3Anw/vc1XKFn9//I426haPRi5fagikH64KDPL
+   yENcJQkT0BHLNvG37myPCd89Rs6Xu/UFi4iBxmAlWHj1fZEGBTc9MGwZg
+   YamLiWH6LM1Ci8FGxZRYlGldPhZpZBMI3w3EUDSSzOX/BzclLX/oroUKY
+   JQkVXYGj4d28+rG0BTjIcnMugOx2p4qSF9UC4jCtgeuA+EVh6OHf85VGE
+   lgdJW1fOgJxeD3uiJTdBmzsQun+YPAbY1+JlNXNdXYWwz/r0Yzqh/dbXQ
+   H/YIK2cM1ty+04fCC3Wz8vOy3bLMmYBZYNErqVOtTI/MFSZsBTqL8D5Ld
+   Q==;
+X-CSE-ConnectionGUID: KjYvRl4aSpK6rrcqOfJR6A==
+X-CSE-MsgGUID: eQj15TpeTK2tCjMhwqDTmw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="55985654"
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
+   d="scan'208";a="55985654"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 11:46:55 -0700
+X-CSE-ConnectionGUID: qPl1pRwtQHiWhFrnkW1jCg==
+X-CSE-MsgGUID: tc0xzsF+Sd6BmXLGvyqvpw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
+   d="scan'208";a="163129797"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 29 Jul 2025 11:46:53 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ugpLf-0001aB-0r;
+	Tue, 29 Jul 2025 18:46:51 +0000
+Date: Wed, 30 Jul 2025 02:46:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android13-5.10 1/1]
+ include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address
+ space '__iomem' of expression
+Message-ID: <202507300218.HRE0Ur8N-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250728202656.559071-7-samitolvanen@google.com> <202507300122.RpqIKqFR-lkp@intel.com>
-In-Reply-To: <202507300122.RpqIKqFR-lkp@intel.com>
-From: Sami Tolvanen <samitolvanen@google.com>
-Date: Tue, 29 Jul 2025 11:17:06 -0700
-X-Gm-Features: Ac12FXyTkIKUF3oE37TmSDCsrlZi0YemuCpY3RAC5JJl1HoxExctdyr3bgTjL2E
-Message-ID: <CABCJKudjiU8KZoBa+0k9ey5ccPp5E0JhUc5n-DRKbOamSO==VQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v3 1/4] bpf: crypto: Use the correct destructor
- kfunc type
-To: kernel test robot <lkp@intel.com>
-Cc: bpf@vger.kernel.org, oe-kbuild-all@lists.linux.dev, 
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, Jamal Hadi Salim <jhs@mojatatu.com>, 
-	Cong Wang <xiyou.wangcong@gmail.com>, Jiri Pirko <jiri@resnulli.us>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Jul 29, 2025 at 10:54=E2=80=AFAM kernel test robot <lkp@intel.com> =
-wrote:
->
-> Hi Sami,
->
-> kernel test robot noticed the following build warnings:
->
-> [auto build test WARNING on 5b4c54ac49af7f486806d79e3233fc8a9363961c]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Sami-Tolvanen/bpf-=
-crypto-Use-the-correct-destructor-kfunc-type/20250729-042936
-> base:   5b4c54ac49af7f486806d79e3233fc8a9363961c
-> patch link:    https://lore.kernel.org/r/20250728202656.559071-7-samitolv=
-anen%40google.com
-> patch subject: [PATCH bpf-next v3 1/4] bpf: crypto: Use the correct destr=
-uctor kfunc type
-> config: alpha-randconfig-r111-20250729 (https://download.01.org/0day-ci/a=
-rchive/20250730/202507300122.RpqIKqFR-lkp@intel.com/config)
-> compiler: alpha-linux-gcc (GCC) 8.5.0
-> reproduce: (https://download.01.org/0day-ci/archive/20250730/202507300122=
-.RpqIKqFR-lkp@intel.com/reproduce)
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202507300122.RpqIKqFR-lkp=
-@intel.com/
->
-> sparse warnings: (new ones prefixed by >>)
-> >> kernel/bpf/crypto.c:264:18: sparse: sparse: symbol 'bpf_crypto_ctx_rel=
-ease_dtor' was not declared. Should it be static?
->
-> vim +/bpf_crypto_ctx_release_dtor +264 kernel/bpf/crypto.c
->
->    263
->  > 264  __bpf_kfunc void bpf_crypto_ctx_release_dtor(void *ctx)
->    265  {
->    266          bpf_crypto_ctx_release(ctx);
->    267  }
->    268  CFI_NOSEAL(bpf_crypto_ctx_release_dtor);
->    269
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   9270bc60703895f1d77fe7da086bb8563cb1dded
+commit: e091aa59b956dc60ca88a83ce3510a4de2d8dd59 [1/1] ANDROID: tracing: Add register read and write tracing support
+config: arm64-randconfig-r113-20250729 (https://download.01.org/0day-ci/archive/20250730/202507300218.HRE0Ur8N-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 10.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250730/202507300218.HRE0Ur8N-lkp@intel.com/reproduce)
 
-__bpf_kfunc_start_defs() disables -Wmissing-declarations here, but I
-assume sparse doesn't care about that. Is there something we can do to
-teach it about this?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507300218.HRE0Ur8N-lkp@intel.com/
 
-Sami
+All errors (new ones prefixed by >>):
+
+   aarch64-linux-ld: warning: -z norelro ignored
+   aarch64-linux-ld: Unexpected GOT/PLT entries detected!
+   aarch64-linux-ld: Unexpected run-time procedure linkages detected!
+   aarch64-linux-ld: warning: .tmp_vmlinux.kallsyms1 has a LOAD segment with RWX permissions
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_cleanup':
+   hvc_console.c:(.text+0x37c): undefined reference to `tty_port_put'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_set_winsz':
+   hvc_console.c:(.text+0x40c): undefined reference to `tty_port_tty_get'
+   aarch64-linux-ld: hvc_console.c:(.text+0x440): undefined reference to `tty_do_resize'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_hangup':
+   hvc_console.c:(.text+0x53c): undefined reference to `tty_port_tty_set'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_close':
+   hvc_console.c:(.text+0x598): undefined reference to `tty_hung_up_p'
+   aarch64-linux-ld: hvc_console.c:(.text+0x5e0): undefined reference to `tty_port_tty_set'
+   aarch64-linux-ld: hvc_console.c:(.text+0x634): undefined reference to `tty_wait_until_sent'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_remove':
+   hvc_console.c:(.text+0x6b4): undefined reference to `tty_port_tty_get'
+   aarch64-linux-ld: hvc_console.c:(.text+0x710): undefined reference to `tty_port_put'
+   aarch64-linux-ld: hvc_console.c:(.text+0x71c): undefined reference to `tty_vhangup'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_open':
+   hvc_console.c:(.text+0x780): undefined reference to `tty_port_tty_set'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_init':
+   hvc_console.c:(.text+0x868): undefined reference to `__tty_alloc_driver'
+   aarch64-linux-ld: hvc_console.c:(.text+0x87c): undefined reference to `tty_std_termios'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: relocation R_AARCH64_ADR_PREL_PG_HI21 against symbol `tty_std_termios' which may bind externally can not be used when making a shared object; recompile with -fPIC
+   hvc_console.c:(.text+0x87c): dangerous relocation: unsupported relocation
+   aarch64-linux-ld: hvc_console.c:(.text+0x880): undefined reference to `tty_std_termios'
+   aarch64-linux-ld: hvc_console.c:(.text+0x8e0): undefined reference to `tty_set_operations'
+   aarch64-linux-ld: hvc_console.c:(.text+0x924): undefined reference to `tty_register_driver'
+   aarch64-linux-ld: hvc_console.c:(.text+0x974): undefined reference to `put_tty_driver'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_alloc':
+   hvc_console.c:(.text+0xa48): undefined reference to `tty_port_init'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `__hvc_poll':
+   hvc_console.c:(.text+0xc34): undefined reference to `tty_port_tty_get'
+   aarch64-linux-ld: hvc_console.c:(.text+0xc70): undefined reference to `tty_buffer_request_room'
+   aarch64-linux-ld: hvc_console.c:(.text+0xcb4): undefined reference to `__tty_insert_flip_char'
+   aarch64-linux-ld: hvc_console.c:(.text+0xd4c): undefined reference to `tty_flip_buffer_push'
+   aarch64-linux-ld: hvc_console.c:(.text+0xd8c): undefined reference to `tty_buffer_request_room'
+   aarch64-linux-ld: hvc_console.c:(.text+0xdf8): undefined reference to `tty_port_tty_get'
+   aarch64-linux-ld: hvc_console.c:(.text+0xe64): undefined reference to `tty_wakeup'
+   aarch64-linux-ld: hvc_console.c:(.text+0xec4): undefined reference to `tty_hangup'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_install':
+   hvc_console.c:(.text+0x1324): undefined reference to `tty_port_install'
+   aarch64-linux-ld: hvc_console.c:(.text+0x1348): undefined reference to `tty_port_put'
+   aarch64-linux-ld: drivers/tty/hvc/hvc_console.o: in function `hvc_instantiate':
+   hvc_console.c:(.text+0x1460): undefined reference to `tty_port_put'
+   aarch64-linux-ld: drivers/media/common/videobuf2/videobuf2-core.o: in function `vb2_core_streamon':
+   videobuf2-core.c:(.text+0x2be8): undefined reference to `v4l_vb2q_enable_media_source'
+   aarch64-linux-ld: net/socket.o: in function `sock_ioctl':
+>> socket.c:(.text+0x24e4): undefined reference to `wext_handle_ioctl'
+
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for WIRELESS_EXT
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_INTEL_NHLT
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y] && ACPI [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PRIV
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_SPY
+   Depends on [n]: NET [=y] && WIRELESS [=n]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for WEXT_CORE
+   Depends on [n]: NET [=y] && WIRELESS [=n] && (CFG80211_WEXT [=n] || WIRELESS_EXT [=y])
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+   WARNING: unmet direct dependencies detected for SND_VMASTER
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_IEC958
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_SOC_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_JACK_INPUT_DEV
+   Depends on [n]: SOUND [=n] && !UML && SND [=n] && SND_JACK [=y]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for SND_PCM_ELD
+   Depends on [n]: SOUND [=n] && !UML && SND [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_SND_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for HVC_DRIVER
+   Depends on [n]: TTY [=n]
+   Selected by [y]:
+   - GKI_HIDDEN_VIRTUAL_CONFIGS [=y]
+   WARNING: unmet direct dependencies detected for WEXT_PROC
+   Depends on [n]: NET [=y] && WIRELESS [=n] && PROC_FS [=n] && WEXT_CORE [=y]
+   Selected by [y]:
+   - GKI_LEGACY_WEXT_ALLCONFIG [=y]
+
+sparse warnings: (new ones prefixed by >>)
+   kernel/trace/trace_readwrite.c: note: in included file (through include/trace/trace_events.h, include/trace/define_trace.h, include/trace/events/rwmmio.h):
+>> include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:37:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:59:1: sparse: sparse: cast removes address space '__iomem' of expression
+   kernel/trace/trace_readwrite.c: note: in included file (through include/trace/perf.h, include/trace/define_trace.h, include/trace/events/rwmmio.h):
+>> include/trace/events/rwmmio.h:13:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:37:1: sparse: sparse: cast removes address space '__iomem' of expression
+   include/trace/events/rwmmio.h:59:1: sparse: sparse: cast removes address space '__iomem' of expression
+
+vim +/__iomem +13 include/trace/events/rwmmio.h
+
+    12	
+  > 13	TRACE_EVENT(rwmmio_write,
+    14	
+    15		TP_PROTO(unsigned long fn, u64 val, u8 width, volatile void __iomem *addr),
+    16	
+    17		TP_ARGS(fn, val, width, addr),
+    18	
+    19		TP_STRUCT__entry(
+    20			__field(u64, fn)
+    21			__field(u64, val)
+    22			__field(u8, width)
+    23			__field(u64, addr)
+    24		),
+    25	
+    26		TP_fast_assign(
+    27			__entry->fn = fn;
+    28			__entry->val = val;
+    29			__entry->width = width;
+    30			__entry->addr = (u64)addr;
+    31		),
+    32	
+    33		TP_printk("%pS write addr=%llx of width=%x val=0x%llx\n",
+    34			__entry->fn, __entry->addr, __entry->width, __entry->val)
+    35	);
+    36	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
