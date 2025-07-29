@@ -1,41 +1,40 @@
-Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF691D54C2
-	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 01:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C496A1DE4CA
+	for <oe-kbuild-all@lists.linux.dev>; Tue, 29 Jul 2025 01:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753751914; cv=none; b=O9/U58Kd2+mX9XrwOLG3iRVpMiHDubVgygHMH+A8N5WnOjGsbTD/EEwbXCAvnMm9ESqHJq+9AJyyHSIRakdTSOabnbkQjAZYtnbf2M2chDKrKaOIYb0nkP4BtaIiLUw1j+8xYAsuRyKfhsxjTfBoyc79R42hg8WRHx+OoHK7uj0=
+	t=1753752120; cv=none; b=I7kMlEtsgsGyuuhzeUsk5fO4KnA+9zY7SKwGV+ZS1l/dHeSn3oE7MhchvKr2/SHfx1vTAK94GmRdwZ/MPmmSakGKTsaBuFH72J+xTE5YU+x/jZp63dSQT6RdBSyLo16Nf5gKd0hKhTGc5lvOSFH1UkfZafe6nDRHmJq1UIYt3mY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753751914; c=relaxed/simple;
-	bh=Pw/EtVigOD+NLcjlMHwzQNt9j9ty2toqqs4UfYC1wN0=;
+	s=arc-20240116; t=1753752120; c=relaxed/simple;
+	bh=IyWVg6fv6jorhhnIZt/1wvfudukMy1aGNscDyyEBtYE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ph1mgjExi2OvJ+t0juiriK1C9RaPORTDzDcn4UmyMr7WYdsQm7uoKQU6/mQVhRUz39V0uPEeEamFK8zUiCCMl3k0MXRmDNV8pzJAyFvVycJ83zFiE99b5XDAAzCisJQ+jHLD0CTFAhX+cDWeCXV1qZBqKOGclXJ+h3YctLYDaI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iWElieQg; arc=none smtp.client-ip=95.215.58.177
+	 In-Reply-To:Content-Type; b=fjhegM2bl8K+h7xv2Ck4ma4fjlFChJ2a4VVC1bpQxyJ+p4L4oS+cGJcukC+gWNRfQypDba8mfribWu8NZS6dC2CmAbqjJ/60v7vItbWB56oH+HpRaFJbSV9s6WKemomv1OYb5iQNeoC8RMcRE7GuSSVXdZpwYCqmnNWTuOABJDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WgE/WML7; arc=none smtp.client-ip=91.218.175.188
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iWElieQg"
-Message-ID: <382ff228-704c-4e0c-9df3-2eb178adcba8@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WgE/WML7"
+Message-ID: <b36532a2-506b-4ba5-b6a3-a089386a190e@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1753751909;
+	t=1753752116;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=CJl/TYfMZeObqkgjHJt86L4qFGf+eUl3AOofZqTZKuY=;
-	b=iWElieQgLcGuH9OhD52M1reMM8pgtCPFp+0nQ58OPZ9Yj2F7E17JRjIJM3vvmVwOINmIZl
-	hXnyo/gG1PyZ858Zz/45zxOT2SfWg+ykFAZrqMAvtiQpSG58MVJ0YEWj7qJtHYsMARQjVX
-	4MImnwIgKch3c5l1di+eFEjqdOMr6no=
-Date: Mon, 28 Jul 2025 18:18:11 -0700
+	bh=GWpYFOkLsYnJ9p2ZFvtVNIwL5tEHltSN8BWwkp1apnw=;
+	b=WgE/WML74rD1+eaiOmDCUACg4lRY0yiI97gO1U4BTY+WlYmnjBk9GHu9qMOaIEi7E9661E
+	S6cdKz7drn5/cAPiiOk2+WOqIqzMlsmvrqZ57k2/fAFBTZcCx12xuwzV1XRIYMfDmU4xlF
+	Y08DWk+rPUj6rmDlY7FOadBKFtCNm+s=
+Date: Mon, 28 Jul 2025 18:21:50 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v3 4/4] selftests/bpf: add icmp_send_unreach
- kfunc tests
+Subject: Re: [PATCH bpf-next v3 0/4] bpf: add icmp_send_unreach kfunc
 To: Mahe Tardy <mahe.tardy@gmail.com>
 Cc: alexei.starovoitov@gmail.com, andrii@kernel.org, ast@kernel.org,
  bpf@vger.kernel.org, coreteam@netfilter.org, daniel@iogearbox.net,
@@ -44,40 +43,52 @@ Cc: alexei.starovoitov@gmail.com, andrii@kernel.org, ast@kernel.org,
  pablo@netfilter.org, lkp@intel.com
 References: <202507270940.kXGmRbg5-lkp@intel.com>
  <20250728094345.46132-1-mahe.tardy@gmail.com>
- <20250728094345.46132-5-mahe.tardy@gmail.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Martin KaFai Lau <martin.lau@linux.dev>
-In-Reply-To: <20250728094345.46132-5-mahe.tardy@gmail.com>
+In-Reply-To: <20250728094345.46132-1-mahe.tardy@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
 On 7/28/25 2:43 AM, Mahe Tardy wrote:
-> +SEC("cgroup_skb/egress")
-> +int egress(struct __sk_buff *skb)
-> +{
-> +	void *data = (void *)(long)skb->data;
-> +	void *data_end = (void *)(long)skb->data_end;
-> +	struct iphdr *iph;
-> +	struct tcphdr *tcph;
-> +
-> +	iph = data;
-> +	if ((void *)(iph + 1) > data_end || iph->version != 4 ||
-> +	    iph->protocol != IPPROTO_TCP || iph->daddr != bpf_htonl(SERVER_IP))
-> +		return SK_PASS;
-> +
-> +	tcph = (void *)iph + iph->ihl * 4;
-> +	if ((void *)(tcph + 1) > data_end ||
-> +	    tcph->dest != bpf_htons(SERVER_PORT))
-> +		return SK_PASS;
-> +
-> +	kfunc_ret = bpf_icmp_send_unreach(skb, unreach_code);
-> +
-> +	/* returns SK_PASS to execute the test case quicker */
+> Hello,
+> 
+> This is v3 of adding the icmp_send_unreach kfunc, as suggested during
+> LSF/MM/BPF 2025[^1]. The goal is to allow cgroup_skb programs to
+> actively reject east-west traffic, similarly to what is possible to do
+> with netfilter reject target.
+> 
+> The first step to implement this is using ICMP control messages, with
+> the ICMP_DEST_UNREACH type with various code ICMP_NET_UNREACH,
+> ICMP_HOST_UNREACH, ICMP_PROT_UNREACH, etc. This is easier to implement
+> than a TCP RST reply and will already hint the client TCP stack to abort
+> the connection and not retry extensively.
+> 
+> Note that this is different than the sock_destroy kfunc, that along
+> calls tcp_abort and thus sends a reset, destroying the underlying
+> socket.
+> 
+> Caveats of this kfunc design are that a cgroup_skb program can call this
+> function N times, thus send N ICMP unreach control messages and that the
+> program can return from the BPF filter with SK_PASS leading to a
+> potential confusing situation where the TCP connection was established
+> while the client received ICMP_DEST_UNREACH messages.
+> 
+> Another more sophisticated design idea would be for the kfunc to set the
+> kernel to send an ICMP_HOST_UNREACH control message with the appropriate
+> code when the cgroup_skb program terminates with SK_DROP. Creating a new
+> 'SK_REJECT' return code for cgroup_skb program was generally rejected
+> and would be too limited for other program types support.
+> 
+> We should bear in mind that we want to add a TCP reset kfunc next and
+> also could extend this kfunc to other program types if wanted.
 
-Do you know why the user space is slower if 0 (SK_DROP) is used?
+Some high level questions.
 
-> +	return SK_PASS;
+Which other program types do you need this kfunc to send icmp and the future tcp 
+rst?
 
+This cover letter mentioned sending icmp unreach is easier than sending tcp rst. 
+What problems do you see in sending tcp rst?
 
