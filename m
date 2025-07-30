@@ -1,76 +1,83 @@
-Received: from ssh248.corpemail.net (ssh248.corpemail.net [210.51.61.248])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F2A20E6;
-	Wed, 30 Jul 2025 07:31:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.51.61.248
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F952201276
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 07:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753860687; cv=none; b=HJNT/yqiMzwMzMd2pUCwJ1fPb+6WadaPOF12iPxBAZzYNqWGIlUZDiwf25p/PWCBjCS/HwjPaGDwBwbE7FOq8ajYn5W1JDEBt5zsoei9A3mql0FBd1Sz1OMrTw0AplpIuse7MxL2jwb7YuCtp9LEaWC+NeTvqUdfQyW5JyMdpi0=
+	t=1753861770; cv=none; b=Aq0uBg18Nw4bvgKtTIA8wInJkOnX317LnEf2FsrK1LzhDKrJsXafj+kxlMbnrRgi+870fdjuKDpf2+Ye9gGGMmHOX3K9eJf9KkHJJDFWHpgvkkfKh9Q8ZK8H2fSOU9lHiviaDKND3LdLqgA/806XFQj5WVfCp+WgmhzdenJur8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753860687; c=relaxed/simple;
-	bh=lGANFSUGVJuOs7RkjlhNySfv8QsiOn3t9/P2gJicYgU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GIPteG1HgsgDdEv/pwt7lpbOmYUyN+CYbppslSVWxEKkjVAWjzZe2Op8fuoHAbc6TpLS6OTQ+QW0P0fGQt6OpfT7j3L3cfEYPibcjGXa65CNnJHL7F7m3t8vuHz6qmcPuIPLR06WT2y7E4AyawP8WUooYqcTZWvb67CLxb0ph4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com; spf=pass smtp.mailfrom=inspur.com; arc=none smtp.client-ip=210.51.61.248
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inspur.com
-Received: from jtjnmail201603.home.langchao.com
-        by ssh248.corpemail.net ((D)) with ASMTP (SSL) id 202507301530076602;
-        Wed, 30 Jul 2025 15:30:07 +0800
-Received: from localhost.localdomain.com (10.94.10.113) by
- jtjnmail201603.home.langchao.com (10.100.2.3) with Microsoft SMTP Server id
- 15.1.2507.57; Wed, 30 Jul 2025 15:30:06 +0800
-From: chuguangqing <chuguangqing@inspur.com>
-To: <lkp@intel.com>, <maarten.lankhorst@linux.intel.com>,
-	<mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
-	<simona@ffwll.ch>
-CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
-	<dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-	chuguangqing <chuguangqing@inspur.com>
-Subject: [PATCH v2 1/1] gpu: drm: fix compilation errors in drm_vram_helper
-Date: Wed, 30 Jul 2025 15:29:19 +0800
-Message-ID: <20250730072919.3720-1-chuguangqing@inspur.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20250729060728.82402-1-chuguangqing@inspur.com>
-References: <20250729060728.82402-1-chuguangqing@inspur.com>
+	s=arc-20240116; t=1753861770; c=relaxed/simple;
+	bh=T6rSuGbyJUJDIVrbYZO6srafpB8YbqE4qAmT+ZcrP5Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=dt24nyO8WQS26CMJJN/Zfkre/HX20cKckptSU4uR6EeKzl2v3HXJHEy6biT8lJw0PbBPDC6EY71m/QgRQNiBpFsylG1dflArEbdoOkNQAgkjp8+y3N75045lGGWd5Lh403zNDj1tE5WsGKHL1Js1L3S9N7pHl/uqpocU1HBKIQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hNoZE/Yi; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hNoZE/Yi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753861768; x=1785397768;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=T6rSuGbyJUJDIVrbYZO6srafpB8YbqE4qAmT+ZcrP5Q=;
+  b=hNoZE/YiJ7a4NWM8gHAuYFGqNeLY5szN5ebyZRPRAy6Ya6qfn8fgqF2o
+   tx7tLeA2jRcapWq9M0fDQp6CC0B38HUH/7KBoT6D0j1i5eZ0+ymqkHve2
+   r/kYi4We6QRh0M6RwxmlHaIklf/8fwuAO1zmoY/pkrv1j+E0s7UTc8aWq
+   9ynSu6Ty0Ea1yM7j90GLWLnFkxh0lX5BlXXwk4Z7f2CoCs/ZO3Fza+AM6
+   F39ZJ+jsKni7uJtTPGWMC9EsdyZh66hEKdNaIUKvVH1CecNNdseUDOblv
+   FWQEEoq8IVlJUZ42MS6ai+ldd30lPuZjXT4Atpw5TKlfzVn6FUjPbBf9D
+   Q==;
+X-CSE-ConnectionGUID: jPnps4m8SNC1JcxFFF3Mww==
+X-CSE-MsgGUID: ECWGLtKXQGqXef5ps7wyZA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="66720061"
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
+   d="scan'208";a="66720061"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 00:49:28 -0700
+X-CSE-ConnectionGUID: 3oXxr4wPR1eLC4xOrC/H6w==
+X-CSE-MsgGUID: f5jXxcuORLKgn4l/ZScN1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
+   d="scan'208";a="163263860"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 30 Jul 2025 00:49:27 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uh1Yy-0002B6-1R;
+	Wed, 30 Jul 2025 07:49:24 +0000
+Date: Wed, 30 Jul 2025 15:48:55 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] x86: XOP prefix instructions decoder support
+Message-ID: <aInOZ-1UbvCIPjG7@c35d1a63b3c5>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-tUid: 20257301530073bb4d7eec5c6854491af538e201b4cf4
-X-Abuse-Reports-To: service@corp-email.com
-Abuse-Reports-To: service@corp-email.com
-X-Complaints-To: service@corp-email.com
-X-Report-Abuse-To: service@corp-email.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <175386161199.564247.597496379413236944.stgit@devnote2>
 
-We encountered the following errors while compiling drm_vram_helper.ko
+Hi,
 
-ERROR: modpost: "drm_gem_ttm_print_info" [drivers/gpu/drm/drm_vram_helper.ko] undefined!
-ERROR: modpost: "drm_gem_ttm_mmap" [drivers/gpu/drm/drm_vram_helper.ko] undefined!
+Thanks for your patch.
 
-The functions drm_gem_ttm_mmap and drm_gem_ttm_print_info are defined in drm_gem_ttm_helper.c. This patch select CONFIG_DRM_TTM_HELPER on CONFIG_DRM_VRAM_HELPER to resolve the undefined symbol errors.
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
 
-Signed-off-by: chuguangqing <chuguangqing@inspur.com>
----
- drivers/gpu/drm/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index f7ea8e895c0c..01a314fdc9a8 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -226,6 +226,7 @@ config DRM_BUDDY
- config DRM_VRAM_HELPER
- 	tristate
- 	depends on DRM
-+	select DRM_TTM_HELPER if DRM_VRAM_HELPER != n
- 	help
- 	  Helpers for VRAM memory management
- 
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] x86: XOP prefix instructions decoder support
+Link: https://lore.kernel.org/stable/175386161199.564247.597496379413236944.stgit%40devnote2
+
 -- 
-2.43.5
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
+
 
