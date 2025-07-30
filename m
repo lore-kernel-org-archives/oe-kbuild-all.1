@@ -1,108 +1,108 @@
-Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E334182B7
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 00:32:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963CE290F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 00:51:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753835539; cv=none; b=kV1yO2ei6MHhswxK7FNBvAE1NjduwBT3Zh4e6Or8NFWqcRqDjPQe3jyazhJIqUS9jbqiQmmTeClGR0Hgwce4HcgMdSf+pkslBR7YJB0LjiHQ5JGl+ZG9A+YBhw/0e06myTn3wduIwrrsshQfcETiM2YKjpEV9oHpgZrorzoW5E4=
+	t=1753836703; cv=none; b=hk6sY/kjVfZ3lNrfGvtXIzZbsU8SJZGiiiS1rkz7SQgPneAy1GKXZOwjxfPLpVUlGXnYoJ5cafQnCAUOrDiTENAbiO9g6keT0X/CW95qqZYkRQy5BAXI+8nTBP2G/c0wcslkfstOZD+awEZtgA5OuJe9ds4OzexIi0y7msZEYPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753835539; c=relaxed/simple;
-	bh=dH9jHSm2AEbgXq+8uubCnDxpIZwkzjSWHqwXLxpM3z0=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=TH0QhXEoCRDxwksgAXo386YrcMAkEzTs5nd9j38x1uSdjHGk88+0DfBpW+KU/D1N32TQiq0sfhr2FmfWJkIEUIUtlefcgK/+GcUdIqjmUZVeUr5WDAE9YlMAdwQeWEBFG4OqMjeajtKmLSMM2p1q2cO1Glfy47CCw0neXLOs9ek=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Oziyw4Nn; arc=none smtp.client-ip=95.215.58.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1753836703; c=relaxed/simple;
+	bh=kuPcLOQj10vYKr0Jk1alxxb3eZqS3bffwz4Z+r5fUQY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lgKU4Vtg6M1zCnvQsbjtSS0NF8HQZAwQnje7iAsyJOFWD/wwWdoZm+N1MpJBdtSWszb7+WM7TO5nK3RFh42uMXaKay1vu5jzF/P9V+gbyttiLBKjd8dN0RAltDu52PgSg9eWybCFy79DvWU8WwRhFqpGqqh/Vrx5jbwbqDJO3v4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I2eJL9Z4; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Oziyw4Nn"
-Message-ID: <d680a7b0-4c92-4937-83a7-6044e17e9997@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1753835535;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zpBevtBp+vvDKaYxeeSbfJvyA9GkDU+7/833LnHEBvU=;
-	b=Oziyw4Nn+5OA/Q81daHTxQnqOLpwBMWDS6HsQtLuFqqwgZ9xi2mVydkzVGioSi4f7IHXiN
-	HLxHeXpNbzxNOXfX6qE0tYEkm3XGt+HWcoBY8MavI/elQXTvZjuTJhly3gPg0z1GxC2heQ
-	uQu+QKkk2VcsotUS/7MuuubM0KLWXPw=
-Date: Tue, 29 Jul 2025 17:32:07 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I2eJL9Z4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753836702; x=1785372702;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=kuPcLOQj10vYKr0Jk1alxxb3eZqS3bffwz4Z+r5fUQY=;
+  b=I2eJL9Z4J9oqv4Snb1S45l/ZDosbBs/JiMP+MiwkdPMaZICJ88uiMVyQ
+   Wz2GI9xNUM59hzDmqFW+FVZc+AC6SZIBmqc//tvxAcC2LcyOMYp7+2z51
+   gvag2YjUr3s3/4guo4Nm8jlzYmSqHoGdsGfW74y67TwECDVXPUzMadCGh
+   kVVtnzAWYo/oI1NsGqnVspm6ePQa6lNXJ9L9opONbmfX3WvRAD516fePT
+   +CcOL64FVYAn0o89UfGH8JiiTgs/f01qLfT6WlNTt5BqsEdzY1d49vcwj
+   +WJebdA2ALMtTQWysvu0kPmpoio7dS9vNZONy7OTDpETKPawD/RB5v/ya
+   A==;
+X-CSE-ConnectionGUID: S2bKkvXKQIO/5DZL9uTkWg==
+X-CSE-MsgGUID: m1y8hcZFS3WNyd4k3rat6Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="67566236"
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
+   d="scan'208";a="67566236"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 17:51:41 -0700
+X-CSE-ConnectionGUID: YQjfmSZeTGK4Vy7jPuo/mw==
+X-CSE-MsgGUID: azMbskgGQr+RZ2hSSjaIGg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
+   d="scan'208";a="167099887"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa005.fm.intel.com with ESMTP; 29 Jul 2025 17:51:40 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1ugv2f-0001oj-30;
+	Wed, 30 Jul 2025 00:51:37 +0000
+Date: Wed, 30 Jul 2025 08:50:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: cros-kernel-buildreports@googlegroups.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [android-common:android15-6.6-2025-06 7/7]
+ drivers/dma-buf/dma-buf.c:235:9: sparse: sparse: incorrect type in argument
+ 1 (different address spaces)
+Message-ID: <202507300845.X6cXn2tI-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v3 4/4] selftests/bpf: add icmp_send_unreach
- kfunc tests
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Martin KaFai Lau <martin.lau@linux.dev>
-To: Mahe Tardy <mahe.tardy@gmail.com>
-Cc: alexei.starovoitov@gmail.com, andrii@kernel.org, ast@kernel.org,
- bpf@vger.kernel.org, coreteam@netfilter.org, daniel@iogearbox.net,
- fw@strlen.de, john.fastabend@gmail.com, netdev@vger.kernel.org,
- netfilter-devel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- pablo@netfilter.org, lkp@intel.com
-References: <202507270940.kXGmRbg5-lkp@intel.com>
- <20250728094345.46132-1-mahe.tardy@gmail.com>
- <20250728094345.46132-5-mahe.tardy@gmail.com>
- <382ff228-704c-4e0c-9df3-2eb178adcba8@linux.dev> <aIiP5l24ihrS2x-u@gmail.com>
- <996bb1dd-e72e-4515-a60f-c5f31b840459@linux.dev>
- <cdd57fe6-ed8c-4cc9-a1dc-8563160a71e4@linux.dev>
-Content-Language: en-US
-In-Reply-To: <cdd57fe6-ed8c-4cc9-a1dc-8563160a71e4@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 7/29/25 5:01 PM, Martin KaFai Lau wrote:
-> On 7/29/25 4:27 PM, Martin KaFai Lau wrote:
->> On 7/29/25 2:09 AM, Mahe Tardy wrote:
->>> On Mon, Jul 28, 2025 at 06:18:11PM -0700, Martin KaFai Lau wrote:
->>>> On 7/28/25 2:43 AM, Mahe Tardy wrote:
->>>>> +SEC("cgroup_skb/egress")
->>>>> +int egress(struct __sk_buff *skb)
->>>>> +{
->>>>> +    void *data = (void *)(long)skb->data;
->>>>> +    void *data_end = (void *)(long)skb->data_end;
->>>>> +    struct iphdr *iph;
->>>>> +    struct tcphdr *tcph;
->>>>> +
->>>>> +    iph = data;
->>>>> +    if ((void *)(iph + 1) > data_end || iph->version != 4 ||
->>>>> +        iph->protocol != IPPROTO_TCP || iph->daddr != bpf_htonl(SERVER_IP))
->>>>> +        return SK_PASS;
->>>>> +
->>>>> +    tcph = (void *)iph + iph->ihl * 4;
->>>>> +    if ((void *)(tcph + 1) > data_end ||
->>>>> +        tcph->dest != bpf_htons(SERVER_PORT))
->>>>> +        return SK_PASS;
->>>>> +
->>>>> +    kfunc_ret = bpf_icmp_send_unreach(skb, unreach_code);
->>>>> +
->>>>> +    /* returns SK_PASS to execute the test case quicker */
->>>>
->>>> Do you know why the user space is slower if 0 (SK_DROP) is used?
->>>
->>> I tried to write my understanding of this in the commit description:
->>>
->>> "Note that the BPF program returns SK_PASS to let the connection being
->>> established to finish the test cases quicker. Otherwise, you have to
->>> wait for the TCP three-way handshake to timeout in the kernel and
->>> retrieve the errno translated from the unreach code set by the ICMP
->>> control message."
->>
->> This feels like a bit hacky to let the 3WHS finished while the objective of 
->> the patch set is to drop it. It is not unusual for people to directly borrow 
->> this code. Does non blocking connect() help?
->>
-> 
-> After reading more on how sk_err_soft is used, non blocking won't help. I think 
-> I see why tcp rst is better.
-> 
+tree:   https://android.googlesource.com/kernel/common android15-6.6-2025-06
+head:   7599baef60321bda13da14a20f079a436c60b596
+commit: d23638466e5b8b6356d44f941495353ae3cd771e [7/7] ANDROID: add task_dma_buf_record and allocation preload facilities
+config: arm-randconfig-r112-20250730 (https://download.01.org/0day-ci/archive/20250730/202507300845.X6cXn2tI-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250730/202507300845.X6cXn2tI-lkp@intel.com/reproduce)
 
-Actually, while replying on the cover letter and looking at tcp_v4_err again, 
-there is an exception to do ip_icmp_error for TCP_SYN_SENT, so it may worth a 
-try on non blocking connect and then poll the sk for err if you haven't tried 
-that before.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507300845.X6cXn2tI-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/dma-buf/dma-buf.c:235:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct lockdep_map const *lock @@     got struct lockdep_map [noderef] __percpu * @@
+   drivers/dma-buf/dma-buf.c:235:9: sparse:     expected struct lockdep_map const *lock
+   drivers/dma-buf/dma-buf.c:235:9: sparse:     got struct lockdep_map [noderef] __percpu *
+   drivers/dma-buf/dma-buf.c:267:9: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct lockdep_map const *lock @@     got struct lockdep_map [noderef] __percpu * @@
+   drivers/dma-buf/dma-buf.c:267:9: sparse:     expected struct lockdep_map const *lock
+   drivers/dma-buf/dma-buf.c:267:9: sparse:     got struct lockdep_map [noderef] __percpu *
+
+vim +235 drivers/dma-buf/dma-buf.c
+
+   229	
+   230	static struct task_dma_buf_record *alloc_task_dmabuf_record(void)
+   231	{
+   232		struct task_dma_buf_record_preload *preload;
+   233		struct task_dma_buf_record *rec = NULL;
+   234	
+ > 235		lockdep_assert_held(&dmabuf_rec_reloads.lock);
+   236		preload = this_cpu_ptr(&dmabuf_rec_reloads);
+   237		if (preload->size > 0) {
+   238			rec = list_first_entry(&preload->list, typeof(*rec), node);
+   239			list_del(&rec->node);
+   240			preload->size--;
+   241		}
+   242	
+   243		return rec;
+   244	}
+   245	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
