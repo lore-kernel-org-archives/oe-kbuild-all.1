@@ -1,61 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967FC4A23;
-	Wed, 30 Jul 2025 11:03:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9527842A82
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 12:15:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753873393; cv=none; b=ueOx0nPRH+ALz7n2ep8JZBiu6WS0D13lplPj0pLgTzuN6R2uJen8fjsRg6Wv4RnP2hC0hdjQFnQWzUiRLtwB4azz2sd9oLe3eykqblxnLIhMoNhg/LqiF6h1oLBr0zFnSQiZNJ6hzWqfvqxjURc5WgAQtrGHspR8gFTAAVky5XU=
+	t=1753877719; cv=none; b=jpCeN4bWWlblrsaC5yqgwBfDpuwuTXS6Z4Lp90Rr1g5zzwBMwgNPaeTBHh+eOQ6B3oxCxcdBA5ZVMIYVYBOycq0qHqqRanmektCjM/0fSqcjDMNlXybxMprYxnf/V0auW5XWl2nqFKMfbxWD/GnMWgZRCXfs7/hLyql+Wz9Ei0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753873393; c=relaxed/simple;
-	bh=pZNdbBfK0/PdExC7LN9m++lu6lu7O2/QnJQqbttmsbs=;
+	s=arc-20240116; t=1753877719; c=relaxed/simple;
+	bh=9rJRR1h6YHomyk8+zSKwAkU+7rPzgBoh5p4c6Y8Djws=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=US1FYAohKfgNuj8sKPerDCG0A5j9wLGqpEUCkfT8lKyWZy9PtUOX73WhyOT+6b/wpXRUZKcgavX+09EwrofGYlRIhOjKyhQHQVifS/HQfBghkeKnc/Q21a1btRn0YAgRZUDZRVrPQGCbl0kRqNTceppP2J5I9ZIW8qcM3e5aUEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZorlQNR1; arc=none smtp.client-ip=198.175.65.18
+	 Content-Disposition; b=fGMQrvOtVJjTiElAb67Jfk1cPjeqGy0/hUisNGpBpuj6OT4lxr0TdBfq/hZnsd0hnMMz6ZtnxPgkjcPPv3SB/+eoWg44STWI0dGcEHzCCGBUU1f942jNozpC43j/0AhY0pjGmDvL3FKfac6HcbeD35oF5nsIHEM91j0g4idzIAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A1hmljZM; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZorlQNR1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A1hmljZM"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753873391; x=1785409391;
+  t=1753877717; x=1785413717;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=pZNdbBfK0/PdExC7LN9m++lu6lu7O2/QnJQqbttmsbs=;
-  b=ZorlQNR1l6uOI12MuPA3dMJicf3Wtx/TOb075/qcCqQ/F9DGOOCrilov
-   LT8WPws6Kw3kAF6pEdI3+r9YG9dCIJUQhg1anePXfi74H+bEM1FYaTZza
-   GBdCdpfN0RBp/ps/Zv+k+Bu+C8uIuYPFaYvFGaOLZOtO0vONFvQ96Sv8m
-   ioAQeqWRChLX7i9tBmT2LgusNhlw4nUmQPj0JHpqWsobpOYV1mHECx9VH
-   KM2QltQfS4MekwNtd6QphK3fRpL+/HhoBx7WldtgvubgRtmP6YxIsEopA
-   DIp4rYMKbI2DArK9aB7NEujerccdIoxJwx4h/KZ/lDs28xlZff/wkZfpB
-   A==;
-X-CSE-ConnectionGUID: TtVhYl49REmAN0S63KbQBw==
-X-CSE-MsgGUID: atcdMVEnQHq238T3SE+ntg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="56257875"
+  bh=9rJRR1h6YHomyk8+zSKwAkU+7rPzgBoh5p4c6Y8Djws=;
+  b=A1hmljZMVb2AAaK/ZaJvsGv0rI04BNFfN0VFIBpKyKVqPPxemLxmGt/7
+   I95oLEu0zQuelwA6VysIiYTj2H3IaCMbb4rsqK46M4HXla4qopnp5kGC5
+   Lud8DY57EtmXNiBtjgxCEyk1g+Rov4Hq89dBFxgRqUsXrxYbpvX9Vlvou
+   54TkjOhzA9hHD6Vm97SJ8GuSnxK/z2yuuBUMDXM7iE4sLDhOjD3d81efv
+   TXbzmgC3Sax4QNmMyiucaRJyhvy23kiaNZNfSDJ32XjBEGGOJY5ijZlXc
+   blbTZRi4ohslhxQDVe7+CtUKPNqarAh29L9zz4iDBRkwvUC6hZ66cMVHn
+   w==;
+X-CSE-ConnectionGUID: M6ybm5rBTlatQf0B9VAcKw==
+X-CSE-MsgGUID: HrZk/l7ERxeXYgQAveZqHw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="78724781"
 X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="56257875"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 04:03:10 -0700
-X-CSE-ConnectionGUID: RMM8zo/1Ts+53Ge0MxKAMA==
-X-CSE-MsgGUID: 8UDdkvo1SrONBufafvXV/Q==
+   d="scan'208";a="78724781"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 05:15:16 -0700
+X-CSE-ConnectionGUID: IRyaOFcPQhC2i8zBgXPXEw==
+X-CSE-MsgGUID: kFkpvVtbQvGOitqd3ECUeg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="163305108"
+   d="scan'208";a="162853025"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Jul 2025 04:03:08 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 30 Jul 2025 05:15:14 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uh4aP-0002eX-2D;
-	Wed, 30 Jul 2025 11:03:05 +0000
-Date: Wed, 30 Jul 2025 19:02:23 +0800
+	id 1uh5iC-0002i0-2L;
+	Wed, 30 Jul 2025 12:15:12 +0000
+Date: Wed, 30 Jul 2025 20:15:09 +0800
 From: kernel test robot <lkp@intel.com>
-To: Hongbo Li <lihongbo22@huawei.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Jaegeuk Kim <jaegeuk@kernel.org>, Eric Sandeen <sandeen@redhat.com>,
-	Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-Subject: [linux-next:master 10769/12889] vmlinux.o: warning: objtool:
- f2fs_parse_param+0x80: sibling call from callable instruction with modified
- stack frame
-Message-ID: <202507301859.QJFfmnU0-lkp@intel.com>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [thomas-weissschuh:b4/umh-h 6/6]
+ arch/openrisc/include/asm/cmpxchg.h:166:50: error: passing argument 1 of
+ '__arch_xchg' makes pointer from integer without a cast
+Message-ID: <202507302044.Nz8iNJq1-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,221 +63,365 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
-head:   79fb37f39b77bbf9a56304e9af843cd93a7a1916
-commit: 94b3ce7f1509d91fbe3f84f367b622cbb2c1af7e [10769/12889] f2fs: switch to the new mount api
-config: loongarch-randconfig-002-20250730 (https://download.01.org/0day-ci/archive/20250730/202507301859.QJFfmnU0-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507301859.QJFfmnU0-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/thomas.weissschuh/linux.git b4/umh-h
+head:   15d07db86bdfa4c328a18630d82990d592395d4d
+commit: 15d07db86bdfa4c328a18630d82990d592395d4d [6/6] modules/kmod: remove transitive of umh.h
+config: openrisc-allnoconfig (https://download.01.org/0day-ci/archive/20250730/202507302044.Nz8iNJq1-lkp@intel.com/config)
+compiler: or1k-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507302044.Nz8iNJq1-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507301859.QJFfmnU0-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507302044.Nz8iNJq1-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   vmlinux.o: warning: objtool: xfs_dinode_verify_fork+0x320: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_inode_init+0x2b0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: __xfs_rmap_finish_intent+0x64: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_rmap_convert+0x66c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_rmap_convert_shared+0x4d8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_refcount_finish_one+0x190: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_rtrefcount_finish_one+0x158: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_validate_sb_common+0x824: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_zone_validate+0x1ec: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_fsmap_owner_to_rmap+0xc4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_getfsmap_helper+0x358: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_file_ioctl+0x194: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_bmap_add_extent_hole_delay+0x348: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_bulkstat_one_int+0x490: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_fs_parse_param+0x88: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_trans_mod_sb+0x74: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_log_need_covered+0x6c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xlog_state_clean_iclog+0x1e8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xlog_recover_validate_buf_type+0xd4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_attr_recover_work+0x6f8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xlog_recover_attri_commit_pass2+0xa8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_attri_validate+0xe4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_inode_item_data_fork_size+0x64: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_inode_item_format_data_fork+0x78: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_rmap_recover_work+0x2e8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_rmap_update_log_item+0xfc: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xlog_recovery_process_trans+0x9c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xlog_recover_reorder_trans+0x174: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfsaild+0x8dc: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_try_use_zone+0xf4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xchk_bmap+0x1b4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xchk_dirtree_evaluate+0xb4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xchk_update_health+0xf8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xchk_dinode+0x3e8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xchk_setup_metapath+0xb8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xchk_dir_walk+0xf4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xchk_rmapbt_mark_bitmap+0x8c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xfs_scrub_metadata+0x1f8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xrep_bmap_check_inputs+0x150: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xrep_dinode_size+0x78: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xrep_dinode_find_mode+0x338: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xrep_dinode_check_dfork+0x98: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xrep_dinode_check_afork+0xd4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xrep_dinode_ensure_forkoff+0x248: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: xrep_tempexch_estimate+0x10c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: nilfs_parse_param+0x98: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: nilfs_bmap_read+0xf0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: nilfs_search_super_root+0x5d0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: nilfs_segctor_do_construct+0x5b0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: befs_check_sb+0xbc: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: befs_parse_param+0xa8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: debugfs_parse_param+0x88: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_parse_param+0x88: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_get_extent_inline_ref_type+0xa0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: __btrfs_run_delayed_refs+0x3e0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: alloc_reserved_file_extent+0xd0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: lookup_inline_extent_backref+0x66c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: update_inline_extent_backref+0x240: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: setup_inline_extent_backref+0x118: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_print_leaf+0x7a0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_extent_item_to_extent_map+0x184: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_get_global_root+0x6c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_encoded_io_compression_from_extent+0x4c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_encoded_read_inline+0x1e4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_do_encoded_write+0x8c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_sysfs_add_space_info_type+0x5c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_ioctl+0x9c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_ioctl_subvol_sync+0x138: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: alloc_workspace+0x58: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: free_workspace+0x44: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: get_workspace+0x44: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: put_workspace+0x44: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: find_parent_nodes+0xe9c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: tree_backref_for_extent+0x1c0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_backref_iter_next+0xe4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: send_create_inode+0xfc: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: inconsistent_snapshot_error+0x3c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_init_dev_replace+0x214: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_dev_replace_cancel+0xac: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_resume_dev_replace_async+0x5c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: __btrfs_check_leaf+0x37c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: check_leaf_item+0x1af0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: __reserve_bytes+0x438: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: flush_space+0x80: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_init_root_block_rsv+0x50: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: tree_mod_log_rewind+0x154: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: btrfs_build_ref_tree+0x4f4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ea_list_i+0xd0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: gfs2_dump_glock+0x144: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: finish_xmote+0x3d8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: gfs2_llseek.llvm.15768678323288600665+0x60: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: gfs2_parse_param+0x8c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: gfs2_fill_super+0xa68: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: gfs2_quota_get_state.llvm.11840075804900318499+0x8c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: gfs2_show_options.llvm.4435460917261406920+0x24c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: status_show+0x70: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: f2fs_do_shutdown+0x5c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: __f2fs_ioctl+0x100: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: f2fs_llseek.llvm.10111086266837519394+0x84: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: f2fs_iget+0x2f8: sibling call from callable instruction with modified stack frame
->> vmlinux.o: warning: objtool: f2fs_parse_param+0x80: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: f2fs_show_options+0x6e0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: __f2fs_is_valid_blkaddr.llvm.7535017273404782652+0x6c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: f2fs_ra_meta_pages+0x174: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: f2fs_get_victim+0x414: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: f2fs_map_blocks+0x604: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: f2fs_available_free_memory+0x8c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: f2fs_truncate_inode_blocks+0x36c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: new_curseg+0x1d0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: f2fs_get_segment_temp+0x5c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: __get_segment_type+0x5cc: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: f2fs_sbi_store+0xd4c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: __struct_ptr+0x54: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ramoops_pstore_erase+0x58: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: erofs_fc_parse_param+0x94: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: erofs_iget+0x470: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: keyring_get_key_chunk+0x58: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: keyctl_reject_key+0xcc: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: keyctl_set_reqkey_keyring+0x7c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: sys_keyctl+0x68: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: key_task_permission+0x58: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: lookup_user_key+0xe8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: request_key_and_link+0x32c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: keyctl_pkey_params_get_2+0x1b8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: datablob_parse+0xc8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: cap_task_fix_setuid+0x40: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: cap_task_prctl+0x7c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: rsa_set_pub_key+0xdc: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: rsa_set_priv_key+0x158: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: generate_random_testvec_config+0xb4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: generate_random_length+0x5c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: crypto_gcm_setauthsize+0x40: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: michael_final+0x4c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ecc_get_curve+0x40: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ecc_is_key_valid+0x5c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ecc_gen_privkey+0x54: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ecc_make_pub_key+0x70: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: crypto_ecdh_shared_secret+0x74: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: vli_mmod_fast+0x268: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ecrdsa_param_curve+0x64: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: async_raid6_2data_recov+0x248: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: x509_note_sig_algo+0x88: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: x509_process_extension+0x68: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: pkcs7_sig_note_digest_algo+0x80: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: pkcs7_sig_note_pkey_algo+0x50: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: pkcs7_sig_note_authenticated_attr+0x78: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: pkcs7_verify+0x68: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: biovec_slab+0x40: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: submit_bio_noacct+0x320: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: blk_flush_complete_seq+0xbc: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: bio_split_to_limits+0x5c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: blk_attempt_bio_merge+0x78: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: blk_mq_submit_bio+0x278: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: blkdev_ioctl+0x134: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ioprio_check_cap+0x44: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: sys_ioprio_set+0x68: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: msdos_partition+0x3dc: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: bsg_ioctl+0x90: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: bfq_bfqq_expire+0x518: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: bfq_set_next_ioprio_data+0x68: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: bfq_get_queue+0xb4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: sed_ioctl+0x134: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: start_generic_opal_session+0x148: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: response_get_string+0xc0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: kiocb_done+0x108: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: io_timeout_remove+0x20c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: __io_timeout_prep+0x334: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: sys_io_uring_register+0x280: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: io_parse_restrictions+0xd8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: do_swap+0x5c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: match_token+0x18c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: extract_iter_to_sg+0x98: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: _copy_to_iter+0x1e8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: _copy_from_iter+0x1e4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: _copy_from_iter_nocache+0x168: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: copy_page_to_iter_nofault+0x390: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: iov_iter_zero+0x1c4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: copy_folio_from_iter_atomic+0x3e8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: iov_iter_advance+0xbc: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: iov_iter_revert+0xd4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: iov_iter_single_seg_count+0x78: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: iov_iter_is_aligned+0xe0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: iov_iter_alignment+0xa8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: iov_iter_npages+0xd8: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: iov_iter_extract_pages+0x1dc: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: rhashtable_jhash2+0x128: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: refcount_warn_saturate+0x50: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: string_unescape+0x2ac: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: string_escape_mem+0x3d4: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: kstrtobool+0xa0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: vvar_fault.llvm.6795815868049752848+0x4c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: __devm_ioremap.llvm.16465148086375617399+0x78: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: zlib_inflate+0x174: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: find_poly_roots+0x5cc: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: HUF_compress1X_usingCTable_internal.llvm.16785660852261606571+0x118: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ZSTD_cParam_getBounds+0x84: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ZSTD_CCtx_setParameter+0x144: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ZSTD_CCtxParams_setParameter+0xb0: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ZSTD_CCtxParams_getParameter+0x8c: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ZSTD_CCtx_setCParams+0x184: sibling call from callable instruction with modified stack frame
-   vmlinux.o: warning: objtool: ZSTD_buildEntropyStatisticsAndEstimateSubBlockSize+0x150: sibling call from callable instruction with modified stack frame
+   kernel/umh.c:39:49: warning: 'struct subprocess_info' declared inside parameter list will not be visible outside of this definition or declaration
+      39 | static void call_usermodehelper_freeinfo(struct subprocess_info *info)
+         |                                                 ^~~~~~~~~~~~~~~
+   kernel/umh.c: In function 'call_usermodehelper_freeinfo':
+   kernel/umh.c:41:17: error: invalid use of undefined type 'struct subprocess_info'
+      41 |         if (info->cleanup)
+         |                 ^~
+   kernel/umh.c:42:23: error: invalid use of undefined type 'struct subprocess_info'
+      42 |                 (*info->cleanup)(info);
+         |                       ^~
+   kernel/umh.c: At top level:
+   kernel/umh.c:46:33: warning: 'struct subprocess_info' declared inside parameter list will not be visible outside of this definition or declaration
+      46 | static void umh_complete(struct subprocess_info *sub_info)
+         |                                 ^~~~~~~~~~~~~~~
+   In file included from include/linux/atomic.h:82,
+                    from include/asm-generic/bitops/lock.h:5,
+                    from arch/openrisc/include/asm/bitops.h:41,
+                    from include/linux/bitops.h:67,
+                    from include/linux/log2.h:12,
+                    from include/asm-generic/div64.h:55,
+                    from ./arch/openrisc/include/generated/asm/div64.h:1,
+                    from include/linux/math.h:6,
+                    from include/linux/math64.h:6,
+                    from include/linux/time.h:6,
+                    from include/linux/stat.h:19,
+                    from include/linux/module.h:13,
+                    from kernel/umh.c:5:
+   kernel/umh.c: In function 'umh_complete':
+   kernel/umh.c:48:49: error: invalid use of undefined type 'struct subprocess_info'
+      48 |         struct completion *comp = xchg(&sub_info->complete, NULL);
+         |                                                 ^~
+   include/linux/atomic/atomic-instrumented.h:4755:16: note: in definition of macro 'xchg'
+    4755 |         typeof(ptr) __ai_ptr = (ptr); \
+         |                ^~~
+   kernel/umh.c:48:49: error: invalid use of undefined type 'struct subprocess_info'
+      48 |         struct completion *comp = xchg(&sub_info->complete, NULL);
+         |                                                 ^~
+   include/linux/atomic/atomic-instrumented.h:4755:33: note: in definition of macro 'xchg'
+    4755 |         typeof(ptr) __ai_ptr = (ptr); \
+         |                                 ^~~
+   include/linux/atomic/atomic-instrumented.h:4757:55: error: invalid type argument of unary '*' (have 'int')
+    4757 |         instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
+         |                                                       ^~~~~~~~~
+   kernel/umh.c:48:35: note: in expansion of macro 'xchg'
+      48 |         struct completion *comp = xchg(&sub_info->complete, NULL);
+         |                                   ^~~~
+   include/linux/atomic/atomic-instrumented.h:4757:38: error: passing argument 1 of 'instrument_atomic_read_write' makes pointer from integer without a cast [-Wint-conversion]
+    4757 |         instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
+         |                                      ^~~~~~~~
+         |                                      |
+         |                                      int
+   kernel/umh.c:48:35: note: in expansion of macro 'xchg'
+      48 |         struct completion *comp = xchg(&sub_info->complete, NULL);
+         |                                   ^~~~
+   In file included from include/linux/atomic/atomic-instrumented.h:17:
+   include/linux/instrumented.h:94:79: note: expected 'const volatile void *' but argument is of type 'int'
+      94 | static __always_inline void instrument_atomic_read_write(const volatile void *v, size_t size)
+         |                                                          ~~~~~~~~~~~~~~~~~~~~~^
+   In file included from arch/openrisc/include/asm/atomic.h:131,
+                    from include/linux/atomic.h:7:
+   arch/openrisc/include/asm/cmpxchg.h:166:29: error: invalid type argument of unary '*' (have 'int')
+     166 |                 (__typeof__(*(ptr))) __arch_xchg((ptr),                 \
+         |                             ^~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:12:18: note: in expansion of macro 'arch_xchg'
+      12 | #define raw_xchg arch_xchg
+         |                  ^~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4758:9: note: in expansion of macro 'raw_xchg'
+    4758 |         raw_xchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~
+   kernel/umh.c:48:35: note: in expansion of macro 'xchg'
+      48 |         struct completion *comp = xchg(&sub_info->complete, NULL);
+         |                                   ^~~~
+   arch/openrisc/include/asm/cmpxchg.h:168:57: error: invalid type argument of unary '*' (have 'int')
+     168 |                                                  sizeof(*(ptr)));       \
+         |                                                         ^~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:12:18: note: in expansion of macro 'arch_xchg'
+      12 | #define raw_xchg arch_xchg
+         |                  ^~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4758:9: note: in expansion of macro 'raw_xchg'
+    4758 |         raw_xchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~
+   kernel/umh.c:48:35: note: in expansion of macro 'xchg'
+      48 |         struct completion *comp = xchg(&sub_info->complete, NULL);
+         |                                   ^~~~
+>> arch/openrisc/include/asm/cmpxchg.h:166:50: error: passing argument 1 of '__arch_xchg' makes pointer from integer without a cast [-Wint-conversion]
+     166 |                 (__typeof__(*(ptr))) __arch_xchg((ptr),                 \
+         |                                                  ^~~~~
+         |                                                  |
+         |                                                  int
+   include/linux/atomic/atomic-arch-fallback.h:12:18: note: in expansion of macro 'arch_xchg'
+      12 | #define raw_xchg arch_xchg
+         |                  ^~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4758:9: note: in expansion of macro 'raw_xchg'
+    4758 |         raw_xchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~
+   kernel/umh.c:48:35: note: in expansion of macro 'xchg'
+      48 |         struct completion *comp = xchg(&sub_info->complete, NULL);
+         |                                   ^~~~
+   arch/openrisc/include/asm/cmpxchg.h:151:28: note: expected 'volatile void *' but argument is of type 'int'
+     151 | __arch_xchg(volatile void *ptr, unsigned long with, int size)
+         |             ~~~~~~~~~~~~~~~^~~
+   kernel/umh.c:57:46: error: passing argument 1 of 'call_usermodehelper_freeinfo' from incompatible pointer type [-Wincompatible-pointer-types]
+      57 |                 call_usermodehelper_freeinfo(sub_info);
+         |                                              ^~~~~~~~
+         |                                              |
+         |                                              struct subprocess_info *
+   kernel/umh.c:39:66: note: expected 'struct subprocess_info *' but argument is of type 'struct subprocess_info *'
+      39 | static void call_usermodehelper_freeinfo(struct subprocess_info *info)
+         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   kernel/umh.c: In function 'call_usermodehelper_exec_async':
+   kernel/umh.c:98:21: error: invalid use of undefined type 'struct subprocess_info'
+      98 |         if (sub_info->init) {
+         |                     ^~
+   kernel/umh.c:99:34: error: invalid use of undefined type 'struct subprocess_info'
+      99 |                 retval = sub_info->init(sub_info, new);
+         |                                  ^~
+   kernel/umh.c:109:40: error: invalid use of undefined type 'struct subprocess_info'
+     109 |         retval = kernel_execve(sub_info->path,
+         |                                        ^~
+   kernel/umh.c:110:61: error: invalid use of undefined type 'struct subprocess_info'
+     110 |                                (const char *const *)sub_info->argv,
+         |                                                             ^~
+   kernel/umh.c:111:61: error: invalid use of undefined type 'struct subprocess_info'
+     111 |                                (const char *const *)sub_info->envp);
+         |                                                             ^~
+   kernel/umh.c:113:17: error: invalid use of undefined type 'struct subprocess_info'
+     113 |         sub_info->retval = retval;
+         |                 ^~
+   kernel/umh.c:118:23: error: invalid use of undefined type 'struct subprocess_info'
+     118 |         if (!(sub_info->wait & UMH_WAIT_PROC))
+         |                       ^~
+   kernel/umh.c:118:32: error: 'UMH_WAIT_PROC' undeclared (first use in this function)
+     118 |         if (!(sub_info->wait & UMH_WAIT_PROC))
+         |                                ^~~~~~~~~~~~~
+   kernel/umh.c:118:32: note: each undeclared identifier is reported only once for each function it appears in
+   kernel/umh.c:119:30: error: passing argument 1 of 'umh_complete' from incompatible pointer type [-Wincompatible-pointer-types]
+     119 |                 umh_complete(sub_info);
+         |                              ^~~~~~~~
+         |                              |
+         |                              struct subprocess_info *
+   kernel/umh.c:46:50: note: expected 'struct subprocess_info *' but argument is of type 'struct subprocess_info *'
+      46 | static void umh_complete(struct subprocess_info *sub_info)
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+   kernel/umh.c: At top level:
+   kernel/umh.c:126:50: warning: 'struct subprocess_info' declared inside parameter list will not be visible outside of this definition or declaration
+     126 | static void call_usermodehelper_exec_sync(struct subprocess_info *sub_info)
+         |                                                  ^~~~~~~~~~~~~~~
+   kernel/umh.c: In function 'call_usermodehelper_exec_sync':
+   kernel/umh.c:134:25: error: invalid use of undefined type 'struct subprocess_info'
+     134 |                 sub_info->retval = pid;
+         |                         ^~
+   kernel/umh.c:136:43: error: invalid use of undefined type 'struct subprocess_info'
+     136 |                 kernel_wait(pid, &sub_info->retval);
+         |                                           ^~
+   kernel/umh.c:140:22: error: passing argument 1 of 'umh_complete' from incompatible pointer type [-Wincompatible-pointer-types]
+     140 |         umh_complete(sub_info);
+         |                      ^~~~~~~~
+         |                      |
+         |                      struct subprocess_info *
+   kernel/umh.c:46:50: note: expected 'struct subprocess_info *' but argument is of type 'struct subprocess_info *'
+      46 | static void umh_complete(struct subprocess_info *sub_info)
+         |                          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+   In file included from include/linux/container_of.h:5,
+                    from include/linux/list.h:5,
+                    from include/linux/module.h:12:
+   kernel/umh.c: In function 'call_usermodehelper_exec_work':
+   include/linux/container_of.h:21:54: error: invalid use of undefined type 'struct subprocess_info'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                                                      ^~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+      78 | #define __static_assert(expr, msg, ...) _Static_assert(expr, msg)
+         |                                                        ^~~~
+   include/linux/container_of.h:21:9: note: in expansion of macro 'static_assert'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |         ^~~~~~~~~~~~~
+   include/linux/container_of.h:21:23: note: in expansion of macro '__same_type'
+      21 |         static_assert(__same_type(*(ptr), ((type *)0)->member) ||       \
+         |                       ^~~~~~~~~~~
+   kernel/umh.c:160:17: note: in expansion of macro 'container_of'
+     160 |                 container_of(work, struct subprocess_info, work);
+         |                 ^~~~~~~~~~~~
+   include/linux/compiler_types.h:507:27: error: expression in static assertion is not an integer
+     507 | #define __same_type(a, b) __builtin_types_compatible_p(typeof(a), typeof(b))
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:78:56: note: in definition of macro '__static_assert'
+--
+     377 |         sub_info->init = init;
+         |                 ^~
+   kernel/umh.c:378:17: error: invalid use of undefined type 'struct subprocess_info'
+     378 |         sub_info->data = data;
+         |                 ^~
+   kernel/umh.c: At top level:
+   kernel/umh.c:401:5: warning: no previous prototype for 'call_usermodehelper_exec' [-Wmissing-prototypes]
+     401 | int call_usermodehelper_exec(struct subprocess_info *sub_info, int wait)
+         |     ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/umh.c: In function 'call_usermodehelper_exec':
+   kernel/umh.c:407:22: error: invalid use of undefined type 'struct subprocess_info'
+     407 |         if (!sub_info->path) {
+         |                      ^~
+   kernel/umh.c:408:46: error: passing argument 1 of 'call_usermodehelper_freeinfo' from incompatible pointer type [-Wincompatible-pointer-types]
+     408 |                 call_usermodehelper_freeinfo(sub_info);
+         |                                              ^~~~~~~~
+         |                                              |
+         |                                              struct subprocess_info *
+   kernel/umh.c:39:66: note: expected 'struct subprocess_info *' but argument is of type 'struct subprocess_info *'
+      39 | static void call_usermodehelper_freeinfo(struct subprocess_info *info)
+         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   kernel/umh.c:412:13: error: 'usermodehelper_disabled' has an incomplete type 'enum umh_disable_depth'
+     412 |         if (usermodehelper_disabled) {
+         |             ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/umh.c:422:28: error: invalid use of undefined type 'struct subprocess_info'
+     422 |         if (strlen(sub_info->path) == 0)
+         |                            ^~
+   kernel/umh.c:430:17: error: invalid use of undefined type 'struct subprocess_info'
+     430 |         sub_info->complete = (wait == UMH_NO_WAIT) ? NULL : &done;
+         |                 ^~
+   kernel/umh.c:430:39: error: 'UMH_NO_WAIT' undeclared (first use in this function)
+     430 |         sub_info->complete = (wait == UMH_NO_WAIT) ? NULL : &done;
+         |                                       ^~~~~~~~~~~
+   kernel/umh.c:431:17: error: invalid use of undefined type 'struct subprocess_info'
+     431 |         sub_info->wait = wait;
+         |                 ^~
+   kernel/umh.c:433:48: error: invalid use of undefined type 'struct subprocess_info'
+     433 |         queue_work(system_unbound_wq, &sub_info->work);
+         |                                                ^~
+   kernel/umh.c:437:20: error: 'UMH_FREEZABLE' undeclared (first use in this function); did you mean 'KTW_FREEZABLE'?
+     437 |         if (wait & UMH_FREEZABLE)
+         |                    ^~~~~~~~~~~~~
+         |                    KTW_FREEZABLE
+   kernel/umh.c:440:20: error: 'UMH_KILLABLE' undeclared (first use in this function); did you mean 'TASK_KILLABLE'?
+     440 |         if (wait & UMH_KILLABLE) {
+         |                    ^~~~~~~~~~~~
+         |                    TASK_KILLABLE
+   kernel/umh.c:446:35: error: invalid use of undefined type 'struct subprocess_info'
+     446 |                 if (xchg(&sub_info->complete, NULL))
+         |                                   ^~
+   include/linux/atomic/atomic-instrumented.h:4755:16: note: in definition of macro 'xchg'
+    4755 |         typeof(ptr) __ai_ptr = (ptr); \
+         |                ^~~
+   kernel/umh.c:446:35: error: invalid use of undefined type 'struct subprocess_info'
+     446 |                 if (xchg(&sub_info->complete, NULL))
+         |                                   ^~
+   include/linux/atomic/atomic-instrumented.h:4755:33: note: in definition of macro 'xchg'
+    4755 |         typeof(ptr) __ai_ptr = (ptr); \
+         |                                 ^~~
+   include/linux/atomic/atomic-instrumented.h:4757:55: error: invalid type argument of unary '*' (have 'int')
+    4757 |         instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
+         |                                                       ^~~~~~~~~
+   kernel/umh.c:446:21: note: in expansion of macro 'xchg'
+     446 |                 if (xchg(&sub_info->complete, NULL))
+         |                     ^~~~
+   include/linux/atomic/atomic-instrumented.h:4757:38: error: passing argument 1 of 'instrument_atomic_read_write' makes pointer from integer without a cast [-Wint-conversion]
+    4757 |         instrument_atomic_read_write(__ai_ptr, sizeof(*__ai_ptr)); \
+         |                                      ^~~~~~~~
+         |                                      |
+         |                                      int
+   kernel/umh.c:446:21: note: in expansion of macro 'xchg'
+     446 |                 if (xchg(&sub_info->complete, NULL))
+         |                     ^~~~
+   include/linux/instrumented.h:94:79: note: expected 'const volatile void *' but argument is of type 'int'
+      94 | static __always_inline void instrument_atomic_read_write(const volatile void *v, size_t size)
+         |                                                          ~~~~~~~~~~~~~~~~~~~~~^
+   arch/openrisc/include/asm/cmpxchg.h:166:29: error: invalid type argument of unary '*' (have 'int')
+     166 |                 (__typeof__(*(ptr))) __arch_xchg((ptr),                 \
+         |                             ^~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:12:18: note: in expansion of macro 'arch_xchg'
+      12 | #define raw_xchg arch_xchg
+         |                  ^~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4758:9: note: in expansion of macro 'raw_xchg'
+    4758 |         raw_xchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~
+   kernel/umh.c:446:21: note: in expansion of macro 'xchg'
+     446 |                 if (xchg(&sub_info->complete, NULL))
+         |                     ^~~~
+   arch/openrisc/include/asm/cmpxchg.h:168:57: error: invalid type argument of unary '*' (have 'int')
+     168 |                                                  sizeof(*(ptr)));       \
+         |                                                         ^~~~~~
+   include/linux/atomic/atomic-arch-fallback.h:12:18: note: in expansion of macro 'arch_xchg'
+      12 | #define raw_xchg arch_xchg
+         |                  ^~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4758:9: note: in expansion of macro 'raw_xchg'
+    4758 |         raw_xchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~
+   kernel/umh.c:446:21: note: in expansion of macro 'xchg'
+     446 |                 if (xchg(&sub_info->complete, NULL))
+         |                     ^~~~
+>> arch/openrisc/include/asm/cmpxchg.h:166:50: error: passing argument 1 of '__arch_xchg' makes pointer from integer without a cast [-Wint-conversion]
+     166 |                 (__typeof__(*(ptr))) __arch_xchg((ptr),                 \
+         |                                                  ^~~~~
+         |                                                  |
+         |                                                  int
+   include/linux/atomic/atomic-arch-fallback.h:12:18: note: in expansion of macro 'arch_xchg'
+      12 | #define raw_xchg arch_xchg
+         |                  ^~~~~~~~~
+   include/linux/atomic/atomic-instrumented.h:4758:9: note: in expansion of macro 'raw_xchg'
+    4758 |         raw_xchg(__ai_ptr, __VA_ARGS__); \
+         |         ^~~~~~~~
+   kernel/umh.c:446:21: note: in expansion of macro 'xchg'
+     446 |                 if (xchg(&sub_info->complete, NULL))
+         |                     ^~~~
+   arch/openrisc/include/asm/cmpxchg.h:151:28: note: expected 'volatile void *' but argument is of type 'int'
+     151 | __arch_xchg(volatile void *ptr, unsigned long with, int size)
+         |             ~~~~~~~~~~~~~~~^~~
+   kernel/umh.c:460:26: error: invalid use of undefined type 'struct subprocess_info'
+     460 |         retval = sub_info->retval;
+         |                          ^~
+   kernel/umh.c:462:38: error: passing argument 1 of 'call_usermodehelper_freeinfo' from incompatible pointer type [-Wincompatible-pointer-types]
+     462 |         call_usermodehelper_freeinfo(sub_info);
+         |                                      ^~~~~~~~
+         |                                      |
+         |                                      struct subprocess_info *
+   kernel/umh.c:39:66: note: expected 'struct subprocess_info *' but argument is of type 'struct subprocess_info *'
+      39 | static void call_usermodehelper_freeinfo(struct subprocess_info *info)
+         |                                          ~~~~~~~~~~~~~~~~~~~~~~~~^~~~
+   kernel/umh.c: At top level:
+   kernel/umh.c:482:5: warning: no previous prototype for 'call_usermodehelper' [-Wmissing-prototypes]
+     482 | int call_usermodehelper(const char *path, char **argv, char **envp, int wait)
+         |     ^~~~~~~~~~~~~~~~~~~
+   kernel/umh.c: In function 'call_usermodehelper':
+   kernel/umh.c:485:35: error: 'UMH_NO_WAIT' undeclared (first use in this function)
+     485 |         gfp_t gfp_mask = (wait == UMH_NO_WAIT) ? GFP_ATOMIC : GFP_KERNEL;
+         |                                   ^~~~~~~~~~~
+   kernel/umh.c: At top level:
+   kernel/umh.c:186:31: error: storage size of 'usermodehelper_disabled' isn't known
+     186 | static enum umh_disable_depth usermodehelper_disabled = UMH_DISABLED;
+         |                               ^~~~~~~~~~~~~~~~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/__arch_xchg +166 arch/openrisc/include/asm/cmpxchg.h
+
+11595172537788 Stefan Kristiansson 2014-05-13  163  
+3f1e931d158124 Mark Rutland        2021-05-25  164  #define arch_xchg(ptr, with) 						\
+8af42949d16813 Stafford Horne      2017-03-13  165  	({								\
+068550631fbe0b Andrzej Hajda       2023-01-18 @166  		(__typeof__(*(ptr))) __arch_xchg((ptr),			\
+489e0f802db708 Stafford Horne      2017-03-23  167  						 (unsigned long)(with),	\
+8af42949d16813 Stafford Horne      2017-03-13  168  						 sizeof(*(ptr)));	\
+8af42949d16813 Stafford Horne      2017-03-13  169  	})
+11595172537788 Stefan Kristiansson 2014-05-13  170  
+
+:::::: The code at line 166 was first introduced by commit
+:::::: 068550631fbe0b7fb41625cea6fb204fdc8cb224 locking/arch: Rename all internal __xchg() names to __arch_xchg()
+
+:::::: TO: Andrzej Hajda <andrzej.hajda@intel.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
