@@ -1,187 +1,108 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from out-171.mta1.migadu.com (out-171.mta1.migadu.com [95.215.58.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6686618B0F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 00:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E334182B7
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 00:32:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753835438; cv=none; b=t3GpaysFdRvtTV/pZNyteGenbclD8nESb/78Igy/AzHZkwVB8tnpgTyiaLjfB5Ta1yd/Hh+KTj0lf7LzK2qpjF6w/MUzAJE9EvJP50YGhKWrMoJqZvD1UblX7qH5uQE68a400Ok5ELB7dAP6TUNUb0wMy/CncEY8nI88Y7oWLu4=
+	t=1753835539; cv=none; b=kV1yO2ei6MHhswxK7FNBvAE1NjduwBT3Zh4e6Or8NFWqcRqDjPQe3jyazhJIqUS9jbqiQmmTeClGR0Hgwce4HcgMdSf+pkslBR7YJB0LjiHQ5JGl+ZG9A+YBhw/0e06myTn3wduIwrrsshQfcETiM2YKjpEV9oHpgZrorzoW5E4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753835438; c=relaxed/simple;
-	bh=luzgg7Jx+eoWru+SgKAPkigAJE25n0ph1TXeNRPfjpM=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=WbzqGHsVyGMpQ88Pno6xjnq09fyFm9hcRQ6i+y9+x+LNoccW/T/SuZGQDv2i1uSteL3ft+dXQEq7bfwtlyVif9C0wl5emGCi3LSNY9+zHWp3WkWcdPd2SE/Hd6naoyEFh87q7DREb1s8PJ6nNfVqcHYToyPNt031jVmAu2stgXc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PcIb5lVw; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753835539; c=relaxed/simple;
+	bh=dH9jHSm2AEbgXq+8uubCnDxpIZwkzjSWHqwXLxpM3z0=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=TH0QhXEoCRDxwksgAXo386YrcMAkEzTs5nd9j38x1uSdjHGk88+0DfBpW+KU/D1N32TQiq0sfhr2FmfWJkIEUIUtlefcgK/+GcUdIqjmUZVeUr5WDAE9YlMAdwQeWEBFG4OqMjeajtKmLSMM2p1q2cO1Glfy47CCw0neXLOs9ek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Oziyw4Nn; arc=none smtp.client-ip=95.215.58.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PcIb5lVw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753835436; x=1785371436;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=luzgg7Jx+eoWru+SgKAPkigAJE25n0ph1TXeNRPfjpM=;
-  b=PcIb5lVwWZJ+lMvFwd9yc7iUwMyFsWeQH146EFsNicjATK/IRxtIS/gn
-   wzw2ww6GSRyFfObVXuqdr6iixK5FFVn3E5oc+JnQcvlDhY8g6Y0L5s6wO
-   Bh/6P/dXoEmx6/2yGzacue9C11Nh0t53J2Zk6eq1s0N1pZjj2cF0bZk+I
-   6a/ZyGdGpNn8TEDaOVy0EXPILVel78WY1Gd4nYBWGNRLk9fSG1sqg+xn9
-   6a3/ycolWbQuUfNDIK37WDXgVbIlRdzVFusvhyGgXR8YjZWdqLBZ6HKuH
-   eirl7izaBGzThz9o+t+eabWDD5dkPyRKe6qAZbfP2BIlx9jN7/wSNDezA
-   w==;
-X-CSE-ConnectionGUID: CFusTZStThyOXD+NNl1U2w==
-X-CSE-MsgGUID: Azxi+ROGQ2estDU2ur/heQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="56061016"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="56061016"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 17:30:34 -0700
-X-CSE-ConnectionGUID: G9wlhd2nRC6IPuq+DA3kmQ==
-X-CSE-MsgGUID: nHa8LKxeT8u9LaTyZkUp+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="200022134"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 29 Jul 2025 17:30:33 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uguiE-0001o1-1x;
-	Wed, 30 Jul 2025 00:30:30 +0000
-Date: Wed, 30 Jul 2025 08:30:16 +0800
-From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:openEuler-1.0-LTS 1739/1739]
- kernel/cgroup/cgroup.c:5286:48: sparse: sparse: incorrect type in argument 1
- (different address spaces)
-Message-ID: <202507300848.xw2avgTs-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Oziyw4Nn"
+Message-ID: <d680a7b0-4c92-4937-83a7-6044e17e9997@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1753835535;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=zpBevtBp+vvDKaYxeeSbfJvyA9GkDU+7/833LnHEBvU=;
+	b=Oziyw4Nn+5OA/Q81daHTxQnqOLpwBMWDS6HsQtLuFqqwgZ9xi2mVydkzVGioSi4f7IHXiN
+	HLxHeXpNbzxNOXfX6qE0tYEkm3XGt+HWcoBY8MavI/elQXTvZjuTJhly3gPg0z1GxC2heQ
+	uQu+QKkk2VcsotUS/7MuuubM0KLWXPw=
+Date: Tue, 29 Jul 2025 17:32:07 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Subject: Re: [PATCH bpf-next v3 4/4] selftests/bpf: add icmp_send_unreach
+ kfunc tests
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+To: Mahe Tardy <mahe.tardy@gmail.com>
+Cc: alexei.starovoitov@gmail.com, andrii@kernel.org, ast@kernel.org,
+ bpf@vger.kernel.org, coreteam@netfilter.org, daniel@iogearbox.net,
+ fw@strlen.de, john.fastabend@gmail.com, netdev@vger.kernel.org,
+ netfilter-devel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+ pablo@netfilter.org, lkp@intel.com
+References: <202507270940.kXGmRbg5-lkp@intel.com>
+ <20250728094345.46132-1-mahe.tardy@gmail.com>
+ <20250728094345.46132-5-mahe.tardy@gmail.com>
+ <382ff228-704c-4e0c-9df3-2eb178adcba8@linux.dev> <aIiP5l24ihrS2x-u@gmail.com>
+ <996bb1dd-e72e-4515-a60f-c5f31b840459@linux.dev>
+ <cdd57fe6-ed8c-4cc9-a1dc-8563160a71e4@linux.dev>
+Content-Language: en-US
+In-Reply-To: <cdd57fe6-ed8c-4cc9-a1dc-8563160a71e4@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
-head:   859de5033e15abefcf19935429e6478be97d889a
-commit: 0bc0d0d57edacd59ebe38d05ad9c4b2bc185aa51 [1739/1739] dhugetlb: backport dynamic hugetlb feature
-config: arm64-randconfig-r121-20250728 (https://download.01.org/0day-ci/archive/20250730/202507300848.xw2avgTs-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 8.5.0
-reproduce: (https://download.01.org/0day-ci/archive/20250730/202507300848.xw2avgTs-lkp@intel.com/reproduce)
+On 7/29/25 5:01 PM, Martin KaFai Lau wrote:
+> On 7/29/25 4:27 PM, Martin KaFai Lau wrote:
+>> On 7/29/25 2:09 AM, Mahe Tardy wrote:
+>>> On Mon, Jul 28, 2025 at 06:18:11PM -0700, Martin KaFai Lau wrote:
+>>>> On 7/28/25 2:43 AM, Mahe Tardy wrote:
+>>>>> +SEC("cgroup_skb/egress")
+>>>>> +int egress(struct __sk_buff *skb)
+>>>>> +{
+>>>>> +    void *data = (void *)(long)skb->data;
+>>>>> +    void *data_end = (void *)(long)skb->data_end;
+>>>>> +    struct iphdr *iph;
+>>>>> +    struct tcphdr *tcph;
+>>>>> +
+>>>>> +    iph = data;
+>>>>> +    if ((void *)(iph + 1) > data_end || iph->version != 4 ||
+>>>>> +        iph->protocol != IPPROTO_TCP || iph->daddr != bpf_htonl(SERVER_IP))
+>>>>> +        return SK_PASS;
+>>>>> +
+>>>>> +    tcph = (void *)iph + iph->ihl * 4;
+>>>>> +    if ((void *)(tcph + 1) > data_end ||
+>>>>> +        tcph->dest != bpf_htons(SERVER_PORT))
+>>>>> +        return SK_PASS;
+>>>>> +
+>>>>> +    kfunc_ret = bpf_icmp_send_unreach(skb, unreach_code);
+>>>>> +
+>>>>> +    /* returns SK_PASS to execute the test case quicker */
+>>>>
+>>>> Do you know why the user space is slower if 0 (SK_DROP) is used?
+>>>
+>>> I tried to write my understanding of this in the commit description:
+>>>
+>>> "Note that the BPF program returns SK_PASS to let the connection being
+>>> established to finish the test cases quicker. Otherwise, you have to
+>>> wait for the TCP three-way handshake to timeout in the kernel and
+>>> retrieve the errno translated from the unreach code set by the ICMP
+>>> control message."
+>>
+>> This feels like a bit hacky to let the 3WHS finished while the objective of 
+>> the patch set is to drop it. It is not unusual for people to directly borrow 
+>> this code. Does non blocking connect() help?
+>>
+> 
+> After reading more on how sk_err_soft is used, non blocking won't help. I think 
+> I see why tcp rst is better.
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507300848.xw2avgTs-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> kernel/cgroup/cgroup.c:5286:48: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected struct cgroup_subsys_state *css @@     got struct cgroup_subsys_state [noderef] <asn:4> * @@
-   kernel/cgroup/cgroup.c:5286:48: sparse:     expected struct cgroup_subsys_state *css
-   kernel/cgroup/cgroup.c:5286:48: sparse:     got struct cgroup_subsys_state [noderef] <asn:4> *
-   kernel/cgroup/cgroup.c:2685:20: sparse: sparse: context imbalance in 'cgroup_procs_write_start' - wrong count at exit
-   kernel/cgroup/cgroup.c:2741:9: sparse: sparse: context imbalance in 'cgroup_procs_write_finish' - wrong count at exit
-   kernel/cgroup/cgroup.c:2874:9: sparse: sparse: context imbalance in 'cgroup_lock_and_drain_offline' - wrong count at exit
-   kernel/cgroup/cgroup.c:4528:16: sparse: sparse: context imbalance in 'cgroup_procs_write' - wrong count at exit
-   kernel/cgroup/cgroup.c:4580:16: sparse: sparse: context imbalance in 'cgroup_threads_write' - wrong count at exit
-
-vim +5286 kernel/cgroup/cgroup.c
-
-  5234	
-  5235	/**
-  5236	 * cgroup_destroy_locked - the first stage of cgroup destruction
-  5237	 * @cgrp: cgroup to be destroyed
-  5238	 *
-  5239	 * css's make use of percpu refcnts whose killing latency shouldn't be
-  5240	 * exposed to userland and are RCU protected.  Also, cgroup core needs to
-  5241	 * guarantee that css_tryget_online() won't succeed by the time
-  5242	 * ->css_offline() is invoked.  To satisfy all the requirements,
-  5243	 * destruction is implemented in the following two steps.
-  5244	 *
-  5245	 * s1. Verify @cgrp can be destroyed and mark it dying.  Remove all
-  5246	 *     userland visible parts and start killing the percpu refcnts of
-  5247	 *     css's.  Set up so that the next stage will be kicked off once all
-  5248	 *     the percpu refcnts are confirmed to be killed.
-  5249	 *
-  5250	 * s2. Invoke ->css_offline(), mark the cgroup dead and proceed with the
-  5251	 *     rest of destruction.  Once all cgroup references are gone, the
-  5252	 *     cgroup is RCU-freed.
-  5253	 *
-  5254	 * This function implements s1.  After this step, @cgrp is gone as far as
-  5255	 * the userland is concerned and a new cgroup with the same name may be
-  5256	 * created.  As cgroup doesn't care about the names internally, this
-  5257	 * doesn't cause any problem.
-  5258	 */
-  5259	static int cgroup_destroy_locked(struct cgroup *cgrp)
-  5260		__releases(&cgroup_mutex) __acquires(&cgroup_mutex)
-  5261	{
-  5262		struct cgroup *tcgrp, *parent = cgroup_parent(cgrp);
-  5263		struct cgroup_subsys_state *css;
-  5264		struct cgrp_cset_link *link;
-  5265		int ssid;
-  5266	
-  5267		lockdep_assert_held(&cgroup_mutex);
-  5268	
-  5269		/*
-  5270		 * Only migration can raise populated from zero and we're already
-  5271		 * holding cgroup_mutex.
-  5272		 */
-  5273		if (cgroup_is_populated(cgrp))
-  5274			return -EBUSY;
-  5275	
-  5276		/*
-  5277		 * Make sure there's no live children.  We can't test emptiness of
-  5278		 * ->self.children as dead children linger on it while being
-  5279		 * drained; otherwise, "rmdir parent/child parent" may fail.
-  5280		 */
-  5281		if (css_has_online_children(&cgrp->self))
-  5282			return -EBUSY;
-  5283	
-  5284	#ifdef CONFIG_MEMCG
-  5285		/* If we use dynamic hugetlb, make sure dhugtlb_pool is free */
-> 5286		if (!dhugetlb_pool_is_free(cgrp->subsys[memory_cgrp_id]))
-  5287			return -EBUSY;
-  5288	#endif
-  5289		/*
-  5290		 * Mark @cgrp and the associated csets dead.  The former prevents
-  5291		 * further task migration and child creation by disabling
-  5292		 * cgroup_lock_live_group().  The latter makes the csets ignored by
-  5293		 * the migration path.
-  5294		 */
-  5295		cgrp->self.flags &= ~CSS_ONLINE;
-  5296	
-  5297		spin_lock_irq(&css_set_lock);
-  5298		list_for_each_entry(link, &cgrp->cset_links, cset_link)
-  5299			link->cset->dead = true;
-  5300		spin_unlock_irq(&css_set_lock);
-  5301	
-  5302		/* initiate massacre of all css's */
-  5303		for_each_css(css, ssid, cgrp)
-  5304			kill_css(css);
-  5305	
-  5306		/* clear and remove @cgrp dir, @cgrp has an extra ref on its kn */
-  5307		css_clear_dir(&cgrp->self);
-  5308		kernfs_remove(cgrp->kn);
-  5309	
-  5310		if (parent && cgroup_is_threaded(cgrp))
-  5311			parent->nr_threaded_children--;
-  5312	
-  5313		spin_lock_irq(&css_set_lock);
-  5314		for (tcgrp = cgroup_parent(cgrp); tcgrp; tcgrp = cgroup_parent(tcgrp)) {
-  5315			tcgrp->nr_descendants--;
-  5316			tcgrp->nr_dying_descendants++;
-  5317		}
-  5318		spin_unlock_irq(&css_set_lock);
-  5319	
-  5320		cgroup1_check_for_release(parent);
-  5321	
-  5322		/* put the base reference */
-  5323		percpu_ref_kill(&cgrp->self.refcnt);
-  5324	
-  5325		return 0;
-  5326	};
-  5327	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Actually, while replying on the cover letter and looking at tcp_v4_err again, 
+there is an exception to do ip_icmp_error for TCP_SYN_SENT, so it may worth a 
+try on non blocking connect and then poll the sk for err if you haven't tried 
+that before.
