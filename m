@@ -1,100 +1,126 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C658D173
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 00:01:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D2D5139B
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 00:10:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753833694; cv=none; b=pgnnZ88WsypTrFD75BKaWVI+itPwZgdL2mHDSSKG3xS8h/xzVtBEww/q0r3V7YF/aLJ1bUnY6p2ijV9nR2Qiz/glox61Vc1r2X9R6jjUkYLmI51zaBCP6DKORO7E7Lx/6Zx1z4EeupTwklfgxNHoy4QHtyFr4BHMDOzwcMRNAyo=
+	t=1753834228; cv=none; b=gin2fhcPsMwac466U6K1LoM+toGxMu0rFJy3NsJ3cZUJzIGsllszr8WWXfMROJqPFNEcT/0I3D8slTMBH3hy/5csF7v20NNqjL1MSY7cNa28oFzZt7qK68ZLPVAAHs5S0abeRzYRuDNphyBWXA+06WuudAEpax+NCYUWMmoZpgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753833694; c=relaxed/simple;
-	bh=4bBcfMtEliYvXjsUbVZmSns3TZJz/pS56DEpoXnsR2c=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=fORMZxVSfbF+BooY0K0/MyOlAMUkxTwFKK7Iq5l0UX5cv6JWSOzb+X4lUSIPYlWFmhCgV9otSo3tc9g5SxHgRQGWA9tzbD3W9bilX9NzVtrU+/2R4plbgkq71mrU3mUF1cM0Xmt2jqrzjPjM9qXklrex8Y+h/cIN5wmS8LRy6ns=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=f8MfzOPo; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1753834228; c=relaxed/simple;
+	bh=GTaPwA9wagdhTS48BModWNyCDRPozUbooe+JufCy/W8=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=K8CiCZarxRnaTCMAxaS92azjhgMWr5h43sR0CHRGCgPBTyJZU6hEcHJGS2bYgo17IjXy4m3iCCJPVE5MFOYTj/CZyoLSNOH32d1rJ5RkYB51Q4A69DCYKKCYr+770ar+x5gv9TV7srIybvUSrBkTWMNV5fsmctylx/onN5M7owE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QHNRxLzD; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="f8MfzOPo"
-Message-ID: <cdd57fe6-ed8c-4cc9-a1dc-8563160a71e4@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1753833689;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EGslqIBQ0Jw1GqnwwqSZ43pV+rMIGnwUWZDT+W8tX5Q=;
-	b=f8MfzOPoY++K6wtrICBP6K34bIOeWP0rTTrkdJW6fIBHuivLDWN9ea3hMHZmJdtIjOcWpX
-	UznhJehuF+H0dM5iGz4m0bug//Q4PaLxF3HoSd3ZB1XhvBxEHHUT4Zd/Mka8PGH0X2wYmz
-	WzCM0OjlqmL6j2yfaTeWnfBpQOxQBsg=
-Date: Tue, 29 Jul 2025 17:01:24 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QHNRxLzD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753834227; x=1785370227;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=GTaPwA9wagdhTS48BModWNyCDRPozUbooe+JufCy/W8=;
+  b=QHNRxLzDNFjZ02/1C+l2EXsrT9THYJH49XcsmYbm38g5NMQkHPkzYXo3
+   TenmvW3YwpDMv2SNERGlkHd9x6NOH5XtPO7cZMCz4xYy+B6T+S+aPX6vu
+   LzfinEa4A6IuhaidegZIXNZcgmC4Plpf9ly3R/J76cAEBWl+212p/m0PD
+   aIjxOOmmSYvnCBfZxbK5jVPADje+NHYmVKlY5ut9mqQGotfuKTg/+Drig
+   x2271SdOCC+ov4yscCNk36NM/epk2i4qlMbf11kFKXcKovXSOsT3a5Zrt
+   a4hcZNFrt6PbfYxQRQFyv3gCuiTkov4cgmoliHlXZq5HgoN+8lzeQiZIW
+   A==;
+X-CSE-ConnectionGUID: I5vvd4kNTn2iXss3hRnPLQ==
+X-CSE-MsgGUID: mb1BFI6YS7icCvjWelp4ug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="66691734"
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
+   d="scan'208";a="66691734"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 17:10:26 -0700
+X-CSE-ConnectionGUID: BoIn8uMjRdGarMwV4BE7Zg==
+X-CSE-MsgGUID: 6SnoIdZwS9C7atbIyaKKZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
+   d="scan'208";a="193688343"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 29 Jul 2025 17:10:24 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uguOk-0001mh-2D;
+	Wed, 30 Jul 2025 00:10:22 +0000
+Date: Wed, 30 Jul 2025 08:09:51 +0800
+From: kernel test robot <lkp@intel.com>
+To: kernel@openeuler.org, Zhong Jinghua <zhongjinghua@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:OLK-5.10 3079/3079] mm/damon/core-test.h:284:9: sparse:
+ sparse: incompatible types in comparison expression (different signedness):
+Message-ID: <202507300823.a0jPwXWY-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Subject: Re: [PATCH bpf-next v3 4/4] selftests/bpf: add icmp_send_unreach
- kfunc tests
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Martin KaFai Lau <martin.lau@linux.dev>
-To: Mahe Tardy <mahe.tardy@gmail.com>
-Cc: alexei.starovoitov@gmail.com, andrii@kernel.org, ast@kernel.org,
- bpf@vger.kernel.org, coreteam@netfilter.org, daniel@iogearbox.net,
- fw@strlen.de, john.fastabend@gmail.com, netdev@vger.kernel.org,
- netfilter-devel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
- pablo@netfilter.org, lkp@intel.com
-References: <202507270940.kXGmRbg5-lkp@intel.com>
- <20250728094345.46132-1-mahe.tardy@gmail.com>
- <20250728094345.46132-5-mahe.tardy@gmail.com>
- <382ff228-704c-4e0c-9df3-2eb178adcba8@linux.dev> <aIiP5l24ihrS2x-u@gmail.com>
- <996bb1dd-e72e-4515-a60f-c5f31b840459@linux.dev>
-Content-Language: en-US
-In-Reply-To: <996bb1dd-e72e-4515-a60f-c5f31b840459@linux.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On 7/29/25 4:27 PM, Martin KaFai Lau wrote:
-> On 7/29/25 2:09 AM, Mahe Tardy wrote:
->> On Mon, Jul 28, 2025 at 06:18:11PM -0700, Martin KaFai Lau wrote:
->>> On 7/28/25 2:43 AM, Mahe Tardy wrote:
->>>> +SEC("cgroup_skb/egress")
->>>> +int egress(struct __sk_buff *skb)
->>>> +{
->>>> +    void *data = (void *)(long)skb->data;
->>>> +    void *data_end = (void *)(long)skb->data_end;
->>>> +    struct iphdr *iph;
->>>> +    struct tcphdr *tcph;
->>>> +
->>>> +    iph = data;
->>>> +    if ((void *)(iph + 1) > data_end || iph->version != 4 ||
->>>> +        iph->protocol != IPPROTO_TCP || iph->daddr != bpf_htonl(SERVER_IP))
->>>> +        return SK_PASS;
->>>> +
->>>> +    tcph = (void *)iph + iph->ihl * 4;
->>>> +    if ((void *)(tcph + 1) > data_end ||
->>>> +        tcph->dest != bpf_htons(SERVER_PORT))
->>>> +        return SK_PASS;
->>>> +
->>>> +    kfunc_ret = bpf_icmp_send_unreach(skb, unreach_code);
->>>> +
->>>> +    /* returns SK_PASS to execute the test case quicker */
->>>
->>> Do you know why the user space is slower if 0 (SK_DROP) is used?
->>
->> I tried to write my understanding of this in the commit description:
->>
->> "Note that the BPF program returns SK_PASS to let the connection being
->> established to finish the test cases quicker. Otherwise, you have to
->> wait for the TCP three-way handshake to timeout in the kernel and
->> retrieve the errno translated from the unreach code set by the ICMP
->> control message."
-> 
-> This feels like a bit hacky to let the 3WHS finished while the objective of the 
-> patch set is to drop it. It is not unusual for people to directly borrow this 
-> code. Does non blocking connect() help?
-> 
+tree:   https://gitee.com/openeuler/kernel.git OLK-5.10
+head:   725aa34ac7c0468d85710181998ddcdd873b5f74
+commit: 83b931be40b2829e20f38356509d8706ea6b6238 [3079/3079] mm/damon/core-test: test damon_set_regions
+config: x86_64-randconfig-122-20250730 (https://download.01.org/0day-ci/archive/20250730/202507300823.a0jPwXWY-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507300823.a0jPwXWY-lkp@intel.com/reproduce)
 
-After reading more on how sk_err_soft is used, non blocking won't help. I think 
-I see why tcp rst is better.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507300823.a0jPwXWY-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+   mm/damon/core.c: note: in included file (through include/linux/kernel.h, arch/x86/include/asm/percpu.h, arch/x86/include/asm/current.h, ...):
+   /opt/cross/clang-87f0227cb6/lib/clang/20/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-87f0227cb6/lib/clang/20/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-87f0227cb6/lib/clang/20/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-87f0227cb6/lib/clang/20/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   mm/damon/core.c: note: in included file (through include/linux/printk.h, include/linux/kernel.h, arch/x86/include/asm/percpu.h, ...):
+   /opt/cross/clang-87f0227cb6/lib/clang/20/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-87f0227cb6/lib/clang/20/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-87f0227cb6/lib/clang/20/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-87f0227cb6/lib/clang/20/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   mm/damon/core.c: note: in included file (through include/linux/string.h, include/linux/bitmap.h, include/linux/cpumask.h, ...):
+   /opt/cross/clang-87f0227cb6/lib/clang/20/include/stdarg.h:22:44: sparse: sparse: Expected ) in function call
+   /opt/cross/clang-87f0227cb6/lib/clang/20/include/stdarg.h:22:44: sparse: sparse: got <
+   /opt/cross/clang-87f0227cb6/lib/clang/20/include/stdarg.h:22:43: sparse: sparse: not a function <noident>
+   /opt/cross/clang-87f0227cb6/lib/clang/20/include/stdarg.h:22:22: sparse: sparse: bad constant expression type
+   mm/damon/core.c: note: in included file:
+>> mm/damon/core-test.h:284:9: sparse: sparse: incompatible types in comparison expression (different signedness):
+   mm/damon/core-test.h:284:9: sparse:    unsigned int *
+   mm/damon/core-test.h:284:9: sparse:    int *
+
+vim +284 mm/damon/core-test.h
+
+   269	
+   270	static void damon_test_set_regions(struct kunit *test)
+   271	{
+   272		struct damon_target *t = damon_new_target();
+   273		struct damon_region *r1 = damon_new_region(4, 16);
+   274		struct damon_region *r2 = damon_new_region(24, 32);
+   275		struct damon_addr_range range = {.start = 8, .end = 28};
+   276		unsigned long expects[] = {8, 16, 16, 24, 24, 28};
+   277		int expect_idx = 0;
+   278		struct damon_region *r;
+   279	
+   280		damon_add_region(r1, t);
+   281		damon_add_region(r2, t);
+   282		damon_set_regions(t, &range, 1);
+   283	
+ > 284		KUNIT_EXPECT_EQ(test, damon_nr_regions(t), 3);
+   285		damon_for_each_region(r, t) {
+   286			KUNIT_EXPECT_EQ(test, r->ar.start, expects[expect_idx++]);
+   287			KUNIT_EXPECT_EQ(test, r->ar.end, expects[expect_idx++]);
+   288		}
+   289		damon_destroy_target(t);
+   290	}
+   291	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
