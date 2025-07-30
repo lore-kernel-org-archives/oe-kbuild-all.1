@@ -1,94 +1,110 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00FAC10E3
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 09:17:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3ECA1C861F;
+	Wed, 30 Jul 2025 10:11:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753867035; cv=none; b=WiH0atCoiknlDWGyAi5KHWBALq7lYhJETAo3v+XddV4JTuBnwOERnVS1t2WUDULDyvqKjuwyzlEJ8tbV1qsWhOw/nnzgShmclQM73NvXnFBpVKYXjVNF7kPySkrxM3IoBohv3osS09OGAfiCS5rxZ25I/bZ8oLnj32+U61kdUlk=
+	t=1753870267; cv=none; b=mxFwDqhPAVFICSw9NqB/H5AKwSlorW5sr98mXJxDRYAjblDwdv1ZzVb94ILLi8WCtWRF9+AhFgbRBHyT0UNhImA3pPrG+mqJStX7Jf9Wq3Ux+a2b0WTXCHrFHu50X1ks8dYMDd//42kZdAeA5pgMyV/mshLjl9MVJn0sdSgcwsA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753867035; c=relaxed/simple;
-	bh=Dpcd7l4PVdBUAu3dLde4TLawjV16LdfHLmoToUBiLfw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cxBk1w6YoK4755NtU39VLOgEo+BM5B9t/+zeMCmIEvbk+Z38fDcY3XQJhGFdO7Vc3ywAwQz9NzlOADhx6d9OeG7gkUgb8nD7m+O7ecI//3lvEs4OTHlC6nNlvq3kX9MW8ssRZ7PXBM6J5mp6hNGDBeAzdGN9C8Pa5vVPSTXlbGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Nkx9WmDw; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	s=arc-20240116; t=1753870267; c=relaxed/simple;
+	bh=pnGxoS3OSecq/nhtm6H+J4Cjcuia3dKAU/NRqZLtAY0=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=T2QzSxD+KPdAPD7ukjEib0edqk4KayGsVoeJUKHaT5kNnag4rm17NQW+E3WiXWxgUnFriEvbsS4cPdK6jPOLHoH3E3Qpxe1pQj1peekklbkw4BBwvxp79w+VhFgqGED3F0vjLWuPVRtdbFWTU73ubXu1m92QBCbElKzFD/CxcAE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DrE9nbyJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Nkx9WmDw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=z9s8
-	RUZxXi4y+NdXdO9wZSa3qlMNEu3jZh6gP4YDP0k=; b=Nkx9WmDwDDT8RiY/j4X/
-	gWHBfnqhxiHT79d6s8ImeSbvS5yTL8ft7G2Bpi7n2nkxDhfaI/LD/bsmp8d2Y2CG
-	nzYXb2I496R2NEnmmfOddZOkUzPWSQnH2DgsMZJ4EwdAqz3CuWVi/IURIpEU/6kg
-	/sv54CbFugA0B6Ccm/7XdiL2dGqfQhvUR2qcFKOEdNJ4UvbtkOhLLAyHrFWcBV1L
-	3el553WbzhOztVcPwRP8Ot+DRZ5Pj55H+qKchD2/XhdYgT1x48KMh9SGr62+uSWG
-	pjeltvdDAQvyWylRE9AQs5SOm0jYzawu0+dxNL0YdlpSgbzGtQgph+MZ/Bl92SzO
-	JA==
-Received: (qmail 4115907 invoked from network); 30 Jul 2025 11:17:08 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 30 Jul 2025 11:17:08 +0200
-X-UD-Smtp-Session: l3s3148p1@vNAs/SE7cocgAwDPXyC3AG0QzsW8mHdp
-Date: Wed, 30 Jul 2025 11:17:07 +0200
-From: Wolfram Sang <wsa-dev@sang-engineering.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DrE9nbyJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 112E4C4CEE7;
+	Wed, 30 Jul 2025 10:11:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753870267;
+	bh=pnGxoS3OSecq/nhtm6H+J4Cjcuia3dKAU/NRqZLtAY0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DrE9nbyJnXasszyzxe7vuARHwlZqRT4Egs8bU8yW7nxeMXKu+ofCfJWdWI9vY/1E2
+	 f+vKgHulgbDiHWElrxhi7ziGMvehBIoDHfaXNhciy32V1IrHXC7o7NfJqC6Qa1qhfG
+	 gVUuC5C5bZXcJFeK7Xunxz8EGdXxm0E3qJl118erF6tqja8IFneOstrFfOVPjqUSee
+	 64gg/x0fiBrFdMENMIWlxKzvhcLDG3E77FBMts9mXKcz4h7OcWY1rcs+qfBE6z37KW
+	 bMi2n1Rk1nSQI6WE8oz65iext9Ry6aWyphwXDVsoQJio8lnqnfii9n2bqk48yfMFt3
+	 nmekez5FtSNww==
+Date: Wed, 30 Jul 2025 19:11:01 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 To: kernel test robot <lkp@intel.com>
-Cc: Biju <biju.das.au@gmail.com>, Ulf Hansson <ulf.hansson@linaro.org>,
-	llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Biju Das <biju.das.jz@bp.renesas.com>, linux-mmc@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH v2 1/2] mmc: tmio: Add 64-bit read/write support for
- SD_BUF0 in polling mode
-Message-ID: <aInjE-sduVbBRmJx@shikoro>
-References: <20250727160731.106312-2-biju.das.jz@bp.renesas.com>
- <202507301421.AmWhOZBk-lkp@intel.com>
+Cc: Steven Rostedt <rostedt@goodmis.org>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, Masami Hiramatsu <mhiramat@kernel.org>, Mark
+ Rutland <mark.rutland@arm.com>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Linux Memory Management List
+ <linux-mm@kvack.org>, Namhyung Kim <namhyung@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/2] tracing: Have eprobes have their own config
+ option
+Message-Id: <20250730191101.7e6203f21b94c3f932fa8348@kernel.org>
+In-Reply-To: <202507301452.JPAcMvT0-lkp@intel.com>
+References: <20250729161912.056641407@kernel.org>
+	<202507301452.JPAcMvT0-lkp@intel.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="kmR0COAf0tpqolK7"
-Content-Disposition: inline
-In-Reply-To: <202507301421.AmWhOZBk-lkp@intel.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+
+On Wed, 30 Jul 2025 14:27:08 +0800
+kernel test robot <lkp@intel.com> wrote:
+
+> Hi Steven,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on trace/for-next]
+> [also build test ERROR on lwn/docs-next akpm-mm/mm-everything linus/master v6.16 next-20250729]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Steven-Rostedt/tracing-Have-eprobes-have-their-own-config-option/20250730-001958
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
+> patch link:    https://lore.kernel.org/r/20250729161912.056641407%40kernel.org
+> patch subject: [PATCH v2 1/2] tracing: Have eprobes have their own config option
+> config: xtensa-randconfig-002-20250730 (https://download.01.org/0day-ci/archive/20250730/202507301452.JPAcMvT0-lkp@intel.com/config)
+> compiler: xtensa-linux-gcc (GCC) 12.5.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507301452.JPAcMvT0-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202507301452.JPAcMvT0-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+>    kernel/trace/trace_probe.c: In function 'parse_probe_arg':
+> >> kernel/trace/trace_probe.c:1105:23: error: implicit declaration of function 'regs_query_register_offset'; did you mean 'ftrace_regs_query_register_offset'? [-Werror=implicit-function-declaration]
+>     1105 |                 ret = regs_query_register_offset(arg + 1);
+>          |                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>          |                       ftrace_regs_query_register_offset
+>    cc1: some warnings being treated as errors
 
 
---kmR0COAf0tpqolK7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Interesting, this find another issue. Since this is provided by
+CONFIG_PROBE_EVENTS, we need to fix CONFIG_PROBE_EVENTS depending
+on HAVE_REGS_AND_STACK_ACCESS_API.
 
+diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
+index a3f35c7d83b6..cd239240b0ef 100644
+--- a/kernel/trace/Kconfig
++++ b/kernel/trace/Kconfig
+@@ -792,6 +792,7 @@ config DYNAMIC_EVENTS
+        def_bool n
+ 
+ config PROBE_EVENTS
++       depends on HAVE_REGS_AND_STACK_ACCESS_API
+        def_bool n
+ 
+ config BPF_KPROBE_OVERRIDE
 
->    In file included from drivers/mmc/host/uniphier-sd.c:21:
-> >> drivers/mmc/host/tmio_mmc.h:249:2: error: call to undeclared function 'ioread64_rep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->      249 |         ioread64_rep(host->ctl + (addr << host->bus_shift), buf, count);
->          |         ^
-> >> drivers/mmc/host/tmio_mmc.h:255:2: error: call to undeclared function 'iowrite64_rep'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->      255 |         iowrite64_rep(host->ctl + (addr << host->bus_shift), buf, count);
->          |         ^
-
-Sigh, then the guard seems to be ARM64 after all :(
-
-
---kmR0COAf0tpqolK7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmiJ4xAACgkQFA3kzBSg
-KbaeJA//X+uqDvUdKGGo3FOKu+/F1eXweWNZxFEmeubtke3lHodepW1cA105X33H
-oHHK/iVapFK9wT4K3aGqHQGAYhoRtv/pWurW7AZCbZuHiIEvSGr6C5f2yohTYhix
-+2+sy6DD1W05jLljxT95UIe2cGe4gq/dBxjuMPY7hBdZWz+JkHGFYpLeAwMwdOVA
-SmSrrneaFJG6oA27RNSUO1sB7eGuTIqtLQhTDWEz105GBYsW41qW6QMHDMedejBo
-qhTQ0wAgzMzxsGKCraM//3iFdcAbn2mVvMpjMqI9YnlpF/+FxCr9ljzZAlKi1P7x
-GQF0IIdofihdw9MXtFH8bStWlNb9nlGqE6ujMSFLViUWqQrBnOZPXHFS19QF9Rsl
-FfmMOT0oOTTFd4510V2/TK+q5csNM1rFEx6dTyZi3qu4xiCocZ3kdZ4jRO/qJSlQ
-PhYy9s9wOrPvJLUX7avcnBZ7vZodmo/IR7TuN8t38mBQzUGF3oPJhX7wKEC+yA09
-iWwj86WvdsaV8tif3CuDU1KlkFYDTtUX4PEG3hLFRuxQeesi9b9AKOtuuHd/8R+h
-EPPyK/LyJ/ZMKEvMNAkNWadZjGjne/IvoivkoneCQUTVhZFhIeNGQYZT2MJUDXE4
-OYIiKUik0iEhiN7ofwWgRiAJvZqlAswXNxVQKDQFNjRPBZ3Oq/c=
-=Wjuh
------END PGP SIGNATURE-----
-
---kmR0COAf0tpqolK7--
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
