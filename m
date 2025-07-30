@@ -1,74 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41B69C2C9;
-	Wed, 30 Jul 2025 21:40:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A52E22068F
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 21:50:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753911623; cv=none; b=YflnrIiOllGFNyNXEKbqi123/eBmdqlkWt0MvI2uXXwW3CCP+9X0Oj22ldFaGAn6a1PGg7FvQYdULakF1rZV7zt/fkocAseoUm82AEnBbhKtzj54MuMLsbJBUMxpwDXg3L0oQJZEEIVyQ6AR+oDlrSg+k2gN0+YAN/0uLl3y0y8=
+	t=1753912220; cv=none; b=uKSayyGyoqC00lttJkAGqrZL45uWA6SuuiGZNVZk8ICJ6nGm6Kn1KqsD7+gx6T+7qSxpIqIHhj2SYYd7V/A0fOX7Hp60s9pZlatB+QrPCIee1RzAuLZ+gxfQEKAF6dgvDYYEkyLvUwdD8yCzkRvb3R22RPiyWM/Gb/OwweTZIb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753911623; c=relaxed/simple;
-	bh=Bwf0g/5AzUEYlPHG3eNTNg9IPQ/fpGX+/5lZMyGu0FQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MScZsGfOJpNZ6HC/mVUA7dMlie7TLOOEZkEZa4T/LR4EUokU/0mh2dF727IUFzVo0DVsK6d32cJaIvyfgIp4tBly7dcc0C4yxOkHzWkTxWgAYwtGCNGEwRFkPtZpSo8ovFU+yX6R9WrcCsvA9x1yl/x5vsUwGPMcXwRfL8B7qvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZI2ioNeP; arc=none smtp.client-ip=198.175.65.10
+	s=arc-20240116; t=1753912220; c=relaxed/simple;
+	bh=qOOuXLnMKvljsvZYYqK2Pb346l2h3lNBUJhxzJN2W8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fokryJcES2U50AOn0p6fekdK35cj01wA/XssMecQGJNbPZifEkI27mzG1wthVxsf92/aqPScSkoBb8Um/NXX4LsLIQBZHS6720afLTDt8HxxThTLkIduLQhVRqMzEsUrBKjfl6sjTLICCchqu+t9jPEuJErvuB5Q+CJr2liv0EA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IPq5GWZC; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZI2ioNeP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IPq5GWZC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753911621; x=1785447621;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Bwf0g/5AzUEYlPHG3eNTNg9IPQ/fpGX+/5lZMyGu0FQ=;
-  b=ZI2ioNePF1M8jGlqflukQOrgr0KTSI4xa6TiFtr/Nr4yQlYCjRVMo5FI
-   v0GAKHUBxmJA0q7fpoRijA1R2RHhqFhjCMb0gQj2EB3ntRvxtV5ijYykM
-   ZdsDCZZs3corTPk2ipLwE83B8ME3olJgEEfklasEgpZhLbMRvWLb5uJnR
-   Bl6rAYJviF2R8cTxbZTT3j697YFGJyQSvML7BefbvFv01fC+P7aX/YYOY
-   EypedeD8vVfgPeQc6+m8Q9SupGJ+dpE1ZlS7X34T8tAfJbY0T3BYRfpaZ
-   T0mBVF51ZdVhLjbr00f+dZiCpr9WXXVfo2asgWSx7l6ioL/9OqSO390wa
-   A==;
-X-CSE-ConnectionGUID: v19JgJpUTGasjla6byyHdA==
-X-CSE-MsgGUID: vFuB5DfqRQy/CfBlVBptPw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="73684210"
+  t=1753912219; x=1785448219;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=qOOuXLnMKvljsvZYYqK2Pb346l2h3lNBUJhxzJN2W8g=;
+  b=IPq5GWZC6UiKS7HeJU55Fc4hdV0W11fVZPQ5PlSp063B+pST2l2hCQ94
+   PGqPZgpTBBALEzzRBeFDQ3RteYjJQBlAevw0gRjFGSJXf9UQmyNA11eOQ
+   QeF5YwHDufpzlgLxZMw1hG34Zgs6sKXyERTqMNsO3R5V7bXgRSEOMKkhN
+   uH4+g1YnkApD3W4HkV7V+68lS4W+imhDvI9865JXMzQRpkiUzwoS5ky9d
+   mwExVuFq1iZwzpEysLOTcGb6zLlSNPKt/bHhy8B5SVJLz7vnqHGBGA3Jz
+   5j+Y6lYJAMFI+ir7zV5Gbo9/cMmyRf2SkF66uIcs+W6IR3jh/4xigXWT1
+   g==;
+X-CSE-ConnectionGUID: iNe+g8N3QJW0id/KiIQbDw==
+X-CSE-MsgGUID: V807JP/BS1GiYhQC1P3UXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="66792268"
 X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="73684210"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 14:40:21 -0700
-X-CSE-ConnectionGUID: //39XzHJTVaxuw3IekjVqA==
-X-CSE-MsgGUID: 9l9nEmG7TCGapoRWhEIOBg==
+   d="scan'208";a="66792268"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 14:50:18 -0700
+X-CSE-ConnectionGUID: ZuBlurvdQJOFXAdHsNV1OA==
+X-CSE-MsgGUID: Bs0UsE5NSgCxw972IepRGg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="163433695"
+   d="scan'208";a="162682309"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa009.fm.intel.com with ESMTP; 30 Jul 2025 14:40:16 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 30 Jul 2025 14:50:17 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uhEX0-0003AC-1q;
-	Wed, 30 Jul 2025 21:40:14 +0000
-Date: Thu, 31 Jul 2025 05:39:37 +0800
+	id 1uhEgh-0003Aa-1H;
+	Wed, 30 Jul 2025 21:50:15 +0000
+Date: Thu, 31 Jul 2025 05:49:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gatien Chevallier <gatien.chevallier@foss.st.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Gatien Chevallier <gatien.chevallier@foss.st.com>
-Subject: Re: [PATCH net-next v2 1/2] drivers: net: stmmac: handle start time
- set in the past for flexible PPS
-Message-ID: <202507310541.o0TF0jd1-lkp@intel.com>
-References: <20250729-relative_flex_pps-v2-1-3e5f03525c45@foss.st.com>
+To: Masahiro Yamada <masahiroy@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [masahiroy:kbuild 89/96] riscv32-linux-objcopy: vmlinux.unstripped:
+ warning: empty loadable segment detected at vaddr=0xc29b4000, is this
+ intentional?
+Message-ID: <202507310505.tEYm1za7-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,147 +62,22 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250729-relative_flex_pps-v2-1-3e5f03525c45@foss.st.com>
 
-Hi Gatien,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on fa582ca7e187a15e772e6a72fe035f649b387a60]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Gatien-Chevallier/drivers-net-stmmac-handle-start-time-set-in-the-past-for-flexible-PPS/20250729-225635
-base:   fa582ca7e187a15e772e6a72fe035f649b387a60
-patch link:    https://lore.kernel.org/r/20250729-relative_flex_pps-v2-1-3e5f03525c45%40foss.st.com
-patch subject: [PATCH net-next v2 1/2] drivers: net: stmmac: handle start time set in the past for flexible PPS
-config: riscv-allyesconfig (https://download.01.org/0day-ci/archive/20250731/202507310541.o0TF0jd1-lkp@intel.com/config)
-compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507310541.o0TF0jd1-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
+head:   dae742fa564b7f53de83c16dce033d547c84c0f3
+commit: 4a4da806f1d632a05bb947be336388ffe523a5ab [89/96] kbuild: keep .modinfo section in vmlinux.unstripped
+config: riscv-randconfig-002-20250731 (https://download.01.org/0day-ci/archive/20250731/202507310505.tEYm1za7-lkp@intel.com/config)
+compiler: riscv32-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507310505.tEYm1za7-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507310541.o0TF0jd1-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507310505.tEYm1za7-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c:177:3: error: expected expression
-                   struct timespec64 curr_time;
-                   ^
->> drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c:207:3: error: use of undeclared identifier 'curr_time'
-                   curr_time = ns_to_timespec64(ns);
-                   ^
-   drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c:209:49: error: use of undeclared identifier 'curr_time'
-                           cfg->start = timespec64_add_safe(cfg->start, curr_time);
-                                                                        ^
-   3 errors generated.
-
-
-vim +177 drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
-
-   163	
-   164	static int stmmac_enable(struct ptp_clock_info *ptp,
-   165				 struct ptp_clock_request *rq, int on)
-   166	{
-   167		struct stmmac_priv *priv =
-   168		    container_of(ptp, struct stmmac_priv, ptp_clock_ops);
-   169		void __iomem *ptpaddr = priv->ptpaddr;
-   170		struct stmmac_pps_cfg *cfg;
-   171		int ret = -EOPNOTSUPP;
-   172		unsigned long flags;
-   173		u32 acr_value;
-   174	
-   175		switch (rq->type) {
-   176		case PTP_CLK_REQ_PEROUT:
- > 177			struct timespec64 curr_time;
-   178			u64 target_ns = 0;
-   179			u64 ns = 0;
-   180	
-   181			/* Reject requests with unsupported flags */
-   182			if (rq->perout.flags)
-   183				return -EOPNOTSUPP;
-   184	
-   185			cfg = &priv->pps[rq->perout.index];
-   186	
-   187			cfg->start.tv_sec = rq->perout.start.sec;
-   188			cfg->start.tv_nsec = rq->perout.start.nsec;
-   189	
-   190			/* A time set in the past won't trigger the start of the flexible PPS generation for
-   191			 * the GMAC5. For some reason it does for the GMAC4 but setting a time in the past
-   192			 * should be addressed anyway. Therefore, any value set it the past is considered as
-   193			 * an offset compared to the current MAC system time.
-   194			 * Be aware that an offset too low may not trigger flexible PPS generation
-   195			 * if time spent in this configuration makes the targeted time already outdated.
-   196			 * To address this, add a safe time offset.
-   197			 */
-   198			if (!cfg->start.tv_sec && cfg->start.tv_nsec < PTP_SAFE_TIME_OFFSET_NS)
-   199				cfg->start.tv_nsec += PTP_SAFE_TIME_OFFSET_NS;
-   200	
-   201			target_ns = cfg->start.tv_nsec + ((u64)cfg->start.tv_sec * NSEC_PER_SEC);
-   202	
-   203			stmmac_get_systime(priv, priv->ptpaddr, &ns);
-   204			if (ns > TIME64_MAX - PTP_SAFE_TIME_OFFSET_NS)
-   205				return -EINVAL;
-   206	
- > 207			curr_time = ns_to_timespec64(ns);
-   208			if (target_ns < ns + PTP_SAFE_TIME_OFFSET_NS) {
-   209				cfg->start = timespec64_add_safe(cfg->start, curr_time);
-   210				if (cfg->start.tv_sec == TIME64_MAX)
-   211					return -EINVAL;
-   212			}
-   213	
-   214			cfg->period.tv_sec = rq->perout.period.sec;
-   215			cfg->period.tv_nsec = rq->perout.period.nsec;
-   216	
-   217			write_lock_irqsave(&priv->ptp_lock, flags);
-   218			ret = stmmac_flex_pps_config(priv, priv->ioaddr,
-   219						     rq->perout.index, cfg, on,
-   220						     priv->sub_second_inc,
-   221						     priv->systime_flags);
-   222			write_unlock_irqrestore(&priv->ptp_lock, flags);
-   223			break;
-   224		case PTP_CLK_REQ_EXTTS: {
-   225			u8 channel;
-   226	
-   227			mutex_lock(&priv->aux_ts_lock);
-   228			acr_value = readl(ptpaddr + PTP_ACR);
-   229			channel = ilog2(FIELD_GET(PTP_ACR_MASK, acr_value));
-   230			acr_value &= ~PTP_ACR_MASK;
-   231	
-   232			if (on) {
-   233				if (FIELD_GET(PTP_ACR_MASK, acr_value)) {
-   234					netdev_err(priv->dev,
-   235						   "Cannot enable auxiliary snapshot %d as auxiliary snapshot %d is already enabled",
-   236						rq->extts.index, channel);
-   237					mutex_unlock(&priv->aux_ts_lock);
-   238					return -EBUSY;
-   239				}
-   240	
-   241				priv->plat->flags |= STMMAC_FLAG_EXT_SNAPSHOT_EN;
-   242	
-   243				/* Enable External snapshot trigger */
-   244				acr_value |= PTP_ACR_ATSEN(rq->extts.index);
-   245				acr_value |= PTP_ACR_ATSFC;
-   246			} else {
-   247				priv->plat->flags &= ~STMMAC_FLAG_EXT_SNAPSHOT_EN;
-   248			}
-   249			netdev_dbg(priv->dev, "Auxiliary Snapshot %d %s.\n",
-   250				   rq->extts.index, on ? "enabled" : "disabled");
-   251			writel(acr_value, ptpaddr + PTP_ACR);
-   252			mutex_unlock(&priv->aux_ts_lock);
-   253			/* wait for auxts fifo clear to finish */
-   254			ret = readl_poll_timeout(ptpaddr + PTP_ACR, acr_value,
-   255						 !(acr_value & PTP_ACR_ATSFC),
-   256						 10, 10000);
-   257			break;
-   258		}
-   259	
-   260		default:
-   261			break;
-   262		}
-   263	
-   264		return ret;
-   265	}
-   266	
+>> riscv32-linux-objcopy: vmlinux.unstripped: warning: empty loadable segment detected at vaddr=0xc29b4000, is this intentional?
 
 -- 
 0-DAY CI Kernel Test Service
