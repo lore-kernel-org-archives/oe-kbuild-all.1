@@ -1,169 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from out-177.mta0.migadu.com (out-177.mta0.migadu.com [91.218.175.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712E234CF5;
-	Wed, 30 Jul 2025 01:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2EF1D516A
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 01:55:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753839710; cv=none; b=ajta0LV9ct3q6jFgfAt0JSQIcyHiIkd7OsC7vO7jW6AK3Po9FqZ+AXZnAS72ay6fJxD9anfFSItDzzCfD45R9BLnFwGq0vqcakHHUry+s8cxWslHE6LKl9lvoNrXbQIQYwCYvGpk70Hj3e+6aTim3O/yS9p0NZLRg4R6y6Rhh0k=
+	t=1753840510; cv=none; b=gZAfM34CYgvzIEZxOawDWIUKNt7RL4f1qm+xCHMMpsLcmbHk2oZBfSe9h6LjGv7/1oA/rT58nOX3UUYsIbmkkVuAOyYLZRSgB4v7R8UXcJy/T55v6H4llGWpuJAkupXL0hWYNv2qC8GNQwNuDVR294WyQkKuSnmaRr6/wywLuG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753839710; c=relaxed/simple;
-	bh=C0YOX8tRP08SwcKwTKh5XuGxjapurQZ0E3BcTYfv7TQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XnX4kityzaKmBc6tAMLt94hKQfOK5SN69CsX9KWrAzx9epM9J2nX2yZU83GBp1C3DPsGePUvfnawIyU6G3PdJ6/vR8k7xJdZB48nZPVveG5XNo3SDMd9HrzasR9fWEiB78fZKO1d/KInOGoY4rXcqXgN7sfzmPHv27ubOmOJHms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FOfDJzow; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753840510; c=relaxed/simple;
+	bh=revpl56mPq9KLBzHa8CWXLrKv7rkFACf5P5lX0gZwDY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dRqhN1VPAu5/htdiy8VvWA87s4PzCKvwwi5DGLTDed8EYOH9bvrsLetdPodSXPdKopnAanzQWSWet6AgOy4GkNC4M01J7/hgmZctRu5niTba+0lCsTxrstHV6diijsD2NumQnmSodybWugCDLitpKMxTuQJZmvD4jBaDFUBZIh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cFW/GKps; arc=none smtp.client-ip=91.218.175.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FOfDJzow"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753839707; x=1785375707;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=C0YOX8tRP08SwcKwTKh5XuGxjapurQZ0E3BcTYfv7TQ=;
-  b=FOfDJzowAYMQjBHdVDsykO+EDxpcymJ1WRSGUUki/1NJ/VXLRcBb4klW
-   cA9M1sc7cErboTjlJyBNgdyWEcLvBIi6WCe2ONfbPf87peNrzGFRo/eJ2
-   ky+EutWTYdiPqZ3sQLwPw8fPcefInLv16RTOOzoFE4FG42SBh9fF+J6mE
-   KZ+IBE3eMTSljIGmxoX6bG8eHI1DL9eW4JnSA/dXyE57kjo0PrzQcksC7
-   fxBeLb7NW01is+HTuwxuRGb9rJbm8jAt8HlcpIoKhHdncAkxY6Aq8AltE
-   boTfrsRwtC/4mPKyRd+N09kstfDJWL9sFhMQRYFwNKaMtB9uN4l+nJguu
-   w==;
-X-CSE-ConnectionGUID: 9DM/bcKIQMqxIiuw8aRfYw==
-X-CSE-MsgGUID: iKlLJrlJQJmdqR4Fz5X8jw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="59953741"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="59953741"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 18:41:46 -0700
-X-CSE-ConnectionGUID: wXoZuoSiRveJZ3vH4iMSTQ==
-X-CSE-MsgGUID: rOisV2MqRfGKlDY24ABawQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="200033573"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 29 Jul 2025 18:41:45 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1ugvp9-0001rL-0C;
-	Wed, 30 Jul 2025 01:41:43 +0000
-Date: Wed, 30 Jul 2025 09:41:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Jiri Olsa <jolsa@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC 04/10] ftrace: Add modify_ftrace_direct_hash function
-Message-ID: <202507300954.QwO5Jhbb-lkp@intel.com>
-References: <20250729102813.1531457-5-jolsa@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cFW/GKps"
+Message-ID: <7083544f-5b0c-432e-bec8-509ca733f316@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1753840504;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bBtDeEQmDVhAbCwRLb1FMhSSfBFoIGvei1/u976ODoM=;
+	b=cFW/GKpstUwfA0eP64NEgFb+fMg5cHQC4yPqe+JA0B2ivT3Pu6QPj4QsfAt9pOakE+i3C0
+	dU5eMBP8v+uNHZpzL7xCNXAd2QmYo+XXYePnIrEtk7Cugeq/oenIX5pjTFwIxkD99xed1T
+	uT3yLlujhn3HJgh+LghAu/0+y8DuyEQ=
+Date: Tue, 29 Jul 2025 18:54:58 -0700
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250729102813.1531457-5-jolsa@kernel.org>
+Subject: Re: [PATCH bpf-next v3 0/4] bpf: add icmp_send_unreach kfunc
+To: Mahe Tardy <mahe.tardy@gmail.com>
+Cc: alexei.starovoitov@gmail.com, andrii@kernel.org, ast@kernel.org,
+ bpf@vger.kernel.org, coreteam@netfilter.org, daniel@iogearbox.net,
+ fw@strlen.de, john.fastabend@gmail.com, netdev@vger.kernel.org,
+ netfilter-devel@vger.kernel.org, oe-kbuild-all@lists.linux.dev,
+ pablo@netfilter.org, lkp@intel.com
+References: <202507270940.kXGmRbg5-lkp@intel.com>
+ <20250728094345.46132-1-mahe.tardy@gmail.com>
+ <b36532a2-506b-4ba5-b6a3-a089386a190e@linux.dev> <aIiaB2QUxKmhvPlx@gmail.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Martin KaFai Lau <martin.lau@linux.dev>
+In-Reply-To: <aIiaB2QUxKmhvPlx@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Jiri,
+On 7/29/25 2:53 AM, Mahe Tardy wrote:
+>> Which other program types do you need this kfunc to send icmp and the future
+>> tcp rst?
+> 
+> I don't really know, I mostly need this in cgroup_skb for my use case
+> but I could see other programs type using this either for simplification
+> (for progs that can already rewrite the packet, like tc) or other
+> programs types like cgroup_skb, because they can't touch the packet
+> themselves.
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build warnings:
+I also don't think the tc needs this kfunc either. The tc should already have 
+ways to do this now.
 
-[auto build test WARNING on trace/for-next]
-[also build test WARNING on bpf-next/net bpf-next/master bpf/master linus/master v6.16 next-20250729]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+>>
+>> This cover letter mentioned sending icmp unreach is easier than sending tcp
+>> rst. What problems do you see in sending tcp rst?
+>>
+> 
+> Yes, I based these patches on what net/ipv4/netfilter/ipt_REJECT.c's
+> 'reject_tg' function does. In the case of sending ICMP unreach
+> 'nf_send_unreach', the routing step is quite straighforward as they are
+> only inverting the daddr and the saddr (that's what my renamed/moved
+> ip_route_reply_fetch_dst helper does).
+> 
+> In the case of sending RST 'nf_send_reset', there are extra steps, first
+> the same routing mechanism is done by just inverting the daddr and the
+> saddr but later 'ip_route_me_harder' is called which is doing a lot
+> more. I'm currently not sure which parts of this must be ported to work
+> in our BPF use case so I wanted to start with unreach.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Jiri-Olsa/ftrace-Make-alloc_and_copy_ftrace_hash-direct-friendly/20250729-183143
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/20250729102813.1531457-5-jolsa%40kernel.org
-patch subject: [RFC 04/10] ftrace: Add modify_ftrace_direct_hash function
-config: x86_64-buildonly-randconfig-003-20250730 (https://download.01.org/0day-ci/archive/20250730/202507300954.QwO5Jhbb-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507300954.QwO5Jhbb-lkp@intel.com/reproduce)
+I don't think we necessarily need to completely borrow from nf, the hooks' 
+locations are different and the use case may be different.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507300954.QwO5Jhbb-lkp@intel.com/
+A concern that I have is the icmp6_send called by the kfunc. The icmp6_send 
+should eventually call to ip6_finish_output which may call the very same 
+"cgroup/egress" program again in a recursive way. The same for v4 icmp_send.
 
-All warnings (new ones prefixed by >>):
-
-   In file included from kernel/events/callchain.c:11:
-   In file included from include/linux/perf_event.h:43:
-   include/linux/ftrace.h:559:5: warning: no previous prototype for function 'register_ftrace_direct_hash' [-Wmissing-prototypes]
-     559 | int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
-         |     ^
-   include/linux/ftrace.h:559:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     559 | int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
-         | ^
-         | static 
-   include/linux/ftrace.h:564:5: warning: no previous prototype for function 'unregister_ftrace_direct_hash' [-Wmissing-prototypes]
-     564 | int unregister_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
-         |     ^
-   include/linux/ftrace.h:564:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     564 | int unregister_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
-         | ^
-         | static 
->> include/linux/ftrace.h:569:5: warning: no previous prototype for function 'modify_ftrace_direct_hash' [-Wmissing-prototypes]
-     569 | int modify_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash, bool do_direct_lock)
-         |     ^
-   include/linux/ftrace.h:569:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     569 | int modify_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash, bool do_direct_lock)
-         | ^
-         | static 
-   3 warnings generated.
---
-   In file included from kernel/events/core.c:34:
-   In file included from include/linux/syscalls.h:94:
-   In file included from include/trace/syscall.h:7:
-   In file included from include/linux/trace_events.h:10:
-   In file included from include/linux/perf_event.h:43:
-   include/linux/ftrace.h:559:5: warning: no previous prototype for function 'register_ftrace_direct_hash' [-Wmissing-prototypes]
-     559 | int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
-         |     ^
-   include/linux/ftrace.h:559:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     559 | int register_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
-         | ^
-         | static 
-   include/linux/ftrace.h:564:5: warning: no previous prototype for function 'unregister_ftrace_direct_hash' [-Wmissing-prototypes]
-     564 | int unregister_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
-         |     ^
-   include/linux/ftrace.h:564:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     564 | int unregister_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
-         | ^
-         | static 
->> include/linux/ftrace.h:569:5: warning: no previous prototype for function 'modify_ftrace_direct_hash' [-Wmissing-prototypes]
-     569 | int modify_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash, bool do_direct_lock)
-         |     ^
-   include/linux/ftrace.h:569:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     569 | int modify_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash, bool do_direct_lock)
-         | ^
-         | static 
-   kernel/events/core.c:215:20: warning: unused function 'class_perf_ctx_lock_destructor' [-Wunused-function]
-     215 | static inline void class_perf_ctx_lock_destructor(class_perf_ctx_lock_t *_T)
-         |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/events/core.c:219:1: warning: unused function 'class_perf_ctx_lock_constructor' [-Wunused-function]
-     219 | class_perf_ctx_lock_constructor(struct perf_cpu_context *cpuctx,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   5 warnings generated.
+The icmp packet is sent from an internal kernel sk. I suspect you will see this 
+recursive behavior if the test is done in the default cgroup (/sys/fs/cgroup). I 
+think the is_ineligible(skb) should have stopped the second icmpv6_send from 
+replying to an icmp error and the cgroup hook cannot change the skb. However, I 
+am not sure I want to cross this bridge. Is there a way to avoid the recursive 
+bpf prog?
 
 
-vim +/modify_ftrace_direct_hash +569 include/linux/ftrace.h
-
-   563	
- > 564	int unregister_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash)
-   565	{
-   566		return -ENODEV;
-   567	}
-   568	
- > 569	int modify_ftrace_direct_hash(struct ftrace_ops *ops, struct ftrace_hash *hash, bool do_direct_lock)
-   570	{
-   571		return -ENODEV;
-   572	}
-   573	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
