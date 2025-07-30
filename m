@@ -1,59 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3257E253950
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 09:00:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A49A2698AF;
+	Wed, 30 Jul 2025 09:10:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753866038; cv=none; b=S46XVFYa/XDNy+sWcUQY9DVtd4GT5OxgIcQqOqwbM6KdxO46qfOytiPwnz2sP5a4vXZCGJW+oR/dtk4D5EuMamPKAY6bUYZjD/T0WaaD2qisY+S5Vtc4e5d1b16WeC9xZBgVsCooVoTrxnGi8S1mXQYmOYTgdBUYWkNaq4x/uTI=
+	t=1753866639; cv=none; b=AWnyy04ZErd/PQf8E9Fk8fsEb/04ORaPKQn/QQsSjG/PRnf6RQxGt3yJdAFUtZE7W6YGmVrGB+1lu4bF2NJEQ3y0OmIPnleSubzcS7+Pk79itSWyc3pRdnBA5cwkDyXgEszaqYVJdVn3AweXZJ+/Luej1Cdy2U20Fcwu+/csNm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753866038; c=relaxed/simple;
-	bh=PX2aMQu5ojJ+aZgD2xm/DKVhnSsFX2hl6uxgS/GWr1Y=;
+	s=arc-20240116; t=1753866639; c=relaxed/simple;
+	bh=a5b4UoGNmRJtxisAJWViJD2hZAnjeHieNa8gZwcxDB0=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=RqN/g8WVnQopQGuAKtZTNBhvIKYB/J1EkoEDLBIw0YGbu32y2svng+Ciyesd4RhEdVnzxfkxpPdQlp2pMWfhqWpy81SQSpaKPztYJ8P3L1HmaLhsNf75C9u8jNG9k+mniIDCnG5HdidxLIYDoBLTM+SiJaD+8mAo9YrvuOoO/3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B2N73Rwe; arc=none smtp.client-ip=192.198.163.9
+	 Content-Disposition; b=oKVArlFnPZU5Q5nRV96eXrygqMMNmNpDRnqwMyL0M6H1nvuNgaLWSb9k0yxN9qqHwuoKiKFFg+rk4Xi6Svtpd74QQavoh5pHz+jTtYZr5to8R9k/AFH0nwlqFgNkoLhKgZMtrdIAzLJqNAyVUxYDiVWNnc+AUgj5Ij0xV/kZfYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fCxQFPLC; arc=none smtp.client-ip=192.198.163.16
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B2N73Rwe"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fCxQFPLC"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753866036; x=1785402036;
+  t=1753866637; x=1785402637;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PX2aMQu5ojJ+aZgD2xm/DKVhnSsFX2hl6uxgS/GWr1Y=;
-  b=B2N73RwexxP1UXDh0Mm92dnzVhw/rtzOGTPjLn9kdjt+4i3SwS8ezDDv
-   /hUw29RJcTkDdfBE89jx+rq8XZy0ZOJuhPkOPKhFtuIzOJsyvLXVLjKtz
-   e5ZRb1iyCwp+S21Osi7WbbKnakI7pTenpouBKyCmm47GOy2pXOgd6vyaZ
-   aNi6LSsMDFDvFxVHbsHq6c9M+KKwYYwexhZJh1yZ1aawH/h5aYwjHKIPz
-   ENnwIjCBUg6MOeUR2o69AA/XeRbWDOExSKnTNudJbfpTOknbqVRBC4iRe
-   igQ84Mo5ED3lt13zGe5cKSFY1ZK+3NLmdENPdaOOGxZHqw+yqC0ZxKgv/
+  bh=a5b4UoGNmRJtxisAJWViJD2hZAnjeHieNa8gZwcxDB0=;
+  b=fCxQFPLC5l8SpVz2deOMOaZj4m/lJYs4zXFekaTvz4U33fjeprwyzcB3
+   E+1IlGWEioJOzfPmQUgqGcsAioEE3itpKEjKWwwKaZ2w/R4zTSMeuPrj2
+   drcbQ/FZruo/b63yfytaWHd+BDglpy17wFDVc3gpzT+Zx/25DFnyph2Da
+   lA+DjBqUnOrC8YiOXU+sEsU+Se2BJwbHF7f6zMjGeRGsoDrASsl0uEGC9
+   UoIMmW6j6+47anCYCZF2GBil6dFl10GeGJPrMZ+NAOvhMl9mmzWOonCoU
+   RWDVrAt4/yel5Y8F6yaEKb9jqf2ufjyOxeV11uWI59epemmTrr4H4R4vL
    A==;
-X-CSE-ConnectionGUID: FQDZmVdyT2uLx5BXJWqa8g==
-X-CSE-MsgGUID: 3qF6xIeLQFSyDRD8j7QrLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="66857593"
+X-CSE-ConnectionGUID: fPy748mRQom84D317+JKlg==
+X-CSE-MsgGUID: LYxXGUNrRLqSUSDuYceIDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="43764818"
 X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="66857593"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 02:00:36 -0700
-X-CSE-ConnectionGUID: ZLh92j3kRMqgox29HBVNiw==
-X-CSE-MsgGUID: K8gB3J+RTs+shOmxegH/Dg==
+   d="scan'208";a="43764818"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 02:10:36 -0700
+X-CSE-ConnectionGUID: JWWdBUwRTQGFSEFvDiMMow==
+X-CSE-MsgGUID: W4yfoq5MSuOXxwYDy2hnVw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="162204512"
+   d="scan'208";a="163717254"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 30 Jul 2025 02:00:33 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 30 Jul 2025 02:10:34 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uh2fn-0002Ee-1z;
-	Wed, 30 Jul 2025 09:00:31 +0000
-Date: Wed, 30 Jul 2025 16:59:37 +0800
+	id 1uh2pU-0002F6-2U;
+	Wed, 30 Jul 2025 09:10:32 +0000
+Date: Wed, 30 Jul 2025 17:09:50 +0800
 From: kernel test robot <lkp@intel.com>
-To: Paul Mackerras <paulus@ozlabs.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Madhavan Srinivasan <maddy@linux.ibm.com>
-Subject: include/math-emu/double.h:59:21: warning: '__BIG_ENDIAN' is not
- defined, evaluates to 0
-Message-ID: <202507301656.7FEX6J5W-lkp@intel.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Alison Schofield <alison.schofield@intel.com>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Ira Weiny <ira.weiny@intel.com>,
+	Dan Williams <dan.j.williams@intel.com>, linux-cxl@vger.kernel.org
+Subject: [cxl:for-6.18/cxl-probe-order 1/4] ld.lld: error: undefined symbol:
+ devm_cxl_add_memdev
+Message-ID: <202507301656.6Y5x3Dqd-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,65 +66,23 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   4b290aae788e06561754b28c6842e4080957d3f7
-commit: aca95fb6bb572a77f39d42d83ab72a965026577d powerpc/microwatt: Add SMP support
-date:   5 months ago
-config: powerpc64-randconfig-r064-20250730 (https://download.01.org/0day-ci/archive/20250730/202507301656.7FEX6J5W-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 8f09b03aebb71c154f3bbe725c29e3f47d37c26e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507301656.7FEX6J5W-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git for-6.18/cxl-probe-order
+head:   5e29cbd1077b79468339aca04b16e401252b5a24
+commit: 158247aaf6d927da3628d27a6799a89c43db1aca [1/4] cxl/mem: Arrange for always-synchronous memdev attach
+config: i386-buildonly-randconfig-005-20250730 (https://download.01.org/0day-ci/archive/20250730/202507301656.6Y5x3Dqd-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507301656.6Y5x3Dqd-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507301656.7FEX6J5W-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507301656.6Y5x3Dqd-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
-   In file included from arch/powerpc/math-emu/math.c:14:
->> include/math-emu/double.h:59:21: warning: '__BIG_ENDIAN' is not defined, evaluates to 0 [-Wundef]
-      59 | #if __BYTE_ORDER == __BIG_ENDIAN
-         |                     ^
-   1 warning generated.
---
-   In file included from arch/powerpc/math-emu/fsqrts.c:8:
->> include/math-emu/double.h:59:21: warning: '__BIG_ENDIAN' is not defined, evaluates to 0 [-Wundef]
-      59 | #if __BYTE_ORDER == __BIG_ENDIAN
-         |                     ^
-   In file included from arch/powerpc/math-emu/fsqrts.c:9:
->> include/math-emu/single.h:50:21: warning: '__BIG_ENDIAN' is not defined, evaluates to 0 [-Wundef]
-      50 | #if __BYTE_ORDER == __BIG_ENDIAN
-         |                     ^
-   2 warnings generated.
-
-
-vim +/__BIG_ENDIAN +59 include/math-emu/double.h
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  54  
-^1da177e4c3f41 Linus Torvalds 2005-04-16  55  union _FP_UNION_D
-^1da177e4c3f41 Linus Torvalds 2005-04-16  56  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  57    double flt;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  58    struct {
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @59  #if __BYTE_ORDER == __BIG_ENDIAN
-^1da177e4c3f41 Linus Torvalds 2005-04-16  60      unsigned sign  : 1;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  61      unsigned exp   : _FP_EXPBITS_D;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  62      unsigned frac1 : _FP_FRACBITS_D - (_FP_IMPLBIT_D != 0) - _FP_W_TYPE_SIZE;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  63      unsigned frac0 : _FP_W_TYPE_SIZE;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  64  #else
-^1da177e4c3f41 Linus Torvalds 2005-04-16  65      unsigned frac0 : _FP_W_TYPE_SIZE;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  66      unsigned frac1 : _FP_FRACBITS_D - (_FP_IMPLBIT_D != 0) - _FP_W_TYPE_SIZE;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  67      unsigned exp   : _FP_EXPBITS_D;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  68      unsigned sign  : 1;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  69  #endif
-^1da177e4c3f41 Linus Torvalds 2005-04-16  70    } bits __attribute__((packed));
-^1da177e4c3f41 Linus Torvalds 2005-04-16  71  };
-^1da177e4c3f41 Linus Torvalds 2005-04-16  72  
-
-:::::: The code at line 59 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+>> ld.lld: error: undefined symbol: devm_cxl_add_memdev
+   >>> referenced by pci.c
+   >>>               drivers/cxl/pci.o:(cxl_pci_probe) in archive vmlinux.a
 
 -- 
 0-DAY CI Kernel Test Service
