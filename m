@@ -1,104 +1,82 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D45412980A4
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 12:26:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED05293B73
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 13:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753878383; cv=none; b=WyYSO6ak74J298Lm7TDCLpzEJz1byG0ogz/B6rLxGY1mjf0KXoPa32D4zCZUihWpPgJwzHXXJwK18sHK0zj5SOZ/wPa2lM/x3W98a6UEOSZ2zdC6AEhQXJd6RK2K9PPp/Y0FRkLgd/F7dLKvmN96zKQVKr5QVXB5lI3011tHkqE=
+	t=1753881442; cv=none; b=R8NmD7TLHW/7Vtyd3QpP1C4P060w40svJPbtCmNsAEb/XepUDoWpETSYcT33ZkUWJOuhyT3TNPXRdz3fracd0qzPg+XJfBWghQE1n5r+usgVQIM5dZRu2UEkXUUw4amwnCh0X4jEqPknhkhxGNXG6Lp7aIFJQf3Qmxh8Cdr9GsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753878383; c=relaxed/simple;
-	bh=Yqt9k3FEoN2rn755DspRcdnjCj8ruGaUo76ndianeec=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FpNgm7CybKkLs5UEUXFz7nE9zNMVAZikhAwlFYJUxWOY4uf74HXcCKfDATGC5yggKfojxRT6VFP6Tb7mUT00CZ1VlIA2eJZYkoYIsO3DMd4CpPIuoxB8AGTFHsm7WZW6PVgmBui8pfW9AmZ1QsTRRpW4mLr2nH2+rEYmHo1Eq2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TMd1KkW3; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TMd1KkW3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753878381; x=1785414381;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Yqt9k3FEoN2rn755DspRcdnjCj8ruGaUo76ndianeec=;
-  b=TMd1KkW3QNLEoDmxJ7j5DCmm3nBkTCCDRV1KQeyd7bEQvsDDqRjUlKdB
-   bVpvtYcb/B+ue3P653MxGKsFX/fXJuYwiFvUJ7GeoC7v8E7FZqrOkOFAu
-   tidCcL9qCbJrFCtCBN0fDS9DE+KnFuC30p/k9RrLT32++l3C4jSS56Osm
-   XHFD2XWwt50xKz80tGNQxLZJBwWyAUMVIhbD/13+YNGvf7hxxjDUzA7IN
-   62Yi2J79E+83woUkCqP8s9mKAWQLBWUBLdrseIB5EhEVHy742QGfK0hJ0
-   mCJMFiY9f0fBc26rECR/Ih7U0iv5a8tjIrB3UzUnS58qATGvxwBevQN2V
-   A==;
-X-CSE-ConnectionGUID: r4A6uFqmQ0+1SafK5RU9EQ==
-X-CSE-MsgGUID: iNi7C/8IRC2zHiR+DJ5B2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="56142551"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="56142551"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 05:26:21 -0700
-X-CSE-ConnectionGUID: QsyMguNhTASkZtzr+udzvw==
-X-CSE-MsgGUID: vuxavx1ZQKGyIClQO/DVXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="163427193"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Jul 2025 05:26:16 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uh5sr-0002ie-31;
-	Wed, 30 Jul 2025 12:26:13 +0000
-Date: Wed, 30 Jul 2025 20:25:51 +0800
-From: kernel test robot <lkp@intel.com>
-To: Marie Zhussupova <marievic@google.com>, rmoar@google.com,
-	davidgow@google.com, shuah@kernel.org, brendan.higgins@linux.dev
-Cc: oe-kbuild-all@lists.linux.dev, elver@google.com, dvyukov@google.com,
-	lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com,
-	rodrigo.vivi@intel.com, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com, kasan-dev@googlegroups.com,
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	Marie Zhussupova <marievic@google.com>
-Subject: Re: [PATCH 7/9] kunit: Add example parameterized test with shared
- resources and direct static parameter array setup
-Message-ID: <202507302042.9Aw3rrmW-lkp@intel.com>
-References: <20250729193647.3410634-8-marievic@google.com>
+	s=arc-20240116; t=1753881442; c=relaxed/simple;
+	bh=34EoyFPHssGlWKOPhqay4i9jGB2wFeTY2XUoW+cUFRs=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Pga5y9rlG39g7jWkqPSa+s2J/Nr7cVdl/OpINDYKeWtgIvG/gNq56AaxC7f8Rg2g/1+RhEbFva4dxGtkiaH5HslGPDWcYjdD1vtYjxtjAV6fb4YMbu+jkrBI21ZujGdpGEfMw52+JZtzNr4xlt4ZLH+NojUyo9mpnlC5fNXdJUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf09.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay06.hostedemail.com (Postfix) with ESMTP id D242A113F8C;
+	Wed, 30 Jul 2025 13:17:13 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf09.hostedemail.com (Postfix) with ESMTPA id 3AD612002A;
+	Wed, 30 Jul 2025 13:17:11 +0000 (UTC)
+Date: Wed, 30 Jul 2025 09:17:27 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Linux Memory Management List
+ <linux-mm@kvack.org>, Namhyung Kim <namhyung@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/2] tracing: Have eprobes have their own config
+ option
+Message-ID: <20250730091727.7b3a8b96@gandalf.local.home>
+In-Reply-To: <20250730191101.7e6203f21b94c3f932fa8348@kernel.org>
+References: <20250729161912.056641407@kernel.org>
+	<202507301452.JPAcMvT0-lkp@intel.com>
+	<20250730191101.7e6203f21b94c3f932fa8348@kernel.org>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250729193647.3410634-8-marievic@google.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Queue-Id: 3AD612002A
+X-Stat-Signature: x5kmfoc9dirxwaqpen1a8dee8h1esq1n
+X-Rspamd-Server: rspamout02
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX182DQPiz/lC1rskcX/IUATdlgupZxnzmOs=
+X-HE-Tag: 1753881431-485616
+X-HE-Meta: U2FsdGVkX1/tPPiWpHI8TYw/1NhA5gPWAauOdQvPprILSBnwk+q/t5ftSbAYUXxv6duh04/2u8XgpwEVTm97EKr3RqK9rFetyzYWCLkx4MhSOL6CIrUsELFdMFCdO0ZmzZySUbgS1bUJM5/YYH5yVPJXkNz0FCcbgCLXNEADS/MzibX38qEYwIeE0zwYbz8Z+Zc7rotswMFhc6T/fcPlSS3AsgTrJvVouI775ZBdzGz4g12a5Ab4PxjVUe6NFoC+ui6wjNeKUgaXkcWUfbnc9dPNip2TuznSm6bi8LuLos7h029XFcsQ13ky572sJayDcI0+m2CczjshmB4SCeKwxz5IYfvGXHX4
 
-Hi Marie,
+On Wed, 30 Jul 2025 19:11:01 +0900
+Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
 
-kernel test robot noticed the following build errors:
+> Interesting, this find another issue. Since this is provided by
+> CONFIG_PROBE_EVENTS, we need to fix CONFIG_PROBE_EVENTS depending
+> on HAVE_REGS_AND_STACK_ACCESS_API.
+> 
+> diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
+> index a3f35c7d83b6..cd239240b0ef 100644
+> --- a/kernel/trace/Kconfig
+> +++ b/kernel/trace/Kconfig
+> @@ -792,6 +792,7 @@ config DYNAMIC_EVENTS
+>         def_bool n
+>  
+>  config PROBE_EVENTS
+> +       depends on HAVE_REGS_AND_STACK_ACCESS_API
+>         def_bool n
+>  
+>  config BPF_KPROBE_OVERRIDE
 
-[auto build test ERROR on shuah-kselftest/kunit]
-[also build test ERROR on shuah-kselftest/kunit-fixes drm-xe/drm-xe-next linus/master v6.16 next-20250730]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+OK, I'll send a v2.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Marie-Zhussupova/kunit-Add-parent-kunit-for-parameterized-test-context/20250730-033818
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git kunit
-patch link:    https://lore.kernel.org/r/20250729193647.3410634-8-marievic%40google.com
-patch subject: [PATCH 7/9] kunit: Add example parameterized test with shared resources and direct static parameter array setup
-config: arc-randconfig-001-20250730 (https://download.01.org/0day-ci/archive/20250730/202507302042.9Aw3rrmW-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507302042.9Aw3rrmW-lkp@intel.com/reproduce)
+Did you want to take this in the tracing pull request?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507302042.9Aw3rrmW-lkp@intel.com/
+I see you already did the probe pull request.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "kunit_get_next_param_and_desc" [lib/kunit/kunit-example-test.ko] undefined!
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- Steve
