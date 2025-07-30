@@ -1,84 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A52E22068F
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 21:50:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B96E2288F7;
+	Wed, 30 Jul 2025 22:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753912220; cv=none; b=uKSayyGyoqC00lttJkAGqrZL45uWA6SuuiGZNVZk8ICJ6nGm6Kn1KqsD7+gx6T+7qSxpIqIHhj2SYYd7V/A0fOX7Hp60s9pZlatB+QrPCIee1RzAuLZ+gxfQEKAF6dgvDYYEkyLvUwdD8yCzkRvb3R22RPiyWM/Gb/OwweTZIb4=
+	t=1753913324; cv=none; b=Mmp6vCq6WfO4yBVvqCs2wZuqpvr4h+AwVbJQVd9kxQbPeC4AP4NdlEhVyrpYmUIAlZ90C/4XtI+h/AYn3z8ulc/9KvVxuCQdI4iv/cSPWLLO2DtPrXYi5xjlwnKZcyzDsCP1st5l17qmXednfMs8E8vVBpv/mjY3KF1r8q2ChIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753912220; c=relaxed/simple;
-	bh=qOOuXLnMKvljsvZYYqK2Pb346l2h3lNBUJhxzJN2W8g=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fokryJcES2U50AOn0p6fekdK35cj01wA/XssMecQGJNbPZifEkI27mzG1wthVxsf92/aqPScSkoBb8Um/NXX4LsLIQBZHS6720afLTDt8HxxThTLkIduLQhVRqMzEsUrBKjfl6sjTLICCchqu+t9jPEuJErvuB5Q+CJr2liv0EA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IPq5GWZC; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753913324; c=relaxed/simple;
+	bh=5DzTqdWYc14PEiKnsSSikRhRB45dtYdKZX03jUMGTgw=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=elVYT8/AZIMbRUDGN9wLrDF3kDsVCFZEmnUVIjfsrYHfS/z5iilMWJ6ucNl1d5XONpaQ9lZDPAhZDOY9KdJpUcTt/dlXu4jNnxRYROmzUqkxcA4bJNR1BJtbq5qNdUMEQGShKmB6jWJ5akGyfM0Wf+mpaxb2OQvG0uuYGxVgItc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N221wvIa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IPq5GWZC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753912219; x=1785448219;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=qOOuXLnMKvljsvZYYqK2Pb346l2h3lNBUJhxzJN2W8g=;
-  b=IPq5GWZC6UiKS7HeJU55Fc4hdV0W11fVZPQ5PlSp063B+pST2l2hCQ94
-   PGqPZgpTBBALEzzRBeFDQ3RteYjJQBlAevw0gRjFGSJXf9UQmyNA11eOQ
-   QeF5YwHDufpzlgLxZMw1hG34Zgs6sKXyERTqMNsO3R5V7bXgRSEOMKkhN
-   uH4+g1YnkApD3W4HkV7V+68lS4W+imhDvI9865JXMzQRpkiUzwoS5ky9d
-   mwExVuFq1iZwzpEysLOTcGb6zLlSNPKt/bHhy8B5SVJLz7vnqHGBGA3Jz
-   5j+Y6lYJAMFI+ir7zV5Gbo9/cMmyRf2SkF66uIcs+W6IR3jh/4xigXWT1
-   g==;
-X-CSE-ConnectionGUID: iNe+g8N3QJW0id/KiIQbDw==
-X-CSE-MsgGUID: V807JP/BS1GiYhQC1P3UXw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="66792268"
-X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="66792268"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 14:50:18 -0700
-X-CSE-ConnectionGUID: ZuBlurvdQJOFXAdHsNV1OA==
-X-CSE-MsgGUID: Bs0UsE5NSgCxw972IepRGg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="162682309"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 30 Jul 2025 14:50:17 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uhEgh-0003Aa-1H;
-	Wed, 30 Jul 2025 21:50:15 +0000
-Date: Thu, 31 Jul 2025 05:49:50 +0800
-From: kernel test robot <lkp@intel.com>
-To: Masahiro Yamada <masahiroy@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [masahiroy:kbuild 89/96] riscv32-linux-objcopy: vmlinux.unstripped:
- warning: empty loadable segment detected at vaddr=0xc29b4000, is this
- intentional?
-Message-ID: <202507310505.tEYm1za7-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N221wvIa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC94CC4CEE3;
+	Wed, 30 Jul 2025 22:08:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1753913322;
+	bh=5DzTqdWYc14PEiKnsSSikRhRB45dtYdKZX03jUMGTgw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=N221wvIanmHlfTpJcA+rlcJpNPH8kjj3O44sk42ouZRnpMFr8DprkUAqN0EAQFlLc
+	 hEup3TP40bmw/eoSvLPUf58EE2tRdMLmBAJEsl1nBLKlsnKUoujL9a25mONcEGFxL0
+	 mvRLqv1pkIOHGNO2WPvt+XWI6FZshF5ysUad9nenV1gsZlw0bjqnUam5EzbObopD4F
+	 vyyehZwoeCmOehW55Qd9QtCqwft11PIS36V1ZgYYTrPQOJvRCxjoMvnZe0NjaIR5VM
+	 UzoTR91CQkwZtLPaKECJRtEMeNKAN2ImRKcFcPE4WTJjo2hw1WlJRhad1MAn5ZccVA
+	 HlZHxAKk4QgIw==
+Date: Thu, 31 Jul 2025 07:08:36 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Linux Memory Management List
+ <linux-mm@kvack.org>, Namhyung Kim <namhyung@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/2] tracing: Have eprobes have their own config
+ option
+Message-Id: <20250731070836.69c43401858db35dd3b43ff0@kernel.org>
+In-Reply-To: <20250730100155.268d2442@gandalf.local.home>
+References: <20250729161912.056641407@kernel.org>
+	<202507301452.JPAcMvT0-lkp@intel.com>
+	<20250730191101.7e6203f21b94c3f932fa8348@kernel.org>
+	<20250730091727.7b3a8b96@gandalf.local.home>
+	<20250730225722.c88d2dbd3dfa07310de7edd4@kernel.org>
+	<20250730100155.268d2442@gandalf.local.home>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/masahiroy/linux-kbuild.git kbuild
-head:   dae742fa564b7f53de83c16dce033d547c84c0f3
-commit: 4a4da806f1d632a05bb947be336388ffe523a5ab [89/96] kbuild: keep .modinfo section in vmlinux.unstripped
-config: riscv-randconfig-002-20250731 (https://download.01.org/0day-ci/archive/20250731/202507310505.tEYm1za7-lkp@intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507310505.tEYm1za7-lkp@intel.com/reproduce)
+On Wed, 30 Jul 2025 10:01:55 -0400
+Steven Rostedt <rostedt@goodmis.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507310505.tEYm1za7-lkp@intel.com/
+> On Wed, 30 Jul 2025 22:57:22 +0900
+> Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
+> 
+> > > I see you already did the probe pull request.  
+> > 
+> > Ah, I thought this was for the next one... (but I think it is a kind of bugfix?)
+> 
+> Yeah, as its not adding eprobes, but just making it configurable.
+> 
+> But you haven't answered my question ;-)
+> 
+> Do you want to push it to Linus or should I?
+> 
+> I still have the trace/for-next to push (I've finished testing your last
+> "attribute" patch and now I'm just letting it simmer in linux-next before
+> doing the pull request). I can still add this to that one if you want.
+> 
 
-All warnings (new ones prefixed by >>):
+OK, could you push this to Linus?
 
->> riscv32-linux-objcopy: vmlinux.unstripped: warning: empty loadable segment detected at vaddr=0xc29b4000, is this intentional?
+Thanks,
+
+> -- Steve
+> 
+
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
