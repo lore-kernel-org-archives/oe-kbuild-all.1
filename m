@@ -1,135 +1,77 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from unicom145.biz-email.net (unicom145.biz-email.net [210.51.26.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05D0DE55B
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 07:05:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DB3E21FF2B;
+	Wed, 30 Jul 2025 07:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.51.26.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753859125; cv=none; b=nAIHm0Iy0KAycbAQ+tY0sPmHMeAXC9L4dcUzYyrGMx6Ro8ftPdREPhz7/B8ZNk+QZ8+DKSRkVNgRkJ/UhexfaDkzipQTARIZDAuHxhgjAvLb6YdfN+6loxkoi1fjs/ZnEzmact6Knhdl0u6OOVDe1BE2c9Y2SlM2zWcRc4kcbPU=
+	t=1753859501; cv=none; b=qwvucm7lvUFd8cd2DvAuhwsRB/YGqHvkk8RTDR7CjFPqoFpJXPOmA/2+bU1EcH5ysu4bgVaWhVSpf0TyOfH//N4cdVBSJkv9AszQXQFf8EXceR2vk5tSOJF9liFZ7xPkSe+QuVRIKa59SdXxPFKIsPOY3NUxXtm617skTSmZ4o8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753859125; c=relaxed/simple;
-	bh=44CcRz7PsA3dqiAUsMEXwlM9MZjLRh7AHlsQsDXPhqE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Bw0B7Uv2J9eVdDLforA4vLcI6JH42cKP6K9rMTyQw735gzw4UV3v4zbLW3wYOk+9PB/gQijvhGyl6ZmIPa12dtX6MprkfH4sK1XPIZGQyvC4ewVj1lAxuUDk8s08VoXiAGKSFyX6SZUAMmrOhUEG8IzIzHbLk4qfEfF6Hak/6Ls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Uhy6g6eb; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Uhy6g6eb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753859124; x=1785395124;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=44CcRz7PsA3dqiAUsMEXwlM9MZjLRh7AHlsQsDXPhqE=;
-  b=Uhy6g6eb6pSim6x08Gu5O13cy1PPa5uMJ50Gt1WbQmZCMe5YNkxdAmdo
-   eyUsLI50AONT8F1JpSzh2xyp9ds4cGH2vFFIH+5CtZ5bErEhMXHqqgeGR
-   zh79lvlWXFfvUqvUDEJ+pA1MpYH9kEoyiyqDz/ojI0tldft1xEjhwYd+P
-   FRVwopd9wTOmLA+pEGwm9oZ0C0TddKwH6fdPca7RhNQ1JEPco3bIrw1T1
-   kDkEusTs/MrcvarQgwhLYh41k3HFS4/+jl96fqJVfgb7kRNB6/t4wF8XC
-   ezHGLFxJ+eQf5M+alBtykehGssJE1VBzbHaYhw/rdwRtHnMRAWRqJyc6m
-   g==;
-X-CSE-ConnectionGUID: 4FfiQEF3TMKrirrlWHlCgg==
-X-CSE-MsgGUID: w0z0IE7iReWkWyAe+yu3kQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="58770961"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="58770961"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 00:05:23 -0700
-X-CSE-ConnectionGUID: ugxYLMV1Qf62pmwT1HOCfg==
-X-CSE-MsgGUID: v4+FIMAdTRqZxmLdlZJA0A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="163254838"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 30 Jul 2025 00:05:22 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uh0sJ-00028u-2E;
-	Wed, 30 Jul 2025 07:05:19 +0000
-Date: Wed, 30 Jul 2025 15:04:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH] gpio: remove legacy GPIO line value setter callbacks
-Message-ID: <202507301446.52ufgnWr-lkp@intel.com>
-References: <20250725074651.14002-1-brgl@bgdev.pl>
+	s=arc-20240116; t=1753859501; c=relaxed/simple;
+	bh=lGANFSUGVJuOs7RkjlhNySfv8QsiOn3t9/P2gJicYgU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=JsDN6aUafxHvhVidjJooUxlKzBiqglMT4fJ6vdYdzubX4PGeE0k2ucWNR6ZZAXiMJblAY4x1JCjvd316ASlL+tRI//kso7v7yd9h9SNMMpactAOATXDmoD0nR3RJId36XyuSgF65HzR6Cu4+GWFpdMaBgH/INJxMpKo0IejBSQo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com; spf=pass smtp.mailfrom=inspur.com; arc=none smtp.client-ip=210.51.26.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=inspur.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inspur.com
+Received: from jtjnmail201603.home.langchao.com
+        by unicom145.biz-email.net ((D)) with ASMTP (SSL) id 202507301511303437;
+        Wed, 30 Jul 2025 15:11:30 +0800
+Received: from localhost.localdomain.com (10.94.10.113) by
+ jtjnmail201603.home.langchao.com (10.100.2.3) with Microsoft SMTP Server id
+ 15.1.2507.57; Wed, 30 Jul 2025 15:11:27 +0800
+From: chuguangqing <chuguangqing@inspur.com>
+To: <lkp@intel.com>, <maarten.lankhorst@linux.intel.com>,
+	<mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>,
+	<simona@ffwll.ch>
+CC: <llvm@lists.linux.dev>, <oe-kbuild-all@lists.linux.dev>,
+	<dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+	chuguangqing <chuguangqing@inspur.com>
+Subject: [PATCH v2 1/1] gpu: drm: fix compilation errors in drm_vram_helper
+Date: Wed, 30 Jul 2025 15:09:18 +0800
+Message-ID: <20250730071002.2697-2-chuguangqing@inspur.com>
+X-Mailer: git-send-email 2.43.5
+In-Reply-To: <20250730071002.2697-1-chuguangqing@inspur.com>
+References: <202507300646.kTchyjvh-lkp@intel.com>
+ <20250730071002.2697-1-chuguangqing@inspur.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250725074651.14002-1-brgl@bgdev.pl>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+tUid: 20257301511302ee24eee9004cca4580053c0ddbd2814
+X-Abuse-Reports-To: service@corp-email.com
+Abuse-Reports-To: service@corp-email.com
+X-Complaints-To: service@corp-email.com
+X-Report-Abuse-To: service@corp-email.com
 
-Hi Bartosz,
+We encountered the following errors while compiling drm_vram_helper.ko
 
-kernel test robot noticed the following build errors:
+ERROR: modpost: "drm_gem_ttm_print_info" [drivers/gpu/drm/drm_vram_helper.ko] undefined!
+ERROR: modpost: "drm_gem_ttm_mmap" [drivers/gpu/drm/drm_vram_helper.ko] undefined!
 
-[auto build test ERROR on brgl/gpio/for-next]
-[also build test ERROR on linus/master v6.16 next-20250729]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+The functions drm_gem_ttm_mmap and drm_gem_ttm_print_info are defined in drm_gem_ttm_helper.c. This patch select CONFIG_DRM_TTM_HELPER on CONFIG_DRM_VRAM_HELPER to resolve the undefined symbol errors.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bartosz-Golaszewski/gpio-remove-legacy-GPIO-line-value-setter-callbacks/20250725-154843
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio/for-next
-patch link:    https://lore.kernel.org/r/20250725074651.14002-1-brgl%40bgdev.pl
-patch subject: [PATCH] gpio: remove legacy GPIO line value setter callbacks
-config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250730/202507301446.52ufgnWr-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507301446.52ufgnWr-lkp@intel.com/reproduce)
+Signed-off-by: chuguangqing <chuguangqing@inspur.com>
+---
+ drivers/gpu/drm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507301446.52ufgnWr-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   arch/arm/mach-s3c/gpio-samsung.c: In function 'samsung_gpiolib_add':
->> arch/arm/mach-s3c/gpio-samsung.c:519:18: error: 'struct gpio_chip' has no member named 'set'; did you mean 'get'?
-     519 |         if (!gc->set)
-         |                  ^~~
-         |                  get
-
-
-vim +519 arch/arm/mach-s3c/gpio-samsung.c
-
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  493  
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  494  /*
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  495   * samsung_gpiolib_add() - add the Samsung gpio_chip.
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  496   * @chip: The chip to register
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  497   *
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  498   * This is a wrapper to gpiochip_add() that takes our specific gpio chip
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  499   * information and makes the necessary alterations for the platform and
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  500   * notes the information for use with the configuration systems and any
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  501   * other parts of the system.
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  502   */
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  503  
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  504  static void __init samsung_gpiolib_add(struct samsung_gpio_chip *chip)
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  505  {
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  506  	struct gpio_chip *gc = &chip->chip;
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  507  	int ret;
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  508  
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  509  	BUG_ON(!chip->base);
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  510  	BUG_ON(!gc->label);
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  511  	BUG_ON(!gc->ngpio);
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  512  
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  513  	spin_lock_init(&chip->lock);
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  514  
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  515  	if (!gc->direction_input)
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  516  		gc->direction_input = samsung_gpiolib_2bit_input;
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  517  	if (!gc->direction_output)
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  518  		gc->direction_output = samsung_gpiolib_2bit_output;
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30 @519  	if (!gc->set)
-fb52f3226cab41 arch/arm/mach-s3c/gpio-samsung.c Bartosz Golaszewski 2025-04-07  520  		gc->set_rv = samsung_gpiolib_set;
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  521  	if (!gc->get)
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  522  		gc->get = samsung_gpiolib_get;
-1b39d5f2cc5c28 drivers/gpio/gpio-samsung.c      Kukjin Kim          2011-08-30  523  
-
+diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
+index f7ea8e895c0c..01a314fdc9a8 100644
+--- a/drivers/gpu/drm/Kconfig
++++ b/drivers/gpu/drm/Kconfig
+@@ -226,6 +226,7 @@ config DRM_BUDDY
+ config DRM_VRAM_HELPER
+ 	tristate
+ 	depends on DRM
++	select DRM_TTM_HELPER if DRM_VRAM_HELPER != n
+ 	help
+ 	  Helpers for VRAM memory management
+ 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.5
+
