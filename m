@@ -1,89 +1,75 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B8052E62C
-	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 14:00:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3CD34A35
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 14:01:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753884050; cv=none; b=gQgqTc03Pnfbf5ggU7/VIdcWlFJ/2/IaCUcd0YIjs4oHfll2dcGHmc1szN7QyfaBfZyj1qdULjJSRNcerMwimo6dOUYOfjPHn6BkLCXqYUyjsMgpNqRzhB2OwjYL5NTFZ66eZQKQadcpLIwoFZaC+nstLCz89RHRQ4bjYD3u0AY=
+	t=1753884111; cv=none; b=ne/+XXo5q0+8enCD8tMJK9oavtfMpxKQ+iD8nEQMgZdl41OLk9OIvawbNGbGJck81ydr32TOBo9m1RVSYfAui5xVhw+44QDehCZfwITssCWjUzX3E+zqxv+N3faO58JcCBEOwa332d5cscgV4V5DszhM/p0K9r3Z0TsVLH0kQ88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753884050; c=relaxed/simple;
-	bh=b1BzOVs+xTZVKuI2csl0s8gtRoQhCdrEdPDJl88e2nY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tmicWqeEkVQNPshzl/7EbJyTeeebi/Q5A6+ta8tFV6DNamixPQHiIYZoNcst8cZa4ZLRbr1Y01uwKrsYIrLXboYzWWQ1ENEG/OI4Nr3s+hZ3GzP4dbxgg/eCLvx6/PMHUOlGyLD1iYVC9wA/zGCYTZOXMknCUGGPWw/8jlVgVxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bm/rYsay; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bm/rYsay"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753884049; x=1785420049;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b1BzOVs+xTZVKuI2csl0s8gtRoQhCdrEdPDJl88e2nY=;
-  b=bm/rYsaymABhZYlrdScLurCYOX49AEZhsBj9vK+faRSyPiaUJ5KpvlP/
-   ZdJ39gYTxiEVxtppUEE6HBdO1Wp5nec7jJ85AedOv0F9TjWt8ryalYJ7g
-   whqRd/Okv/9N5iID0vIC1awrnLeLyyfo1m1hBCE5AqvxWfMz6mdeHJSf6
-   BnuK84TcDbXdbfzP8MIRFBEYV4yXpitIoKGUyCUpU1zPeI9zFW1qEi6jh
-   fq7dt6C+/GIV01nHOx7obhdrrV8a2oVBXqtZoEoO2lbJsqzIoAYF4FqjX
-   BJbNoBWa5Mju0vgHfVGtoa91QGaM15W+19Q3/UJz8pmHiYb+Iab8y6p3M
-   g==;
-X-CSE-ConnectionGUID: AKo5Ou5PSy20XqcHLA3skg==
-X-CSE-MsgGUID: KT6JcpwkS2uNNLuUo3n4Zg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="55883899"
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="55883899"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 07:00:48 -0700
-X-CSE-ConnectionGUID: yxreNB54S1mHmw72TEYTig==
-X-CSE-MsgGUID: gJ1OkRvzS5q1LKcxMRdWQQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="163445568"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Jul 2025 07:00:46 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1003)
-	id 527D717; Wed, 30 Jul 2025 17:01:17 +0200 (CEST)
-Date: Wed, 30 Jul 2025 17:01:17 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Theodore Ts'o <tytso@mit.edu>, kernel test robot <lkp@intel.com>,
-	Ext4 Developers List <linux-ext4@vger.kernel.org>,
-	oe-kbuild-all@lists.linux.dev, linux-hardening@vger.kernel.org,
-	ethan@ethancedwards.com
-Subject: Re: [PATCH 3/3] ext4: refactor the inline directory conversion and
- new directory codepaths
-Message-ID: <aIozvXz0zcRYwwvQ@black.igk.intel.com>
-References: <20250712181249.434530-3-tytso@mit.edu>
- <202507130429.rPIzofCD-lkp@intel.com>
- <20250721231559.GA85006@quark>
+	s=arc-20240116; t=1753884111; c=relaxed/simple;
+	bh=7RnPBP22ydtmNfvMaNDWqH0JdrLnHI/M2PBXtkcuFxI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LLLk92DTPfGnF4mpqScrY7a+rjqX8TWXGtKnUKL35B4VyNUfUfsCel7xGtlQMERTY3BrfZhq0Z/ugPj58zMH7zADSbYknHtLSUQfCPIC0WKJObxhCjqc9YZGQmU29I0pIUqLfDwJ3mLvEJbxAZxG5wWkrfGN29EXrbchNttC4LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf15.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay07.hostedemail.com (Postfix) with ESMTP id 58F1C160462;
+	Wed, 30 Jul 2025 14:01:42 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf15.hostedemail.com (Postfix) with ESMTPA id 917A41A;
+	Wed, 30 Jul 2025 14:01:39 +0000 (UTC)
+Date: Wed, 30 Jul 2025 10:01:55 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Linux Memory Management List
+ <linux-mm@kvack.org>, Namhyung Kim <namhyung@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/2] tracing: Have eprobes have their own config
+ option
+Message-ID: <20250730100155.268d2442@gandalf.local.home>
+In-Reply-To: <20250730225722.c88d2dbd3dfa07310de7edd4@kernel.org>
+References: <20250729161912.056641407@kernel.org>
+	<202507301452.JPAcMvT0-lkp@intel.com>
+	<20250730191101.7e6203f21b94c3f932fa8348@kernel.org>
+	<20250730091727.7b3a8b96@gandalf.local.home>
+	<20250730225722.c88d2dbd3dfa07310de7edd4@kernel.org>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250721231559.GA85006@quark>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: 8bdr1qaiuyiqeg9bhfbz1td1gb4gms7k
+X-Rspamd-Server: rspamout01
+X-Rspamd-Queue-Id: 917A41A
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+/YoaC5S0m6XgLEI0KXUlT7Ux5npWQxGs=
+X-HE-Tag: 1753884099-284807
+X-HE-Meta: U2FsdGVkX19fNWmLTzEFbGr2d8oyKHH1JxLjen/f4/Pq5ZFXK8n1OCSZYlWKoRxJjvbVP1eZx2Z+YU1Vpu+9GeZeuzlfTnEqu7ftGHkC+D5raU1QP/7i60awdafBIT+ByL2WPuB9n3BPwnn6m5KlvxrCTRoGpEbwYw3/2Ip/qhCOkYST0eKSpo7BkeHKSe9/peJwCwGlRYNyRg7WSL4AS2OEvyrVCwLgW2aOmRvz1eY9o5NzbRQKm8XH2ZvO+Pw65mDq8IMzB5m0PuoXE0uVRWKrqDrS7X+QWDcZWcT82Xk/VUhryK/7MRTKmZERDPdoB+94XmgxR+n9lYsrje3SIygbYUAJlwTo
 
-On Mon, Jul 21, 2025 at 04:15:59PM -0700, Eric Biggers wrote:
-> On Sun, Jul 13, 2025 at 05:12:55AM +0800, kernel test robot wrote:
-> > All warnings (new ones prefixed by >>):
-> > 
-> >    fs/ext4/namei.c: In function 'ext4_init_new_dir':
-> > >> fs/ext4/namei.c:2968:34: warning: variable 'de' set but not used [-Wunused-but-set-variable]
-> >     2968 |         struct ext4_dir_entry_2 *de;
-> >          |                                  ^~
+On Wed, 30 Jul 2025 22:57:22 +0900
+Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
+
+> > I see you already did the probe pull request.  
 > 
-> This warning is present in ext4/dev now.
+> Ah, I thought this was for the next one... (but I think it is a kind of bugfix?)
 
-For somebody (who doesn't alter CONFIG_WERROR) this is a build breakage with both GCC and clang.
+Yeah, as its not adding eprobes, but just making it configurable.
 
--- 
-With Best Regards,
-Andy Shevchenko
+But you haven't answered my question ;-)
 
+Do you want to push it to Linus or should I?
 
+I still have the trace/for-next to push (I've finished testing your last
+"attribute" patch and now I'm just letting it simmer in linux-next before
+doing the pull request). I can still add this to that one if you want.
+
+-- Steve
