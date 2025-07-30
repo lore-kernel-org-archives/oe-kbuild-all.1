@@ -1,74 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C388E1D54EE;
-	Wed, 30 Jul 2025 03:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2F6154426
+	for <oe-kbuild-all@lists.linux.dev>; Wed, 30 Jul 2025 04:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753846649; cv=none; b=B30bv5H7QRbik0+2Givx1XhG7WPN6fcAeliAS+DDC9is9TDrNnPekYXbUziaFHllT7IQ9dg0wXTSBZvy+Nrg0V440N7IYl9cF7skZx4MohsG70rWiHzkf7vZWd+33yzzLM/Zyq3+hC3WCp16t8PADikX2oA9g+dXDxZnMYHF7Hs=
+	t=1753849749; cv=none; b=AzAY3ph+016SWv8oYEHLcV72TIS7ZYn/U1qdnTiXkw6Q56wfjsg5Byj7nK2j6zjebN51hM0eLEACrbu+K/sbQ/jIn4quFzVz6HD+dLvO3S6i+vTylKIKUJlPDMC+Gq5T04iRnuQGDDG31+TSIiYj3MJXq/sXO2LNLI6V0nlIiCA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753846649; c=relaxed/simple;
-	bh=Ymk96y7FUWnE0zbfR0VLJRsckN/JMqE00GtgLPj0qRo=;
+	s=arc-20240116; t=1753849749; c=relaxed/simple;
+	bh=3EiB7OSB+3cJRVasLhpxJCsaDKVA/T//PGBNkleDFbI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eE14/9kXRUX99MsqyE21459okavuuooUydvONzv5JAnNuzHCqHrFvgqR3uwqYJTSa6HSypVDwjBwc/6rQmwq+NYYEKpC15TUrS27PRPIQqjAj2YHJGHDj8tHDKfktjFQcoYBMcb7K46srSx9qDIWCVJbfPj/nugPByY6QE0IAHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GPBIW0Jo; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=r/eqeKhGgr2b5oIfAPDoaZ5g4UZL6Yp7JIahXwNHBtngZXbVBtZfsrQQUihOnt7iiw4iUKgtzmCAiwL81MqOWGbreIPgW39cwj2VxBqAQ/OsstWuBD1kDH6EyoYCpYay76eRcAX2ymg4TcYih3I4ddOPlOro5ed6QypRVCWGyNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jIFmR3QQ; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GPBIW0Jo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jIFmR3QQ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753846646; x=1785382646;
+  t=1753849748; x=1785385748;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Ymk96y7FUWnE0zbfR0VLJRsckN/JMqE00GtgLPj0qRo=;
-  b=GPBIW0JoswrYZqLOFl7JfU/8JWFEUAfQdQwlfNEopqH/geapbwQuk5NU
-   qRiLceCkZ/ygzPiuB3jxFHvcpK9smITH4ymYNSedD1Cdf4kT5iPkmLXIl
-   FvQT5bGHgb5gyU8V8PZFFFk8ZvfRN+LUtWXiun1t/cZt+8WAj/+nXV8po
-   Ho4f8I0A7+lIvhOKAdPjT4MrqjqLQSLo4lq7TeH8VMR3NolNKqJZ8xMLR
-   /DpVZvgqIwKtrakvlyxocODfa7Rx+orqk7AA0JpWxE6cpKyfe/ctWZC0p
-   c6dox8TWVPN+XDpuYDZlIGmXDVjbN9Qt6OAq/5v61K7l4nPuAs/CvC25Y
+  bh=3EiB7OSB+3cJRVasLhpxJCsaDKVA/T//PGBNkleDFbI=;
+  b=jIFmR3QQoTjoL5EhYfbHyLA/10efmUsYYTF3S4dXkMgxLHSkEbQRe7CT
+   QhNJpLEjOvsC+3VpgGkzD7Z7mW7vobvZEtdxnEMKuCrvdsUB7mkMA3gfX
+   evQyQ6feJhANnCs8LmNxi2GKla3AQ/k3yVK8lQgEUIYomxStZylE3dzfU
+   Cyal4KYmAXqgf/Sl9EDi3KYYQq9buDheosNAkwhsHNqyBVb6S5SqNfUEo
+   nsffEUIbUb3luYZFsOdXYXF4NlT3Qhuf1eWuE5KcNByFeEAQWCAnPjBOt
+   rXzoLgJRpI66KmQv+ej7Mtu9V2EUD6/RsK0X8yrU9nOcH5pU/u2ET5yvZ
    A==;
-X-CSE-ConnectionGUID: 3NLlNPy+TB+8rxhhMdpQvQ==
-X-CSE-MsgGUID: JsGtYbmzS4WMn29qsXlBqg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="81578759"
+X-CSE-ConnectionGUID: 9fi7YQuARWi9DLUftUAggg==
+X-CSE-MsgGUID: Mhd4nbfbQyq7id2nGO51iA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11506"; a="78690630"
 X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="81578759"
+   d="scan'208";a="78690630"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 20:37:26 -0700
-X-CSE-ConnectionGUID: ar/G3DOGS8uedznncdnXVw==
-X-CSE-MsgGUID: H23rFKPZQJqYSvne5Xy7JA==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jul 2025 21:29:08 -0700
+X-CSE-ConnectionGUID: mFdcyujsRweRih0Oy7+o3A==
+X-CSE-MsgGUID: A5SarBjCSa+nuhvs+PvCrw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,350,1744095600"; 
-   d="scan'208";a="167077052"
+   d="scan'208";a="167084820"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 29 Jul 2025 20:37:22 -0700
+  by orviesa003.jf.intel.com with ESMTP; 29 Jul 2025 21:29:07 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ugxd1-0001y2-21;
-	Wed, 30 Jul 2025 03:37:19 +0000
-Date: Wed, 30 Jul 2025 11:36:21 +0800
+	id 1ugyR6-00021I-0m;
+	Wed, 30 Jul 2025 04:29:04 +0000
+Date: Wed, 30 Jul 2025 12:28:48 +0800
 From: kernel test robot <lkp@intel.com>
-To: Gatien Chevallier <gatien.chevallier@foss.st.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Gatien Chevallier <gatien.chevallier@foss.st.com>
-Subject: Re: [PATCH net-next v2 1/2] drivers: net: stmmac: handle start time
- set in the past for flexible PPS
-Message-ID: <202507301148.TVzOecMo-lkp@intel.com>
-References: <20250729-relative_flex_pps-v2-1-3e5f03525c45@foss.st.com>
+To: Kanchan Joshi <joshi.k@samsung.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [RFC PATCH 2/5] fs: add the interface to query user write streams
+Message-ID: <202507301220.RYskgxEV-lkp@intel.com>
+References: <20250729145135.12463-3-joshi.k@samsung.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -77,141 +62,54 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250729-relative_flex_pps-v2-1-3e5f03525c45@foss.st.com>
+In-Reply-To: <20250729145135.12463-3-joshi.k@samsung.com>
 
-Hi Gatien,
+Hi Kanchan,
 
-kernel test robot noticed the following build warnings:
+[This is a private test report for your RFC patch.]
+kernel test robot noticed the following build errors:
 
-[auto build test WARNING on fa582ca7e187a15e772e6a72fe035f649b387a60]
+[auto build test ERROR on 66639db858112bf6b0f76677f7517643d586e575]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Gatien-Chevallier/drivers-net-stmmac-handle-start-time-set-in-the-past-for-flexible-PPS/20250729-225635
-base:   fa582ca7e187a15e772e6a72fe035f649b387a60
-patch link:    https://lore.kernel.org/r/20250729-relative_flex_pps-v2-1-3e5f03525c45%40foss.st.com
-patch subject: [PATCH net-next v2 1/2] drivers: net: stmmac: handle start time set in the past for flexible PPS
-config: x86_64-buildonly-randconfig-002-20250730 (https://download.01.org/0day-ci/archive/20250730/202507301148.TVzOecMo-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507301148.TVzOecMo-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Kanchan-Joshi/fs-add-a-new-user_write_streams-callback/20250729-225440
+base:   66639db858112bf6b0f76677f7517643d586e575
+patch link:    https://lore.kernel.org/r/20250729145135.12463-3-joshi.k%40samsung.com
+patch subject: [RFC PATCH 2/5] fs: add the interface to query user write streams
+config: x86_64-buildonly-randconfig-001-20250730 (https://download.01.org/0day-ci/archive/20250730/202507301220.RYskgxEV-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250730/202507301220.RYskgxEV-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507301148.TVzOecMo-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507301220.RYskgxEV-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c:177:3: warning: label followed by a declaration is a C23 extension [-Wc23-extensions]
-     177 |                 struct timespec64 curr_time;
-         |                 ^
-   1 warning generated.
+   ld: fs/fcntl.o: in function `vfs_user_write_streams':
+>> fs/fcntl.c:403: undefined reference to `I_BDEV'
 
 
-vim +177 drivers/net/ethernet/stmicro/stmmac/stmmac_ptp.c
+vim +403 fs/fcntl.c
 
-   163	
-   164	static int stmmac_enable(struct ptp_clock_info *ptp,
-   165				 struct ptp_clock_request *rq, int on)
-   166	{
-   167		struct stmmac_priv *priv =
-   168		    container_of(ptp, struct stmmac_priv, ptp_clock_ops);
-   169		void __iomem *ptpaddr = priv->ptpaddr;
-   170		struct stmmac_pps_cfg *cfg;
-   171		int ret = -EOPNOTSUPP;
-   172		unsigned long flags;
-   173		u32 acr_value;
-   174	
-   175		switch (rq->type) {
-   176		case PTP_CLK_REQ_PEROUT:
- > 177			struct timespec64 curr_time;
-   178			u64 target_ns = 0;
-   179			u64 ns = 0;
-   180	
-   181			/* Reject requests with unsupported flags */
-   182			if (rq->perout.flags)
-   183				return -EOPNOTSUPP;
-   184	
-   185			cfg = &priv->pps[rq->perout.index];
-   186	
-   187			cfg->start.tv_sec = rq->perout.start.sec;
-   188			cfg->start.tv_nsec = rq->perout.start.nsec;
-   189	
-   190			/* A time set in the past won't trigger the start of the flexible PPS generation for
-   191			 * the GMAC5. For some reason it does for the GMAC4 but setting a time in the past
-   192			 * should be addressed anyway. Therefore, any value set it the past is considered as
-   193			 * an offset compared to the current MAC system time.
-   194			 * Be aware that an offset too low may not trigger flexible PPS generation
-   195			 * if time spent in this configuration makes the targeted time already outdated.
-   196			 * To address this, add a safe time offset.
-   197			 */
-   198			if (!cfg->start.tv_sec && cfg->start.tv_nsec < PTP_SAFE_TIME_OFFSET_NS)
-   199				cfg->start.tv_nsec += PTP_SAFE_TIME_OFFSET_NS;
-   200	
-   201			target_ns = cfg->start.tv_nsec + ((u64)cfg->start.tv_sec * NSEC_PER_SEC);
-   202	
-   203			stmmac_get_systime(priv, priv->ptpaddr, &ns);
-   204			if (ns > TIME64_MAX - PTP_SAFE_TIME_OFFSET_NS)
-   205				return -EINVAL;
-   206	
-   207			curr_time = ns_to_timespec64(ns);
-   208			if (target_ns < ns + PTP_SAFE_TIME_OFFSET_NS) {
-   209				cfg->start = timespec64_add_safe(cfg->start, curr_time);
-   210				if (cfg->start.tv_sec == TIME64_MAX)
-   211					return -EINVAL;
-   212			}
-   213	
-   214			cfg->period.tv_sec = rq->perout.period.sec;
-   215			cfg->period.tv_nsec = rq->perout.period.nsec;
-   216	
-   217			write_lock_irqsave(&priv->ptp_lock, flags);
-   218			ret = stmmac_flex_pps_config(priv, priv->ioaddr,
-   219						     rq->perout.index, cfg, on,
-   220						     priv->sub_second_inc,
-   221						     priv->systime_flags);
-   222			write_unlock_irqrestore(&priv->ptp_lock, flags);
-   223			break;
-   224		case PTP_CLK_REQ_EXTTS: {
-   225			u8 channel;
-   226	
-   227			mutex_lock(&priv->aux_ts_lock);
-   228			acr_value = readl(ptpaddr + PTP_ACR);
-   229			channel = ilog2(FIELD_GET(PTP_ACR_MASK, acr_value));
-   230			acr_value &= ~PTP_ACR_MASK;
-   231	
-   232			if (on) {
-   233				if (FIELD_GET(PTP_ACR_MASK, acr_value)) {
-   234					netdev_err(priv->dev,
-   235						   "Cannot enable auxiliary snapshot %d as auxiliary snapshot %d is already enabled",
-   236						rq->extts.index, channel);
-   237					mutex_unlock(&priv->aux_ts_lock);
-   238					return -EBUSY;
-   239				}
-   240	
-   241				priv->plat->flags |= STMMAC_FLAG_EXT_SNAPSHOT_EN;
-   242	
-   243				/* Enable External snapshot trigger */
-   244				acr_value |= PTP_ACR_ATSEN(rq->extts.index);
-   245				acr_value |= PTP_ACR_ATSFC;
-   246			} else {
-   247				priv->plat->flags &= ~STMMAC_FLAG_EXT_SNAPSHOT_EN;
-   248			}
-   249			netdev_dbg(priv->dev, "Auxiliary Snapshot %d %s.\n",
-   250				   rq->extts.index, on ? "enabled" : "disabled");
-   251			writel(acr_value, ptpaddr + PTP_ACR);
-   252			mutex_unlock(&priv->aux_ts_lock);
-   253			/* wait for auxts fifo clear to finish */
-   254			ret = readl_poll_timeout(ptpaddr + PTP_ACR, acr_value,
-   255						 !(acr_value & PTP_ACR_ATSFC),
-   256						 10, 10000);
-   257			break;
-   258		}
-   259	
-   260		default:
-   261			break;
-   262		}
-   263	
-   264		return ret;
-   265	}
-   266	
+   397	
+   398	static u8 vfs_user_write_streams(struct inode *inode)
+   399	{
+   400		struct super_block *sb;
+   401	
+   402		if (S_ISBLK(inode->i_mode))
+ > 403			return bdev_max_write_streams(I_BDEV(inode));
+   404	
+   405		sb = inode->i_sb;
+   406		/* If available, use per-mount/fs policy */
+   407		if (sb->s_op && sb->s_op->user_write_streams)
+   408			return sb->s_op->user_write_streams(sb);
+   409		/* otherwise, fallback to queue limit */
+   410		if (sb->s_bdev)
+   411			return bdev_max_write_streams(sb->s_bdev);
+   412		return 0;
+   413	}
+   414	
 
 -- 
 0-DAY CI Kernel Test Service
