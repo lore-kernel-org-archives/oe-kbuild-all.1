@@ -1,40 +1,69 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F6F23ED63;
-	Thu, 31 Jul 2025 19:36:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A8C15533F
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 19:56:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753990608; cv=none; b=p/7pETTcFuJe0znSy57XRJLwAUTdBaek9iRcauAgsLNZYAx2ktE7nXMwYzYx35uPu4wQEnZL+TZElkccXleIXP9ut+JkrqlQEYDBA8A6jYhpQl7EY2PZ/Nzf7taQKMpZK4A7bLCm5xzZEeEazTXjyu5PLGosF0ZU7Nq836nzMfs=
+	t=1753991797; cv=none; b=D7Q2SDBzUiWhvTuPPESGQXIL5ov25otkr8Q3Y/fmZipMqhTGqHQaEw/bPVU/fBgTzE0rdvp5svOXSLe4tzyLRjFmANXlKUxmr2zpvBYQZLF5k2XyKssKXxOMqBAXGejtnb/LVr3c9qnLZEayzRng0uiOfkm/CAJeeJZ5ZiwdqVU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753990608; c=relaxed/simple;
-	bh=Wh3NN3AHHeAFEglBM+R48Xyj+T/EYGY/Cd48O7il8fY=;
+	s=arc-20240116; t=1753991797; c=relaxed/simple;
+	bh=vErjyams3kwQ75voWQ/4xnzX0MZwKXtaLAcuOY/iq2s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZfnWxS+cLTx/hURHNIbTyH98rDBzd+Kr6mrTcS7s8s2WaJA9ENmW7MQYl+PqgwCZAKkRJbzp0Q9iL4PzWBgkxHiQY45EGYHPkcg9BAtB4O0WlMh2JDv05sfSLvxzAME7ceXk+hwhZu+PhEq4lb6rbtCxUdZoWZptQqmAvDtdayg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wp2SSyCC; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=U2aeD/IrofD41UDVyK8KXhjU1vnmboSdocAERGOh0+twGZ+sVx2gaXg+1xf5xfJ1DMj5hiUM0pognb/SUD+uGZyG5JYDHvNoXdBzVukjc61qJXStfH4yfMCzr4Z45kWDiNrpykxNygTIntNcqgKXvWPbHq1LjwGcP02UsJs1CQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ff7fQ4/D; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wp2SSyCC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A95FC4CEEF;
-	Thu, 31 Jul 2025 19:36:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1753990607;
-	bh=Wh3NN3AHHeAFEglBM+R48Xyj+T/EYGY/Cd48O7il8fY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Wp2SSyCCpyaZkAiHzElHviS55+JLxueogBfIasz9sDHQ/+hb0Tu1N3oBOFbRFNBhO
-	 ZEHSq+zGiVImQPC9tSW4n+zFW6FeRFG2uNHlDB6F/25dxljT8rUK7pNyipuovyIyo4
-	 5OuZY/ayG00wT/VxCtXWMaJBIvlOtS3DJF12v63zGaV7qTfuhawDNGS6RD76pJo3FO
-	 E/W+b19/8VbepkZZlQHELIM/flQnOKfHYoPYUrw/mZG66qcc+zG8WC7mOIk/suk4ch
-	 5NnPNvZ1nwlHPRmHmt8NKuOEI7Tis/y/3yGX4W2yDJPafm2GPRY4xQhUjinv7OQ/oz
-	 JyZa4QORvNiwQ==
-Date: Thu, 31 Jul 2025 21:36:43 +0200
-From: Lorenzo Pieralisi <lpieralisi@kernel.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Marc Zyngier <maz@kernel.org>
-Subject: Re: drivers/irqchip/irq-gic-v5-iwb.c:265:1-8: WARNING: invalid free
- of devm_ allocated data
-Message-ID: <aIvFy3eGJ5RXj5T4@lpieralisi>
-References: <202508010038.N3r4ZmII-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ff7fQ4/D"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753991795; x=1785527795;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vErjyams3kwQ75voWQ/4xnzX0MZwKXtaLAcuOY/iq2s=;
+  b=ff7fQ4/DZqU22WdqicQhVJV4f1ccTqflpR4M/fvkasZby8ELYu5hKdem
+   f+1ZFdFAeiTgw6umRsrqcB+dy895E7jQhkBUv4a1fB235Kof1G4bpkBvh
+   l4P5Dpd7MirPLBQngGXE1EJv2qdYae8Sr33A/0Aah4YKivOfxi1qnSpnV
+   h8EwspKaxdyLEf8nvHJ4ZOs8nrnVzKcXprJsOfKNiY7bNoXmSwP+WohPE
+   K95ub2jVan64nHzVT2BBI3YNOfCnA9dOlxxB/c/mELyFxyLkr45PYh83O
+   AvdYbBbLJcxchXHe9nGRokLGs25vZibpVh3BfSLDXfvjPG1/V4kgjQ3Sc
+   Q==;
+X-CSE-ConnectionGUID: bOfsAqXrRgOj7X3rr0lvrw==
+X-CSE-MsgGUID: qjhX2BRwQ56ImjQ9+9lzYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56476771"
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="56476771"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 12:56:34 -0700
+X-CSE-ConnectionGUID: N9A53Q1iTQe4KTcJiiBjuQ==
+X-CSE-MsgGUID: 5xHMQwDNQJOY8k0kjKQhNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="162627827"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 31 Jul 2025 12:56:25 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uhZO2-000436-2T;
+	Thu, 31 Jul 2025 19:56:22 +0000
+Date: Fri, 1 Aug 2025 03:55:24 +0800
+From: kernel test robot <lkp@intel.com>
+To: "D. Wythe" <alibuda@linux.alibaba.com>, ast@kernel.org,
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
+	pabeni@redhat.com, song@kernel.org, sdf@google.com,
+	haoluo@google.com, yhs@fb.com, edumazet@google.com,
+	john.fastabend@gmail.com, kpsingh@kernel.org, jolsa@kernel.org,
+	Mahanta.Jambigi@ibm.com, Sidraya.Jayagond@ibm.com,
+	wenjia@linux.ibm.com, wintera@linux.ibm.com,
+	dust.li@linux.alibaba.com, tonylu@linux.alibaba.com,
+	guwen@linux.alibaba.com
+Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org, davem@davemloft.net,
+	kuba@kernel.org, netdev@vger.kernel.org, jaka@linux.ibm.com
+Subject: Re: [PATCH bpf-next 3/5] net/smc: bpf: Introduce generic hook for
+ handshake flow
+Message-ID: <202508010316.wuSPjSOr-lkp@intel.com>
+References: <20250731084240.86550-4-alibuda@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -43,75 +72,63 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <202508010038.N3r4ZmII-lkp@intel.com>
+In-Reply-To: <20250731084240.86550-4-alibuda@linux.alibaba.com>
 
-On Fri, Aug 01, 2025 at 12:20:00AM +0800, kernel test robot wrote:
-> Hi Lorenzo,
-> 
-> First bad commit (maybe != root cause):
-> 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   260f6f4fda93c8485c8037865c941b42b9cba5d2
-> commit: 53bb952a625fd3247647c7a28366ce990a579415 arm64: Kconfig: Enable GICv5
-> date:   3 weeks ago
-> config: arm64-randconfig-r052-20250731 (https://download.01.org/0day-ci/archive/20250801/202508010038.N3r4ZmII-lkp@intel.com/config)
-> compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 8f09b03aebb71c154f3bbe725c29e3f47d37c26e)
-> 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202508010038.N3r4ZmII-lkp@intel.com/
-> 
-> cocci warnings: (new ones prefixed by >>)
-> >> drivers/irqchip/irq-gic-v5-iwb.c:265:1-8: WARNING: invalid free of devm_ allocated data
-> 
-> vim +265 drivers/irqchip/irq-gic-v5-iwb.c
+Hi Wythe,
 
-Weird this has not been caught before but it is a trivial
-fix (a leftover from early patch versions where the IWB was
-not probed as a device), will send it tomorrow.
+kernel test robot noticed the following build warnings:
 
-Thanks,
-Lorenzo
+[auto build test WARNING on bpf-next/master]
 
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  238  
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  239  static int gicv5_iwb_device_probe(struct platform_device *pdev)
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  240  {
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  241  	struct gicv5_iwb_chip_data *iwb_node;
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  242  	void __iomem *iwb_base;
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  243  	struct resource *res;
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  244  	int ret;
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  245  
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  246  	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  247  	if (!res)
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  248  		return -EINVAL;
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  249  
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  250  	iwb_base = devm_ioremap(&pdev->dev, res->start, resource_size(res));
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  251  	if (!iwb_base) {
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  252  		dev_err(&pdev->dev, "failed to ioremap %pR\n", res);
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  253  		return -ENOMEM;
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  254  	}
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  255  
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  256  	iwb_node = gicv5_iwb_init_bases(iwb_base, pdev);
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  257  	if (IS_ERR(iwb_node)) {
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  258  		ret = PTR_ERR(iwb_node);
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  259  		goto out_unmap;
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  260  	}
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  261  
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  262  	return 0;
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  263  
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  264  out_unmap:
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03 @265  	iounmap(iwb_base);
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  266  	return ret;
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  267  }
-> 695949d8b16f11 Lorenzo Pieralisi 2025-07-03  268  
-> 
-> :::::: The code at line 265 was first introduced by commit
-> :::::: 695949d8b16f11f2f172d8d0c7ccc1ae09ed6cb7 irqchip/gic-v5: Add GICv5 IWB support
-> 
-> :::::: TO: Lorenzo Pieralisi <lpieralisi@kernel.org>
-> :::::: CC: Marc Zyngier <maz@kernel.org>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+url:    https://github.com/intel-lab-lkp/linux/commits/D-Wythe/bpf-export-necessary-sympols-for-modules-with-struct_ops/20250731-164431
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250731084240.86550-4-alibuda%40linux.alibaba.com
+patch subject: [PATCH bpf-next 3/5] net/smc: bpf: Introduce generic hook for handshake flow
+config: arm-randconfig-003-20250801 (https://download.01.org/0day-ci/archive/20250801/202508010316.wuSPjSOr-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508010316.wuSPjSOr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508010316.wuSPjSOr-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   net/ipv4/tcp_output.c: In function 'smc_set_option':
+>> net/ipv4/tcp_output.c:773:15: warning: unused variable 'sk' [-Wunused-variable]
+     773 |  struct sock *sk = &tp->inet_conn.icsk_inet.sk;
+         |               ^~
+   net/ipv4/tcp_output.c: In function 'smc_set_option_cond':
+   net/ipv4/tcp_output.c:794:21: warning: unused variable 'sk' [-Wunused-variable]
+     794 |  const struct sock *sk = &tp->inet_conn.icsk_inet.sk;
+         |                     ^~
+
+
+vim +/sk +773 net/ipv4/tcp_output.c
+
+   767	
+   768	static void smc_set_option(struct tcp_sock *tp,
+   769				   struct tcp_out_options *opts,
+   770				   unsigned int *remaining)
+   771	{
+   772	#if IS_ENABLED(CONFIG_SMC)
+ > 773		struct sock *sk = &tp->inet_conn.icsk_inet.sk;
+   774		if (static_branch_unlikely(&tcp_have_smc)) {
+   775			if (tp->syn_smc) {
+   776				tp->syn_smc = !!smc_call_hsbpf(1, sk, syn_option, tp);
+   777				/* re-check syn_smc */
+   778				if (tp->syn_smc &&
+   779				    *remaining >= TCPOLEN_EXP_SMC_BASE_ALIGNED) {
+   780					opts->options |= OPTION_SMC;
+   781					*remaining -= TCPOLEN_EXP_SMC_BASE_ALIGNED;
+   782				}
+   783			}
+   784		}
+   785	#endif
+   786	}
+   787	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
