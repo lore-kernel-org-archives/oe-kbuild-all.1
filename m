@@ -1,108 +1,102 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1213ED53C
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 02:18:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A661318A6B0;
+	Thu, 31 Jul 2025 02:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753928335; cv=none; b=kIIX4gt07w+DmzS7aEu805CnCaE5x5jk07Cl6R0A44gpndNO2O+AVKrGx/O6v1zyiKD2n2uP/ojRlNVu/GigXKw1CI3Wi1UvrQ93MO1c9z8RS8428nFYgUGJpt2wJ5PuLpxSkeA8YZkriGAfhwJW0udv6ziGlLvoLGEXnvcNBX8=
+	t=1753929593; cv=none; b=SLp7VOqzXqhWCwp1dUevMrLrzyd6lfOcuHfinZnDx+Ni7LGIyZNxhoJSmOgi23c2I0bzIno/0bxKBIfQK2xhwoWYUAL6/OvyD/vkpL3F2IxNAeuh7t6fEMvizVzTD4mV1CFezY5hT6LPKFo4/KpupeXTqOKgQhai4tTM+B9GzDw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753928335; c=relaxed/simple;
-	bh=+UImLbvStv6hPU/X7GkycS3GPfpznBHVuxJlvm3HKdY=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=mzntnhvCfUVVW+Vh2/6tHH5kwQ5zZKUxuUWYLJTEyu47xq4snIRDO3YrFiXPfP1i4vRh87fzpjJRkvqFIIZa6IhLxnyc1+MoNx6Y9pCWlkuhhU8dadLdV/tNVQi2+5Q1xKRhBzG8pbh83ygsp4wtxcWEwe/+cnGiHg8q2cUDeE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lMMFJCCj; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lMMFJCCj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753928334; x=1785464334;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=+UImLbvStv6hPU/X7GkycS3GPfpznBHVuxJlvm3HKdY=;
-  b=lMMFJCCj1dNEOp5v73aJodS3PQ7tOvgVv4eivlGas2/tTNYDrTrUrg4l
-   Ze5FTd//WCYHDQ3Wg1PvE42e47/wV8i79/6d5pEm6GZKkGoZ2GvLcCDO9
-   cLKUgVwK6eLosU3YQjQukDMTbvuceU1kARet5Cj+l/7kvk2koBmd/2r7k
-   +XuZbW+NEvhvLqI2keqqk05Sss1WlBnoQ4ODlIZap5k1KrOjbhX03krj/
-   3jh9b3JvkArCwITeCJ/fVd0Lnc5Lxh0uQFPesnpa98uHpVjMnXsXLdiaQ
-   HCvhgJaQ6CPmUkthtem/1/+dMk5gpCwD8U3m8pv054diVdESuNl5p7wyU
-   g==;
-X-CSE-ConnectionGUID: F82xdebpTeCob7ZdEQYGHA==
-X-CSE-MsgGUID: GtOKpBvtTlKKDD4q0g/NAA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="56205567"
-X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="56205567"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jul 2025 19:18:54 -0700
-X-CSE-ConnectionGUID: cNKjRPoyT6KhhK2pP6jIvg==
-X-CSE-MsgGUID: jiAYnL4+TlKxm099aqjUqw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="162404667"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by orviesa010.jf.intel.com with ESMTP; 30 Jul 2025 19:18:52 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uhIsb-0000tL-22;
-	Thu, 31 Jul 2025 02:18:49 +0000
-Date: Thu, 31 Jul 2025 04:18:45 +0200
-From: kernel test robot <lkp@intel.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Stefan Agner <stefan@agner.ch>
-Subject: arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: dcu@2ce0000
- (fsl,ls1021a-dcu): 'display', 'display@0' do not match any of the regexes:
- '^pinctrl-[0-9]+$'
-Message-ID: <202507310417.jtfECOhR-lkp@intel.com>
+	s=arc-20240116; t=1753929593; c=relaxed/simple;
+	bh=UPzp/q7Mz8XPWkGyCALE3/7QRVB7MCNqXo24pcKoEZw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bp8YfEO80O4BveHXpO0kC21cb8JYQT4ZhjGEd33a+sq55upcqI+4Hs8+9MZQyvAmP/0+lgau2e3+rsrwDRkTAyis0r3tVr+PW/LlbwsSZy3cVx0sO5A+HmQ0LiqT54LiKGJQ08PSIyAbQxNUYe5luRTcwTX3dsxYkxz2ILyAiIU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b4229326f89so287081a12.1;
+        Wed, 30 Jul 2025 19:39:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753929590; x=1754534390;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=w7jN2YE5JP4mLObDIRMobwxfNHhfU6bO2oAy29bLEJ4=;
+        b=Ils7U7nL7yhQPQDRbMeOppRTwBHhkdWF3zbvv+jZ7308oOCrn1Cw3W3D1PlsNZLPbO
+         HvLhdU3HPwxUEJS7fAbyqi2x3WCSNbreA4t2eQNCOkjOPhfj0TxCHeSRC+HXgqNFE+eH
+         vtlA1VyEKk2vZ3xUQal46gDnvskvI76GLmhJTBibqGEGX0K04peqFoX0VBTnyB/gv+83
+         cI+vqww0rAhfP/8l21KpDapFh0nE3k2GeNrOUUK/SNKexYLnD1fQwNNgXF74VFu3HnUD
+         R2QbADWkN2EbBS8J+J1O6JIFwIkAy/bksjmEM/jcgPE4tjXSH0pw6SO7II88NaXUnVz1
+         e9Ig==
+X-Forwarded-Encrypted: i=1; AJvYcCUH6+CLoA6RcAEtDhCMLX5ESrlcO3pAgRDLzH0yhtM2dd0/Y+e2+mDcL10ElQQ7lYLQgkcG@lists.linux.dev, AJvYcCV8bmIkWKcjpQsVJ1cZg6SznXqNMQQxw+LBjiHfeRqtRcBdSDbJx5uaF86+jMKGT8NxCqJbMka3oB86qxT7uA==@lists.linux.dev
+X-Gm-Message-State: AOJu0YyepN6J3BTNsoxilkcjoptKLPsOoB/HtOdndEydGAJ8LJMIghaS
+	lt38ugifhE1lqb6zXA6hjvMNlR6klD5O07KUbh3D4iL5bVFukMJJyios09I6sg==
+X-Gm-Gg: ASbGnctu7gmiuXOJlShpqiOZj3cLhiLCxor9PxANmPPDN5XMK95gv62lluo2O0DQz/W
+	XQZGcfNGkDSuO+ZzyoF3YOLbhvrrUjyfFREe4B5Z3cuLzWNVewyz0/WKRXg3coGr/Nz0Zv/Nped
+	nzFg2c+7KudfAonwLBnxh1Rz8FOZHzDhV2xa9mbkVecKSFIgt4qxOuDvV9T8Rb0MRSKeJh8ocxZ
+	uNcyTFi64X+fIiF3lGfKiCLLWH5OiRUG2t8fB8J47XLnI1QYnyRJfLtuKlDrfqplgNwM7tBwNCu
+	M/+5JS2R3JzgiPhsmFFdcTZYCVVx15z9D1DLWb1eWrSpPc+9OHi7m8UT0oTl//7BcSvadtOkhhM
+	KtgVzd4TSfg==
+X-Google-Smtp-Source: AGHT+IGJYoXamiSK3UMRABpBDymWLB22QGyVIj3h4J0cubndd7Ogqfor7En8zlIeuIq5sl0KMtasXg==
+X-Received: by 2002:a17:903:1a67:b0:240:86b2:ae9c with SMTP id d9443c01a7336-24200acb882mr8264155ad.14.1753929589674;
+        Wed, 30 Jul 2025 19:39:49 -0700 (PDT)
+Received: from EBJ9932692.tcent.cn ([2403:2c80:6::3075])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-241d1f0e84bsm4277315ad.51.2025.07.30.19.39.46
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 30 Jul 2025 19:39:49 -0700 (PDT)
+From: Lance Yang <lance.yang@linux.dev>
+To: lkp@intel.com,
+	akpm@linux-foundation.org
+Cc: zi.li@linux.dev,
+	llvm@lists.linux.dev,
+	mhiramat@kernel.org,
+	oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	Lance Yang <lance.yang@linux.dev>
+Subject: [PATCH 1/1] hung_task: fix objtool sibling call warning in watchdog()
+Date: Thu, 31 Jul 2025 10:39:34 +0800
+Message-ID: <20250731023934.48840-1-lance.yang@linux.dev>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e8d780dcd957d80725ad5dd00bab53b856429bc0
-commit: 83e6769f80a1b8e1a97f8d1cecd8631b976fc009 dt-bindings: display: imx: convert fsl,dcu.txt to yaml format
-date:   8 days ago
-config: arm-randconfig-2051-20250730 (https://download.01.org/0day-ci/archive/20250731/202507310417.jtfECOhR-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 8.5.0
-dtschema version: 2025.6.2.dev4+g8f79ddd
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507310417.jtfECOhR-lkp@intel.com/reproduce)
+From: Lance Yang <lance.yang@linux.dev>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507310417.jtfECOhR-lkp@intel.com/
+The kernel test robot reported an objtool warning on the loongarch
+architecture with clang:
 
-dtcheck warnings: (new ones prefixed by >>)
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: watchdog@2ad0000 (fsl,imx21-wdt): big-endian: False schema does not allow True
-   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: watchdog@2ad0000 (fsl,imx21-wdt): Unevaluated properties are not allowed ('clock-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/watchdog/fsl-imx-wdt.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: sai@2b50000 (fsl,vf610-sai): dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: sai@2b60000 (fsl,vf610-sai): dma-names:1: 'tx' was expected
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: sai@2b60000 (fsl,vf610-sai): Unevaluated properties are not allowed ('dma-names' was unexpected)
-   	from schema $id: http://devicetree.org/schemas/sound/fsl,sai.yaml#
->> arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: dcu@2ce0000 (fsl,ls1021a-dcu): 'display', 'display@0' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/display/fsl,ls1021a-dcu.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: display-timings: 'mode0' does not match any of the regexes: '^pinctrl-[0-9]+$', '^timing'
-   	from schema $id: http://devicetree.org/schemas/display/panel/display-timings.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: ethernet@2d10000 (fsl,etsec2): queue-group@2d10000: '#address-cells', '#size-cells' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: ethernet@2d10000 (fsl,etsec2): queue-group@2d14000: '#address-cells', '#size-cells' do not match any of the regexes: '^pinctrl-[0-9]+$'
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: ethernet@2d10000 (fsl,etsec2): Unevaluated properties are not allowed ('queue-group@2d10000', 'queue-group@2d14000' were unexpected)
-   	from schema $id: http://devicetree.org/schemas/net/fsl,gianfar.yaml#
-   arch/arm/boot/dts/nxp/ls/ls1021a-iot.dtb: ethernet@2d50000 (fsl,etsec2): queue-group@2d50000: '#address-cells', '#size-cells' do not match any of the regexes: '^pinctrl-[0-9]+$'
+        vmlinux.o: warning: objtool: watchdog+0x418: sibling call from
+callable instruction with modified stack frame
 
+To resolve this, explicitly prevent the compiler from inlining or
+performing a tail call on check_hung_uninterruptible_tasks() by marking
+it with the noinline attribute. This ensures a standard function call
+with a proper stack frame, satisfying objtool's validation requirements.
+
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202507301256.cZlxQ10s-lkp@intel.com/
+Signed-off-by: Lance Yang <lance.yang@linux.dev>
+---
+ kernel/hung_task.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/kernel/hung_task.c b/kernel/hung_task.c
+index 8708a1205f82..a5b5a0a2c262 100644
+--- a/kernel/hung_task.c
++++ b/kernel/hung_task.c
+@@ -283,7 +283,7 @@ static bool rcu_lock_break(struct task_struct *g, struct task_struct *t)
+  * a really long time (120 seconds). If that happens, print out
+  * a warning.
+  */
+-static void check_hung_uninterruptible_tasks(unsigned long timeout)
++static noinline void check_hung_uninterruptible_tasks(unsigned long timeout)
+ {
+ 	int max_count = sysctl_hung_task_check_count;
+ 	unsigned long last_break = jiffies;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.49.0
+
