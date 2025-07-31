@@ -1,75 +1,74 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 978D5173
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 15:45:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6373E142E7C
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 15:57:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753976718; cv=none; b=odUts8a5SqArLzhvsH2G2/IU2T0vq+VnTdmSOcCESxrTPUNH80GI0pdCJeM+Ds5/8LhJK/5bANMz9wjH4g1w9yPUjv6y1FOSc8xuWUFzmtxY+lKaaix/Ioh9xLLz3oFkOjDTdNTfVhNqV7gq/H4xmwd1ScCBRRJXemkEeJk8bjM=
+	t=1753977465; cv=none; b=XVTsLPj497RK2euzMuHKrCdEtnjQhY+/bbDGAhwifL9lA2wJKP5iVNjf9A67s12VNo8iaNpmfwyYq4mAnR4Ug4PDnaU7eIHfNk16cJ7fG2kwBd45/0PyK37aOwlnu9V9D7Sltu65jtTFtaLh0UpiRi54Mt5jTW4/3nkQVeQAvQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753976718; c=relaxed/simple;
-	bh=jZlOt1YZkVCFwV07TI+TAfO2Qv0hXeA8f+UU9YjpSgg=;
+	s=arc-20240116; t=1753977465; c=relaxed/simple;
+	bh=zXqYwYUo5V5xtf38XeLw47tBDZGEMXc9yoHG17JPGAs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=sAsBXQdvyQE4Qjp2aq+i7k3ve7nAk8JkTc7UbiuS4zzh7mFGlpcwujkVg7xDspQRHlo40Fs5IsFKPpFqoiAxJaTGJo0I6l06PypM1LymQgwb4qLQKKMw0PfxpLYLoCh4NREyHTqVtqEqWvWfTjsK7Y3ebMJ9VMwaogCdHoqxeFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sgPqSbwz; arc=none smtp.client-ip=209.85.221.47
+	 Content-Disposition:In-Reply-To; b=pishGBiuXrX9ZmVMhK4hDjc+cAGWGajU3Zxk10EOZyWV0E/4FFdYajwWIhAkvjOmhCD4amWPONOeHleBWc5LLepZdMXOGKktf0lEGL0rsbf1CXT8l/WdpptdXUOqDXDvlMs81UNICdxr5QaNxU3cGGPHHRadAkR6O9rrEY0Z6h0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dZgpWGcy; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sgPqSbwz"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3b7961cf660so871597f8f.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 08:45:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dZgpWGcy"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3b77673fd78so428419f8f.0
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 08:57:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1753976715; x=1754581515; darn=lists.linux.dev;
+        d=linaro.org; s=google; t=1753977462; x=1754582262; darn=lists.linux.dev;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ja/Or7TtQWbgvEBjUvVLczjO5A/ZgQzAqJjlnzQL2m4=;
-        b=sgPqSbwzDpl3wup8GJ7vy2frO65IfIyhUpLLivrh+DgL9FCvY/Yt5OHGOqm0p15Kdu
-         25wE9AVUGNZpF3Wr3FWhFbpo520S9oWnjVGKzUBPQ63s9M1kkWxd7Le1HF+vmBCoeWtF
-         6NlKjqVZP+n6rIvWjSUuzhSrL8jgWH0ByuhvgSE4C/uya7mO7dsoNlw8BBZElnhpo0FK
-         r1wOAz3nWyRwcHvxm5t4Yrg41OEGv1Y4BzEYmcR9OriZq0BXd911HM3TVxqFbxUbWvY3
-         AUXPNITwcHp7l2LFQmzhQ8cJXpnLnSPdRhLlKAU5R7HfdP4qGlRXwaveNNf3NUsisVlN
-         Nqqg==
+        bh=mwEehyIvfFZxsxz6xG2f5ye6bcAONjKwPvSd6npT8hI=;
+        b=dZgpWGcy5TqOEM3Hv2/aGJIDJUN/+hAA3AoLI/n+85J09XI0pq5g1lRicruhXPEWQs
+         2X2/3SFMfjufHUFxqChqxXX6cLWZJydl3jfmGEiLvfqEtmzll5TpEnI5mCv0m1+s7ZZl
+         41zfhggJ+UPDB4dVf86ziSzYvedy6iP77IkRs+NipFm7LI3vuADyEFrZNu/Uf5peE53M
+         lG97lfEg/jqFh39JPXUo18uefh5NcatD8Jjcui5nJru7VVG+TvKffZGxHrfl1Qz6C/iC
+         FDwFSdfs6M96xIKwEHn+8qoQqyHUNw780DV202UqykRZZzUjzgC0GtMIZotPZBloBWIG
+         yHJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753976715; x=1754581515;
+        d=1e100.net; s=20230601; t=1753977462; x=1754582262;
         h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
          :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Ja/Or7TtQWbgvEBjUvVLczjO5A/ZgQzAqJjlnzQL2m4=;
-        b=N1hU9UdRcsgoWM0z264WXPTHdRskhZRvucGcZWnaao3XPB3xFevYpbsLej1eFWhVYV
-         T7riKT54AJt6RR3/DPV9UIlthx4szs7xfgVnlPyweC4kiSDpFXYEJyWg+5XUaUkgUXn5
-         0d/r5GZp7ljGFb2c4jUxTJ7uTgRxbDvcl3Y7Ib4pgUxmlIF01RgxaQZ2mIJT0RX/n3eF
-         3ErlcZfkI9mx/oNr9bQQI5l8Dq/BZA/0C9KBI2AGGGaiLWacGOL9UxwibHpZnMM8Q0tc
-         FQOtu1m1X2I47YIQZjaQ+Ffchtrejx+LJb44xmD409uUGcJho/28x7wIxgOoSr7D279E
-         Poug==
-X-Forwarded-Encrypted: i=1; AJvYcCXG7XuGccM5Y5ak4yT0mfZVzmx7emZBxvbiK8EIcjUMPZA9xLknVFtSLORN9GlCEw+zaA7Vy1DTmoAJEhAE@lists.linux.dev
-X-Gm-Message-State: AOJu0YwS8a6icQXmogHW+SoEls0nToCFjHW9S/lKBI8PV+ihLvSfxqCb
-	w4AD+j+x8zXfWdvbU1k1yVrA5fk3kAcREOoVcu98YCckRnXvsY2QpxTjtsyUgozS8QI=
-X-Gm-Gg: ASbGncuIQyjI4trTTd7JAY//mlCFfAMxT6aZAFxhrRyPQyruvtOkqaLuPyHr8nBRvPe
-	puB527VSr6hvYitOCTOc2aUi3laPrQExWF5/Mu7b4xWmvqskVYyBkGgC/RgCMHolUWCsp0GKiSd
-	rEdPLPfqAwCAySu/e/6onfKXUXca2KQqGi3Ftu+a98oNRU82HZsRMfVrdFZqDaEQFDRY6s0V2nH
-	SCRCq36r0GkETOCqPFlavYunSlseo7cNgBJCeTHYPdiHAD0Firlo+1prGKfD/bYzW+8n8OUEipZ
-	lU0bvd03lm4+EFiQHqHhwMEf9lGbrsuqviAD1sp9IdXGk/R/+2gO/S3cgHort2fMwkFwtp23Xdf
-	1kUm44nU/MvWt4U/gqdaR0zNwOIQ=
-X-Google-Smtp-Source: AGHT+IHhJG3LfxP6KYv87rmvm8BnH4eV9UZ3r9hVeSwsBncQIEv9CMsfvZuSXXuKKKjdvWf4dmJKKg==
-X-Received: by 2002:a05:6000:188c:b0:3b7:9dde:2a8 with SMTP id ffacd0b85a97d-3b79dde085cmr2503864f8f.35.1753976714859;
-        Thu, 31 Jul 2025 08:45:14 -0700 (PDT)
+        bh=mwEehyIvfFZxsxz6xG2f5ye6bcAONjKwPvSd6npT8hI=;
+        b=kJLDPSqGGZwuQbRdmdyz3zRD1d+NSJPtkovBaeChpxpUVGHa1h50gtgpunXqPbmKd+
+         /BeWJWmfXCyuwMOEtCIUbW0oLZeq5cNIsh8atTRjnLy8+yo2shg2WrBZGPfn52ba2jIS
+         lrAqHt+cxDY9m8EhqA1KFVITG02CfD7SrC7L/WEtrknVFvK29ayDFHpjiqqNCkC0DJU7
+         04uKlDq8x9ouoA08x7CzBeaUdRZ99/0raNxlDY8TNBcHVY7g7bQ5i/0SWz0r+wrEK4kn
+         jMVXo6tvTCyIO2SpeSrYkhrOK6XGpbS0mHzQJRUluZgBJU7XSPdSgP993KvcZrPKgqXo
+         TuhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWzPQqVjKSp6JX9HmN6M4PqMtiHtaF972Rx7z4ijCPCd0Jv5kRVM5WAJ2GBjskVJmtNpND6A1CNxQWydIil@lists.linux.dev
+X-Gm-Message-State: AOJu0YxSY9u686TLypw6HWk3xeyrG+d4Ks4DeFrhwMTws1xlDlCz34Oj
+	f6Q4aUJJs33uJUdvdP5o21Z56lMkLK4kqcr1MQzNcFAMiEaoX3Hq5DPzRbVIXQW7DurrXQIDn2D
+	qBAHJMPno8g==
+X-Gm-Gg: ASbGnct7bijPUYQYPyGUtJWifzC/Y6hei53p8D2HenJjwbC5l+dv2+VQ2+c3XEUfZYx
+	nAU6Ct5FMu5J6qIjcQNSYJYMRCdxu64BijK+VmxLWp52c8fVFwN6SRLuINpnBbNrKo+aVbUlLCQ
+	L0QM6/mRejmUF8DWEX32HB0wPElyQepJaavLOpPN09OQGTvpcU+6Mf0/+FeR5xkf0H4oiwLlifs
+	vWVph0SuQXNPMy5R1HwKOKfiUajesifvV4tvCrhgTkiRPS/L7hQl+g6+24EPHQHGfmgAVn0e1cM
+	1ijcjmMelqtKGuwzAoYwHHUfETgm9QlO3CrXRw+vLRuT0pbUXJcH8tGsyldGzVFnTXbAvB9REg5
+	OmMVWKut89Aa1JkYAAwHzr9Ayg7U=
+X-Google-Smtp-Source: AGHT+IEJypDs3Srfs5Ta2SryXW3PqrPZ2bjD8Bn1TfOmElhJKEUhoyptNdeCt1IpSC2bX7kUHiSQGg==
+X-Received: by 2002:a05:6000:2f85:b0:3a6:d93e:5282 with SMTP id ffacd0b85a97d-3b79501dd3fmr7085161f8f.59.1753977461645;
+        Thu, 31 Jul 2025 08:57:41 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c453d6esm2803852f8f.37.2025.07.31.08.45.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4589edfcdf4sm32052495e9.11.2025.07.31.08.57.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 31 Jul 2025 08:45:14 -0700 (PDT)
-Date: Thu, 31 Jul 2025 18:45:10 +0300
+        Thu, 31 Jul 2025 08:57:41 -0700 (PDT)
+Date: Thu, 31 Jul 2025 18:57:38 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
-To: oe-kbuild@lists.linux.dev,
-	Salomon Dushimirimana <salomondush@google.com>, bvanassche@acm.org
+To: oe-kbuild@lists.linux.dev, KP Singh <kpsingh@kernel.org>,
+	bpf@vger.kernel.org, linux-security-module@vger.kernel.org
 Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
-	James.Bottomley@hansenpartnership.com, kashyap.desai@broadcom.com,
-	linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-	martin.petersen@oracle.com, mpi3mr-linuxdrv.pdl@broadcom.com,
-	salomondush@google.com, sathya.prakash@broadcom.com,
-	sreekanth.reddy@broadcom.com, sumit.saxena@broadcom.com
-Subject: Re: [PATCH v2] scsi: mpi3mr: Emit uevent on controller diagnostic
- fault
-Message-ID: <ba460132-50b0-4b77-b12a-4b9097b93fd9@suswa.mountain>
+	bboscaccy@linux.microsoft.com, paul@paul-moore.com,
+	kys@microsoft.com, ast@kernel.org, daniel@iogearbox.net,
+	andrii@kernel.org, KP Singh <kpsingh@kernel.org>
+Subject: Re: [PATCH v2 08/13] bpf: Implement signature verification for BPF
+ programs
+Message-ID: <0b060832-4f55-486a-8994-f52d84c39e38@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -78,49 +77,57 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250717194025.3218107-1-salomondush@google.com>
+In-Reply-To: <20250721211958.1881379-9-kpsingh@kernel.org>
 
-Hi Salomon,
+Hi KP,
 
 kernel test robot noticed the following build warnings:
 
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Salomon-Dushimirimana/scsi-mpi3mr-Emit-uevent-on-controller-diagnostic-fault/20250718-034234
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-next
-patch link:    https://lore.kernel.org/r/20250717194025.3218107-1-salomondush%40google.com
-patch subject: [PATCH v2] scsi: mpi3mr: Emit uevent on controller diagnostic fault
-config: x86_64-randconfig-161-20250720 (https://download.01.org/0day-ci/archive/20250721/202507211423.eXWSnhP5-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-12) 11.3.0
+url:    https://github.com/intel-lab-lkp/linux/commits/KP-Singh/bpf-Update-the-bpf_prog_calc_tag-to-use-SHA256/20250722-052316
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
+patch link:    https://lore.kernel.org/r/20250721211958.1881379-9-kpsingh%40kernel.org
+patch subject: [PATCH v2 08/13] bpf: Implement signature verification for BPF programs
+config: m68k-randconfig-r073-20250723 (https://download.01.org/0day-ci/archive/20250723/202507231202.8rYZJ8D1-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 14.3.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
 | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-| Closes: https://lore.kernel.org/r/202507211423.eXWSnhP5-lkp@intel.com/
+| Closes: https://lore.kernel.org/r/202507231202.8rYZJ8D1-lkp@intel.com/
 
-New smatch warnings:
-drivers/scsi/mpi3mr/mpi3mr_fw.c:1639 mpi3mr_fault_uevent_emit() error: uninitialized symbol 'env'.
+smatch warnings:
+kernel/bpf/syscall.c:2797 bpf_prog_verify_signature() warn: 'sig' is an error pointer or valid
 
-vim +/env +1639 drivers/scsi/mpi3mr/mpi3mr_fw.c
+vim +/sig +2797 kernel/bpf/syscall.c
 
-8fe63dbd42cc3b Salomon Dushimirimana 2025-07-17  1636  static void mpi3mr_fault_uevent_emit(struct mpi3mr_ioc *mrioc, u16 reset_type,
-8fe63dbd42cc3b Salomon Dushimirimana 2025-07-17  1637  	u16 reset_reason)
-8fe63dbd42cc3b Salomon Dushimirimana 2025-07-17  1638  {
-8fe63dbd42cc3b Salomon Dushimirimana 2025-07-17 @1639  	struct kobj_uevent_env *env __free(kfree);
+c83b0ba795b625 KP Singh           2025-07-21  2782  static noinline int bpf_prog_verify_signature(struct bpf_prog *prog,
+c83b0ba795b625 KP Singh           2025-07-21  2783  					      union bpf_attr *attr,
+c83b0ba795b625 KP Singh           2025-07-21  2784  					      bool is_kernel)
+c83b0ba795b625 KP Singh           2025-07-21  2785  {
+c83b0ba795b625 KP Singh           2025-07-21  2786  	bpfptr_t usig = make_bpfptr(attr->signature, is_kernel);
+c83b0ba795b625 KP Singh           2025-07-21  2787  	struct bpf_dynptr_kern sig_ptr, insns_ptr;
+c83b0ba795b625 KP Singh           2025-07-21  2788  	struct bpf_key *key = NULL;
+c83b0ba795b625 KP Singh           2025-07-21  2789  	void *sig;
+c83b0ba795b625 KP Singh           2025-07-21  2790  	int err = 0;
+c83b0ba795b625 KP Singh           2025-07-21  2791  
+c83b0ba795b625 KP Singh           2025-07-21  2792  	key = bpf_lookup_user_key(attr->keyring_id, 0);
+c83b0ba795b625 KP Singh           2025-07-21  2793  	if (!key)
+c83b0ba795b625 KP Singh           2025-07-21  2794  		return -ENOKEY;
+c83b0ba795b625 KP Singh           2025-07-21  2795  
+c83b0ba795b625 KP Singh           2025-07-21  2796  	sig = kvmemdup_bpfptr(usig, attr->signature_size);
+c83b0ba795b625 KP Singh           2025-07-21 @2797  	if (!sig) {
 
-This has to be initialized before we return
+This should be an if (!IS_ERR(sig)) { check.
 
-8fe63dbd42cc3b Salomon Dushimirimana 2025-07-17  1640  
-8fe63dbd42cc3b Salomon Dushimirimana 2025-07-17  1641  	if (reset_type != MPI3_SYSIF_HOST_DIAG_RESET_ACTION_DIAG_FAULT)
-8fe63dbd42cc3b Salomon Dushimirimana 2025-07-17  1642  		return;
-
-otherwise this is an uninitialized variable at this return.
-
-8fe63dbd42cc3b Salomon Dushimirimana 2025-07-17  1643  
-8fe63dbd42cc3b Salomon Dushimirimana 2025-07-17  1644  	env = kzalloc(sizeof(*env), GFP_KERNEL);
-8fe63dbd42cc3b Salomon Dushimirimana 2025-07-17  1645  	if (!env)
-8fe63dbd42cc3b Salomon Dushimirimana 2025-07-17  1646  		return;
+c83b0ba795b625 KP Singh           2025-07-21  2798  		bpf_key_put(key);
+c83b0ba795b625 KP Singh           2025-07-21  2799  		return -ENOMEM;
+c83b0ba795b625 KP Singh           2025-07-21  2800  	}
+c83b0ba795b625 KP Singh           2025-07-21  2801  
+c83b0ba795b625 KP Singh           2025-07-21  2802  	bpf_dynptr_init(&sig_ptr, sig, BPF_DYNPTR_TYPE_LOCAL, 0,
+c83b0ba795b625 KP Singh           2025-07-21  2803  			attr->signature_size);
 
 -- 
 0-DAY CI Kernel Test Service
