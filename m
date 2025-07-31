@@ -1,60 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AB8E28FFF6
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 09:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AC181E
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 09:44:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753953147; cv=none; b=R6ebMuQDsH8fm3f+a7n+orv2db3zAXNdWDak0vYicxIvdIgWhm+AQTKy2rCbq6eK8UpPdWcUrJMfGv8fQGwReqKme44eODjssmid5U7Uj5YI8Dv2HSj8rj9hxkjHg+JCkxp2Jzv41xzA0qLekE3Q9r5T8YePzovsrwHZE7yGlDI=
+	t=1753955071; cv=none; b=Ud6cFw5AxizDvfAVcUc6ZfBf+6GKCs8V+IqwK/Csz1VuB3oH6AjArs1K4XAH7l0aUeXcFxfQifaEuH5nvanfGWJtmR2ynPt3X2qBXwdvDMXIbST+vKBnuTTLI0lXvXQ6yq3lLglPPBhUYQiELX0s6MhWB72eNCJ7xH0CbbsEmL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753953147; c=relaxed/simple;
-	bh=kGEGUVcCNoeQp/v0AkhHaE/N/caDeQk6nRfZL83sQDI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=henTGF4SejUGcox73frtoqwT6uvPABRgWn57i6+WvLNlyyURDT890qOeDP5o6ofOussxkZJpE3zAfFOMuA4+2Nrgvx0IOYojfasUC6CbZmSHVc8O8RrZhEnGOSPFm46bfJq00NaHLhYxi6PkIJTC61jT54kkZyc98yio3a/Lw2s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ne+wG0TJ; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1753955071; c=relaxed/simple;
+	bh=VEoYNejBqIjZ7/JDYJcIwMCoHKWmk75fDd6N9nH+o9U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=n+rN/6w8+8w77r50n2mGDVbNIm7uMeB6Fu4Ov0NfDZwD0zy+Vwh3bAD+IPF1M8l7KmGdD/XF9OnhvlIp2sBIuCqhJ8Bs3zpuLUjD/MQ4X4d7KC69228dLdAP4A5SV3u/KMvaVU82ENQENiCLZPQqYYGhx2kWFeBMV0IknZDdmT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mVO5qBzb; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ne+wG0TJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mVO5qBzb"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753953146; x=1785489146;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kGEGUVcCNoeQp/v0AkhHaE/N/caDeQk6nRfZL83sQDI=;
-  b=ne+wG0TJDGCabo4KXYSajoGoCe3nmapEZe6Gvjcz8n9A4MjRZ9PntaNP
-   5njPgjtYihm2fWSTvO0g+cUOMJCEcx7iCpqJEXCJ84uUaU5msipR9hGF0
-   8EqC19x9NC2jZzjV/DFcQuShClRw2gUoeEBTRXvXW1v9G2ZWOBLeiCDAl
-   toK/ZToqWhxWB1AMwldItOcjtR9Yu6SRpHH/SAcWTx95eqBeJPEaJnZ0L
-   tvhQgAmQCF07a/Oq1UKGDUs7MpYq7oQtHzw8KpyyrzjXlw1mbeHxXFefU
-   4kcWKH6Cp94lORNx/ziKQotQloQI8pExGl3gXGDYf9vPm/zW5EpwodKpK
-   g==;
-X-CSE-ConnectionGUID: 0YlPeiaQTk6P2dzmHtfQFA==
-X-CSE-MsgGUID: QiiKM8ulRmy4jlATD8hDcA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="56419260"
+  t=1753955070; x=1785491070;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=VEoYNejBqIjZ7/JDYJcIwMCoHKWmk75fDd6N9nH+o9U=;
+  b=mVO5qBzbGqN16gd8YQmTl6TrpIErpt2hNy48TvD9XP0WizxxlQ4ufVK+
+   IPigcQn4PySRBWtV1flPRR4Kn8AYxb/jw0R/ww98pcSlF18IWHiQw49jR
+   WRgBSOJty/vDUbkuf4/sy+pzbO3z6Mbxx0hcRPMLEHDbwGz8GDpJU6fmc
+   W6VgEE9P2BQTX6Ody1DLsLP8VT7zA7rMF7d6MpVCt7aj2xiKG1CyggY2I
+   +VlqxHabPfA4IzKNAoJUbSHGWpgieEpwFW6vba8ZRi8aYWXvwi+cCOtqv
+   Hbdeac1I6HpS9M/0CVvIUrzZ5IKtvrVZ6B99uB/GnYZgeD60NaYzeQfkl
+   A==;
+X-CSE-ConnectionGUID: zUkn4nj6Tkq4v2BGSmYaAw==
+X-CSE-MsgGUID: 7t4OpHZCR2iWa1s+V5dFRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="60094773"
 X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="56419260"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 02:12:25 -0700
-X-CSE-ConnectionGUID: IB81V79vQdS7xN94MebBig==
-X-CSE-MsgGUID: EcCCZO98RhOnYFXU0mQ0ig==
+   d="scan'208";a="60094773"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 02:44:29 -0700
+X-CSE-ConnectionGUID: Iy4Te+pfTcyMXX38luZbNQ==
+X-CSE-MsgGUID: i1DHjKo0SwCQXia4En0GIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="167445682"
+   d="scan'208";a="163664303"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 31 Jul 2025 02:12:24 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 31 Jul 2025 02:44:28 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uhPKo-0003ai-0T;
-	Thu, 31 Jul 2025 09:12:22 +0000
-Date: Thu, 31 Jul 2025 17:11:48 +0800
+	id 1uhPpp-0003ci-2n;
+	Thu, 31 Jul 2025 09:44:25 +0000
+Date: Thu, 31 Jul 2025 17:43:28 +0800
 From: kernel test robot <lkp@intel.com>
-To: John Ousterhout <ouster@cs.stanford.edu>
+To: Frank Wunderlich <frank-w@public-files.de>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [RFC net-next v13 01/15] net: homa: define user-visible API for
- Homa
-Message-ID: <202507311715.iCI7cqiE-lkp@intel.com>
-References: <20250730234544.4357-2-ouster@cs.stanford.edu>
+Subject: [frank-w-bpi-r2-4.14:6.16-r4pro 29/61] include/linux/pcs/pcs.h:90:1:
+ warning: 'fwnode_phylink_pcs_get_from_fwnode' defined but not used
+Message-ID: <202507311735.33ud1xJa-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -63,44 +61,108 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250730234544.4357-2-ouster@cs.stanford.edu>
 
-Hi John,
+Hi Christian,
 
-[This is a private test report for your RFC patch.]
-kernel test robot noticed the following build errors:
+FYI, the error/warning still remains.
 
-[auto build test ERROR on v6.16]
-[also build test ERROR on next-20250731]
-[cannot apply to net-next/main net/main linus/master horms-ipvs/master]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/John-Ousterhout/net-homa-define-user-visible-API-for-Homa/20250731-074951
-base:   v6.16
-patch link:    https://lore.kernel.org/r/20250730234544.4357-2-ouster%40cs.stanford.edu
-patch subject: [RFC net-next v13 01/15] net: homa: define user-visible API for Homa
-config: i386-buildonly-randconfig-001-20250731 (https://download.01.org/0day-ci/archive/20250731/202507311715.iCI7cqiE-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507311715.iCI7cqiE-lkp@intel.com/reproduce)
+tree:   https://github.com/frank-w/BPI-R2-4.14 6.16-r4pro
+head:   91e226e3ba3199526769b10b2f2eccd21872c876
+commit: d490d78fc104c047edb1ac1334cd8d659d603f26 [29/61] net: phylink: support late PCS provider attach
+config: sh-randconfig-002-20250731 (https://download.01.org/0day-ci/archive/20250731/202507311735.33ud1xJa-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 9.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507311735.33ud1xJa-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507311715.iCI7cqiE-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507311735.33ud1xJa-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> error: include/uapi/linux/homa.h: missing "WITH Linux-syscall-note" for SPDX-License-Identifier
-   make[3]: *** [scripts/Makefile.headersinst:63: usr/include/linux/homa.h] Error 1 shuffle=3826179690
-   make[3]: Target '__headers' not remade because of errors.
-   make[2]: *** [Makefile:1372: headers] Error 2 shuffle=3826179690
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=3826179690
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=3826179690
-   make: Target 'prepare' not remade because of errors.
+   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:25:
+>> include/linux/pcs/pcs.h:90:1: warning: 'fwnode_phylink_pcs_get_from_fwnode' defined but not used [-Wunused-function]
+      90 | fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/linux/pcs/pcs.h:78:12: warning: 'register_fwnode_pcs_notifier' defined but not used [-Wunused-function]
+      78 | static int register_fwnode_pcs_notifier(struct notifier_block *nb)
+         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+vim +/fwnode_phylink_pcs_get_from_fwnode +90 include/linux/pcs/pcs.h
+
+    24	
+    25	/**
+    26	 * fwnode_pcs_get - Retrieves a PCS from a firmware node
+    27	 * @fwnode: firmware node
+    28	 * @index: index fwnode PCS handle in firmware node
+    29	 *
+    30	 * Get a PCS from the firmware node at index.
+    31	 *
+    32	 * Returns a pointer to the phylink_pcs or a negative
+    33	 * error pointer. Can return -EPROBE_DEFER if the PCS is not
+    34	 * present in global providers list (either due to driver
+    35	 * still needs to be probed or it failed to probe/removed)
+    36	 */
+    37	struct phylink_pcs *fwnode_pcs_get(struct fwnode_handle *fwnode,
+    38					   int index);
+    39	
+    40	/**
+    41	 * fwnode_phylink_pcs_get_from_fwnode - Retrieves the PCS provided
+    42	 *					by the firmware node from a
+    43	 *					firmware node
+    44	 * @fwnode: firmware node
+    45	 * @pcs_fwnode: PCS firmware node
+    46	 *
+    47	 * Parse 'pcs-handle' in 'fwnode' and get the PCS that match
+    48	 * 'pcs_fwnode' firmware node.
+    49	 *
+    50	 * Returns a pointer to the phylink_pcs or a negative
+    51	 * error pointer. Can return -EPROBE_DEFER if the PCS is not
+    52	 * present in global providers list (either due to driver
+    53	 * still needs to be probed or it failed to probe/removed)
+    54	 */
+    55	struct phylink_pcs *
+    56	fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
+    57					   struct fwnode_handle *pcs_fwnode);
+    58	
+    59	/**
+    60	 * fwnode_phylink_pcs_parse - generic PCS parse for fwnode PCS provider
+    61	 * @fwnode: firmware node
+    62	 * @available_pcs: pointer to preallocated array of PCS
+    63	 * @num_pcs: where to store count of parsed PCS
+    64	 *
+    65	 * Generic helper function to fill available_pcs array with PCS parsed
+    66	 * from a "pcs-handle" fwnode property defined in firmware node up to
+    67	 * passed num_pcs.
+    68	 *
+    69	 * If available_pcs is NULL, num_pcs is updated with the count of the
+    70	 * parsed PCS.
+    71	 *
+    72	 * Returns 0 or a negative error.
+    73	 */
+    74	int fwnode_phylink_pcs_parse(struct fwnode_handle *fwnode,
+    75				     struct phylink_pcs **available_pcs,
+    76				     unsigned int *num_pcs);
+    77	#else
+  > 78	static int register_fwnode_pcs_notifier(struct notifier_block *nb)
+    79	{
+    80		return -EOPNOTSUPP;
+    81	}
+    82	
+    83	static inline struct phylink_pcs *fwnode_pcs_get(struct fwnode_handle *fwnode,
+    84							 int index)
+    85	{
+    86		return ERR_PTR(-ENOENT);
+    87	}
+    88	
+    89	static struct phylink_pcs *
+  > 90	fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
+    91					   struct fwnode_handle *pcs_fwnode)
+    92	{
+    93		return ERR_PTR(-ENOENT);
+    94	}
+    95	
 
 -- 
 0-DAY CI Kernel Test Service
