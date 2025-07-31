@@ -1,58 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4F72BE7D7
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 12:20:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EAA221F01
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 12:34:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753964448; cv=none; b=fcH/GyClF22yLeYzTAckYF5G6zArgo/ZMOLvmWz2FwzXJxFNQppX5YXlCgaKuIVXn1IaO5KTiQ6D+fRv6Q8IjrqcuiCIDn/fFmqmiEQHKknleKV0wN63s4mzbjCLtfrmr7D2V/L5oIx743Y43dnsUjrWVAqeXDcWiWvHuEn+PmI=
+	t=1753965290; cv=none; b=pMAcvGFjAMW652uUIdnlgDCYTj6BbsIKrx0TbBipgROQW7Yf+K0q54SE+Murlb5PB3No67eI0bpKnCK+quuCbni3ENHMplMlYyNjklZFeS53mg2oj3Wwkr0kOGZ+R7JM78n56BxM8ZijOi2UiRVyppETNzs+mAmZPShJb3HOK5Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753964448; c=relaxed/simple;
-	bh=t6m14gkn7UlD8kUZt0pxogYHsJd4Hs2APm0dodY48p0=;
+	s=arc-20240116; t=1753965290; c=relaxed/simple;
+	bh=2gu6cfYj8vAX0i99xBVixXHZz+4R0OpZvhoZUDoAfSs=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=gVpHDCeg8f1OHB71N3txSD5WWifnbVD+T4avKcsuf53u8WLD6etPVoz8VGXTYbj/f9KQ4jS4e6OVP1EpHRPWm/ICW++cyVo4vX9lvLqZ3dYIYfCjUEpyA7A8odZBkCrhhnjOme01jkR5v4lyL3hmvl5q6lmg2CbVOm48Ts+cysk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RY6bzPYL; arc=none smtp.client-ip=198.175.65.20
+	 Content-Disposition:In-Reply-To; b=P/zgJm8WCytRet6Ou7g5JC+qCIMrzrXkbx7s9ThMlRqJkqwjf/BhcEXq/pmMit48mPfRAATANWuh8yihBYjrNOsHT0vG8wTkaEHwShinH51VoS3sZt0lNwfQ8SY1YnBI2SVRD20xUtjyvm6wfLlt4gLDLRGK4vMtwTTXIAUSbaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hg3X4ZzD; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RY6bzPYL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hg3X4ZzD"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753964447; x=1785500447;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=t6m14gkn7UlD8kUZt0pxogYHsJd4Hs2APm0dodY48p0=;
-  b=RY6bzPYLIbfyKVejOkgk4tli017OWFCMo9JMvQMj2r1i2P2vIjm1qrNR
-   8Gm5+mLiyO5barG8uIFBu//Mr+KDSfGn/TgNJv7BS/VKvZFNxNEhCzgyI
-   P/aoxWKAUBJcVQsn+SxieK7HJD1ib9I0xFyWJh94uoWpOUyH8z2CoSZEp
-   Gfh0pChqt2WcI6/laPPm6TS1qPMOCjhiUbCqK5as2eCGwdfxqNyOodNo5
-   J7dN1m0cNTFpMDUJJ8edHlpwIix9FtI/YidcrCdmEYGy853P5ah1itLch
-   2jQHVEFM1/F2KBnoiHvZzNO4XDdBPEZDEUN3QXWeos+ihK8YmF8ZtkyqZ
-   A==;
-X-CSE-ConnectionGUID: a2an1kNaSE2xwfKLADH6HA==
-X-CSE-MsgGUID: VlsdoBibQPWIbRqiFlAXgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="55984026"
+  t=1753965288; x=1785501288;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   in-reply-to;
+  bh=2gu6cfYj8vAX0i99xBVixXHZz+4R0OpZvhoZUDoAfSs=;
+  b=Hg3X4ZzDwLJb4EJx8olYi6XohFpreTQVviawRJO8p8/mMbyiYEj7YvKQ
+   HfS8zi9Ky04UQ0V7I3oa3ZQ/k9pp4ZLzRoV93HQKp1d9ZMXCYbNZ1UW6H
+   YdvuDQDzG0nR8sw0HYC356Me6ncRuasKTtm9yti+NKs7AcXFjj1yXJdYQ
+   pejoYa0qsF2Qpr2Pbv3h/s12DjwR12225Mvk6FCq58iymVqXCm3TU/iwR
+   zFZP3M6VeSyu9axA9HyK6qVodbpu15fYtHqMwiLENgYCOnnnu4uoObJ/2
+   RPOvXixdNcEioBVZBpBzy7WhnYnN3zJvMtvMT/vG62ozVe7Q72HjppLlR
+   Q==;
+X-CSE-ConnectionGUID: 5bPsV77fTo6AX45X+idvcg==
+X-CSE-MsgGUID: dLWJ+QQ9TcCEkN5p68rSww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="66852912"
 X-IronPort-AV: E=Sophos;i="6.17,353,1747724400"; 
-   d="scan'208";a="55984026"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 05:20:45 -0700
-X-CSE-ConnectionGUID: Ok3pR4sORUC9EKuYyGxuCg==
-X-CSE-MsgGUID: X57fGixYQbCOnCobIHoxhA==
+   d="scan'208";a="66852912"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 05:34:48 -0700
+X-CSE-ConnectionGUID: Yd3pDRtdSDadPGu/V4b+0A==
+X-CSE-MsgGUID: gSSshkcvSAOOKP3/qK6XKg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,353,1747724400"; 
-   d="scan'208";a="163693383"
+   d="scan'208";a="194245871"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 31 Jul 2025 05:20:44 -0700
+  by orviesa002.jf.intel.com with ESMTP; 31 Jul 2025 05:34:46 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uhSH4-0003kq-0b;
-	Thu, 31 Jul 2025 12:20:42 +0000
-Date: Thu, 31 Jul 2025 20:20:04 +0800
+	id 1uhSUe-0003lk-2J;
+	Thu, 31 Jul 2025 12:34:44 +0000
+Date: Thu, 31 Jul 2025 20:34:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.16-r4pro 31/61] kismet: WARNING: unmet direct
- dependencies detected for FWNODE_PCS when selected by PCS_AIROHA
-Message-ID: <202507312038.1eS7AEJL-lkp@intel.com>
+To: Julian Sun <sunjunchao2870@gmail.com>
+Cc: stable@vger.kernel.org, oe-kbuild-all@lists.linux.dev
+Subject: Re: [PATCH] blk-wbt: Fix io starvation in wbt_rqw_done()
+Message-ID: <aItiuYO5PNhhUxl_@e754814b2865>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,25 +61,23 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250731123319.1271527-1-sunjunchao@bytedance.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.16-r4pro
-head:   91e226e3ba3199526769b10b2f2eccd21872c876
-commit: f0ce78d2e4b38db43728486f89ba62749d9488c8 [31/61] net: pcs: airoha: add PCS driver for Airoha SoC
-config: alpha-kismet-CONFIG_FWNODE_PCS-CONFIG_PCS_AIROHA-0-0 (https://download.01.org/0day-ci/archive/20250731/202507312038.1eS7AEJL-lkp@intel.com/config)
-reproduce: (https://download.01.org/0day-ci/archive/20250731/202507312038.1eS7AEJL-lkp@intel.com/reproduce)
+Hi,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507312038.1eS7AEJL-lkp@intel.com/
+Thanks for your patch.
 
-kismet warnings: (new ones prefixed by >>)
->> kismet: WARNING: unmet direct dependencies detected for FWNODE_PCS when selected by PCS_AIROHA
-   WARNING: unmet direct dependencies detected for FWNODE_PCS
-     Depends on [n]: NETDEVICES [=y] && (ACPI || OF [=y]) && PHYLINK [=n]
-     Selected by [y]:
-     - PCS_AIROHA [=y] && NETDEVICES [=y]
+FYI: kernel test robot notices the stable kernel rule is not satisfied.
+
+The check is based on https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html#option-1
+
+Rule: add the tag "Cc: stable@vger.kernel.org" in the sign-off area to have the patch automatically included in the stable tree.
+Subject: [PATCH] blk-wbt: Fix io starvation in wbt_rqw_done()
+Link: https://lore.kernel.org/stable/20250731123319.1271527-1-sunjunchao%40bytedance.com
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
+
+
