@@ -1,137 +1,74 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E1C42C9A;
-	Thu, 31 Jul 2025 11:38:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925B62288F9
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 11:43:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753961924; cv=none; b=eYoK3F1ygYzPoUOYGgxBhjWbJSHmN3nhzTgDXSf+eR7NL/wL5VAXHmtJcSUF/7jcCsaAR0RXHAw+Qvac8Dj2kmUeupPFY2hQB27mYFKZ1Bdwrwgp28DQWWOBI7PKZmhV1NyZJWUnpJKrQzBtu3Q7q3fqdlKvOPFU6S5pS/DALeo=
+	t=1753962185; cv=none; b=smZ3rD+2dcdCLhrW2F5CN6Ori0lhYuokv/4p9QJRLL7L+kRPeJzR3WvPQp5MuMMANcoMTlf3xR8BszFQzL4UQC3G+LaVXHLqTmOVdvQ77V89xq17JVSgkX7VDOg2db0hQBPkpPh2L0HjeabUEe5siauwoG9UPPYwELFEfq3CFBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753961924; c=relaxed/simple;
-	bh=3YxRjAWvCDe5LEm7FQxIMMGsIS8/ufZmz7MavGY9RYc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kVdcUdd6lsgBy47qaVm3N98FZjpdXJFEbHSROzSCxZVjj8DOvJpiOHRk+ID88BG8OeSwNpFAvzvw8XdmDnFJmzQ8C7vHZpjGFjdHO6i9DE3jG2Ec1FfLsno74ZAQeP4Dvg6X0Na4bn/LXqoJr8naiM+0Nh5CLeMYuv1misdV9U8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E/MEw/C9; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E/MEw/C9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753961923; x=1785497923;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=3YxRjAWvCDe5LEm7FQxIMMGsIS8/ufZmz7MavGY9RYc=;
-  b=E/MEw/C9fAnla1Z4WZ3MYybmBfVAQ2RdsPGfoJwIptL1W1WOcKZ62809
-   Jfo8SJTpmu0WeQLFoiy4hWwPeXCT2Z9GBUpMtryYPZbGKpWQlUgoaeanX
-   RCsZxdrlr1XZNPQlY2WNJn0rvW8lPGgVb5HOSoZ/1FyLvTRp/oVhO1Aur
-   0oPt2FD8s8u4hAj1vEh12EZFl+ay6PWwJ4/sUjWZT2Xax+1+AwBeATiX3
-   XJ6vAjv+xHa18DWZC2uFou3DsjXhAEPc6cIQZzqZ+lepBtqb9BZQQfaHb
-   MUc0WiNzm8XcffMuF1C1ekinp6ix71ySqcyvrlD8ZGt0xhohjlD2cPCXh
-   A==;
-X-CSE-ConnectionGUID: raNu6J92Sx+G4Nqn6pE/HA==
-X-CSE-MsgGUID: yZhMomWQSBil5jaDDynTdw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="56148417"
-X-IronPort-AV: E=Sophos;i="6.17,353,1747724400"; 
-   d="scan'208";a="56148417"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 04:38:42 -0700
-X-CSE-ConnectionGUID: BDEYSKczS22H1iG4TI7SqA==
-X-CSE-MsgGUID: C2rFzRaISWqK6MQnKo23HQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,353,1747724400"; 
-   d="scan'208";a="194081527"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa001.fm.intel.com with ESMTP; 31 Jul 2025 04:38:41 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uhRcM-0003j4-1H;
-	Thu, 31 Jul 2025 11:38:38 +0000
-Date: Thu, 31 Jul 2025 19:38:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
-Subject: [davidhildenbrand:vm_normal_page_pud 6/10]
- arch/powerpc/mm/ptdump/ptdump.h:14:1: error: use of 'pgtable_level' with tag
- type that does not match previous declaration
-Message-ID: <202507311905.pXY6ZhA9-lkp@intel.com>
+	s=arc-20240116; t=1753962185; c=relaxed/simple;
+	bh=qWrWOnrFxmvlk/gulM72oTIARntU2LerRXBDnEsmhz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sGCFjByGF0HTFnjN95TtRbmqGJ+PUFD2x6pClFgNaPc9/SJyRxrPLkbZ+whL5IV033YXLxU/ztKfVH9jtw2k2rf+G0jGPvXXQodvocwqBrOHYklDXotBzizjj9rwO236kzgQcAWDNYUUx0Kej91XcFCOmoAltYN6OE98BqW/Q80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
+Received: from omf05.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 25FCE5AE12;
+	Thu, 31 Jul 2025 11:43:01 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf05.hostedemail.com (Postfix) with ESMTPA id 649A22000E;
+	Thu, 31 Jul 2025 11:42:58 +0000 (UTC)
+Date: Thu, 31 Jul 2025 07:43:16 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ oe-kbuild-all@lists.linux.dev, Mark Rutland <mark.rutland@arm.com>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Andrew Morton
+ <akpm@linux-foundation.org>, Linux Memory Management List
+ <linux-mm@kvack.org>, Namhyung Kim <namhyung@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v2 1/2] tracing: Have eprobes have their own config
+ option
+Message-ID: <20250731074316.01372681@gandalf.local.home>
+In-Reply-To: <20250731070836.69c43401858db35dd3b43ff0@kernel.org>
+References: <20250729161912.056641407@kernel.org>
+	<202507301452.JPAcMvT0-lkp@intel.com>
+	<20250730191101.7e6203f21b94c3f932fa8348@kernel.org>
+	<20250730091727.7b3a8b96@gandalf.local.home>
+	<20250730225722.c88d2dbd3dfa07310de7edd4@kernel.org>
+	<20250730100155.268d2442@gandalf.local.home>
+	<20250731070836.69c43401858db35dd3b43ff0@kernel.org>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: eamgt8m16dyjxneimeu1i7pdo8cbqd71
+X-Rspamd-Server: rspamout08
+X-Rspamd-Queue-Id: 649A22000E
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/2QzxW4XVvfLrsFIwKaHhcoGCASP1Aksc=
+X-HE-Tag: 1753962178-872116
+X-HE-Meta: U2FsdGVkX1947nv5PoTy5NutxctdkU/H9qclbFNhMbDa/Emfi9eh29SVV8qUTTOxJKouHXZcQ88Un7HHerBhmr8IAWIVbZmv/S6GXXI33owq+ZPkog30CDT5GZ77aBlObKXzxgmYSrd2eXytOamIOH1Hn7IFJMW3eD3yA/yHdKJXPMVgTQWXlegT6B+rdsdcshalXqiheuARp273GsvDUOiL0CNcXZ+y+IQySTMO4Dq+rHIM7ZolMg7ADr1GC8oocpktjM65YslXXNm428dyjDgkt7CAwItuTH9SESGIyQoeWvhqGeAz+CpPnPMcEidmFxHcQmZBQSMwZc9jeLErgM7XFSQefTMe
 
-tree:   https://github.com/davidhildenbrand/linux vm_normal_page_pud
-head:   ee313117a86878c228f0f2e08821cc5f9d6c6b3a
-commit: 14d707b0ff670015a8d5bcb669f5ee83706c5332 [6/10] mm/rmap: convert "enum rmap_level" to "enum pgtable_level"
-config: powerpc64-randconfig-003-20250731 (https://download.01.org/0day-ci/archive/20250731/202507311905.pXY6ZhA9-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 8f09b03aebb71c154f3bbe725c29e3f47d37c26e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507311905.pXY6ZhA9-lkp@intel.com/reproduce)
+On Thu, 31 Jul 2025 07:08:36 +0900
+Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507311905.pXY6ZhA9-lkp@intel.com/
+> > I still have the trace/for-next to push (I've finished testing your last
+> > "attribute" patch and now I'm just letting it simmer in linux-next before
+> > doing the pull request). I can still add this to that one if you want.
+> >   
+> 
+> OK, could you push this to Linus?
 
-All errors (new ones prefixed by >>):
+Will do later today.
 
-   In file included from arch/powerpc/mm/ptdump/book3s64.c:10:
->> arch/powerpc/mm/ptdump/ptdump.h:14:1: error: use of 'pgtable_level' with tag type that does not match previous declaration
-      14 | struct pgtable_level {
-         | ^
-   include/linux/pgtable.h:1977:6: note: previous use is here
-    1977 | enum pgtable_level {
-         |      ^
-   In file included from arch/powerpc/mm/ptdump/book3s64.c:10:
-   arch/powerpc/mm/ptdump/ptdump.h:20:8: error: use of 'pgtable_level' with tag type that does not match previous declaration
-      20 | extern struct pgtable_level pg_level[5];
-         |        ^
-   include/linux/pgtable.h:1977:6: note: previous use is here
-    1977 | enum pgtable_level {
-         |      ^
->> arch/powerpc/mm/ptdump/book3s64.c:105:1: error: use of 'pgtable_level' with tag type that does not match previous declaration
-     105 | struct pgtable_level pg_level[5] = {
-         | ^
-   include/linux/pgtable.h:1977:6: note: previous use is here
-    1977 | enum pgtable_level {
-         |      ^
-   3 errors generated.
---
-   In file included from arch/powerpc/mm/ptdump/ptdump.c:30:
->> arch/powerpc/mm/ptdump/ptdump.h:14:1: error: use of 'pgtable_level' with tag type that does not match previous declaration
-      14 | struct pgtable_level {
-         | ^
-   include/linux/pgtable.h:1977:6: note: previous use is here
-    1977 | enum pgtable_level {
-         |      ^
-   In file included from arch/powerpc/mm/ptdump/ptdump.c:30:
-   arch/powerpc/mm/ptdump/ptdump.h:20:8: error: use of 'pgtable_level' with tag type that does not match previous declaration
-      20 | extern struct pgtable_level pg_level[5];
-         |        ^
-   include/linux/pgtable.h:1977:6: note: previous use is here
-    1977 | enum pgtable_level {
-         |      ^
-   2 errors generated.
+Thanks,
 
-
-vim +/pgtable_level +14 arch/powerpc/mm/ptdump/ptdump.h
-
-97026b5a5ac2654 arch/powerpc/mm/dump_linuxpagetables.h Christophe Leroy 2018-10-09  13  
-97026b5a5ac2654 arch/powerpc/mm/dump_linuxpagetables.h Christophe Leroy 2018-10-09 @14  struct pgtable_level {
-97026b5a5ac2654 arch/powerpc/mm/dump_linuxpagetables.h Christophe Leroy 2018-10-09  15  	const struct flag_info *flag;
-97026b5a5ac2654 arch/powerpc/mm/dump_linuxpagetables.h Christophe Leroy 2018-10-09  16  	size_t num;
-97026b5a5ac2654 arch/powerpc/mm/dump_linuxpagetables.h Christophe Leroy 2018-10-09  17  	u64 mask;
-97026b5a5ac2654 arch/powerpc/mm/dump_linuxpagetables.h Christophe Leroy 2018-10-09  18  };
-97026b5a5ac2654 arch/powerpc/mm/dump_linuxpagetables.h Christophe Leroy 2018-10-09  19  
-
-:::::: The code at line 14 was first introduced by commit
-:::::: 97026b5a5ac26541b3d294146f5c941491a9e609 powerpc/mm: Split dump_pagelinuxtables flag_array table
-
-:::::: TO: Christophe Leroy <christophe.leroy@c-s.fr>
-:::::: CC: Michael Ellerman <mpe@ellerman.id.au>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- Steve
