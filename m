@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2AC181E
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 09:44:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67610223DD1
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 10:04:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753955071; cv=none; b=Ud6cFw5AxizDvfAVcUc6ZfBf+6GKCs8V+IqwK/Csz1VuB3oH6AjArs1K4XAH7l0aUeXcFxfQifaEuH5nvanfGWJtmR2ynPt3X2qBXwdvDMXIbST+vKBnuTTLI0lXvXQ6yq3lLglPPBhUYQiELX0s6MhWB72eNCJ7xH0CbbsEmL4=
+	t=1753956273; cv=none; b=r+qE6a7Cz7RuxKVKj3QjBrJawU0NgEQPKG5s2564PhwHMAiys542hLyaBq8+TzU45oS+lqqBVuc6QUsQMN55XoxaTQZf+cpjC0QYp900qYALsntIxE4FBn/9ikWYbwZBxvjE9CoCcLhs4ahUrDZu6GMJ+X9/DKU3k4ISgGSOIb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753955071; c=relaxed/simple;
-	bh=VEoYNejBqIjZ7/JDYJcIwMCoHKWmk75fDd6N9nH+o9U=;
+	s=arc-20240116; t=1753956273; c=relaxed/simple;
+	bh=/DQ2a079MhRwCQ8isqQCMeF7BQLBkF85ChsTLs5w0VM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=n+rN/6w8+8w77r50n2mGDVbNIm7uMeB6Fu4Ov0NfDZwD0zy+Vwh3bAD+IPF1M8l7KmGdD/XF9OnhvlIp2sBIuCqhJ8Bs3zpuLUjD/MQ4X4d7KC69228dLdAP4A5SV3u/KMvaVU82ENQENiCLZPQqYYGhx2kWFeBMV0IknZDdmT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mVO5qBzb; arc=none smtp.client-ip=192.198.163.12
+	 Content-Disposition; b=qbY40h7PJWxqLfN6oDKkmnbqG1nGsqWmFIV8v+hR7gLPdrHS8CsJMqAiF1BS0QIKOUFi0KrhTDyRryV6Ube/6PgTVR2F0T9CF0psM2j4Wc77IUn8r2pUBjM01VtMeiwqH3XpQk3USQSfFv3LqhsD+/zPzwTJG9xLSW1eFoi8Fag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F4+G2Wzd; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mVO5qBzb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F4+G2Wzd"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753955070; x=1785491070;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=VEoYNejBqIjZ7/JDYJcIwMCoHKWmk75fDd6N9nH+o9U=;
-  b=mVO5qBzbGqN16gd8YQmTl6TrpIErpt2hNy48TvD9XP0WizxxlQ4ufVK+
-   IPigcQn4PySRBWtV1flPRR4Kn8AYxb/jw0R/ww98pcSlF18IWHiQw49jR
-   WRgBSOJty/vDUbkuf4/sy+pzbO3z6Mbxx0hcRPMLEHDbwGz8GDpJU6fmc
-   W6VgEE9P2BQTX6Ody1DLsLP8VT7zA7rMF7d6MpVCt7aj2xiKG1CyggY2I
-   +VlqxHabPfA4IzKNAoJUbSHGWpgieEpwFW6vba8ZRi8aYWXvwi+cCOtqv
-   Hbdeac1I6HpS9M/0CVvIUrzZ5IKtvrVZ6B99uB/GnYZgeD60NaYzeQfkl
+  t=1753956271; x=1785492271;
+  h=date:from:to:cc:subject:message-id:mime-version:
+   content-transfer-encoding;
+  bh=/DQ2a079MhRwCQ8isqQCMeF7BQLBkF85ChsTLs5w0VM=;
+  b=F4+G2Wzdn/Ip+eR7GHSqqiIgwyOeSY6MzaJ1vxJffNXn0bY2FeJsdQKz
+   fCL0GPfP+FBbI+YXL1G2xm+IaqgiUejNVsNR6hJ0Z4ISiy5BPOoMiw3eW
+   +L3inXAu/4UfwEc5x7JAiUYy0gYVnF3AmcumAJ8eu9Tf88P5iZXBAocRg
+   AkZ1vfqPhx6HhacDo66pBSgLfjzkka0jhxDFx4cA8YUAEwX2mYmg6OJSz
+   MAMe1OVwtIV4zDvWc6Jv3EPuZDjhNEVXJ7CiCHVXE8eY7r4tgIKhYV8fE
+   kwtR4I4mftjbMCWBFqME1N7P/FKbvb3zPM3HF2VjzQwEKLW0jIWvcflRw
    A==;
-X-CSE-ConnectionGUID: zUkn4nj6Tkq4v2BGSmYaAw==
-X-CSE-MsgGUID: 7t4OpHZCR2iWa1s+V5dFRg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="60094773"
+X-CSE-ConnectionGUID: 8jN9ZvAzRripM9E5yPqiYQ==
+X-CSE-MsgGUID: zBfBT28/SrKoEdXvVFbMSg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11507"; a="56361933"
 X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="60094773"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 02:44:29 -0700
-X-CSE-ConnectionGUID: Iy4Te+pfTcyMXX38luZbNQ==
-X-CSE-MsgGUID: i1DHjKo0SwCQXia4En0GIA==
+   d="scan'208";a="56361933"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 03:04:31 -0700
+X-CSE-ConnectionGUID: kpfactsKTWOTMmoU84uCNQ==
+X-CSE-MsgGUID: w6EW+eSOSNe912eBTb9tDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.16,353,1744095600"; 
-   d="scan'208";a="163664303"
+   d="scan'208";a="168621010"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa008.fm.intel.com with ESMTP; 31 Jul 2025 02:44:28 -0700
+  by orviesa005.jf.intel.com with ESMTP; 31 Jul 2025 03:04:30 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uhPpp-0003ci-2n;
-	Thu, 31 Jul 2025 09:44:25 +0000
-Date: Thu, 31 Jul 2025 17:43:28 +0800
+	id 1uhQ9D-0003du-28;
+	Thu, 31 Jul 2025 10:04:27 +0000
+Date: Thu, 31 Jul 2025 18:04:08 +0800
 From: kernel test robot <lkp@intel.com>
-To: Frank Wunderlich <frank-w@public-files.de>
+To: cros-kernel-buildreports@googlegroups.com
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [frank-w-bpi-r2-4.14:6.16-r4pro 29/61] include/linux/pcs/pcs.h:90:1:
- warning: 'fwnode_phylink_pcs_get_from_fwnode' defined but not used
-Message-ID: <202507311735.33ud1xJa-lkp@intel.com>
+Subject: [android-common:android16-6.12 1/1]
+ arch/arm64/boot/dts/mediatek/mt8188-evb.dtb:
+ /soc/pwrap@10024000/pmic/regulators: failed to match any schema with
+ compatible: ['mediatek,mt6359-regulator']
+Message-ID: <202507312028.MeXPaqS5-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -61,109 +64,340 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Hi Christian,
+tree:   https://android.googlesource.com/kernel/common android16-6.12
+head:   c98acaeb71d41c3b6b25b1afa7c7911985ef019d
+commit: 3c8f511a658dc067543286f1e4a56eaa3cffa956 [1/1] arm64: dts: mt6359: =
+Add missing 'compatible' property to regulators node
+config: arm64-randconfig-051-20250726 (https://download.01.org/0day-ci/arch=
+ive/20250731/202507312028.MeXPaqS5-lkp@intel.com/config)
+compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 853=
+c343b45b3e83cc5eeef5a52fc8cc9d8a09252)
+dtschema version: 2025.6.2.dev4+g8f79ddd
+reproduce (this is a W=3D1 build): (https://download.01.org/0day-ci/archive=
+/20250731/202507312028.MeXPaqS5-lkp@intel.com/reproduce)
 
-FYI, the error/warning still remains.
-
-tree:   https://github.com/frank-w/BPI-R2-4.14 6.16-r4pro
-head:   91e226e3ba3199526769b10b2f2eccd21872c876
-commit: d490d78fc104c047edb1ac1334cd8d659d603f26 [29/61] net: phylink: support late PCS provider attach
-config: sh-randconfig-002-20250731 (https://download.01.org/0day-ci/archive/20250731/202507311735.33ud1xJa-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 9.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507311735.33ud1xJa-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
+If you fix the issue in a separate patch/commit (i.e. not just a new versio=
+n of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507311735.33ud1xJa-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507312028.MeXPaqS5-lkp@i=
+ntel.com/
 
-All warnings (new ones prefixed by >>):
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: syscon@10006000 (mediatek,m=
+t8188-scpsys): power-controller:power-domain@15:power-domain@16:power-domai=
+n@29:power-domain@30: Unevaluated properties are not allowed ('power-domain=
+@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt8195-scps=
+ys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: power-controller (mediatek,=
+mt8188-power-controller): power-domain@15:power-domain@16:power-domain@29:p=
+ower-domain@30: Unevaluated properties are not allowed ('power-domain@31', =
+'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-con=
+troller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic: f=
+ailed to match any schema with compatible: ['mediatek,mt6359']
+>> arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic/re=
+gulators: failed to match any schema with compatible: ['mediatek,mt6359-reg=
+ulator']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: /soc/pwrap@10024000/pmic/mt=
+6359rtc: failed to match any schema with compatible: ['mediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10320000 (mediatek,=
+mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: mailbox@10330000 (mediatek,=
+mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000 (=
+mediatek,mt8188-vppsys0): $nodename:0: 'clock-controller@14000000' does not=
+ match '^syscon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mm=
+sys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8188-evb.dtb: clock-controller@14000000 (=
+mediatek,mt8188-vppsys0): compatible: 'oneOf' conditional failed, one must =
+be fixed:
+   	['mediatek,mt8188-vppsys0'] is too short
+   	'mediatek,mt8195-mmsys' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/pwr=
+ap@10026000/pmic: failed to match any schema with compatible: ['mediatek,mt=
+6359']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/pwr=
+ap@10026000/pmic/regulators: failed to match any schema with compatible: ['=
+mediatek,mt6359-regulator']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: /soc/pwr=
+ap@10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['m=
+ediatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: syscon@1=
+1210000 (mediatek,mt8192-audsys): 'mt8192-afe-pcm' does not match any of th=
+e regexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,au=
+dsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-a=
+fe-pcm (mediatek,mt8192-audio): clock-names:3: 'aud_infra_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
+l#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-a=
+fe-pcm (mediatek,mt8192-audio): clock-names:4: 'aud_infra_26m_clk' was expe=
+cted
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
+l#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-a=
+fe-pcm (mediatek,mt8192-audio): clock-names: ['aud_afe_clk', 'aud_dac_clk',=
+ 'aud_dac_predis_clk', 'aud_adc_clk', 'aud_adda6_adc_clk', 'aud_apll22m_clk=
+', 'aud_apll24m_clk', 'aud_apll1_tuner_clk', 'aud_apll2_tuner_clk', 'aud_td=
+m_clk', 'aud_tml_clk', 'aud_nle', 'aud_dac_hires_clk', 'aud_adc_hires_clk',=
+ 'aud_adc_hires_tml', 'aud_adda6_adc_hires_clk', 'aud_3rd_dac_clk', 'aud_3r=
+d_dac_predis_clk', 'aud_3rd_dac_tml', 'aud_3rd_dac_hires_clk', 'aud_infra_c=
+lk', 'aud_infra_26m_clk', 'top_mux_audio', 'top_mux_audio_int', 'top_mainpl=
+l_d4_d4', 'top_mux_aud_1', 'top_apll1_ck', 'top_mux_aud_2', 'top_apll2_ck',=
+ 'top_mux_aud_eng1', 'top_apll1_d4', 'top_mux_aud_eng2', 'top_apll2_d4', 't=
+op_i2s0_m_sel', 'top_i2s1_m_sel', 'top_i2s2_m_sel', 'top_i2s3_m_sel', 'top_=
+i2s4_m_sel', 'top_i2s5_m_sel', 'top_i2s6_m_sel', 'top_i2s7_m_sel', 'top_i2s=
+8_m_sel', 'top_i2s9_m_sel', 'top_apll12_div0', 'top_apll12_div1', 'top_apll=
+12_div2', 'top_apll12_div3', 'top_apll12_div4', 'top_apll12_divb', 'top_apl=
+l12_div5', 'top_apll12_div6', 'top_apll12_div7', 'top_apll12_div8', 'top_ap=
+ll12_div9', 'top_mux_audio_h', 'top_clk26m_clk'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
+l#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-hayato-r5-sku2.dtb: mt8192-a=
+fe-pcm (mediatek,mt8192-audio): clocks: [[56, 0], [56, 7], [56, 8], [56, 6]=
+, [56, 21], [56, 1], [56, 2], [56, 4], [56, 3], [56, 5], [56, 9], [56, 10],=
+ [56, 18], [56, 19], [56, 20], [56, 22], [56, 23], [56, 24], [56, 25], [56,=
+ 26], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101]=
+, [22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], =
+[22, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, =
+67], [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, =
+147], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]]=
+ is too long
+--
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/pwrap@=
+10026000/pmic: failed to match any schema with compatible: ['mediatek,mt635=
+9']
+>> arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/pwrap@=
+10026000/pmic/regulators: failed to match any schema with compatible: ['med=
+iatek,mt6359-regulator']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: /soc/pwrap@=
+10026000/pmic/mt6359rtc: failed to match any schema with compatible: ['medi=
+atek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: syscon@1121=
+0000 (mediatek,mt8192-audsys): 'mt8192-afe-pcm' does not match any of the r=
+egexes: '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,au=
+dsys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-=
+pcm (mediatek,mt8192-audio): clock-names:3: 'aud_infra_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
+l#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-=
+pcm (mediatek,mt8192-audio): clock-names:4: 'aud_infra_26m_clk' was expected
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
+l#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-=
+pcm (mediatek,mt8192-audio): clock-names: ['aud_afe_clk', 'aud_dac_clk', 'a=
+ud_dac_predis_clk', 'aud_adc_clk', 'aud_adda6_adc_clk', 'aud_apll22m_clk', =
+'aud_apll24m_clk', 'aud_apll1_tuner_clk', 'aud_apll2_tuner_clk', 'aud_tdm_c=
+lk', 'aud_tml_clk', 'aud_nle', 'aud_dac_hires_clk', 'aud_adc_hires_clk', 'a=
+ud_adc_hires_tml', 'aud_adda6_adc_hires_clk', 'aud_3rd_dac_clk', 'aud_3rd_d=
+ac_predis_clk', 'aud_3rd_dac_tml', 'aud_3rd_dac_hires_clk', 'aud_infra_clk'=
+, 'aud_infra_26m_clk', 'top_mux_audio', 'top_mux_audio_int', 'top_mainpll_d=
+4_d4', 'top_mux_aud_1', 'top_apll1_ck', 'top_mux_aud_2', 'top_apll2_ck', 't=
+op_mux_aud_eng1', 'top_apll1_d4', 'top_mux_aud_eng2', 'top_apll2_d4', 'top_=
+i2s0_m_sel', 'top_i2s1_m_sel', 'top_i2s2_m_sel', 'top_i2s3_m_sel', 'top_i2s=
+4_m_sel', 'top_i2s5_m_sel', 'top_i2s6_m_sel', 'top_i2s7_m_sel', 'top_i2s8_m=
+_sel', 'top_i2s9_m_sel', 'top_apll12_div0', 'top_apll12_div1', 'top_apll12_=
+div2', 'top_apll12_div3', 'top_apll12_div4', 'top_apll12_divb', 'top_apll12=
+_div5', 'top_apll12_div6', 'top_apll12_div7', 'top_apll12_div8', 'top_apll1=
+2_div9', 'top_mux_audio_h', 'top_clk26m_clk'] is too long
+   	from schema $id: http://devicetree.org/schemas/sound/mt8192-afe-pcm.yam=
+l#
+   arch/arm64/boot/dts/mediatek/mt8192-asurada-spherion-r4.dtb: mt8192-afe-=
+pcm (mediatek,mt8192-audio): clocks: [[56, 0], [56, 7], [56, 8], [56, 6], [=
+56, 21], [56, 1], [56, 2], [56, 4], [56, 3], [56, 5], [56, 9], [56, 10], [5=
+6, 18], [56, 19], [56, 20], [56, 22], [56, 23], [56, 24], [56, 25], [56, 26=
+], [23, 47], [23, 58], [22, 27], [22, 28], [22, 72], [22, 47], [22, 101], [=
+22, 48], [22, 105], [22, 43], [22, 103], [22, 44], [22, 107], [22, 59], [22=
+, 60], [22, 61], [22, 62], [22, 63], [22, 64], [22, 65], [22, 66], [22, 67]=
+, [22, 68], [22, 142], [22, 143], [22, 144], [22, 145], [22, 146], [22, 147=
+], [22, 148], [22, 149], [22, 150], [22, 151], [22, 152], [22, 55], [2]] is=
+ too long
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
+_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
+_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: /soc/pwrap@10024=
+000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+>> arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: /soc/pwrap@10024=
+000/pmic/regulators: failed to match any schema with compatible: ['mediatek=
+,mt6359-regulator']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: /soc/pwrap@10024=
+000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,=
+mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: infra-iommu@1031=
+5000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4=
+, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
+l#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: pmic@34 (mediate=
+k,mt6360): #interrupt-cells: 1 was expected
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt6360.yaml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realte=
+k,rt5682s): 'DBVDD-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.ya=
+ml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realte=
+k,rt5682s): 'LDO1-IN-supply' is a required property
+   	from schema $id: http://devicetree.org/schemas/sound/realtek,rt5682s.ya=
+ml#
+   arch/arm64/boot/dts/mediatek/mt8195-cherry-dojo-r1.dtb: codec@1a (realte=
+k,rt5682s): Unevaluated properties are not allowed ('VBAT-supply' was unexp=
+ected)
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
+_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
+_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024=
+000/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+>> arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024=
+000/pmic/regulators: failed to match any schema with compatible: ['mediatek=
+,mt6359-regulator']
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: /soc/pwrap@10024=
+000/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,=
+mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: infra-iommu@1031=
+5000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4=
+, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
+l#
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: t-phy@11e30000 (=
+mediatek,mt8195-tphy): 'power-domains' does not match any of the regexes: '=
+^(usb|pcie|sata)-phy@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-genio-1200-evk.dtb: ovl@1c000000 (me=
+diatek,mt8195-disp-ovl): compatible: 'oneOf' conditional failed, one must b=
+e fixed:
+   	['mediatek,mt8195-disp-ovl'] is too short
+   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt2701-disp-ovl', '=
+mediatek,mt8173-disp-ovl', 'mediatek,mt8183-disp-ovl', 'mediatek,mt8192-dis=
+p-ovl', 'mediatek,mt8195-mdp3-ovl']
+   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt7623-disp-ovl', '=
+mediatek,mt2712-disp-ovl']
+   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt6795-disp-ovl']
+--
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: syscon@10006000 (=
+mediatek,mt8188-scpsys): power-controller:power-domain@15:power-domain@16:p=
+ower-domain@29:power-domain@30: Unevaluated properties are not allowed ('po=
+wer-domain@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/mfd/mediatek,mt8195-scps=
+ys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: power-controller =
+(mediatek,mt8188-power-controller): power-domain@15:power-domain@16:power-d=
+omain@29:power-domain@30: Unevaluated properties are not allowed ('power-do=
+main@31', 'power-domain@32' were unexpected)
+   	from schema $id: http://devicetree.org/schemas/power/mediatek,power-con=
+troller.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@100240=
+00/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+>> arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@100240=
+00/pmic/regulators: failed to match any schema with compatible: ['mediatek,=
+mt6359-regulator']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: /soc/pwrap@100240=
+00/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,m=
+t6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10320000 =
+(mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: mailbox@10330000 =
+(mediatek,mt8188-gce): 'clock-names' is a required property
+   	from schema $id: http://devicetree.org/schemas/mailbox/mediatek,gce-mai=
+lbox.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@=
+14000000 (mediatek,mt8188-vppsys0): $nodename:0: 'clock-controller@14000000=
+' does not match '^syscon@[0-9a-f]+$'
+   	from schema $id: http://devicetree.org/schemas/arm/mediatek/mediatek,mm=
+sys.yaml#
+   arch/arm64/boot/dts/mediatek/mt8390-genio-700-evk.dtb: clock-controller@=
+14000000 (mediatek,mt8188-vppsys0): compatible: 'oneOf' conditional failed,=
+ one must be fixed:
+   	['mediatek,mt8188-vppsys0'] is too short
+   	'mediatek,mt8195-mmsys' was expected
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
+_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
+_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /soc/pwra=
+p@10024000/pmic: failed to match any schema with compatible: ['mediatek,mt6=
+359']
+>> arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /soc/pwra=
+p@10024000/pmic/regulators: failed to match any schema with compatible: ['m=
+ediatek,mt6359-regulator']
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: /soc/pwra=
+p@10024000/pmic/mt6359rtc: failed to match any schema with compatible: ['me=
+diatek,mt6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: infra-iom=
+mu@10315000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0,=
+ 796, 4, 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
+l#
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: regulator=
+ (mediatek,mt6360-regulator): 'BUCK1', 'BUCK2', 'LDO1', 'LDO2', 'LDO3', 'LD=
+O5', 'LDO6', 'LDO7' do not match any of the regexes: '^buck[12]$', '^ldo[12=
+3567]$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/regulator/mt6360-regulat=
+or.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: t-phy@11e=
+30000 (mediatek,mt8195-tphy): 'power-domains' does not match any of the reg=
+exes: '^(usb|pcie|sata)-phy@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dtb: ovl@1c000=
+000 (mediatek,mt8195-disp-ovl): compatible: 'oneOf' conditional failed, one=
+ must be fixed:
+   	['mediatek,mt8195-disp-ovl'] is too short
+   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt2701-disp-ovl', '=
+mediatek,mt8173-disp-ovl', 'mediatek,mt8183-disp-ovl', 'mediatek,mt8192-dis=
+p-ovl', 'mediatek,mt8195-mdp3-ovl']
+--
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3017.17-3074.5: Warning (simple=
+_bus_reg): /soc/jpgdec-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8195.dtsi:3091.17-3127.5: Warning (simple=
+_bus_reg): /soc/jpgenc-master: missing or empty reg/ranges property
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /soc/pwrap@100240=
+00/pmic: failed to match any schema with compatible: ['mediatek,mt6359']
+>> arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /soc/pwrap@100240=
+00/pmic/regulators: failed to match any schema with compatible: ['mediatek,=
+mt6359-regulator']
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: /soc/pwrap@100240=
+00/pmic/mt6359rtc: failed to match any schema with compatible: ['mediatek,m=
+t6358-rtc']
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: infra-iommu@10315=
+000 (mediatek,mt8195-iommu-infra): interrupts: [[0, 795, 4, 0], [0, 796, 4,=
+ 0], [0, 797, 4, 0], [0, 798, 4, 0], [0, 799, 4, 0]] is too long
+   	from schema $id: http://devicetree.org/schemas/iommu/mediatek,iommu.yam=
+l#
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: t-phy@11e30000 (m=
+ediatek,mt8195-tphy): 'power-domains' does not match any of the regexes: '^=
+(usb|pcie|sata)-phy@[0-9a-f]+$', '^pinctrl-[0-9]+$'
+   	from schema $id: http://devicetree.org/schemas/phy/mediatek,tphy.yaml#
+   arch/arm64/boot/dts/mediatek/mt8395-radxa-nio-12l.dtb: ovl@1c000000 (med=
+iatek,mt8195-disp-ovl): compatible: 'oneOf' conditional failed, one must be=
+ fixed:
+   	['mediatek,mt8195-disp-ovl'] is too short
+   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt2701-disp-ovl', '=
+mediatek,mt8173-disp-ovl', 'mediatek,mt8183-disp-ovl', 'mediatek,mt8192-dis=
+p-ovl', 'mediatek,mt8195-mdp3-ovl']
+   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt7623-disp-ovl', '=
+mediatek,mt2712-disp-ovl']
+   	'mediatek,mt8195-disp-ovl' is not one of ['mediatek,mt6795-disp-ovl']
 
-   In file included from drivers/net/ethernet/mediatek/mtk_eth_soc.c:25:
->> include/linux/pcs/pcs.h:90:1: warning: 'fwnode_phylink_pcs_get_from_fwnode' defined but not used [-Wunused-function]
-      90 | fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/linux/pcs/pcs.h:78:12: warning: 'register_fwnode_pcs_notifier' defined but not used [-Wunused-function]
-      78 | static int register_fwnode_pcs_notifier(struct notifier_block *nb)
-         |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/fwnode_phylink_pcs_get_from_fwnode +90 include/linux/pcs/pcs.h
-
-    24	
-    25	/**
-    26	 * fwnode_pcs_get - Retrieves a PCS from a firmware node
-    27	 * @fwnode: firmware node
-    28	 * @index: index fwnode PCS handle in firmware node
-    29	 *
-    30	 * Get a PCS from the firmware node at index.
-    31	 *
-    32	 * Returns a pointer to the phylink_pcs or a negative
-    33	 * error pointer. Can return -EPROBE_DEFER if the PCS is not
-    34	 * present in global providers list (either due to driver
-    35	 * still needs to be probed or it failed to probe/removed)
-    36	 */
-    37	struct phylink_pcs *fwnode_pcs_get(struct fwnode_handle *fwnode,
-    38					   int index);
-    39	
-    40	/**
-    41	 * fwnode_phylink_pcs_get_from_fwnode - Retrieves the PCS provided
-    42	 *					by the firmware node from a
-    43	 *					firmware node
-    44	 * @fwnode: firmware node
-    45	 * @pcs_fwnode: PCS firmware node
-    46	 *
-    47	 * Parse 'pcs-handle' in 'fwnode' and get the PCS that match
-    48	 * 'pcs_fwnode' firmware node.
-    49	 *
-    50	 * Returns a pointer to the phylink_pcs or a negative
-    51	 * error pointer. Can return -EPROBE_DEFER if the PCS is not
-    52	 * present in global providers list (either due to driver
-    53	 * still needs to be probed or it failed to probe/removed)
-    54	 */
-    55	struct phylink_pcs *
-    56	fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
-    57					   struct fwnode_handle *pcs_fwnode);
-    58	
-    59	/**
-    60	 * fwnode_phylink_pcs_parse - generic PCS parse for fwnode PCS provider
-    61	 * @fwnode: firmware node
-    62	 * @available_pcs: pointer to preallocated array of PCS
-    63	 * @num_pcs: where to store count of parsed PCS
-    64	 *
-    65	 * Generic helper function to fill available_pcs array with PCS parsed
-    66	 * from a "pcs-handle" fwnode property defined in firmware node up to
-    67	 * passed num_pcs.
-    68	 *
-    69	 * If available_pcs is NULL, num_pcs is updated with the count of the
-    70	 * parsed PCS.
-    71	 *
-    72	 * Returns 0 or a negative error.
-    73	 */
-    74	int fwnode_phylink_pcs_parse(struct fwnode_handle *fwnode,
-    75				     struct phylink_pcs **available_pcs,
-    76				     unsigned int *num_pcs);
-    77	#else
-  > 78	static int register_fwnode_pcs_notifier(struct notifier_block *nb)
-    79	{
-    80		return -EOPNOTSUPP;
-    81	}
-    82	
-    83	static inline struct phylink_pcs *fwnode_pcs_get(struct fwnode_handle *fwnode,
-    84							 int index)
-    85	{
-    86		return ERR_PTR(-ENOENT);
-    87	}
-    88	
-    89	static struct phylink_pcs *
-  > 90	fwnode_phylink_pcs_get_from_fwnode(struct fwnode_handle *fwnode,
-    91					   struct fwnode_handle *pcs_fwnode)
-    92	{
-    93		return ERR_PTR(-ENOENT);
-    94	}
-    95	
-
--- 
+--=20
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
