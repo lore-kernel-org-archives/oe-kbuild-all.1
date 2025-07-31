@@ -1,59 +1,40 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 880D6189F5C;
-	Thu, 31 Jul 2025 18:44:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F310A2397BE
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 19:21:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753987493; cv=none; b=JOUNx+IRqo+50Ny+9IVq8jX/J928sI3vBJEfD9YOEt+JLqtYu4wDKpmgDZMhniLoecRlrU77Vl4NrFIuuBsrt2aER0zy9PoLxYpey/6MupvdXc4DaW83A5PPMHbX/QKexv3woC9p+UrRfs4e6dzPBs/j42qvsUy/stYuTNlEy0k=
+	t=1753989718; cv=none; b=FiR2X3L+ai3ZFOOezqXIN/3+1V0Bme6hFceZN/ilq88fFYeoSLC29nTKbFZcHNeRnWftwJ+638UdqIEzYmKBM3ROePbjG+MvD+2rW3CwetC9hGZLTUtUIL2vPoG5fxhQzIEyyOQ6Ifqzq1UMvmOQU1zopUBupBiDhupl4CkIJMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753987493; c=relaxed/simple;
-	bh=P7jD3MMcmN57TsVLJBDzz9Y37GLa9OFqgZnGzOxeQZ8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=IEADZp6bjnbp0xTPeBOBH/RLhenx6F599xVUg48dpMWva3vOTI3x8RNsQ5LHfjUiNcrxxnVI7AppamQhNIrFLxTrypAntGLjL9WSjImicata4kfJctSgyw4YcTh4H9Vfo3BDe81qBfyxzjw+IJLkP1kX8WazNcWapuXTMaDFTCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OK/Uiawi; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753989718; c=relaxed/simple;
+	bh=aoMoJLjeHMeC/J0E28LF9T5kBbh1Fmen21pPyjxU4TU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IV0QF1dc/cE/zwrzycPJz4Smf/A3o2x843wWS6ekrwa5pqVOF7bghbsPWvDtG13cnL4WvqrZuw/cuLUoFKPDPustdohAzspECarbJyecErTkIMDgnRvHyukPN7FGeFAXf+zAD7dMSSOTbrrpDxNchm4TIURntXuQeOCgLCSX7zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hdLanQI8; arc=none smtp.client-ip=95.215.58.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OK/Uiawi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753987492; x=1785523492;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=P7jD3MMcmN57TsVLJBDzz9Y37GLa9OFqgZnGzOxeQZ8=;
-  b=OK/Uiawij2qwUEHDjl0XXvfYXI3GvRxFSCXuCiV6SuC0gDHWyDxKWhGt
-   QMHuNSoF+amDWk8Utfxr8xMJ30rFOuTHVsLpUmKTgmlL6hLyisd0XRfEq
-   HL7bQVCfnBIiQ9S9DDNPbpZfa9f0GUy6K50c8iapXzbLH1Be8NeMmYDaz
-   lizSIdLHuuEvad0Ecbf8nGCz2/i0B1nc5qTDDmJ0gIn/AJDrFnxghERoe
-   Y1I6AQ4E0e2duc9LbmLQZxqvf8q3I5cxqpTk+maeNAdtODURKg7TQWYs9
-   FaVSR6ZcdekrUeus8Xgt55G56ORknNSNAoUlC4xDztS3xpR2H3jUwA3io
-   w==;
-X-CSE-ConnectionGUID: U1g2hYlrQZKOIoVfwk7wIQ==
-X-CSE-MsgGUID: XbJRQl59QUmqPHBZTJzs8g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56189700"
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="56189700"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 11:44:51 -0700
-X-CSE-ConnectionGUID: VOgs7I22TdauEzwWimVt/g==
-X-CSE-MsgGUID: CX16FHM4R++OS6EEeH+lsA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="168619485"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by fmviesa004.fm.intel.com with ESMTP; 31 Jul 2025 11:44:50 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uhYGl-000143-2k;
-	Thu, 31 Jul 2025 18:44:47 +0000
-Date: Thu, 31 Jul 2025 20:44:33 +0200
-From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Kent Overstreet <kent.overstreet@linux.dev>
-Subject: [bcachefs:bcachefs-testing 222/235] Warning: mm/shrinker.c:838
- function parameter 'out' not described in 'shrinkers_to_text'
-Message-ID: <202507312016.b5T1kX8x-lkp@intel.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hdLanQI8"
+Date: Thu, 31 Jul 2025 15:21:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1753989713;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k0NFCBhQ28oULzGZkHa9Yng4QvTnOswYPtP0b8nGevw=;
+	b=hdLanQI8eEftlYTeBfOhrCjhJUyDKzKtSeekQXLqByZZTp7RPAqstGTs66yu3p/75XTN4Z
+	ozKNQCoPPT/pCT4Vz3JvZD+9d11zRC68ouszCPK5KhX2yYwrNSUHWv375Hld9YYHBQYA1a
+	OJxPARKlKnEgOFFGjjpFXrfMCZm7n1U=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Kent Overstreet <kent.overstreet@linux.dev>
+To: linux-bcachefs@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: Re: [koverstreet-bcachefs:master 219/231]
+ fs/bcachefs/dirent.c:765:1: warning: the frame size of 1344 bytes is larger
+ than 1280 bytes
+Message-ID: <bs6zfkf7si336ked6hfnj27o25oioaiy24vgz5m7izdbc7u5g2@nkzzojhbxx6o>
+References: <202507312248.dWPpIFt3-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,24 +43,68 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <202507312248.dWPpIFt3-lkp@intel.com>
+X-Migadu-Flow: FLOW_OUT
 
-tree:   https://evilpiepirate.org/git/bcachefs.git bcachefs-testing
-head:   038530796e2ac10a6b49e577aef3837387baa877
-commit: d9a34dc502b10aa61f61817aafc70b7ea29049a5 [222/235] mm: shrinker: Add a .to_text() method for shrinkers
-config: x86_64-rhel-9.4-rust (https://download.01.org/0day-ci/archive/20250731/202507312016.b5T1kX8x-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-rustc: rustc 1.88.0 (6b00bc388 2025-06-23)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507312016.b5T1kX8x-lkp@intel.com/reproduce)
+On Thu, Jul 31, 2025 at 10:46:17PM +0800, kernel test robot wrote:
+> tree:   https://github.com/koverstreet/bcachefs master
+> head:   53def8896bdc4b3f7a15affd6f867cbc6f64dc14
+> commit: 8cf424e23e76826583cef06af21ada70f22ff85f [219/231] bcachefs: CLASS(btree_iter)
+> config: arm-allmodconfig (https://download.01.org/0day-ci/archive/20250731/202507312248.dWPpIFt3-lkp@intel.com/config)
+> compiler: arm-linux-gnueabi-gcc (GCC) 15.1.0
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250731/202507312248.dWPpIFt3-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202507312248.dWPpIFt3-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+>    fs/bcachefs/dirent.c: In function 'bch2_fsck_remove_dirent':
+> >> fs/bcachefs/dirent.c:765:1: warning: the frame size of 1344 bytes is larger than 1280 bytes [-Wframe-larger-than=]
+>      765 | }
+>          | ^
+> 
+> 
+> vim +765 fs/bcachefs/dirent.c
+> 
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  743  
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  744  int bch2_fsck_remove_dirent(struct btree_trans *trans, struct bpos pos)
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  745  {
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  746  	struct bch_fs *c = trans->c;
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  747  	struct bch_inode_unpacked dir_inode;
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  748  	struct bch_hash_info dir_hash_info;
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  749  
+> 8cf424e23e7682 Kent Overstreet 2025-07-30  750  	int ret = lookup_first_inode(trans, pos.inode, &dir_inode);
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  751  	if (ret)
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  752  		goto err;
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  753  
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  754  	dir_hash_info = bch2_hash_info_init(c, &dir_inode);
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  755  
+> 8cf424e23e7682 Kent Overstreet 2025-07-30  756  	CLASS(btree_iter, iter)(trans, BTREE_ID_dirents, pos, BTREE_ITER_intent);
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  757  
+> 25201eae7abed7 Kent Overstreet 2025-07-30  758  	ret =   bch2_btree_iter_traverse(&iter) ?:
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  759  		bch2_hash_delete_at(trans, bch2_dirent_hash_desc,
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  760  				    &dir_hash_info, &iter,
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  761  				    BTREE_UPDATE_internal_snapshot_node);
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  762  err:
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  763  	bch_err_fn(c, ret);
+> 758ea4ff812b4d Kent Overstreet 2025-03-20  764  	return ret;
+> 758ea4ff812b4d Kent Overstreet 2025-03-20 @765  }
+> 
+> :::::: The code at line 765 was first introduced by commit
+> :::::: 758ea4ff812b4dfd4cef6dba0eb4b0025a7b147e bcachefs: Move bch2_check_dirent_target() to namei.c
+> 
+> :::::: TO: Kent Overstreet <kent.overstreet@linux.dev>
+> :::::: CC: Kent Overstreet <kent.overstreet@linux.dev>
+> 
+> -- 
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202507312016.b5T1kX8x-lkp@intel.com/
+If someone wants to do some pa-holing (or show the idiot how), I've
+never been able to figure out how get it to show the stack frame layout.
 
-All warnings (new ones prefixed by >>):
-
->> Warning: mm/shrinker.c:838 function parameter 'out' not described in 'shrinkers_to_text'
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+The variables in this function add up to ~300 bytes, I have no idea
+where that's turning into 1344 bytes.
