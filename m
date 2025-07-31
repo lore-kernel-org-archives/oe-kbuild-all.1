@@ -1,134 +1,246 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A8C15533F
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 19:56:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186E3253F38
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 20:01:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753991797; cv=none; b=D7Q2SDBzUiWhvTuPPESGQXIL5ov25otkr8Q3Y/fmZipMqhTGqHQaEw/bPVU/fBgTzE0rdvp5svOXSLe4tzyLRjFmANXlKUxmr2zpvBYQZLF5k2XyKssKXxOMqBAXGejtnb/LVr3c9qnLZEayzRng0uiOfkm/CAJeeJZ5ZiwdqVU=
+	t=1753992082; cv=none; b=hFy6dcWusimx/10kCuXr1PPoFknV2aDaIoirmc7XpbPcOFTnVVRC0/9J99sH9TAa+v7qoLIYdbDBjcfXUKTmkjHuKPTsxVARQeDAIRqlqmNTODVtiCcCSpMN39RGAFTQs+RNIXvbbgnK9U9UbO1UrfowbrDX9GlqKK6YfxTD0d0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753991797; c=relaxed/simple;
-	bh=vErjyams3kwQ75voWQ/4xnzX0MZwKXtaLAcuOY/iq2s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U2aeD/IrofD41UDVyK8KXhjU1vnmboSdocAERGOh0+twGZ+sVx2gaXg+1xf5xfJ1DMj5hiUM0pognb/SUD+uGZyG5JYDHvNoXdBzVukjc61qJXStfH4yfMCzr4Z45kWDiNrpykxNygTIntNcqgKXvWPbHq1LjwGcP02UsJs1CQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ff7fQ4/D; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1753992082; c=relaxed/simple;
+	bh=71yBeg20uRnzS8L6C9lNUbs7wyCHdJr1/HHNtbXay4U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RNodrh3zl+4jDMbTRrf9FZOoPZXZ2WDutGxLsMxUQg8mQtzJrkbfk2FAR4QrZJh19FvD5zZlCeby7geNTKrsmcSNxEEZEPjx9jLkV7J1aF0i2F+Vl+3/Jt2ZSw5EseBukp8A660M+SqH0dbpCkriT417SH/o5502cXUCqSzlE2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=H+ouwpV0; arc=none smtp.client-ip=209.85.208.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ff7fQ4/D"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1753991795; x=1785527795;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=vErjyams3kwQ75voWQ/4xnzX0MZwKXtaLAcuOY/iq2s=;
-  b=ff7fQ4/DZqU22WdqicQhVJV4f1ccTqflpR4M/fvkasZby8ELYu5hKdem
-   f+1ZFdFAeiTgw6umRsrqcB+dy895E7jQhkBUv4a1fB235Kof1G4bpkBvh
-   l4P5Dpd7MirPLBQngGXE1EJv2qdYae8Sr33A/0Aah4YKivOfxi1qnSpnV
-   h8EwspKaxdyLEf8nvHJ4ZOs8nrnVzKcXprJsOfKNiY7bNoXmSwP+WohPE
-   K95ub2jVan64nHzVT2BBI3YNOfCnA9dOlxxB/c/mELyFxyLkr45PYh83O
-   AvdYbBbLJcxchXHe9nGRokLGs25vZibpVh3BfSLDXfvjPG1/V4kgjQ3Sc
-   Q==;
-X-CSE-ConnectionGUID: bOfsAqXrRgOj7X3rr0lvrw==
-X-CSE-MsgGUID: qjhX2BRwQ56ImjQ9+9lzYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56476771"
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="56476771"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 12:56:34 -0700
-X-CSE-ConnectionGUID: N9A53Q1iTQe4KTcJiiBjuQ==
-X-CSE-MsgGUID: 5xHMQwDNQJOY8k0kjKQhNg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="162627827"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 31 Jul 2025 12:56:25 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uhZO2-000436-2T;
-	Thu, 31 Jul 2025 19:56:22 +0000
-Date: Fri, 1 Aug 2025 03:55:24 +0800
-From: kernel test robot <lkp@intel.com>
-To: "D. Wythe" <alibuda@linux.alibaba.com>, ast@kernel.org,
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
-	pabeni@redhat.com, song@kernel.org, sdf@google.com,
-	haoluo@google.com, yhs@fb.com, edumazet@google.com,
-	john.fastabend@gmail.com, kpsingh@kernel.org, jolsa@kernel.org,
-	Mahanta.Jambigi@ibm.com, Sidraya.Jayagond@ibm.com,
-	wenjia@linux.ibm.com, wintera@linux.ibm.com,
-	dust.li@linux.alibaba.com, tonylu@linux.alibaba.com,
-	guwen@linux.alibaba.com
-Cc: oe-kbuild-all@lists.linux.dev, bpf@vger.kernel.org, davem@davemloft.net,
-	kuba@kernel.org, netdev@vger.kernel.org, jaka@linux.ibm.com
-Subject: Re: [PATCH bpf-next 3/5] net/smc: bpf: Introduce generic hook for
- handshake flow
-Message-ID: <202508010316.wuSPjSOr-lkp@intel.com>
-References: <20250731084240.86550-4-alibuda@linux.alibaba.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H+ouwpV0"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6156c3301ccso2669a12.1
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 13:01:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1753992077; x=1754596877; darn=lists.linux.dev;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=j4B+Gc5g7Q5xkPte+e+rtUPltSMHyDQNEhLddUtHkKo=;
+        b=H+ouwpV0X34xZKLBh9h6wpSgsTsIwPrQFvJSMOxsWgub2Pb/1w3OjeWpW+CembqfGx
+         4OQcl2y+DRwM7ecSaU7fIVnzqlaxQYy0pE0uCLXPq4YNuwSFgqE7FCRfFKUbsdV6M82x
+         KjaEG+6kcHhgLp91mxBojOtKQmCR0twKpqMOyx29nL0iL4IVOlAML2GW236YLLsmQdlB
+         EDXCPS/hmw0N8QkdpjSTGtIMhtz3+cstAvn00QjRIO+vhKL8dqQZ8DG9Abiovc9lkfdo
+         6J2RpJZjGff8tHhxUmf8chRG2d4nMoajZRCu7HVU49yEol1yLwF2KD2Bbi+9X7uDSUhl
+         tHbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1753992077; x=1754596877;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j4B+Gc5g7Q5xkPte+e+rtUPltSMHyDQNEhLddUtHkKo=;
+        b=R/8+yqkbef8MhovKCxqUjBuQJrRysuRH8Osth0i2CqwwoHRTtonROsUc838YMpuWIB
+         XZa7mUVVB81//Tpo9N9B4nUYbrowaM0fdcEFaWcdCsfe6zj9EWBtyIPf001fWwushw3F
+         pi95fREHH3tFF4g86DgWdzx0Oq2cfPTg6ioAwOJWgSCfNTX0HCny6mnjVWBt4yF8RmjD
+         1ghZ1Jgtnb8SY1vKSF06sOgpNVEph0eyGer4zC8wQMEx5vuzGefm4he53zYvMJDucMWD
+         N0v8rRvw20b7YqaCikPFYRuyw7TfyU8UvwbRU/MtpLawVg75s/qbz9DpfwbmuCbB4nko
+         Eh2w==
+X-Forwarded-Encrypted: i=1; AJvYcCWWCAu6b+U6QPisTk3RMa4zzsS8x+1t1R1rJ+Gbskt14Ewowpw4LsxxNsfFk2bAx0ZTJrnpautrxtFGf9Qb@lists.linux.dev
+X-Gm-Message-State: AOJu0Yyj6hjGBKE/2aVrvb+HILOVWTRJSjY8kIGlp8EeEFNuenh+dHaq
+	TAtg9Ss4gtCadwIZ+MoiToc5Yk788s+VGtrJIdsJpgVKU6yqpyGRohgk8QfA53q+7sCeMEojBIs
+	vn33NqU2CfjnD781OLCbDAV3xP3/dXg2NnbAJuwEl
+X-Gm-Gg: ASbGncs1yX9FfnSieSPus2BgWij/vy7dRQfwczTLswI6HDXmhiBe6j8iSw+HmDf/PUT
+	HZs1qPIqsXy/07+yx0VvVDxaIvZ+RJnfQB25+V2YkAp7E3DKidcgEb7ST9FP2aqIzAMlyvN3/bp
+	yb7FH4K8SP41u0fNCyya4PGNG2jVgvRdMOzOepv8lXuX9BK/DHTW0pyJ+wW3ebGdfuAXNEZZ9nr
+	ULiTAODpomU/McBfq550V2FKjuGV+nnTbmHfA==
+X-Google-Smtp-Source: AGHT+IHGcwHAtHu5K2dQoF6Q1Va8xnfXD6dn1kwEfUjWrGJacU1Z7dtDAziML3bVAL5d/XMASujNYe3MyNDT/TYWX7E=
+X-Received: by 2002:a50:aa8b:0:b0:60e:2e88:13b4 with SMTP id
+ 4fb4d7f45d1cf-615cba4acfbmr10864a12.3.1753992076959; Thu, 31 Jul 2025
+ 13:01:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250731084240.86550-4-alibuda@linux.alibaba.com>
+References: <20250729193647.3410634-7-marievic@google.com> <5683507a-dacc-4e46-893f-d1e775d2ef22@suswa.mountain>
+In-Reply-To: <5683507a-dacc-4e46-893f-d1e775d2ef22@suswa.mountain>
+From: Marie Zhussupova <marievic@google.com>
+Date: Thu, 31 Jul 2025 16:01:04 -0400
+X-Gm-Features: Ac12FXzOGGXGhE1duhbD0s56UlVQ0g2I8y9BFv08H051qzMmNgVQAGnFiVjL2Lc
+Message-ID: <CAAkQn5JVPnN_dowQAjexom9O+2vThSOiNiY4woCgRPwGNNmt7w@mail.gmail.com>
+Subject: Re: [PATCH 6/9] kunit: Enable direct registration of parameter arrays
+ to a KUnit test
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: oe-kbuild@lists.linux.dev, rmoar@google.com, davidgow@google.com, 
+	shuah@kernel.org, brendan.higgins@linux.dev, lkp@intel.com, 
+	oe-kbuild-all@lists.linux.dev, elver@google.com, dvyukov@google.com, 
+	lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, 
+	rodrigo.vivi@intel.com, linux-kselftest@vger.kernel.org, 
+	kunit-dev@googlegroups.com, kasan-dev@googlegroups.com, 
+	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Wythe,
+On Thu, Jul 31, 2025 at 11:58=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
+o.org> wrote:
+>
+> Hi Marie,
+>
+> kernel test robot noticed the following build warnings:
+>
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/Marie-Zhussupova/k=
+unit-Add-parent-kunit-for-parameterized-test-context/20250730-033818
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kself=
+test.git kunit
+> patch link:    https://lore.kernel.org/r/20250729193647.3410634-7-marievi=
+c%40google.com
+> patch subject: [PATCH 6/9] kunit: Enable direct registration of parameter=
+ arrays to a KUnit test
+> config: nios2-randconfig-r072-20250731 (https://download.01.org/0day-ci/a=
+rchive/20250731/202507310854.pZvIcswn-lkp@intel.com/config)
+> compiler: nios2-linux-gcc (GCC) 8.5.0
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> | Closes: https://lore.kernel.org/r/202507310854.pZvIcswn-lkp@intel.com/
+>
+> New smatch warnings:
+> lib/kunit/test.c:723 kunit_run_tests() error: we previously assumed 'test=
+_case->generate_params' could be null (see line 714)
+>
+> vim +723 lib/kunit/test.c
+>
+> 914cc63eea6fbe Brendan Higgins     2019-09-23  681  int kunit_run_tests(s=
+truct kunit_suite *suite)
+> 914cc63eea6fbe Brendan Higgins     2019-09-23  682  {
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  683      char param_desc[K=
+UNIT_PARAM_DESC_SIZE];
+> 914cc63eea6fbe Brendan Higgins     2019-09-23  684      struct kunit_case=
+ *test_case;
+> acd8e8407b8fcc David Gow           2021-08-03  685      struct kunit_resu=
+lt_stats suite_stats =3D { 0 };
+> acd8e8407b8fcc David Gow           2021-08-03  686      struct kunit_resu=
+lt_stats total_stats =3D { 0 };
+> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  687      const void *curr_=
+param;
+> 914cc63eea6fbe Brendan Higgins     2019-09-23  688
+> c272612cb4a2f7 David Gow           2022-07-01  689      /* Taint the kern=
+el so we know we've run tests. */
+> c272612cb4a2f7 David Gow           2022-07-01  690      add_taint(TAINT_T=
+EST, LOCKDEP_STILL_OK);
+> c272612cb4a2f7 David Gow           2022-07-01  691
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  692      if (suite->suite_=
+init) {
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  693              suite->su=
+ite_init_err =3D suite->suite_init(suite);
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  694              if (suite=
+->suite_init_err) {
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  695                      k=
+unit_err(suite, KUNIT_SUBTEST_INDENT
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  696                       =
+         "# failed to initialize (%d)", suite->suite_init_err);
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  697                      g=
+oto suite_end;
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  698              }
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  699      }
+> 1cdba21db2ca31 Daniel Latypov      2022-04-29  700
+> cae56e1740f559 Daniel Latypov      2022-04-29  701      kunit_print_suite=
+_start(suite);
+> 914cc63eea6fbe Brendan Higgins     2019-09-23  702
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  703      kunit_suite_for_e=
+ach_test_case(suite, test_case) {
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  704              struct ku=
+nit test =3D { .param_value =3D NULL, .param_index =3D 0 };
+> acd8e8407b8fcc David Gow           2021-08-03  705              struct ku=
+nit_result_stats param_stats =3D { 0 };
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  706
+> 887d85a0736ff3 Rae Moar            2023-03-08  707              kunit_ini=
+t_test(&test, test_case->name, test_case->log);
+> 03806177fa4cbb Marie Zhussupova    2025-07-29  708              __kunit_i=
+nit_parent_test(test_case, &test);
+> 03806177fa4cbb Marie Zhussupova    2025-07-29  709
+> 529534e8cba3e6 Rae Moar            2023-07-25  710              if (test_=
+case->status =3D=3D KUNIT_SKIPPED) {
+> 529534e8cba3e6 Rae Moar            2023-07-25  711                      /=
+* Test marked as skip */
+> 529534e8cba3e6 Rae Moar            2023-07-25  712                      t=
+est.status =3D KUNIT_SKIPPED;
+> 529534e8cba3e6 Rae Moar            2023-07-25  713                      k=
+unit_update_stats(&param_stats, test.status);
+> 44c50ed8e59936 Marie Zhussupova    2025-07-29 @714              } else if=
+ (!test_case->generate_params && !test.params_data.params) {
+>                                                                          =
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> Imagine ->generate_parms is NULL but test.params_data.params is
+> non-NULL.
+>
+> 37dbb4c7c7442d David Gow           2021-11-02  715                      /=
+* Non-parameterised test. */
+> 529534e8cba3e6 Rae Moar            2023-07-25  716                      t=
+est_case->status =3D KUNIT_SKIPPED;
+> 37dbb4c7c7442d David Gow           2021-11-02  717                      k=
+unit_run_case_catch_errors(suite, test_case, &test);
+> 37dbb4c7c7442d David Gow           2021-11-02  718                      k=
+unit_update_stats(&param_stats, test.status);
+> 03806177fa4cbb Marie Zhussupova    2025-07-29  719              } else if=
+ (test_case->status !=3D KUNIT_FAILURE) {
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  720                      /=
+* Get initial param. */
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  721                      p=
+aram_desc[0] =3D '\0';
+> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  722                      /=
+* TODO: Make generate_params try-catch */
+> 13ee0c64bd88a3 Marie Zhussupova    2025-07-29 @723                      c=
+urr_param =3D test_case->generate_params(&test, NULL, param_desc);
+>                                                                          =
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> Then this could crash.
+>
+> I suspect that this is fine, but I bet that in the previous
+> condition, just testing one would probably have been sufficient
+> or maybe we could have change && to ||.
 
-kernel test robot noticed the following build warnings:
+Hello Dan,
 
-[auto build test WARNING on bpf-next/master]
+My apologies for the HTML version of this email earlier. Here is the
+plain text version.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/D-Wythe/bpf-export-necessary-sympols-for-modules-with-struct_ops/20250731-164431
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250731084240.86550-4-alibuda%40linux.alibaba.com
-patch subject: [PATCH bpf-next 3/5] net/smc: bpf: Introduce generic hook for handshake flow
-config: arm-randconfig-003-20250801 (https://download.01.org/0day-ci/archive/20250801/202508010316.wuSPjSOr-lkp@intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508010316.wuSPjSOr-lkp@intel.com/reproduce)
+As of now, test.params_data.params can only be populated in a param_init
+function, which can only be used if we register the test case with a
+KUNIT_CASE_PARAM_WITH_INIT macro. That macro auto populates
+test_case->generate_params with a function called
+kunit_get_next_param_and_desc()
+(which iterates over the parameter array) if the test user didn't provide t=
+heir
+own generator function. So, there shouldn't be a case where
+test_case->generate_params is NULL but test.params_data.params is NON-NULL.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508010316.wuSPjSOr-lkp@intel.com/
+However, to be robust, we could add a NULL check  before calling
+test_case->generate_params on line 723.
 
-All warnings (new ones prefixed by >>):
+Thank you!
+-Marie
 
-   net/ipv4/tcp_output.c: In function 'smc_set_option':
->> net/ipv4/tcp_output.c:773:15: warning: unused variable 'sk' [-Wunused-variable]
-     773 |  struct sock *sk = &tp->inet_conn.icsk_inet.sk;
-         |               ^~
-   net/ipv4/tcp_output.c: In function 'smc_set_option_cond':
-   net/ipv4/tcp_output.c:794:21: warning: unused variable 'sk' [-Wunused-variable]
-     794 |  const struct sock *sk = &tp->inet_conn.icsk_inet.sk;
-         |                     ^~
-
-
-vim +/sk +773 net/ipv4/tcp_output.c
-
-   767	
-   768	static void smc_set_option(struct tcp_sock *tp,
-   769				   struct tcp_out_options *opts,
-   770				   unsigned int *remaining)
-   771	{
-   772	#if IS_ENABLED(CONFIG_SMC)
- > 773		struct sock *sk = &tp->inet_conn.icsk_inet.sk;
-   774		if (static_branch_unlikely(&tcp_have_smc)) {
-   775			if (tp->syn_smc) {
-   776				tp->syn_smc = !!smc_call_hsbpf(1, sk, syn_option, tp);
-   777				/* re-check syn_smc */
-   778				if (tp->syn_smc &&
-   779				    *remaining >= TCPOLEN_EXP_SMC_BASE_ALIGNED) {
-   780					opts->options |= OPTION_SMC;
-   781					*remaining -= TCPOLEN_EXP_SMC_BASE_ALIGNED;
-   782				}
-   783			}
-   784		}
-   785	#endif
-   786	}
-   787	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+> 529534e8cba3e6 Rae Moar            2023-07-25  724                      t=
+est_case->status =3D KUNIT_SKIPPED;
+> 6c738b52316c58 Rae Moar            2022-11-23  725                      k=
+unit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
+> 6c738b52316c58 Rae Moar            2022-11-23  726                       =
+         "KTAP version 1\n");
+> 44b7da5fcd4c99 David Gow           2021-11-02  727                      k=
+unit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
+> 44b7da5fcd4c99 David Gow           2021-11-02  728                       =
+         "# Subtest: %s", test_case->name);
+> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  729
+> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  730                      w=
+hile (curr_param) {
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
+>
