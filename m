@@ -1,246 +1,92 @@
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186E3253F38
-	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 20:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 790972550CF
+	for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 21:21:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1753992082; cv=none; b=hFy6dcWusimx/10kCuXr1PPoFknV2aDaIoirmc7XpbPcOFTnVVRC0/9J99sH9TAa+v7qoLIYdbDBjcfXUKTmkjHuKPTsxVARQeDAIRqlqmNTODVtiCcCSpMN39RGAFTQs+RNIXvbbgnK9U9UbO1UrfowbrDX9GlqKK6YfxTD0d0=
+	t=1753996862; cv=none; b=WZpXlTj5KF9tYhY7JwzADoPMolN0I5sSPXZ8FlbbjyOps4XwtrfFTED2pT9hyRne3xMxXm4SaEy8VzDG43+pnXmbeqTnMc9F4DEvoI89u3S5/mpM0pi5TSIGadi6mNvWcxQbpFimToGCcRzcT4oRffPLT5kQEr8zsOY5EOHrfBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1753992082; c=relaxed/simple;
-	bh=71yBeg20uRnzS8L6C9lNUbs7wyCHdJr1/HHNtbXay4U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RNodrh3zl+4jDMbTRrf9FZOoPZXZ2WDutGxLsMxUQg8mQtzJrkbfk2FAR4QrZJh19FvD5zZlCeby7geNTKrsmcSNxEEZEPjx9jLkV7J1aF0i2F+Vl+3/Jt2ZSw5EseBukp8A660M+SqH0dbpCkriT417SH/o5502cXUCqSzlE2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=H+ouwpV0; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1753996862; c=relaxed/simple;
+	bh=0CWNpCIL9o8DKeZVfesbpbPYf2L6D188T9Kn8f61/mw=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FDmJJFtMzVHKrlUFVaorLX49O3tKHKnSJ42i3V4P5xoEsTDpUSC63NFR5UxlNi7ReFljnu1mJkmQZtkOpmMYsRjbsA8gGT4Sl9gFswRY9CWwRBf8QSfKS9tlnd/pzsD8YhsZ+UWdCUdmMrP+8eDrwWpLz1v41rR1KIEIft9EG1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ShwlvopG; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="H+ouwpV0"
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-6156c3301ccso2669a12.1
-        for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 13:01:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1753992077; x=1754596877; darn=lists.linux.dev;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=j4B+Gc5g7Q5xkPte+e+rtUPltSMHyDQNEhLddUtHkKo=;
-        b=H+ouwpV0X34xZKLBh9h6wpSgsTsIwPrQFvJSMOxsWgub2Pb/1w3OjeWpW+CembqfGx
-         4OQcl2y+DRwM7ecSaU7fIVnzqlaxQYy0pE0uCLXPq4YNuwSFgqE7FCRfFKUbsdV6M82x
-         KjaEG+6kcHhgLp91mxBojOtKQmCR0twKpqMOyx29nL0iL4IVOlAML2GW236YLLsmQdlB
-         EDXCPS/hmw0N8QkdpjSTGtIMhtz3+cstAvn00QjRIO+vhKL8dqQZ8DG9Abiovc9lkfdo
-         6J2RpJZjGff8tHhxUmf8chRG2d4nMoajZRCu7HVU49yEol1yLwF2KD2Bbi+9X7uDSUhl
-         tHbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1753992077; x=1754596877;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=j4B+Gc5g7Q5xkPte+e+rtUPltSMHyDQNEhLddUtHkKo=;
-        b=R/8+yqkbef8MhovKCxqUjBuQJrRysuRH8Osth0i2CqwwoHRTtonROsUc838YMpuWIB
-         XZa7mUVVB81//Tpo9N9B4nUYbrowaM0fdcEFaWcdCsfe6zj9EWBtyIPf001fWwushw3F
-         pi95fREHH3tFF4g86DgWdzx0Oq2cfPTg6ioAwOJWgSCfNTX0HCny6mnjVWBt4yF8RmjD
-         1ghZ1Jgtnb8SY1vKSF06sOgpNVEph0eyGer4zC8wQMEx5vuzGefm4he53zYvMJDucMWD
-         N0v8rRvw20b7YqaCikPFYRuyw7TfyU8UvwbRU/MtpLawVg75s/qbz9DpfwbmuCbB4nko
-         Eh2w==
-X-Forwarded-Encrypted: i=1; AJvYcCWWCAu6b+U6QPisTk3RMa4zzsS8x+1t1R1rJ+Gbskt14Ewowpw4LsxxNsfFk2bAx0ZTJrnpautrxtFGf9Qb@lists.linux.dev
-X-Gm-Message-State: AOJu0Yyj6hjGBKE/2aVrvb+HILOVWTRJSjY8kIGlp8EeEFNuenh+dHaq
-	TAtg9Ss4gtCadwIZ+MoiToc5Yk788s+VGtrJIdsJpgVKU6yqpyGRohgk8QfA53q+7sCeMEojBIs
-	vn33NqU2CfjnD781OLCbDAV3xP3/dXg2NnbAJuwEl
-X-Gm-Gg: ASbGncs1yX9FfnSieSPus2BgWij/vy7dRQfwczTLswI6HDXmhiBe6j8iSw+HmDf/PUT
-	HZs1qPIqsXy/07+yx0VvVDxaIvZ+RJnfQB25+V2YkAp7E3DKidcgEb7ST9FP2aqIzAMlyvN3/bp
-	yb7FH4K8SP41u0fNCyya4PGNG2jVgvRdMOzOepv8lXuX9BK/DHTW0pyJ+wW3ebGdfuAXNEZZ9nr
-	ULiTAODpomU/McBfq550V2FKjuGV+nnTbmHfA==
-X-Google-Smtp-Source: AGHT+IHGcwHAtHu5K2dQoF6Q1Va8xnfXD6dn1kwEfUjWrGJacU1Z7dtDAziML3bVAL5d/XMASujNYe3MyNDT/TYWX7E=
-X-Received: by 2002:a50:aa8b:0:b0:60e:2e88:13b4 with SMTP id
- 4fb4d7f45d1cf-615cba4acfbmr10864a12.3.1753992076959; Thu, 31 Jul 2025
- 13:01:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ShwlvopG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1753996860; x=1785532860;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=0CWNpCIL9o8DKeZVfesbpbPYf2L6D188T9Kn8f61/mw=;
+  b=ShwlvopGrkV9wno7CiXZCV/YNvDmMCc0JlOMpSNkEak1+saM7cMaFExx
+   jM8cpIEYgtbiWHXZHK832KKZBbKHCE7a/ps3YVo4g1s5rxTqqcUzdytdC
+   hR61Jm7mWQTguJ3PDQgKZHP5MkLRswFXHvgmL962pUNGeWO5/W1PeyiOD
+   0bBJnyjVRUhQCSt6P9pHeek1zOwFIPobA8dMVi8fJMMQs4GU2Bfq3MBfG
+   yg0+LlawoQQG+2xt1txRTjwJTTQTsVgPYi6pZqr9Oe+8VSkYFAi5/iYT5
+   pYTFAGqn7+G/R/S7eLG9t62HhL0jKvRZL9VBsdreOGwcyJE0LhXZRHCNE
+   A==;
+X-CSE-ConnectionGUID: +Asi/w0vRSS0VQN8AMRxvQ==
+X-CSE-MsgGUID: GUa3q8mJSpqO+m1vnqGy8Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="55538769"
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="55538769"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 14:21:00 -0700
+X-CSE-ConnectionGUID: cOrWByQmT6u0ADEoPe2npg==
+X-CSE-MsgGUID: RgUy9+DrSGOAeR4Fj8Q5OQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
+   d="scan'208";a="167543964"
+Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
+  by fmviesa003.fm.intel.com with ESMTP; 31 Jul 2025 14:20:59 -0700
+Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uhahs-00015L-2u;
+	Thu, 31 Jul 2025 21:20:56 +0000
+Date: Thu, 31 Jul 2025 23:20:01 +0200
+From: kernel test robot <lkp@intel.com>
+To: aubrey.li@linux.intel.com
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [anolis-intel-cloud:intel-5.10-CWF-SST-ANBZ22493 0/1] htmldocs:
+ Warning: arch/x86/Kconfig references a file that doesn't exist:
+ Documentation/x86/user-interrupts.rst
+Message-ID: <202507312346.RqbxKAPE-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-References: <20250729193647.3410634-7-marievic@google.com> <5683507a-dacc-4e46-893f-d1e775d2ef22@suswa.mountain>
-In-Reply-To: <5683507a-dacc-4e46-893f-d1e775d2ef22@suswa.mountain>
-From: Marie Zhussupova <marievic@google.com>
-Date: Thu, 31 Jul 2025 16:01:04 -0400
-X-Gm-Features: Ac12FXzOGGXGhE1duhbD0s56UlVQ0g2I8y9BFv08H051qzMmNgVQAGnFiVjL2Lc
-Message-ID: <CAAkQn5JVPnN_dowQAjexom9O+2vThSOiNiY4woCgRPwGNNmt7w@mail.gmail.com>
-Subject: Re: [PATCH 6/9] kunit: Enable direct registration of parameter arrays
- to a KUnit test
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: oe-kbuild@lists.linux.dev, rmoar@google.com, davidgow@google.com, 
-	shuah@kernel.org, brendan.higgins@linux.dev, lkp@intel.com, 
-	oe-kbuild-all@lists.linux.dev, elver@google.com, dvyukov@google.com, 
-	lucas.demarchi@intel.com, thomas.hellstrom@linux.intel.com, 
-	rodrigo.vivi@intel.com, linux-kselftest@vger.kernel.org, 
-	kunit-dev@googlegroups.com, kasan-dev@googlegroups.com, 
-	intel-xe@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jul 31, 2025 at 11:58=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
->
-> Hi Marie,
->
-> kernel test robot noticed the following build warnings:
->
-> https://git-scm.com/docs/git-format-patch#_base_tree_information]
->
-> url:    https://github.com/intel-lab-lkp/linux/commits/Marie-Zhussupova/k=
-unit-Add-parent-kunit-for-parameterized-test-context/20250730-033818
-> base:   https://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kself=
-test.git kunit
-> patch link:    https://lore.kernel.org/r/20250729193647.3410634-7-marievi=
-c%40google.com
-> patch subject: [PATCH 6/9] kunit: Enable direct registration of parameter=
- arrays to a KUnit test
-> config: nios2-randconfig-r072-20250731 (https://download.01.org/0day-ci/a=
-rchive/20250731/202507310854.pZvIcswn-lkp@intel.com/config)
-> compiler: nios2-linux-gcc (GCC) 8.5.0
->
-> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
-ion of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> | Closes: https://lore.kernel.org/r/202507310854.pZvIcswn-lkp@intel.com/
->
-> New smatch warnings:
-> lib/kunit/test.c:723 kunit_run_tests() error: we previously assumed 'test=
-_case->generate_params' could be null (see line 714)
->
-> vim +723 lib/kunit/test.c
->
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  681  int kunit_run_tests(s=
-truct kunit_suite *suite)
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  682  {
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  683      char param_desc[K=
-UNIT_PARAM_DESC_SIZE];
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  684      struct kunit_case=
- *test_case;
-> acd8e8407b8fcc David Gow           2021-08-03  685      struct kunit_resu=
-lt_stats suite_stats =3D { 0 };
-> acd8e8407b8fcc David Gow           2021-08-03  686      struct kunit_resu=
-lt_stats total_stats =3D { 0 };
-> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  687      const void *curr_=
-param;
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  688
-> c272612cb4a2f7 David Gow           2022-07-01  689      /* Taint the kern=
-el so we know we've run tests. */
-> c272612cb4a2f7 David Gow           2022-07-01  690      add_taint(TAINT_T=
-EST, LOCKDEP_STILL_OK);
-> c272612cb4a2f7 David Gow           2022-07-01  691
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  692      if (suite->suite_=
-init) {
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  693              suite->su=
-ite_init_err =3D suite->suite_init(suite);
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  694              if (suite=
-->suite_init_err) {
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  695                      k=
-unit_err(suite, KUNIT_SUBTEST_INDENT
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  696                       =
-         "# failed to initialize (%d)", suite->suite_init_err);
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  697                      g=
-oto suite_end;
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  698              }
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  699      }
-> 1cdba21db2ca31 Daniel Latypov      2022-04-29  700
-> cae56e1740f559 Daniel Latypov      2022-04-29  701      kunit_print_suite=
-_start(suite);
-> 914cc63eea6fbe Brendan Higgins     2019-09-23  702
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  703      kunit_suite_for_e=
-ach_test_case(suite, test_case) {
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  704              struct ku=
-nit test =3D { .param_value =3D NULL, .param_index =3D 0 };
-> acd8e8407b8fcc David Gow           2021-08-03  705              struct ku=
-nit_result_stats param_stats =3D { 0 };
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  706
-> 887d85a0736ff3 Rae Moar            2023-03-08  707              kunit_ini=
-t_test(&test, test_case->name, test_case->log);
-> 03806177fa4cbb Marie Zhussupova    2025-07-29  708              __kunit_i=
-nit_parent_test(test_case, &test);
-> 03806177fa4cbb Marie Zhussupova    2025-07-29  709
-> 529534e8cba3e6 Rae Moar            2023-07-25  710              if (test_=
-case->status =3D=3D KUNIT_SKIPPED) {
-> 529534e8cba3e6 Rae Moar            2023-07-25  711                      /=
-* Test marked as skip */
-> 529534e8cba3e6 Rae Moar            2023-07-25  712                      t=
-est.status =3D KUNIT_SKIPPED;
-> 529534e8cba3e6 Rae Moar            2023-07-25  713                      k=
-unit_update_stats(&param_stats, test.status);
-> 44c50ed8e59936 Marie Zhussupova    2025-07-29 @714              } else if=
- (!test_case->generate_params && !test.params_data.params) {
->                                                                          =
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^
-> Imagine ->generate_parms is NULL but test.params_data.params is
-> non-NULL.
->
-> 37dbb4c7c7442d David Gow           2021-11-02  715                      /=
-* Non-parameterised test. */
-> 529534e8cba3e6 Rae Moar            2023-07-25  716                      t=
-est_case->status =3D KUNIT_SKIPPED;
-> 37dbb4c7c7442d David Gow           2021-11-02  717                      k=
-unit_run_case_catch_errors(suite, test_case, &test);
-> 37dbb4c7c7442d David Gow           2021-11-02  718                      k=
-unit_update_stats(&param_stats, test.status);
-> 03806177fa4cbb Marie Zhussupova    2025-07-29  719              } else if=
- (test_case->status !=3D KUNIT_FAILURE) {
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  720                      /=
-* Get initial param. */
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  721                      p=
-aram_desc[0] =3D '\0';
-> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  722                      /=
-* TODO: Make generate_params try-catch */
-> 13ee0c64bd88a3 Marie Zhussupova    2025-07-29 @723                      c=
-urr_param =3D test_case->generate_params(&test, NULL, param_desc);
->                                                                          =
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^
-> Then this could crash.
->
-> I suspect that this is fine, but I bet that in the previous
-> condition, just testing one would probably have been sufficient
-> or maybe we could have change && to ||.
+tree:   https://gitee.com/anolis/intel-cloud-kernel.git intel-5.10-CWF-SST-ANBZ22493
+head:   6e920c19ef4a8f89209c5ac5530a793323f633b5
+commit: d194d7311815d728c2b9f10c3f103edc141906ef [0/1] x86/cpu: Enumerate User Interrupts support
+reproduce: (https://download.01.org/0day-ci/archive/20250731/202507312346.RqbxKAPE-lkp@intel.com/reproduce)
 
-Hello Dan,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202507312346.RqbxKAPE-lkp@intel.com/
 
-My apologies for the HTML version of this email earlier. Here is the
-plain text version.
+All warnings (new ones prefixed by >>):
 
-As of now, test.params_data.params can only be populated in a param_init
-function, which can only be used if we register the test case with a
-KUNIT_CASE_PARAM_WITH_INIT macro. That macro auto populates
-test_case->generate_params with a function called
-kunit_get_next_param_and_desc()
-(which iterates over the parameter array) if the test user didn't provide t=
-heir
-own generator function. So, there shouldn't be a case where
-test_case->generate_params is NULL but test.params_data.params is NON-NULL.
+   Warning: Documentation/devicetree/bindings/regulator/rohm,bd9576-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/rohm,bd9576-pmic.yaml
+   Warning: Documentation/translations/zh_CN/arm/Booting references a file that doesn't exist: Documentation/devicetree/booting-without-of.rst
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/pinctrl/toshiba,tmpv7700-pinctrl.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/misc/hisilicon-hikey-usb.yaml
+   Warning: arch/Kconfig references a file that doesn't exist: Documentation/unaligned-memory-access.txt
+>> Warning: arch/x86/Kconfig references a file that doesn't exist: Documentation/x86/user-interrupts.rst
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio:394  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:0
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio:395  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:1
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_accel_z_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio:396  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:2
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_x_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio:397  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:3
+   Warning: /sys/bus/iio/devices/iio:deviceX/in_anglvel_y_calibbias is defined 2 times:  ./Documentation/ABI/testing/sysfs-bus-iio:398  ./Documentation/ABI/testing/sysfs-bus-iio-icm42600:4
 
-However, to be robust, we could add a NULL check  before calling
-test_case->generate_params on line 723.
-
-Thank you!
--Marie
-
->
-> 529534e8cba3e6 Rae Moar            2023-07-25  724                      t=
-est_case->status =3D KUNIT_SKIPPED;
-> 6c738b52316c58 Rae Moar            2022-11-23  725                      k=
-unit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
-> 6c738b52316c58 Rae Moar            2022-11-23  726                       =
-         "KTAP version 1\n");
-> 44b7da5fcd4c99 David Gow           2021-11-02  727                      k=
-unit_log(KERN_INFO, &test, KUNIT_SUBTEST_INDENT KUNIT_SUBTEST_INDENT
-> 44b7da5fcd4c99 David Gow           2021-11-02  728                       =
-         "# Subtest: %s", test_case->name);
-> fadb08e7c7501e Arpitha Raghunandan 2020-11-16  729
-> 8631cd2cf5fbf2 Marie Zhussupova    2025-07-29  730                      w=
-hile (curr_param) {
->
-> --
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
->
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
