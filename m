@@ -1,140 +1,116 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670B51EA65
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Aug 2025 02:42:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 718CC1EA65
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Aug 2025 02:43:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754016132; cv=none; b=JwS9eJPRQP2lZY5VNBc4glogyrqDrQmgvzBGgK3WvDQ0OFmJGEUNCn8fm6fWZzmH8cRMQn+cFGBul6jWLhOMXnSiXDgigTLmOz7w6vS+QtuV5PIK8EKQTyzJCHcG2nrOmxdFdLfFWWn1zO4e5yd5sZQSItnom2loobw0DUSU9qY=
+	t=1754016192; cv=none; b=PON+5l2a+ZVG1ifBQKKMiKv0yHbo5lPRQK7wu7tHBwLgeAtqh2SAeUisLEqev5u5GxBWX+Bjk1vvs2vWawfexRWF4M4pTfVGYrk+dnDkpEsKkVSnsmr0X9XLSbhbOQFKoy0sjsaxqUGDxaVZhT2zjPDCLAh24/gO4fj0c8MiuSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754016132; c=relaxed/simple;
-	bh=LYXq4DasOMn9bVE/1iFYCJjSyUGOkTeSL3iyfCseTAg=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=fPzq9dlRzn+jL+CGYldlTLiYN6dLL2MGylb9BP2Y//aeHfd7J3ZNIzW49YWzQcxLyR4ww3eU+I2V0u9h5NCsstc/CIfoLORmJXuXg4ZuPURBMY39WrEDlPFtz4wqIDwpb6DkMbfgw+jOvaKbcJbFPY6e79GqStLKXAJWEhZva08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c4d4cB3j; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1754016192; c=relaxed/simple;
+	bh=nzD6WB5RkC6BGze6HMUMTiSxxJJtsLrFFAQICpP6Gnk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cpahp3QDAZk3yimvUo0g1UiZL7yFmGkY28yMYuk6kru8s8l2WJ13QOAIuDlw+AXkCv/AVWDwJOyuR+vo6hTF7sueJAPuWTk70ANVRbYknf/FzIZ9a1lG8dOfY8ch4x9v2bmZKP4/DgY+TIses8fG/QfbC0uwSxrVkDMvYpKFyo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com; spf=pass smtp.mailfrom=bytedance.com; dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b=hDQ9Z/ff; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c4d4cB3j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754016131; x=1785552131;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=LYXq4DasOMn9bVE/1iFYCJjSyUGOkTeSL3iyfCseTAg=;
-  b=c4d4cB3j+AKYKRFN9J8m0toVootVHeZdbBRMUXtNTqCJSU4URg6FlR/B
-   /SF00424M9uFboi8/mj7/ArtdQ6FtJgUHykAIeKeTklfUBPR48qbsHXMB
-   vBp2hiQNaJQZt3kWCGFjsNZFNqvQIyxfzYXEmvQP8IJQ7zF32bNVnm8J2
-   L1s9ZVI5I8bNg32tXqP4dLnc6R5srkEeKe1CMDsqAEdaaIgNLv6yjaqHV
-   PpoDA01R8JJy9gZJ9wFbqeE4ERmKQui5i/zKGTN4cFiosGEoxEJQEOz6E
-   r/CI8n0eKRULK9+ZEIl9klbfF4XhZF2OFWiZxm0yylplXWrR3FZWaE1/l
-   Q==;
-X-CSE-ConnectionGUID: TaKLKlCYSTe21x2dnhUaxg==
-X-CSE-MsgGUID: JMWvw8siQ2ypYWhvz3rLCw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56054186"
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="56054186"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 19:42:10 -0700
-X-CSE-ConnectionGUID: 1uONOu97S8OQBaxLiqHWlA==
-X-CSE-MsgGUID: nDElMjbyRGOL/0xJqA/T2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="163776184"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa008.jf.intel.com with ESMTP; 31 Jul 2025 19:42:07 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uhfiZ-0004J2-2H;
-	Fri, 01 Aug 2025 02:41:59 +0000
-Date: Fri, 1 Aug 2025 10:41:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Kees Cook <kees@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: kernel/kstack_erase.c:34:56: sparse: sparse: incorrect type in
- argument 3 (different address spaces)
-Message-ID: <202508011029.WGeVHkWa-lkp@intel.com>
+	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.b="hDQ9Z/ff"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-7426c44e014so1621796b3a.3
+        for <oe-kbuild-all@lists.linux.dev>; Thu, 31 Jul 2025 19:43:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bytedance.com; s=google; t=1754016190; x=1754620990; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=CzF4jXxLSwk12tntJ9tivy32DZakdcy3HZY4JGEQh/8=;
+        b=hDQ9Z/ffkpq8Ky35ceRvQ5IUldS6rD/bKxg54NThiGTUuw1SOYLZ7gV2ttYHJyCEt6
+         NIa/4rL5wS7ovnPikdp9EoPFSJeqTEfyjE7+g/+V8FGr/0piSnOsqMsCYHYSJO4hzG7D
+         lf7wxMPPYqpU8D38FcNXiW637cfl6pDykWky/fzxcshor5yZmedZNSTJPckyfxUQWyjT
+         NXGis4PEGRAZa2Nq138Bs+jnPFDyPuqaat6CmtrNa2q2fz2vCaHC/MsepaRbw87Bd7R0
+         ak7P6C0XlV0QNhADpdRT7/k0bVsGaVVvUBOyQjfbqELVgqlKiuHqhlpQwTvbwc7sZHW5
+         ZuOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754016190; x=1754620990;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CzF4jXxLSwk12tntJ9tivy32DZakdcy3HZY4JGEQh/8=;
+        b=g+SLeaQ5lDPthHJclIGR4EBk+kNpwSlT9zu+zTpk0p+aMbeWzWKJu20vDWXMHqwHVM
+         aK7qPT7nr6iKPDHSKZ8QQ3xaztUpANf8uMFzhKdYgG6pc81kuw0GL1A13Ne6gDnhe+CK
+         6SdRJdZpv85ZDXWF6IIAcDprjKcGnUaaxWM/bQJRv6sQ/Yb1yUSmdN473+FY1IpxoI9L
+         efZs6zYWJIik3ECOrDcYdm3zPTTWYX7tQAAOekRAlrBWfLDCUU1nA+m8skdU7t7EqcF0
+         jaOMkNYt7oW6kBrgSov63km0DeT+3nWViQkjtJkz9/SMWIr8vwOy4ITAvsFfMOMr2j7u
+         bcNw==
+X-Forwarded-Encrypted: i=1; AJvYcCVxlOwW4PDJFzjCa419fJPGJmxf4eiCFaXYi0gSiF6/1xd/gLwlfRzPbWKkJ0wkWi9Ak1TYIT41bGsI3Dxc@lists.linux.dev
+X-Gm-Message-State: AOJu0YzJW0v71Y8sS8VxkeiE8h0ol5TpfqJ0uwdPBTwok/wOBcTgmGj9
+	eHfJcOgPfyFxvn3nd7fmZzT87fYh8bv4X7ViJnFCOynMjGdhAmKLDaOQptsBakW6Bg==
+X-Gm-Gg: ASbGnctk4aq7TedenJPdyEi9MDC5GHkSXYAV8gHG78BvGMPl0ufCEN/Z8Z2QSFD10io
+	4Btj5AIcEeYng4mF6ePx5ttH4BhdmV7uhBvshfh7cQ6w1Ra+j7kZM+q5LMLWl7xyAMlX3iNa+/j
+	fx6iCdb0hyaS5wIj8SMCTSbSDIrOm+zk6oX3tSjKWluzZf4FXX4B2EWn+GJeH7T1c4i5W2Pk4pQ
+	uBaCmskGBOiV81McYb24PQHF/cGpzM5gmja1qTk0nJWwhnmXqa78HrV6g7XSuwEWoCs5vtvPTX3
+	2ORxDOYAzCPhuiUQM7AXqCLb7V1jMOLS5cQqfZ1jkTiBNwAbfmgp5CR4zLbhCZZv/NEeBXFtV/T
+	ErDSisNsNu3/Txus7kaR+vNf5qVISY1FY8erZYbPCbgKm+2y5FPaJKw==
+X-Google-Smtp-Source: AGHT+IH+UDQ7iOpF4B7kF0iLPjzpWWshotanqhyLxmLjhjWrs9mQTlq560Ea7kIcPBTsIu2VocDCVA==
+X-Received: by 2002:a05:6a20:914c:b0:21f:4ecc:11ab with SMTP id adf61e73a8af0-23dc0cf63e6mr14331609637.9.1754016189706;
+        Thu, 31 Jul 2025 19:43:09 -0700 (PDT)
+Received: from bytedance ([61.213.176.55])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b422bb19069sm2363362a12.65.2025.07.31.19.43.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 31 Jul 2025 19:43:09 -0700 (PDT)
+Date: Fri, 1 Aug 2025 10:42:53 +0800
+From: Aaron Lu <ziqianlu@bytedance.com>
+To: kernel test robot <lkp@intel.com>
+Cc: "Paul E. McKenney" <paulmck@kernel.org>, llvm@lists.linux.dev,
+	oe-kbuild-all@lists.linux.dev, John Stultz <jstultz@google.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Stephen Boyd <sboyd@kernel.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] clocksource: Use correct limit for wd-cs-wd read back
+ delay in printing
+Message-ID: <20250801024253.GA360@bytedance>
+References: <20250731120454.GA309@bytedance>
+ <202508010911.AmkxEw1p-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <202508010911.AmkxEw1p-lkp@intel.com>
 
-Hi Kees,
+On Fri, Aug 01, 2025 at 09:48:40AM +0800, kernel test robot wrote:
+> Hi Aaron,
+> 
+> kernel test robot noticed the following build warnings:
+> 
+> [auto build test WARNING on tip/timers/core]
+> [also build test WARNING on linus/master v6.16 next-20250731]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Lu/clocksource-Use-correct-limit-for-wd-cs-wd-read-back-delay-in-printing/20250731-200709
+> base:   tip/timers/core
+> patch link:    https://lore.kernel.org/r/20250731120454.GA309%40bytedance
+> patch subject: [PATCH] clocksource: Use correct limit for wd-cs-wd read back delay in printing
+> config: i386-buildonly-randconfig-001-20250801 (https://download.01.org/0day-ci/archive/20250801/202508010911.AmkxEw1p-lkp@intel.com/config)
+> compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508010911.AmkxEw1p-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202508010911.AmkxEw1p-lkp@intel.com/
+> 
+> All warnings (new ones prefixed by >>):
+> 
+> >> kernel/time/clocksource.c:293:43: warning: format specifies type 'long' but the argument has type 'int64_t' (aka 'long long') [-Wformat]
+>      292 |         pr_warn("timekeeping watchdog on CPU%d: wd-%s-wd excessive read-back delay of %lldns vs. limit of %ldns, wd-wd read-back delay only %lldns, attempt %d, marking %s unstable\n",
+>          |                                                                                                           ~~~
+>          |                                                                                                           %lld
 
-First bad commit (maybe != root cause):
+Thanks for catching this, will fix it in next version.
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   6a68cec16b647791d448102376a7eec2820e874f
-commit: 32e42ab9fc88a884435c27527a433f61c4d2b61b sched/task_stack: Add missing const qualifier to end_of_stack()
-date:   5 days ago
-config: loongarch-randconfig-r112-20250801 (https://download.01.org/0day-ci/archive/20250801/202508011029.WGeVHkWa-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 8f09b03aebb71c154f3bbe725c29e3f47d37c26e)
-reproduce: (https://download.01.org/0day-ci/archive/20250801/202508011029.WGeVHkWa-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508011029.WGeVHkWa-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> kernel/kstack_erase.c:34:56: sparse: sparse: incorrect type in argument 3 (different address spaces) @@     expected void * @@     got void [noderef] __user *buffer @@
-   kernel/kstack_erase.c:34:56: sparse:     expected void *
-   kernel/kstack_erase.c:34:56: sparse:     got void [noderef] __user *buffer
->> kernel/kstack_erase.c:54:35: sparse: sparse: incorrect type in initializer (incompatible argument 3 (different address spaces)) @@     expected int ( [usertype] *proc_handler )( ... ) @@     got int ( * )( ... ) @@
-   kernel/kstack_erase.c:54:35: sparse:     expected int ( [usertype] *proc_handler )( ... )
-   kernel/kstack_erase.c:54:35: sparse:     got int ( * )( ... )
-
-vim +34 kernel/kstack_erase.c
-
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  23  
-0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  24  #ifdef CONFIG_SYSCTL
-78eb4ea25cd5fd kernel/stackleak.c Joel Granados    2024-07-24  25  static int stack_erasing_sysctl(const struct ctl_table *table, int write,
-0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  26  			void __user *buffer, size_t *lenp, loff_t *ppos)
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  27  {
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  28  	int ret = 0;
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  29  	int state = !static_branch_unlikely(&stack_erasing_bypass);
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  30  	int prev_state = state;
-0e148d3cca0dc1 kernel/stackleak.c Thomas Weiﬂschuh 2024-05-03  31  	struct ctl_table table_copy = *table;
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  32  
-0e148d3cca0dc1 kernel/stackleak.c Thomas Weiﬂschuh 2024-05-03  33  	table_copy.data = &state;
-0e148d3cca0dc1 kernel/stackleak.c Thomas Weiﬂschuh 2024-05-03 @34  	ret = proc_dointvec_minmax(&table_copy, write, buffer, lenp, ppos);
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  35  	state = !!state;
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  36  	if (ret || !write || state == prev_state)
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  37  		return ret;
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  38  
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  39  	if (state)
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  40  		static_branch_disable(&stack_erasing_bypass);
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  41  	else
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  42  		static_branch_enable(&stack_erasing_bypass);
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  43  
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  44  	pr_warn("stackleak: kernel stack erasing is %s\n",
-62e9c1e8ecee87 kernel/stackleak.c Thorsten Blum    2024-12-22  45  					str_enabled_disabled(state));
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  46  	return ret;
-964c9dff009189 kernel/stackleak.c Alexander Popov  2018-08-17  47  }
-1751f872cc97f9 kernel/stackleak.c Joel Granados    2025-01-28  48  static const struct ctl_table stackleak_sysctls[] = {
-0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  49  	{
-0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  50  		.procname	= "stack_erasing",
-0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  51  		.data		= NULL,
-0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  52  		.maxlen		= sizeof(int),
-0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  53  		.mode		= 0600,
-0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21 @54  		.proc_handler	= stack_erasing_sysctl,
-0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  55  		.extra1		= SYSCTL_ZERO,
-0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  56  		.extra2		= SYSCTL_ONE,
-0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  57  	},
-0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  58  };
-0df8bdd5e3b3e5 kernel/stackleak.c Xiaoming Ni      2022-01-21  59  
-
-:::::: The code at line 34 was first introduced by commit
-:::::: 0e148d3cca0dc1a7c6063939f6cb9ba4866c39a7 stackleak: Use a copy of the ctl_table argument
-
-:::::: TO: Thomas Weiﬂschuh <linux@weissschuh.net>
-:::::: CC: Kees Cook <keescook@chromium.org>
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>      293 |                 smp_processor_id(), cs->name, wd_delay, md + cs->uncertainty_margin, wd_seq_delay, nretries, cs->name);
+>          |                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~
