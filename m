@@ -1,62 +1,58 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B796A1C7013
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Aug 2025 10:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA767235355
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Aug 2025 10:43:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754043837; cv=none; b=Whu7ygNAHVDBu5RQh3WO7i+oEqL5yib24qZXSfA4/jnCjvUheChAvy0Pe/Sqd621a0ez+bZ1Ox3bRP0sxYHGvyS+vQVXwpzFFDhzFWnYjQbDZskvFvTUm6fhtJavOqKoC++9jyfI9JFLaMQJh1TkQmZ87NksH5ttEvnpN2F/GvM=
+	t=1754045040; cv=none; b=OddGMX+Zxr8lgvQkf2gUdCZoa4VfO3nXq3ttAqyk46w6J01NjP6TPzwp8/33zgsar5oD353MVondQqj4jahNEM0aZ99b2VsrF03grPfXL2eZI4wu31KH6OM2Ezgp5MB6pDva1hpbfwtW9f0S3boPd2MWngC88ioMYi7T3KXT5lw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754043837; c=relaxed/simple;
-	bh=6C8VKyzSCeZeFS+cVdPFYBYpvnRjlsMbaaS+Hg0OF7M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=avVh3Dlbx6UKXK/HpLKx8DH7FzG6sIE9DtcJJ9n/XIRiBqT4ygHBLzHH8ft7Dj6AvuVUMN9B4Am0+qQTdP84ko8QReuS6lj/b0X5sdRqs0fXQfABIIozW8P1BmbXjmTylTBIYFR2Qs3RsPe/Fb80UHLOgcwP//7KAHl3kF2P6zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wmw2u53q; arc=none smtp.client-ip=192.198.163.9
+	s=arc-20240116; t=1754045040; c=relaxed/simple;
+	bh=W0zYqA+DRLzvHoztjlEYRVVp9WMO5Esf8mCxLp3hKcs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=lKXg20bLWNn2wcsGkOz7DZdsptgxl2ervbpFFm5RiyybK4rBtx8CPTsTjKtcgeC4zli/GVKZPkCesUgL6K+7qDX/LeHVYH5G3iP/YCGGpWjIenWZHybI2mNDR3SV2jPFOXUpf1eJYb7F00tPf3hSvrYRkcnoXxArjpsY5/6Hxrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UwseJrq2; arc=none smtp.client-ip=198.175.65.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wmw2u53q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UwseJrq2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754043834; x=1785579834;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6C8VKyzSCeZeFS+cVdPFYBYpvnRjlsMbaaS+Hg0OF7M=;
-  b=Wmw2u53qKWSCaQlAUHGIroDZAjnoOzh+VpIvHo7VBUlQjZKpF7hbKPH+
-   hVxU+QHkg7OIuNtBTqfk77mP8pV6HwxB3jLpkgRSWQDe00jiL4hLpvAe6
-   XfrVOkEmpsOVFYuJ1ZR0k/U8AQBq//ZzYf071pI5XXTFv1N367JeeeIO6
-   lEb1Vej5+wejm+sfv5jRPzfIuPRzNLWLZjWRtWc2D3uBTzYXJd8WdZXPi
-   tl4nPNLgZwLsrxrfQQow0N2NnCEv466J66MECJ0s8YQJVCoORvk6NBRi/
-   x+XRaY/spG0a6jvzBI74+S1w2pHK8/7XP1KXj2GdkQcvZps+7+2fn5auC
-   Q==;
-X-CSE-ConnectionGUID: 2dowAuI8RjutS3IOX/28Pw==
-X-CSE-MsgGUID: /6eRFReKTImzj3IQdrYpxQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="67084980"
+  t=1754045037; x=1785581037;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=W0zYqA+DRLzvHoztjlEYRVVp9WMO5Esf8mCxLp3hKcs=;
+  b=UwseJrq2eHIJv3sXupTHE5d2hXZpJj4a/vzfyQ6BIGkPBpIbFB5mwP8b
+   y5jzTCL/dYKc0RDJh80wEud/9e7zj5RTf1BikHfOW9g7CDnrJVkalko8A
+   /ofnFaJWkN0dNDkvvqv7K8DZg4pINt80XveCQjxCiQIiCMR0/TqIVyLJD
+   jElSGCnxMqZYNkEbI5B46tsJemYjL97TGX6uHpD0+sOi7nEnMy0ehVJ1R
+   BV6Ob3DvJdZKgI3iWdnq+U21lRtbdFqiROBDvVzp0X8LwJuZpCdpsuowT
+   DTmEEJgxN5pb43XV8+L6o5QBRaDFMYFFEugBlXqANRl3Bu6Zc0raH/d6S
+   w==;
+X-CSE-ConnectionGUID: IY+1jn8iRyyIIpcT2Cp20w==
+X-CSE-MsgGUID: flOxQo5yTMeKXoVpl4wOyg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="60219792"
 X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="67084980"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 03:23:54 -0700
-X-CSE-ConnectionGUID: gX+9Eb8KRCqk+WtatOXhFg==
-X-CSE-MsgGUID: L2D/5umOQnmLUkIdxObthA==
+   d="scan'208";a="60219792"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 03:43:56 -0700
+X-CSE-ConnectionGUID: BVhPRunITHyfYCD8d4Qidg==
+X-CSE-MsgGUID: Skd0mDvVQua5otZcNozheA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="163096369"
+   d="scan'208";a="167745312"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 01 Aug 2025 03:23:52 -0700
+  by orviesa003.jf.intel.com with ESMTP; 01 Aug 2025 03:43:55 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uhmvV-0004XU-2G;
-	Fri, 01 Aug 2025 10:23:49 +0000
-Date: Fri, 1 Aug 2025 18:23:14 +0800
+	id 1uhnEu-0004Yi-2G;
+	Fri, 01 Aug 2025 10:43:52 +0000
+Date: Fri, 1 Aug 2025 18:43:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: Scott Mayhew <smayhew@redhat.com>, chuck.lever@oracle.com,
-	jlayton@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, neil@brown.name, okorniev@redhat.com,
-	Dai.Ngo@oracle.com, tom@talpey.com, linux-nfs@vger.kernel.org
-Subject: Re: [PATCH] nfsd: decouple the xprtsec policy check from
- check_nfsd_access()
-Message-ID: <202508011835.YXIfu0oy-lkp@intel.com>
-References: <20250731211441.1908508-1-smayhew@redhat.com>
+To: kernel@openeuler.org, Laibin Qiu <qiulaibin@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [openeuler:openEuler-1.0-LTS 1740/1740] mm/page_alloc.c:3684:54:
+ sparse: sparse: incorrect type in argument 1 (different base types)
+Message-ID: <202508011847.rOz6VFTy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -65,117 +61,149 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250731211441.1908508-1-smayhew@redhat.com>
 
-Hi Scott,
-
-kernel test robot noticed the following build warnings:
-
-[auto build test WARNING on brauner-vfs/vfs.all]
-[also build test WARNING on linus/master v6.16 next-20250801]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Scott-Mayhew/nfsd-decouple-the-xprtsec-policy-check-from-check_nfsd_access/20250801-051621
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
-patch link:    https://lore.kernel.org/r/20250731211441.1908508-1-smayhew%40redhat.com
-patch subject: [PATCH] nfsd: decouple the xprtsec policy check from check_nfsd_access()
-config: i386-buildonly-randconfig-003-20250801 (https://download.01.org/0day-ci/archive/20250801/202508011835.YXIfu0oy-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508011835.YXIfu0oy-lkp@intel.com/reproduce)
+tree:   https://gitee.com/openeuler/kernel.git openEuler-1.0-LTS
+head:   50f79538c3031890b9ca9755ccf596a73ecb0a0a
+commit: 9b6c51cd780588813c5d327e2a6d677d010a2b6f [1740/1740] mm: fix zoneref mapping problem in memory reliable
+config: arm64-randconfig-r121-20250729 (https://download.01.org/0day-ci/archive/20250801/202508011847.rOz6VFTy-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 15.1.0
+reproduce: (https://download.01.org/0day-ci/archive/20250801/202508011847.rOz6VFTy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508011835.YXIfu0oy-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508011847.rOz6VFTy-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+sparse warnings: (new ones prefixed by >>)
+   mm/page_alloc.c:140:1: sparse: sparse: symbol 'pcpu_drain_mutex' was not declared. Should it be static?
+   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
+   include/linux/mem_reliable.h:68:15: sparse: sparse: restricted gfp_t degrades to integer
+   mm/page_alloc.c:4656:13: sparse: sparse: restricted gfp_t degrades to integer
+   mm/page_alloc.c:4661:35: sparse: sparse: invalid assignment: |=
+   mm/page_alloc.c:4661:35: sparse:    left side has type restricted gfp_t
+   mm/page_alloc.c:4661:35: sparse:    right side has type unsigned int
+   mm/page_alloc.c:4677:35: sparse: sparse: invalid assignment: |=
+   mm/page_alloc.c:4677:35: sparse:    left side has type restricted gfp_t
+   mm/page_alloc.c:4677:35: sparse:    right side has type unsigned int
+   mm/page_alloc.c:4683:35: sparse: sparse: invalid assignment: |=
+   mm/page_alloc.c:4683:35: sparse:    left side has type restricted gfp_t
+   mm/page_alloc.c:4683:35: sparse:    right side has type unsigned int
+   mm/page_alloc.c:4698:35: sparse: sparse: invalid assignment: |=
+   mm/page_alloc.c:4698:35: sparse:    left side has type restricted gfp_t
+   mm/page_alloc.c:4698:35: sparse:    right side has type unsigned int
+   mm/page_alloc.c: note: in included file (through include/linux/mm.h):
+   include/linux/gfp.h:457:34: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:324:27: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:324:27: sparse: sparse: restricted gfp_t degrades to integer
+   mm/page_alloc.c:3683:14: sparse: sparse: restricted gfp_t degrades to integer
+   mm/page_alloc.c:3684:45: sparse: sparse: restricted gfp_t degrades to integer
+>> mm/page_alloc.c:3684:54: sparse: sparse: incorrect type in argument 1 (different base types) @@     expected restricted gfp_t [usertype] flags @@     got unsigned int @@
+   mm/page_alloc.c:3684:54: sparse:     expected restricted gfp_t [usertype] flags
+   mm/page_alloc.c:3684:54: sparse:     got unsigned int
+   include/linux/gfp.h:457:34: sparse: sparse: restricted gfp_t degrades to integer
+   mm/page_alloc.c:3701:14: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:457:34: sparse: sparse: restricted gfp_t degrades to integer
+   include/linux/gfp.h:457:34: sparse: sparse: restricted gfp_t degrades to integer
+   mm/page_alloc.c: In function 'mem_init_print_info':
+   mm/page_alloc.c:7512:27: warning: comparison between two arrays [-Warray-compare]
+    7512 |                 if (start <= pos && pos < end && size > adj) 36-      |                           ^~
+   mm/page_alloc.c:7516:9: note: in expansion of macro 'adj_init_size'
+    7516 |         adj_init_size(__init_begin, __init_end, init_data_size,
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:27: note: use '&__init_begin[0] <= &_sinittext[0]' to compare the addresses
+    7512 |                 if (start <= pos && pos < end && size > adj) 42-      |                           ^~
+   mm/page_alloc.c:7516:9: note: in expansion of macro 'adj_init_size'
+    7516 |         adj_init_size(__init_begin, __init_end, init_data_size,
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:41: warning: comparison between two arrays [-Warray-compare]
+    7512 |                 if (start <= pos && pos < end && size > adj) 48-      |                                         ^
+   mm/page_alloc.c:7516:9: note: in expansion of macro 'adj_init_size'
+    7516 |         adj_init_size(__init_begin, __init_end, init_data_size,
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:41: note: use '&_sinittext[0] < &__init_end[0]' to compare the addresses
+    7512 |                 if (start <= pos && pos < end && size > adj) 54-      |                                         ^
+   mm/page_alloc.c:7516:9: note: in expansion of macro 'adj_init_size'
+    7516 |         adj_init_size(__init_begin, __init_end, init_data_size,
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:27: warning: comparison between two arrays [-Warray-compare]
+    7512 |                 if (start <= pos && pos < end && size > adj) 60-      |                           ^~
+   mm/page_alloc.c:7518:9: note: in expansion of macro 'adj_init_size'
+    7518 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:27: note: use '&_stext[0] <= &_sinittext[0]' to compare the addresses
+    7512 |                 if (start <= pos && pos < end && size > adj) 66-      |                           ^~
+   mm/page_alloc.c:7518:9: note: in expansion of macro 'adj_init_size'
+    7518 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:41: warning: comparison between two arrays [-Warray-compare]
+    7512 |                 if (start <= pos && pos < end && size > adj) 72-      |                                         ^
+   mm/page_alloc.c:7518:9: note: in expansion of macro 'adj_init_size'
+    7518 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:41: note: use '&_sinittext[0] < &_etext[0]' to compare the addresses
+    7512 |                 if (start <= pos && pos < end && size > adj) 78-      |                                         ^
+   mm/page_alloc.c:7518:9: note: in expansion of macro 'adj_init_size'
+    7518 |         adj_init_size(_stext, _etext, codesize, _sinittext, init_code_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:27: warning: comparison between two arrays [-Warray-compare]
+    7512 |                 if (start <= pos && pos < end && size > adj) 84-      |                           ^~
+   mm/page_alloc.c:7519:9: note: in expansion of macro 'adj_init_size'
+    7519 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:27: note: use '&_sdata[0] <= &__init_begin[0]' to compare the addresses
+    7512 |                 if (start <= pos && pos < end && size > adj) 90-      |                           ^~
+   mm/page_alloc.c:7519:9: note: in expansion of macro 'adj_init_size'
+    7519 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:41: warning: comparison between two arrays [-Warray-compare]
+    7512 |                 if (start <= pos && pos < end && size > adj) 96-      |                                         ^
+   mm/page_alloc.c:7519:9: note: in expansion of macro 'adj_init_size'
+    7519 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:41: note: use '&__init_begin[0] < &_edata[0]' to compare the addresses
+    7512 |                 if (start <= pos && pos < end && size > adj) 102-      |                                         ^
+   mm/page_alloc.c:7519:9: note: in expansion of macro 'adj_init_size'
+    7519 |         adj_init_size(_sdata, _edata, datasize, __init_begin, init_data_size);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:27: warning: comparison between two arrays [-Warray-compare]
+    7512 |                 if (start <= pos && pos < end && size > adj) 108-      |                           ^~
+   mm/page_alloc.c:7520:9: note: in expansion of macro 'adj_init_size'
+    7520 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:27: note: use '&_stext[0] <= &__start_rodata[0]' to compare the addresses
+    7512 |                 if (start <= pos && pos < end && size > adj) 114-      |                           ^~
+   mm/page_alloc.c:7520:9: note: in expansion of macro 'adj_init_size'
+    7520 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:41: warning: comparison between two arrays [-Warray-compare]
+    7512 |                 if (start <= pos && pos < end && size > adj) 120-      |                                         ^
+   mm/page_alloc.c:7520:9: note: in expansion of macro 'adj_init_size'
+    7520 |         adj_init_size(_stext, _etext, codesize, __start_rodata, rosize);
+         |         ^~~~~~~~~~~~~
+   mm/page_alloc.c:7512:41: note: use '&__start_rodata[0] < &_etext[0]' to compare the addresses
+    7512 |                 if (start <= pos && pos < end && size > adj) 126-      |                                         ^
 
-   fs/nfsd/export.c: In function 'exp_rootfh':
-   fs/nfsd/export.c:1029:34: warning: variable 'inode' set but not used [-Wunused-but-set-variable]
-    1029 |         struct inode            *inode;
-         |                                  ^~~~~
-   fs/nfsd/export.c: In function 'check_nfsd_access':
->> fs/nfsd/export.c:1153:26: warning: variable 'xprt' set but not used [-Wunused-but-set-variable]
-    1153 |         struct svc_xprt *xprt;
-         |                          ^~~~
+vim +3684 mm/page_alloc.c
 
-
-vim +/xprt +1153 fs/nfsd/export.c
-
-  1138	
-  1139	/**
-  1140	 * check_nfsd_access - check if access to export is allowed.
-  1141	 * @exp: svc_export that is being accessed.
-  1142	 * @rqstp: svc_rqst attempting to access @exp (will be NULL for LOCALIO).
-  1143	 * @may_bypass_gss: reduce strictness of authorization check
-  1144	 *
-  1145	 * Return values:
-  1146	 *   %nfs_ok if access is granted, or
-  1147	 *   %nfserr_wrongsec if access is denied
-  1148	 */
-  1149	__be32 check_nfsd_access(struct svc_export *exp, struct svc_rqst *rqstp,
-  1150				 bool may_bypass_gss)
-  1151	{
-  1152		struct exp_flavor_info *f, *end = exp->ex_flavors + exp->ex_nflavors;
-> 1153		struct svc_xprt *xprt;
-  1154	
-  1155		/*
-  1156		 * If rqstp is NULL, this is a LOCALIO request which will only
-  1157		 * ever use a filehandle/credential pair for which access has
-  1158		 * been affirmed (by ACCESS or OPEN NFS requests) over the
-  1159		 * wire. So there is no need for further checks here.
-  1160		 */
-  1161		if (!rqstp)
-  1162			return nfs_ok;
-  1163	
-  1164		xprt = rqstp->rq_xprt;
-  1165	
-  1166		/* legacy gss-only clients are always OK: */
-  1167		if (exp->ex_client == rqstp->rq_gssclient)
-  1168			return nfs_ok;
-  1169		/* ip-address based client; check sec= export option: */
-  1170		for (f = exp->ex_flavors; f < end; f++) {
-  1171			if (f->pseudoflavor == rqstp->rq_cred.cr_flavor)
-  1172				return nfs_ok;
-  1173		}
-  1174		/* defaults in absence of sec= options: */
-  1175		if (exp->ex_nflavors == 0) {
-  1176			if (rqstp->rq_cred.cr_flavor == RPC_AUTH_NULL ||
-  1177			    rqstp->rq_cred.cr_flavor == RPC_AUTH_UNIX)
-  1178				return nfs_ok;
-  1179		}
-  1180	
-  1181		/* If the compound op contains a spo_must_allowed op,
-  1182		 * it will be sent with integrity/protection which
-  1183		 * will have to be expressly allowed on mounts that
-  1184		 * don't support it
-  1185		 */
-  1186	
-  1187		if (nfsd4_spo_must_allow(rqstp))
-  1188			return nfs_ok;
-  1189	
-  1190		/* Some calls may be processed without authentication
-  1191		 * on GSS exports. For example NFS2/3 calls on root
-  1192		 * directory, see section 2.3.2 of rfc 2623.
-  1193		 * For "may_bypass_gss" check that export has really
-  1194		 * enabled some flavor with authentication (GSS or any
-  1195		 * other) and also check that the used auth flavor is
-  1196		 * without authentication (none or sys).
-  1197		 */
-  1198		if (may_bypass_gss && (
-  1199		     rqstp->rq_cred.cr_flavor == RPC_AUTH_NULL ||
-  1200		     rqstp->rq_cred.cr_flavor == RPC_AUTH_UNIX)) {
-  1201			for (f = exp->ex_flavors; f < end; f++) {
-  1202				if (f->pseudoflavor >= RPC_AUTH_DES)
-  1203					return 0;
-  1204			}
-  1205		}
-  1206	
-  1207		return nfserr_wrongsec;
-  1208	}
-  1209	
+  3673	
+  3674	#ifdef CONFIG_MEMORY_RELIABLE
+  3675	static inline void reliable_fb_find_zone(gfp_t gfp_mask,
+  3676						 struct alloc_context *ac)
+  3677	{
+  3678		if (!reliable_allow_fb_enabled())
+  3679			return;
+  3680	
+  3681		/* dst node don't have zone we want, fallback here */
+  3682		if ((gfp_mask & __GFP_THISNODE) && (ac->high_zoneidx == ZONE_NORMAL) &&
+  3683		    (gfp_mask & ___GFP_RELIABILITY)) {
+> 3684			ac->high_zoneidx = gfp_zone(gfp_mask & ~___GFP_RELIABILITY);
+  3685			ac->preferred_zoneref = first_zones_zonelist(
+  3686				ac->zonelist, ac->high_zoneidx, ac->nodemask);
+  3687		}
+  3688	
+  3689		return;
+  3690	}
+  3691	
 
 -- 
 0-DAY CI Kernel Test Service
