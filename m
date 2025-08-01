@@ -1,299 +1,187 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774AE4A04
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Aug 2025 19:28:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571AC1F5EA
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Aug 2025 19:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754076501; cv=none; b=J0gUgRy33XVA79W5yRWjsZvMqoK1D7oSa+72VIh2Tcl06jhdUsIvldkCImfsYeoWecr2+zxy0W2CBzYKTpATvLeJMlVP3ycGtre6dZuEAITKLburkSm4K+4yX9zNsEF5Fx4I98vpqA8Gt7+zGlf4kCIkMcbHOTEkaOzohbCOdBU=
+	t=1754077544; cv=none; b=XlUKBQglqJ1mwnefXDU8Yb/ueIQlvEkvUSRjUc7HSMlRokAWSbV3YFWPNSt8Ji1Zi3GA0K9pjRPW3m1f/TFCgZUj0xW2ghsoxBmIJYHAWMbVUN2S2IIA1EPIxmtfbHf1UNTReTVKh9QVbbCSdy+mVx9IHa9CSvwE+PvoZP68aPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754076501; c=relaxed/simple;
-	bh=ufHlpKP0CeL+oJ8RWSJk5uKiHjjVpofShEtJqf37G10=;
+	s=arc-20240116; t=1754077544; c=relaxed/simple;
+	bh=ezY3CKXK4XkE0O2ilAnQQpkkknpQ9Cd/RzWUgyp3rxM=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=f4q2zzNwZXxb1q1ckNAcim1vGGQNi0Sf6TId2ExT+BNDs6go5fuxaJ3lmHuT4GClA77LIOk35SkzqdOMVetw5tgAlDBHAB+MeJeCv4QBW/AxddgDiRnVUDbNVqlRjGjJNF6+xXUserIzj5qjeDVKryOmUFNYDM9z2w4zkbPYl5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hb4ur0YD; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=sPP1SSKT6R7jhdx+TqUeqKHs3TNlcgDlXaJdOki+VQ/kYqiwNYgrl5o+DOftJmUec8AVMYjNRKIHbiB42hz3h1FD8xdjdRhFVw6Hnr7tc/7qatMR6k7XHLd/KzN7VqWWtdb+sYj/oF1xfFPR5GQnM9eBumedd3SmvaRm1ZBojXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HW9PeAJ/; arc=none smtp.client-ip=198.175.65.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hb4ur0YD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HW9PeAJ/"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754076500; x=1785612500;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ufHlpKP0CeL+oJ8RWSJk5uKiHjjVpofShEtJqf37G10=;
-  b=Hb4ur0YDOOmnb1pqVHSXrPyawBEFbDpjkEX7HpQNx9uAJIzpKYcoKl0E
-   fGJ8/BbXpaWEoztL5msOLNGknYaOkYs8qapLro6F530MnEAVLJIoL3L3l
-   XDvKmoL2Wps/Da2URWL1m9d/fEpaeYD38IH7MuHz3295l1D8dIqIM4U/j
-   RcK6Lus0uUOd1E4MrCTTgonRwfuFCkthgqb1a37mS/80GyMOy9lEps7el
-   BQdUx5ZuiZT69iWTjQctvs8uS76qqRrB7m9DXF/jBj4R40ywvcfqwF9iy
-   0skx5R6LQkSfbCm8a5ZrBmM6G7NnKE3EnKQrDqmuBQDp0O0Utj+WPRjLR
-   g==;
-X-CSE-ConnectionGUID: cPzA9Ux5TkSNZJt25WKYuQ==
-X-CSE-MsgGUID: +pRGxokNRkyotRlQp66bCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56391919"
+  t=1754077542; x=1785613542;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=ezY3CKXK4XkE0O2ilAnQQpkkknpQ9Cd/RzWUgyp3rxM=;
+  b=HW9PeAJ/JfJeGOQWwwLkN9LSLafXbjJQHxV44Sxch9dzGLih1MOR6rXm
+   /6j/GeZSZW0c68wxqkO/liLLkkzsUFpB32A4cfs4rXOeMZkaqzb6S+N7T
+   y6u/fNgm1o0V+3IPpKJzWjzZVls70GuCrNF9WEjfW4BTS+00boeK6OZdZ
+   BSbFogoB3Z8rQdZ58gHnvtOAwpvY0r3ngXS+UD3Fh0weI15R+tbRqgzrR
+   DuWW9xOiYYdxHgAq50i9/mG2mAlJIIbvUwHZkOCz/Ld0gCn2HV51w6ufD
+   AmHwfEbRnECUKxCXppRsJd1xTHtA9nZ9q16iySpTbpZM3HwfUYE6e8Vpk
+   Q==;
+X-CSE-ConnectionGUID: 5ytLsu3XS9e7Z9I+IXnUTA==
+X-CSE-MsgGUID: qpdlUKUwRcK5ZHcM6J+5HQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="67505334"
 X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="56391919"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 12:28:19 -0700
-X-CSE-ConnectionGUID: XpxDIGveRuGhdmqoA1hexw==
-X-CSE-MsgGUID: 6rVbYcjyROOSmz5Q+905Dg==
+   d="scan'208";a="67505334"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 12:45:41 -0700
+X-CSE-ConnectionGUID: 7OHT/za9QfGRxp/SiJB9bg==
+X-CSE-MsgGUID: cdClfN+ESaG/3QzUgaR6yw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="168940917"
-Received: from igk-lkp-server01.igk.intel.com (HELO b3b7d4258b7c) ([10.91.175.65])
-  by fmviesa004.fm.intel.com with ESMTP; 01 Aug 2025 12:28:17 -0700
-Received: from kbuild by b3b7d4258b7c with local (Exim 4.96)
+   d="scan'208";a="164030203"
+Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 01 Aug 2025 12:45:40 -0700
+Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uhvQN-0001H9-1J;
-	Fri, 01 Aug 2025 19:28:15 +0000
-Date: Fri, 1 Aug 2025 21:27:26 +0200
+	id 1uhvhC-0004sW-1o;
+	Fri, 01 Aug 2025 19:45:38 +0000
+Date: Sat, 2 Aug 2025 03:44:41 +0800
 From: kernel test robot <lkp@intel.com>
-To: kernel@openeuler.org, Pu Lehui <pulehui@huawei.com>
+To: Kent Overstreet <kent.overstreet@linux.dev>
 Cc: oe-kbuild-all@lists.linux.dev
-Subject: [openeuler:OLK-6.6 2628/2628] kernel/locking/mutex.c:623:6: warning:
- variable 'ifs_clock' is used uninitialized whenever 'if' condition is true
-Message-ID: <202508012102.cdVlsY7O-lkp@intel.com>
+Subject: [koverstreet-bcachefs:bcachefs-testing 242/245]
+ fs/bcachefs/btree_update.c:241:73: warning: the omitted middle operand in
+ '?:' will always be 'true', suggest explicit middle operand
+Message-ID: <202508020310.zCvLxy3X-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
 List-Subscribe: <mailto:oe-kbuild-all+subscribe@lists.linux.dev>
 List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 
-tree:   https://gitee.com/openeuler/kernel.git OLK-6.6
-head:   1ca83de3cbd1afcc3038a46ab4c4c4626b9a4712
-commit: a1ad9b2ed459a3e3a4a2de50e03f53036fc7ec96 [2628/2628] interference: Add mutex interference track support
-config: x86_64-buildonly-randconfig-2002-20250801 (https://download.01.org/0day-ci/archive/20250801/202508012102.cdVlsY7O-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508012102.cdVlsY7O-lkp@intel.com/reproduce)
+tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
+head:   0578ddb0c7a29b52a4c947e2a496aed8709074f3
+commit: 123601916647ab847fe6e6ecfbae320fa8966886 [242/245] bcachefs: bcachefs_metadata_version_extent_snapshot_whiteouts
+config: csky-randconfig-001-20250802 (https://download.01.org/0day-ci/archive/20250802/202508020310.zCvLxy3X-lkp@intel.com/config)
+compiler: csky-linux-gcc (GCC) 15.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508020310.zCvLxy3X-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508012102.cdVlsY7O-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508020310.zCvLxy3X-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/locking/mutex.c:623:6: warning: variable 'ifs_clock' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-     623 |         if (__mutex_trylock(lock)) {
-         |             ^~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/mutex.c:725:24: note: uninitialized use occurs here
-     725 |         cgroup_ifs_leave_lock(ifs_clock, IFS_MUTEX);
-         |                               ^~~~~~~~~
-   kernel/locking/mutex.c:623:2: note: remove the 'if' if its condition is always false
-     623 |         if (__mutex_trylock(lock)) {
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     624 |                 if (ww_ctx)
-         |                 ~~~~~~~~~~~
-     625 |                         __ww_mutex_check_waiters(lock, ww_ctx);
-         |                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-     626 | 
-     627 |                 goto skip_wait;
-         |                 ~~~~~~~~~~~~~~~
-     628 |         }
-         |         ~
-   kernel/locking/mutex.c:576:15: note: initialize the variable 'ifs_clock' to silence this warning
-     576 |         u64 ifs_clock;
-         |                      ^
-         |                       = 0
-   1 warning generated.
+   fs/bcachefs/btree_update.c: In function 'bch2_trans_update_extent_overwrite':
+>> fs/bcachefs/btree_update.c:241:73: warning: the omitted middle operand in '?:' will always be 'true', suggest explicit middle operand [-Wparentheses]
+     241 |                         ret =   new.k->p.snapshot != old.k->p.snapshot ?:
+         |                                                                         ^
 
 
-vim +623 kernel/locking/mutex.c
+vim +241 fs/bcachefs/btree_update.c
 
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  565  
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  566  /*
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  567   * Lock a mutex (possibly interruptible), slowpath:
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  568   */
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  569  static __always_inline int __sched
-2f064a59a11ff9 kernel/locking/mutex.c Peter Zijlstra            2021-06-11  570  __mutex_lock_common(struct mutex *lock, unsigned int state, unsigned int subclass,
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  571  		    struct lockdep_map *nest_lock, unsigned long ip,
-b0267507dfd018 kernel/mutex.c         Tetsuo Handa              2013-10-17  572  		    struct ww_acquire_ctx *ww_ctx, const bool use_ww_ctx)
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  573  {
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  574  	struct mutex_waiter waiter;
-a40ca56577f628 kernel/locking/mutex.c Waiman Long               2016-08-26  575  	struct ww_mutex *ww;
-a1ad9b2ed459a3 kernel/locking/mutex.c Pu Lehui                  2025-07-16  576  	u64 ifs_clock;
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  577  	int ret;
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  578  
-5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  579  	if (!use_ww_ctx)
-5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  580  		ww_ctx = NULL;
-5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  581  
-427b18207a87f6 kernel/locking/mutex.c Peter Zijlstra            2016-12-23  582  	might_sleep();
-ea9e0fb8fe1bdf kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  583  
-e6b4457b05f36b kernel/locking/mutex.c Peter Zijlstra            2021-06-30  584  	MUTEX_WARN_ON(lock->magic != lock);
-6c11c6e3d5e9e5 kernel/locking/mutex.c Sebastian Andrzej Siewior 2019-07-03  585  
-a40ca56577f628 kernel/locking/mutex.c Waiman Long               2016-08-26  586  	ww = container_of(lock, struct ww_mutex, base);
-5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  587  	if (ww_ctx) {
-0422e83d84ae24 kernel/locking/mutex.c Chris Wilson              2016-05-26  588  		if (unlikely(ww_ctx == READ_ONCE(ww->ctx)))
-0422e83d84ae24 kernel/locking/mutex.c Chris Wilson              2016-05-26  589  			return -EALREADY;
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  590  
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  591  		/*
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  592  		 * Reset the wounded flag after a kill. No other process can
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  593  		 * race and wound us here since they can't have a valid owner
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  594  		 * pointer if we don't have any locks held.
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  595  		 */
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  596  		if (ww_ctx->acquired == 0)
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  597  			ww_ctx->wounded = 0;
-cf702eddcd03dc kernel/locking/mutex.c Peter Zijlstra            2021-08-15  598  
-cf702eddcd03dc kernel/locking/mutex.c Peter Zijlstra            2021-08-15  599  #ifdef CONFIG_DEBUG_LOCK_ALLOC
-cf702eddcd03dc kernel/locking/mutex.c Peter Zijlstra            2021-08-15  600  		nest_lock = &ww_ctx->dep_map;
-cf702eddcd03dc kernel/locking/mutex.c Peter Zijlstra            2021-08-15  601  #endif
-0422e83d84ae24 kernel/locking/mutex.c Chris Wilson              2016-05-26  602  	}
-0422e83d84ae24 kernel/locking/mutex.c Chris Wilson              2016-05-26  603  
-41719b03091911 kernel/mutex.c         Peter Zijlstra            2009-01-14  604  	preempt_disable();
-e4c70a6629f9c7 kernel/mutex.c         Peter Zijlstra            2011-05-24  605  	mutex_acquire_nest(&lock->dep_map, subclass, 0, nest_lock, ip);
-c02260277e4720 kernel/mutex.c         Frederic Weisbecker       2009-12-02  606  
-dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  607  	trace_contention_begin(lock, LCB_F_MUTEX | LCB_F_SPIN);
-e274795ea7b7ca kernel/locking/mutex.c Peter Zijlstra            2017-01-11  608  	if (__mutex_trylock(lock) ||
-5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  609  	    mutex_optimistic_spin(lock, ww_ctx, NULL)) {
-76916515d9d84e kernel/locking/mutex.c Davidlohr Bueso           2014-07-30  610  		/* got the lock, yay! */
-3ca0ff571b092e kernel/locking/mutex.c Peter Zijlstra            2016-08-23  611  		lock_acquired(&lock->dep_map, ip);
-5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  612  		if (ww_ctx)
-3ca0ff571b092e kernel/locking/mutex.c Peter Zijlstra            2016-08-23  613  			ww_mutex_set_context_fastpath(ww, ww_ctx);
-dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  614  		trace_contention_end(lock, 0);
-ac6e60ee405aa3 kernel/mutex.c         Chris Mason               2009-01-14  615  		preempt_enable();
-ac6e60ee405aa3 kernel/mutex.c         Chris Mason               2009-01-14  616  		return 0;
-ac6e60ee405aa3 kernel/mutex.c         Chris Mason               2009-01-14  617  	}
-ac6e60ee405aa3 kernel/mutex.c         Chris Mason               2009-01-14  618  
-ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  619  	raw_spin_lock(&lock->wait_lock);
-1e820c9608eace kernel/locking/mutex.c Jason Low                 2014-06-11  620  	/*
-3ca0ff571b092e kernel/locking/mutex.c Peter Zijlstra            2016-08-23  621  	 * After waiting to acquire the wait_lock, try again.
-1e820c9608eace kernel/locking/mutex.c Jason Low                 2014-06-11  622  	 */
-659cf9f5824a12 kernel/locking/mutex.c Nicolai Hähnle            2016-12-21 @623  	if (__mutex_trylock(lock)) {
-5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  624  		if (ww_ctx)
-55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  625  			__ww_mutex_check_waiters(lock, ww_ctx);
-659cf9f5824a12 kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  626  
-ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  627  		goto skip_wait;
-659cf9f5824a12 kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  628  	}
-ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  629  
-9a11b49a805665 kernel/mutex.c         Ingo Molnar               2006-07-03  630  	debug_mutex_lock_common(lock, &waiter);
-c0afb0ffc06e6b kernel/locking/mutex.c Peter Zijlstra            2021-08-15  631  	waiter.task = current;
-b857174e68e26f kernel/locking/mutex.c Sebastian Andrzej Siewior 2021-08-19  632  	if (use_ww_ctx)
-c0afb0ffc06e6b kernel/locking/mutex.c Peter Zijlstra            2021-08-15  633  		waiter.ww_ctx = ww_ctx;
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  634  
-6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  635  	lock_contended(&lock->dep_map, ip);
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  636  
-6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  637  	if (!use_ww_ctx) {
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  638  		/* add waiting tasks to the end of the waitqueue (FIFO): */
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  639  		__mutex_add_waiter(lock, &waiter, &lock->wait_list);
-6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  640  	} else {
-55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  641  		/*
-55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  642  		 * Add in stamp order, waking up waiters that must kill
-55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  643  		 * themselves.
-55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  644  		 */
-6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  645  		ret = __ww_mutex_add_waiter(&waiter, lock, ww_ctx);
-6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  646  		if (ret)
-55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  647  			goto err_early_kill;
-6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  648  	}
-6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  649  
-642fa448ae6b3a kernel/locking/mutex.c Davidlohr Bueso           2017-01-03  650  	set_current_state(state);
-dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  651  	trace_contention_begin(lock, LCB_F_MUTEX);
-a1ad9b2ed459a3 kernel/locking/mutex.c Pu Lehui                  2025-07-16  652  	cgroup_ifs_enter_lock(&ifs_clock);
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  653  	for (;;) {
-048661a1f963e9 kernel/locking/mutex.c Peter Zijlstra            2021-06-30  654  		bool first;
-048661a1f963e9 kernel/locking/mutex.c Peter Zijlstra            2021-06-30  655  
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  656  		/*
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  657  		 * Once we hold wait_lock, we're serialized against
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  658  		 * mutex_unlock() handing the lock off to us, do a trylock
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  659  		 * before testing the error conditions to make sure we pick up
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  660  		 * the handoff.
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  661  		 */
-e274795ea7b7ca kernel/locking/mutex.c Peter Zijlstra            2017-01-11  662  		if (__mutex_trylock(lock))
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  663  			goto acquired;
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  664  
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  665  		/*
-55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  666  		 * Check for signals and kill conditions while holding
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  667  		 * wait_lock. This ensures the lock cancellation is ordered
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  668  		 * against mutex_unlock() and wake-ups do not go missing.
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  669  		 */
-3bb5f4ac55dd91 kernel/locking/mutex.c Davidlohr Bueso           2019-01-03  670  		if (signal_pending_state(state, current)) {
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  671  			ret = -EINTR;
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  672  			goto err;
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  673  		}
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  674  
-5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  675  		if (ww_ctx) {
-55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  676  			ret = __ww_mutex_check_kill(lock, &waiter, ww_ctx);
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  677  			if (ret)
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  678  				goto err;
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  679  		}
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  680  
-ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  681  		raw_spin_unlock(&lock->wait_lock);
-bd2f55361f1834 kernel/mutex.c         Thomas Gleixner           2011-03-21  682  		schedule_preempt_disabled();
-9d659ae14b545c kernel/locking/mutex.c Peter Zijlstra            2016-08-23  683  
-6baa5c60a97d7f kernel/locking/mutex.c Nicolai Hähnle            2016-12-21  684  		first = __mutex_waiter_is_first(lock, &waiter);
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  685  
-642fa448ae6b3a kernel/locking/mutex.c Davidlohr Bueso           2017-01-03  686  		set_current_state(state);
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  687  		/*
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  688  		 * Here we order against unlock; we must either see it change
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  689  		 * state back to RUNNING and fall through the next schedule(),
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  690  		 * or we must see its unlock and acquire.
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  691  		 */
-dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  692  		if (__mutex_trylock_or_handoff(lock, first))
-dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  693  			break;
-dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  694  
-dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  695  		if (first) {
-dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  696  			trace_contention_begin(lock, LCB_F_MUTEX | LCB_F_SPIN);
-dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  697  			if (mutex_optimistic_spin(lock, ww_ctx, &waiter))
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  698  				break;
-dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  699  			trace_contention_begin(lock, LCB_F_MUTEX);
-dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  700  		}
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  701  
-ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  702  		raw_spin_lock(&lock->wait_lock);
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  703  	}
-ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  704  	raw_spin_lock(&lock->wait_lock);
-5bbd7e64437833 kernel/locking/mutex.c Peter Zijlstra            2016-09-02  705  acquired:
-642fa448ae6b3a kernel/locking/mutex.c Davidlohr Bueso           2017-01-03  706  	__set_current_state(TASK_RUNNING);
-51587bcf31d070 kernel/locking/mutex.c Davidlohr Bueso           2015-01-19  707  
-5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  708  	if (ww_ctx) {
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  709  		/*
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  710  		 * Wound-Wait; we stole the lock (!first_waiter), check the
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  711  		 * waiters as anyone might want to wound us.
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  712  		 */
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  713  		if (!ww_ctx->is_wait_die &&
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  714  		    !__mutex_waiter_is_first(lock, &waiter))
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  715  			__ww_mutex_check_waiters(lock, ww_ctx);
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  716  	}
-08295b3b5beec9 kernel/locking/mutex.c Thomas Hellstrom          2018-06-15  717  
-3a010c493271f0 kernel/locking/mutex.c Zqiang                    2021-05-17  718  	__mutex_remove_waiter(lock, &waiter);
-3ca0ff571b092e kernel/locking/mutex.c Peter Zijlstra            2016-08-23  719  
-ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  720  	debug_mutex_free_waiter(&waiter);
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  721  
-ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  722  skip_wait:
-ec83f425dbca47 kernel/mutex.c         Davidlohr Bueso           2013-06-28  723  	/* got the lock - cleanup and rejoice! */
-c7e78cff6b7518 kernel/mutex.c         Peter Zijlstra            2008-10-16  724  	lock_acquired(&lock->dep_map, ip);
-a1ad9b2ed459a3 kernel/locking/mutex.c Pu Lehui                  2025-07-16  725  	cgroup_ifs_leave_lock(ifs_clock, IFS_MUTEX);
-ee042be16cb455 kernel/locking/mutex.c Namhyung Kim              2022-03-22  726  	trace_contention_end(lock, 0);
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  727  
-5de2055d31ea88 kernel/locking/mutex.c Waiman Long               2021-03-16  728  	if (ww_ctx)
-55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  729  		ww_mutex_lock_acquired(ww, ww_ctx);
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  730  
-ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  731  	raw_spin_unlock(&lock->wait_lock);
-41719b03091911 kernel/mutex.c         Peter Zijlstra            2009-01-14  732  	preempt_enable();
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  733  	return 0;
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  734  
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  735  err:
-642fa448ae6b3a kernel/locking/mutex.c Davidlohr Bueso           2017-01-03  736  	__set_current_state(TASK_RUNNING);
-3a010c493271f0 kernel/locking/mutex.c Zqiang                    2021-05-17  737  	__mutex_remove_waiter(lock, &waiter);
-55f036ca7e74b8 kernel/locking/mutex.c Peter Ziljstra            2018-06-15  738  err_early_kill:
-a1ad9b2ed459a3 kernel/locking/mutex.c Pu Lehui                  2025-07-16  739  	cgroup_ifs_leave_lock(ifs_clock, IFS_MUTEX);
-dc1f7893a70fe4 kernel/locking/mutex.c Peter Zijlstra            2022-03-30  740  	trace_contention_end(lock, ret);
-ebf4c55c1ddbab kernel/locking/mutex.c Thomas Gleixner           2021-08-15  741  	raw_spin_unlock(&lock->wait_lock);
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  742  	debug_mutex_free_waiter(&waiter);
-5facae4f3549b5 kernel/locking/mutex.c Qian Cai                  2019-09-19  743  	mutex_release(&lock->dep_map, ip);
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  744  	preempt_enable();
-040a0a37100563 kernel/mutex.c         Maarten Lankhorst         2013-06-24  745  	return ret;
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  746  }
-6053ee3b32e343 kernel/mutex.c         Ingo Molnar               2006-01-09  747  
-
-:::::: The code at line 623 was first introduced by commit
-:::::: 659cf9f5824a12e6b50785e4e9cf1adf8a3adbd0 locking/ww_mutex: Optimize ww-mutexes by waking at most one waiter for backoff when acquiring the lock
-
-:::::: TO: Nicolai Hähnle <Nicolai.Haehnle@amd.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+   173	
+   174	int bch2_trans_update_extent_overwrite(struct btree_trans *trans,
+   175					       struct btree_iter *iter,
+   176					       enum btree_iter_update_trigger_flags flags,
+   177					       struct bkey_s_c old,
+   178					       struct bkey_s_c new)
+   179	{
+   180		enum btree_id btree_id = iter->btree_id;
+   181		struct bkey_i *update;
+   182		struct bpos new_start = bkey_start_pos(new.k);
+   183		unsigned front_split = bkey_lt(bkey_start_pos(old.k), new_start);
+   184		unsigned back_split  = bkey_gt(old.k->p, new.k->p);
+   185		unsigned middle_split = (front_split || back_split) &&
+   186			old.k->p.snapshot != new.k->p.snapshot;
+   187		unsigned nr_splits = front_split + back_split + middle_split;
+   188		int ret = 0, compressed_sectors;
+   189	
+   190		/*
+   191		 * If we're going to be splitting a compressed extent, note it
+   192		 * so that __bch2_trans_commit() can increase our disk
+   193		 * reservation:
+   194		 */
+   195		if (nr_splits > 1 &&
+   196		    (compressed_sectors = bch2_bkey_sectors_compressed(old)))
+   197			trans->extra_disk_res += compressed_sectors * (nr_splits - 1);
+   198	
+   199		if (front_split) {
+   200			update = bch2_bkey_make_mut_noupdate(trans, old);
+   201			if ((ret = PTR_ERR_OR_ZERO(update)))
+   202				return ret;
+   203	
+   204			bch2_cut_back(new_start, update);
+   205	
+   206			ret =   bch2_insert_snapshot_whiteouts(trans, btree_id,
+   207						old.k->p, update->k.p) ?:
+   208				bch2_btree_insert_nonextent(trans, btree_id, update,
+   209						BTREE_UPDATE_internal_snapshot_node|flags);
+   210			if (ret)
+   211				return ret;
+   212		}
+   213	
+   214		/* If we're overwriting in a different snapshot - middle split: */
+   215		if (middle_split) {
+   216			update = bch2_bkey_make_mut_noupdate(trans, old);
+   217			if ((ret = PTR_ERR_OR_ZERO(update)))
+   218				return ret;
+   219	
+   220			bch2_cut_front(new_start, update);
+   221			bch2_cut_back(new.k->p, update);
+   222	
+   223			ret =   bch2_insert_snapshot_whiteouts(trans, btree_id,
+   224						old.k->p, update->k.p) ?:
+   225				bch2_btree_insert_nonextent(trans, btree_id, update,
+   226						  BTREE_UPDATE_internal_snapshot_node|flags);
+   227			if (ret)
+   228				return ret;
+   229		}
+   230	
+   231		if (!back_split) {
+   232			update = bch2_trans_kmalloc(trans, sizeof(*update));
+   233			if ((ret = PTR_ERR_OR_ZERO(update)))
+   234				return ret;
+   235	
+   236			bkey_init(&update->k);
+   237			update->k.p = old.k->p;
+   238			update->k.p.snapshot = new.k->p.snapshot;
+   239	
+   240			if (btree_type_has_snapshots(btree_id)) {
+ > 241				ret =   new.k->p.snapshot != old.k->p.snapshot ?:
+   242					need_whiteout_for_snapshot(trans, btree_id, update->k.p);
+   243				if (ret < 0)
+   244					return ret;
+   245				if (ret)
+   246					update->k.type = extent_whiteout_type(iter->btree_id, new.k);
+   247			}
+   248	
+   249			ret = bch2_btree_insert_nonextent(trans, btree_id, update,
+   250						  BTREE_UPDATE_internal_snapshot_node|flags);
+   251			if (ret)
+   252				return ret;
+   253		} else {
+   254			update = bch2_bkey_make_mut_noupdate(trans, old);
+   255			if ((ret = PTR_ERR_OR_ZERO(update)))
+   256				return ret;
+   257	
+   258			bch2_cut_front(new.k->p, update);
+   259	
+   260			ret = bch2_trans_update_by_path(trans, iter->path, update,
+   261						  BTREE_UPDATE_internal_snapshot_node|
+   262						  flags, _RET_IP_);
+   263			if (ret)
+   264				return ret;
+   265		}
+   266	
+   267		return 0;
+   268	}
+   269	
 
 -- 
 0-DAY CI Kernel Test Service
