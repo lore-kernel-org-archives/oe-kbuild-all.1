@@ -1,72 +1,71 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43A924676C;
-	Fri,  1 Aug 2025 12:56:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBE002441AF
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Aug 2025 14:31:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754052976; cv=none; b=Q5YTnqk/LWPQmDg7kp+FRvR9q6a30Idu8s8rV7ocLSMBm7Dv0OHJZBldtdQetKtmIX2V7Pfl5UwrNog0tDVFIUEZkBmAEwPOrW8E3Gji27A0KGeB2d6oD9P1yxhnrf/H3unLHboA1yMyuk+bKd/BYjqbsMWOmkFaZX57/0UUPhs=
+	t=1754058709; cv=none; b=tgGxHHyt0nr6g8TkyYqnzFYi70461IuvZ2Qs9p8GPygDMoK69y4qUGGCtLxR5CIVaq8G+MirZmEYqhNZbTPHwDzQGXUX8dDgxAa+Ld0xHyoPmKvsuSXspWtE17ILt/WoKhlhEVmCyJw5/kgW4/wdlcUymNJkz4xxnb16lq2q8as=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754052976; c=relaxed/simple;
-	bh=Rtzfcvwkul30C1tQ3bVX6Wtto5iApIgC11igXrCtIyY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N/d0kChSNv0v46B937OzGkt4xw6lmJdUMLj+GBVayT0a8wWz4LCfXHe2ZXgU1Y/qRHcfQ5yBJD7RrIt/Us0x6rCZJq2ChuQtn+FLz7R2s9UugHPF99MvTeD0mOhUIdJzYpXFBqPX0g7i3UZ55tJl9L+VZOLLKJr8It+YzIMchQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SHE97O80; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1754058709; c=relaxed/simple;
+	bh=FK0vyelFnv1mUU8CyGh29LkgK4hFNqWbgWNw58bAiUY=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=ndOQwlQeBcX3mnPN7w8KcUt5rghVGomNpc26RStdMCwFg8c3u9XYRIs9zG8IybOa8H+hOT7d+sZ+mKv//OfjhMlaGK8hOxwfCRW5PvMvNx+v7EbKg/pkxMFFQmwgxnrNY5zaq0QUxDoRv1Q7qpYWCr9JJmU9PmnaVypA9ZvCjZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x2NMSZ5P; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SHE97O80"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754052974; x=1785588974;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Rtzfcvwkul30C1tQ3bVX6Wtto5iApIgC11igXrCtIyY=;
-  b=SHE97O80f0KOsTklh14ECZD0S8NxW2WzWVhnPfMfX6bmBSvnehURjw+D
-   GcghGjdNOgUNeqpMz05L6X7S5EBdz7PaMKjFiX0b+6EgnmcBBOXdeYQHM
-   aoO4//iI6fIV0xQNIKsMrXlc2YIAKY52WLqd6dyLCscVsAmc65fqcec1C
-   Vtp9oAKp0Ip1V7byepRbOPvr/TKDuRCmWYc/QGr1+NhhFaJHn56HYIaas
-   NLjj/a30lUfMBWZ4K2IDFb3eldUIhZbD+ptUhdMsgEveToQbjNcYbnzaj
-   kAUvmPmCVi7vsjubAyp3Wem/G94oSE7jo1BZb9Z2105CuVivVz4kCyPnB
-   w==;
-X-CSE-ConnectionGUID: u68jI9/yS2eiw54fcHYpDw==
-X-CSE-MsgGUID: xPuF0O0bQCWYLtLoXDsIrw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56478309"
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="56478309"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 05:56:13 -0700
-X-CSE-ConnectionGUID: BGb912eYQgiEW6HwicwKVQ==
-X-CSE-MsgGUID: WW8OaP5zRP2oOXCNEXCcJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="167820732"
-Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 01 Aug 2025 05:56:06 -0700
-Received: from kbuild by 160750d4a34c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uhpIq-0004dA-0y;
-	Fri, 01 Aug 2025 12:56:04 +0000
-Date: Fri, 1 Aug 2025 20:56:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com,
-	david@redhat.com, vbabka@suse.cz, peterx@redhat.com,
-	jannh@google.com, hannes@cmpxchg.org, mhocko@kernel.org,
-	paulmck@kernel.org, shuah@kernel.org, adobriyan@gmail.com,
-	brauner@kernel.org, josef@toxicpanda.com, yebin10@huawei.com,
-	linux@weissschuh.net, willy@infradead.org, osalvador@suse.de,
-	andrii@kernel.org, ryan.roberts@arm.com,
-	christophe.leroy@csgroup.eu, tjmercier@google.com,
-	kaleshsingh@google.com, aha310510@gmail.com,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-	surenb@google.com
-Subject: Re: [PATCH 2/3] fs/proc/task_mmu: factor out proc_maps_private
- fields used by PROCMAP_QUERY
-Message-ID: <202508012010.9IA7JflG-lkp@intel.com>
-References: <20250731220024.702621-3-surenb@google.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x2NMSZ5P"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4589180b266so11950955e9.3
+        for <oe-kbuild-all@lists.linux.dev>; Fri, 01 Aug 2025 07:31:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1754058705; x=1754663505; darn=lists.linux.dev;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AieFr6QqT2maFLAJIA2s1XsjLSFuKHyndgzoToJrS2E=;
+        b=x2NMSZ5PBbLjlDcdqOgUE54cfZ0SR7XS1mlR6rw8s6slAgPn+BOMQGLFDwODt4PiiV
+         hpzQaPvAhsCjDqo2rLUKmTw63kwc3Ml4HEoxms7I21TBr3/nmMMTbSoaRj8sPZRIzpui
+         PU5CwfDcD9H3MvvCH/TLcZ5NaAXsFeuSjLCR7T610UYPVsk7JFKvw6E+5Bm4AieQL4C4
+         w0d2HNLtV1WdkKvew+oKUFIEm1wVSL3Stg/Q636+VgLN33fXar/Llv/yrUKgxg0iS0PE
+         P4hC/57KGpO+QxUro8mzgEXXENJsayCLgrFsnI7PYGZvCcNv4nHikXupRdZJrwiLjUAU
+         qbzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1754058705; x=1754663505;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AieFr6QqT2maFLAJIA2s1XsjLSFuKHyndgzoToJrS2E=;
+        b=otYWWFvE8xu6V7pL22ecz/gcawZ5ZJG3L+NXuGsxa4b2YnDamtlUBvjL/JhcUgDtY0
+         lIZDeK3XtsfdQ8ANjqzcklcgOCismQqpK8Bf8CvKLyKNeoICiiJqgugOnXKqdmDQuRNv
+         L6Ns1tCUQpystlHZMvFCZswvgJXWjJR08v1xgGBnC28JYihgsbmANf0jDk7UTAtki1s3
+         x3ppmnRU1MqLEsK5czKvuipULbAYUz8pi83dvfWd+voxzRJfap8hywWgewxqBOdrQV2V
+         AkAeKyx/mp8FH0qU429h/dYt40B6RDLBOf0QCgROjP45FEifLJyps2tjgaUCfH/5s1eq
+         3evQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWs8/qpAe2CKVAE2nl/xHwJ6ykDgXE56hJ4/mRFiNyVfGybcsF2+etVAa3K7PCghiX4kilqlOkjABe5WbKs@lists.linux.dev
+X-Gm-Message-State: AOJu0YxmvQtAmGMHhX4lJXFdf6As6NP6q/RcGH+fnltNO9NsJR4hYq9J
+	tGG7a4blBM59voYk4XtapGPNTSUb9bBsBbWsVOUgzo8WuK6G+Qt0VdlH45+B6/jOvMY=
+X-Gm-Gg: ASbGncu63dAdfC5hdcx1TEGqbupVmlKGCQe+xOae72ZzUQjeVXPvnF8rPLvGiKeL+mR
+	uCQK/UZ6K6pyWicoj+hTX5DSB2J1G6Q9evhCY0LL7V5nt5uupXo4x661xJemIbAMIxQHFCKW1yo
+	EskHsUnXEa63h8vB+y4XPqUpXIkGVSSaP9+tT3TxH63ETfrLVyT43OOLQjEfLgXqLxtdxiCmV/a
+	SAGP7PppiQ7/ivEyvGZoHQuwyzcuoXM/30zEnPxrU6XzTmsIjPFk+oPdRvBxjCYYSXvjhpuejtK
+	UI2/q8xTEYpKmGpsq5WaF6gN/q8ziBlLx9/Z4vhhHkcRvSKrXm31HGGE2iag1vHvFas5IzpsFWd
+	ChfcHTnah6hS5mtHzbZByknxPTF6HUx3YMFU0ug==
+X-Google-Smtp-Source: AGHT+IFsFT3WFtGw9qAky7zYLbRwPgM0Lo6AQ8+E1AcAZECTEtITCALi3O2SmSLsaNNNGaGdYR0uiQ==
+X-Received: by 2002:adf:e047:0:b0:3b7:9c28:f856 with SMTP id ffacd0b85a97d-3b79c28f954mr4079994f8f.48.1754058705140;
+        Fri, 01 Aug 2025 07:31:45 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3b79c48a05bsm6129217f8f.69.2025.08.01.07.31.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 Aug 2025 07:31:44 -0700 (PDT)
+Date: Fri, 1 Aug 2025 17:31:41 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Weitao Wang <WeitaoWang-oc@zhaoxin.com>,
+	gregkh@linuxfoundation.org, mathias.nyman@intel.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev, WeitaoWang@zhaoxin.com,
+	wwt8723@163.com, CobeChen@zhaoxin.com, stable@vger.kernel.org
+Subject: Re: [PATCH v3] usb:xhci:Fix slot_id resource race conflict
+Message-ID: <b5ab0f46-0fde-420e-97a2-136d3074b59c@suswa.mountain>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -75,94 +74,96 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250731220024.702621-3-surenb@google.com>
+In-Reply-To: <20250730152715.8368-1-WeitaoWang-oc@zhaoxin.com>
 
-Hi Suren,
+Hi Weitao,
 
-kernel test robot noticed the following build errors:
+kernel test robot noticed the following build warnings:
 
-[auto build test ERROR on 01da54f10fddf3b01c5a3b80f6b16bbad390c302]
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan/selftests-proc-test-PROCMAP_QUERY-ioctl-while-vma-is-concurrently-modified/20250801-060200
-base:   01da54f10fddf3b01c5a3b80f6b16bbad390c302
-patch link:    https://lore.kernel.org/r/20250731220024.702621-3-surenb%40google.com
-patch subject: [PATCH 2/3] fs/proc/task_mmu: factor out proc_maps_private fields used by PROCMAP_QUERY
-config: riscv-randconfig-002-20250801 (https://download.01.org/0day-ci/archive/20250801/202508012010.9IA7JflG-lkp@intel.com/config)
-compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508012010.9IA7JflG-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Weitao-Wang/usb-xhci-Fix-slot_id-resource-race-conflict/20250730-183802
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20250730152715.8368-1-WeitaoWang-oc%40zhaoxin.com
+patch subject: [PATCH v3] usb:xhci:Fix slot_id resource race conflict
+config: x86_64-randconfig-161-20250801 (https://download.01.org/0day-ci/archive/20250801/202508010850.Bqd6wf47-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508012010.9IA7JflG-lkp@intel.com/
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202508010850.Bqd6wf47-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
+New smatch warnings:
+drivers/usb/host/xhci-mem.c:913 xhci_free_virt_device() warn: variable dereferenced before check 'dev->out_ctx' (see line 878)
 
->> fs/proc/task_nommu.c:207:13: error: no member named 'mm' in 'struct proc_maps_private'
-     207 |         mm = priv->mm;
-         |              ~~~~  ^
-   fs/proc/task_nommu.c:229:31: error: no member named 'mm' in 'struct proc_maps_private'
-     229 |         struct mm_struct *mm = priv->mm;
-         |                                ~~~~  ^
-   fs/proc/task_nommu.c:262:8: error: no member named 'mm' in 'struct proc_maps_private'
-     262 |         priv->mm = proc_mem_open(inode, PTRACE_MODE_READ);
-         |         ~~~~  ^
-   fs/proc/task_nommu.c:263:27: error: no member named 'mm' in 'struct proc_maps_private'
-     263 |         if (IS_ERR_OR_NULL(priv->mm)) {
-         |                            ~~~~  ^
-   fs/proc/task_nommu.c:264:19: error: no member named 'mm' in 'struct proc_maps_private'
-     264 |                 int err = priv->mm ? PTR_ERR(priv->mm) : -ESRCH;
-         |                           ~~~~  ^
-   fs/proc/task_nommu.c:264:38: error: no member named 'mm' in 'struct proc_maps_private'
-     264 |                 int err = priv->mm ? PTR_ERR(priv->mm) : -ESRCH;
-         |                                              ~~~~  ^
-   fs/proc/task_nommu.c:279:12: error: no member named 'mm' in 'struct proc_maps_private'
-     279 |         if (priv->mm)
-         |             ~~~~  ^
-   fs/proc/task_nommu.c:280:16: error: no member named 'mm' in 'struct proc_maps_private'
-     280 |                 mmdrop(priv->mm);
-         |                        ~~~~  ^
-   8 errors generated.
+vim +913 drivers/usb/host/xhci-mem.c
 
+0b5ed80150eb59 Weitao Wang    2025-07-30  868  void xhci_free_virt_device(struct xhci_hcd *xhci, struct xhci_virt_device *dev,
+0b5ed80150eb59 Weitao Wang    2025-07-30  869  		int slot_id)
+3ffbba9511b414 Sarah Sharp    2009-04-27  870  {
+3ffbba9511b414 Sarah Sharp    2009-04-27  871  	int i;
+2e27980e6eb781 Sarah Sharp    2011-09-02  872  	int old_active_eps = 0;
+3ffbba9511b414 Sarah Sharp    2009-04-27  873  
+3ffbba9511b414 Sarah Sharp    2009-04-27  874  	/* Slot ID 0 is reserved */
+0b5ed80150eb59 Weitao Wang    2025-07-30  875  	if (slot_id == 0 || !dev)
+3ffbba9511b414 Sarah Sharp    2009-04-27  876  		return;
+3ffbba9511b414 Sarah Sharp    2009-04-27  877  
+0b5ed80150eb59 Weitao Wang    2025-07-30 @878  	if (xhci->dcbaa->dev_context_ptrs[slot_id] == cpu_to_le64(dev->out_ctx->dma))
+                                                                                                          ^^^^^^^^^^^^
+dev->out_ctx dereferenced without checking for NULL
 
-vim +207 fs/proc/task_nommu.c
+8e595a5d30a5ee Sarah Sharp    2009-07-27  879  		xhci->dcbaa->dev_context_ptrs[slot_id] = 0;
+3ffbba9511b414 Sarah Sharp    2009-04-27  880  
+d850c1658328e7 Zhengjun Xing  2018-06-21  881  	trace_xhci_free_virt_device(dev);
+d850c1658328e7 Zhengjun Xing  2018-06-21  882  
+2e27980e6eb781 Sarah Sharp    2011-09-02  883  	if (dev->tt_info)
+2e27980e6eb781 Sarah Sharp    2011-09-02  884  		old_active_eps = dev->tt_info->active_eps;
+2e27980e6eb781 Sarah Sharp    2011-09-02  885  
+98871e9470a50c Felipe Balbi   2017-01-23  886  	for (i = 0; i < 31; i++) {
+63a0d9abd18cdc Sarah Sharp    2009-09-04  887  		if (dev->eps[i].ring)
+63a0d9abd18cdc Sarah Sharp    2009-09-04  888  			xhci_ring_free(xhci, dev->eps[i].ring);
+8df75f42f8e67e Sarah Sharp    2010-04-02  889  		if (dev->eps[i].stream_info)
+8df75f42f8e67e Sarah Sharp    2010-04-02  890  			xhci_free_stream_info(xhci,
+8df75f42f8e67e Sarah Sharp    2010-04-02  891  					dev->eps[i].stream_info);
+5aed5b7c2430ce Mathias Nyman  2022-10-24  892  		/*
+5aed5b7c2430ce Mathias Nyman  2022-10-24  893  		 * Endpoints are normally deleted from the bandwidth list when
+5aed5b7c2430ce Mathias Nyman  2022-10-24  894  		 * endpoints are dropped, before device is freed.
+5aed5b7c2430ce Mathias Nyman  2022-10-24  895  		 * If host is dying or being removed then endpoints aren't
+5aed5b7c2430ce Mathias Nyman  2022-10-24  896  		 * dropped cleanly, so delete the endpoint from list here.
+5aed5b7c2430ce Mathias Nyman  2022-10-24  897  		 * Only applicable for hosts with software bandwidth checking.
+2e27980e6eb781 Sarah Sharp    2011-09-02  898  		 */
+5aed5b7c2430ce Mathias Nyman  2022-10-24  899  
+5aed5b7c2430ce Mathias Nyman  2022-10-24  900  		if (!list_empty(&dev->eps[i].bw_endpoint_list)) {
+5aed5b7c2430ce Mathias Nyman  2022-10-24  901  			list_del_init(&dev->eps[i].bw_endpoint_list);
+5aed5b7c2430ce Mathias Nyman  2022-10-24  902  			xhci_dbg(xhci, "Slot %u endpoint %u not removed from BW list!\n",
+2e27980e6eb781 Sarah Sharp    2011-09-02  903  				 slot_id, i);
+8df75f42f8e67e Sarah Sharp    2010-04-02  904  		}
+5aed5b7c2430ce Mathias Nyman  2022-10-24  905  	}
+839c817ce67178 Sarah Sharp    2011-09-02  906  	/* If this is a hub, free the TT(s) from the TT list */
+839c817ce67178 Sarah Sharp    2011-09-02  907  	xhci_free_tt_info(xhci, dev, slot_id);
+2e27980e6eb781 Sarah Sharp    2011-09-02  908  	/* If necessary, update the number of active TTs on this root port */
+2e27980e6eb781 Sarah Sharp    2011-09-02  909  	xhci_update_tt_active_eps(xhci, dev, old_active_eps);
+3ffbba9511b414 Sarah Sharp    2009-04-27  910  
+3ffbba9511b414 Sarah Sharp    2009-04-27  911  	if (dev->in_ctx)
+d115b04818e57b John Youn      2009-07-27  912  		xhci_free_container_ctx(xhci, dev->in_ctx);
+3ffbba9511b414 Sarah Sharp    2009-04-27 @913  	if (dev->out_ctx)
+                                                    ^^^^^^^^^^^^
+Can dev->out_ctx be NULL?
 
-fe441980161751 Ben Wolsieffer          2023-09-15  191  
-fe441980161751 Ben Wolsieffer          2023-09-15  192  static void *m_start(struct seq_file *m, loff_t *ppos)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  193  {
-dbf8685c8e2140 David Howells           2006-09-27  194  	struct proc_maps_private *priv = m->private;
-fe441980161751 Ben Wolsieffer          2023-09-15  195  	unsigned long last_addr = *ppos;
-dbf8685c8e2140 David Howells           2006-09-27  196  	struct mm_struct *mm;
-0c563f14804356 Matthew Wilcox (Oracle  2022-09-06  197) 
-fe441980161751 Ben Wolsieffer          2023-09-15  198  	/* See proc_get_vma(). Zero at the start or after lseek. */
-fe441980161751 Ben Wolsieffer          2023-09-15  199  	if (last_addr == -1UL)
-0c563f14804356 Matthew Wilcox (Oracle  2022-09-06  200) 		return NULL;
-dbf8685c8e2140 David Howells           2006-09-27  201  
-dbf8685c8e2140 David Howells           2006-09-27  202  	/* pin the task and mm whilst we play with them */
-2c03376d2db005 Oleg Nesterov           2014-10-09  203  	priv->task = get_proc_task(priv->inode);
-dbf8685c8e2140 David Howells           2006-09-27  204  	if (!priv->task)
-ec6fd8a4355cda Al Viro                 2011-02-15  205  		return ERR_PTR(-ESRCH);
-dbf8685c8e2140 David Howells           2006-09-27  206  
-27692cd56e2aa6 Oleg Nesterov           2014-10-09 @207  	mm = priv->mm;
-578d7699e5c2ad Ben Wolsieffer          2023-09-14  208  	if (!mm || !mmget_not_zero(mm)) {
-578d7699e5c2ad Ben Wolsieffer          2023-09-14  209  		put_task_struct(priv->task);
-578d7699e5c2ad Ben Wolsieffer          2023-09-14  210  		priv->task = NULL;
-27692cd56e2aa6 Oleg Nesterov           2014-10-09  211  		return NULL;
-578d7699e5c2ad Ben Wolsieffer          2023-09-14  212  	}
-dbf8685c8e2140 David Howells           2006-09-27  213  
-d8ed45c5dcd455 Michel Lespinasse       2020-06-08  214  	if (mmap_read_lock_killable(mm)) {
-8a713e7df3352b Konstantin Khlebnikov   2019-07-11  215  		mmput(mm);
-578d7699e5c2ad Ben Wolsieffer          2023-09-14  216  		put_task_struct(priv->task);
-578d7699e5c2ad Ben Wolsieffer          2023-09-14  217  		priv->task = NULL;
-8a713e7df3352b Konstantin Khlebnikov   2019-07-11  218  		return ERR_PTR(-EINTR);
-8a713e7df3352b Konstantin Khlebnikov   2019-07-11  219  	}
-8a713e7df3352b Konstantin Khlebnikov   2019-07-11  220  
-fe441980161751 Ben Wolsieffer          2023-09-15  221  	vma_iter_init(&priv->iter, mm, last_addr);
-47fecca15c0944 Oleg Nesterov           2014-10-09  222  
-fe441980161751 Ben Wolsieffer          2023-09-15  223  	return proc_get_vma(priv, ppos);
-dbf8685c8e2140 David Howells           2006-09-27  224  }
-dbf8685c8e2140 David Howells           2006-09-27  225  
+d115b04818e57b John Youn      2009-07-27  914  		xhci_free_container_ctx(xhci, dev->out_ctx);
+d115b04818e57b John Youn      2009-07-27  915  
+a400efe455f7b6 Mathias Nyman  2018-03-16  916  	if (dev->udev && dev->udev->slot_id)
+a400efe455f7b6 Mathias Nyman  2018-03-16  917  		dev->udev->slot_id = 0;
+74151b5349266b Niklas Neronin 2024-02-29  918  	if (dev->rhub_port && dev->rhub_port->slot_id == slot_id)
+74151b5349266b Niklas Neronin 2024-02-29  919  		dev->rhub_port->slot_id = 0;
+0b5ed80150eb59 Weitao Wang    2025-07-30  920  	if (xhci->devs[slot_id] == dev)
+326b4810cc9952 Randy Dunlap   2010-04-19  921  		xhci->devs[slot_id] = NULL;
+0b5ed80150eb59 Weitao Wang    2025-07-30  922  	kfree(dev);
+3ffbba9511b414 Sarah Sharp    2009-04-27  923  }
 
 -- 
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
+
