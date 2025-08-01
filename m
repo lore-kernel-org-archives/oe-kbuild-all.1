@@ -1,59 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9BF23AD
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Aug 2025 04:03:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A524C26ACB;
+	Fri,  1 Aug 2025 04:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754021002; cv=none; b=jBvUDS27E7AFZqSMEYMp7MIl5HlsgSUhZmAFkSoFLb98dQfAoQZg9zZAHCG+Z6zKXUl6KiqCg/9kwYBFJs5jZpn1xFoziNAHzjaYhk2FWLiay/F7JTyL+bbjcKcioI49lqPsFTORVzRxbm/ZRXKcrPC5jdq57L6iNZPgR0V7LSY=
+	t=1754022926; cv=none; b=L10WQnY8gG/dRJpe2ESD7QkXVugKjflRUJHJfCo+uHmcyCPFDt6GemULea6EhhZUFh0OGbCmq/A9TXFi/wf1StcgbARapiDfBL/zBUypXg+fKTDF04Kx7l1Z2xyPpE7YMuu0uanbAiCYWYnyzjRLyI42mCH6JsFei5zjg0TT2io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754021002; c=relaxed/simple;
-	bh=RH88CElOM73qe5Gp4wA7rpTpR2LMaFx/xlQ73c0WDyk=;
+	s=arc-20240116; t=1754022926; c=relaxed/simple;
+	bh=xTLT1dq7i2qzp0hHgS3vNWQnXKcncg8giv7jdsQgm8I=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=FG1u/sEhiaYzTRG1IGIOdxG8QVCVJuOmQic+Z4ig/1c/zf2vWsHj2ysKBL5qxE1audYFA2QSKs894QA205h2iPW3EWgSVP/1D6CSreURrY3cF0+LmiuKIN0M1ziL1CZS9iGmcR2H8fSNRoE7jKMyGPGL+cJJc+1XydhoTVR2YVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mpudfmeX; arc=none smtp.client-ip=198.175.65.17
+	 Content-Disposition; b=sC26ZSQ4p9KqIoMdO+NvABC7xFwiwr2KUMxVUOuzme7o1Za+84HOEEHV6FQyWQ0qx13o6vbURYm+a+r3FCyb4WK2oqI3X1266rJ54brp3gOZNLSx0h4TCnP4mgsk5zVHiB/fAZz3wS+vdRqrI1UaffNFJJb5bdshlWxydecy3TY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ILb/YtsZ; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mpudfmeX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ILb/YtsZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754021001; x=1785557001;
+  t=1754022924; x=1785558924;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=RH88CElOM73qe5Gp4wA7rpTpR2LMaFx/xlQ73c0WDyk=;
-  b=mpudfmeXYDATnOOIrrlikK6wjrX2txPRx8ti+GL095e822aNWS1cn1YJ
-   Au952E5hEsvDtoz4oUzLDPSHMSjAmV+hTJn/TXNCBNWfVpr3N4l2eCg/+
-   IwQGfGoKVcurrJwNxMmQNtk/qLAN0PMpNVdFHr89nfETMDrg5Hbjmarn3
-   MIM/Dhc9lidr3tocIt6Wpz8LRjKxMeD+sx3nQ9pD4lfv4u+xdZ5VuKge6
-   HkAzI62IIlnopmNy/g0iYjSotdcYiVQ+LxFcI0Y6NDga9B63EgYJ3uuc0
-   yzFTLWgQYsAhGkBXIBuc6YAZ0yK+h3MVekukcG6FtoDLbUG05eVfoxtpU
+  bh=xTLT1dq7i2qzp0hHgS3vNWQnXKcncg8giv7jdsQgm8I=;
+  b=ILb/YtsZhxmrpTkbsnfME+S3XnDDG9LECZKr+aRBElATuZZ/AxNQm7ii
+   nGxsl6X+LXU6Rt4iTrmbDFAFrXa+AePJVJaqGiPcBZpo2ukiKekMcFMxe
+   U1pBTbDELEuhmTdkbwped+hO8qK7qWtJcKagoFRCLTvV7cEIiSCfSPvVQ
+   osn2ZQnCcqijUOATMoePiDyWbSi5sMgR5von1j0bHVDUykPAI+ZwRPiQn
+   Xu9mWk10m2xUUfiiGJ1ppVb/qqP3vJ4QTn62Gm01aW5w5JdXxivusbQYM
+   Vn5PqUxtEKYbNKLLkjrqs54IdqC5/Z9w3kp3PRkIbxuxtfvDHpFHRzaoE
    A==;
-X-CSE-ConnectionGUID: p1lZHBquR1yF7ikrcGC7Yw==
-X-CSE-MsgGUID: QemeIiqdQlOejb22rEzNsg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56320934"
+X-CSE-ConnectionGUID: Q/4GVRF5SQiFXshXay6iMg==
+X-CSE-MsgGUID: IEd3vkPJRYe6M1/jIWOdsA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="66930943"
 X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="56320934"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 21:03:20 -0700
-X-CSE-ConnectionGUID: CNdbwFEdS+ug5dAJmMJgww==
-X-CSE-MsgGUID: y237KQWNRr2pWh83k0YBPQ==
+   d="scan'208";a="66930943"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Jul 2025 21:35:24 -0700
+X-CSE-ConnectionGUID: 1VncATKzQOquOek9KfYVww==
+X-CSE-MsgGUID: 4GwLvG45RfyrhOp2lOwc/g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="163016432"
+   d="scan'208";a="163373909"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 31 Jul 2025 21:03:19 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 31 Jul 2025 21:35:23 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uhgzF-0004Ku-0f;
-	Fri, 01 Aug 2025 04:03:17 +0000
-Date: Fri, 1 Aug 2025 12:02:39 +0800
+	id 1uhhUG-0004M8-2O;
+	Fri, 01 Aug 2025 04:35:20 +0000
+Date: Fri, 1 Aug 2025 12:34:36 +0800
 From: kernel test robot <lkp@intel.com>
 To: Marc Zyngier <maz@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: [arm-platforms:hack/ppi 25/25] kernel/irq/manage.c:2466:47: error:
- initialization of 'struct irq_action *' from incompatible pointer type
- 'struct irqaction **'
-Message-ID: <202508011246.xuBfT6Ao-lkp@intel.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [arm-platforms:hack/ppi 25/25] kernel/irq/manage.c:2453:5: warning:
+ no previous prototype for function 'add_percpu_irq_target'
+Message-ID: <202508011211.XM88eJmr-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -66,72 +66,101 @@ Content-Disposition: inline
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/maz/arm-platforms.git hack/ppi
 head:   8a3b504aca25e8c9a274cb563d63a6b9454b2780
 commit: 8a3b504aca25e8c9a274cb563d63a6b9454b2780 [25/25] WIP
-config: i386-buildonly-randconfig-002-20250801 (https://download.01.org/0day-ci/archive/20250801/202508011246.xuBfT6Ao-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508011246.xuBfT6Ao-lkp@intel.com/reproduce)
+config: i386-buildonly-randconfig-001-20250801 (https://download.01.org/0day-ci/archive/20250801/202508011211.XM88eJmr-lkp@intel.com/config)
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508011211.XM88eJmr-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508011246.xuBfT6Ao-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508011211.XM88eJmr-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All warnings (new ones prefixed by >>):
 
->> kernel/irq/manage.c:2453:5: warning: no previous prototype for 'add_percpu_irq_target' [-Wmissing-prototypes]
-    2453 | int add_percpu_irq_target(unsigned int irq, void __percpu *dev_id)
-         |     ^~~~~~~~~~~~~~~~~~~~~
-   kernel/irq/manage.c: In function 'add_percpu_irq_target':
->> kernel/irq/manage.c:2466:47: error: initialization of 'struct irq_action *' from incompatible pointer type 'struct irqaction **' [-Werror=incompatible-pointer-types]
+   kernel/irq/manage.c:2466:27: error: incompatible pointer types initializing 'struct irq_action *' with an expression of type 'struct irqaction **' [-Werror,-Wincompatible-pointer-types]
     2466 |                 for (struct irq_action *tmp = &desc->action; tmp; tmp = tmp->next) {
-         |                                               ^
->> kernel/irq/manage.c:2466:76: error: invalid use of undefined type 'struct irq_action'
+         |                                         ^     ~~~~~~~~~~~~~
+   kernel/irq/manage.c:2466:62: error: incomplete definition of type 'struct irq_action'
     2466 |                 for (struct irq_action *tmp = &desc->action; tmp; tmp = tmp->next) {
-         |                                                                            ^~
-   kernel/irq/manage.c:2467:69: error: invalid use of undefined type 'struct irq_action'
+         |                                                                         ~~~^
+   kernel/irq/manage.c:2461:10: note: forward declaration of 'struct irq_action'
+    2461 |                 struct irq_action *action = NULL;
+         |                        ^
+   kernel/irq/manage.c:2467:48: error: incomplete definition of type 'struct irq_action'
     2467 |                         if (cpumask_test_cpu(smp_processor_id(), tmp->affinity))
-         |                                                                     ^~
-   kernel/irq/manage.c:2470:32: error: invalid use of undefined type 'struct irq_action'
+         |                                                                  ~~~^
+   kernel/irq/manage.c:2461:10: note: forward declaration of 'struct irq_action'
+    2461 |                 struct irq_action *action = NULL;
+         |                        ^
+   kernel/irq/manage.c:2470:11: error: incomplete definition of type 'struct irq_action'
     2470 |                         if (tmp->percpu_dev_id == dev_id)
-         |                                ^~
-   kernel/irq/manage.c:2474:59: error: invalid use of undefined type 'struct irq_action'
+         |                             ~~~^
+   kernel/irq/manage.c:2461:10: note: forward declaration of 'struct irq_action'
+    2461 |                 struct irq_action *action = NULL;
+         |                        ^
+   kernel/irq/manage.c:2474:45: error: incomplete definition of type 'struct irq_action'
     2474 |                 cpumask_set_cpu(smp_processor_id(), action->affinity);
-         |                                                           ^~
-   kernel/irq/manage.c:2477:42: error: invalid use of undefined type 'struct irq_action'
+         |                                                     ~~~~~~^
+   kernel/irq/manage.c:2461:10: note: forward declaration of 'struct irq_action'
+    2461 |                 struct irq_action *action = NULL;
+         |                        ^
+   kernel/irq/manage.c:2477:28: error: incomplete definition of type 'struct irq_action'
     2477 |                 if (cpumask_weight(action->affinity) == nr_possible_cpus())
-         |                                          ^~
->> kernel/irq/manage.c:2477:57: error: implicit declaration of function 'nr_possible_cpus'; did you mean 'num_possible_cpus'? [-Werror=implicit-function-declaration]
+         |                                    ~~~~~~^
+   kernel/irq/manage.c:2461:10: note: forward declaration of 'struct irq_action'
+    2461 |                 struct irq_action *action = NULL;
+         |                        ^
+   kernel/irq/manage.c:2477:43: error: call to undeclared function 'nr_possible_cpus'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     2477 |                 if (cpumask_weight(action->affinity) == nr_possible_cpus())
-         |                                                         ^~~~~~~~~~~~~~~~
-         |                                                         num_possible_cpus
-   kernel/irq/manage.c:2478:31: error: invalid use of undefined type 'struct irq_action'
+         |                                                         ^
+   kernel/irq/manage.c:2478:10: error: incomplete definition of type 'struct irq_action'
     2478 |                         action->flags &= ~IRQF_SHARED;
-         |                               ^~
-   kernel/irq/manage.c: At top level:
->> kernel/irq/manage.c:2484:5: warning: no previous prototype for 'remove_percpu_irq_target' [-Wmissing-prototypes]
-    2484 | int remove_percpu_irq_target(unsigned int irq)
-         |     ^~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/irq/manage.c: In function 'remove_percpu_irq_target':
-   kernel/irq/manage.c:2495:47: error: initialization of 'struct irq_action *' from incompatible pointer type 'struct irqaction **' [-Werror=incompatible-pointer-types]
+         |                         ~~~~~~^
+   kernel/irq/manage.c:2461:10: note: forward declaration of 'struct irq_action'
+    2461 |                 struct irq_action *action = NULL;
+         |                        ^
+>> kernel/irq/manage.c:2453:5: warning: no previous prototype for function 'add_percpu_irq_target' [-Wmissing-prototypes]
+    2453 | int add_percpu_irq_target(unsigned int irq, void __percpu *dev_id)
+         |     ^
+   kernel/irq/manage.c:2453:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2453 | int add_percpu_irq_target(unsigned int irq, void __percpu *dev_id)
+         | ^
+         | static 
+   kernel/irq/manage.c:2495:27: error: incompatible pointer types initializing 'struct irq_action *' with an expression of type 'struct irqaction **' [-Werror,-Wincompatible-pointer-types]
     2495 |                 for (struct irq_action *tmp = &desc->action; tmp; tmp = tmp->next)
-         |                                               ^
->> kernel/irq/manage.c:2495:17: error: 'struct irq_action' declared in 'for' loop initial declaration
+         |                                         ^     ~~~~~~~~~~~~~
+   kernel/irq/manage.c:2495:62: error: incomplete definition of type 'struct irq_action'
     2495 |                 for (struct irq_action *tmp = &desc->action; tmp; tmp = tmp->next)
-         |                 ^~~
-   kernel/irq/manage.c:2495:76: error: invalid use of undefined type 'struct irq_action'
+         |                                                                         ~~~^
+   kernel/irq/manage.c:2495:15: note: forward declaration of 'struct irq_action'
     2495 |                 for (struct irq_action *tmp = &desc->action; tmp; tmp = tmp->next)
-         |                                                                            ^~
-   kernel/irq/manage.c:2496:79: error: invalid use of undefined type 'struct irq_action'
+         |                             ^
+   kernel/irq/manage.c:2496:58: error: incomplete definition of type 'struct irq_action'
     2496 |                         if (cpumask_test_and_clear_cpu(smp_processor_id(), tmp->affinity)) {
-         |                                                                               ^~
->> kernel/irq/manage.c:2497:52: error: 'action' undeclared (first use in this function); did you mean 'no_action'?
+         |                                                                            ~~~^
+   kernel/irq/manage.c:2495:15: note: forward declaration of 'struct irq_action'
+    2495 |                 for (struct irq_action *tmp = &desc->action; tmp; tmp = tmp->next)
+         |                             ^
+   kernel/irq/manage.c:2497:44: error: call to undeclared function 'nr_possible_cpus'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
     2497 |                                 if (cpumask_weight(action->affinity) < nr_possible_cpus())
-         |                                                    ^~~~~~
-         |                                                    no_action
-   kernel/irq/manage.c:2497:52: note: each undeclared identifier is reported only once for each function it appears in
-   cc1: some warnings being treated as errors
+         |                                                                        ^
+   kernel/irq/manage.c:2497:24: error: use of undeclared identifier 'action'
+    2497 |                                 if (cpumask_weight(action->affinity) < nr_possible_cpus())
+         |                                                    ^
+   kernel/irq/manage.c:2498:6: error: use of undeclared identifier 'action'
+    2498 |                                         action->flags |= IRQF_SHARED;
+         |                                         ^
+>> kernel/irq/manage.c:2484:5: warning: no previous prototype for function 'remove_percpu_irq_target' [-Wmissing-prototypes]
+    2484 | int remove_percpu_irq_target(unsigned int irq)
+         |     ^
+   kernel/irq/manage.c:2484:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
+    2484 | int remove_percpu_irq_target(unsigned int irq)
+         | ^
+         | static 
+   2 warnings and 14 errors generated.
 
 
-vim +2466 kernel/irq/manage.c
+vim +/add_percpu_irq_target +2453 kernel/irq/manage.c
 
   2452	
 > 2453	int add_percpu_irq_target(unsigned int irq, void __percpu *dev_id)
@@ -147,7 +176,7 @@ vim +2466 kernel/irq/manage.c
   2463			if (cpumask_test_cpu(smp_processor_id(), desc->percpu_enabled))
   2464				return -EINVAL;
   2465	
-> 2466			for (struct irq_action *tmp = &desc->action; tmp; tmp = tmp->next) {
+  2466			for (struct irq_action *tmp = &desc->action; tmp; tmp = tmp->next) {
   2467				if (cpumask_test_cpu(smp_processor_id(), tmp->affinity))
   2468					return -EINVAL;
   2469	
@@ -176,7 +205,7 @@ vim +2466 kernel/irq/manage.c
   2492			if (cpumask_test_cpu(smp_processor_id(), desc->percpu_enabled))
   2493				return -EINVAL;
   2494	
-> 2495			for (struct irq_action *tmp = &desc->action; tmp; tmp = tmp->next)
+  2495			for (struct irq_action *tmp = &desc->action; tmp; tmp = tmp->next)
   2496				if (cpumask_test_and_clear_cpu(smp_processor_id(), tmp->affinity)) {
 > 2497					if (cpumask_weight(action->affinity) < nr_possible_cpus())
   2498						action->flags |= IRQF_SHARED;
