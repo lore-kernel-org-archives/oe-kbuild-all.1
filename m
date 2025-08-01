@@ -1,59 +1,72 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D912124467B
-	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Aug 2025 12:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43A924676C;
+	Fri,  1 Aug 2025 12:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754052971; cv=none; b=bgS9VMXOWrnaB7b9YfWj8FfOhlPGq03Sm3lSFNGnUG4YbKTqofAPvaAhsC+Dv1o6NRDyPiJXlnU2bdVtHMu79maTK+nxiQ75kht2lcLxLVeeuDLccW2ATvsVTyVeM/E4wkb4gTq44qmxLmhLYBEzRYhyVrntgHjAUSW415NOcdk=
+	t=1754052976; cv=none; b=Q5YTnqk/LWPQmDg7kp+FRvR9q6a30Idu8s8rV7ocLSMBm7Dv0OHJZBldtdQetKtmIX2V7Pfl5UwrNog0tDVFIUEZkBmAEwPOrW8E3Gji27A0KGeB2d6oD9P1yxhnrf/H3unLHboA1yMyuk+bKd/BYjqbsMWOmkFaZX57/0UUPhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754052971; c=relaxed/simple;
-	bh=YyFVr7vpLi4igOq7wL6xR29ArYXgVzTpGk2Jd6vnZHE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ipzyLcRkNVPe1JqqzvYNXfsXegvA83LwvHr5+YUedYMtMmCvKb6dNHLCA81UTgZSLVGcyj5UZ4QY8DKYnnKvy5UbxOR6+wFmxc6wUBnOBuvGk2J+QI6b4/66Ey6kgQ51iuF2ce4nzvCpJ5uDRKuP4mTasoP1bLNGkmeuR6oopqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gtH7MuX5; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1754052976; c=relaxed/simple;
+	bh=Rtzfcvwkul30C1tQ3bVX6Wtto5iApIgC11igXrCtIyY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N/d0kChSNv0v46B937OzGkt4xw6lmJdUMLj+GBVayT0a8wWz4LCfXHe2ZXgU1Y/qRHcfQ5yBJD7RrIt/Us0x6rCZJq2ChuQtn+FLz7R2s9UugHPF99MvTeD0mOhUIdJzYpXFBqPX0g7i3UZ55tJl9L+VZOLLKJr8It+YzIMchQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SHE97O80; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gtH7MuX5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SHE97O80"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754052969; x=1785588969;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=YyFVr7vpLi4igOq7wL6xR29ArYXgVzTpGk2Jd6vnZHE=;
-  b=gtH7MuX5sxRpuXgQfGTSzHP/7OhKFVN4hoziklY7pl1K14Vdee774thO
-   7oVAfiKaBBfduoZpHFgYJkqxERA7KFmDnrkbeKnPtES4uRpApAyutTm7A
-   CSugLLSTmhrCitUIqrOwvXeVW9wcukK/2kmmDY4zjOLyEcwijTrPMhsYS
-   qubrWSMwf8gxCfhIQSzCQ7V/R8UwFMSr73K4Qb5HWPOmnxOHQcDkAlBM1
-   h2HBqxrwjID1o5e3KcaB1HIx+yOjIT99kaeYCt4A5hZZHQYg9x7PsAVwD
-   rTeGGziQCJl6DzJory/G1yvMakO3NfzcFt7WSPhpee3IB33gDvIdHadvp
-   Q==;
-X-CSE-ConnectionGUID: 7KxQVRTMQVKLhbreLSUAew==
-X-CSE-MsgGUID: utPo72B+S2GKnbkyhn8u2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56357676"
+  t=1754052974; x=1785588974;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Rtzfcvwkul30C1tQ3bVX6Wtto5iApIgC11igXrCtIyY=;
+  b=SHE97O80f0KOsTklh14ECZD0S8NxW2WzWVhnPfMfX6bmBSvnehURjw+D
+   GcghGjdNOgUNeqpMz05L6X7S5EBdz7PaMKjFiX0b+6EgnmcBBOXdeYQHM
+   aoO4//iI6fIV0xQNIKsMrXlc2YIAKY52WLqd6dyLCscVsAmc65fqcec1C
+   Vtp9oAKp0Ip1V7byepRbOPvr/TKDuRCmWYc/QGr1+NhhFaJHn56HYIaas
+   NLjj/a30lUfMBWZ4K2IDFb3eldUIhZbD+ptUhdMsgEveToQbjNcYbnzaj
+   kAUvmPmCVi7vsjubAyp3Wem/G94oSE7jo1BZb9Z2105CuVivVz4kCyPnB
+   w==;
+X-CSE-ConnectionGUID: u68jI9/yS2eiw54fcHYpDw==
+X-CSE-MsgGUID: xPuF0O0bQCWYLtLoXDsIrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56478309"
 X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="56357676"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 05:56:08 -0700
-X-CSE-ConnectionGUID: bQ9uY/6jQkicn2ubbiiicQ==
-X-CSE-MsgGUID: yIGGtwunTI6EcsQ6Bw3qFg==
+   d="scan'208";a="56478309"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 05:56:13 -0700
+X-CSE-ConnectionGUID: BGb912eYQgiEW6HwicwKVQ==
+X-CSE-MsgGUID: WW8OaP5zRP2oOXCNEXCcJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="167742004"
+   d="scan'208";a="167820732"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 01 Aug 2025 05:56:06 -0700
+  by fmviesa005.fm.intel.com with ESMTP; 01 Aug 2025 05:56:06 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uhpIq-0004dC-12;
+	id 1uhpIq-0004dA-0y;
 	Fri, 01 Aug 2025 12:56:04 +0000
-Date: Fri, 1 Aug 2025 20:55:59 +0800
+Date: Fri, 1 Aug 2025 20:56:00 +0800
 From: kernel test robot <lkp@intel.com>
-To: Jim Cromie <jim.cromie@gmail.com>,
-	=?utf-8?Q?=C5=81ukasz?= Bartosik <ukaszb@chromium.org>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [jimc:dd-lookup 53/56] include/drm/drm_print.h:578:9: error:
- implicit declaration of function '_dynamic_func_call_cls'
-Message-ID: <202508012015.2l89ZOLg-lkp@intel.com>
+To: Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com,
+	david@redhat.com, vbabka@suse.cz, peterx@redhat.com,
+	jannh@google.com, hannes@cmpxchg.org, mhocko@kernel.org,
+	paulmck@kernel.org, shuah@kernel.org, adobriyan@gmail.com,
+	brauner@kernel.org, josef@toxicpanda.com, yebin10@huawei.com,
+	linux@weissschuh.net, willy@infradead.org, osalvador@suse.de,
+	andrii@kernel.org, ryan.roberts@arm.com,
+	christophe.leroy@csgroup.eu, tjmercier@google.com,
+	kaleshsingh@google.com, aha310510@gmail.com,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+	surenb@google.com
+Subject: Re: [PATCH 2/3] fs/proc/task_mmu: factor out proc_maps_private
+ fields used by PROCMAP_QUERY
+Message-ID: <202508012010.9IA7JflG-lkp@intel.com>
+References: <20250731220024.702621-3-surenb@google.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,273 +75,93 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250731220024.702621-3-surenb@google.com>
 
-tree:   https://github.com/jimc/linux.git dd-lookup
-head:   f6006e353294709829a526d40efb1f26185a20cd
-commit: 08d5ff8083dc983d4e3975240e382563d2ddf1ef [53/56] drm: restore CONFIG_DRM_USE_DYNAMIC_DEBUG un-BROKEN
-config: x86_64-randconfig-r071-20250801 (https://download.01.org/0day-ci/archive/20250801/202508012015.2l89ZOLg-lkp@intel.com/config)
-compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508012015.2l89ZOLg-lkp@intel.com/reproduce)
+Hi Suren,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 01da54f10fddf3b01c5a3b80f6b16bbad390c302]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Suren-Baghdasaryan/selftests-proc-test-PROCMAP_QUERY-ioctl-while-vma-is-concurrently-modified/20250801-060200
+base:   01da54f10fddf3b01c5a3b80f6b16bbad390c302
+patch link:    https://lore.kernel.org/r/20250731220024.702621-3-surenb%40google.com
+patch subject: [PATCH 2/3] fs/proc/task_mmu: factor out proc_maps_private fields used by PROCMAP_QUERY
+config: riscv-randconfig-002-20250801 (https://download.01.org/0day-ci/archive/20250801/202508012010.9IA7JflG-lkp@intel.com/config)
+compiler: clang version 17.0.6 (https://github.com/llvm/llvm-project 6009708b4367171ccdbf4b5905cb6a803753fe18)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508012010.9IA7JflG-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508012015.2l89ZOLg-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508012010.9IA7JflG-lkp@intel.com/
 
 All errors (new ones prefixed by >>):
 
-   In file included from include/drm/drm_mm.h:51,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/drm/drm_gem.h:43,
-                    from drivers/accel/amdxdna/aie2_ctx.c:8:
-   drivers/accel/amdxdna/aie2_ctx.c: In function 'aie2_hwctx_restart':
->> include/drm/drm_print.h:578:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     578 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:663:9: note: in expansion of macro 'drm_dev_dbg'
-     663 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/drm/drm_print.h:681:33: note: in expansion of macro 'drm_dbg_driver'
-     681 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   drivers/accel/amdxdna/amdxdna_pci_drv.h:15:41: note: in expansion of macro 'drm_dbg'
-      15 | #define XDNA_DBG(xdna, fmt, args...)    drm_dbg(&(xdna)->ddev, fmt, ##args)
-         |                                         ^~~~~~~
-   drivers/accel/amdxdna/aie2_ctx.c:76:17: note: in expansion of macro 'XDNA_DBG'
-      76 |                 XDNA_DBG(xdna, "hwctx is not ready, status %d", hwctx->status);
-         |                 ^~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/accel/amdxdna/aie2_error.c:8:
-   drivers/accel/amdxdna/aie2_error.c: In function 'aie2_error_worker':
->> include/drm/drm_print.h:578:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     578 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:663:9: note: in expansion of macro 'drm_dev_dbg'
-     663 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/drm/drm_print.h:681:33: note: in expansion of macro 'drm_dbg_driver'
-     681 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   drivers/accel/amdxdna/amdxdna_pci_drv.h:15:41: note: in expansion of macro 'drm_dbg'
-      15 | #define XDNA_DBG(xdna, fmt, args...)    drm_dbg(&(xdna)->ddev, fmt, ##args)
-         |                                         ^~~~~~~
-   drivers/accel/amdxdna/aie2_error.c:253:9: note: in expansion of macro 'XDNA_DBG'
-     253 |         XDNA_DBG(xdna, "Error count %d return code %d", info->err_cnt, info->ret_code);
-         |         ^~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/drm/drm_mm.h:51,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/drm/drm_gem.h:43,
-                    from drivers/accel/amdxdna/aie2_message.c:9:
-   drivers/accel/amdxdna/aie2_message.c: In function 'aie2_query_aie_version':
->> include/drm/drm_print.h:578:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     578 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:663:9: note: in expansion of macro 'drm_dev_dbg'
-     663 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/drm/drm_print.h:681:33: note: in expansion of macro 'drm_dbg_driver'
-     681 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   drivers/accel/amdxdna/amdxdna_pci_drv.h:15:41: note: in expansion of macro 'drm_dbg'
-      15 | #define XDNA_DBG(xdna, fmt, args...)    drm_dbg(&(xdna)->ddev, fmt, ##args)
-         |                                         ^~~~~~~
-   drivers/accel/amdxdna/aie2_message.c:123:9: note: in expansion of macro 'XDNA_DBG'
-     123 |         XDNA_DBG(xdna, "Query AIE version - major: %u minor: %u completed",
-         |         ^~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/drm/drm_mm.h:51,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/drm/drm_gem.h:43,
-                    from include/drm/drm_gem_shmem_helper.h:11,
-                    from drivers/accel/amdxdna/aie2_pci.c:9:
-   drivers/accel/amdxdna/aie2_pci.c: In function 'aie2_dump_chann_info_debug':
->> include/drm/drm_print.h:578:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     578 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:663:9: note: in expansion of macro 'drm_dev_dbg'
-     663 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/drm/drm_print.h:681:33: note: in expansion of macro 'drm_dbg_driver'
-     681 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   drivers/accel/amdxdna/amdxdna_pci_drv.h:15:41: note: in expansion of macro 'drm_dbg'
-      15 | #define XDNA_DBG(xdna, fmt, args...)    drm_dbg(&(xdna)->ddev, fmt, ##args)
-         |                                         ^~~~~~~
-   drivers/accel/amdxdna/aie2_pci.c:86:9: note: in expansion of macro 'XDNA_DBG'
-      86 |         XDNA_DBG(xdna, "i2x tail    0x%x", ndev->mgmt_i2x.mb_tail_ptr_reg);
-         |         ^~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/drm/drm_mm.h:51,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/drm/drm_gem.h:43,
-                    from include/drm/drm_gem_shmem_helper.h:11,
-                    from drivers/accel/amdxdna/aie2_smu.c:7:
-   drivers/accel/amdxdna/aie2_smu.c: In function 'npu1_set_dpm':
->> include/drm/drm_print.h:578:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     578 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:663:9: note: in expansion of macro 'drm_dev_dbg'
-     663 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/drm/drm_print.h:681:33: note: in expansion of macro 'drm_dbg_driver'
-     681 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   drivers/accel/amdxdna/amdxdna_pci_drv.h:15:41: note: in expansion of macro 'drm_dbg'
-      15 | #define XDNA_DBG(xdna, fmt, args...)    drm_dbg(&(xdna)->ddev, fmt, ##args)
-         |                                         ^~~~~~~
-   drivers/accel/amdxdna/aie2_smu.c:81:9: note: in expansion of macro 'XDNA_DBG'
-      81 |         XDNA_DBG(ndev->xdna, "MP-NPU clock %d, H clock %d\n",
-         |         ^~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from drivers/accel/amdxdna/aie2_solver.c:8:
-   drivers/accel/amdxdna/aie2_solver.c: In function 'xrs_allocate_resource':
->> include/drm/drm_print.h:578:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     578 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:663:9: note: in expansion of macro 'drm_dev_dbg'
-     663 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/drm/drm_print.h:681:33: note: in expansion of macro 'drm_dbg_driver'
-     681 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   drivers/accel/amdxdna/aie2_solver.c:336:9: note: in expansion of macro 'drm_dbg'
-     336 |         drm_dbg(xrs->cfg.ddev, "start col %d ncols %d\n",
-         |         ^~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/drm/drm_mm.h:51,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/drm/drm_gem.h:43,
-                    from drivers/accel/amdxdna/amdxdna_ctx.c:10:
-   drivers/accel/amdxdna/amdxdna_ctx.c: In function 'amdxdna_hwctx_remove_all':
->> include/drm/drm_print.h:578:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     578 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:663:9: note: in expansion of macro 'drm_dev_dbg'
-     663 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/drm/drm_print.h:681:33: note: in expansion of macro 'drm_dbg_driver'
-     681 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   drivers/accel/amdxdna/amdxdna_pci_drv.h:15:41: note: in expansion of macro 'drm_dbg'
-      15 | #define XDNA_DBG(xdna, fmt, args...)    drm_dbg(&(xdna)->ddev, fmt, ##args)
-         |                                         ^~~~~~~
-   drivers/accel/amdxdna/amdxdna_ctx.c:157:17: note: in expansion of macro 'XDNA_DBG'
-     157 |                 XDNA_DBG(client->xdna, "PID %d close HW context %d",
-         |                 ^~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/drm/drm_mm.h:51,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/drm/drm_gem.h:43,
-                    from drivers/accel/amdxdna/amdxdna_gem.c:9:
-   drivers/accel/amdxdna/amdxdna_gem.c: In function 'amdxdna_hmm_invalidate':
->> include/drm/drm_print.h:578:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     578 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:663:9: note: in expansion of macro 'drm_dev_dbg'
-     663 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/drm/drm_print.h:681:33: note: in expansion of macro 'drm_dbg_driver'
-     681 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   drivers/accel/amdxdna/amdxdna_pci_drv.h:15:41: note: in expansion of macro 'drm_dbg'
-      15 | #define XDNA_DBG(xdna, fmt, args...)    drm_dbg(&(xdna)->ddev, fmt, ##args)
-         |                                         ^~~~~~~
-   drivers/accel/amdxdna/amdxdna_gem.c:72:9: note: in expansion of macro 'XDNA_DBG'
-      72 |         XDNA_DBG(xdna, "Invalidating range 0x%lx, 0x%lx, type %d",
-         |         ^~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/drm/drm_mm.h:51,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/drm/drm_gem.h:43,
-                    from drivers/accel/amdxdna/amdxdna_pci_drv.c:9:
-   drivers/accel/amdxdna/amdxdna_pci_drv.c: In function 'amdxdna_drm_open':
->> include/drm/drm_print.h:578:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     578 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:663:9: note: in expansion of macro 'drm_dev_dbg'
-     663 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/drm/drm_print.h:681:33: note: in expansion of macro 'drm_dbg_driver'
-     681 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   drivers/accel/amdxdna/amdxdna_pci_drv.h:15:41: note: in expansion of macro 'drm_dbg'
-      15 | #define XDNA_DBG(xdna, fmt, args...)    drm_dbg(&(xdna)->ddev, fmt, ##args)
-         |                                         ^~~~~~~
-   drivers/accel/amdxdna/amdxdna_pci_drv.c:96:9: note: in expansion of macro 'XDNA_DBG'
-      96 |         XDNA_DBG(xdna, "pid %d opened", client->pid);
-         |         ^~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from include/drm/drm_mm.h:51,
-                    from include/drm/drm_vma_manager.h:26,
-                    from include/drm/drm_gem.h:43,
-                    from aie2_ctx.c:8:
-   aie2_ctx.c: In function 'aie2_hwctx_restart':
->> include/drm/drm_print.h:578:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     578 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:663:9: note: in expansion of macro 'drm_dev_dbg'
-     663 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/drm/drm_print.h:681:33: note: in expansion of macro 'drm_dbg_driver'
-     681 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   amdxdna_pci_drv.h:15:41: note: in expansion of macro 'drm_dbg'
-      15 | #define XDNA_DBG(xdna, fmt, args...)    drm_dbg(&(xdna)->ddev, fmt, ##args)
-         |                                         ^~~~~~~
-   aie2_ctx.c:76:17: note: in expansion of macro 'XDNA_DBG'
-      76 |                 XDNA_DBG(xdna, "hwctx is not ready, status %d", hwctx->status);
-         |                 ^~~~~~~~
-   cc1: some warnings being treated as errors
---
-   In file included from aie2_error.c:8:
-   aie2_error.c: In function 'aie2_error_worker':
->> include/drm/drm_print.h:578:9: error: implicit declaration of function '_dynamic_func_call_cls' [-Werror=implicit-function-declaration]
-     578 |         _dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,         \
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/drm/drm_print.h:663:9: note: in expansion of macro 'drm_dev_dbg'
-     663 |         drm_dev_dbg(__drm_to_dev(drm), DRM_UT_DRIVER, fmt, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~
-   include/drm/drm_print.h:681:33: note: in expansion of macro 'drm_dbg_driver'
-     681 | #define drm_dbg(drm, fmt, ...)  drm_dbg_driver(drm, fmt, ##__VA_ARGS__)
-         |                                 ^~~~~~~~~~~~~~
-   amdxdna_pci_drv.h:15:41: note: in expansion of macro 'drm_dbg'
-      15 | #define XDNA_DBG(xdna, fmt, args...)    drm_dbg(&(xdna)->ddev, fmt, ##args)
-         |                                         ^~~~~~~
-   aie2_error.c:253:9: note: in expansion of macro 'XDNA_DBG'
-     253 |         XDNA_DBG(xdna, "Error count %d return code %d", info->err_cnt, info->ret_code);
-         |         ^~~~~~~~
-   cc1: some warnings being treated as errors
-..
+>> fs/proc/task_nommu.c:207:13: error: no member named 'mm' in 'struct proc_maps_private'
+     207 |         mm = priv->mm;
+         |              ~~~~  ^
+   fs/proc/task_nommu.c:229:31: error: no member named 'mm' in 'struct proc_maps_private'
+     229 |         struct mm_struct *mm = priv->mm;
+         |                                ~~~~  ^
+   fs/proc/task_nommu.c:262:8: error: no member named 'mm' in 'struct proc_maps_private'
+     262 |         priv->mm = proc_mem_open(inode, PTRACE_MODE_READ);
+         |         ~~~~  ^
+   fs/proc/task_nommu.c:263:27: error: no member named 'mm' in 'struct proc_maps_private'
+     263 |         if (IS_ERR_OR_NULL(priv->mm)) {
+         |                            ~~~~  ^
+   fs/proc/task_nommu.c:264:19: error: no member named 'mm' in 'struct proc_maps_private'
+     264 |                 int err = priv->mm ? PTR_ERR(priv->mm) : -ESRCH;
+         |                           ~~~~  ^
+   fs/proc/task_nommu.c:264:38: error: no member named 'mm' in 'struct proc_maps_private'
+     264 |                 int err = priv->mm ? PTR_ERR(priv->mm) : -ESRCH;
+         |                                              ~~~~  ^
+   fs/proc/task_nommu.c:279:12: error: no member named 'mm' in 'struct proc_maps_private'
+     279 |         if (priv->mm)
+         |             ~~~~  ^
+   fs/proc/task_nommu.c:280:16: error: no member named 'mm' in 'struct proc_maps_private'
+     280 |                 mmdrop(priv->mm);
+         |                        ~~~~  ^
+   8 errors generated.
 
 
-vim +/_dynamic_func_call_cls +578 include/drm/drm_print.h
+vim +207 fs/proc/task_nommu.c
 
-02c9656b2f0d69 Haneen Mohammed 2017-10-17  572  
-84ec67288c10fb Jim Cromie      2022-09-11  573  #if !defined(CONFIG_DRM_USE_DYNAMIC_DEBUG)
-e820f52577b14c Jim Cromie      2022-09-11  574  #define drm_dev_dbg(dev, cat, fmt, ...)				\
-16deeb8e18cafd Jim Cromie      2022-09-11  575  	__drm_dev_dbg(NULL, dev, cat, fmt, ##__VA_ARGS__)
-84ec67288c10fb Jim Cromie      2022-09-11  576  #else
-84ec67288c10fb Jim Cromie      2022-09-11  577  #define drm_dev_dbg(dev, cat, fmt, ...)				\
-16deeb8e18cafd Jim Cromie      2022-09-11 @578  	_dynamic_func_call_cls(cat, fmt, __drm_dev_dbg,		\
-84ec67288c10fb Jim Cromie      2022-09-11  579  			       dev, cat, fmt, ##__VA_ARGS__)
-84ec67288c10fb Jim Cromie      2022-09-11  580  #endif
-e820f52577b14c Jim Cromie      2022-09-11  581  
-
-:::::: The code at line 578 was first introduced by commit
-:::::: 16deeb8e18cafd30e70d8dc2b12a753b28298d8a drm_print: add _ddebug descriptor to drm_*dbg prototypes
-
-:::::: TO: Jim Cromie <jim.cromie@gmail.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+fe441980161751 Ben Wolsieffer          2023-09-15  191  
+fe441980161751 Ben Wolsieffer          2023-09-15  192  static void *m_start(struct seq_file *m, loff_t *ppos)
+^1da177e4c3f41 Linus Torvalds          2005-04-16  193  {
+dbf8685c8e2140 David Howells           2006-09-27  194  	struct proc_maps_private *priv = m->private;
+fe441980161751 Ben Wolsieffer          2023-09-15  195  	unsigned long last_addr = *ppos;
+dbf8685c8e2140 David Howells           2006-09-27  196  	struct mm_struct *mm;
+0c563f14804356 Matthew Wilcox (Oracle  2022-09-06  197) 
+fe441980161751 Ben Wolsieffer          2023-09-15  198  	/* See proc_get_vma(). Zero at the start or after lseek. */
+fe441980161751 Ben Wolsieffer          2023-09-15  199  	if (last_addr == -1UL)
+0c563f14804356 Matthew Wilcox (Oracle  2022-09-06  200) 		return NULL;
+dbf8685c8e2140 David Howells           2006-09-27  201  
+dbf8685c8e2140 David Howells           2006-09-27  202  	/* pin the task and mm whilst we play with them */
+2c03376d2db005 Oleg Nesterov           2014-10-09  203  	priv->task = get_proc_task(priv->inode);
+dbf8685c8e2140 David Howells           2006-09-27  204  	if (!priv->task)
+ec6fd8a4355cda Al Viro                 2011-02-15  205  		return ERR_PTR(-ESRCH);
+dbf8685c8e2140 David Howells           2006-09-27  206  
+27692cd56e2aa6 Oleg Nesterov           2014-10-09 @207  	mm = priv->mm;
+578d7699e5c2ad Ben Wolsieffer          2023-09-14  208  	if (!mm || !mmget_not_zero(mm)) {
+578d7699e5c2ad Ben Wolsieffer          2023-09-14  209  		put_task_struct(priv->task);
+578d7699e5c2ad Ben Wolsieffer          2023-09-14  210  		priv->task = NULL;
+27692cd56e2aa6 Oleg Nesterov           2014-10-09  211  		return NULL;
+578d7699e5c2ad Ben Wolsieffer          2023-09-14  212  	}
+dbf8685c8e2140 David Howells           2006-09-27  213  
+d8ed45c5dcd455 Michel Lespinasse       2020-06-08  214  	if (mmap_read_lock_killable(mm)) {
+8a713e7df3352b Konstantin Khlebnikov   2019-07-11  215  		mmput(mm);
+578d7699e5c2ad Ben Wolsieffer          2023-09-14  216  		put_task_struct(priv->task);
+578d7699e5c2ad Ben Wolsieffer          2023-09-14  217  		priv->task = NULL;
+8a713e7df3352b Konstantin Khlebnikov   2019-07-11  218  		return ERR_PTR(-EINTR);
+8a713e7df3352b Konstantin Khlebnikov   2019-07-11  219  	}
+8a713e7df3352b Konstantin Khlebnikov   2019-07-11  220  
+fe441980161751 Ben Wolsieffer          2023-09-15  221  	vma_iter_init(&priv->iter, mm, last_addr);
+47fecca15c0944 Oleg Nesterov           2014-10-09  222  
+fe441980161751 Ben Wolsieffer          2023-09-15  223  	return proc_get_vma(priv, ppos);
+dbf8685c8e2140 David Howells           2006-09-27  224  }
+dbf8685c8e2140 David Howells           2006-09-27  225  
 
 -- 
 0-DAY CI Kernel Test Service
