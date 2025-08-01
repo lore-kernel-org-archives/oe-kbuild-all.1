@@ -1,64 +1,62 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E05921D3F6;
-	Fri,  1 Aug 2025 09:31:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B796A1C7013
+	for <oe-kbuild-all@lists.linux.dev>; Fri,  1 Aug 2025 10:23:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754040713; cv=none; b=UJ9Lcgi+Qmeyq32mG8jnaNDVlSE2y+kANkit56rekSj8C9OgVsXY1g4DCP7bM+bF64uqPCT1nX5UqeQUAqjpOuHZJOb0f2AW4hPTqesMNJBaInm95iwM0rFf/+PYXkAyxTDNljTGWRR19mkjWJ26PDckMH864p2rw+yzpFEiGHs=
+	t=1754043837; cv=none; b=Whu7ygNAHVDBu5RQh3WO7i+oEqL5yib24qZXSfA4/jnCjvUheChAvy0Pe/Sqd621a0ez+bZ1Ox3bRP0sxYHGvyS+vQVXwpzFFDhzFWnYjQbDZskvFvTUm6fhtJavOqKoC++9jyfI9JFLaMQJh1TkQmZ87NksH5ttEvnpN2F/GvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754040713; c=relaxed/simple;
-	bh=1Iro+YdK5Txdv943h5gMTFUwluk76Rpp3LTw6wMf19A=;
+	s=arc-20240116; t=1754043837; c=relaxed/simple;
+	bh=6C8VKyzSCeZeFS+cVdPFYBYpvnRjlsMbaaS+Hg0OF7M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jPJ404iRtSdFlk9TgdBN2w3EciNqfYDCokf/TYeRHVyeW+g09Llf6jcQX3FT1Gs9C7+mcdiHjRojMVu/Y5oFtzK++J95mVBnWzJxYYfheNbYQPSDL2+1imgP0JX6q1q7/CBnnOhdcQFG3GafAj7ygTvL4Ht+bYFuYpj2q+sbH74=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FAUcvvZ9; arc=none smtp.client-ip=192.198.163.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=avVh3Dlbx6UKXK/HpLKx8DH7FzG6sIE9DtcJJ9n/XIRiBqT4ygHBLzHH8ft7Dj6AvuVUMN9B4Am0+qQTdP84ko8QReuS6lj/b0X5sdRqs0fXQfABIIozW8P1BmbXjmTylTBIYFR2Qs3RsPe/Fb80UHLOgcwP//7KAHl3kF2P6zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wmw2u53q; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FAUcvvZ9"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wmw2u53q"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754040712; x=1785576712;
+  t=1754043834; x=1785579834;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1Iro+YdK5Txdv943h5gMTFUwluk76Rpp3LTw6wMf19A=;
-  b=FAUcvvZ9ekBYe0yPaNDZiZisPe8TbVP3Yk/91DMrUcW9kIyMpnh/S2Gg
-   FTeBwDU6L2qlTf4wF/r6iOpAUctfcwT49ZN/3XfiMH140VnLVtA6g3cn1
-   is9yjtOMDAxuoOtzLgQ5ZbU/vsYM+gz9sNiqrnhVMHDucuGqYXVEeYoy6
-   AluQzCWIJ+6jTENFha/Cwu91EJecViSlBFQTBamcSLw//MQ5bU+zXSioQ
-   qRsB1iVgwGPTKLDtWZl3jhpKQ2fBt8HL9OMUgXgqJn+IcVnYxLQvzUEma
-   56oj1kSYbOU9yX6pSKCulXJHkaw6XFrtLFQUXZ3zfxsRTYTq9xWy7wGRH
-   A==;
-X-CSE-ConnectionGUID: +6EWKNzRSE677cih7amPQw==
-X-CSE-MsgGUID: Fx6VNRIXQguZ7CkPPZXmTw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56528428"
+  bh=6C8VKyzSCeZeFS+cVdPFYBYpvnRjlsMbaaS+Hg0OF7M=;
+  b=Wmw2u53qKWSCaQlAUHGIroDZAjnoOzh+VpIvHo7VBUlQjZKpF7hbKPH+
+   hVxU+QHkg7OIuNtBTqfk77mP8pV6HwxB3jLpkgRSWQDe00jiL4hLpvAe6
+   XfrVOkEmpsOVFYuJ1ZR0k/U8AQBq//ZzYf071pI5XXTFv1N367JeeeIO6
+   lEb1Vej5+wejm+sfv5jRPzfIuPRzNLWLZjWRtWc2D3uBTzYXJd8WdZXPi
+   tl4nPNLgZwLsrxrfQQow0N2NnCEv466J66MECJ0s8YQJVCoORvk6NBRi/
+   x+XRaY/spG0a6jvzBI74+S1w2pHK8/7XP1KXj2GdkQcvZps+7+2fn5auC
+   Q==;
+X-CSE-ConnectionGUID: 2dowAuI8RjutS3IOX/28Pw==
+X-CSE-MsgGUID: /6eRFReKTImzj3IQdrYpxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="67084980"
 X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="56528428"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 02:31:51 -0700
-X-CSE-ConnectionGUID: pL6i1BpQRoiy7QRK1+yaHA==
-X-CSE-MsgGUID: oail3CG7TkmfKAShLEI/qg==
+   d="scan'208";a="67084980"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 03:23:54 -0700
+X-CSE-ConnectionGUID: gX+9Eb8KRCqk+WtatOXhFg==
+X-CSE-MsgGUID: L2D/5umOQnmLUkIdxObthA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,255,1747724400"; 
-   d="scan'208";a="167732428"
+   d="scan'208";a="163096369"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 01 Aug 2025 02:31:47 -0700
+  by fmviesa007.fm.intel.com with ESMTP; 01 Aug 2025 03:23:52 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1uhm76-0004Um-2x;
-	Fri, 01 Aug 2025 09:31:44 +0000
-Date: Fri, 1 Aug 2025 17:31:18 +0800
+	id 1uhmvV-0004XU-2G;
+	Fri, 01 Aug 2025 10:23:49 +0000
+Date: Fri, 1 Aug 2025 18:23:14 +0800
 From: kernel test robot <lkp@intel.com>
-To: Amery Hung <ameryhung@gmail.com>, bpf@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	netdev@vger.kernel.org, alexei.starovoitov@gmail.com,
-	andrii@kernel.org, daniel@iogearbox.net, tj@kernel.org,
-	memxor@gmail.com, martin.lau@kernel.org, ameryhung@gmail.com,
-	kernel-team@meta.com
-Subject: Re: [PATCH bpf-next v1 1/3] bpf: Allow getting bpf_map from
- struct_ops kdata
-Message-ID: <202508011701.e7Owy62s-lkp@intel.com>
-References: <20250731210950.3927649-2-ameryhung@gmail.com>
+To: Scott Mayhew <smayhew@redhat.com>, chuck.lever@oracle.com,
+	jlayton@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH] nfsd: decouple the xprtsec policy check from
+ check_nfsd_access()
+Message-ID: <202508011835.YXIfu0oy-lkp@intel.com>
+References: <20250731211441.1908508-1-smayhew@redhat.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -67,54 +65,117 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250731210950.3927649-2-ameryhung@gmail.com>
+In-Reply-To: <20250731211441.1908508-1-smayhew@redhat.com>
 
-Hi Amery,
+Hi Scott,
 
 kernel test robot noticed the following build warnings:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test WARNING on brauner-vfs/vfs.all]
+[also build test WARNING on linus/master v6.16 next-20250801]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Amery-Hung/bpf-Allow-getting-bpf_map-from-struct_ops-kdata/20250801-051108
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git master
-patch link:    https://lore.kernel.org/r/20250731210950.3927649-2-ameryhung%40gmail.com
-patch subject: [PATCH bpf-next v1 1/3] bpf: Allow getting bpf_map from struct_ops kdata
-config: arm-randconfig-001-20250801 (https://download.01.org/0day-ci/archive/20250801/202508011701.e7Owy62s-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 8f09b03aebb71c154f3bbe725c29e3f47d37c26e)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508011701.e7Owy62s-lkp@intel.com/reproduce)
+url:    https://github.com/intel-lab-lkp/linux/commits/Scott-Mayhew/nfsd-decouple-the-xprtsec-policy-check-from-check_nfsd_access/20250801-051621
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git vfs.all
+patch link:    https://lore.kernel.org/r/20250731211441.1908508-1-smayhew%40redhat.com
+patch subject: [PATCH] nfsd: decouple the xprtsec policy check from check_nfsd_access()
+config: i386-buildonly-randconfig-003-20250801 (https://download.01.org/0day-ci/archive/20250801/202508011835.YXIfu0oy-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250801/202508011835.YXIfu0oy-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508011701.e7Owy62s-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508011835.YXIfu0oy-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
->> kernel/bpf/bpf_struct_ops.c:1157:18: warning: unused variable 'map' [-Wunused-variable]
-    1157 |         struct bpf_map *map;
-         |                         ^~~
-   1 warning generated.
+   fs/nfsd/export.c: In function 'exp_rootfh':
+   fs/nfsd/export.c:1029:34: warning: variable 'inode' set but not used [-Wunused-but-set-variable]
+    1029 |         struct inode            *inode;
+         |                                  ^~~~~
+   fs/nfsd/export.c: In function 'check_nfsd_access':
+>> fs/nfsd/export.c:1153:26: warning: variable 'xprt' set but not used [-Wunused-but-set-variable]
+    1153 |         struct svc_xprt *xprt;
+         |                          ^~~~
 
 
-vim +/map +1157 kernel/bpf/bpf_struct_ops.c
+vim +/xprt +1153 fs/nfsd/export.c
 
-85d33df357b634 Martin KaFai Lau 2020-01-08  1149  
-85d33df357b634 Martin KaFai Lau 2020-01-08  1150  /* "const void *" because some subsystem is
-85d33df357b634 Martin KaFai Lau 2020-01-08  1151   * passing a const (e.g. const struct tcp_congestion_ops *)
-85d33df357b634 Martin KaFai Lau 2020-01-08  1152   */
-eab8366be0bf63 Amery Hung       2025-07-31  1153  struct bpf_map *bpf_struct_ops_get(const void *kdata)
-85d33df357b634 Martin KaFai Lau 2020-01-08  1154  {
-85d33df357b634 Martin KaFai Lau 2020-01-08  1155  	struct bpf_struct_ops_value *kvalue;
-b671c2067a04c0 Kui-Feng Lee     2023-03-22  1156  	struct bpf_struct_ops_map *st_map;
-b671c2067a04c0 Kui-Feng Lee     2023-03-22 @1157  	struct bpf_map *map;
-85d33df357b634 Martin KaFai Lau 2020-01-08  1158  
-85d33df357b634 Martin KaFai Lau 2020-01-08  1159  	kvalue = container_of(kdata, struct bpf_struct_ops_value, data);
-b671c2067a04c0 Kui-Feng Lee     2023-03-22  1160  	st_map = container_of(kvalue, struct bpf_struct_ops_map, kvalue);
-85d33df357b634 Martin KaFai Lau 2020-01-08  1161  
-eab8366be0bf63 Amery Hung       2025-07-31  1162  	return __bpf_map_inc_not_zero(&st_map->map, false);
-eb18b49ea758ec Martin KaFai Lau 2021-08-24  1163  }
-eab8366be0bf63 Amery Hung       2025-07-31  1164  EXPORT_SYMBOL_GPL(bpf_struct_ops_get);
-eb18b49ea758ec Martin KaFai Lau 2021-08-24  1165  
+  1138	
+  1139	/**
+  1140	 * check_nfsd_access - check if access to export is allowed.
+  1141	 * @exp: svc_export that is being accessed.
+  1142	 * @rqstp: svc_rqst attempting to access @exp (will be NULL for LOCALIO).
+  1143	 * @may_bypass_gss: reduce strictness of authorization check
+  1144	 *
+  1145	 * Return values:
+  1146	 *   %nfs_ok if access is granted, or
+  1147	 *   %nfserr_wrongsec if access is denied
+  1148	 */
+  1149	__be32 check_nfsd_access(struct svc_export *exp, struct svc_rqst *rqstp,
+  1150				 bool may_bypass_gss)
+  1151	{
+  1152		struct exp_flavor_info *f, *end = exp->ex_flavors + exp->ex_nflavors;
+> 1153		struct svc_xprt *xprt;
+  1154	
+  1155		/*
+  1156		 * If rqstp is NULL, this is a LOCALIO request which will only
+  1157		 * ever use a filehandle/credential pair for which access has
+  1158		 * been affirmed (by ACCESS or OPEN NFS requests) over the
+  1159		 * wire. So there is no need for further checks here.
+  1160		 */
+  1161		if (!rqstp)
+  1162			return nfs_ok;
+  1163	
+  1164		xprt = rqstp->rq_xprt;
+  1165	
+  1166		/* legacy gss-only clients are always OK: */
+  1167		if (exp->ex_client == rqstp->rq_gssclient)
+  1168			return nfs_ok;
+  1169		/* ip-address based client; check sec= export option: */
+  1170		for (f = exp->ex_flavors; f < end; f++) {
+  1171			if (f->pseudoflavor == rqstp->rq_cred.cr_flavor)
+  1172				return nfs_ok;
+  1173		}
+  1174		/* defaults in absence of sec= options: */
+  1175		if (exp->ex_nflavors == 0) {
+  1176			if (rqstp->rq_cred.cr_flavor == RPC_AUTH_NULL ||
+  1177			    rqstp->rq_cred.cr_flavor == RPC_AUTH_UNIX)
+  1178				return nfs_ok;
+  1179		}
+  1180	
+  1181		/* If the compound op contains a spo_must_allowed op,
+  1182		 * it will be sent with integrity/protection which
+  1183		 * will have to be expressly allowed on mounts that
+  1184		 * don't support it
+  1185		 */
+  1186	
+  1187		if (nfsd4_spo_must_allow(rqstp))
+  1188			return nfs_ok;
+  1189	
+  1190		/* Some calls may be processed without authentication
+  1191		 * on GSS exports. For example NFS2/3 calls on root
+  1192		 * directory, see section 2.3.2 of rfc 2623.
+  1193		 * For "may_bypass_gss" check that export has really
+  1194		 * enabled some flavor with authentication (GSS or any
+  1195		 * other) and also check that the used auth flavor is
+  1196		 * without authentication (none or sys).
+  1197		 */
+  1198		if (may_bypass_gss && (
+  1199		     rqstp->rq_cred.cr_flavor == RPC_AUTH_NULL ||
+  1200		     rqstp->rq_cred.cr_flavor == RPC_AUTH_UNIX)) {
+  1201			for (f = exp->ex_flavors; f < end; f++) {
+  1202				if (f->pseudoflavor >= RPC_AUTH_DES)
+  1203					return 0;
+  1204			}
+  1205		}
+  1206	
+  1207		return nfserr_wrongsec;
+  1208	}
+  1209	
 
 -- 
 0-DAY CI Kernel Test Service
