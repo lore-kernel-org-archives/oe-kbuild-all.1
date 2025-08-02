@@ -1,58 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD34A48
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 01:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12CDA139D;
+	Sat,  2 Aug 2025 01:34:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754097853; cv=none; b=gvaAGDCGrZX1PFY8UOuHfhcW0hvxAjmHS46vjvWgoYjK/HEuwiTGa3c9jLpjldwgZIqJkCbJUrDRIUXDCZXOyJ6wD+sbwHMOl6pz6bJ7g+lN8v/ezQ8SLF0qBdK7jae1kjFcmhanJJrbmYqrT5S164i6cVWVCzrT2m8al9A0uuo=
+	t=1754098454; cv=none; b=AV4OSv5RFu1u+SA7nDupVG68pckFGgSfGwgo1Oyk4sZEv0jjVlp0O4/9Ewl8phkkW4zpHT2YC9CUESYLxEAn2osAaTAn63pLm60ytZLJR6u1bRR8oFOKBGx4oDB7EJ1k42TgE2F1mdZSzmMYDDxS3WoU/11V3MzOA7/ZO9rW/wQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754097853; c=relaxed/simple;
-	bh=zM5ouXJwJENY57tgNyf705MBd1ctapK/Nnh4Bke9GVg=;
+	s=arc-20240116; t=1754098454; c=relaxed/simple;
+	bh=+X3C58KHyiNHPBMVwfuLLBkw23uUde+Nc+EsHqZ7PYo=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=aNLaOmOpOL6PiFlWDQgOv3F9QkwLfUMG1fEN4dxp//TyUG4VqVMqHEQhtDGrvxaRecF5na4pUds2EtFtYMj7L8b+bsgRRFow3l28XnYprir39JdJDKsTnWxCGg24pB24eD18IdX0yj+ZVeYtGBWMvh3ir8PlhYc52LTCCmKiPRg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TPfoCWYK; arc=none smtp.client-ip=192.198.163.13
+	 Content-Disposition; b=dR6A50afxXxksaamZFBaJvHHwN1wdtvYgwo+ZiIEz2DV4ga+cO3UTguWqVj0mXg/vZrbunQgZAVdl11EinwaIKp2+OhK/DWZ+Z2P0MYK+n/UNjU8WVKsTjOUPf4Xk0k391qslTci4jlONrMqqrYx2wZJ5md5X7asdum7LKhT9TI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NXG+FpM2; arc=none smtp.client-ip=192.198.163.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TPfoCWYK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NXG+FpM2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754097852; x=1785633852;
+  t=1754098453; x=1785634453;
   h=date:from:to:cc:subject:message-id:mime-version;
-  bh=zM5ouXJwJENY57tgNyf705MBd1ctapK/Nnh4Bke9GVg=;
-  b=TPfoCWYKNNFQEb31oCSYtXXd4sTWkQ95/DRcH2P8OmhNJiLCCoCOe1l2
-   N7H+2BRafmIrtV+a1JudPQWprz/4nR+OjzO3dJA9xsAPslaReocT6m2S/
-   9DLYpaJeJAGTNSX57zbOM0oGk492nIYfKcfl8JwXhv7QykGke5po85mrb
-   URI5PB5uPm824Ia5nsHj7j1XsydXuPcX7LDqRpNEkdk9IHLPMmszcFGi3
-   4zy/OabkEqfdT1wU15PYERtUJf3cyHTWrsQbUfwtPDqUcCBqFThoTgOAt
-   etwtAOaAemBxBcQICdmYiZyOduC3+6LXwS2KLHmypC3r7jMgK6f03DVzk
-   Q==;
-X-CSE-ConnectionGUID: dSjKw+hLRKGhAoZN5UhA4w==
-X-CSE-MsgGUID: 1OyDsLlfQdyt5TWK2SL0zg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="59070395"
+  bh=+X3C58KHyiNHPBMVwfuLLBkw23uUde+Nc+EsHqZ7PYo=;
+  b=NXG+FpM25UwkfDsoGK6SoRriBRAIyhpqRVCnU/kQ4qpG3nY4lxlm5p5G
+   MComN4UtHAnvpUb2s0JtEqwhoa7Stbsti5isIkVSW/rZyS//F9tmcJ8sB
+   M1nfdEL6h5Qe12vVYsiy2g+hEte53ASjlj9PACTSw3sXjqOcH19QDUnTD
+   Eit8cyceEccF0PGvAXQ8CzaRY++bGLKCh+vFcW9bp0zRW4s/LMfvLUdgK
+   3Jl0BiDSpzCCuoXahBF/ltk45lZcIVtjefEKZJh01wTsT+mjtXMU3UGMF
+   eaBBKCauXlUeOQswFh6nc3EsoQrJLimRRfUqqNq7tAYlohJWiMSqM/Ygg
+   w==;
+X-CSE-ConnectionGUID: 5fBbvq2iSHuGn0Knwq97EA==
+X-CSE-MsgGUID: dFmligroSamD3Fcq1zA8rA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="55652202"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="59070395"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 18:24:11 -0700
-X-CSE-ConnectionGUID: 6bRmJDoKSa+hUEBl7OgCXQ==
-X-CSE-MsgGUID: x43NDUJYTeyHBurnKoa9cA==
+   d="scan'208";a="55652202"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 18:34:12 -0700
+X-CSE-ConnectionGUID: F5ZMCbGbQCalSYPxIMClYQ==
+X-CSE-MsgGUID: 4qi3TmgIQQuCIvVzV+7UeA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="163257262"
+   d="scan'208";a="162970696"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by fmviesa007.fm.intel.com with ESMTP; 01 Aug 2025 18:24:10 -0700
+  by orviesa010.jf.intel.com with ESMTP; 01 Aug 2025 18:34:11 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ui0yl-00054O-2e;
-	Sat, 02 Aug 2025 01:24:07 +0000
-Date: Sat, 2 Aug 2025 09:23:49 +0800
+	id 1ui18S-00054i-1z;
+	Sat, 02 Aug 2025 01:34:08 +0000
+Date: Sat, 2 Aug 2025 09:34:01 +0800
 From: kernel test robot <lkp@intel.com>
-To: Kent Overstreet <kent.overstreet@linux.dev>
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: [koverstreet-bcachefs:bcachefs-testing 246/246]
- fs/bcachefs/btree_gc.c:297:30: warning: '%s' directive argument is null
-Message-ID: <202508020910.G5e5ezsf-lkp@intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev
+Subject: [mripard:drm/tidss/field-api 7/15]
+ drivers/gpu/drm/tidss/tidss_dispc.c:614:26: warning: result of comparison of
+ constant 18446744073709551615 with expression of type 'typeof
+ (_Generic((mask), char: (unsigned char)0, unsigned char: (unsigned char)0,
+ signed char: (unsigned char)0, unsigned s...
+Message-ID: <202508020944.a0T65AYA-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -62,81 +65,61 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-tree:   https://github.com/koverstreet/bcachefs bcachefs-testing
-head:   9ac5d4faab581112221554e80955e470840e3641
-commit: 9ac5d4faab581112221554e80955e470840e3641 [246/246] bcachefs: btree_check_root_boundaries()
-config: csky-randconfig-001-20250802 (https://download.01.org/0day-ci/archive/20250802/202508020910.G5e5ezsf-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508020910.G5e5ezsf-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mripard/linux.git drm/tidss/field-api
+head:   8e7aa9647fd4168ea2115bb34ca99eade5b0c751
+commit: af3d3b1b2cd4103936980b66dd34601e419ae74a [7/15] drm/tidss: dispc: Switch FLD_MOD to using a mask
+config: arm-randconfig-003-20250802 (https://download.01.org/0day-ci/archive/20250802/202508020944.a0T65AYA-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508020944.a0T65AYA-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508020910.G5e5ezsf-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508020944.a0T65AYA-lkp@intel.com/
 
 All warnings (new ones prefixed by >>):
 
-   In file included from fs/bcachefs/backpointers.h:9,
-                    from fs/bcachefs/btree_gc.c:10:
-   fs/bcachefs/btree_gc.c: In function 'btree_check_root_boundaries':
->> fs/bcachefs/btree_gc.c:297:30: warning: '%s' directive argument is null [-Wformat-overflow=]
-     297 |                              "btree root with incorrect min_key%s", buf.buf)) {
-         |                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/error.h:107:20: note: in definition of macro 'fsck_err_wrap'
-     107 |         int _ret = _do;                                                 \
-         |                    ^~~
-   fs/bcachefs/error.h:117:47: note: in expansion of macro 'bch2_fsck_err'
-     117 | #define __fsck_err(...)         fsck_err_wrap(bch2_fsck_err(__VA_ARGS__))
-         |                                               ^~~~~~~~~~~~~
-   fs/bcachefs/error.h:130:27: note: in expansion of macro '__fsck_err'
-     130 |         (unlikely(cond) ? __fsck_err(c, _flags, _err_type, __VA_ARGS__) : false);\
-         |                           ^~~~~~~~~~
-   fs/bcachefs/error.h:137:9: note: in expansion of macro '__fsck_err_on'
-     137 |         __fsck_err_on(cond, c, FSCK_CAN_FIX, _err_type, __VA_ARGS__)
-         |         ^~~~~~~~~~~~~
-   fs/bcachefs/btree_gc.c:295:13: note: in expansion of macro 'mustfix_fsck_err_on'
-     295 |         if (mustfix_fsck_err_on(!bpos_eq(b->data->min_key, POS_MIN),
-         |             ^~~~~~~~~~~~~~~~~~~
-   fs/bcachefs/btree_gc.c:297:64: note: format string is defined here
-     297 |                              "btree root with incorrect min_key%s", buf.buf)) {
-         |                                                                ^~
+>> drivers/gpu/drm/tidss/tidss_dispc.c:614:26: warning: result of comparison of constant 18446744073709551615 with expression of type 'typeof (_Generic((mask), char: (unsigned char)0, unsigned char: (unsigned char)0, signed char: (unsigned char)0, unsigned short: (unsigned short)0, short: (unsigned short)0, unsigned int: (unsigned int)0, int: (unsigned int)0, unsigned long: (unsigned long)0, long: (unsigned long)0, unsigned long long: (unsigned long long)0, long long: (unsigned long long)0, default: (mask)))' (aka 'unsigned int') is always false [-Wtautological-constant-out-of-range-compare]
+     614 |         return (orig & ~mask) | FIELD_PREP(mask, val);
+         |                                 ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:115:3: note: expanded from macro 'FIELD_PREP'
+     115 |                 __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+         |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:72:53: note: expanded from macro '__BF_FIELD_CHECK'
+      72 |                 BUILD_BUG_ON_MSG(__bf_cast_unsigned(_mask, _mask) >     \
+         |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+      73 |                                  __bf_cast_unsigned(_reg, ~0ull),       \
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      74 |                                  _pfx "type of reg too small for mask"); \
+         |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:58: note: expanded from macro 'BUILD_BUG_ON_MSG'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+   include/linux/compiler_types.h:568:22: note: expanded from macro 'compiletime_assert'
+     568 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |         ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:556:23: note: expanded from macro '_compiletime_assert'
+     556 |         __compiletime_assert(condition, msg, prefix, suffix)
+         |         ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler_types.h:548:9: note: expanded from macro '__compiletime_assert'
+     548 |                 if (!(condition))                                       \
+         |                       ^~~~~~~~~
+   1 warning generated.
 
 
-vim +297 fs/bcachefs/btree_gc.c
+vim +614 drivers/gpu/drm/tidss/tidss_dispc.c
 
-   284	
-   285	static int btree_check_root_boundaries(struct btree_trans *trans, struct btree *b)
-   286	{
-   287		struct bch_fs *c = trans->c;
-   288		struct printbuf buf = PRINTBUF;
-   289		int ret = 0;
-   290	
-   291		BUG_ON(b->key.k.type == KEY_TYPE_btree_ptr_v2 &&
-   292		       !bpos_eq(bkey_i_to_btree_ptr_v2(&b->key)->v.min_key,
-   293				b->data->min_key));
-   294	
-   295		if (mustfix_fsck_err_on(!bpos_eq(b->data->min_key, POS_MIN),
-   296					trans, btree_node_topology_bad_root_min_key,
- > 297				     "btree root with incorrect min_key%s", buf.buf)) {
-   298			ret = set_node_min(c, b, POS_MIN);
-   299			if (ret)
-   300				goto err;
-   301		}
-   302	
-   303		if (mustfix_fsck_err_on(!bpos_eq(b->data->max_key, SPOS_MAX),
-   304					trans, btree_node_topology_bad_root_max_key,
-   305				     "btree root with incorrect min_key%s", buf.buf)) {
-   306			ret = set_node_max(c, b, SPOS_MAX);
-   307			if (ret)
-   308				goto err;
-   309		}
-   310	
-   311	err:
-   312	fsck_err:
-   313		printbuf_exit(&buf);
-   314		return ret;
-   315	}
-   316	
+   606	
+   607	/*
+   608	 * TRM gives bitfields as start:end, where start is the higher bit
+   609	 * number. For example 7:0
+   610	 */
+   611	
+   612	static u32 FLD_MOD(u32 orig, u32 val, u32 mask)
+   613	{
+ > 614		return (orig & ~mask) | FIELD_PREP(mask, val);
+   615	}
+   616	
 
 -- 
 0-DAY CI Kernel Test Service
