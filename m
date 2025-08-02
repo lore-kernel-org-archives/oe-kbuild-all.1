@@ -1,69 +1,60 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08A3410E0
-	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 01:03:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A510A48
+	for <oe-kbuild-all@lists.linux.dev>; Sat,  2 Aug 2025 01:13:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1754096593; cv=none; b=qANotd8kaEXenlxEyN0IQ8kiD7ieQJSTXhM1K0Zx5TT7B65wogUSjdyUxPMu5WTKAgyyc7BmKRt6ADHpOf6/RKcQLwDMb0IUU/vjNCkU0BI8/x2NI6Nuo0oPimNi9BX0CwiN3IQ02IWs5Tu4GJqWbfE0VXkjksWOHb5GmAtSg3s=
+	t=1754097192; cv=none; b=aNAur+JaDVz0yUbp42NFxWjwJGxV7mZwHoMvfeDJ/lHXYyzQsLzib68W7tNaLH55OZ8hRUz0RBxm1NntfgyfhqwQgftuhikKaVLlfOQXXJNjfLKLfqGB6ID8i/Wxtx8qWCJ/u4o8ZZyHDNePh5k3PkMTsh/SD5gZvwyxFWjUzlg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1754096593; c=relaxed/simple;
-	bh=AY7j+7mv2dE5hcJpd/tAvFtobFcD1mgqJgfqGiQynVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PfB49F//3rlDuToLmSqNUxYEpyERIRIkJlNaMaGjrgR7X0znHGt5+6EWqm1ms2SktiuTSekph/iySPUoomsbr8CYSpNOdwWE9KC2TWOJmSGrXH3xFwwfldOIEJU+kpdzn7MBKzoMfkbTuixvptR2a0z2Pq0Bl316c8kZSdniB5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K2JaZVyq; arc=none smtp.client-ip=198.175.65.16
+	s=arc-20240116; t=1754097192; c=relaxed/simple;
+	bh=KIvSmDWhjgSj+vllGg/ZutMv1ENKudGwXdScBNVpEBA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ETwjsVQKIZV+4Y/4dpBmgx6pPVSTQPKk5+aVxbZ/3PiwpWy+wfCEtar0RPDwppLL3Pk8bJ6EoD3/stAYLrIFJ4YiqCFz2MlvsgDqTnR71aq0yvvhwY0XuP96nf3GFsnA9qWMdX9X6KnMPl+HlPszpbmFpqGZSBea9HZMoBIgTOc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lqYYIac2; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K2JaZVyq"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lqYYIac2"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1754096592; x=1785632592;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=AY7j+7mv2dE5hcJpd/tAvFtobFcD1mgqJgfqGiQynVE=;
-  b=K2JaZVyq1etD/zfzt4vPgIBgHKKIr8CToFSZDH/Hr5elfUzuY4pXd6ZR
-   +uWDe40Xsp83xNdFRf7LaATQk8i4fHtvkR/wmsOw6TmT+g98DerLRwspk
-   bVM4ymctXowZhK609325X5c/E97jFLr1keakIIz7Xt19IP3vQ1tdOwU+C
-   seXszXSBCKi2WfiSqFet08Dcyjm8gAB5JwO+eWJ21rZGNc2DeXtSjrKDA
-   E17MQgIJqhahzy+OhtbxXmBX+JpKkDmH8cSRXjWkzndNF6l+Xh7BzrxhW
-   +DHMEmWtwSpQ0KSunNn/Cg7JbnvIAkD0IWg7NeMaS11Lf4abwDu3vLddt
+  t=1754097190; x=1785633190;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=KIvSmDWhjgSj+vllGg/ZutMv1ENKudGwXdScBNVpEBA=;
+  b=lqYYIac2joLDMCMWLpp4RkZLdjMy3ge+Ek2ADlj5lQ2AQv3g0Up+Pw1/
+   40kVVYfhhtg47z7ckPOUHmrbM7OChDHg2IfaMv79SsIht5MAOVIORWiH1
+   r1nhs5UARS9GiIX27nT+gE7YzKl4y+jhJT1hNd2oFt9VnD4bdThhBNL4/
+   qT+8PWQswUrBya+Krki6lEGsDKru88dUz5ZNqb/oNKdGucdv+osaLifU6
+   Gu+f+9OdyUw37JLT7hskFHHpWKiulTRqdJV0D1UaZxYoeqSULQLTMH0IN
+   LMhLh9Vf/D3rktHNprOO2dLgjMYoPQNfiyOyXT9y4LSWthopg7S1SEmyo
    Q==;
-X-CSE-ConnectionGUID: ZdaFo1BrRzSsNtmIrxRnWQ==
-X-CSE-MsgGUID: i86sDKtLSBCou8Enqu4jQw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56586893"
+X-CSE-ConnectionGUID: Bke+wVweRqWQglbD5ZIidA==
+X-CSE-MsgGUID: 8hrMaNwfRf6ZmF4eylENfA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11508"; a="56593828"
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="56586893"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 18:03:12 -0700
-X-CSE-ConnectionGUID: k31tPsVwSPa+bMhbp3/FQA==
-X-CSE-MsgGUID: 5Bej1XubQpKWWuO99tKLyw==
+   d="scan'208";a="56593828"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Aug 2025 18:13:10 -0700
+X-CSE-ConnectionGUID: f0nT5ZxRSdy0Ltw+pBHhZA==
+X-CSE-MsgGUID: 0LOff1MgS1W/PhCa4ThkZg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,258,1747724400"; 
-   d="scan'208";a="168165493"
+   d="scan'208";a="163714059"
 Received: from lkp-server01.sh.intel.com (HELO 160750d4a34c) ([10.239.97.150])
-  by orviesa004.jf.intel.com with ESMTP; 01 Aug 2025 18:03:08 -0700
+  by orviesa007.jf.intel.com with ESMTP; 01 Aug 2025 18:13:09 -0700
 Received: from kbuild by 160750d4a34c with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ui0eQ-00053c-00;
-	Sat, 02 Aug 2025 01:03:06 +0000
-Date: Sat, 2 Aug 2025 09:02:10 +0800
+	id 1ui0o6-00053s-2I;
+	Sat, 02 Aug 2025 01:13:06 +0000
+Date: Sat, 2 Aug 2025 09:12:21 +0800
 From: kernel test robot <lkp@intel.com>
-To: Julien Massot <julien.massot@collabora.com>, kernel@collabora.com,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-	Julien Massot <julien.massot@collabora.com>
-Subject: Re: [PATCH 1/3] Input: mtk-pmic-keys - MT6359 has a specific release
- irq
-Message-ID: <202508020802.nZBo2mGV-lkp@intel.com>
-References: <20250801-radxa-nio-12-l-gpio-v1-1-d0840f85d2c8@collabora.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev
+Subject: [mripard:drm/tidss/field-api 4/15]
+ include/linux/compiler_types.h:568:38: error: call to
+ '__compiletime_assert_438' declared with attribute error: FIELD_PREP: mask
+ is not constant
+Message-ID: <202508020917.zNoaOugQ-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: oe-kbuild-all@lists.linux.dev
 List-Id: <oe-kbuild-all.lists.linux.dev>
@@ -72,55 +63,94 @@ List-Unsubscribe: <mailto:oe-kbuild-all+unsubscribe@lists.linux.dev>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250801-radxa-nio-12-l-gpio-v1-1-d0840f85d2c8@collabora.com>
 
-Hi Julien,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on b9ddaa95fd283bce7041550ddbbe7e764c477110]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Julien-Massot/Input-mtk-pmic-keys-MT6359-has-a-specific-release-irq/20250801-211817
-base:   b9ddaa95fd283bce7041550ddbbe7e764c477110
-patch link:    https://lore.kernel.org/r/20250801-radxa-nio-12-l-gpio-v1-1-d0840f85d2c8%40collabora.com
-patch subject: [PATCH 1/3] Input: mtk-pmic-keys - MT6359 has a specific release irq
-config: arc-randconfig-002-20250802 (https://download.01.org/0day-ci/archive/20250802/202508020802.nZBo2mGV-lkp@intel.com/config)
-compiler: arc-linux-gcc (GCC) 14.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508020802.nZBo2mGV-lkp@intel.com/reproduce)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mripard/linux.git drm/tidss/field-api
+head:   8e7aa9647fd4168ea2115bb34ca99eade5b0c751
+commit: 73915f6d396b27101175651c8980a4269e98502f [4/15] drm/tidss: dispc: Switch to FIELD_PREP for FLD_VAL
+config: arm-randconfig-001-20250802 (https://download.01.org/0day-ci/archive/20250802/202508020917.zNoaOugQ-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 10.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250802/202508020917.zNoaOugQ-lkp@intel.com/reproduce)
 
 If you fix the issue in a separate patch/commit (i.e. not just a new version of
 the same patch/commit), kindly add following tags
 | Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202508020802.nZBo2mGV-lkp@intel.com/
+| Closes: https://lore.kernel.org/oe-kbuild-all/202508020917.zNoaOugQ-lkp@intel.com/
 
-All error/warnings (new ones prefixed by >>):
+All errors (new ones prefixed by >>):
 
->> drivers/input/keyboard/mtk-pmic-keys.c:132:10: error: 'const struct mtk_pmic_regs' has no member named 'key_release_irq'
-     132 |         .key_release_irq = true,
-         |          ^~~~~~~~~~~~~~~
->> drivers/input/keyboard/mtk-pmic-keys.c:132:28: warning: excess elements in struct initializer
-     132 |         .key_release_irq = true,
-         |                            ^~~~
-   drivers/input/keyboard/mtk-pmic-keys.c:132:28: note: (near initialization for 'mt6359_regs')
+   In file included from <command-line>:
+   drivers/gpu/drm/tidss/tidss_dispc.c: In function 'FLD_VAL':
+>> include/linux/compiler_types.h:568:38: error: call to '__compiletime_assert_438' declared with attribute error: FIELD_PREP: mask is not constant
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                      ^
+   include/linux/compiler_types.h:549:4: note: in definition of macro '__compiletime_assert'
+     549 |    prefix ## suffix();    \
+         |    ^~~~~~
+   include/linux/compiler_types.h:568:2: note: in expansion of macro '_compiletime_assert'
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:65:3: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      65 |   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),  \
+         |   ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:115:3: note: in expansion of macro '__BF_FIELD_CHECK'
+     115 |   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: "); \
+         |   ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/tidss/tidss_dispc.c:614:9: note: in expansion of macro 'FIELD_PREP'
+     614 |  return FIELD_PREP(GENMASK(start, end), val);
+         |         ^~~~~~~~~~
+--
+   In file included from <command-line>:
+   tidss_dispc.c: In function 'FLD_VAL':
+>> include/linux/compiler_types.h:568:38: error: call to '__compiletime_assert_438' declared with attribute error: FIELD_PREP: mask is not constant
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |                                      ^
+   include/linux/compiler_types.h:549:4: note: in definition of macro '__compiletime_assert'
+     549 |    prefix ## suffix();    \
+         |    ^~~~~~
+   include/linux/compiler_types.h:568:2: note: in expansion of macro '_compiletime_assert'
+     568 |  _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+         |  ^~~~~~~~~~~~~~~~~~~
+   include/linux/build_bug.h:39:37: note: in expansion of macro 'compiletime_assert'
+      39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+         |                                     ^~~~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:65:3: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+      65 |   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),  \
+         |   ^~~~~~~~~~~~~~~~
+   include/linux/bitfield.h:115:3: note: in expansion of macro '__BF_FIELD_CHECK'
+     115 |   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: "); \
+         |   ^~~~~~~~~~~~~~~~
+   tidss_dispc.c:614:9: note: in expansion of macro 'FIELD_PREP'
+     614 |  return FIELD_PREP(GENMASK(start, end), val);
+         |         ^~~~~~~~~~
 
 
-vim +132 drivers/input/keyboard/mtk-pmic-keys.c
+vim +/__compiletime_assert_438 +568 include/linux/compiler_types.h
 
-   120	
-   121	static const struct mtk_pmic_regs mt6359_regs = {
-   122		.keys_regs[MTK_PMIC_PWRKEY_INDEX] =
-   123			MTK_PMIC_KEYS_REGS(MT6359_TOPSTATUS,
-   124					   0x2, MT6359_PSC_TOP_INT_CON0, 0x5,
-   125					   MTK_PMIC_PWRKEY_RST),
-   126		.keys_regs[MTK_PMIC_HOMEKEY_INDEX] =
-   127			MTK_PMIC_KEYS_REGS(MT6359_TOPSTATUS,
-   128					   0x8, MT6359_PSC_TOP_INT_CON0, 0xa,
-   129					   MTK_PMIC_HOMEKEY_RST),
-   130		.pmic_rst_reg = MT6359_TOP_RST_MISC,
-   131		.rst_lprst_mask = MTK_PMIC_RST_DU_MASK,
- > 132		.key_release_irq = true,
-   133	};
-   134	
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  554  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  555  #define _compiletime_assert(condition, msg, prefix, suffix) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  556  	__compiletime_assert(condition, msg, prefix, suffix)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  557  
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  558  /**
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  559   * compiletime_assert - break build and emit msg if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  560   * @condition: a compile-time constant condition to check
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  561   * @msg:       a message to emit if condition is false
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  562   *
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  563   * In tradition of POSIX assert, this macro will break the build if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  564   * supplied condition is *false*, emitting the supplied error message if the
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  565   * compiler has support to do so.
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  566   */
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  567  #define compiletime_assert(condition, msg) \
+eb5c2d4b45e3d2 Will Deacon 2020-07-21 @568  	_compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
+eb5c2d4b45e3d2 Will Deacon 2020-07-21  569  
+
+:::::: The code at line 568 was first introduced by commit
+:::::: eb5c2d4b45e3d2d5d052ea6b8f1463976b1020d5 compiler.h: Move compiletime_assert() macros into compiler_types.h
+
+:::::: TO: Will Deacon <will@kernel.org>
+:::::: CC: Will Deacon <will@kernel.org>
 
 -- 
 0-DAY CI Kernel Test Service
